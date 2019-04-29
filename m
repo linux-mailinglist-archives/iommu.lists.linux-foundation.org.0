@@ -2,81 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9B7EA2C
-	for <lists.iommu@lfdr.de>; Mon, 29 Apr 2019 20:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D98E0F4
+	for <lists.iommu@lfdr.de>; Mon, 29 Apr 2019 12:58:48 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 2ACF024FF;
-	Mon, 29 Apr 2019 18:32:48 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 4955D1F0B;
+	Mon, 29 Apr 2019 10:58:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 2381C1E27
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id DB7431EF8
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 10:52:13 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 9EAAB608
+	Mon, 29 Apr 2019 10:56:01 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.101.70])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 8C638608
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 10:52:12 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id g3so15284624wrx.9
-	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 03:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:subject:to:cc:references:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=BlH2+2dT8DBceBf7g6p1pnr3mj+D4ldrgPjNPWpGkFA=;
-	b=a+lWFkWCn7SzQPH12EobCZkEwlCUKdZQ6aBPNfYrxVMz2P7zVHyHmcnbVlKXcjXLsN
-	9KG/nLWX0k7WpXXnDBdm810SD+7u45uFXf7yjyb+IAAC5m74vRE1bIPBEP2s4K0dB2Vb
-	iraHyQRQjYuKvbm8Z10CHUssqU4Mh3PU3nzFQNoF16AFIGQAIhqgjciS/BsrgE9QCGbi
-	EEG2fDc0iUQHpx00MecEUsLHq5H1RLbKqxFBByvpao/3mkqKN8mwwEsREp+uKMmkO8hL
-	EuVKEBa8qxZCHdB2GsHyGKQQ8G3+b++QAzecfECm4Sy0/PA5BTL3/qRJAdbnwBLqY7Wu
-	Qasg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=BlH2+2dT8DBceBf7g6p1pnr3mj+D4ldrgPjNPWpGkFA=;
-	b=UymtD8SI0u49QmSX00jLVFhRo0USqg3RRQoMKJ6D1Bl9G49SUoh/lr5MnozmVJ/poT
-	3qGItO5rHYCDC/HCpq2ChPwqVTzkveuy2KG8g+eK3RdBI3jHg8pB/WZurY4UJ9YV1hOJ
-	7rEJaft4Z8wSSiTxg4LxBBwiXOdRQsqHnYj29r36m93Wb2JAMoAZC73Sk2J7Gc7R+zVQ
-	C50SHMn58BBQw5N3HuOfH31Dvmdz/KZJWDum4lLGFkbjjuKPS/WvQQtCYHEb4uTmFZlI
-	kXz1oHW/KnJbJ8PBDtUsELJAQoMyrobcKBkSmvJuU8+GuZn+8HG6W3aM56ICdF8t9HFw
-	mKVg==
-X-Gm-Message-State: APjAAAWFzua0sz5Uhr1ihBQEAQHJwTU8Ei2u0LfpxCvj6w7Ga1cSoKlX
-	Vfy7Lv6efW/aa6Sm9fT454RfMX6I
-X-Google-Smtp-Source: APXvYqwTlIKhawd3e/E7t+s7vNZEZjhgL2Ez3LAhCr836dwrQ/8DQk6h3Z/LLH+ex2dUaR2tBCHDqQ==
-X-Received: by 2002:a5d:4e82:: with SMTP id e2mr1287347wru.199.1556535131064; 
-	Mon, 29 Apr 2019 03:52:11 -0700 (PDT)
-Received: from [192.168.99.70] (mail.unidataz.cz. [193.165.148.130])
-	by smtp.googlemail.com with ESMTPSA id
-	s132sm6990652wms.10.2019.04.29.03.52.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 03:52:09 -0700 (PDT)
-From: "StarostaCZ@gmail.com" <starostacz@gmail.com>
-X-Google-Original-From: "StarostaCZ@gmail.com" <StarostaCZ@gmail.com>
-Subject: Re: Linux crash when using FTDI FT232R USB to serial converter on AMD
-	boards.
-To: Johan Hovold <johan@kernel.org>
-References: <04503197-a0a9-8b35-6c65-c10f296aab57@gmail.com>
-	<20190429094847.GI26546@localhost>
-Message-ID: <26c4a175-dae2-3410-6924-92fe7c8ec6fe@gmail.com>
-Date: Mon, 29 Apr 2019 12:51:20 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+	Mon, 29 Apr 2019 10:56:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5756380D;
+	Mon, 29 Apr 2019 03:56:01 -0700 (PDT)
+Received: from [10.1.196.75] (e110467-lin.cambridge.arm.com [10.1.196.75])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 068C83F5AF;
+	Mon, 29 Apr 2019 03:55:58 -0700 (PDT)
+Subject: Re: [PATCH v3 01/10] iommu: Add helper to get minimal page size of
+	domain
+To: Lu Baolu <baolu.lu@linux.intel.com>, David Woodhouse
+	<dwmw2@infradead.org>, Joerg Roedel <joro@8bytes.org>
+References: <20190421011719.14909-1-baolu.lu@linux.intel.com>
+	<20190421011719.14909-2-baolu.lu@linux.intel.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <05eca601-0264-8141-ceeb-7ef7ad5d5650@arm.com>
+Date: Mon, 29 Apr 2019 11:55:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190429094847.GI26546@localhost>
-Content-Language: cs
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+In-Reply-To: <20190421011719.14909-2-baolu.lu@linux.intel.com>
+Content-Language: en-GB
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Mailman-Approved-At: Mon, 29 Apr 2019 18:32:46 +0000
-Cc: linux-usb@vger.kernel.org, iommu@lists.linux-foundation.org,
-	Mathias Nyman <mathias.nyman@intel.com>
+Cc: kevin.tian@intel.com, ashok.raj@intel.com,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	alan.cox@intel.com, iommu@lists.linux-foundation.org,
+	linux-kernel@vger.kernel.org, pengfei.xu@intel.com,
+	jacob.jun.pan@intel.com, mika.westerberg@linux.intel.com,
+	Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -94,24 +66,61 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hello,
-sorry for other questions, but I am new in this list:
-Is Ubuntu server 19.04 with "kernel 5.0.9-050009-generic" good for this 
-test?
-Can I add attachments to this lists?
-And who is xhci and iommu maintainers? Are they CC in this mail?
+On 21/04/2019 02:17, Lu Baolu wrote:
+> This makes it possible for other modules to know the minimal
+> page size supported by a domain without the knowledge of the
+> structure details.
+> 
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> ---
+>   include/linux/iommu.h | 13 +++++++++++++
+>   1 file changed, 13 insertions(+)
+> 
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index a5007d035218..46679ef19b7e 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -377,6 +377,14 @@ static inline void iommu_tlb_sync(struct iommu_domain *domain)
+>   		domain->ops->iotlb_sync(domain);
+>   }
+>   
+> +static inline unsigned long domain_minimal_pgsize(struct iommu_domain *domain)
+> +{
+> +	if (domain && domain->pgsize_bitmap)
+> +		return 1 << __ffs(domain->pgsize_bitmap);
 
-starosta
+Nit: this would probably be more efficient on most architectures as:
 
-Dne 29.4.2019 v 11:48 Johan Hovold napsal(a):
-> So this is a debian 4.18 kernel seemingly crashing due to a xhci or
-> iommu issue.
->
-> Can you reproduce this on a mainline kernel?
->
-> If so, please post the corresponding logs to the lists and CC the xhci
-> and iommu maintainers (added to CC).
+	if (domain)
+		return domain->pgsize_bitmap & -domain->pgsize_bitmap;
 
+
+I'd also suggest s/minimal/min/ in the name, just to stop it getting too 
+long. Otherwise, though, I like the idea, and there's at least one other 
+place (in iommu-dma) that can make use of it straight away.
+
+Robin.
+
+> +
+> +	return 0;
+> +}
+> +
+>   /* PCI device grouping function */
+>   extern struct iommu_group *pci_device_group(struct device *dev);
+>   /* Generic device grouping function */
+> @@ -704,6 +712,11 @@ const struct iommu_ops *iommu_ops_from_fwnode(struct fwnode_handle *fwnode)
+>   	return NULL;
+>   }
+>   
+> +static inline unsigned long domain_minimal_pgsize(struct iommu_domain *domain)
+> +{
+> +	return 0;
+> +}
+> +
+>   #endif /* CONFIG_IOMMU_API */
+>   
+>   #ifdef CONFIG_IOMMU_DEBUGFS
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
