@@ -2,70 +2,56 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D4DEA2A
-	for <lists.iommu@lfdr.de>; Mon, 29 Apr 2019 20:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909ABE008
+	for <lists.iommu@lfdr.de>; Mon, 29 Apr 2019 12:03:31 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id D4E6024E4;
-	Mon, 29 Apr 2019 18:32:47 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 919CE1EF0;
+	Mon, 29 Apr 2019 10:03:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id A4EFC1E85
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A4B561EEA
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 09:48:51 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 3FAAE608
+	Mon, 29 Apr 2019 10:01:12 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 5341B608
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 09:48:50 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id i68so7317905lfi.10
-	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 02:48:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=ATAy9r19kvybs9h4CbAXE4DQCAXKd+gASKqZjx1u6X0=;
-	b=MPG3QLzlZWCpkzTD/9frKwgja8+gADnvvh1Rk/kckmwfTeUy9y0WPjap+u7Co4rI02
-	iY8NxWo1tBMRSWySIf+ybw2ZtsiFPp+X8GsfNIyaE3z2ilLhg8Lt4mCgRTe3TWBuxr8H
-	kvBkR0qOplgcVSZBwYOX+Q9AqR8seHRfMIAFDOxxDOjTUmF/OGJagf8Wf+J2fTNXZGc0
-	zXpjoA0FRoQesSgZT7vbZt/u9V7NNAMr0t+JDrUDbLSPSFnOEJcWoe8E/+5WYjSEIr+S
-	uwv9WXdVlDf9+JZKg1/is4LWt6m8AMG3svA0xx37B+WGqo9JCyXWUHJksdzQ2jIrXKGM
-	+abg==
-X-Gm-Message-State: APjAAAW2mqjwSso6WJ9cKAOrOsy4u+R/2yCYoyLdYTrLvc1UpVn/Gjob
-	FVrXo8u39FjOE5dkPhRczjE=
-X-Google-Smtp-Source: APXvYqy011PAkbtAsn4bkl5G7+pxAxqX4nwh23aFFd9ruDttABIQmwbsCS6IRCiEE1kLq5e3uT0TCQ==
-X-Received: by 2002:a19:4b51:: with SMTP id y78mr31346168lfa.152.1556531328610;
-	Mon, 29 Apr 2019 02:48:48 -0700 (PDT)
-Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se.
-	[85.230.190.116])
-	by smtp.gmail.com with ESMTPSA id m3sm7250676lfh.94.2019.04.29.02.48.47
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 02:48:47 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.91)
-	(envelope-from <johan@kernel.org>)
-	id 1hL2tz-00038q-9z; Mon, 29 Apr 2019 11:48:48 +0200
-Date: Mon, 29 Apr 2019 11:48:47 +0200
-From: Johan Hovold <johan@kernel.org>
-To: "StarostaCZ@gmail.com" <starostacz@gmail.com>
-Subject: Re: Linux crash when using FTDI FT232R USB to serial converter on
-	AMD boards.
-Message-ID: <20190429094847.GI26546@localhost>
-References: <04503197-a0a9-8b35-6c65-c10f296aab57@gmail.com>
+	Mon, 29 Apr 2019 10:01:12 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A1DBF80D;
+	Mon, 29 Apr 2019 03:01:11 -0700 (PDT)
+Received: from [10.1.196.129] (ostrya.cambridge.arm.com [10.1.196.129])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 74FFC3F5AF;
+	Mon, 29 Apr 2019 03:01:09 -0700 (PDT)
+Subject: Re: [PATCH v2 11/19] iommu/vt-d: Replace Intel specific PASID
+	allocator with IOASID
+To: Auger Eric <eric.auger@redhat.com>,
+	Jacob Pan <jacob.jun.pan@linux.intel.com>
+References: <1556062279-64135-1-git-send-email-jacob.jun.pan@linux.intel.com>
+	<1556062279-64135-12-git-send-email-jacob.jun.pan@linux.intel.com>
+	<e542fd95-acbe-05e9-e441-27dff752c21a@redhat.com>
+	<20190426140133.6d445315@jacob-builder>
+	<f06a9675-278f-51db-f385-e1305b3795d6@redhat.com>
+From: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
+Message-ID: <7529f2ca-167b-5e65-9330-9093638e9f91@arm.com>
+Date: Mon, 29 Apr 2019 11:00:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <04503197-a0a9-8b35-6c65-c10f296aab57@gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+In-Reply-To: <f06a9675-278f-51db-f385-e1305b3795d6@redhat.com>
+Content-Language: en-US
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Mailman-Approved-At: Mon, 29 Apr 2019 18:32:46 +0000
-Cc: linux-usb@vger.kernel.org, iommu@lists.linux-foundation.org,
-	Mathias Nyman <mathias.nyman@intel.com>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Andriy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -78,137 +64,52 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Fri, Apr 26, 2019 at 03:47:15PM +0200, StarostaCZ@gmail.com wrote:
-> Hello all,
-> we are development and manufacturing company that use your FT232R serial =
+On 27/04/2019 09:38, Auger Eric wrote:
+>>>> --- a/drivers/iommu/intel-iommu.c
+>>>> +++ b/drivers/iommu/intel-iommu.c
+>>>> @@ -5153,7 +5153,7 @@ static void auxiliary_unlink_device(struct
+>>>> dmar_domain *domain, domain->auxd_refcnt--;
+>>>>  
+>>>>  	if (!domain->auxd_refcnt && domain->default_pasid > 0)
+>>>> -		intel_pasid_free_id(domain->default_pasid);
+>>>> +		ioasid_free(domain->default_pasid);
+>>>>  }
+>>>>  
+>>>>  static int aux_domain_add_dev(struct dmar_domain *domain,
+>>>> @@ -5171,9 +5171,8 @@ static int aux_domain_add_dev(struct
+>>>> dmar_domain *domain, if (domain->default_pasid <= 0) {
+>>>>  		int pasid;
+>>>>  
+>>>> -		pasid = intel_pasid_alloc_id(domain, PASID_MIN,
+>>>> -
+>>>> pci_max_pasids(to_pci_dev(dev)),
+>>>> -					     GFP_KERNEL);
+>>>> +		pasid = ioasid_alloc(NULL, PASID_MIN,
+>>>> pci_max_pasids(to_pci_dev(dev)) - 1,
+>>>> +				domain);
+>>>>  		if (pasid <= 0) {  
+>>> ioasid_t is a uint and returns INVALID_IOASID on error. Wouldn't it be
+>>> simpler to make ioasid_alloc return an int?
+>> Well, I think we still want the full uint range - 1(INVALID_IOASID).
+>> Intel uses 20bit but I think SMMUs use 32 bits for streamID? I
+>> should just check 
+>> 	if (pasid == INVALID_IOASID) {
+> Jean-Philippe may correct me but SMMU uses 20b SubstreamId which is a
+> superset of PASIDs. StreamId is 32b.
 
-> converter for couple of years with our software. We consume about a =
+Right, we use 20 bits for PASIDs (== SubstreamID really). Given the
+choices that vendors are making for PASIDs (a global namespace rather
+than per-VM), I wouldn't be surprised if they extend the size of PASIDs
+in a couple of years, so I added the typedef ioasid_t to ease a possible
+change from 32-bit to 64 in the future.
 
-> hundreds pcs of FT232R per yer. We use FT232R as USB serial converter =
-
-> with direct access (no virtual serial port) and as a "hardware key" =
-
-> using FTDIChip-ID. We operate our software with FT232R converters on =
-
-> Windows and Debian Linux operating system.
-> =
-
-> We have used Intel motherboards with Intel processors so far. We want to =
-
-> use AMD motherboards with AMD processors too. *We made a couple of tests =
-
-> on AMD motherboards with AMD processors and Debian Linux 9.6, but we =
-
-> have come across a big problem.
-> **When we open internal EEPROM of FT232R for reading, there will arise =
-
-> many error messages in system log files. And then Debian Linux crash =
-
-> after some time!*
-> =
-
-> =
-
-> _1) Hardware configurations:_
-> - motherboards with AMD A320M chipset:
->  =A0 - MSI A320M PRO-VD PLUS, =
-
-> https://www.msi.com/Motherboard/support/A320M-PRO-VD-PLUS
->  =A0 - ASUS PRIME A320M-K, https://www.asus.com/Motherboards/PRIME-A320M-K
->  =A0 - GIGABYTE A320M-S2H, =
-
-> https://www.gigabyte.com/Motherboard/GA-A320M-S2H-rev-1x#kf
-> - latest bios installed, default bios configuration loaded,
-> - CPU AMD Athlon 200GE, AMD Ryzen 3 2200G
-> - 4GB RAM, SSD drive Kingston A400 120GB
-> =
-
-> _2a) Operating system A:_
-> - Debian Linux 9.6 64bit, https://www.debian.org/distrib/, =
-
-> https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.6.0-am=
-d64-netinst.iso
-> - installed from Netinst installer WITHOUT graphic dekstop, default =
-
-> configuration
-> - tested kernels
->  =A0 - default kernel 4.9.0.8-amd64, =
-
-> https://packages.debian.org/stretch/linux-image-4.9.0-8-amd64
->  =A0 - backports kernel 4.18.0-0.bpo.1-amd64, =
-
-> https://packages.debian.org/stretch-backports/linux-image-4.18.0-0.bpo.1-=
-amd64
-> =
-
-> _2b) Operating system B:_
-> - Ubuntu server 19.04 64bit, http://releases.ubuntu.com/19.04/, =
-
-> http://releases.ubuntu.com/19.04/ubuntu-19.04-live-server-amd64.iso
-> - installed WITHOUT graphic dekstop, default configuration
-> - tested kernels
->  =A0 - default kernel 5.0.0-amd64, =
-
-> https://packages.debian.org/stretch/linux-image-4.9.0-8-amd64
->  =A0 - experimental kernel 5.0.9-050009-generic amd64, =
-
-> https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.0.9/
-> =
-
-> _3) Drivers_
-> - libftd2xx drivers version 1.4.8, https://www.ftdichip.com/Drivers/D2XX.=
-htm
-> =
-
-> _4) Performed tests_
-> You can repeat this test:
-> - connect FT232R into USB2.0 port (not USB3 port!)
-> - use examples in directory: ...\libftd2xx-i386-1.4.8.tar\release\example=
-s\
-> - add parameter "-m32" to "CFLAGS" variable into "Rules.make" file
-> - compiled "\examples\EEPROM\user\read\"
-> - run script "test.sh" - see attached file
-> - *Debian Linux or Ubuntu server crashes after some minutes* - see =
-
-> attached kernel logs from our system
-> - see "kern.log" https://paste.ee/p/xxIZ2
-
-So this is a debian 4.18 kernel seemingly crashing due to a xhci or
-iommu issue.
-
-Can you reproduce this on a mainline kernel?
-
-If so, please post the corresponding logs to the lists and CC the xhci
-and iommu maintainers (added to CC).
-
-> _5) Very important note_
-> *This problem occurs when FT232R is connected into USB2.0 port only!*
-> When it is connected into USB3 port, all works fine, no error messages, =
-
-> no crash.
-> =
-
-> _6) Other test that we made_
-> - we made other tests on Windows 10
->  =A0 - same configuration with ASUS PRIME A320M-K motherboard
->  =A0 - latest drivers + latest FTDI drivers
->  =A0 - FT232R connected to USB2.0 or USB3 - no problem
-> =
-
-> - we made the same tests on Intel architecture (that we use now)
->  =A0 - motherboard MSI B250M PRO-VH, CPU Intel Pentium G4560, 4GB RAM, SS=
-D =
-
-> drive Kingston A400 120GB
->  =A0 - same operating system Debian Linux 9.6 64bit as descripted above
->  =A0 - FT232R connected to USB2.0 or USB3 - no problem
-
-Johan
+Thanks,
+Jean
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
