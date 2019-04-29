@@ -2,47 +2,50 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4BFE5C0
-	for <lists.iommu@lfdr.de>; Mon, 29 Apr 2019 17:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E286EE5DF
+	for <lists.iommu@lfdr.de>; Mon, 29 Apr 2019 17:15:11 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id AA1542209;
-	Mon, 29 Apr 2019 15:06:21 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id EB2E6220A;
+	Mon, 29 Apr 2019 15:15:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 231A321EF
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 63F0720EA
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 15:03:34 +0000 (UTC)
+	Mon, 29 Apr 2019 15:12:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.101.70])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 26C5B711
+Received: from foss.arm.com (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id EBC8F876
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 15:03:32 +0000 (UTC)
+	Mon, 29 Apr 2019 15:12:07 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D0FAF80D;
-	Mon, 29 Apr 2019 08:03:32 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 951F680D;
+	Mon, 29 Apr 2019 08:12:07 -0700 (PDT)
 Received: from [10.1.196.75] (e110467-lin.cambridge.arm.com [10.1.196.75])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 689D63F5C1;
-	Mon, 29 Apr 2019 08:03:31 -0700 (PDT)
-Subject: Re: implement generic dma_map_ops for IOMMUs v3
-To: Christoph Hellwig <hch@lst.de>, Catalin Marinas
-	<catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>
-References: <20190422175942.18788-1-hch@lst.de>
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 89B103F5C1;
+	Mon, 29 Apr 2019 08:12:05 -0700 (PDT)
+Subject: Re: [PATCH v2 1/7] genirq/msi: Add a new field in msi_desc to store
+	an IOMMU cookie
+To: Julien Grall <julien.grall@arm.com>, linux-kernel@vger.kernel.org,
+	iommu@lists.linux-foundation.org
+References: <20190429144428.29254-1-julien.grall@arm.com>
+	<20190429144428.29254-2-julien.grall@arm.com>
 From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <9ae8ce99-65a8-711d-b17d-165df7e280d4@arm.com>
-Date: Mon, 29 Apr 2019 16:03:29 +0100
+Message-ID: <df16760f-b5fe-5af4-18a1-fbb450d772a4@arm.com>
+Date: Mon, 29 Apr 2019 16:12:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190422175942.18788-1-hch@lst.de>
+In-Reply-To: <20190429144428.29254-2-julien.grall@arm.com>
 Content-Language: en-GB
 X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, iommu@lists.linux-foundation.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: jason@lakedaemon.net, douliyangs@gmail.com, marc.zyngier@arm.com,
+	miquel.raynal@bootlin.com, tglx@linutronix.de,
+	logang@deltatee.com, bigeasy@linutronix.de, linux-rt-users@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,44 +63,98 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 22/04/2019 18:59, Christoph Hellwig wrote:
-> Hi Robin,
+On 29/04/2019 15:44, Julien Grall wrote:
+> When an MSI doorbell is located downstream of an IOMMU, it is required
+> to swizzle the physical address with an appropriately-mapped IOVA for any
+> device attached to one of our DMA ops domain.
 > 
-> please take a look at this series, which implements a completely generic
-> set of dma_map_ops for IOMMU drivers.  This is done by taking the
-> existing arm64 code, moving it to drivers/iommu and then massaging it
-> so that it can also work for architectures with DMA remapping.  This
-> should help future ports to support IOMMUs more easily, and also allow
-> to remove various custom IOMMU dma_map_ops implementations, like Tom
-> was planning to for the AMD one.
+> At the moment, the allocation of the mapping may be done when composing
+> the message. However, the composing may be done in non-preemtible
+> context while the allocation requires to be called from preemptible
+> context.
+> 
+> A follow-up change will split the current logic in two functions
+> requiring to keep an IOMMU cookie per MSI.
+> 
+> A new field is introduced in msi_desc to store an IOMMU cookie. As the
+> cookie may not be required in some configuration, the field is protected
+> under a new config CONFIG_IRQ_MSI_IOMMU.
+> 
+> A pair of helpers has also been introduced to access the field.
 
-Modulo a few nits, I think this looks pretty much good to go, and it 
-would certainly be good to get as much as reasonable queued soon for the 
-sake of progress elsewhere.
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 
-Catalin, Will, I think the arm64 parts are all OK but please take a look 
-to confirm.
-
-Thanks,
-Robin.
-
+> Signed-off-by: Julien Grall <julien.grall@arm.com>
 > 
-> A git tree is also available at:
+> ---
+>      Changes in v2:
+>          - Update the commit message to use imperative mood
+>          - Protect the field with a new config that will be selected by
+>          IOMMU_DMA later on
+>          - Add a set of helpers to access the new field
+> ---
+>   include/linux/msi.h | 26 ++++++++++++++++++++++++++
+>   kernel/irq/Kconfig  |  3 +++
+>   2 files changed, 29 insertions(+)
 > 
->      git://git.infradead.org/users/hch/misc.git dma-iommu-ops.3
-> 
-> Gitweb:
-> 
->      http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/dma-iommu-ops.3
-> 
-> Changes since v2:
->   - address various review comments and include patches from Robin
-> 
-> Changes since v1:
->   - only include other headers in dma-iommu.h if CONFIG_DMA_IOMMU is enabled
->   - keep using a scatterlist in iommu_dma_alloc
->   - split out mmap/sgtable fixes and move them early in the series
->   - updated a few commit logs
+> diff --git a/include/linux/msi.h b/include/linux/msi.h
+> index 7e9b81c3b50d..82a308c19222 100644
+> --- a/include/linux/msi.h
+> +++ b/include/linux/msi.h
+> @@ -77,6 +77,9 @@ struct msi_desc {
+>   	struct device			*dev;
+>   	struct msi_msg			msg;
+>   	struct irq_affinity_desc	*affinity;
+> +#ifdef CONFIG_IRQ_MSI_IOMMU
+> +	const void			*iommu_cookie;
+> +#endif
+>   
+>   	union {
+>   		/* PCI MSI/X specific data */
+> @@ -119,6 +122,29 @@ struct msi_desc {
+>   #define for_each_msi_entry_safe(desc, tmp, dev)	\
+>   	list_for_each_entry_safe((desc), (tmp), dev_to_msi_list((dev)), list)
+>   
+> +#ifdef CONFIG_IRQ_MSI_IOMMU
+> +static inline const void *msi_desc_get_iommu_cookie(struct msi_desc *desc)
+> +{
+> +	return desc->iommu_cookie;
+> +}
+> +
+> +static inline void msi_desc_set_iommu_cookie(struct msi_desc *desc,
+> +					     const void *iommu_cookie)
+> +{
+> +	desc->iommu_cookie = iommu_cookie;
+> +}
+> +#else
+> +static inline const void *msi_desc_get_iommu_cookie(struct msi_desc *desc)
+> +{
+> +	return NULL;
+> +}
+> +
+> +static inline void msi_desc_set_iommu_cookie(struct msi_desc *desc,
+> +					     const void *iommu_cookie)
+> +{
+> +}
+> +#endif
+> +
+>   #ifdef CONFIG_PCI_MSI
+>   #define first_pci_msi_entry(pdev)	first_msi_entry(&(pdev)->dev)
+>   #define for_each_pci_msi_entry(desc, pdev)	\
+> diff --git a/kernel/irq/Kconfig b/kernel/irq/Kconfig
+> index 5f3e2baefca9..8fee06625c37 100644
+> --- a/kernel/irq/Kconfig
+> +++ b/kernel/irq/Kconfig
+> @@ -91,6 +91,9 @@ config GENERIC_MSI_IRQ_DOMAIN
+>   	select IRQ_DOMAIN_HIERARCHY
+>   	select GENERIC_MSI_IRQ
+>   
+> +config IRQ_MSI_IOMMU
+> +	bool
+> +
+>   config HANDLE_DOMAIN_IRQ
+>   	bool
+>   
 > 
 _______________________________________________
 iommu mailing list
