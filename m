@@ -2,62 +2,70 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71690DB74
-	for <lists.iommu@lfdr.de>; Mon, 29 Apr 2019 07:18:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D4DEA2A
+	for <lists.iommu@lfdr.de>; Mon, 29 Apr 2019 20:32:50 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 411101DF0;
-	Mon, 29 Apr 2019 05:18:39 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id D4E6024E4;
+	Mon, 29 Apr 2019 18:32:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9E2CB1DE7
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A4EFC1E85
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 05:16:38 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 24E05608
+	Mon, 29 Apr 2019 09:48:51 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 3FAAE608
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 05:16:38 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Apr 2019 22:16:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,408,1549958400"; d="scan'208";a="295363562"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
-	([10.239.159.136])
-	by orsmga004.jf.intel.com with ESMTP; 28 Apr 2019 22:16:34 -0700
-Subject: Re: [PATCH v3 02/10] swiotlb: Factor out slot allocation and free
-To: Christoph Hellwig <hch@lst.de>
-References: <20190421011719.14909-1-baolu.lu@linux.intel.com>
-	<20190421011719.14909-3-baolu.lu@linux.intel.com>
-	<20190422164555.GA31181@lst.de>
-	<0c6e5983-312b-0d6b-92f5-64861cd6804d@linux.intel.com>
-	<20190423061232.GB12762@lst.de>
-	<dff50b2c-5e31-8b4a-7fdf-99d17852746b@linux.intel.com>
-	<20190424144532.GA21480@lst.de>
-	<a189444b-15c9-8069-901d-8cdf9af7fc3c@linux.intel.com>
-	<20190426150433.GA19930@lst.de>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <93b3d627-782d-cae0-2175-77a5a8b3fe6e@linux.intel.com>
-Date: Mon, 29 Apr 2019 13:10:17 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Mon, 29 Apr 2019 09:48:50 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id i68so7317905lfi.10
+	for <iommu@lists.linux-foundation.org>;
+	Mon, 29 Apr 2019 02:48:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=ATAy9r19kvybs9h4CbAXE4DQCAXKd+gASKqZjx1u6X0=;
+	b=MPG3QLzlZWCpkzTD/9frKwgja8+gADnvvh1Rk/kckmwfTeUy9y0WPjap+u7Co4rI02
+	iY8NxWo1tBMRSWySIf+ybw2ZtsiFPp+X8GsfNIyaE3z2ilLhg8Lt4mCgRTe3TWBuxr8H
+	kvBkR0qOplgcVSZBwYOX+Q9AqR8seHRfMIAFDOxxDOjTUmF/OGJagf8Wf+J2fTNXZGc0
+	zXpjoA0FRoQesSgZT7vbZt/u9V7NNAMr0t+JDrUDbLSPSFnOEJcWoe8E/+5WYjSEIr+S
+	uwv9WXdVlDf9+JZKg1/is4LWt6m8AMG3svA0xx37B+WGqo9JCyXWUHJksdzQ2jIrXKGM
+	+abg==
+X-Gm-Message-State: APjAAAW2mqjwSso6WJ9cKAOrOsy4u+R/2yCYoyLdYTrLvc1UpVn/Gjob
+	FVrXo8u39FjOE5dkPhRczjE=
+X-Google-Smtp-Source: APXvYqy011PAkbtAsn4bkl5G7+pxAxqX4nwh23aFFd9ruDttABIQmwbsCS6IRCiEE1kLq5e3uT0TCQ==
+X-Received: by 2002:a19:4b51:: with SMTP id y78mr31346168lfa.152.1556531328610;
+	Mon, 29 Apr 2019 02:48:48 -0700 (PDT)
+Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se.
+	[85.230.190.116])
+	by smtp.gmail.com with ESMTPSA id m3sm7250676lfh.94.2019.04.29.02.48.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Apr 2019 02:48:47 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.91)
+	(envelope-from <johan@kernel.org>)
+	id 1hL2tz-00038q-9z; Mon, 29 Apr 2019 11:48:48 +0200
+Date: Mon, 29 Apr 2019 11:48:47 +0200
+From: Johan Hovold <johan@kernel.org>
+To: "StarostaCZ@gmail.com" <starostacz@gmail.com>
+Subject: Re: Linux crash when using FTDI FT232R USB to serial converter on
+	AMD boards.
+Message-ID: <20190429094847.GI26546@localhost>
+References: <04503197-a0a9-8b35-6c65-c10f296aab57@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190426150433.GA19930@lst.de>
-Content-Language: en-US
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
-	autolearn=ham version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <04503197-a0a9-8b35-6c65-c10f296aab57@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: kevin.tian@intel.com, mika.westerberg@linux.intel.com, ashok.raj@intel.com,
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-	alan.cox@intel.com, Robin Murphy <robin.murphy@arm.com>,
-	iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-	pengfei.xu@intel.com, jacob.jun.pan@intel.com,
-	David Woodhouse <dwmw2@infradead.org>
+X-Mailman-Approved-At: Mon, 29 Apr 2019 18:32:46 +0000
+Cc: linux-usb@vger.kernel.org, iommu@lists.linux-foundation.org,
+	Mathias Nyman <mathias.nyman@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,32 +78,137 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Christoph,
+On Fri, Apr 26, 2019 at 03:47:15PM +0200, StarostaCZ@gmail.com wrote:
+> Hello all,
+> we are development and manufacturing company that use your FT232R serial =
 
-On 4/26/19 11:04 PM, Christoph Hellwig wrote:
-> On Thu, Apr 25, 2019 at 10:07:19AM +0800, Lu Baolu wrote:
->> This is not VT-d specific. It's just how generic IOMMU works.
->>
->> Normally, IOMMU works in paging mode. So if a driver issues DMA with
->> IOVA  0xAAAA0123, IOMMU can remap it with a physical address 0xBBBB0123.
->> But we should never expect IOMMU to remap 0xAAAA0123 with physical
->> address of 0xBBBB0000. That's the reason why I said that IOMMU will not
->> work there.
-> 
-> Well, with the iommu it doesn't happen.  With swiotlb it obviosuly
-> can happen, so drivers are fine with it.  Why would that suddenly
-> become an issue when swiotlb is called from the iommu code?
-> 
+> converter for couple of years with our software. We consume about a =
 
-I would say IOMMU is DMA remapping, not DMA engine. :-)
+> hundreds pcs of FT232R per yer. We use FT232R as USB serial converter =
 
-Best regards,
-Lu Baolu
+> with direct access (no virtual serial port) and as a "hardware key" =
+
+> using FTDIChip-ID. We operate our software with FT232R converters on =
+
+> Windows and Debian Linux operating system.
+> =
+
+> We have used Intel motherboards with Intel processors so far. We want to =
+
+> use AMD motherboards with AMD processors too. *We made a couple of tests =
+
+> on AMD motherboards with AMD processors and Debian Linux 9.6, but we =
+
+> have come across a big problem.
+> **When we open internal EEPROM of FT232R for reading, there will arise =
+
+> many error messages in system log files. And then Debian Linux crash =
+
+> after some time!*
+> =
+
+> =
+
+> _1) Hardware configurations:_
+> - motherboards with AMD A320M chipset:
+>  =A0 - MSI A320M PRO-VD PLUS, =
+
+> https://www.msi.com/Motherboard/support/A320M-PRO-VD-PLUS
+>  =A0 - ASUS PRIME A320M-K, https://www.asus.com/Motherboards/PRIME-A320M-K
+>  =A0 - GIGABYTE A320M-S2H, =
+
+> https://www.gigabyte.com/Motherboard/GA-A320M-S2H-rev-1x#kf
+> - latest bios installed, default bios configuration loaded,
+> - CPU AMD Athlon 200GE, AMD Ryzen 3 2200G
+> - 4GB RAM, SSD drive Kingston A400 120GB
+> =
+
+> _2a) Operating system A:_
+> - Debian Linux 9.6 64bit, https://www.debian.org/distrib/, =
+
+> https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-9.6.0-am=
+d64-netinst.iso
+> - installed from Netinst installer WITHOUT graphic dekstop, default =
+
+> configuration
+> - tested kernels
+>  =A0 - default kernel 4.9.0.8-amd64, =
+
+> https://packages.debian.org/stretch/linux-image-4.9.0-8-amd64
+>  =A0 - backports kernel 4.18.0-0.bpo.1-amd64, =
+
+> https://packages.debian.org/stretch-backports/linux-image-4.18.0-0.bpo.1-=
+amd64
+> =
+
+> _2b) Operating system B:_
+> - Ubuntu server 19.04 64bit, http://releases.ubuntu.com/19.04/, =
+
+> http://releases.ubuntu.com/19.04/ubuntu-19.04-live-server-amd64.iso
+> - installed WITHOUT graphic dekstop, default configuration
+> - tested kernels
+>  =A0 - default kernel 5.0.0-amd64, =
+
+> https://packages.debian.org/stretch/linux-image-4.9.0-8-amd64
+>  =A0 - experimental kernel 5.0.9-050009-generic amd64, =
+
+> https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.0.9/
+> =
+
+> _3) Drivers_
+> - libftd2xx drivers version 1.4.8, https://www.ftdichip.com/Drivers/D2XX.=
+htm
+> =
+
+> _4) Performed tests_
+> You can repeat this test:
+> - connect FT232R into USB2.0 port (not USB3 port!)
+> - use examples in directory: ...\libftd2xx-i386-1.4.8.tar\release\example=
+s\
+> - add parameter "-m32" to "CFLAGS" variable into "Rules.make" file
+> - compiled "\examples\EEPROM\user\read\"
+> - run script "test.sh" - see attached file
+> - *Debian Linux or Ubuntu server crashes after some minutes* - see =
+
+> attached kernel logs from our system
+> - see "kern.log" https://paste.ee/p/xxIZ2
+
+So this is a debian 4.18 kernel seemingly crashing due to a xhci or
+iommu issue.
+
+Can you reproduce this on a mainline kernel?
+
+If so, please post the corresponding logs to the lists and CC the xhci
+and iommu maintainers (added to CC).
+
+> _5) Very important note_
+> *This problem occurs when FT232R is connected into USB2.0 port only!*
+> When it is connected into USB3 port, all works fine, no error messages, =
+
+> no crash.
+> =
+
+> _6) Other test that we made_
+> - we made other tests on Windows 10
+>  =A0 - same configuration with ASUS PRIME A320M-K motherboard
+>  =A0 - latest drivers + latest FTDI drivers
+>  =A0 - FT232R connected to USB2.0 or USB3 - no problem
+> =
+
+> - we made the same tests on Intel architecture (that we use now)
+>  =A0 - motherboard MSI B250M PRO-VH, CPU Intel Pentium G4560, 4GB RAM, SS=
+D =
+
+> drive Kingston A400 120GB
+>  =A0 - same operating system Debian Linux 9.6 64bit as descripted above
+>  =A0 - FT232R connected to USB2.0 or USB3 - no problem
+
+Johan
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
