@@ -2,53 +2,60 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC5AE198
-	for <lists.iommu@lfdr.de>; Mon, 29 Apr 2019 13:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD305E1C7
+	for <lists.iommu@lfdr.de>; Mon, 29 Apr 2019 14:02:40 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1C66A1F5D;
-	Mon, 29 Apr 2019 11:51:55 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id B382B1F67;
+	Mon, 29 Apr 2019 12:02:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 583651F3F
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id D78DB1F53
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 11:49:36 +0000 (UTC)
+	Mon, 29 Apr 2019 11:59:18 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from newverein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 00103711
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A06AB711
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 11:49:35 +0000 (UTC)
-Received: by newverein.lst.de (Postfix, from userid 2407)
-	id D4EC168AFE; Mon, 29 Apr 2019 13:49:18 +0200 (CEST)
-Date: Mon, 29 Apr 2019 13:49:18 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 12/21] dma-iommu: factor atomic pool allocations into
-	helpers
-Message-ID: <20190429114918.GB30460@lst.de>
-References: <20190327080448.5500-1-hch@lst.de>
-	<20190327080448.5500-13-hch@lst.de>
-	<b3f80a11-1504-e8f9-4438-92bcd5f3df7f@arm.com>
-	<20190410061157.GA5278@lst.de> <20190417063358.GA24139@lst.de>
-	<83615173-a8b4-e0eb-bac3-1a58d61ea4ef@arm.com>
-	<20190418163512.GA25347@lst.de>
-	<228ee57a-d7b2-48e0-a34e-81d5fba0a090@arm.com>
-	<20190419082348.GA22299@lst.de>
-	<0a6b3f53-79e5-af83-be39-f04c9acd8384@arm.com>
+	Mon, 29 Apr 2019 11:59:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20170209;
+	h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=HYfOrokgP2lQeEA+A+EPpwGPHVmLABVLIHCtXvbCMMg=;
+	b=oWYfGtTx7WlHb46O7++LUX/xQ
+	2LGK/mMIhSCAOiac/L4y4B08+j2UWAdB6UMC9kvqrjFndtzoauVx6m6wTLd9rLn6I3ep2yXaiyhEA
+	SwH6on6gOCDRQy0HOcAYUo3TL896bEGv+RsCyulq4mKibjVWuSj12BM2e/gFUbotMaX5yf7DSboko
+	KGqFP52ZaDpGEJuO1t01m0Xy2JPnIFCzdAaRnQ9OWuzXTAudO6gx3ZRO8nKb3AX/OxQmb0f49DLLF
+	bAXG+wSJdBEgM/PGlsfU4p3T1v2k0WbdSsRIUguB02RDNNUBM+HnH7RMJXHHO/x18G6H1GwmuQ9la
+	KUtTnu+Mw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red
+	Hat Linux)) id 1hL4wG-0001Vo-F3; Mon, 29 Apr 2019 11:59:16 +0000
+Date: Mon, 29 Apr 2019 04:59:16 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Tom Murphy <tmurphy@arista.com>
+Subject: Re: [PATCH v1] iommu/amd: flush not present cache in iommu_map_page
+Message-ID: <20190429115916.GA5349@infradead.org>
+References: <20190424165051.13614-1-tmurphy@arista.com>
+	<20190426140429.GG24576@8bytes.org>
+	<CAPL0++6_Hyozhf+eA2LM=t_Vuq8HaDzcczAUm0S4=DAw4jmMpA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0a6b3f53-79e5-af83-be39-f04c9acd8384@arm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
+In-Reply-To: <CAPL0++6_Hyozhf+eA2LM=t_Vuq8HaDzcczAUm0S4=DAw4jmMpA@mail.gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org, Christoph Hellwig <hch@lst.de>,
-	linux-arm-kernel@lists.infradead.org
+Cc: iommu@lists.linux-foundation.org, Tom Murphy <murphyt7@tcd.ie>,
+	linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,14 +73,12 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, Apr 23, 2019 at 11:01:44AM +0100, Robin Murphy wrote:
-> Wouldn't this suffice? Since we also use alloc_pages() in the coherent 
-> atomic case, the free path should already be able to deal with it.
->
-> Let me take a proper look at v3 and see how it all looks in context.
+On Sat, Apr 27, 2019 at 03:20:35PM +0100, Tom Murphy wrote:
+> I am working on another patch to improve the intel iotlb flushing in
+> the iommu ops patch which should cover this too.
 
-Any comments on v3?  I've been deferring lots of other DMA work to
-not create conflicts, so I'd hate to miss this merge window.
+So are you looking into converting the intel-iommu driver to use
+dma-iommu as well?  That would be great!
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
