@@ -2,36 +2,36 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76668EA9D
-	for <lists.iommu@lfdr.de>; Mon, 29 Apr 2019 21:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77959EAA7
+	for <lists.iommu@lfdr.de>; Mon, 29 Apr 2019 21:11:02 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1320F2C08;
-	Mon, 29 Apr 2019 19:04:08 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id A7320E81;
+	Mon, 29 Apr 2019 19:11:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 258D21F6D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 3C546DB7
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 19:04:06 +0000 (UTC)
+	Mon, 29 Apr 2019 19:10:59 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from newverein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id BA7A8883
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id BE73B875
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Apr 2019 19:04:05 +0000 (UTC)
+	Mon, 29 Apr 2019 19:10:58 +0000 (UTC)
 Received: by newverein.lst.de (Postfix, from userid 2407)
-	id 6398268AFE; Mon, 29 Apr 2019 21:03:48 +0200 (CEST)
-Date: Mon, 29 Apr 2019 21:03:48 +0200
+	id 9DC0668AFE; Mon, 29 Apr 2019 21:10:40 +0200 (CEST)
+Date: Mon, 29 Apr 2019 21:10:40 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 14/26] iommu/dma: Refactor iommu_dma_free
-Message-ID: <20190429190348.GB5637@lst.de>
+Subject: Re: [PATCH 11/26] iommu/dma: Factor out remapped pages lookup
+Message-ID: <20190429191040.GC5637@lst.de>
 References: <20190422175942.18788-1-hch@lst.de>
-	<20190422175942.18788-15-hch@lst.de>
-	<8321a363-f448-3e48-48f6-58d2b44a2900@arm.com>
+	<20190422175942.18788-12-hch@lst.de>
+	<f8c04947-0ddb-17c5-8918-5859aabc220c@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <8321a363-f448-3e48-48f6-58d2b44a2900@arm.com>
+In-Reply-To: <f8c04947-0ddb-17c5-8918-5859aabc220c@arm.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
@@ -59,17 +59,24 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Mon, Apr 29, 2019 at 02:59:43PM +0100, Robin Murphy wrote:
-> Hmm, I do still prefer my original flow with the dma_common_free_remap() 
-> call right out of the way at the end rather than being a special case in 
-> the middle of all the page-freeing (which is the kind of existing 
-> complexity I was trying to eliminate). I guess you've done this to avoid 
-> having "if (!dma_release_from_contiguous(...))..." twice like I ended up 
-> with, which is fair enough I suppose - once we manage to solve the new 
-> dma_{alloc,free}_contiguous() interface that may tip the balance so I can 
-> always revisit this then.
+On Mon, Apr 29, 2019 at 02:05:46PM +0100, Robin Murphy wrote:
+> On 22/04/2019 18:59, Christoph Hellwig wrote:
+>> From: Robin Murphy <robin.murphy@arm.com>
+>>
+>> Since we duplicate the find_vm_area() logic a few times in places where
+>> we only care aboute the pages, factor out a helper to abstract it.
+>>
+>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+>> [hch: don't warn when not finding a region, as we'll rely on that later]
+>
+> Yeah, I did think about that and the things which it might make a little 
+> easier, but preserved it as-is for the sake of keeping my modifications 
+> quick and simple. TBH I'm now feeling more inclined to drop the WARNs 
+> entirely at this point, since it's not like there's ever been any general 
+> guarantee that freeing the wrong thing shouldn't just crash, but that's 
+> something we can easily come back to later if need be.
 
-Ok, I'll try to accomodate that with a minor rework.
+Ok, I've dropped the warnings.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
