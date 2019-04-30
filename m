@@ -2,61 +2,71 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E99F521
-	for <lists.iommu@lfdr.de>; Tue, 30 Apr 2019 13:10:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4D6F52F
+	for <lists.iommu@lfdr.de>; Tue, 30 Apr 2019 13:13:11 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 85ECFF2D;
-	Tue, 30 Apr 2019 11:10:39 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 0FD4DE24;
+	Tue, 30 Apr 2019 11:13:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 7786DE20
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 658E3DDD
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 30 Apr 2019 11:10:00 +0000 (UTC)
+	Tue, 30 Apr 2019 11:12:26 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D427F5F4
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E6EFB5F4
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 30 Apr 2019 11:09:59 +0000 (UTC)
+	Tue, 30 Apr 2019 11:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=1uDQiyuanTaEF0z9gH8IFpxzSHOrkWGsatE5ngJ5mVA=;
-	b=ShPZGbXbWQyT3Y+WO6lJQJ9GqA
-	mlhP6wO/l2YflA+E8uxtq3aWEZebPTCu71T/zs4bhKc9q8rXA7a0dohHA9T8EBF+XS3ibe2mC9bt4
-	/7YEc6LbFD0d0eL3SGKt0qlQZXJxLH7yq+c/HKYxHqTQQnTrQ/g3LxbgEue2B0/Sm3STejrbv69OW
-	WhH/7v3urUFORpB7EwopFHKD0so0aHPsozcRxwR3FzfBuKn6FZ1YsnncVWWDor3lHLvEA+2Qsc/0l
-	X0DvJwR2UcKHzxHc49CPDBLT76mYAPFJ1ARseYjktu7bW4OgauhSHDBiC8TkqYxmTmzlVssqLIwau
-	HbWYxgNA==;
-Received: from adsl-173-228-226-134.prtc.net ([173.228.226.134] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-	id 1hLQVm-0000IF-E0; Tue, 30 Apr 2019 11:01:22 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Ralf Baechle <ralf@linux-mips.org>, Paul Burton <paul.burton@mips.com>,
-	James Hogan <jhogan@kernel.org>, Ley Foon Tan <lftan@altera.com>,
-	Michal Simek <monstr@monstr.eu>,
-	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: [PATCH 7/7] microblaze: use the generic uncached segment support in
-	dma-direct
-Date: Tue, 30 Apr 2019 07:00:32 -0400
-Message-Id: <20190430110032.25301-8-hch@lst.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190430110032.25301-1-hch@lst.de>
-References: <20190430110032.25301-1-hch@lst.de>
+	d=infradead.org; s=bombadil.20170209;
+	h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=3b8GPUegqQUF4wDq195k1NdogdhAOi+jHdkKbAeMNXk=;
+	b=F3/ToI/cGQpIQDelBBhQYnWX+
+	j/xuGx+L1kIm2FSTo7U3U03O465noF7Ch5TSDDM86npY3ruQIM9sll9MuG7K/+YYh8X4jSIhuLeEO
+	pAXjK4deVUdabsxwofOwGjKigeBSNURJk0377mkTSV6sVoLDBF57Hl+SF3+fJXOjUb/H6BizwrgKI
+	/GLoWLA+/q2gzGn8tXJsI2rhxWV6/isd0OZwI6N500QaWB+T5QtXI2RDHsnpPv9LQ4/VC5sWfoTRZ
+	NfaA0c3rbTb0/Oh0cAJfITFvaLZF0KhntbFaqWGerxOD1HdKGVcG8oK5fvZgQWW3V1qxC1Q7Iv6Sz
+	H2jNgcYYw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red
+	Hat Linux)) id 1hLQgR-0005Dn-0q; Tue, 30 Apr 2019 11:12:23 +0000
+Date: Tue, 30 Apr 2019 04:12:22 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Tom Murphy <tmurphy@arista.com>
+Subject: Re: [PATCH v2 3/4] iommu/dma-iommu: Use the dev->coherent_dma_mask
+Message-ID: <20190430111222.GA3191@infradead.org>
+References: <20190430002952.18909-1-tmurphy@arista.com>
+	<20190430002952.18909-4-tmurphy@arista.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190430002952.18909-4-tmurphy@arista.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
 	bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, linux-mips@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Heiko Stuebner <heiko@sntech.de>, Will Deacon <will.deacon@arm.com>,
+	David Brown <david.brown@linaro.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org,
+	Kukjin Kim <kgene@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+	Andy Gross <andy.gross@linaro.org>, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	David Woodhouse <dwmw2@infradead.org>,
+	linux-kernel@vger.kernel.org, murphyt7@tcd.ie,
+	iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,203 +84,115 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Stop providing our own arch alloc/free hooks for nommu platforms and
-just expose the segment offset and use the generic dma-direct
-allocator.
+>  static dma_addr_t __iommu_dma_map(struct device *dev, phys_addr_t phys,
+> -		size_t size, int prot, struct iommu_domain *domain)
+> +		size_t size, int prot, struct iommu_domain *domain,
+> +		dma_addr_t dma_limit)
+
+Can we just call this dma_mask?
+
+>  static void iommu_dma_unmap_resource(struct device *dev, dma_addr_t handle,
+> @@ -1250,7 +1251,8 @@ static struct iommu_dma_msi_page *iommu_dma_get_msi_page(struct device *dev,
+>  	if (!msi_page)
+>  		return NULL;
+>  
+> -	iova = __iommu_dma_map(dev, msi_addr, size, prot, domain);
+> +	iova = __iommu_dma_map(dev, msi_addr, size, prot, domain,
+> +			dma_get_mask(dev));
+
+Hmm, I don't think we need the DMA mask for the MSI mapping, this
+should probably always use a 64-bit mask.  Or we could just untangle
+it from the DMA mapping fast path entire, something like:
+
+---
+From 0debafc85174ca830f2e371ff8e8f7465bde3ad8 Mon Sep 17 00:00:00 2001
+From: Christoph Hellwig <hch@lst.de>
+Date: Tue, 30 Apr 2019 07:06:23 -0400
+Subject: iommu/dma: opencode __iommu_dma_map in iommu_dma_get_msi_page
+
+The MSI page mapping really is a little different from the normal DMA
+mappings and doesn't need to look at the DMA mask.  Just open code
+it instead of trying to squeeze the behavior into the DMA path helpers.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- arch/microblaze/Kconfig         |  2 +
- arch/microblaze/mm/consistent.c | 97 +++++++++++++++------------------
- 2 files changed, 47 insertions(+), 52 deletions(-)
+ drivers/iommu/dma-iommu.c | 27 +++++++--------------------
+ 1 file changed, 7 insertions(+), 20 deletions(-)
 
-diff --git a/arch/microblaze/Kconfig b/arch/microblaze/Kconfig
-index a51b965b3b82..b0df6b53e2bf 100644
---- a/arch/microblaze/Kconfig
-+++ b/arch/microblaze/Kconfig
-@@ -3,9 +3,11 @@ config MICROBLAZE
- 	select ARCH_32BIT_OFF_T
- 	select ARCH_NO_SWAP
- 	select ARCH_HAS_DMA_COHERENT_TO_PFN if MMU
-+	select ARCH_HAS_DMA_PREP_COHERENT
- 	select ARCH_HAS_GCOV_PROFILE_ALL
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
-+	select ARCH_HAS_UNCACHED_SEGMENT if !MMU
- 	select ARCH_MIGHT_HAVE_PC_PARPORT
- 	select ARCH_NO_COHERENT_DMA_MMAP if !MMU
- 	select ARCH_WANT_IPC_PARSE_VERSION
-diff --git a/arch/microblaze/mm/consistent.c b/arch/microblaze/mm/consistent.c
-index 3002cbca3059..a525194a754e 100644
---- a/arch/microblaze/mm/consistent.c
-+++ b/arch/microblaze/mm/consistent.c
-@@ -45,21 +45,52 @@
- #include <asm/cpuinfo.h>
- #include <asm/tlbflush.h>
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 58c35bab7626..2ac0df0879d7 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -358,11 +358,6 @@ static dma_addr_t iommu_dma_alloc_iova(struct iommu_domain *domain,
+ 	struct iova_domain *iovad = &cookie->iovad;
+ 	unsigned long shift, iova_len, iova = 0;
  
--#ifndef CONFIG_MMU
--/* I have to use dcache values because I can't relate on ram size */
--# define UNCACHED_SHADOW_MASK (cpuinfo.dcache_high - cpuinfo.dcache_base + 1)
--#endif
-+void arch_dma_prep_coherent(struct page *page, size_t size)
-+{
-+	phys_addr_t paddr = page_to_phys(page);
-+
-+	flush_dcache_range(paddr, paddr + size);
-+}
- 
-+#ifndef CONFIG_MMU
- /*
-- * Consistent memory allocators. Used for DMA devices that want to
-- * share uncached memory with the processor core.
-- * My crufty no-MMU approach is simple. In the HW platform we can optionally
-- * mirror the DDR up above the processor cacheable region.  So, memory accessed
-- * in this mirror region will not be cached.  It's alloced from the same
-- * pool as normal memory, but the handle we return is shifted up into the
-- * uncached region.  This will no doubt cause big problems if memory allocated
-- * here is not also freed properly. -- JW
-+ * Consistent memory allocators. Used for DMA devices that want to share
-+ * uncached memory with the processor core.  My crufty no-MMU approach is
-+ * simple.  In the HW platform we can optionally mirror the DDR up above the
-+ * processor cacheable region.  So, memory accessed in this mirror region will
-+ * not be cached.  It's alloced from the same pool as normal memory, but the
-+ * handle we return is shifted up into the uncached region.  This will no doubt
-+ * cause big problems if memory allocated here is not also freed properly. -- JW
-+ *
-+ * I have to use dcache values because I can't relate on ram size:
-  */
-+#ifdef CONFIG_XILINX_UNCACHED_SHADOW
-+#define UNCACHED_SHADOW_MASK (cpuinfo.dcache_high - cpuinfo.dcache_base + 1)
-+#else
-+#define UNCACHED_SHADOW_MASK 0
-+#endif /* CONFIG_XILINX_UNCACHED_SHADOW */
-+
-+void *uncached_kernel_address(void *ptr)
-+{
-+	unsigned long addr = (unsigned long)ptr;
-+	
-+	addr |= UNCACHED_SHADOW_MASK;
-+	if (addr > cpuinfo.dcache_base && addr < cpuinfo.dcache_high)
-+		pr_warn("ERROR: Your cache coherent area is CACHED!!!\n");
-+	return (void *)addr;
-+}
-+
-+void *cached_kernel_address(void *ptr)
-+{
-+	unsigned long addr = (unsigned long)ptr;
-+
-+	addr &= ~UNCACHED_SHADOW_MASK;
-+
-+	return (void *)addr;
-+}
-+
-+#else /* CONFIG_MMU */
-+
- void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 		gfp_t gfp, unsigned long attrs)
- {
-@@ -67,12 +98,9 @@ void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 	void *ret;
- 	unsigned int i, err = 0;
- 	struct page *page, *end;
+-	if (cookie->type == IOMMU_DMA_MSI_COOKIE) {
+-		cookie->msi_iova += size;
+-		return cookie->msi_iova - size;
+-	}
 -
--#ifdef CONFIG_MMU
- 	phys_addr_t pa;
- 	struct vm_struct *area;
- 	unsigned long va;
--#endif
- 
- 	if (in_interrupt())
- 		BUG();
-@@ -89,26 +117,8 @@ void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 	 * we need to ensure that there are no cachelines in use,
- 	 * or worse dirty in this area.
- 	 */
--	flush_dcache_range(virt_to_phys((void *)vaddr),
--					virt_to_phys((void *)vaddr) + size);
--
--#ifndef CONFIG_MMU
--	ret = (void *)vaddr;
--	/*
--	 * Here's the magic!  Note if the uncached shadow is not implemented,
--	 * it's up to the calling code to also test that condition and make
--	 * other arranegments, such as manually flushing the cache and so on.
--	 */
--# ifdef CONFIG_XILINX_UNCACHED_SHADOW
--	ret = (void *)((unsigned) ret | UNCACHED_SHADOW_MASK);
--# endif
--	if ((unsigned int)ret > cpuinfo.dcache_base &&
--				(unsigned int)ret < cpuinfo.dcache_high)
--		pr_warn("ERROR: Your cache coherent area is CACHED!!!\n");
-+	arch_dma_prep_coherent(virt_to_page((unsigned long)vaddr), size);
- 
--	/* dma_handle is same as physical (shadowed) address */
--	*dma_handle = (dma_addr_t)ret;
--#else
- 	/* Allocate some common virtual space to map the new pages. */
- 	area = get_vm_area(size, VM_ALLOC);
- 	if (!area) {
-@@ -120,7 +130,6 @@ void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 
- 	/* This gives us the real physical address of the first page. */
- 	*dma_handle = pa = __virt_to_phys(vaddr);
--#endif
- 
+ 	shift = iova_shift(iovad);
+ 	iova_len = size >> shift;
  	/*
- 	 * free wasted pages.  We skip the first page since we know
-@@ -134,10 +143,8 @@ void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 	split_page(page, order);
- 
- 	for (i = 0; i < size && err == 0; i += PAGE_SIZE) {
--#ifdef CONFIG_MMU
- 		/* MS: This is the whole magic - use cache inhibit pages */
- 		err = map_page(va + i, pa + i, _PAGE_KERNEL | _PAGE_NO_CACHE);
--#endif
- 
- 		SetPageReserved(page);
- 		page++;
-@@ -157,7 +164,6 @@ void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 	return ret;
- }
- 
--#ifdef CONFIG_MMU
- static pte_t *consistent_virt_to_pte(void *vaddr)
+@@ -397,10 +392,7 @@ static void iommu_dma_free_iova(struct iommu_dma_cookie *cookie,
  {
- 	unsigned long addr = (unsigned long)vaddr;
-@@ -175,7 +181,6 @@ long arch_dma_coherent_to_pfn(struct device *dev, void *vaddr,
+ 	struct iova_domain *iovad = &cookie->iovad;
  
- 	return pte_pfn(*ptep);
- }
--#endif
+-	/* The MSI case is only ever cleaning up its most recent allocation */
+-	if (cookie->type == IOMMU_DMA_MSI_COOKIE)
+-		cookie->msi_iova -= size;
+-	else if (cookie->fq_domain)	/* non-strict mode */
++	if (cookie->fq_domain)	/* non-strict mode */
+ 		queue_iova(iovad, iova_pfn(iovad, iova),
+ 				size >> iova_shift(iovad), 0);
+ 	else
+@@ -430,14 +422,10 @@ static dma_addr_t __iommu_dma_map(struct device *dev, phys_addr_t phys,
+ {
+ 	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+ 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+-	size_t iova_off = 0;
++	size_t iova_off = iova_offset(&cookie->iovad, phys);
+ 	dma_addr_t iova;
  
- /*
-  * free page(s) as defined by the above mapping.
-@@ -190,18 +195,6 @@ void arch_dma_free(struct device *dev, size_t size, void *vaddr,
- 
- 	size = PAGE_ALIGN(size);
- 
--#ifndef CONFIG_MMU
--	/* Clear SHADOW_MASK bit in address, and free as per usual */
--# ifdef CONFIG_XILINX_UNCACHED_SHADOW
--	vaddr = (void *)((unsigned)vaddr & ~UNCACHED_SHADOW_MASK);
--# endif
--	page = virt_to_page(vaddr);
+-	if (cookie->type == IOMMU_DMA_IOVA_COOKIE) {
+-		iova_off = iova_offset(&cookie->iovad, phys);
+-		size = iova_align(&cookie->iovad, size + iova_off);
+-	}
 -
--	do {
--		__free_reserved_page(page);
--		page++;
--	} while (size -= PAGE_SIZE);
--#else
- 	do {
- 		pte_t *ptep = consistent_virt_to_pte(vaddr);
- 		unsigned long pfn;
-@@ -219,5 +212,5 @@ void arch_dma_free(struct device *dev, size_t size, void *vaddr,
++	size = iova_align(&cookie->iovad, size + iova_off);
+ 	iova = iommu_dma_alloc_iova(domain, size, dma_get_mask(dev), dev);
+ 	if (!iova)
+ 		return DMA_MAPPING_ERROR;
+@@ -1121,7 +1109,6 @@ static struct iommu_dma_msi_page *iommu_dma_get_msi_page(struct device *dev,
+ {
+ 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+ 	struct iommu_dma_msi_page *msi_page;
+-	dma_addr_t iova;
+ 	int prot = IOMMU_WRITE | IOMMU_NOEXEC | IOMMU_MMIO;
+ 	size_t size = cookie_msi_granule(cookie);
  
- 	/* flush tlb */
- 	flush_tlb_all();
--#endif
- }
-+#endif /* CONFIG_MMU */
+@@ -1134,16 +1121,16 @@ static struct iommu_dma_msi_page *iommu_dma_get_msi_page(struct device *dev,
+ 	if (!msi_page)
+ 		return NULL;
+ 
+-	iova = __iommu_dma_map(dev, msi_addr, size, prot);
+-	if (iova == DMA_MAPPING_ERROR)
++	if (iommu_map(domain, cookie->msi_iova, msi_addr, size, prot))
+ 		goto out_free_page;
+ 
+ 	INIT_LIST_HEAD(&msi_page->list);
+ 	msi_page->phys = msi_addr;
+-	msi_page->iova = iova;
++	msi_page->iova = cookie->msi_iova;
+ 	list_add(&msi_page->list, &cookie->msi_page_list);
+-	return msi_page;
+ 
++	cookie->msi_iova += size;
++	return msi_page;
+ out_free_page:
+ 	kfree(msi_page);
+ 	return NULL;
 -- 
 2.20.1
 
