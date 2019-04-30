@@ -2,73 +2,51 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF5DF5BB
-	for <lists.iommu@lfdr.de>; Tue, 30 Apr 2019 13:33:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40CBF5D5
+	for <lists.iommu@lfdr.de>; Tue, 30 Apr 2019 13:38:51 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 8E5971067;
-	Tue, 30 Apr 2019 11:33:30 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 66CA41086;
+	Tue, 30 Apr 2019 11:38:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id DCC4B1028
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 03830F39
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 30 Apr 2019 11:32:57 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 8D96787D
+	Tue, 30 Apr 2019 11:38:23 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.101.70])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id B0E9E876
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 30 Apr 2019 11:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20170209;
-	h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=bTJakeGtXfCFO8teZRiPCc85hwY+hi5jOYp83RF2vK8=;
-	b=dDD5+vZ4p7vFzthS3GF6A0TlP
-	ou3DVrSmopmodYFGsBbdcncayzVXwQG3COqT57jRiBZUGiydOiTieZk5+UCHSbNOGdwMhA3TK3I5f
-	tZ3149OtnCiWjvgs+yLvDEwj3ntD3Kf0bfxa/+FEReeeRVjYs5JGFmBcNOf9H1ulIRxXk5aILadkd
-	8td8Z7QYGelf3PNUPabK7mtdtZ/YBJie8Lr7Jfb3avfZnu6GGONkihvjPeK56qnyAEgV4CSxuMSKS
-	5VCu/Q1DOFX/FBg7oC5ZE6sEaKbjonvJSX/oXJGOGcS4KM4fNZ2FfQzjL/fS2ZaHkhjEDrsU5wjOp
-	SkVGgORmA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red
-	Hat Linux)) id 1hLR0H-00069j-G0; Tue, 30 Apr 2019 11:32:53 +0000
-Date: Tue, 30 Apr 2019 04:32:53 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v2 3/4] iommu/dma-iommu: Use the dev->coherent_dma_mask
-Message-ID: <20190430113253.GA23210@infradead.org>
-References: <20190430002952.18909-1-tmurphy@arista.com>
-	<20190430002952.18909-4-tmurphy@arista.com>
-	<20190430111222.GA3191@infradead.org>
-	<da835ce2-f73e-3035-e1d7-d3028cc1a838@arm.com>
+	Tue, 30 Apr 2019 11:38:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C47080D;
+	Tue, 30 Apr 2019 04:38:22 -0700 (PDT)
+Received: from [10.1.196.75] (e110467-lin.cambridge.arm.com [10.1.196.75])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 164F23F5C1;
+	Tue, 30 Apr 2019 04:38:20 -0700 (PDT)
+Subject: Re: [PATCH 02/26] arm64/iommu: improve mmap bounds checking
+To: Christoph Hellwig <hch@lst.de>
+References: <20190422175942.18788-1-hch@lst.de>
+	<20190422175942.18788-3-hch@lst.de>
+	<306b7a19-4eb5-d1d8-5250-40f3ba9bca16@arm.com>
+	<20190429190120.GA5637@lst.de>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <a96caa67-ac59-9ce8-aabc-2601c9a10203@arm.com>
+Date: Tue, 30 Apr 2019 12:38:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <da835ce2-f73e-3035-e1d7-d3028cc1a838@arm.com>
-User-Agent: Mutt/1.9.2 (2017-12-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
+In-Reply-To: <20190429190120.GA5637@lst.de>
+Content-Language: en-GB
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Heiko Stuebner <heiko@sntech.de>, Will Deacon <will.deacon@arm.com>,
-	David Brown <david.brown@linaro.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org,
-	Kukjin Kim <kgene@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-	Andy Gross <andy.gross@linaro.org>, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Tom Murphy <tmurphy@arista.com>, linux-kernel@vger.kernel.org,
-	murphyt7@tcd.ie, iommu@lists.linux-foundation.org,
-	David Woodhouse <dwmw2@infradead.org>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
+	iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -81,23 +59,26 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, Apr 30, 2019 at 12:27:02PM +0100, Robin Murphy wrote:
-> > Hmm, I don't think we need the DMA mask for the MSI mapping, this
-> > should probably always use a 64-bit mask.
-> 
-> If that were true then we wouldn't need DMA masks for regular mappings
-> either. If we have to map the MSI doorbell at all, then we certainly have to
-> place it at an IOVA that the relevant device is actually capable of
-> addressing.
-
-Well, as shown by the patch below we don't even look at the DMA mask
-for the MSI page - we just allocate from bottom to top.
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gMjkvMDQvMjAxOSAyMDowMSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gT24gTW9uLCBB
+cHIgMjksIDIwMTkgYXQgMDE6MzU6NDZQTSArMDEwMCwgUm9iaW4gTXVycGh5IHdyb3RlOgo+PiBP
+biAyMi8wNC8yMDE5IDE4OjU5LCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPj4+IFRoZSBucl9w
+YWdlcyBjaGVja3Mgc2hvdWxkIGJlIGRvbmUgZm9yIGFsbCBtbWFwIHJlcXVlc3RzLCBub3QganVz
+dCB0aG9zZQo+Pj4gdXNpbmcgcmVtYXBfcGZuX3JhbmdlLgo+Pgo+PiBJIHRoaW5rIGl0IHByb2Jh
+Ymx5IG1ha2VzIHNlbnNlIG5vdyB0byBqdXN0IHNxdWFzaCB0aGlzIHdpdGggIzIyIG9uZSB3YXkg
+b3IKPj4gdGhlIG90aGVyLCBidXQgaWYgeW91IHJlYWxseSByZWFsbHkgc3RpbGwgd2FudCB0byBr
+ZWVwIGl0IGFzIGEgc2VwYXJhdGUKPj4gcGF0Y2ggd2l0aCBhIG1pc2xlYWRpbmcgY29tbWl0IG1l
+c3NhZ2UgdGhlbiBJJ20gd2lsbGluZyB0byBrZWVwIG15Cj4+IGNvbXBsYWludHMgdG8gbXlzZWxm
+IDopCj4gCj4gV2VsbCwgSSBzcGxpdCB0aGlzIG91dCBpbiByZXNwb25zZSB0byB5b3VyIGVhcmxp
+ZXIgY29tbWVudHMsIHNvIGlmIHlvdQo+IHByZWZlciBpdCBzcXVhc2hl0ZUgYmFjayBpbiBJIGNh
+biBkbyB0aGF0Li4KCkFGQUlDUyBJIG9ubHkgZXZlciBzdWdnZXN0ZWQgc3BsaXR0aW5nIHRoZSBv
+cmlnaW5hbCAiZml4IGFuZCByZWZhY3RvciIgCmNvbW1pdCBpbnRvIHRoZSBmaXggKHBhdGNoICMx
+KSBhbmQgdGhlIHJlZmFjdG9yIC0gSSB0aGluayB3ZSd2ZSBqdXN0IAplbmRlZCB1cCBhZGRpbmcg
+bW9yZSAicmVmYWN0b3IiIG9uIHRvcCBpbiB0aGUgZXZvbHV0aW9uIG9mIHRoZSBzZXJpZXMgOikK
+ClJvYmluLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpp
+b21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6
+Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
