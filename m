@@ -2,94 +2,42 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704171019F
-	for <lists.iommu@lfdr.de>; Tue, 30 Apr 2019 23:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A57101AA
+	for <lists.iommu@lfdr.de>; Tue, 30 Apr 2019 23:16:46 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 480051E10;
-	Tue, 30 Apr 2019 21:11:46 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 4BB0D1DE7;
+	Tue, 30 Apr 2019 21:16:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 71DF31DC8
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 239D01D24
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 30 Apr 2019 21:11:10 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from NAM01-BY2-obe.outbound.protection.outlook.com
-	(mail-eopbgr810093.outbound.protection.outlook.com [40.107.81.93])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E52D65F4
+	Tue, 30 Apr 2019 21:16:12 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from newverein.lst.de (verein.lst.de [213.95.11.211])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id BEA1F5F4
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 30 Apr 2019 21:11:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=wavesemi.onmicrosoft.com; s=selector1-wavecomp-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=Z5fuRto6oEUcT+2UnhpiHB/MeHMXoTp2Vo1GAYaMOJA=;
-	b=ihDo8jQ8VenrmLIPMtw+x6xzB7BIHZCNUIaZ5KnA3xxIMvSkTy7sVA+hjPbsoM4QcdHhodczxAjHvjKuD/nlATqQG/HKQPcTDEzohfLH8VsuS2XkUXzaUFEM3AKRMQYhZw1ts9L3Tc0y55JoFpu1YO/8/XA5Tx1/o35xn6onLPc=
-Received: from MWHPR2201MB1277.namprd22.prod.outlook.com (10.174.162.17) by
-	MWHPR2201MB1342.namprd22.prod.outlook.com (10.174.162.145) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1835.13; Tue, 30 Apr 2019 21:11:07 +0000
-Received: from MWHPR2201MB1277.namprd22.prod.outlook.com
-	([fe80::b9d6:bf19:ec58:2765]) by
-	MWHPR2201MB1277.namprd22.prod.outlook.com
-	([fe80::b9d6:bf19:ec58:2765%7]) with mapi id 15.20.1835.018;
-	Tue, 30 Apr 2019 21:11:07 +0000
-From: Paul Burton <paul.burton@mips.com>
-To: Christoph Hellwig <hch@lst.de>
+	Tue, 30 Apr 2019 21:16:11 +0000 (UTC)
+Received: by newverein.lst.de (Postfix, from userid 2407)
+	id 2CE8867358; Tue, 30 Apr 2019 23:15:54 +0200 (CEST)
+Date: Tue, 30 Apr 2019 23:15:54 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Paul Burton <paul.burton@mips.com>
 Subject: Re: [PATCH 5/7] MIPS: use the generic uncached segment support in
 	dma-direct
-Thread-Topic: [PATCH 5/7] MIPS: use the generic uncached segment support in
-	dma-direct
-Thread-Index: AQHU/0QLF7/q9Iq7YkyidXRkO+31J6ZVIwmAgAAFVoCAAAuKgA==
-Date: Tue, 30 Apr 2019 21:11:07 +0000
-Message-ID: <20190430211105.ielntedm46uqamca@pburton-laptop>
+Message-ID: <20190430211553.GA31109@lst.de>
 References: <20190430110032.25301-1-hch@lst.de>
 	<20190430110032.25301-6-hch@lst.de>
 	<20190430201041.536amvinrcvd2wua@pburton-laptop>
 	<20190430202947.GA30262@lst.de>
-In-Reply-To: <20190430202947.GA30262@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BYAPR02CA0030.namprd02.prod.outlook.com
-	(2603:10b6:a02:ee::43) To MWHPR2201MB1277.namprd22.prod.outlook.com
-	(2603:10b6:301:24::17)
-user-agent: NeoMutt/20180716
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=pburton@wavecomp.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [12.94.197.246]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7be7f2c6-05cb-43f5-3353-08d6cdb05c65
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);
-	SRVR:MWHPR2201MB1342; 
-x-ms-traffictypediagnostic: MWHPR2201MB1342:
-x-microsoft-antispam-prvs: <MWHPR2201MB1342B87D3043A05F1CB25697C13A0@MWHPR2201MB1342.namprd22.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 00235A1EEF
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(7916004)(346002)(376002)(136003)(396003)(39850400004)(366004)(189003)(199004)(256004)(33716001)(476003)(446003)(3846002)(53936002)(9686003)(2906002)(11346002)(6246003)(7416002)(44832011)(486006)(66446008)(58126008)(52116002)(54906003)(6512007)(76176011)(66946007)(305945005)(66556008)(73956011)(6116002)(64756008)(7736002)(42882007)(1076003)(66066001)(66476007)(229853002)(4744005)(102836004)(316002)(6506007)(26005)(81156014)(386003)(8676002)(25786009)(99286004)(14454004)(71200400001)(71190400001)(478600001)(4326008)(186003)(5660300002)(6436002)(81166006)(6486002)(8936002)(68736007)(6916009)(41533002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR2201MB1342;
-	H:MWHPR2201MB1277.namprd22.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: wavecomp.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Oou6dGQ05SuIRbNW26WOJfH4h74lpio/jhOb/CK071+gqjuVxIehKEZ3Lxbq+Ue3vpSp9pFj6lFK0kgMfzhca4G/07YiEk93sZsumWNJwknfKaNSSSd0oVuFtZSdTVl8T2KohoddnbReaWJhJadHjNWl05hWdj+USnwQG/zDNnwHlGq98U7Z3io8jQMM0mDCwDxrpYtafiQGoI9XF7vICxjo/8SPpzQ/YP2Fiq0b4PnCESXhBjfcOlX1cOGhQGfHyeUOsjkKT0yhDCRI8op6sBZpSQhHoeRICIH5q7mDq9J8wgolElH6sIP//86zQIQgssZSxhsyfk3vgY38V97eVMfrq9mjUwrE6pJBNfTIuJzjRcmIJNIL19ciagR/zKom+2bpWLHHVq6vh+UVqvw/li6I45M5S+qpVLcrkw0z/so=
-Content-ID: <BE61B5D62A760A468D987D7B2CA91D7A@namprd22.prod.outlook.com>
+	<20190430211105.ielntedm46uqamca@pburton-laptop>
 MIME-Version: 1.0
-X-OriginatorOrg: mips.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7be7f2c6-05cb-43f5-3353-08d6cdb05c65
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2019 21:11:07.3022 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR2201MB1342
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <20190430211105.ielntedm46uqamca@pburton-laptop>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 Cc: Michal Simek <monstr@monstr.eu>,
@@ -100,7 +48,7 @@ Cc: Michal Simek <monstr@monstr.eu>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
 	"linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-	Ley Foon Tan <lftan@altera.com>
+	Ley Foon Tan <lftan@altera.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -118,27 +66,14 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Christoph,
+On Tue, Apr 30, 2019 at 09:11:07PM +0000, Paul Burton wrote:
+> Right but dma_direct_alloc_pages() already checks for the PageHighMem
+> case & returns before ever calling arch_dma_prep_coherent(), no?
 
-On Tue, Apr 30, 2019 at 10:29:47PM +0200, Christoph Hellwig wrote:
-> On Tue, Apr 30, 2019 at 08:10:43PM +0000, Paul Burton wrote:
-> > This series looks like a nice cleanup to me - the one thing that puzzles
-> > me is the !PageHighMem check above.
-> > 
-> > As far as I can see arch_dma_prep_coherent() should never be called with
-> > a highmem page, so would it make more sense to either drop this check or
-> > perhaps wrap it in a WARN_ON()?
-> 
-> dma_alloc_from_contigous can return highmem pages depending on where
-> the CMA area is located.  But given that these pages don't have a
-> direct kernel mapping we also shouldn't have to flush the caches
-> for them.
-
-Right but dma_direct_alloc_pages() already checks for the PageHighMem
-case & returns before ever calling arch_dma_prep_coherent(), no?
-
-Thanks,
-    Paul
+True.  And of course it can't be remapped into the uncached segment
+anyway.  So yes, we should drop it.  Eventually I want to add generic
+support for DMA_ATTR_NO_KERNEL_MAPPING, but that'll involved auditing
+all instances anyway.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
