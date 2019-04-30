@@ -2,45 +2,46 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830D2F4A8
-	for <lists.iommu@lfdr.de>; Tue, 30 Apr 2019 12:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE48F4AA
+	for <lists.iommu@lfdr.de>; Tue, 30 Apr 2019 12:54:18 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 068C9F7F;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id A98EDF98;
 	Tue, 30 Apr 2019 10:53:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id AAB9DF09
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 05721F09
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 30 Apr 2019 10:53:06 +0000 (UTC)
+	Tue, 30 Apr 2019 10:53:08 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4A820711
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 804145F4
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 30 Apr 2019 10:53:06 +0000 (UTC)
+	Tue, 30 Apr 2019 10:53:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
 	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=XitrVaRiJi30rZFNtgDd0cKu1pTDVrydXeW0TkMYMow=;
-	b=RPxDxpCX2jETeVM10t1unLBGFF
-	hJrJp/zLU41Pe/Fepn631ebXIDnIAYJiFUmvCcf6CAx2XLryWCpJRBR59G45Ca293/Up9H24OXU00
-	WUZ3G3KBw7nX6VV97uVa+V3M3bwNmOoXqqRSCflTfrkw167HK5CCVhHJsilLNVww6Tt+mhyJARbGv
-	uVJW1OMIP53KGolPjMOacrzmeYW5gfAR4fYI+trE90gruOjdTqVfmcEqpWa/Z4xd+PGxowJzQm+hH
-	4IlpMTtndpWZgY7h7sjnCqQ7lIpIg2UEBpHzPH4w8KwygqRO/M2K/CgX0irKIRmd0d/c7933lI05z
-	V1tLdLyg==;
+	bh=dRefhlmdB3xHOEwa+/schBZaEIS+W43Wc1tjBG2YUDE=;
+	b=ajCeCS3rMNfthh+uW3F7DfeoJl
+	LqOqk63VlKrrfmnKOP0y6cul3AQ58FNZ0ziL0E3GX7PnqCx1VGYeCbKMtTT57MwOiq7rCAs+3zY8G
+	+gFv/hPRFp9/vfE8zLHGQ8gGag+bu8rjYkOKJBa4yG1X6DfRdNZdF7siczAxJMHJZ1PFNSI8ctz4U
+	Y1gi+a6ihbg//Fe4ZOvxkwMo85tazqki0cWaAzvdKmMY/JYH1qDoLsk4ozyS6k1xaV8MykMz92Rkw
+	X0mzJLb11zWlOU647CtjnYNVYZe0mWjnfwghvTk+8W1j1pk9hYwNEPVF7gzMSQuioG6ulpl2HUjzP
+	8zoFLAGw==;
 Received: from adsl-173-228-226-134.prtc.net ([173.228.226.134] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-	id 1hLQNi-0007aw-La; Tue, 30 Apr 2019 10:53:02 +0000
+	id 1hLQNk-0007eJ-2b; Tue, 30 Apr 2019 10:53:04 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 07/25] iommu/dma: Move __iommu_dma_map
-Date: Tue, 30 Apr 2019 06:51:56 -0400
-Message-Id: <20190430105214.24628-8-hch@lst.de>
+Subject: [PATCH 08/25] iommu/dma: Move domain lookup into __iommu_dma_{map,
+	unmap}
+Date: Tue, 30 Apr 2019 06:51:57 -0400
+Message-Id: <20190430105214.24628-9-hch@lst.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190430105214.24628-1-hch@lst.de>
 References: <20190430105214.24628-1-hch@lst.de>
@@ -72,79 +73,130 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Moving this function up to its unmap counterpart helps to keep related
-code together for the following changes.
+From: Robin Murphy <robin.murphy@arm.com>
 
+Most of the callers don't care, and the couple that do already have the
+domain to hand for other reasons are in slow paths where the (trivial)
+overhead of a repeated lookup will be utterly immaterial.
+
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+[hch: dropped the hunk touching iommu_dma_get_msi_page to avoid a
+ conflict with another series]
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/iommu/dma-iommu.c | 46 +++++++++++++++++++--------------------
- 1 file changed, 23 insertions(+), 23 deletions(-)
+ drivers/iommu/dma-iommu.c | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 089a13db919c..930398d3351a 100644
+index 930398d3351a..eafc11daa868 100644
 --- a/drivers/iommu/dma-iommu.c
 +++ b/drivers/iommu/dma-iommu.c
-@@ -435,6 +435,29 @@ static void __iommu_dma_unmap(struct iommu_domain *domain, dma_addr_t dma_addr,
- 	iommu_dma_free_iova(cookie, dma_addr, size);
+@@ -419,9 +419,10 @@ static void iommu_dma_free_iova(struct iommu_dma_cookie *cookie,
+ 				size >> iova_shift(iovad));
  }
  
-+static dma_addr_t __iommu_dma_map(struct device *dev, phys_addr_t phys,
-+		size_t size, int prot, struct iommu_domain *domain)
-+{
-+	struct iommu_dma_cookie *cookie = domain->iova_cookie;
-+	size_t iova_off = 0;
-+	dma_addr_t iova;
-+
-+	if (cookie->type == IOMMU_DMA_IOVA_COOKIE) {
-+		iova_off = iova_offset(&cookie->iovad, phys);
-+		size = iova_align(&cookie->iovad, size + iova_off);
-+	}
-+
-+	iova = iommu_dma_alloc_iova(domain, size, dma_get_mask(dev), dev);
-+	if (!iova)
-+		return DMA_MAPPING_ERROR;
-+
-+	if (iommu_map(domain, iova, phys - iova_off, size, prot)) {
-+		iommu_dma_free_iova(cookie, iova, size);
-+		return DMA_MAPPING_ERROR;
-+	}
-+	return iova + iova_off;
-+}
-+
- static void __iommu_dma_free_pages(struct page **pages, int count)
+-static void __iommu_dma_unmap(struct iommu_domain *domain, dma_addr_t dma_addr,
++static void __iommu_dma_unmap(struct device *dev, dma_addr_t dma_addr,
+ 		size_t size)
  {
- 	while (count--)
-@@ -673,29 +696,6 @@ static void iommu_dma_sync_sg_for_device(struct device *dev,
- 		arch_sync_dma_for_device(dev, sg_phys(sg), sg->length, dir);
++	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+ 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+ 	struct iova_domain *iovad = &cookie->iovad;
+ 	size_t iova_off = iova_offset(iovad, dma_addr);
+@@ -436,8 +437,9 @@ static void __iommu_dma_unmap(struct iommu_domain *domain, dma_addr_t dma_addr,
  }
  
--static dma_addr_t __iommu_dma_map(struct device *dev, phys_addr_t phys,
+ static dma_addr_t __iommu_dma_map(struct device *dev, phys_addr_t phys,
 -		size_t size, int prot, struct iommu_domain *domain)
--{
--	struct iommu_dma_cookie *cookie = domain->iova_cookie;
--	size_t iova_off = 0;
--	dma_addr_t iova;
--
--	if (cookie->type == IOMMU_DMA_IOVA_COOKIE) {
--		iova_off = iova_offset(&cookie->iovad, phys);
--		size = iova_align(&cookie->iovad, size + iova_off);
--	}
--
--	iova = iommu_dma_alloc_iova(domain, size, dma_get_mask(dev), dev);
--	if (!iova)
--		return DMA_MAPPING_ERROR;
--
--	if (iommu_map(domain, iova, phys - iova_off, size, prot)) {
--		iommu_dma_free_iova(cookie, iova, size);
--		return DMA_MAPPING_ERROR;
--	}
--	return iova + iova_off;
--}
--
++		size_t size, int prot)
+ {
++	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+ 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+ 	size_t iova_off = 0;
+ 	dma_addr_t iova;
+@@ -536,7 +538,7 @@ static struct page **__iommu_dma_alloc_pages(struct device *dev,
+ static void __iommu_dma_free(struct device *dev, struct page **pages,
+ 		size_t size, dma_addr_t *handle)
+ {
+-	__iommu_dma_unmap(iommu_get_dma_domain(dev), *handle, size);
++	__iommu_dma_unmap(dev, *handle, size);
+ 	__iommu_dma_free_pages(pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
+ 	*handle = DMA_MAPPING_ERROR;
+ }
+@@ -699,14 +701,13 @@ static void iommu_dma_sync_sg_for_device(struct device *dev,
  static dma_addr_t __iommu_dma_map_page(struct device *dev, struct page *page,
  		unsigned long offset, size_t size, int prot)
  {
+-	return __iommu_dma_map(dev, page_to_phys(page) + offset, size, prot,
+-			iommu_get_dma_domain(dev));
++	return __iommu_dma_map(dev, page_to_phys(page) + offset, size, prot);
+ }
+ 
+ static void __iommu_dma_unmap_page(struct device *dev, dma_addr_t handle,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
+ {
+-	__iommu_dma_unmap(iommu_get_dma_domain(dev), handle, size);
++	__iommu_dma_unmap(dev, handle, size);
+ }
+ 
+ static dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
+@@ -715,11 +716,10 @@ static dma_addr_t iommu_dma_map_page(struct device *dev, struct page *page,
+ {
+ 	phys_addr_t phys = page_to_phys(page) + offset;
+ 	bool coherent = dev_is_dma_coherent(dev);
++	int prot = dma_info_to_prot(dir, coherent, attrs);
+ 	dma_addr_t dma_handle;
+ 
+-	dma_handle =__iommu_dma_map(dev, phys, size,
+-			dma_info_to_prot(dir, coherent, attrs),
+-			iommu_get_dma_domain(dev));
++	dma_handle =__iommu_dma_map(dev, phys, size, prot);
+ 	if (!coherent && !(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
+ 	    dma_handle != DMA_MAPPING_ERROR)
+ 		arch_sync_dma_for_device(dev, phys, size, dir);
+@@ -731,7 +731,7 @@ static void iommu_dma_unmap_page(struct device *dev, dma_addr_t dma_handle,
+ {
+ 	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+ 		iommu_dma_sync_single_for_cpu(dev, dma_handle, size, dir);
+-	__iommu_dma_unmap(iommu_get_dma_domain(dev), dma_handle, size);
++	__iommu_dma_unmap(dev, dma_handle, size);
+ }
+ 
+ /*
+@@ -912,21 +912,20 @@ static void iommu_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
+ 		sg = tmp;
+ 	}
+ 	end = sg_dma_address(sg) + sg_dma_len(sg);
+-	__iommu_dma_unmap(iommu_get_dma_domain(dev), start, end - start);
++	__iommu_dma_unmap(dev, start, end - start);
+ }
+ 
+ static dma_addr_t iommu_dma_map_resource(struct device *dev, phys_addr_t phys,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
+ {
+ 	return __iommu_dma_map(dev, phys, size,
+-			dma_info_to_prot(dir, false, attrs) | IOMMU_MMIO,
+-			iommu_get_dma_domain(dev));
++			dma_info_to_prot(dir, false, attrs) | IOMMU_MMIO);
+ }
+ 
+ static void iommu_dma_unmap_resource(struct device *dev, dma_addr_t handle,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
+ {
+-	__iommu_dma_unmap(iommu_get_dma_domain(dev), handle, size);
++	__iommu_dma_unmap(dev, handle, size);
+ }
+ 
+ static void *iommu_dma_alloc(struct device *dev, size_t size,
+@@ -1203,7 +1202,7 @@ static struct iommu_dma_msi_page *iommu_dma_get_msi_page(struct device *dev,
+ 	if (!msi_page)
+ 		return NULL;
+ 
+-	iova = __iommu_dma_map(dev, msi_addr, size, prot, domain);
++	iova = __iommu_dma_map(dev, msi_addr, size, prot);
+ 	if (iova == DMA_MAPPING_ERROR)
+ 		goto out_free_page;
+ 
 -- 
 2.20.1
 
