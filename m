@@ -2,71 +2,51 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FCFC16202
-	for <lists.iommu@lfdr.de>; Tue,  7 May 2019 12:33:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE1716201
+	for <lists.iommu@lfdr.de>; Tue,  7 May 2019 12:33:50 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 2525319A6;
-	Tue,  7 May 2019 10:33:37 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id ACF7D315E;
+	Tue,  7 May 2019 10:33:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 42748316D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 239003123
 	for <iommu@lists.linux-foundation.org>;
 	Tue,  7 May 2019 10:33:31 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 7F6068DE
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.101.70])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 4AEBA8F5
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  7 May 2019 09:56:08 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id e11so8357401wrs.0
-	for <iommu@lists.linux-foundation.org>;
-	Tue, 07 May 2019 02:56:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=IHeTau53rhyWfO0CEZaf8TCogPgsV/f85c5XRY2FpLM=;
-	b=I06S5IOarXEB/Rf8KhJ8SfEAoJrkDpxZTo6cDWUP6nlceF4XGWjqb6oVabXf17/jUj
-	LwuNPrwM+Whj3lIPAaHPJ3jeSY+nd7ayIM0Jii1WlRfCzjzPzgnqnLvMVdCiDu28lUcR
-	1tEx7wuMaIeQEHTxZmxuTBi7ssyBnNcxWS1lc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=IHeTau53rhyWfO0CEZaf8TCogPgsV/f85c5XRY2FpLM=;
-	b=h9hXo3K1Qx+JRbmrCLPdQr5UORbI9hKfPRUl+RgkBSUEo7aH6T5oUbJOTJx5Zrw+jS
-	obgUsRpbp//6rlFbONoeFlvz4SgRw4jC8eN1VRsWDyhqjodBQxb78uOOKh+H6f3k5TDZ
-	AvbRmXDssQdEsUO/m7geAqBJG8OYxoVQiGR2NQuHMxQEeGGy96v3Bag3nvPv3oYE+pqU
-	GUeV+3Q5777HZFaukAK4CgcJ0r6NtYX5XdvipQ6w8rhzvcp7LM9N9Kd7Hh86eu3TjgRk
-	UJbDhkAVIwfRZ6IjKtDXRCTVCDOXscQtVNU9rUPS0MSZtQVtUlEJ7Rvpiwb/TBkOCNQB
-	DNvw==
-X-Gm-Message-State: APjAAAXiFq9QXNlOgslOMorj9iu4X+G+zvhcBlarr/3TQ9yNr4Y2+tSt
-	J+zspRAAieQyTWfMaUOStUzSwtq4vPru5u9ZMv2k9Q==
-X-Google-Smtp-Source: APXvYqwpyZql/DVaMZQlJQ4tp1wmaegr8/4zAmfIGvL/FFytGrVm3guHpUfKnCBrOcV6rhqM2oVmzL4885QLHRebxks=
-X-Received: by 2002:adf:fcc8:: with SMTP id f8mr21425833wrs.250.1557222966866; 
-	Tue, 07 May 2019 02:56:06 -0700 (PDT)
+	Tue,  7 May 2019 10:28:28 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D8428374;
+	Tue,  7 May 2019 03:28:27 -0700 (PDT)
+Received: from [10.1.196.75] (e110467-lin.cambridge.arm.com [10.1.196.75])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5B4703F5AF;
+	Tue,  7 May 2019 03:28:26 -0700 (PDT)
+Subject: Re: [PATCH v3 1/8] iommu: Add ops entry for supported default domain
+	type
+To: Tom Murphy <tmurphy@arista.com>, Lu Baolu <baolu.lu@linux.intel.com>
+References: <20190429020925.18136-1-baolu.lu@linux.intel.com>
+	<20190429020925.18136-2-baolu.lu@linux.intel.com>
+	<CAPL0++4Q7p7gWRUF5vG5sazLNCmSR--Px-=OEtj6vm_gEpB_ng@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <bba1f327-21b7-ed3c-8fd4-217ad97a6a7c@arm.com>
+Date: Tue, 7 May 2019 11:28:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <1556892334-16270-1-git-send-email-srinath.mannam@broadcom.com>
-	<1556892334-16270-4-git-send-email-srinath.mannam@broadcom.com>
-	<20190506211208.GA156478@google.com>
-	<20190507094102.GA10964@e121166-lin.cambridge.arm.com>
-In-Reply-To: <20190507094102.GA10964@e121166-lin.cambridge.arm.com>
-Date: Tue, 7 May 2019 15:25:55 +0530
-Message-ID: <CABe79T5d-H8XYmDz0463oqS6pF5X8=zi+1YSRLVASuGdjHZgXQ@mail.gmail.com>
-Subject: Re: [PATCH v6 3/3] PCI: iproc: Add sorted dma ranges resource entries
-	to host bridge
-To: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+In-Reply-To: <CAPL0++4Q7p7gWRUF5vG5sazLNCmSR--Px-=OEtj6vm_gEpB_ng@mail.gmail.com>
+Content-Language: en-GB
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: poza@codeaurora.org, Ray Jui <rjui@broadcom.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	iommu@lists.linux-foundation.org,
-	Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org,
-	BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
-	Robin Murphy <robin.murphy@arm.com>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Ashok Raj <ashok.raj@intel.com>,
+	Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org,
+	iommu@lists.linux-foundation.org, jacob.jun.pan@intel.com,
+	David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -79,93 +59,129 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Srinath Mannam via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Srinath Mannam <srinath.mannam@broadcom.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Bjorn,
+On 06/05/2019 16:32, Tom Murphy via iommu wrote:
+> The AMD driver already solves this problem and uses the generic
+> iommu_request_dm_for_dev function. It seems like both drivers have the
+> same problem and could use the same solution. Is there any reason we
+> can't have use the same solution for the intel and amd driver?
+> 
+> Could we just  copy the implementation of the AMD driver? It would be
+> nice to have the same behavior across both drivers especially as we
+> move to make both drivers use more generic code.
 
-Thank you.
+TBH I don't think the API really needs to be involved at all here. 
+Drivers can already not provide the requested default domain type if 
+they don't support it, so as long as the driver can ensure that the 
+device ends up with IOMMU or direct DMA ops as appropriate, I don't see 
+any great problem with drivers just returning a passthrough domain when 
+a DMA domain was requested, or vice versa (and logging a message that 
+the requested type was overridden). The only type that we really do have 
+to honour strictly is non-default (i.e. unmanaged) domains.
 
-Regards,
-Srinath.
+Robin.
 
-On Tue, May 7, 2019 at 3:11 PM Lorenzo Pieralisi
-<lorenzo.pieralisi@arm.com> wrote:
->
-> On Mon, May 06, 2019 at 04:12:08PM -0500, Bjorn Helgaas wrote:
-> > On Fri, May 03, 2019 at 07:35:34PM +0530, Srinath Mannam wrote:
-> > > The IPROC host controller allows only a subset of physical address space
-> > > as target of inbound PCI memory transactions addresses.
-> > >
-> > > PCIe devices memory transactions targeting memory regions that
-> > > are not allowed for inbound transactions in the host controller
-> > > are rejected by the host controller and cannot reach the upstream
-> > > buses.
-> > >
-> > > Firmware device tree description defines the DMA ranges that are
-> > > addressable by devices DMA transactions; parse the device tree
-> > > dma-ranges property and add its ranges to the PCI host bridge dma_ranges
-> > > list; the iova_reserve_pci_windows() call in the driver will reserve the
-> > > IOVA address ranges that are not addressable (ie memory holes in the
-> > > dma-ranges set) so that they are not allocated to PCI devices for DMA
-> > > transfers.
-> > >
-> > > All allowed address ranges are listed in dma-ranges DT parameter.
-> > >
-> > > Example:
-> > >
-> > > dma-ranges = < \
-> > >   0x43000000 0x00 0x80000000 0x00 0x80000000 0x00 0x80000000 \
-> > >   0x43000000 0x08 0x00000000 0x08 0x00000000 0x08 0x00000000 \
-> > >   0x43000000 0x80 0x00000000 0x80 0x00000000 0x40 0x00000000>
-> > >
-> > > In the above example of dma-ranges, memory address from
-> > >
-> > > 0x0 - 0x80000000,
-> > > 0x100000000 - 0x800000000,
-> > > 0x1000000000 - 0x8000000000 and
-> > > 0x10000000000 - 0xffffffffffffffff.
-> > >
-> > > are not allowed to be used as inbound addresses.
-> > >
-> > > Based-on-patch-by: Oza Pawandeep <oza.oza@broadcom.com>
-> > > Signed-off-by: Srinath Mannam <srinath.mannam@broadcom.com>
-> > > [lorenzo.pieralisi@arm.com: updated commit log]
-> > > Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> > > Reviewed-by: Oza Pawandeep <poza@codeaurora.org>
-> > > Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> > > ---
-> > >  drivers/pci/controller/pcie-iproc.c | 44 ++++++++++++++++++++++++++++++++++++-
-> > >  1 file changed, 43 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/pci/controller/pcie-iproc.c b/drivers/pci/controller/pcie-iproc.c
-> > > index c20fd6b..94ba5c0 100644
-> > > --- a/drivers/pci/controller/pcie-iproc.c
-> > > +++ b/drivers/pci/controller/pcie-iproc.c
-> > > @@ -1146,11 +1146,43 @@ static int iproc_pcie_setup_ib(struct iproc_pcie *pcie,
-> > >     return ret;
-> > >  }
-> > >
-> > > +static int
-> > > +iproc_pcie_add_dma_range(struct device *dev, struct list_head *resources,
-> > > +                    struct of_pci_range *range)
-> >
-> > Just FYI, I cherry-picked these commits from Lorenzo's branch to fix
-> > the formatting of this prototype to match the rest of the file, e.g.:
->
-> Thank you, I noticed too but I forgot to update it before merging
-> v6 from the list.
->
-> Thanks,
-> Lorenzo
->
-> > >  static int iproc_pcie_map_dma_ranges(struct iproc_pcie *pcie)
-> > > ...
-> > >  static int iproce_pcie_get_msi(struct iproc_pcie *pcie,
+> On Mon, Apr 29, 2019 at 3:16 AM Lu Baolu <baolu.lu@linux.intel.com> wrote:
+>>
+>> This adds an optional ops entry to query the default domain
+>> types supported by the iommu driver for  a specific device.
+>> This is necessary in cases where the iommu driver can only
+>> support a specific type of default domain for a device. In
+>> normal cases, this ops will return IOMMU_DOMAIN_ANY which
+>> indicates that the iommu driver supports both IOMMU_DOMAIN_DMA
+>> and IOMMU_DOMAIN_IDENTITY, hence the static default domain
+>> type will be used.
+>>
+>> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+>> ---
+>>   drivers/iommu/iommu.c | 13 ++++++++++---
+>>   include/linux/iommu.h | 11 +++++++++++
+>>   2 files changed, 21 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+>> index acd6830e6e9b..1ad9a1f2e078 100644
+>> --- a/drivers/iommu/iommu.c
+>> +++ b/drivers/iommu/iommu.c
+>> @@ -1097,15 +1097,22 @@ struct iommu_group *iommu_group_get_for_dev(struct device *dev)
+>>           * IOMMU driver.
+>>           */
+>>          if (!group->default_domain) {
+>> +               unsigned int domain_type = IOMMU_DOMAIN_ANY;
+>>                  struct iommu_domain *dom;
+>>
+>> -               dom = __iommu_domain_alloc(dev->bus, iommu_def_domain_type);
+>> -               if (!dom && iommu_def_domain_type != IOMMU_DOMAIN_DMA) {
+>> +               if (ops->def_domain_type)
+>> +                       domain_type = ops->def_domain_type(dev);
+>> +
+>> +               if (domain_type == IOMMU_DOMAIN_ANY)
+>> +                       domain_type = iommu_def_domain_type;
+>> +
+>> +               dom = __iommu_domain_alloc(dev->bus, domain_type);
+>> +               if (!dom && domain_type != IOMMU_DOMAIN_DMA) {
+>>                          dom = __iommu_domain_alloc(dev->bus, IOMMU_DOMAIN_DMA);
+>>                          if (dom) {
+>>                                  dev_warn(dev,
+>>                                           "failed to allocate default IOMMU domain of type %u; falling back to IOMMU_DOMAIN_DMA",
+>> -                                        iommu_def_domain_type);
+>> +                                        domain_type);
+>>                          }
+>>                  }
+>>
+>> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+>> index 8239ece9fdfc..ba9a5b996a63 100644
+>> --- a/include/linux/iommu.h
+>> +++ b/include/linux/iommu.h
+>> @@ -79,12 +79,16 @@ struct iommu_domain_geometry {
+>>    *     IOMMU_DOMAIN_DMA        - Internally used for DMA-API implementations.
+>>    *                               This flag allows IOMMU drivers to implement
+>>    *                               certain optimizations for these domains
+>> + *     IOMMU_DOMAIN_ANY        - All domain types defined here
+>>    */
+>>   #define IOMMU_DOMAIN_BLOCKED   (0U)
+>>   #define IOMMU_DOMAIN_IDENTITY  (__IOMMU_DOMAIN_PT)
+>>   #define IOMMU_DOMAIN_UNMANAGED (__IOMMU_DOMAIN_PAGING)
+>>   #define IOMMU_DOMAIN_DMA       (__IOMMU_DOMAIN_PAGING |        \
+>>                                   __IOMMU_DOMAIN_DMA_API)
+>> +#define IOMMU_DOMAIN_ANY       (IOMMU_DOMAIN_IDENTITY |        \
+>> +                                IOMMU_DOMAIN_UNMANAGED |       \
+>> +                                IOMMU_DOMAIN_DMA)
+>>
+>>   struct iommu_domain {
+>>          unsigned type;
+>> @@ -196,6 +200,11 @@ enum iommu_dev_features {
+>>    * @dev_feat_enabled: check enabled feature
+>>    * @aux_attach/detach_dev: aux-domain specific attach/detach entries.
+>>    * @aux_get_pasid: get the pasid given an aux-domain
+>> + * @def_domain_type: get per-device default domain type that the IOMMU
+>> + *             driver is able to support. Valid returns values:
+>> + *             - IOMMU_DOMAIN_DMA: only suports non-identity domain
+>> + *             - IOMMU_DOMAIN_IDENTITY: only supports identity domain
+>> + *             - IOMMU_DOMAIN_ANY: supports all
+>>    * @pgsize_bitmap: bitmap of all possible supported page sizes
+>>    */
+>>   struct iommu_ops {
+>> @@ -251,6 +260,8 @@ struct iommu_ops {
+>>          void (*aux_detach_dev)(struct iommu_domain *domain, struct device *dev);
+>>          int (*aux_get_pasid)(struct iommu_domain *domain, struct device *dev);
+>>
+>> +       int (*def_domain_type)(struct device *dev);
+>> +
+>>          unsigned long pgsize_bitmap;
+>>   };
+>>
+>> --
+>> 2.17.1
+>>
+> _______________________________________________
+> iommu mailing list
+> iommu@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
