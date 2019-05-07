@@ -2,81 +2,76 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD5215606
-	for <lists.iommu@lfdr.de>; Tue,  7 May 2019 00:35:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4995D162BA
+	for <lists.iommu@lfdr.de>; Tue,  7 May 2019 13:24:54 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 4DFF0528E;
-	Mon,  6 May 2019 22:35:19 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8C5DA130D;
+	Tue,  7 May 2019 11:24:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id CB248528E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 042031311
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  6 May 2019 22:35:17 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 757A8834
+	Tue,  7 May 2019 11:24:50 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A181E834
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  6 May 2019 22:35:17 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id y13so7503141pfm.11
-	for <iommu@lists.linux-foundation.org>;
-	Mon, 06 May 2019 15:35:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=vxeV9ft42Z9weuRQsncwqOnoZhf6GFp447KDcblUrfk=;
-	b=RAhDVIwCMHTCtsbl6YiM3wbt/Ww204Kft83qmMlh/oZk9oVNu59qGWNZ0UtZ4Z6xjI
-	Q5HZYvn49VUI6276rjq0/6vBnBUdCDmcNWylc0XNVdiESz96iOfliR9JnLtfwE0EB+Hi
-	SLGnP4s1MhZGHBPr6S/W6rD+APYuTpblhdS/80+S9+QJ7/A7nQ0UgE4itiNQk8P2aga8
-	/35qi+RzmiJyjAwz0HSF9I8iFsPq+Ba8+SLTzCMwwemheDGzlCKFaSj94Ew7qFDw7m41
-	bmOSw/5frMORTko6m7KwCjdyi3jm+rqPWpZ34IEjX8AGApo/Igp34KxZM1FN1NzgMVxA
-	EnaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=vxeV9ft42Z9weuRQsncwqOnoZhf6GFp447KDcblUrfk=;
-	b=tfq8Cbq5yglA1Imm6Xz/m7v08YjgB8voZLoEabq7RzbUiuoDBznCp+lHj9zu7poIcp
-	i8qcOqwmp23e2gaYZG70DRz9DzsXua4FHh2UDbO/XXpwQJQbdamEWYN0nP6yobL8itgS
-	OIFWwAy31zMYl6/NCmvaYbxbNHWSUQ/HNLmRtJFI/SYS0x6690g7pnQXCfxR782kweUc
-	lIQO4QGIAJfFtsTxX/6ydLYvccbiH7uMT/UmNA9GOsdtWha+ZSg0Xtguow5gdF2M0/CH
-	QZqYuWkED1ZS1E0jLMz/i9tegfgda29X7f8XEbTss/JdTWU7N9MRbh32T6WKdsy47Kk0
-	VKKQ==
-X-Gm-Message-State: APjAAAW37AYB9o+TSCMdvUMZD+zZLrI7IzPPld/WiuT5a6Hoe9sfAJ/e
-	gaSEaJHlxPtkxwzGKB1lry4=
-X-Google-Smtp-Source: APXvYqzYdAWKFIs+VsCPM+aRKfv4xdzOF68ZHdwgvThexqcw/HGkkiQVMrGZrh7oe8WQqm2t7rS0EA==
-X-Received: by 2002:a65:610a:: with SMTP id z10mr35758284pgu.54.1557182116975; 
-	Mon, 06 May 2019 15:35:16 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
-	[216.228.112.22]) by smtp.gmail.com with ESMTPSA id
-	c19sm14254976pgi.42.2019.05.06.15.35.15
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 May 2019 15:35:16 -0700 (PDT)
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: hch@lst.de,
-	robin.murphy@arm.com,
-	m.szyprowski@samsung.com
-Subject: [PATCH v2 2/2] dma-contiguous: Use fallback alloc_pages for single
-	pages
-Date: Mon,  6 May 2019 15:33:34 -0700
-Message-Id: <20190506223334.1834-3-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190506223334.1834-1-nicoleotsuka@gmail.com>
-References: <20190506223334.1834-1-nicoleotsuka@gmail.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+	Tue,  7 May 2019 06:35:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20170209;
+	h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=TvZeaeAy9vEIfKAGEKlI3TfoHOJ88dzRbyl1QHu6By8=;
+	b=HpsUMi8JcABK4F7j/9suEVKoC
+	YfA5GEgzPRqcD773WA24aESnahNs4znn6YYBLoU2Lz/vCywoOAJRvRLcYCj+DKvvKswYMc2wy9iue
+	2mkAbF4QIgapRI5B0taVSEsgIATttbKsqd0S4tonG9hYL2wHVQ4eHzU+siokbr6x9eZeNsZtzsPoj
+	gImA6EOSte1xBX5RH+xyv2ojahSuE479j8LisTBYabH12VVM+XJuK+g7AfyhGT9KvbUXRcb/x87Jf
+	6kthw/hML0UWcZs93wCHkduD10ly9LN2Ofrz/9RZ98MH3AyLeNL91EwGE0hZmj1ZO4c8lCU+rYiPi
+	rYry1GA8Q==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red
+	Hat Linux)) id 1hNth5-0001AM-FV; Tue, 07 May 2019 06:35:15 +0000
+Date: Mon, 6 May 2019 23:35:15 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Tom Murphy <tmurphy@arista.com>
+Subject: Re: [PATCH v2 3/4] iommu/dma-iommu: Use the dev->coherent_dma_mask
+Message-ID: <20190507063515.GA5173@infradead.org>
+References: <20190430002952.18909-1-tmurphy@arista.com>
+	<20190430002952.18909-4-tmurphy@arista.com>
+	<20190430111222.GA3191@infradead.org>
+	<da835ce2-f73e-3035-e1d7-d3028cc1a838@arm.com>
+	<20190430113253.GA23210@infradead.org>
+	<96ebb6fc-a889-fa94-09ba-65d505b85724@arm.com>
+	<CAPL0++61WytVhs63tvt+hdpZKXGinrkYx=4nDtNx1UoNTRWWjw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAPL0++61WytVhs63tvt+hdpZKXGinrkYx=4nDtNx1UoNTRWWjw@mail.gmail.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: chris@zankel.net, linux-xtensa@linux-xtensa.org, keescook@chromium.org,
-	sfr@canb.auug.org.au, tony@atomide.com, catalin.marinas@arm.com,
-	will.deacon@arm.com, linux@armlinux.org.uk,
-	iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-	jcmvbkbc@gmail.com, wsa+renesas@sang-engineering.com,
-	akpm@linux-foundation.org, treding@nvidia.com,
-	dwmw2@infradead.org, iamjoonsoo.kim@lge.com,
-	linux-arm-kernel@lists.infradead.org
+Cc: Heiko Stuebner <heiko@sntech.de>, Will Deacon <will.deacon@arm.com>,
+	David Brown <david.brown@linaro.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org,
+	Kukjin Kim <kgene@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+	Andy Gross <andy.gross@linaro.org>, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	David Woodhouse <dwmw2@infradead.org>,
+	linux-kernel@vger.kernel.org, Tom Murphy <murphyt7@tcd.ie>,
+	iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -89,65 +84,17 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The addresses within a single page are always contiguous, so it's
-not so necessary to always allocate one single page from CMA area.
-Since the CMA area has a limited predefined size of space, it may
-run out of space in heavy use cases, where there might be quite a
-lot CMA pages being allocated for single pages.
+On Mon, May 06, 2019 at 06:56:13PM +0100, Tom Murphy wrote:
+> Just to make this clear, I won't apply Christoph's patch (the one in
+> this email thread) and instead the only change I will make is to
+> rename dma_limit to dma_mask.
 
-However, there is also a concern that a device might care where a
-page comes from -- it might expect the page from CMA area and act
-differently if the page doesn't.
-
-This patch tries to use the fallback alloc_pages path, instead of
-one-page size allocations from the global CMA area in case that a
-device does not have its own CMA area. This'd save resources from
-the CMA global area for more CMA allocations, and also reduce CMA
-fragmentations resulted from trivial allocations.
-
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
----
- kernel/dma/contiguous.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-index 21f39a6cb04f..6914b92d5c88 100644
---- a/kernel/dma/contiguous.c
-+++ b/kernel/dma/contiguous.c
-@@ -223,14 +223,23 @@ bool dma_release_from_contiguous(struct device *dev, struct page *pages,
-  * This function allocates contiguous memory buffer for specified device. It
-  * first tries to use device specific contiguous memory area if available or
-  * the default global one, then tries a fallback allocation of normal pages.
-+ *
-+ * Note that it byapss one-page size of allocations from the global area as
-+ * the addresses within one page are always contiguous, so there is no need
-+ * to waste CMA pages for that kind; it also helps reduce fragmentations.
-  */
- struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
- {
- 	int node = dev ? dev_to_node(dev) : NUMA_NO_NODE;
- 	size_t count = PAGE_ALIGN(size) >> PAGE_SHIFT;
- 	size_t align = get_order(PAGE_ALIGN(size));
--	struct cma *cma = dev_get_cma_area(dev);
- 	struct page *page = NULL;
-+	struct cma *cma = NULL;
-+
-+	if (dev && dev->cma_area)
-+		cma = dev->cma_area;
-+	else if (count > 1)
-+		cma = dma_contiguous_default_area;
- 
- 	/* CMA can be used only in the context which permits sleeping */
- 	if (cma && gfpflags_allow_blocking(gfp)) {
--- 
-2.17.1
-
+Sounds good for now.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
