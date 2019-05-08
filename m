@@ -2,45 +2,83 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8CB17F70
-	for <lists.iommu@lfdr.de>; Wed,  8 May 2019 20:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBEB17F8B
+	for <lists.iommu@lfdr.de>; Wed,  8 May 2019 20:10:56 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 02FF6E52;
-	Wed,  8 May 2019 18:00:07 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 9942DECB;
+	Wed,  8 May 2019 18:10:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 58461E52
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0FFC5E75
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  8 May 2019 18:00:05 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from newverein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E0F0287A
+	Wed,  8 May 2019 18:10:25 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B739187B
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  8 May 2019 18:00:04 +0000 (UTC)
-Received: by newverein.lst.de (Postfix, from userid 2407)
-	id D6BED67358; Wed,  8 May 2019 19:59:44 +0200 (CEST)
-Date: Wed, 8 May 2019 19:59:44 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Jon Mason <jdmason@kudzu.us>
-Subject: Re: status of the calgary iommu driver
-Message-ID: <20190508175944.GA32128@lst.de>
-References: <20190409140347.GA11524@lst.de>
-	<CAPoiz9wwMCRkzM5FWm18kecC1=kt+5qPNHmQ7eUFhH=3ZNAqYw@mail.gmail.com>
-	<20190508175219.GA32030@lst.de>
-	<CAPoiz9zQuJ0-9wJBNo=Wvi9qquyid9vjmHODy=VJad_PE=cgdA@mail.gmail.com>
+	Wed,  8 May 2019 18:10:24 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id y3so10309446plp.0
+	for <iommu@lists.linux-foundation.org>;
+	Wed, 08 May 2019 11:10:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=5zLWZfJCoIg5TeUT0Jt2rwSpfAhD7R9q7eCYI7YHf40=;
+	b=Tm2N3nQ5R4MhS+8rDGVu/boYYfOVT9eIZUs60lgVugsa12xyjFshqIWhczZyFQwzYF
+	Ym9H3mmMhQzLUib+TUxO5mS0LpNapV2Zy81WXsYoFwNV+rdA6rOEnixV+TXKtAggW5lK
+	QDSEMsjaxPVnY6u3e/z7047pG6rP96Ay9RL1uwxSRF/22zO+7kd1MqxLXfdrrhPThSRA
+	mY7VHAWoPNgVv22UCIzmgaNRexxreIebf/jobba8vTVTF9A1vGdOTUvINtIZ8Ly5Xsib
+	JDr4j9KfbpUyW4/2fktvOOqSl8/YIGfpKUC/87WCEwPw7Dh3+HZrmyWQrHn3UotZRAP4
+	vOjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=5zLWZfJCoIg5TeUT0Jt2rwSpfAhD7R9q7eCYI7YHf40=;
+	b=qXKr0FmMDLy8j9HeIwhdL+Mm3apnjORwCmHsA1ylwmQxrO1KueD5JatbcDqHNLDKev
+	1W3gtAZWd5QsMQ0chrRhE/mva3efG+BgUYr36lrsx7W5QedNCIVVdzM/gj0sNG5Hort7
+	evQDwqq6E6B9LdKuKX/uWUqHT1h12wgsu0Bx4c7nYaZHQMvtquCK1o+LXVeAv6v8DyiC
+	fMOjY3I5jLKPZ9s0DlNDfb6vnzkUTf19lFJgIfcarW6odP96T1keVv1KUk4KiOe21/fH
+	BT9VRe8mPXIggArd1fhiGFw2Cq/SM+sLcyrQmTpww8/Ox7whqcr/Wxi10Qg+T40MKaLP
+	/+AQ==
+X-Gm-Message-State: APjAAAWgi/ZzLvNGvtgpkMZN/8Inj+icsvDKS4eB5jJSvWwQpg7lyu+Q
+	/9MDEmOmOpRw0orO+WYEKcQ=
+X-Google-Smtp-Source: APXvYqx2Wb4CB0KCpVy419mUcctEXRtv9dVAdNA+TWZj7LlWHc7EV1/KC6TAZsJVn2A5r991XqqT8A==
+X-Received: by 2002:a17:902:5ac9:: with SMTP id
+	g9mr14087995plm.134.1557339023983; 
+	Wed, 08 May 2019 11:10:23 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
+	[216.228.112.22]) by smtp.gmail.com with ESMTPSA id
+	j189sm31400665pfc.72.2019.05.08.11.10.22
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 08 May 2019 11:10:23 -0700 (PDT)
+Date: Wed, 8 May 2019 11:08:53 -0700
+From: Nicolin Chen <nicoleotsuka@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v2 0/2] Optimize dma_*_from_contiguous calls
+Message-ID: <20190508180852.GA2298@Asurada-Nvidia.nvidia.com>
+References: <20190506223334.1834-1-nicoleotsuka@gmail.com>
+	<20190508125254.GA26785@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAPoiz9zQuJ0-9wJBNo=Wvi9qquyid9vjmHODy=VJad_PE=cgdA@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
+In-Reply-To: <20190508125254.GA26785@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
-	iommu@lists.linux-foundation.org, x86@kernel.org,
-	Christoph Hellwig <hch@lst.de>, Muli Ben-Yehuda <mulix@mulix.org>
+Cc: chris@zankel.net, linux-xtensa@linux-xtensa.org, keescook@chromium.org,
+	sfr@canb.auug.org.au, tony@atomide.com, catalin.marinas@arm.com,
+	will.deacon@arm.com, linux@armlinux.org.uk,
+	iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+	jcmvbkbc@gmail.com, wsa+renesas@sang-engineering.com,
+	iamjoonsoo.kim@lge.com, akpm@linux-foundation.org,
+	treding@nvidia.com, robin.murphy@arm.com, dwmw2@infradead.org,
+	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,16 +96,13 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Wed, May 08, 2019 at 06:56:46PM +0100, Jon Mason wrote:
-> I do have a system.  So, it could be tested.  However given the age of
-> the HW, I would say it is not worth the effort to update and it would
-> be best to remove it from the kernel.
-> 
-> I can send a patch to do this, unless you would prefer to do it (or
-> already have something handy).
+On Wed, May 08, 2019 at 02:52:54PM +0200, Christoph Hellwig wrote:
+> modulo a trivial comment typo I found this looks fine to me.  I plan
+> to apply it with that fixed up around -rc2 time when I open the
+> dma mapping tree opens for the the 5.3 merge window, unless someone
+> finds an issue until then.
 
-I don't have anything, and at least to me it is not urgent.  So feel
-free to send it.
+Thanks for the help all the way.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
