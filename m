@@ -2,52 +2,45 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576F718DF2
-	for <lists.iommu@lfdr.de>; Thu,  9 May 2019 18:25:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D989219064
+	for <lists.iommu@lfdr.de>; Thu,  9 May 2019 20:44:36 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 92280CBC;
-	Thu,  9 May 2019 16:25:15 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 28ADEA7F;
+	Thu,  9 May 2019 18:44:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0D978CBC
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1CD75A7F
 	for <iommu@lists.linux-foundation.org>;
-	Thu,  9 May 2019 16:25:14 +0000 (UTC)
+	Thu,  9 May 2019 18:44:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CF515831
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 83CCC875
 	for <iommu@lists.linux-foundation.org>;
-	Thu,  9 May 2019 16:25:13 +0000 (UTC)
-Subject: Re: [GIT PULL] DMA mapping updates for 5.2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1557419113;
-	bh=AsLoE8maqrC84xuyzNDEGIn3ooBziPzN27H1NlD7Of0=;
-	h=From:In-Reply-To:References:Date:To:Cc:From;
-	b=ndCLGOlVB5hhd0GvzQKyR1fu88VowsDofoFtyzsuGQV6PqX+8eRhm2bu+xcPjDkcY
-	iNAdzL7GJUeFegV5moO6CgG45DNsKT+ab78Q7PmqoHztAwh9YneX1lzLYlIIJwb5Oo
-	EVxGydB/iC40imXqSWfS5+Z+TsHb4RbgC0UXRiVg=
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20190509071634.GA604@infradead.org>
-References: <20190509071634.GA604@infradead.org>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20190509071634.GA604@infradead.org>
-X-PR-Tracked-Remote: git://git.infradead.org/users/hch/dma-mapping.git
-	tags/dma-mapping-5.2
-X-PR-Tracked-Commit-Id: 13bf5ced93775ffccb53527a9d862e023a9daa03
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: ddab5337b23c99777d7cfb39c0f8efe536c17dff
-Message-Id: <155741911358.30533.13545205602641074733.pr-tracker-bot@kernel.org>
-Date: Thu, 09 May 2019 16:25:13 +0000
-To: Christoph Hellwig <hch@infradead.org>
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+	Thu,  9 May 2019 18:44:32 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 May 2019 11:44:31 -0700
+X-ExtLoop1: 1
+Received: from sai-dev-mach.sc.intel.com ([143.183.140.153])
+	by orsmga003.jf.intel.com with ESMTP; 09 May 2019 11:44:31 -0700
+From: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+To: iommu@lists.linux-foundation.org
+Subject: [PATCH 0/3] Add debugfs support to show scalable mode DMAR table
+Date: Thu,  9 May 2019 11:41:42 -0700
+Message-Id: <cover.1556762845.git.sai.praneeth.prakhya@intel.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kernel@vger.kernel.org
+Cc: Ashok Raj <ashok.raj@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,24 +53,47 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The pull request you sent on Thu, 9 May 2019 09:16:34 +0200:
+From: Sai Praneeth <sai.praneeth.prakhya@intel.com>
 
-> git://git.infradead.org/users/hch/dma-mapping.git tags/dma-mapping-5.2
+Presently, "/sys/kernel/debug/iommu/intel/dmar_translation_struct" file dumps
+only legacy DMAR table which consists of root table and context table. Scalable
+mode DMAR table adds PASID directory and PASID table. Hence, add support to dump
+these tables as well.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/ddab5337b23c99777d7cfb39c0f8efe536c17dff
+Directly extending the present dumping format for PASID tables will make the
+output look clumsy. Hence, the first patch modifies the present format to a
+tabular format. The second patch introduces macros that are used during PASID
+table walk and the third patch actually adds support to dump scalable mode DMAR
+table.
 
-Thank you!
+Sai Praneeth (3):
+  iommu/vt-d: Modify the format of intel DMAR tables dump
+  iommu/vt-d: Introduce macros useful for dumping DMAR table
+  iommu/vt-d: Add debugfs support to show scalable mode DMAR table
+    internals
+
+ drivers/iommu/intel-iommu-debugfs.c | 132 +++++++++++++++++++++++++++++-------
+ drivers/iommu/intel-pasid.c         |  17 -----
+ drivers/iommu/intel-pasid.h         |  26 +++++++
+ 3 files changed, 134 insertions(+), 41 deletions(-)
+
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: Ashok Raj <ashok.raj@intel.com>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Sohil Mehta <sohil.mehta@intel.com>
+Cc: David Woodhouse <dwmw2@infradead.org>
+Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+2.7.4
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
