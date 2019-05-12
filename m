@@ -2,53 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C4B1AD0E
-	for <lists.iommu@lfdr.de>; Sun, 12 May 2019 18:32:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 920701AD78
+	for <lists.iommu@lfdr.de>; Sun, 12 May 2019 19:15:25 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 74C2BE2A;
-	Sun, 12 May 2019 16:32:07 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 0E17BE26;
+	Sun, 12 May 2019 17:15:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id EA4D8DD9
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A1455DAF
 	for <iommu@lists.linux-foundation.org>;
-	Sun, 12 May 2019 16:32:05 +0000 (UTC)
+	Sun, 12 May 2019 17:15:21 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0F3A9878
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+	[209.85.222.196])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0812C42D
 	for <iommu@lists.linux-foundation.org>;
-	Sun, 12 May 2019 16:32:03 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id m32so9118420qtf.0
+	Sun, 12 May 2019 17:15:20 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id a64so914260qkg.5
 	for <iommu@lists.linux-foundation.org>;
-	Sun, 12 May 2019 09:32:03 -0700 (PDT)
+	Sun, 12 May 2019 10:15:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=gWQWmUQnTtpdS1fW9lGpRk2GMG2DyCbjfZMrbY3ehBg=;
-	b=LCyKBhiqIQzi+1CYdewvLYZcHi1a2ZB3UAxCY1r7B5emDGQKr5xqT2w/s/Ng8Eri35
-	aidQ2o7qTn3Z/z0/oF77JoeURH3h/TVwtA3qDIBH/J8+7j9Q2us4HE5+4vCsUQnvrhK5
-	GSTaTGlHHam0Z/cYC4TbsGBg9nbIg5xH118JxWoQoMRKEu6T1QOmN9Kqv4Voif8oVodD
-	OYRE/X5NxFcJpdWCS0cUcw64CfY4qMidHMxFL1+M3ZF1kkff2Waj2ymuTK5XWaG4r6BO
-	GitkI0m2zX+g52V53rZgGD+518oMfc7oLYZXEBN5qqa2cJKzJHRh7Pd7VN52OvfKmEMH
-	LnHw==
-X-Gm-Message-State: APjAAAU5cEdm8wsEYvZ5y9IMuIAb9lWhbFd1Ia8UKANCku8eG9rlEhVF
-	Ovg4EZLcSRjuw7ol8jVhlhrCJg==
-X-Google-Smtp-Source: APXvYqzhmWo+UkRgVkqDTpvr2NwI5n1SCQUPFdJ0CANhQ8AuAx0/rktx5J0cdUejuh99dU3DdW4fsQ==
-X-Received: by 2002:aed:3fd8:: with SMTP id w24mr20147558qth.64.1557678723231; 
-	Sun, 12 May 2019 09:32:03 -0700 (PDT)
+	bh=Sz6oXhk1MUAcDMqhVgJnZ+u8Zwtmv3OV0JGi1Y8CWDw=;
+	b=TjxAXas94yGwBzWaI0ItpOvdUjgXfzGyE4Y1fEweJ9KOlkMg+S1PHkscgnq0eI9Xov
+	5E6w45a5/ZU9Um2GL+J8yaVgozIr3ll/L0ugWBHTBv3yefNeLMdSlUncKQTZmH+Zt2XF
+	3Bv5/2JaoPXCxWo11qHAjnV2HYBpbCFEugpcYpyvomEBUyoO1u0GxXEBiUJ6zG585UhM
+	BYwF+pGlCTQntKOveNTak/sW5lxx+LtxEBwpIZ4Sbv88vvKiBn9IYul8CcSwxtjfNrVq
+	zbphVDEclPvJoyoQAhF3I8oGmsZ10HFEv2CqiYMWYjUId7bMaD3hoBL4+yD5JCfNu+f5
+	0xJA==
+X-Gm-Message-State: APjAAAUMQduLhHUGnWMzaXPxmjRpNja3wq0mcP0Pf6Y0ryWw7lWcgCnK
+	v/aL0WKEpzsGgMzBKTA14PNhiQ==
+X-Google-Smtp-Source: APXvYqxLzieYropX9DXBLnvbsudc9FJW0WQmQVUd/9WRnEbpC2BiYAyAKTnxKUBxw7ns2tMNztADiw==
+X-Received: by 2002:a37:b3c5:: with SMTP id c188mr18807278qkf.97.1557681320186;
+	Sun, 12 May 2019 10:15:20 -0700 (PDT)
 Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	h62sm5582800qkd.92.2019.05.12.09.32.01
+	[173.76.105.71])
+	by smtp.gmail.com with ESMTPSA id c32sm6064980qte.2.2019.05.12.10.15.18
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sun, 12 May 2019 09:32:02 -0700 (PDT)
-Date: Sun, 12 May 2019 12:31:59 -0400
+	Sun, 12 May 2019 10:15:19 -0700 (PDT)
+Date: Sun, 12 May 2019 13:15:16 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
 Subject: Re: [PATCH v7 0/7] Add virtio-iommu driver
-Message-ID: <20190512123022-mutt-send-email-mst@kernel.org>
+Message-ID: <20190512131500-mutt-send-email-mst@kernel.org>
 References: <20190115121959.23763-1-jean-philippe.brucker@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -118,13 +118,10 @@ On Tue, Jan 15, 2019 at 12:19:52PM +0000, Jean-Philippe Brucker wrote:
 > [5] [PATCH] iommu/of: Fix probe-deferral
 >     https://www.spinics.net/lists/arm-kernel/msg698371.html
 
+For virtio things:
 
-OK this has been in next for a while.
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-Last time IOMMU maintainers objected. Are objections
-still in force?
-
-If not could we get acks please?
 
 
 > Jean-Philippe Brucker (7):
