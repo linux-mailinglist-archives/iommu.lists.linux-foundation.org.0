@@ -2,59 +2,72 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D220D1C9F8
-	for <lists.iommu@lfdr.de>; Tue, 14 May 2019 16:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB15E1CA2E
+	for <lists.iommu@lfdr.de>; Tue, 14 May 2019 16:24:18 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id D5F77E57;
-	Tue, 14 May 2019 14:03:07 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id EED12D97;
+	Tue, 14 May 2019 14:24:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 2606DB7D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id B8A275AA
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 14 May 2019 14:03:04 +0000 (UTC)
+	Tue, 14 May 2019 14:24:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 8D24E83A
+Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 1CAB782C
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 14 May 2019 14:03:03 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 May 2019 07:03:01 -0700
-X-ExtLoop1: 1
-Received: from unknown (HELO luv-build.sc.intel.com) ([172.25.110.25])
-	by fmsmga005.fm.intel.com with ESMTP; 14 May 2019 07:03:01 -0700
-From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
+	Tue, 14 May 2019 14:24:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=merlin.20170209;
+	h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=+pHfppsKADb8o6U6hdDNOJ8jDyczo+OIxy2VLKb7Gg4=;
+	b=pRBtj6f/JLam2sMyBn4ZdgAYKS
+	zV9Vex9eWiisqNd2+PQluuaGecaLSPF+AtgTLqPGXsfieNdnu19a7JnmpgnlKxwX7gZXKI4q6rO1a
+	0JdeJU/m/bn4Aq0otIxNfKN1/Fv2AU76Jryq56VRQ8bN5eWCytZ0sK6QLIpf95AipfO1wd3r1owgs
+	r8cRvcdoEBtcgeOqxV1EeloCdDEFJhfaNYi3R3wJcVJEzLof6bvXa0E+odtqfqEkXetKlAo/t893/
+	wpPR180CGByLo06yNxyC4YZ+S+A+jhM0hwynYCR1vvQYAV6DMvLm8vyXhNRn8qoL8dyegdukSx4A6
+	lSWSCV+A==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16]
+	helo=midway.dunlab)
+	by merlin.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+	id 1hQYLP-0008K4-CU; Tue, 14 May 2019 14:23:52 +0000
+Subject: Re: [RFC PATCH v3 03/21] x86/hpet: Calculate ticks-per-second in a
+	separate function
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
 	Borislav Petkov <bp@suse.de>
-Subject: [RFC PATCH v3 21/21] x86/watchdog/hardlockup/hpet: Support interrupt
-	remapping
-Date: Tue, 14 May 2019 07:02:14 -0700
-Message-Id: <1557842534-4266-22-git-send-email-ricardo.neri-calderon@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1557842534-4266-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
 References: <1557842534-4266-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+	<1557842534-4266-4-git-send-email-ricardo.neri-calderon@linux.intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <25922025-d551-0865-b364-b53ef34e6b6a@infradead.org>
+Date: Tue, 14 May 2019 07:23:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <1557842534-4266-4-git-send-email-ricardo.neri-calderon@linux.intel.com>
+Content-Language: en-US
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 Cc: Kate Stewart <kstewart@linuxfoundation.org>,
-	Peter Zijlstra <peterz@infradead.org>, Jan Kiszka <jan.kiszka@siemens.com>,
-	Ricardo Neri <ricardo.neri@intel.com>,
-	Stephane Eranian <eranian@google.com>, Wincy Van <fanwenyi0529@gmail.com>,
-	Ashok Raj <ashok.raj@intel.com>, x86@kernel.org,
-	Andi Kleen <andi.kleen@intel.com>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
 	"Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-	Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, Juergen Gross <jgross@suse.com>,
-	Dou Liyang <douly.fnst@cn.fujitsu.com>,
-	Tony Luck <tony.luck@intel.com>, linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org, Jacob Pan <jacob.jun.pan@intel.com>,
-	Philippe Ombredanne <pombredanne@nexb.com>
+	Tony Luck <tony.luck@intel.com>, Ashok Raj <ashok.raj@intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+	Clemens Ladisch <clemens@ladisch.de>, linux-kernel@vger.kernel.org,
+	Stephane Eranian <eranian@google.com>,
+	Ricardo Neri <ricardo.neri@intel.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	iommu@lists.linux-foundation.org,
+	Philippe Ombredanne <pombredanne@nexb.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, Andi Kleen <andi.kleen@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,117 +80,117 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-When interrupt remapping is enabled in the system, the MSI interrupt
-message must follow a special format the IOMMU can understand. Hence,
-utilize the functionality provided by the IOMMU driver for such purpose.
+On 5/14/19 7:01 AM, Ricardo Neri wrote:
+> It is easier to compute the expiration times of an HPET timer by using
+> its frequency (i.e., the number of times it ticks in a second) than its
+> period, as given in the capabilities register.
+> 
+> In addition to the HPET char driver, the HPET-based hardlockup detector
+> will also need to know the timer's frequency. Thus, create a common
+> function that both can use.
+> 
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> Cc: Ashok Raj <ashok.raj@intel.com>
+> Cc: Andi Kleen <andi.kleen@intel.com>
+> Cc: Tony Luck <tony.luck@intel.com>
+> Cc: Clemens Ladisch <clemens@ladisch.de>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Philippe Ombredanne <pombredanne@nexb.com>
+> Cc: Kate Stewart <kstewart@linuxfoundation.org>
+> Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+> Cc: Stephane Eranian <eranian@google.com>
+> Cc: Suravee Suthikulpanit <Suravee.Suthikulpanit@amd.com>
+> Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+> Cc: x86@kernel.org
+> Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+> ---
+>  drivers/char/hpet.c  | 31 ++++++++++++++++++++++++-------
+>  include/linux/hpet.h |  1 +
+>  2 files changed, 25 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/char/hpet.c b/drivers/char/hpet.c
+> index d0ad85900b79..bdcbecfdb858 100644
+> --- a/drivers/char/hpet.c
+> +++ b/drivers/char/hpet.c
+> @@ -836,6 +836,29 @@ static unsigned long hpet_calibrate(struct hpets *hpetp)
+>  	return ret;
+>  }
+>  
+> +u64 hpet_get_ticks_per_sec(u64 hpet_caps)
+> +{
+> +	u64 ticks_per_sec, period;
+> +
+> +	period = (hpet_caps & HPET_COUNTER_CLK_PERIOD_MASK) >>
+> +		 HPET_COUNTER_CLK_PERIOD_SHIFT; /* fs, 10^-15 */
+> +
+> +	/*
+> +	 * The frequency is the reciprocal of the period. The period is given
+> +	 * femtoseconds per second. Thus, prepare a dividend to obtain the
 
-The first step is to determine whether interrupt remapping is enabled
-by looking for the existence of an interrupt remapping domain. If it
-exists, let the IOMMU driver compose the MSI message for us. The hard-
-lockup detector is still responsible of writing the message in the
-HPET FSB route register.
+	 * in femtoseconds per second.
 
-Cc: Ashok Raj <ashok.raj@intel.com>
-Cc: Andi Kleen <andi.kleen@intel.com>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Borislav Petkov <bp@suse.de>
-Cc: Jacob Pan <jacob.jun.pan@intel.com>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Juergen Gross <jgross@suse.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Wincy Van <fanwenyi0529@gmail.com>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>
-Cc: Philippe Ombredanne <pombredanne@nexb.com>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Baoquan He <bhe@redhat.com>
-Cc: Dou Liyang <douly.fnst@cn.fujitsu.com>
-Cc: Jan Kiszka <jan.kiszka@siemens.com>
-Cc: Stephane Eranian <eranian@google.com>
-Cc: Suravee Suthikulpanit <Suravee.Suthikulpanit@amd.com>
-Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
-Cc: x86@kernel.org
-Cc: iommu@lists.linux-foundation.org
-Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
----
- arch/x86/kernel/watchdog_hld_hpet.c | 33 ++++++++++++++++++++++++++++-
- 1 file changed, 32 insertions(+), 1 deletion(-)
+> +	 * frequency in ticks per second.
+> +	 */
+> +
+> +	/* 10^15 femtoseconds per second */
+> +	ticks_per_sec = 1000000000000000uLL;
 
-diff --git a/arch/x86/kernel/watchdog_hld_hpet.c b/arch/x86/kernel/watchdog_hld_hpet.c
-index 90680a8cf9fc..2d59b8f0390e 100644
---- a/arch/x86/kernel/watchdog_hld_hpet.c
-+++ b/arch/x86/kernel/watchdog_hld_hpet.c
-@@ -19,6 +19,7 @@
- #include <linux/nmi.h>
- #include <linux/hpet.h>
- #include <asm/msidef.h>
-+#include <asm/irq_remapping.h>
- #include <asm/hpet.h>
- 
- static struct hpet_hld_data *hld_data;
-@@ -116,6 +117,25 @@ static bool is_hpet_wdt_interrupt(struct hpet_hld_data *hdata)
- 	return false;
- }
- 
-+/** irq_remapping_enabled() - Detect if interrupt remapping is enabled
-+ * @hdata:	A data structure with the HPET block id
-+ *
-+ * Determine if the HPET block that the hardlockup detector is under
-+ * the remapped interrupt domain.
-+ *
-+ * Returns: True interrupt remapping is enabled. False otherwise.
-+ */
-+static bool irq_remapping_enabled(struct hpet_hld_data *hdata)
-+{
-+	struct irq_alloc_info info;
-+
-+	init_irq_alloc_info(&info, NULL);
-+	info.type = X86_IRQ_ALLOC_TYPE_HPET;
-+	info.hpet_id = hdata->blockid;
-+
-+	return !!irq_remapping_get_ir_irq_domain(&info);
-+}
-+
- /**
-  * compose_msi_msg() - Populate address and data fields of an MSI message
-  * @hdata:	A data strucure with the message to populate
-@@ -160,6 +180,9 @@ static int update_msi_destid(struct hpet_hld_data *hdata)
- {
- 	u32 destid;
- 
-+	if (irq_remapping_enabled(hdata))
-+		return hld_hpet_intremap_activate_irq(hdata);
-+
- 	hdata->msi_msg.address_lo &= ~MSI_ADDR_DEST_ID_MASK;
- 	destid = apic->calc_dest_apicid(hdata->handling_cpu);
- 	hdata->msi_msg.address_lo |= MSI_ADDR_DEST_ID(destid);
-@@ -216,9 +239,17 @@ static int hardlockup_detector_nmi_handler(unsigned int type,
-  */
- static int setup_irq_msi_mode(struct hpet_hld_data *hdata)
- {
-+	s32 ret;
- 	u32 v;
- 
--	compose_msi_msg(hdata);
-+	if (irq_remapping_enabled(hdata)) {
-+		ret = hld_hpet_intremap_alloc_irq(hdata);
-+		if (ret)
-+			return ret;
-+	} else {
-+		compose_msi_msg(hdata);
-+	}
-+
- 	hpet_writel(hdata->msi_msg.data, HPET_Tn_ROUTE(hdata->num));
- 	hpet_writel(hdata->msi_msg.address_lo, HPET_Tn_ROUTE(hdata->num) + 4);
- 
+	ULL is overwhelmingly used in the kernel.
+
+> +	ticks_per_sec += period >> 1; /* round */
+> +
+> +	/* The quotient is put in the dividend. We drop the remainder. */
+> +	do_div(ticks_per_sec, period);
+> +
+> +	return ticks_per_sec;
+> +}
+> +
+>  int hpet_alloc(struct hpet_data *hdp)
+>  {
+>  	u64 cap, mcfg;
+> @@ -844,7 +867,6 @@ int hpet_alloc(struct hpet_data *hdp)
+>  	struct hpets *hpetp;
+>  	struct hpet __iomem *hpet;
+>  	static struct hpets *last;
+> -	unsigned long period;
+>  	unsigned long long temp;
+>  	u32 remainder;
+>  
+> @@ -894,12 +916,7 @@ int hpet_alloc(struct hpet_data *hdp)
+>  
+>  	last = hpetp;
+>  
+> -	period = (cap & HPET_COUNTER_CLK_PERIOD_MASK) >>
+> -		HPET_COUNTER_CLK_PERIOD_SHIFT; /* fs, 10^-15 */
+> -	temp = 1000000000000000uLL; /* 10^15 femtoseconds per second */
+> -	temp += period >> 1; /* round */
+> -	do_div(temp, period);
+> -	hpetp->hp_tick_freq = temp; /* ticks per second */
+> +	hpetp->hp_tick_freq = hpet_get_ticks_per_sec(cap);
+>  
+>  	printk(KERN_INFO "hpet%d: at MMIO 0x%lx, IRQ%s",
+>  		hpetp->hp_which, hdp->hd_phys_address,
+> diff --git a/include/linux/hpet.h b/include/linux/hpet.h
+> index 8604564b985d..e7b36bcf4699 100644
+> --- a/include/linux/hpet.h
+> +++ b/include/linux/hpet.h
+> @@ -107,5 +107,6 @@ static inline void hpet_reserve_timer(struct hpet_data *hd, int timer)
+>  }
+>  
+>  int hpet_alloc(struct hpet_data *);
+> +u64 hpet_get_ticks_per_sec(u64 hpet_caps);
+>  
+>  #endif				/* !__HPET__ */
+> 
+
+
 -- 
-2.17.1
-
+~Randy
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
