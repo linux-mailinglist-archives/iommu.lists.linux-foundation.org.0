@@ -2,21 +2,21 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C661C9F2
-	for <lists.iommu@lfdr.de>; Tue, 14 May 2019 16:04:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C001C9F5
+	for <lists.iommu@lfdr.de>; Tue, 14 May 2019 16:04:22 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id B336FE67;
-	Tue, 14 May 2019 14:03:06 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 2D1DDE77;
+	Tue, 14 May 2019 14:03:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id CA2D6E3D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 4E046C2A
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 14 May 2019 14:03:02 +0000 (UTC)
+	Tue, 14 May 2019 14:03:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2BE14881
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 70B0E83A
 	for <iommu@lists.linux-foundation.org>;
 	Tue, 14 May 2019 14:03:02 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -30,9 +30,10 @@ Received: from unknown (HELO luv-build.sc.intel.com) ([172.25.110.25])
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
 	Borislav Petkov <bp@suse.de>
-Subject: [RFC PATCH v3 16/21] x86/watchdog: Add a shim hardlockup detector
-Date: Tue, 14 May 2019 07:02:09 -0700
-Message-Id: <1557842534-4266-17-git-send-email-ricardo.neri-calderon@linux.intel.com>
+Subject: [RFC PATCH v3 17/21] x86/tsc: Switch to perf-based hardlockup
+	detector if TSC become unstable
+Date: Tue, 14 May 2019 07:02:10 -0700
+Message-Id: <1557842534-4266-18-git-send-email-ricardo.neri-calderon@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1557842534-4266-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
 References: <1557842534-4266-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
@@ -40,23 +41,12 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Peter Zijlstra <peterz@infradead.org>, Jan Kiszka <jan.kiszka@siemens.com>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Ricardo Neri <ricardo.neri@intel.com>, Mimi Zohar <zohar@linux.ibm.com>,
-	Masahiro Yamada <yamada.masahiro@socionext.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Ashok Raj <ashok.raj@intel.com>, x86@kernel.org,
-	Andi Kleen <andi.kleen@intel.com>,
-	"Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-	Arnd Bergmann <arnd@arndb.de>,
+Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+	Ashok Raj <ashok.raj@intel.com>, Peter Zijlstra <peterz@infradead.org>,
 	Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-	Stephane Eranian <eranian@google.com>, Tony Luck <tony.luck@intel.com>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	Philippe Ombredanne <pombredanne@nexb.com>,
-	Nayna Jain <nayna@linux.ibm.com>
+	x86@kernel.org, linux-kernel@vger.kernel.org,
+	Ricardo Neri <ricardo.neri@intel.com>, iommu@lists.linux-foundation.org,
+	Andi Kleen <andi.kleen@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -75,156 +65,67 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The generic hardlockup detector is based on perf. It also provides a set
-of weak stubs that CPU architectures can override. Add a shim hardlockup
-detector for x86 that selects between perf and hpet implementations.
+The HPET-based hardlockup detector relies on the TSC to determine if an
+observed NMI interrupt was originated by HPET timer. Hence, this detector
+can no longer be used with an unstable TSC.
 
-Specifically, this shim implementation is needed for the HPET-based
-hardlockup detector; it can also be used for future implementations.
+In such case, permanently stop the HPET-based hardlockup detector and
+start the perf-based detector.
 
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ashok Raj <ashok.raj@intel.com>
-Cc: Andi Kleen <andi.kleen@intel.com>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Clemens Ladisch <clemens@ladisch.de>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Philippe Ombredanne <pombredanne@nexb.com>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Cc: Mimi Zohar <zohar@linux.ibm.com>
-Cc: Jan Kiszka <jan.kiszka@siemens.com>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Nayna Jain <nayna@linux.ibm.com>
-Cc: Stephane Eranian <eranian@google.com>
-Cc: Suravee Suthikulpanit <Suravee.Suthikulpanit@amd.com>
-Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
-Cc: x86@kernel.org
-Suggested-by: Nicholas Piggin <npiggin@gmail.com>
 Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 ---
- arch/x86/Kconfig.debug         |  4 ++
- arch/x86/kernel/Makefile       |  1 +
- arch/x86/kernel/watchdog_hld.c | 78 ++++++++++++++++++++++++++++++++++
- 3 files changed, 83 insertions(+)
- create mode 100644 arch/x86/kernel/watchdog_hld.c
+ arch/x86/include/asm/hpet.h    | 2 ++
+ arch/x86/kernel/tsc.c          | 2 ++
+ arch/x86/kernel/watchdog_hld.c | 7 +++++++
+ 3 files changed, 11 insertions(+)
 
-diff --git a/arch/x86/Kconfig.debug b/arch/x86/Kconfig.debug
-index 376a5db81aec..0d9e11eb070c 100644
---- a/arch/x86/Kconfig.debug
-+++ b/arch/x86/Kconfig.debug
-@@ -169,11 +169,15 @@ config IOMMU_LEAK
- config HAVE_MMIOTRACE_SUPPORT
- 	def_bool y
+diff --git a/arch/x86/include/asm/hpet.h b/arch/x86/include/asm/hpet.h
+index fd99f2390714..a82cbe17479d 100644
+--- a/arch/x86/include/asm/hpet.h
++++ b/arch/x86/include/asm/hpet.h
+@@ -128,6 +128,7 @@ extern int hardlockup_detector_hpet_init(void);
+ extern void hardlockup_detector_hpet_stop(void);
+ extern void hardlockup_detector_hpet_enable(unsigned int cpu);
+ extern void hardlockup_detector_hpet_disable(unsigned int cpu);
++extern void hardlockup_detector_switch_to_perf(void);
+ #else
+ static inline struct hpet_hld_data *hpet_hardlockup_detector_assign_timer(void)
+ { return NULL; }
+@@ -136,6 +137,7 @@ static inline int hardlockup_detector_hpet_init(void)
+ static inline void hardlockup_detector_hpet_stop(void) {}
+ static inline void hardlockup_detector_hpet_enable(unsigned int cpu) {}
+ static inline void hardlockup_detector_hpet_disable(unsigned int cpu) {}
++static void harrdlockup_detector_switch_to_perf(void) {}
+ #endif /* CONFIG_X86_HARDLOCKUP_DETECTOR_HPET */
  
-+config X86_HARDLOCKUP_DETECTOR
-+	bool
+ #else /* CONFIG_HPET_TIMER */
+diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
+index 8f47c4862c56..5e4b6d219bec 100644
+--- a/arch/x86/kernel/tsc.c
++++ b/arch/x86/kernel/tsc.c
+@@ -1157,6 +1157,8 @@ void mark_tsc_unstable(char *reason)
+ 
+ 	clocksource_mark_unstable(&clocksource_tsc_early);
+ 	clocksource_mark_unstable(&clocksource_tsc);
 +
- config X86_HARDLOCKUP_DETECTOR_HPET
- 	bool "Use HPET Timer for Hard Lockup Detection"
- 	select SOFTLOCKUP_DETECTOR
- 	select HARDLOCKUP_DETECTOR
- 	select HARDLOCKUP_DETECTOR_CORE
-+	select X86_HARDLOCKUP_DETECTOR
- 	depends on HPET_TIMER && HPET && X86_64
- 	help
- 	  Say y to enable a hardlockup detector that is driven by an High-
-diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
-index f9222769d84b..f89a259931f7 100644
---- a/arch/x86/kernel/Makefile
-+++ b/arch/x86/kernel/Makefile
-@@ -106,6 +106,7 @@ obj-$(CONFIG_VM86)		+= vm86_32.o
- obj-$(CONFIG_EARLY_PRINTK)	+= early_printk.o
++	hardlockup_detector_switch_to_perf();
+ }
  
- obj-$(CONFIG_HPET_TIMER) 	+= hpet.o
-+obj-$(CONFIG_X86_HARDLOCKUP_DETECTOR) += watchdog_hld.o
- obj-$(CONFIG_X86_HARDLOCKUP_DETECTOR_HPET) += watchdog_hld_hpet.o
- obj-$(CONFIG_APB_TIMER)		+= apb_timer.o
- 
+ EXPORT_SYMBOL_GPL(mark_tsc_unstable);
 diff --git a/arch/x86/kernel/watchdog_hld.c b/arch/x86/kernel/watchdog_hld.c
-new file mode 100644
-index 000000000000..c2512d4c79c5
---- /dev/null
+index c2512d4c79c5..c8547c227a41 100644
+--- a/arch/x86/kernel/watchdog_hld.c
 +++ b/arch/x86/kernel/watchdog_hld.c
-@@ -0,0 +1,78 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * A shim hardlockup detector. It overrides the weak stubs of the generic
-+ * implementation to select between the perf- or the hpet-based implementation.
-+ *
-+ * Copyright (C) Intel Corporation 2019
-+ */
+@@ -76,3 +76,10 @@ void watchdog_nmi_stop(void)
+ 	if (detector_type == X86_HARDLOCKUP_DETECTOR_HPET)
+ 		hardlockup_detector_hpet_stop();
+ }
 +
-+#include <linux/nmi.h>
-+#include <asm/hpet.h>
-+
-+enum x86_hardlockup_detector {
-+	X86_HARDLOCKUP_DETECTOR_PERF,
-+	X86_HARDLOCKUP_DETECTOR_HPET,
-+};
-+
-+static enum __read_mostly x86_hardlockup_detector detector_type;
-+
-+int watchdog_nmi_enable(unsigned int cpu)
++void hardlockup_detector_switch_to_perf(void)
 +{
-+	if (detector_type == X86_HARDLOCKUP_DETECTOR_PERF) {
-+		hardlockup_detector_perf_enable();
-+		return 0;
-+	}
-+
-+	if (detector_type == X86_HARDLOCKUP_DETECTOR_HPET) {
-+		hardlockup_detector_hpet_enable(cpu);
-+		return 0;
-+	}
-+
-+	return -ENODEV;
-+}
-+
-+void watchdog_nmi_disable(unsigned int cpu)
-+{
-+	if (detector_type == X86_HARDLOCKUP_DETECTOR_PERF) {
-+		hardlockup_detector_perf_disable();
-+		return;
-+	}
-+
-+	if (detector_type == X86_HARDLOCKUP_DETECTOR_HPET) {
-+		hardlockup_detector_hpet_disable(cpu);
-+		return;
-+	}
-+}
-+
-+int __init watchdog_nmi_probe(void)
-+{
-+	int ret;
-+
-+	/*
-+	 * Try first with the HPET hardlockup detector. It will only
-+	 * succeed if selected at build time and the nmi_watchdog
-+	 * command-line parameter is configured. This ensure that the
-+	 * perf-based detector is used by default, if selected at
-+	 * build time.
-+	 */
-+	ret = hardlockup_detector_hpet_init();
-+	if (!ret) {
-+		detector_type = X86_HARDLOCKUP_DETECTOR_HPET;
-+		return ret;
-+	}
-+
-+	ret = hardlockup_detector_perf_init();
-+	if (!ret) {
-+		detector_type = X86_HARDLOCKUP_DETECTOR_PERF;
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+void watchdog_nmi_stop(void)
-+{
-+	/* Only the HPET lockup detector defines a stop function. */
-+	if (detector_type == X86_HARDLOCKUP_DETECTOR_HPET)
-+		hardlockup_detector_hpet_stop();
++	detector_type = X86_HARDLOCKUP_DETECTOR_PERF;
++	hardlockup_detector_hpet_stop();
++	hardlockup_start_all();
 +}
 -- 
 2.17.1
