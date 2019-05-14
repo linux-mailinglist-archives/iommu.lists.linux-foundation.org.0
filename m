@@ -2,21 +2,21 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 798BA1C9D4
-	for <lists.iommu@lfdr.de>; Tue, 14 May 2019 16:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 174F21C9D6
+	for <lists.iommu@lfdr.de>; Tue, 14 May 2019 16:03:27 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 25974E5B;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8CA53E2F;
 	Tue, 14 May 2019 14:03:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9BF02ACC
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 75A9FE46
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 14 May 2019 14:02:58 +0000 (UTC)
+	Tue, 14 May 2019 14:02:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2B83D87A
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id AEE3687E
 	for <iommu@lists.linux-foundation.org>;
 	Tue, 14 May 2019 14:02:58 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
@@ -30,9 +30,10 @@ Received: from unknown (HELO luv-build.sc.intel.com) ([172.25.110.25])
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
 	Borislav Petkov <bp@suse.de>
-Subject: [RFC PATCH v3 02/21] x86/hpet: Expose hpet_writel() in header
-Date: Tue, 14 May 2019 07:01:55 -0700
-Message-Id: <1557842534-4266-3-git-send-email-ricardo.neri-calderon@linux.intel.com>
+Subject: [RFC PATCH v3 03/21] x86/hpet: Calculate ticks-per-second in a
+	separate function
+Date: Tue, 14 May 2019 07:01:56 -0700
+Message-Id: <1557842534-4266-4-git-send-email-ricardo.neri-calderon@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1557842534-4266-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
 References: <1557842534-4266-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
@@ -43,10 +44,10 @@ X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 Cc: Kate Stewart <kstewart@linuxfoundation.org>,
 	"Ravi V. Shankar" <ravi.v.shankar@intel.com>,
 	Tony Luck <tony.luck@intel.com>, Ashok Raj <ashok.raj@intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
+	Arnd Bergmann <arnd@arndb.de>, Peter Zijlstra <peterz@infradead.org>,
 	Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-	x86@kernel.org, linux-kernel@vger.kernel.org,
-	Stephane Eranian <eranian@google.com>,
+	x86@kernel.org, Clemens Ladisch <clemens@ladisch.de>,
+	linux-kernel@vger.kernel.org, Stephane Eranian <eranian@google.com>,
 	Ricardo Neri <ricardo.neri@intel.com>,
 	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
 	iommu@lists.linux-foundation.org,
@@ -70,16 +71,20 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-In order to allow hpet_writel() to be used by other components (e.g.,
-the HPET-based hardlockup detector) expose it in the HPET header file.
+It is easier to compute the expiration times of an HPET timer by using
+its frequency (i.e., the number of times it ticks in a second) than its
+period, as given in the capabilities register.
 
-No empty definition is needed if CONFIG_HPET is not selected as all
-existing callers select such config symbol.
+In addition to the HPET char driver, the HPET-based hardlockup detector
+will also need to know the timer's frequency. Thus, create a common
+function that both can use.
 
 Cc: "H. Peter Anvin" <hpa@zytor.com>
 Cc: Ashok Raj <ashok.raj@intel.com>
 Cc: Andi Kleen <andi.kleen@intel.com>
 Cc: Tony Luck <tony.luck@intel.com>
+Cc: Clemens Ladisch <clemens@ladisch.de>
+Cc: Arnd Bergmann <arnd@arndb.de>
 Cc: Philippe Ombredanne <pombredanne@nexb.com>
 Cc: Kate Stewart <kstewart@linuxfoundation.org>
 Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
@@ -89,35 +94,77 @@ Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
 Cc: x86@kernel.org
 Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 ---
- arch/x86/include/asm/hpet.h | 1 +
- arch/x86/kernel/hpet.c      | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ drivers/char/hpet.c  | 31 ++++++++++++++++++++++++-------
+ include/linux/hpet.h |  1 +
+ 2 files changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/arch/x86/include/asm/hpet.h b/arch/x86/include/asm/hpet.h
-index 67385d56d4f4..f132fbf984d4 100644
---- a/arch/x86/include/asm/hpet.h
-+++ b/arch/x86/include/asm/hpet.h
-@@ -72,6 +72,7 @@ extern int is_hpet_enabled(void);
- extern int hpet_enable(void);
- extern void hpet_disable(void);
- extern unsigned int hpet_readl(unsigned int a);
-+extern void hpet_writel(unsigned int d, unsigned int a);
- extern void force_hpet_resume(void);
- 
- struct irq_data;
-diff --git a/arch/x86/kernel/hpet.c b/arch/x86/kernel/hpet.c
-index fb32925a2e62..560fc28e1d13 100644
---- a/arch/x86/kernel/hpet.c
-+++ b/arch/x86/kernel/hpet.c
-@@ -61,7 +61,7 @@ inline unsigned int hpet_readl(unsigned int a)
- 	return readl(hpet_virt_address + a);
+diff --git a/drivers/char/hpet.c b/drivers/char/hpet.c
+index d0ad85900b79..bdcbecfdb858 100644
+--- a/drivers/char/hpet.c
++++ b/drivers/char/hpet.c
+@@ -836,6 +836,29 @@ static unsigned long hpet_calibrate(struct hpets *hpetp)
+ 	return ret;
  }
  
--static inline void hpet_writel(unsigned int d, unsigned int a)
-+inline void hpet_writel(unsigned int d, unsigned int a)
++u64 hpet_get_ticks_per_sec(u64 hpet_caps)
++{
++	u64 ticks_per_sec, period;
++
++	period = (hpet_caps & HPET_COUNTER_CLK_PERIOD_MASK) >>
++		 HPET_COUNTER_CLK_PERIOD_SHIFT; /* fs, 10^-15 */
++
++	/*
++	 * The frequency is the reciprocal of the period. The period is given
++	 * femtoseconds per second. Thus, prepare a dividend to obtain the
++	 * frequency in ticks per second.
++	 */
++
++	/* 10^15 femtoseconds per second */
++	ticks_per_sec = 1000000000000000uLL;
++	ticks_per_sec += period >> 1; /* round */
++
++	/* The quotient is put in the dividend. We drop the remainder. */
++	do_div(ticks_per_sec, period);
++
++	return ticks_per_sec;
++}
++
+ int hpet_alloc(struct hpet_data *hdp)
  {
- 	writel(d, hpet_virt_address + a);
+ 	u64 cap, mcfg;
+@@ -844,7 +867,6 @@ int hpet_alloc(struct hpet_data *hdp)
+ 	struct hpets *hpetp;
+ 	struct hpet __iomem *hpet;
+ 	static struct hpets *last;
+-	unsigned long period;
+ 	unsigned long long temp;
+ 	u32 remainder;
+ 
+@@ -894,12 +916,7 @@ int hpet_alloc(struct hpet_data *hdp)
+ 
+ 	last = hpetp;
+ 
+-	period = (cap & HPET_COUNTER_CLK_PERIOD_MASK) >>
+-		HPET_COUNTER_CLK_PERIOD_SHIFT; /* fs, 10^-15 */
+-	temp = 1000000000000000uLL; /* 10^15 femtoseconds per second */
+-	temp += period >> 1; /* round */
+-	do_div(temp, period);
+-	hpetp->hp_tick_freq = temp; /* ticks per second */
++	hpetp->hp_tick_freq = hpet_get_ticks_per_sec(cap);
+ 
+ 	printk(KERN_INFO "hpet%d: at MMIO 0x%lx, IRQ%s",
+ 		hpetp->hp_which, hdp->hd_phys_address,
+diff --git a/include/linux/hpet.h b/include/linux/hpet.h
+index 8604564b985d..e7b36bcf4699 100644
+--- a/include/linux/hpet.h
++++ b/include/linux/hpet.h
+@@ -107,5 +107,6 @@ static inline void hpet_reserve_timer(struct hpet_data *hd, int timer)
  }
+ 
+ int hpet_alloc(struct hpet_data *);
++u64 hpet_get_ticks_per_sec(u64 hpet_caps);
+ 
+ #endif				/* !__HPET__ */
 -- 
 2.17.1
 
