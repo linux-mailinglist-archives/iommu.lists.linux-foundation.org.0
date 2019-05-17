@@ -2,32 +2,32 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C22E21E08
-	for <lists.iommu@lfdr.de>; Fri, 17 May 2019 21:05:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C463321E0A
+	for <lists.iommu@lfdr.de>; Fri, 17 May 2019 21:06:05 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 687EEAD1;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id CD62DBDC;
 	Fri, 17 May 2019 19:05:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 02830AB9
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 27493AA5
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 17 May 2019 18:48:28 +0000 (UTC)
+	Fri, 17 May 2019 18:48:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 9EB545E4
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D429D5E4
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 17 May 2019 18:48:27 +0000 (UTC)
+	Fri, 17 May 2019 18:48:30 +0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-	id 6CA0C619CA; Fri, 17 May 2019 18:48:24 +0000 (UTC)
+	id 9858C619EC; Fri, 17 May 2019 18:48:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-	s=default; t=1558118907;
-	bh=kxktoBS1pRxC6RjcDvLlbVi5FujSN7tU1/fCwkp4N1o=;
+	s=default; t=1558118910;
+	bh=OV/Plnh2chiiFpl1tPau4te8Ie4x49eB+//wLShrquY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KUcy+P/b23uQ8ZbKPaS1lCfaf1sseO3yzGDB6OE1ZztYo4hxd1LQz3dD/CtWEoGK7
-	dUQeFP+fUpElKxlOW7sGjpIXkCctJti01fyiJSPOUcqQRX4cqTo6mKHBeO0bLgLi6w
-	I9YEZBnBI21mSUcUUyhCeoQ1AcYxwlF8HqB+fims=
+	b=WvJgtdvFG5xvdzJ6SeLvHgYIB4+iX2jh4xkHa7GFOXxriVA/nDgYcpgQPNCnqfmWQ
+	h+fhJdHHbFljAETDngUoAE0qOIeNRcP18Efbki0Lprr/ZesmnIVpROI9q0GNyPylns
+	FCDUBVOFKcnl1TwJoyEOqCSyvitAPo0E60ko9b24=
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 X-Spam-Level: 
@@ -38,16 +38,16 @@ Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
 	(Authenticated sender: isaacm@smtp.codeaurora.org)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 130DC619B4;
-	Fri, 17 May 2019 18:48:23 +0000 (UTC)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id F01AD619CC;
+	Fri, 17 May 2019 18:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-	s=default; t=1558118903;
-	bh=kxktoBS1pRxC6RjcDvLlbVi5FujSN7tU1/fCwkp4N1o=;
+	s=default; t=1558118905;
+	bh=OV/Plnh2chiiFpl1tPau4te8Ie4x49eB+//wLShrquY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oah+MUC4XK/B7pkRpWFBUR815EF6RciVl3rKTJKJxLWkgViTrFFKNgKx3dI9zv8jd
-	39XErz3TKn2EA0vsInFzFBttxOm1NSEbxOfXYfDNb733H3WVCmr2iEWe4ToGQiS3FK
-	S03hvzJMeM+iyTlN2SnGp1vtCSZigZqMzf3s435g=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 130DC619B4
+	b=Q5qKpN3dzD5EBfg8X33uOuhjvsyIAfJF6baPusIbikdtrA7fSJA4JsOWL4C85cVDC
+	6FtobZvYMtIuxiz15DDKOE+LomXOAc/mc8XvGNFwKs80DvTeeluNDTIpqXyNMmQIN8
+	HYC2NEdjPmNHGdOTajB64JomRehH+pSN1aUwCpA8=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org F01AD619CC
 Authentication-Results: pdx-caf-mail.web.codeaurora.org;
 	dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: pdx-caf-mail.web.codeaurora.org;
@@ -56,9 +56,10 @@ From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
 To: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-pci@vger.kernel.org, iommu@lists.linux-foundation.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [RFC/PATCH 3/4] iommu: Export core IOMMU functions to kernel modules
-Date: Fri, 17 May 2019 11:47:36 -0700
-Message-Id: <1558118857-16912-4-git-send-email-isaacm@codeaurora.org>
+Subject: [RFC/PATCH 4/4] iommu: Add probe deferral support for IOMMU kernel
+	modules
+Date: Fri, 17 May 2019 11:47:37 -0700
+Message-Id: <1558118857-16912-5-git-send-email-isaacm@codeaurora.org>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1558118857-16912-1-git-send-email-isaacm@codeaurora.org>
 References: <1558118857-16912-1-git-send-email-isaacm@codeaurora.org>
@@ -85,92 +86,47 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-IOMMU drivers that can be compiled as modules need to use
-some of the IOMMU core functions, so expose them.
+Currently, the IOMMU core assumes that all IOMMU drivers
+will be built into the kernel. This makes it so that all
+the IOMMU core will stop deferring probes when all of the
+builtin kernel drivers have finished probing (i.e. when
+initcalls are finished).
+
+This is problematic if an IOMMU driver is generated as a module,
+because the registration of the IOMMU driver may happen at an
+unknown point in time after all builtin drivers have finished
+probing.
+
+Thus, if there exists a chance for the IOMMU driver
+to be a module, then allow for clients to wait indefinitely
+for the IOMMU driver to be loaded. Otherwise, rely on the
+driver core to dictate when clients should stop deferring
+their probes.
 
 Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
 ---
- drivers/iommu/iommu-sysfs.c | 3 +++
- drivers/iommu/iommu.c       | 6 ++++++
- 2 files changed, 9 insertions(+)
+ drivers/iommu/of_iommu.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iommu/iommu-sysfs.c b/drivers/iommu/iommu-sysfs.c
-index 44127d5..b3dadb8 100644
---- a/drivers/iommu/iommu-sysfs.c
-+++ b/drivers/iommu/iommu-sysfs.c
-@@ -90,6 +90,7 @@ int iommu_device_sysfs_add(struct iommu_device *iommu,
- 	put_device(iommu->dev);
- 	return ret;
+diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
+index f04a6df..1e7e323 100644
+--- a/drivers/iommu/of_iommu.c
++++ b/drivers/iommu/of_iommu.c
+@@ -116,8 +116,12 @@ static int of_iommu_xlate(struct device *dev,
+ 	 * IOMMU device we're waiting for, which will be useful if we ever get
+ 	 * a proper probe-ordering dependency mechanism in future.
+ 	 */
+-	if (!ops)
+-		return driver_deferred_probe_check_state(dev);
++	if (!ops) {
++		if (IS_ENABLED(CONFIG_MODULES))
++			return -EPROBE_DEFER;
++		else
++			return driver_deferred_probe_check_state(dev);
++	}
+ 
+ 	return ops->of_xlate(dev, iommu_spec);
  }
-+EXPORT_SYMBOL_GPL(iommu_device_sysfs_add);
- 
- void iommu_device_sysfs_remove(struct iommu_device *iommu)
- {
-@@ -122,6 +123,7 @@ int iommu_device_link(struct iommu_device *iommu, struct device *link)
- 
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(iommu_device_link);
- 
- void iommu_device_unlink(struct iommu_device *iommu, struct device *link)
- {
-@@ -131,3 +133,4 @@ void iommu_device_unlink(struct iommu_device *iommu, struct device *link)
- 	sysfs_remove_link(&link->kobj, "iommu");
- 	sysfs_remove_link_from_group(&iommu->dev->kobj, "devices", dev_name(link));
- }
-+EXPORT_SYMBOL_GPL(iommu_device_unlink);
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 109de67..2b92f35 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -103,6 +103,7 @@ int iommu_device_register(struct iommu_device *iommu)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(iommu_device_register);
- 
- void iommu_device_unregister(struct iommu_device *iommu)
- {
-@@ -813,6 +814,7 @@ struct iommu_group *iommu_group_ref_get(struct iommu_group *group)
- 	kobject_get(group->devices_kobj);
- 	return group;
- }
-+EXPORT_SYMBOL_GPL(iommu_group_ref_get);
- 
- /**
-  * iommu_group_put - Decrement group reference
-@@ -986,6 +988,7 @@ struct iommu_group *generic_device_group(struct device *dev)
- {
- 	return iommu_group_alloc();
- }
-+EXPORT_SYMBOL_GPL(generic_device_group);
- 
- /*
-  * Use standard PCI bus topology, isolation features, and DMA alias quirks
-@@ -1053,6 +1056,7 @@ struct iommu_group *pci_device_group(struct device *dev)
- 	/* No shared group found, allocate new */
- 	return iommu_group_alloc();
- }
-+EXPORT_SYMBOL_GPL(pci_device_group);
- 
- /* Get the IOMMU group for device on fsl-mc bus */
- struct iommu_group *fsl_mc_device_group(struct device *dev)
-@@ -1133,6 +1137,7 @@ struct iommu_group *iommu_group_get_for_dev(struct device *dev)
- 
- 	return group;
- }
-+EXPORT_SYMBOL_GPL(iommu_group_get_for_dev);
- 
- struct iommu_domain *iommu_group_default_domain(struct iommu_group *group)
- {
-@@ -1913,6 +1918,7 @@ struct iommu_resv_region *iommu_alloc_resv_region(phys_addr_t start,
- 	region->type = type;
- 	return region;
- }
-+EXPORT_SYMBOL_GPL(iommu_alloc_resv_region);
- 
- /* Request that a device is direct mapped by the IOMMU */
- int iommu_request_dm_for_dev(struct device *dev)
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
