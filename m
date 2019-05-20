@@ -2,41 +2,42 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id C435D22A2F
-	for <lists.iommu@lfdr.de>; Mon, 20 May 2019 05:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0684922A2E
+	for <lists.iommu@lfdr.de>; Mon, 20 May 2019 05:02:26 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1A538A95;
-	Mon, 20 May 2019 03:02:25 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id DA166A7A;
+	Mon, 20 May 2019 03:02:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 96AE5A55
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 2B3E47A9
 	for <iommu@lists.linux-foundation.org>;
 	Mon, 20 May 2019 03:02:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A1B047ED
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id ABEBD7FB
 	for <iommu@lists.linux-foundation.org>;
 	Mon, 20 May 2019 03:02:22 +0000 (UTC)
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 May 2019 20:02:21 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 May 2019 20:02:22 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,490,1549958400"; d="scan'208";a="173475588"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-	by fmsmga005.fm.intel.com with ESMTP; 19 May 2019 20:02:19 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 19 May 2019 20:02:19 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
 	(envelope-from <lkp@intel.com>)
-	id 1hSYZ8-00023d-Qb; Mon, 20 May 2019 11:02:18 +0800
-Date: Mon, 20 May 2019 11:02:15 +0800
+	id 1hSYZ8-00023w-Rx; Mon, 20 May 2019 11:02:18 +0800
+Date: Mon, 20 May 2019 11:02:17 +0800
 From: kbuild test robot <lkp@intel.com>
 To: Pierre Morel <pmorel@linux.ibm.com>
-Subject: Re: [PATCH v2 4/4] vfio: vfio_iommu_type1: implement
-	VFIO_IOMMU_INFO_CAPABILITIES
-Message-ID: <201905201003.EM66D2dQ%lkp@intel.com>
+Subject: [RFC PATCH] vfio: vfio_iommu_type1: vfio_iommu_type1_caps() can be
+	static
+Message-ID: <20190520030217.GA48406@lkp-kbuild06>
 References: <1558109810-18683-5-git-send-email-pmorel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -71,34 +72,28 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Pierre,
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on s390/features]
-[also build test WARNING on v5.1 next-20190517]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-
-url:    https://github.com/0day-ci/linux/commits/Pierre-Morel/s390-pci-Exporting-access-to-CLP-PCI-function-and-PCI-group/20190520-025155
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-reproduce:
-        # apt-get install sparse
-        make ARCH=x86_64 allmodconfig
-        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-
-
-sparse warnings: (new ones prefixed by >>)
-
->> drivers/vfio/vfio_iommu_type1.c:1707:5: sparse: sparse: symbol 'vfio_iommu_type1_caps' was not declared. Should it be static?
-
-Please review and possibly fold the followup patch.
-
+Fixes: f10b2b74bbea ("vfio: vfio_iommu_type1: implement VFIO_IOMMU_INFO_CAPABILITIES")
+Signed-off-by: kbuild test robot <lkp@intel.com>
 ---
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+ vfio_iommu_type1.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+index 9435647..46a4939 100644
+--- a/drivers/vfio/vfio_iommu_type1.c
++++ b/drivers/vfio/vfio_iommu_type1.c
+@@ -1704,8 +1704,8 @@ static int vfio_iommu_type1_zpci_grp(struct iommu_domain *domain,
+ 	return ret;
+ }
+ 
+-int vfio_iommu_type1_caps(struct vfio_iommu *iommu, struct vfio_info_cap *caps,
+-			  size_t size)
++static int vfio_iommu_type1_caps(struct vfio_iommu *iommu, struct vfio_info_cap *caps,
++				 size_t size)
+ {
+ 	struct vfio_domain *d;
+ 	unsigned long total_size, fn_size, grp_size;
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
