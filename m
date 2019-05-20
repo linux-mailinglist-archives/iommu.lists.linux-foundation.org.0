@@ -2,80 +2,45 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C32236C9
-	for <lists.iommu@lfdr.de>; Mon, 20 May 2019 15:17:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B06323A7D
+	for <lists.iommu@lfdr.de>; Mon, 20 May 2019 16:41:14 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 91656D4F;
-	Mon, 20 May 2019 13:17:04 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 7E3E6EAE;
+	Mon, 20 May 2019 14:41:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 41407CF6
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 2355CE80
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 20 May 2019 13:17:03 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id DADBD83A
+	Mon, 20 May 2019 13:43:12 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B784D81A
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 20 May 2019 13:17:02 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id c15so8774645qkl.2
-	for <iommu@lists.linux-foundation.org>;
-	Mon, 20 May 2019 06:17:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=bZcyqtPfiR8OnSe7X+YvU6P3WmrTts8Lp+0qyg4aj2M=;
-	b=qvbwxvXlnCwRXEsSmjiG+s2t8f6LT/JZ3iKegCdUy/Ju0oBMpdrDavdVCZ47gFsygA
-	9KoczRoRG1DqT3SpkNtz/eU/oTuxKMkSfeOE9Jg5d0Cso80ZbthpYWh9Nb4tvDGIVPTp
-	cI1Q4PI0ltEf+Ifhx3Qe1/9kXiDv6dwKCKcj2b7h63MobkTKKHB7X0MQAxX+x09BTscN
-	BEpEUuoRUggUF8N+XApI0fjr5P39WCsPuT11G6Wd3hbs/S4hpdWZQt12uTQryC+7ooDr
-	C9dahgROL45svPwkx0K9ZGdruWW48xzdSkz62v/PmbR8gkUUHTeTkDchk02+jnF79QfA
-	iZuQ==
-X-Gm-Message-State: APjAAAUzVIxpFxjSPg1bcd8+oKZHgeL4NZ86aYjeHRjrjuVg41QPQvAP
-	09xYgXNDtQxjBghPMcaasU9Z0Q==
-X-Google-Smtp-Source: APXvYqw0FqLkxwDq3if4j/PtdUGJI5ox1BH3UIwaju3gNcXX5ayK/jpLunGqH+2wq+Rcle7lAXdfbA==
-X-Received: by 2002:a37:4c02:: with SMTP id z2mr46791719qka.1.1558358222050;
-	Mon, 20 May 2019 06:17:02 -0700 (PDT)
-Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	d16sm11577917qtd.73.2019.05.20.06.16.59
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 20 May 2019 06:17:00 -0700 (PDT)
-Date: Mon, 20 May 2019 09:16:57 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Subject: Re: [RFC PATCH] virtio_ring: Use DMA API if guest memory is encrypted
-Message-ID: <20190520090939-mutt-send-email-mst@kernel.org>
-References: <87zhrj8kcp.fsf@morokweng.localdomain>
-	<87womn8inf.fsf@morokweng.localdomain>
-	<20190129134750-mutt-send-email-mst@kernel.org>
-	<877eefxvyb.fsf@morokweng.localdomain>
-	<20190204144048-mutt-send-email-mst@kernel.org>
-	<87ef71seve.fsf@morokweng.localdomain>
-	<20190320171027-mutt-send-email-mst@kernel.org>
-	<87tvfvbwpb.fsf@morokweng.localdomain>
-	<20190323165456-mutt-send-email-mst@kernel.org>
-	<87a7go71hz.fsf@morokweng.localdomain>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87a7go71hz.fsf@morokweng.localdomain>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	Mon, 20 May 2019 13:43:11 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 May 2019 06:43:11 -0700
+X-ExtLoop1: 1
+Received: from gklab-127-091.igk.intel.com (HELO gklab-125-020.igk.intel.com)
+	([10.91.125.20])
+	by orsmga004.jf.intel.com with ESMTP; 20 May 2019 06:43:09 -0700
+From: Lukasz Odzioba <lukasz.odzioba@intel.com>
+To: linux-kernel@vger.kernel.org,
+	iommu@lists.linux-foundation.org
+Subject: [PATCH 1/1] iommu/vt-d: Remove unnecessary rcu_read_locks
+Date: Mon, 20 May 2019 15:41:28 +0200
+Message-Id: <1558359688-21804-1-git-send-email-lukasz.odzioba@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Mike Anderson <andmike@linux.ibm.com>,
-	Michael Roth <mdroth@linux.vnet.ibm.com>,
-	Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Jason Wang <jasowang@redhat.com>, Alexey Kardashevskiy <aik@linux.ibm.com>,
-	Ram Pai <linuxram@us.ibm.com>, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	Paul Mackerras <paulus@ozlabs.org>,
-	iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org,
-	Christoph Hellwig <hch@lst.de>, David Gibson <david@gibson.dropbear.id.au>
+X-Mailman-Approved-At: Mon, 20 May 2019 14:41:11 +0000
+Cc: lukasz.odzioba@intel.com, dwmw2@infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -88,39 +53,55 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Wed, Apr 17, 2019 at 06:42:00PM -0300, Thiago Jung Bauermann wrote:
-> I rephrased it in terms of address translation. What do you think of
-> this version? The flag name is slightly different too:
-> 
-> 
-> VIRTIO_F_ACCESS_PLATFORM_NO_TRANSLATION This feature has the same
->     meaning as VIRTIO_F_ACCESS_PLATFORM both when set and when not set,
->     with the exception that address translation is guaranteed to be
->     unnecessary when accessing memory addresses supplied to the device
->     by the driver. Which is to say, the device will always use physical
->     addresses matching addresses used by the driver (typically meaning
->     physical addresses used by the CPU) and not translated further. This
->     flag should be set by the guest if offered, but to allow for
->     backward-compatibility device implementations allow for it to be
->     left unset by the guest. It is an error to set both this flag and
->     VIRTIO_F_ACCESS_PLATFORM.
+We use RCU's for rarely updated lists like iommus, rmrr, atsr units.
 
+I'm not sure why domain_remove_dev_info() in domain_exit() was surrounded
+by rcu_read_lock. Lock was present before refactoring in d160aca527,
+but it was related to rcu list, not domain_remove_dev_info function.
 
-OK so VIRTIO_F_ACCESS_PLATFORM is designed to allow unpriveledged
-drivers. This is why devices fail when it's not negotiated.
+dmar_remove_one_dev_info() doesn't touch any of those lists, so it doesn't
+require a lock. In fact it is called 6 times without it anyway.
 
-This confuses me.
-If driver is unpriveledged then what happens with this flag?
-It can supply any address it wants. Will that corrupt kernel
-memory?
+Fixes: d160aca5276d ("iommu/vt-d: Unify domain->iommu attach/detachment")
 
+Signed-off-by: Lukasz Odzioba <lukasz.odzioba@intel.com>
+---
+ drivers/iommu/intel-iommu.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index a209199..1b7ad80 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -1911,9 +1911,7 @@ static void domain_exit(struct dmar_domain *domain)
+ 	struct page *freelist;
+ 
+ 	/* Remove associated devices and clear attached or cached domains */
+-	rcu_read_lock();
+ 	domain_remove_dev_info(domain);
+-	rcu_read_unlock();
+ 
+ 	/* destroy iovas */
+ 	put_iova_domain(&domain->iovad);
+@@ -5254,9 +5252,7 @@ static int intel_iommu_attach_device(struct iommu_domain *domain,
+ 
+ 		old_domain = find_domain(dev);
+ 		if (old_domain) {
+-			rcu_read_lock();
+ 			dmar_remove_one_dev_info(dev);
+-			rcu_read_unlock();
+ 
+ 			if (!domain_type_is_vm_or_si(old_domain) &&
+ 			    list_empty(&old_domain->devices))
 -- 
-MST
+1.8.3.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
