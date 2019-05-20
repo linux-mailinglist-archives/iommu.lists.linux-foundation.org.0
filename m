@@ -2,45 +2,58 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B06323A7D
-	for <lists.iommu@lfdr.de>; Mon, 20 May 2019 16:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F8392391C
+	for <lists.iommu@lfdr.de>; Mon, 20 May 2019 16:01:20 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 7E3E6EAE;
-	Mon, 20 May 2019 14:41:12 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 1200DEC8;
+	Mon, 20 May 2019 14:01:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 2355CE80
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9BDDFA70
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 20 May 2019 13:43:12 +0000 (UTC)
+	Mon, 20 May 2019 14:01:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B784D81A
+Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 19CA6880
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 20 May 2019 13:43:11 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 May 2019 06:43:11 -0700
-X-ExtLoop1: 1
-Received: from gklab-127-091.igk.intel.com (HELO gklab-125-020.igk.intel.com)
-	([10.91.125.20])
-	by orsmga004.jf.intel.com with ESMTP; 20 May 2019 06:43:09 -0700
-From: Lukasz Odzioba <lukasz.odzioba@intel.com>
-To: linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org
-Subject: [PATCH 1/1] iommu/vt-d: Remove unnecessary rcu_read_locks
-Date: Mon, 20 May 2019 15:41:28 +0200
-Message-Id: <1558359688-21804-1-git-send-email-lukasz.odzioba@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	Mon, 20 May 2019 14:01:15 +0000 (UTC)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
+	by Forcepoint Email with ESMTP id D28675BF3968B04EDCB7;
+	Mon, 20 May 2019 22:01:12 +0800 (CST)
+Received: from HGHY1l002753561.china.huawei.com (10.177.23.164) by
+	DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server
+	id 14.3.439.0; Mon, 20 May 2019 22:01:04 +0800
+From: Zhen Lei <thunder.leizhen@huawei.com>
+To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>, John Garry
+	<john.garry@huawei.com>, Robin Murphy <robin.murphy@arm.com>, Will Deacon
+	<will.deacon@arm.com>, Joerg Roedel <joro@8bytes.org>, Jonathan Corbet
+	<corbet@lwn.net>, linux-doc <linux-doc@vger.kernel.org>, Sebastian Ott
+	<sebott@linux.ibm.com>, Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+	"Martin Schwidefsky" <schwidefsky@de.ibm.com>, Heiko Carstens
+	<heiko.carstens@de.ibm.com>, Benjamin Herrenschmidt
+	<benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, "Michael
+	Ellerman" <mpe@ellerman.id.au>, Tony Luck <tony.luck@intel.com>, Fenghua Yu
+	<fenghua.yu@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, "H . Peter Anvin"
+	<hpa@zytor.com>, David Woodhouse <dwmw2@infradead.org>, iommu
+	<iommu@lists.linux-foundation.org>, linux-kernel
+	<linux-kernel@vger.kernel.org>, linux-s390 <linux-s390@vger.kernel.org>,
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, x86 <x86@kernel.org>,
+	linux-ia64 <linux-ia64@vger.kernel.org>
+Subject: [PATCH v7 0/1] iommu: enhance IOMMU dma mode build options
+Date: Mon, 20 May 2019 21:59:46 +0800
+Message-ID: <20190520135947.14960-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.19.2.windows.1
+MIME-Version: 1.0
+X-Originating-IP: [10.177.23.164]
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Mailman-Approved-At: Mon, 20 May 2019 14:41:11 +0000
-Cc: lukasz.odzioba@intel.com, dwmw2@infradead.org
+Cc: Hanjun Guo <guohanjun@huawei.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,54 +66,52 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-We use RCU's for rarely updated lists like iommus, rmrr, atsr units.
+v6 --> v7:
+1. Fix some text editing errors
 
-I'm not sure why domain_remove_dev_info() in domain_exit() was surrounded
-by rcu_read_lock. Lock was present before refactoring in d160aca527,
-but it was related to rcu list, not domain_remove_dev_info function.
+v5 --> v6:
+1. give up adding boot option iommu.dma_mode
 
-dmar_remove_one_dev_info() doesn't touch any of those lists, so it doesn't
-require a lock. In fact it is called 6 times without it anyway.
+v4 --> v5:
+As Hanjun and Thomas Gleixner's suggestion:
+1. Keep the old ARCH specific boot options no change.
+2. Keep build option CONFIG_IOMMU_DEFAULT_PASSTHROUGH no change.
 
-Fixes: d160aca5276d ("iommu/vt-d: Unify domain->iommu attach/detachment")
+v4:
+As Robin Murphy's suggestion:
+"It's also not necessarily obvious to the user how this interacts with
+IOMMU_DEFAULT_PASSTHROUGH, so if we really do go down this route, maybe it
+would be better to refactor the whole lot into a single selection of something
+like IOMMU_DEFAULT_MODE anyway."
 
-Signed-off-by: Lukasz Odzioba <lukasz.odzioba@intel.com>
----
- drivers/iommu/intel-iommu.c | 4 ----
- 1 file changed, 4 deletions(-)
+In this version, I tried to normalize the IOMMU dma mode boot options for all
+ARCHs. When IOMMU is enabled, there are 3 dma modes: paasthrough(bypass),
+lazy(mapping but defer the IOTLB invalidation), strict. But currently each
+ARCHs defined their private boot options, different with each other. For
+example, to enable/disable "passthrough", ARM64 use iommu.passthrough=1/0,
+X86 use iommu=pt/nopt, PPC/POWERNV use iommu=nobypass.
 
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index a209199..1b7ad80 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -1911,9 +1911,7 @@ static void domain_exit(struct dmar_domain *domain)
- 	struct page *freelist;
- 
- 	/* Remove associated devices and clear attached or cached domains */
--	rcu_read_lock();
- 	domain_remove_dev_info(domain);
--	rcu_read_unlock();
- 
- 	/* destroy iovas */
- 	put_iova_domain(&domain->iovad);
-@@ -5254,9 +5252,7 @@ static int intel_iommu_attach_device(struct iommu_domain *domain,
- 
- 		old_domain = find_domain(dev);
- 		if (old_domain) {
--			rcu_read_lock();
- 			dmar_remove_one_dev_info(dev);
--			rcu_read_unlock();
- 
- 			if (!domain_type_is_vm_or_si(old_domain) &&
- 			    list_empty(&old_domain->devices))
+Zhen Lei (1):
+  iommu: enhance IOMMU dma mode build options
+
+ arch/ia64/kernel/pci-dma.c                |  2 +-
+ arch/powerpc/platforms/powernv/pci-ioda.c |  3 ++-
+ arch/s390/pci/pci_dma.c                   |  2 +-
+ arch/x86/kernel/pci-dma.c                 |  7 ++---
+ drivers/iommu/Kconfig                     | 44 ++++++++++++++++++++++++++-----
+ drivers/iommu/amd_iommu_init.c            |  3 ++-
+ drivers/iommu/intel-iommu.c               |  2 +-
+ drivers/iommu/iommu.c                     |  3 ++-
+ 8 files changed, 48 insertions(+), 18 deletions(-)
+
 -- 
-1.8.3.1
+1.8.3
+
 
 _______________________________________________
 iommu mailing list
