@@ -2,63 +2,44 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B9824FB0
-	for <lists.iommu@lfdr.de>; Tue, 21 May 2019 15:04:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C0724FE2
+	for <lists.iommu@lfdr.de>; Tue, 21 May 2019 15:15:32 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 622A2BDC;
-	Tue, 21 May 2019 13:04:48 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 87024C03;
+	Tue, 21 May 2019 13:15:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id DD51DBDC
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id AB191C03
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 21 May 2019 13:04:46 +0000 (UTC)
+	Tue, 21 May 2019 13:15:28 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id C220027B
+Received: from newverein.lst.de (verein.lst.de [213.95.11.211])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5A05287A
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 21 May 2019 13:04:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=L/Xu0P7F2m2k6/NXaV/K5aAUVa/t1N/MPvRs3G2PoR8=;
-	b=0mA1oRUyi1YJlkuM/HBI+9ud0
-	ynBkK4QrRQxvnUfk1iOcI3dGO62FxGuKafy8qEsvG5qqc6dQ9i0HkmayDi97nw+sTWOpBnpOP7MIm
-	FvxXuM/tKvGHqs3I448C94JO1rA4CYGy3JZgsedHTXleMGEaT4vmdg4pyNUOh54PqW4frotbW/1Vg
-	9tzdiI09hlgdLhJqON6ds8kJQsBMgaB5KjmRL6Zkg/MbZ0qSbWAS1Pqv5s2nnsMMnBF2P4iJ2hYf0
-	1TZeB2V60IXiXr7jMX3XBfzHh4DMiyG9xxFLdAlcnOAi/eOXurUjVqBxMnMIaEjyM5OSfHIQLbhnX
-	BRxI0Xrdw==;
-Received: from shell.armlinux.org.uk
-	([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:55920)
-	by pandora.armlinux.org.uk with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1hT4Ra-0001Kc-5y; Tue, 21 May 2019 14:04:38 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.89)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1hT4RZ-0005qi-50; Tue, 21 May 2019 14:04:37 +0100
-Date: Tue, 21 May 2019 14:04:37 +0100
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: Christoph Hellwig <hch@lst.de>
+	Tue, 21 May 2019 13:15:27 +0000 (UTC)
+Received: by newverein.lst.de (Postfix, from userid 2407)
+	id 4C85168AFE; Tue, 21 May 2019 15:15:04 +0200 (CEST)
+Date: Tue, 21 May 2019 15:15:03 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Subject: Re: [PATCH 1/2] dma-mapping: truncate dma masks to what dma_addr_t
 	can hold
-Message-ID: <20190521130436.bgt53bf7nshz62ip@shell.armlinux.org.uk>
+Message-ID: <20190521131503.GA5258@lst.de>
 References: <20190521124729.23559-1-hch@lst.de>
 	<20190521124729.23559-2-hch@lst.de>
+	<20190521130436.bgt53bf7nshz62ip@shell.armlinux.org.uk>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190521124729.23559-2-hch@lst.de>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
+In-Reply-To: <20190521130436.bgt53bf7nshz62ip@shell.armlinux.org.uk>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
-	linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -76,87 +57,108 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, May 21, 2019 at 02:47:28PM +0200, Christoph Hellwig wrote:
-> The dma masks in struct device are always 64-bits wide.  But for builds
-> using a 32-bit dma_addr_t we need to ensure we don't store an
-> unsupportable value.  Before Linux 5.0 this was handled at least by
-> the ARM dma mapping code by never allowing to set a larger dma_mask,
-> but these days we allow the driver to just set the largest supported
-> value and never fall back to a smaller one.  Ensure this always works
-> by truncating the value.
-
-So how does the driver negotiation for >32bit addresses work if we don't
-fail for large masks?
-
-I'm thinking about all those PCI drivers that need DAC cycles for >32bit
-addresses, such as e1000, which negotiate via (eg):
-
-        /* there is a workaround being applied below that limits
-         * 64-bit DMA addresses to 64-bit hardware.  There are some
-         * 32-bit adapters that Tx hang when given 64-bit DMA addresses
-         */
-        pci_using_dac = 0;
-        if ((hw->bus_type == e1000_bus_type_pcix) &&
-            !dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64))) {
-                pci_using_dac = 1;
-        } else {
-                err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-                if (err) {
-                        pr_err("No usable DMA config, aborting\n");
-                        goto err_dma;
-                }
-        }
-
-and similar.  If we blindly trunate the 64-bit to 32-bit, aren't we
-going to end up with PCI cards using DAC cycles to a host bridge that
-do not support DAC cycles?
-
+On Tue, May 21, 2019 at 02:04:37PM +0100, Russell King - ARM Linux admin wrote:
+> So how does the driver negotiation for >32bit addresses work if we don't
+> fail for large masks?
 > 
-> Fixes: 9eb9e96e97b3 ("Documentation/DMA-API-HOWTO: update dma_mask sections")
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  kernel/dma/mapping.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+> I'm thinking about all those PCI drivers that need DAC cycles for >32bit
+> addresses, such as e1000, which negotiate via (eg):
 > 
-> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-> index f7afdadb6770..1f628e7ac709 100644
-> --- a/kernel/dma/mapping.c
-> +++ b/kernel/dma/mapping.c
-> @@ -317,6 +317,12 @@ void arch_dma_set_mask(struct device *dev, u64 mask);
->  
->  int dma_set_mask(struct device *dev, u64 mask)
->  {
-> +	/*
-> +	 * Truncate the mask to the actually supported dma_addr_t width to
-> +	 * avoid generating unsupportable addresses.
-> +	 */
-> +	mask = (dma_addr_t)mask;
-> +
->  	if (!dev->dma_mask || !dma_supported(dev, mask))
->  		return -EIO;
->  
-> @@ -330,6 +336,12 @@ EXPORT_SYMBOL(dma_set_mask);
->  #ifndef CONFIG_ARCH_HAS_DMA_SET_COHERENT_MASK
->  int dma_set_coherent_mask(struct device *dev, u64 mask)
->  {
-> +	/*
-> +	 * Truncate the mask to the actually supported dma_addr_t width to
-> +	 * avoid generating unsupportable addresses.
-> +	 */
-> +	mask = (dma_addr_t)mask;
-> +
->  	if (!dma_supported(dev, mask))
->  		return -EIO;
->  
-> -- 
-> 2.20.1
+>         /* there is a workaround being applied below that limits
+>          * 64-bit DMA addresses to 64-bit hardware.  There are some
+>          * 32-bit adapters that Tx hang when given 64-bit DMA addresses
+>          */
+>         pci_using_dac = 0;
+>         if ((hw->bus_type == e1000_bus_type_pcix) &&
+>             !dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64))) {
+>                 pci_using_dac = 1;
+>         } else {
+>                 err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+>                 if (err) {
+>                         pr_err("No usable DMA config, aborting\n");
+>                         goto err_dma;
+>                 }
+>         }
 > 
-> 
+> and similar.  If we blindly trunate the 64-bit to 32-bit, aren't we
+> going to end up with PCI cards using DAC cycles to a host bridge that
+> do not support DAC cycles?
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+In general PCI devices just use DAC cycles when they need it.  I only
+know of about a handful of devices that need to negotiate their
+addressing mode, and those already use the proper API for that, which
+is dma_get_required_mask.
+
+The e1000 example is a good case of how the old API confused people.
+First it only sets the 64-bit mask for devices which can support it,
+which is good, but then it sets the NETIF_F_HIGHDMA flag only if we
+set a 64-bit mask, which is completely unrelated to the DMA mask,
+it just means the driver can handle sk_buff fragments that do not
+have a kernel mapping, which really is a driver and not a hardware
+issue.
+
+So what this driver really should do is something like:
+
+
+diff --git a/drivers/net/ethernet/intel/e1000/e1000_main.c b/drivers/net/ethernet/intel/e1000/e1000_main.c
+index 551de8c2fef2..d9236083da94 100644
+--- a/drivers/net/ethernet/intel/e1000/e1000_main.c
++++ b/drivers/net/ethernet/intel/e1000/e1000_main.c
+@@ -925,7 +925,7 @@ static int e1000_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 
+ 	static int cards_found;
+ 	static int global_quad_port_a; /* global ksp3 port a indication */
+-	int i, err, pci_using_dac;
++	int i, err;
+ 	u16 eeprom_data = 0;
+ 	u16 tmp = 0;
+ 	u16 eeprom_apme_mask = E1000_EEPROM_APME;
+@@ -996,16 +996,11 @@ static int e1000_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	 * 64-bit DMA addresses to 64-bit hardware.  There are some
+ 	 * 32-bit adapters that Tx hang when given 64-bit DMA addresses
+ 	 */
+-	pci_using_dac = 0;
+-	if ((hw->bus_type == e1000_bus_type_pcix) &&
+-	    !dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64))) {
+-		pci_using_dac = 1;
+-	} else {
+-		err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+-		if (err) {
+-			pr_err("No usable DMA config, aborting\n");
+-			goto err_dma;
+-		}
++	err = dma_set_mask_and_coherent(&pdev->dev,
++		DMA_BIT_MASK(hw->bus_type == e1000_bus_type_pcix ? 64 : 32));
++	if (err) {
++		pr_err("No usable DMA config, aborting\n");
++		goto err_dma;
+ 	}
+ 
+ 	netdev->netdev_ops = &e1000_netdev_ops;
+@@ -1047,19 +1042,15 @@ static int e1000_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 
+ 	netdev->priv_flags |= IFF_SUPP_NOFCS;
+ 
+-	netdev->features |= netdev->hw_features;
++	netdev->features |= netdev->hw_features | NETIF_F_HIGHDMA;
+ 	netdev->hw_features |= (NETIF_F_RXCSUM |
+ 				NETIF_F_RXALL |
+ 				NETIF_F_RXFCS);
+ 
+-	if (pci_using_dac) {
+-		netdev->features |= NETIF_F_HIGHDMA;
+-		netdev->vlan_features |= NETIF_F_HIGHDMA;
+-	}
+-
+ 	netdev->vlan_features |= (NETIF_F_TSO |
+ 				  NETIF_F_HW_CSUM |
+-				  NETIF_F_SG);
++				  NETIF_F_SG |
++				  NETIF_F_HIGHDMA);
+ 
+ 	/* Do not set IFF_UNICAST_FLT for VMWare's 82545EM */
+ 	if (hw->device_id != E1000_DEV_ID_82545EM_COPPER ||
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
