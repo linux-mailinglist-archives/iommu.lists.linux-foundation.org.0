@@ -2,70 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC5B2552D
-	for <lists.iommu@lfdr.de>; Tue, 21 May 2019 18:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1208125641
+	for <lists.iommu@lfdr.de>; Tue, 21 May 2019 19:00:09 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 09B1EC6F;
-	Tue, 21 May 2019 16:14:27 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 76C7ACA8;
+	Tue, 21 May 2019 17:00:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 7C52CC6C
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0EE51C8F
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 21 May 2019 16:14:25 +0000 (UTC)
+	Tue, 21 May 2019 17:00:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D1A7EE3
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 8BF25875
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 21 May 2019 16:14:23 +0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-	id 83C886156F; Tue, 21 May 2019 16:14:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-	s=default; t=1558455263;
-	bh=mPpWMT8VclLlXkDHcZku25yiK9JcrH0W+cJHnR3vCe4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hz/hIbL60aHAHG8/XhizDVSI21HBpQPtz6TRKLbBrF0sA7QSa02y8njF4I381qEvc
-	QJMu9C/+y55kLzDOkqS6KV0iaDmcR33TejhMjnX265y/MTsLoUeNYmspb3a4jWq3/G
-	jIKP+ghZMM691KL/7EYN96d8E6g4BHwoUH8dEbAk=
+	Tue, 21 May 2019 17:00:04 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 May 2019 10:00:03 -0700
+X-ExtLoop1: 1
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+	by orsmga006.jf.intel.com with ESMTP; 21 May 2019 10:00:03 -0700
+Date: Tue, 21 May 2019 10:03:00 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH v3 03/16] iommu: Add I/O ASID allocator
+Message-ID: <20190521100300.4f224e68@jacob-builder>
+In-Reply-To: <bb31fbcb-2708-93e6-f11e-3018556fbc21@redhat.com>
+References: <1556922737-76313-1-git-send-email-jacob.jun.pan@linux.intel.com>
+	<1556922737-76313-4-git-send-email-jacob.jun.pan@linux.intel.com>
+	<bb31fbcb-2708-93e6-f11e-3018556fbc21@redhat.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
-	[199.106.103.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: jcrouse@smtp.codeaurora.org)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 13D2A613A6;
-	Tue, 21 May 2019 16:14:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-	s=default; t=1558455257;
-	bh=mPpWMT8VclLlXkDHcZku25yiK9JcrH0W+cJHnR3vCe4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=l0xwihPxMPObUCtHycTCB/OsfBwh3dlYMRoOSmVs9gyX3VnSaC8KueOMcgT5s8pST
-	HDcr+x0GKU4uh99n51sZLlMDtUt+0GE/qQx1pzMRMnEMAbpkCqTl44lUjFhOi2Uiu+
-	0bCFxnLI6vtwAzTC2oNXKHPcneKYNdQIOMz8beaA=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 13D2A613A6
-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
-	dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
-	spf=none smtp.mailfrom=jcrouse@codeaurora.org
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH v2 05/15] iommu/arm-smmu: Add auxiliary domain support for
-	arm-smmuv2
-Date: Tue, 21 May 2019 10:13:53 -0600
-Message-Id: <1558455243-32746-6-git-send-email-jcrouse@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1558455243-32746-1-git-send-email-jcrouse@codeaurora.org>
-References: <1558455243-32746-1-git-send-email-jcrouse@codeaurora.org>
-Cc: jean-philippe.brucker@arm.com, linux-arm-msm@vger.kernel.org,
-	Will Deacon <will.deacon@arm.com>, dianders@chromium.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	hoegsberg@google.com, Robin Murphy <robin.murphy@arm.com>,
-	linux-arm-kernel@lists.infradead.org
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+	Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+	iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Andriy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -78,289 +61,338 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Support auxiliary domains for arm-smmu-v2 to initialize and support
-multiple pagetables for a single SMMU context bank. Since the smmu-v2
-hardware doesn't have any built in support for switching the pagetable
-it is left as an exercise to the caller to actually use the pagetable;
-aux domains in the IOMMU driver are only preoccupied with creating and
-managing the pagetable memory.
+On Tue, 21 May 2019 10:21:55 +0200
+Auger Eric <eric.auger@redhat.com> wrote:
 
-Following is a pseudo code example of how a domain can be created
+> Hi,
+> 
+> On 5/4/19 12:32 AM, Jacob Pan wrote:
+> > From: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
+> > 
+> > Some devices might support multiple DMA address spaces, in
+> > particular those that have the PCI PASID feature. PASID (Process
+> > Address Space ID) allows to share process address spaces with
+> > devices (SVA), partition a device into VM-assignable entities (VFIO
+> > mdev) or simply provide multiple DMA address space to kernel
+> > drivers. Add a global PASID allocator usable by different drivers
+> > at the same time. Name it I/O ASID to avoid confusion with ASIDs
+> > allocated by arch code, which are usually a separate ID space.
+> > 
+> > The IOASID space is global. Each device can have its own PASID
+> > space, but by convention the IOMMU ended up having a global PASID
+> > space, so that with SVA, each mm_struct is associated to a single
+> > PASID.
+> > 
+> > The allocator is primarily used by IOMMU subsystem but in rare
+> > occasions drivers would like to allocate PASIDs for devices that
+> > aren't managed by an IOMMU, using the same ID space as IOMMU.
+> > 
+> > Signed-off-by: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
+> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > Link: https://lkml.org/lkml/2019/4/26/462
+> > ---
+> >  drivers/iommu/Kconfig  |   6 +++
+> >  drivers/iommu/Makefile |   1 +
+> >  drivers/iommu/ioasid.c | 140
+> > +++++++++++++++++++++++++++++++++++++++++++++++++
+> > include/linux/ioasid.h |  67 +++++++++++++++++++++++ 4 files
+> > changed, 214 insertions(+) create mode 100644 drivers/iommu/ioasid.c
+> >  create mode 100644 include/linux/ioasid.h
+> > 
+> > diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> > index 6f07f3b..75e7f97 100644
+> > --- a/drivers/iommu/Kconfig
+> > +++ b/drivers/iommu/Kconfig
+> > @@ -2,6 +2,12 @@
+> >  config IOMMU_IOVA
+> >  	tristate
+> >  
+> > +config IOASID
+> > +	bool  
+> don't we want a tristate here too?
+> 
+> Also refering to the past discussions we could add "# The IOASID
+> library may also be used by non-IOMMU_API users"
+I agree. For device driver modules to use ioasid w/o iommu, this does
+not have to be built-in.
+Jean, would you agree?
 
- /* Check to see if aux domains are supported */
- if (iommu_dev_has_feature(dev, IOMMU_DEV_FEAT_AUX)) {
-	 iommu = iommu_domain_alloc(...);
+> > +	help
+> > +	  Enable the I/O Address Space ID allocator. A single ID
+> > space shared
+> > +	  between different users.
+> > +
+> >  # IOMMU_API always gets selected by whoever wants it.
+> >  config IOMMU_API
+> >  	bool
+> > diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
+> > index 8c71a15..0efac6f 100644
+> > --- a/drivers/iommu/Makefile
+> > +++ b/drivers/iommu/Makefile
+> > @@ -7,6 +7,7 @@ obj-$(CONFIG_IOMMU_DMA) += dma-iommu.o
+> >  obj-$(CONFIG_IOMMU_IO_PGTABLE) += io-pgtable.o
+> >  obj-$(CONFIG_IOMMU_IO_PGTABLE_ARMV7S) += io-pgtable-arm-v7s.o
+> >  obj-$(CONFIG_IOMMU_IO_PGTABLE_LPAE) += io-pgtable-arm.o
+> > +obj-$(CONFIG_IOASID) += ioasid.o
+> >  obj-$(CONFIG_IOMMU_IOVA) += iova.o
+> >  obj-$(CONFIG_OF_IOMMU)	+= of_iommu.o
+> >  obj-$(CONFIG_MSM_IOMMU) += msm_iommu.o
+> > diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
+> > new file mode 100644
+> > index 0000000..99f5e0a
+> > --- /dev/null
+> > +++ b/drivers/iommu/ioasid.c
+> > @@ -0,0 +1,140 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * I/O Address Space ID allocator. There is one global IOASID
+> > space, split into
+> > + * subsets. Users create a subset with DECLARE_IOASID_SET, then
+> > allocate and
+> > + * free IOASIDs with ioasid_alloc and ioasid_free.
+> > + */
+> > +#include <linux/xarray.h>
+> > +#include <linux/ioasid.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/spinlock.h>
+> > +
+> > +struct ioasid_data {
+> > +	ioasid_t id;
+> > +	struct ioasid_set *set;
+> > +	void *private;
+> > +	struct rcu_head rcu;
+> > +};
+> > +
+> > +static DEFINE_XARRAY_ALLOC(ioasid_xa);
+> > +
+> > +/**
+> > + * ioasid_set_data - Set private data for an allocated ioasid
+> > + * @ioasid: the ID to set data
+> > + * @data:   the private data
+> > + *
+> > + * For IOASID that is already allocated, private data can be set
+> > + * via this API. Future lookup can be done via ioasid_find.
+> > + */
+> > +int ioasid_set_data(ioasid_t ioasid, void *data)
+> > +{
+> > +	struct ioasid_data *ioasid_data;
+> > +	int ret = 0;
+> > +
+> > +	ioasid_data = xa_load(&ioasid_xa, ioasid);
+> > +	if (ioasid_data)
+> > +		ioasid_data->private = data;
+> > +	else
+> > +		ret = -ENOENT;
+> > +
+> > +	/* getter may use the private data */
+> > +	synchronize_rcu();
+> > +
+> > +	return ret;
+> > +}
+> > +EXPORT_SYMBOL_GPL(ioasid_set_data);
+> > +
+> > +/**
+> > + * ioasid_alloc - Allocate an IOASID
+> > + * @set: the IOASID set
+> > + * @min: the minimum ID (inclusive)
+> > + * @max: the maximum ID (inclusive)
+> > + * @private: data private to the caller
+> > + *
+> > + * Allocate an ID between @min and @max (or %0 and %INT_MAX).  
+> I think we agreed to drop (or %0 and %INT_MAX)
+>  Return the
+sorry I don't recall but works for me.
 
-	 if (iommu_aux_attach_device(domain, dev))
-		 return FAIL;
+> > + * allocated ID on success, or INVALID_IOASID on failure. The
+> > @private pointer
+> > + * is stored internally and can be retrieved with ioasid_find().
+> > + */
+> > +ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min,
+> > ioasid_t max,
+> > +		      void *private)
+> > +{
+> > +	int id = INVALID_IOASID;  
+> isn't it an unsigned?
+Right
 
-	/* Save the base address of the pagetable for use by the driver
-	iommu_domain_get_attr(domain, DOMAIN_ATTR_PTBASE, &ptbase);
- }
+> > +	struct ioasid_data *data;
+> > +
+> > +	data = kzalloc(sizeof(*data), GFP_KERNEL);
+> > +	if (!data)
+> > +		return INVALID_IOASID;
+> > +
+> > +	data->set = set;
+> > +	data->private = private;
+> > +
+> > +	if (xa_alloc(&ioasid_xa, &id, data, XA_LIMIT(min, max),
+> > GFP_KERNEL)) {
+> > +		pr_err("Failed to alloc ioasid from %d to %d\n",
+> > min, max);
+> > +		goto exit_free;
+> > +	}
+> > +	data->id = id;
+> > +
+> > +exit_free:
+> > +	if (id < 0 || id == INVALID_IOASID) {  
+> < 0?
+Agreed.
+> > +		kfree(data);
+> > +		return INVALID_IOASID;
+> > +	}
+> > +	return id;
+> > +}
+> > +EXPORT_SYMBOL_GPL(ioasid_alloc);
+> > +
+> > +/**
+> > + * ioasid_free - Free an IOASID
+> > + * @ioasid: the ID to remove
+> > + */
+> > +void ioasid_free(ioasid_t ioasid)
+> > +{
+> > +	struct ioasid_data *ioasid_data;
+> > +
+> > +	ioasid_data = xa_erase(&ioasid_xa, ioasid);
+> > +
+> > +	kfree_rcu(ioasid_data, rcu);
+> > +}
+> > +EXPORT_SYMBOL_GPL(ioasid_free);
+> > +
+> > +/**
+> > + * ioasid_find - Find IOASID data
+> > + * @set: the IOASID set
+> > + * @ioasid: the IOASID to find
+> > + * @getter: function to call on the found object
+> > + *
+> > + * The optional getter function allows to take a reference to the
+> > found object
+> > + * under the rcu lock. The function can also check if the object
+> > is still valid:
+> > + * if @getter returns false, then the object is invalid and NULL
+> > is returned.
+> > + *
+> > + * If the IOASID has been allocated for this set, return the
+> > private pointer
+> > + * passed to ioasid_alloc. Private data can be NULL if not set.
+> > Return an error
+> > + * if the IOASID is not found or not belong to the set.  
+> do not belong
+Will fix, "does not belong"
 
-Then 'domain' can be used like any other iommu domain to map and
-unmap iova addresses in the pagetable. The driver/hardware is used
-to switch the pagetable according to its own specific implementation.
-
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
----
-
- drivers/iommu/arm-smmu.c | 133 +++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 117 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index e09c0e6..27ff554 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -263,6 +263,8 @@ struct arm_smmu_domain {
- 	spinlock_t			cb_lock; /* Serialises ATS1* ops and TLB syncs */
- 	u32 attributes;
- 	struct iommu_domain		domain;
-+	bool				is_aux;
-+	u64				ttbr0;
- };
- 
- struct arm_smmu_option_prop {
-@@ -892,6 +894,12 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 	if (!(smmu->features & ARM_SMMU_FEAT_TRANS_S2))
- 		smmu_domain->stage = ARM_SMMU_DOMAIN_S1;
- 
-+	/* Aux domains can only be created for stage-1 tables */
-+	if (smmu_domain->is_aux && smmu_domain->stage != ARM_SMMU_DOMAIN_S1) {
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
-+
- 	/*
- 	 * Choosing a suitable context format is even more fiddly. Until we
- 	 * grow some way for the caller to express a preference, and/or move
-@@ -942,6 +950,7 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 			ias = min(ias, 32UL);
- 			oas = min(oas, 32UL);
- 		}
-+
- 		smmu_domain->tlb_ops = &arm_smmu_s1_tlb_ops;
- 		break;
- 	case ARM_SMMU_DOMAIN_NESTED:
-@@ -961,6 +970,7 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 			ias = min(ias, 40UL);
- 			oas = min(oas, 40UL);
- 		}
-+
- 		if (smmu->version == ARM_SMMU_V2)
- 			smmu_domain->tlb_ops = &arm_smmu_s2_tlb_ops_v2;
- 		else
-@@ -970,23 +980,30 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 		ret = -EINVAL;
- 		goto out_unlock;
- 	}
--	ret = __arm_smmu_alloc_bitmap(smmu->context_map, start,
--				      smmu->num_context_banks);
--	if (ret < 0)
--		goto out_unlock;
- 
--	cfg->cbndx = ret;
--	if (smmu->version < ARM_SMMU_V2) {
--		cfg->irptndx = atomic_inc_return(&smmu->irptndx);
--		cfg->irptndx %= smmu->num_context_irqs;
--	} else {
--		cfg->irptndx = cfg->cbndx;
--	}
-+	/*
-+	 * Aux domains will use the same context bank assigned to the master
-+	 * domain for the device
-+	 */
-+	if (!smmu_domain->is_aux) {
-+		ret = __arm_smmu_alloc_bitmap(smmu->context_map, start,
-+					      smmu->num_context_banks);
-+		if (ret < 0)
-+			goto out_unlock;
- 
--	if (smmu_domain->stage == ARM_SMMU_DOMAIN_S2)
--		cfg->vmid = cfg->cbndx + 1 + smmu->cavium_id_base;
--	else
--		cfg->asid = cfg->cbndx + smmu->cavium_id_base;
-+		cfg->cbndx = ret;
-+		if (smmu->version < ARM_SMMU_V2) {
-+			cfg->irptndx = atomic_inc_return(&smmu->irptndx);
-+			cfg->irptndx %= smmu->num_context_irqs;
-+		} else {
-+			cfg->irptndx = cfg->cbndx;
-+		}
-+
-+		if (smmu_domain->stage == ARM_SMMU_DOMAIN_S2)
-+			cfg->vmid = cfg->cbndx + 1 + smmu->cavium_id_base;
-+		else
-+			cfg->asid = cfg->cbndx + smmu->cavium_id_base;
-+	}
- 
- 	pgtbl_cfg = (struct io_pgtable_cfg) {
- 		.pgsize_bitmap	= smmu->pgsize_bitmap,
-@@ -1009,11 +1026,21 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 		goto out_clear_smmu;
- 	}
- 
-+	/* Cache the TTBR0 for the aux domain */
-+	smmu_domain->ttbr0 = pgtbl_cfg.arm_lpae_s1_cfg.ttbr[0];
-+
- 	/* Update the domain's page sizes to reflect the page table format */
- 	domain->pgsize_bitmap = pgtbl_cfg.pgsize_bitmap;
- 	domain->geometry.aperture_end = (1UL << ias) - 1;
- 	domain->geometry.force_aperture = true;
- 
-+	/*
-+	 * aux domains don't use split tables or program the hardware so we're
-+	 * done setting it up
-+	 */
-+	if (smmu_domain->is_aux)
-+		goto out;
-+
- 	/* Initialise the context bank with our page table cfg */
- 	arm_smmu_init_context_bank(smmu_domain, &pgtbl_cfg);
- 
-@@ -1045,6 +1072,7 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 		cfg->irptndx = INVALID_IRPTNDX;
- 	}
- 
-+out:
- 	mutex_unlock(&smmu_domain->init_mutex);
- 
- 	/* Publish page table ops for map/unmap */
-@@ -1070,6 +1098,12 @@ static void arm_smmu_destroy_domain_context(struct iommu_domain *domain)
- 	if (!smmu || domain->type == IOMMU_DOMAIN_IDENTITY)
- 		return;
- 
-+	/* All we need to do for aux devices is destroy the pagetable */
-+	if (smmu_domain->is_aux) {
-+		free_io_pgtable_ops(smmu_domain->pgtbl_ops[0]);
-+		return;
-+	}
-+
- 	ret = arm_smmu_rpm_get(smmu);
- 	if (ret < 0)
- 		return;
-@@ -1352,14 +1386,17 @@ static int arm_smmu_domain_add_master(struct arm_smmu_domain *smmu_domain,
- 
- struct arm_smmu_client_match_data {
- 	bool use_identity_domain;
-+	bool allow_aux_domain;
- };
- 
- static const struct arm_smmu_client_match_data qcom_adreno = {
- 	.use_identity_domain = true,
-+	.allow_aux_domain = true,
- };
- 
- static const struct arm_smmu_client_match_data qcom_mdss = {
- 	.use_identity_domain = true,
-+	.allow_aux_domain = false,
- };
- 
- static const struct of_device_id arm_smmu_client_of_match[] = {
-@@ -1379,6 +1416,55 @@ arm_smmu_client_data(struct device *dev)
- 	return match ? match->data : NULL;
- }
- 
-+static bool arm_smmu_supports_aux(struct device *dev)
-+{
-+	const struct arm_smmu_client_match_data *data =
-+		arm_smmu_client_data(dev);
-+
-+	return (data && data->allow_aux_domain);
-+}
-+
-+static bool arm_smmu_dev_has_feat(struct device *dev,
-+		enum iommu_dev_features feat)
-+{
-+	if (feat != IOMMU_DEV_FEAT_AUX)
-+		return false;
-+
-+	return arm_smmu_supports_aux(dev);
-+}
-+
-+static int arm_smmu_dev_enable_feat(struct device *dev,
-+		enum iommu_dev_features feat)
-+{
-+	/* If supported aux domain support is always "on" */
-+	if (feat == IOMMU_DEV_FEAT_AUX && arm_smmu_supports_aux(dev))
-+		return 0;
-+
-+	return -ENODEV;
-+}
-+
-+static int arm_smmu_dev_disable_feat(struct device *dev,
-+		enum iommu_dev_features feat)
-+{
-+	return -EBUSY;
-+}
-+
-+/* Set up a new aux domain and create a new pagetable with the same
-+ * characteristics as the master
-+ */
-+static int arm_smmu_aux_attach_dev(struct iommu_domain *domain,
-+		struct device *dev)
-+{
-+	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-+	struct arm_smmu_device *smmu = fwspec_smmu(fwspec);
-+	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
-+
-+	smmu_domain->is_aux = true;
-+
-+	/* No power is needed because aux domain doesn't touch the hardware */
-+	return arm_smmu_init_domain_context(domain, smmu);
-+}
-+
- static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
- {
- 	int ret;
-@@ -1437,7 +1523,13 @@ arm_smmu_get_pgtbl_ops(struct iommu_domain *domain, unsigned long iova)
- {
- 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
- 	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
--	struct arm_smmu_cb *cb = &smmu_domain->smmu->cbs[cfg->cbndx];
-+	struct arm_smmu_cb *cb;
-+
-+	/* quick escape for domains that don't have split pagetables enabled */
-+	if (!smmu_domain->pgtbl_ops[1])
-+		return smmu_domain->pgtbl_ops[0];
-+
-+	cb = &smmu_domain->smmu->cbs[cfg->cbndx];
- 
- 	if (iova & cb->split_table_mask)
- 		return smmu_domain->pgtbl_ops[1];
-@@ -1777,6 +1869,11 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
- 				!!(smmu_domain->attributes &
- 				   (1 << DOMAIN_ATTR_SPLIT_TABLES));
- 			return 0;
-+		case DOMAIN_ATTR_PTBASE:
-+			if (!smmu_domain->is_aux)
-+				return -ENODEV;
-+			*((u64 *)data) = smmu_domain->ttbr0;
-+			return 0;
- 		default:
- 			return -ENODEV;
- 		}
-@@ -1887,7 +1984,11 @@ static struct iommu_ops arm_smmu_ops = {
- 	.capable		= arm_smmu_capable,
- 	.domain_alloc		= arm_smmu_domain_alloc,
- 	.domain_free		= arm_smmu_domain_free,
-+	.dev_has_feat		= arm_smmu_dev_has_feat,
-+	.dev_enable_feat	= arm_smmu_dev_enable_feat,
-+	.dev_disable_feat	= arm_smmu_dev_disable_feat,
- 	.attach_dev		= arm_smmu_attach_dev,
-+	.aux_attach_dev		= arm_smmu_aux_attach_dev,
- 	.map			= arm_smmu_map,
- 	.unmap			= arm_smmu_unmap,
- 	.flush_iotlb_all	= arm_smmu_flush_iotlb_all,
--- 
-2.7.4
-
+> > + */
+> > +void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
+> > +		  bool (*getter)(void *))
+> > +{
+> > +	void *priv = NULL;
+> > +	struct ioasid_data *ioasid_data;
+> > +
+> > +	rcu_read_lock();
+> > +	ioasid_data = xa_load(&ioasid_xa, ioasid);
+> > +	if (!ioasid_data) {
+> > +		priv = ERR_PTR(-ENOENT);
+> > +		goto unlock;
+> > +	}
+> > +	if (set && ioasid_data->set != set) {
+> > +		/* data found but does not belong to the set */
+> > +		priv = ERR_PTR(-EACCES);
+> > +		goto unlock;
+> > +	}
+> > +	/* Now IOASID and its set is verified, we can return the
+> > private data */
+> > +	priv = ioasid_data->private;
+> > +	if (getter && !getter(priv))
+> > +		priv = NULL;
+> > +unlock:
+> > +	rcu_read_unlock();
+> > +
+> > +	return priv;
+> > +}
+> > +EXPORT_SYMBOL_GPL(ioasid_find);
+> > diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
+> > new file mode 100644
+> > index 0000000..41de5e4
+> > --- /dev/null
+> > +++ b/include/linux/ioasid.h
+> > @@ -0,0 +1,67 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +#ifndef __LINUX_IOASID_H
+> > +#define __LINUX_IOASID_H
+> > +
+> > +#define INVALID_IOASID ((ioasid_t)-1)
+> > +typedef unsigned int ioasid_t;
+> > +typedef int (*ioasid_iter_t)(ioasid_t ioasid, void *private, void
+> > *data); +typedef ioasid_t (*ioasid_alloc_fn_t)(ioasid_t min,
+> > ioasid_t max, void *data); +typedef void
+> > (*ioasid_free_fn_t)(ioasid_t ioasid, void *data); +
+> > +struct ioasid_set {
+> > +	int dummy;
+> > +};
+> > +
+> > +struct ioasid_allocator {
+> > +	ioasid_alloc_fn_t alloc;
+> > +	ioasid_free_fn_t free;
+> > +	void *pdata;
+> > +	struct list_head list;
+> > +};
+> > +
+> > +#define DECLARE_IOASID_SET(name) struct ioasid_set name = { 0 }
+> > +
+> > +#ifdef CONFIG_IOASID
+> > +ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min,
+> > ioasid_t max,
+> > +		      void *private);
+> > +void ioasid_free(ioasid_t ioasid);
+> > +
+> > +void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
+> > +		  bool (*getter)(void *));
+> > +int ioasid_register_allocator(struct ioasid_allocator *allocator);
+> > +void ioasid_unregister_allocator(struct ioasid_allocator
+> > *allocator); +
+> > +int ioasid_set_data(ioasid_t ioasid, void *data);
+> > +
+> > +#else /* !CONFIG_IOASID */
+> > +static inline ioasid_t ioasid_alloc(struct ioasid_set *set,
+> > ioasid_t min,
+> > +				    ioasid_t max, void *private)
+> > +{
+> > +	return INVALID_IOASID;
+> > +}
+> > +
+> > +static inline void ioasid_free(ioasid_t ioasid)
+> > +{
+> > +}
+> > +
+> > +static inline void *ioasid_find(struct ioasid_set *set, ioasid_t
+> > ioasid,
+> > +				bool (*getter)(void *))
+> > +{
+> > +	return NULL;
+> > +}
+> > +static inline int ioasid_register_allocator(struct
+> > ioasid_allocator *allocator) +{
+> > +	return -ENODEV;
+> > +}
+> > +
+> > +static inline void ioasid_unregister_allocator(struct
+> > ioasid_allocator *allocator) +{
+> > +}
+> > +
+> > +static inline int ioasid_set_data(ioasid_t ioasid, void *data)
+> > +{
+> > +	return -ENODEV;
+> > +}
+> > +
+> > +#endif /* CONFIG_IOASID */
+> > +#endif /* __LINUX_IOASID_H */
+> >   
+> Thanks
+> 
+> Eric
+Thank you for the review
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
