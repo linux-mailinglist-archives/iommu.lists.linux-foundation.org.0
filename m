@@ -2,44 +2,44 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1208125641
-	for <lists.iommu@lfdr.de>; Tue, 21 May 2019 19:00:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF37525649
+	for <lists.iommu@lfdr.de>; Tue, 21 May 2019 19:02:20 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 76C7ACA8;
-	Tue, 21 May 2019 17:00:07 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id F1687CA1;
+	Tue, 21 May 2019 17:02:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0EE51C8F
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 48C54C64
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 21 May 2019 17:00:06 +0000 (UTC)
+	Tue, 21 May 2019 17:02:17 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 8BF25875
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 6B0D281A
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 21 May 2019 17:00:04 +0000 (UTC)
+	Tue, 21 May 2019 17:02:16 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 May 2019 10:00:03 -0700
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 May 2019 10:02:15 -0700
 X-ExtLoop1: 1
 Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
-	by orsmga006.jf.intel.com with ESMTP; 21 May 2019 10:00:03 -0700
-Date: Tue, 21 May 2019 10:03:00 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 21 May 2019 10:02:15 -0700
+Date: Tue, 21 May 2019 10:05:12 -0700
 From: Jacob Pan <jacob.jun.pan@linux.intel.com>
 To: Auger Eric <eric.auger@redhat.com>
 Subject: Re: [PATCH v3 03/16] iommu: Add I/O ASID allocator
-Message-ID: <20190521100300.4f224e68@jacob-builder>
-In-Reply-To: <bb31fbcb-2708-93e6-f11e-3018556fbc21@redhat.com>
+Message-ID: <20190521100512.2d6ccf5a@jacob-builder>
+In-Reply-To: <faf475ce-8645-9d05-663d-8d090cd4ac05@redhat.com>
 References: <1556922737-76313-1-git-send-email-jacob.jun.pan@linux.intel.com>
 	<1556922737-76313-4-git-send-email-jacob.jun.pan@linux.intel.com>
-	<bb31fbcb-2708-93e6-f11e-3018556fbc21@redhat.com>
+	<faf475ce-8645-9d05-663d-8d090cd4ac05@redhat.com>
 Organization: OTC
 X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
@@ -66,7 +66,7 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, 21 May 2019 10:21:55 +0200
+On Tue, 21 May 2019 11:41:52 +0200
 Auger Eric <eric.auger@redhat.com> wrote:
 
 > Hi,
@@ -113,15 +113,7 @@ Auger Eric <eric.auger@redhat.com> wrote:
 > >  	tristate
 > >  
 > > +config IOASID
-> > +	bool  
-> don't we want a tristate here too?
-> 
-> Also refering to the past discussions we could add "# The IOASID
-> library may also be used by non-IOMMU_API users"
-I agree. For device driver modules to use ioasid w/o iommu, this does
-not have to be built-in.
-Jean, would you agree?
-
+> > +	bool
 > > +	help
 > > +	  Enable the I/O Address Space ID allocator. A single ID
 > > space shared
@@ -203,11 +195,8 @@ Jean, would you agree?
 > > + * @max: the maximum ID (inclusive)
 > > + * @private: data private to the caller
 > > + *
-> > + * Allocate an ID between @min and @max (or %0 and %INT_MAX).  
-> I think we agreed to drop (or %0 and %INT_MAX)
->  Return the
-sorry I don't recall but works for me.
-
+> > + * Allocate an ID between @min and @max (or %0 and %INT_MAX).
+> > Return the
 > > + * allocated ID on success, or INVALID_IOASID on failure. The
 > > @private pointer
 > > + * is stored internally and can be retrieved with ioasid_find().
@@ -216,10 +205,7 @@ sorry I don't recall but works for me.
 > > ioasid_t max,
 > > +		      void *private)
 > > +{
-> > +	int id = INVALID_IOASID;  
-> isn't it an unsigned?
-Right
-
+> > +	int id = INVALID_IOASID;
 > > +	struct ioasid_data *data;
 > > +
 > > +	data = kzalloc(sizeof(*data), GFP_KERNEL);
@@ -238,9 +224,7 @@ Right
 > > +	data->id = id;
 > > +
 > > +exit_free:
-> > +	if (id < 0 || id == INVALID_IOASID) {  
-> < 0?
-Agreed.
+> > +	if (id < 0 || id == INVALID_IOASID) {
 > > +		kfree(data);
 > > +		return INVALID_IOASID;
 > > +	}
@@ -279,10 +263,7 @@ Agreed.
 > > private pointer
 > > + * passed to ioasid_alloc. Private data can be NULL if not set.
 > > Return an error
-> > + * if the IOASID is not found or not belong to the set.  
-> do not belong
-Will fix, "does not belong"
-
+> > + * if the IOASID is not found or not belong to the set.
 > > + */
 > > +void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
 > > +		  bool (*getter)(void *))
@@ -325,9 +306,17 @@ Will fix, "does not belong"
 > > +#define INVALID_IOASID ((ioasid_t)-1)
 > > +typedef unsigned int ioasid_t;
 > > +typedef int (*ioasid_iter_t)(ioasid_t ioasid, void *private, void
-> > *data); +typedef ioasid_t (*ioasid_alloc_fn_t)(ioasid_t min,
-> > ioasid_t max, void *data); +typedef void
-> > (*ioasid_free_fn_t)(ioasid_t ioasid, void *data); +
+> > *data);  
+> not used as reported during v2 review:
+> https://lkml.org/lkml/2019/4/25/341
+> 
+I missed it, thanks.
+> Thanks
+> 
+> Eric
+> > +typedef ioasid_t (*ioasid_alloc_fn_t)(ioasid_t min, ioasid_t max,
+> > void *data); +typedef void (*ioasid_free_fn_t)(ioasid_t ioasid,
+> > void *data); +
 > > +struct ioasid_set {
 > > +	int dummy;
 > > +};
@@ -389,10 +378,8 @@ Will fix, "does not belong"
 > > +#endif /* CONFIG_IOASID */
 > > +#endif /* __LINUX_IOASID_H */
 > >   
-> Thanks
-> 
-> Eric
-Thank you for the review
+
+[Jacob Pan]
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
