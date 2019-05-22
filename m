@@ -2,53 +2,68 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DBFF26D12
-	for <lists.iommu@lfdr.de>; Wed, 22 May 2019 21:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E8F6270E2
+	for <lists.iommu@lfdr.de>; Wed, 22 May 2019 22:37:12 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id EE91EB1F;
-	Wed, 22 May 2019 19:40:00 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 4EC97AD0;
+	Wed, 22 May 2019 20:37:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 12826A59
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 00576ACC
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 22 May 2019 19:40:00 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4C7D0102
+	Wed, 22 May 2019 20:37:07 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 56B595D0
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 22 May 2019 19:39:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 May 2019 12:39:58 -0700
-X-ExtLoop1: 1
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
-	by orsmga002.jf.intel.com with ESMTP; 22 May 2019 12:39:58 -0700
-Date: Wed, 22 May 2019 12:42:55 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Auger Eric <eric.auger@redhat.com>
-Subject: Re: [PATCH v3 04/16] ioasid: Add custom IOASID allocator
-Message-ID: <20190522124255.117de6f6@jacob-builder>
-In-Reply-To: <c991ff0c-87bf-574a-bf31-9b37f0421385@redhat.com>
-References: <1556922737-76313-1-git-send-email-jacob.jun.pan@linux.intel.com>
-	<1556922737-76313-5-git-send-email-jacob.jun.pan@linux.intel.com>
-	<c991ff0c-87bf-574a-bf31-9b37f0421385@redhat.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+	Wed, 22 May 2019 20:37:07 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id a17so4111824qth.3
+	for <iommu@lists.linux-foundation.org>;
+	Wed, 22 May 2019 13:37:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=DDEc493zRRlIzxUABdOKVz8yZe5OqF7VHlzAHj5qgck=;
+	b=HkD1qDnPggcknOVzuyXItIMGjUV7me9Zi8Vwtpvs+Um5+AFZ9Q1zQ2gPUyHNB7vAgM
+	Js8drHBrwL9CchGi9PVmV/G4CGVAfBIkuWEUxvWo3bi5+Td4egvLTrqRKqeNySwHVAzr
+	PuVf7clTGSp/Vn5yBjTOCFVWAS2moFTjeF0hQl2MVbbrKINN5stXEScQU2GsAq1PDQ6u
+	5WnrsGzxPtBal9RVXslCFrc/3NhG5fCjV3YLlrGTlDFv7kTXxLadoavrU+0wmiKSydgx
+	xpQ5XFmJdtp9dqWiMft6z4rd+jYkY3X62rVSZsYBsT7nR5pgQgaDdhUF0aLvay4D8CRT
+	qIzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=DDEc493zRRlIzxUABdOKVz8yZe5OqF7VHlzAHj5qgck=;
+	b=hkUqs5vSNqQ1k6sdZhHmD6s6tsBY3wMOqzzAvEZkUtUqoZ20sDRxGvrqIZWl7mtKHj
+	PrTTP9npOZ327TNJHTR3VLNYsu2pcAbADxszXzNV1R4kQo3/ztkdim+i15xDP6LUjJXq
+	V5lZmTmKf8GBqnw3t0hMdFtiL1m9v2/Tz4Y17Hw9uoS5SSl8wI/Yh/vaGtXW/drunPGG
+	PFebftajhiwgtHQvaPzkSezs4myIauEie9dPE7m6Rkf4JqpgSdIj82WPjKD0COQ9IXD/
+	LL/3UFkXXMArBI8oW6HfPDILvPsjD8Sk0Drh2WhQXWp9DDZ/cJRDw2iK3dGurE3f1vDe
+	gt/w==
+X-Gm-Message-State: APjAAAV5KmliQMN4hMdyVOgxW1TG80TTjaN8LGAjaR0xPdA+5sstoojP
+	cr3P0F/Fqu2/pZeeYvUgWnCDVQ==
+X-Google-Smtp-Source: APXvYqwMYhS0u5PhrONFf+mvi1pBgngqWhuTqFo2JraK7yCZuFqDmAVoYIt4h+YtfkFs6KwzsgZsdw==
+X-Received: by 2002:ac8:2617:: with SMTP id u23mr75957842qtu.141.1558557426395;
+	Wed, 22 May 2019 13:37:06 -0700 (PDT)
+Received: from qcai.nay.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+	by smtp.gmail.com with ESMTPSA id f9sm7013886qkb.97.2019.05.22.13.37.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 May 2019 13:37:05 -0700 (PDT)
+From: Qian Cai <cai@lca.pw>
+To: akpm@linux-foundation.org
+Subject: [RESEND PATCH] iommu/intel: fix variable 'iommu' set but not used
+Date: Wed, 22 May 2019 16:36:26 -0400
+Message-Id: <1558557386-17160-1-git-send-email-cai@lca.pw>
+X-Mailer: git-send-email 1.8.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
-	Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-	iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Andriy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>
+Cc: Qian Cai <cai@lca.pw>, iommu@lists.linux-foundation.org, jroedel@suse.de,
+	dwmw2@infradead.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,244 +76,55 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, 21 May 2019 11:55:55 +0200
-Auger Eric <eric.auger@redhat.com> wrote:
+The commit cf04eee8bf0e ("iommu/vt-d: Include ACPI devices in iommu=pt")
+added for_each_active_iommu() in iommu_prepare_static_identity_mapping()
+but never used the each element, i.e, "drhd->iommu".
 
-> Hi Jacob,
-> 
-> On 5/4/19 12:32 AM, Jacob Pan wrote:
-> > Sometimes, IOASID allocation must be handled by platform specific
-> > code. The use cases are guest vIOMMU and pvIOMMU where IOASIDs need
-> > to be allocated by the host via enlightened or paravirt interfaces.
-> > 
-> > This patch adds an extension to the IOASID allocator APIs such that
-> > platform drivers can register a custom allocator, possibly at boot
-> > time, to take over the allocation. Xarray is still used for tracking
-> > and searching purposes internal to the IOASID code. Private data of
-> > an IOASID can also be set after the allocation.
-> > 
-> > There can be multiple custom allocators registered but only one is
-> > used at a time. In case of hot removal of devices that provides the
-> > allocator, all IOASIDs must be freed prior to unregistering the
-> > allocator. Default XArray based allocator cannot be mixed with
-> > custom allocators, i.e. custom allocators will not be used if there
-> > are outstanding IOASIDs allocated by the default XA allocator.
-> > 
-> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > ---
-> >  drivers/iommu/ioasid.c | 125
-> > +++++++++++++++++++++++++++++++++++++++++++++++++ 1 file changed,
-> > 125 insertions(+)
-> > 
-> > diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
-> > index 99f5e0a..ed2915a 100644
-> > --- a/drivers/iommu/ioasid.c
-> > +++ b/drivers/iommu/ioasid.c
-> > @@ -17,6 +17,100 @@ struct ioasid_data {
-> >  };
-> >  
-> >  static DEFINE_XARRAY_ALLOC(ioasid_xa);
-> > +static DEFINE_MUTEX(ioasid_allocator_lock);
-> > +static struct ioasid_allocator *active_custom_allocator;
-> > +
-> > +static LIST_HEAD(custom_allocators);
-> > +/*
-> > + * A flag to track if ioasid default allocator is in use, this will
-> > + * prevent custom allocator from being used. The reason is that
-> > custom allocator
-> > + * must have unadulterated space to track private data with
-> > xarray, there cannot
-> > + * be a mix been default and custom allocated IOASIDs.
-> > + */
-> > +static int default_allocator_active;
-> > +
-> > +/**
-> > + * ioasid_register_allocator - register a custom allocator
-> > + * @allocator: the custom allocator to be registered
-> > + *
-> > + * Custom allocators take precedence over the default xarray based
-> > allocator.
-> > + * Private data associated with the ASID are managed by ASID
-> > common code
-> > + * similar to data stored in xa.
-> > + *
-> > + * There can be multiple allocators registered but only one is
-> > active. In case
-> > + * of runtime removal of a custom allocator, the next one is
-> > activated based
-> > + * on the registration ordering.
-> > + */
-> > +int ioasid_register_allocator(struct ioasid_allocator *allocator)
-> > +{
-> > +	struct ioasid_allocator *pallocator;
-> > +	int ret = 0;
-> > +
-> > +	if (!allocator)
-> > +		return -EINVAL;  
-> is it really necessary? Sin't it the caller responsibility?
-makes sense. will remove this one and below.
-> > +
-> > +	mutex_lock(&ioasid_allocator_lock);
-> > +	/*
-> > +	 * No particular preference since all custom allocators
-> > end up calling
-> > +	 * the host to allocate IOASIDs. We activate the first one
-> > and keep
-> > +	 * the later registered allocators in a list in case the
-> > first one gets
-> > +	 * removed due to hotplug.
-> > +	 */
-> > +	if (list_empty(&custom_allocators))
-> > +		active_custom_allocator = allocator;> +
-> > else {
-> > +		/* Check if the allocator is already registered */
-> > +		list_for_each_entry(pallocator,
-> > &custom_allocators, list) {
-> > +			if (pallocator == allocator) {
-> > +				pr_err("IOASID allocator already
-> > registered\n");
-> > +				ret = -EEXIST;
-> > +				goto out_unlock;
-> > +			}
-> > +		}
-> > +	}
-> > +	list_add_tail(&allocator->list, &custom_allocators);
-> > +
-> > +out_unlock:
-> > +	mutex_unlock(&ioasid_allocator_lock);
-> > +	return ret;
-> > +}
-> > +EXPORT_SYMBOL_GPL(ioasid_register_allocator);
-> > +
-> > +/**
-> > + * ioasid_unregister_allocator - Remove a custom IOASID allocator
-> > + * @allocator: the custom allocator to be removed
-> > + *
-> > + * Remove an allocator from the list, activate the next allocator
-> > in
-> > + * the order it was registered.
-> > + */
-> > +void ioasid_unregister_allocator(struct ioasid_allocator
-> > *allocator) +{
-> > +	if (!allocator)
-> > +		return;  
-> is it really necessary?
-> > +
-> > +	if (list_empty(&custom_allocators)) {
-> > +		pr_warn("No custom IOASID allocators active!\n");
-> > +		return;
-> > +	}
-> > +
-> > +	mutex_lock(&ioasid_allocator_lock);
-> > +	list_del(&allocator->list);
-> > +	if (list_empty(&custom_allocators)) {
-> > +		pr_info("No custom IOASID allocators\n")>
-> > +		/*
-> > +		 * All IOASIDs should have been freed before the
-> > last custom
-> > +		 * allocator is unregistered. Unless default
-> > allocator is in
-> > +		 * use.
-> > +		 */
-> > +		BUG_ON(!xa_empty(&ioasid_xa)
-> > && !default_allocator_active);
-> > +		active_custom_allocator = NULL;
-> > +	} else if (allocator == active_custom_allocator) {  
-> In case you are removing the active custom allocator don't you also
-> need to check that all ioasids were freed. Otherwise you are likely
-> to switch to a different allocator whereas the asid space is
-> partially populated.
-The assumption is that all custom allocators on the same guest will end
-up calling the same host allocator. Having multiple custom allocators in
-the list is just a way to support multiple (p)vIOMMUs with hotplug.
-Therefore, we cannot nor need to free all PASIDs when one custom
-allocator goes away. This is a different situation then switching
-between default allocator and custom allocator, where custom allocator
-has to start with a clean space.
+drivers/iommu/intel-iommu.c: In function
+'iommu_prepare_static_identity_mapping':
+drivers/iommu/intel-iommu.c:3037:22: warning: variable 'iommu' set but
+not used [-Wunused-but-set-variable]
+  struct intel_iommu *iommu;
 
+Fixed the warning by passing "drhd->iommu" directly to
+for_each_active_iommu() which all subsequent self-assignments should be
+ignored by a compiler anyway.
+
+Signed-off-by: Qian Cai <cai@lca.pw>
+---
+ drivers/iommu/intel-iommu.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index a209199f3af6..86e1ddcb4a8e 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -3034,7 +3034,6 @@ static int __init iommu_prepare_static_identity_mapping(int hw)
+ {
+ 	struct pci_dev *pdev = NULL;
+ 	struct dmar_drhd_unit *drhd;
+-	struct intel_iommu *iommu;
+ 	struct device *dev;
+ 	int i;
+ 	int ret = 0;
+@@ -3045,7 +3044,7 @@ static int __init iommu_prepare_static_identity_mapping(int hw)
+ 			return ret;
+ 	}
  
-> > +		active_custom_allocator =
-> > list_entry(&custom_allocators, struct ioasid_allocator, list);
-> > +		pr_info("IOASID allocator changed");
-> > +	}
-> > +	mutex_unlock(&ioasid_allocator_lock);
-> > +}
-> > +EXPORT_SYMBOL_GPL(ioasid_unregister_allocator);
-> >  
-> >  /**
-> >   * ioasid_set_data - Set private data for an allocated ioasid
-> > @@ -68,6 +162,29 @@ ioasid_t ioasid_alloc(struct ioasid_set *set,
-> > ioasid_t min, ioasid_t max, data->set = set;
-> >  	data->private = private;
-> >  
-> > +	mutex_lock(&ioasid_allocator_lock);
-> > +	/*
-> > +	 * Use custom allocator if available, otherwise use
-> > default.
-> > +	 * However, if there are active IOASIDs already been
-> > allocated by default
-> > +	 * allocator, custom allocator cannot be used.
-> > +	 */
-> > +	if (!default_allocator_active && active_custom_allocator) {
-> > +		id = active_custom_allocator->alloc(min, max,
-> > active_custom_allocator->pdata);
-> > +		if (id == INVALID_IOASID) {
-> > +			pr_err("Failed ASID allocation by custom
-> > allocator\n");
-> > +			mutex_unlock(&ioasid_allocator_lock);
-> > +			goto exit_free;
-> > +		}
-> > +		/*
-> > +		 * Use XA to manage private data also sanitiy
-> > check custom
-> > +		 * allocator for duplicates.
-> > +		 */
-> > +		min = id;
-> > +		max = id + 1;
-> > +	} else
-> > +		default_allocator_active = 1;  
-> nit: true?
-yes, i can turn default_allocator_active into a bool type.
+-	for_each_active_iommu(iommu, drhd)
++	for_each_active_iommu(drhd->iommu, drhd)
+ 		for_each_active_dev_scope(drhd->devices, drhd->devices_cnt, i, dev) {
+ 			struct acpi_device_physical_node *pn;
+ 			struct acpi_device *adev;
+-- 
+1.8.3.1
 
-> > +	mutex_unlock(&ioasid_allocator_lock);
-> > +
-> >  	if (xa_alloc(&ioasid_xa, &id, data, XA_LIMIT(min, max),
-> > GFP_KERNEL)) { pr_err("Failed to alloc ioasid from %d to %d\n",
-> > min, max); goto exit_free;> @@ -91,9 +208,17 @@ void
-> > ioasid_free(ioasid_t ioasid) {
-> >  	struct ioasid_data *ioasid_data;
-> >  
-> > +	mutex_lock(&ioasid_allocator_lock);
-> > +	if (active_custom_allocator)
-> > +		active_custom_allocator->free(ioasid,
-> > active_custom_allocator->pdata);
-> > +	mutex_unlock(&ioasid_allocator_lock);
-> > +
-> >  	ioasid_data = xa_erase(&ioasid_xa, ioasid);
-> >  
-> >  	kfree_rcu(ioasid_data, rcu);
-> > +
-> > +	if (xa_empty(&ioasid_xa))
-> > +		default_allocator_active = 0;  
-> Isn't it racy? what if an xa_alloc occurs inbetween?
-> 
-> 
-yes, i will move it under the mutex. Thanks.
-> >  }
-> >  EXPORT_SYMBOL_GPL(ioasid_free);
-> >  
-> >   
-> 
-> Thanks
-> 
-> Eric
-
-[Jacob Pan]
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
