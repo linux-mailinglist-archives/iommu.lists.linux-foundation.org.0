@@ -2,81 +2,59 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36F328B23
-	for <lists.iommu@lfdr.de>; Thu, 23 May 2019 22:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA2028D07
+	for <lists.iommu@lfdr.de>; Fri, 24 May 2019 00:31:43 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1FF72FAB;
-	Thu, 23 May 2019 20:00:51 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id F1B591194;
+	Thu, 23 May 2019 22:31:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5EBB9FA2
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 8CA43F2B
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 23 May 2019 20:00:49 +0000 (UTC)
+	Thu, 23 May 2019 22:31:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 9901E6C5
+Received: from ale.deltatee.com (ale.deltatee.com [207.54.116.67])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 35A1F84F
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 23 May 2019 20:00:48 +0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-	id 33A646119E; Thu, 23 May 2019 20:00:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-	s=default; t=1558641648;
-	bh=Z5AcrjFvDwrNkhjxHTpfdZspY00IxihlRtFxpIOo+/E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BItDH4G4NzhjL+BOfdyBWvuCmPMm0kp93QhKk3+y6qXmb+BHTtupeS37yyMNDX2Af
-	SQDadP3qx1siqmMM8AkEQnCbEFiwceAj3CAxP2Ng7s9IDBvYfJEy3NAWK8Z5GZkkMP
-	cQ6XY0NxelvFpq3ufJQ/QgnNzO80SCl9qj9dsS5Q=
+	Thu, 23 May 2019 22:31:14 +0000 (UTC)
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+	by ale.deltatee.com with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <gunthorp@deltatee.com>)
+	id 1hTwEs-00062L-Eu; Thu, 23 May 2019 16:31:13 -0600
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.89)
+	(envelope-from <gunthorp@deltatee.com>)
+	id 1hTwEp-0001S0-GI; Thu, 23 May 2019 16:31:03 -0600
+From: Logan Gunthorpe <logang@deltatee.com>
+To: linux-kernel@vger.kernel.org, linux-ntb@googlegroups.com,
+	linux-pci@vger.kernel.org, iommu@lists.linux-foundation.org,
+	linux-kselftest@vger.kernel.org, Jon Mason <jdmason@kudzu.us>,
+	Joerg Roedel <joro@8bytes.org>
+Date: Thu, 23 May 2019 16:30:50 -0600
+Message-Id: <20190523223100.5526-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-ntb@googlegroups.com, iommu@lists.linux-foundation.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, jdmason@kudzu.us,
+	joro@8bytes.org, bhelgaas@google.com, dave.jiang@intel.com,
+	allenbh@gmail.com, fancer.lancer@gmail.com, epilmore@gigaio.com,
+	logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
-	[199.106.103.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: jcrouse@smtp.codeaurora.org)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 83E7860E3E;
-	Thu, 23 May 2019 20:00:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-	s=default; t=1558641643;
-	bh=Z5AcrjFvDwrNkhjxHTpfdZspY00IxihlRtFxpIOo+/E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bX2rnrsQ37owVAjPQKqBc5/stuIp4p8eYRSNVAM/2An6D6HFHp4/+F6pchZe722Fg
-	10QwE/eRPrVGOfHrQOLPooUPtadMF3+8BT/uoajBbfGDcWNcuBDBkTPcJ5auITBMRj
-	yUH2jgT3JbizdNr9VKhAqy/5YP1ayaRlzwdjLRPk=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 83E7860E3E
-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
-	dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
-	spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Thu, 23 May 2019 14:00:40 -0600
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v2 03/15] iommu/arm-smmu: Add split pagetable support for
-	arm-smmu-v2
-Message-ID: <20190523200040.GA18360@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Robin Murphy <robin.murphy@arm.com>,
-	freedreno@lists.freedesktop.org, jean-philippe.brucker@arm.com,
-	linux-arm-msm@vger.kernel.org, hoegsberg@google.com,
-	dianders@chromium.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org, Will Deacon <will.deacon@arm.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	linux-arm-kernel@lists.infradead.org
-References: <1558455243-32746-1-git-send-email-jcrouse@codeaurora.org>
-	<1558455243-32746-4-git-send-email-jcrouse@codeaurora.org>
-	<f2b2f524-cd63-7153-c454-0210410d1116@arm.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <f2b2f524-cd63-7153-c454-0210410d1116@arm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: jean-philippe.brucker@arm.com, linux-arm-msm@vger.kernel.org,
-	Will Deacon <will.deacon@arm.com>, dianders@chromium.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	hoegsberg@google.com, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
+Subject: [PATCH v5 00/10]  Support using MSI interrupts in ntb_transport
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Cc: Allen Hubbe <allenbh@gmail.com>, Dave Jiang <dave.jiang@intel.com>,
+	Serge Semin <fancer.lancer@gmail.com>, Eric Pilmore <epilmore@gigaio.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -94,215 +72,162 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, May 21, 2019 at 07:18:32PM +0100, Robin Murphy wrote:
-> On 21/05/2019 17:13, Jordan Crouse wrote:
-> >Add support for a split pagetable (TTBR0/TTBR1) scheme for arm-smmu-v2.
-> >If split pagetables are enabled, create a pagetable for TTBR1 and set
-> >up the sign extension bit so that all IOVAs with that bit set are mapped
-> >and translated from the TTBR1 pagetable.
-> >
-> >Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> >---
-> >
-> >  drivers/iommu/arm-smmu-regs.h  |  19 +++++
-> >  drivers/iommu/arm-smmu.c       | 179 ++++++++++++++++++++++++++++++++++++++---
-> >  drivers/iommu/io-pgtable-arm.c |   3 +-
-> >  3 files changed, 186 insertions(+), 15 deletions(-)
-> >
-> >diff --git a/drivers/iommu/arm-smmu-regs.h b/drivers/iommu/arm-smmu-regs.h
-> >index e9132a9..23f27c2 100644
-> >--- a/drivers/iommu/arm-smmu-regs.h
-> >+++ b/drivers/iommu/arm-smmu-regs.h
-> >@@ -195,7 +195,26 @@ enum arm_smmu_s2cr_privcfg {
-> >  #define RESUME_RETRY			(0 << 0)
-> >  #define RESUME_TERMINATE		(1 << 0)
-> >+#define TTBCR_EPD1			(1 << 23)
-> >+#define TTBCR_T0SZ_SHIFT		0
-> >+#define TTBCR_T1SZ_SHIFT		16
-> >+#define TTBCR_IRGN1_SHIFT		24
-> >+#define TTBCR_ORGN1_SHIFT		26
-> >+#define TTBCR_RGN_WBWA			1
-> >+#define TTBCR_SH1_SHIFT			28
-> >+#define TTBCR_SH_IS			3
-> >+
-> >+#define TTBCR_TG1_16K			(1 << 30)
-> >+#define TTBCR_TG1_4K			(2 << 30)
-> >+#define TTBCR_TG1_64K			(3 << 30)
-> >+
-> >  #define TTBCR2_SEP_SHIFT		15
-> >+#define TTBCR2_SEP_31			(0x0 << TTBCR2_SEP_SHIFT)
-> >+#define TTBCR2_SEP_35			(0x1 << TTBCR2_SEP_SHIFT)
-> >+#define TTBCR2_SEP_39			(0x2 << TTBCR2_SEP_SHIFT)
-> >+#define TTBCR2_SEP_41			(0x3 << TTBCR2_SEP_SHIFT)
-> >+#define TTBCR2_SEP_43			(0x4 << TTBCR2_SEP_SHIFT)
-> >+#define TTBCR2_SEP_47			(0x5 << TTBCR2_SEP_SHIFT)
-> >  #define TTBCR2_SEP_UPSTREAM		(0x7 << TTBCR2_SEP_SHIFT)
-> >  #define TTBCR2_AS			(1 << 4)
-> >diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-> >index a795ada..e09c0e6 100644
-> >--- a/drivers/iommu/arm-smmu.c
-> >+++ b/drivers/iommu/arm-smmu.c
-> >@@ -152,6 +152,7 @@ struct arm_smmu_cb {
-> >  	u32				tcr[2];
-> >  	u32				mair[2];
-> >  	struct arm_smmu_cfg		*cfg;
-> >+	unsigned long			split_table_mask;
-> >  };
-> >  struct arm_smmu_master_cfg {
-> >@@ -253,13 +254,14 @@ enum arm_smmu_domain_stage {
-> >  struct arm_smmu_domain {
-> >  	struct arm_smmu_device		*smmu;
-> >-	struct io_pgtable_ops		*pgtbl_ops;
-> >+	struct io_pgtable_ops		*pgtbl_ops[2];
-> 
-> This seems a bit off - surely the primary domain and aux domain only ever
-> need one set of tables each, but either way there's definitely unnecessary
-> redundancy in having four sets of io_pgtable_ops between them.
-> 
-> >  	const struct iommu_gather_ops	*tlb_ops;
-> >  	struct arm_smmu_cfg		cfg;
-> >  	enum arm_smmu_domain_stage	stage;
-> >  	bool				non_strict;
-> >  	struct mutex			init_mutex; /* Protects smmu pointer */
-> >  	spinlock_t			cb_lock; /* Serialises ATS1* ops and TLB syncs */
-> >+	u32 attributes;
-> >  	struct iommu_domain		domain;
-> >  };
-> >@@ -621,6 +623,85 @@ static irqreturn_t arm_smmu_global_fault(int irq, void *dev)
-> >  	return IRQ_HANDLED;
-> >  }
-> >+/* Adjust the context bank settings to support TTBR1 */
-> >+static void arm_smmu_init_ttbr1(struct arm_smmu_domain *smmu_domain,
-> >+		struct io_pgtable_cfg *pgtbl_cfg)
-> >+{
-> >+	struct arm_smmu_device *smmu = smmu_domain->smmu;
-> >+	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
-> >+	struct arm_smmu_cb *cb = &smmu_domain->smmu->cbs[cfg->cbndx];
-> >+	int pgsize = 1 << __ffs(pgtbl_cfg->pgsize_bitmap);
-> >+
-> >+	/* Enable speculative walks through the TTBR1 */
-> >+	cb->tcr[0] &= ~TTBCR_EPD1;
-> >+
-> >+	cb->tcr[0] |= TTBCR_SH_IS << TTBCR_SH1_SHIFT;
-> >+	cb->tcr[0] |= TTBCR_RGN_WBWA << TTBCR_IRGN1_SHIFT;
-> >+	cb->tcr[0] |= TTBCR_RGN_WBWA << TTBCR_ORGN1_SHIFT;
-> >+
-> >+	switch (pgsize) {
-> >+	case SZ_4K:
-> >+		cb->tcr[0] |= TTBCR_TG1_4K;
-> >+		break;
-> >+	case SZ_16K:
-> >+		cb->tcr[0] |= TTBCR_TG1_16K;
-> >+		break;
-> >+	case SZ_64K:
-> >+		cb->tcr[0] |= TTBCR_TG1_64K;
-> >+		break;
-> >+	}
-> >+
-> >+	/*
-> >+	 * Outside of the special 49 bit UBS case that has a dedicated sign
-> >+	 * extension bit, setting the SEP for any other va_size will force us to
-> >+	 * shrink the size of the T0/T1 regions by one bit to accommodate the
-> >+	 * SEP
-> >+	 */
-> >+	if (smmu->va_size != 48) {
-> >+		/* Replace the T0 size */
-> >+		cb->tcr[0] &= ~(0x3f << TTBCR_T0SZ_SHIFT);
-> >+		cb->tcr[0] |= (64ULL - smmu->va_size - 1) << TTBCR_T0SZ_SHIFT;
-> >+		/* Set the T1 size */
-> >+		cb->tcr[0] |= (64ULL - smmu->va_size - 1) << TTBCR_T1SZ_SHIFT;
-> >+	} else {
-> >+		/* Set the T1 size to the full available UBS */
-> >+		cb->tcr[0] |= (64ULL - smmu->va_size) << TTBCR_T1SZ_SHIFT;
-> >+	}
-> >+
-> >+	/* Clear the existing SEP configuration */
-> >+	cb->tcr[1] &= ~TTBCR2_SEP_UPSTREAM;
-> >+
-> >+	/* Set up the sign extend bit */
-> >+	switch (smmu->va_size) {
-> >+	case 32:
-> >+		cb->tcr[1] |= TTBCR2_SEP_31;
-> >+		cb->split_table_mask = (1UL << 31);
-> >+		break;
-> >+	case 36:
-> >+		cb->tcr[1] |= TTBCR2_SEP_35;
-> >+		cb->split_table_mask = (1UL << 35);
-> >+		break;
-> >+	case 40:
-> >+		cb->tcr[1] |= TTBCR2_SEP_39;
-> >+		cb->split_table_mask = (1UL << 39);
-> >+		break;
-> >+	case 42:
-> >+		cb->tcr[1] |= TTBCR2_SEP_41;
-> >+		cb->split_table_mask = (1UL << 41);
-> >+		break;
-> >+	case 44:
-> >+		cb->tcr[1] |= TTBCR2_SEP_43;
-> >+		cb->split_table_mask = (1UL << 43);
-> >+		break;
-> >+	case 48:
-> >+		cb->tcr[1] |= TTBCR2_SEP_UPSTREAM;
-> >+		cb->split_table_mask = (1UL << 48);
-> >+	}
-> >+
-> >+	cb->ttbr[1] = pgtbl_cfg->arm_lpae_s1_cfg.ttbr[0];
-> 
-> Assigning a "TTBR0" to a "TTBR1" is the point at which it becomes clear that
-> we need to take a step back and reconsider. I think there was originally a
-> half-formed idea that pagetables might go around in pairs, but things really
-> aren't working out that way in practice, so it's almost certainly time to
-> rework the io_pgatble_alloc() interface. We probably want to make "TTBR1" an
-> up-front option for the appropriate formats, such that either way they
-> return a single TTBR value plus a TCR with the appropriate half configured
-> (hopefully in such a way that the caller can simply allocate one of each and
-> merge the two TCRs together, so maybe responsibility for EPD* needs to
-> move). That way we can also make *better* use of the IOVA sanity-checking in
-> io-pgtable-arm, rather than just removing it (especially since this will
-> open up a whole new class of "unmapping a TTBR0 address from the TTBR1
-> domain" type bugs).
+This is another resend as there has been no feedback since v4.
+Seems Jon has been MIA this past cycle so hopefully he appears on the
+list soon.
 
-I'm kind of having trouble wrapping my brain around what an API like this would
-look like, so please bear with me.
+I've addressed the feedback so far and rebased on the latest kernel
+and would like this to be considered for merging this cycle.
 
-The current patch does three things in the arm-smmu driver: it creates a
-secondary pagetable in the same manner as the first one (with the same
-parameters), updates the context bank registers and makes a decision at
-map/unmap time as to which pagetable ops pointer to use.
+The only outstanding issue I know of is that it still will not work
+with IDT hardware, but ntb_transport doesn't work with IDT hardware
+and there is still no sensible common infrastructure to support
+ntb_peer_mw_set_trans(). Thus, I decline to consider that complication
+in this patchset. However, I'll be happy to review work that adds this
+feature in the future.
 
-If I understand you correctly I think you are saying that we would like to move
-the register specific details into the io_pgtable code and get rid of the
-function quoted above. It also sounds like you may want to use separate
-pagetable ops for mapping ttbr0 and ttbr1 to allow for better sanity checking.
+Also, as the port number and resource index stuff is a bit complicated,
+I made a quick out of tree test fixture to ensure it's correct[1]. As
+an excerise I also wrote some test code[2] using the upcomming KUnit
+feature.
 
-I'm still not quite sure how the pagetable allocation will work in this case.
-The biggest downside is that we need to possibly adjust T0SZ in a split table
-situation to account for the SEP and both T0SZ and T1SZ live in tcr[0] so if we
-stick with individual allocation functions struct io_pgtable_cfg would have to
-be an accumulator of sorts, passed first for TTBR0 and the again for TTBR1 which
-may modify the value of tcr[0] (or OR the two values together and hope
-they don't conflict).
+Logan
 
-To me this kind of defeats the purpose of calling the allocator twice. It feels
-cleaner if we called it once with the advanced knowledge that we are going to
-use TTBR1 and then return the pagetable addresses in .ttbr[0] and .ttbr[1] as
-above. We could make a new format type that incorporates TTBR1 and then we
-wouldn't have to change struct io_ptgable_cfg or the API call.
+[1] https://repl.it/repls/ExcitingPresentFile
+[2] https://github.com/sbates130272/linux-p2pmem/commits/ntb_kunit
 
-This could also have the advantage of moving the mask check out of the arm-smmu
-map/unmap functions and moving it to special TTBR1 ops in the io pgtable that
-could find the right pagetable  to write to as well as do the appropriate sanity
-checks.
+--
 
-I'm kind of shooting from the hip here so feel free to let me know I'm being
-silly. I really want to get this moving forward so any reasonable ideas will be
-welcome.
+Changes in v5:
 
-> Robin.
+* Rebased onto v5.2-rc1 (plus the patches in ntb-next)
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+--
+
+Changes in v4:
+
+* Rebased onto v5.1-rc6 (No changes)
+
+* Numerous grammar and spelling mistakes spotted by Bjorn
+
+--
+
+Changes in v3:
+
+* Rebased onto v5.1-rc1 (Dropped the first two patches as they have
+  been merged, and cleaned up some minor conflicts in the PCI tree)
+
+* Added a new patch (#3) to calculate logical port numbers that
+  are port numbers from 0 to (number of ports - 1). This is
+  then used in ntb_peer_resource_idx() to fix the issues brought
+  up by Serge.
+
+* Fixed missing __iomem and iowrite calls (as noticed by Serge)
+
+* Added patch 10 which describes ntb_msi_test in the documentation
+  file (as requested by Serge)
+
+* A couple other minor nits and documentation fixes
+
+--
+
+Changes in v2:
+
+* Cleaned up the changes in intel_irq_remapping.c to make them
+  less confusing and add a comment. (Per discussion with Jacob and
+  Joerg)
+
+* Fixed a nit from Bjorn and collected his Ack
+
+* Added a Kconfig dependancy on CONFIG_PCI_MSI for CONFIG_NTB_MSI
+  as the Kbuild robot hit a random config that didn't build
+  without it.
+
+* Worked in a callback for when the MSI descriptor changes so that
+  the clients can resend the new address and data values to the peer.
+  On my test system this was never necessary, but there may be
+  other platforms where this can occur. I tested this by hacking
+  in a path to rewrite the MSI descriptor when I change the cpu
+  affinity of an IRQ. There's a bit of uncertainty over the latency
+  of the change, but without hardware this can acctually occur on
+  we can't test this. This was the result of a discussion with Dave.
+
+--
+
+This patch series adds optional support for using MSI interrupts instead
+of NTB doorbells in ntb_transport. This is desirable seeing doorbells on
+current hardware are quite slow and therefore switching to MSI interrupts
+provides a significant performance gain. On switchtec hardware, a simple
+apples-to-apples comparison shows ntb_netdev/iperf numbers going from
+3.88Gb/s to 14.1Gb/s when switching to MSI interrupts.
+
+To do this, a couple changes are required outside of the NTB tree:
+
+1) The IOMMU must know to accept MSI requests from aliased bused numbers
+seeing NTB hardware typically sends proxied request IDs through
+additional requester IDs. The first patch in this series adds support
+for the Intel IOMMU. A quirk to add these aliases for switchtec hardware
+was already accepted. See commit ad281ecf1c7d ("PCI: Add DMA alias quirk
+for Microsemi Switchtec NTB") for a description of NTB proxy IDs and why
+this is necessary.
+
+2) NTB transport (and other clients) may often need more MSI interrupts
+than the NTB hardware actually advertises support for. However, seeing
+these interrupts will not be triggered by the hardware but through an
+NTB memory window, the hardware does not actually need support or need
+to know about them. Therefore we add the concept of Virtual MSI
+interrupts which are allocated just like any other MSI interrupt but
+are not programmed into the hardware's MSI table. This is done in
+Patch 2 and then made use of in Patch 3.
+
+The remaining patches in this series add a library for dealing with MSI
+interrupts, a test client and finally support in ntb_transport.
+
+The series is based off of v5.1-rc6 plus the patches in ntb-next.
+A git repo is available here:
+
+https://github.com/sbates130272/linux-p2pmem/ ntb_transport_msi_v4
+
+Thanks,
+
+Logan
+
+--
+
+Logan Gunthorpe (10):
+  PCI/MSI: Support allocating virtual MSI interrupts
+  PCI/switchtec: Add module parameter to request more interrupts
+  NTB: Introduce helper functions to calculate logical port number
+  NTB: Introduce functions to calculate multi-port resource index
+  NTB: Rename ntb.c to support multiple source files in the module
+  NTB: Introduce MSI library
+  NTB: Introduce NTB MSI Test Client
+  NTB: Add ntb_msi_test support to ntb_test
+  NTB: Add MSI interrupt support to ntb_transport
+  NTB: Describe the ntb_msi_test client in the documentation.
+
+ Documentation/ntb.txt                   |  27 ++
+ drivers/ntb/Kconfig                     |  11 +
+ drivers/ntb/Makefile                    |   3 +
+ drivers/ntb/{ntb.c => core.c}           |   0
+ drivers/ntb/msi.c                       | 415 +++++++++++++++++++++++
+ drivers/ntb/ntb_transport.c             | 169 ++++++++-
+ drivers/ntb/test/Kconfig                |   9 +
+ drivers/ntb/test/Makefile               |   1 +
+ drivers/ntb/test/ntb_msi_test.c         | 433 ++++++++++++++++++++++++
+ drivers/pci/msi.c                       |  54 ++-
+ drivers/pci/switch/switchtec.c          |  12 +-
+ include/linux/msi.h                     |   8 +
+ include/linux/ntb.h                     | 196 ++++++++++-
+ include/linux/pci.h                     |   9 +
+ tools/testing/selftests/ntb/ntb_test.sh |  54 ++-
+ 15 files changed, 1386 insertions(+), 15 deletions(-)
+ rename drivers/ntb/{ntb.c => core.c} (100%)
+ create mode 100644 drivers/ntb/msi.c
+ create mode 100644 drivers/ntb/test/ntb_msi_test.c
+
+--
+2.20.1
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
