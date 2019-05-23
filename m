@@ -2,49 +2,83 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C0F27AE9
-	for <lists.iommu@lfdr.de>; Thu, 23 May 2019 12:41:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5EE227CBF
+	for <lists.iommu@lfdr.de>; Thu, 23 May 2019 14:25:48 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 98005B09;
-	Thu, 23 May 2019 10:41:35 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 69EBDC2A;
+	Thu, 23 May 2019 12:25:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id BDD4AAB9
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 984FA9EE
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 23 May 2019 10:41:33 +0000 (UTC)
+	Thu, 23 May 2019 12:25:36 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 2A49F829
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+	[148.163.158.5])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2576984F
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 23 May 2019 10:41:32 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6A1A341;
-	Thu, 23 May 2019 03:41:32 -0700 (PDT)
-Received: from [192.168.1.123] (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DB19C3F718;
-	Thu, 23 May 2019 03:41:29 -0700 (PDT)
-Subject: Re: [PATCH v5 1/1] iommu/io-pgtable-arm: Add support to use system
-	cache
-To: Vivek Gautam <vivek.gautam@codeaurora.org>, will.deacon@arm.com,
-	joro@8bytes.org, iommu@lists.linux-foundation.org
-References: <20190516093020.18028-1-vivek.gautam@codeaurora.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <a4826cd5-c190-c102-c42b-92b6040197bb@arm.com>
-Date: Thu, 23 May 2019 11:41:24 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190516093020.18028-1-vivek.gautam@codeaurora.org>
-Content-Language: en-GB
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	Thu, 23 May 2019 12:25:35 +0000 (UTC)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4NC99WV004662
+	for <iommu@lists.linux-foundation.org>; Thu, 23 May 2019 08:25:35 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2snsy1vm66-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <iommu@lists.linux-foundation.org>; Thu, 23 May 2019 08:25:35 -0400
+Received: from localhost
+	by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
+	Only! Violators will be prosecuted
+	for <iommu@lists.linux-foundation.org> from <pmorel@linux.ibm.com>;
+	Thu, 23 May 2019 13:25:33 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+	by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Thu, 23 May 2019 13:25:29 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+	[9.149.105.232])
+	by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x4NCPRXu51380378
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Thu, 23 May 2019 12:25:27 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7463052052;
+	Thu, 23 May 2019 12:25:27 +0000 (GMT)
+Received: from morel-ThinkPad-W530.boeblingen.de.ibm.com (unknown
+	[9.152.222.40])
+	by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id E6A8852059;
+	Thu, 23 May 2019 12:25:26 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: sebott@linux.vnet.ibm.com
+Subject: [PATCH v3 0/3] Retrieving zPCI specific info with VFIO
+Date: Thu, 23 May 2019 14:25:23 +0200
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 19052312-0028-0000-0000-00000370B03F
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19052312-0029-0000-0000-00002430625D
+Message-Id: <1558614326-24711-1-git-send-email-pmorel@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-05-23_10:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=886 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1905230087
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: linux-arm-msm@vger.kernel.org, pratikp@codeaurora.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, pdaly@codeaurora.org
+Cc: linux-s390@vger.kernel.org, pasic@linux.vnet.ibm.com,
+	alex.williamson@redhat.com, kvm@vger.kernel.org,
+	heiko.carstens@de.ibm.com, walling@linux.ibm.com,
+	linux-kernel@vger.kernel.org, borntraeger@de.ibm.com,
+	iommu@lists.linux-foundation.org, schwidefsky@de.ibm.com,
+	robin.murphy@arm.com, gerald.schaefer@de.ibm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,150 +91,64 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 2019-05-16 10:30 am, Vivek Gautam wrote:
-> Few Qualcomm platforms such as, sdm845 have an additional outer
-> cache called as System cache, aka. Last level cache (LLC) that
-> allows non-coherent devices to upgrade to using caching.
-> This cache sits right before the DDR, and is tightly coupled
-> with the memory controller. The clients using this cache request
-> their slices from this system cache, make it active, and can then
-> start using it.
-> 
-> There is a fundamental assumption that non-coherent devices can't
-> access caches. This change adds an exception where they *can* use
-> some level of cache despite still being non-coherent overall.
-> The coherent devices that use cacheable memory, and CPU make use of
-> this system cache by default.
-> 
-> Looking at memory types, we have following -
-> a) Normal uncached :- MAIR 0x44, inner non-cacheable,
->                        outer non-cacheable;
-> b) Normal cached :-   MAIR 0xff, inner read write-back non-transient,
->                        outer read write-back non-transient;
->                        attribute setting for coherenet I/O devices.
-> and, for non-coherent i/o devices that can allocate in system cache
-> another type gets added -
-> c) Normal sys-cached :- MAIR 0xf4, inner non-cacheable,
->                          outer read write-back non-transient
-> 
-> Coherent I/O devices use system cache by marking the memory as
-> normal cached.
-> Non-coherent I/O devices should mark the memory as normal
-> sys-cached in page tables to use system cache.
-> 
-> Signed-off-by: Vivek Gautam <vivek.gautam@codeaurora.org>
+We define a new configuration entry for VFIO/PCI, VFIO_PCI_ZDEV
+to configure access to a zPCI region dedicated for retrieving
+zPCI features.
 
-Acked-by: Robin Murphy <robin.murphy@arm.com>
+When the VFIO_PCI_ZDEV feature is configured we initialize
+a new device region, VFIO_REGION_SUBTYPE_ZDEV_CLP, to hold
+the information from the ZPCI device the userland needs to
+give to a guest driving the zPCI function.
 
-There's a remote possibility that the IOMMU prot flag might be able to 
-be somewhat generalised in future for panfrost, as Mali appears to have 
-some pretty funky notions of cacheability, but this certainly looks fine 
-for now, thanks.
 
-Robin.
+Note that in the current state we do not use the CLP instructions
+to access the firmware but get the information directly from
+the zdev device.
 
-> ---
-> 
-> V3 version of this patch and related series can be found at [1].
-> V4 of this patch is available at [2].
-> 
-> The example usage of how a smmu master can make use of this protection
-> flag and set the correct memory attributes to start using system cache,
-> can be found at [3]; and here at [3] IOMMU_UPSTREAM_HINT is same as
-> IOMMU_QCOM_SYS_CACHE.
-> 
-> Changes since v4:
->   - Changed ARM_LPAE_MAIR_ATTR_QCOM_SYS_CACHE to
->     ARM_LPAE_MAIR_ATTR_INC_OWBRWA.
->   - Changed ARM_LPAE_MAIR_ATTR_IDX_QCOM_SYS_CACHE to
->     ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE.
->   - Added comments to iommu protection flag - IOMMU_QCOM_SYS_CACHE.
-> 
-> Changes since v3:
->   - Dropping support to cache i/o page tables to system cache. Getting support
->     for data buffers is the first step.
->     Removed io-pgtable quirk and related change to add domain attribute.
-> 
-> Glmark2 numbers on SDM845 based cheza board:
-> 
-> S.No.|	with LLC support   |	without LLC support
->       |	for data buffers   |
-> ---------------------------------------------------		
-> 1    |	4480; 72.3fps      |	4042; 65.2fps
-> 2    |	4500; 72.6fps      |	4039; 65.1fps
-> 3    |	4523; 72.9fps	   |	4106; 66.2fps
-> 4    |	4489; 72.4fps	   |	4104; 66.2fps
-> 5    |	4518; 72.9fps	   |	4072; 65.7fps
-> 
-> [1] https://patchwork.kernel.org/cover/10772629/
-> [2] https://lore.kernel.org/patchwork/patch/1072936/
-> [3] https://patchwork.kernel.org/patch/10302791/
-> 
->   drivers/iommu/io-pgtable-arm.c | 9 ++++++++-
->   include/linux/iommu.h          | 6 ++++++
->   2 files changed, 14 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-> index 4e21efbc4459..2454ac11aa97 100644
-> --- a/drivers/iommu/io-pgtable-arm.c
-> +++ b/drivers/iommu/io-pgtable-arm.c
-> @@ -167,10 +167,12 @@
->   #define ARM_LPAE_MAIR_ATTR_MASK		0xff
->   #define ARM_LPAE_MAIR_ATTR_DEVICE	0x04
->   #define ARM_LPAE_MAIR_ATTR_NC		0x44
-> +#define ARM_LPAE_MAIR_ATTR_INC_OWBRWA	0xf4
->   #define ARM_LPAE_MAIR_ATTR_WBRWA	0xff
->   #define ARM_LPAE_MAIR_ATTR_IDX_NC	0
->   #define ARM_LPAE_MAIR_ATTR_IDX_CACHE	1
->   #define ARM_LPAE_MAIR_ATTR_IDX_DEV	2
-> +#define ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE	3
->   
->   #define ARM_MALI_LPAE_TTBR_ADRMODE_TABLE (3u << 0)
->   #define ARM_MALI_LPAE_TTBR_READ_INNER	BIT(2)
-> @@ -470,6 +472,9 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
->   		else if (prot & IOMMU_CACHE)
->   			pte |= (ARM_LPAE_MAIR_ATTR_IDX_CACHE
->   				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
-> +		else if (prot & IOMMU_QCOM_SYS_CACHE)
-> +			pte |= (ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE
-> +				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
->   	}
->   
->   	if (prot & IOMMU_NOEXEC)
-> @@ -857,7 +862,9 @@ arm_64_lpae_alloc_pgtable_s1(struct io_pgtable_cfg *cfg, void *cookie)
->   	      (ARM_LPAE_MAIR_ATTR_WBRWA
->   	       << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_CACHE)) |
->   	      (ARM_LPAE_MAIR_ATTR_DEVICE
-> -	       << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_DEV));
-> +	       << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_DEV)) |
-> +	      (ARM_LPAE_MAIR_ATTR_INC_OWBRWA
-> +	       << ARM_LPAE_MAIR_ATTR_SHIFT(ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE));
->   
->   	cfg->arm_lpae_s1_cfg.mair[0] = reg;
->   	cfg->arm_lpae_s1_cfg.mair[1] = 0;
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index a815cf6f6f47..8ee3fbaf5855 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -41,6 +41,12 @@
->    * if the IOMMU page table format is equivalent.
->    */
->   #define IOMMU_PRIV	(1 << 5)
-> +/*
-> + * Non-coherent masters on few Qualcomm SoCs can use this page protection flag
-> + * to set correct cacheability attributes to use an outer level of cache -
-> + * last level cache, aka system cache.
-> + */
-> +#define IOMMU_QCOM_SYS_CACHE	(1 << 6)
->   
->   struct iommu_ops;
->   struct iommu_group;
-> 
+-This means that the patch 1, "s390: pci: Exporting access to CLP PCI
+function and PCI group" is not used and can be let out of this series
+without denying the good working of the other patches.
+- But we will need this later, eventually in the next iteration
+  to retrieve values not being saved inside the zdev structure.
+  like maxstbl and the PCI supported version
+
+To share the code with arch/s390/pci/pci_clp.c the original functions
+in pci_clp.c to query PCI functions and PCI functions group are
+modified so that they can be exported.
+
+A new function clp_query_pci() replaces clp_query_pci_fn() and
+the previous calls to clp_query_pci_fn() and clp_query_pci_fngrp()
+are replaced with calls to zdev_query_pci_fn() and zdev_query_pci_fngrp()
+using a zdev pointer as argument.
+
+
+Pierre Morel (3):
+  s390: pci: Exporting access to CLP PCI function and PCI group
+  vfio: zpci: defining the VFIO headers
+  vfio: pci: Using a device region to retrieve zPCI information
+
+ arch/s390/include/asm/pci.h         |  3 ++
+ arch/s390/pci/pci_clp.c             | 70 ++++++++++++++++---------------
+ drivers/vfio/pci/Kconfig            |  7 ++++
+ drivers/vfio/pci/Makefile           |  1 +
+ drivers/vfio/pci/vfio_pci.c         |  9 ++++
+ drivers/vfio/pci/vfio_pci_private.h | 10 +++++
+ drivers/vfio/pci/vfio_pci_zdev.c    | 83 +++++++++++++++++++++++++++++++++++++
+ include/uapi/linux/vfio.h           |  4 ++
+ include/uapi/linux/vfio_zdev.h      | 34 +++++++++++++++
+ 9 files changed, 187 insertions(+), 34 deletions(-)
+ create mode 100644 drivers/vfio/pci/vfio_pci_zdev.c
+ create mode 100644 include/uapi/linux/vfio_zdev.h
+
+-- 
+2.7.4
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
