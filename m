@@ -2,38 +2,38 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C2728CF5
-	for <lists.iommu@lfdr.de>; Fri, 24 May 2019 00:31:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2240028CFF
+	for <lists.iommu@lfdr.de>; Fri, 24 May 2019 00:31:20 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 0CB9CF90;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 7A6A2116E;
 	Thu, 23 May 2019 22:31:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id CAE97F68
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1A15BF2B
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 23 May 2019 22:31:09 +0000 (UTC)
+	Thu, 23 May 2019 22:31:11 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from ale.deltatee.com (ale.deltatee.com [207.54.116.67])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 3F960829
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CB2CA875
 	for <iommu@lists.linux-foundation.org>;
 	Thu, 23 May 2019 22:31:09 +0000 (UTC)
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
 	by ale.deltatee.com with esmtps
 	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1hTwEs-00062O-Eu; Thu, 23 May 2019 16:31:08 -0600
+	id 1hTwEs-00062P-Ev; Thu, 23 May 2019 16:31:09 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.89)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1hTwEp-0001S5-Qq; Thu, 23 May 2019 16:31:03 -0600
+	id 1hTwEp-0001S8-Tc; Thu, 23 May 2019 16:31:03 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-ntb@googlegroups.com,
 	linux-pci@vger.kernel.org, iommu@lists.linux-foundation.org,
 	linux-kselftest@vger.kernel.org, Jon Mason <jdmason@kudzu.us>,
 	Joerg Roedel <joro@8bytes.org>
-Date: Thu, 23 May 2019 16:30:52 -0600
-Message-Id: <20190523223100.5526-3-logang@deltatee.com>
+Date: Thu, 23 May 2019 16:30:53 -0600
+Message-Id: <20190523223100.5526-4-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190523223100.5526-1-logang@deltatee.com>
 References: <20190523223100.5526-1-logang@deltatee.com>
@@ -51,8 +51,8 @@ X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
-Subject: [PATCH v5 02/10] PCI/switchtec: Add module parameter to request more
-	interrupts
+Subject: [PATCH v5 03/10] NTB: Introduce helper functions to calculate logical
+	port number
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Allen Hubbe <allenbh@gmail.com>, Dave Jiang <dave.jiang@intel.com>,
@@ -75,50 +75,106 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Seeing the we want to use more interrupts in the NTB MSI code
-we need to be able allocate more (sometimes virtual) interrupts
-in the switchtec driver. Therefore add a module parameter to
-request to allocate additional interrupts.
+This patch introduces the "Logical Port Number" which is similar to the
+"Port Number" in that it enumerates the ports in the system.
 
-This puts virtually no limit on the number of MSI interrupts available
-to NTB clients.
+The original (or Physical) "Port Number" can be any number used by the
+hardware to uniquely identify a port in the system. The "Logical Port
+Number" enumerates all ports in the system from 0 to the number of
+ports minus one.
+
+For example a system with 5 ports might have the following port numbers
+which would be enumerated thusly:
+
+Port Number:           1  2  5  7  116
+Logical Port Number:   0  1  2  3  4
+
+The logical port number is useful when calculating which resources
+to use for which peers. So we thus define two helper functions:
+ntb_logical_port_number() and ntb_peer_logical_port_number() which
+provide the "Logical Port Number" for the local port and any peer
+respectively.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Jon Mason <jdmason@kudzu.us>
+Cc: Dave Jiang <dave.jiang@intel.com>
+Cc: Allen Hubbe <allenbh@gmail.com>
+Cc: Serge Semin <fancer.lancer@gmail.com>
 ---
- drivers/pci/switch/switchtec.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ include/linux/ntb.h | 53 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 52 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/switch/switchtec.c b/drivers/pci/switch/switchtec.c
-index e22766c79fe9..8b1db78197d9 100644
---- a/drivers/pci/switch/switchtec.c
-+++ b/drivers/pci/switch/switchtec.c
-@@ -30,6 +30,10 @@ module_param(use_dma_mrpc, bool, 0644);
- MODULE_PARM_DESC(use_dma_mrpc,
- 		 "Enable the use of the DMA MRPC feature");
+diff --git a/include/linux/ntb.h b/include/linux/ntb.h
+index 56a92e3ae3ae..91cf492b16a0 100644
+--- a/include/linux/ntb.h
++++ b/include/linux/ntb.h
+@@ -616,7 +616,6 @@ static inline int ntb_port_number(struct ntb_dev *ntb)
  
-+static int nirqs = 32;
-+module_param(nirqs, int, 0644);
-+MODULE_PARM_DESC(nirqs, "number of interrupts to allocate (more may be useful for NTB applications)");
+ 	return ntb->ops->port_number(ntb);
+ }
+-
+ /**
+  * ntb_peer_port_count() - get the number of peer device ports
+  * @ntb:	NTB device context.
+@@ -653,6 +652,58 @@ static inline int ntb_peer_port_number(struct ntb_dev *ntb, int pidx)
+ 	return ntb->ops->peer_port_number(ntb, pidx);
+ }
+ 
++/**
++ * ntb_logical_port_number() - get the logical port number of the local port
++ * @ntb:	NTB device context.
++ *
++ * The Logical Port Number is defined to be a unique number for each
++ * port starting from zero through to the number of ports minus one.
++ * This is in contrast to the Port Number where each port can be assigned
++ * any unique physical number by the hardware.
++ *
++ * The logical port number is useful for calculating the resource indexes
++ * used by peers.
++ *
++ * Return: the logical port number or negative value indicating an error
++ */
++static inline int ntb_logical_port_number(struct ntb_dev *ntb)
++{
++	int lport = ntb_port_number(ntb);
++	int pidx;
 +
- static dev_t switchtec_devt;
- static DEFINE_IDA(switchtec_minor_ida);
- 
-@@ -1247,8 +1251,12 @@ static int switchtec_init_isr(struct switchtec_dev *stdev)
- 	int dma_mrpc_irq;
- 	int rc;
- 
--	nvecs = pci_alloc_irq_vectors(stdev->pdev, 1, 4,
--				      PCI_IRQ_MSIX | PCI_IRQ_MSI);
-+	if (nirqs < 4)
-+		nirqs = 4;
++	if (lport < 0)
++		return lport;
 +
-+	nvecs = pci_alloc_irq_vectors(stdev->pdev, 1, nirqs,
-+				      PCI_IRQ_MSIX | PCI_IRQ_MSI |
-+				      PCI_IRQ_VIRTUAL);
- 	if (nvecs < 0)
- 		return nvecs;
- 
++	for (pidx = 0; pidx < ntb_peer_port_count(ntb); pidx++)
++		if (lport <= ntb_peer_port_number(ntb, pidx))
++			return pidx;
++
++	return pidx;
++}
++
++/**
++ * ntb_peer_logical_port_number() - get the logical peer port by given index
++ * @ntb:	NTB device context.
++ * @pidx:	Peer port index.
++ *
++ * The Logical Port Number is defined to be a unique number for each
++ * port starting from zero through to the number of ports minus one.
++ * This is in contrast to the Port Number where each port can be assigned
++ * any unique physical number by the hardware.
++ *
++ * The logical port number is useful for calculating the resource indexes
++ * used by peers.
++ *
++ * Return: the peer's logical port number or negative value indicating an error
++ */
++static inline int ntb_peer_logical_port_number(struct ntb_dev *ntb, int pidx)
++{
++	if (ntb_peer_port_number(ntb, pidx) < ntb_port_number(ntb))
++		return pidx;
++	else
++		return pidx + 1;
++}
++
+ /**
+  * ntb_peer_port_idx() - get the peer device port index by given port number
+  * @ntb:	NTB device context.
 -- 
 2.20.1
 
