@@ -2,23 +2,23 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2268428E91
-	for <lists.iommu@lfdr.de>; Fri, 24 May 2019 03:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A75828E86
+	for <lists.iommu@lfdr.de>; Fri, 24 May 2019 03:16:41 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id DD0BBF3B;
-	Fri, 24 May 2019 01:16:44 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 92597F7A;
+	Fri, 24 May 2019 01:16:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id CF056F82
-	for <iommu@lists.linux-foundation.org>;
-	Fri, 24 May 2019 01:16:40 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D9AD3F4
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 514F8F1D
 	for <iommu@lists.linux-foundation.org>;
 	Fri, 24 May 2019 01:16:38 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 84B85F4
+	for <iommu@lists.linux-foundation.org>;
+	Fri, 24 May 2019 01:16:37 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
@@ -30,10 +30,10 @@ Received: from unknown (HELO luv-build.sc.intel.com) ([172.25.110.25])
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
 	Borislav Petkov <bp@suse.de>
-Subject: [RFC PATCH v4 05/21] x86/hpet: Reserve timer for the HPET hardlockup
-	detector
-Date: Thu, 23 May 2019 18:16:07 -0700
-Message-Id: <1558660583-28561-6-git-send-email-ricardo.neri-calderon@linux.intel.com>
+Subject: [RFC PATCH v4 06/21] x86/hpet: Configure the timer used by the
+	hardlockup detector
+Date: Thu, 23 May 2019 18:16:08 -0700
+Message-Id: <1558660583-28561-7-git-send-email-ricardo.neri-calderon@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1558660583-28561-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
 References: <1558660583-28561-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
@@ -71,12 +71,15 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-HPET timer 2 will be used to drive the HPET-based hardlockup detector.
-Reserve such timer to ensure it cannot be used by user space programs or
-for clock events.
+Implement the initial configuration of the timer to be used by the
+hardlockup detector. Return a data structure with a description of the
+timer; this information is subsequently used by the hardlockup detector.
 
-When looking for MSI-capable timers for clock events, skip timer 2 if
-the HPET hardlockup detector is selected.
+Only provide the timer if it supports Front Side Bus interrupt delivery.
+This condition greatly simplifies the implementation of the detector.
+Specifically, it helps to avoid the complexities of routing the interrupt
+via the IO-APIC (e.g., potential race conditions that arise from re-
+programming the IO-APIC in NMI context).
 
 Cc: "H. Peter Anvin" <hpa@zytor.com>
 Cc: Ashok Raj <ashok.raj@intel.com>
@@ -93,82 +96,80 @@ Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
 Cc: x86@kernel.org
 Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 ---
- arch/x86/include/asm/hpet.h |  3 +++
- arch/x86/kernel/hpet.c      | 19 ++++++++++++++++---
- 2 files changed, 19 insertions(+), 3 deletions(-)
+ arch/x86/include/asm/hpet.h | 13 +++++++++++++
+ arch/x86/kernel/hpet.c      | 35 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 48 insertions(+)
 
 diff --git a/arch/x86/include/asm/hpet.h b/arch/x86/include/asm/hpet.h
-index e7098740f5ee..6f099e2781ce 100644
+index 6f099e2781ce..20abdaa5372d 100644
 --- a/arch/x86/include/asm/hpet.h
 +++ b/arch/x86/include/asm/hpet.h
-@@ -61,6 +61,9 @@
-  */
- #define HPET_MIN_PERIOD		100000UL
+@@ -109,6 +109,19 @@ extern void hpet_set_comparator(int num, unsigned int cmp, unsigned int period);
  
-+/* Timer used for the hardlockup detector */
-+#define HPET_WD_TIMER_NR 2
+ #endif /* CONFIG_HPET_EMULATE_RTC */
+ 
++#ifdef CONFIG_X86_HARDLOCKUP_DETECTOR_HPET
++struct hpet_hld_data {
++	bool		has_periodic;
++	u32		num;
++	u64		ticks_per_second;
++};
 +
- /* hpet memory map physical address */
- extern unsigned long hpet_address;
- extern unsigned long force_hpet_address;
++extern struct hpet_hld_data *hpet_hardlockup_detector_assign_timer(void);
++#else
++static inline struct hpet_hld_data *hpet_hardlockup_detector_assign_timer(void)
++{ return NULL; }
++#endif /* CONFIG_X86_HARDLOCKUP_DETECTOR_HPET */
++
+ #else /* CONFIG_HPET_TIMER */
+ 
+ static inline int hpet_enable(void) { return 0; }
 diff --git a/arch/x86/kernel/hpet.c b/arch/x86/kernel/hpet.c
-index 1723d55219e8..ff0250831786 100644
+index ff0250831786..5f9209949fc7 100644
 --- a/arch/x86/kernel/hpet.c
 +++ b/arch/x86/kernel/hpet.c
-@@ -173,7 +173,8 @@ do {								\
+@@ -171,6 +171,41 @@ do {								\
+ 		_hpet_print_config(__func__, __LINE__);	\
+ } while (0)
  
++#ifdef CONFIG_X86_HARDLOCKUP_DETECTOR_HPET
++struct hpet_hld_data *hpet_hardlockup_detector_assign_timer(void)
++{
++	struct hpet_hld_data *hdata;
++	u64 temp;
++	u32 cfg;
++
++	cfg = hpet_readl(HPET_Tn_CFG(HPET_WD_TIMER_NR));
++
++	if (!(cfg & HPET_TN_FSB_CAP))
++		return NULL;
++
++	hdata = kzalloc(sizeof(*hdata), GFP_KERNEL);
++	if (!hdata)
++		return NULL;
++
++	if (cfg & HPET_TN_PERIODIC_CAP)
++		hdata->has_periodic = true;
++
++	hdata->num = HPET_WD_TIMER_NR;
++
++	cfg = hpet_readl(HPET_PERIOD);
++
++	/*
++	 * hpet_get_ticks_per_sec() expects the contents of the general
++	 * capabilities register. The period is in the 32 most significant
++	 * bits.
++	 */
++	temp = (u64)cfg << HPET_COUNTER_CLK_PERIOD_SHIFT;
++	hdata->ticks_per_second = hpet_get_ticks_per_sec(temp);
++
++	return hdata;
++}
++#endif /* CONFIG_X86_HARDLOCKUP_DETECTOR_HPET */
++
  /*
   * When the hpet driver (/dev/hpet) is enabled, we need to reserve
-- * timer 0 and timer 1 in case of RTC emulation.
-+ * timer 0 and timer 1 in case of RTC emulation. Timer 2 is reserved in case
-+ * the HPET-based hardlockup detector is used.
-  */
- #ifdef CONFIG_HPET
- 
-@@ -183,7 +184,7 @@ static void hpet_reserve_platform_timers(unsigned int id)
- {
- 	struct hpet __iomem *hpet = hpet_virt_address;
- 	struct hpet_timer __iomem *timer = &hpet->hpet_timers[2];
--	unsigned int nrtimers, i;
-+	unsigned int nrtimers, i, start_timer;
- 	struct hpet_data hd;
- 
- 	nrtimers = ((id & HPET_ID_NUMBER) >> HPET_ID_NUMBER_SHIFT) + 1;
-@@ -198,6 +199,13 @@ static void hpet_reserve_platform_timers(unsigned int id)
- 	hpet_reserve_timer(&hd, 1);
- #endif
- 
-+	if (IS_ENABLED(CONFIG_X86_HARDLOCKUP_DETECTOR_HPET)) {
-+		hpet_reserve_timer(&hd, HPET_WD_TIMER_NR);
-+		start_timer = HPET_WD_TIMER_NR + 1;
-+	} else {
-+		start_timer = HPET_WD_TIMER_NR;
-+	}
-+
- 	/*
- 	 * NOTE that hd_irq[] reflects IOAPIC input pins (LEGACY_8254
- 	 * is wrong for i8259!) not the output IRQ.  Many BIOS writers
-@@ -206,7 +214,7 @@ static void hpet_reserve_platform_timers(unsigned int id)
- 	hd.hd_irq[0] = HPET_LEGACY_8254;
- 	hd.hd_irq[1] = HPET_LEGACY_RTC;
- 
--	for (i = 2; i < nrtimers; timer++, i++) {
-+	for (i = start_timer; i < nrtimers; timer++, i++) {
- 		hd.hd_irq[i] = (readl(&timer->hpet_config) &
- 			Tn_INT_ROUTE_CNF_MASK) >> Tn_INT_ROUTE_CNF_SHIFT;
- 	}
-@@ -651,6 +659,11 @@ static void hpet_msi_capability_lookup(unsigned int start_timer)
- 		struct hpet_dev *hdev = &hpet_devs[num_timers_used];
- 		unsigned int cfg = hpet_readl(HPET_Tn_CFG(i));
- 
-+		/* Do not use timer reserved for the HPET watchdog. */
-+		if (IS_ENABLED(CONFIG_X86_HARDLOCKUP_DETECTOR_HPET) &&
-+		    i == HPET_WD_TIMER_NR)
-+			continue;
-+
- 		/* Only consider HPET timer with MSI support */
- 		if (!(cfg & HPET_TN_FSB_CAP))
- 			continue;
+  * timer 0 and timer 1 in case of RTC emulation. Timer 2 is reserved in case
 -- 
 2.17.1
 
