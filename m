@@ -2,23 +2,23 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4698128E93
-	for <lists.iommu@lfdr.de>; Fri, 24 May 2019 03:17:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C0C28E97
+	for <lists.iommu@lfdr.de>; Fri, 24 May 2019 03:17:34 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 56FBB10BD;
-	Fri, 24 May 2019 01:16:45 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 0DB2B114A;
+	Fri, 24 May 2019 01:16:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 572C2FF0
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0EE05F3E
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 24 May 2019 01:16:41 +0000 (UTC)
+	Fri, 24 May 2019 01:16:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id DC415F4
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 3B7866C5
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 24 May 2019 01:16:40 +0000 (UTC)
+	Fri, 24 May 2019 01:16:41 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
@@ -30,9 +30,10 @@ Received: from unknown (HELO luv-build.sc.intel.com) ([172.25.110.25])
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
 	Borislav Petkov <bp@suse.de>
-Subject: [RFC PATCH v4 09/21] x86/nmi: Add a NMI_WATCHDOG NMI handler category
-Date: Thu, 23 May 2019 18:16:11 -0700
-Message-Id: <1558660583-28561-10-git-send-email-ricardo.neri-calderon@linux.intel.com>
+Subject: [RFC PATCH v4 10/21] watchdog/hardlockup: Add function to enable NMI
+	watchdog on all allowed CPUs at once
+Date: Thu, 23 May 2019 18:16:12 -0700
+Message-Id: <1558660583-28561-11-git-send-email-ricardo.neri-calderon@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1558660583-28561-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
 References: <1558660583-28561-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
@@ -40,13 +41,36 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>, x86@kernel.org,
-	Ashok Raj <ashok.raj@intel.com>, Peter Zijlstra <peterz@infradead.org>,
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Alexei Starovoitov <ast@kernel.org>, Stephane Eranian <eranian@google.com>,
+	Kai-Heng Feng <kai.heng.feng@canonical.com>,
+	Paul Mackerras <paulus@samba.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, sparclinux@vger.kernel.org,
+	Davidlohr Bueso <dave@stgolabs.net>, Ashok Raj <ashok.raj@intel.com>,
+	Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
+	"Luis R. Rodriguez" <mcgrof@kernel.org>,
+	David Rientjes <rientjes@google.com>, Andi Kleen <andi.kleen@intel.com>,
+	Waiman Long <longman@redhat.com>,
+	"Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
+	Don Zickus <dzickus@redhat.com>,
+	"Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	Marc Zyngier <marc.zyngier@arm.com>,
 	Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	Stephane Eranian <eranian@google.com>,
-	Ricardo Neri <ricardo.neri@intel.com>, iommu@lists.linux-foundation.org,
-	Andi Kleen <andi.kleen@intel.com>
+	Frederic Weisbecker <frederic@kernel.org>,
+	Nicholas Piggin <npiggin@gmail.com>, Ricardo Neri <ricardo.neri@intel.com>,
+	Byungchul Park <byungchul.park@lge.com>, Babu Moger <Babu.Moger@amd.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Josh Poimboeuf <jpoimboe@redhat.com>, Tony Luck <tony.luck@intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Philippe Ombredanne <pombredanne@nexb.com>,
+	Colin Ian King <colin.king@canonical.com>,
+	Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
+	"David S. Miller" <davem@davemloft.net>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,69 +89,104 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Add a NMI_WATCHDOG as a new category of NMI handler. This new category
-is to be used with the HPET-based hardlockup detector. This detector
-does not have a direct way of checking if the HPET timer is the source of
-the NMI. Instead it indirectly estimate it using the time-stamp counter.
+When there are more than one implementation of the NMI watchdog, there may
+be situations in which switching from one to another is needed (e.g., if
+the time-stamp counter becomes unstable, the HPET-based NMI watchdog can
+no longer be used.
 
-Therefore, we may have false-positives in case another NMI occurs within
-the estimated time window. For this reason, we want the handler of the
-detector to be called after all the NMI_LOCAL handlers. A simple way
-of achieving this with a new NMI handler category.
+The perf-based implementation of the hardlockup detector makes use of
+various per-CPU variables which are accessed via this_cpu operations.
+Hence, each CPU needs to enable its own NMI watchdog if using the perf
+implementation.
 
+Add functionality to switch from one NMI watchdog to another and do it
+from each allowed CPU.
+
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ashok Raj <ashok.raj@intel.com>
+Cc: Andi Kleen <andi.kleen@intel.com>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Cc: Don Zickus <dzickus@redhat.com>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Frederic Weisbecker <frederic@kernel.org>
+Cc: Alexei Starovoitov <ast@kernel.org>
+Cc: Babu Moger <Babu.Moger@amd.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Philippe Ombredanne <pombredanne@nexb.com>
+Cc: Colin Ian King <colin.king@canonical.com>
+Cc: Byungchul Park <byungchul.park@lge.com>
+Cc: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: "Luis R. Rodriguez" <mcgrof@kernel.org>
+Cc: Waiman Long <longman@redhat.com>
+Cc: Josh Poimboeuf <jpoimboe@redhat.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Davidlohr Bueso <dave@stgolabs.net>
+Cc: Marc Zyngier <marc.zyngier@arm.com>
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Stephane Eranian <eranian@google.com>
+Cc: Suravee Suthikulpanit <Suravee.Suthikulpanit@amd.com>
+Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
+Cc: x86@kernel.org
+Cc: sparclinux@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
 Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 ---
- arch/x86/include/asm/nmi.h |  1 +
- arch/x86/kernel/nmi.c      | 10 ++++++++++
- 2 files changed, 11 insertions(+)
+ include/linux/nmi.h |  2 ++
+ kernel/watchdog.c   | 15 +++++++++++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/arch/x86/include/asm/nmi.h b/arch/x86/include/asm/nmi.h
-index 75ded1d13d98..75aa98313cde 100644
---- a/arch/x86/include/asm/nmi.h
-+++ b/arch/x86/include/asm/nmi.h
-@@ -29,6 +29,7 @@ enum {
- 	NMI_UNKNOWN,
- 	NMI_SERR,
- 	NMI_IO_CHECK,
-+	NMI_WATCHDOG,
- 	NMI_MAX
- };
+diff --git a/include/linux/nmi.h b/include/linux/nmi.h
+index e5f1a86e20b7..6d828334348b 100644
+--- a/include/linux/nmi.h
++++ b/include/linux/nmi.h
+@@ -83,9 +83,11 @@ static inline void reset_hung_task_detector(void) { }
  
-diff --git a/arch/x86/kernel/nmi.c b/arch/x86/kernel/nmi.c
-index 4df7705022b9..43e96aedc6fe 100644
---- a/arch/x86/kernel/nmi.c
-+++ b/arch/x86/kernel/nmi.c
-@@ -64,6 +64,10 @@ static struct nmi_desc nmi_desc[NMI_MAX] =
- 		.lock = __RAW_SPIN_LOCK_UNLOCKED(&nmi_desc[3].lock),
- 		.head = LIST_HEAD_INIT(nmi_desc[3].head),
- 	},
-+	{
-+		.lock = __RAW_SPIN_LOCK_UNLOCKED(&nmi_desc[4].lock),
-+		.head = LIST_HEAD_INIT(nmi_desc[4].head),
-+	},
+ #if defined(CONFIG_HARDLOCKUP_DETECTOR)
+ extern void hardlockup_detector_disable(void);
++extern void hardlockup_start_all(void);
+ extern unsigned int hardlockup_panic;
+ #else
+ static inline void hardlockup_detector_disable(void) {}
++static inline void hardlockup_start_all(void) {}
+ #endif
  
- };
+ #if defined(CONFIG_HAVE_NMI_WATCHDOG) || defined(CONFIG_HARDLOCKUP_DETECTOR)
+diff --git a/kernel/watchdog.c b/kernel/watchdog.c
+index 7f9e7b9306fe..be589001200a 100644
+--- a/kernel/watchdog.c
++++ b/kernel/watchdog.c
+@@ -566,6 +566,21 @@ int lockup_detector_offline_cpu(unsigned int cpu)
+ 	return 0;
+ }
  
-@@ -174,6 +178,8 @@ int __register_nmi_handler(unsigned int type, struct nmiaction *action)
- 	 */
- 	WARN_ON_ONCE(type == NMI_SERR && !list_empty(&desc->head));
- 	WARN_ON_ONCE(type == NMI_IO_CHECK && !list_empty(&desc->head));
-+	WARN_ON_ONCE(type == NMI_WATCHDOG && !list_empty(&desc->head));
++static int hardlockup_start_fn(void *data)
++{
++	watchdog_nmi_enable(smp_processor_id());
++	return 0;
++}
 +
- 
- 	/*
- 	 * some handlers need to be executed first otherwise a fake
-@@ -384,6 +390,10 @@ static void default_do_nmi(struct pt_regs *regs)
- 	}
- 	raw_spin_unlock(&nmi_reason_lock);
- 
-+	handled = nmi_handle(NMI_WATCHDOG, regs);
-+	if (handled == NMI_HANDLED)
-+		return;
++void hardlockup_start_all(void)
++{
++	int cpu;
 +
- 	/*
- 	 * Only one NMI can be latched at a time.  To handle
- 	 * this we may process multiple nmi handlers at once to
++	cpumask_copy(&watchdog_allowed_mask, &watchdog_cpumask);
++	for_each_cpu(cpu, &watchdog_allowed_mask)
++		smp_call_on_cpu(cpu, hardlockup_start_fn, NULL, false);
++}
++
+ static void lockup_detector_reconfigure(void)
+ {
+ 	cpus_read_lock();
 -- 
 2.17.1
 
