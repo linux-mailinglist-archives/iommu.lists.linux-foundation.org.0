@@ -2,60 +2,75 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDCC28EB0
-	for <lists.iommu@lfdr.de>; Fri, 24 May 2019 03:18:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD3228EE7
+	for <lists.iommu@lfdr.de>; Fri, 24 May 2019 03:52:35 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 21AD1F7A;
-	Fri, 24 May 2019 01:16:52 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8A543F39;
+	Fri, 24 May 2019 01:52:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id E051F114E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A7E06DD0
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 24 May 2019 01:16:45 +0000 (UTC)
+	Fri, 24 May 2019 01:52:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 33E306C5
+Received: from youngberry.canonical.com (youngberry.canonical.com
+	[91.189.89.112])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id A3E866C5
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 24 May 2019 01:16:45 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 May 2019 18:16:39 -0700
-X-ExtLoop1: 1
-Received: from unknown (HELO luv-build.sc.intel.com) ([172.25.110.25])
-	by fmsmga008.fm.intel.com with ESMTP; 23 May 2019 18:16:39 -0700
-From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
-	Borislav Petkov <bp@suse.de>
-Subject: [RFC PATCH v4 21/21] x86/watchdog/hardlockup/hpet: Support interrupt
-	remapping
-Date: Thu, 23 May 2019 18:16:23 -0700
-Message-Id: <1558660583-28561-22-git-send-email-ricardo.neri-calderon@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1558660583-28561-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
-References: <1558660583-28561-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	Fri, 24 May 2019 01:52:30 +0000 (UTC)
+Received: from mail-oi1-f200.google.com ([209.85.167.200])
+	by youngberry.canonical.com with esmtps
+	(TLS1.0:RSA_AES_128_CBC_SHA1:16) (Exim 4.76)
+	(envelope-from <dann.frazier@canonical.com>) id 1hTzNk-0007D2-A1
+	for iommu@lists.linux-foundation.org; Fri, 24 May 2019 01:52:28 +0000
+Received: by mail-oi1-f200.google.com with SMTP id l63so3108578oia.7
+	for <iommu@lists.linux-foundation.org>;
+	Thu, 23 May 2019 18:52:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=fcmxKph3pCyexBJoShQkjYQnPHoxtN7FjobnykSc7YU=;
+	b=d79tAvIGbevCJkM5V0NphKSCvkyg0/wDc7xI1FOTb9EGnuLoHbNqKRaRrn+FHEsKDV
+	xwy2f6PxNkWaLr8WOpCyL/wwSR91t7xHrTDYIgBKMtAYCHTgziqMYHwe7EQ4sfLHXuZn
+	ATIyZD0X/X0UAB6OX27raKA2r7rNWLnPBjhmBfsLZ6l1PrlB0DDUi70WyCHd0+BTNgA7
+	Yx+XPABV+wB9W8dhLWc26Wn1Su/GziJQJyPGhdkMGleNzU2HYpWJmb8JyOY+pSvw0fQ/
+	gyFL3qZ/qLxIm9UZF6qs60jahR+n/Zb8BlzbY7i5uXfLNllocj+JH77tLVPt3AGJ+tg0
+	xwmA==
+X-Gm-Message-State: APjAAAUiQqVvnUkri+EL4Oee++765B0S7VT2Qnsn+tKgOv93zoej4wo8
+	GaBnaMoQ24GvKsNFF51zJiuWnDUA+I9lCUQwuKEY8zf/wXwny/G8AN9NlV/aFJC12ecfmY9+OhJ
+	c1jLnSigB6Ds7wJKz6GwJ/vC++cV0rGUbFWUzAaPRMB0GIIDtIwRYVLz5xAFcYbw=
+X-Received: by 2002:aca:4457:: with SMTP id r84mr4757172oia.42.1558662745684; 
+	Thu, 23 May 2019 18:52:25 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqwcLCDnLkLOViDE8qq4ESbj78foR+joXpI4y59sgFXOXOpy5hw/O2ShIZleoto5LLcrDCmROFuyBhYfkqe1GEc=
+X-Received: by 2002:aca:4457:: with SMTP id r84mr4757159oia.42.1558662745338; 
+	Thu, 23 May 2019 18:52:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190506223334.1834-1-nicoleotsuka@gmail.com>
+	<20190506223334.1834-2-nicoleotsuka@gmail.com>
+In-Reply-To: <20190506223334.1834-2-nicoleotsuka@gmail.com>
+From: dann frazier <dann.frazier@canonical.com>
+Date: Thu, 23 May 2019 19:52:14 -0600
+Message-ID: <CALdTtnurdNe4+oJjSJfWw1ONf8-xvJ8KhonQkJNj+4LDZT7jAQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dma-contiguous: Abstract dma_{alloc,
+	free}_contiguous()
+To: Nicolin Chen <nicoleotsuka@gmail.com>
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Kate Stewart <kstewart@linuxfoundation.org>,
-	Peter Zijlstra <peterz@infradead.org>, Jan Kiszka <jan.kiszka@siemens.com>,
-	Ricardo Neri <ricardo.neri@intel.com>,
-	Stephane Eranian <eranian@google.com>, Wincy Van <fanwenyi0529@gmail.com>,
-	Ashok Raj <ashok.raj@intel.com>, x86@kernel.org,
-	Andi Kleen <andi.kleen@intel.com>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	"Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-	Ricardo Neri <ricardo.neri-calderon@linux.intel.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Juergen Gross <jgross@suse.com>, Tony Luck <tony.luck@intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	Jacob Pan <jacob.jun.pan@intel.com>,
-	Philippe Ombredanne <pombredanne@nexb.com>
+Cc: chris@zankel.net, keescook@chromium.org, linux-xtensa@linux-xtensa.org,
+	tony@atomide.com, Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will.deacon@arm.com>, linux@armlinux.org.uk,
+	linux-kernel@vger.kernel.org, jcmvbkbc@gmail.com,
+	iommu@lists.linux-foundation.org, dwmw2@infradead.org,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+	wsa+renesas@sang-engineering.com, sfr@canb.auug.org.au,
+	akpm@linux-foundation.org, treding@nvidia.com,
+	Robin Murphy <robin.murphy@arm.com>,
+	Christoph Hellwig <hch@lst.de>, iamjoonsoo.kim@lge.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,117 +83,224 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-When interrupt remapping is enabled in the system, the MSI interrupt
-message must follow a special format the IOMMU can understand. Hence,
-utilize the functionality provided by the IOMMU driver for such purpose.
+On Mon, May 6, 2019 at 4:35 PM Nicolin Chen <nicoleotsuka@gmail.com> wrote:
+>
+> Both dma_alloc_from_contiguous() and dma_release_from_contiguous()
+> are very simply implemented, but requiring callers to pass certain
+> parameters like count and align, and taking a boolean parameter to
+> check __GFP_NOWARN in the allocation flags. So every function call
+> duplicates similar work:
+>   /* A piece of example */
+>   unsigned long order = get_order(size);
+>   size_t count = size >> PAGE_SHIFT;
+>   page = dma_alloc_from_contiguous(dev, count, order, gfp & __GFP_NOWARN);
+>   [...]
+>   dma_release_from_contiguous(dev, page, size >> PAGE_SHIFT);
+>
+> Additionally, as CMA can be used only in the context which permits
+> sleeping, most of callers do a gfpflags_allow_blocking() check and
+> a corresponding fallback allocation of normal pages upon any false
+> result:
+>   /* A piece of example */
+>   if (gfpflags_allow_blocking(flag))
+>       page = dma_alloc_from_contiguous();
+>   if (!page)
+>       page = alloc_pages();
+>   [...]
+>   if (!dma_release_from_contiguous(dev, page, count))
+>       __free_pages(page, get_order(size));
+>
+> So this patch simplifies those function calls by abstracting these
+> operations into the two new functions: dma_{alloc,free}_contiguous.
+>
+> As some callers of dma_{alloc,release}_from_contiguous() might be
+> complicated, this patch just implements these two new functions to
+> kernel/dma/direct.c only as an initial step.
+>
+> Suggested-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+> ---
+> Changelog
+> v1->v2:
+>  * Added new functions beside the old ones so we can replace callers
+>    one by one later.
+>  * Applied new functions to dma/direct.c only, because it's the best
+>    example caller to apply and should be safe with the new functions.
+>
+>  include/linux/dma-contiguous.h | 10 +++++++
+>  kernel/dma/contiguous.c        | 48 ++++++++++++++++++++++++++++++++++
+>  kernel/dma/direct.c            | 24 +++--------------
+>  3 files changed, 62 insertions(+), 20 deletions(-)
+>
+> diff --git a/include/linux/dma-contiguous.h b/include/linux/dma-contiguous.h
+> index f247e8aa5e3d..dacbdcb91a89 100644
+> --- a/include/linux/dma-contiguous.h
+> +++ b/include/linux/dma-contiguous.h
+> @@ -115,6 +115,8 @@ struct page *dma_alloc_from_contiguous(struct device *dev, size_t count,
+>                                        unsigned int order, bool no_warn);
+>  bool dma_release_from_contiguous(struct device *dev, struct page *pages,
+>                                  int count);
+> +struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp);
+> +void dma_free_contiguous(struct device *dev, struct page *page, size_t size);
+>
+>  #else
+>
+> @@ -157,6 +159,14 @@ bool dma_release_from_contiguous(struct device *dev, struct page *pages,
+>         return false;
+>  }
+>
+> +struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
+> +{
+> +       return NULL;
+> +}
+> +
+> +static inline
+> +void dma_free_contiguous(struct device *dev, struct page *page, size_t size) { }
+> +
+>  #endif
+>
+>  #endif
+> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+> index b2a87905846d..21f39a6cb04f 100644
+> --- a/kernel/dma/contiguous.c
+> +++ b/kernel/dma/contiguous.c
+> @@ -214,6 +214,54 @@ bool dma_release_from_contiguous(struct device *dev, struct page *pages,
+>         return cma_release(dev_get_cma_area(dev), pages, count);
+>  }
 
-The first step is to determine whether interrupt remapping is enabled
-by looking for the existence of an interrupt remapping domain. If it
-exists, let the IOMMU driver compose the MSI message for us. The hard-
-lockup detector is still responsible of writing the message in the
-HPET FSB route register.
+This breaks the build for me if CONFIG_DMA_CMA=n:
 
-Cc: Ashok Raj <ashok.raj@intel.com>
-Cc: Andi Kleen <andi.kleen@intel.com>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Borislav Petkov <bp@suse.de>
-Cc: Jacob Pan <jacob.jun.pan@intel.com>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Juergen Gross <jgross@suse.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Wincy Van <fanwenyi0529@gmail.com>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>
-Cc: Philippe Ombredanne <pombredanne@nexb.com>
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Baoquan He <bhe@redhat.com>
-Cc: Jan Kiszka <jan.kiszka@siemens.com>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: Stephane Eranian <eranian@google.com>
-Cc: Suravee Suthikulpanit <Suravee.Suthikulpanit@amd.com>
-Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
-Cc: x86@kernel.org
-Cc: iommu@lists.linux-foundation.org
-Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
----
- arch/x86/kernel/watchdog_hld_hpet.c | 33 ++++++++++++++++++++++++++++-
- 1 file changed, 32 insertions(+), 1 deletion(-)
+  LD [M]  fs/9p/9p.o
+ld: fs/9p/vfs_inode.o: in function `dma_alloc_contiguous':
+vfs_inode.c:(.text+0xa60): multiple definition of
+`dma_alloc_contiguous'; fs/9p/vfs_super.o:vfs_super.c:(.text+0x500):
+first defined here
 
-diff --git a/arch/x86/kernel/watchdog_hld_hpet.c b/arch/x86/kernel/watchdog_hld_hpet.c
-index 76eed714a1cb..a266439fdb9e 100644
---- a/arch/x86/kernel/watchdog_hld_hpet.c
-+++ b/arch/x86/kernel/watchdog_hld_hpet.c
-@@ -20,6 +20,7 @@
- #include <linux/hpet.h>
- #include <linux/slab.h>
- #include <asm/msidef.h>
-+#include <asm/irq_remapping.h>
- #include <asm/hpet.h>
- 
- static struct hpet_hld_data *hld_data;
-@@ -117,6 +118,25 @@ static bool is_hpet_wdt_interrupt(struct hpet_hld_data *hdata)
- 	return false;
- }
- 
-+/** irq_remapping_enabled() - Detect if interrupt remapping is enabled
-+ * @hdata:	A data structure with the HPET block id
-+ *
-+ * Determine if the HPET block that the hardlockup detector is under
-+ * the remapped interrupt domain.
-+ *
-+ * Returns: True interrupt remapping is enabled. False otherwise.
-+ */
-+static bool irq_remapping_enabled(struct hpet_hld_data *hdata)
-+{
-+	struct irq_alloc_info info;
-+
-+	init_irq_alloc_info(&info, NULL);
-+	info.type = X86_IRQ_ALLOC_TYPE_HPET;
-+	info.hpet_id = hdata->blockid;
-+
-+	return !!irq_remapping_get_ir_irq_domain(&info);
-+}
-+
- /**
-  * compose_msi_msg() - Populate address and data fields of an MSI message
-  * @hdata:	A data strucure with the message to populate
-@@ -161,6 +181,9 @@ static int update_msi_destid(struct hpet_hld_data *hdata)
- {
- 	u32 destid;
- 
-+	if (irq_remapping_enabled(hdata))
-+		return hld_hpet_intremap_activate_irq(hdata);
-+
- 	hdata->msi_msg.address_lo &= ~MSI_ADDR_DEST_ID_MASK;
- 	destid = apic->calc_dest_apicid(hdata->handling_cpu);
- 	hdata->msi_msg.address_lo |= MSI_ADDR_DEST_ID(destid);
-@@ -217,9 +240,17 @@ static int hardlockup_detector_nmi_handler(unsigned int type,
-  */
- static int setup_irq_msi_mode(struct hpet_hld_data *hdata)
- {
-+	s32 ret;
- 	u32 v;
- 
--	compose_msi_msg(hdata);
-+	if (irq_remapping_enabled(hdata)) {
-+		ret = hld_hpet_intremap_alloc_irq(hdata);
-+		if (ret)
-+			return ret;
-+	} else {
-+		compose_msi_msg(hdata);
-+	}
-+
- 	hpet_writel(hdata->msi_msg.data, HPET_Tn_ROUTE(hdata->num));
- 	hpet_writel(hdata->msi_msg.address_lo, HPET_Tn_ROUTE(hdata->num) + 4);
- 
--- 
-2.17.1
+Do the following insertions need to be under an #ifdef CONFIG_DMA_CMA ?
 
+  -dann
+
+> +/**
+> + * dma_alloc_contiguous() - allocate contiguous pages
+> + * @dev:   Pointer to device for which the allocation is performed.
+> + * @size:  Requested allocation size.
+> + * @gfp:   Allocation flags.
+> + *
+> + * This function allocates contiguous memory buffer for specified device. It
+> + * first tries to use device specific contiguous memory area if available or
+> + * the default global one, then tries a fallback allocation of normal pages.
+> + */
+> +struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
+> +{
+> +       int node = dev ? dev_to_node(dev) : NUMA_NO_NODE;
+> +       size_t count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> +       size_t align = get_order(PAGE_ALIGN(size));
+> +       struct cma *cma = dev_get_cma_area(dev);
+> +       struct page *page = NULL;
+> +
+> +       /* CMA can be used only in the context which permits sleeping */
+> +       if (cma && gfpflags_allow_blocking(gfp)) {
+> +               align = min_t(size_t, align, CONFIG_CMA_ALIGNMENT);
+> +               page = cma_alloc(cma, count, align, gfp & __GFP_NOWARN);
+> +       }
+> +
+> +       /* Fallback allocation of normal pages */
+> +       if (!page)
+> +               page = alloc_pages_node(node, gfp, align);
+> +
+> +       return page;
+> +}
+> +
+> +/**
+> + * dma_free_contiguous() - release allocated pages
+> + * @dev:   Pointer to device for which the pages were allocated.
+> + * @page:  Pointer to the allocated pages.
+> + * @size:  Size of allocated pages.
+> + *
+> + * This function releases memory allocated by dma_alloc_contiguous(). As the
+> + * cma_release returns false when provided pages do not belong to contiguous
+> + * area and true otherwise, this function then does a fallback __free_pages()
+> + * upon a false-return.
+> + */
+> +void dma_free_contiguous(struct device *dev, struct page *page, size_t size)
+> +{
+> +       if (!cma_release(dev_get_cma_area(dev), page, size >> PAGE_SHIFT))
+> +               __free_pages(page, get_order(size));
+> +}
+> +
+>  /*
+>   * Support for reserved memory regions defined in device tree
+>   */
+> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> index 2c2772e9702a..0816c1e8b05a 100644
+> --- a/kernel/dma/direct.c
+> +++ b/kernel/dma/direct.c
+> @@ -96,8 +96,6 @@ static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
+>  struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
+>                 dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+>  {
+> -       unsigned int count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> -       int page_order = get_order(size);
+>         struct page *page = NULL;
+>         u64 phys_mask;
+>
+> @@ -109,20 +107,9 @@ struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
+>         gfp |= __dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
+>                         &phys_mask);
+>  again:
+> -       /* CMA can be used only in the context which permits sleeping */
+> -       if (gfpflags_allow_blocking(gfp)) {
+> -               page = dma_alloc_from_contiguous(dev, count, page_order,
+> -                                                gfp & __GFP_NOWARN);
+> -               if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
+> -                       dma_release_from_contiguous(dev, page, count);
+> -                       page = NULL;
+> -               }
+> -       }
+> -       if (!page)
+> -               page = alloc_pages_node(dev_to_node(dev), gfp, page_order);
+> -
+> +       page = dma_alloc_contiguous(dev, size, gfp);
+>         if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
+> -               __free_pages(page, page_order);
+> +               dma_free_contiguous(dev, page, size);
+>                 page = NULL;
+>
+>                 if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
+> @@ -154,7 +141,7 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+>         if (PageHighMem(page)) {
+>                 /*
+>                  * Depending on the cma= arguments and per-arch setup
+> -                * dma_alloc_from_contiguous could return highmem pages.
+> +                * dma_alloc_contiguous could return highmem pages.
+>                  * Without remapping there is no way to return them here,
+>                  * so log an error and fail.
+>                  */
+> @@ -176,10 +163,7 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+>
+>  void __dma_direct_free_pages(struct device *dev, size_t size, struct page *page)
+>  {
+> -       unsigned int count = PAGE_ALIGN(size) >> PAGE_SHIFT;
+> -
+> -       if (!dma_release_from_contiguous(dev, page, count))
+> -               __free_pages(page, get_order(size));
+> +       dma_free_contiguous(dev, page, size);
+>  }
+>
+>  void dma_direct_free_pages(struct device *dev, size_t size, void *cpu_addr,
+> --
+> 2.17.1
+>
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
