@@ -2,38 +2,38 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8615628EA9
-	for <lists.iommu@lfdr.de>; Fri, 24 May 2019 03:17:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BC828EAD
+	for <lists.iommu@lfdr.de>; Fri, 24 May 2019 03:17:58 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 74C4A115C;
-	Fri, 24 May 2019 01:16:46 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 5F7381070;
+	Fri, 24 May 2019 01:16:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 946B7F3E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E1458105C
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 24 May 2019 01:16:43 +0000 (UTC)
+	Fri, 24 May 2019 01:16:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 1DA07821
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 84387F4
 	for <iommu@lists.linux-foundation.org>;
 	Fri, 24 May 2019 01:16:43 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
 	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 May 2019 18:16:37 -0700
+	23 May 2019 18:16:38 -0700
 X-ExtLoop1: 1
 Received: from unknown (HELO luv-build.sc.intel.com) ([172.25.110.25])
 	by fmsmga008.fm.intel.com with ESMTP; 23 May 2019 18:16:37 -0700
 From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
 	Borislav Petkov <bp@suse.de>
-Subject: [RFC PATCH v4 14/21] watchdog/hardlockup: Use parse_option_str() to
-	handle "nmi_watchdog"
-Date: Thu, 23 May 2019 18:16:16 -0700
-Message-Id: <1558660583-28561-15-git-send-email-ricardo.neri-calderon@linux.intel.com>
+Subject: [RFC PATCH v4 15/21] watchdog/hardlockup/hpet: Only enable the HPET
+	watchdog via a boot parameter
+Date: Thu, 23 May 2019 18:16:17 -0700
+Message-Id: <1558660583-28561-16-git-send-email-ricardo.neri-calderon@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1558660583-28561-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
 References: <1558660583-28561-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
@@ -78,9 +78,15 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Prepare hardlockup_panic_setup() to handle a comma-separated list of
-options. This is needed to pass options to specific implementations of the
-hardlockup detector.
+Keep the HPET-based hardlockup detector disabled unless explicitly enabled
+via a command-line argument. If such parameter is not given, the
+initialization of the hpet-based hardlockup detector fails and the NMI
+watchdog will fallback to use the perf-based implementation.
+
+Given that __setup("nmi_watchdog=") is already used to control the behavior
+of the NMI watchdog (via hardlockup_panic_setup()), it cannot be used to
+control of the hpet-based implementation. Instead, use a new
+early_param("nmi_watchdog").
 
 Cc: "H. Peter Anvin" <hpa@zytor.com>
 Cc: Ashok Raj <ashok.raj@intel.com>
@@ -102,32 +108,79 @@ Cc: Suravee Suthikulpanit <Suravee.Suthikulpanit@amd.com>
 Cc: "Ravi V. Shankar" <ravi.v.shankar@intel.com>
 Cc: x86@kernel.org
 Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
----
- kernel/watchdog.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/kernel/watchdog.c b/kernel/watchdog.c
-index be589001200a..fd50049449ec 100644
---- a/kernel/watchdog.c
-+++ b/kernel/watchdog.c
-@@ -70,13 +70,13 @@ void __init hardlockup_detector_disable(void)
+--
+checkpatch gives the following warning:
+
+CHECK: __setup appears un-documented -- check Documentation/admin-guide/kernel-parameters.rst
++__setup("nmi_watchdog=", hardlockup_detector_hpet_setup);
+
+This is a false-positive as the option nmi_watchdog is already
+documented. The option is re-evaluated in this file as well.
+---
+ .../admin-guide/kernel-parameters.txt         |  8 ++++++-
+ arch/x86/kernel/watchdog_hld_hpet.c           | 22 +++++++++++++++++++
+ 2 files changed, 29 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 138f6664b2e2..17ed3dcda13e 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2831,7 +2831,7 @@
+ 			Format: [state][,regs][,debounce][,die]
  
- static int __init hardlockup_panic_setup(char *str)
- {
--	if (!strncmp(str, "panic", 5))
-+	if (parse_option_str(str, "panic"))
- 		hardlockup_panic = 1;
--	else if (!strncmp(str, "nopanic", 7))
-+	else if (parse_option_str(str, "nopanic"))
- 		hardlockup_panic = 0;
--	else if (!strncmp(str, "0", 1))
-+	else if (parse_option_str(str, "0"))
- 		nmi_watchdog_user_enabled = 0;
--	else if (!strncmp(str, "1", 1))
-+	else if (parse_option_str(str, "1"))
- 		nmi_watchdog_user_enabled = 1;
- 	return 1;
+ 	nmi_watchdog=	[KNL,BUGS=X86] Debugging features for SMP kernels
+-			Format: [panic,][nopanic,][num]
++			Format: [panic,][nopanic,][num,][hpet]
+ 			Valid num: 0 or 1
+ 			0 - turn hardlockup detector in nmi_watchdog off
+ 			1 - turn hardlockup detector in nmi_watchdog on
+@@ -2841,6 +2841,12 @@
+ 			please see 'nowatchdog'.
+ 			This is useful when you use a panic=... timeout and
+ 			need the box quickly up again.
++			When hpet is specified, the NMI watchdog will be driven
++			by an HPET timer, if available in the system. Otherwise,
++			it falls back to the default implementation (perf or
++			architecture-specific). Specifying hpet has no effect
++			if the NMI watchdog is not enabled (either at build time
++			or via the command line).
+ 
+ 			These settings can be accessed at runtime via
+ 			the nmi_watchdog and hardlockup_panic sysctls.
+diff --git a/arch/x86/kernel/watchdog_hld_hpet.c b/arch/x86/kernel/watchdog_hld_hpet.c
+index dcc50cd29374..76eed714a1cb 100644
+--- a/arch/x86/kernel/watchdog_hld_hpet.c
++++ b/arch/x86/kernel/watchdog_hld_hpet.c
+@@ -351,6 +351,28 @@ void hardlockup_detector_hpet_stop(void)
+ 	disable_timer(hld_data);
  }
+ 
++/**
++ * hardlockup_detector_hpet_setup() - Parse command-line parameters
++ * @str:	A string containing the kernel command line
++ *
++ * Parse the nmi_watchdog parameter from the kernel command line. If
++ * selected by the user, use this implementation to detect hardlockups.
++ */
++static int __init hardlockup_detector_hpet_setup(char *str)
++{
++	if (!str)
++		return -EINVAL;
++
++	if (parse_option_str(str, "hpet"))
++		hardlockup_use_hpet = true;
++
++	if (!nmi_watchdog_user_enabled && hardlockup_use_hpet)
++		pr_warn("Selecting HPET NMI watchdog has no effect with NMI watchdog disabled\n");
++
++	return 0;
++}
++early_param("nmi_watchdog", hardlockup_detector_hpet_setup);
++
+ /**
+  * hardlockup_detector_hpet_init() - Initialize the hardlockup detector
+  *
 -- 
 2.17.1
 
