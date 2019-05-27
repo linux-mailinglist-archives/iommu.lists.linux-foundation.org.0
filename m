@@ -2,86 +2,47 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB2A2B298
-	for <lists.iommu@lfdr.de>; Mon, 27 May 2019 12:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6EF2B3A3
+	for <lists.iommu@lfdr.de>; Mon, 27 May 2019 13:53:44 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 113961813;
-	Mon, 27 May 2019 10:57:00 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 9ED081837;
+	Mon, 27 May 2019 11:53:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 97D4D180C
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 194B8182B
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 27 May 2019 10:56:44 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 49019A9
+	Mon, 27 May 2019 11:53:03 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0AFC2823
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 27 May 2019 10:56:44 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id gn7so6904295plb.10
-	for <iommu@lists.linux-foundation.org>;
-	Mon, 27 May 2019 03:56:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=xQG94E91rcdUfSlkW1uYF9ApGj+jgzKgN0E+vtaKz6A=;
-	b=Gy9EASSRYlr9i12Logn21TdN5ujim45QVkv2y2MggLHvc1zjqiO1HnQBLFMvdefKhV
-	8EUvnRVO5xeo+ymGVEjsG02qBU4VBKJE1w07kzfdcqPRGvvU6qwS7CcKyUwBb43n6ctR
-	GXh4BXEKOgL0SWJtNXegveEi3DU5WYLZJg+61DjGG2FPDXWGfylwfRNQeZlbtfrm0Ca+
-	3h/DBbQC5pmXA6gRd0uHwD+EOUkhThBuDvV1Iai08L58GcavSub2+7rJ+l4x9dHUQrr6
-	XJqz9SfLROkIZQU/3aNmTia9K5JyI8CzL9X7+4mJCGAJPvtRPfLc2cg1CoPnV0/ANVEJ
-	kf8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=xQG94E91rcdUfSlkW1uYF9ApGj+jgzKgN0E+vtaKz6A=;
-	b=kHbHMHmkrYgoC/gpuQSI2c/nbPawED+6+RHk5kxxpTGpuJnXs95ZbpF/brC65Zim/r
-	r9s8KsrQvImiwtzUyS/cV1uIwJAuTgGmmebkRvVt2bgXreO6ouF28QlthNZu25wG2iPM
-	RkWMtG6Xrp8SKcoJRtN6NeQC+wrS5NfOPQ6pkSPqh0j7Wd4dsR2fLcdamIPMb1RcC5YQ
-	PG9IH5uMngaJIMhntaWc96swISiT1WZ/cJCOm8/0HEdvGbeoQyrtoY227j49Sdg8uXlh
-	ALvetqgSLdqW1xeZ9sGnzF1H53t2raBJkOMzTHNnFH7n0kf+LLJWEJA5AZUTJIyReSOE
-	1wzw==
-X-Gm-Message-State: APjAAAU8lNL5jBcYRwyGu/AV38iGBqLh94qSJwYvEx/Qvc//WyNjc90n
-	UZJqqHeZHysqavphT895d30=
-X-Google-Smtp-Source: APXvYqwYifFGznpVmbp990JQuxYufhL5+M7CwwnvfxITZA/hhhnqSphHZcc/3LL1+bFx/1MWhz5Akw==
-X-Received: by 2002:a17:902:28c9:: with SMTP id
-	f67mr20202766plb.19.1558954603720; 
-	Mon, 27 May 2019 03:56:43 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
-	[216.228.112.22]) by smtp.gmail.com with ESMTPSA id
-	x10sm14034629pfj.136.2019.05.27.03.56.42
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 27 May 2019 03:56:43 -0700 (PDT)
-Date: Mon, 27 May 2019 03:55:29 -0700
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: Ira Weiny <ira.weiny@intel.com>
-Subject: Re: [PATCH v3 2/2] dma-contiguous: Use fallback alloc_pages for
-	single pages
-Message-ID: <20190527105528.GA26916@Asurada-Nvidia.nvidia.com>
-References: <20190524040633.16854-1-nicoleotsuka@gmail.com>
-	<20190524040633.16854-3-nicoleotsuka@gmail.com>
-	<20190524161618.GB23100@iweiny-DESK2.sc.intel.com>
+	Mon, 27 May 2019 11:53:00 +0000 (UTC)
+Received: from ramsan ([84.194.111.163]) by albert.telenet-ops.be with bizsmtp
+	id HPsy2000F3XaVaC06PsyAS; Mon, 27 May 2019 13:52:59 +0200
+Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1hVEBW-0001O0-Ca; Mon, 27 May 2019 13:52:58 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1hVEBW-0000aj-AI; Mon, 27 May 2019 13:52:58 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Joerg Roedel <joro@8bytes.org>,
+	Magnus Damm <damm+renesas@opensource.se>
+Subject: [PATCH v4 0/6] iommu/ipmmu-vmsa: Suspend/resume support and assorted
+	cleanups
+Date: Mon, 27 May 2019 13:52:47 +0200
+Message-Id: <20190527115253.2114-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190524161618.GB23100@iweiny-DESK2.sc.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: tony@atomide.com, catalin.marinas@arm.com, will.deacon@arm.com,
-	jcmvbkbc@gmail.com, hch@lst.de, sfr@canb.auug.org.au,
-	dann.frazier@canonical.com, linux@armlinux.org.uk,
-	treding@nvidia.com, linux-xtensa@linux-xtensa.org,
-	keescook@chromium.org, akpm@linux-foundation.org,
-	linux-arm-kernel@lists.infradead.org, chris@zankel.net,
-	wsa+renesas@sang-engineering.com, robin.murphy@arm.com,
-	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	iamjoonsoo.kim@lge.com, dwmw2@infradead.org
+Cc: linux-renesas-soc@vger.kernel.org, iommu@lists.linux-foundation.org,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -94,55 +55,46 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Ira,
-
-On Fri, May 24, 2019 at 09:16:19AM -0700, Ira Weiny wrote:
-> On Thu, May 23, 2019 at 09:06:33PM -0700, Nicolin Chen wrote:
-> > The addresses within a single page are always contiguous, so it's
-> > not so necessary to always allocate one single page from CMA area.
-> > Since the CMA area has a limited predefined size of space, it may
-> > run out of space in heavy use cases, where there might be quite a
-> > lot CMA pages being allocated for single pages.
-> > 
-> > However, there is also a concern that a device might care where a
-> > page comes from -- it might expect the page from CMA area and act
-> > differently if the page doesn't.
-> 
-> How does a device know, after this call, if a CMA area was used?  From the
-> patches I figured a device should not care.
-
-A device doesn't know. But that doesn't mean a device won't care
-at all. There was a concern from Robin and Christoph, as a corner
-case that device might act differently if the memory isn't in its
-own CMA region. That's why we let it still use its device specific
-CMA area.
-
-> > +	if (dev && dev->cma_area)
-> > +		cma = dev->cma_area;
-> > +	else if (count > 1)
-> > +		cma = dma_contiguous_default_area;
-> 
-> Doesn't dev_get_dma_area() already do this?
-
-Partially yes. But unwrapping it makes the program flow clear in
-my opinion. Actually I should have mentioned that this patch was
-suggested by Christoph also.
-
-Otherwise, it would need an override like:
-	cma = dev_get_dma_area();
-	if (count > 1 && cma == dma_contiguous_default_area)
-		cma = NULL;
-
-Which doesn't look that bad though..
-
-Thanks
-Nicolin
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+CUhpIErDtnJnLCBNYWdudXMsCgpPbiBSLUNhciBHZW4zIHN5c3RlbXMgd2l0aCBQU0NJLCBQU0NJ
+IG1heSBwb3dlciBkb3duIHRoZSBTb0MgZHVyaW5nCnN5c3RlbSBzdXNwZW5kLCB0aHVzIGxvc2lu
+ZyBhbGwgSU9NTVUgc3RhdGUuICBIZW5jZSBhZnRlciBzMnJhbSwgZGV2aWNlcwpiZWhpbmQgYW4g
+SVBNTVUgKGUuZy4gU0FUQSksIGFuZCBjb25maWd1cmVkIHRvIHVzZSBpdCwgd2lsbCBmYWlsIHRv
+CmNvbXBsZXRlIHRoZWlyIEkvTyBvcGVyYXRpb25zLgoKVGhpcyBwYXRjaCBzZXJpZXMgYWRkcyBz
+dXNwZW5kL3Jlc3VtZSBzdXBwb3J0IHRvIHRoZSBSZW5lc2FzIElQTU1VLVZNU0EKSU9NTVUgZHJp
+dmVyLCBhbmQgcGVyZm9ybXMgc29tZSBzbWFsbGVyIGNsZWFudXBzIGFuZCBmaXhlcyBkdXJpbmcg
+dGhlCnByb2Nlc3MuICBNb3N0IHBhdGNoZXMgYXJlIGZhaXJseSBpbmRlcGVuZGVudCwgZXhjZXB0
+IGZvciBwYXRjaCA2LzYsCndoaWNoIGRlcGVuZHMgb24gcGF0Y2hlcyA0LzYgYW5kIDUvNi4KCkNo
+YW5nZXMgY29tcGFyZWQgdG8gdjM6CiAgLSBBZGQgUmV2aWV3ZWQtYnksIFRlc3RlZC1ieS4KCkNo
+YW5nZXMgY29tcGFyZWQgdG8gdjI6CiAgLSBGaXggc3lzZnMgcGF0aCB0eXBvIGluIHBhdGNoIGRl
+c2NyaXB0aW9uLAogIC0gQWRkIFJldmlld2VkLWJ5LgoKQ2hhbmdlcyBjb21wYXJlZCB0byB2MToK
+ICAtIERyb3BwZWQgImlvbW11L2lwbW11LXZtc2E6IENhbGwgaXBtbXVfY3R4X3dyaXRlX3Jvb3Qo
+KSBpbnN0ZWFkIG9mCiAgICBvcGVuIGNvZGluZyIsCiAgLSBBZGQgUmV2aWV3ZWQtYnksCiAgLSBN
+ZXJnZSBJTUVBUi9JTUVMQVIsCiAgLSBzL2lwbW11X2NvbnRleHRfaW5pdC9pcG1tdV9kb21haW5f
+c2V0dXBfY29udGV4dC8sCiAgLSBEcm9wIFBTQ0kgY2hlY2tzLgoKVGhpcyBoYXMgYmVlbiB0ZXN0
+ZWQgb24gU2FsdmF0b3ItWFMgd2l0aCBSLUNhciBIMyBFUzIuMCwgd2l0aCBJUE1NVQpzdXBvcnQg
+Zm9yIFNBVEEgZW5hYmxlZC4gIFRvIHBsYXkgc2FmZSwgdGhlIHJlc3VtZSBvcGVyYXRpb24gaGFz
+IGFsc28KYmVlbiB0ZXN0ZWQgb24gUi1DYXIgTTItVy4KCklzIHRoZXJlIGFueXRoaW5nIHN0aWxs
+IGJsb2NraW5nIHRoZSBpbnRlZ3JhdGlvbiBvZiB0aGlzIHBhdGNoIHNlcmllcz8KSWYgbm90LCBw
+bGVhc2UgYXBwbHkuCgpUaGFua3MhCgpHZWVydCBVeXR0ZXJob2V2ZW4gKDYpOgogIGlvbW11L2lw
+bW11LXZtc2E6IExpbmsgSU9NTVVzIGFuZCBkZXZpY2VzIGluIHN5c2ZzCiAgaW9tbXUvaXBtbXUt
+dm1zYTogUHJlcGFyZSB0byBoYW5kbGUgNDAtYml0IGVycm9yIGFkZHJlc3NlcwogIGlvbW11L2lw
+bW11LXZtc2E6IE1ha2UgSVBNTVVfQ1RYX01BWCB1bnNpZ25lZAogIGlvbW11L2lwbW11LXZtc2E6
+IE1vdmUgbnVtX3V0bGJzIHRvIFNvQy1zcGVjaWZpYyBmZWF0dXJlcwogIGlvbW11L2lwbW11LXZt
+c2E6IEV4dHJhY3QgaGFyZHdhcmUgY29udGV4dCBpbml0aWFsaXphdGlvbgogIGlvbW11L2lwbW11
+LXZtc2E6IEFkZCBzdXNwZW5kL3Jlc3VtZSBzdXBwb3J0CgogZHJpdmVycy9pb21tdS9pcG1tdS12
+bXNhLmMgfCAxODUgKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLQogMSBmaWxl
+IGNoYW5nZWQsIDEyNCBpbnNlcnRpb25zKCspLCA2MSBkZWxldGlvbnMoLSkKCi0tIAoyLjE3LjEK
+Ckdye29ldGplLGVldGluZ31zLAoKCQkJCQkJR2VlcnQKCi0tCkdlZXJ0IFV5dHRlcmhvZXZlbiAt
+LSBUaGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5v
+cmcKCkluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVvcGxlLCBJIGNh
+bGwgbXlzZWxmIGEgaGFja2VyLiBCdXQKd2hlbiBJJ20gdGFsa2luZyB0byBqb3VybmFsaXN0cyBJ
+IGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlrZSB0aGF0LgoJCQkJCQkJICAg
+IC0tIExpbnVzIFRvcnZhbGRzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9u
+Lm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9p
+b21tdQ==
