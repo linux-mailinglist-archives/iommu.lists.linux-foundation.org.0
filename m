@@ -2,43 +2,72 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6322B811
-	for <lists.iommu@lfdr.de>; Mon, 27 May 2019 17:01:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641822B834
+	for <lists.iommu@lfdr.de>; Mon, 27 May 2019 17:16:43 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id B70EE19B5;
-	Mon, 27 May 2019 15:01:44 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 53DBF19E4;
+	Mon, 27 May 2019 15:16:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1C1BF193F
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 60FA11893
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 27 May 2019 15:00:38 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id ABD0B81A
+	Mon, 27 May 2019 15:15:38 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
+	[209.85.221.194])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5B15F6C5
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 27 May 2019 15:00:37 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-	id 99DA0244; Mon, 27 May 2019 17:00:35 +0200 (CEST)
-Date: Mon, 27 May 2019 17:00:34 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH v4 00/15] iommu/vt-d: Delegate DMA domain to generic iommu
-Message-ID: <20190527150033.GC12745@8bytes.org>
-References: <20190525054136.27810-1-baolu.lu@linux.intel.com>
+	Mon, 27 May 2019 15:15:37 +0000 (UTC)
+Received: by mail-vk1-f194.google.com with SMTP id j124so3903853vkb.4
+	for <iommu@lists.linux-foundation.org>;
+	Mon, 27 May 2019 08:15:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=S3tITZHYfrewmW5oJlisGGiL7wfHqP1R9OVY9cCC4GU=;
+	b=rmfAV0c4Itl6X1k6VEPe08w/+NPEZD0QNvRt1PYbJuVcT8Q4TTK2GDQKtzoGt/wMYt
+	gAfIs1ca1I6+JDiNFbrMj1bKhOKhzD+BHFPDbT+5IlGikHetMkz8CwME/Q3LC0JWX00L
+	XMULnkCKQRx1YEYEi8tSZGMrtuWR84XusZdCEZpPap2BtKrWxn1VwKYjOFyXWmRyjJmM
+	Rs+XR4Aw+UJq6+bLvKruNAj5IJESzlTR6udywiW5fymnnu7/K4Eq2IGgOFgJODpUEUsv
+	cBh8+lgs1VqAUL+EScIWewYOIMwHOB1HJslgXQSy2EahjNcriwpESRhiGwnaRhniA5rS
+	Wy/w==
+X-Gm-Message-State: APjAAAXHC1BivPhkDSndUghKV5xWPEPkQaZp6vqUt+cDlbYdarZ5hZ1e
+	4h7jVX+axbq0J4boV3sphPuHcw==
+X-Google-Smtp-Source: APXvYqxJCHIEBYM/VufOiGYY7G560g6K/dg4+SJBDDD3dVA0O70dd9ZnwStYxTkM8qVIYrC3jk8P+g==
+X-Received: by 2002:a1f:7cc7:: with SMTP id x190mr19173038vkc.92.1558970136480;
+	Mon, 27 May 2019 08:15:36 -0700 (PDT)
+Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
+	[100.0.197.103]) by smtp.gmail.com with ESMTPSA id
+	w131sm6373477vsw.7.2019.05.27.08.15.34
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 27 May 2019 08:15:35 -0700 (PDT)
+Date: Mon, 27 May 2019 11:15:32 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: Re: [PATCH v7 0/7] Add virtio-iommu driver
+Message-ID: <20190527111345-mutt-send-email-mst@kernel.org>
+References: <20190115121959.23763-1-jean-philippe.brucker@arm.com>
+	<20190512123022-mutt-send-email-mst@kernel.org>
+	<20190527092604.GB21613@8bytes.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190525054136.27810-1-baolu.lu@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190527092604.GB21613@8bytes.org>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
+	autolearn=unavailable version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: kevin.tian@intel.com, ashok.raj@intel.com, dima@arista.com,
-	tmurphy@arista.com, linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org, jacob.jun.pan@intel.com,
-	David Woodhouse <dwmw2@infradead.org>
+Cc: mark.rutland@arm.com, virtio-dev@lists.oasis-open.org, kevin.tian@intel.com,
+	tnowicki@caviumnetworks.com, devicetree@vger.kernel.org,
+	Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+	linux-pci@vger.kernel.org, jasowang@redhat.com,
+	will.deacon@arm.com, robin.murphy@arm.com,
+	virtualization@lists.linux-foundation.org,
+	iommu@lists.linux-foundation.org, robh+dt@kernel.org,
+	marc.zyngier@arm.com, bhelgaas@google.com,
+	frowand.list@gmail.com, kvmarm@lists.cs.columbia.edu
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +85,29 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hey James, Lu Baolu,
-
-On Sat, May 25, 2019 at 01:41:21PM +0800, Lu Baolu wrote:
-> James Sewart (1):
->   iommu/vt-d: Implement apply_resv_region iommu ops entry
+On Mon, May 27, 2019 at 11:26:04AM +0200, Joerg Roedel wrote:
+> On Sun, May 12, 2019 at 12:31:59PM -0400, Michael S. Tsirkin wrote:
+> > OK this has been in next for a while.
+> > 
+> > Last time IOMMU maintainers objected. Are objections
+> > still in force?
+> > 
+> > If not could we get acks please?
 > 
-> Lu Baolu (14):
->   iommu: Add API to request DMA domain for device
->   iommu/vt-d: Expose ISA direct mapping region via
->     iommu_get_resv_regions
->   iommu/vt-d: Enable DMA remapping after rmrr mapped
->   iommu/vt-d: Add device_def_domain_type() helper
->   iommu/vt-d: Delegate the identity domain to upper layer
->   iommu/vt-d: Delegate the dma domain to upper layer
->   iommu/vt-d: Identify default domains replaced with private
->   iommu/vt-d: Handle 32bit device with identity default domain
->   iommu/vt-d: Probe DMA-capable ACPI name space devices
->   iommu/vt-d: Implement is_attach_deferred iommu ops entry
->   iommu/vt-d: Cleanup get_valid_domain_for_dev()
->   iommu/vt-d: Remove startup parameter from device_def_domain_type()
->   iommu/vt-d: Remove duplicated code for device hotplug
->   iommu/vt-d: Remove static identity map code
+> No objections against the code, I only hesitated because the Spec was
+> not yet official.
+> 
+> So for the code:
+> 
+> 	Acked-by: Joerg Roedel <jroedel@suse.de>
 
-Thanks for working on this. I think it is time to give it some testing
-in linux-next, so I applied it to my tree. Fingers crossed this can make
-it into v5.3 :)
+Last spec patch had a bunch of comments not yet addressed.
+But I do not remember whether comments are just about wording
+or about the host/guest interface as well.
+Jean-Philippe could you remind me please?
 
-
-Regards,
-
-	Joerg
+-- 
+MST
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
