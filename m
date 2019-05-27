@@ -2,40 +2,40 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6EF2B3A3
-	for <lists.iommu@lfdr.de>; Mon, 27 May 2019 13:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAED2B38F
+	for <lists.iommu@lfdr.de>; Mon, 27 May 2019 13:53:25 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 9ED081837;
-	Mon, 27 May 2019 11:53:23 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 583A3183A;
+	Mon, 27 May 2019 11:53:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 194B8182B
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id F334E1823
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 27 May 2019 11:53:03 +0000 (UTC)
+	Mon, 27 May 2019 11:53:01 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0AFC2823
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0AEABA9
 	for <iommu@lists.linux-foundation.org>;
 	Mon, 27 May 2019 11:53:00 +0000 (UTC)
 Received: from ramsan ([84.194.111.163]) by albert.telenet-ops.be with bizsmtp
-	id HPsy2000F3XaVaC06PsyAS; Mon, 27 May 2019 13:52:59 +0200
+	id HPsy2000G3XaVaC06PsyAT; Mon, 27 May 2019 13:52:59 +0200
 Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1hVEBW-0001O0-Ca; Mon, 27 May 2019 13:52:58 +0200
+	id 1hVEBW-0001O2-DG; Mon, 27 May 2019 13:52:58 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1hVEBW-0000aj-AI; Mon, 27 May 2019 13:52:58 +0200
+	id 1hVEBW-0000ao-BN; Mon, 27 May 2019 13:52:58 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Joerg Roedel <joro@8bytes.org>,
 	Magnus Damm <damm+renesas@opensource.se>
-Subject: [PATCH v4 0/6] iommu/ipmmu-vmsa: Suspend/resume support and assorted
-	cleanups
-Date: Mon, 27 May 2019 13:52:47 +0200
-Message-Id: <20190527115253.2114-1-geert+renesas@glider.be>
+Subject: [PATCH v4 1/6] iommu/ipmmu-vmsa: Link IOMMUs and devices in sysfs
+Date: Mon, 27 May 2019 13:52:48 +0200
+Message-Id: <20190527115253.2114-2-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
+In-Reply-To: <20190527115253.2114-1-geert+renesas@glider.be>
+References: <20190527115253.2114-1-geert+renesas@glider.be>
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
@@ -55,46 +55,89 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-CUhpIErDtnJnLCBNYWdudXMsCgpPbiBSLUNhciBHZW4zIHN5c3RlbXMgd2l0aCBQU0NJLCBQU0NJ
-IG1heSBwb3dlciBkb3duIHRoZSBTb0MgZHVyaW5nCnN5c3RlbSBzdXNwZW5kLCB0aHVzIGxvc2lu
-ZyBhbGwgSU9NTVUgc3RhdGUuICBIZW5jZSBhZnRlciBzMnJhbSwgZGV2aWNlcwpiZWhpbmQgYW4g
-SVBNTVUgKGUuZy4gU0FUQSksIGFuZCBjb25maWd1cmVkIHRvIHVzZSBpdCwgd2lsbCBmYWlsIHRv
-CmNvbXBsZXRlIHRoZWlyIEkvTyBvcGVyYXRpb25zLgoKVGhpcyBwYXRjaCBzZXJpZXMgYWRkcyBz
-dXNwZW5kL3Jlc3VtZSBzdXBwb3J0IHRvIHRoZSBSZW5lc2FzIElQTU1VLVZNU0EKSU9NTVUgZHJp
-dmVyLCBhbmQgcGVyZm9ybXMgc29tZSBzbWFsbGVyIGNsZWFudXBzIGFuZCBmaXhlcyBkdXJpbmcg
-dGhlCnByb2Nlc3MuICBNb3N0IHBhdGNoZXMgYXJlIGZhaXJseSBpbmRlcGVuZGVudCwgZXhjZXB0
-IGZvciBwYXRjaCA2LzYsCndoaWNoIGRlcGVuZHMgb24gcGF0Y2hlcyA0LzYgYW5kIDUvNi4KCkNo
-YW5nZXMgY29tcGFyZWQgdG8gdjM6CiAgLSBBZGQgUmV2aWV3ZWQtYnksIFRlc3RlZC1ieS4KCkNo
-YW5nZXMgY29tcGFyZWQgdG8gdjI6CiAgLSBGaXggc3lzZnMgcGF0aCB0eXBvIGluIHBhdGNoIGRl
-c2NyaXB0aW9uLAogIC0gQWRkIFJldmlld2VkLWJ5LgoKQ2hhbmdlcyBjb21wYXJlZCB0byB2MToK
-ICAtIERyb3BwZWQgImlvbW11L2lwbW11LXZtc2E6IENhbGwgaXBtbXVfY3R4X3dyaXRlX3Jvb3Qo
-KSBpbnN0ZWFkIG9mCiAgICBvcGVuIGNvZGluZyIsCiAgLSBBZGQgUmV2aWV3ZWQtYnksCiAgLSBN
-ZXJnZSBJTUVBUi9JTUVMQVIsCiAgLSBzL2lwbW11X2NvbnRleHRfaW5pdC9pcG1tdV9kb21haW5f
-c2V0dXBfY29udGV4dC8sCiAgLSBEcm9wIFBTQ0kgY2hlY2tzLgoKVGhpcyBoYXMgYmVlbiB0ZXN0
-ZWQgb24gU2FsdmF0b3ItWFMgd2l0aCBSLUNhciBIMyBFUzIuMCwgd2l0aCBJUE1NVQpzdXBvcnQg
-Zm9yIFNBVEEgZW5hYmxlZC4gIFRvIHBsYXkgc2FmZSwgdGhlIHJlc3VtZSBvcGVyYXRpb24gaGFz
-IGFsc28KYmVlbiB0ZXN0ZWQgb24gUi1DYXIgTTItVy4KCklzIHRoZXJlIGFueXRoaW5nIHN0aWxs
-IGJsb2NraW5nIHRoZSBpbnRlZ3JhdGlvbiBvZiB0aGlzIHBhdGNoIHNlcmllcz8KSWYgbm90LCBw
-bGVhc2UgYXBwbHkuCgpUaGFua3MhCgpHZWVydCBVeXR0ZXJob2V2ZW4gKDYpOgogIGlvbW11L2lw
-bW11LXZtc2E6IExpbmsgSU9NTVVzIGFuZCBkZXZpY2VzIGluIHN5c2ZzCiAgaW9tbXUvaXBtbXUt
-dm1zYTogUHJlcGFyZSB0byBoYW5kbGUgNDAtYml0IGVycm9yIGFkZHJlc3NlcwogIGlvbW11L2lw
-bW11LXZtc2E6IE1ha2UgSVBNTVVfQ1RYX01BWCB1bnNpZ25lZAogIGlvbW11L2lwbW11LXZtc2E6
-IE1vdmUgbnVtX3V0bGJzIHRvIFNvQy1zcGVjaWZpYyBmZWF0dXJlcwogIGlvbW11L2lwbW11LXZt
-c2E6IEV4dHJhY3QgaGFyZHdhcmUgY29udGV4dCBpbml0aWFsaXphdGlvbgogIGlvbW11L2lwbW11
-LXZtc2E6IEFkZCBzdXNwZW5kL3Jlc3VtZSBzdXBwb3J0CgogZHJpdmVycy9pb21tdS9pcG1tdS12
-bXNhLmMgfCAxODUgKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLQogMSBmaWxl
-IGNoYW5nZWQsIDEyNCBpbnNlcnRpb25zKCspLCA2MSBkZWxldGlvbnMoLSkKCi0tIAoyLjE3LjEK
-Ckdye29ldGplLGVldGluZ31zLAoKCQkJCQkJR2VlcnQKCi0tCkdlZXJ0IFV5dHRlcmhvZXZlbiAt
-LSBUaGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5v
-cmcKCkluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVvcGxlLCBJIGNh
-bGwgbXlzZWxmIGEgaGFja2VyLiBCdXQKd2hlbiBJJ20gdGFsa2luZyB0byBqb3VybmFsaXN0cyBJ
-IGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlrZSB0aGF0LgoJCQkJCQkJICAg
-IC0tIExpbnVzIFRvcnZhbGRzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9u
-Lm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9p
-b21tdQ==
+As of commit 7af9a5fdb9e0ca33 ("iommu/ipmmu-vmsa: Use
+iommu_device_sysfs_add()/remove()"), IOMMU devices show up under
+/sys/class/iommu/, but their "devices" subdirectories are empty.
+Likewise, devices tied to an IOMMU do not have an "iommu" backlink.
+
+Make sure all links are created, on both arm32 and arm64.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+v4:
+  - Add Reviewed-by, Tested-by,
+
+v3:
+  - Fix sysfs path typo in patch description,
+
+v2:
+  - Add Reviewed-by.
+---
+ drivers/iommu/ipmmu-vmsa.c | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+index 9a380c10655e182d..9f2b781e20a0eba6 100644
+--- a/drivers/iommu/ipmmu-vmsa.c
++++ b/drivers/iommu/ipmmu-vmsa.c
+@@ -885,27 +885,37 @@ static int ipmmu_init_arm_mapping(struct device *dev)
+ 
+ static int ipmmu_add_device(struct device *dev)
+ {
++	struct ipmmu_vmsa_device *mmu = to_ipmmu(dev);
+ 	struct iommu_group *group;
++	int ret;
+ 
+ 	/*
+ 	 * Only let through devices that have been verified in xlate()
+ 	 */
+-	if (!to_ipmmu(dev))
++	if (!mmu)
+ 		return -ENODEV;
+ 
+-	if (IS_ENABLED(CONFIG_ARM) && !IS_ENABLED(CONFIG_IOMMU_DMA))
+-		return ipmmu_init_arm_mapping(dev);
++	if (IS_ENABLED(CONFIG_ARM) && !IS_ENABLED(CONFIG_IOMMU_DMA)) {
++		ret = ipmmu_init_arm_mapping(dev);
++		if (ret)
++			return ret;
++	} else {
++		group = iommu_group_get_for_dev(dev);
++		if (IS_ERR(group))
++			return PTR_ERR(group);
+ 
+-	group = iommu_group_get_for_dev(dev);
+-	if (IS_ERR(group))
+-		return PTR_ERR(group);
++		iommu_group_put(group);
++	}
+ 
+-	iommu_group_put(group);
++	iommu_device_link(&mmu->iommu, dev);
+ 	return 0;
+ }
+ 
+ static void ipmmu_remove_device(struct device *dev)
+ {
++	struct ipmmu_vmsa_device *mmu = to_ipmmu(dev);
++
++	iommu_device_unlink(&mmu->iommu, dev);
+ 	arm_iommu_detach_device(dev);
+ 	iommu_group_remove_device(dev);
+ }
+-- 
+2.17.1
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
