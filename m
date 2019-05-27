@@ -2,40 +2,43 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D19F2B795
-	for <lists.iommu@lfdr.de>; Mon, 27 May 2019 16:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C29D2B797
+	for <lists.iommu@lfdr.de>; Mon, 27 May 2019 16:33:51 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 3F0B0197D;
-	Mon, 27 May 2019 14:32:17 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 972FC1981;
+	Mon, 27 May 2019 14:33:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 3EBEC14BC
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 3343D1972
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 27 May 2019 14:31:32 +0000 (UTC)
+	Mon, 27 May 2019 14:33:09 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 1DBD113A
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id C0DE06C5
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 27 May 2019 14:31:31 +0000 (UTC)
+	Mon, 27 May 2019 14:33:08 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-	id 6B0022AF; Mon, 27 May 2019 16:31:29 +0200 (CEST)
-Date: Mon, 27 May 2019 16:31:24 +0200
+	id 2BBBC2AF; Mon, 27 May 2019 16:33:07 +0200 (CEST)
+Date: Mon, 27 May 2019 16:33:05 +0200
 From: Joerg Roedel <joro@8bytes.org>
 To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 1/1] iommu: Use right function to get group for device
-Message-ID: <20190527143123.GA12745@8bytes.org>
-References: <20190521072735.27401-1-baolu.lu@linux.intel.com>
+Subject: Re: [PATCH 1/2] iommu/vt-d: Fix lock inversion between iommu->lock
+	and device_domain_lock
+Message-ID: <20190527143305.GB12745@8bytes.org>
+References: <20190521073016.27525-1-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190521072735.27401-1-baolu.lu@linux.intel.com>
+In-Reply-To: <20190521073016.27525-1-baolu.lu@linux.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Cc: Kevin Tian <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+	ashok.raj@intel.com, linux-kernel@vger.kernel.org,
+	iommu@lists.linux-foundation.org, dwmw2@infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,19 +56,12 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, May 21, 2019 at 03:27:35PM +0800, Lu Baolu wrote:
-> The iommu_group_get_for_dev() will allocate a group for a
-> device if it isn't in any group. This isn't the use case
-> in iommu_request_dm_for_dev(). Let's use iommu_group_get()
-> instead.
-> 
-> Fixes: d290f1e70d85a ("iommu: Introduce iommu_request_dm_for_dev()")
-> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+On Tue, May 21, 2019 at 03:30:15PM +0800, Lu Baolu wrote:
 > ---
->  drivers/iommu/iommu.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/iommu/intel-iommu.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 
-Applied, thanks.
+Applied both, thanks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
