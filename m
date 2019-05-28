@@ -2,56 +2,69 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5687F2CEBC
-	for <lists.iommu@lfdr.de>; Tue, 28 May 2019 20:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FAFC2D104
+	for <lists.iommu@lfdr.de>; Tue, 28 May 2019 23:32:25 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 62E542276;
-	Tue, 28 May 2019 18:31:19 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 17B302361;
+	Tue, 28 May 2019 21:32:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0A469225E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id C51612279
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 28 May 2019 18:30:07 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from uscaw2-clmxp01.aristanetworks.com (smtp.aristanetworks.com
-	[54.193.82.35])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id AD28713A
+	Tue, 28 May 2019 21:31:03 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 33B467D2
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 28 May 2019 18:30:03 +0000 (UTC)
-Received: from uscaw2-clmxp01.aristanetworks.com (localhost [127.0.0.1])
-	by uscaw2-clmxp01.aristanetworks.com (Postfix) with ESMTP id
-	723F221459D6; Tue, 28 May 2019 11:30:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arista.com;
-	s=Arista-A; t=1559068203;
-	bh=OG5iz7Y2otWoE83PZVl2kJS3N6qNz01B8T1Adm2jXHQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=be/t+vffeui5H702naDf64viw7wYSRkAX3enYHSh0h3DCUNHfUoYP0Rjgh2s4QY4t
-	I6Q96NmEyXjDFQZb2sHxP1IOAMuSYNU/PycHnluMgO728gPcP1FzjHhQ1yFci4GHav
-	LxJC6BkStaU++vFGNuoASIrqCx0PMXUnSnC7PIS+hc1ZVxIavjrR/v0ZSQtCtiUxX8
-	4DTwduKeQeit5mUZyRD88mESQEnCRMtp6SKAtx8/gyxPV0k6ImFNu/VPrkzO6mYuP1
-	HDBMaEixxPP1zDuC697hkXkKxvQFTSW5rSo87mJroVursmhyKQhIVnb9NX4d77TTlV
-	aF8DVcsZWst/g==
-Received: from chmeee (unknown [10.95.80.198])
-	by uscaw2-clmxp01.aristanetworks.com (Postfix) with ESMTP id
-	69A8F3134185; Tue, 28 May 2019 11:30:03 -0700 (PDT)
-Received: from kevmitch by chmeee with local (Exim 4.92)
-	(envelope-from <kevmitch@chmeee>)
-	id 1hVgrK-0000xV-UI; Tue, 28 May 2019 11:30:02 -0700
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 3/3] iommu/amd: only free resources once on init error
-Date: Tue, 28 May 2019 11:29:58 -0700
-Message-Id: <20190528182958.3623-4-kevmitch@arista.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190528182958.3623-1-kevmitch@arista.com>
-References: <20190528182958.3623-1-kevmitch@arista.com>
-MIME-Version: 1.0
+	Tue, 28 May 2019 21:31:03 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id m18so72386qki.8
+	for <iommu@lists.linux-foundation.org>;
+	Tue, 28 May 2019 14:31:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=WaEhEdCDX7uVq9EdlB8MxNmxyl6leWtk/aFuLl2SSoI=;
+	b=Y4ConJGHbioYv9N8Mp37Mj8nKajpa5ftjec2jpdjMUbE27zB3Tu7iMV1rU3diBPTtJ
+	M8VPPdZZogxpMM7rutYD3+rpwFECxAYTGVoAjXcIUtqaQjdlLUbzSRbbRh+Z7t0xlDd6
+	EcxoA1KiFZKpjVfAas/YfbwO0+IpPbLqlbnhGL7UlP5cJdXcmF98E7M7ScQPtCpj02qh
+	4u+A45QoHERFkt1mES+PfsKkbzkFct8oYodaFXg4b6H6rTC9cNjE1rodn7BxT+HAH1fW
+	PA9Mgm+QPz8NRecEbMvD9qIJT/RI7ToVft4fSarxQ9hDovoTYpnkNFco6/p3jlyh3kYh
+	l/EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=WaEhEdCDX7uVq9EdlB8MxNmxyl6leWtk/aFuLl2SSoI=;
+	b=TNDh1wDTcSE1RZ+52WsF+KGfaeneR1ByikYM2atPEPgWuMI781kkNP+1kNCLAfngSx
+	rQ9BIGgw+8HpEFSOl0h4GDJDldPi0ydCSgM+6uScGMK/UeOZ93sisR0A9VM/ezBIMzsG
+	JMTqqQbY/wKD+5iy34XiVppuGR2/c/sGIHnrb+H15a9L9TYsupKEIRXt4+nY32QQfzXa
+	RVWRE1dJ77PaRSuYFc9X1xmJx/4yZiVfbzRChmlrDfyKzZP88fSP0lTf6H8sAydem2UL
+	hnG/sNZHrr0FxMlO9eSKZtSg/NsZuxwSK0+CyeDC7nYtnTTsZAMr+2MbNCZpoNg8Lhod
+	r/YQ==
+X-Gm-Message-State: APjAAAX6nyywYbcQxMGHXLg95AtYYbgm1gM5hUzW+gYlUYhrBErnAx+b
+	Qa8jSP3lyv3mo9Qags6m4oeRMg==
+X-Google-Smtp-Source: APXvYqxV1hnwlMudTqV/qXWNvA3YNO35Xwlomr1L0uUD4+Itqbe5e4yQQHoskQMtRgPPNjLXahIUOQ==
+X-Received: by 2002:a37:a854:: with SMTP id r81mr12066985qke.53.1559079062257; 
+	Tue, 28 May 2019 14:31:02 -0700 (PDT)
+Received: from qcai.nay.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+	by smtp.gmail.com with ESMTPSA id 6sm4669423qtt.72.2019.05.28.14.31.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 May 2019 14:31:01 -0700 (PDT)
+From: Qian Cai <cai@lca.pw>
+To: jroedel@suse.de
+Subject: [PATCH] dma: replace single-char identifiers in macros
+Date: Tue, 28 May 2019 17:30:41 -0400
+Message-Id: <1559079041-525-1-git-send-email-cai@lca.pw>
+X-Mailer: git-send-email 1.8.3.1
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU autolearn=ham version=3.3.1
+	DKIM_VALID, DKIM_VALID_AU,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	Qian Cai <cai@lca.pw>, akpm@linux-foundation.org,
+	robin.murphy@arm.com, hch@lst.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,84 +77,83 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Kevin Mitchell via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Kevin Mitchell <kevmitch@arista.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-When amd_iommu=off was specified on the command line, free_X_resources
-functions were called immediately after early_amd_iommu_init. They were
-then called again when amd_iommu_init also failed (as expected).
+There are a few macros in DMA have single-char identifiers make the code
+hard to read. Replace them with meaningful names.
 
-Instead, call them only once: at the end of state_next() whenever
-there's an error. These functions should be safe to call any time and
-any number of times. However, since state_next is never called again in
-an error state, the cleanup will only ever be run once.
-
-This also ensures that cleanup code is run as soon as possible after an
-error is detected rather than waiting for amd_iommu_init() to be called.
-
-Signed-off-by: Kevin Mitchell <kevmitch@arista.com>
+Signed-off-by: Qian Cai <cai@lca.pw>
 ---
- drivers/iommu/amd_iommu_init.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ include/linux/dma-mapping.h | 24 ++++++++++++++++--------
+ include/linux/dmar.h        | 14 ++++++++------
+ 2 files changed, 24 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
-index 5f3df5ae6ba8..24fc060fe596 100644
---- a/drivers/iommu/amd_iommu_init.c
-+++ b/drivers/iommu/amd_iommu_init.c
-@@ -2638,8 +2638,6 @@ static int __init state_next(void)
- 		init_state = ret ? IOMMU_INIT_ERROR : IOMMU_ACPI_FINISHED;
- 		if (init_state == IOMMU_ACPI_FINISHED && amd_iommu_disabled) {
- 			pr_info("AMD IOMMU disabled on kernel command-line\n");
--			free_dma_resources();
--			free_iommu_resources();
- 			init_state = IOMMU_CMDLINE_DISABLED;
- 			ret = -EINVAL;
- 		}
-@@ -2680,6 +2678,19 @@ static int __init state_next(void)
- 		BUG();
- 	}
- 
-+	if (ret) {
-+		free_dma_resources();
-+		if (!irq_remapping_enabled) {
-+			disable_iommus();
-+			free_iommu_resources();
-+		} else {
-+			struct amd_iommu *iommu;
-+
-+			uninit_device_table_dma();
-+			for_each_iommu(iommu)
-+				iommu_flush_all_caches(iommu);
-+		}
-+	}
- 	return ret;
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 6309a721394b..2f0151dcfa4e 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -602,14 +602,22 @@ static inline void dma_sync_single_range_for_device(struct device *dev,
+ 	return dma_sync_single_for_device(dev, addr + offset, size, dir);
  }
  
-@@ -2753,18 +2764,6 @@ static int __init amd_iommu_init(void)
- 	int ret;
+-#define dma_map_single(d, a, s, r) dma_map_single_attrs(d, a, s, r, 0)
+-#define dma_unmap_single(d, a, s, r) dma_unmap_single_attrs(d, a, s, r, 0)
+-#define dma_map_sg(d, s, n, r) dma_map_sg_attrs(d, s, n, r, 0)
+-#define dma_unmap_sg(d, s, n, r) dma_unmap_sg_attrs(d, s, n, r, 0)
+-#define dma_map_page(d, p, o, s, r) dma_map_page_attrs(d, p, o, s, r, 0)
+-#define dma_unmap_page(d, a, s, r) dma_unmap_page_attrs(d, a, s, r, 0)
+-#define dma_get_sgtable(d, t, v, h, s) dma_get_sgtable_attrs(d, t, v, h, s, 0)
+-#define dma_mmap_coherent(d, v, c, h, s) dma_mmap_attrs(d, v, c, h, s, 0)
++#define dma_map_single(dev, ptr, size, direction)			\
++	dma_map_single_attrs(dev, ptr, size, direction, 0)
++#define dma_unmap_single(dev, addr, size, direction)			\
++	dma_unmap_single_attrs(dev, addr, size, direction, 0)
++#define dma_map_sg(dev, sg, mapped_ents, direction)			\
++	dma_map_sg_attrs(dev, sg, mapped_ents, direction, 0)
++#define dma_unmap_sg(dev, sg, mapped_ents, direction)			\
++	dma_unmap_sg_attrs(dev, sg, mapped_ents, direction, 0)
++#define dma_map_page(dev, page, offset, size, direction)		\
++	dma_map_page_attrs(dev, page, offset, size, direction, 0)
++#define dma_unmap_page(dev, addr, size, direction)			\
++	dma_unmap_page_attrs(dev, addr, size, direction, 0)
++#define dma_get_sgtable(dev, sgt, cpu_addr, dma_addr, size)		\
++	dma_get_sgtable_attrs(dev, sgt, cpu_addr, dma_addr, size, 0)
++#define dma_mmap_coherent(dev, vma, cpu_addr, dma_addr, size)		\
++	dma_mmap_attrs(dev, vma, cpu_addr, dma_addr, size, 0)
  
- 	ret = iommu_go_to_state(IOMMU_INITIALIZED);
--	if (ret) {
--		free_dma_resources();
--		if (!irq_remapping_enabled) {
--			disable_iommus();
--			free_iommu_resources();
--		} else {
--			uninit_device_table_dma();
--			for_each_iommu(iommu)
--				iommu_flush_all_caches(iommu);
--		}
--	}
+ extern int dma_common_mmap(struct device *dev, struct vm_area_struct *vma,
+ 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
+diff --git a/include/linux/dmar.h b/include/linux/dmar.h
+index f8af1d770520..eb634912f475 100644
+--- a/include/linux/dmar.h
++++ b/include/linux/dmar.h
+@@ -104,12 +104,14 @@ static inline bool dmar_rcu_check(void)
+ 
+ #define	dmar_rcu_dereference(p)	rcu_dereference_check((p), dmar_rcu_check())
+ 
+-#define	for_each_dev_scope(a, c, p, d)	\
+-	for ((p) = 0; ((d) = (p) < (c) ? dmar_rcu_dereference((a)[(p)].dev) : \
+-			NULL, (p) < (c)); (p)++)
 -
- #ifdef CONFIG_GART_IOMMU
- 	if (ret && list_empty(&amd_iommu_list)) {
- 		/*
+-#define	for_each_active_dev_scope(a, c, p, d)	\
+-	for_each_dev_scope((a), (c), (p), (d))	if (!(d)) { continue; } else
++#define for_each_dev_scope(devs, cnt, i, tmp)				\
++	for ((i) = 0; ((tmp) = (i) < (cnt) ?				\
++	    dmar_rcu_dereference((devs)[(i)].dev) : NULL, (i) < (cnt)); \
++	    (i)++)
++
++#define for_each_active_dev_scope(devs, cnt, i, tmp)			\
++	for_each_dev_scope((devs), (cnt), (i), (tmp))			\
++		if (!(tmp)) { continue; } else
+ 
+ extern int dmar_table_init(void);
+ extern int dmar_dev_scope_init(void);
 -- 
-2.20.1
+1.8.3.1
 
 _______________________________________________
 iommu mailing list
