@@ -2,46 +2,46 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286F52D3BE
-	for <lists.iommu@lfdr.de>; Wed, 29 May 2019 04:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 535562D3BF
+	for <lists.iommu@lfdr.de>; Wed, 29 May 2019 04:22:25 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id BD54B23D6;
-	Wed, 29 May 2019 02:22:18 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 130F623CE;
+	Wed, 29 May 2019 02:22:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 6DD3B2270
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id DC0642270
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 29 May 2019 02:18:43 +0000 (UTC)
+	Wed, 29 May 2019 02:19:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id F04466C5
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 784CA6C5
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 29 May 2019 02:18:42 +0000 (UTC)
+	Wed, 29 May 2019 02:19:46 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 May 2019 19:18:42 -0700
+	28 May 2019 19:19:46 -0700
 X-ExtLoop1: 1
 Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
 	([10.239.159.136])
-	by orsmga004.jf.intel.com with ESMTP; 28 May 2019 19:18:40 -0700
-Subject: Re: [PATCH v5 3/7] iommu/vt-d: Introduce is_downstream_to_pci_bridge
-	helper
+	by orsmga004.jf.intel.com with ESMTP; 28 May 2019 19:19:43 -0700
+Subject: Re: [PATCH v5 4/7] iommu/vt-d: Handle RMRR with PCI bridge device
+	scopes
 To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
 	joro@8bytes.org, iommu@lists.linux-foundation.org,
 	linux-kernel@vger.kernel.org, dwmw2@infradead.org, robin.murphy@arm.com
 References: <20190528115025.17194-1-eric.auger@redhat.com>
-	<20190528115025.17194-4-eric.auger@redhat.com>
+	<20190528115025.17194-5-eric.auger@redhat.com>
 From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <560dde25-6cac-a721-baf1-110e03723eda@linux.intel.com>
-Date: Wed, 29 May 2019 10:11:48 +0800
+Message-ID: <3f33a110-97a1-bd28-cacd-1df40a3922b0@linux.intel.com>
+Date: Wed, 29 May 2019 10:12:52 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190528115025.17194-4-eric.auger@redhat.com>
+In-Reply-To: <20190528115025.17194-5-eric.auger@redhat.com>
 Content-Language: en-US
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
@@ -68,10 +68,13 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Hi,
 
 On 5/28/19 7:50 PM, Eric Auger wrote:
-> Several call sites are about to check whether a device belongs
-> to the PCI sub-hierarchy of a candidate PCI-PCI bridge.
-> Introduce an helper to perform that check.
-> 
+> When reading the vtd specification and especially the
+> Reserved Memory Region Reporting Structure chapter,
+> it is not obvious a device scope element cannot be a
+> PCI-PCI bridge, in which case all downstream ports are
+> likely to access the reserved memory region. Let's handle
+> this case in device_has_rmrr.
+
 
 This looks good to me.
 
@@ -80,72 +83,33 @@ Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 Best regards,
 Baolu
 
-
+> 
+> Fixes: ea2447f700ca ("intel-iommu: Prevent devices with RMRRs from being placed into SI Domain")
+> 
 > Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> 
 > ---
->   drivers/iommu/intel-iommu.c | 37 +++++++++++++++++++++++++++++--------
->   1 file changed, 29 insertions(+), 8 deletions(-)
+> 
+> v1 -> v2:
+> - is_downstream_to_pci_bridge helper introduced in a separate patch
+> ---
+>   drivers/iommu/intel-iommu.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-> index 5ec8b5bd308f..879f11c82b05 100644
+> index 879f11c82b05..35508687f178 100644
 > --- a/drivers/iommu/intel-iommu.c
 > +++ b/drivers/iommu/intel-iommu.c
-> @@ -736,12 +736,39 @@ static int iommu_dummy(struct device *dev)
->   	return dev->archdata.iommu == DUMMY_DEVICE_DOMAIN_INFO;
->   }
->   
-> +/* is_downstream_to_pci_bridge - test if a device belongs to the
-> + * PCI sub-hierarchy of a candidate PCI-PCI bridge
-> + *
-> + * @dev: candidate PCI device belonging to @bridge PCI sub-hierarchy
-> + * @bridge: the candidate PCI-PCI bridge
-> + *
-> + * Return: true if @dev belongs to @bridge PCI sub-hierarchy
-> + */
-> +static bool
-> +is_downstream_to_pci_bridge(struct device *dev, struct device *bridge)
-> +{
-> +	struct pci_dev *pdev, *pbridge;
-> +
-> +	if (!dev_is_pci(dev) || !dev_is_pci(bridge))
-> +		return false;
-> +
-> +	pdev = to_pci_dev(dev);
-> +	pbridge = to_pci_dev(bridge);
-> +
-> +	if (pbridge->subordinate &&
-> +	    pbridge->subordinate->number <= pdev->bus->number &&
-> +	    pbridge->subordinate->busn_res.end >= pdev->bus->number)
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
->   static struct intel_iommu *device_to_iommu(struct device *dev, u8 *bus, u8 *devfn)
->   {
->   	struct dmar_drhd_unit *drhd = NULL;
->   	struct intel_iommu *iommu;
->   	struct device *tmp;
-> -	struct pci_dev *ptmp, *pdev = NULL;
-> +	struct pci_dev *pdev = NULL;
->   	u16 segment = 0;
->   	int i;
->   
-> @@ -787,13 +814,7 @@ static struct intel_iommu *device_to_iommu(struct device *dev, u8 *bus, u8 *devf
->   				goto out;
+> @@ -2910,7 +2910,8 @@ static bool device_has_rmrr(struct device *dev)
+>   		 */
+>   		for_each_active_dev_scope(rmrr->devices,
+>   					  rmrr->devices_cnt, i, tmp)
+> -			if (tmp == dev) {
+> +			if (tmp == dev ||
+> +			    is_downstream_to_pci_bridge(dev, tmp)) {
+>   				rcu_read_unlock();
+>   				return true;
 >   			}
->   
-> -			if (!pdev || !dev_is_pci(tmp))
-> -				continue;
-> -
-> -			ptmp = to_pci_dev(tmp);
-> -			if (ptmp->subordinate &&
-> -			    ptmp->subordinate->number <= pdev->bus->number &&
-> -			    ptmp->subordinate->busn_res.end >= pdev->bus->number)
-> +			if (is_downstream_to_pci_bridge(dev, tmp))
->   				goto got_pdev;
->   		}
->   
 > 
 _______________________________________________
 iommu mailing list
