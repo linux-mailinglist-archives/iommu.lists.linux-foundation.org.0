@@ -2,29 +2,29 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C89B2EFAC
-	for <lists.iommu@lfdr.de>; Thu, 30 May 2019 05:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E92B2EFB8
+	for <lists.iommu@lfdr.de>; Thu, 30 May 2019 05:58:00 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 6009B309E;
-	Thu, 30 May 2019 03:57:37 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 772EC308C;
+	Thu, 30 May 2019 03:57:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5B394306D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1B0A63070
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 30 May 2019 03:49:25 +0000 (UTC)
+	Thu, 30 May 2019 03:49:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D9DFA7D2
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 3BA6A821
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 30 May 2019 03:49:24 +0000 (UTC)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
-	by Forcepoint Email with ESMTP id B27A09DAB0CAA2FD2FCF;
-	Thu, 30 May 2019 11:49:22 +0800 (CST)
+	Thu, 30 May 2019 03:49:30 +0000 (UTC)
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+	by Forcepoint Email with ESMTP id D27FD9252FECB80D3628;
+	Thu, 30 May 2019 11:49:27 +0800 (CST)
 Received: from HGHY4L002753561.china.huawei.com (10.133.215.186) by
 	DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server
-	id 14.3.439.0; Thu, 30 May 2019 11:49:16 +0800
+	id 14.3.439.0; Thu, 30 May 2019 11:49:17 +0800
 From: Zhen Lei <thunder.leizhen@huawei.com>
 To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>, John Garry
 	<john.garry@huawei.com>, Robin Murphy <robin.murphy@arm.com>, Will Deacon
@@ -42,17 +42,17 @@ To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>, John Garry
 	<linux-kernel@vger.kernel.org>, linux-s390 <linux-s390@vger.kernel.org>,
 	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, x86 <x86@kernel.org>,
 	linux-ia64 <linux-ia64@vger.kernel.org>
-Subject: [PATCH v8 4/7] powernv/iommu: add support for IOMMU default DMA mode
+Subject: [PATCH v8 5/7] iommu/vt-d: add support for IOMMU default DMA mode
 	build options
-Date: Thu, 30 May 2019 11:48:28 +0800
-Message-ID: <20190530034831.4184-5-thunder.leizhen@huawei.com>
+Date: Thu, 30 May 2019 11:48:29 +0800
+Message-ID: <20190530034831.4184-6-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
 In-Reply-To: <20190530034831.4184-1-thunder.leizhen@huawei.com>
 References: <20190530034831.4184-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.133.215.186]
 X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
@@ -74,51 +74,43 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The default DMA mode is PASSTHROUGH on powernv, this patch make it can be
+The default DMA mode of INTEL IOMMU is LAZY, this patch make it can be
 set to STRICT at build time. It can be overridden by boot option.
 
 There is no functional change.
 
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- arch/powerpc/platforms/powernv/pci-ioda.c | 3 ++-
- drivers/iommu/Kconfig                     | 2 ++
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ drivers/iommu/Kconfig       | 2 +-
+ drivers/iommu/intel-iommu.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/powerpc/platforms/powernv/pci-ioda.c b/arch/powerpc/platforms/powernv/pci-ioda.c
-index 126602b4e39972d..40208b9019be890 100644
---- a/arch/powerpc/platforms/powernv/pci-ioda.c
-+++ b/arch/powerpc/platforms/powernv/pci-ioda.c
-@@ -85,7 +85,8 @@ void pe_level_printk(const struct pnv_ioda_pe *pe, const char *level,
- 	va_end(args);
- }
- 
--static bool pnv_iommu_bypass_disabled __read_mostly;
-+static bool pnv_iommu_bypass_disabled __read_mostly =
-+			!IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
- static bool pci_reset_phbs __read_mostly;
- 
- static int __init iommu_setup(char *str)
 diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 9b48c2fc20e14d3..b5af859956c4fda 100644
+index b5af859956c4fda..af580274b7c5270 100644
 --- a/drivers/iommu/Kconfig
 +++ b/drivers/iommu/Kconfig
-@@ -78,6 +78,7 @@ config IOMMU_DEBUGFS
- choice
+@@ -79,7 +79,7 @@ choice
  	prompt "IOMMU default DMA mode"
  	depends on IOMMU_API
-+	default IOMMU_DEFAULT_PASSTHROUGH if (PPC_POWERNV && PCI)
- 	default IOMMU_DEFAULT_LAZY if S390_IOMMU
+ 	default IOMMU_DEFAULT_PASSTHROUGH if (PPC_POWERNV && PCI)
+-	default IOMMU_DEFAULT_LAZY if S390_IOMMU
++	default IOMMU_DEFAULT_LAZY if (INTEL_IOMMU || S390_IOMMU)
  	default IOMMU_DEFAULT_STRICT
  	help
-@@ -98,6 +99,7 @@ config IOMMU_DEFAULT_PASSTHROUGH
+ 	  This option allows IOMMU DMA mode to be chose at build time, to
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index a209199f3af6460..50d74ea0acdbdca 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -362,7 +362,7 @@ static int domain_detach_iommu(struct dmar_domain *domain,
  
- config IOMMU_DEFAULT_LAZY
- 	bool "lazy"
-+	depends on !PPC_POWERNV
- 	help
- 	  Support lazy mode, where for every IOMMU DMA unmap operation, the
- 	  flush operation of IOTLB and the free operation of IOVA are deferred.
+ static int dmar_map_gfx = 1;
+ static int dmar_forcedac;
+-static int intel_iommu_strict;
++static int intel_iommu_strict = IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
+ static int intel_iommu_superpage = 1;
+ static int intel_iommu_sm;
+ static int iommu_identity_mapping;
 -- 
 1.8.3
 
