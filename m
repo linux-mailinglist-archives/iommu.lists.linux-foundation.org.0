@@ -2,60 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410502EFB7
-	for <lists.iommu@lfdr.de>; Thu, 30 May 2019 05:57:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE5C2F907
+	for <lists.iommu@lfdr.de>; Thu, 30 May 2019 11:11:28 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 2E48D30A6;
-	Thu, 30 May 2019 03:57:38 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id DD09E372B;
+	Thu, 30 May 2019 09:11:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 7D0993070
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0DEC33706
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 30 May 2019 03:49:31 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 3B9487D2
+	Thu, 30 May 2019 09:04:11 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B46CC83A
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 30 May 2019 03:49:30 +0000 (UTC)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
-	by Forcepoint Email with ESMTP id BC38EA36FC591233E71A;
-	Thu, 30 May 2019 11:49:27 +0800 (CST)
-Received: from HGHY4L002753561.china.huawei.com (10.133.215.186) by
-	DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server
-	id 14.3.439.0; Thu, 30 May 2019 11:49:20 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>, John Garry
-	<john.garry@huawei.com>, Robin Murphy <robin.murphy@arm.com>, Will Deacon
-	<will.deacon@arm.com>, Joerg Roedel <joro@8bytes.org>, Jonathan Corbet
-	<corbet@lwn.net>, linux-doc <linux-doc@vger.kernel.org>, Sebastian Ott
-	<sebott@linux.ibm.com>, Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-	"Martin Schwidefsky" <schwidefsky@de.ibm.com>, Heiko Carstens
-	<heiko.carstens@de.ibm.com>, Benjamin Herrenschmidt
-	<benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, "Michael
-	Ellerman" <mpe@ellerman.id.au>, Tony Luck <tony.luck@intel.com>, Fenghua Yu
-	<fenghua.yu@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, "H . Peter Anvin"
-	<hpa@zytor.com>, David Woodhouse <dwmw2@infradead.org>, iommu
-	<iommu@lists.linux-foundation.org>, linux-kernel
-	<linux-kernel@vger.kernel.org>, linux-s390 <linux-s390@vger.kernel.org>,
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, x86 <x86@kernel.org>,
-	linux-ia64 <linux-ia64@vger.kernel.org>
-Subject: [PATCH v8 7/7] ia64: hide build option IOMMU_DEFAULT_PASSTHROUGH
-Date: Thu, 30 May 2019 11:48:31 +0800
-Message-ID: <20190530034831.4184-8-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <20190530034831.4184-1-thunder.leizhen@huawei.com>
-References: <20190530034831.4184-1-thunder.leizhen@huawei.com>
+	Thu, 30 May 2019 09:04:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20170209;
+	h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=49xeno4V9mLcXP70a+Sa/AkFzuIPrG2MU15kIdS1nJ8=;
+	b=oThcn6rn+teoSzUhrD1ivlyEm
+	NLcVzG/BInSURdKJwXjMVmB0tKRq2g286EMQ0Vbdus1/jzEsGjN6XnhdBK3nYR5GYNC7wN7ReinQB
+	3n5NIOsvffPiVfhvRiW3EvTICSdbwKBv/i/9afRwg2p5SAX5l8O3lVdxogQFdTLhCSjgbqIyBovaq
+	HdvlU7le3E69hkHYFKiywpDmUF0xxF4nsGjN26NKcvet2nTpoHnlbHuqKRHq64tnGNicYRZx5ZOtn
+	IZa8k14vODzW8d1RWcI83yW8p6ez+NLE4lGppYOGQriUa8uMMd6jfDcUHc7s0wdXA34vb0HOKm+He
+	0LenWjfaw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red
+	Hat Linux)) id 1hWGyn-000806-HQ; Thu, 30 May 2019 09:04:09 +0000
+Date: Thu, 30 May 2019 02:04:09 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Juergen Gross <jgross@suse.com>
+Subject: Re: [PATCH v2 3/3] xen/swiotlb: remember having called
+	xen_create_contiguous_region()
+Message-ID: <20190530090409.GB30428@infradead.org>
+References: <20190529090407.1225-1-jgross@suse.com>
+	<20190529090407.1225-4-jgross@suse.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.133.215.186]
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <20190529090407.1225-4-jgross@suse.com>
+User-Agent: Mutt/1.9.2 (2017-12-15)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Hanjun Guo <guohanjun@huawei.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	xen-devel@lists.xenproject.org,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,30 +76,9 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The DMA mode PASSTHROUGH is not used on ia64.
-
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- drivers/iommu/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index f6c030433d38048..f7400e35628dce4 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -89,7 +89,7 @@ choice
- 
- config IOMMU_DEFAULT_PASSTHROUGH
- 	bool "passthrough"
--	depends on !S390_IOMMU
-+	depends on (!S390_IOMMU && !IA64)
- 	help
- 	  In this mode, the DMA access through IOMMU without any addresses
- 	  translation. That means, the wrong or illegal DMA access can not
--- 
-1.8.3
-
-
+Please don't add your private flag to page-flags.h.  The whole point of
+the private flag is that you can use it in any way you want withou
+touching the common code.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
