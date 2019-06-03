@@ -2,43 +2,43 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id B652832D44
-	for <lists.iommu@lfdr.de>; Mon,  3 Jun 2019 11:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F7032DA8
+	for <lists.iommu@lfdr.de>; Mon,  3 Jun 2019 12:18:46 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id D49F2C37;
-	Mon,  3 Jun 2019 09:58:53 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id D249BB09;
+	Mon,  3 Jun 2019 10:18:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 4E9B6AF7
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id D542CAA5
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  3 Jun 2019 09:58:52 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id C5E84876
+	Mon,  3 Jun 2019 10:18:42 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 538605D3
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  3 Jun 2019 09:58:51 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-	by mx1.suse.de (Postfix) with ESMTP id F19B4AFA9;
-	Mon,  3 Jun 2019 09:58:49 +0000 (UTC)
-Date: Mon, 3 Jun 2019 11:58:48 +0200
-From: Joerg Roedel <jroedel@suse.de>
-To: Qian Cai <cai@lca.pw>
-Subject: Re: [PATCH -next] intel-iommu: fix a variable set but not used
-Message-ID: <20190603095848.GD8151@suse.de>
-References: <1559333762-2436-1-git-send-email-cai@lca.pw>
+	Mon,  3 Jun 2019 10:18:42 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+	id 147B436B; Mon,  3 Jun 2019 12:18:40 +0200 (CEST)
+Date: Mon, 3 Jun 2019 12:18:37 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v4 0/6] iommu/ipmmu-vmsa: Suspend/resume support and
+	assorted cleanups
+Message-ID: <20190603101836.GI12745@8bytes.org>
+References: <20190527115253.2114-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1559333762-2436-1-git-send-email-cai@lca.pw>
+In-Reply-To: <20190527115253.2114-1-geert+renesas@glider.be>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, dwmw2@infradead.org,
-	linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org, iommu@lists.linux-foundation.org,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Magnus Damm <damm+renesas@opensource.se>, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,20 +56,16 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Fri, May 31, 2019 at 04:16:02PM -0400, Qian Cai wrote:
-> The commit "iommu/vt-d: Delegate the dma domain to upper layer" left an
-> unused variable,
-> 
-> drivers/iommu/intel-iommu.c: In function 'disable_dmar_iommu':
-> drivers/iommu/intel-iommu.c:1652:23: warning: variable 'domain' set but
-> not used [-Wunused-but-set-variable]
-> 
-> Signed-off-by: Qian Cai <cai@lca.pw>
-> ---
->  drivers/iommu/intel-iommu.c | 4 ----
->  1 file changed, 4 deletions(-)
+On Mon, May 27, 2019 at 01:52:47PM +0200, Geert Uytterhoeven wrote:
+> Geert Uytterhoeven (6):
+>   iommu/ipmmu-vmsa: Link IOMMUs and devices in sysfs
+>   iommu/ipmmu-vmsa: Prepare to handle 40-bit error addresses
+>   iommu/ipmmu-vmsa: Make IPMMU_CTX_MAX unsigned
+>   iommu/ipmmu-vmsa: Move num_utlbs to SoC-specific features
+>   iommu/ipmmu-vmsa: Extract hardware context initialization
+>   iommu/ipmmu-vmsa: Add suspend/resume support
 
-Applied, thanks.
+Applied, thanks Geert.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
