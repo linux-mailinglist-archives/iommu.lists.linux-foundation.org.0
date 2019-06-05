@@ -2,55 +2,54 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DBAA362CE
-	for <lists.iommu@lfdr.de>; Wed,  5 Jun 2019 19:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF6D362C1
+	for <lists.iommu@lfdr.de>; Wed,  5 Jun 2019 19:34:55 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 13BEFDBB;
-	Wed,  5 Jun 2019 17:36:18 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id B71B2DB8;
+	Wed,  5 Jun 2019 17:34:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id E66E3DA1
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 78D5AD9B
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  5 Jun 2019 17:36:16 +0000 (UTC)
+	Wed,  5 Jun 2019 17:34:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 750206D6
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 044DA854
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  5 Jun 2019 17:36:16 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
-	[83.86.89.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id B43C420717;
-	Wed,  5 Jun 2019 17:36:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1559756176;
-	bh=f9NghZSrRd84WnvqePdJTbqihcTlrKdRTvbApOR66MM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pl7N7Ngq0jBLiU77CCBuTQuGdITFzCAYXtsahILz8VNRCUU/PoY6R2aw8gvCtOTlN
-	Ij3OOkU4KO4BFERevp0S/pFBlW4liaT5yNjjd2A4DFB3hpH9pmLaS4Rk6Xfb374BJ6
-	d4SrzGH9IkREaGu0+RSBi5V0uLW5Y6J1qkztsBLs=
-Date: Wed, 5 Jun 2019 19:36:13 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH] driver: core: Allow subsystems to continue deferring probe
-Message-ID: <20190605173613.GD27700@kroah.com>
-References: <20190605142312.6072-1-thierry.reding@gmail.com>
+	Wed,  5 Jun 2019 17:34:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Jun 2019 10:34:50 -0700
+X-ExtLoop1: 1
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+	by orsmga001.jf.intel.com with ESMTP; 05 Jun 2019 10:34:49 -0700
+Date: Wed, 5 Jun 2019 10:37:54 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [PATCH v2 2/4] iommu: Introduce device fault data
+Message-ID: <20190605103754.6d8830d7@jacob-builder>
+In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19CA6A9EE@SHSMSX104.ccr.corp.intel.com>
+References: <20190603145749.46347-1-jean-philippe.brucker@arm.com>
+	<20190603145749.46347-3-jean-philippe.brucker@arm.com>
+	<20190603150842.11070cfd@jacob-builder>
+	<AADFC41AFE54684AB9EE6CBC0274A5D19CA6A9EE@SHSMSX104.ccr.corp.intel.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190605142312.6072-1-thierry.reding@gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-pm@vger.kernel.org,
-	Kevin Hilman <khilman@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, iommu@lists.linux-foundation.org,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>
+Cc: "Raj, Ashok" <ashok.raj@intel.com>,
+	Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
+	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+	"robin.murphy@arm.com" <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,74 +67,76 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Wed, Jun 05, 2019 at 04:23:12PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Some subsystems, such as pinctrl, allow continuing to defer probe
-> indefinitely. This is useful for devices that depend on resources
-> provided by devices that are only probed after the init stage.
-> 
-> One example of this can be seen on Tegra, where the DPAUX hardware
-> contains pinmuxing controls for pins that it shares with an I2C
-> controller. The I2C controller is typically used for communication
-> with a monitor over HDMI (DDC). However, other instances of the I2C
-> controller are used to access system critical components, such as a
-> PMIC. The I2C controller driver will therefore usually be a builtin
-> driver, whereas the DPAUX driver is part of the display driver that
-> is loaded from a module to avoid bloating the kernel image with all
-> of the DRM/KMS subsystem.
-> 
-> In this particular case the pins used by this I2C/DDC controller
-> become accessible very late in the boot process. However, since the
-> controller is only used in conjunction with display, that's not an
-> issue.
-> 
-> Unfortunately the driver core currently outputs a warning message
-> when a device fails to get the pinctrl before the end of the init
-> stage. That can be confusing for the user because it may sound like
-> an unwanted error occurred, whereas it's really an expected and
-> harmless situation.
-> 
-> In order to eliminate this warning, this patch allows callers of the
-> driver_deferred_probe_check_state() helper to specify that they want
-> to continue deferring probe, regardless of whether we're past the
-> init stage or not. All of the callers of that function are updated
-> for the new signature, but only the pinctrl subsystem passes a true
-> value in the new persist parameter if appropriate.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/base/dd.c            | 17 ++++++++++++-----
->  drivers/base/power/domain.c  |  2 +-
->  drivers/iommu/of_iommu.c     |  2 +-
->  drivers/pinctrl/devicetree.c | 10 ++++++----
->  include/linux/device.h       |  2 +-
->  5 files changed, 21 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> index 0df9b4461766..25ffbadf4187 100644
-> --- a/drivers/base/dd.c
-> +++ b/drivers/base/dd.c
-> @@ -238,23 +238,30 @@ __setup("deferred_probe_timeout=", deferred_probe_timeout_setup);
->  /**
->   * driver_deferred_probe_check_state() - Check deferred probe state
->   * @dev: device to check
-> + * @persist: Boolean flag indicating whether drivers should keep trying to
-> + *   probe after built-in drivers have had a chance to probe. This is useful
-> + *   for built-in drivers that rely on resources provided by modular drivers.
+On Wed, 5 Jun 2019 08:51:45 +0000
+"Tian, Kevin" <kevin.tian@intel.com> wrote:
 
-Functionality aside, having random boolean flags in a function parameter
-list is a horrid way to have an api.  Now when you see a call to this
-function with either "true" or "false" as an option, you have no idea
-what that means.  So you need to go look up this definition and then
-work backwards.
+> > From: Jacob Pan
+> > Sent: Tuesday, June 4, 2019 6:09 AM
+> > 
+> > On Mon,  3 Jun 2019 15:57:47 +0100
+> > Jean-Philippe Brucker <jean-philippe.brucker@arm.com> wrote:
+> >   
+> > > +/**
+> > > + * struct iommu_fault_page_request - Page Request data
+> > > + * @flags: encodes whether the corresponding fields are valid and
+> > > whether this
+> > > + *         is the last page in group (IOMMU_FAULT_PAGE_REQUEST_*
+> > > values)
+> > > + * @pasid: Process Address Space ID
+> > > + * @grpid: Page Request Group Index
+> > > + * @perm: requested page permissions (IOMMU_FAULT_PERM_* values)
+> > > + * @addr: page address
+> > > + * @private_data: device-specific private information
+> > > + */
+> > > +struct iommu_fault_page_request {
+> > > +#define IOMMU_FAULT_PAGE_REQUEST_PASID_VALID	(1 << 0)
+> > > +#define IOMMU_FAULT_PAGE_REQUEST_LAST_PAGE	(1 << 1)
+> > > +#define IOMMU_FAULT_PAGE_REQUEST_PRIV_DATA	(1 << 2)
+> > > +	__u32	flags;
+> > > +	__u32	pasid;
+> > > +	__u32	grpid;
+> > > +	__u32	perm;
+> > > +	__u64	addr;
+> > > +	__u64	private_data[2];
+> > > +};
+> > > +  
+> > 
+> > Just a thought, for non-identity G-H PASID management. We could
+> > pass on guest PASID in PRQ to save a lookup in QEMU. In this case,
+> > QEMU allocate a GPASID for vIOMMU then a host PASID for pIOMMU.
+> > QEMU has a G->H lookup. When PRQ comes in to the pIOMMU with
+> > HPASID, IOMMU driver
+> > can retrieve GPASID from the bind data then report to the guest via
+> > VFIO. In this case QEMU does not need to do a H->G PASID lookup.
+> > 
+> > Should we add a gpasid field here? or we can add a flag and field
+> > later, up to you.
+> >   
+> 
+> Can private_data serve this purpose? It's better not introducing
+> gpasid awareness within host IOMMU driver. It is just a user-level
+> data associated with a PASID when binding happens. Kernel doesn't
+> care the actual meaning, simply record it and then return back to
+> user space later upon device fault. Qemu interprets the meaning as
+> gpasid in its own context. otherwise usages may use it for other
+> purpose.
+> 
+private_data was intended for device PRQ with private data, part of the
+VT-d PRQ descriptor. For vSVA, we can withhold private_data in the host
+then respond back when page response from the guest matches pending PRQ
+with the data withheld. But for in-kernel PRQ reporting, private data
+still might be passed on to any driver who wants to process the PRQ. So
+we can't re-purpose it.
 
-So even if the idea is sane (I'm not saying that), this implementation
-is not acceptable at all.
+But for in-kernel VDCM driver, it needs a lookup from guest PASID to
+host PASID. I thought you wanted to have IOMMU driver provide such
+service since the knowledge of H-G pasid can be established during
+bind_gpasid time. In that sense, we _do_ have gpasid awareness.
+ 
+> Thanks
+> Kevin
 
-thanks,
-
-greg k-h
+[Jacob Pan]
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
