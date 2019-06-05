@@ -2,81 +2,55 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C14436101
-	for <lists.iommu@lfdr.de>; Wed,  5 Jun 2019 18:17:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DBAA362CE
+	for <lists.iommu@lfdr.de>; Wed,  5 Jun 2019 19:36:19 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 74B77CBA;
-	Wed,  5 Jun 2019 16:17:49 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 13BEFDBB;
+	Wed,  5 Jun 2019 17:36:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0BE69CA5
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E66E3DA1
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  5 Jun 2019 16:17:48 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 92EEF879
+	Wed,  5 Jun 2019 17:36:16 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 750206D6
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  5 Jun 2019 16:17:46 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id q26so19553016lfc.3
-	for <iommu@lists.linux-foundation.org>;
-	Wed, 05 Jun 2019 09:17:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=INpfTRXsx/ERh1DGBQzxYmwH3X7MJEUMkIUVZyxdfjI=;
-	b=AUPZGFVJuGGoWX4JkXEWzQ4Ca5JpLMAYEQlnWcEOrLpLWVi8BCDdjz4H+V9svJ3zM8
-	d7p8N9WzKRzG6tgEl8OFj2OEKsneuHpCcgk3lBv9eL1IE+fhLYBo5f98rv/bJ1mB9noh
-	mZ3zywdBQgeARjzYDviYLHZ0EURs4p6H5gsnEGx2gPEtlg6HxYz9HmRjxPI8a8+5zcej
-	9sYJrfG+ay8XIcUJ73tInI5Nkz9CIP10gaOhIwXP1gTQvozIjS62KJuBGlg6poc4w7rh
-	qvy1j84u3uMQb9QrEehh7EovRZVGqXJF0ZgYk1CXrNZuTPd+euKUlze/zkKiIuUFyUJl
-	oNnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=INpfTRXsx/ERh1DGBQzxYmwH3X7MJEUMkIUVZyxdfjI=;
-	b=jLywlEVeZU8RtSA5nw8Oz9/2f3atIMRDaetrpLZ4EkAikj6xI8Orth5ApP9ZA5hxFX
-	dJoeEsT0vQcpyl4H90YZO5GooVc/UQuUn2XZSzS0sBg2I57Yi0IMy4pLl4qgMb8LtfFb
-	Kw0G94tfpKmttzfDRFsqXABs5SV2GzfAu4S/Iar/uPUnC1Kug2SLSlnSmEC2GMzztanu
-	hdBL+XeNAMS1f7hZHazRJBOklbIpFBNDCIjwbJqBJrGQiVx3LXM19n31NmBa4tvF0HHK
-	opbmoC/z3YmsQYHc5CPAzzJ+jkU0qgzE6fURtRmuIkTIFJUzXjPmglwa03hLwWcb+3ks
-	HVKA==
-X-Gm-Message-State: APjAAAWCDXiu9FmujrfF7KCcMmgUFNuE+1kMN+kWhtevoXQYY3UoT7T4
-	jAC5vvKCaPLuHDJWQ0ybj7pEtA==
-X-Google-Smtp-Source: APXvYqw5hdVCwy5gFQZPJeHntxyHuMeSYJHFFKduDzX2eKKxfZUS7DZaah4XpCwx9LGzEtiN4fKfQw==
-X-Received: by 2002:ac2:4202:: with SMTP id y2mr3595252lfh.178.1559751464942; 
-	Wed, 05 Jun 2019 09:17:44 -0700 (PDT)
-Received: from wasted.cogentembedded.com ([31.173.84.82])
-	by smtp.gmail.com with ESMTPSA id k17sm352187ljk.5.2019.06.05.09.17.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Jun 2019 09:17:44 -0700 (PDT)
-Subject: Re: [RFC PATCH v5 3/8] iommu: add a new capable IOMMU_CAP_MERGING
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	ulf.hansson@linaro.org, wsa+renesas@sang-engineering.com, hch@lst.de,
-	m.szyprowski@samsung.com, robin.murphy@arm.com, joro@8bytes.org
-References: <1559733114-4221-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-	<1559733114-4221-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <35f63f36-ea4d-850f-8a59-805e67c06b68@cogentembedded.com>
-Date: Wed, 5 Jun 2019 19:17:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Wed,  5 Jun 2019 17:36:16 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+	[83.86.89.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id B43C420717;
+	Wed,  5 Jun 2019 17:36:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1559756176;
+	bh=f9NghZSrRd84WnvqePdJTbqihcTlrKdRTvbApOR66MM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pl7N7Ngq0jBLiU77CCBuTQuGdITFzCAYXtsahILz8VNRCUU/PoY6R2aw8gvCtOTlN
+	Ij3OOkU4KO4BFERevp0S/pFBlW4liaT5yNjjd2A4DFB3hpH9pmLaS4Rk6Xfb374BJ6
+	d4SrzGH9IkREaGu0+RSBi5V0uLW5Y6J1qkztsBLs=
+Date: Wed, 5 Jun 2019 19:36:13 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH] driver: core: Allow subsystems to continue deferring probe
+Message-ID: <20190605173613.GD27700@kroah.com>
+References: <20190605142312.6072-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1559733114-4221-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Content-Language: en-MW
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <20190605142312.6072-1-thierry.reding@gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: linux-renesas-soc@vger.kernel.org, iommu@lists.linux-foundation.org,
-	linux-mmc@vger.kernel.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-pm@vger.kernel.org,
+	Kevin Hilman <khilman@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, iommu@lists.linux-foundation.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -94,57 +68,74 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 06/05/2019 02:11 PM, Yoshihiro Shimoda wrote:
-
-> This patch adds a new capable IOMMU_CAP_MERGING to check whether
-> the IOVA would be contiguous strictly if a device requires and
-> the IOMMU driver has the capable.
-
-   s/has/is/? Or capable what?
-
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/iommu/dma-iommu.c | 26 ++++++++++++++++++++++++--
->  include/linux/iommu.h     |  1 +
->  2 files changed, 25 insertions(+), 2 deletions(-)
+On Wed, Jun 05, 2019 at 04:23:12PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index 034caae..ecf1a04 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-[...]
-> @@ -867,6 +872,13 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
->  		sg_dma_len(s) = s_length;
->  		s->offset -= s_iova_off;
->  		s_length = iova_align(iovad, s_length + s_iova_off);
-> +		/*
-> +		 * Check whether the IOVA would be contiguous strictly if
-> +		 * a device requires and the IOMMU driver has the capable.
+> Some subsystems, such as pinctrl, allow continuing to defer probe
+> indefinitely. This is useful for devices that depend on resources
+> provided by devices that are only probed after the init stage.
+> 
+> One example of this can be seen on Tegra, where the DPAUX hardware
+> contains pinmuxing controls for pins that it shares with an I2C
+> controller. The I2C controller is typically used for communication
+> with a monitor over HDMI (DDC). However, other instances of the I2C
+> controller are used to access system critical components, such as a
+> PMIC. The I2C controller driver will therefore usually be a builtin
+> driver, whereas the DPAUX driver is part of the display driver that
+> is loaded from a module to avoid bloating the kernel image with all
+> of the DRM/KMS subsystem.
+> 
+> In this particular case the pins used by this I2C/DDC controller
+> become accessible very late in the boot process. However, since the
+> controller is only used in conjunction with display, that's not an
+> issue.
+> 
+> Unfortunately the driver core currently outputs a warning message
+> when a device fails to get the pinctrl before the end of the init
+> stage. That can be confusing for the user because it may sound like
+> an unwanted error occurred, whereas it's really an expected and
+> harmless situation.
+> 
+> In order to eliminate this warning, this patch allows callers of the
+> driver_deferred_probe_check_state() helper to specify that they want
+> to continue deferring probe, regardless of whether we're past the
+> init stage or not. All of the callers of that function are updated
+> for the new signature, but only the pinctrl subsystem passes a true
+> value in the new persist parameter if appropriate.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+>  drivers/base/dd.c            | 17 ++++++++++++-----
+>  drivers/base/power/domain.c  |  2 +-
+>  drivers/iommu/of_iommu.c     |  2 +-
+>  drivers/pinctrl/devicetree.c | 10 ++++++----
+>  include/linux/device.h       |  2 +-
+>  5 files changed, 21 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> index 0df9b4461766..25ffbadf4187 100644
+> --- a/drivers/base/dd.c
+> +++ b/drivers/base/dd.c
+> @@ -238,23 +238,30 @@ __setup("deferred_probe_timeout=", deferred_probe_timeout_setup);
+>  /**
+>   * driver_deferred_probe_check_state() - Check deferred probe state
+>   * @dev: device to check
+> + * @persist: Boolean flag indicating whether drivers should keep trying to
+> + *   probe after built-in drivers have had a chance to probe. This is useful
+> + *   for built-in drivers that rely on resources provided by modular drivers.
 
-   Same question here...
+Functionality aside, having random boolean flags in a function parameter
+list is a horrid way to have an api.  Now when you see a call to this
+function with either "true" or "false" as an option, you have no idea
+what that means.  So you need to go look up this definition and then
+work backwards.
 
-> +		 */
-> +		if (iova_contiguous && i > 0 &&
-> +		    (s_iova_off || s->length != s_length))
-> +			return 0;
->  		s->length = s_length;
->  
->  		/*
-> @@ -902,8 +914,18 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
->  	if (iommu_map_sg(domain, iova, sg, nents, prot) < iova_len)
->  		goto out_free_iova;
->  
-> -	return __finalise_sg(dev, sg, nents, iova);
-> +	ret = __finalise_sg(dev, sg, nents, iova);
-> +	/*
-> +	 * Check whether the sg entry is single if a device requires and
-> +	 * the IOMMU driver has the capable.
+So even if the idea is sane (I'm not saying that), this implementation
+is not acceptable at all.
 
-   You  meant capability perhaps?
+thanks,
 
-[...]
-
-MBR, Sergei
+greg k-h
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
