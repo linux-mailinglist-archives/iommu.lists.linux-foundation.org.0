@@ -2,37 +2,36 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC36935B14
-	for <lists.iommu@lfdr.de>; Wed,  5 Jun 2019 13:17:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A790D35B18
+	for <lists.iommu@lfdr.de>; Wed,  5 Jun 2019 13:17:27 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 22B95CB5;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id C6BB9C3F;
 	Wed,  5 Jun 2019 11:17:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 25D18BA0
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 310B5C90
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  5 Jun 2019 11:16:56 +0000 (UTC)
+	Wed,  5 Jun 2019 11:16:57 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
 	[210.160.252.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 1F1A46D6
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 48DF7844
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  5 Jun 2019 11:16:54 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,550,1549897200"; d="scan'208";a="17680356"
+	Wed,  5 Jun 2019 11:16:55 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,550,1549897200"; d="scan'208";a="17680359"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
 	by relmlie6.idc.renesas.com with ESMTP; 05 Jun 2019 20:16:53 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 301CE41BD761;
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5CC4541BD76A;
 	Wed,  5 Jun 2019 20:16:53 +0900 (JST)
 From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To: ulf.hansson@linaro.org, wsa+renesas@sang-engineering.com, hch@lst.de,
 	m.szyprowski@samsung.com, robin.murphy@arm.com, joro@8bytes.org
-Subject: [RFC PATCH v5 5/8] mmc: tmio: No memory size limitation if runs on
-	IOMMU
-Date: Wed,  5 Jun 2019 20:11:51 +0900
-Message-Id: <1559733114-4221-6-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [RFC PATCH v5 6/8] mmc: tmio: Add a definition for default max_segs
+Date: Wed,  5 Jun 2019 20:11:52 +0900
+Message-Id: <1559733114-4221-7-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1559733114-4221-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 References: <1559733114-4221-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
@@ -60,34 +59,41 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-This patch adds a condition to avoid a memory size limitation of
-swiotlb if the driver runs on IOMMU.
+This patch adds a definition for default max_segs to be used by other
+driver (renesas_sdhi) in the future.
 
-Tested-by: Takeshi Saito <takeshi.saito.xv@renesas.com>
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/mmc/host/tmio_mmc_core.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/mmc/host/tmio_mmc.h      | 1 +
+ drivers/mmc/host/tmio_mmc_core.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
+index c5ba13f..9e387be 100644
+--- a/drivers/mmc/host/tmio_mmc.h
++++ b/drivers/mmc/host/tmio_mmc.h
+@@ -106,6 +106,7 @@
+ #define TMIO_MASK_IRQ     (TMIO_MASK_READOP | TMIO_MASK_WRITEOP | TMIO_MASK_CMD)
+ 
+ #define TMIO_MAX_BLK_SIZE 512
++#define TMIO_DEFAULT_MAX_SEGS 32
+ 
+ struct tmio_mmc_data;
+ struct tmio_mmc_host;
 diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-index 130b91c..c9f6a59 100644
+index c9f6a59..af1343e 100644
 --- a/drivers/mmc/host/tmio_mmc_core.c
 +++ b/drivers/mmc/host/tmio_mmc_core.c
-@@ -1194,9 +1194,10 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
- 	 * Since swiotlb has memory size limitation, this will calculate
- 	 * the maximum size locally (because we don't have any APIs for it now)
- 	 * and check the current max_req_size. And then, this will update
--	 * the max_req_size if needed as a workaround.
-+	 * the max_req_size if needed as a workaround. However, if the driver
-+	 * runs on IOMMU, this workaround isn't needed.
- 	 */
--	if (swiotlb_max_segment()) {
-+	if (swiotlb_max_segment() && !device_iommu_mapped(&pdev->dev)) {
- 		unsigned int max_size = (1 << IO_TLB_SHIFT) * IO_TLB_SEGSIZE;
+@@ -1185,7 +1185,7 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
  
- 		if (mmc->max_req_size > max_size)
+ 	mmc->caps |= MMC_CAP_4_BIT_DATA | pdata->capabilities;
+ 	mmc->caps2 |= pdata->capabilities2;
+-	mmc->max_segs = pdata->max_segs ? : 32;
++	mmc->max_segs = pdata->max_segs ? : TMIO_DEFAULT_MAX_SEGS;
+ 	mmc->max_blk_size = TMIO_MAX_BLK_SIZE;
+ 	mmc->max_blk_count = pdata->max_blk_count ? :
+ 		(PAGE_SIZE / mmc->max_blk_size) * mmc->max_segs;
 -- 
 2.7.4
 
