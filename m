@@ -2,69 +2,43 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0CD35906
-	for <lists.iommu@lfdr.de>; Wed,  5 Jun 2019 10:53:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0C735B0F
+	for <lists.iommu@lfdr.de>; Wed,  5 Jun 2019 13:17:04 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 0CFFDC97;
-	Wed,  5 Jun 2019 08:53:01 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id F3477C37;
+	Wed,  5 Jun 2019 11:16:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0708C2F
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id D9B82B8E
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  5 Jun 2019 08:53:00 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 560E119B
+	Wed,  5 Jun 2019 11:16:54 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+	[210.160.252.172])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id F09204C3
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  5 Jun 2019 08:52:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Jun 2019 01:52:58 -0700
-X-ExtLoop1: 1
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
-	by orsmga002.jf.intel.com with ESMTP; 05 Jun 2019 01:52:57 -0700
-Received: from shsmsx105.ccr.corp.intel.com (10.239.4.158) by
-	FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server
-	(TLS) id 14.3.408.0; Wed, 5 Jun 2019 01:51:47 -0700
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.137]) by
-	SHSMSX105.ccr.corp.intel.com ([169.254.11.153]) with mapi id
-	14.03.0415.000; Wed, 5 Jun 2019 16:51:45 +0800
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>, Jean-Philippe Brucker
-	<jean-philippe.brucker@arm.com>
-Subject: RE: [PATCH v2 2/4] iommu: Introduce device fault data
-Thread-Topic: [PATCH v2 2/4] iommu: Introduce device fault data
-Thread-Index: AQHVGhzpdp8RFw2/OU64MEW+KDLfp6aJ93gAgALLAvA=
-Date: Wed, 5 Jun 2019 08:51:45 +0000
-Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19CA6A9EE@SHSMSX104.ccr.corp.intel.com>
-References: <20190603145749.46347-1-jean-philippe.brucker@arm.com>
-	<20190603145749.46347-3-jean-philippe.brucker@arm.com>
-	<20190603150842.11070cfd@jacob-builder>
-In-Reply-To: <20190603150842.11070cfd@jacob-builder>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNWQ0ODQxZDgtOWQ2Ni00NTkxLThlZmItZTgyMzM0MTliZTNiIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiZWJVU25wanM3dHNndlwvK2pnS3RUQmdhcUQ1eFdERDZCXC9SVXhRY1V0bGZnRFlyakNsR01cL3NiSThVWHlWa0RLSSJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.400.15
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
-MIME-Version: 1.0
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	Wed,  5 Jun 2019 11:16:53 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,550,1549897200"; d="scan'208";a="17680347"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+	by relmlie6.idc.renesas.com with ESMTP; 05 Jun 2019 20:16:52 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8CC7741BD761;
+	Wed,  5 Jun 2019 20:16:52 +0900 (JST)
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To: ulf.hansson@linaro.org, wsa+renesas@sang-engineering.com, hch@lst.de,
+	m.szyprowski@samsung.com, robin.murphy@arm.com, joro@8bytes.org
+Subject: [RFC PATCH v5 0/8] treewide: improve R-Car SDHI performance
+Date: Wed,  5 Jun 2019 20:11:46 +0900
+Message-Id: <1559733114-4221-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-	"robin.murphy@arm.com" <robin.murphy@arm.com>, "Raj,
-	Ashok" <ashok.raj@intel.com>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: linux-renesas-soc@vger.kernel.org, iommu@lists.linux-foundation.org,
+	linux-mmc@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -77,63 +51,86 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-> From: Jacob Pan
-> Sent: Tuesday, June 4, 2019 6:09 AM
-> 
-> On Mon,  3 Jun 2019 15:57:47 +0100
-> Jean-Philippe Brucker <jean-philippe.brucker@arm.com> wrote:
-> 
-> > +/**
-> > + * struct iommu_fault_page_request - Page Request data
-> > + * @flags: encodes whether the corresponding fields are valid and
-> > whether this
-> > + *         is the last page in group (IOMMU_FAULT_PAGE_REQUEST_*
-> > values)
-> > + * @pasid: Process Address Space ID
-> > + * @grpid: Page Request Group Index
-> > + * @perm: requested page permissions (IOMMU_FAULT_PERM_* values)
-> > + * @addr: page address
-> > + * @private_data: device-specific private information
-> > + */
-> > +struct iommu_fault_page_request {
-> > +#define IOMMU_FAULT_PAGE_REQUEST_PASID_VALID	(1 << 0)
-> > +#define IOMMU_FAULT_PAGE_REQUEST_LAST_PAGE	(1 << 1)
-> > +#define IOMMU_FAULT_PAGE_REQUEST_PRIV_DATA	(1 << 2)
-> > +	__u32	flags;
-> > +	__u32	pasid;
-> > +	__u32	grpid;
-> > +	__u32	perm;
-> > +	__u64	addr;
-> > +	__u64	private_data[2];
-> > +};
-> > +
-> 
-> Just a thought, for non-identity G-H PASID management. We could pass on
-> guest PASID in PRQ to save a lookup in QEMU. In this case, QEMU
-> allocate a GPASID for vIOMMU then a host PASID for pIOMMU. QEMU has a
-> G->H lookup. When PRQ comes in to the pIOMMU with HPASID, IOMMU
-> driver
-> can retrieve GPASID from the bind data then report to the guest via
-> VFIO. In this case QEMU does not need to do a H->G PASID lookup.
-> 
-> Should we add a gpasid field here? or we can add a flag and field
-> later, up to you.
-> 
+This patch series is based on iommu.git / next branch.
 
-Can private_data serve this purpose? It's better not introducing
-gpasid awareness within host IOMMU driver. It is just a user-level
-data associated with a PASID when binding happens. Kernel doesn't
-care the actual meaning, simply record it and then return back to user 
-space later upon device fault. Qemu interprets the meaning as gpasid
-in its own context. otherwise usages may use it for other purpose.
+Since SDHI host internal DMAC of the R-Car Gen3 cannot handle two or
+more segments, the performance rate (especially, eMMC HS400 reading)
+is not good. However, if IOMMU is enabled on the DMAC, since IOMMU will
+map multiple scatter gather buffers as one contignous iova, the DMAC can
+handle the iova as well and then the performance rate is possible to
+improve. In fact, I have measured the performance by using bonnie++,
+"Sequential Input - block" rate was improved on r8a7795.
 
-Thanks
-Kevin
+To achieve this, this patch series modifies DMA MAPPING and IOMMU
+subsystem at first. Since I'd like to get any feedback from each
+subsystem whether this way is acceptable for upstream, I submit it
+to treewide with RFC.
+
+Changes from v4:
+ - [DMA MAPPING] Add a new device_dma_parameters for iova contiguous.
+ - [IOMMU] Add a new capable for "merging" segments.
+ - [IOMMU] Add a capable ops into the ipmmu-vmsa driver.
+ - [MMC] Sort headers in renesas_sdhi_core.c.
+ - [MMC] Remove the following codes that made on v3 that can be achieved by
+	 DMA MAPPING and IOMMU subsystem:
+ -- Check if R-Car Gen3 IPMMU is used or not on patch 3.
+ -- Check if all multiple segment buffers are aligned to PAGE_SIZE on patch 3.
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=125593
+
+Changes from v3:
+ - Use a helper function device_iommu_mapped on patch 1 and 3.
+ - Check if R-Car Gen3 IPMMU is used or not on patch 3.
+ - Check if all multiple segment buffers are aligned to PAGE_SIZE on patch 3.
+ - Add Reviewed-by Wolfram-san on patch 1 and 2. Note that I also got his
+   Reviewed-by on patch 3, but I changed it from v2. So, I didn't add
+   his Reviewed-by at this time.
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=120985
+
+Changes from v2:
+ - Add some conditions in the init_card().
+ - Add a comment in the init_card().
+ - Add definitions for some "MAX_SEGS".
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=116729
+
+Changes from v1:
+ - Remove adding init_card ops into struct tmio_mmc_dma_ops and
+   tmio_mmc_host and just set init_card on renesas_sdhi_core.c.
+ - Revise typos on "mmc: tmio: No memory size limitation if runs on IOMMU".
+ - Add Simon-san's Reviewed-by on a tmio patch.
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=110485
+
+*** BLURB HERE ***
+
+Yoshihiro Shimoda (8):
+  dma-mapping: add a device driver helper for iova contiguous
+  iommu/dma: move iommu_dma_unmap_sg() place
+  iommu: add a new capable IOMMU_CAP_MERGING
+  iommu/ipmmu-vmsa: add capable ops
+  mmc: tmio: No memory size limitation if runs on IOMMU
+  mmc: tmio: Add a definition for default max_segs
+  mmc: renesas_sdhi: sort headers
+  mmc: renesas_sdhi: use multiple segments if possible
+
+ drivers/iommu/dma-iommu.c                     | 74 +++++++++++++++++----------
+ drivers/iommu/ipmmu-vmsa.c                    | 13 +++++
+ drivers/mmc/host/renesas_sdhi_core.c          | 43 +++++++++++++---
+ drivers/mmc/host/renesas_sdhi_internal_dmac.c |  4 ++
+ drivers/mmc/host/tmio_mmc.h                   |  1 +
+ drivers/mmc/host/tmio_mmc_core.c              |  7 +--
+ include/linux/device.h                        |  1 +
+ include/linux/dma-mapping.h                   | 16 ++++++
+ include/linux/iommu.h                         |  1 +
+ 9 files changed, 123 insertions(+), 37 deletions(-)
+
+-- 
+2.7.4
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
