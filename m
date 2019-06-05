@@ -2,36 +2,37 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8517035B12
-	for <lists.iommu@lfdr.de>; Wed,  5 Jun 2019 13:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC36935B14
+	for <lists.iommu@lfdr.de>; Wed,  5 Jun 2019 13:17:16 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id E061DCAF;
-	Wed,  5 Jun 2019 11:16:59 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 22B95CB5;
+	Wed,  5 Jun 2019 11:17:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 04A76BA0
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 25D18BA0
 	for <iommu@lists.linux-foundation.org>;
 	Wed,  5 Jun 2019 11:16:56 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
-	[210.160.252.171])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 5B35384C
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+	[210.160.252.172])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 1F1A46D6
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  5 Jun 2019 11:16:55 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,550,1549897200"; d="scan'208";a="17883874"
+	Wed,  5 Jun 2019 11:16:54 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,550,1549897200"; d="scan'208";a="17680356"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-	by relmlie5.idc.renesas.com with ESMTP; 05 Jun 2019 20:16:53 +0900
+	by relmlie6.idc.renesas.com with ESMTP; 05 Jun 2019 20:16:53 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0356E41BD772;
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 301CE41BD761;
 	Wed,  5 Jun 2019 20:16:53 +0900 (JST)
 From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To: ulf.hansson@linaro.org, wsa+renesas@sang-engineering.com, hch@lst.de,
 	m.szyprowski@samsung.com, robin.murphy@arm.com, joro@8bytes.org
-Subject: [RFC PATCH v5 4/8] iommu/ipmmu-vmsa: add capable ops
-Date: Wed,  5 Jun 2019 20:11:50 +0900
-Message-Id: <1559733114-4221-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [RFC PATCH v5 5/8] mmc: tmio: No memory size limitation if runs on
+	IOMMU
+Date: Wed,  5 Jun 2019 20:11:51 +0900
+Message-Id: <1559733114-4221-6-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1559733114-4221-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 References: <1559733114-4221-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
@@ -59,45 +60,34 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-This patch adds the .capable into iommu_ops that can merge scatter
-gather segments.
+This patch adds a condition to avoid a memory size limitation of
+swiotlb if the driver runs on IOMMU.
 
+Tested-by: Takeshi Saito <takeshi.saito.xv@renesas.com>
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/iommu/ipmmu-vmsa.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/mmc/host/tmio_mmc_core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-index 408ad0b..81170b8 100644
---- a/drivers/iommu/ipmmu-vmsa.c
-+++ b/drivers/iommu/ipmmu-vmsa.c
-@@ -608,6 +608,18 @@ static irqreturn_t ipmmu_irq(int irq, void *dev)
-  * IOMMU Operations
-  */
+diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+index 130b91c..c9f6a59 100644
+--- a/drivers/mmc/host/tmio_mmc_core.c
++++ b/drivers/mmc/host/tmio_mmc_core.c
+@@ -1194,9 +1194,10 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
+ 	 * Since swiotlb has memory size limitation, this will calculate
+ 	 * the maximum size locally (because we don't have any APIs for it now)
+ 	 * and check the current max_req_size. And then, this will update
+-	 * the max_req_size if needed as a workaround.
++	 * the max_req_size if needed as a workaround. However, if the driver
++	 * runs on IOMMU, this workaround isn't needed.
+ 	 */
+-	if (swiotlb_max_segment()) {
++	if (swiotlb_max_segment() && !device_iommu_mapped(&pdev->dev)) {
+ 		unsigned int max_size = (1 << IO_TLB_SHIFT) * IO_TLB_SEGSIZE;
  
-+static bool ipmmu_capable(enum iommu_cap cap)
-+{
-+	switch (cap) {
-+	case IOMMU_CAP_MERGING:
-+		return true;
-+	default:
-+		break;
-+	}
-+
-+	return false;
-+}
-+
- static struct iommu_domain *__ipmmu_domain_alloc(unsigned type)
- {
- 	struct ipmmu_vmsa_domain *domain;
-@@ -950,6 +962,7 @@ static struct iommu_group *ipmmu_find_group(struct device *dev)
- }
- 
- static const struct iommu_ops ipmmu_ops = {
-+	.capable = ipmmu_capable,
- 	.domain_alloc = ipmmu_domain_alloc,
- 	.domain_free = ipmmu_domain_free,
- 	.attach_dev = ipmmu_attach_device,
+ 		if (mmc->max_req_size > max_size)
 -- 
 2.7.4
 
