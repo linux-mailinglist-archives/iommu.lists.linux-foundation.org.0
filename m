@@ -2,51 +2,60 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D1E38AA6
-	for <lists.iommu@lfdr.de>; Fri,  7 Jun 2019 14:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395D438A9A
+	for <lists.iommu@lfdr.de>; Fri,  7 Jun 2019 14:48:52 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id E698B122B;
-	Fri,  7 Jun 2019 12:49:53 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 5D632121D;
+	Fri,  7 Jun 2019 12:48:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id A705B1207
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id EF51311FD
 	for <iommu@lists.linux-foundation.org>;
-	Fri,  7 Jun 2019 12:48:57 +0000 (UTC)
-X-Greylist: delayed 00:07:40 by SQLgrey-1.7.6
+	Fri,  7 Jun 2019 12:47:49 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 2E99D623
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 94BAB623
 	for <iommu@lists.linux-foundation.org>;
-	Fri,  7 Jun 2019 12:48:57 +0000 (UTC)
+	Fri,  7 Jun 2019 12:47:49 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6DFB2B;
-	Fri,  7 Jun 2019 05:41:16 -0700 (PDT)
-Received: from [10.1.196.75] (e110467-lin.cambridge.arm.com [10.1.196.75])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 68D3540151;
-	Fri,  7 Jun 2019 05:41:15 -0700 (PDT)
-Subject: Re: Device specific pass through in host systems - discuss user
-	interface
-To: "Prakhya, Sai Praneeth" <sai.praneeth.prakhya@intel.com>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
-References: <FFF73D592F13FD46B8700F0A279B802F48DA796E@ORSMSX114.amr.corp.intel.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <3fa16135-b2bb-03b5-833a-bce8cc68f35f@arm.com>
-Date: Fri, 7 Jun 2019 13:41:14 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 226E53EF;
+	Fri,  7 Jun 2019 05:47:49 -0700 (PDT)
+Received: from [10.1.196.129] (ostrya.cambridge.arm.com [10.1.196.129])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1E0D640151;
+	Fri,  7 Jun 2019 05:47:47 -0700 (PDT)
+Subject: Re: [PATCH v8 25/29] vfio-pci: Add a new VFIO_REGION_TYPE_NESTED
+	region type
+To: Auger Eric <eric.auger@redhat.com>,
+	Alex Williamson <alex.williamson@redhat.com>
+References: <20190526161004.25232-1-eric.auger@redhat.com>
+	<20190526161004.25232-26-eric.auger@redhat.com>
+	<20190603163159.31e7ae23@x1.home>
+	<9c1ea2db-5ba0-3cf5-3b38-2c4a125460e6@redhat.com>
+From: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
+Message-ID: <6a640710-bb9d-8923-cfef-e57786ed699f@arm.com>
+Date: Fri, 7 Jun 2019 13:47:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <FFF73D592F13FD46B8700F0A279B802F48DA796E@ORSMSX114.amr.corp.intel.com>
-Content-Language: en-GB
+In-Reply-To: <9c1ea2db-5ba0-3cf5-3b38-2c4a125460e6@redhat.com>
+Content-Language: en-US
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
 	version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Shankar, Ravi V" <ravi.v.shankar@intel.com>, "Tian,
-	Kevin" <kevin.tian@intel.com>, "jroedel@suse.de" <jroedel@suse.de>, "Raj,
-	Ashok" <ashok.raj@intel.com>, Will Deacon <will.deacon@arm.com>,
-	"Pan, Jacob jun" <jacob.jun.pan@intel.com>,
-	"hch@lst.de" <hch@lst.de>, "Lu, Baolu" <baolu.lu@intel.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+	"kevin.tian@intel.com" <kevin.tian@intel.com>,
+	"ashok.raj@intel.com" <ashok.raj@intel.com>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	Marc Zyngier <Marc.Zyngier@arm.com>, Will Deacon <Will.Deacon@arm.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+	Vincent Stehle <Vincent.Stehle@arm.com>,
+	Robin Murphy <Robin.Murphy@arm.com>,
+	"kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
+	"eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,58 +68,46 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 07/06/2019 03:24, Prakhya, Sai Praneeth wrote:
-> Hi All,
+On 07/06/2019 09:28, Auger Eric wrote:
+>>> +static const struct vfio_pci_fault_abi fault_abi_versions[] = {
+>>> +	[0] = {
+>>> +		.entry_size = sizeof(struct iommu_fault),
+>>> +	},
+>>> +};
+>>> +
+>>> +#define NR_FAULT_ABIS ARRAY_SIZE(fault_abi_versions)
+>>
+>> This looks like it's leading to some dangerous complicated code to
+>> support multiple user selected ABIs.  How many ABIs do we plan to
+>> support?  The region capability also exposes a type, sub-type, and
+>> version.  How much of this could be exposed that way?  ie. if we need
+>> to support multiple versions, expose multiple regions.
 > 
-> I am working on an IOMMU driver feature that allows a user to specify if the DMA from a device should be translated by IOMMU or not. Presently, we support only all devices or none mode i.e. if user specifies "iommu=pt" [X86] or "iommu.passthrough" [ARM64] through kernel command line, all the devices would be in pass through mode and we don't have per device granularity, but, we were requested by a customer to selectively put devices in pass through mode and not all.
+> This is something that was discussed earlier and suggested by
+> Jean-Philippe that we may need to support several versions of the ABI
+> (typicallu when adding PRI support).
+> Exposing multiple region is an interesting idea and I will explore that
+> direction.
 
-It's interesting to see this from a fresh angle which isn't clouded by 
-other SoC GPU details - thanks for the proposal! A couple more thoughts 
-jump out immediately...
+At the moment the ABI support errors and PRI. We're considering setting
+the fault report structure to 64 or 128 bytes (see "[PATCH v2 2/4]
+iommu: Introduce device fault data"). 64-byte allows for 2 additional
+fields before we have to introduce a new ABI version, while 128 byte
+should last us a while.
 
-> Since, this feature could be generic across architectures, we thought it would be better if the user interface is discussed in the community first. We are envisioning this to be used both during boot time and runtime and hence having a kernel command line argument along with a sysfs entry are needed. So, please pour in your suggestions on how the user interface should look like to make it architecture agnostic.
-> 
-> 
-> 1.      Have a kernel command line argument that takes a list of BDF's as an input and puts them in pass through mode
-> 
-> a.      Accepting BDF as an input has a downside - BDF is dynamic and could change if BIOS/OS enumerates a new device in next reboot
-> 
-> b.      Accepting <vendor_id:device_id> pair as an input has a downside - What to do when there are multiple such devices and user would like to put only some of them in PT mode
-> 
+But that's for adding new fields to existing fault types. It's probably
+a good idea to have different region types in VFIO for different fault
+types, since userspace isn't necessarily prepared to deal with them. For
+example right now userspace doesn't have a method to complete
+recoverable faults, so we can't add them to the queue.
 
-c. Not all devices are PCI in the first place.
-
-> 2.      Have a sysfs file which takes 1 or 0 as an input to enable/disable pass through mode. Some places that seem to be reasonable are
-> 
-> a.      /sys/class/iommu/dmar0/devices/
-> 
-> b.      /sys/kernel/iommu_groups/<id>/devices
-
-Note that this this works out a bit tricky to actually use, since 
-changing the meaning of DMA addresses under the device's feet would be 
-disastrous. It can only safely take effect by unbinding and rebinding 
-the driver and/or resetting the device (as a side note, this starts to 
-overlap with the IOMMU-drivers-as-modules concept, and whatever solution 
-to this we end up with may be helpful in making that work too). In most 
-cases that's probably viable, but not every driver supports unbinding, 
-and either way what if the device in question is the one hosting the 
-root filesystem... :/
-
-Robin.
-
-> 
-> I am looking for a consensus on *how the kernel command line argument should look like and path for sysfs entry*. Also, please note that if a device is put in pass through mode it won't be available for the guest and that's ok.
-> 
-> Regards,
-> Sai
-> 
-> PS: Idea credits: Ashok Raj
-> 
+Thanks,
+Jean
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
