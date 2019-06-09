@@ -2,55 +2,74 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151F33AE64
-	for <lists.iommu@lfdr.de>; Mon, 10 Jun 2019 07:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 463C93A604
+	for <lists.iommu@lfdr.de>; Sun,  9 Jun 2019 15:40:10 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 690DFC37;
-	Mon, 10 Jun 2019 05:04:01 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 45A76C52;
+	Sun,  9 Jun 2019 13:40:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 71A2E2C
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id EB060B9E
 	for <iommu@lists.linux-foundation.org>;
-	Sun,  9 Jun 2019 03:27:43 +0000 (UTC)
+	Sun,  9 Jun 2019 13:40:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id F3E11775
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 7D0B076F
 	for <iommu@lists.linux-foundation.org>;
-	Sun,  9 Jun 2019 03:27:42 +0000 (UTC)
+	Sun,  9 Jun 2019 13:40:06 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Jun 2019 20:27:41 -0700
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Jun 2019 06:40:05 -0700
 X-ExtLoop1: 1
-Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
-	([10.239.159.136])
-	by orsmga004.jf.intel.com with ESMTP; 08 Jun 2019 20:27:38 -0700
-Subject: Re: Device specific pass through in host systems - discuss user
-	interface
-To: "Prakhya, Sai Praneeth" <sai.praneeth.prakhya@intel.com>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
-References: <FFF73D592F13FD46B8700F0A279B802F48DA796E@ORSMSX114.amr.corp.intel.com>
-From: "Lu, Baolu" <baolu.lu@intel.com>
-Message-ID: <b7a71b22-aa3b-5ac3-7285-5231f84ee979@intel.com>
-Date: Sun, 9 Jun 2019 11:20:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <FFF73D592F13FD46B8700F0A279B802F48DA796E@ORSMSX114.amr.corp.intel.com>
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+	by orsmga003.jf.intel.com with ESMTP; 09 Jun 2019 06:40:05 -0700
+Received: from fmsmsx154.amr.corp.intel.com (10.18.116.70) by
+	FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server
+	(TLS) id 14.3.408.0; Sun, 9 Jun 2019 06:40:04 -0700
+Received: from shsmsx103.ccr.corp.intel.com (10.239.4.69) by
+	FMSMSX154.amr.corp.intel.com (10.18.116.70) with Microsoft SMTP Server
+	(TLS) id 14.3.408.0; Sun, 9 Jun 2019 06:40:04 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.137]) by
+	SHSMSX103.ccr.corp.intel.com ([169.254.4.120]) with mapi id
+	14.03.0415.000; Sun, 9 Jun 2019 21:40:02 +0800
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: RE: [RFC v3 0/3] vfio_pci: wrap pci device as a mediated device
+Thread-Topic: [RFC v3 0/3] vfio_pci: wrap pci device as a mediated device
+Thread-Index: AQHU+pmUgYQWOZcgyUar+GqJiI6/NqZ4kV4g///DEoCAGzk18A==
+Date: Sun, 9 Jun 2019 13:40:02 +0000
+Message-ID: <A2975661238FB949B60364EF0F2C257439EDF463@SHSMSX104.ccr.corp.intel.com>
+References: <1556021680-2911-1-git-send-email-yi.l.liu@intel.com>
+	<A2975661238FB949B60364EF0F2C257439EB884E@SHSMSX104.ccr.corp.intel.com>
+	<20190523070311.4f95ca5c@x1.home>
+In-Reply-To: <20190523070311.4f95ca5c@x1.home>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.600.7
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYmM4NWY1NmEtYTk3ZS00MTA0LWIyZDAtNTZlOTgwNTQ1ZDNlIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiZWxyRmRYd1pubmZWNm5xbUZPQXZLd25GQXV4XC9tMzZwVHhaUDRsYUlqaHhtbFdFRVd2ZEsrMEV5UDU0SG1ZcGIifQ==
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Mailman-Approved-At: Mon, 10 Jun 2019 05:04:00 +0000
-Cc: "Shankar, Ravi V" <ravi.v.shankar@intel.com>, "Tian,
-	Kevin" <kevin.tian@intel.com>, "jroedel@suse.de" <jroedel@suse.de>, "Raj,
-	Ashok" <ashok.raj@intel.com>, Will Deacon <will.deacon@arm.com>,
-	"Pan, Jacob jun" <jacob.jun.pan@intel.com>,
-	"robin.murphy@arm.com" <robin.murphy@arm.com>, "hch@lst.de" <hch@lst.de>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"jean-philippe.brucker@arm.com" <jean-philippe.brucker@arm.com>,
+	"kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>,
+	"Sun, Yi Y" <yi.y.sun@intel.com>,
+	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,119 +82,44 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="windows-1252"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Sai,
+> From Alex Williamson
+> Sent: Thursday, May 23, 2019 9:03 PM
+> To: Liu, Yi L <yi.l.liu@intel.com>
+> Cc: kwankhede@nvidia.com; Tian, Kevin <kevin.tian@intel.com>;
+> baolu.lu@linux.intel.com; Sun, Yi Y <yi.y.sun@intel.com>; joro@8bytes.org; jean-
+> philippe.brucker@arm.com; peterx@redhat.com; linux-kernel@vger.kernel.org;
+> kvm@vger.kernel.org; yamada.masahiro@socionext.com; iommu@lists.linux-
+> foundation.org
+> Subject: Re: [RFC v3 0/3] vfio_pci: wrap pci device as a mediated device
+> 
+> On Thu, 23 May 2019 08:44:57 +0000
+> "Liu, Yi L" <yi.l.liu@intel.com> wrote:
+> 
+> > Hi Alex,
+> >
+> > Sorry to disturb you. Do you want to review on this version or review a rebased
+> version? :-) If rebase version is better, I can try to do it asap.
+> 
+> Hi Yi,
+> 
+> Perhaps you missed my comments on 1/3:
+> 
+> https://www.spinics.net/lists/kvm/msg187282.html
+> 
+> In summary, it looks pretty good, but consider a file name more consistent with the
+> existing files and prune out the code changes from the code moves so they can be
+> reviewed more easily.  Thanks,
 
+Thanks for the remind, Alex. So sorry I made changes in a "disordered".
+I've made the changes accordingly. Pls refer to my latest post just now :-)
 
-On 6/7/19 10:24 AM, Prakhya, Sai Praneeth wrote:
-> Hi All,
-> =
-
-> I am working on an IOMMU driver feature that allows a user to specify if =
-
-> the DMA from a device should be translated by IOMMU or not. Presently, =
-
-> we support only all devices or none mode i.e. if user specifies =
-
-> =93iommu=3Dpt=94 [X86] or =93iommu.passthrough=94 [ARM64] through kernel =
-command =
-
-> line, all the devices would be in pass through mode and we don=92t have =
-
-> per device granularity, but, we were requested by a customer to =
-
-> selectively put devices in pass through mode and not all.
-
-Most iommu vendor drivers have switched from per-device to per-group
-domain (a.k.a. default domain). So per-group pass-through mode makes
-more sense?
-
-By the way, can we extend this to "per-group default domain type",
-instead of only "per-group pass-through mode"? Currently we have system
-level default domain type, if we have finer granularity of default
-domain type, both iommu drivers and end users will benefit from it.
-
-> =
-
-> Since, this feature could be generic across architectures, we thought it =
-
-> would be better if the user interface is discussed in the community =
-
-> first. We are envisioning this to be used both during boot time and =
-
-> runtime and hence having a kernel command line argument along with a =
-
-> sysfs entry are needed. So, please pour in your suggestions on how the =
-
-> user interface should look like to make it architecture agnostic.
-> =
-
-> 1.Have a kernel command line argument that takes a list of BDF=92s as an =
-
-> input and puts them in pass through mode
-> =
-
-> a.Accepting BDF as an input has a downside =96 BDF is dynamic and could =
-
-> change if BIOS/OS enumerates a new device in next reboot
-> =
-
-> b.Accepting <vendor_id:device_id> pair as an input has a downside =96 Wha=
-t =
-
-> to do when there are multiple such devices and user would like to put =
-
-> only some of them in PT mode
-> =
-
-> 2.Have a sysfs file which takes 1 or 0 as an input to enable/disable =
-
-> pass through mode. Some places that seem to be reasonable are
-> =
-
-> a./sys/class/iommu/dmar0/devices/
-> =
-
-> b./sys/kernel/iommu_groups/<id>/devices
-> =
-
-> I am looking for a consensus on **how the kernel command line argument =
-
-> should look like and path for sysfs entry**. Also, please note that if a =
-
-> device is put in pass through mode it won=92t be available for the guest =
-
-> and that=92s ok.
-
-Just out of curiosity, what's the limitation for a device using pass-
-through DMA domain to be assignable.
-
-Best regards,
-Baolu
-
-> =
-
-> Regards,
-> =
-
-> Sai
-> =
-
-> PS: Idea credits: Ashok Raj
-> =
-
-> =
-
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
-> =
-
+Regards,
+Yi Liu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
