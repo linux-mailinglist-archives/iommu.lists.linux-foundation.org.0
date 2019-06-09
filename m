@@ -2,23 +2,23 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C603A610
-	for <lists.iommu@lfdr.de>; Sun,  9 Jun 2019 15:41:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D571C3A613
+	for <lists.iommu@lfdr.de>; Sun,  9 Jun 2019 15:41:48 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 82AD5CA1;
-	Sun,  9 Jun 2019 13:41:22 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 38181C79;
+	Sun,  9 Jun 2019 13:41:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 502F8C4E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id BAC00C6A
 	for <iommu@lists.linux-foundation.org>;
 	Sun,  9 Jun 2019 13:41:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D8CBC76F
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5D8B976F
 	for <iommu@lists.linux-foundation.org>;
-	Sun,  9 Jun 2019 13:41:18 +0000 (UTC)
+	Sun,  9 Jun 2019 13:41:19 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
@@ -33,9 +33,9 @@ To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
 	Eric Auger <eric.auger@redhat.com>,
 	Alex Williamson <alex.williamson@redhat.com>,
 	Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
-Subject: [PATCH v4 06/22] trace/iommu: Add sva trace events
-Date: Sun,  9 Jun 2019 06:44:06 -0700
-Message-Id: <1560087862-57608-7-git-send-email-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH v4 07/22] iommu: Use device fault trace event
+Date: Sun,  9 Jun 2019 06:44:07 -0700
+Message-Id: <1560087862-57608-8-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1560087862-57608-1-git-send-email-jacob.jun.pan@linux.intel.com>
 References: <1560087862-57608-1-git-send-email-jacob.jun.pan@linux.intel.com>
@@ -63,122 +63,39 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-From: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
-
-For development only, trace I/O page faults and responses.
+For performance and debugging purposes, these trace events help
+analyzing device faults that interact with IOMMU subsystem.
+E.g.
+IOMMU:0000:00:0a.0 type=2 reason=0 addr=0x00000000007ff000 pasid=1
+group=1 last=0 prot=1
 
 Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-[JPB: removed the invalidate trace event, that will be added later]
+[JPB: removed invalidate event, that will be added later]
 Signed-off-by: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
 ---
- include/trace/events/iommu.h | 87 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 87 insertions(+)
+ drivers/iommu/iommu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/trace/events/iommu.h b/include/trace/events/iommu.h
-index 72b4582..c8de147 100644
---- a/include/trace/events/iommu.h
-+++ b/include/trace/events/iommu.h
-@@ -12,6 +12,8 @@
- #define _TRACE_IOMMU_H
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 64e87d5..166adb8 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -1032,6 +1032,7 @@ int iommu_report_device_fault(struct device *dev, struct iommu_fault_event *evt)
+ 	}
  
- #include <linux/tracepoint.h>
-+#include <linux/iommu.h>
-+#include <uapi/linux/iommu.h>
- 
- struct device;
- 
-@@ -161,6 +163,91 @@ DEFINE_EVENT(iommu_error, io_page_fault,
- 
- 	TP_ARGS(dev, iova, flags)
- );
-+
-+TRACE_EVENT(dev_fault,
-+
-+	TP_PROTO(struct device *dev,  struct iommu_fault *evt),
-+
-+	TP_ARGS(dev, evt),
-+
-+	TP_STRUCT__entry(
-+		__string(device, dev_name(dev))
-+		__field(int, type)
-+		__field(int, reason)
-+		__field(u64, addr)
-+		__field(u64, fetch_addr)
-+		__field(u32, pasid)
-+		__field(u32, grpid)
-+		__field(u32, flags)
-+		__field(u32, prot)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(device, dev_name(dev));
-+		__entry->type = evt->type;
-+		if (evt->type == IOMMU_FAULT_DMA_UNRECOV) {
-+			__entry->reason		= evt->event.reason;
-+			__entry->flags		= evt->event.flags;
-+			__entry->pasid		= evt->event.pasid;
-+			__entry->grpid		= 0;
-+			__entry->prot		= evt->event.perm;
-+			__entry->addr		= evt->event.addr;
-+			__entry->fetch_addr	= evt->event.fetch_addr;
-+		} else {
-+			__entry->reason		= 0;
-+			__entry->flags		= evt->prm.flags;
-+			__entry->pasid		= evt->prm.pasid;
-+			__entry->grpid		= evt->prm.grpid;
-+			__entry->prot		= evt->prm.perm;
-+			__entry->addr		= evt->prm.addr;
-+			__entry->fetch_addr	= 0;
-+		}
-+	),
-+
-+	TP_printk("IOMMU:%s type=%d reason=%d addr=0x%016llx fetch=0x%016llx pasid=%d group=%d flags=%x prot=%d",
-+		__get_str(device),
-+		__entry->type,
-+		__entry->reason,
-+		__entry->addr,
-+		__entry->fetch_addr,
-+		__entry->pasid,
-+		__entry->grpid,
-+		__entry->flags,
-+		__entry->prot
-+	)
-+);
-+
-+TRACE_EVENT(dev_page_response,
-+
-+	TP_PROTO(struct device *dev,  struct page_response_msg *msg),
-+
-+	TP_ARGS(dev, msg),
-+
-+	TP_STRUCT__entry(
-+		__string(device, dev_name(dev))
-+		__field(int, code)
-+		__field(u64, addr)
-+		__field(u32, pasid)
-+		__field(u32, grpid)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(device, dev_name(dev));
-+		__entry->code = msg->resp_code;
-+		__entry->addr = msg->addr;
-+		__entry->pasid = msg->pasid;
-+		__entry->grpid = msg->grpid;
-+	),
-+
-+	TP_printk("IOMMU:%s code=%d addr=0x%016llx pasid=%d group=%d",
-+		__get_str(device),
-+		__entry->code,
-+		__entry->addr,
-+		__entry->pasid,
-+		__entry->grpid
-+	)
-+);
-+
- #endif /* _TRACE_IOMMU_H */
- 
- /* This part must be outside protection */
+ 	ret = fparam->handler(evt, fparam->data);
++	trace_dev_fault(dev, &evt->fault);
+ done_unlock:
+ 	mutex_unlock(&param->lock);
+ 	return ret;
+@@ -1604,6 +1605,7 @@ int iommu_page_response(struct device *dev,
+ 		if (evt->fault.prm.pasid == msg->pasid &&
+ 		    evt->fault.prm.grpid == msg->grpid) {
+ 			msg->iommu_data = evt->iommu_private;
++			trace_dev_page_response(dev, msg);
+ 			ret = domain->ops->page_response(dev, msg);
+ 			list_del(&evt->list);
+ 			kfree(evt);
 -- 
 2.7.4
 
