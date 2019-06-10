@@ -2,62 +2,42 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E063BBF4
-	for <lists.iommu@lfdr.de>; Mon, 10 Jun 2019 20:45:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E673BC17
+	for <lists.iommu@lfdr.de>; Mon, 10 Jun 2019 20:53:11 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 60DA4DC2;
-	Mon, 10 Jun 2019 18:45:26 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 43B68DC5;
+	Mon, 10 Jun 2019 18:53:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 068D2D3E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E188ADB4
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 10 Jun 2019 18:45:25 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 993F26D6
+	Mon, 10 Jun 2019 18:53:07 +0000 (UTC)
+X-Greylist: delayed 00:06:41 by SQLgrey-1.7.6
+Received: from iolanthe.rowland.org (iolanthe.rowland.org [192.131.102.54])
+	by smtp1.linuxfoundation.org (Postfix) with SMTP id 44AC0174
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 10 Jun 2019 18:45:24 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Jun 2019 11:45:23 -0700
-X-ExtLoop1: 1
-Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
-	by orsmga002.jf.intel.com with ESMTP; 10 Jun 2019 11:45:23 -0700
-Received: from orsmsx113.amr.corp.intel.com ([169.254.9.248]) by
-	ORSMSX102.amr.corp.intel.com ([169.254.3.187]) with mapi id
-	14.03.0415.000; Mon, 10 Jun 2019 11:45:23 -0700
-From: "Mehta, Sohil" <sohil.mehta@intel.com>
-To: "joro@8bytes.org" <joro@8bytes.org>, "baolu.lu@linux.intel.com"
-	<baolu.lu@linux.intel.com>, "dwmw2@infradead.org" <dwmw2@infradead.org>
-Subject: Re: [PATCH 5/6] iommu/vt-d: Cleanup after delegating DMA domain to
-	generic iommu
-Thread-Topic: [PATCH 5/6] iommu/vt-d: Cleanup after delegating DMA domain to
-	generic iommu
-Thread-Index: AQHVHm1riigSOeMSoEKdi5DrOzgP5aaVsjoA
-Date: Mon, 10 Jun 2019 18:45:23 +0000
-Message-ID: <1560192412.27481.12.camel@intel.com>
-References: <20190609023803.23832-1-baolu.lu@linux.intel.com>
-	<20190609023803.23832-6-baolu.lu@linux.intel.com>
-In-Reply-To: <20190609023803.23832-6-baolu.lu@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.25.110.4]
-Content-ID: <06FAD7A4365DF84993512DC9E698AAA7@intel.com>
+	Mon, 10 Jun 2019 18:53:07 +0000 (UTC)
+Received: (qmail 7256 invoked by uid 2102); 10 Jun 2019 14:46:25 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+	by localhost with SMTP; 10 Jun 2019 14:46:25 -0400
+Date: Mon, 10 Jun 2019 14:46:25 -0400 (EDT)
+From: Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: How to resolve an issue in swiotlb environment?
+In-Reply-To: <20190610123222.GA20985@lst.de>
+Message-ID: <Pine.LNX.4.44L0.1906101423200.1560-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=unavailable version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	"cai@lca.pw" <cai@lca.pw>, "Pan, Jacob jun" <jacob.jun.pan@intel.com>
+Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,41 +50,75 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-T24gU3VuLCAyMDE5LTA2LTA5IGF0IDEwOjM4ICswODAwLCBMdSBCYW9sdSB3cm90ZToNCj4gwqBz
-dGF0aWMgaW50IF9faW5pdCBzaV9kb21haW5faW5pdChpbnQgaHcpDQo+IEBAIC0zMzA2LDE0ICsz
-MjUyLDEzIEBAIHN0YXRpYyBpbnQgX19pbml0IGluaXRfZG1hcnModm9pZCkNCj4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAocGFzaWRfc3VwcG9ydGVkKGlvbW11KSkNCj4gwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaW50ZWxfc3ZtX2lu
-aXQoaW9tbXUpOw0KPiDCoCNlbmRpZg0KPiAtwqDCoMKgwqDCoMKgwqB9DQo+IMKgDQo+IC3CoMKg
-wqDCoMKgwqDCoC8qDQo+IC3CoMKgwqDCoMKgwqDCoCAqIE5vdyB0aGF0IHFpIGlzIGVuYWJsZWQg
-b24gYWxsIGlvbW11cywgc2V0IHRoZSByb290IGVudHJ5DQo+IGFuZCBmbHVzaA0KPiAtwqDCoMKg
-wqDCoMKgwqAgKiBjYWNoZXMuIFRoaXMgaXMgcmVxdWlyZWQgb24gc29tZSBJbnRlbCBYNTggY2hp
-cHNldHMsDQo+IG90aGVyd2lzZSB0aGUNCj4gLcKgwqDCoMKgwqDCoMKgICogZmx1c2hfY29udGV4
-dCBmdW5jdGlvbiB3aWxsIGxvb3AgZm9yZXZlciBhbmQgdGhlIGJvb3QNCj4gaGFuZ3MuDQo+IC3C
-oMKgwqDCoMKgwqDCoCAqLw0KPiAtwqDCoMKgwqDCoMKgwqBmb3JfZWFjaF9hY3RpdmVfaW9tbXUo
-aW9tbXUsIGRyaGQpIHsNCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qDQo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBOb3cgdGhhdCBxaSBpcyBlbmFibGVkIG9u
-IGFsbCBpb21tdXMsIHNldCB0aGUgcm9vdA0KPiBlbnRyeSBhbmQNCj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCAqIGZsdXNoIGNhY2hlcy4gVGhpcyBpcyByZXF1aXJlZCBvbiBzb21l
-IEludGVsIFg1OA0KPiBjaGlwc2V0cywNCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCAqIG90aGVyd2lzZSB0aGUgZmx1c2hfY29udGV4dCBmdW5jdGlvbiB3aWxsIGxvb3ANCj4gZm9y
-ZXZlciBhbmQNCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIHRoZSBib290IGhh
-bmdzLg0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICovDQo+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgaW9tbXVfZmx1c2hfd3JpdGVfYnVmZmVyKGlvbW11KTsNCj4g
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpb21tdV9zZXRfcm9vdF9lbnRyeShpb21t
-dSk7DQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaW9tbXUtPmZsdXNoLmZsdXNo
-X2NvbnRleHQoaW9tbXUsIDAsIDAsIDAsDQo+IERNQV9DQ01EX0dMT0JBTF9JTlZMKTsNCg0KDQpU
-aGlzIGNoYW5nZXMgdGhlIGludGVudCBvZiB0aGUgb3JpZ2luYWwgY29kZS4gQXMgdGhlIGNvbW1l
-bnQgc2F5cw0KZW5hYmxlIFFJIG9uIGFsbCBJT01NVXMsIHRoZW4gZmx1c2ggdGhlIGNhY2hlcyBh
-bmQgc2V0IHRoZSByb290IGVudHJ5Lg0KVGhlIG9yZGVyIG9mIHNldHRpbmcgdGhlIHJvb3QgZW50
-cmllcyBoYXMgY2hhbmdlZCBub3cuDQoNClJlZmVyOsKgDQpDb21taXQgYTRjMzRmZjFjMDI5ICgn
-aW9tbXUvdnQtZDogRW5hYmxlIFFJIG9uIGFsbCBJT01NVXMgYmVmb3JlDQpzZXR0aW5nIHJvb3Qg
-ZW50cnknKQ0KDQotLVNvaGlsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9u
-Lm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9p
-b21tdQ==
+On Mon, 10 Jun 2019, Christoph Hellwig wrote:
+
+> Hi Yoshihiro,
+> 
+> sorry for not taking care of this earlier, today is a public holiday
+> here and thus I'm not working much over the long weekend.
+> 
+> On Mon, Jun 10, 2019 at 11:13:07AM +0000, Yoshihiro Shimoda wrote:
+> > I have another way to avoid the issue. But it doesn't seem that a good way though...
+> > According to the commit that adding blk_queue_virt_boundary() [3],
+> > this is needed for vhci_hcd as a workaround so that if we avoid to call it
+> > on xhci-hcd driver, the issue disappeared. What do you think?
+> > JFYI, I pasted a tentative patch in the end of email [4].
+> 
+> Oh, I hadn't even look at why USB uses blk_queue_virt_boundary, and it
+> seems like the usage is wrong, as it doesn't follow the same rules as
+> all the others.  I think your patch goes in the right direction,
+> but instead of comparing a hcd name it needs to be keyed of a flag
+> set by the driver (I suspect there is one indicating native SG support,
+> but I can't quickly find it), and we need an alternative solution
+> for drivers that don't see like vhci.  I suspect just limiting the
+> entire transfer size to something that works for a single packet
+> for them would be fine.
+
+Christoph:
+
+In most of the different kinds of USB host controllers, the hardware is
+not capable of assembling a packet out of multiple buffers at arbitrary
+addresses.  As a matter of fact, xHCI is the only kind that _can_ do 
+this.
+
+In some cases, the hardware can assemble packets provided each buffer
+other than the last ends at a page boundary and each buffer other than
+the first starts at a page boundary (Intel would say the buffers are
+"virtually contiguous"), but this is a rather complex rule and we don't
+want to rely on it.  Plus, in other cases the hardware _can't_ do this.
+
+Instead, we want the SG buffers to be set up so that each one (except 
+the last) is an exact multiple of the maximum packet size.  That way, 
+each packet can be assembled from the contents of a single buffer and 
+there's no problem.
+
+The maximum packet size depends on the type of USB connection.  
+Typical values are 1024, 512, or 64.  It's always a power of two and
+it's smaller than 4096.  Therefore we simplify the problem even further
+by requiring that each SG buffer in a scatterlist (except the last one)
+be a multiple of the page size.  (It doesn't need to be aligned on a 
+page boundary, as far as I remember.)
+
+That's why the blk_queue_virt_boundary usage was added to the USB code.  
+Perhaps it's not the right way of doing this; I'm not an expert on the
+inner workings of the block layer.  If you can suggest a better way to
+express our requirement, that would be great.
+
+Alan Stern
+
+PS: There _is_ a flag saying whether an HCD supports SG.  But what it
+means is that the driver can handle an SG list that meets the
+requirement above; it doesn't mean that the driver can reassemble the
+data from an SG list into a series of bounce buffers in order to meet
+the requirement.  We very much want not to do that, especially since
+the block layer should already be capable of doing it for us.
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
