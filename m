@@ -2,42 +2,46 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88E673BC17
-	for <lists.iommu@lfdr.de>; Mon, 10 Jun 2019 20:53:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B169B3BC09
+	for <lists.iommu@lfdr.de>; Mon, 10 Jun 2019 20:51:52 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 43B68DC5;
-	Mon, 10 Jun 2019 18:53:10 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 4238DDC1;
+	Mon, 10 Jun 2019 18:51:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id E188ADB4
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id C4CFDD98
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 10 Jun 2019 18:53:07 +0000 (UTC)
-X-Greylist: delayed 00:06:41 by SQLgrey-1.7.6
-Received: from iolanthe.rowland.org (iolanthe.rowland.org [192.131.102.54])
-	by smtp1.linuxfoundation.org (Postfix) with SMTP id 44AC0174
+	Mon, 10 Jun 2019 18:51:49 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 4AEDD174
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 10 Jun 2019 18:53:07 +0000 (UTC)
-Received: (qmail 7256 invoked by uid 2102); 10 Jun 2019 14:46:25 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-	by localhost with SMTP; 10 Jun 2019 14:46:25 -0400
-Date: Mon, 10 Jun 2019 14:46:25 -0400 (EDT)
-From: Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: How to resolve an issue in swiotlb environment?
-In-Reply-To: <20190610123222.GA20985@lst.de>
-Message-ID: <Pine.LNX.4.44L0.1906101423200.1560-100000@iolanthe.rowland.org>
+	Mon, 10 Jun 2019 18:51:49 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C227C337;
+	Mon, 10 Jun 2019 11:51:48 -0700 (PDT)
+Received: from ostrya.cambridge.arm.com (ostrya.cambridge.arm.com
+	[10.1.196.129])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 511F03F246; 
+	Mon, 10 Jun 2019 11:51:47 -0700 (PDT)
+From: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
+To: will.deacon@arm.com
+Subject: [PATCH 0/8] iommu: Add auxiliary domain and PASID support to Arm
+	SMMUv3
+Date: Mon, 10 Jun 2019 19:47:06 +0100
+Message-Id: <20190610184714.6786-1-jean-philippe.brucker@arm.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=unavailable version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	robh+dt@kernel.org, robin.murphy@arm.com,
+	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,68 +59,69 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Mon, 10 Jun 2019, Christoph Hellwig wrote:
+Add substreams and PCI PASID support to the SMMUv3 driver. At the moment
+the driver supports a single address space per device. PASID enables
+multiple address spaces per device, up to a million in theory (1 << 20).
 
-> Hi Yoshihiro,
-> 
-> sorry for not taking care of this earlier, today is a public holiday
-> here and thus I'm not working much over the long weekend.
-> 
-> On Mon, Jun 10, 2019 at 11:13:07AM +0000, Yoshihiro Shimoda wrote:
-> > I have another way to avoid the issue. But it doesn't seem that a good way though...
-> > According to the commit that adding blk_queue_virt_boundary() [3],
-> > this is needed for vhci_hcd as a workaround so that if we avoid to call it
-> > on xhci-hcd driver, the issue disappeared. What do you think?
-> > JFYI, I pasted a tentative patch in the end of email [4].
-> 
-> Oh, I hadn't even look at why USB uses blk_queue_virt_boundary, and it
-> seems like the usage is wrong, as it doesn't follow the same rules as
-> all the others.  I think your patch goes in the right direction,
-> but instead of comparing a hcd name it needs to be keyed of a flag
-> set by the driver (I suspect there is one indicating native SG support,
-> but I can't quickly find it), and we need an alternative solution
-> for drivers that don't see like vhci.  I suspect just limiting the
-> entire transfer size to something that works for a single packet
-> for them would be fine.
+Two kernel features will make use of PASIDs, auxiliary domains (AUXD)
+and Shared Virtual Addressing (SVA). Auxiliary domains allow to program
+PASID contexts using IOMMU domains. SVA allows to bind process address
+spaces to device contexts and relieve device drivers of DMA management.
 
-Christoph:
+Since SVA support for SMMUv3 has a lot more dependencies (new fault API,
+ASID pinning, generic bind, PRI or stall support, and so on),
+introducing PASID support to the SMMUv3 driver is easier with auxiliary
+domains.
 
-In most of the different kinds of USB host controllers, the hardware is
-not capable of assembling a packet out of multiple buffers at arbitrary
-addresses.  As a matter of fact, xHCI is the only kind that _can_ do 
-this.
+The AUXD API allows device drivers to easily test PASID support of their
+devices, although they need to allocate IOVA and pages themselves
+because the DMA API doesn't support AUXD for the moment:
 
-In some cases, the hardware can assemble packets provided each buffer
-other than the last ends at a page boundary and each buffer other than
-the first starts at a page boundary (Intel would say the buffers are
-"virtually contiguous"), but this is a rather complex rule and we don't
-want to rely on it.  Plus, in other cases the hardware _can't_ do this.
+	iommu_dev_enable_feature(dev, IOMMU_DEV_FEAT_AUX);
+	domain = iommu_domain_alloc(dev->bus);
+	iommu_aux_attach_device(domain, dev);
+	iommu_map(domain, iova, phys_addr, size, prot);
+	pasid = iommu_aux_get_pasid(domain);
+	/* Then launch DMA with the PASID and IOVA */
 
-Instead, we want the SG buffers to be set up so that each one (except 
-the last) is an exact multiple of the maximum packet size.  That way, 
-each packet can be assembled from the contents of a single buffer and 
-there's no problem.
+Auxiliary domains also allow to split devices into multiple contexts
+assignable to guest, with vfio-mdev.
 
-The maximum packet size depends on the type of USB connection.  
-Typical values are 1024, 512, or 64.  It's always a power of two and
-it's smaller than 4096.  Therefore we simplify the problem even further
-by requiring that each SG buffer in a scatterlist (except the last one)
-be a multiple of the page size.  (It doesn't need to be aligned on a 
-page boundary, as far as I remember.)
+Past discussions for these patches:
+* Auxiliary domains (patch 6)
+  [RFC PATCH 0/6] Auxiliary IOMMU domains and Arm SMMUv3
+  https://www.spinics.net/lists/iommu/msg30637.html
+* SSID support for the SMMU (patches 2, 3, 4, 5, 7 and 8)
+  [PATCH v2 00/40] Shared Virtual Addressing for the IOMMU
+  https://lists.linuxfoundation.org/pipermail/iommu/2018-May/027595.html
+* I/O ASID (patch 1)
+  [PATCH v3 00/16] Shared virtual address IOMMU and VT-d support
+  https://lkml.kernel.org/lkml/1556922737-76313-4-git-send-email-jacob.jun.pan@linux.intel.com/
 
-That's why the blk_queue_virt_boundary usage was added to the USB code.  
-Perhaps it's not the right way of doing this; I'm not an expert on the
-inner workings of the block layer.  If you can suggest a better way to
-express our requirement, that would be great.
+Jean-Philippe Brucker (8):
+  iommu: Add I/O ASID allocator
+  dt-bindings: document PASID property for IOMMU masters
+  iommu/arm-smmu-v3: Support platform SSID
+  iommu/arm-smmu-v3: Add support for Substream IDs
+  iommu/arm-smmu-v3: Add second level of context descriptor table
+  iommu/arm-smmu-v3: Support auxiliary domains
+  iommu/arm-smmu-v3: Improve add_device() error handling
+  iommu/arm-smmu-v3: Add support for PCI PASID
 
-Alan Stern
+ .../devicetree/bindings/iommu/iommu.txt       |   6 +
+ drivers/iommu/Kconfig                         |   5 +
+ drivers/iommu/Makefile                        |   1 +
+ drivers/iommu/arm-smmu-v3.c                   | 714 ++++++++++++++++--
+ drivers/iommu/ioasid.c                        | 150 ++++
+ drivers/iommu/of_iommu.c                      |   6 +-
+ include/linux/ioasid.h                        |  49 ++
+ include/linux/iommu.h                         |   1 +
+ 8 files changed, 865 insertions(+), 67 deletions(-)
+ create mode 100644 drivers/iommu/ioasid.c
+ create mode 100644 include/linux/ioasid.h
 
-PS: There _is_ a flag saying whether an HCD supports SG.  But what it
-means is that the driver can handle an SG list that meets the
-requirement above; it doesn't mean that the driver can reassemble the
-data from an SG list into a series of bounce buffers in order to meet
-the requirement.  We very much want not to do that, especially since
-the block layer should already be capable of doing it for us.
+-- 
+2.21.0
 
 _______________________________________________
 iommu mailing list
