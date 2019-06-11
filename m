@@ -2,74 +2,57 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4135B3DBAD
-	for <lists.iommu@lfdr.de>; Tue, 11 Jun 2019 22:11:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893AC418E3
+	for <lists.iommu@lfdr.de>; Wed, 12 Jun 2019 01:28:52 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id E0A0312C1;
-	Tue, 11 Jun 2019 20:11:42 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 805771462;
+	Tue, 11 Jun 2019 23:28:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id C9BB412B3
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5EE0F141B
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 11 Jun 2019 20:11:20 +0000 (UTC)
+	Tue, 11 Jun 2019 23:27:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from Galois.linutronix.de (Galois.linutronix.de [146.0.238.70])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 6163179
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 020016D6
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 11 Jun 2019 20:11:20 +0000 (UTC)
-Received: from p5b06daab.dip0.t-ipconnect.de ([91.6.218.171] helo=nanos)
-	by Galois.linutronix.de with esmtpsa
-	(TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256) (Exim 4.80)
-	(envelope-from <tglx@linutronix.de>)
-	id 1han6o-0004fr-IZ; Tue, 11 Jun 2019 22:11:06 +0200
-Date: Tue, 11 Jun 2019 22:11:04 +0200 (CEST)
-From: Thomas Gleixner <tglx@linutronix.de>
-To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Subject: Re: [RFC PATCH v4 12/21] watchdog/hardlockup/hpet: Adjust timer
-	expiration on the number of monitored CPUs
-In-Reply-To: <1558660583-28561-13-git-send-email-ricardo.neri-calderon@linux.intel.com>
-Message-ID: <alpine.DEB.2.21.1906112205170.2214@nanos.tec.linutronix.de>
-References: <1558660583-28561-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
-	<1558660583-28561-13-git-send-email-ricardo.neri-calderon@linux.intel.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+	Tue, 11 Jun 2019 23:27:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Jun 2019 16:27:50 -0700
+X-ExtLoop1: 1
+Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
+	([10.239.159.136])
+	by orsmga004.jf.intel.com with ESMTP; 11 Jun 2019 16:27:48 -0700
+Subject: Re: "iommu/vt-d: Delegate DMA domain to generic iommu" series breaks
+	megaraid_sas
+To: Qian Cai <cai@lca.pw>
+References: <1559941717.6132.63.camel@lca.pw>
+	<1e4f0642-e4e1-7602-3f50-37edc84ced50@linux.intel.com>
+	<1560174264.6132.65.camel@lca.pw> <1560178459.6132.66.camel@lca.pw>
+	<2ff8404d-7103-a96d-2749-ac707ce74563@linux.intel.com>
+	<AB191BD9-239D-4962-AED3-52AABED5C7C0@lca.pw>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <dfd86f69-e4b2-06f7-d99c-6e0580ae00d6@linux.intel.com>
+Date: Wed, 12 Jun 2019 07:20:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required, ALL_TRUSTED=-1,
-	SHORTCIRCUIT=-0.0001
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+In-Reply-To: <AB191BD9-239D-4962-AED3-52AABED5C7C0@lca.pw>
+Content-Language: en-US
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ricardo Neri <ricardo.neri@intel.com>,
-	Stephane Eranian <eranian@google.com>,
-	Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Ingo Molnar <mingo@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>,
-	Ashok Raj <ashok.raj@intel.com>,
-	Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
-	"Luis R. Rodriguez" <mcgrof@kernel.org>,
-	David Rientjes <rientjes@google.com>, Andi Kleen <andi.kleen@intel.com>,
-	Waiman Long <longman@redhat.com>, Borislav Petkov <bp@suse.de>,
-	Masami Hiramatsu <mhiramat@kernel.org>, Don Zickus <dzickus@redhat.com>,
-	"Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-	Marc Zyngier <marc.zyngier@arm.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Nicholas Piggin <npiggin@gmail.com>, Alexei Starovoitov <ast@kernel.org>,
-	Byungchul Park <byungchul.park@lge.com>, Babu Moger <Babu.Moger@amd.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Josh Poimboeuf <jpoimboe@redhat.com>,
-	"Paul E. McKenney" <paulmck@linux.vnet.ibm.com>,
-	Tony Luck <tony.luck@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
-	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	Jacob Pan <jacob.jun.pan@intel.com>,
-	Philippe Ombredanne <pombredanne@nexb.com>,
-	Colin Ian King <colin.king@canonical.com>,
-	Andrew Morton <akpm@linux-foundation.org>
+Cc: Joerg Roedel <jroedel@suse.de>,
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Kashyap Desai <kashyap.desai@broadcom.com>,
+	Sumit Saxena <sumit.saxena@broadcom.com>, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -82,32 +65,28 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Thu, 23 May 2019, Ricardo Neri wrote:
-> @@ -52,10 +59,10 @@ static void kick_timer(struct hpet_hld_data *hdata, bool force)
->  		return;
->  
->  	if (hdata->has_periodic)
-> -		period = watchdog_thresh * hdata->ticks_per_second;
-> +		period = watchdog_thresh * hdata->ticks_per_cpu;
->  
->  	count = hpet_readl(HPET_COUNTER);
-> -	new_compare = count + watchdog_thresh * hdata->ticks_per_second;
-> +	new_compare = count + watchdog_thresh * hdata->ticks_per_cpu;
->  	hpet_set_comparator(hdata->num, (u32)new_compare, (u32)period);
+Hi,
 
-So with this you might get close to the point where you trip over the SMI
-induced madness where CPUs vanish for several milliseconds in some value
-add code. You really want to do a read back of the hpet to detect that. See
-the comment in the hpet code. RHEL 7/8 allow up to 768 logical CPUs....
+On 6/11/19 10:00 PM, Qian Cai wrote:
+> 
+>> On Jun 10, 2019, at 9:41 PM, Lu Baolu<baolu.lu@linux.intel.com>  wrote:
+>>
+>> Ah, good catch!
+>>
+>> The device failed to be attached by a DMA domain. Can you please try the
+>> attached fix patch?
+> It works fine.
+> 
 
-Thanks,
+Thanks a lot for the report and verification.
 
-	tglx
+Best regards,
+Baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
