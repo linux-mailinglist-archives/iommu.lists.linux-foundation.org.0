@@ -2,41 +2,41 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677173CEDD
-	for <lists.iommu@lfdr.de>; Tue, 11 Jun 2019 16:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 732703CEE0
+	for <lists.iommu@lfdr.de>; Tue, 11 Jun 2019 16:36:26 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id D6387E19;
-	Tue, 11 Jun 2019 14:35:59 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 0FD7FEE5;
+	Tue, 11 Jun 2019 14:36:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 2875EA55
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 48F26EC4
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 11 Jun 2019 14:35:58 +0000 (UTC)
+	Tue, 11 Jun 2019 14:36:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id D65247F8
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 0895E7C3
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 11 Jun 2019 14:35:57 +0000 (UTC)
+	Tue, 11 Jun 2019 14:36:03 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 75460337;
-	Tue, 11 Jun 2019 07:35:57 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B1C1F337;
+	Tue, 11 Jun 2019 07:36:02 -0700 (PDT)
 Received: from [10.1.196.129] (ostrya.cambridge.arm.com [10.1.196.129])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5103D3F557;
-	Tue, 11 Jun 2019 07:35:56 -0700 (PDT)
-Subject: Re: [PATCH 4/8] iommu/arm-smmu-v3: Add support for Substream IDs
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8B72D3F557;
+	Tue, 11 Jun 2019 07:36:01 -0700 (PDT)
+Subject: Re: [PATCH 8/8] iommu/arm-smmu-v3: Add support for PCI PASID
 To: Jonathan Cameron <jonathan.cameron@huawei.com>
 References: <20190610184714.6786-1-jean-philippe.brucker@arm.com>
-	<20190610184714.6786-5-jean-philippe.brucker@arm.com>
-	<20190611111939.000030e9@huawei.com>
+	<20190610184714.6786-9-jean-philippe.brucker@arm.com>
+	<20190611114542.000021f1@huawei.com>
 From: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
-Message-ID: <75ceb6d5-9717-3945-364b-f2374a705697@arm.com>
-Date: Tue, 11 Jun 2019 15:35:30 +0100
+Message-ID: <3994ac33-e3e5-ba34-a669-c70a76a97e6e@arm.com>
+Date: Tue, 11 Jun 2019 15:35:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190611111939.000030e9@huawei.com>
+In-Reply-To: <20190611114542.000021f1@huawei.com>
 Content-Language: en-US
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
 	version=3.3.1
@@ -63,30 +63,18 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 11/06/2019 11:19, Jonathan Cameron wrote:
->> +static int arm_smmu_alloc_cd_tables(struct arm_smmu_domain *smmu_domain,
->> +				    struct arm_smmu_master *master)
->> +{
->> +	struct arm_smmu_device *smmu = smmu_domain->smmu;
->> +	struct arm_smmu_s1_cfg *cfg = &smmu_domain->s1_cfg;
->>  
->> -	cfg->cdptr[0] = cpu_to_le64(val);
->> +	cfg->s1fmt = STRTAB_STE_0_S1FMT_LINEAR;
->> +	cfg->s1cdmax = master->ssid_bits;
->> +	return arm_smmu_alloc_cd_leaf_table(smmu, &cfg->table, 1 << cfg->s1cdmax);
->> +}
->>  
->> -	val = cfg->cd.ttbr & CTXDESC_CD_1_TTB0_MASK;
->> -	cfg->cdptr[1] = cpu_to_le64(val);
+On 11/06/2019 11:45, Jonathan Cameron wrote:
+>> +	pci_disable_pasid(pdev);
+>> +	master->ssid_bits = 0;
 > 
-> Hmm. Diff was having a field day in trying to make the patch as unreadable as possible..
+> If we are being really fussy about ordering, why have this set of
+> ssid_bits after pci_disable_pasid rather than before (to reverse order
+> of .._enable_pasid)?
 
-Ugh, yes. This part is a bit more readable with --patience, but I'll
-also try to split the patch as you suggest
+Sure, I'll change that
 
 Thanks,
 Jean
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
