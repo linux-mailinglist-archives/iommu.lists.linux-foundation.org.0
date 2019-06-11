@@ -2,81 +2,50 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C583CDD6
-	for <lists.iommu@lfdr.de>; Tue, 11 Jun 2019 16:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C61403CED5
+	for <lists.iommu@lfdr.de>; Tue, 11 Jun 2019 16:35:53 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 68A74EE0;
-	Tue, 11 Jun 2019 14:00:10 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 756E0EC9;
+	Tue, 11 Jun 2019 14:35:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id C372FC3A
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 96388E29
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 11 Jun 2019 14:00:08 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 02D866D6
+	Tue, 11 Jun 2019 14:35:50 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id E06617F8
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 11 Jun 2019 14:00:07 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id x2so13718579qtr.0
-	for <iommu@lists.linux-foundation.org>;
-	Tue, 11 Jun 2019 07:00:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=iH+zv2NyAQjL/cetbGgHsTzopn+UouK4esOdVcCu/XI=;
-	b=bhgTz0iZHBzC141cQuSxSqaQ6tDQrIVqrdGGE0dsBQadX/i+4Srh9EvKSjvHWfQ96D
-	y2/cwNUfbWYskuiT226QmbdLGzCBH8hWz9FWoA4qjTsZTIh79U8wHlWpwNLnNQ+8JvH4
-	zF4Uzn/c5bbpMhM/SmrCJSY0O+LNAhxKJJW/VLPUMF9Lqhzmc+SGBK3bs8/gKSezBo7D
-	LEgR6ItfMPm9Bhlj+vAqpHPpKifwv5kI1a1Jb8xOOt/cLRvUH6CbcGDZuCZwcmca9f5X
-	+Fi4AbP1s9Hf4l4QzWm9wqogQWYEIKC8tAw5SxUcMoFLWmIgXfp0wg2aRDcoXfX6HsSH
-	drcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=iH+zv2NyAQjL/cetbGgHsTzopn+UouK4esOdVcCu/XI=;
-	b=KR9vzMuIu4u3Se3VB5DRAIcqQJHg4akY56a62eJVEHtY4DFKgL4JrEjNbGz3EGAjtG
-	f4OZRq8o8t+sA/2A5kGriSrSDgem8HLKkETBK3+399R3BFL6KtSE1Ebn+zJN4l5bD53t
-	ORmqN2I2Hyq7NrB07G5yGB6sMvnr15T151ZewJeRVVY8am/Vywa8I0FHlPYAmZg3fS7l
-	YxqUnA1mVG9s+HvbBVvLKMW7iZEhKdDSmCZBR1A7by1Y8AoaFI4X37AOfpjTry1eYAjL
-	kubH3U3995s1VznSeOVESswUevCCkJ3xuFUdfNmOa9On3T0CtqftOv1dMh3MgjcMSFqV
-	WD4w==
-X-Gm-Message-State: APjAAAWj0EBgdmN25sjo2LQjL+Q8mmtmBIW4SIOCz355fRGnZvVGHsO8
-	Bkvml5b1c/0Gjm/7RFU18rSw+Q==
-X-Google-Smtp-Source: APXvYqwvcMDBx+2FFUxbbsHqiUbAKE+XOonBFHNUuVkdEbObgeEeNT+erbNtoXX9y+IO9kDx1s/nVQ==
-X-Received: by 2002:a0c:b084:: with SMTP id o4mr35367656qvc.227.1560261607009; 
-	Tue, 11 Jun 2019 07:00:07 -0700 (PDT)
-Received: from [192.168.1.153] (pool-71-184-117-43.bstnma.fios.verizon.net.
-	[71.184.117.43]) by smtp.gmail.com with ESMTPSA id
-	g53sm3000938qtk.65.2019.06.11.07.00.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Jun 2019 07:00:06 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Subject: Re: "iommu/vt-d: Delegate DMA domain to generic iommu" series breaks
-	megaraid_sas
-From: Qian Cai <cai@lca.pw>
-In-Reply-To: <2ff8404d-7103-a96d-2749-ac707ce74563@linux.intel.com>
-Date: Tue, 11 Jun 2019 10:00:02 -0400
-Message-Id: <AB191BD9-239D-4962-AED3-52AABED5C7C0@lca.pw>
-References: <1559941717.6132.63.camel@lca.pw>
-	<1e4f0642-e4e1-7602-3f50-37edc84ced50@linux.intel.com>
-	<1560174264.6132.65.camel@lca.pw> <1560178459.6132.66.camel@lca.pw>
-	<2ff8404d-7103-a96d-2749-ac707ce74563@linux.intel.com>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-X-Mailer: Apple Mail (2.3445.104.11)
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+	Tue, 11 Jun 2019 14:35:49 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6932D337;
+	Tue, 11 Jun 2019 07:35:49 -0700 (PDT)
+Received: from [10.1.196.129] (ostrya.cambridge.arm.com [10.1.196.129])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 28CF33F557;
+	Tue, 11 Jun 2019 07:35:48 -0700 (PDT)
+From: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
+Subject: Re: [PATCH 1/8] iommu: Add I/O ASID allocator
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+References: <20190610184714.6786-1-jean-philippe.brucker@arm.com>
+	<20190610184714.6786-2-jean-philippe.brucker@arm.com>
+	<20190611103625.00001399@huawei.com>
+Message-ID: <62d1f310-0cba-4d55-0f16-68bba3c64927@arm.com>
+Date: Tue, 11 Jun 2019 15:35:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190611103625.00001399@huawei.com>
+Content-Language: en-US
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Joerg Roedel <jroedel@suse.de>,
-	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Kashyap Desai <kashyap.desai@broadcom.com>,
-	Sumit Saxena <sumit.saxena@broadcom.com>, iommu@lists.linux-foundation.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, will.deacon@arm.com,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	robh+dt@kernel.org, robin.murphy@arm.com,
+	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -94,43 +63,99 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-
-
-> On Jun 10, 2019, at 9:41 PM, Lu Baolu <baolu.lu@linux.intel.com> wrote:
+On 11/06/2019 10:36, Jonathan Cameron wrote:
+>> +/**
+>> + * ioasid_alloc - Allocate an IOASID
+>> + * @set: the IOASID set
+>> + * @min: the minimum ID (inclusive)
+>> + * @max: the maximum ID (inclusive)
+>> + * @private: data private to the caller
+>> + *
+>> + * Allocate an ID between @min and @max. The @private pointer is stored
+>> + * internally and can be retrieved with ioasid_find().
+>> + *
+>> + * Return: the allocated ID on success, or %INVALID_IOASID on failure.
+>> + */
+>> +ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min, ioasid_t max,
+>> +		      void *private)
+>> +{
+>> +	u32 id = INVALID_IOASID;
+>> +	struct ioasid_data *data;
+>> +
+>> +	data = kzalloc(sizeof(*data), GFP_KERNEL);
+>> +	if (!data)
+>> +		return INVALID_IOASID;
+>> +
+>> +	data->set = set;
+>> +	data->private = private;
+>> +
+>> +	if (xa_alloc(&ioasid_xa, &id, data, XA_LIMIT(min, max), GFP_KERNEL)) {
+>> +		pr_err("Failed to alloc ioasid from %d to %d\n", min, max);
+>> +		goto exit_free;
+>> +	}
+>> +	data->id = id;
+>> +
+>> +exit_free:
 > 
-> Ah, good catch!
+> This error flow is perhaps a little more confusing than it needs to be?
 > 
-> The device failed to be attached by a DMA domain. Can you please try the
-> attached fix patch?
+> My assumption (perhaps wrong) is that we only have an id == INVALID_IOASID
+> if the xa_alloc fails, and that we will always have such an id value if
+> it does (I'm not totally sure this second element is true in __xa_alloc).
+> 
+> If I'm missing something perhaps a comment on how else we'd get here.
 
-It works fine.
+Yes we can simplify this:
+
+		return id;
+	exit_free:
+		kfree(data)
+		return INVALID_IOASID;
+	}
+
+The XA API doesn't say that @id passed to xa_alloc() won't be modified
+in case of error. It's true in the current implementation, but won't
+necessarily stay that way. On the other hand I think it's safe to expect
+@id to always be set when xa_alloc() succeeds.
+
+>> +/**
+>> + * ioasid_find - Find IOASID data
+>> + * @set: the IOASID set
+>> + * @ioasid: the IOASID to find
+>> + * @getter: function to call on the found object
+>> + *
+>> + * The optional getter function allows to take a reference to the found object
+>> + * under the rcu lock. The function can also check if the object is still valid:
+>> + * if @getter returns false, then the object is invalid and NULL is returned.
+>> + *
+>> + * If the IOASID has been allocated for this set, return the private pointer
+>> + * passed to ioasid_alloc. Private data can be NULL if not set. Return an error
+>> + * if the IOASID is not found or does not belong to the set.
+> 
+> Perhaps should make it clear that @set can be null.
+
+Indeed. But I'm not sure allowing @set to be NULL is such a good idea,
+because the data type associated to an ioasid depends on its set. For
+example SVA will put an mm_struct in there, and auxiliary domains use
+some structure private to the IOMMU domain.
+
+Jacob, could me make @set mandatory, or do you see a use for a global
+search? If @set is NULL, then callers can check if the return pointer is
+NULL, but will run into trouble if they try to dereference it.
 
 > 
-> [  101.885468] pci 0000:06:00.0: DMAR: Device is ineligible for IOMMU
-> domain attach due to platform RMRR requirement.  Contact your platform
-> vendor.
-> [  101.900801] pci 0000:06:00.0: Failed to add to iommu group 23: -1
+>> + */
+>> +void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
+>> +		  bool (*getter)(void *))
+>> +{
+>> +	void *priv = NULL;
 > 
-> Best regards,
-> Baolu
-> 
-> On 6/10/19 10:54 PM, Qian Cai wrote:
->> On Mon, 2019-06-10 at 09:44 -0400, Qian Cai wrote:
->>> On Sun, 2019-06-09 at 10:43 +0800, Lu Baolu wrote:
->>>> Hi Qian,
->>>> 
->>>> I just posted some fix patches. I cc'ed them in your email inbox as
->>>> well. Can you please check whether they happen to fix your issue?
->>>> If not, do you mind posting more debug messages?
->>> 
->>> Unfortunately, it does not work. Here is the dmesg.
->>> 
->>> https://raw.githubusercontent.com/cailca/tmp/master/dmesg?token=AMC35QKPIZBYUM
->>> FUQKLW4ZC47ZPIK
->> This one should be good to view.
->> https://cailca.github.io/files/dmesg.txt
-> <0001-iommu-vt-d-Allow-DMA-domain-attaching-to-rmrr-locked.patch>
+> Set in all paths, so does need to be set here.
 
+Right
+
+Thanks,
+Jean
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
