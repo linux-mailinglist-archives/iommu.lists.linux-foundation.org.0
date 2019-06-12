@@ -2,74 +2,60 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D4841B85
-	for <lists.iommu@lfdr.de>; Wed, 12 Jun 2019 07:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D33B341C27
+	for <lists.iommu@lfdr.de>; Wed, 12 Jun 2019 08:24:05 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id DB83F153A;
-	Wed, 12 Jun 2019 05:18:17 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 7A4F61590;
+	Wed, 12 Jun 2019 06:24:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id C89A71533
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 799831585
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 12 Jun 2019 05:16:34 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 001E379
+	Wed, 12 Jun 2019 06:22:35 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2089679
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 12 Jun 2019 05:16:33 +0000 (UTC)
-Received: from zn.tnic (p200300EC2F0A6800EC6A653BF86B372A.dip0.t-ipconnect.de
-	[IPv6:2003:ec:2f0a:6800:ec6a:653b:f86b:372a])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id
-	BA42D1EC0997; Wed, 12 Jun 2019 07:16:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-	t=1560316591;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:in-reply-to:in-reply-to: references:references;
-	bh=uZvUrReB+RHLzSd6kF/1jCDl/jkPW47i90g2lP+OZWI=;
-	b=rneOP3I/FIcX/zUChYjTMNqLmHOhJ9uhQISz3P+01lalYd8uNCQcDcblA+dzdoRgiLRlzz
-	DF6tlZQzEX3JOpUeN5oXSy45m3PJqlH7D/Vuz7dsX+ZgGRJB1IJmgDnx3BvoXK3lDQfFIj
-	+JvMJTzNX1N/CKAPKQpaI/76LsvEzBk=
-Date: Wed, 12 Jun 2019 07:16:24 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Zhen Lei <thunder.leizhen@huawei.com>
-Subject: Re: [PATCH v8 2/7] x86/dma: use IS_ENABLED() to simplify the code
-Message-ID: <20190612051624.GF32652@zn.tnic>
-References: <20190530034831.4184-1-thunder.leizhen@huawei.com>
-	<20190530034831.4184-3-thunder.leizhen@huawei.com>
+	Wed, 12 Jun 2019 06:22:34 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Jun 2019 23:22:32 -0700
+X-ExtLoop1: 1
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.157])
+	by fmsmga001.fm.intel.com with SMTP; 11 Jun 2019 23:22:26 -0700
+Received: by lahna (sSMTP sendmail emulation); Wed, 12 Jun 2019 09:22:25 +0300
+Date: Wed, 12 Jun 2019 09:22:25 +0300
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v4 0/9] iommu: Bounce page for untrusted devices
+Message-ID: <20190612062225.GM2640@lahna.fi.intel.com>
+References: <20190603011620.31999-1-baolu.lu@linux.intel.com>
+	<20190610154241.GS28796@char.us.oracle.com>
+	<cd66dab1-9a18-13c1-e668-417036e2dbc1@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190530034831.4184-3-thunder.leizhen@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+In-Reply-To: <cd66dab1-9a18-13c1-e668-417036e2dbc1@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: linux-ia64 <linux-ia64@vger.kernel.org>,
-	Sebastian Ott <sebott@linux.ibm.com>,
-	linux-doc <linux-doc@vger.kernel.org>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Heiko Carstens <heiko.carstens@de.ibm.com>,
-	Paul Mackerras <paulus@samba.org>, "H . Peter Anvin" <hpa@zytor.com>,
-	linux-s390 <linux-s390@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>, x86 <x86@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Fenghua Yu <fenghua.yu@intel.com>,
-	Will Deacon <will.deacon@arm.com>,
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-	Tony Luck <tony.luck@intel.com>, David Woodhouse <dwmw2@infradead.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	iommu <iommu@lists.linux-foundation.org>,
-	Martin Schwidefsky <schwidefsky@de.ibm.com>,
-	Robin Murphy <robin.murphy@arm.com>
+Cc: Juergen Gross <jgross@suse.com>, kevin.tian@intel.com,
+	Stefano Stabellini <sstabellini@kernel.org>, ashok.raj@intel.com,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	alan.cox@intel.com, Jonathan Corbet <corbet@lwn.net>,
+	Robin Murphy <robin.murphy@arm.com>, Steven Rostedt <rostedt@goodmis.org>,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	pengfei.xu@intel.com, Ingo Molnar <mingo@redhat.com>,
+	jacob.jun.pan@intel.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	David Woodhouse <dwmw2@infradead.org>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -87,49 +73,16 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Thu, May 30, 2019 at 11:48:26AM +0800, Zhen Lei wrote:
-> This patch removes the ifdefs around CONFIG_IOMMU_DEFAULT_PASSTHROUGH to
-> improve readablity.
-
-Avoid having "This patch" or "This commit" in the commit message. It is
-tautologically useless.
-
-Also, do
-
-$ git grep 'This patch' Documentation/process
-
-for more details.
-
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> ---
->  arch/x86/kernel/pci-dma.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
+On Wed, Jun 12, 2019 at 11:00:06AM +0800, Lu Baolu wrote:
+> > What kind of devices did you test it with?
 > 
-> diff --git a/arch/x86/kernel/pci-dma.c b/arch/x86/kernel/pci-dma.c
-> index dcd272dbd0a9330..9f2b19c35a060df 100644
-> --- a/arch/x86/kernel/pci-dma.c
-> +++ b/arch/x86/kernel/pci-dma.c
-> @@ -43,11 +43,8 @@
->   * It is also possible to disable by default in kernel config, and enable with
->   * iommu=nopt at boot time.
->   */
-> -#ifdef CONFIG_IOMMU_DEFAULT_PASSTHROUGH
-> -int iommu_pass_through __read_mostly = 1;
-> -#else
-> -int iommu_pass_through __read_mostly;
-> -#endif
-> +int iommu_pass_through __read_mostly =
-> +			IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
+> Most test work was done by Xu Pengfei (cc'ed). He has run the code
+> on real platforms with various thunderbolt peripherals (usb, disk,
+> network, etc.).
 
-Let that line stick out.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-Good mailing practices for 400: avoid top-posting and trim the reply.
+In addtition to that we are also in works to build a real thunderclap
+platform to verify it can only access the bounce buffer if the DMA
+transfer was to a memory not filling the whole page.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
