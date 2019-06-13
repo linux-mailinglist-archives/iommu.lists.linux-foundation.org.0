@@ -2,36 +2,35 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id EADD444C45
-	for <lists.iommu@lfdr.de>; Thu, 13 Jun 2019 21:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F82444C5E
+	for <lists.iommu@lfdr.de>; Thu, 13 Jun 2019 21:40:45 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 99F541593;
-	Thu, 13 Jun 2019 19:38:02 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 1FACF1596;
+	Thu, 13 Jun 2019 19:40:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 125B813CB
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id AB2651590
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 13 Jun 2019 19:38:01 +0000 (UTC)
+	Thu, 13 Jun 2019 19:40:41 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from pokefinder.org (sauhun.de [88.99.104.3])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 971B3711
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 7533A711
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 13 Jun 2019 19:38:00 +0000 (UTC)
+	Thu, 13 Jun 2019 19:40:40 +0000 (UTC)
 Received: from localhost (p5486CF99.dip0.t-ipconnect.de [84.134.207.153])
-	by pokefinder.org (Postfix) with ESMTPSA id B9EC74A127B;
-	Thu, 13 Jun 2019 21:37:59 +0200 (CEST)
-Date: Thu, 13 Jun 2019 21:37:59 +0200
+	by pokefinder.org (Postfix) with ESMTPSA id A63294A127B;
+	Thu, 13 Jun 2019 21:40:39 +0200 (CEST)
+Date: Thu, 13 Jun 2019 21:40:38 +0200
 From: Wolfram Sang <wsa@the-dreams.de>
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [RFC PATCH v6 1/5] iommu: add an exported function to get
-	minimum page size for a domain
-Message-ID: <20190613193759.GB6863@kunai>
+Subject: Re: [RFC PATCH v6 2/5] block: sort headers on blk-setting.c
+Message-ID: <20190613194038.GC6863@kunai>
 References: <1560421215-10750-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-	<1560421215-10750-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+	<1560421215-10750-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <1560421215-10750-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1560421215-10750-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
@@ -53,80 +52,56 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============4418804930578453961=="
+Content-Type: multipart/mixed; boundary="===============6436435472817212636=="
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
 
---===============4418804930578453961==
+--===============6436435472817212636==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5/uDoXvLw7AC5HRs"
+	protocol="application/pgp-signature"; boundary="xesSdrSSBC0PokLI"
 Content-Disposition: inline
 
 
---5/uDoXvLw7AC5HRs
+--xesSdrSSBC0PokLI
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 13, 2019 at 07:20:11PM +0900, Yoshihiro Shimoda wrote:
-> This patch adds an exported function to get minimum page size for
-> a domain. This patch also modifies similar codes on the iommu.c.
+On Thu, Jun 13, 2019 at 07:20:12PM +0900, Yoshihiro Shimoda wrote:
+> This patch sorts the headers in alphabetic order to ease
+> the maintenance for this part.
 >=20
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/iommu/iommu.c | 18 +++++++++++++++---
->  include/linux/iommu.h |  1 +
->  2 files changed, 16 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 2a90638..7ed16af 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -280,6 +280,18 @@ iommu_insert_device_resv_regions(struct list_head *d=
-ev_resv_regions,
->  	return ret;
->  }
-> =20
-> +/**
-> + * iommu_get_minimum_page_size - get minimum page size for a domain
-> + * @domain: the domain
-> + *
-> + * Allow iommu driver to get a minimum page size for a domain.
-> + */
-> +unsigned long iommu_get_minimum_page_size(struct iommu_domain *domain)
-> +{
-> +	return 1UL << __ffs(domain->pgsize_bitmap);
-> +}
-> +EXPORT_SYMBOL_GPL(iommu_get_minimum_page_size);
 
-What about making this a 'static inline' in the iommu header file? I'd
-think it is simple enough and would save us the EXPORT symbol.
+Yup, I got the same result :)
+
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---5/uDoXvLw7AC5HRs
+--xesSdrSSBC0PokLI
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0CphcACgkQFA3kzBSg
-KbavgQ/+JwWPeuVMxx3ApPN3s2nlNe+Sp7vVq6kDrfjELjZdDMHLzLE8PXjCRb4k
-gAesEh8M5QcwY/VqkV0XW07TxDLGkSLvKxR3S6vyeGNlzYbttlYRb7qzgpiKu6E3
-miXxc2HRrYQMVeFmZJ0ntoPIwHB3Ydsq2am91JSiOKVSmEJgbw1gYGcAMbI8o41I
-yfiTwI0DBd/ooD7befuhJoJziIO8J90QI3HNMzkC+viD6RugwwidU7sho5JDCmw4
-ha62jLZy42Ijg96Pqd9f7zDtGFJ2SB/h0mqv3+EBKW6+efzHAmVSEd1WoxyBLMjy
-WQx6xcthVIQGBwMfUA9p1F8ZDKoiYv5TAxNqPTW6JUpcT2bDpwcrS5LzQvt5RRhE
-tJZcPzeBHFW6Jdp9/rgbdooJhauvP4DxtxlcoMieYq3Re4jKQq2YMqS7MLuHK5Je
-PqCSIZZH7vl4hKHr3UuRfLOIEdD7hd+5FIi/X8hYmV2+rc5HYECpe4Jy+Ir/1YV2
-Omda5LDqeEtyvWjjvGuNJps3XFZEVkjZYKkRYAzw4J7QLlzHOAHBht4q6iZza69K
-qx9iY6g98ViBoeReaBHOsq4QGllCfC/BR0k+q94sDAexjK771I++9rjV+sr08NkB
-dgIaqwkz3rKn6MBWAaXBXkJvt9jyZjtVgcVYKw/AvLOTkG2MwqU=
-=5ihp
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0CprYACgkQFA3kzBSg
+KbZVJA/8CYiC4KAb4ZKE4Mg2e92mY0FzKCoXyJ0PJgcli/gmfXTFbkO5qZ+oxE1P
+zMMjpm99xunduO/0xXIL/+AkyKyFRBv62+LAknH47DHRslBPIINw8gIAEFTwiV3H
+nOmXvs/QtXDzkMNbC0rctqCamxcksSuKTlLxVHM/RWQxWtOqn8VJzz0uedhUIvQU
+8wlnZOYC6Rih/2i+OISP3Szg6852ZckLeL8nMfHpsivAydHlFoDTrkFlnPC7HvQy
+QEHn1R5wyz4rQTShL3SpdGvzv5nsAOk5VoGptYYWPOS9uDuKTLQ71Ip9nmB3iPKJ
+m7a6OrozGncNS1U9MIov5thNHmiuKM8lzWqL/wGthPSK7c0YgDMvFKBpd+smwSj/
+gQiwB7py1iLWzI0a3L37tZCxnNuZafR0MONyXouCZcv9ruby9J8SUutherJIEt7t
+w65zdUyLw/spqvVkbqG44EKKyhZyODmBBIziSDJgWQbJ1odnuImR2lqm92cizJn2
+L/M5/5h3GqL1/C+cZuMKmky/ytn+UzAj5S5Ix+y2I2Wq4Cu4mrQS5hQ0L+7p7kw5
+YBZUTgbth+oEeBulL+Rp+z/NAuKkRp3p+safGAxG+JRNkvw4M71Abq8Gq1otC1SW
+SEuShkO4eoYn+CEUfm0r32hizvsY9Aw+TIlvVrsGjFFQIyPkNvw=
+=yGu2
 -----END PGP SIGNATURE-----
 
---5/uDoXvLw7AC5HRs--
+--xesSdrSSBC0PokLI--
 
---===============4418804930578453961==
+--===============6436435472817212636==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -136,4 +111,4 @@ _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============4418804930578453961==--
+--===============6436435472817212636==--
