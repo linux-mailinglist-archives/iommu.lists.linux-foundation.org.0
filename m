@@ -2,59 +2,43 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7B64344B
-	for <lists.iommu@lfdr.de>; Thu, 13 Jun 2019 10:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F3743538
+	for <lists.iommu@lfdr.de>; Thu, 13 Jun 2019 12:20:48 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 6466E136C;
-	Thu, 13 Jun 2019 08:43:46 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 2C94C137A;
+	Thu, 13 Jun 2019 10:20:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id A171C1311
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 16B34130E
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 13 Jun 2019 08:43:45 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D70F663D
+	Thu, 13 Jun 2019 10:20:40 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+	[210.160.252.171])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 32A03711
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 13 Jun 2019 08:43:43 +0000 (UTC)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
-	by Forcepoint Email with ESMTP id 018BD55A1FCA4A250BE7;
-	Thu, 13 Jun 2019 16:43:41 +0800 (CST)
-Received: from HGHY4L002753561.china.huawei.com (10.133.215.186) by
-	DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server
-	id 14.3.439.0; Thu, 13 Jun 2019 16:43:33 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>, John Garry
-	<john.garry@huawei.com>, Robin Murphy <robin.murphy@arm.com>, Will Deacon
-	<will.deacon@arm.com>, Joerg Roedel <joro@8bytes.org>, Jonathan Corbet
-	<corbet@lwn.net>, linux-doc <linux-doc@vger.kernel.org>, Sebastian Ott
-	<sebott@linux.ibm.com>, Gerald Schaefer <gerald.schaefer@de.ibm.com>,
-	"Martin Schwidefsky" <schwidefsky@de.ibm.com>, Heiko Carstens
-	<heiko.carstens@de.ibm.com>, Benjamin Herrenschmidt
-	<benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, "Michael
-	Ellerman" <mpe@ellerman.id.au>, Tony Luck <tony.luck@intel.com>, Fenghua Yu
-	<fenghua.yu@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, "H . Peter Anvin"
-	<hpa@zytor.com>, David Woodhouse <dwmw2@infradead.org>, iommu
-	<iommu@lists.linux-foundation.org>, linux-kernel
-	<linux-kernel@vger.kernel.org>, linux-s390 <linux-s390@vger.kernel.org>,
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, x86 <x86@kernel.org>,
-	linux-ia64 <linux-ia64@vger.kernel.org>
-Subject: [PATCH v9 7/7] ia64: hide build option IOMMU_DEFAULT_PASSTHROUGH
-Date: Thu, 13 Jun 2019 16:42:40 +0800
-Message-ID: <20190613084240.16768-8-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <20190613084240.16768-1-thunder.leizhen@huawei.com>
-References: <20190613084240.16768-1-thunder.leizhen@huawei.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.133.215.186]
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+	Thu, 13 Jun 2019 10:20:38 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.62,369,1554735600"; d="scan'208";a="18589667"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+	by relmlie5.idc.renesas.com with ESMTP; 13 Jun 2019 19:20:37 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 785384274AAF;
+	Thu, 13 Jun 2019 19:20:37 +0900 (JST)
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To: joro@8bytes.org, axboe@kernel.dk, ulf.hansson@linaro.org,
+	wsa+renesas@sang-engineering.com
+Subject: [RFC PATCH v6 0/5] treewide: improve R-Car SDHI performance
+Date: Thu, 13 Jun 2019 19:20:10 +0900
+Message-Id: <1560421215-10750-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-1.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
+Cc: linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-block@vger.kernel.org, iommu@lists.linux-foundation.org, hch@lst.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,34 +51,88 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The DMA mode PASSTHROUGH is not used on ia64.
+This patch series is based on iommu.git / next branch.
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- drivers/iommu/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Since SDHI host internal DMAC of the R-Car Gen3 cannot handle two or
+more segments, the performance rate (especially, eMMC HS400 reading)
+is not good. However, if IOMMU is enabled on the DMAC, since IOMMU will
+map multiple scatter gather buffers as one contignous iova, the DMAC can
+handle the iova as well and then the performance rate is possible to
+improve. In fact, I have measured the performance by using bonnie++,
+"Sequential Input - block" rate was improved on r8a7795.
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 70741fd73b07785..63506f1cad3d149 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -91,7 +91,7 @@ choice
- 
- config IOMMU_DEFAULT_PASSTHROUGH
- 	bool "passthrough"
--	depends on !S390_IOMMU
-+	depends on (!S390_IOMMU && !IA64)
- 	help
- 	  In this mode, the DMA access through IOMMU without any addresses
- 	  translation. That means, the wrong or illegal DMA access can not
+To achieve this, this patch series modifies IOMMU and Block subsystem
+at first. Since I'd like to get any feedback from each subsystem whether
+this way is acceptable for upstream, I submit it to treewide with RFC.
+
+Changes from v5:
+ - Almost all patches are new code.
+ - [4/5 for MMC] This is a refactor patch so that I don't add any
+   {Tested,Reviewed}-by tags.
+ - [5/5 for MMC] Modify MMC subsystem to use bigger segments instead of
+   the renesas_sdhi driver.
+ - [5/5 for MMC] Use BLK_MAX_SEGMENTS (128) instead of local value
+   SDHI_MAX_SEGS_IN_IOMMU (512). Even if we use BLK_MAX_SEGMENTS,
+   the performance is still good.
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=127511
+
+Changes from v4:
+ - [DMA MAPPING] Add a new device_dma_parameters for iova contiguous.
+ - [IOMMU] Add a new capable for "merging" segments.
+ - [IOMMU] Add a capable ops into the ipmmu-vmsa driver.
+ - [MMC] Sort headers in renesas_sdhi_core.c.
+ - [MMC] Remove the following codes that made on v3 that can be achieved by
+	 DMA MAPPING and IOMMU subsystem:
+ -- Check if R-Car Gen3 IPMMU is used or not on patch 3.
+ -- Check if all multiple segment buffers are aligned to PAGE_SIZE on patch 3.
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=125593
+
+Changes from v3:
+ - Use a helper function device_iommu_mapped on patch 1 and 3.
+ - Check if R-Car Gen3 IPMMU is used or not on patch 3.
+ - Check if all multiple segment buffers are aligned to PAGE_SIZE on patch 3.
+ - Add Reviewed-by Wolfram-san on patch 1 and 2. Note that I also got his
+   Reviewed-by on patch 3, but I changed it from v2. So, I didn't add
+   his Reviewed-by at this time.
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=120985
+
+Changes from v2:
+ - Add some conditions in the init_card().
+ - Add a comment in the init_card().
+ - Add definitions for some "MAX_SEGS".
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=116729
+
+Changes from v1:
+ - Remove adding init_card ops into struct tmio_mmc_dma_ops and
+   tmio_mmc_host and just set init_card on renesas_sdhi_core.c.
+ - Revise typos on "mmc: tmio: No memory size limitation if runs on IOMMU".
+ - Add Simon-san's Reviewed-by on a tmio patch.
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=110485
+
+Yoshihiro Shimoda (5):
+  iommu: add an exported function to get minimum page size for a domain
+  block: sort headers on blk-setting.c
+  block: add a helper function to merge the segments by an IOMMU
+  mmc: tmio: Use dma_max_mapping_size() instead of a workaround
+  mmc: queue: Use bigger segments if IOMMU can merge the segments
+
+ block/blk-settings.c             | 40 ++++++++++++++++++++++++++++++++++------
+ drivers/iommu/iommu.c            | 18 +++++++++++++++---
+ drivers/mmc/core/queue.c         | 33 +++++++++++++++++++++++++++++----
+ drivers/mmc/host/tmio_mmc_core.c | 17 ++++-------------
+ include/linux/blkdev.h           |  2 ++
+ include/linux/iommu.h            |  1 +
+ include/linux/mmc/host.h         |  1 +
+ 7 files changed, 86 insertions(+), 26 deletions(-)
+
 -- 
-1.8.3
-
+2.7.4
 
 _______________________________________________
 iommu mailing list
