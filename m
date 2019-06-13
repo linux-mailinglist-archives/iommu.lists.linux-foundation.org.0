@@ -2,29 +2,29 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56FC243443
-	for <lists.iommu@lfdr.de>; Thu, 13 Jun 2019 10:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A1543446
+	for <lists.iommu@lfdr.de>; Thu, 13 Jun 2019 10:43:40 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1500D131A;
-	Thu, 13 Jun 2019 08:43:16 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 9B4D91362;
+	Thu, 13 Jun 2019 08:43:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1C37F1307
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 069101307
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 13 Jun 2019 08:43:15 +0000 (UTC)
+	Thu, 13 Jun 2019 08:43:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id BC284174
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CEBC0711
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 13 Jun 2019 08:43:13 +0000 (UTC)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
-	by Forcepoint Email with ESMTP id 7C2EF437288702CB4296;
-	Thu, 13 Jun 2019 16:43:10 +0800 (CST)
+	Thu, 13 Jun 2019 08:43:32 +0000 (UTC)
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+	by Forcepoint Email with ESMTP id C3A82CF1F307867B8BE6;
+	Thu, 13 Jun 2019 16:43:30 +0800 (CST)
 Received: from HGHY4L002753561.china.huawei.com (10.133.215.186) by
 	DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server
-	id 14.3.439.0; Thu, 13 Jun 2019 16:42:59 +0800
+	id 14.3.439.0; Thu, 13 Jun 2019 16:43:20 +0800
 From: Zhen Lei <thunder.leizhen@huawei.com>
 To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>, John Garry
 	<john.garry@huawei.com>, Robin Murphy <robin.murphy@arm.com>, Will Deacon
@@ -42,9 +42,9 @@ To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>, John Garry
 	<linux-kernel@vger.kernel.org>, linux-s390 <linux-s390@vger.kernel.org>,
 	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, x86 <x86@kernel.org>,
 	linux-ia64 <linux-ia64@vger.kernel.org>
-Subject: [PATCH v9 1/7] iommu: enhance IOMMU default DMA mode build options
-Date: Thu, 13 Jun 2019 16:42:34 +0800
-Message-ID: <20190613084240.16768-2-thunder.leizhen@huawei.com>
+Subject: [PATCH v9 2/7] x86/dma: use IS_ENABLED() to simplify the code
+Date: Thu, 13 Jun 2019 16:42:35 +0800
+Message-ID: <20190613084240.16768-3-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
 In-Reply-To: <20190613084240.16768-1-thunder.leizhen@huawei.com>
 References: <20190613084240.16768-1-thunder.leizhen@huawei.com>
@@ -72,88 +72,31 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-First, add build option IOMMU_DEFAULT_{LAZY|STRICT}, so that we have the
-opportunity to set {lazy|strict} mode as default at build time. Then put
-the three config options in an choice, make people can only choose one of
-the three at a time.
+Remove the ifdefs around CONFIG_IOMMU_DEFAULT_PASSTHROUGH to improve
+readablity.
 
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- drivers/iommu/Kconfig | 44 ++++++++++++++++++++++++++++++++++++--------
- drivers/iommu/iommu.c |  3 ++-
- 2 files changed, 38 insertions(+), 9 deletions(-)
+ arch/x86/kernel/pci-dma.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 83664db5221df02..fe715fb295c6ed2 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -75,16 +75,44 @@ config IOMMU_DEBUGFS
- 	  debug/iommu directory, and then populate a subdirectory with
- 	  entries as required.
+diff --git a/arch/x86/kernel/pci-dma.c b/arch/x86/kernel/pci-dma.c
+index dcd272dbd0a9330..8c82b2e28a0fe2d 100644
+--- a/arch/x86/kernel/pci-dma.c
++++ b/arch/x86/kernel/pci-dma.c
+@@ -43,11 +43,7 @@
+  * It is also possible to disable by default in kernel config, and enable with
+  * iommu=nopt at boot time.
+  */
+-#ifdef CONFIG_IOMMU_DEFAULT_PASSTHROUGH
+-int iommu_pass_through __read_mostly = 1;
+-#else
+-int iommu_pass_through __read_mostly;
+-#endif
++int iommu_pass_through __read_mostly =	IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH);
  
--config IOMMU_DEFAULT_PASSTHROUGH
--	bool "IOMMU passthrough by default"
-+choice
-+	prompt "IOMMU default DMA mode"
- 	depends on IOMMU_API
--        help
--	  Enable passthrough by default, removing the need to pass in
--	  iommu.passthrough=on or iommu=pt through command line. If this
--	  is enabled, you can still disable with iommu.passthrough=off
--	  or iommu=nopt depending on the architecture.
-+	default IOMMU_DEFAULT_STRICT
-+	help
-+	  This option allows an IOMMU DMA mode to be chosen at build time, to
-+	  override the default DMA mode of each ARCH, removing the need to
-+	  pass in kernel parameters through command line. You can still use
-+	  ARCH specific boot options to override this option again.
+ extern struct iommu_table_entry __iommu_table[], __iommu_table_end[];
  
--	  If unsure, say N here.
-+	  If unsure, keep the default.
-+
-+config IOMMU_DEFAULT_PASSTHROUGH
-+	bool "passthrough"
-+	help
-+	  In this mode, the DMA access through IOMMU without any addresses
-+	  translation. That means, the wrong or illegal DMA access can not
-+	  be caught, no error information will be reported.
-+
-+config IOMMU_DEFAULT_LAZY
-+	bool "lazy"
-+	help
-+	  Support lazy mode, where for every IOMMU DMA unmap operation, the
-+	  flush operation of IOTLB and the free operation of IOVA are deferred.
-+	  They are only guaranteed to be done before the related IOVA will be
-+	  reused.
-+
-+config IOMMU_DEFAULT_STRICT
-+	bool "strict"
-+	help
-+	  For every IOMMU DMA unmap operation, the flush operation of IOTLB and
-+	  the free operation of IOVA are guaranteed to be done in the unmap
-+	  function.
-+
-+	  This mode is safer than the two above, but it maybe slower in some
-+	  high performace scenarios.
-+
-+endchoice
- 
- config OF_IOMMU
-        def_bool y
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index f9cacce909d3ae9..05171dd0bd03aee 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -31,7 +31,8 @@
- #else
- static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_DMA;
- #endif
--static bool iommu_dma_strict __read_mostly = true;
-+static bool iommu_dma_strict __read_mostly =
-+			IS_ENABLED(CONFIG_IOMMU_DEFAULT_STRICT);
- 
- struct iommu_group {
- 	struct kobject kobj;
 -- 
 1.8.3
 
