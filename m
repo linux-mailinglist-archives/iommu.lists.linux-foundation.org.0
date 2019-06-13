@@ -2,37 +2,36 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F92543536
-	for <lists.iommu@lfdr.de>; Thu, 13 Jun 2019 12:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0814353C
+	for <lists.iommu@lfdr.de>; Thu, 13 Jun 2019 12:20:59 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id F371D1306;
-	Thu, 13 Jun 2019 10:20:40 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 16C1613A6;
+	Thu, 13 Jun 2019 10:20:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 06ADB1306
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 310851384
+	for <iommu@lists.linux-foundation.org>;
+	Thu, 13 Jun 2019 10:20:42 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+	[210.160.252.171])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 4EF91711
 	for <iommu@lists.linux-foundation.org>;
 	Thu, 13 Jun 2019 10:20:40 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from relmlie6.idc.renesas.com (relmlor1.renesas.com
-	[210.160.252.171])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 3281F63D
-	for <iommu@lists.linux-foundation.org>;
-	Thu, 13 Jun 2019 10:20:38 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.62,369,1554735600"; d="scan'208";a="18380805"
+X-IronPort-AV: E=Sophos;i="5.62,369,1554735600"; d="scan'208";a="18589670"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-	by relmlie6.idc.renesas.com with ESMTP; 13 Jun 2019 19:20:37 +0900
+	by relmlie5.idc.renesas.com with ESMTP; 13 Jun 2019 19:20:37 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8D6284274BC4;
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id A1AC64274AAF;
 	Thu, 13 Jun 2019 19:20:37 +0900 (JST)
 From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To: joro@8bytes.org, axboe@kernel.dk, ulf.hansson@linaro.org,
 	wsa+renesas@sang-engineering.com
-Subject: [RFC PATCH v6 1/5] iommu: add an exported function to get minimum
-	page size for a domain
-Date: Thu, 13 Jun 2019 19:20:11 +0900
-Message-Id: <1560421215-10750-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [RFC PATCH v6 2/5] block: sort headers on blk-setting.c
+Date: Thu, 13 Jun 2019 19:20:12 +0900
+Message-Id: <1560421215-10750-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1560421215-10750-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 References: <1560421215-10750-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
@@ -60,77 +59,41 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-This patch adds an exported function to get minimum page size for
-a domain. This patch also modifies similar codes on the iommu.c.
+This patch sorts the headers in alphabetic order to ease
+the maintenance for this part.
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
- drivers/iommu/iommu.c | 18 +++++++++++++++---
- include/linux/iommu.h |  1 +
- 2 files changed, 16 insertions(+), 3 deletions(-)
+ block/blk-settings.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 2a90638..7ed16af 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -280,6 +280,18 @@ iommu_insert_device_resv_regions(struct list_head *dev_resv_regions,
- 	return ret;
- }
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 2ae348c..45f2c52 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -2,16 +2,16 @@
+ /*
+  * Functions related to setting various queue properties from drivers
+  */
+-#include <linux/kernel.h>
+-#include <linux/module.h>
+-#include <linux/init.h>
+ #include <linux/bio.h>
+ #include <linux/blkdev.h>
+-#include <linux/memblock.h>	/* for max_pfn/max_low_pfn */
+ #include <linux/gcd.h>
+-#include <linux/lcm.h>
+-#include <linux/jiffies.h>
+ #include <linux/gfp.h>
++#include <linux/init.h>
++#include <linux/jiffies.h>
++#include <linux/kernel.h>
++#include <linux/lcm.h>
++#include <linux/memblock.h>     /* for max_pfn/max_low_pfn */
++#include <linux/module.h>
  
-+/**
-+ * iommu_get_minimum_page_size - get minimum page size for a domain
-+ * @domain: the domain
-+ *
-+ * Allow iommu driver to get a minimum page size for a domain.
-+ */
-+unsigned long iommu_get_minimum_page_size(struct iommu_domain *domain)
-+{
-+	return 1UL << __ffs(domain->pgsize_bitmap);
-+}
-+EXPORT_SYMBOL_GPL(iommu_get_minimum_page_size);
-+
- int iommu_get_group_resv_regions(struct iommu_group *group,
- 				 struct list_head *head)
- {
-@@ -558,7 +570,7 @@ static int iommu_group_create_direct_mappings(struct iommu_group *group,
- 
- 	BUG_ON(!domain->pgsize_bitmap);
- 
--	pg_size = 1UL << __ffs(domain->pgsize_bitmap);
-+	pg_size = iommu_get_minimum_page_size(domain);
- 	INIT_LIST_HEAD(&mappings);
- 
- 	iommu_get_resv_regions(dev, &mappings);
-@@ -1595,7 +1607,7 @@ int iommu_map(struct iommu_domain *domain, unsigned long iova,
- 		return -EINVAL;
- 
- 	/* find out the minimum page size supported */
--	min_pagesz = 1 << __ffs(domain->pgsize_bitmap);
-+	min_pagesz = iommu_get_minimum_page_size(domain);
- 
- 	/*
- 	 * both the virtual address and the physical one, as well as
-@@ -1655,7 +1667,7 @@ static size_t __iommu_unmap(struct iommu_domain *domain,
- 		return 0;
- 
- 	/* find out the minimum page size supported */
--	min_pagesz = 1 << __ffs(domain->pgsize_bitmap);
-+	min_pagesz = iommu_get_minimum_page_size(domain);
- 
- 	/*
- 	 * The virtual address, as well as the size of the mapping, must be
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 91af22a..7e53b43 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -366,6 +366,7 @@ extern int iommu_request_dma_domain_for_dev(struct device *dev);
- extern struct iommu_resv_region *
- iommu_alloc_resv_region(phys_addr_t start, size_t length, int prot,
- 			enum iommu_resv_type type);
-+extern unsigned long iommu_get_minimum_page_size(struct iommu_domain *domain);
- extern int iommu_get_group_resv_regions(struct iommu_group *group,
- 					struct list_head *head);
- 
+ #include "blk.h"
+ #include "blk-wbt.h"
 -- 
 2.7.4
 
