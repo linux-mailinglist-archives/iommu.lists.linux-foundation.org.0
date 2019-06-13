@@ -2,84 +2,94 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59AF4446D8
-	for <lists.iommu@lfdr.de>; Thu, 13 Jun 2019 18:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAAA44764
+	for <lists.iommu@lfdr.de>; Thu, 13 Jun 2019 18:59:32 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id DC7D2109E;
-	Thu, 13 Jun 2019 16:55:16 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 48EF3110D;
+	Thu, 13 Jun 2019 16:59:31 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 116681096
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id C31D2E18
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 13 Jun 2019 16:55:15 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 82ADD711
+	Thu, 13 Jun 2019 16:59:29 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 24D5576D
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 13 Jun 2019 16:55:14 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id e5so18493215iok.4
-	for <iommu@lists.linux-foundation.org>;
-	Thu, 13 Jun 2019 09:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ClC0u2JGR2lSo+6Tvkb2x52kadnHao11/SSLbD6/58k=;
-	b=JrNaEHWuGK31T7Uo+VSWno6hHFAJENibo1UonPm+66izBPrzhseMDm7bv7X64xM5DK
-	Cw9kQc0KCnUjh4IFkW/C31Zk4kzA6mouPoQfGyg+p3mDujIALjKIKTevGWXwncMxhJwO
-	m2kMdmGqR/BatXqMusdoFI5nCzADTl/eYJnHTXoEVhw1h5HEyYenJYrp+kjJoQb3v6xJ
-	mOUMwPay5Dm1ubWMu/GLLAxiBdkfT+DerQmRsGvmVB4Tgr0z0KELyQqYVcHzYXJRIgy/
-	iSvOID0iZKuxCkn7pAxT6UAXELNV164onq0HuVxvAytjhlCn0A1cPqeVRPVxyuBCioD9
-	8QjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ClC0u2JGR2lSo+6Tvkb2x52kadnHao11/SSLbD6/58k=;
-	b=JPzhAZ9yUSbbVb4q2znZ7pwI6URJCPHiTyCnd98eF+NkANV5ioKfaOzkBQ+SmedlVq
-	NAvLlBS6IoT28RnseCUzd61VvAHRtwGsUklqXdxo2RLIl8ng+ML8d7Fd6fKbxdYKKva6
-	IoWCaExV2f55UI4Dcj6z/NZHtd76qJRnvY6PEmN2vQn72mTZJTep9+/5SGp0TygU9huI
-	WplZZGMZx9/EgRAFlImEuDhRlNR6Chqd08Fvn9j7hGuQELMKoWTWasZhWkJ0hasVhPPZ
-	pmQrE7mc2/2Fm1fTKhJ96Bg6Vnq3/F4JORt2QduAz8LJ1c3wW6sMkgu/uO23kJ8aDmSv
-	lmiA==
-X-Gm-Message-State: APjAAAXaxR7s9t+nSBdjNPUXl+yFbZL9rPwUFWHOm2U/Tttm2G0ZcDk1
-	G5t9x+rK4NIpWjFx3glQpBFrr/brxU6nHPq+lQ4=
-X-Google-Smtp-Source: APXvYqylceZhLVcUp0gOO9Vg8sEwwQ2V26ZkYvdHadRA9KxZ4IFbMZeY52TIAhHmV5cKS4Wm3sFmdLPdFRRz42Unlow=
-X-Received: by 2002:a5e:8e42:: with SMTP id r2mr453389ioo.305.1560444913870;
-	Thu, 13 Jun 2019 09:55:13 -0700 (PDT)
+	Thu, 13 Jun 2019 16:59:27 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x5DGrg6a146672; Thu, 13 Jun 2019 16:59:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+	h=to : cc : subject :
+	from : references : date : in-reply-to : message-id : mime-version :
+	content-type; s=corp-2018-07-02;
+	bh=VB7BbCcx5CDFsG6/AylvYiYZjuNghhK4GPV3gIX6IgY=;
+	b=JM/zm087RQdix9tjZYqwsKtsL1r4oeg4m549rL34vFP7V7snV+V6jkMW32K6cszyFqwA
+	4LAwbnYI7oNx6Cder0IYcyRig+6l/D5XoXA1WNj3W3i4BZ6SS9JNcU2+U4sz9Ilx21RF
+	m9yWqSzUQgzoMdBE7yH3XIoto5guc4o8ijARvGbDVEAkV33NZnSKZyPhcunGnyQZOg6D
+	gntIMHlm0W9RMbH9YcXv5nmx02cXJu4f8UcMUE/CPLCoFNupiHRYByCja362NG3+UA64
+	L3pcrl3it7g9J2N2cGoPCK+Lkrsj/lr1/Q03zQibiuskhzmeOuF3NAuinosmwPYef5Ov
+	hA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by userp2120.oracle.com with ESMTP id 2t05nr2uea-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 13 Jun 2019 16:59:26 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x5DGuroV168293; Thu, 13 Jun 2019 16:57:26 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by userp3020.oracle.com with ESMTP id 2t1jpjnsf2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 13 Jun 2019 16:57:26 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5DGvOZm008225;
+	Thu, 13 Jun 2019 16:57:24 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 13 Jun 2019 09:57:23 -0700
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: How to resolve an issue in swiotlb environment?
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+References: <20190612120653.GA25285@lst.de>
+	<Pine.LNX.4.44L0.1906121038210.1557-100000@iolanthe.rowland.org>
+	<20190613073900.GC12093@lst.de>
+Date: Thu, 13 Jun 2019 12:57:21 -0400
+In-Reply-To: <20190613073900.GC12093@lst.de> (Christoph Hellwig's message of
+	"Thu, 13 Jun 2019 09:39:00 +0200")
+Message-ID: <yq14l4ttocu.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
 MIME-Version: 1.0
-References: <20190613162703.986-1-tiny.windzz@gmail.com>
-	<20190613162703.986-3-tiny.windzz@gmail.com>
-	<ac67e363-70cf-af64-d634-c3b0b6d408fa@ti.com>
-In-Reply-To: <ac67e363-70cf-af64-d634-c3b0b6d408fa@ti.com>
-From: Frank Lee <tiny.windzz@gmail.com>
-Date: Fri, 14 Jun 2019 00:55:02 +0800
-Message-ID: <CAEExFWuM+oMUKf440myr0GHAnatdzaxr=0ibFDGVXDHs6J1bzA@mail.gmail.com>
-Subject: Re: [PATCH 03/10] iommu/omap: convert to SPDX license tags
-To: Suman Anna <s-anna@ti.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9287
+	signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+	malwarescore=0
+	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=655
+	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+	engine=8.0.1-1810050000 definitions=main-1906130122
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9287
+	signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=707
+	adultscore=0
+	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+	definitions=main-1906130123
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED,
+	UNPARSEABLE_RELAY autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
-	"heiko@sntech.de" <heiko@sntech.de>, "linux-rockchip@lists.infradead.org"
-	<linux-rockchip@lists.infradead.org>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-	"will.deacon@arm.com" <will.deacon@arm.com>,
-	"agross@kernel.org" <agross@kernel.org>,
-	"krzk@kernel.org" <krzk@kernel.org>,
-	"jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-	"david.brown@linaro.org" <david.brown@linaro.org>,
-	"kgene@kernel.org" <kgene@kernel.org>,
-	"thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
+Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	Oliver Neukum <oneukum@suse.com>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
 	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-	"robin.murphy@arm.com" <robin.murphy@arm.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+	Alan Stern <stern@rowland.harvard.edu>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -97,117 +107,18 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Fri, Jun 14, 2019 at 12:39 AM Suman Anna <s-anna@ti.com> wrote:
->
-> Hi Yangtao,
->
-> On 6/13/19 11:26 AM, Yangtao Li wrote:
-> > Updates license to use SPDX-License-Identifier.
-> >
-> > Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
->
-> Thanks for the patch. Can you also update another related file
-> while at this. Will leave it to Joerg if he prefers it as a separate
-> patch, or folded into this patch.
->
-> include/linux/platform_data/iommu-omap.h
->
 
-Done.
+Christoph,
 
-Yangtao
+> sd.c only supports a few specific sector size, and none of them is
+> < 512 bytes:
 
-> Acked-by: Suman Anna <s-anna@ti.com>
->
-> regards
-> Suman
->
-> > ---
-> >  drivers/iommu/omap-iommu-debug.c | 5 +----
-> >  drivers/iommu/omap-iommu.c       | 5 +----
-> >  drivers/iommu/omap-iommu.h       | 5 +----
-> >  drivers/iommu/omap-iopgtable.h   | 5 +----
-> >  4 files changed, 4 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/drivers/iommu/omap-iommu-debug.c b/drivers/iommu/omap-iommu-debug.c
-> > index 4abc0ef522a8..55ec67a45101 100644
-> > --- a/drivers/iommu/omap-iommu-debug.c
-> > +++ b/drivers/iommu/omap-iommu-debug.c
-> > @@ -1,13 +1,10 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> >  /*
-> >   * omap iommu: debugfs interface
-> >   *
-> >   * Copyright (C) 2008-2009 Nokia Corporation
-> >   *
-> >   * Written by Hiroshi DOYU <Hiroshi.DOYU@nokia.com>
-> > - *
-> > - * This program is free software; you can redistribute it and/or modify
-> > - * it under the terms of the GNU General Public License version 2 as
-> > - * published by the Free Software Foundation.
-> >   */
-> >
-> >  #include <linux/err.h>
-> > diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
-> > index d2fb347aa4ff..e6442876913f 100644
-> > --- a/drivers/iommu/omap-iommu.c
-> > +++ b/drivers/iommu/omap-iommu.c
-> > @@ -1,3 +1,4 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> >  /*
-> >   * omap iommu: tlb and pagetable primitives
-> >   *
-> > @@ -6,10 +7,6 @@
-> >   *
-> >   * Written by Hiroshi DOYU <Hiroshi.DOYU@nokia.com>,
-> >   *           Paul Mundt and Toshihiro Kobayashi
-> > - *
-> > - * This program is free software; you can redistribute it and/or modify
-> > - * it under the terms of the GNU General Public License version 2 as
-> > - * published by the Free Software Foundation.
-> >   */
-> >
-> >  #include <linux/dma-mapping.h>
-> > diff --git a/drivers/iommu/omap-iommu.h b/drivers/iommu/omap-iommu.h
-> > index 1703159ef5af..5256e17d86a7 100644
-> > --- a/drivers/iommu/omap-iommu.h
-> > +++ b/drivers/iommu/omap-iommu.h
-> > @@ -1,13 +1,10 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> >  /*
-> >   * omap iommu: main structures
-> >   *
-> >   * Copyright (C) 2008-2009 Nokia Corporation
-> >   *
-> >   * Written by Hiroshi DOYU <Hiroshi.DOYU@nokia.com>
-> > - *
-> > - * This program is free software; you can redistribute it and/or modify
-> > - * it under the terms of the GNU General Public License version 2 as
-> > - * published by the Free Software Foundation.
-> >   */
-> >
-> >  #ifndef _OMAP_IOMMU_H
-> > diff --git a/drivers/iommu/omap-iopgtable.h b/drivers/iommu/omap-iopgtable.h
-> > index 01a315227bf0..871c2a38f453 100644
-> > --- a/drivers/iommu/omap-iopgtable.h
-> > +++ b/drivers/iommu/omap-iopgtable.h
-> > @@ -1,13 +1,10 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> >  /*
-> >   * omap iommu: pagetable definitions
-> >   *
-> >   * Copyright (C) 2008-2010 Nokia Corporation
-> >   *
-> >   * Written by Hiroshi DOYU <Hiroshi.DOYU@nokia.com>
-> > - *
-> > - * This program is free software; you can redistribute it and/or modify
-> > - * it under the terms of the GNU General Public License version 2 as
-> > - * published by the Free Software Foundation.
-> >   */
-> >
-> >  #ifndef _OMAP_IOPGTABLE_H
-> >
->
+Yep, while sd.c in theory supported 256-byte logical blocks a while
+back, that code was removed since the block layer always operates on
+units of 512 bytes.
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
