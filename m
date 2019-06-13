@@ -2,36 +2,37 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0814353C
-	for <lists.iommu@lfdr.de>; Thu, 13 Jun 2019 12:20:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C1043539
+	for <lists.iommu@lfdr.de>; Thu, 13 Jun 2019 12:20:51 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 16C1613A6;
-	Thu, 13 Jun 2019 10:20:44 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 63C38130E;
+	Thu, 13 Jun 2019 10:20:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 310851384
-	for <iommu@lists.linux-foundation.org>;
-	Thu, 13 Jun 2019 10:20:42 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
-	[210.160.252.171])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 4EF91711
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id BD6E61306
 	for <iommu@lists.linux-foundation.org>;
 	Thu, 13 Jun 2019 10:20:40 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.62,369,1554735600"; d="scan'208";a="18589670"
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from relmlie6.idc.renesas.com (relmlor1.renesas.com
+	[210.160.252.171])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 3A5A963D
+	for <iommu@lists.linux-foundation.org>;
+	Thu, 13 Jun 2019 10:20:40 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.62,369,1554735600"; d="scan'208";a="18380808"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-	by relmlie5.idc.renesas.com with ESMTP; 13 Jun 2019 19:20:37 +0900
+	by relmlie6.idc.renesas.com with ESMTP; 13 Jun 2019 19:20:37 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id A1AC64274AAF;
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id CE64F4274BC5;
 	Thu, 13 Jun 2019 19:20:37 +0900 (JST)
 From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To: joro@8bytes.org, axboe@kernel.dk, ulf.hansson@linaro.org,
 	wsa+renesas@sang-engineering.com
-Subject: [RFC PATCH v6 2/5] block: sort headers on blk-setting.c
-Date: Thu, 13 Jun 2019 19:20:12 +0900
-Message-Id: <1560421215-10750-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [RFC PATCH v6 3/5] block: add a helper function to merge the segments
+	by an IOMMU
+Date: Thu, 13 Jun 2019 19:20:13 +0900
+Message-Id: <1560421215-10750-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1560421215-10750-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 References: <1560421215-10750-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
@@ -59,41 +60,77 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-This patch sorts the headers in alphabetic order to ease
-the maintenance for this part.
+This patch adds a helper function whether a queue can merge
+the segments by an IOMMU.
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
- block/blk-settings.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ block/blk-settings.c   | 28 ++++++++++++++++++++++++++++
+ include/linux/blkdev.h |  2 ++
+ 2 files changed, 30 insertions(+)
 
 diff --git a/block/blk-settings.c b/block/blk-settings.c
-index 2ae348c..45f2c52 100644
+index 45f2c52..4e4e13e 100644
 --- a/block/blk-settings.c
 +++ b/block/blk-settings.c
-@@ -2,16 +2,16 @@
- /*
-  * Functions related to setting various queue properties from drivers
+@@ -4,9 +4,11 @@
   */
--#include <linux/kernel.h>
--#include <linux/module.h>
--#include <linux/init.h>
  #include <linux/bio.h>
  #include <linux/blkdev.h>
--#include <linux/memblock.h>	/* for max_pfn/max_low_pfn */
++#include <linux/device.h>
  #include <linux/gcd.h>
--#include <linux/lcm.h>
--#include <linux/jiffies.h>
  #include <linux/gfp.h>
-+#include <linux/init.h>
-+#include <linux/jiffies.h>
-+#include <linux/kernel.h>
-+#include <linux/lcm.h>
-+#include <linux/memblock.h>     /* for max_pfn/max_low_pfn */
-+#include <linux/module.h>
+ #include <linux/init.h>
++#include <linux/iommu.h>
+ #include <linux/jiffies.h>
+ #include <linux/kernel.h>
+ #include <linux/lcm.h>
+@@ -831,6 +833,32 @@ void blk_queue_write_cache(struct request_queue *q, bool wc, bool fua)
+ }
+ EXPORT_SYMBOL_GPL(blk_queue_write_cache);
  
- #include "blk.h"
- #include "blk-wbt.h"
++/**
++ * blk_queue_can_use_iommu_merging - configure queue for merging segments.
++ * @q:		the request queue for the device
++ * @dev:	the device pointer for dma
++ *
++ * Tell the block layer about the iommu merging of @q.
++ */
++bool blk_queue_can_use_iommu_merging(struct request_queue *q,
++				     struct device *dev)
++{
++	struct iommu_domain *domain;
++
++	/*
++	 * If the device DMA is translated by an IOMMU, we can assume
++	 * the device can merge the segments.
++	 */
++	if (!device_iommu_mapped(dev))
++		return false;
++
++	domain = iommu_get_domain_for_dev(dev);
++	/* No need to update max_segment_size. see blk_queue_virt_boundary() */
++	blk_queue_virt_boundary(q, iommu_get_minimum_page_size(domain) - 1);
++
++	return true;
++}
++
+ static int __init blk_settings_init(void)
+ {
+ 	blk_max_low_pfn = max_low_pfn - 1;
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 592669b..4d1f7dc 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1091,6 +1091,8 @@ extern void blk_queue_dma_alignment(struct request_queue *, int);
+ extern void blk_queue_update_dma_alignment(struct request_queue *, int);
+ extern void blk_queue_rq_timeout(struct request_queue *, unsigned int);
+ extern void blk_queue_write_cache(struct request_queue *q, bool enabled, bool fua);
++extern bool blk_queue_can_use_iommu_merging(struct request_queue *q,
++					    struct device *dev);
+ 
+ /*
+  * Number of physical segments as sent to the device.
 -- 
 2.7.4
 
