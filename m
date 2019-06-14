@@ -2,48 +2,64 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6017445508
-	for <lists.iommu@lfdr.de>; Fri, 14 Jun 2019 08:52:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3B94557D
+	for <lists.iommu@lfdr.de>; Fri, 14 Jun 2019 09:13:16 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id F0B7BEF6;
-	Fri, 14 Jun 2019 06:52:33 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8AF80EFD;
+	Fri, 14 Jun 2019 07:13:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 4C7F6CE5
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 01F37EF7
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 14 Jun 2019 06:52:32 +0000 (UTC)
+	Fri, 14 Jun 2019 07:12:57 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from newverein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D3E26174
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id AB8F7E5
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 14 Jun 2019 06:52:31 +0000 (UTC)
-Received: by newverein.lst.de (Postfix, from userid 2407)
-	id 14D0B68B05; Fri, 14 Jun 2019 08:52:03 +0200 (CEST)
-Date: Fri, 14 Jun 2019 08:52:02 +0200
-From: "hch@lst.de" <hch@lst.de>
-To: "Tan, Ley Foon" <ley.foon.tan@intel.com>
-Subject: Re: switch nios2 and microblaze to use the generic uncached
-	segement support
-Message-ID: <20190614065202.GA8084@lst.de>
-References: <20190603065324.9724-1-hch@lst.de>
-	<1560476434.21652.1.camel@intel.com> <20190614054418.GA6722@lst.de>
-	<1560492659.21652.3.camel@intel.com>
+	Fri, 14 Jun 2019 07:12:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20170209;
+	h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=iTqU4HCutRR3uOJUYQ45ZU7506Sl5CfUv5xpSiuoAIU=;
+	b=s1QW40cdUPPbUO6WyXX5MasT2
+	zpUzI0yFs1dQWyfV9pw8s8UglBzqG+hjlADCXiVES4YrjrDEhXQvqU3LokO6gSsZwbjRHmb+6ZyE1
+	FuDxJYef6OyM+Hxt2LP7pNdGVoMXpMHIdsuXRR2OX42DSoYiurBP9/ocQAMN4Eta7uIzpXrzg9fmp
+	Y6r0Be3/EI5gOKvt4DARL3XPteJl0Va8ohPC+ryF0kMr7AlVaHJTI5rRsCiDRjvakeLyezkJsw8fG
+	3bMGg1n2z31C8vbZYnB2aHllCUjOCFyLrkeM3GqhFS7vfUhCcWJNuI/OTr0WLGQyWdFBmmlWt2b+L
+	5rQEFqwrg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat
+	Linux)) id 1hbgOE-0000yO-1z; Fri, 14 Jun 2019 07:12:46 +0000
+Date: Fri, 14 Jun 2019 00:12:46 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Yangtao Li <tiny.windzz@gmail.com>
+Subject: Re: [PATCH 01/10] iommu/exynos: convert to SPDX license tags
+Message-ID: <20190614071245.GA2950@infradead.org>
+References: <20190613162703.986-1-tiny.windzz@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1560492659.21652.3.camel@intel.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
+In-Reply-To: <20190613162703.986-1-tiny.windzz@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "monstr@monstr.eu" <monstr@monstr.eu>,
-	"lftan.linux@gmail.com" <lftan.linux@gmail.com>,
-	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	"hch@lst.de" <hch@lst.de>
+Cc: linux-samsung-soc@vger.kernel.org, heiko@sntech.de,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, will.deacon@arm.com,
+	agross@kernel.org, krzk@kernel.org, jonathanh@nvidia.com,
+	david.brown@linaro.org, kgene@kernel.org,
+	thierry.reding@gmail.com, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+	robin.murphy@arm.com, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +72,14 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Fri, Jun 14, 2019 at 06:11:00AM +0000, Tan, Ley Foon wrote:
-> On Fri, 2019-06-14 at 07:44 +0200, Christoph Hellwig wrote:
-> > On Fri, Jun 14, 2019 at 09:40:34AM +0800, Ley Foon Tan wrote:
-> > > =
-
-> > > Hi=A0Christoph
-> > > =
-
-> > > Can this patch in=A0http://git.infradead.org/users/hch/dma-mapping.gi
-> > > t/sh
-> > > ortlog/refs/heads/for-next
-> > > =
-
-> > > [PATCH 1/2] nios2: use the generic uncached segment support in dma-
-> > > direct
-> > Hi Ley Foon,
-> > =
-
-> > I don't understand the above sentence.=A0=A0Does it imply a Reviewed-by?
-> Sorry, typo in my previous email.=A0
-> Can't find this patch in the git link you provided (for-next branch).
-> Did you push the patch?
-
-No, I did not push the microblaze and nios2 patches there.  The for-next
-patch just has the baseline, you'll need to apply the nios2 on top of
-that branch to test it.  If it tests good and you are fine with it I'd
-like to apply it to that branch.
+Thomas Gleixner is doing automated SPDX conversion that directly
+got to Linux at the moment.  I'd avoid doing more manual ones for
+now as it will just create conflicts.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
