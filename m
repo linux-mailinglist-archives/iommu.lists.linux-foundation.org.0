@@ -2,33 +2,34 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F59045439
-	for <lists.iommu@lfdr.de>; Fri, 14 Jun 2019 07:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA1245434
+	for <lists.iommu@lfdr.de>; Fri, 14 Jun 2019 07:46:24 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id F3396DD4;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id BED5DDD0;
 	Fri, 14 Jun 2019 05:46:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 358B2CC9
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 833F3B7A
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 14 Jun 2019 05:46:11 +0000 (UTC)
+	Fri, 14 Jun 2019 05:46:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E8C6376D
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E0DF7E5
 	for <iommu@lists.linux-foundation.org>;
 	Fri, 14 Jun 2019 05:46:09 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-	by mx1.suse.de (Postfix) with ESMTP id 038FEAEB8;
+	by mx1.suse.de (Postfix) with ESMTP id 0084DADF1;
 	Fri, 14 Jun 2019 05:46:07 +0000 (UTC)
 From: Juergen Gross <jgross@suse.com>
 To: xen-devel@lists.xenproject.org, iommu@lists.linux-foundation.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/3] xen/swiotlb: simplify range_straddles_page_boundary()
-Date: Fri, 14 Jun 2019 07:46:03 +0200
-Message-Id: <20190614054604.30101-3-jgross@suse.com>
+Subject: [PATCH v3 3/3] xen/swiotlb: remember having called
+	xen_create_contiguous_region()
+Date: Fri, 14 Jun 2019 07:46:04 +0200
+Message-Id: <20190614054604.30101-4-jgross@suse.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20190614054604.30101-1-jgross@suse.com>
 References: <20190614054604.30101-1-jgross@suse.com>
@@ -58,62 +59,70 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-range_straddles_page_boundary() is open coding several macros from
-include/xen/page.h. Use those instead. Additionally there is no need
-to have check_pages_physically_contiguous() as a separate function as
-it is used only once, so merge it into range_straddles_page_boundary().
+Instead of always calling xen_destroy_contiguous_region() in case the
+memory is DMA-able for the used device, do so only in case it has been
+made DMA-able via xen_create_contiguous_region() before.
+
+This will avoid a lot of xen_destroy_contiguous_region() calls for
+64-bit capable devices.
+
+As the memory in question is owned by swiotlb-xen the PG_owner_priv_1
+flag of the first allocated page can be used for remembering.
 
 Signed-off-by: Juergen Gross <jgross@suse.com>
-Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
 ---
- drivers/xen/swiotlb-xen.c | 28 ++++++----------------------
- 1 file changed, 6 insertions(+), 22 deletions(-)
+V2: add PG_xen_remapped alias for PG_owner_priv_1 (Boris Ostrovsky)
+    only clear page flag in case of sane conditions (Jan Beulich)
+V3: use TestClearPageXenRemapped() (Jan Beulich)
+---
+ drivers/xen/swiotlb-xen.c  | 4 +++-
+ include/linux/page-flags.h | 4 ++++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
-index 50fd7de54969..37ddcfcfbb21 100644
+index 37ddcfcfbb21..ceb681cf64bb 100644
 --- a/drivers/xen/swiotlb-xen.c
 +++ b/drivers/xen/swiotlb-xen.c
-@@ -83,34 +83,18 @@ static inline dma_addr_t xen_virt_to_bus(void *address)
- 	return xen_phys_to_bus(virt_to_phys(address));
- }
+@@ -322,6 +322,7 @@ xen_swiotlb_alloc_coherent(struct device *hwdev, size_t size,
+ 			xen_free_coherent_pages(hwdev, size, ret, (dma_addr_t)phys, attrs);
+ 			return NULL;
+ 		}
++		SetPageXenRemapped(virt_to_page(ret));
+ 	}
+ 	memset(ret, 0, size);
+ 	return ret;
+@@ -346,7 +347,8 @@ xen_swiotlb_free_coherent(struct device *hwdev, size_t size, void *vaddr,
+ 	size = 1UL << (order + XEN_PAGE_SHIFT);
  
--static int check_pages_physically_contiguous(unsigned long xen_pfn,
--					     unsigned int offset,
--					     size_t length)
-+static inline int range_straddles_page_boundary(phys_addr_t p, size_t size)
- {
--	unsigned long next_bfn;
--	int i;
--	int nr_pages;
-+	unsigned long next_bfn, xen_pfn = XEN_PFN_DOWN(p);
-+	unsigned int i, nr_pages = XEN_PFN_UP(xen_offset_in_page(p) + size);
+ 	if (!WARN_ON((dev_addr + size - 1 > dma_mask) ||
+-		     range_straddles_page_boundary(phys, size)))
++		     range_straddles_page_boundary(phys, size)) &&
++	    TestClearPageXenRemapped(virt_to_page(vaddr)))
+ 		xen_destroy_contiguous_region(phys, order);
  
- 	next_bfn = pfn_to_bfn(xen_pfn);
--	nr_pages = (offset + length + XEN_PAGE_SIZE-1) >> XEN_PAGE_SHIFT;
+ 	xen_free_coherent_pages(hwdev, size, vaddr, (dma_addr_t)phys, attrs);
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 9f8712a4b1a5..fc503a47e7db 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -152,6 +152,8 @@ enum pageflags {
+ 	PG_savepinned = PG_dirty,
+ 	/* Has a grant mapping of another (foreign) domain's page. */
+ 	PG_foreign = PG_owner_priv_1,
++	/* Remapped by swiotlb-xen. */
++	PG_xen_remapped = PG_owner_priv_1,
  
--	for (i = 1; i < nr_pages; i++) {
-+	for (i = 1; i < nr_pages; i++)
- 		if (pfn_to_bfn(++xen_pfn) != ++next_bfn)
--			return 0;
--	}
--	return 1;
--}
-+			return 1;
+ 	/* SLOB */
+ 	PG_slob_free = PG_private,
+@@ -329,6 +331,8 @@ PAGEFLAG(Pinned, pinned, PF_NO_COMPOUND)
+ 	TESTSCFLAG(Pinned, pinned, PF_NO_COMPOUND)
+ PAGEFLAG(SavePinned, savepinned, PF_NO_COMPOUND);
+ PAGEFLAG(Foreign, foreign, PF_NO_COMPOUND);
++PAGEFLAG(XenRemapped, xen_remapped, PF_NO_COMPOUND)
++	TESTCLEARFLAG(XenRemapped, xen_remapped, PF_NO_COMPOUND)
  
--static inline int range_straddles_page_boundary(phys_addr_t p, size_t size)
--{
--	unsigned long xen_pfn = XEN_PFN_DOWN(p);
--	unsigned int offset = p & ~XEN_PAGE_MASK;
--
--	if (offset + size <= XEN_PAGE_SIZE)
--		return 0;
--	if (check_pages_physically_contiguous(xen_pfn, offset, size))
--		return 0;
--	return 1;
-+	return 0;
- }
- 
- static int is_xen_swiotlb_buffer(dma_addr_t dma_addr)
+ PAGEFLAG(Reserved, reserved, PF_NO_COMPOUND)
+ 	__CLEARPAGEFLAG(Reserved, reserved, PF_NO_COMPOUND)
 -- 
 2.16.4
 
