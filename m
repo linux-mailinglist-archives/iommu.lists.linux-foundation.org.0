@@ -2,35 +2,35 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B11247679
-	for <lists.iommu@lfdr.de>; Sun, 16 Jun 2019 20:42:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88AE447693
+	for <lists.iommu@lfdr.de>; Sun, 16 Jun 2019 21:22:06 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 44254ACD;
-	Sun, 16 Jun 2019 18:42:44 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 96632AB5;
+	Sun, 16 Jun 2019 19:22:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id DE5B9265
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 8CFF5AB5
 	for <iommu@lists.linux-foundation.org>;
-	Sun, 16 Jun 2019 18:42:42 +0000 (UTC)
+	Sun, 16 Jun 2019 19:22:02 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from Galois.linutronix.de (Galois.linutronix.de [146.0.238.70])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0D345E5
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4C870E5
 	for <iommu@lists.linux-foundation.org>;
-	Sun, 16 Jun 2019 18:42:41 +0000 (UTC)
+	Sun, 16 Jun 2019 19:22:01 +0000 (UTC)
 Received: from p5b06daab.dip0.t-ipconnect.de ([91.6.218.171] helo=nanos)
 	by Galois.linutronix.de with esmtpsa
 	(TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256) (Exim 4.80)
 	(envelope-from <tglx@linutronix.de>)
-	id 1hca6i-0002sP-VE; Sun, 16 Jun 2019 20:42:25 +0200
-Date: Sun, 16 Jun 2019 20:42:23 +0200 (CEST)
+	id 1hcaip-0004SH-H1; Sun, 16 Jun 2019 21:21:47 +0200
+Date: Sun, 16 Jun 2019 21:21:46 +0200 (CEST)
 From: Thomas Gleixner <tglx@linutronix.de>
 To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 Subject: Re: [RFC PATCH v4 20/21] iommu/vt-d: hpet: Reserve an interrupt
 	remampping table entry for watchdog
 In-Reply-To: <1558660583-28561-21-git-send-email-ricardo.neri-calderon@linux.intel.com>
-Message-ID: <alpine.DEB.2.21.1906162039260.1760@nanos.tec.linutronix.de>
+Message-ID: <alpine.DEB.2.21.1906162049300.1760@nanos.tec.linutronix.de>
 References: <1558660583-28561-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
 	<1558660583-28561-21-git-send-email-ricardo.neri-calderon@linux.intel.com>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
@@ -76,26 +76,6 @@ Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
 On Thu, 23 May 2019, Ricardo Neri wrote:
-
-> When interrupt remapping is enabled, MSI interrupt messages must follow a
-> special format that the IOMMU can understand. Hence, when the HPET hard
-> lockup detector is used with interrupt remapping, it must also follow this
-> special format.
-> 
-> The IOMMU, given the information about a particular interrupt, already
-> knows how to populate the MSI message with this special format and the
-> corresponding entry in the interrupt remapping table. Given that this is a
-> special interrupt case, we want to avoid the interrupt subsystem. Add two
-> functions to create an entry for the HPET hard lockup detector. Perform
-> this process in two steps as described below.
-> 
-> When initializing the lockup detector, the function
-> hld_hpet_intremap_alloc_irq() permanently allocates a new entry in the
-> interrupt remapping table and populates it with the information the
-> IOMMU driver needs. In order to populate the table, the IOMMU needs to
-> know the HPET block ID as described in the ACPI table. Hence, add such
-> ID to the data of the hardlockup detector.
-> 
 > When the hardlockup detector is enabled, the function
 > hld_hpet_intremapactivate_irq() activates the recently created entry
 > in the interrupt remapping table via the modify_irte() functions. While
@@ -104,14 +84,32 @@ On Thu, 23 May 2019, Ricardo Neri wrote:
 > interrupt needs to be updated; there is no need to allocate or remove
 > entries in the interrupt remapping table.
 
-And except for a few details all of this functionality exists today. There
-is no need to hack HPET NMI specific knowledge into the irq remapping
-driver. And of course to unbreak AMD you'd have to copy the same hackery
-into the AMD interrupt remapping code.
+Brilliant.
 
-More lines of duplicated duct tape code are better to maintain, right?
+> +int hld_hpet_intremap_activate_irq(struct hpet_hld_data *hdata)
+> +{
+> +	u32 destid = apic->calc_dest_apicid(hdata->handling_cpu);
+> +	struct intel_ir_data *data;
+> +
+> +	data = (struct intel_ir_data *)hdata->intremap_data;
+> +	data->irte_entry.dest_id = IRTE_DEST(destid);
+> +	return modify_irte(&data->irq_2_iommu, &data->irte_entry);
 
-Sigh.
+This calls modify_irte() which does at the very beginning:
+
+   raw_spin_lock_irqsave(&irq_2_ir_lock, flags);
+
+How is that supposed to work from NMI context? Not to talk about the
+other spinlocks which are taken in the subsequent call chain.
+
+You cannot call in any of that code from NMI context.
+
+The only reason why this never deadlocked in your testing is that nothing
+else touched that particular iommu where the HPET hangs off concurrently.
+
+But that's just pure luck and not design. 
+
+Thanks,
 
 	tglx
 _______________________________________________
