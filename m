@@ -2,79 +2,52 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D3C48468
-	for <lists.iommu@lfdr.de>; Mon, 17 Jun 2019 15:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3199F4848B
+	for <lists.iommu@lfdr.de>; Mon, 17 Jun 2019 15:53:26 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 8FAF3D48;
-	Mon, 17 Jun 2019 13:47:45 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 7EB73D80;
+	Mon, 17 Jun 2019 13:53:24 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 844D3ACC
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 7C67CACC
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 17 Jun 2019 13:39:17 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
-	[209.85.214.174])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 457C07E9
+	Mon, 17 Jun 2019 13:53:22 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 30545828
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 17 Jun 2019 13:39:17 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id c14so4127540plo.0
-	for <iommu@lists.linux-foundation.org>;
-	Mon, 17 Jun 2019 06:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:subject:to:cc:references:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=fgHUs9kjH3FZpHlrbFs05iqP48Eq3TNSHKTRIJZ7Has=;
-	b=g2ulbqfpyQKBQfPRgzwRDDicgkFjWeJHrFCNwqD0gtlhthmI8XuZ0LWywtLBFl2dvt
-	HEvGFpC2CFd0tFxU4G8vsNEIIjRaI1DJk+d7nXm7GfxStmjfCqDynQl0nNwJADBKsi9o
-	Ol6GVy9rIS5ycHPLV4vvq1sGeFyhFvF2iXLJmHF9YR8NV3prUSSLrkXw9j1rKI3yUvBY
-	uVi+vL6Cf+09n9fHO5Wp+bQi8p0jvkmX5wy9MdqBF3917KJbAQ0RQglGjnrnpzTgWDoT
-	1GoKq9GKyROXeg+kbth/yqhFjbRGbWFka32ffWjHJbsNRjaLxAd5Lxfz+2mbFocyviGn
-	IpQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=fgHUs9kjH3FZpHlrbFs05iqP48Eq3TNSHKTRIJZ7Has=;
-	b=Wv+eitjcJ9gfNC1/e5uOwRty6n4t4OX6p3opQprSZW1Ix7Ci824bCjjHum1DQD46WK
-	ejSL/MEffHI4dge6sYgtjaTD7RkRU/m/0yfh7rPuPuMXleDBjK3hnnbXyMPNnI7+zzQU
-	Dx+3NnYv3eBCTO4ks+QFokjBt6u8dexe/WzQ8SLm656Wf4MVAa/Fv+n0ObRceWy1TseG
-	/ff7huaoWF1P/YTHrZnuAMejMvNTawmE0xoDSjUV63n/Lx+hySG54p+NHdDyxMy2KB2D
-	x7z3zO4KAwn2zux+p1qHLSSjutf2g2pW4sIgiKQ/J1HWJzxWmMxRJOyLg9nlT8lmftCp
-	EPaA==
-X-Gm-Message-State: APjAAAXDazK2tiDlr/OE7M2UMHDktzb8uBHfFTsNqyNPDut/D4OHGAE9
-	TITyxVeoKGZ/fDbrPyzjIbs=
-X-Google-Smtp-Source: APXvYqw0Qt/GtN5XRxtiYmkNSh7xBuXb4u0JWUto8tta7KkHxAdkPbw3aOtlUGu/l2ip/WyO+vL7wg==
-X-Received: by 2002:a17:902:7618:: with SMTP id
-	k24mr44797137pll.208.1560778756883; 
-	Mon, 17 Jun 2019 06:39:16 -0700 (PDT)
-Received: from [10.44.0.192] ([103.48.210.53])
-	by smtp.gmail.com with ESMTPSA id
-	j13sm10895919pgh.44.2019.06.17.06.39.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 17 Jun 2019 06:39:16 -0700 (PDT)
-From: Greg Ungerer <gregungerer00@gmail.com>
-X-Google-Original-From: Greg Ungerer <gerg@linux-m68k.org>
-Subject: Re: [RFC] switch m68k to use the generic remapping DMA allocator
-To: Christoph Hellwig <hch@lst.de>, Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20190614102126.8402-1-hch@lst.de>
-Message-ID: <ad248f50-bbf6-42a6-612c-85b288575dfb@linux-m68k.org>
-Date: Mon, 17 Jun 2019 23:39:11 +1000
+	Mon, 17 Jun 2019 13:53:22 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 3AADE821EF;
+	Mon, 17 Jun 2019 13:53:08 +0000 (UTC)
+Received: from [10.36.117.84] (ovpn-117-84.ams2.redhat.com [10.36.117.84])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C2C1C7E5CC;
+	Mon, 17 Jun 2019 13:53:06 +0000 (UTC)
+Subject: Re: [PATCH] iommu/intel: remove an unused variable "length"
+To: Qian Cai <cai@lca.pw>, jroedel@suse.de
+References: <20190617132027.1960-1-cai@lca.pw>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <ee4d4983-4297-a027-1844-a7648a0512ca@redhat.com>
+Date: Mon, 17 Jun 2019 15:53:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <20190614102126.8402-1-hch@lst.de>
+In-Reply-To: <20190617132027.1960-1-cai@lca.pw>
 Content-Language: en-US
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.28]);
+	Mon, 17 Jun 2019 13:53:17 +0000 (UTC)
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Mailman-Approved-At: Mon, 17 Jun 2019 13:47:44 +0000
-Cc: linux-m68k@lists.linux-m68k.org, iommu@lists.linux-foundation.org,
+Cc: iommu@lists.linux-foundation.org, dwmw2@infradead.org,
 	linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
@@ -88,26 +61,58 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Christoph,
+Hi Qian,
 
-On 14/6/19 8:21 pm, Christoph Hellwig wrote:
-> Hi Geert and Greg,
+On 6/17/19 3:20 PM, Qian Cai wrote:
+> The linux-next commit "iommu/vt-d: Duplicate iommu_resv_region objects
+> per device list" [1] left out an unused variable,
 > 
-> can you take a look at the (untested) patches below?  They convert m68k
-> to use the generic remapping DMA allocator, which is also used by
-> arm64 and csky.
+> drivers/iommu/intel-iommu.c: In function 'dmar_parse_one_rmrr':
+> drivers/iommu/intel-iommu.c:4014:9: warning: variable 'length' set but
+> not used [-Wunused-but-set-variable]
+> 
+> [1] https://lore.kernel.org/patchwork/patch/1083073/
+> 
+> Signed-off-by: Qian Cai <cai@lca.pw>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-No impact to ColdFire targets, so I'll have to defer to Geert
-for his thoughts on the legacy m68k impact.
+Thank you for fixing this oversight
 
-Regards
-Greg
+Best Regards
 
+Eric
+
+> ---
+>  drivers/iommu/intel-iommu.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+> index 478ac186570b..d86d4ee5cc78 100644
+> --- a/drivers/iommu/intel-iommu.c
+> +++ b/drivers/iommu/intel-iommu.c
+> @@ -4011,7 +4011,6 @@ int __init dmar_parse_one_rmrr(struct acpi_dmar_header *header, void *arg)
+>  {
+>  	struct acpi_dmar_reserved_memory *rmrr;
+>  	struct dmar_rmrr_unit *rmrru;
+> -	size_t length;
+>  
+>  	rmrru = kzalloc(sizeof(*rmrru), GFP_KERNEL);
+>  	if (!rmrru)
+> @@ -4022,8 +4021,6 @@ int __init dmar_parse_one_rmrr(struct acpi_dmar_header *header, void *arg)
+>  	rmrru->base_address = rmrr->base_address;
+>  	rmrru->end_address = rmrr->end_address;
+>  
+> -	length = rmrr->end_address - rmrr->base_address + 1;
+> -
+>  	rmrru->devices = dmar_alloc_dev_scope((void *)(rmrr + 1),
+>  				((void *)rmrr) + rmrr->header.length,
+>  				&rmrru->devices_cnt);
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
