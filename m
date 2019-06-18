@@ -2,49 +2,45 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB804A979
-	for <lists.iommu@lfdr.de>; Tue, 18 Jun 2019 20:08:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B47AA4AD34
+	for <lists.iommu@lfdr.de>; Tue, 18 Jun 2019 23:19:08 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1DE59E97;
-	Tue, 18 Jun 2019 18:08:57 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id CA3ABB3E;
+	Tue, 18 Jun 2019 21:19:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 99AA4E60
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 461FD3EE
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 18 Jun 2019 18:08:55 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 0FC70E6
+	Tue, 18 Jun 2019 21:19:05 +0000 (UTC)
+X-Greylist: delayed 00:16:28 by SQLgrey-1.7.6
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5A51482F
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 18 Jun 2019 18:08:54 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 91FB9344;
-	Tue, 18 Jun 2019 11:08:54 -0700 (PDT)
-Received: from fuggles.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
-	[10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2194F3F738;
-	Tue, 18 Jun 2019 11:08:53 -0700 (PDT)
-Date: Tue, 18 Jun 2019 19:08:51 +0100
-From: Will Deacon <will.deacon@arm.com>
-To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
-Subject: Re: [PATCH 3/8] iommu/arm-smmu-v3: Support platform SSID
-Message-ID: <20190618180851.GK4270@fuggles.cambridge.arm.com>
-References: <20190610184714.6786-1-jean-philippe.brucker@arm.com>
-	<20190610184714.6786-4-jean-philippe.brucker@arm.com>
+	Tue, 18 Jun 2019 21:19:04 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+	x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+	by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+	16945877-1500050 for multiple; Tue, 18 Jun 2019 22:02:17 +0100
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190610184714.6786-4-jean-philippe.brucker@arm.com>
-User-Agent: Mutt/1.11.1+86 (6f28e57d73f2) ()
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+To: Lu Baolu <baolu.lu@linux.intel.com>, dwmw2@infradead.org, joro@8bytes.org
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <20190521073016.27525-1-baolu.lu@linux.intel.com>
+References: <20190521073016.27525-1-baolu.lu@linux.intel.com>
+Message-ID: <156089173816.31375.3686352361646791464@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [PATCH 1/2] iommu/vt-d: Fix lock inversion between iommu->lock and
+	device_domain_lock
+Date: Tue, 18 Jun 2019 22:02:18 +0100
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	robh+dt@kernel.org, robin.murphy@arm.com,
-	linux-arm-kernel@lists.infradead.org
+Cc: Kevin Tian <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+	ashok.raj@intel.com, linux-kernel@vger.kernel.org,
+	iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,72 +58,107 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Mon, Jun 10, 2019 at 07:47:09PM +0100, Jean-Philippe Brucker wrote:
-> For platform devices that support SubstreamID (SSID), firmware provides
-> the number of supported SSID bits. Restrict it to what the SMMU supports
-> and cache it into master->ssid_bits.
+Quoting Lu Baolu (2019-05-21 08:30:15)
+> From: Dave Jiang <dave.jiang@intel.com>
 > 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
-> ---
->  drivers/iommu/arm-smmu-v3.c | 11 +++++++++++
->  drivers/iommu/of_iommu.c    |  6 +++++-
->  include/linux/iommu.h       |  1 +
->  3 files changed, 17 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-> index 4d5a694f02c2..3254f473e681 100644
-> --- a/drivers/iommu/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm-smmu-v3.c
-> @@ -604,6 +604,7 @@ struct arm_smmu_master {
->  	struct list_head		domain_head;
->  	u32				*sids;
->  	unsigned int			num_sids;
-> +	unsigned int			ssid_bits;
->  	bool				ats_enabled		:1;
->  };
->  
-> @@ -2097,6 +2098,16 @@ static int arm_smmu_add_device(struct device *dev)
->  		}
->  	}
->  
-> +	master->ssid_bits = min(smmu->ssid_bits, fwspec->num_pasid_bits);
-> +
-> +	/*
-> +	 * If the SMMU doesn't support 2-stage CD, limit the linear
-> +	 * tables to a reasonable number of contexts, let's say
-> +	 * 64kB / sizeof(ctx_desc) = 1024 = 2^10
-> +	 */
-> +	if (!(smmu->features & ARM_SMMU_FEAT_2_LVL_CDTAB))
-> +		master->ssid_bits = min(master->ssid_bits, 10U);
+> Lockdep debug reported lock inversion related with the iommu code
+> caused by dmar_insert_one_dev_info() grabbing the iommu->lock and
+> the device_domain_lock out of order versus the code path in
+> iommu_flush_dev_iotlb(). Expanding the scope of the iommu->lock and
+> reversing the order of lock acquisition fixes the issue.
 
-Please introduce a #define for the 10, so that it is computed in the way
-you describe in the comment (a bit like we do for things like queue sizes).
+Which of course violates the property that device_domain_lock is the
+outer lock...
 
-> +
->  	group = iommu_group_get_for_dev(dev);
->  	if (!IS_ERR(group)) {
->  		iommu_group_put(group);
-> diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
-> index f04a6df65eb8..04f4f6b95d82 100644
-> --- a/drivers/iommu/of_iommu.c
-> +++ b/drivers/iommu/of_iommu.c
-> @@ -206,8 +206,12 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
->  			if (err)
->  				break;
->  		}
-> -	}
->  
-> +		fwspec = dev_iommu_fwspec_get(dev);
-> +		if (!err && fwspec)
-> +			of_property_read_u32(master_np, "pasid-num-bits",
-> +					     &fwspec->num_pasid_bits);
-> +	}
+<4>[    1.252997] ======================================================
+<4>[    1.252999] WARNING: possible circular locking dependency detected
+<4>[    1.253002] 5.2.0-rc5-CI-CI_DRM_6299+ #1 Not tainted
+<4>[    1.253004] ------------------------------------------------------
+<4>[    1.253006] swapper/0/1 is trying to acquire lock:
+<4>[    1.253009] 0000000091462475 (&(&iommu->lock)->rlock){+.+.}, at: domain_context_mapping_one+0xa0/0x4f0
+<4>[    1.253015]
+                  but task is already holding lock:
+<4>[    1.253017] 0000000069266737 (device_domain_lock){....}, at: domain_context_mapping_one+0x88/0x4f0
+<4>[    1.253021]
+                  which lock already depends on the new lock.
 
-Hmm. Do you know if there's anything in ACPI for this?
+<4>[    1.253024]
+                  the existing dependency chain (in reverse order) is:
+<4>[    1.253027]
+                  -> #1 (device_domain_lock){....}:
+<4>[    1.253031]        _raw_spin_lock_irqsave+0x33/0x50
+<4>[    1.253034]        dmar_insert_one_dev_info+0xb8/0x520
+<4>[    1.253036]        set_domain_for_dev+0x66/0xf0
+<4>[    1.253039]        iommu_prepare_identity_map+0x48/0x95
+<4>[    1.253042]        intel_iommu_init+0xfd8/0x138d
+<4>[    1.253045]        pci_iommu_init+0x11/0x3a
+<4>[    1.253048]        do_one_initcall+0x58/0x300
+<4>[    1.253051]        kernel_init_freeable+0x2c0/0x359
+<4>[    1.253054]        kernel_init+0x5/0x100
+<4>[    1.253056]        ret_from_fork+0x3a/0x50
+<4>[    1.253058]
+                  -> #0 (&(&iommu->lock)->rlock){+.+.}:
+<4>[    1.253062]        lock_acquire+0xa6/0x1c0
+<4>[    1.253064]        _raw_spin_lock+0x2a/0x40
+<4>[    1.253067]        domain_context_mapping_one+0xa0/0x4f0
+<4>[    1.253070]        pci_for_each_dma_alias+0x2b/0x160
+<4>[    1.253072]        dmar_insert_one_dev_info+0x44e/0x520
+<4>[    1.253075]        set_domain_for_dev+0x66/0xf0
+<4>[    1.253077]        iommu_prepare_identity_map+0x48/0x95
+<4>[    1.253080]        intel_iommu_init+0xfd8/0x138d
+<4>[    1.253082]        pci_iommu_init+0x11/0x3a
+<4>[    1.253084]        do_one_initcall+0x58/0x300
+<4>[    1.253086]        kernel_init_freeable+0x2c0/0x359
+<4>[    1.253089]        kernel_init+0x5/0x100
+<4>[    1.253091]        ret_from_fork+0x3a/0x50
+<4>[    1.253093]
+                  other info that might help us debug this:
 
-Otherwise, patch looks fine. Thanks.
+<4>[    1.253095]  Possible unsafe locking scenario:
 
-Will
+<4>[    1.253095]        CPU0                    CPU1
+<4>[    1.253095]        ----                    ----
+<4>[    1.253095]   lock(device_domain_lock);
+<4>[    1.253095]                                lock(&(&iommu->lock)->rlock);
+<4>[    1.253095]                                lock(device_domain_lock);
+<4>[    1.253095]   lock(&(&iommu->lock)->rlock);
+<4>[    1.253095]
+                   *** DEADLOCK ***
+
+<4>[    1.253095] 2 locks held by swapper/0/1:
+<4>[    1.253095]  #0: 0000000076465a1e (dmar_global_lock){++++}, at: intel_iommu_init+0x1d3/0x138d
+<4>[    1.253095]  #1: 0000000069266737 (device_domain_lock){....}, at: domain_context_mapping_one+0x88/0x4f0
+<4>[    1.253095]
+                  stack backtrace:
+<4>[    1.253095] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.2.0-rc5-CI-CI_DRM_6299+ #1
+<4>[    1.253095] Hardware name:  /NUC5i7RYB, BIOS RYBDWi35.86A.0362.2017.0118.0940 01/18/2017
+<4>[    1.253095] Call Trace:
+<4>[    1.253095]  dump_stack+0x67/0x9b
+<4>[    1.253095]  print_circular_bug+0x1c8/0x2b0
+<4>[    1.253095]  __lock_acquire+0x1ce9/0x24c0
+<4>[    1.253095]  ? lock_acquire+0xa6/0x1c0
+<4>[    1.253095]  lock_acquire+0xa6/0x1c0
+<4>[    1.253095]  ? domain_context_mapping_one+0xa0/0x4f0
+<4>[    1.253095]  _raw_spin_lock+0x2a/0x40
+<4>[    1.253095]  ? domain_context_mapping_one+0xa0/0x4f0
+<4>[    1.253095]  domain_context_mapping_one+0xa0/0x4f0
+<4>[    1.253095]  ? domain_context_mapping_one+0x4f0/0x4f0
+<4>[    1.253095]  pci_for_each_dma_alias+0x2b/0x160
+<4>[    1.253095]  dmar_insert_one_dev_info+0x44e/0x520
+<4>[    1.253095]  set_domain_for_dev+0x66/0xf0
+<4>[    1.253095]  iommu_prepare_identity_map+0x48/0x95
+<4>[    1.253095]  intel_iommu_init+0xfd8/0x138d
+<4>[    1.253095]  ? set_debug_rodata+0xc/0xc
+<4>[    1.253095]  ? set_debug_rodata+0xc/0xc
+<4>[    1.253095]  ? e820__memblock_setup+0x5b/0x5b
+<4>[    1.253095]  ? pci_iommu_init+0x11/0x3a
+<4>[    1.253095]  ? set_debug_rodata+0xc/0xc
+<4>[    1.253095]  pci_iommu_init+0x11/0x3a
+<4>[    1.253095]  do_one_initcall+0x58/0x300
+<4>[    1.253095]  kernel_init_freeable+0x2c0/0x359
+<4>[    1.253095]  ? rest_init+0x250/0x250
+<4>[    1.253095]  kernel_init+0x5/0x100
+<4>[    1.253095]  ret_from_fork+0x3a/0x50
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
