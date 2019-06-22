@@ -2,48 +2,47 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3F54F335
-	for <lists.iommu@lfdr.de>; Sat, 22 Jun 2019 04:42:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DDF94F33D
+	for <lists.iommu@lfdr.de>; Sat, 22 Jun 2019 04:43:02 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 0BFAB1427;
-	Sat, 22 Jun 2019 02:42:32 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 9968E142E;
+	Sat, 22 Jun 2019 02:42:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 2857113D6
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0D5B413F6
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 22 Jun 2019 02:42:30 +0000 (UTC)
+	Sat, 22 Jun 2019 02:42:56 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 922E927B
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 0CE2D224
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 22 Jun 2019 02:42:28 +0000 (UTC)
-X-UUID: 46f3b0ab22ef47108b56fa41695c34ec-20190622
-X-UUID: 46f3b0ab22ef47108b56fa41695c34ec-20190622
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+	Sat, 22 Jun 2019 02:42:54 +0000 (UTC)
+X-UUID: d6cd0e2e4bbc4284bbdc8a37dd63a604-20190622
+X-UUID: d6cd0e2e4bbc4284bbdc8a37dd63a604-20190622
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
 	(envelope-from <yong.wu@mediatek.com>)
 	(mailgw01.mediatek.com ESMTP with TLS)
-	with ESMTP id 1842459820; Sat, 22 Jun 2019 10:42:21 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N1.mediatek.inc
-	(172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
-	Sat, 22 Jun 2019 10:42:20 +0800
+	with ESMTP id 1360281704; Sat, 22 Jun 2019 10:42:46 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31DR.mediatek.inc
+	(172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+	Sat, 22 Jun 2019 10:42:36 +0800
 Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
 	(172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
-	Transport; Sat, 22 Jun 2019 10:42:19 +0800
-Message-ID: <1561171339.4850.6.camel@mhfsdcap03>
-Subject: Re: [PATCH v7 19/21] iommu/mediatek: Rename enable_4GB to dram_is_4gb
+	Transport; Sat, 22 Jun 2019 10:42:35 +0800
+Message-ID: <1561171355.4850.7.camel@mhfsdcap03>
+Subject: Re: [PATCH v2 05/12] media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
 From: Yong Wu <yong.wu@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>
-Date: Sat, 22 Jun 2019 10:42:19 +0800
-In-Reply-To: <d932ded6-2e1c-f2d1-d3cf-8cb0cdbdbb0d@gmail.com>
-References: <1560169080-27134-1-git-send-email-yong.wu@mediatek.com>
-	<1560169080-27134-20-git-send-email-yong.wu@mediatek.com>
-	<9bf13c22-0c73-2950-2204-23d577976b03@gmail.com>
-	<1561039192.4021.23.camel@mhfsdcap03>
-	<d932ded6-2e1c-f2d1-d3cf-8cb0cdbdbb0d@gmail.com>
+Date: Sat, 22 Jun 2019 10:42:35 +0800
+In-Reply-To: <6539751d-1751-f309-1c51-b3f9576c1b99@gmail.com>
+References: <1560171313-28299-1-git-send-email-yong.wu@mediatek.com>
+	<1560171313-28299-6-git-send-email-yong.wu@mediatek.com>
+	<6539751d-1751-f309-1c51-b3f9576c1b99@gmail.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: 2A30C6EFC43BFC5A9239BAECC619A787D0115E0887011AB5A837AB732B8DB5C02000:8
 X-MTK: N
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,UNPARSEABLE_RELAY
 	autolearn=ham version=3.3.1
@@ -51,12 +50,13 @@ X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
 	Nicolas Boichat <drinkcat@chromium.org>,
+	Rick Chang <rick.chang@mediatek.com>,
 	srv_heupstream@mediatek.com, Will Deacon <will.deacon@arm.com>,
 	linux-kernel@vger.kernel.org, Evan Green <evgreen@chromium.org>, Tomasz
-	Figa <tfiga@google.com>, iommu@lists.linux-foundation.org, Rob
-	Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
-	yingjoe.chen@mediatek.com, anan.sun@mediatek.com,
-	Robin Murphy <robin.murphy@arm.com>, Matthias Kaehlcke <mka@chromium.org>,
+	Figa <tfiga@google.com>, iommu@lists.linux-foundation.org,
+	Rob Herring <robh+dt@kernel.org>,
+	linux-mediatek@lists.infradead.org, yingjoe.chen@mediatek.com,
+	anan.sun@mediatek.com, Robin Murphy <robin.murphy@arm.com>,
 	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
@@ -75,127 +75,109 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
+On Thu, 2019-06-20 at 17:20 +0200, Matthias Brugger wrote:
+> 
+> On 10/06/2019 14:55, Yong Wu wrote:
+> > MediaTek IOMMU has already added device_link between the consumer
+> > and smi-larb device. If the jpg device call the pm_runtime_get_sync,
+> > the smi-larb's pm_runtime_get_sync also be called automatically.
+> 
+> Please help me out find this relation. I seem to miss something basic, because I
+> can't find any between the jpeg IP and the iommu.
 
-On Fri, 2019-06-21 at 12:10 +0200, Matthias Brugger wrote:
-> 
-> On 20/06/2019 15:59, Yong Wu wrote:
-> > On Tue, 2019-06-18 at 18:06 +0200, Matthias Brugger wrote:
-> >>
-> >> On 10/06/2019 14:17, Yong Wu wrote:
-> >>> This patch only rename the variable name from enable_4GB to
-> >>> dram_is_4gb for readable.
-> >>
-> >> From my understanding this is true when available RAM > 4GB so I think the name
-> >> should be something like dram_bigger_4gb otherwise it may create confusion again.
-> > 
-> > Strictly, It is not "dram_bigger_4gb". actually if the dram size is over
-> > 3GB (the first 1GB is the register space), the "4GB mode" will be
-> > enabled. then how about the name "dram_enable_32bit"?(the PA 32bit will
-> > be enabled in the 4GB mode.)
-> 
-> Ok I think dram_is_4gb is ok then. But I'd suggest to add an explanation above
-> the struct mtk_iommu_data to explain exactly what this means.
-> 
-> >      
-> > There is another option, please see the last part in [1] suggested by
-> > Evan, something like below:
-> > ----
-> > data->enable_4GB = !!(max_pfn > (BIT_ULL(32) >> PAGE_SHIFT));
-> > if (!data->plat_data->has_4gb_mode)
-> >     data->enable_4GB = false;
-> > Then mtk_iommu_map would only have:
-> >     if (data->enable_4GB)
-> >          paddr |= BIT_ULL(32);
-> > ----
-> 
-> I think that's a nicer way to handle it.
+JPEG also is a multimedia consumer. It also access memory via IOMMU. All
+the current SoC have the JPG smi ports. 
 
-Thanks your feedback. then I will use this way.
+grep -r JPG include/dt-bindings/memory/mt*
 
 > 
 > Regards,
 > Matthias
 > 
 > > 
-> > Which one do you prefer?      
-> >       
-> > [1] https://lore.kernel.org/patchwork/patch/1028421/
+> > CC: Rick Chang <rick.chang@mediatek.com>
+> > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > Reviewed-by: Evan Green <evgreen@chromium.org>
+> > ---
+> >  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 22 ----------------------
+> >  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h |  2 --
+> >  2 files changed, 24 deletions(-)
 > > 
-> >>
-> >> Also from my point of view this patch should be done before
-> >> "[PATCH 06/21] iommu/io-pgtable-arm-v7s: Extend MediaTek 4GB Mode"
+> > diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> > index f761e4d..2f37538 100644
+> > --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> > +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> > @@ -29,7 +29,6 @@
+> >  #include <media/v4l2-ioctl.h>
+> >  #include <media/videobuf2-core.h>
+> >  #include <media/videobuf2-dma-contig.h>
+> > -#include <soc/mediatek/smi.h>
+> >  
+> >  #include "mtk_jpeg_hw.h"
+> >  #include "mtk_jpeg_core.h"
+> > @@ -901,11 +900,6 @@ static int mtk_jpeg_queue_init(void *priv, struct vb2_queue *src_vq,
+> >  
+> >  static void mtk_jpeg_clk_on(struct mtk_jpeg_dev *jpeg)
+> >  {
+> > -	int ret;
+> > -
+> > -	ret = mtk_smi_larb_get(jpeg->larb);
+> > -	if (ret)
+> > -		dev_err(jpeg->dev, "mtk_smi_larb_get larbvdec fail %d\n", ret);
+> >  	clk_prepare_enable(jpeg->clk_jdec_smi);
+> >  	clk_prepare_enable(jpeg->clk_jdec);
+> >  }
+> > @@ -914,7 +908,6 @@ static void mtk_jpeg_clk_off(struct mtk_jpeg_dev *jpeg)
+> >  {
+> >  	clk_disable_unprepare(jpeg->clk_jdec);
+> >  	clk_disable_unprepare(jpeg->clk_jdec_smi);
+> > -	mtk_smi_larb_put(jpeg->larb);
+> >  }
+> >  
+> >  static irqreturn_t mtk_jpeg_dec_irq(int irq, void *priv)
+> > @@ -1059,21 +1052,6 @@ static int mtk_jpeg_release(struct file *file)
+> >  
+> >  static int mtk_jpeg_clk_init(struct mtk_jpeg_dev *jpeg)
+> >  {
+> > -	struct device_node *node;
+> > -	struct platform_device *pdev;
+> > -
+> > -	node = of_parse_phandle(jpeg->dev->of_node, "mediatek,larb", 0);
+> > -	if (!node)
+> > -		return -EINVAL;
+> > -	pdev = of_find_device_by_node(node);
+> > -	if (WARN_ON(!pdev)) {
+> > -		of_node_put(node);
+> > -		return -EINVAL;
+> > -	}
+> > -	of_node_put(node);
+> > -
+> > -	jpeg->larb = &pdev->dev;
+> > -
+> >  	jpeg->clk_jdec = devm_clk_get(jpeg->dev, "jpgdec");
+> >  	if (IS_ERR(jpeg->clk_jdec))
+> >  		return PTR_ERR(jpeg->clk_jdec);
+> > diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+> > index 1a6cdfd..e35fb79 100644
+> > --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+> > +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+> > @@ -55,7 +55,6 @@ enum mtk_jpeg_ctx_state {
+> >   * @dec_reg_base:	JPEG registers mapping
+> >   * @clk_jdec:		JPEG hw working clock
+> >   * @clk_jdec_smi:	JPEG SMI bus clock
+> > - * @larb:		SMI device
+> >   */
+> >  struct mtk_jpeg_dev {
+> >  	struct mutex		lock;
+> > @@ -69,7 +68,6 @@ struct mtk_jpeg_dev {
+> >  	void __iomem		*dec_reg_base;
+> >  	struct clk		*clk_jdec;
+> >  	struct clk		*clk_jdec_smi;
+> > -	struct device		*larb;
+> >  };
+> >  
+> >  /**
 > > 
-> > OK.
-> > 
-> >>
-> >> Regards,
-> >> Matthias
-> >>
-> >>>
-> >>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> >>> Reviewed-by: Evan Green <evgreen@chromium.org>
-> >>> ---
-> >>>  drivers/iommu/mtk_iommu.c | 10 +++++-----
-> >>>  drivers/iommu/mtk_iommu.h |  2 +-
-> >>>  2 files changed, 6 insertions(+), 6 deletions(-)
-> >>>
-> >>> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-> >>> index 86158d8..67cab2d 100644
-> >>> --- a/drivers/iommu/mtk_iommu.c
-> >>> +++ b/drivers/iommu/mtk_iommu.c
-> >>> @@ -382,7 +382,7 @@ static int mtk_iommu_map(struct iommu_domain *domain, unsigned long iova,
-> >>>  	int ret;
-> >>>  
-> >>>  	/* The "4GB mode" M4U physically can not use the lower remap of Dram. */
-> >>> -	if (data->plat_data->has_4gb_mode && data->enable_4GB)
-> >>> +	if (data->plat_data->has_4gb_mode && data->dram_is_4gb)
-> >>>  		paddr |= BIT_ULL(32);
-> >>>  
-> >>>  	spin_lock_irqsave(&dom->pgtlock, flags);
-> >>> @@ -554,13 +554,13 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data)
-> >>>  	writel_relaxed(regval, data->base + REG_MMU_INT_MAIN_CONTROL);
-> >>>  
-> >>>  	if (data->plat_data->m4u_plat == M4U_MT8173)
-> >>> -		regval = (data->protect_base >> 1) | (data->enable_4GB << 31);
-> >>> +		regval = (data->protect_base >> 1) | (data->dram_is_4gb << 31);
-> >>>  	else
-> >>>  		regval = lower_32_bits(data->protect_base) |
-> >>>  			 upper_32_bits(data->protect_base);
-> >>>  	writel_relaxed(regval, data->base + REG_MMU_IVRP_PADDR);
-> >>>  
-> >>> -	if (data->enable_4GB && data->plat_data->has_vld_pa_rng) {
-> >>> +	if (data->dram_is_4gb && data->plat_data->has_vld_pa_rng) {
-> >>>  		/*
-> >>>  		 * If 4GB mode is enabled, the validate PA range is from
-> >>>  		 * 0x1_0000_0000 to 0x1_ffff_ffff. here record bit[32:30].
-> >>> @@ -611,8 +611,8 @@ static int mtk_iommu_probe(struct platform_device *pdev)
-> >>>  		return -ENOMEM;
-> >>>  	data->protect_base = ALIGN(virt_to_phys(protect), MTK_PROTECT_PA_ALIGN);
-> >>>  
-> >>> -	/* Whether the current dram is over 4GB */
-> >>> -	data->enable_4GB = !!(max_pfn > (BIT_ULL(32) >> PAGE_SHIFT));
-> >>> +	/* Whether the current dram is 4GB. */
-> >>> +	data->dram_is_4gb = !!(max_pfn > (BIT_ULL(32) >> PAGE_SHIFT));
-> >>>  
-> >>>  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> >>>  	data->base = devm_ioremap_resource(dev, res);
-> >>> diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
-> >>> index 753266b..e8114b2 100644
-> >>> --- a/drivers/iommu/mtk_iommu.h
-> >>> +++ b/drivers/iommu/mtk_iommu.h
-> >>> @@ -65,7 +65,7 @@ struct mtk_iommu_data {
-> >>>  	struct mtk_iommu_domain		*m4u_dom;
-> >>>  	struct iommu_group		*m4u_group;
-> >>>  	struct mtk_smi_iommu		smi_imu;      /* SMI larb iommu info */
-> >>> -	bool                            enable_4GB;
-> >>> +	bool                            dram_is_4gb;
-> >>>  	bool				tlb_flush_active;
-> >>>  
-> >>>  	struct iommu_device		iommu;
-> >>>
-> > 
-> > 
-
 
 
 _______________________________________________
