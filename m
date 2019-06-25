@@ -2,35 +2,35 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5103852392
-	for <lists.iommu@lfdr.de>; Tue, 25 Jun 2019 08:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E19752394
+	for <lists.iommu@lfdr.de>; Tue, 25 Jun 2019 08:33:36 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id CE451A70;
-	Tue, 25 Jun 2019 06:33:01 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 16A2EA7F;
+	Tue, 25 Jun 2019 06:33:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id DD5158E2
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 799728E2
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 25 Jun 2019 06:33:00 +0000 (UTC)
+	Tue, 25 Jun 2019 06:33:33 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from newverein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 71C70710
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2328E710
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 25 Jun 2019 06:33:00 +0000 (UTC)
+	Tue, 25 Jun 2019 06:33:33 +0000 (UTC)
 Received: by newverein.lst.de (Postfix, from userid 2407)
-	id B569268B02; Tue, 25 Jun 2019 08:32:28 +0200 (CEST)
-Date: Tue, 25 Jun 2019 08:32:28 +0200
+	id 0D43868B05; Tue, 25 Jun 2019 08:33:02 +0200 (CEST)
+Date: Tue, 25 Jun 2019 08:33:01 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Subject: Re: [RFC] switch m68k to use the generic remapping DMA allocator
-Message-ID: <20190625063228.GA29561@lst.de>
+Message-ID: <20190625063301.GB29561@lst.de>
 References: <20190614102126.8402-1-hch@lst.de>
-	<CAMuHMdVPU5RQyX4FnHFEhxXZeG3v0uh_-t2FB=vAzQ8_3u-gSw@mail.gmail.com>
+	<CAMuHMdUbuTc+MWqDFw=RnYxtiNQPQkzJ91KDuAQbhMq533tBCQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVPU5RQyX4FnHFEhxXZeG3v0uh_-t2FB=vAzQ8_3u-gSw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUbuTc+MWqDFw=RnYxtiNQPQkzJ91KDuAQbhMq533tBCQ@mail.gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
@@ -58,27 +58,20 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Mon, Jun 17, 2019 at 08:53:55PM +0200, Geert Uytterhoeven wrote:
-> Hi Christoph,
+On Mon, Jun 24, 2019 at 09:16:30AM +0200, Geert Uytterhoeven wrote:
+> Doing
 > 
-> On Fri, Jun 14, 2019 at 12:21 PM Christoph Hellwig <hch@lst.de> wrote:
-> > can you take a look at the (untested) patches below?  They convert m68k
-> > to use the generic remapping DMA allocator, which is also used by
-> > arm64 and csky.
+> -       select DMA_DIRECT_REMAP if MMU && !COLDFIRE
+> +       select DMA_DIRECT_REMAP if MMU && !COLDFIRE && !SUN3
 > 
-> Thanks. But what does this buy us?
-
-A common dma mapping code base with everyone, including supporting
-DMA allocations from atomic context, which the documentation and
-API assume are there, but which don't work on m68k.
-
-> bloat-o-meter says:
+> in arch/m68k/Kconfig fixes the build.
 > 
-> add/remove: 75/0 grow/shrink: 11/6 up/down: 4122/-82 (4040)
+> Alternatively, you could use:
+> 
+> -       select DMA_DIRECT_REMAP if MMU && !COLDFIRE
+> +       select DMA_DIRECT_REMAP if HAS_DMA && MMU && !COLDFIRE
 
-What do these values stand for?  The code should grow a little as
-we now need to include the the pool allocator for the above API
-fix.
+The latter might be a little cleaner.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
