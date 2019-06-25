@@ -2,54 +2,60 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4BB51F53
-	for <lists.iommu@lfdr.de>; Tue, 25 Jun 2019 01:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D9D52729
+	for <lists.iommu@lfdr.de>; Tue, 25 Jun 2019 10:54:44 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1BA51C2C;
-	Mon, 24 Jun 2019 23:56:39 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 0BDA7CBC;
+	Tue, 25 Jun 2019 08:54:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id B0C2EB3E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id D870C9D
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 24 Jun 2019 23:56:37 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id DCE09A7
+	Tue, 25 Jun 2019 05:29:52 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id BD6D0710
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 24 Jun 2019 23:56:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Jun 2019 16:56:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,413,1557212400"; d="scan'208";a="336667312"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
-	by orsmga005.jf.intel.com with ESMTP; 24 Jun 2019 16:56:35 -0700
-Date: Mon, 24 Jun 2019 16:59:51 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: Re: [PATCH v4 19/22] iommu/vt-d: Clean up for SVM device list
-Message-ID: <20190624165951.0646b788@jacob-builder>
-In-Reply-To: <20190618174237.00000556@huawei.com>
-References: <1560087862-57608-1-git-send-email-jacob.jun.pan@linux.intel.com>
-	<1560087862-57608-20-git-send-email-jacob.jun.pan@linux.intel.com>
-	<20190618174237.00000556@huawei.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+	Tue, 25 Jun 2019 05:29:51 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id m24so856381ioo.2
+	for <iommu@lists.linux-foundation.org>;
+	Mon, 24 Jun 2019 22:29:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=MYUiPcf5RNWGOQUq7NpIrQgIK0WGzaR6xdyIKOYFVRU=;
+	b=SO2FSKCmyRaXUL5kBVMqj1pHvxZH6wM89RBfrCj2SjxfjNDcSTq6P9Q7LAiOVOzuFq
+	mauVF1PcoJsnoPyu2Twi86D4zIg3YL4kpFQePK9JjS7chrUYvdezZlDBGipD67EKCHAu
+	JRyQPsKQCqjKkEXm72HF/ft8NkCme3I5E91S39kslt4qDA/uJA9lLPPUWwveUqB00+iK
+	raSDelXWcbsXoRFyTBTZyLOCHatVDXery1353SQ19Z+/KxvHRujCXfaOOXorsjiVGBbE
+	yxBOVWASPIa08nEdzgot2eL+TvMy8wcr+Nd+o6ZJiXO4lzjBkl9Avu1mvyv1R5svSCUV
+	RTSQ==
+X-Gm-Message-State: APjAAAUJR1vCksqqZldiYs6BHfIBKZUrfvPdOPEa/s6vVPunClGq036S
+	7ST15r5dZX9NT5saUeByDBQs9vVFtV9xy4dIgmc=
+X-Google-Smtp-Source: APXvYqzl/YK06q/o3k/iCtkW4OABCLfQXuU0wfB1EvfVqq/jXv0xKo+3GYXqQ5dTbDeIVCET6Wr2KMIs9dGRJlfWIh8=
+X-Received: by 2002:a02:8816:: with SMTP id r22mr34047002jai.60.1561440591131; 
+	Mon, 24 Jun 2019 22:29:51 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+References: <20190603065324.9724-1-hch@lst.de>
+	<20190603065324.9724-2-hch@lst.de>
+In-Reply-To: <20190603065324.9724-2-hch@lst.de>
+From: Ley Foon Tan <lftan@altera.com>
+Date: Tue, 25 Jun 2019 13:29:40 +0800
+Message-ID: <CAFiDJ5-HwPR-SWUkYA9=Jn_iHnZ+xWzx6RrcHPNy8kA0jmeZfw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] nios2: use the generic uncached segment support in
+	dma-direct
+To: Christoph Hellwig <hch@lst.de>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
-	Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-	iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Andriy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>
+X-Mailman-Approved-At: Tue, 25 Jun 2019 08:54:40 +0000
+Cc: Michal Simek <monstr@monstr.eu>, linux-mips@vger.kernel.org,
+	iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,39 +73,105 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, 18 Jun 2019 17:42:37 +0100
-Jonathan Cameron <jonathan.cameron@huawei.com> wrote:
+On Mon, Jun 3, 2019 at 2:54 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Stop providing our own arch alloc/free hooks and just expose the segment
+> offset and use the generic dma-direct allocator.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-> On Sun, 9 Jun 2019 06:44:19 -0700
-> Jacob Pan <jacob.jun.pan@linux.intel.com> wrote:
-> 
-> > Use combined macro for_each_svm_dev() to simplify SVM device
-> > iteration.
-> > 
-> > Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> > ---
-> >  drivers/iommu/intel-svm.c | 79
-> > +++++++++++++++++++++++------------------------ 1 file changed, 39
-> > insertions(+), 40 deletions(-)
-> > 
-> > diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel-svm.c
-> > index 9cbcc1f..66d98e1 100644
-> > --- a/drivers/iommu/intel-svm.c
-> > +++ b/drivers/iommu/intel-svm.c
-> > @@ -225,6 +225,9 @@ static const struct mmu_notifier_ops
-> > intel_mmuops = { 
-> >  static DEFINE_MUTEX(pasid_mutex);
-> >  static LIST_HEAD(global_svm_list);
-> > +#define for_each_svm_dev() \
-> > +	list_for_each_entry(sdev, &svm->devs, list)	\
-> > +	if (dev == sdev->dev)				\  
-> 
-> Could we make this macro less opaque and have it take the svm and dev
-> as arguments?
-> 
-sounds good, it makes the code more readable.
+Acked-by: Ley Foon Tan <ley.foon.tan@intel.com>
+
+> ---
+>  arch/nios2/Kconfig            |  1 +
+>  arch/nios2/include/asm/page.h |  6 ------
+>  arch/nios2/mm/dma-mapping.c   | 34 +++++++++++++++-------------------
+>  3 files changed, 16 insertions(+), 25 deletions(-)
+>
+> diff --git a/arch/nios2/Kconfig b/arch/nios2/Kconfig
+> index 26a9c760a98b..44b5da37e8bd 100644
+> --- a/arch/nios2/Kconfig
+> +++ b/arch/nios2/Kconfig
+> @@ -4,6 +4,7 @@ config NIOS2
+>         select ARCH_32BIT_OFF_T
+>         select ARCH_HAS_SYNC_DMA_FOR_CPU
+>         select ARCH_HAS_SYNC_DMA_FOR_DEVICE
+> +       select ARCH_HAS_UNCACHED_SEGMENT
+>         select ARCH_NO_SWAP
+>         select TIMER_OF
+>         select GENERIC_ATOMIC64
+> diff --git a/arch/nios2/include/asm/page.h b/arch/nios2/include/asm/page.h
+> index f1fbdc47bdaf..79fcac61f6ef 100644
+> --- a/arch/nios2/include/asm/page.h
+> +++ b/arch/nios2/include/asm/page.h
+> @@ -101,12 +101,6 @@ static inline bool pfn_valid(unsigned long pfn)
+>  # define VM_DATA_DEFAULT_FLAGS (VM_READ | VM_WRITE | \
+>                                  VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC)
+>
+> -# define UNCAC_ADDR(addr)      \
+> -       ((void *)((unsigned)(addr) | CONFIG_NIOS2_IO_REGION_BASE))
+> -# define CAC_ADDR(addr)                \
+> -       ((void *)(((unsigned)(addr) & ~CONFIG_NIOS2_IO_REGION_BASE) |   \
+> -               CONFIG_NIOS2_KERNEL_REGION_BASE))
+> -
+>  #include <asm-generic/memory_model.h>
+>
+>  #include <asm-generic/getorder.h>
+> diff --git a/arch/nios2/mm/dma-mapping.c b/arch/nios2/mm/dma-mapping.c
+> index 4af9e5b5ba1c..9cb238664584 100644
+> --- a/arch/nios2/mm/dma-mapping.c
+> +++ b/arch/nios2/mm/dma-mapping.c
+> @@ -60,32 +60,28 @@ void arch_sync_dma_for_cpu(struct device *dev, phys_addr_t paddr,
+>         }
+>  }
+>
+> -void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
+> -               gfp_t gfp, unsigned long attrs)
+> +void arch_dma_prep_coherent(struct page *page, size_t size)
+>  {
+> -       void *ret;
+> +       unsigned long start = (unsigned long)page_address(page);
+>
+> -       /* optimized page clearing */
+> -       gfp |= __GFP_ZERO;
+> +       flush_dcache_range(start, start + size);
+> +}
+>
+> -       if (dev == NULL || (dev->coherent_dma_mask < 0xffffffff))
+> -               gfp |= GFP_DMA;
+> +void *uncached_kernel_address(void *ptr)
+> +{
+> +       unsigned long addr = (unsigned long)ptr;
+>
+> -       ret = (void *) __get_free_pages(gfp, get_order(size));
+> -       if (ret != NULL) {
+> -               *dma_handle = virt_to_phys(ret);
+> -               flush_dcache_range((unsigned long) ret,
+> -                       (unsigned long) ret + size);
+> -               ret = UNCAC_ADDR(ret);
+> -       }
+> +       addr |= CONFIG_NIOS2_IO_REGION_BASE;
+>
+> -       return ret;
+> +       return (void *)ptr;
+>  }
+>
+> -void arch_dma_free(struct device *dev, size_t size, void *vaddr,
+> -               dma_addr_t dma_handle, unsigned long attrs)
+> +void *cached_kernel_address(void *ptr)
+>  {
+> -       unsigned long addr = (unsigned long) CAC_ADDR((unsigned long) vaddr);
+> +       unsigned long addr = (unsigned long)ptr;
+> +
+> +       addr &= ~CONFIG_NIOS2_IO_REGION_BASE;
+> +       addr |= CONFIG_NIOS2_KERNEL_REGION_BASE;
+>
+> -       free_pages(addr, get_order(size));
+> +       return (void *)ptr;
+>  }
+> --
+> 2.20.1
+>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
