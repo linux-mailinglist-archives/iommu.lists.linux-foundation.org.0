@@ -2,70 +2,45 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id C984856CB2
-	for <lists.iommu@lfdr.de>; Wed, 26 Jun 2019 16:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C27956D6F
+	for <lists.iommu@lfdr.de>; Wed, 26 Jun 2019 17:14:35 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 5ED8FDD4;
-	Wed, 26 Jun 2019 14:48:52 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id B50C1E83;
+	Wed, 26 Jun 2019 15:14:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 25080C3A
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id BE732AC7
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 26 Jun 2019 14:48:51 +0000 (UTC)
+	Wed, 26 Jun 2019 15:14:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id C9C80710
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D4F5B82F
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 26 Jun 2019 14:48:50 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
-	bits)) (No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id A227A205C9;
-	Wed, 26 Jun 2019 14:48:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561560530;
-	bh=Q0fkJnt5Wk/wU807scvnJI4s4UA4UjwWKB0s0wc3Xm0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FVyyJTKAehLp05zG/pwe9Aa0/ZSb6jmhAh7fYWRrQXRe15i7Nde+lWOqOrHb21zCS
-	I5b5iC0ODpC6vtRvyZwwNJHkjG6b2B82I8tgZ7I8FFj5w751IN+kgPwk5zvzxXWuut
-	Ad9RXJbltpQ3GJ3YyUAXj1PB4wW1p/znSA1zDdnw=
-Date: Wed, 26 Jun 2019 15:48:45 +0100
-From: Will Deacon <will@kernel.org>
-To: Vivek Gautam <vivek.gautam@codeaurora.org>
-Subject: Re: [PATCH v3 3/4] iommu/arm-smmu: Add support to handle Qcom's
-	wait-for-safe logic
-Message-ID: <20190626144844.key3n6ueb6skgkp4@willie-the-truck>
-References: <20190612071554.13573-1-vivek.gautam@codeaurora.org>
-	<20190612071554.13573-4-vivek.gautam@codeaurora.org>
-	<20190614040520.GK22737@tuxbook-pro>
-	<3e1f5e03-6448-8730-056d-fc47bdd71b3f@codeaurora.org>
-	<20190618175218.GH4270@fuggles.cambridge.arm.com>
-	<CAFp+6iEynLa=Jt_-oAwt4zmzxzhEXtWNCmghz6rFzcpQVGwrMg@mail.gmail.com>
-	<20190624170348.7dncuc5qezqeyvq2@willie-the-truck>
-	<CAFp+6iF0TQtAy2JFXk6zjX5GpjeLFesqPZV6ezbDXmc85yvMEA@mail.gmail.com>
-	<20190625133924.fqq3y7p3i3fqem5p@willie-the-truck>
-	<CAFp+6iH-KzX7x1j8AAuKJcOP6v=fyP-yLvaeeE_Ly3oueu_ngg@mail.gmail.com>
+	Wed, 26 Jun 2019 15:14:05 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+	by Forcepoint Email with ESMTP id 3E7BB3290C7B21BAE097;
+	Wed, 26 Jun 2019 23:13:37 +0800 (CST)
+Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
+	DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server
+	id 14.3.439.0; Wed, 26 Jun 2019 23:13:29 +0800
+From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+To: <alex.williamson@redhat.com>, <eric.auger@redhat.com>,
+	<pmorel@linux.vnet.ibm.com>
+Subject: [PATCH v7 0/6] vfio/type1: Add support for valid iova list management
+Date: Wed, 26 Jun 2019 16:12:42 +0100
+Message-ID: <20190626151248.11776-1-shameerali.kolothum.thodi@huawei.com>
+X-Mailer: git-send-email 2.12.0.windows.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAFp+6iH-KzX7x1j8AAuKJcOP6v=fyP-yLvaeeE_Ly3oueu_ngg@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+X-Originating-IP: [10.202.227.237]
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-1.7 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+	RCVD_IN_DNSWL_MED autolearn=no version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
-	<devicetree@vger.kernel.org>,
-	linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-	Will Deacon <will.deacon@arm.com>,
-	open list <linux-kernel@vger.kernel.org>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	David Brown <david.brown@linaro.org>,
-	"list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-	Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
-	robh+dt <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>
+Cc: kevin.tian@intel.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	xuwei5@hisilicon.com, linuxarm@huawei.com, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -83,44 +58,94 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Wed, Jun 26, 2019 at 12:03:02PM +0530, Vivek Gautam wrote:
-> On Tue, Jun 25, 2019 at 7:09 PM Will Deacon <will@kernel.org> wrote:
-> >
-> > On Tue, Jun 25, 2019 at 12:34:56PM +0530, Vivek Gautam wrote:
-> > > On Mon, Jun 24, 2019 at 10:33 PM Will Deacon <will@kernel.org> wrote:
-> > > > Instead, I think this needs to be part of a separate file that is maintained
-> > > > by you, which follows on from the work that Krishna is doing for nvidia
-> > > > built on top of Robin's prototype patches:
-> > > >
-> > > > http://linux-arm.org/git?p=linux-rm.git;a=shortlog;h=refs/heads/iommu/smmu-impl
-> > >
-> > > Looking at this branch quickly, it seem there can be separate implementation
-> > > level configuration file that can be added.
-> > > But will this also handle separate page table ops when required in future.
-> >
-> > Nothing's set in stone, but having the implementation-specific code
-> > constrain the page-table format (especially wrt quirks) sounds reasonable to
-> > me. I'm currently waiting for Krishna to respin the nvidia changes [1] on
-> > top of this so that we can see how well the abstractions are holding up.
-> 
-> Sure. Would you want me to try Robin's branch and take out the qualcomm
-> related stuff to its own implementation? Or, would you like me to respin this
-> series so that you can take it in to enable SDM845 boards such as, MTP
-> and dragonboard to have a sane build - debian, etc. so people benefit
-> out of it.
+This is to revive this series which almost made to 4.18 but got dropped
+as Alex found an issue[1] with IGD and USB devices RMRR region being
+reported as reserved regions.
 
-I can't take this series without Acks on the firmware calling changes, and I
-plan to send my 5.3 patches to Joerg at the end of the week so they get some
-time in -next. In which case, I think it may be worth you having a play with
-the branch above so we can get a better idea of any additional smmu_impl hooks
-you may need.
+Thanks to Eric for his work here[2]. It provides a way to exclude
+these regions while reporting the valid iova regions and this respin
+make use of that.
 
-> Qualcomm stuff is lying in qcom-smmu and arm-smmu and may take some
-> time to stub out the implementation related details.
+Please note that I don't have a platform to verify the reported RMRR
+issue and appreciate testing on those platforms.
 
-Not sure I follow you here. Are you talking about qcom_iommu.c?
+Thanks,
+Shameer
 
-Will
+[1] https://lkml.org/lkml/2018/6/5/760
+[2] https://lore.kernel.org/patchwork/cover/1083072/
+
+v6-->v7
+ -Rebased to 5.2-rc6 + Eric's patches
+ -Added logic to exclude IOMMU_RESV_DIRECT_RELAXABLE reserved memory
+  region type(patch #2).
+ -Dropped patch #4 of v6 as it is already part of mainline.
+ -Addressed "container with only an mdev device will have an empty list"
+  case(patches 4/6 & 5/6 - Suggested by Alex)
+
+Old
+----
+This series introduces an iova list associated with a vfio 
+iommu. The list is kept updated taking care of iommu apertures,
+and reserved regions. Also this series adds checks for any conflict
+with existing dma mappings whenever a new device group is attached to
+the domain.
+
+User-space can retrieve valid iova ranges using VFIO_IOMMU_GET_INFO
+ioctl capability chains. Any dma map request outside the valid iova
+range will be rejected.
+
+v5 --> v6
+
+ -Rebased to 4.17-rc1
+ -Changed the ordering such that previous patch#7 "iommu/dma: Move
+  PCI window region reservation back...")  is now patch #4. This
+  will avoid any bisection issues pointed out by Alex.
+ -Added Robins's Reviewed-by tag for patch#4
+
+v4 --> v5
+Rebased to next-20180315.
+ 
+ -Incorporated the corner case bug fix suggested by Alex to patch #5.
+ -Based on suggestions by Alex and Robin, added patch#7. This
+  moves the PCI window  reservation back in to DMA specific path.
+  This is to fix the issue reported by Eric[1].
+
+v3 --> v4
+ Addressed comments received for v3.
+ -dma_addr_t instead of phys_addr_t
+ -LIST_HEAD() usage.
+ -Free up iova_copy list in case of error.
+ -updated logic in filling the iova caps info(patch #5)
+
+RFCv2 --> v3
+ Removed RFC tag.
+ Addressed comments from Alex and Eric:
+ - Added comments to make iova list management logic more clear.
+ - Use of iova list copy so that original is not altered in
+   case of failure.
+
+RFCv1 --> RFCv2
+ Addressed comments from Alex:
+-Introduced IOVA list management and added checks for conflicts with 
+ existing dma map entries during attach/detach.
+
+Shameer Kolothum (6):
+  vfio/type1: Introduce iova list and add iommu aperture validity check
+  vfio/type1: Check reserve region conflict and update iova list
+  vfio/type1: Update iova list on detach
+  vfio/type1: check dma map request is within a valid iova range
+  vfio/type1: Add IOVA range capability support
+  vfio/type1: remove duplicate retrieval of reserved regions
+
+ drivers/vfio/vfio_iommu_type1.c | 510 +++++++++++++++++++++++++++++++-
+ include/uapi/linux/vfio.h       |  23 ++
+ 2 files changed, 520 insertions(+), 13 deletions(-)
+
+-- 
+2.17.1
+
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
