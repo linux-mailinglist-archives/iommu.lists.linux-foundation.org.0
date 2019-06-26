@@ -2,67 +2,82 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3822056C69
-	for <lists.iommu@lfdr.de>; Wed, 26 Jun 2019 16:43:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E945565E0
+	for <lists.iommu@lfdr.de>; Wed, 26 Jun 2019 11:48:10 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 95E86DD6;
-	Wed, 26 Jun 2019 14:43:07 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8B6C4EDA;
+	Wed, 26 Jun 2019 09:48:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5564BED2
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 67A9AE8D
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 26 Jun 2019 10:04:33 +0000 (UTC)
-X-Greylist: delayed 01:20:14 by SQLgrey-1.7.6
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CBDE3710
+	Wed, 26 Jun 2019 09:48:07 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B787B710
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 26 Jun 2019 10:04:32 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5Q8i5Ep068189;
-	Wed, 26 Jun 2019 03:44:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1561538645;
-	bh=LtR8YqPAxJoiiaQr+rKC4/jbAgDp9J8cOhOylP72rFk=;
-	h=To:CC:From:Subject:Date;
-	b=uCmi320peXxY+9VVMxlqGczAuesFTOnvNiO719Tx3/VfLpv8kLRtAVEsLt4v9TA7u
-	5S+K5IDrMWs93S4SgZ9ClOyFe6U6KQdl8IHCb3oj1q3y7mPbMhe7PSkHAchIXdmQDp
-	J4CK53JrZx6ou4nwx9Ry5ka0o64SD8lcxWmsRaA0=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5Q8i5lN006920
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 26 Jun 2019 03:44:05 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE115.ent.ti.com
-	(10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5;
-	Wed, 26 Jun 2019 03:44:03 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE113.ent.ti.com
-	(10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
-	Frontend Transport; Wed, 26 Jun 2019 03:44:03 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
-	by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5Q8hxVh129407;
-	Wed, 26 Jun 2019 03:44:00 -0500
-To: <hch@lst.de>, "hdegoede@redhat.com" <hdegoede@redhat.com>
-Subject: SATA broken with LPAE
-Message-ID: <16f065ef-f4ac-46b4-de2a-6b5420ae873a@ti.com>
-Date: Wed, 26 Jun 2019 11:43:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
+	Wed, 26 Jun 2019 09:48:06 +0000 (UTC)
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id
+	20190626094804epoutp03dc1eb0704fd05cfa41d5fd946835982e~rtp3VpKRf2109721097epoutp03X
+	for <iommu@lists.linux-foundation.org>;
+	Wed, 26 Jun 2019 09:48:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+	20190626094804epoutp03dc1eb0704fd05cfa41d5fd946835982e~rtp3VpKRf2109721097epoutp03X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1561542484;
+	bh=rVy5lGOJhuQ7ItlHfQywyyEHAq75fB9utHjrktZKaCA=;
+	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
+	b=E4cA2IDHiIevEosomTpZUVq9vSyffWRn4bfFNv1J++4FgYYV1EM+7leNM1X5SvVzb
+	G7g2aRud+maLILZVqJ+UdMj8KLqvqYk+iIJZi0PH68dxWhirNo/chZrwfYUb4XWPaD
+	cKAi0bzO7vXSm7LKE6KmliiNo/EraH0xtLZpKaqM=
+Received: from epsmges5p3new.samsung.com (unknown [182.195.42.75]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20190626094804epcas5p413f170c532846a1e66b35fd6f250bbe6~rtp3FsYGX1287012870epcas5p4C;
+	Wed, 26 Jun 2019 09:48:04 +0000 (GMT)
+X-AuditID: b6c32a4b-7a3ff70000000fe3-8b-5d133f5470ce
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	8F.62.04067.45F331D5; Wed, 26 Jun 2019 18:48:04 +0900 (KST)
+Mime-Version: 1.0
+Subject: RE: Re: CMA in AMD IOMMU driver
+From: Sathyavathi M <sathya.m@samsung.com>
+To: Christoph Hellwig <hch@infradead.org>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <20190626065847.GA14605@infradead.org>
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20190626094804epcms5p259576d5f98e8caf2968f7303676beb4a@epcms5p2>
+Date: Wed, 26 Jun 2019 15:18:04 +0530
+X-CMS-MailID: 20190626094804epcms5p259576d5f98e8caf2968f7303676beb4a
+CMS-TYPE: 105P
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrCIsWRmVeSWpSXmKPExsWy7bCmhm6IvXCswd1+GYvTExYxWSzYb+3A
+	5LF5hZbH5BvLGQOYorhsUlJzMstSi/TtErgy3u5uZyvYxlrx6+sl1gbGbtYuRk4OCQETiSNf
+	p7CB2EICuxklZq3n6GLk4OAVEJT4u0MYJCwsoCGx/tBdRogSOYk7h7uYIOI6En3PprGDlLMJ
+	aEm8esoDEhYR0JS4tbydGcRmFvCU2H7rIDvEJl6JGe1PWSBsaYnty7eCjeQUMJb4Omc6I0Rc
+	VOLm6rfsMPb7Y/Oh4iISrffOMkPYghIPfu5mBFkLMmfiqQCIcLnEme0bgcZzAdkNjBJdN/ZC
+	fWguMffed7CZvAK+EveP3geLswioSizb8JoZYo6LxLqdIRAna0ssWwgRZgZ6Zf0ufYgwn0Tv
+	7ydMMJ/smAdjK0mc+PwWypaQWLMfZquHRNfU+4wg5wgJ7GOUODzxJMsERvlZiLCdhWTbLIRt
+	CxiZVzFKphYU56anFpsWGOellusVJ+YWl+al6yXn525iBMe9lvcOxk3nfA4xCnAwKvHwNsgL
+	xQqxJpYVV+YeYpTgYFYS4V2aKBArxJuSWFmVWpQfX1Sak1p8iFGag0VJnHcS69UYIYH0xJLU
+	7NTUgtQimCwTB6dUA6P4Q9akEB1G8dmPtHbzPXHbe1Yqu2kWn/G8Zp9YteeSC46faK/qe/Nh
+	0b/sJ0b+vr1Sk2J27a6ylXkkuz9/7/9zqS7Hp/qJC0pn63ItWn9lRdSCc7GOtmXh7OnzMqyd
+	RIU/rPKuEdwoHb5gM5/ok+2v84O73j31LJNcHnem+UHri9JLM/nv3FBiKc5INNRiLipOBAAZ
+	WaXi9wIAAA==
+X-CMS-RootMailID: 20190626043433epcms5p84b9b6580f6c6444e69b85525863460ea
+References: <20190626065847.GA14605@infradead.org>
+	<20190626043433epcms5p84b9b6580f6c6444e69b85525863460ea@epcms5p8>
+	<CGME20190626043433epcms5p84b9b6580f6c6444e69b85525863460ea@epcms5p2>
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Mailman-Approved-At: Wed, 26 Jun 2019 14:43:06 +0000
-Cc: axboe@kernel.dk, Vignesh Raghavendra <vigneshr@ti.com>,
-	martin.petersen@oracle.com, Tony Lindgren <tony@atomide.com>,
-	jejb@linux.ibm.com, "Nori, Sekhar" <nsekhar@ti.com>,
-	linux-ide@vger.kernel.org, iommu@lists.linux-foundation.org,
-	rmk+kernel@arm.linux.org.uk, linux-omap@vger.kernel.org
+Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -75,85 +90,21 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Roger Quadros via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Roger Quadros <rogerq@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: sathya.m@samsung.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Christoph / Hans,
-
-SATA has been broken on TI platforms with LPAE, on systems with RAM addresses > 32-bits,
-(e.g. DRA7 rev.H+) since v4.18.
-
-The commit at which it breaks is
-21e07dba9fb1179148089d611fc9e6e70d1887c3 ("scsi: reduce use of block bounce buffers").
-
-The effect is that the SATA controller starts to see DMA addresses
-above 32-bit which it does not support.
-
-Could you please shed some light on how it is supposed to work if
-we don't call blk_queue_bounce_limit() for devices that can do only 32-bit DMA
-on a system that has addressable RAM above 32-bit Physical?
-
-The below patch fixes it. Is this the right thing to do?
-
-diff --git a/drivers/ata/ahci_platform.c b/drivers/ata/ahci_platform.c
-index 3aab2e3d57f3..b925dc54cfa5 100644
---- a/drivers/ata/ahci_platform.c
-+++ b/drivers/ata/ahci_platform.c
-@@ -62,6 +62,9 @@ static int ahci_probe(struct platform_device *pdev)
- 	if (of_device_is_compatible(dev->of_node, "hisilicon,hisi-ahci"))
- 		hpriv->flags |= AHCI_HFLAG_NO_FBS | AHCI_HFLAG_NO_NCQ;
- 
-+	if (of_device_is_compatible(dev->of_node, "snps,dwc-ahci"))
-+		hpriv->flags |= AHCI_HFLAG_32BIT_ONLY;
-+
- 	port = acpi_device_get_match_data(dev);
- 	if (!port)
- 		port = &ahci_port_info;
-diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index 65d0a10c76ad..9083c7b89dfc 100644
---- a/drivers/scsi/scsi_lib.c
-+++ b/drivers/scsi/scsi_lib.c
-@@ -1750,6 +1750,21 @@ static int scsi_map_queues(struct blk_mq_tag_set *set)
- 	return blk_mq_map_queues(&set->map[HCTX_TYPE_DEFAULT]);
- }
- 
-+static u64 scsi_calculate_bounce_limit(struct Scsi_Host *shost)
-+{
-+	struct device *dma_dev = shost->dma_dev;
-+	u64 bounce_limit = 0xffffffff;
-+
-+	if (shost->unchecked_isa_dma)
-+		return BLK_BOUNCE_ISA;
-+
-+	if (dma_dev && dma_dev->dma_mask)
-+		bounce_limit = (u64)dma_max_pfn(dma_dev) << PAGE_SHIFT;
-+
-+	return bounce_limit;
-+}
-+
- void __scsi_init_queue(struct Scsi_Host *shost, struct request_queue *q)
- {
- 	struct device *dev = shost->dma_dev;
-@@ -1769,8 +1784,7 @@ void __scsi_init_queue(struct Scsi_Host *shost, struct request_queue *q)
- 	}
- 
- 	blk_queue_max_hw_sectors(q, shost->max_sectors);
--	if (shost->unchecked_isa_dma)
--		blk_queue_bounce_limit(q, BLK_BOUNCE_ISA);
-+	blk_queue_bounce_limit(q, scsi_calculate_bounce_limit(shost));
- 	blk_queue_segment_boundary(q, shost->dma_boundary);
- 	dma_set_seg_boundary(dev, shost->dma_boundary);
-
-cheers,
--roger
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+RGVhciBDaHJpc3RvcGgsCgpUaGFua3MgZm9yIHRoZSByZXBseS4KY2FuIHlvdSBwbGVhc2UgbGV0
+IG1lIGtub3cgd2hpY2gga2VybmVsIGhhcyBpdD8KCgpUaGFua3MsClNhdGh5YcKgDQrCoA0KLS0t
+LS0tLS0tIE9yaWdpbmFsIE1lc3NhZ2UgLS0tLS0tLS0tDQpTZW5kZXIgOiBDaHJpc3RvcGggSGVs
+bHdpZ8KgPGhjaEBpbmZyYWRlYWQub3JnPg0KRGF0ZSAgIDogMjAxOS0wNi0yNiAxMjoyOCAoR01U
+KzU6MzApDQpUaXRsZSAgOiBSZTogQ01BIGluIEFNRCBJT01NVSBkcml2ZXINClRvIDogU2F0aHlh
+dmF0aGkgTTxzYXRoeWEubUBzYW1zdW5nLmNvbT4NCkNDIDogbnVsbDxpb21tdUBsaXN0cy5saW51
+eC1mb3VuZGF0aW9uLm9yZz4NCsKgDQpUb21zwqBjb252ZXJzaW9uwqBvZsKgdGhlwqBBTUTCoElP
+TU1VwqBkcml2ZXLCoHRvwqB1c2XCoGRtYS1pb21tdcKgYWRkc8KgQ01BDQpzdXBwb3J0wqA6KQ0K
+wqANCsKgDQpSZWdhcmRzLA0KU2F0aHlhCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3Vu
+ZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0
+aW5mby9pb21tdQ==
