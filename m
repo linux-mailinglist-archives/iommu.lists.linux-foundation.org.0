@@ -2,68 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EEEC597C1
-	for <lists.iommu@lfdr.de>; Fri, 28 Jun 2019 11:40:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D446A597F2
+	for <lists.iommu@lfdr.de>; Fri, 28 Jun 2019 11:52:59 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id AF921C58;
-	Fri, 28 Jun 2019 09:40:50 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 003D6C64;
+	Fri, 28 Jun 2019 09:52:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 70EF8B8E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id B9B2DB9E
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 28 Jun 2019 09:27:35 +0000 (UTC)
-X-Greylist: delayed 00:16:55 by SQLgrey-1.7.6
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id DD9D3831
+	Fri, 28 Jun 2019 09:52:56 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 52CFA82F
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 28 Jun 2019 09:27:34 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5S9RPEV126238;
-	Fri, 28 Jun 2019 04:27:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1561714045;
-	bh=4lzPTixTG6HYSgsn449rIrKsahuLP+3PBJPmON8xrr4=;
-	h=Subject:To:CC:References:From:Date:In-Reply-To;
-	b=UNTDR6Vxo0+1Ve9+XKa4fqdgbb4dTQfBP3P/TemSWllJ36pW7/Vkibve6y7pozgvI
-	jyaaOCIn670GkXKsQomRv4snxP7ddP/uR7CbJqZlOM8V1SuPZC5IStmsW712rX+Ef8
-	bXZsH05AYCfBwF9pB0MgKMadJHQ1RBKVXzFUO9g0=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5S9RP7W009488
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 28 Jun 2019 04:27:25 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE112.ent.ti.com
-	(157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5;
-	Fri, 28 Jun 2019 04:27:24 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
-	(157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
-	Frontend Transport; Fri, 28 Jun 2019 04:27:24 -0500
-Received: from [172.24.190.229] (ileax41-snat.itg.ti.com [10.172.224.153])
-	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5S9RLiG100189;
-	Fri, 28 Jun 2019 04:27:22 -0500
+	Fri, 28 Jun 2019 09:52:56 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+	bits)) (No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 79956208CB;
+	Fri, 28 Jun 2019 09:52:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1561715576;
+	bh=Q51/eiDzEzpnoVj8ctpxa2Tb4BnIqmcroS/9YKQAmM0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hq+GGSFHJu+Su/Qp+Won4cfcJSWBlnH5u2+yXwLrlWgefD7I5ddjIRtd1Ido8Zd8C
+	eqxUlwz4AASP7UYd8rThtRn2ldTpBqBRDKz1ePOsKAsVxNQAzRj7fRPFoNV3ol8czJ
+	Um5PfXAeX1d5vDpn5HoJ0NOgQQfIbQmwIe8dr3DI=
+Date: Fri, 28 Jun 2019 10:52:51 +0100
+From: Will Deacon <will@kernel.org>
+To: Pratyush Yadav <p-yadav1@ti.com>
 Subject: Re: [PATCH] iommu/arm-smmu-v3: Fix incorrect fields being passed to
 	prefetch command
-To: <will@kernel.org>, <robin.murphy@arm.com>, <joro@8bytes.org>
+Message-ID: <20190628095250.bzq4aqyuczt47y4i@willie-the-truck>
 References: <20190628090953.23606-1-p-yadav1@ti.com>
-Message-ID: <b0866cd5-d073-601c-f95e-95a7128d4d75@ti.com>
-Date: Fri, 28 Jun 2019 14:57:43 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.1
 MIME-Version: 1.0
+Content-Disposition: inline
 In-Reply-To: <20190628090953.23606-1-p-yadav1@ti.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Mailman-Approved-At: Fri, 28 Jun 2019 09:40:49 +0000
 Cc: lokeshvutla@ti.com, nsekhar@ti.com, linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org, wmills@ti.com,
-	linux-arm-kernel@lists.infradead.org
+	iommu@lists.linux-foundation.org, robin.murphy@arm.com,
+	wmills@ti.com, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -76,26 +61,19 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Pratyush Yadav via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Pratyush Yadav <p-yadav1@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-
-
-On 28/06/19 2:39 PM, Pratyush Yadav wrote:> According to the SMMUv3 spec [0] section 4.2.1, command 0x1
+On Fri, Jun 28, 2019 at 02:39:53PM +0530, Pratyush Yadav wrote:
+> According to the SMMUv3 spec [0] section 4.2.1, command 0x1
 > (CMD_PREFETCH_CONFIG) does not take address and size as parameters. It
 > only takes  StreamID, SSec, SubstreamID, and SSV. Address and Size are
 > parameters for command 0x2 (CMD_PREFETCH_ADDR).
 > 
 > Tested on kernel 4.19 on TI J721E SOC.
-
-Even though I only tested on 4.19 because I don't have the setup to run 
-mainline master on this SOC, the patch is based on mainline master and I
-did compile-test it.
-
+> 
 > [0] https://static.docs.arm.com/ihi0070/a/IHI_0070A_SMMUv3.pdf
 > 
 > Signed-off-by: Pratyush Yadav <p-yadav1@ti.com>
@@ -127,13 +105,17 @@ did compile-test it.
 > +		/* Fallthrough */
 > +	case CMDQ_OP_PREFETCH_CFG:
 > +		cmd[0] |= FIELD_PREP(CMDQ_PREFETCH_0_SID, ent->prefetch.sid);
->  		break;
->  	case CMDQ_OP_CFGI_STE:
->  		cmd[0] |= FIELD_PREP(CMDQ_CFGI_0_SID, ent->cfgi.sid);
-> 
--- 
-Regards,
-Pratyush Yadav
+
+Hmm, but there's no issue here because the onus is on the caller not to
+initialise size and addr if they are using PREFETCH_CFG (and this is
+currently the case). Are you seeing a problem in practice?
+
+I'm happy to take a patch adding support for PREFETCH_ADDR, but we'd need
+a caller first.
+
+Also -- fancy sending me a board? ;)
+
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
