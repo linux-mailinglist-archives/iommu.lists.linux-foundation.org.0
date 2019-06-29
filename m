@@ -2,44 +2,42 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F6A5A840
-	for <lists.iommu@lfdr.de>; Sat, 29 Jun 2019 04:12:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6D15A861
+	for <lists.iommu@lfdr.de>; Sat, 29 Jun 2019 04:41:04 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 2A1EDCCE;
-	Sat, 29 Jun 2019 02:12:09 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 455B7C9F;
+	Sat, 29 Jun 2019 02:41:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 575B8C84
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id D1EDDC11
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 29 Jun 2019 02:12:07 +0000 (UTC)
+	Sat, 29 Jun 2019 02:41:00 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B6A5A2C6
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 63FD22C6
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 29 Jun 2019 02:12:06 +0000 (UTC)
-X-UUID: f94d49c2242045cb898b39913da939f8-20190629
-X-UUID: f94d49c2242045cb898b39913da939f8-20190629
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
-	mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+	Sat, 29 Jun 2019 02:40:58 +0000 (UTC)
+X-UUID: d6985d809fff4701bb6ed9b0506cb2c5-20190629
+X-UUID: d6985d809fff4701bb6ed9b0506cb2c5-20190629
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+	(envelope-from <yong.wu@mediatek.com>)
 	(mhqrelay.mediatek.com ESMTP with TLS)
-	with ESMTP id 2085313190; Sat, 29 Jun 2019 10:12:03 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
-	mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Sat, 29 Jun 2019 10:12:03 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+	with ESMTP id 800062253; Sat, 29 Jun 2019 10:40:54 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+	mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server
+	(TLS) id 15.0.1395.4; Sat, 29 Jun 2019 10:40:54 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas09.mediatek.inc
 	(172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
-	Transport; Sat, 29 Jun 2019 10:12:01 +0800
+	Transport; Sat, 29 Jun 2019 10:40:53 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
 	Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v8 09/21] iommu/mediatek: Add larb-id remapped support
-Date: Sat, 29 Jun 2019 10:09:15 +0800
-Message-ID: <1561774167-24141-10-git-send-email-yong.wu@mediatek.com>
+Subject: [PATCH v8 10/21] iommu/mediatek: Refine protect memory definition
+Date: Sat, 29 Jun 2019 10:39:44 +0800
+Message-ID: <1561775995-24963-11-git-send-email-yong.wu@mediatek.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1561774167-24141-1-git-send-email-yong.wu@mediatek.com>
-References: <1561774167-24141-1-git-send-email-yong.wu@mediatek.com>
 MIME-Version: 1.0
 X-MTK: N
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,UNPARSEABLE_RELAY
@@ -71,80 +69,52 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The larb-id may be remapped in the smi-common, this means the
-larb-id reported in the mtk_iommu_isr isn't the real larb-id,
-
-Take mt8183 as a example:
-                       M4U
-                        |
----------------------------------------------
-|               SMI common                  |
--0-----7-----5-----6-----1-----2------3-----4- <- Id remapped
- |     |     |     |     |     |      |     |
-larb0 larb1 IPU0  IPU1 larb4 larb5  larb6  CCU
-disp  vdec  img   cam   venc  img    cam
-As above, larb0 connects with the id 0 in smi-common.
-          larb1 connects with the id 7 in smi-common.
-          ...
-If the larb-id reported in the isr is 7, actually it's larb1(vdec).
-In order to output the right larb-id in the isr, we add a larb-id
-remapping relationship in this patch.
-
-If there is no this larb-id remapping in some SoCs, use the linear
-mapping array instead.
-
-This also is a preparing patch for mt8183.
+The protect memory setting is a little different in the different SoCs.
+In the register REG_MMU_CTRL_REG(0x110), the TF_PROT(translation fault
+protect) shift bit is normally 4 while it shift 5 bits only in the
+mt8173. This patch delete the complex MACRO and use a common if-else
+instead.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-Reviewed-by: Nicolas Boichat <drinkcat@chromium.org>
 Reviewed-by: Evan Green <evgreen@chromium.org>
 Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 ---
- drivers/iommu/mtk_iommu.c | 4 ++++
- drivers/iommu/mtk_iommu.h | 2 ++
- 2 files changed, 6 insertions(+)
+ drivers/iommu/mtk_iommu.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 0482bee..a915c25 100644
+index a915c25..4f8a2cb 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -234,6 +234,8 @@ static irqreturn_t mtk_iommu_isr(int irq, void *dev_id)
- 	fault_larb = F_MMU0_INT_ID_LARB_ID(regval);
- 	fault_port = F_MMU0_INT_ID_PORT_ID(regval);
+@@ -52,12 +52,9 @@
+ #define REG_MMU_DCM_DIS				0x050
  
-+	fault_larb = data->plat_data->larbid_remap[fault_larb];
-+
- 	if (report_iommu_fault(&dom->domain, data->dev, fault_iova,
- 			       write ? IOMMU_FAULT_WRITE : IOMMU_FAULT_READ)) {
- 		dev_err_ratelimited(
-@@ -764,12 +766,14 @@ static int __maybe_unused mtk_iommu_resume(struct device *dev)
- 	.m4u_plat     = M4U_MT2712,
- 	.has_4gb_mode = true,
- 	.has_bclk     = true,
-+	.larbid_remap = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
- };
+ #define REG_MMU_CTRL_REG			0x110
++#define F_MMU_TF_PROT_TO_PROGRAM_ADDR		(2 << 4)
+ #define F_MMU_PREFETCH_RT_REPLACE_MOD		BIT(4)
+-#define F_MMU_TF_PROTECT_SEL_SHIFT(data) \
+-	((data)->plat_data->m4u_plat == M4U_MT2712 ? 4 : 5)
+-/* It's named by F_MMU_TF_PROT_SEL in mt2712. */
+-#define F_MMU_TF_PROTECT_SEL(prot, data) \
+-	(((prot) & 0x3) << F_MMU_TF_PROTECT_SEL_SHIFT(data))
++#define F_MMU_TF_PROT_TO_PROGRAM_ADDR_MT8173	(2 << 5)
  
- static const struct mtk_iommu_plat_data mt8173_data = {
- 	.m4u_plat     = M4U_MT8173,
- 	.has_4gb_mode = true,
- 	.has_bclk     = true,
-+	.larbid_remap = {0, 1, 2, 3, 4, 5}, /* Linear mapping. */
- };
+ #define REG_MMU_IVRP_PADDR			0x114
  
- static const struct of_device_id mtk_iommu_of_ids[] = {
-diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
-index 63e235e..61fd5d6 100644
---- a/drivers/iommu/mtk_iommu.h
-+++ b/drivers/iommu/mtk_iommu.h
-@@ -46,6 +46,8 @@ struct mtk_iommu_plat_data {
+@@ -537,9 +534,11 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data)
+ 		return ret;
+ 	}
  
- 	/* HW will use the EMI clock if there isn't the "bclk". */
- 	bool                has_bclk;
-+
-+	unsigned char       larbid_remap[MTK_LARB_NR_MAX];
- };
+-	regval = F_MMU_TF_PROTECT_SEL(2, data);
+ 	if (data->plat_data->m4u_plat == M4U_MT8173)
+-		regval |= F_MMU_PREFETCH_RT_REPLACE_MOD;
++		regval = F_MMU_PREFETCH_RT_REPLACE_MOD |
++			 F_MMU_TF_PROT_TO_PROGRAM_ADDR_MT8173;
++	else
++		regval = F_MMU_TF_PROT_TO_PROGRAM_ADDR;
+ 	writel_relaxed(regval, data->base + REG_MMU_CTRL_REG);
  
- struct mtk_iommu_domain;
+ 	regval = F_L2_MULIT_HIT_EN |
 -- 
 1.9.1
 
