@@ -2,55 +2,59 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56D45B75E
-	for <lists.iommu@lfdr.de>; Mon,  1 Jul 2019 10:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E6A5B781
+	for <lists.iommu@lfdr.de>; Mon,  1 Jul 2019 11:12:01 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 56FC0714C;
-	Mon,  1 Jul 2019 08:59:50 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id E6DA3722C;
+	Mon,  1 Jul 2019 09:11:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 2C6B07142
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E20F3721B
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  1 Jul 2019 08:59:49 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id C1725832
+	Mon,  1 Jul 2019 09:11:57 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 3FF5B84C
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  1 Jul 2019 08:59:48 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-	by mx1.suse.de (Postfix) with ESMTP id E20E3AD2A;
-	Mon,  1 Jul 2019 08:59:46 +0000 (UTC)
-Date: Mon, 1 Jul 2019 10:59:44 +0200
-From: "jroedel@suse.de" <jroedel@suse.de>
-To: "Prakhya, Sai Praneeth" <sai.praneeth.prakhya@intel.com>
-Subject: Re: Device specific pass through in host systems - discuss user
-	interface
-Message-ID: <20190701085944.GB3131@suse.de>
-References: <FFF73D592F13FD46B8700F0A279B802F48DA796E@ORSMSX114.amr.corp.intel.com>
-	<b7a71b22-aa3b-5ac3-7285-5231f84ee979@intel.com>
-	<FFF73D592F13FD46B8700F0A279B802F48DD2A02@ORSMSX114.amr.corp.intel.com>
-	<20190610135617.GA27166@araj-mobl1.jf.intel.com>
-	<FFF73D592F13FD46B8700F0A279B802F48DE19EC@ORSMSX114.amr.corp.intel.com>
-	<20190611045614.GB6469@araj-mobl1.jf.intel.com>
-	<FFF73D592F13FD46B8700F0A279B802F48DE94B3@ORSMSX114.amr.corp.intel.com>
+	Mon,  1 Jul 2019 09:11:57 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id q20so12741025otl.0
+	for <iommu@lists.linux-foundation.org>;
+	Mon, 01 Jul 2019 02:11:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=vrfkJssjVDLW+XqYQpIBNfx1iw/D41O+Rgdu06lVQjo=;
+	b=L3OhmQoVgo9SsNPzDuzg5Fz+EZqSYW/ERZHLIuW2kfCGBP2vPtP/Li9l4X+nj/APan
+	7C6pfcRHrW4bKFy+LNhQgQQk0BdxR0BJsW11OnrUNo57XzVzTbi/Zz5+WwKEy8QUtLuA
+	TpWIeS+seGG7ZMScf804aAk7jpiSpsY+KLjZTw56dxzjXovZKY1SjyH2Zqw858yhe/1D
+	2P6+SwFZtpS1qLpqbaaLxPId/ofZjFXxTCARTD0rLq88BJf6dGu/U4cUFT/H/EcvksC6
+	0KVrju2npNHASFN1vtCKDwkoowJXMACGIhzHFWxONrCBDCHYat8dz7oLmPW40WFaXRqs
+	GxIw==
+X-Gm-Message-State: APjAAAW6bWMirsnTPZbn/BKlkYc4iEg6KARUnOCq8skoIYV/FQSMzgyW
+	GYtY+A2UGzyb80R6rme+RdhfSRxGQNOMMzLNljo=
+X-Google-Smtp-Source: APXvYqzVk/OyjjzY0nFtClX5qDGpGeyg9GkiF4n9W945/G5IBkuHr61awlT7Lm9v1RLyJvTz3n3CldjmYOSicw0m17c=
+X-Received: by 2002:a9d:2f03:: with SMTP id h3mr18782897otb.107.1561972316496; 
+	Mon, 01 Jul 2019 02:11:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <FFF73D592F13FD46B8700F0A279B802F48DE94B3@ORSMSX114.amr.corp.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+References: <20190625090135.18872-1-hch@lst.de>
+	<20190625090135.18872-2-hch@lst.de>
+In-Reply-To: <20190625090135.18872-2-hch@lst.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 1 Jul 2019 11:11:45 +0200
+Message-ID: <CAMuHMdUqVi61Uf15w4xxDVDmHU1mAyipq75otE7j14C3tLjMmw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] m68k: use the generic dma coherent remap allocator
+To: Christoph Hellwig <hch@lst.de>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Shankar, Ravi V" <ravi.v.shankar@intel.com>, "Tian,
-	Kevin" <kevin.tian@intel.com>, "Raj,
-	Ashok" <ashok.raj@intel.com>, Will Deacon <will.deacon@arm.com>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	"Pan, Jacob jun" <jacob.jun.pan@intel.com>,
-	"robin.murphy@arm.com" <robin.murphy@arm.com>,
-	"hch@lst.de" <hch@lst.de>, "Lu, Baolu" <baolu.lu@intel.com>
+Cc: linux-m68k <linux-m68k@lists.linux-m68k.org>,
+	Linux IOMMU <iommu@lists.linux-foundation.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,22 +72,107 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, Jun 11, 2019 at 05:27:15PM +0000, Prakhya, Sai Praneeth wrote:
-> 1. Since we already have "type" file, which is "read-only", we could make it R/W.
-> 
-> The present value shows the existing type of default domain.
-> If user wants to change it (Eg: from DMA to IDENTITY or vice versa), he attempts to write the new value.
-> Kernel performs checks to make sure that the driver in unbinded and it's safe to change the default domain type.
-> After successfully changing the default_domain type internally, kernel reflects the new value in the file.
-> Ay errors in the process will be reported in dmesg.
+Hi Christoph,
 
-I prefer this way. Writing to the file should fail with -EBUSY when it
-is not safe to change the default domain-type. Writing should only
-succeed when no device in the group is assigned to a device driver.
+On Tue, Jun 25, 2019 at 11:01 AM Christoph Hellwig <hch@lst.de> wrote:
+> This switche to using common code for the DMA allocations, including
 
-Regards,
+switches m68k
 
-	Joerg
+> potential use of the CMA allocator if configure.  Also add a
+
+configured
+
+> comment where the existing behavior seems to be lacking.
+>
+> Switching to the generic code enables DMA allocations from atomic
+> context, which is required by the DMA API documentation, and also
+> adds various other minor features drivers start relying upon.  It
+> also makes sure we have on tested code base for all architectures
+
+a tested code base
+
+> that require uncached pte bits for coherent DMA allocations.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+Thanks, applying and queueing for v5.3.
+
+> --- a/arch/m68k/kernel/dma.c
+> +++ b/arch/m68k/kernel/dma.c
+> @@ -18,57 +18,20 @@
+>  #include <asm/pgalloc.h>
+>
+>  #if defined(CONFIG_MMU) && !defined(CONFIG_COLDFIRE)
+> -
+> -void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *handle,
+> -               gfp_t flag, unsigned long attrs)
+> +pgprot_t arch_dma_mmap_pgprot(struct device *dev, pgprot_t prot,
+> +               unsigned long attrs)
+>  {
+> -       struct page *page, **map;
+> -       pgprot_t pgprot;
+> -       void *addr;
+> -       int i, order;
+> -
+> -       pr_debug("dma_alloc_coherent: %d,%x\n", size, flag);
+> -
+> -       size = PAGE_ALIGN(size);
+> -       order = get_order(size);
+> -
+> -       page = alloc_pages(flag | __GFP_ZERO, order);
+> -       if (!page)
+> -               return NULL;
+> -
+> -       *handle = page_to_phys(page);
+> -       map = kmalloc(sizeof(struct page *) << order, flag & ~__GFP_DMA);
+> -       if (!map) {
+> -               __free_pages(page, order);
+> -               return NULL;
+> +       /*
+> +        * XXX: this doesn't seem to handle the sun3 MMU at all.
+
+Correct.  This file is not compiled on Sun-3, which selects NO_DMA, so
+I'll drop the comment while applying.
+
+> +        */
+> +       if (CPU_IS_040_OR_060) {
+> +               pgprot_val(prot) &= ~_PAGE_CACHE040;
+> +               pgprot_val(prot) |= _PAGE_GLOBAL040 | _PAGE_NOCACHE_S;
+> +       } else {
+> +               pgprot_val(prot) |= _PAGE_NOCACHE030;
+>         }
+> -       split_page(page, order);
+> -
+> -       order = 1 << order;
+> -       size >>= PAGE_SHIFT;
+> -       map[0] = page;
+> -       for (i = 1; i < size; i++)
+> -               map[i] = page + i;
+> -       for (; i < order; i++)
+> -               __free_page(page + i);
+> -       pgprot = __pgprot(_PAGE_PRESENT | _PAGE_ACCESSED | _PAGE_DIRTY);
+> -       if (CPU_IS_040_OR_060)
+> -               pgprot_val(pgprot) |= _PAGE_GLOBAL040 | _PAGE_NOCACHE_S;
+> -       else
+> -               pgprot_val(pgprot) |= _PAGE_NOCACHE030;
+> -       addr = vmap(map, size, VM_MAP, pgprot);
+> -       kfree(map);
+> -
+> -       return addr;
+> +       return prot;
+>  }
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
