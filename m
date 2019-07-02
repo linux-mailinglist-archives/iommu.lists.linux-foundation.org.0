@@ -2,56 +2,55 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8675D248
-	for <lists.iommu@lfdr.de>; Tue,  2 Jul 2019 17:02:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2FA5D39F
+	for <lists.iommu@lfdr.de>; Tue,  2 Jul 2019 17:53:48 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 3D04F1AFD;
-	Tue,  2 Jul 2019 15:02:34 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id E85D01D5D;
+	Tue,  2 Jul 2019 15:53:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 2DCCB19A8
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 71BD51D0A
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  2 Jul 2019 14:59:46 +0000 (UTC)
+	Tue,  2 Jul 2019 15:49:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id C5496834
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 96FB5836
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  2 Jul 2019 14:59:45 +0000 (UTC)
+	Tue,  2 Jul 2019 15:49:38 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A1821424;
-	Tue,  2 Jul 2019 07:59:45 -0700 (PDT)
-Received: from [10.1.196.129] (ostrya.cambridge.arm.com [10.1.196.129])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8FE533F703;
-	Tue,  2 Jul 2019 07:59:43 -0700 (PDT)
-Subject: Re: [PATCH v3 8/9] iommu/arm-smmu-v3: Add support for PCI ATS
-To: Robin Murphy <robin.murphy@arm.com>, Will Deacon <Will.Deacon@arm.com>,
-	Lorenzo Pieralisi <Lorenzo.Pieralisi@arm.com>,
-	"bhelgaas@google.com" <bhelgaas@google.com>
-References: <20190417182448.12382-1-jean-philippe.brucker@arm.com>
-	<20190417182448.12382-9-jean-philippe.brucker@arm.com>
-	<7fcd5263-8a20-11cb-0c20-9fee35fe65c1@arm.com>
-From: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
-Message-ID: <433038b1-048b-57ab-db0e-5f9f940d52ce@arm.com>
-Date: Tue, 2 Jul 2019 15:59:09 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 22AF128;
+	Tue,  2 Jul 2019 08:49:38 -0700 (PDT)
+Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BFEAD3F246;
+	Tue,  2 Jul 2019 08:49:35 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/2] Support for TI Page-based Address Translator
+To: "Andrew F. Davis" <afd@ti.com>, Rob Herring <robh+dt@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Santosh Shilimkar
+	<ssantosh@kernel.org>, Will Deacon <will.deacon@arm.com>,
+	Joerg Roedel <joro@8bytes.org>, David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>, Tero Kristo <t-kristo@ti.com>,
+	William Mills <wmills@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	John Stultz <john.stultz@linaro.org>
+References: <20190607193523.25700-1-afd@ti.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <f706bfe0-fdf6-afdd-fea7-13b78b16cdee@arm.com>
+Date: Tue, 2 Jul 2019 16:49:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <7fcd5263-8a20-11cb-0c20-9fee35fe65c1@arm.com>
-Content-Language: en-US
+In-Reply-To: <20190607193523.25700-1-afd@ti.com>
+Content-Language: en-GB
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
 	version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "zhongmiao@hisilicon.com" <zhongmiao@hisilicon.com>,
-	"okaya@kernel.org" <okaya@kernel.org>, Sudeep Holla <Sudeep.Holla@arm.com>,
-	"rjw@rjwysocki.net" <rjw@rjwysocki.net>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "lenb@kernel.org" <lenb@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,48 +63,153 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 01/07/2019 18:41, Robin Murphy wrote:
-> Hi Jean-Philippe,
+On 07/06/2019 20:35, Andrew F. Davis wrote:
+> Hello all,
 > 
-> I realise it's a bit late for a "review", but digging up the original 
-> patch seemed as good a place as any to raise this...
+> So I've got a new IP on our new SoC I'm looking to make use of and would
+> like some help figuring out what framework best matches its function. The
+> IP is called a "Page-based Address Translator" or PAT. A PAT instance
+> (there are 5 of these things on our J721e device[0]) is basically a
+> really simple IOMMU sitting on the interconnect between the device bus
+> and what is effectively our northbridge called
+> MSMC (DRAM/SRAM/L3-Cache/Coherency controller).
 > 
-> On 17/04/2019 19:24, Jean-Philippe Brucker wrote:
-> [...]
->> @@ -1740,6 +1906,9 @@ static void arm_smmu_detach_dev(struct arm_smmu_master *master)
->>   
->>   	master->domain = NULL;
->>   	arm_smmu_install_ste_for_dev(master);
->> +
->> +	/* Disabling ATS invalidates all ATC entries */
->> +	arm_smmu_disable_ats(master);
->>   }
+> Simplified it looks about like this:
 > 
-> Is that actually true? I had initially overlooked this entirely while 
-> diagnosing something else and thought that we were missing any ATC 
-> invalidation on detach at all, but even having looked again I'm not 
-> entirely convinced it's bulletproof.
+>           CPUs
+>            |
+> DRAM --- MSMC --- SRAM/L3
+>            |
+>          NAVSS - (PATs)
+>            |
+>    --- Device Bus ---------
+>   |      |      |          |
+> Device  Device  Device   etc..
 > 
-> Firstly, the ATS spec only seems to say that *enabling* the ATS 
-> capability invalidates all ATC entries, although I think any corner 
-> cases that that alone opens up should be at best theoretical. More 
-> importantly though, pci_disable_ats() might not actually touch the 
-> capability - given that, it seems possible to move a VF to a new domain, 
-> and if it's not reset, end up preserving now-bogus ATC entries despite 
-> the old domain being torn down and freed. Do we need an explicit ATC 
-> invalidation here to be 100% safe, or is there something else I'm missing?
+> Each PAT has a set a window in high memory (about 0x48_0000_0000 area)
+> for which any transaction with an address targeting its window will be
+> routed into that PAT. The PAT then does a simple calculation based on
+> the how far into the window the address is and the current page size,
+> does a lookup to an internally held table of translations, then sends the
+> transaction back out on the interconnect with a new address. Usually this
+> address should be towards somewhere in DRAM, but can be some other device
+> or even back into PAT (I'm not sure there is a valid use-case for this
+> but just a point of interest).
+> 
+> My gut reaction is that this is an IOMMU which belongs in the IOMMU
+> subsystem. But there are a couple oddities that make me less sure it is
+> really suitable for the IOMMU framework. First it doesn't sit in front of
+> any devices, it sits in front of *all* devices, this means we would have
+> every device claim it as an IOMMU parent, even though many devices also
+> have a traditional IOMMU connected. Second, there is only a limited
+> window of address space per PAT, this means we will get fragmentation and
+> allocation failures on occasion, in this way it looks to me more like AGP
+> GART. Third, the window is in high-memory, so unlike some IOMMU devices
+> which can be used to allow DMA to high-mem from low-mem only devices, PAT
+> can't be used for that. Lastly it doesn't provide any isolation, if the
+> access does not target the PAT window it is not used (that is not to say
+> we don't have isolation, just that it is taken care of by other parts of
+> the interconnect).
+> 
+> This means, to me, that PAT has one main purpose: making
+> physically-contiguous views of scattered pages in system memory for DMA.
+> But it does that really well, the whole translation table is held in a
+> PAT-internal SRAM giving 1 bus cycle latency and at full bus bandwidth.
+> 
+> So what are my options here, is IOMMU the right way to go or not?
 
-Good points, yes the comment is wrong and it looks like we need an
-explicit invalidation given the current pci_disable_ats()
-implementation. I'll send a fix shortly.
+FWIW, that sounds almost exactly like my (vague) understanding of other 
+GARTs, and as such should be pretty well manageable via the IOMMU API - 
+we already have tegra-gart, for example. The aperture contention issue 
+could certainly be mitigated by letting the firmware claim it's only 
+associated with the display and any other devices which really need it.
 
-Thanks,
-Jean
+A further interesting avenue of investigation - now that Christoph's 
+recent work has made it much more possible - would be a second set of 
+IOMMU DMA ops tailored for "GART-like" domains where force_aperture=0, 
+which could behave as dma-direct wherever possible and only use IOMMU 
+remaps when absolutely necessary.
+
+Robin.
+
+> Looking around the kernel I also see the char dev ARP/GART interface
+> which looks like a good fit, but also looks quite dated and my guess
+> deprecated at this point. Moving right along..
+> 
+> Another thing I saw is we have the support upstream of the DMM device[1]
+> available in some OMAPx/AM57x SoCs. I'm a little more familiar with this
+> device. The DMM is a bundle of IPs and in fact one of them is called
+> "PAT" and it even does basically the same thing this incarnation of "PAT"
+> does. It's upstream integration design is a bit questionable
+> unfortunately, the DMM support was integrated into the OMAPDRM display
+> driver, which does make some sense then given its support for rotation
+> (using TILER IP contained in DMM). The issue with this was that the
+> DMM/TILER/PAT IP was not part of the our display IP, but instead out at
+> the end of the shared device bus, inside the external memory controller.
+> Like this new PAT this meant that any IP that could make use of it, but
+> only the display framework could actually provide buffers backed by it.
+> This meant, for instance, if we wanted to decode some video buffer using
+> our video decoder we would have to allocate from DRM framework then pass
+> that over to the V4L2 system. This doesn't make much sense and required
+> the user-space to know about this odd situation and allocate from the
+> right spot or else have to use up valuable CMA space or waste memory with
+> dedicated carveouts.
+> 
+> Another idea would be to have this as a special central allocator
+> (exposed through DMA-BUF heaps[2] or ION) that would give out normal
+> system memory as a DMA-BUF but remap it with PAT if a device that only
+> supports contiguous memory tries to attach/map that DMA-BUF.
+> 
+> One last option would be to allow user-space to choose to make the buffer
+> contiguous when it needs. That's what the driver in this series allows.
+> We expose a remapping device, user-space passes it a non-contiguous
+> DMA-BUF handle and it passes a contiguous one back. Simple as that.
+> 
+> So how do we use this, lets take Android for example, we don't know at
+> allocation time if a rendering buffer will end up going back into the GPU
+> for further processing, or if it will be consumed directly by the display.
+> This is a problem for us as our GPU can work with non-contiguous buffers
+> but our display cannot, so any buffers that could possibly go to the
+> display at some point currently needs to be allocated as contiguous from
+> the start, this leads to a lot of unneeded use of carveout/CMA memory.
+> With this driver on the other hand, we allocate regular non-contiguous
+> system memory (again using DMA-BUF heaps, but ION could work here too),
+> then only when a buffer is about to be sent to the display we pass the
+> handle to this DMA-BUF to our driver here and take the handle it gives
+> back and pass that to the display instead.
+> 
+> As said, it is probably not the ideal solution but it does work and was
+> used for some early testing of the IP.
+> 
+> Well, sorry for the wall of text.
+> Any and all suggestions very welcome and appreciated.
+> 
+> Thanks,
+> Andrew
+> 
+> [0] http://www.ti.com/lit/pdf/spruil1
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
+> [2] https://lkml.org/lkml/2019/6/6/1211
+> 
+> Andrew F. Davis (2):
+>    dt-bindings: soc: ti: Add TI PAT bindings
+>    soc: ti: Add Support for the TI Page-based Address Translator (PAT)
+> 
+>   .../devicetree/bindings/misc/ti,pat.txt       |  34 ++
+>   drivers/soc/ti/Kconfig                        |   9 +
+>   drivers/soc/ti/Makefile                       |   1 +
+>   drivers/soc/ti/ti-pat.c                       | 569 ++++++++++++++++++
+>   include/uapi/linux/ti-pat.h                   |  44 ++
+>   5 files changed, 657 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/misc/ti,pat.txt
+>   create mode 100644 drivers/soc/ti/ti-pat.c
+>   create mode 100644 include/uapi/linux/ti-pat.h
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
