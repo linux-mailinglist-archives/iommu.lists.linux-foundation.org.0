@@ -2,41 +2,44 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F2C5DB33
-	for <lists.iommu@lfdr.de>; Wed,  3 Jul 2019 03:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA6C5DB34
+	for <lists.iommu@lfdr.de>; Wed,  3 Jul 2019 03:57:16 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id DA408119E;
-	Wed,  3 Jul 2019 01:57:10 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 167D011AD;
+	Wed,  3 Jul 2019 01:57:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 949DA1079
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 20070F8D
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  3 Jul 2019 01:57:09 +0000 (UTC)
+	Wed,  3 Jul 2019 01:57:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D525A70D
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 95813782
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  3 Jul 2019 01:57:08 +0000 (UTC)
+	Wed,  3 Jul 2019 01:57:09 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Jul 2019 18:57:08 -0700
+	02 Jul 2019 18:57:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,445,1557212400"; d="scan'208";a="190875048"
+X-IronPort-AV: E=Sophos;i="5.63,445,1557212400"; d="scan'208";a="190875052"
 Received: from sai-dev-mach.sc.intel.com ([143.183.140.153])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Jul 2019 18:57:08 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 02 Jul 2019 18:57:09 -0700
 From: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH RFC 0/4] iommu: Add support to change default domain of a group
-Date: Tue,  2 Jul 2019 18:53:58 -0700
-Message-Id: <cover.1562116655.git.sai.praneeth.prakhya@intel.com>
+Subject: [PATCH RFC 1/4] iommu/vt-d: Modify device_def_domain_type() to use at
+	runtime
+Date: Tue,  2 Jul 2019 18:53:59 -0700
+Message-Id: <f83f7a321c31e4747488c7787d53315fa25e9a31.1562116655.git.sai.praneeth.prakhya@intel.com>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <cover.1562116655.git.sai.praneeth.prakhya@intel.com>
+References: <cover.1562116655.git.sai.praneeth.prakhya@intel.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.6 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-	RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 Cc: Ashok Raj <ashok.raj@intel.com>, Will Deacon <will.deacon@arm.com>,
@@ -58,37 +61,18 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Presently, the default domain of a group is allocated during boot time and it
-cannot be changed later. So, the device would typically be either in
-identity/pass through mode or the device would be in DMA mode as long as the
-system is up and running. There is no way to change the default domain type
-dynamically i.e. after booting, a device cannot switch between identity mode and
-DMA mode.
+device_def_domain_type() determines the domain type a device could have and
+it's called only during boot. But, to change the domain of a group through
+sysfs, kernel has to call this function during runtime. Hence, add an
+argument to the function which lets the function know if it's being called
+at boot time or runtime.
 
-Assume a use case where-in the priviliged user would want to use the device in
-pass-through mode when the device is used for host but would want to switch to
-dma protected mode when switching for VFIO in user space. Presently, this is not
-supported and hence add support to change default domain of a group dynamically.
-
-Support this through a sysfs file, namely "/sys/kernel/iommu_groups/<grp_id>/type".
-
-Testing:
---------
-Tested by dynamically changing USB device from identity mode to dma and from dma
-to identity. Only for x86_64 (i.e. intel_iommu/vt-d). Haven't tested for other
-architectures.
-
-Sai Praneeth Prakhya (4):
-  iommu/vt-d: Modify device_def_domain_type() to use at runtime
-  iommu: Add device_def_domain_type() call back function to iommu_ops
-  iommu: Add support to change default domain of a group
-  iommu: Document usage of "/sys/kernel/iommu_groups/<grp_id>/type" file
-
- .../ABI/testing/sysfs-kernel-iommu_groups     |  34 ++++
- drivers/iommu/intel-iommu.c                   |  32 +++-
- drivers/iommu/iommu.c                         | 178 +++++++++++++++++-
- include/linux/iommu.h                         |   3 +
- 4 files changed, 237 insertions(+), 10 deletions(-)
+Normally, device_def_domain_type() considers the value of command line
+arguments like "intel_iommu=igfx_off" or "iommu=pt" to determine the domain
+type of a device, but at runtime, user request should take higher priority
+over command line arguments. Hence, use 'startup' argument to modify
+device_def_domain_type() such that command line argument settings apply only at
+boot time.
 
 Cc: Christoph Hellwig <hch@lst.de>
 Cc: Joerg Roedel <joro@8bytes.org>
@@ -99,7 +83,84 @@ Cc: Sohil Mehta <sohil.mehta@intel.com>
 Cc: Robin Murphy <robin.murphy@arm.com>
 Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
 Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+---
+ drivers/iommu/intel-iommu.c | 29 ++++++++++++++++++++---------
+ 1 file changed, 20 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index ac4172c02244..54e82415e396 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -2862,15 +2862,19 @@ static bool device_is_rmrr_locked(struct device *dev)
+ /*
+  * Return the required default domain type for a specific device.
+  *
+- * @dev: the device in query
+- * @startup: true if this is during early boot
++ * @dev:	The device in query
++ * @startup:	Should command line arguments (E.g: igfx_off or iommu=pt) be
++ *		considered to decide the domain type of a device? Which is
++ *		'true' while booting but 'false' if the user requests kernel to
++ *		change the domain type by writing to
++ *		/sys/kernel/iommu_groups/<group_id>/type.
+  *
+  * Returns:
+  *  - IOMMU_DOMAIN_DMA: device requires a dynamic mapping domain
+  *  - IOMMU_DOMAIN_IDENTITY: device requires an identical mapping domain
+  *  - 0: both identity and dynamic domains work for this device
+  */
+-static int device_def_domain_type(struct device *dev)
++static int device_def_domain_type(struct device *dev, bool startup)
+ {
+ 	if (dev_is_pci(dev)) {
+ 		struct pci_dev *pdev = to_pci_dev(dev);
+@@ -2888,8 +2892,11 @@ static int device_def_domain_type(struct device *dev)
+ 		if ((iommu_identity_mapping & IDENTMAP_AZALIA) && IS_AZALIA(pdev))
+ 			return IOMMU_DOMAIN_IDENTITY;
+ 
+-		if ((iommu_identity_mapping & IDENTMAP_GFX) && IS_GFX_DEVICE(pdev))
+-			return IOMMU_DOMAIN_IDENTITY;
++		if (startup) {
++			if ((iommu_identity_mapping & IDENTMAP_GFX) &&
++			    IS_GFX_DEVICE(pdev))
++				return IOMMU_DOMAIN_IDENTITY;
++		}
+ 
+ 		/*
+ 		 * We want to start off with all devices in the 1:1 domain, and
+@@ -2920,8 +2927,12 @@ static int device_def_domain_type(struct device *dev)
+ 			return IOMMU_DOMAIN_DMA;
+ 	}
+ 
+-	return (iommu_identity_mapping & IDENTMAP_ALL) ?
+-			IOMMU_DOMAIN_IDENTITY : 0;
++	if (startup) {
++		if (iommu_identity_mapping & IDENTMAP_ALL)
++			return IOMMU_DOMAIN_IDENTITY;
++	}
++
++	return 0;
+ }
+ 
+ static void intel_iommu_init_qi(struct intel_iommu *iommu)
+@@ -5275,7 +5286,7 @@ static int intel_iommu_add_device(struct device *dev)
+ 	domain = iommu_get_domain_for_dev(dev);
+ 	dmar_domain = to_dmar_domain(domain);
+ 	if (domain->type == IOMMU_DOMAIN_DMA) {
+-		if (device_def_domain_type(dev) == IOMMU_DOMAIN_IDENTITY) {
++		if (device_def_domain_type(dev, true) == IOMMU_DOMAIN_IDENTITY) {
+ 			ret = iommu_request_dm_for_dev(dev);
+ 			if (ret) {
+ 				dmar_domain->flags |= DOMAIN_FLAG_LOSE_CHILDREN;
+@@ -5285,7 +5296,7 @@ static int intel_iommu_add_device(struct device *dev)
+ 			}
+ 		}
+ 	} else {
+-		if (device_def_domain_type(dev) == IOMMU_DOMAIN_DMA) {
++		if (device_def_domain_type(dev, true) == IOMMU_DOMAIN_DMA) {
+ 			ret = iommu_request_dma_domain_for_dev(dev);
+ 			if (ret) {
+ 				dmar_domain->flags |= DOMAIN_FLAG_LOSE_CHILDREN;
 -- 
 2.19.1
 
