@@ -2,55 +2,56 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B18F6587D
-	for <lists.iommu@lfdr.de>; Thu, 11 Jul 2019 16:06:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDF065874
+	for <lists.iommu@lfdr.de>; Thu, 11 Jul 2019 16:06:08 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id E33B3506C;
-	Thu, 11 Jul 2019 14:05:44 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 1CB7E509A;
+	Thu, 11 Jul 2019 14:05:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id CCF9F5065
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 424555068
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 11 Jul 2019 13:59:20 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4DCE1883
+	Thu, 11 Jul 2019 13:57:02 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B42EB894
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 11 Jul 2019 13:59:20 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AEF75C057F2E;
-	Thu, 11 Jul 2019 13:59:19 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-46.ams2.redhat.com [10.36.116.46])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9D71560A97;
-	Thu, 11 Jul 2019 13:59:09 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com,
-	iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu, joro@8bytes.org,
-	alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
-	yi.l.liu@intel.com, jean-philippe.brucker@arm.com, will.deacon@arm.com,
-	robin.murphy@arm.com
-Subject: [PATCH v9 11/11] vfio: Document nested stage control
-Date: Thu, 11 Jul 2019 15:56:25 +0200
-Message-Id: <20190711135625.20684-12-eric.auger@redhat.com>
-In-Reply-To: <20190711135625.20684-1-eric.auger@redhat.com>
-References: <20190711135625.20684-1-eric.auger@redhat.com>
+	Thu, 11 Jul 2019 13:57:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20170209;
+	h=Content-Type:MIME-Version:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=0TdTTvv9gzZPCqHVN09rsHZfcgoPwm7Gi1QT/oQm0qY=;
+	b=qtcfa93Pmpg0IzzyXiBu0TpI7g
+	FlOPh39+Gsq5ONektm3WTqhDZYvBvRZat5iuAfWVWapUnx+gChRjB/4LL9cyKLBd4epmlFjmwzJEN
+	su1bngdlgE9OINFndq1VKV/dHzZg5DBhqRaclSI4UXci8KQQ+dB1U8stEkDCuSnJvxB+BVoeY8v+F
+	Wq/G5MnIWO/ZLLF90OzoOnzovyg0aqBX6zKxWHvP+xRJrrHtQArW3E5XIZYJjs+QswqPH41Gr4H3S
+	1uZlSt25IhO+u8VtMrXnG87GY6LjnPKT5sWNzMDx8BGOXRw5W8WkopRoRWhNbFmvxqDR1XUsLXYO+
+	6Qqs9yuQ==;
+Received: from [38.98.37.141] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+	id 1hlZZD-0004uL-J9; Thu, 11 Jul 2019 13:57:00 +0000
+Date: Thu, 11 Jul 2019 15:56:54 +0200
+From: Christoph Hellwig <hch@infradead.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [GIT PULL] dma-mapping updates for 5.3
+Message-ID: <20190711135654.GA15312@infradead.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Thu, 11 Jul 2019 13:59:19 +0000 (UTC)
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
-	autolearn=ham version=3.3.1
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: peter.maydell@linaro.org, kevin.tian@intel.com, vincent.stehle@arm.com,
-	ashok.raj@intel.com, marc.zyngier@arm.com, tina.zhang@intel.com
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,120 +69,136 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The VFIO API was enhanced to support nested stage control: a bunch of
-new iotcls, one DMA FAULT region and an associated specific IRQ.
+Hi Linus,
 
-Let's document the process to follow to set up nested mode.
+please pull the dma-mapping update below.  Note that the tree is based
+on an branch from Joergs iommu tree that you have pulled earlier this
+week.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+There are a few of the usual Kconfig conflicts where different trees
+touch the same area, but not the same symbols, just take the changes
+from both tree in that case (none of them is in your tree yet as of
+this time).
 
----
+In addition there is a conflict in genalloc.h against mainline where
+late patches in the 5.2 cycle added a new gen_pool_free_owner function
+and made gen_pool_free a wrapper around it.  This tree adds new
+helpers right next to it, the fix is again to take both changes
+manually.  Bonous points for keeping all the alloc functions above
+the free ones to keep the file ordering, unlike the default git
+presentation.
 
-v8 -> v9:
-- new names for SET_MSI_BINDING and SET_PASID_TABLE
-- new layout for the DMA FAULT memory region and specific IRQ
 
-v2 -> v3:
-- document the new fault API
+The following changes since commit 1b961423158caaae49d3900b7c9c37477bbfa9b3:
 
-v1 -> v2:
-- use the new ioctl names
-- add doc related to fault handling
----
- Documentation/vfio.txt | 77 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+  iommu/dma: Fix condition check in iommu_dma_unmap_sg (2019-06-03 12:14:51 +0200)
 
-diff --git a/Documentation/vfio.txt b/Documentation/vfio.txt
-index f1a4d3c3ba0b..563ebcec9224 100644
---- a/Documentation/vfio.txt
-+++ b/Documentation/vfio.txt
-@@ -239,6 +239,83 @@ group and can access them as follows::
- 	/* Gratuitous device reset and go... */
- 	ioctl(device, VFIO_DEVICE_RESET);
- 
-+IOMMU Dual Stage Control
-+------------------------
-+
-+Some IOMMUs support 2 stages/levels of translation. "Stage" corresponds to
-+the ARM terminology while "level" corresponds to Intel's VTD terminology. In
-+the following text we use either without distinction.
-+
-+This is useful when the guest is exposed with a virtual IOMMU and some
-+devices are assigned to the guest through VFIO. Then the guest OS can use
-+stage 1 (IOVA -> GPA), while the hypervisor uses stage 2 for VM isolation
-+(GPA -> HPA).
-+
-+The guest gets ownership of the stage 1 page tables and also owns stage 1
-+configuration structures. The hypervisor owns the root configuration structure
-+(for security reason), including stage 2 configuration. This works as long
-+configuration structures and page table format are compatible between the
-+virtual IOMMU and the physical IOMMU.
-+
-+Assuming the HW supports it, this nested mode is selected by choosing the
-+VFIO_TYPE1_NESTING_IOMMU type through:
-+
-+ioctl(container, VFIO_SET_IOMMU, VFIO_TYPE1_NESTING_IOMMU);
-+
-+This forces the hypervisor to use the stage 2, leaving stage 1 available for
-+guest usage.
-+
-+Once groups are attached to the container, the guest stage 1 translation
-+configuration data can be passed to VFIO by using
-+
-+ioctl(container, VFIO_IOMMU_SET_PASID_TABLE, &pasid_table_info);
-+
-+This allows to combine the guest stage 1 configuration structure along with
-+the hypervisor stage 2 configuration structure. Stage 1 configuration
-+structures are dependent on the IOMMU type.
-+
-+As the stage 1 translation is fully delegated to the HW, translation faults
-+encountered during the translation process need to be propagated up to
-+the virtualizer and re-injected into the guest.
-+
-+The userspace must be prepared to receive faults. The VFIO-PCI device
-+exposes one dedicated DMA FAULT region: it contains a ring buffer and
-+its header that allows to manage the head/tail indices. The region is
-+identified by the following index/subindex:
-+- VFIO_REGION_TYPE_NESTED/VFIO_REGION_SUBTYPE_NESTED_DMA_FAULT
-+
-+The DMA FAULT region exposes a VFIO_REGION_INFO_CAP_PRODUCER_FAULT
-+region capability that allows the userspace to retrieve the ABI version
-+of the fault records filled by the host.
-+
-+On top of that region, the userspace can be notified whenever a fault
-+occurs at the physical level. It can use the VFIO_IRQ_TYPE_NESTED/
-+VFIO_IRQ_SUBTYPE_DMA_FAULT specific IRQ to attach the eventfd to be
-+signalled.
-+
-+The ring buffer containing the fault records can be mmapped. When
-+the userspace consumes a fault in the queue, it should increment
-+the consumer index to allow new fault records to replace the used ones.
-+
-+The queue size and the entry size can be retrieved in the header.
-+The tail index should never overshoot the producer index as in any
-+other circular buffer scheme. Also it must be less than the queue size
-+otherwise the change fails.
-+
-+When the guest invalidates stage 1 related caches, invalidations must be
-+forwarded to the host through
-+ioctl(container, VFIO_IOMMU_CACHE_INVALIDATE, &inv_data);
-+Those invalidations can happen at various granularity levels, page, context, ...
-+
-+The ARM SMMU specification introduces another challenge: MSIs are translated by
-+both the virtual SMMU and the physical SMMU. To build a nested mapping for the
-+IOVA programmed into the assigned device, the guest needs to pass its IOVA/MSI
-+doorbell GPA binding to the host. Then the hypervisor can build a nested stage 2
-+binding eventually translating into the physical MSI doorbell.
-+
-+This is achieved by calling
-+ioctl(container, VFIO_IOMMU_SET_MSI_BINDING, &guest_binding);
-+
- VFIO User API
- -------------------------------------------------------------------------------
- 
--- 
-2.20.1
+are available in the Git repository at:
 
+  git://git.infradead.org/users/hch/dma-mapping.git tags/dma-mapping-5.3
+
+for you to fetch changes up to 15ffe5e1acf5fe1512e98b20702e46ce9f25e2f7:
+
+  dma-mapping: mark dma_alloc_need_uncached as __always_inline (2019-07-08 14:19:33 -0700)
+
+----------------------------------------------------------------
+dma-mapping updates for Linux 5.3
+
+ - move the USB special case that bounced DMA through a device
+   bar into the USB code instead of handling it in the common
+   DMA code (Laurentiu Tudor and Fredrik Noring)
+ - don't dip into the global CMA pool for single page allocations
+   (Nicolin Chen)
+ - fix a crash when allocating memory for the atomic pool failed
+   during boot (Florian Fainelli)
+ - move support for MIPS-style uncached segments to the common
+   code and use that for MIPS and nios2 (me)
+ - make support for DMA_ATTR_NON_CONSISTENT and
+   DMA_ATTR_NO_KERNEL_MAPPING generic (me)
+ - convert nds32 to the generic remapping allocator (me)
+
+----------------------------------------------------------------
+Christoph Hellwig (17):
+      MIPS: remove the _dma_cache_wback_inv export
+      au1100fb: fix DMA API abuse
+      dma-direct: provide generic support for uncached kernel segments
+      MIPS: use the generic uncached segment support in dma-direct
+      dma-mapping: truncate dma masks to what dma_addr_t can hold
+      ARM: dma-mapping: allow larger DMA mask than supported
+      arm-nommu: remove the partial DMA_ATTR_NON_CONSISTENT support
+      arc: remove the partial DMA_ATTR_NON_CONSISTENT support
+      openrisc: remove the partial DMA_ATTR_NON_CONSISTENT support
+      dma-mapping: add a dma_alloc_need_uncached helper
+      dma-direct: handle DMA_ATTR_NON_CONSISTENT in common code
+      dma-direct: handle DMA_ATTR_NO_KERNEL_MAPPING in common code
+      arc: use the generic remapping allocator for coherent DMA allocations
+      nds32: use the generic remapping allocator for coherent DMA allocations
+      nios2: use the generic uncached segment support in dma-direct
+      MIPS: only select ARCH_HAS_UNCACHED_SEGMENT for non-coherent platforms
+      dma-mapping: mark dma_alloc_need_uncached as __always_inline
+
+Florian Fainelli (1):
+      dma-remap: Avoid de-referencing NULL atomic_pool
+
+Fredrik Noring (3):
+      lib/genalloc: add gen_pool_dma_zalloc() for zeroed DMA allocations
+      lib/genalloc.c: Add algorithm, align and zeroed family of DMA allocators
+      usb: host: Fix excessive alignment restriction for local memory allocations
+
+Laurentiu Tudor (4):
+      USB: use genalloc for USB HCs with local memory
+      usb: host: ohci-sm501: init genalloc for local memory
+      usb: host: ohci-tmio: init genalloc for local memory
+      USB: drop HCD_LOCAL_MEM flag
+
+Nicolin Chen (4):
+      dma-contiguous: add dma_{alloc,free}_contiguous() helpers
+      dma-contiguous: use fallback alloc_pages for single pages
+      dma-contiguous: fix !CONFIG_DMA_CMA version of dma_{alloc, free}_contiguous()
+      iommu/dma: Apply dma_{alloc,free}_contiguous functions
+
+ arch/Kconfig                    |   8 +
+ arch/arc/Kconfig                |   2 +
+ arch/arc/mm/dma.c               |  71 ++-------
+ arch/arm/mm/dma-mapping-nommu.c |  24 +--
+ arch/arm/mm/dma-mapping.c       |  20 +--
+ arch/mips/Kconfig               |   1 +
+ arch/mips/include/asm/page.h    |   3 -
+ arch/mips/jazz/jazzdma.c        |   6 -
+ arch/mips/mm/cache.c            |   2 -
+ arch/mips/mm/dma-noncoherent.c  |  26 ++--
+ arch/nds32/Kconfig              |   2 +
+ arch/nds32/kernel/dma.c         | 325 ++--------------------------------------
+ arch/nios2/Kconfig              |   1 +
+ arch/nios2/include/asm/page.h   |   6 -
+ arch/nios2/mm/dma-mapping.c     |  34 ++---
+ arch/openrisc/kernel/dma.c      |  22 ++-
+ arch/parisc/kernel/pci-dma.c    |  48 ++----
+ arch/xtensa/kernel/pci-dma.c    |   8 +-
+ drivers/iommu/dma-iommu.c       |  14 +-
+ drivers/usb/Kconfig             |   1 +
+ drivers/usb/core/buffer.c       |  17 ++-
+ drivers/usb/core/hcd.c          |  51 +++++--
+ drivers/usb/host/ehci-hcd.c     |   2 +-
+ drivers/usb/host/fotg210-hcd.c  |   2 +-
+ drivers/usb/host/ohci-hcd.c     |  25 +++-
+ drivers/usb/host/ohci-mem.c     |  37 ++++-
+ drivers/usb/host/ohci-sm501.c   |  50 +++----
+ drivers/usb/host/ohci-tmio.c    |  15 +-
+ drivers/usb/host/ohci.h         |   2 +
+ drivers/usb/host/uhci-hcd.c     |   2 +-
+ drivers/video/fbdev/au1100fb.c  |  24 +--
+ drivers/video/fbdev/au1100fb.h  |   1 +
+ include/linux/dma-contiguous.h  |  19 +++
+ include/linux/dma-noncoherent.h |  19 +++
+ include/linux/genalloc.h        |   9 ++
+ include/linux/usb/hcd.h         |   6 +-
+ kernel/dma/contiguous.c         |  56 +++++++
+ kernel/dma/direct.c             |  55 ++++---
+ kernel/dma/mapping.c            |  12 ++
+ kernel/dma/remap.c              |  16 +-
+ lib/genalloc.c                  | 125 +++++++++++++++-
+ 41 files changed, 515 insertions(+), 654 deletions(-)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
