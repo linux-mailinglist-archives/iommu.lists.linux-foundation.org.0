@@ -2,63 +2,56 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1356F65F02
-	for <lists.iommu@lfdr.de>; Thu, 11 Jul 2019 19:50:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389B36602E
+	for <lists.iommu@lfdr.de>; Thu, 11 Jul 2019 21:48:15 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1EC44549D;
-	Thu, 11 Jul 2019 17:50:08 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id EC54E54DB;
+	Thu, 11 Jul 2019 19:47:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id EAFEE5485
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 77F5C50E0
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 11 Jul 2019 17:39:36 +0000 (UTC)
+	Thu, 11 Jul 2019 19:15:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 964D9893
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D7A0089F
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 11 Jul 2019 17:39:36 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
-	[209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 4AA522166E
+	Thu, 11 Jul 2019 19:15:42 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
+	by mslow2.mail.gandi.net (Postfix) with ESMTP id D85FA3A2705
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 11 Jul 2019 17:39:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1562866776;
-	bh=hugYgSrexBh5gjgXuDomklK72XYyZ8cT4nX0Qebg6ko=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=wwR+A8NwWuDqr0JLLmsZL69uAwnfAQoNHYU4skeudiiubVvVaXt61l0BABrE0BkyF
-	IHLHlJE1xdlF3ksKrp6jKvf3xezGxxoRLC5HsVKsujIL735fBzpihcLQj2knMAy2Tz
-	QbxGn73Unfa4hIzIhENhFalum4Oss4FnkNoSJ58w=
-Received: by mail-qt1-f178.google.com with SMTP id n11so5175711qtl.5
-	for <iommu@lists.linux-foundation.org>;
-	Thu, 11 Jul 2019 10:39:36 -0700 (PDT)
-X-Gm-Message-State: APjAAAUYJ13w1xLBqWo3Ns+5i1xsrVlkMWmRfXcKUzk4nze8f2abTKVL
-	FL7o1Aa8wCuX3ATBaAbq7wbWJtFvaslghP42+g==
-X-Google-Smtp-Source: APXvYqyT2ZIwbJfQnc73mMGcKaDkblCm8BU7qO69rHW7ICOYosjRSUIAZS+oSsH0oZmtAhPdnjtyfqtcO0OJGH5XABE=
-X-Received: by 2002:ac8:36b9:: with SMTP id a54mr2812702qtc.300.1562866775522; 
-	Thu, 11 Jul 2019 10:39:35 -0700 (PDT)
+	Thu, 11 Jul 2019 15:03:13 +0000 (UTC)
+X-Originating-IP: 92.137.69.152
+Received: from localhost (alyon-656-1-672-152.w92-137.abo.wanadoo.fr
+	[92.137.69.152]) (Authenticated sender: gregory.clement@bootlin.com)
+	by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id B75B84000B;
+	Thu, 11 Jul 2019 15:03:06 +0000 (UTC)
+From: Gregory CLEMENT <gregory.clement@bootlin.com>
+To: Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org
+Subject: [PATCH v2 0/4]  Add system mmu support for Armada-806
+Date: Thu, 11 Jul 2019 17:02:38 +0200
+Message-Id: <20190711150242.25290-1-gregory.clement@bootlin.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190710223119.8151-1-robh@kernel.org>
-	<20190711102303.pnvy4zlitusjjku7@willie-the-truck>
-In-Reply-To: <20190711102303.pnvy4zlitusjjku7@willie-the-truck>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 11 Jul 2019 11:39:24 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJ6W-fFqNr9m1zQOdERjZ5v9EpVLTVyChevHKYFU4j4Jg@mail.gmail.com>
-Message-ID: <CAL_JsqJ6W-fFqNr9m1zQOdERjZ5v9EpVLTVyChevHKYFU4j4Jg@mail.gmail.com>
-Subject: Re: [RFC PATCH] iommu: io-pgtable: Drop WARN for empty PTEs on unmap
-To: Will Deacon <will@kernel.org>
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+	autolearn=unavailable version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Robin Murphy <robin.murphy@arm.com>,
-	Linux IOMMU <iommu@lists.linux-foundation.org>,
-	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
-	<linux-arm-kernel@lists.infradead.org>
+X-Mailman-Approved-At: Thu, 11 Jul 2019 19:37:36 +0000
+Cc: devicetree@vger.kernel.org, Jason Cooper <jason@lakedaemon.net>,
+	Andrew Lunn <andrew@lunn.ch>, Antoine Tenart <antoine.tenart@bootlin.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Will Deacon <will.deacon@arm.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Nadav Haklai <nadavh@marvell.com>, Rob Herring <robh+dt@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	=?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -76,41 +69,50 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Thu, Jul 11, 2019 at 4:23 AM Will Deacon <will@kernel.org> wrote:
->
-> On Wed, Jul 10, 2019 at 04:31:19PM -0600, Rob Herring wrote:
-> > If a region has been mapped sparsely (such as on page faults), the user
-> > has to keep track of what was mapped or not in order to avoid warnings
-> > when unmapping the entire region. Remove the WARN on empty PTEs to allow
-> > unmapping sparsely mapped regions.
-> >
-> > Cc: Will Deacon <will@kernel.org>
-> > Cc: Robin Murphy <robin.murphy@arm.com>
-> > Cc: Joerg Roedel <joro@8bytes.org>
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: iommu@lists.linux-foundation.org
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> > This is needed for large (up to 1GB AIUI) scratch buffers on panfrost
-> > which are mapped on demand on GPU page faults and can be unmapped on
-> > memory pressure. Alternatively, I'd need to have a bitmap of mapped
-> > pages to track what is mapped or not. Dropping the WARN seems like a
-> > much simpler solution.
->
-> I suppose an alternative would be to do an iova_to_phys() before you do the
-> unmap(). Would that be acceptable?
+Hello,
 
-Yeah, that should work. Not that efficient, but I don't think
-releasing the memory is hot path.
+last year a first version of this series was submitted to add support
+for IOMMU for AP806, including workaround for accessing ARM SMMU 64bit
+registers[1].
 
-Thanks,
-Rob
+For the record, AP-806 can't access SMMU registers with 64bit width,
+this patches split the readq/writeq for 32bit access, due to erratanum
+#582743.
 
-> The WARN_ON() indicates invalid usage by
-> the IOMMU API, so it would be a shame to lose it entirely and I'm hesitant
-> to continue adding quirks at the rate we're currently doing so!
->
-> Will
+Based on the feedback from Robin Murphy, I also add code ensuring that
+we won't try to use AArch64 format with 32 bits acces.
+
+It was also discussed to not use compatible but propertu to support
+this workaround. I agree to make this change if needed, but for now I
+would like to have a feedback on the current code to know if it is
+acceptable if there is still potential issue.
+
+The series was tested on a vanilla v5.1 kernel, and without the
+series, an USB stick was not detected under QEMU whereas with this
+series it worked as expected.
+
+Greogry
+
+[1]: https://lkml.org/lkml/2018/10/15/373
+
+Gregory CLEMENT (1):
+  arm64: dts: marvell: armada-ap806: add smmu support
+
+Hanna Hawa (3):
+  iommu/arm-smmu: Introduce wrapper for writeq/readq
+  iommu/arm-smmu: Workaround for Marvell Armada-AP806 SoC erratum
+    #582743
+  dt-bindings: iommu/arm,smmu: add compatible string for Marvell
+
+ Documentation/arm64/silicon-errata.txt        |  2 +
+ .../devicetree/bindings/iommu/arm,smmu.txt    |  1 +
+ arch/arm64/boot/dts/marvell/armada-ap806.dtsi | 17 +++++
+ drivers/iommu/arm-smmu.c                      | 74 ++++++++++++++++---
+ 4 files changed, 83 insertions(+), 11 deletions(-)
+
+-- 
+2.20.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
