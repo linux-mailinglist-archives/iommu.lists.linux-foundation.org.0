@@ -2,56 +2,69 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BDF065874
-	for <lists.iommu@lfdr.de>; Thu, 11 Jul 2019 16:06:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC86265B77
+	for <lists.iommu@lfdr.de>; Thu, 11 Jul 2019 18:25:02 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1CB7E509A;
-	Thu, 11 Jul 2019 14:05:43 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 2F30E53D4;
+	Thu, 11 Jul 2019 16:24:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 424555068
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 15A655352
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 11 Jul 2019 13:57:02 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B42EB894
+	Thu, 11 Jul 2019 16:18:05 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id ECA0D88E
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 11 Jul 2019 13:57:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20170209;
-	h=Content-Type:MIME-Version:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=0TdTTvv9gzZPCqHVN09rsHZfcgoPwm7Gi1QT/oQm0qY=;
-	b=qtcfa93Pmpg0IzzyXiBu0TpI7g
-	FlOPh39+Gsq5ONektm3WTqhDZYvBvRZat5iuAfWVWapUnx+gChRjB/4LL9cyKLBd4epmlFjmwzJEN
-	su1bngdlgE9OINFndq1VKV/dHzZg5DBhqRaclSI4UXci8KQQ+dB1U8stEkDCuSnJvxB+BVoeY8v+F
-	Wq/G5MnIWO/ZLLF90OzoOnzovyg0aqBX6zKxWHvP+xRJrrHtQArW3E5XIZYJjs+QswqPH41Gr4H3S
-	1uZlSt25IhO+u8VtMrXnG87GY6LjnPKT5sWNzMDx8BGOXRw5W8WkopRoRWhNbFmvxqDR1XUsLXYO+
-	6Qqs9yuQ==;
-Received: from [38.98.37.141] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-	id 1hlZZD-0004uL-J9; Thu, 11 Jul 2019 13:57:00 +0000
-Date: Thu, 11 Jul 2019 15:56:54 +0200
-From: Christoph Hellwig <hch@infradead.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [GIT PULL] dma-mapping updates for 5.3
-Message-ID: <20190711135654.GA15312@infradead.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
+	Thu, 11 Jul 2019 16:18:03 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id a186so3025082vsd.7
+	for <iommu@lists.linux-foundation.org>;
+	Thu, 11 Jul 2019 09:18:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=b+cG1tTNIT8vyBDamuWQU7Q8BkXJo14FevzuM5Gnb24=;
+	b=gAz4ET5S3vPh5pe2Xkp4fm2GOI2krQN7MsVLeA6tR+Z7xtZ0VyhLDTOT2Ub4nlDnKq
+	Dbfdtp5Urdye3lqnltelIy8/uXcwd82CtHZ+KPzXEkZOI4YsXU+I4HEW7ZQwMdaBcGD9
+	BpoSO1nKdppKqVMcEMgYENHOKC4uO6HlaKhviQiG3wXZPji1TMEngmACIveXTurzCTBz
+	vusQFsrSVPf1maLNr1r2UILzU22+Qj1/lNvaam7ceZTN1kzqgF1m/NHYXT8kdqVu5tbl
+	Qd/JdXW29HvYepqvv1y3f9v6VXjzLKEVQOr5fyxWDlFJp8v/R0yqRptzksbbivYN5BPu
+	bsbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=b+cG1tTNIT8vyBDamuWQU7Q8BkXJo14FevzuM5Gnb24=;
+	b=QQyqLBKdVpTzhNHT3KrlI5o2j6JCuXIkNRfFO7LEWfKhKcipA/IOnj6k8FwBxUSzZC
+	1XYYw2mfkUmbbbGELyM7Ent76TNBMhAIW96lriK2Wcg+HRZ/M6Z2qn1ooo5JJ3mJL5mG
+	pSv2XWcxrxPHvIqm8/p7wrcrO8I45TEZACYAah52t7Rsr43yIE0iN6gSRDy+2KSOjmrB
+	t1RfQLYVmATUl+zFHtnWT3ITLIZYBzl1XPWOHI+8XCBAMgwFoByDk1CAFAwBz4+dvkO6
+	XXIqVOXsQj4nAGCyFZyLVeypINKHdnAOQNisjukiNWHn/lK+4yeUqGDZK5bL4ZgCJgVH
+	gd6g==
+X-Gm-Message-State: APjAAAXyNuqocjNh7F7YoWV/+0VSOSF46oAj/3nVsMTtCxeOBgwK77m1
+	BJkzj4iJ9yasfL+MqZaEiHz/sw==
+X-Google-Smtp-Source: APXvYqxltyjmsNj/nb8bUQp+32rwb7mo8D5CMMYCV7KYmWTJRqhvB9IHbI2B3WokHDj4YgJGnwY77A==
+X-Received: by 2002:a05:6102:8c:: with SMTP id
+	t12mr5568901vsp.143.1562861882866; 
+	Thu, 11 Jul 2019 09:18:02 -0700 (PDT)
+Received: from qcai.nay.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+	by smtp.gmail.com with ESMTPSA id v5sm6960119vsi.24.2019.07.11.09.18.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 11 Jul 2019 09:18:01 -0700 (PDT)
+From: Qian Cai <cai@lca.pw>
+To: jroedel@suse.de
+Subject: [PATCH v2] iommu/amd: fix a crash in iova_magazine_free_pfns
+Date: Thu, 11 Jul 2019 12:17:45 -0400
+Message-Id: <1562861865-23660-1-git-send-email-cai@lca.pw>
+X-Mailer: git-send-email 1.8.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Cc: iommu@lists.linux-foundation.org, torvalds@linux-foundation.org, hch@lst.de,
+	linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,141 +77,64 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Linus,
+The commit b3aa14f02254 ("iommu: remove the mapping_error dma_map_ops
+method") incorrectly changed the checking from dma_ops_alloc_iova() in
+map_sg() causes a crash under memory pressure as dma_ops_alloc_iova()
+never return DMA_MAPPING_ERROR on failure but 0, so the error handling
+is all wrong.
 
-please pull the dma-mapping update below.  Note that the tree is based
-on an branch from Joergs iommu tree that you have pulled earlier this
-week.
+   kernel BUG at drivers/iommu/iova.c:801!
+    Workqueue: kblockd blk_mq_run_work_fn
+    RIP: 0010:iova_magazine_free_pfns+0x7d/0xc0
+    Call Trace:
+     free_cpu_cached_iovas+0xbd/0x150
+     alloc_iova_fast+0x8c/0xba
+     dma_ops_alloc_iova.isra.6+0x65/0xa0
+     map_sg+0x8c/0x2a0
+     scsi_dma_map+0xc6/0x160
+     pqi_aio_submit_io+0x1f6/0x440 [smartpqi]
+     pqi_scsi_queue_command+0x90c/0xdd0 [smartpqi]
+     scsi_queue_rq+0x79c/0x1200
+     blk_mq_dispatch_rq_list+0x4dc/0xb70
+     blk_mq_sched_dispatch_requests+0x249/0x310
+     __blk_mq_run_hw_queue+0x128/0x200
+     blk_mq_run_work_fn+0x27/0x30
+     process_one_work+0x522/0xa10
+     worker_thread+0x63/0x5b0
+     kthread+0x1d2/0x1f0
+     ret_from_fork+0x22/0x40
 
-There are a few of the usual Kconfig conflicts where different trees
-touch the same area, but not the same symbols, just take the changes
-from both tree in that case (none of them is in your tree yet as of
-this time).
+Fixes: b3aa14f02254 ("iommu: remove the mapping_error dma_map_ops method")
+Signed-off-by: Qian Cai <cai@lca.pw>
+---
 
-In addition there is a conflict in genalloc.h against mainline where
-late patches in the 5.2 cycle added a new gen_pool_free_owner function
-and made gen_pool_free a wrapper around it.  This tree adds new
-helpers right next to it, the fix is again to take both changes
-manually.  Bonous points for keeping all the alloc functions above
-the free ones to keep the file ordering, unlike the default git
-presentation.
+v2: Fix the offensive commit directly.
 
+ drivers/iommu/amd_iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The following changes since commit 1b961423158caaae49d3900b7c9c37477bbfa9b3:
+diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+index 73740b969e62..b607a92791d3 100644
+--- a/drivers/iommu/amd_iommu.c
++++ b/drivers/iommu/amd_iommu.c
+@@ -2533,7 +2533,7 @@ static int map_sg(struct device *dev, struct scatterlist *sglist,
+ 	npages = sg_num_pages(dev, sglist, nelems);
+ 
+ 	address = dma_ops_alloc_iova(dev, dma_dom, npages, dma_mask);
+-	if (address == DMA_MAPPING_ERROR)
++	if (!address)
+ 		goto out_err;
+ 
+ 	prot = dir2prot(direction);
+-- 
+1.8.3.1
 
-  iommu/dma: Fix condition check in iommu_dma_unmap_sg (2019-06-03 12:14:51 +0200)
-
-are available in the Git repository at:
-
-  git://git.infradead.org/users/hch/dma-mapping.git tags/dma-mapping-5.3
-
-for you to fetch changes up to 15ffe5e1acf5fe1512e98b20702e46ce9f25e2f7:
-
-  dma-mapping: mark dma_alloc_need_uncached as __always_inline (2019-07-08 14:19:33 -0700)
-
-----------------------------------------------------------------
-dma-mapping updates for Linux 5.3
-
- - move the USB special case that bounced DMA through a device
-   bar into the USB code instead of handling it in the common
-   DMA code (Laurentiu Tudor and Fredrik Noring)
- - don't dip into the global CMA pool for single page allocations
-   (Nicolin Chen)
- - fix a crash when allocating memory for the atomic pool failed
-   during boot (Florian Fainelli)
- - move support for MIPS-style uncached segments to the common
-   code and use that for MIPS and nios2 (me)
- - make support for DMA_ATTR_NON_CONSISTENT and
-   DMA_ATTR_NO_KERNEL_MAPPING generic (me)
- - convert nds32 to the generic remapping allocator (me)
-
-----------------------------------------------------------------
-Christoph Hellwig (17):
-      MIPS: remove the _dma_cache_wback_inv export
-      au1100fb: fix DMA API abuse
-      dma-direct: provide generic support for uncached kernel segments
-      MIPS: use the generic uncached segment support in dma-direct
-      dma-mapping: truncate dma masks to what dma_addr_t can hold
-      ARM: dma-mapping: allow larger DMA mask than supported
-      arm-nommu: remove the partial DMA_ATTR_NON_CONSISTENT support
-      arc: remove the partial DMA_ATTR_NON_CONSISTENT support
-      openrisc: remove the partial DMA_ATTR_NON_CONSISTENT support
-      dma-mapping: add a dma_alloc_need_uncached helper
-      dma-direct: handle DMA_ATTR_NON_CONSISTENT in common code
-      dma-direct: handle DMA_ATTR_NO_KERNEL_MAPPING in common code
-      arc: use the generic remapping allocator for coherent DMA allocations
-      nds32: use the generic remapping allocator for coherent DMA allocations
-      nios2: use the generic uncached segment support in dma-direct
-      MIPS: only select ARCH_HAS_UNCACHED_SEGMENT for non-coherent platforms
-      dma-mapping: mark dma_alloc_need_uncached as __always_inline
-
-Florian Fainelli (1):
-      dma-remap: Avoid de-referencing NULL atomic_pool
-
-Fredrik Noring (3):
-      lib/genalloc: add gen_pool_dma_zalloc() for zeroed DMA allocations
-      lib/genalloc.c: Add algorithm, align and zeroed family of DMA allocators
-      usb: host: Fix excessive alignment restriction for local memory allocations
-
-Laurentiu Tudor (4):
-      USB: use genalloc for USB HCs with local memory
-      usb: host: ohci-sm501: init genalloc for local memory
-      usb: host: ohci-tmio: init genalloc for local memory
-      USB: drop HCD_LOCAL_MEM flag
-
-Nicolin Chen (4):
-      dma-contiguous: add dma_{alloc,free}_contiguous() helpers
-      dma-contiguous: use fallback alloc_pages for single pages
-      dma-contiguous: fix !CONFIG_DMA_CMA version of dma_{alloc, free}_contiguous()
-      iommu/dma: Apply dma_{alloc,free}_contiguous functions
-
- arch/Kconfig                    |   8 +
- arch/arc/Kconfig                |   2 +
- arch/arc/mm/dma.c               |  71 ++-------
- arch/arm/mm/dma-mapping-nommu.c |  24 +--
- arch/arm/mm/dma-mapping.c       |  20 +--
- arch/mips/Kconfig               |   1 +
- arch/mips/include/asm/page.h    |   3 -
- arch/mips/jazz/jazzdma.c        |   6 -
- arch/mips/mm/cache.c            |   2 -
- arch/mips/mm/dma-noncoherent.c  |  26 ++--
- arch/nds32/Kconfig              |   2 +
- arch/nds32/kernel/dma.c         | 325 ++--------------------------------------
- arch/nios2/Kconfig              |   1 +
- arch/nios2/include/asm/page.h   |   6 -
- arch/nios2/mm/dma-mapping.c     |  34 ++---
- arch/openrisc/kernel/dma.c      |  22 ++-
- arch/parisc/kernel/pci-dma.c    |  48 ++----
- arch/xtensa/kernel/pci-dma.c    |   8 +-
- drivers/iommu/dma-iommu.c       |  14 +-
- drivers/usb/Kconfig             |   1 +
- drivers/usb/core/buffer.c       |  17 ++-
- drivers/usb/core/hcd.c          |  51 +++++--
- drivers/usb/host/ehci-hcd.c     |   2 +-
- drivers/usb/host/fotg210-hcd.c  |   2 +-
- drivers/usb/host/ohci-hcd.c     |  25 +++-
- drivers/usb/host/ohci-mem.c     |  37 ++++-
- drivers/usb/host/ohci-sm501.c   |  50 +++----
- drivers/usb/host/ohci-tmio.c    |  15 +-
- drivers/usb/host/ohci.h         |   2 +
- drivers/usb/host/uhci-hcd.c     |   2 +-
- drivers/video/fbdev/au1100fb.c  |  24 +--
- drivers/video/fbdev/au1100fb.h  |   1 +
- include/linux/dma-contiguous.h  |  19 +++
- include/linux/dma-noncoherent.h |  19 +++
- include/linux/genalloc.h        |   9 ++
- include/linux/usb/hcd.h         |   6 +-
- kernel/dma/contiguous.c         |  56 +++++++
- kernel/dma/direct.c             |  55 ++++---
- kernel/dma/mapping.c            |  12 ++
- kernel/dma/remap.c              |  16 +-
- lib/genalloc.c                  | 125 +++++++++++++++-
- 41 files changed, 515 insertions(+), 654 deletions(-)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
