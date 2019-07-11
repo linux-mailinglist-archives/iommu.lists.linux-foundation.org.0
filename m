@@ -2,42 +2,42 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B1B165E9D
-	for <lists.iommu@lfdr.de>; Thu, 11 Jul 2019 19:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C8765E9F
+	for <lists.iommu@lfdr.de>; Thu, 11 Jul 2019 19:30:33 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 19F62548E;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 4A9FB5491;
 	Thu, 11 Jul 2019 17:28:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp2.linuxfoundation.org (smtp2.linux-foundation.org
 	[172.17.192.36])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 503F11E09
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0B1591E09
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 11 Jul 2019 17:20:29 +0000 (UTC)
+	Thu, 11 Jul 2019 17:20:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp2.linuxfoundation.org (Postfix) with ESMTPS id 901CC1DCF0
+	by smtp2.linuxfoundation.org (Postfix) with ESMTPS id 75EFF1DCF0
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 11 Jul 2019 17:20:28 +0000 (UTC)
+	Thu, 11 Jul 2019 17:20:31 +0000 (UTC)
 Received: from localhost.localdomain (236.31.169.217.in-addr.arpa
 	[217.169.31.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 1DA1C21537;
-	Thu, 11 Jul 2019 17:20:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id DD0AA2166E;
+	Thu, 11 Jul 2019 17:20:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1562865628;
-	bh=Goqmdsx/T+B+V3fHGfpJU0wgmw5LnSLEWDn9ZsKXmuQ=;
+	s=default; t=1562865631;
+	bh=gOO7/FWMRIhDIcxtvF2aTWKsiHTlTqclKolqqPVVGLY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oiA6q7dzOydWUFou3AJcGQ9NKGEYeXENBWdqHzmdonYnQJ/4konSRl77RqIt+0oMX
-	aMgP1H7gxhqRgk/4l4qQmT99k3YtLgPRefPQqlXcVwI4eosqnfUCcEzMVIOSYMU96E
-	hOFBrxWzkGOWn4zfLpxXuk/3QScEH1iM52slTIeU=
+	b=lcx+C+4e7nyJIDwjRVk/rYnVJ3PVjIl61Hbx4B6D7RhxbLyYbt0xyyuJAVDgRAYzN
+	0N6GAMdNjjVOhxkc3I/f0L8iuIQVTK+0cXTqxlBCqaVuwho3rPUj/3Har2fkGFsm+H
+	AymwT2hdVXgWnI/kfDZ3ExxAD7y1+v+B3t8ZusMY=
 From: Will Deacon <will@kernel.org>
 To: iommu@lists.linux-foundation.org
-Subject: [RFC PATCH v2 16/19] iommu/arm-smmu-v3: Move low-level queue fields
-	out of arm_smmu_queue
-Date: Thu, 11 Jul 2019 18:19:24 +0100
-Message-Id: <20190711171927.28803-17-will@kernel.org>
+Subject: [RFC PATCH v2 17/19] iommu/arm-smmu-v3: Operate directly on low-level
+	queue where possible
+Date: Thu, 11 Jul 2019 18:19:25 +0100
+Message-Id: <20190711171927.28803-18-will@kernel.org>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190711171927.28803-1-will@kernel.org>
 References: <20190711171927.28803-1-will@kernel.org>
@@ -70,266 +70,176 @@ Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
 In preparation for rewriting the command queue insertion code to use a
-new algorithm, introduce a new arm_smmu_ll_queue structure which contains
-only the information necessary to perform queue arithmetic for a queue
-and will later be extended so that we can perform complex atomic
-manipulation on some of the fields.
+new algorithm, rework many of our queue macro accessors and manipulation
+functions so that they operate on the arm_smmu_ll_queue structure where
+possible. This will allow us to call these helpers on local variables
+without having to construct a full-blown arm_smmu_queue on the stack.
 
 No functional change.
 
 Signed-off-by: Will Deacon <will@kernel.org>
 ---
- drivers/iommu/arm-smmu-v3.c | 88 ++++++++++++++++++++++++---------------------
- 1 file changed, 47 insertions(+), 41 deletions(-)
+ drivers/iommu/arm-smmu-v3.c | 58 ++++++++++++++++++++++++---------------------
+ 1 file changed, 31 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index 86a8487e5880..b9d4217b253e 100644
+index b9d4217b253e..8a3d76d084df 100644
 --- a/drivers/iommu/arm-smmu-v3.c
 +++ b/drivers/iommu/arm-smmu-v3.c
-@@ -181,8 +181,8 @@
+@@ -181,12 +181,13 @@
  #define ARM_SMMU_MEMATTR_DEVICE_nGnRE	0x1
  #define ARM_SMMU_MEMATTR_OIWB		0xf
  
--#define Q_IDX(q, p)			((p) & ((1 << (q)->max_n_shift) - 1))
--#define Q_WRP(q, p)			((p) & (1 << (q)->max_n_shift))
-+#define Q_IDX(q, p)			((p) & ((1 << (q)->llq.max_n_shift) - 1))
-+#define Q_WRP(q, p)			((p) & (1 << (q)->llq.max_n_shift))
+-#define Q_IDX(q, p)			((p) & ((1 << (q)->llq.max_n_shift) - 1))
+-#define Q_WRP(q, p)			((p) & (1 << (q)->llq.max_n_shift))
++#define Q_IDX(llq, p)			((p) & ((1 << (llq)->max_n_shift) - 1))
++#define Q_WRP(llq, p)			((p) & (1 << (llq)->max_n_shift))
  #define Q_OVERFLOW_FLAG			(1 << 31)
  #define Q_OVF(p)			((p) & Q_OVERFLOW_FLAG)
  #define Q_ENT(q, p)			((q)->base +			\
-@@ -472,7 +472,14 @@ struct arm_smmu_cmdq_ent {
- 	};
- };
+-					 Q_IDX(q, p) * (q)->ent_dwords)
++					 Q_IDX(&((q)->llq), p) *	\
++					 (q)->ent_dwords)
  
-+struct arm_smmu_ll_queue {
-+	u32				prod;
-+	u32				cons;
-+	u32				max_n_shift;
-+};
-+
- struct arm_smmu_queue {
-+	struct arm_smmu_ll_queue	llq;
- 	int				irq; /* Wired interrupt */
- 
- 	__le64				*base;
-@@ -480,9 +487,6 @@ struct arm_smmu_queue {
- 	u64				q_base;
- 
- 	size_t				ent_dwords;
--	u32				max_n_shift;
--	u32				prod;
--	u32				cons;
- 
- 	u32 __iomem			*prod_reg;
- 	u32 __iomem			*cons_reg;
-@@ -681,19 +685,19 @@ static void parse_driver_options(struct arm_smmu_device *smmu)
- /* Low-level queue manipulation functions */
- static bool queue_full(struct arm_smmu_queue *q)
- {
--	return Q_IDX(q, q->prod) == Q_IDX(q, q->cons) &&
--	       Q_WRP(q, q->prod) != Q_WRP(q, q->cons);
-+	return Q_IDX(q, q->llq.prod) == Q_IDX(q, q->llq.cons) &&
-+	       Q_WRP(q, q->llq.prod) != Q_WRP(q, q->llq.cons);
+ #define Q_BASE_RWA			(1UL << 62)
+ #define Q_BASE_ADDR_MASK		GENMASK_ULL(51, 5)
+@@ -683,16 +684,16 @@ static void parse_driver_options(struct arm_smmu_device *smmu)
  }
  
- static bool queue_empty(struct arm_smmu_queue *q)
+ /* Low-level queue manipulation functions */
+-static bool queue_full(struct arm_smmu_queue *q)
++static bool queue_full(struct arm_smmu_ll_queue *q)
  {
--	return Q_IDX(q, q->prod) == Q_IDX(q, q->cons) &&
--	       Q_WRP(q, q->prod) == Q_WRP(q, q->cons);
-+	return Q_IDX(q, q->llq.prod) == Q_IDX(q, q->llq.cons) &&
-+	       Q_WRP(q, q->llq.prod) == Q_WRP(q, q->llq.cons);
+-	return Q_IDX(q, q->llq.prod) == Q_IDX(q, q->llq.cons) &&
+-	       Q_WRP(q, q->llq.prod) != Q_WRP(q, q->llq.cons);
++	return Q_IDX(q, q->prod) == Q_IDX(q, q->cons) &&
++	       Q_WRP(q, q->prod) != Q_WRP(q, q->cons);
+ }
+ 
+-static bool queue_empty(struct arm_smmu_queue *q)
++static bool queue_empty(struct arm_smmu_ll_queue *q)
+ {
+-	return Q_IDX(q, q->llq.prod) == Q_IDX(q, q->llq.cons) &&
+-	       Q_WRP(q, q->llq.prod) == Q_WRP(q, q->llq.cons);
++	return Q_IDX(q, q->prod) == Q_IDX(q, q->cons) &&
++	       Q_WRP(q, q->prod) == Q_WRP(q, q->cons);
  }
  
  static void queue_sync_cons_in(struct arm_smmu_queue *q)
- {
--	q->cons = readl_relaxed(q->cons_reg);
-+	q->llq.cons = readl_relaxed(q->cons_reg);
+@@ -710,10 +711,10 @@ static void queue_sync_cons_out(struct arm_smmu_queue *q)
+ 	writel_relaxed(q->llq.cons, q->cons_reg);
  }
  
- static void queue_sync_cons_out(struct arm_smmu_queue *q)
-@@ -703,13 +707,13 @@ static void queue_sync_cons_out(struct arm_smmu_queue *q)
- 	 * are complete before we update the cons pointer.
- 	 */
- 	mb();
--	writel_relaxed(q->cons, q->cons_reg);
-+	writel_relaxed(q->llq.cons, q->cons_reg);
- }
- 
- static void queue_inc_cons(struct arm_smmu_queue *q)
+-static void queue_inc_cons(struct arm_smmu_queue *q)
++static void queue_inc_cons(struct arm_smmu_ll_queue *q)
  {
--	u32 cons = (Q_WRP(q, q->cons) | Q_IDX(q, q->cons)) + 1;
--	q->cons = Q_OVF(q->cons) | Q_WRP(q, cons) | Q_IDX(q, cons);
-+	u32 cons = (Q_WRP(q, q->llq.cons) | Q_IDX(q, q->llq.cons)) + 1;
-+	q->llq.cons = Q_OVF(q->llq.cons) | Q_WRP(q, cons) | Q_IDX(q, cons);
+-	u32 cons = (Q_WRP(q, q->llq.cons) | Q_IDX(q, q->llq.cons)) + 1;
+-	q->llq.cons = Q_OVF(q->llq.cons) | Q_WRP(q, cons) | Q_IDX(q, cons);
++	u32 cons = (Q_WRP(q, q->cons) | Q_IDX(q, q->cons)) + 1;
++	q->cons = Q_OVF(q->cons) | Q_WRP(q, cons) | Q_IDX(q, cons);
  }
  
  static int queue_sync_prod_in(struct arm_smmu_queue *q)
-@@ -717,22 +721,22 @@ static int queue_sync_prod_in(struct arm_smmu_queue *q)
- 	int ret = 0;
- 	u32 prod = readl_relaxed(q->prod_reg);
- 
--	if (Q_OVF(prod) != Q_OVF(q->prod))
-+	if (Q_OVF(prod) != Q_OVF(q->llq.prod))
- 		ret = -EOVERFLOW;
- 
--	q->prod = prod;
-+	q->llq.prod = prod;
- 	return ret;
+@@ -733,10 +734,10 @@ static void queue_sync_prod_out(struct arm_smmu_queue *q)
+ 	writel(q->llq.prod, q->prod_reg);
  }
  
- static void queue_sync_prod_out(struct arm_smmu_queue *q)
+-static void queue_inc_prod(struct arm_smmu_queue *q)
++static void queue_inc_prod(struct arm_smmu_ll_queue *q)
  {
--	writel(q->prod, q->prod_reg);
-+	writel(q->llq.prod, q->prod_reg);
- }
- 
- static void queue_inc_prod(struct arm_smmu_queue *q)
- {
--	u32 prod = (Q_WRP(q, q->prod) | Q_IDX(q, q->prod)) + 1;
--	q->prod = Q_OVF(q->prod) | Q_WRP(q, prod) | Q_IDX(q, prod);
-+	u32 prod = (Q_WRP(q, q->llq.prod) | Q_IDX(q, q->llq.prod)) + 1;
-+	q->llq.prod = Q_OVF(q->llq.prod) | Q_WRP(q, prod) | Q_IDX(q, prod);
+-	u32 prod = (Q_WRP(q, q->llq.prod) | Q_IDX(q, q->llq.prod)) + 1;
+-	q->llq.prod = Q_OVF(q->llq.prod) | Q_WRP(q, prod) | Q_IDX(q, prod);
++	u32 prod = (Q_WRP(q, q->prod) | Q_IDX(q, q->prod)) + 1;
++	q->prod = Q_OVF(q->prod) | Q_WRP(q, prod) | Q_IDX(q, prod);
  }
  
  /*
-@@ -781,7 +785,7 @@ static int queue_insert_raw(struct arm_smmu_queue *q, u64 *ent)
- 	if (queue_full(q))
+@@ -753,7 +754,8 @@ static int queue_poll_cons(struct arm_smmu_queue *q, bool sync, bool wfe)
+ 					    ARM_SMMU_CMDQ_SYNC_TIMEOUT_US :
+ 					    ARM_SMMU_POLL_TIMEOUT_US);
+ 
+-	while (queue_sync_cons_in(q), (sync ? !queue_empty(q) : queue_full(q))) {
++	while (queue_sync_cons_in(q),
++	      (sync ? !queue_empty(&q->llq) : queue_full(&q->llq))) {
+ 		if (ktime_compare(ktime_get(), timeout) > 0)
+ 			return -ETIMEDOUT;
+ 
+@@ -782,11 +784,11 @@ static void queue_write(__le64 *dst, u64 *src, size_t n_dwords)
+ 
+ static int queue_insert_raw(struct arm_smmu_queue *q, u64 *ent)
+ {
+-	if (queue_full(q))
++	if (queue_full(&q->llq))
  		return -ENOSPC;
  
--	queue_write(Q_ENT(q, q->prod), ent, q->ent_dwords);
-+	queue_write(Q_ENT(q, q->llq.prod), ent, q->ent_dwords);
- 	queue_inc_prod(q);
+ 	queue_write(Q_ENT(q, q->llq.prod), ent, q->ent_dwords);
+-	queue_inc_prod(q);
++	queue_inc_prod(&q->llq);
  	queue_sync_prod_out(q);
  	return 0;
-@@ -800,7 +804,7 @@ static int queue_remove_raw(struct arm_smmu_queue *q, u64 *ent)
- 	if (queue_empty(q))
+ }
+@@ -801,11 +803,11 @@ static void queue_read(__le64 *dst, u64 *src, size_t n_dwords)
+ 
+ static int queue_remove_raw(struct arm_smmu_queue *q, u64 *ent)
+ {
+-	if (queue_empty(q))
++	if (queue_empty(&q->llq))
  		return -EAGAIN;
  
--	queue_read(ent, Q_ENT(q, q->cons), q->ent_dwords);
-+	queue_read(ent, Q_ENT(q, q->llq.cons), q->ent_dwords);
- 	queue_inc_cons(q);
+ 	queue_read(ent, Q_ENT(q, q->llq.cons), q->ent_dwords);
+-	queue_inc_cons(q);
++	queue_inc_cons(&q->llq);
  	queue_sync_cons_out(q);
  	return 0;
-@@ -1328,7 +1332,8 @@ static irqreturn_t arm_smmu_evtq_thread(int irq, void *dev)
- 	} while (!queue_empty(q));
- 
- 	/* Sync our overflow flag, as we believe we're up to speed */
--	q->cons = Q_OVF(q->prod) | Q_WRP(q, q->cons) | Q_IDX(q, q->cons);
-+	q->llq.cons = Q_OVF(q->llq.prod) | Q_WRP(q, q->llq.cons) |
-+		      Q_IDX(q, q->llq.cons);
- 	return IRQ_HANDLED;
  }
- 
-@@ -1385,8 +1390,9 @@ static irqreturn_t arm_smmu_priq_thread(int irq, void *dev)
- 	} while (!queue_empty(q));
- 
- 	/* Sync our overflow flag, as we believe we're up to speed */
--	q->cons = Q_OVF(q->prod) | Q_WRP(q, q->cons) | Q_IDX(q, q->cons);
--	writel(q->cons, q->cons_reg);
-+	q->llq.cons = Q_OVF(q->llq.prod) | Q_WRP(q, q->llq.cons) |
-+		      Q_IDX(q, q->llq.cons);
-+	writel(q->llq.cons, q->cons_reg);
- 	return IRQ_HANDLED;
- }
- 
-@@ -2307,13 +2313,13 @@ static int arm_smmu_init_one_queue(struct arm_smmu_device *smmu,
- 	size_t qsz;
+@@ -1310,6 +1312,7 @@ static irqreturn_t arm_smmu_evtq_thread(int irq, void *dev)
+ 	int i;
+ 	struct arm_smmu_device *smmu = dev;
+ 	struct arm_smmu_queue *q = &smmu->evtq.q;
++	struct arm_smmu_ll_queue *llq = &q->llq;
+ 	u64 evt[EVTQ_ENT_DWORDS];
  
  	do {
--		qsz = ((1 << q->max_n_shift) * dwords) << 3;
-+		qsz = ((1 << q->llq.max_n_shift) * dwords) << 3;
- 		q->base = dmam_alloc_coherent(smmu->dev, qsz, &q->base_dma,
- 					      GFP_KERNEL);
- 		if (q->base || qsz < PAGE_SIZE)
- 			break;
+@@ -1329,11 +1332,11 @@ static irqreturn_t arm_smmu_evtq_thread(int irq, void *dev)
+ 		 */
+ 		if (queue_sync_prod_in(q) == -EOVERFLOW)
+ 			dev_err(smmu->dev, "EVTQ overflow detected -- events lost\n");
+-	} while (!queue_empty(q));
++	} while (!queue_empty(llq));
  
--		q->max_n_shift--;
-+		q->llq.max_n_shift--;
- 	} while (1);
- 
- 	if (!q->base) {
-@@ -2325,7 +2331,7 @@ static int arm_smmu_init_one_queue(struct arm_smmu_device *smmu,
- 
- 	if (!WARN_ON(q->base_dma & (qsz - 1))) {
- 		dev_info(smmu->dev, "allocated %u entries for %s\n",
--			 1 << q->max_n_shift, name);
-+			 1 << q->llq.max_n_shift, name);
- 	}
- 
- 	q->prod_reg	= arm_smmu_page1_fixup(prod_off, smmu);
-@@ -2334,9 +2340,9 @@ static int arm_smmu_init_one_queue(struct arm_smmu_device *smmu,
- 
- 	q->q_base  = Q_BASE_RWA;
- 	q->q_base |= q->base_dma & Q_BASE_ADDR_MASK;
--	q->q_base |= FIELD_PREP(Q_BASE_LOG2SIZE, q->max_n_shift);
-+	q->q_base |= FIELD_PREP(Q_BASE_LOG2SIZE, q->llq.max_n_shift);
- 
--	q->prod = q->cons = 0;
-+	q->llq.prod = q->llq.cons = 0;
- 	return 0;
+ 	/* Sync our overflow flag, as we believe we're up to speed */
+-	q->llq.cons = Q_OVF(q->llq.prod) | Q_WRP(q, q->llq.cons) |
+-		      Q_IDX(q, q->llq.cons);
++	llq->cons = Q_OVF(llq->prod) | Q_WRP(llq, llq->cons) |
++		    Q_IDX(llq, llq->cons);
+ 	return IRQ_HANDLED;
  }
  
-@@ -2729,8 +2735,8 @@ static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
+@@ -1379,6 +1382,7 @@ static irqreturn_t arm_smmu_priq_thread(int irq, void *dev)
+ {
+ 	struct arm_smmu_device *smmu = dev;
+ 	struct arm_smmu_queue *q = &smmu->priq.q;
++	struct arm_smmu_ll_queue *llq = &q->llq;
+ 	u64 evt[PRIQ_ENT_DWORDS];
  
- 	/* Command queue */
- 	writeq_relaxed(smmu->cmdq.q.q_base, smmu->base + ARM_SMMU_CMDQ_BASE);
--	writel_relaxed(smmu->cmdq.q.prod, smmu->base + ARM_SMMU_CMDQ_PROD);
--	writel_relaxed(smmu->cmdq.q.cons, smmu->base + ARM_SMMU_CMDQ_CONS);
-+	writel_relaxed(smmu->cmdq.q.llq.prod, smmu->base + ARM_SMMU_CMDQ_PROD);
-+	writel_relaxed(smmu->cmdq.q.llq.cons, smmu->base + ARM_SMMU_CMDQ_CONS);
+ 	do {
+@@ -1387,12 +1391,12 @@ static irqreturn_t arm_smmu_priq_thread(int irq, void *dev)
  
- 	enables = CR0_CMDQEN;
- 	ret = arm_smmu_write_reg_sync(smmu, enables, ARM_SMMU_CR0,
-@@ -2757,9 +2763,9 @@ static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
+ 		if (queue_sync_prod_in(q) == -EOVERFLOW)
+ 			dev_err(smmu->dev, "PRIQ overflow detected -- requests lost\n");
+-	} while (!queue_empty(q));
++	} while (!queue_empty(llq));
  
- 	/* Event queue */
- 	writeq_relaxed(smmu->evtq.q.q_base, smmu->base + ARM_SMMU_EVTQ_BASE);
--	writel_relaxed(smmu->evtq.q.prod,
-+	writel_relaxed(smmu->evtq.q.llq.prod,
- 		       arm_smmu_page1_fixup(ARM_SMMU_EVTQ_PROD, smmu));
--	writel_relaxed(smmu->evtq.q.cons,
-+	writel_relaxed(smmu->evtq.q.llq.cons,
- 		       arm_smmu_page1_fixup(ARM_SMMU_EVTQ_CONS, smmu));
+ 	/* Sync our overflow flag, as we believe we're up to speed */
+-	q->llq.cons = Q_OVF(q->llq.prod) | Q_WRP(q, q->llq.cons) |
+-		      Q_IDX(q, q->llq.cons);
+-	writel(q->llq.cons, q->cons_reg);
++	llq->cons = Q_OVF(llq->prod) | Q_WRP(llq, llq->cons) |
++		      Q_IDX(llq, llq->cons);
++	queue_sync_cons_out(q);
+ 	return IRQ_HANDLED;
+ }
  
- 	enables |= CR0_EVTQEN;
-@@ -2774,9 +2780,9 @@ static int arm_smmu_device_reset(struct arm_smmu_device *smmu, bool bypass)
- 	if (smmu->features & ARM_SMMU_FEAT_PRI) {
- 		writeq_relaxed(smmu->priq.q.q_base,
- 			       smmu->base + ARM_SMMU_PRIQ_BASE);
--		writel_relaxed(smmu->priq.q.prod,
-+		writel_relaxed(smmu->priq.q.llq.prod,
- 			       arm_smmu_page1_fixup(ARM_SMMU_PRIQ_PROD, smmu));
--		writel_relaxed(smmu->priq.q.cons,
-+		writel_relaxed(smmu->priq.q.llq.cons,
- 			       arm_smmu_page1_fixup(ARM_SMMU_PRIQ_CONS, smmu));
- 
- 		enables |= CR0_PRIQEN;
-@@ -2930,18 +2936,18 @@ static int arm_smmu_device_hw_probe(struct arm_smmu_device *smmu)
- 	}
- 
- 	/* Queue sizes, capped to ensure natural alignment */
--	smmu->cmdq.q.max_n_shift = min_t(u32, CMDQ_MAX_SZ_SHIFT,
--					 FIELD_GET(IDR1_CMDQS, reg));
--	if (!smmu->cmdq.q.max_n_shift) {
-+	smmu->cmdq.q.llq.max_n_shift = min_t(u32, CMDQ_MAX_SZ_SHIFT,
-+					     FIELD_GET(IDR1_CMDQS, reg));
-+	if (!smmu->cmdq.q.llq.max_n_shift) {
- 		/* Odd alignment restrictions on the base, so ignore for now */
- 		dev_err(smmu->dev, "unit-length command queue not supported\n");
- 		return -ENXIO;
- 	}
- 
--	smmu->evtq.q.max_n_shift = min_t(u32, EVTQ_MAX_SZ_SHIFT,
--					 FIELD_GET(IDR1_EVTQS, reg));
--	smmu->priq.q.max_n_shift = min_t(u32, PRIQ_MAX_SZ_SHIFT,
--					 FIELD_GET(IDR1_PRIQS, reg));
-+	smmu->evtq.q.llq.max_n_shift = min_t(u32, EVTQ_MAX_SZ_SHIFT,
-+					     FIELD_GET(IDR1_EVTQS, reg));
-+	smmu->priq.q.llq.max_n_shift = min_t(u32, PRIQ_MAX_SZ_SHIFT,
-+					     FIELD_GET(IDR1_PRIQS, reg));
- 
- 	/* SID/SSID sizes */
- 	smmu->ssid_bits = FIELD_GET(IDR1_SSIDSIZE, reg);
 -- 
 2.11.0
 
