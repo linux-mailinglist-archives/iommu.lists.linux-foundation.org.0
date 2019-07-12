@@ -2,55 +2,93 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 241AA6602B
-	for <lists.iommu@lfdr.de>; Thu, 11 Jul 2019 21:48:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD6E4666A5
+	for <lists.iommu@lfdr.de>; Fri, 12 Jul 2019 07:51:31 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 25D4A54D2;
-	Thu, 11 Jul 2019 19:47:54 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 3544E27FD;
+	Fri, 12 Jul 2019 05:51:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id A2AF94C31
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id D9E37564B
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 11 Jul 2019 15:09:28 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
-	[217.70.183.198])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 15DCB896
+	Fri, 12 Jul 2019 05:41:13 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+	[148.163.156.1])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 6D86C883
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 11 Jul 2019 15:09:27 +0000 (UTC)
-X-Originating-IP: 92.137.69.152
-Received: from localhost (alyon-656-1-672-152.w92-137.abo.wanadoo.fr
-	[92.137.69.152]) (Authenticated sender: gregory.clement@bootlin.com)
-	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 6B866C000A;
-	Thu, 11 Jul 2019 15:09:24 +0000 (UTC)
-From: Gregory CLEMENT <gregory.clement@bootlin.com>
-To: Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org
-Subject: [PATCH v2 4/4] arm64: dts: marvell: armada-ap806: add smmu support
-Date: Thu, 11 Jul 2019 17:02:42 +0200
-Message-Id: <20190711150242.25290-5-gregory.clement@bootlin.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190711150242.25290-1-gregory.clement@bootlin.com>
-References: <20190711150242.25290-1-gregory.clement@bootlin.com>
+	Fri, 12 Jul 2019 05:41:13 +0000 (UTC)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x6C5bevJ015254
+	for <iommu@lists.linux-foundation.org>; Fri, 12 Jul 2019 01:41:12 -0400
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2tpj96kwp5-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <iommu@lists.linux-foundation.org>; Fri, 12 Jul 2019 01:41:12 -0400
+Received: from localhost
+	by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <iommu@lists.linux-foundation.org> from <bauerman@linux.ibm.com>;
+	Fri, 12 Jul 2019 06:41:11 +0100
+Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
+	by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Fri, 12 Jul 2019 06:41:07 +0100
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+	[9.57.199.109])
+	by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+	x6C5f5vh40042908
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Fri, 12 Jul 2019 05:41:05 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7ECDB112061;
+	Fri, 12 Jul 2019 05:41:05 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2586A112064;
+	Fri, 12 Jul 2019 05:41:01 +0000 (GMT)
+Received: from morokweng.localdomain.com (unknown [9.85.149.188])
+	by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+	Fri, 12 Jul 2019 05:41:00 +0000 (GMT)
+From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+To: x86@kernel.org
+Subject: [PATCH 0/3] Remove x86-specific code from generic headers
+Date: Fri, 12 Jul 2019 02:36:28 -0300
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+x-cbid: 19071205-0060-0000-0000-0000035D6D9B
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011413; HX=3.00000242; KW=3.00000007;
+	PH=3.00000004; SC=3.00000286; SDB=6.01230955; UDB=6.00648415;
+	IPR=6.01012239; 
+	MB=3.00027687; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-12 05:41:11
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19071205-0061-0000-0000-00004A1B8F54
+Message-Id: <20190712053631.9814-1-bauerman@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-07-12_01:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=993 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1907120058
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Mailman-Approved-At: Thu, 11 Jul 2019 19:37:36 +0000
-Cc: devicetree@vger.kernel.org, Jason Cooper <jason@lakedaemon.net>,
-	Andrew Lunn <andrew@lunn.ch>, Antoine Tenart <antoine.tenart@bootlin.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	Will Deacon <will.deacon@arm.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Nadav Haklai <nadavh@marvell.com>, Rob Herring <robh+dt@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	=?UTF-8?q?Miqu=C3=A8l=20Raynal?= <miquel.raynal@bootlin.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+Cc: linux-s390@vger.kernel.org, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	Robin Murphy <robin.murphy@arm.com>, Mike Anderson <andmike@linux.ibm.com>,
+	Ram Pai <linuxram@us.ibm.com>, linux-kernel@vger.kernel.org,
+	Alexey Dobriyan <adobriyan@gmail.com>, Halil Pasic <pasic@linux.ibm.com>,
+	iommu@lists.linux-foundation.org, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
+	linux-fsdevel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+	linuxppc-dev@lists.ozlabs.org, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,50 +101,54 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Add IOMMU node for Marvell AP806 based SoCs.
-
-Signed-off-by: Gregory CLEMENT <gregory.clement@bootlin.com>
----
- arch/arm64/boot/dts/marvell/armada-ap806.dtsi | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/marvell/armada-ap806.dtsi b/arch/arm64/boot/dts/marvell/armada-ap806.dtsi
-index 91dad7e4ee59..8e29d593970a 100644
---- a/arch/arm64/boot/dts/marvell/armada-ap806.dtsi
-+++ b/arch/arm64/boot/dts/marvell/armada-ap806.dtsi
-@@ -115,6 +115,23 @@
- 				interrupts = <17>;
- 			};
- 
-+			smmu: iommu@5000000 {
-+				compatible = "marvell,mmu-500";
-+				reg = <0x100000 0x100000>;
-+				dma-coherent;
-+				#iommu-cells = <1>;
-+				#global-interrupts = <1>;
-+				interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+					    <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+					    <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+					    <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+					    <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+					    <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+					    <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+					    <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+					    <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+
- 			odmi: odmi@300000 {
- 				compatible = "marvell,odmi-controller";
- 				interrupt-controller;
--- 
-2.20.1
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SGVsbG8sCgpCb3RoIHBvd2VycGPCuSBhbmQgczM5MMKyIGFyZSBhZGRpbmcgPGFzbS9tZW1fZW5j
+cnlwdC5oPiBoZWFkZXJzLiBDdXJyZW50bHksCnRoZXkgaGF2ZSB0byBzdXBwbHkgZGVmaW5pdGlv
+bnMgZm9yIGZ1bmN0aW9ucyBhbmQgbWFjcm9zIHdoaWNoIG9ubHkgaGF2ZSBhCm1lYW5pbmcgb24g
+eDg2OiBzbWVfbWVfbWFzaywgc21lX2FjdGl2ZSgpIGFuZCBzZXZfYWN0aXZlKCkuCgpDaHJpc3Rv
+cGggSGVsbHdpZyBtYWRlIGEgc3VnZ2VzdGlvbiB0byAiY2xlYW4gdXAgdGhlIEtjb25maWcgYW5k
+IGdlbmVyaWMKaGVhZGVycyBiaXRzIGZvciBtZW1vcnkgZW5jcnlwdGlvbiBzbyB0aGF0IHdlIGRv
+bid0IG5lZWQgYWxsIHRoaXMKYm9pbGVycGxhdGUgY29kZSIsIGFuZCB0aGlzIGlzIHdoYXQgdGhp
+cyBzZXJpZXMgZG9lcy4KCkFmdGVyIHRoaXMgcGF0Y2ggc2V0LCB0aGlzIGlzIHBvd2VycGMncyA8
+YXNtL21lbV9lbmNyeXB0Lmg+OgoKICAgICNpZm5kZWYgX0FTTV9QT1dFUlBDX01FTV9FTkNSWVBU
+X0gKICAgICNkZWZpbmUgX0FTTV9QT1dFUlBDX01FTV9FTkNSWVBUX0gKCiAgICAjaW5jbHVkZSA8
+YXNtL3N2bS5oPgoKICAgIHN0YXRpYyBpbmxpbmUgYm9vbCBtZW1fZW5jcnlwdF9hY3RpdmUodm9p
+ZCkKICAgIHsKCSAgICByZXR1cm4gaXNfc2VjdXJlX2d1ZXN0KCk7CiAgICB9CgogICAgc3RhdGlj
+IGlubGluZSBib29sIGZvcmNlX2RtYV91bmVuY3J5cHRlZChzdHJ1Y3QgZGV2aWNlICpkZXYpCiAg
+ICB7CgkgICAgcmV0dXJuIGlzX3NlY3VyZV9ndWVzdCgpOwogICAgfQoKICAgIGludCBzZXRfbWVt
+b3J5X2VuY3J5cHRlZCh1bnNpZ25lZCBsb25nIGFkZHIsIGludCBudW1wYWdlcyk7CiAgICBpbnQg
+c2V0X21lbW9yeV9kZWNyeXB0ZWQodW5zaWduZWQgbG9uZyBhZGRyLCBpbnQgbnVtcGFnZXMpOwoK
+ICAgICNlbmRpZiAvKiBfQVNNX1BPV0VSUENfTUVNX0VOQ1JZUFRfSCAqLwoKSSBkb24ndCBoYXZl
+IGEgd2F5IHRvIHRlc3QgU01FIG5vciBTRVYsIHNvIHRoZSBwYXRjaGVzIGhhdmUgb25seSBiZWVu
+IGJ1aWxkCnRlc3RlZC4gVGhleSBhc3N1bWUgdGhlIHByZXNlbmNlIG9mIHRoZSBmb2xsb3dpbmcg
+dHdvIGNvbW1pdHM6CgpDb21taXQgNGViNWZlYzMxZTYxICgiZnMvcHJvYy92bWNvcmU6IEVuYWJs
+ZSBkdW1waW5nIG9mIGVuY3J5cHRlZCBtZW1vcnkKd2hlbiBTRVYgd2FzIGFjdGl2ZSIpLCB3aGlj
+aCBpcyBub3cgaW4gTGludXMnIG1hc3RlciBicmFuY2g7CgpDb21taXQgZTY3YTVlZDFmODZmICgi
+ZG1hLWRpcmVjdDogRm9yY2UgdW5lbmNyeXB0ZWQgRE1BIHVuZGVyIFNNRSBmb3IKY2VydGFpbiBE
+TUEgbWFza3MiKSwgd2hpY2ggaXMgaW4gZG1hLW1hcHBpbmcvZm9yLW5leHQgYW5kIGNvbWVzIGZy
+b20gdGhpcwpwYXRjaDoKCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LWlvbW11LzEwYjgz
+ZDlmZjMxYmNhODhlOTRkYTJmZjM0ZTMwNjE5ZWIzOTYwNzguMTU2Mjc4NTEyMy5naXQudGhvbWFz
+LmxlbmRhY2t5QGFtZC5jb20vCgpUaGlhZ28gSnVuZyBCYXVlcm1hbm4gKDMpOgogIHg4Ni9LY29u
+ZmlnOiBNb3ZlIEFSQ0hfSEFTX01FTV9FTkNSWVBUIHRvIGFyY2gvS2NvbmZpZwogIERNQSBtYXBw
+aW5nOiBNb3ZlIFNNRSBoYW5kbGluZyB0byB4ODYtc3BlY2lmaWMgZmlsZXMKICBmcy9jb3JlL3Zt
+Y29yZTogTW92ZSBzZXZfYWN0aXZlKCkgcmVmZXJlbmNlIHRvIHg4NiBhcmNoIGNvZGUKCiBhcmNo
+L0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgIHwgIDMgKysrCiBhcmNoL3g4Ni9LY29uZmln
+ICAgICAgICAgICAgICAgICAgIHwgIDUgKystLS0KIGFyY2gveDg2L2luY2x1ZGUvYXNtL2RtYS1t
+YXBwaW5nLmggfCAgNyArKysrKysrCiBhcmNoL3g4Ni9pbmNsdWRlL2FzbS9tZW1fZW5jcnlwdC5o
+IHwgMTAgKysrKysrKysrKwogYXJjaC94ODYva2VybmVsL2NyYXNoX2R1bXBfNjQuYyAgICB8ICA1
+ICsrKysrCiBmcy9wcm9jL3ZtY29yZS5jICAgICAgICAgICAgICAgICAgIHwgIDggKysrKy0tLS0K
+IGluY2x1ZGUvbGludXgvY3Jhc2hfZHVtcC5oICAgICAgICAgfCAxNCArKysrKysrKysrKysrKwog
+aW5jbHVkZS9saW51eC9tZW1fZW5jcnlwdC5oICAgICAgICB8IDE1ICstLS0tLS0tLS0tLS0tLQog
+a2VybmVsL2RtYS9LY29uZmlnICAgICAgICAgICAgICAgICB8ICAzICsrKwoga2VybmVsL2RtYS9t
+YXBwaW5nLmMgICAgICAgICAgICAgICB8ICA0ICsrLS0KIGtlcm5lbC9kbWEvc3dpb3RsYi5jICAg
+ICAgICAgICAgICAgfCAgMyArLS0KIDExIGZpbGVzIGNoYW5nZWQsIDUyIGluc2VydGlvbnMoKyks
+IDI1IGRlbGV0aW9ucygtKQoKLS0gCgrCuSBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eHBw
+Yy1kZXYvMjAxOTA1MjEwNDQ5MTIuMTM3NS0xMi1iYXVlcm1hbkBsaW51eC5pYm0uY29tLwrCsiBo
+dHRwczovL2xvcmUua2VybmVsLm9yZy9rdm0vMjAxOTA2MTIxMTEyMzYuOTk1MzgtMi1wYXNpY0Bs
+aW51eC5pYm0uY29tLwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3Jn
+Cmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
