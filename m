@@ -2,86 +2,44 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91E86788D
-	for <lists.iommu@lfdr.de>; Sat, 13 Jul 2019 07:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273F267905
+	for <lists.iommu@lfdr.de>; Sat, 13 Jul 2019 09:35:21 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1564269A8;
-	Sat, 13 Jul 2019 05:16:29 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 335D569BB;
+	Sat, 13 Jul 2019 07:35:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id A2C1169A0
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id AFE566990
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 13 Jul 2019 05:08:54 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
-	[148.163.158.5])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 472BACF
+	Sat, 13 Jul 2019 07:27:21 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2E3A0CF
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 13 Jul 2019 05:08:54 +0000 (UTC)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x6D56f2d054008; Sat, 13 Jul 2019 01:08:43 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 2tq31aschb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sat, 13 Jul 2019 01:08:43 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6D58gc7057730;
-	Sat, 13 Jul 2019 01:08:42 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
-	[169.63.214.131])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 2tq31ascgy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sat, 13 Jul 2019 01:08:42 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-	by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id
-	x6D56736025351; Sat, 13 Jul 2019 05:08:41 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
-	(b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
-	by ppma01dal.us.ibm.com with ESMTP id 2tq6x60k2u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sat, 13 Jul 2019 05:08:41 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
-	(b03ledav005.gho.boulder.ibm.com [9.17.130.236])
-	by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x6D58d5660031312
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Sat, 13 Jul 2019 05:08:39 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B29C6BE04F;
-	Sat, 13 Jul 2019 05:08:39 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0067CBE053;
-	Sat, 13 Jul 2019 05:08:34 +0000 (GMT)
-Received: from morokweng.localdomain (unknown [9.85.135.203])
-	by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
-	Sat, 13 Jul 2019 05:08:34 +0000 (GMT)
+	Sat, 13 Jul 2019 07:27:21 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 241B668B02; Sat, 13 Jul 2019 09:27:18 +0200 (CEST)
+Date: Sat, 13 Jul 2019 09:27:17 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Subject: Re: [PATCH 1/3] x86,s390: Move ARCH_HAS_MEM_ENCRYPT definition to
+	arch/Kconfig
+Message-ID: <20190713072717.GB17589@lst.de>
 References: <20190713044554.28719-1-bauerman@linux.ibm.com>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-To: x86@kernel.org
-Subject: Re: [PATCH 0/3] Remove x86-specific code from generic headers
-In-reply-to: <20190713044554.28719-1-bauerman@linux.ibm.com>
-Date: Sat, 13 Jul 2019 02:08:30 -0300
-Message-ID: <87pnmefrn5.fsf@morokweng.localdomain>
+	<20190713044554.28719-2-bauerman@linux.ibm.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-07-13_01:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=13 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=736 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1907130060
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+Content-Disposition: inline
+In-Reply-To: <20190713044554.28719-2-bauerman@linux.ibm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: linux-s390@vger.kernel.org, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-	Robin Murphy <robin.murphy@arm.com>, Mike Anderson <andmike@linux.ibm.com>,
+Cc: linux-s390@vger.kernel.org, Mike Anderson <andmike@linux.ibm.com>,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	Robin Murphy <robin.murphy@arm.com>, x86@kernel.org,
 	Ram Pai <linuxram@us.ibm.com>, linux-kernel@vger.kernel.org,
 	Alexey Dobriyan <adobriyan@gmail.com>, Halil Pasic <pasic@linux.ibm.com>,
 	iommu@lists.linux-foundation.org, Ingo Molnar <mingo@redhat.com>,
@@ -106,13 +64,15 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
+On Sat, Jul 13, 2019 at 01:45:52AM -0300, Thiago Jung Bauermann wrote:
+> powerpc is also going to use this feature, so put it in a generic location.
 
-I forgot to mark this series as v2 when generating the patches.
-Sorry for the confusion.
+Looks good,
 
--- 
-Thiago Jung Bauermann
-IBM Linux Technology Center
+even without a third arch using it we should never habe symbols defined
+under arch/$(ARCH) that are used in common code to start with.
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
