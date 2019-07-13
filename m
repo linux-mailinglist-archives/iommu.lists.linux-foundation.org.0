@@ -2,36 +2,35 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 273F267905
-	for <lists.iommu@lfdr.de>; Sat, 13 Jul 2019 09:35:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9DE67906
+	for <lists.iommu@lfdr.de>; Sat, 13 Jul 2019 09:35:25 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 335D569BB;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 6C1AD69DF;
 	Sat, 13 Jul 2019 07:35:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id AFE566990
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 62AF06990
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 13 Jul 2019 07:27:21 +0000 (UTC)
+	Sat, 13 Jul 2019 07:29:08 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2E3A0CF
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id F0F61CF
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 13 Jul 2019 07:27:21 +0000 (UTC)
+	Sat, 13 Jul 2019 07:29:07 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 241B668B02; Sat, 13 Jul 2019 09:27:18 +0200 (CEST)
-Date: Sat, 13 Jul 2019 09:27:17 +0200
+	id 72E3268B05; Sat, 13 Jul 2019 09:29:05 +0200 (CEST)
+Date: Sat, 13 Jul 2019 09:29:04 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Subject: Re: [PATCH 1/3] x86,s390: Move ARCH_HAS_MEM_ENCRYPT definition to
-	arch/Kconfig
-Message-ID: <20190713072717.GB17589@lst.de>
+Subject: Re: [PATCH 2/3] DMA mapping: Move SME handling to x86-specific files
+Message-ID: <20190713072904.GC17589@lst.de>
 References: <20190713044554.28719-1-bauerman@linux.ibm.com>
-	<20190713044554.28719-2-bauerman@linux.ibm.com>
+	<20190713044554.28719-3-bauerman@linux.ibm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190713044554.28719-2-bauerman@linux.ibm.com>
+In-Reply-To: <20190713044554.28719-3-bauerman@linux.ibm.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
@@ -64,15 +63,13 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Sat, Jul 13, 2019 at 01:45:52AM -0300, Thiago Jung Bauermann wrote:
-> powerpc is also going to use this feature, so put it in a generic location.
+While this looks generally good to me, I think we want to split this
+into three patches:
 
-Looks good,
+ 1) update the swiotlb printk
+ 2) removing the dma-mapping check and printk
+ 3) clean up the mem_encrypt.h interface.
 
-even without a third arch using it we should never habe symbols defined
-under arch/$(ARCH) that are used in common code to start with.
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
