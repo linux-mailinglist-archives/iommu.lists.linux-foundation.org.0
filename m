@@ -2,84 +2,80 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CA867881
-	for <lists.iommu@lfdr.de>; Sat, 13 Jul 2019 06:55:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E91E86788D
+	for <lists.iommu@lfdr.de>; Sat, 13 Jul 2019 07:16:30 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 61E4469A8;
-	Sat, 13 Jul 2019 04:54:56 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 1564269A8;
+	Sat, 13 Jul 2019 05:16:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 14F1D5C28
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A2C1169A0
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 13 Jul 2019 04:46:33 +0000 (UTC)
+	Sat, 13 Jul 2019 05:08:54 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
 	[148.163.158.5])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 8A2A9CF
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 472BACF
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 13 Jul 2019 04:46:32 +0000 (UTC)
+	Sat, 13 Jul 2019 05:08:54 +0000 (UTC)
 Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
 	by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x6D4fXmb195941
-	for <iommu@lists.linux-foundation.org>; Sat, 13 Jul 2019 00:46:31 -0400
-Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 2tq31arqsh-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <iommu@lists.linux-foundation.org>; Sat, 13 Jul 2019 00:46:31 -0400
-Received: from localhost
-	by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
-	Violators will be prosecuted
-	for <iommu@lists.linux-foundation.org> from <bauerman@linux.ibm.com>;
-	Sat, 13 Jul 2019 05:46:30 +0100
-Received: from b03cxnp08028.gho.boulder.ibm.com (9.17.130.20)
-	by e34.co.us.ibm.com (192.168.1.134) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Sat, 13 Jul 2019 05:46:24 +0100
+	x6D56f2d054008; Sat, 13 Jul 2019 01:08:43 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com with ESMTP id 2tq31aschb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Sat, 13 Jul 2019 01:08:43 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6D58gc7057730;
+	Sat, 13 Jul 2019 01:08:42 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+	[169.63.214.131])
+	by mx0b-001b2d01.pphosted.com with ESMTP id 2tq31ascgy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Sat, 13 Jul 2019 01:08:42 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+	by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id
+	x6D56736025351; Sat, 13 Jul 2019 05:08:41 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+	(b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+	by ppma01dal.us.ibm.com with ESMTP id 2tq6x60k2u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Sat, 13 Jul 2019 05:08:41 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
 	(b03ledav005.gho.boulder.ibm.com [9.17.130.236])
-	by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x6D4kNvL65143198
+	by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x6D58d5660031312
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Sat, 13 Jul 2019 04:46:23 GMT
+	verify=OK); Sat, 13 Jul 2019 05:08:39 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0AC34BE054;
-	Sat, 13 Jul 2019 04:46:23 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id B29C6BE04F;
+	Sat, 13 Jul 2019 05:08:39 +0000 (GMT)
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 74BC8BE04F;
-	Sat, 13 Jul 2019 04:46:18 +0000 (GMT)
-Received: from morokweng.localdomain.com (unknown [9.85.135.203])
-	by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
-	Sat, 13 Jul 2019 04:46:18 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 0067CBE053;
+	Sat, 13 Jul 2019 05:08:34 +0000 (GMT)
+Received: from morokweng.localdomain (unknown [9.85.135.203])
+	by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
+	Sat, 13 Jul 2019 05:08:34 +0000 (GMT)
+References: <20190713044554.28719-1-bauerman@linux.ibm.com>
+User-agent: mu4e 1.2.0; emacs 26.2
 From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 To: x86@kernel.org
-Subject: [PATCH 3/3] fs/core/vmcore: Move sev_active() reference to x86 arch
-	code
-Date: Sat, 13 Jul 2019 01:45:54 -0300
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190713044554.28719-1-bauerman@linux.ibm.com>
-References: <20190713044554.28719-1-bauerman@linux.ibm.com>
+Subject: Re: [PATCH 0/3] Remove x86-specific code from generic headers
+In-reply-to: <20190713044554.28719-1-bauerman@linux.ibm.com>
+Date: Sat, 13 Jul 2019 02:08:30 -0300
+Message-ID: <87pnmefrn5.fsf@morokweng.localdomain>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-x-cbid: 19071304-0016-0000-0000-000009CD3344
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011418; HX=3.00000242; KW=3.00000007;
-	PH=3.00000004; SC=3.00000286; SDB=6.01231409; UDB=6.00648690;
-	IPR=6.01012701; 
-	MB=3.00027699; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-13 04:46:28
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19071304-0017-0000-0000-000043FE838E
-Message-Id: <20190713044554.28719-4-bauerman@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 	definitions=2019-07-13_01:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 	priorityscore=1501
-	malwarescore=0 suspectscore=38 phishscore=0 bulkscore=0 spamscore=0
+	malwarescore=0 suspectscore=13 phishscore=0 bulkscore=0 spamscore=0
 	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1907130055
+	mlxlogscore=736 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1907130060
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
@@ -110,97 +106,13 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Secure Encrypted Virtualization is an x86-specific feature, so it shouldn't
-appear in generic kernel code because it forces non-x86 architectures to
-define the sev_active() function, which doesn't make a lot of sense.
 
-To solve this problem, add an x86 elfcorehdr_read() function to override
-the generic weak implementation. To do that, it's necessary to make
-read_from_oldmem() public so that it can be used outside of vmcore.c.
+I forgot to mark this series as v2 when generating the patches.
+Sorry for the confusion.
 
-Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
----
- arch/x86/kernel/crash_dump_64.c |  5 +++++
- fs/proc/vmcore.c                |  8 ++++----
- include/linux/crash_dump.h      | 14 ++++++++++++++
- include/linux/mem_encrypt.h     |  1 -
- 4 files changed, 23 insertions(+), 5 deletions(-)
-
-diff --git a/arch/x86/kernel/crash_dump_64.c b/arch/x86/kernel/crash_dump_64.c
-index 22369dd5de3b..045e82e8945b 100644
---- a/arch/x86/kernel/crash_dump_64.c
-+++ b/arch/x86/kernel/crash_dump_64.c
-@@ -70,3 +70,8 @@ ssize_t copy_oldmem_page_encrypted(unsigned long pfn, char *buf, size_t csize,
- {
- 	return __copy_oldmem_page(pfn, buf, csize, offset, userbuf, true);
- }
-+
-+ssize_t elfcorehdr_read(char *buf, size_t count, u64 *ppos)
-+{
-+	return read_from_oldmem(buf, count, ppos, 0, sev_active());
-+}
-diff --git a/fs/proc/vmcore.c b/fs/proc/vmcore.c
-index 57957c91c6df..ca1f20bedd8c 100644
---- a/fs/proc/vmcore.c
-+++ b/fs/proc/vmcore.c
-@@ -100,9 +100,9 @@ static int pfn_is_ram(unsigned long pfn)
- }
- 
- /* Reads a page from the oldmem device from given offset. */
--static ssize_t read_from_oldmem(char *buf, size_t count,
--				u64 *ppos, int userbuf,
--				bool encrypted)
-+ssize_t read_from_oldmem(char *buf, size_t count,
-+			 u64 *ppos, int userbuf,
-+			 bool encrypted)
- {
- 	unsigned long pfn, offset;
- 	size_t nr_bytes;
-@@ -166,7 +166,7 @@ void __weak elfcorehdr_free(unsigned long long addr)
-  */
- ssize_t __weak elfcorehdr_read(char *buf, size_t count, u64 *ppos)
- {
--	return read_from_oldmem(buf, count, ppos, 0, sev_active());
-+	return read_from_oldmem(buf, count, ppos, 0, false);
- }
- 
- /*
-diff --git a/include/linux/crash_dump.h b/include/linux/crash_dump.h
-index f774c5eb9e3c..4664fc1871de 100644
---- a/include/linux/crash_dump.h
-+++ b/include/linux/crash_dump.h
-@@ -115,4 +115,18 @@ static inline int vmcore_add_device_dump(struct vmcoredd_data *data)
- 	return -EOPNOTSUPP;
- }
- #endif /* CONFIG_PROC_VMCORE_DEVICE_DUMP */
-+
-+#ifdef CONFIG_PROC_VMCORE
-+ssize_t read_from_oldmem(char *buf, size_t count,
-+			 u64 *ppos, int userbuf,
-+			 bool encrypted);
-+#else
-+static inline ssize_t read_from_oldmem(char *buf, size_t count,
-+				       u64 *ppos, int userbuf,
-+				       bool encrypted)
-+{
-+	return -EOPNOTSUPP;
-+}
-+#endif /* CONFIG_PROC_VMCORE */
-+
- #endif /* LINUX_CRASHDUMP_H */
-diff --git a/include/linux/mem_encrypt.h b/include/linux/mem_encrypt.h
-index 0c5b0ff9eb29..5c4a18a91f89 100644
---- a/include/linux/mem_encrypt.h
-+++ b/include/linux/mem_encrypt.h
-@@ -19,7 +19,6 @@
- #else	/* !CONFIG_ARCH_HAS_MEM_ENCRYPT */
- 
- static inline bool mem_encrypt_active(void) { return false; }
--static inline bool sev_active(void) { return false; }
- 
- #endif	/* CONFIG_ARCH_HAS_MEM_ENCRYPT */
- 
-
+-- 
+Thiago Jung Bauermann
+IBM Linux Technology Center
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
