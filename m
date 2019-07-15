@@ -2,45 +2,45 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BE36902B
-	for <lists.iommu@lfdr.de>; Mon, 15 Jul 2019 16:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910C96919F
+	for <lists.iommu@lfdr.de>; Mon, 15 Jul 2019 16:31:15 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id EC32AEE8;
-	Mon, 15 Jul 2019 14:21:12 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 42CD8F12;
+	Mon, 15 Jul 2019 14:31:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 69A02EE3
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id EDCEDE5A
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 15 Jul 2019 14:21:11 +0000 (UTC)
+	Mon, 15 Jul 2019 14:31:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2109971C
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A7F7D71C
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 15 Jul 2019 14:21:11 +0000 (UTC)
+	Mon, 15 Jul 2019 14:31:12 +0000 (UTC)
 Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 73D6C217D8;
-	Mon, 15 Jul 2019 14:21:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id F3D052182B;
+	Mon, 15 Jul 2019 14:31:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1563200470;
-	bh=4YIRLvZGbvpiij6S8R5TnMWb4Y//0G+ZUOF1GZm0qLI=;
+	s=default; t=1563201072;
+	bh=h5JUm6AmUPVsOD6rBVTJ4CjFmYZqKxuG1xYZXGsT/2s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tbgakwOsTLdIQ18owRlEciFKU+hB67vKdB/ZThyNOaUzQ9QO/jDVf/aNx0HMnOaeP
-	XQGk4Ml6vVjXt0iO7i63W+qdi61D9JdAP7oQx5IhdvVXUNwWEnt4Y1f+p94qpGPkO8
-	0jiT8miOoW+2giRBNA0niszqqdLb7cTT69k/If/o=
+	b=EDSQjKv0o+qmZxahTlZo3xkInK9QoeDTPjFe3qaB1aVMK6Nsn8rYyCXXrDc1xWSW/
+	/BGt4Z/2MTMLViYIeyVnvIS5oYnNFSOl5i1PkH50Aq/kUqzJ3SEJomx61TZdjodLhk
+	NfWWJ1AUP8DfYidzpRqlFkB7DSwJ5JuDFYfA238c=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 058/158] iommu: Fix a leak in
+Subject: [PATCH AUTOSEL 4.14 043/105] iommu: Fix a leak in
 	iommu_insert_resv_region
-Date: Mon, 15 Jul 2019 10:16:29 -0400
-Message-Id: <20190715141809.8445-58-sashal@kernel.org>
+Date: Mon, 15 Jul 2019 10:27:37 -0400
+Message-Id: <20190715142839.9896-43-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715141809.8445-1-sashal@kernel.org>
-References: <20190715141809.8445-1-sashal@kernel.org>
+In-Reply-To: <20190715142839.9896-1-sashal@kernel.org>
+References: <20190715142839.9896-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -86,10 +86,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 8c15c5980299..bc14825edc9c 100644
+index 3de5c0bcb5cc..1620a6f49989 100644
 --- a/drivers/iommu/iommu.c
 +++ b/drivers/iommu/iommu.c
-@@ -211,18 +211,21 @@ static int iommu_insert_resv_region(struct iommu_resv_region *new,
+@@ -205,18 +205,21 @@ static int iommu_insert_resv_region(struct iommu_resv_region *new,
  			pos = pos->next;
  		} else if ((start >= a) && (end <= b)) {
  			if (new->type == type)
@@ -113,7 +113,7 @@ index 8c15c5980299..bc14825edc9c 100644
  			} else {
  				pos = pos->next;
  			}
-@@ -235,7 +238,6 @@ static int iommu_insert_resv_region(struct iommu_resv_region *new,
+@@ -229,7 +232,6 @@ static int iommu_insert_resv_region(struct iommu_resv_region *new,
  		return -ENOMEM;
  
  	list_add_tail(&region->list, pos);
