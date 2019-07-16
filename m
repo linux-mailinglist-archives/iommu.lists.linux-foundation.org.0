@@ -2,49 +2,46 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711CA6A811
-	for <lists.iommu@lfdr.de>; Tue, 16 Jul 2019 14:02:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715EF6A84A
+	for <lists.iommu@lfdr.de>; Tue, 16 Jul 2019 14:10:37 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id BFEE8DDE;
-	Tue, 16 Jul 2019 12:02:23 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 00BADCA1;
+	Tue, 16 Jul 2019 12:10:31 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 3BC669F0
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id CF638AC7
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 16 Jul 2019 12:02:23 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id BB84E63D
+	Tue, 16 Jul 2019 12:10:29 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5D24363D
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 16 Jul 2019 12:02:22 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA1762B;
-	Tue, 16 Jul 2019 05:02:21 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 80CF63F71A;
-	Tue, 16 Jul 2019 05:02:20 -0700 (PDT)
+	Tue, 16 Jul 2019 12:10:29 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 9A83F227A81; Tue, 16 Jul 2019 14:10:26 +0200 (CEST)
+Date: Tue, 16 Jul 2019 14:10:26 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Robin Murphy <robin.murphy@arm.com>
 Subject: Re: cma_remap when using dma_alloc_attr :- DMA_ATTR_NO_KERNEL_MAPPING
-To: Pankaj Suryawanshi <pankajssuryawanshi@gmail.com>
+Message-ID: <20190716121026.GB2388@lst.de>
 References: <CACDBo56EoKca9FJCnbztWZAARdUQs+B=dmCs+UxW27yHNu5pzQ@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <57f8aa35-d460-9933-a547-fbf578ea42d3@arm.com>
-Date: Tue, 16 Jul 2019 13:02:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	<57f8aa35-d460-9933-a547-fbf578ea42d3@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <CACDBo56EoKca9FJCnbztWZAARdUQs+B=dmCs+UxW27yHNu5pzQ@mail.gmail.com>
-Content-Language: en-GB
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <57f8aa35-d460-9933-a547-fbf578ea42d3@arm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: pankaj.suryawanshi@einfochips.com, minchan@kernel.org,
+Cc: pankaj.suryawanshi@einfochips.com,
+	Pankaj Suryawanshi <pankajssuryawanshi@gmail.com>,
 	linux-kernel@vger.kernel.org, Michal Hocko <mhocko@kernel.org>,
 	linux-mm@kvack.org, iommu@lists.linux-foundation.org,
-	minchan.kim@gmail.com, Christoph Hellwig <hch@lst.de>,
-	Vlastimil Babka <vbabka@suse.cz>
+	minchan.kim@gmail.com, minchan@kernel.org,
+	Christoph Hellwig <hch@lst.de>, Vlastimil Babka <vbabka@suse.cz>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,99 +54,42 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 12/07/2019 19:30, Pankaj Suryawanshi wrote:
-> Hello,
-> 
-> When we allocate cma memory using dma_alloc_attr using
-> DMA_ATTR_NO_KERNEL_MAPPING attribute. It will return physical address
-> without virtual mapping and thats the use case of this attribute. but lets
-> say some vpu/gpu drivers required virtual mapping of some part of the
-> allocation. then we dont have anything to remap that allocated memory to
-> virtual memory. and in 32-bit system it difficult for devices like android
-> to work all the time with virtual mapping, it degrade the performance.
-> 
-> For Example :
-> 
-> Lets say 4k video allocation required 300MB cma memory but not required
-> virtual mapping for all the 300MB, its require only 20MB virtually mapped
-> at some specific use case/point of video, and unmap virtual mapping after
-> uses, at that time this functions will be useful, it works like ioremap()
-> for cma_alloc() using dma apis.
+On Tue, Jul 16, 2019 at 01:02:19PM +0100, Robin Murphy wrote:
+>> Lets say 4k video allocation required 300MB cma memory but not required
+>> virtual mapping for all the 300MB, its require only 20MB virtually mapped
+>> at some specific use case/point of video, and unmap virtual mapping after
+>> uses, at that time this functions will be useful, it works like ioremap()
+>> for cma_alloc() using dma apis.
+>
+> Hmm, is there any significant reason that this case couldn't be handled 
+> with just get_vm_area() plus dma_mmap_attrs(). I know it's only *intended* 
+> for userspace mappings, but since the basic machinery is there...
 
-Hmm, is there any significant reason that this case couldn't be handled 
-with just get_vm_area() plus dma_mmap_attrs(). I know it's only 
-*intended* for userspace mappings, but since the basic machinery is there...
+Because the dma helper really are a black box abstraction.
 
-Robin.
+That being said DMA_ATTR_NO_KERNEL_MAPPING and DMA_ATTR_NON_CONSISTENT
+have been a constant pain in the b**t.  I've been toying with replacing
+them with a dma_alloc_pages or similar abstraction that just returns
+a struct page that is guaranteed to be dma addressable by the passed
+in device.  Then the driver can call dma_map_page / dma_unmap_page /
+dma_sync_* on it at well.  This would replace DMA_ATTR_NON_CONSISTENT
+with a sensible API, and also DMA_ATTR_NO_KERNEL_MAPPING when called
+with PageHighmem, while providing an easy to understand API and
+something that can easily be fed into the various page based APIs
+in the kernel.
 
-> /*
->           * function call(s) to create virtual map of given physical memory
->           * range [base, base+size) of CMA memory.
-> */
-> void *cma_remap(__u32 base, __u32 size)
-> {
->          struct page *page = phys_to_page(base);
->          void *virt;
-> 
->          pr_debug("cma: request to map 0x%08x for size 0x%08x\n",
->                          base, size);
-> 
->          size = PAGE_ALIGN(size);
-> 
->          pgprot_t prot = get_dma_pgprot(DMA_ATTR, PAGE_KERNEL);
-> 
->          if (PageHighMem(page)){
->                  virt = dma_alloc_remap(page, size, GFP_KERNEL, prot,
-> __builtin_return_address(0));
->          }
->          else
->          {
->                  dma_remap(page, size, prot);
->                  virt = page_address(page);
->          }
-> 
->          if (!virt)
->                  pr_err("\x1b[31m" " cma: failed to map 0x%08x" "\x1b[0m\n",
->                                  base);
->          else
->                  pr_debug("cma: 0x%08x is virtually mapped to 0x%08x\n",
->                                  base, (__u32) virt);
-> 
->          return virt;
-> }
-> 
-> /*
->           * function call(s) to remove virtual map of given virtual memory
->           * range [virt, virt+size) of CMA memory.
-> */
-> 
-> void cma_unmap(void *virt, __u32 size)
-> {
->          size = PAGE_ALIGN(size);
->          unsigned long pfn = virt_to_pfn(virt);
->          struct page *page = pfn_to_page(pfn);
-> 
->                  if (PageHighMem(page))
->                          dma_free_remap(virt, size);
->                  else
->                          dma_remap(page, size, PAGE_KERNEL);
-> 
->          pr_debug(" cma: virtual address 0x%08x is unmapped\n",
->                          (__u32) virt);
-> }
-> 
-> This functions should be added in arch/arm/mm/dma-mapping.c file.
-> 
-> Please let me know if i am missing anything.
-> 
-> Regards,
-> Pankaj
-> 
+That being said until we get arm moved over the common dma direct
+and dma-iommu code, and x86 fully moved over to dma-iommu it just
+seems way too much work to even get it into the various architectures
+that matter, never mind all the fringe IOMMUs.  So for now I've just
+been trying to contain the DMA_ATTR_NON_CONSISTENT and
+DMA_ATTR_NO_KERNEL_MAPPING in fewer places while also killing bogus
+or pointless users of these APIs.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
