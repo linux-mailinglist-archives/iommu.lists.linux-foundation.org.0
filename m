@@ -2,46 +2,48 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08F1C6B699
-	for <lists.iommu@lfdr.de>; Wed, 17 Jul 2019 08:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 992FA6B69B
+	for <lists.iommu@lfdr.de>; Wed, 17 Jul 2019 08:26:27 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id AEA3AC2C;
-	Wed, 17 Jul 2019 06:26:21 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id D781BAE0;
+	Wed, 17 Jul 2019 06:26:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 98F63AE0
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9CBDAC03
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 17 Jul 2019 06:26:19 +0000 (UTC)
+	Wed, 17 Jul 2019 06:26:22 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 54FD412E
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 57C6312E
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 17 Jul 2019 06:26:19 +0000 (UTC)
+	Wed, 17 Jul 2019 06:26:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=K7H/a4NErovUxRGU06/uLQsjkN/DLzAnnlN1h9ancXw=;
-	b=lrTdWqvXNyoOtCzQpqjDXorzc
-	SQhUNNHtbufMJYXk+tysnO6m3RMQbWASa8Tfa8j5YzLW5Ik+zuJJh4fkVrRl8LwcAbKapgowl1ak6
-	z8CkMZJvg2aiDWlazThgXQ++CGLAaJal0tZiN64mj989OyIOXfIdnBKJIGFZZ7r9dixa0ICXLplLf
-	N07/nfb+MB7wXbOh/Prhf3nDyQkPe5dJfBK90Qaoqx9mBIItlqLJ6Ixfle9H06iyuB8s4I/E1Po40
-	hg1Rg2Ov/SgUNqOupzzgirMwputAO7Wbt+XIQExfidBQ3yuZ6179O3h5euvzLJHfNvxk2fl8d9L4z
-	QF/pUXKxw==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=V10uEz0zWFZ63sIz9VJWmuEfwUxz9f6GOpX0SGJmq3k=;
+	b=H+rObaLkaOf7mg1iUpKwHTvO5y
+	8nUdnb5L2v6HXJNISb2ZuVZhIsuCG4IgOd9NRP1Eyo1A/taHfQcABuxLHjdap9bWXyijCKGOi8Uoq
+	MRRCdIWZ22tyFC5InEjdPx6+8QZ9pqylyjb092b3C5nYFMvY4GoT9cvnmjThEmHH2jiAUbkJR8iwr
+	4bKT8+yD1Pu+3I+JBqM50wbepIodG5xVIXg1DFAO/7Gi5qu5Uo4OcgXTKPjnqUOlmOdyPd8kpkX1D
+	+sA1BUMdOuMEslmpK+diC57qfUhjgNNKSbNPxc0PLK4TAXnGuL8u/QvhE0hvTSnbWW2cUOF/df7ZV
+	7TcDX+ow==;
 Received: from [213.208.157.38] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-	id 1hndOL-0003lg-Tn; Wed, 17 Jul 2019 06:26:18 +0000
+	id 1hndOP-0003ma-Pe; Wed, 17 Jul 2019 06:26:22 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: iommu@lists.linux-foundation.org
-Subject: fix nvme performance regression due to dma_max_mapping_size()
-Date: Wed, 17 Jul 2019 08:26:13 +0200
-Message-Id: <20190717062615.10569-1-hch@lst.de>
+Subject: [PATCH 1/2] dma-mapping: add a dma_addressing_limited helper
+Date: Wed, 17 Jul 2019 08:26:14 +0200
+Message-Id: <20190717062615.10569-2-hch@lst.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190717062615.10569-1-hch@lst.de>
+References: <20190717062615.10569-1-hch@lst.de>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
 	bombadil.infradead.org. See http://www.infradead.org/rpr.html
@@ -69,11 +71,42 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi all,
+This helper returns if the device has issues addressing all present
+memory in the system.
 
-the new dma_max_mapping_size function is a little to eager to limit
-the I/O size if the swiotlb buffer is present, but the device is
-not addressing limited.  Fix this by adding an additional check.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ include/linux/dma-mapping.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 8d13e28a8e07..e11b115dd0e4 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -679,6 +679,20 @@ static inline int dma_coerce_mask_and_coherent(struct device *dev, u64 mask)
+ 	return dma_set_mask_and_coherent(dev, mask);
+ }
+ 
++/**
++ * dma_addressing_limited - return if the device is addressing limited
++ * @dev:	device to check
++ *
++ * Return %true if the devices DMA mask is too small to address all memory in
++ * the system, else %false.  Lack of addressing bits is the prime reason for
++ * bounce buffering, but might not be the only one.
++ */
++static inline bool dma_addressing_limited(struct device *dev)
++{
++	return min_not_zero(*dev->dma_mask, dev->bus_dma_mask) <
++		dma_get_required_mask(dev);
++}
++
+ #ifdef CONFIG_ARCH_HAS_SETUP_DMA_OPS
+ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+ 		const struct iommu_ops *iommu, bool coherent);
+-- 
+2.20.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
