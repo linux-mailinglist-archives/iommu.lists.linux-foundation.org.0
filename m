@@ -2,81 +2,76 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E696C7C2
-	for <lists.iommu@lfdr.de>; Thu, 18 Jul 2019 05:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEC76C7C5
+	for <lists.iommu@lfdr.de>; Thu, 18 Jul 2019 05:29:44 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id C922213F0;
-	Thu, 18 Jul 2019 03:29:32 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 531F913FF;
+	Thu, 18 Jul 2019 03:29:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 7074013EE
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A073A13F4
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 18 Jul 2019 03:29:31 +0000 (UTC)
+	Thu, 18 Jul 2019 03:29:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
 	[148.163.156.1])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 775B625A
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CAC2825A
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 18 Jul 2019 03:29:30 +0000 (UTC)
+	Thu, 18 Jul 2019 03:29:38 +0000 (UTC)
 Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
 	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x6I3S641060077
-	for <iommu@lists.linux-foundation.org>; Wed, 17 Jul 2019 23:29:28 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2ttcmeys65-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <iommu@lists.linux-foundation.org>; Wed, 17 Jul 2019 23:29:28 -0400
-Received: from localhost
-	by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
-	Violators will be prosecuted
-	for <iommu@lists.linux-foundation.org> from <bauerman@linux.ibm.com>;
-	Thu, 18 Jul 2019 04:29:27 +0100
-Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
-	by e14.ny.us.ibm.com (146.89.104.201) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Thu, 18 Jul 2019 04:29:21 +0100
+	x6I3S3Ba059956; Wed, 17 Jul 2019 23:29:27 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2ttcmeys60-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 17 Jul 2019 23:29:27 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x6I3S71a060109;
+	Wed, 17 Jul 2019 23:29:26 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+	[169.62.189.11])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2ttcmeys5m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 17 Jul 2019 23:29:26 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+	by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id
+	x6I3QAC1026052; Thu, 18 Jul 2019 03:29:25 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+	[9.57.198.28]) by ppma03dal.us.ibm.com with ESMTP id 2tq6x7mhxm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 18 Jul 2019 03:29:25 +0000
 Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
 	[9.57.199.110])
-	by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
-	x6I3TKoU49152394
+	by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+	x6I3TOnJ47972778
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Thu, 18 Jul 2019 03:29:20 GMT
+	verify=OK); Thu, 18 Jul 2019 03:29:25 GMT
 Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0F321AE05C;
+	by IMSVA (Postfix) with ESMTP id D2FE9AE066;
+	Thu, 18 Jul 2019 03:29:24 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 743F3AE05C;
 	Thu, 18 Jul 2019 03:29:20 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D236EAE062;
-	Thu, 18 Jul 2019 03:29:15 +0000 (GMT)
 Received: from morokweng.localdomain.com (unknown [9.85.129.123])
 	by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
-	Thu, 18 Jul 2019 03:29:15 +0000 (GMT)
+	Thu, 18 Jul 2019 03:29:20 +0000 (GMT)
 From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 To: x86@kernel.org
-Subject: [PATCH v3 1/6] x86,
-	s390: Move ARCH_HAS_MEM_ENCRYPT definition to arch/Kconfig
-Date: Thu, 18 Jul 2019 00:28:53 -0300
+Subject: [PATCH v3 2/6] swiotlb: Remove call to sme_active()
+Date: Thu, 18 Jul 2019 00:28:54 -0300
+Message-Id: <20190718032858.28744-3-bauerman@linux.ibm.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190718032858.28744-1-bauerman@linux.ibm.com>
 References: <20190718032858.28744-1-bauerman@linux.ibm.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-x-cbid: 19071803-0052-0000-0000-000003E297FE
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011449; HX=3.00000242; KW=3.00000007;
-	PH=3.00000004; SC=3.00000286; SDB=6.01233737; UDB=6.00650106;
-	IPR=6.01015065; 
-	MB=3.00027771; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-18 03:29:25
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19071803-0053-0000-0000-000061BE0F36
-Message-Id: <20190718032858.28744-2-bauerman@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 	definitions=2019-07-18_01:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 	priorityscore=1501
-	malwarescore=0 suspectscore=13 phishscore=0 bulkscore=0 spamscore=0
+	malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
 	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
 	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
 	scancount=1 engine=8.0.1-1810050000 definitions=main-1907180037
@@ -110,74 +105,32 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-powerpc is also going to use this feature, so put it in a generic location.
+sme_active() is an x86-specific function so it's better not to call it from
+generic code.
+
+There's no need to mention which memory encryption feature is active, so
+just use a more generic message. Besides, other architectures will have
+different names for similar technology.
 
 Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
-Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- arch/Kconfig      | 3 +++
- arch/s390/Kconfig | 4 +---
- arch/x86/Kconfig  | 4 +---
- 3 files changed, 5 insertions(+), 6 deletions(-)
+ kernel/dma/swiotlb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index e8d19c3cb91f..8fc285180848 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -935,6 +935,9 @@ config LOCK_EVENT_COUNTS
- 	  the chance of application behavior change because of timing
- 	  differences. The counts are reported via debugfs.
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 62fa5a82a065..e52401f94e91 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -459,8 +459,7 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev,
+ 		panic("Can not allocate SWIOTLB buffer earlier and can't now provide you with the DMA bounce buffer");
  
-+config ARCH_HAS_MEM_ENCRYPT
-+	bool
-+
- source "kernel/gcov/Kconfig"
+ 	if (mem_encrypt_active())
+-		pr_warn_once("%s is active and system is using DMA bounce buffers\n",
+-			     sme_active() ? "SME" : "SEV");
++		pr_warn_once("Memory encryption is active and system is using DMA bounce buffers\n");
  
- source "scripts/gcc-plugins/Kconfig"
-diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-index a4ad2733eedf..f43319c44454 100644
---- a/arch/s390/Kconfig
-+++ b/arch/s390/Kconfig
-@@ -1,7 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--config ARCH_HAS_MEM_ENCRYPT
--        def_bool y
--
- config MMU
- 	def_bool y
+ 	mask = dma_get_seg_boundary(hwdev);
  
-@@ -68,6 +65,7 @@ config S390
- 	select ARCH_HAS_GCOV_PROFILE_ALL
- 	select ARCH_HAS_GIGANTIC_PAGE
- 	select ARCH_HAS_KCOV
-+	select ARCH_HAS_MEM_ENCRYPT
- 	select ARCH_HAS_PTE_SPECIAL
- 	select ARCH_HAS_SET_MEMORY
- 	select ARCH_HAS_STRICT_KERNEL_RWX
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index c9f331bb538b..5d3295f2df94 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -68,6 +68,7 @@ config X86
- 	select ARCH_HAS_FORTIFY_SOURCE
- 	select ARCH_HAS_GCOV_PROFILE_ALL
- 	select ARCH_HAS_KCOV			if X86_64
-+	select ARCH_HAS_MEM_ENCRYPT
- 	select ARCH_HAS_MEMBARRIER_SYNC_CORE
- 	select ARCH_HAS_PMEM_API		if X86_64
- 	select ARCH_HAS_PTE_SPECIAL
-@@ -1520,9 +1521,6 @@ config X86_CPA_STATISTICS
- 	  helps to determine the effectiveness of preserving large and huge
- 	  page mappings when mapping protections are changed.
- 
--config ARCH_HAS_MEM_ENCRYPT
--	def_bool y
--
- config AMD_MEM_ENCRYPT
- 	bool "AMD Secure Memory Encryption (SME) support"
- 	depends on X86_64 && CPU_SUP_AMD
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
