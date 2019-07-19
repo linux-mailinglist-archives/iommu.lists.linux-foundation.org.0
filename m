@@ -2,46 +2,46 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F556DA0C
-	for <lists.iommu@lfdr.de>; Fri, 19 Jul 2019 05:59:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 552106DACF
+	for <lists.iommu@lfdr.de>; Fri, 19 Jul 2019 06:04:36 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 938F2219E;
-	Fri, 19 Jul 2019 03:59:14 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 059F12149;
+	Fri, 19 Jul 2019 04:04:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id D8AD71CFA
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 713C31E9C
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 19 Jul 2019 03:59:00 +0000 (UTC)
+	Fri, 19 Jul 2019 04:04:20 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 1B0B4B0
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A299E7C
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 19 Jul 2019 03:59:00 +0000 (UTC)
+	Fri, 19 Jul 2019 04:04:19 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
 	[73.47.72.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 341C021850;
-	Fri, 19 Jul 2019 03:58:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id D20DC2189F;
+	Fri, 19 Jul 2019 04:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1563508739;
+	s=default; t=1563509059;
 	bh=KaJybzooJrFsC/ElmIpJxxbbdj+KQOzrS7L32BxViLM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rRyvETRcdDesp5fX6zbbQaZdzTE98EsMRPAhf2OZi5R/Cg/vuymRHLCFH+N2fTb2p
-	0gFWYfxE1NNqxdcsFhBghvrCbRooeHEcR9vn9bspnEFutjIPtgzQ85piFbn6Kxl0eJ
-	rdYKDoFUgzrZ4ba51YyWTcef0UCMG9Zvsrli9OI4=
+	b=XgwsFRTw/SN7bMDVpVxb7WdqW5CUscoJX+6ol3DzC0ism2dTyJYwwcKh/OLKGxHnw
+	j+d7nXPHtX3AmDld/w/E5BUv05xINShPNYrMIFrOAyEYqdY1YYnB53TpDIUFfbbGjv
+	sFrtTkoN+pk+VjM58vW1ml1aZjQ+emzElNqTGuwM=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 061/171] dma-remap: Avoid de-referencing NULL
+Subject: [PATCH AUTOSEL 5.1 044/141] dma-remap: Avoid de-referencing NULL
 	atomic_pool
-Date: Thu, 18 Jul 2019 23:54:52 -0400
-Message-Id: <20190719035643.14300-61-sashal@kernel.org>
+Date: Fri, 19 Jul 2019 00:01:09 -0400
+Message-Id: <20190719040246.15945-44-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719035643.14300-1-sashal@kernel.org>
-References: <20190719035643.14300-1-sashal@kernel.org>
+In-Reply-To: <20190719040246.15945-1-sashal@kernel.org>
+References: <20190719040246.15945-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
