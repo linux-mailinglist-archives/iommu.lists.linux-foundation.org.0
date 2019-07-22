@@ -2,77 +2,43 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39DDF6F43F
-	for <lists.iommu@lfdr.de>; Sun, 21 Jul 2019 18:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1918C6F6BB
+	for <lists.iommu@lfdr.de>; Mon, 22 Jul 2019 02:25:05 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 07F7EAB5;
-	Sun, 21 Jul 2019 16:58:33 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8E0DBAD1;
+	Mon, 22 Jul 2019 00:25:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 156D82C
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id D27E1AC7
 	for <iommu@lists.linux-foundation.org>;
-	Sun, 21 Jul 2019 16:58:32 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 75A83E6
+	Mon, 22 Jul 2019 00:25:01 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CFC0CF1
 	for <iommu@lists.linux-foundation.org>;
-	Sun, 21 Jul 2019 16:58:23 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id h10so35210691ljg.0
-	for <iommu@lists.linux-foundation.org>;
-	Sun, 21 Jul 2019 09:58:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JIuU92ucT6bQTXAcxJLrdNS8BLR+pSqNO48JgC8/dJw=;
-	b=JWhLyO68Hrib0GO70cuR1VtthguReGEJ9R2mWF5MJMmuYYlNXh0tejOJPwrZW3bQ+y
-	oCIboqjxklsU2/gyMVnv8F9oSF6QM2yijtblZ5RueBaDIQOHmT2bW8TxAQH19XPN1G/a
-	h1YfAYY2AemzRecXuSFS2X4NUgGnNqLq2BwWo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=JIuU92ucT6bQTXAcxJLrdNS8BLR+pSqNO48JgC8/dJw=;
-	b=HFNIk/ClKUONc2k3UtGAT2F8Jjlc5zYbPz2uo31tv+3Dc5G4r9w6Cg3Va1xZMaqa23
-	hp7TqW9YZdWtF2BbnlefL4o22fOKFk370u8YUyypio2+TNvj/3C44U5WX1bNriIBs1Hd
-	G92OGnVBamneqPsIVrVn6xCndsF1moHDlP+1hEgfI3rVSnxymLWlFAZxhXZ+MW68f5L/
-	Hm2RVdS9zxSkQekK1sP3lpnn9YjCynS8uGdqdIp9Bl1Iv6yaOaKiYo5TbqQI/verZoCL
-	odfef0l2QDIYvbp8fIfv0MuJMHS5hYiIMXyWnwgF0k3x4ZQMXroyCKQWQgRJPHtV/w9L
-	dMIQ==
-X-Gm-Message-State: APjAAAUkI9Og/g+bFBvN3UaLmuKRetYacflKFb5L6qZm/mWEnaqxD7IF
-	9qZbMeZydYzA1pFUYXyDylZmk6QMHqi0Gg==
-X-Google-Smtp-Source: APXvYqwU6LGzMxNB55aP0pb8OsIWmPkuLPFRqW04hTzfmTsgLnnD8wkIScrHgDRP5PshWN6cQg4AEA==
-X-Received: by 2002:a2e:858b:: with SMTP id b11mr12389342lji.159.1563728301270;
-	Sun, 21 Jul 2019 09:58:21 -0700 (PDT)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com.
-	[209.85.167.46])
-	by smtp.gmail.com with ESMTPSA id l22sm7037077ljc.4.2019.07.21.09.58.20
-	for <iommu@lists.linux-foundation.org>
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Sun, 21 Jul 2019 09:58:20 -0700 (PDT)
-Received: by mail-lf1-f46.google.com with SMTP id x3so24976509lfc.0
-	for <iommu@lists.linux-foundation.org>;
-	Sun, 21 Jul 2019 09:58:20 -0700 (PDT)
-X-Received: by 2002:ac2:5c42:: with SMTP id s2mr18859096lfp.61.1563728299917; 
-	Sun, 21 Jul 2019 09:58:19 -0700 (PDT)
+	Mon, 22 Jul 2019 00:24:52 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Jul 2019 17:24:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,292,1559545200"; d="scan'208";a="344262887"
+Received: from sai-dev-mach.sc.intel.com ([143.183.140.153])
+	by orsmga005.jf.intel.com with ESMTP; 21 Jul 2019 17:24:46 -0700
+From: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+To: iommu@lists.linux-foundation.org
+Subject: [PATCH] iommu/vt-d: Print pasid table entries MSB to LSB in debugfs
+Date: Sun, 21 Jul 2019 17:22:07 -0700
+Message-Id: <20190722002207.22649-1-sai.praneeth.prakhya@intel.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <1562861865-23660-1-git-send-email-cai@lca.pw>
-In-Reply-To: <1562861865-23660-1-git-send-email-cai@lca.pw>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sun, 21 Jul 2019 09:58:04 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgwd9vT1h7jKMU_E4ae2QLFFH69UxcXpO3J9YqEApdUNg@mail.gmail.com>
-Message-ID: <CAHk-=wgwd9vT1h7jKMU_E4ae2QLFFH69UxcXpO3J9YqEApdUNg@mail.gmail.com>
-Subject: Re: [PATCH v2] iommu/amd: fix a crash in iova_magazine_free_pfns
-To: Qian Cai <cai@lca.pw>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+	RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu <iommu@lists.linux-foundation.org>, Joerg Roedel <jroedel@suse.de>,
-	Christoph Hellwig <hch@lst.de>,
-	Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -90,22 +56,39 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Thu, Jul 11, 2019 at 9:18 AM Qian Cai <cai@lca.pw> wrote:
->
-> The commit b3aa14f02254 ("iommu: remove the mapping_error dma_map_ops
-> method") incorrectly changed the checking from dma_ops_alloc_iova() in
-> map_sg() causes a crash under memory pressure as dma_ops_alloc_iova()
-> never return DMA_MAPPING_ERROR on failure but 0, so the error handling
-> is all wrong.
+Commit dd5142ca5d24 ("iommu/vt-d: Add debugfs support to show scalable mode
+DMAR table internals") prints content of pasid table entries from LSB to
+MSB where as other entries are printed MSB to LSB. So, to maintain
+uniformity among all entries and to not confuse the user, print MSB first.
 
-This one seems to have fallen through the cracks.
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Sohil Mehta <sohil.mehta@intel.com>
+Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+---
+ drivers/iommu/intel-iommu-debugfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Applied directly.
+diff --git a/drivers/iommu/intel-iommu-debugfs.c b/drivers/iommu/intel-iommu-debugfs.c
+index 73a552914455..2b25d9c59336 100644
+--- a/drivers/iommu/intel-iommu-debugfs.c
++++ b/drivers/iommu/intel-iommu-debugfs.c
+@@ -162,9 +162,9 @@ static inline void print_tbl_walk(struct seq_file *m)
+ 			   (u64)0, (u64)0, (u64)0);
+ 	else
+ 		seq_printf(m, "%-6d\t0x%016llx:0x%016llx:0x%016llx\n",
+-			   tbl_wlk->pasid, tbl_wlk->pasid_tbl_entry->val[0],
++			   tbl_wlk->pasid, tbl_wlk->pasid_tbl_entry->val[2],
+ 			   tbl_wlk->pasid_tbl_entry->val[1],
+-			   tbl_wlk->pasid_tbl_entry->val[2]);
++			   tbl_wlk->pasid_tbl_entry->val[0]);
+ }
+ 
+ static void pasid_tbl_walk(struct seq_file *m, struct pasid_entry *tbl_entry,
+-- 
+2.19.1
 
-Maybe it's hiding in some fixes tree that I haven't gotten a pull
-request for yet?
-
-           Linus
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
