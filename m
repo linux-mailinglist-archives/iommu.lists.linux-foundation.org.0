@@ -2,38 +2,37 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE8F703B8
-	for <lists.iommu@lfdr.de>; Mon, 22 Jul 2019 17:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57911703BE
+	for <lists.iommu@lfdr.de>; Mon, 22 Jul 2019 17:27:23 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 8F7A6D8E;
-	Mon, 22 Jul 2019 15:26:50 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 02F07D91;
+	Mon, 22 Jul 2019 15:27:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9E4FFD13;
-	Mon, 22 Jul 2019 15:26:48 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 576D4CAD;
+	Mon, 22 Jul 2019 15:27:21 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4C0B7102;
-	Mon, 22 Jul 2019 15:26:40 +0000 (UTC)
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B7CA4102;
+	Mon, 22 Jul 2019 15:27:12 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3C11868B20; Mon, 22 Jul 2019 17:26:38 +0200 (CEST)
-Date: Mon, 22 Jul 2019 17:26:38 +0200
+	id 8D99068B20; Mon, 22 Jul 2019 17:27:10 +0200 (CEST)
+Date: Mon, 22 Jul 2019 17:27:10 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH 1/2] dma-mapping: Protect dma_addressing_limited
-	against NULL dma_mask
-Message-ID: <20190722152637.GA3780@lst.de>
+Subject: Re: [PATCH 2/2] virtio/virtio_ring: Fix the dma_max_mapping_size call
+Message-ID: <20190722152710.GB3780@lst.de>
 References: <20190722145509.1284-1-eric.auger@redhat.com>
-	<20190722145509.1284-2-eric.auger@redhat.com>
+	<20190722145509.1284-3-eric.auger@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190722145509.1284-2-eric.auger@redhat.com>
+In-Reply-To: <20190722145509.1284-3-eric.auger@redhat.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=unavailable version=3.3.1
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 Cc: mst@redhat.com, jasowang@redhat.com, linux-kernel@vger.kernel.org,
@@ -57,16 +56,19 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
->  static inline bool dma_addressing_limited(struct device *dev)
->  {
-> -	return min_not_zero(*dev->dma_mask, dev->bus_dma_mask) <
-> -		dma_get_required_mask(dev);
-> +	return WARN_ON_ONCE(!dev->dma_mask) ? false :
-> +		min_not_zero(*dev->dma_mask, dev->bus_dma_mask) <
-> +			dma_get_required_mask(dev);
+On Mon, Jul 22, 2019 at 04:55:09PM +0200, Eric Auger wrote:
+> Do not call dma_max_mapping_size for devices that have no DMA
+> mask set, otherwise we can hit a NULL pointer dereference.
+> 
+> This occurs when a virtio-blk-pci device is protected with
+> a virtual IOMMU.
+> 
+> Fixes: e6d6dd6c875e ("virtio: Introduce virtio_max_dma_size()")
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Suggested-by: Christoph Hellwig <hch@lst.de>
 
-This should really use a separate if statement, but I can fix that
-up when applying it.
+Looks good.  virtio maintainers, let me know if you want to queue
+it up or if I should pick the patch up through the dma-mapping tree.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
