@@ -2,39 +2,50 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id E519D728EE
-	for <lists.iommu@lfdr.de>; Wed, 24 Jul 2019 09:20:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E33572920
+	for <lists.iommu@lfdr.de>; Wed, 24 Jul 2019 09:41:40 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id BA3CDDDE;
-	Wed, 24 Jul 2019 07:20:03 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 4CB73DCD;
+	Wed, 24 Jul 2019 07:41:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 599AFDC8
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9C97CCC3
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 24 Jul 2019 07:20:02 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id EA728701
+	Wed, 24 Jul 2019 07:41:36 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4F073F1
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 24 Jul 2019 07:20:01 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-	id 05B9D3A2; Wed, 24 Jul 2019 09:19:59 +0200 (CEST)
-Date: Wed, 24 Jul 2019 09:19:59 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Will Deacon <will@kernel.org>
+	Wed, 24 Jul 2019 07:41:36 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+	bits)) (No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id E24F22190F;
+	Wed, 24 Jul 2019 07:41:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1563954096;
+	bh=eBPyN0PgCrovmWFPtyhyO8yHJEocBNniNZDr8behyEU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ltPJ4U+OkYKsJmfoOjomxVIKNg3UiktNd55vjoHqM9JcYJk/xGkqXrHN/Wcu/FENr
+	Qh5Nm19eP0IHyokhTGNsx28PUNFk/8rRGMpsiSKCiZqOQEwCAs/NA23kQWGQQEkqmh
+	YKQZGNGiq9QMAHM7j869Q2KricRVkPlrnFPQ6otg=
+Date: Wed, 24 Jul 2019 08:41:30 +0100
+From: Will Deacon <will@kernel.org>
+To: Joerg Roedel <joro@8bytes.org>
 Subject: Re: [RFC PATCH v2 04/19] iommu: Introduce struct iommu_iotlb_gather
 	for batching TLB flushes
-Message-ID: <20190724071959.GE1524@8bytes.org>
+Message-ID: <20190724074129.6pkcmutsoazrrklq@willie-the-truck>
 References: <20190711171927.28803-1-will@kernel.org>
 	<20190711171927.28803-5-will@kernel.org>
+	<20190724071959.GE1524@8bytes.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190711171927.28803-5-will@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
+In-Reply-To: <20190724071959.GE1524@8bytes.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 Cc: Vijay Kilary <vkilari@codeaurora.org>,
@@ -61,39 +72,58 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Will,
+Hi Joerg,
 
-On Thu, Jul 11, 2019 at 06:19:12PM +0100, Will Deacon wrote:
->  static void __iommu_dma_unmap(struct iommu_domain *domain, dma_addr_t dma_addr,
->  		size_t size)
->  {
-> +	struct iommu_iotlb_gather iotlb_gather;
->  	struct iommu_dma_cookie *cookie = domain->iova_cookie;
->  	struct iova_domain *iovad = &cookie->iovad;
->  	size_t iova_off = iova_offset(iovad, dma_addr);
-> +	size_t unmapped;
->  
->  	dma_addr -= iova_off;
->  	size = iova_align(iovad, size + iova_off);
-> +	iommu_iotlb_gather_init(&iotlb_gather);
-> +
-> +	unmapped = iommu_unmap_fast(domain, dma_addr, size, &iotlb_gather);
-> +	WARN_ON(unmapped != size);
->  
-> -	WARN_ON(iommu_unmap_fast(domain, dma_addr, size) != size);
->  	if (!cookie->fq_domain)
-> -		iommu_tlb_sync(domain);
-> +		iommu_tlb_sync(domain, &iotlb_gather);
->  	iommu_dma_free_iova(cookie, dma_addr, size);
+On Wed, Jul 24, 2019 at 09:19:59AM +0200, Joerg Roedel wrote:
+> On Thu, Jul 11, 2019 at 06:19:12PM +0100, Will Deacon wrote:
+> >  static void __iommu_dma_unmap(struct iommu_domain *domain, dma_addr_t dma_addr,
+> >  		size_t size)
+> >  {
+> > +	struct iommu_iotlb_gather iotlb_gather;
+> >  	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+> >  	struct iova_domain *iovad = &cookie->iovad;
+> >  	size_t iova_off = iova_offset(iovad, dma_addr);
+> > +	size_t unmapped;
+> >  
+> >  	dma_addr -= iova_off;
+> >  	size = iova_align(iovad, size + iova_off);
+> > +	iommu_iotlb_gather_init(&iotlb_gather);
+> > +
+> > +	unmapped = iommu_unmap_fast(domain, dma_addr, size, &iotlb_gather);
+> > +	WARN_ON(unmapped != size);
+> >  
+> > -	WARN_ON(iommu_unmap_fast(domain, dma_addr, size) != size);
+> >  	if (!cookie->fq_domain)
+> > -		iommu_tlb_sync(domain);
+> > +		iommu_tlb_sync(domain, &iotlb_gather);
+> >  	iommu_dma_free_iova(cookie, dma_addr, size);
+> 
+> I looked through your patches and was wondering if we can't make the
+> 'struct iotlb_gather' a member of 'struct iommu_domain' and update it
+> transparently for the user? That would make things easier for users of
+> the iommu-api.
 
-I looked through your patches and was wondering if we can't make the
-'struct iotlb_gather' a member of 'struct iommu_domain' and update it
-transparently for the user? That would make things easier for users of
-the iommu-api.
+Thanks for having a look.
 
-Regards,
+My first (private) attempt at this series did exactly what you suggest, but
+the problem there is that you can have concurrent, disjoint map()/unmap()
+operations on the same 'struct iommu_domain', so you end up needing either
+multiple 'iotlb_gather' structures to support these callers or you end up
+massively over-invalidating. Worse, you can't just make things per-cpu
+without disabling preemption, so whatever you do you end up re-introducing
+synchronization to maintain these things. The /huge/ advantage of getting
+the caller to allocate the 'iotlb_gather' structure on their stack is that
+you don't have to worry about object lifetime at all, so all of the
+synchronization disappears. There is also precedent for this when unmapping
+things on the CPU side -- see the use of 'struct mmu_gather' and
+tlb_gather_mmu() in unmap_region() [mm/mmap.c], for example.
 
-	Joerg
+There aren't tonnes of (direct) users of the iommu-api, and the additional
+complexity introduced by the 'struct iotlb_gather' only applies to users of
+iommu_unmap_fast(), which I think is a reasonable trade-off in return for
+the potential for improved performance.
+
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
