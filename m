@@ -2,52 +2,46 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159DF734A3
-	for <lists.iommu@lfdr.de>; Wed, 24 Jul 2019 19:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59FF7353D
+	for <lists.iommu@lfdr.de>; Wed, 24 Jul 2019 19:23:58 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id C9378114E;
-	Wed, 24 Jul 2019 17:10:22 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 800A1116C;
+	Wed, 24 Jul 2019 17:23:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 021661141
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9DD8A1163
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 24 Jul 2019 17:10:22 +0000 (UTC)
+	Wed, 24 Jul 2019 17:23:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 9C88EF1
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id F080CF1
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 24 Jul 2019 17:10:21 +0000 (UTC)
-Subject: Re: [GIT PULL] dma-mapping fix for 5.3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1563988221;
-	bh=SSUJBkfMlYhqcaHtLVBYuZ1a8giKpapCmr67x26gzNs=;
-	h=From:In-Reply-To:References:Date:To:Cc:From;
-	b=p8z0/gkLUJlg6QxzRk+oEILBD3aLN9GNPXnnKvgINWBARLv6w5lGSNCbArXdS+eVZ
-	3muyYyAGv6NF/Gn89TaZGNyhenP2uCRuvy57RN/Bmc+WkahCMDmh7TpUmtXvdKNh2M
-	n7IAIxmb/rb1eTNCOhwfNO3zYzWL2Z9qVv7HX8o0=
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20190724144942.GA7893@infradead.org>
-References: <20190724144942.GA7893@infradead.org>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20190724144942.GA7893@infradead.org>
-X-PR-Tracked-Remote: git://git.infradead.org/users/hch/dma-mapping.git
-	tags/dma-mapping-5.3-2
-X-PR-Tracked-Commit-Id: 06532750010e06dd4b6d69983773677df7fc5291
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: c2626876c24fe1f326381e3f1d48301bfc627d8e
-Message-Id: <156398822137.2764.4372152990600257983.pr-tracker-bot@kernel.org>
-Date: Wed, 24 Jul 2019 17:10:21 +0000
-To: Christoph Hellwig <hch@infradead.org>
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+	Wed, 24 Jul 2019 17:23:54 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+	by mx1.suse.de (Postfix) with ESMTP id 1E42DAE2E;
+	Wed, 24 Jul 2019 17:23:53 +0000 (UTC)
+Message-ID: <a447eae1bb46fe753f7a62fb8932e680b79b1635.camel@suse.de>
+Subject: Re: [PATCH 2/2] arm: use swiotlb for bounce buffer on LPAE configs
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Christoph Hellwig <hch@lst.de>, Russell King - ARM Linux admin
+	<linux@armlinux.org.uk>
+Date: Wed, 24 Jul 2019 19:23:50 +0200
+In-Reply-To: <20190709142011.24984-3-hch@lst.de>
+References: <20190709142011.24984-1-hch@lst.de>
+	<20190709142011.24984-3-hch@lst.de>
+User-Agent: Evolution 3.32.3 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kernel@vger.kernel.org
+Cc: Vignesh Raghavendra <vigneshr@ti.com>,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,25 +54,69 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1231161060678270322=="
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The pull request you sent on Wed, 24 Jul 2019 16:49:42 +0200:
 
-> git://git.infradead.org/users/hch/dma-mapping.git tags/dma-mapping-5.3-2
+--===============1231161060678270322==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-whG6SPAwfjFfvDK3372+"
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/c2626876c24fe1f326381e3f1d48301bfc627d8e
 
-Thank you!
+--=-whG6SPAwfjFfvDK3372+
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+On Tue, 2019-07-09 at 07:20 -0700, Christoph Hellwig wrote:
+> The DMA API requires that 32-bit DMA masks are always supported, but on
+> arm LPAE configs they do not currently work when memory is present
+> above 4GB.  Wire up the swiotlb code like for all other architectures
+> to provide the bounce buffering in that case.
+>=20
+> Fixes: 21e07dba9fb11 ("scsi: reduce use of block bounce buffers").
+> Reported-by: Roger Quadros <rogerq@ti.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+
+Hi Chistoph,
+Out of curiosity, what is the reason stopping us from using dma-direct/swio=
+tlb
+instead of arm_dma_ops altogether?
+
+Regards,
+Nicolas
+
+
+--=-whG6SPAwfjFfvDK3372+
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl04lCcACgkQlfZmHno8
+x/5jKAgAszLIqjIi52NyfR8TyZ+bPsWKIAQKAn5HBQa6grZi+PtHDVbHAxKTikMQ
+PgjbRl5aI7uPsbYFuq8R6jr+2mQLXI7gvgHn2x22hh+3+cC+mYWJoORNg7v5VrI9
+c2Q4FaZcHLxPLNjPNLsJJHyrM8wLiZ9bMbpKpQ8Fs0UoJmD9fefIDXRIHYQTakeZ
+ooLgoUnyEje4u1jCI8dbJrDXRxzVwF7CYlY6V5+PG+7GrdP6sqYeNDk1+PAtzUtf
+EIRenYS6MAHo3skOiC+Egr/DeYEsk72iZzIZpWKm7k0HGX9kSc6+eWXt6lPwyiqq
+22EzPtQpZAz/Jim+FmDtgz/5II5T+g==
+=3iIi
+-----END PGP SIGNATURE-----
+
+--=-whG6SPAwfjFfvDK3372+--
+
+
+--===============1231161060678270322==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============1231161060678270322==--
+
