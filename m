@@ -2,62 +2,50 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9351E74748
-	for <lists.iommu@lfdr.de>; Thu, 25 Jul 2019 08:34:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42CF974770
+	for <lists.iommu@lfdr.de>; Thu, 25 Jul 2019 08:43:46 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 055471649;
-	Thu, 25 Jul 2019 06:34:22 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id C63FC164D;
+	Thu, 25 Jul 2019 06:43:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 8669B161A
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 902A21649
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 25 Jul 2019 06:34:20 +0000 (UTC)
+	Thu, 25 Jul 2019 06:43:34 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E33AEB0
+Received: from kirsty.vergenet.net (kirsty.vergenet.net [202.4.237.240])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 2A837B0
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 25 Jul 2019 06:34:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=dRYLE4wAMZUXc1bapMWQYiU6+gIHdEfanG26NMQ1nBw=;
-	b=LLTDjV7o5RqKxbZAvmS7LEBsw2
-	9fWW/cmwf9GAjKeC9Tz9rvREtJ8XHMgQoL8mXhTe/El7RQHLAZXx4zAYw6NXkRXnXjPwd39Uxl7pV
-	WkYtgRBC8qQsI22Uu/kGUOX+gZp/pSV8I71sclnrlOl6082t4WnpAr5UkE3k9BnG/9JPqi9f1ZEpq
-	Q2KNXn3iTMoHq1parkveJjKK3uOQQK0vdx7PS/E31lFqUPzQ97WmUPWEE6nikB8YVXAaKPB0b5+JD
-	MTrhz4mW+W8JCH1xhku+A5sJCQBmfZI6PGHnGa86WbcBtNGkqnIvqlndqdALd4rFLPj2naqcaiWL+
-	iuTFkkYg==;
-Received: from p57b3f613.dip0.t-ipconnect.de ([87.179.246.19] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-	id 1hqXKT-0000ND-SE; Thu, 25 Jul 2019 06:34:18 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: iommu@lists.linux-foundation.org,
-	Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCH 5/5] dma-mapping: remove ARCH_NO_COHERENT_DMA_MMAP
-Date: Thu, 25 Jul 2019 08:34:01 +0200
-Message-Id: <20190725063401.29904-6-hch@lst.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190725063401.29904-1-hch@lst.de>
-References: <20190725063401.29904-1-hch@lst.de>
+	Thu, 25 Jul 2019 06:43:34 +0000 (UTC)
+Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
+	by kirsty.vergenet.net (Postfix) with ESMTPA id 0672425BE27;
+	Thu, 25 Jul 2019 16:33:31 +1000 (AEST)
+Received: by penelope.horms.nl (Postfix, from userid 7100)
+	id 0939CE2209B; Thu, 25 Jul 2019 08:33:29 +0200 (CEST)
+Date: Thu, 25 Jul 2019 08:33:28 +0200
+From: Simon Horman <horms@verge.net.au>
+To: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: Re: [PATCH v8 2/5] iommu/dma: Add a new dma_map_ops of
+	get_merge_boundary()
+Message-ID: <20190725063328.ua5fu6dqig2a4rrf@verge.net.au>
+References: <1563859608-19456-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+	<1563859608-19456-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+	<ae95cc2e-38b4-0ed9-744a-67f03f220a3f@cogentembedded.com>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <ae95cc2e-38b4-0ed9-744a-67f03f220a3f@cogentembedded.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: linux-xtensa@linux-xtensa.org, Michal Simek <monstr@monstr.eu>,
-	linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>, linuxppc-dev@lists.ozlabs.org,
-	x86@kernel.org, linux-kernel@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, Robin Murphy <robin.murphy@arm.com>,
-	linux-arm-kernel@lists.infradead.org
+Cc: axboe@kernel.dk, linux-renesas-soc@vger.kernel.org, ulf.hansson@linaro.org,
+	linux-mmc@vger.kernel.org, hch@lst.de,
+	linux-block@vger.kernel.org, wsa+renesas@sang-engineering.com,
+	iommu@lists.linux-foundation.org, robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -75,157 +63,51 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Now that we never use a default ->mmap implementation, and non-coherent
-architectures can control the presence of ->mmap support by enabling
-ARCH_HAS_DMA_COHERENT_TO_PFN for the dma direct implementation there
-is no need for a global config option to control the availability
-of dma_common_mmap.
+On Tue, Jul 23, 2019 at 11:17:19AM +0300, Sergei Shtylyov wrote:
+> Hello!
+> 
+> On 23.07.2019 8:26, Yoshihiro Shimoda wrote:
+> 
+> > This patch adds a new dma_map_ops of get_merge_boundary() to
+> > expose the DMA merge boundary if the domain type is IOMMU_DOMAIN_DMA.
+> > 
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- arch/Kconfig            |  3 ---
- arch/c6x/Kconfig        |  1 -
- arch/m68k/Kconfig       |  1 -
- arch/microblaze/Kconfig |  1 -
- arch/parisc/Kconfig     |  1 -
- arch/sh/Kconfig         |  1 -
- arch/xtensa/Kconfig     |  1 -
- kernel/dma/mapping.c    |  4 ----
- sound/core/pcm_native.c | 10 +---------
- 9 files changed, 1 insertion(+), 22 deletions(-)
+Sergei's comment notwithstanding,
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index a7b57dd42c26..ec2834206d08 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -790,9 +790,6 @@ config COMPAT_32BIT_TIME
- 	  This is relevant on all 32-bit architectures, and 64-bit architectures
- 	  as part of compat syscall handling.
- 
--config ARCH_NO_COHERENT_DMA_MMAP
--	bool
--
- config ARCH_NO_PREEMPT
- 	bool
- 
-diff --git a/arch/c6x/Kconfig b/arch/c6x/Kconfig
-index b4fb61c83494..e65e8d82442a 100644
---- a/arch/c6x/Kconfig
-+++ b/arch/c6x/Kconfig
-@@ -20,7 +20,6 @@ config C6X
- 	select OF_EARLY_FLATTREE
- 	select GENERIC_CLOCKEVENTS
- 	select MODULES_USE_ELF_RELA
--	select ARCH_NO_COHERENT_DMA_MMAP
- 	select MMU_GATHER_NO_RANGE if MMU
- 
- config MMU
-diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
-index c518d695c376..614b355ae338 100644
---- a/arch/m68k/Kconfig
-+++ b/arch/m68k/Kconfig
-@@ -8,7 +8,6 @@ config M68K
- 	select ARCH_HAS_DMA_PREP_COHERENT if HAS_DMA && MMU && !COLDFIRE
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE if HAS_DMA
- 	select ARCH_MIGHT_HAVE_PC_PARPORT if ISA
--	select ARCH_NO_COHERENT_DMA_MMAP if !MMU
- 	select ARCH_NO_PREEMPT if !COLDFIRE
- 	select BINFMT_FLAT_ARGVP_ENVP_ON_STACK
- 	select DMA_DIRECT_REMAP if HAS_DMA && MMU && !COLDFIRE
-diff --git a/arch/microblaze/Kconfig b/arch/microblaze/Kconfig
-index d411de05b628..632c9477a0f6 100644
---- a/arch/microblaze/Kconfig
-+++ b/arch/microblaze/Kconfig
-@@ -9,7 +9,6 @@ config MICROBLAZE
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
- 	select ARCH_MIGHT_HAVE_PC_PARPORT
--	select ARCH_NO_COHERENT_DMA_MMAP if !MMU
- 	select ARCH_WANT_IPC_PARSE_VERSION
- 	select BUILDTIME_EXTABLE_SORT
- 	select TIMER_OF
-diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
-index 6d732e451071..e9dd88b7f81e 100644
---- a/arch/parisc/Kconfig
-+++ b/arch/parisc/Kconfig
-@@ -52,7 +52,6 @@ config PARISC
- 	select GENERIC_SCHED_CLOCK
- 	select HAVE_UNSTABLE_SCHED_CLOCK if SMP
- 	select GENERIC_CLOCKEVENTS
--	select ARCH_NO_COHERENT_DMA_MMAP
- 	select CPU_NO_EFFICIENT_FFS
- 	select NEED_DMA_MAP_STATE
- 	select NEED_SG_DMA_LENGTH
-diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-index 6b1b5941b618..f356ee674d89 100644
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -5,7 +5,6 @@ config SUPERH
- 	select ARCH_HAS_PTE_SPECIAL
- 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
- 	select ARCH_MIGHT_HAVE_PC_PARPORT
--	select ARCH_NO_COHERENT_DMA_MMAP if !MMU
- 	select HAVE_PATA_PLATFORM
- 	select CLKDEV_LOOKUP
- 	select DMA_DECLARE_COHERENT
-diff --git a/arch/xtensa/Kconfig b/arch/xtensa/Kconfig
-index ebc135bda921..70653aed3005 100644
---- a/arch/xtensa/Kconfig
-+++ b/arch/xtensa/Kconfig
-@@ -5,7 +5,6 @@ config XTENSA
- 	select ARCH_HAS_BINFMT_FLAT if !MMU
- 	select ARCH_HAS_SYNC_DMA_FOR_CPU
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
--	select ARCH_NO_COHERENT_DMA_MMAP if !MMU
- 	select ARCH_USE_QUEUED_RWLOCKS
- 	select ARCH_USE_QUEUED_SPINLOCKS
- 	select ARCH_WANT_FRAME_POINTERS
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 7dff1829c8c5..815446f76995 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -169,7 +169,6 @@ int dma_common_mmap(struct device *dev, struct vm_area_struct *vma,
- 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
- 		unsigned long attrs)
- {
--#ifndef CONFIG_ARCH_NO_COHERENT_DMA_MMAP
- 	unsigned long user_count = vma_pages(vma);
- 	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
- 	unsigned long off = vma->vm_pgoff;
-@@ -198,9 +197,6 @@ int dma_common_mmap(struct device *dev, struct vm_area_struct *vma,
- 
- 	return remap_pfn_range(vma, vma->vm_start, pfn + vma->vm_pgoff,
- 			user_count << PAGE_SHIFT, vma->vm_page_prot);
--#else
--	return -ENXIO;
--#endif /* !CONFIG_ARCH_NO_COHERENT_DMA_MMAP */
- }
- 
- /**
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 860543a4c840..2dadc708343a 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -218,15 +218,7 @@ int snd_pcm_info_user(struct snd_pcm_substream *substream,
- 
- static bool hw_support_mmap(struct snd_pcm_substream *substream)
- {
--	if (!(substream->runtime->hw.info & SNDRV_PCM_INFO_MMAP))
--		return false;
--	/* architecture supports dma_mmap_coherent()? */
--#if defined(CONFIG_ARCH_NO_COHERENT_DMA_MMAP) || !defined(CONFIG_HAS_DMA)
--	if (!substream->ops->mmap &&
--	    substream->dma_buffer.dev.type == SNDRV_DMA_TYPE_DEV)
--		return false;
--#endif
--	return true;
-+	return substream->runtime->hw.info & SNDRV_PCM_INFO_MMAP;
- }
- 
- static int constrain_mask_params(struct snd_pcm_substream *substream,
--- 
-2.20.1
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 
+> > ---
+> >   drivers/iommu/dma-iommu.c | 11 +++++++++++
+> >   1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> > index a7f9c3e..f3e5f2b 100644
+> > --- a/drivers/iommu/dma-iommu.c
+> > +++ b/drivers/iommu/dma-iommu.c
+> > @@ -1085,6 +1085,16 @@ static int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
+> >   	return ret;
+> >   }
+> > +static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
+> > +{
+> > +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+> > +
+> > +	if (domain->type != IOMMU_DOMAIN_DMA)
+> > +		return 0;	/* can't merge */
+> > +
+> > +	return (1 << __ffs(domain->pgsize_bitmap)) - 1;
+> 
+>    Not 1UL?
+> 
+> > +}
+> > +
+> >   static const struct dma_map_ops iommu_dma_ops = {
+> >   	.alloc			= iommu_dma_alloc,
+> >   	.free			= iommu_dma_free,
+> [...]
+> 
+> MBR, Sergei
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
