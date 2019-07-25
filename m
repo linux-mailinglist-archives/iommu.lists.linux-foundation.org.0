@@ -2,46 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77894744DA
-	for <lists.iommu@lfdr.de>; Thu, 25 Jul 2019 07:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6237574560
+	for <lists.iommu@lfdr.de>; Thu, 25 Jul 2019 07:42:02 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 2A30715CD;
-	Thu, 25 Jul 2019 05:25:34 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 54D5B1649;
+	Thu, 25 Jul 2019 05:42:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 6F00214B6;
-	Thu, 25 Jul 2019 05:25:32 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 6B3F3163E
+	for <iommu@lists.linux-foundation.org>;
+	Thu, 25 Jul 2019 05:41:58 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E06B87FD;
-	Thu, 25 Jul 2019 05:25:31 +0000 (UTC)
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 00C80FE
+	for <iommu@lists.linux-foundation.org>;
+	Thu, 25 Jul 2019 05:41:57 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id E280168B20; Thu, 25 Jul 2019 07:25:29 +0200 (CEST)
-Date: Thu, 25 Jul 2019 07:25:29 +0200
+	id A931F68B20; Thu, 25 Jul 2019 07:41:54 +0200 (CEST)
+Date: Thu, 25 Jul 2019 07:41:54 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 2/2] virtio/virtio_ring: Fix the dma_max_mapping_size call
-Message-ID: <20190725052529.GA24355@lst.de>
-References: <20190722145509.1284-1-eric.auger@redhat.com>
-	<20190722145509.1284-3-eric.auger@redhat.com>
-	<e4a288f2-a93a-5ce4-32da-f5434302551f@arm.com>
-	<20190723153851.GE720@lst.de>
-	<20190723114750-mutt-send-email-mst@kernel.org>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v5 01/10] iommu/vt-d: Don't switch off swiotlb if use
+	direct dma
+Message-ID: <20190725054154.GB24527@lst.de>
+References: <20190725031717.32317-1-baolu.lu@linux.intel.com>
+	<20190725031717.32317-2-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190723114750-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20190725031717.32317-2-baolu.lu@linux.intel.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: jasowang@redhat.com, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	iommu@lists.linux-foundation.org, eric.auger.pro@gmail.com,
-	Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+Cc: alan.cox@intel.com, Christoph Hellwig <hch@lst.de>,
+	Stefano Stabellini <sstabellini@kernel.org>, ashok.raj@intel.com,
+	Jonathan Corbet <corbet@lwn.net>, pengfei.xu@intel.com,
+	Ingo Molnar <mingo@redhat.com>,
+	David Woodhouse <dwmw2@infradead.org>, kevin.tian@intel.com,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	mika.westerberg@linux.intel.com, Juergen Gross <jgross@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	jacob.jun.pan@intel.com, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,13 +66,9 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Wed, Jul 24, 2019 at 06:10:53PM -0400, Michael S. Tsirkin wrote:
-> Christoph - would a documented API wrapping dma_mask make sense?
-> With the documentation explaining how users must
-> desist from using DMA APIs if that returns false ...
+Looks good:
 
-We have some bigger changes in this are planned, including turning
-dma_mask into a scalar instead of a pointer, please stay tuned.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
