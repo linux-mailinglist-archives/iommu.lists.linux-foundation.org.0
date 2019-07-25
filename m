@@ -2,35 +2,36 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C14174D63
-	for <lists.iommu@lfdr.de>; Thu, 25 Jul 2019 13:47:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7921874D70
+	for <lists.iommu@lfdr.de>; Thu, 25 Jul 2019 13:49:10 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 16592EBE;
-	Thu, 25 Jul 2019 11:47:10 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 709F3E7B;
+	Thu, 25 Jul 2019 11:49:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 8BA39B7A
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A377DB7A
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 25 Jul 2019 11:47:09 +0000 (UTC)
+	Thu, 25 Jul 2019 11:49:07 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 300527C3
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2D138775
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 25 Jul 2019 11:47:09 +0000 (UTC)
+	Thu, 25 Jul 2019 11:49:07 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id B4DA568BFE; Thu, 25 Jul 2019 13:47:04 +0200 (CEST)
-Date: Thu, 25 Jul 2019 13:47:04 +0200
+	id A9AA868BFE; Thu, 25 Jul 2019 13:49:03 +0200 (CEST)
+Date: Thu, 25 Jul 2019 13:49:03 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH v5 05/10] swiotlb: Split size parameter to map/unmap APIs
-Message-ID: <20190725114704.GA31065@lst.de>
+Subject: Re: [PATCH v5 06/10] swiotlb: Zero out bounce buffer for untrusted
+	device
+Message-ID: <20190725114903.GB31065@lst.de>
 References: <20190725031717.32317-1-baolu.lu@linux.intel.com>
-	<20190725031717.32317-6-baolu.lu@linux.intel.com>
+	<20190725031717.32317-7-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190725031717.32317-6-baolu.lu@linux.intel.com>
+In-Reply-To: <20190725031717.32317-7-baolu.lu@linux.intel.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
@@ -65,18 +66,37 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Thu, Jul 25, 2019 at 11:17:12AM +0800, Lu Baolu wrote:
-> This splits the size parameter to swiotlb_tbl_map_single() and
-> swiotlb_tbl_unmap_single() into an alloc_size and a mapping_size
-> parameter, where the latter one is rounded up to the iommu page
-> size.
-> 
-> Suggested-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> index 43c88626a1f3..edc84a00b9f9 100644
+> --- a/kernel/dma/swiotlb.c
+> +++ b/kernel/dma/swiotlb.c
+> @@ -35,6 +35,7 @@
+>  #include <linux/scatterlist.h>
+>  #include <linux/mem_encrypt.h>
+>  #include <linux/set_memory.h>
+> +#include <linux/pci.h>
+>  #ifdef CONFIG_DEBUG_FS
+>  #include <linux/debugfs.h>
+>  #endif
+> @@ -562,6 +563,11 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev,
+>  	 */
+>  	for (i = 0; i < nslots; i++)
+>  		io_tlb_orig_addr[index+i] = orig_addr + (i << IO_TLB_SHIFT);
+> +
+> +	/* Zero out the bounce buffer if the consumer is untrusted. */
+> +	if (dev_is_untrusted(hwdev))
+> +		memset(phys_to_virt(tlb_addr), 0, alloc_size);
 
-Looks good,
+Hmm.  Maybe we need to move the untrusted flag to struct device?
+Directly poking into the pci_dev from swiotlb is a bit of a layering
+violation.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+> +
+>  	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
+>  	    (dir == DMA_TO_DEVICE || dir == DMA_BIDIRECTIONAL))
+>  		swiotlb_bounce(orig_addr, tlb_addr, mapping_size, DMA_TO_DEVICE);
+
+Also for the case where we bounce here we only need to zero the padding
+(if there is any), so I think we could optimize this a bit.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
