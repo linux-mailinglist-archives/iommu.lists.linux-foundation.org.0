@@ -2,37 +2,36 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A739760DD
-	for <lists.iommu@lfdr.de>; Fri, 26 Jul 2019 10:32:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D6F760E1
+	for <lists.iommu@lfdr.de>; Fri, 26 Jul 2019 10:32:44 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 51306CA8;
-	Fri, 26 Jul 2019 08:32:26 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id BA329CB8;
+	Fri, 26 Jul 2019 08:32:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0F17CB5F
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 861C7C84
+	for <iommu@lists.linux-foundation.org>;
+	Fri, 26 Jul 2019 08:32:26 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+	[210.160.252.171])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 8600789C
 	for <iommu@lists.linux-foundation.org>;
 	Fri, 26 Jul 2019 08:32:25 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
-	[210.160.252.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 75B8E896
-	for <iommu@lists.linux-foundation.org>;
-	Fri, 26 Jul 2019 08:32:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,310,1559487600"; d="scan'208";a="22285514"
+X-IronPort-AV: E=Sophos;i="5.64,310,1559487600"; d="scan'208";a="22504205"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-	by relmlie6.idc.renesas.com with ESMTP; 26 Jul 2019 17:32:23 +0900
+	by relmlie5.idc.renesas.com with ESMTP; 26 Jul 2019 17:32:23 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4FCD44203606;
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7F7854202743;
 	Fri, 26 Jul 2019 17:32:23 +0900 (JST)
 From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To: ulf.hansson@linaro.org, hch@lst.de, m.szyprowski@samsung.com,
 	robin.murphy@arm.com, joro@8bytes.org, axboe@kernel.dk
-Subject: [PATCH v9 2/5] iommu/dma: Add a new dma_map_ops of
-	get_merge_boundary()
-Date: Fri, 26 Jul 2019 17:31:13 +0900
-Message-Id: <1564129876-28261-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v9 3/5] block: sort headers on blk-setting.c
+Date: Fri, 26 Jul 2019 17:31:14 +0900
+Message-Id: <1564129876-28261-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1564129876-28261-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 References: <1564129876-28261-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
@@ -61,44 +60,43 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-This patch adds a new dma_map_ops of get_merge_boundary() to
-expose the DMA merge boundary if the domain type is IOMMU_DOMAIN_DMA.
+This patch sorts the headers in alphabetic order to ease
+the maintenance for this part.
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 ---
- drivers/iommu/dma-iommu.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ block/blk-settings.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index a7f9c3e..2992ce4 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -1085,6 +1085,16 @@ static int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
- 	return ret;
- }
- 
-+static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
-+{
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+
-+	if (domain->type != IOMMU_DOMAIN_DMA)
-+		return 0;	/* can't merge */
-+
-+	return (1UL << __ffs(domain->pgsize_bitmap)) - 1;
-+}
-+
- static const struct dma_map_ops iommu_dma_ops = {
- 	.alloc			= iommu_dma_alloc,
- 	.free			= iommu_dma_free,
-@@ -1100,6 +1110,7 @@ static const struct dma_map_ops iommu_dma_ops = {
- 	.sync_sg_for_device	= iommu_dma_sync_sg_for_device,
- 	.map_resource		= iommu_dma_map_resource,
- 	.unmap_resource		= iommu_dma_unmap_resource,
-+	.get_merge_boundary	= iommu_dma_get_merge_boundary,
- };
- 
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 2ae348c..45f2c52 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -2,16 +2,16 @@
  /*
+  * Functions related to setting various queue properties from drivers
+  */
+-#include <linux/kernel.h>
+-#include <linux/module.h>
+-#include <linux/init.h>
+ #include <linux/bio.h>
+ #include <linux/blkdev.h>
+-#include <linux/memblock.h>	/* for max_pfn/max_low_pfn */
+ #include <linux/gcd.h>
+-#include <linux/lcm.h>
+-#include <linux/jiffies.h>
+ #include <linux/gfp.h>
++#include <linux/init.h>
++#include <linux/jiffies.h>
++#include <linux/kernel.h>
++#include <linux/lcm.h>
++#include <linux/memblock.h>     /* for max_pfn/max_low_pfn */
++#include <linux/module.h>
+ 
+ #include "blk.h"
+ #include "blk-wbt.h"
 -- 
 2.7.4
 
