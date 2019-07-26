@@ -2,47 +2,37 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9432C760DF
-	for <lists.iommu@lfdr.de>; Fri, 26 Jul 2019 10:32:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3954F761B5
+	for <lists.iommu@lfdr.de>; Fri, 26 Jul 2019 11:21:01 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 9B139CB1;
-	Fri, 26 Jul 2019 08:32:28 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id B82F3E26;
+	Fri, 26 Jul 2019 09:20:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id E3C939F0
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id B660DE20
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 26 Jul 2019 08:32:25 +0000 (UTC)
+	Fri, 26 Jul 2019 09:20:57 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
-	[210.160.252.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 45B05896
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 1AEDF8A0
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 26 Jul 2019 08:32:25 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,310,1559487600"; d="scan'208";a="22285519"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-	by relmlie6.idc.renesas.com with ESMTP; 26 Jul 2019 17:32:23 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id C6D654202743;
-	Fri, 26 Jul 2019 17:32:23 +0900 (JST)
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: ulf.hansson@linaro.org, hch@lst.de, m.szyprowski@samsung.com,
-	robin.murphy@arm.com, joro@8bytes.org, axboe@kernel.dk
-Subject: [PATCH v9 5/5] mmc: queue: Use bigger segments if DMA MAP layer can
-	merge the segments
-Date: Fri, 26 Jul 2019 17:31:16 +0900
-Message-Id: <1564129876-28261-6-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1564129876-28261-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1564129876-28261-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+	Fri, 26 Jul 2019 09:20:57 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+	id D3E5D284; Fri, 26 Jul 2019 11:20:54 +0200 (CEST)
+Date: Fri, 26 Jul 2019 11:20:53 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [git pull] IOMMU Fixes for Linux v5.3-rc1
+Message-ID: <20190726092048.GA3957@8bytes.org>
+MIME-Version: 1.0
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-block@vger.kernel.org, wsa+renesas@sang-engineering.com,
-	iommu@lists.linux-foundation.org
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,121 +45,125 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============4556154366666736947=="
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-When the max_segs of a mmc host is smaller than 512, the mmc
-subsystem tries to use 512 segments if DMA MAP layer can merge
-the segments, and then the mmc subsystem exposes such information
-to the block layer by using blk_queue_can_use_dma_map_merging().
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
----
- drivers/mmc/core/queue.c | 35 ++++++++++++++++++++++++++++++++---
- include/linux/mmc/host.h |  1 +
- 2 files changed, 33 insertions(+), 3 deletions(-)
+--===============4556154366666736947==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
+Content-Disposition: inline
 
-diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
-index 7102e2e..25568dc 100644
---- a/drivers/mmc/core/queue.c
-+++ b/drivers/mmc/core/queue.c
-@@ -21,6 +21,8 @@
- #include "card.h"
- #include "host.h"
- 
-+#define MMC_DMA_MAP_MERGE_SEGMENTS	512
-+
- static inline bool mmc_cqe_dcmd_busy(struct mmc_queue *mq)
- {
- 	/* Allow only 1 DCMD at a time */
-@@ -193,6 +195,12 @@ static void mmc_queue_setup_discard(struct request_queue *q,
- 		blk_queue_flag_set(QUEUE_FLAG_SECERASE, q);
- }
- 
-+static unsigned int mmc_get_max_segments(struct mmc_host *host)
-+{
-+	return host->can_dma_map_merge ? MMC_DMA_MAP_MERGE_SEGMENTS :
-+					 host->max_segs;
-+}
-+
- /**
-  * mmc_init_request() - initialize the MMC-specific per-request data
-  * @q: the request queue
-@@ -206,7 +214,7 @@ static int __mmc_init_request(struct mmc_queue *mq, struct request *req,
- 	struct mmc_card *card = mq->card;
- 	struct mmc_host *host = card->host;
- 
--	mq_rq->sg = mmc_alloc_sg(host->max_segs, gfp);
-+	mq_rq->sg = mmc_alloc_sg(mmc_get_max_segments(host), gfp);
- 	if (!mq_rq->sg)
- 		return -ENOMEM;
- 
-@@ -362,13 +370,23 @@ static void mmc_setup_queue(struct mmc_queue *mq, struct mmc_card *card)
- 		blk_queue_bounce_limit(mq->queue, BLK_BOUNCE_HIGH);
- 	blk_queue_max_hw_sectors(mq->queue,
- 		min(host->max_blk_count, host->max_req_size / 512));
--	blk_queue_max_segments(mq->queue, host->max_segs);
-+	if (host->can_dma_map_merge)
-+		WARN(!blk_queue_can_use_dma_map_merging(mq->queue,
-+							mmc_dev(host)),
-+		     "merging was advertised but not possible");
-+	blk_queue_max_segments(mq->queue, mmc_get_max_segments(host));
- 
- 	if (mmc_card_mmc(card))
- 		block_size = card->ext_csd.data_sector_size;
- 
- 	blk_queue_logical_block_size(mq->queue, block_size);
--	blk_queue_max_segment_size(mq->queue,
-+	/*
-+	 * After blk_queue_can_use_dma_map_merging() was called with succeed,
-+	 * since it calls blk_queue_virt_boundary(), the mmc should not call
-+	 * both blk_queue_max_segment_size().
-+	 */
-+	if (host->can_dma_map_merge)
-+		blk_queue_max_segment_size(mq->queue,
- 			round_down(host->max_seg_size, block_size));
- 
- 	dma_set_max_seg_size(mmc_dev(host), queue_max_segment_size(mq->queue));
-@@ -418,6 +436,17 @@ int mmc_init_queue(struct mmc_queue *mq, struct mmc_card *card)
- 	mq->tag_set.cmd_size = sizeof(struct mmc_queue_req);
- 	mq->tag_set.driver_data = mq;
- 
-+	/*
-+	 * Since blk_mq_alloc_tag_set() calls .init_request() of mmc_mq_ops,
-+	 * the host->can_dma_map_merge should be set before to get max_segs
-+	 * from mmc_get_max_segments().
-+	 */
-+	if (host->max_segs < MMC_DMA_MAP_MERGE_SEGMENTS &&
-+	    dma_get_merge_boundary(mmc_dev(host)))
-+		host->can_dma_map_merge = 1;
-+	else
-+		host->can_dma_map_merge = 0;
-+
- 	ret = blk_mq_alloc_tag_set(&mq->tag_set);
- 	if (ret)
- 		return ret;
-diff --git a/include/linux/mmc/host.h b/include/linux/mmc/host.h
-index 4a351cb..c5662b3 100644
---- a/include/linux/mmc/host.h
-+++ b/include/linux/mmc/host.h
-@@ -396,6 +396,7 @@ struct mmc_host {
- 	unsigned int		retune_paused:1; /* re-tuning is temporarily disabled */
- 	unsigned int		use_blk_mq:1;	/* use blk-mq */
- 	unsigned int		retune_crc_disable:1; /* don't trigger retune upon crc */
-+	unsigned int		can_dma_map_merge:1; /* merging can be used */
- 
- 	int			rescan_disable;	/* disable card detection */
- 	int			rescan_entered;	/* used with nonremovable devices */
--- 
-2.7.4
+
+--vtzGhvizbBRQ85DL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Linus,
+
+The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
+
+  Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git tags/iommu-fixes-v5.3-rc1
+
+for you to fetch changes up to 66929812955bbec808c94d7a3916f41638a98a0a:
+
+  iommu/amd: Add support for X2APIC IOMMU interrupts (2019-07-23 17:41:52 +0200)
+
+----------------------------------------------------------------
+IOMMU Fixes for Linux v5.3-rc1
+
+Including:
+
+	- Revert an Intel VT-d patch that caused boot problems on some
+	  machines
+
+	- Fix AMD IOMMU interrupts with x2apic enabled
+
+	- Fix a potential crash when Intel VT-d domain allocation fails
+
+	- Fix crash in Intel VT-d driver when accessing a domain without
+	  a flush queue
+
+	- Formatting fix for new Intel VT-d debugfs code
+
+	- Fix for use-after-free bug in IOVA code
+
+	- Fix for a NULL-pointer dereference in Intel VT-d driver when
+	  PCI hotplug is used
+
+	- Compilation fix for one of the previous fixes
+
+----------------------------------------------------------------
+Chris Wilson (1):
+      iommu/iova: Remove stale cached32_node
+
+Dmitry Safonov (2):
+      iommu/vt-d: Don't queue_iova() if there is no flush queue
+      iommu/vt-d: Check if domain->pgd was allocated
+
+Joerg Roedel (2):
+      Revert "iommu/vt-d: Consolidate domain_init() to avoid duplication"
+      iommu/iova: Fix compilation error with !CONFIG_IOMMU_IOVA
+
+Lu Baolu (1):
+      iommu/vt-d: Avoid duplicated pci dma alias consideration
+
+Sai Praneeth Prakhya (1):
+      iommu/vt-d: Print pasid table entries MSB to LSB in debugfs
+
+Suthikulpanit, Suravee (1):
+      iommu/amd: Add support for X2APIC IOMMU interrupts
+
+ drivers/iommu/amd_iommu_init.c      |  90 +++++++++++++++++
+ drivers/iommu/amd_iommu_types.h     |   9 ++
+ drivers/iommu/intel-iommu-debugfs.c |   4 +-
+ drivers/iommu/intel-iommu.c         | 189 ++++++++++++++++++------------------
+ drivers/iommu/iova.c                |  23 +++--
+ include/linux/iova.h                |   6 ++
+ 6 files changed, 220 insertions(+), 101 deletions(-)
+
+Please pull.
+
+Thanks,
+
+	Joerg
+
+--vtzGhvizbBRQ85DL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEr9jSbILcajRFYWYyK/BELZcBGuMFAl06xe8ACgkQK/BELZcB
+GuN9rRAApQnbSOnNQGGaB7lVEIquMXgk28hAf/IHYIss8lPtxJDxDgZhgKyAxsLC
+/Qn9dvZ1HHvZvvs7FMxWRYcdTmKSijlDUSjd50pOOyDFhIcycXvLWuP9hvP8xOLT
+Rl3niH2QcSXN5c08oAcuwISwvn1t96bezVz+2vgAXqkYiJsg1avVnDwkJrAMmU1P
+RPG2ZiYu39EAxnU0tUY+wUb9xebCwcCGoag3iV/lZ0QqffEwqBJkfUPO1SEKEuxr
+gOfCxHQVhAqB/wRqr/5NOrQWXW+Lf0NPcFAU3atd6FVh3xG8MNUQmvd/kFNPj/Jn
+//+1mtT6N4TuBdbSAiRUOdCZxPhfygnhL6MyO+th+e3lWjOlOmKp+vy3gW5OyGEG
+zJpA8280Itz5Yz+ZrbDQZkJXrxvIkIccwjnDbf4jEVxgN8Vn+R2e0D3TckhzOnl7
+yXAO3IFR1obEINpDplV5C+B8m7mNOryj6/RGqCujs8+XwklaHmZu6cBa61R25jZ6
+oBzQEp/EG3Ymv84x9UWIr57zqXAiepfE5kxGP+d4KAa5bjK8M1gTdPbRi4o74V0j
+xoKL7MgEmhCuqWEHgmkgQSZSJHFKK73gEz1DWs9048wjTkPsAJetKf38n8rsgxBB
+Fz9dUuC1zb5qajpv4N0Fwr16OVjHFrJGxJq6UKoJXZOVpdZjZlM=
+=uh7j
+-----END PGP SIGNATURE-----
+
+--vtzGhvizbBRQ85DL--
+
+--===============4556154366666736947==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============4556154366666736947==--
