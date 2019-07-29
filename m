@@ -2,42 +2,67 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id C20C27853C
-	for <lists.iommu@lfdr.de>; Mon, 29 Jul 2019 08:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA75E78901
+	for <lists.iommu@lfdr.de>; Mon, 29 Jul 2019 11:58:10 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 464E71067;
-	Mon, 29 Jul 2019 06:51:09 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 512E81469;
+	Mon, 29 Jul 2019 09:58:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 684D1105F
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 53509145F
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Jul 2019 06:50:47 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 009C42C6
+	Mon, 29 Jul 2019 09:57:34 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 17CD15E4
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 29 Jul 2019 06:50:46 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B970A68B02; Mon, 29 Jul 2019 08:50:42 +0200 (CEST)
-Date: Mon, 29 Jul 2019 08:50:42 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Nicolin Chen <nicoleotsuka@gmail.com>
-Subject: Re: [PATCH v2 0/2] dma-contiguous: two bug fixes for
-	dma_{alloc,free}_contiguous()
-Message-ID: <20190729065042.GA4009@lst.de>
-References: <20190726193433.12000-1-nicoleotsuka@gmail.com>
+	Mon, 29 Jul 2019 09:57:33 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n9so61215565wru.0
+	for <iommu@lists.linux-foundation.org>;
+	Mon, 29 Jul 2019 02:57:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=3EgmHLFik/OPgDdGuLMAdfuPiX1r55Htn8ht8rmVprc=;
+	b=kH9aY/SjxjRC1g38QaG3sJ/nMFwbFzu8iINFgMC7F8laRQCqZBLyEijjMdmz7utXRw
+	45Jiv1SsPylG2Wm0SyF5cEf6+oVdKGO0cYzjILthTNNp7EDRyp1bCpj3EX+BPW3j4ivR
+	qxKrgPK6Zpq2Cl+gUdvWcOo2e8wjl4sQPetO/xLvexzvz5rQOVqX+ppz6N4T6MhF4PzW
+	VYsQXM7rw6d1Etk3iajKwxKlU44KjIPoAj9NUikjaC6dr4NfU7yQ0vu+fR4j/vbOLMvS
+	o3Jpejw6YQjSInMoqSsIPsmf6zupeLDmr263IpMiJFjBCqzqWChuFflRvZEKLV/Eljv2
+	SnvA==
+X-Gm-Message-State: APjAAAUAEZJeg3WYFwUmsO/k41HalMa9Jk9ND3JrYJK5+rlf9HLdWrBL
+	FgUHJGbBtP/Pa+FvhfkyAni0ZkRir/IAaQIW1GQ=
+X-Google-Smtp-Source: APXvYqwjfJqS4NGp1R7UrJA2JKANbRDFjcVknk63xGwZnvz1sSMLkkUqcYNpnDqWGXG4WZ8w21QgE4NZzRTpKbjjx94=
+X-Received: by 2002:adf:f08f:: with SMTP id n15mr35431224wro.213.1564394251709;
+	Mon, 29 Jul 2019 02:57:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190726193433.12000-1-nicoleotsuka@gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
+References: <20190725063401.29904-1-hch@lst.de>
+	<20190725063401.29904-5-hch@lst.de>
+In-Reply-To: <20190725063401.29904-5-hch@lst.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 29 Jul 2019 11:57:19 +0200
+Message-ID: <CAMuHMdUBPj8AVSuDwaBB_4gRD6k7vzo0WAFJEkTUbxSw31bzUg@mail.gmail.com>
+Subject: Re: [PATCH 4/5] dma-mapping: provide a better default
+	->get_required_mask
+To: Christoph Hellwig <hch@lst.de>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: dafna.hirschfeld@collabora.com, linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org, robin.murphy@arm.com, hch@lst.de
+Cc: linux-xtensa@linux-xtensa.org, Michal Simek <monstr@monstr.eu>,
+	Parisc List <linux-parisc@vger.kernel.org>,
+	Linux-sh list <linux-sh@vger.kernel.org>, Takashi Iwai <tiwai@suse.de>,
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+	the arch/x86 maintainers <x86@kernel.org>,
+	linux-m68k <linux-m68k@lists.linux-m68k.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux IOMMU <iommu@lists.linux-foundation.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,9 +80,35 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Thanks,
+Hi Christoph,
 
-applied to the dma-mapping for-linus tree.
+On Thu, Jul 25, 2019 at 8:35 AM Christoph Hellwig <hch@lst.de> wrote:
+> Most dma_map_ops instances are IOMMUs that work perfectly fine in 32-bits
+> of IOVA space, and the generic direct mapping code already provides its
+> own routines that is intelligent based on the amount of memory actually
+> present.  Wire up the dma-direct routine for the ARM direct mapping code
+> as well, and otherwise default to the constant 32-bit mask.  This way
+> we only need to override it for the occasional odd IOMMU that requires
+> 64-bit IOVA support, or IOMMU drivers that are more efficient if they
+> can fall back to the direct mapping.
+
+As I know you like diving into cans of worms ;-)
+
+Does 64-bit IOVA support actually work in general? Or only on 64-bit
+platforms, due to dma_addr_t to unsigned long truncation on 32-bit?
+
+https://lore.kernel.org/linux-renesas-soc/CAMuHMdWkQ918Y61tMJbHEu29AGLEyNwbvZbSBB-RRH7YYUNRcA@mail.gmail.com/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
