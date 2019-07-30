@@ -2,49 +2,61 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F507AA97
-	for <lists.iommu@lfdr.de>; Tue, 30 Jul 2019 16:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044877AC0A
+	for <lists.iommu@lfdr.de>; Tue, 30 Jul 2019 17:13:18 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 418F92E29;
-	Tue, 30 Jul 2019 14:09:39 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id DCA682F22;
+	Tue, 30 Jul 2019 15:13:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 109E82DFC
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id F27002F02
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 30 Jul 2019 14:01:12 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 89132F1
+	Tue, 30 Jul 2019 15:06:28 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A3D2EA8
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 30 Jul 2019 14:01:11 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1B3DC30BC5D4;
-	Tue, 30 Jul 2019 14:01:10 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-102.ams2.redhat.com [10.36.116.102])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3F2BA60920;
-	Tue, 30 Jul 2019 14:00:59 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, joro@8bytes.org,
-	iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-	dwmw2@infradead.org, alex.williamson@redhat.com, robin.murphy@arm.com,
-	hch@infradead.org
-Subject: [PATCH] iommu: revisit iommu_insert_resv_region() implementation
-Date: Tue, 30 Jul 2019 16:00:55 +0200
-Message-Id: <20190730140055.9998-1-eric.auger@redhat.com>
+	Tue, 30 Jul 2019 15:06:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20170209;
+	h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Fwo4UgelKrFlMANHP0CkxoeTqhbpEZ5Al8KPq5+W4/U=;
+	b=iUWZXk9xQpjnD8idH1ONwy0Ks
+	uvbIFEUFVogcOZpxi9Cbe4SadL88AtQVARgcp0CIgRK/l7u6FQCnt751ny2ekMKuilZV5cnHSaqf2
+	DEP0bAzj4/P2HA4BenSDpdsLhAQnqmvTeRtUFG5BgFiQ2JE4OpvXUw3MPNyjXhuFqZzhy0x2k2+T6
+	J7sisXENInwgsG/Oxeg6Gr71NPoReXVZdqodP+PsMZbBN/0wm+62MoHSc1hJa5IFo+4TJ7qtQBSZr
+	HlHlfaA5OqllYikmO5watDVyT9vEfLH81TlRFaeH464UY2fTdZRIu84Xs3PucbNogH6MAXW0uGIqR
+	eJkfN3fAg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat
+	Linux)) id 1hsTho-0000n1-Sp; Tue, 30 Jul 2019 15:06:25 +0000
+Date: Tue, 30 Jul 2019 08:06:24 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH] iommu/dma: Handle MSI mappings separately
+Message-ID: <20190730150624.GA27573@infradead.org>
+References: <2b2595de703c60a772ebcffe248d0cf036143e6a.1564414114.git.robin.murphy@arm.com>
+	<20190730062843.GA1400@infradead.org>
+	<90566814-ed36-2eb9-49e2-98a4a949c9f6@arm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Tue, 30 Jul 2019 14:01:10 +0000 (UTC)
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
-	autolearn=ham version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <90566814-ed36-2eb9-49e2-98a4a949c9f6@arm.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
+Cc: maz@kernel.org, iommu@lists.linux-foundation.org,
+	Andre Przywara <andre.przywara@arm.com>,
+	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,145 +74,31 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Current implementation is recursive and in case of allocation
-failure the existing @regions list is altered. A non recursive
-version looks better for maintainability and simplifies the
-error handling. We use a separate stack for overlapping segment
-merging.
+On Tue, Jul 30, 2019 at 11:43:25AM +0100, Robin Murphy wrote:
+> > Hmm.  I remember proposing this patch and you didn't like it because
+> > we could also have msis for a !IOMMU_DMA_IOVA_COOKIE cookie type.
+> > Or did we talk past each other?
+> 
+> Do you have a pointer? That sparks the vaguest of memories, but I can't seem
+> to turn anything up in my inbox. If that was my objection, though, it sounds
+> like your patch was probably trying to go a step or two further than this
+> one.
 
-Note this new implementation may change the region order of
-appearance in /sys/kernel/iommu_groups/<n>/reserved_regions
-files but this order has never been documented, see
-commit bc7d12b91bd3 ("iommu: Implement reserved_regions
-iommu-group sysfs file"). Previously the regions were sorted
-by start address. Now they are first sorted by type and within
-a type they are sorted by start address.
+I can't find anything either.  This must have been a git tree I passed
+around to you before posting it.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> > Note that if this change turns out to be valid we should also
+> > clean up the iommu_dma_free_iova() side.
+> 
+> We're not touching the iommu_dma_{alloc,free}_iova() path here; those are
+> designed to cope with both types of cookie, and I think that's a reasonable
+> abstraction to keep. This is just getting rid of the asymmetry - and now bug
+> - caused by trying to keep the MSI page flow going through a special case in
+> __iommu_dma_map() despite that having evolved into a more specific DMA
+> domain fastpath (there's no corresponding unmap special case since MSI
+> mappings just persist and get recycled until the domain is destroyed).
 
----
----
- drivers/iommu/iommu.c | 96 ++++++++++++++++++++++---------------------
- 1 file changed, 50 insertions(+), 46 deletions(-)
-
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 0c674d80c37f..7479f3d38e61 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -229,60 +229,64 @@ static ssize_t iommu_group_show_name(struct iommu_group *group, char *buf)
-  * @new: new region to insert
-  * @regions: list of regions
-  *
-- * The new element is sorted by address with respect to the other
-- * regions of the same type. In case it overlaps with another
-- * region of the same type, regions are merged. In case it
-- * overlaps with another region of different type, regions are
-- * not merged.
-+ * Elements are sorted by region type and elements of the same
-+ * type are sorted by start address. Overlapping segments of the
-+ * same type are merged.
-  */
- static int iommu_insert_resv_region(struct iommu_resv_region *new,
- 				    struct list_head *regions)
- {
--	struct iommu_resv_region *region;
--	phys_addr_t start = new->start;
--	phys_addr_t end = new->start + new->length - 1;
--	struct list_head *pos = regions->next;
-+	struct iommu_resv_region *iter, *tmp, *nr, *top;
-+	struct list_head low, high, stack;
-+	bool added = false;
- 
--	while (pos != regions) {
--		struct iommu_resv_region *entry =
--			list_entry(pos, struct iommu_resv_region, list);
--		phys_addr_t a = entry->start;
--		phys_addr_t b = entry->start + entry->length - 1;
--		int type = entry->type;
-+	INIT_LIST_HEAD(&low);
-+	INIT_LIST_HEAD(&high);
-+	INIT_LIST_HEAD(&stack);
- 
--		if (end < a) {
--			goto insert;
--		} else if (start > b) {
--			pos = pos->next;
--		} else if ((start >= a) && (end <= b)) {
--			if (new->type == type)
--				return 0;
--			else
--				pos = pos->next;
--		} else {
--			if (new->type == type) {
--				phys_addr_t new_start = min(a, start);
--				phys_addr_t new_end = max(b, end);
--				int ret;
--
--				list_del(&entry->list);
--				entry->start = new_start;
--				entry->length = new_end - new_start + 1;
--				ret = iommu_insert_resv_region(entry, regions);
--				kfree(entry);
--				return ret;
--			} else {
--				pos = pos->next;
--			}
--		}
--	}
--insert:
--	region = iommu_alloc_resv_region(new->start, new->length,
--					 new->prot, new->type);
--	if (!region)
-+	nr = iommu_alloc_resv_region(new->start, new->length,
-+				     new->prot, new->type);
-+	if (!nr)
- 		return -ENOMEM;
- 
--	list_add_tail(&region->list, pos);
-+	/*
-+	 * Elements are dispatched into 3 lists: low/high contain
-+	 * segments of lower/higher types than @new; only segments
-+	 * with same type as @new remain in @regions, including @new
-+	 * ordered inserted by start address
-+	 */
-+	list_for_each_entry_safe(iter, tmp, regions, list) {
-+		if (iter->type < nr->type) {
-+			list_move_tail(&iter->list, &low);
-+		} else if (iter->type > nr->type) {
-+			list_move_tail(&iter->list, &high);
-+		} else if (nr->start <= iter->start && !added) {
-+			list_add_tail(&nr->list, &iter->list);
-+			added = true;
-+		}
-+	}
-+	if (!added)
-+		list_add_tail(&nr->list, regions);
-+
-+	/* Merge overlapping segments in @regions, if any */
-+	list_move(regions->next, &stack); /* move the 1st elt to the stack */
-+	list_for_each_entry_safe(iter, tmp, regions, list) {
-+		phys_addr_t top_end, iter_end = iter->start + iter->length - 1;
-+
-+		top = list_last_entry(&stack, struct iommu_resv_region, list);
-+		top_end = top->start + top->length - 1;
-+
-+		if (iter->start > top_end + 1) {
-+			list_move(&iter->list, &top->list);
-+		} else {
-+			top->length = max(top_end, iter_end) - top->start + 1;
-+			list_del(&iter->list);
-+			kfree(iter);
-+		}
-+	}
-+	list_splice(&stack, regions);
-+	list_splice(&low, regions);
-+	list_splice_tail(&high, regions);
- 	return 0;
- }
- 
--- 
-2.20.1
-
+Ok, that might have been the issue with my earlier patch..
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
