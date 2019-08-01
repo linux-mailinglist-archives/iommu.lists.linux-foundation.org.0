@@ -2,54 +2,49 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D682C7DD5F
-	for <lists.iommu@lfdr.de>; Thu,  1 Aug 2019 16:06:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A8E7DD78
+	for <lists.iommu@lfdr.de>; Thu,  1 Aug 2019 16:09:39 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1BBB81565;
-	Thu,  1 Aug 2019 14:05:35 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 22507152F;
+	Thu,  1 Aug 2019 14:09:31 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5692C1117
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 355EB2397
 	for <iommu@lists.linux-foundation.org>;
-	Thu,  1 Aug 2019 14:04:58 +0000 (UTC)
+	Thu,  1 Aug 2019 14:08:25 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2E7165F4
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 989AD5F4
 	for <iommu@lists.linux-foundation.org>;
-	Thu,  1 Aug 2019 14:04:57 +0000 (UTC)
+	Thu,  1 Aug 2019 14:08:24 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 5620168AFE; Thu,  1 Aug 2019 16:04:52 +0200 (CEST)
-Date: Thu, 1 Aug 2019 16:04:52 +0200
+	id 7FDE168AFE; Thu,  1 Aug 2019 16:08:20 +0200 (CEST)
+Date: Thu, 1 Aug 2019 16:08:20 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: Re: [PATCH 6/8] dma-direct: turn ARCH_ZONE_DMA_BITS into a variable
-Message-ID: <20190801140452.GB23435@lst.de>
+Subject: Re: [PATCH 8/8] mm: comment arm64's usage of 'enum zone_type'
+Message-ID: <20190801140820.GC23435@lst.de>
 References: <20190731154752.16557-1-nsaenzjulienne@suse.de>
-	<20190731154752.16557-7-nsaenzjulienne@suse.de>
+	<20190731154752.16557-9-nsaenzjulienne@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190731154752.16557-7-nsaenzjulienne@suse.de>
+In-Reply-To: <20190731154752.16557-9-nsaenzjulienne@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Heiko Carstens <heiko.carstens@de.ibm.com>, eric@anholt.net,
-	Paul Mackerras <paulus@samba.org>, will@kernel.org, hch@lst.de,
-	phill@raspberryi.org, linux-s390@vger.kernel.org,
-	f.fainelli@gmail.com, frowand.list@gmail.com,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	catalin.marinas@arm.com, devicetree@vger.kernel.org,
-	Vasily Gorbik <gor@linux.ibm.com>, marc.zyngier@arm.com,
-	robh+dt@kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, mbrugger@suse.com,
-	linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	wahrenst@gmx.net, Michael Ellerman <mpe@ellerman.id.au>,
-	akpm@linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+Cc: phill@raspberryi.org, devicetree@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org, f.fainelli@gmail.com,
+	will@kernel.org, eric@anholt.net, marc.zyngier@arm.com,
+	catalin.marinas@arm.com, frowand.list@gmail.com,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	iommu@lists.linux-foundation.org, robh+dt@kernel.org,
+	wahrenst@gmx.net, mbrugger@suse.com, akpm@linux-foundation.org,
+	Robin Murphy <robin.murphy@arm.com>, hch@lst.de,
+	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,61 +62,41 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-A few nitpicks, otherwise this looks great:
+On Wed, Jul 31, 2019 at 05:47:51PM +0200, Nicolas Saenz Julienne wrote:
+> +	 * Architecture			Limit
+> +	 * ----------------------------------
+> +	 * parisc, ia64, sparc, arm64	<4G
+> +	 * s390, powerpc		<2G
+> +	 * arm				Various
+> +	 * alpha			Unlimited or 0-16MB.
+>  	 *
+>  	 * i386, x86_64 and multiple other arches
+> -	 * 			<16M.
+> +	 *				<16M.
 
-> @@ -201,7 +202,7 @@ static int __init mark_nonram_nosave(void)
->   * everything else. GFP_DMA32 page allocations automatically fall back to
->   * ZONE_DMA.
->   *
-> - * By using 31-bit unconditionally, we can exploit ARCH_ZONE_DMA_BITS to
-> + * By using 31-bit unconditionally, we can exploit arch_zone_dma_bits to
->   * inform the generic DMA mapping code.  32-bit only devices (if not handled
->   * by an IOMMU anyway) will take a first dip into ZONE_NORMAL and get
->   * otherwise served by ZONE_DMA.
-> @@ -237,9 +238,18 @@ void __init paging_init(void)
->  	printk(KERN_DEBUG "Memory hole size: %ldMB\n",
->  	       (long int)((top_of_ram - total_ram) >> 20));
->  
-> +	/*
-> +	 * Allow 30-bit DMA for very limited Broadcom wifi chips on many
-> +	 * powerbooks.
-> +	 */
-> +	if (IS_ENABLED(CONFIG_PPC32))
-> +		arch_zone_dma_bits = 30;
-> +	else
-> +		arch_zone_dma_bits = 31;
-> +
+powerpc is also Various now, arm64 isn't really < 4G, ia64 only uses
+ZONE_DMA32 these days, and parisc doesn't seem to use neither ZONE_DMA
+nor ZONE_DMA32.
 
-So the above unconditionally comment obviously isn't true any more, and
-Ben also said for the recent ppc32 hack he'd prefer dynamic detection.
+Based on that I'm not sure the list really makes much sense.
 
-Maybe Ben and or other ppc folks can chime in an add a patch to the series
-to sort this out now that we have a dynamic ZONE_DMA threshold?
+>  	 */
+>  	ZONE_DMA,
+>  #endif
+>  #ifdef CONFIG_ZONE_DMA32
+>  	/*
+> -	 * x86_64 needs two ZONE_DMAs because it supports devices that are
+> -	 * only able to do DMA to the lower 16M but also 32 bit devices that
+> -	 * can only do DMA areas below 4G.
+> +	 * x86_64 and arm64 need two ZONE_DMAs because they support devices
+> +	 * that are only able to DMA a fraction of the 32 bit addressable
+> +	 * memory area, but also devices that are limited to that whole 32 bit
+> +	 * area.
+>  	 */
+>  	ZONE_DMA32,
 
-> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-> index 59bdceea3737..40dfc9b4ee4c 100644
-> --- a/kernel/dma/direct.c
-> +++ b/kernel/dma/direct.c
-> @@ -19,9 +19,7 @@
->   * Most architectures use ZONE_DMA for the first 16 Megabytes, but
->   * some use it for entirely different regions:
->   */
-> -#ifndef ARCH_ZONE_DMA_BITS
-> -#define ARCH_ZONE_DMA_BITS 24
-> -#endif
-> +unsigned int arch_zone_dma_bits __ro_after_init = 24;
-
-I'd prefer to drop the arch_ prefix and just calls this zone_dma_bits.
-In the long run we really need to find a way to just automatically set
-this from the meminit code, but that is out of scope for this series.
-For now can you please just update the comment above to say something
-like:
-
-/*
- * Most architectures use ZONE_DMA for the first 16 Megabytes, but some use it
- * it for entirely different regions.  In that case the arch code needs to
- * override the variable below for dma-direct to work properly.
- */
+Maybe just say various architectures instead of mentioning specific
+ones?  Something like "Some 64-bit platforms need.."
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
