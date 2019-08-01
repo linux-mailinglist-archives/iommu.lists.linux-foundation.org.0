@@ -2,29 +2,29 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2EC77DB9A
-	for <lists.iommu@lfdr.de>; Thu,  1 Aug 2019 14:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 225FC7DB9B
+	for <lists.iommu@lfdr.de>; Thu,  1 Aug 2019 14:36:02 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id C98D739AF;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id F1C55B198;
 	Thu,  1 Aug 2019 12:35:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 7BCAB4401
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9B75F4401
 	for <iommu@lists.linux-foundation.org>;
-	Thu,  1 Aug 2019 12:21:44 +0000 (UTC)
+	Thu,  1 Aug 2019 12:22:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B49BC8A8
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 04A6E8B0
 	for <iommu@lists.linux-foundation.org>;
-	Thu,  1 Aug 2019 12:21:43 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
-	by Forcepoint Email with ESMTP id 5C0348E4323954FF7DE6;
-	Thu,  1 Aug 2019 20:21:41 +0800 (CST)
+	Thu,  1 Aug 2019 12:22:30 +0000 (UTC)
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+	by Forcepoint Email with ESMTP id 00C158748E0FA7FF6A83;
+	Thu,  1 Aug 2019 20:22:27 +0800 (CST)
 Received: from HGHY4L002753561.china.huawei.com (10.133.215.186) by
-	DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server
-	id 14.3.439.0; Thu, 1 Aug 2019 20:21:31 +0800
+	DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server
+	id 14.3.439.0; Thu, 1 Aug 2019 20:22:16 +0800
 From: Zhen Lei <thunder.leizhen@huawei.com>
 To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>, John Garry
 	<john.garry@huawei.com>, Robin Murphy <robin.murphy@arm.com>, Will Deacon
@@ -32,10 +32,9 @@ To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>, John Garry
 	<linux-arm-kernel@lists.infradead.org>, iommu
 	<iommu@lists.linux-foundation.org>, linux-kernel
 	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] iommu/arm-smmu-v3: add nr_ats_masters to avoid unnecessary
-	operations
-Date: Thu, 1 Aug 2019 20:20:40 +0800
-Message-ID: <20190801122040.26024-1-thunder.leizhen@huawei.com>
+Subject: [PATCH 1/2] iommu/iova: introduce iova_magazine_compact_pfns()
+Date: Thu, 1 Aug 2019 20:21:53 +0800
+Message-ID: <20190801122154.18820-1-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
 X-Originating-IP: [10.133.215.186]
@@ -61,88 +60,57 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-When (smmu_domain->smmu->features & ARM_SMMU_FEAT_ATS) is true, even if a
-smmu domain does not contain any ats master, the operations of
-arm_smmu_atc_inv_to_cmd() and lock protection in arm_smmu_atc_inv_domain()
-are always executed. This will impact performance, especially in
-multi-core and stress scenarios. For my FIO test scenario, about 8%
-performance reduced.
+iova_magazine_free_pfns() can only free the whole magazine buffer, add
+iova_magazine_compact_pfns() to support free part of it.
 
-In fact, we can use a atomic member to record how many ats masters the
-smmu contains. And check that without traverse the list and check all
-masters one by one in the lock protection.
-
-Fixes: 9ce27afc0830 ("iommu/arm-smmu-v3: Add support for PCI ATS")
 Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
 ---
- drivers/iommu/arm-smmu-v3.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/iommu/iova.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index a9a9fabd396804a..1b370d9aca95f94 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -631,6 +631,7 @@ struct arm_smmu_domain {
- 
- 	struct io_pgtable_ops		*pgtbl_ops;
- 	bool				non_strict;
-+	atomic_t			nr_ats_masters;
- 
- 	enum arm_smmu_domain_stage	stage;
- 	union {
-@@ -1531,7 +1532,7 @@ static int arm_smmu_atc_inv_domain(struct arm_smmu_domain *smmu_domain,
- 	struct arm_smmu_cmdq_ent cmd;
- 	struct arm_smmu_master *master;
- 
--	if (!(smmu_domain->smmu->features & ARM_SMMU_FEAT_ATS))
-+	if (!atomic_read(&smmu_domain->nr_ats_masters))
- 		return 0;
- 
- 	arm_smmu_atc_inv_to_cmd(ssid, iova, size, &cmd);
-@@ -1869,6 +1870,7 @@ static int arm_smmu_enable_ats(struct arm_smmu_master *master)
- 	size_t stu;
- 	struct pci_dev *pdev;
- 	struct arm_smmu_device *smmu = master->smmu;
-+	struct arm_smmu_domain *smmu_domain = master->domain;
- 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(master->dev);
- 
- 	if (!(smmu->features & ARM_SMMU_FEAT_ATS) || !dev_is_pci(master->dev) ||
-@@ -1887,12 +1889,15 @@ static int arm_smmu_enable_ats(struct arm_smmu_master *master)
- 		return ret;
- 
- 	master->ats_enabled = true;
-+	atomic_inc(&smmu_domain->nr_ats_masters);
-+
- 	return 0;
+diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
+index 3e1a8a6755723a9..4b7a9efa0ef40af 100644
+--- a/drivers/iommu/iova.c
++++ b/drivers/iommu/iova.c
+@@ -795,18 +795,19 @@ static void iova_magazine_free(struct iova_magazine *mag)
+ 	kfree(mag);
  }
  
- static void arm_smmu_disable_ats(struct arm_smmu_master *master)
+-static void
+-iova_magazine_free_pfns(struct iova_magazine *mag, struct iova_domain *iovad)
++static void iova_magazine_compact_pfns(struct iova_magazine *mag,
++				       struct iova_domain *iovad,
++				       unsigned long newsize)
  {
- 	struct arm_smmu_cmdq_ent cmd;
-+	struct arm_smmu_domain *smmu_domain = master->domain;
+ 	unsigned long flags;
+ 	int i;
  
- 	if (!master->ats_enabled || !dev_is_pci(master->dev))
+-	if (!mag)
++	if (!mag || mag->size <= newsize)
  		return;
-@@ -1901,6 +1906,7 @@ static void arm_smmu_disable_ats(struct arm_smmu_master *master)
- 	arm_smmu_atc_inv_master(master, &cmd);
- 	pci_disable_ats(to_pci_dev(master->dev));
- 	master->ats_enabled = false;
-+	atomic_dec(&smmu_domain->nr_ats_masters);
+ 
+ 	spin_lock_irqsave(&iovad->iova_rbtree_lock, flags);
+ 
+-	for (i = 0 ; i < mag->size; ++i) {
++	for (i = newsize; i < mag->size; ++i) {
+ 		struct iova *iova = private_find_iova(iovad, mag->pfns[i]);
+ 
+ 		BUG_ON(!iova);
+@@ -815,7 +816,13 @@ static void iova_magazine_free(struct iova_magazine *mag)
+ 
+ 	spin_unlock_irqrestore(&iovad->iova_rbtree_lock, flags);
+ 
+-	mag->size = 0;
++	mag->size = newsize;
++}
++
++static void
++iova_magazine_free_pfns(struct iova_magazine *mag, struct iova_domain *iovad)
++{
++	iova_magazine_compact_pfns(mag, iovad, 0);
  }
  
- static void arm_smmu_detach_dev(struct arm_smmu_master *master)
-@@ -1915,10 +1921,10 @@ static void arm_smmu_detach_dev(struct arm_smmu_master *master)
- 	list_del(&master->domain_head);
- 	spin_unlock_irqrestore(&smmu_domain->devices_lock, flags);
- 
--	master->domain = NULL;
- 	arm_smmu_install_ste_for_dev(master);
- 
- 	arm_smmu_disable_ats(master);
-+	master->domain = NULL;
- }
- 
- static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
+ static bool iova_magazine_full(struct iova_magazine *mag)
 -- 
 1.8.3
 
