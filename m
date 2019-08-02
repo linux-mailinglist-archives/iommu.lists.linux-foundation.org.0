@@ -2,63 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A747E79B
-	for <lists.iommu@lfdr.de>; Fri,  2 Aug 2019 03:46:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941057E79D
+	for <lists.iommu@lfdr.de>; Fri,  2 Aug 2019 03:46:51 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1EDC718EF;
-	Fri,  2 Aug 2019 01:46:44 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 5030B18F3;
+	Fri,  2 Aug 2019 01:46:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 6E97318E8
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id D864E18E8
 	for <iommu@lists.linux-foundation.org>;
-	Fri,  2 Aug 2019 01:46:42 +0000 (UTC)
+	Fri,  2 Aug 2019 01:46:48 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 263F1E7
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A291BE7
 	for <iommu@lists.linux-foundation.org>;
-	Fri,  2 Aug 2019 01:46:42 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id r7so35108399pfl.3
+	Fri,  2 Aug 2019 01:46:48 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id w24so32979380plp.2
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 01 Aug 2019 18:46:42 -0700 (PDT)
+	Thu, 01 Aug 2019 18:46:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=wLrJwcUbAlAZBvbLYx5iZ6fkS9RVbU5U/+b/jH7b5PI=;
-	b=dEBoBePzfzEAhlohTUW9iv6gMd3sE9fXz9Wn6KwHsE/wNdj6o4DM9/n8xD0pqwaxmx
-	PJCtAfjmOuT90vUfaVevnw8d9x7lGTb+5EtyWtxhUrLdxMxuU8UjO63cjpfLE31IXkUQ
-	b+KcYlMnDTTU3qYOZW7engjNYstR37BH6FxddN9NGyo0MMumNcvaWGSFMfQTDBD7veAS
-	sN3IaDtkz5/7FatGlRuJtOjtrXXUOJ3t9MMUQEV83ZS7QWeMEDL2excVRKfDm9bFwz/q
-	2IHO5ncJfLyVGkhJBAeDJOwIjai9euQmFI2c6g2k835SKCIAte4uf9meWK81ogfW8yT1
-	UoXg==
+	bh=RdectgfrxPnoPm3S0YOxCABzXoqfRDNzFQDiE47h5Vs=;
+	b=TY09FB3oduRwswYsXlYBN0hfEOMZHFs67R2ix0H5rE97soa1j1YHKiUNwyGO44M/iy
+	71RT+aJ+oTzpdw0MwKYvn838kra3RTwW/eVouela+oW6XdLugu8NldyRHn2jobIy9+sw
+	uEXhwwG/CSZu+Vl38cCE9vKx9mW7ALXIlbJsRSNOiia1rlqm6z7cjst19uwYaxDOFQeP
+	yL/PUuRJ1PK4xPW4SZ8OvgF3Y26kOO5vfzh3dwqduAFc0+/fhC4nGRQmB5TOuTz0U2c/
+	0JzVNwo9IAVDqP8B48B5HpUQTieRFKYP7ANZUWv0E+DOfyIi3bPRZgrvOd3FoWszir5B
+	v5KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=wLrJwcUbAlAZBvbLYx5iZ6fkS9RVbU5U/+b/jH7b5PI=;
-	b=lBixKld7NOmClTOuHOddTszpTVp06qriZiL++RvQEE4R03nth8M7Hk6vum4tFExRGy
-	v5+d9PsfbjSt6AZG9dDLh24og+8+Q7htHcnOJeQmXR5HDWMEYQjgdAxOSyUDk2o9OnTS
-	Y6vjBUgsEfZewAnPjlCpB0DhizQT3YTDoEYom4/L1MgjMsBpuoEE+aGBxSt6zeK+6eCZ
-	ONI6TKRMGftpAS1nrak4NIyYMBye/v4hWPz2mfXYsE/6h0Ecj1vYrOazpTiK+cGx9Src
-	bAzWTOytYpYrFgC54lXw8AEUp0P79ftVMqUR2lsSa1IOoH6THwp0f9/ULIwBjBZ0khoo
-	DpMQ==
-X-Gm-Message-State: APjAAAVCXwOqy9J65rSVQnqLMHR2q5AdhuTOLGmTfhaeHk+WCROJjoYR
-	I+Z5p0XayctPN/TK5Y0/620=
-X-Google-Smtp-Source: APXvYqyz72H3jw23ZXyhl3tD28HFBu/J0BdHnsqDx2ZON6i6f+7lLXHmHArzMJBLvP1GkXbUCBbFxg==
-X-Received: by 2002:a63:5550:: with SMTP id f16mr10691565pgm.426.1564710401658;
-	Thu, 01 Aug 2019 18:46:41 -0700 (PDT)
+	bh=RdectgfrxPnoPm3S0YOxCABzXoqfRDNzFQDiE47h5Vs=;
+	b=GYccj7ljw+2VgpLLGc5WPhLDMV7O8kx08lLXOCR+f2QvqhEPLZ+1Ggh+xZCSyy3YUx
+	43w8OyjXrARhsaJ5tBxjeXI0UehJJCf0HIJESsjaNN98UoDINIPiSuYTk0sVIT+jn79E
+	aYtBmSJKLuqd3JYtwY9KTj4xOiXIXgR/iiQIPzO4AnnD4s48iXBpvtcYjVAN2+8hJuDn
+	YGPMDzFdifd9OwzXvEl7gubvigMOkeHwxzyxQidY/Qk3nVnVFdZPm0TROkv26MtvTr9A
+	V98OwEBvIIJxLeEFRovH4D/P1b6puv4SXOd460pE+jnducHWrJdZ9FyqlF3I1tZ6qCTj
+	PnnQ==
+X-Gm-Message-State: APjAAAUoofq/wv0mH8IhB7z+hxw6qqCz0rupOO5IU/pz9xNBGtw0yprM
+	CYYCwset4LhqagbLaP0mxyg=
+X-Google-Smtp-Source: APXvYqz6v2LAs+vWsP5Ju77kwgKl89h9PYXGlo3CLDM3qT09S/MYoeAP/LE5J4NH3n4L///VC5y3Uw==
+X-Received: by 2002:a17:902:324:: with SMTP id
+	33mr125126557pld.340.1564710408379; 
+	Thu, 01 Aug 2019 18:46:48 -0700 (PDT)
 Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
-	by smtp.gmail.com with ESMTPSA id
-	r15sm79474631pfh.121.2019.08.01.18.46.35
+	by smtp.gmail.com with ESMTPSA id 5sm6703488pgh.93.2019.08.01.18.46.45
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 01 Aug 2019 18:46:40 -0700 (PDT)
+	Thu, 01 Aug 2019 18:46:47 -0700 (PDT)
 From: Chuhong Yuan <hslester96@gmail.com>
 To: 
-Subject: [PATCH v2 00/10] Replace strncmp with str_has_prefix
-Date: Fri,  2 Aug 2019 09:46:18 +0800
-Message-Id: <20190802014617.8623-1-hslester96@gmail.com>
+Subject: [PATCH v2 01/10] dma: debug: Replace strncmp with str_has_prefix
+Date: Fri,  2 Aug 2019 09:46:43 +0800
+Message-Id: <20190802014643.8681-1-hslester96@gmail.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -66,20 +66,9 @@ X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Petr Mladek <pmladek@suse.com>, Peter Zijlstra <peterz@infradead.org>,
-	linux-kernel@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
-	"Paul E . McKenney" <paulmck@linux.ibm.com>,
-	Christoph Hellwig <hch@lst.de>, Davidlohr Bueso <dave@stgolabs.net>,
-	Ingo Molnar <mingo@redhat.com>, Len Brown <len.brown@intel.com>,
-	linux-pm@vger.kernel.org, Chuhong Yuan <hslester96@gmail.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rjw@rjwysocki.net>,
-	Peter Oberparleiter <oberpar@linux.ibm.com>,
-	Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-	iommu@lists.linux-foundation.org, Jessica Yu <jeyu@kernel.org>,
-	Joe Perches <joe@perches.com>, Robin Murphy <robin.murphy@arm.com>
+Cc: Chuhong Yuan <hslester96@gmail.com>, linux-kernel@vger.kernel.org,
+	iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+	Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -97,56 +86,34 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The commit 72921427d46b
-("string.h: Add str_has_prefix() helper function")
-introduced str_has_prefix() to substitute error-prone
-strncmp(str, const, len).
+strncmp(str, const, len) is error-prone because len
+is easy to have typo.
+The example is the hard-coded len has counting error
+or sizeof(const) forgets - 1.
+So we prefer using newly introduced str_has_prefix
+to substitute such strncmp.
 
-strncmp(str, const, len) is easy to have error in len
-because of counting error or sizeof(const) without - 1.
-
-These patches replace such pattern with str_has_prefix()
-to avoid hard coded constant length and sizeof.
-
-Besides, str_has_prefix() returns the length of prefix
-when the comparison returns true.
-We can use this return value to substitute some hard-coding.
-
-Changelog:
-
-v1 -> v2:
+Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+---
+Changes in v2:
   - Revise the description.
-  - Use the return value of str_has_prefix() to eliminate
-    hard coding.
-  - Remove possible false positives and add newly detected
-    one in upstream.
 
-Chuhong Yuan (10):
-  dma: debug: Replace strncmp with str_has_prefix
-  gcov: Replace strncmp with str_has_prefix
-  locking/locktorture: Replace strncmp with str_has_prefix
-  module: Replace strncmp with str_has_prefix
-  PM / sleep: Replace strncmp with str_has_prefix
-  printk: Replace strncmp with str_has_prefix
-  reboot: Replace strncmp with str_has_prefix
-  sched: Replace strncmp with str_has_prefix
-  userns: Replace strncmp with str_has_prefix
-  watchdog: Replace strncmp with str_has_prefix
+ kernel/dma/debug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- kernel/dma/debug.c           |  2 +-
- kernel/gcov/fs.c             |  2 +-
- kernel/locking/locktorture.c |  8 ++++----
- kernel/module.c              |  2 +-
- kernel/power/main.c          |  2 +-
- kernel/printk/braille.c      | 10 ++++++----
- kernel/printk/printk.c       | 14 ++++++++------
- kernel/reboot.c              |  6 ++++--
- kernel/sched/debug.c         |  5 +++--
- kernel/sched/isolation.c     |  9 +++++----
- kernel/user_namespace.c      | 10 +++++-----
- kernel/watchdog.c            |  8 ++++----
- 12 files changed, 43 insertions(+), 35 deletions(-)
-
+diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
+index 099002d84f46..0f9e1aba3e1a 100644
+--- a/kernel/dma/debug.c
++++ b/kernel/dma/debug.c
+@@ -970,7 +970,7 @@ static __init int dma_debug_cmdline(char *str)
+ 	if (!str)
+ 		return -EINVAL;
+ 
+-	if (strncmp(str, "off", 3) == 0) {
++	if (str_has_prefix(str, "off")) {
+ 		pr_info("debugging disabled on kernel command line\n");
+ 		global_disable = true;
+ 	}
 -- 
 2.20.1
 
