@@ -2,36 +2,36 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCEC185F7B
-	for <lists.iommu@lfdr.de>; Thu,  8 Aug 2019 12:24:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F0385F7E
+	for <lists.iommu@lfdr.de>; Thu,  8 Aug 2019 12:26:02 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 58F7610AC;
-	Thu,  8 Aug 2019 10:24:57 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 998FA10A8;
+	Thu,  8 Aug 2019 10:26:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id EF7EF10A6
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 56CDB10A8
 	for <iommu@lists.linux-foundation.org>;
-	Thu,  8 Aug 2019 10:24:56 +0000 (UTC)
+	Thu,  8 Aug 2019 10:26:00 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 75460829
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id EE816829
 	for <iommu@lists.linux-foundation.org>;
-	Thu,  8 Aug 2019 10:24:56 +0000 (UTC)
+	Thu,  8 Aug 2019 10:25:59 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 3F93F227A81; Thu,  8 Aug 2019 12:24:52 +0200 (CEST)
-Date: Thu, 8 Aug 2019 12:24:52 +0200
+	id 05011227A81; Thu,  8 Aug 2019 12:25:57 +0200 (CEST)
+Date: Thu, 8 Aug 2019 12:25:56 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v3 hmm 01/11] mm/mmu_notifiers: hoist
-	do_mmu_notifier_register down_write to the caller
-Message-ID: <20190808102452.GA648@lst.de>
+Subject: Re: [PATCH v3 hmm 04/11] misc/sgi-gru: use mmu_notifier_get/put
+	for struct gru_mm_struct
+Message-ID: <20190808102556.GB648@lst.de>
 References: <20190806231548.25242-1-jgg@ziepe.ca>
-	<20190806231548.25242-2-jgg@ziepe.ca>
+	<20190806231548.25242-5-jgg@ziepe.ca>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190806231548.25242-2-jgg@ziepe.ca>
+In-Reply-To: <20190806231548.25242-5-jgg@ziepe.ca>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
@@ -68,20 +68,7 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, Aug 06, 2019 at 08:15:38PM -0300, Jason Gunthorpe wrote:
-> From: Jason Gunthorpe <jgg@mellanox.com>
-> 
-> This simplifies the code to not have so many one line functions and extra
-> logic. __mmu_notifier_register() simply becomes the entry point to
-> register the notifier, and the other one calls it under lock.
-> 
-> Also add a lockdep_assert to check that the callers are holding the lock
-> as expected.
-> 
-> Suggested-by: Christoph Hellwig <hch@infradead.org>
-> Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
-
-Looks good:
+Looks good,
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 _______________________________________________
