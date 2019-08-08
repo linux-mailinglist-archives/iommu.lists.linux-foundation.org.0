@@ -2,36 +2,36 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9F985F9D
-	for <lists.iommu@lfdr.de>; Thu,  8 Aug 2019 12:28:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C360485FA4
+	for <lists.iommu@lfdr.de>; Thu,  8 Aug 2019 12:29:57 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 2662410AE;
-	Thu,  8 Aug 2019 10:28:19 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 75C6B10B1;
+	Thu,  8 Aug 2019 10:29:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 73E2210A6
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 4F9AF10A9
 	for <iommu@lists.linux-foundation.org>;
-	Thu,  8 Aug 2019 10:28:17 +0000 (UTC)
+	Thu,  8 Aug 2019 10:29:55 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 1089E829
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E2868829
 	for <iommu@lists.linux-foundation.org>;
-	Thu,  8 Aug 2019 10:28:17 +0000 (UTC)
+	Thu,  8 Aug 2019 10:29:54 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 211AB227A81; Thu,  8 Aug 2019 12:28:14 +0200 (CEST)
-Date: Thu, 8 Aug 2019 12:28:13 +0200
+	id ECABD227A81; Thu,  8 Aug 2019 12:29:51 +0200 (CEST)
+Date: Thu, 8 Aug 2019 12:29:51 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v3 hmm 05/11] hmm: use mmu_notifier_get/put for 'struct
-	hmm'
-Message-ID: <20190808102813.GD648@lst.de>
+Subject: Re: [PATCH v3 hmm 11/11] mm/mmu_notifiers: remove
+	unregister_no_release
+Message-ID: <20190808102951.GE648@lst.de>
 References: <20190806231548.25242-1-jgg@ziepe.ca>
-	<20190806231548.25242-6-jgg@ziepe.ca>
+	<20190806231548.25242-12-jgg@ziepe.ca>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190806231548.25242-6-jgg@ziepe.ca>
+In-Reply-To: <20190806231548.25242-12-jgg@ziepe.ca>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
@@ -68,7 +68,18 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Looks good,
+On Tue, Aug 06, 2019 at 08:15:48PM -0300, Jason Gunthorpe wrote:
+> From: Jason Gunthorpe <jgg@mellanox.com>
+> 
+> mmu_notifier_unregister_no_release() and mmu_notifier_call_srcu() no
+> longer have any users, they have all been converted to use
+> mmu_notifier_put().
+> 
+> So delete this difficult to use interface.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
+
+Looks good:
 
 Reviewed-by: Christoph Hellwig <hch@lst.de>
 _______________________________________________
