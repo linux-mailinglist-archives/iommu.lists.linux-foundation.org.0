@@ -2,70 +2,51 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E9E855B5
-	for <lists.iommu@lfdr.de>; Thu,  8 Aug 2019 00:22:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F3985BFE
+	for <lists.iommu@lfdr.de>; Thu,  8 Aug 2019 09:49:07 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id BCCEAE54;
-	Wed,  7 Aug 2019 22:22:03 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id E4B29C77;
+	Thu,  8 Aug 2019 07:49:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id C591ECB2
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 32A07B09
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  7 Aug 2019 22:22:02 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 84C29829
+	Thu,  8 Aug 2019 07:49:03 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B3B9714D
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  7 Aug 2019 22:22:02 +0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-	id 57A0360E40; Wed,  7 Aug 2019 22:21:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-	s=default; t=1565216522;
-	bh=V2MOW7b4CUVhygGGVaa1wzt2YduOq9ESSFH7yL59gh0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NjTfJTY9c5BbuHUA5nasQxkZSBsJkkIVbNB7cBM29YKSwJ/9BXXNmmm+6ihuyuMYX
-	w4c55TIMzw+c/uIDbuUL+c5rhV/Hz60vO2IKaJLIdsNYyRlSjLYBlIWMtMTh6a2mG2
-	xZpFy9CxFnvtHzyx/BKojI3LJKxltjYrPVvAmywc=
+	Thu,  8 Aug 2019 07:49:02 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B117968B02; Thu,  8 Aug 2019 09:48:58 +0200 (CEST)
+Date: Thu, 8 Aug 2019 09:48:58 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: Regression due to d98849aff879 (dma-direct: handle
+	DMA_ATTR_NO_KERNEL_MAPPING in common code)
+Message-ID: <20190808074858.GA30308@lst.de>
+References: <1565082809.2323.24.camel@pengutronix.de>
+	<20190806113318.GA20215@lst.de>
+	<41cc93b1-62b5-7fb6-060d-01982e68503b@amd.com>
+	<20190806140408.GA22902@lst.de>
+	<1565100418.2323.32.camel@pengutronix.de>
+	<20190806154403.GA25050@lst.de>
+	<1565191457.2323.41.camel@pengutronix.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1565191457.2323.41.camel@pengutronix.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_MED autolearn=unavailable version=3.3.1
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
-	[199.106.103.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: jcrouse@smtp.codeaurora.org)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id D67C46090F;
-	Wed,  7 Aug 2019 22:21:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-	s=default; t=1565216508;
-	bh=V2MOW7b4CUVhygGGVaa1wzt2YduOq9ESSFH7yL59gh0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YCBPHDtUPurdyKZZfpBRRfq/JJw9kwWNNS2y/AGWUNciNkNOSznkrzR2oOGovZ5N0
-	ReynarRaHNZmERQJcmNSSypbBOAIv5Gt3CjPg1cjyNkCP2f1goXjghA4j+VyOHrCdX
-	djOwH/NDrReRX7RKsXlGL58MJyDoTAApdxp57ado=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D67C46090F
-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
-	dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
-	spf=none smtp.mailfrom=jcrouse@codeaurora.org
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH v3 2/2] iommu/arm-smmu: Add support for Adreno GPU pagetable
-	formats
-Date: Wed,  7 Aug 2019 16:21:40 -0600
-Message-Id: <1565216500-28506-3-git-send-email-jcrouse@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1565216500-28506-1-git-send-email-jcrouse@codeaurora.org>
-References: <1565216500-28506-1-git-send-email-jcrouse@codeaurora.org>
-Cc: Will Deacon <will@kernel.org>, jean-philippe.brucker@arm.com,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org, robin.murphy@arm.com,
-	linux-arm-kernel@lists.infradead.org
+Cc: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+	Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -78,65 +59,19 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Add support for an Adreno GPU variant of the arm-smmu device to enable
-a special pagetable format that enables TTBR1 and leaves TTBR0 free
-to be switched by the GPU hardware.
+On Wed, Aug 07, 2019 at 05:24:17PM +0200, Lucas Stach wrote:
+> I would suggest to place this line above the comment, as the comment
+> only really applies to the return value. Other than this nitpick, this
+> matches my understanding of the required changes, so:
+> 
+> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
----
-
- drivers/iommu/arm-smmu.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index aa06498..129ac83 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -124,6 +124,7 @@ enum arm_smmu_implementation {
- 	ARM_MMU500,
- 	CAVIUM_SMMUV2,
- 	QCOM_SMMUV2,
-+	ADRENO_SMMUV2,
- };
- 
- struct arm_smmu_s2cr {
-@@ -832,7 +833,10 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 		ias = smmu->va_size;
- 		oas = smmu->ipa_size;
- 		if (cfg->fmt == ARM_SMMU_CTX_FMT_AARCH64) {
--			fmt = ARM_64_LPAE_S1;
-+			if (smmu->model == ADRENO_SMMUV2)
-+				fmt = ARM_ADRENO_GPU_LPAE;
-+			else
-+				fmt = ARM_64_LPAE_S1;
- 		} else if (cfg->fmt == ARM_SMMU_CTX_FMT_AARCH32_L) {
- 			fmt = ARM_32_LPAE_S1;
- 			ias = min(ias, 32UL);
-@@ -2030,6 +2034,7 @@ ARM_SMMU_MATCH_DATA(arm_mmu401, ARM_SMMU_V1_64K, GENERIC_SMMU);
- ARM_SMMU_MATCH_DATA(arm_mmu500, ARM_SMMU_V2, ARM_MMU500);
- ARM_SMMU_MATCH_DATA(cavium_smmuv2, ARM_SMMU_V2, CAVIUM_SMMUV2);
- ARM_SMMU_MATCH_DATA(qcom_smmuv2, ARM_SMMU_V2, QCOM_SMMUV2);
-+ARM_SMMU_MATCH_DATA(adreno_smmuv2, ARM_SMMU_V2, ADRENO_SMMUV2);
- 
- static const struct of_device_id arm_smmu_of_match[] = {
- 	{ .compatible = "arm,smmu-v1", .data = &smmu_generic_v1 },
-@@ -2039,6 +2044,7 @@ static const struct of_device_id arm_smmu_of_match[] = {
- 	{ .compatible = "arm,mmu-500", .data = &arm_mmu500 },
- 	{ .compatible = "cavium,smmu-v2", .data = &cavium_smmuv2 },
- 	{ .compatible = "qcom,smmu-v2", .data = &qcom_smmuv2 },
-+	{ .compatible = "qcom,adreno-smmu-v2", .data = &adreno_smmuv2 },
- 	{ },
- };
- 
--- 
-2.7.4
-
+Thanks, I've applied it with that fixed up.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
