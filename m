@@ -2,45 +2,47 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id B414786B26
-	for <lists.iommu@lfdr.de>; Thu,  8 Aug 2019 22:10:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D3086B29
+	for <lists.iommu@lfdr.de>; Thu,  8 Aug 2019 22:11:01 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 28C13CC7;
-	Thu,  8 Aug 2019 20:10:34 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 76D3FCC8;
+	Thu,  8 Aug 2019 20:11:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 053F3CB2
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 60FC7CB2
 	for <iommu@lists.linux-foundation.org>;
-	Thu,  8 Aug 2019 20:10:33 +0000 (UTC)
+	Thu,  8 Aug 2019 20:10:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 9D442829
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 142C3829
 	for <iommu@lists.linux-foundation.org>;
-	Thu,  8 Aug 2019 20:10:32 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	Thu,  8 Aug 2019 20:10:59 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 11A5B3024562;
-	Thu,  8 Aug 2019 20:10:32 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8DD7B309BF02;
+	Thu,  8 Aug 2019 20:10:58 +0000 (UTC)
 Received: from x1.home (ovpn-116-99.phx2.redhat.com [10.3.116.99])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 23990600C8;
-	Thu,  8 Aug 2019 20:10:31 +0000 (UTC)
-Date: Thu, 8 Aug 2019 14:10:30 -0600
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E254D608A7;
+	Thu,  8 Aug 2019 20:10:57 +0000 (UTC)
+Date: Thu, 8 Aug 2019 14:10:57 -0600
 From: Alex Williamson <alex.williamson@redhat.com>
 To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 1/2] iommu/vt-d: Detach domain before using a private one
-Message-ID: <20190808141030.323b4a0a@x1.home>
-In-Reply-To: <20190806001409.3293-1-baolu.lu@linux.intel.com>
+Subject: Re: [PATCH 2/2] iommu/vt-d: Fix possible use-after-free of private
+	domain
+Message-ID: <20190808141057.1bce8495@x1.home>
+In-Reply-To: <20190806001409.3293-2-baolu.lu@linux.intel.com>
 References: <20190806001409.3293-1-baolu.lu@linux.intel.com>
+	<20190806001409.3293-2-baolu.lu@linux.intel.com>
 Organization: Red Hat
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Thu, 08 Aug 2019 20:10:32 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.45]);
+	Thu, 08 Aug 2019 20:10:58 +0000 (UTC)
 X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
@@ -65,72 +67,41 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue,  6 Aug 2019 08:14:08 +0800
+On Tue,  6 Aug 2019 08:14:09 +0800
 Lu Baolu <baolu.lu@linux.intel.com> wrote:
 
-> When the default domain of a group doesn't work for a device,
-> the iommu driver will try to use a private domain. The domain
-> which was previously attached to the device must be detached.
+> Multiple devices might share a private domain. One real example
+> is a pci bridge and all devices behind it. When remove a private
+> domain, make sure that it has been detached from all devices to
+> avoid use-after-free case.
 > 
 > Cc: Ashok Raj <ashok.raj@intel.com>
 > Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
 > Cc: Kevin Tian <kevin.tian@intel.com>
 > Cc: Alex Williamson <alex.williamson@redhat.com>
 > Fixes: 942067f1b6b97 ("iommu/vt-d: Identify default domains replaced with private")
-> Reported-by: Alex Williamson <alex.williamson@redhat.com>
-> Link: https://lkml.org/lkml/2019/8/2/1379
 > Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 > ---
 
 Tested-by: Alex Williamson <alex.williamson@redhat.com>
 
-This series resolves the issue I reported against:
- iommu/vt-d: Cleanup get_valid_domain_for_dev()
-
-Thanks,
-Alex
-
->  drivers/iommu/intel-iommu.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  drivers/iommu/intel-iommu.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-> index 3e22fa6ae8c8..37259b7f95a7 100644
+> index 37259b7f95a7..12d094d08c0a 100644
 > --- a/drivers/iommu/intel-iommu.c
 > +++ b/drivers/iommu/intel-iommu.c
-> @@ -3449,6 +3449,7 @@ static bool iommu_need_mapping(struct device *dev)
->  				dmar_domain = to_dmar_domain(domain);
->  				dmar_domain->flags |= DOMAIN_FLAG_LOSE_CHILDREN;
->  			}
-> +			dmar_remove_one_dev_info(dev);
->  			get_private_domain_for_dev(dev);
->  		}
+> @@ -4791,7 +4791,8 @@ static void __dmar_remove_one_dev_info(struct device_domain_info *info)
 >  
-> @@ -4803,7 +4804,8 @@ static void dmar_remove_one_dev_info(struct device *dev)
+>  	/* free the private domain */
+>  	if (domain->flags & DOMAIN_FLAG_LOSE_CHILDREN &&
+> -	    !(domain->flags & DOMAIN_FLAG_STATIC_IDENTITY))
+> +	    !(domain->flags & DOMAIN_FLAG_STATIC_IDENTITY) &&
+> +	    list_empty(&domain->devices))
+>  		domain_exit(info->domain);
 >  
->  	spin_lock_irqsave(&device_domain_lock, flags);
->  	info = dev->archdata.iommu;
-> -	__dmar_remove_one_dev_info(info);
-> +	if (info)
-> +		__dmar_remove_one_dev_info(info);
->  	spin_unlock_irqrestore(&device_domain_lock, flags);
->  }
->  
-> @@ -5281,6 +5283,7 @@ static int intel_iommu_add_device(struct device *dev)
->  		if (device_def_domain_type(dev) == IOMMU_DOMAIN_IDENTITY) {
->  			ret = iommu_request_dm_for_dev(dev);
->  			if (ret) {
-> +				dmar_remove_one_dev_info(dev);
->  				dmar_domain->flags |= DOMAIN_FLAG_LOSE_CHILDREN;
->  				domain_add_dev_info(si_domain, dev);
->  				dev_info(dev,
-> @@ -5291,6 +5294,7 @@ static int intel_iommu_add_device(struct device *dev)
->  		if (device_def_domain_type(dev) == IOMMU_DOMAIN_DMA) {
->  			ret = iommu_request_dma_domain_for_dev(dev);
->  			if (ret) {
-> +				dmar_remove_one_dev_info(dev);
->  				dmar_domain->flags |= DOMAIN_FLAG_LOSE_CHILDREN;
->  				if (!get_private_domain_for_dev(dev)) {
->  					dev_warn(dev,
+>  	free_devinfo_mem(info);
 
 _______________________________________________
 iommu mailing list
