@@ -2,56 +2,51 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id B656D8DA42
-	for <lists.iommu@lfdr.de>; Wed, 14 Aug 2019 19:16:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF458DAC2
+	for <lists.iommu@lfdr.de>; Wed, 14 Aug 2019 19:20:41 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 9D3F5DBC;
-	Wed, 14 Aug 2019 17:16:51 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 3AD34DC9;
+	Wed, 14 Aug 2019 17:20:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id B60C5DB3
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 60EBBDC1
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 14 Aug 2019 17:16:50 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2D99176D
+	Wed, 14 Aug 2019 17:20:37 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 791C576D
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 14 Aug 2019 17:16:50 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Aug 2019 10:16:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,386,1559545200"; d="scan'208";a="181628377"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
-	by orsmga006.jf.intel.com with ESMTP; 14 Aug 2019 10:16:49 -0700
-Date: Wed, 14 Aug 2019 10:20:32 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH v4 20/22] iommu/vt-d: Add bind guest PASID support
-Message-ID: <20190814102032.5265e1da@jacob-builder>
-In-Reply-To: <840a6943-87ab-938f-5f8d-3a2c21e08549@linux.intel.com>
-References: <1560087862-57608-1-git-send-email-jacob.jun.pan@linux.intel.com>
-	<1560087862-57608-21-git-send-email-jacob.jun.pan@linux.intel.com>
-	<f183139b-b5a8-f6b5-58e6-f93e01f7be6a@linux.intel.com>
-	<20190627132244.351c7426@jacob-builder>
-	<840a6943-87ab-938f-5f8d-3a2c21e08549@linux.intel.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+	Wed, 14 Aug 2019 17:20:35 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+	bits)) (No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id C575B2084D;
+	Wed, 14 Aug 2019 17:20:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1565803235;
+	bh=dt28HiKeDA9L5mGvly1JScUvZrWg1DeQplEWd5mOXVE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=x2iO+k3qoVbzAWsj9n4cmCZJpdzYPI/bRqvYH5bbDp/N0s2sKO6LvHdfx/1XWmbNW
+	Bk8/fUmRIQ7U9AqwZDhyub7FlgLSvSb8wGg/FtwC1CEF6pjFd3Gm/ktqXgn0Z5FmXa
+	ZvutSr2KnRj5UzSjttcADHwPeZqs9Qj+v0SPIpS8=
+Date: Wed, 14 Aug 2019 18:20:30 +0100
+From: Will Deacon <will@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 01/15] iommu/arm-smmu: Convert GR0 registers to bitfields
+Message-ID: <20190814172030.accr7azgkkkwumt2@willie-the-truck>
+References: <cover.1565369764.git.robin.murphy@arm.com>
+	<910cad718be01904db20ce73d8d54e7481290136.1565369764.git.robin.murphy@arm.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <910cad718be01904db20ce73d8d54e7481290136.1565369764.git.robin.murphy@arm.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
-	Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-	iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Andriy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>
+Cc: bjorn.andersson@linaro.org, iommu@lists.linux-foundation.org,
+	gregory.clement@bootlin.com, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,102 +64,77 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Fri, 5 Jul 2019 10:21:27 +0800
-Lu Baolu <baolu.lu@linux.intel.com> wrote:
+On Fri, Aug 09, 2019 at 06:07:38PM +0100, Robin Murphy wrote:
+> FIELD_PREP remains a terrible name, but the overall simplification will
+> make further work on this stuff that much more manageable. This also
+> serves as an audit of the header, wherein we can impose a consistent
+> grouping and ordering of the offset and field definitions
+> 
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>  drivers/iommu/arm-smmu-regs.h | 126 ++++++++++++++++------------------
+>  drivers/iommu/arm-smmu.c      |  51 +++++++-------
+>  2 files changed, 84 insertions(+), 93 deletions(-)
+> 
+> diff --git a/drivers/iommu/arm-smmu-regs.h b/drivers/iommu/arm-smmu-regs.h
+> index 1c278f7ae888..d189f025537a 100644
+> --- a/drivers/iommu/arm-smmu-regs.h
+> +++ b/drivers/iommu/arm-smmu-regs.h
+> @@ -10,111 +10,101 @@
+>  #ifndef _ARM_SMMU_REGS_H
+>  #define _ARM_SMMU_REGS_H
+>  
+> +#include <linux/bits.h>
+> +
+>  /* Configuration registers */
+>  #define ARM_SMMU_GR0_sCR0		0x0
+> -#define sCR0_CLIENTPD			(1 << 0)
+> -#define sCR0_GFRE			(1 << 1)
+> -#define sCR0_GFIE			(1 << 2)
+> -#define sCR0_EXIDENABLE			(1 << 3)
+> -#define sCR0_GCFGFRE			(1 << 4)
+> -#define sCR0_GCFGFIE			(1 << 5)
+> -#define sCR0_USFCFG			(1 << 10)
+> -#define sCR0_VMIDPNE			(1 << 11)
+> -#define sCR0_PTM			(1 << 12)
+> -#define sCR0_FB				(1 << 13)
+> -#define sCR0_VMID16EN			(1 << 31)
+> -#define sCR0_BSU_SHIFT			14
+> -#define sCR0_BSU_MASK			0x3
+> +#define sCR0_VMID16EN			BIT(31)
+> +#define sCR0_BSU			GENMASK(15, 14)
+> +#define sCR0_FB				BIT(13)
+> +#define sCR0_PTM			BIT(12)
+> +#define sCR0_VMIDPNE			BIT(11)
+> +#define sCR0_USFCFG			BIT(10)
+> +#define sCR0_GCFGFIE			BIT(5)
+> +#define sCR0_GCFGFRE			BIT(4)
+> +#define sCR0_EXIDENABLE			BIT(3)
+> +#define sCR0_GFIE			BIT(2)
+> +#define sCR0_GFRE			BIT(1)
+> +#define sCR0_CLIENTPD			BIT(0)
+>  
+>  /* Auxiliary Configuration register */
+>  #define ARM_SMMU_GR0_sACR		0x10
+>  
+>  /* Identification registers */
+>  #define ARM_SMMU_GR0_ID0		0x20
+> +#define ID0_S1TS			BIT(30)
+> +#define ID0_S2TS			BIT(29)
+> +#define ID0_NTS				BIT(28)
+> +#define ID0_SMS				BIT(27)
+> +#define ID0_ATOSNS			BIT(26)
+> +#define ID0_PTFS_NO_AARCH32		BIT(25)
+> +#define ID0_PTFS_NO_AARCH32S		BIT(24)
+> +#define ID0_CTTW			BIT(14)
+> +#define ID0_NUMIRPT			GENMASK(23, 16)
 
-> Hi Jacob,
-> 
-> On 6/28/19 4:22 AM, Jacob Pan wrote:
-> >>> +		}
-> >>> +		refcount_set(&svm->refs, 0);
-> >>> +		ioasid_set_data(data->hpasid, svm);
-> >>> +		INIT_LIST_HEAD_RCU(&svm->devs);
-> >>> +		INIT_LIST_HEAD(&svm->list);
-> >>> +
-> >>> +		mmput(svm->mm);
-> >>> +	}
-> >>> +	sdev = kzalloc(sizeof(*sdev), GFP_KERNEL);
-> >>> +	if (!sdev) {
-> >>> +		ret = -ENOMEM;
-> >>> +		goto out;  
-> >> I think you need to clean up svm if its device list is empty here,
-> >> as you said above:
-> >>  
-> > No, we come here only if the device list is not empty and the new
-> > device to bind is different than any existing device in the list.
-> > If we cannot allocate memory for the new device, should not free
-> > the existing SVM, right?
-> >   
-> 
-> I'm sorry, but the code doesn't show this. We come here even an svm
-> data structure was newly created with an empty device list. I post
-> the code below to ensure that we are reading a same piece of code.
-> 
-Sorry for the delay. You are right, I need to clean up svm if device
-list is empty.
+nit: assuming this should be above ID0_CTTW so things are in descending
+bit order?
 
-Thanks!
->          mutex_lock(&pasid_mutex);
->          svm = ioasid_find(NULL, data->hpasid, NULL);
->          if (IS_ERR(svm)) {
->                  ret = PTR_ERR(svm);
->                  goto out;
->          }
->          if (svm) {
->                  /*
->                   * If we found svm for the PASID, there must be at
->                   * least one device bond, otherwise svm should be
-> freed. */
->                  BUG_ON(list_empty(&svm->devs));
-> 
->                  for_each_svm_dev() {
->                          /* In case of multiple sub-devices of the
-> same pdev assigned, we should
->                           * allow multiple bind calls with the same 
-> PASID and pdev.
->                           */
->                          sdev->users++;
->                          goto out;
->                  }
->          } else {
->                  /* We come here when PASID has never been bond to a 
-> device. */
->                  svm = kzalloc(sizeof(*svm), GFP_KERNEL);
->                  if (!svm) {
->                          ret = -ENOMEM;
->                          goto out;
->                  }
->                  /* REVISIT: upper layer/VFIO can track host process 
-> that bind the PASID.
->                   * ioasid_set = mm might be sufficient for vfio to 
-> check pasid VMM
->                   * ownership.
->                   */
->                  svm->mm = get_task_mm(current);
->                  svm->pasid = data->hpasid;
->                  if (data->flags & IOMMU_SVA_GPASID_VAL) {
->                          svm->gpasid = data->gpasid;
->                          svm->flags &= SVM_FLAG_GUEST_PASID;
->                  }
->                  refcount_set(&svm->refs, 0);
->                  ioasid_set_data(data->hpasid, svm);
->                  INIT_LIST_HEAD_RCU(&svm->devs);
->                  INIT_LIST_HEAD(&svm->list);
-> 
->                  mmput(svm->mm);
->          }
->          sdev = kzalloc(sizeof(*sdev), GFP_KERNEL);
->          if (!sdev) {
->                  ret = -ENOMEM;
->                  goto out;
->          }
->          sdev->dev = dev;
->          sdev->users = 1;
-> 
-> Best regards,
-> Baolu
+Other than that, looks good to me.
 
-[Jacob Pan]
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
