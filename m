@@ -2,54 +2,41 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2212B8D1DC
-	for <lists.iommu@lfdr.de>; Wed, 14 Aug 2019 13:14:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A8F8D4F8
+	for <lists.iommu@lfdr.de>; Wed, 14 Aug 2019 15:39:03 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id BFE21FDE;
-	Wed, 14 Aug 2019 11:14:09 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id D63E9105B;
+	Wed, 14 Aug 2019 13:38:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id B9262FCD
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 174F71032
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 14 Aug 2019 11:14:08 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 99CDB67F
+	Wed, 14 Aug 2019 13:38:46 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 65A8F8A6
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 14 Aug 2019 11:14:07 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
-	bits)) (No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 0FF04208C2;
-	Wed, 14 Aug 2019 11:14:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1565781247;
-	bh=nobFxGW2wMhzHUSXVoVKvl67jb1UOwZPyAe0of615GY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JxaWGEyeYVhR+sAZck72HvYqmGOMZCps/SgR0Rdz0yTpb2tqESLxtmCVg1IctTofy
-	Kjvf9YyDktzs0lKSVZeCejf13frY3ufB4pbQR/PVFsGYPBjJ+2xp1YhvUjBzJdJ0J8
-	yFfdzaT1LJ/5eIuQpc4MlSQXoZVejAxegdlEV+Vo=
-Date: Wed, 14 Aug 2019 12:14:02 +0100
-From: Will Deacon <will@kernel.org>
-To: Zhen Lei <thunder.leizhen@huawei.com>
-Subject: Re: [PATCH] iommu/arm-smmu-v3: add nr_ats_masters to avoid
-	unnecessary operations
-Message-ID: <20190814111402.pxlvtmv44nhuvhio@willie-the-truck>
-References: <20190801122040.26024-1-thunder.leizhen@huawei.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190801122040.26024-1-thunder.leizhen@huawei.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+	Wed, 14 Aug 2019 13:38:45 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+	id C6F3C2F9; Wed, 14 Aug 2019 15:38:42 +0200 (CEST)
+From: Joerg Roedel <joro@8bytes.org>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH 00/10 v2] Cleanup IOMMU passthrough setting (and disable IOMMU
+	Passthrough when SME is active)
+Date: Wed, 14 Aug 2019 15:38:31 +0200
+Message-Id: <20190814133841.7095-1-joro@8bytes.org>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	iommu <iommu@lists.linux-foundation.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Cc: fenghua.yu@intel.com, tony.luck@intel.com, linux-ia64@vger.kernel.org,
+	corbet@lwn.net, x86@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	mingo@redhat.com, bp@alien8.de, Thomas.Lendacky@amd.com,
+	hpa@zytor.com, tglx@linutronix.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,6 +49,7 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
@@ -69,136 +57,66 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 
 Hi,
 
-I've been struggling with the memory ordering requirements here. More below.
+This patch-set started out small to overwrite the default passthrough
+setting (through CONFIG_IOMMU_DEFAULT_PASSTHROUGH=y) when SME is active.
 
-On Thu, Aug 01, 2019 at 08:20:40PM +0800, Zhen Lei wrote:
-> When (smmu_domain->smmu->features & ARM_SMMU_FEAT_ATS) is true, even if a
-> smmu domain does not contain any ats master, the operations of
-> arm_smmu_atc_inv_to_cmd() and lock protection in arm_smmu_atc_inv_domain()
-> are always executed. This will impact performance, especially in
-> multi-core and stress scenarios. For my FIO test scenario, about 8%
-> performance reduced.
-> 
-> In fact, we can use a atomic member to record how many ats masters the
-> smmu contains. And check that without traverse the list and check all
-> masters one by one in the lock protection.
-> 
-> Fixes: 9ce27afc0830 ("iommu/arm-smmu-v3: Add support for PCI ATS")
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> ---
->  drivers/iommu/arm-smmu-v3.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-> index a9a9fabd396804a..1b370d9aca95f94 100644
-> --- a/drivers/iommu/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm-smmu-v3.c
-> @@ -631,6 +631,7 @@ struct arm_smmu_domain {
->  
->  	struct io_pgtable_ops		*pgtbl_ops;
->  	bool				non_strict;
-> +	atomic_t			nr_ats_masters;
->  
->  	enum arm_smmu_domain_stage	stage;
->  	union {
-> @@ -1531,7 +1532,7 @@ static int arm_smmu_atc_inv_domain(struct arm_smmu_domain *smmu_domain,
->  	struct arm_smmu_cmdq_ent cmd;
->  	struct arm_smmu_master *master;
->  
-> -	if (!(smmu_domain->smmu->features & ARM_SMMU_FEAT_ATS))
-> +	if (!atomic_read(&smmu_domain->nr_ats_masters))
->  		return 0;
+But on the way to that Tom reminded me that the current ways to
+configure passthrough/no-passthrough modes for IOMMU on x86 is a mess.
+So I added a few more patches to clean that up a bit, getting rid of the
+iommu_pass_through variable on the way.This information is now kept only
+in iommu code, with helpers to change that setting from architecture
+code.
 
-This feels wrong to me: the CPU can speculate ahead of time that
-'nr_ats_masters' is 0, but we could have a concurrent call to '->attach()'
-for an ATS-enabled device. Wouldn't it then be possible for the new device
-to populate its ATC as a result of speculative accesses for the mapping that
-we're tearing down?
+And of course this patch-set still disables IOMMU Passthrough mode when
+SME is active even when CONFIG_IOMMU_DEFAULT_PASSTHROUGH=y is set.
 
-The devices lock solves this problem by serialising invalidation with
-'->attach()/->detach()' operations.
+The reason for that change is that SME with passthrough mode turned out
+to be fragile with devices requiring SWIOTLB, mainly because SWIOTLB has
+a maximum allocation size of 256kb and a limit overall size of the
+bounce buffer.
 
-John's suggestion of RCU might work better, but I think you'll need to call
-synchronize_rcu() between adding yourself to the 'devices' list and enabling
-ATS.
+Therefore having IOMMU in translation mode by default is better when SME
+is active on a system.
 
-What do you think?
+Please review.
 
->  	arm_smmu_atc_inv_to_cmd(ssid, iova, size, &cmd);
-> @@ -1869,6 +1870,7 @@ static int arm_smmu_enable_ats(struct arm_smmu_master *master)
->  	size_t stu;
->  	struct pci_dev *pdev;
->  	struct arm_smmu_device *smmu = master->smmu;
-> +	struct arm_smmu_domain *smmu_domain = master->domain;
->  	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(master->dev);
->  
->  	if (!(smmu->features & ARM_SMMU_FEAT_ATS) || !dev_is_pci(master->dev) ||
-> @@ -1887,12 +1889,15 @@ static int arm_smmu_enable_ats(struct arm_smmu_master *master)
->  		return ret;
->  
->  	master->ats_enabled = true;
-> +	atomic_inc(&smmu_domain->nr_ats_masters);
+Thanks,
 
-Here, we need to make sure that concurrent invalidation sees the updated
-'nr_ats_masters' value before ATS is enabled for the device, otherwise we
-could miss an ATC invalidation.
+	Joerg
 
-I think the code above gets this guarantee because of the way that ATS is
-enabled in the STE, which ensures that we issue invalidation commands before
-making the STE 'live'; this has the side-effect of a write barrier before
-updating PROD, which I think we also rely on for installing the CD pointer.
+Changes since v1:
 
-Put another way: writes are ordered before a subsequent command insertion.
+	- Cleaned up the kernel command line parameters to
+	  configure passthrough/translated mode, getting rid
+	  of the global iommu_pass_through variable
 
-Do you agree? If so, I'll add a comment because this is subtle and easily
-overlooked.
+Joerg Roedel (10):
+  iommu: Add helpers to set/get default domain type
+  iommu/amd: Request passthrough mode from IOMMU core
+  iommu/vt-d: Request passthrough mode from IOMMU core
+  x86/dma: Get rid of iommu_pass_through
+  ia64: Get rid of iommu_pass_through
+  iommu: Remember when default domain type was set on kernel command
+    line
+  iommu: Print default domain type on boot
+  iommu: Set default domain type at runtime
+  iommu: Disable passthrough mode when SME is active
+  Documentation: Update Documentation for iommu.passthrough
 
->  static void arm_smmu_disable_ats(struct arm_smmu_master *master)
->  {
->  	struct arm_smmu_cmdq_ent cmd;
-> +	struct arm_smmu_domain *smmu_domain = master->domain;
->  
->  	if (!master->ats_enabled || !dev_is_pci(master->dev))
->  		return;
-> @@ -1901,6 +1906,7 @@ static void arm_smmu_disable_ats(struct arm_smmu_master *master)
->  	arm_smmu_atc_inv_master(master, &cmd);
->  	pci_disable_ats(to_pci_dev(master->dev));
->  	master->ats_enabled = false;
-> +	atomic_dec(&smmu_domain->nr_ats_masters);
+ .../admin-guide/kernel-parameters.txt         |  2 +-
+ arch/ia64/include/asm/iommu.h                 |  2 -
+ arch/ia64/kernel/pci-dma.c                    |  2 -
+ arch/x86/include/asm/iommu.h                  |  1 -
+ arch/x86/kernel/pci-dma.c                     | 11 +--
+ drivers/iommu/amd_iommu.c                     |  6 +-
+ drivers/iommu/intel-iommu.c                   |  2 +-
+ drivers/iommu/iommu.c                         | 83 +++++++++++++++++--
+ include/linux/iommu.h                         | 16 ++++
+ 9 files changed, 101 insertions(+), 24 deletions(-)
 
-This part is the other way around: now we need to ensure that we don't
-decrement 'nr_ats_masters' until we've disabled ATS. This works for a
-number of reasons, none of which are obvious:
+-- 
+2.17.1
 
-  - The control dependency from completing the prior CMD_SYNCs for tearing
-    down the STE and invalidating the ATC
-
-  - The spinlock handover from the CMD_SYNCs above
-
-  - The writel() when poking PCI configuration space in pci_disable_ats()
-    happens to be implemented with a write-write barrier
-
-I suppose the control dependency is the most compelling one: we can't let
-stores out whilst we're awaiting completion of a CMD_SYNC.
-
-Put another way: writes are ordered after the completion of a prior CMD_SYNC.
-
-But yeah, I need to write this down.
-
->  static void arm_smmu_detach_dev(struct arm_smmu_master *master)
-> @@ -1915,10 +1921,10 @@ static void arm_smmu_detach_dev(struct arm_smmu_master *master)
->  	list_del(&master->domain_head);
->  	spin_unlock_irqrestore(&smmu_domain->devices_lock, flags);
->  
-> -	master->domain = NULL;
->  	arm_smmu_install_ste_for_dev(master);
->  
->  	arm_smmu_disable_ats(master);
-> +	master->domain = NULL;
-
-As you mentioned, this is broken. Can you simply drop this hunk completely?
-
-Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
