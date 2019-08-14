@@ -2,63 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC908E02C
-	for <lists.iommu@lfdr.de>; Wed, 14 Aug 2019 23:51:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF26B8E033
+	for <lists.iommu@lfdr.de>; Wed, 14 Aug 2019 23:53:53 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 6CC0EE36;
-	Wed, 14 Aug 2019 21:51:12 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id D0A7EE32;
+	Wed, 14 Aug 2019 21:53:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 31E5BB62
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 4115FAE0
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 14 Aug 2019 21:51:11 +0000 (UTC)
+	Wed, 14 Aug 2019 21:53:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from hqemgate14.nvidia.com (hqemgate14.nvidia.com [216.228.121.143])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D59CE67F
+Received: from hqemgate15.nvidia.com (hqemgate15.nvidia.com [216.228.121.64])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id F017CCF
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 14 Aug 2019 21:51:10 +0000 (UTC)
+	Wed, 14 Aug 2019 21:53:50 +0000 (UTC)
 Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
-	hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-	id <B5d54824f0003>; Wed, 14 Aug 2019 14:51:11 -0700
+	hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+	id <B5d5482f40000>; Wed, 14 Aug 2019 14:53:56 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
 	by hqpgpgate102.nvidia.com (PGP Universal service);
-	Wed, 14 Aug 2019 14:51:09 -0700
+	Wed, 14 Aug 2019 14:53:45 -0700
 X-PGP-Universal: processed;
-	by hqpgpgate102.nvidia.com on Wed, 14 Aug 2019 14:51:09 -0700
+	by hqpgpgate102.nvidia.com on Wed, 14 Aug 2019 14:53:45 -0700
 Received: from rcampbell-dev.nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
 	(172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
-	Wed, 14 Aug 2019 21:51:02 +0000
-Subject: Re: [PATCH v3 hmm 05/11] hmm: use mmu_notifier_get/put for 'struct
-	hmm'
+	Wed, 14 Aug 2019 21:53:42 +0000
+Subject: Re: [PATCH v3 hmm 11/11] mm/mmu_notifiers: remove
+	unregister_no_release
 To: Jason Gunthorpe <jgg@ziepe.ca>, <linux-mm@kvack.org>
 References: <20190806231548.25242-1-jgg@ziepe.ca>
-	<20190806231548.25242-6-jgg@ziepe.ca>
-From: Ralph Campbell <rcampbell@nvidia.com>
+	<20190806231548.25242-12-jgg@ziepe.ca>
 X-Nvconfidentiality: public
-Message-ID: <66053b82-18d8-217a-b8fd-91981f66f512@nvidia.com>
-Date: Wed, 14 Aug 2019 14:51:02 -0700
+From: Ralph Campbell <rcampbell@nvidia.com>
+Message-ID: <84b35625-9877-0f35-155a-2d5ee1af4108@nvidia.com>
+Date: Wed, 14 Aug 2019 14:53:42 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190806231548.25242-6-jgg@ziepe.ca>
+In-Reply-To: <20190806231548.25242-12-jgg@ziepe.ca>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
 	HQMAIL107.nvidia.com (172.20.187.13)
 Content-Language: en-US
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-	t=1565819471; bh=P9RT5vwQ9P2MNi7AtBxwKiWdi93Rh+sGeCthaUvRAGA=;
-	h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+	t=1565819636; bh=jn8qPKX3vGj+tzC7jfWRezHMQaQX7LZbuyruFud4LQQ=;
+	h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
 	Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
 	X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
 	Content-Transfer-Encoding;
-	b=KJ6GRRsAe+RAr5rTMPCCaxloTQYWmrR/WBzP+8kr7gip16nYfBHAmUHPXlbhEEm72
-	FR+1qaXQZT7vWEhXvkKhupPjaHOEDSaXlGsl5ePt7QdDbrhYX1ZOOgzO3bUjs5eGS9
-	+3p2cWPTV3vO98Xq4pfl3VknjdwX2ZPJG9es6I7cnO7o2mLiRqWlViag4cGHvpwwm6
-	fRmMqyawH4eX8IYtQuk53VGwfUdLDby5fwgRdPtR6hKzhsePeybHVahWLcd8M89osz
-	g43SKAfGSqwbLLkjdR3VJhZ4Z+aymGB3ltZywUlmcAZGnriaqzx9Dpc0q6MDtbY5EG
-	961klO2uRvQ9A==
+	b=DuHQyhEkn2nVu3F9JE1Jqs394XgDiOloB/DupeDvogYw6EVbMONwcehm4ND30nlJe
+	coLB6ipCN1oIyc4w1mqCCYewK+PC5YV9u55ueYp2oaHr/1plVEnMB9PP5+CTSD2S+f
+	/EwXD2xqdd7b1DugwUAbPGKM94w9rldbIHus7fAOpSWXDg6bOvnb9bZD9px5zT4R9w
+	fNKaAnXFzpPWTG2T38iLy/xRORGPkKKaDbUB4Y5JUU/eQRUnl/o4i6ggHqZCwIPAQU
+	XR1OQDE52UPDPt8SmWG+WQaZO6Cc6+YdybR1YFmKROUzj521DapTNnEGLy+4532Itg
+	+dCm77lSoXV4A==
 X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
@@ -98,23 +98,14 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 On 8/6/19 4:15 PM, Jason Gunthorpe wrote:
 > From: Jason Gunthorpe <jgg@mellanox.com>
 > 
-> This is a significant simplification, it eliminates all the remaining
-> 'hmm' stuff in mm_struct, eliminates krefing along the critical notifier
-> paths, and takes away all the ugly locking and abuse of page_table_lock.
+> mmu_notifier_unregister_no_release() and mmu_notifier_call_srcu() no
+> longer have any users, they have all been converted to use
+> mmu_notifier_put().
 > 
-> mmu_notifier_get() provides the single struct hmm per struct mm which
-> eliminates mm->hmm.
-> 
-> It also directly guarantees that no mmu_notifier op callback is callable
-> while concurrent free is possible, this eliminates all the krefs inside
-> the mmu_notifier callbacks.
-> 
-> The remaining krefs in the range code were overly cautious, drivers are
-> already not permitted to free the mirror while a range exists.
+> So delete this difficult to use interface.
 > 
 > Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
 
-Looks good.
 Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
 _______________________________________________
 iommu mailing list
