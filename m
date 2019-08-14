@@ -2,30 +2,31 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8390B8D4FF
-	for <lists.iommu@lfdr.de>; Wed, 14 Aug 2019 15:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 778408D51A
+	for <lists.iommu@lfdr.de>; Wed, 14 Aug 2019 15:39:47 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 2795D106B;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id D179A107A;
 	Wed, 14 Aug 2019 13:38:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1D624103A
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 137C91032
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 14 Aug 2019 13:38:48 +0000 (UTC)
+	Wed, 14 Aug 2019 13:38:49 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A19AA87E
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A825A8A3
 	for <iommu@lists.linux-foundation.org>;
 	Wed, 14 Aug 2019 13:38:47 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-	id 81587479; Wed, 14 Aug 2019 15:38:43 +0200 (CEST)
+	id A0D3D498; Wed, 14 Aug 2019 15:38:43 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 05/10] ia64: Get rid of iommu_pass_through
-Date: Wed, 14 Aug 2019 15:38:36 +0200
-Message-Id: <20190814133841.7095-6-joro@8bytes.org>
+Subject: [PATCH 06/10] iommu: Remember when default domain type was set on
+	kernel command line
+Date: Wed, 14 Aug 2019 15:38:37 +0200
+Message-Id: <20190814133841.7095-7-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190814133841.7095-1-joro@8bytes.org>
 References: <20190814133841.7095-1-joro@8bytes.org>
@@ -58,42 +59,58 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 
 From: Joerg Roedel <jroedel@suse.de>
 
-This variable has no users anymore so it can be removed.
+Introduce an extensible concept to remember when certain
+configuration settings for the IOMMU code have been set on
+the kernel command line.
+
+This will be used later to prevent overwriting these
+settings with other defaults.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- arch/ia64/include/asm/iommu.h | 2 --
- arch/ia64/kernel/pci-dma.c    | 2 --
- 2 files changed, 4 deletions(-)
+ drivers/iommu/iommu.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/arch/ia64/include/asm/iommu.h b/arch/ia64/include/asm/iommu.h
-index 7429a72f3f92..92aceef63710 100644
---- a/arch/ia64/include/asm/iommu.h
-+++ b/arch/ia64/include/asm/iommu.h
-@@ -8,10 +8,8 @@
- extern void no_iommu_init(void);
- #ifdef	CONFIG_INTEL_IOMMU
- extern int force_iommu, no_iommu;
--extern int iommu_pass_through;
- extern int iommu_detected;
- #else
--#define iommu_pass_through	(0)
- #define no_iommu		(1)
- #define iommu_detected		(0)
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index f187e85a074b..e1feb4061b8b 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -32,6 +32,7 @@ static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_IDENTITY;
+ static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_DMA;
  #endif
-diff --git a/arch/ia64/kernel/pci-dma.c b/arch/ia64/kernel/pci-dma.c
-index fe988c49f01c..f5d49cd3fbb0 100644
---- a/arch/ia64/kernel/pci-dma.c
-+++ b/arch/ia64/kernel/pci-dma.c
-@@ -22,8 +22,6 @@ int force_iommu __read_mostly = 1;
- int force_iommu __read_mostly;
- #endif
+ static bool iommu_dma_strict __read_mostly = true;
++static u32 iommu_cmd_line __read_mostly;
  
--int iommu_pass_through;
--
- static int __init pci_iommu_init(void)
- {
- 	if (iommu_detected)
+ struct iommu_group {
+ 	struct kobject kobj;
+@@ -68,6 +69,18 @@ static const char * const iommu_group_resv_type_string[] = {
+ 	[IOMMU_RESV_SW_MSI]			= "msi",
+ };
+ 
++#define IOMMU_CMD_LINE_DMA_API		(1 << 0)
++
++static void iommu_set_cmd_line_dma_api(void)
++{
++	iommu_cmd_line |= IOMMU_CMD_LINE_DMA_API;
++}
++
++static bool __maybe_unused iommu_cmd_line_dma_api(void)
++{
++	return !!(iommu_cmd_line & IOMMU_CMD_LINE_DMA_API);
++}
++
+ #define IOMMU_GROUP_ATTR(_name, _mode, _show, _store)		\
+ struct iommu_group_attribute iommu_group_attr_##_name =		\
+ 	__ATTR(_name, _mode, _show, _store)
+@@ -165,6 +178,8 @@ static int __init iommu_set_def_domain_type(char *str)
+ 	if (ret)
+ 		return ret;
+ 
++	iommu_set_cmd_line_dma_api();
++
+ 	iommu_def_domain_type = pt ? IOMMU_DOMAIN_IDENTITY : IOMMU_DOMAIN_DMA;
+ 	return 0;
+ }
 -- 
 2.17.1
 
