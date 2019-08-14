@@ -2,59 +2,54 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9B78CE53
-	for <lists.iommu@lfdr.de>; Wed, 14 Aug 2019 10:24:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C018CE9D
+	for <lists.iommu@lfdr.de>; Wed, 14 Aug 2019 10:38:48 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id E4473BE7;
-	Wed, 14 Aug 2019 08:24:26 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 1B33BCAC;
+	Wed, 14 Aug 2019 08:38:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 32E268DC
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 4C552C3E
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 14 Aug 2019 08:24:26 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id EE342CF
+	Wed, 14 Aug 2019 08:38:45 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D57A4CF
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 14 Aug 2019 08:24:25 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
-	bits)) (No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id AF69120843;
-	Wed, 14 Aug 2019 08:24:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1565771065;
-	bh=dOIAznLWxzP0u+OSBAYPKB0yVmhsjJLY8I+qEiU4L9U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RG1qK+Pt18ss2tHX2RNIruXp2UeFxF2bDhRkagJoZReWFhDZXfEow8U4TKl/u2GxN
-	FENR3KwZzH+xJs6V8b8E+Ohi9E8ucLSz+ossd+rc+oGgpJmG4CckHXL9yVuGjvDcgq
-	xabdFyMBFyhejTyori5x2p9Mwh+6uhFGWeunN1hU=
-Date: Wed, 14 Aug 2019 09:24:20 +0100
-From: Will Deacon <will@kernel.org>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: Re: [PATCH v9 00/21] MT8183 IOMMU SUPPORT
-Message-ID: <20190814082419.tppi3o4x27qotkn6@willie-the-truck>
-References: <1565423901-17008-1-git-send-email-yong.wu@mediatek.com>
-	<20190814081825.GA22669@8bytes.org>
+	Wed, 14 Aug 2019 08:38:44 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+	id 20E3C2E2; Wed, 14 Aug 2019 10:38:43 +0200 (CEST)
+Date: Wed, 14 Aug 2019 10:38:43 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v6 5/8] iommu: Add bounce page APIs
+Message-ID: <20190814083842.GB22669@8bytes.org>
+References: <20190730045229.3826-1-baolu.lu@linux.intel.com>
+	<20190730045229.3826-6-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190814081825.GA22669@8bytes.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+In-Reply-To: <20190730045229.3826-6-baolu.lu@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
-	Nicolas Boichat <drinkcat@chromium.org>, cui.zhang@mediatek.com,
-	srv_heupstream@mediatek.com, chao.hao@mediatek.com,
-	linux-kernel@vger.kernel.org, Evan Green <evgreen@chromium.org>,
-	Tomasz Figa <tfiga@google.com>, iommu@lists.linux-foundation.org,
-	Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
-	Robin Murphy <robin.murphy@arm.com>, Matthias Kaehlcke <mka@chromium.org>
+Cc: alan.cox@intel.com, Christoph Hellwig <hch@lst.de>,
+	Stefano Stabellini <sstabellini@kernel.org>, ashok.raj@intel.com,
+	Jonathan Corbet <corbet@lwn.net>, pengfei.xu@intel.com,
+	Ingo Molnar <mingo@redhat.com>,
+	David Woodhouse <dwmw2@infradead.org>, kevin.tian@intel.com,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	mika.westerberg@linux.intel.com, Alan Cox <alan@linux.intel.com>,
+	Juergen Gross <jgross@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mika Westerberg <mika.westerberg@intel.com>,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	jacob.jun.pan@intel.com, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,20 +67,33 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Wed, Aug 14, 2019 at 10:18:25AM +0200, Joerg Roedel wrote:
-> On Sat, Aug 10, 2019 at 03:58:00PM +0800, Yong Wu wrote:
-> > Change notes:
-> > v9:
-> >    1) rebase on v5.3-rc1.
-> >    2) In v7s, Use oas to implement MTK 4GB mode. It nearly reconstruct the
-> >       patch, so I don't keep the R-b.
+Hi Lu Baolu,
+
+On Tue, Jul 30, 2019 at 12:52:26PM +0800, Lu Baolu wrote:
+> * iommu_bounce_map(dev, addr, paddr, size, dir, attrs)
+>   - Map a buffer start at DMA address @addr in bounce page
+>     manner. For buffer parts that doesn't cross a whole
+>     minimal IOMMU page, the bounce page policy is applied.
+>     A bounce page mapped by swiotlb will be used as the DMA
+>     target in the IOMMU page table. Otherwise, the physical
+>     address @paddr is mapped instead.
 > 
-> Okay, this looks close to being ready, just the io-pgtable patches still
-> need review.
+> * iommu_bounce_unmap(dev, addr, size, dir, attrs)
+>   - Unmap the buffer mapped with iommu_bounce_map(). The bounce
+>     page will be torn down after the bounced data get synced.
+> 
+> * iommu_bounce_sync(dev, addr, size, dir, target)
+>   - Synce the bounced data in case the bounce mapped buffer is
+>     reused.
 
-On my list for today :) (Today is SMMU day for me. Send coffee.)
+I don't really get why this API extension is needed for your use-case.
+Can't this just be done using iommu_map/unmap operations? Can you please
+elaborate a bit why these functions are needed?
 
-Will
+
+Regards,
+
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
