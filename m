@@ -2,36 +2,39 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 443A98DCA8
-	for <lists.iommu@lfdr.de>; Wed, 14 Aug 2019 20:04:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9FA8DCA2
+	for <lists.iommu@lfdr.de>; Wed, 14 Aug 2019 20:04:10 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 435DBDD9;
-	Wed, 14 Aug 2019 18:04:09 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 9D77CDCE;
+	Wed, 14 Aug 2019 18:04:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 88620DCD
-	for <iommu@lists.linux-foundation.org>;
-	Wed, 14 Aug 2019 18:04:07 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id AC8B88A9
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 553EDDA4
 	for <iommu@lists.linux-foundation.org>;
 	Wed, 14 Aug 2019 18:04:06 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 4B1F576D
+	for <iommu@lists.linux-foundation.org>;
+	Wed, 14 Aug 2019 18:04:05 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 626D6344;
-	Wed, 14 Aug 2019 10:56:41 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9D864360;
+	Wed, 14 Aug 2019 10:56:43 -0700 (PDT)
 Received: from fuggles.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
 	[10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5DA1E3F694; 
-	Wed, 14 Aug 2019 10:56:39 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 996813F694; 
+	Wed, 14 Aug 2019 10:56:41 -0700 (PDT)
 From: Will Deacon <will@kernel.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH 00/13] Rework IOMMU API to allow for batching of invalidation
-Date: Wed, 14 Aug 2019 18:56:21 +0100
-Message-Id: <20190814175634.21081-1-will@kernel.org>
+Subject: [PATCH 01/13] iommu: Remove empty iommu_tlb_range_add() callback from
+	iommu_ops
+Date: Wed, 14 Aug 2019 18:56:22 +0100
+Message-Id: <20190814175634.21081-2-will@kernel.org>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20190814175634.21081-1-will@kernel.org>
+References: <20190814175634.21081-1-will@kernel.org>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
 	version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
@@ -61,100 +64,137 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi everybody,
+Commit add02cfdc9bc ("iommu: Introduce Interface for IOMMU TLB Flushing")
+added three new TLB flushing operations to the IOMMU API so that the
+underlying driver operations can be batched when unmapping large regions
+of IO virtual address space.
 
-These are the core IOMMU changes that I have posted previously as part
-of my ongoing effort to reduce the lock contention of the SMMUv3 command
-queue. I thought it would be better to split this out as a separate
-series, since I think it's ready to go and all the driver conversions
-mean that it's quite a pain for me to maintain out of tree!
+However, the ->iotlb_range_add() callback has not been implemented by
+any IOMMU drivers (amd_iommu.c implements it as an empty function, which
+incurs the overhead of an indirect branch). Instead, drivers either flush
+the entire IOTLB in the ->iotlb_sync() callback or perform the necessary
+invalidation during ->unmap().
 
-The idea of the patch series is to allow TLB invalidation to be batched
-up into a new 'struct iommu_iotlb_gather' structure, which tracks the
-properties of the virtual address range being invalidated so that it
-can be deferred until the driver's ->iotlb_sync() function is called.
-This allows for more efficient invalidation on hardware that can submit
-multiple invalidations in one go.
+Attempting to implement ->iotlb_range_add() for arm-smmu-v3.c revealed
+two major issues:
 
-The previous series was included in:
+  1. The page size used to map the region in the page-table is not known,
+     and so it is not generally possible to issue TLB flushes in the most
+     efficient manner.
 
-  https://lkml.kernel.org/r/20190711171927.28803-1-will@kernel.org
+  2. The only mutable state passed to the callback is a pointer to the
+     iommu_domain, which can be accessed concurrently and therefore
+     requires expensive synchronisation to keep track of the outstanding
+     flushes.
 
-The only real change since then is incorporating the newly merged
-virtio-iommu driver.
+Remove the callback entirely in preparation for extending ->unmap() and
+->iotlb_sync() to update a token on the caller's stack.
 
-If you'd like to play with the patches, then I've also pushed them here:
+Signed-off-by: Will Deacon <will@kernel.org>
+---
+ drivers/iommu/amd_iommu.c       |  6 ------
+ drivers/iommu/iommu.c           |  3 ---
+ drivers/vfio/vfio_iommu_type1.c |  1 -
+ include/linux/iommu.h           | 15 ---------------
+ 4 files changed, 25 deletions(-)
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/log/?h=iommu/unmap
-
-but they should behave as a no-op on their own. Patches to convert the
-Arm SMMUv3 driver to the new API are here:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/log/?h=iommu/cmdq
-
-Cheers,
-
-Will
-
---->8
-
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Jayachandran Chandrasekharan Nair <jnair@marvell.com>
-Cc: Jan Glauber <jglauber@marvell.com>
-Cc: Jon Masters <jcm@redhat.com>
-Cc: Eric Auger <eric.auger@redhat.com>
-Cc: Zhen Lei <thunder.leizhen@huawei.com>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Vijay Kilary <vkilari@codeaurora.org>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: John Garry <john.garry@huawei.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: David Woodhouse <dwmw2@infradead.org>
-
-Will Deacon (13):
-  iommu: Remove empty iommu_tlb_range_add() callback from iommu_ops
-  iommu/io-pgtable-arm: Remove redundant call to io_pgtable_tlb_sync()
-  iommu/io-pgtable: Rename iommu_gather_ops to iommu_flush_ops
-  iommu: Introduce struct iommu_iotlb_gather for batching TLB flushes
-  iommu: Introduce iommu_iotlb_gather_add_page()
-  iommu: Pass struct iommu_iotlb_gather to ->unmap() and ->iotlb_sync()
-  iommu/io-pgtable: Introduce tlb_flush_walk() and tlb_flush_leaf()
-  iommu/io-pgtable: Hook up ->tlb_flush_walk() and ->tlb_flush_leaf() in
-    drivers
-  iommu/io-pgtable-arm: Call ->tlb_flush_walk() and ->tlb_flush_leaf()
-  iommu/io-pgtable: Replace ->tlb_add_flush() with ->tlb_add_page()
-  iommu/io-pgtable: Remove unused ->tlb_sync() callback
-  iommu/io-pgtable: Pass struct iommu_iotlb_gather to ->unmap()
-  iommu/io-pgtable: Pass struct iommu_iotlb_gather to ->tlb_add_page()
-
- drivers/gpu/drm/panfrost/panfrost_mmu.c |  24 +++++---
- drivers/iommu/amd_iommu.c               |  11 ++--
- drivers/iommu/arm-smmu-v3.c             |  52 +++++++++++-----
- drivers/iommu/arm-smmu.c                | 103 ++++++++++++++++++++++++--------
- drivers/iommu/dma-iommu.c               |   9 ++-
- drivers/iommu/exynos-iommu.c            |   3 +-
- drivers/iommu/intel-iommu.c             |   3 +-
- drivers/iommu/io-pgtable-arm-v7s.c      |  57 +++++++++---------
- drivers/iommu/io-pgtable-arm.c          |  48 ++++++++-------
- drivers/iommu/iommu.c                   |  24 ++++----
- drivers/iommu/ipmmu-vmsa.c              |  28 +++++----
- drivers/iommu/msm_iommu.c               |  42 +++++++++----
- drivers/iommu/mtk_iommu.c               |  45 +++++++++++---
- drivers/iommu/mtk_iommu_v1.c            |   3 +-
- drivers/iommu/omap-iommu.c              |   2 +-
- drivers/iommu/qcom_iommu.c              |  44 +++++++++++---
- drivers/iommu/rockchip-iommu.c          |   2 +-
- drivers/iommu/s390-iommu.c              |   3 +-
- drivers/iommu/tegra-gart.c              |  12 +++-
- drivers/iommu/tegra-smmu.c              |   2 +-
- drivers/iommu/virtio-iommu.c            |   5 +-
- drivers/vfio/vfio_iommu_type1.c         |  27 +++++----
- include/linux/io-pgtable.h              |  57 ++++++++++++------
- include/linux/iommu.h                   |  92 +++++++++++++++++++++-------
- 24 files changed, 483 insertions(+), 215 deletions(-)
-
+diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+index b607a92791d3..f93b148cf55e 100644
+--- a/drivers/iommu/amd_iommu.c
++++ b/drivers/iommu/amd_iommu.c
+@@ -3196,11 +3196,6 @@ static void amd_iommu_flush_iotlb_all(struct iommu_domain *domain)
+ 	domain_flush_complete(dom);
+ }
+ 
+-static void amd_iommu_iotlb_range_add(struct iommu_domain *domain,
+-				      unsigned long iova, size_t size)
+-{
+-}
+-
+ const struct iommu_ops amd_iommu_ops = {
+ 	.capable = amd_iommu_capable,
+ 	.domain_alloc = amd_iommu_domain_alloc,
+@@ -3219,7 +3214,6 @@ const struct iommu_ops amd_iommu_ops = {
+ 	.is_attach_deferred = amd_iommu_is_attach_deferred,
+ 	.pgsize_bitmap	= AMD_IOMMU_PGSIZES,
+ 	.flush_iotlb_all = amd_iommu_flush_iotlb_all,
+-	.iotlb_range_add = amd_iommu_iotlb_range_add,
+ 	.iotlb_sync = amd_iommu_flush_iotlb_all,
+ };
+ 
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 0c674d80c37f..6d7b25fe2474 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -1903,9 +1903,6 @@ static size_t __iommu_unmap(struct iommu_domain *domain,
+ 		if (!unmapped_page)
+ 			break;
+ 
+-		if (sync && ops->iotlb_range_add)
+-			ops->iotlb_range_add(domain, iova, pgsize);
+-
+ 		pr_debug("unmapped: iova 0x%lx size 0x%zx\n",
+ 			 iova, unmapped_page);
+ 
+diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+index 054391f30fa8..fad7fd8c167c 100644
+--- a/drivers/vfio/vfio_iommu_type1.c
++++ b/drivers/vfio/vfio_iommu_type1.c
+@@ -696,7 +696,6 @@ static size_t unmap_unpin_fast(struct vfio_domain *domain,
+ 		if (!unmapped) {
+ 			kfree(entry);
+ 		} else {
+-			iommu_tlb_range_add(domain->domain, *iova, unmapped);
+ 			entry->iova = *iova;
+ 			entry->phys = phys;
+ 			entry->len  = unmapped;
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index fdc355ccc570..1e21431262d9 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -201,7 +201,6 @@ struct iommu_sva_ops {
+  * @map: map a physically contiguous memory region to an iommu domain
+  * @unmap: unmap a physically contiguous memory region from an iommu domain
+  * @flush_iotlb_all: Synchronously flush all hardware TLBs for this domain
+- * @iotlb_range_add: Add a given iova range to the flush queue for this domain
+  * @iotlb_sync_map: Sync mappings created recently using @map to the hardware
+  * @iotlb_sync: Flush all queued ranges from the hardware TLBs and empty flush
+  *            queue
+@@ -244,8 +243,6 @@ struct iommu_ops {
+ 	size_t (*unmap)(struct iommu_domain *domain, unsigned long iova,
+ 		     size_t size);
+ 	void (*flush_iotlb_all)(struct iommu_domain *domain);
+-	void (*iotlb_range_add)(struct iommu_domain *domain,
+-				unsigned long iova, size_t size);
+ 	void (*iotlb_sync_map)(struct iommu_domain *domain);
+ 	void (*iotlb_sync)(struct iommu_domain *domain);
+ 	phys_addr_t (*iova_to_phys)(struct iommu_domain *domain, dma_addr_t iova);
+@@ -476,13 +473,6 @@ static inline void iommu_flush_tlb_all(struct iommu_domain *domain)
+ 		domain->ops->flush_iotlb_all(domain);
+ }
+ 
+-static inline void iommu_tlb_range_add(struct iommu_domain *domain,
+-				       unsigned long iova, size_t size)
+-{
+-	if (domain->ops->iotlb_range_add)
+-		domain->ops->iotlb_range_add(domain, iova, size);
+-}
+-
+ static inline void iommu_tlb_sync(struct iommu_domain *domain)
+ {
+ 	if (domain->ops->iotlb_sync)
+@@ -637,11 +627,6 @@ static inline void iommu_flush_tlb_all(struct iommu_domain *domain)
+ {
+ }
+ 
+-static inline void iommu_tlb_range_add(struct iommu_domain *domain,
+-				       unsigned long iova, size_t size)
+-{
+-}
+-
+ static inline void iommu_tlb_sync(struct iommu_domain *domain)
+ {
+ }
 -- 
 2.11.0
 
