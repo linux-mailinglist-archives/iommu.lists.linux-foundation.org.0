@@ -2,54 +2,47 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369F38E45E
-	for <lists.iommu@lfdr.de>; Thu, 15 Aug 2019 07:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 234918E490
+	for <lists.iommu@lfdr.de>; Thu, 15 Aug 2019 07:45:35 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 242D0C00;
-	Thu, 15 Aug 2019 05:05:36 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 059D1B8E;
+	Thu, 15 Aug 2019 05:45:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 39EC2AD8
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E7D788B1
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 15 Aug 2019 05:05:35 +0000 (UTC)
+	Thu, 15 Aug 2019 05:45:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CDC8B8AC
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 787758AC
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 15 Aug 2019 05:05:34 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Aug 2019 22:05:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,388,1559545200"; d="scan'208";a="171013666"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
-	([10.239.159.136])
-	by orsmga008.jf.intel.com with ESMTP; 14 Aug 2019 22:05:30 -0700
-Subject: Re: [PATCH 07/10] iommu: Print default domain type on boot
-To: Joerg Roedel <joro@8bytes.org>
-References: <20190814133841.7095-1-joro@8bytes.org>
-	<20190814133841.7095-8-joro@8bytes.org>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <39163f22-0c22-ccae-84df-e65f53aa1a82@linux.intel.com>
-Date: Thu, 15 Aug 2019 13:04:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Thu, 15 Aug 2019 05:45:31 +0000 (UTC)
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+	by Forcepoint Email with ESMTP id DCF73649FA0FCEA333F3;
+	Thu, 15 Aug 2019 13:45:10 +0800 (CST)
+Received: from HGHY4L002753561.china.huawei.com (10.133.215.186) by
+	DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server
+	id 14.3.439.0; Thu, 15 Aug 2019 13:45:03 +0800
+From: Zhen Lei <thunder.leizhen@huawei.com>
+To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>, "Jean-Philippe
+	Brucker" <jean-philippe@linaro.org>, John Garry <john.garry@huawei.com>,
+	"Robin Murphy" <robin.murphy@arm.com>, Will Deacon <will@kernel.org>, Joerg
+	Roedel <joro@8bytes.org>, iommu <iommu@lists.linux-foundation.org>,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-kernel
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 0/2] add nr_ats_masters for quickly check
+Date: Thu, 15 Aug 2019 13:44:37 +0800
+Message-ID: <20190815054439.30652-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20190814133841.7095-8-joro@8bytes.org>
-Content-Language: en-US
+X-Originating-IP: [10.133.215.186]
+X-CFilter-Loop: Reflected
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: fenghua.yu@intel.com, tony.luck@intel.com, linux-ia64@vger.kernel.org,
-	corbet@lwn.net, Joerg Roedel <jroedel@suse.de>, x86@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org, mingo@redhat.com, bp@alien8.de,
-	Thomas.Lendacky@amd.com, hpa@zytor.com, tglx@linutronix.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,90 +55,29 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi,
+v1 --> v2:
+1. change the type of nr_ats_masters from atomic_t to int, and move its
+   ind/dec operation from arm_smmu_enable_ats()/arm_smmu_disable_ats() to
+   arm_smmu_attach_dev()/arm_smmu_detach_dev(), and protected by
+   "spin_lock_irqsave(&smmu_domain->devices_lock, flags);"
 
-On 8/14/19 9:38 PM, Joerg Roedel wrote:
-> From: Joerg Roedel <jroedel@suse.de>
-> 
-> Introduce a subsys_initcall for IOMMU code and use it to
-> print the default domain type at boot.
-> 
-> Signed-off-by: Joerg Roedel <jroedel@suse.de>
-> ---
->   drivers/iommu/iommu.c | 30 +++++++++++++++++++++++++++++-
->   1 file changed, 29 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index e1feb4061b8b..233bc22b487e 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -93,12 +93,40 @@ struct iommu_group_attribute iommu_group_attr_##_name =		\
->   static LIST_HEAD(iommu_device_list);
->   static DEFINE_SPINLOCK(iommu_device_lock);
->   
-> +/*
-> + * Use a function instead of an array here because the domain-type is a
-> + * bit-field, so an array would waste memory.
-> + */
-> +static const char *iommu_domain_type_str(unsigned int t)
-> +{
-> +	switch (t) {
-> +		case IOMMU_DOMAIN_BLOCKED:
-> +			return "Blocked";
-> +		case IOMMU_DOMAIN_IDENTITY:
-> +			return "Passthrough";
-> +		case IOMMU_DOMAIN_UNMANAGED:
-> +			return "Unmanaged";
-> +		case IOMMU_DOMAIN_DMA:
-> +			return "Translated";
-> +		default:
-> +			return "Unknown";
-> +	}
-> +}
+Zhen Lei (2):
+  iommu/arm-smmu-v3: don't add a master into smmu_domain before it's
+    ready
+  iommu/arm-smmu-v3: add nr_ats_masters for quickly check
 
-Run scripts/checkpatch.pl:
+ drivers/iommu/arm-smmu-v3.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-ERROR: switch and case should be at the same indent
-#28: FILE: drivers/iommu/iommu.c:102:
-+	switch (t) {
-+		case IOMMU_DOMAIN_BLOCKED:
-[...]
-+		case IOMMU_DOMAIN_IDENTITY:
-[...]
-+		case IOMMU_DOMAIN_UNMANAGED:
-[...]
-+		case IOMMU_DOMAIN_DMA:
-[...]
-+		default:
+-- 
+1.8.3
 
-Best regards,
-Lu Baolu
 
-> +
-> +static int __init iommu_subsys_init(void)
-> +{
-> +	pr_info("Default domain type: %s\n",
-> +		iommu_domain_type_str(iommu_def_domain_type));
-> +
-> +	return 0;
-> +}
-> +subsys_initcall(iommu_subsys_init);
-> +
->   int iommu_device_register(struct iommu_device *iommu)
->   {
->   	spin_lock(&iommu_device_lock);
->   	list_add_tail(&iommu->list, &iommu_device_list);
->   	spin_unlock(&iommu_device_lock);
-> -
->   	return 0;
->   }
->   
-> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
