@@ -2,35 +2,35 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9008F395
-	for <lists.iommu@lfdr.de>; Thu, 15 Aug 2019 20:37:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E6B8F396
+	for <lists.iommu@lfdr.de>; Thu, 15 Aug 2019 20:37:58 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 278B810A2;
-	Thu, 15 Aug 2019 18:37:46 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 4832210A7;
+	Thu, 15 Aug 2019 18:37:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 8A06A2C
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 292F110A6
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 15 Aug 2019 18:37:44 +0000 (UTC)
+	Thu, 15 Aug 2019 18:37:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 37A8FCF
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id D12C6CF
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 15 Aug 2019 18:37:44 +0000 (UTC)
+	Thu, 15 Aug 2019 18:37:45 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE427360;
-	Thu, 15 Aug 2019 11:37:43 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7D9151570;
+	Thu, 15 Aug 2019 11:37:45 -0700 (PDT)
 Received: from e110467-lin.cambridge.arm.com (e110467-lin.cambridge.arm.com
 	[10.1.197.57])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 80D893F694; 
-	Thu, 15 Aug 2019 11:37:42 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2138B3F694; 
+	Thu, 15 Aug 2019 11:37:44 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: will@kernel.org
-Subject: [PATCH v2 01/17] iommu/arm-smmu: Mask TLBI address correctly
-Date: Thu, 15 Aug 2019 19:37:21 +0100
-Message-Id: <33c764762c8e5baa961d92648c293dd5590559e7.1565892337.git.robin.murphy@arm.com>
+Subject: [PATCH v2 02/17] iommu/qcom: Mask TLBI addresses correctly
+Date: Thu, 15 Aug 2019 19:37:22 +0100
+Message-Id: <3353ab6006c49cb8821f298523f38c5f7dc1d00d.1565892337.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.21.0.dirty
 In-Reply-To: <cover.1565892337.git.robin.murphy@arm.com>
 References: <cover.1565892337.git.robin.murphy@arm.com>
@@ -58,29 +58,27 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The less said about "~12UL" the better. Oh dear.
-
-We get away with it due to calling constraints that mean IOVAs are
-implicitly at least page-aligned to begin with, but still; oh dear.
+As with arm-smmu from whence this code was borrowed, the IOVAs passed in
+here happen to be at least page-aligned anyway, but still; oh dear.
 
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/iommu/arm-smmu.c | 2 +-
+ drivers/iommu/qcom_iommu.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index 64977c131ee6..d60ee292ecee 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -504,7 +504,7 @@ static void arm_smmu_tlb_inv_range_nosync(unsigned long iova, size_t size,
- 		reg += leaf ? ARM_SMMU_CB_S1_TLBIVAL : ARM_SMMU_CB_S1_TLBIVA;
+diff --git a/drivers/iommu/qcom_iommu.c b/drivers/iommu/qcom_iommu.c
+index 34d0b9783b3e..bed948c3058a 100644
+--- a/drivers/iommu/qcom_iommu.c
++++ b/drivers/iommu/qcom_iommu.c
+@@ -155,7 +155,7 @@ static void qcom_iommu_tlb_inv_range_nosync(unsigned long iova, size_t size,
+ 		struct qcom_iommu_ctx *ctx = to_ctx(fwspec, fwspec->ids[i]);
+ 		size_t s = size;
  
- 		if (cfg->fmt != ARM_SMMU_CTX_FMT_AARCH64) {
--			iova &= ~12UL;
-+			iova = (iova >> 12) << 12;
- 			iova |= cfg->asid;
- 			do {
- 				writel_relaxed(iova, reg);
+-		iova &= ~12UL;
++		iova = (iova >> 12) << 12;
+ 		iova |= ctx->asid;
+ 		do {
+ 			iommu_writel(ctx, reg, iova);
 -- 
 2.21.0.dirty
 
