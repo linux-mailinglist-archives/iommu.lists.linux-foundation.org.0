@@ -2,46 +2,49 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB3790606
-	for <lists.iommu@lfdr.de>; Fri, 16 Aug 2019 18:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A069064B
+	for <lists.iommu@lfdr.de>; Fri, 16 Aug 2019 18:58:31 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 98F30C9E;
-	Fri, 16 Aug 2019 16:43:33 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 66D81C7C;
+	Fri, 16 Aug 2019 16:58:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 373D5C21
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 68EFAC52
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 16 Aug 2019 16:43:32 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B214BE5
+	Fri, 16 Aug 2019 16:58:28 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 5C4ADE5
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 16 Aug 2019 16:43:31 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B7255227A81; Fri, 16 Aug 2019 18:43:28 +0200 (CEST)
-Date: Fri, 16 Aug 2019 18:43:28 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 03/11] xen/arm: pass one less argument to dma_cache_maint
-Message-ID: <20190816164328.GB3629@lst.de>
-References: <20190816130013.31154-1-hch@lst.de>
-	<20190816130013.31154-4-hch@lst.de>
-	<8585fb27-14e0-888c-6749-6862b4e16418@arm.com>
+	Fri, 16 Aug 2019 16:58:27 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EBC6628;
+	Fri, 16 Aug 2019 09:58:26 -0700 (PDT)
+Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 793BF3F694;
+	Fri, 16 Aug 2019 09:58:25 -0700 (PDT)
+Subject: Re: [Freedreno] [PATCH v3 0/2] iommu/arm-smmu: Split pagetable support
+To: freedreno@lists.freedesktop.org, Rob Herring <robh@kernel.org>,
+	Will Deacon <will@kernel.org>, jean-philippe.brucker@arm.com,
+	linux-arm-msm@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	Zhen Lei <thunder.leizhen@huawei.com>, linux-arm-kernel@lists.infradead.org
+References: <1565216500-28506-1-git-send-email-jcrouse@codeaurora.org>
+	<20190815153304.GD28465@jcrouse1-lnx.qualcomm.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <ac248f33-2528-c1d4-17ed-17e92e6ed5ad@arm.com>
+Date: Fri, 16 Aug 2019 17:58:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8585fb27-14e0-888c-6749-6862b4e16418@arm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
+In-Reply-To: <20190815153304.GD28465@jcrouse1-lnx.qualcomm.com>
+Content-Language: en-GB
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, x86@kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	xen-devel@lists.xenproject.org, Christoph Hellwig <hch@lst.de>,
-	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,41 +57,88 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Fri, Aug 16, 2019 at 02:37:58PM +0100, Robin Murphy wrote:
-> On 16/08/2019 14:00, Christoph Hellwig wrote:
->> Instead of taking apart the dma address in both callers do it inside
->> dma_cache_maint itself.
->>
->> Signed-off-by: Christoph Hellwig <hch@lst.de>
->> ---
->>   arch/arm/xen/mm.c | 10 ++++++----
->>   1 file changed, 6 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/arm/xen/mm.c b/arch/arm/xen/mm.c
->> index 90574d89d0d4..d9da24fda2f7 100644
->> --- a/arch/arm/xen/mm.c
->> +++ b/arch/arm/xen/mm.c
->> @@ -43,13 +43,15 @@ static bool hypercall_cflush = false;
->>     /* functions called by SWIOTLB */
->>   -static void dma_cache_maint(dma_addr_t handle, unsigned long offset,
->> -	size_t size, enum dma_data_direction dir, enum dma_cache_op op)
->> +static void dma_cache_maint(dma_addr_t handle, size_t size,
->> +		enum dma_data_direction dir, enum dma_cache_op op)
->>   {
->>   	struct gnttab_cache_flush cflush;
->>   	unsigned long xen_pfn;
->> +	unsigned long offset = handle & ~PAGE_MASK;
->>   	size_t left = size;
->>   +	offset &= PAGE_MASK;
->
-> Ahem... presumably that should be handle, not offset.
+Hi Jordan,
 
-Ooops, yes.
+On 15/08/2019 16:33, Jordan Crouse wrote:
+> On Wed, Aug 07, 2019 at 04:21:38PM -0600, Jordan Crouse wrote:
+>> (Sigh, resend. I freaked out my SMTP server)
+>>
+>> This is part of an ongoing evolution for enabling split pagetable support for
+>> arm-smmu. Previous versions can be found [1].
+>>
+>> In the discussion for v2 Robin pointed out that this is a very Adreno specific
+>> use case and that is exactly true. Not only do we want to configure and use a
+>> pagetable in the TTBR1 space, we also want to configure the TTBR0 region but
+>> not allocate a pagetable for it or touch it until the GPU hardware does so. As
+>> much as I want it to be a generic concept it really isn't.
+>>
+>> This revision leans into that idea. Most of the same io-pgtable code is there
+>> but now it is wrapped as an Adreno GPU specific format that is selected by the
+>> compatible string in the arm-smmu device.
+>>
+>> Additionally, per Robin's suggestion we are skipping creating a TTBR0 pagetable
+>> to save on wasted memory.
+>>
+>> This isn't as clean as I would like it to be but I think that this is a better
+>> direction than trying to pretend that the generic format would work.
+>>
+>> I'm tempting fate by posting this and then taking some time off, but I wanted
+>> to try to kick off a conversation or at least get some flames so I can try to
+>> refine this again next week. Please take a look and give some advice on the
+>> direction.
+> 
+> Will, Robin -
+> 
+> Modulo the impl changes from Robin, do you think that using a dedicated
+> pagetable format is the right approach for supporting split pagetables for the
+> Adreno GPU?
+
+How many different Adreno drivers would benefit from sharing it?
+
+The more I come back to this, the more I'm convinced that io-pgtable 
+should focus on the heavy lifting of pagetable management - the code 
+that nobody wants to have to write at all, let alone more than once - 
+and any subtleties which aren't essential to that should be pushed back 
+into whichever callers actually care. Consider that already, literally 
+no caller actually uses an unmodified stage 1 TCR value as provided in 
+the io_pgtable_cfg.
+
+I feel it would be most productive to elaborate further in the form of 
+patches, so let me get right on that and try to bash something out 
+before I go home tonight...
+
+Robin.
+
+> If so, then is adding the changes to io-pgtable-arm.c possible for 5.4 and then
+> add the implementation specific code on top of Robin's stack later or do you
+> feel they should come as part of a package deal?
+> 
+> Jordan
+> 
+>> Jordan Crouse (2):
+>>    iommu/io-pgtable-arm: Add support for ARM_ADRENO_GPU_LPAE io-pgtable
+>>      format
+>>    iommu/arm-smmu: Add support for Adreno GPU pagetable formats
+>>
+>>   drivers/iommu/arm-smmu.c       |   8 +-
+>>   drivers/iommu/io-pgtable-arm.c | 214 ++++++++++++++++++++++++++++++++++++++---
+>>   drivers/iommu/io-pgtable.c     |   1 +
+>>   include/linux/io-pgtable.h     |   2 +
+>>   4 files changed, 209 insertions(+), 16 deletions(-)
+>>
+>> -- 
+>> 2.7.4
+>>
+>> _______________________________________________
+>> Freedreno mailing list
+>> Freedreno@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/freedreno
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
