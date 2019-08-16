@@ -2,48 +2,50 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DF18FAE8
-	for <lists.iommu@lfdr.de>; Fri, 16 Aug 2019 08:27:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28A28FAF1
+	for <lists.iommu@lfdr.de>; Fri, 16 Aug 2019 08:29:20 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 61811BE4;
-	Fri, 16 Aug 2019 06:27:10 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id D847DCAD;
+	Fri, 16 Aug 2019 06:29:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id F3D6772A
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E9F2941C
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 16 Aug 2019 06:27:08 +0000 (UTC)
+	Fri, 16 Aug 2019 06:29:14 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 6EA0276D
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A2E2CE5
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 16 Aug 2019 06:27:08 +0000 (UTC)
+	Fri, 16 Aug 2019 06:29:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=uBlDv/1G+IgsUhlm43y/mFkJBkzGrCkwGGW4KRg1WIM=;
-	b=Wmcwc0aj6CAeJvPoN6pBK5R6b
-	i5YXqMFaEGami53EUAEYW5H9LP5RV2vw6BQ2GKNw4UVGF7Pwjge5MdyR82FT+o0xH6mc3+JoPhptL
-	+tYQkTLvihOeG5Q1/uvFbymhEmW5tGt1hxdQ3AfdLRPHhf/t6XmTEoxxoyUliePoCJ7oYf5k8pNMq
-	GEYj2QQzOjp49Cld+WmpqDus7lpxzFfO1b60p1QXD19DFumJMRiDYLdByA1yvWDGJ928Xf3gFMSKm
-	TmzZ3hL9ygmIeis9H93XDRrqRmRUsN43ePZB8ghFZRniMK1PL78+NnUbbjavFiwzeazT92ZwSh6u2
-	xE2vRzB6w==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
+	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=dftcSzfDdyc02vTQypmmr4nqPV2SE1bB1GMbvWD2Jek=;
+	b=RF9/8JHwKe7RmdyKImreqwMQQI
+	NQS5qXpKIaLeNoh33nFXYa0H7EG0Ar8NEjKXNVsK0FBbP6IDmdn+aoJMKRrAwrC/DsuJC0nb6xH6N
+	MDdUY/JvBPCr7BiGguUzQ0pwLGej3AHJq7Dz56yKvSOY7n/1cJSXiKA+nSgQkP+RN6v4qjL0SyuoN
+	yAc3lvtmBc7/Jrf5xGMAjW9hPf6+W/MtHpBNroiq2tw5EWZVgcTJ8LANmbQDiNosv57PLiGR+1oFD
+	IBkUd1mu8/d+TQ+LZaw4vtte/TOgpju9oE3jzSFIWh2mFcu7EfjrwbvVVtDPcD6QDAqXKJWpjWwt7
+	LiV7E8KQ==;
 Received: from 089144199030.atnat0008.highway.a1.net ([89.144.199.30]
 	helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-	id 1hyVhG-0005Ro-J6; Fri, 16 Aug 2019 06:26:47 +0000
+	id 1hyVjP-00068C-GP; Fri, 16 Aug 2019 06:29:00 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: next take at setting up a dma mask by default for platform devices v2
-Date: Fri, 16 Aug 2019 08:24:29 +0200
-Message-Id: <20190816062435.881-1-hch@lst.de>
+Subject: [PATCH 1/6] usb: don't create dma pools for HCDs with a localmem_pool
+Date: Fri, 16 Aug 2019 08:24:30 +0200
+Message-Id: <20190816062435.881-2-hch@lst.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190816062435.881-1-hch@lst.de>
+References: <20190816062435.881-1-hch@lst.de>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
 	bombadil.infradead.org. See http://www.infradead.org/rpr.html
@@ -80,26 +82,35 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi all,
+If the HCD provides a localmem pool we will never use the DMA pools, so
+don't create them.
 
-this is another attempt to make sure the dma_mask pointer is always
-initialized for platform devices.  Not doing so lead to lots of
-boilerplate code, and makes platform devices different from all our
-major busses like PCI where we always set up a dma_mask.  In the long
-run this should also help to eventually make dma_mask a scalar value
-instead of a pointer and remove even more cruft.
+Fixes: b0310c2f09bb ("USB: use genalloc for USB HCs with local memory")
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/usb/core/buffer.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-The bigger blocker for this last time was the fact that the usb
-subsystem uses the presence or lack of a dma_mask to check if the core
-should do dma mapping for the driver, which is highly unusual.  So we
-fix this first.  Note that this has some overlap with the pending
-desire to use the proper dma_mmap_coherent helper for mapping usb
-buffers.  The first two patches have already been queued up by Greg
-and are only included for completeness.
+diff --git a/drivers/usb/core/buffer.c b/drivers/usb/core/buffer.c
+index 1359b78a624e..1a5b3dcae930 100644
+--- a/drivers/usb/core/buffer.c
++++ b/drivers/usb/core/buffer.c
+@@ -66,9 +66,9 @@ int hcd_buffer_create(struct usb_hcd *hcd)
+ 	char		name[16];
+ 	int		i, size;
+ 
+-	if (!IS_ENABLED(CONFIG_HAS_DMA) ||
+-	    (!is_device_dma_capable(hcd->self.sysdev) &&
+-	     !hcd->localmem_pool))
++	if (hcd->localmem_pool ||
++	    !IS_ENABLED(CONFIG_HAS_DMA) ||
++	    !is_device_dma_capable(hcd->self.sysdev))
+ 		return 0;
+ 
+ 	for (i = 0; i < HCD_BUFFER_POOLS; i++) {
+-- 
+2.20.1
 
-Changes since v1:
- - fix a compile error in the ppc of ohci driver
- - revamp the last patch to get rid of the archdata callout entirely.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
