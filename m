@@ -2,50 +2,78 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65F090334
-	for <lists.iommu@lfdr.de>; Fri, 16 Aug 2019 15:38:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263FC903FF
+	for <lists.iommu@lfdr.de>; Fri, 16 Aug 2019 16:31:55 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 84BCBC9F;
-	Fri, 16 Aug 2019 13:38:04 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 95EBCE90;
+	Fri, 16 Aug 2019 14:31:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 07C15C6D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 25B53E85
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 16 Aug 2019 13:38:03 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id D7DC48A0
+	Fri, 16 Aug 2019 14:31:51 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 9816987B
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 16 Aug 2019 13:38:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E95ED344;
-	Fri, 16 Aug 2019 06:38:00 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DEF273F694;
-	Fri, 16 Aug 2019 06:37:59 -0700 (PDT)
-Subject: Re: [PATCH 03/11] xen/arm: pass one less argument to dma_cache_maint
-To: Christoph Hellwig <hch@lst.de>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-References: <20190816130013.31154-1-hch@lst.de>
-	<20190816130013.31154-4-hch@lst.de>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <8585fb27-14e0-888c-6749-6862b4e16418@arm.com>
-Date: Fri, 16 Aug 2019 14:37:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Fri, 16 Aug 2019 14:31:50 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id z23so4252277wmf.2
+	for <iommu@lists.linux-foundation.org>;
+	Fri, 16 Aug 2019 07:31:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=2KH9X7wXKLaNgHTDRuB2BCoTUIbuMO+ioBBw7HzU1JY=;
+	b=aOAKvEhf4eJTxcKSld4tT+33ybgVN17T/bYorvBedFN3143JLOiZGmSFFZmUYjnl2R
+	ZmjW7kD/tqSTxSJekD045oAnsHHGE/wzxd3ibBgHSbBD4G7ailmdun7QlU0roREL2N42
+	puNiR5ETw9wQOVpe6Mqo+x1oUp13MVT9P6m1jnGzwcPxVoe/dl2ds8g+wH5hhvtdRPid
+	6OPErwSecc0kXng21CIP03S6DK1Hw73vanv14N8c4S3nZ+j9DR7q/0QqTBczWN0MsIhz
+	x4vLhJPhZtg6XPzAQB5+8f8EtApLxjhTH7R06QpYALGd6QyBD3lQpkcUSmLWFu3Jzd3K
+	Mx5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=2KH9X7wXKLaNgHTDRuB2BCoTUIbuMO+ioBBw7HzU1JY=;
+	b=HzE2O7UacPVDK8V3qJ1G4bqzLpnUFjoS1lFWpXqj6TyGBv1TsYHAlHKRUSd/hamFYC
+	PU3e6K4JrbSIAwSJeG6Bj+otldjef/VghHZM95oFYqdDGssN7oTT0gw6BogwTVbGooc0
+	/y8LkVW3ouF1Jvm9tDECzwjBn9b0KtBeEtXxjx9E19aqmrBb3k4Lj85iqlRwyHCuazho
+	uMpHzobX3sKLArKoGJoUznHpNkNdZfNqQpZEiDMbxRueeU2P/UHfCRd3FmKxYnvFTUzK
+	ZtpjtiZCTCZZf6K1V+MwD7v7Ve/RMASMzRffwt/eud+zXLubfScvRNu9oCrmVtzXlm9B
+	GbGQ==
+X-Gm-Message-State: APjAAAXXNS0d049tSgnzHIi1O1B6y2hZFxX/G+uYj0gtXKNdzBDWGhZK
+	3o4hRuJptCLN9+KiZ64RjAc=
+X-Google-Smtp-Source: APXvYqwUeQsO1Tir1acCeUF+pqGoRTuIizGwVTqI59KMXv4bOZjBPRpPwKZbNL/kgP0dRGGiI+zGDQ==
+X-Received: by 2002:a1c:740b:: with SMTP id p11mr7978852wmc.6.1565965909230;
+	Fri, 16 Aug 2019 07:31:49 -0700 (PDT)
+Received: from Red ([2a01:cb1d:147:7200:2e56:dcff:fed2:c6d6])
+	by smtp.googlemail.com with ESMTPSA id
+	k124sm10940860wmk.47.2019.08.16.07.31.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 16 Aug 2019 07:31:48 -0700 (PDT)
+Date: Fri, 16 Aug 2019 16:31:46 +0200
+From: Corentin Labbe <clabbe.montjoie@gmail.com>
+To: bskeggs@redhat.com, airlied@linux.ie, hch@lst.de,
+	m.szyprowski@samsung.com, robin.murphy@arm.com,
+	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org
+Subject: Re: DMA-API: cacheline tracking ENOMEM, dma-debug disabled due to
+	nouveau ?
+Message-ID: <20190816143146.GB30445@Red>
+References: <20190814145033.GA11190@Red>
+	<20190814174927.GT7444@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <20190816130013.31154-4-hch@lst.de>
-Content-Language: en-GB
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <20190814174927.GT7444@phenom.ffwll.local>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: xen-devel@lists.xenproject.org, iommu@lists.linux-foundation.org,
-	x86@kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,64 +86,34 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 16/08/2019 14:00, Christoph Hellwig wrote:
-> Instead of taking apart the dma address in both callers do it inside
-> dma_cache_maint itself.
+On Wed, Aug 14, 2019 at 07:49:27PM +0200, Daniel Vetter wrote:
+> On Wed, Aug 14, 2019 at 04:50:33PM +0200, Corentin Labbe wrote:
+> > Hello
+> > 
+> > Since lot of release (at least since 4.19), I hit the following error message:
+> > DMA-API: cacheline tracking ENOMEM, dma-debug disabled
+> > 
+> > After hitting that, I try to check who is creating so many DMA mapping and see:
+> > cat /sys/kernel/debug/dma-api/dump | cut -d' ' -f2 | sort | uniq -c
+> >       6 ahci
+> >     257 e1000e
+> >       6 ehci-pci
+> >    5891 nouveau
+> >      24 uhci_hcd
+> > 
+> > Does nouveau having this high number of DMA mapping is normal ?
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   arch/arm/xen/mm.c | 10 ++++++----
->   1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm/xen/mm.c b/arch/arm/xen/mm.c
-> index 90574d89d0d4..d9da24fda2f7 100644
-> --- a/arch/arm/xen/mm.c
-> +++ b/arch/arm/xen/mm.c
-> @@ -43,13 +43,15 @@ static bool hypercall_cflush = false;
->   
->   /* functions called by SWIOTLB */
->   
-> -static void dma_cache_maint(dma_addr_t handle, unsigned long offset,
-> -	size_t size, enum dma_data_direction dir, enum dma_cache_op op)
-> +static void dma_cache_maint(dma_addr_t handle, size_t size,
-> +		enum dma_data_direction dir, enum dma_cache_op op)
->   {
->   	struct gnttab_cache_flush cflush;
->   	unsigned long xen_pfn;
-> +	unsigned long offset = handle & ~PAGE_MASK;
->   	size_t left = size;
->   
-> +	offset &= PAGE_MASK;
+> Yeah seems perfectly fine for a gpu.
 
-Ahem... presumably that should be handle, not offset.
+Note that it never go down and when I terminate my X session, it stays the same.
+So without any "real" GPU work, does it is still normal to have so many active mapping ?
 
-Robin.
-
->   	xen_pfn = (handle >> XEN_PAGE_SHIFT) + offset / XEN_PAGE_SIZE;
->   	offset %= XEN_PAGE_SIZE;
->   
-> @@ -86,13 +88,13 @@ static void dma_cache_maint(dma_addr_t handle, unsigned long offset,
->   static void __xen_dma_page_dev_to_cpu(struct device *hwdev, dma_addr_t handle,
->   		size_t size, enum dma_data_direction dir)
->   {
-> -	dma_cache_maint(handle & PAGE_MASK, handle & ~PAGE_MASK, size, dir, DMA_UNMAP);
-> +	dma_cache_maint(handle, size, dir, DMA_UNMAP);
->   }
->   
->   static void __xen_dma_page_cpu_to_dev(struct device *hwdev, dma_addr_t handle,
->   		size_t size, enum dma_data_direction dir)
->   {
-> -	dma_cache_maint(handle & PAGE_MASK, handle & ~PAGE_MASK, size, dir, DMA_MAP);
-> +	dma_cache_maint(handle, size, dir, DMA_MAP);
->   }
->   
->   void __xen_dma_map_page(struct device *hwdev, struct page *page,
-> 
+For example, when doing some transfer, the ahci mapping number changes and then always go down to 6.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
