@@ -2,67 +2,74 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DFC98FC10
-	for <lists.iommu@lfdr.de>; Fri, 16 Aug 2019 09:22:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A56B8FC86
+	for <lists.iommu@lfdr.de>; Fri, 16 Aug 2019 09:39:20 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 2717ECCA;
-	Fri, 16 Aug 2019 07:22:38 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 3F94BCC8;
+	Fri, 16 Aug 2019 07:39:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id D395BACD
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5090ACB6
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 16 Aug 2019 07:22:36 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 9A632E5
+	Fri, 16 Aug 2019 07:39:16 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+	[209.85.210.67])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A9EDEE5
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 16 Aug 2019 07:22:35 +0000 (UTC)
-X-UUID: 43d757f4b0e946618d6cbab272d1ee3a-20190816
-X-UUID: 43d757f4b0e946618d6cbab272d1ee3a-20190816
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-	(envelope-from <yong.wu@mediatek.com>)
-	(mailgw01.mediatek.com ESMTP with TLS)
-	with ESMTP id 1470457894; Fri, 16 Aug 2019 15:22:30 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS32DR.mediatek.inc
-	(172.27.6.104) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
-	Fri, 16 Aug 2019 15:22:24 +0800
-Received: from [10.17.3.153] (172.27.4.253) by MTKCAS36.mediatek.inc
-	(172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
-	Transport; Fri, 16 Aug 2019 15:22:23 +0800
-Message-ID: <1565940140.20346.21.camel@mhfsdcap03>
-Subject: Re: [PATCH v9 08/21] iommu/io-pgtable-arm-v7s: Extend MediaTek 4GB
-	Mode
-From: Yong Wu <yong.wu@mediatek.com>
-To: Will Deacon <will@kernel.org>
-Date: Fri, 16 Aug 2019 15:22:20 +0800
-In-Reply-To: <20190815115021.7pbv5s2qbgsuitvh@willie-the-truck>
-References: <1565423901-17008-1-git-send-email-yong.wu@mediatek.com>
-	<1565423901-17008-9-git-send-email-yong.wu@mediatek.com>
-	<20190814144059.ruyc45yoqkwpbuga@willie-the-truck>
-	<1565858869.12818.51.camel@mhfsdcap03>
-	<20190815095123.rzgtpklvhtjlqir4@willie-the-truck>
-	<1565864318.14278.4.camel@mhfsdcap03>
-	<20190815115021.7pbv5s2qbgsuitvh@willie-the-truck>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+	Fri, 16 Aug 2019 07:39:15 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id g17so8024674otl.2
+	for <iommu@lists.linux-foundation.org>;
+	Fri, 16 Aug 2019 00:39:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=rNgiwRT8IqruHTtyg4qTM81WOjWWtlc2s7dRDLMNYXA=;
+	b=k7Pu65VWi66CgjDcsT1BBtrq6sSqW6CCSGvYhQJmkBNYVtYMxuGMjgDfDrv2EMCxNf
+	MNPKppibMqi8tDqsdMjeP6TYsQ0rbbgyW+8Iw6dh+EbiLR0EsF6vSn0zuQHrTUxMX+f7
+	92mbTd6Cr/U8Ex0uzRo5R972/a43rNDyDtTs1xCsexOJn2NLRiXM5gs5u7vmk+pdRR+T
+	sj4gnt+e/YJ/Oh/jXxoFBLU+VxOMjS7uB+sZld5uLEJCVGcIhGWnju6vJ4bz6LR4clwP
+	74CI3a4faKTFYLEHbDskkvYgA4UZxYm3dQPjffqrs/fQtHUfBbcucLx+Y7ABWfOV+WEm
+	LBRQ==
+X-Gm-Message-State: APjAAAUsE9snCiOwQWUegqn63lDphmbakCdfx7XJBCGcDQBOB/M8OXS8
+	E2O/BUttlCy4+ff7+vhS+dss0ycK5B0Lt9CKKVo=
+X-Google-Smtp-Source: APXvYqz193ixgGnhQHDM0sA58o87yH16orCv5VbCTsKEDkS808wZnFykFKzgKwDR213pxnj04zPYszKH8AWAfSfEEwQ=
+X-Received: by 2002:a9d:68c5:: with SMTP id i5mr6603053oto.250.1565941154237; 
+	Fri, 16 Aug 2019 00:39:14 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: BA349197A457FBABF294C6AEA76C731A816F8C5D8247B147DB51393DA440EAB42000:8
-X-MTK: N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,UNPARSEABLE_RELAY
-	autolearn=ham version=3.3.1
+References: <20190816062435.881-1-hch@lst.de> <20190816062435.881-7-hch@lst.de>
+In-Reply-To: <20190816062435.881-7-hch@lst.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 16 Aug 2019 09:39:03 +0200
+Message-ID: <CAMuHMdVj+4Kh6pRGrz32w4zgwGHH4-r+-iHX1CSAXU6t4sprJw@mail.gmail.com>
+Subject: Re: [PATCH 6/6] driver core: initialize a default DMA mask for
+	platform device
+To: Christoph Hellwig <hch@lst.de>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
-	Nicolas Boichat <drinkcat@chromium.org>, cui.zhang@mediatek.com,
-	srv_heupstream@mediatek.com, chao.hao@mediatek.com,
-	linux-kernel@vger.kernel.org, Evan Green <evgreen@chromium.org>,
-	Tomasz Figa <tfiga@google.com>, iommu@lists.linux-foundation.org,
-	Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
-	Robin Murphy <robin.murphy@arm.com>, Matthias Kaehlcke <mka@chromium.org>,
-	linux-arm-kernel@lists.infradead.org
+Cc: Gavin Li <git@thegavinli.com>, Shawn Guo <shawnguo@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Linux-Arch <linux-arch@vger.kernel.org>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Alan Stern <stern@rowland.harvard.edu>, NXP Linux Team <linux-imx@nxp.com>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	linux-m68k <linux-m68k@lists.linux-m68k.org>,
+	Minas Harutyunyan <hminas@synopsys.com>, Bin Liu <b-liu@ti.com>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Geoff Levand <geoff@infradead.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	USB list <linux-usb@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux IOMMU <iommu@lists.linux-foundation.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -80,120 +87,44 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Thu, 2019-08-15 at 12:50 +0100, Will Deacon wrote:
-> Ok, I think speaking to Robin helped me a bit with this...
-> 
-> On Thu, Aug 15, 2019 at 06:18:38PM +0800, Yong Wu wrote:
-> > On Thu, 2019-08-15 at 10:51 +0100, Will Deacon wrote:
-> > > On Thu, Aug 15, 2019 at 04:47:49PM +0800, Yong Wu wrote:
-> > > > On Wed, 2019-08-14 at 15:41 +0100, Will Deacon wrote:
-> > > > > On Sat, Aug 10, 2019 at 03:58:08PM +0800, Yong Wu wrote:
-> > > > > > MediaTek extend the arm v7s descriptor to support the dram over 4GB.
-> > > > > > 
-> > > > > > In the mt2712 and mt8173, it's called "4GB mode", the physical address
-> > > > > > is from 0x4000_0000 to 0x1_3fff_ffff, but from EMI point of view, it
-> > > > > > is remapped to high address from 0x1_0000_0000 to 0x1_ffff_ffff, the
-> > > > > > bit32 is always enabled. thus, in the M4U, we always enable the bit9
-> > > > > > for all PTEs which means to enable bit32 of physical address. Here is
-> > > > > > the detailed remap relationship in the "4GB mode":
-> > > > > > CPU PA         ->    HW PA
-> > > > > > 0x4000_0000          0x1_4000_0000 (Add bit32)
-> > > > > > 0x8000_0000          0x1_8000_0000 ...
-> > > > > > 0xc000_0000          0x1_c000_0000 ...
-> > > > > > 0x1_0000_0000        0x1_0000_0000 (No change)
-> 
-> [...]
-> 
-> > > > > The way I would like this quirk to work is that the io-pgtable code
-> > > > > basically sets bit 9 in the pte when bit 32 is set in the physical address,
-> > > > > and sets bit 4 in the pte when bit 33 is set in the physical address. It
-> > > > > would then do the opposite when converting a pte to a physical address.
-> > > > > 
-> > > > > That way, your driver can call the page table code directly with the high
-> > > > > addresses and we don't have to do any manual offsetting or range checking
-> > > > > in the page table code.
-> > > > 
-> > > > In this case, the mt8183 can work successfully while the "4gb
-> > > > mode"(mt8173/mt2712) can not.
-> > > > 
-> > > > In the "4gb mode", As the remap relationship above, we should always add
-> > > > bit32 in pte as we did in [2]. and need add bit32 in the
-> > > > "iova_to_phys"(Not always add.). That means the "4gb mode" has a special
-> > > > flow:
-> > > > a. Always add bit32 in paddr_to_iopte.
-> > > > b. Add bit32 only when PA < 0x40000000 in iopte_to_paddr.
-> > > 
-> > > I think this is probably at the heart of my misunderstanding. What is so
-> > > special about PAs (is this HW PA or CPU PA?) below 0x40000000? Is this RAM
-> > > or something else?
-> > 
-> > SRAM and HW register that IOMMU can not access.
-> 
-> Ok, so redrawing your table from above, I think we can say something like:
-> 
-> 
-> CPU Physical address
-> ====================
-> 
-> 0G	1G	2G	3G	4G	5G
-> |---A---|---B---|---C---|---D---|---E---|
-> +--I/O--+------------Memory-------------+
-> 
-> 
-> IOMMU output physical address
-> =============================
-> 
-> 				4G	5G	6G	7G	8G
-> 				|---E---|---B---|---C---|---D---|
-> 				+------------Memory-------------+
-> 
-> 
-> Do you agree? 
+Hi Christoph,
 
-Quite right.
+On Fri, Aug 16, 2019 at 8:30 AM Christoph Hellwig <hch@lst.de> wrote:
+> We still treat devices without a DMA mask as defaulting to 32-bits for
+> both mask, but a few releases ago we've started warning about such
+> cases, as they require special cases to work around this sloppyness.
+> Add a dma_mask field to struct platform_device so that we can initialize
+> the dma_mask pointer in struct device and initialize both masks to
+> 32-bits by default, replacing similar functionality in m68k and
+> powerpc.  The arch_setup_pdev_archdata hooks is now unused and removed.
+>
+> Note that the code looks a little odd with the various conditionals
+> because we have to support platform_device structures that are
+> statically allocated.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  arch/m68k/kernel/dma.c               |  9 -------
 
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-> If so, what happens to region 'A' (the I/O region) in the
-> IOMMU output physical address space. Is it accessible?
+>  arch/sh/boards/mach-ecovec24/setup.c |  2 --
+>  arch/sh/boards/mach-migor/setup.c    |  1 -
 
-No. IOMMU can not access region 'A' above.
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+given "[PATCH 0/2] Remove calls to empty arch_setup_pdev_archdata()"
+https://lore.kernel.org/linux-renesas-soc/1526641611-2769-1-git-send-email-geert+renesas@glider.be/
 
-> 
-> Anyway, I think it's the job of the driver to convert between the two
-> address spaces, so that:
-> 
->   - On ->map(), bit 32 of the CPU physical address is set before calling
->     into the iopgtable code
-> 
->   - The result from ->iova_to_phys() should be the result from the
->     iopgtable code, but with the top bit cleared for addresses over
->     5G.
-> 
-> This assumes that:
-> 
->   1. We're ok setting bit 9 in the ptes mapping region 'E'.
->   2. The IOMMU page-table walker uses CPU physical addresses
-> 
-> Are those true?
+Gr{oetje,eeting}s,
 
-Yes. Then this patch would be close to the one[1] I sent in v8.
+                        Geert
 
-Do I need to split this patch into 2 ones?:
-a).the pagetable code that support 34bit PA when MTK quirk is enabled.
-It only has the symmetric code handle BIT32/BIT33. Besides, I will add
-CONFIG_PHYS_ADDR_T_64BIT in the iopte_to_addr as commented before.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-b) MTK code that apply the special "4gb mode" flow. And the "oas" will
-always is 34 bit since v7s has already supported our case.
-
-[1]http://lists.infradead.org/pipermail/linux-mediatek/2019-June/020991.html
-
-> 
-> Thanks,
-> 
-> Will
-
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
