@@ -2,30 +2,30 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE331924B8
-	for <lists.iommu@lfdr.de>; Mon, 19 Aug 2019 15:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8A9924BB
+	for <lists.iommu@lfdr.de>; Mon, 19 Aug 2019 15:23:28 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 53467E44;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id B5451E51;
 	Mon, 19 Aug 2019 13:23:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 8AF43DAC
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id D11DDE35
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 19 Aug 2019 13:23:02 +0000 (UTC)
+	Mon, 19 Aug 2019 13:23:03 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 25B4A8A6
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 73E2D8A6
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 19 Aug 2019 13:23:02 +0000 (UTC)
+	Mon, 19 Aug 2019 13:23:03 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-	id 64EF6527; Mon, 19 Aug 2019 15:22:59 +0200 (CEST)
+	id 8DB42528; Mon, 19 Aug 2019 15:22:59 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 04/11] iommu/amd: Request passthrough mode from IOMMU core
-Date: Mon, 19 Aug 2019 15:22:49 +0200
-Message-Id: <20190819132256.14436-5-joro@8bytes.org>
+Subject: [PATCH 05/11] iommu/vt-d: Request passthrough mode from IOMMU core
+Date: Mon, 19 Aug 2019 15:22:50 +0200
+Message-Id: <20190819132256.14436-6-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819132256.14436-1-joro@8bytes.org>
 References: <20190819132256.14436-1-joro@8bytes.org>
@@ -63,40 +63,22 @@ passthrough mode via the new iommu core function.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/amd_iommu.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/iommu/intel-iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index b607a92791d3..7434b34d7a94 100644
---- a/drivers/iommu/amd_iommu.c
-+++ b/drivers/iommu/amd_iommu.c
-@@ -436,7 +436,7 @@ static int iommu_init_device(struct device *dev)
- 	 * invalid address), we ignore the capability for the device so
- 	 * it'll be forced to go into translation mode.
- 	 */
--	if ((iommu_pass_through || !amd_iommu_force_isolation) &&
-+	if ((iommu_default_passthrough() || !amd_iommu_force_isolation) &&
- 	    dev_is_pci(dev) && pci_iommuv2_capable(to_pci_dev(dev))) {
- 		struct amd_iommu *iommu;
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index 12d094d08c0a..a66c2a1bbbe3 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -3267,7 +3267,7 @@ static int __init init_dmars(void)
+ 		iommu->flush.flush_iotlb(iommu, 0, 0, 0, DMA_TLB_GLOBAL_FLUSH);
+ 	}
  
-@@ -2226,7 +2226,7 @@ static int amd_iommu_add_device(struct device *dev)
+-	if (iommu_pass_through)
++	if (iommu_default_passthrough())
+ 		iommu_identity_mapping |= IDENTMAP_ALL;
  
- 	BUG_ON(!dev_data);
- 
--	if (iommu_pass_through || dev_data->iommu_v2)
-+	if (dev_data->iommu_v2)
- 		iommu_request_dm_for_dev(dev);
- 
- 	/* Domains are initialized for this device - have a look what we ended up with */
-@@ -2805,7 +2805,7 @@ int __init amd_iommu_init_api(void)
- 
- int __init amd_iommu_init_dma_ops(void)
- {
--	swiotlb        = (iommu_pass_through || sme_me_mask) ? 1 : 0;
-+	swiotlb        = (iommu_default_passthrough() || sme_me_mask) ? 1 : 0;
- 	iommu_detected = 1;
- 
- 	if (amd_iommu_unmap_flush)
+ #ifdef CONFIG_INTEL_IOMMU_BROKEN_GFX_WA
 -- 
 2.16.4
 
