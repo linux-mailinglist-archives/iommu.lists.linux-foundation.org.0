@@ -2,43 +2,51 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5655D924DE
-	for <lists.iommu@lfdr.de>; Mon, 19 Aug 2019 15:23:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C13C92592
+	for <lists.iommu@lfdr.de>; Mon, 19 Aug 2019 15:53:48 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 79E8EE40;
-	Mon, 19 Aug 2019 13:23:10 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id E90A8E5D;
+	Mon, 19 Aug 2019 13:53:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 22098E5B
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 8A45FE3C
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 19 Aug 2019 13:23:06 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4E3BB8AA
+	Mon, 19 Aug 2019 13:53:44 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 3AD5167F
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 19 Aug 2019 13:23:04 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-	id A799872E; Mon, 19 Aug 2019 15:23:00 +0200 (CEST)
-From: Joerg Roedel <joro@8bytes.org>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 11/11] Documentation: Update Documentation for
-	iommu.passthrough
-Date: Mon, 19 Aug 2019 15:22:56 +0200
-Message-Id: <20190819132256.14436-12-joro@8bytes.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190819132256.14436-1-joro@8bytes.org>
-References: <20190819132256.14436-1-joro@8bytes.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
+	Mon, 19 Aug 2019 13:53:44 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9F20028;
+	Mon, 19 Aug 2019 06:53:43 -0700 (PDT)
+Received: from [10.37.12.162] (unknown [10.37.12.162])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 54FBF3F718;
+	Mon, 19 Aug 2019 06:53:42 -0700 (PDT)
+Subject: Re: [Xen-devel] [PATCH 08/11] swiotlb-xen: use the same foreign page
+	check everywhere
+To: Christoph Hellwig <hch@lst.de>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+References: <20190816130013.31154-1-hch@lst.de>
+	<20190816130013.31154-9-hch@lst.de>
+From: Julien Grall <julien.grall@arm.com>
+Message-ID: <5c987a35-4e66-6d12-82e4-06fcffc3be3e@arm.com>
+Date: Mon, 19 Aug 2019 14:53:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190816130013.31154-9-hch@lst.de>
+Content-Language: en-US
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: fenghua.yu@intel.com, tony.luck@intel.com, linux-ia64@vger.kernel.org,
-	corbet@lwn.net, Joerg Roedel <jroedel@suse.de>, x86@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org, mingo@redhat.com, bp@alien8.de,
-	Thomas.Lendacky@amd.com, hpa@zytor.com, tglx@linutronix.de
+Cc: xen-devel@lists.xenproject.org, iommu@lists.linux-foundation.org,
+	x86@kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,37 +59,29 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-From: Joerg Roedel <jroedel@suse.de>
+Hi Christoph,
 
-This kernel parameter now takes also effect on X86.
+On 8/16/19 2:00 PM, Christoph Hellwig wrote:
+> xen_dma_map_page uses a different and more complicated check for
+> foreign pages than the other three cache maintainance helpers.
+> Switch it to the simpler pfn_vali method a well.
 
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+NIT: s/pfn_vali/pfn_valid/
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 47d981a86e2f..2d5dfa46e88a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1811,7 +1811,7 @@
- 			  synchronously.
- 
- 	iommu.passthrough=
--			[ARM64] Configure DMA to bypass the IOMMU by default.
-+			[ARM64, X86] Configure DMA to bypass the IOMMU by default.
- 			Format: { "0" | "1" }
- 			0 - Use IOMMU translation for DMA.
- 			1 - Bypass the IOMMU for DMA.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+Reviewed-by: Julien Grall <julien.grall@arm.com>
+
+Cheers,
+
 -- 
-2.16.4
-
+Julien Grall
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
