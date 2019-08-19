@@ -2,42 +2,42 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B15192267
-	for <lists.iommu@lfdr.de>; Mon, 19 Aug 2019 13:31:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA2C92292
+	for <lists.iommu@lfdr.de>; Mon, 19 Aug 2019 13:38:21 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 9794BE33;
-	Mon, 19 Aug 2019 11:31:16 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 922D6E34;
+	Mon, 19 Aug 2019 11:38:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id D40E7E2D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id BB39FE2D
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 19 Aug 2019 11:31:15 +0000 (UTC)
+	Mon, 19 Aug 2019 11:38:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 84E578A6
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 68DC68A8
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 19 Aug 2019 11:31:14 +0000 (UTC)
+	Mon, 19 Aug 2019 11:38:18 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3AEE328;
-	Mon, 19 Aug 2019 04:31:14 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1130E28;
+	Mon, 19 Aug 2019 04:38:18 -0700 (PDT)
 Received: from [10.37.12.162] (unknown [10.37.12.162])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA7983F246;
-	Mon, 19 Aug 2019 04:31:12 -0700 (PDT)
-Subject: Re: [Xen-devel] [PATCH 02/11] xen/arm: use dev_is_dma_coherent
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AF6B23F246;
+	Mon, 19 Aug 2019 04:38:16 -0700 (PDT)
+Subject: Re: [Xen-devel] [PATCH 04/11] xen/arm: remove xen_dma_ops
 To: Christoph Hellwig <hch@lst.de>,
 	Stefano Stabellini <sstabellini@kernel.org>,
 	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
 References: <20190816130013.31154-1-hch@lst.de>
-	<20190816130013.31154-3-hch@lst.de>
+	<20190816130013.31154-5-hch@lst.de>
 From: Julien Grall <julien.grall@arm.com>
-Message-ID: <0998bb38-6afd-d281-5c37-925adf2403d1@arm.com>
-Date: Mon, 19 Aug 2019 12:31:10 +0100
+Message-ID: <316d2032-334d-9a4c-7512-79bec5f0bc56@arm.com>
+Date: Mon, 19 Aug 2019 12:38:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190816130013.31154-3-hch@lst.de>
+In-Reply-To: <20190816130013.31154-5-hch@lst.de>
 Content-Language: en-US
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
 	version=3.3.1
@@ -66,20 +66,12 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Hi Christoph,
 
 On 8/16/19 2:00 PM, Christoph Hellwig wrote:
-> Use the dma-noncoherent dev_is_dma_coherent helper instead of the home
-> grown variant.
-
-It took me a bit of time to understand that dev->archdata.dma_coherent 
-and dev->dma_coherent will always contain the same value.
-
-Would you mind it mention it in the commit message?
-
-Other than that:
-
-Reviewed-by: Julien Grall <julien.grall@arm.com>
-
+> arm and arm64 can just use xen_swiotlb_dma_ops directly like x86, no
+> need for a pointer indirection.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+Reviewed-by: Julien Grall <julien.grall@arm.com>
 
 Cheers,
 
