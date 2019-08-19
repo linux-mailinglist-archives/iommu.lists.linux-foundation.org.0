@@ -2,30 +2,30 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3AE924DC
-	for <lists.iommu@lfdr.de>; Mon, 19 Aug 2019 15:23:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20BB924E0
+	for <lists.iommu@lfdr.de>; Mon, 19 Aug 2019 15:24:00 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 54DAFE3D;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id A0E79E5B;
 	Mon, 19 Aug 2019 13:23:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 42C0BE43
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 84828E57
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 19 Aug 2019 13:23:05 +0000 (UTC)
+	Mon, 19 Aug 2019 13:23:06 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 424948A7
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 3BF588A6
 	for <iommu@lists.linux-foundation.org>;
 	Mon, 19 Aug 2019 13:23:04 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-	id 4E04C673; Mon, 19 Aug 2019 15:23:00 +0200 (CEST)
+	id 745E2712; Mon, 19 Aug 2019 15:23:00 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 09/11] iommu: Set default domain type at runtime
-Date: Mon, 19 Aug 2019 15:22:54 +0200
-Message-Id: <20190819132256.14436-10-joro@8bytes.org>
+Subject: [PATCH 10/11] iommu: Disable passthrough mode when SME is active
+Date: Mon, 19 Aug 2019 15:22:55 +0200
+Message-Id: <20190819132256.14436-11-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190819132256.14436-1-joro@8bytes.org>
 References: <20190819132256.14436-1-joro@8bytes.org>
@@ -58,63 +58,40 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Set the default domain-type at runtime, not at compile-time.
-This keeps default domain type setting in one place when we
-have to change it at runtime.
+Using Passthrough mode when SME is active causes certain
+devices to use the SWIOTLB bounce buffer. The bounce buffer
+code has an upper limit of 256kb for the size of DMA
+allocations, which is too small for certain devices and
+causes them to fail.
+
+With this patch we enable IOMMU by default when SME is
+active in the system, making the default configuration work
+for more systems than it does now.
+
+Users that don't want IOMMUs to be enabled still can disable
+them with kernel parameters.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/iommu.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ drivers/iommu/iommu.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 0ddd0bd1ff75..01759d4ac70b 100644
+index 01759d4ac70b..ec18c9630e93 100644
 --- a/drivers/iommu/iommu.c
 +++ b/drivers/iommu/iommu.c
-@@ -26,11 +26,8 @@
- 
- static struct kset *iommu_group_kset;
- static DEFINE_IDA(iommu_group_ida);
--#ifdef CONFIG_IOMMU_DEFAULT_PASSTHROUGH
--static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_IDENTITY;
--#else
--static unsigned int iommu_def_domain_type = IOMMU_DOMAIN_DMA;
--#endif
+@@ -119,6 +119,11 @@ static int __init iommu_subsys_init(void)
+ 			iommu_set_default_passthrough(false);
+ 		else
+ 			iommu_set_default_translated(false);
 +
-+static unsigned int iommu_def_domain_type __read_mostly;
- static bool iommu_dma_strict __read_mostly = true;
- static u32 iommu_cmd_line __read_mostly;
- 
-@@ -76,7 +73,7 @@ static void iommu_set_cmd_line_dma_api(void)
- 	iommu_cmd_line |= IOMMU_CMD_LINE_DMA_API;
- }
- 
--static bool __maybe_unused iommu_cmd_line_dma_api(void)
-+static bool iommu_cmd_line_dma_api(void)
- {
- 	return !!(iommu_cmd_line & IOMMU_CMD_LINE_DMA_API);
- }
-@@ -115,8 +112,18 @@ static const char *iommu_domain_type_str(unsigned int t)
- 
- static int __init iommu_subsys_init(void)
- {
--	pr_info("Default domain type: %s\n",
--		iommu_domain_type_str(iommu_def_domain_type));
-+	bool cmd_line = iommu_cmd_line_dma_api();
-+
-+	if (!cmd_line) {
-+		if (IS_ENABLED(CONFIG_IOMMU_DEFAULT_PASSTHROUGH))
-+			iommu_set_default_passthrough(false);
-+		else
++		if (iommu_default_passthrough() && sme_active()) {
++			pr_info("SME detected - Disabling default IOMMU Passthrough\n");
 +			iommu_set_default_translated(false);
-+	}
-+
-+	pr_info("Default domain type: %s %s\n",
-+		iommu_domain_type_str(iommu_def_domain_type),
-+		cmd_line ? "(set via kernel command line)" : "");
++		}
+ 	}
  
- 	return 0;
- }
+ 	pr_info("Default domain type: %s %s\n",
 -- 
 2.16.4
 
