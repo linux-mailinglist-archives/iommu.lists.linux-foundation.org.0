@@ -2,48 +2,47 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ACD894B11
-	for <lists.iommu@lfdr.de>; Mon, 19 Aug 2019 18:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA9294C65
+	for <lists.iommu@lfdr.de>; Mon, 19 Aug 2019 20:10:52 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id DD132DBB;
-	Mon, 19 Aug 2019 16:58:39 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 5B8BBDDC;
+	Mon, 19 Aug 2019 18:10:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id C98A5DB1
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 2AD35DC8
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 19 Aug 2019 16:58:38 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 6AE5589B
+	Mon, 19 Aug 2019 18:10:49 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id C681D8AB
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 19 Aug 2019 16:58:38 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
-	bits)) (No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 4065F22CE9;
-	Mon, 19 Aug 2019 16:58:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1566233918;
-	bh=mg0gLjBJ0WIunBTl79cLKXwCZCkpdcfCd712xJ5p4GI=;
-	h=Date:From:To:Cc:Subject:From;
-	b=yYmkbmLC8KxsMPsZ7lMV6Yoz9OAK5ijlevtbKZB8ZQyqJm2YqSk4+GFFHJBS73Rvh
-	w+t6atCdjcCZd1Q00C2uzW/OXxWtVyhUXBSXcuVXjYcC2HimTQggpPBbRn23UDbL+R
-	vyYX5FAA8Ze/a4qf29LWEHkO+21IZed7DH9tyJws=
-Date: Mon, 19 Aug 2019 17:58:34 +0100
-From: Will Deacon <will@kernel.org>
-To: joro@8bytes.org
-Subject: [GIT PULL] iommu/core: Batched unmap support for 5.4
-Message-ID: <20190819165833.je2wqqemvfky42ps@willie-the-truck>
+	Mon, 19 Aug 2019 18:10:48 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41286360;
+	Mon, 19 Aug 2019 11:10:48 -0700 (PDT)
+Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A3FEC3F246;
+	Mon, 19 Aug 2019 11:10:46 -0700 (PDT)
+Subject: Re: [PATCH v2 00/17] Arm SMMU refactoring
+To: Will Deacon <will@kernel.org>
+References: <cover.1565892337.git.robin.murphy@arm.com>
+	<20190819155634.xflkhxexzks3y7oa@willie-the-truck>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <d8a47e62-0768-7ae2-f2fc-53b5b2b24685@arm.com>
+Date: Mon, 19 Aug 2019 19:10:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+In-Reply-To: <20190819155634.xflkhxexzks3y7oa@willie-the-truck>
+Content-Language: en-GB
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: jean-philippe@linaro.org, iommu@lists.linux-foundation.org,
-	robin.murphy@arm.com
+Cc: bjorn.andersson@linaro.org, iommu@lists.linux-foundation.org,
+	gregory.clement@bootlin.com, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,92 +55,31 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Joerg,
+On 19/08/2019 16:56, Will Deacon wrote:
+> On Thu, Aug 15, 2019 at 07:37:20PM +0100, Robin Murphy wrote:
+>> v1 for context: https://patchwork.kernel.org/cover/11087347/
+>>
+>> Here's a quick v2 attempting to address all the minor comments; I've
+>> tweaked a whole bunch of names, added some verbosity in macros and
+>> comments for clarity, and rejigged arm_smmu_impl_init() for a bit more
+>> structure. The (new) patches #1 and #2 are up front as conceptual fixes,
+>> although they're not actually critical - it turns out to be more of an
+>> embarrassment than a real problem in practice.
+> 
+> Thanks, I'll pick this up and send to Joerg later this week.
 
-Please pull this series to enable batched unmap support in the IOMMU
-core API. Later patches will enable this for Arm SMMUv3, and I suspect
-other IOMMU hardware can also benefit from the changes.
+Oops, I've just noticed that the io-64-nonatomic-hi-lo.h include also 
+needs to move to arm-smmu.h in #14 to avoid breaking 32-bit builds. I've 
+pushed out an updated branch (along with the static fixes for good 
+measure) - let me know if you'd like a resend of the patches.
 
-The rough idea is to track the current range being unmapped on the stack
-of the caller, so that the actual unmap operation in the IOMMU hardware
-can be deferred. This deferral allows for optimisations such as batch
-submission to the hardware, range invalidation or coalescing of the
-operations depending on the hardware capabilities. Crucially, it can
-reduce cacheline contention via locks or atomics in the driver code,
-which are traditionally exercised on every unmap call to the driver.
-
-Given that this reworks the IOMMU API, the diff is a little messy so
-please can you queue this as part of your core changes and let me know
-when you have a stable branch? That way, I can use it to resolve any
-conflicts with subsequent Arm SMMU driver changes.
-
-If you run into any trouble, please let me know and I'll see what I can
-do to help.
-
-Thanks,
-
-Will
-
---->8
-
-The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
-
-  Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
-
-are available in the git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-joerg/batched-unmap
-
-for you to fetch changes up to 3951c41af4a65ba418e6b1b973d398552bedb84f:
-
-  iommu/io-pgtable: Pass struct iommu_iotlb_gather to ->tlb_add_page() (2019-07-29 17:22:59 +0100)
-
-----------------------------------------------------------------
-Will Deacon (13):
-      iommu: Remove empty iommu_tlb_range_add() callback from iommu_ops
-      iommu/io-pgtable-arm: Remove redundant call to io_pgtable_tlb_sync()
-      iommu/io-pgtable: Rename iommu_gather_ops to iommu_flush_ops
-      iommu: Introduce struct iommu_iotlb_gather for batching TLB flushes
-      iommu: Introduce iommu_iotlb_gather_add_page()
-      iommu: Pass struct iommu_iotlb_gather to ->unmap() and ->iotlb_sync()
-      iommu/io-pgtable: Introduce tlb_flush_walk() and tlb_flush_leaf()
-      iommu/io-pgtable: Hook up ->tlb_flush_walk() and ->tlb_flush_leaf() in drivers
-      iommu/io-pgtable-arm: Call ->tlb_flush_walk() and ->tlb_flush_leaf()
-      iommu/io-pgtable: Replace ->tlb_add_flush() with ->tlb_add_page()
-      iommu/io-pgtable: Remove unused ->tlb_sync() callback
-      iommu/io-pgtable: Pass struct iommu_iotlb_gather to ->unmap()
-      iommu/io-pgtable: Pass struct iommu_iotlb_gather to ->tlb_add_page()
-
- drivers/gpu/drm/panfrost/panfrost_mmu.c |  24 +++++---
- drivers/iommu/amd_iommu.c               |  11 ++--
- drivers/iommu/arm-smmu-v3.c             |  52 +++++++++++-----
- drivers/iommu/arm-smmu.c                | 103 ++++++++++++++++++++++++--------
- drivers/iommu/dma-iommu.c               |   9 ++-
- drivers/iommu/exynos-iommu.c            |   3 +-
- drivers/iommu/intel-iommu.c             |   3 +-
- drivers/iommu/io-pgtable-arm-v7s.c      |  57 +++++++++---------
- drivers/iommu/io-pgtable-arm.c          |  48 ++++++++-------
- drivers/iommu/iommu.c                   |  24 ++++----
- drivers/iommu/ipmmu-vmsa.c              |  28 +++++----
- drivers/iommu/msm_iommu.c               |  42 +++++++++----
- drivers/iommu/mtk_iommu.c               |  45 +++++++++++---
- drivers/iommu/mtk_iommu_v1.c            |   3 +-
- drivers/iommu/omap-iommu.c              |   2 +-
- drivers/iommu/qcom_iommu.c              |  44 +++++++++++---
- drivers/iommu/rockchip-iommu.c          |   2 +-
- drivers/iommu/s390-iommu.c              |   3 +-
- drivers/iommu/tegra-gart.c              |  12 +++-
- drivers/iommu/tegra-smmu.c              |   2 +-
- drivers/iommu/virtio-iommu.c            |   5 +-
- drivers/vfio/vfio_iommu_type1.c         |  27 +++++----
- include/linux/io-pgtable.h              |  57 ++++++++++++------
- include/linux/iommu.h                   |  92 +++++++++++++++++++++-------
- 24 files changed, 483 insertions(+), 215 deletions(-)
+Cheers,
+Robin.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
