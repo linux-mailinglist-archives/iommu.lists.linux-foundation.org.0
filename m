@@ -2,43 +2,43 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 661CA96094
-	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 15:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4EC6960AF
+	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 15:43:01 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1CC08DAF;
-	Tue, 20 Aug 2019 13:42:35 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 59F25DB4;
+	Tue, 20 Aug 2019 13:43:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 45D73CC4
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A1860CC4
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 13:42:34 +0000 (UTC)
+	Tue, 20 Aug 2019 13:42:59 +0000 (UTC)
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id EF21687
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4A71D12E
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 13:42:33 +0000 (UTC)
+	Tue, 20 Aug 2019 13:42:59 +0000 (UTC)
 Received: from sasha-vm.mshome.net (unknown [12.236.144.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 3B97422DBF;
-	Tue, 20 Aug 2019 13:42:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id B315E22DD3;
+	Tue, 20 Aug 2019 13:42:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1566308553;
-	bh=aajKa75DWIkCGFrjXlLt3VAMK12kJS2v67DZm6AeF6I=;
+	s=default; t=1566308579;
+	bh=SM8FAR6Uo4ZQUbBUB9QabMO0xPsWSBlj7dMEFIUHKVo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=et7QvWGf5FR+qek/enBuh4fRD+u8uhqp8/pPfQ6Kc9dx4azuiKVLm3etnwYPSuvSb
-	/XlCkl/ktFL4TqCXgkmGByIT3HYhhX1vt1TC3DkETOY1azRSR0hXvLSH1lKXbdqmTr
-	N8IPlP7av7Q7XQIcVMuD/rEtDR2Y/Hsmc8hx/Ksk=
+	b=j2N0NTuhfgLq7neTqi6T9n8PDXn7FRdjXYK2cUJmleg0b4wl3i9BTjfxfOaGD9RmM
+	3cymuc4mVBYrkUl6sDtJo1Lkz5RppcCQpDOt9UqZv7nYvkJhgsLQalc1C1UF5fcbKg
+	79Slg0bSo3VW3Hn8yaBhlc0aXtogMETzincn8Koc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 17/27] iommu/dma: Handle SG length overflow better
-Date: Tue, 20 Aug 2019 09:42:03 -0400
-Message-Id: <20190820134213.11279-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 04/12] iommu/dma: Handle SG length overflow better
+Date: Tue, 20 Aug 2019 09:42:45 -0400
+Message-Id: <20190820134253.11562-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190820134213.11279-1-sashal@kernel.org>
-References: <20190820134213.11279-1-sashal@kernel.org>
+In-Reply-To: <20190820134253.11562-1-sashal@kernel.org>
+References: <20190820134253.11562-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -93,10 +93,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 511ff9a1d6d94..f9dbb064f9571 100644
+index 9d1cebe7f6cbb..c87764a4e2126 100644
 --- a/drivers/iommu/dma-iommu.c
 +++ b/drivers/iommu/dma-iommu.c
-@@ -675,7 +675,7 @@ static int __finalise_sg(struct device *dev, struct scatterlist *sg, int nents,
+@@ -684,7 +684,7 @@ static int __finalise_sg(struct device *dev, struct scatterlist *sg, int nents,
  		 * - and wouldn't make the resulting output segment too long
  		 */
  		if (cur_len && !s_iova_off && (dma_addr & seg_mask) &&
