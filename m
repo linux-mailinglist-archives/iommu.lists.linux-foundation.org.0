@@ -2,49 +2,84 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C6B968AF
-	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 20:42:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D06968F3
+	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 21:07:07 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1BBBCCBF;
-	Tue, 20 Aug 2019 18:42:00 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 7E56BD36;
+	Tue, 20 Aug 2019 19:06:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 48FA0C6F
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 3F5AFC79
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 18:41:58 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id A30CA87
+	Tue, 20 Aug 2019 19:06:44 +0000 (UTC)
+Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0FC5389B
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 18:41:57 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E763337;
-	Tue, 20 Aug 2019 11:41:56 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7881F3F718;
-	Tue, 20 Aug 2019 11:41:55 -0700 (PDT)
-Subject: Re: [PATCH 3/4] iommu/io-pgtable-arm: Rationalise TCR handling
-To: Will Deacon <will@kernel.org>
-References: <cover.1566238530.git.robin.murphy@arm.com>
-	<78df4f8e2510e88f3ded59eb385f79b4442ed4f2.1566238530.git.robin.murphy@arm.com>
-	<20190820103115.o7neehdethf7sbqi@willie-the-truck>
-	<48ca6945-de73-116a-3230-84862ca9e60b@arm.com>
-	<20190820160700.6ircxomwuo5bksqz@willie-the-truck>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <8cc47f43-ad74-b4e2-e977-6c78780abc91@arm.com>
-Date: Tue, 20 Aug 2019 19:41:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190820160700.6ircxomwuo5bksqz@willie-the-truck>
-Content-Language: en-GB
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+	Tue, 20 Aug 2019 19:06:42 +0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+	id DE4F860E42; Tue, 20 Aug 2019 19:06:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+	s=default; t=1566328001;
+	bh=JVOA+N1GY0FZQY7fgH8GBUcQtg09RuZemNa9uGbRUB4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=cGY7R235YpB41zyv7M/1ugHWDI/ziFKNIhV41PxzgJpu41F6SGQDPsnKwT6v84uoQ
+	fwqeJ4SiPMJHdMcNS8NqeMHuTc+Y0mkoUoewjphPYIoFjfs3bE9TnJaNA0KhyWBgjr
+	ByKKqzNSXQ8/sVSsM+l2UJjMV1ECTRqOyl5Afywc=
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+	[199.106.103.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: jcrouse@smtp.codeaurora.org)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id E2A2A608FC;
+	Tue, 20 Aug 2019 19:06:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+	s=default; t=1566327999;
+	bh=JVOA+N1GY0FZQY7fgH8GBUcQtg09RuZemNa9uGbRUB4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=M3Z+8dS+lEFL8B05ojyqH3qIFG+culCff2FSu0EKY/ry/7K1KKZg7C+hKtsTsrbnv
+	r7SpMsyJIV9oQxPSzEoaALo1KWXvI5skX+lAVXXVB5SrxlSgeY4eBsNUb67pkptlr6
+	71/65oHOvbmE6FBMuD0JfkDviPqBoXzhgDZmtu5M=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E2A2A608FC
+Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+	dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+	spf=none smtp.mailfrom=jcrouse@codeaurora.org
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH 0/7] iommu/arm-smmu: Split pagetable support for Adreno GPUs
+Date: Tue, 20 Aug 2019 13:06:25 -0600
+Message-Id: <1566327992-362-1-git-send-email-jcrouse@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Mark Rutland <mark.rutland@arm.com>,
+	Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+	David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Will Deacon <will@kernel.org>, Wen Yang <wen.yang99@zte.com.cn>,
+	Jonathan Marek <jonathan@marek.ca>, iommu@lists.linux-foundation.org,
+	Mamta Shukla <mamtashukla555@gmail.com>,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	Fritz Koenig <frkoenig@google.com>,
+	Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+	Sharat Masetty <smasetty@codeaurora.org>,
+	Abhinav Kumar <abhinavk@codeaurora.org>,
+	Jeykumar Sankaran <jsanka@codeaurora.org>,
+	Alexios Zavras <alexios.zavras@intel.com>,
+	Rob Herring <robh+dt@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+	Sean Paul <sean@poorly.run>, Allison Randal <allison@lohutok.net>,
+	Bruce Wang <bzwang@chromium.org>, Boris Brezillon <bbrezillon@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Georgi Djakov <georgi.djakov@linaro.org>,
+	Sravanthi Kollukuduru <skolluku@codeaurora.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,97 +92,95 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 20/08/2019 17:07, Will Deacon wrote:
-> On Tue, Aug 20, 2019 at 04:25:56PM +0100, Robin Murphy wrote:
->> On 20/08/2019 11:31, Will Deacon wrote:
->>> On Mon, Aug 19, 2019 at 07:19:30PM +0100, Robin Murphy wrote:
->>>> Although it's conceptually nice for the io_pgtable_cfg to provide a
->>>> standard VMSA TCR value, the reality is that no VMSA-compliant IOMMU
->>>> looks exactly like an Arm CPU, and they all have various other TCR
->>>> controls which io-pgtable can't be expected to understand. Thus since
->>>> there is an expectation that drivers will have to add to the given TCR
->>>> value anyway, let's strip it down to just the essentials that are
->>>> directly relevant to io-pgatble's inner workings - namely the address
->>>> sizes, walk attributes, and where appropriate, format selection.
->>>>
->>>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
->>>> ---
->>>>    drivers/iommu/arm-smmu-v3.c        | 7 +------
->>>>    drivers/iommu/arm-smmu.c           | 1 +
->>>>    drivers/iommu/arm-smmu.h           | 2 ++
->>>>    drivers/iommu/io-pgtable-arm-v7s.c | 6 ++----
->>>>    drivers/iommu/io-pgtable-arm.c     | 4 ----
->>>>    drivers/iommu/qcom_iommu.c         | 2 +-
->>>>    6 files changed, 7 insertions(+), 15 deletions(-)
->>>
->>> Hmm, so I'm a bit nervous about this one since I think we really should
->>> be providing a TCR with EPD1 set if we're only giving you TTBR0. Relying
->>> on the driver to do this worries me. See my comments on the next patch.
->>
->> The whole idea is that we already know we can't provide a *complete* TCR
->> value (not least because anything above bit 31 is the wild west), thus
->> there's really no point in io-pgtable trying to provide anything other than
->> the parts it definitely controls. It makes sense to provide this partial TCR
->> value "as if" for TTBR0, since that's the most common case, but ultimately
->> io-pgatble doesn't know (or need to) which TTBR the caller intends to
->> actually use for this table. Even if the caller *is* allocating it for
->> TTBR0, io-pgtable doesn't know that they haven't got something live in TTBR1
->> already, so it still wouldn't be in a position to make the EPD1 call either
->> way.
-> 
-> Ok, but the driver can happily rewrite/ignore what it gets back. I suppose
-> an alternative would be scrapped the 'u64 tcr' and instead having a bunch
-> of named bitfields for the stuff we're actually providing, although I'd
-> still like EPDx to be in there.
+This is another iteration to support split pagetables for Adreno GPUs as part of
+an incremental process to enable per-context pagetables.
 
-I like the bitfield idea; it would certainly emphasise the "you have to 
-do something more with this" angle that I'm pushing towards here, but 
-still leave things framed in TCR terms without having to go to some more 
-general abstraction. It really doesn't play into your EPD argument 
-though - such a config would be providing TxSZ/TGx/IRGNx/ORGNx/SHx, but 
-EPDy, for y = !x. For a driver to understand that and do the right thing 
-with it is even more involved than for the driver to just set EPD1 by 
-itself anyway.
+In order to support per-context pagetables the GPU needs to enable split
+pagetables so that we can store the global buffers in the TTBR1 space leaving
+the GPU free to program the TTBR0 register with the page address of a context
+specific pt.
 
->> Ultimately, it's the IOMMU drivers who decide what they put in which TTBR,
->> so it's the IOMMU drivers which have to take responsibility for EPD*. Sure
->> you can worry about it, but you can equally worry about them them
->> misprogramming the ASID or anything else...
-> 
-> I find the EPDx bits particularly dangerous because:
-> 
->    - They're easily overlooked
->    - Clobbering TTBR1 with 0x0 doesn't disable walks via TTBR1 as you might
->      reasonably expect
+Previous revisions of this series can be found at [1] and [2].
 
-(FWIW I'm not sure that that is a reasonable expectation, at least for 
-anyone savvy enough to be programming an MMU in the first place. There 
-are plenty of systems with RAM at 0x0)
+This iteration is built on top of the arm-smmu-impl and arm-smmu-v2
+rework code from Robin Murphy [3] and [4].
 
->    - If you do the above without EPD, the breakage will be subtle
-> 
-> and given that I don't see any real downsides to us providing a default TCR
-> value with EPD set appropriately, then I think we should do that. I'd be
-> happy to revisit the decision later on if it's getting the way of a real
-> use-case, but it feels like we're throwing the baby out with the bathwater
-> at the moment and I'd rather do this incrementally based on actual need.
-The downside is maintaining extra complexity for the sake of a 
-theoretical concern which hasn't been borne out in practice, with a 
-promise of yet more complexity down the line. Moving the 3 babies which 
-anyone acknowledges into their own private baths takes a whole -8 lines 
-of code to implement. That said, if we don't go down the bitfield route, 
-then I *can* leave the default TCR having EPD1 set if that makes you 
-feel warm and safe, but it will still be resoundingly ignored.
+This code is based on the realization that when split pagetables are enabled the
+configuration for the T1 address space is identical to that of the T0 space,
+so we can just take the TCR configuration provided by io-pgtable, duplicate it
+and shift it by 16 bits.
 
-If only LPAE had created these bits as enables rather than disables then 
-things would be logical and we could all be happy, but here we are...
+Since the current split pagetable implementation is specific to the Adreno
+GPUs we can also take a small shortcut and only allow split pagetables for SMMUs
+with a 49 bit upstream bus which allows us to use the default configuration
+for the sign extension bit and we can avoid a lot of extra code to handle
+different upstream bus sizes that will never get used.
 
-Robin.
+The first patch implements the split pagetable support for arm-smmu-v2.
+
+The second adds a SMMU model for the Adreno GPU SMMU and enables the split
+pagetables if conditions warrant.
+
+The 3rd and 4th patches add a domain attribute to query the status of split
+pagetables.
+
+The remaining patches modify drm/msm slightly to allow a6xx targets to
+recognize if split pagetables are enabled and adjust the address space
+accordingly.
+
+This series only includes support for split pagetables because I wanted to get
+this out for discussion and I haven't ported over the aux domain code to this
+kernel version, but I don't suspect it will end up being much different than
+previous versions [5].
+
+[1] https://patchwork.freedesktop.org/series/63403/
+[2] https://patchwork.freedesktop.org/series/64874/
+[3] https://lists.linuxfoundation.org/pipermail/iommu/2019-August/037905.html
+[4] https://lists.linuxfoundation.org/pipermail/iommu/2019-August/038244.html
+[5] https://patchwork.freedesktop.org/patch/307601/
+
+
+Jordan Crouse (7):
+  iommu/arm-smmu: Support split pagetables
+  dt-bindings: arm-smmu: Add Adreno GPU variant
+  iommu/arm-smmu: Add a SMMU variant for the Adreno GPU
+  iommu: Add DOMAIN_ATTR_SPLIT_TABLES
+  iommu/arm-smmu: Support DOMAIN_ATTR_SPLIT_TABLES
+  drm/msm: Create the msm_mmu object independently from the address
+    space
+  drm/msm: Use per-target functions to set up address spaces
+
+ .../devicetree/bindings/iommu/arm,smmu.txt         |  7 +++
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c              | 28 +++++++++++
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |  1 +
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |  1 +
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |  1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 56 ++++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            | 43 ++++++++++++++---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  5 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            | 16 ++++---
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           | 16 ++++---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c           |  4 --
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           | 13 ++++-
+ drivers/gpu/drm/msm/msm_drv.h                      |  8 +---
+ drivers/gpu/drm/msm/msm_gem_vma.c                  | 30 ++----------
+ drivers/gpu/drm/msm/msm_gpu.c                      | 51 ++------------------
+ drivers/gpu/drm/msm/msm_gpu.h                      |  4 +-
+ drivers/iommu/arm-smmu-impl.c                      | 15 ++++++
+ drivers/iommu/arm-smmu.c                           | 46 ++++++++++++++++--
+ drivers/iommu/arm-smmu.h                           |  2 +
+ include/linux/iommu.h                              |  1 +
+ 20 files changed, 237 insertions(+), 111 deletions(-)
+
+-- 
+2.7.4
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
