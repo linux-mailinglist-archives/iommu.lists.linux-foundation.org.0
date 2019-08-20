@@ -2,36 +2,36 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF2C964FF
-	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 17:46:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 654DC96500
+	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 17:46:09 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 3E293B79;
-	Tue, 20 Aug 2019 15:45:59 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 5F355E53;
+	Tue, 20 Aug 2019 15:46:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 7BA04D97
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9EA8FDF2
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 15:45:58 +0000 (UTC)
+	Tue, 20 Aug 2019 15:45:59 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 2D05A89B
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 29DD389B
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 15:45:58 +0000 (UTC)
+	Tue, 20 Aug 2019 15:45:59 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ABB92360;
-	Tue, 20 Aug 2019 08:45:57 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C80B61576;
+	Tue, 20 Aug 2019 08:45:58 -0700 (PDT)
 Received: from fuggles.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
 	[10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C36BA3F246; 
-	Tue, 20 Aug 2019 08:45:56 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DFDFE3F246; 
+	Tue, 20 Aug 2019 08:45:57 -0700 (PDT)
 From: Will Deacon <will@kernel.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH 1/4] iommu/arm-smmu-v3: Document ordering guarantees of
-	command insertion
-Date: Tue, 20 Aug 2019 16:45:46 +0100
-Message-Id: <20190820154549.17018-2-will@kernel.org>
+Subject: [PATCH 2/4] iommu/arm-smmu-v3: Rework enabling/disabling of ATS for
+	PCI masters
+Date: Tue, 20 Aug 2019 16:45:47 +0100
+Message-Id: <20190820154549.17018-3-will@kernel.org>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190820154549.17018-1-will@kernel.org>
 References: <20190820154549.17018-1-will@kernel.org>
@@ -59,47 +59,113 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-It turns out that we've always relied on some subtle ordering guarantees
-when inserting commands into the SMMUv3 command queue. With the recent
-changes to elide locking when possible, these guarantees become more
-subtle and even more important.
-
-Add a comment documented the barrier semantics of command insertion so
-that we don't have to derive the behaviour from scratch each time it
-comes up on the list.
+To prevent any potential issues arising from speculative Address
+Translation Requests from an ATS-enabled PCIe endpoint, rework our ATS
+enabling/disabling logic so that we enable ATS at the SMMU before we
+enable it at the endpoint, and disable things in the opposite order.
 
 Signed-off-by: Will Deacon <will@kernel.org>
 ---
- drivers/iommu/arm-smmu-v3.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/iommu/arm-smmu-v3.c | 44 ++++++++++++++++++++++++++------------------
+ 1 file changed, 26 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index b36a99971401..3402b1bc8e94 100644
+index 3402b1bc8e94..9096eca0c480 100644
 --- a/drivers/iommu/arm-smmu-v3.c
 +++ b/drivers/iommu/arm-smmu-v3.c
-@@ -1286,6 +1286,22 @@ static void arm_smmu_cmdq_write_entries(struct arm_smmu_cmdq *cmdq, u64 *cmds,
+@@ -2283,31 +2283,34 @@ static void arm_smmu_install_ste_for_dev(struct arm_smmu_master *master)
  	}
  }
  
-+/*
-+ * This is the actual insertion function, and provides the following
-+ * ordering guarantees to callers:
-+ *
-+ * - There is a dma_wmb() before publishing any commands to the queue.
-+ *   This can be relied upon to order prior writes to data structures
-+ *   in memory (such as a CD or an STE) before the command.
-+ *
-+ * - On completion of a CMD_SYNC, there is a control dependency.
-+ *   This can be relied upon to order subsequent writes to memory (e.g.
-+ *   freeing an IOVA) after completion of the CMD_SYNC.
-+ *
-+ * - Command insertion is totally ordered, so if two CPUs each race to
-+ *   insert their own list of commands then all of the commands from one
-+ *   CPU will appear before any of the commands from the other CPU.
-+ */
- static int arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
- 				       u64 *cmds, int n, bool sync)
+-static int arm_smmu_enable_ats(struct arm_smmu_master *master)
++static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
  {
+-	int ret;
+-	size_t stu;
+ 	struct pci_dev *pdev;
+ 	struct arm_smmu_device *smmu = master->smmu;
+ 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(master->dev);
+ 
+ 	if (!(smmu->features & ARM_SMMU_FEAT_ATS) || !dev_is_pci(master->dev) ||
+ 	    !(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS) || pci_ats_disabled())
+-		return -ENXIO;
++		return false;
+ 
+ 	pdev = to_pci_dev(master->dev);
+-	if (pdev->untrusted)
+-		return -EPERM;
++	return !pdev->untrusted && pdev->ats_cap;
++}
+ 
+-	/* Smallest Translation Unit: log2 of the smallest supported granule */
+-	stu = __ffs(smmu->pgsize_bitmap);
++static void arm_smmu_enable_ats(struct arm_smmu_master *master)
++{
++	size_t stu;
++	struct pci_dev *pdev;
++	struct arm_smmu_device *smmu = master->smmu;
+ 
+-	ret = pci_enable_ats(pdev, stu);
+-	if (ret)
+-		return ret;
++	if (master->ats_enabled || !dev_is_pci(master->dev))
++		return;
+ 
+-	master->ats_enabled = true;
+-	return 0;
++	/* Smallest Translation Unit: log2 of the smallest supported granule */
++	stu = __ffs(smmu->pgsize_bitmap);
++	pdev = to_pci_dev(master->dev);
++	if (pci_enable_ats(pdev, stu))
++		dev_err(master->dev, "Failed to enable ATS (STU %zu)\n", stu);
+ }
+ 
+ static void arm_smmu_disable_ats(struct arm_smmu_master *master)
+@@ -2317,10 +2320,14 @@ static void arm_smmu_disable_ats(struct arm_smmu_master *master)
+ 	if (!master->ats_enabled || !dev_is_pci(master->dev))
+ 		return;
+ 
++	pci_disable_ats(to_pci_dev(master->dev));
++	/*
++	 * Ensure ATS is disabled at the endpoint before we issue the
++	 * ATC invalidation via the SMMU.
++	 */
++	wmb();
+ 	arm_smmu_atc_inv_to_cmd(0, 0, 0, &cmd);
+ 	arm_smmu_atc_inv_master(master, &cmd);
+-	pci_disable_ats(to_pci_dev(master->dev));
+-	master->ats_enabled = false;
+ }
+ 
+ static void arm_smmu_detach_dev(struct arm_smmu_master *master)
+@@ -2335,10 +2342,10 @@ static void arm_smmu_detach_dev(struct arm_smmu_master *master)
+ 	list_del(&master->domain_head);
+ 	spin_unlock_irqrestore(&smmu_domain->devices_lock, flags);
+ 
++	arm_smmu_disable_ats(master);
+ 	master->domain = NULL;
++	master->ats_enabled = false;
+ 	arm_smmu_install_ste_for_dev(master);
+-
+-	arm_smmu_disable_ats(master);
+ }
+ 
+ static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
+@@ -2383,12 +2390,13 @@ static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
+ 	spin_unlock_irqrestore(&smmu_domain->devices_lock, flags);
+ 
+ 	if (smmu_domain->stage != ARM_SMMU_DOMAIN_BYPASS)
+-		arm_smmu_enable_ats(master);
++		master->ats_enabled = arm_smmu_ats_supported(master);
+ 
+ 	if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1)
+ 		arm_smmu_write_ctx_desc(smmu, &smmu_domain->s1_cfg);
+ 
+ 	arm_smmu_install_ste_for_dev(master);
++	arm_smmu_enable_ats(master);
+ out_unlock:
+ 	mutex_unlock(&smmu_domain->init_mutex);
+ 	return ret;
 -- 
 2.11.0
 
