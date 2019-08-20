@@ -2,53 +2,47 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D97F3960C4
-	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 15:43:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C17CF9619B
+	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 15:51:38 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 86C66DC2;
-	Tue, 20 Aug 2019 13:43:20 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id B36E6DD6;
+	Tue, 20 Aug 2019 13:51:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id DE2C5DA7
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5AD6ADC2
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 13:43:18 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 70D468A0
+	Tue, 20 Aug 2019 13:51:35 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 2CF9812E
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 13:43:18 +0000 (UTC)
-Received: from sasha-vm.mshome.net (unknown [12.236.144.82])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 88F982332A;
-	Tue, 20 Aug 2019 13:43:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1566308598;
-	bh=VFt+3yrRV/54bT3zwv9JShdoQYuWiOlyC5hzlGGNJcQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gDzH5UxV4i0Z6RysAQdFTshjoJnGWsa4WoENk4gVZDXQdizxIFtgVWW0ZQPNqUFDm
-	Ahb4BLKghrHAAX73buRfGG/ju3891mZuznVq15G6Fuho5OB+K2WtOk1/o0j2tqw05s
-	b+6wg5eIaewOtR2FJlyWYKmSvIuFAVZb9wVsMiNY=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 2/7] iommu/dma: Handle SG length overflow better
-Date: Tue, 20 Aug 2019 09:43:10 -0400
-Message-Id: <20190820134315.11720-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190820134315.11720-1-sashal@kernel.org>
-References: <20190820134315.11720-1-sashal@kernel.org>
+	Tue, 20 Aug 2019 13:51:34 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C37B528;
+	Tue, 20 Aug 2019 06:51:33 -0700 (PDT)
+Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1582E3F246;
+	Tue, 20 Aug 2019 06:51:32 -0700 (PDT)
+Subject: Re: [PATCH 4/4] iommu/io-pgtable-arm: Prepare for TTBR1 usage
+To: will@kernel.org, joro@8bytes.org, iommu@lists.linux-foundation.org,
+	linux-arm-kernel@lists.infradead.org, robdclark@gmail.com
+References: <cover.1566238530.git.robin.murphy@arm.com>
+	<6596469d5fa1e918145fdd4e6b1a3ad67f7cde2e.1566238530.git.robin.murphy@arm.com>
+	<20190819223439.GG28465@jcrouse1-lnx.qualcomm.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <de67f3d6-2c95-293a-9fae-ba594df21660@arm.com>
+Date: Tue, 20 Aug 2019 14:51:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+In-Reply-To: <20190819223439.GG28465@jcrouse1-lnx.qualcomm.com>
+Content-Language: en-GB
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Nicolin Chen <nicoleotsuka@gmail.com>, Sasha Levin <sashal@kernel.org>,
-	iommu@lists.linux-foundation.org, Joerg Roedel <jroedel@suse.de>,
-	Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,53 +55,76 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-From: Robin Murphy <robin.murphy@arm.com>
+On 19/08/2019 23:34, Jordan Crouse wrote:
+> On Mon, Aug 19, 2019 at 07:19:31PM +0100, Robin Murphy wrote:
+>> Now that callers are free to use a given table for TTBR1 if they wish
+>> (all they need do is shift the provided attributes when constructing
+>> their final TCR value), the only remaining impediment is the address
+>> validation on map/unmap. The fact that the LPAE address space split is
+>> symmetric makes this easy to accommodate - by simplifying the current
+>> range checks into explicit tests that address bits above IAS are all
+>> zero, it then follows straightforwardly to add the inverse test to
+>> allow the all-ones case as well.
+>>
+>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+>> ---
+>>   drivers/iommu/io-pgtable-arm.c | 7 ++++---
+>>   1 file changed, 4 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+>> index 09cb20671fbb..f39c50356351 100644
+>> --- a/drivers/iommu/io-pgtable-arm.c
+>> +++ b/drivers/iommu/io-pgtable-arm.c
+>> @@ -475,13 +475,13 @@ static int arm_lpae_map(struct io_pgtable_ops *ops, unsigned long iova,
+>>   	arm_lpae_iopte *ptep = data->pgd;
+>>   	int ret, lvl = ARM_LPAE_START_LVL(data);
+>>   	arm_lpae_iopte prot;
+>> +	long iaext = (long)iova >> data->iop.cfg.ias;
+>>   
+>>   	/* If no access, then nothing to do */
+>>   	if (!(iommu_prot & (IOMMU_READ | IOMMU_WRITE)))
+>>   		return 0;
+>>   
+>> -	if (WARN_ON(iova >= (1ULL << data->iop.cfg.ias) ||
+>> -		    paddr >= (1ULL << data->iop.cfg.oas)))
+>> +	if (WARN_ON((iaext && ~iaext) || paddr >> data->iop.cfg.oas))
+>>   		return -ERANGE;
+>>   
+>>   	prot = arm_lpae_prot_to_pte(data, iommu_prot);
+> 
+> We'll want to cast away the sign extended bits before mapping the iova, this
+> might be a good patch for that too as long as we are calculating the iaext.
 
-[ Upstream commit ab2cbeb0ed301a9f0460078e91b09f39958212ef ]
+Ah good point, I'd forgotten that ARM_LPAE_LVL_IDX() doesn't actually 
+cap to IAS if the top level is smaller than bits_per_level (I suppose we 
+*could* make it do so for purity, but that's bound to hurt efficiency 
+far more than just zeroing out the offending bits here).
 
-Since scatterlist dimensions are all unsigned ints, in the relatively
-rare cases where a device's max_segment_size is set to UINT_MAX, then
-the "cur_len + s_length <= max_len" check in __finalise_sg() will always
-return true. As a result, the corner case of such a device mapping an
-excessively large scatterlist which is mergeable to or beyond a total
-length of 4GB can lead to overflow and a bogus truncated dma_length in
-the resulting segment.
+Thanks,
+Robin.
 
-As we already assume that any single segment must be no longer than
-max_len to begin with, this can easily be addressed by reshuffling the
-comparison.
-
-Fixes: 809eac54cdd6 ("iommu/dma: Implement scatterlist segment merging")
-Reported-by: Nicolin Chen <nicoleotsuka@gmail.com>
-Tested-by: Nicolin Chen <nicoleotsuka@gmail.com>
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/iommu/dma-iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 1520e7f02c2f1..89d191b6a0e0f 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -493,7 +493,7 @@ static int __finalise_sg(struct device *dev, struct scatterlist *sg, int nents,
- 		 * - and wouldn't make the resulting output segment too long
- 		 */
- 		if (cur_len && !s_iova_off && (dma_addr & seg_mask) &&
--		    (cur_len + s_length <= max_len)) {
-+		    (max_len - cur_len >= s_length)) {
- 			/* ...then concatenate it with the previous one */
- 			cur_len += s_length;
- 		} else {
--- 
-2.20.1
-
+> 
+>> @@ -647,8 +647,9 @@ static size_t arm_lpae_unmap(struct io_pgtable_ops *ops, unsigned long iova,
+>>   	struct arm_lpae_io_pgtable *data = io_pgtable_ops_to_data(ops);
+>>   	arm_lpae_iopte *ptep = data->pgd;
+>>   	int lvl = ARM_LPAE_START_LVL(data);
+>> +	long iaext = (long)iova >> data->iop.cfg.ias;
+>>   
+>> -	if (WARN_ON(iova >= (1ULL << data->iop.cfg.ias)))
+>> +	if (WARN_ON(iaext && ~iaext))
+>>   		return 0;
+>>   
+>>   	return __arm_lpae_unmap(data, iova, size, lvl, ptep);
+> 
+> And here too.
+> 
+> Jordan
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
