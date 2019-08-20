@@ -2,65 +2,114 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1716596A3F
-	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 22:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B0696B42
+	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 23:18:11 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 07858C6E;
-	Tue, 20 Aug 2019 20:24:40 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 520EDD4F;
+	Tue, 20 Aug 2019 21:18:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 94B59B4B
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id F0C43D39
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 20:24:38 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mout1.fh-giessen.de (mout1.fh-giessen.de [212.201.18.42])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id AA67E8AF
+	Tue, 20 Aug 2019 21:18:08 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+	(mail-eopbgr770081.outbound.protection.outlook.com [40.107.77.81])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 6329387
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 20:24:37 +0000 (UTC)
-Received: from mx1.fh-giessen.de ([212.201.18.40])
-	by mout1.fh-giessen.de with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
-	(envelope-from <tobias.johannes.klausmann@mni.thm.de>)
-	id 1i0AgA-0004lW-LN; Tue, 20 Aug 2019 22:24:30 +0200
-Received: from mailgate-1.its.fh-giessen.de ([212.201.18.15])
-	by mx1.fh-giessen.de with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
-	(envelope-from <tobias.johannes.klausmann@mni.thm.de>)
-	id 1i0AgA-00ENUB-GS; Tue, 20 Aug 2019 22:24:30 +0200
-Received: from p2e561b42.dip0.t-ipconnect.de ([46.86.27.66]
-	helo=[192.168.1.24]) by mailgate-1.its.fh-giessen.de with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
-	(envelope-from <tobias.johannes.klausmann@mni.thm.de>)
-	id 1i0AgA-0008h8-6B; Tue, 20 Aug 2019 22:24:30 +0200
-Subject: Re: regression in ath10k dma allocation
-To: Christoph Hellwig <hch@lst.de>, Hillf Danton <hdanton@sina.com>
-References: <8fe8b415-2d34-0a14-170b-dcb31c162e67@mni.thm.de>
-	<20190816164301.GA3629@lst.de>
-	<af96ea6a-2b17-9b66-7aba-b7dae5bcbba5@mni.thm.de>
-	<20190816222506.GA24413@Asurada-Nvidia.nvidia.com>
-	<20190818031328.11848-1-hdanton@sina.com>
-	<acd7a4b0-fde8-1aa2-af07-2b469e5d5ca7@mni.thm.de>
-	<20190820065833.1628-1-hdanton@sina.com>
-	<20190820071250.GA28968@lst.de>
-From: Tobias Klausmann <tobias.johannes.klausmann@mni.thm.de>
-Message-ID: <c11b5c86-3c10-35f6-b07e-e090d42d97ed@mni.thm.de>
-Date: Tue, 20 Aug 2019 22:24:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:70.0) Gecko/20100101
-	Thunderbird/70.0a1
+	Tue, 20 Aug 2019 21:18:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=AkGlmK6//3dQwCuMSJE7Jq/y/75l2Vr67NlKB0RmuVwiXyRmWc84v7/HdFN/2KqE3odHCDJYnTu4upJ85cVqXY4tpREZtzBlk+C+EiQHOB9Gq8nYE1hBwhOQKpOnOlYE2NrmFCZy6GTB9Zx/JNDo1QsSp9wAw/9OCCz2iunQG/5Cfwj7xmpkGTOD0a3/xH2DZRHnZWC5PQxj2tNoDFe6iDcMinx2nXSQyfnKkt+/2eP1ps61z8dVBP0OrBEDn0UjDDDwzv1JJUJ0s/06b9VpXxOAOLPfkmocvTjSUnX0tf97nX/EtpeTigzYiUBrvX8axUHRgWSXeqMM+8Yp/xrY7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=9pOeAZzvXzUvvfRo+vaIGMMWB2tK4f2bDWbGMZAkbj4=;
+	b=GHKE1Vq0FNiFfuLqZ0xCgLLanjwL2glxGoX4KQNp5CToWbLshvLbRI9Q3irABfHxLYvMaFuNbtisHDbrAMdXUxmY+dhvlgd1K+sPnHfbBFMaILPsespGl6W6ls8oO9uO46KzMUxn3ag628sP4kwXC1tmTmm7St44SrFbADYCG8tQ13LW32sxJA6rdSKs7BgGaQC8cERhc/hT/RpiOIc/5coPXe6FE8/parViwdBMqEvB1lcJXE2Ok1vYsoDKnzxhKUTGMmim+mVlYoiwLjYr9ENfih66v9vWtCkhbcXJqboc2zuiBN1/W8ygbTfJ07941pm6UJx60u7UZ0CzQqkZqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com;
+	dkim=pass header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=9pOeAZzvXzUvvfRo+vaIGMMWB2tK4f2bDWbGMZAkbj4=;
+	b=gsb4hviy8akl6MaZ4G2T/ZE5wYMnzl3rwwUf3bBcLRUzJUE61pZb4QVvP8IjaOzBbtwg1EqcXPchgV3p3StiEAXc3fTOmnnc3CSETXRq4n3KWq3hLBYfFaN3jYwnBWT3fUHOjezRS18TLg7/FY62+mgrdcfJ4T8Cjo1YH/3WP5g=
+Received: from DM6PR12MB3163.namprd12.prod.outlook.com (20.179.104.150) by
+	DM6PR12MB3771.namprd12.prod.outlook.com (10.255.172.212) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2178.18; Tue, 20 Aug 2019 21:18:04 +0000
+Received: from DM6PR12MB3163.namprd12.prod.outlook.com
+	([fe80::585:2d27:6e06:f9b0]) by DM6PR12MB3163.namprd12.prod.outlook.com
+	([fe80::585:2d27:6e06:f9b0%7]) with mapi id 15.20.2178.018;
+	Tue, 20 Aug 2019 21:18:04 +0000
+From: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: Re: [PATCH 10/11] iommu: Disable passthrough mode when SME is active
+Thread-Topic: [PATCH 10/11] iommu: Disable passthrough mode when SME is active
+Thread-Index: AQHVVpE+vHJ4RbcyHUW5UFtccLiK3KcEjFuA
+Date: Tue, 20 Aug 2019 21:18:03 +0000
+Message-ID: <82e00ce5-df71-5b71-cf5d-3de86aa0a1e8@amd.com>
+References: <20190819132256.14436-1-joro@8bytes.org>
+	<20190819132256.14436-11-joro@8bytes.org>
+In-Reply-To: <20190819132256.14436-11-joro@8bytes.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: SN4PR0501CA0080.namprd05.prod.outlook.com
+	(2603:10b6:803:22::18) To DM6PR12MB3163.namprd12.prod.outlook.com
+	(2603:10b6:5:182::22)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=Thomas.Lendacky@amd.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [165.204.77.1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f004d402-54d1-4de3-4fd3-08d725b3e304
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+	SRVR:DM6PR12MB3771; 
+x-ms-traffictypediagnostic: DM6PR12MB3771:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR12MB37718D4248565965DE7D0677ECAB0@DM6PR12MB3771.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:473;
+x-forefront-prvs: 013568035E
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(4636009)(39860400002)(376002)(136003)(396003)(366004)(346002)(199004)(189003)(6116002)(81166006)(66946007)(3846002)(66556008)(76176011)(7736002)(66066001)(64756008)(66476007)(8936002)(66446008)(36756003)(7416002)(305945005)(5660300002)(99286004)(52116002)(53936002)(446003)(186003)(6506007)(2906002)(6246003)(6512007)(386003)(26005)(478600001)(53546011)(102836004)(31696002)(81156014)(54906003)(11346002)(316002)(25786009)(86362001)(31686004)(14454004)(4326008)(8676002)(6436002)(6486002)(229853002)(14444005)(486006)(256004)(71200400001)(71190400001)(476003)(2616005)(6916009);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3771;
+	H:DM6PR12MB3163.namprd12.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: BqXmetQpD5TrsV0PaAmUt4sBpkamhQA3hpnriw6uymaEVDmezxzfhc5FXUI4JENjffMqQrscRtnHjWlegc+M75Uw5jT8cYm6fr7iyeyLD3Xjvrm8qpw4ly4Hf/X7z93xl0uj9RdkwRgqALjnr/VRcrvSGJClIQczEOqzoKX8hVnu/zWAHLvQ637XlWhX3TCEIKcWv5VITZ8dL8AHZzPFrZRLS3AHN1NC8paRdw5OPHLFSvbRgLFgXTPTUUqSwPrriE8vDfsVDUtxNl17Q6es1c7Yu5NLM2rmT1UgSC5Ob9Gcv6OIqDcONgYpQLO83Uj9ADoJyiQMOW4I4MEPVoRHIm2/DZQe4OFz2eJYLnP18gzfFatVgEioXctXTZPeEjKeMJU8/RkrtOx4uu3Zlw0c6YscXGq1qTah9oQontizPdg=
+Content-ID: <4AEFA134D88B2241B30C6ADF7C3A41A9@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20190820071250.GA28968@lst.de>
-Content-Language: de-DE
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
-	autolearn=ham version=3.3.1
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f004d402-54d1-4de3-4fd3-08d725b3e304
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2019 21:18:04.0925 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Zl1PfZd5sWvw/Mq3OO1LgJuZOR//jvS2hWc9z/Y6GYFGvLoDOhA1IFC/UIAXYVWB8+SrSJEkSNQoqyMk+Ci1TQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3771
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org, ath10k@lists.infradead.org,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	iommu@lists.linux-foundation.org, tobias.klausmann@freenet.de,
-	robin.murphy@arm.com, davem@davemloft.net, kvalo@codeaurora.org
+Cc: "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+	"tony.luck@intel.com" <tony.luck@intel.com>,
+	"linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>, Joerg Roedel <jroedel@suse.de>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>, "hpa@zytor.com" <hpa@zytor.com>,
+	"tglx@linutronix.de" <tglx@linutronix.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,156 +122,53 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
+On 8/19/19 8:22 AM, Joerg Roedel wrote:
+> From: Joerg Roedel <jroedel@suse.de>
+> 
+> Using Passthrough mode when SME is active causes certain
+> devices to use the SWIOTLB bounce buffer. The bounce buffer
+> code has an upper limit of 256kb for the size of DMA
+> allocations, which is too small for certain devices and
+> causes them to fail.
+> 
+> With this patch we enable IOMMU by default when SME is
+> active in the system, making the default configuration work
+> for more systems than it does now.
+> 
+> Users that don't want IOMMUs to be enabled still can disable
+> them with kernel parameters.
+> 
+> Signed-off-by: Joerg Roedel <jroedel@suse.de>
 
-On 20.08.19 09:12, Christoph Hellwig wrote:
-> On Tue, Aug 20, 2019 at 02:58:33PM +0800, Hillf Danton wrote:
->> On Tue, 20 Aug 2019 05:05:14 +0200 Christoph Hellwig wrote:
->>> Tobias, plase try this patch:
->>>
-> New version below:
->
+Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
+Tested-by: Tom Lendacky <thomas.lendacky@amd.com>
+
 > ---
->  From b8a805e93be5a5662323b8ac61fe686df839c4ac Mon Sep 17 00:00:00 2001
-> From: Christoph Hellwig <hch@lst.de>
-> Date: Tue, 20 Aug 2019 11:45:49 +0900
-> Subject: dma-direct: fix zone selection after an unaddressable CMA allocation
->
-> The new dma_alloc_contiguous hides if we allocate CMA or regular
-> pages, and thus fails to retry a ZONE_NORMAL allocation if the CMA
-> allocation succeeds but isn't addressable.  That means we either fail
-> outright or dip into a small zone that might not succeed either.
->
-> Thanks to Hillf Danton for debugging this issue.
->
-> Fixes: b1d2dc009dec ("dma-contiguous: add dma_{alloc,free}_contiguous() helpers")
-> Reported-by: Tobias Klausmann <tobias.johannes.klausmann@mni.thm.de>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   drivers/iommu/dma-iommu.c      |  3 +++
->   include/linux/dma-contiguous.h |  5 +----
->   kernel/dma/contiguous.c        |  9 +++------
->   kernel/dma/direct.c            | 10 +++++++++-
->   4 files changed, 16 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index d991d40f797f..f68a62c3c32b 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -965,10 +965,13 @@ static void *iommu_dma_alloc_pages(struct device *dev, size_t size,
->   {
->   	bool coherent = dev_is_dma_coherent(dev);
->   	size_t alloc_size = PAGE_ALIGN(size);
-> +	int node = dev_to_node(dev);
->   	struct page *page = NULL;
->   	void *cpu_addr;
->   
->   	page = dma_alloc_contiguous(dev, alloc_size, gfp);
-> +	if (!page)
-> +		page = alloc_pages_node(node, gfp, get_order(alloc_size));
->   	if (!page)
->   		return NULL;
->   
-> diff --git a/include/linux/dma-contiguous.h b/include/linux/dma-contiguous.h
-> index c05d4e661489..03f8e98e3bcc 100644
-> --- a/include/linux/dma-contiguous.h
-> +++ b/include/linux/dma-contiguous.h
-> @@ -160,10 +160,7 @@ bool dma_release_from_contiguous(struct device *dev, struct page *pages,
->   static inline struct page *dma_alloc_contiguous(struct device *dev, size_t size,
->   		gfp_t gfp)
->   {
-> -	int node = dev ? dev_to_node(dev) : NUMA_NO_NODE;
-> -	size_t align = get_order(PAGE_ALIGN(size));
-> -
-> -	return alloc_pages_node(node, gfp, align);
-> +	return NULL;
->   }
->   
->   static inline void dma_free_contiguous(struct device *dev, struct page *page,
-> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-> index 2bd410f934b3..e6b450fdbeb6 100644
-> --- a/kernel/dma/contiguous.c
-> +++ b/kernel/dma/contiguous.c
-> @@ -230,9 +230,7 @@ bool dma_release_from_contiguous(struct device *dev, struct page *pages,
->    */
->   struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
->   {
-> -	int node = dev ? dev_to_node(dev) : NUMA_NO_NODE;
-> -	size_t count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-> -	size_t align = get_order(PAGE_ALIGN(size));
-> +	size_t count = size >> PAGE_SHIFT;
->   	struct page *page = NULL;
->   	struct cma *cma = NULL;
->   
-> @@ -243,14 +241,12 @@ struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
->   
->   	/* CMA can be used only in the context which permits sleeping */
->   	if (cma && gfpflags_allow_blocking(gfp)) {
-> +		size_t align = get_order(size);
->   		size_t cma_align = min_t(size_t, align, CONFIG_CMA_ALIGNMENT);
->   
->   		page = cma_alloc(cma, count, cma_align, gfp & __GFP_NOWARN);
->   	}
->   
-> -	/* Fallback allocation of normal pages */
-> -	if (!page)
-> -		page = alloc_pages_node(node, gfp, align);
->   	return page;
->   }
->   
-> @@ -258,6 +254,7 @@ struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
->    * dma_free_contiguous() - release allocated pages
->    * @dev:   Pointer to device for which the pages were allocated.
->    * @page:  Pointer to the allocated pages.
-> +	int node = dev ? dev_to_node(dev) : NUMA_NO_NODE;
->    * @size:  Size of allocated pages.
->    *
->    * This function releases memory allocated by dma_alloc_contiguous(). As the
-> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-> index 795c9b095d75..706113c6bebc 100644
-> --- a/kernel/dma/direct.c
-> +++ b/kernel/dma/direct.c
-> @@ -85,6 +85,8 @@ static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
->   struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
->   		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
->   {
-> +	size_t alloc_size = PAGE_ALIGN(size);
-> +	int node = dev_to_node(dev);
->   	struct page *page = NULL;
->   	u64 phys_mask;
->   
-> @@ -95,8 +97,14 @@ struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
->   	gfp &= ~__GFP_ZERO;
->   	gfp |= __dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
->   			&phys_mask);
-> +	page = dma_alloc_contiguous(dev, alloc_size, gfp);
-> +	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
-> +		dma_free_contiguous(dev, page, alloc_size);
-> +		page = NULL;
-> +	}
->   again:
-> -	page = dma_alloc_contiguous(dev, size, gfp);
-> +	if (!page)
-> +		page = alloc_pages_node(node, gfp, get_order(alloc_size));
->   	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
->   		dma_free_contiguous(dev, page, size);
->   		page = NULL;
-
-I can confirm this resolves the regression!
-
-Tested-by: Tobias Klausmann <tobias.johannes.klausmann@mni.thm.de>
-
-
-Thanks for the work of all involved,
-
-Tobias
-
-
-
+>  drivers/iommu/iommu.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 01759d4ac70b..ec18c9630e93 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -119,6 +119,11 @@ static int __init iommu_subsys_init(void)
+>  			iommu_set_default_passthrough(false);
+>  		else
+>  			iommu_set_default_translated(false);
+> +
+> +		if (iommu_default_passthrough() && sme_active()) {
+> +			pr_info("SME detected - Disabling default IOMMU Passthrough\n");
+> +			iommu_set_default_translated(false);
+> +		}
+>  	}
+>  
+>  	pr_info("Default domain type: %s %s\n",
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
