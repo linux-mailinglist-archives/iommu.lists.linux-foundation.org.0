@@ -2,47 +2,74 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47414965F8
-	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 18:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A95796636
+	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 18:23:28 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 100E4E40;
-	Tue, 20 Aug 2019 16:12:16 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 74BFDDC2;
+	Tue, 20 Aug 2019 16:23:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id A15CBD7D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 7E184A49
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 16:12:14 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id EE53912E
+	Tue, 20 Aug 2019 16:23:25 +0000 (UTC)
+Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 1623312E
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 16:12:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9757A28;
-	Tue, 20 Aug 2019 09:12:13 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD8433F718;
-	Tue, 20 Aug 2019 09:12:12 -0700 (PDT)
-Subject: Re: [PATCH 2/4] iommu/arm-smmu-v3: Rework enabling/disabling of ATS
-	for PCI masters
-To: Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org
-References: <20190820154549.17018-1-will@kernel.org>
-	<20190820154549.17018-3-will@kernel.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <5c9822a6-395f-3f5a-657d-ac73dd20d521@arm.com>
-Date: Tue, 20 Aug 2019 17:12:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190820154549.17018-3-will@kernel.org>
-Content-Language: en-GB
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+	Tue, 20 Aug 2019 16:23:25 +0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+	id 6F6BA60DB6; Tue, 20 Aug 2019 16:23:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+	s=default; t=1566318204;
+	bh=Jq+WMGe8B5Go6F6LI4omy9GTq55Eu9cZlfLG8KVU6Oo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F8KYPR94MXfilFsjxqqoJ6eVUbffAAWKMD1YWQ9ohm+lZARwFwLmUd4H//HSfsplM
+	OPuNYhGAKzvDSEFhhASxqj/fox2h6rbo+1ZBMjSDXn7O1zjI7l1Bw9/ix0ENmaeaIT
+	dCeNRtL9jxYdTB2TZa8JFL5UhbAKvfec9AHJ6Rpc=
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+	[199.106.103.254])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: jcrouse@smtp.codeaurora.org)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 2553360AD1;
+	Tue, 20 Aug 2019 16:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+	s=default; t=1566318203;
+	bh=Jq+WMGe8B5Go6F6LI4omy9GTq55Eu9cZlfLG8KVU6Oo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Bcs9DEUx16iQeIX8DYR8oEZHwcJU+AEVDdS88SgXUEEbPtNeLJOTA3fXC2LuJ+KqV
+	TrhO3hhYeDkPp3rjnkcuKKtuRj++UA37KtPltm/Fm64Qw3idcZRgM3klI2TD7lSzAH
+	0izZTnrNXoYSooB6xvPerSvXC/EM//mUs+FLPj5s=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2553360AD1
+Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+	dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+	spf=none smtp.mailfrom=jcrouse@codeaurora.org
+Date: Tue, 20 Aug 2019 10:23:20 -0600
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 3/4] iommu/io-pgtable-arm: Rationalise TCR handling
+Message-ID: <20190820162319.GH28465@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Robin Murphy <robin.murphy@arm.com>,
+	Will Deacon <will@kernel.org>, joro@8bytes.org,
+	iommu@lists.linux-foundation.org,
+	linux-arm-kernel@lists.infradead.org, robdclark@gmail.com
+References: <cover.1566238530.git.robin.murphy@arm.com>
+	<78df4f8e2510e88f3ded59eb385f79b4442ed4f2.1566238530.git.robin.murphy@arm.com>
+	<20190820103115.o7neehdethf7sbqi@willie-the-truck>
+	<48ca6945-de73-116a-3230-84862ca9e60b@arm.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <48ca6945-de73-116a-3230-84862ca9e60b@arm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org,
+	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,133 +82,66 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 20/08/2019 16:45, Will Deacon wrote:
-> To prevent any potential issues arising from speculative Address
-> Translation Requests from an ATS-enabled PCIe endpoint, rework our ATS
-> enabling/disabling logic so that we enable ATS at the SMMU before we
-> enable it at the endpoint, and disable things in the opposite order.
+On Tue, Aug 20, 2019 at 04:25:56PM +0100, Robin Murphy wrote:
+> On 20/08/2019 11:31, Will Deacon wrote:
+> >On Mon, Aug 19, 2019 at 07:19:30PM +0100, Robin Murphy wrote:
+> >>Although it's conceptually nice for the io_pgtable_cfg to provide a
+> >>standard VMSA TCR value, the reality is that no VMSA-compliant IOMMU
+> >>looks exactly like an Arm CPU, and they all have various other TCR
+> >>controls which io-pgtable can't be expected to understand. Thus since
+> >>there is an expectation that drivers will have to add to the given TCR
+> >>value anyway, let's strip it down to just the essentials that are
+> >>directly relevant to io-pgatble's inner workings - namely the address
+> >>sizes, walk attributes, and where appropriate, format selection.
+> >>
+> >>Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> >>---
+> >>  drivers/iommu/arm-smmu-v3.c        | 7 +------
+> >>  drivers/iommu/arm-smmu.c           | 1 +
+> >>  drivers/iommu/arm-smmu.h           | 2 ++
+> >>  drivers/iommu/io-pgtable-arm-v7s.c | 6 ++----
+> >>  drivers/iommu/io-pgtable-arm.c     | 4 ----
+> >>  drivers/iommu/qcom_iommu.c         | 2 +-
+> >>  6 files changed, 7 insertions(+), 15 deletions(-)
+> >
+> >Hmm, so I'm a bit nervous about this one since I think we really should
+> >be providing a TCR with EPD1 set if we're only giving you TTBR0. Relying
+> >on the driver to do this worries me. See my comments on the next patch.
 > 
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
->   drivers/iommu/arm-smmu-v3.c | 44 ++++++++++++++++++++++++++------------------
->   1 file changed, 26 insertions(+), 18 deletions(-)
+> The whole idea is that we already know we can't provide a *complete* TCR
+> value (not least because anything above bit 31 is the wild west), thus
+> there's really no point in io-pgtable trying to provide anything other than
+> the parts it definitely controls. It makes sense to provide this partial TCR
+> value "as if" for TTBR0, since that's the most common case, but ultimately
+> io-pgatble doesn't know (or need to) which TTBR the caller intends to
+> actually use for this table. Even if the caller *is* allocating it for
+> TTBR0, io-pgtable doesn't know that they haven't got something live in TTBR1
+> already, so it still wouldn't be in a position to make the EPD1 call either
+> way.
 > 
-> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-> index 3402b1bc8e94..9096eca0c480 100644
-> --- a/drivers/iommu/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm-smmu-v3.c
-> @@ -2283,31 +2283,34 @@ static void arm_smmu_install_ste_for_dev(struct arm_smmu_master *master)
->   	}
->   }
->   
-> -static int arm_smmu_enable_ats(struct arm_smmu_master *master)
-> +static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
->   {
-> -	int ret;
-> -	size_t stu;
->   	struct pci_dev *pdev;
->   	struct arm_smmu_device *smmu = master->smmu;
->   	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(master->dev);
->   
->   	if (!(smmu->features & ARM_SMMU_FEAT_ATS) || !dev_is_pci(master->dev) ||
->   	    !(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS) || pci_ats_disabled())
-> -		return -ENXIO;
-> +		return false;
->   
->   	pdev = to_pci_dev(master->dev);
-> -	if (pdev->untrusted)
-> -		return -EPERM;
-> +	return !pdev->untrusted && pdev->ats_cap;
-> +}
->   
-> -	/* Smallest Translation Unit: log2 of the smallest supported granule */
-> -	stu = __ffs(smmu->pgsize_bitmap);
-> +static void arm_smmu_enable_ats(struct arm_smmu_master *master)
-> +{
-> +	size_t stu;
-> +	struct pci_dev *pdev;
-> +	struct arm_smmu_device *smmu = master->smmu;
->   
-> -	ret = pci_enable_ats(pdev, stu);
-> -	if (ret)
-> -		return ret;
-> +	if (master->ats_enabled || !dev_is_pci(master->dev))
-> +		return;
->   
-> -	master->ats_enabled = true;
-> -	return 0;
-> +	/* Smallest Translation Unit: log2 of the smallest supported granule */
-> +	stu = __ffs(smmu->pgsize_bitmap);
-> +	pdev = to_pci_dev(master->dev);
-> +	if (pci_enable_ats(pdev, stu))
-> +		dev_err(master->dev, "Failed to enable ATS (STU %zu)\n", stu);
->   }
->   
->   static void arm_smmu_disable_ats(struct arm_smmu_master *master)
-> @@ -2317,10 +2320,14 @@ static void arm_smmu_disable_ats(struct arm_smmu_master *master)
->   	if (!master->ats_enabled || !dev_is_pci(master->dev))
+> Ultimately, it's the IOMMU drivers who decide what they put in which TTBR,
+> so it's the IOMMU drivers which have to take responsibility for EPD*. Sure
+> you can worry about it, but you can equally worry about them them
+> misprogramming the ASID or anything else...
 
-Hmm, while you've got the lid off, that dev_is_pci() test is clearly 
-redundant.
+I agree. If the driver *does* want to use TTBR1 then it gets a bit uglier to
+realize that the io-pgtable set the bit and mask it off. To me it is a lot
+clearer if this is done explicitly in the driver especially if the driver is
+where we are making the choice to use either ttbr0 or ttbr1.
 
->   		return;
->   
-> +	pci_disable_ats(to_pci_dev(master->dev));
-> +	/*
-> +	 * Ensure ATS is disabled at the endpoint before we issue the
-> +	 * ATC invalidation via the SMMU.
-> +	 */
-> +	wmb();
->   	arm_smmu_atc_inv_to_cmd(0, 0, 0, &cmd);
->   	arm_smmu_atc_inv_master(master, &cmd);
-> -	pci_disable_ats(to_pci_dev(master->dev));
-> -	master->ats_enabled = false;
->   }
->   
->   static void arm_smmu_detach_dev(struct arm_smmu_master *master)
-> @@ -2335,10 +2342,10 @@ static void arm_smmu_detach_dev(struct arm_smmu_master *master)
->   	list_del(&master->domain_head);
->   	spin_unlock_irqrestore(&smmu_domain->devices_lock, flags);
->   
-> +	arm_smmu_disable_ats(master);
->   	master->domain = NULL;
-> +	master->ats_enabled = false;
->   	arm_smmu_install_ste_for_dev(master);
-> -
-> -	arm_smmu_disable_ats(master);
->   }
->   
->   static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
-> @@ -2383,12 +2390,13 @@ static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
->   	spin_unlock_irqrestore(&smmu_domain->devices_lock, flags);
->   
->   	if (smmu_domain->stage != ARM_SMMU_DOMAIN_BYPASS)
-> -		arm_smmu_enable_ats(master);
-> +		master->ats_enabled = arm_smmu_ats_supported(master);
+It would probably be easier to see in actual code, and I'll have a patch
+shortly on top of this series.
 
-So for non-bypass domains we pretend ATS is already enabled iff it could 
-possibly be...
+Jordan
 
->   	if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1)
->   		arm_smmu_write_ctx_desc(smmu, &smmu_domain->s1_cfg);
->   
->   	arm_smmu_install_ste_for_dev(master);
-> +	arm_smmu_enable_ats(master);
-
-...which ensures this won't actually touch the PCIe cap, unless of 
-course when STE.EATS == 0. Are you sure about that?
-
-Robin.
-
->   out_unlock:
->   	mutex_unlock(&smmu_domain->init_mutex);
->   	return ret;
-> 
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
