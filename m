@@ -2,47 +2,48 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904ED962FE
-	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 16:51:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 558569634C
+	for <lists.iommu@lfdr.de>; Tue, 20 Aug 2019 16:58:43 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 5B502E38;
-	Tue, 20 Aug 2019 14:51:49 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 13D5CE45;
+	Tue, 20 Aug 2019 14:58:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id BB562C6D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 629A7BB3
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 14:51:47 +0000 (UTC)
+	Tue, 20 Aug 2019 14:58:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 516038A3
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 1F69212E
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 20 Aug 2019 14:51:47 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3D9A28;
-	Tue, 20 Aug 2019 07:51:46 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1977D3F246;
-	Tue, 20 Aug 2019 07:51:45 -0700 (PDT)
-Subject: Re: [PATCH 4/4] iommu/io-pgtable-arm: Prepare for TTBR1 usage
-To: Will Deacon <will@kernel.org>
-References: <cover.1566238530.git.robin.murphy@arm.com>
-	<6596469d5fa1e918145fdd4e6b1a3ad67f7cde2e.1566238530.git.robin.murphy@arm.com>
-	<20190820103048.xacfbtn5o4wermhi@willie-the-truck>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <469dc66a-2532-5f7f-cd8d-3fe13f6c279a@arm.com>
-Date: Tue, 20 Aug 2019 15:51:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Tue, 20 Aug 2019 14:58:31 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+	by mx1.suse.de (Postfix) with ESMTP id 3DB25AE42;
+	Tue, 20 Aug 2019 14:58:29 +0000 (UTC)
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: catalin.marinas@arm.com, hch@lst.de, wahrenst@gmx.net,
+	marc.zyngier@arm.com, robh+dt@kernel.org,
+	Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+	iommu@lists.linux-foundation.org, linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v2 00/11] Raspberry Pi 4 DMA addressing support
+Date: Tue, 20 Aug 2019 16:58:08 +0200
+Message-Id: <20190820145821.27214-1-nsaenzjulienne@suse.de>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <20190820103048.xacfbtn5o4wermhi@willie-the-truck>
-Content-Language: en-GB
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
+Cc: phill@raspberryi.org, linux-s390@vger.kernel.org, f.fainelli@gmail.com,
+	frowand.list@gmail.com, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, eric@anholt.net, mbrugger@suse.com,
+	linux-rpi-kernel@lists.infradead.org, akpm@linux-foundation.org,
+	will@kernel.org, nsaenzjulienne@suse.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,67 +56,123 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 20/08/2019 11:30, Will Deacon wrote:
-> On Mon, Aug 19, 2019 at 07:19:31PM +0100, Robin Murphy wrote:
->> Now that callers are free to use a given table for TTBR1 if they wish
->> (all they need do is shift the provided attributes when constructing
->> their final TCR value), the only remaining impediment is the address
->> validation on map/unmap. The fact that the LPAE address space split is
->> symmetric makes this easy to accommodate - by simplifying the current
->> range checks into explicit tests that address bits above IAS are all
->> zero, it then follows straightforwardly to add the inverse test to
->> allow the all-ones case as well.
->>
->> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
->> ---
->>   drivers/iommu/io-pgtable-arm.c | 7 ++++---
->>   1 file changed, 4 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
->> index 09cb20671fbb..f39c50356351 100644
->> --- a/drivers/iommu/io-pgtable-arm.c
->> +++ b/drivers/iommu/io-pgtable-arm.c
->> @@ -475,13 +475,13 @@ static int arm_lpae_map(struct io_pgtable_ops *ops, unsigned long iova,
->>   	arm_lpae_iopte *ptep = data->pgd;
->>   	int ret, lvl = ARM_LPAE_START_LVL(data);
->>   	arm_lpae_iopte prot;
->> +	long iaext = (long)iova >> data->iop.cfg.ias;
->>   
->>   	/* If no access, then nothing to do */
->>   	if (!(iommu_prot & (IOMMU_READ | IOMMU_WRITE)))
->>   		return 0;
->>   
->> -	if (WARN_ON(iova >= (1ULL << data->iop.cfg.ias) ||
->> -		    paddr >= (1ULL << data->iop.cfg.oas)))
->> +	if (WARN_ON((iaext && ~iaext) || paddr >> data->iop.cfg.oas))
-> 
-> I had to read that '&&' twice, but I see what you're doing now :)
-> 
->>   		return -ERANGE;
-> 
-> This doesn't seem sufficient to prevent a mixture of TTBR1 and TTBR0
-> addresses from being mapped in the same TTBR. Perhaps we need a quirk for
-> TTBR1, which could then take care of setting EPDx appropriately?
+Hi all,
+this series attempts to address some issues we found while bringing up
+the new Raspberry Pi 4 in arm64 and it's intended to serve as a follow
+up of these discussions:
+v1: https://lkml.org/lkml/2019/7/31/922
+RFC: https://lkml.org/lkml/2019/7/17/476
 
-Right, that's the one downside of going for the minimalist "io-pgtable 
-doesn't even have to know" approach. On reflection, though, in that 
-paradigm it should probably be the caller's responsibility to convert 
-TTBR1 addresses to preserve the "as if TTBR0" illusion anyway :/
+The new Raspberry Pi 4 has up to 4GB of memory but most peripherals can
+only address the first GB: their DMA address range is
+0xc0000000-0xfc000000 which is aliased to the first GB of physical
+memory 0x00000000-0x3c000000. Note that only some peripherals have these
+limitations: the PCIe, V3D, GENET, and 40-bit DMA channels have a wider
+view of the address space by virtue of being hooked up trough a second
+interconnect.
 
-The advantage of not having a quirk is that it allows split address 
-spaces to fit more closely with the aux_domain idea, i.e. we could 
-allocate and initialise a domain without having to assume, or even care, 
-whether it will end up attached as a primary or aux domain. It *might* 
-even be potentially useful to have a domain attached to TTBR0 of one 
-device's context and TTBR1 of another's at the same time, although 
-that's pretty niche.
+Part of this is solved in arm32 by setting up the machine specific
+'.dma_zone_size = SZ_1G', which takes care of reserving the coherent
+memory area at the right spot. That said no buffer bouncing (needed for
+dma streaming) is available at the moment, but that's a story for
+another series.
 
-Robin.
+Unfortunately there is no such thing as 'dma_zone_size' in arm64. Only
+ZONE_DMA32 is created which is interpreted by dma-direct and the arm64
+arch code as if all peripherals where be able to address the first 4GB
+of memory.
+
+In the light of this, the series implements the following changes:
+
+- Create generic 'dma_zone_size' in order for hardware description code
+  to set it up when needed.
+
+- Add a function in early_init_dt_scan() to setup 'dma_zone_size' for
+  the RPi4.
+
+- Create both DMA zones in arm64, ZONE_DMA will contain the area
+  addressable by all peripherals and ZONE_DMA32 the rest of the 32 bit
+  addressable memory. ZONE_DMA32 might be left empty.
+
+- Reserve the CMA area in a place suitable for all peripherals.
+
+- Inform dma-direct of the new runtime calculated min_mask.
+
+This series has been tested on multiple devices both by checking the
+zones setup matches the expectations and by double-checking physical
+addresses on pages allocated on the three relevant areas GFP_DMA,
+GFP_DMA32, GFP_KERNEL:
+
+- On an RPi4 with variations on the ram memory size. But also forcing
+  the situation where all three memory zones are nonempty by setting a 3G
+  ZONE_DMA32 ceiling on a 4G setup. Both with and without NUMA support.
+
+- On a Synquacer box[1] with 32G of memory.
+
+- On an ACPI based Huawei TaiShan server[2] with 256G of memory.
+
+- On a QEMU virtual machine running arm64's OpenSUSE Tumbleweed.
+
+That's all.
+
+Regards,
+Nicolas
+
+[1] https://www.96boards.org/product/developerbox/
+[2] https://e.huawei.com/en/products/cloud-computing-dc/servers/taishan-server/taishan-2280-v2
+
+---
+
+Changes in v2:
+- More in depth testing.
+- Create new global 'dma_zone_size'.
+- New approach to getting the dma_zone_size, instead of parsing the dts
+  we hardcode it conditionally to the machine compatible name.
+- Fix ZONE_DMA and ZONE_DMA32 split, now ZONE_DMA32 remains empty if
+  ZONE_DMA fits the whole 32 bit addressable space.
+- Take into account devices with DMA offset.
+- Rename new dma-direct variable to zone_dma_bits.
+- Try new approach by merging both ZONE_DMA and ZONE_DMA32 comments
+  in mmzone.h, add new up to date examples.
+
+Nicolas Saenz Julienne (11):
+  asm-generic: add dma_zone_size
+  arm: use generic dma_zone_size
+  of/fdt: add of_fdt_machine_is_compatible function
+  of/fdt: add early_init_dt_get_dma_zone_size()
+  arm64: mm: use arm64_dma_phys_limit instead of calling
+    max_zone_dma_phys()
+  arm64: rename variables used to calculate ZONE_DMA32's size
+  arm64: re-introduce max_zone_dma_phys()
+  arm64: use both ZONE_DMA and ZONE_DMA32
+  dma-direct: turn ARCH_ZONE_DMA_BITS into a variable
+  arm64: edit zone_dma_bits to fine tune dma-direct min mask
+  mm: refresh ZONE_DMA and ZONE_DMA32 comments in 'enum zone_type'
+
+ arch/arm/include/asm/dma.h      |  8 ++--
+ arch/arm/mm/init.c              | 12 ++----
+ arch/arm64/Kconfig              |  4 ++
+ arch/arm64/mm/init.c            | 73 +++++++++++++++++++++++++--------
+ arch/powerpc/include/asm/page.h |  9 ----
+ arch/powerpc/mm/mem.c           | 16 +++++---
+ arch/s390/include/asm/page.h    |  2 -
+ arch/s390/mm/init.c             |  1 +
+ drivers/of/fdt.c                | 15 +++++++
+ include/asm-generic/dma.h       |  8 +++-
+ include/linux/dma-direct.h      |  2 +
+ include/linux/mmzone.h          | 46 ++++++++++++---------
+ kernel/dma/direct.c             | 13 +++---
+ mm/page_alloc.c                 |  3 ++
+ 14 files changed, 140 insertions(+), 72 deletions(-)
+
+-- 
+2.22.0
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
