@@ -2,48 +2,45 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9A397EA6
-	for <lists.iommu@lfdr.de>; Wed, 21 Aug 2019 17:26:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8FD797EC1
+	for <lists.iommu@lfdr.de>; Wed, 21 Aug 2019 17:34:38 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 197D2EE4;
-	Wed, 21 Aug 2019 15:26:02 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 278A6EEC;
+	Wed, 21 Aug 2019 15:34:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 99450ED2
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9CC81ED2
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 21 Aug 2019 15:26:00 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 3CA6EF8
+	Wed, 21 Aug 2019 15:34:33 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 2C3D9822
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 21 Aug 2019 15:26:00 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
-	bits)) (No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id CED6D206BA;
-	Wed, 21 Aug 2019 15:25:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1566401160;
-	bh=NFr0/nY3IfPKUVlKWEhZAqr+dzWcs/Y2p7eY45qm4Bs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vx3lNhdbRokT/r8unMb1miHNxu9JN9NYu+yPM5e+d2LRwW3AGqFtGETXG7VnK1Rno
-	rwhPd99dPfgCZlkLeur4F2jSZAS09a9CQm0zjp5fGWWUdpUfDIblVXpp6dtG0i2LnH
-	PFbPOvk9DZnA0p7rlzFDMc2c1v17Q08ToAhdHSEk=
-Date: Wed, 21 Aug 2019 16:25:54 +0100
-From: Will Deacon <will@kernel.org>
-To: Yong Wu <yong.wu@mediatek.com>
-Subject: Re: [PATCH v10 08/23] iommu/io-pgtable-arm-v7s: Rename the quirk
-	from MTK_4GB to MTK_EXT
-Message-ID: <20190821152553.r6mdhucvuovq4xdk@willie-the-truck>
+	Wed, 21 Aug 2019 15:34:32 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB655337;
+	Wed, 21 Aug 2019 08:34:31 -0700 (PDT)
+Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E11F53F718;
+	Wed, 21 Aug 2019 08:34:28 -0700 (PDT)
+Subject: Re: [PATCH v10 09/23] iommu/io-pgtable-arm-v7s: Extend to support
+	PA[33:32] for MediaTek
+To: Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>
 References: <1566395606-7975-1-git-send-email-yong.wu@mediatek.com>
-	<1566395606-7975-9-git-send-email-yong.wu@mediatek.com>
+	<1566395606-7975-10-git-send-email-yong.wu@mediatek.com>
+	<20190821152448.qmoqjh5zznfpdi6n@willie-the-truck>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <22a79977-5074-7af1-97b8-8a3e549b23c1@arm.com>
+Date: Wed, 21 Aug 2019 16:34:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1566395606-7975-9-git-send-email-yong.wu@mediatek.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+In-Reply-To: <20190821152448.qmoqjh5zznfpdi6n@willie-the-truck>
+Content-Language: en-GB
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
@@ -54,8 +51,7 @@ Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
 	Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
 	Matthias Brugger <matthias.bgg@gmail.com>,
 	ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
-	Robin Murphy <robin.murphy@arm.com>, Matthias Kaehlcke <mka@chromium.org>,
-	linux-arm-kernel@lists.infradead.org
+	Matthias Kaehlcke <mka@chromium.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,27 +64,54 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Wed, Aug 21, 2019 at 09:53:11PM +0800, Yong Wu wrote:
-> In previous mt2712/mt8173, MediaTek extend the v7s to support 4GB dram.
-> But in the latest mt8183, We extend it to support the PA up to 34bit.
-> Then the "MTK_4GB" name is not so fit, This patch only change the quirk
-> name to "MTK_EXT".
+On 21/08/2019 16:24, Will Deacon wrote:
+> On Wed, Aug 21, 2019 at 09:53:12PM +0800, Yong Wu wrote:
+>> MediaTek extend the arm v7s descriptor to support up to 34 bits PA where
+>> the bit32 and bit33 are encoded in the bit9 and bit4 of the PTE
+>> respectively. Meanwhile the iova still is 32bits.
+>>
+>> Regarding whether the pagetable address could be over 4GB, the mt8183
+>> support it while the previous mt8173 don't, thus keep it as is.
+>>
+>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+>> ---
+>>   drivers/iommu/io-pgtable-arm-v7s.c | 32 +++++++++++++++++++++++++-------
+>>   include/linux/io-pgtable.h         |  7 +++----
+>>   2 files changed, 28 insertions(+), 11 deletions(-)
 > 
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> ---
->  drivers/iommu/io-pgtable-arm-v7s.c | 6 +++---
->  drivers/iommu/mtk_iommu.c          | 2 +-
->  include/linux/io-pgtable.h         | 4 ++--
->  3 files changed, 6 insertions(+), 6 deletions(-)
+> [...]
+> 
+>> @@ -731,7 +747,9 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+>>   {
+>>   	struct arm_v7s_io_pgtable *data;
+>>   
+>> -	if (cfg->ias > ARM_V7S_ADDR_BITS || cfg->oas > ARM_V7S_ADDR_BITS)
+>> +	if (cfg->ias > ARM_V7S_ADDR_BITS ||
+>> +	    (cfg->oas > ARM_V7S_ADDR_BITS &&
+>> +	     !(cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_EXT)))
+> 
+> Please can you instead change arm_v7s_alloc_pgtable() so that it allows an
+> ias of up to 34 when the IO_PGTABLE_QUIRK_ARM_MTK_EXT is set?
 
-Acked-by: Will Deacon <will@kernel.org>
+You mean oas, right? I believe the hardware *does* actually support a 
+32-bit ias as well, but we shouldn't pretend to support that while 
+__arm_v7s_alloc_table() still only knows how to allocate normal-sized 
+tables.
 
-Will
+Robin.
+
+> 
+> With that change:
+> 
+> Acked-by: Will Deacon <will@kernel.org>
+> 
+> Will
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
