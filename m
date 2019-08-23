@@ -2,43 +2,52 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818BA9A9D4
-	for <lists.iommu@lfdr.de>; Fri, 23 Aug 2019 10:12:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5BB79A9EC
+	for <lists.iommu@lfdr.de>; Fri, 23 Aug 2019 10:15:22 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 26580DCA;
-	Fri, 23 Aug 2019 08:12:43 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8DCBFDA1;
+	Fri, 23 Aug 2019 08:15:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 28038CC9
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 49495D2E
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 23 Aug 2019 08:12:41 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 8A9E767F
+	Fri, 23 Aug 2019 08:15:20 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B08A77FB
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 23 Aug 2019 08:12:40 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-	id 46A6D1C7; Fri, 23 Aug 2019 10:12:37 +0200 (CEST)
-Date: Fri, 23 Aug 2019 10:12:37 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: corbet@lwn.net, tony.luck@intel.com, fenghua.yu@intel.com,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-	x86@kernel.org, linux-doc@vger.kernel.org,
-	linux-ia64@vger.kernel.org, iommu@lists.linux-foundation.org,
-	linux-kernel@vger.kernel.org, Thomas.Lendacky@amd.com,
-	Suravee.Suthikulpanit@amd.com, Joerg Roedel <jroedel@suse.de>
-Subject: Re: [PATCH 00/11 v3] Cleanup IOMMU passthrough setting (and disable
-	IOMMU Passthrough when SME is active)
-Message-ID: <20190823081236.GE30332@8bytes.org>
-References: <20190819132256.14436-1-joro@8bytes.org>
+	Fri, 23 Aug 2019 08:15:19 +0000 (UTC)
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+	by Forcepoint Email with ESMTP id 9B9376584E140FA06078;
+	Fri, 23 Aug 2019 16:15:12 +0800 (CST)
+Received: from [127.0.0.1] (10.133.215.186) by DGGEMS404-HUB.china.huawei.com
+	(10.3.19.204) with Microsoft SMTP Server id 14.3.439.0;
+	Fri, 23 Aug 2019 16:15:02 +0800
+Subject: Re: [PATCH v2 0/2] iommu/iova: enhance the rcache optimization
+To: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>, "Jean-Philippe
+	Brucker" <jean-philippe@linaro.org>, John Garry <john.garry@huawei.com>,
+	"Robin Murphy" <robin.murphy@arm.com>, Will Deacon <will@kernel.org>, Joerg
+	Roedel <joro@8bytes.org>, iommu <iommu@lists.linux-foundation.org>, Omer
+	Peleg <omer@cs.technion.ac.il>, Adam Morrison <mad@cs.technion.ac.il>, 
+	Shaohua Li <shli@fb.com>, Ben Serebrin <serebrin@google.com>,
+	David Woodhouse <David.Woodhouse@intel.com>, linux-arm-kernel
+	<linux-arm-kernel@lists.infradead.org>, linux-kernel
+	<linux-kernel@vger.kernel.org>
+References: <20190815121104.29140-1-thunder.leizhen@huawei.com>
+From: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <297e3718-eb31-d92a-1eb9-d4999fcd20c5@huawei.com>
+Date: Fri, 23 Aug 2019 16:15:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190819132256.14436-1-joro@8bytes.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
+In-Reply-To: <20190815121104.29140-1-thunder.leizhen@huawei.com>
+Content-Language: en-US
+X-Originating-IP: [10.133.215.186]
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=unavailable version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -58,32 +67,42 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Mon, Aug 19, 2019 at 03:22:45PM +0200, Joerg Roedel wrote:
-> Joerg Roedel (11):
->   iommu: Remember when default domain type was set on kernel command line
->   iommu: Add helpers to set/get default domain type
->   iommu: Use Functions to set default domain type in iommu_set_def_domain_type()
->   iommu/amd: Request passthrough mode from IOMMU core
->   iommu/vt-d: Request passthrough mode from IOMMU core
->   x86/dma: Get rid of iommu_pass_through
->   ia64: Get rid of iommu_pass_through
->   iommu: Print default domain type on boot
->   iommu: Set default domain type at runtime
->   iommu: Disable passthrough mode when SME is active
->   Documentation: Update Documentation for iommu.passthrough
-> 
->  Documentation/admin-guide/kernel-parameters.txt |  2 +-
->  arch/ia64/include/asm/iommu.h                   |  2 -
->  arch/ia64/kernel/pci-dma.c                      |  2 -
->  arch/x86/include/asm/iommu.h                    |  1 -
->  arch/x86/kernel/pci-dma.c                       | 20 +-----
->  drivers/iommu/amd_iommu.c                       |  6 +-
->  drivers/iommu/intel-iommu.c                     |  2 +-
->  drivers/iommu/iommu.c                           | 93 +++++++++++++++++++++++--
->  include/linux/iommu.h                           | 16 +++++
->  9 files changed, 110 insertions(+), 34 deletions(-)
+Hi all,
+  Can anyone help review it?
 
-Applied.
+
+On 2019/8/15 20:11, Zhen Lei wrote:
+> v1 --> v2
+> 1. I did not chagne the patches but added this cover-letter.
+> 2. Add a batch of reviewers base on
+>    9257b4a206fc ("iommu/iova: introduce per-cpu caching to iova allocation")
+> 3. I described the problem I met in patch 2, but I hope below brief description
+>    can help people to quickly understand.
+>    Suppose there are six rcache sizes, each size can maximum hold 10000 IOVAs.
+>    --------------------------------------------
+>    |  4K   |  8K  | 16K  |  32K | 64K  | 128K |
+>    --------------------------------------------
+>    | 10000 | 9000 | 8500 | 8600 | 9200 | 7000 |
+>    --------------------------------------------
+>    As the above map displayed, the whole rcache buffered too many IOVAs. Now, the
+>    worst case can be coming, suppose we need 20000 4K IOVAs at one time. That means
+>    10000 IOVAs can be allocated from rcache, but another 10000 IOVAs should be 
+>    allocated from RB tree base on alloc_iova() function. But the RB tree currently
+>    have at least (9000 + 8500 + 8600 + 9200 + 7000) = 42300 nodes. The average speed
+>    of RB tree traverse will be very slow. For my test scenario, the 4K size IOVAs are
+>    frequently used, but others are not. So similarly, when the 20000 4K IOVAs are
+>    continuous freed, the first 10000 IOVAs can be quickly buffered, but the other
+>    10000 IOVAs can not.
+> 
+> Zhen Lei (2):
+>   iommu/iova: introduce iova_magazine_compact_pfns()
+>   iommu/iova: enhance the rcache optimization
+> 
+>  drivers/iommu/iova.c | 100 +++++++++++++++++++++++++++++++++++++++++++++++----
+>  include/linux/iova.h |   1 +
+>  2 files changed, 95 insertions(+), 6 deletions(-)
+> 
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
