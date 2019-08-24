@@ -2,59 +2,84 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022E99BB78
-	for <lists.iommu@lfdr.de>; Sat, 24 Aug 2019 05:43:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19C79BC6F
+	for <lists.iommu@lfdr.de>; Sat, 24 Aug 2019 09:57:18 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 15A6BC86;
-	Sat, 24 Aug 2019 03:43:46 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 05E35CA8;
+	Sat, 24 Aug 2019 07:57:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 3F724B59
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 025B6C86
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 24 Aug 2019 03:43:43 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 8AB96A7
+	Sat, 24 Aug 2019 07:57:13 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 9461EA7
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 24 Aug 2019 03:43:42 +0000 (UTC)
-X-UUID: 94847ecf790d458e8eb21d4e003c3ac6-20190824
-X-UUID: 94847ecf790d458e8eb21d4e003c3ac6-20190824
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-	(envelope-from <yong.wu@mediatek.com>)
-	(Cellopoint E-mail Firewall v4.1.10 Build 0707 with TLS)
-	with ESMTP id 2038650983; Sat, 24 Aug 2019 11:06:42 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
-	mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Sat, 24 Aug 2019 11:06:34 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
-	(172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
-	Transport; Sat, 24 Aug 2019 11:06:33 +0800
-From: Yong Wu <yong.wu@mediatek.com>
-To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v11 20/23] memory: mtk-smi: Add bus_sel for mt8183
-Date: Sat, 24 Aug 2019 11:02:05 +0800
-Message-ID: <1566615728-26388-21-git-send-email-yong.wu@mediatek.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1566615728-26388-1-git-send-email-yong.wu@mediatek.com>
-References: <1566615728-26388-1-git-send-email-yong.wu@mediatek.com>
+	Sat, 24 Aug 2019 07:57:11 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id o9so25542643iom.3
+	for <iommu@lists.linux-foundation.org>;
+	Sat, 24 Aug 2019 00:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=tcd-ie.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=Rt7wtYCc1s5tor1o81jIoZmh+z8hgaSPweyus4OLaDI=;
+	b=K3z+flYVSNNSWoTBFmevj6fYPEM2G+divlFtL3oFGJ/e/x/iInhDr1dHK6vOFA/Sbp
+	0UBZ0ILyiMLYwgPhEtNbPrCfbqGmZtE/iabl81cCpUXQwu/WVEpKa5tCim0w1eCIh71t
+	eInx/aknxqQIs4gIxsdejGNRIx8xP+U2vTrq8ZHY1WRqCjxz80WNyH+rIwQ2mT6JfE1B
+	QwqIwtiPieUU8kHxEfuWEcHR8GIRvzO2XbMzcLUUBoaBKhzkgm+6/ek9kkwQndKDRlwN
+	Bo6V5oJZr/cP6fVAv0g7HenkS6s1hcn7PjRTIxgVGyzPH3mpyl52vEoa/RUroG5wsa33
+	XzSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Rt7wtYCc1s5tor1o81jIoZmh+z8hgaSPweyus4OLaDI=;
+	b=RTOlj+IfSsODcushxofikMUk52iGn8UvKDl3U8kF3VDSwFk5F7rpBApOG/WLM+ISMR
+	NGA7zH46LbpuIZqMAWmld54YMzQJnOeHqXSI1sWEMG3Jlchn6yYmMzrOjjnVmhiY+vss
+	BeomEfDmYHKu+wF9/IX0hu8BUE9uKtls+7aEUnGHC80kdq42jRyFDus0jdrf7j4/HFj9
+	lzA/irz4TiuaMEJiD6Ey5k0dbLjnQDv/FktA01AFc6PAb6vAsXxcshnXUP/5Vf8PE1tM
+	9bAIA1+uUnVyA4Qs3oI2NHnxmJQbw7uhyIoIaW8PksXq+NBjYaTirXNF+BuBfl3GFPsv
+	QKmQ==
+X-Gm-Message-State: APjAAAXBCTrgwGw3d3nsmfk5iAKJVH+atd1Zj/l1x8Tg6dG9EeU2/dO/
+	2FJZObV7i0/EvhvDTKsyReIQatrmF6VzvmY1ydHB/g==
+X-Google-Smtp-Source: APXvYqwxcXr8xhaFGFkwJobfl5gf6+4v9QSf+/e/XxuJihI8hsXlCsjVuqNrS0RHDZAcIleIWvUKgloQNh3YdFkKQX8=
+X-Received: by 2002:a6b:b8c4:: with SMTP id
+	i187mr12749931iof.102.1566633430565; 
+	Sat, 24 Aug 2019 00:57:10 -0700 (PDT)
 MIME-Version: 1.0
-X-MTK: N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,UNPARSEABLE_RELAY
-	autolearn=ham version=3.3.1
+References: <20190815110944.3579-1-murphyt7@tcd.ie>
+	<20190815110944.3579-2-murphyt7@tcd.ie>
+	<20190820094143.GA24154@infradead.org>
+In-Reply-To: <20190820094143.GA24154@infradead.org>
+From: Tom Murphy <murphyt7@tcd.ie>
+Date: Sat, 24 Aug 2019 08:56:59 +0100
+Message-ID: <CALQxJussiGDzWFT1xhko6no5jZNOezWCFuJQUCr4XwH4NHri3Q@mail.gmail.com>
+Subject: Re: [PATCH V5 1/5] iommu/amd: Remove unnecessary locking from AMD
+	iommu driver
+To: Christoph Hellwig <hch@infradead.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
-	Nicolas Boichat <drinkcat@chromium.org>, cui.zhang@mediatek.com,
-	srv_heupstream@mediatek.com, chao.hao@mediatek.com,
-	linux-kernel@vger.kernel.org, Evan Green <evgreen@chromium.org>,
-	Tomasz Figa <tfiga@google.com>, iommu@lists.linux-foundation.org,
-	Rob Herring <robh+dt@kernel.org>,
-	linux-mediatek@lists.infradead.org, ming-fan.chen@mediatek.com,
-	anan.sun@mediatek.com, Matthias Kaehlcke <mka@chromium.org>,
-	linux-arm-kernel@lists.infradead.org
+Cc: Heiko Stuebner <heiko@sntech.de>, virtualization@lists.linux-foundation.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	linux-samsung-soc@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org,
+	Kukjin Kim <kgene@kernel.org>, Andy Gross <agross@kernel.org>,
+	linux-s390@vger.kernel.org, Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+	linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	David Woodhouse <dwmw2@infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,115 +92,71 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-There are 2 mmu cells in a M4U HW. we could adjust some larbs entering
-mmu0 or mmu1 to balance the bandwidth via the smi-common register
-SMI_BUS_SEL(0x220)(Each larb occupy 2 bits).
-
-In mt8183, For better performance, we switch larb1/2/5/7 to enter
-mmu1 while the others still keep enter mmu0.
-
-In mt8173 and mt2712, we don't get the performance issue,
-Keep its default value(0x0), that means all the larbs enter mmu0.
-
-Note: smi gen1(mt2701/mt7623) don't have this bus_sel.
-
-And, the base of smi-common is completely different with smi_ao_base
-of gen1, thus I add new variable for that.
-
-CC: Matthias Brugger <matthias.bgg@gmail.com>
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-Reviewed-by: Evan Green <evgreen@chromium.org>
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
----
- drivers/memory/mtk-smi.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
-index 2bb55b86..289e595 100644
---- a/drivers/memory/mtk-smi.c
-+++ b/drivers/memory/mtk-smi.c
-@@ -41,6 +41,12 @@
- #define SMI_LARB_NONSEC_CON(id)	(0x380 + ((id) * 4))
- #define F_MMU_EN		BIT(0)
- 
-+/* SMI COMMON */
-+#define SMI_BUS_SEL			0x220
-+#define SMI_BUS_LARB_SHIFT(larbid)	((larbid) << 1)
-+/* All are MMU0 defaultly. Only specialize mmu1 here. */
-+#define F_MMU1_LARB(larbid)		(0x1 << SMI_BUS_LARB_SHIFT(larbid))
-+
- enum mtk_smi_gen {
- 	MTK_SMI_GEN1,
- 	MTK_SMI_GEN2
-@@ -49,6 +55,7 @@ enum mtk_smi_gen {
- struct mtk_smi_common_plat {
- 	enum mtk_smi_gen gen;
- 	bool             has_gals;
-+	u32              bus_sel; /* Balance some larbs to enter mmu0 or mmu1 */
- };
- 
- struct mtk_smi_larb_gen {
-@@ -64,8 +71,10 @@ struct mtk_smi {
- 	struct clk			*clk_apb, *clk_smi;
- 	struct clk			*clk_gals0, *clk_gals1;
- 	struct clk			*clk_async; /*only needed by mt2701*/
--	void __iomem			*smi_ao_base;
--
-+	union {
-+		void __iomem		*smi_ao_base; /* only for gen1 */
-+		void __iomem		*base;	      /* only for gen2 */
-+	};
- 	const struct mtk_smi_common_plat *plat;
- };
- 
-@@ -402,6 +411,8 @@ static int __maybe_unused mtk_smi_larb_suspend(struct device *dev)
- static const struct mtk_smi_common_plat mtk_smi_common_mt8183 = {
- 	.gen      = MTK_SMI_GEN2,
- 	.has_gals = true,
-+	.bus_sel  = F_MMU1_LARB(1) | F_MMU1_LARB(2) | F_MMU1_LARB(5) |
-+		    F_MMU1_LARB(7),
- };
- 
- static const struct of_device_id mtk_smi_common_of_ids[] = {
-@@ -474,6 +485,11 @@ static int mtk_smi_common_probe(struct platform_device *pdev)
- 		ret = clk_prepare_enable(common->clk_async);
- 		if (ret)
- 			return ret;
-+	} else {
-+		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+		common->base = devm_ioremap_resource(dev, res);
-+		if (IS_ERR(common->base))
-+			return PTR_ERR(common->base);
- 	}
- 	pm_runtime_enable(dev);
- 	platform_set_drvdata(pdev, common);
-@@ -489,6 +505,7 @@ static int mtk_smi_common_remove(struct platform_device *pdev)
- static int __maybe_unused mtk_smi_common_resume(struct device *dev)
- {
- 	struct mtk_smi *common = dev_get_drvdata(dev);
-+	u32 bus_sel = common->plat->bus_sel;
- 	int ret;
- 
- 	ret = mtk_smi_clk_enable(common);
-@@ -496,6 +513,9 @@ static int __maybe_unused mtk_smi_common_resume(struct device *dev)
- 		dev_err(common->dev, "Failed to enable clock(%d).\n", ret);
- 		return ret;
- 	}
-+
-+	if (common->plat->gen == MTK_SMI_GEN2 && bus_sel)
-+		writel(bus_sel, common->base + SMI_BUS_SEL);
- 	return 0;
- }
- 
--- 
-1.9.1
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+PkkgaGF2ZSB0byBhZG1pdCBJIGRvbid0IGZ1bGx5IHVuZGVyc3RhbmQgdGhlIGNvbmN1cnJlbmN5
+IGlzc3VlcyBoZXJlLCBidXQgbmVpdGhlciBkbyBJIHVuZGVyc3RhbmQgd2hhdCB0aGUgbXV0ZXgg
+eW91IHJlbW92ZWQgbWlnaHQgaGF2ZSBoZWxwZWQgdG8gc3RhcnQgd2l0aC4KCkVhY2ggcmFuZ2Ug
+aW4gdGhlIHBhZ2UgdGFibGVzIGlzIHByb3RlY3RlZCBieSB0aGUgSU8gdmlydHVhbCBhZGRyZXNz
+CmFsbG9jYXRvci4gVGhlIGlvbW11IGRyaXZlciBhbGxvY2F0ZXMgYW4gSU9WQSByYW5nZSB1c2lu
+ZyBsb2NrcyBiZWZvcmUKaXQgd3JpdGVzIHRvIGEgcGFnZSB0YWJsZSByYW5nZS4gVGhlIElPVkEg
+YWxsb2NhdG9yIGFjdHMgbGlrZSBhIGxvY2sKb24gYSBzcGVjaWZpYyByYW5nZSBvZiB0aGUgcGFn
+ZSB0YWJsZXMuIFNvIHdlIGNhbiBoYW5kbGUgbW9zdCBvZiB0aGUKY29uY3VycmVuY3kgaXNzdWVz
+IGluIHRoZSBJT1ZBIGFsbG9jYXRvciBhbmQgYXZvaWQgbG9ja2luZyB3aGlsZQp3cml0aW5nIHRv
+IGEgcmFuZ2UgaW4gdGhlIHBhZ2UgdGFibGVzLgoKSG93ZXZlciBiZWNhdXNlIHdlIGhhdmUgbXVs
+dGlwbGUgbGV2ZWxzIG9mIHBhZ2VzIHdlIG1pZ2h0IGhhdmUgdG8KYWxsb2NhdGUgYSBtaWRkbGUg
+cGFnZSAoYSBQTUQpIHdoaWNoIGNvdmVycyBtb3JlIHRoYW4gdGhlIElPVkEgcmFuZ2UKd2UgaGF2
+ZSBhbGxvY2F0ZWQuClRvIHNvbHZlIHRoaXMgd2UgY291bGQgdXNlIGxvY2tzOgoKLy9wc2V1ZG8g
+Y29kZQpsb2NrX3BhZ2VfdGFibGUoKQppZiAod2UgbmVlZCB0byBhbGxvY2F0ZSBtaWRkbGUgcGFn
+ZXMpIHsKIC8vYWxsb2NhdGUgdGhlIHBhZ2UKIC8vc2V0IHRoZSBQTUQgdmFsdWUKfQp1bmxvY2tf
+cGFnZV90YWJsZSgpCgpidXQgd2UgY2FuIGFjdHVhbGx5IGF2b2lkIGhhdmluZyBhbnkgbG9ja2lu
+ZyBieSBkb2luZyB0aGUgZm9sbG93aW5nOgoKLy9wc2V1ZG8gY29kZQppZiAod2UgbmVlZCB0byBh
+bGxvY2F0ZSBtaWRkbGUgcGFnZXMpIHsKIC8vYWxsb2NhdGUgdGhlIHBhZ2UKIC8vY21weGNoZzY0
+IHRvIHNldCB0aGUgUE1EIGlmIGl0IHdhc24ndCBhbHJlYWR5IHNldCBzaW5jZSB3ZSBsYXN0IGNo
+ZWNrZWQKIGlmICh0aGUgUE1EIHdhcyBzZXQgd2hpbGUgc2luY2Ugd2UgbGFzdCBjaGVja2VkKQog
+ICAvL2ZyZWUgdGhlIHBhZ2Ugd2UganVzdCBhbGxvY2F0ZWQKfQoKSW4gdGhpcyBjYXNlIHdlIGNh
+biBlbmQgdXAgZG9pbmcgYSBwb2ludGxlc3MgcGFnZSBhbGxvY2F0ZSBhbmQgZnJlZQpidXQgaXQn
+cyB3b3J0aCBpdCB0byBhdm9pZCB1c2luZyBsb2NrcwoKWW91IGNhbiBzZWUgdGhpcyBpbiB0aGUg
+aW50ZWwgaW9tbXUgY29kZSBoZXJlOgpodHRwczovL2dpdGh1Yi5jb20vdG9ydmFsZHMvbGludXgv
+YmxvYi85MTQwZDhiZGQ0YzVhMDRhYmUxODFiYjMwMDM3ODM1NWQ1Njk5MGE0L2RyaXZlcnMvaW9t
+bXUvaW50ZWwtaW9tbXUuYyNMOTA0Cgo+d2hhdCB0aGUgbXV0ZXggeW91IHJlbW92ZWQgbWlnaHQg
+aGF2ZSBoZWxwZWQgdG8gc3RhcnQgd2l0aC4KVGhlIG11dGV4IEkgcmVtb3ZlZCBpcyBhcmd1YWJs
+eSBjb21wbGV0ZWx5IHVzZWxlc3MuCgpJbiB0aGUgZG1hIG9wcyBwYXRoIHdlIGhhbmRsZSB0aGUg
+SU9WQSBhbGxvY2F0aW9ucyBpbiB0aGUgZHJpdmVyIHNvIHdlCmNhbiBiZSBzdXJlIGEgY2VydGFp
+biByYW5nZSBpcyBwcm90ZWN0ZWQgYnkgdGhlIElPVkEgYWxsb2NhdG9yLgoKQmVjYXVzZSB0aGUg
+aW9tbXUgb3BzIHBhdGggZG9lc24ndCBoYW5kbGUgdGhlIElPVkEgYWxsb2NhdGlvbnMgaXQKc2Vl
+bXMgcmVhc29uYWJsZSB0byBsb2NrIHRoZSBwYWdlIHRhYmxlcyB0byBhdm9pZCB0d28gd3JpdGVy
+cyB3cml0aW5nCnRvIHRoZSBzYW1lIHJhbmdlIGF0IHRoZSBzYW1lIHRpbWUuIFdpdGhvdXQgdGhl
+IGxvY2sgaXQncyBjb21wbGV0ZQpjaGFvcyBhbmQgYWxsIHdyaXRlcnMgY2FuIGJlIHdyaXRpbmcg
+dG8gdGhlIHNhbWUgcmFuZ2UgYXQgdGhlIHNhbWUKdGltZSByZXN1bHRpbmcgaW4gY29tcGxldGUg
+Z2FyYmFnZS4KQlVUIHRoZSBsb2NraW5nIGRvZXNuJ3QgYWN0dWFsbHkgbWFrZSBhbnkgcmVhbCBk
+aWZmZXJlbmNlLiBFdmVuIHdpdGgKbG9ja2luZyB3ZSBzdGlsbCBoYXZlIGEgcmFjZSBjb25kaXRp
+b24gaWYgdHdvIHdyaXRlcnMgd2FudCB0byB3cml0ZSB0bwp0aGUgc2FtZSByYW5nZSBhdCB0aGUg
+c2FtZSB0aW1lLCB0aGUgcmFjZSBpcyBqdXN0IHdob2V2ZXIgZ2V0cyB0aGUKbG9jayBmaXJzdCwg
+d2Ugc3RpbGwgY2FuJ3QgYmUgc3VyZSB3aGF0IHRoZSByZXN1bHQgd2lsbCBiZS4gU28gdGhlCnJl
+c3VsdCBpcyBzdGlsbCBnYXJiYWdlLCBqdXN0IHNsaWdodGx5IG1vcmUgdXNhYmxlIGdhcmJhZ2Ug
+YmVjYXVzZSBhdApsZWFzdCB0aGUgcmFuZ2UgaXMgY29ycmVjdCBmb3Igb25lIHdyaXRlci4KSXQg
+anVzdCBtYWtlcyBubyBzZW5zZSB0byBldmVyIGhhdmUgdHdvIHdyaXRlcnMgd3JpdGluZyB0byB0
+aGUgc2FtZQpyYW5nZSBhbmQgYWRkaW5nIGEgbG9jayBkb2Vzbid0IGZpeCB0aGF0LgpBbHJlYWR5
+IHRoZSBJbnRlbCBpb21tdSBvcHMgcGF0aCBkb2Vzbid0IHVzZSBsb2NrcyBmb3IgaXQncyBwYWdl
+IHRhYmxlCnNvIHRoaXMgaXNuJ3QgYSBuZXcgaWRlYSBJJ20ganVzdCBkb2luZyB0aGUgc2FtZSBm
+b3IgdGhlIEFNRCBpb21tdQpkcml2ZXIKCkRvZXMgYWxsIHRoYXQgbWFrZSBzZW5zZT8KCk9uIFR1
+ZSwgMjAgQXVnIDIwMTkgYXQgMTA6NDEsIENocmlzdG9waCBIZWxsd2lnIDxoY2hAaW5mcmFkZWFk
+Lm9yZz4gd3JvdGU6Cj4KPiBPbiBUaHUsIEF1ZyAxNSwgMjAxOSBhdCAxMjowOTozOVBNICswMTAw
+LCBUb20gTXVycGh5IHdyb3RlOgo+ID4gV2UgY2FuIHJlbW92ZSB0aGUgbXV0ZXggbG9jayBmcm9t
+IGFtZF9pb21tdV9tYXAgYW5kIGFtZF9pb21tdV91bm1hcC4KPiA+IGlvbW11X21hcCBkb2VzbuKA
+mXQgbG9jayB3aGlsZSBtYXBwaW5nIGFuZCBzbyBubyB0d28gY2FsbHMgc2hvdWxkIHRvdWNoCj4g
+PiB0aGUgc2FtZSBpb3ZhIHJhbmdlLiBUaGUgQU1EIGRyaXZlciBhbHJlYWR5IGhhbmRsZXMgdGhl
+IHBhZ2UgdGFibGUgcGFnZQo+ID4gYWxsb2NhdGlvbnMgd2l0aG91dCBsb2NrcyBzbyB3ZSBjYW4g
+c2FmZWx5IHJlbW92ZSB0aGUgbG9ja3MuCj4KPiBJJ3ZlIGJlZW4gbG9va2luZyBvdmVyIHRoZSBj
+b2RlIGFuZCB0cnlpbmcgdG8gdW5kZXJzdGFuZCBob3cgdGhlCj4gc3luY2hyb25pemF0aW9uIHdv
+cmtzLiAgSSBndWVzIHdlIHRoZSBjbXB4Y2hnNjQgaW4gZnJlZV9jbGVhcl9wdGUKPiBpcyB0aGUg
+aW1wb3J0YW50IHBvaW50IGhlcmU/ICBJIGhhdmUgdG8gYWRtaXQgSSBkb24ndCBmdWxseSB1bmRl
+cnN0YW5kCj4gdGhlIGNvbmN1cnJlbmN5IGlzc3VlcyBoZXJlLCBidXQgbmVpdGhlciBkbyBJIHVu
+ZGVyc3RhbmQgd2hhdCB0aGUKPiBtdXRleCB5b3UgcmVtb3ZlZCBtaWdodCBoYXZlIGhlbHBlZCB0
+byBzdGFydCB3aXRoLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcK
+aHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
