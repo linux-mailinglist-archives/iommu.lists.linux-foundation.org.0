@@ -2,41 +2,41 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E3C9BB53
-	for <lists.iommu@lfdr.de>; Sat, 24 Aug 2019 05:16:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B613F9BB63
+	for <lists.iommu@lfdr.de>; Sat, 24 Aug 2019 05:20:49 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id F147DC8F;
-	Sat, 24 Aug 2019 03:16:37 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 32AC2CA5;
+	Sat, 24 Aug 2019 03:20:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 39A11BE4
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id AAB0DC6E
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 24 Aug 2019 03:16:36 +0000 (UTC)
+	Sat, 24 Aug 2019 03:20:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 57EA367F
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id EFE63A7
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 24 Aug 2019 03:16:34 +0000 (UTC)
-X-UUID: ee6c5daa5f1049429dbbfa0566c2019b-20190824
-X-UUID: ee6c5daa5f1049429dbbfa0566c2019b-20190824
-Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by
+	Sat, 24 Aug 2019 03:20:34 +0000 (UTC)
+X-UUID: efcea9a1365b4a7486e7c1a9664b2708-20190824
+X-UUID: efcea9a1365b4a7486e7c1a9664b2708-20190824
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by
 	mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
 	(Cellopoint E-mail Firewall v4.1.10 Build 0707 with TLS)
-	with ESMTP id 496375571; Sat, 24 Aug 2019 11:06:13 +0800
+	with ESMTP id 918104327; Sat, 24 Aug 2019 11:03:02 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
 	mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Sat, 24 Aug 2019 11:06:06 +0800
+	(TLS) id 15.0.1395.4; Sat, 24 Aug 2019 11:02:54 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
 	(172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
-	Transport; Sat, 24 Aug 2019 11:06:05 +0800
+	Transport; Sat, 24 Aug 2019 11:02:53 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
 	Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v11 17/23] iommu/mediatek: Add mt8183 IOMMU support
-Date: Sat, 24 Aug 2019 11:02:02 +0800
-Message-ID: <1566615728-26388-18-git-send-email-yong.wu@mediatek.com>
+Subject: [PATCH v11 02/23] iommu/mediatek: Use a struct as the platform data
+Date: Sat, 24 Aug 2019 11:01:47 +0800
+Message-ID: <1566615728-26388-3-git-send-email-yong.wu@mediatek.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1566615728-26388-1-git-send-email-yong.wu@mediatek.com>
 References: <1566615728-26388-1-git-send-email-yong.wu@mediatek.com>
@@ -72,153 +72,118 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The M4U IP blocks in mt8183 is MediaTek's generation2 M4U which use
-the ARM Short-descriptor like mt8173, and most of the HW registers
-are the same.
-
-Here list main differences between mt8183 and mt8173/mt2712:
-1) mt8183 has only one M4U HW like mt8173 while mt2712 has two.
-2) mt8183 don't have the "bclk" clock, it use the EMI clock instead.
-3) mt8183 can support the dram over 4GB, but it doesn't call this "4GB
-mode".
-4) mt8183 pgtable base register(0x0) extend bit[1:0] which represent
-the bit[33:32] in the physical address of the pgtable base, But the
-standard ttbr0[1] means the S bit which is enabled defaultly, Hence,
-we add a mask.
-5) mt8183 HW has a GALS modules, SMI should enable "has_gals" support.
-6) mt8183 need reset_axi like mt8173.
-7) the larb-id in smi-common is remapped. M4U should add its larbid_remap.
+Use a struct as the platform special data instead of the enumeration.
+This is a prepare patch for adding mt8183 iommu support.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-Reviewed-by: Evan Green <evgreen@chromium.org>
 Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+Reviewed-by: Evan Green <evgreen@chromium.org>
 ---
- drivers/iommu/mtk_iommu.c | 15 ++++++++++++---
- drivers/iommu/mtk_iommu.h |  1 +
- drivers/memory/mtk-smi.c  | 20 ++++++++++++++++++++
- 3 files changed, 33 insertions(+), 3 deletions(-)
+ drivers/iommu/mtk_iommu.c | 24 ++++++++++++++++--------
+ drivers/iommu/mtk_iommu.h |  6 +++++-
+ 2 files changed, 21 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index eaf6a23..ee3a664 100644
+index 82e4be4..c6e6dc3 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -28,6 +28,7 @@
- #include "mtk_iommu.h"
- 
- #define REG_MMU_PT_BASE_ADDR			0x000
-+#define MMU_PT_ADDR_MASK			GENMASK(31, 7)
- 
- #define REG_MMU_INVALIDATE			0x020
- #define F_ALL_INVLD				0x2
-@@ -357,7 +358,7 @@ static int mtk_iommu_attach_device(struct iommu_domain *domain,
- 	/* Update the pgtable base address register of the M4U HW */
- 	if (!data->m4u_dom) {
- 		data->m4u_dom = dom;
--		writel(dom->cfg.arm_v7s_cfg.ttbr[0],
-+		writel(dom->cfg.arm_v7s_cfg.ttbr[0] & MMU_PT_ADDR_MASK,
- 		       data->base + REG_MMU_PT_BASE_ADDR);
+@@ -46,7 +46,7 @@
+ #define REG_MMU_CTRL_REG			0x110
+ #define F_MMU_PREFETCH_RT_REPLACE_MOD		BIT(4)
+ #define F_MMU_TF_PROTECT_SEL_SHIFT(data) \
+-	((data)->m4u_plat == M4U_MT2712 ? 4 : 5)
++	((data)->plat_data->m4u_plat == M4U_MT2712 ? 4 : 5)
+ /* It's named by F_MMU_TF_PROT_SEL in mt2712. */
+ #define F_MMU_TF_PROTECT_SEL(prot, data) \
+ 	(((prot) & 0x3) << F_MMU_TF_PROTECT_SEL_SHIFT(data))
+@@ -512,7 +512,7 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data)
  	}
  
-@@ -737,6 +738,7 @@ static int __maybe_unused mtk_iommu_resume(struct device *dev)
- {
- 	struct mtk_iommu_data *data = dev_get_drvdata(dev);
- 	struct mtk_iommu_suspend_reg *reg = &data->reg;
-+	struct mtk_iommu_domain *m4u_dom = data->m4u_dom;
- 	void __iomem *base = data->base;
- 	int ret;
+ 	regval = F_MMU_TF_PROTECT_SEL(2, data);
+-	if (data->m4u_plat == M4U_MT8173)
++	if (data->plat_data->m4u_plat == M4U_MT8173)
+ 		regval |= F_MMU_PREFETCH_RT_REPLACE_MOD;
+ 	writel_relaxed(regval, data->base + REG_MMU_CTRL_REG);
  
-@@ -752,8 +754,8 @@ static int __maybe_unused mtk_iommu_resume(struct device *dev)
- 	writel_relaxed(reg->int_control0, base + REG_MMU_INT_CONTROL0);
- 	writel_relaxed(reg->int_main_control, base + REG_MMU_INT_MAIN_CONTROL);
- 	writel_relaxed(reg->ivrp_paddr, base + REG_MMU_IVRP_PADDR);
--	if (data->m4u_dom)
--		writel(data->m4u_dom->cfg.arm_v7s_cfg.ttbr[0],
-+	if (m4u_dom)
-+		writel(m4u_dom->cfg.arm_v7s_cfg.ttbr[0] & MMU_PT_ADDR_MASK,
- 		       base + REG_MMU_PT_BASE_ADDR);
- 	return 0;
- }
-@@ -778,9 +780,16 @@ static int __maybe_unused mtk_iommu_resume(struct device *dev)
- 	.larbid_remap = {0, 1, 2, 3, 4, 5}, /* Linear mapping. */
+@@ -533,14 +533,14 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data)
+ 		F_INT_PRETETCH_TRANSATION_FIFO_FAULT;
+ 	writel_relaxed(regval, data->base + REG_MMU_INT_MAIN_CONTROL);
+ 
+-	if (data->m4u_plat == M4U_MT8173)
++	if (data->plat_data->m4u_plat == M4U_MT8173)
+ 		regval = (data->protect_base >> 1) | (data->enable_4GB << 31);
+ 	else
+ 		regval = lower_32_bits(data->protect_base) |
+ 			 upper_32_bits(data->protect_base);
+ 	writel_relaxed(regval, data->base + REG_MMU_IVRP_PADDR);
+ 
+-	if (data->enable_4GB && data->m4u_plat != M4U_MT8173) {
++	if (data->enable_4GB && data->plat_data->m4u_plat != M4U_MT8173) {
+ 		/*
+ 		 * If 4GB mode is enabled, the validate PA range is from
+ 		 * 0x1_0000_0000 to 0x1_ffff_ffff. here record bit[32:30].
+@@ -551,7 +551,7 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data)
+ 	writel_relaxed(0, data->base + REG_MMU_DCM_DIS);
+ 
+ 	/* It's MISC control register whose default value is ok except mt8173.*/
+-	if (data->m4u_plat == M4U_MT8173)
++	if (data->plat_data->m4u_plat == M4U_MT8173)
+ 		writel_relaxed(0, data->base + REG_MMU_STANDARD_AXI_MODE);
+ 
+ 	if (devm_request_irq(data->dev, data->irq, mtk_iommu_isr, 0,
+@@ -584,7 +584,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+ 	if (!data)
+ 		return -ENOMEM;
+ 	data->dev = dev;
+-	data->m4u_plat = (enum mtk_iommu_plat)of_device_get_match_data(dev);
++	data->plat_data = of_device_get_match_data(dev);
+ 
+ 	/* Protect memory. HW will access here while translation fault.*/
+ 	protect = devm_kzalloc(dev, MTK_PROTECT_PA_ALIGN * 2, GFP_KERNEL);
+@@ -732,9 +732,17 @@ static int __maybe_unused mtk_iommu_resume(struct device *dev)
+ 	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(mtk_iommu_suspend, mtk_iommu_resume)
  };
  
-+static const struct mtk_iommu_plat_data mt8183_data = {
-+	.m4u_plat     = M4U_MT8183,
-+	.reset_axi    = true,
-+	.larbid_remap = {0, 4, 5, 6, 7, 2, 3, 1},
++static const struct mtk_iommu_plat_data mt2712_data = {
++	.m4u_plat     = M4U_MT2712,
++};
++
++static const struct mtk_iommu_plat_data mt8173_data = {
++	.m4u_plat     = M4U_MT8173,
 +};
 +
  static const struct of_device_id mtk_iommu_of_ids[] = {
- 	{ .compatible = "mediatek,mt2712-m4u", .data = &mt2712_data},
- 	{ .compatible = "mediatek,mt8173-m4u", .data = &mt8173_data},
-+	{ .compatible = "mediatek,mt8183-m4u", .data = &mt8183_data},
+-	{ .compatible = "mediatek,mt2712-m4u", .data = (void *)M4U_MT2712},
+-	{ .compatible = "mediatek,mt8173-m4u", .data = (void *)M4U_MT8173},
++	{ .compatible = "mediatek,mt2712-m4u", .data = &mt2712_data},
++	{ .compatible = "mediatek,mt8173-m4u", .data = &mt8173_data},
  	{}
  };
  
 diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
-index 973d6e0..6b1f833 100644
+index 59337323..9725b08 100644
 --- a/drivers/iommu/mtk_iommu.h
 +++ b/drivers/iommu/mtk_iommu.h
-@@ -30,6 +30,7 @@ enum mtk_iommu_plat {
- 	M4U_MT2701,
- 	M4U_MT2712,
+@@ -32,6 +32,10 @@ enum mtk_iommu_plat {
  	M4U_MT8173,
-+	M4U_MT8183,
  };
  
- struct mtk_iommu_plat_data {
-diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
-index 53bd379..3dd05de 100644
---- a/drivers/memory/mtk-smi.c
-+++ b/drivers/memory/mtk-smi.c
-@@ -277,6 +277,13 @@ static void mtk_smi_larb_config_port_gen1(struct device *dev)
- 	.larb_direct_to_common_mask = BIT(8) | BIT(9),      /* bdpsys */
- };
- 
-+static const struct mtk_smi_larb_gen mtk_smi_larb_mt8183 = {
-+	.has_gals                   = true,
-+	.config_port                = mtk_smi_larb_config_port_gen2_general,
-+	.larb_direct_to_common_mask = BIT(2) | BIT(3) | BIT(7),
-+				      /* IPU0 | IPU1 | CCU */
++struct mtk_iommu_plat_data {
++	enum mtk_iommu_plat m4u_plat;
 +};
 +
- static const struct of_device_id mtk_smi_larb_of_ids[] = {
- 	{
- 		.compatible = "mediatek,mt8173-smi-larb",
-@@ -290,6 +297,10 @@ static void mtk_smi_larb_config_port_gen1(struct device *dev)
- 		.compatible = "mediatek,mt2712-smi-larb",
- 		.data = &mtk_smi_larb_mt2712
- 	},
-+	{
-+		.compatible = "mediatek,mt8183-smi-larb",
-+		.data = &mtk_smi_larb_mt8183
-+	},
- 	{}
- };
+ struct mtk_iommu_domain;
  
-@@ -383,6 +394,11 @@ static int mtk_smi_larb_remove(struct platform_device *pdev)
- 	.gen = MTK_SMI_GEN2,
- };
+ struct mtk_iommu_data {
+@@ -48,7 +52,7 @@ struct mtk_iommu_data {
+ 	bool				tlb_flush_active;
  
-+static const struct mtk_smi_common_plat mtk_smi_common_mt8183 = {
-+	.gen      = MTK_SMI_GEN2,
-+	.has_gals = true,
-+};
-+
- static const struct of_device_id mtk_smi_common_of_ids[] = {
- 	{
- 		.compatible = "mediatek,mt8173-smi-common",
-@@ -396,6 +412,10 @@ static int mtk_smi_larb_remove(struct platform_device *pdev)
- 		.compatible = "mediatek,mt2712-smi-common",
- 		.data = &mtk_smi_common_gen2,
- 	},
-+	{
-+		.compatible = "mediatek,mt8183-smi-common",
-+		.data = &mtk_smi_common_mt8183,
-+	},
- 	{}
- };
+ 	struct iommu_device		iommu;
+-	enum mtk_iommu_plat		m4u_plat;
++	const struct mtk_iommu_plat_data *plat_data;
  
+ 	struct list_head		list;
+ };
 -- 
 1.9.1
 
