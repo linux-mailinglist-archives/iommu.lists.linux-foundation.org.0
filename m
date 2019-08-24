@@ -2,41 +2,42 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671E39BB62
-	for <lists.iommu@lfdr.de>; Sat, 24 Aug 2019 05:20:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCD19BB79
+	for <lists.iommu@lfdr.de>; Sat, 24 Aug 2019 05:44:00 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 0AB58CA1;
-	Sat, 24 Aug 2019 03:20:37 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 44EF2C79;
+	Sat, 24 Aug 2019 03:43:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 6D104C6E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 802D3B59
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 24 Aug 2019 03:20:35 +0000 (UTC)
+	Sat, 24 Aug 2019 03:43:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id EE91867F
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id D442A67F
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 24 Aug 2019 03:20:33 +0000 (UTC)
-X-UUID: 70d615a33d444a5099770fc168821b1e-20190824
-X-UUID: 70d615a33d444a5099770fc168821b1e-20190824
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
-	(envelope-from <yong.wu@mediatek.com>)
+	Sat, 24 Aug 2019 03:43:42 +0000 (UTC)
+X-UUID: b524c2d1ea66414fbdd0593ba5b415af-20190824
+X-UUID: b524c2d1ea66414fbdd0593ba5b415af-20190824
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+	mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
 	(Cellopoint E-mail Firewall v4.1.10 Build 0707 with TLS)
-	with ESMTP id 1343447941; Sat, 24 Aug 2019 11:07:06 +0800
+	with ESMTP id 127861977; Sat, 24 Aug 2019 11:04:17 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
 	mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Sat, 24 Aug 2019 11:06:58 +0800
+	(TLS) id 15.0.1395.4; Sat, 24 Aug 2019 11:04:09 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
 	(172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
-	Transport; Sat, 24 Aug 2019 11:06:57 +0800
+	Transport; Sat, 24 Aug 2019 11:04:08 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
 	Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v11 23/23] iommu/mediatek: Clean up struct mtk_smi_iommu
-Date: Sat, 24 Aug 2019 11:02:08 +0800
-Message-ID: <1566615728-26388-24-git-send-email-yong.wu@mediatek.com>
+Subject: [PATCH v11 08/23] iommu/io-pgtable-arm-v7s: Rename the quirk from
+	MTK_4GB to MTK_EXT
+Date: Sat, 24 Aug 2019 11:01:53 +0800
+Message-ID: <1566615728-26388-9-git-send-email-yong.wu@mediatek.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1566615728-26388-1-git-send-email-yong.wu@mediatek.com>
 References: <1566615728-26388-1-git-send-email-yong.wu@mediatek.com>
@@ -72,136 +73,82 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Remove the "struct mtk_smi_iommu" to simplify the code since it has only
-one item in it right now.
+In previous mt2712/mt8173, MediaTek extend the v7s to support 4GB dram.
+But in the latest mt8183, We extend it to support the PA up to 34bit.
+Then the "MTK_4GB" name is not so fit, This patch only change the quirk
+name to "MTK_EXT".
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+Acked-by: Will Deacon <will@kernel.org>
 ---
- drivers/iommu/mtk_iommu.c    | 4 ++--
- drivers/iommu/mtk_iommu.h    | 6 +++---
- drivers/iommu/mtk_iommu_v1.c | 4 ++--
- drivers/memory/mtk-smi.c     | 6 +++---
- include/soc/mediatek/smi.h   | 4 ----
- 5 files changed, 10 insertions(+), 14 deletions(-)
+ drivers/iommu/io-pgtable-arm-v7s.c | 6 +++---
+ drivers/iommu/mtk_iommu.c          | 2 +-
+ include/linux/io-pgtable.h         | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
+index fa1b38f..77cc1eb 100644
+--- a/drivers/iommu/io-pgtable-arm-v7s.c
++++ b/drivers/iommu/io-pgtable-arm-v7s.c
+@@ -315,7 +315,7 @@ static arm_v7s_iopte arm_v7s_prot_to_pte(int prot, int lvl,
+ 	if (lvl == 1 && (cfg->quirks & IO_PGTABLE_QUIRK_ARM_NS))
+ 		pte |= ARM_V7S_ATTR_NS_SECTION;
+ 
+-	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_4GB)
++	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_EXT)
+ 		pte |= ARM_V7S_ATTR_MTK_4GB;
+ 
+ 	return pte;
+@@ -737,12 +737,12 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+ 	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_NS |
+ 			    IO_PGTABLE_QUIRK_NO_PERMS |
+ 			    IO_PGTABLE_QUIRK_TLBI_ON_MAP |
+-			    IO_PGTABLE_QUIRK_ARM_MTK_4GB |
++			    IO_PGTABLE_QUIRK_ARM_MTK_EXT |
+ 			    IO_PGTABLE_QUIRK_NON_STRICT))
+ 		return NULL;
+ 
+ 	/* If ARM_MTK_4GB is enabled, the NO_PERMS is also expected. */
+-	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_4GB &&
++	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_MTK_EXT &&
+ 	    !(cfg->quirks & IO_PGTABLE_QUIRK_NO_PERMS))
+ 			return NULL;
+ 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index cc81de2..400066d 100644
+index 9ba2706..62edce7 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -278,7 +278,7 @@ static void mtk_iommu_config(struct mtk_iommu_data *data,
- 	for (i = 0; i < fwspec->num_ids; ++i) {
- 		larbid = MTK_M4U_TO_LARB(fwspec->ids[i]);
- 		portid = MTK_M4U_TO_PORT(fwspec->ids[i]);
--		larb_mmu = &data->smi_imu.larb_imu[larbid];
-+		larb_mmu = &data->larb_imu[larbid];
+@@ -296,7 +296,7 @@ static int mtk_iommu_domain_finalise(struct mtk_iommu_domain *dom)
+ 	};
  
- 		dev_dbg(dev, "%s iommu port: %d\n",
- 			enable ? "enable" : "disable", portid);
-@@ -680,7 +680,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 			of_node_put(larbnode);
- 			return -EPROBE_DEFER;
- 		}
--		data->smi_imu.larb_imu[id].dev = &plarbdev->dev;
-+		data->larb_imu[id].dev = &plarbdev->dev;
+ 	if (data->enable_4GB)
+-		dom->cfg.quirks |= IO_PGTABLE_QUIRK_ARM_MTK_4GB;
++		dom->cfg.quirks |= IO_PGTABLE_QUIRK_ARM_MTK_EXT;
  
- 		component_match_add_release(dev, &match, release_of,
- 					    compare_of, larbnode);
-diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
-index 56b579c..fc0f16e 100644
---- a/drivers/iommu/mtk_iommu.h
-+++ b/drivers/iommu/mtk_iommu.h
-@@ -56,7 +56,6 @@ struct mtk_iommu_data {
- 	struct mtk_iommu_suspend_reg	reg;
- 	struct mtk_iommu_domain		*m4u_dom;
- 	struct iommu_group		*m4u_group;
--	struct mtk_smi_iommu		smi_imu;      /* SMI larb iommu info */
- 	bool                            enable_4GB;
- 	bool				tlb_flush_active;
- 
-@@ -64,6 +63,7 @@ struct mtk_iommu_data {
- 	const struct mtk_iommu_plat_data *plat_data;
- 
- 	struct list_head		list;
-+	struct mtk_smi_larb_iommu	larb_imu[MTK_LARB_NR_MAX];
- };
- 
- static inline int compare_of(struct device *dev, void *data)
-@@ -80,14 +80,14 @@ static inline int mtk_iommu_bind(struct device *dev)
- {
- 	struct mtk_iommu_data *data = dev_get_drvdata(dev);
- 
--	return component_bind_all(dev, &data->smi_imu);
-+	return component_bind_all(dev, &data->larb_imu);
- }
- 
- static inline void mtk_iommu_unbind(struct device *dev)
- {
- 	struct mtk_iommu_data *data = dev_get_drvdata(dev);
- 
--	component_unbind_all(dev, &data->smi_imu);
-+	component_unbind_all(dev, &data->larb_imu);
- }
- 
- #endif
-diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-index 3922358..860926c 100644
---- a/drivers/iommu/mtk_iommu_v1.c
-+++ b/drivers/iommu/mtk_iommu_v1.c
-@@ -206,7 +206,7 @@ static void mtk_iommu_config(struct mtk_iommu_data *data,
- 	for (i = 0; i < fwspec->num_ids; ++i) {
- 		larbid = mt2701_m4u_to_larb(fwspec->ids[i]);
- 		portid = mt2701_m4u_to_port(fwspec->ids[i]);
--		larb_mmu = &data->smi_imu.larb_imu[larbid];
-+		larb_mmu = &data->larb_imu[larbid];
- 
- 		dev_dbg(dev, "%s iommu port: %d\n",
- 			enable ? "enable" : "disable", portid);
-@@ -610,7 +610,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 			}
- 		}
- 
--		data->smi_imu.larb_imu[larb_nr].dev = &plarbdev->dev;
-+		data->larb_imu[larb_nr].dev = &plarbdev->dev;
- 		component_match_add_release(dev, &match, release_of,
- 					    compare_of, larb_spec.np);
- 		larb_nr++;
-diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
-index d6dc62f..439d7d8 100644
---- a/drivers/memory/mtk-smi.c
-+++ b/drivers/memory/mtk-smi.c
-@@ -143,13 +143,13 @@ void mtk_smi_larb_put(struct device *larbdev)
- mtk_smi_larb_bind(struct device *dev, struct device *master, void *data)
- {
- 	struct mtk_smi_larb *larb = dev_get_drvdata(dev);
--	struct mtk_smi_iommu *smi_iommu = data;
-+	struct mtk_smi_larb_iommu *larb_mmu = data;
- 	unsigned int         i;
- 
- 	for (i = 0; i < MTK_LARB_NR_MAX; i++) {
--		if (dev == smi_iommu->larb_imu[i].dev) {
-+		if (dev == larb_mmu[i].dev) {
- 			larb->larbid = i;
--			larb->mmu = &smi_iommu->larb_imu[i].mmu;
-+			larb->mmu = &larb_mmu[i].mmu;
- 			return 0;
- 		}
- 	}
-diff --git a/include/soc/mediatek/smi.h b/include/soc/mediatek/smi.h
-index 6f0b00c..5a34b87 100644
---- a/include/soc/mediatek/smi.h
-+++ b/include/soc/mediatek/smi.h
-@@ -20,10 +20,6 @@ struct mtk_smi_larb_iommu {
- 	unsigned int   mmu;
- };
- 
--struct mtk_smi_iommu {
--	struct mtk_smi_larb_iommu larb_imu[MTK_LARB_NR_MAX];
--};
--
- /*
-  * mtk_smi_larb_get: Enable the power domain and clocks for this local arbiter.
-  *                   It also initialize some basic setting(like iommu).
+ 	dom->iop = alloc_io_pgtable_ops(ARM_V7S, &dom->cfg, data);
+ 	if (!dom->iop) {
+diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+index b5a450a..915fb73 100644
+--- a/include/linux/io-pgtable.h
++++ b/include/linux/io-pgtable.h
+@@ -65,7 +65,7 @@ struct io_pgtable_cfg {
+ 	 *	(unmapped) entries but the hardware might do so anyway, perform
+ 	 *	TLB maintenance when mapping as well as when unmapping.
+ 	 *
+-	 * IO_PGTABLE_QUIRK_ARM_MTK_4GB: (ARM v7s format) Set bit 9 in all
++	 * IO_PGTABLE_QUIRK_ARM_MTK_EXT: (ARM v7s format) Set bit 9 in all
+ 	 *	PTEs, for Mediatek IOMMUs which treat it as a 33rd address bit
+ 	 *	when the SoC is in "4GB mode" and they can only access the high
+ 	 *	remap of DRAM (0x1_00000000 to 0x1_ffffffff).
+@@ -77,7 +77,7 @@ struct io_pgtable_cfg {
+ 	#define IO_PGTABLE_QUIRK_ARM_NS		BIT(0)
+ 	#define IO_PGTABLE_QUIRK_NO_PERMS	BIT(1)
+ 	#define IO_PGTABLE_QUIRK_TLBI_ON_MAP	BIT(2)
+-	#define IO_PGTABLE_QUIRK_ARM_MTK_4GB	BIT(3)
++	#define IO_PGTABLE_QUIRK_ARM_MTK_EXT	BIT(3)
+ 	#define IO_PGTABLE_QUIRK_NON_STRICT	BIT(4)
+ 	unsigned long			quirks;
+ 	unsigned long			pgsize_bitmap;
 -- 
 1.9.1
 
