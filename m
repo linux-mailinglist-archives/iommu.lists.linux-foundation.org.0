@@ -2,44 +2,60 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924599BB59
-	for <lists.iommu@lfdr.de>; Sat, 24 Aug 2019 05:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D0B9BB52
+	for <lists.iommu@lfdr.de>; Sat, 24 Aug 2019 05:16:40 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 68E6EC77;
-	Sat, 24 Aug 2019 03:19:36 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id C4F05C87;
+	Sat, 24 Aug 2019 03:16:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id B6A31B5F
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 6103FBB3
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 24 Aug 2019 01:49:23 +0000 (UTC)
+	Sat, 24 Aug 2019 03:16:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CF9F98A2
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 59C368A2
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 24 Aug 2019 01:49:22 +0000 (UTC)
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
-	by Forcepoint Email with ESMTP id 72B379924FCC14EF7B24;
-	Sat, 24 Aug 2019 09:49:20 +0800 (CST)
-Received: from localhost.localdomain (10.67.212.75) by
-	DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server
-	id 14.3.439.0; Sat, 24 Aug 2019 09:49:16 +0800
-From: Yunsheng Lin <linyunsheng@huawei.com>
-To: <joro@8bytes.org>
-Subject: [PATCH] iommu/dma: fix for dereferencing before null checking
-Date: Sat, 24 Aug 2019 09:47:12 +0800
-Message-ID: <1566611232-165399-1-git-send-email-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.8.1
+	Sat, 24 Aug 2019 03:16:34 +0000 (UTC)
+X-UUID: 30825cbbcb0e469083b7efd03a3635d6-20190824
+X-UUID: 30825cbbcb0e469083b7efd03a3635d6-20190824
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+	mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.10 Build 0707 with TLS)
+	with ESMTP id 1417978620; Sat, 24 Aug 2019 11:03:26 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+	mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server
+	(TLS) id 15.0.1395.4; Sat, 24 Aug 2019 11:03:18 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
+	(172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+	Transport; Sat, 24 Aug 2019 11:03:17 +0800
+From: Yong Wu <yong.wu@mediatek.com>
+To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
+Subject: [PATCH v11 04/23] memory: mtk-smi: Use a struct for the platform data
+	for smi-common
+Date: Sat, 24 Aug 2019 11:01:49 +0800
+Message-ID: <1566615728-26388-5-git-send-email-yong.wu@mediatek.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1566615728-26388-1-git-send-email-yong.wu@mediatek.com>
+References: <1566615728-26388-1-git-send-email-yong.wu@mediatek.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.67.212.75]
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+X-MTK: N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,UNPARSEABLE_RELAY
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Mailman-Approved-At: Sat, 24 Aug 2019 03:19:35 +0000
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
+	Nicolas Boichat <drinkcat@chromium.org>, cui.zhang@mediatek.com,
+	srv_heupstream@mediatek.com, chao.hao@mediatek.com,
+	linux-kernel@vger.kernel.org, Evan Green <evgreen@chromium.org>,
+	Tomasz Figa <tfiga@google.com>, iommu@lists.linux-foundation.org,
+	Rob Herring <robh+dt@kernel.org>,
+	linux-mediatek@lists.infradead.org, ming-fan.chen@mediatek.com,
+	anan.sun@mediatek.com, Matthias Kaehlcke <mka@chromium.org>,
+	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +73,119 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The cookie is dereferenced before null checking in the function
-iommu_dma_init_domain.
+Use a struct as the platform special data instead of the enumeration.
 
-This patch moves the dereferencing after the null checking.
+Also there is a minor change that moving the position of
+"enum mtk_smi_gen" definition, this is because we expect define
+"struct mtk_smi_common_plat" before it is referred.
 
-Fixes: fdbe574eb693 ("iommu/dma: Allow MSI-only cookies")
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
+This is a preparing patch for mt8183.
+
+Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+Reviewed-by: Evan Green <evgreen@chromium.org>
 ---
- drivers/iommu/dma-iommu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/memory/mtk-smi.c | 35 ++++++++++++++++++++++++-----------
+ 1 file changed, 24 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index d991d40..cdf7814 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -303,13 +303,15 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
- 		u64 size, struct device *dev)
- {
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
--	struct iova_domain *iovad = &cookie->iovad;
- 	unsigned long order, base_pfn;
-+	struct iova_domain *iovad;
- 	int attr;
+diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
+index 14f70cf..47df7d0 100644
+--- a/drivers/memory/mtk-smi.c
++++ b/drivers/memory/mtk-smi.c
+@@ -41,6 +41,15 @@
+ #define SMI_LARB_NONSEC_CON(id)	(0x380 + ((id) * 4))
+ #define F_MMU_EN		BIT(0)
  
- 	if (!cookie || cookie->type != IOMMU_DMA_IOVA_COOKIE)
- 		return -EINVAL;
- 
-+	iovad = &cookie->iovad;
++enum mtk_smi_gen {
++	MTK_SMI_GEN1,
++	MTK_SMI_GEN2
++};
 +
- 	/* Use the smallest supported page size for IOVA granularity */
- 	order = __ffs(domain->pgsize_bitmap);
- 	base_pfn = max_t(unsigned long, 1, base >> order);
++struct mtk_smi_common_plat {
++	enum mtk_smi_gen gen;
++};
++
+ struct mtk_smi_larb_gen {
+ 	bool need_larbid;
+ 	int port_in_larb[MTK_LARB_NR_MAX + 1];
+@@ -53,6 +62,8 @@ struct mtk_smi {
+ 	struct clk			*clk_apb, *clk_smi;
+ 	struct clk			*clk_async; /*only needed by mt2701*/
+ 	void __iomem			*smi_ao_base;
++
++	const struct mtk_smi_common_plat *plat;
+ };
+ 
+ struct mtk_smi_larb { /* larb: local arbiter */
+@@ -64,11 +75,6 @@ struct mtk_smi_larb { /* larb: local arbiter */
+ 	u32				*mmu;
+ };
+ 
+-enum mtk_smi_gen {
+-	MTK_SMI_GEN1,
+-	MTK_SMI_GEN2
+-};
+-
+ static int mtk_smi_enable(const struct mtk_smi *smi)
+ {
+ 	int ret;
+@@ -343,18 +349,26 @@ static int mtk_smi_larb_remove(struct platform_device *pdev)
+ 	}
+ };
+ 
++static const struct mtk_smi_common_plat mtk_smi_common_gen1 = {
++	.gen = MTK_SMI_GEN1,
++};
++
++static const struct mtk_smi_common_plat mtk_smi_common_gen2 = {
++	.gen = MTK_SMI_GEN2,
++};
++
+ static const struct of_device_id mtk_smi_common_of_ids[] = {
+ 	{
+ 		.compatible = "mediatek,mt8173-smi-common",
+-		.data = (void *)MTK_SMI_GEN2
++		.data = &mtk_smi_common_gen2,
+ 	},
+ 	{
+ 		.compatible = "mediatek,mt2701-smi-common",
+-		.data = (void *)MTK_SMI_GEN1
++		.data = &mtk_smi_common_gen1,
+ 	},
+ 	{
+ 		.compatible = "mediatek,mt2712-smi-common",
+-		.data = (void *)MTK_SMI_GEN2
++		.data = &mtk_smi_common_gen2,
+ 	},
+ 	{}
+ };
+@@ -364,13 +378,13 @@ static int mtk_smi_common_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct mtk_smi *common;
+ 	struct resource *res;
+-	enum mtk_smi_gen smi_gen;
+ 	int ret;
+ 
+ 	common = devm_kzalloc(dev, sizeof(*common), GFP_KERNEL);
+ 	if (!common)
+ 		return -ENOMEM;
+ 	common->dev = dev;
++	common->plat = of_device_get_match_data(dev);
+ 
+ 	common->clk_apb = devm_clk_get(dev, "apb");
+ 	if (IS_ERR(common->clk_apb))
+@@ -386,8 +400,7 @@ static int mtk_smi_common_probe(struct platform_device *pdev)
+ 	 * clock into emi clock domain, but for mtk smi gen2, there's no smi ao
+ 	 * base.
+ 	 */
+-	smi_gen = (enum mtk_smi_gen)of_device_get_match_data(dev);
+-	if (smi_gen == MTK_SMI_GEN1) {
++	if (common->plat->gen == MTK_SMI_GEN1) {
+ 		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 		common->smi_ao_base = devm_ioremap_resource(dev, res);
+ 		if (IS_ERR(common->smi_ao_base))
 -- 
-2.8.1
+1.9.1
 
 _______________________________________________
 iommu mailing list
