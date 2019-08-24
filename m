@@ -2,59 +2,44 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1369BB39
-	for <lists.iommu@lfdr.de>; Sat, 24 Aug 2019 05:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924599BB59
+	for <lists.iommu@lfdr.de>; Sat, 24 Aug 2019 05:19:38 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id CC53AC6F;
-	Sat, 24 Aug 2019 03:08:44 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 68E6EC77;
+	Sat, 24 Aug 2019 03:19:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id D412FAE0
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id B6A31B5F
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 24 Aug 2019 03:08:42 +0000 (UTC)
+	Sat, 24 Aug 2019 01:49:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id EC22F67F
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CF9F98A2
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 24 Aug 2019 03:08:41 +0000 (UTC)
-X-UUID: 9fbb5c5b306148e08575bf2e5714943f-20190824
-X-UUID: 9fbb5c5b306148e08575bf2e5714943f-20190824
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
-	mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
-	(Cellopoint E-mail Firewall v4.1.10 Build 0707 with TLS)
-	with ESMTP id 1641596864; Sat, 24 Aug 2019 11:06:58 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
-	mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Sat, 24 Aug 2019 11:06:50 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
-	(172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
-	Transport; Sat, 24 Aug 2019 11:06:49 +0800
-From: Yong Wu <yong.wu@mediatek.com>
-To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
-Subject: [PATCH v11 22/23] memory: mtk-smi: Get rid of need_larbid
-Date: Sat, 24 Aug 2019 11:02:07 +0800
-Message-ID: <1566615728-26388-23-git-send-email-yong.wu@mediatek.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1566615728-26388-1-git-send-email-yong.wu@mediatek.com>
-References: <1566615728-26388-1-git-send-email-yong.wu@mediatek.com>
+	Sat, 24 Aug 2019 01:49:22 +0000 (UTC)
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+	by Forcepoint Email with ESMTP id 72B379924FCC14EF7B24;
+	Sat, 24 Aug 2019 09:49:20 +0800 (CST)
+Received: from localhost.localdomain (10.67.212.75) by
+	DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server
+	id 14.3.439.0; Sat, 24 Aug 2019 09:49:16 +0800
+From: Yunsheng Lin <linyunsheng@huawei.com>
+To: <joro@8bytes.org>
+Subject: [PATCH] iommu/dma: fix for dereferencing before null checking
+Date: Sat, 24 Aug 2019 09:47:12 +0800
+Message-ID: <1566611232-165399-1-git-send-email-linyunsheng@huawei.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-X-MTK: N
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,UNPARSEABLE_RELAY
+X-Originating-IP: [10.67.212.75]
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
-	Nicolas Boichat <drinkcat@chromium.org>, cui.zhang@mediatek.com,
-	srv_heupstream@mediatek.com, chao.hao@mediatek.com,
-	linux-kernel@vger.kernel.org, Evan Green <evgreen@chromium.org>,
-	Tomasz Figa <tfiga@google.com>, iommu@lists.linux-foundation.org,
-	Rob Herring <robh+dt@kernel.org>,
-	linux-mediatek@lists.infradead.org, ming-fan.chen@mediatek.com,
-	anan.sun@mediatek.com, Matthias Kaehlcke <mka@chromium.org>,
-	linux-arm-kernel@lists.infradead.org
+X-Mailman-Approved-At: Sat, 24 Aug 2019 03:19:35 +0000
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,141 +57,40 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-The "mediatek,larb-id" has already been parsed in MTK IOMMU driver.
-It's no need to parse it again in SMI driver. Only clean some codes.
-This patch is fit for all the current mt2701, mt2712, mt7623, mt8173
-and mt8183.
+The cookie is dereferenced before null checking in the function
+iommu_dma_init_domain.
 
-After this patch, the "mediatek,larb-id" only be needed for mt2712
-which have 2 M4Us. In the other SoCs, we can get the larb-id from M4U
-in which the larbs in the "mediatek,larbs" always are ordered.
+This patch moves the dereferencing after the null checking.
 
-Correspondingly, the larb_nr in the "struct mtk_smi_iommu" could also
-be deleted.
-
-CC: Matthias Brugger <matthias.bgg@gmail.com>
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-Reviewed-by: Evan Green <evgreen@chromium.org>
-Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+Fixes: fdbe574eb693 ("iommu/dma: Allow MSI-only cookies")
+Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
 ---
- drivers/iommu/mtk_iommu.c    |  1 -
- drivers/iommu/mtk_iommu_v1.c |  2 --
- drivers/memory/mtk-smi.c     | 26 ++------------------------
- include/soc/mediatek/smi.h   |  1 -
- 4 files changed, 2 insertions(+), 28 deletions(-)
+ drivers/iommu/dma-iommu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 5d5341c..cc81de2 100644
---- a/drivers/iommu/mtk_iommu.c
-+++ b/drivers/iommu/mtk_iommu.c
-@@ -656,7 +656,6 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 					     "mediatek,larbs", NULL);
- 	if (larb_nr < 0)
- 		return larb_nr;
--	data->smi_imu.larb_nr = larb_nr;
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index d991d40..cdf7814 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -303,13 +303,15 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
+ 		u64 size, struct device *dev)
+ {
+ 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+-	struct iova_domain *iovad = &cookie->iovad;
+ 	unsigned long order, base_pfn;
++	struct iova_domain *iovad;
+ 	int attr;
  
- 	for (i = 0; i < larb_nr; i++) {
- 		struct device_node *larbnode;
-diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-index abeeac4..3922358 100644
---- a/drivers/iommu/mtk_iommu_v1.c
-+++ b/drivers/iommu/mtk_iommu_v1.c
-@@ -616,8 +616,6 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 		larb_nr++;
- 	}
- 
--	data->smi_imu.larb_nr = larb_nr;
--
- 	platform_set_drvdata(pdev, data);
- 
- 	ret = mtk_iommu_hw_init(data);
-diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
-index 289e595..d6dc62f 100644
---- a/drivers/memory/mtk-smi.c
-+++ b/drivers/memory/mtk-smi.c
-@@ -59,7 +59,6 @@ struct mtk_smi_common_plat {
- };
- 
- struct mtk_smi_larb_gen {
--	bool need_larbid;
- 	int port_in_larb[MTK_LARB_NR_MAX + 1];
- 	void (*config_port)(struct device *);
- 	unsigned int			larb_direct_to_common_mask;
-@@ -147,18 +146,9 @@ void mtk_smi_larb_put(struct device *larbdev)
- 	struct mtk_smi_iommu *smi_iommu = data;
- 	unsigned int         i;
- 
--	if (larb->larb_gen->need_larbid) {
--		larb->mmu = &smi_iommu->larb_imu[larb->larbid].mmu;
--		return 0;
--	}
--
--	/*
--	 * If there is no larbid property, Loop to find the corresponding
--	 * iommu information.
--	 */
--	for (i = 0; i < smi_iommu->larb_nr; i++) {
-+	for (i = 0; i < MTK_LARB_NR_MAX; i++) {
- 		if (dev == smi_iommu->larb_imu[i].dev) {
--			/* The 'mmu' may be updated in iommu-attach/detach. */
-+			larb->larbid = i;
- 			larb->mmu = &smi_iommu->larb_imu[i].mmu;
- 			return 0;
- 		}
-@@ -237,7 +227,6 @@ static void mtk_smi_larb_config_port_gen1(struct device *dev)
- };
- 
- static const struct mtk_smi_larb_gen mtk_smi_larb_mt2701 = {
--	.need_larbid = true,
- 	.port_in_larb = {
- 		LARB0_PORT_OFFSET, LARB1_PORT_OFFSET,
- 		LARB2_PORT_OFFSET, LARB3_PORT_OFFSET
-@@ -246,7 +235,6 @@ static void mtk_smi_larb_config_port_gen1(struct device *dev)
- };
- 
- static const struct mtk_smi_larb_gen mtk_smi_larb_mt2712 = {
--	.need_larbid = true,
- 	.config_port                = mtk_smi_larb_config_port_gen2_general,
- 	.larb_direct_to_common_mask = BIT(8) | BIT(9),      /* bdpsys */
- };
-@@ -285,7 +273,6 @@ static int mtk_smi_larb_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct device_node *smi_node;
- 	struct platform_device *smi_pdev;
--	int err;
- 
- 	larb = devm_kzalloc(dev, sizeof(*larb), GFP_KERNEL);
- 	if (!larb)
-@@ -315,15 +302,6 @@ static int mtk_smi_larb_probe(struct platform_device *pdev)
- 	}
- 	larb->smi.dev = dev;
- 
--	if (larb->larb_gen->need_larbid) {
--		err = of_property_read_u32(dev->of_node, "mediatek,larb-id",
--					   &larb->larbid);
--		if (err) {
--			dev_err(dev, "missing larbid property\n");
--			return err;
--		}
--	}
--
- 	smi_node = of_parse_phandle(dev->of_node, "mediatek,smi", 0);
- 	if (!smi_node)
+ 	if (!cookie || cookie->type != IOMMU_DMA_IOVA_COOKIE)
  		return -EINVAL;
-diff --git a/include/soc/mediatek/smi.h b/include/soc/mediatek/smi.h
-index 79b74ce..6f0b00c 100644
---- a/include/soc/mediatek/smi.h
-+++ b/include/soc/mediatek/smi.h
-@@ -21,7 +21,6 @@ struct mtk_smi_larb_iommu {
- };
  
- struct mtk_smi_iommu {
--	unsigned int larb_nr;
- 	struct mtk_smi_larb_iommu larb_imu[MTK_LARB_NR_MAX];
- };
- 
++	iovad = &cookie->iovad;
++
+ 	/* Use the smallest supported page size for IOVA granularity */
+ 	order = __ffs(domain->pgsize_bitmap);
+ 	base_pfn = max_t(unsigned long, 1, base >> order);
 -- 
-1.9.1
+2.8.1
 
 _______________________________________________
 iommu mailing list
