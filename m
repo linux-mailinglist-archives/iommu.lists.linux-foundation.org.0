@@ -2,52 +2,58 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6149CDCC
-	for <lists.iommu@lfdr.de>; Mon, 26 Aug 2019 13:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04539CE3A
+	for <lists.iommu@lfdr.de>; Mon, 26 Aug 2019 13:36:03 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id B817613FF;
-	Mon, 26 Aug 2019 11:10:23 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 55F591494;
+	Mon, 26 Aug 2019 11:36:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id BF70113F4
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1E6D21483
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 26 Aug 2019 11:08:58 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 47072710
+	Mon, 26 Aug 2019 11:33:58 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 9B0D7710
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 26 Aug 2019 11:08:58 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-	by mx1.suse.de (Postfix) with ESMTP id E9BAEAF23;
-	Mon, 26 Aug 2019 11:08:55 +0000 (UTC)
-Message-ID: <4d8d18af22d6dcd122bc9b4d9c2bd49e8443c746.camel@suse.de>
-Subject: Re: [PATCH v2 10/11] arm64: edit zone_dma_bits to fine tune
-	dma-direct min mask
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Date: Mon, 26 Aug 2019 13:08:50 +0200
-In-Reply-To: <20190826070633.GB11331@lst.de>
+	Mon, 26 Aug 2019 11:33:57 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits)
+	server-digest SHA256) (No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 46H8z50xybz9sBF;
+	Mon, 26 Aug 2019 21:33:53 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>, catalin.marinas@arm.com,
+	hch@lst.de, wahrenst@gmx.net, marc.zyngier@arm.com,
+	robh+dt@kernel.org, Robin Murphy <robin.murphy@arm.com>,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arch@vger.kernel.org, iommu@lists.linux-foundation.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [PATCH v2 09/11] dma-direct: turn ARCH_ZONE_DMA_BITS into a
+	variable
+In-Reply-To: <20190820145821.27214-10-nsaenzjulienne@suse.de>
 References: <20190820145821.27214-1-nsaenzjulienne@suse.de>
-	<20190820145821.27214-11-nsaenzjulienne@suse.de>
-	<20190826070633.GB11331@lst.de>
-User-Agent: Evolution 3.32.4 
+	<20190820145821.27214-10-nsaenzjulienne@suse.de>
+Date: Mon, 26 Aug 2019 21:33:51 +1000
+Message-ID: <87ef1840v4.fsf@concordia.ellerman.id.au>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: linux-arch@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org, f.fainelli@gmail.com,
-	will@kernel.org, eric@anholt.net, marc.zyngier@arm.com,
-	catalin.marinas@arm.com, frowand.list@gmail.com,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	iommu@lists.linux-foundation.org, robh+dt@kernel.org,
-	wahrenst@gmx.net, mbrugger@suse.com, linux-riscv@lists.infradead.org,
-	Robin Murphy <robin.murphy@arm.com>, akpm@linux-foundation.org,
-	linux-arm-kernel@lists.infradead.org, phill@raspberryi.org
+Cc: linux-s390@vger.kernel.org, f.fainelli@gmail.com,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	frowand.list@gmail.com, linuxppc-dev@lists.ozlabs.org,
+	Heiko Carstens <heiko.carstens@de.ibm.com>,
+	linux-kernel@vger.kernel.org, eric@anholt.net, mbrugger@suse.com,
+	Paul Mackerras <paulus@samba.org>, linux-rpi-kernel@lists.infradead.org,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	akpm@linux-foundation.org, will@kernel.org, nsaenzjulienne@suse.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,73 +66,44 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============7344391699437889227=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
+Nicolas Saenz Julienne <nsaenzjulienne@suse.de> writes:
+> diff --git a/arch/powerpc/include/asm/page.h b/arch/powerpc/include/asm/page.h
+> index 0d52f57fca04..73668a21ae78 100644
+> --- a/arch/powerpc/include/asm/page.h
+> +++ b/arch/powerpc/include/asm/page.h
+> @@ -319,13 +319,4 @@ struct vm_area_struct;
+>  #endif /* __ASSEMBLY__ */
+>  #include <asm/slice.h>
+>  
+> -/*
+> - * Allow 30-bit DMA for very limited Broadcom wifi chips on many powerbooks.
 
---===============7344391699437889227==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-RvTUUUche1DA67AZeVhb"
+This comment got lost.
 
+> diff --git a/arch/powerpc/mm/mem.c b/arch/powerpc/mm/mem.c
+> index 9191a66b3bc5..2a69f87585df 100644
+> --- a/arch/powerpc/mm/mem.c
+> +++ b/arch/powerpc/mm/mem.c
+> @@ -237,9 +238,14 @@ void __init paging_init(void)
+>  	printk(KERN_DEBUG "Memory hole size: %ldMB\n",
+>  	       (long int)((top_of_ram - total_ram) >> 20));
+>  
+> +	if (IS_ENABLED(CONFIG_PPC32))
 
---=-RvTUUUche1DA67AZeVhb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Can you please propagate it here?
 
-On Mon, 2019-08-26 at 09:06 +0200, Christoph Hellwig wrote:
-> On Tue, Aug 20, 2019 at 04:58:18PM +0200, Nicolas Saenz Julienne wrote:
-> > -	if (IS_ENABLED(CONFIG_ZONE_DMA))
-> > +	if (IS_ENABLED(CONFIG_ZONE_DMA)) {
-> >  		arm64_dma_phys_limit =3D max_zone_dma_phys();
-> > +		zone_dma_bits =3D ilog2((arm64_dma_phys_limit - 1) &
-> > GENMASK_ULL(31, 0)) + 1;
->
-Hi Christoph,
-thanks for the rewiews.
+> +		zone_dma_bits = 30;
+> +	else
+> +		zone_dma_bits = 31;
+> +
 
-> This adds a way too long line.
-
-I know, I couldn't find a way to split the operation without making it even
-harder to read. I'll find a solution.
-
-> I also find the use of GENMASK_ULL
-> horribly obsfucating, but I know that opinion is't shared by everyone.
-
-Don't have any preference so I'll happily change it. Any suggestions? Using=
- the
-explicit 0xffffffffULL seems hard to read, how about SZ_4GB - 1?
-
-
---=-RvTUUUche1DA67AZeVhb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl1jvcIACgkQlfZmHno8
-x/6y/wf/XTe7dlASMoYApyVt+lL6chBcap2r7MVKOVhCbC1oJQb7UdRyW7MVDO6k
-gwdo2WmXqD3wUwhY5djX0adczLOJye1iGEdrrQfheRqm1rh07um3quT3TzgCSPat
-OuX+vHuNsUE+3GyI+0OoOF0tu/TzOKJjgs4H645cnbuCaXbQFbL94yBctsDTF5hc
-m4Bx+nksz99ddodUnw9CF4Ss5DPwkX23I3h7okwMMjvVuegIPUa9edppw3Za0Kby
-k8b9QGCiMsGcwyq3+uSXTCq4iIU8reLTfvpZmVZ9QugMn8TkjjIQFyWS0HrXt2pz
-r9iNomMe9w20W9Y9jS5Aj8bxByoK+Q==
-=nQ/V
------END PGP SIGNATURE-----
-
---=-RvTUUUche1DA67AZeVhb--
-
-
---===============7344391699437889227==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+cheers
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============7344391699437889227==--
-
