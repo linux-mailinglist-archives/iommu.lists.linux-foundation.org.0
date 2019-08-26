@@ -2,63 +2,47 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5D09D08B
-	for <lists.iommu@lfdr.de>; Mon, 26 Aug 2019 15:28:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D59BC9D0B7
+	for <lists.iommu@lfdr.de>; Mon, 26 Aug 2019 15:34:55 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id B685C15BE;
-	Mon, 26 Aug 2019 13:28:42 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 801FD15C4;
+	Mon, 26 Aug 2019 13:34:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id BB6B915BB
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 374F615BA
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 26 Aug 2019 13:26:17 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 73E5B710
+	Mon, 26 Aug 2019 13:32:31 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 8AB3E1FB
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 26 Aug 2019 13:26:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
-	:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=MhfKilNLV8AdxkyYpV9V+99YpggpHbv15IYon9mhMkc=;
-	b=SxWguzeHjibJiQGTh0enGJ7wsj
-	xvlWsmuxilsSrybCT7ApvIPfTJthkTEJChIJ5pY9DHIsQGjUN67v8cKOOKr5a0uXhM5HM4z32vow4
-	bkkZjRbgFpCc/BYTH1TR2Srt2asiNr4QwjlKzC6thdTiNry7uant3AU9xHnoI8haOOP/qM8zbiqxw
-	4HlaZ9eaMXY9Je+6oKpIzLdltUVMmtCOJrHiTM/zTsoJ2sL1u6Gn862HOqAy+cr2ZFt3K9eB+DHlR
-	YzntowaXSIiZlnQk9a3lTajwZqbRPQp/EZ6iFMq2aXPq9PasHkqpCJwWzyHeA9WB3ILK9MurfmZqm
-	+7QSFpkQ==;
-Received: from clnet-p19-102.ikbnet.co.at ([83.175.77.102] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-	id 1i2F0h-0007zP-RH; Mon, 26 Aug 2019 13:26:16 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH 6/6] MIPS: document mixing "slightly different CCAs"
-Date: Mon, 26 Aug 2019 15:25:53 +0200
-Message-Id: <20190826132553.4116-7-hch@lst.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190826132553.4116-1-hch@lst.de>
-References: <20190826132553.4116-1-hch@lst.de>
+	Mon, 26 Aug 2019 13:32:30 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+	by Forcepoint Email with ESMTP id 5EFA913FC29889333CDC;
+	Mon, 26 Aug 2019 21:32:27 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS401-HUB.china.huawei.com
+	(10.3.19.201) with Microsoft SMTP Server id 14.3.439.0; Mon, 26 Aug 2019
+	21:32:20 +0800
+From: YueHaibing <yuehaibing@huawei.com>
+To: <digetx@gmail.com>, <mchehab@kernel.org>, <gregkh@linuxfoundation.org>,
+	<thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+	<robin.murphy@arm.com>, <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] media: staging: tegra-vde: Disable building with COMPILE_TEST
+Date: Mon, 26 Aug 2019 21:31:40 +0800
+Message-ID: <20190826133140.13456-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Shawn Anastasio <shawn@anastas.io>, Will Deacon <will@kernel.org>,
-	linux-m68k@lists.linux-m68k.org, Guan Xuetao <gxt@pku.edu.cn>,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	Russell King <linux@armlinux.org.uk>, linux-mips@vger.kernel.org,
-	Paul Burton <paul.burton@mips.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Catalin Marinas <catalin.marinas@arm.com>, James Hogan <jhogan@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+Cc: devel@driverdev.osuosl.org, YueHaibing <yuehaibing@huawei.com>,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	linux-tegra@vger.kernel.org, linux-media@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -76,35 +60,45 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Based on an email from Paul Burton, quoting section 4.8 "Cacheability and
-Coherency Attributes and Access Types" of "MIPS Architecture Volume 1:
-Introduction to the MIPS32 Architecture" (MD00080, revision 6.01).
+If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
+to m will set IOMMU_IOVA to m, this fails the building of
+TEGRA_HOST1X and DRM_TEGRA which is y like this:
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
+drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
+cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
+cdma.c:(.text+0x698): undefined reference to `__free_iova'
+
+drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
+drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
+drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
+Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU support")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- arch/mips/Kconfig | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/staging/media/tegra-vde/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-index fc88f68ea1ee..aff1cadeea43 100644
---- a/arch/mips/Kconfig
-+++ b/arch/mips/Kconfig
-@@ -1119,6 +1119,13 @@ config DMA_PERDEV_COHERENT
- 
- config DMA_NONCOHERENT
- 	bool
-+	#
-+	# MIPS allows mixing "slightly different" Cacheability and Coherency
-+	# Attribute bits.  It is believed that the uncached access through
-+	# KSEG1 and the implementation specific "uncached accelerated" used
-+	# by pgprot_writcombine can be mixed, and the latter sometimes provides
-+	# significant advantages.
-+	#
- 	select ARCH_HAS_DMA_WRITE_COMBINE
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
- 	select ARCH_HAS_UNCACHED_SEGMENT
+diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
+index ba49ea5..a41d30c 100644
+--- a/drivers/staging/media/tegra-vde/Kconfig
++++ b/drivers/staging/media/tegra-vde/Kconfig
+@@ -1,9 +1,9 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config TEGRA_VDE
+ 	tristate "NVIDIA Tegra Video Decoder Engine driver"
+-	depends on ARCH_TEGRA || COMPILE_TEST
++	depends on ARCH_TEGRA
+ 	select DMA_SHARED_BUFFER
+-	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
++	select IOMMU_IOVA if IOMMU_SUPPORT
+ 	select SRAM
+ 	help
+ 	    Say Y here to enable support for the NVIDIA Tegra video decoder
 -- 
-2.20.1
+2.7.4
+
 
 _______________________________________________
 iommu mailing list
