@@ -2,83 +2,71 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498809C71C
-	for <lists.iommu@lfdr.de>; Mon, 26 Aug 2019 04:06:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D3A9C888
+	for <lists.iommu@lfdr.de>; Mon, 26 Aug 2019 06:48:52 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 8B40217DF;
-	Mon, 26 Aug 2019 02:06:00 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 2053818FF;
+	Mon, 26 Aug 2019 04:48:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id D686217D9
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id D8C7118F7
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 26 Aug 2019 02:05:58 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from conssluserg-02.nifty.com (conssluserg-02.nifty.com
-	[210.131.2.81])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 56AE6710
+	Mon, 26 Aug 2019 04:48:31 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id BE1891FB
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 26 Aug 2019 02:05:58 +0000 (UTC)
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
-	[209.85.166.52]) (authenticated)
-	by conssluserg-02.nifty.com with ESMTP id x7Q25bri024077
-	for <iommu@lists.linux-foundation.org>; Mon, 26 Aug 2019 11:05:37 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x7Q25bri024077
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-	s=dec2015msa; t=1566785138;
-	bh=Y6CSk1yG6UDaWDZc7YQfg16zRcI7iqnK0vjwzjH84CE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=HlDVXApQJeqCASixrhojuW15nWeQKG/b7hMjdNZda/cmyuZxv+3t8UR0Ca6JpcyWP
-	9LCxrDSsal0l/bwFSN1/POqAIsyKHp9lrBRnGhkqGX0unc+w0vAQTdFPyLa2f8pVAx
-	e4Kg/wFqgXUqqAE5S88ZYvoK4bt8cMHtT/QomTtqKxLvol6HE6z51sO2OSdFX/e5eK
-	yjRfQCHxDe+12O+JuZOWS5G0X5mv4iqgEjB4NwStZvN20TU0h0gnlOzo/XNI5a00e2
-	Fpor8TyphVLqrvSFkArvbCYf7XiAN7MZrk/5l15wOdIufExGAWeGpB1El0zTlpqBJp
-	Vfi3CKBbLrf/Q==
-X-Nifty-SrcIP: [209.85.166.52]
-Received: by mail-io1-f52.google.com with SMTP id s21so33583889ioa.1
+	Mon, 26 Aug 2019 04:48:30 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c3so13910135wrd.7
 	for <iommu@lists.linux-foundation.org>;
-	Sun, 25 Aug 2019 19:05:37 -0700 (PDT)
-X-Gm-Message-State: APjAAAXUMoJEB/c8bF2fwTkBcww2+ZSdwPwY+1NY7v1G9gDw1XTfMCmZ
-	+rirZriW8PikEdlfkbmAD8ijNvKx1Yzdos640VE=
-X-Google-Smtp-Source: APXvYqxTTMLLHvl8ZQ3KknXXOxUMTC3Y3hppkNTfIGAtnJsgB3ydviER0RL9pfJ3r191gBIB66pQqdIW5M4t3FT5soQ=
-X-Received: by 2002:ab0:442:: with SMTP id 60mr1079956uav.109.1566785136210;
-	Sun, 25 Aug 2019 19:05:36 -0700 (PDT)
+	Sun, 25 Aug 2019 21:48:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=tcd-ie.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=I1X3WOpXG5XCDr09buC6cHm1zmHyPqzvS2NgnTCXAzY=;
+	b=BsO0/bHVOCA6KrgOFcyhpwuwM0sXDhof1v9dGcGxaQRPyLQI1w0E3UOjivetqc6jkM
+	kss2brU/g8NmgjGFUs42UGbwzNgjMBU5Kr1fS1YmGuSiRX+EzqKSaXJv2ggy5DNs00nq
+	c/uM8KuuYKdSaFYBwUJ9UVInJr0FEA0NWClfF45ew6OX5wLg47V3wivuwulCiqu0+xzl
+	yS4bCm+fQClVVelO+FtuxWyAb9/NOMf3rJzJ/9VhZEW72zCIOyka7LCKKeFg95HmMaOo
+	LyjqSlurgShPx4UpuIsoWuflvAN13w6F0PlhkVoKrd8Tu89H3/RXhqqzFZtlCJHWlBGJ
+	yhLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=I1X3WOpXG5XCDr09buC6cHm1zmHyPqzvS2NgnTCXAzY=;
+	b=HVUZju248n6fFbFF4yTLKW4KYY+WJ6s419y2YjYAodFz2/WYQFAbionz/n0vrpLhXN
+	TpMyAWSZqvWRM/AV2SUY1uvPEmZK3xgGZG3uqOHPhb4QG/yt+Hrwn4SlBbQiUytckRbg
+	bkBbr3x0rzO6r5mK/MWZTJjIgs/tg2Bu3yq2zT8ZiLnR+manYaE2qACAjND5MxqRTkml
+	N/D+wBzLkKcFrNLGQ/4lQflIExshw+Vqz+qQ3/Y3HFs8N8oQ+kkL8CTtQnIhYJFuaQ7I
+	V4jrm83xp9yNJydU/GhYvvJlmCtYxrFB5dFBqKlgdUDMtWzTLHMSwfwrboXXLGTIHCfC
+	rRPw==
+X-Gm-Message-State: APjAAAVLia6x2l/BNWSCavncQUI1ie8fikgGb7i5wT4TsyiEIT2L0WfC
+	NxqsCVvDvRyjgq8sspYBuau0WnIBVP98sw==
+X-Google-Smtp-Source: APXvYqwDsITf3mbd65loamqP7b0Ty+DNRnFPz243wljEeyIXMr7T5Da9pRhckNq3wv/+LrtBaJb1oQ==
+X-Received: by 2002:a5d:500c:: with SMTP id e12mr18225920wrt.213.1566794908961;
+	Sun, 25 Aug 2019 21:48:28 -0700 (PDT)
+Received: from localhost.localdomain (ip-89-102-174-174.net.upcbroadband.cz.
+	[89.102.174.174]) by smtp.googlemail.com with ESMTPSA id
+	n9sm11799010wrp.54.2019.08.25.21.48.27
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 25 Aug 2019 21:48:28 -0700 (PDT)
+From: Tom Murphy <murphyt7@tcd.ie>
+To: iommu@lists.linux-foundation.org
+Subject: [PATCH] Remove wrong default domain comments
+Date: Mon, 26 Aug 2019 05:48:21 +0100
+Message-Id: <20190826044821.27017-1-murphyt7@tcd.ie>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190506223334.1834-1-nicoleotsuka@gmail.com>
-	<20190506223334.1834-3-nicoleotsuka@gmail.com>
-	<CAK7LNARacEorb38mVBw_V-Zvz-znWgBma1AP1-z_5B_xZU4ogg@mail.gmail.com>
-	<CAK7LNAQfYBCoChMV=MOwcUyVoqRkrPWs7DaWdzDqjBe18gGiAQ@mail.gmail.com>
-	<20190825011025.GA23410@lst.de>
-In-Reply-To: <20190825011025.GA23410@lst.de>
-From: Masahiro Yamada <yamada.masahiro@socionext.com>
-Date: Mon, 26 Aug 2019 11:05:00 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQb1ZHr=DiHLNeNRaQExMuXdDOV4sFghoGbco_Q=Qzb8g@mail.gmail.com>
-Message-ID: <CAK7LNAQb1ZHr=DiHLNeNRaQExMuXdDOV4sFghoGbco_Q=Qzb8g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] dma-contiguous: Use fallback alloc_pages for
-	single pages
-To: Christoph Hellwig <hch@lst.de>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Tony Lindgren <tony@atomide.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will.deacon@arm.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Max Filippov <jcmvbkbc@gmail.com>, Stephen Rothwell <sfr@canb.auug.org.au>,
-	Russell King <linux@armlinux.org.uk>, Thierry Reding <treding@nvidia.com>,
-	linux-xtensa@linux-xtensa.org, Kees Cook <keescook@chromium.org>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	Chris Zankel <chris@zankel.net>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	linux-mmc <linux-mmc@vger.kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	iommu@lists.linux-foundation.org, iamjoonsoo.kim@lge.com,
-	Robin Murphy <robin.murphy@arm.com>
+Cc: linux-kernel@vger.kernel.org, Tom Murphy <murphyt7@tcd.ie>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -96,31 +84,46 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Christoph,
+These comments are wrong. request_default_domain_for_dev doesn't just
+handle direct mapped domains.
 
-On Sun, Aug 25, 2019 at 10:10 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Fri, Aug 23, 2019 at 09:56:52PM +0900, Masahiro Yamada wrote:
-> > + linux-mmc, Ulf Hansson, Adrian Hunter,
-> >
-> >
-> > ADMA of SDHCI is not working
-> > since bd2e75633c8012fc8a7431c82fda66237133bf7e
->
-> Does it work for you with this commit:
->
-> http://git.infradead.org/users/hch/dma-mapping.git/commitdiff/90ae409f9eb3bcaf38688f9ec22375816053a08e
+Signed-off-by: Tom Murphy <murphyt7@tcd.ie>
+---
+ drivers/iommu/iommu.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index ea95080372e7..3b6807e7a2d8 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -2179,7 +2179,6 @@ request_default_domain_for_dev(struct device *dev, unsigned long type)
+ 
+ 	mutex_lock(&group->mutex);
+ 
+-	/* Check if the default domain is already direct mapped */
+ 	ret = 0;
+ 	if (group->default_domain && group->default_domain->type == type)
+ 		goto out;
+@@ -2189,7 +2188,6 @@ request_default_domain_for_dev(struct device *dev, unsigned long type)
+ 	if (iommu_group_device_count(group) != 1)
+ 		goto out;
+ 
+-	/* Allocate a direct mapped domain */
+ 	ret = -ENOMEM;
+ 	domain = __iommu_domain_alloc(dev->bus, type);
+ 	if (!domain)
+@@ -2204,7 +2202,7 @@ request_default_domain_for_dev(struct device *dev, unsigned long type)
+ 
+ 	iommu_group_create_direct_mappings(group, dev);
+ 
+-	/* Make the direct mapped domain the default for this group */
++	/* Make the domain the default for this group */
+ 	if (group->default_domain)
+ 		iommu_domain_free(group->default_domain);
+ 	group->default_domain = domain;
+-- 
+2.20.1
 
-This is included in v5.3-rc6
-so I tested it.
-
-No, it did not fix the problem.
-
-
---
-Best Regards
-Masahiro Yamada
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
