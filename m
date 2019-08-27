@@ -2,96 +2,67 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11BE9D530
-	for <lists.iommu@lfdr.de>; Mon, 26 Aug 2019 19:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F34899DA7F
+	for <lists.iommu@lfdr.de>; Tue, 27 Aug 2019 02:15:31 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 5BE90216D;
-	Mon, 26 Aug 2019 17:49:09 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 84471A7F;
+	Tue, 27 Aug 2019 00:15:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 291C72166
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id C47055AA
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 26 Aug 2019 17:49:08 +0000 (UTC)
+	Tue, 27 Aug 2019 00:15:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
-	[148.163.156.1])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 96A66710
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 55FA4887
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 26 Aug 2019 17:49:06 +0000 (UTC)
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x7QHlQdD139893
-	for <iommu@lists.linux-foundation.org>; Mon, 26 Aug 2019 13:49:05 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2umgu989ab-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <iommu@lists.linux-foundation.org>; Mon, 26 Aug 2019 13:49:05 -0400
-Received: from localhost
-	by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
-	Only! Violators will be prosecuted
-	for <iommu@lists.linux-foundation.org> from <linuxram@us.ibm.com>;
-	Mon, 26 Aug 2019 18:49:03 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-	by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Mon, 26 Aug 2019 18:48:59 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
-	[9.149.105.61])
-	by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x7QHmw6w37683404
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Mon, 26 Aug 2019 17:48:58 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1331C11C04C;
-	Mon, 26 Aug 2019 17:48:58 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EE7C111C050;
-	Mon, 26 Aug 2019 17:48:53 +0000 (GMT)
-Received: from ram.ibm.com (unknown [9.85.172.199])
-	by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-	Mon, 26 Aug 2019 17:48:53 +0000 (GMT)
-Date: Mon, 26 Aug 2019 10:48:49 -0700
-From: Ram Pai <linuxram@us.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>, Christoph Hellwig <hch@lst.de>
-References: <87zhrj8kcp.fsf@morokweng.localdomain>
-	<20190810143038-mutt-send-email-mst@kernel.org>
-	<20190810220702.GA5964@ram.ibm.com> <20190811055607.GA12488@lst.de>
-	<20190812095156.GD3947@umbus.fritz.box>
-	<20190813132617.GA6426@lst.de>
-	<20190813142439.GO3947@umbus.fritz.box>
-	<20190813154537.GE5964@ram.ibm.com>
+	Tue, 27 Aug 2019 00:15:26 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7R0F94q123270;
+	Mon, 26 Aug 2019 19:15:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1566864909;
+	bh=RsMdpRqUalyAi3dA3oqiFcxv5t3kJ8Ef294FTJiip/Y=;
+	h=From:To:CC:Subject:Date;
+	b=mtNiy007c4c+bjaKOM+VXU0XirUWm3gZ3N7XfEEFwPDQww3FaTEu5Is1few/wZ71k
+	hr3/3ebZBvMX1oM+yWUlSVeltang57drIWNn9v6bvGIaMlOLcY4RgxN9nmWDDcNzIA
+	PFkqNN8A0ogp0fM+Bp+3GDU1fc5FLwlwyRw0xiw8=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7R0F9UT022283
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 26 Aug 2019 19:15:09 -0500
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE113.ent.ti.com
+	(157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5;
+	Mon, 26 Aug 2019 19:15:09 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE114.ent.ti.com
+	(157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+	Frontend Transport; Mon, 26 Aug 2019 19:15:09 -0500
+Received: from legion.dal.design.ti.com (legion.dal.design.ti.com
+	[128.247.22.53])
+	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7R0F9eD004937;
+	Mon, 26 Aug 2019 19:15:09 -0500
+Received: from localhost (irmo.dhcp.ti.com [128.247.58.153])
+	by legion.dal.design.ti.com (8.11.7p1+Sun/8.11.7) with ESMTP id
+	x7R0F8Z18962; Mon, 26 Aug 2019 19:15:08 -0500 (CDT)
+To: Tony Lindgren <tony@atomide.com>
+Subject: [PATCH 0/2] OMAP IOMMU fixes to go with 5.4 OMAP IOMMU changes
+Date: Mon, 26 Aug 2019 19:14:50 -0500
+Message-ID: <20190827001452.31930-1-s-anna@ti.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190813154537.GE5964@ram.ibm.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-x-cbid: 19082617-0008-0000-0000-0000030D8F60
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19082617-0009-0000-0000-00004A2BC8CB
-Message-Id: <20190826174849.GA5445@ram.ibm.com>
-Subject: RE: [RFC PATCH] virtio_ring: Use DMA API if guest memory is encrypted
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-08-26_08:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1906280000 definitions=main-1908260173
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
-	autolearn=unavailable version=3.3.1
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Jason Wang <jasowang@redhat.com>, Alexey Kardashevskiy <aik@linux.ibm.com>,
-	linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
-	Paul Mackerras <paulus@ozlabs.org>,
-	iommu@lists.linux-foundation.org, ram.n.pai@gmail.com,
-	linuxppc-devel@lists.ozlabs.org
+Cc: Tero Kristo <t-kristo@ti.com>, iommu@lists.linux-foundation.org,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-omap@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -104,82 +75,55 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Reply-To: Ram Pai <linuxram@us.ibm.com>
+From: Suman Anna via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Suman Anna <s-anna@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, Aug 13, 2019 at 08:45:37AM -0700, Ram Pai wrote:
-> On Wed, Aug 14, 2019 at 12:24:39AM +1000, David Gibson wrote:
-> > On Tue, Aug 13, 2019 at 03:26:17PM +0200, Christoph Hellwig wrote:
-> > > On Mon, Aug 12, 2019 at 07:51:56PM +1000, David Gibson wrote:
-> > > > AFAICT we already kind of abuse this for the VIRTIO_F_IOMMU_PLATFORM,
-> > > > because to handle for cases where it *is* a device limitation, we
-> > > > assume that if the hypervisor presents VIRTIO_F_IOMMU_PLATFORM then
-> > > > the guest *must* select it.
-> > > > 
-> > > > What we actually need here is for the hypervisor to present
-> > > > VIRTIO_F_IOMMU_PLATFORM as available, but not required.  Then we need
-> > > > a way for the platform core code to communicate to the virtio driver
-> > > > that *it* requires the IOMMU to be used, so that the driver can select
-> > > > or not the feature bit on that basis.
-> > > 
-> > > I agree with the above, but that just brings us back to the original
-> > > issue - the whole bypass of the DMA OPS should be an option that the
-> > > device can offer, not the other way around.  And we really need to
-> > > fix that root cause instead of doctoring around it.
-> > 
-> > I'm not exactly sure what you mean by "device" in this context.  Do
-> > you mean the hypervisor (qemu) side implementation?
-> > 
-> > You're right that this was the wrong way around to begin with, but as
-> > well as being hard to change now, I don't see how it really addresses
-> > the current problem.  The device could default to IOMMU and allow
-> > bypass, but the driver would still need to get information from the
-> > platform to know that it *can't* accept that option in the case of a
-> > secure VM.  Reversed sense, but the same basic problem.
-> > 
-> > The hypervisor does not, and can not be aware of the secure VM
-> > restrictions - only the guest side platform code knows that.
-> 
-> This statement is almost entirely right. I will rephrase it to make it
-> entirely right.   
-> 
-> The hypervisor does not, and can not be aware of the secure VM
-> requirement that it needs to do some special processing that has nothing
-> to do with DMA address translation - only the guest side platform code
-> know that.
-> 
-> BTW: I do not consider 'bounce buffering' as 'DMA address translation'.
-> DMA address translation, translates CPU address to DMA address.  Bounce
-> buffering moves the data from one buffer at a given CPU address to
-> another buffer at a different CPU address.  Unfortunately the current
-> DMA ops conflates the two.  The need to do 'DMA address translation' 
-> is something the device can enforce.  But the need to do bounce
-> buffering, is something that the device should not be aware and should be
-> entirely a decision made locally by the kernel/driver in the secure VM.
+Hi Tony,
 
+The following 2 patches need to go along with the recent "iommu/omap: misc
+fixes" series [1] that is currently staged [2] for a 5.4 merge and available
+in linux-next. That series added runtime pm callbacks in preparation for
+the ti-sysc migration, but without adding the necessary platform data
+callbacks for the existing functional MMUs on OMAP3, OMAP4 and OMAP5 SoCs.
+These 2 patches add the same to maintain the functionality (l3_noc errors
+are the visible symptom while enabling the MMUs without these patches).
 
-Christoph,
+OMAP4 and OMAP5 would also need another set of fixes related to the
+breakage caused by the switch to clkctrl clocks as seen in [3].
 
-	Since we have not heard back from you, I am not sure where you
-	stand on this issue now.   One of the three things are
-	possible..
+These patches do have a dependency on the staged patches, so either you
+submit a pull-request towards 5.4-rc2 using 5.4-rc1 baseline, or let
+Joerg pick these through the arm/omap IOMMU branch for 5.4-rc1 itself.
 
-	(a) our above explaination did not make sense and hence
-		you decided to ignore it.
-	(b) our above above made some sense and need more time to think 
-		and respond.
-	(c) you totally forgot about this.
+Sakari/Laurent,
+Appreciate it if you can check the OMAP3 ISP functionality on latest
+linux-next with the second patch. I have verified the ISP MMU programming
+only through an unit-test.
 
+Tero,
+I will be submitting another patch against OMAP IOMMU driver to skip the
+pdata callbacks for ti-sysc in the next couple of days.
 
-I hope it is (b). We want a solution that works for all, and your inputs 
-are important to us.
+regards
+Suman
 
+[1] https://lore.kernel.org/linux-iommu/20190809153730.GF12930@8bytes.org/T/#mec99f8e8ed351689f4fcc76f4f000f9144a02b51
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git/log/?h=arm/omap
+[3] https://patchwork.kernel.org/patch/11082125/#22829477
 
-Thanks,
-RP
+Suman Anna (2):
+  ARM: OMAP2+: Plug in device_enable/idle ops for IOMMUs
+  ARM: OMAP2+: Add pdata for OMAP3 ISP IOMMU
+
+ arch/arm/mach-omap2/pdata-quirks.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+-- 
+2.22.0
 
 _______________________________________________
 iommu mailing list
