@@ -2,52 +2,44 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15E29DB77
-	for <lists.iommu@lfdr.de>; Tue, 27 Aug 2019 04:00:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B53949DD94
+	for <lists.iommu@lfdr.de>; Tue, 27 Aug 2019 08:21:24 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 266DFECD;
-	Tue, 27 Aug 2019 02:00:47 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id CEE2EFCD;
+	Tue, 27 Aug 2019 06:21:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5AFB9EC4
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 3D388F9C
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 27 Aug 2019 02:00:45 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 1438C1FB
+	Tue, 27 Aug 2019 06:21:21 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 755D81FB
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 27 Aug 2019 02:00:45 +0000 (UTC)
-Received: from localhost (c-67-164-102-47.hsd1.ca.comcast.net [67.164.102.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
-	bits)) (No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 91CAC206E0;
-	Tue, 27 Aug 2019 02:00:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1566871244;
-	bh=MD3sr2OAksfs0NgAVZIyjzyTAVQ933/C4tnk/zWmHvo=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=KKAmz9jBCgs55lt1JUWBC6wEihVGwH2eJlWekUmiAHQlHNBSQ9hfI35tKDoisVQk6
-	HdBs2Y5wtgaFrBcGW2ON8fxbhdkD/NliHsyJGMXn19bSPectvaDItTx5pd6wjJ55wT
-	z4Yn1Rc/2GZC8jtdzkMH5LcPSQD5Mrc/P1BiAwfU=
-Date: Mon, 26 Aug 2019 19:00:44 -0700 (PDT)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
-To: Christoph Hellwig <hch@lst.de>
+	Tue, 27 Aug 2019 06:21:18 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 2A12468AFE; Tue, 27 Aug 2019 08:21:14 +0200 (CEST)
+Date: Tue, 27 Aug 2019 08:21:13 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Stefano Stabellini <sstabellini@kernel.org>
 Subject: Re: swiotlb-xen cleanups
-In-Reply-To: <20190816130013.31154-1-hch@lst.de>
-Message-ID: <alpine.DEB.2.21.1908261859490.3428@sstabellini-ThinkPad-T480s>
+Message-ID: <20190827062113.GA31752@lst.de>
 References: <20190816130013.31154-1-hch@lst.de>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+	<alpine.DEB.2.21.1908261859490.3428@sstabellini-ThinkPad-T480s>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.1908261859490.3428@sstabellini-ThinkPad-T480s>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, x86@kernel.org,
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, x86@kernel.org,
 	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	xen-devel@lists.xenproject.org, linux-arm-kernel@lists.infradead.org
+	xen-devel@lists.xenproject.org, Christoph Hellwig <hch@lst.de>,
+	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,21 +57,21 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Fri, 16 Aug 2019, Christoph Hellwig wrote:
-> Hi Xen maintainers and friends,
+On Mon, Aug 26, 2019 at 07:00:44PM -0700, Stefano Stabellini wrote:
+> On Fri, 16 Aug 2019, Christoph Hellwig wrote:
+> > Hi Xen maintainers and friends,
+> > 
+> > please take a look at this series that cleans up the parts of swiotlb-xen
+> > that deal with non-coherent caches.
 > 
-> please take a look at this series that cleans up the parts of swiotlb-xen
-> that deal with non-coherent caches.
+> Hi Christoph,
+> 
+> I just wanted to let you know that your series is on my radar, but I
+> have been swamped the last few days. I hope to get to it by the end of
+> the week.
 
-Hi Christoph,
-
-I just wanted to let you know that your series is on my radar, but I
-have been swamped the last few days. I hope to get to it by the end of
-the week.
-
-Cheers,
-
-Stefano
+Thanks, and no rush.  Note that I posted a v2 with a few significant
+changes yesterday.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
