@@ -2,36 +2,36 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9477A1C7C
-	for <lists.iommu@lfdr.de>; Thu, 29 Aug 2019 16:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDC0A1C85
+	for <lists.iommu@lfdr.de>; Thu, 29 Aug 2019 16:16:25 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 9E7E04709;
-	Thu, 29 Aug 2019 14:14:35 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 0F634473F;
+	Thu, 29 Aug 2019 14:16:24 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5D33C4400
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1A8DE453C
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 29 Aug 2019 14:13:12 +0000 (UTC)
+	Thu, 29 Aug 2019 14:14:58 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id DF3D913A
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A899188E
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 29 Aug 2019 14:13:11 +0000 (UTC)
+	Thu, 29 Aug 2019 14:14:57 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6E34F68B20; Thu, 29 Aug 2019 16:13:07 +0200 (CEST)
-Date: Thu, 29 Aug 2019 16:13:07 +0200
-From: "hch@lst.de" <hch@lst.de>
-To: "Derrick, Jonathan" <jonathan.derrick@intel.com>
-Subject: Re: [PATCH 2/5] x86/pci: Add a to_pci_sysdata helper
-Message-ID: <20190829141307.GA18677@lst.de>
+	id 2351F68B20; Thu, 29 Aug 2019 16:14:54 +0200 (CEST)
+Date: Thu, 29 Aug 2019 16:14:53 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH 4/5] PCI/vmd: Stop overriding dma_map_ops
+Message-ID: <20190829141453.GC18677@lst.de>
 References: <20190828141443.5253-1-hch@lst.de>
-	<20190828141443.5253-3-hch@lst.de>
-	<809ad38b6aca8e828db7be6423cb03ac9208fb5a.camel@intel.com>
+	<20190828141443.5253-5-hch@lst.de>
+	<20190828150106.GD23412@localhost.localdomain>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <809ad38b6aca8e828db7be6423cb03ac9208fb5a.camel@intel.com>
+In-Reply-To: <20190828150106.GD23412@localhost.localdomain>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
@@ -40,10 +40,11 @@ X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 Cc: "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
 	"x86@kernel.org" <x86@kernel.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"bhelgaas@google.com" <bhelgaas@google.com>,
 	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	"kbusch@kernel.org" <kbusch@kernel.org>,
-	"dwmw2@infradead.org" <dwmw2@infradead.org>, "hch@lst.de" <hch@lst.de>
+	"bhelgaas@google.com" <bhelgaas@google.com>,
+	"dwmw2@infradead.org" <dwmw2@infradead.org>,
+	Christoph Hellwig <hch@lst.de>, "Derrick,
+	Jonathan" <jonathan.derrick@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,21 +62,25 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Wed, Aug 28, 2019 at 04:41:45PM +0000, Derrick, Jonathan wrote:
-> > diff --git a/arch/x86/include/asm/pci.h b/arch/x86/include/asm/pci.h
-> > index 6fa846920f5f..75fe28492290 100644
-> > --- a/arch/x86/include/asm/pci.h
-> > +++ b/arch/x86/include/asm/pci.h
-> > @@ -35,12 +35,15 @@ extern int noioapicreroute;
-> >  
-> >  #ifdef CONFIG_PCI
-> >  
-> > +static inline struct pci_sysdata *to_pci_sysdata(struct pci_bus *bus)
-> Can you make the argument const to avoid all the warnings from callers
-> passing const struct pci_bus
+On Wed, Aug 28, 2019 at 09:01:06AM -0600, Keith Busch wrote:
+> On Wed, Aug 28, 2019 at 07:14:42AM -0700, Christoph Hellwig wrote:
+> > With a little tweak to the intel-iommu code we should be able to work
+> > around the VMD mess for the requester IDs without having to create giant
+> > amounts of boilerplate DMA ops wrapping code.  The other advantage of
+> > this scheme is that we can respect the real DMA masks for the actual
+> > devices, and I bet it will only be a matter of time until we'll see the
+> > first DMA challeneged NVMe devices.
+> 
+> This tests out fine on VMD hardware, but it's quite different than the
+> previous patch. In v1, the original dev was used in iommu_need_mapping(),
+> but this time it's the vmd device. Is this still using the actual device's
+> DMA mask then?
 
-Yes, I already fixed this up after getting a build bot warning for a
-NUMA config (which seems to be the only one passing a const).
+True.  But then again I think the old one was broken as well, as it
+will pass the wrong dev to identity_mapping() or
+iommu_request_dma_domain_for_dev.   So I guess I'll need to respin it
+a bit to do the work in iommu_need_mapping again, and then factor
+that one to make it obvious what device we deal with.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
