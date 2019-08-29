@@ -2,83 +2,55 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FB6A1C2F
-	for <lists.iommu@lfdr.de>; Thu, 29 Aug 2019 15:59:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D18CA1C8B
+	for <lists.iommu@lfdr.de>; Thu, 29 Aug 2019 16:18:32 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 4023A47D4;
-	Thu, 29 Aug 2019 13:59:26 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 739FB473C;
+	Thu, 29 Aug 2019 14:18:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5A44D47D1
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id B622D4739
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 29 Aug 2019 13:58:27 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 89528EC
+	Thu, 29 Aug 2019 11:46:48 +0000 (UTC)
+X-Greylist: delayed 00:07:09 by SQLgrey-1.7.6
+Received: from lb2-smtp-cloud8.xs4all.net (lb2-smtp-cloud8.xs4all.net
+	[194.109.24.25])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B35B61FB
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 29 Aug 2019 13:58:26 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id x3so3146996lji.5
-	for <iommu@lists.linux-foundation.org>;
-	Thu, 29 Aug 2019 06:58:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=pXpfC9fVJDCmYksnQ+VHfuPY/W7iUuvQ53sueGC6Na4=;
-	b=LCM6HoSz2hrMB3LeCxNEXp1AY1mamuUn8RLdXvD9Tr/2qrjnokLAwAp6SwvrZDEKk1
-	hffIKGm3aRPmo8FKD8oqHrASYqAUZtDS1TJNkXDWDemv5AF63k77eEqmTncFz7FG5DDB
-	JDKmF7rjguaZJT2u/8c3CxZWft2Qu8PpT0JtmSEkHJHpGP3mDY1G/ILZI/C9z9vFYWjx
-	4Ivfdep4607Dqq1DtA6Ngfhrew6BuUWc+9GVu1o8KSOObbwkbZhliu5OMmDF/UpXvLG6
-	npfBbuRWhm/u3me8aMkXSqsIUrp3NLX6CcWpe3ZM7UrBga1EGCSZc1O7/ZDQKWI76SRO
-	WHWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=pXpfC9fVJDCmYksnQ+VHfuPY/W7iUuvQ53sueGC6Na4=;
-	b=Utw4M5xetjjuTytDX/5RNkQaVxvYA/BJ5aoVk1B6eJdJOC2Lwov87/SmIDaglZI9st
-	cliB4kQgKwHljwVO/Zd4bI9m7iydMyIN0OipOWvc0scGSwHRhmzA/Rk2DOGwmyHa2anF
-	IMlB/bFDRYsYepZKDL7Bj/j1+jvBaq1BzMYMBIIFw7bItrh6qRdyk1mvAFfZybHOXOwa
-	CjEOgeqs3tw/5nvCEuWWXD6t4jGcI3abcSvZeeZizTZTcJ//f9gpaBj5/VoDSWhli5rH
-	Xqcqa8hGzcGPBuT10LgnTDXFhztazAicBMlfGcyv50LGwnKB181fHUbNeNtpiLUscHyv
-	3mbQ==
-X-Gm-Message-State: APjAAAVp0r/GclY7mrcWAGPvDJ/DV9EwQ6yh5Fws8lRKdQL8OhI+TLat
-	5Eq2QvjtLyHznEtk6jYDe9T885Sb
-X-Google-Smtp-Source: APXvYqyhU2nYYcl/nKHC9106K7uLheLIAY7mR95TcX2AamAh/vQGuUAipL2F1k86FVP0yJcYYa/PAw==
-X-Received: by 2002:a2e:870f:: with SMTP id m15mr5500259lji.223.1567087104736; 
-	Thu, 29 Aug 2019 06:58:24 -0700 (PDT)
-Received: from [192.168.2.145] ([94.29.34.218])
-	by smtp.googlemail.com with ESMTPSA id
-	z3sm365177lji.4.2019.08.29.06.58.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 29 Aug 2019 06:58:23 -0700 (PDT)
+	Thu, 29 Aug 2019 11:46:47 +0000 (UTC)
+Received: from [192.168.2.10] ([46.9.232.237])
+	by smtp-cloud8.xs4all.net with ESMTPA
+	id 3Im4iRJpeDqPe3Im8iNmv5; Thu, 29 Aug 2019 13:39:36 +0200
 Subject: Re: [PATCH] media: staging: tegra-vde: Disable building with
 	COMPILE_TEST
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>, YueHaibing <yuehaibing@huawei.com>
+To: YueHaibing <yuehaibing@huawei.com>, digetx@gmail.com, mchehab@kernel.org, 
+	gregkh@linuxfoundation.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
+	robin.murphy@arm.com
 References: <20190826133140.13456-1-yuehaibing@huawei.com>
-	<7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
-	<20190829124034.GA19842@ulmo>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b048b460-9d58-8e38-e335-f9a3fface559@gmail.com>
-Date: Thu, 29 Aug 2019 16:58:22 +0300
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
+Date: Thu, 29 Aug 2019 13:39:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190829124034.GA19842@ulmo>
+In-Reply-To: <20190826133140.13456-1-yuehaibing@huawei.com>
 Content-Language: en-US
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-CMAE-Envelope: MS4wfPiBAm9/CVG2yl/RYcmSeabFSsF5/VsS8tiz/yGOIjYSnJaD/MkFj3fN12HeAtoQBMQlQLOy1rQ4hH9Pk3PGKlkkJ9Zl8plyc55GSSz4G1+ppVvvtxVa
+	cgqxOaIHdmGI6Lir3V57kld0PdyIGCK03wiHOkje13kc0gv/PhnX5+C3LrfxdHi2CMNt74bKZcw6PfwDuhW1UOnvKmy1QH8JUr++Y9Auceu48WZ6AknahDMp
+	y+nvVNlAWPrJV2LqEleB77la5ICht/YcDItL8/YHiyeJqDySBIvEVXGwJL4Xi9NZpZ9Wxt1uH4KbBobOQixOSOlTcNw+jzMsIe+bJEk17cuyRCrooBbp13+w
+	rAVl2YjzGamD7FhK930GFNdNmk8AkL+TW8oiCNcUOr/eA3es3KvvOT/pXVSQjB8VA9jwGGPoUNhHSHDpq4csgibDV9Sq8D6Biv12lEVTn+0Gyp3CGn8lifj1
+	NQ04G6sIObCBPw4TuYqOc3L6nn1zCZs6e0K9+DpBNqD0AuyfSDTX/sC8t2V3/1Ij0sv2jB60jtfqjR0cWtBhZHW6dO+mED2Z2qpLMcnRImy9u654a5b4EY9U
+	8oU=
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+	autolearn=unavailable version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: devel@driverdev.osuosl.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, jonathanh@nvidia.com,
-	iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
-	mchehab@kernel.org, robin.murphy@arm.com, linux-media@vger.kernel.org
+X-Mailman-Approved-At: Thu, 29 Aug 2019 14:18:00 +0000
+Cc: linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
+	iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -91,63 +63,67 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-MjkuMDguMjAxOSAxNTo0MCwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBPbiBUaHUsIEF1
-ZyAyOSwgMjAxOSBhdCAwMTozOTozMlBNICswMjAwLCBIYW5zIFZlcmt1aWwgd3JvdGU6Cj4+IE9u
-IDgvMjYvMTkgMzozMSBQTSwgWXVlSGFpYmluZyB3cm90ZToKPj4+IElmIENPTVBJTEVfVEVTVCBp
-cyB5IGFuZCBJT01NVV9TVVBQT1JUIGlzIG4sIHNlbGVjdGluZyBURUdSQV9WREUKPj4+IHRvIG0g
-d2lsbCBzZXQgSU9NTVVfSU9WQSB0byBtLCB0aGlzIGZhaWxzIHRoZSBidWlsZGluZyBvZgo+Pj4g
-VEVHUkFfSE9TVDFYIGFuZCBEUk1fVEVHUkEgd2hpY2ggaXMgeSBsaWtlIHRoaXM6Cj4+Pgo+Pj4g
-ZHJpdmVycy9ncHUvaG9zdDF4L2NkbWEubzogSW4gZnVuY3Rpb24gYGhvc3QxeF9jZG1hX2luaXQn
-Ogo+Pj4gY2RtYS5jOigudGV4dCsweDY2Yyk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGFsbG9j
-X2lvdmEnCj4+PiBjZG1hLmM6KC50ZXh0KzB4Njk4KTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBg
-X19mcmVlX2lvdmEnCj4+Pgo+Pj4gZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RybS5vOiBJbiBmdW5j
-dGlvbiBgdGVncmFfZHJtX3VubG9hZCc6Cj4+PiBkcm0uYzooLnRleHQrMHhlYjApOiB1bmRlZmlu
-ZWQgcmVmZXJlbmNlIHRvIGBwdXRfaW92YV9kb21haW4nCj4+PiBkcm0uYzooLnRleHQrMHhlYjQp
-OiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBpb3ZhX2NhY2hlX3B1dCcKPj4+Cj4+PiBSZXBvcnRl
-ZC1ieTogSHVsayBSb2JvdCA8aHVsa2NpQGh1YXdlaS5jb20+Cj4+PiBGaXhlczogNmIyMjY1OTc1
-MjM5ICgibWVkaWE6IHN0YWdpbmc6IHRlZ3JhLXZkZTogRml4IGJ1aWxkIGVycm9yIikKPj4+IEZp
-eGVzOiBiMzAxZjhkZTE5MjUgKCJtZWRpYTogc3RhZ2luZzogbWVkaWE6IHRlZ3JhLXZkZTogQWRk
-IElPTU1VIHN1cHBvcnQiKQo+Pj4gU2lnbmVkLW9mZi1ieTogWXVlSGFpYmluZyA8eXVlaGFpYmlu
-Z0BodWF3ZWkuY29tPgo+Pj4gLS0tCj4+PiAgZHJpdmVycy9zdGFnaW5nL21lZGlhL3RlZ3JhLXZk
-ZS9LY29uZmlnIHwgNCArKy0tCj4+PiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
-MiBkZWxldGlvbnMoLSkKPj4+Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5nL21lZGlh
-L3RlZ3JhLXZkZS9LY29uZmlnIGIvZHJpdmVycy9zdGFnaW5nL21lZGlhL3RlZ3JhLXZkZS9LY29u
-ZmlnCj4+PiBpbmRleCBiYTQ5ZWE1Li5hNDFkMzBjIDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9z
-dGFnaW5nL21lZGlhL3RlZ3JhLXZkZS9LY29uZmlnCj4+PiArKysgYi9kcml2ZXJzL3N0YWdpbmcv
-bWVkaWEvdGVncmEtdmRlL0tjb25maWcKPj4+IEBAIC0xLDkgKzEsOSBAQAo+Pj4gICMgU1BEWC1M
-aWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKPj4+ICBjb25maWcgVEVHUkFfVkRFCj4+PiAgCXRy
-aXN0YXRlICJOVklESUEgVGVncmEgVmlkZW8gRGVjb2RlciBFbmdpbmUgZHJpdmVyIgo+Pj4gLQlk
-ZXBlbmRzIG9uIEFSQ0hfVEVHUkEgfHwgQ09NUElMRV9URVNUCj4+PiArCWRlcGVuZHMgb24gQVJD
-SF9URUdSQQo+Pgo+PiBXaGF0IGhhcHBlbnMgaWYgeW91IGRyb3AgdGhpcyBjaGFuZ2UsCj4+Cj4+
-PiAgCXNlbGVjdCBETUFfU0hBUkVEX0JVRkZFUgo+Pj4gLQlzZWxlY3QgSU9NTVVfSU9WQSBpZiAo
-SU9NTVVfU1VQUE9SVCB8fCBDT01QSUxFX1RFU1QpCj4+PiArCXNlbGVjdCBJT01NVV9JT1ZBIGlm
-IElPTU1VX1NVUFBPUlQKPj4KPj4gYnV0IGtlZXAgdGhpcyBjaGFuZ2U/Cj4+Cj4+IGlvdmEuaCBo
-YXMgc3R1YnMgdGhhdCBhcmUgdXNlZCBpZiBJT01NVV9JT1ZBIGlzIG5vdCBzZXQsIHNvIGl0IHNo
-b3VsZAo+PiB3b3JrIHdoZW4gY29tcGlsZSB0ZXN0aW5nIHRoaXMgdGVncmEtdmRlIGRyaXZlci4K
-Pj4KPj4gSGF2ZW4ndCB0cmllZCBpdCwgYnV0IG1ha2luZyBzdXJlIHRoYXQgY29tcGlsZSB0ZXN0
-aW5nIGtlZXAgd29ya2luZyBpcwo+PiByZWFsbHkgaW1wb3J0YW50LgoKVGhlIGRyaXZlcidzIGNv
-ZGUgY29tcGlsYXRpb24gd29ya3Mgb2theSwgaXQncyB0aGUgbGlua2FnZSBzdGFnZSB3aGljaApm
-YWlscyBkdXJpbmcgY29tcGlsZS10ZXN0aW5nLgoKPiBZZWFoLCB0aGF0IHZhcmlhbnQgc2VlbXMg
-dG8gd29yayBmb3IgbWUuIEkgdGhpbmsgaXQncyBhbHNvIG1vcmUgY29ycmVjdAo+IGJlY2F1c2Ug
-dGhlIElPTU1VX0lPVkEgaWYgSU9NTVVfU1VQUE9SVCBkZXBlbmRlbmN5IHJlYWxseSBzYXlzIHRo
-YXQgdGhlCj4gSU9WQSB1c2FnZSBpcyBib3VuZCB0byBJT01NVSBzdXBwb3J0LiBJZiBJT01NVSBz
-dXBwb3J0IGlzIG5vdCBlbmFibGVkLAo+IHRoZW4gSU9WQSBpcyBub3QgbmVlZGVkIGVpdGhlciwg
-c28gdGhlIGR1bW1pZXMgd2lsbCBkbyBqdXN0IGZpbmUuCgpBbSBJIHVuZGVyc3RhbmRpbmcgY29y
-cmVjdGx5IHRoYXQgeW91J3JlIHN1Z2dlc3RpbmcgdG8gcmV2ZXJ0IFsxXVsyXSBhbmQKZ2V0IGJh
-Y2sgdG8gdGhlIG90aGVyIHByb2JsZW0/CgpbMV0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGlu
-dXgtbWVkaWEvZGQ1NDdiNDQtN2FiYi0zNzFmLWFlZWUtYTgyYjk2ZjgyNGUyQGdtYWlsLmNvbS9U
-LwpbMl0gaHR0cHM6Ly9wYXRjaHdvcmsub3psYWJzLm9yZy9wYXRjaC8xMTM2NjE5LwoKSWYgd2Ug
-d2FudCB0byBrZWVwIGNvbXBpbGUgdGVzdGluZywgSSBndWVzcyB0aGUgb25seSByZWFzb25hYmxl
-IHZhcmlhbnQKcmlnaHQgbm93IGlzIHRvIHNlbGVjdCBJT01NVV9JT1ZBIHVuY29uZGl0aW9uYWxs
-eSBpbiBhbGwgb2YgdGhlIGRyaXZlcnMKKHZkZSwgaG9zdDF4LCBkcm0gYW5kIGV0YykgYW5kIHRo
-ZW4ganVzdCBpZ25vcmUgdGhhdCBJT1ZBIHdpbGwgYmUKY29tcGlsZWQtYW5kLXVudXNlZCBpZiBJ
-T01NVV9TVVBQT1JUPW4gKG5vdGUgdGhhdCBJT01NVV9TVVBQT1JUPXkgaW4gYWxsCm9mIGRlZmF1
-bHQga2VybmVsIGNvbmZpZ3VyYXRpb25zKS4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZv
-dW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2lvbW11
+On 8/26/19 3:31 PM, YueHaibing wrote:
+> If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
+> to m will set IOMMU_IOVA to m, this fails the building of
+> TEGRA_HOST1X and DRM_TEGRA which is y like this:
+> 
+> drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
+> cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
+> cdma.c:(.text+0x698): undefined reference to `__free_iova'
+> 
+> drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
+> drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
+> drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
+> Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU support")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>  drivers/staging/media/tegra-vde/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
+> index ba49ea5..a41d30c 100644
+> --- a/drivers/staging/media/tegra-vde/Kconfig
+> +++ b/drivers/staging/media/tegra-vde/Kconfig
+> @@ -1,9 +1,9 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  config TEGRA_VDE
+>  	tristate "NVIDIA Tegra Video Decoder Engine driver"
+> -	depends on ARCH_TEGRA || COMPILE_TEST
+> +	depends on ARCH_TEGRA
+
+What happens if you drop this change,
+
+>  	select DMA_SHARED_BUFFER
+> -	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
+> +	select IOMMU_IOVA if IOMMU_SUPPORT
+
+but keep this change?
+
+iova.h has stubs that are used if IOMMU_IOVA is not set, so it should
+work when compile testing this tegra-vde driver.
+
+Haven't tried it, but making sure that compile testing keep working is
+really important.
+
+Regards,
+
+	Hans
+
+>  	select SRAM
+>  	help
+>  	    Say Y here to enable support for the NVIDIA Tegra video decoder
+> 
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
