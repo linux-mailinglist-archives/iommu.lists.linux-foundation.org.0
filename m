@@ -2,75 +2,72 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93D9A17E4
-	for <lists.iommu@lfdr.de>; Thu, 29 Aug 2019 13:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A603A17F8
+	for <lists.iommu@lfdr.de>; Thu, 29 Aug 2019 13:18:28 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 816BD4702;
-	Thu, 29 Aug 2019 11:14:54 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 5D3B64711;
+	Thu, 29 Aug 2019 11:18:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id E20C146E7
-	for <iommu@lists.linux-foundation.org>;
-	Thu, 29 Aug 2019 11:14:14 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0FF4F4692;
+	Thu, 29 Aug 2019 11:17:56 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5E5733D0
-	for <iommu@lists.linux-foundation.org>;
-	Thu, 29 Aug 2019 11:14:14 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id l2so3421512wmg.0
-	for <iommu@lists.linux-foundation.org>;
-	Thu, 29 Aug 2019 04:14:14 -0700 (PDT)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 6A56FEC;
+	Thu, 29 Aug 2019 11:17:55 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id w5so3622708edl.8;
+	Thu, 29 Aug 2019 04:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=IaiScEIM2pI3Ga2qURu31RnQ0vP3+posJvio/TvHvqg=;
-	b=F+xj84R55A1bQiWth2fqIYGo6UX6UgizupUvoLz120sQwCOcC4uXrlMfUAgcXj24TI
-	+ictMX5b1GqoSUahPBQMokCooAzTr3wSMGpPceFi8ChyQILgqg/XiKu47sm6eO+k/2zO
-	jD6zqWPf1Oz8eXvpidcfVoJe505sZPr99n9GmW/NluuemBu+j5tNN81z4G7rU/BaVXiO
-	6Ls+OoqMSfZSlKaBq2chZJBP8WXng29zEIhaOt5TLB+kQp0xCQ/4AYq+9RHLu+4P7YOF
-	BAt/X3om9seoBn0GBvShIun4Hdkb0EeQRZlv4/sI/MBS6XxB48gGZIAvMvE5cn/If/y/
-	TyIw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Qw9TI/oO75bsTCfpr+cHjs+CGmEWrEJqDhW1Nr5mPhI=;
+	b=S8Ri4oDngL/CuKTznOuFJut4kaqtLc9m6OEPBmcrmC9PTg98R4l6Ntojeqare4DfFw
+	Ue+QAiofTOSeEn3E0/BxjOQLgEcmVTFzWxXf/RbFaYze8UQYLYXsmo8idr+2My4VQVHO
+	xiQyF7kbM5iv+RsDvCU/qFLiwosQ4qE2PgBErmbwLqhtHhVnhy9ZxvLpK5PvWZK8+ra5
+	TqQdfoKN+BbrZfXu4iysVRj4aZPP5GWU7rDJ2seuoGic6i98kGKTZABTaRT9p4b2Clsk
+	wvL2evwLuZbxEu0B6knoORNMtSB0oGq3Ul3kTNAEVFmJUdo/iu0piqtwO8RTCzpdtAta
+	+sNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=IaiScEIM2pI3Ga2qURu31RnQ0vP3+posJvio/TvHvqg=;
-	b=iLD45XpA/tCOOrFsaLOFcljt6h26jL0se8XTGckpkLn+fMAV4QdWFXENRG8kJQeABO
-	Kc5sKfBuXAh3ydyL3OQnLFx3hXawqmPnQWdNAczjDHRXhjLzTWNMoRVln85pCrsg5v3f
-	w+08eXQEpeLpWqx9+xULJLlqpRuPXgSTj91ura2IvzbtK1AjzV39tcee/PfHu6FgJ+wh
-	ui/Dr1mpVYr4k33dms6NMT5JDJ0G9dnLtyXR4bUZsfBkMEsi24t5uUbNQt63Sjbqr680
-	nc1ptvYDT6aBa0UD65vs6+R9WuCLMUXSUxkxnGSWiAuVLG0aWY8vuxx4argnnuOznkmz
-	GnNw==
-X-Gm-Message-State: APjAAAWLb/a8doI/Rkj5pVtOKGMtGB4RVj7Zb2KhHWDP/O4gs4RbigFG
-	MbnALAGjmQ6P26nemfARY4A=
-X-Google-Smtp-Source: APXvYqxxJAd9VKSbtqu650m3xr1fElGjWbcWB3LkSAuhJv9Q6X+YMJCxf4QK1m44yZLZh+CImBf3Ng==
-X-Received: by 2002:a1c:f703:: with SMTP id v3mr10575246wmh.107.1567077252984; 
-	Thu, 29 Aug 2019 04:14:12 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Qw9TI/oO75bsTCfpr+cHjs+CGmEWrEJqDhW1Nr5mPhI=;
+	b=OkvZO2gpr8UVtONJb0DJuVa+u+jEadoYxzB+y55tni+AzNBTYYdQrr24lTBQ9OlAnD
+	4QkOmMqYrahydSSY+Mu4YMiM6FyO+gKWqmdOtyeNh5da3sUWOOUgGXQnfyxUdpq9U6p6
+	h4NdFHBk1vAHuga6FUxcaHSq2/tohCnXuQz9bUC4wlkEQsJV6Phmu173HdHmlRBbcowc
+	DjigrOIT/oTG1FhFfrBmpNFDkbDzGh36ow+r+zOBEnWpe7KGe53R3mcXf99jiKutkhvd
+	3pJOHHluuAtLUhpqlOmjfXF80BjSVFqJcNn3KeW5JOL6Qi2QZmjIpvo6k2/98fPRd3Lw
+	O8Ag==
+X-Gm-Message-State: APjAAAW2P3J+QbGdLlsbXoZyYGCSF4u7lDcHm+llqqG23QxApgGvyp6x
+	m/imouE5+oP+2FI6aCZBaOA=
+X-Google-Smtp-Source: APXvYqzf3VpKDNdxCgnDwyw+83rYA047IH5YU4ry9v57vAHMKEZsuLCcwInPPOQgF729h0A10YkaTw==
+X-Received: by 2002:aa7:c81a:: with SMTP id a26mr9175586edt.26.1567077473918; 
+	Thu, 29 Aug 2019 04:17:53 -0700 (PDT)
 Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-	by smtp.gmail.com with ESMTPSA id j9sm1823662wrx.66.2019.08.29.04.14.11
+	by smtp.gmail.com with ESMTPSA id y19sm385592edu.90.2019.08.29.04.17.52
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 29 Aug 2019 04:14:11 -0700 (PDT)
+	Thu, 29 Aug 2019 04:17:53 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 2/2] iommu: dma: Use of_iommu_get_resv_regions()
-Date: Thu, 29 Aug 2019 13:14:07 +0200
-Message-Id: <20190829111407.17191-3-thierry.reding@gmail.com>
+Subject: [PATCH 0/5] iommu: Implement iommu_put_resv_regions_simple()
+Date: Thu, 29 Aug 2019 13:17:47 +0200
+Message-Id: <20190829111752.17513-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190829111407.17191-1-thierry.reding@gmail.com>
-References: <20190829111407.17191-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	Rob Herring <robh+dt@kernel.org>, Will Deacon <will@kernel.org>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -90,39 +87,29 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-For device tree nodes, use the standard of_iommu_get_resv_regions()
-implementation to obtain the reserved memory regions associated with a
-device.
+Most IOMMU drivers only need to free the memory allocated for each
+reserved region. Instead of open-coding the loop to do this in each
+driver, extract the code into a common function that can be used by
+all these drivers.
 
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Frank Rowand <frowand.list@gmail.com>
-Cc: devicetree@vger.kernel.org
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/iommu/dma-iommu.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thierry
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index de68b4a02aea..31d48e55ab55 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -19,6 +19,7 @@
- #include <linux/iova.h>
- #include <linux/irq.h>
- #include <linux/mm.h>
-+#include <linux/of_iommu.h>
- #include <linux/pci.h>
- #include <linux/scatterlist.h>
- #include <linux/vmalloc.h>
-@@ -164,6 +165,8 @@ void iommu_dma_get_resv_regions(struct device *dev, struct list_head *list)
- 	if (!is_of_node(dev_iommu_fwspec_get(dev)->iommu_fwnode))
- 		iort_iommu_msi_get_resv_regions(dev, list);
- 
-+	if (dev->of_node)
-+		of_iommu_get_resv_regions(dev, list);
- }
- EXPORT_SYMBOL(iommu_dma_get_resv_regions);
- 
+Thierry Reding (5):
+  iommu: Implement iommu_put_resv_regions_simple()
+  iommu: arm: Use iommu_put_resv_regions_simple()
+  iommu: amd: Use iommu_put_resv_regions_simple()
+  iommu: intel: Use iommu_put_resv_regions_simple()
+  iommu: virt: Use iommu_put_resv_regions_simple()
+
+ drivers/iommu/amd_iommu.c    | 11 +----------
+ drivers/iommu/arm-smmu-v3.c  | 11 +----------
+ drivers/iommu/arm-smmu.c     | 11 +----------
+ drivers/iommu/intel-iommu.c  | 11 +----------
+ drivers/iommu/iommu.c        | 19 +++++++++++++++++++
+ drivers/iommu/virtio-iommu.c | 14 +++-----------
+ include/linux/iommu.h        |  2 ++
+ 7 files changed, 28 insertions(+), 51 deletions(-)
+
 -- 
 2.22.0
 
