@@ -2,66 +2,47 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F5BA36F0
-	for <lists.iommu@lfdr.de>; Fri, 30 Aug 2019 14:42:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3C5A37B4
+	for <lists.iommu@lfdr.de>; Fri, 30 Aug 2019 15:24:23 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id B86F66068;
-	Fri, 30 Aug 2019 12:42:23 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 431FB60A8;
+	Fri, 30 Aug 2019 13:24:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5E8EF496B
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A69AD606D
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 30 Aug 2019 12:41:11 +0000 (UTC)
-X-Greylist: delayed 00:33:03 by SQLgrey-1.7.6
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id C9EE51FB
+	Fri, 30 Aug 2019 13:22:43 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 40C0CEC
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 30 Aug 2019 12:41:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=5KAK3GGIAW+vTDP3zQ/cvvjRXZvCcS3poVmmyqNR8xw=;
-	b=RjQWf++oCH1waNajLdDE9OfH8l
-	mpzggLTChCK+Ya8xO9qqPX13bG/MxSHfGYwVa8iQ+lxCnNudaybCBZV0Od/LBc/euBGjxdHrmYAqb
-	dNOxRIyLCG1Et2bvbd3ciN3bCoUxJQX0XJqa7mizJGZi92LibkdV+fOt3nXOCtr/NnhN6n5nZGxy6
-	UD6iJA2Bgsn0wXDkwUPs2NDJPXsvirQhot+7mxmE8AqTr83mtojDeov3ZrWvHwTgGtf5OhF5IdL1O
-	eXzfZ2zKfFDJvsRS26XJGW/HP3oAlriuGA369xiZQDZaDsCbNexNVTP9uuRJJh77IGXYaRscEPiMI
-	qxb+WFOg==;
-Received: from [193.209.96.43] (helo=[10.21.26.179])
-	by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
-	id 1i3fif-0005DG-2n; Fri, 30 Aug 2019 15:09:33 +0300
-Subject: Re: [PATCH 6/7] arm64: tegra: Add DT node for T194 SMMU
-To: Krishna Reddy <vdumpa@nvidia.com>
-References: <1567118827-26358-1-git-send-email-vdumpa@nvidia.com>
-	<1567118827-26358-7-git-send-email-vdumpa@nvidia.com>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <ba06d6b8-c6b9-f9bd-c2c1-d5e39292f67d@kapsi.fi>
-Date: Fri, 30 Aug 2019 15:09:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	Fri, 30 Aug 2019 13:22:43 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+	by mx1.suse.de (Postfix) with ESMTP id 6F54CB03D;
+	Fri, 30 Aug 2019 13:22:41 +0000 (UTC)
+Date: Fri, 30 Aug 2019 15:22:39 +0200
+From: Joerg Roedel <jroedel@suse.de>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH] iommu/iova: avoid false sharing on fq_timer_on
+Message-ID: <20190830132239.GK17192@suse.de>
+References: <20190828131338.89832-1-edumazet@google.com>
+	<20190830104925.GI17192@suse.de>
+	<3ffd6989-229b-9c67-d9fb-7a8e413c1336@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <1567118827-26358-7-git-send-email-vdumpa@nvidia.com>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 193.209.96.43
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,UPPERCASE_50_75
-	autolearn=unavailable version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <3ffd6989-229b-9c67-d9fb-7a8e413c1336@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: snikam@nvidia.com, thomasz@nvidia.com, jtukkinen@nvidia.com,
-	mperttunen@nvidia.com, praithatha@nvidia.com,
-	iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-	talho@nvidia.com, yhsu@nvidia.com, linux-tegra@vger.kernel.org,
-	treding@nvidia.com, avanbrunt@nvidia.com,
-	linux-arm-kernel@lists.infradead.org
+Cc: Eric Dumazet <eric.dumazet@gmail.com>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	iommu@lists.linux-foundation.org, Jinyu Qi <jinyuqi@huawei.com>,
+	Eric Dumazet <edumazet@google.com>, Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,112 +55,25 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 30.8.2019 1.47, Krishna Reddy wrote:
-> Add DT node for T194 SMMU to enable SMMU support.
+On Fri, Aug 30, 2019 at 01:27:25PM +0100, Robin Murphy wrote:
+> On 30/08/2019 11:49, Joerg Roedel wrote:
+> > Looks good to me, but adding Robin for his opinion.
 > 
-> Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
-> ---
->   arch/arm64/boot/dts/nvidia/tegra194.dtsi | 75 ++++++++++++++++++++++++++++++++
->   1 file changed, 75 insertions(+)
+> Sounds reasonable to me too - that should also be true for the majority of
+> Arm systems that we know of. Will suggested that atomic_try_cmpxchg() might
+> be relevant, but AFAICS that's backwards compared to what we want to do
+> here, which I guess is more of an "atomic_unlikely_cmpxchg".
 > 
-> diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> index d906958..ad509bb 100644
-> --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-> @@ -1401,6 +1401,81 @@
->   			  0x82000000 0x0  0x40000000 0x1f 0x40000000 0x0 0xc0000000>; /* non-prefetchable memory (3GB) */
->   	};
->   
-> +	smmu: iommu@12000000 {
-> +		compatible = "nvidia,smmu-v2";
+> Acked-by: Robin Murphy <robin.murphy@arm.com>
 
-Should we have a compatibility string like "nvidia,tegra194-smmu" so 
-that we can have other chips with SMMUv2 that could be different?
+Great, thanks for looking into it, Robin.
 
-Mikko
-
-> +		reg = <0 0x12000000 0 0x800000>,
-> +		      <0 0x11000000 0 0x800000>,
-> +		      <0 0x10000000 0 0x800000>;
-> +		interrupts = <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 232 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
-> +			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>;
-> +		stream-match-mask = <0x7f80>;
-> +		#global-interrupts = <1>;
-> +		#iommu-cells = <1>;
-> +	};
-> +
->   	sysram@40000000 {
->   		compatible = "nvidia,tegra194-sysram", "mmio-sram";
->   		reg = <0x0 0x40000000 0x0 0x50000>;
-> 
+Applied now, thanks Eric.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
