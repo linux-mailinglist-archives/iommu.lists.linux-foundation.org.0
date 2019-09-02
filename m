@@ -2,55 +2,88 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D7BA4FD4
-	for <lists.iommu@lfdr.de>; Mon,  2 Sep 2019 09:27:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24EA0A5001
+	for <lists.iommu@lfdr.de>; Mon,  2 Sep 2019 09:38:14 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id B6718AD1;
-	Mon,  2 Sep 2019 07:27:00 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 675A0C11;
+	Mon,  2 Sep 2019 07:38:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 7F24A7F6
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E5B7440B
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  2 Sep 2019 07:26:58 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E898D709
+	Mon,  2 Sep 2019 07:38:10 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 489885D3
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  2 Sep 2019 07:26:57 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1340B227A8A; Mon,  2 Sep 2019 09:26:52 +0200 (CEST)
-Date: Mon, 2 Sep 2019 09:26:51 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH v8 3/7] swiotlb: Zero out bounce buffer for untrusted
-	device
-Message-ID: <20190902072651.GA28587@lst.de>
-References: <20190830071718.16613-1-baolu.lu@linux.intel.com>
-	<20190830071718.16613-4-baolu.lu@linux.intel.com>
-	<20190830073130.GA10471@lst.de>
-	<a5edd268-5ba7-a8b6-d883-f4761e52fdff@linux.intel.com>
+	Mon,  2 Sep 2019 07:38:10 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id o9so3172245edq.0
+	for <iommu@lists.linux-foundation.org>;
+	Mon, 02 Sep 2019 00:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=BlUusxOrxaCgMhXu0ZvmfJnQXORRPsMrgdIIDkov7+0=;
+	b=YpALctmpSx7YjEgiI9SuGVl7dMwk/SEK5o1T0kfxhfQ5XqdN12E4NwZ4afeqD6tdg9
+	l2+WuDUpxBppRmdo4g27iv7JCGBTm0Oh+H0oeRLZYPjYOpbsWs4hcfmk8K4vt4ZuSPAL
+	yEXUSIVLjwxpPSBN9vQeBfmTTzB7G6uR87dsjLuyBS3qGG15nAJFT5Xv65L5DKghKdJl
+	zpEqeWsFx4ZrnnAAyeMpTTERCJ/8F6bOqai1AthPs2ddc4uQPV4r5aSu6Hza4BaKM6ft
+	YhXXSuZHeqwmgj9GJ/XsnXYwKoqtSUjMKDti9H5vZt+dD+Wj/n61bcnjOwyxDP+ZSnBV
+	NbQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=BlUusxOrxaCgMhXu0ZvmfJnQXORRPsMrgdIIDkov7+0=;
+	b=bp2OLoTvHWR/aaXb00jqLIS4fJoxAxPh18CQNF1iA47vksSCEC83R4QIaA0N7OSei6
+	AMoersnV3WT9RF47sXIIJEY2hlLY9S0Mgyu8lwXmC5tTsUNULFNWxj7iwmRh8DpyBVir
+	yJ9XBLUZIaJd01Hf6lWNj2JvTeaV5l4xj5mj9qU1GSabPBMOQSqkXUabRN9EtRp1zFxk
+	JcByKH+KW6DNm1+en098DTKYq5eBYvMIMJJBVzsgoJeDiChWlqC33xArkEj0ExdrXr9A
+	BFgYAB821JuXXqmJLEeloLGt3sVvo89/PqYeroC60h/fcZ/g2txzFNrfMuyAPFATouLC
+	quKQ==
+X-Gm-Message-State: APjAAAUiHvHcybehnh34Y1a008UYp/ncZtHcCThanVDoYrWs9gPHnhOu
+	KodnoMjry1ssRr7BNGR+NLg=
+X-Google-Smtp-Source: APXvYqwBFeYG7Dq7UMXgmFD2WxbHkj27kQRrNBFLJil5mA01IdIMDyjZ3VnT5a8rho8cIXtM7B3Xdw==
+X-Received: by 2002:a17:906:318d:: with SMTP id
+	13mr22669114ejy.281.1567409888769; 
+	Mon, 02 Sep 2019 00:38:08 -0700 (PDT)
+Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
+	by smtp.gmail.com with ESMTPSA id i5sm2751920edf.32.2019.09.02.00.38.07
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 02 Sep 2019 00:38:07 -0700 (PDT)
+Date: Mon, 2 Sep 2019 09:38:06 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Krishna Reddy <vdumpa@nvidia.com>
+Subject: Re: [PATCH 2/7] dt-bindings: arm-smmu: Add binding for nvidia, smmu-v2
+Message-ID: <20190902073806.GA930@ulmo>
+References: <1567118827-26358-1-git-send-email-vdumpa@nvidia.com>
+	<1567118827-26358-3-git-send-email-vdumpa@nvidia.com>
+	<37034b76-7e3f-5f3c-25b2-696e25127682@arm.com>
+	<BYAPR12MB271012F225E35C1459E58D07B3BD0@BYAPR12MB2710.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <a5edd268-5ba7-a8b6-d883-f4761e52fdff@linux.intel.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
+In-Reply-To: <BYAPR12MB271012F225E35C1459E58D07B3BD0@BYAPR12MB2710.namprd12.prod.outlook.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: alan.cox@intel.com, Christoph Hellwig <hch@lst.de>,
-	Stefano Stabellini <sstabellini@kernel.org>, ashok.raj@intel.com,
-	Jonathan Corbet <corbet@lwn.net>, pengfei.xu@intel.com,
-	Ingo Molnar <mingo@redhat.com>,
-	David Woodhouse <dwmw2@infradead.org>, kevin.tian@intel.com,
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-	Steven Rostedt <rostedt@goodmis.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	mika.westerberg@linux.intel.com, Juergen Gross <jgross@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	jacob.jun.pan@intel.com, Robin Murphy <robin.murphy@arm.com>
+Cc: Timo Alho <talho@nvidia.com>, Thierry Reding <treding@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+	Pritesh Raithatha <praithatha@nvidia.com>,
+	"Thomas Zeng \(SW-TEGRA\)" <thomasz@nvidia.com>,
+	Sachin Nikam <Snikam@nvidia.com>,
+	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+	Yu-Huan Hsu <YHsu@nvidia.com>, Juha Tukkinen <jtukkinen@nvidia.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Alexander Van Brunt <avanbrunt@nvidia.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,20 +96,93 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============6666422594224014482=="
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Mon, Sep 02, 2019 at 09:58:27AM +0800, Lu Baolu wrote:
-> The untrusted flag is introduced in another series. I agree that we
-> could consider to move it to struct device, but I think making it
-> in a separated patch looks better.
 
-A separate patch is of course a good idea.  But it needs to happen
-before we can use the flag in the swiotlb code.
+--===============6666422594224014482==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="W/nzBZO5zC0uMSeA"
+Content-Disposition: inline
+
+
+--W/nzBZO5zC0uMSeA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Aug 30, 2019 at 06:12:08PM +0000, Krishna Reddy wrote:
+> >> +                        "nidia,smmu-v2"
+> >>                           "qcom,smmu-v2"
+>=20
+> >I agree with Mikko that the compatible must be at least SoC-specific, bu=
+t potentially even instance-specific (e.g. "nvidia,tegra194-gpu-smmu")
+> > depending on how many of these parallel-SMMU configurations might be hi=
+ding in current and future SoCs.
+>=20
+> I am correcting the spelling mistake pointed by Mikko.  The NVIDIA SMMUv2=
+ implementation is getting used beyond  Tegra194 SOC. =20
+> To be able to use the smmu compatible string across multiple SOC's, "nvid=
+ia,smmu-v2" compatible string is chosen.
+> Are you suggesting to make it soc specific and add another one in future?
+
+Yeah, I think that's the safest thing to do. Even if we're using the
+same implementation in future SoCs, chances are there will be some
+changes. Even if the changes are just fixes, having a SoC-specific
+compatible string will ensure we can apply workarounds only to the
+implementations that are missing the fixes.
+
+So I think "nvidia,tegra194-smmu" is a good candidate. It uniquely
+identifies the instantiation of the IP in Tegra194. Also, if it ever
+turns out that the instantiation of the SMMU in the next Tegra
+generation is *exactly* the same (even if highly unlikely), there's
+nothing wrong with reusing the "nvidia,tegra194-smmu".
+
+We've done similar things in the past, where some new IP was mostly
+compatible with old IP. Typically we still include a new compatible
+string in case any errata are discovered subsequently. It's not uncommon
+to see things like:
+
+	compatible =3D "nvidia,tegra124-xyz", "nvidia,tegra20-xyz";
+
+Basically this means that this is the IP that was also used in Tegra20
+and the same Tegra20 driver can be used to drive this hardware on
+Tegra124. The Tegra124-specific compatible string may enable newer
+features if there's a driver that supports it.
+
+Thierry
+
+--W/nzBZO5zC0uMSeA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1sxtoACgkQ3SOs138+
+s6GyPBAApW9UCw6JCRUfPi6qMLdZo6ec3gtTq0ja+vujc8MIwNw0hNPf3Z6XrJxr
+23cQ6NAbVv869Lv6yBjoa/s90EimzSOn9MSQh7u5Vocwxv+ptUcL3S+zeE5cYWCq
+6il8nVLmckknwL7lWG7gYfxJ0VC/jVtnzblUWSBQVUyRLNiABMEZomEvi9/8UaMk
+Ac9m3z7K5Le2aWyAeGgh1jsrkb/Vmid9f8stmrsM/kwp0v9CVfxXR0C9Wwt/n91A
+ibiOWlFW3mHuo0uadSLjyUFpA8YAj0dNsTCK1Gws0ojSoMMQM5arb+qSULe3tsmh
+nylujZWpqzpjSxZJ/0TgJxgJONmgRLamvFlbmFQNuApVK3oTc7PHNC3GPQVB/owk
+bbw4CNVlatnwXUPT+Wis14qid/rE5hxWHdEQTpAPd/kF5yFjTEWqHgDX1BPVMbnv
+HpxQmPwq8+x1W+9eHMBWrBoHvGXI2V4p5szFvst4fKlWH2cyfDNxMgJR6K6zBze7
+Qw81D3FhJ4ZdwsABSmMTULv8EYuCInKgZGjNPlmtlyuuAiKDZDU7xfxntVNvK7cj
+ay0xxvRolXiaKhFL5PptMX7hE+H/hlNeFcBqzGtf0hHOupI2g6gCZrB5+5h93ovq
+fy8z4p2GCZaEsJscj7Fp3nvBu+DMiFUp4rmygKSC+MWt4tMyXSI=
+=+U+B
+-----END PGP SIGNATURE-----
+
+--W/nzBZO5zC0uMSeA--
+
+--===============6666422594224014482==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============6666422594224014482==--
