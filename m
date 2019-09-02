@@ -2,88 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24EA0A5001
-	for <lists.iommu@lfdr.de>; Mon,  2 Sep 2019 09:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57DF0A51EA
+	for <lists.iommu@lfdr.de>; Mon,  2 Sep 2019 10:38:06 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 675A0C11;
-	Mon,  2 Sep 2019 07:38:12 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 05CC0CDB;
+	Mon,  2 Sep 2019 08:38:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id E5B7440B
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 17115CC7
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  2 Sep 2019 07:38:10 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
-	[209.85.208.68])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 489885D3
+	Mon,  2 Sep 2019 08:38:03 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B0D955D3
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  2 Sep 2019 07:38:10 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id o9so3172245edq.0
-	for <iommu@lists.linux-foundation.org>;
-	Mon, 02 Sep 2019 00:38:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=BlUusxOrxaCgMhXu0ZvmfJnQXORRPsMrgdIIDkov7+0=;
-	b=YpALctmpSx7YjEgiI9SuGVl7dMwk/SEK5o1T0kfxhfQ5XqdN12E4NwZ4afeqD6tdg9
-	l2+WuDUpxBppRmdo4g27iv7JCGBTm0Oh+H0oeRLZYPjYOpbsWs4hcfmk8K4vt4ZuSPAL
-	yEXUSIVLjwxpPSBN9vQeBfmTTzB7G6uR87dsjLuyBS3qGG15nAJFT5Xv65L5DKghKdJl
-	zpEqeWsFx4ZrnnAAyeMpTTERCJ/8F6bOqai1AthPs2ddc4uQPV4r5aSu6Hza4BaKM6ft
-	YhXXSuZHeqwmgj9GJ/XsnXYwKoqtSUjMKDti9H5vZt+dD+Wj/n61bcnjOwyxDP+ZSnBV
-	NbQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=BlUusxOrxaCgMhXu0ZvmfJnQXORRPsMrgdIIDkov7+0=;
-	b=bp2OLoTvHWR/aaXb00jqLIS4fJoxAxPh18CQNF1iA47vksSCEC83R4QIaA0N7OSei6
-	AMoersnV3WT9RF47sXIIJEY2hlLY9S0Mgyu8lwXmC5tTsUNULFNWxj7iwmRh8DpyBVir
-	yJ9XBLUZIaJd01Hf6lWNj2JvTeaV5l4xj5mj9qU1GSabPBMOQSqkXUabRN9EtRp1zFxk
-	JcByKH+KW6DNm1+en098DTKYq5eBYvMIMJJBVzsgoJeDiChWlqC33xArkEj0ExdrXr9A
-	BFgYAB821JuXXqmJLEeloLGt3sVvo89/PqYeroC60h/fcZ/g2txzFNrfMuyAPFATouLC
-	quKQ==
-X-Gm-Message-State: APjAAAUiHvHcybehnh34Y1a008UYp/ncZtHcCThanVDoYrWs9gPHnhOu
-	KodnoMjry1ssRr7BNGR+NLg=
-X-Google-Smtp-Source: APXvYqwBFeYG7Dq7UMXgmFD2WxbHkj27kQRrNBFLJil5mA01IdIMDyjZ3VnT5a8rho8cIXtM7B3Xdw==
-X-Received: by 2002:a17:906:318d:: with SMTP id
-	13mr22669114ejy.281.1567409888769; 
-	Mon, 02 Sep 2019 00:38:08 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-	by smtp.gmail.com with ESMTPSA id i5sm2751920edf.32.2019.09.02.00.38.07
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 02 Sep 2019 00:38:07 -0700 (PDT)
-Date: Mon, 2 Sep 2019 09:38:06 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Krishna Reddy <vdumpa@nvidia.com>
-Subject: Re: [PATCH 2/7] dt-bindings: arm-smmu: Add binding for nvidia, smmu-v2
-Message-ID: <20190902073806.GA930@ulmo>
-References: <1567118827-26358-1-git-send-email-vdumpa@nvidia.com>
-	<1567118827-26358-3-git-send-email-vdumpa@nvidia.com>
-	<37034b76-7e3f-5f3c-25b2-696e25127682@arm.com>
-	<BYAPR12MB271012F225E35C1459E58D07B3BD0@BYAPR12MB2710.namprd12.prod.outlook.com>
+	Mon,  2 Sep 2019 08:38:02 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Sep 2019 01:38:02 -0700
+X-IronPort-AV: E=Sophos;i="5.64,457,1559545200"; d="scan'208";a="184442382"
+Received: from jkrzyszt-desk.ger.corp.intel.com ([172.22.244.17])
+	by orsmga003-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Sep 2019 01:38:00 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [RFC PATCH] iommu/vt-d: Fix IOMMU field not populated on device
+	hot re-plug
+Date: Mon, 02 Sep 2019 10:37:41 +0200
+Message-ID: <1769080.0GM3UzqXcv@jkrzyszt-desk.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+	80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <ccb1434d-281c-abae-0726-7fd924041315@linux.intel.com>
+References: <20190822142922.31526-1-janusz.krzysztofik@linux.intel.com>
+	<3255251.C7nBVfOIaa@jkrzyszt-desk.ger.corp.intel.com>
+	<ccb1434d-281c-abae-0726-7fd924041315@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR12MB271012F225E35C1459E58D07B3BD0@BYAPR12MB2710.namprd12.prod.outlook.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Timo Alho <talho@nvidia.com>, Thierry Reding <treding@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	Pritesh Raithatha <praithatha@nvidia.com>,
-	"Thomas Zeng \(SW-TEGRA\)" <thomasz@nvidia.com>,
-	Sachin Nikam <Snikam@nvidia.com>,
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-	Yu-Huan Hsu <YHsu@nvidia.com>, Juha Tukkinen <jtukkinen@nvidia.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Alexander Van Brunt <avanbrunt@nvidia.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+	David Woodhouse <dwmw2@infradead.org>, intel-gfx@lists.freedesktop.org,
+	=?utf-8?B?TWljaGHFgg==?= Wajdeczko <michal.wajdeczko@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -96,93 +61,95 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============6666422594224014482=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
+Hi Baolu,
 
---===============6666422594224014482==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="W/nzBZO5zC0uMSeA"
-Content-Disposition: inline
+On Thursday, August 29, 2019 11:08:18 AM CEST Lu Baolu wrote:
+> Hi,
+> 
+> On 8/29/19 3:58 PM, Janusz Krzysztofik wrote:
+> > Hi Baolu,
+> > 
+> > On Thursday, August 29, 2019 3:43:31 AM CEST Lu Baolu wrote:
+> >> Hi Janusz,
+> >>
+> >> On 8/28/19 10:17 PM, Janusz Krzysztofik wrote:
+> >>>> We should avoid kernel panic when a intel_unmap() is called against
+> >>>> a non-existent domain.
+> >>> Does that mean you suggest to replace
+> >>> 	BUG_ON(!domain);
+> >>> with something like
+> >>> 	if (WARN_ON(!domain))
+> >>> 		return;
+> >>> and to not care of orphaned mappings left allocated?  Is there a way to
+> > inform
+> >>> users that their active DMA mappings are no longer valid and they
+> > shouldn't
+> >>> call dma_unmap_*()?
+> >>>
+> >>>> But we shouldn't expect the IOMMU driver not
+> >>>> cleaning up the domain info when a device remove notification comes and
+> >>>> wait until all file descriptors being closed, right?
+> >>> Shouldn't then the IOMMU driver take care of cleaning up resources still
+> >>> allocated on device remove before it invalidates and forgets their
+> > pointers?
+> >>>
+> >>
+> >> You are right. We need to wait until all allocated resources (iova and
+> >> mappings) to be released.
+> >>
+> >> How about registering a callback for BUS_NOTIFY_UNBOUND_DRIVER, and
+> >> removing the domain info when the driver detachment completes?
+> > 
+> > Device core calls BUS_NOTIFY_UNBOUND_DRIVER on each driver unbind, 
+regardless
+> > of a device being removed or not.  As long as the device is not unplugged 
+and
+> > the BUS_NOTIFY_REMOVED_DEVICE notification not generated, an unbound 
+driver is
+> > not a problem here.
+> > Morever, BUS_NOTIFY_UNBOUND_DRIVER  is called even before
+> > BUS_NOTIFY_REMOVED_DEVICE so that wouldn't help anyway.
+> > Last but not least, bus events are independent of the IOMMU driver use via
+> > DMA-API it exposes.
+> 
+> Fair enough.
+> 
+> > 
+> > If keeping data for unplugged devices and reusing it on device re-plug is 
+not
+> > acceptable then maybe the IOMMU driver should perform reference counting 
+of
+> > its internal resources occupied by DMA-API users and perform cleanups on 
+last
+> > release?
+> 
+> I am not saying that keeping data is not acceptable. I just want to
+> check whether there are any other solutions.
+
+Then reverting 458b7c8e0dde and applying this patch still resolves the issue 
+for me.  No errors appear when mappings are unmapped on device close after the 
+device has been removed, and domain info preserved on device removal is 
+successfully reused on device re-plug.
+
+Is there anything else I can do to help?
+
+Thanks,
+Janusz
+
+> 
+> Best regards,
+> Baolu
+> 
 
 
---W/nzBZO5zC0uMSeA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 30, 2019 at 06:12:08PM +0000, Krishna Reddy wrote:
-> >> +                        "nidia,smmu-v2"
-> >>                           "qcom,smmu-v2"
->=20
-> >I agree with Mikko that the compatible must be at least SoC-specific, bu=
-t potentially even instance-specific (e.g. "nvidia,tegra194-gpu-smmu")
-> > depending on how many of these parallel-SMMU configurations might be hi=
-ding in current and future SoCs.
->=20
-> I am correcting the spelling mistake pointed by Mikko.  The NVIDIA SMMUv2=
- implementation is getting used beyond  Tegra194 SOC. =20
-> To be able to use the smmu compatible string across multiple SOC's, "nvid=
-ia,smmu-v2" compatible string is chosen.
-> Are you suggesting to make it soc specific and add another one in future?
-
-Yeah, I think that's the safest thing to do. Even if we're using the
-same implementation in future SoCs, chances are there will be some
-changes. Even if the changes are just fixes, having a SoC-specific
-compatible string will ensure we can apply workarounds only to the
-implementations that are missing the fixes.
-
-So I think "nvidia,tegra194-smmu" is a good candidate. It uniquely
-identifies the instantiation of the IP in Tegra194. Also, if it ever
-turns out that the instantiation of the SMMU in the next Tegra
-generation is *exactly* the same (even if highly unlikely), there's
-nothing wrong with reusing the "nvidia,tegra194-smmu".
-
-We've done similar things in the past, where some new IP was mostly
-compatible with old IP. Typically we still include a new compatible
-string in case any errata are discovered subsequently. It's not uncommon
-to see things like:
-
-	compatible =3D "nvidia,tegra124-xyz", "nvidia,tegra20-xyz";
-
-Basically this means that this is the IP that was also used in Tegra20
-and the same Tegra20 driver can be used to drive this hardware on
-Tegra124. The Tegra124-specific compatible string may enable newer
-features if there's a driver that supports it.
-
-Thierry
-
---W/nzBZO5zC0uMSeA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1sxtoACgkQ3SOs138+
-s6GyPBAApW9UCw6JCRUfPi6qMLdZo6ec3gtTq0ja+vujc8MIwNw0hNPf3Z6XrJxr
-23cQ6NAbVv869Lv6yBjoa/s90EimzSOn9MSQh7u5Vocwxv+ptUcL3S+zeE5cYWCq
-6il8nVLmckknwL7lWG7gYfxJ0VC/jVtnzblUWSBQVUyRLNiABMEZomEvi9/8UaMk
-Ac9m3z7K5Le2aWyAeGgh1jsrkb/Vmid9f8stmrsM/kwp0v9CVfxXR0C9Wwt/n91A
-ibiOWlFW3mHuo0uadSLjyUFpA8YAj0dNsTCK1Gws0ojSoMMQM5arb+qSULe3tsmh
-nylujZWpqzpjSxZJ/0TgJxgJONmgRLamvFlbmFQNuApVK3oTc7PHNC3GPQVB/owk
-bbw4CNVlatnwXUPT+Wis14qid/rE5hxWHdEQTpAPd/kF5yFjTEWqHgDX1BPVMbnv
-HpxQmPwq8+x1W+9eHMBWrBoHvGXI2V4p5szFvst4fKlWH2cyfDNxMgJR6K6zBze7
-Qw81D3FhJ4ZdwsABSmMTULv8EYuCInKgZGjNPlmtlyuuAiKDZDU7xfxntVNvK7cj
-ay0xxvRolXiaKhFL5PptMX7hE+H/hlNeFcBqzGtf0hHOupI2g6gCZrB5+5h93ovq
-fy8z4p2GCZaEsJscj7Fp3nvBu+DMiFUp4rmygKSC+MWt4tMyXSI=
-=+U+B
------END PGP SIGNATURE-----
-
---W/nzBZO5zC0uMSeA--
-
---===============6666422594224014482==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============6666422594224014482==--
