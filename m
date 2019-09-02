@@ -2,48 +2,71 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9B5A5931
-	for <lists.iommu@lfdr.de>; Mon,  2 Sep 2019 16:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F46AA594A
+	for <lists.iommu@lfdr.de>; Mon,  2 Sep 2019 16:26:46 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id AEA9C9EE;
-	Mon,  2 Sep 2019 14:22:41 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 45554CA1;
+	Mon,  2 Sep 2019 14:26:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id BEDDA9EE
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 15865C77
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  2 Sep 2019 14:22:40 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 5A76C709
+	Mon,  2 Sep 2019 14:26:43 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 7F734709
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  2 Sep 2019 14:22:40 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F1B4E337;
-	Mon,  2 Sep 2019 07:22:39 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 79FF43F59C;
-	Mon,  2 Sep 2019 07:22:37 -0700 (PDT)
-Subject: Re: [PATCH 2/2] iommu: dma: Use of_iommu_get_resv_regions()
-To: Thierry Reding <thierry.reding@gmail.com>, Joerg Roedel <joro@8bytes.org>
-References: <20190829111407.17191-1-thierry.reding@gmail.com>
-	<20190829111407.17191-3-thierry.reding@gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <1caeaaa0-c5aa-b630-6d42-055b26764f40@arm.com>
-Date: Mon, 2 Sep 2019 15:22:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Mon,  2 Sep 2019 14:26:42 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id t16so14242291wra.6
+	for <iommu@lists.linux-foundation.org>;
+	Mon, 02 Sep 2019 07:26:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=ot30V47/iBS0yHDmKdi6h92CwtoqCpzSIGyUdC23LBs=;
+	b=gkV4Kdx8MtHyE80MW2ajVykhxooN7TA5ejExya4QwvatfIhKjcdAGIrFKj98V72Xfg
+	S1dWzYrOzNI5cP8THhaDuy06Vc6MmNHAQs8Mkdi1+aXUhm9aVqqMomqF0Ve9CXTjfh0f
+	8AjUGvO+r3DePT9xMZD3pjKWql4e3yaBKemnnwum7IUlyl4aCOdhMMTAXuqrBBjDj/gR
+	XVUn1JGi6Kri2hJdYYjXvT51jSAA/ttMeEnPXtoVed/IAiBmbonrkr/z12UgRQZS+/IR
+	txJhqhEyaVAWAGxinHYVaKedh4jUkeSsHR4feLcTxiS8RM90jursmtZKCtNdwaSBHj62
+	0xVw==
+X-Gm-Message-State: APjAAAX4D6+O2aVgkgjL0yLpnWC9xBnWjmDs8LBM0SLSyJ3JVSITwtEP
+	ANWkqveM6nZuvEwaXyH78Q==
+X-Google-Smtp-Source: APXvYqwrcoUbjAf10BUlLBhioq2RZCRuSUEHDKWeG20TWt9K0tZHjtvEfqHEbFfZ7g0NKNH+PmgRKg==
+X-Received: by 2002:a5d:6811:: with SMTP id w17mr1391676wru.181.1567434400948; 
+	Mon, 02 Sep 2019 07:26:40 -0700 (PDT)
+Received: from localhost ([212.187.182.166]) by smtp.gmail.com with ESMTPSA id
+	h125sm33788405wmf.31.2019.09.02.07.26.40
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 02 Sep 2019 07:26:40 -0700 (PDT)
+Date: Mon, 2 Sep 2019 15:26:39 +0100
+From: Rob Herring <robh@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v1 2/2] of: Let of_for_each_phandle fallback to
+	non-negative cell_count
+Message-ID: <20190902142639.GA13947@bogus>
+References: <20190824132846.8589-1-u.kleine-koenig@pengutronix.de>
+	<20190824132846.8589-2-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20190829111407.17191-3-thierry.reding@gmail.com>
-Content-Language: en-GB
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <20190824132846.8589-2-u.kleine-koenig@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+	FREEMAIL_ENVFROM_END_DIGIT, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
+Cc: devicetree@vger.kernel.org, Will Deacon <will@kernel.org>,
 	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-	Rob Herring <robh+dt@kernel.org>, Will Deacon <will@kernel.org>
+	linux-mediatek@lists.infradead.org, kernel@pengutronix.de,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Frank Rowand <frowand.list@gmail.com>,
+	linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,60 +79,53 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 29/08/2019 12:14, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> For device tree nodes, use the standard of_iommu_get_resv_regions()
-> implementation to obtain the reserved memory regions associated with a
-> device.
+On Sat, Aug 24, 2019 at 03:28:46PM +0200, Uwe Kleine-K=F6nig wrote:
+> Referencing device tree nodes from a property allows to pass arguments.
+> This is for example used for referencing gpios. This looks as follows:
+> =
 
-This covers the window between iommu_probe_device() setting up a default 
-domain and the device's driver finally probing and taking control, but 
-iommu_probe_device() represents the point that the IOMMU driver first 
-knows about this device - there's still a window from whenever the IOMMU 
-driver itself probed up to here where the "unidentified" traffic may 
-have already been disrupted. Some IOMMU drivers have no option but to 
-make the necessary configuration during their own probe routine, at 
-which point a struct device for the display/etc. endpoint may not even 
-exist yet.
+> 	gpio_ctrl: gpio-controller {
+> 		#gpio-cells =3D <2>
+> 		...
+> 	}
+> =
 
-Robin.
+> 	someothernode {
+> 		gpios =3D <&gpio_ctrl 5 0 &gpio_ctrl 3 0>;
+> 		...
+> 	}
+> =
 
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Cc: devicetree@vger.kernel.org
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> To know the number of arguments this must be either fixed, or the
+> referenced node is checked for a $cells_name (here: "#gpio-cells")
+> property and with this information the start of the second reference can
+> be determined.
+> =
+
+> Currently regulators are referenced with no additional arguments. To
+> allow some optional arguments without having to change all referenced
+> nodes this change introduces a way to specify a default cell_count. So
+> when a phandle is parsed we check for the $cells_name property and use
+> it as before if present. If it is not present we fall back to
+> cells_count if non-negative and only fail if cells_count is smaller than
+> zero.
+> =
+
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 > ---
->   drivers/iommu/dma-iommu.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index de68b4a02aea..31d48e55ab55 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -19,6 +19,7 @@
->   #include <linux/iova.h>
->   #include <linux/irq.h>
->   #include <linux/mm.h>
-> +#include <linux/of_iommu.h>
->   #include <linux/pci.h>
->   #include <linux/scatterlist.h>
->   #include <linux/vmalloc.h>
-> @@ -164,6 +165,8 @@ void iommu_dma_get_resv_regions(struct device *dev, struct list_head *list)
->   	if (!is_of_node(dev_iommu_fwspec_get(dev)->iommu_fwnode))
->   		iort_iommu_msi_get_resv_regions(dev, list);
->   
-> +	if (dev->of_node)
-> +		of_iommu_get_resv_regions(dev, list);
->   }
->   EXPORT_SYMBOL(iommu_dma_get_resv_regions);
->   
-> 
+>  drivers/of/base.c | 25 +++++++++++++++++--------
+>  1 file changed, 17 insertions(+), 8 deletions(-)
+
+Looks fine to me. I can apply with an ack from the iommu folks on patch =
+
+1.
+
+Rob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
