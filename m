@@ -2,45 +2,72 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DEE6A5F6F
-	for <lists.iommu@lfdr.de>; Tue,  3 Sep 2019 04:43:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5352FA5FB7
+	for <lists.iommu@lfdr.de>; Tue,  3 Sep 2019 05:30:56 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 3D449C79;
-	Tue,  3 Sep 2019 02:43:34 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 15FFAC9F;
+	Tue,  3 Sep 2019 03:30:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id B2F04AF5
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 8C893907
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  3 Sep 2019 02:43:32 +0000 (UTC)
+	Tue,  3 Sep 2019 03:30:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D69B789B
+Received: from hqemgate16.nvidia.com (hqemgate16.nvidia.com [216.228.121.65])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4A3A289C
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  3 Sep 2019 02:43:31 +0000 (UTC)
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
-	by Forcepoint Email with ESMTP id C994D77CF3F576A2A425;
-	Tue,  3 Sep 2019 10:43:29 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS402-HUB.china.huawei.com
-	(10.3.19.202) with Microsoft SMTP Server id 14.3.439.0; Tue, 3 Sep 2019
-	10:43:22 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: <will@kernel.org>, <robin.murphy@arm.com>, <joro@8bytes.org>
-Subject: [PATCH -next] iommu/arm-smmu-v3: Fix build error without
-	CONFIG_PCI_ATS
-Date: Tue, 3 Sep 2019 10:42:12 +0800
-Message-ID: <20190903024212.20300-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+	Tue,  3 Sep 2019 03:30:34 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+	hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+	id <B5d6dde5c0000>; Mon, 02 Sep 2019 20:30:36 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+	by hqpgpgate101.nvidia.com (PGP Universal service);
+	Mon, 02 Sep 2019 20:30:33 -0700
+X-PGP-Universal: processed;
+	by hqpgpgate101.nvidia.com on Mon, 02 Sep 2019 20:30:33 -0700
+Received: from HQMAIL110.nvidia.com (172.18.146.15) by HQMAIL105.nvidia.com
+	(172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+	Tue, 3 Sep 2019 03:30:33 +0000
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by hqmail110.nvidia.com
+	(172.18.146.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+	Tue, 3 Sep 2019 03:30:33 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL105.nvidia.com
+	(172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
+	Frontend Transport; Tue, 3 Sep 2019 03:30:33 +0000
+Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by
+	hqnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+	id <B5d6dde590000>; Mon, 02 Sep 2019 20:30:33 -0700
+From: Krishna Reddy <vdumpa@nvidia.com>
+To: 
+Subject: [PATCH v2 0/7] Nvidia Arm SMMUv2 Implementation
+Date: Mon, 2 Sep 2019 20:32:01 -0700
+Message-ID: <1567481528-31163-1-git-send-email-vdumpa@nvidia.com>
+X-Mailer: git-send-email 2.1.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-X-Originating-IP: [10.133.213.239]
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+	t=1567481436; bh=T9BbTYlYBfuyCj1sNd2063D0NTKNlCCYjU+ccrUrfNA=;
+	h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+	X-NVConfidentiality:MIME-Version:Content-Type;
+	b=kwrJNN0Z9MVA02HH4Wy53rTiwgJNHARlt4xypssjUsxFSJGrizKy75cuamg/sjrg/
+	E9Pt+9meLVYnXR+dl1zRa3/lARZKXWQPX8inmBCdazmVCjUQ2G7Z0tVlpNHzHSxIF1
+	sZ3oxbnNo77T4+yOPP8NVlvsHwfpUiUeLS0C5nddFZRZShOhuRw4Xv9nktMOChFLo5
+	df5dH2Pn6HUbQ1ZnxM1VpoUcfFVGIg7+50ecCIQ3HenSasr61ED+8pVkITeCqA+Tpm
+	ChB56uDR2DUhGWujtOHo3TuJRUi9W6KPYzUA+gL5KZglno04DaFZD6McHvjhSW+3ff
+	enfvdybAwqu4Q==
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, YueHaibing <yuehaibing@huawei.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: snikam@nvidia.com, thomasz@nvidia.com, jtukkinen@nvidia.com,
+	mperttunen@nvidia.com, will@kernel.org,
+	linux-kernel@vger.kernel.org, praithatha@nvidia.com,
+	talho@nvidia.com, iommu@lists.linux-foundation.org,
+	linux-tegra@vger.kernel.org, yhsu@nvidia.com, treding@nvidia.com,
+	robin.murphy@arm.com, avanbrunt@nvidia.com,
+	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,49 +85,40 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-If CONFIG_PCI_ATS is not set, building fails:
+Changes in v2:
+- Prepare arm_smu_flush_ops for override.
+- Remove NVIDIA_SMMUv2 and use ARM_SMMUv2 model as T194 SMMU hasn't modified ARM MMU-500.
+- Add T194 specific compatible string - "nvidia,tegra194-smmu"
+- Remove tlb_sync hook added in v1 and Override arm_smmu_flush_ops->tlb_sync() from implementation.
+- Register implementation specific context/global fault hooks directly for irq handling.
+- Update global/context interrupt list in DT and releant fault handling code in arm-smmu-nvidia.c.
+- Implement reset hook in arm-smmu-nvidia.c to clear irq status and sync tlb.
 
-drivers/iommu/arm-smmu-v3.c: In function arm_smmu_ats_supported:
-drivers/iommu/arm-smmu-v3.c:2325:35: error: struct pci_dev has no member named ats_cap; did you mean msi_cap?
-  return !pdev->untrusted && pdev->ats_cap;
-                                   ^~~~~~~
+v1 - https://lkml.org/lkml/2019/8/29/1588
 
-ats_cap should only used when CONFIG_PCI_ATS is defined,
-so use #ifdef block to guard this.
+Krishna Reddy (7):
+  iommu/arm-smmu: prepare arm_smmu_flush_ops for override
+  iommu/arm-smmu: add NVIDIA implementation for dual ARM MMU-500 usage
+  dt-bindings: arm-smmu: Add binding for Tegra194 SMMU
+  iommu/arm-smmu: Add global/context fault implementation hooks
+  arm64: tegra: Add Memory controller DT node on T194
+  arm64: tegra: Add DT node for T194 SMMU
+  arm64: tegra: enable SMMU for SDHCI and EQOS on T194
 
-Fixes: bfff88ec1afe ("iommu/arm-smmu-v3: Rework enabling/disabling of ATS for PCI masters")
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- drivers/iommu/arm-smmu-v3.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/iommu/arm,smmu.txt         |   4 +
+ MAINTAINERS                                        |   2 +
+ arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi     |   4 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi           |  88 +++++++
+ drivers/iommu/Makefile                             |   2 +-
+ drivers/iommu/arm-smmu-impl.c                      |   3 +
+ drivers/iommu/arm-smmu-nvidia.c                    | 287 +++++++++++++++++++++
+ drivers/iommu/arm-smmu.c                           |  27 +-
+ drivers/iommu/arm-smmu.h                           |   8 +-
+ 9 files changed, 413 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/iommu/arm-smmu-nvidia.c
 
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index 66bf641..44ac9ac 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -2313,7 +2313,7 @@ static void arm_smmu_install_ste_for_dev(struct arm_smmu_master *master)
- 
- static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
- {
--	struct pci_dev *pdev;
-+	struct pci_dev *pdev __maybe_unused;
- 	struct arm_smmu_device *smmu = master->smmu;
- 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(master->dev);
- 
-@@ -2321,8 +2321,10 @@ static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
- 	    !(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS) || pci_ats_disabled())
- 		return false;
- 
-+#ifdef CONFIG_PCI_ATS
- 	pdev = to_pci_dev(master->dev);
- 	return !pdev->untrusted && pdev->ats_cap;
-+#endif
- }
- 
- static void arm_smmu_enable_ats(struct arm_smmu_master *master)
 -- 
-2.7.4
-
+2.1.4
 
 _______________________________________________
 iommu mailing list
