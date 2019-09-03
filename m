@@ -2,43 +2,43 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E13A6923
-	for <lists.iommu@lfdr.de>; Tue,  3 Sep 2019 14:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56407A6D2D
+	for <lists.iommu@lfdr.de>; Tue,  3 Sep 2019 17:44:01 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1D781D30;
-	Tue,  3 Sep 2019 12:58:56 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 3B586D4B;
+	Tue,  3 Sep 2019 15:43:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 240EBC37
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id DA48DCAF
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  3 Sep 2019 12:58:54 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 37FAC756
+	Tue,  3 Sep 2019 15:43:57 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 030FF831
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  3 Sep 2019 12:58:53 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-	id 6786C284; Tue,  3 Sep 2019 14:58:50 +0200 (CEST)
-Date: Tue, 3 Sep 2019 14:58:49 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: YueHaibing <yuehaibing@huawei.com>
-Subject: Re: [PATCH v2 -next] iommu/arm-smmu-v3: Fix build error without
-	CONFIG_PCI_ATS
-Message-ID: <20190903125848.GC11530@8bytes.org>
-References: <20190903024212.20300-1-yuehaibing@huawei.com>
-	<20190903065056.17988-1-yuehaibing@huawei.com>
+	Tue,  3 Sep 2019 15:43:56 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+	by mx1.suse.de (Postfix) with ESMTP id DF1D8AB91;
+	Tue,  3 Sep 2019 15:43:54 +0000 (UTC)
+Message-ID: <cf743e0a1571c1748588f088cfd9804e8b55c36b.camel@suse.de>
+Subject: PCIe DMA addressing issues on Raspberry Pi 4
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Rob Herring <robh+dt@kernel.org>, "robin.murphy" <robin.murphy@arm.com>
+Date: Tue, 03 Sep 2019 17:43:52 +0200
+User-Agent: Evolution 3.32.4 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190903065056.17988-1-yuehaibing@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: robin.murphy@arm.com, iommu@lists.linux-foundation.org, will@kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	mbrugger <mbrugger@suse.com>, iommu@lists.linux-foundation.org,
+	Christoph Hellwig <hch@lst.de>,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,33 +51,142 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============6280466402032068936=="
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, Sep 03, 2019 at 02:50:56PM +0800, YueHaibing wrote:
-> If CONFIG_PCI_ATS is not set, building fails:
-> 
-> drivers/iommu/arm-smmu-v3.c: In function arm_smmu_ats_supported:
-> drivers/iommu/arm-smmu-v3.c:2325:35: error: struct pci_dev has no member named ats_cap; did you mean msi_cap?
->   return !pdev->untrusted && pdev->ats_cap;
->                                    ^~~~~~~
-> 
-> ats_cap should only used when CONFIG_PCI_ATS is defined,
-> so use #ifdef block to guard this.
-> 
-> Fixes: bfff88ec1afe ("iommu/arm-smmu-v3: Rework enabling/disabling of ATS for PCI masters")
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> ---
-> v2: Add arm_smmu_ats_supported() of no CONFIG_PCI_ATS
-> ---
->  drivers/iommu/arm-smmu-v3.c | 7 +++++++
->  1 file changed, 7 insertions(+)
 
-Applied, thanks.
+--===============6280466402032068936==
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-VNc7oUE10RoRira+Huej"
+
+
+--=-VNc7oUE10RoRira+Huej
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi all, sorry for the long read, I kept it as short as possible.
+
+So, the wrapper around the PCIe block available on the Raspberry Pi 4 has a=
+ bug
+preventing it from accessing anything beyond the first 3G of ram [1]. I'm
+trying to figure out the best way to integrate this upstream.
+
+Note that the only thing behind the PCIe bus is an USB3 chip. The bus is no=
+t
+exposed to users directly.
+
+I see two options:
+
+- Isolate the PCIe block on it's own interconnect. IMO this could be accept=
+able
+  as it's arguable that the bug is not really in the PCIe block.  I set the
+  interconnect's dma-range size to 2GB instead of 3GB as dma masks don't pl=
+ay
+  well with non power of two DMA constraints:
+
+  buggy-scb {
+	compatible =3D "simple-bus";
+	dma-ranges =3D <0x0 0x00000000 0x0 0x00000000 0x800000000>;
+
+	pcie {
+		compatible =3D "brcm,bcm2711-pcie";
+		dma-ranges =3D <0x02000000 0x0 0x00000000 0x0 0x00000000
+			      0x1 0x00000000>;
+		[...]
+
+	};
+  };
+
+  scb {
+	compatible =3D "simple-bus";
+	dma-ranges =3D <0x0 0x00000000 0x0 0x00000000 0xfc0000000>;
+
+	eth0 {
+		[...]
+	};
+
+	[...]
+  };
+
+  With this setup the PCIe devices should behave correctly as long as they
+  don't play with their own DMA masks.
+
+- Configure PCIe's inbound view of memory taking into account the buggy
+  interconnect:
+
+  scb {
+	compatible =3D "simple-bus";
+	dma-ranges =3D <0x0 0x00000000 0x0 0x00000000 0xfc000000>;
+
+	pcie {
+		compatible =3D "brcm,bcm2711-pcie";
+		dma-ranges =3D <0x02000000 0x0 0x00000000 0x0 0x00000000
+			      0x0 0x80000000>;
+		[...]
+
+	};
+
+	eth0 {
+		[...]
+	};
+
+	[...]
+  };
+
+  The downside of this is that of_dma_configure() doesn't play well with PC=
+I
+  devices. of_dma_configure() expects a device's OF node, yet the PCI core
+  passes the bridge's OF node, as the device has none. The result is
+  of_dma_configure() ignores PCI's dma-ranges. Solving this is not trivial.
+  IMO the simplest solution would be to create a distinct OF node on PCI
+  bridges, child of the actual PCI root complex.  FYI this was already an i=
+ssue
+  some years ago [2].
+
+  This solution also suffers from devices setting their own DMA masks.
+
+If you're curious abot the downstream kernel, they use their custom buffer
+bouncing code, which AFAIK is something we're trying to get rid of.
+
+Any comments? Alternative solutions?
+
+Thanks,
+Nicolas
+
+[1] https://www.spinics.net/lists/arm-kernel/msg740693.html
+[2] https://patchwork.kernel.org/patch/9650345/#20294961
+
+
+--=-VNc7oUE10RoRira+Huej
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl1uijgACgkQlfZmHno8
+x/4ncwf/bFv3AD0ndtH89sJxuLuYsOfE/0zdO83AOPyEGnYUEp8yPyov0zO43okd
+oQ2rfzZl8jALpzSy936hXZIIcJmWuOaTApRMaf14Rumq/RKR1zIG5e69ZlTskd5s
+/ar4nASgz8/9ShY6LASonoXaTSSkbsOEWhBJPQjrS4Rf/Q9ggnLuzapHI6pDGdrJ
+9DupdCcl7v1+Mfa+erRSGYrNgPWMnt85PaVQT2I+ICwc0UDWDND2hgIbuHsxnBre
+1JFn0x26TIpqUCqegsZxOJOjNCQS+bTvoYzoi/xAhyuMMt+DFR7Jhk+l1TRrB/qs
+x7bWu1wcIdB+gfhyeOrJUjm2qd5nFw==
+=f55V
+-----END PGP SIGNATURE-----
+
+--=-VNc7oUE10RoRira+Huej--
+
+
+--===============6280466402032068936==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============6280466402032068936==--
+
