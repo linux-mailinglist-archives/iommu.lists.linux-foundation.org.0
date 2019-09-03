@@ -2,50 +2,49 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E371A6188
-	for <lists.iommu@lfdr.de>; Tue,  3 Sep 2019 08:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF11A618A
+	for <lists.iommu@lfdr.de>; Tue,  3 Sep 2019 08:34:31 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 3FAC7C96;
-	Tue,  3 Sep 2019 06:33:57 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 72720C96;
+	Tue,  3 Sep 2019 06:34:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 7C5E0C8E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id D413FC8E
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  3 Sep 2019 06:33:55 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id ED05C709
+	Tue,  3 Sep 2019 06:34:28 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 549B6709
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  3 Sep 2019 06:33:54 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id C62D5227A8A; Tue,  3 Sep 2019 08:33:50 +0200 (CEST)
-Date: Tue, 3 Sep 2019 08:33:50 +0200
-From: "hch@lst.de" <hch@lst.de>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH v10 3/4] block: add a helper function to merge the segments
-Message-ID: <20190903063350.GA16908@lst.de>
-References: <1566995743-5614-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-	<1566995743-5614-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-	<e549e8e7-9dfe-6f68-2148-f49a9089db37@kernel.dk>
-	<TYAPR01MB454492ADBC8561C0BEC6F449D8B90@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+	Tue,  3 Sep 2019 06:34:28 +0000 (UTC)
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+	by Forcepoint Email with ESMTP id 44FED515EAFCE51C88B3;
+	Tue,  3 Sep 2019 14:34:26 +0800 (CST)
+Received: from [127.0.0.1] (10.133.213.239) by DGGEMS404-HUB.china.huawei.com
+	(10.3.19.204) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 3 Sep 2019 14:34:22 +0800
+Subject: Re: [PATCH -next] iommu/arm-smmu-v3: Fix build error without
+	CONFIG_PCI_ATS
+To: Will Deacon <will@kernel.org>
+References: <20190903024212.20300-1-yuehaibing@huawei.com>
+	<20190903063028.6ryuk5dmaohi2fqa@willie-the-truck>
+From: Yuehaibing <yuehaibing@huawei.com>
+Message-ID: <e246593a-e518-2d79-c89e-5191d28e9e34@huawei.com>
+Date: Tue, 3 Sep 2019 14:34:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <TYAPR01MB454492ADBC8561C0BEC6F449D8B90@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+In-Reply-To: <20190903063028.6ryuk5dmaohi2fqa@willie-the-truck>
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Jens Axboe <axboe@kernel.dk>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	"robin.murphy@arm.com" <robin.murphy@arm.com>, "hch@lst.de" <hch@lst.de>
+Cc: robin.murphy@arm.com, iommu@lists.linux-foundation.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,15 +62,68 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, Sep 03, 2019 at 04:59:59AM +0000, Yoshihiro Shimoda wrote:
-> Hi Christoph,
+On 2019/9/3 14:30, Will Deacon wrote:
+> On Tue, Sep 03, 2019 at 10:42:12AM +0800, YueHaibing wrote:
+>> If CONFIG_PCI_ATS is not set, building fails:
+>>
+>> drivers/iommu/arm-smmu-v3.c: In function arm_smmu_ats_supported:
+>> drivers/iommu/arm-smmu-v3.c:2325:35: error: struct pci_dev has no member named ats_cap; did you mean msi_cap?
+>>   return !pdev->untrusted && pdev->ats_cap;
+>>                                    ^~~~~~~
+>>
+>> ats_cap should only used when CONFIG_PCI_ATS is defined,
+>> so use #ifdef block to guard this.
+>>
+>> Fixes: bfff88ec1afe ("iommu/arm-smmu-v3: Rework enabling/disabling of ATS for PCI masters")
+>> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+>> ---
+>>  drivers/iommu/arm-smmu-v3.c | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
+>> index 66bf641..44ac9ac 100644
+>> --- a/drivers/iommu/arm-smmu-v3.c
+>> +++ b/drivers/iommu/arm-smmu-v3.c
+>> @@ -2313,7 +2313,7 @@ static void arm_smmu_install_ste_for_dev(struct arm_smmu_master *master)
+>>  
+>>  static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
+>>  {
+>> -	struct pci_dev *pdev;
+>> +	struct pci_dev *pdev __maybe_unused;
+>>  	struct arm_smmu_device *smmu = master->smmu;
+>>  	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(master->dev);
+>>  
+>> @@ -2321,8 +2321,10 @@ static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
+>>  	    !(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS) || pci_ats_disabled())
+>>  		return false;
+>>  
+>> +#ifdef CONFIG_PCI_ATS
+>>  	pdev = to_pci_dev(master->dev);
+>>  	return !pdev->untrusted && pdev->ats_cap;
+>> +#endif
+>>  }
 > 
-> Now this patch series got {Ack,Review}ed-by from each maintainer.
-> https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=166501
+> Hmm, I really don't like the missing return statement here, even though we
+> never get this far thanks to the feature not getting set during ->probe().
+> I'd actually prefer just to duplicate the function:
 > 
-> So, would you pick this up through the dma-mapping tree as you said before?
+> #ifndef CONFIG_PCI_ATS
+> static bool
+> arm_smmu_ats_supported(struct arm_smmu_master *master) { return false; }
+> #else
+> <current code here>
+> #endif
+> 
+> Can you send a v2 like that, please?
 
-I've applied it to the dma-mapping tree for 5.4 now, thanks a lot!
+Ok, will send v2 as your suggestion.
+
+> 
+> Will
+> 
+> .
+> 
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
