@@ -2,35 +2,36 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5DA2A7BDC
-	for <lists.iommu@lfdr.de>; Wed,  4 Sep 2019 08:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8317A7BDD
+	for <lists.iommu@lfdr.de>; Wed,  4 Sep 2019 08:41:16 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id EB4A61059;
-	Wed,  4 Sep 2019 06:41:00 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 2638B1077;
+	Wed,  4 Sep 2019 06:41:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id A46F7F29
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A6ED2F26
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  4 Sep 2019 03:04:25 +0000 (UTC)
+	Wed,  4 Sep 2019 03:04:28 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id BBBAD756
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4A0C1709
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  4 Sep 2019 03:04:23 +0000 (UTC)
+	Wed,  4 Sep 2019 03:04:28 +0000 (UTC)
 Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
-	by Forcepoint Email with ESMTP id 86B82D3A8C19B60C797D;
-	Wed,  4 Sep 2019 11:04:21 +0800 (CST)
+	by Forcepoint Email with ESMTP id 917C6A5EED8200FBE134;
+	Wed,  4 Sep 2019 11:04:26 +0800 (CST)
 Received: from linux-ibm.site (10.175.102.37) by
 	DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server
-	id 14.3.439.0; Wed, 4 Sep 2019 11:04:14 +0800
+	id 14.3.439.0; Wed, 4 Sep 2019 11:04:15 +0800
 From: zhong jiang <zhongjiang@huawei.com>
 To: <davem@davemloft.net>, <herbert@gondor.apana.org.au>, <arno@natisbad.org>, 
 	<joro@8bytes.org>, <gregkh@linuxfoundation.org>
-Subject: [PATCH 2/3] iommu/pamu: Use kzfree rather than its implementation
-Date: Wed, 4 Sep 2019 11:01:18 +0800
-Message-ID: <1567566079-7412-3-git-send-email-zhongjiang@huawei.com>
+Subject: [PATCH 3/3] Staging: rtl8723bs: Use kzfree rather than its
+	implementation
+Date: Wed, 4 Sep 2019 11:01:19 +0800
+Message-ID: <1567566079-7412-4-git-send-email-zhongjiang@huawei.com>
 X-Mailer: git-send-email 1.7.12.4
 In-Reply-To: <1567566079-7412-1-git-send-email-zhongjiang@huawei.com>
 References: <1567566079-7412-1-git-send-email-zhongjiang@huawei.com>
@@ -65,26 +66,23 @@ Use kzfree instead of memset() + kfree().
 
 Signed-off-by: zhong jiang <zhongjiang@huawei.com>
 ---
- drivers/iommu/fsl_pamu.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_security.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/iommu/fsl_pamu.c b/drivers/iommu/fsl_pamu.c
-index cde281b..ca6d147 100644
---- a/drivers/iommu/fsl_pamu.c
-+++ b/drivers/iommu/fsl_pamu.c
-@@ -1174,10 +1174,8 @@ static int fsl_pamu_probe(struct platform_device *pdev)
- 	if (irq != NO_IRQ)
- 		free_irq(irq, data);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index 979056c..57cfe06 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -2290,8 +2290,7 @@ static void gf_mulx(u8 *pad)
  
--	if (data) {
--		memset(data, 0, sizeof(struct pamu_isr_data));
--		kfree(data);
--	}
-+	if (data)
-+		kzfree(data);
+ static void aes_encrypt_deinit(void *ctx)
+ {
+-	memset(ctx, 0, AES_PRIV_SIZE);
+-	kfree(ctx);
++	kzfree(ctx);
+ }
  
- 	if (pamu_regs)
- 		iounmap(pamu_regs);
+ 
 -- 
 1.7.12.4
 
