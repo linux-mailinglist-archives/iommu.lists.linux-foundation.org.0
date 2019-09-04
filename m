@@ -2,49 +2,62 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8317A7BDD
-	for <lists.iommu@lfdr.de>; Wed,  4 Sep 2019 08:41:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C05A7BDF
+	for <lists.iommu@lfdr.de>; Wed,  4 Sep 2019 08:41:29 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 2638B1077;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8EA3D1052;
 	Wed,  4 Sep 2019 06:41:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id A6ED2F26
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 8ED14F31
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  4 Sep 2019 03:04:28 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4A0C1709
+	Wed,  4 Sep 2019 04:13:09 +0000 (UTC)
+X-Greylist: delayed 00:05:01 by SQLgrey-1.7.6
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id D0330709
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  4 Sep 2019 03:04:28 +0000 (UTC)
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
-	by Forcepoint Email with ESMTP id 917C6A5EED8200FBE134;
-	Wed,  4 Sep 2019 11:04:26 +0800 (CST)
-Received: from linux-ibm.site (10.175.102.37) by
-	DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server
-	id 14.3.439.0; Wed, 4 Sep 2019 11:04:15 +0800
-From: zhong jiang <zhongjiang@huawei.com>
-To: <davem@davemloft.net>, <herbert@gondor.apana.org.au>, <arno@natisbad.org>, 
-	<joro@8bytes.org>, <gregkh@linuxfoundation.org>
-Subject: [PATCH 3/3] Staging: rtl8723bs: Use kzfree rather than its
-	implementation
-Date: Wed, 4 Sep 2019 11:01:19 +0800
-Message-ID: <1567566079-7412-4-git-send-email-zhongjiang@huawei.com>
-X-Mailer: git-send-email 1.7.12.4
-In-Reply-To: <1567566079-7412-1-git-send-email-zhongjiang@huawei.com>
-References: <1567566079-7412-1-git-send-email-zhongjiang@huawei.com>
+	Wed,  4 Sep 2019 04:13:07 +0000 (UTC)
+X-UUID: c8c948f33d2047f3bdfa7905ae66264b-20190904
+X-UUID: c8c948f33d2047f3bdfa7905ae66264b-20190904
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+	(envelope-from <houlong.wei@mediatek.com>)
+	(mailgw01.mediatek.com ESMTP with TLS)
+	with ESMTP id 561403735; Wed, 04 Sep 2019 12:07:57 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N2.mediatek.inc
+	(172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+	Wed, 4 Sep 2019 12:07:54 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
+	(172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+	Transport; Wed, 4 Sep 2019 12:07:53 +0800
+Message-ID: <1567570074.31301.19.camel@mhfsdcap03>
+Subject: Re: [PATCH v3 06/14] media: mtk-mdp: Get rid of mtk_smi_larb_get/put
+From: houlong wei <houlong.wei@mediatek.com>
+To: Yong Wu <yong.wu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>
+Date: Wed, 4 Sep 2019 12:07:54 +0800
+In-Reply-To: <mailman.21807.1567503573.19300.linux-mediatek@lists.infradead.org>
+References: <mailman.21807.1567503573.19300.linux-mediatek@lists.infradead.org>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-Originating-IP: [10.175.102.37]
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+X-TM-SNTS-SMTP: 500850E9C33D38436DBF3DA1D3DC54035EACB51BDE85BE19A0327058E6BBD5A42000:8
+X-MTK: N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,UNPARSEABLE_RELAY
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Mailman-Approved-At: Wed, 04 Sep 2019 06:40:59 +0000
-Cc: iommu@lists.linux-foundation.org, zhongjiang@huawei.com,
-	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailman-Approved-At: Wed, 04 Sep 2019 06:41:00 +0000
+Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
+	Nicolas Boichat <drinkcat@chromium.org>, cui.zhang@mediatek.com,
+	srv_heupstream@mediatek.com, chao.hao@mediatek.com,
+	Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
+	Evan Green <evgreen@chromium.org>, houlong.wei@mediatek.com,
+	Tomasz Figa <tfiga@google.com>, iommu@lists.linux-foundation.org,
+	Matthias Kaehlcke <mka@chromium.org>,
+	linux-mediatek@lists.infradead.org, minghsiu.tsai@mediatek.com,
+	ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
+	Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,29 +75,142 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Use kzfree instead of memset() + kfree().
+Hi, Yong,
 
-Signed-off-by: zhong jiang <zhongjiang@huawei.com>
----
- drivers/staging/rtl8723bs/core/rtw_security.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+I have inline comment below.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index 979056c..57cfe06 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -2290,8 +2290,7 @@ static void gf_mulx(u8 *pad)
- 
- static void aes_encrypt_deinit(void *ctx)
- {
--	memset(ctx, 0, AES_PRIV_SIZE);
--	kfree(ctx);
-+	kzfree(ctx);
- }
- 
- 
--- 
-1.7.12.4
+> MediaTek IOMMU has already added the device_link between the consumer
+> and smi-larb device. If the mdp device call the pm_runtime_get_sync,
+> the smi-larb's pm_runtime_get_sync also be called automatically.
+> 
+> CC: Minghsiu Tsai <minghsiu.tsai@mediatek.com>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> Reviewed-by: Evan Green <evgreen@chromium.org>
+> ---
+>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 38 ---------------------------
+>  drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 --
+>  drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
+>  3 files changed, 41 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+> index 9afe816..5985a9b 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
+> @@ -9,7 +9,6 @@
+>  #include <linux/of.h>
+>  #include <linux/of_address.h>
+>  #include <linux/of_platform.h>
+> -#include <soc/mediatek/smi.h>
+>  
+>  #include "mtk_mdp_comp.h"
+>  
+> @@ -58,14 +57,6 @@ void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp)
+>  {
+>  	int i, err;
+>  
+> -	if (comp->larb_dev) {
+> -		err = mtk_smi_larb_get(comp->larb_dev);
+> -		if (err)
+> -			dev_err(dev,
+> -				"failed to get larb, err %d. type:%d id:%d\n",
+> -				err, comp->type, comp->id);
+> -	}
+
+In previous design,mtk_mdp_comp_clock_on() is called by each MDP
+hardware component, and mtk_smi_larb_get() is also called for each MDP
+hardware component which accesses DRAM via SMI larb.
+
+Since mdp device only contains mdp_rdma component, so
+pm_runtime_get_sync() will ignore other smi-larb clock. We need consider
+how to enable clocks of other smi-larb associated with other mdp
+component, e.g. mdp_wdma, mdp_wrot.
+
+
+>  	for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
+>  		if (IS_ERR(comp->clk[i]))
+>  			continue;
+> @@ -86,16 +77,11 @@ void mtk_mdp_comp_clock_off(struct device *dev, struct mtk_mdp_comp *comp)
+>  			continue;
+>  		clk_disable_unprepare(comp->clk[i]);
+>  	}
+> -
+> -	if (comp->larb_dev)
+> -		mtk_smi_larb_put(comp->larb_dev);
+>  }
+>  
+>  int mtk_mdp_comp_init(struct device *dev, struct device_node *node,
+>  		      struct mtk_mdp_comp *comp, enum mtk_mdp_comp_id comp_id)
+>  {
+> -	struct device_node *larb_node;
+> -	struct platform_device *larb_pdev;
+>  	int i;
+>  
+>  	if (comp_id < 0 || comp_id >= MTK_MDP_COMP_ID_MAX) {
+> @@ -116,30 +102,6 @@ int mtk_mdp_comp_init(struct device *dev, struct device_node *node,
+>  			break;
+>  	}
+>  
+> -	/* Only DMA capable components need the LARB property */
+> -	comp->larb_dev = NULL;
+> -	if (comp->type != MTK_MDP_RDMA &&
+> -	    comp->type != MTK_MDP_WDMA &&
+> -	    comp->type != MTK_MDP_WROT)
+> -		return 0;
+> -
+> -	larb_node = of_parse_phandle(node, "mediatek,larb", 0);
+> -	if (!larb_node) {
+> -		dev_err(dev,
+> -			"Missing mediadek,larb phandle in %pOF node\n", node);
+> -		return -EINVAL;
+> -	}
+> -
+> -	larb_pdev = of_find_device_by_node(larb_node);
+> -	if (!larb_pdev) {
+> -		dev_warn(dev, "Waiting for larb device %pOF\n", larb_node);
+> -		of_node_put(larb_node);
+> -		return -EPROBE_DEFER;
+> -	}
+> -	of_node_put(larb_node);
+> -
+> -	comp->larb_dev = &larb_pdev->dev;
+> -
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+> index 998a4b9..a2da8df 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
+> @@ -39,7 +39,6 @@ enum mtk_mdp_comp_id {
+>   * @dev_node:	component device node
+>   * @clk:	clocks required for component
+>   * @regs:	Mapped address of component registers.
+> - * @larb_dev:	SMI device required for component
+>   * @type:	component type
+>   * @id:		component ID
+>   */
+> @@ -47,7 +46,6 @@ struct mtk_mdp_comp {
+>  	struct device_node	*dev_node;
+>  	struct clk		*clk[2];
+>  	void __iomem		*regs;
+> -	struct device		*larb_dev;
+>  	enum mtk_mdp_comp_type	type;
+>  	enum mtk_mdp_comp_id	id;
+>  };
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> index fc9faec..c237ed9 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+> @@ -17,7 +17,6 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/workqueue.h>
+> -#include <soc/mediatek/smi.h>
+>  
+>  #include "mtk_mdp_core.h"
+>  #include "mtk_mdp_m2m.h"
+
+
 
 _______________________________________________
 iommu mailing list
