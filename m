@@ -2,91 +2,42 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2547EAC4D2
-	for <lists.iommu@lfdr.de>; Sat,  7 Sep 2019 07:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDB9EAC535
+	for <lists.iommu@lfdr.de>; Sat,  7 Sep 2019 09:43:38 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id E84CEE9D;
-	Sat,  7 Sep 2019 05:54:20 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8C47C10A8;
+	Sat,  7 Sep 2019 07:43:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 945A42961
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id C0FCCCD1
 	for <iommu@lists.linux-foundation.org>;
-	Sat,  7 Sep 2019 00:14:08 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
-	[148.163.156.1])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 1073E7DB
+	Sat,  7 Sep 2019 07:43:35 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5337589B
 	for <iommu@lists.linux-foundation.org>;
-	Sat,  7 Sep 2019 00:14:08 +0000 (UTC)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x8707Hk5071220; Fri, 6 Sep 2019 20:14:01 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2uuvjq1tud-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Fri, 06 Sep 2019 20:14:01 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-	by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x8707Jne071333;
-	Fri, 6 Sep 2019 20:14:01 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
-	[169.62.189.11])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2uuvjq1ttt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Fri, 06 Sep 2019 20:14:00 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
-	by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id
-	x8709NhY013987; Sat, 7 Sep 2019 00:13:58 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
-	[9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 2uqgh82ch1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Sat, 07 Sep 2019 00:13:58 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
-	[9.57.199.107])
-	by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
-	x870Duhh54526334
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Sat, 7 Sep 2019 00:13:56 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0521A124052;
-	Sat,  7 Sep 2019 00:13:56 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2C6C7124053;
-	Sat,  7 Sep 2019 00:13:55 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.85.134.207])
-	by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
-	Sat,  7 Sep 2019 00:13:55 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: sebott@linux.ibm.com
-Subject: [PATCH v4 4/4] vfio: pci: Using a device region to retrieve zPCI
-	information
-Date: Fri,  6 Sep 2019 20:13:51 -0400
-Message-Id: <1567815231-17940-5-git-send-email-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1567815231-17940-1-git-send-email-mjrosato@linux.ibm.com>
-References: <1567815231-17940-1-git-send-email-mjrosato@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-09-06_11:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1906280000 definitions=main-1909070000
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+	Sat,  7 Sep 2019 07:43:33 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+	x-ip-name=78.156.65.138; 
+Received: from haswell.alporthouse.com (unverified [78.156.65.138]) 
+	by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id
+	18406123-1500050 for multiple; Sat, 07 Sep 2019 08:43:13 +0100
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: intel-gfx@list.freedesktop.org,
+	iommu@lists.linux-foundation.org
+Subject: [PATCH] iommu/intel: Declare Broadwell igfx dmar support snafu
+Date: Sat,  7 Sep 2019 08:43:01 +0100
+Message-Id: <20190907074301.18893-1-chris@chris-wilson.co.uk>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Mailman-Approved-At: Sat, 07 Sep 2019 05:54:18 +0000
-Cc: linux-s390@vger.kernel.org, walling@linux.ibm.com,
-	alex.williamson@redhat.com, gor@linux.ibm.com,
-	kvm@vger.kernel.org, pmorel@linux.ibm.com, cohuck@redhat.com,
-	heiko.carstens@de.ibm.com, linux-kernel@vger.kernel.org,
-	pasic@linux.ibm.com, borntraeger@de.ibm.com,
-	iommu@lists.linux-foundation.org, robin.murphy@arm.com,
-	gerald.schaefer@de.ibm.com
+Cc: Martin Peres <martin.peres@linux.intel.com>,
+	Chris Wilson <chris@chris-wilson.co.uk>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -99,189 +50,88 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-From: Pierre Morel <pmorel@linux.ibm.com>
+Despite the widespread and complete failure of Broadwell integrated
+graphics when DMAR is enabled, known over the years, we have never been
+able to root cause the issue. Instead, we let the failure undermine our
+confidence in the iommu system itself when we should be pushing for it to
+be always enabled. Quirk away Broadwell and remove the rotten apple.
 
-We define a new configuration entry for VFIO/PCI, VFIO_PCI_ZDEV
-
-When the VFIO_PCI_ZDEV feature is configured we initialize
-a new device region, VFIO_REGION_SUBTYPE_ZDEV_CLP, to hold
-the information from the ZPCI device the use
-
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+References: https://bugs.freedesktop.org/show_bug.cgi?id=89360
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Martin Peres <martin.peres@linux.intel.com>
+Cc: Joerg Roedel <joro@8bytes.org>
 ---
- drivers/vfio/pci/Kconfig            |  7 +++
- drivers/vfio/pci/Makefile           |  1 +
- drivers/vfio/pci/vfio_pci.c         |  9 ++++
- drivers/vfio/pci/vfio_pci_private.h | 10 +++++
- drivers/vfio/pci/vfio_pci_zdev.c    | 85 +++++++++++++++++++++++++++++++++++++
- 5 files changed, 112 insertions(+)
- create mode 100644 drivers/vfio/pci/vfio_pci_zdev.c
+ drivers/iommu/intel-iommu.c | 44 +++++++++++++++++++++++++++++--------
+ 1 file changed, 35 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
-index ac3c1dd..d4562a8 100644
---- a/drivers/vfio/pci/Kconfig
-+++ b/drivers/vfio/pci/Kconfig
-@@ -45,3 +45,10 @@ config VFIO_PCI_NVLINK2
- 	depends on VFIO_PCI && PPC_POWERNV
- 	help
- 	  VFIO PCI support for P9 Witherspoon machine with NVIDIA V100 GPUs
-+
-+config VFIO_PCI_ZDEV
-+	bool "VFIO PCI Generic for ZPCI devices"
-+	depends on VFIO_PCI && S390
-+	default y
-+	help
-+	  VFIO PCI support for S390 Z-PCI devices
-diff --git a/drivers/vfio/pci/Makefile b/drivers/vfio/pci/Makefile
-index f027f8a..781e080 100644
---- a/drivers/vfio/pci/Makefile
-+++ b/drivers/vfio/pci/Makefile
-@@ -3,5 +3,6 @@
- vfio-pci-y := vfio_pci.o vfio_pci_intrs.o vfio_pci_rdwr.o vfio_pci_config.o
- vfio-pci-$(CONFIG_VFIO_PCI_IGD) += vfio_pci_igd.o
- vfio-pci-$(CONFIG_VFIO_PCI_NVLINK2) += vfio_pci_nvlink2.o
-+vfio-pci-$(CONFIG_VFIO_PCI_ZDEV) += vfio_pci_zdev.o
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index 43f667379a37..c4fb1ddea4dd 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -5637,20 +5637,46 @@ const struct iommu_ops intel_iommu_ops = {
+ 	.pgsize_bitmap		= INTEL_IOMMU_PGSIZES,
+ };
  
- obj-$(CONFIG_VFIO_PCI) += vfio-pci.o
-diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-index 703948c..b40544a 100644
---- a/drivers/vfio/pci/vfio_pci.c
-+++ b/drivers/vfio/pci/vfio_pci.c
-@@ -356,6 +356,15 @@ static int vfio_pci_enable(struct vfio_pci_device *vdev)
- 		}
- 	}
- 
-+	if (IS_ENABLED(CONFIG_VFIO_PCI_ZDEV)) {
-+		ret = vfio_pci_zdev_init(vdev);
-+		if (ret) {
-+			dev_warn(&vdev->pdev->dev,
-+				 "Failed to setup ZDEV regions\n");
-+			goto disable_exit;
-+		}
-+	}
-+
- 	vfio_pci_probe_mmaps(vdev);
- 
- 	return 0;
-diff --git a/drivers/vfio/pci/vfio_pci_private.h b/drivers/vfio/pci/vfio_pci_private.h
-index ee6ee91..08e02f5 100644
---- a/drivers/vfio/pci/vfio_pci_private.h
-+++ b/drivers/vfio/pci/vfio_pci_private.h
-@@ -186,4 +186,14 @@ static inline int vfio_pci_ibm_npu2_init(struct vfio_pci_device *vdev)
- 	return -ENODEV;
+-static void quirk_iommu_g4x_gfx(struct pci_dev *dev)
++static void quirk_iommu_igfx(struct pci_dev *dev)
+ {
+-	/* G4x/GM45 integrated gfx dmar support is totally busted. */
+ 	pci_info(dev, "Disabling IOMMU for graphics on this chipset\n");
+ 	dmar_map_gfx = 0;
  }
- #endif
+ 
+-DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2a40, quirk_iommu_g4x_gfx);
+-DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e00, quirk_iommu_g4x_gfx);
+-DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e10, quirk_iommu_g4x_gfx);
+-DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e20, quirk_iommu_g4x_gfx);
+-DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e30, quirk_iommu_g4x_gfx);
+-DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e40, quirk_iommu_g4x_gfx);
+-DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e90, quirk_iommu_g4x_gfx);
++/* G4x/GM45 integrated gfx dmar support is totally busted. */
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2a40, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e00, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e10, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e20, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e30, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e40, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x2e90, quirk_iommu_igfx);
 +
-+#ifdef CONFIG_VFIO_PCI_ZDEV
-+extern int vfio_pci_zdev_init(struct vfio_pci_device *vdev);
-+#else
-+static inline int vfio_pci_zdev_init(struct vfio_pci_device *vdev)
-+{
-+	return -ENODEV;
-+}
-+#endif
-+
- #endif /* VFIO_PCI_PRIVATE_H */
-diff --git a/drivers/vfio/pci/vfio_pci_zdev.c b/drivers/vfio/pci/vfio_pci_zdev.c
-new file mode 100644
-index 0000000..22e2b60
---- /dev/null
-+++ b/drivers/vfio/pci/vfio_pci_zdev.c
-@@ -0,0 +1,85 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * VFIO ZPCI devices support
-+ *
-+ * Copyright (C) IBM Corp. 2019.  All rights reserved.
-+ *	Author: Pierre Morel <pmorel@linux.ibm.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License version 2 as
-+ * published by the Free Software Foundation.
-+ *
-+ */
-+#include <linux/io.h>
-+#include <linux/pci.h>
-+#include <linux/uaccess.h>
-+#include <linux/vfio.h>
-+#include <linux/vfio_zdev.h>
-+
-+#include "vfio_pci_private.h"
-+
-+static size_t vfio_pci_zdev_rw(struct vfio_pci_device *vdev,
-+			       char __user *buf, size_t count, loff_t *ppos,
-+			       bool iswrite)
-+{
-+	struct vfio_region_zpci_info *region;
-+	struct zpci_dev *zdev;
-+	unsigned int index = VFIO_PCI_OFFSET_TO_INDEX(*ppos);
-+	loff_t pos = *ppos & VFIO_PCI_OFFSET_MASK;
-+
-+	if (!vdev->pdev->bus)
-+		return -ENODEV;
-+
-+	zdev = vdev->pdev->bus->sysdata;
-+	if (!zdev)
-+		return -ENODEV;
-+
-+	if (pos >= sizeof(*region) || iswrite)
-+		return -EINVAL;
-+
-+	region = vdev->region[index - VFIO_PCI_NUM_REGIONS].data;
-+	region->dasm = zdev->dma_mask;
-+	region->start_dma = zdev->start_dma;
-+	region->end_dma = zdev->end_dma;
-+	region->msi_addr = zdev->msi_addr;
-+	region->flags = VFIO_PCI_ZDEV_FLAGS_REFRESH;
-+	region->gid = zdev->pfgid;
-+	region->mui = zdev->fmb_update;
-+	region->noi = zdev->max_msi;
-+	memcpy(region->util_str, zdev->util_str, CLP_UTIL_STR_LEN);
-+
-+	count = min(count, (size_t)(sizeof(*region) - pos));
-+	if (copy_to_user(buf, region, count))
-+		return -EFAULT;
-+
-+	return count;
-+}
-+
-+static void vfio_pci_zdev_release(struct vfio_pci_device *vdev,
-+				  struct vfio_pci_region *region)
-+{
-+	kfree(region->data);
-+}
-+
-+static const struct vfio_pci_regops vfio_pci_zdev_regops = {
-+	.rw		= vfio_pci_zdev_rw,
-+	.release	= vfio_pci_zdev_release,
-+};
-+
-+int vfio_pci_zdev_init(struct vfio_pci_device *vdev)
-+{
-+	struct vfio_region_zpci_info *region;
-+	int ret;
-+
-+	region = kmalloc(sizeof(*region) + CLP_UTIL_STR_LEN, GFP_KERNEL);
-+	if (!region)
-+		return -ENOMEM;
-+
-+	ret = vfio_pci_register_dev_region(vdev,
-+		PCI_VENDOR_ID_IBM | VFIO_REGION_TYPE_PCI_VENDOR_TYPE,
-+		VFIO_REGION_SUBTYPE_ZDEV_CLP,
-+		&vfio_pci_zdev_regops, sizeof(*region) + CLP_UTIL_STR_LEN,
-+		VFIO_REGION_INFO_FLAG_READ, region);
-+
-+	return ret;
-+}
++/* Broadwell igfx malfunctions with dmar */
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x1606, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x160B, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x160E, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x1602, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x160A, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x160D, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x1616, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x161B, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x161E, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x1612, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x161A, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x161D, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x1626, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x162B, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x162E, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x1622, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x162A, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x162D, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x1636, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163B, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163E, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x1632, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163A, quirk_iommu_igfx);
++DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163D, quirk_iommu_igfx);
+ 
+ static void quirk_iommu_rwbf(struct pci_dev *dev)
+ {
 -- 
-1.8.3.1
+2.23.0
 
 _______________________________________________
 iommu mailing list
