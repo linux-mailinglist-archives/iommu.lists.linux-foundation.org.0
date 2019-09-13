@@ -2,53 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E909B2310
-	for <lists.iommu@lfdr.de>; Fri, 13 Sep 2019 17:11:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB45B2314
+	for <lists.iommu@lfdr.de>; Fri, 13 Sep 2019 17:11:57 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 2208BB09;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 88ED8105F;
 	Fri, 13 Sep 2019 15:11:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 80EDC1000
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id AEB981000
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 13 Sep 2019 14:42:44 +0000 (UTC)
+	Fri, 13 Sep 2019 14:43:24 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from smtp-fw-6001.amazon.com (smtp-fw-6001.amazon.com [52.95.48.154])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id F0B5A7D2
+Received: from smtp-fw-33001.amazon.com (smtp-fw-33001.amazon.com
+	[207.171.190.10])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 56B4883A
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 13 Sep 2019 14:42:43 +0000 (UTC)
+	Fri, 13 Sep 2019 14:43:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-	t=1568385763; x=1599921763;
+	t=1568385804; x=1599921804;
 	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=tL7VZz8etW2SOfrRpMe1LtVFGcdBvKu1hAkYazabhwQ=;
-	b=tBjYtiBZUx64w/NnUvJdjrIbFSKP0c/WoAbEBIKX5ntjtNzZ44DcUpq1
-	fBJzwst4MsjrOKvgTguaA7uZ7aInxkidxAlKBM+cI0nysMgyyKxa0UWTS
-	SEzfSAYDJDpdVtkyPjIodnV5Uom5Q5fOvLyZsImYKj0Bu4ukXbOpQ69un 8=;
-X-IronPort-AV: E=Sophos;i="5.64,501,1559520000"; d="scan'208";a="415115258"
-Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO
-	email-inbound-relay-2c-87a10be6.us-west-2.amazon.com)
-	([10.124.125.6])
-	by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP;
+	bh=ge4JMUNYcl1NX3zrCgT+4TVWb0y0wjcwfNAxsIUa28g=;
+	b=CdvwWiCYA/9l+0Rhas9y6j7GldvOf3lbY9PnPZsZ3WXAfTDdp+Cw3U+6
+	zxeKmrYUDljm+blBa2qsBTMLpZDe6DKy9zTKRMYwzyXHPPxcQ6K0M5xzp
+	VA8nSjCnQqRk/o/Jqmn+LrHwR+xi3ZQmg6oWN5PFuogHSG1bFcc1KVI0f 8=;
+X-IronPort-AV: E=Sophos;i="5.64,501,1559520000"; d="scan'208";a="831626040"
+Received: from sea3-co-svc-lb6-vlan2.sea.amazon.com (HELO
+	email-inbound-relay-2a-538b0bfb.us-west-2.amazon.com) ([10.47.22.34])
+	by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP;
 	13 Sep 2019 14:42:42 +0000
 Received: from u793be3441f0353.ant.amazon.com
-	(pdx2-ws-svc-lb17-vlan3.amazon.com [10.247.140.70])
-	by email-inbound-relay-2c-87a10be6.us-west-2.amazon.com (Postfix) with
-	ESMTPS id 075FBA224B; Fri, 13 Sep 2019 14:42:41 +0000 (UTC)
+	(pdx2-ws-svc-lb17-vlan2.amazon.com [10.247.140.66])
+	by email-inbound-relay-2a-538b0bfb.us-west-2.amazon.com (Postfix) with
+	ESMTPS id 7FE93A200C; Fri, 13 Sep 2019 14:42:42 +0000 (UTC)
 Received: from u793be3441f0353.ant.amazon.com (localhost [127.0.0.1])
 	by u793be3441f0353.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTPS
-	id x8DEgei5021489
+	id x8DEgevs021497
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Fri, 13 Sep 2019 16:42:40 +0200
 Received: (from adulea@localhost)
 	by u793be3441f0353.ant.amazon.com (8.15.2/8.15.2/Submit) id
-	x8DEgdPT021487; Fri, 13 Sep 2019 16:42:39 +0200
+	x8DEgeb2021496; Fri, 13 Sep 2019 16:42:40 +0200
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 3/4] iommu/amd: Introduce first_pte_l7() helper
-Date: Fri, 13 Sep 2019 16:42:30 +0200
-Message-Id: <20190913144231.21382-4-adulea@amazon.de>
+Subject: [PATCH 4/4] iommu/amd: Unmap all L7 PTEs when downgrading page-sizes
+Date: Fri, 13 Sep 2019 16:42:31 +0200
+Message-Id: <20190913144231.21382-5-adulea@amazon.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190913144231.21382-1-adulea@amazon.de>
 References: <20190913144231.21382-1-adulea@amazon.de>
@@ -80,75 +80,72 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Given an arbitrary pte that is part of a large mapping, this function
-returns the first pte of the series (and optionally the mapped size and
-number of PTEs)
-It will be re-used in a subsequent patch to replace an existing L7
-mapping.
+When replacing a large mapping created with page-mode 7 (i.e.
+non-default page size), tear down the entire series of replicated PTEs.
+Besides providing access to the old mapping, another thing that might go
+wrong with this issue is on the fetch_pte() code path that can return a
+PDE entry of the newly re-mapped range.
 
+While at it, make sure that we flush the TLB in case alloc_pte() fails
+and returns NULL at a lower level.
+
+Fixes: 6d568ef9a622 ("iommu/amd: Allow downgrading page-sizes in alloc_pte()")
 Signed-off-by: Andrei Dulea <adulea@amazon.de>
 ---
- drivers/iommu/amd_iommu.c | 40 ++++++++++++++++++++++++++++-----------
- 1 file changed, 29 insertions(+), 11 deletions(-)
+ drivers/iommu/amd_iommu.c | 30 +++++++++++++++++++++++++++---
+ 1 file changed, 27 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index c7e28a8d25d1..a227e7a9b8b7 100644
+index a227e7a9b8b7..fda9923542c9 100644
 --- a/drivers/iommu/amd_iommu.c
 +++ b/drivers/iommu/amd_iommu.c
-@@ -501,6 +501,29 @@ static void iommu_uninit_device(struct device *dev)
- 	 */
- }
+@@ -1512,10 +1512,32 @@ static u64 *alloc_pte(struct protection_domain *domain,
+ 		__pte     = *pte;
+ 		pte_level = PM_PTE_LEVEL(__pte);
  
-+/*
-+ * Helper function to get the first pte of a large mapping
-+ */
-+static u64 *first_pte_l7(u64 *pte, unsigned long *page_size,
-+			 unsigned long *count)
-+{
-+	unsigned long pte_mask, pg_size, cnt;
-+	u64 *fpte;
+-		if (!IOMMU_PTE_PRESENT(__pte) ||
+-		    pte_level == PAGE_MODE_NONE ||
++		/*
++		 * If we replace a series of large PTEs, we need
++		 * to tear down all of them.
++		 */
++		if (IOMMU_PTE_PRESENT(__pte) &&
+ 		    pte_level == PAGE_MODE_7_LEVEL) {
++			unsigned long count, i;
++			u64 *lpte;
 +
-+	pg_size  = PTE_PAGE_SIZE(*pte);
-+	cnt      = PAGE_SIZE_PTE_COUNT(pg_size);
-+	pte_mask = ~((cnt << 3) - 1);
-+	fpte     = (u64 *)(((unsigned long)pte) & pte_mask);
++			lpte = first_pte_l7(pte, NULL, &count);
 +
-+	if (page_size)
-+		*page_size = pg_size;
++			/*
++			 * Unmap the replicated PTEs that still match the
++			 * original large mapping
++			 */
++			for (i = 0; i < count; ++i)
++				cmpxchg64(&lpte[i], __pte, 0ULL);
 +
-+	if (count)
-+		*count = cnt;
++			domain->updated = true;
++			continue;
++		}
 +
-+	return fpte;
-+}
++		if (!IOMMU_PTE_PRESENT(__pte) ||
++		    pte_level == PAGE_MODE_NONE) {
+ 			page = (u64 *)get_zeroed_page(gfp);
 +
- /****************************************************************************
-  *
-  * Interrupt handling functions
-@@ -1567,17 +1590,12 @@ static u64 *fetch_pte(struct protection_domain *domain,
- 		*page_size = PTE_LEVEL_PAGE_SIZE(level);
- 	}
+ 			if (!page)
+ 				return NULL;
  
--	if (PM_PTE_LEVEL(*pte) == 0x07) {
--		unsigned long pte_mask;
--
--		/*
--		 * If we have a series of large PTEs, make
--		 * sure to return a pointer to the first one.
--		 */
--		*page_size = pte_mask = PTE_PAGE_SIZE(*pte);
--		pte_mask   = ~((PAGE_SIZE_PTE_COUNT(pte_mask) << 3) - 1);
--		pte        = (u64 *)(((unsigned long)pte) & pte_mask);
--	}
-+	/*
-+	 * If we have a series of large PTEs, make
-+	 * sure to return a pointer to the first one.
-+	 */
-+	if (PM_PTE_LEVEL(*pte) == PAGE_MODE_7_LEVEL)
-+		pte = first_pte_l7(pte, page_size, NULL);
+@@ -1646,8 +1668,10 @@ static int iommu_map_page(struct protection_domain *dom,
+ 	count = PAGE_SIZE_PTE_COUNT(page_size);
+ 	pte   = alloc_pte(dom, bus_addr, page_size, NULL, gfp);
  
- 	return pte;
- }
+-	if (!pte)
++	if (!pte) {
++		update_domain(dom);
+ 		return -ENOMEM;
++	}
+ 
+ 	for (i = 0; i < count; ++i)
+ 		freelist = free_clear_pte(&pte[i], pte[i], freelist);
 -- 
 2.17.1
 
