@@ -2,54 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F40B2313
-	for <lists.iommu@lfdr.de>; Fri, 13 Sep 2019 17:11:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E909B2310
+	for <lists.iommu@lfdr.de>; Fri, 13 Sep 2019 17:11:42 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 68564904;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 2208BB09;
 	Fri, 13 Sep 2019 15:11:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 50B0C1000
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 80EDC1000
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 13 Sep 2019 14:43:24 +0000 (UTC)
+	Fri, 13 Sep 2019 14:42:44 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from smtp-fw-33001.amazon.com (smtp-fw-33001.amazon.com
-	[207.171.190.10])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id EF00283A
+Received: from smtp-fw-6001.amazon.com (smtp-fw-6001.amazon.com [52.95.48.154])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id F0B5A7D2
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 13 Sep 2019 14:43:23 +0000 (UTC)
+	Fri, 13 Sep 2019 14:42:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-	t=1568385803; x=1599921803;
+	t=1568385763; x=1599921763;
 	h=from:to:cc:subject:date:message-id:in-reply-to: references;
-	bh=dAPRT0+SGf/sdIMgQty1xpCF61uDMg145/u2nilLrYw=;
-	b=PHvftAxcTMHd6CTpUwBwIsCfGMdx16tU5QP5FlviKU+rSQlz4+GGA8Kn
-	TTpa4VXaKTmn0So7eLTkqWBup/GGYb1ZvSBDui0EJJ2PEIYc4TFIezlNc
-	n1EHDpa5o/qfIU4EAD7wpcwvqe/xupSB26ityCHs4i2YnrG1loEtQ+Mdz 4=;
-X-IronPort-AV: E=Sophos;i="5.64,501,1559520000"; d="scan'208";a="831626034"
-Received: from sea3-co-svc-lb6-vlan2.sea.amazon.com (HELO
-	email-inbound-relay-2b-a7fdc47a.us-west-2.amazon.com) ([10.47.22.34])
-	by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP;
+	bh=tL7VZz8etW2SOfrRpMe1LtVFGcdBvKu1hAkYazabhwQ=;
+	b=tBjYtiBZUx64w/NnUvJdjrIbFSKP0c/WoAbEBIKX5ntjtNzZ44DcUpq1
+	fBJzwst4MsjrOKvgTguaA7uZ7aInxkidxAlKBM+cI0nysMgyyKxa0UWTS
+	SEzfSAYDJDpdVtkyPjIodnV5Uom5Q5fOvLyZsImYKj0Bu4ukXbOpQ69un 8=;
+X-IronPort-AV: E=Sophos;i="5.64,501,1559520000"; d="scan'208";a="415115258"
+Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO
+	email-inbound-relay-2c-87a10be6.us-west-2.amazon.com)
+	([10.124.125.6])
+	by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP;
 	13 Sep 2019 14:42:42 +0000
 Received: from u793be3441f0353.ant.amazon.com
 	(pdx2-ws-svc-lb17-vlan3.amazon.com [10.247.140.70])
-	by email-inbound-relay-2b-a7fdc47a.us-west-2.amazon.com (Postfix) with
-	ESMTPS id 85CF7C57F4; Fri, 13 Sep 2019 14:42:41 +0000 (UTC)
+	by email-inbound-relay-2c-87a10be6.us-west-2.amazon.com (Postfix) with
+	ESMTPS id 075FBA224B; Fri, 13 Sep 2019 14:42:41 +0000 (UTC)
 Received: from u793be3441f0353.ant.amazon.com (localhost [127.0.0.1])
 	by u793be3441f0353.ant.amazon.com (8.15.2/8.15.2/Debian-3) with ESMTPS
-	id x8DEgdaw021480
+	id x8DEgei5021489
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 13 Sep 2019 16:42:39 +0200
+	Fri, 13 Sep 2019 16:42:40 +0200
 Received: (from adulea@localhost)
 	by u793be3441f0353.ant.amazon.com (8.15.2/8.15.2/Submit) id
-	x8DEgd3W021479; Fri, 13 Sep 2019 16:42:39 +0200
+	x8DEgdPT021487; Fri, 13 Sep 2019 16:42:39 +0200
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 2/4] iommu/amd: Fix downgrading default page-sizes in
-	alloc_pte()
-Date: Fri, 13 Sep 2019 16:42:29 +0200
-Message-Id: <20190913144231.21382-3-adulea@amazon.de>
+Subject: [PATCH 3/4] iommu/amd: Introduce first_pte_l7() helper
+Date: Fri, 13 Sep 2019 16:42:30 +0200
+Message-Id: <20190913144231.21382-4-adulea@amazon.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190913144231.21382-1-adulea@amazon.de>
 References: <20190913144231.21382-1-adulea@amazon.de>
@@ -81,42 +80,75 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Downgrading an existing large mapping to a mapping using smaller
-page-sizes works only for the mappings created with page-mode 7 (i.e.
-non-default page size).
-
-Treat large mappings created with page-mode 0 (i.e. default page size)
-like a non-present mapping and allow to overwrite it in alloc_pte().
-
-While around, make sure that we flush the TLB only if we change an
-existing mapping, otherwise we might end up acting on garbage PTEs.
+Given an arbitrary pte that is part of a large mapping, this function
+returns the first pte of the series (and optionally the mapped size and
+number of PTEs)
+It will be re-used in a subsequent patch to replace an existing L7
+mapping.
 
 Signed-off-by: Andrei Dulea <adulea@amazon.de>
 ---
- drivers/iommu/amd_iommu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/iommu/amd_iommu.c | 40 ++++++++++++++++++++++++++++-----------
+ 1 file changed, 29 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index 138547446345..c7e28a8d25d1 100644
+index c7e28a8d25d1..a227e7a9b8b7 100644
 --- a/drivers/iommu/amd_iommu.c
 +++ b/drivers/iommu/amd_iommu.c
-@@ -1490,6 +1490,7 @@ static u64 *alloc_pte(struct protection_domain *domain,
- 		pte_level = PM_PTE_LEVEL(__pte);
+@@ -501,6 +501,29 @@ static void iommu_uninit_device(struct device *dev)
+ 	 */
+ }
  
- 		if (!IOMMU_PTE_PRESENT(__pte) ||
-+		    pte_level == PAGE_MODE_NONE ||
- 		    pte_level == PAGE_MODE_7_LEVEL) {
- 			page = (u64 *)get_zeroed_page(gfp);
- 			if (!page)
-@@ -1500,7 +1501,7 @@ static u64 *alloc_pte(struct protection_domain *domain,
- 			/* pte could have been changed somewhere. */
- 			if (cmpxchg64(pte, __pte, __npte) != __pte)
- 				free_page((unsigned long)page);
--			else if (pte_level == PAGE_MODE_7_LEVEL)
-+			else if (IOMMU_PTE_PRESENT(__pte))
- 				domain->updated = true;
++/*
++ * Helper function to get the first pte of a large mapping
++ */
++static u64 *first_pte_l7(u64 *pte, unsigned long *page_size,
++			 unsigned long *count)
++{
++	unsigned long pte_mask, pg_size, cnt;
++	u64 *fpte;
++
++	pg_size  = PTE_PAGE_SIZE(*pte);
++	cnt      = PAGE_SIZE_PTE_COUNT(pg_size);
++	pte_mask = ~((cnt << 3) - 1);
++	fpte     = (u64 *)(((unsigned long)pte) & pte_mask);
++
++	if (page_size)
++		*page_size = pg_size;
++
++	if (count)
++		*count = cnt;
++
++	return fpte;
++}
++
+ /****************************************************************************
+  *
+  * Interrupt handling functions
+@@ -1567,17 +1590,12 @@ static u64 *fetch_pte(struct protection_domain *domain,
+ 		*page_size = PTE_LEVEL_PAGE_SIZE(level);
+ 	}
  
- 			continue;
+-	if (PM_PTE_LEVEL(*pte) == 0x07) {
+-		unsigned long pte_mask;
+-
+-		/*
+-		 * If we have a series of large PTEs, make
+-		 * sure to return a pointer to the first one.
+-		 */
+-		*page_size = pte_mask = PTE_PAGE_SIZE(*pte);
+-		pte_mask   = ~((PAGE_SIZE_PTE_COUNT(pte_mask) << 3) - 1);
+-		pte        = (u64 *)(((unsigned long)pte) & pte_mask);
+-	}
++	/*
++	 * If we have a series of large PTEs, make
++	 * sure to return a pointer to the first one.
++	 */
++	if (PM_PTE_LEVEL(*pte) == PAGE_MODE_7_LEVEL)
++		pte = first_pte_l7(pte, page_size, NULL);
+ 
+ 	return pte;
+ }
 -- 
 2.17.1
 
