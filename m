@@ -2,44 +2,52 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FBC9B50AF
-	for <lists.iommu@lfdr.de>; Tue, 17 Sep 2019 16:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4CFBB53E8
+	for <lists.iommu@lfdr.de>; Tue, 17 Sep 2019 19:20:29 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 3E20A157C;
-	Tue, 17 Sep 2019 14:45:44 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8795B16F0;
+	Tue, 17 Sep 2019 17:20:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 4474D1573
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 13FE316B6
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 17 Sep 2019 14:45:42 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id BFB1F82F
+	Tue, 17 Sep 2019 17:20:28 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 76FCA83A
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 17 Sep 2019 14:45:41 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5A79028;
-	Tue, 17 Sep 2019 07:45:40 -0700 (PDT)
-Received: from e110467-lin.cambridge.arm.com (e110467-lin.cambridge.arm.com
-	[10.1.197.57])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8CE563F575; 
-	Tue, 17 Sep 2019 07:45:39 -0700 (PDT)
-From: Robin Murphy <robin.murphy@arm.com>
-To: will@kernel.org,
-	joro@8bytes.org
-Subject: [PATCH v2] iommu/arm-smmu: Report USF more clearly
-Date: Tue, 17 Sep 2019 15:45:34 +0100
-Message-Id: <4febe7a87a95ed607b4dc68ba96b15210df84e9e.1568731534.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.21.0.dirty
+	Tue, 17 Sep 2019 17:20:25 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+	bits)) (No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id C131A2053B;
+	Tue, 17 Sep 2019 17:20:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1568740825;
+	bh=LwKNamw9E4oxB1xQosrZOWdgQe92VETqR14nO7/u3js=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rJlZcMxRdss/C5nXphHfwkC11ZGWaIGXj83MelUvHMUq8I5gSd3pOW0iqwlgLnYdo
+	Pgfz4aYr9Vr2E/C3Kyr89FbWapiRPt+LjPYLADOrXfUF9UNAeOhYsNWikqPBTHHu5L
+	OYwtmN9LUz73DR3FfZJOVIZucfs12gYrcDTf4euM=
+Date: Tue, 17 Sep 2019 18:20:20 +0100
+From: Will Deacon <will@kernel.org>
+To: Jordan Crouse <jcrouse@codeaurora.org>
+Subject: Re: [PATCH 5/7] iommu/arm-smmu: Support DOMAIN_ATTR_SPLIT_TABLES
+Message-ID: <20190917172020.hpv5qqdpihvqkehp@willie-the-truck>
+References: <1566327992-362-1-git-send-email-jcrouse@codeaurora.org>
+	<1566327992-362-6-git-send-email-jcrouse@codeaurora.org>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <1566327992-362-6-git-send-email-jcrouse@codeaurora.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, Douglas Anderson <dianders@chromium.org>,
-	linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux-foundation.org, freedreno@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,83 +65,37 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Although CONFIG_ARM_SMMU_DISABLE_BYPASS_BY_DEFAULT is a welcome tool
-for smoking out inadequate firmware, the failure mode is non-obvious
-and can be confusing for end users. Add some special-case reporting of
-Unidentified Stream Faults to help clarify this particular symptom.
-Since we're adding yet another print to the mix, also break out an
-explicit ratelimit state to make sure everything stays together (and
-reduce the static storage footprint a little).
+On Tue, Aug 20, 2019 at 01:06:30PM -0600, Jordan Crouse wrote:
+> Support the DOMAIN_ATTR_SPLIT_TABLES attribute to let the leaf driver
+> know if split pagetables are enabled for the domain.
+> 
+> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> ---
+> 
+>  drivers/iommu/arm-smmu.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+> index 3f41cf7..6a512ff 100644
+> --- a/drivers/iommu/arm-smmu.c
+> +++ b/drivers/iommu/arm-smmu.c
+> @@ -1442,6 +1442,9 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
+>  		case DOMAIN_ATTR_NESTING:
+>  			*(int *)data = (smmu_domain->stage == ARM_SMMU_DOMAIN_NESTED);
+>  			return 0;
+> +		case DOMAIN_ATTR_SPLIT_TABLES:
+> +			*(int *)data = !!(smmu_domain->split_pagetables);
+> +			return 0;
 
-CC: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
- drivers/iommu/arm-smmu.c | 21 ++++++++++++++++-----
- drivers/iommu/arm-smmu.h |  2 ++
- 2 files changed, 18 insertions(+), 5 deletions(-)
+Hmm. Could you move the setting of this attribute into
+arm_smmu_domain_set_attr() and reject it if the ias != 48 in there? That way
+the user of the domain can request this feature, rather than us enforcing it
+based on the compatible string.
 
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index b7cf24402a94..b27020fd6c90 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -36,6 +36,7 @@
- #include <linux/pci.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/ratelimit.h>
- #include <linux/slab.h>
- 
- #include <linux/amba/bus.h>
-@@ -485,6 +486,8 @@ static irqreturn_t arm_smmu_global_fault(int irq, void *dev)
- {
- 	u32 gfsr, gfsynr0, gfsynr1, gfsynr2;
- 	struct arm_smmu_device *smmu = dev;
-+	static DEFINE_RATELIMIT_STATE(rs, DEFAULT_RATELIMIT_INTERVAL,
-+				      DEFAULT_RATELIMIT_BURST);
- 
- 	gfsr = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_sGFSR);
- 	gfsynr0 = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_sGFSYNR0);
-@@ -494,11 +497,19 @@ static irqreturn_t arm_smmu_global_fault(int irq, void *dev)
- 	if (!gfsr)
- 		return IRQ_NONE;
- 
--	dev_err_ratelimited(smmu->dev,
--		"Unexpected global fault, this could be serious\n");
--	dev_err_ratelimited(smmu->dev,
--		"\tGFSR 0x%08x, GFSYNR0 0x%08x, GFSYNR1 0x%08x, GFSYNR2 0x%08x\n",
--		gfsr, gfsynr0, gfsynr1, gfsynr2);
-+	if (__ratelimit(&rs)) {
-+		if (IS_ENABLED(CONFIG_ARM_SMMU_DISABLE_BYPASS_BY_DEFAULT) &&
-+		    (gfsr & sGFSR_USF))
-+			dev_err(smmu->dev,
-+				"Blocked unknown Stream ID 0x%hx; boot with \"arm-smmu.disable_bypass=0\" to allow, but this may have security implications\n",
-+				(u16)gfsynr1);
-+		else
-+			dev_err(smmu->dev,
-+				"Unexpected global fault, this could be serious\n");
-+		dev_err(smmu->dev,
-+			"\tGFSR 0x%08x, GFSYNR0 0x%08x, GFSYNR1 0x%08x, GFSYNR2 0x%08x\n",
-+			gfsr, gfsynr0, gfsynr1, gfsynr2);
-+	}
- 
- 	arm_smmu_gr0_write(smmu, ARM_SMMU_GR0_sGFSR, gfsr);
- 	return IRQ_HANDLED;
-diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
-index c9c13b5785f2..eede28ecda6d 100644
---- a/drivers/iommu/arm-smmu.h
-+++ b/drivers/iommu/arm-smmu.h
-@@ -79,6 +79,8 @@
- #define ID7_MINOR			GENMASK(3, 0)
- 
- #define ARM_SMMU_GR0_sGFSR		0x48
-+#define sGFSR_USF			BIT(1)
-+
- #define ARM_SMMU_GR0_sGFSYNR0		0x50
- #define ARM_SMMU_GR0_sGFSYNR1		0x54
- #define ARM_SMMU_GR0_sGFSYNR2		0x58
--- 
-2.21.0.dirty
+I'd also prefer to call it DOMAIN_ATTR_USE_TTBR1 instead, since it's pretty
+ARM specific at this point.
 
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
