@@ -2,68 +2,79 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 979C8B4EA8
-	for <lists.iommu@lfdr.de>; Tue, 17 Sep 2019 15:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E027B4F62
+	for <lists.iommu@lfdr.de>; Tue, 17 Sep 2019 15:36:50 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id EF2E714AE;
-	Tue, 17 Sep 2019 13:01:11 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 7D0481529;
+	Tue, 17 Sep 2019 13:36:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 8C9B414AA
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 039651505
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 17 Sep 2019 13:01:10 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5C0DB8AD
+	Tue, 17 Sep 2019 13:36:47 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A067C81A
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 17 Sep 2019 13:01:00 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id x5so4239212qtr.7
-	for <iommu@lists.linux-foundation.org>;
-	Tue, 17 Sep 2019 06:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=wB/yUVsEzHmjEqDrCN9BJsxtLoalzHkJD0nWY9LtcbA=;
-	b=I1QY13u5DCoSEpWMdwipP2BfhnUP54oguZgW6q2KhXUO6YkJh6vy/swFUoIUYgG4o9
-	H+DBMeEyKC+ZDrwIhiA/kWNsyGu7+QNK8+Nbb80l+6kCdHLPMIqQKqhAtAuHV3JpJgbq
-	YNVnD2dlUZI8xSofghRE9/nlewjkSxj3JbccdFo3QS1CYLZmSWXn0FhlADYzaQqJYjwk
-	VWJhncjdiQTTBFDPacyZqIMbS3SF9p+c3VGgI8+J04CNGVs0z+jO6ZVa7fORW5QvQyY+
-	IZCp/zNN3AzcpjstYfVdwUPA2AjLc5/gezWjCgLxqWgfdPUzACU3XADaPtplLf5ElvrO
-	lxIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=wB/yUVsEzHmjEqDrCN9BJsxtLoalzHkJD0nWY9LtcbA=;
-	b=OOti2N382CVbs8pPV1YdMleJmL32qp95gGtxE9zQpKUd/L0BeNQq9dTHzbtmSOiZb7
-	2Wuds0lJYfUxtT4jQTv+ng2+7318h4az21+NHrILEoMF1zqZjD8UrL9/DY87f12rQVTN
-	GqUX14ryOpCCdBCD0bX+ePM+b1xAdnbP/+9JFIMlJppox6ioJMXvTBS+7TtlwZ/qQpny
-	2HNICqWmMITRSYrdIhU/W5fqIylkcJteDfVWHDYkXi46cbwhXwjdum76RhFgmutJkr3a
-	gyhp81BoE/5z1+irXKJFjvZGKPibhnYeVKrgWtfKqfSboeAejvWniLiRl7Ny4rrRWJSS
-	UzzQ==
-X-Gm-Message-State: APjAAAVldyseTf4ZA+obX6kszlK+nO/FkNsJLGtlfv6HI0FazBCIScRI
-	huM8PULkd4/o273w9Oe4S7mvUQ==
-X-Google-Smtp-Source: APXvYqxAci1+zEx6rBgZfCxzusb3uOXudrjs/u2TX7wBccuj3ghucqQWalJZ8MKnNU78cHSuY3Xe9w==
-X-Received: by 2002:a0c:fca8:: with SMTP id h8mr2898054qvq.187.1568725259403; 
-	Tue, 17 Sep 2019 06:00:59 -0700 (PDT)
-Received: from qcai.nay.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
-	by smtp.gmail.com with ESMTPSA id l3sm1370442qtc.33.2019.09.17.06.00.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Sep 2019 06:00:58 -0700 (PDT)
-From: Qian Cai <cai@lca.pw>
-To: hch@lst.de
-Subject: [PATCH] dma/coherent: remove unused dma_get_device_base()
-Date: Tue, 17 Sep 2019 09:00:42 -0400
-Message-Id: <1568725242-2433-1-git-send-email-cai@lca.pw>
-X-Mailer: git-send-email 1.8.3.1
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+	Tue, 17 Sep 2019 13:36:46 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+	bits)) (No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id EBE97206C2;
+	Tue, 17 Sep 2019 13:36:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1568727406;
+	bh=Ql3S5LeLxQu05wGmhaTM95fv1AHLxdIM1bfELOE4N7I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sar6QHXnAAyU7CqcX6S4XEMZKCw1XqlFh7JOPCZcEm7NSSw7o9n4M4YTyIEluCTr+
+	PlHd+kmgg4Vr/dK3w6I2fdh2OfNlJWZ1RrBSnCix074v+q0zWCpWT1ivxI6TO8Oge1
+	wto9mDPRvI0UPcufLj8FL+blmnWYDbjxJUHoo8rI=
+Date: Tue, 17 Sep 2019 14:36:37 +0100
+From: Will Deacon <will@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v3 0/2] iommu: handle drivers that manage iommu directly
+Message-ID: <20190917133637.urqphz5drzmugern@willie-the-truck>
+References: <20190906214409.26677-1-robdclark@gmail.com>
+	<c43de10f-7768-592c-0fd8-6fb64b3fd43e@arm.com>
+	<CAF6AEGv5WtwOuUE-+koL3SxuoXxcT5n=EooD7G_4YRh34HFTwQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGv5WtwOuUE-+koL3SxuoXxcT5n=EooD7G_4YRh34HFTwQ@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: vladimir.murzin@arm.com, linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org, robin.murphy@arm.com
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	dri-devel <dri-devel@lists.freedesktop.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Rob Clark <robdclark@chromium.org>,
+	Jonathan Marek <jonathan@marek.ca>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Mamta Shukla <mamtashukla555@gmail.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Joerg Roedel <jroedel@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Abhinav Kumar <abhinavk@codeaurora.org>, Bruce Wang <bzwang@chromium.org>,
+	Alexios Zavras <alexios.zavras@intel.com>,
+	Sean Paul <seanpaul@chromium.org>,
+	Jeykumar Sankaran <jsanka@codeaurora.org>,
+	Allison Randal <allison@lohutok.net>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+	Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+	Sudeep Holla <sudeep.holla@arm.com>, Joe Perches <joe@perches.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"open list:DRM DRIVER FOR MSM ADRENO GPU"
+	<freedreno@lists.freedesktop.org>,
+	Georgi Djakov <georgi.djakov@linaro.org>,
+	Sravanthi Kollukuduru <skolluku@codeaurora.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -76,47 +87,42 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-dma_get_device_base() was first introduced in the commit c41f9ea998f3
-("drivers: dma-coherent: Account dma_pfn_offset when used with device
-tree"). Later, it was removed by the commit 43fc509c3efb ("dma-coherent:
-introduce interface for default DMA pool")
+On Tue, Sep 10, 2019 at 10:10:49AM -0700, Rob Clark wrote:
+> On Tue, Sep 10, 2019 at 9:34 AM Robin Murphy <robin.murphy@arm.com> wrote:
+> > On 06/09/2019 22:44, Rob Clark wrote:
+> > > NOTE that in discussion of previous revisions, RMRR came up.  This is
+> > > not really a replacement for RMRR (nor does RMRR really provide any
+> > > more information than we already get from EFI GOP, or DT in the
+> > > simplefb case).  I also don't see how RMRR could help w/ SMMU handover
+> > > of CB/SMR config (Bjorn's patchset[1]) without defining new tables.
+> >
+> > The point of RMRR-like-things is that they identify not just the memory
+> > region but also the specific device accessing them, which means the
+> > IOMMU driver knows up-front which IDs etc. it must be careful not to
+> > disrupt. Obviously for SMMU that *would* be some new table (designed to
+> > encompass everything relevant) since literal RMRRs are specifically an
+> > Intel VT-d thing.
+> 
+> Perhaps I'm not looking in the right place, but the extent of what I
+> could find about RMRR tables was:
+> 
+> https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/DmaRemappingReportingTable.h#L122
+> 
+> I couldn't really see how that specifies the device.  But entirely
+> possible that I'm not seeing the whole picture.
 
-Found by the -Wunused-function compilation warning.
+I don't think anybody was planning to implement RMRR "as-is" for arm64, so
+you might be better off looking at the proposal from Thierry, although it
+has some issues that are still to be resolved:
 
-Signed-off-by: Qian Cai <cai@lca.pw>
----
- kernel/dma/coherent.c | 9 ---------
- 1 file changed, 9 deletions(-)
+http://lkml.kernel.org/r/20190829111407.17191-1-thierry.reding@gmail.com
 
-diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
-index 29fd6590dc1e..909b38e1c29b 100644
---- a/kernel/dma/coherent.c
-+++ b/kernel/dma/coherent.c
-@@ -28,15 +28,6 @@ static inline struct dma_coherent_mem *dev_get_coherent_memory(struct device *de
- 	return NULL;
- }
- 
--static inline dma_addr_t dma_get_device_base(struct device *dev,
--					     struct dma_coherent_mem * mem)
--{
--	if (mem->use_dev_dma_pfn_offset)
--		return (mem->pfn_base - dev->dma_pfn_offset) << PAGE_SHIFT;
--	else
--		return mem->device_base;
--}
--
- static int dma_init_coherent_memory(phys_addr_t phys_addr,
- 		dma_addr_t device_addr, size_t size,
- 		struct dma_coherent_mem **mem)
--- 
-1.8.3.1
-
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
