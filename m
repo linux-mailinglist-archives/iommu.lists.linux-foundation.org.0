@@ -2,44 +2,44 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927D1B67E0
-	for <lists.iommu@lfdr.de>; Wed, 18 Sep 2019 18:18:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C15BB6D2D
+	for <lists.iommu@lfdr.de>; Wed, 18 Sep 2019 22:01:19 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 8D552D56;
-	Wed, 18 Sep 2019 16:18:06 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id CD318DE0;
+	Wed, 18 Sep 2019 20:01:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id B6FF8C84
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id AE288DD8
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 18 Sep 2019 16:18:04 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 42D8E832
+	Wed, 18 Sep 2019 20:01:13 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from cvs.linux-mips.org (eddie.linux-mips.org [148.251.95.138])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 5CF3E711
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 18 Sep 2019 16:18:04 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BD13B15BF;
-	Wed, 18 Sep 2019 09:18:03 -0700 (PDT)
-Received: from e110467-lin.cambridge.arm.com (e110467-lin.cambridge.arm.com
-	[10.1.197.57])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F102C3F59C; 
-	Wed, 18 Sep 2019 09:18:02 -0700 (PDT)
-From: Robin Murphy <robin.murphy@arm.com>
-To: will@kernel.org
-Subject: [PATCH 4/4] iommu/arm-smmu: Remove arm_smmu_flush_ops
-Date: Wed, 18 Sep 2019 17:17:51 +0100
-Message-Id: <ca7d7a393d3926b63e40dd2750478cf467887c31.1568820087.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.21.0.dirty
-In-Reply-To: <cover.1568820087.git.robin.murphy@arm.com>
-References: <cover.1568820087.git.robin.murphy@arm.com>
+	Wed, 18 Sep 2019 20:01:12 +0000 (UTC)
+Received: (from localhost user: 'macro', uid#1010) by eddie.linux-mips.org
+	with ESMTP id S23994220AbfIRTsi136uQ (ORCPT
+	<rfc822;iommu@lists.linux-foundation.org>);
+	Wed, 18 Sep 2019 21:48:38 +0200
+Date: Wed, 18 Sep 2019 20:48:38 +0100 (BST)
+From: "Maciej W. Rozycki" <macro@linux-mips.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: DMA_ATTR_WRITE_COMBINE on mips
+In-Reply-To: <20190802063712.GA7553@lst.de>
+Message-ID: <alpine.LFD.2.21.1909160545010.32531@eddie.linux-mips.org>
+References: <20190802063712.GA7553@lst.de>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
+	UNPARSEABLE_RELAY autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
+Cc: James Hogan <jhogan@kernel.org>, Paul Burton <paul.burton@mips.com>,
+	iommu@lists.linux-foundation.org, linux-mips@vger.kernel.org,
+	Alex Smith <alex.smith@imgtec.com>,
+	Sadegh Abbasi <Sadegh.Abbasi@imgtec.com>, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,106 +57,52 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Now it's just an empty wrapper.
+Hi Christoph,
 
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
- drivers/iommu/arm-smmu.c | 40 +++++++++++++++++-----------------------
- drivers/iommu/arm-smmu.h |  6 +-----
- 2 files changed, 18 insertions(+), 28 deletions(-)
+> [I hope the imgtec address still works, but maybe the mips folks know
+> if it moved to mips]
 
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index cc3b7517458d..68e8d9d1902b 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -427,31 +427,25 @@ static void arm_smmu_tlb_add_page_s2_v1(struct iommu_iotlb_gather *gather,
- 	arm_smmu_gr0_write(smmu, ARM_SMMU_GR0_TLBIVMID, smmu_domain->cfg.vmid);
- }
- 
--static const struct arm_smmu_flush_ops arm_smmu_s1_tlb_ops = {
--	.tlb = {
--		.tlb_flush_all	= arm_smmu_tlb_inv_context_s1,
--		.tlb_flush_walk	= arm_smmu_tlb_inv_walk_s1,
--		.tlb_flush_leaf	= arm_smmu_tlb_inv_leaf_s1,
--		.tlb_add_page	= arm_smmu_tlb_add_page_s1,
--	},
-+static const struct iommu_flush_ops arm_smmu_s1_tlb_ops = {
-+	.tlb_flush_all	= arm_smmu_tlb_inv_context_s1,
-+	.tlb_flush_walk	= arm_smmu_tlb_inv_walk_s1,
-+	.tlb_flush_leaf	= arm_smmu_tlb_inv_leaf_s1,
-+	.tlb_add_page	= arm_smmu_tlb_add_page_s1,
- };
- 
--static const struct arm_smmu_flush_ops arm_smmu_s2_tlb_ops_v2 = {
--	.tlb = {
--		.tlb_flush_all	= arm_smmu_tlb_inv_context_s2,
--		.tlb_flush_walk	= arm_smmu_tlb_inv_walk_s2,
--		.tlb_flush_leaf	= arm_smmu_tlb_inv_leaf_s2,
--		.tlb_add_page	= arm_smmu_tlb_add_page_s2,
--	},
-+static const struct iommu_flush_ops arm_smmu_s2_tlb_ops_v2 = {
-+	.tlb_flush_all	= arm_smmu_tlb_inv_context_s2,
-+	.tlb_flush_walk	= arm_smmu_tlb_inv_walk_s2,
-+	.tlb_flush_leaf	= arm_smmu_tlb_inv_leaf_s2,
-+	.tlb_add_page	= arm_smmu_tlb_add_page_s2,
- };
- 
--static const struct arm_smmu_flush_ops arm_smmu_s2_tlb_ops_v1 = {
--	.tlb = {
--		.tlb_flush_all	= arm_smmu_tlb_inv_context_s2,
--		.tlb_flush_walk	= arm_smmu_tlb_inv_any_s2_v1,
--		.tlb_flush_leaf	= arm_smmu_tlb_inv_any_s2_v1,
--		.tlb_add_page	= arm_smmu_tlb_add_page_s2_v1,
--	},
-+static const struct iommu_flush_ops arm_smmu_s2_tlb_ops_v1 = {
-+	.tlb_flush_all	= arm_smmu_tlb_inv_context_s2,
-+	.tlb_flush_walk	= arm_smmu_tlb_inv_any_s2_v1,
-+	.tlb_flush_leaf	= arm_smmu_tlb_inv_any_s2_v1,
-+	.tlb_add_page	= arm_smmu_tlb_add_page_s2_v1,
- };
- 
- static irqreturn_t arm_smmu_context_fault(int irq, void *dev)
-@@ -781,7 +775,7 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 		.ias		= ias,
- 		.oas		= oas,
- 		.coherent_walk	= smmu->features & ARM_SMMU_FEAT_COHERENT_WALK,
--		.tlb		= &smmu_domain->flush_ops->tlb,
-+		.tlb		= smmu_domain->flush_ops,
- 		.iommu_dev	= smmu->dev,
- 	};
- 
-@@ -1210,7 +1204,7 @@ static void arm_smmu_flush_iotlb_all(struct iommu_domain *domain)
- 
- 	if (smmu_domain->flush_ops) {
- 		arm_smmu_rpm_get(smmu);
--		smmu_domain->flush_ops->tlb.tlb_flush_all(smmu_domain);
-+		smmu_domain->flush_ops->tlb_flush_all(smmu_domain);
- 		arm_smmu_rpm_put(smmu);
- 	}
- }
-diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
-index 5032102f05b7..ba0f05952dd9 100644
---- a/drivers/iommu/arm-smmu.h
-+++ b/drivers/iommu/arm-smmu.h
-@@ -304,14 +304,10 @@ enum arm_smmu_domain_stage {
- 	ARM_SMMU_DOMAIN_BYPASS,
- };
- 
--struct arm_smmu_flush_ops {
--	struct iommu_flush_ops		tlb;
--};
--
- struct arm_smmu_domain {
- 	struct arm_smmu_device		*smmu;
- 	struct io_pgtable_ops		*pgtbl_ops;
--	const struct arm_smmu_flush_ops	*flush_ops;
-+	const struct iommu_flush_ops	*flush_ops;
- 	struct arm_smmu_cfg		cfg;
- 	enum arm_smmu_domain_stage	stage;
- 	bool				non_strict;
--- 
-2.21.0.dirty
+ Alex left Imagination long before the transition to the interim MIPS 
+company.
 
+> you added DMA_ATTR_WRITE_COMBINE support in dma_mmap_attrs to mips
+> in commit 8c172467be36f7c9591e59b647e4cd342ce2ef41
+> ("MIPS: Add implementation of dma_map_ops.mmap()"), but that commit
+> only added the support in mmap, not in dma_alloc_attrs.  This means
+> the memory is now used in kernel space through KSEG1, and thus uncached,
+> while for userspace mappings through dma_mmap_* pgprot_writebombine
+> is used, which creates a write combine mapping, which on some MIPS CPUs
+> sets the _CACHE_UNCACHED_ACCELERATED pte bit instead of the
+> _CACHE_UNCACHED one.  I know at least on arm, powerpc and x86 such
+> mixed page cachability attributes can cause pretty severe problems.
+> Are they ok on mips?
+
+ The uncached accelerated mode is implementation-specific, so you won't 
+find its definition in the architecture, however the original R10000 
+implementation explicitly documents[1] interactions between bus accesses 
+using the two modes (essentially a _CACHE_UNCACHED store acts as a barrier 
+for any outstanding _CACHE_UNCACHED_ACCELERATED stores; for loads the 
+modes are equivalent), so that's clearly supported.
+
+ I've glanced over the interAptiv manual[2] too and it seems to define the 
+caching modes similarly.
+
+>  Or was the DMA_ATTR_WRITE_COMBINE supported
+> unintended and not correct and we should remove it?
+
+ I don't know, so regrettably I can't comment on this.
+
+References:
+
+[1] "MIPS R10000 Microprocessor", Version 2.0, MIPS Technologies, Inc., 
+    January 29, 1997
+    <http://techpubs.sgi.com/library/manuals/2000/007-2490-001/pdf/007-2490-001.pdf>
+
+[2] "MIPS32 interAptiv Multiprocessing System Software User's Manual", 
+    Imagination Technologies Ltd., Document Number: MD00904, Revision 
+    02.01, June 15, 2016
+
+  Maciej
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
