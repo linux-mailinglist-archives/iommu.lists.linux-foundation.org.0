@@ -2,49 +2,79 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2ADEB6F99
-	for <lists.iommu@lfdr.de>; Thu, 19 Sep 2019 01:22:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5712FB7014
+	for <lists.iommu@lfdr.de>; Thu, 19 Sep 2019 02:25:09 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 4CECFCC2;
-	Wed, 18 Sep 2019 23:22:38 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id CB194CB6;
+	Thu, 19 Sep 2019 00:25:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 14FA0C5C
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id D046CCAB
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 18 Sep 2019 23:22:37 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5A6D276D
+	Thu, 19 Sep 2019 00:25:06 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0D8B2108
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 18 Sep 2019 23:22:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Sep 2019 16:22:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,522,1559545200"; d="scan'208";a="199210228"
-Received: from jacob-builder.jf.intel.com ([10.7.199.155])
-	by orsmga002.jf.intel.com with ESMTP; 18 Sep 2019 16:22:35 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
-	Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
-Subject: [PATCH 4/4] iommu: Introduce guest PASID bind function
-Date: Wed, 18 Sep 2019 16:26:34 -0700
-Message-Id: <1568849194-47874-5-git-send-email-jacob.jun.pan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1568849194-47874-1-git-send-email-jacob.jun.pan@linux.intel.com>
-References: <1568849194-47874-1-git-send-email-jacob.jun.pan@linux.intel.com>
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+	Thu, 19 Sep 2019 00:25:06 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id y22so1067368pfr.3
+	for <iommu@lists.linux-foundation.org>;
+	Wed, 18 Sep 2019 17:25:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=eWVBUc0G0r03bjlIZxcu0N6j8gLGXLsTTsd/6fU4IxE=;
+	b=DcL9bVL7BUCwpbnXvuhZd4coXdVdROYTsuhZdRR9jG3zTxOQDYapRhEJ3hyNZaeBXj
+	kzEoWTQfRiIeWcx8Z/b/afSfWWT0ThQF1bkharhZ9xp5MC2k2XpvC9KwkvypDKjcFy0h
+	G5t9Uu/k/PZ9SAsw3aZ+eXtGNkBthvKFb54k7YWf/xwzjDAugHMOlm4E2SMx4HW2nWzn
+	6sAiMyQMjRJ64//+i3ocjsPNDGm5B9FXG+IkGlqMx5TcnOMLbbrhKM5PPtfdNaMrzNKh
+	3/t0XmrvUNwaStbZYUUJaPQoqyw0tg8zaE8tHyxeEg8v147jAGuGxCohhsAeZbUhqeaH
+	FLTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=eWVBUc0G0r03bjlIZxcu0N6j8gLGXLsTTsd/6fU4IxE=;
+	b=Elq94xbh03Qi5IUaX/Jd/wU1ra0I5CbhzAWJ6gsPcrgi7x8x4r0SPslrg8HbkqPoy2
+	D2mw1l1IIR9QbEgovzV36Ow7iIwswlgOq1Z8/cvr6YILH97fYiSO5kzfwa6bXQm184Ed
+	mipHxoBVFXzoW/ZUlAURQJyovCPX85hCW7HpYsMisU2LpBDMLodnhCdc4gSljXAFB5tO
+	GEywkVRR00po3V88Blp4hK4UJMmuuvXIwiVEsS8b3sryLOriHhhAyukTkWfpJBPl6po7
+	fGilkQUMuyvaTN2FjniFjCf1LQqpZlPeCRv1qFALBZsrr+qsMBIJtRduNXOsg2mJKvkB
+	AaRw==
+X-Gm-Message-State: APjAAAW8+aM/rh/Ma019UW8nrkAgpvywhZoaGm8dqmD9E3xHLbdI29Zy
+	kjZhD7ICpHY1X10fGz7V+zPVIw==
+X-Google-Smtp-Source: APXvYqyFdcK6ZGJrZDMo8+0D7OJ7woRAwYmA8HvkKj5hrDIcjAtTEYMTrBmnFLn5GR0BxTHmvN++kA==
+X-Received: by 2002:a17:90a:2525:: with SMTP id
+	j34mr674675pje.11.1568852705250; 
+	Wed, 18 Sep 2019 17:25:05 -0700 (PDT)
+Received: from builder (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
+	[104.188.17.28]) by smtp.gmail.com with ESMTPSA id
+	h2sm7269090pfq.108.2019.09.18.17.25.03
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 18 Sep 2019 17:25:04 -0700 (PDT)
+Date: Wed, 18 Sep 2019 17:25:01 -0700
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+Subject: Re: [PATCHv6 3/3] iommu: arm-smmu-impl: Add sdm845 implementation hook
+Message-ID: <20190919002501.GA20859@builder>
+References: <cover.1568712606.git.saiprakash.ranjan@codeaurora.org>
+	<1513424ecec891d19c1aa3c599ec67db7964b6b2.1568712606.git.saiprakash.ranjan@codeaurora.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1513424ecec891d19c1aa3c599ec67db7964b6b2.1568712606.git.saiprakash.ranjan@codeaurora.org>
+User-Agent: Mutt/1.10.0 (2018-05-17)
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
-	Jonathan Cameron <jic23@kernel.org>
+Cc: Rajendra Nayak <rnayak@codeaurora.org>, Robin Murphy <robin.murphy@arm.com>,
+	linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+	iommu@lists.linux-foundation.org, Andy Gross <agross@kernel.org>,
+	linux-arm-msm@vger.kernel.org, Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,225 +87,214 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Guest shared virtual address (SVA) may require host to shadow guest
-PASID tables. Guest PASID can also be allocated from the host via
-enlightened interfaces. In this case, guest needs to bind the guest
-mm, i.e. cr3 in guest physical address to the actual PASID table in
-the host IOMMU. Nesting will be turned on such that guest virtual
-address can go through a two level translation:
-- 1st level translates GVA to GPA
-- 2nd level translates GPA to HPA
-This patch introduces APIs to bind guest PASID data to the assigned
-device entry in the physical IOMMU. See the diagram below for usage
-explaination.
+On Tue 17 Sep 02:45 PDT 2019, Sai Prakash Ranjan wrote:
 
-    .-------------.  .---------------------------.
-    |   vIOMMU    |  | Guest process mm, FL only |
-    |             |  '---------------------------'
-    .----------------/
-    | PASID Entry |--- PASID cache flush -
-    '-------------'                       |
-    |             |                       V
-    |             |                      GP
-    '-------------'
-Guest
-------| Shadow |----------------------- GP->HP* ---------
-      v        v                          |
-Host                                      v
-    .-------------.  .----------------------.
-    |   pIOMMU    |  | Bind FL for GVA-GPA  |
-    |             |  '----------------------'
-    .----------------/  |
-    | PASID Entry |     V (Nested xlate)
-    '----------------\.---------------------.
-    |             |   |Set SL to GPA-HPA    |
-    |             |   '---------------------'
-    '-------------'
+> From: Vivek Gautam <vivek.gautam@codeaurora.org>
+> 
+> Add reset hook for sdm845 based platforms to turn off
+> the wait-for-safe sequence.
+> 
+> Understanding how wait-for-safe logic affects USB and UFS performance
+> on MTP845 and DB845 boards:
+> 
+> Qcom's implementation of arm,mmu-500 adds a WAIT-FOR-SAFE logic
+> to address under-performance issues in real-time clients, such as
+> Display, and Camera.
+> On receiving an invalidation requests, the SMMU forwards SAFE request
+> to these clients and waits for SAFE ack signal from real-time clients.
+> The SAFE signal from such clients is used to qualify the start of
+> invalidation.
+> This logic is controlled by chicken bits, one for each - MDP (display),
+> IFE0, and IFE1 (camera), that can be accessed only from secure software
+> on sdm845.
+> 
+> This configuration, however, degrades the performance of non-real time
+> clients, such as USB, and UFS etc. This happens because, with wait-for-safe
+> logic enabled the hardware tries to throttle non-real time clients while
+> waiting for SAFE ack signals from real-time clients.
+> 
+> On mtp845 and db845 devices, with wait-for-safe logic enabled by the
+> bootloaders we see degraded performance of USB and UFS when kernel
+> enables the smmu stage-1 translations for these clients.
+> Turn off this wait-for-safe logic from the kernel gets us back the perf
+> of USB and UFS devices until we re-visit this when we start seeing perf
+> issues on display/camera on upstream supported SDM845 platforms.
+> The bootloaders on these boards implement secure monitor callbacks to
+> handle a specific command - QCOM_SCM_SVC_SMMU_PROGRAM with which the
+> logic can be toggled.
+> 
+> There are other boards such as cheza whose bootloaders don't enable this
+> logic. Such boards don't implement callbacks to handle the specific SCM
+> call so disabling this logic for such boards will be a no-op.
+> 
+> This change is inspired by the downstream change from Patrick Daly
+> to address performance issues with display and camera by handling
+> this wait-for-safe within separte io-pagetable ops to do TLB
+> maintenance. So a big thanks to him for the change and for all the
+> offline discussions.
+> 
+> Without this change the UFS reads are pretty slow:
+> $ time dd if=/dev/sda of=/dev/zero bs=1048576 count=10 conv=sync
+> 10+0 records in
+> 10+0 records out
+> 10485760 bytes (10.0MB) copied, 22.394903 seconds, 457.2KB/s
+> real    0m 22.39s
+> user    0m 0.00s
+> sys     0m 0.01s
+> 
+> With this change they are back to rock!
+> $ time dd if=/dev/sda of=/dev/zero bs=1048576 count=300 conv=sync
+> 300+0 records in
+> 300+0 records out
+> 314572800 bytes (300.0MB) copied, 1.030541 seconds, 291.1MB/s
+> real    0m 1.03s
+> user    0m 0.00s
+> sys     0m 0.54s
+> 
+> Signed-off-by: Vivek Gautam <vivek.gautam@codeaurora.org>
+> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+> ---
+>  drivers/iommu/Makefile        |  2 +-
+>  drivers/iommu/arm-smmu-impl.c |  6 +++--
+>  drivers/iommu/arm-smmu-qcom.c | 51 +++++++++++++++++++++++++++++++++++
+>  drivers/iommu/arm-smmu.h      |  3 +++
+>  4 files changed, 59 insertions(+), 3 deletions(-)
+>  create mode 100644 drivers/iommu/arm-smmu-qcom.c
+> 
+> diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
+> index a2729aadd300..2816e49a8c46 100644
+> --- a/drivers/iommu/Makefile
+> +++ b/drivers/iommu/Makefile
+> @@ -13,7 +13,7 @@ obj-$(CONFIG_MSM_IOMMU) += msm_iommu.o
+>  obj-$(CONFIG_AMD_IOMMU) += amd_iommu.o amd_iommu_init.o
+>  obj-$(CONFIG_AMD_IOMMU_DEBUGFS) += amd_iommu_debugfs.o
+>  obj-$(CONFIG_AMD_IOMMU_V2) += amd_iommu_v2.o
+> -obj-$(CONFIG_ARM_SMMU) += arm-smmu.o arm-smmu-impl.o
+> +obj-$(CONFIG_ARM_SMMU) += arm-smmu.o arm-smmu-impl.o arm-smmu-qcom.o
+>  obj-$(CONFIG_ARM_SMMU_V3) += arm-smmu-v3.o
+>  obj-$(CONFIG_DMAR_TABLE) += dmar.o
+>  obj-$(CONFIG_INTEL_IOMMU) += intel-iommu.o intel-pasid.o
+> diff --git a/drivers/iommu/arm-smmu-impl.c b/drivers/iommu/arm-smmu-impl.c
+> index 3f88cd078dd5..d62da270f430 100644
+> --- a/drivers/iommu/arm-smmu-impl.c
+> +++ b/drivers/iommu/arm-smmu-impl.c
+> @@ -9,7 +9,6 @@
+>  
+>  #include "arm-smmu.h"
+>  
+> -
+>  static int arm_smmu_gr0_ns(int offset)
+>  {
+>  	switch(offset) {
+> @@ -109,7 +108,7 @@ static struct arm_smmu_device *cavium_smmu_impl_init(struct arm_smmu_device *smm
+>  #define ARM_MMU500_ACR_S2CRB_TLBEN	(1 << 10)
+>  #define ARM_MMU500_ACR_SMTNMB_TLBEN	(1 << 8)
+>  
+> -static int arm_mmu500_reset(struct arm_smmu_device *smmu)
+> +int arm_mmu500_reset(struct arm_smmu_device *smmu)
+>  {
+>  	u32 reg, major;
+>  	int i;
+> @@ -170,5 +169,8 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
+>  				  "calxeda,smmu-secure-config-access"))
+>  		smmu->impl = &calxeda_impl;
+>  
+> +	if (of_device_is_compatible(smmu->dev->of_node, "qcom,sdm845-smmu-500"))
+> +		return qcom_smmu_impl_init(smmu);
+> +
+>  	return smmu;
+>  }
+> diff --git a/drivers/iommu/arm-smmu-qcom.c b/drivers/iommu/arm-smmu-qcom.c
+> new file mode 100644
+> index 000000000000..24c071c1d8b0
+> --- /dev/null
+> +++ b/drivers/iommu/arm-smmu-qcom.c
+> @@ -0,0 +1,51 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2019, The Linux Foundation. All rights reserved.
+> + */
+> +
+> +#include <linux/qcom_scm.h>
+> +
+> +#include "arm-smmu.h"
+> +
+> +struct qcom_smmu {
+> +	struct arm_smmu_device smmu;
+> +};
+> +
+> +static int qcom_sdm845_smmu500_reset(struct arm_smmu_device *smmu)
+> +{
+> +	int ret;
+> +
+> +	arm_mmu500_reset(smmu);
+> +
+> +	/*
+> +	 * To address performance degradation in non-real time clients,
+> +	 * such as USB and UFS, turn off wait-for-safe on sdm845 based boards,
+> +	 * such as MTP and db845, whose firmwares implement secure monitor
+> +	 * call handlers to turn on/off the wait-for-safe logic.
+> +	 */
+> +	ret = qcom_scm_qsmmu500_wait_safe_toggle(0);
 
-Where:
- - FL = First level/stage one page tables
- - SL = Second level/stage two page tables
- - GP = Guest PASID
- - HP = Host PASID
-* Conversion needed if non-identity GP-HP mapping option is chosen.
+In the transition to this new design we lost the ability to
+enable/disable the safe toggle per board, which according to Vivek
+would result in some issue with Cheza.
 
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
----
- drivers/iommu/iommu.c      | 20 ++++++++++++++++
- include/linux/iommu.h      | 22 +++++++++++++++++
- include/uapi/linux/iommu.h | 59 ++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 101 insertions(+)
+Can you confirm that this is okay? (Or introduce the DT property for
+enabling the safe_toggle logic?)
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index e27dec2d39b8..5523c035abb9 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -1620,6 +1620,26 @@ int iommu_cache_invalidate(struct iommu_domain *domain, struct device *dev,
- }
- EXPORT_SYMBOL_GPL(iommu_cache_invalidate);
- 
-+int iommu_sva_bind_gpasid(struct iommu_domain *domain,
-+			   struct device *dev, struct iommu_gpasid_bind_data *data)
-+{
-+	if (unlikely(!domain->ops->sva_bind_gpasid))
-+		return -ENODEV;
-+
-+	return domain->ops->sva_bind_gpasid(domain, dev, data);
-+}
-+EXPORT_SYMBOL_GPL(iommu_sva_bind_gpasid);
-+
-+int iommu_sva_unbind_gpasid(struct iommu_domain *domain, struct device *dev,
-+			     ioasid_t pasid)
-+{
-+	if (unlikely(!domain->ops->sva_unbind_gpasid))
-+		return -ENODEV;
-+
-+	return domain->ops->sva_unbind_gpasid(dev, pasid);
-+}
-+EXPORT_SYMBOL_GPL(iommu_sva_unbind_gpasid);
-+
- static void __iommu_detach_device(struct iommu_domain *domain,
- 				  struct device *dev)
- {
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index cf8b504966b0..0440312db86a 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -13,6 +13,7 @@
- #include <linux/errno.h>
- #include <linux/err.h>
- #include <linux/of.h>
-+#include <linux/ioasid.h>
- #include <uapi/linux/iommu.h>
- 
- #define IOMMU_READ	(1 << 0)
-@@ -230,6 +231,8 @@ struct iommu_sva_ops {
-  * @page_response: handle page request response
-  * @cache_invalidate: invalidate translation caches
-  * @pgsize_bitmap: bitmap of all possible supported page sizes
-+ * @sva_bind_gpasid: bind guest pasid and mm
-+ * @sva_unbind_gpasid: unbind guest pasid and mm
-  */
- struct iommu_ops {
- 	bool (*capable)(enum iommu_cap);
-@@ -294,6 +297,10 @@ struct iommu_ops {
- 			     struct iommu_page_response *msg);
- 	int (*cache_invalidate)(struct iommu_domain *domain, struct device *dev,
- 				struct iommu_cache_invalidate_info *inv_info);
-+	int (*sva_bind_gpasid)(struct iommu_domain *domain,
-+			struct device *dev, struct iommu_gpasid_bind_data *data);
-+
-+	int (*sva_unbind_gpasid)(struct device *dev, int pasid);
- 
- 	unsigned long pgsize_bitmap;
- };
-@@ -401,6 +408,10 @@ extern void iommu_detach_device(struct iommu_domain *domain,
- extern int iommu_cache_invalidate(struct iommu_domain *domain,
- 				  struct device *dev,
- 				  struct iommu_cache_invalidate_info *inv_info);
-+extern int iommu_sva_bind_gpasid(struct iommu_domain *domain,
-+		struct device *dev, struct iommu_gpasid_bind_data *data);
-+extern int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
-+				struct device *dev, ioasid_t pasid);
- extern struct iommu_domain *iommu_get_domain_for_dev(struct device *dev);
- extern struct iommu_domain *iommu_get_dma_domain(struct device *dev);
- extern int iommu_map(struct iommu_domain *domain, unsigned long iova,
-@@ -950,6 +961,17 @@ iommu_cache_invalidate(struct iommu_domain *domain,
- {
- 	return -ENODEV;
- }
-+static inline int iommu_sva_bind_gpasid(struct iommu_domain *domain,
-+				struct device *dev, struct iommu_gpasid_bind_data *data)
-+{
-+	return -ENODEV;
-+}
-+
-+static inline int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
-+					   struct device *dev, int pasid)
-+{
-+	return -ENODEV;
-+}
- 
- #endif /* CONFIG_IOMMU_API */
- 
-diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
-index f3e96214df8e..4ad3496e5c43 100644
---- a/include/uapi/linux/iommu.h
-+++ b/include/uapi/linux/iommu.h
-@@ -262,4 +262,63 @@ struct iommu_cache_invalidate_info {
- 	};
- };
- 
-+/**
-+ * struct iommu_gpasid_bind_data_vtd - Intel VT-d specific data on device and guest
-+ * SVA binding.
-+ *
-+ * @flags:	VT-d PASID table entry attributes
-+ * @pat:	Page attribute table data to compute effective memory type
-+ * @emt:	Extended memory type
-+ *
-+ * Only guest vIOMMU selectable and effective options are passed down to
-+ * the host IOMMU.
-+ */
-+struct iommu_gpasid_bind_data_vtd {
-+#define IOMMU_SVA_VTD_GPASID_SRE	(1 << 0) /* supervisor request */
-+#define IOMMU_SVA_VTD_GPASID_EAFE	(1 << 1) /* extended access enable */
-+#define IOMMU_SVA_VTD_GPASID_PCD	(1 << 2) /* page-level cache disable */
-+#define IOMMU_SVA_VTD_GPASID_PWT	(1 << 3) /* page-level write through */
-+#define IOMMU_SVA_VTD_GPASID_EMTE	(1 << 4) /* extended mem type enable */
-+#define IOMMU_SVA_VTD_GPASID_CD		(1 << 5) /* PASID-level cache disable */
-+	__u64 flags;
-+	__u32 pat;
-+	__u32 emt;
-+};
-+
-+/**
-+ * struct iommu_gpasid_bind_data - Information about device and guest PASID binding
-+ * @version:	Version of this data structure
-+ * @format:	PASID table entry format
-+ * @flags:	Additional information on guest bind request
-+ * @gpgd:	Guest page directory base of the guest mm to bind
-+ * @hpasid:	Process address space ID used for the guest mm in host IOMMU
-+ * @gpasid:	Process address space ID used for the guest mm in guest IOMMU
-+ * @addr_width:	Guest virtual address width
-+ * @padding:	Reserved for future use (should be zero)
-+ * @vtd:	Intel VT-d specific data
-+ *
-+ * Guest to host PASID mapping can be an identity or non-identity, where guest
-+ * has its own PASID space. For non-identify mapping, guest to host PASID lookup
-+ * is needed when VM programs guest PASID into an assigned device. VMM may
-+ * trap such PASID programming then request host IOMMU driver to convert guest
-+ * PASID to host PASID based on this bind data.
-+ */
-+struct iommu_gpasid_bind_data {
-+#define IOMMU_GPASID_BIND_VERSION_1	1
-+	__u32 version;
-+#define IOMMU_PASID_FORMAT_INTEL_VTD	1
-+	__u32 format;
-+#define IOMMU_SVA_GPASID_VAL	(1 << 0) /* guest PASID valid */
-+	__u64 flags;
-+	__u64 gpgd;
-+	__u64 hpasid;
-+	__u64 gpasid;
-+	__u32 addr_width;
-+	__u8  padding[12];
-+	/* Vendor specific data */
-+	union {
-+		struct iommu_gpasid_bind_data_vtd vtd;
-+	};
-+};
-+
- #endif /* _UAPI_IOMMU_H */
--- 
-2.7.4
+Regards,
+Bjorn
 
+> +	if (ret)
+> +		dev_warn(smmu->dev, "Failed to turn off SAFE logic\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct arm_smmu_impl qcom_smmu_impl = {
+> +	.reset = qcom_sdm845_smmu500_reset,
+> +};
+> +
+> +struct arm_smmu_device *qcom_smmu_impl_init(struct arm_smmu_device *smmu)
+> +{
+> +	struct qcom_smmu *qsmmu;
+> +
+> +	qsmmu = devm_kzalloc(smmu->dev, sizeof(*qsmmu), GFP_KERNEL);
+> +	if (!qsmmu)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	qsmmu->smmu = *smmu;
+> +
+> +	qsmmu->smmu.impl = &qcom_smmu_impl;
+> +	devm_kfree(smmu->dev, smmu);
+> +
+> +	return &qsmmu->smmu;
+> +}
+> diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
+> index ac9eac966cf5..4bc9e853c95d 100644
+> --- a/drivers/iommu/arm-smmu.h
+> +++ b/drivers/iommu/arm-smmu.h
+> @@ -391,5 +391,8 @@ static inline void arm_smmu_writeq(struct arm_smmu_device *smmu, int page,
+>  	arm_smmu_writeq((s), ARM_SMMU_CB((s), (n)), (o), (v))
+>  
+>  struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu);
+> +struct arm_smmu_device *qcom_smmu_impl_init(struct arm_smmu_device *smmu);
+> +
+> +int arm_mmu500_reset(struct arm_smmu_device *smmu);
+>  
+>  #endif /* _ARM_SMMU_H */
+> -- 
+> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+> of Code Aurora Forum, hosted by The Linux Foundation
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
