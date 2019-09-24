@@ -2,45 +2,42 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97039BC2E9
-	for <lists.iommu@lfdr.de>; Tue, 24 Sep 2019 09:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF56BBC4B3
+	for <lists.iommu@lfdr.de>; Tue, 24 Sep 2019 11:21:13 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 319FDBA4;
-	Tue, 24 Sep 2019 07:43:30 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id A341FC84;
+	Tue, 24 Sep 2019 09:21:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id E5140AF5
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E2B2AC74
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 24 Sep 2019 07:43:28 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
-	[210.160.252.171])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 65D638B0
+	Tue, 24 Sep 2019 09:21:07 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id C309E8AA
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 24 Sep 2019 07:43:28 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,543,1559487600"; d="scan'208";a="27337178"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-	by relmlie5.idc.renesas.com with ESMTP; 24 Sep 2019 16:43:27 +0900
-Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id F067640065BB;
-	Tue, 24 Sep 2019 16:43:25 +0900 (JST)
-From: Biju Das <biju.das@bp.renesas.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH] iommu/ipmmu-vmsa: Hook up r8a774b1 DT matching code
-Date: Tue, 24 Sep 2019 08:43:08 +0100
-Message-Id: <1569310988-40746-1-git-send-email-biju.das@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 24 Sep 2019 09:21:06 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+	id 908003A2; Tue, 24 Sep 2019 11:21:04 +0200 (CEST)
+Date: Tue, 24 Sep 2019 11:21:01 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Andrei Dulea <adulea@amazon.de>
+Subject: Re: [PATCH 1/4] iommu/amd: Fix pages leak in free_pagetable()
+Message-ID: <20190924092101.GA11453@8bytes.org>
+References: <20190913144231.21382-1-adulea@amazon.de>
+	<20190913144231.21382-2-adulea@amazon.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190913144231.21382-2-adulea@amazon.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-	Chris Paterson <Chris.Paterson2@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das@bp.renesas.com>, linux-renesas-soc@vger.kernel.org,
-	iommu@lists.linux-foundation.org, Simon Horman <horms@verge.net.au>
+Cc: iommu@lists.linux-foundation.org,
+	Jan =?iso-8859-1?Q?H=2E_Sch=F6nherr?= <jschoenh@amazon.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,51 +50,41 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Support RZ/G2N (R8A774B1) IPMMU.
+Hi Andrei,
 
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
----
- drivers/iommu/ipmmu-vmsa.c | 5 +++++
- 1 file changed, 5 insertions(+)
+On Fri, Sep 13, 2019 at 04:42:28PM +0200, Andrei Dulea wrote:
+> Take into account the gathered freelist in free_sub_pt(), otherwise we
+> end up leaking all that pages.
+> 
+> Fixes: 409afa44f9ba ("iommu/amd: Introduce free_sub_pt() function")
+> Signed-off-by: Andrei Dulea <adulea@amazon.de>
+> ---
+>  drivers/iommu/amd_iommu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+> index 1ed3b98324ba..138547446345 100644
+> --- a/drivers/iommu/amd_iommu.c
+> +++ b/drivers/iommu/amd_iommu.c
+> @@ -1425,7 +1425,7 @@ static void free_pagetable(struct protection_domain *domain)
+>  	BUG_ON(domain->mode < PAGE_MODE_NONE ||
+>  	       domain->mode > PAGE_MODE_6_LEVEL);
+>  
+> -	free_sub_pt(root, domain->mode, freelist);
+> +	freelist = free_sub_pt(root, domain->mode, freelist);
 
-diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-index ad0098c..002561b 100644
---- a/drivers/iommu/ipmmu-vmsa.c
-+++ b/drivers/iommu/ipmmu-vmsa.c
-@@ -775,6 +775,7 @@ static int ipmmu_init_platform_device(struct device *dev,
- 
- static const struct soc_device_attribute soc_rcar_gen3[] = {
- 	{ .soc_id = "r8a774a1", },
-+	{ .soc_id = "r8a774b1", },
- 	{ .soc_id = "r8a774c0", },
- 	{ .soc_id = "r8a7795", },
- 	{ .soc_id = "r8a7796", },
-@@ -787,6 +788,7 @@ static const struct soc_device_attribute soc_rcar_gen3[] = {
- 
- static const struct soc_device_attribute soc_rcar_gen3_whitelist[] = {
- 	{ .soc_id = "r8a774c0", },
-+	{ .soc_id = "r8a774b1", },
- 	{ .soc_id = "r8a7795", .revision = "ES3.*" },
- 	{ .soc_id = "r8a77965", },
- 	{ .soc_id = "r8a77990", },
-@@ -1008,6 +1010,9 @@ static const struct of_device_id ipmmu_of_ids[] = {
- 		.compatible = "renesas,ipmmu-r8a774a1",
- 		.data = &ipmmu_features_rcar_gen3,
- 	}, {
-+		.compatible = "renesas,ipmmu-r8a774b1",
-+		.data = &ipmmu_features_rcar_gen3,
-+	}, {
- 		.compatible = "renesas,ipmmu-r8a774c0",
- 		.data = &ipmmu_features_rcar_gen3,
- 	}, {
--- 
-2.7.4
+What a stupid mistake, thanks for fixing this. That is a clear example
+which shows that we need more reviewers. Applied the whole series.
+
+
+Thanks again,
+
+       Joerg
 
 _______________________________________________
 iommu mailing list
