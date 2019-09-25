@@ -2,58 +2,77 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD1CBD8BE
-	for <lists.iommu@lfdr.de>; Wed, 25 Sep 2019 09:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7502BBD911
+	for <lists.iommu@lfdr.de>; Wed, 25 Sep 2019 09:22:10 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 6408BBA9;
-	Wed, 25 Sep 2019 07:08:47 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id AC8CBB3E;
+	Wed, 25 Sep 2019 07:22:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5B91FAF7
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E0C2FB3E
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 25 Sep 2019 07:08:46 +0000 (UTC)
+	Wed, 25 Sep 2019 07:22:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id DC5AB8B6
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id BE2658D
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 25 Sep 2019 07:08:45 +0000 (UTC)
+	Wed, 25 Sep 2019 07:21:54 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Sep 2019 00:08:45 -0700
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Sep 2019 00:21:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,547,1559545200"; d="scan'208";a="201158456"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
-	([10.239.159.136])
-	by orsmga002.jf.intel.com with ESMTP; 25 Sep 2019 00:08:40 -0700
-Subject: Re: [RFC PATCH 3/4] iommu/vt-d: Map/unmap domain with mmmap/mmunmap
-To: "Tian, Kevin" <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Alex Williamson <alex.williamson@redhat.com>
+X-IronPort-AV: E=Sophos;i="5.64,547,1559545200"; d="scan'208";a="183169136"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+	by orsmga008.jf.intel.com with ESMTP; 25 Sep 2019 00:21:54 -0700
+Received: from fmsmsx118.amr.corp.intel.com (10.18.116.18) by
+	FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server
+	(TLS) id 14.3.439.0; Wed, 25 Sep 2019 00:21:53 -0700
+Received: from shsmsx153.ccr.corp.intel.com (10.239.6.53) by
+	fmsmsx118.amr.corp.intel.com (10.18.116.18) with Microsoft SMTP Server
+	(TLS) id 14.3.439.0; Wed, 25 Sep 2019 00:21:53 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.32]) by
+	SHSMSX153.ccr.corp.intel.com ([169.254.12.235]) with mapi id
+	14.03.0439.000; Wed, 25 Sep 2019 15:21:51 +0800
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Peter Xu <peterx@redhat.com>, Lu Baolu <baolu.lu@linux.intel.com>
+Subject: RE: [RFC PATCH 0/4] Use 1st-level for DMA remapping in guest
+Thread-Topic: [RFC PATCH 0/4] Use 1st-level for DMA remapping in guest
+Thread-Index: AQHVcgo/pYehEUSjBUSa7tc1tTv1E6c5H56AgAAQYQCAATS/kIAAyIAAgABFVACAAIvPkA==
+Date: Wed, 25 Sep 2019 07:21:51 +0000
+Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19D58F4A3@SHSMSX104.ccr.corp.intel.com>
 References: <20190923122454.9888-1-baolu.lu@linux.intel.com>
-	<20190923122454.9888-4-baolu.lu@linux.intel.com>
-	<AADFC41AFE54684AB9EE6CBC0274A5D19D58F0B7@SHSMSX104.ccr.corp.intel.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <71b812c0-722c-8d8a-0c3f-58efab34f6b2@linux.intel.com>
-Date: Wed, 25 Sep 2019 15:06:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D58F0B7@SHSMSX104.ccr.corp.intel.com>
+	<20190923122715.53de79d0@jacob-builder>
+	<20190923202552.GA21816@araj-mobl1.jf.intel.com>
+	<AADFC41AFE54684AB9EE6CBC0274A5D19D58D1F1@SHSMSX104.ccr.corp.intel.com>
+	<dfd9b7a2-5553-328a-08eb-16c8a3a2644e@linux.intel.com>
+	<20190925065640.GO28074@xz-x1>
+In-Reply-To: <20190925065640.GO28074@xz-x1>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNWZmNjcyZDAtZDI5YS00ODVhLWI4ZWItMDVlMDgyZDQwNzRlIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiMkNVbEFZR3BSQ0ZsNUZ0bW8xYTI0RXllYllTZVZRQ3VRZ29SeHh5YkpVTytKdkd5ODZISW9TeFpDMlFsVllWRiJ9
+dlp-product: dlpe-windows
+dlp-version: 11.0.400.15
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+	autolearn=unavailable version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Yi Sun <yi.y.sun@linux.intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+Cc: Alex Williamson <alex.williamson@redhat.com>, "Raj,
+	Ashok" <ashok.raj@intel.com>,
 	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Kumar,
 	Sanjay K" <sanjay.k.kumar@intel.com>,
 	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Sun, Yi Y" <yi.y.sun@intel.com>
+	"Sun, Yi Y" <yi.y.sun@intel.com>, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,126 +85,52 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi,
-
-On 9/25/19 1:00 PM, Tian, Kevin wrote:
->> From: Lu Baolu [mailto:baolu.lu@linux.intel.com]
->> Sent: Monday, September 23, 2019 8:25 PM
->>
->> If a dmar domain has DOMAIN_FLAG_FIRST_LEVEL_TRANS bit set
->> in its flags, IOMMU will use the first level page table for
->> translation. Hence, we need to map or unmap addresses in the
->> first level page table.
->>
->> Cc: Ashok Raj <ashok.raj@intel.com>
->> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
->> Cc: Kevin Tian <kevin.tian@intel.com>
->> Cc: Liu Yi L <yi.l.liu@intel.com>
->> Cc: Yi Sun <yi.y.sun@linux.intel.com>
->> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
->> ---
->>   drivers/iommu/intel-iommu.c | 94 ++++++++++++++++++++++++++++++++-
->> ----
->>   1 file changed, 82 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
->> index 9cfe8098d993..103480016010 100644
->> --- a/drivers/iommu/intel-iommu.c
->> +++ b/drivers/iommu/intel-iommu.c
->> @@ -168,6 +168,11 @@ static inline unsigned long virt_to_dma_pfn(void
->> *p)
->>   	return page_to_dma_pfn(virt_to_page(p));
->>   }
->>
->> +static inline unsigned long dma_pfn_to_addr(unsigned long pfn)
->> +{
->> +	return pfn << VTD_PAGE_SHIFT;
->> +}
->> +
->>   /* global iommu list, set NULL for ignored DMAR units */
->>   static struct intel_iommu **g_iommus;
->>
->> @@ -307,6 +312,9 @@ static int hw_pass_through = 1;
->>    */
->>   #define DOMAIN_FLAG_LOSE_CHILDREN		BIT(1)
->>
->> +/* Domain uses first level translation for DMA remapping. */
->> +#define DOMAIN_FLAG_FIRST_LEVEL_TRANS		BIT(2)
->> +
->>   #define for_each_domain_iommu(idx, domain)			\
->>   	for (idx = 0; idx < g_num_of_iommus; idx++)		\
->>   		if (domain->iommu_refcnt[idx])
->> @@ -552,6 +560,11 @@ static inline int domain_type_is_si(struct
->> dmar_domain *domain)
->>   	return domain->flags & DOMAIN_FLAG_STATIC_IDENTITY;
->>   }
->>
->> +static inline int domain_type_is_flt(struct dmar_domain *domain)
->> +{
->> +	return domain->flags & DOMAIN_FLAG_FIRST_LEVEL_TRANS;
->> +}
->> +
->>   static inline int domain_pfn_supported(struct dmar_domain *domain,
->>   				       unsigned long pfn)
->>   {
->> @@ -1147,8 +1160,15 @@ static struct page *domain_unmap(struct
->> dmar_domain *domain,
->>   	BUG_ON(start_pfn > last_pfn);
->>
->>   	/* we don't need lock here; nobody else touches the iova range */
->> -	freelist = dma_pte_clear_level(domain, agaw_to_level(domain-
->>> agaw),
->> -				       domain->pgd, 0, start_pfn, last_pfn,
->> NULL);
->> +	if (domain_type_is_flt(domain))
->> +		freelist = intel_mmunmap_range(domain,
->> +					       dma_pfn_to_addr(start_pfn),
->> +					       dma_pfn_to_addr(last_pfn + 1));
->> +	else
->> +		freelist = dma_pte_clear_level(domain,
->> +					       agaw_to_level(domain->agaw),
->> +					       domain->pgd, 0, start_pfn,
->> +					       last_pfn, NULL);
+> From: Peter Xu [mailto:peterx@redhat.com]
+> Sent: Wednesday, September 25, 2019 2:57 PM
 > 
-> what about providing an unified interface at the caller side, then having
-> the level differentiated within the interface?
+> On Wed, Sep 25, 2019 at 10:48:32AM +0800, Lu Baolu wrote:
+> > Hi Kevin,
+> >
+> > On 9/24/19 3:00 PM, Tian, Kevin wrote:
+> > > > > >       '-----------'
+> > > > > >       '-----------'
+> > > > > >
+> > > > > > This patch series only aims to achieve the first goal, a.k.a using
+> > > first goal? then what are other goals? I didn't spot such information.
+> > >
+> >
+> > The overall goal is to use IOMMU nested mode to avoid shadow page
+> table
+> > and VMEXIT when map an gIOVA. This includes below 4 steps (maybe not
+> > accurate, but you could get the point.)
+> >
+> > 1) GIOVA mappings over 1st-level page table;
+> > 2) binding vIOMMU 1st level page table to the pIOMMU;
+> > 3) using pIOMMU second level for GPA->HPA translation;
+> > 4) enable nested (a.k.a. dual stage) translation in host.
+> >
+> > This patch set aims to achieve 1).
+> 
+> Would it make sense to use 1st level even for bare-metal to replace
+> the 2nd level?
+> 
+> What I'm thinking is the DPDK apps - they have MMU page table already
+> there for the huge pages, then if they can use 1st level as the
+> default device page table then it even does not need to map, because
+> it can simply bind the process root page table pointer to the 1st
+> level page root pointer of the device contexts that it uses.
+> 
 
-Good point! I ever thought about adding some ops in struct dmar_domain,
-something like:
+Then you need bear with possible page faults from using CPU page
+table, while most devices don't support it today. 
 
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index ed11ef594378..1dd184f76bfb 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -489,7 +489,14 @@ struct dmar_domain {
-         struct list_head auxd;          /* link to device's auxiliary 
-list */
-         struct iova_domain iovad;       /* iova's that belong to this 
-domain */
-
-+       /* per domain page table and manipulation ops */
-         struct dma_pte  *pgd;           /* virtual address */
-+       int (*map)(struct dmar_domain *domain,
-+                  unsigned long addr, unsigned long end,
-+                  phys_addr_t phys_addr, int dma_prot);
-+       struct page *(*unmap)(struct dmar_domain *domain,
-+                             unsigned long addr, unsigned long end);
-+
-         int             gaw;            /* max guest address width */
-
-         /* adjusted guest address width, 0 is level 2 30-bit */
-
-So that this code could be simply like this:
-
-	freelist = domain->unmap(...);
-
-Best regards,
-Baolu
+Thanks
+Kevin
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
