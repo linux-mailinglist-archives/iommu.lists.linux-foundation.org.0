@@ -2,31 +2,32 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92AB5BDEDD
-	for <lists.iommu@lfdr.de>; Wed, 25 Sep 2019 15:23:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A821BDEDE
+	for <lists.iommu@lfdr.de>; Wed, 25 Sep 2019 15:23:49 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id A92AEE38;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id C59A6E3C;
 	Wed, 25 Sep 2019 13:23:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id BBFBBDA4
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id CE50DDAF
 	for <iommu@lists.linux-foundation.org>;
 	Wed, 25 Sep 2019 13:23:22 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 490988A
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4DF8A8B7
 	for <iommu@lists.linux-foundation.org>;
 	Wed, 25 Sep 2019 13:23:14 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-	id 224C5528; Wed, 25 Sep 2019 15:23:02 +0200 (CEST)
+	id 4CA4A57D; Wed, 25 Sep 2019 15:23:02 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: iommu@lists.linux-foundation.org,
 	Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 5/6] iommu/amd: Lock dev_data in attach/detach code paths
-Date: Wed, 25 Sep 2019 15:22:59 +0200
-Message-Id: <20190925132300.3038-6-joro@8bytes.org>
+Subject: [PATCH 6/6] iommu/amd: Lock code paths traversing
+	protection_domain->dev_list
+Date: Wed, 25 Sep 2019 15:23:00 +0200
+Message-Id: <20190925132300.3038-7-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190925132300.3038-1-joro@8bytes.org>
 References: <20190925132300.3038-1-joro@8bytes.org>
@@ -55,79 +56,107 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Make sure that attaching a detaching a device can't race against each
-other and protect the iommu_dev_data with a spin_lock in these code
-paths.
+The traversing of this list requires protection_domain->lock to be taken
+to avoid nasty races with attach/detach code. Make sure the lock is held
+on all code-paths traversing this list.
 
+Reported-by: Filippo Sironi <sironi@amazon.de>
 Fixes: 92d420ec028d ("iommu/amd: Relax locking in dma_ops path")
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/amd_iommu.c       | 9 +++++++++
- drivers/iommu/amd_iommu_types.h | 3 +++
- 2 files changed, 12 insertions(+)
+ drivers/iommu/amd_iommu.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index 459247c32dc0..bac4e20a5919 100644
+index bac4e20a5919..9c26976a0f99 100644
 --- a/drivers/iommu/amd_iommu.c
 +++ b/drivers/iommu/amd_iommu.c
-@@ -201,6 +201,7 @@ static struct iommu_dev_data *alloc_dev_data(u16 devid)
- 	if (!dev_data)
- 		return NULL;
- 
-+	spin_lock_init(&dev_data->lock);
- 	dev_data->devid = devid;
- 	ratelimit_default_init(&dev_data->rs);
- 
-@@ -2157,6 +2158,8 @@ static int attach_device(struct device *dev,
- 
- 	dev_data = get_dev_data(dev);
- 
-+	spin_lock(&dev_data->lock);
+@@ -1334,8 +1334,12 @@ static void domain_flush_np_cache(struct protection_domain *domain,
+ 		dma_addr_t iova, size_t size)
+ {
+ 	if (unlikely(amd_iommu_np_cache)) {
++		unsigned long flags;
 +
- 	ret = -EBUSY;
- 	if (dev_data->domain != NULL)
- 		goto out;
-@@ -2199,6 +2202,8 @@ static int attach_device(struct device *dev,
- 	domain_flush_complete(domain);
- 
- out:
-+	spin_unlock(&dev_data->lock);
-+
- 	spin_unlock_irqrestore(&domain->lock, flags);
- 
- 	return ret;
-@@ -2218,6 +2223,8 @@ static void detach_device(struct device *dev)
- 
- 	spin_lock_irqsave(&domain->lock, flags);
- 
-+	spin_lock(&dev_data->lock);
-+
- 	/*
- 	 * First check if the device is still attached. It might already
- 	 * be detached from its domain because the generic
-@@ -2240,6 +2247,8 @@ static void detach_device(struct device *dev)
- 	dev_data->ats.enabled = false;
- 
- out:
-+	spin_unlock(&dev_data->lock);
-+
- 	spin_unlock_irqrestore(&domain->lock, flags);
++		spin_lock_irqsave(&domain->lock, flags);
+ 		domain_flush_pages(domain, iova, size);
+ 		domain_flush_complete(domain);
++		spin_unlock_irqrestore(&domain->lock, flags);
+ 	}
  }
  
-diff --git a/drivers/iommu/amd_iommu_types.h b/drivers/iommu/amd_iommu_types.h
-index 0186501ab971..c9c1612d52e0 100644
---- a/drivers/iommu/amd_iommu_types.h
-+++ b/drivers/iommu/amd_iommu_types.h
-@@ -633,6 +633,9 @@ struct devid_map {
-  * This struct contains device specific data for the IOMMU
-  */
- struct iommu_dev_data {
-+	/*Protect against attach/detach races */
-+	spinlock_t lock;
+@@ -1700,8 +1704,13 @@ static int iommu_map_page(struct protection_domain *dom,
+ 	ret = 0;
+ 
+ out:
+-	if (updated)
++	if (updated) {
++		unsigned long flags;
 +
- 	struct list_head list;		  /* For domain->dev_list */
- 	struct llist_node dev_data_list;  /* For global dev_data_list */
- 	struct protection_domain *domain; /* Domain the device is bound to */
++		spin_lock_irqsave(&dom->lock, flags);
+ 		update_domain(dom);
++		spin_unlock_irqrestore(&dom->lock, flags);
++	}
+ 
+ 	/* Everything flushed out, free pages now */
+ 	free_page_list(freelist);
+@@ -1857,8 +1866,12 @@ static void free_gcr3_table(struct protection_domain *domain)
+ 
+ static void dma_ops_domain_flush_tlb(struct dma_ops_domain *dom)
+ {
++	unsigned long flags;
++
++	spin_lock_irqsave(&dom->domain.lock, flags);
+ 	domain_flush_tlb(&dom->domain);
+ 	domain_flush_complete(&dom->domain);
++	spin_unlock_irqrestore(&dom->domain.lock, flags);
+ }
+ 
+ static void iova_domain_flush_tlb(struct iova_domain *iovad)
+@@ -2414,6 +2427,7 @@ static dma_addr_t __map_single(struct device *dev,
+ {
+ 	dma_addr_t offset = paddr & ~PAGE_MASK;
+ 	dma_addr_t address, start, ret;
++	unsigned long flags;
+ 	unsigned int pages;
+ 	int prot = 0;
+ 	int i;
+@@ -2451,8 +2465,10 @@ static dma_addr_t __map_single(struct device *dev,
+ 		iommu_unmap_page(&dma_dom->domain, start, PAGE_SIZE);
+ 	}
+ 
++	spin_lock_irqsave(&dma_dom->domain.lock, flags);
+ 	domain_flush_tlb(&dma_dom->domain);
+ 	domain_flush_complete(&dma_dom->domain);
++	spin_unlock_irqrestore(&dma_dom->domain.lock, flags);
+ 
+ 	dma_ops_free_iova(dma_dom, address, pages);
+ 
+@@ -2481,8 +2497,12 @@ static void __unmap_single(struct dma_ops_domain *dma_dom,
+ 	}
+ 
+ 	if (amd_iommu_unmap_flush) {
++		unsigned long flags;
++
++		spin_lock_irqsave(&dma_dom->domain.lock, flags);
+ 		domain_flush_tlb(&dma_dom->domain);
+ 		domain_flush_complete(&dma_dom->domain);
++		spin_unlock_irqrestore(&dma_dom->domain.lock, flags);
+ 		dma_ops_free_iova(dma_dom, dma_addr, pages);
+ 	} else {
+ 		pages = __roundup_pow_of_two(pages);
+@@ -3246,9 +3266,12 @@ static bool amd_iommu_is_attach_deferred(struct iommu_domain *domain,
+ static void amd_iommu_flush_iotlb_all(struct iommu_domain *domain)
+ {
+ 	struct protection_domain *dom = to_pdomain(domain);
++	unsigned long flags;
+ 
++	spin_lock_irqsave(&dom->lock, flags);
+ 	domain_flush_tlb_pde(dom);
+ 	domain_flush_complete(dom);
++	spin_unlock_irqrestore(&dom->lock, flags);
+ }
+ 
+ static void amd_iommu_iotlb_sync(struct iommu_domain *domain,
 -- 
 2.17.1
 
