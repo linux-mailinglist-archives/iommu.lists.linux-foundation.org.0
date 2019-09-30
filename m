@@ -2,37 +2,36 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8628C2372
-	for <lists.iommu@lfdr.de>; Mon, 30 Sep 2019 16:37:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A90C2367
+	for <lists.iommu@lfdr.de>; Mon, 30 Sep 2019 16:37:08 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 313A519CC;
-	Mon, 30 Sep 2019 14:37:07 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 69F4919BA;
+	Mon, 30 Sep 2019 14:37:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 4AA79199D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id B1F04199D
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 30 Sep 2019 14:37:06 +0000 (UTC)
+	Mon, 30 Sep 2019 14:37:02 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D1D6F735
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 26CCE735
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 30 Sep 2019 14:37:05 +0000 (UTC)
+	Mon, 30 Sep 2019 14:37:02 +0000 (UTC)
 Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
-	by Forcepoint Email with ESMTP id 40F62D0A7B7A024C01A2;
+	by Forcepoint Email with ESMTP id 63F89242D57370195736;
 	Mon, 30 Sep 2019 22:36:58 +0800 (CST)
 Received: from localhost.localdomain (10.67.212.75) by
 	DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server
-	id 14.3.439.0; Mon, 30 Sep 2019 22:36:48 +0800
+	id 14.3.439.0; Mon, 30 Sep 2019 22:36:49 +0800
 From: John Garry <john.garry@huawei.com>
 To: <lorenzo.pieralisi@arm.com>, <guohanjun@huawei.com>,
 	<sudeep.holla@arm.com>, <robin.murphy@arm.com>, <mark.rutland@arm.com>, 
 	<will@kernel.org>
-Subject: [RFC PATCH 2/6] iommu/arm-smmu-v3: Record IIDR in arm_smmu_device
-	structure
-Date: Mon, 30 Sep 2019 22:33:47 +0800
-Message-ID: <1569854031-237636-3-git-send-email-john.garry@huawei.com>
+Subject: [RFC PATCH 3/6] perf/smmuv3: Retrieve parent SMMUv3 IIDR
+Date: Mon, 30 Sep 2019 22:33:48 +0800
+Message-ID: <1569854031-237636-4-git-send-email-john.garry@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1569854031-237636-1-git-send-email-john.garry@huawei.com>
 References: <1569854031-237636-1-git-send-email-john.garry@huawei.com>
@@ -63,47 +62,73 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-To allow other devices know the SMMU HW IIDR, record the IIDR contents as
-the first member of the arm_smmu_device structure.
-
-In storing as the first member, it saves exposing SMMU APIs, which are
-nicely self-contained today.
+To support IMP DEF events per PMCG, retrieve the parent SMMUv3 IIDR. This
+will be used as a lookup for the IMP DEF events supported, under the
+assumption that a PMCG implementation has the same uniqueness as the
+parent SMMUv3. In this, we assume that any PMCG associated with the same
+SMMUv3 will have the same IMP DEF events - otherwise, some other
+secondary matching would need to be done.
 
 Signed-off-by: John Garry <john.garry@huawei.com>
 ---
- drivers/iommu/arm-smmu-v3.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/perf/arm_smmuv3_pmu.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index 40f4757096c3..1ed3ef0f1ec3 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -70,6 +70,8 @@
- #define IDR1_SSIDSIZE			GENMASK(10, 6)
- #define IDR1_SIDSIZE			GENMASK(5, 0)
+diff --git a/drivers/perf/arm_smmuv3_pmu.c b/drivers/perf/arm_smmuv3_pmu.c
+index da71c741cb46..f702898c695d 100644
+--- a/drivers/perf/arm_smmuv3_pmu.c
++++ b/drivers/perf/arm_smmuv3_pmu.c
+@@ -115,6 +115,7 @@ struct smmu_pmu {
+ 	bool global_filter;
+ 	u32 global_filter_span;
+ 	u32 global_filter_sid;
++	u32 parent_iidr;
+ };
  
-+#define ARM_SMMU_IIDR                  0x18
+ #define to_smmu_pmu(p) (container_of(p, struct smmu_pmu, pmu))
+@@ -551,6 +552,11 @@ static const struct attribute_group *smmu_pmu_attr_grps[] = {
+ 	NULL
+ };
+ 
++static const struct attribute_group **smmu_pmu_lookup_attr_groups(u32 parent_smmu_iidr)
++{
++	return smmu_pmu_attr_grps;
++}
 +
- #define ARM_SMMU_IDR5			0x14
- #define IDR5_STALL_MAX			GENMASK(31, 16)
- #define IDR5_GRAN64K			(1 << 6)
-@@ -546,6 +548,7 @@ struct arm_smmu_strtab_cfg {
+ /*
+  * Generic device handlers
+  */
+@@ -706,11 +712,21 @@ static int smmu_pmu_probe(struct platform_device *pdev)
+ 	int irq, err;
+ 	char *name;
+ 	struct device *dev = &pdev->dev;
++	struct device *parent = dev->parent;
  
- /* An SMMUv3 instance */
- struct arm_smmu_device {
-+	u32						iidr; /* must be first member */
- 	struct device			*dev;
- 	void __iomem			*base;
+ 	smmu_pmu = devm_kzalloc(dev, sizeof(*smmu_pmu), GFP_KERNEL);
+ 	if (!smmu_pmu)
+ 		return -ENOMEM;
  
-@@ -3153,6 +3156,8 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
- 	iommu_device_set_ops(&smmu->iommu, &arm_smmu_ops);
- 	iommu_device_set_fwnode(&smmu->iommu, dev->fwnode);
- 
-+	smmu->iidr = readl(smmu->base + ARM_SMMU_IIDR);
++	if (parent) {
++		void *parent_drvdata;
 +
- 	ret = iommu_device_register(&smmu->iommu);
- 	if (ret) {
- 		dev_err(dev, "Failed to register iommu\n");
++		parent_drvdata = platform_get_drvdata(to_platform_device(parent));
++		if (!parent_drvdata)
++			return -EPROBE_DEFER;
++		smmu_pmu->parent_iidr = *(u32 *)parent_drvdata;
++	}
++
+ 	smmu_pmu->dev = dev;
+ 	platform_set_drvdata(pdev, smmu_pmu);
+ 
+@@ -724,7 +740,7 @@ static int smmu_pmu_probe(struct platform_device *pdev)
+ 		.start		= smmu_pmu_event_start,
+ 		.stop		= smmu_pmu_event_stop,
+ 		.read		= smmu_pmu_event_read,
+-		.attr_groups	= smmu_pmu_attr_grps,
++		.attr_groups	= smmu_pmu_lookup_attr_groups(smmu_pmu->parent_iidr),
+ 		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
+ 	};
+ 
 -- 
 2.17.1
 
