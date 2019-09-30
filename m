@@ -2,50 +2,65 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B04DC2371
-	for <lists.iommu@lfdr.de>; Mon, 30 Sep 2019 16:37:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD1CC2602
+	for <lists.iommu@lfdr.de>; Mon, 30 Sep 2019 20:36:00 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 0A92C19C9;
-	Mon, 30 Sep 2019 14:37:07 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 86E6A1AC2;
+	Mon, 30 Sep 2019 18:35:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 15170199D
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 96B451AB6
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 30 Sep 2019 14:37:06 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 13FEF82C
+	Mon, 30 Sep 2019 18:35:54 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 455C88C1
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 30 Sep 2019 14:37:05 +0000 (UTC)
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
-	by Forcepoint Email with ESMTP id 5BFA948E40CC6B5FE5AE;
-	Mon, 30 Sep 2019 22:36:58 +0800 (CST)
-Received: from localhost.localdomain (10.67.212.75) by
-	DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server
-	id 14.3.439.0; Mon, 30 Sep 2019 22:36:50 +0800
-From: John Garry <john.garry@huawei.com>
-To: <lorenzo.pieralisi@arm.com>, <guohanjun@huawei.com>,
-	<sudeep.holla@arm.com>, <robin.murphy@arm.com>, <mark.rutland@arm.com>, 
-	<will@kernel.org>
-Subject: [RFC PATCH 6/6] ACPI/IORT: Drop code to set the PMCG software-defined
-	model
-Date: Mon, 30 Sep 2019 22:33:51 +0800
-Message-ID: <1569854031-237636-7-git-send-email-john.garry@huawei.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1569854031-237636-1-git-send-email-john.garry@huawei.com>
-References: <1569854031-237636-1-git-send-email-john.garry@huawei.com>
+	Mon, 30 Sep 2019 18:35:54 +0000 (UTC)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+	[209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id F1FEB224F0
+	for <iommu@lists.linux-foundation.org>;
+	Mon, 30 Sep 2019 18:35:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1569868554;
+	bh=Ad/j94Z9dDSgxHErptmrkH1hQQ6UN44H+9rW9TD3BaM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Kt2C+zpyCU5QHHTkmX69LUYE3htP53f+lr6SffmWb6Vnmjl3+fm/DXec1/XPFGlb9
+	S5eYxPBwrvZcS0huTH82x9t7QSA3L1PkXERWLLahkdULpXJo5vxL3i5sdTU026dkLl
+	0Yz2H3BWxjDdKF2rDQhqtErfgnVykztci1K+2bzU=
+Received: by mail-qk1-f180.google.com with SMTP id y144so8706196qkb.7
+	for <iommu@lists.linux-foundation.org>;
+	Mon, 30 Sep 2019 11:35:53 -0700 (PDT)
+X-Gm-Message-State: APjAAAUjmmqsZG6hY+mwVpyL25Caiy3rtqgm9SYcnwhI6bwLYqV1w/zh
+	PYoeLnlLhf9URqq6RcoyaLYoAgH6HURFQnLrKg==
+X-Google-Smtp-Source: APXvYqxwCcb++IDx59O2am9iLB7B24VXmMEw7rKL2+M9MuGAo7hvATTBo/yJCaWV5cXESjbNZkhjl2mMUvmOoAtRWEc=
+X-Received: by 2002:a37:be87:: with SMTP id o129mr1647961qkf.254.1569868553147;
+	Mon, 30 Sep 2019 11:35:53 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.67.212.75]
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+References: <cover.1569851517.git.robin.murphy@arm.com>
+	<fc6ce3e89ae85c9010b25b9303589be944ba3811.1569851517.git.robin.murphy@arm.com>
+In-Reply-To: <fc6ce3e89ae85c9010b25b9303589be944ba3811.1569851517.git.robin.murphy@arm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 30 Sep 2019 13:35:41 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLDetEBhP71k1TmJN_eCBRRamwLcCwREBWJ+sPs=aA2xw@mail.gmail.com>
+Message-ID: <CAL_JsqLDetEBhP71k1TmJN_eCBRRamwLcCwREBWJ+sPs=aA2xw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] iommu/io-pgtable-arm: Correct Mali attributes
+To: Robin Murphy <robin.murphy@arm.com>
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: nleeder@codeaurora.org, rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
-	linuxarm@huawei.com, iommu@lists.linux-foundation.org,
-	linux-arm-kernel@lists.infradead.org, lenb@kernel.org
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	Steven Price <steven.price@arm.com>,
+	Linux IOMMU <iommu@lists.linux-foundation.org>,
+	Will Deacon <will@kernel.org>,
+	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+	<linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,104 +78,26 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Now that we can identify a PMCG implementation from the parent SMMUv3
-IIDR, drop all the code to match based on the ACPI OEM ID.
+On Mon, Sep 30, 2019 at 9:11 AM Robin Murphy <robin.murphy@arm.com> wrote:
+>
+> Whilst Midgard's MEMATTR follows a similar principle to the VMSA MAIR,
+> the actual attribute values differ, so although it currently appears to
+> work to some degree, we probably shouldn't be using our standard stage 1
+> MAIR for that. Instead, generate a reasonable MEMATTR with attribute
+> values borrowed from the kbase driver; at this point we'll be overriding
+> or ignoring pretty much all of the LPAE config, so just implement these
+> Mali details in a dedicated allocator instead of pretending to subclass
+> the standard VMSA format.
+>
+> Fixes: d08d42de6432 ("iommu: io-pgtable: Add ARM Mali midgard MMU page table format")
+> Tested-by: Neil Armstrong <narmstrong@baylibre.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>  drivers/iommu/io-pgtable-arm.c | 53 +++++++++++++++++++++++++---------
+>  1 file changed, 40 insertions(+), 13 deletions(-)
 
-Signed-off-by: John Garry <john.garry@huawei.com>
----
- drivers/acpi/arm64/iort.c | 35 +----------------------------------
- include/linux/acpi_iort.h |  8 --------
- 2 files changed, 1 insertion(+), 42 deletions(-)
-
-diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
-index 0b687520c3e7..d04888cb8cff 100644
---- a/drivers/acpi/arm64/iort.c
-+++ b/drivers/acpi/arm64/iort.c
-@@ -1377,27 +1377,6 @@ static void __init arm_smmu_v3_pmcg_init_resources(struct resource *res,
- 				       ACPI_EDGE_SENSITIVE, &res[2]);
- }
- 
--static struct acpi_platform_list pmcg_plat_info[] __initdata = {
--	/* HiSilicon Hip08 Platform */
--	{"HISI  ", "HIP08   ", 0, ACPI_SIG_IORT, greater_than_or_equal,
--	 "Erratum #162001800", IORT_SMMU_V3_PMCG_HISI_HIP08},
--	{ }
--};
--
--static int __init arm_smmu_v3_pmcg_add_platdata(struct platform_device *pdev)
--{
--	u32 model;
--	int idx;
--
--	idx = acpi_match_platform_list(pmcg_plat_info);
--	if (idx >= 0)
--		model = pmcg_plat_info[idx].data;
--	else
--		model = IORT_SMMU_V3_PMCG_GENERIC;
--
--	return platform_device_add_data(pdev, &model, sizeof(model));
--}
--
- struct iort_dev_config {
- 	const char *name;
- 	int (*dev_init)(struct acpi_iort_node *node);
-@@ -1408,7 +1387,6 @@ struct iort_dev_config {
- 				     struct acpi_iort_node *node);
- 	int (*dev_set_proximity)(struct device *dev,
- 				    struct acpi_iort_node *node);
--	int (*dev_add_platdata)(struct platform_device *pdev);
- };
- 
- static const struct iort_dev_config iort_arm_smmu_v3_cfg __initconst = {
-@@ -1430,7 +1408,6 @@ static const struct iort_dev_config iort_arm_smmu_v3_pmcg_cfg __initconst = {
- 	.name = "arm-smmu-v3-pmcg",
- 	.dev_count_resources = arm_smmu_v3_pmcg_count_resources,
- 	.dev_init_resources = arm_smmu_v3_pmcg_init_resources,
--	.dev_add_platdata = arm_smmu_v3_pmcg_add_platdata,
- };
- 
- static __init const struct iort_dev_config *iort_get_dev_cfg(
-@@ -1494,17 +1471,7 @@ static int __init iort_add_platform_device(struct acpi_iort_node *node,
- 	if (ret)
- 		goto dev_put;
- 
--	/*
--	 * Platform devices based on PMCG nodes uses platform_data to
--	 * pass the hardware model info to the driver. For others, add
--	 * a copy of IORT node pointer to platform_data to be used to
--	 * retrieve IORT data information.
--	 */
--	if (ops->dev_add_platdata)
--		ret = ops->dev_add_platdata(pdev);
--	else
--		ret = platform_device_add_data(pdev, &node, sizeof(node));
--
-+	ret = platform_device_add_data(pdev, &node, sizeof(node));
- 	if (ret)
- 		goto dev_put;
- 
-diff --git a/include/linux/acpi_iort.h b/include/linux/acpi_iort.h
-index 8e7e2ec37f1b..7a8961e6a8bb 100644
---- a/include/linux/acpi_iort.h
-+++ b/include/linux/acpi_iort.h
-@@ -14,14 +14,6 @@
- #define IORT_IRQ_MASK(irq)		(irq & 0xffffffffULL)
- #define IORT_IRQ_TRIGGER_MASK(irq)	((irq >> 32) & 0xffffffffULL)
- 
--/*
-- * PMCG model identifiers for use in smmu pmu driver. Please note
-- * that this is purely for the use of software and has nothing to
-- * do with hardware or with IORT specification.
-- */
--#define IORT_SMMU_V3_PMCG_GENERIC        0x00000000 /* Generic SMMUv3 PMCG */
--#define IORT_SMMU_V3_PMCG_HISI_HIP08     0x00000001 /* HiSilicon HIP08 PMCG */
--
- int iort_register_domain_token(int trans_id, phys_addr_t base,
- 			       struct fwnode_handle *fw_node);
- void iort_deregister_domain_token(int trans_id);
--- 
-2.17.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
