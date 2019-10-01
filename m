@@ -2,45 +2,45 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66214C3AD7
-	for <lists.iommu@lfdr.de>; Tue,  1 Oct 2019 18:40:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DDA6C3AEA
+	for <lists.iommu@lfdr.de>; Tue,  1 Oct 2019 18:42:38 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id DF5242173;
-	Tue,  1 Oct 2019 16:40:26 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 6C548217A;
+	Tue,  1 Oct 2019 16:42:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 791221F67
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 626CD1ED9
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  1 Oct 2019 16:40:14 +0000 (UTC)
+	Tue,  1 Oct 2019 16:42:12 +0000 (UTC)
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 34AD63D0
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 1FD4082C
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  1 Oct 2019 16:40:14 +0000 (UTC)
+	Tue,  1 Oct 2019 16:42:12 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
 	[73.47.72.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 6F3D32190F;
-	Tue,  1 Oct 2019 16:40:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id 6865921855;
+	Tue,  1 Oct 2019 16:42:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569948014;
-	bh=Z4oG9QERilkftSaQTqEjgGuTvYWP4lgxuvUNmfwFQVo=;
+	s=default; t=1569948132;
+	bh=M+E//PlUJpUU80qohtiS2iSxUUk/eSlGO32hiEW5ZzI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cZfMfSQRXEtIns/q0Irbk4qmI6AYlpSlaZClwF1vlUjYMutHBZ9HnyieRPUctTDcs
-	CX4clo4aFi7muoDxFeLIg5gHUd3tv2TwfnpBN5sMnAv7RpF1Q8SFGZKSrVWtNVGuco
-	2jpVrLA7lgJMGJlLwZoqQMbVlvRPoH92lEx6tTM8=
+	b=Ny0hVqavjzCVgBZ80Dy+sVGDhF8mxs2Lq+e1Ga64SzBhR1y1DRQ1u3GNSYcPhF1cK
+	klj3d33dkSedbLf0tlOXKP2zV7QoKeTicaXtChujZ+HDFxvHaMu7nn2mR5Ej1pCjYi
+	MWsG3oYGE6xwXVKbFh2r7elZUGNljxl2CuzUt3LU=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 35/71] iommu/amd: Fix downgrading default
+Subject: [PATCH AUTOSEL 5.2 32/63] iommu/amd: Fix downgrading default
 	page-sizes in alloc_pte()
-Date: Tue,  1 Oct 2019 12:38:45 -0400
-Message-Id: <20191001163922.14735-35-sashal@kernel.org>
+Date: Tue,  1 Oct 2019 12:40:54 -0400
+Message-Id: <20191001164125.15398-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191001163922.14735-1-sashal@kernel.org>
-References: <20191001163922.14735-1-sashal@kernel.org>
+In-Reply-To: <20191001164125.15398-1-sashal@kernel.org>
+References: <20191001164125.15398-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -89,10 +89,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index 61de81965c44e..0fb42a846404b 100644
+index 3e687f18b203a..f0fdc598f64dc 100644
 --- a/drivers/iommu/amd_iommu.c
 +++ b/drivers/iommu/amd_iommu.c
-@@ -1490,6 +1490,7 @@ static u64 *alloc_pte(struct protection_domain *domain,
+@@ -1480,6 +1480,7 @@ static u64 *alloc_pte(struct protection_domain *domain,
  		pte_level = PM_PTE_LEVEL(__pte);
  
  		if (!IOMMU_PTE_PRESENT(__pte) ||
@@ -100,7 +100,7 @@ index 61de81965c44e..0fb42a846404b 100644
  		    pte_level == PAGE_MODE_7_LEVEL) {
  			page = (u64 *)get_zeroed_page(gfp);
  			if (!page)
-@@ -1500,7 +1501,7 @@ static u64 *alloc_pte(struct protection_domain *domain,
+@@ -1490,7 +1491,7 @@ static u64 *alloc_pte(struct protection_domain *domain,
  			/* pte could have been changed somewhere. */
  			if (cmpxchg64(pte, __pte, __npte) != __pte)
  				free_page((unsigned long)page);
