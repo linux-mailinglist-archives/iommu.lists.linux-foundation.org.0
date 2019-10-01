@@ -2,75 +2,47 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA2AC436C
-	for <lists.iommu@lfdr.de>; Wed,  2 Oct 2019 00:03:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE893C4445
+	for <lists.iommu@lfdr.de>; Wed,  2 Oct 2019 01:29:32 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id F2DE62367;
-	Tue,  1 Oct 2019 22:02:33 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 1A9722B12;
+	Tue,  1 Oct 2019 23:29:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id C42241A88
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 7DA642AD5
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  1 Oct 2019 22:02:17 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 194A63D0
+	Tue,  1 Oct 2019 23:29:19 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 16FC2A3
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  1 Oct 2019 22:02:17 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id r3so17300768wrj.6
-	for <iommu@lists.linux-foundation.org>;
-	Tue, 01 Oct 2019 15:02:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=hNjIRfETItHrHAwc5fX92U90M7+/WUq/4UckUIkwrKY=;
-	b=U+1nwzMbMPc/wlXMV6DiSSz53/4/4mwteHm8yEycRl5mxcLwxtiJRo8Dcl6mYiPd1D
-	V4AkUvBKbcnvgxht9/xzkC1cRDopvdZYfQnW8FXCSErthMJUMhMBBd7bsyq4fhTvfys6
-	HV4mzO9ps51gnhycq8L7iy5PhV1MHSHtCBOLlA25jMNyb8Y714VQNxoXbI/KLOLG+oAi
-	XGXM5s0rLzn/Odgq+eTdoA9PSOXwcoVuN2LC94unk6i+k1/zHWGhu1zyQpz92AQhjvib
-	jJ2h6YhVNRKtgm3Nz6bydQ3F2s6+BJ54ARw7MWtAC5MynMhr9C8RMq+cSK7rloWlow/Y
-	CEqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=hNjIRfETItHrHAwc5fX92U90M7+/WUq/4UckUIkwrKY=;
-	b=QOsGRMqvjy4uPN7jGpW6H2/t8DPrZ3hHYB5NosOFTx8tukjtIZR+CKZ5PZ/EpPhGdX
-	lgmEpIoz4DG2PX7NnMp4MqKoxsUw81ibaq+BbasjsyNeBRlPCE4LKzZuDes9tHaCCLai
-	BG+zQHETKbPpFtQQZ8TxbcbFPnIveUs0nQXhKcAtoB5N2yqyXa2+nLceTAI+jKOTAXAs
-	7Nnnr05YQNrGNqGN6x+iN17yJzB9HIvtSws0ey+ZQ4eh8fUNkL+DFa2L/RS3bTBX5+Ub
-	FqWz13FYYKvjsLJstH4Vx5BTN6EecxStIV6pdSRoJoFLCbB4Uai5wWKsCPCtTM2fsqTw
-	IE0w==
-X-Gm-Message-State: APjAAAWtr4IyNarOc2CC4t8gXgQ6zgbCfBJFBMGzAfT9K3jj95GOPn9I
-	LJ1TGmGvk58gPHjVcZnD/aQ=
-X-Google-Smtp-Source: APXvYqxJYqkrRsARbbE+u7tKld5m6pET9Cw3dddqIrJXkIp4h9SjQ2YmBeS1wqdmJkNWAKkeTVYR6A==
-X-Received: by 2002:adf:dc41:: with SMTP id m1mr1445wrj.46.1569967335495;
-	Tue, 01 Oct 2019 15:02:15 -0700 (PDT)
-Received: from IcarusMOD.eternityproject.eu ([93.51.16.173])
-	by smtp.gmail.com with ESMTPSA id
-	v16sm21811219wrt.12.2019.10.01.15.02.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Oct 2019 15:02:15 -0700 (PDT)
-From: kholk11@gmail.com
-To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v4 7/7] iommu/qcom: Add support for QCIOMMUv2 and QCIOMMU-500
-	secured contexts
-Date: Wed,  2 Oct 2019 00:02:05 +0200
-Message-Id: <20191001220205.6423-8-kholk11@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191001220205.6423-1-kholk11@gmail.com>
-References: <20191001220205.6423-1-kholk11@gmail.com>
-MIME-Version: 1.0
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
+	Tue,  1 Oct 2019 23:29:19 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Oct 2019 16:29:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,572,1559545200"; d="scan'208";a="203402501"
+Received: from jacob-builder.jf.intel.com ([10.7.199.155])
+	by orsmga002.jf.intel.com with ESMTP; 01 Oct 2019 16:29:17 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
+	Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.com>
+Subject: [PATCH v3 0/4] User API for nested shared virtual address (SVA)
+Date: Tue,  1 Oct 2019 16:33:21 -0700
+Message-Id: <1569972805-27664-1-git-send-email-jacob.jun.pan@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-1.2 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+	RCVD_IN_DNSWL_MED autolearn=no version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: marijns95@gmail.com, iommu@lists.linux-foundation.org, agross@kernel.org,
-	kholk11@gmail.com
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+	Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -83,114 +55,74 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-From: AngeloGioacchino Del Regno <kholk11@gmail.com>
+This set consists of IOMMU APIs to support SVA in the guest, a.k.a nested
+SVA. As the complete SVA support is complex, we break down the enabling
+effort into three stages:
+1. PCI device direct assignment
+2. Fault handling, especially page request service support
+3. Mediated device assignment
 
-This IOMMU is yet another Qualcomm variant of known IOMMUs, found in
-Family-B SoCs, such as MSM8956, MSM8976, MSM8953, MSM8917 and others,
-and that firmware perfectly adheres to this driver logic.
-This time, though, the catch is that the secure contexts are also
-secured, meaning that these are programmed by the bootloader or TZ
-and their "interesting" registers are locked out, so the hypervisor
-disallows touching them from the non-secure world: in this case
-the OS is supposed to blindly trust the secure configuration of
-these contexts and just use them "as they are".
+Each stage includes common API and vendor specific IOMMU driver changes. This
+series is the common uAPI for stage #1. It is intended to build consensus on
+the interface which all vendors reply on.
 
-For this reason, it is necessary to distinguish between the v1 and
-500/v2 secure contexts in this driver in order to adhere to this
-specification. To do this, add a new DT compatible, named
-"qcom,msm-iommu-v2-sec" that will trigger the new behavior.
+This series is extracted from the complete stage1 set which includes VT-d code.
+https://lkml.org/lkml/2019/8/15/951
 
-For the sake of completeness, also add a "qcom,msm-iommu-v2-ns" so
-that the human eye gets pleased with it when reading the contexts
-in the final SoC DT. Of course, the latter is just cosmetic.
+Changes:
+ - Use spinlock instead of mutex to protect ioasid custom allocators. This is
+   to support callers in atomic context
+ - Added more padding to guest PASID bind data for future extensions, suggested
+   by Joerg.
+After much thinking, I did not do name change from PASID to IOASID in the uAPI,
+considering we have been using PASID in the rest of uAPIs. IOASID will remain
+used within the kernel.
 
-Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
----
- .../devicetree/bindings/iommu/qcom,iommu.txt  |  2 ++
- drivers/iommu/qcom_iommu.c                    | 19 +++++++++++++++++--
- 2 files changed, 19 insertions(+), 2 deletions(-)
+For more discussions lead to this series, checkout LPC 2019 VFIO/IOMMU/PCI
+microconference materials.
+https://linuxplumbersconf.org/event/4/sessions/66/#20190909
 
-diff --git a/Documentation/devicetree/bindings/iommu/qcom,iommu.txt b/Documentation/devicetree/bindings/iommu/qcom,iommu.txt
-index 72ae0595efff..861c0cd9c512 100644
---- a/Documentation/devicetree/bindings/iommu/qcom,iommu.txt
-+++ b/Documentation/devicetree/bindings/iommu/qcom,iommu.txt
-@@ -36,6 +36,8 @@ to non-secure vs secure interrupt line.
-   - compatible     : Should be one of:
-         - "qcom,msm-iommu-v1-ns"  : non-secure context bank
-         - "qcom,msm-iommu-v1-sec" : secure context bank
-+        - "qcom,msm-iommu-v2-ns"  : non-secure QSMMUv2/QSMMU500 context bank
-+        - "qcom,msm-iommu-v2-sec" : secure QSMMUv2/QSMMU500 context bank
-   - reg            : Base address and size of context bank within the iommu
-   - interrupts     : The context fault irq.
+
+Change log:
+v3:    - include errno.h in ioasid.h to fix compile error
+       - rebased to v5.4-rc1, no change
  
-diff --git a/drivers/iommu/qcom_iommu.c b/drivers/iommu/qcom_iommu.c
-index 555cbc55b073..eaecb009849c 100644
---- a/drivers/iommu/qcom_iommu.c
-+++ b/drivers/iommu/qcom_iommu.c
-@@ -56,6 +56,7 @@ struct qcom_iommu_ctx {
- 	struct device		*dev;
- 	void __iomem		*base;
- 	bool			 secure_init;
-+	bool			 secured_ctx;
- 	u8			 asid;      /* asid and ctx bank # are 1:1 */
- 	struct iommu_domain	*domain;
- };
-@@ -303,6 +304,12 @@ static int qcom_iommu_init_domain(struct iommu_domain *domain,
- 			ctx->secure_init = true;
- 		}
- 
-+		/* Secured QSMMU-500/QSMMU-v2 contexts cannot be programmed */
-+		if (ctx->secured_ctx) {
-+			ctx->domain = domain;
-+			break;
-+		}
-+
- 		qcom_iommu_reset_ctx(ctx);
- 
- 		tcr[0] = pgtbl_cfg.arm_lpae_s1_cfg.tcr;
-@@ -788,10 +795,15 @@ static int qcom_iommu_ctx_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return -ENODEV;
- 
-+	if (of_device_is_compatible(dev->of_node, "qcom,msm-iommu-v2-sec"))
-+		ctx->secured_ctx = true;
-+
- 	/* clear IRQs before registering fault handler, just in case the
- 	 * boot-loader left us a surprise:
- 	 */
--	iommu_writel(ctx, ARM_SMMU_CB_FSR, iommu_readl(ctx, ARM_SMMU_CB_FSR));
-+	if (!ctx->secured_ctx)
-+		iommu_writel(ctx, ARM_SMMU_CB_FSR,
-+			     iommu_readl(ctx, ARM_SMMU_CB_FSR));
- 
- 	ret = devm_request_irq(dev, irq,
- 			       qcom_iommu_fault,
-@@ -833,6 +845,8 @@ static int qcom_iommu_ctx_remove(struct platform_device *pdev)
- static const struct of_device_id ctx_of_match[] = {
- 	{ .compatible = "qcom,msm-iommu-v1-ns" },
- 	{ .compatible = "qcom,msm-iommu-v1-sec" },
-+	{ .compatible = "qcom,msm-iommu-v2-ns" },
-+	{ .compatible = "qcom,msm-iommu-v2-sec" },
- 	{ /* sentinel */ }
- };
- 
-@@ -850,7 +864,8 @@ static bool qcom_iommu_has_secure_context(struct qcom_iommu_dev *qcom_iommu)
- 	struct device_node *child;
- 
- 	for_each_child_of_node(qcom_iommu->dev->of_node, child)
--		if (of_device_is_compatible(child, "qcom,msm-iommu-v1-sec"))
-+		if (of_device_is_compatible(child, "qcom,msm-iommu-v1-sec") ||
-+		    of_device_is_compatible(child, "qcom,msm-iommu-v2-sec"))
- 			return true;
- 
- 	return false;
+v2:
+	- Addressed review comments by Jean on IOASID custom allocators, locking
+	fix, misc control flow fix.
+	- Fixed a compile error with missing header errno.h
+	- Updated Jean-Philiippe's new email and updateded reviewed-by tag
+
+
+Jacob Pan (2):
+  iommu/ioasid: Add custom allocators
+  iommu: Introduce guest PASID bind function
+
+Jean-Philippe Brucker (1):
+  iommu: Add I/O ASID allocator
+
+Yi L Liu (1):
+  iommu: Introduce cache_invalidate API
+
+ drivers/iommu/Kconfig      |   4 +
+ drivers/iommu/Makefile     |   1 +
+ drivers/iommu/ioasid.c     | 432 +++++++++++++++++++++++++++++++++++++++++++++
+ drivers/iommu/iommu.c      |  30 ++++
+ include/linux/ioasid.h     |  76 ++++++++
+ include/linux/iommu.h      |  36 ++++
+ include/uapi/linux/iommu.h | 169 ++++++++++++++++++
+ 7 files changed, 748 insertions(+)
+ create mode 100644 drivers/iommu/ioasid.c
+ create mode 100644 include/linux/ioasid.h
+
 -- 
-2.21.0
+2.7.4
 
 _______________________________________________
 iommu mailing list
