@@ -2,66 +2,51 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B96C8AED
-	for <lists.iommu@lfdr.de>; Wed,  2 Oct 2019 16:19:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4501C8ACB
+	for <lists.iommu@lfdr.de>; Wed,  2 Oct 2019 16:18:06 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 8EE5DEF8;
-	Wed,  2 Oct 2019 14:19:32 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 1E9BBEF5;
+	Wed,  2 Oct 2019 14:18:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id E0AE4EF1
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 5EA15EEC
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  2 Oct 2019 14:19:30 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E51868A0
+	Wed,  2 Oct 2019 14:18:01 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4A6F78A8
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  2 Oct 2019 14:19:29 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id u22so15121015qkk.11
-	for <iommu@lists.linux-foundation.org>;
-	Wed, 02 Oct 2019 07:19:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:date:from:subject:references
-	:in-reply-to:cc:cc:to;
-	bh=VEtMxesFQRhVgaXfLOksqFQ3dcoeyOCvDlUvGQrsuFo=;
-	b=kXXCyoGKY9O/JTiMCp9geS7hpcVkbR9A8Uo1wHZz+kgtY94214hC8+LbSq9wyfNR9p
-	rmv0SjaSSPGVYSNZZ4lpECxJa242f4EsoJIV6UrK3c7DBA6xSdjCtNlVGNkTwPgH7lsR
-	b0WMI8lF/UphxvJseKDhz++OFflnNh4w8XzdJxAVP9ONcgraYICUOgxeGHnN4Rxqi2zB
-	7cNdx6SyouqIdQwRIYeGN+06HmUBAN1HCS6viFX2gI07mDSD3KJAuz/MtZyqYXhJkjfC
-	ydHEBUHZ4CiTkRUAww2O3KK5z5RSKbZQ4yw9qw6yWGdiPderLAkFCEXcoGw3Fl6bMOKg
-	+9mw==
-X-Gm-Message-State: APjAAAUbgqq98Oj7fFxXTd0heX48dXL8MzmXWdZWcCH6tfRTca8GUenH
-	06BCDwrhbzkpmDdfGgDdAw==
-X-Google-Smtp-Source: APXvYqzagECSnvWAK2no15kXeuDvbNMmoSFzSS5uecaa8zyX8oPHLqD3j6y4NhItqADFSQbEDvOu5Q==
-X-Received: by 2002:a37:a705:: with SMTP id q5mr3945294qke.194.1570025968939; 
-	Wed, 02 Oct 2019 07:19:28 -0700 (PDT)
-Received: from localhost ([132.205.230.8]) by smtp.gmail.com with ESMTPSA id
-	b16sm14192592qtk.65.2019.10.02.07.19.28
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 02 Oct 2019 07:19:28 -0700 (PDT)
-Message-ID: <5d94b1f0.1c69fb81.bc0b5.9a58@mx.google.com>
-Date: Wed, 02 Oct 2019 09:19:25 -0500
-From: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: iommu: ipmmu-vmsa: Add r8a774b1 support
-References: <1569310854-37057-1-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1569310854-37057-1-git-send-email-biju.das@bp.renesas.com>
-To: Biju Das <biju.das@bp.renesas.com>
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-	FREEMAIL_ENVFROM_END_DIGIT, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
+	Wed,  2 Oct 2019 14:18:00 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Oct 2019 07:17:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,574,1559545200"; d="scan'208";a="182060537"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+	by orsmga007.jf.intel.com with ESMTP; 02 Oct 2019 07:17:59 -0700
+Date: Wed, 2 Oct 2019 07:22:08 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
+	Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>, Alex
+	Williamson <alex.williamson@redhat.com>, Jean-Philippe Brucker
+	<jean-philippe@linaro.com>
+Subject: Re: [PATCH v3 0/4] User API for nested shared virtual address (SVA)
+Message-ID: <20191002072208.243995a1@jacob-builder>
+In-Reply-To: <1569972805-27664-1-git-send-email-jacob.jun.pan@linux.intel.com>
+References: <1569972805-27664-1-git-send-email-jacob.jun.pan@linux.intel.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: , Mark Rutland <mark.rutland@arm.com>,
-	Chris Paterson <Chris.Paterson2@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	devicetree@vger.kernel.org, Biju Das <biju.das@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org, iommu@lists.linux-foundation.org,
-	Simon Horman <horms@verge.net.au>,
-	Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+	Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,23 +59,86 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, 24 Sep 2019 08:40:54 +0100, Biju Das wrote:
-> Document RZ/G2N (R8A774B1) SoC bindings.
+Hi Jean,
+
+Just wondering if you have more comments on ioasid custom allocator, v3
+is largely the same as v2 other than shuffling header within the set.
+
+Thanks,
+
+Jacob
+
+On Tue,  1 Oct 2019 16:33:21 -0700
+Jacob Pan <jacob.jun.pan@linux.intel.com> wrote:
+
+> This set consists of IOMMU APIs to support SVA in the guest, a.k.a
+> nested SVA. As the complete SVA support is complex, we break down the
+> enabling effort into three stages:
+> 1. PCI device direct assignment
+> 2. Fault handling, especially page request service support
+> 3. Mediated device assignment
 > 
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> ---
->  Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.txt | 1 +
->  1 file changed, 1 insertion(+)
+> Each stage includes common API and vendor specific IOMMU driver
+> changes. This series is the common uAPI for stage #1. It is intended
+> to build consensus on the interface which all vendors reply on.
+> 
+> This series is extracted from the complete stage1 set which includes
+> VT-d code. https://lkml.org/lkml/2019/8/15/951
+> 
+> Changes:
+>  - Use spinlock instead of mutex to protect ioasid custom allocators.
+> This is to support callers in atomic context
+>  - Added more padding to guest PASID bind data for future extensions,
+> suggested by Joerg.
+> After much thinking, I did not do name change from PASID to IOASID in
+> the uAPI, considering we have been using PASID in the rest of uAPIs.
+> IOASID will remain used within the kernel.
+> 
+> For more discussions lead to this series, checkout LPC 2019
+> VFIO/IOMMU/PCI microconference materials.
+> https://linuxplumbersconf.org/event/4/sessions/66/#20190909
+> 
+> 
+> Change log:
+> v3:    - include errno.h in ioasid.h to fix compile error
+>        - rebased to v5.4-rc1, no change
+>  
+> v2:
+> 	- Addressed review comments by Jean on IOASID custom
+> allocators, locking fix, misc control flow fix.
+> 	- Fixed a compile error with missing header errno.h
+> 	- Updated Jean-Philiippe's new email and updateded
+> reviewed-by tag
+> 
+> 
+> Jacob Pan (2):
+>   iommu/ioasid: Add custom allocators
+>   iommu: Introduce guest PASID bind function
+> 
+> Jean-Philippe Brucker (1):
+>   iommu: Add I/O ASID allocator
+> 
+> Yi L Liu (1):
+>   iommu: Introduce cache_invalidate API
+> 
+>  drivers/iommu/Kconfig      |   4 +
+>  drivers/iommu/Makefile     |   1 +
+>  drivers/iommu/ioasid.c     | 432
+> +++++++++++++++++++++++++++++++++++++++++++++
+> drivers/iommu/iommu.c      |  30 ++++ include/linux/ioasid.h     |
+> 76 ++++++++ include/linux/iommu.h      |  36 ++++
+>  include/uapi/linux/iommu.h | 169 ++++++++++++++++++
+>  7 files changed, 748 insertions(+)
+>  create mode 100644 drivers/iommu/ioasid.c
+>  create mode 100644 include/linux/ioasid.h
 > 
 
-Acked-by: Rob Herring <robh@kernel.org>
-
+[Jacob Pan]
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
