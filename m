@@ -2,48 +2,80 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F25C8958
-	for <lists.iommu@lfdr.de>; Wed,  2 Oct 2019 15:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DE9C8AD6
+	for <lists.iommu@lfdr.de>; Wed,  2 Oct 2019 16:18:20 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 8851FEB8;
-	Wed,  2 Oct 2019 13:13:04 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 4A7F4EF9;
+	Wed,  2 Oct 2019 14:18:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 51BDAEB4
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id C4CB4EEC
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  2 Oct 2019 13:13:03 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 116D01FB
+	Wed,  2 Oct 2019 14:18:15 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4ACF58A8
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  2 Oct 2019 13:13:03 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
-	bits)) (No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 03A5421920;
-	Wed,  2 Oct 2019 13:13:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570021982;
-	bh=3e4qjCD59H59r+JQxF+7cnk3Ugzw2q1azgwC+2Vshl0=;
-	h=Date:From:To:Cc:Subject:From;
-	b=a/Lp9Dn88fyyGRkxwEghkROxDPyppdGB9hjgASPc9EA9nzyvZnjCI4VZ3Dw8i5ybn
-	c1Aw85yc4ay9Ncc/TLwJH0nbmFMH33z4g0BVMpMEpmB+AYUbgEO7nIWTcQcAH3vaNW
-	lnGJgfDoF6qfGj8305AFPbSPAYwhHDZrpAiKKXFw=
-Date: Wed, 2 Oct 2019 14:12:59 +0100
-From: Will Deacon <will@kernel.org>
-To: joro@8bytes.org
-Subject: [GIT PULL] iommu/arm-smmu: Fixes for 5.4-rc2
-Message-ID: <20191002131258.ne5r6clp7hq6lxmx@willie-the-truck>
+	Wed,  2 Oct 2019 14:18:15 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id y91so15396195ede.9
+	for <iommu@lists.linux-foundation.org>;
+	Wed, 02 Oct 2019 07:18:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=1fxLpOvxXjmYD9btfQy/Q69rKcNISxOaD+GEumCPo2Y=;
+	b=M0CGhE7fvba+3sfLMywUWvxthwUABn1pfs/nG71DIGE6llAqL48cSUKBqCJXAv/bK4
+	3s9dVWdEW6MGNWrNMbrewR+P3kTT36bEpTNZ7jB7ELJFO74woE3zAQNo8yf81otGx9np
+	SuEYJ/RtzN/Wu+TrudFOrKTuuhBpLS2mvqJTVGNld+3dDmIW6/bN4aQ0uwLbkdmn/uvC
+	NZ6PjPl5d3qAflqjfNiL1QiVN8ILAAKSn+hANSQ+vIFc1j8+tvURPV4+hCPewLISbmeV
+	nZ7gTCZM5vGtGstE/uOEw4LcOImx3foPoFhpptWEQcRApzZwNpo7Pnn7GjqUtCTGPLGV
+	dU8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=1fxLpOvxXjmYD9btfQy/Q69rKcNISxOaD+GEumCPo2Y=;
+	b=fOO4avBSacaHBUrvHwWTNla7L8g+fECo1TkC5qP6R5vrvKY/6fQc7DCyRN9XPWdVWe
+	Qw3d0V6GUm9f3twTObp0pkJ8tCJv4U4vOAWxVvidtFREtNmstO+g68nxSUHtYQW7UKS6
+	MEMBc2K6yhl9sNtTxITRq+8yR8hxG46P2VwpuozfxucG+ZA1T7fqwpuyY3/gOLnMKO1M
+	TXDzyogEOIyNkV2/pK0BewcAM24uVP1QsnXSLiVG2SQqZighXPtO85p642HF10eBZCSq
+	keDNSc7ht+Uhch2P3Dk3KdnkGYS6eekyO3dqyu8DqjHPBfsGHQ5YSzWLFZNLqhqL1fyr
+	Ry+Q==
+X-Gm-Message-State: APjAAAWh7B5Q1yjswwB88nJdnU+Dv+zu4Ts85qv2BqIA0ELxh94ttV0D
+	onH0j5z3WP9BKQANotX+xcoLAg==
+X-Google-Smtp-Source: APXvYqwzQCj4RcHWe9o2dtTIHvxFq6emx/0SCFncRGSHXKEzOKo92Y/YHzeOoyawc0mNLSdPyTt7bg==
+X-Received: by 2002:a17:906:7e06:: with SMTP id
+	e6mr3271372ejr.149.1570025893804; 
+	Wed, 02 Oct 2019 07:18:13 -0700 (PDT)
+Received: from lophozonia ([85.195.192.192]) by smtp.gmail.com with ESMTPSA id
+	c24sm2254422ejp.43.2019.10.02.07.18.12
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 02 Oct 2019 07:18:13 -0700 (PDT)
+Date: Wed, 2 Oct 2019 16:18:10 +0200
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Subject: Re: [PATCH v3 3/4] iommu/ioasid: Add custom allocators
+Message-ID: <20191002141810.GA407870@lophozonia>
+References: <1569972805-27664-1-git-send-email-jacob.jun.pan@linux.intel.com>
+	<1569972805-27664-4-git-send-email-jacob.jun.pan@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+In-Reply-To: <1569972805-27664-4-git-send-email-jacob.jun.pan@linux.intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, robin.murphy@arm.com,
-	linux-kernel@vger.kernel.org
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+	David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.com>,
+	Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,42 +93,15 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Joerg,
+Hi Jacob,
 
-Please can you pull these three arm-smmu fixes for -rc2? They fix a
-missing resource free on an error path and some page-table issues with
-MALI GPUs including broken cacheability attributes and malformed tree
-structure with smaller virtual address ranges.
+There seem to be a mix-up here, the changes from your v2 are lost and
+patches 1 and 3 are back to v1. Assuming this isn't intended, I'll
+review v2 of this patch since it looked good to me overall.
 
 Thanks,
+Jean
 
-Will
-
---->8
-
-The following changes since commit 54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c:
-
-  Linux 5.4-rc1 (2019-09-30 10:35:40 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-joerg/arm-smmu/fixes
-
-for you to fetch changes up to 1be08f458d1602275b02f5357ef069957058f3fd:
-
-  iommu/io-pgtable-arm: Support all Mali configurations (2019-10-01 12:16:47 +0100)
-
-----------------------------------------------------------------
-Liu Xiang (1):
-      iommu/arm-smmu: Free context bitmap in the err path of arm_smmu_init_domain_context
-
-Robin Murphy (2):
-      iommu/io-pgtable-arm: Correct Mali attributes
-      iommu/io-pgtable-arm: Support all Mali configurations
-
- drivers/iommu/arm-smmu.c       |  1 +
- drivers/iommu/io-pgtable-arm.c | 58 ++++++++++++++++++++++++++++++++----------
- 2 files changed, 46 insertions(+), 13 deletions(-)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
