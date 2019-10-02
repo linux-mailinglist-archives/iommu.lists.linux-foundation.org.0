@@ -2,80 +2,66 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DE9C8AD6
-	for <lists.iommu@lfdr.de>; Wed,  2 Oct 2019 16:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B96C8AED
+	for <lists.iommu@lfdr.de>; Wed,  2 Oct 2019 16:19:36 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 4A7F4EF9;
-	Wed,  2 Oct 2019 14:18:17 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8EE5DEF8;
+	Wed,  2 Oct 2019 14:19:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id C4CB4EEC
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E0AE4EF1
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  2 Oct 2019 14:18:15 +0000 (UTC)
+	Wed,  2 Oct 2019 14:19:30 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 4ACF58A8
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E51868A0
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  2 Oct 2019 14:18:15 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id y91so15396195ede.9
+	Wed,  2 Oct 2019 14:19:29 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id u22so15121015qkk.11
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 02 Oct 2019 07:18:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=1fxLpOvxXjmYD9btfQy/Q69rKcNISxOaD+GEumCPo2Y=;
-	b=M0CGhE7fvba+3sfLMywUWvxthwUABn1pfs/nG71DIGE6llAqL48cSUKBqCJXAv/bK4
-	3s9dVWdEW6MGNWrNMbrewR+P3kTT36bEpTNZ7jB7ELJFO74woE3zAQNo8yf81otGx9np
-	SuEYJ/RtzN/Wu+TrudFOrKTuuhBpLS2mvqJTVGNld+3dDmIW6/bN4aQ0uwLbkdmn/uvC
-	NZ6PjPl5d3qAflqjfNiL1QiVN8ILAAKSn+hANSQ+vIFc1j8+tvURPV4+hCPewLISbmeV
-	nZ7gTCZM5vGtGstE/uOEw4LcOImx3foPoFhpptWEQcRApzZwNpo7Pnn7GjqUtCTGPLGV
-	dU8w==
+	Wed, 02 Oct 2019 07:19:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=1fxLpOvxXjmYD9btfQy/Q69rKcNISxOaD+GEumCPo2Y=;
-	b=fOO4avBSacaHBUrvHwWTNla7L8g+fECo1TkC5qP6R5vrvKY/6fQc7DCyRN9XPWdVWe
-	Qw3d0V6GUm9f3twTObp0pkJ8tCJv4U4vOAWxVvidtFREtNmstO+g68nxSUHtYQW7UKS6
-	MEMBc2K6yhl9sNtTxITRq+8yR8hxG46P2VwpuozfxucG+ZA1T7fqwpuyY3/gOLnMKO1M
-	TXDzyogEOIyNkV2/pK0BewcAM24uVP1QsnXSLiVG2SQqZighXPtO85p642HF10eBZCSq
-	keDNSc7ht+Uhch2P3Dk3KdnkGYS6eekyO3dqyu8DqjHPBfsGHQ5YSzWLFZNLqhqL1fyr
-	Ry+Q==
-X-Gm-Message-State: APjAAAWh7B5Q1yjswwB88nJdnU+Dv+zu4Ts85qv2BqIA0ELxh94ttV0D
-	onH0j5z3WP9BKQANotX+xcoLAg==
-X-Google-Smtp-Source: APXvYqwzQCj4RcHWe9o2dtTIHvxFq6emx/0SCFncRGSHXKEzOKo92Y/YHzeOoyawc0mNLSdPyTt7bg==
-X-Received: by 2002:a17:906:7e06:: with SMTP id
-	e6mr3271372ejr.149.1570025893804; 
-	Wed, 02 Oct 2019 07:18:13 -0700 (PDT)
-Received: from lophozonia ([85.195.192.192]) by smtp.gmail.com with ESMTPSA id
-	c24sm2254422ejp.43.2019.10.02.07.18.12
+	h=x-gm-message-state:message-id:date:from:subject:references
+	:in-reply-to:cc:cc:to;
+	bh=VEtMxesFQRhVgaXfLOksqFQ3dcoeyOCvDlUvGQrsuFo=;
+	b=kXXCyoGKY9O/JTiMCp9geS7hpcVkbR9A8Uo1wHZz+kgtY94214hC8+LbSq9wyfNR9p
+	rmv0SjaSSPGVYSNZZ4lpECxJa242f4EsoJIV6UrK3c7DBA6xSdjCtNlVGNkTwPgH7lsR
+	b0WMI8lF/UphxvJseKDhz++OFflnNh4w8XzdJxAVP9ONcgraYICUOgxeGHnN4Rxqi2zB
+	7cNdx6SyouqIdQwRIYeGN+06HmUBAN1HCS6viFX2gI07mDSD3KJAuz/MtZyqYXhJkjfC
+	ydHEBUHZ4CiTkRUAww2O3KK5z5RSKbZQ4yw9qw6yWGdiPderLAkFCEXcoGw3Fl6bMOKg
+	+9mw==
+X-Gm-Message-State: APjAAAUbgqq98Oj7fFxXTd0heX48dXL8MzmXWdZWcCH6tfRTca8GUenH
+	06BCDwrhbzkpmDdfGgDdAw==
+X-Google-Smtp-Source: APXvYqzagECSnvWAK2no15kXeuDvbNMmoSFzSS5uecaa8zyX8oPHLqD3j6y4NhItqADFSQbEDvOu5Q==
+X-Received: by 2002:a37:a705:: with SMTP id q5mr3945294qke.194.1570025968939; 
+	Wed, 02 Oct 2019 07:19:28 -0700 (PDT)
+Received: from localhost ([132.205.230.8]) by smtp.gmail.com with ESMTPSA id
+	b16sm14192592qtk.65.2019.10.02.07.19.28
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 02 Oct 2019 07:18:13 -0700 (PDT)
-Date: Wed, 2 Oct 2019 16:18:10 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Subject: Re: [PATCH v3 3/4] iommu/ioasid: Add custom allocators
-Message-ID: <20191002141810.GA407870@lophozonia>
-References: <1569972805-27664-1-git-send-email-jacob.jun.pan@linux.intel.com>
-	<1569972805-27664-4-git-send-email-jacob.jun.pan@linux.intel.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1569972805-27664-4-git-send-email-jacob.jun.pan@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+	Wed, 02 Oct 2019 07:19:28 -0700 (PDT)
+Message-ID: <5d94b1f0.1c69fb81.bc0b5.9a58@mx.google.com>
+Date: Wed, 02 Oct 2019 09:19:25 -0500
+From: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: iommu: ipmmu-vmsa: Add r8a774b1 support
+References: <1569310854-37057-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569310854-37057-1-git-send-email-biju.das@bp.renesas.com>
+To: Biju Das <biju.das@bp.renesas.com>
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+	FREEMAIL_ENVFROM_END_DIGIT, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
-	David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux-foundation.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.com>,
-	Jonathan Cameron <jic23@kernel.org>
+Cc: , Mark Rutland <mark.rutland@arm.com>,
+	Chris Paterson <Chris.Paterson2@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	devicetree@vger.kernel.org, Biju Das <biju.das@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org, iommu@lists.linux-foundation.org,
+	Simon Horman <horms@verge.net.au>,
+	Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -88,19 +74,22 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Jacob,
+On Tue, 24 Sep 2019 08:40:54 +0100, Biju Das wrote:
+> Document RZ/G2N (R8A774B1) SoC bindings.
+> 
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-There seem to be a mix-up here, the changes from your v2 are lost and
-patches 1 and 3 are back to v1. Assuming this isn't intended, I'll
-review v2 of this patch since it looked good to me overall.
-
-Thanks,
-Jean
+Acked-by: Rob Herring <robh@kernel.org>
 
 _______________________________________________
 iommu mailing list
