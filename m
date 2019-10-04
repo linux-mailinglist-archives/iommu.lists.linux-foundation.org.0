@@ -2,46 +2,72 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1FECC2F1
-	for <lists.iommu@lfdr.de>; Fri,  4 Oct 2019 20:51:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE5CCC421
+	for <lists.iommu@lfdr.de>; Fri,  4 Oct 2019 22:26:02 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 5C072E2A;
-	Fri,  4 Oct 2019 18:51:33 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 0162FD9E;
+	Fri,  4 Oct 2019 20:25:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 2E218E25
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id CB52AD81
 	for <iommu@lists.linux-foundation.org>;
-	Fri,  4 Oct 2019 18:50:59 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 6A960189
+	Fri,  4 Oct 2019 20:25:57 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 7B1CD34F
 	for <iommu@lists.linux-foundation.org>;
-	Fri,  4 Oct 2019 18:50:58 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DBC5615AB;
-	Fri,  4 Oct 2019 11:50:57 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B8003F534;
-	Fri,  4 Oct 2019 11:50:55 -0700 (PDT)
+	Fri,  4 Oct 2019 20:25:57 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id h195so4577843pfe.5
+	for <iommu@lists.linux-foundation.org>;
+	Fri, 04 Oct 2019 13:25:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to;
+	bh=w4g0iJ9qE6GBqGrmQNHbJmYQGNfgSU66gamnsISgAnI=;
+	b=LRUKKM0XrQrNsQOxFLOTCBk5GmF+LGwqWPGxk22YyKYEpMhIURnNk34uKwWOLfmvxk
+	2nkMJu9D4/hhr/pqgmpWuqIY7xZMdk1emUAwY56fldOONHD/4KXs/GAI3JJuqKdN+pMF
+	firZTjyRlPMmxPjOkQLePBXV8X4aNZfND5PgI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=w4g0iJ9qE6GBqGrmQNHbJmYQGNfgSU66gamnsISgAnI=;
+	b=UOV5zwmBBvo+Kf7mvAPkd/npTi7vSpY2+p90RcUGNoqkO38Pbnf3ZS8OZq7kKm06uJ
+	admd5URTp5QjQlEmst069y3BuVxXxmcoJNV2Rx9pH6SU5gTOwp23a5+a+9Vj7vQezAgx
+	PgpWw5iUbqW0IcbCfd3p960Mafdunl57ekfx6jwfZAEQjRFQZkZHIxD6RjGcXN8Y56Bc
+	1GWQvnw0ebrQLJepwZkt2EZq1BgLueD7gzMp0kqtU1ntdMVvO0WfDCd1zpx9kTS8HnEB
+	55qTTff42J5E/taPwOPVdIG2611JsUMtgTpLQvzF8dQ3/VIEY/Fu/jxkMyo2wAyVe4a3
+	WroQ==
+X-Gm-Message-State: APjAAAUOSXJU5JZDJAOGtivPESC7Pv7txdGsou40rE/qnoxPFdV64mHS
+	vtLVQeO9aNZfnrcaEJOqblhmtg==
+X-Google-Smtp-Source: APXvYqyl6XnIpTwr3vnhilw9YEEZ6ArLoOcFdiuKfbUAULNxJ3PfJ2T0boH2Nz++hfXAJXe8DWondQ==
+X-Received: by 2002:a63:1e16:: with SMTP id e22mr17500139pge.413.1570220757037;
+	Fri, 04 Oct 2019 13:25:57 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+	by smtp.gmail.com with ESMTPSA id
+	j128sm10444222pfg.51.2019.10.04.13.25.55
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 04 Oct 2019 13:25:56 -0700 (PDT)
+Date: Fri, 4 Oct 2019 13:25:55 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Robin Murphy <robin.murphy@arm.com>
 Subject: Re: [PATCH] dma-mapping: Lift address space checks out of debug code
-To: Kees Cook <keescook@chromium.org>
+Message-ID: <201910041323.F082AA4B19@keescook>
 References: <201910021341.7819A660@keescook>
 	<7a5dc7aa-66ec-0249-e73f-285b8807cb73@arm.com>
 	<201910021643.75E856C@keescook>
 	<fc9fffc8-3cff-4a6f-d426-4a4cc895ebb1@arm.com>
 	<201910031438.A67C40B97C@keescook>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <91192af8-dc96-eeb9-42ab-01473cf2b7c0@arm.com>
-Date: Fri, 4 Oct 2019 19:50:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	<91192af8-dc96-eeb9-42ab-01473cf2b7c0@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <201910031438.A67C40B97C@keescook>
-Content-Language: en-GB
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <91192af8-dc96-eeb9-42ab-01473cf2b7c0@arm.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -64,135 +90,30 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 03/10/2019 22:38, Kees Cook wrote:
-> On Thu, Oct 03, 2019 at 10:42:45AM +0100, Robin Murphy wrote:
->> On 03/10/2019 00:58, Kees Cook wrote:
->>> On Wed, Oct 02, 2019 at 10:15:43PM +0100, Robin Murphy wrote:
->>>> Hi Kees,
->>>>
->>>> On 2019-10-02 9:46 pm, Kees Cook wrote:
->>>>> As we've seen from USB and other areas, we need to always do runtime
->>>>> checks for DMA operating on memory regions that might be remapped. This
->>>>> consolidates the (existing!) checks and makes them on by default. A
->>>>> warning will be triggered for any drivers still using DMA on the stack
->>>>> (as has been seen in a few recent reports).
->>>>>
->>>>> Suggested-by: Laura Abbott <labbott@redhat.com>
->>>>> Signed-off-by: Kees Cook <keescook@chromium.org>
->>>>> ---
->>>>>     include/linux/dma-debug.h   |  8 --------
->>>>>     include/linux/dma-mapping.h |  8 +++++++-
->>>>>     kernel/dma/debug.c          | 16 ----------------
->>>>>     3 files changed, 7 insertions(+), 25 deletions(-)
->>>>>
->>>>> diff --git a/include/linux/dma-debug.h b/include/linux/dma-debug.h
->>>>> index 4208f94d93f7..2af9765d9af7 100644
->>>>> --- a/include/linux/dma-debug.h
->>>>> +++ b/include/linux/dma-debug.h
->>>>> @@ -18,9 +18,6 @@ struct bus_type;
->>>>>     extern void dma_debug_add_bus(struct bus_type *bus);
->>>>> -extern void debug_dma_map_single(struct device *dev, const void *addr,
->>>>> -				 unsigned long len);
->>>>> -
->>>>>     extern void debug_dma_map_page(struct device *dev, struct page *page,
->>>>>     			       size_t offset, size_t size,
->>>>>     			       int direction, dma_addr_t dma_addr);
->>>>> @@ -75,11 +72,6 @@ static inline void dma_debug_add_bus(struct bus_type *bus)
->>>>>     {
->>>>>     }
->>>>> -static inline void debug_dma_map_single(struct device *dev, const void *addr,
->>>>> -					unsigned long len)
->>>>> -{
->>>>> -}
->>>>> -
->>>>>     static inline void debug_dma_map_page(struct device *dev, struct page *page,
->>>>>     				      size_t offset, size_t size,
->>>>>     				      int direction, dma_addr_t dma_addr)
->>>>> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
->>>>> index 4a1c4fca475a..2d6b8382eab1 100644
->>>>> --- a/include/linux/dma-mapping.h
->>>>> +++ b/include/linux/dma-mapping.h
->>>>> @@ -583,7 +583,13 @@ static inline unsigned long dma_get_merge_boundary(struct device *dev)
->>>>>     static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
->>>>>     		size_t size, enum dma_data_direction dir, unsigned long attrs)
->>>>>     {
->>>>> -	debug_dma_map_single(dev, ptr, size);
->>>>> +	/* DMA must never operate on stack or other remappable places. */
->>>>> +	WARN_ONCE(is_vmalloc_addr(ptr) || !virt_addr_valid(ptr),
->>>>
->>>> This stands to absolutely cripple I/O performance on arm64, because every
->>>> valid call will end up going off and scanning the memblock list, which is
->>>> not something we want on a fastpath in non-debug configurations. We'd need a
->>>> much better solution to the "pfn_valid() vs. EFI no-map" problem before this
->>>> might be viable.
->>>
->>> Ah! Interesting. I didn't realize this was fast-path (I don't know the
->>> DMA code at all). I thought it was more of a "one time setup" before
->>> actual DMA activity started.
->>
->> That's strictly true, it's just that many workloads can involve tens of
->> thousands of "one time"s per second ;)
->>
->> Overhead on the dma_map_* paths has shown to have a direct impact on
->> throughput in such situations, hence various optimisation effort in IOVA
->> allocation for IOMMU-based DMA ops, and the recent work to remove indirect
->> calls entirely for the common dma-direct/SWIOTLB cases.
->>
->>> Regardless, is_vmalloc_addr() is extremely light (a bounds check), and is the
->>> most important part of this as far as catching stack-based DMA attempts.
->>> I thought virt_addr_valid() was cheap too, but I see it's much heavier on
->>> arm64.
->>>
->>> I just went to compare what the existing USB check does, and it happens
->>> immediately before its call to dma_map_single(). Both checks are simple
->>> bounds checks, so it shouldn't be an issue:
->>>
->>> 			if (is_vmalloc_addr(urb->setup_packet)) {
->>> 				WARN_ONCE(1, "setup packet is not dma capable\n");
->>> 				return -EAGAIN;
->>> 			} else if (object_is_on_stack(urb->setup_packet)) {
->>> 				WARN_ONCE(1, "setup packet is on stack\n");
->>> 				return -EAGAIN;
->>> 			}
->>>
->>> 			urb->setup_dma = dma_map_single(
->>> 					hcd->self.sysdev,
->>> 					urb->setup_packet,
->>> 					sizeof(struct usb_ctrlrequest),
->>>
->>>
->>> In the USB case, it'll actually refuse to do the operation. Should
->>> dma_map_single() similarly fail? I could push these checks down into
->>> dma_map_single(), which would be a no-change on behavior for USB and
->>> gain the checks on all other callers...
->>
->> I think it would be reasonable to pull the is_vmalloc_addr() check inline,
->> as that probably covers 90+% of badness (especially given vmapped stacks),
->> and as you say should be reliably cheap everywhere. Callers are certainly
->> expected to use dma_mapping_error() and handle failure, so refusing to do a
->> bogus mapping operation should be OK API-wise - ultimately if a driver goes
->> ahead and uses DMA_MAPPING_ERROR as an address anyway, that's not likely to
->> be any *more* catastrophic than if it did the same with whatever nonsense
->> virt_to_phys() of a vmalloc address had returned.
+On Fri, Oct 04, 2019 at 07:50:54PM +0100, Robin Murphy wrote:
+> On 03/10/2019 22:38, Kees Cook wrote:
+> > What do you think about the object_is_on_stack() check? That does a
+> > dereference through "current" to find the stack bounds...
 > 
-> What do you think about the object_is_on_stack() check? That does a
-> dereference through "current" to find the stack bounds...
+> I guess it depends what the aim is - is it just to bail out of operations
+> which have near-zero chance of working correctly and every chance of going
+> catastrophically wrong, or to lay down strict argument checking for the API
+> in general? (for cache-coherent devices, or if the caller is careful to
+> ensure the appropriate alignment, DMA from a non-virtually-mapped stack can
+> be *technically* fine, it's just banned in general because those necessary
+> assumptions can be tricky to meet and aren't at all portable).
 
-I guess it depends what the aim is - is it just to bail out of 
-operations which have near-zero chance of working correctly and every 
-chance of going catastrophically wrong, or to lay down strict argument 
-checking for the API in general? (for cache-coherent devices, or if the 
-caller is careful to ensure the appropriate alignment, DMA from a 
-non-virtually-mapped stack can be *technically* fine, it's just banned 
-in general because those necessary assumptions can be tricky to meet and 
-aren't at all portable).
+Okay, then since the vmap check is both the cheapest and the most
+important to catch in the face of breaking everything, I'll move that
+in and we can keep USB's other checks separately.
 
-Robin.
+-- 
+Kees Cook
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
