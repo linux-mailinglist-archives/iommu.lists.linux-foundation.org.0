@@ -2,105 +2,44 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B0CCDD3A
-	for <lists.iommu@lfdr.de>; Mon,  7 Oct 2019 10:27:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82CFCCE774
+	for <lists.iommu@lfdr.de>; Mon,  7 Oct 2019 17:28:58 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id B92F9AF7;
-	Mon,  7 Oct 2019 08:27:03 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 3C15EE75;
+	Mon,  7 Oct 2019 15:28:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 8B9ACACC;
-	Mon,  7 Oct 2019 08:27:02 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 23A965F4;
-	Mon,  7 Oct 2019 08:27:02 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id 89so10198472oth.13;
-	Mon, 07 Oct 2019 01:27:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=VKymJxaLp2SF18G9ExdMOsAdXsmgBDVfrU/If3JZGxo=;
-	b=BktjRr1f69lGtbmFYmyvwdSNpen4WheGVasO5sA6JmgwtDW21qo0AI/zoOpBCP/lpF
-	4Xe34X1JR18TYc+aGdiBiPv3qVavu4H3Wmzrx5Yo56cAd0HTCyvj3wXL8y2cI60TQaNP
-	xRbm5Ztb6qjuQJqBSFFoEqvh9WZz6/Gp5YSx18hGdteiHZyX0g0YSLmSoynuK/Y73oHz
-	lFLDWVyyosvAnXAuAaqAdNHykGp9OU+yesAjnvj0TBq3vWmpsl5KxzdTgXnzbgwoivOn
-	vd4ghj8DsQGN4Eal+mP70Hw0OkYt3QQ5vCQV4hEH9pEd19uzT22/Fgtek//huVk1d/XM
-	6mnQ==
-X-Gm-Message-State: APjAAAVRGFkJpYSBVcWBpLOG2xa3KZ3WPXx3Y6MZJJc70olduZp1uRaK
-	VAOaxyPy1pC0A4KhRJQ6+/WenEMekp+V+FHzvvI=
-X-Google-Smtp-Source: APXvYqxEOkV8nJCSllSqxdkQVypo90wcNgBvYDBNSKRgpoLJCvXTnmOdSLlUAojqzzfR9rCgupdlwodIFF5kpYpgt28=
-X-Received: by 2002:a9d:17e6:: with SMTP id j93mr20339687otj.297.1570436821298;
-	Mon, 07 Oct 2019 01:27:01 -0700 (PDT)
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id EA6F5E6C
+	for <iommu@lists.linux-foundation.org>;
+	Mon,  7 Oct 2019 15:28:52 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 678B1712
+	for <iommu@lists.linux-foundation.org>;
+	Mon,  7 Oct 2019 15:28:52 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+	id 2502336D; Mon,  7 Oct 2019 17:28:50 +0200 (CEST)
+Date: Mon, 7 Oct 2019 17:28:48 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v2 6/6] iommu/amd: Switch to use acpi_dev_hid_uid_match()
+Message-ID: <20191007152848.GA20456@8bytes.org>
+References: <20190924193739.86133-1-andriy.shevchenko@linux.intel.com>
+	<20190924193739.86133-7-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-References: <20191004145544.5066-1-krzk@kernel.org>
-	<20191004145544.5066-3-krzk@kernel.org>
-In-Reply-To: <20191004145544.5066-3-krzk@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 7 Oct 2019 10:26:49 +0200
-Message-ID: <CAMuHMdW0DSujexoGq4CJAYP40DvMcigk08aEnyQ72haY6jds5Q@mail.gmail.com>
-Subject: Re: [RESEND TRIVIAL 3/3] treewide: arch: Fix Kconfig indentation
-To: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20190924193739.86133-7-andriy.shevchenko@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, DOS_RCVD_IP_TWICE_B,
-	FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-	linux-efi <linux-efi@vger.kernel.org>,
-	Linux-sh list <linux-sh@vger.kernel.org>,
-	linux-iio@vger.kernel.org, linux-pci <linux-pci@vger.kernel.org>,
-	"open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
-	<linux-remoteproc@vger.kernel.org>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	platform-driver-x86@vger.kernel.org, linux-ide@vger.kernel.org,
-	dm-devel@redhat.com, keyrings@vger.kernel.org,
-	MTD Maling List <linux-mtd@lists.infradead.org>,
-	Linux I2C <linux-i2c@vger.kernel.org>, linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	ac100@lists.launchpad.net, linux-rtc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, scsi <linux-scsi@vger.kernel.org>,
-	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-	linux-rdma <linux-rdma@vger.kernel.org>, esc.storagedev@microsemi.com,
-	linux-security-module@vger.kernel.org,
-	linux-clk <linux-clk@vger.kernel.org>,
-	ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-	bcm-kernel-feedback-list@broadcom.com,
-	"open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-	linux-input@vger.kernel.org, xen-devel@lists.xenproject.org,
-	virtualization@lists.linux-foundation.org,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	"moderated list:H8/300 ARCHITECTURE"
-	<uclinux-h8-devel@lists.sourceforge.jp>,
-	driverdevel <devel@driverdev.osuosl.org>,
-	Linux PM list <linux-pm@vger.kernel.org>,
-	linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-	linux-um@lists.infradead.org, linux-block@vger.kernel.org,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	linux-m68k <linux-m68k@lists.linux-m68k.org>,
-	Openrisc <openrisc@lists.librecores.org>,
-	linux-mediatek@lists.infradead.org,
-	linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
-	linux-tegra <linux-tegra@vger.kernel.org>,
-	openipmi-developer@lists.sourceforge.net,
-	"open list:TI ETHERNET SWITCH DRIVER \(CPSW\)"
-	<linux-omap@vger.kernel.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	linux-edac@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-raid@vger.kernel.org, Jiri Kosina <trivial@kernel.org>,
-	Linux MM <linux-mm@kvack.org>, netdev <netdev@vger.kernel.org>,
-	Linux MMC List <linux-mmc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-spi <linux-spi@vger.kernel.org>,
-	Linux IOMMU <iommu@lists.linux-foundation.org>,
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-	alpha <linux-alpha@vger.kernel.org>, dmaengine@vger.kernel.org,
-	linux-integrity <linux-integrity@vger.kernel.org>,
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -118,30 +57,15 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Fri, Oct 4, 2019 at 4:57 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> Adjust indentation from spaces to tab (+optional two spaces) as in
-> coding style with command like:
->     $ sed -e 's/^        /\t/' -i */Kconfig
->
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+On Tue, Sep 24, 2019 at 10:37:39PM +0300, Andy Shevchenko wrote:
+> Since we have a generic helper, drop custom implementation in the driver.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/iommu/amd_iommu.c | 30 +++++-------------------------
+>  1 file changed, 5 insertions(+), 25 deletions(-)
 
->  arch/m68k/Kconfig.bus                  |  2 +-
->  arch/m68k/Kconfig.debug                | 16 ++++++++--------
->  arch/m68k/Kconfig.machine              |  8 ++++----
-
-For m68k:
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Acked-by: Joerg Roedel <jroedel@suse.de>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
