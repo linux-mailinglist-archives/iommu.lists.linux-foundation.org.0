@@ -2,37 +2,39 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3531D03A8
-	for <lists.iommu@lfdr.de>; Wed,  9 Oct 2019 00:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DACED03A5
+	for <lists.iommu@lfdr.de>; Wed,  9 Oct 2019 00:58:23 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 3682ECBD;
-	Tue,  8 Oct 2019 22:58:21 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id CB441C8F;
+	Tue,  8 Oct 2019 22:58:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id A5CE2C79
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 117F7C3A
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  8 Oct 2019 22:58:19 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+	Tue,  8 Oct 2019 22:58:17 +0000 (UTC)
+X-Greylist: delayed 00:39:26 by SQLgrey-1.7.6
 Received: from ale.deltatee.com (ale.deltatee.com [207.54.116.67])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 609E55F4
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id C05975F4
 	for <iommu@lists.linux-foundation.org>;
-	Tue,  8 Oct 2019 22:58:19 +0000 (UTC)
+	Tue,  8 Oct 2019 22:58:15 +0000 (UTC)
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
 	by ale.deltatee.com with esmtps
 	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1iHxod-000551-C6; Tue, 08 Oct 2019 16:18:47 -0600
+	id 1iHxod-000552-C6; Tue, 08 Oct 2019 16:18:48 -0600
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
 	(envelope-from <gunthorp@deltatee.com>)
-	id 1iHxoa-0003PX-Nt; Tue, 08 Oct 2019 16:18:44 -0600
+	id 1iHxoa-0003PZ-R0; Tue, 08 Oct 2019 16:18:44 -0600
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
 	Joerg Roedel <joro@8bytes.org>
-Date: Tue,  8 Oct 2019 16:18:34 -0600
-Message-Id: <20191008221837.13067-1-logang@deltatee.com>
+Date: Tue,  8 Oct 2019 16:18:35 -0600
+Message-Id: <20191008221837.13067-2-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191008221837.13067-1-logang@deltatee.com>
+References: <20191008221837.13067-1-logang@deltatee.com>
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 172.16.1.31
 X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org,
@@ -44,7 +46,7 @@ X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
-Subject: [PATCH 0/3] AMD IOMMU Changes for NTB
+Subject: [PATCH 1/3] iommu/amd: Implement dma_[un]map_resource()
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: Logan Gunthorpe <logang@deltatee.com>, Kit Chow <kchow@gigaio.com>
@@ -65,51 +67,71 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi,
+From: Kit Chow <kchow@gigaio.com>
 
-Please find the following patches which help support
-Non-Transparent-Bridge (NTB) devices on AMD platforms with the IOMMU
-enabled.
+Currently the Intel IOMMU uses the default dma_[un]map_resource()
+implementations does nothing and simply returns the physical address
+unmodified.
 
-The first patch implements dma_map_resource() correctly with the AMD
-IOMMU. This is required for correct functioning of ntb_transport which
-uses that interface.
+However, this doesn't create the IOVA entries necessary for addresses
+mapped this way to work when the IOMMU is enabled. Thus, when the
+IOMMU is enabled, drivers relying on dma_map_resource() will not get the
+propper mapping. We see this when running ntb_transport with the IOMMU
+enabled, DMA, and switchtec hardware.
 
-The second two patches add support for multiple PCI aliases. NTB
-hardware will normally send TLPs from a range of requestor IDs to
-facilitate routing the responses back to the correct requestor on the
-other side of the bridge. To support this, NTB hardware registers a
-number of PCI aliases. Currently the AMD IOMMU only allows for one
-PCI alias so TLPs from the other aliases get rejected.
+The implementation for the amd version of map_resource() is nearly
+identical to map_page(), just with a phys_addr passed instead of a page.
+dma_unmap_resource() uses unmap_page() directly as the functions are
+identical.
 
-See commit ad281ecf1c7d ("PCI: Add DMA alias quirk for Microsemi
-Switchtec NTB") for more information on this.
+Signed-off-by: Kit Chow <kchow@gigaio.com>
+[logang@deltatee.com: Cleaned up into a propper commit and wrote the
+    commit message]
+Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
+---
+ drivers/iommu/amd_iommu.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-Similar patches were upstreamed for Intel hardware earlier this year:
-
-commit 21d5d27c042d ("iommu/vt-d: Implement dma_[un]map_resource()")
-commit 3f0c625c6ae7 ("iommu/vt-d: Allow interrupts from the entire bus
-    for aliased devices")
-
-Thanks,
-
-Logan
-
---
-
-Kit Chow (1):
-  iommu/amd: Implement dma_[un]map_resource()
-
-Logan Gunthorpe (2):
-  iommu/amd: Support multiple PCI DMA aliases in device table
-  iommu/amd: Support multiple PCI DMA aliases in IRQ Remapping
-
- drivers/iommu/amd_iommu.c       | 198 +++++++++++++++++++-------------
- drivers/iommu/amd_iommu_types.h |   2 +-
- 2 files changed, 120 insertions(+), 80 deletions(-)
-
---
+diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+index 2369b8af81f3..aa3d9e705a45 100644
+--- a/drivers/iommu/amd_iommu.c
++++ b/drivers/iommu/amd_iommu.c
+@@ -2553,6 +2553,23 @@ static void unmap_page(struct device *dev, dma_addr_t dma_addr, size_t size,
+ 	__unmap_single(dma_dom, dma_addr, size, dir);
+ }
+ 
++static dma_addr_t map_resource(struct device *dev, phys_addr_t paddr,
++		size_t size, enum dma_data_direction dir, unsigned long attrs)
++{
++	struct protection_domain *domain;
++	struct dma_ops_domain *dma_dom;
++
++	domain = get_domain(dev);
++	if (PTR_ERR(domain) == -EINVAL)
++		return (dma_addr_t)paddr;
++	else if (IS_ERR(domain))
++		return DMA_MAPPING_ERROR;
++
++	dma_dom = to_dma_ops_domain(domain);
++
++	return __map_single(dev, dma_dom, paddr, size, dir, *dev->dma_mask);
++}
++
+ static int sg_num_pages(struct device *dev,
+ 			struct scatterlist *sglist,
+ 			int nelems)
+@@ -2795,6 +2812,8 @@ static const struct dma_map_ops amd_iommu_dma_ops = {
+ 	.unmap_page	= unmap_page,
+ 	.map_sg		= map_sg,
+ 	.unmap_sg	= unmap_sg,
++	.map_resource	= map_resource,
++	.unmap_resource	= unmap_page,
+ 	.dma_supported	= amd_iommu_dma_supported,
+ 	.mmap		= dma_common_mmap,
+ 	.get_sgtable	= dma_common_get_sgtable,
+-- 
 2.20.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
