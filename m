@@ -2,77 +2,56 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1FC3D33E7
-	for <lists.iommu@lfdr.de>; Fri, 11 Oct 2019 00:28:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C214D342B
+	for <lists.iommu@lfdr.de>; Fri, 11 Oct 2019 01:09:30 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 45EB7F3F;
-	Thu, 10 Oct 2019 22:28:39 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 386DBD3E;
+	Thu, 10 Oct 2019 23:09:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 75E8FE2B
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 76C59CAC
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 10 Oct 2019 22:28:38 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 2072A6CE
+	Thu, 10 Oct 2019 23:09:25 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0DEB15D3
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 10 Oct 2019 22:28:38 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id k7so3495685pll.1
-	for <iommu@lists.linux-foundation.org>;
-	Thu, 10 Oct 2019 15:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=czQOnB8XGZh1drUQRgi49wj4hvdzWXuEnHlZa/FCwwU=;
-	b=ns1C9ferSuxgAAnBlGRzPcG45QzbuNtsvk+IK5P1sm83hU4nWyKG3yPWsMyzZXdJNg
-	8L1U7n6L7l4F27SGwiKO6AYQpuWZI4sK4uTbAnc7s2SBIwcp+kTcvUBjhNMO/NTpQrCV
-	vOvaL9h3TsQnCeixMAb107cO508lsauqPytIc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=czQOnB8XGZh1drUQRgi49wj4hvdzWXuEnHlZa/FCwwU=;
-	b=LXy+PxZEGYY4qfn9PiFxPSOjkceDir5OkT/ba54ZeTP83bloDJ7bXLvPeoR2FFYZxV
-	J2s2Bx/TxkzvtwAcziC7LLuqY1b5eDUblCbqbeXcL/7IBQd2+PIyq7mYD3L6GKoAgpdO
-	wmGXiOWkj4yy29Scp1RhgtmjRvy/jBdOX02I8YVYkF8k+W9x49Ro0uTar4VjucvwLOIV
-	OmVp2cPZun5g676O9AWZytUHUrjCyW1yGCpo7qiJ89RFSg+SOtIGm2dOwuxdA8jR/pRn
-	6nB2ZdyU+iYHj6q4Q5xwn+oVrk12/2XM/rGryH+wMSMoi3Hu76FklPmYixU1GSiiGrup
-	KjCg==
-X-Gm-Message-State: APjAAAWDMoUXfrPxN/Jujql1WSOoy1v5oJsCANSI/RejpcqlOcEYwG0Z
-	HGfjUxREY8CWztNMxj3Q6oVBOQ==
-X-Google-Smtp-Source: APXvYqyCnXy+P7NSDVP2SOlCeFKxu9djHVTFcrtbCYrEpGlSGxw5IkNB0B1GwgRZrimv5eyU3qcR6A==
-X-Received: by 2002:a17:902:8342:: with SMTP id
-	z2mr11623587pln.309.1570746517679; 
-	Thu, 10 Oct 2019 15:28:37 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-	by smtp.gmail.com with ESMTPSA id
-	q143sm3147254pfq.103.2019.10.10.15.28.36
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 10 Oct 2019 15:28:36 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v3 2/2] usb: core: Remove redundant vmap checks
-Date: Thu, 10 Oct 2019 15:28:29 -0700
-Message-Id: <20191010222829.21940-3-keescook@chromium.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191010222829.21940-1-keescook@chromium.org>
-References: <20191010222829.21940-1-keescook@chromium.org>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+	Thu, 10 Oct 2019 23:09:24 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Oct 2019 16:09:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,281,1566889200"; d="scan'208";a="197403278"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 10 Oct 2019 16:09:23 -0700
+Received: from [10.54.74.33] (skuppusw-desk.jf.intel.com [10.54.74.33])
+	by linux.intel.com (Postfix) with ESMTP id C3F7D5802B9;
+	Thu, 10 Oct 2019 16:09:23 -0700 (PDT)
+Subject: Re: [PATCH 1/3] PCI/ATS: Remove unused PRI and PASID stubs
+To: Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org
+References: <20191009225354.181018-1-helgaas@kernel.org>
+	<20191009225354.181018-2-helgaas@kernel.org>
+From: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Organization: Intel
+Message-ID: <2f3804d1-ad85-b54f-9fd3-788f35121fac@linux.intel.com>
+Date: Thu, 10 Oct 2019 16:07:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20191009225354.181018-2-helgaas@kernel.org>
+Content-Language: en-US
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Kees Cook <keescook@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
-	iommu@lists.linux-foundation.org,
-	Semmle Security Reports <security-reports@semmle.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Jesper Dangaard Brouer <brouer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>, Laura Abbott <labbott@redhat.com>,
-	Robin Murphy <robin.murphy@arm.com>, Allison Randal <allison@lohutok.net>
+Cc: Krzysztof Wilczynski <kw@linux.com>, Ashok Raj <ashok.raj@intel.com>,
+	linux-kernel@vger.kernel.org, Keith Busch <keith.busch@intel.com>,
+	iommu@lists.linux-foundation.org, Bjorn Helgaas <bhelgaas@google.com>,
+	David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -85,48 +64,72 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Reply-To: sathyanarayanan.kuppuswamy@linux.intel.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Now that the vmap area checks are being performed in the DMA
-infrastructure directly, there is no need to repeat them in USB.
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/usb/core/hcd.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+On 10/9/19 3:53 PM, Bjorn Helgaas wrote:
+> From: Bjorn Helgaas <bhelgaas@google.com>
+>
+> The following functions are only used by amd_iommu.c and intel-iommu.c
+> (when CONFIG_INTEL_IOMMU_SVM is enabled).  CONFIG_PCI_PRI and
+> CONFIG_PCI_PASID are always defined in those cases, so there's no need for
+> the stubs.
+>
+>    pci_enable_pri()
+>    pci_disable_pri()
+>    pci_reset_pri()
+>    pci_prg_resp_pasid_required()
+>    pci_enable_pasid()
+>    pci_disable_pasid()
+>
+> Remove the unused stubs.
+>
+> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+Looks good to me.
 
-diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index f225eaa98ff8..281568d464f9 100644
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -1410,10 +1410,7 @@ int usb_hcd_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
- 		if (hcd->self.uses_pio_for_control)
- 			return ret;
- 		if (hcd_uses_dma(hcd)) {
--			if (is_vmalloc_addr(urb->setup_packet)) {
--				WARN_ONCE(1, "setup packet is not dma capable\n");
--				return -EAGAIN;
--			} else if (object_is_on_stack(urb->setup_packet)) {
-+			if (object_is_on_stack(urb->setup_packet)) {
- 				WARN_ONCE(1, "setup packet is on stack\n");
- 				return -EAGAIN;
- 			}
-@@ -1479,9 +1476,6 @@ int usb_hcd_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
- 					ret = -EAGAIN;
- 				else
- 					urb->transfer_flags |= URB_DMA_MAP_PAGE;
--			} else if (is_vmalloc_addr(urb->transfer_buffer)) {
--				WARN_ONCE(1, "transfer buffer not dma capable\n");
--				ret = -EAGAIN;
- 			} else if (object_is_on_stack(urb->transfer_buffer)) {
- 				WARN_ONCE(1, "transfer buffer is on stack\n");
- 				ret = -EAGAIN;
+Reviewed-by: Kuppuswamy Sathyanarayanan 
+<sathyanarayanan.kuppuswamy@linux.intel.com>
+> ---
+>   include/linux/pci-ats.h | 10 ----------
+>   1 file changed, 10 deletions(-)
+>
+> diff --git a/include/linux/pci-ats.h b/include/linux/pci-ats.h
+> index 67de3a9499bb..963c11f7c56b 100644
+> --- a/include/linux/pci-ats.h
+> +++ b/include/linux/pci-ats.h
+> @@ -27,14 +27,7 @@ void pci_restore_pri_state(struct pci_dev *pdev);
+>   int pci_reset_pri(struct pci_dev *pdev);
+>   int pci_prg_resp_pasid_required(struct pci_dev *pdev);
+>   #else /* CONFIG_PCI_PRI */
+> -static inline int pci_enable_pri(struct pci_dev *pdev, u32 reqs)
+> -{ return -ENODEV; }
+> -static inline void pci_disable_pri(struct pci_dev *pdev) { }
+>   static inline void pci_restore_pri_state(struct pci_dev *pdev) { }
+> -static inline int pci_reset_pri(struct pci_dev *pdev)
+> -{ return -ENODEV; }
+> -static inline int pci_prg_resp_pasid_required(struct pci_dev *pdev)
+> -{ return 0; }
+>   #endif /* CONFIG_PCI_PRI */
+>   
+>   #ifdef CONFIG_PCI_PASID
+> @@ -44,9 +37,6 @@ void pci_restore_pasid_state(struct pci_dev *pdev);
+>   int pci_pasid_features(struct pci_dev *pdev);
+>   int pci_max_pasids(struct pci_dev *pdev);
+>   #else /* CONFIG_PCI_PASID */
+> -static inline int pci_enable_pasid(struct pci_dev *pdev, int features)
+> -{ return -EINVAL; }
+> -static inline void pci_disable_pasid(struct pci_dev *pdev) { }
+>   static inline void pci_restore_pasid_state(struct pci_dev *pdev) { }
+>   static inline int pci_pasid_features(struct pci_dev *pdev)
+>   { return -EINVAL; }
+
 -- 
-2.17.1
+Sathyanarayanan Kuppuswamy
+Linux kernel developer
 
 _______________________________________________
 iommu mailing list
