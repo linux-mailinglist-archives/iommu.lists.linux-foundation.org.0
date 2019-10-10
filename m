@@ -2,59 +2,61 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE58D33EC
-	for <lists.iommu@lfdr.de>; Fri, 11 Oct 2019 00:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B76D33E8
+	for <lists.iommu@lfdr.de>; Fri, 11 Oct 2019 00:28:49 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 90EBFF4F;
-	Thu, 10 Oct 2019 22:28:42 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 6D7D5F49;
+	Thu, 10 Oct 2019 22:28:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id C7462E2B
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 0E254E2B
 	for <iommu@lists.linux-foundation.org>;
 	Thu, 10 Oct 2019 22:28:39 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 7D89E6CE
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id BB17E6CE
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 10 Oct 2019 22:28:39 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id b8so4540291pgm.13
+	Thu, 10 Oct 2019 22:28:38 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id p30so4569133pgl.2
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 10 Oct 2019 15:28:39 -0700 (PDT)
+	Thu, 10 Oct 2019 15:28:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=1ik/kSfKAQ4ZckUQirkRuCGEWrJxiH/kxb4IaqRf84E=;
-	b=aS2nSWkBo2EM7xurh9e4KD3J/oEH5CMiR6qi6pemFdHozgo2Z1c7TRj96V/PkiHjw5
-	FH6oKRaTNJzzH6k22JYKIFTE4RYwim+fu31Qx8OPm3DvD1SWi/W3PN1N9EnLTNV8O95r
-	DXzrAuTvAi+zfUbmq8Hja0TWbbmGpPw9eXOoY=
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=OcjzQsF45hEBxamHjzpQj8tPOdjVhqexrCUuTV+HOUI=;
+	b=T9i4/VXlqHD33x2rdbjhCXLVnQ+qG4Uv18788Nx+nq3IggKPThAsPRLeMaplN5ymQr
+	tzgwE5GOtA7J3878fNnL1gGphXBatCnK/iXdn7Td14FdsZdDFE++iYuGFaldSRcvcJ+V
+	Lk1LJRRoXS9JwC/Vu3Z12UPnLUhvIT3Svk7rs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1ik/kSfKAQ4ZckUQirkRuCGEWrJxiH/kxb4IaqRf84E=;
-	b=VS6e1A1m1ogI6unNeHkzEocAVgPIb0UcrzTtM/7zEzBXpePk/KlFN8LiurpjMRiw3S
-	DUqgw9/w5FHQNDrBCtSS3x1dTJxC6ezNOQ5TuNazq0beymdg/fqYqKTANjj1+rHzp8A6
-	uGOJGrMVH+ecgN7YZkAxLHXKCHYSwiK/Y0OmaKWq8f0gdB7CkeYPDEooZwLdYsuieukl
-	Bt+tUWDUFHwitkwUG2SyPcEsfmN8EHSuGb54fXd6AxAxoqOoyErcNBzz/q9ncYrJ1EIi
-	h8535E5kNy3pjOyuA2WlQshEER3uP9gOg1iuqdMKTnnMA3znJVRuUzjftbKB6zdnpGm4
-	prew==
-X-Gm-Message-State: APjAAAWeQj8fT82YkW0Am1T3ajjkER6q1I1tsSG0KabENX2c+T41F1XX
-	1LRos8/Gu22Z7V8Ved+ZLxGoCw==
-X-Google-Smtp-Source: APXvYqwiSLikkNRk0PtrKKYtoloMR4gcGK6Rx79wulZ5k/6xZ+dNXHBqNJrJBq6aMzrzeheKM691Vw==
-X-Received: by 2002:a63:287:: with SMTP id 129mr13610227pgc.190.1570746518937; 
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=OcjzQsF45hEBxamHjzpQj8tPOdjVhqexrCUuTV+HOUI=;
+	b=WrJTP8jHZHUQo0nvQFQDz+AKL0EdVsELK7xHSYjl9WFuY6al7JsAzFtcO/PnjRIult
+	U/tGBpjKVok4xGDJNZRH8iDMvQiEIZ8L1GF6LI17KylU3ZdTy2mPgiXwY8zZXxZpEaPG
+	GY263qxqYTt16s9RylY/OLJTOmeM+yeVyDqsb7qqEXl3AdRI+7PpoCgR3et4JvypfpvB
+	+zXz5iI5s22bj9LmsollET+Ytj9ZNxeW9D4cAzPqHPi52fgocTGAHLaRaL2lOPKj4Eya
+	3pHzXsWZMvMaBQnngoCWTjcTwSOnp6i8FxLLapSzWslCgpV8dbizJeP4gfiL6n0PHn+m
+	HJ1A==
+X-Gm-Message-State: APjAAAUIupV25pUFHgFv1aVjAUBg1rPsvR/eQA1ZlLl0EoYUd6ww6sKe
+	Qaq8P+1UCs3yIw0mkiRxS/I7Zw==
+X-Google-Smtp-Source: APXvYqy0miqiQgwRV6iDS1mfqG6ZXytFWuqANBgQeUkcZkLlYk8skOUQdwGEmFZ5Nxpllc2qQsqrjg==
+X-Received: by 2002:a62:2501:: with SMTP id l1mr13115257pfl.148.1570746518172; 
 	Thu, 10 Oct 2019 15:28:38 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-	by smtp.gmail.com with ESMTPSA id
-	c10sm7203427pfo.49.2019.10.10.15.28.36
+	by smtp.gmail.com with ESMTPSA id m5sm6948794pgt.15.2019.10.10.15.28.36
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Thu, 10 Oct 2019 15:28:36 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v3 0/2] dma-mapping: Add vmap checks to dma_map_single()
-Date: Thu, 10 Oct 2019 15:28:27 -0700
-Message-Id: <20191010222829.21940-1-keescook@chromium.org>
+Subject: [PATCH v3 1/2] dma-mapping: Add vmap checks to dma_map_single()
+Date: Thu, 10 Oct 2019 15:28:28 -0700
+Message-Id: <20191010222829.21940-2-keescook@chromium.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191010222829.21940-1-keescook@chromium.org>
+References: <20191010222829.21940-1-keescook@chromium.org>
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
@@ -87,8 +89,6 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Duplicating patch 1 commit log:
-
 As we've seen from USB and other areas[1], we need to always do runtime
 checks for DMA operating on memory regions that might be remapped. This
 adds vmap checks (similar to those already in USB but missing in other
@@ -96,24 +96,32 @@ places) into dma_map_single() so all callers benefit from the checking.
 
 [1] https://git.kernel.org/linus/3840c5b78803b2b6cc1ff820100a74a092c40cbb
 
--Kees
-
-v3:
- - switch to dev_warn() (gregkh, hch)
- - split USB cleanup into a separate patch
-v2: https://lore.kernel.org/lkml/201910041420.F6E55D29A@keescook
-v1: https://lore.kernel.org/lkml/201910021341.7819A660@keescook
-
-Kees Cook (2):
-  dma-mapping: Add vmap checks to dma_map_single()
-  usb: core: Remove redundant vmap checks
-
- drivers/usb/core/hcd.c      | 8 +-------
+Suggested-by: Laura Abbott <labbott@redhat.com>
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
  include/linux/dma-mapping.h | 6 ++++++
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ 1 file changed, 6 insertions(+)
 
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 4a1c4fca475a..ff4e91c66f44 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -583,6 +583,12 @@ static inline unsigned long dma_get_merge_boundary(struct device *dev)
+ static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
+ 		size_t size, enum dma_data_direction dir, unsigned long attrs)
+ {
++	/* DMA must never operate on areas that might be remapped. */
++	if (unlikely(is_vmalloc_addr(ptr))) {
++		dev_warn_once(dev, "bad map: %zu bytes in vmalloc\n", size);
++		return DMA_MAPPING_ERROR;
++	}
++
+ 	debug_dma_map_single(dev, ptr, size);
+ 	return dma_map_page_attrs(dev, virt_to_page(ptr), offset_in_page(ptr),
+ 			size, dir, attrs);
 -- 
 2.17.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
