@@ -2,94 +2,73 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 421D7D1D0D
-	for <lists.iommu@lfdr.de>; Thu, 10 Oct 2019 01:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE58D33EC
+	for <lists.iommu@lfdr.de>; Fri, 11 Oct 2019 00:28:54 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 228B8E17;
-	Wed,  9 Oct 2019 23:50:20 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 90EBFF4F;
+	Thu, 10 Oct 2019 22:28:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id DCE05DE1
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id C7462E2B
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  9 Oct 2019 23:50:17 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-1.mimecast.com
-	(us-smtp-delivery-1.mimecast.com [205.139.110.120])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 354AC14D
+	Thu, 10 Oct 2019 22:28:39 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 7D89E6CE
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  9 Oct 2019 23:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1570665015;
-	h=from:from:reply-to:reply-to:subject:subject:date:date:
-	message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=YAtqhT5ONsjqWUWONs3upOQbCcX6WU5MkOT7sl7Bewo=;
-	b=I3G816pIrs5JzNswH8L+jg79EoPY0ZBz4gJVEMxnRSCdz/uvZh9bwsSGYPFqBA1tYXdlEz
-	Gp+8G3K47wZHXAo9D8Poj8yTZMaO5lvilRgpdwYs16iXQRrCyX5uEILYoJSC7D+kVgzubP
-	88tSYzqOeI+s3FtBBYZcMe1lK9iMBB8=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
-	[209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-330-qE0yQ3vSMGymWSvFfWuSzA-1; Wed, 09 Oct 2019 19:50:14 -0400
-Received: by mail-io1-f70.google.com with SMTP id k14so6765930iot.14
+	Thu, 10 Oct 2019 22:28:39 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id b8so4540291pgm.13
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 09 Oct 2019 16:50:14 -0700 (PDT)
+	Thu, 10 Oct 2019 15:28:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=1ik/kSfKAQ4ZckUQirkRuCGEWrJxiH/kxb4IaqRf84E=;
+	b=aS2nSWkBo2EM7xurh9e4KD3J/oEH5CMiR6qi6pemFdHozgo2Z1c7TRj96V/PkiHjw5
+	FH6oKRaTNJzzH6k22JYKIFTE4RYwim+fu31Qx8OPm3DvD1SWi/W3PN1N9EnLTNV8O95r
+	DXzrAuTvAi+zfUbmq8Hja0TWbbmGpPw9eXOoY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-	:mail-followup-to:references:mime-version:content-disposition
-	:in-reply-to:user-agent;
-	bh=focIOQfcQNyrOXPkI531vbndDZb3WURIChJxW2xJzLs=;
-	b=hgpQkVCH3znyk9OcMQgwE+ydK4rVs2fs6+5jrPATJKMz+ir5xyfkI+MwWX6Jp2TbBN
-	NmeMyTip7dxVq5s9IIbrOBBCwAsAUpzw76raeyJGvXNAHYu1DYVHwie+Vkr2m19WODIE
-	geAfN/W4MORW6CKy2kS8rSh0WP8I7l0vEQsln+DJN8K0IMOe6FzyuMJH43308NMwYqXu
-	mkKRF8lQyo3OKdZnXuB/mvoxH2NRfxP5xZsFPT6RqtXJqg5KFwp8f7u93/5L/gqO3jdS
-	/WNlO0anrgZofraz+RKmOradH5mSo5VIyDI7pYAnlAQc58hy1NJsCPNbI/9GtbRWl5yH
-	pxXg==
-X-Gm-Message-State: APjAAAXn7fHbIhBZD9Dlt7COlmU9FA6Ae3piKfvhPHJap8RymLbT2oSU
-	h4FHDtYkXJYHyuyAU+WljT1StE/bMfJweeI+WN2jmU3+Ta7K1a1az3ygw3Ms6h2HrTpD0ZmzmBM
-	yhxoaeJVQJ89eX30OcSypMIf2HDGYSQ==
-X-Received: by 2002:a5d:8b49:: with SMTP id c9mr4491128iot.209.1570665013831; 
-	Wed, 09 Oct 2019 16:50:13 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyBHaFMxZO0WJshtgxh7/OOthnkRt0Ri0Ng2qxBJgBmVLrUfw4ehvtKeNCwBnq7zLTnWQxQQg==
-X-Received: by 2002:a5d:8b49:: with SMTP id c9mr4491111iot.209.1570665013586; 
-	Wed, 09 Oct 2019 16:50:13 -0700 (PDT)
-Received: from localhost (ip70-163-223-149.ph.ph.cox.net. [70.163.223.149])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=1ik/kSfKAQ4ZckUQirkRuCGEWrJxiH/kxb4IaqRf84E=;
+	b=VS6e1A1m1ogI6unNeHkzEocAVgPIb0UcrzTtM/7zEzBXpePk/KlFN8LiurpjMRiw3S
+	DUqgw9/w5FHQNDrBCtSS3x1dTJxC6ezNOQ5TuNazq0beymdg/fqYqKTANjj1+rHzp8A6
+	uGOJGrMVH+ecgN7YZkAxLHXKCHYSwiK/Y0OmaKWq8f0gdB7CkeYPDEooZwLdYsuieukl
+	Bt+tUWDUFHwitkwUG2SyPcEsfmN8EHSuGb54fXd6AxAxoqOoyErcNBzz/q9ncYrJ1EIi
+	h8535E5kNy3pjOyuA2WlQshEER3uP9gOg1iuqdMKTnnMA3znJVRuUzjftbKB6zdnpGm4
+	prew==
+X-Gm-Message-State: APjAAAWeQj8fT82YkW0Am1T3ajjkER6q1I1tsSG0KabENX2c+T41F1XX
+	1LRos8/Gu22Z7V8Ved+ZLxGoCw==
+X-Google-Smtp-Source: APXvYqwiSLikkNRk0PtrKKYtoloMR4gcGK6Rx79wulZ5k/6xZ+dNXHBqNJrJBq6aMzrzeheKM691Vw==
+X-Received: by 2002:a63:287:: with SMTP id 129mr13610227pgc.190.1570746518937; 
+	Thu, 10 Oct 2019 15:28:38 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
 	by smtp.gmail.com with ESMTPSA id
-	f23sm2553411ioc.36.2019.10.09.16.50.12
+	c10sm7203427pfo.49.2019.10.10.15.28.36
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 09 Oct 2019 16:50:12 -0700 (PDT)
-Date: Wed, 9 Oct 2019 16:50:09 -0700
-From: Jerry Snitselaar <jsnitsel@redhat.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH 0/2] iommu/vt-d: Select PCI_PRI for INTEL_IOMMU_SVM
-Message-ID: <20191009235009.a3mxw4qrklkqwuzf@cantor>
-Mail-Followup-To: Bjorn Helgaas <helgaas@kernel.org>,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Joerg Roedel <joro@8bytes.org>, Ashok Raj <ashok.raj@intel.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Keith Busch <keith.busch@intel.com>,
-	iommu@lists.linux-foundation.org,
-	Bjorn Helgaas <bhelgaas@google.com>
-References: <20191009224551.179497-1-helgaas@kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <20191009224551.179497-1-helgaas@kernel.org>
-User-Agent: NeoMutt/20180716
-X-MC-Unique: qE0yQ3vSMGymWSvFfWuSzA-1
-X-Mimecast-Spam-Score: 0
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
+	Thu, 10 Oct 2019 15:28:36 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: [PATCH v3 0/2] dma-mapping: Add vmap checks to dma_map_single()
+Date: Thu, 10 Oct 2019 15:28:27 -0700
+Message-Id: <20191010222829.21940-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Ashok Raj <ashok.raj@intel.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Keith Busch <keith.busch@intel.com>,
-	iommu@lists.linux-foundation.org, Bjorn Helgaas <bhelgaas@google.com>,
-	David Woodhouse <dwmw2@infradead.org>
+Cc: Kees Cook <keescook@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+	iommu@lists.linux-foundation.org,
+	Semmle Security Reports <security-reports@semmle.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Jesper Dangaard Brouer <brouer@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>, Laura Abbott <labbott@redhat.com>,
+	Robin Murphy <robin.murphy@arm.com>, Allison Randal <allison@lohutok.net>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -102,57 +81,39 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Reply-To: Jerry Snitselaar <jsnitsel@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Wed Oct 09 19, Bjorn Helgaas wrote:
->From: Bjorn Helgaas <bhelgaas@google.com>
->
->I think intel-iommu.c depends on CONFIG_AMD_IOMMU in an undesirable way:
->
->When CONFIG_INTEL_IOMMU_SVM=y, iommu_enable_dev_iotlb() calls PRI
->interfaces (pci_reset_pri() and pci_enable_pri()), but those are only
->implemented when CONFIG_PCI_PRI is enabled.  If CONFIG_PCI_PRI is not
->enabled, there are stubs that just return failure.
->
->The INTEL_IOMMU_SVM Kconfig does nothing with PCI_PRI, but AMD_IOMMU
->selects PCI_PRI.  So if AMD_IOMMU is enabled, intel-iommu.c gets the full
->PRI interfaces.  If AMD_IOMMU is not enabled, it gets the PRI stubs.
->
->This seems wrong.  The first patch here makes INTEL_IOMMU_SVM select
->PCI_PRI so intel-iommu.c always gets the full PRI interfaces.
->
->The second patch moves pci_prg_resp_pasid_required(), which simply returns
->a bit from the PCI capability, from #ifdef CONFIG_PCI_PASID to #ifdef
->CONFIG_PCI_PRI.  This is related because INTEL_IOMMU_SVM already *does*
->select PCI_PASID, so it previously always got pci_prg_resp_pasid_required()
->even though it got stubs for other PRI things.
->
->Since these are related and I have several follow-on ATS-related patches in
->the queue, I'd like to take these both via the PCI tree.
->
->Bjorn Helgaas (2):
->  iommu/vt-d: Select PCI_PRI for INTEL_IOMMU_SVM
->  PCI/ATS: Move pci_prg_resp_pasid_required() to CONFIG_PCI_PRI
->
-> drivers/iommu/Kconfig   |  1 +
-> drivers/pci/ats.c       | 55 +++++++++++++++++++----------------------
-> include/linux/pci-ats.h | 11 ++++-----
-> 3 files changed, 31 insertions(+), 36 deletions(-)
->
->-- 
->2.23.0.581.g78d2f28ef7-goog
->
->_______________________________________________
->iommu mailing list
->iommu@lists.linux-foundation.org
->https://lists.linuxfoundation.org/mailman/listinfo/iommu
+Duplicating patch 1 commit log:
 
-Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
+As we've seen from USB and other areas[1], we need to always do runtime
+checks for DMA operating on memory regions that might be remapped. This
+adds vmap checks (similar to those already in USB but missing in other
+places) into dma_map_single() so all callers benefit from the checking.
 
+[1] https://git.kernel.org/linus/3840c5b78803b2b6cc1ff820100a74a092c40cbb
+
+-Kees
+
+v3:
+ - switch to dev_warn() (gregkh, hch)
+ - split USB cleanup into a separate patch
+v2: https://lore.kernel.org/lkml/201910041420.F6E55D29A@keescook
+v1: https://lore.kernel.org/lkml/201910021341.7819A660@keescook
+
+Kees Cook (2):
+  dma-mapping: Add vmap checks to dma_map_single()
+  usb: core: Remove redundant vmap checks
+
+ drivers/usb/core/hcd.c      | 8 +-------
+ include/linux/dma-mapping.h | 6 ++++++
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+-- 
+2.17.1
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
