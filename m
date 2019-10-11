@@ -2,53 +2,52 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DADD3F67
-	for <lists.iommu@lfdr.de>; Fri, 11 Oct 2019 14:23:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0DDCD3FCE
+	for <lists.iommu@lfdr.de>; Fri, 11 Oct 2019 14:42:16 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 7F69C174B;
-	Fri, 11 Oct 2019 12:23:28 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 1327A15D1;
+	Fri, 11 Oct 2019 12:42:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 3896E173C
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 3A06E1749
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 11 Oct 2019 12:11:11 +0000 (UTC)
+	Fri, 11 Oct 2019 12:29:43 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
-	[209.85.210.66])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 82B975D3
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+	[209.85.167.196])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 3CD80709
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 11 Oct 2019 12:11:08 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id o44so7722088ota.10
+	Fri, 11 Oct 2019 12:29:39 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id i16so7843440oie.4
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 11 Oct 2019 05:11:08 -0700 (PDT)
+	Fri, 11 Oct 2019 05:29:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=KD7hNkPmgU5eUkr6kzafk4QUrOtUh97tOslZtesF6xM=;
-	b=OEsU4m5Itje7u/kk5A4wsIASJ8Z8qP6rC22aK+mGk5fxZ9vDRRAfPk50JvgylHJHlJ
-	FBOw+rJ4HiWJcFmf37toTsPhQu6yAKOuimFClHhENSvi1JrZFcsZdPtURDg/TRc6Wapi
-	nY9n73OPL4ENm9Wq4vYrsmzeJMc4mS7wHdWtDjsb1BMtpOTQqB/yeMRKRbWn3H+o3EFV
-	UI/lRhc7KxuHeIqhxDUwJ5JIDCFrqkn7OUaI0mUDfFuhDojBO+5u9UCDVtvYcVJdYW/C
-	SHwEqP/98OsSC/yGtqRrgiZhEtU0hOXF9O1rEhLsl+EKLZ6z1WM80r/CMNfg67ETt2FB
-	ZPPA==
-X-Gm-Message-State: APjAAAUku5laBwYKpAlaZxbNKJJJrMcIr5uE0F1pU0ZPESDzEaV5Ptib
-	cqMahbh/ayLxxDoW+9mVtYkfzys+e/9gxxYhjgw=
-X-Google-Smtp-Source: APXvYqwqkXmQ/JOh7OmTQ74bEvuK6xdpGsfpFjkRVQGiKI1Xo9EifsVApogi+Cz1sCGR5grPdjnz267Voy6EZ6+290g=
-X-Received: by 2002:a05:6830:1685:: with SMTP id
-	k5mr12047997otr.250.1570795867699; 
-	Fri, 11 Oct 2019 05:11:07 -0700 (PDT)
+	bh=Mk/S55Za5w2S7LoyGIF9nU8j8q3VT+OJmghbM1EQWNA=;
+	b=JFzJYI53+NokzM1NWA1Dz9RzU3cHZXDvfwqUYFRT/nwgofvw26S8JAIprAA+rLD1jQ
+	UhJwLD6jVHxUbP5FouMheqqShLH8bjwQdQELT94wHnk8F4gE7QbNiZ+x2UzcUxUUG4la
+	Y/4RUaSbQggwZp508msXhokqFMDlR1gZdB9fUz2ySSNe7kd/wmAKUaM+YCFJvhHy/Vbt
+	pnJUu7KTJisZAJYCMyZQiizYEfAVQQTPphhzn1Y43SSVb5nS0bLXoc/U0L1HqJEeLqIO
+	yRP4pSSlTjz9z1x5S8Y/JIPcjwWIrPgP0xIyg6t7Xm3EsTjOeFkc9vdgVZEB7sgYjP89
+	KSXQ==
+X-Gm-Message-State: APjAAAVAK7lyvQlO/dbMhg1AgQ1qxneg6eCuoTvc7WxBuM3MT/QDJcKP
+	ohoFOa/aNu0AeZIXAWlpFXv16lPs0BxRgE7nUM4=
+X-Google-Smtp-Source: APXvYqxJmNl+fmcMRc0/CWf4te3uXy2EMOFxzF+6nsYW0TqU97sEgQ/AWhrgDvvXNMI8dXF8hcwql+nR3WX5jjp8T8w=
+X-Received: by 2002:aca:882:: with SMTP id 124mr11980630oii.54.1570796978363; 
+	Fri, 11 Oct 2019 05:29:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <1570609609-1332-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-	<1570609609-1332-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1570609609-1332-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+	<1570609609-1332-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1570609609-1332-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 11 Oct 2019 14:10:56 +0200
-Message-ID: <CAMuHMdWfHYDOKSJBUCVLG6yNKxbv=jUd9E1B_fiBOQajwi_wEg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] iommu/ipmmu-vmsa: Remove some unused register
-	declarations
+Date: Fri, 11 Oct 2019 14:29:27 +0200
+Message-ID: <CAMuHMdXv3ChOHO7RyOjQ0mL+9ugRFWnMUw7MfYD-9aU+ZZMSTQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] iommu/ipmmu-vmsa: Calculate context registers' offset
+	instead of a macro
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
@@ -75,34 +74,87 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 
 Hi Shimoda-san,
 
-Thanks for your patch!
-
 On Wed, Oct 9, 2019 at 10:27 AM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> To support different registers memory mapping hardware easily
-> in the future, this patch removes some unused register
-> declarations.
+> Since we will have changed memory mapping of the IPMMU in the future,
+> this patch uses ipmmu_features values instead of a macro to
+> calculate context registers offset. No behavior change.
 >
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-While I can confirm the removed definitions are unused, they were
-still valid (but see comments below).
-Perhaps it would be better to add comments, to state clearly to which
-SoCs or SoC families they apply?  Or do you think this would be futile,
-and would add too much clutter to the source file in the near future?
+Thanks for your patch!
 
 > --- a/drivers/iommu/ipmmu-vmsa.c
 > +++ b/drivers/iommu/ipmmu-vmsa.c
-> @@ -104,8 +104,6 @@ static struct ipmmu_vmsa_device *to_ipmmu(struct device *dev)
+> @@ -50,6 +50,8 @@ struct ipmmu_features {
+>         bool twobit_imttbcr_sl0;
+>         bool reserved_context;
+>         bool cache_snoop;
+> +       u32 ctx_offset_base;
+> +       u32 ctx_offset_stride;
+>  };
+>
+>  struct ipmmu_vmsa_device {
+> @@ -99,8 +101,6 @@ static struct ipmmu_vmsa_device *to_ipmmu(struct device *dev)
+>
+>  #define IM_NS_ALIAS_OFFSET             0x800
+>
+> -#define IM_CTX_SIZE                    0x40
+> -
 >  #define IMCTR                          0x0000
 >  #define IMCTR_TRE                      (1 << 17)
 >  #define IMCTR_AFE                      (1 << 16)
-> -#define IMCTR_RTSEL_MASK               (3 << 4)
+> @@ -253,18 +253,25 @@ static void ipmmu_write(struct ipmmu_vmsa_device *mmu, unsigned int offset,
+>         iowrite32(data, mmu->base + offset);
+>  }
+>
+> +static u32 ipmmu_ctx_reg(struct ipmmu_vmsa_device *mmu, unsigned int context_id,
+> +                        unsigned int reg)
+> +{
+> +       return mmu->features->ctx_offset_base +
+> +              context_id * mmu->features->ctx_offset_stride + reg;
+> +}
+> +
+>  static u32 ipmmu_ctx_read_root(struct ipmmu_vmsa_domain *domain,
+>                                unsigned int reg)
+>  {
+>         return ipmmu_read(domain->mmu->root,
+> -                         domain->context_id * IM_CTX_SIZE + reg);
+> +                         ipmmu_ctx_reg(domain->mmu, domain->context_id, reg));
 
-FWIW, this is valid for R-Car Gen2 only.  On R-Car Gen3, the field
-contains 3 bits.
+For consistency:
+
+    ipmmu_ctx_reg(domain->mmu->root, ...)
+
+but in practice the features for domain->mmu and domain->mmu->root are
+identical anyway.
+
+>  }
+>
+>  static void ipmmu_ctx_write_root(struct ipmmu_vmsa_domain *domain,
+>                                  unsigned int reg, u32 data)
+>  {
+>         ipmmu_write(domain->mmu->root,
+> -                   domain->context_id * IM_CTX_SIZE + reg, data);
+> +                   ipmmu_ctx_reg(domain->mmu, domain->context_id, reg), data);
+
+Likewise:
+
+    ipmmu_ctx_reg(domain->mmu->root, ...)?
+
+I find these ipmmu_{read,write}() a bit hard too read, with passing the
+mmu to both ipmmu_{read,write}() and ipmmu_ctx_reg().
+
+What do you think about providing two helpers ipmmu_ctx_{read,write}(),
+so all users can just use e.g.
+
+    ipmmu_ctx_write(mmu, context_id, reg, data);
+
+instead of
+
+    ipmmu_write(mmu, ipmmu_ctx_reg(mmu, context_id, reg), data);
+
+?
 
 Gr{oetje,eeting}s,
 
