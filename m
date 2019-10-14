@@ -2,54 +2,56 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1979BD5A82
-	for <lists.iommu@lfdr.de>; Mon, 14 Oct 2019 07:08:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 550EBD5BAD
+	for <lists.iommu@lfdr.de>; Mon, 14 Oct 2019 08:52:44 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 2E2F42579;
-	Mon, 14 Oct 2019 05:08:16 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id BCA9025EA;
+	Mon, 14 Oct 2019 06:52:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id EA5BE2562;
-	Mon, 14 Oct 2019 04:52:45 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E7F0A2598
+	for <iommu@lists.linux-foundation.org>;
+	Mon, 14 Oct 2019 06:38:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 1060F6CE;
-	Mon, 14 Oct 2019 04:52:44 +0000 (UTC)
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 46s5lZ6rscz9sP3; Mon, 14 Oct 2019 15:52:42 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1571028762;
-	bh=5ic5WJLETE48dYyBLSCb1MM2F7flCGOpH3qsXLyV8n8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BDJfsvOKlYFniqmjeT/AI6HcNOV1ln1BxU/lRTiSl1OZR30b7aBpr9jdIkYRg/52x
-	NGxFBlDbv1VXrJo3DY0hI4ChehpnlBtf+O+oxCC95ARasIgJ+WLE9nzsP/2cHusaYK
-	LpKGJw6gzFvNYuSsGdCxGjR6ohdcNlzb9UyGkjfk=
-Date: Mon, 14 Oct 2019 15:52:35 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Ram Pai <linuxram@us.ibm.com>
-Subject: Re: [PATCH 2/2] virtio_ring: Use DMA API if memory is encrypted
-Message-ID: <20191014045235.GO4080@umbus.fritz.box>
-References: <1570843519-8696-1-git-send-email-linuxram@us.ibm.com>
-	<1570843519-8696-2-git-send-email-linuxram@us.ibm.com>
-	<1570843519-8696-3-git-send-email-linuxram@us.ibm.com>
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 350225D3
+	for <iommu@lists.linux-foundation.org>;
+	Mon, 14 Oct 2019 06:38:33 +0000 (UTC)
+X-UUID: 3c212a6db640499e8e73f90b78eabc5a-20191014
+X-UUID: 3c212a6db640499e8e73f90b78eabc5a-20191014
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by
+	mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+	(Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+	with ESMTP id 89117099; Mon, 14 Oct 2019 14:38:30 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+	mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server
+	(TLS) id 15.0.1395.4; Mon, 14 Oct 2019 14:38:26 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas09.mediatek.inc
+	(172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+	Transport; Mon, 14 Oct 2019 14:38:26 +0800
+From: Yong Wu <yong.wu@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will.deacon@arm.com>
+Subject: [PATCH v3 0/7] Improve tlb range flush
+Date: Mon, 14 Oct 2019 14:38:14 +0800
+Message-ID: <1571035101-4213-1-git-send-email-yong.wu@mediatek.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1570843519-8696-3-git-send-email-linuxram@us.ibm.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-MTK: N
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,MAY_BE_FORGED,
+	UNPARSEABLE_RELAY autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: andmike@us.ibm.com, sukadev@linux.vnet.ibm.com, mdroth@linux.vnet.ibm.com,
-	b.zolnierkie@samsung.com, mpe@ellerman.id.au,
-	jasowang@redhat.com, aik@linux.ibm.com, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org, paulus@ozlabs.org,
-	iommu@lists.linux-foundation.org, paul.burton@mips.com,
-	benh@kernel.crashing.org, linuxppc-dev@lists.ozlabs.org,
-	hch@lst.de, robin.murphy@arm.com
+Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com,
+	Nicolas Boichat <drinkcat@chromium.org>, cui.zhang@mediatek.com,
+	srv_heupstream@mediatek.com, chao.hao@mediatek.com,
+	edison.hsieh@mediatek.com, linux-kernel@vger.kernel.org,
+	Evan Green <evgreen@chromium.org>,
+	Tomasz Figa <tfiga@google.com>, iommu@lists.linux-foundation.org,
+	linux-mediatek@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>,
+	linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,91 +64,45 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============4577847849682447228=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
+This patchset mainly fixes a tlb flush timeout issue and use the new
+iommu_gather to re-implement the tlb flush flow. and several clean up
+patches about the tlb_flush.
 
---===============4577847849682447228==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="8N0TQpGUCeEQshoq"
-Content-Disposition: inline
+change note:
+v3:
+   1. Use the gather to implement the tlb_flush suggested from Tomasz.
+   2. add some clean up patches.
 
+v2:
+https://lore.kernel.org/linux-iommu/1570627143-29441-1-git-send-email-yong.wu@mediatek.com/T/#t
+   1. rebase on v5.4-rc1
+   2. only split to several patches.
 
---8N0TQpGUCeEQshoq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v1:
+https://lore.kernel.org/linux-iommu/CAAFQd5C3U7pZo4SSUJ52Q7E+0FaUoORQFbQC5RhCHBhi=NFYTw@mail.gmail.com/T/#t
 
-On Fri, Oct 11, 2019 at 06:25:19PM -0700, Ram Pai wrote:
-> From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
->=20
-> Normally, virtio enables DMA API with VIRTIO_F_IOMMU_PLATFORM, which must
-> be set by both device and guest driver. However, as a hack, when DMA API
-> returns physical addresses, guest driver can use the DMA API; even though
-> device does not set VIRTIO_F_IOMMU_PLATFORM and just uses physical
-> addresses.
->=20
-> Doing this works-around POWER secure guests for which only the bounce
-> buffer is accessible to the device, but which don't set
-> VIRTIO_F_IOMMU_PLATFORM due to a set of hypervisor and architectural bugs.
-> To guard against platform changes, breaking any of these assumptions down
-> the road, we check at probe time and fail if that's not the case.
->=20
-> cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> cc: David Gibson <david@gibson.dropbear.id.au>
-> cc: Michael Ellerman <mpe@ellerman.id.au>
-> cc: Paul Mackerras <paulus@ozlabs.org>
-> cc: Michael Roth <mdroth@linux.vnet.ibm.com>
-> cc: Alexey Kardashevskiy <aik@linux.ibm.com>
-> cc: Jason Wang <jasowang@redhat.com>
-> cc: Christoph Hellwig <hch@lst.de>
-> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Ram Pai <linuxram@us.ibm.com>
-> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Yong Wu (7):
+  iommu/mediatek: Correct the flush_iotlb_all callback
+  iommu/mediatek: Add pgtlock in the iotlb_sync
+  iommu/mediatek: Use gather to achieve the tlb range flush
+  iommu/mediatek: Delete the leaf in the tlb flush
+  iommu/mediatek: Move the tlb_sync into tlb_flush
+  iommu/mediatek: Use writel for TLB range invalidation
+  iommu/mediatek: Reduce the tlb flush timeout value
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+ drivers/iommu/mtk_iommu.c | 77 +++++++++++++++++++++++------------------------
+ drivers/iommu/mtk_iommu.h |  2 +-
+ 2 files changed, 38 insertions(+), 41 deletions(-)
 
-I don't know that this is the most elegant solution possible.  But
-it's simple, gets the job done and pretty unlikely to cause mysterious
-breakage down the road.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---8N0TQpGUCeEQshoq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2j/xMACgkQbDjKyiDZ
-s5KZJw/7BRxGaRXVs4GwonOJMnJpzq+0zo4Rex4IzZu98y/3bSw1XB+cNfhAwGdo
-00Qpp0+AGxMNUmcXy+ilSprBokq1gDBh1hbq2ap/1yoK/fcW2L5ZuyoT5m9d1AMR
-4sExuhtQpr7ZMAHHC5Q99jOi44i4BNixlNI62OwtYwOoSvGz1dar6PthN/D6zZ1N
-k5ViBzqOY4CIoK/Onqlf47P0ZbgP2XP7rfri0m+PbY0ipOw7E+8zMl4NMIu+dGeU
-RQm5e1v8wX/5MUS50gAL+lW/QUxsneaCs3WLCXvHqSJL+shLJnV8Bnomgw+zsBCb
-lkLKb+MqdRLt+OMjmIzAtJ2Sza6CU5cpvOAWmIeTlxiwEdD5qrVzAryhFU204vwP
-J4ovQSOyR4geqNF3uzTvvVhdme9dNLHkwp7h9PnFwVQEYK6/BlUXxi6WXQXbcthz
-PDIj5YdYOwnHLsAv0uaEqRb8/n8ULgyLMfMI4EJOomafMlXF+VD0UPsOEC5glAJ4
-TQ6Q0MMzMJ48BhOhwoAZDEYCJYPSXDaKKxEPgvr+uY+VeGTMuMUC8W8VyKFfEZr2
-jKpt2P6u/9cPgZWI02Ve5xbRDHJ38cW74JxnTK21zEiF5m14JTYxU6lTTyPQZhFe
-DWvkWwsvDz0JvMt8z5DU+FZZbYAnax5XWnEqIl2urw/ChF6DHOY=
-=kf/I
------END PGP SIGNATURE-----
-
---8N0TQpGUCeEQshoq--
-
---===============4577847849682447228==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+1.9.1
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============4577847849682447228==--
