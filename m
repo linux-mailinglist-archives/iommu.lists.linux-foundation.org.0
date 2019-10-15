@@ -2,44 +2,44 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5EAAD7415
-	for <lists.iommu@lfdr.de>; Tue, 15 Oct 2019 12:59:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BE0D7421
+	for <lists.iommu@lfdr.de>; Tue, 15 Oct 2019 13:02:11 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id EB2EDC7C;
-	Tue, 15 Oct 2019 10:58:57 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 71B1AC77;
+	Tue, 15 Oct 2019 11:02:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id A4B90A70
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E019CBA0
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 15 Oct 2019 10:58:56 +0000 (UTC)
+	Tue, 15 Oct 2019 11:02:05 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0862114D
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 62FA514D
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 15 Oct 2019 10:58:56 +0000 (UTC)
+	Tue, 15 Oct 2019 11:02:05 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-	id 3435A2D9; Tue, 15 Oct 2019 12:58:54 +0200 (CEST)
-Date: Tue, 15 Oct 2019 12:58:52 +0200
+	id BED4D2D9; Tue, 15 Oct 2019 13:02:03 +0200 (CEST)
+Date: Tue, 15 Oct 2019 13:02:02 +0200
 From: Joerg Roedel <joro@8bytes.org>
-To: Biju Das <biju.das@bp.renesas.com>
-Subject: Re: [PATCH v2] iommu/ipmmu-vmsa: Hook up r8a774b1 DT matching code
-Message-ID: <20191015105852.GE14518@8bytes.org>
-References: <1569581601-34027-1-git-send-email-biju.das@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH] iommu/ipmmu-vmsa: Only call platform_get_irq() when
+	interrupt is mandatory
+Message-ID: <20191015110202.GF14518@8bytes.org>
+References: <20191001180622.806-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1569581601-34027-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <20191001180622.806-1-geert+renesas@glider.be>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-	Chris Paterson <Chris.Paterson2@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, iommu@lists.linux-foundation.org,
-	Simon Horman <horms@verge.net.au>
+Cc: linux-renesas-soc@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+	Stephen Boyd <swboyd@chromium.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,20 +57,24 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Fri, Sep 27, 2019 at 11:53:21AM +0100, Biju Das wrote:
-> Support RZ/G2N (R8A774B1) IPMMU.
+On Tue, Oct 01, 2019 at 08:06:22PM +0200, Geert Uytterhoeven wrote:
+> As platform_get_irq() now prints an error when the interrupt does not
+> exist, calling it gratuitously causes scary messages like:
 > 
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>     ipmmu-vmsa e6740000.mmu: IRQ index 0 not found
+> 
+> Fix this by moving the call to platform_get_irq() down, where the
+> existence of the interrupt is mandatory.
+> 
+> Fixes: 7723f4c5ecdb8d83 ("driver core: platform: Add an error message to platform_get_irq*()")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> V1-->V2
->   * Incorporated Geet's review comment
->   * Added Geert's Reviewed-by tag
+> This is a fix for v5.4-rc1.
 > ---
->  drivers/iommu/ipmmu-vmsa.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/iommu/ipmmu-vmsa.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-Applied, thanks.
+Applied for v5.4
 
 _______________________________________________
 iommu mailing list
