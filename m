@@ -2,42 +2,44 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612FCD73B0
-	for <lists.iommu@lfdr.de>; Tue, 15 Oct 2019 12:45:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5EAAD7415
+	for <lists.iommu@lfdr.de>; Tue, 15 Oct 2019 12:59:01 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 1DEE0BDC;
-	Tue, 15 Oct 2019 10:45:52 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id EB2EDC7C;
+	Tue, 15 Oct 2019 10:58:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1687DB8E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A4B90A70
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 15 Oct 2019 10:45:51 +0000 (UTC)
+	Tue, 15 Oct 2019 10:58:56 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5A91888E
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0862114D
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 15 Oct 2019 10:45:50 +0000 (UTC)
+	Tue, 15 Oct 2019 10:58:56 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
-	id 3E5212D9; Tue, 15 Oct 2019 12:45:48 +0200 (CEST)
-Date: Tue, 15 Oct 2019 12:45:46 +0200
+	id 3435A2D9; Tue, 15 Oct 2019 12:58:54 +0200 (CEST)
+Date: Tue, 15 Oct 2019 12:58:52 +0200
 From: Joerg Roedel <joro@8bytes.org>
-To: Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH] iommu/rockchip: don't use platform_get_irq to implicitly
-	count irqs
-Message-ID: <20191015104546.GD14518@8bytes.org>
-References: <20190925184346.14121-1-heiko@sntech.de>
+To: Biju Das <biju.das@bp.renesas.com>
+Subject: Re: [PATCH v2] iommu/ipmmu-vmsa: Hook up r8a774b1 DT matching code
+Message-ID: <20191015105852.GE14518@8bytes.org>
+References: <1569581601-34027-1-git-send-email-biju.das@bp.renesas.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190925184346.14121-1-heiko@sntech.de>
+In-Reply-To: <1569581601-34027-1-git-send-email-biju.das@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: linux-rockchip@lists.infradead.org, iommu@lists.linux-foundation.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+	Chris Paterson <Chris.Paterson2@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-renesas-soc@vger.kernel.org, iommu@lists.linux-foundation.org,
+	Simon Horman <horms@verge.net.au>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,22 +57,21 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Wed, Sep 25, 2019 at 08:43:46PM +0200, Heiko Stuebner wrote:
-> Till now the Rockchip iommu driver walked through the irq list via
-> platform_get_irq() until it encountered an ENXIO error. With the
-> recent change to add a central error message, this always results
-> in such an error for each iommu on probe and shutdown.
+On Fri, Sep 27, 2019 at 11:53:21AM +0100, Biju Das wrote:
+> Support RZ/G2N (R8A774B1) IPMMU.
 > 
-> To not confuse people, switch to platform_count_irqs() to get the
-> actual number of interrupts before walking through them.
-> 
-> Fixes: 7723f4c5ecdb ("driver core: platform: Add an error message to platform_get_irq*()")
-> Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  drivers/iommu/rockchip-iommu.c | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
+> V1-->V2
+>   * Incorporated Geet's review comment
+>   * Added Geert's Reviewed-by tag
+> ---
+>  drivers/iommu/ipmmu-vmsa.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-Applied for v5.4, thanks.
+Applied, thanks.
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
