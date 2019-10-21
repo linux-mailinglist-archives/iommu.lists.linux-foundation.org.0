@@ -2,76 +2,55 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB9FDDCD0
-	for <lists.iommu@lfdr.de>; Sun, 20 Oct 2019 07:03:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48797DE6AA
+	for <lists.iommu@lfdr.de>; Mon, 21 Oct 2019 10:37:12 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 58D12AEF;
-	Sun, 20 Oct 2019 05:03:47 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 5C8F3C00;
+	Mon, 21 Oct 2019 08:37:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id E2847AC7
-	for <iommu@lists.linux-foundation.org>;
-	Sun, 20 Oct 2019 05:03:45 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id C228F14D
-	for <iommu@lists.linux-foundation.org>;
-	Sun, 20 Oct 2019 05:03:44 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id e10so5613591pgd.11
-	for <iommu@lists.linux-foundation.org>;
-	Sat, 19 Oct 2019 22:03:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ywjurEp+Cqg9Fe4cTYNr3xdPVL+AQ1tEWRef7MBO2GM=;
-	b=UwgOsRMTJdf+LgBr0C20ejDPIAr9ydq6HPqifia3cf2sUDbcy29b0cQ7haAAoaxH9M
-	o0gSiH8mSnEWttP3FaZxSqF3TEW+GF1zdaoQrV++F4z7IOT5nK2/s47etV0YlDbhxUL/
-	XJWssf9Q4WAoPZ3+IUx6qZBCzKlboTmJkUG6CzzL0WsJLPUqV7FI8a1XAC+Gkle+djPG
-	vgvRCyMFONAJrtZWIOehm5TLiYtvPU2zaLC1ArRBGH39CrsmQZougjogh+YiBTIceHBH
-	x5zjL0GPGoU13XhRj/s0xyuzA8/6ttP69rpJHIzSAR6Pgaqq58fnEZtidpd8KEuQhMCl
-	kIIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ywjurEp+Cqg9Fe4cTYNr3xdPVL+AQ1tEWRef7MBO2GM=;
-	b=RBggXnx0vXMUm0YoZvr9npfSthtFyFa3XvUs5aHGw+85NIhNOrVWtPtZL1pSrdWXPD
-	Gw0XL6BK/EK7y/NuXixuRlbp791F+9ej7Dc12GdBGWacH0qNNlDisMgE1BpBcegXbL/h
-	AAyqRmfeZUHs8RkspZWmHZkz60tVGMMlhSQ09JuwbWuhIlX2EGNCEoKbYDbypz7iPzw+
-	URt22X9Ox63m/BDYnD05rPD+DceoshWROpY7McqjC1hRjVv7qAimcw2IS6JLCOObmKyg
-	kZG51hUgas6ciZoNxkwCqESoPvIH3tskRz6DZr9ordMq/xf9erqC7TdGrP5XhhIdCfAI
-	Gwhg==
-X-Gm-Message-State: APjAAAXf3ms+ObYijN8eSkjKbRtfy/sIUte/Ysk1l/WpLpLfvLHQVOZS
-	6u1Il179m7snr7b01FwleN0=
-X-Google-Smtp-Source: APXvYqzhq4Y6f40ITf9PsyqNcqlgvSoGUJy957fifRTQB2oiJKf62ter96xFc16NqqLRxmzBGJmp+A==
-X-Received: by 2002:a62:2501:: with SMTP id l1mr15797770pfl.148.1571547824131; 
-	Sat, 19 Oct 2019 22:03:44 -0700 (PDT)
-Received: from localhost.localdomain ([2405:204:120d:c531:1e8a:2547:3f6b:fbca])
-	by smtp.gmail.com with ESMTPSA id
-	m5sm11238263pgt.15.2019.10.19.22.03.37
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 19 Oct 2019 22:03:43 -0700 (PDT)
-From: Shyam Saini <mayhs11saini@gmail.com>
-To: kernel-hardening@lists.openwall.com
-Subject: [PATCH V2] kernel: dma: contigous: Make CMA parameters
-	__initdata/__initconst
-Date: Sun, 20 Oct 2019 10:33:22 +0530
-Message-Id: <20191020050322.2634-1-mayhs11saini@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 4D7DCB88;
+	Mon, 21 Oct 2019 08:37:06 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 42DA914D;
+	Mon, 21 Oct 2019 08:37:04 +0000 (UTC)
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 46xVPB4GFcz9sPL; Mon, 21 Oct 2019 19:37:02 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1571647022;
+	bh=P4+BLRFMUZOzcZoVFqPd/m5gwNGJV4F8kQoNpmmm7xA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=avrjOdXbIP98E9IET/dkB7o//V/WUQGuUZauaU4YAvbsL0iyAbQT2hdQRmWjeEtZo
+	9O9YxymQ60Bi6NXIO5IUyMVUzVZQwJA4XWrkWh3oqnn11r/hQ7lDikvL9i2P05SRlS
+	qBAWHB7eC/SE7bNC8DQDz1J6xg+SKHjJu2mzfdIs=
+Date: Mon, 21 Oct 2019 19:36:50 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 2/2] virtio_ring: Use DMA API if memory is encrypted
+Message-ID: <20191021083650.GG6439@umbus.fritz.box>
+References: <1570843519-8696-1-git-send-email-linuxram@us.ibm.com>
+	<1570843519-8696-2-git-send-email-linuxram@us.ibm.com>
+	<1570843519-8696-3-git-send-email-linuxram@us.ibm.com>
+	<20191015073501.GA32345@lst.de>
 MIME-Version: 1.0
+In-Reply-To: <20191015073501.GA32345@lst.de>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	DKIM_VALID, DKIM_VALID_AU,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org,
-	Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
-	iommu@lists.linux-foundation.org, Shyam Saini <mayhs11saini@gmail.com>,
-	Christopher Lameter <cl@linux.com>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>
+Cc: andmike@us.ibm.com, sukadev@linux.vnet.ibm.com, mdroth@linux.vnet.ibm.com,
+	b.zolnierkie@samsung.com, benh@kernel.crashing.org,
+	jasowang@redhat.com, aik@linux.ibm.com,
+	Ram Pai <linuxram@us.ibm.com>, linux-kernel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org, paulus@ozlabs.org,
+	iommu@lists.linux-foundation.org, paul.burton@mips.com,
+	mpe@ellerman.id.au, linuxppc-dev@lists.ozlabs.org, robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -84,54 +63,96 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1802470127515114305=="
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-These parameters are only referenced by __init routine calls during early
-boot so they should be marked as __initdata and __initconst accordingly.
 
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Christopher Lameter <cl@linux.com>
-Cc: Kees Cook <keescook@chromium.org>
-Signed-off-by: Shyam Saini <mayhs11saini@gmail.com>
----
-V1->V2:
-	mark cma parameters as __initdata/__initconst
-	instead of __ro_after_init. As these parameters
-	are only used by __init calls and never used afterwards
-	which contrast the __ro_after_init usage.
----
- kernel/dma/contiguous.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+--===============1802470127515114305==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Sw7tCqrGA+HQ0/zt"
+Content-Disposition: inline
 
-diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-index 69cfb4345388..10bfc8c44c54 100644
---- a/kernel/dma/contiguous.c
-+++ b/kernel/dma/contiguous.c
-@@ -42,10 +42,10 @@ struct cma *dma_contiguous_default_area;
-  * Users, who want to set the size of global CMA area for their system
-  * should use cma= kernel parameter.
-  */
--static const phys_addr_t size_bytes = (phys_addr_t)CMA_SIZE_MBYTES * SZ_1M;
--static phys_addr_t size_cmdline = -1;
--static phys_addr_t base_cmdline;
--static phys_addr_t limit_cmdline;
-+static const phys_addr_t size_bytes __initconst = (phys_addr_t)CMA_SIZE_MBYTES * SZ_1M;
-+static phys_addr_t  size_cmdline __initdata = -1;
-+static phys_addr_t base_cmdline __initdata;
-+static phys_addr_t limit_cmdline __initdata;
- 
- static int __init early_cma(char *p)
- {
--- 
-2.20.1
+
+--Sw7tCqrGA+HQ0/zt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 15, 2019 at 09:35:01AM +0200, Christoph Hellwig wrote:
+> On Fri, Oct 11, 2019 at 06:25:19PM -0700, Ram Pai wrote:
+> > From: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+> >=20
+> > Normally, virtio enables DMA API with VIRTIO_F_IOMMU_PLATFORM, which mu=
+st
+> > be set by both device and guest driver. However, as a hack, when DMA API
+> > returns physical addresses, guest driver can use the DMA API; even thou=
+gh
+> > device does not set VIRTIO_F_IOMMU_PLATFORM and just uses physical
+> > addresses.
+>=20
+> Sorry, but this is a complete bullshit hack.  Driver must always use
+> the DMA API if they do DMA, and if virtio devices use physical addresses
+> that needs to be returned through the platform firmware interfaces for
+> the dma setup.  If you don't do that yet (which based on previous
+> informations you don't), you need to fix it, and we can then quirk
+> old implementations that already are out in the field.
+>=20
+> In other words: we finally need to fix that virtio mess and not pile
+> hacks on top of hacks.
+
+Christoph, if I understand correctly, your objection isn't so much to
+the proposed change here of itself, except insofar as it entrenches
+virtio's existing code allowing it to either use the DMA api or bypass
+it and use physical addresses directly.  Is that right, or have I
+missed something?
+
+Where do you envisage the decision to bypass the IOMMU being made?
+The virtio spec more or less states that virtio devices use hypervisor
+magic to access physical addresses directly, rather than using normal
+DMA channels.  The F_IOMMU_PLATFORM flag then overrides that, since it
+obviously won't work for hardware devices.
+
+The platform code isn't really in a position to know that virtio
+devices are (usually) magic.  So were you envisaging the virtio driver
+explicitly telling the platform to use bypassing DMA operations?
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Sw7tCqrGA+HQ0/zt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl2tbhcACgkQbDjKyiDZ
+s5JyXg//T3Ppsd9Nw4UJ0S7vuihqdegF9xf5Id+ggjipfZl02lYq6KHjlrkDkMXH
+HVHUoVYy0626P9inLv/Yt9cqA70zVNKVt5gItWX+FUETTio5hv1vcz5pB28nGln/
+uauetB6MmSZnnRcMkzguJjRO53cJJIR2ft+qKz6BhVksdhE+JufUYuWgCM92znTp
+e+ku518x0fc5t4mqCBjIf/EZ0S0F3GqXH61q38USXZhfaJDJiaR/krUYvB+Opm6y
+k505kcbvfLybLlZyb6EOQyjQGskvQsBbSXbzJRImbUPA8hrFQY0JMozfxcUKz56G
+PGvl9KKWz/Wr+NwwCcPi6/oM1t+iisn6UGsW9j4888nFzMDVlQgWMBP2oPD5vNiS
+JvmxsmveiRl+0YZ6mPPG6GLg0msmW8TPM5lYVBpG+yJs24C/AY0yUkgjzSX9wjdd
+6zuO5ZJumgblftxiYZ5SoMX/RZ1tlTn9o35B5wOA8rbvBEGbdVEPlrhxzpxKUA41
+M+63HFoZOZ4zRtV/qBP4Z3lhqzsatDsDPq3FIH5GOtJAVs9yiaJPjF4449plpzMS
+mSoJgCD9g0M0aQJXYb1gv/1BrAuO2kQSoounFzDWP0hmTPdGd3QQifF8n3x4j4h6
+xuGMCq/7AXeE6xZsBnw7+bqX0NLIRgIb7a6d3nyJeVzfgJWvq/M=
+=ybRR
+-----END PGP SIGNATURE-----
+
+--Sw7tCqrGA+HQ0/zt--
+
+--===============1802470127515114305==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============1802470127515114305==--
