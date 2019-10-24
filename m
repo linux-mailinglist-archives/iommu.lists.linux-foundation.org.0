@@ -2,58 +2,57 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0855BE2FE6
-	for <lists.iommu@lfdr.de>; Thu, 24 Oct 2019 13:04:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B8FE3004
+	for <lists.iommu@lfdr.de>; Thu, 24 Oct 2019 13:11:14 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id A2AC914BF;
-	Thu, 24 Oct 2019 11:04:23 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 6F8AE14CF;
+	Thu, 24 Oct 2019 11:11:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id F0C3DBA9
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id E17D314AD
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 24 Oct 2019 11:04:21 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (unknown [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 7CB9E8AD
+	Thu, 24 Oct 2019 11:11:08 +0000 (UTC)
+Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 978598C0
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 24 Oct 2019 11:04:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0830695D;
-	Thu, 24 Oct 2019 04:04:13 -0700 (PDT)
-Received: from [192.168.1.123] (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 07EA83F71A;
-	Thu, 24 Oct 2019 04:04:10 -0700 (PDT)
-Subject: Re: [RFC PATCH 1/3] dma-mapping: introduce a new dma api
-	dma_addr_to_phys_addr()
-To: Laurentiu Tudor <laurentiu.tudor@nxp.com>, "hch@lst.de" <hch@lst.de>
-References: <20191022125502.12495-1-laurentiu.tudor@nxp.com>
-	<20191022125502.12495-2-laurentiu.tudor@nxp.com>
-	<62561dca-cdd7-fe01-a0c3-7b5971c96e7e@arm.com>
-	<50a42575-02b2-c558-0609-90e2ad3f515b@nxp.com>
-	<20191024020140.GA6057@lst.de>
-	<ebbf742e-4d1f-ba90-0ed8-93ea445d0200@nxp.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <2b75c349-0ca1-ea7e-6571-28db9f1a8c46@arm.com>
-Date: Thu, 24 Oct 2019 12:04:07 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
-	Thunderbird/68.1.2
-MIME-Version: 1.0
-In-Reply-To: <ebbf742e-4d1f-ba90-0ed8-93ea445d0200@nxp.com>
-Content-Language: en-GB
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
+	Thu, 24 Oct 2019 11:11:08 +0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+	id F2AD760FCE; Thu, 24 Oct 2019 11:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+	s=default; t=1571915468;
+	bh=hmGbZeOmKr4VCEmEhi6phLPSxbiaCdDN+JSzwdHE3To=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=BTCRFMagOlXRviHjH0UyHMz5cBjB7kHi+r/w+AUobvnYyDiAoSmDDciaVoC5i34Mh
+	fYAmy4OAcBzt6k/FZ7mL9kU/4nro+qj45XM4UMn1VfD/uC/HiTY5TLT9IR7Z5AeRPE
+	vJsbvuagSE9Z6vj3RX18idbqUfDm139u3dmdtqh4=
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Ioana Ciocoi Radulescu <ruxandra.radulescu@nxp.com>,
-	Madalin Bucur <madalin.bucur@nxp.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Leo Li <leoyang.li@nxp.com>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	"davem@davemloft.net" <davem@davemloft.net>
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.codeaurora.org (Postfix) with ESMTP id 97AD160D9D;
+	Thu, 24 Oct 2019 11:11:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+	s=default; t=1571915465;
+	bh=hmGbZeOmKr4VCEmEhi6phLPSxbiaCdDN+JSzwdHE3To=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=BM4kF8Emizm6YwAYeiCpuuGv8T5OQjbt/fvV7r6kgZA8TBglhWxBB5knVtA7zgaDY
+	kGNpDEHoHpOZf5NZHawtTR7ZWnrPnXmU9gOxSEpXjxZ5Z4cDMG03WTuFq91toj6XmX
+	PPcuWbIrg/OtSLsA5lJRXJconhIpiNW/hrt5l9NY=
+MIME-Version: 1.0
+Date: Thu, 24 Oct 2019 16:41:04 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: Users of IOMMU_QCOM_SYS_CACHE?
+In-Reply-To: <20191024105150.GC1242@willie-the-truck>
+References: <20191024105150.GC1242@willie-the-truck>
+Message-ID: <d255a4a6835fb982b5852106f970b0e6@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.2.5
+Cc: iommu@lists.linux-foundation.org, robin.murphy@arm.com, sspatil@android.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,57 +70,39 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 2019-10-24 8:49 am, Laurentiu Tudor wrote:
+Hi Will,
+
+On 2019-10-24 16:21, Will Deacon wrote:
+> Hi all,
 > 
+> In commit 90ec7a76cc4b ("iommu/io-pgtable-arm: Add support to use 
+> system
+> cache") we added support for IOMMU_QCOM_SYS_CACHE which was merged into 
+> 5.3.
+> This allows non-coherent devices to request an outer cacheable memory
+> type.... except that nobody actually does this in mainline. I remember 
+> there
+> being a potential DRM user but I don't know what happened to it.
 > 
-> On 24.10.2019 05:01, hch@lst.de wrote:
->> On Wed, Oct 23, 2019 at 11:53:41AM +0000, Laurentiu Tudor wrote:
->>> We had an internal discussion over these points you are raising and
->>> Madalin (cc-ed) came up with another idea: instead of adding this prone
->>> to misuse api how about experimenting with a new dma unmap and dma sync
->>> variants that would return the physical address by calling the newly
->>> introduced dma map op. Something along these lines:
->>>     * phys_addr_t dma_unmap_page_ret_phys(...)
->>>     * phys_addr_t dma_unmap_single_ret_phys(...)
->>>     * phys_addr_t dma_sync_single_for_cpu_ret_phys(...)
->>> I'm thinking that this proposal should reduce the risks opened by the
->>> initial variant.
->>> Please let me know what you think.
->>
->> I'm not sure what the ret is supposed to mean, but I generally like
->> that idea better.
+> Given that this isn't actually exposed in the DMA API, I worry that 
+> we're
+> just carrying part of an out-of-tree hack here and propose that we drop
+> the flag altogether unless we get an upstream user, preferably by 
+> plumbing
+> this into the DMA API via a new attribute.
 > 
-> It was supposed to be short for "return" but given that I'm not good at
-> naming stuff I'll just drop it.
-
-Hmm, how about something like "dma_unmap_*_desc" for the context of the 
-mapped DMA address also being used as a descriptor token?
-
->> We also need to make sure there is an easy way
->> to figure out if these APIs are available, as they generally aren't
->> for any non-IOMMU API IOMMU drivers.
+> Thoughts?
 > 
-> I was really hoping to manage making them as generic as possible but
-> anyway, I'll start working on a PoC and see how it turns out. This will
-> probably happen sometime next next week as the following week I'll be
-> traveling to a conference.
 
-AFAICS, even a full implementation of these APIs would have to be 
-capable of returning an indication that there is no valid physical 
-address - e.g. if unmap is called with a bogus DMA address that was 
-never mapped. At that point there'sseemingly no problem just 
-implementing the trivial case on top of any existing unmap/sync 
-callbacks for everyone. I'd imagine that drivers which want this aren't 
-likely to run on the older architectures where the weird IOMMUs live, so 
-they could probably just always treat failure as unexpected and fatal 
-either way.
+There is definitely a user of this coming soon atleast for SC7180 SoC 
+once we have support for this SoC upstream.
 
-In fact, I'm now wondering whether it's likely to be common that users 
-want the physical address specifically, or whether it would make sense 
-to return the original VA/page, both for symmetry with the corresponding 
-map calls and for the ease of being able to return NULL when necessary.
+-Sai
 
-Robin.
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
