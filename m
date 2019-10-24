@@ -2,54 +2,52 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id C40DDE26C6
-	for <lists.iommu@lfdr.de>; Thu, 24 Oct 2019 00:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 968E1E27F5
+	for <lists.iommu@lfdr.de>; Thu, 24 Oct 2019 04:01:50 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id D4C67D38;
-	Wed, 23 Oct 2019 22:59:44 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id AF6C5B9E;
+	Thu, 24 Oct 2019 02:01:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id BE7F8B9E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id C80A3B6D
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 23 Oct 2019 22:59:43 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 6BB1C14D
+	Thu, 24 Oct 2019 02:01:43 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5020E831
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 23 Oct 2019 22:59:43 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Oct 2019 15:59:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,222,1569308400"; d="scan'208";a="398217103"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
-	by fmsmga005.fm.intel.com with ESMTP; 23 Oct 2019 15:59:42 -0700
-Date: Wed, 23 Oct 2019 16:04:03 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: "Raj, Ashok" <ashok.raj@intel.com>
-Subject: Re: [PATCH v6 02/10] iommu/vt-d: Add custom allocator for IOASID
-Message-ID: <20191023160403.1bc56772@jacob-builder>
-In-Reply-To: <20191022210400.357e69a9@jacob-builder>
-References: <1571788403-42095-1-git-send-email-jacob.jun.pan@linux.intel.com>
-	<1571788403-42095-3-git-send-email-jacob.jun.pan@linux.intel.com>
-	<20191023005129.GC100970@otc-nc-03>
-	<20191022210400.357e69a9@jacob-builder>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+	Thu, 24 Oct 2019 02:01:43 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 3BD0B68BE1; Thu, 24 Oct 2019 04:01:40 +0200 (CEST)
+Date: Thu, 24 Oct 2019 04:01:40 +0200
+From: "hch@lst.de" <hch@lst.de>
+To: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Subject: Re: [RFC PATCH 1/3] dma-mapping: introduce a new dma api
+	dma_addr_to_phys_addr()
+Message-ID: <20191024020140.GA6057@lst.de>
+References: <20191022125502.12495-1-laurentiu.tudor@nxp.com>
+	<20191022125502.12495-2-laurentiu.tudor@nxp.com>
+	<62561dca-cdd7-fe01-a0c3-7b5971c96e7e@arm.com>
+	<50a42575-02b2-c558-0609-90e2ad3f515b@nxp.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+Content-Disposition: inline
+In-Reply-To: <50a42575-02b2-c558-0609-90e2ad3f515b@nxp.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, David Woodhouse <dwmw2@infradead.org>,
-	iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.com>,
-	Jonathan Cameron <jic23@kernel.org>
+Cc: Ioana Ciocoi Radulescu <ruxandra.radulescu@nxp.com>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	Madalin-cristian Bucur <madalin.bucur@nxp.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Leo Li <leoyang.li@nxp.com>,
+	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Robin Murphy <robin.murphy@arm.com>, "hch@lst.de" <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,21 +65,23 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, 22 Oct 2019 21:04:00 -0700
-Jacob Pan <jacob.jun.pan@linux.intel.com> wrote:
+On Wed, Oct 23, 2019 at 11:53:41AM +0000, Laurentiu Tudor wrote:
+> We had an internal discussion over these points you are raising and 
+> Madalin (cc-ed) came up with another idea: instead of adding this prone 
+> to misuse api how about experimenting with a new dma unmap and dma sync 
+> variants that would return the physical address by calling the newly 
+> introduced dma map op. Something along these lines:
+>   * phys_addr_t dma_unmap_page_ret_phys(...)
+>   * phys_addr_t dma_unmap_single_ret_phys(...)
+>   * phys_addr_t dma_sync_single_for_cpu_ret_phys(...)
+> I'm thinking that this proposal should reduce the risks opened by the 
+> initial variant.
+> Please let me know what you think.
 
-> > > +		if (cap_caching_mode(iommu->cap) &&
-> > > sm_supported(iommu)) {    
-> > 
-> > do you need to check against cap_caching_mode() or ecap_vcmd?
-> >   
-> I guess ecap_vcmd() will suffice. Kind of redundant.
-Actually, we can check vcmd and vcmd_pasid here, then we dont need to
-check it on every alloc/free calls.
-
-Thanks,
-
-Jacob
+I'm not sure what the ret is supposed to mean, but I generally like
+that idea better.  We also need to make sure there is an easy way
+to figure out if these APIs are available, as they generally aren't
+for any non-IOMMU API IOMMU drivers.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
