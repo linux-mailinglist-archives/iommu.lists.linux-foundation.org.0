@@ -2,42 +2,42 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A07E5B53
-	for <lists.iommu@lfdr.de>; Sat, 26 Oct 2019 15:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F408E5B69
+	for <lists.iommu@lfdr.de>; Sat, 26 Oct 2019 15:23:09 +0200 (CEST)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id EAF22B8A;
-	Sat, 26 Oct 2019 13:22:20 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 2C9E7B8E;
+	Sat, 26 Oct 2019 13:23:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id DC4DCB2F
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 3581EB2F
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 26 Oct 2019 13:22:19 +0000 (UTC)
+	Sat, 26 Oct 2019 13:23:04 +0000 (UTC)
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id A7EB9954
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id EEEE79B2
 	for <iommu@lists.linux-foundation.org>;
-	Sat, 26 Oct 2019 13:22:19 +0000 (UTC)
+	Sat, 26 Oct 2019 13:23:03 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
 	[73.47.72.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id D1933214DA;
-	Sat, 26 Oct 2019 13:22:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id 2654420867;
+	Sat, 26 Oct 2019 13:23:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572096139;
-	bh=AEHVKj6xR5EIQiNGael2/JtYKeP2TrD4V/dfE8l7vvA=;
+	s=default; t=1572096183;
+	bh=r6Ni88rFDTGfT9eWFI6Vyk2rk/Lple+BbpHJkHg6pl4=;
 	h=From:To:Cc:Subject:Date:From;
-	b=xFNNd6qjyMfEQ/BjJ8w5WYypNikoDH245i+REQqmx2khDZ5DUEQ6ekFNqrwxR9fdn
-	cK/DA3px3K3VHHFfMBmKFs4mz8IEM2rHjFdG81VKeHBPK5EpytkeTsI5Nmo3KhsWO+
-	tnMGRig0rL4nBE2gyr3qIfkzha6OUwRphVlm4CBs=
+	b=E0fK9CRTRltTXqWNt4Uy+7Tr4e4pisro488G6tOyND1ICCIMt5ZuQJoc53/GH8ubn
+	Q9rYPJI3VhYb9t7dfTZSqIbBM+bRS29g46VsmKUlZWZOSFKmTMga+5xRGWJj/oZnJu
+	alWxQRDN7rsgfxpEZ/MvXjYsBnmq6HVFK7++luhk=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 01/21] iommu/arm-smmu: Free context bitmap in the
+Subject: [PATCH AUTOSEL 4.4 01/17] iommu/arm-smmu: Free context bitmap in the
 	err path of arm_smmu_init_domain_context
-Date: Sat, 26 Oct 2019 09:21:57 -0400
-Message-Id: <20191026132217.4380-1-sashal@kernel.org>
+Date: Sat, 26 Oct 2019 09:22:45 -0400
+Message-Id: <20191026132302.4622-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-stable: review
@@ -80,10 +80,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index f7ecb30a0bac8..5b3124eb184e7 100644
+index 47dc7a793f5cf..bc22065d2afa8 100644
 --- a/drivers/iommu/arm-smmu.c
 +++ b/drivers/iommu/arm-smmu.c
-@@ -968,6 +968,7 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
+@@ -916,6 +916,7 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
  	return 0;
  
  out_clear_smmu:
