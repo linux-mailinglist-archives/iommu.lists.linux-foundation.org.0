@@ -2,47 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E06E78C7
-	for <lists.iommu@lfdr.de>; Mon, 28 Oct 2019 19:52:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED75E7C41
+	for <lists.iommu@lfdr.de>; Mon, 28 Oct 2019 23:20:54 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 0821BE43;
-	Mon, 28 Oct 2019 18:52:00 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 1F7A4EF0;
+	Mon, 28 Oct 2019 22:20:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id E4E28CCA
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id B16E6EE2
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 28 Oct 2019 18:51:57 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 837E3876
+	Mon, 28 Oct 2019 22:20:48 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id B6D4C8AB
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 28 Oct 2019 18:51:57 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDA7B1F1;
-	Mon, 28 Oct 2019 11:51:56 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 61A103F71F;
-	Mon, 28 Oct 2019 11:51:56 -0700 (PDT)
-Subject: Re: [PATCH v2 08/10] iommu/io-pgtable-arm: Rationalise TTBRn handling
-To: Steven Price <steven.price@arm.com>, will@kernel.org
-References: <cover.1572024119.git.robin.murphy@arm.com>
-	<74ada0e6c488a2310206a553eb108cc28fd52457.1572024120.git.robin.murphy@arm.com>
-	<5324d888-857a-b07c-439c-4ae4ea3a9784@arm.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <a74dcecd-7061-ce4b-85e1-deaadd0f71a4@arm.com>
-Date: Mon, 28 Oct 2019 18:51:55 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Mon, 28 Oct 2019 22:20:47 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+	bits)) (No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 0F6A821479;
+	Mon, 28 Oct 2019 22:20:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1572301247;
+	bh=VSBk7YAMwCwbsPuvRCBw6UeuvHY7STvzXKIvzV2nyuI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=0gosvq7R5GnXKiYYLDbPH29ONaAKpYHE02ZEPnzDUcqvXqhp72Teg/Ds/g3vOOu+v
+	FG4avd2WmHPRGFFlHNloeY/x+Kqn7qS/tlQLnwyI/SyJIWS26MT+8t3UyWWDNnzYML
+	dc4R4LPqV+P2GObHwW+vgu32hGQhqxFZzIWcYSL4=
+Date: Mon, 28 Oct 2019 22:20:42 +0000
+From: Will Deacon <will@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v2] iommu/arm-smmu: fix "hang" when games exit
+Message-ID: <20191028222042.GB8532@willie-the-truck>
+References: <418d8426-f299-1269-2b2e-f86677cf22c2@arm.com>
+	<20191007204906.19571-1-robdclark@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <5324d888-857a-b07c-439c-4ae4ea3a9784@arm.com>
-Content-Language: en-GB
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+Content-Disposition: inline
+In-Reply-To: <20191007204906.19571-1-robdclark@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+	open list <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
+	Robin Murphy <robin.murphy@arm.com>, "moderated list:ARM SMMU DRIVERS"
+	<linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,50 +61,64 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On 28/10/2019 15:09, Steven Price wrote:
-[...]
->> --- a/drivers/iommu/io-pgtable-arm-v7s.c
->> +++ b/drivers/iommu/io-pgtable-arm-v7s.c
->> @@ -822,15 +822,13 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
->>   	/* Ensure the empty pgd is visible before any actual TTBR write */
->>   	wmb();
->>   
->> -	/* TTBRs */
->> -	cfg->arm_v7s_cfg.ttbr[0] = virt_to_phys(data->pgd) |
->> -				   ARM_V7S_TTBR_S | ARM_V7S_TTBR_NOS |
->> -				   (cfg->coherent_walk ?
->> -				   (ARM_V7S_TTBR_IRGN_ATTR(ARM_V7S_RGN_WBWA) |
->> -				    ARM_V7S_TTBR_ORGN_ATTR(ARM_V7S_RGN_WBWA)) :
->> -				   (ARM_V7S_TTBR_IRGN_ATTR(ARM_V7S_RGN_NC) |
->> -				    ARM_V7S_TTBR_ORGN_ATTR(ARM_V7S_RGN_NC)));
->> -	cfg->arm_v7s_cfg.ttbr[1] = 0;
->> +	/* TTBR */
->> +	cfg->arm_v7s_cfg.ttbr = virt_to_phys(data->pgd) | ARM_V7S_TTBR_S |
->> +				(cfg->coherent_walk ? (ARM_V7S_TTBR_NOS |
->> +				  ARM_V7S_TTBR_IRGN_ATTR(ARM_V7S_RGN_WBWA) |
->> +				  ARM_V7S_TTBR_ORGN_ATTR(ARM_V7S_RGN_WBWA)) :
->> +				 (ARM_V7S_TTBR_IRGN_ATTR(ARM_V7S_RGN_NC) |
->> +				  ARM_V7S_TTBR_ORGN_ATTR(ARM_V7S_RGN_NC)));
+Hi Rob,
+
+On Mon, Oct 07, 2019 at 01:49:06PM -0700, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> ARM_V7S_TTBR_NOS seems to have sneaked into the cfg->coherent_walk
-> condition here - which you haven't mentioned in the commit log, so it
-> doesn't look like it should be in this commit.
+> When games, browser, or anything using a lot of GPU buffers exits, there
+> can be many hundreds or thousands of buffers to unmap and free.  If the
+> GPU is otherwise suspended, this can cause arm-smmu to resume/suspend
+> for each buffer, resulting 5-10 seconds worth of reprogramming the
+> context bank (arm_smmu_write_context_bank()/arm_smmu_write_s2cr()/etc).
+> To the user it would appear that the system just locked up.
+> 
+> A simple solution is to use pm_runtime_put_autosuspend() instead, so we
+> don't immediately suspend the SMMU device.
 
-Ah, yes, it's taken a while to remember whether this was something 
-important that got muddled up in rebasing, but it's actually just 
-trivial cleanup. For !coherent_walk, the non-cacheable output attribute 
-makes shareable accesses implicitly outer-shareable, so setting TTBR.NOS 
-for that case actually does nothing except look misleading. Thus this is 
-essentially just a cosmetic change included in the reformatting for 
-clarity and consistency with the LPAE version. I'll call that out in the 
-commit message, thanks for spotting!
+Please can you reword the subject to be a bit more useful? The commit
+message is great, but the subject is a bit like "fix bug in code" to me.
 
-Robin.
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+> v1: original
+> v2: unconditionally use autosuspend, rather than deciding based on what
+>     consumer does
+> 
+>  drivers/iommu/arm-smmu.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+> index 3f1d55fb43c4..b7b41f5001bc 100644
+> --- a/drivers/iommu/arm-smmu.c
+> +++ b/drivers/iommu/arm-smmu.c
+> @@ -289,7 +289,7 @@ static inline int arm_smmu_rpm_get(struct arm_smmu_device *smmu)
+>  static inline void arm_smmu_rpm_put(struct arm_smmu_device *smmu)
+>  {
+>  	if (pm_runtime_enabled(smmu->dev))
+> -		pm_runtime_put(smmu->dev);
+> +		pm_runtime_put_autosuspend(smmu->dev);
+>  }
+>  
+>  static struct arm_smmu_domain *to_smmu_domain(struct iommu_domain *dom)
+> @@ -1445,6 +1445,9 @@ static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
+>  	/* Looks ok, so add the device to the domain */
+>  	ret = arm_smmu_domain_add_master(smmu_domain, fwspec);
+
+Please can you put a comment here explaining what this is doing? An abridged
+version of the commit message is fine.
+
+> +	pm_runtime_set_autosuspend_delay(smmu->dev, 20);
+> +	pm_runtime_use_autosuspend(smmu->dev);
+
+Cheers,
+
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
