@@ -2,58 +2,78 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52DF1E8C66
-	for <lists.iommu@lfdr.de>; Tue, 29 Oct 2019 17:07:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39FA7E8D4F
+	for <lists.iommu@lfdr.de>; Tue, 29 Oct 2019 17:52:25 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 35DE2CAD;
-	Tue, 29 Oct 2019 16:07:17 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8044CD73;
+	Tue, 29 Oct 2019 16:52:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 89407C3F
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id A9701D4A
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 29 Oct 2019 16:07:16 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 218B087C
+	Tue, 29 Oct 2019 16:52:22 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
+	[209.85.166.53])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 8CBC08CA
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 29 Oct 2019 16:07:15 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Oct 2019 09:07:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,244,1569308400"; d="scan'208";a="283283458"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
-	by orsmga001.jf.intel.com with ESMTP; 29 Oct 2019 09:07:14 -0700
-Date: Tue, 29 Oct 2019 09:11:39 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [PATCH v7 09/11] iommu/vt-d: Add bind guest PASID support
-Message-ID: <20191029091139.7ddc155f@jacob-builder>
-In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D5DE3D3@SHSMSX104.ccr.corp.intel.com>
-References: <1571946904-86776-1-git-send-email-jacob.jun.pan@linux.intel.com>
-	<1571946904-86776-10-git-send-email-jacob.jun.pan@linux.intel.com>
-	<AADFC41AFE54684AB9EE6CBC0274A5D19D5CDDA6@SHSMSX104.ccr.corp.intel.com>
-	<20191025103337.1e51c0c9@jacob-builder>
-	<AADFC41AFE54684AB9EE6CBC0274A5D19D5DB7B8@SHSMSX104.ccr.corp.intel.com>
-	<20191028090231.4777c6a9@jacob-builder>
-	<AADFC41AFE54684AB9EE6CBC0274A5D19D5DE3D3@SHSMSX104.ccr.corp.intel.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+	Tue, 29 Oct 2019 16:52:21 +0000 (UTC)
+Received: by mail-io1-f53.google.com with SMTP id w12so15510249iol.11
+	for <iommu@lists.linux-foundation.org>;
+	Tue, 29 Oct 2019 09:52:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ELTjDFuXvoYLvu2AvjR9Hiq7mpivxdGzqQtbxhKIKK0=;
+	b=EJZg6VR2ZWJkaj7ELud9Yt6Ey9Xv+gAP9f69T34IAj6xmgbQ6JcgCR+4jNO3DZfKWw
+	63y8ZqkRA6F9W31jfWtaNXN9InouaqXLoBXcwhL427RDUuHvlf0yQDwSR3V0Kmq5mWqI
+	kYeJ/gEa+y4aP+D1aMHSiLBqHIg69q86TVrqt9iMwsH2Zjb/8Ks9nlShpcan/G8nwBLG
+	Wtd+za+NNGv099a/nRZF260NGhu/4NWvvJHM6lcU4NC3rXQMNmxVkZZ9LxcEm13DPDbm
+	ngvLCv/18P5RVRtBXk6VfFEs2bCHVPlDoNbFORu5pk3YtICAeaXxYnjSKZyF7JLcmQcj
+	/g5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ELTjDFuXvoYLvu2AvjR9Hiq7mpivxdGzqQtbxhKIKK0=;
+	b=oOUsK88lI+FyGb8X0RYfGtg5DEOkB77zCM77nO7aLMXWSCWpyME1EYobiA8hngL9W6
+	9CzJJYOxiuFqYlE7CiK44gVeDGMhHCYa21MJIyqWL3Q5g/yu/Ey2ebfDsUR3rKwOcBAY
+	UPmWfBcnGAfDnoN9dxlh4KNKl3d9/HqdsT+gdA9wkmtLnDjjDjH9yovH/TY76VNOrO7j
+	M7/lN2jMZIV29Lr7TFZwFDXUvSJ7dLatuZxB0qsnDB7RAKArnBgzk/VWDTnv9VDKNCHD
+	sDSqGkLREv8s1WGj9v+6kyc1Ntm0ijYx6klx8Atn8LU0XH1q7FavlLzRHL2NUrH/zis6
+	hQmg==
+X-Gm-Message-State: APjAAAUlHNuWZek3GA6Orz6ExSBk+Iqdu8YJh0T/JOoGwSL25Kk+5U91
+	TOKEl5ihTu0XyfU76KENWh7HTCHl4PuHadVCQas=
+X-Google-Smtp-Source: APXvYqxd+WcVlTVe5peKMNakg+JlU3pPhrhR57ajZeSb6xWZunErGgHKDSNAvJ0NqhKA0fGUQEY8AJnpPGdyjS0wZj4=
+X-Received: by 2002:a6b:f00c:: with SMTP id w12mr4725179ioc.207.1572367940691; 
+	Tue, 29 Oct 2019 09:52:20 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+References: <CAA2QUqLv+eLXuA_TdJ7zM4oBnGoFVOjRjAimuct2y=0MDuaZVQ@mail.gmail.com>
+	<d983cf57-f13d-a680-21c4-09b5ca93bc64@arm.com>
+	<acf0dd2c-7e12-fba6-b7f8-dfd78c892fe5@arm.com>
+	<417fa080-08f9-9f35-687b-c0b82a61628d@arm.com>
+	<376133e3-25f2-ffe7-ef9f-4613388b2bf7@arm.com>
+	<84747008-85e9-e71a-b9ad-cefcc6c0f661@st.com>
+	<3305c91e-e630-b7fd-4c6f-598583504d67@arm.com>
+	<6b024e69-f612-6850-8a04-9b3049549092@st.com>
+	<2153b504-8c98-6c43-6ae3-9fb355d88417@arm.com>
+	<CAA2QUqJcJuhnAEOirNYdM4W_+sskO=CvLB9R7PpCPg-hsBLBJQ@mail.gmail.com>
+In-Reply-To: <CAA2QUqJcJuhnAEOirNYdM4W_+sskO=CvLB9R7PpCPg-hsBLBJQ@mail.gmail.com>
+From: Daniele Alessandrelli <daniele.alessandrelli@gmail.com>
+Date: Tue, 29 Oct 2019 16:52:08 +0000
+Message-ID: <CAA2QUqJcZeaBhAzcmxK7=TvU9MyYosG3ZdfiTsdntzVm5=6+Jg@mail.gmail.com>
+Subject: Re: [BUG] dma-ranges, reserved memory regions, dma_alloc_coherent:
+	possible bug?
+To: Vladimir Murzin <vladimir.murzin@arm.com>
+X-Spam-Status: No, score=0.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, DOS_RCVD_IP_TWICE_B, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: "Raj, Ashok" <ashok.raj@intel.com>, David Woodhouse <dwmw2@infradead.org>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.com>,
-	Jonathan Cameron <jic23@kernel.org>
+Cc: Alexandre Torgue <alexandre.torgue@st.com>, Arnd Bergmann <arnd@arndb.de>,
+	iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+	Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,52 +91,26 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Tue, 29 Oct 2019 07:57:21 +0000
-"Tian, Kevin" <kevin.tian@intel.com> wrote:
+On Tue, Oct 29, 2019 at 9:43 AM Daniele Alessandrelli
+<daniele.alessandrelli@gmail.com> wrote:
+>
+> On Mon, Oct 28, 2019 at 10:59 AM Vladimir Murzin
+> <vladimir.murzin@arm.com> wrote:
+> >
+> > @Daniele, it'd be handy to know if that fix issue for you...
+> >
+>
+> Apologies, I've been traveling for the last few days and haven't
+> managed to try it yet.
+>
+> I'll do it later today though and let you know.
 
-> > From: Jacob Pan [mailto:jacob.jun.pan@linux.intel.com]
-> > Sent: Tuesday, October 29, 2019 12:03 AM
-> > 
-> > On Mon, 28 Oct 2019 06:03:36 +0000
-> > "Tian, Kevin" <kevin.tian@intel.com> wrote:
-> >   
-> > > > > > +	.sva_bind_gpasid	= intel_svm_bind_gpasid,
-> > > > > > +	.sva_unbind_gpasid	=
-> > > > > > intel_svm_unbind_gpasid, +#endif  
-> > > > >
-> > > > > again, pure PASID management logic should be separated from
-> > > > > SVM. 
-> > > > I am not following, these two functions are SVM functionality,
-> > > > not pure PASID management which is already separated in
-> > > > ioasid.c  
-> > >
-> > > I should say pure "scalable mode" logic. Above callbacks are not
-> > > related to host SVM per se. They are serving gpasid requests from
-> > > guest side, thus part of generic scalable mode capability.  
-> > Got your point, but we are sharing data structures with host SVM,
-> > it is very difficult and inefficient to separate the two.  
-> 
-> I don't think difficulty is the reason against such direction. We
-> need do things right. :-) I'm fine with putting it in a TODO list,
-> but at least need the right information in the 1st place to tell that
-> current way is just a short-term approach, and we should revisit
-> later.
-I guess the fundamental question is: Should the scalable mode logic,
-i.e. guest SVA at PASID granu device, be perceived as part of the
-overall SVA functionality?
+Hi Vladimir,
 
-My view is yes, we shall share SVA and gSVA whenever we can.
+I can confirm that your patch fixes the issue I was having. Thanks!
 
-The longer term, which I am working on right now, is to converge
-intel_svm_bind_mm to the generic iommu_sva_bind_device() and use common
-data structures as well. It is conceivable that these common structures
-span across hardware architectures, also guest vs host SVA usages.
-
-i.e. iommu_ops have
-iommu_sva_bind_gpasid() for SM/gSVA
-iommu_sva_bind_device() for native SVA
-
-Or I am missing your point completely?
+Regards,
+Daniele
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
