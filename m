@@ -2,51 +2,49 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA063E9FCD
-	for <lists.iommu@lfdr.de>; Wed, 30 Oct 2019 16:54:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C6CEA309
+	for <lists.iommu@lfdr.de>; Wed, 30 Oct 2019 19:09:35 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 8F7D9E97;
-	Wed, 30 Oct 2019 15:54:51 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 4CF4DC91;
+	Wed, 30 Oct 2019 18:09:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 4DDDED4A
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 4E7AEF16
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 30 Oct 2019 15:54:50 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 002588A
+	Wed, 30 Oct 2019 18:09:27 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D703E876
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 30 Oct 2019 15:54:49 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
-	bits)) (No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 839C0217D9;
-	Wed, 30 Oct 2019 15:54:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572450889;
-	bh=IlRkfmxagkpK4XTHGe5bLRKa65DPVjT3hWJACHX0Xno=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SrWB7Mk879bug3XRPDe3MAwhVgzgOcAAesPz2M8kHTWoLEToJxvpV1alV7Y2QuXdN
-	ICdfTmCW1N9UyKURUBhdK22PqAZIywFSU/GQMYZNTG/nTOOh1v2tYbnpqX5A2dqOW6
-	b02Q73I/Qd3cR0ywJqoCSkvGcEC4u1XbxHj/1Ci0=
-Date: Wed, 30 Oct 2019 15:54:45 +0000
-From: Will Deacon <will@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 0/7] iommu: Permit modular builds of ARM SMMU[v3] drivers
-Message-ID: <20191030155444.GC19096@willie-the-truck>
-References: <20191030145112.19738-1-will@kernel.org>
-	<6e457227-ca06-2998-4ffa-a58ab171ce32@arm.com>
+	Wed, 30 Oct 2019 18:09:25 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id A18E468B05; Wed, 30 Oct 2019 19:09:21 +0100 (CET)
+Date: Wed, 30 Oct 2019 19:09:21 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v4 1/2] dma-mapping: Add vmap checks to dma_map_single()
+Message-ID: <20191030180921.GB19366@lst.de>
+References: <20191029213423.28949-1-keescook@chromium.org>
+	<20191029213423.28949-2-keescook@chromium.org>
+	<20191030091849.GA637042@kroah.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <6e457227-ca06-2998-4ffa-a58ab171ce32@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+In-Reply-To: <20191030091849.GA637042@kroah.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00, DOS_RCVD_IP_TWICE_B, 
+	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: saravanak@google.com, linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Kees Cook <keescook@chromium.org>,
+	Semmle Security Reports <security-reports@semmle.com>,
+	linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+	iommu@lists.linux-foundation.org, Dan Carpenter <dan.carpenter@oracle.com>,
+	Jesper Dangaard Brouer <brouer@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>, Laura Abbott <labbott@redhat.com>,
+	Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+	Allison Randal <allison@lohutok.net>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,42 +62,45 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Robin,
-
-On Wed, Oct 30, 2019 at 03:35:55PM +0000, Robin Murphy wrote:
-> On 30/10/2019 14:51, Will Deacon wrote:
-> > As part of the work to enable a "Generic Kernel Image" across multiple
-> > Android devices, there is a need to seperate shared, core kernel code
-> > from modular driver code that may not be needed by all SoCs. This means
-> > building IOMMU drivers as modules.
+On Wed, Oct 30, 2019 at 10:18:49AM +0100, Greg Kroah-Hartman wrote:
+> On Tue, Oct 29, 2019 at 02:34:22PM -0700, Kees Cook wrote:
+> > As we've seen from USB and other areas[1], we need to always do runtime
+> > checks for DMA operating on memory regions that might be remapped. This
+> > adds vmap checks (similar to those already in USB but missing in other
+> > places) into dma_map_single() so all callers benefit from the checking.
 > > 
-> > It turns out that most of the groundwork has already been done to enable
-> > the ARM SMMU drivers to be 'tristate' options in drivers/iommu/Kconfig;
-> > with a few symbols exported from the IOMMU/PCI core, everything builds
-> > nicely out of the box. The one exception is support for the legacy SMMU
-> > DT binding, which is not in widespread use and has never worked with
-> > modules, so we can simply remove that when building as a module rather
-> > than try to paper over it with even more hacks.
+> > [1] https://git.kernel.org/linus/3840c5b78803b2b6cc1ff820100a74a092c40cbb
 > > 
-> > Obviously you need to be careful about using IOMMU drivers as modules,
-> > since late loading of the driver for an IOMMU serving active DMA masters
-> > is going to end badly in many cases. On Android, we're using device links
-> > to ensure that the IOMMU probes first.
+> > Suggested-by: Laura Abbott <labbott@redhat.com>
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  include/linux/dma-mapping.h | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> > index 4a1c4fca475a..54de3c496407 100644
+> > --- a/include/linux/dma-mapping.h
+> > +++ b/include/linux/dma-mapping.h
+> > @@ -583,6 +583,12 @@ static inline unsigned long dma_get_merge_boundary(struct device *dev)
+> >  static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
+> >  		size_t size, enum dma_data_direction dir, unsigned long attrs)
+> >  {
+> > +	/* DMA must never operate on areas that might be remapped. */
+> > +	if (dev_WARN_ONCE(dev, is_vmalloc_addr(ptr),
+> > +			  "wanted %zu bytes mapped in vmalloc\n", size)) {
+> > +		return DMA_MAPPING_ERROR;
+> > +	}
 > 
-> Out of curiosity, which device links are those? Clearly not the RPM links
-> created by the IOMMU drivers themselves... Is this some special Android
-> magic, or is there actually a chance of replacing all the
-> of_iommu_configure() machinery with something more generic?
+> That's a very odd error string, I know if I saw it for the first time, I
+> would have no idea what it meant.  The USB message at least gives you a
+> bit more context as to what went wrong and how to fix it.
+> 
+> How about something like "Memory is not DMA capabable, please fix the
+> allocation of it to be correct", or "non-dma-able memory was attempted
+> to be mapped, but this is impossible to to" or something else.
 
-I'll admit that I haven't used them personally yet, but I'm referring to
-this series from Saravana [CC'd]:
-
-https://lore.kernel.org/linux-acpi/20190904211126.47518-1-saravanak@google.com/
-
-which is currently sitting in linux-next now that we're upstreaming the
-"special Android magic" ;)
-
-Will
+I've fixed the message to "rejecting DMA map of vmalloc memory" and
+applied the patch.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
