@@ -2,76 +2,44 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD76E921A
-	for <lists.iommu@lfdr.de>; Tue, 29 Oct 2019 22:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC73E990A
+	for <lists.iommu@lfdr.de>; Wed, 30 Oct 2019 10:17:11 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 048DEC9A;
-	Tue, 29 Oct 2019 21:34:40 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 387BDFCF;
+	Wed, 30 Oct 2019 09:17:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 594B1BE4
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 173A8DAF
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 29 Oct 2019 21:34:38 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 0DF0AFD
+	Wed, 30 Oct 2019 09:17:06 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 870698A
 	for <iommu@lists.linux-foundation.org>;
-	Tue, 29 Oct 2019 21:34:37 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id 15so10545375pgt.7
-	for <iommu@lists.linux-foundation.org>;
-	Tue, 29 Oct 2019 14:34:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=czQOnB8XGZh1drUQRgi49wj4hvdzWXuEnHlZa/FCwwU=;
-	b=jJCcL1OzsUe+bTt3PewqduHXFL93EB/nCB4OSiHOVahR0Ylu4ChCUJH4ZGtQZSpHit
-	y/K9Ro6QZlNcEtPfRnEWcEodVFKxVZYen8dfHq+uhuWXx4db3dLwXYNIzmfgTk3baazY
-	O8GkJZ1Bkn6fMAfPcej6FxUcsb6rdVbnpzNwY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=czQOnB8XGZh1drUQRgi49wj4hvdzWXuEnHlZa/FCwwU=;
-	b=eaiabEOVlgVhkQV8vKYXPOen0qWUL4QRv9UOEpXrLGZ9h+N7ZbEJiilXacDHtZ3XV8
-	ZAHBmExCfX/x59xjVuLAMbTNd1lx6W6Pf3AuKnZWb0IBqwU7EmW6hIt5o51A3hqSblc/
-	flk8u7V8RKHscGAPPBxFOVTyIRmA5EloS4W0FH/bZcdPtn7KIVPnjxRT3F/O/eZdmyo0
-	5s+AKIbWe/BqUp9nRhwL0YaKXtNgHHVulS/Z4DHttlWBa1adwZliA8iu8VJtpmYg9wiu
-	mwq1dtlmz1+PAvcUCogpZNpAv+1bWyI5V4cZrac9EmHYuXBHQyoHcfhdfkF/nfNMZrEX
-	XigQ==
-X-Gm-Message-State: APjAAAWuc2h1TAvjtW0nm7WUMfRnlDw9hb11Yv9B8JGQddPC8Z+6Qhbk
-	DcGPIJuKcKbqG9tkdZs2Pf1Khw==
-X-Google-Smtp-Source: APXvYqzDkl6Dlr2YTkZfRwU7n8Cd5bbpx8yPw330Hmh+iHEb7mfXtE+8pXQMv6X1a32OfqrVoZekEg==
-X-Received: by 2002:a63:1c4:: with SMTP id 187mr30059349pgb.57.1572384877513; 
-	Tue, 29 Oct 2019 14:34:37 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-	by smtp.gmail.com with ESMTPSA id
-	q185sm57411pfc.153.2019.10.29.14.34.36
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 29 Oct 2019 14:34:36 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v4 2/2] usb: core: Remove redundant vmap checks
-Date: Tue, 29 Oct 2019 14:34:23 -0700
-Message-Id: <20191029213423.28949-3-keescook@chromium.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191029213423.28949-1-keescook@chromium.org>
-References: <20191029213423.28949-1-keescook@chromium.org>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+	Wed, 30 Oct 2019 09:17:05 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+	by mx1.suse.de (Postfix) with ESMTP id 6950FAF99;
+	Wed, 30 Oct 2019 09:17:03 +0000 (UTC)
+Date: Wed, 30 Oct 2019 10:17:01 +0100
+From: Joerg Roedel <jroedel@suse.de>
+To: YueHaibing <yuehaibing@huawei.com>
+Subject: Re: [PATCH -next] iommu/ipmmu-vmsa: Remove dev_err() on
+	platform_get_irq() failure
+Message-ID: <20191030091701.GN838@suse.de>
+References: <20191023135941.15000-1-yuehaibing@huawei.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191023135941.15000-1-yuehaibing@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Kees Cook <keescook@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
-	iommu@lists.linux-foundation.org,
-	Semmle Security Reports <security-reports@semmle.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Jesper Dangaard Brouer <brouer@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>, Laura Abbott <labbott@redhat.com>,
-	Robin Murphy <robin.murphy@arm.com>, Allison Randal <allison@lohutok.net>
+Cc: swboyd@chromium.org, iommu@lists.linux-foundation.org,
+	geert+renesas@glider.be, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -84,49 +52,22 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Now that the vmap area checks are being performed in the DMA
-infrastructure directly, there is no need to repeat them in USB.
+On Wed, Oct 23, 2019 at 09:59:41PM +0800, YueHaibing wrote:
+> platform_get_irq() will call dev_err() itself on failure,
+> so there is no need for the driver to also do this.
+> This is detected by coccinelle.
+> 
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>  drivers/iommu/ipmmu-vmsa.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/usb/core/hcd.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
-
-diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index f225eaa98ff8..281568d464f9 100644
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -1410,10 +1410,7 @@ int usb_hcd_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
- 		if (hcd->self.uses_pio_for_control)
- 			return ret;
- 		if (hcd_uses_dma(hcd)) {
--			if (is_vmalloc_addr(urb->setup_packet)) {
--				WARN_ONCE(1, "setup packet is not dma capable\n");
--				return -EAGAIN;
--			} else if (object_is_on_stack(urb->setup_packet)) {
-+			if (object_is_on_stack(urb->setup_packet)) {
- 				WARN_ONCE(1, "setup packet is on stack\n");
- 				return -EAGAIN;
- 			}
-@@ -1479,9 +1476,6 @@ int usb_hcd_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
- 					ret = -EAGAIN;
- 				else
- 					urb->transfer_flags |= URB_DMA_MAP_PAGE;
--			} else if (is_vmalloc_addr(urb->transfer_buffer)) {
--				WARN_ONCE(1, "transfer buffer not dma capable\n");
--				ret = -EAGAIN;
- 			} else if (object_is_on_stack(urb->transfer_buffer)) {
- 				WARN_ONCE(1, "transfer buffer is on stack\n");
- 				ret = -EAGAIN;
--- 
-2.17.1
-
+Applied for v5.4, thanks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
