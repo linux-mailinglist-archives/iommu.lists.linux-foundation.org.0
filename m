@@ -2,77 +2,54 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF297EA346
-	for <lists.iommu@lfdr.de>; Wed, 30 Oct 2019 19:26:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54027EA437
+	for <lists.iommu@lfdr.de>; Wed, 30 Oct 2019 20:26:49 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 4C5D8CD9;
-	Wed, 30 Oct 2019 18:26:15 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 29541E9C;
+	Wed, 30 Oct 2019 19:26:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id D9CE4B5F
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 022A0E7B
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 30 Oct 2019 18:26:13 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 704D787B
+	Wed, 30 Oct 2019 19:26:43 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 5F128876
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 30 Oct 2019 18:26:13 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id y8so1370927plk.0
-	for <iommu@lists.linux-foundation.org>;
-	Wed, 30 Oct 2019 11:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to;
-	bh=DtrACqPWLXMscKFC3fwao3dgzXOornE3kvjDu6sEkLA=;
-	b=KiufJgbrRj86zsIMV1otcowQqEIoRGhhadz0y1H4HBU5AssCVh8qhcYYFYmDKdSq+S
-	3WQhFQE3NXpBBvl5Dq+sqppxJ+6ZTiIVYrSB4h7tULFSM7DjtsCFkiE9aZZ8TRdkPfx2
-	FXHuk3epmTxo8mMNAjdAagwx0oLzAv9l8YdjM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=DtrACqPWLXMscKFC3fwao3dgzXOornE3kvjDu6sEkLA=;
-	b=M/9AOcXyJpx9N7tXksOmKGMzPY+abUv5GG3lIL28/CEA3gEbDyzL6Z5K7K1GxIPvrP
-	Oc8JLq7rozQRjk1DSKg18UxOeO0zVHHvxXMiwkBPHCw/MP3V+4HAKlwsnmrd46mmVBwi
-	1FLxfcUF+gIWRpeAqy5ru/yQWsytGKUW9oYLIFKJx+9ZekRAEzWbnKS+S9QilJpWK63S
-	deLEWl65LCq2ZNMbxuFABxP9L96/eDEP4FstnVoW12jEwgbRApxiCZ8wNRt59b5A4ziv
-	9jI4g0lgJLeJskoQ6kllc68uRgBGQCrtL4gsu6WG26TTHFG0z3h2biq1lUS+3g/9Bg/J
-	fAKQ==
-X-Gm-Message-State: APjAAAXO1Ps8avvxsLCgaTu5viB7smYDG/zKLFqjgaKbBXV/JKMOEx2j
-	i1oyN8dRaSMtdMRnIDI/hlWdHA==
-X-Google-Smtp-Source: APXvYqz+gOml2V+1TkezZQvv3jWGc6cqrvBZVedrnNeCwDK/e+32G9IWArX+9+GEEwDFFkiQOHkacQ==
-X-Received: by 2002:a17:902:bf0a:: with SMTP id
-	bi10mr120764plb.56.1572459972890; 
-	Wed, 30 Oct 2019 11:26:12 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-	by smtp.gmail.com with ESMTPSA id
-	i16sm594315pfa.184.2019.10.30.11.26.11
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 30 Oct 2019 11:26:11 -0700 (PDT)
-Date: Wed, 30 Oct 2019 11:26:10 -0700
-From: Kees Cook <keescook@chromium.org>
+	Wed, 30 Oct 2019 19:26:43 +0000 (UTC)
+Received: from localhost (unknown [84.241.198.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 5714820717;
+	Wed, 30 Oct 2019 19:26:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1572463603;
+	bh=oZdsRq9DtlyqOY59UsuqYnw0hffYd6itQ5//OM9N0yo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EQphk4FxmCMxFxHG/5TYKSPi7YAgBs5IqWJDk/FAOpM+ZRPDtLpBZImpp4DiuE+Wb
+	tzFvBrKBH0SaoI+5McjbOfZ6aDH8VO7HN+u3LOdtTMoGaywUTGTHn+o64hcAY6+Gdi
+	++vTdUeKWYBxIh31wAgLOz3E1h5el+0NtcEWvm1A=
+Date: Wed, 30 Oct 2019 20:26:40 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Christoph Hellwig <hch@lst.de>
 Subject: Re: [PATCH v4 1/2] dma-mapping: Add vmap checks to dma_map_single()
-Message-ID: <201910301125.A1DD6D5F53@keescook>
+Message-ID: <20191030192640.GC709410@kroah.com>
 References: <20191029213423.28949-1-keescook@chromium.org>
 	<20191029213423.28949-2-keescook@chromium.org>
 	<20191030091849.GA637042@kroah.com> <20191030180921.GB19366@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <20191030180921.GB19366@lst.de>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+User-Agent: Mutt/1.12.2 (2019-09-21)
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
-	iommu@lists.linux-foundation.org,
+Cc: Kees Cook <keescook@chromium.org>,
 	Semmle Security Reports <security-reports@semmle.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
+	linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+	iommu@lists.linux-foundation.org, Dan Carpenter <dan.carpenter@oracle.com>,
 	Jesper Dangaard Brouer <brouer@redhat.com>,
 	Thomas Gleixner <tglx@linutronix.de>, Laura Abbott <labbott@redhat.com>,
 	Robin Murphy <robin.murphy@arm.com>, Allison Randal <allison@lohutok.net>
@@ -134,10 +111,12 @@ On Wed, Oct 30, 2019 at 07:09:21PM +0100, Christoph Hellwig wrote:
 > I've fixed the message to "rejecting DMA map of vmalloc memory" and
 > applied the patch.
 
-Great; thank you!
+Looks good!  You can apply patch 2/2 as well if you want to take that
+through your tree too.
 
--- 
-Kees Cook
+thanks,
+
+greg k-h
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
