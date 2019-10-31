@@ -2,66 +2,64 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD753EA802
-	for <lists.iommu@lfdr.de>; Thu, 31 Oct 2019 01:07:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A404EEA80C
+	for <lists.iommu@lfdr.de>; Thu, 31 Oct 2019 01:07:57 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 98504EA3;
-	Thu, 31 Oct 2019 00:07:33 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 0EA54EA7;
+	Thu, 31 Oct 2019 00:07:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id C61B3CDD
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id C6510CDD
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 31 Oct 2019 00:07:31 +0000 (UTC)
+	Thu, 31 Oct 2019 00:07:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from hqemgate16.nvidia.com (hqemgate16.nvidia.com [216.228.121.65])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 73A80876
+Received: from hqemgate14.nvidia.com (hqemgate14.nvidia.com [216.228.121.143])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 8277E87C
 	for <iommu@lists.linux-foundation.org>;
 	Thu, 31 Oct 2019 00:07:31 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
-	hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-	id <B5dba25c80002>; Wed, 30 Oct 2019 17:07:36 -0700
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+	hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+	id <B5dba25c90000>; Wed, 30 Oct 2019 17:07:37 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
-	by hqpgpgate101.nvidia.com (PGP Universal service);
+	by hqpgpgate102.nvidia.com (PGP Universal service);
 	Wed, 30 Oct 2019 17:07:31 -0700
 X-PGP-Universal: processed;
-	by hqpgpgate101.nvidia.com on Wed, 30 Oct 2019 17:07:31 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
-	(172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
-	Thu, 31 Oct 2019 00:07:30 +0000
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
-	(172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+	by hqpgpgate102.nvidia.com on Wed, 30 Oct 2019 17:07:31 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL107.nvidia.com
+	(172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
 	Thu, 31 Oct 2019 00:07:30 +0000
 Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL107.nvidia.com
 	(172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
 	Frontend Transport; Thu, 31 Oct 2019 00:07:30 +0000
 Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by
 	hqnvemgw02.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
-	id <B5dba25c20000>; Wed, 30 Oct 2019 17:07:30 -0700
+	id <B5dba25c20001>; Wed, 30 Oct 2019 17:07:30 -0700
 From: Krishna Reddy <vdumpa@nvidia.com>
 To: 
-Subject: [PATCH v4 4/6] arm64: tegra: Add Memory controller DT node on T194
-Date: Wed, 30 Oct 2019 17:07:15 -0700
-Message-ID: <1572480437-28449-5-git-send-email-vdumpa@nvidia.com>
+Subject: [PATCH v4 5/6] arm64: tegra: Add DT node for T194 SMMU
+Date: Wed, 30 Oct 2019 17:07:16 -0700
+Message-ID: <1572480437-28449-6-git-send-email-vdumpa@nvidia.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1572480437-28449-1-git-send-email-vdumpa@nvidia.com>
 References: <1572480437-28449-1-git-send-email-vdumpa@nvidia.com>
 X-NVConfidentiality: public
 MIME-Version: 1.0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-	t=1572480456; bh=hRANYpP2XS4X2iTAl/T+hd2FdaXreD0LfCPfta2oI4c=;
+	t=1572480457; bh=tqLHlhwV6+T9UcYIe3S/OScCHaVWaVpXBJd2VMOOnfE=;
 	h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
 	In-Reply-To:References:X-NVConfidentiality:MIME-Version:
 	Content-Type;
-	b=A+/XV1P0Z9ui7GnEtzCXA/B0bpCu2hyHBepqr2LO38YNOjmtui27qfxBGe/NC2lpB
-	jCQy0UeWlsb2mlOeas3GLUuvwxAI0B9Pysmsab0kGBg+9do7v7rITFo+8WLgeMi71i
-	9ct9tXdY5ONhGVsfP6kLTmMo477vSRdp/GAgdiglFa1GwUgCBEamWLSken2br/78sj
-	63BY25lX+eG/H77ZPbfXXD8XYKtnsiJ/7j7b0cjfu3mPM6YgODmRijAHPM8BLwSq9s
-	Ktsg/I1wE640vMCD2BZtdXmLLC9GXM0kuVXxuqe0MDvpIGFn/O4P8HdaR7z83U7Go0
-	5kJblyH/dLJ0g==
+	b=IqUeK8xU4KuA+l4yRCeW62ps1/7QteYVWni0/F7YzrSOiQH6HAbuilIhYMp8pfpGq
+	8IFbjbSfAnX/08yrtGUXxDIhLyO8hYCl1ZU1FPXTj4H1wphjOQWj/5CaOFcpgIHDGe
+	76edUJ6vzAjNYw+Ja/vWJ5P/jinHQQb45tNh320QVSX90C200WkAN56CPAqYqn3MIj
+	qqpYMZI3zGWjh64gjWt0Iy5H+cSmgX5pHmdQDQwv40WBdCB4FLxNk5sc+zoTmnlkMb
+	/MOAfCc+56u2r0wheO0JpkWjgfVVajo6znoVULGfazkE07d5qdr8sQECk5lBzlSxTB
+	jv1gsYYzdO/TQ==
 X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_HI,
+	UPPERCASE_50_75 autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 Cc: snikam@nvidia.com, jtukkinen@nvidia.com, mperttunen@nvidia.com,
@@ -88,47 +86,101 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Add Memory controller DT node on T194 and enable it.
-This patch is a prerequisite for SMMU enable on T194.
+Add DT node for T194 SMMU to enable SMMU support.
 
 Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi | 4 ++++
- arch/arm64/boot/dts/nvidia/tegra194.dtsi       | 6 ++++++
- 2 files changed, 10 insertions(+)
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi | 77 ++++++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-index 4c38426..82a02490 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi
-@@ -47,6 +47,10 @@
- 			};
- 		};
- 
-+		memory-controller@2c00000 {
-+			status = "okay";
-+		};
-+
- 		serial@3110000 {
- 			status = "okay";
- 		};
 diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index 3c0cf54..1e0b54b 100644
+index 1e0b54b..6f81e90 100644
 --- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
 +++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -163,6 +163,12 @@
- 			};
- 		};
+@@ -1436,6 +1436,83 @@
+ 			  0x82000000 0x0  0x40000000 0x1f 0x40000000 0x0 0xc0000000>; /* non-prefetchable memory (3GB) */
+ 	};
  
-+		memory-controller@2c00000 {
-+			compatible = "nvidia,tegra186-mc";
-+			reg = <0x02c00000 0xb0000>;
-+			status = "disabled";
-+		};
++	smmu: iommu@12000000 {
++		compatible = "arm,mmu-500","nvidia,tegra194-smmu";
++		reg = <0 0x12000000 0 0x800000>,
++		      <0 0x11000000 0 0x800000>,
++		      <0 0x10000000 0 0x800000>;
++		interrupts = <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 232 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 232 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>;
++		stream-match-mask = <0x7f80>;
++		#global-interrupts = <3>;
++		#iommu-cells = <1>;
++	};
 +
- 		uarta: serial@3100000 {
- 			compatible = "nvidia,tegra194-uart", "nvidia,tegra20-uart";
- 			reg = <0x03100000 0x40>;
+ 	sysram@40000000 {
+ 		compatible = "nvidia,tegra194-sysram", "mmio-sram";
+ 		reg = <0x0 0x40000000 0x0 0x50000>;
 -- 
 2.7.4
 
