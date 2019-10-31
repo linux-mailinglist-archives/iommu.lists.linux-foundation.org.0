@@ -2,73 +2,50 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16561EB3F9
-	for <lists.iommu@lfdr.de>; Thu, 31 Oct 2019 16:33:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A9EEB421
+	for <lists.iommu@lfdr.de>; Thu, 31 Oct 2019 16:42:58 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id ABBD5B8F;
-	Thu, 31 Oct 2019 15:32:59 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id D916CC96;
+	Thu, 31 Oct 2019 15:42:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id D6439AAE
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 85EC1C6C
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 31 Oct 2019 15:32:58 +0000 (UTC)
-Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 82C1163D
+	Thu, 31 Oct 2019 15:42:52 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 408828B0
 	for <iommu@lists.linux-foundation.org>;
-	Thu, 31 Oct 2019 15:32:58 +0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-	id 5EECC6039E; Thu, 31 Oct 2019 15:32:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-	s=default; t=1572535978;
-	bh=Wu1p4lTlnkRIn2ZFKfaTp50Re4Hzw0Tp88nEqxRXUxk=;
+	Thu, 31 Oct 2019 15:42:52 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+	bits)) (No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id DECD82086D;
+	Thu, 31 Oct 2019 15:42:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1572536572;
+	bh=GRreUt5vILq8iwJLnTWSsnpWtfLL+f+wCy2zYdNxf6o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H6w56olDKvHUqqwcMWNv6CPNBxXRXHVmTJStViy1ihrGv7rlpUJ2er5e7b5VAaLyt
-	Fq2cCtmjYFNyxVqK6Fhp7QCu9ZlstaFrNecEmo5rMUpWYKFXHLXIT/oBLwX9AR/Xg/
-	1NDpRvZXOD7aL7nhyxf/xFSBvAaXDyjPrj0nKrlg=
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	smtp1.linux-foundation.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
-	[199.106.103.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: jcrouse@smtp.codeaurora.org)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 423F46039E;
-	Thu, 31 Oct 2019 15:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-	s=default; t=1572535977;
-	bh=Wu1p4lTlnkRIn2ZFKfaTp50Re4Hzw0Tp88nEqxRXUxk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BixRIEE21yHa0q9XH28ahzi56AT/NPqXB5o4qHpBc3ERHsj3xe+eB91QJ7dod4cUX
-	QOdIkeC7/Pahx4aCosYbabFoZIgFFqGrHVs7CS0wPPlRKUlgv6xXxTnAIPf1FtJV4j
-	L3hacs382z2DMq/ZklkJc2iTOJ9KIWhm2wANi4aE=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 423F46039E
-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
-	dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
-	spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Thu, 31 Oct 2019 09:32:55 -0600
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 6/7] Revert "iommu/arm-smmu: Make arm-smmu explicitly
-	non-modular"
-Message-ID: <20191031153255.GB8188@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Will Deacon <will@kernel.org>,
-	iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Robin Murphy <robin.murphy@arm.com>
+	b=qaAJ8XcWGfT4LUOvU811aRsvOWAxezJATr7Uk9nzN23oXUvKxtHZVcY0AqzVTOyjZ
+	Epk2/3n2IWDhuOaWcOoDQDWApaqgYgldCxMrpckQEgKjPXnL2Tv96+pJVdwc1WPwcm
+	ftKHIyiFmV9Fi/cSBRpiXvhFrSLJm+8Fm2Mkj3Fg=
+Date: Thu, 31 Oct 2019 15:42:47 +0000
+From: Will Deacon <will@kernel.org>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: Re: [PATCH 5/7] iommu/arm-smmu-v3: Allow building as a module
+Message-ID: <20191031154247.GB28061@willie-the-truck>
 References: <20191030145112.19738-1-will@kernel.org>
-	<20191030145112.19738-7-will@kernel.org>
-	<20191030230941.GA8188@jcrouse1-lnx.qualcomm.com>
-	<20191031120327.GD26059@willie-the-truck>
+	<20191030145112.19738-6-will@kernel.org>
+	<20191030193148.GA8432@8bytes.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191031120327.GD26059@willie-the-truck>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20191030193148.GA8432@8bytes.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	smtp1.linux-foundation.org
 Cc: Bjorn Helgaas <bhelgaas@google.com>, iommu@lists.linux-foundation.org,
 	Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -88,45 +65,50 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Thu, Oct 31, 2019 at 12:03:28PM +0000, Will Deacon wrote:
-> On Wed, Oct 30, 2019 at 05:09:41PM -0600, Jordan Crouse wrote:
-> > On Wed, Oct 30, 2019 at 02:51:11PM +0000, Will Deacon wrote:
-> > > @@ -2235,12 +2237,16 @@ static const struct dev_pm_ops arm_smmu_pm_ops = {
-> > >  
-> > >  static struct platform_driver arm_smmu_driver = {
-> > >  	.driver	= {
-> > > -		.name			= "arm-smmu",
-> > > -		.of_match_table		= of_match_ptr(arm_smmu_of_match),
-> > > -		.pm			= &arm_smmu_pm_ops,
-> > > -		.suppress_bind_attrs	= true,
-> > > +		.name		= "arm-smmu",
-> > > +		.of_match_table	= of_match_ptr(arm_smmu_of_match),
-> > > +		.pm		= &arm_smmu_pm_ops,
-> > >  	},
-> > >  	.probe	= arm_smmu_device_probe,
-> > > +	.remove	= arm_smmu_device_remove,
-> > >  	.shutdown = arm_smmu_device_shutdown,
-> > >  };
-> > > -builtin_platform_driver(arm_smmu_driver);
-> > > +module_platform_driver(arm_smmu_driver);
+Hi Joerg,
+
+On Wed, Oct 30, 2019 at 08:31:48PM +0100, Joerg Roedel wrote:
+> On Wed, Oct 30, 2019 at 02:51:10PM +0000, Will Deacon wrote:
+> > By removing the redundant call to 'pci_request_acs()' we can allow the
+> > ARM SMMUv3 driver to be built as a module.
 > > 
-> > I know this is a revert, but wouldn't you still want to be at device_init()
-> > level for built in drivers? It always preferable to not defer if given the
-> > choice to do so and device_init() is the right level for this driver IMO.
+> > Signed-off-by: Will Deacon <will@kernel.org>
+> > ---
+> >  drivers/iommu/Kconfig       | 2 +-
+> >  drivers/iommu/arm-smmu-v3.c | 1 -
+> >  2 files changed, 1 insertion(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> > index e3842eabcfdd..7583d47fc4d5 100644
+> > --- a/drivers/iommu/Kconfig
+> > +++ b/drivers/iommu/Kconfig
+> > @@ -388,7 +388,7 @@ config ARM_SMMU_DISABLE_BYPASS_BY_DEFAULT
+> >  	  config.
+> >  
+> >  config ARM_SMMU_V3
+> > -	bool "ARM Ltd. System MMU Version 3 (SMMUv3) Support"
+> > +	tristate "ARM Ltd. System MMU Version 3 (SMMUv3) Support"
+> >  	depends on ARM64
+> >  	select IOMMU_API
+> >  	select IOMMU_IO_PGTABLE_LPAEa
 > 
-> Hmm, not sure I'm following you completely here. With this change,
-> module_init() is used to invoke platform_driver_register(). For builtin
-> drivers, module_initx() expands to __initcall(x), which itself expands
-> to device_initcall(x). Or are you referrring to something else?
- 
- Oh, yep, I was off. For whatever reason I thought device and module were at
- different levels. Sorry for the noise.
+> Sorry for the stupid question, but what prevents the iommu module from
+> being unloaded when there are active users? There are no symbol
+> dependencies to endpoint device drivers, because the interface is only
+> exposed through the iommu-api, right? Is some sort of manual module
+> reference counting needed?
 
-Jordan
+Generally, I think unloading the IOMMU driver module while there are
+active users is a pretty bad idea, much like unbinding the driver via
+/sys in the same situation would also be fairly daft. However, I *think*
+the code in __device_release_driver() tries to deal with this by
+iterating over the active consumers and ->remove()ing them first.
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+I'm without hardware access at the moment, so I haven't been able to
+test this myself. We could nobble the module_exit() hook, but there's
+still the "force unload" option depending on the .config.
+
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
