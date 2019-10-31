@@ -2,73 +2,69 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEEF3EA785
-	for <lists.iommu@lfdr.de>; Thu, 31 Oct 2019 00:09:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F15ECEA7FE
+	for <lists.iommu@lfdr.de>; Thu, 31 Oct 2019 01:07:41 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id C50BDE2F;
-	Wed, 30 Oct 2019 23:09:47 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 7522FE95;
+	Thu, 31 Oct 2019 00:07:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 13E34DE1
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 575CFCDD
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 30 Oct 2019 23:09:46 +0000 (UTC)
-Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id D74CB174
+	Thu, 31 Oct 2019 00:07:31 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from hqemgate14.nvidia.com (hqemgate14.nvidia.com [216.228.121.143])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id E8B9787C
 	for <iommu@lists.linux-foundation.org>;
-	Wed, 30 Oct 2019 23:09:44 +0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-	id ABD1D6020A; Wed, 30 Oct 2019 23:09:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-	s=default; t=1572476984;
-	bh=MJbdFytPde7/IWl9jUG/H9ozurDfg3is3lna2YHVZ+c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GwKBbl1Cf+kDNSGJz82m+N8WaB+7woovQcA4NP39rGWmgbmkK9OMfNXoL14y/iEMo
-	RsDD6BpNW5LEh81QwqTQvK0ZDPJaF9ypTEODCAPbyOzDcsRvorM0/OaPHoITN7g5Et
-	jHmM8XPjZRq8dbXwP1y9WFBGmWTStCLMYyPd9E38=
+	Thu, 31 Oct 2019 00:07:30 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+	hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+	id <B5dba25c80000>; Wed, 30 Oct 2019 17:07:36 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+	by hqpgpgate101.nvidia.com (PGP Universal service);
+	Wed, 30 Oct 2019 17:07:30 -0700
+X-PGP-Universal: processed;
+	by hqpgpgate101.nvidia.com on Wed, 30 Oct 2019 17:07:30 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+	(172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+	Thu, 31 Oct 2019 00:07:29 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL111.nvidia.com
+	(172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
+	Frontend Transport; Thu, 31 Oct 2019 00:07:29 +0000
+Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by
+	hqnvemgw02.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+	id <B5dba25c10000>; Wed, 30 Oct 2019 17:07:29 -0700
+From: Krishna Reddy <vdumpa@nvidia.com>
+To: 
+Subject: [PATCH v4 0/6] Nvidia Arm SMMUv2 Implementation
+Date: Wed, 30 Oct 2019 17:07:11 -0700
+Message-ID: <1572480437-28449-1-git-send-email-vdumpa@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
+MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+	t=1572480456; bh=twA38AxT+vglESgZl57xrwZUdLq1unS/ukF862ESTCs=;
+	h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+	X-NVConfidentiality:MIME-Version:Content-Type;
+	b=CXOTXa9hDqtYTPrMUbv9IfoOpO1/9f9EMLBpdpoSn/wVbLzM2MUmiJbuX19RhEED5
+	cRqL83gefTkE5qRcLQqUj3AeUxKVImFw6srlsXgK/TD21H9rHkLtByRtQgneUKgp/j
+	pO7ItNbHh9tNWRuWYejbSAmpotFxxVnf0SlPz43D6W3/dlONflBdcVZCB8x5+sNiaE
+	BuUki5rEoQxXfhU0sf22IksBlRcasT+hvRYTzQ2v0UIF4QMGOKSvCPfCNKvyNgBMgG
+	6osi9xp+E0Q/pGpH3D3ke0shqbjzBCmE2HBGmZTq1pWp4KJxj0u2UuSXbLoPy7yUZV
+	VvoYeDvWLT4Qg==
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
-	[199.106.103.254])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: jcrouse@smtp.codeaurora.org)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 5B73660397;
-	Wed, 30 Oct 2019 23:09:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-	s=default; t=1572476983;
-	bh=MJbdFytPde7/IWl9jUG/H9ozurDfg3is3lna2YHVZ+c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BTdpCrZsl7petc7s6W8QOB3XhGPhab4CY1w75gwKTxlVpFz6yaEXx8y/hK5SieVjg
-	ZBoBWC2HR0Z/FjAJou3+CoIyrL0MmBm+mq6HLSP1xCfzFLXO9/wR7fY9h6POMD+Esm
-	3K8dnQyJkKprnjsLrPjKGTiuMRLiBoY4kmbUfzc0=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5B73660397
-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
-	dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
-	spf=none smtp.mailfrom=jcrouse@codeaurora.org
-Date: Wed, 30 Oct 2019 17:09:41 -0600
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 6/7] Revert "iommu/arm-smmu: Make arm-smmu explicitly
-	non-modular"
-Message-ID: <20191030230941.GA8188@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Will Deacon <will@kernel.org>,
-	iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Robin Murphy <robin.murphy@arm.com>
-References: <20191030145112.19738-1-will@kernel.org>
-	<20191030145112.19738-7-will@kernel.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191030145112.19738-7-will@kernel.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: Bjorn Helgaas <bhelgaas@google.com>, iommu@lists.linux-foundation.org,
-	Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org
+Cc: snikam@nvidia.com, jtukkinen@nvidia.com, mperttunen@nvidia.com,
+	will@kernel.org, linux-kernel@vger.kernel.org,
+	praithatha@nvidia.com, talho@nvidia.com,
+	iommu@lists.linux-foundation.org, nicolinc@nvidia.com,
+	linux-tegra@vger.kernel.org, yhsu@nvidia.com, treding@nvidia.com,
+	robin.murphy@arm.com, avanbrunt@nvidia.com,
+	linux-arm-kernel@lists.infradead.org, bbiswas@nvidia.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -86,106 +82,38 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Wed, Oct 30, 2019 at 02:51:11PM +0000, Will Deacon wrote:
-> This reverts commit addb672f200f4e99368270da205320b83efe01a0.
-> 
-> Let's get the SMMU driver building as a module, which means putting
-> back some dead code that we used to carry.
-> 
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
->  drivers/iommu/arm-smmu.c | 32 +++++++++++++++++++-------------
->  1 file changed, 19 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-> index 7c503a6bc585..53bbe0663b9e 100644
-> --- a/drivers/iommu/arm-smmu.c
-> +++ b/drivers/iommu/arm-smmu.c
-> @@ -27,8 +27,7 @@
->  #include <linux/interrupt.h>
->  #include <linux/io.h>
->  #include <linux/iopoll.h>
-> -#include <linux/init.h>
-> -#include <linux/moduleparam.h>
-> +#include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_address.h>
->  #include <linux/of_device.h>
-> @@ -59,10 +58,6 @@
->  #define MSI_IOVA_LENGTH			0x100000
->  
->  static int force_stage;
-> -/*
-> - * not really modular, but the easiest way to keep compat with existing
-> - * bootargs behaviour is to continue using module_param() here.
-> - */
->  module_param(force_stage, int, S_IRUGO);
->  MODULE_PARM_DESC(force_stage,
->  	"Force SMMU mappings to be installed at a particular stage of translation. A value of '1' or '2' forces the corresponding stage. All other values are ignored (i.e. no stage is forced). Note that selecting a specific stage will disable support for nested translation.");
-> @@ -1878,6 +1873,7 @@ static const struct of_device_id arm_smmu_of_match[] = {
->  	{ .compatible = "qcom,smmu-v2", .data = &qcom_smmuv2 },
->  	{ },
->  };
-> +MODULE_DEVICE_TABLE(of, arm_smmu_of_match);
->  
->  #ifdef CONFIG_ACPI
->  static int acpi_smmu_get_data(u32 model, struct arm_smmu_device *smmu)
-> @@ -2165,12 +2161,12 @@ static int arm_smmu_legacy_bus_init(void)
->  }
->  device_initcall_sync(arm_smmu_legacy_bus_init);
->  
-> -static void arm_smmu_device_shutdown(struct platform_device *pdev)
-> +static int arm_smmu_device_remove(struct platform_device *pdev)
->  {
->  	struct arm_smmu_device *smmu = platform_get_drvdata(pdev);
->  
->  	if (!smmu)
-> -		return;
-> +		return -ENODEV;
->  
->  	if (!bitmap_empty(smmu->context_map, ARM_SMMU_MAX_CBS))
->  		dev_err(&pdev->dev, "removing device with active domains!\n");
-> @@ -2186,6 +2182,12 @@ static void arm_smmu_device_shutdown(struct platform_device *pdev)
->  		clk_bulk_disable(smmu->num_clks, smmu->clks);
->  
->  	clk_bulk_unprepare(smmu->num_clks, smmu->clks);
-> +	return 0;
-> +}
-> +
-> +static void arm_smmu_device_shutdown(struct platform_device *pdev)
-> +{
-> +	arm_smmu_device_remove(pdev);
->  }
->  
->  static int __maybe_unused arm_smmu_runtime_resume(struct device *dev)
-> @@ -2235,12 +2237,16 @@ static const struct dev_pm_ops arm_smmu_pm_ops = {
->  
->  static struct platform_driver arm_smmu_driver = {
->  	.driver	= {
-> -		.name			= "arm-smmu",
-> -		.of_match_table		= of_match_ptr(arm_smmu_of_match),
-> -		.pm			= &arm_smmu_pm_ops,
-> -		.suppress_bind_attrs	= true,
-> +		.name		= "arm-smmu",
-> +		.of_match_table	= of_match_ptr(arm_smmu_of_match),
-> +		.pm		= &arm_smmu_pm_ops,
->  	},
->  	.probe	= arm_smmu_device_probe,
-> +	.remove	= arm_smmu_device_remove,
->  	.shutdown = arm_smmu_device_shutdown,
->  };
-> -builtin_platform_driver(arm_smmu_driver);
-> +module_platform_driver(arm_smmu_driver);
+Changes in v4:
+Rebased on top of https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/ for-joerg/arm-smmu/updates.
+Updated arm-smmu-nvidia.c to use the tlb_sync implementation hook.
+Dropped patch that updates arm_smmu_flush_ops for override as it is no longer necessary.
 
-I know this is a revert, but wouldn't you still want to be at device_init()
-level for built in drivers? It always preferable to not defer if given the
-choice to do so and device_init() is the right level for this driver IMO.
+v3 - https://lkml.org/lkml/2019/10/18/1601
+v2 - https://lkml.org/lkml/2019/9/2/980
+v1 - https://lkml.org/lkml/2019/8/29/1588
 
-Jordan
+Krishna Reddy (6):
+  iommu/arm-smmu: add NVIDIA implementation for dual ARM MMU-500 usage
+  dt-bindings: arm-smmu: Add binding for Tegra194 SMMU
+  iommu/arm-smmu: Add global/context fault implementation hooks
+  arm64: tegra: Add Memory controller DT node on T194
+  arm64: tegra: Add DT node for T194 SMMU
+  arm64: tegra: enable SMMU for SDHCI and EQOS on T194
+
+ .../devicetree/bindings/iommu/arm,smmu.txt         |   4 +
+ MAINTAINERS                                        |   2 +
+ arch/arm64/boot/dts/nvidia/tegra194-p2888.dtsi     |   4 +
+ arch/arm64/boot/dts/nvidia/tegra194.dtsi           |  88 +++++++
+ drivers/iommu/Makefile                             |   2 +-
+ drivers/iommu/arm-smmu-impl.c                      |   3 +
+ drivers/iommu/arm-smmu-nvidia.c                    | 261 +++++++++++++++++++++
+ drivers/iommu/arm-smmu.c                           |  11 +-
+ drivers/iommu/arm-smmu.h                           |   4 +
+ 9 files changed, 376 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/iommu/arm-smmu-nvidia.c
 
 -- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.7.4
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
