@@ -2,75 +2,55 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5441DECA3C
-	for <lists.iommu@lfdr.de>; Fri,  1 Nov 2019 22:26:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4B7ECA35
+	for <lists.iommu@lfdr.de>; Fri,  1 Nov 2019 22:24:41 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id B2EF9E42;
-	Fri,  1 Nov 2019 21:26:45 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 8F2A4DE0;
+	Fri,  1 Nov 2019 21:24:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9C7A0E24
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id AAA0ADAB
 	for <iommu@lists.linux-foundation.org>;
-	Fri,  1 Nov 2019 21:26:44 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
-	[209.85.167.193])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 8FC89466
+	Fri,  1 Nov 2019 21:24:35 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id EE76C466
 	for <iommu@lists.linux-foundation.org>;
-	Fri,  1 Nov 2019 21:26:43 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id v186so9372085oie.5
-	for <iommu@lists.linux-foundation.org>;
-	Fri, 01 Nov 2019 14:26:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=akkZD3w083zl13woGTjsh480XINKZCL3wR8VL14OTmQ=;
-	b=s0Vz8wh0GQ9oVFLmjY4JYB4Ahm42iKCgainya75ejaw+VdRDfft88VS6BcoRAIOLF6
-	hRc37n2vtK2pgiVbgYHLJHJoJKNqX3i+FgLVWUseXizVnLdELNDtCT2R9oKWfqhFEru1
-	Yw7TuoxlW1zCwHrf1/9rBmkVLwejj8GIMWpu3Cl06CuxcimZuGtOgNnvM37W2MzSNcUZ
-	Fb0Ue/qO564LvEi6EdftMqD3bVfz1zmlbLi6jMaUn2HplbDzmArPbjdtMKmScfEaexJV
-	1M/ImLD4nnaxXfT6meC5xHAnY6ViRXAanGiHl3yo7uwsvD/Q7hw3yGdBU5aRGAn1EM5b
-	1DEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=akkZD3w083zl13woGTjsh480XINKZCL3wR8VL14OTmQ=;
-	b=EdCAUNCBc6hIu/kLSaQ5+Yjw44o3CxBPa54NPrNSQGgHTBYAKdWUjt1I/ZeY1mP1xs
-	cdfYPEzW09bqD0fvD5qI1TdPus4j6pGSvxhFBQyiOab1gE8TXvV29DB1LGj7CGTckWQJ
-	TH3KoLKRN2dJZGQkb1k02FfysDj4sgob1esJtDrypBeHB/L1woN4mljBVFhancbMVG3u
-	raMBDsB7OOFpGmU4HiJSbzAheto/gBuFh3ulKRMFc61Xnv1bEsz3DlnWqkl/jOoIJ7cT
-	JXbL9tMZ4sNAFuVDAMNsxTkFFmWLMSZU+H1zfPvCfGjGj7+w+lofCTqOkxoK6Umovmht
-	tnTw==
-X-Gm-Message-State: APjAAAX0dn6C8mrjkOvI86WkmoeHwh48Yu9XyvSv7ow2OItLHJwPL+il
-	9x91wfq4/PQ156PCqPaGpsuZFuQJnleu0vMMdziqQw==
-X-Google-Smtp-Source: APXvYqw7SAiHX+nkrUKhSIYt2GxZg2umVPUbXjZgJSciGR9hzGh6xvHktK2T6WuzUWM47Qoeq91MlB0qRkEzP7LLxC4=
-X-Received: by 2002:aca:f408:: with SMTP id s8mr1061686oih.69.1572643602372;
-	Fri, 01 Nov 2019 14:26:42 -0700 (PDT)
+	Fri,  1 Nov 2019 21:24:34 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Nov 2019 14:24:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,257,1569308400"; d="scan'208";a="284304360"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+	by orsmga001.jf.intel.com with ESMTP; 01 Nov 2019 14:24:33 -0700
+Date: Fri, 1 Nov 2019 14:28:59 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v7 10/11] iommu/vt-d: Support flushing more translation
+	cache types
+Message-ID: <20191101142859.708a584d@jacob-builder>
+In-Reply-To: <40776827-c053-2a30-5606-d4ccdbd35fc8@linux.intel.com>
+References: <1571946904-86776-1-git-send-email-jacob.jun.pan@linux.intel.com>
+	<1571946904-86776-11-git-send-email-jacob.jun.pan@linux.intel.com>
+	<40776827-c053-2a30-5606-d4ccdbd35fc8@linux.intel.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20191030145112.19738-1-will@kernel.org>
-	<6e457227-ca06-2998-4ffa-a58ab171ce32@arm.com>
-	<20191030155444.GC19096@willie-the-truck>
-	<CAGETcx9ogWQC1ZtnS_4xC3ShqBpuRSKudWEEWC22UZUEhdEU4A@mail.gmail.com>
-	<20191031193758.GA2607492@lophozonia>
-	<CAGETcx-MuMVvj0O-MFdfmLADEq=cQY_=x+irvhgwHhG4VeeSdg@mail.gmail.com>
-	<20191101114148.GA2694906@lophozonia>
-	<20191101122825.GA318@e121166-lin.cambridge.arm.com>
-In-Reply-To: <20191101122825.GA318@e121166-lin.cambridge.arm.com>
-Date: Fri, 1 Nov 2019 14:26:05 -0700
-Message-ID: <CAGETcx_U1huHHT=_xo6ArTWpmKMkr=rAy4ceoVUQv6XZGEDA_w@mail.gmail.com>
-Subject: Re: [PATCH 0/7] iommu: Permit modular builds of ARM SMMU[v3] drivers
-To: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DOS_RCVD_IP_TWICE_B,RCVD_IN_DNSWL_NONE,
-	USER_IN_DEF_DKIM_WL autolearn=no version=3.3.1
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
-	iommu@lists.linux-foundation.org, Bjorn Helgaas <bhelgaas@google.com>,
-	Will Deacon <will@kernel.org>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+	David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux-foundation.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.com>,
+	Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -83,66 +63,188 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Saravana Kannan via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Saravana Kannan <saravanak@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Fri, Nov 1, 2019 at 5:28 AM Lorenzo Pieralisi
-<lorenzo.pieralisi@arm.com> wrote:
->
-> On Fri, Nov 01, 2019 at 12:41:48PM +0100, Jean-Philippe Brucker wrote:
->
-> [...]
->
-> > > > I'm also wondering about ACPI support.
-> > >
-> > > I'd love to add ACPI support too, but I have zero knowledge of ACPI.
-> > > I'd be happy to help anyone who wants to add ACPI support that allows
-> > > ACPI to add device links.
-> >
-> > It's not as generic as device-tree, each vendor has their own table to
-> > describe the IOMMU topology. I don't see a nice way to transpose the
-> > add_links() callback there. Links need to be created either in a common
-> > path (iommu_probe_device()) or in the APCI IORT driver.
->
-> We can create a generic stub that calls into respective firmware
-> handling paths (eg iort_dma_setup() in acpi_dma_configure()).
->
-> There are three arches booting with ACPI so stubbing it out in
-> specific firmware handlers is not such a big deal, less generic
-> sure, but not catastrophically bad.
+On Sat, 26 Oct 2019 10:22:43 +0800
+Lu Baolu <baolu.lu@linux.intel.com> wrote:
 
-Ok, good to know.
+> Hi,
+> 
+> On 10/25/19 3:55 AM, Jacob Pan wrote:
+> > When Shared Virtual Memory is exposed to a guest via vIOMMU,
+> > scalable IOTLB invalidation may be passed down from outside IOMMU
+> > subsystems. This patch adds invalidation functions that can be used
+> > for additional translation cache types.
+> > 
+> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > ---
+> >   drivers/iommu/dmar.c        | 46
+> > +++++++++++++++++++++++++++++++++++++++++++++
+> > drivers/iommu/intel-pasid.c |  3 ++- include/linux/intel-iommu.h |
+> > 21 +++++++++++++++++---- 3 files changed, 65 insertions(+), 5
+> > deletions(-)
+> > 
+> > diff --git a/drivers/iommu/dmar.c b/drivers/iommu/dmar.c
+> > index 49bb7d76e646..0ce2d32ff99e 100644
+> > --- a/drivers/iommu/dmar.c
+> > +++ b/drivers/iommu/dmar.c
+> > @@ -1346,6 +1346,20 @@ void qi_flush_iotlb(struct intel_iommu
+> > *iommu, u16 did, u64 addr, qi_submit_sync(&desc, iommu);
+> >   }
+> >   
+> > +/* PASID-based IOTLB Invalidate */
+> > +void qi_flush_piotlb(struct intel_iommu *iommu, u16 did, u64 addr,
+> > u32 pasid,
+> > +		unsigned int size_order, u64 granu, int ih)
+> > +{
+> > +	struct qi_desc desc = {.qw2 = 0, .qw3 = 0};
+> > +
+> > +	desc.qw0 = QI_EIOTLB_PASID(pasid) | QI_EIOTLB_DID(did) |
+> > +		QI_EIOTLB_GRAN(granu) | QI_EIOTLB_TYPE;
+> > +	desc.qw1 = QI_EIOTLB_ADDR(addr) | QI_EIOTLB_IH(ih) |
+> > +		QI_EIOTLB_AM(size_order);
+> > +
+> > +	qi_submit_sync(&desc, iommu);
+> > +}
+> > +
+> >   void qi_flush_dev_iotlb(struct intel_iommu *iommu, u16 sid, u16
+> > pfsid, u16 qdep, u64 addr, unsigned mask)
+> >   {
+> > @@ -1369,6 +1383,38 @@ void qi_flush_dev_iotlb(struct intel_iommu
+> > *iommu, u16 sid, u16 pfsid, qi_submit_sync(&desc, iommu);
+> >   }
+> >   
+> > +/* PASID-based device IOTLB Invalidate */
+> > +void qi_flush_dev_piotlb(struct intel_iommu *iommu, u16 sid, u16
+> > pfsid,
+> > +		u32 pasid,  u16 qdep, u64 addr, unsigned
+> > size_order, u64 granu) +{
+> > +	struct qi_desc desc;  
+> 
+> Do you need to set qw2 and qw3 to 0?
+> 
+right, forgot to add
+	struct qi_desc desc = {.qw2 = 0, .qw3 = 0};
 
-> Obviously this works for IOMMU masters links
+> > +
+> > +	desc.qw0 = QI_DEV_EIOTLB_PASID(pasid) |
+> > QI_DEV_EIOTLB_SID(sid) |
+> > +		QI_DEV_EIOTLB_QDEP(qdep) | QI_DEIOTLB_TYPE |
+> > +		QI_DEV_IOTLB_PFSID(pfsid);
+> > +	desc.qw1 = QI_DEV_EIOTLB_GLOB(granu);
+> > +
+> > +	/* If S bit is 0, we only flush a single page. If S bit is
+> > set,
+> > +	 * The least significant zero bit indicates the
+> > invalidation address
+> > +	 * range. VT-d spec 6.5.2.6.
+> > +	 * e.g. address bit 12[0] indicates 8KB, 13[0] indicates
+> > 16KB.
+> > +	 */
+> > +	if (!size_order) {
+> > +		desc.qw0 |= QI_DEV_EIOTLB_ADDR(addr) &
+> > ~QI_DEV_EIOTLB_SIZE;
+> > +	} else {
+> > +		unsigned long mask = 1UL << (VTD_PAGE_SHIFT +
+> > size_order);
+> > +		desc.qw1 |= QI_DEV_EIOTLB_ADDR(addr & ~mask) |
+> > QI_DEV_EIOTLB_SIZE;
+> > +	}
+> > +	qi_submit_sync(&desc, iommu);
+> > +}
+> > +
+> > +void qi_flush_pasid_cache(struct intel_iommu *iommu, u16 did, u64
+> > granu, int pasid) +{
+> > +	struct qi_desc desc = {.qw1 = 0, .qw2 = 0, .qw3 = 0};
+> > +
+> > +	desc.qw0 = QI_PC_PASID(pasid) | QI_PC_DID(did) |
+> > QI_PC_GRAN(granu) | QI_PC_TYPE;
+> > +	qi_submit_sync(&desc, iommu);
+> > +}
+> >   /*
+> >    * Disable Queued Invalidation interface.
+> >    */
+> > diff --git a/drivers/iommu/intel-pasid.c
+> > b/drivers/iommu/intel-pasid.c index f846a907cfcf..6d7a701ef4d3
+> > 100644 --- a/drivers/iommu/intel-pasid.c
+> > +++ b/drivers/iommu/intel-pasid.c
+> > @@ -491,7 +491,8 @@ pasid_cache_invalidation_with_pasid(struct
+> > intel_iommu *iommu, {
+> >   	struct qi_desc desc;
+> >   
+> > -	desc.qw0 = QI_PC_DID(did) | QI_PC_PASID_SEL |
+> > QI_PC_PASID(pasid);
+> > +	desc.qw0 = QI_PC_DID(did) | QI_PC_GRAN(QI_PC_PASID_SEL) |
+> > +		QI_PC_PASID(pasid) | QI_PC_TYPE;
+> >   	desc.qw1 = 0;
+> >   	desc.qw2 = 0;
+> >   	desc.qw3 = 0;
+> > diff --git a/include/linux/intel-iommu.h
+> > b/include/linux/intel-iommu.h index 6c74c71b1ebf..a25fb3a0ea5b
+> > 100644 --- a/include/linux/intel-iommu.h
+> > +++ b/include/linux/intel-iommu.h
+> > @@ -332,7 +332,7 @@ enum {
+> >   #define QI_IOTLB_GRAN(gran) 	(((u64)gran) >>
+> > (DMA_TLB_FLUSH_GRANU_OFFSET-4)) #define QI_IOTLB_ADDR(addr)
+> > (((u64)addr) & VTD_PAGE_MASK) #define
+> > QI_IOTLB_IH(ih)		(((u64)ih) << 6) -#define
+> > QI_IOTLB_AM(am)		(((u8)am)) +#define
+> > QI_IOTLB_AM(am)		(((u8)am) & 0x3f) 
+> >   #define QI_CC_FM(fm)		(((u64)fm) << 48)
+> >   #define QI_CC_SID(sid)		(((u64)sid) << 32)
+> > @@ -350,16 +350,21 @@ enum {
+> >   #define QI_PC_DID(did)		(((u64)did) << 16)
+> >   #define QI_PC_GRAN(gran)	(((u64)gran) << 4)
+> >   
+> > -#define QI_PC_ALL_PASIDS	(QI_PC_TYPE | QI_PC_GRAN(0))
+> > -#define QI_PC_PASID_SEL		(QI_PC_TYPE | QI_PC_GRAN(1))
+> > +/* PASID cache invalidation granu */
+> > +#define QI_PC_ALL_PASIDS	0
+> > +#define QI_PC_PASID_SEL		1
+> >   
+> >   #define QI_EIOTLB_ADDR(addr)	((u64)(addr) & VTD_PAGE_MASK)
+> >   #define QI_EIOTLB_IH(ih)	(((u64)ih) << 6)
+> > -#define QI_EIOTLB_AM(am)	(((u64)am))
+> > +#define QI_EIOTLB_AM(am)	(((u64)am) & 0x3f)
+> >   #define QI_EIOTLB_PASID(pasid) 	(((u64)pasid) << 32)
+> >   #define QI_EIOTLB_DID(did)	(((u64)did) << 16)
+> >   #define QI_EIOTLB_GRAN(gran) 	(((u64)gran) << 4)
+> >   
+> > +/* QI Dev-IOTLB inv granu */
+> > +#define QI_DEV_IOTLB_GRAN_ALL		1
+> > +#define QI_DEV_IOTLB_GRAN_PASID_SEL	0
+> > +
+> >   #define QI_DEV_EIOTLB_ADDR(a)	((u64)(a) & VTD_PAGE_MASK)
+> >   #define QI_DEV_EIOTLB_SIZE	(((u64)1) << 11)
+> >   #define QI_DEV_EIOTLB_GLOB(g)	((u64)g)
+> > @@ -655,8 +660,16 @@ extern void qi_flush_context(struct
+> > intel_iommu *iommu, u16 did, u16 sid, u8 fm, u64 type);
+> >   extern void qi_flush_iotlb(struct intel_iommu *iommu, u16 did,
+> > u64 addr, unsigned int size_order, u64 type);
+> > +extern void qi_flush_piotlb(struct intel_iommu *iommu, u16 did,
+> > u64 addr,
+> > +			u32 pasid, unsigned int size_order, u64
+> > type, int ih); extern void qi_flush_dev_iotlb(struct intel_iommu
+> > *iommu, u16 sid, u16 pfsid, u16 qdep, u64 addr, unsigned mask);
+> > +
+> > +extern void qi_flush_dev_piotlb(struct intel_iommu *iommu, u16
+> > sid, u16 pfsid,
+> > +			u32 pasid, u16 qdep, u64 addr, unsigned
+> > size_order, u64 granu); +
+> > +extern void qi_flush_pasid_cache(struct intel_iommu *iommu, u16
+> > did, u64 granu, int pasid); +
+> >   extern int qi_submit_sync(struct qi_desc *desc, struct
+> > intel_iommu *iommu); 
+> >   extern int dmar_ir_support(void);
+> >   
+> 
+> Best regards,
+> baolu
 
-It's unclear to me what you are referring to here and it's throwing me
-off on the rest of the email.
-
-Did you mean to say "IOMMU master's links"? As in the bus masters
-whose accesses go through IOMMUs? And "links" as in device links?
-
-OR
-
-Do you mean device links from bus master devices to IOMMUs here?
-
-> - for resources
-> dependencies (eg power domains) it deserves some thought, keeping in
-> mind that IOMMUs are static table entries in ACPI and not device objects
-> so they are not even capable of expressing eg power resources and
-> suchlike.
-
-If you can reword this sentence for me with more context or split it
-into separate sentences, I'd appreciate that very much. I'd help me
-understand this better and allow me to try to help out.
-
-> Long story short: adding IOMMU masters links in ACPI should be
-> reasonably simple, everything else requires further thought.
-
--Saravana
+[Jacob Pan]
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
