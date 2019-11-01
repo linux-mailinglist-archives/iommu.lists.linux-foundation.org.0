@@ -2,54 +2,51 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00511EC6D2
-	for <lists.iommu@lfdr.de>; Fri,  1 Nov 2019 17:31:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B74EC737
+	for <lists.iommu@lfdr.de>; Fri,  1 Nov 2019 18:08:31 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 08C35FCB;
-	Fri,  1 Nov 2019 16:31:44 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 835501029;
+	Fri,  1 Nov 2019 17:08:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 63909A7F
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 6CD4F1024
 	for <iommu@lists.linux-foundation.org>;
-	Fri,  1 Nov 2019 16:31:42 +0000 (UTC)
+	Fri,  1 Nov 2019 17:08:28 +0000 (UTC)
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 211E687C
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CBB6B466
 	for <iommu@lists.linux-foundation.org>;
-	Fri,  1 Nov 2019 16:31:42 +0000 (UTC)
+	Fri,  1 Nov 2019 17:08:27 +0000 (UTC)
 Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
 	bits)) (No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 0798621855;
-	Fri,  1 Nov 2019 16:31:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id 517FE2085B;
+	Fri,  1 Nov 2019 17:08:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572625902;
-	bh=lcwuDtMMVht6znRRW2+vxRC911paPSnMy5ommgfPMo0=;
+	s=default; t=1572628107;
+	bh=0VLtvy1Li+X4S07iJZuXHqdU+xhvhoGmzB/HsuY/Ov8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WyGXyw2KNWgeMv/p+9wB4TlQogOYBPuCDvs/wMc3yEFpca+YjfRX24yiOHCWwrYhy
-	SGS8W7od9h4yQTvj9ZgCLshp3CPe6la+7U/LLWOsZJWI+9JXZXqE2YacivSJfSoilJ
-	MXowa3plebKou/xRmn1lhQyUCPFqgoseP/v/s2GU=
-Date: Fri, 1 Nov 2019 16:31:36 +0000
+	b=DhjUBZFokLgKbeFcbFEYX+4/vgqse2DiRVLKOazVZ7jeSb7JJau3jICFIlREBp6nT
+	A+WLX6ce3gzd42JF2h9Cg4xGQoCIXemZxX1i6yPRrzNMm67AYjFlW6Fsw8fi7xer+z
+	sESre9SUiTkjKoBixYasHL22b9CjBvICA0uJ/WmM=
+Date: Fri, 1 Nov 2019 17:08:23 +0000
 From: Will Deacon <will@kernel.org>
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
-	agross@kernel.org
-Subject: Re: [PATCHv7 0/3] QCOM smmu-500 wait-for-safe handling for sdm845
-Message-ID: <20191101163136.GC3603@willie-the-truck>
-References: <cover.1568966170.git.saiprakash.ranjan@codeaurora.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2] dt-bindings: iommu: Convert Arm SMMUv3 to DT schema
+Message-ID: <20191101170822.GE3603@willie-the-truck>
+References: <20191014191256.12697-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <cover.1568966170.git.saiprakash.ranjan@codeaurora.org>
+In-Reply-To: <20191014191256.12697-1-robh@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Rajendra Nayak <rnayak@codeaurora.org>, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bjorn.andersson@linaro.org,
-	iommu@lists.linux-foundation.org,
-	Vivek Gautam <vivek.gautam@codeaurora.org>,
-	Stephen Boyd <swboyd@chromium.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+	Robin Murphy <Robin.Murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,33 +64,107 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Fri, Sep 20, 2019 at 01:34:26PM +0530, Sai Prakash Ranjan wrote:
-> Previous version of the patches are at [1]:
-> 
-> QCOM's implementation of smmu-500 on sdm845 adds a hardware logic called
-> wait-for-safe. This logic helps in meeting the invalidation requirements
-> from 'real-time clients', such as display and camera. This wait-for-safe
-> logic ensures that the invalidations happen after getting an ack from these
-> devices.
-> In this patch-series we are disabling this wait-for-safe logic from the
-> arm-smmu driver's probe as with this enabled the hardware tries to
-> throttle invalidations from 'non-real-time clients', such as USB and UFS.
-> 
-> For detailed information please refer to patch [3/4] in this series.
-> I have included the device tree patch too in this series for someone who
-> would like to test out this. Here's a branch [2] that gets display on MTP
-> SDM845 device.
-> 
-> This patch series is inspired from downstream work to handle under-performance
-> issues on real-time clients on sdm845. In downstream we add separate page table
-> ops to handle TLB maintenance and toggle wait-for-safe in tlb_sync call so that
-> achieve required performance for display and camera [3, 4].
+Hi Rob,
 
-What's the plan for getting this merged? I'm not happy taking the firmware
-bits without Andy's ack, but I also think the SMMU changes should go via
-the IOMMU tree to avoid conflicts.
+On Mon, Oct 14, 2019 at 02:12:56PM -0500, Rob Herring wrote:
+> Convert the Arm SMMv3 binding to the DT schema format.
+> 
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Robin Murphy <Robin.Murphy@arm.com>
+> Cc: iommu@lists.linux-foundation.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> v2:
+> - Refine interrupt definition based on Robin's comments
+> 
+>  .../devicetree/bindings/iommu/arm,smmu-v3.txt |  77 --------------
+>  .../bindings/iommu/arm,smmu-v3.yaml           | 100 ++++++++++++++++++
+>  2 files changed, 100 insertions(+), 77 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/iommu/arm,smmu-v3.txt
+>  create mode 100644 Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml
 
-Andy?
+[...]
+
+> diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml
+> new file mode 100644
+> index 000000000000..662cbc4592c9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iommu/arm,smmu-v3.yaml
+> @@ -0,0 +1,100 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ARM SMMUv3 Architecture Implementation
+> +
+> +maintainers:
+> +  - Will Deacon <will@kernel.org>
+> +  - Robin Murphy <Robin.Murphy@arm.com>
+> +
+> +description: |+
+> +  The SMMUv3 architecture is a significant departure from previous
+> +  revisions, replacing the MMIO register interface with in-memory command
+> +  and event queues and adding support for the ATS and PRI components of
+> +  the PCIe specification.
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^iommu@[0-9a-f]*"
+> +  compatible:
+> +    const: arm,smmu-v3
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    minItems: 1
+> +    maxItems: 4
+> +
+> +  interrupt-names:
+> +    oneOf:
+> +      - const: combined
+> +        description:
+> +          The combined interrupt is optional, and should only be provided if the
+> +          hardware supports just a single, combined interrupt line.
+> +          If provided, then the combined interrupt will be used in preference to
+> +          any others.
+> +      - items:
+> +          - const: eventq     # Event Queue not empt
+> +          - const: priq       # PRI Queue not empty
+> +          - const: cmdq-sync  # CMD_SYNC complete
+> +          - const: gerror     # Global Error activated
+> +      - minItems: 2
+> +        maxItems: 4
+> +        items:
+> +          - const: eventq
+> +          - const: gerror
+> +          - const: priq
+> +          - const: cmdq-sync
+
+I find it a bit odd to say "minItems: 2" here since, for example, if you
+have an SMMU that supports PRI then you really want the PRIQ interrupt
+hooked up. The only one never care about in the current driver is cmdq-sync,
+but that's just a driver quirk.
+
+Also, if the thing supports MSIs then it might not have any wired interrupts
+at all. Hmm.
+
+> +
+> +  '#iommu-cells':
+> +    const: 1
+> +
+> +  dma-coherent:
+> +    description: |
+> +      Present if page table walks made by the SMMU are cache coherent with the
+> +      CPU.
+
+This looks like you've taken the text from SMMUv2 by accident. For SMMUv3,
+it's not just about page table walks, but *any* DMA operations made by the
+SMMU (e.g. STE lookup). I don't see the need to change the current text tbh.
 
 Will
 _______________________________________________
