@@ -2,52 +2,52 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B31ECA2D
-	for <lists.iommu@lfdr.de>; Fri,  1 Nov 2019 22:14:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5441DECA3C
+	for <lists.iommu@lfdr.de>; Fri,  1 Nov 2019 22:26:49 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 47B90C77;
-	Fri,  1 Nov 2019 21:14:21 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id B2EF9E42;
+	Fri,  1 Nov 2019 21:26:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id AA7C6907
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 9C7A0E24
 	for <iommu@lists.linux-foundation.org>;
-	Fri,  1 Nov 2019 21:14:19 +0000 (UTC)
+	Fri,  1 Nov 2019 21:26:44 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
-	[209.85.167.194])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 9F8D587B
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
+	[209.85.167.193])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 8FC89466
 	for <iommu@lists.linux-foundation.org>;
-	Fri,  1 Nov 2019 21:14:18 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id m193so9367062oig.0
+	Fri,  1 Nov 2019 21:26:43 +0000 (UTC)
+Received: by mail-oi1-f193.google.com with SMTP id v186so9372085oie.5
 	for <iommu@lists.linux-foundation.org>;
-	Fri, 01 Nov 2019 14:14:18 -0700 (PDT)
+	Fri, 01 Nov 2019 14:26:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QsBFzGseNwFFn5J/7iyUWJn/fmN/VHqMXH3Pl+Ts4n4=;
-	b=AXZWcd+yryOPD4PVkEcKBB2NuJvQ7TNtMHwdG/PothZp+16BB1lKXLpleUSlWJUqwV
-	bhqy3YgPiKCHz0JXPkanxlqh0v4gh8MA83zZGd2XOurl2G//TSjG0c0E/5Wl7JPRm4jX
-	fc3Kd4Os18BKAksnMs+fT1m4/BgTiR/yCP99MNo52SJnA7mWvB/OYl55SRyfeo4PlJN9
-	IJs7cTRox+DrOxbJmRzB4HyFMhVJLwrzqmNC5A084jm+NgBPv3GIKU1DpyMlHACHWnGf
-	HcBCdHKRhpwGGoV4UK7HTPwSd7j8olhNpcW8orK0RjZxjoJ0ap/qA/fSplc9me5F8LHT
-	vk/w==
+	:cc; bh=akkZD3w083zl13woGTjsh480XINKZCL3wR8VL14OTmQ=;
+	b=s0Vz8wh0GQ9oVFLmjY4JYB4Ahm42iKCgainya75ejaw+VdRDfft88VS6BcoRAIOLF6
+	hRc37n2vtK2pgiVbgYHLJHJoJKNqX3i+FgLVWUseXizVnLdELNDtCT2R9oKWfqhFEru1
+	Yw7TuoxlW1zCwHrf1/9rBmkVLwejj8GIMWpu3Cl06CuxcimZuGtOgNnvM37W2MzSNcUZ
+	Fb0Ue/qO564LvEi6EdftMqD3bVfz1zmlbLi6jMaUn2HplbDzmArPbjdtMKmScfEaexJV
+	1M/ImLD4nnaxXfT6meC5xHAnY6ViRXAanGiHl3yo7uwsvD/Q7hw3yGdBU5aRGAn1EM5b
+	1DEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=QsBFzGseNwFFn5J/7iyUWJn/fmN/VHqMXH3Pl+Ts4n4=;
-	b=TMPjoPg220oYVeR/BR6tHGRyD/qMd7no/vHrBu542D3M6WefkKeXafk1rwDBsXi2K8
-	ruWUwM319CartGoViHZQs7H1T5bKSmi9XAIckcbfdanYURcynS3PaFDwqeQ2HH36GBL4
-	icrYZkHq0nan54ssKO6pl1PE/cWoi3vazwcrHtq0ITzWsM6sWH8VHFl8A3wp9k4NTKsb
-	vKUDdEAmgEOLGgVXIMqnR6K2fmP6Mt8WPxIlF8/18KZBBMA6JVLBlZAKyBJxN2PwudJT
-	HmLOXt0yPhPVgVWd1Smumcet9c2OWW74Wcr9rhlh1wnXv4+S1aiNtQ+KhnlevnZXRd7P
-	5czg==
-X-Gm-Message-State: APjAAAXcHRrs+39k7P/xMszsOuBtw/QS0yEoSk+MN8H56yflrs/IXRR7
-	69RU8GoLCH0TaZgcP5hZdE8/FcWWgY9rvQ89u6iVkw==
-X-Google-Smtp-Source: APXvYqwgRMsWiGTNh6WOcdU1Aoj9HbAoKkUAOYZP0eoiRwERP3bRkOhMrW6BQVW+CaXUu6pzBCRJw5nvVfmlcFWHy2Y=
-X-Received: by 2002:aca:4dcc:: with SMTP id a195mr5936152oib.172.1572642857474;
-	Fri, 01 Nov 2019 14:14:17 -0700 (PDT)
+	bh=akkZD3w083zl13woGTjsh480XINKZCL3wR8VL14OTmQ=;
+	b=EdCAUNCBc6hIu/kLSaQ5+Yjw44o3CxBPa54NPrNSQGgHTBYAKdWUjt1I/ZeY1mP1xs
+	cdfYPEzW09bqD0fvD5qI1TdPus4j6pGSvxhFBQyiOab1gE8TXvV29DB1LGj7CGTckWQJ
+	TH3KoLKRN2dJZGQkb1k02FfysDj4sgob1esJtDrypBeHB/L1woN4mljBVFhancbMVG3u
+	raMBDsB7OOFpGmU4HiJSbzAheto/gBuFh3ulKRMFc61Xnv1bEsz3DlnWqkl/jOoIJ7cT
+	JXbL9tMZ4sNAFuVDAMNsxTkFFmWLMSZU+H1zfPvCfGjGj7+w+lofCTqOkxoK6Umovmht
+	tnTw==
+X-Gm-Message-State: APjAAAX0dn6C8mrjkOvI86WkmoeHwh48Yu9XyvSv7ow2OItLHJwPL+il
+	9x91wfq4/PQ156PCqPaGpsuZFuQJnleu0vMMdziqQw==
+X-Google-Smtp-Source: APXvYqw7SAiHX+nkrUKhSIYt2GxZg2umVPUbXjZgJSciGR9hzGh6xvHktK2T6WuzUWM47Qoeq91MlB0qRkEzP7LLxC4=
+X-Received: by 2002:aca:f408:: with SMTP id s8mr1061686oih.69.1572643602372;
+	Fri, 01 Nov 2019 14:26:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191030145112.19738-1-will@kernel.org>
 	<6e457227-ca06-2998-4ffa-a58ab171ce32@arm.com>
@@ -55,21 +55,22 @@ References: <20191030145112.19738-1-will@kernel.org>
 	<CAGETcx9ogWQC1ZtnS_4xC3ShqBpuRSKudWEEWC22UZUEhdEU4A@mail.gmail.com>
 	<20191031193758.GA2607492@lophozonia>
 	<CAGETcx-MuMVvj0O-MFdfmLADEq=cQY_=x+irvhgwHhG4VeeSdg@mail.gmail.com>
-	<6994ae35-2b89-2feb-2bcb-cffc5a01963c@huawei.com>
-In-Reply-To: <6994ae35-2b89-2feb-2bcb-cffc5a01963c@huawei.com>
-Date: Fri, 1 Nov 2019 14:13:41 -0700
-Message-ID: <CAGETcx-9M8vvHA2Lykcv0hHWoC2OAw5kfBrjcNJN2CYCwR4eWQ@mail.gmail.com>
+	<20191101114148.GA2694906@lophozonia>
+	<20191101122825.GA318@e121166-lin.cambridge.arm.com>
+In-Reply-To: <20191101122825.GA318@e121166-lin.cambridge.arm.com>
+Date: Fri, 1 Nov 2019 14:26:05 -0700
+Message-ID: <CAGETcx_U1huHHT=_xo6ArTWpmKMkr=rAy4ceoVUQv6XZGEDA_w@mail.gmail.com>
 Subject: Re: [PATCH 0/7] iommu: Permit modular builds of ARM SMMU[v3] drivers
-To: John Garry <john.garry@huawei.com>
+To: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DOS_RCVD_IP_TWICE_B,RCVD_IN_DNSWL_NONE,
 	USER_IN_DEF_DKIM_WL autolearn=no version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
 Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Will Deacon <will@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Robin Murphy <robin.murphy@arm.com>
+	Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
+	iommu@lists.linux-foundation.org, Bjorn Helgaas <bhelgaas@google.com>,
+	Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -89,47 +90,59 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Fri, Nov 1, 2019 at 3:28 AM John Garry <john.garry@huawei.com> wrote:
+On Fri, Nov 1, 2019 at 5:28 AM Lorenzo Pieralisi
+<lorenzo.pieralisi@arm.com> wrote:
 >
-> On 31/10/2019 23:34, Saravana Kannan via iommu wrote:
-> > I looked into the iommu-map property and it shouldn't be too hard to
-> > add support for it. Looks like we can simply hold off on probing the
-> > root bridge device till all the iommus in its iommu-map are probed and
-> > we should be fine.
+> On Fri, Nov 01, 2019 at 12:41:48PM +0100, Jean-Philippe Brucker wrote:
+>
+> [...]
+>
+> > > > I'm also wondering about ACPI support.
+> > >
+> > > I'd love to add ACPI support too, but I have zero knowledge of ACPI.
+> > > I'd be happy to help anyone who wants to add ACPI support that allows
+> > > ACPI to add device links.
 > >
-> >> I'm also unsure about distro vendors agreeing to a mandatory kernel
-> >> parameter (of_devlink). Do you plan to eventually enable it by default?
-> >>
-> >>> static const struct supplier_bindings of_supplier_bindings[] = {
-> >>>          { .parse_prop = parse_clocks, },
-> >>>          { .parse_prop = parse_interconnects, },
-> >>>          { .parse_prop = parse_regulators, },
-> >>> +        { .parse_prop = parse_iommus, },
-> >>>          {},
-> >>> };
-> >>>
-> >>> I plan to upstream this pretty soon, but I have other patches in
-> >>> flight that touch the same file and I'm waiting for those to get
-> >>> accepted. I also want to clean up the code a bit to reduce some
-> >>> repetition before I add support for more bindings.
-> >> I'm also wondering about ACPI support.
-> > I'd love to add ACPI support too, but I have zero knowledge of ACPI.
-> > I'd be happy to help anyone who wants to add ACPI support that allows
-> > ACPI to add device links.
+> > It's not as generic as device-tree, each vendor has their own table to
+> > describe the IOMMU topology. I don't see a nice way to transpose the
+> > add_links() callback there. Links need to be created either in a common
+> > path (iommu_probe_device()) or in the APCI IORT driver.
 >
-> If possible to add, that may be useful for remedying this:
+> We can create a generic stub that calls into respective firmware
+> handling paths (eg iort_dma_setup() in acpi_dma_configure()).
 >
-> https://lore.kernel.org/linux-iommu/9625faf4-48ef-2dd3-d82f-931d9cf26976@huawei.com/
+> There are three arches booting with ACPI so stubbing it out in
+> specific firmware handlers is not such a big deal, less generic
+> sure, but not catastrophically bad.
 
-I'm happy that this change might fix that problem, but isn't the
-problem reported in that thread more to do with child devices getting
-added before the parent probes successfully? That doesn't make sense
-to me. Can't the piceport driver not add its child devices before it
-probes successfully? Or more specifically, who adds the child devices
-of the pcieport before the pcieport itself probes?
+Ok, good to know.
 
-Thanks,
-Saravana
+> Obviously this works for IOMMU masters links
+
+It's unclear to me what you are referring to here and it's throwing me
+off on the rest of the email.
+
+Did you mean to say "IOMMU master's links"? As in the bus masters
+whose accesses go through IOMMUs? And "links" as in device links?
+
+OR
+
+Do you mean device links from bus master devices to IOMMUs here?
+
+> - for resources
+> dependencies (eg power domains) it deserves some thought, keeping in
+> mind that IOMMUs are static table entries in ACPI and not device objects
+> so they are not even capable of expressing eg power resources and
+> suchlike.
+
+If you can reword this sentence for me with more context or split it
+into separate sentences, I'd appreciate that very much. I'd help me
+understand this better and allow me to try to help out.
+
+> Long story short: adding IOMMU masters links in ACPI should be
+> reasonably simple, everything else requires further thought.
+
+-Saravana
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
