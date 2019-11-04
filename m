@@ -2,72 +2,55 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4233EE4A6
-	for <lists.iommu@lfdr.de>; Mon,  4 Nov 2019 17:28:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 396F6EDDD1
+	for <lists.iommu@lfdr.de>; Mon,  4 Nov 2019 12:43:37 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id CC114E8B;
-	Mon,  4 Nov 2019 16:28:37 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id D3411EF7;
+	Mon,  4 Nov 2019 11:43:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id EDA40B0B
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1A3C6E28
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  4 Nov 2019 05:59:37 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id F23A75D0
+	Mon,  4 Nov 2019 11:43:31 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 7381C89E
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  4 Nov 2019 05:59:36 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id ay6so122879plb.0
-	for <iommu@lists.linux-foundation.org>;
-	Sun, 03 Nov 2019 21:59:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=zy/MVb0aYjqgyH6298HXpFaGlCLcvjGqnlnxm7FEfdE=;
-	b=aJDpyd2qSypbXEnsPfhRa1txYFFxquuGn/oCqcq4dFt8Zh3kfuwg5OX+tFpyB8/5hF
-	XlKMQNQi3CXtEE15M8hGpNqqIEyXJx4uztSRIbNHKZPp7y0GN2nB8Z157CRNGOcABtJW
-	OpMJ2rcpd1Qm1Vel8D6hMr/29asFa3QmjxhyVEDr/+MV52+mCaFcvS0JQUtltEALxFzP
-	6CNxBBk5dXKgPptrVU5i+aNvT+mGk/NTIwYuY0Np79so59Ej6A2MuWsu6FQcdakEQwSk
-	74oEtaVjarfGl+JxDNIgHc8A48UmK6wlMlRDDkwoaSRQAreTCf2SsxFpRVna7R4Aw4Aq
-	3p0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=zy/MVb0aYjqgyH6298HXpFaGlCLcvjGqnlnxm7FEfdE=;
-	b=Sl16lwL9jWX8LDnVuyI9eF96xUtX9qk5s7e8aPBCyYOt/ZoUSaHVxkhQL8Lbr5TPHL
-	TdwPhPH6O+FBi4SRRGDC07ufKrQVb89M6DtBc1ex539DpXh+mBZ0/adZ2+PBolk15mfa
-	fu7wJGrwzA2VYO5+qS8XzY/ddpnvuZSFE13JUZrBSymbj8BApU8qM017nfQRemd99Hb+
-	l/87pedUcFXZrbipi+3TS3fB1dKMUMSB8HCDt+LRJ/puML/A6IHEFCy8u96Xx4V/trv9
-	4M9meHmWvCIhmq5ARu+n/JycO/TFXtu4XrRP0y9eFxQxdlMFaGBWbUI+CgHIbatZaHev
-	Pa4g==
-X-Gm-Message-State: APjAAAVnqdIr5biLcTGutCLtF0zv0j7aRGD86/uf2H0rw4mxken9Z32w
-	f3pidfJg1dbMRpm7LPv5g8E=
-X-Google-Smtp-Source: APXvYqzZnJ2V5l/Fizf+P6jLh+7HISpaYB2ZiT19w+2RDlESrN5OGWeL5/WEnpMQsfzUu0/n5JbrHQ==
-X-Received: by 2002:a17:902:988d:: with SMTP id
-	s13mr25909994plp.335.1572847176253; 
-	Sun, 03 Nov 2019 21:59:36 -0800 (PST)
-Received: from AHUANG12-1LT7M0.lenovo.com (1-175-125-46.dynamic-ip.hinet.net.
-	[1.175.125.46]) by smtp.googlemail.com with ESMTPSA id
-	j186sm13069612pfg.161.2019.11.03.21.59.34
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 03 Nov 2019 21:59:35 -0800 (PST)
-From: Adrian Huang <adrianhuang0701@gmail.com>
-X-Google-Original-From: Adrian Huang <ahuang12@lenovo.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 1/1] iommu/amd: Fix the overwritten exclusion range with
-	multiple IVMDs
-Date: Mon,  4 Nov 2019 13:58:52 +0800
-Message-Id: <20191104055852.24395-1-ahuang12@lenovo.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
+	Mon,  4 Nov 2019 11:43:30 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C685D1FB;
+	Mon,  4 Nov 2019 03:43:29 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF4C03F71A;
+	Mon,  4 Nov 2019 03:43:28 -0800 (PST)
+Date: Mon, 4 Nov 2019 11:43:19 +0000
+From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To: Saravana Kannan <saravanak@google.com>
+Subject: Re: [PATCH 0/7] iommu: Permit modular builds of ARM SMMU[v3] drivers
+Message-ID: <20191104114312.GA15105@e121166-lin.cambridge.arm.com>
+References: <20191030145112.19738-1-will@kernel.org>
+	<6e457227-ca06-2998-4ffa-a58ab171ce32@arm.com>
+	<20191030155444.GC19096@willie-the-truck>
+	<CAGETcx9ogWQC1ZtnS_4xC3ShqBpuRSKudWEEWC22UZUEhdEU4A@mail.gmail.com>
+	<20191031193758.GA2607492@lophozonia>
+	<CAGETcx-MuMVvj0O-MFdfmLADEq=cQY_=x+irvhgwHhG4VeeSdg@mail.gmail.com>
+	<20191101114148.GA2694906@lophozonia>
+	<20191101122825.GA318@e121166-lin.cambridge.arm.com>
+	<CAGETcx_U1huHHT=_xo6ArTWpmKMkr=rAy4ceoVUQv6XZGEDA_w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAGETcx_U1huHHT=_xo6ArTWpmKMkr=rAy4ceoVUQv6XZGEDA_w@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-X-Mailman-Approved-At: Mon, 04 Nov 2019 16:28:36 +0000
-Cc: iommu@lists.linux-foundation.org, Adrian Huang <ahuang12@lenovo.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
+	iommu@lists.linux-foundation.org, Bjorn Helgaas <bhelgaas@google.com>,
+	Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -80,156 +63,104 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-When attaching two Broadcom RAID controllers to a server, the first one
-reports the failure during booting (the disks connecting to the RAID
-controller cannot be detected):
+On Fri, Nov 01, 2019 at 02:26:05PM -0700, Saravana Kannan wrote:
+> On Fri, Nov 1, 2019 at 5:28 AM Lorenzo Pieralisi
+> <lorenzo.pieralisi@arm.com> wrote:
+> >
+> > On Fri, Nov 01, 2019 at 12:41:48PM +0100, Jean-Philippe Brucker wrote:
+> >
+> > [...]
+> >
+> > > > > I'm also wondering about ACPI support.
+> > > >
+> > > > I'd love to add ACPI support too, but I have zero knowledge of ACPI.
+> > > > I'd be happy to help anyone who wants to add ACPI support that allows
+> > > > ACPI to add device links.
+> > >
+> > > It's not as generic as device-tree, each vendor has their own table to
+> > > describe the IOMMU topology. I don't see a nice way to transpose the
+> > > add_links() callback there. Links need to be created either in a common
+> > > path (iommu_probe_device()) or in the APCI IORT driver.
+> >
+> > We can create a generic stub that calls into respective firmware
+> > handling paths (eg iort_dma_setup() in acpi_dma_configure()).
+> >
+> > There are three arches booting with ACPI so stubbing it out in
+> > specific firmware handlers is not such a big deal, less generic
+> > sure, but not catastrophically bad.
+> 
+> Ok, good to know.
+> 
+> > Obviously this works for IOMMU masters links
+> 
+> It's unclear to me what you are referring to here and it's throwing me
+> off on the rest of the email.
+> 
+> Did you mean to say "IOMMU master's links"? As in the bus masters
+> whose accesses go through IOMMUs? And "links" as in device links?
+> 
+> OR
+> 
+> Do you mean device links from bus master devices to IOMMUs here?
 
-  megaraid_sas 0000:42:00.0: Init cmd return status FAILED for SCSI host 0
-  megaraid_sas 0000:42:00.0: Failed from megasas_init_fw 6376
+I meant associating endpoints devices to the IOMMU they are connected
+to.
 
-Root-cause of the issue:
-	1) Those two RAID controllers define their own IVMDs with the
-	   valid exclusion range, and they are associated with the same
-	   IOMMU hardware:
+In DT you do it through "iommus", "iommu-map" properties, in ACPI
+it is arch specific, doable nonetheless through ACPI (IORT on ARM)
+static tables data.
 
-                 Subtable Type : 10 [Hardware Definition Block]
-                         Flags : B0
-                        Length : 0028
-                      DeviceId : 4002
+> > - for resources
+> > dependencies (eg power domains) it deserves some thought, keeping in
+> > mind that IOMMUs are static table entries in ACPI and not device objects
+> > so they are not even capable of expressing eg power resources and
+> > suchlike.
+> 
+> If you can reword this sentence for me with more context or split it
+> into separate sentences, I'd appreciate that very much. I'd help me
+> understand this better and allow me to try to help out.
 
-             Capability Offset : 0040
-                  Base Address : 00000000B4100000
-             PCI Segment Group : 0000
-           Virtualization Info : 0000
-                      Reserved : 80048F6F
+In ACPI (at least on ARM but on x86 I suspect that's the same story with
+the DMAR table) an SMMU is presented in FW as an entry in a static
+table (eg IORT on ARM). I noticed that your patch series takes into
+account for instance eg clock dependencies in DT; this way the OS knows
+the clock(s) the SMMU depends on to be activated.
 
-                    Entry Type : 03
-                     Device ID : 4008
-                  Data Setting : 00
+In ACPI there is not a notion of "clock" (hopefully - unless someone
+sneaked that in using _DSD properties) but rather every device in the
+ACPI namespace (which is part of tables containing code that needs the
+ACPI interpreter to be used such as SSDT/DSDT - it is AML code) has ACPI
+objects describing power resources (ie ACPI specification 6.3, 7.2).
 
-                    Entry Type : 04
-                     Device ID : 7FFE
-                  Data Setting : 00
+The SMMU, since it is not itself an ACPI object in the ACPI namespace
+but rather an entry in a static ACPI table (IORT on ARM), can't have
+PowerResource object in it which means that at the moment there is no
+way you can detect a dependency on other power resources to be ON to
+build the device links you require to sort out the probe dependencies,
+which I *assume* that's the reason why you require to detect
+clock dependencies in DT.
 
-                 Subtable Type : 21 [Memory Definition Block]
-                         Flags : 08
-                        Length : 0020
-                      DeviceId : 4200
+Maybe it is not even needed at all but in case it is I was giving
+a heads-up to say that clocks (or rather an all encompassing "power
+resource" dependency) dependencies in ACPI to build an SMMU as
+a module are not straightforward and most certainly will require
+firmware specifications updates.
 
-                Auxiliary Data : 0000
-                      Reserved : 0000000000000000
-                 Start Address : 000000009F58D000
-                 Memory Length : 0000000008040000
+*Hopefully* in the short term all you need to detect is how endpoint
+devices are connected to an IOMMU and build device links to describe
+that probe dependency, if we need to throw power management into
+the picture there is more work to be done.
 
-                 Subtable Type : 21 [Memory Definition Block]
-                         Flags : 08
-                        Length : 0020
-                      DeviceId : 4300
+I hope that's clearer, if it is not please let me know and I will
+try to be more precise.
 
-                Auxiliary Data : 0000
-                      Reserved : 0000000000000000
-                 Start Address : 000000009754D000
-                 Memory Length : 0000000008040000
-
-	2) When set_device_exclusion_range() parses the IVMD of devce id
-	   '4200', the exclusion range of the amd_iommu struct becomes:
-
-		iommu->exclusion_start = 0x9F58D000;
-		iommu->exclusion_length = 0x8040000;
-
-	3) When parsing the second IVMD (device id '4300') in
-	   set_device_exclusion_range(), the exclusion range of the
-	   amd_iommu struct becomes:
-
-		iommu->exclusion_start = 0x9754D000;
-		iommu->exclusion_length = 0x8040000;
-
-	   This overwrites the first IVMD configuration, which leads to
-	   the failure of the first RAID controller.
-
-This patch fixes the issue by using unity map for multiple IVMDs if
-those IVMDs define the valid exclusion range (different exclusion range)
-and they are associated with the same IOMMU hardware. Note that the first
-IVMD still uses the exclusion range.
-
-Signed-off-by: Adrian Huang <ahuang12@lenovo.com>
----
- drivers/iommu/amd_iommu_init.c | 33 +++++++++++++++++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
-index 568c52317757..d65b548a42f5 100644
---- a/drivers/iommu/amd_iommu_init.c
-+++ b/drivers/iommu/amd_iommu_init.c
-@@ -71,6 +71,8 @@
- #define IVHD_FLAG_ISOC_EN_MASK          0x08
- 
- #define IVMD_FLAG_EXCL_RANGE            0x08
-+#define IVMD_FLAG_IW                    0x04
-+#define IVMD_FLAG_IR                    0x02
- #define IVMD_FLAG_UNITY_MAP             0x01
- 
- #define ACPI_DEVFLAG_INITPASS           0x01
-@@ -1110,6 +1112,32 @@ static int __init add_early_maps(void)
- 	return 0;
- }
- 
-+static int __init exclusion_range_has_configured(struct amd_iommu *iommu,
-+							struct ivmd_header *m)
-+{
-+	/* Not configure yet. */
-+	if (!iommu->exclusion_start) {
-+		iommu->exclusion_start = m->range_start;
-+		iommu->exclusion_length = m->range_length;
-+
-+		return 0;
-+	}
-+
-+	if (iommu->exclusion_start == m->range_start &&
-+	    iommu->exclusion_length == m->range_length)
-+		return 0;
-+
-+	/*
-+	 * The exclusion range of the iommu has been configured
-+	 * by the other IVMD, so we need to use unity map for this
-+	 * IVMD to avoid the overwritten exclusion range members of the
-+	 * amd_iommu structure.
-+	 */
-+	m->flags = (IVMD_FLAG_IW | IVMD_FLAG_IR | IVMD_FLAG_UNITY_MAP);
-+
-+	return 1;
-+}
-+
- /*
-  * Reads the device exclusion range from ACPI and initializes the IOMMU with
-  * it
-@@ -1122,14 +1150,15 @@ static void __init set_device_exclusion_range(u16 devid, struct ivmd_header *m)
- 		return;
- 
- 	if (iommu) {
-+		if (exclusion_range_has_configured(iommu, m))
-+			return;
-+
- 		/*
- 		 * We only can configure exclusion ranges per IOMMU, not
- 		 * per device. But we can enable the exclusion range per
- 		 * device. This is done here
- 		 */
- 		set_dev_entry_bit(devid, DEV_ENTRY_EX);
--		iommu->exclusion_start = m->range_start;
--		iommu->exclusion_length = m->range_length;
- 	}
- }
- 
--- 
-2.17.1
-
+Thanks,
+Lorenzo
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
