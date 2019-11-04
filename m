@@ -2,80 +2,65 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id F084EEDA27
-	for <lists.iommu@lfdr.de>; Mon,  4 Nov 2019 08:54:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20790EE4A3
+	for <lists.iommu@lfdr.de>; Mon,  4 Nov 2019 17:28:41 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id E9CB6B09;
-	Mon,  4 Nov 2019 07:54:27 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 565D5FBF;
+	Mon,  4 Nov 2019 16:28:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id BBC77AEF
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 7E9F4B1F
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  4 Nov 2019 07:54:26 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 748E1710
+	Mon,  4 Nov 2019 05:15:29 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 7F36B5D0
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  4 Nov 2019 07:54:25 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id q13so15811332wrs.12
-	for <iommu@lists.linux-foundation.org>;
-	Sun, 03 Nov 2019 23:54:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=q3RH9aKhMCOj6QTRmd89NHsLi2YVADcB75E8Mv/2sWs=;
-	b=z2yVQ/mZtfyy1iWUj+6k/cl0a6kCAdgr+Pe8zQowUyjbK4OWqECLs1pysJPTVENjs2
-	T6LU0ahnuSsLLo2l4nntm2Ysu0P/WvCSgEFKgLEyLh/rdDelWE6h+4h7KU78TBcDTfkt
-	72Y8iJZjS0ih4q+TCyYuYYAuxdpTDd1pps4UimDpoEl4RIC3IiSOgzhwtNZqmmLz7nb0
-	7+I2j/YkNtoCG3AvzTQxcad/x+Qtn0EcE3FbvZwHTIt2sKFs/JqXuqyHLRMCC218Luqi
-	tCOtrv3rHwmMD5i7EnGvekWmuEsYVt8ZHHYEV7ekcLZu58rBhXwZTvPqwiwQobv/TafL
-	CFKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=q3RH9aKhMCOj6QTRmd89NHsLi2YVADcB75E8Mv/2sWs=;
-	b=qXI7OwcEb1PcBb4po+qz3QcMYFpB5tmLsJ5sO+2msf9DT0VWpUZFSpvujAVbsDpc04
-	uxOo7BBwYNtthN6dWN1FTDsdQxHyAeg+4qi3/D9MDX5dLAdhgnTV0x6Ux1rh72ITmSjw
-	M75RMIXViZLdGQ3aXqsjJTV44Vs3Xb0qe98xtm+4ovI3HiVceKrWgELOUDFk33fhelXr
-	J7LW8+WoTmkcAE6Y1ZyYMFdLWJydD3c+f2trL7g4yAIocY/SaoE7fx9wlADIjOyzSI1N
-	OBQaj+Namb7Kkoy/ZAWTgKjUmdMILjF6Jmh917iIQu9FLlWfw+X7XqO5SjnyQczusFwi
-	fE4w==
-X-Gm-Message-State: APjAAAWdzq7tKALNPWzzACQFprQccDZiS/MpoqL6S7pt7TzCuwYnma45
-	QKyO8NoVGz8b1lYSzBGTc4dNMw==
-X-Google-Smtp-Source: APXvYqzwTl0p24NIwpPNLzuLF7ZBZJYcawaApLHhcSd1TLwu+/dFYxfxYP6hXLot3M5Zc/SG+0qPmg==
-X-Received: by 2002:a5d:530f:: with SMTP id e15mr21547527wrv.119.1572854063846;
-	Sun, 03 Nov 2019 23:54:23 -0800 (PST)
-Received: from lophozonia ([85.195.192.192]) by smtp.gmail.com with ESMTPSA id
-	o12sm7166620wrw.50.2019.11.03.23.54.22
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 03 Nov 2019 23:54:23 -0800 (PST)
-Date: Mon, 4 Nov 2019 08:54:20 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 0/7] iommu: Permit modular builds of ARM SMMU[v3] drivers
-Message-ID: <20191104075420.GA2781989@lophozonia>
-References: <20191030145112.19738-1-will@kernel.org>
-	<6e457227-ca06-2998-4ffa-a58ab171ce32@arm.com>
-	<20191030155444.GC19096@willie-the-truck>
-	<CAGETcx9ogWQC1ZtnS_4xC3ShqBpuRSKudWEEWC22UZUEhdEU4A@mail.gmail.com>
-	<20191031193758.GA2607492@lophozonia>
-	<20191101172145.GA3983@willie-the-truck>
+	Mon,  4 Nov 2019 05:15:28 +0000 (UTC)
+Received: from localhost (mobile-107-92-63-247.mycingular.net [107.92.63.247])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128
+	bits)) (No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 9E63A21929;
+	Mon,  4 Nov 2019 05:15:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1572844528;
+	bh=WjenxwOfbFdonCWAZjlYxuQ3uVb8wnM5xvZRj3umGWg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ThOV8Lgk04RSW63GG1r+ZUp2vYF5mUBG+Lb7DCXqhIyERN3OqcQY5vwFO9v/MWbrL
+	QsbXPqg4HekNoCA4yqV9e70dh/dRkeO93TTRUqI5oo6ksNZ6nK66Z1kfAJbo3utgUW
+	j0nZagqRT5mOq5VmbiGTOc35u1V8tPgbBcwO5Pb4=
+Date: Sun, 3 Nov 2019 23:15:26 -0600
+From: Andy Gross <agross@kernel.org>
+To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+Subject: Re: [PATCHv7 2/3] firmware/qcom_scm: Add scm call to handle smmu
+	errata
+Message-ID: <20191104051526.GA5299@hector.lan>
+Mail-Followup-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+	Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>,
+	Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
+	Stephen Boyd <swboyd@chromium.org>,
+	Vivek Gautam <vivek.gautam@codeaurora.org>,
+	bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Rajendra Nayak <rnayak@codeaurora.org>
+References: <cover.1568966170.git.saiprakash.ranjan@codeaurora.org>
+	<30e1aeb6032c869679edc4eb36783468adcc7e40.1568966170.git.saiprakash.ranjan@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191101172145.GA3983@willie-the-truck>
-User-Agent: Mutt/1.12.2 (2019-09-21)
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+In-Reply-To: <30e1aeb6032c869679edc4eb36783468adcc7e40.1568966170.git.saiprakash.ranjan@codeaurora.org>
+User-Agent: Mutt/1.5.23.1 (2014-03-12)
+X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: Bjorn Helgaas <bhelgaas@google.com>, iommu@lists.linux-foundation.org,
-	Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
-	Saravana Kannan <saravanak@google.com>
+X-Mailman-Approved-At: Mon, 04 Nov 2019 16:28:36 +0000
+Cc: Rajendra Nayak <rnayak@codeaurora.org>, Robin Murphy <robin.murphy@arm.com>,
+	linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+	iommu@lists.linux-foundation.org,
+	Vivek Gautam <vivek.gautam@codeaurora.org>,
+	linux-arm-msm@vger.kernel.org, bjorn.andersson@linaro.org,
+	Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -93,17 +78,22 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Hi Will,
+On Fri, Sep 20, 2019 at 01:34:28PM +0530, Sai Prakash Ranjan wrote:
+> From: Vivek Gautam <vivek.gautam@codeaurora.org>
+> 
+> Qcom's smmu-500 needs to toggle wait-for-safe sequence to
+> handle TLB invalidation sync's.
+> Few firmwares allow doing that through SCM interface.
+> Add API to toggle wait for safe from firmware through a
+> SCM call.
+> 
+> Signed-off-by: Vivek Gautam <vivek.gautam@codeaurora.org>
+> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+> ---
 
-On Fri, Nov 01, 2019 at 05:21:46PM +0000, Will Deacon wrote:
-> As far as symbols exported from the IOMMU and PCI layers, did you find you
-> needed anything on top of the stuff I'm exporting in patches 1 and 3?
-
-No, I needed the same symbols (minus fsl_mc_device_group and
-iommu_group_ref_get).
-
-Thanks,
-Jean
+Acked-by: Andy Gross <agross@kernel.org>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
