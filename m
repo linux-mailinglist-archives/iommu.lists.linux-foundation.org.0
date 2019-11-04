@@ -2,45 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3787EE495
-	for <lists.iommu@lfdr.de>; Mon,  4 Nov 2019 17:23:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B895FEE64D
+	for <lists.iommu@lfdr.de>; Mon,  4 Nov 2019 18:41:40 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id F0627F81;
-	Mon,  4 Nov 2019 16:23:46 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 90BBFB7A;
+	Mon,  4 Nov 2019 17:41:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id DD213F78
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 1B26FB7A
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  4 Nov 2019 16:23:45 +0000 (UTC)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 65A1067F
+	Mon,  4 Nov 2019 17:41:35 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.7.6
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id 9481C5D0
 	for <iommu@lists.linux-foundation.org>;
-	Mon,  4 Nov 2019 16:23:45 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
-	bits)) (No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 4BF922089C;
-	Mon,  4 Nov 2019 16:23:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572884625;
-	bh=P2/hAu6NNY+cjTFhjvZ4bPAmXxxRjGf1KyyYpDXKzSA=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=s/rTSMP7Roq4fVQZaSrLiaBxNurgYto8bR1HNyD6jophzl/s9U18Bbd+Bk9gA6aT4
-	/OQryltJXB8bd3HxxomMbpo7Tmab4aDQosybNQ3UKTvdAHBU9FQI6K/u3gkD9MryQN
-	KVPF6v9BrHMP4wDJqLlJYFiBNmnvwjmh4ByVoqqA=
-Date: Mon, 4 Nov 2019 16:23:39 +0000
-From: Will Deacon <will@kernel.org>
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
-	bjorn.andersson@linaro.org, Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
-	Stephen Boyd <swboyd@chromium.org>,
-	Vivek Gautam <vivek.gautam@codeaurora.org>,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Rajendra Nayak <rnayak@codeaurora.org>, linux-arm-msm-owner@vger.kernel.org
+	Mon,  4 Nov 2019 17:41:34 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id 29so466709pgm.6
+	for <iommu@lists.linux-foundation.org>;
+	Mon, 04 Nov 2019 09:41:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=lPIDgQKTrSezXBvWSPccLapRG8yo6gcHIljKbjtAJu0=;
+	b=CUu1FmB3LjsCLSEP705SvIqj35uHr2X5ys8TEcTirMe4Xm0h+XWqfzbWLbA/hhtDBw
+	eBlTxyj2xuSt7s0M3YUzkirkkX9V7uBiKPkWbfNsrubIH3WrdU/9DABtq8wDPUrFQXkG
+	7ibo3Z1mBB3nyR9Q4tDPS0IrWjhg5zGf+d0yp+PbZyYuez8PqSX81RKDIMG4OY6FkQ0/
+	ml3xQhwX4iBRmcnHBGtOrWcysVepLJo7C8TxzAl3LFclFOH9MxW3uoDksButKbroYTKP
+	DO6Mo6b1c/qIjgpNcBQx7oTHpiAiZXJf6ppiFLI8Bm25SiQMVIEKLEQE+58JBZg+pY2/
+	YEjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=lPIDgQKTrSezXBvWSPccLapRG8yo6gcHIljKbjtAJu0=;
+	b=pKQHyeFDm5UsqGuMsZbkX5E/55Megr0AORD/8y/oG1IfERyDuozpOhprxgAOgnr+QX
+	6LwpX1o3+xU7uaaVDKSeZ5lzCUEiQih1iFi01wC1L4lBzyHh7h8dx5EoAU2XVoj0fT73
+	wEZsDGbsrQ79pVts6wFqBf3vXLelo9i0NYzT7nVuDd2xhuo77EVKStnAHOkOeA0Q3He+
+	DYkx6AEOVuSWz2jP3mKoGTC4BukuUb80XNC3GciXVV6MCh5prs0w7vwhDOS2bvKQQFVP
+	S+s66tVJwRrOoQ+fAj2kwSkpOfh+GwO4ZGloUiqVZQ90rqJX3R3c9wTfqXHkuYIGBuWi
+	AzcQ==
+X-Gm-Message-State: APjAAAU03PWgITHaZc185UyiJ5PeKZXH4U8eH+YxoabgvlrxlTxAVGmX
+	J7dJfSykFGZ5ODgNGbC5NWvZow==
+X-Google-Smtp-Source: APXvYqzzZ+dkZOr3JoygRmb96xE/xUJESRhqGzvY+WG7dsAngzbq/NLr5tF1PTBC6l38feevSQDYnQ==
+X-Received: by 2002:a63:b62:: with SMTP id a34mr11473288pgl.123.1572889293842; 
+	Mon, 04 Nov 2019 09:41:33 -0800 (PST)
+Received: from tuxbook-pro (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
+	[104.188.17.28]) by smtp.gmail.com with ESMTPSA id
+	v14sm11345300pfm.51.2019.11.04.09.41.32
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 04 Nov 2019 09:41:33 -0800 (PST)
+Date: Mon, 4 Nov 2019 09:41:30 -0800
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Will Deacon <will@kernel.org>
 Subject: Re: [PATCHv7 0/3] QCOM smmu-500 wait-for-safe handling for sdm845
-Message-ID: <20191104162339.GD24909@willie-the-truck>
+Message-ID: <20191104174130.GA586@tuxbook-pro>
 References: <cover.1568966170.git.saiprakash.ranjan@codeaurora.org>
 	<20191101163136.GC3603@willie-the-truck>
 	<af7e9a14ae7512665f0cae32e08c8b06@codeaurora.org>
@@ -48,14 +66,21 @@ References: <cover.1568966170.git.saiprakash.ranjan@codeaurora.org>
 	<119d4bcf5989d1aa0686fd674c6a3370@codeaurora.org>
 	<20191104051925.GC5299@hector.lan>
 	<20191104151506.GB24909@willie-the-truck>
+	<20191104162339.GD24909@willie-the-truck>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191104151506.GB24909@willie-the-truck>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+In-Reply-To: <20191104162339.GD24909@willie-the-truck>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
+Cc: Rajendra Nayak <rnayak@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+	iommu@lists.linux-foundation.org,
+	Vivek Gautam <vivek.gautam@codeaurora.org>,
+	Robin Murphy <robin.murphy@arm.com>, linux-arm-msm-owner@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,85 +98,97 @@ Content-Transfer-Encoding: 7bit
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-On Mon, Nov 04, 2019 at 03:15:06PM +0000, Will Deacon wrote:
-> On Sun, Nov 03, 2019 at 11:19:25PM -0600, Andy Gross wrote:
-> > On Fri, Nov 01, 2019 at 11:01:59PM +0530, Sai Prakash Ranjan wrote:
-> > > >>> What's the plan for getting this merged? I'm not happy taking the
-> > > >>> firmware
-> > > >>> bits without Andy's ack, but I also think the SMMU changes should go via
-> > > >>> the IOMMU tree to avoid conflicts.
-> > > >>>
-> > > >>> Andy?
-> > > >>>
-> > > >>
-> > > >>Bjorn maintains QCOM stuff now if I am not wrong and he has already
-> > > >>reviewed
-> > > >>the firmware bits. So I'm hoping you could take all these through IOMMU
-> > > >>tree.
-> > > >
-> > > >Oh, I didn't realise that. Is there a MAINTAINERS update someplace? If I
-> > > >run:
-> > > >
-> > > >$ ./scripts/get_maintainer.pl -f drivers/firmware/qcom_scm-64.c
-> > > >
-> > > >in linux-next, I get:
-> > > >
-> > > >Andy Gross <agross@kernel.org> (maintainer:ARM/QUALCOMM SUPPORT)
-> > > >linux-arm-msm@vger.kernel.org (open list:ARM/QUALCOMM SUPPORT)
-> > > >linux-kernel@vger.kernel.org (open list)
-> > > >
+On Mon 04 Nov 08:23 PST 2019, Will Deacon wrote:
+
+> On Mon, Nov 04, 2019 at 03:15:06PM +0000, Will Deacon wrote:
+> > On Sun, Nov 03, 2019 at 11:19:25PM -0600, Andy Gross wrote:
+> > > On Fri, Nov 01, 2019 at 11:01:59PM +0530, Sai Prakash Ranjan wrote:
+> > > > >>> What's the plan for getting this merged? I'm not happy taking the
+> > > > >>> firmware
+> > > > >>> bits without Andy's ack, but I also think the SMMU changes should go via
+> > > > >>> the IOMMU tree to avoid conflicts.
+> > > > >>>
+> > > > >>> Andy?
+> > > > >>>
+> > > > >>
+> > > > >>Bjorn maintains QCOM stuff now if I am not wrong and he has already
+> > > > >>reviewed
+> > > > >>the firmware bits. So I'm hoping you could take all these through IOMMU
+> > > > >>tree.
+> > > > >
+> > > > >Oh, I didn't realise that. Is there a MAINTAINERS update someplace? If I
+> > > > >run:
+> > > > >
+> > > > >$ ./scripts/get_maintainer.pl -f drivers/firmware/qcom_scm-64.c
+> > > > >
+> > > > >in linux-next, I get:
+> > > > >
+> > > > >Andy Gross <agross@kernel.org> (maintainer:ARM/QUALCOMM SUPPORT)
+> > > > >linux-arm-msm@vger.kernel.org (open list:ARM/QUALCOMM SUPPORT)
+> > > > >linux-kernel@vger.kernel.org (open list)
+> > > > >
+> > > > 
+> > > > It hasn't been updated yet then. I will leave it to Bjorn or Andy to comment
+> > > > on this.
 > > > 
-> > > It hasn't been updated yet then. I will leave it to Bjorn or Andy to comment
-> > > on this.
+> > > The rumors of my demise have been greatly exaggerated.  All kidding aside, I
+> > > ack'ed both.  Bjorn will indeed be coming on as a co-maintener at some point.
+> > > He has already done a lot of yeomans work in helping me out the past 3 months.
 > > 
-> > The rumors of my demise have been greatly exaggerated.  All kidding aside, I
-> > ack'ed both.  Bjorn will indeed be coming on as a co-maintener at some point.
-> > He has already done a lot of yeomans work in helping me out the past 3 months.
+> > Cheers Andy, and I'm pleased to hear that you're still with us! I've queued
+> > this lot for 5.5 and I'll send to Joerg this week.
 > 
-> Cheers Andy, and I'm pleased to hear that you're still with us! I've queued
-> this lot for 5.5 and I'll send to Joerg this week.
+> Bah, in doing so I spotted that the existing code doesn't handle error codes
+> properly because 'a0' is unsigned. I'll queue the patch below at the start
+> of the series.
+> 
 
-Bah, in doing so I spotted that the existing code doesn't handle error codes
-properly because 'a0' is unsigned. I'll queue the patch below at the start
-of the series.
+Thanks, I've hit this a few times but missed this and assumed it was a
+firmware issue...
 
-Will
+In case you haven't published your branch:
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 
---->8
+Regards,
+Bjorn
 
-From a9a1047f08de0eff249fb65e2d5d6f6f8b2a87f0 Mon Sep 17 00:00:00 2001
-From: Will Deacon <will@kernel.org>
-Date: Mon, 4 Nov 2019 15:58:15 +0000
-Subject: [PATCH] firmware: qcom: scm: Ensure 'a0' status code is treated as
- signed
-
-The 'a0' member of 'struct arm_smccc_res' is declared as 'unsigned long',
-however the Qualcomm SCM firmware interface driver expects to receive
-negative error codes via this field, so ensure that it's cast to 'long'
-before comparing to see if it is less than 0.
-
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Will Deacon <will@kernel.org>
----
- drivers/firmware/qcom_scm-64.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/firmware/qcom_scm-64.c b/drivers/firmware/qcom_scm-64.c
-index 91d5ad7cf58b..25e0f60c759a 100644
---- a/drivers/firmware/qcom_scm-64.c
-+++ b/drivers/firmware/qcom_scm-64.c
-@@ -150,7 +150,7 @@ static int qcom_scm_call(struct device *dev, u32 svc_id, u32 cmd_id,
- 		kfree(args_virt);
- 	}
- 
--	if (res->a0 < 0)
-+	if ((long)res->a0 < 0)
- 		return qcom_scm_remap_error(res->a0);
- 
- 	return 0;
--- 
-2.24.0.rc1.363.gb1bccd3e3d-goog
-
+> Will
+> 
+> --->8
+> 
+> From a9a1047f08de0eff249fb65e2d5d6f6f8b2a87f0 Mon Sep 17 00:00:00 2001
+> From: Will Deacon <will@kernel.org>
+> Date: Mon, 4 Nov 2019 15:58:15 +0000
+> Subject: [PATCH] firmware: qcom: scm: Ensure 'a0' status code is treated as
+>  signed
+> 
+> The 'a0' member of 'struct arm_smccc_res' is declared as 'unsigned long',
+> however the Qualcomm SCM firmware interface driver expects to receive
+> negative error codes via this field, so ensure that it's cast to 'long'
+> before comparing to see if it is less than 0.
+> 
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Will Deacon <will@kernel.org>
+> ---
+>  drivers/firmware/qcom_scm-64.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/firmware/qcom_scm-64.c b/drivers/firmware/qcom_scm-64.c
+> index 91d5ad7cf58b..25e0f60c759a 100644
+> --- a/drivers/firmware/qcom_scm-64.c
+> +++ b/drivers/firmware/qcom_scm-64.c
+> @@ -150,7 +150,7 @@ static int qcom_scm_call(struct device *dev, u32 svc_id, u32 cmd_id,
+>  		kfree(args_virt);
+>  	}
+>  
+> -	if (res->a0 < 0)
+> +	if ((long)res->a0 < 0)
+>  		return qcom_scm_remap_error(res->a0);
+>  
+>  	return 0;
+> -- 
+> 2.24.0.rc1.363.gb1bccd3e3d-goog
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
