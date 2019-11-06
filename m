@@ -2,36 +2,36 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9AEFF0C23
-	for <lists.iommu@lfdr.de>; Wed,  6 Nov 2019 03:36:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9EE4F0C21
+	for <lists.iommu@lfdr.de>; Wed,  6 Nov 2019 03:36:15 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id EC1B3E45;
+	by mail.linuxfoundation.org (Postfix) with ESMTP id AAB3DE43;
 	Wed,  6 Nov 2019 02:35:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 3F1C0E38
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id C1FCDE3B
 	for <iommu@lists.linux-foundation.org>;
-	Wed,  6 Nov 2019 02:35:55 +0000 (UTC)
+	Wed,  6 Nov 2019 02:35:54 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
-	[210.160.252.171])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 62F4E8A8
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+	[210.160.252.172])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 4E83F87D
 	for <iommu@lists.linux-foundation.org>;
 	Wed,  6 Nov 2019 02:35:53 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.68,272,1569250800"; d="scan'208";a="30937060"
+X-IronPort-AV: E=Sophos;i="5.68,272,1569250800"; d="scan'208";a="30723683"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-	by relmlie5.idc.renesas.com with ESMTP; 06 Nov 2019 11:35:50 +0900
+	by relmlie6.idc.renesas.com with ESMTP; 06 Nov 2019 11:35:50 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8FDFD418186A;
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9BFA24181474;
 	Wed,  6 Nov 2019 11:35:50 +0900 (JST)
 From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To: joro@8bytes.org
-Subject: [PATCH v3 3/6] iommu/ipmmu-vmsa: Add helper functions for MMU
-	"context" registers
-Date: Wed,  6 Nov 2019 11:35:47 +0900
-Message-Id: <1573007750-16611-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v3 4/6] iommu/ipmmu-vmsa: Calculate context registers' offset
+	instead of a macro
+Date: Wed,  6 Nov 2019 11:35:48 +0900
+Message-Id: <1573007750-16611-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1573007750-16611-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 References: <1573007750-16611-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
@@ -59,80 +59,65 @@ Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
 Since we will have changed memory mapping of the IPMMU in the future,
-This patch adds helper functions ipmmu_ctx_{reg,read,write}()
-for MMU "context" registers. No behavior change.
+this patch uses ipmmu_features values instead of a macro to
+calculate context registers offset. No behavior change.
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/iommu/ipmmu-vmsa.c | 32 +++++++++++++++++++++++---------
- 1 file changed, 23 insertions(+), 9 deletions(-)
+ drivers/iommu/ipmmu-vmsa.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-index 79975e1..c4fcfda 100644
+index c4fcfda..8e2ca1c 100644
 --- a/drivers/iommu/ipmmu-vmsa.c
 +++ b/drivers/iommu/ipmmu-vmsa.c
-@@ -190,29 +190,43 @@ static void ipmmu_write(struct ipmmu_vmsa_device *mmu, unsigned int offset,
- 	iowrite32(data, mmu->base + offset);
- }
+@@ -50,6 +50,8 @@ struct ipmmu_features {
+ 	bool twobit_imttbcr_sl0;
+ 	bool reserved_context;
+ 	bool cache_snoop;
++	unsigned int ctx_offset_base;
++	unsigned int ctx_offset_stride;
+ };
  
-+static unsigned int ipmmu_ctx_reg(struct ipmmu_vmsa_device *mmu,
-+				  unsigned int context_id, unsigned int reg)
-+{
-+	return context_id * IM_CTX_SIZE + reg;
-+}
-+
-+static u32 ipmmu_ctx_read(struct ipmmu_vmsa_device *mmu,
-+			  unsigned int context_id, unsigned int reg)
-+{
-+	return ipmmu_read(mmu, ipmmu_ctx_reg(mmu, context_id, reg));
-+}
-+
-+static void ipmmu_ctx_write(struct ipmmu_vmsa_device *mmu,
-+			    unsigned int context_id, unsigned int reg, u32 data)
-+{
-+	ipmmu_write(mmu, ipmmu_ctx_reg(mmu, context_id, reg), data);
-+}
-+
- static u32 ipmmu_ctx_read_root(struct ipmmu_vmsa_domain *domain,
- 			       unsigned int reg)
+ struct ipmmu_vmsa_device {
+@@ -99,8 +101,6 @@ static struct ipmmu_vmsa_device *to_ipmmu(struct device *dev)
+ 
+ #define IM_NS_ALIAS_OFFSET		0x800
+ 
+-#define IM_CTX_SIZE			0x40
+-
+ /* MMU "context" registers */
+ #define IMCTR				0x0000		/* R-Car Gen2/3 */
+ #define IMCTR_INTEN			(1 << 2)	/* R-Car Gen2/3 */
+@@ -193,7 +193,8 @@ static void ipmmu_write(struct ipmmu_vmsa_device *mmu, unsigned int offset,
+ static unsigned int ipmmu_ctx_reg(struct ipmmu_vmsa_device *mmu,
+ 				  unsigned int context_id, unsigned int reg)
  {
--	return ipmmu_read(domain->mmu->root,
--			  domain->context_id * IM_CTX_SIZE + reg);
-+	return ipmmu_ctx_read(domain->mmu->root, domain->context_id, reg);
+-	return context_id * IM_CTX_SIZE + reg;
++	return mmu->features->ctx_offset_base +
++	       context_id * mmu->features->ctx_offset_stride + reg;
  }
  
- static void ipmmu_ctx_write_root(struct ipmmu_vmsa_domain *domain,
- 				 unsigned int reg, u32 data)
- {
--	ipmmu_write(domain->mmu->root,
--		    domain->context_id * IM_CTX_SIZE + reg, data);
-+	ipmmu_ctx_write(domain->mmu->root, domain->context_id, reg, data);
- }
+ static u32 ipmmu_ctx_read(struct ipmmu_vmsa_device *mmu,
+@@ -939,6 +940,8 @@ static const struct ipmmu_features ipmmu_features_default = {
+ 	.twobit_imttbcr_sl0 = false,
+ 	.reserved_context = false,
+ 	.cache_snoop = true,
++	.ctx_offset_base = 0,
++	.ctx_offset_stride = 0x40,
+ };
  
- static void ipmmu_ctx_write_all(struct ipmmu_vmsa_domain *domain,
- 				unsigned int reg, u32 data)
- {
- 	if (domain->mmu != domain->mmu->root)
--		ipmmu_write(domain->mmu,
--			    domain->context_id * IM_CTX_SIZE + reg, data);
-+		ipmmu_ctx_write(domain->mmu, domain->context_id, reg, data);
+ static const struct ipmmu_features ipmmu_features_rcar_gen3 = {
+@@ -950,6 +953,8 @@ static const struct ipmmu_features ipmmu_features_rcar_gen3 = {
+ 	.twobit_imttbcr_sl0 = true,
+ 	.reserved_context = true,
+ 	.cache_snoop = false,
++	.ctx_offset_base = 0,
++	.ctx_offset_stride = 0x40,
+ };
  
--	ipmmu_write(domain->mmu->root,
--		    domain->context_id * IM_CTX_SIZE + reg, data);
-+	ipmmu_ctx_write(domain->mmu->root, domain->context_id, reg, data);
- }
- 
- /* -----------------------------------------------------------------------------
-@@ -913,7 +927,7 @@ static void ipmmu_device_reset(struct ipmmu_vmsa_device *mmu)
- 
- 	/* Disable all contexts. */
- 	for (i = 0; i < mmu->num_ctx; ++i)
--		ipmmu_write(mmu, i * IM_CTX_SIZE + IMCTR, 0);
-+		ipmmu_ctx_write(mmu, i, IMCTR, 0);
- }
- 
- static const struct ipmmu_features ipmmu_features_default = {
+ static const struct of_device_id ipmmu_of_ids[] = {
 -- 
 2.7.4
 
