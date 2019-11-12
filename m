@@ -2,44 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from mail.linuxfoundation.org (mail.linuxfoundation.org [140.211.169.12])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D385F7D48
-	for <lists.iommu@lfdr.de>; Mon, 11 Nov 2019 19:55:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA1FF883E
+	for <lists.iommu@lfdr.de>; Tue, 12 Nov 2019 06:51:15 +0100 (CET)
 Received: from mail.linux-foundation.org (localhost [127.0.0.1])
-	by mail.linuxfoundation.org (Postfix) with ESMTP id 55F1EE28;
-	Mon, 11 Nov 2019 18:55:29 +0000 (UTC)
+	by mail.linuxfoundation.org (Postfix) with ESMTP id 5BEF9C87;
+	Tue, 12 Nov 2019 05:51:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@mail.linuxfoundation.org
 Received: from smtp1.linuxfoundation.org (smtp1.linux-foundation.org
 	[172.17.192.35])
-	by mail.linuxfoundation.org (Postfix) with ESMTPS id 8826EE0E
+	by mail.linuxfoundation.org (Postfix) with ESMTPS id 4B5F0C4E
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 11 Nov 2019 18:55:28 +0000 (UTC)
+	Tue, 12 Nov 2019 05:51:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp1.linuxfoundation.org (Postfix) with ESMTP id 2F647102
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by smtp1.linuxfoundation.org (Postfix) with ESMTPS id CB5C48A
 	for <iommu@lists.linux-foundation.org>;
-	Mon, 11 Nov 2019 18:55:28 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 899DB1FB;
-	Mon, 11 Nov 2019 10:55:27 -0800 (PST)
-Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
-	[10.1.196.37])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7C5DD3F52E; 
-	Mon, 11 Nov 2019 10:55:26 -0800 (PST)
-From: Robin Murphy <robin.murphy@arm.com>
-To: joro@8bytes.org
-Subject: [PATCH] iommu/rockchip: Don't provoke WARN for harmless IRQs
-Date: Mon, 11 Nov 2019 18:55:18 +0000
-Message-Id: <82cba203551939399d219e4cb6c602315fd0c410.1573498518.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.20.1
+	Tue, 12 Nov 2019 05:51:09 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Nov 2019 21:51:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,295,1569308400"; d="scan'208";a="229230691"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
+	([10.239.159.136])
+	by fmsmga004.fm.intel.com with ESMTP; 11 Nov 2019 21:51:06 -0800
+Subject: Re: [PATCH v2 1/1] iommu/vt-d: Add Kconfig option to enable/disable
+	scalable mode
+To: Qian Cai <cai@lca.pw>
+References: <f5b8521e-d88d-5439-34e2-f7b54a77c9d3@linux.intel.com>
+	<77EC0C76-22C1-4982-8E0A-9AD7223B3410@lca.pw>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <fefea7dd-8cde-889d-0883-7d94b8d85f20@linux.intel.com>
+Date: Tue, 12 Nov 2019 13:48:12 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+In-Reply-To: <77EC0C76-22C1-4982-8E0A-9AD7223B3410@lca.pw>
+Content-Language: en-US
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	smtp1.linux-foundation.org
-Cc: heiko@sntech.de, maz@kernel.org, Vasily Khoruzhick <anarsoul@gmail.com>,
-	linux-rockchip@lists.infradead.org, iommu@lists.linux-foundation.org,
-	linux-arm-kernel@lists.infradead.org
+Cc: kevin.tian@intel.com, ashok.raj@intel.com, linux-kernel@vger.kernel.org,
+	iommu@lists.linux-foundation.org, jacob.jun.pan@intel.com,
+	David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,42 +61,30 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
 	<mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: iommu-bounces@lists.linux-foundation.org
 Errors-To: iommu-bounces@lists.linux-foundation.org
 
-Although we don't generally expect IRQs to fire for a suspended IOMMU,
-there are certain situations (particularly with debug options) where
-we might legitimately end up with the pm_runtime_get_if_in_use() call
-from rk_iommu_irq() returning 0. Since this doesn't represent an actual
-error, follow the other parts of the driver and save the WARN_ON()
-condition for a genuine negative value. Even if we do have spurious
-IRQs due to a wedged VOP asserting the shared line, it's not this
-driver's job to try to second-guess the IRQ core to warn about that.
+Hi,
 
-Reported-by: Vasily Khoruzhick <anarsoul@gmail.com>
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
- drivers/iommu/rockchip-iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 11/11/19 10:05 PM, Qian Cai wrote:
+> 
+> 
+>> On Nov 11, 2019, at 12:23 AM, Lu Baolu <baolu.lu@linux.intel.com> wrote:
+>>
+>> The scalable mode is defined in VT-d 3.0. The scalable mode capability
+>> could be checked by reading /sys/devices/virtual/iommu/dmar*/intel-
+>> iommu/ecap. It's currently not friendly for reading. You need to decode
+>> it according to the spec.
+> 
+> This looks like some perfect information to put in the Kconfig description.
+> 
 
-diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iommu.c
-index 4dcbf68dfda4..bd7e9b1e40ac 100644
---- a/drivers/iommu/rockchip-iommu.c
-+++ b/drivers/iommu/rockchip-iommu.c
-@@ -527,7 +527,7 @@ static irqreturn_t rk_iommu_irq(int irq, void *dev_id)
- 	int i, err;
- 
- 	err = pm_runtime_get_if_in_use(iommu->dev);
--	if (WARN_ON_ONCE(err <= 0))
-+	if (!err || WARN_ON_ONCE(err < 0))
- 		return ret;
- 
- 	if (WARN_ON(clk_bulk_enable(iommu->num_clocks, iommu->clocks)))
--- 
-2.20.1
+Okay. Will add it in the next version.
 
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
