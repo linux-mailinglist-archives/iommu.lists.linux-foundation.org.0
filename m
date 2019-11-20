@@ -1,81 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB6D5104583
-	for <lists.iommu@lfdr.de>; Wed, 20 Nov 2019 22:08:55 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 110271045CC
+	for <lists.iommu@lfdr.de>; Wed, 20 Nov 2019 22:30:35 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 7E7401FEAB;
-	Wed, 20 Nov 2019 21:08:54 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8B7A388684;
+	Wed, 20 Nov 2019 21:30:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6A1aAUMA4uOc; Wed, 20 Nov 2019 21:08:53 +0000 (UTC)
+	with ESMTP id lbfEJkdj+7+7; Wed, 20 Nov 2019 21:30:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 663FA20034;
-	Wed, 20 Nov 2019 21:08:53 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5E6A98828D;
+	Wed, 20 Nov 2019 21:30:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6189DC1DDC;
-	Wed, 20 Nov 2019 21:08:53 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3ABD7C18DA;
+	Wed, 20 Nov 2019 21:30:32 +0000 (UTC)
+X-Original-To: iommu@lists.linuxfoundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 25E75C18DA
- for <iommu@lists.linux-foundation.org>; Wed, 20 Nov 2019 21:08:52 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E4A13C18DA
+ for <iommu@lists.linuxfoundation.org>; Wed, 20 Nov 2019 21:30:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 20FE1853D3
- for <iommu@lists.linux-foundation.org>; Wed, 20 Nov 2019 21:08:52 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id CB6038828D
+ for <iommu@lists.linuxfoundation.org>; Wed, 20 Nov 2019 21:30:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NdtYBhwag19i for <iommu@lists.linux-foundation.org>;
- Wed, 20 Nov 2019 21:08:51 +0000 (UTC)
+ with ESMTP id h3HNBSIwg4N8 for <iommu@lists.linuxfoundation.org>;
+ Wed, 20 Nov 2019 21:30:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [205.139.110.61])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 66F97853C3
- for <iommu@lists.linux-foundation.org>; Wed, 20 Nov 2019 21:08:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1574284130;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IJ75uiFKE/vrS49xMrG/E26ErD3qo0pj2vUxc1owOuY=;
- b=TP2GzgspwdH3x07hAIbhxSXG0fMbCAfwzjxpEmydkxTm1NfTc9tIRCGu8YI2D2k+AwRHib
- g2JWrKY0xAXkDp0Vx80AN0S6fp2l3fN1+u7fqQFCtQ5FNask0zSFwMrN9d9J0eLVem1rNS
- eNNx8exwYMe2cJDqgjff9auEI3BPIcs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-FfsjWtENNTS3u6KdzdVaig-1; Wed, 20 Nov 2019 16:08:46 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A630BDB22;
- Wed, 20 Nov 2019 21:08:44 +0000 (UTC)
-Received: from [10.36.116.37] (ovpn-116-37.ams2.redhat.com [10.36.116.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CBA00348A2;
- Wed, 20 Nov 2019 21:08:41 +0000 (UTC)
-Subject: Re: [PATCH v3 2/8] iommu/vt-d: Match CPU and IOMMU paging mode
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>,
- iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- David Woodhouse <dwmw2@infradead.org>
-References: <1574186193-30457-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1574186193-30457-3-git-send-email-jacob.jun.pan@linux.intel.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <c77782e3-fafa-6397-94e0-e0be8572acd3@redhat.com>
-Date: Wed, 20 Nov 2019 22:08:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 0177D88275
+ for <iommu@lists.linuxfoundation.org>; Wed, 20 Nov 2019 21:30:26 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id c14so989746oth.2
+ for <iommu@lists.linuxfoundation.org>; Wed, 20 Nov 2019 13:30:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nUDu8pQZs8u4Dn19/rZi/JgFr5hx8f/ET+blpc5+y7Y=;
+ b=VFaWU9egorIKHZTBFjI5Fwdj0smrWgFszEVzB7Ip0fjbadB9C0CyXHESHz1qSsZVOz
+ F+0J1zvICdKoskSyLaOzB4f/6y05Zaf3boy2QfRyMQmqugTghGWVoZD0pTv0qeEy1x5R
+ 7YaKDC6RVWnKR8CbISJvBNRSlUEE+9fgdUYmDIZ02pAoqGP/01eTysTN3C4bczgnpStI
+ um+mxvQso3f2pn9Bs8WwOFgNiAbRZKwT8PtDbNEFC2MaD1pA1gIMdRyNU7whc1JWzr5y
+ i0hKDRzZ741z+p4EY+PhwOJnHkfXE3Nryq/vaTPTFOsQwXoRdkAWAOvKHlAtNxFxO9ti
+ v1dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nUDu8pQZs8u4Dn19/rZi/JgFr5hx8f/ET+blpc5+y7Y=;
+ b=cjTxvZQgUPDbwyZZVQf40VGEHdj1+ZIg26BU8cwzwwhQt7F780iU6dYF5o8q3JseD7
+ Mo8YHApYbHm3+UCVC4joskoiQfYTrLqi7VUVBl3zIhU7Ph1TeuLTcAbi4LF7CzYKzlvh
+ bdrM7zLJxsDrBSxsnXK5kiDZNjkVBiQvmokIP7vh4c3G1TzftCY2lVqar9HfFd7hFZf3
+ A6r4bjl9J1SV0tzGULgmqGpd4L3G8K3qzuQM0Geok38nCgtWl/T8lTI69q1FhWfu/Iif
+ wIsz1aEzYf539yGysJvUDAz8QnWzV+XPDIrLLX+VmDMCMHxVTF4xug0ui3Q7RPGMQTgV
+ caYg==
+X-Gm-Message-State: APjAAAVSdGZ6lWmNaNoX0n6bpKOncpdaU0qHOD3+4s/vyyWdJp1UwmiU
+ SeTFLE7piPOA8krlSc6wf4vcQm+l9erk4eBf4mvVmQ==
+X-Google-Smtp-Source: APXvYqygFo11WYxCVP+Ff0HIEHLO15X3S5vxH+0fAs3zZpM3s/nSMwLje5GuocvH+GT3Ivkku9sYRuYHvwwpTD5ONKc=
+X-Received: by 2002:a9d:648f:: with SMTP id g15mr3780959otl.195.1574285425773; 
+ Wed, 20 Nov 2019 13:30:25 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1574186193-30457-3-git-send-email-jacob.jun.pan@linux.intel.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: FfsjWtENNTS3u6KdzdVaig-1
-X-Mimecast-Spam-Score: 0
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>
+References: <20191120190028.4722-1-will@kernel.org>
+In-Reply-To: <20191120190028.4722-1-will@kernel.org>
+Date: Wed, 20 Nov 2019 13:29:49 -0800
+Message-ID: <CAGETcx-b+cyzPwfJVKkPzaaDrYNy+gjTTcMZ0MBxBPC2EsVVzQ@mail.gmail.com>
+Subject: Re: [PATCH] of: property: Add device link support for "iommu-map"
+To: Will Deacon <will@kernel.org>
+Cc: iommu@lists.linuxfoundation.org,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Rob Herring <robh@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,63 +86,70 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Saravana Kannan via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Saravana Kannan <saravanak@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jacob,
-On 11/19/19 6:56 PM, Jacob Pan wrote:
-> When setting up first level page tables for sharing with CPU, we need
-> to ensure IOMMU can support no less than the levels supported by the
-> CPU.
-> 
-> It is not adequate, as in the current code, to set up 5-level paging
-> in PASID entry First Level Paging Mode(FLPM) solely based on CPU.
-> 
-> Currently, intel_pasid_setup_first_level() is only used by native SVM
-> code which already checks paging mode matches. However, future use of
-> this helper function may not be limited to native SVM.
-> https://lkml.org/lkml/2019/11/18/1037
-> 
-> Fixes: 437f35e1cd4c8 ("iommu/vt-d: Add first level page table
-> interface")
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-
-Thanks
-
-Eric
+On Wed, Nov 20, 2019 at 11:00 AM Will Deacon <will@kernel.org> wrote:
+>
+> Commit 8e12257dead7 ("of: property: Add device link support for iommus,
+> mboxes and io-channels") added device link support for IOMMU linkages
+> described using the "iommus" property. For PCI devices, this property
+> is not present and instead the "iommu-map" property is used on the host
+> bridge node to map the endpoint RequesterIDs to their corresponding
+> IOMMU instance.
+>
+> Add support for "iommu-map" to the device link supplier bindings so that
+> probing of PCI devices can be deferred until after the IOMMU is
+> available.
+>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Saravana Kannan <saravanak@google.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Signed-off-by: Will Deacon <will@kernel.org>
 > ---
->  drivers/iommu/intel-pasid.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iommu/intel-pasid.c b/drivers/iommu/intel-pasid.c
-> index 040a445be300..e7cb0b8a7332 100644
-> --- a/drivers/iommu/intel-pasid.c
-> +++ b/drivers/iommu/intel-pasid.c
-> @@ -499,8 +499,16 @@ int intel_pasid_setup_first_level(struct intel_iommu *iommu,
->  	}
->  
->  #ifdef CONFIG_X86
-> -	if (cpu_feature_enabled(X86_FEATURE_LA57))
-> -		pasid_set_flpm(pte, 1);
-> +	/* Both CPU and IOMMU paging mode need to match */
-> +	if (cpu_feature_enabled(X86_FEATURE_LA57)) {
-> +		if (cap_5lp_support(iommu->cap)) {
-> +			pasid_set_flpm(pte, 1);
-> +		} else {
-> +			pr_err("VT-d has no 5-level paging support for CPU\n");
-> +			pasid_clear_entry(pte);
-> +			return -EINVAL;
-> +		}
-> +	}
->  #endif /* CONFIG_X86 */
->  
->  	pasid_set_domain_id(pte, did);
-> 
+>
+> Applies against driver-core/driver-core-next.
+> Tested on AMD Seattle (arm64).
+>
+>  drivers/of/property.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/drivers/of/property.c b/drivers/of/property.c
+> index 0fa04692e3cc..37e0d408430d 100644
+> --- a/drivers/of/property.c
+> +++ b/drivers/of/property.c
+> @@ -1190,10 +1190,20 @@ DEFINE_SIMPLE_PROP(mboxes, "mboxes", "#mbox-cells")
+>  DEFINE_SIMPLE_PROP(io_channels, "io-channel", "#io-channel-cells")
+>  DEFINE_SUFFIX_PROP(regulators, "-supply", NULL)
+>
+> +static struct device_node *parse_iommu_maps(struct device_node *np,
+> +                                           const char *prop_name, int index)
+> +{
+> +       if (strcmp(prop_name, "iommu-map"))
+> +               return NULL;
+> +
+> +       return of_parse_phandle(np, prop_name, (index * 4) + 1);
+> +}
+> +
+>  static const struct supplier_bindings of_supplier_bindings[] = {
+>         { .parse_prop = parse_clocks, },
+>         { .parse_prop = parse_interconnects, },
+>         { .parse_prop = parse_iommus, },
+> +       { .parse_prop = parse_iommu_maps, },
+>         { .parse_prop = parse_mboxes, },
+>         { .parse_prop = parse_io_channels, },
+>         { .parse_prop = parse_regulators, },
 
+Heh... a lot smaller than I thought this would be.
+
+Acked-by: Saravana Kannan <saravanak@google.com>
+
+-Saravana
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
