@@ -1,59 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E3D1051B0
-	for <lists.iommu@lfdr.de>; Thu, 21 Nov 2019 12:49:42 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C291051B1
+	for <lists.iommu@lfdr.de>; Thu, 21 Nov 2019 12:49:44 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id ED5DF87EFD;
-	Thu, 21 Nov 2019 11:49:40 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C7AB8887B0;
+	Thu, 21 Nov 2019 11:49:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pc48VdcWVWEy; Thu, 21 Nov 2019 11:49:40 +0000 (UTC)
+	with ESMTP id 63Mkicjh9rQC; Thu, 21 Nov 2019 11:49:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3A6C687E94;
-	Thu, 21 Nov 2019 11:49:40 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6C954887CA;
+	Thu, 21 Nov 2019 11:49:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 25453C18DA;
-	Thu, 21 Nov 2019 11:49:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 548B9C18DA;
+	Thu, 21 Nov 2019 11:49:42 +0000 (UTC)
 X-Original-To: iommu@lists.linuxfoundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 87E04C18DA
- for <iommu@lists.linuxfoundation.org>; Thu, 21 Nov 2019 11:49:38 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 27B29C18DA
+ for <iommu@lists.linuxfoundation.org>; Thu, 21 Nov 2019 11:49:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8507A87E94
- for <iommu@lists.linuxfoundation.org>; Thu, 21 Nov 2019 11:49:38 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 17A3187E94
+ for <iommu@lists.linuxfoundation.org>; Thu, 21 Nov 2019 11:49:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iw2B5vap5K0n for <iommu@lists.linuxfoundation.org>;
- Thu, 21 Nov 2019 11:49:37 +0000 (UTC)
+ with ESMTP id bcURT9qYPEIp for <iommu@lists.linuxfoundation.org>;
+ Thu, 21 Nov 2019 11:49:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D960387E9B
- for <iommu@lists.linuxfoundation.org>; Thu, 21 Nov 2019 11:49:37 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8C82B87EB1
+ for <iommu@lists.linuxfoundation.org>; Thu, 21 Nov 2019 11:49:40 +0000 (UTC)
 Received: from localhost.localdomain (236.31.169.217.in-addr.arpa
  [217.169.31.236])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7C56C214DA;
- Thu, 21 Nov 2019 11:49:35 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2F4C120898;
+ Thu, 21 Nov 2019 11:49:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1574336977;
- bh=aEPYGEM/si64JFWI1l4dTVmrsiPeIdSBtN2ueivkcyI=;
+ s=default; t=1574336980;
+ bh=QFUkeMh2cozH/3aW8Dt6eBLsD3SxxmEo/ZkMadr5dlA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=motDXRgBeVprCkYWHYIIyBr1NqYvKmn+v9hBIoMPlZb5sEH9Gq4BZYkUtHu31HhxV
- bHu4H0q+QCgKVWmi8hiHFh0ut0syQru6Xi1e3DVP98UQVxDoqm3AsxSm/zEKw7piXy
- aJaStOyDmKwtk5kljfEyrdjnci8WrlBbPuvTlTDA=
+ b=k+E3SA9k3JVY4mHqNt1OdB2QBv50OD/1h46PyL/Ci2wLWVR7TQ25noB3MFDFqC4y6
+ iqN4OIHAJ4SvQPylMV1jpM3XYittDSPi0SNTHDicQsnwLTEE7byjsLeks197MhMOef
+ 57/e4dKo39fKVS5pYv7rO1QuJBt0VoyoK4uKyicw=
 From: Will Deacon <will@kernel.org>
 To: iommu@lists.linuxfoundation.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 05/14] iommu/of: Take a ref to the IOMMU driver during
- ->of_xlate()
-Date: Thu, 21 Nov 2019 11:49:09 +0000
-Message-Id: <20191121114918.2293-6-will@kernel.org>
+Subject: [PATCH v3 06/14] drivers/iommu: Allow IOMMU bus ops to be unregistered
+Date: Thu, 21 Nov 2019 11:49:10 +0000
+Message-Id: <20191121114918.2293-7-will@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191121114918.2293-1-will@kernel.org>
 References: <20191121114918.2293-1-will@kernel.org>
@@ -81,61 +80,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Ensure that we hold a reference to the IOMMU driver module while calling
-the '->of_xlate()' callback during early device probing.
+'bus_set_iommu()' allows IOMMU drivers to register their ops for a given
+bus type. Unfortunately, it then doesn't allow them to be removed, which
+is necessary for modular drivers to shutdown cleanly so that they can be
+reloaded later on.
+
+Allow 'bus_set_iommu()' to take a NULL 'ops' argument, which clear the
+ops pointer for the selected bus_type.
 
 Signed-off-by: Will Deacon <will@kernel.org>
 ---
- drivers/iommu/of_iommu.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ drivers/iommu/iommu.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
-index 78faa9f73a91..25491403a0bd 100644
---- a/drivers/iommu/of_iommu.c
-+++ b/drivers/iommu/of_iommu.c
-@@ -8,6 +8,7 @@
- #include <linux/export.h>
- #include <linux/iommu.h>
- #include <linux/limits.h>
-+#include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_iommu.h>
- #include <linux/of_pci.h>
-@@ -89,16 +90,16 @@ static int of_iommu_xlate(struct device *dev,
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 4bfecfbbe2cf..e99704c2e06b 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -1558,6 +1558,11 @@ int bus_set_iommu(struct bus_type *bus, const struct iommu_ops *ops)
  {
- 	const struct iommu_ops *ops;
- 	struct fwnode_handle *fwnode = &iommu_spec->np->fwnode;
--	int err;
-+	int ret;
+ 	int err;
  
- 	ops = iommu_ops_from_fwnode(fwnode);
- 	if ((ops && !ops->of_xlate) ||
- 	    !of_device_is_available(iommu_spec->np))
- 		return NO_IOMMU;
- 
--	err = iommu_fwspec_init(dev, &iommu_spec->np->fwnode, ops);
--	if (err)
--		return err;
-+	ret = iommu_fwspec_init(dev, &iommu_spec->np->fwnode, ops);
-+	if (ret)
-+		return ret;
- 	/*
- 	 * The otherwise-empty fwspec handily serves to indicate the specific
- 	 * IOMMU device we're waiting for, which will be useful if we ever get
-@@ -107,7 +108,12 @@ static int of_iommu_xlate(struct device *dev,
- 	if (!ops)
- 		return driver_deferred_probe_check_state(dev);
- 
--	return ops->of_xlate(dev, iommu_spec);
-+	if (!try_module_get(ops->owner))
-+		return -ENODEV;
++	if (ops == NULL) {
++		bus->iommu_ops = NULL;
++		return 0;
++	}
 +
-+	ret = ops->of_xlate(dev, iommu_spec);
-+	module_put(ops->owner);
-+	return ret;
- }
+ 	if (bus->iommu_ops != NULL)
+ 		return -EBUSY;
  
- struct of_pci_iommu_alias_info {
 -- 
 2.24.0.432.g9d3f5f5b63-goog
 
