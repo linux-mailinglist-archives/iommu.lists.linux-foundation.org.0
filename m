@@ -1,90 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05245107591
-	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 17:16:15 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A65FB88366;
-	Fri, 22 Nov 2019 16:16:13 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 58-PW-iM8z5d; Fri, 22 Nov 2019 16:16:12 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 98A558834D;
-	Fri, 22 Nov 2019 16:16:12 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7B603C18DA;
-	Fri, 22 Nov 2019 16:16:12 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CF31BC18DA
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 16:16:10 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B31107556
+	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 17:01:33 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id CB14D87469
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 16:16:10 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8CC36873D1;
+	Fri, 22 Nov 2019 16:01:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zd5DJI9HUCM3; Fri, 22 Nov 2019 16:01:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0D818873A5;
+	Fri, 22 Nov 2019 16:01:31 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E346CC1DDC;
+	Fri, 22 Nov 2019 16:01:30 +0000 (UTC)
+X-Original-To: iommu@lists.linuxfoundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 19522C18DA
+ for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:01:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 084AE884DE
+ for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:01:29 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9cxoSGdbyOV8 for <iommu@lists.linux-foundation.org>;
- Fri, 22 Nov 2019 16:16:10 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
- [209.85.215.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 0269787448
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 16:16:10 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id h27so3561986pgn.0
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 08:16:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=+pVRv0zmwM6r6qh3u7jefx+roN9IpRfJikQs29Fs7Mc=;
- b=r6E4DMv1Ew1POCiZziHs0YwoBfyHUTq3KYUrRgtfb4vl0UK6dNOFfiH6gUaxO4D+Si
- nAKdspmLW+9QlY4Dohyh1Y82LJgbTL0/J+mKWoqN6tCCVfh66MKivVt6hmQuVvIqEEjr
- ycvmCeYBRQQ4BnbJ9FFQzrsZ9+nU3Hfhf57i6taLJTOwMXrUiGLUZgn9OLRcdhzXVGhV
- kOMfXA52pUudqEQZhIJNepSok+DmAQGPD9MLwvVpKOf2srwXLYtceFOIueJOR75AMNjj
- 0C/TK8wEk3A4oDUYhjl8zavOjysg3uzc3fAFPCObboqKbmjcJFey4/qAn6W8vVKxstfY
- XZ7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=+pVRv0zmwM6r6qh3u7jefx+roN9IpRfJikQs29Fs7Mc=;
- b=qctVDP82HnPDnkQ6IM2nPN/xX5gU9Tpt+cdv8ntBBBVlWIi4K/Ljfr6d6utrqHGJzs
- fq5TJNg+fsVTzs5wpLnZFWqgaBHTVow5Wvt3t7ql1m8lbUJ/hk66KDNS17hAXhO13vfu
- 02V79r6vBBHKxDzt9Gx/54K1LwZHt3ItvnyCl1ltIKhEqDl7sIjBMqmSeB/GMf/QNEqJ
- LCLTDVBLjOyiyoF9NVkvCPrmv8/Wn7Zs5a9Ke+Zst/XZhZhk1BNkWn98uoTB6Z3DBl26
- trF9gg5gWHDc16MVvuYigQNOE7UQnDi+rWtJ+WidfK1Ya4ymCwqYWf+t5LUkYnuRfWSB
- 3wVQ==
-X-Gm-Message-State: APjAAAX+SqUbkQwdlELWoPq7PYO1ibdW3cMxhvvcmWEdv+NCIRrAxaeV
- KYfz7XPNprC6HckgGZ5AZRAazmY+SRAAWw==
-X-Google-Smtp-Source: APXvYqwe1jPYdLfnbYJnZ7Jm1S+hvm/1eSFcyEKVujxjm7ccMO9vt6z4GOxkwjZGiWr/k4y4nLji/w==
-X-Received: by 2002:a63:c18:: with SMTP id b24mr11367250pgl.291.1574435333618; 
- Fri, 22 Nov 2019 07:08:53 -0800 (PST)
-Received: from localhost.localdomain ([240e:362:496:8600:f5af:2744:25c3:d01a])
- by smtp.gmail.com with ESMTPSA id
- a19sm8066021pfn.144.2019.11.22.07.08.23
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Fri, 22 Nov 2019 07:08:52 -0800 (PST)
-From: Zhangfei Gao <zhangfei.gao@linaro.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Arnd Bergmann <arnd@arndb.de>, Herbert Xu <herbert@gondor.apana.org.au>,
- jonathan.cameron@huawei.com, grant.likely@arm.com,
- jean-philippe <jean-philippe@linaro.org>,
- Jerome Glisse <jglisse@redhat.com>, ilias.apalodimas@linaro.org,
- francois.ozog@linaro.org, kenneth-lee-2012@foxmail.com,
- Wangzhou <wangzhou1@hisilicon.com>,
- "haojian . zhuang" <haojian.zhuang@linaro.org>, guodong.xu@linaro.org
-Subject: [PATCH v9 1/4] uacce: Add documents for uacce
-Date: Fri, 22 Nov 2019 23:07:38 +0800
-Message-Id: <1574435261-6031-2-git-send-email-zhangfei.gao@linaro.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1574435261-6031-1-git-send-email-zhangfei.gao@linaro.org>
-References: <1574435261-6031-1-git-send-email-zhangfei.gao@linaro.org>
-Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-crypto@vger.kernel.org, Zhangfei Gao <zhangfei.gao@linaro.org>,
- Kenneth Lee <liguozhu@hisilicon.com>, linux-accelerators@lists.ozlabs.org
+ with ESMTP id BWihHY45qA7n for <iommu@lists.linuxfoundation.org>;
+ Fri, 22 Nov 2019 16:01:28 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 7168C87E19
+ for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:01:28 +0000 (UTC)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1E2E12072D
+ for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:01:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1574438488;
+ bh=ABV4JDXjTc3+syys4x82oGbN9hbBLYGVEuA+cqBGOdU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=tVuVWC6m9TzubuWX9xmvVgf50Dt6oZmXzjVbYWBMm6vWohKmyoMJUzwbQJZD4Dlq9
+ GA520+YQbO8n8ywQ/HxZm2cI/Ll54QuT5U8bGF15kE3PIqAuLVKdaJ7O73ABHI4+3Z
+ Xt7TM78lu/ggKxBBDJFUgymlIXu20wbF0QlsURhI=
+Received: by mail-qt1-f170.google.com with SMTP id t20so8316459qtn.9
+ for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 08:01:28 -0800 (PST)
+X-Gm-Message-State: APjAAAUIv56RdWbuVr67qjOMXuhuhxG8AXzXb7BzOHs4S3VsUPjVWoRa
+ tGGhtWXvqMBCkPfle3ejF8zNviH5HUHAkVYDPg==
+X-Google-Smtp-Source: APXvYqx7KNsAISuNpnJlZcp/nAOHCqYGa8Bku64u91/s2E6BljJZTyFkVMIvN7E4x6WOeUhWY1Y2VG2imoW/80t1w7Y=
+X-Received: by 2002:aed:2706:: with SMTP id n6mr15291379qtd.224.1574438487269; 
+ Fri, 22 Nov 2019 08:01:27 -0800 (PST)
+MIME-Version: 1.0
+References: <20191120190028.4722-1-will@kernel.org>
+ <CAL_JsqJm+6Cg4JfG1EzRMJ2hyPV1O8WbitjGC=XMvZRDD+=OGw@mail.gmail.com>
+ <20191122145525.GA14153@willie-the-truck>
+In-Reply-To: <20191122145525.GA14153@willie-the-truck>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 22 Nov 2019 10:01:15 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJvhP2YqQwAZg=GecpVNMbHN9OcZxTO8LrvH_jphFJw=A@mail.gmail.com>
+Message-ID: <CAL_JsqJvhP2YqQwAZg=GecpVNMbHN9OcZxTO8LrvH_jphFJw=A@mail.gmail.com>
+Subject: Re: [PATCH] of: property: Add device link support for "iommu-map"
+To: Will Deacon <will@kernel.org>
+Cc: iommu@lists.linuxfoundation.org, devicetree@vger.kernel.org,
+ Saravana Kannan <saravanak@google.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,214 +83,61 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Kenneth Lee <liguozhu@hisilicon.com>
+On Fri, Nov 22, 2019 at 8:55 AM Will Deacon <will@kernel.org> wrote:
+>
+> [+Ard]
+>
+> Hi Rob,
+>
+> On Fri, Nov 22, 2019 at 08:47:46AM -0600, Rob Herring wrote:
+> > On Wed, Nov 20, 2019 at 1:00 PM Will Deacon <will@kernel.org> wrote:
+> > >
+> > > Commit 8e12257dead7 ("of: property: Add device link support for iommus,
+> > > mboxes and io-channels") added device link support for IOMMU linkages
+> > > described using the "iommus" property. For PCI devices, this property
+> > > is not present and instead the "iommu-map" property is used on the host
+> > > bridge node to map the endpoint RequesterIDs to their corresponding
+> > > IOMMU instance.
+> > >
+> > > Add support for "iommu-map" to the device link supplier bindings so that
+> > > probing of PCI devices can be deferred until after the IOMMU is
+> > > available.
+> > >
+> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Cc: Rob Herring <robh@kernel.org>
+> > > Cc: Saravana Kannan <saravanak@google.com>
+> > > Cc: Robin Murphy <robin.murphy@arm.com>
+> > > Signed-off-by: Will Deacon <will@kernel.org>
+> > > ---
+> > >
+> > > Applies against driver-core/driver-core-next.
+> > > Tested on AMD Seattle (arm64).
+> >
+> > Guess that answers my question whether anyone uses Seattle with DT.
+> > Seattle uses the old SMMU binding, and there's not even an IOMMU
+> > associated with the PCI host. I raise this mainly because the dts
+> > files for Seattle either need some love or perhaps should be removed.
+>
+> I'm using the new DT bindings on my Seattle, thanks to the firmware fairy
+> (Ard) visiting my flat with a dediprog. The patches I've posted to enable
+> modular builds of the arm-smmu driver require that the old binding is
+> disabled [1].
 
-Uacce (Unified/User-space-access-intended Accelerator Framework) is
-a kernel module targets to provide Shared Virtual Addressing (SVA)
-between the accelerator and process.
+Going to post those dts changes?
 
-This patch add document to explain how it works.
+> > No issues with the patch itself though. I'll queue it after rc1.
+>
+> Thanks, although I think Greg has already queued it [2] due to the
+> dependencies on other patches in his tree.
 
-Signed-off-by: Kenneth Lee <liguozhu@hisilicon.com>
-Signed-off-by: Zaibo Xu <xuzaibo@huawei.com>
-Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
-Signed-off-by: Zhangfei Gao <zhangfei.gao@linaro.org>
----
- Documentation/misc-devices/uacce.rst | 176 +++++++++++++++++++++++++++++++++++
- 1 file changed, 176 insertions(+)
- create mode 100644 Documentation/misc-devices/uacce.rst
+Okay, forgot to check my spam from Greg folder and missed that.
 
-diff --git a/Documentation/misc-devices/uacce.rst b/Documentation/misc-devices/uacce.rst
-new file mode 100644
-index 0000000..1db412e
---- /dev/null
-+++ b/Documentation/misc-devices/uacce.rst
-@@ -0,0 +1,176 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Introduction of Uacce
-+---------------------
-+
-+Uacce (Unified/User-space-access-intended Accelerator Framework) targets to
-+provide Shared Virtual Addressing (SVA) between accelerators and processes.
-+So accelerator can access any data structure of the main cpu.
-+This differs from the data sharing between cpu and io device, which share
-+only data content rather than address.
-+Because of the unified address, hardware and user space of process can
-+share the same virtual address in the communication.
-+Uacce takes the hardware accelerator as a heterogeneous processor, while
-+IOMMU share the same CPU page tables and as a result the same translation
-+from va to pa.
-+
-+::
-+
-+         __________________________       __________________________
-+        |                          |     |                          |
-+        |  User application (CPU)  |     |   Hardware Accelerator   |
-+        |__________________________|     |__________________________|
-+
-+                     |                                 |
-+                     | va                              | va
-+                     V                                 V
-+                 __________                        __________
-+                |          |                      |          |
-+                |   MMU    |                      |  IOMMU   |
-+                |__________|                      |__________|
-+                     |                                 |
-+                     |                                 |
-+                     V pa                              V pa
-+                 _______________________________________
-+                |                                       |
-+                |              Memory                   |
-+                |_______________________________________|
-+
-+
-+
-+Architecture
-+------------
-+
-+Uacce is the kernel module, taking charge of iommu and address sharing.
-+The user drivers and libraries are called WarpDrive.
-+
-+The uacce device, built around the IOMMU SVA API, can access multiple
-+address spaces, including the one without PASID.
-+
-+A virtual concept, queue, is used for the communication. It provides a
-+FIFO-like interface. And it maintains a unified address space between the
-+application and all involved hardware.
-+
-+::
-+
-+                             ___________________                  ________________
-+                            |                   |   user API     |                |
-+                            | WarpDrive library | ------------>  |  user driver   |
-+                            |___________________|                |________________|
-+                                     |                                    |
-+                                     |                                    |
-+                                     | queue fd                           |
-+                                     |                                    |
-+                                     |                                    |
-+                                     v                                    |
-+     ___________________         _________                                |
-+    |                   |       |         |                               | mmap memory
-+    | Other framework   |       |  uacce  |                               | r/w interface
-+    | crypto/nic/others |       |_________|                               |
-+    |___________________|                                                 |
-+             |                       |                                    |
-+             | register              | register                           |
-+             |                       |                                    |
-+             |                       |                                    |
-+             |                _________________       __________          |
-+             |               |                 |     |          |         |
-+              -------------  |  Device Driver  |     |  IOMMU   |         |
-+                             |_________________|     |__________|         |
-+                                     |                                    |
-+                                     |                                    V
-+                                     |                            ___________________
-+                                     |                           |                   |
-+                                     --------------------------  |  Device(Hardware) |
-+                                                                 |___________________|
-+
-+
-+How does it work
-+----------------
-+
-+Uacce uses mmap and IOMMU to play the trick.
-+
-+Uacce creates a chrdev for every device registered to it. New queue is
-+created when user application open the chrdev. The file descriptor is used
-+as the user handle of the queue.
-+The accelerator device present itself as an Uacce object, which exports as
-+a chrdev to the user space. The user application communicates with the
-+hardware by ioctl (as control path) or share memory (as data path).
-+
-+The control path to the hardware is via file operation, while data path is
-+via mmap space of the queue fd.
-+
-+The queue file address space:
-+
-+::
-+
-+   /**
-+   * enum uacce_qfrt: qfrt type
-+   * @UACCE_QFRT_MMIO: device mmio region
-+   * @UACCE_QFRT_DUS: device user share region
-+   */
-+  enum uacce_qfrt {
-+          UACCE_QFRT_MMIO = 0,
-+          UACCE_QFRT_DUS = 1,
-+  };
-+
-+All regions are optional and differ from device type to type.
-+Each region can be mmapped only once, otherwise -EEXIST returns.
-+
-+The device mmio region is mapped to the hardware mmio space. It is generally
-+used for doorbell or other notification to the hardware. It is not fast enough
-+as data channel.
-+
-+The device user share region is used for share data buffer between user process
-+and device.
-+
-+
-+The Uacce register API
-+----------------------
-+
-+The register API is defined in uacce.h.
-+
-+::
-+
-+  struct uacce_interface {
-+    char name[UACCE_MAX_NAME_SIZE];
-+    unsigned int flags;
-+    const struct uacce_ops *ops;
-+  };
-+
-+According to the IOMMU capability, uacce_interface flags can be:
-+
-+::
-+
-+  /**
-+   * UACCE Device flags:
-+   * UACCE_DEV_SVA: Shared Virtual Addresses
-+   *              Support PASID
-+   *              Support device page faults (PCI PRI or SMMU Stall)
-+   */
-+  #define UACCE_DEV_SVA               BIT(0)
-+
-+  struct uacce_device *uacce_alloc(struct device *parent,
-+                                   struct uacce_interface *interface);
-+  int uacce_register(struct uacce_device *uacce);
-+  void uacce_remove(struct uacce_device *uacce);
-+
-+uacce_register results can be:
-+
-+a. If uacce module is not compiled, ERR_PTR(-ENODEV)
-+
-+b. Succeed with the desired flags
-+
-+c. Succeed with the negotiated flags, for example
-+
-+  uacce_interface.flags = UACCE_DEV_SVA but uacce->flags = ~UACCE_DEV_SVA
-+
-+  So user driver need check return value as well as the negotiated uacce->flags.
-+
-+
-+The user driver
-+---------------
-+
-+The queue file mmap space will need a user driver to wrap the communication
-+protocol. Uacce provides some attributes in sysfs for the user driver to
-+match the right accelerator accordingly.
-+More details in Documentation/ABI/testing/sysfs-driver-uacce.
--- 
-2.7.4
-
+Rob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
