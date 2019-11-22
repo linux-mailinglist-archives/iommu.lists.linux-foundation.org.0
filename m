@@ -2,88 +2,60 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F121074F1
-	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 16:33:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CAF107538
+	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 16:51:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id EBDC287B85;
-	Fri, 22 Nov 2019 15:33:08 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3E65F882BE;
+	Fri, 22 Nov 2019 15:51:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xJ1WvQbA-E-7; Fri, 22 Nov 2019 15:33:08 +0000 (UTC)
+	with ESMTP id RPbezLbmL8Bm; Fri, 22 Nov 2019 15:51:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8851287FB0;
-	Fri, 22 Nov 2019 15:33:08 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 57DB7882AA;
+	Fri, 22 Nov 2019 15:51:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7FB10C18DA;
-	Fri, 22 Nov 2019 15:33:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4E2D1C1DDD;
+	Fri, 22 Nov 2019 15:51:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 29B35C18DA
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 15:33:07 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C76C5C18DA
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 15:51:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2301D2637D
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 15:33:07 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id C3B03884D0
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 15:51:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WZnnVT6Xsbqw for <iommu@lists.linux-foundation.org>;
- Fri, 22 Nov 2019 15:33:06 +0000 (UTC)
+ with ESMTP id 46m0xrcOp27V for <iommu@lists.linux-foundation.org>;
+ Fri, 22 Nov 2019 15:51:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
- [209.85.221.65])
- by silver.osuosl.org (Postfix) with ESMTPS id 262D22635C
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 15:33:06 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id s5so9141458wrw.2
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 07:33:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=LQ0qY4Da80FqTT8SCe/q1MMW5kmKX6FKTTmrD9FMwQA=;
- b=AgTSYuNm6XEfw9a1bin5Mb4/xCbTQ+NinMuVrvghSeEv3dFsAecF1XJPbn2iv1M6hY
- p0cpqzbGPXGEzyjwmISfMojE0LxhDCyXfa7O2GrFOBPRPXKuA+np+l5lv+sd9iltRTGl
- 40ixAedr0XBP0RObe/d0u6Kl85Lo7q6+M9uiiTyuCvGh/7qkjHt2Zq4kMpQER1oGToOy
- rUOFCo4z9GDEZTsAvXfugh8vyqyedf0J0SPQLCi87POM0biTYvmX+sFQlV/zavO9a9u0
- P8VMOSvA9vHtkz3cLbYbYkxR93aPdU1+xJbHJ1IsxNrJ+8+Zdneft3cnMtP6yGDS/0pX
- XQWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=LQ0qY4Da80FqTT8SCe/q1MMW5kmKX6FKTTmrD9FMwQA=;
- b=T4l+fESleAmpen3hwCFSfFeaC2wiN3p6JwswevJmwQA6wAG8IOy18GfIw/eRBJnUes
- nkitpMSLR3JWi237Dl586RQFOGRtTF1QJ+RK0eejIueJqfUC/Bd997+IihKslsGjLaOl
- XXcT/pVJlCejpUYQiFbirXxwcN80ikLWTdhw7wM4f1t+cd3Ffrr5eOeqQ2N7Z8XJK2Es
- hCdQK/hx/e9oeCmFURpga/PPAb/LgtWDpbmo091Qkv5j1mT5gCZ/pvz5l0JyxdJWYFcf
- TwC6bMban52tTleNUlNFkHdfHWPppY6H4qgQlqidXLTL8Yr0BVji7CU5QHEETOqoyifS
- g9Xg==
-X-Gm-Message-State: APjAAAUnFh76Y9FaF9TW5GPDGiyexgrIWdhABH6VZnNeQQ8aJ99gsNjo
- zO5rVS7UvAlypJ8sHfnpDhQnvA==
-X-Google-Smtp-Source: APXvYqzX6JrW+q24Zk8k1hZ/pOgzDIL1U2YSPMN1DIk72zz9G9tgaPGNFMdZipoYaSd2Rw5YaSO23g==
-X-Received: by 2002:adf:f20d:: with SMTP id p13mr17340480wro.325.1574436784658; 
- Fri, 22 Nov 2019 07:33:04 -0800 (PST)
-Received: from lophozonia (xdsl-188-155-204-106.adslplus.ch. [188.155.204.106])
- by smtp.gmail.com with ESMTPSA id y6sm8172846wrw.6.2019.11.22.07.33.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Nov 2019 07:33:03 -0800 (PST)
-Date: Fri, 22 Nov 2019 16:33:01 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: Re: [PATCH v2 8/8] iommu/arm-smmu-v3: Add support for PCI PASID
-Message-ID: <20191122153301.GC810215@lophozonia>
-References: <20191108152508.4039168-1-jean-philippe@linaro.org>
- <20191108152508.4039168-9-jean-philippe@linaro.org>
- <20191111160529.00006dcd@huawei.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by hemlock.osuosl.org (Postfix) with ESMTP id BD58387E8E
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 15:51:31 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 37BE6DA7;
+ Fri, 22 Nov 2019 07:51:31 -0800 (PST)
+Received: from [10.1.196.37] (e121345-lin.cambridge.arm.com [10.1.196.37])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B60F53F6C4;
+ Fri, 22 Nov 2019 07:51:30 -0800 (PST)
+Subject: Re: [PATCH v2 09/10] iommu/io-pgtable-arm: Rationalise TCR handling
+To: Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org,
+ linux-arm-kernel@lists.infradead.org
+References: <cover.1572024119.git.robin.murphy@arm.com>
+ <84e56eb993fff3660376ffad3e915b972d29b008.1572024120.git.robin.murphy@arm.com>
+ <20191104191444.GI24909@willie-the-truck>
+ <20191104232756.GB16446@jcrouse1-lnx.qualcomm.com>
+ <20191120151142.GA26714@willie-the-truck>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <6e14584c-6942-b3b5-5691-faec4fc345f1@arm.com>
+Date: Fri, 22 Nov 2019 15:51:26 +0000
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191111160529.00006dcd@huawei.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, robin.murphy@arm.com,
- sudeep.holla@arm.com, rjw@rjwysocki.net, linux-acpi@vger.kernel.org,
- iommu@lists.linux-foundation.org, robh+dt@kernel.org, guohanjun@huawei.com,
- zhangfei.gao@linaro.org, will@kernel.org, linux-arm-kernel@lists.infradead.org,
- lenb@kernel.org
+In-Reply-To: <20191120151142.GA26714@willie-the-truck>
+Content-Language: en-GB
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,38 +68,47 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jonathan,
-
-On Mon, Nov 11, 2019 at 04:05:29PM +0000, Jonathan Cameron wrote:
-> On Fri, 8 Nov 2019 16:25:08 +0100
-> Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+On 20/11/2019 3:11 pm, Will Deacon wrote:
+> On Mon, Nov 04, 2019 at 04:27:56PM -0700, Jordan Crouse wrote:
+>> On Mon, Nov 04, 2019 at 07:14:45PM +0000, Will Deacon wrote:
+>>> On Fri, Oct 25, 2019 at 07:08:38PM +0100, Robin Murphy wrote:
+>>>> diff --git a/drivers/iommu/qcom_iommu.c b/drivers/iommu/qcom_iommu.c
+>>>> index 9a57eb6c253c..059be7e21030 100644
+>>>> --- a/drivers/iommu/qcom_iommu.c
+>>>> +++ b/drivers/iommu/qcom_iommu.c
+>>>> @@ -271,15 +271,13 @@ static int qcom_iommu_init_domain(struct iommu_domain *domain,
+>>>>   		iommu_writeq(ctx, ARM_SMMU_CB_TTBR0,
+>>>>   				pgtbl_cfg.arm_lpae_s1_cfg.ttbr |
+>>>>   				FIELD_PREP(TTBRn_ASID, ctx->asid));
+>>>> -		iommu_writeq(ctx, ARM_SMMU_CB_TTBR1,
+>>>> -				FIELD_PREP(TTBRn_ASID, ctx->asid));
+>>>> +		iommu_writeq(ctx, ARM_SMMU_CB_TTBR1, 0);
+>>>
+>>> Are you sure it's safe to drop the ASID here? Just want to make sure there
+>>> wasn't some "quirk" this was helping with.
+>>
+>> I was reminded of this recently. Some of our SMMU guys told me that a 0x0 in
+>> TTBR1 could cause a S2 fault if a faulty transaction caused a ttbr1 lookup so
+>> the "quirk" was writing the ASID so the register wasn't zero. I'm not sure if
+>> this is a vendor specific blip or not.
 > 
-> > Enable PASID for PCI devices that support it. Since the SSID tables are
-> > allocated by arm_smmu_attach_dev(), PASID has to be enabled early enough.
-> > arm_smmu_dev_feature_enable() would be too late, since by that time the
-> > main DMA domain has already been attached. Do it in add_device() instead.
-> > 
-> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> Seems straightforward.
+> You should be able to set EPD1 to prevent walks via TTBR1 in that case,
+> though. Sticking the ASID in there is still dodgy if EPD1 is clear and
+> TTBR1 points at junk (or even physical address 0x0).
 > 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> 
-> Thanks for working on this stuff.  I hope we an move to get the rest of the
-> SVA elements lined up behind it so everything moves quickly in the next
-> cycle (or two).
+> That's probably something which should be folded into this patch.
 
-Thanks a lot for the thorough review. I'm aiming for v5.6 for the PASID
-series, and then realistically v5.7 for the rest of SVA, but I'll try to
-send it sooner.
+Note that EPD1 was being set by io-pgtable-arm before this patch, and 
+remains set by virtue of arm_smmu_lpae_tcr() afterwards, so presumably 
+the brokenness might run a bit deeper than that. Either way, though, I'm 
+somewhat dubious since the ASID could well be 0 anyway :/
 
-Thanks,
-Jean
-
+Robin.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
