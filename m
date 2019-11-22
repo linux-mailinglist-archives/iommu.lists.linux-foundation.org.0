@@ -1,67 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42369107450
-	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 15:55:35 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id F18FF88BCD;
-	Fri, 22 Nov 2019 14:55:33 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EPmHj+XJW6Ig; Fri, 22 Nov 2019 14:55:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6FF3788B3D;
-	Fri, 22 Nov 2019 14:55:33 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 54D89C18DA;
-	Fri, 22 Nov 2019 14:55:33 +0000 (UTC)
-X-Original-To: iommu@lists.linuxfoundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 06FF6C18DA
- for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 14:55:32 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA8C107476
+	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 15:59:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id EA64A873E9
- for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 14:55:31 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D5A2A873F8;
+	Fri, 22 Nov 2019 14:59:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id mrw1A2lFwCId; Fri, 22 Nov 2019 14:59:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DC3DA86F14;
+	Fri, 22 Nov 2019 14:59:26 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D4455C18DA;
+	Fri, 22 Nov 2019 14:59:26 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 37FAFC18DA
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 14:59:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 259CA8825F
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 14:59:25 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pMLnWPD0p0aK for <iommu@lists.linuxfoundation.org>;
- Fri, 22 Nov 2019 14:55:31 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 738FD869C8
- for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 14:55:31 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BE37B20706;
- Fri, 22 Nov 2019 14:55:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1574434531;
- bh=XOsOV9WkivuaeQlatqG9K65/WMEeHRXOyL4xo8IcPpg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UUV4P74DMtdUhh5dLo+8J6XDQrkFbgWnHgGVI8Qh0lqhVyZhUhIE2KDoFKzp9Te/V
- 00SB/F9IO80kPR00/dI6pWe1by5Ffl8v3/99P6KUDshmetNxVH7ySsMxi54MnhiBBg
- J7VFwSyYhVFmpFIYdUMS/pfI4kvoZbrKa8DZGxM0=
-Date: Fri, 22 Nov 2019 14:55:25 +0000
-From: Will Deacon <will@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] of: property: Add device link support for "iommu-map"
-Message-ID: <20191122145525.GA14153@willie-the-truck>
-References: <20191120190028.4722-1-will@kernel.org>
- <CAL_JsqJm+6Cg4JfG1EzRMJ2hyPV1O8WbitjGC=XMvZRDD+=OGw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqJm+6Cg4JfG1EzRMJ2hyPV1O8WbitjGC=XMvZRDD+=OGw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: iommu@lists.linuxfoundation.org, devicetree@vger.kernel.org,
- Saravana Kannan <saravanak@google.com>, ard.biesheuvel@linaro.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
+ with ESMTP id 8xJ-0NMJVHl4 for <iommu@lists.linux-foundation.org>;
+ Fri, 22 Nov 2019 14:59:24 +0000 (UTC)
+X-Greylist: delayed 12:04:02 by SQLgrey-1.7.6
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+ [209.85.222.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 3A99288217
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 14:59:24 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id m125so6496355qkd.8
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 06:59:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=czmRFawPbRA4wPPyXKr/45ohSDBaFeSUF30l90PueKM=;
+ b=XbGG7IUMCmvWd+2Zfh4Z0zzCFA2YV9Yk+qwUrcoqfwiSOEtswc8NG0bzARjBR78kiH
+ hLb8AV81UBoA8FtccPYG4v/yLV//ZNkm1u3EEzcciUrmcKt6ohVHbE/f/ctoKSBy/ASi
+ Z9XsVYrMHoPtFkr3OVpIlc7TvtjnA8BtHxI72MjvHJnn03urkucOhHS3B87CpoTzlP+O
+ cdRJcMcmTCp7vvt5aQhm21ls6lvUhdZmRKnraFhGm3/NnVk9FbP1v0Shmy7/aByw8ohz
+ JK4k7eow7o64LXPM5WE2cQN0KV8APCyDDkZYfDiRkOCosZWeF1FAFLaJ/20UPDf7t0Ag
+ T0+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=czmRFawPbRA4wPPyXKr/45ohSDBaFeSUF30l90PueKM=;
+ b=L9uA+FbsMN3UejHThkbSHtmX1oHV4Db3jSvegKp1iOdR0mx6XAM5bpD0dwI9qxHQGU
+ PCkzhq7M/lIB8b9WzGUuozn2eilziPJyjfSU4QGA/1jpnl9DSM3Y+JRNUcPZgTuMN8JS
+ itbmGuBsrGPB6vHY73OSCqX+QZqvudZr1Nf2G6rcz5WxL0hQLhEtNSSPpOHbRhT6KEIb
+ TZOx9yn+egKCwTZ8fuCRDIWKO7LJWqYryR/eemRmoQyXnpbVjCevNyBrqQPkhvOgQ/mf
+ ezCritHzFB/LVF/gnbuw2SZ1rkF4jP2lT5QNferVZKqOVHhTrA1fXjdb+ku9pze1FGxt
+ ApZw==
+X-Gm-Message-State: APjAAAWTP+sZYubwbvmuOgSoWdAfPuFJR3cjTzsbzkqcXiHQiFZQWefT
+ pEngquEUd9FguvZ027Fbrrmd8w==
+X-Google-Smtp-Source: APXvYqxM/Mq/oZx9N3SQRd4yH7GRI8jHA57x9C0cgRY6OyHUe5QZyZcJZVN9LAmaC1fIu8T/1NRQWA==
+X-Received: by 2002:a37:a642:: with SMTP id p63mr5872287qke.85.1574434763130; 
+ Fri, 22 Nov 2019 06:59:23 -0800 (PST)
+Received: from dhcp-41-57.bos.redhat.com (nat-pool-bos-t.redhat.com.
+ [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id j89sm3496929qte.72.2019.11.22.06.59.21
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 22 Nov 2019 06:59:22 -0800 (PST)
+Message-ID: <1574434760.9585.18.camel@lca.pw>
+Subject: Re: [PATCH v2] iommu/iova: silence warnings under memory pressure
+From: Qian Cai <cai@lca.pw>
+To: Joe Perches <joe@perches.com>, jroedel@suse.de
+Date: Fri, 22 Nov 2019 09:59:20 -0500
+In-Reply-To: <7fd08d481a372ea0b600f95c12166ab54ed5e267.camel@perches.com>
+References: <20191122025510.4319-1-cai@lca.pw>
+ <7fd08d481a372ea0b600f95c12166ab54ed5e267.camel@perches.com>
+X-Mailer: Evolution 3.22.6 (3.22.6-10.el7) 
+Mime-Version: 1.0
+Cc: iommu@lists.linux-foundation.org, dwmw2@infradead.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,59 +92,48 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-[+Ard]
-
-Hi Rob,
-
-On Fri, Nov 22, 2019 at 08:47:46AM -0600, Rob Herring wrote:
-> On Wed, Nov 20, 2019 at 1:00 PM Will Deacon <will@kernel.org> wrote:
-> >
-> > Commit 8e12257dead7 ("of: property: Add device link support for iommus,
-> > mboxes and io-channels") added device link support for IOMMU linkages
-> > described using the "iommus" property. For PCI devices, this property
-> > is not present and instead the "iommu-map" property is used on the host
-> > bridge node to map the endpoint RequesterIDs to their corresponding
-> > IOMMU instance.
-> >
-> > Add support for "iommu-map" to the device link supplier bindings so that
-> > probing of PCI devices can be deferred until after the IOMMU is
-> > available.
-> >
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Saravana Kannan <saravanak@google.com>
-> > Cc: Robin Murphy <robin.murphy@arm.com>
-> > Signed-off-by: Will Deacon <will@kernel.org>
-> > ---
-> >
-> > Applies against driver-core/driver-core-next.
-> > Tested on AMD Seattle (arm64).
-> 
-> Guess that answers my question whether anyone uses Seattle with DT.
-> Seattle uses the old SMMU binding, and there's not even an IOMMU
-> associated with the PCI host. I raise this mainly because the dts
-> files for Seattle either need some love or perhaps should be removed.
-
-I'm using the new DT bindings on my Seattle, thanks to the firmware fairy
-(Ard) visiting my flat with a dediprog. The patches I've posted to enable
-modular builds of the arm-smmu driver require that the old binding is
-disabled [1].
-
-> No issues with the patch itself though. I'll queue it after rc1.
-
-Thanks, although I think Greg has already queued it [2] due to the
-dependencies on other patches in his tree.
-
-Will
-
-[1] https://lore.kernel.org/lkml/20191121114918.2293-14-will@kernel.org/
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git/commit/?h=driver-core-next&id=e149573b2f84d0517648dafc0db625afa681ed54
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gVGh1LCAyMDE5LTExLTIxIGF0IDIwOjM3IC0wODAwLCBKb2UgUGVyY2hlcyB3cm90ZToKPiBP
+biBUaHUsIDIwMTktMTEtMjEgYXQgMjE6NTUgLTA1MDAsIFFpYW4gQ2FpIHdyb3RlOgo+ID4gV2hl
+biBydW5uaW5nIGhlYXZ5IG1lbW9yeSBwcmVzc3VyZSB3b3JrbG9hZHMsIHRoaXMgNSsgb2xkIHN5
+c3RlbSBpcwo+ID4gdGhyb3dpbmcgZW5kbGVzcyB3YXJuaW5ncyBiZWxvdyBiZWNhdXNlIGRpc2sg
+SU8gaXMgdG9vIHNsb3cgdG8gcmVjb3Zlcgo+ID4gZnJvbSBzd2FwcGluZy4gU2luY2UgdGhlIHZv
+bHVtZSBmcm9tIGFsbG9jX2lvdmFfZmFzdCgpIGNvdWxkIGJlIGxhcmdlLAo+ID4gb25jZSBpdCBj
+YWxscyBwcmludGsoKSwgaXQgd2lsbCB0cmlnZ2VyIGRpc2sgSU8gKHdyaXRpbmcgdG8gdGhlIGxv
+Zwo+ID4gZmlsZXMpIGFuZCBwZW5kaW5nIHNvZnRpcnFzIHdoaWNoIGNvdWxkIGNhdXNlIGFuIGlu
+ZmluaXRlIGxvb3AgYW5kIG1ha2UKPiA+IG5vIHByb2dyZXNzIGZvciBkYXlzIGJ5IHRoZSBvbmdv
+aW1uZyBtZW1vcnkgcmVjbGFpbS4gVGhpcyBpcyB0aGUgY291bnRlcgo+ID4gcGFydCBmb3IgSW50
+ZWwgd2hlcmUgdGhlIEFNRCBwYXJ0IGhhcyBhbHJlYWR5IGJlZW4gbWVyZ2VkLiBTZWUgdGhlCj4g
+PiBjb21taXQgM2Q3MDg4OTUzMjViICgiaW9tbXUvYW1kOiBTaWxlbmNlIHdhcm5pbmdzIHVuZGVy
+IG1lbW9yeQo+ID4gcHJlc3N1cmUiKS4gU2luY2UgdGhlIGFsbG9jYXRpb24gZmFpbHVyZSB3aWxs
+IGJlIHJlcG9ydGVkIGluCj4gPiBpbnRlbF9hbGxvY19pb3ZhKCksIHNvIGp1c3QgY2FsbCBwcmlu
+dGtfcmF0ZWxpbXRlZCgpIHRoZXJlIGFuZCBzaWxlbmNlCj4gPiB0aGUgb25lIGluIGFsbG9jX2lv
+dmFfbWVtKCkgdG8gYXZvaWQgdGhlIGV4cGVuc2l2ZSB3YXJuX2FsbG9jKCkuCj4gCj4gW10KPiA+
+IHYyOiB1c2UgZGV2X2Vycl9yYXRlbGltaXRlZCgpIGFuZCBpbXByb3ZlIHRoZSBjb21taXQgbWVz
+c2FnZXMuCj4gCj4gW10KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2lvbW11L2ludGVsLWlvbW11
+LmMgYi9kcml2ZXJzL2lvbW11L2ludGVsLWlvbW11LmMKPiAKPiBbXQo+ID4gQEAgLTM0MDEsNyAr
+MzQwMSw4IEBAIHN0YXRpYyB1bnNpZ25lZCBsb25nIGludGVsX2FsbG9jX2lvdmEoc3RydWN0IGRl
+dmljZSAqZGV2LAo+ID4gIAlpb3ZhX3BmbiA9IGFsbG9jX2lvdmFfZmFzdCgmZG9tYWluLT5pb3Zh
+ZCwgbnJwYWdlcywKPiA+ICAJCQkJICAgSU9WQV9QRk4oZG1hX21hc2spLCB0cnVlKTsKPiA+ICAJ
+aWYgKHVubGlrZWx5KCFpb3ZhX3BmbikpIHsKPiA+IC0JCWRldl9lcnIoZGV2LCAiQWxsb2NhdGlu
+ZyAlbGQtcGFnZSBpb3ZhIGZhaWxlZCIsIG5ycGFnZXMpOwo+ID4gKwkJZGV2X2Vycl9yYXRlbGlt
+aXRlZChkZXYsICJBbGxvY2F0aW5nICVsZC1wYWdlIGlvdmEgZmFpbGVkIiwKPiA+ICsJCQkJICAg
+IG5ycGFnZXMpOwo+IAo+IFRyaXZpYToKPiAKPiBUaGlzIHNob3VsZCByZWFsbHkgaGF2ZSBhIFxu
+IHRlcm1pbmF0aW9uIG9uIHRoZSBmb3JtYXQgc3RyaW5nCj4gCj4gCQlkZXZfZXJyX3JhdGVsaW1p
+dGVkKGRldiwgIkFsbG9jYXRpbmcgJWxkLXBhZ2UgaW92YSBmYWlsZWRcbiIsCj4gCj4gCgpXaHkg
+ZG8geW91IHNheSBzbz8gSXQgaXMgcmlnaHQgbm93IHByaW50aW5nIHdpdGggYSBuZXdsaW5lIGFk
+ZGVkIGFueXdheS4KCsKgaHBzYSAwMDAwOjAzOjAwLjA6IERNQVI6IEFsbG9jYXRpbmcgMS1wYWdl
+IGlvdmEgZmFpbGVkCsKgaHBzYSAwMDAwOjAzOjAwLjA6IERNQVI6IEFsbG9jYXRpbmcgMS1wYWdl
+IGlvdmEgZmFpbGVkCsKgaHBzYSAwMDAwOjAzOjAwLjA6IERNQVI6IEFsbG9jYXRpbmcgMS1wYWdl
+IGlvdmEgZmFpbGVkCsKgaHBzYSAwMDAwOjAzOjAwLjA6IERNQVI6IEFsbG9jYXRpbmcgMS1wYWdl
+IGlvdmEgZmFpbGVkCsKgaHBzYSAwMDAwOjAzOjAwLjA6IERNQVI6IEFsbG9jYXRpbmcgMS1wYWdl
+IGlvdmEgZmFpbGVkCsKgaHBzYSAwMDAwOjAzOjAwLjA6IERNQVI6IEFsbG9jYXRpbmcgMS1wYWdl
+IGlvdmEgZmFpbGVkCsKgaHBzYSAwMDAwOjAzOjAwLjA6IERNQVI6IEFsbG9jYXRpbmcgMS1wYWdl
+IGlvdmEgZmFpbGVkCsKgaHBzYSAwMDAwOjAzOjAwLjA6IERNQVI6IEFsbG9jYXRpbmcgMS1wYWdl
+IGlvdmEgZmFpbGVkCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcK
+aHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
