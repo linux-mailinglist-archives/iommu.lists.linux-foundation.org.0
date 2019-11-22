@@ -1,86 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id E883F107B57
-	for <lists.iommu@lfdr.de>; Sat, 23 Nov 2019 00:31:57 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D4AB987416;
-	Fri, 22 Nov 2019 23:31:55 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4MsxalaEbLPK; Fri, 22 Nov 2019 23:31:55 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3700F87588;
-	Fri, 22 Nov 2019 23:31:54 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1F318C18DA;
-	Fri, 22 Nov 2019 23:31:54 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7A76AC18DA
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 23:31:52 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1702C107B55
+	for <lists.iommu@lfdr.de>; Sat, 23 Nov 2019 00:31:56 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 5DFA6883C3
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 23:31:52 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 8A6A9883C3;
+	Fri, 22 Nov 2019 23:31:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id P6T2+VbYJh+B; Fri, 22 Nov 2019 23:31:54 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1258082067;
+	Fri, 22 Nov 2019 23:31:54 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E6EAFC18DA;
+	Fri, 22 Nov 2019 23:31:53 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EAFB6C18DA
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 23:31:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id E18DC203DE
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 23:31:51 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Zq6YXCSPGxCC for <iommu@lists.linux-foundation.org>;
- Fri, 22 Nov 2019 23:31:50 +0000 (UTC)
+ with ESMTP id 8hKaRhjI9rHS for <iommu@lists.linux-foundation.org>;
+ Fri, 22 Nov 2019 23:31:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from a27-186.smtp-out.us-west-2.amazonses.com
- (a27-186.smtp-out.us-west-2.amazonses.com [54.240.27.186])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 88C21879F8
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 23:31:50 +0000 (UTC)
+Received: from a27-187.smtp-out.us-west-2.amazonses.com
+ (a27-187.smtp-out.us-west-2.amazonses.com [54.240.27.187])
+ by silver.osuosl.org (Postfix) with ESMTPS id 209D9203DA
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 23:31:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1574465509;
- h=From:To:Cc:Subject:Date:Message-Id;
- bh=6W+Hea0Amd6/uilOnF5QbG8DckcKj2ySVsuPY5EsZLg=;
- b=mBKPgwEWhAjRTwq5g/IQLGDPWRZpVPCIhcN5EZA0L7F1PfEDlXUehW4jSgZrzzaW
- 1yGBCr3NjNz2Kvcvk4ICjTxrp5NYDuoh+WrfDGX+nkZRXsnhn49nGm5pfVP/Mn++VQl
- KF9azvFk0GV1+muQuuN80klN57AVbL9IHUTDIq2A=
+ s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1574465510;
+ h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References;
+ bh=o+LH9HwYJtl6AvafAe/yG6jV7U6wpVWP6EbR+x6D88w=;
+ b=WLZ09wiKbanR65C/t3KMlNImMJQFQC/tzF1UZJW72yu/Li8pbomg5DENKUcwtm2n
+ aGKGV6o+STILooJzbUpkif/ych6VnWzfdF/GOKvGAVzsdy9aQp/gnyZG2t4jvGpYtgb
+ ur0Hf160SSsgLDuDzyH4ENi8bqPNPLlUO8ZdtidA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1574465509;
- h=From:To:Cc:Subject:Date:Message-Id:Feedback-ID;
- bh=6W+Hea0Amd6/uilOnF5QbG8DckcKj2ySVsuPY5EsZLg=;
- b=G1l8UkScWUAQTxmH+hUMluhXIZYBoxEiB/m/ejMg9mDUEgJUk73/E3eC6UDQf6VF
- TGN50Vfs0sb0PvI70XjmNZQg7cIz00QDZMhGRC6kpuEiBPQIpw0RWmbBz8KySCEjZZ2
- zL5dL0I49LABUuT1H5ftcc7US65RlAR5movu6CEI=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 79D8FC43383
+ s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1574465510;
+ h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:Feedback-ID;
+ bh=o+LH9HwYJtl6AvafAe/yG6jV7U6wpVWP6EbR+x6D88w=;
+ b=U7MZ5KQvhTjHMzemUPbjygUfvh3klFkhEcW2+aT8l1fXFmHhbk6+65f0QogRC9dJ
+ zuAriUsvxd09VynXocoefdAtC+qFT/8J1tM2VtqogXwrqyHyNkQNsTvl/cMHslmP7+K
+ tR90aldnQI9xpD8IPGUgFLQWwyuH1/eo60TA8no8=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A9946C433A2
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH v2 0/8] iommu/arm-smmu: Split pagetable support for Adreno GPUs
-Date: Fri, 22 Nov 2019 23:31:49 +0000
-Message-ID: <0101016e95751931-d40ed4f2-bcaf-4628-a856-12431fd92117-000000@us-west-2.amazonses.com>
+Subject: [PATCH v2 1/8] dt-bindings: arm-smmu: Add Adreno GPU variant
+Date: Fri, 22 Nov 2019 23:31:50 +0000
+Message-ID: <0101016e95751b4b-8322fd0f-5f95-4fef-81be-dc15801e7fed-000000@us-west-2.amazonses.com>
 X-Mailer: git-send-email 2.7.4
-X-SES-Outgoing: 2019.11.22-54.240.27.186
+In-Reply-To: <1574465484-7115-1-git-send-email-jcrouse@codeaurora.org>
+References: <1574465484-7115-1-git-send-email-jcrouse@codeaurora.org>
+X-SES-Outgoing: 2019.11.22-54.240.27.187
 Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- AngeloGioacchino Del Regno <kholk11@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Wen Yang <wen.yang99@zte.com.cn>,
- Jonathan Marek <jonathan@marek.ca>, will@kernel.org,
- Mamta Shukla <mamtashukla555@gmail.com>, Ben Dooks <ben.dooks@codethink.co.uk>,
- linux-arm-kernel@lists.infradead.org, Brian Masney <masneyb@onstation.org>,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>,
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- Alexios Zavras <alexios.zavras@intel.com>, Rob Herring <robh+dt@kernel.org>,
- Andy Gross <agross@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- freedreno@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- Allison Randal <allison@lohutok.net>, Bruce Wang <bzwang@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org,
- Daniel Vetter <daniel@ffwll.ch>, Drew Davenport <ddavenport@chromium.org>,
- robin.murphy@arm.com, Georgi Djakov <georgi.djakov@linaro.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ robin.murphy@arm.com, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ will@kernel.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,74 +86,32 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Add a compatible string to identify SMMUs that are attached
+to Adreno GPU devices that wish to support split pagetables.
 
-Another refresh to support split pagetables for Adreno GPUs as part of an
-incremental process to enable per-context pagetables.
+Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+---
 
-In order to support per-context pagetables the GPU needs to enable split tables
-so that we can store global buffers in the TTBR1 space leaving the GPU free to
-program the TTBR0 register with the address of a context specific pagetable.
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-This patchset adds split pagetable support for devices identified with the
-compatible string qcom,adreno-smmu-v2. If the compatible string is enabled and
-DOMAIN_ATTR_SPLIT_TABLES is non zero at attach time, the implementation will
-set up the TTBR0 and TTBR1 spaces with identical configurations and program
-the domain pagetable into the TTBR1 register. The TTBR0 register will be
-unused.
-
-The driver can determine if split pagetables were programmed by querying
-DOMAIN_ATTR_SPLIT_TABLES after attaching. The domain geometry will also be
-updated to reflect the virtual address space for the TTBR1 range.
-
-These patches are on based on top of linux-next-20191120 with [1], [2], and [3]
-from Robin on the iommu list.
-
-The first four patches add the device tree bindings and implementation
-specific support for arm-smmu and the rest of the patches add the drm/msm
-implementation followed by the device tree update for sdm845.
-
-[1] https://lists.linuxfoundation.org/pipermail/iommu/2019-October/039718.html
-[2] https://lists.linuxfoundation.org/pipermail/iommu/2019-October/039719.html
-[3] https://lists.linuxfoundation.org/pipermail/iommu/2019-October/039720.html
-
-
-Jordan Crouse (8):
-  dt-bindings: arm-smmu: Add Adreno GPU variant
-  iommu: Add DOMAIN_ATTR_SPLIT_TABLES
-  iommu/arm-smmu: Pass io_pgtable_cfg to impl specific init_context
-  iommu/arm-smmu: Add split pagetables for Adreno IOMMU implementations
-  drm/msm: Attach the IOMMU device during initialization
-  drm/msm: Refactor address space initialization
-  drm/msm/a6xx: Support split pagetables
-  arm64: dts: qcom: sdm845:  Update Adreno GPU SMMU compatible string
-
- .../devicetree/bindings/iommu/arm,smmu.yaml        |  6 ++
- arch/arm64/boot/dts/qcom/sdm845.dtsi               |  2 +-
- drivers/gpu/drm/msm/adreno/a2xx_gpu.c              | 16 ++++
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |  1 +
- drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |  1 +
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |  1 +
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              | 45 ++++++++++
- drivers/gpu/drm/msm/adreno/adreno_gpu.c            | 23 ++++--
- drivers/gpu/drm/msm/adreno/adreno_gpu.h            |  8 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            | 18 ++--
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c           | 18 ++--
- drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c           |  4 -
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           | 18 ++--
- drivers/gpu/drm/msm/msm_drv.h                      |  8 +-
- drivers/gpu/drm/msm/msm_gem_vma.c                  | 37 ++-------
- drivers/gpu/drm/msm/msm_gpu.c                      | 49 +----------
- drivers/gpu/drm/msm/msm_gpu.h                      |  4 +-
- drivers/gpu/drm/msm/msm_gpummu.c                   |  6 --
- drivers/gpu/drm/msm/msm_iommu.c                    | 18 ++--
- drivers/gpu/drm/msm/msm_mmu.h                      |  1 -
- drivers/iommu/arm-smmu-impl.c                      |  6 +-
- drivers/iommu/arm-smmu-qcom.c                      | 96 ++++++++++++++++++++++
- drivers/iommu/arm-smmu.c                           | 52 +++++++++---
- drivers/iommu/arm-smmu.h                           | 14 +++-
- include/linux/iommu.h                              |  1 +
- 25 files changed, 295 insertions(+), 158 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+index 6515dbe..db9f826 100644
+--- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
++++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+@@ -31,6 +31,12 @@ properties:
+               - qcom,sdm845-smmu-v2
+           - const: qcom,smmu-v2
+ 
++      - description: Qcom Adreno GPU SMMU iplementing split pagetables
++        items:
++          - enum:
++              - qcom,adreno-smmu-v2
++          - const: qcom,smmu-v2
++
+       - description: Qcom SoCs implementing "arm,mmu-500"
+         items:
+           - enum:
 -- 
 2.7.4
 
