@@ -2,83 +2,68 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8DC107580
-	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 17:13:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84FC31075CC
+	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 17:29:15 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 743C588D64;
-	Fri, 22 Nov 2019 16:13:16 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 17F9B88C7E;
+	Fri, 22 Nov 2019 16:29:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id u-GpzYBCaj7q; Fri, 22 Nov 2019 16:13:15 +0000 (UTC)
+	with ESMTP id nRM+7jgzTgLT; Fri, 22 Nov 2019 16:29:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B831A88D57;
-	Fri, 22 Nov 2019 16:13:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DC0BF88C81;
+	Fri, 22 Nov 2019 16:29:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A512EC18DA;
-	Fri, 22 Nov 2019 16:13:15 +0000 (UTC)
-X-Original-To: iommu@lists.linuxfoundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C05B4C1DDD;
+	Fri, 22 Nov 2019 16:29:12 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3AA3FC18DA
- for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:13:14 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 09D64C18DA
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 16:29:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 073DF88CE6
- for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:13:14 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 040B888319
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 16:29:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MEnkRGQDetYX for <iommu@lists.linuxfoundation.org>;
- Fri, 22 Nov 2019 16:13:12 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
- [209.85.221.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 8ADF388CE4
- for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:13:12 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id t1so9289192wrv.4
- for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 08:13:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ue+2IthhhGtKyv4t4iHUlxAukreMwi7oDs762tZEuAc=;
- b=KVOL2ZAVkRnPR+f4GChlOTRXBbJqDY56n2tqA4uC+oer6FUMpp/GFUTnENCOCwdTDw
- MfNT4733dkN8pzIiEfUJTCj4gRS3T96dFIrmeTjQ563Wd5aGIHHr+Oyi2lK+epJXU3IA
- HJewQ4Gh7EIx9yw+ljcwhwVtZuGOFe2ps3qudhV/vsrVxz/oLtKtdhR+UsU2GSJ+9z0M
- re/xyXPuIyHRmo+cZXzPO1OYphN0TBmLEOBuH9gIFHTTRr1RiNEGlZ3bIzOGV0uJaydG
- y0atF5KUKuPNWIbB7kNmnwF7DEcdGPz9W+gpopNZQ4rbVniRB3J5h0y6pKKmU34EH5CQ
- v2WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ue+2IthhhGtKyv4t4iHUlxAukreMwi7oDs762tZEuAc=;
- b=ICpJa3DlYOUfrNm3c9DVttwfPtQ/zi9CGhCpxfLyob6wbv5UpDoS8HzPvObGv8mswJ
- oZIrpCkzsyYPVoYwfhN9uhxbGYrO38nYY++mjJIsEqzmOJgHTYd4emET6rlOj2BZtkID
- ZkNSyJ037bYKSFrcTNb+blRxU71+ZihujG2l4CNJze63iGQQ1UPJzslZjC64CbQkE2f1
- R905B6Ap9nYIyr1l8Fa+lOuxnydO7Jwv9F61vHvOjuXT2eIhRKgRhtZZSJZCDLhoG8xP
- s+WMJIOmVCbZStXSpYICGYDN69PLVVqvChpWEiT/hSetnGN8amOOsBK5Pd4JpIfEVs2z
- xdfw==
-X-Gm-Message-State: APjAAAXnKc/LihL8USuVrWEte1j9pqcxuLR+F4G8XorJLIMgPO1OZXZK
- ktpiP6XJ+P/uHGE7v7YgWhTzB3/4vlfbFp3AzmE3LA==
-X-Google-Smtp-Source: APXvYqzUwCgFnybDJAA94Iz+jswhtq7TUIdhMl8vsH+s/SaWoYv0C0ZIQLw5JdXIGbZZKbd7zy4UxC8zZB/Bs/gzDOc=
-X-Received: by 2002:adf:b1cb:: with SMTP id r11mr18963430wra.246.1574439190783; 
- Fri, 22 Nov 2019 08:13:10 -0800 (PST)
+ with ESMTP id Kez-F7H1Yf51 for <iommu@lists.linux-foundation.org>;
+ Fri, 22 Nov 2019 16:29:09 +0000 (UTC)
+X-Greylist: delayed 18:41:31 by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0089.hostedemail.com
+ [216.40.44.89])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id C43F68830E
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 16:29:09 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay08.hostedemail.com (Postfix) with ESMTP id 5E36A182CED2A;
+ Fri, 22 Nov 2019 16:29:07 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, :::::::::::,
+ RULES_HIT:41:355:379:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2693:2828:2899:3138:3139:3140:3141:3142:3354:3622:3865:3867:3868:3870:3871:3872:3873:4250:4321:5007:6119:7903:8660:10004:10400:10450:10455:10848:11026:11232:11658:11914:12043:12050:12295:12296:12297:12555:12740:12760:12895:12986:13069:13148:13230:13311:13357:13439:13868:14659:14721:19904:19999:21080:21433:21451:21627:21740:30054:30055:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: mom43_1547a037e0e3d
+X-Filterd-Recvd-Size: 2884
+Received: from XPS-9350.home (unknown [47.151.135.224])
+ (Authenticated sender: joe@perches.com)
+ by omf06.hostedemail.com (Postfix) with ESMTPA;
+ Fri, 22 Nov 2019 16:29:06 +0000 (UTC)
+Message-ID: <799a49ee8fc8041a00332e0866554ddc04a2b8b0.camel@perches.com>
+Subject: Re: [PATCH v2] iommu/iova: silence warnings under memory pressure
+From: Joe Perches <joe@perches.com>
+To: Qian Cai <cai@lca.pw>, jroedel@suse.de
+Date: Fri, 22 Nov 2019 08:28:41 -0800
+In-Reply-To: <1574434760.9585.18.camel@lca.pw>
+References: <20191122025510.4319-1-cai@lca.pw>
+ <7fd08d481a372ea0b600f95c12166ab54ed5e267.camel@perches.com>
+ <1574434760.9585.18.camel@lca.pw>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20191120190028.4722-1-will@kernel.org>
- <CAL_JsqJm+6Cg4JfG1EzRMJ2hyPV1O8WbitjGC=XMvZRDD+=OGw@mail.gmail.com>
- <20191122145525.GA14153@willie-the-truck>
- <CAL_JsqJvhP2YqQwAZg=GecpVNMbHN9OcZxTO8LrvH_jphFJw=A@mail.gmail.com>
-In-Reply-To: <CAL_JsqJvhP2YqQwAZg=GecpVNMbHN9OcZxTO8LrvH_jphFJw=A@mail.gmail.com>
-From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Date: Fri, 22 Nov 2019 17:12:59 +0100
-Message-ID: <CAKv+Gu8HjzpDfh2=gUXuV-OLWbePVEPJU369V4_S6=Q7e4_bzg@mail.gmail.com>
-Subject: Re: [PATCH] of: property: Add device link support for "iommu-map"
-To: Rob Herring <robh@kernel.org>
-Cc: iommu@lists.linuxfoundation.org,
- Devicetree List <devicetree@vger.kernel.org>,
- Saravana Kannan <saravanak@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: iommu@lists.linux-foundation.org, dwmw2@infradead.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,63 +81,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, 22 Nov 2019 at 17:01, Rob Herring <robh@kernel.org> wrote:
->
-> On Fri, Nov 22, 2019 at 8:55 AM Will Deacon <will@kernel.org> wrote:
-> >
-> > [+Ard]
-> >
-> > Hi Rob,
-> >
-> > On Fri, Nov 22, 2019 at 08:47:46AM -0600, Rob Herring wrote:
-> > > On Wed, Nov 20, 2019 at 1:00 PM Will Deacon <will@kernel.org> wrote:
-> > > >
-> > > > Commit 8e12257dead7 ("of: property: Add device link support for iommus,
-> > > > mboxes and io-channels") added device link support for IOMMU linkages
-> > > > described using the "iommus" property. For PCI devices, this property
-> > > > is not present and instead the "iommu-map" property is used on the host
-> > > > bridge node to map the endpoint RequesterIDs to their corresponding
-> > > > IOMMU instance.
-> > > >
-> > > > Add support for "iommu-map" to the device link supplier bindings so that
-> > > > probing of PCI devices can be deferred until after the IOMMU is
-> > > > available.
-> > > >
-> > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > Cc: Rob Herring <robh@kernel.org>
-> > > > Cc: Saravana Kannan <saravanak@google.com>
-> > > > Cc: Robin Murphy <robin.murphy@arm.com>
-> > > > Signed-off-by: Will Deacon <will@kernel.org>
-> > > > ---
-> > > >
-> > > > Applies against driver-core/driver-core-next.
-> > > > Tested on AMD Seattle (arm64).
-> > >
-> > > Guess that answers my question whether anyone uses Seattle with DT.
-> > > Seattle uses the old SMMU binding, and there's not even an IOMMU
-> > > associated with the PCI host. I raise this mainly because the dts
-> > > files for Seattle either need some love or perhaps should be removed.
-> >
-> > I'm using the new DT bindings on my Seattle, thanks to the firmware fairy
-> > (Ard) visiting my flat with a dediprog. The patches I've posted to enable
-> > modular builds of the arm-smmu driver require that the old binding is
-> > disabled [1].
->
-> Going to post those dts changes?
->
+On Fri, 2019-11-22 at 09:59 -0500, Qian Cai wrote:
+> On Thu, 2019-11-21 at 20:37 -0800, Joe Perches wrote:
+> > On Thu, 2019-11-21 at 21:55 -0500, Qian Cai wrote:
+> > > When running heavy memory pressure workloads, this 5+ old system is
+> > > throwing endless warnings below because disk IO is too slow to recover
+> > > from swapping. Since the volume from alloc_iova_fast() could be large,
+> > > once it calls printk(), it will trigger disk IO (writing to the log
+> > > files) and pending softirqs which could cause an infinite loop and make
+> > > no progress for days by the ongoimng memory reclaim. This is the counter
+> > > part for Intel where the AMD part has already been merged. See the
+> > > commit 3d708895325b ("iommu/amd: Silence warnings under memory
+> > > pressure"). Since the allocation failure will be reported in
+> > > intel_alloc_iova(), so just call printk_ratelimted() there and silence
+> > > the one in alloc_iova_mem() to avoid the expensive warn_alloc().
+> > 
+> > []
+> > > v2: use dev_err_ratelimited() and improve the commit messages.
+> > 
+> > []
+> > > diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+> > 
+> > []
+> > > @@ -3401,7 +3401,8 @@ static unsigned long intel_alloc_iova(struct device *dev,
+> > >  	iova_pfn = alloc_iova_fast(&domain->iovad, nrpages,
+> > >  				   IOVA_PFN(dma_mask), true);
+> > >  	if (unlikely(!iova_pfn)) {
+> > > -		dev_err(dev, "Allocating %ld-page iova failed", nrpages);
+> > > +		dev_err_ratelimited(dev, "Allocating %ld-page iova failed",
+> > > +				    nrpages);
+> > 
+> > Trivia:
+> > 
+> > This should really have a \n termination on the format string
+> > 
+> > 		dev_err_ratelimited(dev, "Allocating %ld-page iova failed\n",
+> > 
+> > 
+> 
+> Why do you say so? It is right now printing with a newline added anyway.
+> 
+>  hpsa 0000:03:00.0: DMAR: Allocating 1-page iova failed
 
-Last time I tried upstreaming seattle DT changes I got zero response,
-so I didn't bother since.
+If another process uses pr_cont at the same time,
+it can be interleaved.
 
 
-> > > No issues with the patch itself though. I'll queue it after rc1.
-> >
-> > Thanks, although I think Greg has already queued it [2] due to the
-> > dependencies on other patches in his tree.
->
-> Okay, forgot to check my spam from Greg folder and missed that.
->
-> Rob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
