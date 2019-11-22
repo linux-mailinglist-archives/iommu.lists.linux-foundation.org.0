@@ -1,76 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B31107556
-	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 17:01:33 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8DC107580
+	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 17:13:17 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8CC36873D1;
-	Fri, 22 Nov 2019 16:01:31 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 743C588D64;
+	Fri, 22 Nov 2019 16:13:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zd5DJI9HUCM3; Fri, 22 Nov 2019 16:01:31 +0000 (UTC)
+	with ESMTP id u-GpzYBCaj7q; Fri, 22 Nov 2019 16:13:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0D818873A5;
-	Fri, 22 Nov 2019 16:01:31 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B831A88D57;
+	Fri, 22 Nov 2019 16:13:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E346CC1DDC;
-	Fri, 22 Nov 2019 16:01:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A512EC18DA;
+	Fri, 22 Nov 2019 16:13:15 +0000 (UTC)
 X-Original-To: iommu@lists.linuxfoundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 19522C18DA
- for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:01:29 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3AA3FC18DA
+ for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:13:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 084AE884DE
- for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:01:29 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 073DF88CE6
+ for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:13:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BWihHY45qA7n for <iommu@lists.linuxfoundation.org>;
- Fri, 22 Nov 2019 16:01:28 +0000 (UTC)
+ with ESMTP id MEnkRGQDetYX for <iommu@lists.linuxfoundation.org>;
+ Fri, 22 Nov 2019 16:13:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 7168C87E19
- for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:01:28 +0000 (UTC)
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1E2E12072D
- for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:01:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1574438488;
- bh=ABV4JDXjTc3+syys4x82oGbN9hbBLYGVEuA+cqBGOdU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=tVuVWC6m9TzubuWX9xmvVgf50Dt6oZmXzjVbYWBMm6vWohKmyoMJUzwbQJZD4Dlq9
- GA520+YQbO8n8ywQ/HxZm2cI/Ll54QuT5U8bGF15kE3PIqAuLVKdaJ7O73ABHI4+3Z
- Xt7TM78lu/ggKxBBDJFUgymlIXu20wbF0QlsURhI=
-Received: by mail-qt1-f170.google.com with SMTP id t20so8316459qtn.9
- for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 08:01:28 -0800 (PST)
-X-Gm-Message-State: APjAAAUIv56RdWbuVr67qjOMXuhuhxG8AXzXb7BzOHs4S3VsUPjVWoRa
- tGGhtWXvqMBCkPfle3ejF8zNviH5HUHAkVYDPg==
-X-Google-Smtp-Source: APXvYqx7KNsAISuNpnJlZcp/nAOHCqYGa8Bku64u91/s2E6BljJZTyFkVMIvN7E4x6WOeUhWY1Y2VG2imoW/80t1w7Y=
-X-Received: by 2002:aed:2706:: with SMTP id n6mr15291379qtd.224.1574438487269; 
- Fri, 22 Nov 2019 08:01:27 -0800 (PST)
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+ [209.85.221.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 8ADF388CE4
+ for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 16:13:12 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id t1so9289192wrv.4
+ for <iommu@lists.linuxfoundation.org>; Fri, 22 Nov 2019 08:13:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ue+2IthhhGtKyv4t4iHUlxAukreMwi7oDs762tZEuAc=;
+ b=KVOL2ZAVkRnPR+f4GChlOTRXBbJqDY56n2tqA4uC+oer6FUMpp/GFUTnENCOCwdTDw
+ MfNT4733dkN8pzIiEfUJTCj4gRS3T96dFIrmeTjQ563Wd5aGIHHr+Oyi2lK+epJXU3IA
+ HJewQ4Gh7EIx9yw+ljcwhwVtZuGOFe2ps3qudhV/vsrVxz/oLtKtdhR+UsU2GSJ+9z0M
+ re/xyXPuIyHRmo+cZXzPO1OYphN0TBmLEOBuH9gIFHTTRr1RiNEGlZ3bIzOGV0uJaydG
+ y0atF5KUKuPNWIbB7kNmnwF7DEcdGPz9W+gpopNZQ4rbVniRB3J5h0y6pKKmU34EH5CQ
+ v2WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ue+2IthhhGtKyv4t4iHUlxAukreMwi7oDs762tZEuAc=;
+ b=ICpJa3DlYOUfrNm3c9DVttwfPtQ/zi9CGhCpxfLyob6wbv5UpDoS8HzPvObGv8mswJ
+ oZIrpCkzsyYPVoYwfhN9uhxbGYrO38nYY++mjJIsEqzmOJgHTYd4emET6rlOj2BZtkID
+ ZkNSyJ037bYKSFrcTNb+blRxU71+ZihujG2l4CNJze63iGQQ1UPJzslZjC64CbQkE2f1
+ R905B6Ap9nYIyr1l8Fa+lOuxnydO7Jwv9F61vHvOjuXT2eIhRKgRhtZZSJZCDLhoG8xP
+ s+WMJIOmVCbZStXSpYICGYDN69PLVVqvChpWEiT/hSetnGN8amOOsBK5Pd4JpIfEVs2z
+ xdfw==
+X-Gm-Message-State: APjAAAXnKc/LihL8USuVrWEte1j9pqcxuLR+F4G8XorJLIMgPO1OZXZK
+ ktpiP6XJ+P/uHGE7v7YgWhTzB3/4vlfbFp3AzmE3LA==
+X-Google-Smtp-Source: APXvYqzUwCgFnybDJAA94Iz+jswhtq7TUIdhMl8vsH+s/SaWoYv0C0ZIQLw5JdXIGbZZKbd7zy4UxC8zZB/Bs/gzDOc=
+X-Received: by 2002:adf:b1cb:: with SMTP id r11mr18963430wra.246.1574439190783; 
+ Fri, 22 Nov 2019 08:13:10 -0800 (PST)
 MIME-Version: 1.0
 References: <20191120190028.4722-1-will@kernel.org>
  <CAL_JsqJm+6Cg4JfG1EzRMJ2hyPV1O8WbitjGC=XMvZRDD+=OGw@mail.gmail.com>
  <20191122145525.GA14153@willie-the-truck>
-In-Reply-To: <20191122145525.GA14153@willie-the-truck>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 22 Nov 2019 10:01:15 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJvhP2YqQwAZg=GecpVNMbHN9OcZxTO8LrvH_jphFJw=A@mail.gmail.com>
-Message-ID: <CAL_JsqJvhP2YqQwAZg=GecpVNMbHN9OcZxTO8LrvH_jphFJw=A@mail.gmail.com>
+ <CAL_JsqJvhP2YqQwAZg=GecpVNMbHN9OcZxTO8LrvH_jphFJw=A@mail.gmail.com>
+In-Reply-To: <CAL_JsqJvhP2YqQwAZg=GecpVNMbHN9OcZxTO8LrvH_jphFJw=A@mail.gmail.com>
+From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Date: Fri, 22 Nov 2019 17:12:59 +0100
+Message-ID: <CAKv+Gu8HjzpDfh2=gUXuV-OLWbePVEPJU369V4_S6=Q7e4_bzg@mail.gmail.com>
 Subject: Re: [PATCH] of: property: Add device link support for "iommu-map"
-To: Will Deacon <will@kernel.org>
-Cc: iommu@lists.linuxfoundation.org, devicetree@vger.kernel.org,
+To: Rob Herring <robh@kernel.org>
+Cc: iommu@lists.linuxfoundation.org,
+ Devicetree List <devicetree@vger.kernel.org>,
  Saravana Kannan <saravanak@google.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,56 +96,63 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Nov 22, 2019 at 8:55 AM Will Deacon <will@kernel.org> wrote:
+On Fri, 22 Nov 2019 at 17:01, Rob Herring <robh@kernel.org> wrote:
 >
-> [+Ard]
->
-> Hi Rob,
->
-> On Fri, Nov 22, 2019 at 08:47:46AM -0600, Rob Herring wrote:
-> > On Wed, Nov 20, 2019 at 1:00 PM Will Deacon <will@kernel.org> wrote:
-> > >
-> > > Commit 8e12257dead7 ("of: property: Add device link support for iommus,
-> > > mboxes and io-channels") added device link support for IOMMU linkages
-> > > described using the "iommus" property. For PCI devices, this property
-> > > is not present and instead the "iommu-map" property is used on the host
-> > > bridge node to map the endpoint RequesterIDs to their corresponding
-> > > IOMMU instance.
-> > >
-> > > Add support for "iommu-map" to the device link supplier bindings so that
-> > > probing of PCI devices can be deferred until after the IOMMU is
-> > > available.
-> > >
-> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Cc: Rob Herring <robh@kernel.org>
-> > > Cc: Saravana Kannan <saravanak@google.com>
-> > > Cc: Robin Murphy <robin.murphy@arm.com>
-> > > Signed-off-by: Will Deacon <will@kernel.org>
-> > > ---
-> > >
-> > > Applies against driver-core/driver-core-next.
-> > > Tested on AMD Seattle (arm64).
+> On Fri, Nov 22, 2019 at 8:55 AM Will Deacon <will@kernel.org> wrote:
 > >
-> > Guess that answers my question whether anyone uses Seattle with DT.
-> > Seattle uses the old SMMU binding, and there's not even an IOMMU
-> > associated with the PCI host. I raise this mainly because the dts
-> > files for Seattle either need some love or perhaps should be removed.
+> > [+Ard]
+> >
+> > Hi Rob,
+> >
+> > On Fri, Nov 22, 2019 at 08:47:46AM -0600, Rob Herring wrote:
+> > > On Wed, Nov 20, 2019 at 1:00 PM Will Deacon <will@kernel.org> wrote:
+> > > >
+> > > > Commit 8e12257dead7 ("of: property: Add device link support for iommus,
+> > > > mboxes and io-channels") added device link support for IOMMU linkages
+> > > > described using the "iommus" property. For PCI devices, this property
+> > > > is not present and instead the "iommu-map" property is used on the host
+> > > > bridge node to map the endpoint RequesterIDs to their corresponding
+> > > > IOMMU instance.
+> > > >
+> > > > Add support for "iommu-map" to the device link supplier bindings so that
+> > > > probing of PCI devices can be deferred until after the IOMMU is
+> > > > available.
+> > > >
+> > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > Cc: Rob Herring <robh@kernel.org>
+> > > > Cc: Saravana Kannan <saravanak@google.com>
+> > > > Cc: Robin Murphy <robin.murphy@arm.com>
+> > > > Signed-off-by: Will Deacon <will@kernel.org>
+> > > > ---
+> > > >
+> > > > Applies against driver-core/driver-core-next.
+> > > > Tested on AMD Seattle (arm64).
+> > >
+> > > Guess that answers my question whether anyone uses Seattle with DT.
+> > > Seattle uses the old SMMU binding, and there's not even an IOMMU
+> > > associated with the PCI host. I raise this mainly because the dts
+> > > files for Seattle either need some love or perhaps should be removed.
+> >
+> > I'm using the new DT bindings on my Seattle, thanks to the firmware fairy
+> > (Ard) visiting my flat with a dediprog. The patches I've posted to enable
+> > modular builds of the arm-smmu driver require that the old binding is
+> > disabled [1].
 >
-> I'm using the new DT bindings on my Seattle, thanks to the firmware fairy
-> (Ard) visiting my flat with a dediprog. The patches I've posted to enable
-> modular builds of the arm-smmu driver require that the old binding is
-> disabled [1].
-
-Going to post those dts changes?
-
-> > No issues with the patch itself though. I'll queue it after rc1.
+> Going to post those dts changes?
 >
-> Thanks, although I think Greg has already queued it [2] due to the
-> dependencies on other patches in his tree.
 
-Okay, forgot to check my spam from Greg folder and missed that.
+Last time I tried upstreaming seattle DT changes I got zero response,
+so I didn't bother since.
 
-Rob
+
+> > > No issues with the patch itself though. I'll queue it after rc1.
+> >
+> > Thanks, although I think Greg has already queued it [2] due to the
+> > dependencies on other patches in his tree.
+>
+> Okay, forgot to check my spam from Greg folder and missed that.
+>
+> Rob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
