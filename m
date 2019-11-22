@@ -1,59 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31BC0105EEC
-	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 04:08:37 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id AFD9888126;
-	Fri, 22 Nov 2019 03:08:35 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id H71yFOdux8kF; Fri, 22 Nov 2019 03:08:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 768CF881A5;
-	Fri, 22 Nov 2019 03:08:33 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6166EC18DA;
-	Fri, 22 Nov 2019 03:08:33 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AFEABC18DA
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 03:08:31 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 801C8105F43
+	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 05:38:21 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 996C487247
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 03:08:31 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0E17F8717E;
+	Fri, 22 Nov 2019 04:38:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yi10bQ33R0cz; Fri, 22 Nov 2019 04:38:18 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CBF5A87122;
+	Fri, 22 Nov 2019 04:38:18 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AD45CC1DD9;
+	Fri, 22 Nov 2019 04:38:18 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EE653C18DA
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 04:38:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id D878187F9A
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 04:38:16 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id J-N8IYllGozF for <iommu@lists.linux-foundation.org>;
- Fri, 22 Nov 2019 03:08:31 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id DC32E871EB
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 03:08:30 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2019 19:08:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,228,1571727600"; d="scan'208";a="232540462"
-Received: from allen-box.sh.intel.com ([10.239.159.136])
- by fmsmga004.fm.intel.com with ESMTP; 21 Nov 2019 19:08:28 -0800
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 5/5] iommu/vt-d: Consolidate pasid-based device tlb
- invalidation
-Date: Fri, 22 Nov 2019 11:04:49 +0800
-Message-Id: <20191122030449.28892-6-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191122030449.28892-1-baolu.lu@linux.intel.com>
-References: <20191122030449.28892-1-baolu.lu@linux.intel.com>
-Cc: kevin.tian@intel.com, ashok.raj@intel.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, David Woodhouse <dwmw2@infradead.org>
+ with ESMTP id hgJkz9sD72lw for <iommu@lists.linux-foundation.org>;
+ Fri, 22 Nov 2019 04:38:15 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0136.hostedemail.com
+ [216.40.44.136])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id CE50887F8C
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 04:38:15 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay02.hostedemail.com (Postfix) with ESMTP id 4ADBF5854;
+ Fri, 22 Nov 2019 04:38:13 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, :::::::::::,
+ RULES_HIT:41:355:379:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2693:2828:2899:3138:3139:3140:3141:3142:3352:3622:3865:3867:3868:3870:3871:3872:4250:4321:5007:7903:8660:10004:10400:10450:10455:10848:11026:11232:11658:11914:12043:12050:12295:12297:12555:12679:12740:12760:12895:12986:13069:13148:13230:13311:13357:13439:13868:14659:14721:19904:19999:21080:21433:21451:21627:21740:30054:30055:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:2, LUA_SUMMARY:none
+X-HE-Tag: veil65_47a046490b214
+X-Filterd-Recvd-Size: 2305
+Received: from XPS-9350.home (unknown [47.151.135.224])
+ (Authenticated sender: joe@perches.com)
+ by omf05.hostedemail.com (Postfix) with ESMTPA;
+ Fri, 22 Nov 2019 04:38:12 +0000 (UTC)
+Message-ID: <7fd08d481a372ea0b600f95c12166ab54ed5e267.camel@perches.com>
+Subject: Re: [PATCH v2] iommu/iova: silence warnings under memory pressure
+From: Joe Perches <joe@perches.com>
+To: Qian Cai <cai@lca.pw>, jroedel@suse.de
+Date: Thu, 21 Nov 2019 20:37:48 -0800
+In-Reply-To: <20191122025510.4319-1-cai@lca.pw>
+References: <20191122025510.4319-1-cai@lca.pw>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Cc: iommu@lists.linux-foundation.org, dwmw2@infradead.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,131 +74,42 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Merge pasid-based device tlb invalidation into iommu->flush.p_dev_tlb_inv.
+On Thu, 2019-11-21 at 21:55 -0500, Qian Cai wrote:
+> When running heavy memory pressure workloads, this 5+ old system is
+> throwing endless warnings below because disk IO is too slow to recover
+> from swapping. Since the volume from alloc_iova_fast() could be large,
+> once it calls printk(), it will trigger disk IO (writing to the log
+> files) and pending softirqs which could cause an infinite loop and make
+> no progress for days by the ongoimng memory reclaim. This is the counter
+> part for Intel where the AMD part has already been merged. See the
+> commit 3d708895325b ("iommu/amd: Silence warnings under memory
+> pressure"). Since the allocation failure will be reported in
+> intel_alloc_iova(), so just call printk_ratelimted() there and silence
+> the one in alloc_iova_mem() to avoid the expensive warn_alloc().
+[]
+> v2: use dev_err_ratelimited() and improve the commit messages.
+[]
+> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+[]
+> @@ -3401,7 +3401,8 @@ static unsigned long intel_alloc_iova(struct device *dev,
+>  	iova_pfn = alloc_iova_fast(&domain->iovad, nrpages,
+>  				   IOVA_PFN(dma_mask), true);
+>  	if (unlikely(!iova_pfn)) {
+> -		dev_err(dev, "Allocating %ld-page iova failed", nrpages);
+> +		dev_err_ratelimited(dev, "Allocating %ld-page iova failed",
+> +				    nrpages);
 
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
----
- drivers/iommu/intel-iommu.c | 41 +++++++++++++++++++++++++++++++++++++
- drivers/iommu/intel-svm.c   | 33 ++++++-----------------------
- 2 files changed, 47 insertions(+), 27 deletions(-)
+Trivia:
 
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index fec78cc877c1..dd16d466320f 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -3074,6 +3074,46 @@ qi_flush_piotlb(struct intel_iommu *iommu, u16 did, u32 pasid, u64 addr,
- 	qi_submit_sync(&desc, iommu);
- }
- 
-+/* PASID-based device TLB invalidation */
-+static void
-+qi_flush_dev_piotlb(struct intel_iommu *iommu, u16 sid, u16 pfsid,
-+		    u32 pasid, u16 qdep, u64 address, unsigned long npages)
-+{
-+	struct qi_desc desc = {.qw2 = 0, .qw3 = 0};
-+
-+	desc.qw0 = QI_DEV_EIOTLB_PASID(pasid) | QI_DEV_EIOTLB_SID(sid) |
-+			QI_DEV_EIOTLB_QDEP(qdep) | QI_DEIOTLB_TYPE |
-+			QI_DEV_IOTLB_PFSID(pfsid);
-+
-+	/*
-+	 * npages == -1 means a PASID-selective invalidation, otherwise,
-+	 * a positive value for Page-selective-within-PASID invalidation.
-+	 * 0 is not a valid input.
-+	 */
-+	if (WARN_ON(!npages)) {
-+		pr_err("Invalid input npages = %ld\n", npages);
-+		return;
-+	}
-+
-+	if (npages == -1) {
-+		desc.qw1 = QI_DEV_EIOTLB_ADDR(((u64)-1) >> 1) |
-+				QI_DEV_EIOTLB_SIZE;
-+	} else if (npages > 1) {
-+		/* The least significant zero bit indicates the size. So,
-+		 * for example, an "address" value of 0x12345f000 will
-+		 * flush from 0x123440000 to 0x12347ffff (256KiB). */
-+		unsigned long last = address + ((unsigned long)(npages - 1) << VTD_PAGE_SHIFT);
-+		unsigned long mask = __rounddown_pow_of_two(address ^ last);
-+
-+		desc.qw1 = QI_DEV_EIOTLB_ADDR((address & ~mask) |
-+				(mask - 1)) | QI_DEV_EIOTLB_SIZE;
-+	} else {
-+		desc.qw1 = QI_DEV_EIOTLB_ADDR(address);
-+	}
-+
-+	qi_submit_sync(&desc, iommu);
-+}
-+
- static void intel_iommu_init_qi(struct intel_iommu *iommu)
- {
- 	/*
-@@ -3108,6 +3148,7 @@ static void intel_iommu_init_qi(struct intel_iommu *iommu)
- 		iommu->flush.pc_inv = qi_flush_pasid;
- 		iommu->flush.dev_tlb_inv = qi_flush_dev_iotlb;
- 		iommu->flush.p_iotlb_inv = qi_flush_piotlb;
-+		iommu->flush.p_dev_tlb_inv = qi_flush_dev_piotlb;
- 		pr_info("%s: Using Queued invalidation\n", iommu->name);
- 	}
- }
-diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel-svm.c
-index 02c6b14f0568..b6b22989eb46 100644
---- a/drivers/iommu/intel-svm.c
-+++ b/drivers/iommu/intel-svm.c
-@@ -114,39 +114,18 @@ void intel_svm_check(struct intel_iommu *iommu)
- 	iommu->flags |= VTD_FLAG_SVM_CAPABLE;
- }
- 
--static void intel_flush_svm_range_dev (struct intel_svm *svm, struct intel_svm_dev *sdev,
--				unsigned long address, unsigned long pages, int ih)
-+static void
-+intel_flush_svm_range_dev(struct intel_svm *svm, struct intel_svm_dev *sdev,
-+			  unsigned long address, unsigned long pages, int ih)
- {
--	struct qi_desc desc;
- 	struct intel_iommu *iommu = svm->iommu;
- 
- 	iommu->flush.p_iotlb_inv(iommu, sdev->did,
- 				 svm->pasid, address, pages, ih);
- 
--	if (sdev->dev_iotlb) {
--		desc.qw0 = QI_DEV_EIOTLB_PASID(svm->pasid) |
--				QI_DEV_EIOTLB_SID(sdev->sid) |
--				QI_DEV_EIOTLB_QDEP(sdev->qdep) |
--				QI_DEIOTLB_TYPE;
--		if (pages == -1) {
--			desc.qw1 = QI_DEV_EIOTLB_ADDR(-1ULL >> 1) |
--					QI_DEV_EIOTLB_SIZE;
--		} else if (pages > 1) {
--			/* The least significant zero bit indicates the size. So,
--			 * for example, an "address" value of 0x12345f000 will
--			 * flush from 0x123440000 to 0x12347ffff (256KiB). */
--			unsigned long last = address + ((unsigned long)(pages - 1) << VTD_PAGE_SHIFT);
--			unsigned long mask = __rounddown_pow_of_two(address ^ last);
--
--			desc.qw1 = QI_DEV_EIOTLB_ADDR((address & ~mask) |
--					(mask - 1)) | QI_DEV_EIOTLB_SIZE;
--		} else {
--			desc.qw1 = QI_DEV_EIOTLB_ADDR(address);
--		}
--		desc.qw2 = 0;
--		desc.qw3 = 0;
--		qi_submit_sync(&desc, svm->iommu);
--	}
-+	if (sdev->dev_iotlb)
-+		iommu->flush.p_dev_tlb_inv(iommu, sdev->sid, 0, svm->pasid,
-+					   sdev->qdep, address, pages);
- }
- 
- static void intel_flush_svm_range(struct intel_svm *svm, unsigned long address,
--- 
-2.17.1
+This should really have a \n termination on the format string
+
+		dev_err_ratelimited(dev, "Allocating %ld-page iova failed\n",
+
 
 _______________________________________________
 iommu mailing list
