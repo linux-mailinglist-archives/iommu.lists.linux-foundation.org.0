@@ -1,67 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0F1106247
-	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 07:03:10 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D653106CE3
+	for <lists.iommu@lfdr.de>; Fri, 22 Nov 2019 11:56:17 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0996788112;
-	Fri, 22 Nov 2019 06:03:09 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 23F07261B4;
+	Fri, 22 Nov 2019 10:56:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xVhpycfesR8O; Fri, 22 Nov 2019 06:03:08 +0000 (UTC)
+	with ESMTP id VObpHuWizLzh; Fri, 22 Nov 2019 10:56:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2BA048811E;
-	Fri, 22 Nov 2019 06:03:08 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E766426150;
+	Fri, 22 Nov 2019 10:56:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 084D0C18DA;
-	Fri, 22 Nov 2019 06:03:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E292AC18DA;
+	Fri, 22 Nov 2019 10:56:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F1B98C18DA
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 06:03:06 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DCB2CC18DA
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 10:56:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id E4788889CC
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 06:03:06 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id D39F6881C0
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 10:56:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3rSOt55QwFbf for <iommu@lists.linux-foundation.org>;
- Fri, 22 Nov 2019 06:03:05 +0000 (UTC)
+ with ESMTP id tu2gGAI850WY for <iommu@lists.linux-foundation.org>;
+ Fri, 22 Nov 2019 10:56:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id A207F889A0
- for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 06:03:05 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BA96720717;
- Fri, 22 Nov 2019 06:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1574402585;
- bh=b/jHQB1x+5NehrmLNVjMgte8dWT+yjMVkd02sMqx1aQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gEwSR93yKSMCQXhMkaZujy8KPT1WUN2R/n+yLqcUyXbgEI8rRnPd940kuX1WURdOZ
- tHF4z0DLqRT5hR6ivQ9hpJYTeSk8KKE4wwGFcY5NuzpuX8w1eUUdDUGNq5Sr0xSF/A
- z1IADrnW+gIV7XJu3uD1JInkO5BSIzRov7kmvrTk=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 86/91] iommu/amd: Fix NULL dereference bug in
- match_hid_uid
-Date: Fri, 22 Nov 2019 01:01:24 -0500
-Message-Id: <20191122060129.4239-85-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191122060129.4239-1-sashal@kernel.org>
-References: <20191122060129.4239-1-sashal@kernel.org>
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+ [209.85.167.65])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 89FA2881BF
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 10:56:12 +0000 (UTC)
+Received: by mail-lf1-f65.google.com with SMTP id r15so2240181lff.2
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Nov 2019 02:56:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TVZC8O5GuUsgdVDCzcN2CqTy4L8wnnx0IKWd5NiFgCs=;
+ b=Q3aBSYS6L0keHFMg9s3YF/O/MS0ZbpfYzXYluOwOpxXbstgAIVmQmrUo3jmGNcrDMZ
+ RRPRqees28PfvdT26W0bPHIpTF934vMZ1mdXqlDToqWtyVfmuX00leXURFV5dfkQ02NJ
+ g8MLLi84nyK+BFemsn5DmX+bFGOhLRD0eyOqDxu7lLUZ9cyS3bFHai1Fg75a75rR5dmc
+ HAtSQb2nq4jX33aT5hVPbjbJphW0npRYuRLSvtGKiec4rx5bJjM/h3+QM3a2GsLsz6Wf
+ aE1lZ/Wt3JEJzcp0sPuMjwjNU7ZJsgm+knGVpf9Ib7BC1bjVvZmANR5bEwTu8vWj9Clx
+ OrdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TVZC8O5GuUsgdVDCzcN2CqTy4L8wnnx0IKWd5NiFgCs=;
+ b=dE/748uvRAtEBgcrOWtTxBhZXaNcPj1h8C9OrxEatILzFmJoTGtSvRxVuEDMZiNj+/
+ YLffIlsugbalP/YeJPAAZXHGLi2oJJ9Kar9d/Waa9a/boMkl88D1EIwPbUUvgTlCBgiR
+ ppz/PncP+MD6gJvr5N+z819n/t8i4LlEZNTO16naNmXPFa2z4/E8z8cvfBEj70c64M7Q
+ N5rtyzFyeliRcuTiBcsTpIdvI04m1jXTGrOF4bgTUcrN8gPo9Wn1KQvi/sRiYUhXYAH3
+ aIOkbhCtTSjrvwUDV1zOf6w7tpdOHFHQUx4JkmVqEp+pPA6UTrMrynHni01nOQhWyXog
+ p3yg==
+X-Gm-Message-State: APjAAAXf922MKiPuuH/ogKYSwJtLObOjGnPJcMrFOGFk8+hq09OyuV55
+ tydPcw3c1+t6u/vH+dEeOp9TRESl5dc=
+X-Google-Smtp-Source: APXvYqwBWCyLPkUhZBo6K0fMA3vA5VrmhXM4U/1z4Br0F1oFeGiiIWprIEctPIwsTs5r8FDOo3DDYA==
+X-Received: by 2002:adf:f688:: with SMTP id v8mr174600wrp.147.1574419850990;
+ Fri, 22 Nov 2019 02:50:50 -0800 (PST)
+Received: from localhost.localdomain (xdsl-188-155-204-106.adslplus.ch.
+ [188.155.204.106])
+ by smtp.gmail.com with ESMTPSA id o133sm2088197wmb.4.2019.11.22.02.50.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Nov 2019 02:50:50 -0800 (PST)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ iommu@lists.linux-foundation.org,
+ virtualization@lists.linux-foundation.org, linux-pci@vger.kernel.org,
+ virtio-dev@lists.oasis-open.org
+Subject: [RFC 00/13] virtio-iommu on non-devicetree platforms
+Date: Fri, 22 Nov 2019 11:49:47 +0100
+Message-Id: <20191122105000.800410-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Cc: Aaron Ma <aaron.ma@canonical.com>, Sasha Levin <sashal@kernel.org>,
- iommu@lists.linux-foundation.org, Joerg Roedel <jroedel@suse.de>
+Cc: kevin.tian@intel.com, mst@redhat.com, gregkh@linuxfoundation.org,
+ sudeep.holla@arm.com, rjw@rjwysocki.net, sebastien.boeuf@intel.com,
+ jacob.jun.pan@intel.com, guohanjun@huawei.com, bhelgaas@google.com,
+ jasowang@redhat.com, lenb@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,44 +99,141 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Aaron Ma <aaron.ma@canonical.com>
+I'm seeking feedback on multi-platform support for virtio-iommu. At the
+moment only devicetree (DT) is supported and we don't have a pleasant
+solution for other platforms. Once we figure out the topology
+description, x86 support is trivial.
 
-[ Upstream commit bb6bccba390c7d743c1e4427de4ef284c8cc6869 ]
+Since the IOMMU manages memory accesses from other devices, the guest
+kernel needs to initialize the IOMMU before endpoints start issuing DMA.
+It's a solved problem: firmware or hypervisor describes through DT or
+ACPI tables the device dependencies, and probe of endpoints is deferred
+until the IOMMU is probed. But:
 
-Add a non-NULL check to fix potential NULL pointer dereference
-Cleanup code to call function once.
+(1) ACPI has one table per vendor (DMAR for Intel, IVRS for AMD and IORT
+    for Arm). From my point of view IORT is easier to extend, since we
+    just need to introduce a new node type. There are no dependencies to
+    Arm in the Linux IORT driver, so it works well with CONFIG_X86.
 
-Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
-Fixes: 2bf9a0a12749b ('iommu/amd: Add iommu support for ACPI HID devices')
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/iommu/amd_iommu.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+    However, there are concerns about other OS vendors feeling obligated
+    to implement this new node, so Arm proposed introducing another ACPI
+    table, that can wrap any of DMAR, IVRS and IORT to extend it with
+    new virtual nodes. A draft of this VIOT table specification is
+    available at http://jpbrucker.net/virtio-iommu/viot/viot-v5.pdf
 
-diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index e81acb2b6ee7d..c898c70472bb2 100644
---- a/drivers/iommu/amd_iommu.c
-+++ b/drivers/iommu/amd_iommu.c
-@@ -176,10 +176,14 @@ static struct lock_class_key reserved_rbtree_key;
- static inline int match_hid_uid(struct device *dev,
- 				struct acpihid_map_entry *entry)
- {
-+	struct acpi_device *adev = ACPI_COMPANION(dev);
- 	const char *hid, *uid;
- 
--	hid = acpi_device_hid(ACPI_COMPANION(dev));
--	uid = acpi_device_uid(ACPI_COMPANION(dev));
-+	if (!adev)
-+		return -ENODEV;
-+
-+	hid = acpi_device_hid(adev);
-+	uid = acpi_device_uid(adev);
- 
- 	if (!hid || !(*hid))
- 		return -ENODEV;
+    I'm afraid this could increase fragmentation as guests would need to
+    implement or modify their support for all of DMAR, IVRS and IORT. If
+    we end up doing VIOT, I suggest limiting it to IORT.
+
+(2) In addition, there are some concerns about having virtio depend on
+    ACPI or DT. Some hypervisors (Firecracker, QEMU microvm, kvmtool x86
+    [1]) don't currently implement those methods.
+
+    It was suggested to embed the topology description into the device.
+    It can work, as demonstrated at the end of this RFC, with the
+    following limitations:
+
+    - The topology description must be read before any endpoint managed
+      by the IOMMU is probed, and even before the virtio module is
+      loaded. This RFC uses a PCI quirk to manually parse the virtio
+      configuration. It assumes that all endpoints managed by the IOMMU
+      are under this same PCI host.
+
+    - I don't have a solution for the virtio-mmio transport at the
+      moment, because I haven't had time to modify a host to test it. I
+      think it could either use a notifier on the platform bus, or
+      better, a new 'iommu' command-line argument to the virtio-mmio
+      driver. So the current prototype doesn't work for firecracker and
+      microvm, which rely on virtio-mmio.
+
+    - For Arm, if the platform has an ITS, the hypervisor needs IORT or
+      DT to describe it anyway. More generally, not using either ACPI or
+      DT might prevent from supporting other features as well. I suspect
+      the above users will have to implement a standard method sooner or
+      later.
+
+    - Even when reusing as much existing code as possible, guest support
+      is still going to be around a few hundred lines since we can't
+      rely on the normal virtio infrastructure to be loaded at that
+      point. As you can see below, the diffstat for the incomplete
+      topology implementation is already bigger than the exhaustive IORT
+      support, even when jumping through the VIOT hoop.
+
+    So it's a lightweight solution for very specific use-cases, and we
+    should still support ACPI for the general case. Multi-platform
+    guests such as Linux will then need to support three topology
+    descriptions instead of two.
+
+In this RFC I present both solutions, but I'd rather not keep all of it.
+Please see the individual patches for details:
+
+(1) Patches 1, 3-10 add support for virtio-iommu to the Linux IORT
+    driver and patches 2, 11 add the VIOT glue.
+
+(2) Patch 12 adds the built-in topology description to the virtio-iommu
+    specification. Patch 13 is a partial implementation for the Linux
+    virtio-iommu driver. It only supports PCI, not platform devices.
+
+You can find Linux and QEMU code on my virtio-iommu/devel branches at
+http://jpbrucker.net/git/linux and http://jpbrucker.net/git/qemu
+
+
+I split the diffstat since there are two independent features. The first
+one is for patches 1-11, and the second one for patch 13.
+
+Jean-Philippe Brucker (11):
+  ACPI/IORT: Move IORT to the ACPI folder
+  ACPI: Add VIOT definitions
+  ACPI/IORT: Allow registration of external tables
+  ACPI/IORT: Add node categories
+  ACPI/IORT: Support VIOT virtio-mmio node
+  ACPI/IORT: Support VIOT virtio-pci node
+  ACPI/IORT: Defer probe until virtio-iommu-pci has registered a fwnode
+  ACPI/IORT: Add callback to update a device's fwnode
+  iommu/virtio: Create fwnode if necessary
+  iommu/virtio: Update IORT fwnode
+  ACPI: Add VIOT table
+
+ MAINTAINERS                     |   9 +
+ drivers/acpi/Kconfig            |   7 +
+ drivers/acpi/Makefile           |   2 +
+ drivers/acpi/arm64/Kconfig      |   3 -
+ drivers/acpi/arm64/Makefile     |   1 -
+ drivers/acpi/bus.c              |   2 +
+ drivers/acpi/{arm64 => }/iort.c | 317 ++++++++++++++++++++++++++------
+ drivers/acpi/tables.c           |   2 +-
+ drivers/acpi/viot.c             |  44 +++++
+ drivers/iommu/Kconfig           |   1 +
+ drivers/iommu/virtio-iommu.c    |  61 +++++-
+ include/acpi/actbl2.h           |  31 ++++
+ include/linux/acpi_iort.h       |  14 ++
+ include/linux/acpi_viot.h       |  20 ++
+ 14 files changed, 448 insertions(+), 66 deletions(-)
+ rename drivers/acpi/{arm64 => }/iort.c (86%)
+ create mode 100644 drivers/acpi/viot.c
+ create mode 100644 include/linux/acpi_viot.h
+
+Jean-Philippe Brucker (1):
+  iommu/virtio: Add topology description to virtio-iommu config space
+
+ drivers/base/platform.c               |   3 +
+ drivers/iommu/Kconfig                 |   9 +
+ drivers/iommu/Makefile                |   1 +
+ drivers/iommu/virtio-iommu-topology.c | 410 ++++++++++++++++++++++++++
+ drivers/iommu/virtio-iommu.c          |   3 +
+ drivers/pci/pci-driver.c              |   3 +
+ include/linux/virtio_iommu.h          |  18 ++
+ include/uapi/linux/virtio_iommu.h     |  26 ++
+ 8 files changed, 473 insertions(+)
+ create mode 100644 drivers/iommu/virtio-iommu-topology.c
+ create mode 100644 include/linux/virtio_iommu.h
+
+
+[1] firecracker: https://github.com/firecracker-microvm/firecracker
+    microvm: https://github.com/qemu/qemu/blob/master/docs/microvm.rst
+    kvmtool: https://git.kernel.org/pub/scm/linux/kernel/git/will/kvmtool.git/
 -- 
-2.20.1
+2.24.0
 
 _______________________________________________
 iommu mailing list
