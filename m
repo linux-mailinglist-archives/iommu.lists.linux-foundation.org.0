@@ -1,73 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A0B5108979
-	for <lists.iommu@lfdr.de>; Mon, 25 Nov 2019 08:49:18 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1EC108995
+	for <lists.iommu@lfdr.de>; Mon, 25 Nov 2019 08:58:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id CFEEB204C3;
-	Mon, 25 Nov 2019 07:49:16 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B433985CA1;
+	Mon, 25 Nov 2019 07:58:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8H64hHGBN4HV; Mon, 25 Nov 2019 07:49:15 +0000 (UTC)
+	with ESMTP id uZkqtk5hfcYp; Mon, 25 Nov 2019 07:58:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id D0760204B6;
-	Mon, 25 Nov 2019 07:49:15 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DA68785CB4;
+	Mon, 25 Nov 2019 07:58:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C47C0C0878;
-	Mon, 25 Nov 2019 07:49:15 +0000 (UTC)
-X-Original-To: iommu@lists.linuxfoundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BFBADC0878;
+	Mon, 25 Nov 2019 07:58:28 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 434E6C0878
- for <iommu@lists.linuxfoundation.org>; Mon, 25 Nov 2019 07:49:14 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 15760C0878
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Nov 2019 07:58:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 27A3887ADB
- for <iommu@lists.linuxfoundation.org>; Mon, 25 Nov 2019 07:49:14 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 1150387A04
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Nov 2019 07:58:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DgZRiamA1UDg for <iommu@lists.linuxfoundation.org>;
- Mon, 25 Nov 2019 07:49:13 +0000 (UTC)
+ with ESMTP id 2BfTtm1LWJDr for <iommu@lists.linux-foundation.org>;
+ Mon, 25 Nov 2019 07:58:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 85AA287A6B
- for <iommu@lists.linuxfoundation.org>; Mon, 25 Nov 2019 07:49:12 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 809B1879FD
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Nov 2019 07:58:26 +0000 (UTC)
 Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1928820815;
- Mon, 25 Nov 2019 07:49:10 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A6AC220823;
+ Mon, 25 Nov 2019 07:58:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1574668152;
- bh=nLjdEdPDudvrrqhZzLDSFcnK9nYQa1HDaY+yBxzgcyo=;
+ s=default; t=1574668706;
+ bh=A7pWspbn6rDJXjkXLCpGQzVngua33NeY7NRRSZ6S5mE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cg53IdXZR1RHNmiDEYu1fkeOy6L4nRwNZD1qYSLy5Y53NbtutvYyYw+r9T6vcQbPi
- z8ITbY6OqiV/DmmayIs9nhqAWvargbhO6VGSoKBPph+qFVMk2tmNCyKDiJRUsuQOpU
- ws9EgHIcC4p0RIewiffZkHABLK0F4SI4XalQ16o4=
-Date: Mon, 25 Nov 2019 07:49:07 +0000
+ b=o0G2U2Vn+YUqEqQoG4pQ4g2rmyimyN24oveZaciT4tvi4VE4L3oH9VEKfxVNkN5fw
+ cBniffaxKd4WxgXmgoUyKNCp/xDIFjrPnfY8q9qTek5Yl+Bk1ZiNkzllaTl2u9kjjz
+ c4A0JdPbo6mH4h/Xn1fP06o8mi9G9LGptormh0YI=
+Date: Mon, 25 Nov 2019 07:58:22 +0000
 From: Will Deacon <will@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] of: property: Add device link support for "iommu-map"
-Message-ID: <20191125074906.GA1809@willie-the-truck>
-References: <20191120190028.4722-1-will@kernel.org>
- <CAL_JsqJm+6Cg4JfG1EzRMJ2hyPV1O8WbitjGC=XMvZRDD+=OGw@mail.gmail.com>
- <20191122145525.GA14153@willie-the-truck>
- <CAL_JsqJvhP2YqQwAZg=GecpVNMbHN9OcZxTO8LrvH_jphFJw=A@mail.gmail.com>
- <CAKv+Gu8HjzpDfh2=gUXuV-OLWbePVEPJU369V4_S6=Q7e4_bzg@mail.gmail.com>
- <CAL_JsqLVN2pZGU054cdUskghEb8_DJ_zNfzrOdgR_DvLA5YG=A@mail.gmail.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v2 09/10] iommu/io-pgtable-arm: Rationalise TCR handling
+Message-ID: <20191125075821.GB1809@willie-the-truck>
+References: <cover.1572024119.git.robin.murphy@arm.com>
+ <84e56eb993fff3660376ffad3e915b972d29b008.1572024120.git.robin.murphy@arm.com>
+ <20191104191444.GI24909@willie-the-truck>
+ <20191104232756.GB16446@jcrouse1-lnx.qualcomm.com>
+ <20191120151142.GA26714@willie-the-truck>
+ <6e14584c-6942-b3b5-5691-faec4fc345f1@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAL_JsqLVN2pZGU054cdUskghEb8_DJ_zNfzrOdgR_DvLA5YG=A@mail.gmail.com>
+In-Reply-To: <6e14584c-6942-b3b5-5691-faec4fc345f1@arm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: iommu@lists.linuxfoundation.org,
- Devicetree List <devicetree@vger.kernel.org>,
- Saravana Kannan <saravanak@google.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,67 +79,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Nov 22, 2019 at 02:16:31PM -0600, Rob Herring wrote:
-> On Fri, Nov 22, 2019 at 10:13 AM Ard Biesheuvel
-> <ard.biesheuvel@linaro.org> wrote:
-> >
-> > On Fri, 22 Nov 2019 at 17:01, Rob Herring <robh@kernel.org> wrote:
-> > >
-> > > On Fri, Nov 22, 2019 at 8:55 AM Will Deacon <will@kernel.org> wrote:
-> > > >
-> > > > [+Ard]
-> > > >
-> > > > Hi Rob,
-> > > >
-> > > > On Fri, Nov 22, 2019 at 08:47:46AM -0600, Rob Herring wrote:
-> > > > > On Wed, Nov 20, 2019 at 1:00 PM Will Deacon <will@kernel.org> wrote:
-> > > > > >
-> > > > > > Commit 8e12257dead7 ("of: property: Add device link support for iommus,
-> > > > > > mboxes and io-channels") added device link support for IOMMU linkages
-> > > > > > described using the "iommus" property. For PCI devices, this property
-> > > > > > is not present and instead the "iommu-map" property is used on the host
-> > > > > > bridge node to map the endpoint RequesterIDs to their corresponding
-> > > > > > IOMMU instance.
-> > > > > >
-> > > > > > Add support for "iommu-map" to the device link supplier bindings so that
-> > > > > > probing of PCI devices can be deferred until after the IOMMU is
-> > > > > > available.
-> > > > > >
-> > > > > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > > Cc: Rob Herring <robh@kernel.org>
-> > > > > > Cc: Saravana Kannan <saravanak@google.com>
-> > > > > > Cc: Robin Murphy <robin.murphy@arm.com>
-> > > > > > Signed-off-by: Will Deacon <will@kernel.org>
-> > > > > > ---
-> > > > > >
-> > > > > > Applies against driver-core/driver-core-next.
-> > > > > > Tested on AMD Seattle (arm64).
-> > > > >
-> > > > > Guess that answers my question whether anyone uses Seattle with DT.
-> > > > > Seattle uses the old SMMU binding, and there's not even an IOMMU
-> > > > > associated with the PCI host. I raise this mainly because the dts
-> > > > > files for Seattle either need some love or perhaps should be removed.
-> > > >
-> > > > I'm using the new DT bindings on my Seattle, thanks to the firmware fairy
-> > > > (Ard) visiting my flat with a dediprog. The patches I've posted to enable
-> > > > modular builds of the arm-smmu driver require that the old binding is
-> > > > disabled [1].
-> > >
-> > > Going to post those dts changes?
-> > >
-> >
-> > Last time I tried upstreaming seattle DT changes I got zero response,
-> > so I didn't bother since.
+On Fri, Nov 22, 2019 at 03:51:26PM +0000, Robin Murphy wrote:
+> On 20/11/2019 3:11 pm, Will Deacon wrote:
+> > On Mon, Nov 04, 2019 at 04:27:56PM -0700, Jordan Crouse wrote:
+> > > On Mon, Nov 04, 2019 at 07:14:45PM +0000, Will Deacon wrote:
+> > > > On Fri, Oct 25, 2019 at 07:08:38PM +0100, Robin Murphy wrote:
+> > > > > diff --git a/drivers/iommu/qcom_iommu.c b/drivers/iommu/qcom_iommu.c
+> > > > > index 9a57eb6c253c..059be7e21030 100644
+> > > > > --- a/drivers/iommu/qcom_iommu.c
+> > > > > +++ b/drivers/iommu/qcom_iommu.c
+> > > > > @@ -271,15 +271,13 @@ static int qcom_iommu_init_domain(struct iommu_domain *domain,
+> > > > >   		iommu_writeq(ctx, ARM_SMMU_CB_TTBR0,
+> > > > >   				pgtbl_cfg.arm_lpae_s1_cfg.ttbr |
+> > > > >   				FIELD_PREP(TTBRn_ASID, ctx->asid));
+> > > > > -		iommu_writeq(ctx, ARM_SMMU_CB_TTBR1,
+> > > > > -				FIELD_PREP(TTBRn_ASID, ctx->asid));
+> > > > > +		iommu_writeq(ctx, ARM_SMMU_CB_TTBR1, 0);
+> > > > 
+> > > > Are you sure it's safe to drop the ASID here? Just want to make sure there
+> > > > wasn't some "quirk" this was helping with.
+> > > 
+> > > I was reminded of this recently. Some of our SMMU guys told me that a 0x0 in
+> > > TTBR1 could cause a S2 fault if a faulty transaction caused a ttbr1 lookup so
+> > > the "quirk" was writing the ASID so the register wasn't zero. I'm not sure if
+> > > this is a vendor specific blip or not.
+> > 
+> > You should be able to set EPD1 to prevent walks via TTBR1 in that case,
+> > though. Sticking the ASID in there is still dodgy if EPD1 is clear and
+> > TTBR1 points at junk (or even physical address 0x0).
+> > 
+> > That's probably something which should be folded into this patch.
 > 
-> I leave most dts reviews up to sub-arch maintainers and I'm pretty
-> sure AMD doesn't care about it anymore, so we need a new maintainer or
-> just send a pull request to Arnd/Olof.
+> Note that EPD1 was being set by io-pgtable-arm before this patch, and
+> remains set by virtue of arm_smmu_lpae_tcr() afterwards, so presumably the
+> brokenness might run a bit deeper than that. Either way, though, I'm
+> somewhat dubious since the ASID could well be 0 anyway :/
 
-Feel free to add my:
-
-Tested-by: Will Deacon <will@kernel.org>
-
-If it's the same as the DT exposed by the firmware I have.
+Ah, I missed that the qcom driver was calling arm_smmu_lpae_tcr() with
+your patches. In which case, everything should be fine, no?
 
 Will
 _______________________________________________
