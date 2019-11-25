@@ -1,61 +1,114 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E07010918C
-	for <lists.iommu@lfdr.de>; Mon, 25 Nov 2019 17:05:09 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C681091C7
+	for <lists.iommu@lfdr.de>; Mon, 25 Nov 2019 17:27:57 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1D06B878B3;
-	Mon, 25 Nov 2019 16:05:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6FF2F8476B;
+	Mon, 25 Nov 2019 16:27:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id imHgoTnDaevE; Mon, 25 Nov 2019 16:05:06 +0000 (UTC)
+	with ESMTP id WtWCohRE7DdC; Mon, 25 Nov 2019 16:27:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C3F6A878C8;
-	Mon, 25 Nov 2019 16:05:06 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id F17D884921;
+	Mon, 25 Nov 2019 16:27:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AA2DFC0878;
-	Mon, 25 Nov 2019 16:05:06 +0000 (UTC)
-X-Original-To: iommu@lists.linuxfoundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D629CC0878;
+	Mon, 25 Nov 2019 16:27:55 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 08762C0878
- for <iommu@lists.linuxfoundation.org>; Mon, 25 Nov 2019 16:05:05 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 18BB0C0878
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Nov 2019 16:27:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id E5F4F86576
- for <iommu@lists.linuxfoundation.org>; Mon, 25 Nov 2019 16:05:04 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 0283684B39
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Nov 2019 16:27:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ce9J4FOCXdns for <iommu@lists.linuxfoundation.org>;
- Mon, 25 Nov 2019 16:05:04 +0000 (UTC)
+ with ESMTP id oHpP5FxSZfoq for <iommu@lists.linux-foundation.org>;
+ Mon, 25 Nov 2019 16:27:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by whitealder.osuosl.org (Postfix) with ESMTP id 0149786689
- for <iommu@lists.linuxfoundation.org>; Mon, 25 Nov 2019 16:05:03 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4699D31B;
- Mon, 25 Nov 2019 08:05:03 -0800 (PST)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com
- [10.1.196.255])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 889F73F6C4;
- Mon, 25 Nov 2019 08:05:01 -0800 (PST)
-Date: Mon, 25 Nov 2019 16:04:52 +0000
-From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Subject: Re: [PATCH] iommu/arm-smmu: support SMMU module probing from the IORT
-Message-ID: <20191125160445.GA24078@e121166-lin.cambridge.arm.com>
-References: <20191121114918.2293-1-will@kernel.org>
- <20191122174125.21030-1-ardb@kernel.org>
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 57A6584900
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Nov 2019 16:27:53 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAPG94Ds116096;
+ Mon, 25 Nov 2019 16:27:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=Ozj67Jx8rsVBGI2LZIF1JcPq6UpIs76jAtotIqJKFIQ=;
+ b=FennXwzGvPbvbeKjFDo1f177eq1Ef+oXqgdzTHt5bi2LQjVLu/ChuCJY3n/obDYZZnfO
+ evuM0GtrR+kWCpwT8r/ab02Ye+ZHc1aQQwzyabu+3T2/hX8WVGUcK8veoOamhmR8FLmS
+ ATqtsFLSkoYNdgFzAi9oZuLOiGPdWDuBsvOaIrtty+8RP4FdKlqnS8TKylqt02plhp0b
+ Q95AoL2M0osq2dnhscs3QH8n1mDfU5+vuPGRtyVuzKzRqOEfJY6fYkdFDatmH+GjGYNl
+ uZThZEsp4uAULTPNiOfjb98GcI2z6Id1S9Fi3bA2pFQUFDziDqFwmfMJ5bserMVz3BgA Kg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 2wevqq0scx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 25 Nov 2019 16:27:47 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAPG8I2N055296;
+ Mon, 25 Nov 2019 16:27:47 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 2wfewaqgnv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 25 Nov 2019 16:27:46 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xAPGRh4G008991;
+ Mon, 25 Nov 2019 16:27:43 GMT
+Received: from char.us.oracle.com (/10.152.32.25)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 25 Nov 2019 08:27:43 -0800
+Received: by char.us.oracle.com (Postfix, from userid 1000)
+ id 2164A6A0133; Mon, 25 Nov 2019 11:31:11 -0500 (EST)
+Date: Mon, 25 Nov 2019 11:31:11 -0500
+From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+To: Jayshri Dajiram Pawar <jpawar@cadence.com>
+Subject: Re: [RFC PATCH] usb: gadget: f_tcm: Added DMA32 flag while
+ allocation of command buffer
+Message-ID: <20191125163111.GB21800@char.us.oracle.com>
+References: <1573640672-10344-1-git-send-email-jpawar@cadence.com>
+ <20191114025301.GD30608@b29397-desktop>
+ <5b567d57-6206-24cf-5886-20e8b5a92a45@ti.com>
+ <MN2PR07MB6288D92B4AB6CF1B622A797CC1700@MN2PR07MB6288.namprd07.prod.outlook.com>
+ <cefc03a1-b70a-bb40-289e-fbf4f9c79faf@ti.com>
+ <20191115180215.GC23860@char.us.oracle.com>
+ <MN2PR07MB6288E654268FBEB6DFC36F6FC1490@MN2PR07MB6288.namprd07.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191122174125.21030-1-ardb@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: iommu@lists.linuxfoundation.org, isaacm@codeaurora.org,
- saravanak@google.com, jean-philippe@linaro.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, bhelgaas@google.com, will@kernel.org,
- robin.murphy@arm.com
+In-Reply-To: <MN2PR07MB6288E654268FBEB6DFC36F6FC1490@MN2PR07MB6288.namprd07.prod.outlook.com>
+User-Agent: Mutt/1.9.1 (2017-09-22)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9452
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=977
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-1911250140
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9452
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-1911250140
+Cc: "nm@ti.com" <nm@ti.com>, Peter Chen <peter.chen@nxp.com>,
+ "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>,
+ "felipe.balbi@linux.intel.com" <felipe.balbi@linux.intel.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "nsekhar@ti.com" <nsekhar@ti.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Rahul Kumar <kurahul@cadence.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Pawel Laszczak <pawell@cadence.com>, "jbergsagel@ti.com" <jbergsagel@ti.com>,
+ Sanket Parmar <sparmar@cadence.com>, Roger Quadros <rogerq@ti.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,65 +126,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Nov 22, 2019 at 06:41:25PM +0100, Ard Biesheuvel wrote:
-> Add support for SMMU drivers built as modules to the ACPI/IORT device
-> probing path, by deferring the probe of the master if the SMMU driver is
-> known to exist but has not been loaded yet. Given that the IORT code
-> registers a platform device for each SMMU that it discovers, we can
-> easily trigger the udev based autoloading of the SMMU drivers by making
-> the platform device identifier part of the module alias.
+. massive snip..
+> > > Why is swiotlb buffer getting full? How much is it on your system?
 > 
-> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-> ---
->  drivers/acpi/arm64/iort.c   | 4 ++--
->  drivers/iommu/arm-smmu-v3.c | 1 +
->  drivers/iommu/arm-smmu.c    | 1 +
->  3 files changed, 4 insertions(+), 2 deletions(-)
+> On our system swiotlb max mapping size is 256KB.
+> UASP receive data state tries to queue and map buffer of length 524288 (512KB), which is greater than 256KB that's why swiotlb buffer is getting full.
 
-I think it is best if Will picks this up and add it to the
-series that modularize the SMMU drivers:
+What is the reason for the UASP not being able to break the buffer in say two
+256KB sg entries?
 
-Acked-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-
-> diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
-> index 5a7551d060f2..a696457a9b11 100644
-> --- a/drivers/acpi/arm64/iort.c
-> +++ b/drivers/acpi/arm64/iort.c
-> @@ -850,9 +850,9 @@ static inline bool iort_iommu_driver_enabled(u8 type)
->  {
->  	switch (type) {
->  	case ACPI_IORT_NODE_SMMU_V3:
-> -		return IS_BUILTIN(CONFIG_ARM_SMMU_V3);
-> +		return IS_ENABLED(CONFIG_ARM_SMMU_V3);
->  	case ACPI_IORT_NODE_SMMU:
-> -		return IS_BUILTIN(CONFIG_ARM_SMMU);
-> +		return IS_ENABLED(CONFIG_ARM_SMMU);
->  	default:
->  		pr_warn("IORT node type %u does not describe an SMMU\n", type);
->  		return false;
-> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-> index 7669beafc493..bf6a1e8eb9b0 100644
-> --- a/drivers/iommu/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm-smmu-v3.c
-> @@ -3733,4 +3733,5 @@ module_platform_driver(arm_smmu_driver);
->  
->  MODULE_DESCRIPTION("IOMMU API for ARM architected SMMUv3 implementations");
->  MODULE_AUTHOR("Will Deacon <will@kernel.org>");
-> +MODULE_ALIAS("platform:arm-smmu-v3");
->  MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-> index d55acc48aee3..db5106b0955b 100644
-> --- a/drivers/iommu/arm-smmu.c
-> +++ b/drivers/iommu/arm-smmu.c
-> @@ -2292,4 +2292,5 @@ module_platform_driver(arm_smmu_driver);
->  
->  MODULE_DESCRIPTION("IOMMU API for ARM architected SMMU implementations");
->  MODULE_AUTHOR("Will Deacon <will@kernel.org>");
-> +MODULE_ALIAS("platform:arm-smmu");
->  MODULE_LICENSE("GPL v2");
-> -- 
-> 2.20.1
 > 
+> > > Are you sure that dma_unmap is happening on requests that complete?
+> > else we'll just keep hogging the swiotlb buffer.
+> 
+> Yes, dma_unmap is happening on requests that complete.
+> 
+> I could map buffer of length 512KB with  IO_TLB_SEGSIZE changed to 256.
+> With this max mapping size is increased to  256*2048 = 512KB.
+
+If we go this route (which I rather dislike as this is a workaround, because
+what if the next time there is 1MB buffer? Do we keep on increasing this?) - then
+this should be dynamic and an option on the 'swiotlb' command line.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
