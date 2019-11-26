@@ -1,110 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E031096E5
-	for <lists.iommu@lfdr.de>; Tue, 26 Nov 2019 00:25:21 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF25109B39
+	for <lists.iommu@lfdr.de>; Tue, 26 Nov 2019 10:28:46 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EB88485876;
-	Mon, 25 Nov 2019 23:25:19 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 375D4869D3;
+	Tue, 26 Nov 2019 09:28:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Pi2w9yODB32A; Mon, 25 Nov 2019 23:25:18 +0000 (UTC)
+	with ESMTP id Pqb6ghpIkis6; Tue, 26 Nov 2019 09:28:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E4F4F85549;
-	Mon, 25 Nov 2019 23:25:18 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 175EA86988;
+	Tue, 26 Nov 2019 09:28:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D27B0C1DDB;
-	Mon, 25 Nov 2019 23:25:18 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0CAC0C0878;
+	Tue, 26 Nov 2019 09:28:42 +0000 (UTC)
+X-Original-To: iommu@lists.linuxfoundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 91A47C0878
- for <iommu@lists.linux-foundation.org>; Mon, 25 Nov 2019 23:25:16 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1755DC0878
+ for <iommu@lists.linuxfoundation.org>; Tue, 26 Nov 2019 09:28:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 7B55E204F5
- for <iommu@lists.linux-foundation.org>; Mon, 25 Nov 2019 23:25:16 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 004E786FF9
+ for <iommu@lists.linuxfoundation.org>; Tue, 26 Nov 2019 09:28:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yn-BOEu7rwyl for <iommu@lists.linux-foundation.org>;
- Mon, 25 Nov 2019 23:25:14 +0000 (UTC)
-X-Greylist: delayed 01:00:33 by SQLgrey-1.7.6
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
- (mail-eopbgr750089.outbound.protection.outlook.com [40.107.75.89])
- by silver.osuosl.org (Postfix) with ESMTPS id B7CA5204E3
- for <iommu@lists.linux-foundation.org>; Mon, 25 Nov 2019 23:25:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FTN6IMJj3WIpTaWkyggyI3xUQ88+87T75/eQbkvRgBgVFx1EQbeIXHTIcbhwsT5QIw/l+B9R+9odphSawgXProMgKFrDjq2R65OxgFrNImIm/pXzQPdcs1Piqvb5Ufln7/XsdnbiVPQCdMEod8SJSEhb0JpEabaPmc7Y6W9WTGd7+8y9uhejLsw8s3XdedchhfQqB7SjjsIbaTkYhPWnYQY/Z9MRbnXALcrnB8tvmoH7uCa4EL068TitwIqAwRT15uqF3qlMP33fEaFJ1DoCgLJscoi2vhLtSpcBnf+5hDRbSEnNqQPCfiEe/yk+t0vnDacwEzaOBGNIndFzblOhXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CvzCXSvZfaG21xkQ7plfiyUnK3tVBGIx55sp7HPeY7M=;
- b=U5QgVpIfnC3h+pL9JCGH3mN2DfjtQ9Hd6aGMszp1T80dlXN1WJI0MZHnvn132sLXZUrcl5YXjF9K8r+Ssxx8hsLDiuukg/5bjtnKFd8r4Q1GZYd41G6tbU4lwytRXRjGoFGK3gvzzM3cxU03GyprGhq4EPa1G7bhQ7G16R6HCLhuqce6qz8+Rl+JuRC64pvHFHCdYF8sVkN0UmlYBWnkFlClYi3pFlVSIv4zgFc+Pi4LpHfDHSlG/QVwiwxRiP5tp1wvIlzL/iCIH7fY3fSYtsMBLOOw5aOjVMOrBNL176X5dzOp5itRbJxwNLhzVV1NetBywtYjNZXS+DEc+Vy74w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CvzCXSvZfaG21xkQ7plfiyUnK3tVBGIx55sp7HPeY7M=;
- b=ImH41AaWi2/UZrXykXStjKBKErM+xmgvAtlEeMKSZvnFKmIzUFq2ST+iKQjydgFRhG5vZd2kkqrK86XJ9YqNCq+zZXY7fisp7ihziz5rKxR9vwfqm+hf8NKRlElyahAjS4RmPhP2QuR5ZQa6d0cgkzoUCbyChtZc1Ov6dZD66X8=
-Received: from BN6PR12MB1809.namprd12.prod.outlook.com (10.175.101.17) by
- BN6PR12MB1873.namprd12.prod.outlook.com (10.175.99.22) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2474.19; Mon, 25 Nov 2019 19:51:26 +0000
-Received: from BN6PR12MB1809.namprd12.prod.outlook.com
- ([fe80::a53c:342f:cd6e:a616]) by BN6PR12MB1809.namprd12.prod.outlook.com
- ([fe80::a53c:342f:cd6e:a616%9]) with mapi id 15.20.2474.022; Mon, 25 Nov 2019
- 19:51:26 +0000
-From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>, "joro@8bytes.org"
- <joro@8bytes.org>, "Suthikulpanit, Suravee" <Suravee.Suthikulpanit@amd.com>
-Subject: RE: [PATCH] iommu/amd: Disable IOMMU on Stoney Ridge systems
-Thread-Topic: [PATCH] iommu/amd: Disable IOMMU on Stoney Ridge systems
-Thread-Index: AQHVoquTUTVQaSMM2UiGavCfZW6oraecTBeQ
-Date: Mon, 25 Nov 2019 19:51:26 +0000
-Message-ID: <BN6PR12MB18096EFA4FC32961BFED87B2F74A0@BN6PR12MB1809.namprd12.prod.outlook.com>
-References: <20191124094253.3433-1-kai.heng.feng@canonical.com>
-In-Reply-To: <20191124094253.3433-1-kai.heng.feng@canonical.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Alexander.Deucher@amd.com; 
-x-originating-ip: [165.204.11.250]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 7505e1db-0302-441b-362e-08d771e0db69
-x-ms-traffictypediagnostic: BN6PR12MB1873:|BN6PR12MB1873:
-x-ms-exchange-purlcount: 1
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BN6PR12MB18737785F30471D50BC18CADF74A0@BN6PR12MB1873.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:820;
-x-forefront-prvs: 0232B30BBC
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(136003)(346002)(376002)(39860400002)(366004)(13464003)(199004)(189003)(7736002)(102836004)(6506007)(71200400001)(74316002)(33656002)(2906002)(52536014)(76116006)(8676002)(81156014)(81166006)(71190400001)(53546011)(2501003)(6436002)(26005)(25786009)(54906003)(6246003)(110136005)(186003)(5660300002)(229853002)(3846002)(6116002)(446003)(11346002)(14454004)(316002)(8936002)(7696005)(76176011)(66066001)(64756008)(66556008)(66946007)(55016002)(4326008)(6636002)(478600001)(99286004)(14444005)(9686003)(256004)(6306002)(66446008)(966005)(86362001)(305945005)(45080400002)(66476007);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR12MB1873;
- H:BN6PR12MB1809.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: z9iAxaGrss4BCZB/Kpu+g0NAmO7bh6zEkitdtFR82YYTL/NSIKedpIwtDvvL/4f/ym1vcN8pFLfBoqKWVjcGkwHMudVRRmWL5WJdNT6tnj/3gPzYEYRCRNGQhF5nZ0WJWqWEXUNe8173SY1vc4RJPJJSMPi6FM4OVPbbAvr+nz9qf1MW52jPhHQn6URiI85nlcOlIKIea4N98i8nr2Yp/OrrI5izWyPteIIVMwvT+lfzFt9LsV4Khsab/LGfPp+FYzaWP8qKgtXxSid0ustZHKYadFFSgduLoqL2uEOHgAI8+iX/odJhx6gnD57GURDFoMp0g6VUqLqBURE/QHVFVb+ar7URI6AYC2bpMv3pUc1cpOnuZeGW8HZhsU5bK0uaQG5DeWwKoPSiRriBMzl76vfaziHXVxG13UorpUQl+ZB0wPxJTdAOm93tMkRqUVNe
+ with ESMTP id QLlDwl249uCa for <iommu@lists.linuxfoundation.org>;
+ Tue, 26 Nov 2019 09:28:38 +0000 (UTC)
+X-Greylist: delayed 00:15:14 by SQLgrey-1.7.6
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id AB90286EA5
+ for <iommu@lists.linuxfoundation.org>; Tue, 26 Nov 2019 09:28:38 +0000 (UTC)
+Received: from lhreml706-cah.china.huawei.com (unknown [172.18.7.107])
+ by Forcepoint Email with ESMTP id 35295FC91DF0DEC22361;
+ Tue, 26 Nov 2019 09:13:22 +0000 (GMT)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ lhreml706-cah.china.huawei.com (10.201.108.47) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 26 Nov 2019 09:13:21 +0000
+Received: from [127.0.0.1] (10.202.226.46) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 26 Nov
+ 2019 09:13:21 +0000
+Subject: Re: [PATCH v3 09/14] iommu/arm-smmu: Prevent forced unbinding of Arm
+ SMMU drivers
+To: Will Deacon <will@kernel.org>, <iommu@lists.linuxfoundation.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20191121114918.2293-1-will@kernel.org>
+ <20191121114918.2293-10-will@kernel.org>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <5c91d467-5e59-482b-8f4f-e0cfa3db9028@huawei.com>
+Date: Tue, 26 Nov 2019 09:13:20 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7505e1db-0302-441b-362e-08d771e0db69
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2019 19:51:26.2443 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 82EZozwDpJrT0kLpxNQp5W9ELrkxiW88yK2tGSnk1xa8JHVeJv+59iMZWZ2kwe+gm0u3gCKvJRdU+EBlXDEsSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1873
-Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+In-Reply-To: <20191121114918.2293-10-will@kernel.org>
+Content-Language: en-US
+X-Originating-IP: [10.202.226.46]
+X-ClientProxiedBy: lhreml720-chm.china.huawei.com (10.201.108.71) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, Saravana
+ Kannan <saravanak@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,86 +78,83 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> -----Original Message-----
-> From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> Sent: Sunday, November 24, 2019 4:43 AM
-> To: joro@8bytes.org
-> Cc: iommu@lists.linux-foundation.org; linux-kernel@vger.kernel.org; Kai-
-> Heng Feng <kai.heng.feng@canonical.com>; Deucher, Alexander
-> <Alexander.Deucher@amd.com>
-> Subject: [PATCH] iommu/amd: Disable IOMMU on Stoney Ridge systems
+On 21/11/2019 11:49, Will Deacon wrote:
+> Forcefully unbinding the Arm SMMU drivers is a pretty dangerous operation,
+> since it will likely lead to catastrophic failure for any DMA devices
+> mastering through the SMMU being unbound. When the driver then attempts
+> to "handle" the fatal faults, it's very easy to trip over dead data
+> structures, leading to use-after-free.
 > 
-> Serious screen flickering when Stoney Ridge outputs to a 4K monitor.
+> On John's machine, he reports that the machine was "unusable" due to
+> loss of the storage controller following a forced unbind of the SMMUv3
+> driver:
 > 
-> According to Alex Deucher, IOMMU isn't enabled on Windows, so let's do the
-> same here to avoid screen flickering on 4K monitor.
+>    | # cd ./bus/platform/drivers/arm-smmu-v3
+>    | # echo arm-smmu-v3.0.auto > unbind
+>    | hisi_sas_v2_hw HISI0162:01: CQE_AXI_W_ERR (0x800) found!
+>    | platform arm-smmu-v3.0.auto: CMD_SYNC timeout at 0x00000146
+>    | [hwprod 0x00000146, hwcons 0x00000000]
 > 
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Bug:
-> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitla
-> b.freedesktop.org%2Fdrm%2Famd%2Fissues%2F961&amp;data=02%7C01%7
-> Calexander.deucher%40amd.com%7C75a108e9888645728fc208d770c2b418%
-> 7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637101853875648481
-> &amp;sdata=eQ%2FmiFfy%2FHRJSVurfdnvT%2FLdNMYetIPQdFgnU93l%2Fks
-> %3D&amp;reserved=0
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> Prevent this forced unbinding of the drivers by setting "suppress_bind_attrs"
+> to true.
+
+This seems a reasonable approach for now.
+
+BTW, I'll give this series a spin this week, which again looks to be 
+your iommu/module branch, excluding the new IORT patch.
+
+Cheers,
+John
+
+> 
+> Link: https://lore.kernel.org/lkml/06dfd385-1af0-3106-4cc5-6a5b8e864759@huawei.com
+> Reported-by: John Garry <john.garry@huawei.com>
+> Signed-off-by: Will Deacon <will@kernel.org>
 > ---
->  drivers/iommu/amd_iommu_init.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+>   drivers/iommu/arm-smmu-v3.c | 5 +++--
+>   drivers/iommu/arm-smmu.c    | 7 ++++---
+>   2 files changed, 7 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/iommu/amd_iommu_init.c
-> b/drivers/iommu/amd_iommu_init.c index 568c52317757..e05f1b269be6
-> 100644
-> --- a/drivers/iommu/amd_iommu_init.c
-> +++ b/drivers/iommu/amd_iommu_init.c
-> @@ -2516,6 +2516,7 @@ static int __init early_amd_iommu_init(void)
->  	struct acpi_table_header *ivrs_base;
->  	acpi_status status;
->  	int i, remap_cache_sz, ret = 0;
-> +	u32 pci_id;
+> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
+> index 2ad8e2ca0583..3fd75abce3bb 100644
+> --- a/drivers/iommu/arm-smmu-v3.c
+> +++ b/drivers/iommu/arm-smmu-v3.c
+> @@ -3700,8 +3700,9 @@ MODULE_DEVICE_TABLE(of, arm_smmu_of_match);
+>   
+>   static struct platform_driver arm_smmu_driver = {
+>   	.driver	= {
+> -		.name		= "arm-smmu-v3",
+> -		.of_match_table	= of_match_ptr(arm_smmu_of_match),
+> +		.name			= "arm-smmu-v3",
+> +		.of_match_table		= of_match_ptr(arm_smmu_of_match),
+> +		.suppress_bind_attrs	= true,
+>   	},
+>   	.probe	= arm_smmu_device_probe,
+>   	.remove	= arm_smmu_device_remove,
+> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+> index 53bbe0663b9e..d6c83bd69555 100644
+> --- a/drivers/iommu/arm-smmu.c
+> +++ b/drivers/iommu/arm-smmu.c
+> @@ -2237,9 +2237,10 @@ static const struct dev_pm_ops arm_smmu_pm_ops = {
+>   
+>   static struct platform_driver arm_smmu_driver = {
+>   	.driver	= {
+> -		.name		= "arm-smmu",
+> -		.of_match_table	= of_match_ptr(arm_smmu_of_match),
+> -		.pm		= &arm_smmu_pm_ops,
+> +		.name			= "arm-smmu",
+> +		.of_match_table		= of_match_ptr(arm_smmu_of_match),
+> +		.pm			= &arm_smmu_pm_ops,
+> +		.suppress_bind_attrs    = true,
+>   	},
+>   	.probe	= arm_smmu_device_probe,
+>   	.remove	= arm_smmu_device_remove,
 > 
->  	if (!amd_iommu_detected)
->  		return -ENODEV;
-> @@ -2603,6 +2604,13 @@ static int __init early_amd_iommu_init(void)
->  	if (ret)
->  		goto out;
-> 
-> +	/* Get the host bridge VID/PID and disable IOMMU if it's Stoney
-> Ridge */
-> +	pci_id = read_pci_config(0, 0, 0, 0);
-> +	if ((pci_id & 0xffff) == 0x1022 && (pci_id >> 16) == 0x1576) {
-
-I'm not sure if the IOMMU device id is unique to stoney.  I think it's the same DID for the entire APU generation.   I think it would be better to walk the bus and try and find the stoney GPU and only in that case, disable the IOMMU.  E.g., if the user has disabled the GPU portion of the APU or has a dGPU installed, they may will want to use the IOMMU.  It's only the integrated GPU that has a problem when trying to display high res modes out of system memory with the IOMMU due to the added latency.
-The stoney GPU is VID 0x1002, DID 0x98E4.
-
-Alex
-
-> +		pr_info("Disable IOMMU on Stoney Ridge\n");
-> +		amd_iommu_disabled = true;
-> +	}
-> +
->  	/* Disable any previously enabled IOMMUs */
->  	if (!is_kdump_kernel() || amd_iommu_disabled)
->  		disable_iommus();
-> @@ -2711,7 +2719,7 @@ static int __init state_next(void)
->  		ret = early_amd_iommu_init();
->  		init_state = ret ? IOMMU_INIT_ERROR :
-> IOMMU_ACPI_FINISHED;
->  		if (init_state == IOMMU_ACPI_FINISHED &&
-> amd_iommu_disabled) {
-> -			pr_info("AMD IOMMU disabled on kernel command-
-> line\n");
-> +			pr_info("AMD IOMMU disabled\n");
->  			init_state = IOMMU_CMDLINE_DISABLED;
->  			ret = -EINVAL;
->  		}
-> --
-> 2.17.1
 
 _______________________________________________
 iommu mailing list
