@@ -1,67 +1,97 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A41310A2F7
-	for <lists.iommu@lfdr.de>; Tue, 26 Nov 2019 18:07:07 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7BCC10A33F
+	for <lists.iommu@lfdr.de>; Tue, 26 Nov 2019 18:19:18 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9BB2B86E6F;
-	Tue, 26 Nov 2019 17:07:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 62C77221B2;
+	Tue, 26 Nov 2019 17:19:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id e4G9fhZ8ahgw; Tue, 26 Nov 2019 17:07:04 +0000 (UTC)
+	with ESMTP id 9xjOPQhT916k; Tue, 26 Nov 2019 17:19:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9E7E986E7F;
-	Tue, 26 Nov 2019 17:07:04 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3F36E221AB;
+	Tue, 26 Nov 2019 17:19:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7EC5FC0878;
-	Tue, 26 Nov 2019 17:07:04 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 274ADC0878;
+	Tue, 26 Nov 2019 17:19:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0003EC0878
- for <iommu@lists.linux-foundation.org>; Tue, 26 Nov 2019 17:07:02 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BCFCBC0878
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Nov 2019 17:19:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id DFDF786E6F
- for <iommu@lists.linux-foundation.org>; Tue, 26 Nov 2019 17:07:02 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id A4B0E86BDE
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Nov 2019 17:19:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UStLHhZW1N5S for <iommu@lists.linux-foundation.org>;
- Tue, 26 Nov 2019 17:07:01 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from ale.deltatee.com (ale.deltatee.com [207.54.116.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 9480886E49
- for <iommu@lists.linux-foundation.org>; Tue, 26 Nov 2019 17:07:01 +0000 (UTC)
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.92)
- (envelope-from <logang@deltatee.com>)
- id 1iZeIk-0004un-K7; Tue, 26 Nov 2019 10:06:59 -0700
-To: James Sewart <jamessewart@arista.com>, linux-pci@vger.kernel.org
-References: <20191120193228.GA103670@google.com>
- <6A902F0D-FE98-4760-ADBB-4D5987D866BE@arista.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <3cd1d36f-a8ba-92dc-f991-19e2f9196eba@deltatee.com>
-Date: Tue, 26 Nov 2019 10:06:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ with ESMTP id HVwLDybNNukv for <iommu@lists.linux-foundation.org>;
+ Tue, 26 Nov 2019 17:19:12 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id A69A786123
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Nov 2019 17:19:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1574788751;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zZMwHV3KrQEfrY5tMKLf1OtDElvXlEV64ghBrb4GlKA=;
+ b=Qtw5bJoa7mNi6tNlsC33QZCHYYtTZISPPKOI5NlPxpD3Rq6vtvauTVq2/iPNhPMSejSdDW
+ 9KbQYvszC3L+Oi4MCeAgF3zllaElK6GsJ3lLkcfwBtGxykSk8JOvBB+Xq4y5QgayMJgANR
+ Te3+xburyNgwYm8olhiuDfMiEdSH+Ns=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-NI5fleuKPnKnyrAWA3c2qw-1; Tue, 26 Nov 2019 12:19:07 -0500
+Received: by mail-pl1-f200.google.com with SMTP id p23so8156245plo.14
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Nov 2019 09:19:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=5wVzpglEIAjYehdG9sWNgS3uaz+PIjpeWL9/GEH0Tp4=;
+ b=A15tAb5BBTz9e6r5xc7zn/5gs1GNdK5GF0xYTlJeJPBhKmmwzhDSfwXGwaC+Y8ayZw
+ geySZqelSFs58IT0dhrY/hpBKoMN/JLZ8R5bqmAEBdLg6Nc2x9JRlF42gVl5geI51TDW
+ +uKjMVoMZaHsG52n6BMKETuKBr4WPWL9LB9LGj1Ed5kSAXZdaSKapbIoMRLL2lM3hkaE
+ G4rhozpRcWi079FF5skSp6gRdUy1a5xRan/+hB/0iX6s45GV/DGsjXMg5oA8k4+8HPGH
+ pHWlg+h3fGsecSIokdF9CShDxtwaUZEhpgCc1xsMA+wpUNuTgo3b/N0aWHzMzxQxZtCq
+ 1Ceg==
+X-Gm-Message-State: APjAAAWT8AQj+f3mp6verMV0Dz6ISAhHjfzd4YRE8OXMtO0uI+wdyxkz
+ y+Z/FXKlj3ekivgzs6qR6rF33mbVJ4zcjHUtNCl6vmRYn77jxnOsXHoyoGv1/mc/gzprDW2qITy
+ EElaZ2PRNsOLv5caD3GKd1Q2pMJ4ZgQ==
+X-Received: by 2002:aa7:8edd:: with SMTP id b29mr42634015pfr.23.1574788746766; 
+ Tue, 26 Nov 2019 09:19:06 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwCm+jc/Xy/HZ1W4zmlXRfEuhPmaS7/3b4qGmZ2g5RVMrlhJaArpPToSqjkaru3MdpMy2wxVw==
+X-Received: by 2002:aa7:8edd:: with SMTP id b29mr42633987pfr.23.1574788746524; 
+ Tue, 26 Nov 2019 09:19:06 -0800 (PST)
+Received: from localhost (ip70-163-223-149.ph.ph.cox.net. [70.163.223.149])
+ by smtp.gmail.com with ESMTPSA id g30sm12879606pgm.23.2019.11.26.09.19.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Nov 2019 09:19:05 -0800 (PST)
+Date: Tue, 26 Nov 2019 10:19:04 -0700
+From: Jerry Snitselaar <jsnitsel@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v3] iommu: fix KASAN use-after-free in
+ iommu_insert_resv_region
+Message-ID: <20191126171904.tnd27x3mjhdo4dy7@cantor>
+Mail-Followup-To: Eric Auger <eric.auger@redhat.com>,
+ eric.auger.pro@gmail.com, joro@8bytes.org, hch@lst.de, cai@lca.pw,
+ iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+References: <20191126102743.3269-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <6A902F0D-FE98-4760-ADBB-4D5987D866BE@arista.com>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: helgaas@kernel.org, alex.williamson@redhat.com,
- dima@arista.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, 0x7f454c46@gmail.com,
- linux-pci@vger.kernel.org, jamessewart@arista.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [PATCH v2] PCI: Add DMA alias quirk for PLX PEX NTB
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: Dmitry Safonov <dima@arista.com>, Dmitry Safonov <0x7f454c46@gmail.com>,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- Alex Williamson <alex.williamson@redhat.com>,
- Bjorn Helgaas <helgaas@kernel.org>
+In-Reply-To: <20191126102743.3269-1-eric.auger@redhat.com>
+X-MC-Unique: NI5fleuKPnKnyrAWA3c2qw-1
+X-Mimecast-Spam-Score: 0
+Content-Disposition: inline
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org, hch@lst.de,
+ eric.auger.pro@gmail.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,133 +104,63 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
+Reply-To: Jerry Snitselaar <jsnitsel@redhat.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On Tue Nov 26 19, Eric Auger wrote:
+>In case the new region gets merged into another one, the nr
+>list node is freed. Checking its type while completing the
+>merge algorithm leads to a use-after-free. Use new->type
+>instead.
+>
+>Fixes: 4dbd258ff63e ("iommu: Revisit iommu_insert_resv_region()
+>implementation")
+>Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>Reported-by: Qian Cai <cai@lca.pw>
+>Cc: Stable <stable@vger.kernel.org> #v5.3+
+>
 
+Minor nit, but should the comment above list_for_each_entry_safe get
+updated as well? Other than that, lgtm.
 
-On 2019-11-26 10:03 a.m., James Sewart wrote:
-> The PLX PEX NTB forwards DMA transactions using Requester ID's that
-> don't exist as PCI devices. The devfn for a transaction is used as an
-> index into a lookup table storing the origin of a transaction on the
-> other side of the bridge.
-> 
-> Add helper pci_add_dma_alias_range that can alias a range of devfns in 
-> dma_alias_mask.
-> 
-> This patch aliases all possible devfn's to the NTB device so that any
-> transaction coming in is governed by the mappings for the NTB.
-> 
-> Signed-off-by: James Sewart <jamessewart@arista.com>
+Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
 
-Looks good to me, save a nit below; and you may want to split this into
-two patches: one that introduces the new interface and one that uses it.
+>---
+>
+>v2 -> v3:
+>- directly use new->type
+>
+>v1 -> v2:
+>- remove spurious new line
+>---
+> drivers/iommu/iommu.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+>index d658c7c6a2ab..285ad4a4c7f2 100644
+>--- a/drivers/iommu/iommu.c
+>+++ b/drivers/iommu/iommu.c
+>@@ -313,7 +313,7 @@ int iommu_insert_resv_region(struct iommu_resv_region *new,
+> 		phys_addr_t top_end, iter_end = iter->start + iter->length - 1;
+>
+> 		/* no merge needed on elements of different types than @nr */
+>-		if (iter->type != nr->type) {
+>+		if (iter->type != new->type) {
+> 			list_move_tail(&iter->list, &stack);
+> 			continue;
+> 		}
+>-- 
+>2.20.1
+>
+>_______________________________________________
+>iommu mailing list
+>iommu@lists.linux-foundation.org
+>https://lists.linuxfoundation.org/mailman/listinfo/iommu
+>
 
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-
-> ---
->  drivers/pci/pci.c    | 29 ++++++++++++++++++++++-------
->  drivers/pci/quirks.c | 15 +++++++++++++++
->  include/linux/pci.h  |  1 +
->  3 files changed, 38 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index a97e2571a527..f502af1b5d10 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -5854,6 +5854,18 @@ int pci_set_vga_state(struct pci_dev *dev, bool decode,
->  	return 0;
->  }
->  
-> +int _pci_add_dma_alias_range(struct pci_dev *dev, u8 devfn_from, int len)
-> +{
-> +	if (!dev->dma_alias_mask)
-> +		dev->dma_alias_mask = bitmap_zalloc(U8_MAX, GFP_KERNEL);
-> +	if (!dev->dma_alias_mask) {
-> +		pci_warn(dev, "Unable to allocate DMA alias mask\n");
-> +		return -ENOMEM;
-> +	}
-> +	bitmap_set(dev->dma_alias_mask, devfn_from, len);
-> +	return 0;
-> +}
-> +
->  /**
->   * pci_add_dma_alias - Add a DMA devfn alias for a device
->   * @dev: the PCI device for which alias is added
-> @@ -5875,18 +5887,21 @@ int pci_set_vga_state(struct pci_dev *dev, bool decode,
->   */
->  void pci_add_dma_alias(struct pci_dev *dev, u8 devfn)
->  {
-> -	if (!dev->dma_alias_mask)
-> -		dev->dma_alias_mask = bitmap_zalloc(U8_MAX, GFP_KERNEL);
-> -	if (!dev->dma_alias_mask) {
-> -		pci_warn(dev, "Unable to allocate DMA alias mask\n");
-> +	if (_pci_add_dma_alias_range(dev, devfn, 1) != 0)
->  		return;
-> -	}
-> -
-> -	set_bit(devfn, dev->dma_alias_mask);
->  	pci_info(dev, "Enabling fixed DMA alias to %02x.%d\n",
->  		 PCI_SLOT(devfn), PCI_FUNC(devfn));
->  }
->  
-> +void pci_add_dma_alias_range(struct pci_dev *dev, u8 devfn_from, int len)
-> +{
-> +	int devfn_to = devfn_from + len - 1;
-
-Nit: there should be a blank line between the variable declarations and
-the code in the functions.
-
-> +	if (_pci_add_dma_alias_range(dev, devfn_from, len) != 0)
-> +		return;
-> +	pci_info(dev, "Enabling fixed DMA alias for devfn range from %02x.%d to %02x.%d\n",
-> +		 PCI_SLOT(devfn_from), PCI_FUNC(devfn_from), PCI_SLOT(devfn_to), PCI_FUNC(devfn_to));
-> +}
-> +
->  bool pci_devs_are_dma_aliases(struct pci_dev *dev1, struct pci_dev *dev2)
->  {
->  	return (dev1->dma_alias_mask &&
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index 320255e5e8f8..1ed230f739a4 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -5315,6 +5315,21 @@ SWITCHTEC_QUIRK(0x8574);  /* PFXI 64XG3 */
->  SWITCHTEC_QUIRK(0x8575);  /* PFXI 80XG3 */
->  SWITCHTEC_QUIRK(0x8576);  /* PFXI 96XG3 */
->  
-> +/*
-> + * PLX NTB uses devfn proxy IDs to move TLPs between NT endpoints. These IDs
-> + * are used to forward responses to the originator on the other side of the
-> + * NTB. Alias all possible IDs to the NTB to permit access when the IOMMU is
-> + * turned on.
-> + */
-> +static void quirk_plx_ntb_dma_alias(struct pci_dev *pdev)
-> +{
-> +	pci_info(pdev, "Setting PLX NTB proxy ID aliases\n");
-> +	/* PLX NTB may use all 256 devfns */
-> +	pci_add_dma_alias_range(pdev, 0, 256);
-> +}
-> +DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_PLX, 0x87b0, quirk_plx_ntb_dma_alias);
-> +DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_PLX, 0x87b1, quirk_plx_ntb_dma_alias);
-> +
->  /*
->   * On Lenovo Thinkpad P50 SKUs with a Nvidia Quadro M1000M, the BIOS does
->   * not always reset the secondary Nvidia GPU between reboots if the system
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 1a6cf19eac2d..6765f3d0102b 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -2324,6 +2324,7 @@ static inline struct eeh_dev *pci_dev_to_eeh_dev(struct pci_dev *pdev)
->  #endif
->  
->  void pci_add_dma_alias(struct pci_dev *dev, u8 devfn);
-> +void pci_add_dma_alias_range(struct pci_dev *dev, u8 devfn_from, int len);
->  bool pci_devs_are_dma_aliases(struct pci_dev *dev1, struct pci_dev *dev2);
->  int pci_for_each_dma_alias(struct pci_dev *pdev,
->  			   int (*fn)(struct pci_dev *pdev,
-> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
