@@ -1,84 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7377E10A56E
-	for <lists.iommu@lfdr.de>; Tue, 26 Nov 2019 21:28:34 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 721D310A621
+	for <lists.iommu@lfdr.de>; Tue, 26 Nov 2019 22:45:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2DA5388072;
-	Tue, 26 Nov 2019 20:28:33 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 26E9786241;
+	Tue, 26 Nov 2019 21:45:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id U75xDszRDvEE; Tue, 26 Nov 2019 20:28:32 +0000 (UTC)
+	with ESMTP id PCXEvDXVW8dl; Tue, 26 Nov 2019 21:45:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 203E888046;
-	Tue, 26 Nov 2019 20:28:32 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8172D8621D;
+	Tue, 26 Nov 2019 21:45:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 06C15C0878;
-	Tue, 26 Nov 2019 20:28:32 +0000 (UTC)
-X-Original-To: iommu@lists.linuxfoundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7249AC1DE5;
+	Tue, 26 Nov 2019 21:45:35 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 84745C0878
- for <iommu@lists.linuxfoundation.org>; Tue, 26 Nov 2019 20:28:30 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8809FC0881
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Nov 2019 21:45:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 7E0CF86ACB
- for <iommu@lists.linuxfoundation.org>; Tue, 26 Nov 2019 20:28:30 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 7682486208
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Nov 2019 21:45:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MfEeXDSPeLpZ for <iommu@lists.linuxfoundation.org>;
- Tue, 26 Nov 2019 20:28:29 +0000 (UTC)
+ with ESMTP id 8FfRuiwRHl8s for <iommu@lists.linux-foundation.org>;
+ Tue, 26 Nov 2019 21:45:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
- [209.85.167.195])
- by whitealder.osuosl.org (Postfix) with ESMTPS id CBBDB8637D
- for <iommu@lists.linuxfoundation.org>; Tue, 26 Nov 2019 20:28:29 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id s71so17879847oih.11
- for <iommu@lists.linuxfoundation.org>; Tue, 26 Nov 2019 12:28:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/XSZa4W/M2aE/Tb/1KifHz0unDdEO/TbPc4sPZEojwc=;
- b=CBhYcMifwObV8FiaLv3qnDm8tmxQesbOiKmpfYuLwQcoURmaoskF1BM3VvvuJsOxEg
- FeS4PEx1RfrQfekKtivjkgF7pV4uIh0nmFJIkzU+WBK1uEM80zbJa80xMaETFFZjGlva
- 4jz3NvIlnC3RdVDU0YgJOoe+Ksz95PefmhbLQK2Er0F5wZZXWu1YtF8I64NxENNF3vG9
- f4F3WKam+EMzAwKbkar25ZPTlk/l3cK0HaHyZUbAJsyZaSckG4r44N/f88GEKvx4k8NE
- Kxv+bW0pCp6LKZVFQriQBDAFdj6bVkWKsjR52Mu1HC/KAImOfK+rNMbhfqVdA2byccjd
- 3KLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/XSZa4W/M2aE/Tb/1KifHz0unDdEO/TbPc4sPZEojwc=;
- b=Bolx/MxTBOB3dFK3lu5K94CCHMHFCoMDhcno0nBzzGXZzz2IpSgy0caRojlHaGjtaP
- TFwgD5kyPJjYSY9PPgnsCBXbjDMRYgXEK3tPbR21XZ2Ru2ZvGTnFz6usM3tlgANmEWMN
- vuRiNEjoD9/eyVXpIbzRSYJfUqcLcarWM4Sxt/PZJPK7LLvUCHCrzyCWXNsAPWpkPpYz
- xOdPSssp57smkuO5uW0jOUJn/Gt0UqKsxp1+27ESOYMmZBerw3c748XjzN9YTvxCBSF7
- r9m+9OZx7yA5srk2n2oGdb4Af64mm3Kdz5Ups3HiGLlfZLQrcUofWC0Ww1+irncj1SXS
- AxYA==
-X-Gm-Message-State: APjAAAVq/718iQPoEWkDo8wupyU7gphJBSG6IC9YOOkbuJ3xPtI5WZU5
- ATXrkJX3YT3koHi32gj+wzK5W8A9wtWpFheEKotjDQ==
-X-Google-Smtp-Source: APXvYqwYoqI9ebTNGSoRQFaPjS4xFGjozMV1PMYVPuvzl4n6+yfP1MFkD0UBucO5QOZTVwhOiGWpwNsqbdfl5iQJkQ4=
-X-Received: by 2002:a05:6808:611:: with SMTP id
- y17mr814072oih.24.1574800108635; 
- Tue, 26 Nov 2019 12:28:28 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 55346861EE
+ for <iommu@lists.linux-foundation.org>; Tue, 26 Nov 2019 21:45:32 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 59F5431B;
+ Tue, 26 Nov 2019 13:45:31 -0800 (PST)
+Received: from [192.168.1.124] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 37D3B3F52E;
+ Tue, 26 Nov 2019 13:45:26 -0800 (PST)
+Subject: Re: [PATCH v2] dma-mapping: treat dev->bus_dma_mask as a DMA limit
+To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ Christoph Hellwig <hch@lst.de>, Nathan Chancellor <natechancellor@gmail.com>
+References: <20191121092646.8449-1-nsaenzjulienne@suse.de>
+ <20191123165108.GA15306@ubuntu-x2-xlarge-x86> <20191125074412.GA30595@lst.de>
+ <0b851d0e-37c7-062e-c287-05f8c8a54c16@arm.com>
+ <45feed391bbd95c46f64b31cf8817d4f773c8da1.camel@suse.de>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <935d65b4-a28e-d7b9-7392-42fec71b5150@arm.com>
+Date: Tue, 26 Nov 2019 21:45:19 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-References: <20191121114918.2293-1-will@kernel.org>
- <20191121114918.2293-10-will@kernel.org>
- <5c91d467-5e59-482b-8f4f-e0cfa3db9028@huawei.com>
-In-Reply-To: <5c91d467-5e59-482b-8f4f-e0cfa3db9028@huawei.com>
-Date: Tue, 26 Nov 2019 12:27:52 -0800
-Message-ID: <CAGETcx8Hkta6scFdiG=eQypsQ--jrR1YisaOQATCbMiu+aG8sg@mail.gmail.com>
-Subject: Re: [PATCH v3 09/14] iommu/arm-smmu: Prevent forced unbinding of Arm
- SMMU drivers
-To: John Garry <john.garry@huawei.com>
-Cc: iommu@lists.linuxfoundation.org,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Will Deacon <will@kernel.org>, "Isaac J. Manjarres" <isaacm@codeaurora.org>,
- Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <45feed391bbd95c46f64b31cf8817d4f773c8da1.camel@suse.de>
+Content-Language: en-GB
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, linux-mips@vger.kernel.org,
+ linux-ide@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Frank Rowand <frowand.list@gmail.com>,
+ Paul Burton <paulburton@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, linux-acpi@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+ linux-pci@vger.kernel.org, James Hogan <jhogan@kernel.org>,
+ Len Brown <lenb@kernel.org>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Jens Axboe <axboe@kernel.dk>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Hanjun Guo <guohanjun@huawei.com>, linux-kernel@vger.kernel.org,
+ Ralf Baechle <ralf@linux-mips.org>, iommu@lists.linux-foundation.org,
+ Sudeep Holla <sudeep.holla@arm.com>, linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,49 +83,37 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Saravana Kannan via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Saravana Kannan <saravanak@google.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Nov 26, 2019 at 1:13 AM John Garry <john.garry@huawei.com> wrote:
->
-> On 21/11/2019 11:49, Will Deacon wrote:
-> > Forcefully unbinding the Arm SMMU drivers is a pretty dangerous operation,
-> > since it will likely lead to catastrophic failure for any DMA devices
-> > mastering through the SMMU being unbound. When the driver then attempts
-> > to "handle" the fatal faults, it's very easy to trip over dead data
-> > structures, leading to use-after-free.
-> >
-> > On John's machine, he reports that the machine was "unusable" due to
-> > loss of the storage controller following a forced unbind of the SMMUv3
-> > driver:
-> >
-> >    | # cd ./bus/platform/drivers/arm-smmu-v3
-> >    | # echo arm-smmu-v3.0.auto > unbind
-> >    | hisi_sas_v2_hw HISI0162:01: CQE_AXI_W_ERR (0x800) found!
-> >    | platform arm-smmu-v3.0.auto: CMD_SYNC timeout at 0x00000146
-> >    | [hwprod 0x00000146, hwcons 0x00000000]
-> >
-> > Prevent this forced unbinding of the drivers by setting "suppress_bind_attrs"
-> > to true.
->
-> This seems a reasonable approach for now.
->
-> BTW, I'll give this series a spin this week, which again looks to be
-> your iommu/module branch, excluding the new IORT patch.
+On 2019-11-26 6:51 pm, Nicolas Saenz Julienne wrote:
+> On Mon, 2019-11-25 at 16:33 +0000, Robin Murphy wrote:
+>> On 25/11/2019 7:44 am, Christoph Hellwig wrote:
+>>> On Sat, Nov 23, 2019 at 09:51:08AM -0700, Nathan Chancellor wrote:
+>>>> Just as an FYI, this introduces a warning on arm32 allyesconfig for me:
+>>>
+>>> I think the dma_limit argument to iommu_dma_alloc_iova should be a u64
+>>> and/or we need to use min_t and open code the zero exception.
+>>>
+>>> Robin, Nicolas - any opinions?
+>>
+>> Yeah, given that it's always held a mask I'm not entirely sure why it
+>> was ever a dma_addr_t rather than a u64. Unless anyone else is desperate
+>> to do it I'll get a cleanup patch ready for rc1.
+> 
+> Sounds good to me too
+> 
+> Robin, since I started the mess, I'll be happy to do it if it helps offloading
+> some work from you.
 
-Is this on a platform where of_devlink creates device links between
-the iommu device and its suppliers? I'm guessing no? Because device
-links should for unbinding of all the consumers before unbinding the
-supplier.
+No worries - your change only exposed my original weird decision ;)  On 
+second look the patch was literally a trivial one-liner, so I've written 
+it up already.
 
-Looks like it'll still allow the supplier to unbind if the consumers
-don't allow unbinding. Is that the case here?
-
--Saravana
+Cheers,
+Robin.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
