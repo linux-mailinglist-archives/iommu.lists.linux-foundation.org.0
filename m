@@ -1,70 +1,86 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B15610B181
-	for <lists.iommu@lfdr.de>; Wed, 27 Nov 2019 15:40:19 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 256D410B233
+	for <lists.iommu@lfdr.de>; Wed, 27 Nov 2019 16:15:16 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B2E4D8761F;
-	Wed, 27 Nov 2019 14:40:17 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9A33186200;
+	Wed, 27 Nov 2019 15:15:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id X75EQw6WRakJ; Wed, 27 Nov 2019 14:40:15 +0000 (UTC)
+	with ESMTP id RSVmpcM8sO7K; Wed, 27 Nov 2019 15:15:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DF9B6875D6;
-	Wed, 27 Nov 2019 14:40:15 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 21944854C4;
+	Wed, 27 Nov 2019 15:15:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D49B3C0881;
-	Wed, 27 Nov 2019 14:40:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 14C9FC0881;
+	Wed, 27 Nov 2019 15:15:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8608EC0881
- for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 14:40:14 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DD1E9C0881
+ for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 15:15:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 833DD86D2F
- for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 14:40:14 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id D8AFC20468
+ for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 15:15:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iI5sWhwJFiwr for <iommu@lists.linux-foundation.org>;
- Wed, 27 Nov 2019 14:40:13 +0000 (UTC)
+ with ESMTP id dBso6yXhTn5V for <iommu@lists.linux-foundation.org>;
+ Wed, 27 Nov 2019 15:15:08 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D8F3186E1A
- for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 14:40:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
- :Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=howc56bxTEyWXedb5RcS/cev28tOk9Lz2mtefx1HF+w=; b=uo3NQC8M7tVPEIZTbh3f/yeg/a
- 1ohDdK9fsu6Jx5pkykl7Y4CnpzvLq3y67GfVai1JbgdtrZLrza/17IYN6R3L4/ZiW7b6ZIFuRNXdC
- xv7zTtRjjsiWfc8jTu4jsHsBTzzNCNiJd+E4CnWGba5IMlaywtDJ31GO4u8HrHfZ+NdXkK18ZsreS
- PHSZBGMHPP9VCXlqT/7BwYSOI17nsYTvtOnGeVE+63tsJOZWOj8PyVVVnVqHpz788SpA0I9MfBs1f
- 0DAo7dknCRYaNVrBvA+EryacOtNeB2t9ZJcYoKD6RLG5aMdzwDxhHpaycRrUvVKEiH6TgV+i9nNxs
- z2QnEoWQ==;
-Received: from clnet-p19-102.ikbnet.co.at ([83.175.77.102] helo=localhost)
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iZyUF-0006rV-2E; Wed, 27 Nov 2019 14:40:11 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Thomas Hellstrom <thellstrom@vmware.com>
-Subject: [PATCH 2/2] dma-mapping: force unencryped devices are always
- addressing limited
-Date: Wed, 27 Nov 2019 15:40:06 +0100
-Message-Id: <20191127144006.25998-3-hch@lst.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191127144006.25998-1-hch@lst.de>
-References: <20191127144006.25998-1-hch@lst.de>
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.53])
+ by silver.osuosl.org (Postfix) with ESMTPS id 6E213204B9
+ for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 15:15:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1574867705;
+ s=strato-dkim-0002; d=xenosoft.de;
+ h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=rU6EJZnQMWHiAAMrDnvCSg5GJl/7kaL3qM/q2ihcwWc=;
+ b=ph9lVf4uZCtsNHV5En2AFDgYlF3Nc3pOQpoMIiG5L0aKsKfTUtK61fJysZJ352sHGn
+ qs6hirz5guL+KODjKkRHVIsD49mDdpn8tmu+/c3sFvE3S9MwrQ2MV7cnxKYIjIUcMQQd
+ f5+k1ed2L9olHIL9dXKi+M1jq96msuMTdzK3ZI5fZhovH3RDqQsSUrZ0NPS7oDEj8VLN
+ mwOFuvYbPhovmadu1iIlxJsQCQBz3UxhZhfwTwMCrZmFFbfCzp7Mq7g7ONLR0/4/2QSV
+ xVL/FSrtZeFOucbVuqI2HYl/aGHRhnvEykoZ8K3AjdH6YF1qI0PjWL4CkemqzM04kG7e
+ FFZQ==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBJSrwuuqxvPhUIxnPrrzntHiDgpTRUbNSOXek"
+X-RZG-CLASS-ID: mo00
+Received: from [IPv6:2a02:8109:89c0:ebfc:7591:d54e:863:4581]
+ by smtp.strato.de (RZmta 46.0.0 AUTH) with ESMTPSA id n05ae1vARFEh10O
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ (Client did not present a certificate);
+ Wed, 27 Nov 2019 16:14:43 +0100 (CET)
+Subject: Re: Bug 205201 - Booting halts if Dawicontrol DC-2976 UW SCSI board
+ installed, unless RAM size limited to 3500M
+To: Mike Rapoport <rppt@linux.ibm.com>, Christoph Hellwig <hch@lst.de>
+References: <20191121072943.GA24024@lst.de>
+ <dbde2252-035e-6183-7897-43348e60647e@xenosoft.de>
+ <6eec5c42-019c-a988-fc2a-cb804194683d@xenosoft.de>
+ <d0252d29-7a03-20e1-ccd7-e12d906e4bdf@arm.com>
+ <b3217742-2c0b-8447-c9ac-608b93265363@xenosoft.de>
+ <20191121180226.GA3852@lst.de>
+ <2fde79cf-875f-94e6-4a1b-f73ebb2e2c32@xenosoft.de>
+ <20191125073923.GA30168@lst.de>
+ <4681f5fe-c095-15f5-9221-4b55e940bafc@xenosoft.de>
+ <20191126164026.GA8026@lst.de> <20191127065624.GB16913@linux.ibm.com>
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
+Message-ID: <6a4289cf-d2b5-2357-f1ad-eeab44ab3b1e@xenosoft.de>
+Date: Wed, 27 Nov 2019 16:14:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, iommu@lists.linux-foundation.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org
+In-Reply-To: <20191127065624.GB16913@linux.ibm.com>
+Content-Language: de-DE
+Cc: linux-arch@vger.kernel.org, darren@stevens-zone.net, rtd2@xtra.co.nz,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ Rob Herring <robh+dt@kernel.org>, paulus@samba.org,
+ mad skateman <madskateman@gmail.com>, "contact@a-eon.com" <contact@a-eon.com>,
+ Robin Murphy <robin.murphy@arm.com>, nsaenzjulienne@suse.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,35 +93,45 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Devices that are forced to DMA through unencrypted bounce buffers
-need to be treated as if they are addressing limited.
+On 27 November 2019 at 07:56 am, Mike Rapoport wrote:
+>
+> Maybe we'll simply force bottom up allocation before calling
+> swiotlb_init()? Anyway, it's the last memblock allocation.
+>
+>
+> diff --git a/arch/powerpc/mm/mem.c b/arch/powerpc/mm/mem.c
+> index 62f74b1b33bd..771e6cf7e2b9 100644
+> --- a/arch/powerpc/mm/mem.c
+> +++ b/arch/powerpc/mm/mem.c
+> @@ -286,14 +286,15 @@ void __init mem_init(void)
+>   	/*
+>   	 * book3s is limited to 16 page sizes due to encoding this in
+>   	 * a 4-bit field for slices.
+>   	 */
+>   	BUILD_BUG_ON(MMU_PAGE_COUNT > 16);
+>   
+>   #ifdef CONFIG_SWIOTLB
+> +	memblock_set_bottom_up(true);
+>   	swiotlb_init(0);
+>   #endif
+>   
+>   	high_memory = (void *) __va(max_low_pfn * PAGE_SIZE);
+>   	set_max_mapnr(max_pfn);
+>   	memblock_free_all();
+>   
+>   
+Hello Mike,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- kernel/dma/mapping.c | 2 ++
- 1 file changed, 2 insertions(+)
+I tested the latest Git kernel with your new patch today. My PCI TV card 
+works without any problems.
 
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 1dbe6d725962..f6c35b53d996 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -416,6 +416,8 @@ EXPORT_SYMBOL_GPL(dma_get_merge_boundary);
-  */
- bool dma_addressing_limited(struct device *dev)
- {
-+	if (force_dma_unencrypted(dev))
-+		return true;
- 	return min_not_zero(dma_get_mask(dev), dev->bus_dma_limit) <
- 			    dma_get_required_mask(dev);
- }
--- 
-2.20.1
-
+Thanks,
+Christian
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
