@@ -1,69 +1,75 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE65F10AC49
-	for <lists.iommu@lfdr.de>; Wed, 27 Nov 2019 09:54:04 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFFCD10AE6F
+	for <lists.iommu@lfdr.de>; Wed, 27 Nov 2019 12:04:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 739B285C88;
-	Wed, 27 Nov 2019 08:54:03 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6236887FA4;
+	Wed, 27 Nov 2019 11:04:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CgWAUW3ht9a3; Wed, 27 Nov 2019 08:54:02 +0000 (UTC)
+	with ESMTP id QDfn8oiON5iX; Wed, 27 Nov 2019 11:04:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5F81F85BF7;
-	Wed, 27 Nov 2019 08:54:02 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id F00478815C;
+	Wed, 27 Nov 2019 11:04:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 40AFAC0881;
-	Wed, 27 Nov 2019 08:54:02 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DA485C1DE1;
+	Wed, 27 Nov 2019 11:04:33 +0000 (UTC)
+X-Original-To: iommu@lists.linuxfoundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2CE24C0881
- for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 08:54:00 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 05192C0881
+ for <iommu@lists.linuxfoundation.org>; Wed, 27 Nov 2019 11:04:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 15E4985BF7
- for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 08:54:00 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 6B0B284463
+ for <iommu@lists.linuxfoundation.org>; Wed, 27 Nov 2019 11:04:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rmN9LTjRaPoR for <iommu@lists.linux-foundation.org>;
- Wed, 27 Nov 2019 08:53:57 +0000 (UTC)
+ with ESMTP id RBro9KtbBDm7 for <iommu@lists.linuxfoundation.org>;
+ Wed, 27 Nov 2019 11:04:30 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 0225885BD3
- for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 08:53:56 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id E4D1568AFE; Wed, 27 Nov 2019 09:53:51 +0100 (CET)
-Date: Wed, 27 Nov 2019 09:53:51 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: Bug 205201 - Booting halts if Dawicontrol DC-2976 UW SCSI
- board installed, unless RAM size limited to 3500M
-Message-ID: <20191127085351.GA24676@lst.de>
-References: <dbde2252-035e-6183-7897-43348e60647e@xenosoft.de>
- <6eec5c42-019c-a988-fc2a-cb804194683d@xenosoft.de>
- <d0252d29-7a03-20e1-ccd7-e12d906e4bdf@arm.com>
- <b3217742-2c0b-8447-c9ac-608b93265363@xenosoft.de>
- <20191121180226.GA3852@lst.de>
- <2fde79cf-875f-94e6-4a1b-f73ebb2e2c32@xenosoft.de>
- <20191125073923.GA30168@lst.de>
- <4681f5fe-c095-15f5-9221-4b55e940bafc@xenosoft.de>
- <20191126164026.GA8026@lst.de> <20191127065624.GB16913@linux.ibm.com>
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0D5B584400
+ for <iommu@lists.linuxfoundation.org>; Wed, 27 Nov 2019 11:04:29 +0000 (UTC)
+Received: from LHREML711-CAH.china.huawei.com (unknown [172.18.7.107])
+ by Forcepoint Email with ESMTP id 3E497451C88F8A6FF950;
+ Wed, 27 Nov 2019 11:04:27 +0000 (GMT)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ LHREML711-CAH.china.huawei.com (10.201.108.34) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Wed, 27 Nov 2019 11:04:26 +0000
+Received: from [127.0.0.1] (10.202.226.46) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Wed, 27 Nov
+ 2019 11:04:26 +0000
+Subject: Re: [PATCH v3 09/14] iommu/arm-smmu: Prevent forced unbinding of Arm
+ SMMU drivers
+To: Saravana Kannan <saravanak@google.com>
+References: <20191121114918.2293-1-will@kernel.org>
+ <20191121114918.2293-10-will@kernel.org>
+ <5c91d467-5e59-482b-8f4f-e0cfa3db9028@huawei.com>
+ <CAGETcx8Hkta6scFdiG=eQypsQ--jrR1YisaOQATCbMiu+aG8sg@mail.gmail.com>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <af1dc92a-ca98-fb22-835f-5ceb85e86b1b@huawei.com>
+Date: Wed, 27 Nov 2019 11:04:25 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191127065624.GB16913@linux.ibm.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linux-arch@vger.kernel.org, darren@stevens-zone.net, rtd2@xtra.co.nz,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, iommu@lists.linux-foundation.org,
- Rob Herring <robh+dt@kernel.org>, paulus@samba.org,
- mad skateman <madskateman@gmail.com>,
- Christian Zigotzky <chzigotzky@xenosoft.de>,
- "contact@a-eon.com" <contact@a-eon.com>, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>, nsaenzjulienne@suse.de
+In-Reply-To: <CAGETcx8Hkta6scFdiG=eQypsQ--jrR1YisaOQATCbMiu+aG8sg@mail.gmail.com>
+Content-Language: en-US
+X-Originating-IP: [10.202.226.46]
+X-ClientProxiedBy: lhreml720-chm.china.huawei.com (10.201.108.71) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: iommu@lists.linuxfoundation.org,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Bjorn
+ Helgaas <bhelgaas@google.com>, Will Deacon <will@kernel.org>,
+ "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,22 +82,61 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Nov 27, 2019 at 08:56:25AM +0200, Mike Rapoport wrote:
-> Maybe we'll simply force bottom up allocation before calling
-> swiotlb_init()? Anyway, it's the last memblock allocation.
+On 26/11/2019 20:27, Saravana Kannan wrote:
+> On Tue, Nov 26, 2019 at 1:13 AM John Garry <john.garry@huawei.com> wrote:
+>>
+>> On 21/11/2019 11:49, Will Deacon wrote:
+>>> Forcefully unbinding the Arm SMMU drivers is a pretty dangerous operation,
+>>> since it will likely lead to catastrophic failure for any DMA devices
+>>> mastering through the SMMU being unbound. When the driver then attempts
+>>> to "handle" the fatal faults, it's very easy to trip over dead data
+>>> structures, leading to use-after-free.
+>>>
+>>> On John's machine, he reports that the machine was "unusable" due to
+>>> loss of the storage controller following a forced unbind of the SMMUv3
+>>> driver:
+>>>
+>>>     | # cd ./bus/platform/drivers/arm-smmu-v3
+>>>     | # echo arm-smmu-v3.0.auto > unbind
+>>>     | hisi_sas_v2_hw HISI0162:01: CQE_AXI_W_ERR (0x800) found!
+>>>     | platform arm-smmu-v3.0.auto: CMD_SYNC timeout at 0x00000146
+>>>     | [hwprod 0x00000146, hwcons 0x00000000]
+>>>
+>>> Prevent this forced unbinding of the drivers by setting "suppress_bind_attrs"
+>>> to true.
+>>
+>> This seems a reasonable approach for now.
+>>
+>> BTW, I'll give this series a spin this week, which again looks to be
+>> your iommu/module branch, excluding the new IORT patch.
+> 
 
-That should work, but I don't think it is the proper fix.  The underlying
-issue here is that ZONE_DMA/DMA32 sizing is something that needs to
-be propagated to memblock and dma-direct as is based around addressing
-limitations.  But our zone initialization is such a mess that we
-can't just reuse a variable.  Nicolas has started to clean some of
-this up, but we need to clean that whole zone initialization mess up
-a lot more.
+Hi Saravana,
+
+> Is this on a platform where of_devlink creates device links between
+> the iommu device and its suppliers?I'm guessing no? Because device
+> links should for unbinding of all the consumers before unbinding the
+> supplier.
+
+I'm only really interested in ACPI, TBH.
+
+> 
+> Looks like it'll still allow the supplier to unbind if the consumers
+> don't allow unbinding. Is that the case here?
+
+So just unbinding the driver from a device does not delete the device 
+nor exit the device from it's IOMMU group - so we keep the reference to 
+the SMMU ko. As such, I don't know how to realistically test unloading 
+the SMMU ko when we have platform devices involved. Maybe someone can 
+enlighten me...
+
+Thanks,
+John
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
