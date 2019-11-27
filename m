@@ -1,71 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3146E10B315
-	for <lists.iommu@lfdr.de>; Wed, 27 Nov 2019 17:20:31 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1508010B423
+	for <lists.iommu@lfdr.de>; Wed, 27 Nov 2019 18:09:52 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BA5B0864AB;
-	Wed, 27 Nov 2019 16:20:29 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9EED587A34;
+	Wed, 27 Nov 2019 17:09:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oSWh9vadshmS; Wed, 27 Nov 2019 16:20:29 +0000 (UTC)
+	with ESMTP id gW3ljYflcjwZ; Wed, 27 Nov 2019 17:09:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3A8F7845C5;
-	Wed, 27 Nov 2019 16:20:29 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5DFDB879DB;
+	Wed, 27 Nov 2019 17:09:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 190C4C0881;
-	Wed, 27 Nov 2019 16:20:29 +0000 (UTC)
-X-Original-To: iommu@lists.linuxfoundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 468EDC0881;
+	Wed, 27 Nov 2019 17:09:49 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A9C9EC0881
- for <iommu@lists.linuxfoundation.org>; Wed, 27 Nov 2019 16:20:27 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 21792C0881
+ for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 17:09:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 93243864A6
- for <iommu@lists.linuxfoundation.org>; Wed, 27 Nov 2019 16:20:27 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 0E58085B8D
+ for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 17:09:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qMW0dnPJqFkl for <iommu@lists.linuxfoundation.org>;
- Wed, 27 Nov 2019 16:20:24 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B89BD845C5
- for <iommu@lists.linuxfoundation.org>; Wed, 27 Nov 2019 16:20:24 +0000 (UTC)
-Received: from LHREML713-CAH.china.huawei.com (unknown [172.18.7.108])
- by Forcepoint Email with ESMTP id F114EA7B67EB051CEB9B;
- Wed, 27 Nov 2019 16:20:21 +0000 (GMT)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- LHREML713-CAH.china.huawei.com (10.201.108.36) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Wed, 27 Nov 2019 16:20:21 +0000
-Received: from [127.0.0.1] (10.202.226.46) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Wed, 27 Nov
- 2019 16:20:21 +0000
-Subject: Re: [PATCH] iommu/arm-smmu: support SMMU module probing from the IORT
-To: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Ard Biesheuvel
- <ardb@kernel.org>
-References: <20191121114918.2293-1-will@kernel.org>
- <20191122174125.21030-1-ardb@kernel.org>
- <20191125160445.GA24078@e121166-lin.cambridge.arm.com>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <bf5b8665-c599-511c-25d2-f9ebadb41870@huawei.com>
-Date: Wed, 27 Nov 2019 16:20:20 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+ with ESMTP id 4uzvA8mnFri3 for <iommu@lists.linux-foundation.org>;
+ Wed, 27 Nov 2019 17:09:46 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by whitealder.osuosl.org (Postfix) with ESMTP id D31DA85B7C
+ for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 17:09:46 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 12FDB30E;
+ Wed, 27 Nov 2019 09:09:46 -0800 (PST)
+Received: from [10.1.196.37] (e121345-lin.cambridge.arm.com [10.1.196.37])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 019323F6C4;
+ Wed, 27 Nov 2019 09:09:44 -0800 (PST)
+Subject: Re: [PATCH 2/2] iommu: dma: Use of_iommu_get_resv_regions()
+To: Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>
+References: <20190829111407.17191-1-thierry.reding@gmail.com>
+ <20190829111407.17191-3-thierry.reding@gmail.com>
+ <1caeaaa0-c5aa-b630-6d42-055b26764f40@arm.com> <20190902145245.GC1445@ulmo>
+ <20190917175950.wrwiqnh5bp62uy3c@willie-the-truck>
+ <20191126172910.GA2669319@ulmo> <20191127141631.GA280099@ulmo>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <864d5afb-72b4-a3ef-9c93-3a8ad4864c56@arm.com>
+Date: Wed, 27 Nov 2019 17:09:41 +0000
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191125160445.GA24078@e121166-lin.cambridge.arm.com>
-Content-Language: en-US
-X-Originating-IP: [10.202.226.46]
-X-ClientProxiedBy: lhreml720-chm.china.huawei.com (10.201.108.71) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-Cc: iommu@lists.linuxfoundation.org, isaacm@codeaurora.org,
- saravanak@google.com, jean-philippe@linaro.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, bhelgaas@google.com, will@kernel.org,
- robin.murphy@arm.com
+In-Reply-To: <20191127141631.GA280099@ulmo>
+Content-Language: en-GB
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,72 +75,35 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 25/11/2019 16:04, Lorenzo Pieralisi wrote:
-> On Fri, Nov 22, 2019 at 06:41:25PM +0100, Ard Biesheuvel wrote:
->> Add support for SMMU drivers built as modules to the ACPI/IORT device
->> probing path, by deferring the probe of the master if the SMMU driver is
->> known to exist but has not been loaded yet. Given that the IORT code
->> registers a platform device for each SMMU that it discovers, we can
->> easily trigger the udev based autoloading of the SMMU drivers by making
->> the platform device identifier part of the module alias.
->>
->> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
->> ---
->>   drivers/acpi/arm64/iort.c   | 4 ++--
->>   drivers/iommu/arm-smmu-v3.c | 1 +
->>   drivers/iommu/arm-smmu.c    | 1 +
->>   3 files changed, 4 insertions(+), 2 deletions(-)
+On 27/11/2019 2:16 pm, Thierry Reding wrote:
+[...]
+> Nevermind that, I figured out that I was missingthe initialization of
+> some of the S2CR variables. I've got something that I think is working
+> now, though I don't know yet how to go about cleaning up the initial
+> mapping and "recycling" it.
 > 
-> I think it is best if Will picks this up and add it to the
-> series that modularize the SMMU drivers:
-> 
-> Acked-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> I'll clean things up a bit, run some more tests and post a new patch
+> that can serve as a basis for discussion.
 
-Tested-by: John Garry <john.garry@huawei.com> # only manual smmu ko loading
+I'm a little puzzled by the smmu->identity domain - disregarding the 
+fact that it's not actually used by the given diff ;) - if isolation is 
+the reason for not simply using a bypass S2CR for the window between 
+reset and the relevant .add_device call where the default domain proper 
+comes in[1], then surely exposing the union of memory regions to the 
+union of all associated devices isn't all that desirable either.
 
-> 
->> diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
->> index 5a7551d060f2..a696457a9b11 100644
->> --- a/drivers/acpi/arm64/iort.c
->> +++ b/drivers/acpi/arm64/iort.c
->> @@ -850,9 +850,9 @@ static inline bool iort_iommu_driver_enabled(u8 type)
->>   {
->>   	switch (type) {
->>   	case ACPI_IORT_NODE_SMMU_V3:
->> -		return IS_BUILTIN(CONFIG_ARM_SMMU_V3);
->> +		return IS_ENABLED(CONFIG_ARM_SMMU_V3);
->>   	case ACPI_IORT_NODE_SMMU:
->> -		return IS_BUILTIN(CONFIG_ARM_SMMU);
->> +		return IS_ENABLED(CONFIG_ARM_SMMU);
->>   	default:
->>   		pr_warn("IORT node type %u does not describe an SMMU\n", type);
->>   		return false;
->> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
->> index 7669beafc493..bf6a1e8eb9b0 100644
->> --- a/drivers/iommu/arm-smmu-v3.c
->> +++ b/drivers/iommu/arm-smmu-v3.c
->> @@ -3733,4 +3733,5 @@ module_platform_driver(arm_smmu_driver);
->>   
->>   MODULE_DESCRIPTION("IOMMU API for ARM architected SMMUv3 implementations");
->>   MODULE_AUTHOR("Will Deacon <will@kernel.org>");
->> +MODULE_ALIAS("platform:arm-smmu-v3");
->>   MODULE_LICENSE("GPL v2");
->> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
->> index d55acc48aee3..db5106b0955b 100644
->> --- a/drivers/iommu/arm-smmu.c
->> +++ b/drivers/iommu/arm-smmu.c
->> @@ -2292,4 +2292,5 @@ module_platform_driver(arm_smmu_driver);
->>   
->>   MODULE_DESCRIPTION("IOMMU API for ARM architected SMMU implementations");
->>   MODULE_AUTHOR("Will Deacon <will@kernel.org>");
->> +MODULE_ALIAS("platform:arm-smmu");
->>   MODULE_LICENSE("GPL v2");
->> -- 
->> 2.20.1
->>
-> .
-> 
+Either way, I'll give you the pre-emptive warning that this is the SMMU 
+in the way of my EFI framebuffer ;)
 
+...
+arm-smmu 7fb20000.iommu: 	1 context banks (1 stage-2 only)
+...
+
+Robin.
+
+[1] the fact that it currently depends on probe order whether getting 
+that .add_device call requires a driver probing for the device is an 
+error as discussed elsewhere, and will get fixed separately, I promise.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
