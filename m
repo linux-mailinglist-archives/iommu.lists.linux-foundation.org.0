@@ -2,85 +2,70 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256D410B233
-	for <lists.iommu@lfdr.de>; Wed, 27 Nov 2019 16:15:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3146E10B315
+	for <lists.iommu@lfdr.de>; Wed, 27 Nov 2019 17:20:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9A33186200;
-	Wed, 27 Nov 2019 15:15:14 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BA5B0864AB;
+	Wed, 27 Nov 2019 16:20:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RSVmpcM8sO7K; Wed, 27 Nov 2019 15:15:13 +0000 (UTC)
+	with ESMTP id oSWh9vadshmS; Wed, 27 Nov 2019 16:20:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 21944854C4;
-	Wed, 27 Nov 2019 15:15:13 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3A8F7845C5;
+	Wed, 27 Nov 2019 16:20:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 14C9FC0881;
-	Wed, 27 Nov 2019 15:15:13 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 190C4C0881;
+	Wed, 27 Nov 2019 16:20:29 +0000 (UTC)
+X-Original-To: iommu@lists.linuxfoundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DD1E9C0881
- for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 15:15:10 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A9C9EC0881
+ for <iommu@lists.linuxfoundation.org>; Wed, 27 Nov 2019 16:20:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D8AFC20468
- for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 15:15:10 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 93243864A6
+ for <iommu@lists.linuxfoundation.org>; Wed, 27 Nov 2019 16:20:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dBso6yXhTn5V for <iommu@lists.linux-foundation.org>;
- Wed, 27 Nov 2019 15:15:08 +0000 (UTC)
+ with ESMTP id qMW0dnPJqFkl for <iommu@lists.linuxfoundation.org>;
+ Wed, 27 Nov 2019 16:20:24 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.53])
- by silver.osuosl.org (Postfix) with ESMTPS id 6E213204B9
- for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 15:15:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1574867705;
- s=strato-dkim-0002; d=xenosoft.de;
- h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=rU6EJZnQMWHiAAMrDnvCSg5GJl/7kaL3qM/q2ihcwWc=;
- b=ph9lVf4uZCtsNHV5En2AFDgYlF3Nc3pOQpoMIiG5L0aKsKfTUtK61fJysZJ352sHGn
- qs6hirz5guL+KODjKkRHVIsD49mDdpn8tmu+/c3sFvE3S9MwrQ2MV7cnxKYIjIUcMQQd
- f5+k1ed2L9olHIL9dXKi+M1jq96msuMTdzK3ZI5fZhovH3RDqQsSUrZ0NPS7oDEj8VLN
- mwOFuvYbPhovmadu1iIlxJsQCQBz3UxhZhfwTwMCrZmFFbfCzp7Mq7g7ONLR0/4/2QSV
- xVL/FSrtZeFOucbVuqI2HYl/aGHRhnvEykoZ8K3AjdH6YF1qI0PjWL4CkemqzM04kG7e
- FFZQ==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBJSrwuuqxvPhUIxnPrrzntHiDgpTRUbNSOXek"
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2a02:8109:89c0:ebfc:7591:d54e:863:4581]
- by smtp.strato.de (RZmta 46.0.0 AUTH) with ESMTPSA id n05ae1vARFEh10O
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- (Client did not present a certificate);
- Wed, 27 Nov 2019 16:14:43 +0100 (CET)
-Subject: Re: Bug 205201 - Booting halts if Dawicontrol DC-2976 UW SCSI board
- installed, unless RAM size limited to 3500M
-To: Mike Rapoport <rppt@linux.ibm.com>, Christoph Hellwig <hch@lst.de>
-References: <20191121072943.GA24024@lst.de>
- <dbde2252-035e-6183-7897-43348e60647e@xenosoft.de>
- <6eec5c42-019c-a988-fc2a-cb804194683d@xenosoft.de>
- <d0252d29-7a03-20e1-ccd7-e12d906e4bdf@arm.com>
- <b3217742-2c0b-8447-c9ac-608b93265363@xenosoft.de>
- <20191121180226.GA3852@lst.de>
- <2fde79cf-875f-94e6-4a1b-f73ebb2e2c32@xenosoft.de>
- <20191125073923.GA30168@lst.de>
- <4681f5fe-c095-15f5-9221-4b55e940bafc@xenosoft.de>
- <20191126164026.GA8026@lst.de> <20191127065624.GB16913@linux.ibm.com>
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-Message-ID: <6a4289cf-d2b5-2357-f1ad-eeab44ab3b1e@xenosoft.de>
-Date: Wed, 27 Nov 2019 16:14:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id B89BD845C5
+ for <iommu@lists.linuxfoundation.org>; Wed, 27 Nov 2019 16:20:24 +0000 (UTC)
+Received: from LHREML713-CAH.china.huawei.com (unknown [172.18.7.108])
+ by Forcepoint Email with ESMTP id F114EA7B67EB051CEB9B;
+ Wed, 27 Nov 2019 16:20:21 +0000 (GMT)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ LHREML713-CAH.china.huawei.com (10.201.108.36) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Wed, 27 Nov 2019 16:20:21 +0000
+Received: from [127.0.0.1] (10.202.226.46) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Wed, 27 Nov
+ 2019 16:20:21 +0000
+Subject: Re: [PATCH] iommu/arm-smmu: support SMMU module probing from the IORT
+To: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Ard Biesheuvel
+ <ardb@kernel.org>
+References: <20191121114918.2293-1-will@kernel.org>
+ <20191122174125.21030-1-ardb@kernel.org>
+ <20191125160445.GA24078@e121166-lin.cambridge.arm.com>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <bf5b8665-c599-511c-25d2-f9ebadb41870@huawei.com>
+Date: Wed, 27 Nov 2019 16:20:20 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-In-Reply-To: <20191127065624.GB16913@linux.ibm.com>
-Content-Language: de-DE
-Cc: linux-arch@vger.kernel.org, darren@stevens-zone.net, rtd2@xtra.co.nz,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, iommu@lists.linux-foundation.org,
- Rob Herring <robh+dt@kernel.org>, paulus@samba.org,
- mad skateman <madskateman@gmail.com>, "contact@a-eon.com" <contact@a-eon.com>,
- Robin Murphy <robin.murphy@arm.com>, nsaenzjulienne@suse.de
+In-Reply-To: <20191125160445.GA24078@e121166-lin.cambridge.arm.com>
+Content-Language: en-US
+X-Originating-IP: [10.202.226.46]
+X-ClientProxiedBy: lhreml720-chm.china.huawei.com (10.201.108.71) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: iommu@lists.linuxfoundation.org, isaacm@codeaurora.org,
+ saravanak@google.com, jean-philippe@linaro.org, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, bhelgaas@google.com, will@kernel.org,
+ robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,40 +83,72 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 27 November 2019 at 07:56 am, Mike Rapoport wrote:
->
-> Maybe we'll simply force bottom up allocation before calling
-> swiotlb_init()? Anyway, it's the last memblock allocation.
->
->
-> diff --git a/arch/powerpc/mm/mem.c b/arch/powerpc/mm/mem.c
-> index 62f74b1b33bd..771e6cf7e2b9 100644
-> --- a/arch/powerpc/mm/mem.c
-> +++ b/arch/powerpc/mm/mem.c
-> @@ -286,14 +286,15 @@ void __init mem_init(void)
->   	/*
->   	 * book3s is limited to 16 page sizes due to encoding this in
->   	 * a 4-bit field for slices.
->   	 */
->   	BUILD_BUG_ON(MMU_PAGE_COUNT > 16);
->   
->   #ifdef CONFIG_SWIOTLB
-> +	memblock_set_bottom_up(true);
->   	swiotlb_init(0);
->   #endif
->   
->   	high_memory = (void *) __va(max_low_pfn * PAGE_SIZE);
->   	set_max_mapnr(max_pfn);
->   	memblock_free_all();
->   
->   
-Hello Mike,
+On 25/11/2019 16:04, Lorenzo Pieralisi wrote:
+> On Fri, Nov 22, 2019 at 06:41:25PM +0100, Ard Biesheuvel wrote:
+>> Add support for SMMU drivers built as modules to the ACPI/IORT device
+>> probing path, by deferring the probe of the master if the SMMU driver is
+>> known to exist but has not been loaded yet. Given that the IORT code
+>> registers a platform device for each SMMU that it discovers, we can
+>> easily trigger the udev based autoloading of the SMMU drivers by making
+>> the platform device identifier part of the module alias.
+>>
+>> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+>> ---
+>>   drivers/acpi/arm64/iort.c   | 4 ++--
+>>   drivers/iommu/arm-smmu-v3.c | 1 +
+>>   drivers/iommu/arm-smmu.c    | 1 +
+>>   3 files changed, 4 insertions(+), 2 deletions(-)
+> 
+> I think it is best if Will picks this up and add it to the
+> series that modularize the SMMU drivers:
+> 
+> Acked-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 
-I tested the latest Git kernel with your new patch today. My PCI TV card 
-works without any problems.
+Tested-by: John Garry <john.garry@huawei.com> # only manual smmu ko loading
 
-Thanks,
-Christian
+> 
+>> diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
+>> index 5a7551d060f2..a696457a9b11 100644
+>> --- a/drivers/acpi/arm64/iort.c
+>> +++ b/drivers/acpi/arm64/iort.c
+>> @@ -850,9 +850,9 @@ static inline bool iort_iommu_driver_enabled(u8 type)
+>>   {
+>>   	switch (type) {
+>>   	case ACPI_IORT_NODE_SMMU_V3:
+>> -		return IS_BUILTIN(CONFIG_ARM_SMMU_V3);
+>> +		return IS_ENABLED(CONFIG_ARM_SMMU_V3);
+>>   	case ACPI_IORT_NODE_SMMU:
+>> -		return IS_BUILTIN(CONFIG_ARM_SMMU);
+>> +		return IS_ENABLED(CONFIG_ARM_SMMU);
+>>   	default:
+>>   		pr_warn("IORT node type %u does not describe an SMMU\n", type);
+>>   		return false;
+>> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
+>> index 7669beafc493..bf6a1e8eb9b0 100644
+>> --- a/drivers/iommu/arm-smmu-v3.c
+>> +++ b/drivers/iommu/arm-smmu-v3.c
+>> @@ -3733,4 +3733,5 @@ module_platform_driver(arm_smmu_driver);
+>>   
+>>   MODULE_DESCRIPTION("IOMMU API for ARM architected SMMUv3 implementations");
+>>   MODULE_AUTHOR("Will Deacon <will@kernel.org>");
+>> +MODULE_ALIAS("platform:arm-smmu-v3");
+>>   MODULE_LICENSE("GPL v2");
+>> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+>> index d55acc48aee3..db5106b0955b 100644
+>> --- a/drivers/iommu/arm-smmu.c
+>> +++ b/drivers/iommu/arm-smmu.c
+>> @@ -2292,4 +2292,5 @@ module_platform_driver(arm_smmu_driver);
+>>   
+>>   MODULE_DESCRIPTION("IOMMU API for ARM architected SMMU implementations");
+>>   MODULE_AUTHOR("Will Deacon <will@kernel.org>");
+>> +MODULE_ALIAS("platform:arm-smmu");
+>>   MODULE_LICENSE("GPL v2");
+>> -- 
+>> 2.20.1
+>>
+> .
+> 
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
