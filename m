@@ -1,73 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE1810C156
-	for <lists.iommu@lfdr.de>; Thu, 28 Nov 2019 02:18:14 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C5A110C248
+	for <lists.iommu@lfdr.de>; Thu, 28 Nov 2019 03:30:03 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5EF3983C53;
-	Thu, 28 Nov 2019 01:18:13 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2F96E87BA6;
+	Thu, 28 Nov 2019 02:30:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QNg4gMzZewfC; Thu, 28 Nov 2019 01:18:12 +0000 (UTC)
+	with ESMTP id EUriWGflJDEZ; Thu, 28 Nov 2019 02:30:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id EECA687120;
-	Thu, 28 Nov 2019 01:18:12 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6323F875BE;
+	Thu, 28 Nov 2019 02:30:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D2C3FC1DE5;
-	Thu, 28 Nov 2019 01:18:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 39CA2C0881;
+	Thu, 28 Nov 2019 02:30:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 32770C0881
- for <iommu@lists.linux-foundation.org>; Thu, 28 Nov 2019 01:18:11 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 45CEAC0881
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Nov 2019 02:30:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 2C2C184138
- for <iommu@lists.linux-foundation.org>; Thu, 28 Nov 2019 01:18:11 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2ECC3877D3
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Nov 2019 02:30:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UTcMRpJm09eL for <iommu@lists.linux-foundation.org>;
- Thu, 28 Nov 2019 01:18:09 +0000 (UTC)
+ with ESMTP id obMy5Jm+T5Ix for <iommu@lists.linux-foundation.org>;
+ Thu, 28 Nov 2019 02:29:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id E46C7835CD
- for <iommu@lists.linux-foundation.org>; Thu, 28 Nov 2019 01:18:08 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id g3so26515147ljl.11
- for <iommu@lists.linux-foundation.org>; Wed, 27 Nov 2019 17:18:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=JMQdYJyn4DZq+HXMjxQakd49p+RuvCwuEXKGIF9rqTI=;
- b=td7BZspJ5Xsl83MelXI11nerSudeInN1dov3tywp9Hovx/ySwez9UXMND2e1ouhfG4
- /10vSg83C2Vhx5p8DHPlhZegPsUcnLpA6XUfIYIhq8X7TtXHqZmIb9eSq6BwZXXCApzx
- K45DuwlPrlJkDvz/dXPvOmdO9d9jlT2PM7z926PjB8RQMnBu3F46YCyq9uJSrpP7alwz
- 4KEAKfJef/nezV3ly7DF/nK10VbbM6M2fFdbY1M5BRiLlRmbkR2VpTjfzij6FvxjtNvx
- M+og1v2CfIdYOLVFJlbzREX7jIM65vqK2twHNWTN4ae0qnZe/UJIxsmbc7q87OEvFosu
- XjSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=JMQdYJyn4DZq+HXMjxQakd49p+RuvCwuEXKGIF9rqTI=;
- b=heAscgmGXWC30Z6Dj6gyWG7tDeOTw8Hhw8197dT3mxq/KpFq8M8hewIJPQ4jKCD/De
- n7bZPkVfS65Hc2X/ZTVamaf8ydmorB35nK8FRbUf93rLsiVEPQK82H5/7QKOJVaycDzH
- flDedWFoYo2umTAi1m/wiDYCJ0I+xPHEXEPB/A1dG9utTpr/FgHgosgF3X7Akpvx9Oi5
- UPYZgpPsKbxjnUidtjvJ/LUDzu37WW36ZqmQf53exlS7HdY8rRFZZDHlZ+wwORnWG+Ns
- hg2AhR9iXnZ5BGEl9D5PAb56rubHSIEkoSYtArnRPzt155PyLRFhmc51O44iAjTFyM9a
- gZeg==
-X-Gm-Message-State: APjAAAV9CO6EOOMfjNNI6bswGvGa0dVw13uZlnCVAjkFMbZVtU99nsYU
- vGc6owiX/x6Fy3YtCUMD/1Ihze2bDzLQC8MOd26PaHT/
-X-Google-Smtp-Source: APXvYqwNI2Fn5vC7EN8OmFJ14kSZpXPfxH3nPk3/O6TZYFxT3mCT14/zMqKHMucTYlDtMco1octC6bGk+3BoFLsY54Q=
-X-Received: by 2002:a2e:2283:: with SMTP id
- i125mr17406903lji.244.1574903886798; 
- Wed, 27 Nov 2019 17:18:06 -0800 (PST)
-MIME-Version: 1.0
-From: Aaron Gray <aaronngray.lists@gmail.com>
-Date: Thu, 28 Nov 2019 01:17:50 +0000
-Message-ID: <CANkmNDekywL6p7q48pG0_-RqF+LakRze8b7FPbR+kz620Ngwcw@mail.gmail.com>
-Subject: How to read BIOS'es memory from IOMMU
-To: iommu@lists.linux-foundation.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 82B728113D
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Nov 2019 02:29:58 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2019 18:29:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,251,1571727600"; d="scan'208";a="221176106"
+Received: from allen-box.sh.intel.com ([10.239.159.136])
+ by orsmga002.jf.intel.com with ESMTP; 27 Nov 2019 18:29:54 -0800
+From: Lu Baolu <baolu.lu@linux.intel.com>
+To: Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>,
+ Alex Williamson <alex.williamson@redhat.com>
+Subject: [PATCH v2 0/8] Use 1st-level for DMA remapping
+Date: Thu, 28 Nov 2019 10:25:42 +0800
+Message-Id: <20191128022550.9832-1-baolu.lu@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+Cc: kevin.tian@intel.com, ashok.raj@intel.com, kvm@vger.kernel.org,
+ sanjay.k.kumar@intel.com, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, yi.y.sun@intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,27 +65,139 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi, I am interested in writing a program to verify BIOS integrity via
-SHA512. Most modern BIOS'es seem to be accessible through IOMMU. I'm
-wondering if there is a device driver for IOMMU or whether one could
-be created for the purposes of accessing BIOS memory.
+Intel VT-d in scalable mode supports two types of page talbes
+for DMA translation: the first level page table and the second
+level page table. The first level page table uses the same
+format as the CPU page table, while the second level page table
+keeps compatible with previous formats. The software is able
+to choose any one of them for DMA remapping according to the use
+case.
 
-If anyone has any leads or advice or even can show me how to do this
-in code via example/pseudo code I would appreciate it.
+This patchset aims to move IOVA (I/O Virtual Address) translation
+to 1st-level page table in scalable mode. This will simplify vIOMMU
+(IOMMU simulated by VM hypervisor) design by using the two-stage
+translation, a.k.a. nested mode translation.
 
-Regards,
-Aaron
+As Intel VT-d architecture offers caching mode, guest IOVA (GIOVA)
+support is now implemented in a shadow page manner. The device
+simulation software, like QEMU, has to figure out GIOVA->GPA mappings
+and write them to a shadowed page table, which will be used by the
+physical IOMMU. Each time when mappings are created or destroyed in
+vIOMMU, the simulation software has to intervene. Hence, the changes
+on GIOVA->GPA could be shadowed to host.
+
+
+     .-----------.
+     |  vIOMMU   |
+     |-----------|                 .--------------------.
+     |           |IOTLB flush trap |        QEMU        |
+     .-----------. (map/unmap)     |--------------------|
+     |GIOVA->GPA |---------------->|    .------------.  |
+     '-----------'                 |    | GIOVA->HPA |  |
+     |           |                 |    '------------'  |
+     '-----------'                 |                    |
+                                   |                    |
+                                   '--------------------'
+                                                |
+            <------------------------------------
+            |
+            v VFIO/IOMMU API
+      .-----------.
+      |  pIOMMU   |
+      |-----------|
+      |           |
+      .-----------.
+      |GIOVA->HPA |
+      '-----------'
+      |           |
+      '-----------'
+
+In VT-d 3.0, scalable mode is introduced, which offers two-level
+translation page tables and nested translation mode. Regards to
+GIOVA support, it can be simplified by 1) moving the GIOVA support
+over 1st-level page table to store GIOVA->GPA mapping in vIOMMU,
+2) binding vIOMMU 1st level page table to the pIOMMU, 3) using pIOMMU
+second level for GPA->HPA translation, and 4) enable nested (a.k.a.
+dual-stage) translation in host. Compared with current shadow GIOVA
+support, the new approach makes the vIOMMU design simpler and more
+efficient as we only need to flush the pIOMMU IOTLB and possible
+device-IOTLB when an IOVA mapping in vIOMMU is torn down.
+
+     .-----------.
+     |  vIOMMU   |
+     |-----------|                 .-----------.
+     |           |IOTLB flush trap |   QEMU    |
+     .-----------.    (unmap)      |-----------|
+     |GIOVA->GPA |---------------->|           |
+     '-----------'                 '-----------'
+     |           |                       |
+     '-----------'                       |
+           <------------------------------
+           |      VFIO/IOMMU          
+           |  cache invalidation and  
+           | guest gpd bind interfaces
+           v
+     .-----------.
+     |  pIOMMU   |
+     |-----------|
+     .-----------.
+     |GIOVA->GPA |<---First level
+     '-----------'
+     | GPA->HPA  |<---Scond level
+     '-----------'
+     '-----------'
+
+This patch set includes two parts. The former part implements the
+per-domain page table abstraction, which makes the page table
+difference transparent to various map/unmap APIs. The later part
+applies the first level page table for IOVA translation unless the
+DOMAIN_ATTR_NESTING domain attribution has been set, which indicates
+nested mode in use.
+
+Based-on-idea-by: Ashok Raj <ashok.raj@intel.com>
+Based-on-idea-by: Kevin Tian <kevin.tian@intel.com>
+Based-on-idea-by: Liu Yi L <yi.l.liu@intel.com>
+Based-on-idea-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Based-on-idea-by: Sanjay Kumar <sanjay.k.kumar@intel.com>
+Based-on-idea-by: Lu Baolu <baolu.lu@linux.intel.com>
+
+Change log:
+
+ v1->v2
+ - The first series was posted here
+   https://lkml.org/lkml/2019/9/23/297
+ - Use per domain page table ops to handle different page tables.
+ - Use first level for DMA remapping by default on both bare metal
+   and vm guest.
+ - Code refine according to code review comments for v1.
+
+Lu Baolu (8):
+  iommu/vt-d: Add per domain page table ops
+  iommu/vt-d: Move domain_flush_cache helper into header
+  iommu/vt-d: Implement second level page table ops
+  iommu/vt-d: Apply per domain second level page table ops
+  iommu/vt-d: Add first level page table interfaces
+  iommu/vt-d: Implement first level page table ops
+  iommu/vt-d: Identify domains using first level page table
+  iommu/vt-d: Add set domain DOMAIN_ATTR_NESTING attr
+
+ drivers/iommu/Makefile             |   2 +-
+ drivers/iommu/intel-iommu.c        | 412 +++++++++++++++++++++++------
+ drivers/iommu/intel-pgtable.c      | 376 ++++++++++++++++++++++++++
+ include/linux/intel-iommu.h        |  64 ++++-
+ include/trace/events/intel_iommu.h |  60 +++++
+ 5 files changed, 837 insertions(+), 77 deletions(-)
+ create mode 100644 drivers/iommu/intel-pgtable.c
 
 -- 
-Aaron Gray
+2.17.1
 
-Independent Open Source Software Engineer, Computer Language
-Researcher, Information Theorist, and amateur computer scientist.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
