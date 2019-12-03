@@ -1,57 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDE11102C2
-	for <lists.iommu@lfdr.de>; Tue,  3 Dec 2019 17:45:49 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E06C1103BA
+	for <lists.iommu@lfdr.de>; Tue,  3 Dec 2019 18:38:32 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C2D8687770;
-	Tue,  3 Dec 2019 16:45:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D9CCA87EA0;
+	Tue,  3 Dec 2019 17:38:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Vp7XyvhM1ZpM; Tue,  3 Dec 2019 16:45:46 +0000 (UTC)
+	with ESMTP id xVmqGDw+YrxH; Tue,  3 Dec 2019 17:38:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DACE287758;
-	Tue,  3 Dec 2019 16:45:46 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DE4A186D51;
+	Tue,  3 Dec 2019 17:38:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CC0A9C1DE2;
-	Tue,  3 Dec 2019 16:45:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D674BC1DE2;
+	Tue,  3 Dec 2019 17:38:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 76E14C087F
- for <iommu@lists.linux-foundation.org>; Tue,  3 Dec 2019 16:45:45 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 44BECC1799
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Dec 2019 17:38:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 64FCD87758
- for <iommu@lists.linux-foundation.org>; Tue,  3 Dec 2019 16:45:45 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 3116786C59
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Dec 2019 17:38:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ztq2ALCHy0ac for <iommu@lists.linux-foundation.org>;
- Tue,  3 Dec 2019 16:45:44 +0000 (UTC)
+ with ESMTP id j2ernplOLvSC for <iommu@lists.linux-foundation.org>;
+ Tue,  3 Dec 2019 17:38:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 96A2787740
- for <iommu@lists.linux-foundation.org>; Tue,  3 Dec 2019 16:45:44 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 344E586C39
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Dec 2019 17:38:26 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2019 08:45:43 -0800
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2019 09:38:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,273,1571727600"; d="scan'208";a="222883231"
+X-IronPort-AV: E=Sophos;i="5.69,273,1571727600"; d="scan'208";a="385401803"
 Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga002.jf.intel.com with ESMTP; 03 Dec 2019 08:45:43 -0800
-Date: Tue, 3 Dec 2019 08:50:26 -0800
+ by orsmga005.jf.intel.com with ESMTP; 03 Dec 2019 09:38:25 -0800
+Date: Tue, 3 Dec 2019 09:43:08 -0800
 From: Jacob Pan <jacob.jun.pan@linux.intel.com>
 To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 0/5] iommu/vt-d: Consolidate various cache flush ops
-Message-ID: <20191203085026.1785292b@jacob-builder>
-In-Reply-To: <f703c267-c946-30cf-7e0e-4de16edcde18@linux.intel.com>
+Subject: Re: [PATCH 4/5] iommu/vt-d: Consolidate pasid-based tlb invalidation
+Message-ID: <20191203094308.60e348df@jacob-builder>
+In-Reply-To: <20191122030449.28892-5-baolu.lu@linux.intel.com>
 References: <20191122030449.28892-1-baolu.lu@linux.intel.com>
- <20191202120252.45606c47@jacob-builder>
- <f703c267-c946-30cf-7e0e-4de16edcde18@linux.intel.com>
+ <20191122030449.28892-5-baolu.lu@linux.intel.com>
 Organization: OTC
 X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -74,75 +73,188 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, 3 Dec 2019 10:44:45 +0800
+On Fri, 22 Nov 2019 11:04:48 +0800
 Lu Baolu <baolu.lu@linux.intel.com> wrote:
 
-> Hi Jacob,
+> Merge pasid-based tlb invalidation into iommu->flush.p_iotlb_inv.
 > 
-> On 12/3/19 4:02 AM, Jacob Pan wrote:
-> > On Fri, 22 Nov 2019 11:04:44 +0800
-> > Lu Baolu<baolu.lu@linux.intel.com>  wrote:
-> >   
-> >> Intel VT-d 3.0 introduces more caches and interfaces for software
-> >> to flush when it runs in the scalable mode. Currently various
-> >> cache flush helpers are scattered around. This consolidates them
-> >> by putting them in the existing iommu_flush structure.
-> >>
-> >> /* struct iommu_flush - Intel IOMMU cache invalidation ops
-> >>   *
-> >>   * @cc_inv: invalidate context cache
-> >>   * @iotlb_inv: Invalidate IOTLB and paging structure caches when
-> >> software
-> >>   *             has changed second-level tables.
-> >>   * @p_iotlb_inv: Invalidate IOTLB and paging structure caches when
-> >> software
-> >>   *               has changed first-level tables.
-> >>   * @pc_inv: invalidate pasid cache
-> >>   * @dev_tlb_inv: invalidate cached mappings used by
-> >> requests-without-PASID
-> >>   *               from the Device-TLB on a endpoint device.
-> >>   * @p_dev_tlb_inv: invalidate cached mappings used by
-> >> requests-with-PASID
-> >>   *                 from the Device-TLB on an endpoint device
-> >>   */
-> >> struct iommu_flush {
-> >>          void (*cc_inv)(struct intel_iommu *iommu, u16 did,
-> >>                         u16 sid, u8 fm, u64 type);
-> >>          void (*iotlb_inv)(struct intel_iommu *iommu, u16 did, u64
-> >> addr, unsigned int size_order, u64 type);
-> >>          void (*p_iotlb_inv)(struct intel_iommu *iommu, u16 did,
-> >> u32 pasid, u64 addr, unsigned long npages, bool ih);
-> >>          void (*pc_inv)(struct intel_iommu *iommu, u16 did, u32
-> >> pasid, u64 granu);
-> >>          void (*dev_tlb_inv)(struct intel_iommu *iommu, u16 sid,
-> >> u16 pfsid, u16 qdep, u64 addr, unsigned int mask);
-> >>          void (*p_dev_tlb_inv)(struct intel_iommu *iommu, u16 sid,
-> >> u16 pfsid, u32 pasid, u16 qdep, u64 addr,
-> >>                                unsigned long npages);
-> >> };
-> >>
-> >> The name of each cache flush ops is defined according to the spec
-> >> section 6.5 so that people are easy to look up them in the spec.
-> >>  
-> > Nice consolidation. For nested SVM, I also introduced cache flushed
-> > helpers as needed.
-> > https://lkml.org/lkml/2019/10/24/857
-> > 
-> > Should I wait for yours to be merged or you want to extend the this
-> > consolidation after SVA/SVM cache flush? I expect to send my v8
-> > shortly. 
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> ---
+>  drivers/iommu/intel-iommu.c | 43
+> +++++++++++++++++++++++++++++++++++++ drivers/iommu/intel-pasid.c |
+> 18 ++-------------- drivers/iommu/intel-svm.c   | 23
+> +++----------------- 3 files changed, 48 insertions(+), 36
+> deletions(-)
 > 
-> Please base your v8 patch on this series. So it could get more chances
-> for test.
-> 
-Sounds good.
+> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+> index 4eeb18942d3c..fec78cc877c1 100644
+> --- a/drivers/iommu/intel-iommu.c
+> +++ b/drivers/iommu/intel-iommu.c
+> @@ -3032,6 +3032,48 @@ qi_flush_dev_iotlb(struct intel_iommu *iommu,
+> u16 sid, u16 pfsid, qi_submit_sync(&desc, iommu);
+>  }
+>  
+> +/* PASID-based IOTLB invalidation */
+> +static void
+> +qi_flush_piotlb(struct intel_iommu *iommu, u16 did, u32 pasid, u64
+> addr,
+> +		unsigned long npages, bool ih)
+> +{
+> +	struct qi_desc desc = {.qw2 = 0, .qw3 = 0};
+> +
+> +	/*
+> +	 * npages == -1 means a PASID-selective invalidation,
+> otherwise,
+> +	 * a positive value for Page-selective-within-PASID
+> invalidation.
+> +	 * 0 is not a valid input.
+> +	 */
+> +	if (WARN_ON(!npages)) {
+> +		pr_err("Invalid input npages = %ld\n", npages);
+> +		return;
+> +	}
+> +
+> +	if (npages == -1) {
+> +		desc.qw0 = QI_EIOTLB_PASID(pasid) |
+> +				QI_EIOTLB_DID(did) |
+> +				QI_EIOTLB_GRAN(QI_GRAN_NONG_PASID) |
+> +				QI_EIOTLB_TYPE;
+> +		desc.qw1 = 0;
+Is this based on the latest kernel? seems to be missing the recent
+change for checking page selective cap. So I run into conflict.
 
-> I will queue this patch series for internal test after 5.5-rc1 and if
-> everything goes well, I will forward it to Joerg around rc4 for linux-
-> next.
-> 
-> Best regards,
-> baolu
++       /*                                                                     
++        * Do PASID granu IOTLB invalidation if page selective
+  capability is   
++        * not
+  available.                                                      
++
+  */                                                                    
++       if (pages == -1 || !cap_pgsel_inv(svm->iommu->cap))
+  {                  
++               desc.qw0 = QI_EIOTLB_PASID(svm->pasid)
+  |                       
+
+Seems missing this one in your base?
+
+Refs: v5.3-rc6-2-g8744daf4b069                              
+Author:     Jacob Pan <jacob.jun.pan@linux.intel.com>       
+AuthorDate: Mon Aug 26 08:53:29 2019 -0700                  
+Commit:     Joerg Roedel <jroedel@suse.de>                  
+CommitDate: Tue Sep 3 15:01:27 2019 +0200                   
+                                                            
+    iommu/vt-d: Remove global page flush support            
+
+> +	} else {
+> +		int mask = ilog2(__roundup_pow_of_two(npages));
+> +		unsigned long align = (1ULL << (VTD_PAGE_SHIFT +
+> mask)); +
+> +		if (WARN_ON_ONCE(!ALIGN(addr, align)))
+> +			addr &= ~(align - 1);
+> +
+> +		desc.qw0 = QI_EIOTLB_PASID(pasid) |
+> +				QI_EIOTLB_DID(did) |
+> +				QI_EIOTLB_GRAN(QI_GRAN_PSI_PASID) |
+> +				QI_EIOTLB_TYPE;
+> +		desc.qw1 = QI_EIOTLB_ADDR(addr) |
+> +				QI_EIOTLB_IH(ih) |
+> +				QI_EIOTLB_AM(mask);
+> +	}
+> +
+> +	qi_submit_sync(&desc, iommu);
+> +}
+> +
+>  static void intel_iommu_init_qi(struct intel_iommu *iommu)
+>  {
+>  	/*
+> @@ -3065,6 +3107,7 @@ static void intel_iommu_init_qi(struct
+> intel_iommu *iommu) iommu->flush.iotlb_inv = qi_flush_iotlb;
+>  		iommu->flush.pc_inv = qi_flush_pasid;
+>  		iommu->flush.dev_tlb_inv = qi_flush_dev_iotlb;
+> +		iommu->flush.p_iotlb_inv = qi_flush_piotlb;
+>  		pr_info("%s: Using Queued invalidation\n",
+> iommu->name); }
+>  }
+> diff --git a/drivers/iommu/intel-pasid.c b/drivers/iommu/intel-pasid.c
+> index 01dd9c86178b..78ff4eee8595 100644
+> --- a/drivers/iommu/intel-pasid.c
+> +++ b/drivers/iommu/intel-pasid.c
+> @@ -359,20 +359,6 @@ pasid_set_flpm(struct pasid_entry *pe, u64 value)
+>  	pasid_set_bits(&pe->val[2], GENMASK_ULL(3, 2), value << 2);
+>  }
+>  
+> -static void
+> -iotlb_invalidation_with_pasid(struct intel_iommu *iommu, u16 did,
+> u32 pasid) -{
+> -	struct qi_desc desc;
+> -
+> -	desc.qw0 = QI_EIOTLB_PASID(pasid) | QI_EIOTLB_DID(did) |
+> -			QI_EIOTLB_GRAN(QI_GRAN_NONG_PASID) |
+> QI_EIOTLB_TYPE;
+> -	desc.qw1 = 0;
+> -	desc.qw2 = 0;
+> -	desc.qw3 = 0;
+> -
+> -	qi_submit_sync(&desc, iommu);
+> -}
+> -
+>  static void
+>  devtlb_invalidation_with_pasid(struct intel_iommu *iommu,
+>  			       struct device *dev, int pasid)
+> @@ -409,7 +395,7 @@ void intel_pasid_tear_down_entry(struct
+> intel_iommu *iommu, clflush_cache_range(pte, sizeof(*pte));
+>  
+>  	iommu->flush.pc_inv(iommu, did, pasid, QI_PC_GRAN_PSWD);
+> -	iotlb_invalidation_with_pasid(iommu, did, pasid);
+> +	iommu->flush.p_iotlb_inv(iommu, did, pasid, 0, -1, 0);
+>  
+>  	/* Device IOTLB doesn't need to be flushed in caching mode.
+> */ if (!cap_caching_mode(iommu->cap))
+> @@ -425,7 +411,7 @@ static void pasid_flush_caches(struct intel_iommu
+> *iommu, 
+>  	if (cap_caching_mode(iommu->cap)) {
+>  		iommu->flush.pc_inv(iommu, did, pasid,
+> QI_PC_GRAN_PSWD);
+> -		iotlb_invalidation_with_pasid(iommu, did, pasid);
+> +		iommu->flush.p_iotlb_inv(iommu, did, pasid, 0, -1,
+> 0); } else {
+>  		iommu_flush_write_buffer(iommu);
+>  	}
+> diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel-svm.c
+> index f5594b9981a5..02c6b14f0568 100644
+> --- a/drivers/iommu/intel-svm.c
+> +++ b/drivers/iommu/intel-svm.c
+> @@ -118,27 +118,10 @@ static void intel_flush_svm_range_dev (struct
+> intel_svm *svm, struct intel_svm_d unsigned long address, unsigned
+> long pages, int ih) {
+>  	struct qi_desc desc;
+> +	struct intel_iommu *iommu = svm->iommu;
+>  
+> -	if (pages == -1) {
+> -		desc.qw0 = QI_EIOTLB_PASID(svm->pasid) |
+> -			QI_EIOTLB_DID(sdev->did) |
+> -			QI_EIOTLB_GRAN(QI_GRAN_NONG_PASID) |
+> -			QI_EIOTLB_TYPE;
+> -		desc.qw1 = 0;
+> -	} else {
+> -		int mask = ilog2(__roundup_pow_of_two(pages));
+> -
+> -		desc.qw0 = QI_EIOTLB_PASID(svm->pasid) |
+> -				QI_EIOTLB_DID(sdev->did) |
+> -				QI_EIOTLB_GRAN(QI_GRAN_PSI_PASID) |
+> -				QI_EIOTLB_TYPE;
+> -		desc.qw1 = QI_EIOTLB_ADDR(address) |
+> -				QI_EIOTLB_IH(ih) |
+> -				QI_EIOTLB_AM(mask);
+> -	}
+> -	desc.qw2 = 0;
+> -	desc.qw3 = 0;
+> -	qi_submit_sync(&desc, svm->iommu);
+> +	iommu->flush.p_iotlb_inv(iommu, sdev->did,
+> +				 svm->pasid, address, pages, ih);
+>  
+>  	if (sdev->dev_iotlb) {
+>  		desc.qw0 = QI_DEV_EIOTLB_PASID(svm->pasid) |
 
 [Jacob Pan]
 _______________________________________________
