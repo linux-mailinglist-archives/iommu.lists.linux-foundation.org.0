@@ -1,60 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B6F113035
-	for <lists.iommu@lfdr.de>; Wed,  4 Dec 2019 17:45:10 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A841130E7
+	for <lists.iommu@lfdr.de>; Wed,  4 Dec 2019 18:37:23 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3C0F6203AE;
-	Wed,  4 Dec 2019 16:45:09 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 208D987DB0;
+	Wed,  4 Dec 2019 17:37:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aXP8AwhhQC1u; Wed,  4 Dec 2019 16:45:06 +0000 (UTC)
+	with ESMTP id fnQsVGmcBLTd; Wed,  4 Dec 2019 17:37:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 3602A23115;
-	Wed,  4 Dec 2019 16:45:06 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5DA1E87DB2;
+	Wed,  4 Dec 2019 17:37:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0638DC077D;
-	Wed,  4 Dec 2019 16:45:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 47713C18DD;
+	Wed,  4 Dec 2019 17:37:20 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C83A9C077D
- for <iommu@lists.linux-foundation.org>; Wed,  4 Dec 2019 16:45:04 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 934D9C077D
+ for <iommu@lists.linux-foundation.org>; Wed,  4 Dec 2019 17:37:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id BE57F230FD
- for <iommu@lists.linux-foundation.org>; Wed,  4 Dec 2019 16:45:04 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 75EF086F41
+ for <iommu@lists.linux-foundation.org>; Wed,  4 Dec 2019 17:37:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3sarXGKoXFtP for <iommu@lists.linux-foundation.org>;
- Wed,  4 Dec 2019 16:45:02 +0000 (UTC)
+ with ESMTP id 2nCOnlyrXY-V for <iommu@lists.linux-foundation.org>;
+ Wed,  4 Dec 2019 17:37:17 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by silver.osuosl.org (Postfix) with ESMTP id BA806203AE
- for <iommu@lists.linux-foundation.org>; Wed,  4 Dec 2019 16:45:02 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6138231B;
- Wed,  4 Dec 2019 08:45:02 -0800 (PST)
-Received: from [10.1.196.37] (e121345-lin.cambridge.arm.com [10.1.196.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 675A83F52E;
- Wed,  4 Dec 2019 08:45:01 -0800 (PST)
-Subject: Re: [PATCH v2 4/8] iommu/arm-smmu: Add split pagetables for Adreno
- IOMMU implementations
-To: Jordan Crouse <jcrouse@codeaurora.org>, iommu@lists.linux-foundation.org
-References: <1574465484-7115-1-git-send-email-jcrouse@codeaurora.org>
- <0101016e95752703-78491f46-41db-441c-b0fb-9a760e4d56cb-000000@us-west-2.amazonses.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <2a43c49e-064e-1e95-6726-8d1e761f6749@arm.com>
-Date: Wed, 4 Dec 2019 16:44:59 +0000
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id C92FF86F40
+ for <iommu@lists.linux-foundation.org>; Wed,  4 Dec 2019 17:37:17 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2019 09:37:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,278,1571727600"; d="scan'208";a="223306093"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by orsmga002.jf.intel.com with ESMTP; 04 Dec 2019 09:37:15 -0800
+Date: Wed, 4 Dec 2019 09:41:59 -0800
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH 0/5] iommu/vt-d: Consolidate various cache flush ops
+Message-ID: <20191204094159.7b3e4100@jacob-builder>
+In-Reply-To: <d6ff346e-6b6b-d9cd-c7c8-0e54614c1b37@linux.intel.com>
+References: <20191122030449.28892-1-baolu.lu@linux.intel.com>
+ <20191202120252.45606c47@jacob-builder>
+ <f703c267-c946-30cf-7e0e-4de16edcde18@linux.intel.com>
+ <20191203085026.1785292b@jacob-builder>
+ <d6ff346e-6b6b-d9cd-c7c8-0e54614c1b37@linux.intel.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <0101016e95752703-78491f46-41db-441c-b0fb-9a760e4d56cb-000000@us-west-2.amazonses.com>
-Content-Language: en-GB
-Cc: linux-arm-msm@vger.kernel.org, will@kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: kevin.tian@intel.com, ashok.raj@intel.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,289 +71,84 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 22/11/2019 11:31 pm, Jordan Crouse wrote:
-> Add implementation specific support to enable split pagetables for
-> SMMU implementations attached to Adreno GPUs on Qualcomm targets.
-> 
-> To enable split pagetables the driver will set an attribute on the domain.
-> if conditions are correct, set up the hardware to support equally sized
-> TTBR0 and TTBR1 regions and programs the domain pagetable to TTBR1 to make
-> it available for global buffers while allowing the GPU the chance to
-> switch the TTBR0 at runtime for per-context pagetables.
-> 
-> After programming the context, the value of the domain attribute can be
-> queried to see if split pagetables were successfully programmed. The
-> domain geometry will be updated so that the caller can determine the
-> start of the region to generate correct virtual addresses.
+On Wed, 4 Dec 2019 08:32:17 +0800
+Lu Baolu <baolu.lu@linux.intel.com> wrote:
 
-Why is any of this in impl? It all looks like perfectly generic 
-architectural TTBR1 setup to me. As long as DOMAIN_ATTR_SPLIT_TABLES is 
-explicitly an opt-in for callers, I'm OK with them having to trust that 
-SEP_UPSTREAM is good enough. Or, even better, make the value of 
-DOMAIN_ATTR_SPLIT_TABLES not a boolean but the actual split point, where 
-the default of 0 would logically mean "no split".
-
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> ---
+> Hi Jacob,
 > 
->   drivers/iommu/arm-smmu-impl.c |  3 ++
->   drivers/iommu/arm-smmu-qcom.c | 96 +++++++++++++++++++++++++++++++++++++++++++
->   drivers/iommu/arm-smmu.c      | 41 ++++++++++++++----
->   drivers/iommu/arm-smmu.h      | 11 +++++
->   4 files changed, 143 insertions(+), 8 deletions(-)
+> On 12/4/19 12:50 AM, Jacob Pan wrote:
+> > On Tue, 3 Dec 2019 10:44:45 +0800
+> > Lu Baolu <baolu.lu@linux.intel.com> wrote:
+> >   
+> >> Hi Jacob,
+> >>
+> >> On 12/3/19 4:02 AM, Jacob Pan wrote:  
+> >>> On Fri, 22 Nov 2019 11:04:44 +0800
+> >>> Lu Baolu<baolu.lu@linux.intel.com>  wrote:
+> >>>      
+> >>>> Intel VT-d 3.0 introduces more caches and interfaces for software
+> >>>> to flush when it runs in the scalable mode. Currently various
+> >>>> cache flush helpers are scattered around. This consolidates them
+> >>>> by putting them in the existing iommu_flush structure.
+> >>>>
+> >>>> /* struct iommu_flush - Intel IOMMU cache invalidation ops
+> >>>>    *
+> >>>>    * @cc_inv: invalidate context cache
+> >>>>    * @iotlb_inv: Invalidate IOTLB and paging structure caches
+> >>>> when software
+> >>>>    *             has changed second-level tables.
+> >>>>    * @p_iotlb_inv: Invalidate IOTLB and paging structure caches
+> >>>> when software
+> >>>>    *               has changed first-level tables.
+> >>>>    * @pc_inv: invalidate pasid cache
+> >>>>    * @dev_tlb_inv: invalidate cached mappings used by
+> >>>> requests-without-PASID
+> >>>>    *               from the Device-TLB on a endpoint device.
+> >>>>    * @p_dev_tlb_inv: invalidate cached mappings used by
+> >>>> requests-with-PASID
+> >>>>    *                 from the Device-TLB on an endpoint device
+> >>>>    */
+> >>>> struct iommu_flush {
+> >>>>           void (*cc_inv)(struct intel_iommu *iommu, u16 did,
+> >>>>                          u16 sid, u8 fm, u64 type);
+> >>>>           void (*iotlb_inv)(struct intel_iommu *iommu, u16 did,
+> >>>> u64 addr, unsigned int size_order, u64 type);
+> >>>>           void (*p_iotlb_inv)(struct intel_iommu *iommu, u16 did,
+> >>>> u32 pasid, u64 addr, unsigned long npages, bool ih);
+> >>>>           void (*pc_inv)(struct intel_iommu *iommu, u16 did, u32
+> >>>> pasid, u64 granu);
+> >>>>           void (*dev_tlb_inv)(struct intel_iommu *iommu, u16 sid,
+> >>>> u16 pfsid, u16 qdep, u64 addr, unsigned int mask);
+> >>>>           void (*p_dev_tlb_inv)(struct intel_iommu *iommu, u16
+> >>>> sid, u16 pfsid, u32 pasid, u16 qdep, u64 addr,
+> >>>>                                 unsigned long npages);
+> >>>> };
+> >>>>
+> >>>> The name of each cache flush ops is defined according to the spec
+> >>>> section 6.5 so that people are easy to look up them in the spec.
+> >>>>     
+> >>> Nice consolidation. For nested SVM, I also introduced cache
+> >>> flushed helpers as needed.
+> >>> https://lkml.org/lkml/2019/10/24/857
+> >>>
+> >>> Should I wait for yours to be merged or you want to extend the
+> >>> this consolidation after SVA/SVM cache flush? I expect to send my
+> >>> v8 shortly.  
+> >>
+> >> Please base your v8 patch on this series. So it could get more
+> >> chances for test.
+> >>  
+> > Sounds good.  
 > 
-> diff --git a/drivers/iommu/arm-smmu-impl.c b/drivers/iommu/arm-smmu-impl.c
-> index 33ed682..1e91231 100644
-> --- a/drivers/iommu/arm-smmu-impl.c
-> +++ b/drivers/iommu/arm-smmu-impl.c
-> @@ -174,5 +174,8 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
->   	if (of_device_is_compatible(smmu->dev->of_node, "qcom,sdm845-smmu-500"))
->   		return qcom_smmu_impl_init(smmu);
->   
-> +	if (of_device_is_compatible(smmu->dev->of_node, "qcom,adreno-smmu-v2"))
-> +		return adreno_smmu_impl_init(smmu);
-> +
->   	return smmu;
->   }
-> diff --git a/drivers/iommu/arm-smmu-qcom.c b/drivers/iommu/arm-smmu-qcom.c
-> index 24c071c..6591e49 100644
-> --- a/drivers/iommu/arm-smmu-qcom.c
-> +++ b/drivers/iommu/arm-smmu-qcom.c
-> @@ -11,6 +11,102 @@ struct qcom_smmu {
->   	struct arm_smmu_device smmu;
->   };
->   
-> +#define TG0_4K  0
-> +#define TG0_64K 1
-> +#define TG0_16K 2
-> +
-> +#define TG1_16K 1
-> +#define TG1_4K  2
-> +#define TG1_64K 3
-> +
-> +/*
-> + * Set up split pagetables for Adreno SMMUs that will keep a static TTBR1 for
-> + * global buffers and dynamically switch TTBR0 from the GPU for context specific
-> + * pagetables.
-> + */
-> +static int adreno_smmu_init_context_bank(struct arm_smmu_domain *smmu_domain,
-> +		struct io_pgtable_cfg *pgtbl_cfg)
-> +{
-> +	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
-> +	struct arm_smmu_cb *cb = &smmu_domain->smmu->cbs[cfg->cbndx];
-> +	u32 tcr, tg0;
-> +
-> +	/*
-> +	 * Return error if split pagetables are not enabled so that arm-smmu
-> +	 * do the default configuration
-> +	 */
-> +	if (!(pgtbl_cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1))
-> +		return -EINVAL;
-> +
-> +	/* Get the bank configuration from the pagetable config */
-> +	tcr = arm_smmu_lpae_tcr(pgtbl_cfg) & 0xffff;
-
-The intent is that arm_smmu_lpae_tcr() should inherently return the 
-appropriate half of the TCR based on pgtable_cfg. It seems like a lot of 
-this complexity stems from missing that; sorry if it was unclear.
-
-Robin.
-
-> +
-> +	/*
-> +	 * The TCR configuration for TTBR0 and TTBR1 is (almost) identical so
-> +	 * just duplicate the T0 configuration and shift it
-> +	 */
-> +	cb->tcr[0] = (tcr << 16) | tcr;
-> +
-> +	/*
-> +	 * The (almost) above refers to the granule size field which is
-> +	 * different for TTBR0 and TTBR1. With the TTBR1 quirk enabled,
-> +	 * io-pgtable-arm will write the T1 appropriate granule size for tg.
-> +	 * Translate the configuration from the T1 field to get the right value
-> +	 * for T0
-> +	 */
-> +	if (pgtbl_cfg->arm_lpae_s1_cfg.tcr.tg == TG1_4K)
-> +		tg0 = TG0_4K;
-> +	else if (pgtbl_cfg->arm_lpae_s1_cfg.tcr.tg == TG1_16K)
-> +		tg0 = TG0_16K;
-> +	else
-> +		tg0 = TG0_64K;
-> +
-> +	/* clear and set the correct value for TG0  */
-> +	cb->tcr[0] &= ~TCR_TG0;
-> +	cb->tcr[0] |= FIELD_PREP(TCR_TG0, tg0);
-> +
-> +	/*
-> +	 * arm_smmu_lape_tcr2 sets SEP_UPSTREAM which is always the appropriate
-> +	 * SEP for Adreno IOMMU
-> +	 */
-> +	cb->tcr[1] = arm_smmu_lpae_tcr2(pgtbl_cfg);
-> +	cb->tcr[1] |= TCR2_AS;
-> +
-> +	/* TTBRs */
-> +	cb->ttbr[0] = FIELD_PREP(TTBRn_ASID, cfg->asid);
-> +	cb->ttbr[1] = pgtbl_cfg->arm_lpae_s1_cfg.ttbr;
-> +	cb->ttbr[1] |= FIELD_PREP(TTBRn_ASID, cfg->asid);
-> +
-> +	/* MAIRs */
-> +	cb->mair[0] = pgtbl_cfg->arm_lpae_s1_cfg.mair;
-> +	cb->mair[1] = pgtbl_cfg->arm_lpae_s1_cfg.mair >> 32;
-> +
-> +	return 0;
-> +}
-> +
-> +static int adreno_smmu_init_context(struct arm_smmu_domain *smmu_domain,
-> +		struct io_pgtable_cfg *pgtbl_cfg)
-> +{
-> +	/* Enable split pagetables if the flag is set and the format matches */
-> +	if (smmu_domain->split_pagetables)
-> +		if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1 &&
-> +			smmu_domain->cfg.fmt == ARM_SMMU_CTX_FMT_AARCH64)
-> +			pgtbl_cfg->quirks |= IO_PGTABLE_QUIRK_ARM_TTBR1;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct arm_smmu_impl adreno_smmu_impl = {
-> +	.init_context = adreno_smmu_init_context,
-> +	.init_context_bank = adreno_smmu_init_context_bank,
-> +};
-> +
-> +struct arm_smmu_device *adreno_smmu_impl_init(struct arm_smmu_device *smmu)
-> +{
-> +	smmu->impl = &adreno_smmu_impl;
-> +	return smmu;
-> +}
-> +
->   static int qcom_sdm845_smmu500_reset(struct arm_smmu_device *smmu)
->   {
->   	int ret;
-> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-> index 5c7c32b..f5dc950 100644
-> --- a/drivers/iommu/arm-smmu.c
-> +++ b/drivers/iommu/arm-smmu.c
-> @@ -91,13 +91,6 @@ struct arm_smmu_smr {
->   	bool				valid;
->   };
->   
-> -struct arm_smmu_cb {
-> -	u64				ttbr[2];
-> -	u32				tcr[2];
-> -	u32				mair[2];
-> -	struct arm_smmu_cfg		*cfg;
-> -};
-> -
->   struct arm_smmu_master_cfg {
->   	struct arm_smmu_device		*smmu;
->   	s16				smendx[];
-> @@ -512,10 +505,20 @@ static void arm_smmu_init_context_bank(struct arm_smmu_domain *smmu_domain,
->   {
->   	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
->   	struct arm_smmu_cb *cb = &smmu_domain->smmu->cbs[cfg->cbndx];
-> +	struct arm_smmu_device *smmu = smmu_domain->smmu;
->   	bool stage1 = cfg->cbar != CBAR_TYPE_S2_TRANS;
->   
->   	cb->cfg = cfg;
->   
-> +	if (smmu->impl && smmu->impl->init_context_bank) {
-> +		/*
-> +		 * If the implementation specific function returns non-zero then
-> +		 * fall back to the default configuration
-> +		 */
-> +		if (!smmu->impl->init_context_bank(smmu_domain, pgtbl_cfg))
-> +			return; > +	}
-> +
->   	/* TCR */
->   	if (stage1) {
->   		if (cfg->fmt == ARM_SMMU_CTX_FMT_AARCH32_S) {
-> @@ -802,7 +805,17 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
->   
->   	/* Update the domain's page sizes to reflect the page table format */
->   	domain->pgsize_bitmap = pgtbl_cfg.pgsize_bitmap;
-> -	domain->geometry.aperture_end = (1UL << ias) - 1;
-> +
-> +	if (pgtbl_cfg.quirks & IO_PGTABLE_QUIRK_ARM_TTBR1) {
-> +		domain->geometry.aperture_start = ~((1UL << ias) - 1);
-> +		domain->geometry.aperture_end = ~0UL;
-> +	} else {
-> +		domain->geometry.aperture_start = 0;
-> +		domain->geometry.aperture_end = (1UL << ias) - 1;
-> +
-> +		smmu_domain->split_pagetables = false;
-> +	}
-> +
->   	domain->geometry.force_aperture = true;
->   
->   	/* Initialise the context bank with our page table cfg */
-> @@ -1485,6 +1498,9 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
->   		case DOMAIN_ATTR_NESTING:
->   			*(int *)data = (smmu_domain->stage == ARM_SMMU_DOMAIN_NESTED);
->   			return 0;
-> +		case DOMAIN_ATTR_SPLIT_TABLES:
-> +			*(int *)data = smmu_domain->split_pagetables;
-> +			return 0;
->   		default:
->   			return -ENODEV;
->   		}
-> @@ -1525,6 +1541,15 @@ static int arm_smmu_domain_set_attr(struct iommu_domain *domain,
->   			else
->   				smmu_domain->stage = ARM_SMMU_DOMAIN_S1;
->   			break;
-> +		case DOMAIN_ATTR_SPLIT_TABLES:
-> +			if (smmu_domain->smmu) {
-> +				return -EPERM;
-> +				goto out_unlock;
-> +			}
-> +
-> +			if (*(int *) data)
-> +				smmu_domain->split_pagetables = true;
-> +			break;
->   		default:
->   			ret = -ENODEV;
->   		}
-> diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
-> index 0eb498f..35158ee 100644
-> --- a/drivers/iommu/arm-smmu.h
-> +++ b/drivers/iommu/arm-smmu.h
-> @@ -329,6 +329,14 @@ struct arm_smmu_domain {
->   	struct mutex			init_mutex; /* Protects smmu pointer */
->   	spinlock_t			cb_lock; /* Serialises ATS1* ops and TLB syncs */
->   	struct iommu_domain		domain;
-> +	bool				split_pagetables;
-> +};
-> +
-> +struct arm_smmu_cb {
-> +	u64				ttbr[2];
-> +	u32				tcr[2];
-> +	u32				mair[2];
-> +	struct arm_smmu_cfg		*cfg;
->   };
->   
->   static inline u32 arm_smmu_lpae_tcr(struct io_pgtable_cfg *cfg)
-> @@ -359,6 +367,8 @@ struct arm_smmu_impl {
->   	int (*reset)(struct arm_smmu_device *smmu);
->   	int (*init_context)(struct arm_smmu_domain *smmu_domain,
->   			struct io_pgtable_cfg *pgtbl_cfg);
-> +	int (*init_context_bank)(struct arm_smmu_domain *smmu_domain,
-> +			struct io_pgtable_cfg *pgtable_cfg);
->   	void (*tlb_sync)(struct arm_smmu_device *smmu, int page, int sync,
->   			 int status);
->   };
-> @@ -425,6 +435,7 @@ static inline void arm_smmu_writeq(struct arm_smmu_device *smmu, int page,
->   
->   struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu);
->   struct arm_smmu_device *qcom_smmu_impl_init(struct arm_smmu_device *smmu);
-> +struct arm_smmu_device *adreno_smmu_impl_init(struct arm_smmu_device *smmu);
->   
->   int arm_mmu500_reset(struct arm_smmu_device *smmu);
->   
+> I am sorry I need to spend more time on this patch series. Please go
+> ahead without it.
 > 
+NP, let me know when you need testing.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
