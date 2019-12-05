@@ -1,77 +1,88 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1503E114834
-	for <lists.iommu@lfdr.de>; Thu,  5 Dec 2019 21:38:54 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF9EC11494F
+	for <lists.iommu@lfdr.de>; Thu,  5 Dec 2019 23:30:51 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B7DDE872FD;
-	Thu,  5 Dec 2019 20:38:52 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 50E6588B41;
+	Thu,  5 Dec 2019 22:30:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8kegW2zO8CSL; Thu,  5 Dec 2019 20:38:51 +0000 (UTC)
+	with ESMTP id C9Sp8zFYGSpO; Thu,  5 Dec 2019 22:30:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9938C87281;
-	Thu,  5 Dec 2019 20:38:51 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B406288B38;
+	Thu,  5 Dec 2019 22:30:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 825E4C1D7F;
-	Thu,  5 Dec 2019 20:38:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A4623C077D;
+	Thu,  5 Dec 2019 22:30:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B8015C077D
- for <iommu@lists.linux-foundation.org>; Thu,  5 Dec 2019 20:38:49 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C548BC077D
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Dec 2019 22:30:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id AAF4188B0B
- for <iommu@lists.linux-foundation.org>; Thu,  5 Dec 2019 20:38:49 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id B784388AEE
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Dec 2019 22:30:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ETKY44TTR3V4 for <iommu@lists.linux-foundation.org>;
- Thu,  5 Dec 2019 20:38:48 +0000 (UTC)
+ with ESMTP id i4ss4PPfzqIL for <iommu@lists.linux-foundation.org>;
+ Thu,  5 Dec 2019 22:30:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 7897688AC7
- for <iommu@lists.linux-foundation.org>; Thu,  5 Dec 2019 20:38:48 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 6F6BE88AC5
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Dec 2019 22:30:47 +0000 (UTC)
 Received: from localhost (mobile-166-170-221-197.mycingular.net
  [166.170.221.197])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B455D205F4;
- Thu,  5 Dec 2019 20:38:47 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 84F6520707;
+ Thu,  5 Dec 2019 22:30:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1575578328;
- bh=K7c3qaYFnXWMMqmwVGrwX7rG4+uwWtUsCcODfBtRF1k=;
+ s=default; t=1575585047;
+ bh=rwc2W/J/V58JZoKOWg2doRruK6KWPbQgM5Sb2F/Ai60=;
  h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=NWmiSx+ex1TjiKC4MaIx3xgvijveWrSbxbs+XjqnQh8NtXiBsDxOC54dxgdSCwY2Q
- JFbBLgr1/UwBKIqUKv7MLbUuUhoa33JyMTyHQS/JVBgESXzRhy4V3aJStQ6g6aSYgd
- BMEn5r9MAm2BdXlEKpf1Z9W0pYFSQT6+AX76sG20=
-Date: Thu, 5 Dec 2019 14:38:45 -0600
+ b=cliOZcUxDWzGZ1UQTKJkPsD++s/EPrjyE7H/snJuA3uqE7NURH520sOnVje6nd0Ts
+ Td38CmfeZyMBlRyr+Rypsepv/EG8hoAOa7B7sJiJzOVgMDkiBquX3yxdZnHzKOkS/c
+ BBv+wew7DxEj2QDNBsIebdp/nYnu0CS5l8OPwMaM=
+Date: Thu, 5 Dec 2019 16:30:44 -0600
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: Re: [PATCH v4 8/8] linux/log2.h: Use roundup/dow_pow_two() on 64bit
- calculations
-Message-ID: <20191205203845.GA243596@google.com>
+Subject: Re: [PATCH v4 7/8] linux/log2.h: Fix 64bit calculations in
+ roundup/down_pow_two()
+Message-ID: <20191205223044.GA250573@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191203114743.1294-9-nsaenzjulienne@suse.de>
+In-Reply-To: <20191203114743.1294-8-nsaenzjulienne@suse.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Heiko Stuebner <heiko@sntech.de>, linux-pci@vger.kernel.org,
- Shawn Lin <shawn.lin@rock-chips.com>, Eric Anholt <eric@anholt.net>,
- Hanjun Guo <guohanjun@huawei.com>, Frank Rowand <frowand.list@gmail.com>,
- Christoph Hellwig <hch@lst.de>, Florian Fainelli <f.fainelli@gmail.com>,
- linux-rockchip@lists.infradead.org, linux-rdma@vger.kernel.org, maz@kernel.org,
- phil@raspberrypi.org, linux-acpi@vger.kernel.org,
- bcm-kernel-feedback-list@broadcom.com, Len Brown <lenb@kernel.org>,
- devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, mbrugger@suse.com,
- netdev@vger.kernel.org, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+Cc: linux-pci@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
+ "J. Bruce Fields" <bfields@fieldses.org>, linux-nfs@vger.kernel.org,
+ Edward Cree <ecree@solarflare.com>, linux-clk@vger.kernel.org,
+ f.fainelli@gmail.com, Herbert Xu <herbert@gondor.apana.org.au>,
+ Emilio =?iso-8859-1?Q?L=F3pez?= <emilio@elopez.com.ar>, maz@kernel.org,
+ phil@raspberrypi.org, Doug Ledford <dledford@redhat.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Chen-Yu Tsai <wens@csie.org>,
+ Chuck Lever <chuck.lever@oracle.com>, Martin Habets <mhabets@solarflare.com>,
+ wahrenst@gmx.net, Tom Lendacky <thomas.lendacky@amd.com>,
+ Jiri Pirko <jiri@resnulli.us>,
+ Solarflare linux maintainers <linux-net-drivers@solarflare.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-rpi-kernel@lists.infradead.org,
+ Anna Schumaker <anna.schumaker@netapp.com>,
+ Trond Myklebust <trond.myklebust@hammerspace.com>,
+ linux-arm-kernel@lists.infradead.org, Mirko Lindner <mlindner@marvell.com>,
+ Mike Marciniszyn <mike.marciniszyn@intel.com>, mbrugger@suse.com,
+ Stephen Boyd <sboyd@kernel.org>, netdev@vger.kernel.org,
+ Yishai Hadas <yishaih@mellanox.com>, kexec@lists.infradead.org,
  linux-kernel@vger.kernel.org, jeremy.linton@arm.com,
- iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
- Stefan Wahren <wahrenst@gmx.net>, james.quinlan@broadcom.com,
- Sudeep Holla <sudeep.holla@arm.com>, Robin Murphy <robin.murphy@arm.com>,
- "David S. Miller" <davem@davemloft.net>, Tariq Toukan <tariqt@mellanox.com>
+ "David S. Miller" <davem@davemloft.net>,
+ Stephen Hemminger <stephen@networkplumber.org>, linux-rdma@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Moni Shoua <monis@mellanox.com>,
+ Eric Biederman <ebiederm@xmission.com>, james.quinlan@broadcom.com,
+ Thomas Graf <tgraf@suug.ch>, Robin Murphy <robin.murphy@arm.con>,
+ David Woodhouse <dwmw2@infradead.org>,
+ Dennis Dalessandro <dennis.dalessandro@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,135 +100,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The subject contains a couple typos: it's missing "of" and it's
-missing the "n" on "down".
+You got the "n" on "down" in the subject, but still missing "of" ;)
 
-On Tue, Dec 03, 2019 at 12:47:41PM +0100, Nicolas Saenz Julienne wrote:
-> The function now is safe to use while expecting a 64bit value. Use it
-> where relevant.
+On Tue, Dec 03, 2019 at 12:47:40PM +0100, Nicolas Saenz Julienne wrote:
+> Some users need to make sure their rounding function accepts and returns
+> 64bit long variables regardless of the architecture. Sadly
+> roundup/rounddown_pow_two() takes and returns unsigned longs. It turns
+> out ilog2() already handles 32/64bit calculations properly, and being
+> the building block to the round functions we can rework them as a
+> wrapper around it.
 
-Please include the function names ("roundup_pow_of_two()",
-"rounddown_pow_of_two()") in the changelog so it is self-contained and
-doesn't depend on the subject.
+Missing "of" in the function names here.
+s/a wrapper/wrappers/
 
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+IIUC the point of this is that roundup_pow_of_two() returned
+"unsigned long", which can be either 32 or 64 bits (worth pointing
+out, I think), and many callers need something that returns
+"unsigned long long" (always 64 bits).
 
-With the nits above and below addressed,
+It's a nice simplification to remove the "__" variants.  Just as a
+casual reader of this commit message, I'd like to know why we had both
+the roundup and the __roundup versions in the first place, and why we
+no longer need both.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>	# drivers/pci
+> -#define roundup_pow_of_two(n)			\
+> -(						\
+> -	__builtin_constant_p(n) ? (		\
+> -		(n == 1) ? 1 :			\
+> -		(1UL << (ilog2((n) - 1) + 1))	\
+> -				   ) :		\
+> -	__roundup_pow_of_two(n)			\
+> - )
+> +#define roundup_pow_of_two(n)			  \
+> +(						  \
+> +	(__builtin_constant_p(n) && ((n) == 1)) ? \
+> +	1 : (1ULL << (ilog2((n) - 1) + 1))        \
+> +)
 
-> ---
->  drivers/acpi/arm64/iort.c                        | 2 +-
->  drivers/net/ethernet/mellanox/mlx4/en_clock.c    | 3 ++-
->  drivers/of/device.c                              | 3 ++-
->  drivers/pci/controller/cadence/pcie-cadence-ep.c | 3 ++-
->  drivers/pci/controller/cadence/pcie-cadence.c    | 3 ++-
->  drivers/pci/controller/pcie-brcmstb.c            | 3 ++-
->  drivers/pci/controller/pcie-rockchip-ep.c        | 5 +++--
->  kernel/dma/direct.c                              | 2 +-
->  8 files changed, 15 insertions(+), 9 deletions(-)
+Should the resulting type of this expression always be a ULL, even
+when n==1, i.e., should it be this?
 
-> --- a/drivers/pci/controller/cadence/pcie-cadence-ep.c
-> +++ b/drivers/pci/controller/cadence/pcie-cadence-ep.c
-> @@ -10,6 +10,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/sizes.h>
-> +#include <linux/log2.h>
->  
->  #include "pcie-cadence.h"
->  
-> @@ -65,7 +66,7 @@ static int cdns_pcie_ep_set_bar(struct pci_epc *epc, u8 fn,
->  	 * roundup_pow_of_two() returns an unsigned long, which is not suited
->  	 * for 64bit values.
->  	 */
+  1ULL : (1ULL << (ilog2((n) - 1) + 1))        \
 
-Please remove the comment above since it no longer applies.
+Or maybe there's no case where that makes a difference?
 
-> -	sz = 1ULL << fls64(sz - 1);
-> +	sz = roundup_pow_of_two(sz);
->  	aperture = ilog2(sz) - 7; /* 128B -> 0, 256B -> 1, 512B -> 2, ... */
->  
->  	if ((flags & PCI_BASE_ADDRESS_SPACE) == PCI_BASE_ADDRESS_SPACE_IO) {
-> diff --git a/drivers/pci/controller/cadence/pcie-cadence.c b/drivers/pci/controller/cadence/pcie-cadence.c
-> index cd795f6fc1e2..b1689f725b41 100644
-> --- a/drivers/pci/controller/cadence/pcie-cadence.c
-> +++ b/drivers/pci/controller/cadence/pcie-cadence.c
-> @@ -4,6 +4,7 @@
->  // Author: Cyrille Pitchen <cyrille.pitchen@free-electrons.com>
->  
->  #include <linux/kernel.h>
-> +#include <linux/log2.h>
->  
->  #include "pcie-cadence.h"
->  
-> @@ -15,7 +16,7 @@ void cdns_pcie_set_outbound_region(struct cdns_pcie *pcie, u8 fn,
->  	 * roundup_pow_of_two() returns an unsigned long, which is not suited
->  	 * for 64bit values.
->  	 */
-
-Same here.
-
-> -	u64 sz = 1ULL << fls64(size - 1);
-> +	u64 sz = roundup_pow_of_two(size);
->  	int nbits = ilog2(sz);
->  	u32 addr0, addr1, desc0, desc1;
->  
-> --- a/drivers/pci/controller/pcie-rockchip-ep.c
-> +++ b/drivers/pci/controller/pcie-rockchip-ep.c
-> @@ -16,6 +16,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/pci-epf.h>
->  #include <linux/sizes.h>
-> +#include <linux/log2.h>
->  
->  #include "pcie-rockchip.h"
->  
-> @@ -70,7 +71,7 @@ static void rockchip_pcie_prog_ep_ob_atu(struct rockchip_pcie *rockchip, u8 fn,
->  					 u32 r, u32 type, u64 cpu_addr,
->  					 u64 pci_addr, size_t size)
->  {
-> -	u64 sz = 1ULL << fls64(size - 1);
-> +	u64 sz = roundup_pow_of_two(size);
->  	int num_pass_bits = ilog2(sz);
->  	u32 addr0, addr1, desc0, desc1;
->  	bool is_nor_msg = (type == AXI_WRAPPER_NOR_MSG);
-> @@ -176,7 +177,7 @@ static int rockchip_pcie_ep_set_bar(struct pci_epc *epc, u8 fn,
->  	 * roundup_pow_of_two() returns an unsigned long, which is not suited
->  	 * for 64bit values.
->  	 */
-
-And here.
-
-> -	sz = 1ULL << fls64(sz - 1);
-> +	sz = roundup_pow_of_two(sz);
->  	aperture = ilog2(sz) - 7; /* 128B -> 0, 256B -> 1, 512B -> 2, ... */
->  
->  	if ((flags & PCI_BASE_ADDRESS_SPACE) == PCI_BASE_ADDRESS_SPACE_IO) {
-> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-> index 6af7ae83c4ad..056886c4efec 100644
-> --- a/kernel/dma/direct.c
-> +++ b/kernel/dma/direct.c
-> @@ -53,7 +53,7 @@ u64 dma_direct_get_required_mask(struct device *dev)
->  {
->  	u64 max_dma = phys_to_dma_direct(dev, (max_pfn - 1) << PAGE_SHIFT);
->  
-> -	return (1ULL << (fls64(max_dma) - 1)) * 2 - 1;
-> +	return rounddown_pow_of_two(max_dma) * 2 - 1;
-
-Personally I would probably make this one a separate patch since it's
-qualitatively different than the others and it would avoid the slight
-awkwardness of the non-greppable "roundup/down_pow_of_two()"
-construction in the commit subject.
-
-But it's fine either way.
-
->  }
->  
->  static gfp_t __dma_direct_optimal_gfp_mask(struct device *dev, u64 dma_mask,
-> -- 
-> 2.24.0
-> 
+Bjorn
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
