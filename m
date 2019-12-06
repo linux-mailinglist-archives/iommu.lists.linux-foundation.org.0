@@ -1,77 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549801158B6
-	for <lists.iommu@lfdr.de>; Fri,  6 Dec 2019 22:39:04 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74FBD1158B7
+	for <lists.iommu@lfdr.de>; Fri,  6 Dec 2019 22:39:05 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7C13A885F7;
-	Fri,  6 Dec 2019 21:39:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A813926423;
+	Fri,  6 Dec 2019 21:39:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id h5lV+Q8VOk2D; Fri,  6 Dec 2019 21:39:00 +0000 (UTC)
+	with ESMTP id WmpoO4O2rzqY; Fri,  6 Dec 2019 21:39:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 88FA38864F;
-	Fri,  6 Dec 2019 21:39:00 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C0561263F9;
+	Fri,  6 Dec 2019 21:39:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DECAC077D;
-	Fri,  6 Dec 2019 21:39:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AEC96C077D;
+	Fri,  6 Dec 2019 21:39:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0664AC077D
- for <iommu@lists.linux-foundation.org>; Fri,  6 Dec 2019 21:38:59 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0B40AC077D
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Dec 2019 21:39:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 0271089278
+ by hemlock.osuosl.org (Postfix) with ESMTP id EE70489275
  for <iommu@lists.linux-foundation.org>; Fri,  6 Dec 2019 21:38:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DuMPyL1cCgmF for <iommu@lists.linux-foundation.org>;
- Fri,  6 Dec 2019 21:38:58 +0000 (UTC)
+ with ESMTP id y9O+a5Ftv5ku for <iommu@lists.linux-foundation.org>;
+ Fri,  6 Dec 2019 21:38:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4934189275
- for <iommu@lists.linux-foundation.org>; Fri,  6 Dec 2019 21:38:58 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id b1so3938563pgq.10
- for <iommu@lists.linux-foundation.org>; Fri, 06 Dec 2019 13:38:58 -0800 (PST)
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 6E48D89278
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Dec 2019 21:38:59 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id s18so3995432pfd.8
+ for <iommu@lists.linux-foundation.org>; Fri, 06 Dec 2019 13:38:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7tnHP49bcbdj6wbVlgmEh/i8N9jDvFKi9kaAZwgRO58=;
- b=TyPQPMqMEZSbzOq4YJ/CvyzohiFL0nmwcH8xHd7uNVwqdGTgbtf0zTU4yDZK1m7Vyx
- hlYdg2gEo6eO6NHj76PC38ouj8DYqG4UVvy/IzsnpWtq4/6d27V38a3kSPzQTyRtkR8Y
- 2M6qvvr0p5NKM43hOouFg3JyFqzJj8i+zZ4l9OaZ89xWFzoA01K5obewearyD4XEXHvc
- zOIIvRBWygSG4Kst7lrgh+0haf87ZCGEIH/a8AKlLmbyJASFzCV/3fynQziQjZUvx72H
- TVDQRhfWyvqzoj/HeARTIzz7Qk776PoUSWj/v2R7ml8Voe5PoswscOetD8p5kipOy5gv
- t7bQ==
+ bh=buvyJgIJY0R4gHfuaJpwEN38gwzHGwHEA+PtuFw57xs=;
+ b=R8nRiiaFenf0S2R88EQdmqaDdEkzal1TT5LYPVJqdE3YdqF26NIAT4aivvlxoTcAha
+ 43Qgzo49EYxnR0j9ZtNH5O0d4se9QbhWp20Quu0EUliNxt370LnVL1eMI/iUwXJMPulq
+ YA9lXAYBcBjysIKsp5Z0O098mvIt7WiCWJd0Dawa02xDJ59xsEmE3boZLhKwOm9dUfBe
+ 9YkFdTfRyqwt0tHr92XgZYHKaE0ovo7PPK8V1p1S9PsV00qsYj410ybPklavLDpdDWIE
+ kpqNijDRaMCrK39LX80p2gPtUZ1FQGgeQcDI/qIMd51lrKgLSBpjH/bcKVFQwt4Seqog
+ E3Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7tnHP49bcbdj6wbVlgmEh/i8N9jDvFKi9kaAZwgRO58=;
- b=ItFImyt2DUo4OybXZSrWUMEXyPwlI0Zk0QEGqE+7nPZx/Sj9S0pVWglj/IC/CiBfoE
- 4A9v7OF3zb0S5nZTZNkdmZVlPaL62BunFtrv/joCAsY4WuSck2wTeWcgiDUaF3PZJxq0
- veUmkUy9TsWNVrZ3vXZiInjiUS0NjOBWqoxkrGKv2lXVSCZOLbdRlohBDphAuF9hHV1W
- gMAkUpfJ8kmscvHIn+fCoeX3pFoO78H6vwnd+FkTulFmB7OiqHVvbdTCNWC3lZ1dzNrO
- NuL1PeAfP2bHqivSLs9CnGtdUlXDdD16Ldl4wG8gn0G7nyHvPF9qvOk/AxRpielLF1yb
- D9ng==
-X-Gm-Message-State: APjAAAV8zlRw3R5c6aYs/XLLcHs6phTQWrcCDV4CgkQ1d5DmfH2BqS/a
- ni6DI7iQR3XmdUkNk6xb6b8i43soXfc=
-X-Google-Smtp-Source: APXvYqy2mcWYMGqjSshbYvqQi62LTZgqbF8ADTCo4gLwYPawIPjikZb3TSZDYbkVlgy2vV0XN6ksiQ==
-X-Received: by 2002:a63:5056:: with SMTP id q22mr5820145pgl.20.1575668337654; 
- Fri, 06 Dec 2019 13:38:57 -0800 (PST)
+ bh=buvyJgIJY0R4gHfuaJpwEN38gwzHGwHEA+PtuFw57xs=;
+ b=X6SXpUr314t30pG91tMWK+GoGcLPCP63fZaxIIEddNv9MAEKGwPitDiLbWxavKnMlf
+ aANt80qC0yqzZG+AsHAAur2fRVrenfTj41WxXg+9G/IyvCiZekH0srGmXmBgwgo2Anpf
+ MlZMjAqxOJUT5+7VCIoXH761CLBDj9nTwk53OSSL0ucs45J9hsbME0B/399IVGuukOgU
+ JptTC9wpAK5pYvCaGRoyUReqUQqRBLjZ1QZfomJOySVrpjOD8wiZTvB4YbSdy5Q/vt1/
+ /nraNYTS8hsMmV/eSwwkZykZriWOBYwx+a4QEx+c3POAnwWDMAGQrWkFEMjaarxMzrRP
+ jf3A==
+X-Gm-Message-State: APjAAAXTv7t1an3w+OlRkdgwLuqMT8/uK8OV4x6lRGesheAzOYsld0g5
+ CSj9WsJPu8DPLTDqFatmkDQfN6/BACM=
+X-Google-Smtp-Source: APXvYqxXY0wRv1On4fHZpoVxEfqL3TRfZrkRbl55+hRkNwdTrHFwMh1XpW6Bq564Df40fsqvpr5qbQ==
+X-Received: by 2002:a65:4d46:: with SMTP id j6mr6030301pgt.63.1575668338823;
+ Fri, 06 Dec 2019 13:38:58 -0800 (PST)
 Received: from tw-172-25-31-76.office.twttr.net ([8.25.197.24])
- by smtp.gmail.com with ESMTPSA id d65sm17368579pfa.159.2019.12.06.13.38.56
+ by smtp.gmail.com with ESMTPSA id d65sm17368579pfa.159.2019.12.06.13.38.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Dec 2019 13:38:57 -0800 (PST)
+ Fri, 06 Dec 2019 13:38:58 -0800 (PST)
 From: Cong Wang <xiyou.wangcong@gmail.com>
 To: iommu@lists.linux-foundation.org
-Subject: [Patch v3 2/3] iommu: optimize iova_magazine_free_pfns()
-Date: Fri,  6 Dec 2019 13:38:02 -0800
-Message-Id: <20191206213803.12580-3-xiyou.wangcong@gmail.com>
+Subject: [Patch v3 3/3] iommu: avoid taking iova_rbtree_lock twice
+Date: Fri,  6 Dec 2019 13:38:03 -0800
+Message-Id: <20191206213803.12580-4-xiyou.wangcong@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191206213803.12580-1-xiyou.wangcong@gmail.com>
 References: <20191206213803.12580-1-xiyou.wangcong@gmail.com>
@@ -94,66 +94,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-If the magazine is empty, iova_magazine_free_pfns() should
-be a nop, however it misses the case of mag->size==0. So we
-should just call iova_magazine_empty().
+Both find_iova() and __free_iova() take iova_rbtree_lock,
+there is no reason to take and release it twice inside
+free_iova().
 
-This should reduce the contention on iovad->iova_rbtree_lock
-a little bit, not much at all.
+Fold them into one critical section by calling the unlock
+versions instead.
 
 Cc: Joerg Roedel <joro@8bytes.org>
 Cc: John Garry <john.garry@huawei.com>
 Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
 ---
- drivers/iommu/iova.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/iommu/iova.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-index cb473ddce4cf..184d4c0e20b5 100644
+index 184d4c0e20b5..f46f8f794678 100644
 --- a/drivers/iommu/iova.c
 +++ b/drivers/iommu/iova.c
-@@ -797,13 +797,23 @@ static void iova_magazine_free(struct iova_magazine *mag)
- 	kfree(mag);
- }
- 
-+static bool iova_magazine_full(struct iova_magazine *mag)
-+{
-+	return (mag && mag->size == IOVA_MAG_SIZE);
-+}
-+
-+static bool iova_magazine_empty(struct iova_magazine *mag)
-+{
-+	return (!mag || mag->size == 0);
-+}
-+
- static void
- iova_magazine_free_pfns(struct iova_magazine *mag, struct iova_domain *iovad)
+@@ -390,10 +390,14 @@ EXPORT_SYMBOL_GPL(__free_iova);
+ void
+ free_iova(struct iova_domain *iovad, unsigned long pfn)
  {
- 	unsigned long flags;
- 	int i;
+-	struct iova *iova = find_iova(iovad, pfn);
++	unsigned long flags;
++	struct iova *iova;
  
--	if (!mag)
-+	if (iova_magazine_empty(mag))
- 		return;
++	spin_lock_irqsave(&iovad->iova_rbtree_lock, flags);
++	iova = private_find_iova(iovad, pfn);
+ 	if (iova)
+-		__free_iova(iovad, iova);
++		private_free_iova(iovad, iova);
++	spin_unlock_irqrestore(&iovad->iova_rbtree_lock, flags);
  
- 	spin_lock_irqsave(&iovad->iova_rbtree_lock, flags);
-@@ -820,16 +830,6 @@ iova_magazine_free_pfns(struct iova_magazine *mag, struct iova_domain *iovad)
- 	mag->size = 0;
  }
- 
--static bool iova_magazine_full(struct iova_magazine *mag)
--{
--	return (mag && mag->size == IOVA_MAG_SIZE);
--}
--
--static bool iova_magazine_empty(struct iova_magazine *mag)
--{
--	return (!mag || mag->size == 0);
--}
--
- static unsigned long iova_magazine_pop(struct iova_magazine *mag,
- 				       unsigned long limit_pfn)
- {
+ EXPORT_SYMBOL_GPL(free_iova);
 -- 
 2.21.0
 
