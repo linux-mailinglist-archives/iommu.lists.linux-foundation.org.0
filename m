@@ -1,84 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487B01158DE
-	for <lists.iommu@lfdr.de>; Fri,  6 Dec 2019 22:58:08 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3DD115AAE
+	for <lists.iommu@lfdr.de>; Sat,  7 Dec 2019 02:54:30 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E1063891CA;
-	Fri,  6 Dec 2019 21:58:06 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3ED87204E7;
+	Sat,  7 Dec 2019 01:54:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9VE8gB+wcQjE; Fri,  6 Dec 2019 21:58:05 +0000 (UTC)
+	with ESMTP id g-ko8SL9JgAp; Sat,  7 Dec 2019 01:54:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 796F2891A3;
-	Fri,  6 Dec 2019 21:58:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1788520521;
+	Sat,  7 Dec 2019 01:54:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5C87CC077D;
-	Fri,  6 Dec 2019 21:58:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id ED414C077D;
+	Sat,  7 Dec 2019 01:54:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B633CC077D
- for <iommu@lists.linux-foundation.org>; Fri,  6 Dec 2019 21:58:03 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C67C0C077D
+ for <iommu@lists.linux-foundation.org>; Sat,  7 Dec 2019 01:54:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9FD79869DD
- for <iommu@lists.linux-foundation.org>; Fri,  6 Dec 2019 21:58:03 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B51878776D
+ for <iommu@lists.linux-foundation.org>; Sat,  7 Dec 2019 01:54:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fbPVdPXwmWDA for <iommu@lists.linux-foundation.org>;
- Fri,  6 Dec 2019 21:58:01 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
- [209.85.222.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id CC341869D1
- for <iommu@lists.linux-foundation.org>; Fri,  6 Dec 2019 21:58:00 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id g15so7785673qka.8
- for <iommu@lists.linux-foundation.org>; Fri, 06 Dec 2019 13:58:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=d39qGeCsB4T9yCMwOh22rEPx7j2ZU+Ojm9VxaLz0ibQ=;
- b=SdYzh+WSgVb+UAlrT82ud0JxMqc9Kvl4cFMITIP+eaCXAcdaJ4yq0fMWJk1wUaA0KC
- aFhnoG2xYpNONhb8lucwmhPkCepfnnJNWG8rRO0IDppIJNDgt62M0F7egSn/zAYZexT8
- 3I3q7NnSV4x7CYCjMCFtWHAiVC/oRmDSC2wVzt/po8yJYZwUoldH3xbNxJXmxZeQ2odJ
- PpFSR9acSpVoHqlnxgF0Kwo+kDC7el18CLU3MNqJFsvpFRP/O2w8NGOXAzND5FH4fMQn
- ntJoiEwVQ1pfPUtaGEw/gnrTWKbVG/CP9vPMOUbf/z4WXywE8D+GHxoP+eTgapBxaLkr
- 3c3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=d39qGeCsB4T9yCMwOh22rEPx7j2ZU+Ojm9VxaLz0ibQ=;
- b=eC8M5dpug9CmAGhqocpeEp1X2YamF3uhGJajXVLhK/UkM/pdsO0dFFOP75I3LvZoua
- DyH8t7wWLRsmK2lnvNDzUpkrThbt3O5x1COt5R3UiT1emDatutXeX4G77QxMJZseIefC
- 526G//n+M4ACKQmAOK0aWLLUs9h0TMBESfF/xOkB2UFcr9EPnyAudWWioIx90JK3Gy1O
- yeITClrLf8LAKWxO/Y3UC2Bh+FYeLvyv5ycZKr71NdP2EtBGBMH1EWPWg7Hr/9Z6YWr8
- VmDMt6VdjugDekt5NcplyMMze35bnFBzx8FGO1UFPTSvXHK7p5xUKx35n7E34zZKp0bL
- gZ2g==
-X-Gm-Message-State: APjAAAVj2bUUyzOOLMwvuylBXbPBA5+E+kycvdPvVnoaXW4TYrMh+wjE
- zKByvgo4zkXy5HTkEr7DkFSvyA==
-X-Google-Smtp-Source: APXvYqzH8Eo/GmMk2sk0tLQrh06wbKztQryZpegYYGstCKfUtNQvXS54OiLe/ItzwAMah8/sBlxczQ==
-X-Received: by 2002:a05:620a:144c:: with SMTP id
- i12mr275001qkl.439.1575669479724; 
- Fri, 06 Dec 2019 13:57:59 -0800 (PST)
-Received: from [192.168.1.153] (pool-71-184-117-43.bstnma.fios.verizon.net.
- [71.184.117.43])
- by smtp.gmail.com with ESMTPSA id d143sm875770qke.123.2019.12.06.13.57.58
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 06 Dec 2019 13:57:58 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3601.0.10\))
-Subject: Re: [Patch v3 0/3] iommu: reduce spinlock contention on fast path
-From: Qian Cai <cai@lca.pw>
-In-Reply-To: <20191206213803.12580-1-xiyou.wangcong@gmail.com>
-Date: Fri, 6 Dec 2019 16:57:57 -0500
-Message-Id: <1CDA04A5-9EF1-4B6F-8461-37361D6460E2@lca.pw>
-References: <20191206213803.12580-1-xiyou.wangcong@gmail.com>
-To: Cong Wang <xiyou.wangcong@gmail.com>
-X-Mailer: Apple Mail (2.3601.0.10)
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+ with ESMTP id gjpcRAFYpwuj for <iommu@lists.linux-foundation.org>;
+ Sat,  7 Dec 2019 01:54:24 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2BFF687683
+ for <iommu@lists.linux-foundation.org>; Sat,  7 Dec 2019 01:54:24 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 06 Dec 2019 17:54:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,286,1571727600"; d="scan'208";a="386676867"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
+ ([10.239.159.136])
+ by orsmga005.jf.intel.com with ESMTP; 06 Dec 2019 17:54:22 -0800
+Subject: Re: dmar pte read access not set error messages on hp dl388 gen8
+ systems
+To: Jerry Snitselaar <jsnitsel@redhat.com>
+References: <20191202161332.ctc3y5cvdgqwnz7l@cantor>
+ <14bbe41c-61e9-d2b6-31cb-67c0b1ad11da@linux.intel.com>
+ <20191203095636.epmuinnrpykecfda@cantor>
+ <5ce8d57e-25f0-5d28-7408-92c650ba54aa@linux.intel.com>
+ <20191204205300.4jiexjqfpnqlcagu@cantor>
+ <2d4e0c05-f0ee-d4b1-d2ed-24197811b097@linux.intel.com>
+ <20191205022551.janpwjvr4kei5r7c@cantor>
+ <d5981dee-d37b-a725-ed94-8864f3dd7602@linux.intel.com>
+ <20191205025320.oiulo3msfcggdlv5@cantor>
+ <d5fbedce-7a06-79b4-75fa-0aa3cc3ef73b@linux.intel.com>
+ <20191206072453.5jjwrjedqbjimx45@cantor>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <0f82007e-9887-d6b2-08e5-9c430c920b36@linux.intel.com>
+Date: Sat, 7 Dec 2019 09:53:42 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
+MIME-Version: 1.0
+In-Reply-To: <20191206072453.5jjwrjedqbjimx45@cantor>
+Content-Language: en-US
+Cc: iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,39 +79,43 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-
-
-> On Dec 6, 2019, at 4:38 PM, Cong Wang <xiyou.wangcong@gmail.com> wrote:
-> 
-> This patchset contains three small optimizations for the global spinlock
-> contention in IOVA cache. Our memcache perf test shows this reduced its
-> p999 latency down by 45% on AMD when IOMMU is enabled.
-
-Can you at least have a changelog compared to previous versions?
-
-> 
-> Cong Wang (3):
->  iommu: avoid unnecessary magazine allocations
->  iommu: optimize iova_magazine_free_pfns()
->  iommu: avoid taking iova_rbtree_lock twice
-> ---
-> drivers/iommu/iova.c | 75 ++++++++++++++++++++++++++------------------
-> 1 file changed, 45 insertions(+), 30 deletions(-)
-> 
-> -- 
-> 2.21.0
-> 
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SGkgSmVycnksCgpPbiAxMi82LzE5IDM6MjQgUE0sIEplcnJ5IFNuaXRzZWxhYXIgd3JvdGU6Cj4g
+T24gRnJpIERlYyAwNiAxOSwgTHUgQmFvbHUgd3JvdGU6Cj4gW3NuaXBdCj4+Cj4+IENhbiB5b3Ug
+cGxlYXNlIHRyeSBiZWxvdyBjaGFuZ2U/IExldCdzIGNoZWNrIHdoZXRoZXIgdGhlIGFmZW5kaW5n
+Cj4+IGFkZHJlc3MgaGFzIGJlZW4gbWFwcGVkIGZvciBkZXZpY2UgMDEuMDAuMi4KPj4KPj4gJCBn
+aXQgZGlmZgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pb21tdS9pb21tdS5jIGIvZHJpdmVycy9p
+b21tdS9pb21tdS5jCj4+IGluZGV4IGRiN2JmZDRmMmQyMC4uZDlkYWY2NmJlODQ5IDEwMDY0NAo+
+PiAtLS0gYS9kcml2ZXJzL2lvbW11L2lvbW11LmMKPj4gKysrIGIvZHJpdmVycy9pb21tdS9pb21t
+dS5jCj4+IEBAIC02NjMsNiArNjYzLDggQEAgc3RhdGljIGludCAKPj4gaW9tbXVfZ3JvdXBfY3Jl
+YXRlX2RpcmVjdF9tYXBwaW5ncyhzdHJ1Y3QgaW9tbXVfZ3JvdXAgKmdyb3VwLAo+PiDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXQgPSBpb21tdV9tYXAoZG9t
+YWluLCBhZGRyLCBhZGRyLCBwZ19zaXplLCAKPj4gZW50cnktPnByb3QpOwo+PiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAocmV0KQo+PiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBv
+dXQ7Cj4+ICsKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IGRldl9pbmZvKGRldiwgIlNldHRpbmcgaWRlbnRpdHkgbWFwIFsweCVMeCAtIAo+PiAweCVMeF0g
+Zm9yIGdyb3VwICVkXG4iLCBhZGRyLCBhZGRyICsgcGdfc2l6ZSwgZ3JvdXAtPmlkKTsKPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9Cj4+Cj4+IMKgwqDCoMKgwqDCoCB9Cj4+Cj4+IEkg
+YW0gZG91YnRpbmcgdGhhdCBkZXZpY2UgMDEuMDAuMiBpcyBub3QgaW4gdGhlIGRldmljZSBzY29w
+ZSBvZgo+Pgo+PiBbwqDCoMKgIDQuNDg1MTA4XSBETUFSOiBSTVJSIGJhc2U6IDB4MDAwMDAwYmRm
+NmYwMDAgZW5kOiAweDAwMDAwMGJkZjdlZmZmCj4+Cj4+IEJ5IHRoZSB3YXksIGRvZXMgZGV2aWNl
+IDAxLjAwLjIgd29ya3Mgd2VsbCBhZnRlciBiaW5kaW5nIHRoZSBkcml2ZXI/Cj4+Cj4gCj4gV2hl
+biBJIGJvb3QgaXQgd2l0aCBwYXNzdGhyb3VnaCBpdCBkb2Vzbid0IGdldCB0byBhIHBvaW50IHdo
+ZXJlIEkgY2FuCj4gbG9naW4uIEkgdGhpbmsgdGhlIHNlcmlhbCBjb25zb2xlIG9uIHRoZXNlIHN5
+c3RlbXMgaXMgdGllZCB0byB0aGUgaWxvLAo+IHNvIHRoZSBjb25zZXJ2ZXIgY29ubmVjdGlvbiBj
+b3VsZCBiZSBtYWtpbmcgdGhpbmdzCj4gd29yc2UuIFVuZm9ydHVuYXRlbHkgdGhlIHN5c3RlbSBp
+cyByZW1vdGUuIEkgc2hvdWxkIGhhdmUgbW9yZSB0aW1lIG5vdwo+IHRvIGZvY3VzIG9uIGRlYnVn
+Z2luZyB0aGlzLgo+IAo+IEF0dGFjaGluZyBjb25zb2xlIG91dHB1dCBmb3IgdGhlIGFib3ZlIHBh
+dGNoLgoKSXQgc2VlbXMgdGhhdCBkZXZpY2UgMDEuMDAuMiBpc24ndCBpbiB0aGUgc2NvcGUgb2Yg
+Uk1SUiBbYmFzZToKMHgwMDAwMDBiZGY2ZjAwMCBlbmQ6IDB4MDAwMDAwYmRmN2VmZmZdLiBCdXQg
+aXQgc3RpbGwgdHJpZXMgdG8gYWNjZXNzCnRoZSBhZGRyZXNzIHdpdGhpbiBpdCwgaGVuY2UgZmF1
+bHRzIGdlbmVyYXRlZC4KCllvdSBjYW4gY2hlY2sgaXQgd2l0aCBBQ1BJL0RNQVIgdGFibGUuCgpC
+ZXN0IHJlZ2FyZHMsCmJhb2x1Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9u
+Lm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9p
+b21tdQ==
