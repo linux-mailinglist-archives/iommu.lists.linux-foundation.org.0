@@ -1,83 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69912116EE9
-	for <lists.iommu@lfdr.de>; Mon,  9 Dec 2019 15:30:27 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE83E116F53
+	for <lists.iommu@lfdr.de>; Mon,  9 Dec 2019 15:43:06 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 97A3F88184;
-	Mon,  9 Dec 2019 14:30:25 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5CEEB203F2;
+	Mon,  9 Dec 2019 14:43:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id y-CtvZAT7fVv; Mon,  9 Dec 2019 14:30:25 +0000 (UTC)
+	with ESMTP id nEHa8zgtGlfE; Mon,  9 Dec 2019 14:43:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1992C87F71;
-	Mon,  9 Dec 2019 14:30:25 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5C33C203B4;
+	Mon,  9 Dec 2019 14:43:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 014BAC1D84;
-	Mon,  9 Dec 2019 14:30:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 42345C0881;
+	Mon,  9 Dec 2019 14:43:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 399B1C0881
- for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 14:30:23 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6008BC0881
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 14:43:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 234088770A
- for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 14:30:23 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 5A3B520336
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 14:43:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id x-7+h01Gh4T0 for <iommu@lists.linux-foundation.org>;
- Mon,  9 Dec 2019 14:30:22 +0000 (UTC)
+ with ESMTP id 6dpDd6hC2qnP for <iommu@lists.linux-foundation.org>;
+ Mon,  9 Dec 2019 14:43:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
- [209.85.221.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 4DC0C875B4
- for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 14:30:22 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id c9so16438127wrw.8
- for <iommu@lists.linux-foundation.org>; Mon, 09 Dec 2019 06:30:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=NeSOszbdzMHZ/+V+DXHgL9D0mGEhlUmwe1+TLdJX008=;
- b=qvElZseBJewplGTPo0n+8CwC9MoBi/YuvUm/YIg2rvJ5sQKd3/6BDuasaswB6HWiqi
- ZqiTfhk2kVkdBYB2JlAQIgGKM2ukVLoXjhBIoIPNi+5Oq33fuQW7K8op+DTlAdNzULyC
- k0RVL3Uc/zP0fqdQP2LDyyIc3AeUc2Na3Z/2V26JX7XHXuFGH3/dLMdrQI/ukMcd8njM
- dZ2nhWN/1VZAMT/FWqJI5q53j/4Ougfu9PZ9S6cv3uDesNzzoe8apAjO4LyjkMB1k8FL
- o4xrbAuf3NtAHwUqpm+tSef3GNnaAf3Y0wIOlYoRvWThfDe8267wjzL3sh0L5WknhZmj
- RwSA==
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+ [209.85.128.68])
+ by silver.osuosl.org (Postfix) with ESMTPS id C5FDE203B4
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 14:43:00 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id t14so15191016wmi.5
+ for <iommu@lists.linux-foundation.org>; Mon, 09 Dec 2019 06:43:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=R4K9ORFcKjOfhf7UVMWZdsJH8837cw9ZvD+EXPO6074=;
+ b=FO+mu1DFbkNK4xBPEIcCtnOc9X0v+yOEp1bS+0oyVGZ28lmpMspr3NxrIU1xKiGtDy
+ hQnhfV8LkSCAYKPheAcx9a3opmzZM8DPtsnF/rWNS/Sx7uuPiNK3PGKs0RgMmCotAfGf
+ 6fQ26e3wjpMTIPYtw8fO5Xpv79nwr8uV/XmselPkYcbEW2tgINBdGHJlLAa7IjePPhAm
+ QrP+/4VZhM+UHZ+RN+z/MRF+3mo6BLj7Ec2y7SS0GlZDzZwqbLMfOc9ugc0KO6dTNlcI
+ eN6OAR230oaoMxd5Lr5uCGOsvBqMNu5ktni53TI2dy7vTD8vvAxXU2e3cK5TNM3Jda52
+ Kizg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NeSOszbdzMHZ/+V+DXHgL9D0mGEhlUmwe1+TLdJX008=;
- b=lHoAAf9UC9u6lkn0VEs//GZZCGAkQRmC7K0jfpPeENoaj4Bp+1caYCallTxw/u4WA+
- R6fg99a03v1QcvThCmL3TLe9uhOt/RyIVSAqrwg9dVeyjvsrSo+rcFOc/wUiKn388PNK
- R+piWPYoQlKE6RchMQo13RM6FcBXqPnqHOQUI59W2zxahydFqLsnmZwqrD7Eh6C217Wc
- UmatcJpiYMB9xtZ53Gb0Kn7OtXwyI2g8/D0o25ETuY5yYgqTmGXTSM9Xbh0KwsNf5pl9
- 56evxX8YgI7SsZzM33Ssx96agsv8PDKKSiLN6x6V8nn/Z3MBkynfBrd8Ri9jq2SComJg
- Az8A==
-X-Gm-Message-State: APjAAAXbsGcTQ7BXdEP6CNeEnULk6XyyosJHFeV2ThTtB7AQtDeQr8uK
- W20xOzDglDZdrOB5hERfmRmM+A==
-X-Google-Smtp-Source: APXvYqyXQVDgocdPKAmmXr6bPRuCbLsxMycM/ehx9dgGbZd5gzvpBy6+4TSjivEc6cViM42u04PclA==
-X-Received: by 2002:a5d:4b47:: with SMTP id w7mr2634374wrs.276.1575901820587; 
- Mon, 09 Dec 2019 06:30:20 -0800 (PST)
-Received: from myrica (adsl-62-167-101-88.adslplus.ch. [62.167.101.88])
- by smtp.gmail.com with ESMTPSA id i127sm14487825wma.35.2019.12.09.06.30.19
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=R4K9ORFcKjOfhf7UVMWZdsJH8837cw9ZvD+EXPO6074=;
+ b=YouYjDjC2Cl2q8XovML1s581U3uU7UwZTEe81BPeJsM6Op4cXgIPKS1MMGdmNeqWXW
+ 0A+Omh+L5wJ3F45K8FoNqaBxlZlZOzIZeG/OQR7xcYjlWW6dBD3PSGPeI2nyo+/Gp7XA
+ p9zQ4MVsxVV5lHWx34THs6ytL5xqyKFBJhWQp3qADiH5JgYckCpJ1YIdVOLHVzhm0PvX
+ VtgAkc4UNDp+Qll3j04kz+RfV1bjrZ0Tn8Pi+MEYnMWmxo/BCViLPyUzuS11Y6sns9kx
+ 0/jxPQSpwcds2skjLedwhsAO9twUcfsWuq3ONTf6uxLqyXPQU6zQIYKdoA3tYX2zxnL8
+ xi6Q==
+X-Gm-Message-State: APjAAAUYiTqi6L5orbkhOl/tFcFHXBDaI+0qHzQu4NQWz72b4g3+VSDx
+ Xp5Swq3J978PyCNWl1N4y6E=
+X-Google-Smtp-Source: APXvYqxPxr/O9qW6OPFOFKePg95mm5+7sPweVyKnhAjNAhhX8Rnn0avW5NyNIitXIcpT4UFiXbAYQg==
+X-Received: by 2002:a05:600c:1108:: with SMTP id
+ b8mr23503536wma.17.1575902579092; 
+ Mon, 09 Dec 2019 06:42:59 -0800 (PST)
+Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
+ by smtp.gmail.com with ESMTPSA id u22sm30326898wru.30.2019.12.09.06.42.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Dec 2019 06:30:20 -0800 (PST)
-Date: Mon, 9 Dec 2019 15:30:16 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH] iommu/dma: Map MSI doorbell with iommu_map_atomic()
-Message-ID: <20191209143016.GA86761@myrica>
-References: <20191209123825.137391-1-jean-philippe@linaro.org>
- <c44950e6-648c-3f71-9f12-d70d17de9f4a@arm.com>
+ Mon, 09 Dec 2019 06:42:58 -0800 (PST)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH v2 1/2] iommu: Implement of_iommu_get_resv_regions()
+Date: Mon,  9 Dec 2019 15:42:55 +0100
+Message-Id: <20191209144256.2396808-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <c44950e6-648c-3f71-9f12-d70d17de9f4a@arm.com>
-Cc: iommu@lists.linux-foundation.org, jroedel@suse.de
+Cc: devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
+ Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,27 +96,106 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Dec 09, 2019 at 12:55:22PM +0000, Robin Murphy wrote:
-> On 09/12/2019 12:38 pm, Jean-Philippe Brucker wrote:
-> > Since commit 781ca2de89ba ("iommu: Add gfp parameter to
-> > iommu_ops::map"), iommu_map() might sleep. iommu_dma_get_msi_page() runs
-> > in atomic context and thus should call iommu_map_atomic() instead.
-> 
-> Spooky... I'm rebasing my local branches and this arrived at the exact
-> moment I came across my fix[1] that I'd otherwise forgotten about. As
-> covered there, this really doesn't need to be atomic at all now, so I'd
-> prefer to see it cleaned up more thoroughly.
-> 
-> Robin.
-> 
-> [1] https://lore.kernel.org/linux-iommu/5af5e77102ca52576cb96816f0abcf6398820055.1571245656.git.robin.murphy@arm.com/
+From: Thierry Reding <treding@nvidia.com>
 
-Oh right I did see it back then, but forgot about it. Much better than my
-patch and it fixes my boot splats (and doesn't raise any new lockdep
-warning either).
+This is an implementation that IOMMU drivers can use to obtain reserved
+memory regions from a device tree node. It uses the reserved-memory DT
+bindings to find the regions associated with a given device. These
+regions will be used to create 1:1 mappings in the IOMMU domain that
+the devices will be attached to.
 
-Thanks,
-Jean
+Cc: Frank Rowand <frowand.list@gmail.com>
+Cc: devicetree@vger.kernel.org
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/iommu/of_iommu.c | 39 +++++++++++++++++++++++++++++++++++++++
+ include/linux/of_iommu.h |  8 ++++++++
+ 2 files changed, 47 insertions(+)
+
+diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
+index 026ad2b29dcd..d6b14fbef64a 100644
+--- a/drivers/iommu/of_iommu.c
++++ b/drivers/iommu/of_iommu.c
+@@ -11,6 +11,7 @@
+ #include <linux/pci.h>
+ #include <linux/msi.h>
+ #include <linux/of.h>
++#include <linux/of_address.h>
+ #include <linux/of_iommu.h>
+ #include <linux/of_pci.h>
+ #include <linux/slab.h>
+@@ -227,3 +228,41 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
+ 
+ 	return ops;
+ }
++
++/**
++ * of_iommu_get_resv_regions - reserved region driver helper for device tree
++ * @dev: device for which to get reserved regions
++ * @list: reserved region list
++ *
++ * IOMMU drivers can use this to implement their .get_resv_regions() callback
++ * for memory regions attached to a device tree node. See the reserved-memory
++ * device tree bindings on how to use these:
++ *
++ *   Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
++ */
++void of_iommu_get_resv_regions(struct device *dev, struct list_head *list)
++{
++	struct of_phandle_iterator it;
++	int err;
++
++	of_for_each_phandle(&it, err, dev->of_node, "memory-region", NULL, 0) {
++		struct iommu_resv_region *region;
++		struct resource res;
++
++		err = of_address_to_resource(it.node, 0, &res);
++		if (err < 0) {
++			dev_err(dev, "failed to parse memory region %pOF: %d\n",
++				it.node, err);
++			continue;
++		}
++
++		region = iommu_alloc_resv_region(res.start, resource_size(&res),
++						 IOMMU_READ | IOMMU_WRITE,
++						 IOMMU_RESV_DIRECT_RELAXABLE);
++		if (!region)
++			continue;
++
++		list_add_tail(&region->list, list);
++	}
++}
++EXPORT_SYMBOL(of_iommu_get_resv_regions);
+diff --git a/include/linux/of_iommu.h b/include/linux/of_iommu.h
+index f3d40dd7bb66..fa16b26f55bc 100644
+--- a/include/linux/of_iommu.h
++++ b/include/linux/of_iommu.h
+@@ -15,6 +15,9 @@ extern int of_get_dma_window(struct device_node *dn, const char *prefix,
+ extern const struct iommu_ops *of_iommu_configure(struct device *dev,
+ 					struct device_node *master_np);
+ 
++extern void of_iommu_get_resv_regions(struct device *dev,
++				      struct list_head *list);
++
+ #else
+ 
+ static inline int of_get_dma_window(struct device_node *dn, const char *prefix,
+@@ -30,6 +33,11 @@ static inline const struct iommu_ops *of_iommu_configure(struct device *dev,
+ 	return NULL;
+ }
+ 
++static inline void of_iommu_get_resv_regions(struct device *dev,
++					     struct list_head *list)
++{
++}
++
+ #endif	/* CONFIG_OF_IOMMU */
+ 
+ #endif /* __OF_IOMMU_H */
+-- 
+2.23.0
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
