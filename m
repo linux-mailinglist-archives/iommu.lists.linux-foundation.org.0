@@ -2,67 +2,57 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BF511688C
-	for <lists.iommu@lfdr.de>; Mon,  9 Dec 2019 09:46:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 334D811688F
+	for <lists.iommu@lfdr.de>; Mon,  9 Dec 2019 09:46:55 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0B5918651D;
-	Mon,  9 Dec 2019 08:46:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E3C0E8651C;
+	Mon,  9 Dec 2019 08:46:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qwRpY1QHnWfG; Mon,  9 Dec 2019 08:46:51 +0000 (UTC)
+	with ESMTP id dO7EaP6T62-V; Mon,  9 Dec 2019 08:46:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 02DDD86516;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C46FF8658A;
 	Mon,  9 Dec 2019 08:46:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E376CC1796;
-	Mon,  9 Dec 2019 08:46:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B13A8C0881;
+	Mon,  9 Dec 2019 08:46:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 02E1EC0881
- for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 07:43:32 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E356BC0881
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 08:24:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E0012862C7
- for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 07:43:32 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D223986505
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 08:24:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1t5ZKqB1HOLH for <iommu@lists.linux-foundation.org>;
- Mon,  9 Dec 2019 07:43:30 +0000 (UTC)
+ with ESMTP id Q3ndU9V3b9YF for <iommu@lists.linux-foundation.org>;
+ Mon,  9 Dec 2019 08:24:12 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C7857862BC
- for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 07:43:30 +0000 (UTC)
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 4DA5E86502
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 08:24:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
  [147.11.189.40])
- by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xB97hRk7000195
+ by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xB98O7id020065
  (version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
- Sun, 8 Dec 2019 23:43:27 -0800 (PST)
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.163]) by
- ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0468.000; Sun, 8
- Dec 2019 23:43:27 -0800
-From: "Yin, Xiaotao" <Xiaotao.Yin@windriver.com>
-To: "joro@8bytes.org" <joro@8bytes.org>, "iommu@lists.linux-foundation.org"
- <iommu@lists.linux-foundation.org>
-Subject: RE: [PATCH] iommu/iova: Init the struct iova to fix the possible
+ Mon, 9 Dec 2019 00:24:07 -0800
+Received: from pek-lpggp4.wrs.com (128.224.153.77) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+ Mon, 9 Dec 2019 00:24:06 -0800
+From: Xiaotao Yin <xiaotao.yin@windriver.com>
+To: <joro@8bytes.org>, <iommu@lists.linux-foundation.org>
+Subject: [PATCH V2] iommu/iova: Init the struct iova to fix the possible
  memleak
-Thread-Topic: [PATCH] iommu/iova: Init the struct iova to fix the possible
- memleak
-Thread-Index: AdWuYWhN+RMb9/KAQCCIN3aLHnhZIQAAuwdA
-Date: Mon, 9 Dec 2019 07:43:26 +0000
-Message-ID: <47B7036B26F82C43B9F7EAE984D54CB459DB4D@ALA-MBD.corp.ad.wrs.com>
-References: <47B7036B26F82C43B9F7EAE984D54CB459DB0C@ALA-MBD.corp.ad.wrs.com>
-In-Reply-To: <47B7036B26F82C43B9F7EAE984D54CB459DB0C@ALA-MBD.corp.ad.wrs.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.224]
+Date: Mon, 9 Dec 2019 16:24:04 +0800
+Message-ID: <20191209082404.40166-1-xiaotao.yin@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 09 Dec 2019 08:46:49 +0000
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Hao,
- Kexin" <Kexin.Hao@windriver.com>
+Cc: xiaotao.yin@windriver.com, linux-kernel@vger.kernel.org,
+ Kexin.Hao@windriver.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,30 +70,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Please ignore this one, I'll send v2.
-
-Br.
-
------Original Message-----
-From: Yin, Xiaotao <Xiaotao.Yin@windriver.com> 
-Sent: Monday, December 9, 2019 3:24 PM
-To: Yin, Xiaotao <Xiaotao.Yin@windriver.com>; joro@8bytes.org; iommu@lists.linux-foundation.org
-Cc: linux-kernel@vger.kernel.org; Hao, Kexin <Kexin.Hao@windriver.com>
-Subject: RE: [PATCH] iommu/iova: Init the struct iova to fix the possible memleak
-
-Changed the title to "Init the struct iova to fix the possible memleak".
-
-Thanks~
-Br.
------Original Message-----
-From: Xiaotao Yin <xiaotao.yin@windriver.com> 
-Sent: Monday, December 9, 2019 3:16 PM
-To: joro@8bytes.org; iommu@lists.linux-foundation.org
-Cc: linux-kernel@vger.kernel.org; Hao, Kexin <Kexin.Hao@windriver.com>; Yin, Xiaotao <Xiaotao.Yin@windriver.com>
-Subject: [PATCH] iommu/iova: Init the struct iova to fix the possible memleak
-
 During ethernet(Marvell octeontx2) set ring buffer test:
-ethtool -G eth1 rx <rx ring size> tx <tx ring size> following kmemleak will happen sometimes:
+ethtool -G eth1 rx <rx ring size> tx <tx ring size>
+following kmemleak will happen sometimes:
 
 unreferenced object 0xffff000b85421340 (size 64):
   comm "ethtool", pid 867, jiffies 4295323539 (age 550.500s)
@@ -131,7 +100,9 @@ unreferenced object 0xffff000b85421340 (size 64):
     [<000000004e1a2c02>] ksys_ioctl+0x84/0xb8
 
 The reason:
-When alloc_iova_mem() without initial with Zero, sometimes fpn_lo will equal to IOVA_ANCHOR by chance, so when return from __alloc_and_insert_iova_range() with -ENOMEM(iova32_full), the new_iova will not be freed in free_iova_mem().
+When alloc_iova_mem() without initial with Zero, sometimes fpn_lo will equal to
+IOVA_ANCHOR by chance, so when return from __alloc_and_insert_iova_range() with
+-ENOMEM(iova32_full), the new_iova will not be freed in free_iova_mem().
 
 Fixes: bb68b2fbfbd6 ("iommu/iova: Add rbtree anchor node")
 Signed-off-by: Xiaotao Yin <xiaotao.yin@windriver.com>
@@ -139,7 +110,8 @@ Signed-off-by: Xiaotao Yin <xiaotao.yin@windriver.com>
  drivers/iommu/iova.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c index 41c605b0058f..2c27a661632c 100644
+diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
+index 41c605b0058f..2c27a661632c 100644
 --- a/drivers/iommu/iova.c
 +++ b/drivers/iommu/iova.c
 @@ -233,7 +233,7 @@ static DEFINE_MUTEX(iova_cache_mutex);
@@ -151,7 +123,7 @@ diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c index 41c605b0058f..2c2
  }
  EXPORT_SYMBOL(alloc_iova_mem);
  
---
+-- 
 2.17.1
 
 _______________________________________________
