@@ -1,58 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E9A11688D
-	for <lists.iommu@lfdr.de>; Mon,  9 Dec 2019 09:46:54 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BF511688C
+	for <lists.iommu@lfdr.de>; Mon,  9 Dec 2019 09:46:53 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id F16E12083F;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0B5918651D;
 	Mon,  9 Dec 2019 08:46:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3HqtNLLYWheN; Mon,  9 Dec 2019 08:46:51 +0000 (UTC)
+	with ESMTP id qwRpY1QHnWfG; Mon,  9 Dec 2019 08:46:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 5311E2094E;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 02DDD86516;
 	Mon,  9 Dec 2019 08:46:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 38315C0881;
-	Mon,  9 Dec 2019 08:46:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E376CC1796;
+	Mon,  9 Dec 2019 08:46:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 34FBCC1D7D
- for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 08:00:04 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 02E1EC0881
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 07:43:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1AC4D864C3
- for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 08:00:04 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id E0012862C7
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 07:43:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3MhFJu4pzECD for <iommu@lists.linux-foundation.org>;
- Mon,  9 Dec 2019 08:00:03 +0000 (UTC)
-X-Greylist: delayed 00:16:36 by SQLgrey-1.7.6
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id E2B49864AD
- for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 08:00:02 +0000 (UTC)
+ with ESMTP id 1t5ZKqB1HOLH for <iommu@lists.linux-foundation.org>;
+ Mon,  9 Dec 2019 07:43:30 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id C7857862BC
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 07:43:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
  [147.11.189.40])
- by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xB97hJIj019132
+ by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xB97hRk7000195
  (version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
- Sun, 8 Dec 2019 23:43:20 -0800
+ Sun, 8 Dec 2019 23:43:27 -0800 (PST)
 Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.163]) by
  ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0468.000; Sun, 8
- Dec 2019 23:43:19 -0800
+ Dec 2019 23:43:27 -0800
 From: "Yin, Xiaotao" <Xiaotao.Yin@windriver.com>
-To: "Yin, Xiaotao" <Xiaotao.Yin@windriver.com>, "joro@8bytes.org"
- <joro@8bytes.org>, "iommu@lists.linux-foundation.org"
+To: "joro@8bytes.org" <joro@8bytes.org>, "iommu@lists.linux-foundation.org"
  <iommu@lists.linux-foundation.org>
-Subject: RE: [PATCH] iommu/iova: kmemleak when pfn_lo equals IOVA_ANCHOR
-Thread-Topic: [PATCH] iommu/iova: kmemleak when pfn_lo equals IOVA_ANCHOR
-Thread-Index: AQHVrmCJeJQaOQWxzUyaXwOpMaGc4aexakGw
-Date: Mon, 9 Dec 2019 07:43:18 +0000
-Message-ID: <47B7036B26F82C43B9F7EAE984D54CB459DB3C@ALA-MBD.corp.ad.wrs.com>
-References: <20191209071609.35690-1-xiaotao.yin@windriver.com>
-In-Reply-To: <20191209071609.35690-1-xiaotao.yin@windriver.com>
+Subject: RE: [PATCH] iommu/iova: Init the struct iova to fix the possible
+ memleak
+Thread-Topic: [PATCH] iommu/iova: Init the struct iova to fix the possible
+ memleak
+Thread-Index: AdWuYWhN+RMb9/KAQCCIN3aLHnhZIQAAuwdA
+Date: Mon, 9 Dec 2019 07:43:26 +0000
+Message-ID: <47B7036B26F82C43B9F7EAE984D54CB459DB4D@ALA-MBD.corp.ad.wrs.com>
+References: <47B7036B26F82C43B9F7EAE984D54CB459DB0C@ALA-MBD.corp.ad.wrs.com>
+In-Reply-To: <47B7036B26F82C43B9F7EAE984D54CB459DB0C@ALA-MBD.corp.ad.wrs.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -84,11 +85,22 @@ Please ignore this one, I'll send v2.
 Br.
 
 -----Original Message-----
+From: Yin, Xiaotao <Xiaotao.Yin@windriver.com> 
+Sent: Monday, December 9, 2019 3:24 PM
+To: Yin, Xiaotao <Xiaotao.Yin@windriver.com>; joro@8bytes.org; iommu@lists.linux-foundation.org
+Cc: linux-kernel@vger.kernel.org; Hao, Kexin <Kexin.Hao@windriver.com>
+Subject: RE: [PATCH] iommu/iova: Init the struct iova to fix the possible memleak
+
+Changed the title to "Init the struct iova to fix the possible memleak".
+
+Thanks~
+Br.
+-----Original Message-----
 From: Xiaotao Yin <xiaotao.yin@windriver.com> 
 Sent: Monday, December 9, 2019 3:16 PM
 To: joro@8bytes.org; iommu@lists.linux-foundation.org
 Cc: linux-kernel@vger.kernel.org; Hao, Kexin <Kexin.Hao@windriver.com>; Yin, Xiaotao <Xiaotao.Yin@windriver.com>
-Subject: [PATCH] iommu/iova: kmemleak when pfn_lo equals IOVA_ANCHOR
+Subject: [PATCH] iommu/iova: Init the struct iova to fix the possible memleak
 
 During ethernet(Marvell octeontx2) set ring buffer test:
 ethtool -G eth1 rx <rx ring size> tx <tx ring size> following kmemleak will happen sometimes:
