@@ -1,86 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE21116F52
-	for <lists.iommu@lfdr.de>; Mon,  9 Dec 2019 15:43:06 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E06116F7B
+	for <lists.iommu@lfdr.de>; Mon,  9 Dec 2019 15:50:21 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1669D85036;
-	Mon,  9 Dec 2019 14:43:05 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 770FE881F9;
+	Mon,  9 Dec 2019 14:50:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ogeOgM5pyQLm; Mon,  9 Dec 2019 14:43:04 +0000 (UTC)
+	with ESMTP id aXU3az2-o1lj; Mon,  9 Dec 2019 14:50:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8CCA085118;
-	Mon,  9 Dec 2019 14:43:04 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9FCCC87F52;
+	Mon,  9 Dec 2019 14:50:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 87983C0881;
-	Mon,  9 Dec 2019 14:43:04 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 874F2C0881;
+	Mon,  9 Dec 2019 14:50:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B0E08C0881
- for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 14:43:03 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2C34DC0881;
+ Mon,  9 Dec 2019 14:50:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 9FEB7203B4
- for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 14:43:03 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2762087DDE;
+ Mon,  9 Dec 2019 14:50:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 90u1zPZvOX1M for <iommu@lists.linux-foundation.org>;
- Mon,  9 Dec 2019 14:43:03 +0000 (UTC)
+ with ESMTP id KPxlYZKqXo9R; Mon,  9 Dec 2019 14:50:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by silver.osuosl.org (Postfix) with ESMTPS id B978120336
- for <iommu@lists.linux-foundation.org>; Mon,  9 Dec 2019 14:43:02 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id n9so15252155wmd.3
- for <iommu@lists.linux-foundation.org>; Mon, 09 Dec 2019 06:43:02 -0800 (PST)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+ [209.85.221.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id DA1F887F52;
+ Mon,  9 Dec 2019 14:50:11 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id d16so16478837wre.10;
+ Mon, 09 Dec 2019 06:50:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NV+OtFNHEPzK4aALA3wGiz+UFBKhhJOcbOzMP5xc22k=;
- b=bwiWLgywo4bf2Dm4Ihu3a9OQzCW+Bcm0MRmMhP3dm7qO/brttTj8L67XJibxd6vTix
- 3G+uINewRv4VhP7E8F03AWBILGLSbVisz/lwn+KlM22BnGqwogFN9uMxSZsGliB0Xonm
- DfLcXpIDyUJNd3iAs4fo17prGdJ2Pw1ZxtYFsBSDsaa9k2oF2tM2ZdQ0POIj3QThtByc
- 2IYQ6VQpbE/rxx4ktCnSocpdE56KR6KLf0cB1pwS1W33hBSan/WK1DezW0reo4WaxshO
- B6vjyjQ6+MIxm+lttNugyuDpOpTxTlqpqeGDjzhLKcVQA2PIoS+nW+3So8WR8p051Lou
- Wa9Q==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7g3wSCUkuYWHZsY797oGKzqOQQtMHGZXYj3iutCpVxs=;
+ b=u91aLh+YeBCHC44kayet3YM2AUntkYXMMX1pB/CSCzoAIFP+uLAcMwnJdsc7rbnQ+U
+ En/u38xmp/ZaSrMelXHGaVP52bkx1ZHf6fa0G31V+GUhQS0AaFSn7ys+h8RO1NV7WwV8
+ ymTsoKVUUeJQKGShJcXhRTy2EGqLJh6aGXWYBXpnjQEUtLbQuGVBa6A2YqkH5uprWm/d
+ vExxTU69ZDydrFyUChrYMXLctHuRAFns98Wcf6gFerjB0lv8isbF6NZZB1yfy5BvtY8n
+ PFFHY7dkbo8v2ddCOwEwVVHdCIfhIVbhWl9DBEzdztx/PK8tsG39arQVINGlMjwc9u28
+ QbHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NV+OtFNHEPzK4aALA3wGiz+UFBKhhJOcbOzMP5xc22k=;
- b=Q3jJMiOFUx1UobNsYVn9btB+l2D7w2cIUGhl/QLNwYdABvCKq1uLXheePlLr/tGj7r
- +snAIVQ2m/4wcAG5y13I/m5tmqGUOE76JxHjW8l4PTsbPOxyoCDNcITMVa1ZuODkr0o1
- m2AYtraf/Le/fOn0jypz0v5/SdePR7SBfaK/Q9GSCtQfx5H6DtVHhhOwd9x4aPpi+Y/X
- gtxZbuFA/lt6thev9JifIXkMxM+IPlpYOupHwbp4akxJp1/kKaK/nL+YtX9nBU4YRBEa
- sEsMHaBL70E/El4ys8mu8w8xynb2z6RZdOyupSZvLx5XLCiDSrA1rTdjN8YRs2qfdt8y
- UKlw==
-X-Gm-Message-State: APjAAAVdQSgQ6VJm4XajOXaJLWE8fxanOXvsNahDiQMtflscCmrlHjsx
- 62I0iRJmy17xDw3lFKtH8Z4=
-X-Google-Smtp-Source: APXvYqyJwFHV7cm833OQ2PvjlHHPlHPTguHfZPFEEjeLQsJeto1AdNMXKAMXnzYvun173UkWc3IHKA==
-X-Received: by 2002:a05:600c:2383:: with SMTP id
- m3mr12937576wma.32.1575902581139; 
- Mon, 09 Dec 2019 06:43:01 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7g3wSCUkuYWHZsY797oGKzqOQQtMHGZXYj3iutCpVxs=;
+ b=gtBfHQ1hhhpKsVtMg9skkWz5bOfRMVkxJxSbxTjrwqpWeZAbvRGUsnPhGGAGmN8jea
+ +KCbKMW/ZBd6tThzRqDXuvqwuR8fIZslfr3FVFujFM4ZS4RFSfImnyu72o0VurHpBtD/
+ vzZj7HlKEc2UgK2YN5R/wPM1MZq9M9oQl0iC0SyyUvZUbWOnUB3TOeSI3BybbFQZDLLo
+ TuhNluYGG8rA728gUTnJXjvqpDARgSF4S1X3w9gJBtDEPEufamF3H534l6A66ojG3lFk
+ EfMyZvAmMByrT9ZeFnDa899MbYdUpLVX/mCySzQbRtgoemb7b4cQVeuJ5I+zcwH/3qjY
+ ILVg==
+X-Gm-Message-State: APjAAAVzMRBhJY3EhgoMyjpt8tTDqu/TQaJFkfofc3bI6EBxCOF526eD
+ AoUi+5C2qXa4qQ7Tb85ff+c=
+X-Google-Smtp-Source: APXvYqwgHRCIfDFUwn/zmwWNRl9/DgRU5Wwz5H2iHGf8TX85hbSYzSKuX7Aal6o+CbkISCPQgbBhvQ==
+X-Received: by 2002:adf:e984:: with SMTP id h4mr2512872wrm.275.1575903009994; 
+ Mon, 09 Dec 2019 06:50:09 -0800 (PST)
 Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
- by smtp.gmail.com with ESMTPSA id b10sm8756152wmb.48.2019.12.09.06.42.59
+ by smtp.gmail.com with ESMTPSA id s82sm13863411wms.28.2019.12.09.06.50.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Dec 2019 06:43:00 -0800 (PST)
+ Mon, 09 Dec 2019 06:50:08 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH v2 2/2] iommu: dma: Use of_iommu_get_resv_regions()
-Date: Mon,  9 Dec 2019 15:42:56 +0100
-Message-Id: <20191209144256.2396808-2-thierry.reding@gmail.com>
+Subject: [PATCH v2 0/5] iommu: Implement iommu_put_resv_regions_simple()
+Date: Mon,  9 Dec 2019 15:50:02 +0100
+Message-Id: <20191209145007.2433144-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191209144256.2396808-1-thierry.reding@gmail.com>
-References: <20191209144256.2396808-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Cc: devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
  Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
+ virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,39 +98,32 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-For device tree nodes, use the standard of_iommu_get_resv_regions()
-implementation to obtain the reserved memory regions associated with a
-device.
+Most IOMMU drivers only need to free the memory allocated for each
+reserved region. Instead of open-coding the loop to do this in each
+driver, extract the code into a common function that can be used by
+all these drivers.
 
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Frank Rowand <frowand.list@gmail.com>
-Cc: devicetree@vger.kernel.org
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/iommu/dma-iommu.c | 3 +++
- 1 file changed, 3 insertions(+)
+Changes in v2:
+- change subject prefix to "iommu: virtio: " for virtio-iommu.c driver
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 76ef31123cd9..2b2ec643b7e8 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -19,6 +19,7 @@
- #include <linux/iova.h>
- #include <linux/irq.h>
- #include <linux/mm.h>
-+#include <linux/of_iommu.h>
- #include <linux/pci.h>
- #include <linux/scatterlist.h>
- #include <linux/vmalloc.h>
-@@ -165,6 +166,8 @@ void iommu_dma_get_resv_regions(struct device *dev, struct list_head *list)
- 	if (!is_of_node(dev_iommu_fwspec_get(dev)->iommu_fwnode))
- 		iort_iommu_msi_get_resv_regions(dev, list);
- 
-+	if (dev->of_node)
-+		of_iommu_get_resv_regions(dev, list);
- }
- EXPORT_SYMBOL(iommu_dma_get_resv_regions);
- 
+Thierry
+
+Thierry Reding (5):
+  iommu: Implement iommu_put_resv_regions_simple()
+  iommu: arm: Use iommu_put_resv_regions_simple()
+  iommu: amd: Use iommu_put_resv_regions_simple()
+  iommu: intel: Use iommu_put_resv_regions_simple()
+  iommu: virtio: Use iommu_put_resv_regions_simple()
+
+ drivers/iommu/amd_iommu.c    | 11 +----------
+ drivers/iommu/arm-smmu-v3.c  | 11 +----------
+ drivers/iommu/arm-smmu.c     | 11 +----------
+ drivers/iommu/intel-iommu.c  | 11 +----------
+ drivers/iommu/iommu.c        | 19 +++++++++++++++++++
+ drivers/iommu/virtio-iommu.c | 14 +++-----------
+ include/linux/iommu.h        |  2 ++
+ 7 files changed, 28 insertions(+), 51 deletions(-)
+
 -- 
 2.23.0
 
