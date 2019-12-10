@@ -1,61 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD572119C64
-	for <lists.iommu@lfdr.de>; Tue, 10 Dec 2019 23:31:54 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE7B119D5D
+	for <lists.iommu@lfdr.de>; Tue, 10 Dec 2019 23:37:51 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4FAF886B9E;
-	Tue, 10 Dec 2019 22:31:53 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BA079884E7;
+	Tue, 10 Dec 2019 22:37:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rRe8U24XYBDR; Tue, 10 Dec 2019 22:31:52 +0000 (UTC)
+	with ESMTP id BQy7SDjBHwOK; Tue, 10 Dec 2019 22:37:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B786586C04;
-	Tue, 10 Dec 2019 22:31:52 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 144C0884E4;
+	Tue, 10 Dec 2019 22:37:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9E2F3C0881;
-	Tue, 10 Dec 2019 22:31:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EAF5DC1796;
+	Tue, 10 Dec 2019 22:37:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D02D5C0881
- for <iommu@lists.linux-foundation.org>; Tue, 10 Dec 2019 22:31:50 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1E3AEC0881
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Dec 2019 22:37:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BC2AB86D89
- for <iommu@lists.linux-foundation.org>; Tue, 10 Dec 2019 22:31:50 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 0BC2D22851
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Dec 2019 22:37:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vsSBH021dMYz for <iommu@lists.linux-foundation.org>;
- Tue, 10 Dec 2019 22:31:50 +0000 (UTC)
+ with ESMTP id A6p9oxX-3kUJ for <iommu@lists.linux-foundation.org>;
+ Tue, 10 Dec 2019 22:37:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 2A1B186786
- for <iommu@lists.linux-foundation.org>; Tue, 10 Dec 2019 22:31:50 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 40C972283C
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Dec 2019 22:37:47 +0000 (UTC)
 Received: from localhost (mobile-166-170-223-177.mycingular.net
  [166.170.223.177])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9EDE5206EC;
- Tue, 10 Dec 2019 22:31:49 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B6617214D8;
+ Tue, 10 Dec 2019 22:37:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1576017110;
- bh=OWeDD1ggaI7KtD7dXyfUWEhw8ibkokJLLFnshu+t8Bs=;
+ s=default; t=1576017467;
+ bh=pmltaW9LsjEuTpeKbuA3I4m6I9tXYKuy+WxPnOiBySg=;
  h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=jx/aoNNd4yeJQOJni2d8Jm2bVglXRvoz4EFeLcuMkv+4rwBBQgDPc8e0091THiWqv
- ByDPON5LbCRk5pfsGKnre0V6A3u0AVAS3HCh4SvEgK46AtHn1Lj4VDYvmleLkrwvjW
- e7Rs9VJEMWlZSW72/q1C36bfYYi7lcjJcJDvAF2c=
-Date: Tue, 10 Dec 2019 16:31:48 -0600
+ b=GpF77bDRMYOZMzZUsc1xfZBNt0grHZ4wf9ahTXpwyB/3gWFtElsyCOKqPj3U1bJFM
+ F12G87CHzuPAb/bUPdSWsiVx1FaP+i8FGPXzpLIMlG9rGYgTSbaTbyG8VW14eyc8d+
+ yP9jUwAsNzCNQ3sJ/NVKANDpE4MxAYItUWmqRpYM=
+Date: Tue, 10 Dec 2019 16:37:45 -0600
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: James Sewart <jamessewart@arista.com>
-Subject: Re: [PATCH v6 1/3] PCI: Fix off by one in dma_alias_mask allocation
- size
-Message-ID: <20191210223148.GA166696@google.com>
+Subject: Re: [PATCH v6 2/3] PCI: Add parameter nr_devfns to pci_add_dma_alias
+Message-ID: <20191210223745.GA167002@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <910070E3-7964-4549-B77F-EC7FC6144503@arista.com>
+In-Reply-To: <D4C7374E-4DFE-4024-8E76-9F54BF421B62@arista.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: Alex Williamson <alex.williamson@redhat.com>,
  Dmitry Safonov <dima@arista.com>, linux-pci@vger.kernel.org,
@@ -80,66 +79,79 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 [+cc Joerg]
 
-On Tue, Dec 03, 2019 at 03:43:22PM +0000, James Sewart wrote:
-> The number of possible devfns is 256, add def and correct uses.
+On Tue, Dec 03, 2019 at 03:43:53PM +0000, James Sewart wrote:
+> pci_add_dma_alias can now be used to create a dma alias for a range of
+> devfns.
 > 
 > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 > Signed-off-by: James Sewart <jamessewart@arista.com>
-
-I applied these three patches to pci/virtualization for v5.6, thanks!
-
-I moved the MAX_NR_DEVFNS from include/linux/pci.h to
-drivers/pci/pci.h since nobody outside drivers/pci needs it.
-
 > ---
->  drivers/pci/pci.c    | 2 +-
->  drivers/pci/search.c | 2 +-
->  include/linux/pci.h  | 2 ++
->  3 files changed, 4 insertions(+), 2 deletions(-)
-> 
+>  drivers/pci/pci.c    | 22 +++++++++++++++++-----
+>  drivers/pci/quirks.c | 14 +++++++-------
+>  include/linux/pci.h  |  2 +-
+>  3 files changed, 25 insertions(+), 13 deletions(-)
+
+Heads up Joerg: I also updated drivers/iommu/amd_iommu.c (this is the
+one reported by the kbuild test robot) and removed the printk there
+that prints the same thing as the one in pci_add_dma_alias(), and I
+updated a PCI quirk that was merged after this patch was posted.
+
 > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index a97e2571a527..d3c83248f3ce 100644
+> index d3c83248f3ce..dbb01aceafda 100644
 > --- a/drivers/pci/pci.c
 > +++ b/drivers/pci/pci.c
-> @@ -5876,7 +5876,7 @@ int pci_set_vga_state(struct pci_dev *dev, bool decode,
->  void pci_add_dma_alias(struct pci_dev *dev, u8 devfn)
+> @@ -5857,7 +5857,8 @@ int pci_set_vga_state(struct pci_dev *dev, bool decode,
+>  /**
+>   * pci_add_dma_alias - Add a DMA devfn alias for a device
+>   * @dev: the PCI device for which alias is added
+> - * @devfn: alias slot and function
+> + * @devfn_from: alias slot and function
+> + * @nr_devfns: Number of subsequent devfns to alias
+>   *
+>   * This helper encodes an 8-bit devfn as a bit number in dma_alias_mask
+>   * which is used to program permissible bus-devfn source addresses for DMA
+> @@ -5873,8 +5874,13 @@ int pci_set_vga_state(struct pci_dev *dev, bool decode,
+>   * cannot be left as a userspace activity).  DMA aliases should therefore
+>   * be configured via quirks, such as the PCI fixup header quirk.
+>   */
+> -void pci_add_dma_alias(struct pci_dev *dev, u8 devfn)
+> +void pci_add_dma_alias(struct pci_dev *dev, u8 devfn_from, unsigned nr_devfns)
 >  {
+> +	int devfn_to;
+> +
+> +	nr_devfns = min(nr_devfns, (unsigned)MAX_NR_DEVFNS);
+> +	devfn_to = devfn_from + nr_devfns - 1;
+
+I made this look like:
+
++       devfn_to = min(devfn_from + nr_devfns - 1,
++                      (unsigned) MAX_NR_DEVFNS - 1);
+
+so devfn_from=0xf0, nr_devfns=0x20 doesn't cause devfn_to to wrap
+around.
+
+I did keep Logan's reviewed-by, so let me know if I broke something.
+
 >  	if (!dev->dma_alias_mask)
-> -		dev->dma_alias_mask = bitmap_zalloc(U8_MAX, GFP_KERNEL);
-> +		dev->dma_alias_mask = bitmap_zalloc(MAX_NR_DEVFNS, GFP_KERNEL);
+>  		dev->dma_alias_mask = bitmap_zalloc(MAX_NR_DEVFNS, GFP_KERNEL);
 >  	if (!dev->dma_alias_mask) {
->  		pci_warn(dev, "Unable to allocate DMA alias mask\n");
+> @@ -5882,9 +5888,15 @@ void pci_add_dma_alias(struct pci_dev *dev, u8 devfn)
 >  		return;
-> diff --git a/drivers/pci/search.c b/drivers/pci/search.c
-> index bade14002fd8..9e4dfae47252 100644
-> --- a/drivers/pci/search.c
-> +++ b/drivers/pci/search.c
-> @@ -43,7 +43,7 @@ int pci_for_each_dma_alias(struct pci_dev *pdev,
->  	if (unlikely(pdev->dma_alias_mask)) {
->  		u8 devfn;
+>  	}
 >  
-> -		for_each_set_bit(devfn, pdev->dma_alias_mask, U8_MAX) {
-> +		for_each_set_bit(devfn, pdev->dma_alias_mask, MAX_NR_DEVFNS) {
->  			ret = fn(pdev, PCI_DEVID(pdev->bus->number, devfn),
->  				 data);
->  			if (ret)
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 1a6cf19eac2d..6481da29d667 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -57,6 +57,8 @@
->  #define PCI_DEVID(bus, devfn)	((((u16)(bus)) << 8) | (devfn))
->  /* return bus from PCI devid = ((u16)bus_number) << 8) | devfn */
->  #define PCI_BUS_NUM(x) (((x) >> 8) & 0xff)
-> +/* Number of possible devfns. devfns can be from 0.0 to 1f.7 inclusive */
-> +#define MAX_NR_DEVFNS 256
->  
->  /* pci_slot represents a physical slot */
->  struct pci_slot {
-> -- 
-> 2.24.0
-> 
-> 
+> -	set_bit(devfn, dev->dma_alias_mask);
+> -	pci_info(dev, "Enabling fixed DMA alias to %02x.%d\n",
+> -		 PCI_SLOT(devfn), PCI_FUNC(devfn));
+> +	bitmap_set(dev->dma_alias_mask, devfn_from, nr_devfns);
+> +
+> +	if (nr_devfns == 1)
+> +		pci_info(dev, "Enabling fixed DMA alias to %02x.%d\n",
+> +				PCI_SLOT(devfn_from), PCI_FUNC(devfn_from));
+> +	else if(nr_devfns > 1)
+> +		pci_info(dev, "Enabling fixed DMA alias for devfn range from %02x.%d to %02x.%d\n",
+> +				PCI_SLOT(devfn_from), PCI_FUNC(devfn_from),
+> +				PCI_SLOT(devfn_to), PCI_FUNC(devfn_to));
+>  }
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
