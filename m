@@ -1,55 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B028111A540
-	for <lists.iommu@lfdr.de>; Wed, 11 Dec 2019 08:43:40 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6A711AF24
+	for <lists.iommu@lfdr.de>; Wed, 11 Dec 2019 16:12:11 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B328F878EA;
-	Wed, 11 Dec 2019 07:43:38 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2B405204CE;
+	Wed, 11 Dec 2019 15:12:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id r3gxbMVM0KMV; Wed, 11 Dec 2019 07:43:38 +0000 (UTC)
+	with ESMTP id TTjSxzMTguFw; Wed, 11 Dec 2019 15:12:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4E5D087942;
-	Wed, 11 Dec 2019 07:43:38 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2417B22721;
+	Wed, 11 Dec 2019 15:12:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 314E8C0881;
-	Wed, 11 Dec 2019 07:43:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 15959C0881;
+	Wed, 11 Dec 2019 15:12:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 540E0C0881
- for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 07:43:36 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 07135C0881
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 15:12:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 3ABD887916
- for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 07:43:36 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 025CD85E13
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 15:12:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BSE67G93X-BU for <iommu@lists.linux-foundation.org>;
- Wed, 11 Dec 2019 07:43:34 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 995C0878EA
- for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 07:43:34 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id AC03568BFE; Wed, 11 Dec 2019 08:43:29 +0100 (CET)
-Date: Wed, 11 Dec 2019 08:43:29 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH] iommu: fix min_not_zero() type mismatch warning
-Message-ID: <20191211074329.GA4458@lst.de>
-References: <20191210195803.866126-1-arnd@arndb.de>
+ with ESMTP id NK4rUqBBXn_c for <iommu@lists.linux-foundation.org>;
+ Wed, 11 Dec 2019 15:12:06 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 55093854DF
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 15:12:06 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2F5C724658;
+ Wed, 11 Dec 2019 15:12:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1576077126;
+ bh=IEDH//bhdQztlOqOo+cfwWB4wM8CT2ZDR64ODrpGXpU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ASfCZsr8aNmgPSL1M+6kupNFfLQJvSZgKsM//pdyMqHr1sDp/5vZb7GauO0pEltxE
+ 7H1gJwjf/cng57mgJFVyGVCowkZrx8HoMgglqGjQmgPom2nTTxVg+RAByr3/PNkkeL
+ V0vRDMZlBUgiZtzbv9e9MOQCM6l7v2sryYUu260k=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 014/134] iommu: rockchip: Free domain on
+ .domain_free
+Date: Wed, 11 Dec 2019 10:09:50 -0500
+Message-Id: <20191211151150.19073-14-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191211151150.19073-1-sashal@kernel.org>
+References: <20191211151150.19073-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20191210195803.866126-1-arnd@arndb.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: iommu@lists.linux-foundation.org, Tom Murphy <murphyt7@tcd.ie>,
- linux-kernel@vger.kernel.org, Julien Grall <julien.grall@arm.com>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Cc: Sasha Levin <sashal@kernel.org>, Joerg Roedel <jroedel@suse.de>,
+ Heiko Stuebner <heiko@sntech.de>, Ezequiel Garcia <ezequiel@collabora.com>,
+ linux-rockchip@lists.infradead.org, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,9 +81,65 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-I think we agree that the parameter should be a u64 instead, and either
-Nicolas or Robin (sorry, fading memory) promised to send me a patch for
-that.
+From: Ezequiel Garcia <ezequiel@collabora.com>
+
+[ Upstream commit 42bb97b80f2e3bf592e3e99d109b67309aa1b30e ]
+
+IOMMU domain resource life is well-defined, managed
+by .domain_alloc and .domain_free.
+
+Therefore, domain-specific resources shouldn't be tied to
+the device life, but instead to its domain.
+
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+Acked-by: Heiko Stuebner <heiko@sntech.de>
+Signed-off-by: Joerg Roedel <jroedel@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/iommu/rockchip-iommu.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iommu.c
+index 4dcbf68dfda43..0df091934361b 100644
+--- a/drivers/iommu/rockchip-iommu.c
++++ b/drivers/iommu/rockchip-iommu.c
+@@ -980,13 +980,13 @@ static struct iommu_domain *rk_iommu_domain_alloc(unsigned type)
+ 	if (!dma_dev)
+ 		return NULL;
+ 
+-	rk_domain = devm_kzalloc(dma_dev, sizeof(*rk_domain), GFP_KERNEL);
++	rk_domain = kzalloc(sizeof(*rk_domain), GFP_KERNEL);
+ 	if (!rk_domain)
+ 		return NULL;
+ 
+ 	if (type == IOMMU_DOMAIN_DMA &&
+ 	    iommu_get_dma_cookie(&rk_domain->domain))
+-		return NULL;
++		goto err_free_domain;
+ 
+ 	/*
+ 	 * rk32xx iommus use a 2 level pagetable.
+@@ -1021,6 +1021,8 @@ err_free_dt:
+ err_put_cookie:
+ 	if (type == IOMMU_DOMAIN_DMA)
+ 		iommu_put_dma_cookie(&rk_domain->domain);
++err_free_domain:
++	kfree(rk_domain);
+ 
+ 	return NULL;
+ }
+@@ -1049,6 +1051,7 @@ static void rk_iommu_domain_free(struct iommu_domain *domain)
+ 
+ 	if (domain->type == IOMMU_DOMAIN_DMA)
+ 		iommu_put_dma_cookie(&rk_domain->domain);
++	kfree(rk_domain);
+ }
+ 
+ static int rk_iommu_add_device(struct device *dev)
+-- 
+2.20.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
