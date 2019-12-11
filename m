@@ -2,53 +2,81 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FF011BCA0
-	for <lists.iommu@lfdr.de>; Wed, 11 Dec 2019 20:13:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C3F11BDDC
+	for <lists.iommu@lfdr.de>; Wed, 11 Dec 2019 21:29:02 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 6561F232FA;
-	Wed, 11 Dec 2019 19:13:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 27EC4204F9;
+	Wed, 11 Dec 2019 20:29:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZQI4lbxSSLZR; Wed, 11 Dec 2019 19:13:01 +0000 (UTC)
+	with ESMTP id gCxcjBdsyPmI; Wed, 11 Dec 2019 20:29:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id AF20522EDD;
-	Wed, 11 Dec 2019 19:13:01 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5E50B2271F;
+	Wed, 11 Dec 2019 20:29:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8E75EC1D82;
-	Wed, 11 Dec 2019 19:13:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4BD75C18DC;
+	Wed, 11 Dec 2019 20:29:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1AC20C0881
- for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 19:13:00 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 53C83C0881
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 20:16:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 0CEB92271F
- for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 19:13:00 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 3E091886FE
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 20:16:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id j7YhWXKTE5Xz for <iommu@lists.linux-foundation.org>;
- Wed, 11 Dec 2019 19:12:59 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by silver.osuosl.org (Postfix) with ESMTPS id 1B4D422621
- for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 19:12:59 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id E77CEAC44;
- Wed, 11 Dec 2019 19:12:56 +0000 (UTC)
-Message-ID: <caef320ed82f3e28065920d037805f18c29e4156.camel@suse.de>
-Subject: Re: [PATCH v2] iommu/dma: Rationalise types for DMA masks
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Robin Murphy <robin.murphy@arm.com>, joro@8bytes.org, hch@lst.de
-Date: Wed, 11 Dec 2019 20:12:54 +0100
-In-Reply-To: <00d1ddf9439a8c79fb561b0fc740bddf9e6fe6b1.1576089015.git.robin.murphy@arm.com>
-References: <00d1ddf9439a8c79fb561b0fc740bddf9e6fe6b1.1576089015.git.robin.murphy@arm.com>
-User-Agent: Evolution 3.34.2 
-MIME-Version: 1.0
-Cc: natechancellor@gmail.com, iommu@lists.linux-foundation.org, arnd@arndb.de,
- linux-kernel@vger.kernel.org, stephan@gerhold.net
+ with ESMTP id o7-9YMEokXlv for <iommu@lists.linux-foundation.org>;
+ Wed, 11 Dec 2019 20:16:23 +0000 (UTC)
+X-Greylist: delayed 00:23:42 by SQLgrey-1.7.6
+Received: from mail-il1-f202.google.com (mail-il1-f202.google.com
+ [209.85.166.202])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 7B43488692
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 20:16:23 +0000 (UTC)
+Received: by mail-il1-f202.google.com with SMTP id s85so18076566ild.13
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 12:16:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=A53ZaoyxJN+P/x/wFOv9wV4eF+QY9qPjvQKuh7OFwuU=;
+ b=bj6k8Bc7Ef+j+rl6hUKv99wGBXII19pyqdKKrJI0g1qkHNJltGp6k0JofsUtU0Kfp5
+ zqAhCWh68oY3h93QzByhJEA8pU1o8YBJo+oZ4HSt1YsvpskpVpaUEo0vSulRMxSeCpcr
+ VZMZA/5XiHkKoc65RR/BTzy/O5rbh4JTkFVhARzzljaJcGSBo6eIXI40pSDGc9OWm4nY
+ 2DNHHpbEB4SbXmkypEr5D7aJOGGv7GJAj7D9dia2t2v0LIph2fUasLu3FP/R3OHplmre
+ 9qq6Pms+e1Jc5fZJodLfVRV3xImJzyCRQUsXrnZDuOPRBmbuOJFlmaGZ1+ax43KuK2ZG
+ CN3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=A53ZaoyxJN+P/x/wFOv9wV4eF+QY9qPjvQKuh7OFwuU=;
+ b=IWQZmf/WBIqBOX7h/D+9h0+vTjTDG5ztPjooL8cq2T58Cg7l7qRmxruA9QsAt6kNrw
+ nhe+ELXqO+p4TVxXF2Am0tOVz3LttqpAoLGNiM1rYT1dLA5hatWC4t40DeJFuXlYd34A
+ HTsWHAimHn8xTkSRBFL6rXRFc2+xge1yr1A2IX24v2u3eFIEROtVhGMC/aLdmmU39GWO
+ OZ2nsGKIgiHOGYr4waQvR9YT0GNQ7gKOZjOBuouj2dZTFEdX2sXrU9IZ7WUBHGhUs7G0
+ MjfoTNOGXbi0BRND7XgGw8Yh04VsVLuibNvnYPzK9LNp0j79pYWZheUcuCkaTNGRSHAp
+ OMrA==
+X-Gm-Message-State: APjAAAUM+zG36PTtDkQ8752JljfPLELUuaurvfcrpSkaaNcXz1jTu8YD
+ JDtVD3i3sULraNN/U7KbNor8zzIi
+X-Google-Smtp-Source: APXvYqxkWLsqIgmvHQiiMFxw4ZXKOkzE0dbenXYUwgiP/rqdexXMIIwgADKdnZ2MnxRj90Xlrt1a1MLn
+X-Received: by 2002:a63:c013:: with SMTP id h19mr6078212pgg.447.1576093601550; 
+ Wed, 11 Dec 2019 11:46:41 -0800 (PST)
+Date: Wed, 11 Dec 2019 14:46:04 -0500
+In-Reply-To: <20191211194606.87940-1-brho@google.com>
+Message-Id: <20191211194606.87940-2-brho@google.com>
+Mime-Version: 1.0
+References: <20191211194606.87940-1-brho@google.com>
+X-Mailer: git-send-email 2.24.0.525.g8f36a354ae-goog
+Subject: [PATCH 1/3] iommu/vt-d: skip RMRR entries that fail the sanity check
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, 
+ "H. Peter Anvin" <hpa@zytor.com>, David Woodhouse <dwmw2@infradead.org>,
+ Joerg Roedel <joro@8bytes.org>, 
+ Yian Chen <yian.chen@intel.com>, Sohil Mehta <sohil.mehta@intel.com>
+X-Mailman-Approved-At: Wed, 11 Dec 2019 20:28:58 +0000
+Cc: iommu@lists.linux-foundation.org, x86@kernel.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -61,63 +89,48 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============6881280265021105904=="
+From: Barret Rhoden via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Barret Rhoden <brho@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+RMRR entries describe memory regions that are DMA targets for devices
+outside the kernel's control.
 
---===============6881280265021105904==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-XICR1gKRvP0/o9JFpxGW"
+RMRR entries that fail the sanity check are pointing to regions of
+memory that the firmware did not tell the kernel are reserved or
+otherwise should not be used.
 
+Instead of aborting DMAR processing, this commit skips these RMRR
+entries.  They will not be mapped into the IOMMU, but the IOMMU can
+still be utilized.  If anything, when the IOMMU is on, those devices
+will not be able to clobber RAM that the kernel has allocated from those
+regions.
 
---=-XICR1gKRvP0/o9JFpxGW
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Barret Rhoden <brho@google.com>
+---
+ drivers/iommu/intel-iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Wed, 2019-12-11 at 18:33 +0000, Robin Murphy wrote:
-> Since iommu_dma_alloc_iova() combines incoming masks with the u64 bus
-> limit, it makes more sense to pass them around in their native u64
-> rather than converting to dma_addr_t early. Do that, and resolve the
-> remaining type discrepancy against the domain geometry with a cheeky
-> cast to keep things simple.
->=20
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-
-Thanks!
-
-Reviewed-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-
-
---=-XICR1gKRvP0/o9JFpxGW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl3xP7YACgkQlfZmHno8
-x/7FiAgAnId4C31mAw6taCSWTYRlI5XzSRM3BWgQ8VW3hnuQJR+8BW9AslfYp1jC
-O8Jf22GL7el60MA/jpECLMqmrNryEyysbkQPP+Cxe2ol9bXVCoD2fKnL7kDMwQhi
-d5UUU/c7QmHEKucH/BSJpoMrWtz1ljl2dpIh+IFIV0HuCtavfnhqUq1O+whYwiFe
-zLow9a+pLjMjKd5y0ZGKFdSiS8ITDk0k1AO1nj2LnUUDEhwu4gv7rZWGrFJP+H4n
-vehYQtW88O62CiH3EPBrG4Ge/YxwNhfH+W/q4uxKiQFbBeH9xlvN/AzwnQPYr5/I
-2yWOkUHdujJwNhd/h5zdf9gk2Y7vlQ==
-=WZQI
------END PGP SIGNATURE-----
-
---=-XICR1gKRvP0/o9JFpxGW--
-
-
---===============6881280265021105904==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index f168cd8ee570..f7e09244c9e4 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -4316,7 +4316,7 @@ int __init dmar_parse_one_rmrr(struct acpi_dmar_header *header, void *arg)
+ 	rmrr = (struct acpi_dmar_reserved_memory *)header;
+ 	ret = arch_rmrr_sanity_check(rmrr);
+ 	if (ret)
+-		return ret;
++		return 0;
+ 
+ 	rmrru = kzalloc(sizeof(*rmrru), GFP_KERNEL);
+ 	if (!rmrru)
+-- 
+2.24.0.525.g8f36a354ae-goog
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============6881280265021105904==--
-
