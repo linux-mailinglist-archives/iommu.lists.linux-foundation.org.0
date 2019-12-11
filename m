@@ -2,70 +2,80 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B90F011BDD9
-	for <lists.iommu@lfdr.de>; Wed, 11 Dec 2019 21:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D43C11BE51
+	for <lists.iommu@lfdr.de>; Wed, 11 Dec 2019 21:48:59 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 679DC86DE1;
-	Wed, 11 Dec 2019 20:28:42 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0987D86D28;
+	Wed, 11 Dec 2019 20:48:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AHxdlsRm2RrG; Wed, 11 Dec 2019 20:28:41 +0000 (UTC)
+	with ESMTP id xW52x5yp3Nv9; Wed, 11 Dec 2019 20:48:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D9E1D86DEE;
-	Wed, 11 Dec 2019 20:28:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A2F9486D1D;
+	Wed, 11 Dec 2019 20:48:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D0008C0881;
-	Wed, 11 Dec 2019 20:28:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 87277C0881;
+	Wed, 11 Dec 2019 20:48:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 41D25C0881
- for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 20:28:40 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B4C6DC0881
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 20:48:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2FC8221FFB
- for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 20:28:40 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id A389586D19
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 20:48:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id A9TP5LAaR+9y for <iommu@lists.linux-foundation.org>;
- Wed, 11 Dec 2019 20:28:39 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by silver.osuosl.org (Postfix) with ESMTPS id 1D0D3204F9
- for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 20:28:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576096117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tBMnwuAB2t3/ThQhg+HqS+KFzRIvX6sGbEBEToVuD/U=;
- b=AEuDFtu1qcte5nveVKlCG1dAPp07xHqJ1No3yM707dDtk4FUrSM0kuwW5Sfd6HbtazlXyr
- JRnWeV8TL/b8cXm7dnZxDZP4iMmanbFZM4MDq1uWmeTRWvD57G++gsn9cjLjfLXARil4It
- LRHuEzv5wG1YmmvLP/KWTun1XJcp8Uo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-DX1ymbMgN_KPOsMnhrASew-1; Wed, 11 Dec 2019 15:28:33 -0500
-X-MC-Unique: DX1ymbMgN_KPOsMnhrASew-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B4DA800EC0;
- Wed, 11 Dec 2019 20:28:32 +0000 (UTC)
-Received: from gimli.home (ovpn-116-53.phx2.redhat.com [10.3.116.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7EA860BB4;
- Wed, 11 Dec 2019 20:28:29 +0000 (UTC)
-Subject: [PATCH] iommu/vt-d: Set ISA bridge reserved region as relaxable
-From: Alex Williamson <alex.williamson@redhat.com>
-To: joro@8bytes.org, iommu@lists.linux-foundation.org, baolu.lu@linux.intel.com
-Date: Wed, 11 Dec 2019 13:28:29 -0700
-Message-ID: <157609608124.14870.10855090013879818212.stgit@gimli.home>
-User-Agent: StGit/0.19-dirty
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Cc: cprt@protonmail.com, eauger@redhat.com
+ with ESMTP id 4lzHCGeRDMQ0 for <iommu@lists.linux-foundation.org>;
+ Wed, 11 Dec 2019 20:48:54 +0000 (UTC)
+X-Greylist: delayed 01:02:03 by SQLgrey-1.7.6
+Received: from mail-qk1-f202.google.com (mail-qk1-f202.google.com
+ [209.85.222.202])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 7E6C28354A
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 20:48:54 +0000 (UTC)
+Received: by mail-qk1-f202.google.com with SMTP id c202so8407238qkg.4
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Dec 2019 12:48:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=eThurwhGsm2B6q3iIMHM88H1qXnCFgfSyZ1R5IN3D8Q=;
+ b=Umx9+Upz6YY6XIihuoQd5zSRR25JpUE9443iw0slpTRt9rNrW/QtJnrqTveFBBtjJu
+ 2JH4MKsLoac9Cd2LcAoXkBqLPsZlRurSsea3TqpFF1YcgKgM46PKOFk15t4RttfJzw7Z
+ 3WRf8UtSA8Cah1PzwrHkcXbW3XZuz32fyOKGdfbg7u+y00MScxn6dR9QwQTCKTbfPfDw
+ 7PZBlKQxhxQxVe5kgqyq6eGry8rcdQPjRGEdXzIUzwxr54P9t/0U4NXLP6nViYUJoh61
+ Xt9Gj3hlTbCPYMCcmN21UifbHrNWP0kWauzhxKpIAla7DlfZwJxBIAisTHiAbjaf0SSB
+ ubyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=eThurwhGsm2B6q3iIMHM88H1qXnCFgfSyZ1R5IN3D8Q=;
+ b=XrOkq8NtBiObShYjbC6B+9MHHm1jmO+dQConVq+BiqAc3ZQdqhdNqKYWXCP253xuzT
+ +8nt3KZtLzhsyhdAx2rZPUTyKiceDCp3P6yLEkttFcI4qYEAGeKe2QXsvuSH2V/5+kDa
+ kESfMPFJyJFDK63fP4xbyiRi6vhfIjdsx5AQC8N2eq6Jf96CQKpmqLbVEj643NZ4ZZkG
+ 0L4QC8Cv0yIk3EARHI5HBWZAAfP3oGNTo8+DSzHav0v7LvnzVZ2XyRr0uSE40zTo71xe
+ Q6Hj4UOupJiUS766JaqNc2d8FW/7yXygbcO7DFdCbIsY/89xImAAj6URz6jeNRubxtJ9
+ oPnw==
+X-Gm-Message-State: APjAAAVbFfLJ8C4OEi2itaWhOPNWirzdrAW26G9VRHyGts87AKfcT5J/
+ G45xSEmDXBnaxNzjwXXoSEWX1t/i
+X-Google-Smtp-Source: APXvYqz9saMrD1OROuGMjFvRuK1d962ToYdHGinwknsX48BtwzWvboUzDxn9EnEBlb28+/SXokSHbbsr
+X-Received: by 2002:ac5:c99c:: with SMTP id e28mr5314125vkm.52.1576093609782; 
+ Wed, 11 Dec 2019 11:46:49 -0800 (PST)
+Date: Wed, 11 Dec 2019 14:46:06 -0500
+In-Reply-To: <20191211194606.87940-1-brho@google.com>
+Message-Id: <20191211194606.87940-4-brho@google.com>
+Mime-Version: 1.0
+References: <20191211194606.87940-1-brho@google.com>
+X-Mailer: git-send-email 2.24.0.525.g8f36a354ae-goog
+Subject: [PATCH 3/3] iommu/vt-d: skip invalid RMRR entries
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, 
+ "H. Peter Anvin" <hpa@zytor.com>, David Woodhouse <dwmw2@infradead.org>,
+ Joerg Roedel <joro@8bytes.org>, 
+ Yian Chen <yian.chen@intel.com>, Sohil Mehta <sohil.mehta@intel.com>
+Cc: iommu@lists.linux-foundation.org, x86@kernel.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,59 +88,59 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Barret Rhoden via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Barret Rhoden <brho@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Commit d850c2ee5fe2 ("iommu/vt-d: Expose ISA direct mapping region via
-iommu_get_resv_regions") created a direct-mapped reserved memory region
-in order to replace the static identity mapping of the ISA address
-space, where the latter was then removed in commit df4f3c603aeb
-("iommu/vt-d: Remove static identity map code").  According to the
-history of this code and the Kconfig option surrounding it, this direct
-mapping exists for the benefit of legacy ISA drivers that are not
-compatible with the DMA API.
+The VT-d docs specify requirements for the RMRR entries base and end
+(called 'Limit' in the docs) addresses.
 
-In conjuntion with commit 9b77e5c79840 ("vfio/type1: check dma map
-request is within a valid iova range") this change introduced a
-regression where the vfio IOMMU backend enforces reserved memory regions
-per IOMMU group, preventing userspace from creating IOMMU mappings
-conflicting with prescribed reserved regions.  A necessary prerequisite
-for the vfio change was the introduction of "relaxable" direct mappings
-introduced by commit adfd37382090 ("iommu: Introduce
-IOMMU_RESV_DIRECT_RELAXABLE reserved memory regions").  These relaxable
-direct mappings provide the same identity mapping support in the default
-domain, but also indicate that the reservation is software imposed and
-may be relaxed under some conditions, such as device assignment.
+This commit will cause the DMAR processing to skip any RMRR entries
+that do not meet these requirements with the expectation that firmware
+is giving us junk.
 
-Convert the ISA bridge direct-mapped reserved region to relaxable to
-reflect that the restriction is self imposed and need not be enforced
-by drivers such as vfio.
-
-Fixes: d850c2ee5fe2 ("iommu/vt-d: Expose ISA direct mapping region via iommu_get_resv_regions")
-Cc: stable@vger.kernel.org # v5.3+
-Link: https://lore.kernel.org/linux-iommu/20191211082304.2d4fab45@x1.home
-Reported-by: cprt <cprt@protonmail.com>
-Tested-by: cprt <cprt@protonmail.com>
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+Signed-off-by: Barret Rhoden <brho@google.com>
 ---
- drivers/iommu/intel-iommu.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iommu/intel-iommu.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index 0c8d81f56a30..6eb0dd7489a1 100644
+index f7e09244c9e4..11322fefb883 100644
 --- a/drivers/iommu/intel-iommu.c
 +++ b/drivers/iommu/intel-iommu.c
-@@ -5737,7 +5737,7 @@ static void intel_iommu_get_resv_regions(struct device *device,
+@@ -4307,6 +4307,18 @@ static void __init init_iommu_pm_ops(void)
+ static inline void init_iommu_pm_ops(void) {}
+ #endif	/* CONFIG_PM */
  
- 		if ((pdev->class >> 8) == PCI_CLASS_BRIDGE_ISA) {
- 			reg = iommu_alloc_resv_region(0, 1UL << 24, 0,
--						      IOMMU_RESV_DIRECT);
-+						   IOMMU_RESV_DIRECT_RELAXABLE);
- 			if (reg)
- 				list_add_tail(&reg->list, head);
- 		}
++static int rmrr_validity_check(struct acpi_dmar_reserved_memory *rmrr)
++{
++	if ((rmrr->base_address & PAGE_MASK) ||
++	    (rmrr->end_address <= rmrr->base_address) ||
++	    ((rmrr->end_address - rmrr->base_address + 1) & PAGE_MASK)) {
++		pr_err(FW_BUG "Broken RMRR base: %#018Lx end: %#018Lx\n",
++		       rmrr->base_address, rmrr->end_address);
++		return -EINVAL;
++	}
++	return 0;
++}
++
+ int __init dmar_parse_one_rmrr(struct acpi_dmar_header *header, void *arg)
+ {
+ 	struct acpi_dmar_reserved_memory *rmrr;
+@@ -4314,7 +4326,7 @@ int __init dmar_parse_one_rmrr(struct acpi_dmar_header *header, void *arg)
+ 	int ret;
+ 
+ 	rmrr = (struct acpi_dmar_reserved_memory *)header;
+-	ret = arch_rmrr_sanity_check(rmrr);
++	ret = rmrr_validity_check(rmrr) || arch_rmrr_sanity_check(rmrr);
+ 	if (ret)
+ 		return 0;
+ 
+-- 
+2.24.0.525.g8f36a354ae-goog
 
 _______________________________________________
 iommu mailing list
