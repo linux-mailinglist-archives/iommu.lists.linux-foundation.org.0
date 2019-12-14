@@ -1,68 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE4F311E8EE
-	for <lists.iommu@lfdr.de>; Fri, 13 Dec 2019 18:10:19 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id B890211EF97
+	for <lists.iommu@lfdr.de>; Sat, 14 Dec 2019 02:43:22 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 278F18853C;
-	Fri, 13 Dec 2019 17:10:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6207E20419;
+	Sat, 14 Dec 2019 01:43:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id G0X5FWbEBTzA; Fri, 13 Dec 2019 17:10:16 +0000 (UTC)
+	with ESMTP id ZtgG58LKx1lf; Sat, 14 Dec 2019 01:43:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2DADF88519;
-	Fri, 13 Dec 2019 17:10:16 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B614C20427;
+	Sat, 14 Dec 2019 01:43:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 15D71C0881;
-	Fri, 13 Dec 2019 17:10:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9F0C9C0881;
+	Sat, 14 Dec 2019 01:43:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 194F2C0881
- for <iommu@lists.linux-foundation.org>; Fri, 13 Dec 2019 17:10:15 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 24336C0881
+ for <iommu@lists.linux-foundation.org>; Sat, 14 Dec 2019 01:43:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 05C7688100
- for <iommu@lists.linux-foundation.org>; Fri, 13 Dec 2019 17:10:15 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 0597785DFF
+ for <iommu@lists.linux-foundation.org>; Sat, 14 Dec 2019 01:43:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hH8o1TFxgXMC for <iommu@lists.linux-foundation.org>;
- Fri, 13 Dec 2019 17:10:14 +0000 (UTC)
+ with ESMTP id jAe1Qak8hc65 for <iommu@lists.linux-foundation.org>;
+ Sat, 14 Dec 2019 01:43:17 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 3D39187FEF
- for <iommu@lists.linux-foundation.org>; Fri, 13 Dec 2019 17:10:14 +0000 (UTC)
-Received: from lhreml704-cah.china.huawei.com (unknown [172.18.7.108])
- by Forcepoint Email with ESMTP id AAD5AC95724CE7AC0041;
- Fri, 13 Dec 2019 17:10:08 +0000 (GMT)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml704-cah.china.huawei.com (10.201.108.45) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Fri, 13 Dec 2019 17:10:07 +0000
-Received: from localhost (10.202.226.57) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Fri, 13 Dec
- 2019 17:10:08 +0000
-Date: Fri, 13 Dec 2019 17:10:06 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, <lenb@kernel.org>
-Subject: Re: [PATCH v3 00/13] iommu: Add PASID support to Arm SMMUv3
-Message-ID: <20191213171006.00003e99@Huawei.com>
-In-Reply-To: <20191209180514.272727-1-jean-philippe@linaro.org>
-References: <20191209180514.272727-1-jean-philippe@linaro.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 4E13B85A0E
+ for <iommu@lists.linux-foundation.org>; Sat, 14 Dec 2019 01:43:17 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2019 17:43:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,311,1571727600"; d="scan'208";a="226461161"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
+ ([10.239.159.136])
+ by orsmga002.jf.intel.com with ESMTP; 13 Dec 2019 17:43:15 -0800
+Subject: Re: [PATCH] iommu/vt-d: Allocate reserved region for ISA with correct
+ permission
+To: Jerry Snitselaar <jsnitsel@redhat.com>, linux-kernel@vger.kernel.org
+References: <20191213053642.5696-1-jsnitsel@redhat.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <5ccaaec0-b070-b820-cebd-6b7ad179109c@linux.intel.com>
+Date: Sat, 14 Dec 2019 09:42:27 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-X-Originating-IP: [10.202.226.57]
-X-ClientProxiedBy: lhreml721-chm.china.huawei.com (10.201.108.72) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
- sudeep.holla@arm.com, rjw@rjwysocki.net, robin.murphy@arm.com,
- linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org,
- robh+dt@kernel.org, guohanjun@huawei.com, bhelgaas@google.com,
- zhangfei.gao@linaro.org, will@kernel.org, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20191213053642.5696-1-jsnitsel@redhat.com>
+Content-Language: en-US
+Cc: iommu@lists.linux-foundation.org, Joerg Roedel <jroedel@suse.de>,
+ stable@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,70 +70,76 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, 9 Dec 2019 19:05:01 +0100
-Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+Hi Jerry,
 
-> Add support for Substream ID and PASIDs to the SMMUv3 driver.
-> Changes since v2 [1]:
+On 12/13/19 1:36 PM, Jerry Snitselaar wrote:
+> Currently the reserved region for ISA is allocated with no
+> permissions. If a dma domain is being used, mapping this region will
+> fail. Set the permissions to DMA_PTE_READ|DMA_PTE_WRITE.
 > 
-> * Split preparatory work into patches 5, 6, 8 and 9.
+> Cc: Joerg Roedel <jroedel@suse.de>
+> Cc: Lu Baolu <baolu.lu@linux.intel.com>
+> Cc: iommu@lists.linux-foundation.org
+> Cc: stable@vger.kernel.org # v5.3+
+> Fixes: d850c2ee5fe2 ("iommu/vt-d: Expose ISA direct mapping region via iommu_get_resv_regions")
+> Signed-off-by: Jerry Snitselaar <jsnitsel@redhat.com>
+> ---
+>   drivers/iommu/intel-iommu.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> * Added patch 1. Not strictly relevant, but since we're moving the DMA
->   allocations and adding a new one, we might as well clean the flags
->   first.
+> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+> index 0c8d81f56a30..998529cebcf2 100644
+> --- a/drivers/iommu/intel-iommu.c
+> +++ b/drivers/iommu/intel-iommu.c
+> @@ -5736,7 +5736,7 @@ static void intel_iommu_get_resv_regions(struct device *device,
+>   		struct pci_dev *pdev = to_pci_dev(device);
+>   
+>   		if ((pdev->class >> 8) == PCI_CLASS_BRIDGE_ISA) {
+> -			reg = iommu_alloc_resv_region(0, 1UL << 24, 0,
+> +			reg = iommu_alloc_resv_region(0, 1UL << 24, prot,
+>   						      IOMMU_RESV_DIRECT);
+
+
+This also applies to the IOAPIC range. Can you please change them
+together?
+
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index 0c8d81f56a30..256e48434f68 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -5736,7 +5736,7 @@ static void intel_iommu_get_resv_regions(struct 
+device *device,
+                 struct pci_dev *pdev = to_pci_dev(device);
+
+                 if ((pdev->class >> 8) == PCI_CLASS_BRIDGE_ISA) {
+-                       reg = iommu_alloc_resv_region(0, 1UL << 24, 0,
++                       reg = iommu_alloc_resv_region(0, 1UL << 24, prot,
+                                                       IOMMU_RESV_DIRECT);
+                         if (reg)
+                                 list_add_tail(&reg->list, head);
+@@ -5746,7 +5746,7 @@ static void intel_iommu_get_resv_regions(struct 
+device *device,
+
+         reg = iommu_alloc_resv_region(IOAPIC_RANGE_START,
+                                       IOAPIC_RANGE_END - 
+IOAPIC_RANGE_START + 1,
+-                                     0, IOMMU_RESV_MSI);
++                                     prot, IOMMU_RESV_MSI);
+         if (!reg)
+                 return;
+         list_add_tail(&reg->list, head);
+
+Best regards,
+baolu
+
+>   			if (reg)
+>   				list_add_tail(&reg->list, head);
 > 
-> * Fixed a double free reported by Jonathan, and other small
->   issues.
-> 
-> * Added patch 12. Upstream commit c6e9aefbf9db ("PCI/ATS: Remove unused
->   PRI and PASID stubs") removed the unused PASID stubs. Since the SMMU
->   driver can be built without PCI, the stubs are now needed.
-> 
-> [1] https://lore.kernel.org/linux-iommu/20191108152508.4039168-1-jean-philippe@linaro.org/
-
-Hi Jean-Philippe,
-
-Series looks great to me.  FWIW
-
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-for the patches I didn't comment on in this version as I couldn't find anything
-to comment about ;)
-
-Thanks
-
-Jonathan
-
-> 
-> Jean-Philippe Brucker (13):
->   iommu/arm-smmu-v3: Drop __GFP_ZERO flag from DMA allocation
->   dt-bindings: document PASID property for IOMMU masters
->   iommu/arm-smmu-v3: Support platform SSID
->   ACPI/IORT: Support PASID for platform devices
->   iommu/arm-smmu-v3: Prepare arm_smmu_s1_cfg for SSID support
->   iommu/arm-smmu-v3: Add context descriptor tables allocators
->   iommu/arm-smmu-v3: Add support for Substream IDs
->   iommu/arm-smmu-v3: Propate ssid_bits
->   iommu/arm-smmu-v3: Handle failure of arm_smmu_write_ctx_desc()
->   iommu/arm-smmu-v3: Add second level of context descriptor table
->   iommu/arm-smmu-v3: Improve add_device() error handling
->   PCI/ATS: Add PASID stubs
->   iommu/arm-smmu-v3: Add support for PCI PASID
-> 
->  .../devicetree/bindings/iommu/iommu.txt       |   6 +
->  drivers/acpi/arm64/iort.c                     |  18 +
->  drivers/iommu/arm-smmu-v3.c                   | 462 +++++++++++++++---
->  drivers/iommu/of_iommu.c                      |   6 +-
->  include/linux/iommu.h                         |   2 +
->  include/linux/pci-ats.h                       |   3 +
->  6 files changed, 437 insertions(+), 60 deletions(-)
-> 
-
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
