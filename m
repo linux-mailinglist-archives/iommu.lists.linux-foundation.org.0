@@ -1,91 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A89121058
-	for <lists.iommu@lfdr.de>; Mon, 16 Dec 2019 18:03:57 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17FA3121204
+	for <lists.iommu@lfdr.de>; Mon, 16 Dec 2019 18:44:12 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 50D3E21F76;
-	Mon, 16 Dec 2019 17:03:56 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9E575868E5;
+	Mon, 16 Dec 2019 17:44:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NxNZ85NqC3O8; Mon, 16 Dec 2019 17:03:53 +0000 (UTC)
+	with ESMTP id 2j8NZ1vpUzpM; Mon, 16 Dec 2019 17:44:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id EF9CF22053;
-	Mon, 16 Dec 2019 17:03:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3082C86943;
+	Mon, 16 Dec 2019 17:44:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D93ADC077D;
-	Mon, 16 Dec 2019 17:03:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1531AC077D;
+	Mon, 16 Dec 2019 17:44:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 161F0C077D
- for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 17:03:52 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CD3D2C077D
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 17:44:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 04EC68809E
- for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 17:03:52 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id B518688262
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 17:44:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ltnFQfjd97mo for <iommu@lists.linux-foundation.org>;
- Mon, 16 Dec 2019 17:03:51 +0000 (UTC)
+ with ESMTP id iFpsr0mRMpi5 for <iommu@lists.linux-foundation.org>;
+ Mon, 16 Dec 2019 17:44:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
- [209.85.208.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id B5581880E2
- for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 17:03:50 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id e10so7603675ljj.6
- for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 09:03:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+ [209.85.208.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id CA22E881E9
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 17:44:07 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id cy15so5753722edb.4
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 09:44:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZIdISGJGzaJQCx+QFJwKYDn4eFwlu/KmTgZK+KGXtHQ=;
- b=FisnqkZLHGXU1116n34+W+++BJdXYXOirmyu3COj1Poy7sgqkkMzkwIqNqD2BJgXgp
- 7bJbstoeV3IIxqy5UfVfnC6h1ipDwDqg3zT7NIwOmZblVCoykHaLLgUB9CCSMHXcX6wr
- 99dslGhvIxyUYoXqIGnH5vu5CdG8apoTfqsaU=
+ :cc; bh=dotsp4hlrRRgAJ8KtDm+ECaZ4Cv3RzpcnEOHjwNyGY4=;
+ b=XuMhWcCBF/5Ytd0QFb2aWT2ZjIhuShrmxVGkMOWEHF4GTXo/JJO3tpKzaYezLulgtb
+ ymJn6D9SihsyvAj/EkVlj+aj0p9Ywx+4WTU8EuNhn01x+niEpzjpq4vjuYeRmoNeByn4
+ PJZ0QlMrGdlv1Ma6updVH0Q6orL1dTU2clAJaH8wkau3kwvAj6eTD5Tpe4oSrym6hJ9Q
+ 7eNQp6O33KdXkmOj224psFuq5lGg+mHv/9oIs69Uqb+zT1cnAuC1Iuw/itukC1gfD577
+ fUSzQTCBMpZ6lVtgzcUx0NJlloH5c2qOEvZWhWWlxw7dbGyvfsGEpCpyfTXO1vkLURHr
+ uZRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZIdISGJGzaJQCx+QFJwKYDn4eFwlu/KmTgZK+KGXtHQ=;
- b=DPCOBIOCC443i73CBdZyhmGc8Qd4CMnx5xz2h4vgwfTv8iPBzCWqKf3Hh9bBWIDGcB
- 1TEG+zasKVHxTcBLTJU7Q2zol6A/YocC7UBeUZ7UEui1V/i9goSDh+y5vNQvD9NY7KkR
- U/AmNiAKmieAhsJ+8b5ud4aFj+LoZAXseTlW+CTEgEB3C0O+agRCi8Nl7UXZEJ1Kraos
- ClGiv8RpnFpHKgZSSAE5g+cGUSrkmCLLiREsa2w7/45f7mlinr9cB6H4MESRxnvNi6ht
- TmvDDSN8hrhdmcYDpZHLJEhHnx+mVw5ClVD0iljCGXc4qZxzsQzefVZ/wGDrwfKDdvr2
- hD4A==
-X-Gm-Message-State: APjAAAVmNVAmA6DjMqK1cgF5LXXtIlmrujcTy/BlhEs6zN9LlXONw+UA
- JedCTJn1TeW1Z36dLtkfXWDxIWacTlqSow==
-X-Google-Smtp-Source: APXvYqyDiJ7W/Bgyzbr0n3ewiItyF+1OxZyu37WSRNqnWMXZLJPfzZ10A4TPiSk6gs3hVTYtDHKPng==
-X-Received: by 2002:a2e:6c13:: with SMTP id h19mr37781ljc.221.1576515827176;
- Mon, 16 Dec 2019 09:03:47 -0800 (PST)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com.
- [209.85.208.170])
- by smtp.gmail.com with ESMTPSA id x85sm11446432ljb.20.2019.12.16.09.03.45
- for <iommu@lists.linux-foundation.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Dec 2019 09:03:46 -0800 (PST)
-Received: by mail-lj1-f170.google.com with SMTP id r19so7626251ljg.3
- for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 09:03:45 -0800 (PST)
-X-Received: by 2002:a2e:9ad8:: with SMTP id p24mr84697ljj.148.1576515825433;
- Mon, 16 Dec 2019 09:03:45 -0800 (PST)
+ bh=dotsp4hlrRRgAJ8KtDm+ECaZ4Cv3RzpcnEOHjwNyGY4=;
+ b=qii1gsj6/hlCloN+j9bXijOFmpz/38VWP53XAtmCTlbP8mumohcwiQdssYGTpGyzjs
+ i9apPAjE436iHCD1w/+LDzJL1n+dUXSsKLWV7Kg7xn16Nn7GbP9DQ7l1RcnatRvLPBAC
+ ao1tJrHjNnXvb6/nLwcy5vscSaKYFyr12vNM4SyqpyWAUJimd0DFVR+XaN/bRLMjrDv/
+ vL+zpvGriivvfKPkog4HykqeKjz6p/NUEyfSwg9u4pvW+ZQsvQyhHb9kHhfgQZ2+eKwZ
+ 9NbtJPAWJtzwmAWTIYKI1TxuZ0fCTxts+B7xkbIh+dsDEYC4ChYEapQSsda7K/qe2+Pn
+ Hh9Q==
+X-Gm-Message-State: APjAAAVATJOLrppMnL/lFQkNNcvPwSd8oT6Mch2BAccsCJPMVEdu6Hqj
+ jTOZes7zXfeQsTNNckE4fgWLakeWVlvomLixWx4=
+X-Google-Smtp-Source: APXvYqzMZmKG4O0FupZLieU7MkUuk6V2ElDf+PeLMM9q5q0SW8+Pb9iyDBHD9J+QeQV1ICnDIpyJSoUw51ELTZ5J+Xk=
+X-Received: by 2002:aa7:d6d1:: with SMTP id x17mr365496edr.57.1576518246192;
+ Mon, 16 Dec 2019 09:44:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20191126102743.3269-1-eric.auger@redhat.com>
- <0DE725CD-01CD-4E01-B817-9CC7F4768FBC@lca.pw>
- <80da76c4-395a-18cc-1ffa-c3a0471921b0@redhat.com>
-In-Reply-To: <80da76c4-395a-18cc-1ffa-c3a0471921b0@redhat.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 16 Dec 2019 09:03:29 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wi7hqWOGhDopCFojBXm_K+p7Duyxp6Sjy=2HG=LqM8GbA@mail.gmail.com>
-Message-ID: <CAHk-=wi7hqWOGhDopCFojBXm_K+p7Duyxp6Sjy=2HG=LqM8GbA@mail.gmail.com>
-Subject: Re: [PATCH v3] iommu: fix KASAN use-after-free in
- iommu_insert_resv_region
-To: Auger Eric <eric.auger@redhat.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- iommu <iommu@lists.linux-foundation.org>,
- Andrew Morton <akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>,
- eric.auger.pro@gmail.com
+References: <1576514271-15687-1-git-send-email-jcrouse@codeaurora.org>
+ <1576514271-15687-6-git-send-email-jcrouse@codeaurora.org>
+In-Reply-To: <1576514271-15687-6-git-send-email-jcrouse@codeaurora.org>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 16 Dec 2019 09:43:55 -0800
+Message-ID: <CAF6AEGsWAjgcsqMQEtCfUn9smqfVyOcf-Nn1+eJGrMuLkjgwRA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] drm/msm/a6xx: Support split pagetables
+To: Jordan Crouse <jcrouse@codeaurora.org>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,23 +99,97 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Dec 16, 2019 at 6:36 AM Auger Eric <eric.auger@redhat.com> wrote:
->On 12/16/19 3:24 PM, Qian Cai wrote:
-> >
-> > Looks like Joerg is away for a few weeks. Could Andrew or Linus pick up this
-> > use-after-free?
+On Mon, Dec 16, 2019 at 8:38 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+>
+> Attempt to enable split pagetables if the arm-smmu driver supports it.
+> This will move the default address space from the default region to
+> the address range assigned to TTBR1. The behavior should be transparent
+> to the driver for now but it gets the default buffers out of the way
+> when we want to start swapping TTBR0 for context-specific pagetables.
+>
+> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 
-I've taken it.
+Reviewed-by: Rob Clark <robdclark@gmail.com>
 
-> Note the right version to pick up is the v4, reviewed by Jerry:
-> https://www.mail-archive.com/iommu@lists.linux-foundation.org/msg36226.html
+(my previous r-b's on the other patches from v2 carries over to v3)
 
-Btw, please use lore.kernel.org, it's much more convenient for me
-(faster, and a single interface for me so that I don't have to always
-figure out "what's the incantation to get the original raw email" that
-so many archives make it hard to get).
-
-                   Linus
+> ---
+>
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 52 ++++++++++++++++++++++++++++++++++-
+>  1 file changed, 51 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 5dc0b2c..1c6da93 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -811,6 +811,56 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
+>         return (unsigned long)busy_time;
+>  }
+>
+> +static struct msm_gem_address_space *
+> +a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
+> +{
+> +       struct iommu_domain *iommu = iommu_domain_alloc(&platform_bus_type);
+> +       struct msm_gem_address_space *aspace;
+> +       struct msm_mmu *mmu;
+> +       u64 start, size;
+> +       u32 val = 1;
+> +       int ret;
+> +
+> +       if (!iommu)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       /*
+> +        * Try to request split pagetables - the request has to be made before
+> +        * the domian is attached
+> +        */
+> +       iommu_domain_set_attr(iommu, DOMAIN_ATTR_SPLIT_TABLES, &val);
+> +
+> +       mmu = msm_iommu_new(&pdev->dev, iommu);
+> +       if (IS_ERR(mmu)) {
+> +               iommu_domain_free(iommu);
+> +               return ERR_CAST(mmu);
+> +       }
+> +
+> +       /*
+> +        * After the domain is attached, see if the split tables were actually
+> +        * successful.
+> +        */
+> +       ret = iommu_domain_get_attr(iommu, DOMAIN_ATTR_SPLIT_TABLES, &val);
+> +       if (!ret && val) {
+> +               /*
+> +                * The aperture start will be at the beginning of the TTBR1
+> +                * space so use that as a base
+> +                */
+> +               start = iommu->geometry.aperture_start;
+> +               size = 0xffffffff;
+> +       } else {
+> +               /* Otherwise use the legacy 32 bit region */
+> +               start = SZ_16M;
+> +               size = 0xffffffff - SZ_16M;
+> +       }
+> +
+> +       aspace = msm_gem_address_space_create(mmu, "gpu", start, size);
+> +       if (IS_ERR(aspace))
+> +               iommu_domain_free(iommu);
+> +
+> +       return aspace;
+> +}
+> +
+>  static const struct adreno_gpu_funcs funcs = {
+>         .base = {
+>                 .get_param = adreno_get_param,
+> @@ -832,7 +882,7 @@ static const struct adreno_gpu_funcs funcs = {
+>  #if defined(CONFIG_DRM_MSM_GPU_STATE)
+>                 .gpu_state_get = a6xx_gpu_state_get,
+>                 .gpu_state_put = a6xx_gpu_state_put,
+> -               .create_address_space = adreno_iommu_create_address_space,
+> +               .create_address_space = a6xx_create_address_space,
+>  #endif
+>         },
+>         .get_timestamp = a6xx_get_timestamp,
+> --
+> 2.7.4
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
