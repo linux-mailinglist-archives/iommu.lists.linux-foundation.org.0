@@ -2,79 +2,86 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26F0D1208BD
-	for <lists.iommu@lfdr.de>; Mon, 16 Dec 2019 15:36:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 187B7120FDC
+	for <lists.iommu@lfdr.de>; Mon, 16 Dec 2019 17:43:15 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 747C387E76;
-	Mon, 16 Dec 2019 14:36:06 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BDFE087E72;
+	Mon, 16 Dec 2019 16:43:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id f-dIJAVhcGc9; Mon, 16 Dec 2019 14:36:05 +0000 (UTC)
+	with ESMTP id GGqMhwRa7cwo; Mon, 16 Dec 2019 16:43:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5BD0A87E6D;
-	Mon, 16 Dec 2019 14:36:05 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 47CF286963;
+	Mon, 16 Dec 2019 16:43:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3D0D0C077D;
-	Mon, 16 Dec 2019 14:36:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 32CB5C077D;
+	Mon, 16 Dec 2019 16:43:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 188E9C077D
- for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 14:36:04 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CA883C077D
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 16:43:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 076DF87048
- for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 14:36:04 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id B81F721577
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 16:43:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qp1Xj9uJ-hHZ for <iommu@lists.linux-foundation.org>;
- Mon, 16 Dec 2019 14:36:03 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
- [205.139.110.61])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 352AF86DFC
- for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 14:36:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576506961;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zQ14lO5GOkJM4i4EgKkkmU/5WKLUz08i5Wp26RDpbTE=;
- b=RA2ocLWaeac/c/CwZUfZLRv1SiuklIQz2+aVM7HuxzyfBbuYewmy+70tU7C0FQrQh2doov
- bZerWk0ubja1/s+0G/nXPDwadBna31CFRoDTIUDGXVyQN3bjOewCJRNqUEgNl/gtGTDJOz
- iVEnh1BNY7MvrXIMXrCEaXeeKIr1gaA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-LXB21lBOPK2lm7ONM2TbaA-1; Mon, 16 Dec 2019 09:35:59 -0500
-X-MC-Unique: LXB21lBOPK2lm7ONM2TbaA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 002521005502;
- Mon, 16 Dec 2019 14:35:58 +0000 (UTC)
-Received: from [10.36.116.117] (ovpn-116-117.ams2.redhat.com [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 96C215C28C;
- Mon, 16 Dec 2019 14:35:55 +0000 (UTC)
-Subject: Re: [PATCH v3] iommu: fix KASAN use-after-free in
- iommu_insert_resv_region
-To: Qian Cai <cai@lca.pw>, Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <20191126102743.3269-1-eric.auger@redhat.com>
- <0DE725CD-01CD-4E01-B817-9CC7F4768FBC@lca.pw>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <80da76c4-395a-18cc-1ffa-c3a0471921b0@redhat.com>
-Date: Mon, 16 Dec 2019 15:35:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <0DE725CD-01CD-4E01-B817-9CC7F4768FBC@lca.pw>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Cc: linux-kernel@vger.kernel.org, hch@lst.de, iommu@lists.linux-foundation.org,
- eric.auger.pro@gmail.com
+ with ESMTP id kJs5AEaf7ESF for <iommu@lists.linux-foundation.org>;
+ Mon, 16 Dec 2019 16:43:10 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by silver.osuosl.org (Postfix) with ESMTPS id DBCEB21563
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 16:43:09 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1576514590; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=Vr7DeB6UN1uAvIEGB/iA7hx6Y0Q4rdMGj2xmO945Nsw=;
+ b=d+rra/2GyodJgV2l4pIWqwMbymbH9g90QivEZy9jOwjX/ZX0XbK6fD+7wt65K3A1jD36u72k
+ 4YuXo3s3CDiuB8OZpx45qFoPY6bc/gGvpkOi7H2CKWuT9dCxcQ162AnFKPq4Vams1Uuo3XTi
+ YpWKvblRaZqSHrIxhxyEYqUcGhA=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5df7b2e9.7f650ebdd570-smtp-out-n02;
+ Mon, 16 Dec 2019 16:38:01 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id B9566C447AE; Mon, 16 Dec 2019 16:37:59 +0000 (UTC)
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id DE5A9C433CB;
+ Mon, 16 Dec 2019 16:37:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DE5A9C433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=jcrouse@codeaurora.org
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: iommu@lists.linux-foundation.org
+Subject: [PATCH v3 0/5] iommu/arm-smmu: Split pagetable support for arm-smmu-v2
+Date: Mon, 16 Dec 2019 09:37:46 -0700
+Message-Id: <1576514271-15687-1-git-send-email-jcrouse@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Thomas Gleixner <tglx@linutronix.de>,
+ will@kernel.org, Wen Yang <wen.yang99@zte.com.cn>,
+ Ben Dooks <ben.dooks@codethink.co.uk>, linux-arm-kernel@lists.infradead.org,
+ Brian Masney <masneyb@onstation.org>, freedreno@lists.freedesktop.org,
+ Fritz Koenig <frkoenig@google.com>, linux-arm-msm@vger.kernel.org,
+ Alexios Zavras <alexios.zavras@intel.com>,
+ Jeykumar Sankaran <jsanka@codeaurora.org>, Sean Paul <sean@poorly.run>,
+ Allison Randal <allison@lohutok.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ zhengbin <zhengbin13@huawei.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Drew Davenport <ddavenport@chromium.org>, robin.murphy@arm.com,
+ Georgi Djakov <georgi.djakov@linaro.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,71 +94,74 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
-On 12/16/19 3:24 PM, Qian Cai wrote:
-> 
-> 
->> On Nov 26, 2019, at 5:27 AM, Eric Auger <eric.auger@redhat.com> wrote:
->>
->> In case the new region gets merged into another one, the nr
->> list node is freed. Checking its type while completing the
->> merge algorithm leads to a use-after-free. Use new->type
->> instead.
->>
->> Fixes: 4dbd258ff63e ("iommu: Revisit iommu_insert_resv_region()
->> implementation")
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> Reported-by: Qian Cai <cai@lca.pw>
->> Cc: Stable <stable@vger.kernel.org> #v5.3+
-> 
-> 
-> Looks like Joerg is away for a few weeks. Could Andrew or Linus pick up this 
-> use-after-free?
-Thanks for the heads up. Indeed I was wondering why it hasn't been taken
-yet.
+Another refresh to support split pagetables for Adreno GPUs as part of an
+incremental process to enable per-context pagetables.
 
-Note the right version to pick up is the v4, reviewed by Jerry:
-https://www.mail-archive.com/iommu@lists.linux-foundation.org/msg36226.html
+In order to support per-context pagetables the GPU needs to enable split tables
+so that we can store global buffers in the TTBR1 space leaving the GPU free to
+program the TTBR0 register with the address of a context specific pagetable.
 
-Thanks
+This patchset adds split pagetable support if requested by the domain owner
+via the DOMAIN_ATTR_SPLIT_TABLES attribute. If the attribute is non zero at
+attach time, the implementation will set up the TTBR0 and TTBR1 spaces with
+identical configurations and program the domain pagetable into the TTBR1
+register. The TTBR0 register will be unused.
 
-Eric
-> 
->>
->> ---
->>
->> v2 -> v3:
->> - directly use new->type
->>
->> v1 -> v2:
->> - remove spurious new line
->> ---
->> drivers/iommu/iommu.c | 2 +-
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
->> index d658c7c6a2ab..285ad4a4c7f2 100644
->> --- a/drivers/iommu/iommu.c
->> +++ b/drivers/iommu/iommu.c
->> @@ -313,7 +313,7 @@ int iommu_insert_resv_region(struct iommu_resv_region *new,
->> 		phys_addr_t top_end, iter_end = iter->start + iter->length - 1;
->>
->> 		/* no merge needed on elements of different types than @nr */
->> -		if (iter->type != nr->type) {
->> +		if (iter->type != new->type) {
->> 			list_move_tail(&iter->list, &stack);
->> 			continue;
->> 		}
->> -- 
->> 2.20.1
->>
-> 
+The driver can determine if split pagetables were programmed by querying
+DOMAIN_ATTR_SPLIT_TABLES after attaching. The domain geometry will also be
+updated to reflect the virtual address space for the TTBR1 range.
 
+These patches are on based on top of linux-next-20191216 with [1], [2], and [3]
+from Robin on the iommu list.
+
+Change log:
+
+v3: Remove the implementation specific and make split pagetable support
+part of the generic configuration
+
+[1] https://lists.linuxfoundation.org/pipermail/iommu/2019-October/039718.html
+[2] https://lists.linuxfoundation.org/pipermail/iommu/2019-October/039719.html
+[3] https://lists.linuxfoundation.org/pipermail/iommu/2019-October/039720.html
+
+
+Jordan Crouse (5):
+  iommu: Add DOMAIN_ATTR_SPLIT_TABLES
+  iommu/arm-smmu: Add support for split pagetables
+  drm/msm: Attach the IOMMU device during initialization
+  drm/msm: Refactor address space initialization
+  drm/msm/a6xx: Support split pagetables
+
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c    | 16 ++++++++++
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c    |  1 +
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c    |  1 +
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c    |  1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c    | 51 ++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c  | 23 ++++++++++----
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h  |  8 +++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 18 ++++-------
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 18 +++++------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c |  4 ---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 18 +++++------
+ drivers/gpu/drm/msm/msm_drv.h            |  8 ++---
+ drivers/gpu/drm/msm/msm_gem_vma.c        | 37 +++++------------------
+ drivers/gpu/drm/msm/msm_gpu.c            | 49 ++----------------------------
+ drivers/gpu/drm/msm/msm_gpu.h            |  4 +--
+ drivers/gpu/drm/msm/msm_gpummu.c         |  6 ----
+ drivers/gpu/drm/msm/msm_iommu.c          | 18 ++++++-----
+ drivers/gpu/drm/msm/msm_mmu.h            |  1 -
+ drivers/iommu/arm-smmu.c                 | 40 +++++++++++++++++++++----
+ drivers/iommu/arm-smmu.h                 | 45 ++++++++++++++++++++++++----
+ include/linux/iommu.h                    |  1 +
+ 21 files changed, 215 insertions(+), 153 deletions(-)
+
+-- 
+2.7.4
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
