@@ -1,69 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558161219B5
-	for <lists.iommu@lfdr.de>; Mon, 16 Dec 2019 20:11:45 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D526A881E9;
-	Mon, 16 Dec 2019 19:11:43 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NrkV9PSAH7Zl; Mon, 16 Dec 2019 19:11:43 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5BD74881D0;
-	Mon, 16 Dec 2019 19:11:43 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4E57CC077D;
-	Mon, 16 Dec 2019 19:11:43 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 40289C077D
- for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 19:11:41 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181D71219CA
+	for <lists.iommu@lfdr.de>; Mon, 16 Dec 2019 20:19:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 29B35868C0
- for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 19:11:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C46E586975;
+	Mon, 16 Dec 2019 19:19:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JGGx2hpbAlZE; Mon, 16 Dec 2019 19:19:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D27CE86121;
+	Mon, 16 Dec 2019 19:19:26 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A555DC1D83;
+	Mon, 16 Dec 2019 19:19:26 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 90454C077D
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 19:19:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 7FEC087745
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 19:19:24 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TE-nkQODR-DW for <iommu@lists.linux-foundation.org>;
- Mon, 16 Dec 2019 19:11:38 +0000 (UTC)
+ with ESMTP id lrdCffugmPpc for <iommu@lists.linux-foundation.org>;
+ Mon, 16 Dec 2019 19:19:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 43EF3868A8
- for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 19:11:38 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6ED7E87048
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Dec 2019 19:19:23 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2019 11:11:37 -0800
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2019 11:19:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,322,1571727600"; d="scan'208";a="212129807"
-Received: from chenyian-desk1.amr.corp.intel.com (HELO [10.3.52.63])
- ([10.3.52.63])
- by fmsmga007.fm.intel.com with ESMTP; 16 Dec 2019 11:11:37 -0800
-Subject: Re: [PATCH 0/3] iommu/vt-d bad RMRR workarounds
-To: Lu Baolu <baolu.lu@linux.intel.com>, Barret Rhoden <brho@google.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
- David Woodhouse <dwmw2@infradead.org>, Joerg Roedel <joro@8bytes.org>,
- Sohil Mehta <sohil.mehta@intel.com>
-References: <20191211194606.87940-1-brho@google.com>
- <35f49464-0ce5-9998-12a0-624d9683ea18@linux.intel.com>
- <8a530d5c-22e1-3c2f-98df-45028cc6c771@google.com>
- <02d69d9a-9c45-d9e7-4c1a-cb5e50590c47@linux.intel.com>
-From: "Chen, Yian" <yian.chen@intel.com>
-Message-ID: <c9e97080-eae3-efbd-0ba8-c4794f442c6b@intel.com>
-Date: Mon, 16 Dec 2019 11:11:37 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <02d69d9a-9c45-d9e7-4c1a-cb5e50590c47@linux.intel.com>
-Content-Language: en-US
-Cc: iommu@lists.linux-foundation.org, x86@kernel.org,
- linux-kernel@vger.kernel.org
+X-IronPort-AV: E=Sophos;i="5.69,322,1571727600"; d="scan'208";a="209411623"
+Received: from jacob-builder.jf.intel.com ([10.7.199.155])
+ by orsmga008.jf.intel.com with ESMTP; 16 Dec 2019 11:19:22 -0800
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, "Lu Baolu" <baolu.lu@linux.intel.com>,
+ David Woodhouse <dwmw2@infradead.org>
+Subject: [PATCH v8 00/10] Nested Shared Virtual Address (SVA) VT-d support
+Date: Mon, 16 Dec 2019 11:24:02 -0800
+Message-Id: <1576524252-79116-1-git-send-email-jacob.jun.pan@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,31 +64,165 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-CgpPbiAxMi8xMy8yMDE5IDU6NTIgUE0sIEx1IEJhb2x1IHdyb3RlOgo+Cj4gT24gMTIvMTMvMTkg
-MTA6MzEgUE0sIEJhcnJldCBSaG9kZW4gd3JvdGU6Cj4+IE9uIDEyLzExLzE5IDk6NDMgUE0sIEx1
-IEJhb2x1IHdyb3RlOgo+Pj4gVGhlIFZULWQgc3BlYyBkZWZpbmVzIHRoZSBCSU9TIGNvbnNpZGVy
-YXRpb25zIGFib3V0IFJNUlIgaW4gc2VjdGlvbiAKPj4+IDguNDoKPj4+Cj4+PiAiCj4+PiBCSU9T
-IG11c3QgcmVwb3J0IHRoZSBSTVJSIHJlcG9ydGVkIG1lbW9yeSBhZGRyZXNzZXMgYXMgcmVzZXJ2
-ZWQgKG9yIGFzCj4+PiBFRkkgcnVudGltZSkgaW4gdGhlIHN5c3RlbSBtZW1vcnkgbWFwIHJldHVy
-bmVkIHRocm91Z2ggbWV0aG9kcyBzdWNoIGFzCj4+PiBJTlQxNSwgRUZJIEdldE1lbW9yeU1hcCBl
-dGMuCj4+PiAiCj4+Pgo+Pj4gU28gd2Ugc2hvdWxkIHRyZWF0IGl0IGFzIGZpcm13YXJlIGJ1ZyBp
-ZiB0aGUgUk1SUiByYW5nZSBpcyBub3QgCj4+PiBtYXBwZWQgYXMKPj4+IFJFU0VSVkVEIGluIHRo
-ZSBzeXN0ZW0gbWVtb3J5IG1hcCB0YWJsZS4KPj4+Cj4+PiBBcyBmb3IgaG93IHNob3VsZCB0aGUg
-ZHJpdmVyIGhhbmRsZSB0aGlzIGNhc2UsIGlnbm9yaW5nIGJ1Z2d5IFJNUlIgd2l0aAo+Pj4gYSB3
-YXJuaW5nIG1lc3NhZ2UgbWlnaHQgYmUgYSBwb3NzaWJsZSBjaG9pY2UuCj4+Cj4+IEFncmVlZCwg
-ZmlybXdhcmUgc2hvdWxkIG5vdCBiZSBkb2luZyB0aGlzLsKgIE15IGZpcnN0IHBhdGNoIGp1c3Qg
-c2tpcHMgCj4+IHRob3NlIGVudHJpZXMsIGluc3RlYWQgb2YgYWJvcnRpbmcgRE1BUiBwcm9jZXNz
-aW5nLCBhbmQga2VlcHMgdGhlIAo+PiB3YXJuaW5nLgo+Pgo+Cj4gSGkgWWlhbiwKPgo+IERvZXMg
-dGhpcyB3b3JrIGZvciB5b3U/Cj4KPiBCZXN0IHJlZ2FyZHMsCj4gYmFvbHUKPgo+CkkgbWFkZSBh
-IGNvbW1lbnQgaW4gdGhlIHRoZSBwYXRjaCBlbWFpbCAiW1BBVENIIDEvM10gaW9tbXUvdnQtZDog
-c2tpcCAKUk1SUiBlbnRyaWVzIHRoYXQgZmFpbCB0aGUgc2FuaXR5IGNoZWNrICIKdGhhbmtzLApZ
-aWFuCgo+PiBTbyBsb25nIGFzIHRoZSBtYWNoaW5lIHN0aWxsIGJvb3RzIGluIGEgc2FmZSBtYW5u
-ZXIsIEknbSByZWFzb25hYmx5IAo+PiBoYXBweS4KPj4KPj4gVGhhbmtzLAo+Pgo+PiBCYXJyZXQK
-Pj4KPj4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlv
-bW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczov
-L2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+Shared virtual address (SVA), a.k.a, Shared virtual memory (SVM) on Intel
+platforms allow address space sharing between device DMA and applications.
+SVA can reduce programming complexity and enhance security.
+This series is intended to enable SVA virtualization, i.e. enable use of SVA
+within a guest user application.
+
+Only IOMMU portion of the changes are included in this series. Additional
+support is needed in VFIO and QEMU (will be submitted separately) to complete
+this functionality.
+
+To make incremental changes and reduce the size of each patchset. This series
+does not inlcude support for page request services.
+
+In VT-d implementation, PASID table is per device and maintained in the host.
+Guest PASID table is shadowed in VMM where virtual IOMMU is emulated.
+
+    .-------------.  .---------------------------.
+    |   vIOMMU    |  | Guest process CR3, FL only|
+    |             |  '---------------------------'
+    .----------------/
+    | PASID Entry |--- PASID cache flush -
+    '-------------'                       |
+    |             |                       V
+    |             |                CR3 in GPA
+    '-------------'
+Guest
+------| Shadow |--------------------------|--------
+      v        v                          v
+Host
+    .-------------.  .----------------------.
+    |   pIOMMU    |  | Bind FL for GVA-GPA  |
+    |             |  '----------------------'
+    .----------------/  |
+    | PASID Entry |     V (Nested xlate)
+    '----------------\.------------------------------.
+    |             |   |SL for GPA-HPA, default domain|
+    |             |   '------------------------------'
+    '-------------'
+Where:
+ - FL = First level/stage one page tables
+ - SL = Second level/stage two page tables
+
+This is the remaining VT-d only portion of V5 since the uAPIs and IOASID common
+code have been applied to Joerg's IOMMU core branch.
+(https://lkml.org/lkml/2019/10/2/833)
+
+The complete set with VFIO patches are here:
+https://github.com/jacobpan/linux.git:siov_sva
+
+The complete nested SVA upstream patches are divided into three phases:
+    1. Common APIs and PCI device direct assignment
+    2. Page Request Services (PRS) support
+    3. Mediated device assignment
+
+With this set and the accompanied VFIO code, we will achieve phase #1.
+
+Thanks,
+
+Jacob
+
+ChangeLog:
+	- v8
+	  - Extracted cleanup patches from V7 and accepted into maintainer's
+	    tree (https://lkml.org/lkml/2019/12/2/514).
+	  - Added IOASID notifier and VT-d handler for termination of PASID
+	    IOMMU context upon free. This will ensure success of VFIO IOASID
+	    free API regardless PASID is in use.
+	    (https://lore.kernel.org/linux-iommu/1571919983-3231-1-git-send-email-yi.l.liu@intel.com/)
+
+	- V7
+	  - Respect vIOMMU PASID range in virtual command PASID/IOASID allocator
+	  - Caching virtual command capabilities to avoid runtime checks that
+	    could cause vmexits.
+
+	- V6
+	  - Rebased on top of Joerg's core branch
+	  (git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git core)
+	  - Adapt to new uAPIs and IOASID allocators
+
+	- V5
+	  Rebased on v5.3-rc4 which has some of the IOMMU fault APIs merged.
+ 	  Addressed v4 review comments from Eric Auger, Baolu Lu, and
+	    Jonathan Cameron. Specific changes are as follows:
+	  - Refined custom IOASID allocator to support multiple vIOMMU, hotplug
+	    cases.
+	  - Extracted vendor data from IOMMU guest PASID bind data, for VT-d
+	    will support all necessary guest PASID entry fields for PASID
+	    bind.
+	  - Support non-identity host-guest PASID mapping
+	  - Exception handling in various cases
+
+	- V4
+	  - Redesigned IOASID allocator such that it can support custom
+	  allocators with shared helper functions. Use separate XArray
+	  to store IOASIDs per allocator. Took advice from Eric Auger to
+	  have default allocator use the generic allocator structure.
+	  Combined into one patch in that the default allocator is just
+	  "another" allocator now. Can be built as a module in case of
+	  driver use without IOMMU.
+	  - Extended bind guest PASID data to support SMMU and non-identity
+	  guest to host PASID mapping https://lkml.org/lkml/2019/5/21/802
+	  - Rebased on Jean's sva/api common tree, new patches starts with
+	   [PATCH v4 10/22]
+
+	- V3
+	  - Addressed thorough review comments from Eric Auger (Thank you!)
+	  - Moved IOASID allocator from driver core to IOMMU code per
+	    suggestion by Christoph Hellwig
+	    (https://lkml.org/lkml/2019/4/26/462)
+	  - Rebased on top of Jean's SVA API branch and Eric's v7[1]
+	    (git://linux-arm.org/linux-jpb.git sva/api)
+	  - All IOMMU APIs are unmodified (except the new bind guest PASID
+	    call in patch 9/16)
+
+	- V2
+	  - Rebased on Joerg's IOMMU x86/vt-d branch v5.1-rc4
+	  - Integrated with Eric Auger's new v7 series for common APIs
+	  (https://github.com/eauger/linux/tree/v5.1-rc3-2stage-v7)
+	  - Addressed review comments from Andy Shevchenko and Alex Williamson on
+	    IOASID custom allocator.
+	  - Support multiple custom IOASID allocators (vIOMMUs) and dynamic
+	    registration.
+
+Jacob Pan (9):
+  iommu/vt-d: Move domain helper to header
+  iommu/vt-d: Add nested translation helper function
+  iommu/vt-d: Add bind guest PASID support
+  iommu/vt-d: Support flushing more translation cache types
+  iommu/vt-d: Add svm/sva invalidate function
+  iommu/vt-d: Cache virtual command capability register
+  iommu/vt-d: Add custom allocator for IOASID
+  iommu/ioasid: Add notifier for status change
+  iommu/vt-d: Handle IOASID notifications
+
+Lu Baolu (1):
+  iommu/vt-d: Enlightened PASID allocation
+
+ drivers/iommu/dmar.c        |  47 ++++++++
+ drivers/iommu/intel-iommu.c | 255 ++++++++++++++++++++++++++++++++++++++++-
+ drivers/iommu/intel-pasid.c | 273 +++++++++++++++++++++++++++++++++++++++++++-
+ drivers/iommu/intel-pasid.h |  25 +++-
+ drivers/iommu/intel-svm.c   | 266 ++++++++++++++++++++++++++++++++++++++++++
+ drivers/iommu/ioasid.c      |  43 +++++++
+ include/linux/intel-iommu.h |  46 +++++++-
+ include/linux/intel-svm.h   |  17 +++
+ include/linux/ioasid.h      |  20 ++++
+ include/uapi/linux/iommu.h  |   5 +-
+ 10 files changed, 983 insertions(+), 14 deletions(-)
+
+-- 
+2.7.4
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
