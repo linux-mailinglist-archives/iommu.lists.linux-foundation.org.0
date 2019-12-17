@@ -2,55 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD2E1228A0
-	for <lists.iommu@lfdr.de>; Tue, 17 Dec 2019 11:24:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFEF1228AA
+	for <lists.iommu@lfdr.de>; Tue, 17 Dec 2019 11:28:11 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 27E56879A3;
-	Tue, 17 Dec 2019 10:24:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id AF561877E7;
+	Tue, 17 Dec 2019 10:28:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9zrqzqJST8ND; Tue, 17 Dec 2019 10:24:46 +0000 (UTC)
+	with ESMTP id LYJT5COuZi5E; Tue, 17 Dec 2019 10:28:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9093887919;
-	Tue, 17 Dec 2019 10:24:46 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2B878877F1;
+	Tue, 17 Dec 2019 10:28:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 89A61C077D;
-	Tue, 17 Dec 2019 10:24:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0A38AC077D;
+	Tue, 17 Dec 2019 10:28:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C8708C077D
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:24:45 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F1445C077D
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:28:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 9E6B487919
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:24:45 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id D3E352001D
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:28:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vs+HCy-KmhsA for <iommu@lists.linux-foundation.org>;
- Tue, 17 Dec 2019 10:24:45 +0000 (UTC)
+ with ESMTP id BEOB1SoQFAFl for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Dec 2019 10:28:05 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E754F8778F
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:24:44 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 7611B20014
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:28:05 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 6A0DD286; Tue, 17 Dec 2019 11:24:43 +0100 (CET)
-Date: Tue, 17 Dec 2019 11:24:42 +0100
+ id DF6FE286; Tue, 17 Dec 2019 11:28:03 +0100 (CET)
+Date: Tue, 17 Dec 2019 11:28:02 +0100
 From: Joerg Roedel <joro@8bytes.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH v6 2/3] PCI: Add parameter nr_devfns to pci_add_dma_alias
-Message-ID: <20191217102441.GN8689@8bytes.org>
-References: <D4C7374E-4DFE-4024-8E76-9F54BF421B62@arista.com>
- <20191210223745.GA167002@google.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH 1/1] iommu/vt-d: Fix dmar pte read access not set error
+Message-ID: <20191217102802.GO8689@8bytes.org>
+References: <20191211014015.7898-1-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191210223745.GA167002@google.com>
+In-Reply-To: <20191211014015.7898-1-baolu.lu@linux.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Dmitry Safonov <dima@arista.com>, Dmitry Safonov <0x7f454c46@gmail.com>,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>
+Cc: kevin.tian@intel.com, ashok.raj@intel.com, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, iommu@lists.linux-foundation.org,
+ jacob.jun.pan@intel.com, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,15 +66,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Bjorn,
+On Wed, Dec 11, 2019 at 09:40:15AM +0800, Lu Baolu wrote:
+> If the default DMA domain of a group doesn't fit a device, it
+> will still sit in the group but use a private identity domain.
+> When map/unmap/iova_to_phys come through iommu API, the driver
+> should still serve them, otherwise, other devices in the same
+> group will be impacted. Since identity domain has been mapped
+> with the whole available memory space and RMRRs, we don't need
+> to worry about the impact on it.
+> 
+> Link: https://www.spinics.net/lists/iommu/msg40416.html
+> Cc: Jerry Snitselaar <jsnitsel@redhat.com>
+> Reported-by: Jerry Snitselaar <jsnitsel@redhat.com>
+> Fixes: 942067f1b6b97 ("iommu/vt-d: Identify default domains replaced with private")
+> Cc: stable@vger.kernel.org # v5.3+
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> ---
+>  drivers/iommu/intel-iommu.c | 8 --------
+>  1 file changed, 8 deletions(-)
 
-On Tue, Dec 10, 2019 at 04:37:45PM -0600, Bjorn Helgaas wrote:
-> Heads up Joerg: I also updated drivers/iommu/amd_iommu.c (this is the
-> one reported by the kbuild test robot) and removed the printk there
-> that prints the same thing as the one in pci_add_dma_alias(), and I
-> updated a PCI quirk that was merged after this patch was posted.
-
-Fine with me, thanks for the heads up.
+Applied for v5.5, thanks.
 
 _______________________________________________
 iommu mailing list
