@@ -1,55 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B9A122885
-	for <lists.iommu@lfdr.de>; Tue, 17 Dec 2019 11:18:10 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AD812288F
+	for <lists.iommu@lfdr.de>; Tue, 17 Dec 2019 11:22:49 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 15B4A20458;
-	Tue, 17 Dec 2019 10:18:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0776685F38;
+	Tue, 17 Dec 2019 10:22:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nNnzdSfCoozN; Tue, 17 Dec 2019 10:18:08 +0000 (UTC)
+	with ESMTP id NDtng-im7VOE; Tue, 17 Dec 2019 10:22:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 30C8A2001C;
-	Tue, 17 Dec 2019 10:18:08 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 52F7E85E0D;
+	Tue, 17 Dec 2019 10:22:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 19D25C077D;
-	Tue, 17 Dec 2019 10:18:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 37FDEC077D;
+	Tue, 17 Dec 2019 10:22:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 58284C077D
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:18:06 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BE639C077D
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:22:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 4C5B6203F1
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:18:06 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id AA1EB203F1
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:22:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ORlsIkoCPawF for <iommu@lists.linux-foundation.org>;
- Tue, 17 Dec 2019 10:18:05 +0000 (UTC)
+ with ESMTP id MRsP24zdUeOq for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Dec 2019 10:22:43 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id F3C412001C
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:18:04 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 1358A20014
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:22:43 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 1B698286; Tue, 17 Dec 2019 11:18:02 +0100 (CET)
-Date: Tue, 17 Dec 2019 11:18:00 +0100
+ id 1FD18286; Tue, 17 Dec 2019 11:22:41 +0100 (CET)
+Date: Tue, 17 Dec 2019 11:22:39 +0100
 From: Joerg Roedel <joro@8bytes.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v2] iommu/dma: Rationalise types for DMA masks
-Message-ID: <20191217101800.GL8689@8bytes.org>
-References: <00d1ddf9439a8c79fb561b0fc740bddf9e6fe6b1.1576089015.git.robin.murphy@arm.com>
- <20191211190235.GA17854@lst.de>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH] iommu/vt-d: Set ISA bridge reserved region as relaxable
+Message-ID: <20191217102239.GM8689@8bytes.org>
+References: <157609608124.14870.10855090013879818212.stgit@gimli.home>
+ <e330865d-6f88-4537-72c6-f0ecc8252327@redhat.com>
+ <20191212122711.30e3b8ac@x1.home>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191211190235.GA17854@lst.de>
+In-Reply-To: <20191212122711.30e3b8ac@x1.home>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: arnd@arndb.de, stephan@gerhold.net, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, natechancellor@gmail.com,
- Robin Murphy <robin.murphy@arm.com>, nsaenzjulienne@suse.de
+Cc: eauger@redhat.com, iommu@lists.linux-foundation.org, cprt@protonmail.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,27 +66,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Dec 11, 2019 at 08:02:35PM +0100, Christoph Hellwig wrote:
-> On Wed, Dec 11, 2019 at 06:33:26PM +0000, Robin Murphy wrote:
-> > Since iommu_dma_alloc_iova() combines incoming masks with the u64 bus
-> > limit, it makes more sense to pass them around in their native u64
-> > rather than converting to dma_addr_t early. Do that, and resolve the
-> > remaining type discrepancy against the domain geometry with a cheeky
-> > cast to keep things simple.
-> > 
-> > Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> 
-> Looks good to me:
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> 
-> Joerg, let me know if you want to pick this up through the iommu tree as
-> it touches the iommu code, or through the dma-mapping tree that
-> introduced the warning.
+Hi Alex,
 
-I'll take it through my tree, as I am about to collect fixes anyway.
+On Thu, Dec 12, 2019 at 12:27:11PM -0700, Alex Williamson wrote:
+> Sure, if you remember the ordering between these then that might be the
+> better option.  I checked that they both entered the kernel for
+> v5.3-rc1 but didn't dig deeper than that.
+> 
+> Joerg, if you'd like a respin for that change let me know, otherwise
+> just swap my Fixes tag for the one Eric suggests.
 
-Patch is now applied, thanks everyone.
+Swapped the Fixes tag and applied for v5.5, thanks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
