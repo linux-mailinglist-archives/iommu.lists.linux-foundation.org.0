@@ -2,52 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C410912286A
-	for <lists.iommu@lfdr.de>; Tue, 17 Dec 2019 11:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87527122870
+	for <lists.iommu@lfdr.de>; Tue, 17 Dec 2019 11:14:04 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 50DCB85DEC;
-	Tue, 17 Dec 2019 10:12:46 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 416F385CA3;
+	Tue, 17 Dec 2019 10:14:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wE8VIurpQsns; Tue, 17 Dec 2019 10:12:45 +0000 (UTC)
+	with ESMTP id ONqEqnww1yPI; Tue, 17 Dec 2019 10:14:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E695785D54;
-	Tue, 17 Dec 2019 10:12:45 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 39F5D85CF2;
+	Tue, 17 Dec 2019 10:14:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D9D45C1D84;
-	Tue, 17 Dec 2019 10:12:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 280ABC077D;
+	Tue, 17 Dec 2019 10:14:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 64A06C077D
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:12:44 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 23392C077D
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:14:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5B76C87216
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:12:44 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 124B88790F
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:14:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id K81xTRkEfGgm for <iommu@lists.linux-foundation.org>;
- Tue, 17 Dec 2019 10:12:44 +0000 (UTC)
+ with ESMTP id ajWeZMfVzv-T for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Dec 2019 10:14:00 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D6150870A9
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:12:43 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 898138789D
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:14:00 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 00D53286; Tue, 17 Dec 2019 11:12:41 +0100 (CET)
-Date: Tue, 17 Dec 2019 11:12:40 +0100
+ id 14A50286; Tue, 17 Dec 2019 11:13:59 +0100 (CET)
+Date: Tue, 17 Dec 2019 11:13:57 +0100
 From: Joerg Roedel <joro@8bytes.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH v2] iommu/dma: Relax locking in iommu_dma_prepare_msi()
-Message-ID: <20191217101240.GJ8689@8bytes.org>
-References: <6fe5ef45ebfa613d098c1b7f59f6599dabd589c7.1575920766.git.robin.murphy@arm.com>
+To: Xiaotao Yin <xiaotao.yin@windriver.com>
+Subject: Re: [PATCH V3] iommu/iova: Init the struct iova to fix the possible
+ memleak
+Message-ID: <20191217101357.GK8689@8bytes.org>
+References: <20191210042704.14693-1-xiaotao.yin@windriver.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <6fe5ef45ebfa613d098c1b7f59f6599dabd589c7.1575920766.git.robin.murphy@arm.com>
+In-Reply-To: <20191210042704.14693-1-xiaotao.yin@windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- iommu@lists.linux-foundation.org
+Cc: iommu@lists.linux-foundation.org, robin.murphy@arm.com,
+ linux-kernel@vger.kernel.org, Kexin.Hao@windriver.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,24 +66,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Dec 09, 2019 at 07:47:25PM +0000, Robin Murphy wrote:
-> Since commit ece6e6f0218b ("iommu/dma-iommu: Split iommu_dma_map_msi_msg()
-> in two parts"), iommu_dma_prepare_msi() should no longer have to worry
-> about preempting itself, nor being called in atomic context at all. Thus
-> we can downgrade the IRQ-safe locking to a simple mutex to avoid angering
-> the new might_sleep() check in iommu_map().
-> 
-> Reported-by: Qian Cai <cai@lca.pw>
-> Tested-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+On Tue, Dec 10, 2019 at 12:27:04PM +0800, Xiaotao Yin wrote:
+> Fixes: bb68b2fbfbd6 ("iommu/iova: Add rbtree anchor node")
+> Signed-off-by: Xiaotao Yin <xiaotao.yin@windriver.com>
+> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 > ---
-> 
-> v2: Clarify comments a bit
-> 
->  drivers/iommu/dma-iommu.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
+>  drivers/iommu/iova.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks.
+Okay, missed that. Replaced the previous patch by this one. Thanks.
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
