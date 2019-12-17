@@ -1,65 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D30122202
-	for <lists.iommu@lfdr.de>; Tue, 17 Dec 2019 03:36:34 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 264718672E;
-	Tue, 17 Dec 2019 02:36:33 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xSp9XiyG_MUI; Tue, 17 Dec 2019 02:36:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 53C628659E;
-	Tue, 17 Dec 2019 02:36:32 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3EAEAC1D87;
-	Tue, 17 Dec 2019 02:36:32 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C8555C077D
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 02:36:30 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B8C122216
+	for <lists.iommu@lfdr.de>; Tue, 17 Dec 2019 03:44:53 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id B9C8886739
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 02:36:30 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4F8598704C;
+	Tue, 17 Dec 2019 02:44:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id AY1o2C2tL3rv; Tue, 17 Dec 2019 02:44:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7917B87048;
+	Tue, 17 Dec 2019 02:44:51 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B800C077D;
+	Tue, 17 Dec 2019 02:44:51 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 417CAC077D
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 02:44:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 2D03D2279B
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 02:44:50 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CgwNg+bXFHwe for <iommu@lists.linux-foundation.org>;
- Tue, 17 Dec 2019 02:36:29 +0000 (UTC)
+ with ESMTP id Me8VY-qoeqsK for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Dec 2019 02:44:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by whitealder.osuosl.org (Postfix) with ESMTPS id C5843865C1
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 02:36:29 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8F47C22797
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 02:44:48 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2019 18:36:29 -0800
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2019 18:44:47 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,323,1571727600"; d="scan'208";a="217628428"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
- by orsmga003.jf.intel.com with ESMTP; 16 Dec 2019 18:36:27 -0800
+X-IronPort-AV: E=Sophos;i="5.69,323,1571727600"; d="scan'208";a="221643930"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+ by fmsmga001.fm.intel.com with ESMTP; 16 Dec 2019 18:44:47 -0800
+Received: from fmsmsx116.amr.corp.intel.com (10.18.116.20) by
+ FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 16 Dec 2019 18:44:47 -0800
 Received: from shsmsx154.ccr.corp.intel.com (10.239.6.54) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 16 Dec 2019 18:36:27 -0800
+ fmsmsx116.amr.corp.intel.com (10.18.116.20) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 16 Dec 2019 18:44:47 -0800
 Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.90]) by
  SHSMSX154.ccr.corp.intel.com ([169.254.7.71]) with mapi id 14.03.0439.000;
- Tue, 17 Dec 2019 10:36:25 +0800
+ Tue, 17 Dec 2019 10:44:45 +0800
 From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: "Liu, Yi L" <yi.l.liu@intel.com>, Lu Baolu <baolu.lu@linux.intel.com>,
- Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>, "Alex
- Williamson" <alex.williamson@redhat.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+ "David Woodhouse" <dwmw2@infradead.org>, Alex Williamson
+ <alex.williamson@redhat.com>
 Subject: RE: [PATCH v3 5/6] iommu/vt-d: Flush PASID-based iotlb for iova
  over first level
 Thread-Topic: [PATCH v3 5/6] iommu/vt-d: Flush PASID-based iotlb for iova
  over first level
-Thread-Index: AQHVr8iiJX/bvAPmK0eIArQDcTD6yKe33K3QgACZjICAAndaMIACHLkAgAAFFACAAJLKQIAAA2Ag
-Date: Tue, 17 Dec 2019 02:36:25 +0000
-Message-ID: <A2975661238FB949B60364EF0F2C25743A135D05@SHSMSX104.ccr.corp.intel.com>
+Thread-Index: AQHVr8iiJX/bvAPmK0eIArQDcTD6yKe33K3QgACZjICAAndaMIACHLkAgAAFFACAAACDAIAAl1Vg
+Date: Tue, 17 Dec 2019 02:44:44 +0000
+Message-ID: <A2975661238FB949B60364EF0F2C25743A135D50@SHSMSX104.ccr.corp.intel.com>
 References: <20191211021219.8997-1-baolu.lu@linux.intel.com>
  <20191211021219.8997-6-baolu.lu@linux.intel.com>
  <A2975661238FB949B60364EF0F2C25743A130C08@SHSMSX104.ccr.corp.intel.com>
@@ -67,8 +70,8 @@ References: <20191211021219.8997-1-baolu.lu@linux.intel.com>
  <A2975661238FB949B60364EF0F2C25743A132C50@SHSMSX104.ccr.corp.intel.com>
  <6a5f6695-d1fd-e7d1-3ea3-f222a1ef0e54@linux.intel.com>
  <b4a879b2-a5c7-b0bf-8cd4-7397aeebc381@linux.intel.com>
- <A2975661238FB949B60364EF0F2C25743A135CAB@SHSMSX104.ccr.corp.intel.com>
-In-Reply-To: <A2975661238FB949B60364EF0F2C25743A135CAB@SHSMSX104.ccr.corp.intel.com>
+ <2b024c1e-79bd-6827-47e6-ae9457054c79@linux.intel.com>
+In-Reply-To: <2b024c1e-79bd-6827-47e6-ae9457054c79@linux.intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -77,7 +80,7 @@ dlp-product: dlpe-windows
 dlp-version: 11.2.0.6
 dlp-reaction: no-action
 x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMDIxNWMyOWQtMmViMi00MDliLWIwODAtMmYyNDAzZTY1ZTFkIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiakNFTFFiaFZhTnNLWFNSNjY3a2FkVmpmWDBqd3JxZlQ3Q3RXektlWjYxdTdobDFzaGJSMjRWbGZtQlFROGtkTiJ9
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiM2JiZjNhYjctY2IyNi00NjcxLTkxYjEtZTQ0ZWY2ZWQ0MjQzIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoic3k5R2ljVUpuY3REWVlQOHl0b01hQnZkSnhUbWtPUXcreEY4c3hMQlJKMDdaMHU3M2UzdHZ0UWpPTkRPT2QyVSJ9
 x-originating-ip: [10.239.127.40]
 MIME-Version: 1.0
 Cc: "Tian, Kevin" <kevin.tian@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
@@ -98,100 +101,31 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> From: Liu, Yi L <yi.l.liu@intel.com>
-> Sent: Tuesday, December 17, 2019 10:26 AM
-> To: Lu Baolu <baolu.lu@linux.intel.com>; Joerg Roedel <joro@8bytes.org>; David
-> Woodhouse <dwmw2@infradead.org>; Alex Williamson
-> <alex.williamson@redhat.com>
-> Subject: RE: [PATCH v3 5/6] iommu/vt-d: Flush PASID-based iotlb for iova over first
-> level
-> 
-> > From: Lu Baolu [mailto:baolu.lu@linux.intel.com]
-> > Sent: Tuesday, December 17, 2019 9:37 AM
-> > To: Liu, Yi L <yi.l.liu@intel.com>; Joerg Roedel <joro@8bytes.org>; David
-> > Woodhouse <dwmw2@infradead.org>; Alex Williamson
-> > <alex.williamson@redhat.com>
-> > Subject: Re: [PATCH v3 5/6] iommu/vt-d: Flush PASID-based iotlb for iova over first
-> > level
-> >
-> > Hi again,
-> >
-> > On 12/17/19 9:19 AM, Lu Baolu wrote:
-> > > Hi Yi,
-> > >
-> > > On 12/15/19 5:22 PM, Liu, Yi L wrote:
-> > >> Ok, let me explain more... default pasid is meaningful only when
-> > >> the domain has been attached to a device as an aux-domain. right?
-> > >
-> > > No exactly. Each domain has a specific default pasid, no matter normal
-> > > domain (RID based) or aux-domain (PASID based). The difference is for a
-> > > normal domain RID2PASID value is used, for an aux-domain the pasid is
-> > > allocated from a global pool.
-> > >
-> > > The same concept used in VT-d 3.x scalable mode. For RID based DMA
-> > > translation RID2PASID value is used when walking the tables; For PASID
-> > > based DMA translation a real pasid in the transaction is used.
-> > >
-> > >> If a domain only has one device, and it is attached to this device as
-> > >> normal domain (normal domain means non aux-domain here). Then
-> > >> you should flush cache with domain-id and RID2PASID value.
-> > >> If a domain has one device, and it is attached to this device as
-> > >> aux-domain. Then you may want to flush cache with domain-id
-> > >> and default pasid. right?
-> > >
-> > > A domain's counterpart is IOMMU group. So we say attach/detach domain
-> > > to/from devices in a group. We don't allow devices with different
-> > > default pasid sitting in a same group, right?
-> > >
-> > >> Then let's come to the case I mentioned in previous email. a mdev
-> > >> and another device assigned to a single VM. In host, you will have
-> > >> a domain which has two devices, one device(deva) is attached as
-> > >
-> > > No. We will have two IOMMU groups and two domains. Correct me if my
-> > > understanding is not right.
-> >
-> > Reconsidered this. Unfortunately, my understanding is not right. :-(
-> >
-> > A single domain could be attached to multiple IOMMU groups. So it
-> > comes to the issue you concerned. Do I understand it right?
-> 
-> yes. Device within the same group has no such issue since such
-> devices are not able to enabled aux-domain. Now our understanding
-> are aligned. :-)
-> 
-> > >
-> > >> normal domain, another one (devB) is attached as aux-domain. Then
-> > >> which pasid should be used when the mapping in IOVA page table is
-> > >> modified? RID2PASID or default pasid? I think both should be used
-> > >> since the domain means differently to the two devices. If you just
-> > >> use default pasid, then deva may still be able to use stale caches.
-> >
-> > You are right. I will change it accordingly. The logic should look
-> > like:
-> >
-> > if (domain attached to physical device)
-> > 	flush_piotlb_with_RID2PASID()
-> > else if (domain_attached_to_mdev_device)
-> > 	flush_piotlb_with_default_pasid()
-> >
-> > Does this work for you? Thanks for catching this!
-> 
-> If no else, it would work for scalable mode. ^_^ I noticed you've
-> already corrected by yourself in another reply. :-) Look forward to
-> your next version.
-
-BTW. The discussion in this thread may apply to other cache flush
-in your series. Please have a check. At least, there are two places which
-need to be updated in this single patch.
- 
-Regards,
-Yi Liu
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+PiBGcm9tOiBMdSBCYW9sdSBbbWFpbHRvOmJhb2x1Lmx1QGxpbnV4LmludGVsLmNvbV0NCj4gU2Vu
+dDogVHVlc2RheSwgRGVjZW1iZXIgMTcsIDIwMTkgOTozOSBBTQ0KPiBUbzogTGl1LCBZaSBMIDx5
+aS5sLmxpdUBpbnRlbC5jb20+OyBKb2VyZyBSb2VkZWwgPGpvcm9AOGJ5dGVzLm9yZz47IERhdmlk
+DQo+IFdvb2Rob3VzZSA8ZHdtdzJAaW5mcmFkZWFkLm9yZz47IEFsZXggV2lsbGlhbXNvbg0KPiA8
+YWxleC53aWxsaWFtc29uQHJlZGhhdC5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjMgNS82
+XSBpb21tdS92dC1kOiBGbHVzaCBQQVNJRC1iYXNlZCBpb3RsYiBmb3IgaW92YSBvdmVyIGZpcnN0
+DQo+IGxldmVsDQo+IA0KPiBIaSwNCj4gDQo+IE9uIDEyLzE3LzE5IDk6MzcgQU0sIEx1IEJhb2x1
+IHdyb3RlOg0KPiA+IFlvdSBhcmUgcmlnaHQuIEkgd2lsbCBjaGFuZ2UgaXQgYWNjb3JkaW5nbHku
+IFRoZSBsb2dpYyBzaG91bGQgbG9vaw0KPiA+IGxpa2U6DQo+ID4NCj4gPiBpZiAoZG9tYWluIGF0
+dGFjaGVkIHRvIHBoeXNpY2FsIGRldmljZSkNCj4gPiAgwqDCoMKgwqBmbHVzaF9waW90bGJfd2l0
+aF9SSUQyUEFTSUQoKQ0KPiA+IGVsc2UgaWYgKGRvbWFpbl9hdHRhY2hlZF90b19tZGV2X2Rldmlj
+ZSkNCj4gPiAgwqDCoMKgwqBmbHVzaF9waW90bGJfd2l0aF9kZWZhdWx0X3Bhc2lkKCkNCj4gPg0K
+PiANCj4gQm90aCEgc28gbm8gImVsc2UiIGhlcmUuDQoNCmFoYSwgaWYgd2Ugd2FudCB0byBmbHVz
+aCBtb3JlIHByZWNpc2VseSwgd2UgbWF5IGNoZWNrIHdoZXRoZXINCmRvbWFpbi0+ZGVmYXVsdF9w
+YXNpZCBpcyBhbGxvY2F0ZWQuIElmIG5vdCwgaXQgbWVhbnMgbm8gbWRldiBpcw0KaW52b2x2ZWQs
+IHRoZW4gd2UgbWF5IHNhdmUgYSBwX2lvdGxiX2ludl9kc2Mgc3VibWlzc2lvbiBhbmQgYWxzbw0K
+c2F2ZSBWVC1kIGhhcmR3YXJlIGNpcmNsZXMgZnJvbSBkb2luZyB1c2VsZXNzIGZsdXNoLiBUaGlz
+IGlzIGp1c3QNCm9wdGltaXphdGlvbiwgaXQncyB1cCB0byB5b3UgdG8gcGljayBpdCBvciBub3Qg
+aW4gdGhpcyBwYXRjaHNldC4gSSdtDQpmaW5lIHdpdGggZmx1c2ggImJvdGgiIHNpbmNlIGl0IGd1
+YXJhbnRlZXMgY29ycmVjdG5lc3MuDQoNClJlZ2FyZHMsDQpZaSBMaXUNCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21t
+dUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlv
+bi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
