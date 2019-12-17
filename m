@@ -1,57 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E9B12292B
-	for <lists.iommu@lfdr.de>; Tue, 17 Dec 2019 11:48:46 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6E74784FB2;
-	Tue, 17 Dec 2019 10:48:45 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id a-lvHTFme19O; Tue, 17 Dec 2019 10:48:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id F2C3984F90;
-	Tue, 17 Dec 2019 10:48:44 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DA087C1D84;
-	Tue, 17 Dec 2019 10:48:44 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6C100C077D
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:48:43 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CAE912295B
+	for <lists.iommu@lfdr.de>; Tue, 17 Dec 2019 11:59:22 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 4FBEB2043A
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:48:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E6BB020481;
+	Tue, 17 Dec 2019 10:59:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fYuk9IZb5A45; Tue, 17 Dec 2019 10:59:19 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id C2049204ED;
+	Tue, 17 Dec 2019 10:59:19 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B0BEAC077D;
+	Tue, 17 Dec 2019 10:59:19 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E4D2DC077D
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:59:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id D3D53860D6
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:59:18 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TIHX-CV5AtBk for <iommu@lists.linux-foundation.org>;
- Tue, 17 Dec 2019 10:48:42 +0000 (UTC)
+ with ESMTP id QgDsoMR69mpK for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Dec 2019 10:59:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by silver.osuosl.org (Postfix) with ESMTPS id EE94E203F1
- for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:48:41 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id BEEF4ADA1;
- Tue, 17 Dec 2019 10:48:39 +0000 (UTC)
-Date: Tue, 17 Dec 2019 11:48:38 +0100
-From: Joerg Roedel <jroedel@suse.de>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH] iommu/vt-d: Allocate reserved region for ISA with
- correct permission
-Message-ID: <20191217104838.GC28651@suse.de>
-References: <20191213053642.5696-1-jsnitsel@redhat.com>
- <3a9bcdc5-9e78-945d-f6e4-5af6829bf4f0@linux.intel.com>
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 1858484FB6
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Dec 2019 10:59:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1576580356;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tAVUgYEbOKAmbmGHd4mLJpWS0BdtmbZWYoTyqnMHjpM=;
+ b=R2wwIVh8dMkxUDGl6S7wuToR518kKDr9mikIoQNInFYk5/jA7acLvGsCf1uy48paSln6mL
+ /QRAoYlKc/gLu5O8OjYchM00QZl3PglNXg8bkLo++qHI2/UiOZW8hDILK/+9aDdUjHfeV6
+ VZR2uEhdse/v1Kl9poox8UT+rPw0Oc4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-toc7B--iMgaH3SihD5o5Wg-1; Tue, 17 Dec 2019 05:59:12 -0500
+X-MC-Unique: toc7B--iMgaH3SihD5o5Wg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D132618FF662;
+ Tue, 17 Dec 2019 10:59:08 +0000 (UTC)
+Received: from [10.36.116.117] (ovpn-116-117.ams2.redhat.com [10.36.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C1D465D9C9;
+ Tue, 17 Dec 2019 10:59:04 +0000 (UTC)
+Subject: Re: [PATCH v3 01/13] iommu/arm-smmu-v3: Drop __GFP_ZERO flag from DMA
+ allocation
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
+ iommu@lists.linux-foundation.org
+References: <20191209180514.272727-1-jean-philippe@linaro.org>
+ <20191209180514.272727-2-jean-philippe@linaro.org>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <2917e0a3-e351-69fe-5e67-adeda9d40617@redhat.com>
+Date: Tue, 17 Dec 2019 11:59:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3a9bcdc5-9e78-945d-f6e4-5af6829bf4f0@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
+In-Reply-To: <20191209180514.272727-2-jean-philippe@linaro.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Cc: mark.rutland@arm.com, robin.murphy@arm.com, guohanjun@huawei.com,
+ rjw@rjwysocki.net, robh+dt@kernel.org, sudeep.holla@arm.com,
+ bhelgaas@google.com, zhangfei.gao@linaro.org, will@kernel.org, lenb@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,26 +95,70 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sun, Dec 15, 2019 at 01:39:31PM +0800, Lu Baolu wrote:
-> Hi,
-> 
-> On 12/13/19 1:36 PM, Jerry Snitselaar wrote:
-> > Currently the reserved region for ISA is allocated with no
-> > permissions. If a dma domain is being used, mapping this region will
-> > fail. Set the permissions to DMA_PTE_READ|DMA_PTE_WRITE.
-> > 
-> > Cc: Joerg Roedel <jroedel@suse.de>
-> > Cc: Lu Baolu <baolu.lu@linux.intel.com>
-> > Cc: iommu@lists.linux-foundation.org
-> > Cc: stable@vger.kernel.org # v5.3+
-> > Fixes: d850c2ee5fe2 ("iommu/vt-d: Expose ISA direct mapping region via iommu_get_resv_regions")
-> > Signed-off-by: Jerry Snitselaar <jsnitsel@redhat.com>
-> 
-> This fix looks reasonable to me.
-> 
-> Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+Hi Jean,
 
-Applied for v5.5, thanks.
+On 12/9/19 7:05 PM, Jean-Philippe Brucker wrote:
+> Since commit 518a2f1925c3 ("dma-mapping: zero memory returned from
+> dma_alloc_*"), dma_alloc_* always initializes memory to zero, so there
+> is no need to use dma_zalloc_* or pass the __GFP_ZERO flag anymore.
+> 
+> The flag was introduced by commit 04fa26c71be5 ("iommu/arm-smmu: Convert
+> DMA buffer allocations to the managed API"), since the managed API
+> didn't provide a dmam_zalloc_coherent() function.
+> 
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+
+Thanks
+
+Eric
+
+> ---
+>  drivers/iommu/arm-smmu-v3.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
+> index effe72eb89e7..d4e8b7f8d9f4 100644
+> --- a/drivers/iommu/arm-smmu-v3.c
+> +++ b/drivers/iommu/arm-smmu-v3.c
+> @@ -1675,7 +1675,7 @@ static int arm_smmu_init_l2_strtab(struct arm_smmu_device *smmu, u32 sid)
+>  
+>  	desc->span = STRTAB_SPLIT + 1;
+>  	desc->l2ptr = dmam_alloc_coherent(smmu->dev, size, &desc->l2ptr_dma,
+> -					  GFP_KERNEL | __GFP_ZERO);
+> +					  GFP_KERNEL);
+>  	if (!desc->l2ptr) {
+>  		dev_err(smmu->dev,
+>  			"failed to allocate l2 stream table for SID %u\n",
+> @@ -2161,8 +2161,7 @@ static int arm_smmu_domain_finalise_s1(struct arm_smmu_domain *smmu_domain,
+>  		return asid;
+>  
+>  	cfg->cdptr = dmam_alloc_coherent(smmu->dev, CTXDESC_CD_DWORDS << 3,
+> -					 &cfg->cdptr_dma,
+> -					 GFP_KERNEL | __GFP_ZERO);
+> +					 &cfg->cdptr_dma, GFP_KERNEL);
+>  	if (!cfg->cdptr) {
+>  		dev_warn(smmu->dev, "failed to allocate context descriptor\n");
+>  		ret = -ENOMEM;
+> @@ -2883,7 +2882,7 @@ static int arm_smmu_init_strtab_2lvl(struct arm_smmu_device *smmu)
+>  
+>  	l1size = cfg->num_l1_ents * (STRTAB_L1_DESC_DWORDS << 3);
+>  	strtab = dmam_alloc_coherent(smmu->dev, l1size, &cfg->strtab_dma,
+> -				     GFP_KERNEL | __GFP_ZERO);
+> +				     GFP_KERNEL);
+>  	if (!strtab) {
+>  		dev_err(smmu->dev,
+>  			"failed to allocate l1 stream table (%u bytes)\n",
+> @@ -2910,7 +2909,7 @@ static int arm_smmu_init_strtab_linear(struct arm_smmu_device *smmu)
+>  
+>  	size = (1 << smmu->sid_bits) * (STRTAB_STE_DWORDS << 3);
+>  	strtab = dmam_alloc_coherent(smmu->dev, size, &cfg->strtab_dma,
+> -				     GFP_KERNEL | __GFP_ZERO);
+> +				     GFP_KERNEL);
+>  	if (!strtab) {
+>  		dev_err(smmu->dev,
+>  			"failed to allocate linear stream table (%u bytes)\n",
+> 
 
 _______________________________________________
 iommu mailing list
