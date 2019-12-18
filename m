@@ -1,65 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F1A123DE1
-	for <lists.iommu@lfdr.de>; Wed, 18 Dec 2019 04:26:27 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80C06123E4C
+	for <lists.iommu@lfdr.de>; Wed, 18 Dec 2019 05:12:46 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 33A7F20785;
-	Wed, 18 Dec 2019 03:26:26 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0BCB48598A;
+	Wed, 18 Dec 2019 04:12:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2vLEud3qAj6b; Wed, 18 Dec 2019 03:26:25 +0000 (UTC)
+	with ESMTP id WD7PXx5IPNQh; Wed, 18 Dec 2019 04:12:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 46C152281E;
-	Wed, 18 Dec 2019 03:26:25 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AEED586A63;
+	Wed, 18 Dec 2019 04:12:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2378FC077D;
-	Wed, 18 Dec 2019 03:26:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9CDCDC077D;
+	Wed, 18 Dec 2019 04:12:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 98179C077D
- for <iommu@lists.linux-foundation.org>; Wed, 18 Dec 2019 03:26:23 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2D035C077D
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Dec 2019 04:12:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8445588360
- for <iommu@lists.linux-foundation.org>; Wed, 18 Dec 2019 03:26:23 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1BD0A86A63
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Dec 2019 04:12:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yd8zZ3YQ7npY for <iommu@lists.linux-foundation.org>;
- Wed, 18 Dec 2019 03:26:23 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by hemlock.osuosl.org (Postfix) with ESMTPS id DF84188356
- for <iommu@lists.linux-foundation.org>; Wed, 18 Dec 2019 03:26:22 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2019 19:26:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,328,1571727600"; d="scan'208";a="227721983"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
- ([10.239.159.136])
- by orsmga002.jf.intel.com with ESMTP; 17 Dec 2019 19:26:20 -0800
-Subject: Re: [PATCH v8 06/10] iommu/vt-d: Cache virtual command capability
- register
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>,
- iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>
-References: <1576524252-79116-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1576524252-79116-7-git-send-email-jacob.jun.pan@linux.intel.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <0f704b87-aad7-c864-91ac-423a05287f21@linux.intel.com>
-Date: Wed, 18 Dec 2019 11:25:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
-MIME-Version: 1.0
-In-Reply-To: <1576524252-79116-7-git-send-email-jacob.jun.pan@linux.intel.com>
-Content-Language: en-US
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>
+ with ESMTP id xdy1H8zPWnZi for <iommu@lists.linux-foundation.org>;
+ Wed, 18 Dec 2019 04:12:42 +0000 (UTC)
+X-Greylist: delayed 00:07:29 by SQLgrey-1.7.6
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id BF55C8598A
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Dec 2019 04:12:41 +0000 (UTC)
+Received: by ozlabs.org (Postfix, from userid 1034)
+ id 47d1cj4B0Fz9sRc; Wed, 18 Dec 2019 15:05:09 +1100 (AEDT)
+X-powerpc-patch-notification: thanks
+X-powerpc-patch-commit: 8fabc623238e68b3ac63c0dd1657bf86c1fa33af
+In-Reply-To: <20191204123524.22919-1-rppt@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>, linux-kernel@vger.kernel.org
+From: Michael Ellerman <patch-notifications@ellerman.id.au>
+Subject: Re: [PATCH] powerpc: ensure that swiotlb buffer is allocated from low
+ memory
+Message-Id: <47d1cj4B0Fz9sRc@ozlabs.org>
+Date: Wed, 18 Dec 2019 15:05:09 +1100 (AEDT)
+Cc: linux-arch@vger.kernel.org, Darren Stevens <darren@stevens-zone.net>,
+ linuxppc-dev@lists.ozlabs.org, Mike Rapoport <rppt@linux.ibm.com>,
+ linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ Rob Herring <robh+dt@kernel.org>, Paul Mackerras <paulus@samba.org>,
+ mad skateman <madskateman@gmail.com>,
+ Christian Zigotzky <chzigotzky@xenosoft.de>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,64 +65,31 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
-
-On 12/17/19 3:24 AM, Jacob Pan wrote:
-> Virtual command registers are used in the guest only, to prevent
-> vmexit cost, we cache the capability and store it during initialization.
+On Wed, 2019-12-04 at 12:35:24 UTC, Mike Rapoport wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
 > 
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> ---
->   drivers/iommu/dmar.c        | 1 +
->   include/linux/intel-iommu.h | 4 ++++
->   2 files changed, 5 insertions(+)
+> Some powerpc platforms (e.g. 85xx) limit DMA-able memory way below 4G. If a
+> system has more physical memory than this limit, the swiotlb buffer is not
+> addressable because it is allocated from memblock using top-down mode.
 > 
-> diff --git a/drivers/iommu/dmar.c b/drivers/iommu/dmar.c
-> index f2f5d75da94a..3f98dd9ad004 100644
-> --- a/drivers/iommu/dmar.c
-> +++ b/drivers/iommu/dmar.c
-> @@ -953,6 +953,7 @@ static int map_iommu(struct intel_iommu *iommu, u64 phys_addr)
->   		warn_invalid_dmar(phys_addr, " returns all ones");
->   		goto unmap;
->   	}
-> +	iommu->vccap = dmar_readq(iommu->reg + DMAR_VCCAP_REG);
->   
->   	/* the registers might be more than one page */
->   	map_size = max_t(int, ecap_max_iotlb_offset(iommu->ecap),
-> diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-> index ee26989df008..4d25141ec3df 100644
-> --- a/include/linux/intel-iommu.h
-> +++ b/include/linux/intel-iommu.h
-> @@ -189,6 +189,9 @@
->   #define ecap_max_handle_mask(e) ((e >> 20) & 0xf)
->   #define ecap_sc_support(e)	((e >> 7) & 0x1) /* Snooping Control */
->   
-> +/* Virtual command interface capabilities */
-> +#define vccap_pasid(v)		((v & DMA_VCS_PAS)) /* PASID allocation */
-
-Has DMA_VCS_PAS ever been defined?
-
-Best regards,
-baolu
-
-> +
->   /* IOTLB_REG */
->   #define DMA_TLB_FLUSH_GRANU_OFFSET  60
->   #define DMA_TLB_GLOBAL_FLUSH (((u64)1) << 60)
-> @@ -531,6 +534,7 @@ struct intel_iommu {
->   	u64		reg_size; /* size of hw register set */
->   	u64		cap;
->   	u64		ecap;
-> +	u64		vccap;
->   	u32		gcmd; /* Holds TE, EAFL. Don't need SRTP, SFL, WBF */
->   	raw_spinlock_t	register_lock; /* protect register handling */
->   	int		seq_id;	/* sequence id of the iommu */
+> Force memblock to bottom-up mode before calling swiotlb_init() to ensure
+> that the swiotlb buffer is DMA-able.
 > 
+> Link: https://lkml.kernel.org/r/F1EBB706-73DF-430E-9020-C214EC8ED5DA@xenosoft.de
+> Reported-by: Christian Zigotzky <chzigotzky@xenosoft.de>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+
+Applied to powerpc fixes, thanks.
+
+https://git.kernel.org/powerpc/c/8fabc623238e68b3ac63c0dd1657bf86c1fa33af
+
+cheers
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
