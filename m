@@ -2,72 +2,88 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C9E1261C2
-	for <lists.iommu@lfdr.de>; Thu, 19 Dec 2019 13:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBCC112628E
+	for <lists.iommu@lfdr.de>; Thu, 19 Dec 2019 13:47:57 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1E56F84D6E;
-	Thu, 19 Dec 2019 12:12:41 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A25AF85F37;
+	Thu, 19 Dec 2019 12:47:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TLJxwGFY9dhb; Thu, 19 Dec 2019 12:12:39 +0000 (UTC)
+	with ESMTP id uPjmrRNAa5Yz; Thu, 19 Dec 2019 12:47:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B0E1F859BE;
-	Thu, 19 Dec 2019 12:12:39 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 791CD85C56;
+	Thu, 19 Dec 2019 12:47:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9F9CDC077D;
-	Thu, 19 Dec 2019 12:12:39 +0000 (UTC)
-X-Original-To: iommu@lists.linuxfoundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5C564C077D;
+	Thu, 19 Dec 2019 12:47:55 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9AC71C077D
- for <iommu@lists.linuxfoundation.org>; Thu, 19 Dec 2019 12:12:38 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 37B71C077D;
+ Thu, 19 Dec 2019 12:47:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8A3F685456
- for <iommu@lists.linuxfoundation.org>; Thu, 19 Dec 2019 12:12:38 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2E7CE85B81;
+ Thu, 19 Dec 2019 12:47:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wiKrTEhuXGmc for <iommu@lists.linuxfoundation.org>;
- Thu, 19 Dec 2019 12:12:37 +0000 (UTC)
+ with ESMTP id eVu8IVwHWdsI; Thu, 19 Dec 2019 12:47:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 3CD0F8329B
- for <iommu@lists.linuxfoundation.org>; Thu, 19 Dec 2019 12:12:37 +0000 (UTC)
-Received: from LHREML712-CAH.china.huawei.com (unknown [172.18.7.107])
- by Forcepoint Email with ESMTP id 709D27273C57EE7CE5D8;
- Thu, 19 Dec 2019 12:12:33 +0000 (GMT)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- LHREML712-CAH.china.huawei.com (10.201.108.35) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 19 Dec 2019 12:12:33 +0000
-Received: from [127.0.0.1] (10.202.226.46) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Thu, 19 Dec
- 2019 12:12:32 +0000
-Subject: Re: [PATCH v4 00/16] iommu: Permit modular builds of ARM SMMU[v3]
- drivers
-To: Will Deacon <will@kernel.org>, <linux-kernel@vger.kernel.org>,
- <iommu@lists.linuxfoundation.org>
-References: <20191219120352.382-1-will@kernel.org>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <40ccd748-26bc-df16-76f8-b5ebf11ee520@huawei.com>
-Date: Thu, 19 Dec 2019 12:12:32 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+ [209.85.128.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id AA272851CC;
+ Thu, 19 Dec 2019 12:47:51 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id q9so5301635wmj.5;
+ Thu, 19 Dec 2019 04:47:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=e2DBwRLOc0+NXX0lm+V606orQs3w/QtiskRtJFmTJpE=;
+ b=PTKns+SdLLr4ZaCEfAh3ObI+jGZMo4+JOlU5CQQRWkDFIVSsPWz2iDbfKhjEq6MKIC
+ aRbyCQCnk0cTs2UwulNsRgCaiGU5xFbr8ETxhumyOWd8x1/PXMy2lyyiNaGerK3cQHCZ
+ QeXBFYNls7O+PoJIrEVsftRBKevjpiYvieUmujy9N2Ktd21t46Qo2yfAICnLpbqmV8sZ
+ x7W+JNTruIQEteqTUii7U1vwxk7FLU6CCKbJhIp95hDFhijA9uokDokESBeuNby6NCnH
+ QGAbDMuJK9ssD148eRuhFOTXZ4+6o1OxSY+LTgToJGv6UM3vYL+/4R7PHs2e8issXRYK
+ N/fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=e2DBwRLOc0+NXX0lm+V606orQs3w/QtiskRtJFmTJpE=;
+ b=qQtmdU5jcNn7XTLGsALPxpjX3MjFPenaZaI+g1r8ewMYS/Dw+HldXKI3bcA4ZfhKmX
+ 8cRVAskgPsidXq263uIGcE71GRwE8JS9Xds6CTJjTkvxHoE0v4LqeIAZ2cVhVaMgxu1S
+ FgXd3DAmF0U8SQC1uqCSJ2yVE0d5zLFqqxLSvve5tIL6xgGnB9QDHG48hI1YyRYavJpS
+ +//GyWBPmRBVL769NTGXGfn0WPMBsnGZ6qrBGp5x3geQKggXwTUp5mbiPhKrWG17Obhr
+ 44ldITGPf5u/6dGwU7f32PlF+EZ8H3D6XtVj9gCJg/f4eik19roeWwQrs/ekSTD2lAsE
+ j/Lg==
+X-Gm-Message-State: APjAAAVfUtwgRZMGWJVQEy8RV771mWGz3kvogV1ee8UW0zntaFSS5KO3
+ bJYFnD4izyNUOHivPGF/lik=
+X-Google-Smtp-Source: APXvYqwa9Hu0h5qRLAIYGmBsvZFeHDEip3Ga9oDqR6+Q+7HjHlER5nfEI1KMGyTaWk8sZgzSPZaIvw==
+X-Received: by 2002:a05:600c:2298:: with SMTP id
+ 24mr10205863wmf.65.1576759669976; 
+ Thu, 19 Dec 2019 04:47:49 -0800 (PST)
+Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
+ by smtp.gmail.com with ESMTPSA id c195sm6591110wmd.45.2019.12.19.04.47.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2019 04:47:48 -0800 (PST)
+Date: Thu, 19 Dec 2019 13:47:47 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>
+Subject: Re: [PATCH v3 4/5] iommu: intel: Use generic_iommu_put_resv_regions()
+Message-ID: <20191219124747.GA1440537@ulmo>
+References: <20191218134205.1271740-1-thierry.reding@gmail.com>
+ <20191218134205.1271740-5-thierry.reding@gmail.com>
+ <2b3020a1-221c-f86b-6440-e9ef65f0c12e@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20191219120352.382-1-will@kernel.org>
-Content-Language: en-US
-X-Originating-IP: [10.202.226.46]
-X-ClientProxiedBy: lhreml712-chm.china.huawei.com (10.201.108.63) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Saravana Kannan <saravanak@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Robin Murphy <robin.murphy@arm.com>, Bjorn
- Helgaas <bhelgaas@google.com>, kernel-team@android.com, Ard
- Biesheuvel <ardb@kernel.org>
+In-Reply-To: <2b3020a1-221c-f86b-6440-e9ef65f0c12e@linux.intel.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,93 +96,112 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============2208390444444319011=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 19/12/2019 12:03, Will Deacon wrote:
-> Hi all,
-> 
-> This is version four of the patches I previously posted here:
-> 
->    v1: https://lore.kernel.org/lkml/20191030145112.19738-1-will@kernel.org/
->    v2: https://lore.kernel.org/lkml/20191108151608.20932-1-will@kernel.org
->    v3: https://lore.kernel.org/lkml/20191121114918.2293-1-will@kernel.org
-> 
-> Changes since v3 include:
-> 
->    * Based on v5.5-rc1
->    * ACPI/IORT support (thanks to Ard)
->    * Export pci_{enable,disable}_ats() (thanks to Greg)
->    * Added review tags
 
-Since it looks like not much has changed since v3, and I even tested 
-removal of smmu-v3.ko [0] - this should be ok for the series:
+--===============2208390444444319011==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Q68bSM7Ycu6FN28Q"
+Content-Disposition: inline
 
-Tested-by: John Garry <john.garry@huawei.com> # smmu v3
 
-[0] 
-https://lore.kernel.org/linux-iommu/c8eb97b1-dab5-cc25-7669-2819f64a885d@huawei.com/
+--Q68bSM7Ycu6FN28Q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> I tested this on AMD Seattle by loading arm-smmu-mod.ko from the initrd.
-> 
-> Cheers,
-> 
-> Will
-> 
-> Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> Cc: Jordan Crouse <jcrouse@codeaurora.org>
-> Cc: John Garry <john.garry@huawei.com>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Saravana Kannan <saravanak@google.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Joerg Roedel <joro@8bytes.org>
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> 
-> --->8
-> 
-> Ard Biesheuvel (1):
->    iommu/arm-smmu: Support SMMU module probing from the IORT
-> 
-> Greg Kroah-Hartman (1):
->    PCI/ATS: Restore EXPORT_SYMBOL_GPL() for pci_{enable,disable}_ats()
-> 
-> Will Deacon (14):
->    drivers/iommu: Export core IOMMU API symbols to permit modular drivers
->    iommu/of: Request ACS from the PCI core when configuring IOMMU linkage
->    PCI: Export pci_ats_disabled() as a GPL symbol to modules
->    drivers/iommu: Take a ref to the IOMMU driver prior to ->add_device()
->    iommu/of: Take a ref to the IOMMU driver during ->of_xlate()
->    drivers/iommu: Allow IOMMU bus ops to be unregistered
->    Revert "iommu/arm-smmu: Make arm-smmu-v3 explicitly non-modular"
->    Revert "iommu/arm-smmu: Make arm-smmu explicitly non-modular"
->    iommu/arm-smmu: Prevent forced unbinding of Arm SMMU drivers
->    iommu/arm-smmu-v3: Unregister IOMMU and bus ops on device removal
->    iommu/arm-smmu-v3: Allow building as a module
->    iommu/arm-smmu: Unregister IOMMU and bus ops on device removal
->    iommu/arm-smmu: Allow building as a module
->    iommu/arm-smmu: Update my email address in MODULE_AUTHOR()
-> 
->   drivers/acpi/arm64/iort.c   |   4 +-
->   drivers/iommu/Kconfig       |  16 ++++-
->   drivers/iommu/Makefile      |   3 +-
->   drivers/iommu/arm-smmu-v3.c |  94 +++++++++++++++++---------
->   drivers/iommu/arm-smmu.c    | 128 +++++++++++++++++++++++++-----------
->   drivers/iommu/iommu-sysfs.c |   5 ++
->   drivers/iommu/iommu.c       |  32 ++++++++-
->   drivers/iommu/of_iommu.c    |  19 ++++--
->   drivers/pci/ats.c           |   2 +
->   drivers/pci/pci.c           |   1 +
->   include/linux/iommu.h       |   4 +-
->   11 files changed, 223 insertions(+), 85 deletions(-)
-> 
+On Thu, Dec 19, 2019 at 09:53:22AM +0800, Lu Baolu wrote:
+> Please tweak the title to
+>=20
+> "iommu/vt-d: Use generic_iommu_put_resv_regions()"
+>=20
+> then,
+>=20
+> Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+>=20
+> Best regards,
+> baolu
+
+Joerg, do you want me to resend with this change or is it more efficient
+if you fix up the subject while applying?
+
+Thierry
+
+> On 12/18/19 9:42 PM, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > Use the new standard function instead of open-coding it.
+> >=20
+> > Cc: David Woodhouse <dwmw2@infradead.org>
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> >   drivers/iommu/intel-iommu.c | 11 +----------
+> >   1 file changed, 1 insertion(+), 10 deletions(-)
+> >=20
+> > diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+> > index 42966611a192..a6d5b7cf9183 100644
+> > --- a/drivers/iommu/intel-iommu.c
+> > +++ b/drivers/iommu/intel-iommu.c
+> > @@ -5744,15 +5744,6 @@ static void intel_iommu_get_resv_regions(struct =
+device *device,
+> >   	list_add_tail(&reg->list, head);
+> >   }
+> > -static void intel_iommu_put_resv_regions(struct device *dev,
+> > -					 struct list_head *head)
+> > -{
+> > -	struct iommu_resv_region *entry, *next;
+> > -
+> > -	list_for_each_entry_safe(entry, next, head, list)
+> > -		kfree(entry);
+> > -}
+> > -
+> >   int intel_iommu_enable_pasid(struct intel_iommu *iommu, struct device=
+ *dev)
+> >   {
+> >   	struct device_domain_info *info;
+> > @@ -5987,7 +5978,7 @@ const struct iommu_ops intel_iommu_ops =3D {
+> >   	.add_device		=3D intel_iommu_add_device,
+> >   	.remove_device		=3D intel_iommu_remove_device,
+> >   	.get_resv_regions	=3D intel_iommu_get_resv_regions,
+> > -	.put_resv_regions	=3D intel_iommu_put_resv_regions,
+> > +	.put_resv_regions	=3D generic_iommu_put_resv_regions,
+> >   	.apply_resv_region	=3D intel_iommu_apply_resv_region,
+> >   	.device_group		=3D pci_device_group,
+> >   	.dev_has_feat		=3D intel_iommu_dev_has_feat,
+> >=20
+
+--Q68bSM7Ycu6FN28Q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl37cW8ACgkQ3SOs138+
+s6HwMg//QTaq9qdL6boTSg1EAx8bgcGx/ElOv3yPZusDHrNbEG7C19YElgpyGquj
+7x+Amfj9QD/8vIKJg+w2Z7VpKwUgrVyteYw+dOyFzSx5gjqLE7/r5klBFwR32/Uz
+pGffIE2X3N6xtCfdzYrFt1ay9wM+cHJA0lvMy7oFX+XEOxc/eAorwm68g+UgkYAm
+QigqZ/5cjjlkIkQL2FThNHnwpwd9zAhOMchjlyz+4UZv/4AvQqX0YSilx72T4JP0
+3LOCto7pCGTmvv/4/E0bCOzIa+FOMZf56LLqOstqBhIoPeBWGuGNXUerZ5iV22E0
+ah5RgWxHM0YwGufRGyHiJ8niUQlIuuIzFsJmjvXbDHdaIM7/tZMGRVRGNcZuINBb
+5Addl123iKthkOTBBqNMoZwg9Y30E3mG07wZbH8tkZj91CRJPJ1Ui5uQsEtxlwvS
+jwGcb9kVFk3PJO0AuKvDC9VTi40K1MDYW8NLAtTYV4UhLKA5XGuOWawKZWC20Q+X
+88ie9W4l5+HhW9hgpSfawGdKAlOeeCzXTVmqzm8o5vaAIZ6qGnaf4peVVZ59YF70
+HSty77b43BATtE0oL3ps6hzLgNMNQYSAd8hOnA1cqEwK4+wyCsRgfzx64jxyMOSB
+vCaXjNxdpNsgZWqwqw5NVrsV2z3Jn/f11Wvsob4EMM5C3/ZDuVE=
+=lKCJ
+-----END PGP SIGNATURE-----
+
+--Q68bSM7Ycu6FN28Q--
+
+--===============2208390444444319011==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============2208390444444319011==--
