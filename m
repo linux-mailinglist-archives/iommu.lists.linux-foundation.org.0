@@ -1,82 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA399126710
-	for <lists.iommu@lfdr.de>; Thu, 19 Dec 2019 17:31:39 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F65126716
+	for <lists.iommu@lfdr.de>; Thu, 19 Dec 2019 17:31:42 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A1B3D86FFF;
-	Thu, 19 Dec 2019 16:31:38 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 62AC187FC2;
+	Thu, 19 Dec 2019 16:31:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yT7Ws9ouydPX; Thu, 19 Dec 2019 16:31:38 +0000 (UTC)
+	with ESMTP id oYFlaQp6fhhb; Thu, 19 Dec 2019 16:31:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 38D8086FFB;
-	Thu, 19 Dec 2019 16:31:38 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9A0B387FB6;
+	Thu, 19 Dec 2019 16:31:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 28419C077D;
-	Thu, 19 Dec 2019 16:31:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 914A9C077D;
+	Thu, 19 Dec 2019 16:31:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B3007C1AE8
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 16:31:36 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F3C7CC077D
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 16:31:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8E9DB86FD3
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 16:31:36 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id D491A87F83
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 16:31:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lbVRjzIrsjKg for <iommu@lists.linux-foundation.org>;
- Thu, 19 Dec 2019 16:31:36 +0000 (UTC)
+ with ESMTP id vGjnwjf5wCJ0 for <iommu@lists.linux-foundation.org>;
+ Thu, 19 Dec 2019 16:31:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id CE42686FFB
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 16:31:35 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id p17so6299662wma.1
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 08:31:35 -0800 (PST)
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+ [209.85.221.66])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D381687FA6
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 16:31:36 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id q6so6597020wro.9
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 08:31:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=en1Diu3sI6Wm13W9qcASbGXcjcSPf5WXodRzGlHYYvg=;
- b=dgEdguI1vFCV7YNVUg0oEi5hoedAB5SCo0EHqrgrYN2fDZQP1jM0e2gVFmXjAsarm9
- sE3jEiVBfo9bIxoraETghmWio/hExZaK0G2MlaAUWWPlH/s/lgj8y2aPluLIJwIiWDO5
- nPCsL9EFTnWUXXPdeHMf2mqD8ncvbLtOVcjLDDmK20sqR/zY19gWGF0iPqJMOqrpBHzU
- P5l5nDoT+24rRDoL/bDgoMasOpqDS3TpLXI4nHsZ6shxvb0a59G2E8TD5mPZoPT7AZm0
- TE/nR/n+4AfO7nup111L94qgV7A8exhXah9vnGXYO9tpJuoHYa73upM3pfuz8aU4XUjD
- EyRw==
+ bh=k0PTgEa8Z2EtxKNp+bXlU3gMIeIQMMd4dvAJJmx7ucE=;
+ b=W+Iytwj4wvUZ2mbwDVM7FzjhurcQ7XEm74cJFZdKNOpWZtf7wK2eBP0X8FsMZeSJ6x
+ iR0hoMFIuiITseQd974oYuP4t6sCXPRf3CBmd6yCV89pn+xP+xk+w7DoS2RBpcJj2xkt
+ 9hAy9ONlO9aTHj8k3D5PUqhPlRW8+9sBhjji/UXYjHTc2kU0B/rcTeoqySC1prww1Kh5
+ lDK2rbNnj95q+9W/YHUT8aL/yY4xujuGQ3Gqt7+IIi+uCEaUwCmo0aNTuAmGuF4PphBE
+ eH7TqxdLwqXapRzKuHr8uFQZKVtKa1+hpBYpYNgTi8ckKxL0EE66EGNi9XNuHJ5DvbFx
+ fRpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=en1Diu3sI6Wm13W9qcASbGXcjcSPf5WXodRzGlHYYvg=;
- b=pUSPqoSAzzJU/YncuxEi3Tjx8rduewtDZdztZeFwNlEHCbMsbAA9tspvOl+ltBm+8F
- Dv3K6KHTYldzYIgr+q8bEP42Bvc7hYAaHirctJZJJrdyTX31UcaUExAXiux8eyodjocq
- P2bTcE/k6o+ninBqgeVgyI4E5zIWTn+7SxkN5T5grNC87ucxW+lN2gqRDRJsm0yP4r5y
- xBrK8bUjbw/hNABuRRb64dYzhEjsJHB41KfeVEP05P+tbKOnMcap+w5lIkged6ShZ13F
- VdFKAmSFnfnEFauLqZ9kjx+oLhkN+bktoyx+zcq6q0Afb87p8EV9pGWte3byy7YTp1AG
- wylw==
-X-Gm-Message-State: APjAAAVVpdTvo2iCvTPThSjutRbXa8wcqiMKbEcE/kdTV/1fsULWk9QW
- siky6/9mbZbwHudGOkNcW+gLRg==
-X-Google-Smtp-Source: APXvYqz7aYfTKLRMIc9dIpZKfGpZT6KS6fOh8tdIld2RBmduglCWax9u24T9mQN4/gn+82GrDikg0g==
-X-Received: by 2002:a1c:7d93:: with SMTP id
- y141mr11448751wmc.111.1576773093503; 
- Thu, 19 Dec 2019 08:31:33 -0800 (PST)
+ bh=k0PTgEa8Z2EtxKNp+bXlU3gMIeIQMMd4dvAJJmx7ucE=;
+ b=KnxiiKzvP+y6zCYCDZD7I7c/xtmPYPNBdt9usjFbEX43kbTevaGvsFtw+FXRpXAzEr
+ z0vkhRzpy16OFFC/hlBRrMlwQIZ/ZVxraYtWCUtjO+cYCTlG5Qu2t77BCvHk2XsXH5lI
+ ixN1Pt9AejAF+JBgrZTuYnzq0KHlHaGpeEHbLZoqiQa8EjwUDPtlIohx0lvfECo5YqmU
+ NuVlWGYABYnCsMrsidXxe28XJkx8JiN481bhkOJHQtrzDA7xPprm1DVUUQjvxMzYjLr2
+ MsUXbUFcfbxy7irAM2aXLtd+DYWOC5DaySWAdsiXgTVLjmhL60sk1Aa7lnGL7o+LTurP
+ wTlg==
+X-Gm-Message-State: APjAAAW4cscCWvWl6DuWCouFwPUMKbZHHqaGHfFRV4qzR8XSS8s03f1t
+ /4KeYv1q/N55gdBb5jce9acJBA==
+X-Google-Smtp-Source: APXvYqydpFFmYvpMjkEfbCXJIymkJAymWbp5K7XBwcoeSyvYywcmv2pSNLmPre/mfuyPhSrLgbG6Lw==
+X-Received: by 2002:adf:fcc4:: with SMTP id f4mr10390218wrs.247.1576773095285; 
+ Thu, 19 Dec 2019 08:31:35 -0800 (PST)
 Received: from localhost.localdomain (adsl-84-227-176-239.adslplus.ch.
  [84.227.176.239])
- by smtp.gmail.com with ESMTPSA id u22sm7092068wru.30.2019.12.19.08.31.32
+ by smtp.gmail.com with ESMTPSA id u22sm7092068wru.30.2019.12.19.08.31.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2019 08:31:33 -0800 (PST)
+ Thu, 19 Dec 2019 08:31:34 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
  iommu@lists.linux-foundation.org
-Subject: [PATCH v4 11/13] iommu/arm-smmu-v3: Improve add_device() error
- handling
-Date: Thu, 19 Dec 2019 17:30:31 +0100
-Message-Id: <20191219163033.2608177-12-jean-philippe@linaro.org>
+Subject: [PATCH v4 12/13] PCI/ATS: Add PASID stubs
+Date: Thu, 19 Dec 2019 17:30:32 +0100
+Message-Id: <20191219163033.2608177-13-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191219163033.2608177-1-jean-philippe@linaro.org>
 References: <20191219163033.2608177-1-jean-philippe@linaro.org>
@@ -101,75 +99,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Let add_device() clean up after itself. The iommu_bus_init() function
-does call remove_device() on error, but other sites (e.g. of_iommu) do
-not.
+The SMMUv3 driver, which may be built without CONFIG_PCI, will soon gain
+PASID support.  Partially revert commit c6e9aefbf9db ("PCI/ATS: Remove
+unused PRI and PASID stubs") to re-introduce the PASID stubs, and avoid
+adding more #ifdefs to the SMMU driver.
 
-Don't free level-2 stream tables because we'd have to track if we
-allocated each of them or if they are used by other endpoints. It's not
-worth the hassle since they are managed resources.
-
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- drivers/iommu/arm-smmu-v3.c | 28 +++++++++++++++++++++-------
- 1 file changed, 21 insertions(+), 7 deletions(-)
+ include/linux/pci-ats.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index bf106a7b53eb..e62ca80f2f76 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -2837,14 +2837,16 @@ static int arm_smmu_add_device(struct device *dev)
- 	for (i = 0; i < master->num_sids; i++) {
- 		u32 sid = master->sids[i];
- 
--		if (!arm_smmu_sid_in_range(smmu, sid))
--			return -ERANGE;
-+		if (!arm_smmu_sid_in_range(smmu, sid)) {
-+			ret = -ERANGE;
-+			goto err_free_master;
-+		}
- 
- 		/* Ensure l2 strtab is initialised */
- 		if (smmu->features & ARM_SMMU_FEAT_2_LVL_STRTAB) {
- 			ret = arm_smmu_init_l2_strtab(smmu, sid);
- 			if (ret)
--				return ret;
-+				goto err_free_master;
- 		}
- 	}
- 
-@@ -2854,13 +2856,25 @@ static int arm_smmu_add_device(struct device *dev)
- 		master->ssid_bits = min_t(u8, master->ssid_bits,
- 					  CTXDESC_LINEAR_CDMAX);
- 
-+	ret = iommu_device_link(&smmu->iommu, dev);
-+	if (ret)
-+		goto err_free_master;
-+
- 	group = iommu_group_get_for_dev(dev);
--	if (!IS_ERR(group)) {
--		iommu_group_put(group);
--		iommu_device_link(&smmu->iommu, dev);
-+	if (IS_ERR(group)) {
-+		ret = PTR_ERR(group);
-+		goto err_unlink;
- 	}
- 
--	return PTR_ERR_OR_ZERO(group);
-+	iommu_group_put(group);
-+	return 0;
-+
-+err_unlink:
-+	iommu_device_unlink(&smmu->iommu, dev);
-+err_free_master:
-+	kfree(master);
-+	fwspec->iommu_priv = NULL;
-+	return ret;
- }
- 
- static void arm_smmu_remove_device(struct device *dev)
+diff --git a/include/linux/pci-ats.h b/include/linux/pci-ats.h
+index 5d62e78946a3..d08f0869f121 100644
+--- a/include/linux/pci-ats.h
++++ b/include/linux/pci-ats.h
+@@ -33,6 +33,9 @@ void pci_disable_pasid(struct pci_dev *pdev);
+ int pci_pasid_features(struct pci_dev *pdev);
+ int pci_max_pasids(struct pci_dev *pdev);
+ #else /* CONFIG_PCI_PASID */
++static inline int pci_enable_pasid(struct pci_dev *pdev, int features)
++{ return -EINVAL; }
++static inline void pci_disable_pasid(struct pci_dev *pdev) { }
+ static inline int pci_pasid_features(struct pci_dev *pdev)
+ { return -EINVAL; }
+ static inline int pci_max_pasids(struct pci_dev *pdev)
 -- 
 2.24.1
 
