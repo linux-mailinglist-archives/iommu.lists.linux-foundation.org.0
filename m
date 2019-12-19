@@ -1,59 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78B9D12655B
-	for <lists.iommu@lfdr.de>; Thu, 19 Dec 2019 16:03:12 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B6812658D
+	for <lists.iommu@lfdr.de>; Thu, 19 Dec 2019 16:20:24 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 0A2162039A;
-	Thu, 19 Dec 2019 15:03:11 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3636485C7D;
+	Thu, 19 Dec 2019 15:20:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NFaQPfXTLKPH; Thu, 19 Dec 2019 15:03:08 +0000 (UTC)
+	with ESMTP id 55LvcL18us8d; Thu, 19 Dec 2019 15:20:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 5CB4A20429;
-	Thu, 19 Dec 2019 15:03:08 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5B47787CDC;
+	Thu, 19 Dec 2019 15:20:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A29DC077D;
-	Thu, 19 Dec 2019 15:03:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4034FC077D;
+	Thu, 19 Dec 2019 15:20:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0531AC077D
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 15:03:07 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 51373C077D
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 15:20:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E7BEE86BAE
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 15:03:06 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3EEDB87CDC
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 15:20:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tUeOvumlX-7S for <iommu@lists.linux-foundation.org>;
- Thu, 19 Dec 2019 15:03:05 +0000 (UTC)
+ with ESMTP id 4fvoN-IGKlC6 for <iommu@lists.linux-foundation.org>;
+ Thu, 19 Dec 2019 15:20:19 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1A3C086BBB
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 15:03:04 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 5D62768B20; Thu, 19 Dec 2019 16:03:00 +0100 (CET)
-Date: Thu, 19 Dec 2019 16:02:59 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Peter Ujfalusi <peter.ujfalusi@ti.com>
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 1CD9F85C7D
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 15:20:19 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBJFK6F4034293;
+ Thu, 19 Dec 2019 09:20:06 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1576768806;
+ bh=Ka8A++Wgy2YG9+bGEyPwISxJzp8LG98T3zLMp5VZCyw=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=BIuTc9yIXXTO1iWg42njFB8qnw4gOT/0VVKdEOwmJy0r1HDP8HHL+dIfDBmiX28gG
+ w1L33R3jdG1f8d+ORIiPvTvkZphvehQI7dW+kir6SVQEln04TDK0EBAM2lM/M7EHQb
+ nl+vk+8sehSds9IlmkXIoPKZQcJZ0iYsuCs4/BlM=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBJFK66H089478
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 19 Dec 2019 09:20:06 -0600
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 19
+ Dec 2019 09:20:05 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Thu, 19 Dec 2019 09:20:05 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBJFK3Ek064843;
+ Thu, 19 Dec 2019 09:20:04 -0600
 Subject: Re: [PATCH 2/2] arm: use swiotlb for bounce buffer on LPAE configs
-Message-ID: <20191219150259.GA3003@lst.de>
+To: Christoph Hellwig <hch@lst.de>
 References: <20190709142011.24984-1-hch@lst.de>
  <20190709142011.24984-3-hch@lst.de>
- <9bbd87c2-5b6c-069c-dd22-5105dc827428@ti.com>
+ <9bbd87c2-5b6c-069c-dd22-5105dc827428@ti.com> <20191219150259.GA3003@lst.de>
+Message-ID: <20106a84-8247-fa78-2381-2c94fad9cb6a@ti.com>
+Date: Thu, 19 Dec 2019 17:20:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <9bbd87c2-5b6c-069c-dd22-5105dc827428@ti.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20191219150259.GA3003@lst.de>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Cc: Vignesh Raghavendra <vigneshr@ti.com>,
  Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
  Russell King - ARM Linux admin <linux@armlinux.org.uk>,
  linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org,
- Roger Quadros <rogerq@ti.com>
+ linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,220 +89,163 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+From: Peter Ujfalusi via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Peter Ujfalusi <peter.ujfalusi@ti.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Peter,
-
-can you try the patch below (it will need to be split into two):
-
-diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
-index e822af0d9219..30b9c6786ce3 100644
---- a/arch/arm/mm/dma-mapping.c
-+++ b/arch/arm/mm/dma-mapping.c
-@@ -221,7 +221,8 @@ EXPORT_SYMBOL(arm_coherent_dma_ops);
- 
- static int __dma_supported(struct device *dev, u64 mask, bool warn)
- {
--	unsigned long max_dma_pfn = min(max_pfn, arm_dma_pfn_limit);
-+	unsigned long max_dma_pfn =
-+		min_t(unsigned long, max_pfn, zone_dma_limit >> PAGE_SHIFT);
- 
- 	/*
- 	 * Translate the device's DMA mask to a PFN limit.  This
-diff --git a/arch/arm/mm/init.c b/arch/arm/mm/init.c
-index 3ef204137e73..dd0e169a1bb1 100644
---- a/arch/arm/mm/init.c
-+++ b/arch/arm/mm/init.c
-@@ -19,6 +19,7 @@
- #include <linux/gfp.h>
- #include <linux/memblock.h>
- #include <linux/dma-contiguous.h>
-+#include <linux/dma-direct.h>
- #include <linux/sizes.h>
- #include <linux/stop_machine.h>
- #include <linux/swiotlb.h>
-@@ -84,15 +85,6 @@ static void __init find_limits(unsigned long *min, unsigned long *max_low,
- phys_addr_t arm_dma_zone_size __read_mostly;
- EXPORT_SYMBOL(arm_dma_zone_size);
- 
--/*
-- * The DMA mask corresponding to the maximum bus address allocatable
-- * using GFP_DMA.  The default here places no restriction on DMA
-- * allocations.  This must be the smallest DMA mask in the system,
-- * so a successful GFP_DMA allocation will always satisfy this.
-- */
--phys_addr_t arm_dma_limit;
--unsigned long arm_dma_pfn_limit;
--
- static void __init arm_adjust_dma_zone(unsigned long *size, unsigned long *hole,
- 	unsigned long dma_size)
- {
-@@ -108,14 +100,14 @@ static void __init arm_adjust_dma_zone(unsigned long *size, unsigned long *hole,
- 
- void __init setup_dma_zone(const struct machine_desc *mdesc)
- {
--#ifdef CONFIG_ZONE_DMA
--	if (mdesc->dma_zone_size) {
-+	if (!IS_ENABLED(CONFIG_ZONE_DMA)) {
-+		zone_dma_limit = ((phys_addr_t)~0);
-+	} else if (mdesc->dma_zone_size) {
- 		arm_dma_zone_size = mdesc->dma_zone_size;
--		arm_dma_limit = PHYS_OFFSET + arm_dma_zone_size - 1;
--	} else
--		arm_dma_limit = 0xffffffff;
--	arm_dma_pfn_limit = arm_dma_limit >> PAGE_SHIFT;
--#endif
-+		zone_dma_limit = PHYS_OFFSET + arm_dma_zone_size - 1;
-+	} else {
-+		zone_dma_limit = 0xffffffff;
-+	}
- }
- 
- static void __init zone_sizes_init(unsigned long min, unsigned long max_low,
-@@ -279,7 +271,7 @@ void __init arm_memblock_init(const struct machine_desc *mdesc)
- 	early_init_fdt_scan_reserved_mem();
- 
- 	/* reserve memory for DMA contiguous allocations */
--	dma_contiguous_reserve(arm_dma_limit);
-+	dma_contiguous_reserve(zone_dma_limit);
- 
- 	arm_memblock_steal_permitted = false;
- 	memblock_dump_all();
-diff --git a/arch/arm/mm/mm.h b/arch/arm/mm/mm.h
-index 88c121ac14b3..7dbd77554273 100644
---- a/arch/arm/mm/mm.h
-+++ b/arch/arm/mm/mm.h
-@@ -82,14 +82,6 @@ extern __init void add_static_vm_early(struct static_vm *svm);
- 
- #endif
- 
--#ifdef CONFIG_ZONE_DMA
--extern phys_addr_t arm_dma_limit;
--extern unsigned long arm_dma_pfn_limit;
--#else
--#define arm_dma_limit ((phys_addr_t)~0)
--#define arm_dma_pfn_limit (~0ul >> PAGE_SHIFT)
--#endif
--
- extern phys_addr_t arm_lowmem_limit;
- 
- void __init bootmem_init(void);
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index b65dffdfb201..7a7501acd763 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -441,7 +441,7 @@ void __init arm64_memblock_init(void)
- 	early_init_fdt_scan_reserved_mem();
- 
- 	if (IS_ENABLED(CONFIG_ZONE_DMA)) {
--		zone_dma_bits = ARM64_ZONE_DMA_BITS;
-+		zone_dma_limit = DMA_BIT_MASK(ARM64_ZONE_DMA_BITS);
- 		arm64_dma_phys_limit = max_zone_phys(ARM64_ZONE_DMA_BITS);
- 	}
- 
-diff --git a/arch/powerpc/mm/mem.c b/arch/powerpc/mm/mem.c
-index 9488b63dfc87..337ace03d3f0 100644
---- a/arch/powerpc/mm/mem.c
-+++ b/arch/powerpc/mm/mem.c
-@@ -223,7 +223,7 @@ static int __init mark_nonram_nosave(void)
-  * everything else. GFP_DMA32 page allocations automatically fall back to
-  * ZONE_DMA.
-  *
-- * By using 31-bit unconditionally, we can exploit zone_dma_bits to inform the
-+ * By using 31-bit unconditionally, we can exploit zone_dma_limit to inform the
-  * generic DMA mapping code.  32-bit only devices (if not handled by an IOMMU
-  * anyway) will take a first dip into ZONE_NORMAL and get otherwise served by
-  * ZONE_DMA.
-@@ -257,18 +257,20 @@ void __init paging_init(void)
- 	printk(KERN_DEBUG "Memory hole size: %ldMB\n",
- 	       (long int)((top_of_ram - total_ram) >> 20));
- 
-+#ifdef CONFIG_ZONE_DMA
- 	/*
- 	 * Allow 30-bit DMA for very limited Broadcom wifi chips on many
- 	 * powerbooks.
- 	 */
--	if (IS_ENABLED(CONFIG_PPC32))
--		zone_dma_bits = 30;
--	else
--		zone_dma_bits = 31;
--
--#ifdef CONFIG_ZONE_DMA
--	max_zone_pfns[ZONE_DMA]	= min(max_low_pfn,
--				      1UL << (zone_dma_bits - PAGE_SHIFT));
-+	if (IS_ENABLED(CONFIG_PPC32)) {
-+		zone_dma_limit = DMA_BIT_MASK(30);
-+		max_zone_pfns[ZONE_DMA]	= min(max_low_pfn,
-+					      1UL << (30 - PAGE_SHIFT));
-+	} else {
-+		zone_dma_limit = DMA_BIT_MASK(31);
-+		max_zone_pfns[ZONE_DMA]	= min(max_low_pfn,
-+					      1UL << (31 - PAGE_SHIFT));
-+	}
- #endif
- 	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
- #ifdef CONFIG_HIGHMEM
-diff --git a/arch/s390/mm/init.c b/arch/s390/mm/init.c
-index f0ce22220565..c403f61cb56b 100644
---- a/arch/s390/mm/init.c
-+++ b/arch/s390/mm/init.c
-@@ -118,7 +118,7 @@ void __init paging_init(void)
- 
- 	sparse_memory_present_with_active_regions(MAX_NUMNODES);
- 	sparse_init();
--	zone_dma_bits = 31;
-+	zone_dma_limit = DMA_BIT_MASK(31);
- 	memset(max_zone_pfns, 0, sizeof(max_zone_pfns));
- 	max_zone_pfns[ZONE_DMA] = PFN_DOWN(MAX_DMA_ADDRESS);
- 	max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
-diff --git a/include/linux/dma-direct.h b/include/linux/dma-direct.h
-index 24b8684aa21d..20d56d597506 100644
---- a/include/linux/dma-direct.h
-+++ b/include/linux/dma-direct.h
-@@ -6,7 +6,7 @@
- #include <linux/memblock.h> /* for min_low_pfn */
- #include <linux/mem_encrypt.h>
- 
--extern unsigned int zone_dma_bits;
-+extern phys_addr_t zone_dma_limit;
- 
- #ifdef CONFIG_ARCH_HAS_PHYS_TO_DMA
- #include <asm/dma-direct.h>
-diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-index 6af7ae83c4ad..5ea1bed2ba6f 100644
---- a/kernel/dma/direct.c
-+++ b/kernel/dma/direct.c
-@@ -21,7 +21,7 @@
-  * it for entirely different regions. In that case the arch code needs to
-  * override the variable below for dma-direct to work properly.
-  */
--unsigned int zone_dma_bits __ro_after_init = 24;
-+phys_addr_t zone_dma_limit __ro_after_init = DMA_BIT_MASK(24);
- 
- static void report_addr(struct device *dev, dma_addr_t dma_addr, size_t size)
- {
-@@ -74,7 +74,7 @@ static gfp_t __dma_direct_optimal_gfp_mask(struct device *dev, u64 dma_mask,
- 	 * Note that GFP_DMA32 and GFP_DMA are no ops without the corresponding
- 	 * zones.
- 	 */
--	if (*phys_limit <= DMA_BIT_MASK(zone_dma_bits))
-+	if (*phys_limit <= zone_dma_limit)
- 		return GFP_DMA;
- 	if (*phys_limit <= DMA_BIT_MASK(32))
- 		return GFP_DMA32;
-@@ -483,7 +483,7 @@ int dma_direct_supported(struct device *dev, u64 mask)
- 	u64 min_mask;
- 
- 	if (IS_ENABLED(CONFIG_ZONE_DMA))
--		min_mask = DMA_BIT_MASK(zone_dma_bits);
-+		min_mask = zone_dma_limit;
- 	else
- 		min_mask = DMA_BIT_MASK(32);
- 
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SGkgQ2hyaXN0b3BoLAoKT24gMTkvMTIvMjAxOSAxNy4wMiwgQ2hyaXN0b3BoIEhlbGx3aWcgd3Jv
+dGU6Cj4gSGkgUGV0ZXIsCj4gCj4gY2FuIHlvdSB0cnkgdGhlIHBhdGNoIGJlbG93IChpdCB3aWxs
+IG5lZWQgdG8gYmUgc3BsaXQgaW50byB0d28pOgoKVGhhbmsgeW91IQoKVW5mb3J0dW5hdGVseSBp
+dCBkb2VzIG5vdCBoZWxwOgpbICAgIDAuNTk2MjA4XSBlZG1hOiBwcm9iZSBvZiAyNzAwMDAwLmVk
+bWEgZmFpbGVkIHdpdGggZXJyb3IgLTUKWyAgICAwLjU5NjYyNl0gZWRtYTogcHJvYmUgb2YgMjcy
+ODAwMC5lZG1hIGZhaWxlZCB3aXRoIGVycm9yIC01Ci4uLgpbICAgIDIuMTA4NjAyXSBzZGhjaS1v
+bWFwIDIzMDAwMDAwLm1tYzogR290IENEIEdQSU8KWyAgICAyLjExMzg5OV0gbW1jMDogRmFpbGVk
+IHRvIHNldCAzMi1iaXQgRE1BIG1hc2suClsgICAgMi4xMTg1OTJdIG1tYzA6IE5vIHN1aXRhYmxl
+IERNQSBhdmFpbGFibGUgLSBmYWxsaW5nIGJhY2sgdG8gUElPClsgICAgMi4xNTkwMzhdIG1tYzA6
+IFNESENJIGNvbnRyb2xsZXIgb24gMjMwMDAwMDAubW1jIFsyMzAwMDAwMC5tbWNdCnVzaW5nIFBJ
+TwpbICAgIDIuMTY3NTMxXSBtbWMxOiBGYWlsZWQgdG8gc2V0IDMyLWJpdCBETUEgbWFzay4KWyAg
+ICAyLjE3MjE5Ml0gbW1jMTogTm8gc3VpdGFibGUgRE1BIGF2YWlsYWJsZSAtIGZhbGxpbmcgYmFj
+ayB0byBQSU8KWyAgICAyLjIxMzg0MV0gbW1jMTogU0RIQ0kgY29udHJvbGxlciBvbiAyMzEwMDAw
+MC5tbWMgWzIzMTAwMDAwLm1tY10KdXNpbmcgUElPCgotIFDDqXRlcgoKCj4gZGlmZiAtLWdpdCBh
+L2FyY2gvYXJtL21tL2RtYS1tYXBwaW5nLmMgYi9hcmNoL2FybS9tbS9kbWEtbWFwcGluZy5jCj4g
+aW5kZXggZTgyMmFmMGQ5MjE5Li4zMGI5YzY3ODZjZTMgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9hcm0v
+bW0vZG1hLW1hcHBpbmcuYwo+ICsrKyBiL2FyY2gvYXJtL21tL2RtYS1tYXBwaW5nLmMKPiBAQCAt
+MjIxLDcgKzIyMSw4IEBAIEVYUE9SVF9TWU1CT0woYXJtX2NvaGVyZW50X2RtYV9vcHMpOwo+ICAK
+PiAgc3RhdGljIGludCBfX2RtYV9zdXBwb3J0ZWQoc3RydWN0IGRldmljZSAqZGV2LCB1NjQgbWFz
+aywgYm9vbCB3YXJuKQo+ICB7Cj4gLQl1bnNpZ25lZCBsb25nIG1heF9kbWFfcGZuID0gbWluKG1h
+eF9wZm4sIGFybV9kbWFfcGZuX2xpbWl0KTsKPiArCXVuc2lnbmVkIGxvbmcgbWF4X2RtYV9wZm4g
+PQo+ICsJCW1pbl90KHVuc2lnbmVkIGxvbmcsIG1heF9wZm4sIHpvbmVfZG1hX2xpbWl0ID4+IFBB
+R0VfU0hJRlQpOwo+ICAKPiAgCS8qCj4gIAkgKiBUcmFuc2xhdGUgdGhlIGRldmljZSdzIERNQSBt
+YXNrIHRvIGEgUEZOIGxpbWl0LiAgVGhpcwo+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9tbS9pbml0
+LmMgYi9hcmNoL2FybS9tbS9pbml0LmMKPiBpbmRleCAzZWYyMDQxMzdlNzMuLmRkMGUxNjlhMWJi
+MSAxMDA2NDQKPiAtLS0gYS9hcmNoL2FybS9tbS9pbml0LmMKPiArKysgYi9hcmNoL2FybS9tbS9p
+bml0LmMKPiBAQCAtMTksNiArMTksNyBAQAo+ICAjaW5jbHVkZSA8bGludXgvZ2ZwLmg+Cj4gICNp
+bmNsdWRlIDxsaW51eC9tZW1ibG9jay5oPgo+ICAjaW5jbHVkZSA8bGludXgvZG1hLWNvbnRpZ3Vv
+dXMuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2RtYS1kaXJlY3QuaD4KPiAgI2luY2x1ZGUgPGxpbnV4
+L3NpemVzLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9zdG9wX21hY2hpbmUuaD4KPiAgI2luY2x1ZGUg
+PGxpbnV4L3N3aW90bGIuaD4KPiBAQCAtODQsMTUgKzg1LDYgQEAgc3RhdGljIHZvaWQgX19pbml0
+IGZpbmRfbGltaXRzKHVuc2lnbmVkIGxvbmcgKm1pbiwgdW5zaWduZWQgbG9uZyAqbWF4X2xvdywK
+PiAgcGh5c19hZGRyX3QgYXJtX2RtYV96b25lX3NpemUgX19yZWFkX21vc3RseTsKPiAgRVhQT1JU
+X1NZTUJPTChhcm1fZG1hX3pvbmVfc2l6ZSk7Cj4gIAo+IC0vKgo+IC0gKiBUaGUgRE1BIG1hc2sg
+Y29ycmVzcG9uZGluZyB0byB0aGUgbWF4aW11bSBidXMgYWRkcmVzcyBhbGxvY2F0YWJsZQo+IC0g
+KiB1c2luZyBHRlBfRE1BLiAgVGhlIGRlZmF1bHQgaGVyZSBwbGFjZXMgbm8gcmVzdHJpY3Rpb24g
+b24gRE1BCj4gLSAqIGFsbG9jYXRpb25zLiAgVGhpcyBtdXN0IGJlIHRoZSBzbWFsbGVzdCBETUEg
+bWFzayBpbiB0aGUgc3lzdGVtLAo+IC0gKiBzbyBhIHN1Y2Nlc3NmdWwgR0ZQX0RNQSBhbGxvY2F0
+aW9uIHdpbGwgYWx3YXlzIHNhdGlzZnkgdGhpcy4KPiAtICovCj4gLXBoeXNfYWRkcl90IGFybV9k
+bWFfbGltaXQ7Cj4gLXVuc2lnbmVkIGxvbmcgYXJtX2RtYV9wZm5fbGltaXQ7Cj4gLQo+ICBzdGF0
+aWMgdm9pZCBfX2luaXQgYXJtX2FkanVzdF9kbWFfem9uZSh1bnNpZ25lZCBsb25nICpzaXplLCB1
+bnNpZ25lZCBsb25nICpob2xlLAo+ICAJdW5zaWduZWQgbG9uZyBkbWFfc2l6ZSkKPiAgewo+IEBA
+IC0xMDgsMTQgKzEwMCwxNCBAQCBzdGF0aWMgdm9pZCBfX2luaXQgYXJtX2FkanVzdF9kbWFfem9u
+ZSh1bnNpZ25lZCBsb25nICpzaXplLCB1bnNpZ25lZCBsb25nICpob2xlLAo+ICAKPiAgdm9pZCBf
+X2luaXQgc2V0dXBfZG1hX3pvbmUoY29uc3Qgc3RydWN0IG1hY2hpbmVfZGVzYyAqbWRlc2MpCj4g
+IHsKPiAtI2lmZGVmIENPTkZJR19aT05FX0RNQQo+IC0JaWYgKG1kZXNjLT5kbWFfem9uZV9zaXpl
+KSB7Cj4gKwlpZiAoIUlTX0VOQUJMRUQoQ09ORklHX1pPTkVfRE1BKSkgewo+ICsJCXpvbmVfZG1h
+X2xpbWl0ID0gKChwaHlzX2FkZHJfdCl+MCk7Cj4gKwl9IGVsc2UgaWYgKG1kZXNjLT5kbWFfem9u
+ZV9zaXplKSB7Cj4gIAkJYXJtX2RtYV96b25lX3NpemUgPSBtZGVzYy0+ZG1hX3pvbmVfc2l6ZTsK
+PiAtCQlhcm1fZG1hX2xpbWl0ID0gUEhZU19PRkZTRVQgKyBhcm1fZG1hX3pvbmVfc2l6ZSAtIDE7
+Cj4gLQl9IGVsc2UKPiAtCQlhcm1fZG1hX2xpbWl0ID0gMHhmZmZmZmZmZjsKPiAtCWFybV9kbWFf
+cGZuX2xpbWl0ID0gYXJtX2RtYV9saW1pdCA+PiBQQUdFX1NISUZUOwo+IC0jZW5kaWYKPiArCQl6
+b25lX2RtYV9saW1pdCA9IFBIWVNfT0ZGU0VUICsgYXJtX2RtYV96b25lX3NpemUgLSAxOwo+ICsJ
+fSBlbHNlIHsKPiArCQl6b25lX2RtYV9saW1pdCA9IDB4ZmZmZmZmZmY7Cj4gKwl9Cj4gIH0KPiAg
+Cj4gIHN0YXRpYyB2b2lkIF9faW5pdCB6b25lX3NpemVzX2luaXQodW5zaWduZWQgbG9uZyBtaW4s
+IHVuc2lnbmVkIGxvbmcgbWF4X2xvdywKPiBAQCAtMjc5LDcgKzI3MSw3IEBAIHZvaWQgX19pbml0
+IGFybV9tZW1ibG9ja19pbml0KGNvbnN0IHN0cnVjdCBtYWNoaW5lX2Rlc2MgKm1kZXNjKQo+ICAJ
+ZWFybHlfaW5pdF9mZHRfc2Nhbl9yZXNlcnZlZF9tZW0oKTsKPiAgCj4gIAkvKiByZXNlcnZlIG1l
+bW9yeSBmb3IgRE1BIGNvbnRpZ3VvdXMgYWxsb2NhdGlvbnMgKi8KPiAtCWRtYV9jb250aWd1b3Vz
+X3Jlc2VydmUoYXJtX2RtYV9saW1pdCk7Cj4gKwlkbWFfY29udGlndW91c19yZXNlcnZlKHpvbmVf
+ZG1hX2xpbWl0KTsKPiAgCj4gIAlhcm1fbWVtYmxvY2tfc3RlYWxfcGVybWl0dGVkID0gZmFsc2U7
+Cj4gIAltZW1ibG9ja19kdW1wX2FsbCgpOwo+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9tbS9tbS5o
+IGIvYXJjaC9hcm0vbW0vbW0uaAo+IGluZGV4IDg4YzEyMWFjMTRiMy4uN2RiZDc3NTU0MjczIDEw
+MDY0NAo+IC0tLSBhL2FyY2gvYXJtL21tL21tLmgKPiArKysgYi9hcmNoL2FybS9tbS9tbS5oCj4g
+QEAgLTgyLDE0ICs4Miw2IEBAIGV4dGVybiBfX2luaXQgdm9pZCBhZGRfc3RhdGljX3ZtX2Vhcmx5
+KHN0cnVjdCBzdGF0aWNfdm0gKnN2bSk7Cj4gIAo+ICAjZW5kaWYKPiAgCj4gLSNpZmRlZiBDT05G
+SUdfWk9ORV9ETUEKPiAtZXh0ZXJuIHBoeXNfYWRkcl90IGFybV9kbWFfbGltaXQ7Cj4gLWV4dGVy
+biB1bnNpZ25lZCBsb25nIGFybV9kbWFfcGZuX2xpbWl0Owo+IC0jZWxzZQo+IC0jZGVmaW5lIGFy
+bV9kbWFfbGltaXQgKChwaHlzX2FkZHJfdCl+MCkKPiAtI2RlZmluZSBhcm1fZG1hX3Bmbl9saW1p
+dCAofjB1bCA+PiBQQUdFX1NISUZUKQo+IC0jZW5kaWYKPiAtCj4gIGV4dGVybiBwaHlzX2FkZHJf
+dCBhcm1fbG93bWVtX2xpbWl0Owo+ICAKPiAgdm9pZCBfX2luaXQgYm9vdG1lbV9pbml0KHZvaWQp
+Owo+IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L21tL2luaXQuYyBiL2FyY2gvYXJtNjQvbW0vaW5p
+dC5jCj4gaW5kZXggYjY1ZGZmZGZiMjAxLi43YTc1MDFhY2Q3NjMgMTAwNjQ0Cj4gLS0tIGEvYXJj
+aC9hcm02NC9tbS9pbml0LmMKPiArKysgYi9hcmNoL2FybTY0L21tL2luaXQuYwo+IEBAIC00NDEs
+NyArNDQxLDcgQEAgdm9pZCBfX2luaXQgYXJtNjRfbWVtYmxvY2tfaW5pdCh2b2lkKQo+ICAJZWFy
+bHlfaW5pdF9mZHRfc2Nhbl9yZXNlcnZlZF9tZW0oKTsKPiAgCj4gIAlpZiAoSVNfRU5BQkxFRChD
+T05GSUdfWk9ORV9ETUEpKSB7Cj4gLQkJem9uZV9kbWFfYml0cyA9IEFSTTY0X1pPTkVfRE1BX0JJ
+VFM7Cj4gKwkJem9uZV9kbWFfbGltaXQgPSBETUFfQklUX01BU0soQVJNNjRfWk9ORV9ETUFfQklU
+Uyk7Cj4gIAkJYXJtNjRfZG1hX3BoeXNfbGltaXQgPSBtYXhfem9uZV9waHlzKEFSTTY0X1pPTkVf
+RE1BX0JJVFMpOwo+ICAJfQo+ICAKPiBkaWZmIC0tZ2l0IGEvYXJjaC9wb3dlcnBjL21tL21lbS5j
+IGIvYXJjaC9wb3dlcnBjL21tL21lbS5jCj4gaW5kZXggOTQ4OGI2M2RmYzg3Li4zMzdhY2UwM2Qz
+ZjAgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9wb3dlcnBjL21tL21lbS5jCj4gKysrIGIvYXJjaC9wb3dl
+cnBjL21tL21lbS5jCj4gQEAgLTIyMyw3ICsyMjMsNyBAQCBzdGF0aWMgaW50IF9faW5pdCBtYXJr
+X25vbnJhbV9ub3NhdmUodm9pZCkKPiAgICogZXZlcnl0aGluZyBlbHNlLiBHRlBfRE1BMzIgcGFn
+ZSBhbGxvY2F0aW9ucyBhdXRvbWF0aWNhbGx5IGZhbGwgYmFjayB0bwo+ICAgKiBaT05FX0RNQS4K
+PiAgICoKPiAtICogQnkgdXNpbmcgMzEtYml0IHVuY29uZGl0aW9uYWxseSwgd2UgY2FuIGV4cGxv
+aXQgem9uZV9kbWFfYml0cyB0byBpbmZvcm0gdGhlCj4gKyAqIEJ5IHVzaW5nIDMxLWJpdCB1bmNv
+bmRpdGlvbmFsbHksIHdlIGNhbiBleHBsb2l0IHpvbmVfZG1hX2xpbWl0IHRvIGluZm9ybSB0aGUK
+PiAgICogZ2VuZXJpYyBETUEgbWFwcGluZyBjb2RlLiAgMzItYml0IG9ubHkgZGV2aWNlcyAoaWYg
+bm90IGhhbmRsZWQgYnkgYW4gSU9NTVUKPiAgICogYW55d2F5KSB3aWxsIHRha2UgYSBmaXJzdCBk
+aXAgaW50byBaT05FX05PUk1BTCBhbmQgZ2V0IG90aGVyd2lzZSBzZXJ2ZWQgYnkKPiAgICogWk9O
+RV9ETUEuCj4gQEAgLTI1NywxOCArMjU3LDIwIEBAIHZvaWQgX19pbml0IHBhZ2luZ19pbml0KHZv
+aWQpCj4gIAlwcmludGsoS0VSTl9ERUJVRyAiTWVtb3J5IGhvbGUgc2l6ZTogJWxkTUJcbiIsCj4g
+IAkgICAgICAgKGxvbmcgaW50KSgodG9wX29mX3JhbSAtIHRvdGFsX3JhbSkgPj4gMjApKTsKPiAg
+Cj4gKyNpZmRlZiBDT05GSUdfWk9ORV9ETUEKPiAgCS8qCj4gIAkgKiBBbGxvdyAzMC1iaXQgRE1B
+IGZvciB2ZXJ5IGxpbWl0ZWQgQnJvYWRjb20gd2lmaSBjaGlwcyBvbiBtYW55Cj4gIAkgKiBwb3dl
+cmJvb2tzLgo+ICAJICovCj4gLQlpZiAoSVNfRU5BQkxFRChDT05GSUdfUFBDMzIpKQo+IC0JCXpv
+bmVfZG1hX2JpdHMgPSAzMDsKPiAtCWVsc2UKPiAtCQl6b25lX2RtYV9iaXRzID0gMzE7Cj4gLQo+
+IC0jaWZkZWYgQ09ORklHX1pPTkVfRE1BCj4gLQltYXhfem9uZV9wZm5zW1pPTkVfRE1BXQk9IG1p
+bihtYXhfbG93X3BmbiwKPiAtCQkJCSAgICAgIDFVTCA8PCAoem9uZV9kbWFfYml0cyAtIFBBR0Vf
+U0hJRlQpKTsKPiArCWlmIChJU19FTkFCTEVEKENPTkZJR19QUEMzMikpIHsKPiArCQl6b25lX2Rt
+YV9saW1pdCA9IERNQV9CSVRfTUFTSygzMCk7Cj4gKwkJbWF4X3pvbmVfcGZuc1taT05FX0RNQV0J
+PSBtaW4obWF4X2xvd19wZm4sCj4gKwkJCQkJICAgICAgMVVMIDw8ICgzMCAtIFBBR0VfU0hJRlQp
+KTsKPiArCX0gZWxzZSB7Cj4gKwkJem9uZV9kbWFfbGltaXQgPSBETUFfQklUX01BU0soMzEpOwo+
+ICsJCW1heF96b25lX3BmbnNbWk9ORV9ETUFdCT0gbWluKG1heF9sb3dfcGZuLAo+ICsJCQkJCSAg
+ICAgIDFVTCA8PCAoMzEgLSBQQUdFX1NISUZUKSk7Cj4gKwl9Cj4gICNlbmRpZgo+ICAJbWF4X3pv
+bmVfcGZuc1taT05FX05PUk1BTF0gPSBtYXhfbG93X3BmbjsKPiAgI2lmZGVmIENPTkZJR19ISUdI
+TUVNCj4gZGlmZiAtLWdpdCBhL2FyY2gvczM5MC9tbS9pbml0LmMgYi9hcmNoL3MzOTAvbW0vaW5p
+dC5jCj4gaW5kZXggZjBjZTIyMjIwNTY1Li5jNDAzZjYxY2I1NmIgMTAwNjQ0Cj4gLS0tIGEvYXJj
+aC9zMzkwL21tL2luaXQuYwo+ICsrKyBiL2FyY2gvczM5MC9tbS9pbml0LmMKPiBAQCAtMTE4LDcg
+KzExOCw3IEBAIHZvaWQgX19pbml0IHBhZ2luZ19pbml0KHZvaWQpCj4gIAo+ICAJc3BhcnNlX21l
+bW9yeV9wcmVzZW50X3dpdGhfYWN0aXZlX3JlZ2lvbnMoTUFYX05VTU5PREVTKTsKPiAgCXNwYXJz
+ZV9pbml0KCk7Cj4gLQl6b25lX2RtYV9iaXRzID0gMzE7Cj4gKwl6b25lX2RtYV9saW1pdCA9IERN
+QV9CSVRfTUFTSygzMSk7Cj4gIAltZW1zZXQobWF4X3pvbmVfcGZucywgMCwgc2l6ZW9mKG1heF96
+b25lX3BmbnMpKTsKPiAgCW1heF96b25lX3BmbnNbWk9ORV9ETUFdID0gUEZOX0RPV04oTUFYX0RN
+QV9BRERSRVNTKTsKPiAgCW1heF96b25lX3BmbnNbWk9ORV9OT1JNQUxdID0gbWF4X2xvd19wZm47
+Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvZG1hLWRpcmVjdC5oIGIvaW5jbHVkZS9saW51
+eC9kbWEtZGlyZWN0LmgKPiBpbmRleCAyNGI4Njg0YWEyMWQuLjIwZDU2ZDU5NzUwNiAxMDA2NDQK
+PiAtLS0gYS9pbmNsdWRlL2xpbnV4L2RtYS1kaXJlY3QuaAo+ICsrKyBiL2luY2x1ZGUvbGludXgv
+ZG1hLWRpcmVjdC5oCj4gQEAgLTYsNyArNiw3IEBACj4gICNpbmNsdWRlIDxsaW51eC9tZW1ibG9j
+ay5oPiAvKiBmb3IgbWluX2xvd19wZm4gKi8KPiAgI2luY2x1ZGUgPGxpbnV4L21lbV9lbmNyeXB0
+Lmg+Cj4gIAo+IC1leHRlcm4gdW5zaWduZWQgaW50IHpvbmVfZG1hX2JpdHM7Cj4gK2V4dGVybiBw
+aHlzX2FkZHJfdCB6b25lX2RtYV9saW1pdDsKPiAgCj4gICNpZmRlZiBDT05GSUdfQVJDSF9IQVNf
+UEhZU19UT19ETUEKPiAgI2luY2x1ZGUgPGFzbS9kbWEtZGlyZWN0Lmg+Cj4gZGlmZiAtLWdpdCBh
+L2tlcm5lbC9kbWEvZGlyZWN0LmMgYi9rZXJuZWwvZG1hL2RpcmVjdC5jCj4gaW5kZXggNmFmN2Fl
+ODNjNGFkLi41ZWExYmVkMmJhNmYgMTAwNjQ0Cj4gLS0tIGEva2VybmVsL2RtYS9kaXJlY3QuYwo+
+ICsrKyBiL2tlcm5lbC9kbWEvZGlyZWN0LmMKPiBAQCAtMjEsNyArMjEsNyBAQAo+ICAgKiBpdCBm
+b3IgZW50aXJlbHkgZGlmZmVyZW50IHJlZ2lvbnMuIEluIHRoYXQgY2FzZSB0aGUgYXJjaCBjb2Rl
+IG5lZWRzIHRvCj4gICAqIG92ZXJyaWRlIHRoZSB2YXJpYWJsZSBiZWxvdyBmb3IgZG1hLWRpcmVj
+dCB0byB3b3JrIHByb3Blcmx5Lgo+ICAgKi8KPiAtdW5zaWduZWQgaW50IHpvbmVfZG1hX2JpdHMg
+X19yb19hZnRlcl9pbml0ID0gMjQ7Cj4gK3BoeXNfYWRkcl90IHpvbmVfZG1hX2xpbWl0IF9fcm9f
+YWZ0ZXJfaW5pdCA9IERNQV9CSVRfTUFTSygyNCk7Cj4gIAo+ICBzdGF0aWMgdm9pZCByZXBvcnRf
+YWRkcihzdHJ1Y3QgZGV2aWNlICpkZXYsIGRtYV9hZGRyX3QgZG1hX2FkZHIsIHNpemVfdCBzaXpl
+KQo+ICB7Cj4gQEAgLTc0LDcgKzc0LDcgQEAgc3RhdGljIGdmcF90IF9fZG1hX2RpcmVjdF9vcHRp
+bWFsX2dmcF9tYXNrKHN0cnVjdCBkZXZpY2UgKmRldiwgdTY0IGRtYV9tYXNrLAo+ICAJICogTm90
+ZSB0aGF0IEdGUF9ETUEzMiBhbmQgR0ZQX0RNQSBhcmUgbm8gb3BzIHdpdGhvdXQgdGhlIGNvcnJl
+c3BvbmRpbmcKPiAgCSAqIHpvbmVzLgo+ICAJICovCj4gLQlpZiAoKnBoeXNfbGltaXQgPD0gRE1B
+X0JJVF9NQVNLKHpvbmVfZG1hX2JpdHMpKQo+ICsJaWYgKCpwaHlzX2xpbWl0IDw9IHpvbmVfZG1h
+X2xpbWl0KQo+ICAJCXJldHVybiBHRlBfRE1BOwo+ICAJaWYgKCpwaHlzX2xpbWl0IDw9IERNQV9C
+SVRfTUFTSygzMikpCj4gIAkJcmV0dXJuIEdGUF9ETUEzMjsKPiBAQCAtNDgzLDcgKzQ4Myw3IEBA
+IGludCBkbWFfZGlyZWN0X3N1cHBvcnRlZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHU2NCBtYXNrKQo+
+ICAJdTY0IG1pbl9tYXNrOwo+ICAKPiAgCWlmIChJU19FTkFCTEVEKENPTkZJR19aT05FX0RNQSkp
+Cj4gLQkJbWluX21hc2sgPSBETUFfQklUX01BU0soem9uZV9kbWFfYml0cyk7Cj4gKwkJbWluX21h
+c2sgPSB6b25lX2RtYV9saW1pdDsKPiAgCWVsc2UKPiAgCQltaW5fbWFzayA9IERNQV9CSVRfTUFT
+SygzMik7Cj4gIAo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCj4gbGludXgtYXJtLWtlcm5lbCBtYWlsaW5nIGxpc3QKPiBsaW51eC1hcm0ta2VybmVs
+QGxpc3RzLmluZnJhZGVhZC5vcmcKPiBodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2xpbnV4LWFybS1rZXJuZWwKPiAKClRleGFzIEluc3RydW1lbnRzIEZpbmxhbmQg
+T3ksIFBvcmtrYWxhbmthdHUgMjIsIDAwMTgwIEhlbHNpbmtpLgpZLXR1bm51cy9CdXNpbmVzcyBJ
+RDogMDYxNTUyMS00LiBLb3RpcGFpa2thL0RvbWljaWxlOiBIZWxzaW5raQpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9t
+bXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRp
+b24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
