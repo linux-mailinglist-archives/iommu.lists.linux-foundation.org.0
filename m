@@ -1,66 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37BEC125E24
-	for <lists.iommu@lfdr.de>; Thu, 19 Dec 2019 10:51:26 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C1A1C230BD;
-	Thu, 19 Dec 2019 09:51:24 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uG5aQefIxfwv; Thu, 19 Dec 2019 09:51:23 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 91F062309D;
-	Thu, 19 Dec 2019 09:51:23 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 88548C077D;
-	Thu, 19 Dec 2019 09:51:23 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D800AC077D
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 09:51:21 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45C6A126185
+	for <lists.iommu@lfdr.de>; Thu, 19 Dec 2019 13:04:05 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id CEEBD86E24
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 09:51:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C9C2886F1F;
+	Thu, 19 Dec 2019 12:04:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7V0hgiQcHWBa; Thu, 19 Dec 2019 12:04:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3192D86F17;
+	Thu, 19 Dec 2019 12:04:03 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 14FABC077D;
+	Thu, 19 Dec 2019 12:04:03 +0000 (UTC)
+X-Original-To: iommu@lists.linuxfoundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B2BE3C077D
+ for <iommu@lists.linuxfoundation.org>; Thu, 19 Dec 2019 12:04:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id AC54A886B7
+ for <iommu@lists.linuxfoundation.org>; Thu, 19 Dec 2019 12:04:01 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5GnPStJyouwB for <iommu@lists.linux-foundation.org>;
- Thu, 19 Dec 2019 09:51:20 +0000 (UTC)
+ with ESMTP id sXuGh0SFlDnb for <iommu@lists.linuxfoundation.org>;
+ Thu, 19 Dec 2019 12:04:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 880F286B77
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 09:51:20 +0000 (UTC)
-Received: from LHREML714-CAH.china.huawei.com (unknown [172.18.7.108])
- by Forcepoint Email with ESMTP id 1ACD64D20BC1B19E079B;
- Thu, 19 Dec 2019 09:51:17 +0000 (GMT)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- LHREML714-CAH.china.huawei.com (10.201.108.37) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 19 Dec 2019 09:51:16 +0000
-Received: from [127.0.0.1] (10.202.226.46) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Thu, 19 Dec
- 2019 09:51:16 +0000
-Subject: Re: [Patch v3 3/3] iommu: avoid taking iova_rbtree_lock twice
-To: Cong Wang <xiyou.wangcong@gmail.com>, <iommu@lists.linux-foundation.org>
-References: <20191218043951.10534-1-xiyou.wangcong@gmail.com>
- <20191218043951.10534-4-xiyou.wangcong@gmail.com>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <c0e33d09-8d0e-80b5-1b95-4af82004d9dd@huawei.com>
-Date: Thu, 19 Dec 2019 09:51:15 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 176B5886B6
+ for <iommu@lists.linuxfoundation.org>; Thu, 19 Dec 2019 12:04:01 +0000 (UTC)
+Received: from localhost.localdomain (236.31.169.217.in-addr.arpa
+ [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 763C1222C2;
+ Thu, 19 Dec 2019 12:03:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1576757040;
+ bh=RJ3mvIaVqDC3kz+hjtWcHLqxdB4ZpdxAR3Q1j/eZavs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=UPODlAURU4Z6I+ZrIbrO0SwBJGmkgWWMDyFoiiFjTqfXFRdrfca7ndq+YCw86qEvK
+ dUWwMDy+/62dPQbFI2VNuPVd6OYISizRVts5FY3fimLiL+5N+7iJwev74E6KNf52Dh
+ 2oXUJOsfYsvuV0fRDMezfl0w/bexYbzxGEVXyWQU=
+From: Will Deacon <will@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	iommu@lists.linuxfoundation.org
+Subject: [PATCH v4 00/16] iommu: Permit modular builds of ARM SMMU[v3] drivers
+Date: Thu, 19 Dec 2019 12:03:36 +0000
+Message-Id: <20191219120352.382-1-will@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191218043951.10534-4-xiyou.wangcong@gmail.com>
-Content-Language: en-US
-X-Originating-IP: [10.202.226.46]
-X-ClientProxiedBy: lhreml712-chm.china.huawei.com (10.201.108.63) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-Cc: robin.murphy@arm.com, linux-kernel@vger.kernel.org
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Saravana Kannan <saravanak@google.com>, kernel-team@android.com,
+ Robin Murphy <robin.murphy@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Will Deacon <will@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,52 +74,83 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 18/12/2019 04:39, Cong Wang wrote:
-> Both find_iova() and __free_iova() take iova_rbtree_lock,
-> there is no reason to take and release it twice inside
-> free_iova().
-> 
-> Fold them into one critical section by calling the unlock
-> versions instead.
-> 
-> Cc: Joerg Roedel <joro@8bytes.org>
-> Cc: John Garry <john.garry@huawei.com>
-> Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
+Hi all,
 
-FWIW:
-Reviewed-by: John Garry <john.garry@huawei.com>
+This is version four of the patches I previously posted here:
 
-> ---
->   drivers/iommu/iova.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-> index 184d4c0e20b5..f46f8f794678 100644
-> --- a/drivers/iommu/iova.c
-> +++ b/drivers/iommu/iova.c
-> @@ -390,10 +390,14 @@ EXPORT_SYMBOL_GPL(__free_iova);
->   void
->   free_iova(struct iova_domain *iovad, unsigned long pfn)
->   {
-> -	struct iova *iova = find_iova(iovad, pfn);
-> +	unsigned long flags;
-> +	struct iova *iova;
->   
-> +	spin_lock_irqsave(&iovad->iova_rbtree_lock, flags);
-> +	iova = private_find_iova(iovad, pfn);
->   	if (iova)
-> -		__free_iova(iovad, iova);
-> +		private_free_iova(iovad, iova);
-> +	spin_unlock_irqrestore(&iovad->iova_rbtree_lock, flags);
->   
->   }
->   EXPORT_SYMBOL_GPL(free_iova);
-> 
+  v1: https://lore.kernel.org/lkml/20191030145112.19738-1-will@kernel.org/
+  v2: https://lore.kernel.org/lkml/20191108151608.20932-1-will@kernel.org
+  v3: https://lore.kernel.org/lkml/20191121114918.2293-1-will@kernel.org
+
+Changes since v3 include:
+
+  * Based on v5.5-rc1
+  * ACPI/IORT support (thanks to Ard)
+  * Export pci_{enable,disable}_ats() (thanks to Greg)
+  * Added review tags
+
+I tested this on AMD Seattle by loading arm-smmu-mod.ko from the initrd.
+
+Cheers,
+
+Will
+
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc: Jordan Crouse <jcrouse@codeaurora.org>
+Cc: John Garry <john.garry@huawei.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Saravana Kannan <saravanak@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+
+--->8
+
+Ard Biesheuvel (1):
+  iommu/arm-smmu: Support SMMU module probing from the IORT
+
+Greg Kroah-Hartman (1):
+  PCI/ATS: Restore EXPORT_SYMBOL_GPL() for pci_{enable,disable}_ats()
+
+Will Deacon (14):
+  drivers/iommu: Export core IOMMU API symbols to permit modular drivers
+  iommu/of: Request ACS from the PCI core when configuring IOMMU linkage
+  PCI: Export pci_ats_disabled() as a GPL symbol to modules
+  drivers/iommu: Take a ref to the IOMMU driver prior to ->add_device()
+  iommu/of: Take a ref to the IOMMU driver during ->of_xlate()
+  drivers/iommu: Allow IOMMU bus ops to be unregistered
+  Revert "iommu/arm-smmu: Make arm-smmu-v3 explicitly non-modular"
+  Revert "iommu/arm-smmu: Make arm-smmu explicitly non-modular"
+  iommu/arm-smmu: Prevent forced unbinding of Arm SMMU drivers
+  iommu/arm-smmu-v3: Unregister IOMMU and bus ops on device removal
+  iommu/arm-smmu-v3: Allow building as a module
+  iommu/arm-smmu: Unregister IOMMU and bus ops on device removal
+  iommu/arm-smmu: Allow building as a module
+  iommu/arm-smmu: Update my email address in MODULE_AUTHOR()
+
+ drivers/acpi/arm64/iort.c   |   4 +-
+ drivers/iommu/Kconfig       |  16 ++++-
+ drivers/iommu/Makefile      |   3 +-
+ drivers/iommu/arm-smmu-v3.c |  94 +++++++++++++++++---------
+ drivers/iommu/arm-smmu.c    | 128 +++++++++++++++++++++++++-----------
+ drivers/iommu/iommu-sysfs.c |   5 ++
+ drivers/iommu/iommu.c       |  32 ++++++++-
+ drivers/iommu/of_iommu.c    |  19 ++++--
+ drivers/pci/ats.c           |   2 +
+ drivers/pci/pci.c           |   1 +
+ include/linux/iommu.h       |   4 +-
+ 11 files changed, 223 insertions(+), 85 deletions(-)
+
+-- 
+2.24.1.735.g03f4e72817-goog
 
 _______________________________________________
 iommu mailing list
