@@ -1,65 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229861259A8
-	for <lists.iommu@lfdr.de>; Thu, 19 Dec 2019 03:47:53 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F59B1259DA
+	for <lists.iommu@lfdr.de>; Thu, 19 Dec 2019 04:17:45 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id CC8DC84B46;
-	Thu, 19 Dec 2019 02:47:51 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BA08385ADF;
+	Thu, 19 Dec 2019 03:17:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ar710VDM__Fz; Thu, 19 Dec 2019 02:47:51 +0000 (UTC)
+	with ESMTP id XFbtOhoAVTr4; Thu, 19 Dec 2019 03:17:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2982A843FA;
-	Thu, 19 Dec 2019 02:47:51 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6089684973;
+	Thu, 19 Dec 2019 03:17:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 11C10C077D;
-	Thu, 19 Dec 2019 02:47:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4EB67C077D;
+	Thu, 19 Dec 2019 03:17:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 50211C077D
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 02:47:49 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A551CC077D
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 03:17:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 38DE486E6E
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 02:47:49 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id A1E9284B0F
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 03:17:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vnh5drLbv4py for <iommu@lists.linux-foundation.org>;
- Thu, 19 Dec 2019 02:47:48 +0000 (UTC)
+ with ESMTP id Fo84rnFeHMlA for <iommu@lists.linux-foundation.org>;
+ Thu, 19 Dec 2019 03:17:36 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5FA3586E5C
- for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 02:47:48 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id AB4B280CF3
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Dec 2019 03:17:35 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2019 18:47:47 -0800
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2019 19:17:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,330,1571727600"; d="scan'208";a="228099504"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
- ([10.239.159.136])
- by orsmga002.jf.intel.com with ESMTP; 18 Dec 2019 18:47:45 -0800
-Subject: Re: [PATCH v8 04/10] iommu/vt-d: Support flushing more translation
- cache types
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>,
- iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>
-References: <1576524252-79116-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1576524252-79116-5-git-send-email-jacob.jun.pan@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.69,330,1571727600"; d="scan'208";a="222160398"
+Received: from allen-box.sh.intel.com ([10.239.159.136])
+ by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2019 19:17:30 -0800
 From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <24cc06da-14ec-908d-361d-a8b321b10852@linux.intel.com>
-Date: Thu, 19 Dec 2019 10:46:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
-MIME-Version: 1.0
-In-Reply-To: <1576524252-79116-5-git-send-email-jacob.jun.pan@linux.intel.com>
-Content-Language: en-US
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>
+To: Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>,
+ Alex Williamson <alex.williamson@redhat.com>
+Subject: [PATCH v4 0/7] Use 1st-level for IOVA translation
+Date: Thu, 19 Dec 2019 11:16:27 +0800
+Message-Id: <20191219031634.15168-1-baolu.lu@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+Cc: kevin.tian@intel.com, ashok.raj@intel.com, kvm@vger.kernel.org,
+ sanjay.k.kumar@intel.com, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, yi.y.sun@intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,56 +65,153 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
+Intel VT-d in scalable mode supports two types of page tables
+for DMA translation: the first level page table and the second
+level page table. The first level page table uses the same
+format as the CPU page table, while the second level page table
+keeps compatible with previous formats. The software is able
+to choose any one of them for DMA remapping according to the use
+case.
 
-On 12/17/19 3:24 AM, Jacob Pan wrote:
-> When Shared Virtual Memory is exposed to a guest via vIOMMU, scalable
-> IOTLB invalidation may be passed down from outside IOMMU subsystems.
-> This patch adds invalidation functions that can be used for additional
-> translation cache types.
-> 
-> Signed-off-by: Jacob Pan<jacob.jun.pan@linux.intel.com>
-> ---
->   drivers/iommu/dmar.c        | 46 +++++++++++++++++++++++++++++++++++++++++++++
->   drivers/iommu/intel-pasid.c |  3 ++-
->   include/linux/intel-iommu.h | 21 +++++++++++++++++----
->   3 files changed, 65 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/iommu/dmar.c b/drivers/iommu/dmar.c
-> index 3acfa6a25fa2..f2f5d75da94a 100644
-> --- a/drivers/iommu/dmar.c
-> +++ b/drivers/iommu/dmar.c
-> @@ -1348,6 +1348,20 @@ void qi_flush_iotlb(struct intel_iommu *iommu, u16 did, u64 addr,
->   	qi_submit_sync(&desc, iommu);
->   }
->   
-> +/* PASID-based IOTLB Invalidate */
-> +void qi_flush_iotlb_pasid(struct intel_iommu *iommu, u16 did, u64 addr, u32 pasid,
-> +		unsigned int size_order, u64 granu, int ih)
-> +{
-> +	struct qi_desc desc = {.qw2 = 0, .qw3 = 0};
-> +
-> +	desc.qw0 = QI_EIOTLB_PASID(pasid) | QI_EIOTLB_DID(did) |
-> +		QI_EIOTLB_GRAN(granu) | QI_EIOTLB_TYPE;
-> +	desc.qw1 = QI_EIOTLB_ADDR(addr) | QI_EIOTLB_IH(ih) |
-> +		QI_EIOTLB_AM(size_order);
-> +
-> +	qi_submit_sync(&desc, iommu);
-> +}
+This patchset aims to move IOVA (I/O Virtual Address) translation
+to 1st-level page table in scalable mode. This will simplify vIOMMU
+(IOMMU simulated by VM hypervisor) design by using the two-stage
+translation, a.k.a. nested mode translation.
 
-There's another version of pasid-based iotlb invalidation.
+As Intel VT-d architecture offers caching mode, guest IOVA (GIOVA)
+support is currently implemented in a shadow page manner. The device
+simulation software, like QEMU, has to figure out GIOVA->GPA mappings
+and write them to a shadowed page table, which will be used by the
+physical IOMMU. Each time when mappings are created or destroyed in
+vIOMMU, the simulation software has to intervene. Hence, the changes
+on GIOVA->GPA could be shadowed to host.
 
-https://lkml.org/lkml/2019/12/10/2128
 
-Let's consider merging them.
+     .-----------.
+     |  vIOMMU   |
+     |-----------|                 .--------------------.
+     |           |IOTLB flush trap |        QEMU        |
+     .-----------. (map/unmap)     |--------------------|
+     |GIOVA->GPA |---------------->|    .------------.  |
+     '-----------'                 |    | GIOVA->HPA |  |
+     |           |                 |    '------------'  |
+     '-----------'                 |                    |
+                                   |                    |
+                                   '--------------------'
+                                                |
+            <------------------------------------
+            |
+            v VFIO/IOMMU API
+      .-----------.
+      |  pIOMMU   |
+      |-----------|
+      |           |
+      .-----------.
+      |GIOVA->HPA |
+      '-----------'
+      |           |
+      '-----------'
 
-Best regards,
-baolu
+In VT-d 3.0, scalable mode is introduced, which offers two-level
+translation page tables and nested translation mode. Regards to
+GIOVA support, it can be simplified by 1) moving the GIOVA support
+over 1st-level page table to store GIOVA->GPA mapping in vIOMMU,
+2) binding vIOMMU 1st level page table to the pIOMMU, 3) using pIOMMU
+second level for GPA->HPA translation, and 4) enable nested (a.k.a.
+dual-stage) translation in host. Compared with current shadow GIOVA
+support, the new approach makes the vIOMMU design simpler and more
+efficient as we only need to flush the pIOMMU IOTLB and possible
+device-IOTLB when an IOVA mapping in vIOMMU is torn down.
+
+     .-----------.
+     |  vIOMMU   |
+     |-----------|                 .-----------.
+     |           |IOTLB flush trap |   QEMU    |
+     .-----------.    (unmap)      |-----------|
+     |GIOVA->GPA |---------------->|           |
+     '-----------'                 '-----------'
+     |           |                       |
+     '-----------'                       |
+           <------------------------------
+           |      VFIO/IOMMU          
+           |  cache invalidation and  
+           | guest gpd bind interfaces
+           v
+     .-----------.
+     |  pIOMMU   |
+     |-----------|
+     .-----------.
+     |GIOVA->GPA |<---First level
+     '-----------'
+     | GPA->HPA  |<---Scond level
+     '-----------'
+     '-----------'
+
+This patch applies the first level page table for IOVA translation
+unless the DOMAIN_ATTR_NESTING domain attribution has been set.
+Setting of this attribution means the second level will be used to
+map gPA (guest physical address) to hPA (host physical address), and
+the mappings between gVA (guest virtual address) and gPA will be
+maintained by the guest with the page table address binding to host's
+first level.
+
+Based-on-idea-by: Ashok Raj <ashok.raj@intel.com>
+Based-on-idea-by: Kevin Tian <kevin.tian@intel.com>
+Based-on-idea-by: Liu Yi L <yi.l.liu@intel.com>
+Based-on-idea-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Based-on-idea-by: Sanjay Kumar <sanjay.k.kumar@intel.com>
+Based-on-idea-by: Lu Baolu <baolu.lu@linux.intel.com>
+
+Change log:
+
+v3->v4:
+ - The previous version was posted here
+   https://lkml.org/lkml/2019/12/10/2126
+ - Set Execute Disable (bit 63) in first level table entries.
+ - Enhance pasid-based iotlb invalidation for both default domain
+   and auxiliary domain.
+ - Add debugfs file to expose page table internals.
+
+v2->v3:
+ - The previous version was posted here
+   https://lkml.org/lkml/2019/11/27/1831
+ - Accept Jacob's suggestion on merging two page tables.
+
+ v1->v2
+ - The first series was posted here
+   https://lkml.org/lkml/2019/9/23/297
+ - Use per domain page table ops to handle different page tables.
+ - Use first level for DMA remapping by default on both bare metal
+   and vm guest.
+ - Code refine according to code review comments for v1.
+
+Lu Baolu (7):
+  iommu/vt-d: Identify domains using first level page table
+  iommu/vt-d: Add set domain DOMAIN_ATTR_NESTING attr
+  iommu/vt-d: Add PASID_FLAG_FL5LP for first-level pasid setup
+  iommu/vt-d: Setup pasid entries for iova over first level
+  iommu/vt-d: Flush PASID-based iotlb for iova over first level
+  iommu/vt-d: Use iova over first level
+  iommu/vt-d: debugfs: Add support to show page table internals
+
+ drivers/iommu/dmar.c                |  41 ++++++
+ drivers/iommu/intel-iommu-debugfs.c |  75 +++++++++++
+ drivers/iommu/intel-iommu.c         | 201 +++++++++++++++++++++++++---
+ drivers/iommu/intel-pasid.c         |   7 +-
+ drivers/iommu/intel-pasid.h         |   6 +
+ drivers/iommu/intel-svm.c           |   8 +-
+ include/linux/intel-iommu.h         |  20 ++-
+ 7 files changed, 326 insertions(+), 32 deletions(-)
+
+-- 
+2.17.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
