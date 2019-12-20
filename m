@@ -2,49 +2,87 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE62D1279F8
-	for <lists.iommu@lfdr.de>; Fri, 20 Dec 2019 12:30:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5E0127A31
+	for <lists.iommu@lfdr.de>; Fri, 20 Dec 2019 12:44:28 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C5D8C8818E;
-	Fri, 20 Dec 2019 11:30:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4151087F72;
+	Fri, 20 Dec 2019 11:44:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hvxvLBZXtRqP; Fri, 20 Dec 2019 11:30:33 +0000 (UTC)
+	with ESMTP id xlUY6nk5iwwp; Fri, 20 Dec 2019 11:44:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BC16B881B7;
-	Fri, 20 Dec 2019 11:30:33 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id E031587FB6;
+	Fri, 20 Dec 2019 11:44:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9F27DC1796;
-	Fri, 20 Dec 2019 11:30:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C7780C077D;
+	Fri, 20 Dec 2019 11:44:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 706FBC077D
- for <iommu@lists.linux-foundation.org>; Fri, 20 Dec 2019 11:30:32 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EFA89C077D
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Dec 2019 11:44:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 54BD08812F
- for <iommu@lists.linux-foundation.org>; Fri, 20 Dec 2019 11:30:32 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id EB5E48885E
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Dec 2019 11:44:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id z6+hH+OiQQ3E for <iommu@lists.linux-foundation.org>;
- Fri, 20 Dec 2019 11:30:31 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 56BA288106
- for <iommu@lists.linux-foundation.org>; Fri, 20 Dec 2019 11:30:31 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 740D02C7; Fri, 20 Dec 2019 12:30:28 +0100 (CET)
-Date: Fri, 20 Dec 2019 12:30:26 +0100
-From: Joerg Roedel <joro@8bytes.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [git pull] IOMMU Fixes for Linux v5.5-rc2
-Message-ID: <20191220113020.GA18747@8bytes.org>
+ with ESMTP id 5sAUo+0unim6 for <iommu@lists.linux-foundation.org>;
+ Fri, 20 Dec 2019 11:44:19 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 1F6818885B
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Dec 2019 11:44:19 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 20 Dec 2019 03:44:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,335,1571727600"; d="scan'208";a="416513880"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+ by fmsmga005.fm.intel.com with ESMTP; 20 Dec 2019 03:44:18 -0800
+Received: from fmsmsx114.amr.corp.intel.com (10.18.116.8) by
+ FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 20 Dec 2019 03:44:18 -0800
+Received: from shsmsx102.ccr.corp.intel.com (10.239.4.154) by
+ FMSMSX114.amr.corp.intel.com (10.18.116.8) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 20 Dec 2019 03:44:17 -0800
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.90]) by
+ shsmsx102.ccr.corp.intel.com ([169.254.2.109]) with mapi id 14.03.0439.000;
+ Fri, 20 Dec 2019 19:44:15 +0800
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+ "David Woodhouse" <dwmw2@infradead.org>, Alex Williamson
+ <alex.williamson@redhat.com>
+Subject: RE: [PATCH v4 4/7] iommu/vt-d: Setup pasid entries for iova over
+ first level
+Thread-Topic: [PATCH v4 4/7] iommu/vt-d: Setup pasid entries for iova over
+ first level
+Thread-Index: AQHVthrhmA1+nPY36UOVgBomY8KF4KfC58BA
+Date: Fri, 20 Dec 2019 11:44:15 +0000
+Message-ID: <A2975661238FB949B60364EF0F2C25743A13A334@SHSMSX104.ccr.corp.intel.com>
+References: <20191219031634.15168-1-baolu.lu@linux.intel.com>
+ <20191219031634.15168-5-baolu.lu@linux.intel.com>
+In-Reply-To: <20191219031634.15168-5-baolu.lu@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjliMzllZmEtYzk0MS00YzBhLWEwNGQtMzE3ODk5NTgzYWYzIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiRktFb1l3NDlWOUZ1RFh2SERTK2FiS2MrNXdSMU9CUDZEc0o2NE5jRzl1YmVySUhESGRKcnFORDZYVUpJVWxRQyJ9
+x-originating-ip: [10.239.127.40]
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Kumar,
+ Sanjay K" <sanjay.k.kumar@intel.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Sun, 
+ Yi Y" <yi.y.sun@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -62,82 +100,67 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Linus,
+> From: Lu Baolu [mailto:baolu.lu@linux.intel.com]
+> Sent: Thursday, December 19, 2019 11:17 AM
+> To: Joerg Roedel <joro@8bytes.org>; David Woodhouse <dwmw2@infradead.org>;
+> Alex Williamson <alex.williamson@redhat.com>
+> Subject: [PATCH v4 4/7] iommu/vt-d: Setup pasid entries for iova over first level
+> 
+> Intel VT-d in scalable mode supports two types of page tables for IOVA translation:
+> first level and second level. The IOMMU driver can choose one from both for IOVA
+> translation according to the use case. This sets up the pasid entry if a domain is
+> selected to use the first-level page table for iova translation.
+> 
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> ---
+>  drivers/iommu/intel-iommu.c | 48 +++++++++++++++++++++++++++++++++++--
+>  include/linux/intel-iommu.h | 16 ++++++++-----
+>  2 files changed, 56 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c index
+> 2b5a47584baf..f0813997dea2 100644
+> --- a/drivers/iommu/intel-iommu.c
+> +++ b/drivers/iommu/intel-iommu.c
+> @@ -571,6 +571,11 @@ static inline int domain_type_is_si(struct dmar_domain
+> *domain)
+>  	return domain->flags & DOMAIN_FLAG_STATIC_IDENTITY;  }
+> 
+> +static inline bool domain_use_first_level(struct dmar_domain *domain) {
+> +	return domain->flags & DOMAIN_FLAG_USE_FIRST_LEVEL; }
+> +
+>  static inline int domain_pfn_supported(struct dmar_domain *domain,
+>  				       unsigned long pfn)
+>  {
+> @@ -2288,6 +2293,8 @@ static int __domain_mapping(struct dmar_domain
+> *domain, unsigned long iov_pfn,
+>  		return -EINVAL;
+> 
+>  	prot &= DMA_PTE_READ | DMA_PTE_WRITE | DMA_PTE_SNP;
+> +	if (domain_use_first_level(domain))
+> +		prot |= DMA_FL_PTE_PRESENT | DMA_FL_PTE_XD;
+> 
+>  	if (!sg) {
+>  		sg_res = nr_pages;
+> @@ -2515,6 +2522,36 @@ dmar_search_domain_by_dev_info(int segment, int bus,
+> int devfn)
+>  	return NULL;
+>  }
+> 
+> +static int domain_setup_first_level(struct intel_iommu *iommu,
+> +				    struct dmar_domain *domain,
+> +				    struct device *dev,
+> +				    int pasid)
+> +{
+> +	int flags = PASID_FLAG_SUPERVISOR_MODE;
 
-thanks for taking care of the KASAN related IOMMU fix while I was dived
-into other development work and sorry for the inconvenience. Here are
-the other IOMMU fixes that piled up during the last weeks:
+Hi Baolu,
 
-The following changes since commit d1eef1c619749b2a57e514a3fa67d9a516ffa919:
+Could you explain a bit why PASID_FLAG_SUPERVISOR_MODE is
+required?
 
-  Linux 5.5-rc2 (2019-12-15 15:16:08 -0800)
+Regards,
+Yi Liu
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git tags/iommu-fixes-v5.5-rc2
-
-for you to fetch changes up to c18647900ec864d401ba09b3bbd5b34f331f8d26:
-
-  iommu/dma: Relax locking in iommu_dma_prepare_msi() (2019-12-18 17:41:36 +0100)
-
-----------------------------------------------------------------
-IOMMU Fixes for Linux v5.5-rc2
-
-Including:
-
-	- Fix kmemleak warning in IOVA code
-
-	- Fix compile warnings on ARM32/64 in dma-iommu code due to
-	  dma_mask type mismatches
-
-	- Make ISA reserved regions relaxable, so that VFIO can assign
-	  devices which have such regions defined
-
-	- Fix mapping errors resulting in IO page-faults in the VT-d
-	  driver
-
-	- Make sure direct mappings for a domain are created after the
-	  default domain is updated
-
-	- Map ISA reserved regions in the VT-d driver with correct
-	  permissions
-
-	- Remove unneeded check for PSI capability in the IOTLB flush
-	  code of the VT-d driver
-
-	- Lockdep fix iommu_dma_prepare_msi()
-
-----------------------------------------------------------------
-Alex Williamson (1):
-      iommu/vt-d: Set ISA bridge reserved region as relaxable
-
-Jerry Snitselaar (2):
-      iommu: set group default domain before creating direct mappings
-      iommu/vt-d: Allocate reserved region for ISA with correct permission
-
-Lu Baolu (2):
-      iommu/vt-d: Fix dmar pte read access not set error
-      iommu/vt-d: Remove incorrect PSI capability check
-
-Robin Murphy (2):
-      iommu/dma: Rationalise types for DMA masks
-      iommu/dma: Relax locking in iommu_dma_prepare_msi()
-
-Xiaotao Yin (1):
-      iommu/iova: Init the struct iova to fix the possible memleak
-
- drivers/iommu/dma-iommu.c   | 23 +++++++++++------------
- drivers/iommu/intel-iommu.c | 12 ++----------
- drivers/iommu/intel-svm.c   |  6 +-----
- drivers/iommu/iommu.c       |  4 ++--
- drivers/iommu/iova.c        |  2 +-
- 5 files changed, 17 insertions(+), 30 deletions(-)
-
-Please pull.
-
-Thanks,
-
-	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
