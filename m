@@ -2,81 +2,60 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C80127697
-	for <lists.iommu@lfdr.de>; Fri, 20 Dec 2019 08:38:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 474F8127756
+	for <lists.iommu@lfdr.de>; Fri, 20 Dec 2019 09:43:16 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 27FE585A84;
-	Fri, 20 Dec 2019 07:38:02 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 05ABD85361;
+	Fri, 20 Dec 2019 08:43:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qTvDGZ1yYT74; Fri, 20 Dec 2019 07:38:01 +0000 (UTC)
+	with ESMTP id cqbUQww0YRBO; Fri, 20 Dec 2019 08:43:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 725B486168;
-	Fri, 20 Dec 2019 07:38:01 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 62C978535F;
+	Fri, 20 Dec 2019 08:43:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5F72AC077D;
-	Fri, 20 Dec 2019 07:38:01 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 50D62C1D87;
+	Fri, 20 Dec 2019 08:43:14 +0000 (UTC)
+X-Original-To: iommu@lists.linuxfoundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C10C0C077D
- for <iommu@lists.linux-foundation.org>; Fri, 20 Dec 2019 07:37:59 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1E5EAC077D
+ for <iommu@lists.linuxfoundation.org>; Fri, 20 Dec 2019 08:43:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id AE01124FF8
- for <iommu@lists.linux-foundation.org>; Fri, 20 Dec 2019 07:37:59 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 0EB562277A
+ for <iommu@lists.linuxfoundation.org>; Fri, 20 Dec 2019 08:43:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id i9v62Jr0ojA0 for <iommu@lists.linux-foundation.org>;
- Fri, 20 Dec 2019 07:37:58 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
- [207.211.31.81])
- by silver.osuosl.org (Postfix) with ESMTPS id 65D8524E7D
- for <iommu@lists.linux-foundation.org>; Fri, 20 Dec 2019 07:37:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1576827476;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fPptbBAOO0GcMCPdxf9qZyN4g0rcLLRix/sll54J6WU=;
- b=Z83NZmHJRYsK/7F1CqZpX6tT4jkGcKuz/NBpkeLWmcapdTPY3oX4dg+Kj+l7hLO9QcmQgG
- cAJnmywi+oxUV6qcBRGSaxAt33t/Hi2XPurx5XAwkvaHZBe/CnAGlyPpyXDP8yAcCHJt9G
- e6j517ua1pYmX/Gq0m5okcm4+djoTo8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-9VEu2D28Oh-yyCnTTKDODw-1; Fri, 20 Dec 2019 02:37:52 -0500
-X-MC-Unique: 9VEu2D28Oh-yyCnTTKDODw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3863184BEC0;
- Fri, 20 Dec 2019 07:37:49 +0000 (UTC)
-Received: from [10.36.116.117] (ovpn-116-117.ams2.redhat.com [10.36.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89EE25DA2C;
- Fri, 20 Dec 2019 07:37:40 +0000 (UTC)
-Subject: Re: [PATCH v4 13/13] iommu/arm-smmu-v3: Add support for PCI PASID
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
- iommu@lists.linux-foundation.org
-References: <20191219163033.2608177-1-jean-philippe@linaro.org>
- <20191219163033.2608177-14-jean-philippe@linaro.org>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <8c843513-15a4-e51a-a32c-6316273c3289@redhat.com>
-Date: Fri, 20 Dec 2019 08:37:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ with ESMTP id C6NuU6JPMguH for <iommu@lists.linuxfoundation.org>;
+ Fri, 20 Dec 2019 08:43:11 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by silver.osuosl.org (Postfix) with ESMTPS id 79A3D2039C
+ for <iommu@lists.linuxfoundation.org>; Fri, 20 Dec 2019 08:43:11 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 97A4B46B; Fri, 20 Dec 2019 09:43:08 +0100 (CET)
+Date: Fri, 20 Dec 2019 09:43:03 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: Will Deacon <will@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
+Subject: Re: [PATCH v4 03/16] PCI/ATS: Restore EXPORT_SYMBOL_GPL() for
+ pci_{enable,disable}_ats()
+Message-ID: <20191220084303.GA9347@8bytes.org>
+References: <20191219120352.382-1-will@kernel.org>
+ <20191219120352.382-4-will@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20191219163033.2608177-14-jean-philippe@linaro.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Cc: mark.rutland@arm.com, robin.murphy@arm.com, guohanjun@huawei.com,
- rjw@rjwysocki.net, robh+dt@kernel.org, sudeep.holla@arm.com,
- bhelgaas@google.com, zhangfei.gao@linaro.org, will@kernel.org, lenb@kernel.org
+Content-Disposition: inline
+In-Reply-To: <20191219120352.382-4-will@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: iommu@lists.linuxfoundation.org,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Ard Biesheuvel <ardb@kernel.org>, Joerg Roedel <jroedel@suse.de>,
+ Greg Kroah-Hartman <gregkh@google.com>, kernel-team@android.com,
+ "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,121 +73,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jean,
+Hi Bjorn,
 
-On 12/19/19 5:30 PM, Jean-Philippe Brucker wrote:
-> Enable PASID for PCI devices that support it. Since the SSID tables are
-> allocated by arm_smmu_attach_dev(), PASID has to be enabled early enough.
-> arm_smmu_dev_feature_enable() would be too late, since by that time the
-> main DMA domain has already been attached. Do it in add_device() instead.
+On Thu, Dec 19, 2019 at 12:03:39PM +0000, Will Deacon wrote:
+> From: Greg Kroah-Hartman <gregkh@google.com>
 > 
-> Tested-by: Zhangfei Gao <zhangfei.gao@linaro.org>
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-
-Thanks
-
-Eric
-
+> Commit d355bb209783 ("PCI/ATS: Remove unnecessary EXPORT_SYMBOL_GPL()")
+> unexported a bunch of symbols from the PCI core since the only external
+> users were non-modular IOMMU drivers. Although most of those symbols
+> can remain private for now, 'pci_{enable,disable_ats()' is required for
+> the ARM SMMUv3 driver to build as a module, otherwise we get a build
+> failure as follows:
+> 
+>   | ERROR: "pci_enable_ats" [drivers/iommu/arm-smmu-v3.ko] undefined!
+>   | ERROR: "pci_disable_ats" [drivers/iommu/arm-smmu-v3.ko] undefined!
+> 
+> Re-export these two functions so that the ARM SMMUv3 driver can be build
+> as a module.
+> 
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Joerg Roedel <jroedel@suse.de>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@google.com>
+> [will: rewrote commit message]
+> Signed-off-by: Will Deacon <will@kernel.org>
 > ---
->  drivers/iommu/arm-smmu-v3.c | 55 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 54 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-> index e62ca80f2f76..8e95ecad4c9a 100644
-> --- a/drivers/iommu/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm-smmu-v3.c
-> @@ -2644,6 +2644,53 @@ static void arm_smmu_disable_ats(struct arm_smmu_master *master)
->  	atomic_dec(&smmu_domain->nr_ats_masters);
->  }
->  
-> +static int arm_smmu_enable_pasid(struct arm_smmu_master *master)
-> +{
-> +	int ret;
-> +	int features;
-> +	int num_pasids;
-> +	struct pci_dev *pdev;
-> +
-> +	if (!dev_is_pci(master->dev))
-> +		return -ENODEV;
-> +
-> +	pdev = to_pci_dev(master->dev);
-> +
-> +	features = pci_pasid_features(pdev);
-> +	if (features < 0)
-> +		return features;
-> +
-> +	num_pasids = pci_max_pasids(pdev);
-> +	if (num_pasids <= 0)
-> +		return num_pasids;
-> +
-> +	ret = pci_enable_pasid(pdev, features);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Failed to enable PASID\n");
-> +		return ret;
-> +	}
-> +
-> +	master->ssid_bits = min_t(u8, ilog2(num_pasids),
-> +				  master->smmu->ssid_bits);
-> +	return 0;
-> +}
-> +
-> +static void arm_smmu_disable_pasid(struct arm_smmu_master *master)
-> +{
-> +	struct pci_dev *pdev;
-> +
-> +	if (!dev_is_pci(master->dev))
-> +		return;
-> +
-> +	pdev = to_pci_dev(master->dev);
-> +
-> +	if (!pdev->pasid_enabled)
-> +		return;
-> +
-> +	master->ssid_bits = 0;
-> +	pci_disable_pasid(pdev);
-> +}
-> +
->  static void arm_smmu_detach_dev(struct arm_smmu_master *master)
->  {
->  	unsigned long flags;
-> @@ -2852,13 +2899,16 @@ static int arm_smmu_add_device(struct device *dev)
->  
->  	master->ssid_bits = min(smmu->ssid_bits, fwspec->num_pasid_bits);
->  
-> +	/* Note that PASID must be enabled before, and disabled after ATS */
-> +	arm_smmu_enable_pasid(master);
-> +
->  	if (!(smmu->features & ARM_SMMU_FEAT_2_LVL_CDTAB))
->  		master->ssid_bits = min_t(u8, master->ssid_bits,
->  					  CTXDESC_LINEAR_CDMAX);
->  
->  	ret = iommu_device_link(&smmu->iommu, dev);
->  	if (ret)
-> -		goto err_free_master;
-> +		goto err_disable_pasid;
->  
->  	group = iommu_group_get_for_dev(dev);
->  	if (IS_ERR(group)) {
-> @@ -2871,6 +2921,8 @@ static int arm_smmu_add_device(struct device *dev)
->  
->  err_unlink:
->  	iommu_device_unlink(&smmu->iommu, dev);
-> +err_disable_pasid:
-> +	arm_smmu_disable_pasid(master);
->  err_free_master:
->  	kfree(master);
->  	fwspec->iommu_priv = NULL;
-> @@ -2891,6 +2943,7 @@ static void arm_smmu_remove_device(struct device *dev)
->  	arm_smmu_detach_dev(master);
->  	iommu_group_remove_device(dev);
->  	iommu_device_unlink(&smmu->iommu, dev);
-> +	arm_smmu_disable_pasid(master);
->  	kfree(master);
->  	iommu_fwspec_free(dev);
->  }
-> 
+>  drivers/pci/ats.c | 2 ++
+>  1 file changed, 2 insertions(+)
+
+Are you fine with this change? I would apply this series to my tree
+then.
+
+Regards,
+
+	Joerg
 
 _______________________________________________
 iommu mailing list
