@@ -1,87 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB061129A1B
-	for <lists.iommu@lfdr.de>; Mon, 23 Dec 2019 19:59:41 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2885E129A34
+	for <lists.iommu@lfdr.de>; Mon, 23 Dec 2019 20:01:00 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 779CF879FC;
-	Mon, 23 Dec 2019 18:59:40 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C8885858AE;
+	Mon, 23 Dec 2019 19:00:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Pea+gDz8BzMp; Mon, 23 Dec 2019 18:59:40 +0000 (UTC)
+	with ESMTP id nge0c9YgkZfH; Mon, 23 Dec 2019 19:00:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EE7D08790D;
-	Mon, 23 Dec 2019 18:59:39 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DCFED85629;
+	Mon, 23 Dec 2019 19:00:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D8DC6C0881;
-	Mon, 23 Dec 2019 18:59:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C9673C0881;
+	Mon, 23 Dec 2019 19:00:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 31E5EC0881;
- Mon, 23 Dec 2019 18:59:38 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3D8F5C0881;
+ Mon, 23 Dec 2019 19:00:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 20596204FE;
- Mon, 23 Dec 2019 18:59:38 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 190A4878F1;
+ Mon, 23 Dec 2019 19:00:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4AmQlWDCSnG9; Mon, 23 Dec 2019 18:59:35 +0000 (UTC)
+ with ESMTP id 4kjZDkqwigcz; Mon, 23 Dec 2019 19:00:54 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by silver.osuosl.org (Postfix) with ESMTPS id 63B372050A;
- Mon, 23 Dec 2019 18:59:34 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id 4so9591965pfz.9;
- Mon, 23 Dec 2019 10:59:34 -0800 (PST)
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+ [209.85.166.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 724368781C;
+ Mon, 23 Dec 2019 19:00:54 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id v18so17109490iol.2;
+ Mon, 23 Dec 2019 11:00:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=5ZbWphWmX6hvFuVRk+RWFgQofrZKH9eYm1th2d0tMTE=;
- b=sj3ScPvYKe5RHFI5xmOOMlBPRjGR/tgOjWkESOKIqqPmaDssnIshdfvUqClYJX9tBI
- aWTj09Nymr7gywt/h1PZWcO4ZCSrk4jUIfNb9EczsWNEBsdXnKKNITMxCjyYVu+s19l7
- YAXAq4G5jR40lkSkK0YEvsK99KKl/GnrZZaTiZ3SpESVNG2IP5Ulkq1MmJRItVOmbX6v
- XMrllxsXefXzoO2sZFtT//QIbDgjkg0TqQCyXeh2aZuxSrgKCrkqi5gQmYuZ8AUI75qV
- YnI+G38Iba0W+Ixlv9IzdrnX4eE2J66bcVf5qNE5uqUZPU3l5fAfYo7YPXp3fl8fFIqR
- lw3w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=5WjW3vD2cx3BUd8M8ubJSzV7k9hmJV/MjBgFD4V36+U=;
+ b=SfdIJwjQd53LNcv5/C/cr6A9iEyMN7mtz3lYF9IKVOqEJF4K/GVWvOWQb1Kcd791wO
+ 78vVQCVClSM/UdNaSwbCDwWR2jbpSt6wIcGgF6Fmr0HxzOX+mFetSE5kyXy1IHA0B2my
+ DoJQiMO+vOPmtRaInuM2Fwt72TC1vzyknqOYRgvk/JLMKeP2yIX4+ZuP/VDK8u4fzpYj
+ URmGVaJLjdvXbrgjsALnwGUzPTgVQ7B7JftpvLnvVhxko3Eh3aiesJmQE3pannLAC87a
+ RehuChGYDJbbt7hUZrQ6xHXdrCoGMGIZWB6SbrjJ5yzrICvMwvOAcdqO+6iyhfQkVpyJ
+ graQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=5ZbWphWmX6hvFuVRk+RWFgQofrZKH9eYm1th2d0tMTE=;
- b=XMMOO/IqNvGGfGB98JOmXOo2t2044WtW7PQz4itpIbUxHbNGW9vgN0/C9mLawcrQpn
- aOKjJOKtA88ix1/jNZI5xvrV4OAgczFD/AhGDeuIKZd1m6TpdbVzANCdEnllSfEccGxY
- irIUTDV1XUjXMdmEg8iRzSzWSu+kT4/RZpkLIimMcOdkmUGwlJlHHv6fe2pAuCLyb0F8
- ZTKoOIf5Zb9c15Z7Hrfnr9BVHrVsY7S9zpZqYq29fT5u3kiQT0crtat7pQIiW9/zEWXG
- o0e5zYFGmz9xY/yL/W7z9RoHO6p8C7pt/0VZstlT3eDMlkc/PeR7UDgoE9cLZ0TB8zZ8
- oaVQ==
-X-Gm-Message-State: APjAAAVjkFYMB/CnLZnX/7FqDASe9eJqNgMF2lFs3Pjh9wbBi991JyMT
- FZVojgeM+WaLERyqRnOdB08=
-X-Google-Smtp-Source: APXvYqyfnDFqyHRd1X6VzN2h1ANIGyik0u9/k4DGw0m2HkGzu2Jgf7Z0vBWv5sTHp/iv1nwqNbTz6Q==
-X-Received: by 2002:a63:214f:: with SMTP id s15mr34495783pgm.238.1577127574002; 
- Mon, 23 Dec 2019 10:59:34 -0800 (PST)
-Received: from localhost ([2001:19f0:6001:12c8:5400:2ff:fe72:6403])
- by smtp.gmail.com with ESMTPSA id d5sm21091646pfd.107.2019.12.23.10.59.33
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 23 Dec 2019 10:59:33 -0800 (PST)
-From: Yangtao Li <tiny.windzz@gmail.com>
-To: m.szyprowski@samsung.com, joro@8bytes.org, kgene@kernel.org,
- krzk@kernel.org, matthias.bgg@gmail.com, agross@kernel.org,
- bjorn.andersson@linaro.org, robdclark@gmail.com, heiko@sntech.de,
- mst@redhat.com, jasowang@redhat.com, iommu@lists.linux-foundation.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- virtualization@lists.linux-foundation.org
-Subject: [PATCH 6/6] iommu/rockchip: convert to devm_platform_ioremap_resource
-Date: Mon, 23 Dec 2019 18:59:18 +0000
-Message-Id: <20191223185918.9877-7-tiny.windzz@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191223185918.9877-1-tiny.windzz@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=5WjW3vD2cx3BUd8M8ubJSzV7k9hmJV/MjBgFD4V36+U=;
+ b=RhdXY8MvDe0I5f8UnU0ggQTFYZHNYQ8CHhkRR8y/t6RIqIdglxNmIiWQoBYQuSyYF7
+ PqBmiDCO1Is/OH4j6qKicEFPk+vJUYvBk0iwHVXpuPh+y9ruyxD7Hrc38oU8e7sJdEmO
+ ltmS9TAR9nYOSBbTH2AZIHNrriM32CMKovc8mjw+WYDwe9WRt0AGFMGmi4jSrTOoE0Qb
+ nASGvcjV7yfvJFNGLrS+npp4MGHou6BzbtzjV+vo1if6D/p7OBvCpTHRtj6B+LD/1Nnd
+ ARmqDpeXNCHWwHDrDFiDhMF6ELAGgPj9OFarmBkCOtl+yDB8hJhGEYhWK8Ik0coM8fo0
+ 9SvA==
+X-Gm-Message-State: APjAAAUEbeyBUf3WG1qv97sUGJdHrWb/RhHykhGGHJFllCSEz9TVPXV3
+ cHe7S/7JQ5BSOe+puxwZ0+/zLmqqfIaqE2jWq0Q=
+X-Google-Smtp-Source: APXvYqwaFZg7aCu6nzs0ZutPtYsj9R32aQwWIh0wX+JYOxpu64SuDTLXdlqTyVyvXRJJzV59D2yYDwSiSzYDcnKN32Y=
+X-Received: by 2002:a6b:b941:: with SMTP id j62mr22074614iof.168.1577127653723; 
+ Mon, 23 Dec 2019 11:00:53 -0800 (PST)
+MIME-Version: 1.0
 References: <20191223185918.9877-1-tiny.windzz@gmail.com>
-Cc: Yangtao Li <tiny.windzz@gmail.com>
+ <20191223185918.9877-2-tiny.windzz@gmail.com>
+In-Reply-To: <20191223185918.9877-2-tiny.windzz@gmail.com>
+From: Frank Lee <tiny.windzz@gmail.com>
+Date: Tue, 24 Dec 2019 03:00:42 +0800
+Message-ID: <CAEExFWu771PdyjqHa3vF5W46ch_YecE6Dvv8iF42r5799yuF7A@mail.gmail.com>
+Subject: Re: [PATCH] virtio-mmio: convert to devm_platform_ioremap_resource
+To: m.szyprowski@samsung.com, joro@8bytes.org, Kukjin Kim <kgene@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, agross@kernel.org, 
+ bjorn.andersson@linaro.org, Rob Clark <robdclark@gmail.com>, 
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, mst@redhat.com, 
+ jasowang@redhat.com, iommu@lists.linux-foundation.org, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
+ virtualization@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,46 +94,14 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Use devm_platform_ioremap_resource() to simplify code.
+Please ignore this patch.
 
-Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
----
- drivers/iommu/rockchip-iommu.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iommu.c
-index b33cdd5aad81..c6d50396f4c2 100644
---- a/drivers/iommu/rockchip-iommu.c
-+++ b/drivers/iommu/rockchip-iommu.c
-@@ -1138,7 +1138,6 @@ static int rk_iommu_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct rk_iommu *iommu;
--	struct resource *res;
- 	int num_res = pdev->num_resources;
- 	int err, i;
- 
-@@ -1156,10 +1155,7 @@ static int rk_iommu_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	for (i = 0; i < num_res; i++) {
--		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
--		if (!res)
--			continue;
--		iommu->bases[i] = devm_ioremap_resource(&pdev->dev, res);
-+		iommu->bases[i] = devm_platform_ioremap_resource(pdev, 0);
- 		if (IS_ERR(iommu->bases[i]))
- 			continue;
- 		iommu->num_mmu++;
--- 
-2.17.1
-
+Thx!
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
