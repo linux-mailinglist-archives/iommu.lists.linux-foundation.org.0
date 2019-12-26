@@ -1,70 +1,88 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548A012AB72
-	for <lists.iommu@lfdr.de>; Thu, 26 Dec 2019 10:57:25 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1C612AF2D
+	for <lists.iommu@lfdr.de>; Thu, 26 Dec 2019 23:23:53 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 85BB88426E;
-	Thu, 26 Dec 2019 09:57:23 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A0EF2207A2;
+	Thu, 26 Dec 2019 22:23:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mOD6Wm9HpPD9; Thu, 26 Dec 2019 09:57:22 +0000 (UTC)
+	with ESMTP id m7Vde0TqX0wD; Thu, 26 Dec 2019 22:23:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7469C8409C;
-	Thu, 26 Dec 2019 09:57:22 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2E15120518;
+	Thu, 26 Dec 2019 22:23:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FB8DC1D87;
-	Thu, 26 Dec 2019 09:57:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 17571C0881;
+	Thu, 26 Dec 2019 22:23:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3BC3FC0881
- for <iommu@lists.linux-foundation.org>; Thu, 26 Dec 2019 09:57:20 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2CB5AC0881
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Dec 2019 22:23:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 22DE884BE5
- for <iommu@lists.linux-foundation.org>; Thu, 26 Dec 2019 09:57:20 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1518D85188
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Dec 2019 22:23:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5Yd6NUUawpqu for <iommu@lists.linux-foundation.org>;
- Thu, 26 Dec 2019 09:57:19 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from condef-06.nifty.com (condef-06.nifty.com [202.248.20.71])
- by hemlock.osuosl.org (Postfix) with ESMTPS id BF90C84B2D
- for <iommu@lists.linux-foundation.org>; Thu, 26 Dec 2019 09:57:18 +0000 (UTC)
-Received: from conuserg-10.nifty.com ([10.126.8.73])by condef-06.nifty.com
- with ESMTP id xBQ9qP3i031294
- for <iommu@lists.linux-foundation.org>; Thu, 26 Dec 2019 18:52:25 +0900
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp
- [153.142.97.92]) (authenticated)
- by conuserg-10.nifty.com with ESMTP id xBQ9pgNY023812;
- Thu, 26 Dec 2019 18:51:43 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com xBQ9pgNY023812
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
- s=dec2015msa; t=1577353904;
- bh=ZLGd9Sa7OALWrLmeWhKg0zq7ZvRRBITnevotAyP+VUY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oMWsgAD7R/WJ2a2AIefVtYY9nZ9TdqVt884C1haeLpabCj7Fd2Xf4zuc3jhuQk30K
- yjjIxwdEdN2KbihzBeV7tl0m0LqoCaihEX/dETE7W/li8pQqaH85rnWM/s+ojNu2Xz
- 203MHgdB5eUJBhu9KvHsOKMuWvmQ7KzJycDHx6Fzg7evPmc34l0qY1TdGdVdZvXCrF
- /aIGwh8lWfh1dMQyXw5GDKKywIecYr1hq+0y47ELlRUPnsV5Ty+IeHMdCDzOb0qgDp
- LZU34q1ozlbJdJvz++YtUNDTbHztD+AQXSZQ6cKTSxj0w0CkMes0JrI31FZaQCIb9s
- 5syvPjmEpHsVA==
-X-Nifty-SrcIP: [153.142.97.92]
-From: Masahiro Yamada <yamada.masahiro@socionext.com>
+ with ESMTP id iEp6nWDmWtbc for <iommu@lists.linux-foundation.org>;
+ Thu, 26 Dec 2019 22:23:26 +0000 (UTC)
+X-Greylist: delayed 00:05:41 by SQLgrey-1.7.6
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+ [209.85.214.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2F89585239
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Dec 2019 22:23:26 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id y8so10941493pll.13
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Dec 2019 14:23:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tubUT90M6ZUsQq/NCNWX8+4auD3W82M3BMPow6ghbj8=;
+ b=UQmFVNA7UILTF3d5FkPUjDuMXwndbRHZm1U93zjabv/K6dGhtSfmt4s9JIg+xMq75d
+ Y23XDZw4It10l4QHXqaDJ2gjQ7UgsgsYKUABY6o6xlTM6PcI9JGpvxzOiNBkPbauQJQX
+ rOb03V74Q2iuvkeRbjoJ25qWSvTN+tewTjT3wPd/ueVoyCzibclmSE33cOkd0g/LLhFE
+ PwN21iKGHN6E0QaX+a9jOmpxp/0FWhAO0E6515STbaiPfJvHp37nOVMDlntvCQ+pVwZD
+ /Ct2qloyyzoXbev8IsVQDmVybAPP5fOQHljHSIHCexni+dNs47E8KE1BxAOlCHWLI6ls
+ AFUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tubUT90M6ZUsQq/NCNWX8+4auD3W82M3BMPow6ghbj8=;
+ b=gpK6zOQW35iOTA9Xx02tgc4jMq2VmjpFwiBQkwAVXIlTZYAMMlZ/aUso1Cxr86vzJC
+ F1/4GHwgPYnP0E2rRUzX4adnIpo3gxjrevXZUOGIh1bMA+fIg48L/prfnsN6sI+nfgul
+ RgXQrNpx87rhBf+4PGvJyZqTu8+u8+ZZkdGf0oLPn8rttVpqVDCrM+6DS01N3c3HM85E
+ fuJWlvvBrdzMhuStocTRHURDXpe68RXrqhPd04LxpiWDdhJ49v+AyoWEhbwBq7CVFBT4
+ NZh2iyKiqH07e0zE8dD3rpSIe0yU4TXbZ55JZKFzD88ymsVyzd/Q2W1+lBO/ZcahkS2j
+ Y2VQ==
+X-Gm-Message-State: APjAAAWkjxqFzpzgHwWPMgp3Fx3bl8D7g7yNoyoG0iqC9Y2J9JHAmf2g
+ OhXobAOt/AdoW2e1PnzpgPzJ3A==
+X-Google-Smtp-Source: APXvYqzsnGwMryOZ8OSkxJxnL0bgVLu9XUOFhXRRLNcQ4apGus/dVePA/bPEIWlQsBQNQtZUk1Rydw==
+X-Received: by 2002:a17:90a:9f04:: with SMTP id
+ n4mr22039896pjp.76.1577398665952; 
+ Thu, 26 Dec 2019 14:17:45 -0800 (PST)
+Received: from localhost.localdomain
+ (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+ by smtp.gmail.com with ESMTPSA id 2sm11779409pjh.19.2019.12.26.14.17.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Dec 2019 14:17:45 -0800 (PST)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org, Joerg Roedel <joro@8bytes.org>,
- iommu@lists.linux-foundation.org
-Subject: [PATCH 2/2] iommu/arm-smmu-v3: simplify parse_driver_options()
-Date: Thu, 26 Dec 2019 18:51:41 +0900
-Message-Id: <20191226095141.30352-2-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191226095141.30352-1-yamada.masahiro@socionext.com>
-References: <20191226095141.30352-1-yamada.masahiro@socionext.com>
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>,
- linux-kernel@vger.kernel.org
+ Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH 1/3] iommu/arm-smmu: Don't blindly use first SMR to calculate
+ mask
+Date: Thu, 26 Dec 2019 14:17:07 -0800
+Message-Id: <20191226221709.3844244-2-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191226221709.3844244-1-bjorn.andersson@linaro.org>
+References: <20191226221709.3844244-1-bjorn.andersson@linaro.org>
+MIME-Version: 1.0
+Cc: Patrick Daly <pdaly@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Pratik Patel <pratikp@codeaurora.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,54 +95,80 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Using ARRAY_SIZE() instead of the sentinel is slightly simpler, IMHO.
+With the SMRs inherited from the bootloader the first SMR might actually
+be valid and in use. As such probing the SMR mask using the first SMR
+might break a stream in use. Search for an unused stream and use this to
+probe the SMR mask.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
 
- drivers/iommu/arm-smmu-v3.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Changes since RFC:
+- Deal with EXIDS
+- Use arm_smmu_gr0_read/write()
 
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index ed9933960370..b27489b7f9d8 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -676,7 +676,6 @@ struct arm_smmu_option_prop {
- static const struct arm_smmu_option_prop arm_smmu_options[] = {
- 	{ ARM_SMMU_OPT_SKIP_PREFETCH, "hisilicon,broken-prefetch-cmd" },
- 	{ ARM_SMMU_OPT_PAGE0_REGS_ONLY, "cavium,cn9900-broken-page1-regspace"},
--	{ 0, NULL},
- };
- 
- static inline void __iomem *arm_smmu_page1_fixup(unsigned long offset,
-@@ -696,16 +695,16 @@ static struct arm_smmu_domain *to_smmu_domain(struct iommu_domain *dom)
- 
- static void parse_driver_options(struct arm_smmu_device *smmu)
+ drivers/iommu/arm-smmu.c | 27 +++++++++++++++++++++++----
+ 1 file changed, 23 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+index 4f1a350d9529..6ca6a4e072c8 100644
+--- a/drivers/iommu/arm-smmu.c
++++ b/drivers/iommu/arm-smmu.c
+@@ -945,24 +945,43 @@ static void arm_smmu_write_sme(struct arm_smmu_device *smmu, int idx)
+  */
+ static void arm_smmu_test_smr_masks(struct arm_smmu_device *smmu)
  {
--	int i = 0;
-+	int i;
++	u32 s2cr;
+ 	u32 smr;
++	int idx;
  
--	do {
-+	for (i = 0; i < ARRAY_SIZE(arm_smmu_options); i++) {
- 		if (of_property_read_bool(smmu->dev->of_node,
- 						arm_smmu_options[i].prop)) {
- 			smmu->options |= arm_smmu_options[i].opt;
- 			dev_notice(smmu->dev, "option %s\n",
- 				arm_smmu_options[i].prop);
- 		}
--	} while (arm_smmu_options[++i].opt);
-+	};
+ 	if (!smmu->smrs)
+ 		return;
+ 
++	for (idx = 0; idx < smmu->num_mapping_groups; idx++) {
++		if (smmu->features & ARM_SMMU_FEAT_EXIDS) {
++			s2cr = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_S2CR(idx));
++			if (!FIELD_GET(S2CR_EXIDVALID, s2cr))
++				break;
++		} else {
++			smr = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_SMR(idx));
++			if (!FIELD_GET(SMR_VALID, smr))
++				break;
++		}
++	}
++
++	if (idx == smmu->num_mapping_groups) {
++		dev_err(smmu->dev, "Unable to compute streamid_mask\n");
++		return;
++	}
++
+ 	/*
+ 	 * SMR.ID bits may not be preserved if the corresponding MASK
+ 	 * bits are set, so check each one separately. We can reject
+ 	 * masters later if they try to claim IDs outside these masks.
+ 	 */
+ 	smr = FIELD_PREP(SMR_ID, smmu->streamid_mask);
+-	arm_smmu_gr0_write(smmu, ARM_SMMU_GR0_SMR(0), smr);
+-	smr = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_SMR(0));
++	arm_smmu_gr0_write(smmu, ARM_SMMU_GR0_SMR(idx), smr);
++	smr = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_SMR(idx));
+ 	smmu->streamid_mask = FIELD_GET(SMR_ID, smr);
+ 
+ 	smr = FIELD_PREP(SMR_MASK, smmu->streamid_mask);
+-	arm_smmu_gr0_write(smmu, ARM_SMMU_GR0_SMR(0), smr);
+-	smr = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_SMR(0));
++	arm_smmu_gr0_write(smmu, ARM_SMMU_GR0_SMR(idx), smr);
++	smr = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_SMR(idx));
+ 	smmu->smr_mask_mask = FIELD_GET(SMR_MASK, smr);
  }
  
- /* Low-level queue manipulation functions */
 -- 
-2.17.1
+2.24.0
 
 _______________________________________________
 iommu mailing list
