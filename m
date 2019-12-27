@@ -1,62 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD31912B68D
-	for <lists.iommu@lfdr.de>; Fri, 27 Dec 2019 18:43:37 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D11E12B6BA
+	for <lists.iommu@lfdr.de>; Fri, 27 Dec 2019 18:45:11 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 481C3861A0;
-	Fri, 27 Dec 2019 17:43:36 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2509287A62;
+	Fri, 27 Dec 2019 17:45:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GG7-JCd1bIxI; Fri, 27 Dec 2019 17:43:35 +0000 (UTC)
+	with ESMTP id eeCdPzHp0kRk; Fri, 27 Dec 2019 17:45:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id EC29186146;
-	Fri, 27 Dec 2019 17:43:34 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8FE5A87A3A;
+	Fri, 27 Dec 2019 17:45:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D6531C0881;
-	Fri, 27 Dec 2019 17:43:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 71E7EC0881;
+	Fri, 27 Dec 2019 17:45:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 12407C0881
- for <iommu@lists.linux-foundation.org>; Fri, 27 Dec 2019 17:43:33 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 71C6DC0881
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Dec 2019 17:45:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id F28192152A
- for <iommu@lists.linux-foundation.org>; Fri, 27 Dec 2019 17:43:32 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 6B6338589A
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Dec 2019 17:45:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4BsoYAZcfyPc for <iommu@lists.linux-foundation.org>;
- Fri, 27 Dec 2019 17:43:32 +0000 (UTC)
+ with ESMTP id 9OYKTdCHdvS2 for <iommu@lists.linux-foundation.org>;
+ Fri, 27 Dec 2019 17:45:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 290D12151F
- for <iommu@lists.linux-foundation.org>; Fri, 27 Dec 2019 17:43:32 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id CA6E08389C
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Dec 2019 17:45:06 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3327A21927;
- Fri, 27 Dec 2019 17:43:31 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DFE7F24679;
+ Fri, 27 Dec 2019 17:45:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1577468611;
- bh=WMjkH9wse0rnpgJxqY+z7zV+kEI78+sKlYa1WVzgLAg=;
+ s=default; t=1577468706;
+ bh=Y+XNfaE3LXyuKB4B73gODgRnofkdHBQCljhdKRzPBCI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=r1lQp02BZXaK0zViMAOp69tfdcS6Cgw13AEoj2lh9xkUnP5F7w6SOzERxfj8lVZg+
- VLss+4vhVq8wqJqDPFSJktCRFLEcRBTmiRyGahsGPSRYr++zt80kE+WsGLrAr2Iq0E
- f4S9gfVj+2PxcT5o+RqE2M5I4E8+Zd+Y0Q4NftpE=
+ b=lYosT19X2pFiFzSIGllXrhrV/YorBKe/X3NWx3tNSnZxWYW3q4XvEdGmmoRn6KhgQ
+ IKfjFP+5SQ1PYz4NCfECL0t4Q/GvuTyoH6VKREMbKvFeqaW/Y14YpHK2fkJROlPQZW
+ taiSUNnDwIoYa4fq/vXz7pwWNgttT2AXa2i+7qh0=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 131/187] iommu/iova: Init the struct iova to fix
+Subject: [PATCH AUTOSEL 4.19 62/84] iommu/iova: Init the struct iova to fix
  the possible memleak
-Date: Fri, 27 Dec 2019 12:39:59 -0500
-Message-Id: <20191227174055.4923-131-sashal@kernel.org>
+Date: Fri, 27 Dec 2019 12:43:30 -0500
+Message-Id: <20191227174352.6264-62-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191227174055.4923-1-sashal@kernel.org>
-References: <20191227174055.4923-1-sashal@kernel.org>
+In-Reply-To: <20191227174352.6264-1-sashal@kernel.org>
+References: <20191227174352.6264-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -129,10 +129,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-index 41c605b0058f..c7a914b9bbbc 100644
+index da4516fbf542..34c058c24b9d 100644
 --- a/drivers/iommu/iova.c
 +++ b/drivers/iommu/iova.c
-@@ -233,7 +233,7 @@ static DEFINE_MUTEX(iova_cache_mutex);
+@@ -236,7 +236,7 @@ static DEFINE_MUTEX(iova_cache_mutex);
  
  struct iova *alloc_iova_mem(void)
  {
