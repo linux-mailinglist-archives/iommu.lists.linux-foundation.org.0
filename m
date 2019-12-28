@@ -1,63 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F7812BC46
-	for <lists.iommu@lfdr.de>; Sat, 28 Dec 2019 03:43:15 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D63F12BC48
+	for <lists.iommu@lfdr.de>; Sat, 28 Dec 2019 03:47:42 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 380A0822C6;
-	Sat, 28 Dec 2019 02:43:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 22DC6878AF;
+	Sat, 28 Dec 2019 02:47:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id abLzhpe0tRTc; Sat, 28 Dec 2019 02:43:13 +0000 (UTC)
+	with ESMTP id p-bQtWg+gg9D; Sat, 28 Dec 2019 02:47:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1C867821BC;
-	Sat, 28 Dec 2019 02:43:13 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A8EA887818;
+	Sat, 28 Dec 2019 02:47:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F06E8C0881;
-	Sat, 28 Dec 2019 02:43:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 99156C0881;
+	Sat, 28 Dec 2019 02:47:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 23D56C0881
- for <iommu@lists.linux-foundation.org>; Sat, 28 Dec 2019 02:43:12 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 29382C0881
+ for <iommu@lists.linux-foundation.org>; Sat, 28 Dec 2019 02:47:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 1274785DBB
- for <iommu@lists.linux-foundation.org>; Sat, 28 Dec 2019 02:43:12 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1811B85618
+ for <iommu@lists.linux-foundation.org>; Sat, 28 Dec 2019 02:47:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lwIBQJk5WPvi for <iommu@lists.linux-foundation.org>;
- Sat, 28 Dec 2019 02:43:11 +0000 (UTC)
+ with ESMTP id 0kqtSg9REYcY for <iommu@lists.linux-foundation.org>;
+ Sat, 28 Dec 2019 02:47:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 7A23885D5C
- for <iommu@lists.linux-foundation.org>; Sat, 28 Dec 2019 02:43:11 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 822B3822C6
+ for <iommu@lists.linux-foundation.org>; Sat, 28 Dec 2019 02:47:38 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 27 Dec 2019 18:43:11 -0800
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 27 Dec 2019 18:47:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,365,1571727600"; d="scan'208";a="243381779"
+X-IronPort-AV: E=Sophos;i="5.69,365,1571727600"; d="scan'208";a="243382294"
 Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
  ([10.239.159.136])
- by fmsmga004.fm.intel.com with ESMTP; 27 Dec 2019 18:43:09 -0800
-Subject: Re: [PATCH v3 1/1] iommu/vt-d: Add Kconfig option to enable/disable
- scalable mode
-To: Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>
-References: <20191112063954.19371-1-baolu.lu@linux.intel.com>
+ by fmsmga004.fm.intel.com with ESMTP; 27 Dec 2019 18:47:35 -0800
+Subject: Re: [PATCH v5 0/8] VT-d Native Shared virtual memory cleanup and fixes
+To: Jacob Pan <jacob.jun.pan@linux.intel.com>,
+ iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>
+References: <1575316709-54903-1-git-send-email-jacob.jun.pan@linux.intel.com>
 From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <e8d35743-4f86-5626-e0e3-a107264bc9ba@linux.intel.com>
-Date: Sat, 28 Dec 2019 10:42:07 +0800
+Message-ID: <a42c945a-2c64-8f2d-d211-396a4f3f753f@linux.intel.com>
+Date: Sat, 28 Dec 2019 10:46:33 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20191112063954.19371-1-baolu.lu@linux.intel.com>
+In-Reply-To: <1575316709-54903-1-git-send-email-jacob.jun.pan@linux.intel.com>
 Content-Language: en-US
-Cc: kevin.tian@intel.com, ashok.raj@intel.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, jacob.jun.pan@intel.com
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+ Joe Perches <joe@perches.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,14 +76,17 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 11/12/19 2:39 PM, Lu Baolu wrote:
-> This adds Kconfig option INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON
-> to make it easier for distributions to enable or disable the
-> Intel IOMMU scalable mode by default during kernel build.
+On 12/3/19 3:58 AM, Jacob Pan wrote:
+> Mostly extracted from nested SVA/SVM series based on review comments of v7.
+> https://lkml.org/lkml/2019/10/24/852
 > 
-> Signed-off-by: Lu Baolu<baolu.lu@linux.intel.com>
+> This series also adds a few important fixes for native use of SVA. Nested
+> SVA new code will be submitted separately as a smaller set. Based on the
+> core branch of IOMMU tree staged for v5.5, where common APIs for vSVA were
+> applied.
+> git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git core
 
-Queued for v5.6.
+Queued the whole series for v5.6.
 
 Thanks,
 -baolu
