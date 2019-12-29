@@ -1,58 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2C112C74C
-	for <lists.iommu@lfdr.de>; Sun, 29 Dec 2019 18:56:12 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id B436812C74D
+	for <lists.iommu@lfdr.de>; Sun, 29 Dec 2019 18:56:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1A9E185B48;
-	Sun, 29 Dec 2019 17:56:11 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5815681EAA;
+	Sun, 29 Dec 2019 17:56:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Pi5MzV3pGqgN; Sun, 29 Dec 2019 17:56:10 +0000 (UTC)
+	with ESMTP id KAwmYMaoDUIN; Sun, 29 Dec 2019 17:56:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 80E0785ACD;
-	Sun, 29 Dec 2019 17:56:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A5BC781F3F;
+	Sun, 29 Dec 2019 17:56:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 682CFC077D;
-	Sun, 29 Dec 2019 17:56:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9EC7CC077D;
+	Sun, 29 Dec 2019 17:56:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6955DC077D
- for <iommu@lists.linux-foundation.org>; Sun, 29 Dec 2019 17:56:08 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BDAD5C077D
+ for <iommu@lists.linux-foundation.org>; Sun, 29 Dec 2019 17:56:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 533D3849CD
- for <iommu@lists.linux-foundation.org>; Sun, 29 Dec 2019 17:56:08 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id ACB6981F3F
+ for <iommu@lists.linux-foundation.org>; Sun, 29 Dec 2019 17:56:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EhIHtTI_zBbn for <iommu@lists.linux-foundation.org>;
- Sun, 29 Dec 2019 17:56:07 +0000 (UTC)
+ with ESMTP id UjtCRmw6q1rU for <iommu@lists.linux-foundation.org>;
+ Sun, 29 Dec 2019 17:56:27 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id E438E84477
- for <iommu@lists.linux-foundation.org>; Sun, 29 Dec 2019 17:56:07 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 2B03281EAA
+ for <iommu@lists.linux-foundation.org>; Sun, 29 Dec 2019 17:56:27 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5007821744;
- Sun, 29 Dec 2019 17:56:07 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 822F3222D9;
+ Sun, 29 Dec 2019 17:56:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1577642167;
- bh=n5k8+TCNH9B+qSI6yihNx4FPmGe+bGpxEcJW5s93Il8=;
+ s=default; t=1577642187;
+ bh=MDlhEhj2G1pFcoetkRyZjXVVe1s/XlYTo1QrtkXMKTU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Y6XZWJQiDMP2xwkyEPNdfjRsjftKp313Bf+AXW74FH+2GOeZyopa+DM3EsxMuDrBd
- 6hGnin/lK4YlWK2RB7LDGAdpD3xmSZ2Ozc/u8PCaBJgWCowMs6mXZqcoO2ynDpYLhM
- BUadDPngiZBaIN4IO/ZPWvjE93JO6w18BVL91fiE=
+ b=bvI9kuHb5yigdwFHUAjFyJ4WILLXn6uHMdPcpseR+66VpTWnJY8c7fzFMZucq++4k
+ KGHF1qQJc8iXvf9DcSdE0303xFoHSAvnEu9sM3KCmjJ5AN+/VgLEUQrwTNrmhaY6g6
+ 2yicBlQHXpXFIXK2lVT0THAoZzgX98ZBbEgAYWaQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.4 368/434] iommu: set group default domain before creating
- direct mappings
-Date: Sun, 29 Dec 2019 18:27:01 +0100
-Message-Id: <20191229172726.418027951@linuxfoundation.org>
+Subject: [PATCH 5.4 371/434] iommu/vt-d: Allocate reserved region for ISA with
+ correct permission
+Date: Sun, 29 Dec 2019 18:27:04 +0100
+Message-Id: <20191229172726.637712160@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191229172702.393141737@linuxfoundation.org>
 References: <20191229172702.393141737@linuxfoundation.org>
@@ -80,47 +80,37 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Jerry Snitselaar <jsnitsel@redhat.com>
 
-commit d360211524bece6db9920f32c91808235290b51c upstream.
+commit cde9319e884eb6267a0df446f3c131fe1108defb upstream.
 
-iommu_group_create_direct_mappings uses group->default_domain, but
-right after it is called, request_default_domain_for_dev calls
-iommu_domain_free for the default domain, and sets the group default
-domain to a different domain. Move the
-iommu_group_create_direct_mappings call to after the group default
-domain is set, so the direct mappings get associated with that domain.
+Currently the reserved region for ISA is allocated with no
+permissions. If a dma domain is being used, mapping this region will
+fail. Set the permissions to DMA_PTE_READ|DMA_PTE_WRITE.
 
 Cc: Joerg Roedel <jroedel@suse.de>
 Cc: Lu Baolu <baolu.lu@linux.intel.com>
 Cc: iommu@lists.linux-foundation.org
-Cc: stable@vger.kernel.org
-Fixes: 7423e01741dd ("iommu: Add API to request DMA domain for device")
+Cc: stable@vger.kernel.org # v5.3+
+Fixes: d850c2ee5fe2 ("iommu/vt-d: Expose ISA direct mapping region via iommu_get_resv_regions")
 Signed-off-by: Jerry Snitselaar <jsnitsel@redhat.com>
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
- drivers/iommu/iommu.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/iommu/intel-iommu.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2221,13 +2221,13 @@ request_default_domain_for_dev(struct de
- 		goto out;
- 	}
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -5697,7 +5697,7 @@ static void intel_iommu_get_resv_regions
+ 		struct pci_dev *pdev = to_pci_dev(device);
  
--	iommu_group_create_direct_mappings(group, dev);
--
- 	/* Make the domain the default for this group */
- 	if (group->default_domain)
- 		iommu_domain_free(group->default_domain);
- 	group->default_domain = domain;
- 
-+	iommu_group_create_direct_mappings(group, dev);
-+
- 	dev_info(dev, "Using iommu %s mapping\n",
- 		 type == IOMMU_DOMAIN_DMA ? "dma" : "direct");
- 
+ 		if ((pdev->class >> 8) == PCI_CLASS_BRIDGE_ISA) {
+-			reg = iommu_alloc_resv_region(0, 1UL << 24, 0,
++			reg = iommu_alloc_resv_region(0, 1UL << 24, prot,
+ 						   IOMMU_RESV_DIRECT_RELAXABLE);
+ 			if (reg)
+ 				list_add_tail(&reg->list, head);
 
 
 _______________________________________________
