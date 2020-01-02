@@ -1,38 +1,38 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B9912E13D
-	for <lists.iommu@lfdr.de>; Thu,  2 Jan 2020 01:19:49 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D6B12E142
+	for <lists.iommu@lfdr.de>; Thu,  2 Jan 2020 01:19:55 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 451DF85633;
-	Thu,  2 Jan 2020 00:19:48 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D8A6A8608B;
+	Thu,  2 Jan 2020 00:19:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rgogYETiBWks; Thu,  2 Jan 2020 00:19:46 +0000 (UTC)
+	with ESMTP id xtZxAu0Gvprf; Thu,  2 Jan 2020 00:19:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8A0608578B;
-	Thu,  2 Jan 2020 00:19:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6D791860BE;
+	Thu,  2 Jan 2020 00:19:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 853A3C1D85;
-	Thu,  2 Jan 2020 00:19:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B1CEC077D;
+	Thu,  2 Jan 2020 00:19:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B6C14C077D
- for <iommu@lists.linux-foundation.org>; Thu,  2 Jan 2020 00:19:44 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 951DEC18DC
+ for <iommu@lists.linux-foundation.org>; Thu,  2 Jan 2020 00:19:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id B35B0854E8
- for <iommu@lists.linux-foundation.org>; Thu,  2 Jan 2020 00:19:44 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 906C585D5C
+ for <iommu@lists.linux-foundation.org>; Thu,  2 Jan 2020 00:19:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ld3XD0cXPf8N for <iommu@lists.linux-foundation.org>;
- Thu,  2 Jan 2020 00:19:44 +0000 (UTC)
+ with ESMTP id CgT14wYXYMLI for <iommu@lists.linux-foundation.org>;
+ Thu,  2 Jan 2020 00:19:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 3F231854C0
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 0174485F96
  for <iommu@lists.linux-foundation.org>; Thu,  2 Jan 2020 00:19:44 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
@@ -40,15 +40,15 @@ Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
  01 Jan 2020 16:19:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,384,1571727600"; d="scan'208";a="244475925"
+X-IronPort-AV: E=Sophos;i="5.69,384,1571727600"; d="scan'208";a="244475929"
 Received: from allen-box.sh.intel.com ([10.239.159.136])
- by fmsmga004.fm.intel.com with ESMTP; 01 Jan 2020 16:19:43 -0800
+ by fmsmga004.fm.intel.com with ESMTP; 01 Jan 2020 16:19:44 -0800
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 12/22] iommu/vt-d: Loose requirement for flush queue
- initializaton
-Date: Thu,  2 Jan 2020 08:18:13 +0800
-Message-Id: <20200102001823.21976-13-baolu.lu@linux.intel.com>
+Subject: [PATCH 13/22] iommu/vt-d: Identify domains using first level page
+ table
+Date: Thu,  2 Jan 2020 08:18:14 +0800
+Message-Id: <20200102001823.21976-14-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200102001823.21976-1-baolu.lu@linux.intel.com>
 References: <20200102001823.21976-1-baolu.lu@linux.intel.com>
@@ -71,54 +71,78 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Currently if flush queue initialization fails, we return error
-or enforce the system-wide strict mode. These are unnecessary
-because we always check the existence of a flush queue before
-queuing any iova's for lazy flushing. Printing a informational
-message is enough.
+This checks whether a domain should use the first level page
+table for map/unmap and marks it in the domain structure.
 
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- drivers/iommu/intel-iommu.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ drivers/iommu/intel-iommu.c | 39 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
 diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index 4631b1796482..34723f6be672 100644
+index 34723f6be672..71ad5e5feae2 100644
 --- a/drivers/iommu/intel-iommu.c
 +++ b/drivers/iommu/intel-iommu.c
-@@ -1854,15 +1854,15 @@ static int domain_init(struct dmar_domain *domain, struct intel_iommu *iommu,
+@@ -307,6 +307,14 @@ static int hw_pass_through = 1;
+  */
+ #define DOMAIN_FLAG_LOSE_CHILDREN		BIT(1)
+ 
++/*
++ * When VT-d works in the scalable mode, it allows DMA translation to
++ * happen through either first level or second level page table. This
++ * bit marks that the DMA translation for the domain goes through the
++ * first level page table, otherwise, it goes through the second level.
++ */
++#define DOMAIN_FLAG_USE_FIRST_LEVEL		BIT(2)
++
+ #define for_each_domain_iommu(idx, domain)			\
+ 	for (idx = 0; idx < g_num_of_iommus; idx++)		\
+ 		if (domain->iommu_refcnt[idx])
+@@ -1714,6 +1722,35 @@ static void free_dmar_iommu(struct intel_iommu *iommu)
+ #endif
+ }
+ 
++/*
++ * Check and return whether first level is used by default for
++ * DMA translation. Currently, we make it off by setting
++ * first_level_support = 0, and will change it to -1 after all
++ * map/unmap paths support first level page table.
++ */
++static bool first_level_by_default(void)
++{
++	struct dmar_drhd_unit *drhd;
++	struct intel_iommu *iommu;
++	static int first_level_support = 0;
++
++	if (likely(first_level_support != -1))
++		return first_level_support;
++
++	first_level_support = 1;
++
++	rcu_read_lock();
++	for_each_active_iommu(iommu, drhd) {
++		if (!sm_supported(iommu) || !ecap_flts(iommu->ecap)) {
++			first_level_support = 0;
++			break;
++		}
++	}
++	rcu_read_unlock();
++
++	return first_level_support;
++}
++
+ static struct dmar_domain *alloc_domain(int flags)
  {
- 	int adjust_width, agaw;
- 	unsigned long sagaw;
--	int err;
-+	int ret;
+ 	struct dmar_domain *domain;
+@@ -1725,6 +1762,8 @@ static struct dmar_domain *alloc_domain(int flags)
+ 	memset(domain, 0, sizeof(*domain));
+ 	domain->nid = NUMA_NO_NODE;
+ 	domain->flags = flags;
++	if (first_level_by_default())
++		domain->flags |= DOMAIN_FLAG_USE_FIRST_LEVEL;
+ 	domain->has_iotlb_device = false;
+ 	INIT_LIST_HEAD(&domain->devices);
  
- 	init_iova_domain(&domain->iovad, VTD_PAGE_SIZE, IOVA_START_PFN);
- 
- 	if (!intel_iommu_strict) {
--		err = init_iova_flush_queue(&domain->iovad,
-+		ret = init_iova_flush_queue(&domain->iovad,
- 					    iommu_flush_iova, iova_entry_free);
--		if (err)
--			return err;
-+		if (ret)
-+			pr_info("iova flush queue initialization failed\n");
- 	}
- 
- 	domain_reserve_special_ranges(domain);
-@@ -5222,10 +5222,8 @@ static struct iommu_domain *intel_iommu_domain_alloc(unsigned type)
- 			ret = init_iova_flush_queue(&dmar_domain->iovad,
- 						    iommu_flush_iova,
- 						    iova_entry_free);
--			if (ret) {
--				pr_warn("iova flush queue initialization failed\n");
--				intel_iommu_strict = 1;
--			}
-+			if (ret)
-+				pr_info("iova flush queue initialization failed\n");
- 		}
- 
- 		domain_update_iommu_cap(dmar_domain);
 -- 
 2.17.1
 
