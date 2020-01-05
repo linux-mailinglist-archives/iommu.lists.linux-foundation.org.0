@@ -2,61 +2,61 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9DC0130744
-	for <lists.iommu@lfdr.de>; Sun,  5 Jan 2020 11:47:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1102130745
+	for <lists.iommu@lfdr.de>; Sun,  5 Jan 2020 11:47:24 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 61CF885B4A;
-	Sun,  5 Jan 2020 10:47:20 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 787DE864EF;
+	Sun,  5 Jan 2020 10:47:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AwjhjgBXwaH8; Sun,  5 Jan 2020 10:47:19 +0000 (UTC)
+	with ESMTP id wCXJnU0Zacpj; Sun,  5 Jan 2020 10:47:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C7EC485B3C;
-	Sun,  5 Jan 2020 10:47:19 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 01FF48633B;
+	Sun,  5 Jan 2020 10:47:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C225CC0881;
-	Sun,  5 Jan 2020 10:47:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E4155C1D89;
+	Sun,  5 Jan 2020 10:47:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E532CC0881
- for <iommu@lists.linux-foundation.org>; Sun,  5 Jan 2020 10:47:18 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DDAE0C0881
+ for <iommu@lists.linux-foundation.org>; Sun,  5 Jan 2020 10:47:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id D03AB85CC7
- for <iommu@lists.linux-foundation.org>; Sun,  5 Jan 2020 10:47:18 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id DAB5A85D26
+ for <iommu@lists.linux-foundation.org>; Sun,  5 Jan 2020 10:47:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eBICAqUl+hla for <iommu@lists.linux-foundation.org>;
- Sun,  5 Jan 2020 10:47:18 +0000 (UTC)
+ with ESMTP id odGAMjA0n+da for <iommu@lists.linux-foundation.org>;
+ Sun,  5 Jan 2020 10:47:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by whitealder.osuosl.org (Postfix) with ESMTP id D02D785C90
- for <iommu@lists.linux-foundation.org>; Sun,  5 Jan 2020 10:47:17 +0000 (UTC)
-X-UUID: e07b8a8354b04b3db47f5fefc81ef96e-20200105
+ by whitealder.osuosl.org (Postfix) with ESMTP id CEEB485CE2
+ for <iommu@lists.linux-foundation.org>; Sun,  5 Jan 2020 10:47:20 +0000 (UTC)
+X-UUID: 86d7b78ae4e544b3ad684d7baaf68ab6-20200105
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=/GRQoslk/LSHOdzw5eAs8KczvypmvSkfZUU+7BeTfag=; 
- b=Nav1LSOT1U4hOZPHRAQOPwpEEN0ETiJqv12EqqTUB0fJjj3Z75xw1B/wWtBy/znYrmYLZPQg7NZKd7iBaDMepbdhhZSbDtHvsTn0idoI0rpiywdhIgX73fFO1lPdlqnBT7GAtdULoefecz1D3cPnyu19nY0aipfIO0CfPxDooSc=;
-X-UUID: e07b8a8354b04b3db47f5fefc81ef96e-20200105
+ bh=19qaQnoV6yRHuMfo5UJqrDyTeI5nPaBleiGqUf3+VGg=; 
+ b=MITXeOuZAI+sK6fOr2Dos2HEu6uAKDc6YB/rIraiCkq0PhqTVjA+dpjbxJQM5fbD1CtKmmey/l6UftLqntup5rDjuyToxv003iQrvuKJ8BzFdA7QmzTI0tqE7GlF2IY02bSqcNpOlSOH49osjsOUGuptUA6OKIUO2rj5Cmdud1c=;
+X-UUID: 86d7b78ae4e544b3ad684d7baaf68ab6-20200105
 Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
  (envelope-from <chao.hao@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 304849129; Sun, 05 Jan 2020 18:47:14 +0800
+ with ESMTP id 971568944; Sun, 05 Jan 2020 18:47:17 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
  15.0.1395.4; Sun, 5 Jan 2020 18:46:49 +0800
 Received: from localhost.localdomain (10.15.20.246) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Sun, 5 Jan 2020 18:45:45 +0800
+ Transport; Sun, 5 Jan 2020 18:45:47 +0800
 From: Chao Hao <chao.hao@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>, Matthias
  Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v2 16/19] iommu/mediatek: Remove mtk_iommu_get_m4u_data api
-Date: Sun, 5 Jan 2020 18:45:20 +0800
-Message-ID: <20200105104523.31006-17-chao.hao@mediatek.com>
+Subject: [PATCH v2 17/19] iommu/mediatek: Add iova reserved function
+Date: Sun, 5 Jan 2020 18:45:21 +0800
+Message-ID: <20200105104523.31006-18-chao.hao@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20200105104523.31006-1-chao.hao@mediatek.com>
 References: <20200105104523.31006-1-chao.hao@mediatek.com>
@@ -84,186 +84,113 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Based on previous modifications in the patchset, A mtk_iommu_data
-structure represent a iommu, we will add mtk_iommu_data to mtk_iommu_domain
-to show the iommu which mtk_iommu_domain belongs to, so we can get
-mtk_iommu_data by mtk_iommu_domain, don't use to "mtk_iommu_get_m4u_data"
-any more.
+For multiple iommu_domains, we need to reserve some iova
+regions, so we will add mtk_iommu_resv_iova_region structure.
+It includes the start address and size of iova and iommu_resv_type.
+Based on the function, we will realize multiple mtk_iommu_domains
 
-Besides, there is a small SW adjustment, we will move alloc iommu_group
-into "create_iommu_group"
-
+Signed-off-by: Anan Sun <anan.sun@mediatek.com>
 Signed-off-by: Chao Hao <chao.hao@mediatek.com>
 ---
- drivers/iommu/mtk_iommu.c | 74 +++++++++++++++++++--------------------
- 1 file changed, 37 insertions(+), 37 deletions(-)
+ drivers/iommu/mtk_iommu.c | 47 +++++++++++++++++++++++++++++++++++++++
+ drivers/iommu/mtk_iommu.h | 12 ++++++++++
+ 2 files changed, 59 insertions(+)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index bfb1831afae9..9a7f2a388e3e 100644
+index 9a7f2a388e3e..ac658fa16136 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -115,6 +115,7 @@ struct mtk_iommu_domain {
- 	u32				id;
- 	struct iommu_domain		domain;
- 	struct iommu_group		*group;
-+	struct mtk_iommu_data		*data;
- 	struct list_head		list;
- };
- 
-@@ -162,23 +163,6 @@ static LIST_HEAD(m4ulist);	/* List all the M4U HWs */
- 
- #define for_each_m4u(data)	list_for_each_entry(data, &m4ulist, list)
- 
--/*
-- * There may be 1 or 2 M4U HWs, But we always expect they are in the same domain
-- * for the performance.
-- *
-- * Here always return the mtk_iommu_data of the first probed M4U where the
-- * iommu domain information is recorded.
-- */
--static struct mtk_iommu_data *mtk_iommu_get_m4u_data(void)
--{
--	struct mtk_iommu_data *data;
--
--	for_each_m4u(data)
--		return data;
--
--	return NULL;
--}
--
- static u32 get_domain_id(struct mtk_iommu_data *data, u32 portid)
- {
- 	u32 dom_id = 0;
-@@ -397,6 +381,27 @@ static void mtk_iommu_config(struct mtk_iommu_data *data,
- 	}
+@@ -691,6 +691,51 @@ static int mtk_iommu_of_xlate(struct device *dev, struct of_phandle_args *args)
+ 	return iommu_fwspec_add_ids(dev, args->args, 1);
  }
  
-+static struct iommu_group *create_iommu_group(struct mtk_iommu_data *data,
-+					      struct device *dev)
++/* reserve/dir-map iova region */
++static void mtk_iommu_get_resv_regions(struct device *dev,
++				       struct list_head *head)
 +{
-+	struct mtk_iommu_pgtable *pgtable = mtk_iommu_get_pgtable();
++	struct mtk_iommu_data *data = dev_iommu_fwspec_get(dev)->iommu_priv;
++	unsigned int i, total_cnt = data->plat_data->resv_cnt;
++	const struct mtk_iommu_resv_iova_region *resv_data;
++	struct iommu_resv_region *region;
++	unsigned long base = 0;
++	size_t size = 0;
++	int prot = IOMMU_WRITE | IOMMU_READ;
 +
-+	/* Prepare for allocate mtk_iommu_domain */
-+	data->m4u_group = mtk_iommu_get_group(dev);
-+	if (!data->m4u_group) {
-+		data->m4u_group = iommu_group_alloc();
-+		if (IS_ERR(data->m4u_group))
-+			dev_err(dev, "Failed to allocate M4U IOMMU group\n");
-+	} else {
-+		iommu_group_ref_get(data->m4u_group);
++	resv_data = data->plat_data->resv_region;
++
++	for (i = 0; i < total_cnt; i++) {
++		size = 0;
++		if (resv_data[i].iova_size) {
++			base = (unsigned long)resv_data[i].iova_base;
++			size = resv_data[i].iova_size;
++		}
++		if (!size)
++			continue;
++
++		region = iommu_alloc_resv_region(base, size, prot,
++						 resv_data[i].type);
++		if (!region)
++			return;
++
++		list_add_tail(&region->list, head);
++
++		dev_dbg(data->dev, "%s iova 0x%x ~ 0x%x\n",
++			(resv_data[i].type == IOMMU_RESV_DIRECT) ? "dm" : "rsv",
++			(unsigned int)base, (unsigned int)(base + size - 1));
 +	}
-+
-+	/* save the latest init device */
-+	pgtable->init_dev = dev;
-+
-+	return data->m4u_group;
 +}
 +
- static struct mtk_iommu_pgtable *create_pgtable(struct mtk_iommu_data *data)
- {
- 	struct mtk_iommu_pgtable *pgtable;
-@@ -462,7 +467,7 @@ static int mtk_iommu_attach_pgtable(struct mtk_iommu_data *data,
- static struct iommu_domain *mtk_iommu_domain_alloc(unsigned type)
- {
- 	struct mtk_iommu_pgtable *pgtable = mtk_iommu_get_pgtable();
--	struct mtk_iommu_data *data = mtk_iommu_get_m4u_data();
-+	struct mtk_iommu_data *data;
- 	struct mtk_iommu_domain *dom;
- 	struct device *dev;
- 
-@@ -471,6 +476,7 @@ static struct iommu_domain *mtk_iommu_domain_alloc(unsigned type)
- 
- 	if (pgtable) {
- 		dev = pgtable->init_dev;
-+		data = dev_iommu_fwspec_get(dev)->iommu_priv;
- 		if (!data->m4u_group) {
- 			pr_err("%s, find m4u_group failed\n", __func__);
- 			return NULL;
-@@ -491,6 +497,7 @@ static struct iommu_domain *mtk_iommu_domain_alloc(unsigned type)
- 	if (dom->id >= data->plat_data->dom_cnt)
- 		goto  put_dma_cookie;
- 
-+	dom->data = data;
- 	dom->group = data->m4u_group;
- 	/* Update our support page sizes bitmap */
- 	dom->domain.pgsize_bitmap = pgtable->cfg.pgsize_bitmap;
-@@ -548,7 +555,8 @@ static int mtk_iommu_map(struct iommu_domain *domain, unsigned long iova,
- 			 phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
- {
- 	struct mtk_iommu_pgtable *pgtable = mtk_iommu_get_pgtable();
--	struct mtk_iommu_data *data = mtk_iommu_get_m4u_data();
-+	struct mtk_iommu_domain *dom = to_mtk_domain(domain);
-+	struct mtk_iommu_data *data = dom->data;
- 
- 	/* The "4GB mode" M4U physically can not use the lower remap of Dram. */
- 	if (data->enable_4GB)
-@@ -569,27 +577,30 @@ static size_t mtk_iommu_unmap(struct iommu_domain *domain,
- 
- static void mtk_iommu_flush_iotlb_all(struct iommu_domain *domain)
- {
--	mtk_iommu_tlb_flush_all(mtk_iommu_get_m4u_data());
-+	struct mtk_iommu_domain *dom = to_mtk_domain(domain);
++static void mtk_iommu_put_resv_regions(struct device *dev,
++				       struct list_head *head)
++{
++	struct iommu_resv_region *entry, *next;
 +
-+	mtk_iommu_tlb_flush_all(dom->data);
- }
++	list_for_each_entry_safe(entry, next, head, list)
++		kfree(entry);
++}
++
+ static const struct iommu_ops mtk_iommu_ops = {
+ 	.domain_alloc	= mtk_iommu_domain_alloc,
+ 	.domain_free	= mtk_iommu_domain_free,
+@@ -705,6 +750,8 @@ static const struct iommu_ops mtk_iommu_ops = {
+ 	.remove_device	= mtk_iommu_remove_device,
+ 	.device_group	= mtk_iommu_device_group,
+ 	.of_xlate	= mtk_iommu_of_xlate,
++	.get_resv_regions = mtk_iommu_get_resv_regions,
++	.put_resv_regions = mtk_iommu_put_resv_regions,
+ 	.pgsize_bitmap	= SZ_4K | SZ_64K | SZ_1M | SZ_16M,
+ };
  
- static void mtk_iommu_iotlb_sync(struct iommu_domain *domain,
- 				 struct iommu_iotlb_gather *gather)
- {
--	struct mtk_iommu_data *data = mtk_iommu_get_m4u_data();
-+	struct mtk_iommu_domain *dom = to_mtk_domain(domain);
- 	size_t length = gather->end - gather->start;
+diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
+index a38b26018abe..7f4d498ec5f6 100644
+--- a/drivers/iommu/mtk_iommu.h
++++ b/drivers/iommu/mtk_iommu.h
+@@ -36,6 +36,12 @@ enum mtk_iommu_plat {
+ 	M4U_MT8183,
+ };
  
- 	if (gather->start == ULONG_MAX)
- 		return;
++struct mtk_iommu_resv_iova_region {
++	dma_addr_t		iova_base;
++	size_t			iova_size;
++	enum iommu_resv_type	type;
++};
++
+ /*
+  * reserved IOVA Domain for IOMMU users of HW limitation.
+  */
+@@ -68,6 +74,12 @@ struct mtk_iommu_plat_data {
+ 	u32                 inv_sel_reg;
+ 	unsigned char       larbid_remap[2][MTK_LARB_NR_MAX];
+ 	const struct mtk_domain_data	*dom_data;
++	/*
++	 * reserve/dir-mapping iova region data
++	 * todo: for different reserve needs on multiple iommu domains
++	 */
++	const unsigned int  resv_cnt;
++	const struct mtk_iommu_resv_iova_region *resv_region;
+ };
  
- 	mtk_iommu_tlb_flush_range_sync(gather->start, length, gather->pgsize,
--				       data);
-+				       dom->data);
- }
- 
- static phys_addr_t mtk_iommu_iova_to_phys(struct iommu_domain *domain,
- 					  dma_addr_t iova)
- {
- 	struct mtk_iommu_pgtable *pgtable = mtk_iommu_get_pgtable();
--	struct mtk_iommu_data *data = mtk_iommu_get_m4u_data();
-+	struct mtk_iommu_domain *dom = to_mtk_domain(domain);
-+	struct mtk_iommu_data *data = dom->data;
- 	phys_addr_t pa;
- 
- 	pa = pgtable->iop->iova_to_phys(pgtable->iop, iova);
-@@ -636,7 +647,7 @@ static void mtk_iommu_remove_device(struct device *dev)
- 
- static struct iommu_group *mtk_iommu_device_group(struct device *dev)
- {
--	struct mtk_iommu_data *data = mtk_iommu_get_m4u_data();
-+	struct mtk_iommu_data *data = dev->iommu_fwspec->iommu_priv;
- 	struct mtk_iommu_pgtable *pgtable;
- 	int ret = 0;
- 
-@@ -652,20 +663,9 @@ static struct iommu_group *mtk_iommu_device_group(struct device *dev)
- 		}
- 	}
- 
--	/* All the client devices are in the same m4u iommu-group */
--	data->m4u_group = mtk_iommu_get_group(dev);
--	if (!data->m4u_group) {
--		data->m4u_group = iommu_group_alloc();
--		if (IS_ERR(data->m4u_group))
--			dev_err(dev, "Failed to allocate M4U IOMMU group\n");
--	} else {
--		iommu_group_ref_get(data->m4u_group);
--	}
-+	dev_info(data->dev, "%s, init data:%d\n", __func__, data->m4u_id);
- 
--	/* save the latest init device */
--	pgtable->init_dev = dev;
--
--	return data->m4u_group;
-+	return create_iommu_group(data, dev);
- }
- 
- static int mtk_iommu_of_xlate(struct device *dev, struct of_phandle_args *args)
+ struct mtk_iommu_domain;
 -- 
 2.18.0
 _______________________________________________
