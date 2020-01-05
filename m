@@ -1,68 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6194B1305A3
-	for <lists.iommu@lfdr.de>; Sun,  5 Jan 2020 04:44:25 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E3DC787DBA;
-	Sun,  5 Jan 2020 03:44:23 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bISeCFcN4uqn; Sun,  5 Jan 2020 03:44:23 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 541F987E5C;
-	Sun,  5 Jan 2020 03:44:23 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 451DFC077D;
-	Sun,  5 Jan 2020 03:44:23 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D31B5C077D
- for <iommu@lists.linux-foundation.org>; Sun,  5 Jan 2020 03:44:21 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id E211713075E
+	for <lists.iommu@lfdr.de>; Sun,  5 Jan 2020 11:51:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id CD6CD85BD3
- for <iommu@lists.linux-foundation.org>; Sun,  5 Jan 2020 03:44:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4C99885CAA;
+	Sun,  5 Jan 2020 10:51:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PgqKoCtKky0f; Sun,  5 Jan 2020 10:51:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B427A85BEE;
+	Sun,  5 Jan 2020 10:51:36 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9BD4DC1D8B;
+	Sun,  5 Jan 2020 10:51:36 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D6CDBC0881
+ for <iommu@lists.linux-foundation.org>; Sun,  5 Jan 2020 10:51:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id D0C3985CE0
+ for <iommu@lists.linux-foundation.org>; Sun,  5 Jan 2020 10:51:34 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8b5cyC2jwnGh for <iommu@lists.linux-foundation.org>;
- Sun,  5 Jan 2020 03:44:20 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9D88B8574A
- for <iommu@lists.linux-foundation.org>; Sun,  5 Jan 2020 03:44:20 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2020 19:44:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,397,1571727600"; d="scan'208";a="245265714"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.136])
- ([10.239.159.136])
- by fmsmga004.fm.intel.com with ESMTP; 04 Jan 2020 19:44:18 -0800
-Subject: Re: [PATCH 22/22] iommu/vt-d: Add a quirk flag for scope mismatched
- devices
-To: Roland Dreier <roland@purestorage.com>
-References: <20200102001823.21976-1-baolu.lu@linux.intel.com>
- <20200102001823.21976-23-baolu.lu@linux.intel.com>
- <CAL1RGDWU=s6nVArvkci1cXyZVw-fvdtcOjuY+9E+rgBi65q=Aw@mail.gmail.com>
- <567f1506-4a13-535b-ce41-aac079941510@linux.intel.com>
- <CAL1RGDVF1icaeEWMe0r0VA8AaxtHGJZ8NHCpvJfT8+1duOUYAQ@mail.gmail.com>
- <5097d738-352b-92ad-c8ac-0b3e2805aa97@linux.intel.com>
- <CAL1RGDXm8LC0OAtOjVrDBCjf=6n6jpgSoHRz1L3y2vj6NhAXMg@mail.gmail.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <f03fac7b-133e-8ce3-4b6f-dbab56591385@linux.intel.com>
-Date: Sun, 5 Jan 2020 11:43:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ with ESMTP id 1PYMLg16xK5N for <iommu@lists.linux-foundation.org>;
+ Sun,  5 Jan 2020 10:51:32 +0000 (UTC)
+X-Greylist: delayed 00:05:01 by SQLgrey-1.7.6
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 7B9EA85B36
+ for <iommu@lists.linux-foundation.org>; Sun,  5 Jan 2020 10:51:32 +0000 (UTC)
+X-UUID: 3bea9a535b7e4a3e9703a476143b1235-20200105
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=lA5PzyXuyizUyRDDlXySD7ztXLzdwWD6WEfL0quguyU=; 
+ b=Mm9nNwvcdYTBoA0oIgEh/5DwLQGgeYYRRSdRxD50lHMY3FkH8/l5mKBMnksK+mTHCaENlYj4Zrsj1HONsJVPPnWQQCv7DbxpqTcRj3GuwRCfINawFm2qZ20mb7WftGqqvVR+0BQVLNgUTPWlFYiaPR0KvK2oiOEpnDK2Munbhx4=;
+X-UUID: 3bea9a535b7e4a3e9703a476143b1235-20200105
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ (envelope-from <chao.hao@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1689807649; Sun, 05 Jan 2020 18:46:25 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Sun, 5 Jan 2020 18:46:00 +0800
+Received: from localhost.localdomain (10.15.20.246) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Sun, 5 Jan 2020 18:44:56 +0800
+From: Chao Hao <chao.hao@mediatek.com>
+To: Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>, Matthias
+ Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH v2 00/19] MT6779 IOMMU SUPPORT
+Date: Sun, 5 Jan 2020 18:45:04 +0800
+Message-ID: <20200105104523.31006-1-chao.hao@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <CAL1RGDXm8LC0OAtOjVrDBCjf=6n6jpgSoHRz1L3y2vj6NhAXMg@mail.gmail.com>
-Content-Language: en-US
-Cc: Jim Yan <jimyan@baidu.com>, iommu@lists.linux-foundation.org
+X-MTK: N
+Cc: Anan Sun <anan.sun@mediatek.com>, devicetree@vger.kernel.org,
+ Jun Yan <jun.yan@mediatek.com>, wsd_upstream@mediatek.com,
+ linux-kernel@vger.kernel.org, Chao Hao <chao.hao@mediatek.com>,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ Cui Zhang <zhang.cui@mediatek.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,32 +77,84 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jim,
 
-On 1/5/20 12:52 AM, Roland Dreier wrote:
->> Jim proposed another solution.
->>
->> https://lkml.org/lkml/2019/12/23/653
->>
->> Does this work for you?
-> 
-> Yes, that's OK for the cases I've seen too.  All the NTB devices I've
-> seen are PCI_CLASS_BRIDGE_OTHER with type 0 headers, so this patch
-> would not break anything.  And I think the idea of allowing DMAR
-> bridge scope for all devices with PCI class bridge is logical - BIOS
-> writers probably are going by PCI class rather than header type when
-> assigning scope.
+This patchset adds mt6779 iommu support and adjusts mtk iommu software architecture mainly.
+1. Add mt6779 basic function, such as smi_larb port define, registers define and so on.
+2. In addition, this patchset will adjust current mtk iommu SW architecture mainly to adapt all the mtk platforms:
+   Firstly, mt6779 iommu can support more HW modules, but some modules have special requirements for iova region,
+   for example, CCU only can access 0x4000_0000~0x47ff_ffff, VPU only can access 0x7da0_0000~0x7fbf_ffff. Current
+   architecture only support one iommu domain(include 0~4GB), all the modules allocate iova from 0~4GB region, so
+   it doesn't ensure to allocate expected iova region for special module(CCU and VPU). In order to resolve the problem,
+   we will create different iommu domains for special module, and every domain can include iova region which module needs.
+   Secondly, all the iommus share one page table for current architecture by "mtk_iommu_get_m4u_data", to make the
+   architecture look clearly, we will create a global page table firstly(mtk_iommu_pgtable), and all the iommus can
+   use it. One page table can include 4GB iova space, so multiple iommu domains are created based on the same page table.
+   New SW architecture diagram is as below:
 
-Can you please post a v2 of this patch with the change you proposed in
-https://lkml.org/lkml/2019/12/23/653?
+                         iommu0   iommu1
+                            |        |
+                            ----------
+                                 |
+                        mtk_iommu_pgtable
+                                 |
+            ------------------------------------------
+            |                    |                   |
+      mtk_iommu_domain1   mtk_iommu_domain2   mtk_iommu_domain3
+            |                    |                   |
+       iommu_group1         iommu_group2        iommu_group3
+            |                    |                   |
+       iommu_domain1       iommu_domain2        iommu_domain3
+            |                    |                   |
+     iova region1(normal)  iova region2(CCU)   iova region3(VPU)
 
-Best regards,
-baolu
+change notes:
+ v2:
+  1. Rebase on v5.5-rc1.
+  2. Delete M4U_PORT_UNKNOWN define because of not use it.
+  3. Correct coding format.
+  4. Rename offset=0x48 register.
+  5. Split "iommu/mediatek: Add mt6779 IOMMU basic support(patch v1)" to several patches(patch v2).
+
+ v1:
+  http://lists.infradead.org/pipermail/linux-mediatek/2019-November/024567.html
+
+
+ Chao Hao (19):
+   dt-bindings: mediatek: Add bindings for MT6779
+   iommu/mediatek: Add m4u1_mask to distinguish m4u_id
+   iommu/mediatek: Extend larb_remap to larb_remap[2]
+   iommu/mediatek: Rename offset=0x48 register
+   iommu/mediatek: Put inv_sel_reg in the plat_data for preparing add
+                   0x2c support in mt6779
+   iommu/mediatek: Add new flow to get SUB_COMMON ID in translation fault
+   iommu/mediatek: Add REG_MMU_WR_LEN reg define prepare for mt6779
+   iommu/mediatek: Add mt6779 basic support
+   iommu/mediatek: Add mtk_iommu_pgtable structure
+   iommu/mediatek: Remove mtk_iommu_domain_finalise
+   iommu/mediatek: Remove pgtable info in mtk_iommu_domain
+   iommu/mediatek: Change get the way of m4u_group
+   iommu/mediatek: Add smi_larb info about device
+   iommu/mediatek: Add mtk_domain_data structure
+   iommu/mediatek: Remove the usage of m4u_dom variable
+   iommu/mediatek: Remove mtk_iommu_get_m4u_data api
+   iommu/mediatek: Add iova reserved function
+   iommu/mediatek: Change single domain to multiple domains
+   iommu/mediatek: Add multiple mtk_iommu_domain support for mt6779
+
+  .../bindings/iommu/mediatek,iommu.txt         |   2 +
+  drivers/iommu/mtk_iommu.c                     | 493 +++++++++++++++---
+  drivers/iommu/mtk_iommu.h                     |  50 +-
+  include/dt-bindings/memory/mt6779-larb-port.h | 215 ++++++++
+  4 files changed, 683 insertions(+), 77 deletions(-)
+
+ --
+ 2.18.0
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
