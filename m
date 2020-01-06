@@ -1,91 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B8DA130EBA
-	for <lists.iommu@lfdr.de>; Mon,  6 Jan 2020 09:37:17 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C851310C3
+	for <lists.iommu@lfdr.de>; Mon,  6 Jan 2020 11:49:04 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C05FD84DBD;
-	Mon,  6 Jan 2020 08:37:15 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 054862050A;
+	Mon,  6 Jan 2020 10:49:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 710tqRxCaJYj; Mon,  6 Jan 2020 08:37:14 +0000 (UTC)
+	with ESMTP id S0onQe0Cn9Cl; Mon,  6 Jan 2020 10:49:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 496C784ECF;
-	Mon,  6 Jan 2020 08:37:14 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4E1D1204E1;
+	Mon,  6 Jan 2020 10:49:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 324EEC1D83;
-	Mon,  6 Jan 2020 08:37:14 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 38F42C0881;
+	Mon,  6 Jan 2020 10:49:02 +0000 (UTC)
+X-Original-To: iommu@lists.linuxfoundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A4BEFC0881
- for <iommu@lists.linux-foundation.org>; Mon,  6 Jan 2020 08:37:12 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CA9FCC0881
+ for <iommu@lists.linuxfoundation.org>; Mon,  6 Jan 2020 10:49:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8CC0786FAD
- for <iommu@lists.linux-foundation.org>; Mon,  6 Jan 2020 08:37:12 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B32E085198
+ for <iommu@lists.linuxfoundation.org>; Mon,  6 Jan 2020 10:49:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QXn826wqJjZk for <iommu@lists.linux-foundation.org>;
- Mon,  6 Jan 2020 08:37:11 +0000 (UTC)
+ with ESMTP id zC_dLHpCIuch for <iommu@lists.linuxfoundation.org>;
+ Mon,  6 Jan 2020 10:49:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0D0AD86F8D
- for <iommu@lists.linux-foundation.org>; Mon,  6 Jan 2020 08:37:10 +0000 (UTC)
-Received: from mail-pl1-f198.google.com ([209.85.214.198])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <kai.heng.feng@canonical.com>) id 1ioNsq-0003O7-8O
- for iommu@lists.linux-foundation.org; Mon, 06 Jan 2020 08:37:08 +0000
-Received: by mail-pl1-f198.google.com with SMTP id 2so8947736plb.15
- for <iommu@lists.linux-foundation.org>; Mon, 06 Jan 2020 00:37:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=SNXkADHZhyJy0Bp0apNiPJvlafdrd5bDbFyFMJQ4dXU=;
- b=ao0urKOBNFU3lvh9hUBjmql02NOIMqlUpLITEuLiMVTNXFEWNwQlI//ETyZ2ky0Zv5
- Uo9jy7ncmGBxnEoTAakxPUU47Pnw07QZWCNCvQcF3K+mVQaVk90R0Ch/mG2L0WpuQERO
- XG/SvjifJ3ECEazRiQP516UkrRZ7uHqVYozQSq1nkuwF84QQ/jdxZ5vqtkflUfRmMXVr
- Qzjt3OgxJh0zXh8YIcqrHCeCHb2/tHrLwGIBoNXhcdqZb8WHSA82VUYUhI4eV1CvOrjz
- t07LokelARvq0hBYR1vWWwqnU47n+w/6WWFQD1zynRCSkyISIjmrm+u1aMFV1Y4XKAd/
- gi/g==
-X-Gm-Message-State: APjAAAUOgLD5JMvKhUTCZl/SCuVAhHcf2hWIaMVHsJG4gClIqo3mEKQ3
- 6nKF9Gc/5ukcnhTzgQs3Cc4kamPnnx2Hwz8YK50XoN2NQfSnU6NMGZlfPqjJAkykaCflVmIeIX7
- H3r938qEIjZbq1UKPGyyenlREs8aeWXjfjw9vLN9MprM76l8=
-X-Received: by 2002:a17:90a:d78f:: with SMTP id
- z15mr41730959pju.36.1578299826803; 
- Mon, 06 Jan 2020 00:37:06 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzEWrpnG0Qq6ElKUrUWzb4feESIT75MmnAI+RtORJgSr8PQwJVAJItr4+ahT0t2D7LvT5sagw==
-X-Received: by 2002:a17:90a:d78f:: with SMTP id
- z15mr41730949pju.36.1578299826569; 
- Mon, 06 Jan 2020 00:37:06 -0800 (PST)
-Received: from 2001-b011-380f-35a3-2839-ccbd-36ed-2f4a.dynamic-ip6.hinet.net
- (2001-b011-380f-35a3-2839-ccbd-36ed-2f4a.dynamic-ip6.hinet.net.
- [2001:b011:380f:35a3:2839:ccbd:36ed:2f4a])
- by smtp.gmail.com with ESMTPSA id o31sm72172458pgb.56.2020.01.06.00.37.05
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 06 Jan 2020 00:37:06 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.40.2.2.4\))
-Subject: Re: [PATCH v2] iommu/amd: Disable IOMMU on Stoney Ridge systems
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <84CFD1EE-2DB7-451F-98E4-58C4B0046A81@canonical.com>
-Date: Mon, 6 Jan 2020 16:37:04 +0800
-Message-Id: <C4ADFDF0-8252-412A-8CFE-8E5ACE853B0A@canonical.com>
-References: <20191129142154.29658-1-kai.heng.feng@canonical.com>
- <20191202170011.GC30032@infradead.org>
- <974A8EB3-70B6-4A33-B36C-CFF69464493C@canonical.com>
- <20191217095341.GG8689@8bytes.org>
- <6DC0EAB3-89B5-4A16-9A38-D7AD954DDF1C@canonical.com>
- <CY4PR12MB13505BE6EFF95F7C48253120F7520@CY4PR12MB1350.namprd12.prod.outlook.com>
- <84CFD1EE-2DB7-451F-98E4-58C4B0046A81@canonical.com>
-To: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-X-Mailer: Apple Mail (2.3608.40.2.2.4)
-Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Kernel development list <linux-kernel@vger.kernel.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 416A384BBE
+ for <iommu@lists.linuxfoundation.org>; Mon,  6 Jan 2020 10:49:00 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8CFCA2075A;
+ Mon,  6 Jan 2020 10:48:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1578307740;
+ bh=KTf4Q6TMAmFP4YypppQIz+5yyzzXgPCq9NldOVTUXr0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=U51UUbcinc7Ku/DCDqj1MSpIsTMSmgc6k3QIbXCjTMa1HyQuVTvmINCGcrlZj7I+c
+ WPV/TptbljByMQJSMd6nbmsYL8s7X/klNzDoSCfF9q36ZVGXpP6mLN1BVJQJfvOf1N
+ ksMBt95Wj8aKEdygIqt3ipkKqNBrFvfOZ6TdMCj8=
+Date: Mon, 6 Jan 2020 10:48:54 +0000
+From: Will Deacon <will@kernel.org>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: Re: [PATCH v4 00/16] iommu: Permit modular builds of ARM SMMU[v3]
+ drivers
+Message-ID: <20200106104853.GA5400@willie-the-truck>
+References: <20191219120352.382-1-will@kernel.org>
+ <20191220161313.GA21234@8bytes.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20191220161313.GA21234@8bytes.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: iommu@lists.linuxfoundation.org,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Ard Biesheuvel <ardb@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ kernel-team@android.com, "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,136 +82,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On Fri, Dec 20, 2019 at 05:13:13PM +0100, Joerg Roedel wrote:
+> On Thu, Dec 19, 2019 at 12:03:36PM +0000, Will Deacon wrote:
+> > Ard Biesheuvel (1):
+> >   iommu/arm-smmu: Support SMMU module probing from the IORT
+> > 
+> > Greg Kroah-Hartman (1):
+> >   PCI/ATS: Restore EXPORT_SYMBOL_GPL() for pci_{enable,disable}_ats()
+> > 
+> > Will Deacon (14):
+> >   drivers/iommu: Export core IOMMU API symbols to permit modular drivers
+> >   iommu/of: Request ACS from the PCI core when configuring IOMMU linkage
+> >   PCI: Export pci_ats_disabled() as a GPL symbol to modules
+> >   drivers/iommu: Take a ref to the IOMMU driver prior to ->add_device()
+> >   iommu/of: Take a ref to the IOMMU driver during ->of_xlate()
+> >   drivers/iommu: Allow IOMMU bus ops to be unregistered
+> >   Revert "iommu/arm-smmu: Make arm-smmu-v3 explicitly non-modular"
+> >   Revert "iommu/arm-smmu: Make arm-smmu explicitly non-modular"
+> >   iommu/arm-smmu: Prevent forced unbinding of Arm SMMU drivers
+> >   iommu/arm-smmu-v3: Unregister IOMMU and bus ops on device removal
+> >   iommu/arm-smmu-v3: Allow building as a module
+> >   iommu/arm-smmu: Unregister IOMMU and bus ops on device removal
+> >   iommu/arm-smmu: Allow building as a module
+> >   iommu/arm-smmu: Update my email address in MODULE_AUTHOR()
+> > 
+> >  drivers/acpi/arm64/iort.c   |   4 +-
+> >  drivers/iommu/Kconfig       |  16 ++++-
+> >  drivers/iommu/Makefile      |   3 +-
+> >  drivers/iommu/arm-smmu-v3.c |  94 +++++++++++++++++---------
+> >  drivers/iommu/arm-smmu.c    | 128 +++++++++++++++++++++++++-----------
+> >  drivers/iommu/iommu-sysfs.c |   5 ++
+> >  drivers/iommu/iommu.c       |  32 ++++++++-
+> >  drivers/iommu/of_iommu.c    |  19 ++++--
+> >  drivers/pci/ats.c           |   2 +
+> >  drivers/pci/pci.c           |   1 +
+> >  include/linux/iommu.h       |   4 +-
+> >  11 files changed, 223 insertions(+), 85 deletions(-)
+> 
+> Applied, thanks.
 
+Thanks, Joerg! I'll look into the suggestion from Greg regarding 'automatic'
+setting of the module 'owner' field and send a follow-up patch if I come up
+with something.
 
-> On Dec 20, 2019, at 10:13, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
-> 
-> 
-> 
->> On Dec 20, 2019, at 03:15, Deucher, Alexander <Alexander.Deucher@amd.com> wrote:
->> 
->>> -----Original Message-----
->>> From: Kai-Heng Feng <kai.heng.feng@canonical.com>
->>> Sent: Wednesday, December 18, 2019 12:45 PM
->>> To: Joerg Roedel <joro@8bytes.org>
->>> Cc: Christoph Hellwig <hch@infradead.org>; Deucher, Alexander
->>> <Alexander.Deucher@amd.com>; iommu@lists.linux-foundation.org; Kernel
->>> development list <linux-kernel@vger.kernel.org>
->>> Subject: Re: [PATCH v2] iommu/amd: Disable IOMMU on Stoney Ridge
->>> systems
->>> 
->>> 
->>> 
->>>> On Dec 17, 2019, at 17:53, Joerg Roedel <joro@8bytes.org> wrote:
->>>> 
->>>> On Fri, Dec 06, 2019 at 01:57:41PM +0800, Kai-Heng Feng wrote:
->>>>> Hi Joerg,
->>>>> 
->>>>>> On Dec 3, 2019, at 01:00, Christoph Hellwig <hch@infradead.org> wrote:
->>>>>> 
->>>>>> On Fri, Nov 29, 2019 at 10:21:54PM +0800, Kai-Heng Feng wrote:
->>>>>>> Serious screen flickering when Stoney Ridge outputs to a 4K monitor.
->>>>>>> 
->>>>>>> According to Alex Deucher, IOMMU isn't enabled on Windows, so let's
->>>>>>> do the same here to avoid screen flickering on 4K monitor.
->>>>>> 
->>>>>> Disabling the IOMMU entirely seem pretty severe.  Isn't it enough to
->>>>>> identity map the GPU device?
->>>>> 
->>>>> Ok, there's set_device_exclusion_range() to exclude the device from
->>> IOMMU.
->>>>> However I don't know how to generate range_start and range_length,
->>> which are read from ACPI.
->>>> 
->>>> set_device_exclusion_range() is not the solution here. The best is if
->>>> the GPU device is put into a passthrough domain at boot, in which it
->>>> will be identity mapped. DMA still goes through the IOMMU in this
->>>> case, but it only needs to lookup the device-table, page-table walks
->>>> will not be done anymore.
->>>> 
->>>> The best way to implement this is to put it into the
->>>> amd_iommu_add_device() in drivers/iommu/amd_iommu.c. There is this
->>>> check:
->>>> 
->>>>      if (dev_data->iommu_v2)
->>>> 		iommu_request_dm_for_dev(dev);
->>>> 
->>>> The iommu_request_dm_for_dev() function causes the device to be
->>>> identity mapped. The check can be extended to also check for a device
->>>> white-list for devices that need identity mapping.
->>> 
->>> My patch looks like this but the original behavior (4K screen flickering) is still
->>> the same:
->> 
->> Does reverting the patch to disable ATS along with this patch help?
-> 
-> Unfortunately it doesn't help.
-
-Any further suggestion to let me try?
-
-Kai-Heng
-
-> 
-> Kai-Heng
-> 
->> 
->> Alex
->> 
->>> 
->>> diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
->>> index bd25674ee4db..f913a25c9e92 100644
->>> --- a/drivers/iommu/amd_iommu.c
->>> +++ b/drivers/iommu/amd_iommu.c
->>> @@ -42,6 +42,7 @@
->>> #include <asm/iommu.h>
->>> #include <asm/gart.h>
->>> #include <asm/dma.h>
->>> +#include <asm/pci-direct.h>
->>> 
->>> #include "amd_iommu_proto.h"
->>> #include "amd_iommu_types.h"
->>> @@ -2159,6 +2160,8 @@ static int amd_iommu_add_device(struct device
->>> *dev)
->>>       struct iommu_domain *domain;
->>>       struct amd_iommu *iommu;
->>>       int ret, devid;
->>> +       bool need_identity_mapping = false;
->>> +       u32 header;
->>> 
->>>       if (!check_device(dev) || get_dev_data(dev))
->>>               return 0;
->>> @@ -2184,7 +2187,11 @@ static int amd_iommu_add_device(struct device
->>> *dev)
->>> 
->>>       BUG_ON(!dev_data);
->>> 
->>> -       if (dev_data->iommu_v2)
->>> +       header = read_pci_config(0, PCI_BUS_NUM(devid), PCI_SLOT(devid),
->>> PCI_FUNC(devid));
->>> +       if ((header & 0xffff) == 0x1002 && (header >> 16) == 0x98e4)
->>> +               need_identity_mapping = true;
->>> +
->>> +       if (dev_data->iommu_v2 || need_identity_mapping)
->>>               iommu_request_dm_for_dev(dev);
->>> 
->>>       /* Domains are initialized for this device - have a look what we ended up
->>> with */
->>> 
->>> 
->>> $ dmesg | grep -i direct
->>> [    0.011446] Using GB pages for direct mapping
->>> [    0.703369] pci 0000:00:01.0: Using iommu direct mapping
->>> [    0.703830] pci 0000:00:08.0: Using iommu direct mapping
->>> 
->>> So the graphics device (pci 0000:00:01.0:) is using direct mapping after the
->>> change.
->>> 
->>> Kai-Heng
->>> 
->>>> 
->>>> HTH,
->>>> 
->>>> 	Joerg
+Will
 
 _______________________________________________
 iommu mailing list
