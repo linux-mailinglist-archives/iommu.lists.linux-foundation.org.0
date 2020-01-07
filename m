@@ -1,57 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C3D132A48
-	for <lists.iommu@lfdr.de>; Tue,  7 Jan 2020 16:44:39 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6E60132AA6
+	for <lists.iommu@lfdr.de>; Tue,  7 Jan 2020 17:03:17 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2F5DA85143;
-	Tue,  7 Jan 2020 15:44:38 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5365320337;
+	Tue,  7 Jan 2020 16:03:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aSjKi-aFKW4Y; Tue,  7 Jan 2020 15:44:37 +0000 (UTC)
+	with ESMTP id oGWWxnwokPxG; Tue,  7 Jan 2020 16:03:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2E56E8513B;
-	Tue,  7 Jan 2020 15:44:37 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id BF7EA20243;
+	Tue,  7 Jan 2020 16:03:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 23342C0881;
-	Tue,  7 Jan 2020 15:44:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B119CC0881;
+	Tue,  7 Jan 2020 16:03:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 91070C0881
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jan 2020 15:44:35 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5643BC0881
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jan 2020 16:03:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8456985456
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jan 2020 15:44:35 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 4349B20243
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jan 2020 16:03:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id w07fTuvf07DM for <iommu@lists.linux-foundation.org>;
- Tue,  7 Jan 2020 15:44:34 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 40C908461B
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jan 2020 15:44:34 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 5DF506A3; Tue,  7 Jan 2020 16:44:31 +0100 (CET)
-Date: Tue, 7 Jan 2020 16:44:29 +0100
-From: Joerg Roedel <joro@8bytes.org>
-To: Brian Masney <masneyb@onstation.org>
-Subject: Re: [PATCH] iommu/qcom: fix NULL pointer dereference during probe
- deferral
-Message-ID: <20200107154429.GE30750@8bytes.org>
-References: <20200101033949.755-1-masneyb@onstation.org>
- <20200107132530.GC30750@8bytes.org>
- <20200107140013.GA9084@onstation.org>
+ with ESMTP id kNLswUxS8WIX for <iommu@lists.linux-foundation.org>;
+ Tue,  7 Jan 2020 16:03:13 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by silver.osuosl.org (Postfix) with ESMTPS id 9175320023
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jan 2020 16:03:13 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 01898B240;
+ Tue,  7 Jan 2020 16:03:10 +0000 (UTC)
+Date: Tue, 7 Jan 2020 17:03:08 +0100
+From: Joerg Roedel <jroedel@suse.de>
+To: Qian Cai <cai@lca.pw>
+Subject: Re: [PATCH] iommu/dma: fix variable 'cookie' set but not used
+Message-ID: <20200107160308.GC5622@suse.de>
+References: <20200106152727.1589-1-cai@lca.pw>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200107140013.GA9084@onstation.org>
+In-Reply-To: <20200106152727.1589-1-cai@lca.pw>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
- Robin Murphy <robin.murphy@arm.com>
+Cc: iommu@lists.linux-foundation.org, robin.murphy@arm.com,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,25 +67,23 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Jan 07, 2020 at 09:00:14AM -0500, Brian Masney wrote:
-> On Tue, Jan 07, 2020 at 02:25:30PM +0100, Joerg Roedel wrote:
-> > On Tue, Dec 31, 2019 at 10:39:49PM -0500, Brian Masney wrote:
-> > >  drivers/iommu/qcom_iommu.c | 12 ++++++++++--
-> > >  1 file changed, 10 insertions(+), 2 deletions(-)
-> > 
-> > Shortened commit-message a bit and applied for v5.5, thanks.
+On Mon, Jan 06, 2020 at 10:27:27AM -0500, Qian Cai wrote:
+> The commit c18647900ec8 ("iommu/dma: Relax locking in
+> iommu_dma_prepare_msi()") introduced a compliation warning,
 > 
-> You might want to hold off on applying this since it looks like Robin
-> Murphy has a better fix.
+> drivers/iommu/dma-iommu.c: In function 'iommu_dma_prepare_msi':
+> drivers/iommu/dma-iommu.c:1206:27: warning: variable 'cookie' set but
+> not used [-Wunused-but-set-variable]
+>   struct iommu_dma_cookie *cookie;
+>                            ^~~~~~
 > 
-> https://lore.kernel.org/lkml/fc055443-8716-4a0e-b4d5-311517d71ea0@arm.com/
+> Fixes: c18647900ec8 ("iommu/dma: Relax locking in iommu_dma_prepare_msi()")
+> Signed-off-by: Qian Cai <cai@lca.pw>
+> ---
+>  drivers/iommu/dma-iommu.c | 3 ---
+>  1 file changed, 3 deletions(-)
 
-Alright, thanks for the heads-up. I dropped that patch from my fixes
-branch.
-
-Regards,
-
-	Joerg
+Applied for v5.5, thanks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
