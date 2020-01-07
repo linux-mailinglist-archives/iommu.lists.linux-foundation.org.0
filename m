@@ -1,68 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1EE13278E
-	for <lists.iommu@lfdr.de>; Tue,  7 Jan 2020 14:28:04 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 694391327F4
+	for <lists.iommu@lfdr.de>; Tue,  7 Jan 2020 14:41:33 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1A0A28750A;
-	Tue,  7 Jan 2020 13:28:03 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 18FAF81AEB;
+	Tue,  7 Jan 2020 13:41:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IlMEQoaxZDDz; Tue,  7 Jan 2020 13:28:01 +0000 (UTC)
+	with ESMTP id gw07dXnNVe5b; Tue,  7 Jan 2020 13:41:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C0A0687482;
-	Tue,  7 Jan 2020 13:28:01 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B7D438559F;
+	Tue,  7 Jan 2020 13:41:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 97FF0C0881;
-	Tue,  7 Jan 2020 13:28:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A8C1AC0881;
+	Tue,  7 Jan 2020 13:41:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9B508C0881
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jan 2020 13:27:57 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1AE77C0881
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jan 2020 13:41:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 8944320362
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jan 2020 13:27:57 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 1636020362
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jan 2020 13:41:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MqxBzeWLrily for <iommu@lists.linux-foundation.org>;
- Tue,  7 Jan 2020 13:27:56 +0000 (UTC)
+ with ESMTP id vvERiMdchnAT for <iommu@lists.linux-foundation.org>;
+ Tue,  7 Jan 2020 13:41:28 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by silver.osuosl.org (Postfix) with ESMTPS id E8F692034C
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jan 2020 13:27:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
- :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZgcWgVZWoALXHLMfZ5dpmFvCO8GJAsNY0kanZ31E1kw=; b=dIul6ScW9Fbch0ICIUvuHBOO1
- zVBnim7uI5MjoOdSJO936XOCLdQgnx6NXaMEZkeTPb8hGZvTbIO2dkoFmZWrrRQn3O17XLgd3ELpS
- l/28oBCKWRckv4yyId6YsIM0orB3rMVQwzbzzvtePESxtDJeAepuDnU0jEGF408b1dLC5M6IwsEqX
- oCpNNMguL9raxbAHfizNieQTLLKl2m0uUgWN8mKVUDT/oserZeMCcVTNshRJAV+snKsjaoSsnjGZV
- uZQWF8D4aOSRAwDZX7xe5WauZ8LR/K4ahd07ohuW2xqaBp3JftAx7w/x7/WNe0PO/BCILWTMWC/ij
- tYkheqReg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red
- Hat Linux)) id 1iootj-0001Xd-88; Tue, 07 Jan 2020 13:27:51 +0000
-Date: Tue, 7 Jan 2020 05:27:51 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 1/1] iommu/vt-d: Add a quirk flag for scope mismatched
- devices
-Message-ID: <20200107132751.GA584@infradead.org>
-References: <20191224062240.4796-1-baolu.lu@linux.intel.com>
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8658A2034C
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jan 2020 13:41:28 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id CACC53AA; Tue,  7 Jan 2020 14:41:26 +0100 (CET)
+Date: Tue, 7 Jan 2020 14:41:25 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: Jon Derrick <jonathan.derrick@intel.com>
+Subject: Re: [RFC 0/5] Clean up VMD DMA Map Ops
+Message-ID: <20200107134125.GD30750@8bytes.org>
+References: <1577823863-3303-1-git-send-email-jonathan.derrick@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191224062240.4796-1-baolu.lu@linux.intel.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Cc: Roland Dreier <roland@purestorage.com>, Jim Yan <jimyan@baidu.com>,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+In-Reply-To: <1577823863-3303-1-git-send-email-jonathan.derrick@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: linux-pci@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Bjorn Helgaas <helgaas@kernel.org>, Keith Busch <kbusch@kernel.org>,
+ David Woodhouse <dwmw2@infradead.org>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,17 +66,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-WTF is a NVMe host supposed to mean for a PCIe device.  NVMe defines
-the host as following:
+On Tue, Dec 31, 2019 at 01:24:18PM -0700, Jon Derrick wrote:
+> Jon Derrick (5):
+>   iommu: Remove device link to group on failure
+>   iommu/vt-d: Unlink device if failed to add to group
 
-"1.6.16 host
-
-An entity that interfaces to an NVM subsystem through one or more
-controllers and submits commands to Submission Queues and retrieves
-command completions from Completion Queues."
-
-in other words - the Linux kernel is the NVMe host.  You need to
-describe this magic broken piece of crap a lot better than that.
+Added 'Fixes:' tags to these two and applied them for v5.5, thanks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
