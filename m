@@ -2,15 +2,15 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DEA7135C38
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE73135C39
 	for <lists.iommu@lfdr.de>; Thu,  9 Jan 2020 16:06:43 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 099E481B14;
-	Thu,  9 Jan 2020 15:06:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id EEFA081682;
+	Thu,  9 Jan 2020 15:06:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mYK-aKJeYexB; Thu,  9 Jan 2020 15:06:40 +0000 (UTC)
+	with ESMTP id M1m8-TD3LyIy; Thu,  9 Jan 2020 15:06:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
 	by hemlock.osuosl.org (Postfix) with ESMTP id 162DD881F9;
 	Thu,  9 Jan 2020 15:06:22 +0000 (UTC)
