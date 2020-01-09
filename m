@@ -1,71 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D2BB136018
-	for <lists.iommu@lfdr.de>; Thu,  9 Jan 2020 19:21:43 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1C013602E
+	for <lists.iommu@lfdr.de>; Thu,  9 Jan 2020 19:34:11 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 4D3C72156E;
-	Thu,  9 Jan 2020 18:21:42 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 92B59845FD;
+	Thu,  9 Jan 2020 18:34:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FSwNHSAtRDtP; Thu,  9 Jan 2020 18:21:40 +0000 (UTC)
+	with ESMTP id RhNHffEIM1fS; Thu,  9 Jan 2020 18:34:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id E594E21574;
-	Thu,  9 Jan 2020 18:21:40 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4F5C084273;
+	Thu,  9 Jan 2020 18:34:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C819BC0881;
-	Thu,  9 Jan 2020 18:21:40 +0000 (UTC)
-X-Original-To: iommu@lists.linuxfoundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2F8B3C1D8B;
+	Thu,  9 Jan 2020 18:34:08 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E219DC0881
- for <iommu@lists.linuxfoundation.org>; Thu,  9 Jan 2020 18:21:38 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A9330C0881
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 18:34:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id CDBC32156B
- for <iommu@lists.linuxfoundation.org>; Thu,  9 Jan 2020 18:21:38 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 927C1882D8
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 18:34:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xmQ6tX2Kj+hf for <iommu@lists.linuxfoundation.org>;
- Thu,  9 Jan 2020 18:21:37 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 7FEE221514
- for <iommu@lists.linuxfoundation.org>; Thu,  9 Jan 2020 18:21:37 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 655DE2072A;
- Thu,  9 Jan 2020 18:21:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578594097;
- bh=+sBgitQL3mchSzP4Zk7erYJ9ZJ5ThhSnczn5fnQvSkY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qFHa0o+FuNFrYUBweK+4sytw7pvbDe8ilh4PEgH8e0aoeuk84pqZuF/CKpz2edZfr
- mupIUv4nVDn+sooFYGrIG/xXBlmXBR/gSAwEfF3UM2dntd9XVzj1yYk+Rjei2nobkJ
- gkdIy7JMsz81pP7LvYZ/l5J6mi+KI3F5Jhv9VCpY=
-Date: Thu, 9 Jan 2020 19:17:58 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v4 05/16] drivers/iommu: Take a ref to the IOMMU driver
- prior to ->add_device()
-Message-ID: <20200109181758.GD589933@kroah.com>
-References: <20191219120352.382-1-will@kernel.org>
- <20191219120352.382-6-will@kernel.org>
- <20191219144437.GA1959534@kroah.com>
- <20200109141602.GA12236@willie-the-truck>
+ with ESMTP id rq0fBBbNhMx3 for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Jan 2020 18:34:05 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B5DEB88273
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 18:34:05 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2020 10:34:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,414,1571727600"; d="scan'208";a="223418188"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by orsmga006.jf.intel.com with ESMTP; 09 Jan 2020 10:34:05 -0800
+Date: Thu, 9 Jan 2020 10:39:08 -0800
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v8 02/10] iommu/vt-d: Add nested translation helper
+ function
+Message-ID: <20200109103908.4c306b06@jacob-builder>
+In-Reply-To: <6192b57c-12ab-ec6c-ab95-d9b9bff3efad@linux.intel.com>
+References: <1576524252-79116-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1576524252-79116-3-git-send-email-jacob.jun.pan@linux.intel.com>
+ <6192b57c-12ab-ec6c-ab95-d9b9bff3efad@linux.intel.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200109141602.GA12236@willie-the-truck>
-Cc: iommu@lists.linuxfoundation.org,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Saravana Kannan <saravanak@google.com>, Robin Murphy <robin.murphy@arm.com>,
- linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, kernel-team@android.com,
- "Isaac J. Manjarres" <isaacm@codeaurora.org>
+Cc: Yi L <yi.l.liu@linux.intel.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ Raj Ashok <ashok.raj@intel.com>, LKML <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,115 +76,69 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jan 09, 2020 at 02:16:03PM +0000, Will Deacon wrote:
-> Hi Greg,
-> 
-> On Thu, Dec 19, 2019 at 03:44:37PM +0100, Greg Kroah-Hartman wrote:
-> > On Thu, Dec 19, 2019 at 12:03:41PM +0000, Will Deacon wrote:
-> > > diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> > > index f2223cbb5fd5..e9f94d3f7a04 100644
-> > > --- a/include/linux/iommu.h
-> > > +++ b/include/linux/iommu.h
-> > > @@ -246,9 +246,10 @@ struct iommu_iotlb_gather {
-> > >   * @sva_get_pasid: Get PASID associated to a SVA handle
-> > >   * @page_response: handle page request response
-> > >   * @cache_invalidate: invalidate translation caches
-> > > - * @pgsize_bitmap: bitmap of all possible supported page sizes
-> > >   * @sva_bind_gpasid: bind guest pasid and mm
-> > >   * @sva_unbind_gpasid: unbind guest pasid and mm
-> > > + * @pgsize_bitmap: bitmap of all possible supported page sizes
-> > > + * @owner: Driver module providing these ops
-> > >   */
-> > >  struct iommu_ops {
-> > >  	bool (*capable)(enum iommu_cap);
-> > > @@ -318,6 +319,7 @@ struct iommu_ops {
-> > >  	int (*sva_unbind_gpasid)(struct device *dev, int pasid);
-> > >  
-> > >  	unsigned long pgsize_bitmap;
-> > > +	struct module *owner;
-> > 
-> > Everyone is always going to forget to set this field.  I don't think you
-> > even set it for all of the different iommu_ops possible in this series,
-> > right?
-> 
-> I only initialised the field for those drivers which can actually be built
-> as a module, but I take your point about this being error-prone.
-> 
-> > The "trick" we did to keep people from having to remember this is to do
-> > what we did for the bus registering functions.
-> > 
-> > Look at pci_register_driver in pci.h:
-> > #define pci_register_driver(driver)             \
-> >         __pci_register_driver(driver, THIS_MODULE, KBUILD_MODNAME)
-> > 
-> > Then we set the .owner field in the "real" __pci_register_driver() call.
-> > 
-> > Same thing for USB and lots, if not all, other driver register
-> > functions.
-> > 
-> > You can do the same thing here, and I would recommend it.
-> 
-> Yes, that makes sense, cheers. Diff below. I'll send it to Joerg along
-> with some other SMMU patches that have come in since the holiday.
-> 
-> Will
-> 
-> --->8
-> 
-> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-> index 03dc97842875..e82997a705a8 100644
-> --- a/drivers/iommu/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm-smmu-v3.c
-> @@ -2733,7 +2733,6 @@ static struct iommu_ops arm_smmu_ops = {
->  	.get_resv_regions	= arm_smmu_get_resv_regions,
->  	.put_resv_regions	= arm_smmu_put_resv_regions,
->  	.pgsize_bitmap		= -1UL, /* Restricted during device attach */
-> -	.owner			= THIS_MODULE,
->  };
->  
->  /* Probing and initialisation functions */
-> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-> index 5ef1f2e100d7..93d332423f6f 100644
-> --- a/drivers/iommu/arm-smmu.c
-> +++ b/drivers/iommu/arm-smmu.c
-> @@ -1623,7 +1623,6 @@ static struct iommu_ops arm_smmu_ops = {
->  	.get_resv_regions	= arm_smmu_get_resv_regions,
->  	.put_resv_regions	= arm_smmu_put_resv_regions,
->  	.pgsize_bitmap		= -1UL, /* Restricted during device attach */
-> -	.owner			= THIS_MODULE,
->  };
->  
->  static void arm_smmu_device_reset(struct arm_smmu_device *smmu)
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index e9f94d3f7a04..90007c92ad2d 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -388,12 +388,19 @@ void iommu_device_sysfs_remove(struct iommu_device *iommu);
->  int  iommu_device_link(struct iommu_device   *iommu, struct device *link);
->  void iommu_device_unlink(struct iommu_device *iommu, struct device *link);
->  
-> -static inline void iommu_device_set_ops(struct iommu_device *iommu,
-> -					const struct iommu_ops *ops)
-> +static inline void __iommu_device_set_ops(struct iommu_device *iommu,
-> +					  const struct iommu_ops *ops)
->  {
->  	iommu->ops = ops;
->  }
->  
-> +#define iommu_device_set_ops(iommu, ops)				\
-> +do {									\
-> +	struct iommu_ops *__ops = (struct iommu_ops *)(ops);		\
-> +	__ops->owner = THIS_MODULE;					\
-> +	__iommu_device_set_ops(iommu, __ops);				\
-> +} while (0)
-> +
->  static inline void iommu_device_set_fwnode(struct iommu_device *iommu,
->  					   struct fwnode_handle *fwnode)
->  {
+On Wed, 18 Dec 2019 10:41:53 +0800
+Lu Baolu <baolu.lu@linux.intel.com> wrote:
 
-Looks good:
+> Hi again,
+> 
+> On 12/17/19 3:24 AM, Jacob Pan wrote:
+> > +/**
+> > + * intel_pasid_setup_nested() - Set up PASID entry for nested
+> > translation
+> > + * which is used for vSVA. The first level page tables are used for
+> > + * GVA-GPA or GIOVA-GPA translation in the guest, second level
+> > page tables
+> > + *  are used for GPA-HPA translation.
+> > + *
+> > + * @iommu:      Iommu which the device belong to
+> > + * @dev:        Device to be set up for translation
+> > + * @gpgd:       FLPTPTR: First Level Page translation pointer in
+> > GPA
+> > + * @pasid:      PASID to be programmed in the device PASID table
+> > + * @pasid_data: Additional PASID info from the guest bind request
+> > + * @domain:     Domain info for setting up second level page tables
+> > + * @addr_width: Address width of the first level (guest)
+> > + */
+> > +int intel_pasid_setup_nested(struct intel_iommu *iommu,
+> > +			struct device *dev, pgd_t *gpgd,
+> > +			int pasid, struct
+> > iommu_gpasid_bind_data_vtd *pasid_data,
+> > +			struct dmar_domain *domain,
+> > +			int addr_width)
+> > +{
+> > +	struct pasid_entry *pte;
+> > +	struct dma_pte *pgd;
+> > +	u64 pgd_val;
+> > +	int agaw;
+> > +	u16 did;
+> > +
+> > +	if (!ecap_nest(iommu->ecap)) {
+> > +		pr_err("IOMMU: %s: No nested translation
+> > support\n",
+> > +		       iommu->name);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	pte = intel_pasid_get_entry(dev, pasid);
+> > +	if (WARN_ON(!pte))
+> > +		return -EINVAL;
+> > +
+> > +	pasid_clear_entry(pte);  
+> 
+> In some cases, e.g. nested mode for GIOVA-HPA, the PASID entry might
+> have already been setup for second level translation. (This could be
+> checked with the Present bit.) Hence, it's safe to flush caches here.
+> 
+> Or, maybe intel_pasid_tear_down_entry() is more suitable?
+> 
+We don't allow binding the same device-PASID twice, so if the PASID
+entry was used for GIOVA/RID2PASID, it should unbind first, and
+teardown flush included, right?
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Best regards,
+> baolu
+
+[Jacob Pan]
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
