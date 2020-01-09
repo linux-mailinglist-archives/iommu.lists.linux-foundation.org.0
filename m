@@ -1,70 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C506C135B2F
-	for <lists.iommu@lfdr.de>; Thu,  9 Jan 2020 15:16:13 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9DF135B64
+	for <lists.iommu@lfdr.de>; Thu,  9 Jan 2020 15:31:19 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7DDDD863DD;
-	Thu,  9 Jan 2020 14:16:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6C9A52001F;
+	Thu,  9 Jan 2020 14:31:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id D-hQFr2DVEv9; Thu,  9 Jan 2020 14:16:12 +0000 (UTC)
+	with ESMTP id m3lbiJ3MGXI0; Thu,  9 Jan 2020 14:31:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id F3C8486090;
-	Thu,  9 Jan 2020 14:16:11 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1440520C41;
+	Thu,  9 Jan 2020 14:31:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D7C1BC0881;
-	Thu,  9 Jan 2020 14:16:11 +0000 (UTC)
-X-Original-To: iommu@lists.linuxfoundation.org
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 08542C18DC;
+	Thu,  9 Jan 2020 14:31:17 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AACDBC0881
- for <iommu@lists.linuxfoundation.org>; Thu,  9 Jan 2020 14:16:10 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8BD6AC0881
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:31:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 93F728616A
- for <iommu@lists.linuxfoundation.org>; Thu,  9 Jan 2020 14:16:10 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 81C8588007
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:31:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eBtJ_fLb_zBe for <iommu@lists.linuxfoundation.org>;
- Thu,  9 Jan 2020 14:16:09 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 657F086090
- for <iommu@lists.linuxfoundation.org>; Thu,  9 Jan 2020 14:16:09 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E417F2067D;
- Thu,  9 Jan 2020 14:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578579369;
- bh=KQ9qbQtsoYGPMZdXi3hjrhuI0cSPD0xhAqRsLeBwpYw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Kb0Oe0gQ9b6CX8A3gAR3Ok2ZegM9K9eb4asZOuoXX5z6sDC15mICSWodGJyVkTgPu
- 16iDpMhmNEbRHE/NSRNBBtqnQtawQUxyT7lui3Z4Ipp4w39HhsCMvhxeUaGtjqPKi5
- u05OlGw2rUb6OWLon9rdEygdpEIMl+hTawNs7IfA=
-Date: Thu, 9 Jan 2020 14:16:03 +0000
-From: Will Deacon <will@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v4 05/16] drivers/iommu: Take a ref to the IOMMU driver
- prior to ->add_device()
-Message-ID: <20200109141602.GA12236@willie-the-truck>
-References: <20191219120352.382-1-will@kernel.org>
- <20191219120352.382-6-will@kernel.org>
- <20191219144437.GA1959534@kroah.com>
+ with ESMTP id f-V4aorZfswG for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Jan 2020 14:31:13 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 2AAF487FFB
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:31:12 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 7011068BFE; Thu,  9 Jan 2020 15:31:08 +0100 (CET)
+Date: Thu, 9 Jan 2020 15:31:08 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: David Rientjes <rientjes@google.com>
+Subject: Re: [rfc] dma-mapping: preallocate unencrypted DMA atomic pool
+Message-ID: <20200109143108.GA22656@lst.de>
+References: <alpine.DEB.2.21.1912311738130.68206@chino.kir.corp.google.com>
+ <3213a6ac-5aad-62bc-bf95-fae8ba088b9e@arm.com> <20200107105458.GA3139@lst.de>
+ <alpine.DEB.2.21.2001071152020.183706@chino.kir.corp.google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20191219144437.GA1959534@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: iommu@lists.linuxfoundation.org,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Saravana Kannan <saravanak@google.com>, Robin Murphy <robin.murphy@arm.com>,
- linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, kernel-team@android.com,
- "Isaac J. Manjarres" <isaacm@codeaurora.org>
+In-Reply-To: <alpine.DEB.2.21.2001071152020.183706@chino.kir.corp.google.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, "Singh,
+ Brijesh" <brijesh.singh@amd.com>, "Grimm, Jon" <jon.grimm@amd.com>,
+ baekhw@google.com,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,110 +71,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Greg,
-
-On Thu, Dec 19, 2019 at 03:44:37PM +0100, Greg Kroah-Hartman wrote:
-> On Thu, Dec 19, 2019 at 12:03:41PM +0000, Will Deacon wrote:
-> > diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> > index f2223cbb5fd5..e9f94d3f7a04 100644
-> > --- a/include/linux/iommu.h
-> > +++ b/include/linux/iommu.h
-> > @@ -246,9 +246,10 @@ struct iommu_iotlb_gather {
-> >   * @sva_get_pasid: Get PASID associated to a SVA handle
-> >   * @page_response: handle page request response
-> >   * @cache_invalidate: invalidate translation caches
-> > - * @pgsize_bitmap: bitmap of all possible supported page sizes
-> >   * @sva_bind_gpasid: bind guest pasid and mm
-> >   * @sva_unbind_gpasid: unbind guest pasid and mm
-> > + * @pgsize_bitmap: bitmap of all possible supported page sizes
-> > + * @owner: Driver module providing these ops
-> >   */
-> >  struct iommu_ops {
-> >  	bool (*capable)(enum iommu_cap);
-> > @@ -318,6 +319,7 @@ struct iommu_ops {
-> >  	int (*sva_unbind_gpasid)(struct device *dev, int pasid);
-> >  
-> >  	unsigned long pgsize_bitmap;
-> > +	struct module *owner;
+On Tue, Jan 07, 2020 at 11:57:24AM -0800, David Rientjes wrote:
+> I'll rely on Thomas to chime in if this doesn't make sense for the SEV 
+> usecase.
 > 
-> Everyone is always going to forget to set this field.  I don't think you
-> even set it for all of the different iommu_ops possible in this series,
-> right?
-
-I only initialised the field for those drivers which can actually be built
-as a module, but I take your point about this being error-prone.
-
-> The "trick" we did to keep people from having to remember this is to do
-> what we did for the bus registering functions.
+> I think the sizing of the single atomic pool needs to be determined.  Our 
+> peak usage that we have measured from NVMe is ~1.4MB and atomic_pool is 
+> currently sized to 256KB by default.  I'm unsure at this time if we need 
+> to be able to dynamically expand this pool with a kworker.
+>
+> Maybe when CONFIG_AMD_MEM_ENCRYPT is enabled this atomic pool should be 
+> sized to 2MB or so and then when it reaches half capacity we schedule some 
+> background work to dynamically increase it?  That wouldn't be hard unless 
+> the pool can be rapidly depleted.
 > 
-> Look at pci_register_driver in pci.h:
-> #define pci_register_driver(driver)             \
->         __pci_register_driver(driver, THIS_MODULE, KBUILD_MODNAME)
-> 
-> Then we set the .owner field in the "real" __pci_register_driver() call.
-> 
-> Same thing for USB and lots, if not all, other driver register
-> functions.
-> 
-> You can do the same thing here, and I would recommend it.
 
-Yes, that makes sense, cheers. Diff below. I'll send it to Joerg along
-with some other SMMU patches that have come in since the holiday.
+Note that a non-coherent architecture with the same workload would need
+the same size.
 
-Will
+> Do we want to increase the atomic pool size by default and then do 
+> background dynamic expansion?
 
---->8
-
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index 03dc97842875..e82997a705a8 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -2733,7 +2733,6 @@ static struct iommu_ops arm_smmu_ops = {
- 	.get_resv_regions	= arm_smmu_get_resv_regions,
- 	.put_resv_regions	= arm_smmu_put_resv_regions,
- 	.pgsize_bitmap		= -1UL, /* Restricted during device attach */
--	.owner			= THIS_MODULE,
- };
- 
- /* Probing and initialisation functions */
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index 5ef1f2e100d7..93d332423f6f 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -1623,7 +1623,6 @@ static struct iommu_ops arm_smmu_ops = {
- 	.get_resv_regions	= arm_smmu_get_resv_regions,
- 	.put_resv_regions	= arm_smmu_put_resv_regions,
- 	.pgsize_bitmap		= -1UL, /* Restricted during device attach */
--	.owner			= THIS_MODULE,
- };
- 
- static void arm_smmu_device_reset(struct arm_smmu_device *smmu)
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index e9f94d3f7a04..90007c92ad2d 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -388,12 +388,19 @@ void iommu_device_sysfs_remove(struct iommu_device *iommu);
- int  iommu_device_link(struct iommu_device   *iommu, struct device *link);
- void iommu_device_unlink(struct iommu_device *iommu, struct device *link);
- 
--static inline void iommu_device_set_ops(struct iommu_device *iommu,
--					const struct iommu_ops *ops)
-+static inline void __iommu_device_set_ops(struct iommu_device *iommu,
-+					  const struct iommu_ops *ops)
- {
- 	iommu->ops = ops;
- }
- 
-+#define iommu_device_set_ops(iommu, ops)				\
-+do {									\
-+	struct iommu_ops *__ops = (struct iommu_ops *)(ops);		\
-+	__ops->owner = THIS_MODULE;					\
-+	__iommu_device_set_ops(iommu, __ops);				\
-+} while (0)
-+
- static inline void iommu_device_set_fwnode(struct iommu_device *iommu,
- 					   struct fwnode_handle *fwnode)
- {
+For now I'd just scale with system memory size.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
