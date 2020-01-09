@@ -1,55 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E40135B88
-	for <lists.iommu@lfdr.de>; Thu,  9 Jan 2020 15:37:06 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB403135B92
+	for <lists.iommu@lfdr.de>; Thu,  9 Jan 2020 15:41:11 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4E2C485BA9;
-	Thu,  9 Jan 2020 14:37:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6A8D220116;
+	Thu,  9 Jan 2020 14:41:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DNjwI3xHx2pa; Thu,  9 Jan 2020 14:37:05 +0000 (UTC)
+	with ESMTP id c92N6x9OcrjS; Thu,  9 Jan 2020 14:41:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id F3EC985AFF;
-	Thu,  9 Jan 2020 14:37:04 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AAD1520C41;
+	Thu,  9 Jan 2020 14:41:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E09EAC0881;
-	Thu,  9 Jan 2020 14:37:04 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 907D8C0881;
+	Thu,  9 Jan 2020 14:41:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AB137C0881
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:37:03 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AA983C0881
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:41:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 9A5F485AFF
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:37:03 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 90C9288159
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:41:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XbeD43QD7rdk for <iommu@lists.linux-foundation.org>;
- Thu,  9 Jan 2020 14:37:03 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 224AF85ACC
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:37:03 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 25B8D68BFE; Thu,  9 Jan 2020 15:37:01 +0100 (CET)
-Date: Thu, 9 Jan 2020 15:37:00 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Jon Derrick <jonathan.derrick@intel.com>
-Subject: Re: [RFC 5/5] x86/PCI: Remove unused X86_DEV_DMA_OPS
-Message-ID: <20200109143700.GD22656@lst.de>
-References: <1577823863-3303-1-git-send-email-jonathan.derrick@intel.com>
- <1577823863-3303-6-git-send-email-jonathan.derrick@intel.com>
+ with ESMTP id yv6AqDh4k3Ve for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Jan 2020 14:41:07 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 1858188012
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:41:07 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7461720673;
+ Thu,  9 Jan 2020 14:41:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1578580866;
+ bh=DlrMPvVhccNEDW9koI+U3MM8MLRCHlA/GNRJ1PYg/fQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hBGaU9mYNlsPavcKzkYmo8SaTZNfzP/+FyxOm3wgOBXu17YOlpUXWG+DX8Km4vn61
+ nhbPjGDttsPWISCNuaksOju0v0lwRPNIzEjOpQmHmWIn2zp2h5RLc3ywrmizM5H0fE
+ JZIoKiMKQKpN+2PBhZR09JXUtzQDao5gIDDtK21A=
+Date: Thu, 9 Jan 2020 14:41:01 +0000
+From: Will Deacon <will@kernel.org>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v4 00/13] iommu: Add PASID support to Arm SMMUv3
+Message-ID: <20200109144100.GD12236@willie-the-truck>
+References: <20191219163033.2608177-1-jean-philippe@linaro.org>
+ <20200109143618.GA942461@myrica>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1577823863-3303-6-git-send-email-jonathan.derrick@intel.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linux-pci@vger.kernel.org, iommu@lists.linux-foundation.org,
- Bjorn Helgaas <helgaas@kernel.org>, Keith Busch <kbusch@kernel.org>,
- David Woodhouse <dwmw2@infradead.org>, Christoph Hellwig <hch@lst.de>
+In-Reply-To: <20200109143618.GA942461@myrica>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
+ sudeep.holla@arm.com, rjw@rjwysocki.net, linux-acpi@vger.kernel.org,
+ iommu@lists.linux-foundation.org, robh+dt@kernel.org, guohanjun@huawei.com,
+ bhelgaas@google.com, zhangfei.gao@linaro.org, robin.murphy@arm.com,
+ linux-arm-kernel@lists.infradead.org, lenb@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,15 +79,29 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Dec 31, 2019 at 01:24:23PM -0700, Jon Derrick wrote:
-> VMD was the only user of device dma operations. Now that the IOMMU has
-> been made aware of direct DMA aliases, VMD domain devices can reference
-> the VMD endpoint directly and the VMD device dma operations has been
-> made obsolete.
+On Thu, Jan 09, 2020 at 03:36:18PM +0100, Jean-Philippe Brucker wrote:
+> On Thu, Dec 19, 2019 at 05:30:20PM +0100, Jean-Philippe Brucker wrote:
+> > Add support for Substream ID and PASIDs to the SMMUv3 driver. Since v3
+> > [1], I added review and tested tags where appropriate and applied the
+> > suggested changes, shown in the diff below. Thanks all!
+> > 
+> > I'm testing using the zip accelerator on the Hisilicon KunPeng920 and
+> > Zhangfei's uacce module [2]. The full SVA support, which I'll send out
+> > early next year, is available on my branch sva/zip-devel at
+> > https://jpbrucker.net/git/linux/
 > 
-> Signed-off-by: Jon Derrick <jonathan.derrick@intel.com>
+> Is there anything more I should do for the PASID support? Ideally I'd like
+> to get this in v5.6 so I can focus on the rest of the SVA work and on
+> performance improvements.
 
-This seems to be a 1:1 copy of my patch from August?
+Apologies, I'm just behind with review what with the timing of the new
+year. You're on the list, but I was hoping to get Robin's TCR stuff dusted
+off so that Jordan doesn't have to depend on patches languishing on the
+mailing list and there's also the nvidia stuff to review as well.
+
+Going as fast as I can!
+
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
