@@ -1,67 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB403135B92
-	for <lists.iommu@lfdr.de>; Thu,  9 Jan 2020 15:41:11 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CEEC135BA8
+	for <lists.iommu@lfdr.de>; Thu,  9 Jan 2020 15:49:28 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 6A8D220116;
-	Thu,  9 Jan 2020 14:41:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B8A8186B78;
+	Thu,  9 Jan 2020 14:49:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id c92N6x9OcrjS; Thu,  9 Jan 2020 14:41:09 +0000 (UTC)
+	with ESMTP id qcPE8sa-puzW; Thu,  9 Jan 2020 14:49:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id AAD1520C41;
-	Thu,  9 Jan 2020 14:41:09 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2AD4086B67;
+	Thu,  9 Jan 2020 14:49:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 907D8C0881;
-	Thu,  9 Jan 2020 14:41:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0FA22C0881;
+	Thu,  9 Jan 2020 14:49:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AA983C0881
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:41:07 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ADF3DC0881
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:49:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 90C9288159
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:41:07 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 971B887E80
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:49:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yv6AqDh4k3Ve for <iommu@lists.linux-foundation.org>;
- Thu,  9 Jan 2020 14:41:07 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1858188012
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:41:07 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7461720673;
- Thu,  9 Jan 2020 14:41:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578580866;
- bh=DlrMPvVhccNEDW9koI+U3MM8MLRCHlA/GNRJ1PYg/fQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hBGaU9mYNlsPavcKzkYmo8SaTZNfzP/+FyxOm3wgOBXu17YOlpUXWG+DX8Km4vn61
- nhbPjGDttsPWISCNuaksOju0v0lwRPNIzEjOpQmHmWIn2zp2h5RLc3ywrmizM5H0fE
- JZIoKiMKQKpN+2PBhZR09JXUtzQDao5gIDDtK21A=
-Date: Thu, 9 Jan 2020 14:41:01 +0000
-From: Will Deacon <will@kernel.org>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v4 00/13] iommu: Add PASID support to Arm SMMUv3
-Message-ID: <20200109144100.GD12236@willie-the-truck>
-References: <20191219163033.2608177-1-jean-philippe@linaro.org>
- <20200109143618.GA942461@myrica>
+ with ESMTP id GQw47ZppP87f for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Jan 2020 14:49:24 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id E064F87C30
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jan 2020 14:49:23 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 9ECB268BFE; Thu,  9 Jan 2020 15:49:20 +0100 (CET)
+Date: Thu, 9 Jan 2020 15:49:20 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 2/2] arm: use swiotlb for bounce buffer on LPAE configs
+Message-ID: <20200109144920.GB22907@lst.de>
+References: <20190709142011.24984-1-hch@lst.de>
+ <20190709142011.24984-3-hch@lst.de>
+ <9bbd87c2-5b6c-069c-dd22-5105dc827428@ti.com> <20191219150259.GA3003@lst.de>
+ <20106a84-8247-fa78-2381-2c94fad9cb6a@ti.com>
+ <eca457b6-c685-59ac-1dec-5b28e4430e1d@ti.com>
+ <d3921764-840c-4d1c-f240-b974b9b83ec8@arm.com>
+ <27450c0e-c8aa-d59b-aa32-37f23c232eb7@ti.com>
+ <0e6decce-c54e-9791-473e-0aef05650f39@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200109143618.GA942461@myrica>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
- sudeep.holla@arm.com, rjw@rjwysocki.net, linux-acpi@vger.kernel.org,
- iommu@lists.linux-foundation.org, robh+dt@kernel.org, guohanjun@huawei.com,
- bhelgaas@google.com, zhangfei.gao@linaro.org, robin.murphy@arm.com,
- linux-arm-kernel@lists.infradead.org, lenb@kernel.org
+In-Reply-To: <0e6decce-c54e-9791-473e-0aef05650f39@arm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Vignesh Raghavendra <vigneshr@ti.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+ linux-kernel@vger.kernel.org, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ iommu@lists.linux-foundation.org, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,29 +76,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jan 09, 2020 at 03:36:18PM +0100, Jean-Philippe Brucker wrote:
-> On Thu, Dec 19, 2019 at 05:30:20PM +0100, Jean-Philippe Brucker wrote:
-> > Add support for Substream ID and PASIDs to the SMMUv3 driver. Since v3
-> > [1], I added review and tested tags where appropriate and applied the
-> > suggested changes, shown in the diff below. Thanks all!
-> > 
-> > I'm testing using the zip accelerator on the Hisilicon KunPeng920 and
-> > Zhangfei's uacce module [2]. The full SVA support, which I'll send out
-> > early next year, is available on my branch sva/zip-devel at
-> > https://jpbrucker.net/git/linux/
-> 
-> Is there anything more I should do for the PASID support? Ideally I'd like
-> to get this in v5.6 so I can focus on the rest of the SVA work and on
-> performance improvements.
+On Wed, Jan 08, 2020 at 03:20:07PM +0000, Robin Murphy wrote:
+>> The problem - I think - is that the DMA_BIT_MASK(32) from
+>> dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32)) is treated as physical
+>> address along the call path so the dma_pfn_offset is applied to it and
+>> the check will fail, saying that DMA_BIT_MASK(32) can not be supported.
+>
+> But that's the thing - in isolation, that is entirely correct. Considering 
+> ZONE_DMA32 for simplicity, in general the zone is expected to cover the 
+> physical address range 0x0000_0000 - 0xffff_ffff (because DMA offsets are 
+> relatively rare), and a device with a dma_pfn_offset of more than 
+> (0x1_0000_0000 >> PAGE_SHIFT) *cannot* support that range with any mask, 
+> because the DMA address itself would have to be negative.
 
-Apologies, I'm just behind with review what with the timing of the new
-year. You're on the list, but I was hoping to get Robin's TCR stuff dusted
-off so that Jordan doesn't have to depend on patches languishing on the
-mailing list and there's also the nvidia stuff to review as well.
+Note that ZONE_DMA32 is irrelevant in this particular case, as we are
+talking about arm32.  But with ZONE_DMA instead this roughly makes sense.
 
-Going as fast as I can!
+> The problem is that platforms with esoteric memory maps have no right thing 
+> to do. If the base of RAM is at at 0x1_0000_0000 or higher, the "correct" 
+> ZONE_DMA32 would be empty while ZONE_NORMAL above it would not, and last 
+> time I looked that makes the page allocator break badly. So the standard 
+> bodge on such platforms is to make ZONE_DMA32 cover not the first 4GB of 
+> *PA space*, but the first 4GB of *RAM*, wherever that happens to be. That 
+> then brings different problems - now the page allocator is happy and 
+> successfully returns GFP_DMA32 allocations from the range 0x8_0000_0000 - 
+> 0x8_ffff_ffff that are utterly useless to 32-bit devices with zero 
+> dma_pfn_offset - see the AMD Seattle SoC for the prime example of that. If 
+> on the other hand all devices are guaranteed to have a dma_pfn_offset that 
+> puts the base of RAM at DMA address 0 then GFP_DMA32 allocations do end up 
+> working as expected, but now the original assumption of where ZONE_DMA32 
+> actually is is broken, so generic code unaware of the 
+> platform/architecture-specific bodge will be misled - that's the case 
+> you're running into.
+>
+> Having thought this far, if there's a non-hacky way to reach in and grab 
+> ZONE_DMA{32} such that dma_direct_supported() could use zone_end_pfn() 
+> instead of trying to assume either way, that might be the most robust 
+> general solution.
 
-Will
+zone_dma_bits is our somewhat ugly way to try to poke into this
+information, although the way it is done right now sucks pretty badly.
+
+The patch I sent to Peter in December was trying to convey that
+information in a way similar to what the arm32 legacy dma code does, but
+it didn't work, so I'll need to find some time to sit down and figure out
+why.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
