@@ -1,62 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF01137172
-	for <lists.iommu@lfdr.de>; Fri, 10 Jan 2020 16:37:46 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id F1023884A0;
-	Fri, 10 Jan 2020 15:37:44 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id m10+9azQcrkU; Fri, 10 Jan 2020 15:37:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 797A6884A7;
-	Fri, 10 Jan 2020 15:37:44 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 673ECC0881;
-	Fri, 10 Jan 2020 15:37:44 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0A085C0881
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 15:37:43 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4C313739B
+	for <lists.iommu@lfdr.de>; Fri, 10 Jan 2020 17:28:46 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id EB94B22115
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 15:37:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6D3C6203F7;
+	Fri, 10 Jan 2020 16:28:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id g293hnfXZbpU; Fri, 10 Jan 2020 16:28:42 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id D683E204DA;
+	Fri, 10 Jan 2020 16:28:42 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BE353C0881;
+	Fri, 10 Jan 2020 16:28:42 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C7DA1C0881
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 16:28:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id BEFEA869C7
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 16:28:40 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qAhJ2gLYysQE for <iommu@lists.linux-foundation.org>;
- Fri, 10 Jan 2020 15:37:41 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 0412C20337
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 15:37:41 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2AC2720721;
- Fri, 10 Jan 2020 15:37:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1578670660;
- bh=zXVssYwWECjGiR0d/pu9mtfbN4xQSeBYcBoiAkhN+Sk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=e2XxQPPn1rUecm4cocUTcNk9jz8dttgjlyNbvF/TcrhkKo65kGINE+g8mg0jesWo9
- KNllrFedI+/6+llWCUj8PbPmBMQlQr2NyKfEDUWZYJ4N3sMi1tZPpW6VSotybjo94e
- /kXHDpPtAJuu2dUGkXY/6Q4+Xa+ujyMLedpzD5BY=
-Date: Fri, 10 Jan 2020 15:37:37 +0000
-From: Will Deacon <will@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH] iommu/io-pgtable-arm: Improve attribute handling
-Message-ID: <20200110153736.GA24322@willie-the-truck>
-References: <dee4fff7765629ca5d215af1105b5f98b32f073a.1578669544.git.robin.murphy@arm.com>
+ with ESMTP id 87eM0T7oIvgx for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Jan 2020 16:28:39 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 32C59869B4
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 16:28:39 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 71D0C546; Fri, 10 Jan 2020 17:28:34 +0100 (CET)
+Date: Fri, 10 Jan 2020 17:28:32 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: Regression iommu/vt-d bounce buffer
+Message-ID: <20200110162831.GC28359@8bytes.org>
+References: <fe41dfaa-e899-0d6c-69e4-0379be376c09@linux.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <dee4fff7765629ca5d215af1105b5f98b32f073a.1578669544.git.robin.murphy@arm.com>
+In-Reply-To: <fe41dfaa-e899-0d6c-69e4-0379be376c09@linux.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
+Cc: Frederik Schwan <frederik.schwan@linux.com>,
+ David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,66 +65,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jan 10, 2020 at 03:21:51PM +0000, Robin Murphy wrote:
-> By VMSA rules, using Normal Non-Cacheable type with a shareability
-> attribute of anything other than Outer Shareable is liable to lead into
-> unpredictable territory. Although the SMMU architectures seem to give
-> some slightly stronger guarantees of Non-Cacheable output types becoming
-> implicitly Outer Shareable in most cases, we may as well be explicit and
-> not take any chances. It's also weird that LPAE attribute handling is
-> currently split between prot_to_pte() and init_pte() given that it can
-> all be statically determined up-front. Thus, collect *all* the LPAE
-> attributes into prot_to_pte() in order to logically pick the
-> shareability based on the incoming IOMMU API prot value, and tweak the
-> short-descriptor code to stop setting TTBR0.NOS for Non-Cacheable walks.
+Hi Baolu,
+
+any ideas here?
+
+On Mon, Jan 06, 2020 at 04:43:05PM +0100, Frederik Schwan wrote:
+> Hello people,
+> since the introduction of the bounce buffer, a regression with TB3 devices has been introduced.
+> USB devices attached to TB3 refuse to work since. Removing the commits that introduced the bounce buffer, fixes the issue.
 > 
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> ---
->  drivers/iommu/io-pgtable-arm-v7s.c |  7 +++----
->  drivers/iommu/io-pgtable-arm.c     | 17 +++++++++++------
->  2 files changed, 14 insertions(+), 10 deletions(-)
+> Commits:
+> 3b53034c268d550d9e8522e613a14ab53b8840d8
+> c5a5dc4cbbf4540c1891cdb2b70cf469405ea61f
+> cfb94a372f2d4ee226247447c863f8709863d170
+> e5e04d051979dbd636a99099b7a595093c50a4bc
 > 
-> diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
-> index 7c3bd2c3cdca..7d6a8622f2e6 100644
-> --- a/drivers/iommu/io-pgtable-arm-v7s.c
-> +++ b/drivers/iommu/io-pgtable-arm-v7s.c
-> @@ -823,10 +823,9 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
->  	wmb();
->  
->  	/* TTBRs */
-> -	cfg->arm_v7s_cfg.ttbr[0] = virt_to_phys(data->pgd) |
-> -				   ARM_V7S_TTBR_S | ARM_V7S_TTBR_NOS |
-> -				   (cfg->coherent_walk ?
-> -				   (ARM_V7S_TTBR_IRGN_ATTR(ARM_V7S_RGN_WBWA) |
-> +	cfg->arm_v7s_cfg.ttbr[0] = virt_to_phys(data->pgd) | ARM_V7S_TTBR_S |
-> +				   (cfg->coherent_walk ? (ARM_V7S_TTBR_NOS |
-> +				    ARM_V7S_TTBR_IRGN_ATTR(ARM_V7S_RGN_WBWA) |
+> 
+> An excerpt of the trace:
+> > [  +0,000005] WARNING: CPU: 10 PID: 0 at drivers/iommu/intel-iommu.c:3916 bounce_unmap_single+0x103/0x110
+> > [...]
+> > [  +0,000001] Call Trace:
+> > [  +0,000002]  <IRQ>
+> > [  +0,000003]  usb_hcd_unmap_urb_setup_for_dma+0x9f/0xe0
+> > [  +0,000001]  usb_hcd_unmap_urb_for_dma+0x1c/0x170
+> > [  +0,000002]  __usb_hcd_giveback_urb+0x36/0x120
+> > [  +0,000008]  xhci_giveback_urb_in_irq.isra.0+0x72/0x100 [xhci_hcd]
+> > [  +0,000007]  xhci_td_cleanup+0x101/0x140 [xhci_hcd]
+> > [  +0,000007]  xhci_irq+0xbf0/0x1db0 [xhci_hcd]
+> > [  +0,000005]  __handle_irq_event_percpu+0x44/0x1b0
+> > [  +0,000002]  handle_irq_event_percpu+0x34/0x80
+> > [  +0,000002]  handle_irq_event+0x37/0x54
+> > [  +0,000002]  handle_edge_irq+0xae/0x1f0
+> > [  +0,000002]  do_IRQ+0x84/0x140
+> > [  +0,000003]  common_interrupt+0xf/0xf
+> > [  +0,000001]  </IRQ>
+> 
+> Dmesg log and further information have been posted here: https://bugzilla.kernel.org/show_bug.cgi?id=205893
+> 
+> Cheers,
+> Frederik
+> 
 
-Ha, I just sent a broken version of this out myself, but with you as the
-author ;)
 
-I'll merge this hunk into that patch, if you don't mind?
 
-> +	if (prot & IOMMU_CACHE)
-> +		pte |= ARM_LPAE_PTE_SH_IS;
-> +	else
-> +		pte |= ARM_LPAE_PTE_SH_OS;
-> +
->  	if (prot & IOMMU_NOEXEC)
->  		pte |= ARM_LPAE_PTE_XN;
->  
-> +	if (data->iop.cfg.quirks & IO_PGTABLE_QUIRK_ARM_NS)
-> +		pte |= ARM_LPAE_PTE_NS;
-> +
-> +	if (data->iop.fmt != ARM_MALI_LPAE)
-> +		pte |= ARM_LPAE_PTE_AF;
-> +
-
-I left these last two where they were, just because they're not driven
-directly from the IOMMU prot encoding. However, I don't mind moving them,
-but let's do that as a separate patch.
-
-Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
