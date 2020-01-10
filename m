@@ -1,76 +1,88 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8991367FD
-	for <lists.iommu@lfdr.de>; Fri, 10 Jan 2020 08:11:23 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FE813680F
+	for <lists.iommu@lfdr.de>; Fri, 10 Jan 2020 08:16:01 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 58D93204D9;
-	Fri, 10 Jan 2020 07:11:22 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 41FB786F87;
+	Fri, 10 Jan 2020 07:16:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id W71mW4TppfGK; Fri, 10 Jan 2020 07:11:21 +0000 (UTC)
+	with ESMTP id vWEPFZbiCTUF; Fri, 10 Jan 2020 07:15:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7AD9A2040E;
-	Fri, 10 Jan 2020 07:11:21 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C4E2186DEB;
+	Fri, 10 Jan 2020 07:15:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DAD9C0881;
-	Fri, 10 Jan 2020 07:11:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BDD3FC0881;
+	Fri, 10 Jan 2020 07:15:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5AD53C0881
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 07:11:19 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 443E1C0881
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 07:15:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 569DF2040E
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 07:11:19 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3DFDA86F87
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 07:15:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gtIcu4tglN3k for <iommu@lists.linux-foundation.org>;
- Fri, 10 Jan 2020 07:11:16 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.51])
- by silver.osuosl.org (Postfix) with ESMTPS id 3C6BA203A9
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 07:11:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1578640273;
- s=strato-dkim-0002; d=xenosoft.de;
- h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=TC+tjX/Lt65GMWtVyL5Xhep5tinocrAB9X7xhvNdnXY=;
- b=TpUMWWqhkAvy5bNex/uzVDdzK9T2bEVS9AoQYC7M0MzdEt0xigsFPXT53Lt4lMCrrO
- spSY0fsE7XgCJ8t8FZurbma+5XMU+FTjNk0hEiNN+Z6GmkuOtPkyVLu+r4AYCGFSA1Ze
- mYx4+zks/1es8Iy0iKWMU4lVOB1NuHLILmIejjoq+NmyrCX4WM8hiVjBtLqwlXVJ6bF+
- aFV/F31qXN8I20NOQYS+zx7zxURk5Pp9IXA0hFFQqjCAs03IzD1uN0NRbTFonURCC75a
- fOOpTiS6jSX680wX+qjORm6nGtLvzonP0HxefyoKB22SmEK5QzpP2hR77LAMDMmp7Fh5
- Mxjw==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr6KxrfO5Oh7R7NWd5jbpkxCcXi3g8qXe4kYOYilnn348Kw8dzMjA="
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2a01:598:8086:10a9:904f:8bb2:ac2:590a]
- by smtp.strato.de (RZmta 46.1.4 AUTH) with ESMTPSA id c05c1aw0A7AT8Ab
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Fri, 10 Jan 2020 08:10:29 +0100 (CET)
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-Mime-Version: 1.0 (1.0)
-Subject: Re: Bug 205201 - Booting halts if Dawicontrol DC-2976 UW SCSI board
- installed, unless RAM size limited to 3500M
-Date: Fri, 10 Jan 2020 08:10:28 +0100
-Message-Id: <533E86ED-00F4-4FB2-9D91-D4705088817D@xenosoft.de>
-References: <20191204085634.GA25929@lst.de>
-In-Reply-To: <20191204085634.GA25929@lst.de>
-To: Christoph Hellwig <hch@lst.de>
-X-Mailer: iPhone Mail (17B111)
-Cc: linux-arch@vger.kernel.org, darren@stevens-zone.net, rtd2@xtra.co.nz,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, linux-kernel@vger.kernel.org,
- Mike Rapoport <rppt@linux.ibm.com>, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
- paulus@samba.org, mad skateman <madskateman@gmail.com>,
- "contact@a-eon.com" <contact@a-eon.com>, Robin Murphy <robin.murphy@arm.com>,
- nsaenzjulienne@suse.de
+ with ESMTP id 2QfJ8blBvxie for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Jan 2020 07:15:57 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+ [209.85.221.67])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 06FA186DEB
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 07:15:57 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id w15so744639wru.4
+ for <iommu@lists.linux-foundation.org>; Thu, 09 Jan 2020 23:15:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=9OKjM0NiA29A1YJnbOkfMLLtP+OMdLBmVsUr4YFKYmI=;
+ b=w/heI5CiX5CG06QP7Sv0cxrLLmnMMNh5cvAR7T4TCmnIz8Eg3fbiQMZwB2YUCUpzbx
+ mmUosVo3fH6aOf6Aw9xKPmPZaT8+jdHft0aUNvd2tlXM5ANa9UjfFpFSb57+ymTYjG/2
+ pmxgcgaIyHPJWXiJr293yDtYme/mtd7L/Ak/YuEKAWw/I7xuaRqZVe1bFAEd9cpRytTN
+ 8ysCaE+HPdU//NOzq5Yzx8gqKE6Qa7hl0Pjp7FgaKVgfeZQOTmnyBEh7OOHhgjv7kBn9
+ PyVyqewx7EOuO4LrYCozQosfklyZ3gAuvuPuSG21SND9Z7ck4iaNLeZ0n3+gj/x48gi1
+ MOxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9OKjM0NiA29A1YJnbOkfMLLtP+OMdLBmVsUr4YFKYmI=;
+ b=nv+uwcGJ50zageEUsXIOWq83zcLr714MTkNzBJOoHE/59L5JgpMlcX8MVB+ezvK4Xv
+ B23FlGGpozZkKqeBCqX3sp0uG6toFi57R01p4vhrydixASGEJzFtNmM61nGfb0R10IPm
+ N8PyvXVj0j9wRenL8hB6fjJrQzbwX014rZoutjw0cRStjHDrNpPHaAaX5PkRToaHgqU1
+ 6e+4E9+CH00Eb5FByz6uc3AT+c48FEj55S9X1rBW5fGys2nifRMF4bJw07xFBTNzdM47
+ uP9/Lwi4EEvfdvemXkvq9cJy/5rwwp/F+UZ80bhqlLh2uHsvn3lUoO92goH/LnMrX7QJ
+ ZwIA==
+X-Gm-Message-State: APjAAAV7nG87D9HV84Xx5zAoRzR+lF/BygaYob4vvj18osR4e5HkqfOW
+ W/PtK5jXYIbMLkksfdhDE2S7SQ==
+X-Google-Smtp-Source: APXvYqyrMC4qUZGMDa4vTDXPc+WMRe1Cedi+NXO2t/JRWGPthrCa8hHpKeJ8ml5/0kP4fhuDUvDeMQ==
+X-Received: by 2002:a5d:65cf:: with SMTP id e15mr1802033wrw.126.1578640555220; 
+ Thu, 09 Jan 2020 23:15:55 -0800 (PST)
+Received: from myrica (adsl-84-227-176-239.adslplus.ch. [84.227.176.239])
+ by smtp.gmail.com with ESMTPSA id x17sm1129827wrt.74.2020.01.09.23.15.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jan 2020 23:15:54 -0800 (PST)
+Date: Fri, 10 Jan 2020 08:15:47 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v4 00/13] iommu: Add PASID support to Arm SMMUv3
+Message-ID: <20200110071547.GA959441@myrica>
+References: <20191219163033.2608177-1-jean-philippe@linaro.org>
+ <20200109143618.GA942461@myrica>
+ <20200109144100.GD12236@willie-the-truck>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200109144100.GD12236@willie-the-truck>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
+ guohanjun@huawei.com, rjw@rjwysocki.net, linux-acpi@vger.kernel.org,
+ iommu@lists.linux-foundation.org, robh+dt@kernel.org, sudeep.holla@arm.com,
+ bhelgaas@google.com, zhangfei.gao@linaro.org, robin.murphy@arm.com,
+ linux-arm-kernel@lists.infradead.org, lenb@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,17 +100,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi All,
+On Thu, Jan 09, 2020 at 02:41:01PM +0000, Will Deacon wrote:
+> On Thu, Jan 09, 2020 at 03:36:18PM +0100, Jean-Philippe Brucker wrote:
+> > On Thu, Dec 19, 2019 at 05:30:20PM +0100, Jean-Philippe Brucker wrote:
+> > > Add support for Substream ID and PASIDs to the SMMUv3 driver. Since v3
+> > > [1], I added review and tested tags where appropriate and applied the
+> > > suggested changes, shown in the diff below. Thanks all!
+> > > 
+> > > I'm testing using the zip accelerator on the Hisilicon KunPeng920 and
+> > > Zhangfei's uacce module [2]. The full SVA support, which I'll send out
+> > > early next year, is available on my branch sva/zip-devel at
+> > > https://jpbrucker.net/git/linux/
+> > 
+> > Is there anything more I should do for the PASID support? Ideally I'd like
+> > to get this in v5.6 so I can focus on the rest of the SVA work and on
+> > performance improvements.
+> 
+> Apologies, I'm just behind with review what with the timing of the new
+> year. You're on the list, but I was hoping to get Robin's TCR stuff dusted
+> off so that Jordan doesn't have to depend on patches languishing on the
+> mailing list and there's also the nvidia stuff to review as well.
+> 
+> Going as fast as I can!
 
-The SCSI cards work again. [1, 2]
-
-Sorry for bothering you.
+No worries, I just wanted to check that it didn't slip through the cracks.
 
 Thanks,
-Christian
-
-[1] http://forum.hyperion-entertainment.com/viewtopic.php?f=58&p=49603&sid=1adf9e6d558c136c1ad4ff15c44212ba#p49599
-[2] https://bugzilla.kernel.org/show_bug.cgi?id=205201
+Jean
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
