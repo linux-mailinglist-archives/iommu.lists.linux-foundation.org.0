@@ -1,95 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622F713680B
-	for <lists.iommu@lfdr.de>; Fri, 10 Jan 2020 08:15:33 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8991367FD
+	for <lists.iommu@lfdr.de>; Fri, 10 Jan 2020 08:11:23 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D1BBA8841A;
-	Fri, 10 Jan 2020 07:15:31 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 58D93204D9;
+	Fri, 10 Jan 2020 07:11:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TgjvKJTb4+HQ; Fri, 10 Jan 2020 07:15:31 +0000 (UTC)
+	with ESMTP id W71mW4TppfGK; Fri, 10 Jan 2020 07:11:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4008788418;
-	Fri, 10 Jan 2020 07:15:31 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7AD9A2040E;
+	Fri, 10 Jan 2020 07:11:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2A579C0881;
-	Fri, 10 Jan 2020 07:15:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DAD9C0881;
+	Fri, 10 Jan 2020 07:11:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6D1DCC0881
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 07:15:29 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5AD53C0881
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 07:11:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 567C686AAC
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 07:15:29 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 569DF2040E
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 07:11:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YkPWO68Cnnyt for <iommu@lists.linux-foundation.org>;
- Fri, 10 Jan 2020 07:15:28 +0000 (UTC)
-X-Greylist: delayed 00:08:07 by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1D5A686AAA
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 07:15:28 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id n59so606355pjb.1
- for <iommu@lists.linux-foundation.org>; Thu, 09 Jan 2020 23:15:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=M/y3Ml3cM/VSoJud1Dw7FXrO1acMY+sKEerO9outbBk=;
- b=AmGIEKHX7/ltZPW8KBppPh4dfNgAw9BawReONfu20SdOsEMncM7QmHQ/DgfwDnmv8T
- 21IGIPGILhSA7JnW3FoEIgT4DYGLgTZWZ1IgT0UNnkSecFHfuf+XkuOKLuTKXUIZpMSW
- oZ/qPcKd9Hnl6huv7035dakRp5WDhXPAbrr8JERWj/eZFYO7UQslkIXRFmZpVlEJcFyg
- lekKzu3LWCNQl4rxLeOawb8CmQTU0MELvaG1Nz7V9uX9L7UXTTXz/37cCAfTZ/CdjQV3
- SoubjbvyPfUl5rmF5IblznHxKkK3UgeseKeDecNWC44R+Qu6A//67AV1VnVdSbZI1CrM
- woAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=M/y3Ml3cM/VSoJud1Dw7FXrO1acMY+sKEerO9outbBk=;
- b=RGkQ210zcgZRAiWqX+CGSMf2pk02tx+JC5dFQhw5RgcMqIA96NCwUdggdNswL/Bit1
- OB3jH1pZSP9gcied/P1I4BThq3Yg81uu0+XQUWjax5fqxcUV3nhTK6fjDLNzTcpR9oTk
- ON//OR7BpIZZzl0vx3EIn49bgCbAhzFEQjG3JpnxOm3UJS0CBQk0Iysfl1aqRZvskyZP
- vEJgxT3QPGB7ZsuNJRBqiMHgNtLiUGe33C10QY5LLYnd4ov+w8GYW1TsZKK+JLLedBqz
- ND+toSRJwXvEuYe8/Tg9UITyMBj6fx5BljdGVzoGwzCJBKo3yxLtMZbhHc4zRHeb76vc
- Txuw==
-X-Gm-Message-State: APjAAAWTtl5U5gYhJuZi+ym9SxZ/k6HtTfs6M7F4OdntYRcYN/y714/K
- Y9emB2eeu562EN0Wgd7hkbveRE0ZDZ8=
-X-Google-Smtp-Source: APXvYqyQSw6X8cyO2gBQIiXxpRCvLX2QZNn/mPymYICp5ZQha+ZzrZ0O7cBocngIOaOdKKOTZmMvxw==
-X-Received: by 2002:a17:902:8601:: with SMTP id
- f1mr2473221plo.289.1578640040800; 
- Thu, 09 Jan 2020 23:07:20 -0800 (PST)
-Received: from [10.151.2.174] ([45.135.186.75])
- by smtp.gmail.com with ESMTPSA id l14sm1147746pgt.42.2020.01.09.23.07.12
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 09 Jan 2020 23:07:20 -0800 (PST)
-Subject: Re: [PATCH v10 4/4] crypto: hisilicon - register zip engine to uacce
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-References: <1576465697-27946-1-git-send-email-zhangfei.gao@linaro.org>
- <1576465697-27946-5-git-send-email-zhangfei.gao@linaro.org>
- <20200109174859.00004b7b@Huawei.com>
-From: zhangfei <zhangfei.gao@linaro.org>
-Message-ID: <8d35168e-ff68-1bb9-20e1-6bbac5afde00@linaro.org>
-Date: Fri, 10 Jan 2020 15:07:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200109174859.00004b7b@Huawei.com>
-Content-Language: en-US
-Cc: jean-philippe <jean-philippe@linaro.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Arnd Bergmann <arnd@arndb.de>,
- francois.ozog@linaro.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- ilias.apalodimas@linaro.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, Jerome Glisse <jglisse@redhat.com>,
- grant.likely@arm.com, "haojian . zhuang" <haojian.zhuang@linaro.org>,
- linux-accelerators@lists.ozlabs.org, linux-crypto@vger.kernel.org,
- guodong.xu@linaro.org, kenneth-lee-2012@foxmail.com
+ with ESMTP id gtIcu4tglN3k for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Jan 2020 07:11:16 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.51])
+ by silver.osuosl.org (Postfix) with ESMTPS id 3C6BA203A9
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jan 2020 07:11:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1578640273;
+ s=strato-dkim-0002; d=xenosoft.de;
+ h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=TC+tjX/Lt65GMWtVyL5Xhep5tinocrAB9X7xhvNdnXY=;
+ b=TpUMWWqhkAvy5bNex/uzVDdzK9T2bEVS9AoQYC7M0MzdEt0xigsFPXT53Lt4lMCrrO
+ spSY0fsE7XgCJ8t8FZurbma+5XMU+FTjNk0hEiNN+Z6GmkuOtPkyVLu+r4AYCGFSA1Ze
+ mYx4+zks/1es8Iy0iKWMU4lVOB1NuHLILmIejjoq+NmyrCX4WM8hiVjBtLqwlXVJ6bF+
+ aFV/F31qXN8I20NOQYS+zx7zxURk5Pp9IXA0hFFQqjCAs03IzD1uN0NRbTFonURCC75a
+ fOOpTiS6jSX680wX+qjORm6nGtLvzonP0HxefyoKB22SmEK5QzpP2hR77LAMDMmp7Fh5
+ Mxjw==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr6KxrfO5Oh7R7NWd5jbpkxCcXi3g8qXe4kYOYilnn348Kw8dzMjA="
+X-RZG-CLASS-ID: mo00
+Received: from [IPv6:2a01:598:8086:10a9:904f:8bb2:ac2:590a]
+ by smtp.strato.de (RZmta 46.1.4 AUTH) with ESMTPSA id c05c1aw0A7AT8Ab
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Fri, 10 Jan 2020 08:10:29 +0100 (CET)
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
+Mime-Version: 1.0 (1.0)
+Subject: Re: Bug 205201 - Booting halts if Dawicontrol DC-2976 UW SCSI board
+ installed, unless RAM size limited to 3500M
+Date: Fri, 10 Jan 2020 08:10:28 +0100
+Message-Id: <533E86ED-00F4-4FB2-9D91-D4705088817D@xenosoft.de>
+References: <20191204085634.GA25929@lst.de>
+In-Reply-To: <20191204085634.GA25929@lst.de>
+To: Christoph Hellwig <hch@lst.de>
+X-Mailer: iPhone Mail (17B111)
+Cc: linux-arch@vger.kernel.org, darren@stevens-zone.net, rtd2@xtra.co.nz,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, linux-kernel@vger.kernel.org,
+ Mike Rapoport <rppt@linux.ibm.com>, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
+ paulus@samba.org, mad skateman <madskateman@gmail.com>,
+ "contact@a-eon.com" <contact@a-eon.com>, Robin Murphy <robin.murphy@arm.com>,
+ nsaenzjulienne@suse.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,25 +83,23 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-CgpPbiAyMDIwLzEvMTAg5LiK5Y2IMTo0OCwgSm9uYXRoYW4gQ2FtZXJvbiB3cm90ZToKPiBPbiBN
-b24sIDE2IERlYyAyMDE5IDExOjA4OjE3ICswODAwCj4gWmhhbmdmZWkgR2FvIDx6aGFuZ2ZlaS5n
-YW9AbGluYXJvLm9yZz4gd3JvdGU6Cj4KPj4gUmVnaXN0ZXIgcW0gdG8gdWFjY2UgZnJhbWV3b3Jr
-IGZvciB1c2VyIGNyeXB0byBkcml2ZXIKPj4KPj4gU2lnbmVkLW9mZi1ieTogWmhhbmdmZWkgR2Fv
-IDx6aGFuZ2ZlaS5nYW9AbGluYXJvLm9yZz4KPj4gU2lnbmVkLW9mZi1ieTogWmhvdSBXYW5nIDx3
-YW5nemhvdTFAaGlzaWxpY29uLmNvbT4KPiBWZXJ5IG5pY2UgdG8gc2VlIGhvdyBtaW5pbWFsIHRo
-ZSBjaGFuZ2VzIGFyZS4KPgo+IFdoaWxzdCB1YWNjZSBpbiBnZW5lcmFsIGlzbid0IGNyeXB0byBz
-cGVjaWZpYywgYXMgd2UgYXJlIGxvb2tpbmcKPiBhdCBjaGFuZ2VzIGluIGEgY3J5cHRvIGRyaXZl
-ciwgdGhpcyB3aWxsIG5lZWQgYSBjcnlwdG8gQWNrLgo+Cj4gSGVyYmVydCwgdGhpcyBpcyBhYm91
-dCBhcyBub24gaW52YXNpdmUgYXMgdGhpbmdzIGNhbiBnZXQgYW5kCj4gcHJvdmlkZSBhIHVzZXIg
-c3BhY2Ugc2hhcmVkIHZpcnR1YWwgYWRkcmVzc2luZyBiYXNlZCBpbnRlcmZhY2UuCj4gV2hhdCBk
-byB5b3UgdGhpbms/Cj4KPiAgRnJvbSBteSBzaWRlLCBmb3Igd2hhdCBpdCdzIHdvcnRoLi4uCj4K
-PiBSZXZpZXdlZC1ieTogSm9uYXRoYW4gQ2FtZXJvbiA8Sm9uYXRoYW4uQ2FtZXJvbkBodWF3ZWku
-Y29tPgoKVGhhbmtzIEpvbmF0aGFuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0
-aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5m
-by9pb21tdQ==
+Hi All,
+
+The SCSI cards work again. [1, 2]
+
+Sorry for bothering you.
+
+Thanks,
+Christian
+
+[1] http://forum.hyperion-entertainment.com/viewtopic.php?f=58&p=49603&sid=1adf9e6d558c136c1ad4ff15c44212ba#p49599
+[2] https://bugzilla.kernel.org/show_bug.cgi?id=205201
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
