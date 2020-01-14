@@ -2,65 +2,54 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B789139F43
-	for <lists.iommu@lfdr.de>; Tue, 14 Jan 2020 03:00:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC8B13A339
+	for <lists.iommu@lfdr.de>; Tue, 14 Jan 2020 09:49:27 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 31A6E855CE;
-	Tue, 14 Jan 2020 02:00:00 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 43929844A1;
+	Tue, 14 Jan 2020 08:49:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cEINECiuvg1d; Tue, 14 Jan 2020 01:59:59 +0000 (UTC)
+	with ESMTP id 8f-b5RNIqrc8; Tue, 14 Jan 2020 08:49:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4DDEE854E5;
-	Tue, 14 Jan 2020 01:59:59 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3A058843ED;
+	Tue, 14 Jan 2020 08:49:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 336AFC077D;
-	Tue, 14 Jan 2020 01:59:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 26142C077D;
+	Tue, 14 Jan 2020 08:49:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5D6E3C077D
- for <iommu@lists.linux-foundation.org>; Tue, 14 Jan 2020 01:59:57 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 34DE7C077D
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Jan 2020 08:49:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 537C6203F1
- for <iommu@lists.linux-foundation.org>; Tue, 14 Jan 2020 01:59:57 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 22ED2841E9
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Jan 2020 08:49:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id p9zmUbaiwyvV for <iommu@lists.linux-foundation.org>;
- Tue, 14 Jan 2020 01:59:56 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by silver.osuosl.org (Postfix) with ESMTPS id 17679203EC
- for <iommu@lists.linux-foundation.org>; Tue, 14 Jan 2020 01:59:56 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2020 17:59:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,431,1571727600"; d="scan'208";a="305011243"
-Received: from unknown (HELO [10.239.159.138]) ([10.239.159.138])
- by orsmga001.jf.intel.com with ESMTP; 13 Jan 2020 17:59:53 -0800
-Subject: Re: [RFC 2/5] iommu/vt-d: Unlink device if failed to add to group
-To: Joerg Roedel <joro@8bytes.org>
-References: <1577823863-3303-1-git-send-email-jonathan.derrick@intel.com>
- <1577823863-3303-3-git-send-email-jonathan.derrick@intel.com>
- <e45b00d9-579b-e141-e704-7084fe05bd29@linux.intel.com>
- <20200113122045.GE28359@8bytes.org>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <ef5d2869-b334-b924-1796-836336f786e9@linux.intel.com>
-Date: Tue, 14 Jan 2020 09:58:33 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ with ESMTP id rT_ko2rUpEVG for <iommu@lists.linux-foundation.org>;
+ Tue, 14 Jan 2020 08:49:22 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id CDCAC84508
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Jan 2020 08:49:21 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id F22E068B20; Tue, 14 Jan 2020 09:49:16 +0100 (CET)
+Date: Tue, 14 Jan 2020 09:49:16 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Jon Derrick <jonathan.derrick@intel.com>
+Subject: Re: [PATCH v3 1/5] x86/pci: Add a to_pci_sysdata helper
+Message-ID: <20200114084916.GA32024@lst.de>
+References: <1578676873-6206-1-git-send-email-jonathan.derrick@intel.com>
+ <1578676873-6206-2-git-send-email-jonathan.derrick@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200113122045.GE28359@8bytes.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <1578676873-6206-2-git-send-email-jonathan.derrick@intel.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: linux-pci@vger.kernel.org, iommu@lists.linux-foundation.org,
  Bjorn Helgaas <helgaas@kernel.org>, Keith Busch <kbusch@kernel.org>,
- David Woodhouse <dwmw2@infradead.org>, Christoph Hellwig <hch@lst.de>,
- Jon Derrick <jonathan.derrick@intel.com>
+ David Woodhouse <dwmw2@infradead.org>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,27 +62,25 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 1/13/20 8:20 PM, Joerg Roedel wrote:
-> On Sun, Jan 12, 2020 at 09:36:56AM +0800, Lu Baolu wrote:
->> On 1/1/20 4:24 AM, Jon Derrick wrote:
->>> If the device fails to be added to the group, make sure to unlink the
->>> reference before returning.
->>>
->>> Signed-off-by: Jon Derrick<jonathan.derrick@intel.com>
->>
->> Queued for v5.6.
+On Fri, Jan 10, 2020 at 10:21:09AM -0700, Jon Derrick wrote:
+> From: Christoph Hellwig <hch@lst.de>
 > 
-> No need to do so, I sent it upstream with the last pile of iommu fixes.
+> Various helpers need the pci_sysdata just to dereference a single field
+> in it.  Add a little helper that returns the properly typed sysdata
+> pointer to require a little less boilerplate code.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> [jonathan.derrick: added un-const cast]
 
-Got it. Thank you!
+> +	return to_pci_sysdata((struct pci_bus *) bus)->node;
 
-Best regards,
-baolu
+Instead of this case I think we'd be better off marking the bus
+argument to to_pci_sysdata const.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
