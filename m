@@ -1,57 +1,88 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3637813B80A
-	for <lists.iommu@lfdr.de>; Wed, 15 Jan 2020 04:05:33 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D71213BA90
+	for <lists.iommu@lfdr.de>; Wed, 15 Jan 2020 08:58:02 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A4D6F878D7;
-	Wed, 15 Jan 2020 03:05:31 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9EFEB85FED;
+	Wed, 15 Jan 2020 07:58:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5qUOW1krZudj; Wed, 15 Jan 2020 03:05:30 +0000 (UTC)
+	with ESMTP id MI9kPQK7jWOT; Wed, 15 Jan 2020 07:57:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D3A20878BB;
-	Wed, 15 Jan 2020 03:05:30 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DEEE985FC4;
+	Wed, 15 Jan 2020 07:57:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BA46EC077D;
-	Wed, 15 Jan 2020 03:05:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C2537C077D;
+	Wed, 15 Jan 2020 07:57:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DC85FC1D83
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jan 2020 03:05:29 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E8027C077D
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jan 2020 07:57:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 482B3204FE
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jan 2020 03:05:29 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id DE80686E88
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jan 2020 07:57:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SIHFsa-zhNDu for <iommu@lists.linux-foundation.org>;
- Wed, 15 Jan 2020 03:05:28 +0000 (UTC)
+ with ESMTP id CEcuVah5wny7 for <iommu@lists.linux-foundation.org>;
+ Wed, 15 Jan 2020 07:57:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by silver.osuosl.org (Postfix) with ESMTPS id 5A4DC1FEDF
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jan 2020 03:05:28 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2020 19:05:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,321,1574150400"; d="scan'208";a="219138461"
-Received: from unknown (HELO allen-box.sh.intel.com) ([10.239.159.138])
- by fmsmga007.fm.intel.com with ESMTP; 14 Jan 2020 19:05:27 -0800
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 5/5] iommu/vt-d: Unnecessary to handle default identity domain
-Date: Wed, 15 Jan 2020 11:03:59 +0800
-Message-Id: <20200115030359.13471-6-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200115030359.13471-1-baolu.lu@linux.intel.com>
-References: <20200115030359.13471-1-baolu.lu@linux.intel.com>
-Cc: iommu@lists.linux-foundation.org
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+ [209.85.128.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 7E0BE86E2C
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jan 2020 07:57:53 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id u2so16639640wmc.3
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Jan 2020 23:57:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=6Ia3VncVrF7c3ZybtE0PPF5JK9Ck+5/tRhdE7y0iz1s=;
+ b=i8ACrPmCSBs+LYW5GnsySs7+9Wv84u6t9RSSW45kj5ZeFcp32dD8ehSZC7Xt1/5Bqg
+ h1DjGveoSyal45wtXHcZT12ieGr2xy/e8wo3G3CDUp4cnmrVk2dBMBHelGHp79Fony6U
+ PzxYeHpAPCO7OJlHOgT9kJnoaQxA/TYufvx/R4aFz+DWsO6XAAmRO/6BrT+Ih8WgpQdu
+ c6ekNSgZ6GiY2J08rJXJvTGQ1oEZ9kxZNs4IRe/nMDFb9UnQ9GcYUYMB+eaE+qqao7xg
+ 33CsbG7zAeSpBNRqs3YmXjFWPmjtHKVWEZJY7FefO2sA/OEizZXaufWIgyH59yrGNt8Q
+ Yk/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6Ia3VncVrF7c3ZybtE0PPF5JK9Ck+5/tRhdE7y0iz1s=;
+ b=EzSs+OQv8Ry6yO2TSBwpiNBs17VUKHZyiz+agY4RJMTcr7j/+pLcDDxpifxTh3D61K
+ 3EUMLaHQwkYcqvB81bhET23aASHgb5v/vGCoym0NUmllPkKYZKfY/G22EWVAfpidcqrt
+ cui5HrNPS4N1AhMPpgfehAhUqzJWLC0IUeLVF9JSOEQ+io+bPxANvmrm/gVvOS7/isOi
+ YhL79WsABPI0QYHdAjpe1m0M9DG4oDoRM1zGovP/lqvgE+IPeXmM4eSqimJHwgeVcTv3
+ FLoNYl/BFMWD6uPaBvv+7v2MIsOSmOT3BBNeYqigc5Zb0fXnIleRcCHGn9elGV2I+P/R
+ ep3A==
+X-Gm-Message-State: APjAAAWVUMlF3fqDspEZWScEWnGn3Q+2iJRY9WaFjCj5wVie3ixWxVL9
+ gYbNNPd48sLIAbTAWxkR25Amkw==
+X-Google-Smtp-Source: APXvYqyNEYvahUX2hjnKrrpMAXYUfqqL20FGP88ce7WRH3XP7tUR3FPmbPiIfTuZpy5b/JjF1w/zZg==
+X-Received: by 2002:a7b:cd07:: with SMTP id f7mr30916595wmj.37.1579075071790; 
+ Tue, 14 Jan 2020 23:57:51 -0800 (PST)
+Received: from myrica ([2001:171b:2266:ba60:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id h2sm23782648wrv.66.2020.01.14.23.57.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jan 2020 23:57:51 -0800 (PST)
+Date: Wed, 15 Jan 2020 08:57:46 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v4 13/13] iommu/arm-smmu-v3: Add support for PCI PASID
+Message-ID: <20200115075746.GA32782@myrica>
+References: <20191219163033.2608177-1-jean-philippe@linaro.org>
+ <20191219163033.2608177-14-jean-philippe@linaro.org>
+ <20200114124541.GE29222@willie-the-truck>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200114124541.GE29222@willie-the-truck>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
+ sudeep.holla@arm.com, rjw@rjwysocki.net, linux-acpi@vger.kernel.org,
+ iommu@lists.linux-foundation.org, robh+dt@kernel.org, guohanjun@huawei.com,
+ bhelgaas@google.com, zhangfei.gao@linaro.org, robin.murphy@arm.com,
+ linux-arm-kernel@lists.infradead.org, lenb@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -64,64 +95,51 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The iommu default domain framework has been designed to take
-care of setting identity default domain type. It's unnecessary
-to handle this again in the VT-d driver. Hence, remove it.
+On Tue, Jan 14, 2020 at 12:45:42PM +0000, Will Deacon wrote:
+> On Thu, Dec 19, 2019 at 05:30:33PM +0100, Jean-Philippe Brucker wrote:
+> > Enable PASID for PCI devices that support it. Since the SSID tables are
+> > allocated by arm_smmu_attach_dev(), PASID has to be enabled early enough.
+> > arm_smmu_dev_feature_enable() would be too late, since by that time the
+> 
+> What is arm_smmu_dev_feature_enable()?
 
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
----
- drivers/iommu/intel-iommu.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+It's the implementation of the IOMMU op .dev_enable_feat(), which I'll add
+later (called by a device driver to enable the SVA feature). I'll reword
+this comment, since the only real requirement is enabling PASID before
+ATS.
 
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index 3446da5a2186..f1f812cb7b9d 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -387,7 +387,6 @@ static int intel_iommu_superpage = 1;
- static int iommu_identity_mapping;
- static int intel_no_bounce;
- 
--#define IDENTMAP_ALL		1
- #define IDENTMAP_GFX		2
- #define IDENTMAP_AZALIA		4
- 
-@@ -3079,8 +3078,7 @@ static int device_def_domain_type(struct device *dev)
- 			return IOMMU_DOMAIN_DMA;
- 	}
- 
--	return (iommu_identity_mapping & IDENTMAP_ALL) ?
--			IOMMU_DOMAIN_IDENTITY : 0;
-+	return 0;
- }
- 
- static void intel_iommu_init_qi(struct intel_iommu *iommu)
-@@ -3424,9 +3422,6 @@ static int __init init_dmars(void)
- 		iommu->flush.flush_iotlb(iommu, 0, 0, 0, DMA_TLB_GLOBAL_FLUSH);
- 	}
- 
--	if (iommu_default_passthrough())
--		iommu_identity_mapping |= IDENTMAP_ALL;
--
- #ifdef CONFIG_INTEL_IOMMU_BROKEN_GFX_WA
- 	dmar_map_gfx = 0;
- #endif
-@@ -5038,7 +5033,7 @@ static int __init platform_optin_force_iommu(void)
- 	 * map for all devices except those marked as being untrusted.
- 	 */
- 	if (dmar_disabled)
--		iommu_identity_mapping |= IDENTMAP_ALL;
-+		iommu_set_default_passthrough(false);
- 
- 	dmar_disabled = 0;
- 	no_iommu = 0;
--- 
-2.17.1
+> >  static void arm_smmu_detach_dev(struct arm_smmu_master *master)
+> >  {
+> >  	unsigned long flags;
+> > @@ -2852,13 +2899,16 @@ static int arm_smmu_add_device(struct device *dev)
+> >  
+> >  	master->ssid_bits = min(smmu->ssid_bits, fwspec->num_pasid_bits);
+> >  
+> > +	/* Note that PASID must be enabled before, and disabled after ATS */
+> > +	arm_smmu_enable_pasid(master);
+> 
+> Is that part of the PCIe specs? If so, please can you add a citation to the
+> comment?
+
+Yes (PCIe 4.0r1.0 10.5.1.3 ATS Control register).
+
+> Are there any other ordering requirements, i.e. with respect to enabling
+> substreams at the SMMU? For example, can a speculative ATS request provide
+> a PASID?
+
+You recent fix bfff88ec1afe ("iommu/arm-smmu-v3: Rework enabling/disabling
+of ATS for PCI masters") should prevent from speculative ATS requests.
+More generally both ATS and SSID are enabled and disabled at the same time
+in the SMMU, when toggling STE.V, so any request arriving before STE
+enablement will be aborted regardless of SSID.
+
+Thanks,
+Jean
 
 _______________________________________________
 iommu mailing list
