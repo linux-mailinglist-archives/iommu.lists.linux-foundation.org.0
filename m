@@ -1,67 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A1D13EAC3
-	for <lists.iommu@lfdr.de>; Thu, 16 Jan 2020 18:46:18 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 222D413EA81
+	for <lists.iommu@lfdr.de>; Thu, 16 Jan 2020 18:44:55 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7472B87F5D;
-	Thu, 16 Jan 2020 17:46:17 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C6FB786447;
+	Thu, 16 Jan 2020 17:44:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id obCGQkj8Pzpk; Thu, 16 Jan 2020 17:46:13 +0000 (UTC)
+	with ESMTP id DX1L-v1Bq0Hw; Thu, 16 Jan 2020 17:44:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4B4CA87F52;
-	Thu, 16 Jan 2020 17:46:13 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D9A2286594;
+	Thu, 16 Jan 2020 17:44:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 302BAC077D;
-	Thu, 16 Jan 2020 17:46:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C1BB7C077D;
+	Thu, 16 Jan 2020 17:44:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 87259C077D
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jan 2020 17:46:11 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AA849C077D
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jan 2020 17:44:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 7613E86582
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jan 2020 17:46:11 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 95FAB84640
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jan 2020 17:44:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Edjj0IHJD7bM for <iommu@lists.linux-foundation.org>;
- Thu, 16 Jan 2020 17:46:06 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7E04A86447
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jan 2020 17:46:06 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9FDB3246DA;
- Thu, 16 Jan 2020 17:46:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579196766;
- bh=h18oKnj8xTlOYDI1iH5PKIWAzLyL2+c5srHxbW1Mq/E=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PU7nTW9n81L2WSm1ajeDJGhO8BtvQbOWwOYImx5ed/NI770eRzRDR0yQbQH4O1MMn
- jxxdRkspg2fM52/nOroeH9KITSj5iM1l6a2jazY2uOFrA1W20cCyKoo18QbEK1qwC8
- 3a5IzA6/zQ86orOgBAR/FTZkeAVGKCgcKKFDhdIs=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 139/174] iommu/amd: Wait for completion of IOTLB
- flush in attach_device
-Date: Thu, 16 Jan 2020 12:42:16 -0500
-Message-Id: <20200116174251.24326-139-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116174251.24326-1-sashal@kernel.org>
-References: <20200116174251.24326-1-sashal@kernel.org>
+ with ESMTP id Pmtuy_-i6Fui for <iommu@lists.linux-foundation.org>;
+ Thu, 16 Jan 2020 17:44:46 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 23B24845D6
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jan 2020 17:44:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=P0ujeKY7h/62OJnX1PYjinltna+YaYSFTchSZ0TA9WA=; b=RD6amf3ZQL/0bf9oJtita8Ly6
+ TRFI18VJHo5iLj3eHVWnW3bzCtvUy3ZaMrBgZqe4HHNjdbOQho2cOpOEhA/J08NuQTm0cDZGNJM3Z
+ tqG6d7ehcMYo5AK62JDM/ckapAVXsaBKVOXCM597TByf7ftJnrJpni3irARG6fW6GuHErCp5FZljt
+ c7hJO95yMx8vpb4Sz9d86xkoGDrUFRtxvNXm71sajTsOQEVuHNfABj161iMm5cxLNLZNmeJi2bR4S
+ ZdQ6QqcSDkNrRrNvu689AwFl6X4ZZt7Hm1spbvrgBEsnNXP9Dp92VmvrmdSmnCIj/To+U6OxZxv2r
+ lYIZYOsDw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red
+ Hat Linux)) id 1is9CF-0004c6-7v; Thu, 16 Jan 2020 17:44:43 +0000
+Date: Thu, 16 Jan 2020 09:44:43 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Abdul Haleem <abdhalee@linux.vnet.ibm.com>
+Subject: Re: [linux-next/mainline][bisected 3acac06][ppc] Oops when unloading
+ mpt3sas driver
+Message-ID: <20200116174443.GA30158@infradead.org>
+References: <1578489498.29952.11.camel@abdul>
+ <1578560245.30409.0.camel@abdul.in.ibm.com>
+ <20200109142218.GA16477@infradead.org>
+ <1578980874.11996.3.camel@abdul.in.ibm.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Cc: Sasha Levin <sashal@kernel.org>, Filippo Sironi <sironi@amazon.de>,
- iommu@lists.linux-foundation.org, Joerg Roedel <jroedel@suse.de>
+Content-Disposition: inline
+In-Reply-To: <1578980874.11996.3.camel@abdul.in.ibm.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: sachinp <sachinp@linux.vnet.ibm.com>,
+ Chaitra P B <chaitra.basappa@broadcom.com>,
+ linux-scsi <linux-scsi@vger.kernel.org>, MPT-FusionLinux.pdl@broadcom.com,
+ manvanth <manvanth@linux.vnet.ibm.com>,
+ Sathya Prakash <sathya.prakash@broadcom.com>, jcmvbkbc@gmail.com,
+ iommu@lists.linux-foundation.org, linux-next <linux-next@vger.kernel.org>,
+ Oliver <oohall@gmail.com>, "aneesh.kumar" <aneesh.kumar@linux.vnet.ibm.com>,
+ Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>,
+ Brian King <brking@linux.vnet.ibm.com>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,37 +91,157 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Filippo Sironi <sironi@amazon.de>
+Hi Abdul,
 
-[ Upstream commit 0b15e02f0cc4fb34a9160de7ba6db3a4013dc1b7 ]
+I think the problem is that mpt3sas has some convoluted logic to do
+some DMA allocations with a 32-bit coherent mask, and then switches
+to a 63 or 64 bit mask, which is not supported by the DMA API.
 
-To make sure the domain tlb flush completes before the
-function returns, explicitly wait for its completion.
+Can you try the patch below?
 
-Signed-off-by: Filippo Sironi <sironi@amazon.de>
-Fixes: 42a49f965a8d ("amd-iommu: flush domain tlb when attaching a new device")
-[joro: Added commit message and fixes tag]
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/iommu/amd_iommu.c | 2 ++
- 1 file changed, 2 insertions(+)
+From 0738b1704ed528497b41b0408325f6828a8e51f6 Mon Sep 17 00:00:00 2001
+From: Christoph Hellwig <hch@lst.de>
+Date: Thu, 16 Jan 2020 18:31:38 +0100
+Subject: mpt3sas: don't change the dma coherent mask after allocations
 
-diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index 0ad8b7c78a43..66a406e87e11 100644
---- a/drivers/iommu/amd_iommu.c
-+++ b/drivers/iommu/amd_iommu.c
-@@ -2184,6 +2184,8 @@ static int attach_device(struct device *dev,
- 	 */
- 	domain_flush_tlb_pde(domain);
+The DMA layer does not allow changing the DMA coherent mask after
+there are outstanding allocations.  Stop doing that and always
+use a 32-bit coherent DMA mask in mpt3sas.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/scsi/mpt3sas/mpt3sas_base.c | 67 ++++++++---------------------
+ drivers/scsi/mpt3sas/mpt3sas_base.h |  2 -
+ 2 files changed, 19 insertions(+), 50 deletions(-)
+
+diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
+index fea3cb6a090b..3b51bed05008 100644
+--- a/drivers/scsi/mpt3sas/mpt3sas_base.c
++++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
+@@ -2706,58 +2706,38 @@ _base_build_sg_ieee(struct MPT3SAS_ADAPTER *ioc, void *psge,
+ static int
+ _base_config_dma_addressing(struct MPT3SAS_ADAPTER *ioc, struct pci_dev *pdev)
+ {
+-	u64 required_mask, coherent_mask;
+ 	struct sysinfo s;
+-	/* Set 63 bit DMA mask for all SAS3 and SAS35 controllers */
+-	int dma_mask = (ioc->hba_mpi_version_belonged > MPI2_VERSION) ? 63 : 64;
+-
+-	if (ioc->is_mcpu_endpoint)
+-		goto try_32bit;
++	int dma_mask;
  
-+	domain_flush_complete(domain);
+-	required_mask = dma_get_required_mask(&pdev->dev);
+-	if (sizeof(dma_addr_t) == 4 || required_mask == 32)
+-		goto try_32bit;
+-
+-	if (ioc->dma_mask)
+-		coherent_mask = DMA_BIT_MASK(dma_mask);
++	if (ioc->is_mcpu_endpoint ||
++	    sizeof(dma_addr_t) == 4 ||
++	    dma_get_required_mask(&pdev->dev) <= 32)
++		dma_mask = 32;
++	/* Set 63 bit DMA mask for all SAS3 and SAS35 controllers */
++	else if (ioc->hba_mpi_version_belonged > MPI2_VERSION)
++		dma_mask = 63;
+ 	else
+-		coherent_mask = DMA_BIT_MASK(32);
++		dma_mask = 64;
+ 
+ 	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(dma_mask)) ||
+-	    dma_set_coherent_mask(&pdev->dev, coherent_mask))
+-		goto try_32bit;
+-
+-	ioc->base_add_sg_single = &_base_add_sg_single_64;
+-	ioc->sge_size = sizeof(Mpi2SGESimple64_t);
+-	ioc->dma_mask = dma_mask;
+-	goto out;
+-
+- try_32bit:
+-	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
++	    dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32)))
+ 		return -ENODEV;
+ 
+-	ioc->base_add_sg_single = &_base_add_sg_single_32;
+-	ioc->sge_size = sizeof(Mpi2SGESimple32_t);
+-	ioc->dma_mask = 32;
+- out:
++	if (dma_mask > 32) {
++		ioc->base_add_sg_single = &_base_add_sg_single_64;
++		ioc->sge_size = sizeof(Mpi2SGESimple64_t);
++	} else {
++		ioc->base_add_sg_single = &_base_add_sg_single_32;
++		ioc->sge_size = sizeof(Mpi2SGESimple32_t);
++	}
 +
- 	return ret;
+ 	si_meminfo(&s);
+ 	ioc_info(ioc, "%d BIT PCI BUS DMA ADDRESSING SUPPORTED, total mem (%ld kB)\n",
+-		 ioc->dma_mask, convert_to_kb(s.totalram));
++		 dma_mask, convert_to_kb(s.totalram));
+ 
+ 	return 0;
  }
  
+-static int
+-_base_change_consistent_dma_mask(struct MPT3SAS_ADAPTER *ioc,
+-				      struct pci_dev *pdev)
+-{
+-	if (pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(ioc->dma_mask))) {
+-		if (pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(32)))
+-			return -ENODEV;
+-	}
+-	return 0;
+-}
+-
+ /**
+  * _base_check_enable_msix - checks MSIX capabable.
+  * @ioc: per adapter object
+@@ -5030,14 +5010,6 @@ _base_allocate_memory_pools(struct MPT3SAS_ADAPTER *ioc)
+ 		total_sz += sz;
+ 	} while (ioc->rdpq_array_enable && (++i < ioc->reply_queue_count));
+ 
+-	if (ioc->dma_mask > 32) {
+-		if (_base_change_consistent_dma_mask(ioc, ioc->pdev) != 0) {
+-			ioc_warn(ioc, "no suitable consistent DMA mask for %s\n",
+-				 pci_name(ioc->pdev));
+-			goto out;
+-		}
+-	}
+-
+ 	ioc->scsiio_depth = ioc->hba_queue_depth -
+ 	    ioc->hi_priority_depth - ioc->internal_depth;
+ 
+@@ -6965,7 +6937,6 @@ mpt3sas_base_attach(struct MPT3SAS_ADAPTER *ioc)
+ 	ioc->smp_affinity_enable = smp_affinity_enable;
+ 
+ 	ioc->rdpq_array_enable_assigned = 0;
+-	ioc->dma_mask = 0;
+ 	if (ioc->is_aero_ioc)
+ 		ioc->base_readl = &_base_readl_aero;
+ 	else
+diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.h b/drivers/scsi/mpt3sas/mpt3sas_base.h
+index faca0a5e71f8..e57cade1155c 100644
+--- a/drivers/scsi/mpt3sas/mpt3sas_base.h
++++ b/drivers/scsi/mpt3sas/mpt3sas_base.h
+@@ -1011,7 +1011,6 @@ typedef void (*MPT3SAS_FLUSH_RUNNING_CMDS)(struct MPT3SAS_ADAPTER *ioc);
+  * @ir_firmware: IR firmware present
+  * @bars: bitmask of BAR's that must be configured
+  * @mask_interrupts: ignore interrupt
+- * @dma_mask: used to set the consistent dma mask
+  * @pci_access_mutex: Mutex to synchronize ioctl, sysfs show path and
+  *			pci resource handling
+  * @fault_reset_work_q_name: fw fault work queue
+@@ -1185,7 +1184,6 @@ struct MPT3SAS_ADAPTER {
+ 	u8		ir_firmware;
+ 	int		bars;
+ 	u8		mask_interrupts;
+-	int		dma_mask;
+ 
+ 	/* fw fault handler */
+ 	char		fault_reset_work_q_name[20];
 -- 
-2.20.1
+2.24.1
 
 _______________________________________________
 iommu mailing list
