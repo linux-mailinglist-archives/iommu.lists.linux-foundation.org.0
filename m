@@ -1,53 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363BB140759
-	for <lists.iommu@lfdr.de>; Fri, 17 Jan 2020 11:08:44 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3CEA1407DB
+	for <lists.iommu@lfdr.de>; Fri, 17 Jan 2020 11:22:08 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E2734868C0;
-	Fri, 17 Jan 2020 10:08:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EEF4820530;
+	Fri, 17 Jan 2020 10:22:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zRZJgVOohB9T; Fri, 17 Jan 2020 10:08:39 +0000 (UTC)
+	with ESMTP id I2jiT8dvO7Jb; Fri, 17 Jan 2020 10:22:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4061C868A2;
-	Fri, 17 Jan 2020 10:08:39 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4155E2040C;
+	Fri, 17 Jan 2020 10:22:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3403BC077D;
-	Fri, 17 Jan 2020 10:08:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2296EC077D;
+	Fri, 17 Jan 2020 10:22:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 471A8C077D
- for <iommu@lists.linux-foundation.org>; Fri, 17 Jan 2020 10:08:38 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 50979C077D
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Jan 2020 10:22:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 422AD1FEDF
- for <iommu@lists.linux-foundation.org>; Fri, 17 Jan 2020 10:08:38 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 41136220EF
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Jan 2020 10:22:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id P4b1RVSIML80 for <iommu@lists.linux-foundation.org>;
- Fri, 17 Jan 2020 10:08:33 +0000 (UTC)
+ with ESMTP id G326kED+SoXv for <iommu@lists.linux-foundation.org>;
+ Fri, 17 Jan 2020 10:21:54 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id CBD6420104
- for <iommu@lists.linux-foundation.org>; Fri, 17 Jan 2020 10:08:32 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id B639C2040C
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Jan 2020 10:21:54 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 59032327; Fri, 17 Jan 2020 11:08:31 +0100 (CET)
-Date: Fri, 17 Jan 2020 11:08:29 +0100
+ id 11BFA327; Fri, 17 Jan 2020 11:21:52 +0100 (CET)
+Date: Fri, 17 Jan 2020 11:21:51 +0100
 From: Joerg Roedel <joro@8bytes.org>
-To: Shuah Khan <skhan@linuxfoundation.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH] iommu: amd: Fix IOMMU perf counter clobbering during init
-Message-ID: <20200117100829.GE15760@8bytes.org>
-References: <20200114151220.29578-1-skhan@linuxfoundation.org>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [RFC PATCH 3/4] iommu: Preallocate iommu group when probing
+ devices
+Message-ID: <20200117102151.GF15760@8bytes.org>
+References: <20200101052648.14295-1-baolu.lu@linux.intel.com>
+ <20200101052648.14295-4-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200114151220.29578-1-skhan@linuxfoundation.org>
+In-Reply-To: <20200101052648.14295-4-baolu.lu@linux.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Cc: kevin.tian@intel.com, ashok.raj@intel.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, jacob.jun.pan@intel.com,
+ Bjorn Helgaas <bhelgaas@google.com>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,72 +70,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Adding Suravee, who wrote the IOMMU Perf Counter code.
+On Wed, Jan 01, 2020 at 01:26:47PM +0800, Lu Baolu wrote:
+> This splits iommu group allocation from adding devices. This makes
+> it possible to determine the default domain type for each group as
+> all devices belonging to the group have been determined.
 
-On Tue, Jan 14, 2020 at 08:12:20AM -0700, Shuah Khan wrote:
-> init_iommu_perf_ctr() clobbers the register when it checks write access
-> to IOMMU perf counters and fails to restore when they are writable.
-> 
-> Add save and restore to fix it.
-> 
-> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-> ---
->  drivers/iommu/amd_iommu_init.c | 22 ++++++++++++++++------
->  1 file changed, 16 insertions(+), 6 deletions(-)
+I think its better to keep group allocation as it is and just defer
+default domain allocation after each device is in its group. But take
+care about the device hotplug path which might add new devices to groups
+which already have a default domain, or add new groups that might need a
+default domain too.
 
-Suravee, can you please review this patch?
+Regards,
 
-> 
-> diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
-> index 568c52317757..c0ad4f293522 100644
-> --- a/drivers/iommu/amd_iommu_init.c
-> +++ b/drivers/iommu/amd_iommu_init.c
-> @@ -1655,27 +1655,37 @@ static int iommu_pc_get_set_reg(struct amd_iommu *iommu, u8 bank, u8 cntr,
->  static void init_iommu_perf_ctr(struct amd_iommu *iommu)
->  {
->  	struct pci_dev *pdev = iommu->dev;
-> -	u64 val = 0xabcd, val2 = 0;
-> +	u64 val = 0xabcd, val2 = 0, save_reg = 0;
->  
->  	if (!iommu_feature(iommu, FEATURE_PC))
->  		return;
->  
->  	amd_iommu_pc_present = true;
->  
-> +	/* save the value to restore, if writable */
-> +	if (iommu_pc_get_set_reg(iommu, 0, 0, 0, &save_reg, false))
-> +		goto pc_false;
-> +
->  	/* Check if the performance counters can be written to */
->  	if ((iommu_pc_get_set_reg(iommu, 0, 0, 0, &val, true)) ||
->  	    (iommu_pc_get_set_reg(iommu, 0, 0, 0, &val2, false)) ||
-> -	    (val != val2)) {
-> -		pci_err(pdev, "Unable to write to IOMMU perf counter.\n");
-> -		amd_iommu_pc_present = false;
-> -		return;
-> -	}
-> +	    (val != val2))
-> +		goto pc_false;
-> +
-> +	/* restore */
-> +	if (iommu_pc_get_set_reg(iommu, 0, 0, 0, &save_reg, true))
-> +		goto pc_false;
->  
->  	pci_info(pdev, "IOMMU performance counters supported\n");
->  
->  	val = readl(iommu->mmio_base + MMIO_CNTR_CONF_OFFSET);
->  	iommu->max_banks = (u8) ((val >> 12) & 0x3f);
->  	iommu->max_counters = (u8) ((val >> 7) & 0xf);
-> +
-> +pc_false:
-> +	pci_err(pdev, "Unable to read/write to IOMMU perf counter.\n");
-> +	amd_iommu_pc_present = false;
-> +	return;
->  }
->  
->  static ssize_t amd_iommu_show_cap(struct device *dev,
-> -- 
-> 2.20.1
+	Joerg
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
