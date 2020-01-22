@@ -1,95 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA3214549E
-	for <lists.iommu@lfdr.de>; Wed, 22 Jan 2020 13:59:08 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B661457ED
+	for <lists.iommu@lfdr.de>; Wed, 22 Jan 2020 15:37:04 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 614EF847D9;
-	Wed, 22 Jan 2020 12:59:07 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 353EE86044;
+	Wed, 22 Jan 2020 14:37:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2phQHmgwr3-R; Wed, 22 Jan 2020 12:59:06 +0000 (UTC)
+	with ESMTP id WjymYe-Qzkrt; Wed, 22 Jan 2020 14:37:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 74A8B820FC;
-	Wed, 22 Jan 2020 12:59:06 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3CEC985092;
+	Wed, 22 Jan 2020 14:37:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D2D9C0174;
-	Wed, 22 Jan 2020 12:59:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 27351C0174;
+	Wed, 22 Jan 2020 14:37:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 97ED0C0174
- for <iommu@lists.linux-foundation.org>; Wed, 22 Jan 2020 12:51:08 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5F7F7C0174
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Jan 2020 14:37:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 85DB684854
- for <iommu@lists.linux-foundation.org>; Wed, 22 Jan 2020 12:51:08 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 459D587CB8
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Jan 2020 14:37:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uae05tZ-q2D3 for <iommu@lists.linux-foundation.org>;
- Wed, 22 Jan 2020 12:51:07 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 2043A8410C
- for <iommu@lists.linux-foundation.org>; Wed, 22 Jan 2020 12:51:07 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 32F022210C;
- Wed, 22 Jan 2020 07:44:22 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Wed, 22 Jan 2020 07:44:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=DgDfB/hFawptN
- HZCJCX81NZTCohtpfH3MNlMAuDUEKQ=; b=Z150IZz4hGxFI+wykeLAdtxo6Ddhh
- M5CEhCxbhrM6s1zLBcLKX4zrHzyR5SvMeKGWkLD0C5U9n1GbkuEqB2bbiy6F8OwY
- D2DIqIs1eWDAAYp2R2p7zaW0LWvJ/8Hpdk2OJCnT79mIcVD8TCQNhV3EdF7YjVnU
- JeF3ezdmTudepbEVQSU7n3KbqBL30cRXwAEWjNsO5x3oT3iEElqa4cfpuz5yLtIO
- 1DgHiFWhlmkf11wJq67887YYwj6FSoC22wZGhHO6eLKA57oBBJ9ireorTAlhzFwP
- qQUUQLSFD19mpOijSi48wPfonjwW73B0/fLh2hwFCSwodBIncXyK94o4w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=DgDfB/hFawptNHZCJCX81NZTCohtpfH3MNlMAuDUEKQ=; b=uIJmzyUa
- RE9JexdjY8rNY+OywLWfPi+Btfh9wrOSpkwEYAdS1B4p9nlRHbR9REQO390Fxq99
- N85270eEsfyTjOaD8Wi6ZF9duoVL7fVik9PSWkufAla7NQy4OmygVs2RTrprkyAu
- xlqOGiLQDFD52Z1Ue2DjzcskgQtGPj/W8v191zcN4R++AgdPAUADY2ThS2q9RaOw
- WESteeGKFoDwvOw7Ksac0rZkwwvvmMSXE3HEmNF9eDcylXPGcD8Ib41zN4HeRA/h
- ikLkkzFvxX343kT8hlQ57UQ80lBxr4yfcUbBPTNIVK2kysoWTJGnQzJ8666NxlRN
- xflNW4FH/kDNOw==
-X-ME-Sender: <xms:pkMoXsgmaEntAfh5bt3y9RNcH2GQPGtm2bJXMEn6rJlyi3ZefsM_Gg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrvddtgdegtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
- ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhl
- fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:pkMoXgeBJlM_AwBrZzpAzASI1RIobCbRh1SDGEVQlg2fxoqzSfJngg>
- <xmx:pkMoXnlNsIv4Xw5BkS6qkAp1XenVe6ShGFcICk0NrERExSAk0dOz7g>
- <xmx:pkMoXhuZZFTZr9WamAWErzchlz0e16zNWF29DGXsPT0dwEzoTB-6GQ>
- <xmx:pkMoXjx2A9AcYRe7KcLGl_O3InAxIgOXTbnqQ0z_1JeHdQR96hrC2w>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id DCBDF3060CBE;
- Wed, 22 Jan 2020 07:44:21 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Joerg Roedel <joro@8bytes.org>, Chen-Yu Tsai <wens@csie.org>,
- Maxime Ripard <mripard@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH 3/3] arm64: dts: allwinner: h6: Add IOMMU
-Date: Wed, 22 Jan 2020 13:44:09 +0100
-Message-Id: <54e22e25c2c13cb1b73cc7ecb645b5d62f325b63.1579696927.git-series.maxime@cerno.tech>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.b2a9e1507135d81e726fcbb65137665a7f0ab74f.1579696927.git-series.maxime@cerno.tech>
-References: <cover.b2a9e1507135d81e726fcbb65137665a7f0ab74f.1579696927.git-series.maxime@cerno.tech>
-MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 22 Jan 2020 12:59:04 +0000
-Cc: devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
- Maxime Ripard <maxime@cerno.tech>, linux-arm-kernel@lists.infradead.org
+ with ESMTP id 3HJjYxWNA8p8 for <iommu@lists.linux-foundation.org>;
+ Wed, 22 Jan 2020 14:36:59 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id CE2F887C8C
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Jan 2020 14:36:59 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id x185so3508716pfc.5
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Jan 2020 06:36:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=//w42q+qBbGvT7qPAjJmwfNgPPBQAXL4ZKZvItt7FSs=;
+ b=Jds4Ok5iM8g1LzLArlC8aVs0AhGTcKpharU+HZCD+c8dUGMTOfMPDTpTDGYvdyz/H4
+ MCgDmLRBbV/Uc2r5++KQyy7QJhWQpZf+JULalpE7JEo88StDsndx2s0nhoBeE29ZaVGp
+ DvU9Pra7QOpLE4pTCCT6iubiFm+pIg6D/mEvJXFgMPWt6A8Vz+v3uz80dDPRcnA7Kl3/
+ Z0UDMvspmofwkzoEl+udmU93tjktNje+glwp/hZ9v1hZfhIwhHssk1nEbbxATNPlI+3G
+ MWk5cU38DYAti76UEaLGbeMO+DXqL61n/yZUzrdpMHCKjzJxeSVycQ1ULo83C1DDzFI7
+ v62w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=//w42q+qBbGvT7qPAjJmwfNgPPBQAXL4ZKZvItt7FSs=;
+ b=tyJJl/vdEeONGdwUPYTYuTzMhDoeK9+uvnxgS8ytjTyrVhF8aWDoaUdujvl32ZaUcn
+ TzZiDWWMbBpvF7rJNA33cHaWQw8S7cvVclvcBoWb5yhQDO0bwdZhSJt4UoJhvMcY5wNi
+ hfLbw6n+jfugFnMLFfT4gu8SaztV7I5lE5mhNcQXmJm1V/me5o87NK9Nilez+WoIUooA
+ /JSzhS+9uGrdVgbngsGZb6NKk4MOPOw+1uQCtomP9yLj0c70El1u8MKgqzgz9LhiZAt7
+ lsajWBXd6W2qfe3eus5JJE9l+1wg9bLSPrmfCqRFLD1uvyQP64tU6OiJ8QXMQW4sOnS5
+ exsw==
+X-Gm-Message-State: APjAAAVWoTzubaqFMjF+MSfGwfLMhTNEr+FVhxL/sW7nZC/0FZEpCQY1
+ UuHXdbBHBPqDV5dZS6goVzw=
+X-Google-Smtp-Source: APXvYqydPCNrlSZG1r5t81Jkby7LrEEIHrg5ciYKRrMCqFmXBlIh5gZUY81Ce6X7/IOQQbp6yXqnRg==
+X-Received: by 2002:a62:28e:: with SMTP id 136mr2826619pfc.256.1579703819232; 
+ Wed, 22 Jan 2020 06:36:59 -0800 (PST)
+Received: from AHUANG12-1LT7M0.lenovo.com (36-237-123-54.dynamic-ip.hinet.net.
+ [36.237.123.54])
+ by smtp.googlemail.com with ESMTPSA id m3sm47054052pfh.116.2020.01.22.06.36.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jan 2020 06:36:58 -0800 (PST)
+From: Adrian Huang <adrianhuang0701@gmail.com>
+X-Google-Original-From: Adrian Huang <ahuang12@lenovo.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH 1/1] iommu/amd: Remove the unnecessary assignment
+Date: Wed, 22 Jan 2020 22:36:29 +0800
+Message-Id: <20200122143629.21161-1-ahuang12@lenovo.com>
+X-Mailer: git-send-email 2.17.1
+Cc: iommu@lists.linux-foundation.org, Adrian Huang <ahuang12@lenovo.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,56 +86,38 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Now that we have a driver for the IOMMU, let's start using it.
+From: Adrian Huang <ahuang12@lenovo.com>
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+The assignment of the global variable 'iommu_detected' has been
+moved from amd_iommu_init_dma_ops() to amd_iommu_detect(), so
+this patch removes the assignment in amd_iommu_init_dma_ops().
+
+Signed-off-by: Adrian Huang <ahuang12@lenovo.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/iommu/amd_iommu.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-index 29824081b43b..8608bcf1c52c 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-@@ -53,6 +53,7 @@
- 	de: display-engine {
- 		compatible = "allwinner,sun50i-h6-display-engine";
- 		allwinner,pipelines = <&mixer0>;
-+		iommus = <&iommu 0>;
- 		status = "disabled";
- 	};
+diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+index bd25674ee4db..79f08c0a1f00 100644
+--- a/drivers/iommu/amd_iommu.c
++++ b/drivers/iommu/amd_iommu.c
+@@ -2297,7 +2297,6 @@ int __init amd_iommu_init_api(void)
+ int __init amd_iommu_init_dma_ops(void)
+ {
+ 	swiotlb        = (iommu_default_passthrough() || sme_me_mask) ? 1 : 0;
+-	iommu_detected = 1;
  
-@@ -122,6 +123,7 @@
- 				clock-names = "bus",
- 					      "mod";
- 				resets = <&display_clocks RST_MIXER0>;
-+				iommus = <&iommu 0>;
- 
- 				ports {
- 					#address-cells = <1>;
-@@ -345,6 +347,15 @@
- 			#interrupt-cells = <3>;
- 		};
- 
-+		iommu: iommu@30f0000 {
-+			compatible = "allwinner,sun50i-h6-iommu";
-+			reg = <0x030f0000 0x10000>;
-+			interrupts = <GIC_SPI 57 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_IOMMU>;
-+			resets = <&ccu RST_BUS_IOMMU>;
-+			#iommu-cells = <1>;
-+		};
-+
- 		mmc0: mmc@4020000 {
- 			compatible = "allwinner,sun50i-h6-mmc",
- 				     "allwinner,sun50i-a64-mmc";
+ 	if (amd_iommu_unmap_flush)
+ 		pr_info("IO/TLB flush on unmap enabled\n");
 -- 
-git-series 0.9.1
+2.17.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
