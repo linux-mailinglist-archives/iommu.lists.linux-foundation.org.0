@@ -1,62 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BFB1475F8
-	for <lists.iommu@lfdr.de>; Fri, 24 Jan 2020 02:17:30 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67DDC147608
+	for <lists.iommu@lfdr.de>; Fri, 24 Jan 2020 02:17:56 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 209FB88453;
-	Fri, 24 Jan 2020 01:17:29 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1886C221A9;
+	Fri, 24 Jan 2020 01:17:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wkQbDqCvtDSq; Fri, 24 Jan 2020 01:17:28 +0000 (UTC)
+	with ESMTP id JaKNw40Y0jvM; Fri, 24 Jan 2020 01:17:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A619D88456;
-	Fri, 24 Jan 2020 01:17:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0B8DC20417;
+	Fri, 24 Jan 2020 01:17:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 940F5C1D83;
-	Fri, 24 Jan 2020 01:17:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE490C0174;
+	Fri, 24 Jan 2020 01:17:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D6BA3C0174
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jan 2020 01:17:25 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 65192C0174
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jan 2020 01:17:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C60A486AB2
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jan 2020 01:17:25 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 5359822193
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jan 2020 01:17:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BgfAhHB95qB4 for <iommu@lists.linux-foundation.org>;
- Fri, 24 Jan 2020 01:17:25 +0000 (UTC)
+ with ESMTP id PeuTSrgp-HZ2 for <iommu@lists.linux-foundation.org>;
+ Fri, 24 Jan 2020 01:17:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 5397C86A9E
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jan 2020 01:17:25 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 81FCC20417
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jan 2020 01:17:51 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8518924673;
- Fri, 24 Jan 2020 01:17:24 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B1D202253D;
+ Fri, 24 Jan 2020 01:17:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579828645;
- bh=Zq4F/Ve3Iyslt78uHqrrDIEnnHV8eM3FeTzoQFH0KQA=;
+ s=default; t=1579828671;
+ bh=5zkD8g7X0trOuWlFmb0GO+S7roKuMSJa0/veDwFR97M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Dx1aHijLcKR2DOQLj3o6RE1IDVHj354x+Toe1+TRo5Ok4ZcH7DpEMLXy/Vb2y2Cvb
- V14CsyWDP6h31/hnEqY8EvpQw6PQRhjTZUEwUIBVvHgA3umkpQwRy57PlaTGIrn/cv
- R3FhLzxfcqEPMQgSdkeKcljL6W8OrPjMTlt29xo0=
+ b=Oz4m/6/ACLcFQo8Ua1NgsCB2xhvb73R+5CVrhZyeRuZk4UuE4kTsr8+sJ5oye06FN
+ nsgqCUcXp6PITr6A+dqr8QhzqTERS+oGIVcNNTJEOtwfTAQ89qbRYKo3AZhjlZNVVL
+ X0casbu71e4ygwyOKWRNUbkesdbFirZlLRWuIGfo=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 14/33] iommu/amd: Support multiple PCI DMA aliases
- in IRQ Remapping
-Date: Thu, 23 Jan 2020 20:16:49 -0500
-Message-Id: <20200124011708.18232-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 03/11] iommu/amd: Support multiple PCI DMA
+ aliases in IRQ Remapping
+Date: Thu, 23 Jan 2020 20:17:39 -0500
+Message-Id: <20200124011747.18575-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200124011708.18232-1-sashal@kernel.org>
-References: <20200124011708.18232-1-sashal@kernel.org>
+In-Reply-To: <20200124011747.18575-1-sashal@kernel.org>
+References: <20200124011747.18575-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -109,10 +109,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 30 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index 16e0e3af2de0e..454695b372c8c 100644
+index 9991386fb7000..c60c9829d37fd 100644
 --- a/drivers/iommu/amd_iommu.c
 +++ b/drivers/iommu/amd_iommu.c
-@@ -3741,7 +3741,20 @@ static void set_remap_table_entry(struct amd_iommu *iommu, u16 devid,
+@@ -3707,7 +3707,20 @@ static void set_remap_table_entry(struct amd_iommu *iommu, u16 devid,
  	iommu_flush_dte(iommu, devid);
  }
  
@@ -134,7 +134,7 @@ index 16e0e3af2de0e..454695b372c8c 100644
  {
  	struct irq_remap_table *table = NULL;
  	struct irq_remap_table *new_table = NULL;
-@@ -3787,7 +3800,12 @@ static struct irq_remap_table *alloc_irq_table(u16 devid)
+@@ -3753,7 +3766,12 @@ static struct irq_remap_table *alloc_irq_table(u16 devid)
  	table = new_table;
  	new_table = NULL;
  
@@ -148,7 +148,7 @@ index 16e0e3af2de0e..454695b372c8c 100644
  	if (devid != alias)
  		set_remap_table_entry(iommu, alias, table);
  
-@@ -3804,7 +3822,8 @@ out_unlock:
+@@ -3770,7 +3788,8 @@ static struct irq_remap_table *alloc_irq_table(u16 devid)
  	return table;
  }
  
@@ -158,7 +158,7 @@ index 16e0e3af2de0e..454695b372c8c 100644
  {
  	struct irq_remap_table *table;
  	int index, c, alignment = 1;
-@@ -3814,7 +3833,7 @@ static int alloc_irq_index(u16 devid, int count, bool align)
+@@ -3780,7 +3799,7 @@ static int alloc_irq_index(u16 devid, int count, bool align)
  	if (!iommu)
  		return -ENODEV;
  
@@ -167,7 +167,7 @@ index 16e0e3af2de0e..454695b372c8c 100644
  	if (!table)
  		return -ENODEV;
  
-@@ -4247,7 +4266,7 @@ static int irq_remapping_alloc(struct irq_domain *domain, unsigned int virq,
+@@ -4213,7 +4232,7 @@ static int irq_remapping_alloc(struct irq_domain *domain, unsigned int virq,
  		struct irq_remap_table *table;
  		struct amd_iommu *iommu;
  
@@ -176,7 +176,7 @@ index 16e0e3af2de0e..454695b372c8c 100644
  		if (table) {
  			if (!table->min_index) {
  				/*
-@@ -4264,11 +4283,15 @@ static int irq_remapping_alloc(struct irq_domain *domain, unsigned int virq,
+@@ -4230,11 +4249,15 @@ static int irq_remapping_alloc(struct irq_domain *domain, unsigned int virq,
  		} else {
  			index = -ENOMEM;
  		}
