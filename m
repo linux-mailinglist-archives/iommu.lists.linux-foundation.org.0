@@ -1,73 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C1214C2CB
-	for <lists.iommu@lfdr.de>; Tue, 28 Jan 2020 23:16:33 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD2214C2C5
+	for <lists.iommu@lfdr.de>; Tue, 28 Jan 2020 23:16:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id EC95C81153;
-	Tue, 28 Jan 2020 22:16:31 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B19A22052B;
+	Tue, 28 Jan 2020 22:16:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 27f4cb5yKJQN; Tue, 28 Jan 2020 22:16:29 +0000 (UTC)
+	with ESMTP id OkAJ3wXjAZ-d; Tue, 28 Jan 2020 22:16:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4607886D91;
-	Tue, 28 Jan 2020 22:16:29 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 982BE20552;
+	Tue, 28 Jan 2020 22:16:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 40575C0171;
-	Tue, 28 Jan 2020 22:16:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7FD1BC0171;
+	Tue, 28 Jan 2020 22:16:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5DCDEC0171
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jan 2020 22:16:28 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 341BBC0171
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jan 2020 22:16:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5989687FD8
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jan 2020 22:16:28 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 3090E87FD8
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jan 2020 22:16:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8--4KNflBwTy for <iommu@lists.linux-foundation.org>;
- Tue, 28 Jan 2020 22:16:27 +0000 (UTC)
+ with ESMTP id ug7v2XO+o04D for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Jan 2020 22:16:24 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
  [104.130.122.26])
- by hemlock.osuosl.org (Postfix) with ESMTPS id B226188012
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jan 2020 22:16:26 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id AE81787FDE
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jan 2020 22:16:24 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1580249787; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1580249784; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=O/8M1MNl/g2Ft85CmdGvaBeu5AxW8ZxPF5UoiWwDXBc=;
- b=qftK8xRRU1vAM7P9RrgAqWnh63NcEUd2D+JJV7J72MSyjOD0H1RtqL4FBMALKJJWd7EDlRpS
- 0qmE/WJyNmx2HstsJSMy/XEO7qOmEgp0twXIUmEQAFqEftZH/gWbmt6lcJ78cK2Khztr3AUL
- ZpcL08MuV5y2ftgHRoewOpmDpok=
+ bh=hRAmtp8agzDIfoZcf0u0nxp0G1YHZjq1uYqYKLAl4IU=;
+ b=GHUa/mfISIT9K3QFtmpfnXRxWf49s4/8X3EU6k8lxxhEabGwVyo3PRaRjdfbOWj4tewIslcr
+ OUglD4HWvjXpV0iXRvolVAFV/Rwn/jN5CiT3MTL/qaVdpj4w0hxomYvKFONRG8BmuZBuiE2A
+ yAGDX2udluKAZktpBQFJadqvFxY=
 X-Mailgun-Sending-Ip: 104.130.122.26
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e30b2b7.7f0ebe70b308-smtp-out-n01;
- Tue, 28 Jan 2020 22:16:23 -0000 (UTC)
+ by mxa.mailgun.org with ESMTP id 5e30b2b8.7f7356c711f0-smtp-out-n03;
+ Tue, 28 Jan 2020 22:16:24 -0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 1B6A4C447A6; Tue, 28 Jan 2020 22:16:23 +0000 (UTC)
+ id 3B6D7C43383; Tue, 28 Jan 2020 22:16:24 +0000 (UTC)
 Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 5A33CC43383;
- Tue, 28 Jan 2020 22:16:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5A33CC43383
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id B95D4C4479C;
+ Tue, 28 Jan 2020 22:16:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B95D4C4479C
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH v1 4/6] drm/msm: Add support to create target specific address
- spaces
-Date: Tue, 28 Jan 2020 15:16:08 -0700
-Message-Id: <1580249770-1088-5-git-send-email-jcrouse@codeaurora.org>
+Subject: [PATCH v1 5/6] drm/msm/gpu: Add ttbr0 to the memptrs
+Date: Tue, 28 Jan 2020 15:16:09 -0700
+Message-Id: <1580249770-1088-6-git-send-email-jcrouse@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1580249770-1088-1-git-send-email-jcrouse@codeaurora.org>
 References: <1580249770-1088-1-git-send-email-jcrouse@codeaurora.org>
@@ -94,87 +93,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add support to create a GPU target specific address space for
-a context. For those targets that support per-instance
-pagetables they will return a new address space set up for
-the instance if possible otherwise just use the global
-device pagetable.
+Targets that support per-instance pagetable switching will have to keep
+track of which pagetable belongs to each instance to be able to recover
+for preemption.
 
 Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
 
- drivers/gpu/drm/msm/msm_drv.c | 22 +++++++++++++++++++---
- drivers/gpu/drm/msm/msm_gpu.h |  2 ++
- 2 files changed, 21 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/msm_ringbuffer.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index e4b750b..e485dc1 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -585,6 +585,18 @@ static void load_gpu(struct drm_device *dev)
- 	mutex_unlock(&init_lock);
- }
+diff --git a/drivers/gpu/drm/msm/msm_ringbuffer.h b/drivers/gpu/drm/msm/msm_ringbuffer.h
+index 7764373..c5822bd 100644
+--- a/drivers/gpu/drm/msm/msm_ringbuffer.h
++++ b/drivers/gpu/drm/msm/msm_ringbuffer.h
+@@ -29,6 +29,7 @@ struct msm_gpu_submit_stats {
+ struct msm_rbmemptrs {
+ 	volatile uint32_t rptr;
+ 	volatile uint32_t fence;
++	volatile uint64_t ttbr0;
  
-+static struct msm_gem_address_space *context_address_space(struct msm_gpu *gpu)
-+{
-+	if (!gpu)
-+		return NULL;
-+
-+	if (gpu->funcs->create_instance_space)
-+		return gpu->funcs->create_instance_space(gpu);
-+
-+	/* If all else fails use the default global space */
-+	return gpu->aspace;
-+}
-+
- static int context_init(struct drm_device *dev, struct drm_file *file)
- {
- 	struct msm_drm_private *priv = dev->dev_private;
-@@ -596,7 +608,7 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
- 
- 	msm_submitqueue_init(dev, ctx);
- 
--	ctx->aspace = priv->gpu ? priv->gpu->aspace : NULL;
-+	ctx->aspace = context_address_space(priv->gpu);
- 	file->driver_priv = ctx;
- 
- 	return 0;
-@@ -612,8 +624,12 @@ static int msm_open(struct drm_device *dev, struct drm_file *file)
- 	return context_init(dev, file);
- }
- 
--static void context_close(struct msm_file_private *ctx)
-+static void context_close(struct msm_drm_private *priv,
-+		struct msm_file_private *ctx)
- {
-+	if (priv->gpu && ctx->aspace != priv->gpu->aspace)
-+		msm_gem_address_space_put(ctx->aspace);
-+
- 	msm_submitqueue_close(ctx);
- 	kfree(ctx);
- }
-@@ -628,7 +644,7 @@ static void msm_postclose(struct drm_device *dev, struct drm_file *file)
- 		priv->lastctx = NULL;
- 	mutex_unlock(&dev->struct_mutex);
- 
--	context_close(ctx);
-+	context_close(priv, ctx);
- }
- 
- static irqreturn_t msm_irq(int irq, void *arg)
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index d496b68..76636da 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -64,6 +64,8 @@ struct msm_gpu_funcs {
- 	void (*gpu_set_freq)(struct msm_gpu *gpu, unsigned long freq);
- 	struct msm_gem_address_space *(*create_address_space)
- 		(struct msm_gpu *gpu, struct platform_device *pdev);
-+	struct msm_gem_address_space *(*create_instance_space)
-+		(struct msm_gpu *gpu);
+ 	volatile struct msm_gpu_submit_stats stats[MSM_GPU_SUBMIT_STATS_COUNT];
  };
- 
- struct msm_gpu {
 -- 
 2.7.4
 _______________________________________________
