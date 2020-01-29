@@ -1,61 +1,98 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4F414CA89
-	for <lists.iommu@lfdr.de>; Wed, 29 Jan 2020 13:13:40 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id B791014CFA2
+	for <lists.iommu@lfdr.de>; Wed, 29 Jan 2020 18:27:47 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3F1411FF98;
-	Wed, 29 Jan 2020 12:13:39 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6D68987F9C;
+	Wed, 29 Jan 2020 17:27:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id O37DW8L1jeiv; Wed, 29 Jan 2020 12:13:37 +0000 (UTC)
+	with ESMTP id wHqn+SkCV5iM; Wed, 29 Jan 2020 17:27:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 895362039D;
-	Wed, 29 Jan 2020 12:13:37 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7572C87F5C;
+	Wed, 29 Jan 2020 17:27:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8086BC0171;
-	Wed, 29 Jan 2020 12:13:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5A6E2C0171;
+	Wed, 29 Jan 2020 17:27:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6EBA2C0171
- for <iommu@lists.linux-foundation.org>; Wed, 29 Jan 2020 12:13:34 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5A84CC0171
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Jan 2020 17:27:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 5E39520361
- for <iommu@lists.linux-foundation.org>; Wed, 29 Jan 2020 12:13:34 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 4327D85F49
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Jan 2020 17:27:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id R3AiaQrvQxwk for <iommu@lists.linux-foundation.org>;
- Wed, 29 Jan 2020 12:13:33 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by silver.osuosl.org (Postfix) with ESMTPS id 08C7620395
- for <iommu@lists.linux-foundation.org>; Wed, 29 Jan 2020 12:13:33 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2020 04:13:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,377,1574150400"; d="scan'208";a="222434776"
-Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by orsmga008.jf.intel.com with ESMTP; 29 Jan 2020 04:13:32 -0800
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: alex.williamson@redhat.com,
-	eric.auger@redhat.com
-Subject: [RFC v1 2/2] vfio/pci: Emulate PASID/PRI capability for VFs
-Date: Wed, 29 Jan 2020 04:18:45 -0800
-Message-Id: <1580300325-86259-3-git-send-email-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1580300325-86259-1-git-send-email-yi.l.liu@intel.com>
-References: <1580300325-86259-1-git-send-email-yi.l.liu@intel.com>
-Cc: kevin.tian@intel.com, ashok.raj@intel.com, kvm@vger.kernel.org,
- jean-philippe.brucker@arm.com, jun.j.tian@intel.com,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- yi.y.sun@intel.com
+ with ESMTP id 2Fp5qCmxwidh for <iommu@lists.linux-foundation.org>;
+ Wed, 29 Jan 2020 17:27:42 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id F009C85E40
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Jan 2020 17:27:41 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id BD78F21FA9;
+ Wed, 29 Jan 2020 12:27:40 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 29 Jan 2020 12:27:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=A
+ TygRAmR8d0jm0J6iRWxiOTnzUg+8li3NtuuF+gdI88=; b=knH7SXZ2Ky9/jgpjW
+ qsSyPhtCAzEVMXmtvWjHXObc465bJai1kiB+E8W5Aq/QUk3uKBHAkUH3V4atBYND
+ QjNnAHkFJwBPn/g4jMqMw+KP1wjJUM0JNowwrC9Mf7mhcJZAp8fuvEfoKKtUzTaO
+ nLWlwPKeAXGmhnOXdZcg5WGG78+PuqlS+U/RNDJxBP7ziObaKUJSKUnafs2mOLyy
+ RQIMgpqmWKzCiOn0fmxFNegTqBrJu1hspKKg1cqWu1E2KhDya79kZoxfxVyDPrHy
+ gKEBuxVDhMRcrlkmkMTtTjCu3S0FRnfi5PUT4Qp16FMSUa3gIJpSaPDdgcAl6uz8
+ mR6vw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=ATygRAmR8d0jm0J6iRWxiOTnzUg+8li3NtuuF+gdI
+ 88=; b=vURkPiIP/F2udeKUc3p/VuDwL0RPeNtU5avUVS3mvad1nksQr/GMip53y
+ AHwWpxG0tCRgwo3xTHdvEt9pedN5jcHVnki8lts9xU/INm5LeoLFdKYL2S/JrHgB
+ KS53MvkfPe3K34+DfDbkEVIqW6qhUhzfxTZp6QmMyFPuMIWvkvzLWwkT5XnbHpUt
+ Ngok+eOiIdSQJQyzF46DueYr0hk7hIjyUyF9o+IHHmsiJzWMU6Awiropclsaq9As
+ LogLW3kVKjoMQvA2asNE4ui7xgd2u1hqSDSPvazBQbOAEc0WiSFwYCaXfS40+rOM
+ nbCgCoU7hozntAaEXzgiW++vKY6lg==
+X-ME-Sender: <xms:i8AxXmt5TzlnOWXJ3tqS7NdviWXw0A-TKshPlsjHp-ZG5iy1YM66ig>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrfeeigdellecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecukfhppeeltd
+ drkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+ lhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:i8AxXtSiXAirVtD8MDZwBJYybRy1nsoaSa52025S95lxc9aqZpyzVg>
+ <xmx:i8AxXg7qMNQ4XXZcaqFpRtbLs-NmSYejulSIHRXCiNG_EqE0xmkDEg>
+ <xmx:i8AxXkjF3QcRjtQR_z11Zzb8RbOIVYgf2QTpfgmiOaIUIrZJOqaZxw>
+ <xmx:jMAxXrkr3wysvoBaE8BuFczY-AdOI0V2oEG5VbsBPv9ZRTdhuwNnIA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8346E3280059;
+ Wed, 29 Jan 2020 12:27:39 -0500 (EST)
+Date: Wed, 29 Jan 2020 18:27:38 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: allwinner: h6: Add IOMMU
+Message-ID: <20200129172738.c53f5du2byreze2n@gilmour.lan>
+References: <cover.b2a9e1507135d81e726fcbb65137665a7f0ab74f.1579696927.git-series.maxime@cerno.tech>
+ <5320339.DvuYhMxLoT@jernej-laptop>
+ <20200127142339.crxsuunzec5drfe2@gilmour.lan>
+ <2140600.ElGaqSPkdT@jernej-laptop>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <2140600.ElGaqSPkdT@jernej-laptop>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,413 +105,49 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Liu Yi L <yi.l.liu@intel.com>
-
-Per PCIe r5.0, sec 9.3.7.14, if a PF implements the PASID Capability, the
-PF PASID configuration is shared by its VFs.  VFs must not implement their
-own PASID Capability.
-
-Per PCIe r5.0, sec 9.3.7.11, VFs must not implement the PRI Capability. If
-the PF implements PRI, it is shared by the VFs.
-
-On bare metal, it has been fixed by below efforts.
-to PASID/PRI are
-https://lkml.org/lkml/2019/9/5/996
-https://lkml.org/lkml/2019/9/5/995
-
-This patch adds emulated PASID/PRI capabilities for VFs when assigned to
-VMs via vfio-pci driver. This is required for enabling vSVA on pass-through
-VFs as VFs have no PASID/PRI capability structure in its configure space.
-
-Cc: Kevin Tian <kevin.tian@intel.com>
-CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Eric Auger <eric.auger@redhat.com>
-Cc: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
----
- drivers/vfio/pci/vfio_pci_config.c | 319 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 317 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_pci_config.c
-index 4b9af99..fbd20c3 100644
---- a/drivers/vfio/pci/vfio_pci_config.c
-+++ b/drivers/vfio/pci/vfio_pci_config.c
-@@ -1509,11 +1509,304 @@ static int vfio_cap_init(struct vfio_pci_device *vdev)
- 	return 0;
- }
- 
-+static int vfio_fill_custom_vconfig_bytes(struct vfio_pci_device *vdev,
-+					int offset, uint8_t *data, int size)
-+{
-+	int ret = 0, data_offset = 0;
-+
-+	while (size) {
-+		int filled;
-+
-+		if (size >= 4 && !(offset % 4)) {
-+			__le32 *dwordp = (__le32 *)&vdev->vconfig[offset];
-+			u32 dword;
-+
-+			memcpy(&dword, data + data_offset, 4);
-+			*dwordp = cpu_to_le32(dword);
-+			filled = 4;
-+		} else if (size >= 2 && !(offset % 2)) {
-+			__le16 *wordp = (__le16 *)&vdev->vconfig[offset];
-+			u16 word;
-+
-+			memcpy(&word, data + data_offset, 2);
-+			*wordp = cpu_to_le16(word);
-+			filled = 2;
-+		} else {
-+			u8 *byte = &vdev->vconfig[offset];
-+
-+			memcpy(byte, data + data_offset, 1);
-+			filled = 1;
-+		}
-+
-+		offset += filled;
-+		data_offset += filled;
-+		size -= filled;
-+	}
-+
-+	return ret;
-+}
-+
-+static int vfio_pci_get_ecap_content(struct pci_dev *pdev,
-+					int cap, int cap_len, u8 *content)
-+{
-+	int pos, offset, len = cap_len, ret = 0;
-+
-+	pos = pci_find_ext_capability(pdev, cap);
-+	if (!pos)
-+		return -EINVAL;
-+
-+	offset = 0;
-+	while (len) {
-+		int fetched;
-+
-+		if (len >= 4 && !(pos % 4)) {
-+			u32 *dwordp = (u32 *) (content + offset);
-+			u32 dword;
-+			__le32 *dwptr = (__le32 *) &dword;
-+
-+			ret = pci_read_config_dword(pdev, pos, &dword);
-+			if (ret)
-+				return ret;
-+			*dwordp = le32_to_cpu(*dwptr);
-+			fetched = 4;
-+		} else if (len >= 2 && !(pos % 2)) {
-+			u16 *wordp = (u16 *) (content + offset);
-+			u16 word;
-+			__le16 *wptr = (__le16 *) &word;
-+
-+			ret = pci_read_config_word(pdev, pos, &word);
-+			if (ret)
-+				return ret;
-+			*wordp = le16_to_cpu(*wptr);
-+			fetched = 2;
-+		} else {
-+			u8 *byte = (u8 *) (content + offset);
-+
-+			ret = pci_read_config_byte(pdev, pos, byte);
-+			if (ret)
-+				return ret;
-+			fetched = 1;
-+		}
-+
-+		pos += fetched;
-+		offset += fetched;
-+		len -= fetched;
-+	}
-+
-+	return ret;
-+}
-+
-+struct vfio_pci_pasid_cap_data {
-+	u32 id:16;
-+	u32 version:4;
-+	u32 next:12;
-+	union {
-+		u16 cap_reg_val;
-+		struct {
-+			u16 rsv1:1;
-+			u16 execs:1;
-+			u16 prvs:1;
-+			u16 rsv2:5;
-+			u16 pasid_bits:5;
-+			u16 rsv3:3;
-+		};
-+	} cap_reg;
-+	union {
-+		u16 control_reg_val;
-+		struct {
-+			u16 paside:1;
-+			u16 exece:1;
-+			u16 prve:1;
-+			u16 rsv4:13;
-+		};
-+	} control_reg;
-+};
-+
-+static int vfio_pci_add_pasid_cap(struct vfio_pci_device *vdev,
-+				    struct pci_dev *pdev,
-+				    u16 epos, u16 *next, __le32 **prevp)
-+{
-+	u8 *map = vdev->pci_config_map;
-+	int ecap = PCI_EXT_CAP_ID_PASID;
-+	int len = pci_ext_cap_length[ecap];
-+	struct vfio_pci_pasid_cap_data pasid_cap;
-+	struct vfio_pci_pasid_cap_data vpasid_cap;
-+	int ret;
-+
-+	/*
-+	 * If no cap filled in this function, should make sure the next
-+	 * pointer points to current epos.
-+	 */
-+	*next = epos;
-+
-+	if (!len) {
-+		pr_info("%s: VF %s hiding PASID capability\n",
-+				__func__, dev_name(&vdev->pdev->dev));
-+		ret = 0;
-+		goto out;
-+	}
-+
-+	/* Add PASID capability*/
-+	ret = vfio_pci_get_ecap_content(pdev, ecap,
-+					len, (u8 *)&pasid_cap);
-+	if (ret)
-+		goto out;
-+
-+	if (!pasid_cap.control_reg.paside) {
-+		pr_debug("%s: its PF's PASID capability is not enabled\n",
-+			dev_name(&vdev->pdev->dev));
-+		ret = 0;
-+		goto out;
-+	}
-+
-+	memcpy(&vpasid_cap, &pasid_cap, len);
-+
-+	vpasid_cap.id = 0x18;
-+	vpasid_cap.next = 0;
-+	/* clear the control reg for guest */
-+	memset(&vpasid_cap.control_reg, 0x0,
-+			sizeof(vpasid_cap.control_reg));
-+
-+	memset(map + epos, vpasid_cap.id, len);
-+	ret = vfio_fill_custom_vconfig_bytes(vdev, epos,
-+					(u8 *)&vpasid_cap, len);
-+	if (!ret) {
-+		/*
-+		 * Successfully filled in PASID cap, update
-+		 * the next offset in previous cap header,
-+		 * and also update caller about the offset
-+		 * of next cap if any.
-+		 */
-+		u32 val = epos;
-+		**prevp &= cpu_to_le32(~(0xffcU << 20));
-+		**prevp |= cpu_to_le32(val << 20);
-+		*prevp = (__le32 *)&vdev->vconfig[epos];
-+		*next = epos + len;
-+	}
-+
-+out:
-+	return ret;
-+}
-+
-+struct vfio_pci_pri_cap_data {
-+	u32 id:16;
-+	u32 version:4;
-+	u32 next:12;
-+	union {
-+		u16 control_reg_val;
-+		struct {
-+			u16 enable:1;
-+			u16 reset:1;
-+			u16 rsv1:14;
-+		};
-+	} control_reg;
-+	union {
-+		u16 status_reg_val;
-+		struct {
-+			u16 rf:1;
-+			u16 uprgi:1;
-+			u16 rsv2:6;
-+			u16 stop:1;
-+			u16 rsv3:6;
-+			u16 pasid_required:1;
-+		};
-+	} status_reg;
-+	u32 prq_capacity;
-+	u32 prq_quota;
-+};
-+
-+static int vfio_pci_add_pri_cap(struct vfio_pci_device *vdev,
-+				    struct pci_dev *pdev,
-+				    u16 epos, u16 *next, __le32 **prevp)
-+{
-+	u8 *map = vdev->pci_config_map;
-+	int ecap = PCI_EXT_CAP_ID_PRI;
-+	int len = pci_ext_cap_length[ecap];
-+	struct vfio_pci_pri_cap_data pri_cap;
-+	struct vfio_pci_pri_cap_data vpri_cap;
-+	int ret;
-+
-+	/*
-+	 * If no cap filled in this function, should make sure the next
-+	 * pointer points to current epos.
-+	 */
-+	*next = epos;
-+
-+	if (!len) {
-+		pr_info("%s: VF %s hiding PRI capability\n",
-+				__func__, dev_name(&vdev->pdev->dev));
-+		ret = 0;
-+		goto out;
-+	}
-+
-+	/* Add PASID capability*/
-+	ret = vfio_pci_get_ecap_content(pdev, ecap,
-+					len, (u8 *)&pri_cap);
-+	if (ret)
-+		goto out;
-+
-+	if (!pri_cap.control_reg.enable) {
-+		pr_debug("%s: its PF's PRI capability is not enabled\n",
-+			dev_name(&vdev->pdev->dev));
-+		ret = 0;
-+		goto out;
-+	}
-+
-+	memcpy(&vpri_cap, &pri_cap, len);
-+
-+	vpri_cap.id = 0x19;
-+	vpri_cap.next = 0;
-+	/* clear the control reg for guest */
-+	memset(&vpri_cap.control_reg, 0x0,
-+			sizeof(vpri_cap.control_reg));
-+
-+	memset(map + epos, vpri_cap.id, len);
-+	ret = vfio_fill_custom_vconfig_bytes(vdev, epos,
-+					(u8 *)&vpri_cap, len);
-+	if (!ret) {
-+		/*
-+		 * Successfully filled in PASID cap, update
-+		 * the next offset in previous cap header,
-+		 * and also update caller about the offset
-+		 * of next cap if any.
-+		 */
-+		u32 val = epos;
-+		**prevp &= cpu_to_le32(~(0xffcU << 20));
-+		**prevp |= cpu_to_le32(val << 20);
-+		*prevp = (__le32 *)&vdev->vconfig[epos];
-+		*next = epos + len;
-+	}
-+
-+out:
-+	return ret;
-+}
-+
-+static int vfio_pci_add_emulated_cap_for_vf(struct vfio_pci_device *vdev,
-+			struct pci_dev *pdev, u16 start_epos, __le32 *prev)
-+{
-+	__le32 *__prev = prev;
-+	u16 epos = start_epos, epos_next = start_epos;
-+	int ret = 0;
-+
-+	/* Add PASID capability*/
-+	ret = vfio_pci_add_pasid_cap(vdev, pdev, epos,
-+					&epos_next, &__prev);
-+	if (ret)
-+		return ret;
-+
-+	/* Add PRI capability */
-+	epos = epos_next;
-+	ret = vfio_pci_add_pri_cap(vdev, pdev, epos,
-+				   &epos_next, &__prev);
-+
-+	return ret;
-+}
-+
- static int vfio_ecap_init(struct vfio_pci_device *vdev)
- {
- 	struct pci_dev *pdev = vdev->pdev;
- 	u8 *map = vdev->pci_config_map;
--	u16 epos;
-+	u16 epos, epos_max;
- 	__le32 *prev = NULL;
- 	int loops, ret, ecaps = 0;
- 
-@@ -1521,6 +1814,7 @@ static int vfio_ecap_init(struct vfio_pci_device *vdev)
- 		return 0;
- 
- 	epos = PCI_CFG_SPACE_SIZE;
-+	epos_max = PCI_CFG_SPACE_SIZE;
- 
- 	loops = (pdev->cfg_size - PCI_CFG_SPACE_SIZE) / PCI_CAP_SIZEOF;
- 
-@@ -1545,6 +1839,9 @@ static int vfio_ecap_init(struct vfio_pci_device *vdev)
- 			}
- 		}
- 
-+		if (epos_max <= (epos + len))
-+			epos_max = epos + len;
-+
- 		if (!len) {
- 			pci_info(pdev, "%s: hiding ecap %#x@%#x\n",
- 				 __func__, ecap, epos);
-@@ -1604,6 +1901,16 @@ static int vfio_ecap_init(struct vfio_pci_device *vdev)
- 	if (!ecaps)
- 		*(u32 *)&vdev->vconfig[PCI_CFG_SPACE_SIZE] = 0;
- 
-+	if (pdev->is_virtfn) {
-+		struct pci_dev *physfn = pdev->physfn;
-+
-+		ret = vfio_pci_add_emulated_cap_for_vf(vdev,
-+					physfn, epos_max, prev);
-+		if (ret)
-+			pr_info("%s, failed to add special caps for VF %s\n",
-+				__func__, dev_name(&vdev->pdev->dev));
-+	}
-+
- 	return 0;
- }
- 
-@@ -1748,6 +2055,13 @@ static size_t vfio_pci_cap_remaining_dword(struct vfio_pci_device *vdev,
- 	return i;
- }
- 
-+static bool vfio_pci_need_virt_perm(struct pci_dev *pdev, u8 cap_id)
-+{
-+	return (pdev->is_virtfn &&
-+		(cap_id == PCI_EXT_CAP_ID_PASID ||
-+		 cap_id == PCI_EXT_CAP_ID_PRI));
-+}
-+
- static ssize_t vfio_config_do_rw(struct vfio_pci_device *vdev, char __user *buf,
- 				 size_t count, loff_t *ppos, bool iswrite)
- {
-@@ -1781,7 +2095,8 @@ static ssize_t vfio_config_do_rw(struct vfio_pci_device *vdev, char __user *buf,
- 	if (cap_id == PCI_CAP_ID_INVALID) {
- 		perm = &unassigned_perms;
- 		cap_start = *ppos;
--	} else if (cap_id == PCI_CAP_ID_INVALID_VIRT) {
-+	} else if (cap_id == PCI_CAP_ID_INVALID_VIRT ||
-+		   vfio_pci_need_virt_perm(pdev, cap_id)) {
- 		perm = &virt_perms;
- 		cap_start = *ppos;
- 	} else {
--- 
-2.7.4
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SGksCgpPbiBNb24sIEphbiAyNywgMjAyMCBhdCAwODowNDowMlBNICswMTAwLCBKZXJuZWogxaBr
+cmFiZWMgd3JvdGU6Cj4gRG5lIHBvbmVkZWxqZWssIDI3LiBqYW51YXIgMjAyMCBvYiAxNToyMzoz
+OSBDRVQgamUgTWF4aW1lIFJpcGFyZCBuYXBpc2FsKGEpOgo+ID4gSGkgSmVybmVqLAo+ID4KPiA+
+IE9uIEZyaSwgSmFuIDI0LCAyMDIwIGF0IDA5OjU0OjIzUE0gKzAxMDAsIEplcm5laiDFoGtyYWJl
+YyB3cm90ZToKPiA+ID4gRG5lIHNyZWRhLCAyMi4gamFudWFyIDIwMjAgb2IgMTM6NDQ6MDkgQ0VU
+IGplIE1heGltZSBSaXBhcmQgbmFwaXNhbChhKToKPiA+ID4gPiBOb3cgdGhhdCB3ZSBoYXZlIGEg
+ZHJpdmVyIGZvciB0aGUgSU9NTVUsIGxldCdzIHN0YXJ0IHVzaW5nIGl0Lgo+ID4gPiA+Cj4gPiA+
+ID4gU2lnbmVkLW9mZi1ieTogTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+Cj4gPiA+
+ID4gLS0tCj4gPiA+ID4KPiA+ID4gPiAgYXJjaC9hcm02NC9ib290L2R0cy9hbGx3aW5uZXIvc3Vu
+NTBpLWg2LmR0c2kgfCAxMSArKysrKysrKysrKwo+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTEg
+aW5zZXJ0aW9ucygrKQo+ID4gPiA+Cj4gPiA+ID4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQvYm9v
+dC9kdHMvYWxsd2lubmVyL3N1bjUwaS1oNi5kdHNpCj4gPiA+ID4gYi9hcmNoL2FybTY0L2Jvb3Qv
+ZHRzL2FsbHdpbm5lci9zdW41MGktaDYuZHRzaSBpbmRleAo+ID4gPiA+IDI5ODI0MDgxYjQzYi4u
+ODYwOGJjZjFjNTJjIDEwMDY0NAo+ID4gPiA+IC0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvYWxs
+d2lubmVyL3N1bjUwaS1oNi5kdHNpCj4gPiA+ID4gKysrIGIvYXJjaC9hcm02NC9ib290L2R0cy9h
+bGx3aW5uZXIvc3VuNTBpLWg2LmR0c2kKPiA+ID4gPiBAQCAtNTMsNiArNTMsNyBAQAo+ID4gPiA+
+Cj4gPiA+ID4gIAlkZTogZGlzcGxheS1lbmdpbmUgewo+ID4gPiA+Cj4gPiA+ID4gIAkJY29tcGF0
+aWJsZSA9ICJhbGx3aW5uZXIsc3VuNTBpLWg2LWRpc3BsYXktZW5naW5lIjsKPiA+ID4gPiAgCQlh
+bGx3aW5uZXIscGlwZWxpbmVzID0gPCZtaXhlcjA+Owo+ID4gPiA+Cj4gPiA+ID4gKwkJaW9tbXVz
+ID0gPCZpb21tdSAwPjsKPiA+ID4gPgo+ID4gPiA+ICAJCXN0YXR1cyA9ICJkaXNhYmxlZCI7Cj4g
+PiA+ID4KPiA+ID4gPiAgCX07Cj4gPiA+Cj4gPiA+IElzbid0IGlvbW11IHByb3BlcnR5IG9mIHRo
+ZSBtaXhlciBub2RlPyBBZnRlciBhbGwsIG1peGVyIGlzIHRoZSBvbmUgd2hpY2gKPiA+ID4gcmVh
+ZHMgb25lIG9yIG1vcmUgZnJhbWVidWZmZXJzLiBPbmNlIHNlY29uZCBtaXhlciBpcyBkZWZpbmVk
+LCB3b3VsZCB5b3UKPiA+ID4gcHV0Cj4gPiA+IGFub3RoZXIgaW9tbXUgcGhhbmRsZSBoZXJlPwo+
+ID4KPiA+IFlvdSdyZSByaWdodC4gSSBhZGRlZCBpdCBkdXJpbmcgdGhlIGVhcmx5IGRldiwgYW5k
+IGZvcmdvdCB0byByZW1vdmUKPiA+IGl0LiBUaGFua3MhCj4KPiBSZW1vdmUgaXQgb3IgbW92ZSBp
+dD8gSSBndWVzcyBlbmFibGluZyBpb21tdSBzdXBwb3J0IGluIGVhY2ggZHJpdmVyIG5lZWRzIGEK
+PiBiaXQgbW9yZSB3b3JrIHRoYW4ganVzdCByZWZlcmVuY2luZyBpb21tdSBub2RlLCByaWdodD8g
+QXQgbGVhc3QgaW4gc3VjaCBjYXNlCj4gYnVmZmVycyBkb24ndCBuZWVkIHRvIGJlIGFsbG9jYXRl
+ZCBieSBDTUEsIHdoaWNoIHN1bjRpLWRybSBkcml2ZXIgY3VycmVudGx5Cj4gdXNlLgo+Cj4gSSBq
+dXN0IHRha2UgYW5vdGhlciBsb29rIGF0IEJTUCBrZXJuZWwgYW5kIGl0IHNlZW1zIHRoYXQgb25s
+eSBvbmUgY2hhbm5lbCBpcwo+IHVzZWQgZm9yIHdob2xlIGRpc3BsYXkgc3RhY2suIFRoYXQgd291
+bGQgbWVhbiB0aGF0IGJvdGggbWl4ZXJzIHdvdWxkIGhhdmUgc2FtZQo+IGlvbW11IHBoYW5kbGUs
+IHJpZ2h0PyBDb25mdXNpbmdseSBlbm91Z2gsIERFMiBpb21tdSBjaGFubmVsIHNlZW1zIHRvIGJl
+IGZvcgo+IGRlaW50ZXJsYWNlIGNvcmUuCgpUbyBhZGQgb24gUm9iaW4ncyBhbnN3ZXIsIHllYWgs
+IGl0IGxvb2tzIGxpa2UgdGhlIGRpc3BsYXkgZW5naW5lIGlzCmNhbGxlZCBERSAoYW5kIEkndmUg
+Y2hlY2tlZCB0aGF0IHRoaXMgaXMgaW5kZWVkIHRoZSBtYXN0ZXIgMCksIHdoaWxlCnRoZSBkZWlu
+dGVybGFjZSBpcyBjYWxsZWQgREUyIChhbmQgcHJvYmFibHkgaXMgdGhlIG1hc3RlciAyKS4KCk1h
+eGltZQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21t
+dSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9s
+aXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
