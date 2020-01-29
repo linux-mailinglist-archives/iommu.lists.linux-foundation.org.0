@@ -1,38 +1,38 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF64914CA88
-	for <lists.iommu@lfdr.de>; Wed, 29 Jan 2020 13:13:39 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6428714CA86
+	for <lists.iommu@lfdr.de>; Wed, 29 Jan 2020 13:13:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 95A21842CF;
-	Wed, 29 Jan 2020 12:13:38 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 193F187E60;
+	Wed, 29 Jan 2020 12:13:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4fO_8a_-HbQX; Wed, 29 Jan 2020 12:13:37 +0000 (UTC)
+	with ESMTP id F6HPyHOOTbpf; Wed, 29 Jan 2020 12:13:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EAA0A841E6;
-	Wed, 29 Jan 2020 12:13:37 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7404C87E78;
+	Wed, 29 Jan 2020 12:13:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D1F54C0171;
-	Wed, 29 Jan 2020 12:13:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 572ECC1D85;
+	Wed, 29 Jan 2020 12:13:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9EF63C0171
- for <iommu@lists.linux-foundation.org>; Wed, 29 Jan 2020 12:13:34 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9521EC0171
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Jan 2020 12:13:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 9C08720361
- for <iommu@lists.linux-foundation.org>; Wed, 29 Jan 2020 12:13:34 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 8235D2039D
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Jan 2020 12:13:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kbXy-zu-8Qyw for <iommu@lists.linux-foundation.org>;
+ with ESMTP id IcYvR7PKVoc8 for <iommu@lists.linux-foundation.org>;
  Wed, 29 Jan 2020 12:13:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by silver.osuosl.org (Postfix) with ESMTPS id BCC171FF98
+ by silver.osuosl.org (Postfix) with ESMTPS id DCF7320361
  for <iommu@lists.linux-foundation.org>; Wed, 29 Jan 2020 12:13:32 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
@@ -40,16 +40,18 @@ Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
  29 Jan 2020 04:13:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,377,1574150400"; d="scan'208";a="222434770"
+X-IronPort-AV: E=Sophos;i="5.70,377,1574150400"; d="scan'208";a="222434773"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
  by orsmga008.jf.intel.com with ESMTP; 29 Jan 2020 04:13:32 -0800
 From: "Liu, Yi L" <yi.l.liu@intel.com>
 To: alex.williamson@redhat.com,
 	eric.auger@redhat.com
-Subject: [RFC v1 0/2] vfio/pci: expose device's PASID capability to VMs
-Date: Wed, 29 Jan 2020 04:18:43 -0800
-Message-Id: <1580300325-86259-1-git-send-email-yi.l.liu@intel.com>
+Subject: [RFC v1 1/2] vfio/pci: Expose PCIe PASID capability to guest
+Date: Wed, 29 Jan 2020 04:18:44 -0800
+Message-Id: <1580300325-86259-2-git-send-email-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1580300325-86259-1-git-send-email-yi.l.liu@intel.com>
+References: <1580300325-86259-1-git-send-email-yi.l.liu@intel.com>
 Cc: kevin.tian@intel.com, ashok.raj@intel.com, kvm@vger.kernel.org,
  jean-philippe.brucker@arm.com, jun.j.tian@intel.com,
  iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
@@ -72,33 +74,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Shared Virtual Addressing (SVA), a.k.a, Shared Virtual Memory (SVM) on
-Intel platforms allows address space sharing between device DMA and
-applications. SVA can reduce programming complexity and enhance security.
+From: Liu Yi L <yi.l.liu@intel.com>
 
-To enable SVA, device needs to have PASID capability, which is a key
-capability for SVA. This patchset exposes the device's PASID capability
-to guest instead of hiding it from guest.
+This patch exposes PCIe PASID capability to guest. Existing vfio_pci
+driver hides it from guest by setting the capability length as 0 in
+pci_ext_cap_length[].
 
-The second patch emulates PASID capability for VFs (Virtual Function) since
-VFs don't implement such capability per PCIe spec. This patch emulates such
-capability and expose to VM if the capability is enabled in PF (Physical
-Function).
+This capability is required for vSVA enabling on pass-through PCIe
+devices.
 
-However, there is an open for PASID emulation. If PF driver disables PASID
-capability at runtime, then it may be an issue. e.g. PF should not disable
-PASID capability if there is guest using this capability on any VF related
-to this PF. To solve it, may need to introduce a generic communication
-framework between vfio-pci driver and PF drivers. Please feel free to give
-your suggestions on it.
+Cc: Kevin Tian <kevin.tian@intel.com>
+CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>
+Cc: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+---
+ drivers/vfio/pci/vfio_pci_config.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Liu Yi L (2):
-  vfio/pci: Expose PCIe PASID capability to guest
-  vfio/pci: Emulate PASID/PRI capability for VFs
-
- drivers/vfio/pci/vfio_pci_config.c | 321 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 318 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_pci_config.c
+index 90c0b80..4b9af99 100644
+--- a/drivers/vfio/pci/vfio_pci_config.c
++++ b/drivers/vfio/pci/vfio_pci_config.c
+@@ -95,7 +95,7 @@ static const u16 pci_ext_cap_length[PCI_EXT_CAP_ID_MAX + 1] = {
+ 	[PCI_EXT_CAP_ID_LTR]	=	PCI_EXT_CAP_LTR_SIZEOF,
+ 	[PCI_EXT_CAP_ID_SECPCI]	=	0,	/* not yet */
+ 	[PCI_EXT_CAP_ID_PMUX]	=	0,	/* not yet */
+-	[PCI_EXT_CAP_ID_PASID]	=	0,	/* not yet */
++	[PCI_EXT_CAP_ID_PASID]	=	PCI_EXT_CAP_PASID_SIZEOF,
+ };
+ 
+ /*
 -- 
 2.7.4
 
