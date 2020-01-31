@@ -2,61 +2,60 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3F814EBC7
-	for <lists.iommu@lfdr.de>; Fri, 31 Jan 2020 12:33:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 852E614EC84
+	for <lists.iommu@lfdr.de>; Fri, 31 Jan 2020 13:30:49 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2CCF1869EB;
-	Fri, 31 Jan 2020 11:33:58 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1706E869E3;
+	Fri, 31 Jan 2020 12:30:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id f9EKvxIuTKKu; Fri, 31 Jan 2020 11:33:56 +0000 (UTC)
+	with ESMTP id dlXUQ4t7SW7h; Fri, 31 Jan 2020 12:30:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B043E869EC;
-	Fri, 31 Jan 2020 11:33:56 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BA752869E1;
+	Fri, 31 Jan 2020 12:30:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98002C1D87;
-	Fri, 31 Jan 2020 11:33:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A0089C1D87;
+	Fri, 31 Jan 2020 12:30:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EC766C0171
- for <iommu@lists.linux-foundation.org>; Fri, 31 Jan 2020 11:33:54 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EE734C0171
+ for <iommu@lists.linux-foundation.org>; Fri, 31 Jan 2020 12:30:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E3EE7869EC
- for <iommu@lists.linux-foundation.org>; Fri, 31 Jan 2020 11:33:54 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id D7B7320367
+ for <iommu@lists.linux-foundation.org>; Fri, 31 Jan 2020 12:30:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TYdmTRruQdR7 for <iommu@lists.linux-foundation.org>;
- Fri, 31 Jan 2020 11:33:53 +0000 (UTC)
+ with ESMTP id LsmKF2mg3SAj for <iommu@lists.linux-foundation.org>;
+ Fri, 31 Jan 2020 12:30:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by fraxinus.osuosl.org (Postfix) with ESMTP id B93E7869EB
- for <iommu@lists.linux-foundation.org>; Fri, 31 Jan 2020 11:33:53 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 8BDD420033
+ for <iommu@lists.linux-foundation.org>; Fri, 31 Jan 2020 12:30:43 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1B9C2106F;
- Fri, 31 Jan 2020 03:33:53 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D42EF1063;
+ Fri, 31 Jan 2020 04:30:42 -0800 (PST)
 Received: from [192.168.1.123] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E56053F67D;
- Fri, 31 Jan 2020 03:33:51 -0800 (PST)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B7D5B3F67D;
+ Fri, 31 Jan 2020 04:30:41 -0800 (PST)
 Subject: Re: [PATCH] dma-debug: dynamic allocation of hash table
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Eric Dumazet <edumazet@google.com>
 References: <20200130191049.190569-1-edumazet@google.com>
  <e0a0ffa9-3721-4bac-1c8f-bcbd53d22ba1@arm.com>
- <CAMuHMdVSyD62nvRmN-v6CbJ2UyqH=d7xdVeCD8_X5us+mvCXUQ@mail.gmail.com>
+ <CANn89i+fRqeSAz9eH8f2ujzBWSLUXw0eTT=tK=eNj8hL71MiFQ@mail.gmail.com>
 From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <a305bd1f-8142-6557-4228-aae10c5114e1@arm.com>
-Date: Fri, 31 Jan 2020 11:33:48 +0000
+Message-ID: <f870ae85-995f-7866-ebbd-95b89ca28dc5@arm.com>
+Date: Fri, 31 Jan 2020 12:30:42 +0000
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
  Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdVSyD62nvRmN-v6CbJ2UyqH=d7xdVeCD8_X5us+mvCXUQ@mail.gmail.com>
+In-Reply-To: <CANn89i+fRqeSAz9eH8f2ujzBWSLUXw0eTT=tK=eNj8hL71MiFQ@mail.gmail.com>
 Content-Language: en-GB
 Cc: Joerg Roedel <jroedel@suse.de>, Eric Dumazet <eric.dumazet@gmail.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- Eric Dumazet <edumazet@google.com>, Christoph Hellwig <hch@lst.de>
+ linux-kernel <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,10 +73,11 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-01-31 9:06 am, Geert Uytterhoeven wrote:
-> Hi Robin,
-> 
-> On Fri, Jan 31, 2020 at 12:46 AM Robin Murphy <robin.murphy@arm.com> wrote:
+On 2020-01-31 12:17 am, Eric Dumazet wrote:
+> On Thu, Jan 30, 2020 at 3:46 PM Robin Murphy <robin.murphy@arm.com> wrote:
+>>
+>> Hi Eric,
+>>
 >> On 2020-01-30 7:10 pm, Eric Dumazet via iommu wrote:
 >>> Increasing the size of dma_entry_hash size by 327680 bytes
 >>> has reached some bootloaders limitations.
@@ -85,29 +85,131 @@ On 2020-01-31 9:06 am, Geert Uytterhoeven wrote:
 >> [ That might warrant some further explanation - I don't quite follow how
 >> this would relate to a bootloader specifically :/ ]
 > 
-> Increasing the size of a static array increases kernel size.
-> Some (all? ;-) bootloaders have limitations on the maximum size of a
-> kernel image they can boot (usually something critical gets overwritten
-> when handling a too large image).  While boot loaders can be fixed and
-> upgraded, this is usually much more cumbersome than updating the
-> kernel.
+> I had no details, please look at the prior thread where this has been discussed.
+> 
+> https://www.spinics.net/lists/linux-renesas-soc/msg46157.html
 
-Ah, OK - I'm all too familiar with bootloaders having image size limits, 
-but I'm also used to implicitly-initialised statics being collected into 
-a runtime-initialised .bss section, so I hadn't realised that there 
-might still be platforms where that space is actually allocated in the 
-image at link-time.
+Thanks for the pointer - that had passed me by as it doesn't seem to 
+have been CCed to the IOMMU list or me as a reviewer.
 
-> Besides, a static array always consumes valuable unswapable memory,
-> even when the feature would not be used (e.g. disabled by a command
-> line option).
+>>> Simply use dynamic allocations instead, and take
+>>> this opportunity to increase the hash table to 65536
+>>> buckets. Finally my 40Gbit mlx4 NIC can sustain
+>>> line rate with CONFIG_DMA_API_DEBUG=y.
+>>
+>> That's pretty cool, but I can't help but wonder if making the table
+>> bigger caused a problem in the first place, whether making it bigger yet
+>> again in the name of a fix is really the wisest move. How might this
+>> impact DMA debugging on 32-bit embedded systems with limited vmalloc
+>> space and even less RAM, for instance? More to the point, does vmalloc()
+>> even work for !CONFIG_MMU builds? Obviously we don't want things to be
+>> *needlessly* slow if avoidable, but is there a genuine justification for
+>> needing to optimise what is fundamentally an invasive heavyweight
+>> correctness check - e.g. has it helped expose race conditions that were
+>> otherwise masked?
+> 
+> Not sure what you are saying.
+> 
+> vmalloc() _is_ supported by all arches, even !CONFIG_MMU
 
-Indeed, and that alone might have been a reasonable rationale for the 
-patch - I was merely querying the wording of the commit message, not its 
-intent :)
+OK, that's good - I wasn't sure off-hand, and I was on the wrong machine 
+to go digging into the source.
 
-Thanks,
+> I can not test all platforms, and this is a debugging
+> feature no one uses in production.
+
+...which is exactly why I'd prefer to see a stronger justification for 
+making a change which only benefits performance on large systems, while 
+potentially impacting usability on small ones.
+
+>> That said, by moving to dynamic allocation maybe there's room to be
+>> cleverer and make HASH_SIZE scale with, say, system memory size? (I
+>> assume from the context it's not something we can expand on-demand like
+>> we did for the dma_debug_entry pool)
+>>
+> 
+> How memory size can serve as a proxy of the number of entries ?
+> Current 10Gbit NIC need about 256,000 entries in the table.
+> Needless to say, the prior hash size was unusable.
+
+Because it's actually a reasonable proxy for "system size" in this 
+context - there aren't many good reasons for a driver to maintain 
+hundreds of mappings of the *same* buffer, so in general the maximum 
+number of live mappings is effectively going to scale with the total 
+amount of memory, particularly at the smaller end. Consider it a pretty 
+safe assumption that an embedded system with RAM measured in megabytes 
+won't ever be running anything like an MLX4, let alone in a debug 
+situation. If those 256,000 mappings each represent a typical network 
+packet, that implies well over 300MB of data alone, not to mention the 
+size of the queues themselves, the actual DMA debug entries, and the 
+whole rest of the kernel beyond that one driver - I doubt it's 
+physically possible to 'need' 64K hash buckets without at very least 1GB 
+of total RAM, quite likely much more.
+
+> As I suggested one month ago, HASH_SIZE can be tuned by a developper
+> eager to use this facility.
+> 
+> 65536 slots are 768 KB on 32bit platforms.
+
+...and when that represents ~5% of the total system RAM it is a *lot* 
+less reasonable than even 12KB. As I said, it's great to make a debug 
+option more efficient such that what it observes is more representative 
+of the non-debug behaviour, but it mustn't come at the cost of making 
+the entire option unworkable for other users.
+
 Robin.
+
+>>> Fixes: 5e76f564572b ("dma-debug: increase HASH_SIZE")
+>>> Signed-off-by: Eric Dumazet <edumazet@google.com>
+>>> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>>> Cc: Christoph Hellwig <hch@lst.de>
+>>> ---
+>>>    kernel/dma/debug.c | 10 ++++++++--
+>>>    1 file changed, 8 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
+>>> index 2031ed1ad7fa109bb8a8c290bbbc5f825362baba..a310dbb1515e92c081f8f3f9a7290dd5e53fc889 100644
+>>> --- a/kernel/dma/debug.c
+>>> +++ b/kernel/dma/debug.c
+>>> @@ -27,7 +27,7 @@
+>>>
+>>>    #include <asm/sections.h>
+>>>
+>>> -#define HASH_SIZE       16384ULL
+>>> +#define HASH_SIZE       65536ULL
+>>>    #define HASH_FN_SHIFT   13
+>>>    #define HASH_FN_MASK    (HASH_SIZE - 1)
+>>>
+>>> @@ -90,7 +90,8 @@ struct hash_bucket {
+>>>    };
+>>>
+>>>    /* Hash list to save the allocated dma addresses */
+>>> -static struct hash_bucket dma_entry_hash[HASH_SIZE];
+>>> +static struct hash_bucket *dma_entry_hash __read_mostly;
+>>> +
+>>>    /* List of pre-allocated dma_debug_entry's */
+>>>    static LIST_HEAD(free_entries);
+>>>    /* Lock for the list above */
+>>> @@ -934,6 +935,10 @@ static int dma_debug_init(void)
+>>>        if (global_disable)
+>>>                return 0;
+>>>
+>>> +     dma_entry_hash = vmalloc(HASH_SIZE * sizeof(*dma_entry_hash));
+>>> +     if (!dma_entry_hash)
+>>> +             goto err;
+>>> +
+>>>        for (i = 0; i < HASH_SIZE; ++i) {
+>>>                INIT_LIST_HEAD(&dma_entry_hash[i].list);
+>>>                spin_lock_init(&dma_entry_hash[i].lock);
+>>> @@ -950,6 +955,7 @@ static int dma_debug_init(void)
+>>>                pr_warn("%d debug entries requested but only %d allocated\n",
+>>>                        nr_prealloc_entries, nr_total_entries);
+>>>        } else {
+>>> +err:
+>>>                pr_err("debugging out of memory error - disabled\n");
+>>>                global_disable = true;
+>>>
+>>>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
