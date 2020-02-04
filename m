@@ -2,58 +2,60 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD647151602
-	for <lists.iommu@lfdr.de>; Tue,  4 Feb 2020 07:32:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7DD7151603
+	for <lists.iommu@lfdr.de>; Tue,  4 Feb 2020 07:32:16 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 883A184C1E;
-	Tue,  4 Feb 2020 06:32:12 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 24F5D84DFD;
+	Tue,  4 Feb 2020 06:32:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0VSzQlYf2FmC; Tue,  4 Feb 2020 06:32:11 +0000 (UTC)
+	with ESMTP id bumLXuJ18qvq; Tue,  4 Feb 2020 06:32:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 54BDE84BAF;
-	Tue,  4 Feb 2020 06:32:11 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 81AB384DB2;
+	Tue,  4 Feb 2020 06:32:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 34E8EC0174;
-	Tue,  4 Feb 2020 06:32:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6C2C5C0174;
+	Tue,  4 Feb 2020 06:32:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 53A08C0174
- for <iommu@lists.linux-foundation.org>; Tue,  4 Feb 2020 06:32:09 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0F8A1C0174
+ for <iommu@lists.linux-foundation.org>; Tue,  4 Feb 2020 06:32:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 39EED203F1
- for <iommu@lists.linux-foundation.org>; Tue,  4 Feb 2020 06:32:09 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 03D7384FA7
+ for <iommu@lists.linux-foundation.org>; Tue,  4 Feb 2020 06:32:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2g3pXFjKEpfo for <iommu@lists.linux-foundation.org>;
- Tue,  4 Feb 2020 06:32:08 +0000 (UTC)
+ with ESMTP id 3d1K63tRY-er for <iommu@lists.linux-foundation.org>;
+ Tue,  4 Feb 2020 06:32:11 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [198.137.202.133])
- by silver.osuosl.org (Postfix) with ESMTPS id 33C562014A
- for <iommu@lists.linux-foundation.org>; Tue,  4 Feb 2020 06:32:08 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C5B9984F6A
+ for <iommu@lists.linux-foundation.org>; Tue,  4 Feb 2020 06:32:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=1QxZjRqjnFjTb1sgbB1Wf34MvqsNRVQ5mMrKgwxIKOk=; b=tpzlqOwwPTA6HAldDsz5llSXDr
- mRaGNkFoeTvS5vXPKpY0XND5lRWQsE0JzKsluyNZwfavotkwNNhQy1hcJ0ZeZ17ln5k89EyxhhloA
- qfkLr/LnX1whiO8sYjFoDDHrLKKU0vpMylgSYDBgHKdvUYVLZX4lzo5hl9t6Wq8otkRFDJEf0teCs
- r/+0qF+GdpM9hvpPywkPuekpf9P8vh8ogO4nBCZg8s5XoIBAczfAFJbtfLjZCRlY+156M0ZNd5KTR
- fmWmdkqvKQHJSMS7dW5JHpIeWmRdUSqXqb7KpB6tqf2Vjs4kCQYMAr4uQrx20tIGkY0wlb1WLq6c2
- DKZLRzOA==;
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+ :Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=WO3aGKMLhSItShYL4YFiEW+0t5h86tQid5XsHlIa/Cc=; b=iSB/Ye9/TN9eBJjI4/cvDApqma
+ e93TPwqXMZ6Di8xq5xYXFzvZ/4H52Es/a304TgkAftw+/HaNNRZlU/zIcSoJ+KqjNMlLZCaBw1y/P
+ gMroaLAiadxzism6jaNK8gDvqRMqj3BiZ5DL3dBiyvZ4XHcoPlvpudqP0yXAsmE2a8L9RVR+Pqsim
+ kfCnSjMoOGybbRYQwUi5ITIajc6w3/7HlORX2/gwEjNPl8xvy6ZQrGMpm7Ma9+VMKoGSrY4BZHrXx
+ I+WvhYyE3Nh7Ui7wsJNUmK0hCc1J1g98LU9nYmcy9Gl83ot1I20jZcUPoCgsb1u0p6y+4ASydN8Vq
+ OvNkF5lg==;
 Received: from [2001:4bb8:184:589f:5d35:7054:f1cc:c43d] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1iyrkl-00088Q-Bh; Tue, 04 Feb 2020 06:32:07 +0000
+ id 1iyrkn-00088V-TS; Tue, 04 Feb 2020 06:32:10 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-Subject: improve dma-direct / swiotlb error reporting
-Date: Tue,  4 Feb 2020 07:32:03 +0100
-Message-Id: <20200204063205.652456-1-hch@lst.de>
+Subject: [PATCH 1/2] dma-direct: improve swiotlb error reporting
+Date: Tue,  4 Feb 2020 07:32:04 +0100
+Message-Id: <20200204063205.652456-2-hch@lst.de>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200204063205.652456-1-hch@lst.de>
+References: <20200204063205.652456-1-hch@lst.de>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
  bombadil.infradead.org. See http://www.infradead.org/rpr.html
@@ -75,12 +77,164 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi all,
+Untangle the way how dma_direct_map_page calls into swiotlb to be able
+to properly report errors where the swiotlb DMA address overflows the
+mask separately from overflows in the !swiotlb case.  This means that
+siotlb_map now has to do a little more work that duplicates
+dma_direct_map_page, but doing so greatly simplifies the calling
+convention.
 
-this small series improves the message when the dma mask overflows,
-and splits the warning for the genuine dma mask overflow from that
-of a not addressable swiotlb buffer to help better diagnosing the
-root cause.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ include/linux/swiotlb.h | 11 +++--------
+ kernel/dma/direct.c     | 16 +++++++--------
+ kernel/dma/swiotlb.c    | 43 +++++++++++++++++++++++------------------
+ 3 files changed, 34 insertions(+), 36 deletions(-)
+
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index cde3dc18e21a..046bb94bd4d6 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -64,6 +64,9 @@ extern void swiotlb_tbl_sync_single(struct device *hwdev,
+ 				    size_t size, enum dma_data_direction dir,
+ 				    enum dma_sync_target target);
+ 
++dma_addr_t swiotlb_map(struct device *dev, phys_addr_t phys,
++		size_t size, enum dma_data_direction dir, unsigned long attrs);
++
+ #ifdef CONFIG_SWIOTLB
+ extern enum swiotlb_force swiotlb_force;
+ extern phys_addr_t io_tlb_start, io_tlb_end;
+@@ -73,8 +76,6 @@ static inline bool is_swiotlb_buffer(phys_addr_t paddr)
+ 	return paddr >= io_tlb_start && paddr < io_tlb_end;
+ }
+ 
+-bool swiotlb_map(struct device *dev, phys_addr_t *phys, dma_addr_t *dma_addr,
+-		size_t size, enum dma_data_direction dir, unsigned long attrs);
+ void __init swiotlb_exit(void);
+ unsigned int swiotlb_max_segment(void);
+ size_t swiotlb_max_mapping_size(struct device *dev);
+@@ -85,12 +86,6 @@ static inline bool is_swiotlb_buffer(phys_addr_t paddr)
+ {
+ 	return false;
+ }
+-static inline bool swiotlb_map(struct device *dev, phys_addr_t *phys,
+-		dma_addr_t *dma_addr, size_t size, enum dma_data_direction dir,
+-		unsigned long attrs)
+-{
+-	return false;
+-}
+ static inline void swiotlb_exit(void)
+ {
+ }
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index 6af7ae83c4ad..82ad50aaf42c 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -357,13 +357,6 @@ void dma_direct_unmap_sg(struct device *dev, struct scatterlist *sgl,
+ EXPORT_SYMBOL(dma_direct_unmap_sg);
+ #endif
+ 
+-static inline bool dma_direct_possible(struct device *dev, dma_addr_t dma_addr,
+-		size_t size)
+-{
+-	return swiotlb_force != SWIOTLB_FORCE &&
+-		dma_capable(dev, dma_addr, size, true);
+-}
+-
+ dma_addr_t dma_direct_map_page(struct device *dev, struct page *page,
+ 		unsigned long offset, size_t size, enum dma_data_direction dir,
+ 		unsigned long attrs)
+@@ -371,8 +364,13 @@ dma_addr_t dma_direct_map_page(struct device *dev, struct page *page,
+ 	phys_addr_t phys = page_to_phys(page) + offset;
+ 	dma_addr_t dma_addr = phys_to_dma(dev, phys);
+ 
+-	if (unlikely(!dma_direct_possible(dev, dma_addr, size)) &&
+-	    !swiotlb_map(dev, &phys, &dma_addr, size, dir, attrs)) {
++	if (unlikely(swiotlb_force == SWIOTLB_FORCE))
++		return swiotlb_map(dev, phys, size, dir, attrs);
++
++	if (unlikely(!dma_capable(dev, dma_addr, size, true))) {
++		if (swiotlb_force != SWIOTLB_NO_FORCE)
++			return swiotlb_map(dev, phys, size, dir, attrs);
++
+ 		report_addr(dev, dma_addr, size);
+ 		return DMA_MAPPING_ERROR;
+ 	}
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 9280d6f8271e..589bb9a40f21 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -22,6 +22,7 @@
+ 
+ #include <linux/cache.h>
+ #include <linux/dma-direct.h>
++#include <linux/dma-noncoherent.h>
+ #include <linux/mm.h>
+ #include <linux/export.h>
+ #include <linux/spinlock.h>
+@@ -656,35 +657,39 @@ void swiotlb_tbl_sync_single(struct device *hwdev, phys_addr_t tlb_addr,
+ }
+ 
+ /*
+- * Create a swiotlb mapping for the buffer at @phys, and in case of DMAing
++ * Create a swiotlb mapping for the buffer at @paddr, and in case of DMAing
+  * to the device copy the data into it as well.
+  */
+-bool swiotlb_map(struct device *dev, phys_addr_t *phys, dma_addr_t *dma_addr,
+-		size_t size, enum dma_data_direction dir, unsigned long attrs)
++dma_addr_t swiotlb_map(struct device *dev, phys_addr_t paddr, size_t size,
++		enum dma_data_direction dir, unsigned long attrs)
+ {
+-	trace_swiotlb_bounced(dev, *dma_addr, size, swiotlb_force);
++	phys_addr_t swiotlb_addr;
++	dma_addr_t dma_addr;
+ 
+-	if (unlikely(swiotlb_force == SWIOTLB_NO_FORCE)) {
+-		dev_warn_ratelimited(dev,
+-			"Cannot do DMA to address %pa\n", phys);
+-		return false;
+-	}
++	trace_swiotlb_bounced(dev, phys_to_dma(dev, paddr), size,
++			      swiotlb_force);
+ 
+-	/* Oh well, have to allocate and map a bounce buffer. */
+-	*phys = swiotlb_tbl_map_single(dev, __phys_to_dma(dev, io_tlb_start),
+-			*phys, size, size, dir, attrs);
+-	if (*phys == (phys_addr_t)DMA_MAPPING_ERROR)
+-		return false;
++	swiotlb_addr = swiotlb_tbl_map_single(dev,
++			__phys_to_dma(dev, io_tlb_start),
++			paddr, size, size, dir, attrs);
++	if (swiotlb_addr == (phys_addr_t)DMA_MAPPING_ERROR)
++		return DMA_MAPPING_ERROR;
+ 
+ 	/* Ensure that the address returned is DMA'ble */
+-	*dma_addr = __phys_to_dma(dev, *phys);
+-	if (unlikely(!dma_capable(dev, *dma_addr, size, true))) {
+-		swiotlb_tbl_unmap_single(dev, *phys, size, size, dir,
++	dma_addr = __phys_to_dma(dev, swiotlb_addr);
++	if (unlikely(!dma_capable(dev, dma_addr, size, true))) {
++		swiotlb_tbl_unmap_single(dev, swiotlb_addr, size, size, dir,
+ 			attrs | DMA_ATTR_SKIP_CPU_SYNC);
+-		return false;
++		dev_err_once(dev,
++			"swiotlb addr %pad+%zu overflow (mask %llx, bus limit %llx).\n",
++			&dma_addr, size, *dev->dma_mask, dev->bus_dma_limit);
++		WARN_ON_ONCE(1);
++		return DMA_MAPPING_ERROR;
+ 	}
+ 
+-	return true;
++	if (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
++		arch_sync_dma_for_device(swiotlb_addr, size, dir);
++	return dma_addr;
+ }
+ 
+ size_t swiotlb_max_mapping_size(struct device *dev)
+-- 
+2.24.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
