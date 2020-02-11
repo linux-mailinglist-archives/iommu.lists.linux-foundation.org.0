@@ -2,59 +2,73 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70D9159D44
-	for <lists.iommu@lfdr.de>; Wed, 12 Feb 2020 00:37:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85880159DAF
+	for <lists.iommu@lfdr.de>; Wed, 12 Feb 2020 00:53:33 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9314F87A60;
-	Tue, 11 Feb 2020 23:37:42 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id EC99787A30;
+	Tue, 11 Feb 2020 23:53:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5h7b652z-el0; Tue, 11 Feb 2020 23:37:41 +0000 (UTC)
+	with ESMTP id JBjOzmoxj8bi; Tue, 11 Feb 2020 23:53:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B7A9A87A30;
-	Tue, 11 Feb 2020 23:37:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B2A9487A34;
+	Tue, 11 Feb 2020 23:53:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9DBFAC1D8E;
-	Tue, 11 Feb 2020 23:37:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 99048C1D88;
+	Tue, 11 Feb 2020 23:53:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 799E9C07FE
- for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 23:37:40 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6CEA0C07FE
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 23:53:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 62C15204EF
- for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 23:37:40 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 56DC485725
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 23:53:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ehnG-2MaxhzW for <iommu@lists.linux-foundation.org>;
- Tue, 11 Feb 2020 23:37:39 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
- by silver.osuosl.org (Postfix) with ESMTPS id 221D920423
- for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 23:37:39 +0000 (UTC)
-Received: from inva021.nxp.com (localhost [127.0.0.1])
- by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id AD1D7224B1B;
- Wed, 12 Feb 2020 00:37:36 +0100 (CET)
-Received: from smtp.na-rdc02.nxp.com (usphx01srsp001v.us-phx01.nxp.com
- [134.27.49.11])
- by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 0B42F224B09;
- Wed, 12 Feb 2020 00:37:36 +0100 (CET)
-Received: from right.am.freescale.net (right.am.freescale.net [10.81.116.70])
- by usphx01srsp001v.us-phx01.nxp.com (Postfix) with ESMTP id
- 37E4340CB6; Tue, 11 Feb 2020 16:37:35 -0700 (MST)
-From: Li Yang <leoyang.li@nxp.com>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will.deacon@arm.com>,
- Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH] iommu/arm-smmu: fix the module name for disable_bypass
+ with ESMTP id Uvond5NVmoXP for <iommu@lists.linux-foundation.org>;
+ Tue, 11 Feb 2020 23:53:28 +0000 (UTC)
+X-Greylist: delayed 00:07:36 by SQLgrey-1.7.6
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id B02FF85712
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 23:53:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=/63RZIRpBax9M6SO18Oi0fU9+y2EZyC+pNdMvta4lwc=; b=ocHiQR2CMJL+s3EwRYXwd8Zqi
+ aeXyyQ9iTiAJjArEuJ8zmPc7aqkYIrxzXp5wPHqGaIdtkusS1Hu6Wm/8W8fheBcAoGZpkpvF1aE75
+ QLf2TpYVrQt5dsbCK8DJzzaV4BIkW7f3mclBxeIkDNfGirCPsRyuKenLsghVXIOtj0vJ7BtcmR5P0
+ mQg1bbEtmLiYb8sBViWkSj+DrluPEA0Dk7OQkrkJJbjF1ntiEkBNEytB8A4PmJRr6fauaF1NgWGCy
+ FbfIt4Cp32XvfOIsmVivqzc++P6S5sAMFfvhqILBW+Uvv23Kn4wxiKbAQCfQDrLSympDvyywPE8y3
+ JJDGTRmwA==;
+Received: from shell.armlinux.org.uk
+ ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:46604)
+ by pandora.armlinux.org.uk with esmtpsa
+ (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1j1fDp-0007jp-Ak; Tue, 11 Feb 2020 23:45:41 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1j1fDk-0000pP-8Y; Tue, 11 Feb 2020 23:45:36 +0000
+Date: Tue, 11 Feb 2020 23:45:36 +0000
+From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To: Li Yang <leoyang.li@nxp.com>
+Subject: Re: [PATCH] iommu/arm-smmu: fix the module name for disable_bypass
  parameter
-Date: Tue, 11 Feb 2020 17:36:55 -0600
-Message-Id: <1581464215-24777-1-git-send-email-leoyang.li@nxp.com>
-X-Mailer: git-send-email 1.9.0
-X-Virus-Scanned: ClamAV using ClamSMTP
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Li Yang <leoyang.li@nxp.com>
+Message-ID: <20200211234536.GK25745@shell.armlinux.org.uk>
+References: <1581464215-24777-1-git-send-email-leoyang.li@nxp.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1581464215-24777-1-git-send-email-leoyang.li@nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,53 +81,71 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Since commit cd221bd24ff5 ("iommu/arm-smmu: Allow building as a module"),
-there is a side effect that the module name is changed from arm-smmu to
-arm-smmu-mod.  So the kernel parameter for disable_bypass need to be
-changed too.  Fix the Kconfig help and error message to the correct
-parameter name.
+On Tue, Feb 11, 2020 at 05:36:55PM -0600, Li Yang wrote:
+> Since commit cd221bd24ff5 ("iommu/arm-smmu: Allow building as a module"),
+> there is a side effect that the module name is changed from arm-smmu to
+> arm-smmu-mod.  So the kernel parameter for disable_bypass need to be
+> changed too.  Fix the Kconfig help and error message to the correct
+> parameter name.
 
-Signed-off-by: Li Yang <leoyang.li@nxp.com>
----
- drivers/iommu/Kconfig    | 2 +-
- drivers/iommu/arm-smmu.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Hmm, this seems to be a user-visible change - so those of us who have
+been booting with "arm-smmu.disable_bypass=0" now need to change that
+depending on which kernel is being booted - which is not nice, and
+makes the support side on platforms that need this kernel parameter
+harder.
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index d2fade984999..fb54be903c60 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -415,7 +415,7 @@ config ARM_SMMU_DISABLE_BYPASS_BY_DEFAULT
- 	  hardcode the bypass disable in the code.
- 
- 	  NOTE: the kernel command line parameter
--	  'arm-smmu.disable_bypass' will continue to override this
-+	  'arm-smmu-mod.disable_bypass' will continue to override this
- 	  config.
- 
- config ARM_SMMU_V3
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index 16c4b87af42b..2ffe8ff04393 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -512,7 +512,7 @@ static irqreturn_t arm_smmu_global_fault(int irq, void *dev)
- 		if (IS_ENABLED(CONFIG_ARM_SMMU_DISABLE_BYPASS_BY_DEFAULT) &&
- 		    (gfsr & ARM_SMMU_sGFSR_USF))
- 			dev_err(smmu->dev,
--				"Blocked unknown Stream ID 0x%hx; boot with \"arm-smmu.disable_bypass=0\" to allow, but this may have security implications\n",
-+				"Blocked unknown Stream ID 0x%hx; boot with \"arm-smmu-mod.disable_bypass=0\" to allow, but this may have security implications\n",
- 				(u16)gfsynr1);
- 		else
- 			dev_err(smmu->dev,
+> 
+> Signed-off-by: Li Yang <leoyang.li@nxp.com>
+> ---
+>  drivers/iommu/Kconfig    | 2 +-
+>  drivers/iommu/arm-smmu.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> index d2fade984999..fb54be903c60 100644
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -415,7 +415,7 @@ config ARM_SMMU_DISABLE_BYPASS_BY_DEFAULT
+>  	  hardcode the bypass disable in the code.
+>  
+>  	  NOTE: the kernel command line parameter
+> -	  'arm-smmu.disable_bypass' will continue to override this
+> +	  'arm-smmu-mod.disable_bypass' will continue to override this
+>  	  config.
+>  
+>  config ARM_SMMU_V3
+> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+> index 16c4b87af42b..2ffe8ff04393 100644
+> --- a/drivers/iommu/arm-smmu.c
+> +++ b/drivers/iommu/arm-smmu.c
+> @@ -512,7 +512,7 @@ static irqreturn_t arm_smmu_global_fault(int irq, void *dev)
+>  		if (IS_ENABLED(CONFIG_ARM_SMMU_DISABLE_BYPASS_BY_DEFAULT) &&
+>  		    (gfsr & ARM_SMMU_sGFSR_USF))
+>  			dev_err(smmu->dev,
+> -				"Blocked unknown Stream ID 0x%hx; boot with \"arm-smmu.disable_bypass=0\" to allow, but this may have security implications\n",
+> +				"Blocked unknown Stream ID 0x%hx; boot with \"arm-smmu-mod.disable_bypass=0\" to allow, but this may have security implications\n",
+>  				(u16)gfsynr1);
+>  		else
+>  			dev_err(smmu->dev,
+> -- 
+> 2.17.1
+> 
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> 
+
 -- 
-2.17.1
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
