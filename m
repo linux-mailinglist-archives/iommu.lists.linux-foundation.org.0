@@ -2,84 +2,85 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADE3158BE3
-	for <lists.iommu@lfdr.de>; Tue, 11 Feb 2020 10:32:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A02158BF3
+	for <lists.iommu@lfdr.de>; Tue, 11 Feb 2020 10:35:58 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 464BC86D82;
-	Tue, 11 Feb 2020 09:32:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 63F0C870A1;
+	Tue, 11 Feb 2020 09:35:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id q3OsCQGFWBsw; Tue, 11 Feb 2020 09:32:08 +0000 (UTC)
+	with ESMTP id Gr7GUAHceuRs; Tue, 11 Feb 2020 09:35:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B0F2786631;
-	Tue, 11 Feb 2020 09:32:08 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C4DF18664E;
+	Tue, 11 Feb 2020 09:35:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98995C07FE;
-	Tue, 11 Feb 2020 09:32:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B83D6C1D8E;
+	Tue, 11 Feb 2020 09:35:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 83178C07FE
- for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 09:32:07 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 90F81C07FE
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 09:35:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 7BEE686762
- for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 09:32:07 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8C91C8664E
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 09:35:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0iZTyryLVkQB for <iommu@lists.linux-foundation.org>;
- Tue, 11 Feb 2020 09:32:06 +0000 (UTC)
-X-Greylist: delayed 00:22:45 by SQLgrey-1.7.6
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 6993486631
- for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 09:32:06 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id q81so12196577oig.0
- for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 01:32:06 -0800 (PST)
+ with ESMTP id MXS+zUrqSCE8 for <iommu@lists.linux-foundation.org>;
+ Tue, 11 Feb 2020 09:35:53 +0000 (UTC)
+X-Greylist: delayed 00:15:13 by SQLgrey-1.7.6
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B75F0860FC
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 09:35:53 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id h8so10991128iob.2
+ for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 01:35:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=endlessm-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=W3K1RJQxlhAeDaxI7FtV3mf9LRwqMOs6DSkvkZhUcx0=;
- b=mllI2Pw+V5dAPg3TUI/DzZpHs0zupuj0j9wf0SHm1I9sNQmg//i+JqoJVfRNAWcUIa
- Y2igodXYzaqn3Alz92b0VR+0bzDAFVPO87+vj5ILWXaUMkNUex7I3gr/BwCj6ZoilOOt
- r3I0Jv2tL3Rlf7WTgKL/6UiOFIMePbojbkDQn2WhAlqRx07roHKSchDBZWdvHjOioTi4
- gtqWjV/DtB7cD7IZioN/Ctlg5tj6oYsSEFQug3KbyatSb2C6OAGbu9mv2cPg5HHsrJ5Y
- bdq4XUt234X396x3nM0xY3wqYP4umfL3LnSZcaWVRvdMfpWxSxnco/hePSyn09Qo0286
- GYLQ==
+ bh=4/rLgycRE5BbPnAtbtJ77Ke9E5f5WJIT3Fnh2npdOUI=;
+ b=DigcnwCJL+2Hiq3G65ovWP8ugmlWBoNowVl9+77OD3T67EHtjHDM4mQjGvyzSxSfyy
+ f/oDrG33Utx54xlCIN53DVqI+YiPxdfhW4A5XoBGJw6+fEDZX/wYwvS+t3jb1DHYFmK+
+ SQxL3ekVkcescmrHYtOQJE59RF7u873wjPlA17wjY3gZNSidIZkk45hgcE24ic0kb+pO
+ AeKULVMCW4sGpH+1RplACg0X3+zrZXBoQnS3EF56o5cLK5nIGxP+9jYMSGn3FCEk/FPi
+ Rn+/cUfpdytU8ErbJrLkMeHwbpknGjLlH26n+veY5wuQ4YrGMDAZWrvyV6092mTTEV+9
+ 5Ktw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=W3K1RJQxlhAeDaxI7FtV3mf9LRwqMOs6DSkvkZhUcx0=;
- b=rwvjLzrO9PP8SF2REGDtIke/WY0LUYx4HfaLIeiOT6W3XwsZNGP+yFhR2yK4xpXymo
- PqJuQ+m7cdc0Z5SBSSkqdQTSk2hSxitmMgP9pnSzPl4/eRsHBNPP5INe3Ak0S4li1nKm
- JViUGMOjnHmxWqTYxl/fSd6L6+PjtvrLPk1qbGgrnB7oDcSpJgHeCZp8Pawytw5Z1+Jn
- euQamWIQ5gIuALHziA44Sr6V/tZ900h16d6mWmPD1t4S1QFl80x5oidM7t6jo79in6ZV
- zb/aIYqzhfteCGkxzDAWihvp0ONjFhAH44HtuMTQOkpf4Kgv3HM9CrEN+FEJdfQuoqqr
- rCFw==
-X-Gm-Message-State: APjAAAXso6b9Q12nacA9/onOoPlRJsHscaqeOOTogvgdy24du1VTMpun
- dvvrYV8u8uOyDecmusXw6hLUBbY+ewGL6A==
-X-Google-Smtp-Source: APXvYqySeJhy8B0OrsYRC2YrQ5nvH4/qtXSsBnuZhoTIdE5gvzgZW3XygG1HUrrfv5Ne58nQ06s/pg==
-X-Received: by 2002:a17:90a:234f:: with SMTP id
- f73mr2399888pje.109.1581411810598; 
- Tue, 11 Feb 2020 01:03:30 -0800 (PST)
+ bh=4/rLgycRE5BbPnAtbtJ77Ke9E5f5WJIT3Fnh2npdOUI=;
+ b=CyoBYwVZr2vOPvr5j8Aszzy79/o+tag1X3DCS1Ol76cgzM34CbmBIrazBEG314udn2
+ cj+jhBH7hqBaOeSKQGG2yQJN2nPEtLpWeHQ763f8hyg+MnDxCcEjomWdZDNGbg9hkTOL
+ Ln2GcXX5HBX1C7zdXa47EGqiKzH6BFULoKa4qSzztWBBJM0Ez4wskAw0zVAyRIEXvB+b
+ T69KWF806sobpCy89rGBk7l9kRNRNAqDg7x5kz7wzmvHsQjn6bLNGaRjZTHn/OaGrQS+
+ qnuiZC/vbRqe039OfXiRVaUNFH59Jb6SAuK8L0CYvom48ah+Q2fw017uUVNduxWAfG+B
+ 4CYw==
+X-Gm-Message-State: APjAAAUAZmUA0V7bqrLY5+KMWcGpF+iMp0OnlU2T19twjHSWCbgE9LE9
+ Ho9Zkn/QDg1ez/X5fY9OPvtLxmwhF+fQXA==
+X-Google-Smtp-Source: APXvYqxnJQD5qSbhQbzclJQU/7yIngqL/o1in9IyJB05OEWv1rT48aKTsgJ6L1It4tDVcLVf3YTasg==
+X-Received: by 2002:a63:f44d:: with SMTP id p13mr5803169pgk.224.1581412438008; 
+ Tue, 11 Feb 2020 01:13:58 -0800 (PST)
 Received: from limbo.local (123-204-46-122.static.seed.net.tw.
  [123.204.46.122])
- by smtp.gmail.com with ESMTPSA id l18sm3319167pfe.96.2020.02.11.01.03.28
+ by smtp.gmail.com with ESMTPSA id r13sm2112767pjp.14.2020.02.11.01.13.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 01:03:29 -0800 (PST)
+ Tue, 11 Feb 2020 01:13:57 -0800 (PST)
 From: Daniel Drake <drake@endlessm.com>
 To: dwmw2@infradead.org,
 	baolu.lu@linux.intel.com,
 	joro@8bytes.org
-Subject: [PATCH] iommu/dmar: ignore devices with out-of-spec domain number
-Date: Tue, 11 Feb 2020 17:03:25 +0800
-Message-Id: <20200211090325.11423-1-drake@endlessm.com>
+Subject: [PATCH] iommu/vt-d: consider real PCI device when checking if mapping
+ is needed
+Date: Tue, 11 Feb 2020 17:13:52 +0800
+Message-Id: <20200211091352.12031-1-drake@endlessm.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: iommu@lists.linux-foundation.org, linux@endlessm.com
+Cc: bhelgaas@google.com, iommu@lists.linux-foundation.org, linux@endlessm.com,
+ jonathan.derrick@intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,53 +93,77 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Vk1EIHN1YmRldmljZXMgYXJlIGNyZWF0ZWQgd2l0aCBhIFBDSSBkb21haW4gSUQgb2YgMHgxMDAw
-MCBvcgpoaWdoZXIuCgpUaGVzZSBzdWJkZXZpY2VzIGFyZSBhbHNvIGhhbmRsZWQgbGlrZSBhbGwg
-b3RoZXIgUENJIGRldmljZXMgYnkKZG1hcl9wY2lfYnVzX25vdGlmaWVyKCkuCgpIb3dldmVyLCB3
-aGVuIGRtYXJfYWxsb2NfcGNpX25vdGlmeV9pbmZvKCkgdGFrZSByZWNvcmRzIG9mIHN1Y2ggZGV2
-aWNlcywKaXQgd2lsbCB0cnVuY2F0ZSB0aGUgZG9tYWluIElEIHRvIGEgdTE2IHZhbHVlIChpbiBp
-bmZvLT5zZWcpLgpUaGUgZGV2aWNlIGF0IChlLmcuKSAxMDAwMDowMDowMi4wIGlzIHRoZW4gdHJl
-YXRlZCBieSB0aGUgRE1BUiBjb2RlIGFzIGlmCml0IGlzIDAwMDA6MDA6MDIuMC4KCkluIHRoZSB1
-bmx1Y2t5IGV2ZW50IHRoYXQgYSByZWFsIGRldmljZSBhbHNvIGV4aXN0cyBhdCAwMDAwOjAwOjAy
-LjAgYW5kCmFsc28gaGFzIGEgZGV2aWNlLXNwZWNpZmljIGVudHJ5IGluIHRoZSBETUFSIHRhYmxl
-LApkbWFyX2luc2VydF9kZXZfc2NvcGUoKSB3aWxsIGNyYXNoIG9uOgogwqAgQlVHX09OKGkgPj0g
-ZGV2aWNlc19jbnQpOwoKVGhhdCdzIGJhc2ljYWxseSBhIHNhbml0eSBjaGVjayB0aGF0IG9ubHkg
-b25lIFBDSSBkZXZpY2UgbWF0Y2hlcyBhCnNpbmdsZSBETUFSIGVudHJ5OyBpbiB0aGlzIGNhc2Ug
-d2Ugc2VlbSB0byBoYXZlIHR3byBtYXRjaGluZyBkZXZpY2VzLgoKRml4IHRoaXMgYnkgaWdub3Jp
-bmcgZGV2aWNlcyB0aGF0IGhhdmUgYSBkb21haW4gbnVtYmVyIGhpZ2hlciB0aGFuCndoYXQgY2Fu
-IGJlIGxvb2tlZCB1cCBpbiB0aGUgRE1BUiB0YWJsZS4KClRoaXMgcHJvYmxlbSB3YXMgY2FyZWZ1
-bGx5IGRpYWdub3NlZCBieSBKaWFuLUhvbmcgUGFuLgoKU2lnbmVkLW9mZi1ieTogRGFuaWVsIERy
-YWtlIDxkcmFrZUBlbmRsZXNzbS5jb20+Ci0tLQoKTm90ZXM6CiAgICBUaGlzIHByb2JsZW0gd2Fz
-IGRldGVjdGVkIHdpdGggYSBub24tdXBzdHJlYW0gcGF0Y2gKICAgICJQQ0k6IEFkZCBJbnRlbCBy
-ZW1hcHBlZCBOVk1lIGRldmljZSBzdXBwb3J0IgogICAgKGh0dHBzOi8vbWFyYy5pbmZvLz9sPWxp
-bnV4LWlkZSZtPTE1NjAxNTI3MTAyMTYxNSZ3PTIpCiAgICAKICAgIFRoaXMgcGF0Y2ggY3JlYXRl
-cyBQQ0kgZGV2aWNlcyBpbiB0aGUgc2FtZSB3YXkgYXMgVk1ELCBhbmQgaGVuY2UKICAgIEkgYmVs
-aWV2ZSBWTUQgd291bGQgaGl0IHRoZSBzYW1lIHByb2JsZW0gdGhhdCB3ZSBlbmNvdW50ZXJlZCBo
-ZXJlLCB3aGVuCiAgICBhIFZNRC11c2luZyBwcm9kdWN0IGNvbWVzIGFsb25nIHRoYXQgbWVldHMg
-dGhlIG1lbnRpb25lZCBjb25kaXRpb25zLgogICAgCiAgICBIb3dldmVyIHRoaXMgaGFzbid0IGFj
-dHVhbGx5IGJlZW4gdGVzdGVkIG9uIFZNRCAoZG9uJ3QgaGF2ZSB0aGUgaGFyZHdhcmUpCiAgICBz
-byBpZiBJJ3ZlIG1pc3NlZCBhbnl0aGluZyBhbmQvb3IgaXQncyBub3QgYSByZWFsIGlzc3VlIHRo
-ZW4gZmVlbCBmcmVlIHRvCiAgICBkcm9wIHRoaXMgcGF0Y2guCgogZHJpdmVycy9pb21tdS9kbWFy
-LmMgfCA4ICsrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspCgpkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9pb21tdS9kbWFyLmMgYi9kcml2ZXJzL2lvbW11L2RtYXIuYwppbmRleCAw
-NzFiYjQyYmJiYzUuLjhmOTRjODE3YTdiNSAxMDA2NDQKLS0tIGEvZHJpdmVycy9pb21tdS9kbWFy
-LmMKKysrIGIvZHJpdmVycy9pb21tdS9kbWFyLmMKQEAgLTI4LDYgKzI4LDcgQEAKICNpbmNsdWRl
-IDxsaW51eC9zbGFiLmg+CiAjaW5jbHVkZSA8bGludXgvaW9tbXUuaD4KICNpbmNsdWRlIDxsaW51
-eC9udW1hLmg+CisjaW5jbHVkZSA8bGludXgvbGltaXRzLmg+CiAjaW5jbHVkZSA8YXNtL2lycV9y
-ZW1hcHBpbmcuaD4KICNpbmNsdWRlIDxhc20vaW9tbXVfdGFibGUuaD4KIApAQCAtMTI4LDYgKzEy
-OSwxMyBAQCBkbWFyX2FsbG9jX3BjaV9ub3RpZnlfaW5mbyhzdHJ1Y3QgcGNpX2RldiAqZGV2LCB1
-bnNpZ25lZCBsb25nIGV2ZW50KQogCiAJQlVHX09OKGRldi0+aXNfdmlydGZuKTsKIAorCS8qCisJ
-ICogSWdub3JlIGRldmljZXMgdGhhdCBoYXZlIGEgZG9tYWluIG51bWJlciBoaWdoZXIgdGhhbiB3
-aGF0IGNhbgorCSAqIGJlIGxvb2tlZCB1cCBpbiBETUFSLCBlLmcuIFZNRCBzdWJkZXZpY2VzIHdp
-dGggZG9tYWluIDB4MTAwMDAKKwkgKi8KKwlpZiAocGNpX2RvbWFpbl9ucihkZXYtPmJ1cykgPiBV
-MTZfTUFYKQorCQlyZXR1cm4gTlVMTDsKKwogCS8qIE9ubHkgZ2VuZXJhdGUgcGF0aFtdIGZvciBk
-ZXZpY2UgYWRkaXRpb24gZXZlbnQgKi8KIAlpZiAoZXZlbnQgPT0gQlVTX05PVElGWV9BRERfREVW
-SUNFKQogCQlmb3IgKHRtcCA9IGRldjsgdG1wOyB0bXAgPSB0bXAtPmJ1cy0+c2VsZikKLS0gCjIu
-MjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9t
-bXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8v
-bGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+The PCI devices handled by intel-iommu may have a DMA requester on
+another bus, such as VMD subdevices needing to use the VMD endpoint.
+
+The real DMA device is now used for the DMA mapping, but one case was
+missed earlier, when allocating memory through (e.g.) intel_map_page().
+Confusion ensues if the iommu domain type for the subdevice does not match
+the iommu domain type for the real DMA device.
+
+For example, take the case of the subdevice handled by intel_map_page()
+in a IOMMU_DOMAIN_DMA, with the real DMA device in a
+IOMMU_DOMAIN_IDENTITY:
+
+1. intel_map_page() checks if an IOMMU mapping is needed by calling
+   iommu_need_mapping() on the subdevice. Result: mapping is needed.
+2. __intel_map_single() is called to create the mapping:
+  - __intel_map_single() calls find_domain(). This function now returns
+    the IDENTITY domain corresponding to the real DMA device.
+  - __intel_map_single() then calls domain_get_iommu() on this "real"
+    domain. A failure is hit and the entire operation is aborted, because
+    this codepath is not intended to handle IDENTITY mappings:
+        if (WARN_ON(domain->domain.type != IOMMU_DOMAIN_DMA))
+	     return NULL;
+
+Fix this by using the real DMA device when checking if a mapping is
+needed. The above case will then directly fall back on
+dma_direct_map_page().
+
+Fixes: 2b0140c69637 ("iommu/vt-d: Use pci_real_dma_dev() for mapping")
+Signed-off-by: Daniel Drake <drake@endlessm.com>
+---
+
+Notes:
+    This problem was detected with a non-upstream patch
+    "PCI: Add Intel remapped NVMe device support"
+    (https://marc.info/?l=linux-ide&m=156015271021615&w=2)
+    
+    This patch creates PCI devices in the same way as VMD, and hence
+    I believe VMD would hit this class of problem for any cases where
+    iommu domain type may mismatch between subdevice and real device,
+    which we have run into here.
+    
+    However this hasn't actually been tested on VMD (don't have the hardware)
+    so if I've missed anything and/or it's not a real issue then feel free to
+    drop this patch.
+
+ drivers/iommu/intel-iommu.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index 9dc37672bf89..713810f8350c 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -3587,6 +3587,9 @@ static bool iommu_need_mapping(struct device *dev)
+ 	if (iommu_dummy(dev))
+ 		return false;
+ 
++	if (dev_is_pci(dev))
++		dev = &pci_real_dma_dev(to_pci_dev(dev))->dev;
++
+ 	ret = identity_mapping(dev);
+ 	if (ret) {
+ 		u64 dma_mask = *dev->dma_mask;
+-- 
+2.20.1
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
