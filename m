@@ -2,82 +2,65 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B1B9159F81
-	for <lists.iommu@lfdr.de>; Wed, 12 Feb 2020 04:24:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53DA615A6F0
+	for <lists.iommu@lfdr.de>; Wed, 12 Feb 2020 11:49:13 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D27D787A60;
-	Wed, 12 Feb 2020 03:24:35 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0E41C862B7;
+	Wed, 12 Feb 2020 10:49:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id liqZ8vdXhrQR; Wed, 12 Feb 2020 03:24:35 +0000 (UTC)
+	with ESMTP id BqeuEuBwWyW9; Wed, 12 Feb 2020 10:49:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2A5348751C;
-	Wed, 12 Feb 2020 03:24:35 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8C987861C1;
+	Wed, 12 Feb 2020 10:49:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 187A5C07FE;
-	Wed, 12 Feb 2020 03:24:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 832A6C0177;
+	Wed, 12 Feb 2020 10:49:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0AE3DC07FE
- for <iommu@lists.linux-foundation.org>; Wed, 12 Feb 2020 03:24:34 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5474AC0177
+ for <iommu@lists.linux-foundation.org>; Wed, 12 Feb 2020 10:49:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id E549081496
- for <iommu@lists.linux-foundation.org>; Wed, 12 Feb 2020 03:24:33 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 3DD3A203CA
+ for <iommu@lists.linux-foundation.org>; Wed, 12 Feb 2020 10:49:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5m2g81SoVO2p for <iommu@lists.linux-foundation.org>;
- Wed, 12 Feb 2020 03:24:32 +0000 (UTC)
-X-Greylist: delayed 00:06:56 by SQLgrey-1.7.6
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
- [209.85.222.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 877878139D
- for <iommu@lists.linux-foundation.org>; Wed, 12 Feb 2020 03:24:32 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id v2so760754qkj.2
- for <iommu@lists.linux-foundation.org>; Tue, 11 Feb 2020 19:24:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=endlessm-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HmaEf1+IzgDTd2NohFWTSwF80KzKrdWTMa26sPTwJ5Y=;
- b=aiV+ED9YuxrgIctP+Gmfy9AiBpHta4cG8Oc4XNILzWWqc7ZhnHMc9198wYzhNs9TOl
- 0gso/0vld1zZsz0vrhFv/zyODhRFFUxjGEh2bTX9Um7BrD3O6ru6WYRpieneuvu1J2Gc
- 8PC0NzZ1F9RjcQSBOCv6NZN81+S8A6pP5tCqkAXzDFKo52atUfpjwGQ5Zc8GUF9A/aFJ
- TP8YLItMNcXo4tIIZ+fZM+vaCPPuW/2nH47Zt4SV2vkQ47EVdxKyymLf9JYmreHaCCiM
- smyppg1LI35uXLsUtV89ZGvTmVjREZTgpJG2XJpqtPUw4IwH50wk1b0jFZA1ws1jo67n
- MGEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HmaEf1+IzgDTd2NohFWTSwF80KzKrdWTMa26sPTwJ5Y=;
- b=dBWSUTd3DBSJH4L0THqyIOXfH5VCnbUFEKUFL8wLePCnghIWxT2oce8Lo5ZGj7fkep
- 0ZC+va2B1x2qt4dYOznXdH13fJRkpMjx04n/46kzijuSLRenrqS834KQRBMf/kyUdmbD
- hGVz4dBAfhDLw9WF+VO2C9/YGEo2wDEJsHyE8iy0zTlLGArrwnr9znxchA3PqgLL2crD
- 0Db8mjx5a+o6Sn4mgSdipfjcXvs6NF1+vxpXFrccp9l1cZ3DLoIcZ/5MbUd72mp0Hbrk
- NJDYAoancMMHGrjYOIWrTuT/BvS35raj95/nxVzcpfFZgg/B24CjAxcWT1RMRanaNkuq
- QDkA==
-X-Gm-Message-State: APjAAAXsz8Fb2hnYecvWDiWtCCLiHXfkQg34MmPtgSUF5GvxCR/dC3CH
- wh4smBir4VCNWRRX3BRQqXkQR9NCcWCCq1joou9/eIM4L50=
-X-Google-Smtp-Source: APXvYqz+R3ThqP4ljbi4RSiZjmfYI2XhzA8qyoqjmelag/GF4joPHKxHEE7RR9DZhJ9fnibipF19dw1eAOdfre2ptYw=
-X-Received: by 2002:a05:620a:12a5:: with SMTP id
- x5mr5659524qki.478.1581477455719; 
- Tue, 11 Feb 2020 19:17:35 -0800 (PST)
+ with ESMTP id zdUAjDploxNx for <iommu@lists.linux-foundation.org>;
+ Wed, 12 Feb 2020 10:49:08 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id 4D38020373
+ for <iommu@lists.linux-foundation.org>; Wed, 12 Feb 2020 10:49:08 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id AA3D32082F;
+ Wed, 12 Feb 2020 10:49:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1581504548;
+ bh=e7/KyaTyypq+Fd/F2Np5hVC5zzZzRMc32NuzncQ3qr4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=k3CZSF6H7D/ew3dYU1hxbYGV9FK3JiiBQCudA+bcHr5Dk5IZycoxRNeIIAczEJqZx
+ If5vFyX31y5yq6FxhPyHwSCDqIAJJh6SwTK1/8xMwNCt3TKZ/W20LPfEpWgZrOpiXN
+ VIfGeiSbNiAu4H64sjCjLwY8SP/gbnSeWNK9h0qc=
+Date: Wed, 12 Feb 2020 10:49:03 +0000
+From: Will Deacon <will@kernel.org>
+To: Li Yang <leoyang.li@nxp.com>
+Subject: Re: [PATCH] iommu/arm-smmu: fix the module name to be consistent
+ with older kernel
+Message-ID: <20200212104902.GA3664@willie-the-truck>
+References: <1581467841-25397-1-git-send-email-leoyang.li@nxp.com>
 MIME-Version: 1.0
-References: <20200211091352.12031-1-drake@endlessm.com>
- <bf9337f8c4336ee3bdb123ff381ec1330bdc8150.camel@intel.com>
-In-Reply-To: <bf9337f8c4336ee3bdb123ff381ec1330bdc8150.camel@intel.com>
-From: Daniel Drake <drake@endlessm.com>
-Date: Wed, 12 Feb 2020 11:17:24 +0800
-Message-ID: <CAD8Lp47c=fq6dpGSZx3YqGk_T0CZwZcywqcA4CqDmH13d8vQzQ@mail.gmail.com>
-Subject: Re: [PATCH] iommu/vt-d: consider real PCI device when checking if
- mapping is needed
-To: "Derrick, Jonathan" <jonathan.derrick@intel.com>
-Cc: "dwmw2@infradead.org" <dwmw2@infradead.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "bhelgaas@google.com" <bhelgaas@google.com>,
- "linux@endlessm.com" <linux@endlessm.com>
+Content-Disposition: inline
+In-Reply-To: <1581467841-25397-1-git-send-email-leoyang.li@nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
+ Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,69 +78,23 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Feb 12, 2020 at 12:03 AM Derrick, Jonathan
-<jonathan.derrick@intel.com> wrote:
-> On Tue, 2020-02-11 at 17:13 +0800, Daniel Drake wrote:
-> > The PCI devices handled by intel-iommu may have a DMA requester on
-> > another bus, such as VMD subdevices needing to use the VMD endpoint.
-> >
-> > The real DMA device is now used for the DMA mapping, but one case was
-> > missed earlier, when allocating memory through (e.g.) intel_map_page().
-> > Confusion ensues if the iommu domain type for the subdevice does not match
-> > the iommu domain type for the real DMA device.
-> Is there a way to force this situation for my testing?
+On Tue, Feb 11, 2020 at 06:37:20PM -0600, Li Yang wrote:
+> Commit cd221bd24ff5 ("iommu/arm-smmu: Allow building as a module")
+> introduced a side effect that changed the module name from arm-smmu to
+> arm-smmu-mod.  This breaks the users of kernel parameters for the driver
+> (e.g. arm-smmu.disable_bypass).  This patch changes the module name back
+> to be consistent.
+> 
+> Signed-off-by: Li Yang <leoyang.li@nxp.com>
+> ---
+>  drivers/iommu/Makefile                          | 4 ++--
+>  drivers/iommu/{arm-smmu.c => arm-smmu-common.c} | 0
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>  rename drivers/iommu/{arm-smmu.c => arm-smmu-common.c} (100%)
 
-I think you could hack device_def_domain_type() to return
-IOMMU_DOMAIN_IDENTITY for the real device, and IOMMU_DOMAIN_DMA for
-the subdevice.
+Can't we just override MODULE_PARAM_PREFIX instead of renaming the file?
 
-But I got curious as to why my subdevice might be IOMMU_DOMAIN_DMA, so
-I checked, and found out that my assumptions weren't quite correct.
-The subdevice has no iommu domain recorded at all. Before applying any
-patches here, what's actually happening is:
-
-1. Real DMA device gets registered with the iommu as
-IOMMU_DOMAIN_IDENTITY using si_domain.
-2. When the subdevice gets registered, the relevant code flow is
-inside dmar_insert_one_dev_info():
- - it creates a new device_domain_info and domain->domain.type == IDENTITY, but
- - it then calls find_domain(dev) which successfully defers to the
-real DMA device and returns the real DMA device's dmar_domain
- - since found != NULL (dmar_domain was found for this device) the
-function bails out before setting dev->archdata.iommu
-
-The results at this point are that the real DMA device is fully
-registered as IOMMU_DOMAIN_IDENTITY using si_domain, but all of the
-subdevices will always have dev->archdata.iommu == NULL.
-
-Then when intel_map_page() is reached for the subdevice, it calls
-iommu_need_mapping() for the subdevice.
-This calls identity_mapping() on the subdevice, but that will always
-return 0 because dev->archdata.iommu == NULL.
-Following on from there, iommu_need_mapping() will then *always*
-return true (mapping needed) for subdevices.
-
-That will then lead to the situation described in my last mail, where
-later down the allocation chain the request for creating a mapping
-will be handed towards the real DMA dev, but that will then fail
-because the real DMA dev is using IOMMU_DOMAIN_IDENTITY where no
-mapping is needed.
-
-Unless I missed anything that seems pretty clear to me now, and I
-guess the only reason why you may not have already faced this in the
-vmd case is if the real DMA device is not using IOMMU_DOMAIN_IDENTITY.
-(To check this, you could log the value of the real dev
-domain->domain.type in dmar_insert_one_dev_info(), and/or observe the
-return value of identity_mapping() in iommu_need_mapping for the real
-dev).
-
-In any case it seems increasingly clear to me that
-iommu_need_mapping() should be consulting the real DMA device in the
-identity_mapping check, and your patch likewise solves the problem
-faced here.
-
-Thanks
-Daniel
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
