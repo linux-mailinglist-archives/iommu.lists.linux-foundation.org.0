@@ -1,84 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4EF15C876
-	for <lists.iommu@lfdr.de>; Thu, 13 Feb 2020 17:40:22 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A052115C8A1
+	for <lists.iommu@lfdr.de>; Thu, 13 Feb 2020 17:52:10 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4F08987FD2;
-	Thu, 13 Feb 2020 16:40:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5C1538613E;
+	Thu, 13 Feb 2020 16:52:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QMJE8TykrcrS; Thu, 13 Feb 2020 16:40:20 +0000 (UTC)
+	with ESMTP id 2_Kk2R60lQ3F; Thu, 13 Feb 2020 16:52:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B6CC387FE3;
-	Thu, 13 Feb 2020 16:40:20 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CF27E86119;
+	Thu, 13 Feb 2020 16:52:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A4001C0177;
-	Thu, 13 Feb 2020 16:40:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C951DC07FE;
+	Thu, 13 Feb 2020 16:52:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5395CC0177
- for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 16:40:20 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AD91DC0177
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 16:52:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 42A8A86E69
- for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 16:40:20 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 9C87987F84
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 16:52:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LfnA9H0mmYpM for <iommu@lists.linux-foundation.org>;
- Thu, 13 Feb 2020 16:40:19 +0000 (UTC)
+ with ESMTP id 6DIu2kGweDkr for <iommu@lists.linux-foundation.org>;
+ Thu, 13 Feb 2020 16:52:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 1752386E6F
- for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 16:40:19 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id q9so6986490wmj.5
- for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 08:40:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ljIvDHLN6tog1gjQ51iNc2XMRU3cMi+uSkVVHu8cuT4=;
- b=OMkAGME7j7rQnbLnlKwKqvhjvo5FGigM7wlHU4CrcLnpiLC86ihdKcBsofYTSxPYRa
- KGW5vVaAF/GZ3G/ddvB9xGhznGLkrPRgmy1cagbrgJD4JfTiVEpTAZrru5VrHjeeaPWI
- kE4FOcM/lEx5lU7e3eD+mqvL3xOyFU1BQORJ26Q6jaH6IbjDtsO9XLK8oUVw478zdqa/
- peqvVcAUWFVhRbH9/zAv/g/e40YHVFdd6Zm8zBdbxlsYd8GAFHF+Va2g313xWjGqd/gX
- Ax+Hi+JHQVG0hbR23B73PHZWmAtYDIDUPCFX5cW8ktC2+XWiC1JDzhN4Ka03y8Fsh5cM
- /C+w==
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+ [209.85.221.67])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id A73EC87E53
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 16:52:05 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id m16so7526740wrx.11
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 08:52:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CfKpna/gHZrKywpyhlfYfrWp7SfpssT14AH9fDnyBhc=;
+ b=sq5RPbQMnHdJFKyr0y4rdobfNVfPyioZd4bFmy17jTSnzdOsxyVQCBIzt+dwmj/1hS
+ 0FEIxdf3kxtor+WLr7kL9Y0vlCfHOur0aEBvo57AoXZfAVKNJX7nVRcpo3gPgBs0J121
+ JdAYwRCxxQKun+l1koHxbdXN/njOydBSX0j+Mi2OvJHKT8u6PsEqveyKsSTTNLqATYin
+ v3DQfP7nvrGGDS8aYK53MnSe/mxwZRXMScAGeoYNzL/tpe2Xv0I8BGXkzvgDYJ0/HQDv
+ JQh2RDF9ivk+TTFAdaGiOzE2CWJp7ONbWUXJKbxdagRIWbTJQpBvhyu2B2bQXibL99eT
+ R2rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ljIvDHLN6tog1gjQ51iNc2XMRU3cMi+uSkVVHu8cuT4=;
- b=ZAJYMTWsaEQiC3TYlMoloKCbQe5cVxOmRiZYbI8zY/3bIx4qa1csfx9c7cuU6d1NLP
- JF4Gd3hc8XKqw82kZGZNO4mPQ/qmKuBuXsCqMvEvgTYsh3QTTLBPa62ZaocNBO44LB3u
- TbDXDmmHF5U/jyV7xLlcRLYe0Z766A2VLxppqezd3+O27DP6i1OHabyJyI70k1A+zO0v
- HadjnvQ90Slx608CcsHFlnlbQZF0WmhzJCuxiDiCG1qZmifXFJfPkkFgpbBbwrh2/177
- 5PNqDosYHBcyhJQ5HnwsH6MW7prKaB0IIl45e674iyx4Zt1118IETl8GauPR7xvvvUci
- 2sGw==
-X-Gm-Message-State: APjAAAU8Q2MqlOjbCHVi+huYjOeIhs7ee+5JeO5s3pIqd5h7+LAkWKCY
- jUv0s7pJ6G9q9hySHkZ5QQA=
-X-Google-Smtp-Source: APXvYqw7sINzUbnoD5ydFKpKcLaCTZ30fHyF6HFAksiO/pDQK8NvJDQvWRxVCSqMtK3CJfsOF10GSg==
-X-Received: by 2002:a1c:5445:: with SMTP id p5mr6643132wmi.75.1581612017438;
- Thu, 13 Feb 2020 08:40:17 -0800 (PST)
-Received: from localhost (p2E5BEF3F.dip0.t-ipconnect.de. [46.91.239.63])
- by smtp.gmail.com with ESMTPSA id y7sm3352850wrr.56.2020.02.13.08.40.16
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CfKpna/gHZrKywpyhlfYfrWp7SfpssT14AH9fDnyBhc=;
+ b=VVPjN7QrcMKo+SnFJWxn14RjDuM+bfdmP5/I6IrVpwWYnYMamRRgYfxlcz2PNsauKY
+ tmvTCNSZVIhPvGaIPN30KNE9zcjoNkXpUdp6WvqDqkMTPCovDJ99eIRzfaJp/V5VACcp
+ yMs+9r0ejBTKr34a1+cAnfiGewB4xSzoOM2mUqQWMMnXqW0Kdf1hHQ7HTVpqok1+cDuI
+ YZ27IHndFfN/q3goJbnGGQ2r0CKNzSTJyU5WPKkYeqUlAn/+yNRc33OTlg7TkYnmnTh5
+ QTG1MQ+DuFmvKAhA3WV8GPeXYtPDfFkGhV7gscHlSyhXOWqqoaCAO77ANQNKbZWgWKnk
+ WZsA==
+X-Gm-Message-State: APjAAAVpzIxO8YC2Udi/gkQU1pNHziQqIStDgum9KChYuRbiy0/Az/BL
+ sLuiVdibar1WDyzMsKRr+8XXwA==
+X-Google-Smtp-Source: APXvYqy3NlA5gvY/i2LUQjbrj98NidF1+ZAccFnC7XtPBVcGfForOTuhwxmW4gsDRqMB842f8yYE+Q==
+X-Received: by 2002:a5d:54c1:: with SMTP id x1mr21837119wrv.240.1581612723942; 
+ Thu, 13 Feb 2020 08:52:03 -0800 (PST)
+Received: from localhost.localdomain ([2001:171b:2276:930:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id y6sm3484807wrl.17.2020.02.13.08.52.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 08:40:16 -0800 (PST)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v4 5/5] iommu: arm-smmu: Get reference to memory controller
-Date: Thu, 13 Feb 2020 17:39:59 +0100
-Message-Id: <20200213163959.819733-6-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200213163959.819733-1-thierry.reding@gmail.com>
-References: <20200213163959.819733-1-thierry.reding@gmail.com>
+ Thu, 13 Feb 2020 08:52:03 -0800 (PST)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org,
+ lorenzo.pieralisi@arm.com, joro@8bytes.org, baolu.lu@linux.intel.com,
+ linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org
+Subject: [PATCH 00/10] PCI/ATS: Device-tree support and other improvements
+Date: Thu, 13 Feb 2020 17:50:38 +0100
+Message-Id: <20200213165049.508908-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
+Cc: mark.rutland@arm.com, frowand.list@gmail.com, corbet@lwn.net,
+ liviu.dudau@arm.com, sudeep.holla@arm.com, rjw@rjwysocki.net,
+ guohanjun@huawei.com, amurray@thegoodpenguin.co.uk, robin.murphy@arm.com,
+ dwmw2@infradead.org, lenb@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,67 +99,69 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Thierry Reding <treding@nvidia.com>
+Enable ATS on device-tree based systems, and factor the common ATS
+enablement checks into pci_enable_ats().
 
-Use the memory controller framework to obtain a reference to the memory
-controller to which the SMMU will make memory requests. This allows the
-two drivers to properly order their probes so that the memory controller
-can be programmed first.
+ATS support in PCIe endpoints is discovered through the ATS capability,
+but there is no common method for discovering whether the host bridge
+supports ATS. Each vendor provides their own ACPI method:
+* DMAR (Intel) reports ATS support per domain or per root port.
+* IVRS (AMD) reports negative ATS support for a range of devices.
+* IORT (ARM) reports ATS support for a root complex.
 
-An example where this is required is Tegra186 where the stream IDs need
-to be associated with memory clients before memory requests are emitted
-with the correct stream ID.
+In my opinion it's important that we only enable ATS if the host bridge
+supports it, but I don't think a finer granularity is useful. If the
+host bridge ignores the Address Translation field of TLP headers, it
+could in theory treat a Translation Request as a Memory Read Request,
+and a Translated Request as a normal memory access, which could result
+in silent memory corruption.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/iommu/arm-smmu.c | 11 +++++++++++
- drivers/iommu/arm-smmu.h |  2 ++
- 2 files changed, 13 insertions(+)
+Patches 1-3 add a device-tree property that declares ATS support in host
+controllers. We only add it to the generic host, but the property can
+easily be reused by other PCI hosts. Alternatively, the host drivers can
+directly set the new ats_supported property of the host bridge
+introduced in patch 1.
 
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index 16c4b87af42b..862ea55018e8 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -2109,6 +2109,17 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
- 	}
- 	smmu->dev = dev;
- 
-+	smmu->mc = devm_memory_controller_get_optional(dev, NULL);
-+	if (IS_ERR(smmu->mc)) {
-+		err = PTR_ERR(smmu->mc);
-+
-+		if (err != -EPROBE_DEFER)
-+			dev_err(dev, "failed to get memory controller: %d\n",
-+				err);
-+
-+		return err;
-+	}
-+
- 	if (dev->of_node)
- 		err = arm_smmu_device_dt_probe(pdev, smmu);
- 	else
-diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
-index 8d1cd54d82a6..d38bcd3ce447 100644
---- a/drivers/iommu/arm-smmu.h
-+++ b/drivers/iommu/arm-smmu.h
-@@ -18,6 +18,7 @@
- #include <linux/io-64-nonatomic-hi-lo.h>
- #include <linux/io-pgtable.h>
- #include <linux/iommu.h>
-+#include <linux/memory-controller.h>
- #include <linux/mutex.h>
- #include <linux/spinlock.h>
- #include <linux/types.h>
-@@ -253,6 +254,7 @@ enum arm_smmu_implementation {
- 
- struct arm_smmu_device {
- 	struct device			*dev;
-+	struct memory_controller	*mc;
- 
- 	void __iomem			*base;
- 	unsigned int			numpage;
+Patch 4 uses the new ats_supported host bridge property for IORT. Patch
+9 removes the old method that set a flag in each endpoint's fwspec.
+
+Patches 5-8 put all checks required for enabling ATS in common, along
+with the new host bridge check.
+
+Jean-Philippe Brucker (11):
+  dt-bindings: PCI: generic: Add ats-supported property
+  PCI: Add ats_supported host bridge flag
+  PCI: OF: Check whether the host bridge supports ATS
+  ACPI/IORT: Check ATS capability in root complex node
+  PCI/ATS: Gather checks into pci_ats_supported()
+  iommu/amd: Use pci_ats_supported()
+  iommu/arm-smmu-v3: Use pci_ats_supported()
+  iommu/vt-d: Use pci_ats_supported()
+  ACPI/IORT: Drop ATS fwspec flag
+  arm64: dts: fast models: Enable PCIe ATS for Base RevC FVP
+  Documentation: Generalize the "pci=noats" boot parameter
+
+ .../admin-guide/kernel-parameters.txt         |  4 +-
+ .../bindings/pci/host-generic-pci.yaml        |  6 +++
+ arch/arm64/boot/dts/arm/fvp-base-revc.dts     |  1 +
+ drivers/acpi/arm64/iort.c                     | 38 +++++++++++++------
+ drivers/acpi/pci_root.c                       |  3 ++
+ drivers/iommu/amd_iommu.c                     | 12 ++----
+ drivers/iommu/arm-smmu-v3.c                   | 18 ++-------
+ drivers/iommu/intel-iommu.c                   |  9 ++---
+ drivers/pci/ats.c                             | 30 ++++++++++++++-
+ drivers/pci/controller/pci-host-common.c      |  1 +
+ drivers/pci/of.c                              |  9 +++++
+ drivers/pci/probe.c                           |  7 ++++
+ include/linux/acpi_iort.h                     |  8 ++++
+ include/linux/iommu.h                         |  4 --
+ include/linux/of_pci.h                        |  3 ++
+ include/linux/pci-ats.h                       |  3 ++
+ include/linux/pci.h                           |  1 +
+ 17 files changed, 110 insertions(+), 47 deletions(-)
+
 -- 
-2.24.1
+2.25.0
 
 _______________________________________________
 iommu mailing list
