@@ -1,93 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04CE15B5E4
-	for <lists.iommu@lfdr.de>; Thu, 13 Feb 2020 01:35:32 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F16215BB51
+	for <lists.iommu@lfdr.de>; Thu, 13 Feb 2020 10:15:54 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7A0C384974;
-	Thu, 13 Feb 2020 00:35:31 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0060C87E36;
+	Thu, 13 Feb 2020 09:15:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9KwcoPKt2i8R; Thu, 13 Feb 2020 00:35:31 +0000 (UTC)
+	with ESMTP id jjEhtB17SSqf; Thu, 13 Feb 2020 09:15:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id F179C85F3D;
-	Thu, 13 Feb 2020 00:35:30 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 53AF787E3C;
+	Thu, 13 Feb 2020 09:15:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DC13FC0177;
-	Thu, 13 Feb 2020 00:35:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 49FECC0177;
+	Thu, 13 Feb 2020 09:15:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4FBEBC0177
- for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 00:35:29 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 52F66C0177
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 09:15:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 4822184770
- for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 00:35:29 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3B0D2824B0
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 09:15:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jZMGbFS220T6 for <iommu@lists.linux-foundation.org>;
- Thu, 13 Feb 2020 00:35:28 +0000 (UTC)
-X-Greylist: delayed 00:21:21 by SQLgrey-1.7.6
-Received: from gateway23.websitewelcome.com (gateway23.websitewelcome.com
- [192.185.49.177])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 16A428461B
- for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 00:35:28 +0000 (UTC)
-Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
- by gateway23.websitewelcome.com (Postfix) with ESMTP id 0BD2A5AD5
- for <iommu@lists.linux-foundation.org>; Wed, 12 Feb 2020 18:14:07 -0600 (CST)
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
- id 228sjn2rJXVkQ228sjB87d; Wed, 12 Feb 2020 18:14:07 -0600
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
- Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=3h2EV0nIxHBK7v9f5cUKRdwO80WBlvIZfyKilfYiuUg=; b=E5A7ex1Uu6r3pyb2y6Fl0Prond
- kgzSeEkFAMNZUnd42KQqtYjeDc8iO2quUxzYVZboPUVyxiXzSQAplCIdZyFsOMGW/UK7PpVwpcnqx
- t5wOERuAEXLy0V3D4b1Ssl5HsEtUDUEh0KJGRAn1LTOseqvWobgR9+kM4rhU8KwzGWD9J7yTVrI0h
- V02vJKAS+Sw0KMbr4fAYFCtEOdyJg2DHu9typZXfvnGGwqBYmbLQOYZZWqaxR0xnA7TRz394qsz0K
- iso3U/491+JPYKMSi3X3QHztXRNp9MgWc7tQ8UYZg5YRpvKRanycrsYULhM42DklNZ2yBuiV6u5g2
- rF3z18hg==;
-Received: from [200.68.141.42] (port=9261 helo=embeddedor)
- by gator4166.hostgator.com with esmtpa (Exim 4.92)
- (envelope-from <gustavo@embeddedor.com>)
- id 1j228r-003UE4-0h; Wed, 12 Feb 2020 18:14:05 -0600
-Date: Wed, 12 Feb 2020 18:14:01 -0600
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To: Rob Clark <robdclark@gmail.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH] iommu/qcom: Replace zero-length array with flexible-array
- member
-Message-ID: <20200213001401.GA28587@embeddedor.com>
+ with ESMTP id aIzq6wqMWymf for <iommu@lists.linux-foundation.org>;
+ Thu, 13 Feb 2020 09:15:48 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from deadmen.hmeau.com (helcar.hmeau.com [216.24.177.18])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E26A286B2D
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Feb 2020 09:15:47 +0000 (UTC)
+Received: from gondobar.mordor.me.apana.org.au ([192.168.128.4] helo=gondobar)
+ by deadmen.hmeau.com with esmtps (Exim 4.89 #2 (Debian))
+ id 1j2Aaf-00046T-1G; Thu, 13 Feb 2020 17:15:21 +0800
+Received: from herbert by gondobar with local (Exim 4.89)
+ (envelope-from <herbert@gondor.apana.org.au>)
+ id 1j2AaU-0006jI-0i; Thu, 13 Feb 2020 17:15:10 +0800
+Date: Thu, 13 Feb 2020 17:15:10 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v12 2/4] uacce: add uacce driver
+Message-ID: <20200213091509.v7ebvtot6rvlpfjt@gondor.apana.org.au>
+References: <1579097568-17542-1-git-send-email-zhangfei.gao@linaro.org>
+ <1579097568-17542-3-git-send-email-zhangfei.gao@linaro.org>
+ <20200210233711.GA1787983@kroah.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux-foundation.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 200.68.141.42
-X-Source-L: No
-X-Exim-ID: 1j228r-003UE4-0h
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: (embeddedor) [200.68.141.42]:9261
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 23
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20200210233711.GA1787983@kroah.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Cc: jean-philippe <jean-philippe@linaro.org>, dave.jiang@intel.com,
+ kenneth-lee-2012@foxmail.com, Arnd Bergmann <arnd@arndb.de>,
+ francois.ozog@linaro.org, linux-accelerators@lists.ozlabs.org,
+ ilias.apalodimas@linaro.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, Jerome Glisse <jglisse@redhat.com>,
+ grant.likely@arm.com, "haojian . zhuang" <haojian.zhuang@linaro.org>,
+ Zhangfei Gao <zhangfei.gao@linaro.org>, Kenneth Lee <liguozhu@hisilicon.com>,
+ guodong.xu@linaro.org, linux-crypto@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,55 +77,23 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The current codebase makes use of the zero-length array language
-extension to the C90 standard, but the preferred mechanism to declare
-variable-length types such as these ones is a flexible array member[1][2],
-introduced in C99:
+On Mon, Feb 10, 2020 at 03:37:11PM -0800, Greg Kroah-Hartman wrote:
+>
+> Looks much saner now, thanks for all of the work on this:
+> 
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> Or am I supposed to take this in my tree?  If so, I can, but I need an
+> ack for the crypto parts.
 
-struct foo {
-        int stuff;
-        struct boo array[];
-};
+I can take this series through the crypto tree if that's fine with
+you.
 
-By making use of the mechanism above, we will get a compiler warning
-in case the flexible array does not occur last in the structure, which
-will help us prevent some kind of undefined behavior bugs from being
-inadvertently introduced[3] to the codebase from now on.
-
-Also, notice that, dynamic memory allocations won't be affected by
-this change:
-
-"Flexible array members have incomplete type, and so the sizeof operator
-may not be applied. As a quirk of the original implementation of
-zero-length arrays, sizeof evaluates to zero."[1]
-
-This issue was found with the help of Coccinelle.
-
-[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-[2] https://github.com/KSPP/linux/issues/21
-[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
-
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
----
- drivers/iommu/qcom_iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/iommu/qcom_iommu.c b/drivers/iommu/qcom_iommu.c
-index 39759db4f003..f1e175ca5e4a 100644
---- a/drivers/iommu/qcom_iommu.c
-+++ b/drivers/iommu/qcom_iommu.c
-@@ -48,7 +48,7 @@ struct qcom_iommu_dev {
- 	void __iomem		*local_base;
- 	u32			 sec_id;
- 	u8			 num_ctxs;
--	struct qcom_iommu_ctx	*ctxs[0];   /* indexed by asid-1 */
-+	struct qcom_iommu_ctx	*ctxs[];   /* indexed by asid-1 */
- };
- 
- struct qcom_iommu_ctx {
+Thank,
 -- 
-2.23.0
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
