@@ -1,78 +1,96 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF821611A2
-	for <lists.iommu@lfdr.de>; Mon, 17 Feb 2020 13:09:00 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6221F16123C
+	for <lists.iommu@lfdr.de>; Mon, 17 Feb 2020 13:40:44 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8B4F58739A;
-	Mon, 17 Feb 2020 12:08:57 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 158FD85629;
+	Mon, 17 Feb 2020 12:40:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id G0kxGogXQ2qK; Mon, 17 Feb 2020 12:08:56 +0000 (UTC)
+	with ESMTP id p2bNeIHQ3vdq; Mon, 17 Feb 2020 12:40:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 78C7487368;
-	Mon, 17 Feb 2020 12:08:56 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 28B0C85374;
+	Mon, 17 Feb 2020 12:40:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6303BC013E;
-	Mon, 17 Feb 2020 12:08:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0F1D9C1D89;
+	Mon, 17 Feb 2020 12:40:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27398C013E
- for <iommu@lists.linux-foundation.org>; Mon, 17 Feb 2020 12:08:54 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BA045C013E
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Feb 2020 12:40:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 10EBF820AA
- for <iommu@lists.linux-foundation.org>; Mon, 17 Feb 2020 12:08:54 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B63B784755
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Feb 2020 12:40:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aCs7sPOBke8K for <iommu@lists.linux-foundation.org>;
- Mon, 17 Feb 2020 12:08:53 +0000 (UTC)
+ with ESMTP id MP1AASro2lCP for <iommu@lists.linux-foundation.org>;
+ Mon, 17 Feb 2020 12:40:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D25E886CAC
- for <iommu@lists.linux-foundation.org>; Mon, 17 Feb 2020 12:08:52 +0000 (UTC)
-Received: from LHREML710-CAH.china.huawei.com (unknown [172.18.7.107])
- by Forcepoint Email with ESMTP id 5A01FB48AA3C8B00CA05;
- Mon, 17 Feb 2020 12:08:50 +0000 (GMT)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- LHREML710-CAH.china.huawei.com (10.201.108.33) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 17 Feb 2020 12:08:50 +0000
-Received: from [127.0.0.1] (10.202.226.45) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5; Mon, 17 Feb
- 2020 12:08:49 +0000
-Subject: Re: arm64 iommu groups issue
-To: Robin Murphy <robin.murphy@arm.com>, Marc Zyngier <maz@kernel.org>, "Will
- Deacon" <will@kernel.org>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, 
- Sudeep Holla <sudeep.holla@arm.com>, "Guohanjun (Hanjun Guo)"
- <guohanjun@huawei.com>
-References: <9625faf4-48ef-2dd3-d82f-931d9cf26976@huawei.com>
- <4768c541-ebf4-61d5-0c5e-77dee83f8f94@arm.com>
- <a18b7f26-9713-a5c7-507e-ed70e40bc007@huawei.com>
- <ddc7eaff-c3f9-4304-9b4e-75eff2c66cd5@huawei.com>
- <be464e2a-03d5-0b2e-24ee-96d0d14fd739@arm.com>
- <35fc8d13-b1c1-6a9e-4242-284da7f00764@huawei.com>
- <68643b18-c920-f997-a6d4-a5d9177c0f4e@arm.com>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <828ec7b3-27af-f0b9-b4a6-0886b0c24b5a@huawei.com>
-Date: Mon, 17 Feb 2020 12:08:48 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+ [209.85.128.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id B1B0F8457E
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Feb 2020 12:40:38 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id t14so18294927wmi.5
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Feb 2020 04:40:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=VM4sr45eMsFNfm3I8AuewKPZ2mzCi8kc40UVw+7O2LQ=;
+ b=xB+yOUMH1+HqPIVwYA3f+1KohCCBUZKzi2se4L7bK+0Hs0L2ST4OcrzccxNLIKZSZL
+ meF2am7U3/daqiwqZ2iYjulCYMVLvp6cA+U2CEevmBa4//Ar02kR0gI8SOaoXc2FPtNM
+ 4mii9R/d783fyE/dxumDzGZA8y7IOZs1u0FLd3Z4kzBmSygQEGxTGUYOe5fqlT9fjxx2
+ FBivVrn9YMs6qKmDf7fYx4XhyXb2rq9Zz7yxrlKls/r0+mqTuKY6553nH6pjvXf0vhDz
+ dxEhqGpoCEOSpWjK878ms0OPbBVieYrKP3NYoCNhXJO1KEiCzbAQp4gwPxSiLHMZGPv/
+ 8yrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VM4sr45eMsFNfm3I8AuewKPZ2mzCi8kc40UVw+7O2LQ=;
+ b=W1BzKJ53O8LiBuTmtCi0JcL4BKdlWOJwCk3+XhEI2/qrMoaH+LdSE2pU+4/s5+/hId
+ 8i0iG2pgtha5MHWnUDG/XADj/vbC01CFvAsCARDC1YvUlFGU2IxGcZoSZQkSxbS2Vs47
+ K4r+XafmPx10aWtrwv959TnOrjoKrDfYtWi+bFXiwF/nm9pf8OS+3zCvE3Xy0Ibfn2dX
+ DceT8oehGHy6+H+4zf2Q9TAukDit7bjqdZ1YsgpDLXd3pbR97ks+IDmWw9sOLQDYIjlY
+ qE72nZnxgcEGF1M2TQpvKHFQIrP2OT5/2jF2ahQLRZlWZXGzpTNau1EL5kJMFSAMj2QJ
+ /AAQ==
+X-Gm-Message-State: APjAAAVeeSQwUstWnrMyAEoYJCRwuF5HncQzwSnJ4yOZmj4z6Iy8UU53
+ Gz3cE/sJ6wbu9CeZc3iOxWR/mg==
+X-Google-Smtp-Source: APXvYqw7OaMmOiCFpqSYiEkkioeWfbwcKs6q33Y3t8Kyrhd1NgY0z99Vh6YZxCeeeslYOpZSiSCuUQ==
+X-Received: by 2002:a7b:c0d9:: with SMTP id s25mr21509184wmh.98.1581943237117; 
+ Mon, 17 Feb 2020 04:40:37 -0800 (PST)
+Received: from myrica ([2001:171b:2276:930:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id d16sm917782wrg.27.2020.02.17.04.40.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Feb 2020 04:40:36 -0800 (PST)
+Date: Mon, 17 Feb 2020 13:40:28 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH 03/11] PCI: OF: Check whether the host bridge supports ATS
+Message-ID: <20200217124028.GC1650092@myrica>
+References: <20200213165049.508908-1-jean-philippe@linaro.org>
+ <20200213165049.508908-4-jean-philippe@linaro.org>
+ <CAL_JsqKZP9u7bFsVT=5TzqmnHWm_bvH39ffkbN3q9-k32ynVig@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <68643b18-c920-f997-a6d4-a5d9177c0f4e@arm.com>
-Content-Language: en-US
-X-Originating-IP: [10.202.226.45]
-X-ClientProxiedBy: lhreml703-chm.china.huawei.com (10.201.108.52) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-Cc: Saravana Kannan <saravanak@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Alex
- Williamson <alex.williamson@redhat.com>, Linuxarm <linuxarm@huawei.com>,
- iommu <iommu@lists.linux-foundation.org>, Bjorn Helgaas <bhelgaas@google.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqKZP9u7bFsVT=5TzqmnHWm_bvH39ffkbN3q9-k32ynVig@mail.gmail.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ PCI <linux-pci@vger.kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Hanjun Guo <guohanjun@huawei.com>, Frank Rowand <frowand.list@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Will Deacon <will@kernel.org>,
+ linux-acpi@vger.kernel.org, Len Brown <lenb@kernel.org>,
+ devicetree@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, David Woodhouse <dwmw2@infradead.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Linux IOMMU <iommu@lists.linux-foundation.org>,
+ Sudeep Holla <sudeep.holla@arm.com>, Robin Murphy <robin.murphy@arm.com>,
+ Andrew Murray <amurray@thegoodpenguin.co.uk>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,75 +103,61 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
->>
->> Right, and even worse is that it relies on the port driver even 
->> existing at all.
->>
->> All this iommu group assignment should be taken outside device driver 
->> probe paths.
->>
->> However we could still consider device links for sync'ing the SMMU and 
->> each device probing.
+On Thu, Feb 13, 2020 at 12:26:46PM -0600, Rob Herring wrote:
+> On Thu, Feb 13, 2020 at 10:52 AM Jean-Philippe Brucker
+> <jean-philippe@linaro.org> wrote:
+> >
+> > Copy the ats-supported flag into the pci_host_bridge structure.
+> >
+> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> > ---
+> >  drivers/pci/controller/pci-host-common.c | 1 +
+> >  drivers/pci/of.c                         | 9 +++++++++
+> >  include/linux/of_pci.h                   | 3 +++
+> >  3 files changed, 13 insertions(+)
+> >
+> > diff --git a/drivers/pci/controller/pci-host-common.c b/drivers/pci/controller/pci-host-common.c
+> > index 250a3fc80ec6..a6ac927be291 100644
+> > --- a/drivers/pci/controller/pci-host-common.c
+> > +++ b/drivers/pci/controller/pci-host-common.c
+> > @@ -92,6 +92,7 @@ int pci_host_common_probe(struct platform_device *pdev,
+> >                 return ret;
+> >         }
+> >
+> > +       of_pci_host_check_ats(bridge);
+> >         platform_set_drvdata(pdev, bridge->bus);
+> >         return 0;
+> >  }
+> > diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+> > index 81ceeaa6f1d5..4b8a877f1e9f 100644
+> > --- a/drivers/pci/of.c
+> > +++ b/drivers/pci/of.c
+> > @@ -576,6 +576,15 @@ int pci_parse_request_of_pci_ranges(struct device *dev,
+> >  }
+> >  EXPORT_SYMBOL_GPL(pci_parse_request_of_pci_ranges);
+> >
+> > +void of_pci_host_check_ats(struct pci_host_bridge *bridge)
+> > +{
+> > +       struct device_node *np = bridge->bus->dev.of_node;
+> > +
+> > +       if (!np)
+> > +               return;
+> > +
+> > +       bridge->ats_supported = of_property_read_bool(np, "ats-supported");
+> > +}
 > 
-> Yes, we should get that for DT now thanks to the of_devlink stuff, but 
-> cooking up some equivalent for IORT might be worthwhile.
+> Not really any point in a common function if we expect this to be only
+> for ECAM hosts which it seems to be based on the binding.
 
-It doesn't solve this problem, but at least we could remove the 
-iommu_ops check in iort_iommu_xlate().
+I'll move this to pci-host-common.c
 
-We would need to carve out a path from pci_device_add() or even 
-device_add() to solve all cases.
-
-> 
->>> Another thought that crosses my mind is that when pci_device_group()
->>> walks up to the point of ACS isolation and doesn't find an existing
->>> group, it can still infer that everything it walked past *should* be put
->>> in the same group it's then eventually going to return. Unfortunately I
->>> can't see an obvious way for it to act on that knowledge, though, since
->>> recursive iommu_probe_device() is unlikely to end well.
->>
-
-[...]
-
->> And this looks to be the reason for which current 
->> iommu_bus_init()->bus_for_each_device(..., add_iommu_group) fails also.
-> 
-> Of course, just adding a 'correct' add_device replay without the 
-> of_xlate process doesn't help at all. No wonder this looked suspiciously 
-> simpler than where the first idea left off...
-> 
-> (on reflection, the core of this idea seems to be recycling the existing 
-> iommu_bus_init walk rather than building up a separate "waiting list", 
-> while forgetting that that wasn't the difficult part of the original 
-> idea anyway)
-
-We could still use a bus walk to add the group per iommu, but we would 
-need an additional check to ensure the device is associated with the IOMMU.
-
-> 
->> On this current code mentioned, the principle of this seems wrong to 
->> me - we call bus_for_each_device(..., add_iommu_group) for the first 
->> SMMU in the system which probes, but we attempt to add_iommu_group() 
->> for all devices on the bus, even though the SMMU for that device may 
->> yet to have probed.
-> 
-> Yes, iommu_bus_init() is one of the places still holding a 
-> deeply-ingrained assumption that the ops go live for all IOMMU instances 
-> at once, which is what warranted the further replay in 
-> of_iommu_configure() originally. Moving that out of 
-> of_platform_device_create() to support probe deferral is where the 
-> trouble really started.
-
-I'm not too familiar with the history here, but could this be reverted 
-now with the introduction of of_devlink stuff?
-
-Cheers,
-John
+Thanks,
+Jean
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
