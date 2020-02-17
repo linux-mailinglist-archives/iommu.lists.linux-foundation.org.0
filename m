@@ -1,47 +1,46 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1EB161BC1
-	for <lists.iommu@lfdr.de>; Mon, 17 Feb 2020 20:39:17 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C73C161BBD
+	for <lists.iommu@lfdr.de>; Mon, 17 Feb 2020 20:39:15 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9D1B087133;
-	Mon, 17 Feb 2020 19:39:16 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 17B7784BB6;
+	Mon, 17 Feb 2020 19:39:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GHQB7LZ8qlKv; Mon, 17 Feb 2020 19:39:16 +0000 (UTC)
+	with ESMTP id YvYtX4SYjwvr; Mon, 17 Feb 2020 19:39:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 31A9A86D51;
-	Mon, 17 Feb 2020 19:39:16 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9E5BA854DF;
+	Mon, 17 Feb 2020 19:39:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1C2A6C013E;
-	Mon, 17 Feb 2020 19:39:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8DC53C013E;
+	Mon, 17 Feb 2020 19:39:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 09231C013E
- for <iommu@lists.linux-foundation.org>; Mon, 17 Feb 2020 19:39:12 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C03BAC1D81
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Feb 2020 19:39:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D6C3820104
- for <iommu@lists.linux-foundation.org>; Mon, 17 Feb 2020 19:39:12 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id A7D2820373
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Feb 2020 19:39:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dbDEL7emmYpZ for <iommu@lists.linux-foundation.org>;
+ with ESMTP id 4aT+G05JBur6 for <iommu@lists.linux-foundation.org>;
  Mon, 17 Feb 2020 19:39:10 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id 0C2922042B
+ by silver.osuosl.org (Postfix) with ESMTPS id 07EC820104
  for <iommu@lists.linux-foundation.org>; Mon, 17 Feb 2020 19:39:10 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id DFC6C542; Mon, 17 Feb 2020 20:39:06 +0100 (CET)
+ id 106255BB; Mon, 17 Feb 2020 20:39:07 +0100 (CET)
 From: Joerg Roedel <joro@8bytes.org>
 To: Lu Baolu <baolu.lu@linux.intel.com>, David Woodhouse <dwmw2@infradead.org>
-Subject: [PATCH 2/5] iommu/vt-d: Move deferred device attachment into helper
- function
-Date: Mon, 17 Feb 2020 20:38:55 +0100
-Message-Id: <20200217193858.26990-3-joro@8bytes.org>
+Subject: [PATCH 3/5] iommu/vt-d: Do deferred attachment in iommu_need_mapping()
+Date: Mon, 17 Feb 2020 20:38:56 +0100
+Message-Id: <20200217193858.26990-4-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200217193858.26990-1-joro@8bytes.org>
 References: <20200217193858.26990-1-joro@8bytes.org>
@@ -67,47 +66,52 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Move the code that does the deferred device attachment into a separate
-helper function.
+The attachment of deferred devices needs to happen before the check
+whether the device is identity mapped or not. Otherwise the check will
+return wrong results, cause warnings boot failures in kdump kernels, like
+
+	WARNING: CPU: 0 PID: 318 at ../drivers/iommu/intel-iommu.c:592 domain_get_iommu+0x61/0x70
+
+	[...]
+
+	 Call Trace:
+	  __intel_map_single+0x55/0x190
+	  intel_alloc_coherent+0xac/0x110
+	  dmam_alloc_attrs+0x50/0xa0
+	  ahci_port_start+0xfb/0x1f0 [libahci]
+	  ata_host_start.part.39+0x104/0x1e0 [libata]
+
+With the earlier check the kdump boot succeeds and a crashdump is written.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/intel-iommu.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ drivers/iommu/intel-iommu.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index 80f2332a5466..42cdcce1602e 100644
+index 42cdcce1602e..32f43695a22b 100644
 --- a/drivers/iommu/intel-iommu.c
 +++ b/drivers/iommu/intel-iommu.c
-@@ -2529,16 +2529,20 @@ struct dmar_domain *find_domain(struct device *dev)
- 	return NULL;
- }
+@@ -2541,9 +2541,6 @@ static void do_deferred_attach(struct device *dev)
  
--static struct dmar_domain *deferred_attach_domain(struct device *dev)
-+static void do_deferred_attach(struct device *dev)
+ static struct dmar_domain *deferred_attach_domain(struct device *dev)
  {
--	if (unlikely(attach_deferred(dev))) {
--		struct iommu_domain *domain;
-+	struct iommu_domain *domain;
- 
--		dev->archdata.iommu = NULL;
--		domain = iommu_get_domain_for_dev(dev);
--		if (domain)
--			intel_iommu_attach_device(domain, dev);
--	}
-+	dev->archdata.iommu = NULL;
-+	domain = iommu_get_domain_for_dev(dev);
-+	if (domain)
-+		intel_iommu_attach_device(domain, dev);
-+}
-+
-+static struct dmar_domain *deferred_attach_domain(struct device *dev)
-+{
-+	if (unlikely(attach_deferred(dev)))
-+		do_deferred_attach(dev);
- 
+-	if (unlikely(attach_deferred(dev)))
+-		do_deferred_attach(dev);
+-
  	return find_domain(dev);
  }
+ 
+@@ -3595,6 +3592,9 @@ static bool iommu_need_mapping(struct device *dev)
+ 	if (iommu_dummy(dev))
+ 		return false;
+ 
++	if (unlikely(attach_deferred(dev)))
++		do_deferred_attach(dev);
++
+ 	ret = identity_mapping(dev);
+ 	if (ret) {
+ 		u64 dma_mask = *dev->dma_mask;
 -- 
 2.17.1
 
