@@ -2,90 +2,73 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7969162CDE
-	for <lists.iommu@lfdr.de>; Tue, 18 Feb 2020 18:30:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5413162CF1
+	for <lists.iommu@lfdr.de>; Tue, 18 Feb 2020 18:32:34 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6834485B81;
-	Tue, 18 Feb 2020 17:30:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 60B4385B81;
+	Tue, 18 Feb 2020 17:32:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VM4CxTfg_tJl; Tue, 18 Feb 2020 17:30:51 +0000 (UTC)
+	with ESMTP id Bm5J14E4A9FP; Tue, 18 Feb 2020 17:32:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6C08685B4A;
-	Tue, 18 Feb 2020 17:30:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C6E9A85B4A;
+	Tue, 18 Feb 2020 17:32:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5601EC013E;
-	Tue, 18 Feb 2020 17:30:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AB054C013E;
+	Tue, 18 Feb 2020 17:32:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8ADA4C013E
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:30:49 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C1066C013E
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:32:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 7611F85B4A
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:30:49 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 9995A85D22
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:32:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id h7P-xouG9zH5 for <iommu@lists.linux-foundation.org>;
- Tue, 18 Feb 2020 17:30:48 +0000 (UTC)
+ with ESMTP id lDigq2HY3RjQ for <iommu@lists.linux-foundation.org>;
+ Tue, 18 Feb 2020 17:32:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id E2CB185B09
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:30:48 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
- [209.85.160.178])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A30D124673
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:30:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582047048;
- bh=f24u0w8tQoL2c68hjjz5dANYHmhosIHGEhO+odsYIr8=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=T6Skmi1JCrTd0r3/G9yHqfgDHp7hISOOYSjf1yT/GR5p+tYFwRVbw/iSb5LWEArGF
- mZS9hbe10oSvt3Ig1ua9xVU5nZsJCKy9EBaj34hkBoXOshnXt7negsGf1praGgRXnT
- gII8dIhJZp8j5HtUc/Bcr0QjJfcwsoKEc2tOv7OE=
-Received: by mail-qt1-f178.google.com with SMTP id c5so15068051qtj.6
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 09:30:48 -0800 (PST)
-X-Gm-Message-State: APjAAAWUCRUCkREZ11+0XyGJ3qEYKFmE69dx+2rLSXwylp7ybey09ueV
- Dw96Kldq9qxC2o+dRedn57bTgcGeImLXgJgY1Q==
-X-Google-Smtp-Source: APXvYqyKj1XrrS2dTlNVqxYWIJKezDSkWldRHC5sXeMDLgXFrTGaR+gYe9EBl+bwCy+V5saC7oDA910oSACmfefPodM=
-X-Received: by 2002:ac8:1415:: with SMTP id k21mr18731255qtj.300.1582047047680; 
- Tue, 18 Feb 2020 09:30:47 -0800 (PST)
-MIME-Version: 1.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by hemlock.osuosl.org (Postfix) with ESMTP id AD43182476
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:32:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F5C131B;
+ Tue, 18 Feb 2020 09:32:29 -0800 (PST)
+Received: from [10.1.196.37] (e121345-lin.cambridge.arm.com [10.1.196.37])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 13CAC3F703;
+ Tue, 18 Feb 2020 09:32:24 -0800 (PST)
+Subject: Re: [RFC PATCH 06/11] iommu: arm-smmu: Remove Calxeda secure mode
+ quirk
+To: Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>
 References: <20200218171321.30990-1-robh@kernel.org>
- <20200218171321.30990-12-robh@kernel.org>
- <20200218172255.GG1133@willie-the-truck>
-In-Reply-To: <20200218172255.GG1133@willie-the-truck>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 18 Feb 2020 11:30:36 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJtdJmbWtwV00sa_A2tv-jy-JpKWUfco-LU4Dt2pTvHeg@mail.gmail.com>
-Message-ID: <CAL_JsqJtdJmbWtwV00sa_A2tv-jy-JpKWUfco-LU4Dt2pTvHeg@mail.gmail.com>
-Subject: Re: [RFC PATCH 11/11] dt-bindings: Remove Calxeda platforms bindings
-To: Will Deacon <will@kernel.org>
+ <20200218171321.30990-7-robh@kernel.org>
+ <20200218172000.GF1133@willie-the-truck>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <38be84e3-d23f-1e91-4d3d-87fc11d7c089@arm.com>
+Date: Tue, 18 Feb 2020 17:32:23 +0000
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20200218172000.GF1133@willie-the-truck>
+Content-Language: en-GB
 Cc: Mark Langsdorf <mlangsdo@redhat.com>, kvm@vger.kernel.org,
- Viresh Kumar <viresh.kumar@linaro.org>,
- "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
- <linux-ide@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- soc@kernel.org, Daniel Lezcano <daniel.lezcano@linaro.org>,
- devicetree@vger.kernel.org, Jon Loeliger <jdl@jdl.com>,
- "open list:THERMAL" <linux-pm@vger.kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, linux-ide@vger.kernel.org,
+ linux-clk@vger.kernel.org, soc@kernel.org,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, devicetree@vger.kernel.org,
+ Jon Loeliger <jdl@jdl.com>, linux-pm@vger.kernel.org,
  Andre Przywara <andre.przywara@arm.com>,
  Alex Williamson <alex.williamson@redhat.com>, Tony Luck <tony.luck@intel.com>,
  Alexander Graf <graf@amazon.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- linux-edac <linux-edac@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Matthias Brugger <mbrugger@suse.com>, Stephen Boyd <sboyd@kernel.org>,
- netdev <netdev@vger.kernel.org>, Cornelia Huck <cohuck@redhat.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
+ linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>, Matthias Brugger <mbrugger@suse.com>,
+ Stephen Boyd <sboyd@kernel.org>, netdev@vger.kernel.org,
+ Cornelia Huck <cohuck@redhat.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
  Robert Richter <rrichter@marvell.com>, James Morse <james.morse@arm.com>,
- Borislav Petkov <bp@alien8.de>, Robin Murphy <robin.murphy@arm.com>,
- "David S. Miller" <davem@davemloft.net>
+ Borislav Petkov <bp@alien8.de>, "David S. Miller" <davem@davemloft.net>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,33 +81,45 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Feb 18, 2020 at 11:23 AM Will Deacon <will@kernel.org> wrote:
->
-> On Tue, Feb 18, 2020 at 11:13:21AM -0600, Rob Herring wrote:
-> > Cc: devicetree@vger.kernel.org
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  .../devicetree/bindings/arm/calxeda.yaml      | 22 ----------
-> >  .../devicetree/bindings/arm/calxeda/l2ecc.txt | 15 -------
-> >  .../devicetree/bindings/ata/sata_highbank.txt | 44 -------------------
-> >  .../devicetree/bindings/clock/calxeda.txt     | 17 -------
-> >  .../memory-controllers/calxeda-ddr-ctrlr.txt  | 16 -------
-> >  .../devicetree/bindings/net/calxeda-xgmac.txt | 18 --------
-> >  .../bindings/phy/calxeda-combophy.txt         | 17 -------
->
-> You can drop the "calxeda,smmu-secure-config-access" from the Arm SMMU
-> binding doc too (either here, or as part of the other patch).
+On 18/02/2020 5:20 pm, Will Deacon wrote:
+> On Tue, Feb 18, 2020 at 11:13:16AM -0600, Rob Herring wrote:
+>> Cc: Will Deacon <will@kernel.org>
+>> Cc: Robin Murphy <robin.murphy@arm.com>
+>> Cc: Joerg Roedel <joro@8bytes.org>
+>> Cc: iommu@lists.linux-foundation.org
+>> Signed-off-by: Rob Herring <robh@kernel.org>
+>> ---
+>> Do not apply yet.
+> 
+> Pleeeeease? ;)
+> 
+>>   drivers/iommu/arm-smmu-impl.c | 43 -----------------------------------
 
-Glad someone is paying attention. :)
+Presumably we also want to remove the definition of the option from 
+binding too.
 
-Will do it as part of this patch.
+>>   1 file changed, 43 deletions(-)
+> 
+> Yes, I'm happy to get rid of this. Sadly, I don't think we can remove
+> anything from 'struct arm_smmu_impl' because most implementations fall
+> just short of perfect.
 
-Rob
+Right, this served as the prototype for register access hooks, but we 
+have at least one other known user for those.
+
+> Anyway, let me know when I can push the button and I'll queue this in
+> the arm-smmu tree.
+
+FWIW the quirk has proven useful in other circumstances too, but I 
+imagine if we ever have to prototype an integration on VExpress-CA9 
+again, reverting this patch will hardly be the most unpleasant part :)
+
+Robin.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
