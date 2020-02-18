@@ -1,73 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9FC162BCF
-	for <lists.iommu@lfdr.de>; Tue, 18 Feb 2020 18:13:30 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2DDD162BD0
+	for <lists.iommu@lfdr.de>; Tue, 18 Feb 2020 18:13:32 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 58ADD204B1;
-	Tue, 18 Feb 2020 17:13:29 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 87D07870DF;
+	Tue, 18 Feb 2020 17:13:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nLfPCqjLEoSc; Tue, 18 Feb 2020 17:13:27 +0000 (UTC)
+	with ESMTP id bMekegJgK3Hm; Tue, 18 Feb 2020 17:13:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id EF6DE204A5;
-	Tue, 18 Feb 2020 17:13:27 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2CFF886C3A;
+	Tue, 18 Feb 2020 17:13:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DEE4BC1D8E;
-	Tue, 18 Feb 2020 17:13:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 27B8BC013E;
+	Tue, 18 Feb 2020 17:13:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 88D18C013E
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:13:26 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E0366C013E
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:13:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 73AB186092
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:13:26 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id DA741204B1
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:13:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IluldgjLLZjd for <iommu@lists.linux-foundation.org>;
- Tue, 18 Feb 2020 17:13:24 +0000 (UTC)
+ with ESMTP id 2sqg-tGZdAvb for <iommu@lists.linux-foundation.org>;
+ Tue, 18 Feb 2020 17:13:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
- [209.85.210.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 8139E85064
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:13:24 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id p8so20189540oth.10
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 09:13:24 -0800 (PST)
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by silver.osuosl.org (Postfix) with ESMTPS id 1169E20489
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:13:26 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id j16so20269874otl.1
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 09:13:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KxKWes5Maiiz92tj+onliCPmpibZ/Bkve3W+pNRz4Mc=;
- b=ICg/nwehf7vehWAVT70W2zGlQN4/PQxPAFKS1ma4+uVVuBalXpcAPwntHfkSIpg8vW
- zXAFahCWLwWoevEvfCgtvi+FzYhQjoh3b8j0bfbJbhvxJJgD0k8tmECT2WxYOeWFdTwE
- B1mHl765FKk92AOEX6mX8uHhC2z6ZCeca+F6VtPFZ0/sc6MSH5o0DplEPN0g2gTahDBh
- QMgpbXiPiGYDxl/U0z2vcwJJDhExPt0B1FSoZgGayUDMAxPU2Ubri+G5I/kDFCAs/kZs
- oxsS67eayVYof+woRM3eHr9JfW1dbl63UFlE0cuyxwmx/8o3qQCEeQTCma7STetoDanJ
- S7Cg==
-X-Gm-Message-State: APjAAAWjh/VzRAJCyjQHmgjBP/heUjI0Z+t7v7AcQmnimVRJX9olTnYw
- hg8sv5RRygM3LyZGfE0Zfw==
-X-Google-Smtp-Source: APXvYqw78RKkguXMrAM7M8gSXlZrfkdWkZ4c6zf2HSWTeBKpVzryzLJxnnrYZ2glk4KBR3Pi24m44w==
-X-Received: by 2002:a9d:10d:: with SMTP id 13mr4047747otu.238.1582046003552;
- Tue, 18 Feb 2020 09:13:23 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=4LxZR/H/qWaW6PLZe7czUDlSa5Ov9S/K1kfsaVdcFug=;
+ b=mNxiiCitbLKCOy7lXWboOBdR/GVqeOedkPYpHXeNn4G4+xYglajLnGudkcTgb47Wfs
+ zmcMo8QOaXZGQ05CWW6wfbFfeCqQu9Ve3fSl0WtSVFzZV48T/u3j0Kvt2lPtPE2tpT7d
+ 1MMT4ZiMfgOwLfD1u0bAxe8pJvxgi/W7eD2A2Y9C37xWaDwp7GH/74F9CAzueIIdccjm
+ vQz3ix+lT9a4dAr+PpbQaVAiEpGrc8auSgjJ5eiiJIgNLZXSLFJSUgqgLlSvjIT1LUs9
+ PJ8H8mubFbt3Q6Hy27ID7wy9eXYK47iQN91lPzsqds0me/NB3MQw7L1mR7lLAxZiZKPT
+ rteg==
+X-Gm-Message-State: APjAAAVPkFjm/LnOk3FGUu6Ac78ipnIFjyTN6YGP2wK0549RGMZHGUbT
+ XnZsTJGldZaxKKJ3qhTUAg==
+X-Google-Smtp-Source: APXvYqzcQiA7Kz1hw5DSMbv4x/r+JIz0TrIbtjHbvB5jqm2ONigiZ49RPglyPaLbn09y6q4zITnNIw==
+X-Received: by 2002:a05:6830:1f0c:: with SMTP id
+ u12mr16226750otg.253.1582046005180; 
+ Tue, 18 Feb 2020 09:13:25 -0800 (PST)
 Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.googlemail.com with ESMTPSA id y25sm1545755oto.27.2020.02.18.09.13.21
+ by smtp.googlemail.com with ESMTPSA id y25sm1545755oto.27.2020.02.18.09.13.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2020 09:13:22 -0800 (PST)
+ Tue, 18 Feb 2020 09:13:24 -0800 (PST)
 From: Rob Herring <robh@kernel.org>
 To: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  soc@kernel.org, Andre Przywara <andre.przywara@arm.com>,
  Robert Richter <rrichter@marvell.com>, Jon Loeliger <jdl@jdl.com>,
  Alexander Graf <graf@amazon.com>, Matthias Brugger <mbrugger@suse.com>,
  Mark Langsdorf <mlangsdo@redhat.com>
-Subject: [RFC PATCH 00/11] Removing Calxeda platform support
-Date: Tue, 18 Feb 2020 11:13:10 -0600
-Message-Id: <20200218171321.30990-1-robh@kernel.org>
+Subject: [RFC PATCH 01/11] vfio: Remove Calxeda XGMAC reset driver
+Date: Tue, 18 Feb 2020 11:13:11 -0600
+Message-Id: <20200218171321.30990-2-robh@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200218171321.30990-1-robh@kernel.org>
+References: <20200218171321.30990-1-robh@kernel.org>
 MIME-Version: 1.0
 Cc: kvm@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>,
  linux-ide@vger.kernel.org, Will Deacon <will@kernel.org>,
@@ -97,117 +100,129 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Calxeda has been defunct for 6 years now. Use of Calxeda servers carried
-on for some time afterwards primarily as distro builders for 32-bit ARM.
-AFAIK, those systems have been retired in favor of 32-bit VMs on 64-bit
-hosts.
+Cc: Eric Auger <eric.auger@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Cc: kvm@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+Do not apply yet.
 
-The other use of Calxeda Midway I'm aware of was testing 32-bit ARM KVM
-support as there are few or no other systems with enough RAM and LPAE. Now
-32-bit KVM host support is getting removed[1].
-
-While it's not much maintenance to support, I don't care to convert the
-Calxeda DT bindings to schema nor fix any resulting errors in the dts files
-(which already don't exactly match what's shipping in firmware).
-
-Rob
-
-[1] https://lore.kernel.org/linux-arm-kernel/20200210141324.21090-1-maz@kernel.org/
-
-Rob Herring (11):
-  vfio: Remove Calxeda XGMAC reset driver
-  ata: Remove Calxeda AHCI driver
-  cpuidle: Remove Calxeda driver
-  cpufreq: Remove Calxeda driver
-  EDAC: Remove Calxeda drivers
-  iommu: arm-smmu: Remove Calxeda secure mode quirk
-  net: Remove Calxeda XGMAC driver
-  clk: Remove Calxeda driver
-  ARM: Remove Calxeda platform support
-  ARM: dts: Remove Calxeda platforms
-  dt-bindings: Remove Calxeda platforms bindings
-
- .../devicetree/bindings/arm/calxeda.yaml      |   22 -
- .../devicetree/bindings/arm/calxeda/l2ecc.txt |   15 -
- .../devicetree/bindings/ata/sata_highbank.txt |   44 -
- .../devicetree/bindings/clock/calxeda.txt     |   17 -
- .../memory-controllers/calxeda-ddr-ctrlr.txt  |   16 -
- .../devicetree/bindings/net/calxeda-xgmac.txt |   18 -
- .../bindings/phy/calxeda-combophy.txt         |   17 -
- MAINTAINERS                                   |   14 -
- arch/arm/Kconfig                              |    2 -
- arch/arm/Kconfig.debug                        |   12 +-
- arch/arm/Makefile                             |    1 -
- arch/arm/boot/dts/Makefile                    |    3 -
- arch/arm/boot/dts/ecx-2000.dts                |  103 -
- arch/arm/boot/dts/ecx-common.dtsi             |  230 --
- arch/arm/boot/dts/highbank.dts                |  161 --
- arch/arm/configs/multi_v7_defconfig           |    5 -
- arch/arm/mach-highbank/Kconfig                |   19 -
- arch/arm/mach-highbank/Makefile               |    4 -
- arch/arm/mach-highbank/core.h                 |   18 -
- arch/arm/mach-highbank/highbank.c             |  175 --
- arch/arm/mach-highbank/pm.c                   |   49 -
- arch/arm/mach-highbank/smc.S                  |   25 -
- arch/arm/mach-highbank/sysregs.h              |   75 -
- arch/arm/mach-highbank/system.c               |   22 -
- drivers/ata/Kconfig                           |    9 -
- drivers/ata/Makefile                          |    1 -
- drivers/ata/sata_highbank.c                   |  635 ------
- drivers/clk/Makefile                          |    1 -
- drivers/clk/clk-highbank.c                    |  329 ---
- drivers/cpufreq/Kconfig.arm                   |   10 -
- drivers/cpufreq/Makefile                      |    3 +-
- drivers/cpufreq/cpufreq-dt-platdev.c          |    3 -
- drivers/cpufreq/highbank-cpufreq.c            |  106 -
- drivers/cpuidle/Kconfig.arm                   |    7 -
- drivers/cpuidle/Makefile                      |    1 -
- drivers/cpuidle/cpuidle-calxeda.c             |   72 -
- drivers/edac/Kconfig                          |   14 -
- drivers/edac/Makefile                         |    3 -
- drivers/edac/highbank_l2_edac.c               |  142 --
- drivers/edac/highbank_mc_edac.c               |  272 ---
- drivers/iommu/arm-smmu-impl.c                 |   43 -
- drivers/net/ethernet/Kconfig                  |    1 -
- drivers/net/ethernet/Makefile                 |    1 -
- drivers/net/ethernet/calxeda/Kconfig          |    9 -
- drivers/net/ethernet/calxeda/Makefile         |    2 -
- drivers/net/ethernet/calxeda/xgmac.c          | 1927 -----------------
- drivers/vfio/platform/reset/Kconfig           |    8 -
- drivers/vfio/platform/reset/Makefile          |    2 -
- .../reset/vfio_platform_calxedaxgmac.c        |   74 -
- 49 files changed, 2 insertions(+), 4740 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/arm/calxeda.yaml
- delete mode 100644 Documentation/devicetree/bindings/arm/calxeda/l2ecc.txt
- delete mode 100644 Documentation/devicetree/bindings/ata/sata_highbank.txt
- delete mode 100644 Documentation/devicetree/bindings/clock/calxeda.txt
- delete mode 100644 Documentation/devicetree/bindings/memory-controllers/calxeda-ddr-ctrlr.txt
- delete mode 100644 Documentation/devicetree/bindings/net/calxeda-xgmac.txt
- delete mode 100644 Documentation/devicetree/bindings/phy/calxeda-combophy.txt
- delete mode 100644 arch/arm/boot/dts/ecx-2000.dts
- delete mode 100644 arch/arm/boot/dts/ecx-common.dtsi
- delete mode 100644 arch/arm/boot/dts/highbank.dts
- delete mode 100644 arch/arm/mach-highbank/Kconfig
- delete mode 100644 arch/arm/mach-highbank/Makefile
- delete mode 100644 arch/arm/mach-highbank/core.h
- delete mode 100644 arch/arm/mach-highbank/highbank.c
- delete mode 100644 arch/arm/mach-highbank/pm.c
- delete mode 100644 arch/arm/mach-highbank/smc.S
- delete mode 100644 arch/arm/mach-highbank/sysregs.h
- delete mode 100644 arch/arm/mach-highbank/system.c
- delete mode 100644 drivers/ata/sata_highbank.c
- delete mode 100644 drivers/clk/clk-highbank.c
- delete mode 100644 drivers/cpufreq/highbank-cpufreq.c
- delete mode 100644 drivers/cpuidle/cpuidle-calxeda.c
- delete mode 100644 drivers/edac/highbank_l2_edac.c
- delete mode 100644 drivers/edac/highbank_mc_edac.c
- delete mode 100644 drivers/net/ethernet/calxeda/Kconfig
- delete mode 100644 drivers/net/ethernet/calxeda/Makefile
- delete mode 100644 drivers/net/ethernet/calxeda/xgmac.c
+ drivers/vfio/platform/reset/Kconfig           |  8 --
+ drivers/vfio/platform/reset/Makefile          |  2 -
+ .../reset/vfio_platform_calxedaxgmac.c        | 74 -------------------
+ 3 files changed, 84 deletions(-)
  delete mode 100644 drivers/vfio/platform/reset/vfio_platform_calxedaxgmac.c
 
+diff --git a/drivers/vfio/platform/reset/Kconfig b/drivers/vfio/platform/reset/Kconfig
+index 1edbe9ee7356..3668d1d92909 100644
+--- a/drivers/vfio/platform/reset/Kconfig
++++ b/drivers/vfio/platform/reset/Kconfig
+@@ -1,12 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-config VFIO_PLATFORM_CALXEDAXGMAC_RESET
+-	tristate "VFIO support for calxeda xgmac reset"
+-	depends on VFIO_PLATFORM
+-	help
+-	  Enables the VFIO platform driver to handle reset for Calxeda xgmac
+-
+-	  If you don't know what to do here, say N.
+-
+ config VFIO_PLATFORM_AMDXGBE_RESET
+ 	tristate "VFIO support for AMD XGBE reset"
+ 	depends on VFIO_PLATFORM
+diff --git a/drivers/vfio/platform/reset/Makefile b/drivers/vfio/platform/reset/Makefile
+index 7294c5ea122e..be7960ce5dbc 100644
+--- a/drivers/vfio/platform/reset/Makefile
++++ b/drivers/vfio/platform/reset/Makefile
+@@ -1,7 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+-vfio-platform-calxedaxgmac-y := vfio_platform_calxedaxgmac.o
+ vfio-platform-amdxgbe-y := vfio_platform_amdxgbe.o
 
-base-commit: 11a48a5a18c63fd7621bb050228cebf13566e4d8
+-obj-$(CONFIG_VFIO_PLATFORM_CALXEDAXGMAC_RESET) += vfio-platform-calxedaxgmac.o
+ obj-$(CONFIG_VFIO_PLATFORM_AMDXGBE_RESET) += vfio-platform-amdxgbe.o
+ obj-$(CONFIG_VFIO_PLATFORM_BCMFLEXRM_RESET) += vfio_platform_bcmflexrm.o
+diff --git a/drivers/vfio/platform/reset/vfio_platform_calxedaxgmac.c b/drivers/vfio/platform/reset/vfio_platform_calxedaxgmac.c
+deleted file mode 100644
+index 09a9453b75c5..000000000000
+--- a/drivers/vfio/platform/reset/vfio_platform_calxedaxgmac.c
++++ /dev/null
+@@ -1,74 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * VFIO platform driver specialized for Calxeda xgmac reset
+- * reset code is inherited from calxeda xgmac native driver
+- *
+- * Copyright 2010-2011 Calxeda, Inc.
+- * Copyright (c) 2015 Linaro Ltd.
+- *              www.linaro.org
+- */
+-
+-#include <linux/module.h>
+-#include <linux/kernel.h>
+-#include <linux/init.h>
+-#include <linux/io.h>
+-
+-#include "../vfio_platform_private.h"
+-
+-#define DRIVER_VERSION  "0.1"
+-#define DRIVER_AUTHOR   "Eric Auger <eric.auger@linaro.org>"
+-#define DRIVER_DESC     "Reset support for Calxeda xgmac vfio platform device"
+-
+-/* XGMAC Register definitions */
+-#define XGMAC_CONTROL           0x00000000      /* MAC Configuration */
+-
+-/* DMA Control and Status Registers */
+-#define XGMAC_DMA_CONTROL       0x00000f18      /* Ctrl (Operational Mode) */
+-#define XGMAC_DMA_INTR_ENA      0x00000f1c      /* Interrupt Enable */
+-
+-/* DMA Control registe defines */
+-#define DMA_CONTROL_ST          0x00002000      /* Start/Stop Transmission */
+-#define DMA_CONTROL_SR          0x00000002      /* Start/Stop Receive */
+-
+-/* Common MAC defines */
+-#define MAC_ENABLE_TX           0x00000008      /* Transmitter Enable */
+-#define MAC_ENABLE_RX           0x00000004      /* Receiver Enable */
+-
+-static inline void xgmac_mac_disable(void __iomem *ioaddr)
+-{
+-	u32 value = readl(ioaddr + XGMAC_DMA_CONTROL);
+-
+-	value &= ~(DMA_CONTROL_ST | DMA_CONTROL_SR);
+-	writel(value, ioaddr + XGMAC_DMA_CONTROL);
+-
+-	value = readl(ioaddr + XGMAC_CONTROL);
+-	value &= ~(MAC_ENABLE_TX | MAC_ENABLE_RX);
+-	writel(value, ioaddr + XGMAC_CONTROL);
+-}
+-
+-static int vfio_platform_calxedaxgmac_reset(struct vfio_platform_device *vdev)
+-{
+-	struct vfio_platform_region *reg = &vdev->regions[0];
+-
+-	if (!reg->ioaddr) {
+-		reg->ioaddr =
+-			ioremap(reg->addr, reg->size);
+-		if (!reg->ioaddr)
+-			return -ENOMEM;
+-	}
+-
+-	/* disable IRQ */
+-	writel(0, reg->ioaddr + XGMAC_DMA_INTR_ENA);
+-
+-	/* Disable the MAC core */
+-	xgmac_mac_disable(reg->ioaddr);
+-
+-	return 0;
+-}
+-
+-module_vfio_reset_handler("calxeda,hb-xgmac", vfio_platform_calxedaxgmac_reset);
+-
+-MODULE_VERSION(DRIVER_VERSION);
+-MODULE_LICENSE("GPL v2");
+-MODULE_AUTHOR(DRIVER_AUTHOR);
+-MODULE_DESCRIPTION(DRIVER_DESC);
 --
 2.20.1
 _______________________________________________
