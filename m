@@ -1,59 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61B4C162D29
-	for <lists.iommu@lfdr.de>; Tue, 18 Feb 2020 18:40:47 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6EE2162DE2
+	for <lists.iommu@lfdr.de>; Tue, 18 Feb 2020 19:12:53 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1B65E85C5E;
-	Tue, 18 Feb 2020 17:40:46 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 90B72204BD;
+	Tue, 18 Feb 2020 18:12:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lsnof5AharLA; Tue, 18 Feb 2020 17:40:45 +0000 (UTC)
+	with ESMTP id vYVLKO+fAS-N; Tue, 18 Feb 2020 18:12:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 596CB85BD3;
-	Tue, 18 Feb 2020 17:40:45 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D202F2048E;
+	Tue, 18 Feb 2020 18:12:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4CF7EC013E;
-	Tue, 18 Feb 2020 17:40:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B638DC013E;
+	Tue, 18 Feb 2020 18:12:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E3C56C013E
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:40:43 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 32A1FC013E
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:12:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id CD4A487216
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:40:43 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2159E85BE4
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:12:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nB4Z-by4a3R7 for <iommu@lists.linux-foundation.org>;
- Tue, 18 Feb 2020 17:40:42 +0000 (UTC)
+ with ESMTP id zFZUWxsLijea for <iommu@lists.linux-foundation.org>;
+ Tue, 18 Feb 2020 18:12:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id A184D87155
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 17:40:42 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 37C5B85BD8
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:12:50 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4172731B;
- Tue, 18 Feb 2020 09:40:42 -0800 (PST)
-Received: from [10.1.196.37] (e121345-lin.cambridge.arm.com [10.1.196.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 488A13F703;
- Tue, 18 Feb 2020 09:40:41 -0800 (PST)
-Subject: Re: [PATCH] iommu/arm-smmu: Restore naming of driver parameter prefix
-To: Will Deacon <will@kernel.org>, joro@8bytes.org
-References: <20200218172756.2131-1-will@kernel.org>
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9FE9D101E;
+ Tue, 18 Feb 2020 10:12:49 -0800 (PST)
+Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
+ [10.1.196.37])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 82C723F73B;
+ Tue, 18 Feb 2020 10:12:48 -0800 (PST)
 From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <90975c71-9089-b857-6b22-804415e4d5cb@arm.com>
-Date: Tue, 18 Feb 2020 17:40:39 +0000
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+To: joro@8bytes.org,
+	robdclark@gmail.com
+Subject: [PATCH] iommu/qcom: Fix bogus detach logic
+Date: Tue, 18 Feb 2020 18:12:41 +0000
+Message-Id: <be92829c6e5467634b109add002351e6cf9e18d2.1582049382.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.23.0.dirty
 MIME-Version: 1.0
-In-Reply-To: <20200218172756.2131-1-will@kernel.org>
-Content-Language: en-GB
-Cc: iommu@lists.linux-foundation.org, kernel-team@android.com,
- Russell King <linux@armlinux.org.uk>, linux-arm-kernel@lists.infradead.org,
- Li Yang <leoyang.li@nxp.com>
+Cc: stephan@gerhold.net, linux-arm-msm@vger.kernel.org,
+ Naresh Kamboju <naresh.kamboju@linaro.org>, iommu@lists.linux-foundation.org,
+ linux-arm-kernel@lists.infradead.org, Brian Masney <masneyb@onstation.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,61 +64,85 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 18/02/2020 5:27 pm, Will Deacon wrote:
-> Extending the Arm SMMU driver to allow for modular builds changed
-> KBUILD_MODNAME to be "arm_smmu_mod" so that a single module could be
-> built from the multiple existing object files without the need to rename
-> any source files.
-> 
-> This inadvertently changed the name of the driver parameters, which may
-> lead to runtime issues if bootloaders are relying on the old names for
-> correctness (e.g. "arm-smmu.disable_bypass=0").
+Currently, the implementation of qcom_iommu_domain_free() is guaranteed
+to do one of two things: WARN() and leak everything, or dereference NULL
+and crash. That alone is terrible, but in fact the whole idea of trying
+to track the liveness of a domain via the qcom_domain->iommu pointer as
+a sanity check is full of fundamentally flawed assumptions. Make things
+robust and actually functional by not trying to be quite so clever.
 
-Indeed, it turns out this also tripped up some Juno setups in our 
-internal CI that were bodging around firmware issues.
+Reported-by: Brian Masney <masneyb@onstation.org>
+Tested-by: Brian Masney <masneyb@onstation.org>
+Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+Fixes: 0ae349a0f33f ("iommu/qcom: Add qcom_iommu")
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
+ drivers/iommu/qcom_iommu.c | 28 ++++++++++++----------------
+ 1 file changed, 12 insertions(+), 16 deletions(-)
 
-> Although MODULE_PARAM_PREFIX can be overridden to restore the old naming
-> for builtin parameters, only the new name is matched by modprobe and so
-> loading the driver as a module would cause parameters specified on the
-> kernel command line to be ignored. Instead, rename "arm_smmu_mod" to
-> "arm_smmu". Whilst it's a bit of a bodge, this allows us to create a
-> single module without renaming any files and makes use of the fact that
-> underscores and hyphens can be used interchangeably in parameter names.
+diff --git a/drivers/iommu/qcom_iommu.c b/drivers/iommu/qcom_iommu.c
+index 39759db4f003..4328da0b0a9f 100644
+--- a/drivers/iommu/qcom_iommu.c
++++ b/drivers/iommu/qcom_iommu.c
+@@ -344,21 +344,19 @@ static void qcom_iommu_domain_free(struct iommu_domain *domain)
+ {
+ 	struct qcom_iommu_domain *qcom_domain = to_qcom_iommu_domain(domain);
+ 
+-	if (WARN_ON(qcom_domain->iommu))    /* forgot to detach? */
+-		return;
+-
+ 	iommu_put_dma_cookie(domain);
+ 
+-	/* NOTE: unmap can be called after client device is powered off,
+-	 * for example, with GPUs or anything involving dma-buf.  So we
+-	 * cannot rely on the device_link.  Make sure the IOMMU is on to
+-	 * avoid unclocked accesses in the TLB inv path:
+-	 */
+-	pm_runtime_get_sync(qcom_domain->iommu->dev);
+-
+-	free_io_pgtable_ops(qcom_domain->pgtbl_ops);
+-
+-	pm_runtime_put_sync(qcom_domain->iommu->dev);
++	if (qcom_domain->iommu) {
++		/*
++		 * NOTE: unmap can be called after client device is powered
++		 * off, for example, with GPUs or anything involving dma-buf.
++		 * So we cannot rely on the device_link.  Make sure the IOMMU
++		 * is on to avoid unclocked accesses in the TLB inv path:
++		 */
++		pm_runtime_get_sync(qcom_domain->iommu->dev);
++		free_io_pgtable_ops(qcom_domain->pgtbl_ops);
++		pm_runtime_put_sync(qcom_domain->iommu->dev);
++	}
+ 
+ 	kfree(qcom_domain);
+ }
+@@ -404,7 +402,7 @@ static void qcom_iommu_detach_dev(struct iommu_domain *domain, struct device *de
+ 	struct qcom_iommu_domain *qcom_domain = to_qcom_iommu_domain(domain);
+ 	unsigned i;
+ 
+-	if (!qcom_domain->iommu)
++	if (WARN_ON(!qcom_domain->iommu))
+ 		return;
+ 
+ 	pm_runtime_get_sync(qcom_iommu->dev);
+@@ -417,8 +415,6 @@ static void qcom_iommu_detach_dev(struct iommu_domain *domain, struct device *de
+ 		ctx->domain = NULL;
+ 	}
+ 	pm_runtime_put_sync(qcom_iommu->dev);
+-
+-	qcom_domain->iommu = NULL;
+ }
+ 
+ static int qcom_iommu_map(struct iommu_domain *domain, unsigned long iova,
+-- 
+2.23.0.dirty
 
-That's awful... and thus great :)
-
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
-
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Russell King <linux@armlinux.org.uk>
-> Reported-by: Li Yang <leoyang.li@nxp.com>
-> Fixes: cd221bd24ff5 ("iommu/arm-smmu: Allow building as a module")
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
->   drivers/iommu/Makefile | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
-> index 2104fb8afc06..9f33fdb3bb05 100644
-> --- a/drivers/iommu/Makefile
-> +++ b/drivers/iommu/Makefile
-> @@ -14,8 +14,8 @@ obj-$(CONFIG_MSM_IOMMU) += msm_iommu.o
->   obj-$(CONFIG_AMD_IOMMU) += amd_iommu.o amd_iommu_init.o amd_iommu_quirks.o
->   obj-$(CONFIG_AMD_IOMMU_DEBUGFS) += amd_iommu_debugfs.o
->   obj-$(CONFIG_AMD_IOMMU_V2) += amd_iommu_v2.o
-> -obj-$(CONFIG_ARM_SMMU) += arm-smmu-mod.o
-> -arm-smmu-mod-objs += arm-smmu.o arm-smmu-impl.o arm-smmu-qcom.o
-> +obj-$(CONFIG_ARM_SMMU) += arm_smmu.o
-> +arm_smmu-objs += arm-smmu.o arm-smmu-impl.o arm-smmu-qcom.o
->   obj-$(CONFIG_ARM_SMMU_V3) += arm-smmu-v3.o
->   obj-$(CONFIG_DMAR_TABLE) += dmar.o
->   obj-$(CONFIG_INTEL_IOMMU) += intel-iommu.o intel-pasid.o
-> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
