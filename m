@@ -1,89 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C72C162EBF
-	for <lists.iommu@lfdr.de>; Tue, 18 Feb 2020 19:40:27 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75406162ED7
+	for <lists.iommu@lfdr.de>; Tue, 18 Feb 2020 19:41:43 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D56C8862B7;
-	Tue, 18 Feb 2020 18:40:25 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7842F851FA;
+	Tue, 18 Feb 2020 18:41:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id q9WRME2Z7N44; Tue, 18 Feb 2020 18:40:25 +0000 (UTC)
+	with ESMTP id WRzHPNLJm7tx; Tue, 18 Feb 2020 18:41:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 33E6986229;
-	Tue, 18 Feb 2020 18:40:25 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9F46A851CC;
+	Tue, 18 Feb 2020 18:41:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1664EC013E;
-	Tue, 18 Feb 2020 18:40:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8C549C1D8E;
+	Tue, 18 Feb 2020 18:41:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 211EBC013E
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:40:24 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 50B74C013E
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:41:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 0A810853E6
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:40:24 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 40000862B7
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:41:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 31RllzvWo2ko for <iommu@lists.linux-foundation.org>;
- Tue, 18 Feb 2020 18:40:23 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 57EF18202F
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:40:23 +0000 (UTC)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
- [209.85.222.173])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E2D2B24655
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:40:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1582051223;
- bh=e0prGkshvWw2XTwL3+iei7JE8F3vbsgEto2sLKzoNxY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ZbapHghKemvj/oI+zpPIruW3rQ0y+/IGCFK4hWmOUDx7Vi4fNxeSS/WMkU/tOfVw6
- 5U9tzmE0siFMLLMGiimacSWFAD6i3onMYAlpQEevIhoPtM05rP/W3Mn7mRRqz8OUEZ
- FvJ+rEAk2hZeuYncgmnHdz8KREoKXg7XPBgExTnc=
-Received: by mail-qk1-f173.google.com with SMTP id p7so20508320qkh.10
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 10:40:22 -0800 (PST)
-X-Gm-Message-State: APjAAAVEYVhPx6WO78X2KRhBM87XNELMSQr/XNHg2YMuNi1wq/PEJJHC
- Lh4IX7klNpH3OciWdLFZ3ok6HY2f0LlmdbfD1A==
-X-Google-Smtp-Source: APXvYqzzc5l2bT41Ulxw896RzAsZHa163jCmWCxKmNgy3aUdTfnzFWB1uBJXqNRZFmClh71pLAlutTDYlRFRVHXfwrQ=
-X-Received: by 2002:ae9:f205:: with SMTP id m5mr20551704qkg.152.1582051221993; 
- Tue, 18 Feb 2020 10:40:21 -0800 (PST)
+ with ESMTP id A-i1ul0fsA2t for <iommu@lists.linux-foundation.org>;
+ Tue, 18 Feb 2020 18:41:38 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 70D198621D
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:41:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=1oMlAqkswRy6z1mHgxyhn28sxtzqgf7pOgIVPkyRZVw=; b=MSVWYxBsB6pwrCb63c9y7K9Eof
+ CM3I0J+nMSxFYWJqUAxpLv8JD/I2seyhRqFKC5ZouzNomNp9OI6hSY+fkNbvM+DzrwQW05M7k8U51
+ Yx+Rz6pjkDhoZmFjdmZUipxZgnLhfa6e/wN78P2XNdkfKFFVbA08jnhGdImDsPKHF9zisJZS5B0LE
+ fJOy2Rrxmr1wh5MJBuRzIPWNplu6BtqS6wDC0pzYPaJarTqSWohHG/Ag63n2XKwavAVTvZr4zdqcs
+ YcpyPhjXtGKB5AXHHt9plw6LHVjW3gqnGyy+QVFGsS7LvsWNVRPq3K30q9ihnIZca2nNTfgv9oK/x
+ +wA31VUQ==;
+Received: from [199.255.44.128] (helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j47oF-0002Ka-9J; Tue, 18 Feb 2020 18:41:27 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Russell King <linux@armlinux.org.uk>
+Subject: take the bus_dma_limit into account on arm
+Date: Tue, 18 Feb 2020 10:41:00 -0800
+Message-Id: <20200218184103.35932-1-hch@lst.de>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <20200218171321.30990-1-robh@kernel.org>
- <20200218181356.09ae0779@donnerap.cambridge.arm.com>
-In-Reply-To: <20200218181356.09ae0779@donnerap.cambridge.arm.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 18 Feb 2020 12:40:10 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJpDLn5Zr2UHno1TeReqrwZ-HAAfd78AouigGi4sAQuOw@mail.gmail.com>
-Message-ID: <CAL_JsqJpDLn5Zr2UHno1TeReqrwZ-HAAfd78AouigGi4sAQuOw@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/11] Removing Calxeda platform support
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Mark Langsdorf <mlangsdo@redhat.com>, kvm@vger.kernel.org,
- Viresh Kumar <viresh.kumar@linaro.org>,
- "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
- <linux-ide@vger.kernel.org>, Will Deacon <will@kernel.org>,
- linux-clk <linux-clk@vger.kernel.org>, soc@kernel.org,
- Daniel Lezcano <daniel.lezcano@linaro.org>, devicetree@vger.kernel.org,
- Jon Loeliger <jdl@jdl.com>, "open list:THERMAL" <linux-pm@vger.kernel.org>,
- Alex Williamson <alex.williamson@redhat.com>, Tony Luck <tony.luck@intel.com>,
- Alexander Graf <graf@amazon.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>,
- linux-edac <linux-edac@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
- Matthias Brugger <mbrugger@suse.com>, Stephen Boyd <sboyd@kernel.org>,
- netdev <netdev@vger.kernel.org>, Cornelia Huck <cohuck@redhat.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- Robert Richter <rrichter@marvell.com>, James Morse <james.morse@arm.com>,
- Borislav Petkov <bp@alien8.de>, Robin Murphy <robin.murphy@arm.com>,
- "David S. Miller" <davem@davemloft.net>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: linux-kernel@vger.kernel.org, Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Roger Quadros <rogerq@ti.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,49 +77,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Feb 18, 2020 at 12:14 PM Andre Przywara <andre.przywara@arm.com> wrote:
->
-> On Tue, 18 Feb 2020 11:13:10 -0600
-> Rob Herring <robh@kernel.org> wrote:
->
-> Hi,
->
-> > Calxeda has been defunct for 6 years now. Use of Calxeda servers carried
-> > on for some time afterwards primarily as distro builders for 32-bit ARM.
-> > AFAIK, those systems have been retired in favor of 32-bit VMs on 64-bit
-> > hosts.
-> >
-> > The other use of Calxeda Midway I'm aware of was testing 32-bit ARM KVM
-> > support as there are few or no other systems with enough RAM and LPAE. Now
-> > 32-bit KVM host support is getting removed[1].
-> >
-> > While it's not much maintenance to support, I don't care to convert the
-> > Calxeda DT bindings to schema nor fix any resulting errors in the dts files
-> > (which already don't exactly match what's shipping in firmware).
->
-> While every kernel maintainer seems always happy to take patches with a negative diffstat, I wonder if this is really justification enough to remove a perfectly working platform. I don't really know about any active users, but experience tells that some platforms really are used for quite a long time, even if they are somewhat obscure. N900 or Netwinder, anyone?
->
-> So to not give the impression that actually *everyone* (from that small subset of people actively reading the kernel list) is happy with that, I think that having support for at least Midway would be useful. On the one hand it's a decent LPAE platform (with memory actually exceeding 4GB), and on the other hand it's something with capable I/O (SATA) and networking, so one can actually stress test the system. Which is the reason I was using that for KVM testing, but even with that probably going away now there remain still some use cases, and be it for general ARM(32) testing.
+Hi Russell,
 
-Does LPAE with more than 4GB actually need to work if there's not
-another platform out there?
-
-> I don't particularly care about the more optional parts like EDAC, cpuidle, or cpufreq, but I wonder if keeping in at least the rather small SATA and XGMAC drivers and basic platform support is feasible.
-
-cpuidle isn't actually stable from what I remember. I think without
-cpufreq, we default to 1.1GHz instead of 1.4.
-
-> If YAML DT bindings are used as an excuse, I am more than happy to convert those over.
-
-Thanks!
-
->
-> And if anyone has any particular gripes with some code, maybe there is a way to fix that instead of removing it? I was always wondering if we could get rid of the mach-highbank directory, for instance. I think most of it is Highbank (Cortex-A9) related.
-
-All the reset/suspend/poweroff and coherency parts are shared. The SCU
-and L2 parts could be removed, but not really worth the surgery IMO.
-
-Rob
+this series fixes the arm dma coherent allocator to take the bus dma
+mask into account, similar to what other architectures do.  Without
+this devices that support 64-bit mask, but are limited by the
+interconnect won't work properly.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
