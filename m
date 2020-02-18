@@ -1,59 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id F26FC162EDE
-	for <lists.iommu@lfdr.de>; Tue, 18 Feb 2020 19:42:07 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6535B162EDF
+	for <lists.iommu@lfdr.de>; Tue, 18 Feb 2020 19:42:16 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A33EA83957;
-	Tue, 18 Feb 2020 18:42:06 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 283F7853E6;
+	Tue, 18 Feb 2020 18:42:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gfTYmdF8qRDZ; Tue, 18 Feb 2020 18:42:06 +0000 (UTC)
+	with ESMTP id in0bXJKzOgRG; Tue, 18 Feb 2020 18:42:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7583484B2D;
-	Tue, 18 Feb 2020 18:42:06 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 8DC658557B;
+	Tue, 18 Feb 2020 18:42:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 569C3C013E;
-	Tue, 18 Feb 2020 18:42:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 89818C013E;
+	Tue, 18 Feb 2020 18:42:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2D779C013E
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:42:04 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E6CB5C013E
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:42:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 2994C82019
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:42:04 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id D58EC848AF
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:42:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gUckafIjDUBe for <iommu@lists.linux-foundation.org>;
- Tue, 18 Feb 2020 18:42:03 +0000 (UTC)
+ with ESMTP id zQD4ebnllTFB for <iommu@lists.linux-foundation.org>;
+ Tue, 18 Feb 2020 18:42:13 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [198.137.202.133])
- by hemlock.osuosl.org (Postfix) with ESMTPS id F418F81F17
- for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:42:02 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 6499283A94
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Feb 2020 18:42:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=VQL9b0KCtYJf/wKA75fcrO7i0ZsCI/zdnz7C6Mgld9E=; b=dt3nhAKHFUYD4fQquR+byh0g+C
- LkOyIGy4cFbzqTwpGBti5+Pz050ibdUOBGlRrSyBVmNn4QD1kAGNyn78acwP29WxEfNdlelKTEXd5
- JhCWIZtnImkRmyS/+N10xgd1XLpHLP1qGTfyE6w+hQ4lptNNzvtDdRdFkpW/gvIE8qPw21y6bNHup
- HBdJCl7PXjDHgC1TnlnU+iVsGIBQ5sAOVyOnFjoibMECVFEiafa1BpEoEMPCCGhdMOPWlrXrQqIF9
- axGjpvGq704pw29Lp+edRAFFcbqCqI8RFLsTT/PTtt9bbXCrIPXSTH4sCngq36zvIeqN+lWXzoTz0
- uENcsp8w==;
+ bh=jqbI93a3yxdc0ao0130GGCEXVWckV3ZL1Y/tigDybE0=; b=Nnl03IJEq5Qpcswxni7luOuStD
+ tuO1aTfL02GJrMl0QJrVRVNdZw8xPwhBe1DBz2GsRg+jZkYBmIKR3OwEfPtBEIg4mF9lfq5yeZy64
+ zOfxror/NH8pW7sdFQBVJsK/hadyRMiP9IyK7fZs/o6ZVjS4PRtHu1fD5ckH0bLfcQKraIU1wQR0p
+ K4TIIwtyMD5j4k0WZ5fnCDtfLUSPdETDnILGv8om/KHAlypLtlBlwARtnA9xKRqs/L+XgoVS9UUkb
+ 215AnnAuevSpGvFQHXJM3nOMK1B5EGV6i4d/G+6YbNHFrBPFYyiVXfw0wY+qSPneOpZ5/LnCrk7/a
+ e5ZwxNQA==;
 Received: from [199.255.44.128] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1j47oh-0002xO-K7; Tue, 18 Feb 2020 18:41:55 +0000
+ id 1j47ou-000390-KX; Tue, 18 Feb 2020 18:42:08 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Russell King <linux@armlinux.org.uk>
-Subject: [PATCH 2/3] ARM/dma-mapping: take the bus limit into account in
- __dma_alloc
-Date: Tue, 18 Feb 2020 10:41:02 -0800
-Message-Id: <20200218184103.35932-3-hch@lst.de>
+Subject: [PATCH 3/3] ARM/dma-mapping: merge __dma_supported into
+ arm_dma_supported
+Date: Tue, 18 Feb 2020 10:41:03 -0800
+Message-Id: <20200218184103.35932-4-hch@lst.de>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200218184103.35932-1-hch@lst.de>
 References: <20200218184103.35932-1-hch@lst.de>
@@ -80,30 +80,94 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The DMA coherent allocator needs to take bus limits into account for
-picking the zone that the memory is allocated from.
+Merge __dma_supported into its only caller, and move the resulting
+function so that it doesn't need a forward declaration.  Also mark
+it static as there are no callers outside of dma-mapping.c.
 
-Reported-by: Roger Quadros <rogerq@ti.com>
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Tested-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
-Tested-by: Roger Quadros <rogerq@ti.com>
 ---
- arch/arm/mm/dma-mapping.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/include/asm/dma-iommu.h |  2 --
+ arch/arm/mm/dma-mapping.c        | 41 +++++++++++++-------------------
+ 2 files changed, 17 insertions(+), 26 deletions(-)
 
+diff --git a/arch/arm/include/asm/dma-iommu.h b/arch/arm/include/asm/dma-iommu.h
+index 772f48ef84b7..86405cc81385 100644
+--- a/arch/arm/include/asm/dma-iommu.h
++++ b/arch/arm/include/asm/dma-iommu.h
+@@ -33,7 +33,5 @@ int arm_iommu_attach_device(struct device *dev,
+ 					struct dma_iommu_mapping *mapping);
+ void arm_iommu_detach_device(struct device *dev);
+ 
+-int arm_dma_supported(struct device *dev, u64 mask);
+-
+ #endif /* __KERNEL__ */
+ #endif
 diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
-index 72ddc3d0f5eb..87aba505554a 100644
+index 87aba505554a..8a8949174b1c 100644
 --- a/arch/arm/mm/dma-mapping.c
 +++ b/arch/arm/mm/dma-mapping.c
-@@ -658,7 +658,7 @@ static void *__dma_alloc(struct device *dev, size_t size, dma_addr_t *handle,
- 			 gfp_t gfp, pgprot_t prot, bool is_coherent,
- 			 unsigned long attrs, const void *caller)
+@@ -179,6 +179,23 @@ static void arm_dma_sync_single_for_device(struct device *dev,
+ 	__dma_page_cpu_to_dev(page, offset, size, dir);
+ }
+ 
++/*
++ * Return whether the given device DMA address mask can be supported
++ * properly.  For example, if your device can only drive the low 24-bits
++ * during bus mastering, then you would pass 0x00ffffff as the mask
++ * to this function.
++ */
++static int arm_dma_supported(struct device *dev, u64 mask)
++{
++	unsigned long max_dma_pfn = min(max_pfn - 1, arm_dma_pfn_limit);
++
++	/*
++	 * Translate the device's DMA mask to a PFN limit.  This
++	 * PFN number includes the page which we can DMA to.
++	 */
++	return dma_to_pfn(dev, mask) >= max_dma_pfn;
++}
++
+ const struct dma_map_ops arm_dma_ops = {
+ 	.alloc			= arm_dma_alloc,
+ 	.free			= arm_dma_free,
+@@ -219,19 +236,6 @@ const struct dma_map_ops arm_coherent_dma_ops = {
+ };
+ EXPORT_SYMBOL(arm_coherent_dma_ops);
+ 
+-static int __dma_supported(struct device *dev, u64 mask)
+-{
+-	unsigned long max_dma_pfn = min(max_pfn - 1, arm_dma_pfn_limit);
+-
+-	/*
+-	 * Translate the device's DMA mask to a PFN limit.  This
+-	 * PFN number includes the page which we can DMA to.
+-	 */
+-	if (dma_to_pfn(dev, mask) < max_dma_pfn)
+-		return 0;
+-	return 1;
+-}
+-
+ static void __dma_clear_buffer(struct page *page, size_t size, int coherent_flag)
  {
--	u64 mask = dev->coherent_dma_mask;
-+	u64 mask = min_not_zero(dev->coherent_dma_mask, dev->bus_dma_limit);
- 	struct page *page = NULL;
- 	void *addr;
- 	bool allowblock, cma;
+ 	/*
+@@ -1054,17 +1058,6 @@ void arm_dma_sync_sg_for_device(struct device *dev, struct scatterlist *sg,
+ 					    dir);
+ }
+ 
+-/*
+- * Return whether the given device DMA address mask can be supported
+- * properly.  For example, if your device can only drive the low 24-bits
+- * during bus mastering, then you would pass 0x00ffffff as the mask
+- * to this function.
+- */
+-int arm_dma_supported(struct device *dev, u64 mask)
+-{
+-	return __dma_supported(dev, mask);
+-}
+-
+ static const struct dma_map_ops *arm_get_dma_map_ops(bool coherent)
+ {
+ 	/*
 -- 
 2.24.1
 
