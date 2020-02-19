@@ -2,56 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C340D16406B
-	for <lists.iommu@lfdr.de>; Wed, 19 Feb 2020 10:29:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31CA31640B6
+	for <lists.iommu@lfdr.de>; Wed, 19 Feb 2020 10:46:15 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3D89F84495;
-	Wed, 19 Feb 2020 09:29:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B866385C5E;
+	Wed, 19 Feb 2020 09:46:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FYA3tGwsllPR; Wed, 19 Feb 2020 09:29:40 +0000 (UTC)
+	with ESMTP id LyaCJ4nmDrGJ; Wed, 19 Feb 2020 09:46:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C3F5A843ED;
-	Wed, 19 Feb 2020 09:29:40 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8911D85413;
+	Wed, 19 Feb 2020 09:46:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AAF2FC013E;
-	Wed, 19 Feb 2020 09:29:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6ECCBC013E;
+	Wed, 19 Feb 2020 09:46:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DFBCBC013E
- for <iommu@lists.linux-foundation.org>; Wed, 19 Feb 2020 09:29:38 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3330DC013E
+ for <iommu@lists.linux-foundation.org>; Wed, 19 Feb 2020 09:46:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id C93F581F17
- for <iommu@lists.linux-foundation.org>; Wed, 19 Feb 2020 09:29:38 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2121084031
+ for <iommu@lists.linux-foundation.org>; Wed, 19 Feb 2020 09:46:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3FYPVaS7vyEj for <iommu@lists.linux-foundation.org>;
- Wed, 19 Feb 2020 09:29:38 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 1353C81F0F
- for <iommu@lists.linux-foundation.org>; Wed, 19 Feb 2020 09:29:38 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 885C2B2CC;
- Wed, 19 Feb 2020 09:29:36 +0000 (UTC)
-Date: Wed, 19 Feb 2020 10:29:34 +0100
-From: Joerg Roedel <jroedel@suse.de>
-To: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH 1/5] iommu/vt-d: Add attach_deferred() helper
-Message-ID: <20200219092934.GJ23114@suse.de>
-References: <20200217193858.26990-1-joro@8bytes.org>
- <20200217193858.26990-2-joro@8bytes.org>
- <20200218171454.GA7067@infradead.org>
+ with ESMTP id HFDZfgN7MR4X for <iommu@lists.linux-foundation.org>;
+ Wed, 19 Feb 2020 09:46:09 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id A039782383
+ for <iommu@lists.linux-foundation.org>; Wed, 19 Feb 2020 09:46:09 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 38850346; Wed, 19 Feb 2020 10:46:06 +0100 (CET)
+Date: Wed, 19 Feb 2020 10:46:04 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: "Isaac J. Manjarres" <isaacm@codeaurora.org>
+Subject: Re: [RFC PATCH] iommu/dma: Allow drivers to reserve an iova range
+Message-ID: <20200219094604.GI22063@8bytes.org>
+References: <1581721096-16235-1-git-send-email-isaacm@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200218171454.GA7067@infradead.org>
+In-Reply-To: <1581721096-16235-1-git-send-email-isaacm@codeaurora.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: linux-kernel@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
- iommu@lists.linux-foundation.org
+Cc: kernel-team@android.com, iommu@lists.linux-foundation.org,
+ pratikp@codeaurora.org, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,21 +66,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Feb 18, 2020 at 09:14:54AM -0800, Christoph Hellwig wrote:
-> > +static bool attach_deferred(struct device *dev)
-> > +{
-> > +	return dev->archdata.iommu == DEFER_DEVICE_DOMAIN_INFO;
-> > +}
+On Fri, Feb 14, 2020 at 02:58:16PM -0800, Isaac J. Manjarres wrote:
+> From: Liam Mark <lmark@codeaurora.org>
 > 
-> This is not a very useful helper.
+> Some devices have a memory map which contains gaps or holes.
+> In order for the device to have as much IOVA space as possible,
+> allow its driver to inform the DMA-IOMMU layer that it should
+> not allocate addresses from these holes.
+> 
+> Change-Id: I15bd1d313d889c2572d0eb2adecf6bebde3267f7
+> Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
 
-Depends on what one considers useful. I think such helpers make the code
-better readable, which is pretty useful to me.
+Ideally this is something put into the IOMMU firmware table by the
+platform firmware. If its not there, a quirk is the best way to handle
+this.
 
 Regards,
 
 	Joerg
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
