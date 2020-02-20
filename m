@@ -1,86 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA9916675D
-	for <lists.iommu@lfdr.de>; Thu, 20 Feb 2020 20:43:37 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6602D16678D
+	for <lists.iommu@lfdr.de>; Thu, 20 Feb 2020 20:52:25 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 094D686222;
-	Thu, 20 Feb 2020 19:43:36 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0E8AC2153D;
+	Thu, 20 Feb 2020 19:52:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3iwrIsa8fxyf; Thu, 20 Feb 2020 19:43:35 +0000 (UTC)
+	with ESMTP id TGON5nkK2IG5; Thu, 20 Feb 2020 19:52:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 773E7861C9;
-	Thu, 20 Feb 2020 19:43:35 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 811BD214E4;
+	Thu, 20 Feb 2020 19:52:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6A637C013E;
-	Thu, 20 Feb 2020 19:43:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 68DEBC013E;
+	Thu, 20 Feb 2020 19:52:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AEDE3C013E
- for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 18:57:35 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 98F2AC013E
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 19:52:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9E012860C6
- for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 18:57:35 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 87CDD8623E
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 19:52:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EEmo6nN4TmIe for <iommu@lists.linux-foundation.org>;
- Thu, 20 Feb 2020 18:57:35 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B99718485A
- for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 18:57:33 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1582225055; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=vvYcgKLiQoRaBLEmDopEG/p1yFw3UjwbMybQGfgcmIs=;
- b=QAn63XpO+s4x6BI6KWAIeLC1psd9q2/6yt74D/yvSA8kHTqNJlLFnhJEjjf4D/qleltPZ1hK
- rG1yg1gndEWILiikq7AagL28hd2CQxP9AdONN/Xb24DYPK/mJJiwXmYO/QUNvDN3xVmD8gIo
- E/U7ICYqSmTfcmz/sspXcwRqrdQ=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e4ed69a.7f32dd5bd2d0-smtp-out-n03;
- Thu, 20 Feb 2020 18:57:30 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 66ADFC447A2; Thu, 20 Feb 2020 18:57:29 +0000 (UTC)
-Received: from localhost (i-global254.qualcomm.com [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: pratikp)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id BC218C43383;
- Thu, 20 Feb 2020 18:57:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BC218C43383
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=pratikp@codeaurora.org
-Date: Thu, 20 Feb 2020 10:57:28 -0800
-From: Pratik Patel <pratikp@codeaurora.org>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [RFC PATCH] iommu/dma: Allow drivers to reserve an iova range
-Message-ID: <20200220185728.GA32137@pratikp-lnx>
-References: <1581721096-16235-1-git-send-email-isaacm@codeaurora.org>
- <20200217080138.GB10342@infradead.org>
- <c58fd502-52a4-cb0f-6e7f-e9cc00627313@arm.com>
- <fc6e1b6689bca7a00e6b12d2bc877d20@codeaurora.org>
- <20200219111501.GA19400@willie-the-truck>
- <d8b70a579f07c688b264e83a0ec0b6d6@codeaurora.org>
- <20200220084552.GB11827@willie-the-truck>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200220084552.GB11827@willie-the-truck>
-User-Agent: Mutt/1.11.2 (2019-01-07)
-X-Mailman-Approved-At: Thu, 20 Feb 2020 19:43:34 +0000
-Cc: isaacm@codeaurora.org, kernel-team@android.com,
- linux-kernel@vger.kernel.org, Liam Mark <lmark@codeaurora.org>,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+ with ESMTP id AXv_pgGpSep9 for <iommu@lists.linux-foundation.org>;
+ Thu, 20 Feb 2020 19:52:22 +0000 (UTC)
+X-Greylist: delayed 00:07:38 by SQLgrey-1.7.6
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com
+ [209.85.214.202])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 13AE986239
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 19:52:22 +0000 (UTC)
+Received: by mail-pl1-f202.google.com with SMTP id 71so2760019plb.18
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 11:52:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=A+oVpb+Lk0C4bnIx0YQSuGzTprOuprdSgDwQ17Ryeq8=;
+ b=QZ0uQ2KOiOtz27OTmXVuPdy+gb5tJEgosgIPP20QlpfkVTPle1eV9rnsiQPHgrpD5X
+ qbCig5OBHinZv6GG1T/hbfwUB04jCeISf9ONeijcwbDWf5dM4cYHteDIz6CDSqJXe6pz
+ qPPQ/aG8Alq5YnJesmPag0mar3R4IwZTbwVBEADKHVxphochRgLSh935uNNpkEbn9PyC
+ 1P8fOHwhNqXJlZmC6Cepf+cUttboYMo4a91VQoIsba8RVrHWdJZPaW9Kl34lcU+s9LrN
+ zl8Ehs5Wzl3LkrO7Frqat+skbWh5DML28CSifsderE2+WBhicJl6Mup+ZJeR+iQDguGt
+ VcMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=A+oVpb+Lk0C4bnIx0YQSuGzTprOuprdSgDwQ17Ryeq8=;
+ b=NcXyrRO+rqxikOfNqyEy1To5bBVBOS0csuOhg+lnESnhamUi4EuLuj8Z1Y2zWgZZvA
+ ccUkAQuZd+AkWk+BElm5foIfJf5GaIx4sF2vU3ReO0/QtK9wmBA4Urex/Pabt2/FAJw/
+ St1i4uXVpYRWfga7AGH0daMj97DN/o8W7IM5o7OYHl6gl2uWlLdRPzFrYytblMmEw7QL
+ pyZPQZ1VoD3TcmKUyOCgl5MggCJLmD+fG1s0wuK7M6www/PGaKcGjnLlpmvV+nnCJyHr
+ 9dXVq3aBLWMNmsmZSvRnl10TUNR8ImhdDz4o/9R+kAVhxzg5mC1MPqGbS6Zfw4auJvg+
+ Du/g==
+X-Gm-Message-State: APjAAAUf6HIEz5J3iRXuLCbR4SBgV3u+K9zZkvkVkAJgT5PHGf0XAKrB
+ 0Oj9I13X9OFUCkI3v2VuzU1IlDzUd/pAcg==
+X-Google-Smtp-Source: APXvYqyDNBAd9llJr9uXqcKnHjQnxyRTE1k3X8Epf4THWj+dS6sSLVAZ4gd2YU4H44IvNCnSBzQLKMTRfm6Q4g==
+X-Received: by 2002:a63:790f:: with SMTP id u15mr33406976pgc.172.1582227883584; 
+ Thu, 20 Feb 2020 11:44:43 -0800 (PST)
+Date: Thu, 20 Feb 2020 11:44:31 -0800
+Message-Id: <20200220194431.169629-1-yonghyun@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
+Subject: [PATCH v2] iommu/vt-d: Fix a bug in intel_iommu_iova_to_phys() for
+ huge page
+To: David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>
+Cc: Yonghyun Hwang <yonghyun@google.com>, linux-kernel@vger.kernel.org,
+ Havard Skinnemoen <hskinnemoen@google.com>, iommu@lists.linux-foundation.org,
+ Moritz Fischer <mdf@kernel.org>, Deepa Dinamani <deepadinamani@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,43 +84,47 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Yonghyun Hwang via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Yonghyun Hwang <yonghyun@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 02/20  08:45 am, Will Deacon wrote:
-> On Wed, Feb 19, 2020 at 12:06:28PM -0800, isaacm@codeaurora.org wrote:
-> > On 2020-02-19 03:15, Will Deacon wrote:
-> > > On Tue, Feb 18, 2020 at 05:57:18PM -0800, isaacm@codeaurora.org wrote:
-> > > > Does this mean that the driver should be managing the IOVA space and
-> > > > mappings for this device using the IOMMU API? If so, is the
-> > > > rationale for
-> > > > this because the device driver can have the information of what IOVA
-> > > > ranges
-> > > > can and cannot be used? Shouldn't there be a generic way of
-> > > > informing an
-> > > > IOMMU driver about these reserved ranges? Perhaps through a device
-> > > > tree
-> > > > property, instead of deferring this type of management to the driver?
-> > > 
-> > > Before we dive into designing that, can you please clarify whether the
-> > > reserved IOVA range applies to all DMA masters mastering through a
-> > > particular SMMU, or whether it's just about one specific master? I was
-> > > assuming the former, but wanted to be sure.
-> > > 
-> > This situation currently applies to one master.
-> 
-> Interesting. Is it problematic if the range is reserved for all masters
-> sharing that SMMU?
-> 
-Yes, that would be an overkill. It certainly is useful and in
-some cases quite helpful to not waste that range of IOVA space for
-other masters on the same SMMU that can use it.
+intel_iommu_iova_to_phys() has a bug when it translates an IOVA for a huge
+page onto its corresponding physical address. This commit fixes the bug by
+accomodating the level of page entry for the IOVA and adds IOVA's lower
+address to the physical address.
 
+Signed-off-by: Yonghyun Hwang <yonghyun@google.com>
+---
+
+Changes from v1:
+- level cannot be 0. So, the condition, "if (level > 1)", is removed, which results in a simple code.
+- a macro, BIT_MASK, is used to have a bit mask
+
+---
+ drivers/iommu/intel-iommu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index 932267f49f9a..4fd5c6287b6d 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -5554,7 +5554,9 @@ static phys_addr_t intel_iommu_iova_to_phys(struct iommu_domain *domain,
+ 
+ 	pte = pfn_to_dma_pte(dmar_domain, iova >> VTD_PAGE_SHIFT, &level);
+ 	if (pte)
+-		phys = dma_pte_addr(pte);
++		phys = dma_pte_addr(pte) +
++			(iova & (BIT_MASK(level_to_offset_bits(level) +
++						VTD_PAGE_SHIFT) - 1));
+ 
+ 	return phys;
+ }
 -- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project 
+2.25.0.265.gbab2e86ba0-goog
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
