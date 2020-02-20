@@ -1,93 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2303B1664C4
-	for <lists.iommu@lfdr.de>; Thu, 20 Feb 2020 18:27:17 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F99166441
+	for <lists.iommu@lfdr.de>; Thu, 20 Feb 2020 18:21:44 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C326B87527;
-	Thu, 20 Feb 2020 17:27:15 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 559BA20371;
+	Thu, 20 Feb 2020 17:21:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hi1WWn40Pm3M; Thu, 20 Feb 2020 17:27:13 +0000 (UTC)
+	with ESMTP id qZOVsu+AQhuF; Thu, 20 Feb 2020 17:21:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 23FED87582;
-	Thu, 20 Feb 2020 17:27:13 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E36DB2034A;
+	Thu, 20 Feb 2020 17:21:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0A811C1D84;
-	Thu, 20 Feb 2020 17:27:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C2660C013E;
+	Thu, 20 Feb 2020 17:21:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7520FC013E
- for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 17:07:51 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A964BC013E
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 17:21:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 63B5A8605E
- for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 17:07:51 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 91C9B85FC7
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 17:21:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id d8Gx13gyFdRq for <iommu@lists.linux-foundation.org>;
- Thu, 20 Feb 2020 17:07:50 +0000 (UTC)
+ with ESMTP id MWjTGIsjj03p for <iommu@lists.linux-foundation.org>;
+ Thu, 20 Feb 2020 17:21:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [207.211.31.120])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id AD20485FEB
- for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 17:07:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582218469;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fRyl+HNCJYGuzif7UHbBNmoq+TguvgwSchvSmXTT2m8=;
- b=fE/e9BO3s04dxjsLtuaukmUnvl2hZ/ESDRI/xlFVc5+ZnuqCdkGxHwuHezHyVNT1NfV223
- WVISrIvbfXDfWWguTxTUFdGshYqYRYu2J2O1ghiyq1+3diS+X18d5Jg0yF6ie/IYU0GPSp
- GoeGHuXDf7pSIFsHJI6BOauOlB8nBNQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-o5UPWaBQMDeQ-SMDPVJK3A-1; Thu, 20 Feb 2020 12:07:44 -0500
-X-MC-Unique: o5UPWaBQMDeQ-SMDPVJK3A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3649800EB4;
- Thu, 20 Feb 2020 17:07:38 +0000 (UTC)
-Received: from redhatnow.users.ipa.redhat.com (ovpn-117-1.phx2.redhat.com
- [10.3.117.1])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A06D90F65;
- Thu, 20 Feb 2020 17:07:29 +0000 (UTC)
-Subject: Re: [RFC PATCH 02/11] ata: Remove Calxeda AHCI driver
-To: Rob Herring <robh@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, soc@kernel.org,
- Andre Przywara <andre.przywara@arm.com>,
- Robert Richter <rrichter@marvell.com>, Jon Loeliger <jdl@jdl.com>,
- Alexander Graf <graf@amazon.com>, Matthias Brugger <mbrugger@suse.com>
-References: <20200218171321.30990-1-robh@kernel.org>
- <20200218171321.30990-3-robh@kernel.org>
-From: Mark Langsdorf <mlangsdo@redhat.com>
-Message-ID: <bf1291f2-597e-bff9-6780-ec233f5c2a20@redhat.com>
-Date: Thu, 20 Feb 2020 11:07:29 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 5F90C85FC6
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Feb 2020 17:21:39 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A769931B;
+ Thu, 20 Feb 2020 09:21:38 -0800 (PST)
+Received: from [10.1.196.37] (e121345-lin.cambridge.arm.com [10.1.196.37])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3533A3F68F;
+ Thu, 20 Feb 2020 09:21:37 -0800 (PST)
+Subject: Re: [PATCH 1/2] dma-mapping: support setting memory uncached in place
+To: Christoph Hellwig <hch@lst.de>, Jonas Bonn <jonas@southpole.se>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ Stafford Horne <shorne@gmail.com>
+References: <20200220170139.387354-1-hch@lst.de>
+ <20200220170139.387354-2-hch@lst.de>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <502fa745-ddad-f91b-52bc-52edecf8fdbc@arm.com>
+Date: Thu, 20 Feb 2020 17:21:35 +0000
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200218171321.30990-3-robh@kernel.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mailman-Approved-At: Thu, 20 Feb 2020 17:27:11 +0000
-Cc: kvm@vger.kernel.org, Viresh Kumar <viresh.kumar@linaro.org>,
- linux-ide@vger.kernel.org, Will Deacon <will@kernel.org>,
- linux-clk@vger.kernel.org, Daniel Lezcano <daniel.lezcano@linaro.org>,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- Alex Williamson <alex.williamson@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-edac@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, Tony Luck <tony.luck@intel.com>,
- Stephen Boyd <sboyd@kernel.org>, netdev@vger.kernel.org,
- Cornelia Huck <cohuck@redhat.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- iommu@lists.linux-foundation.org, James Morse <james.morse@arm.com>,
- Robin Murphy <robin.murphy@arm.com>, "David S. Miller" <davem@davemloft.net>
+In-Reply-To: <20200220170139.387354-2-hch@lst.de>
+Content-Language: en-GB
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-arch@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ openrisc@lists.librecores.org, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,14 +75,152 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2/18/20 11:13 AM, Rob Herring wrote:
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: linux-ide@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
+On 20/02/2020 5:01 pm, Christoph Hellwig wrote:
+> We currently only support remapping memory as uncached through vmap
+> or a magic uncached segment provided by some architectures.  But there
+> is a simpler and much better way available on some architectures where
+> we can just remap the memory in place.  The advantages are:
+> 
+>   1) no aliasing is possible, which prevents speculating into the
+>      cached alias
+>   2) there is no need to allocate new ptes and thus no need for a special
+>      pre-allocated pool of memory that can be used with GFP_ATOMIC DMA
+>      allocations
+> 
+> The downside is that architectures must provide a way to set arbitrary
+> pages uncached in the kernel mapping, which might not be possible on
+> architecture that have a special implicit kernel mapping, and requires
+> splitting of huge page kernel mappings where they exist.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
+>   include/linux/dma-noncoherent.h |  3 +++
+>   kernel/dma/Kconfig              |  8 ++++++++
+>   kernel/dma/direct.c             | 28 ++++++++++++++++++----------
+>   3 files changed, 29 insertions(+), 10 deletions(-)
+> 
+> diff --git a/include/linux/dma-noncoherent.h b/include/linux/dma-noncoherent.h
+> index ca9b5770caee..0820ec58f119 100644
+> --- a/include/linux/dma-noncoherent.h
+> +++ b/include/linux/dma-noncoherent.h
+> @@ -111,4 +111,7 @@ static inline void arch_dma_prep_coherent(struct page *page, size_t size)
+>   void *uncached_kernel_address(void *addr);
+>   void *cached_kernel_address(void *addr);
+>   
+> +int arch_dma_set_uncached(void *cpu_addr, size_t size);
+> +void arch_dma_clear_uncached(void *cpu_addr, size_t size);
+> +
+>   #endif /* _LINUX_DMA_NONCOHERENT_H */
+> diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
+> index 4c103a24e380..7bc0b77f1243 100644
+> --- a/kernel/dma/Kconfig
+> +++ b/kernel/dma/Kconfig
+> @@ -83,6 +83,14 @@ config DMA_DIRECT_REMAP
+>   	bool
+>   	select DMA_REMAP
+>   
+> +#
+> +# Should be selected if the architecture can remap memory from the page
+> +# allocator and CMA as uncached and provides the arch_dma_set_uncached and
+> +# arch_dma_clear_uncached helpers
+> +#
+> +config ARCH_HAS_DMA_SET_UNCACHED
+> +	bool
+> +
+>   config DMA_CMA
+>   	bool "DMA Contiguous Memory Allocator"
+>   	depends on HAVE_DMA_CONTIGUOUS && CMA
+> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> index 6af7ae83c4ad..73fe65a4cbc0 100644
+> --- a/kernel/dma/direct.c
+> +++ b/kernel/dma/direct.c
+> @@ -169,11 +169,8 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+>   		ret = dma_common_contiguous_remap(page, PAGE_ALIGN(size),
+>   				dma_pgprot(dev, PAGE_KERNEL, attrs),
+>   				__builtin_return_address(0));
+> -		if (!ret) {
+> -			dma_free_contiguous(dev, page, size);
+> -			return ret;
+> -		}
+> -
+> +		if (!ret)
+> +			goto out_free_pages;
+>   		memset(ret, 0, size);
+>   		goto done;
+>   	}
+> @@ -186,8 +183,7 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+>   		 * so log an error and fail.
+>   		 */
+>   		dev_info(dev, "Rejecting highmem page from CMA.\n");
+> -		dma_free_contiguous(dev, page, size);
+> -		return NULL;
+> +		goto out_free_pages;
+>   	}
+>   
+>   	ret = page_address(page);
+> @@ -196,10 +192,15 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+>   
+>   	memset(ret, 0, size);
+>   
+> -	if (IS_ENABLED(CONFIG_ARCH_HAS_UNCACHED_SEGMENT) &&
+> -	    dma_alloc_need_uncached(dev, attrs)) {
+> +	if (dma_alloc_need_uncached(dev, attrs)) {
+>   		arch_dma_prep_coherent(page, size);
+> -		ret = uncached_kernel_address(ret);
+> +
+> +		if (IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED)) {
+> +			if (!arch_dma_set_uncached(ret, size))
+> +				goto out_free_pages;
+> +		} else if (IS_ENABLED(CONFIG_ARCH_HAS_UNCACHED_SEGMENT)) {
+> +			ret = uncached_kernel_address(ret);
 
-Acked-by: Mark Langsdorf <mark.langsdorf@gmail.com>
+Hmm, would we actually need to keep ARCH_HAS_UNCACHED_SEGMENT? If 
+arch_dma_set_uncached() returned void*/ERR_PTR instead, then it could 
+work for both cases (with arch_dma_clear_uncached() being a no-op for 
+segments).
 
+Robin.
+
+> +		}
+>   	}
+>   done:
+>   	if (force_dma_unencrypted(dev))
+> @@ -207,6 +208,9 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+>   	else
+>   		*dma_handle = phys_to_dma(dev, page_to_phys(page));
+>   	return ret;
+> +out_free_pages:
+> +	dma_free_contiguous(dev, page, size);
+> +	return NULL;
+>   }
+>   
+>   void dma_direct_free_pages(struct device *dev, size_t size, void *cpu_addr,
+> @@ -230,6 +234,8 @@ void dma_direct_free_pages(struct device *dev, size_t size, void *cpu_addr,
+>   
+>   	if (IS_ENABLED(CONFIG_DMA_REMAP) && is_vmalloc_addr(cpu_addr))
+>   		vunmap(cpu_addr);
+> +	else if (IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED))
+> +		arch_dma_clear_uncached(cpu_addr, size);
+>   
+>   	dma_free_contiguous(dev, dma_direct_to_page(dev, dma_addr), size);
+>   }
+> @@ -238,6 +244,7 @@ void *dma_direct_alloc(struct device *dev, size_t size,
+>   		dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+>   {
+>   	if (!IS_ENABLED(CONFIG_ARCH_HAS_UNCACHED_SEGMENT) &&
+> +	    !IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
+>   	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
+>   	    dma_alloc_need_uncached(dev, attrs))
+>   		return arch_dma_alloc(dev, size, dma_handle, gfp, attrs);
+> @@ -248,6 +255,7 @@ void dma_direct_free(struct device *dev, size_t size,
+>   		void *cpu_addr, dma_addr_t dma_addr, unsigned long attrs)
+>   {
+>   	if (!IS_ENABLED(CONFIG_ARCH_HAS_UNCACHED_SEGMENT) &&
+> +	    !IS_ENABLED(CONFIG_ARCH_HAS_DMA_SET_UNCACHED) &&
+>   	    !IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
+>   	    dma_alloc_need_uncached(dev, attrs))
+>   		arch_dma_free(dev, size, cpu_addr, dma_addr, attrs);
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
