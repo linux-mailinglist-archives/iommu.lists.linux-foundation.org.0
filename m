@@ -1,63 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B6E1683AF
-	for <lists.iommu@lfdr.de>; Fri, 21 Feb 2020 17:36:53 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6541683C6
+	for <lists.iommu@lfdr.de>; Fri, 21 Feb 2020 17:39:47 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E490F8645E;
-	Fri, 21 Feb 2020 16:36:51 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F169B221AB;
+	Fri, 21 Feb 2020 16:39:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9tH_740t2IQH; Fri, 21 Feb 2020 16:36:51 +0000 (UTC)
+	with ESMTP id Hsa+-KCc5kMJ; Fri, 21 Feb 2020 16:39:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 15EAF86470;
-	Fri, 21 Feb 2020 16:36:51 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9E54A22128;
+	Fri, 21 Feb 2020 16:39:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 03A2EC013E;
-	Fri, 21 Feb 2020 16:36:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 90C73C013E;
+	Fri, 21 Feb 2020 16:39:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6200AC013E;
- Fri, 21 Feb 2020 16:36:49 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4E87DC013E;
+ Fri, 21 Feb 2020 16:39:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 4FFFE87E9E;
- Fri, 21 Feb 2020 16:36:49 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 37C9687FC9;
+ Fri, 21 Feb 2020 16:39:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OAg5icPX8Q6f; Fri, 21 Feb 2020 16:36:48 +0000 (UTC)
+ with ESMTP id WmfkmnBDFa4V; Fri, 21 Feb 2020 16:39:41 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1DD9C87F71;
- Fri, 21 Feb 2020 16:36:48 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id AADBB87FC3;
+ Fri, 21 Feb 2020 16:39:41 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id BAFB768BFE; Fri, 21 Feb 2020 17:36:45 +0100 (CET)
-Date: Fri, 21 Feb 2020 17:36:45 +0100
+ id 8C11368BFE; Fri, 21 Feb 2020 17:39:38 +0100 (CET)
+Date: Fri, 21 Feb 2020 17:39:38 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: David Gibson <david@gibson.dropbear.id.au>
+To: Halil Pasic <pasic@linux.ibm.com>
 Subject: Re: [PATCH 2/2] virtio: let virtio use DMA API when guest RAM is
  protected
-Message-ID: <20200221163645.GB10054@lst.de>
+Message-ID: <20200221163938.GC10054@lst.de>
 References: <20200220160606.53156-1-pasic@linux.ibm.com>
  <20200220160606.53156-3-pasic@linux.ibm.com> <20200220161309.GB12709@lst.de>
- <20200221025915.GB2298@umbus.fritz.box>
+ <20200221153340.4cdcde81.pasic@linux.ibm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200221025915.GB2298@umbus.fritz.box>
+In-Reply-To: <20200221153340.4cdcde81.pasic@linux.ibm.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: linux-s390@vger.kernel.org, Janosch Frank <frankja@linux.ibm.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, Ram Pai <linuxram@us.ibm.com>,
  linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
- Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>,
- iommu@lists.linux-foundation.org, Michael Mueller <mimu@linux.ibm.com>,
- "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
- Viktor Mihajlovski <mihajlov@linux.ibm.com>,
+ iommu@lists.linux-foundation.org, David Gibson <david@gibson.dropbear.id.au>,
+ Michael Mueller <mimu@linux.ibm.com>, "Lendacky,
+ Thomas" <Thomas.Lendacky@amd.com>, Viktor Mihajlovski <mihajlov@linux.ibm.com>,
  Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -76,30 +75,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Feb 21, 2020 at 01:59:15PM +1100, David Gibson wrote:
+On Fri, Feb 21, 2020 at 03:33:40PM +0100, Halil Pasic wrote:
 > > Hell no.  This is a detail of the platform DMA direct implementation.
-> > Drivers have no business looking at this flag, and virtio finally needs
-> > to be fixed to use the DMA API properly for everything but legacy devices.
 > 
-> So, this patch definitely isn't right as it stands, but I'm struggling
-> to understand what it is you're saying is the right way.
-> 
-> By "legacy devices" I assume you mean pre-virtio-1.0 devices, that
-> lack the F_VERSION_1 feature flag.  Is that right?  Because I don't
-> see how being a legacy device or not relates to use of the DMA API.
+> I beg to differ. If it was a detail of the DMA direct implementation, it
+> should have/would have been private to kernel/dma/direct.c. 
 
-No.   "legacy" is anything that does not set F_ACCESS_PLATFORM.
+It can't given that platforms have to implement it.  It is an arch hook
+for dma-direct.
 
-> I *think* what you are suggesting here is that virtio devices that
-> have !F_IOMMU_PLATFORM should have their dma_ops set up so that the
-> DMA API treats IOVA==PA, which will satisfy what the device expects.
-> Then the virtio driver can use the DMA API the same way for both
-> F_IOMMU_PLATFORM and !F_IOMMU_PLATFORM devices.
+> Consider what would we have to do to make PCI devices do I/O trough
+> pages that were shared when the guest is running in a protected VM. The
+> s390_pci_dma_ops would also need to know whether to 'force dma uencrypted'
+> or not, and it's the exact same logic. I doubt simply using DMA direct
+> for zPCI would do, because we still have to do all the Z specific IOMMU
+> management.
 
-No.  Those should just keep using the existing legacy non-dma ops
-case and be done with it.  No changes to that and most certainly
-no new features.
-
+And your IOMMU can't deal with the encryption bit?  In the case we
+could think of allowing IOMMU implementation to access it.  But the
+point that it is an internal detail of the DMA implementation and by
+now means for drivers.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
