@@ -2,63 +2,77 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B781B169251
-	for <lists.iommu@lfdr.de>; Sun, 23 Feb 2020 00:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A42F4169256
+	for <lists.iommu@lfdr.de>; Sun, 23 Feb 2020 00:39:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5FD5087111;
-	Sat, 22 Feb 2020 23:37:17 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3F02787143;
+	Sat, 22 Feb 2020 23:39:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id M93O6Tt+BU9J; Sat, 22 Feb 2020 23:37:15 +0000 (UTC)
+	with ESMTP id qroqY3DVpwYK; Sat, 22 Feb 2020 23:39:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5B0F08712D;
-	Sat, 22 Feb 2020 23:37:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B616C8734E;
+	Sat, 22 Feb 2020 23:39:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 42EA9C1D89;
-	Sat, 22 Feb 2020 23:37:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A9BDDC013E;
+	Sat, 22 Feb 2020 23:39:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E78C1C013E
- for <iommu@lists.linux-foundation.org>; Sat, 22 Feb 2020 23:37:12 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 74BC2C013E
+ for <iommu@lists.linux-foundation.org>; Sat, 22 Feb 2020 23:39:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D046720439
- for <iommu@lists.linux-foundation.org>; Sat, 22 Feb 2020 23:37:12 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 5E55C84481
+ for <iommu@lists.linux-foundation.org>; Sat, 22 Feb 2020 23:39:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O+Gi040BmPlt for <iommu@lists.linux-foundation.org>;
- Sat, 22 Feb 2020 23:37:11 +0000 (UTC)
+ with ESMTP id 9rckYx6fdrv8 for <iommu@lists.linux-foundation.org>;
+ Sat, 22 Feb 2020 23:39:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by silver.osuosl.org (Postfix) with ESMTPS id CF3C720369
- for <iommu@lists.linux-foundation.org>; Sat, 22 Feb 2020 23:37:11 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2B60384471
+ for <iommu@lists.linux-foundation.org>; Sat, 22 Feb 2020 23:39:33 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 22 Feb 2020 15:37:11 -0800
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 22 Feb 2020 15:39:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,473,1574150400"; d="scan'208";a="230774816"
-Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.212.230])
- ([10.254.212.230])
- by fmsmga008.fm.intel.com with ESMTP; 22 Feb 2020 15:37:08 -0800
-Subject: Re: [PATCH V2 1/5] iommu: Add dev_def_domain_type() call back
+X-IronPort-AV: E=Sophos;i="5.70,473,1574150400"; d="scan'208";a="255199489"
+Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
+ by orsmga002.jf.intel.com with ESMTP; 22 Feb 2020 15:39:32 -0800
+Received: from orsmsx111.amr.corp.intel.com (10.22.240.12) by
+ ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Sat, 22 Feb 2020 15:39:31 -0800
+Received: from orsmsx114.amr.corp.intel.com ([169.254.8.140]) by
+ ORSMSX111.amr.corp.intel.com ([169.254.12.135]) with mapi id 14.03.0439.000;
+ Sat, 22 Feb 2020 15:39:31 -0800
+From: "Prakhya, Sai Praneeth" <sai.praneeth.prakhya@intel.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>, "iommu@lists.linux-foundation.org"
+ <iommu@lists.linux-foundation.org>
+Subject: RE: [PATCH V2 1/5] iommu: Add dev_def_domain_type() call back
  function to iommu_ops
-To: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>,
- iommu@lists.linux-foundation.org
+Thread-Topic: [PATCH V2 1/5] iommu: Add dev_def_domain_type() call back
+ function to iommu_ops
+Thread-Index: AQHV6dkGEw2IVdZfXkGFluqdj8ahSqgn3sWQ
+Date: Sat, 22 Feb 2020 23:39:31 +0000
+Message-ID: <FFF73D592F13FD46B8700F0A279B802F57205110@ORSMSX114.amr.corp.intel.com>
 References: <cover.1581619464.git.sai.praneeth.prakhya@intel.com>
  <297e01568e24d1537e0d7d6c088e363552b8ea49.1581619464.git.sai.praneeth.prakhya@intel.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <7c34585c-0ec4-09d9-dd4a-604f196a2ca8@linux.intel.com>
-Date: Sun, 23 Feb 2020 07:37:07 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <297e01568e24d1537e0d7d6c088e363552b8ea49.1581619464.git.sai.praneeth.prakhya@intel.com>
+ <7c34585c-0ec4-09d9-dd4a-604f196a2ca8@linux.intel.com>
+In-Reply-To: <7c34585c-0ec4-09d9-dd4a-604f196a2ca8@linux.intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-Cc: Ashok Raj <ashok.raj@intel.com>, Will Deacon <will.deacon@arm.com>,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.140]
+MIME-Version: 1.0
+Cc: "Raj, Ashok" <ashok.raj@intel.com>, Will Deacon <will.deacon@arm.com>,
  Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -72,62 +86,50 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Sai,
-
-On 2020/2/17 5:57, Sai Praneeth Prakhya wrote:
-> When user requests kernel to change the default domain type of a group
-> through sysfs, kernel has to make sure that it's ok to change the domain
-> type of every device in the group to the requested domain (every device may
-> not support both the domain types i.e. DMA and identity). Hence, add a call
-> back function that could be implemented per architecture that performs the
-> above check.
 > 
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Joerg Roedel <joro@8bytes.org>
-> Cc: Ashok Raj <ashok.raj@intel.com>
-> Cc: Will Deacon <will.deacon@arm.com>
-> Cc: Lu Baolu <baolu.lu@linux.intel.com>
-> Cc: Sohil Mehta <sohil.mehta@intel.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
-> ---
->   include/linux/iommu.h | 3 +++
->   1 file changed, 3 insertions(+)
+> On 2020/2/17 5:57, Sai Praneeth Prakhya wrote:
+> > When user requests kernel to change the default domain type of a group
+> > through sysfs, kernel has to make sure that it's ok to change the
+> > domain type of every device in the group to the requested domain
+> > (every device may not support both the domain types i.e. DMA and
+> > identity). Hence, add a call back function that could be implemented
+> > per architecture that performs the above check.
+> >
+> > Cc: Christoph Hellwig <hch@lst.de>
+> > Cc: Joerg Roedel <joro@8bytes.org>
+> > Cc: Ashok Raj <ashok.raj@intel.com>
+> > Cc: Will Deacon <will.deacon@arm.com>
+> > Cc: Lu Baolu <baolu.lu@linux.intel.com>
+> > Cc: Sohil Mehta <sohil.mehta@intel.com>
+> > Cc: Robin Murphy <robin.murphy@arm.com>
+> > Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+> > ---
+> >   include/linux/iommu.h | 3 +++
+> >   1 file changed, 3 insertions(+)
+> >
+> > diff --git a/include/linux/iommu.h b/include/linux/iommu.h index
+> > d1b5f4d98569..3f4aaad0aeb7 100644
+> > --- a/include/linux/iommu.h
+> > +++ b/include/linux/iommu.h
+> > @@ -248,6 +248,7 @@ struct iommu_iotlb_gather {
+> >    * @cache_invalidate: invalidate translation caches
+> >    * @sva_bind_gpasid: bind guest pasid and mm
+> >    * @sva_unbind_gpasid: unbind guest pasid and mm
+> > + * @dev_def_domain_type: Return the required default domain type for
+> > + a device
 > 
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index d1b5f4d98569..3f4aaad0aeb7 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -248,6 +248,7 @@ struct iommu_iotlb_gather {
->    * @cache_invalidate: invalidate translation caches
->    * @sva_bind_gpasid: bind guest pasid and mm
->    * @sva_unbind_gpasid: unbind guest pasid and mm
-> + * @dev_def_domain_type: Return the required default domain type for a device
+> Can you please define the return value of this callback?
 
-Can you please define the return value of this callback?
+Sure! I will add it in the next version
 
-Best regards,
-baolu
-
->    * @pgsize_bitmap: bitmap of all possible supported page sizes
->    * @owner: Driver module providing these ops
->    */
-> @@ -318,6 +319,8 @@ struct iommu_ops {
->   
->   	int (*sva_unbind_gpasid)(struct device *dev, int pasid);
->   
-> +	int (*dev_def_domain_type)(struct device *dev);
-> +
->   	unsigned long pgsize_bitmap;
->   	struct module *owner;
->   };
-> 
+Regards,
+Sai
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
