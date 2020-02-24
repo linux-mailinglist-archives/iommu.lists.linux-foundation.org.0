@@ -1,104 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC4A169E36
-	for <lists.iommu@lfdr.de>; Mon, 24 Feb 2020 07:06:59 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C2D169EA6
+	for <lists.iommu@lfdr.de>; Mon, 24 Feb 2020 07:44:03 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 8FC42204DD;
-	Mon, 24 Feb 2020 06:06:57 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 74CC285BC8;
+	Mon, 24 Feb 2020 06:44:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lqPqwXtOrUZ3; Mon, 24 Feb 2020 06:06:55 +0000 (UTC)
+	with ESMTP id gSDerj_3777i; Mon, 24 Feb 2020 06:44:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id AA0BA2046B;
-	Mon, 24 Feb 2020 06:06:55 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2E94D85B4D;
+	Mon, 24 Feb 2020 06:44:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 842E8C1D89;
-	Mon, 24 Feb 2020 06:06:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 20130C0177;
+	Mon, 24 Feb 2020 06:44:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A7FDEC0177
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 06:06:53 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03650C0177;
+ Mon, 24 Feb 2020 06:43:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A32A220478
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 06:06:53 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id E82EB85C19;
+ Mon, 24 Feb 2020 06:43:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bAVJmDXXqtSz for <iommu@lists.linux-foundation.org>;
- Mon, 24 Feb 2020 06:06:51 +0000 (UTC)
+ with ESMTP id YzsJW8dvrfsG; Mon, 24 Feb 2020 06:43:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by silver.osuosl.org (Postfix) with ESMTPS id 7D65E203E4
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 06:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582524410;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iQDzxX80bgi0m3zVo97LJaYr2snJfMVwzytXMvJXGx0=;
- b=NCmSAkje6hM8QNOs8GTflJOCNhJ+YV6DaEpxgYkzlGWqXe+/Ov8091DvOFGwmSi5zAf5Mc
- 8ci0Lw0PBEfBp9srqXASilvPvN3OwlT7x2vw4Jj/Wy29Mwe31yQkB6L+WLdYL2fCUOyMr+
- ScqcczpOe+9hb3bvfTIeDuzxlzxc0Y8=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-hpmN8tmQO7SCGdIBZiXL0g-1; Mon, 24 Feb 2020 01:06:48 -0500
-X-MC-Unique: hpmN8tmQO7SCGdIBZiXL0g-1
-Received: by mail-qt1-f199.google.com with SMTP id g26so9465083qts.16
- for <iommu@lists.linux-foundation.org>; Sun, 23 Feb 2020 22:06:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=iQDzxX80bgi0m3zVo97LJaYr2snJfMVwzytXMvJXGx0=;
- b=iE2geX20ffSmeyZFtDuId7WfockKsmky+A8+fC5ozbnoCzEVZ7/pUNsruIPVbA8bEz
- 5u09VUSgndqtkF1Djwk7XvpiCdjqGXcnSG65Q7Op+TKP9o3UAqF/LOLrWuENwMDHq7AP
- R+3JRRKVuOB8aac8XOPqELaFOyM8tpOb0texDsNNkQM7lwy5VtTSwsmWtaag+imDVRNM
- 9mPvks3L1cF8maXvNBPka27OIlamlFGWHY8O/sB0T8oL616TWvtGqiRiVf32FF43hQy/
- NXSD0n6Eabse3DfWvYf8EtrfruzDAiKoyIzPh+od3aKp6+wXpi9jqM3Q/xAS7b+hNnF3
- 8NWQ==
-X-Gm-Message-State: APjAAAVkFbJumCsL3uZzaV6h9nhU3fgBGSyare0Dvn/D2u9SAiAFNQc/
- 5X4Fz7qk1kV2OWVMqEIlBLkh/BYEzoQqgA6VvQnb6z7e7ufi/QIRI7D6zM6yRw62z2Y8vSccsUu
- H4MVUTQ3JppAPDcZBThf5xX90d72R2Q==
-X-Received: by 2002:ac8:163c:: with SMTP id p57mr46466550qtj.106.1582524407972; 
- Sun, 23 Feb 2020 22:06:47 -0800 (PST)
-X-Google-Smtp-Source: APXvYqykDKEpss3i5i8vBB8m0HPf3fYLIwD7rYykaWBLVU93KmwpbULId+7HvrnmVegAoy26B2QAmQ==
-X-Received: by 2002:ac8:163c:: with SMTP id p57mr46466517qtj.106.1582524407682; 
- Sun, 23 Feb 2020 22:06:47 -0800 (PST)
-Received: from redhat.com (bzq-79-178-2-214.red.bezeqint.net. [79.178.2.214])
- by smtp.gmail.com with ESMTPSA id
- g11sm5616483qtc.48.2020.02.23.22.06.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Feb 2020 22:06:46 -0800 (PST)
-Date: Mon, 24 Feb 2020 01:06:40 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 0/2] virtio: decouple protected guest RAM form
- VIRTIO_F_IOMMU_PLATFORM
-Message-ID: <20200224010607-mutt-send-email-mst@kernel.org>
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2B5BA85B94;
+ Mon, 24 Feb 2020 06:43:56 +0000 (UTC)
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48QswR352Lz9sRR; Mon, 24 Feb 2020 17:43:51 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1582526631;
+ bh=HE+dMIiDFpTtJfitS88px2QE5uurDOINjlLTLx6xBso=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Zc4b1jGX8kDXRZ1/cxrzaVVzmmi3Jbx5z+q4guCIZLM1Y9iri/Msd8YT7mp3duvPv
+ lZjUNHzQT4RarBAuU51b2dq+ass/738MniN+F2rqaZcXondrlOoj5IxTkyHcwg8+nK
+ 1J6cZyaSBlb6Qhiu+Uk9hyWjjsOcm4EaK0zEMN1Y=
+Date: Mon, 24 Feb 2020 14:33:14 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH 1/2] mm: move force_dma_unencrypted() to mem_encrypt.h
+Message-ID: <20200224033314.GC1751@umbus.fritz.box>
 References: <20200220160606.53156-1-pasic@linux.ibm.com>
- <426e6972-0565-c931-e171-da0f58fbf856@redhat.com>
- <20200221155602.4de41fa7.pasic@linux.ibm.com>
- <0181712c-e533-fcfd-2638-8a0649d713dd@redhat.com>
+ <20200220160606.53156-2-pasic@linux.ibm.com>
+ <20200220161146.GA12709@lst.de>
+ <4369f099-e4e4-4a58-b38b-642cf53ccca6@de.ibm.com>
+ <20200220163135.GA13192@lst.de>
+ <20200221032727.GC2298@umbus.fritz.box>
+ <20200221140639.54928efe.pasic@linux.ibm.com>
+ <20200221104724-mutt-send-email-mst@kernel.org>
+ <20200221190702.68fd57fc.pasic@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <0181712c-e533-fcfd-2638-8a0649d713dd@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+In-Reply-To: <20200221190702.68fd57fc.pasic@linux.ibm.com>
 Cc: linux-s390@vger.kernel.org, Janosch Frank <frankja@linux.ibm.com>,
- "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, Ram Pai <linuxram@us.ibm.com>,
  linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
- Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>,
- iommu@lists.linux-foundation.org, David Gibson <david@gibson.dropbear.id.au>,
- Michael Mueller <mimu@linux.ibm.com>,
+ iommu@lists.linux-foundation.org, Michael Mueller <mimu@linux.ibm.com>,
+ "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
  Viktor Mihajlovski <mihajlov@linux.ibm.com>,
  Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -113,114 +80,158 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============5966967518369619198=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gTW9uLCBGZWIgMjQsIDIwMjAgYXQgMTI6MDE6NTdQTSArMDgwMCwgSmFzb24gV2FuZyB3cm90
-ZToKPiAKPiBPbiAyMDIwLzIvMjEg5LiL5Y2IMTA6NTYsIEhhbGlsIFBhc2ljIHdyb3RlOgo+ID4g
-T24gRnJpLCAyMSBGZWIgMjAyMCAxNDoyMjoyNiArMDgwMAo+ID4gSmFzb24gV2FuZyA8amFzb3dh
-bmdAcmVkaGF0LmNvbT4gd3JvdGU6Cj4gPiAKPiA+ID4gT24gMjAyMC8yLzIxIOS4iuWNiDEyOjA2
-LCBIYWxpbCBQYXNpYyB3cm90ZToKPiA+ID4gPiBDdXJyZW50bHkgaWYgb25lIGludGVuZHMgdG8g
-cnVuIGEgbWVtb3J5IHByb3RlY3Rpb24gZW5hYmxlZCBWTSB3aXRoCj4gPiA+ID4gdmlydGlvIGRl
-dmljZXMgYW5kIGxpbnV4IGFzIHRoZSBndWVzdCBPUywgb25lIG5lZWRzIHRvIHNwZWNpZnkgdGhl
-Cj4gPiA+ID4gVklSVElPX0ZfSU9NTVVfUExBVEZPUk0gZmxhZyBmb3IgZWFjaCB2aXJ0aW8gZGV2
-aWNlIHRvIG1ha2UgdGhlIGd1ZXN0Cj4gPiA+ID4gbGludXggdXNlIHRoZSBETUEgQVBJLCB3aGlj
-aCBpbiB0dXJuIGhhbmRsZXMgdGhlIG1lbW9yeQo+ID4gPiA+IGVuY3J5cHRpb24vcHJvdGVjdGlv
-biBzdHVmZiBpZiB0aGUgZ3Vlc3QgZGVjaWRlcyB0byB0dXJuIGl0c2VsZiBpbnRvCj4gPiA+ID4g
-YSBwcm90ZWN0ZWQgb25lLiBUaGlzIGhvd2V2ZXIgbWFrZXMgbm8gc2Vuc2UgZHVlIHRvIG11bHRp
-cGxlIHJlYXNvbnM6Cj4gPiA+ID4gKiBUaGUgZGV2aWNlIGlzIG5vdCBjaGFuZ2VkIGJ5IHRoZSBm
-YWN0IHRoYXQgdGhlIGd1ZXN0IFJBTSBpcwo+ID4gPiA+IHByb3RlY3RlZC4gVGhlIHNvIGNhbGxl
-ZCBJT01NVSBieXBhc3MgcXVpcmsgaXMgbm90IGFmZmVjdGVkLgo+ID4gPiA+ICogVGhpcyB1c2Fn
-ZSBpcyBub3QgY29uZ3J1ZW50IHdpdGggIHN0YW5kYXJkaXNlZCBzZW1hbnRpY3Mgb2YKPiA+ID4g
-PiBWSVJUSU9fRl9JT01NVV9QTEFURk9STS4gR3Vlc3QgbWVtb3J5IHByb3RlY3RlZCBpcyBhbiBv
-cnRob2dvbmFsIHJlYXNvbgo+ID4gPiA+IGZvciB1c2luZyBETUEgQVBJIGluIHZpcnRpbyAob3J0
-aG9nb25hbCB3aXRoIHJlc3BlY3QgdG8gd2hhdCBpcwo+ID4gPiA+IGV4cHJlc3NlZCBieSBWSVJU
-SU9fRl9JT01NVV9QTEFURk9STSkuCj4gPiA+ID4gCj4gPiA+ID4gVGhpcyBzZXJpZXMgYWltcyB0
-byBkZWNvdXBsZSAnaGF2ZSB0byB1c2UgRE1BIEFQSSBiZWNhdXNlIG15IChndWVzdCkgUkFNCj4g
-PiA+ID4gaXMgcHJvdGVjdGVkJyBhbmQgJ2hhdmUgdG8gdXNlIERNQSBBUEkgYmVjYXVzZSB0aGUg
-ZGV2aWNlIHRvbGQgbWUKPiA+ID4gPiBWSVJUSU9fRl9JT01NVV9QTEFURk9STScuCj4gPiA+ID4g
-Cj4gPiA+ID4gUGxlYXNlIGZpbmQgbW9yZSBkZXRhaWxlZCBleHBsYW5hdGlvbnMgYWJvdXQgdGhl
-IGNvbmNlcHR1YWwgYXNwZWN0cyBpbgo+ID4gPiA+IHRoZSBpbmRpdmlkdWFsIHBhdGNoZXMuIFRo
-ZXJlIGlzIGhvd2V2ZXIgYWxzbyBhIHZlcnkgcHJhY3RpY2FsIHByb2JsZW0KPiA+ID4gPiB0aGF0
-IGlzIGFkZHJlc3NlZCBieSB0aGlzIHNlcmllcy4KPiA+ID4gPiAKPiA+ID4gPiBGb3Igdmhvc3Qt
-bmV0IHRoZSBmZWF0dXJlIFZJUlRJT19GX0lPTU1VX1BMQVRGT1JNIGhhcyB0aGUgZm9sbG93aW5n
-IHNpZGUKPiA+ID4gPiBlZmZlY3QgVGhlIHZob3N0IGNvZGUgYXNzdW1lcyBpdCB0aGUgYWRkcmVz
-c2VzIG9uIHRoZSB2aXJ0aW8gZGVzY3JpcHRvcgo+ID4gPiA+IHJpbmcgYXJlIG5vdCBndWVzdCBw
-aHlzaWNhbCBhZGRyZXNzZXMgYnV0IGlvdmEncywgYW5kIGluc2lzdHMgb24gZG9pbmcgYQo+ID4g
-PiA+IHRyYW5zbGF0aW9uIG9mIHRoZXNlIHJlZ2FyZGxlc3Mgb2Ygd2hhdCB0cmFuc3BvcnQgaXMg
-dXNlZCAoZS5nLiB3aGV0aGVyCj4gPiA+ID4gd2UgZW11bGF0ZSBhIFBDSSBvciBhIENDVyBkZXZp
-Y2UpLiAoRm9yIGRldGFpbHMgc2VlIGNvbW1pdCA2YjFlNmNjNzg1NWIKPiA+ID4gPiAidmhvc3Q6
-IG5ldyBkZXZpY2UgSU9UTEIgQVBJIi4pIE9uIHMzOTAgdGhpcyByZXN1bHRzIGluIHNldmVyZQo+
-ID4gPiA+IHBlcmZvcm1hbmNlIGRlZ3JhZGF0aW9uIChjLmEuIGZhY3RvciAxMCkuCj4gPiA+IAo+
-ID4gPiBEbyB5b3Ugc2VlIGEgY29uc2lzdGVudCBkZWdyYWRhdGlvbiBvbiB0aGUgcGVyZm9ybWFu
-Y2UsIG9yIGl0IG9ubHkKPiA+ID4gaGFwcGVuIHdoZW4gZm9yIGR1cmluZyB0aGUgYmVnaW5uaW5n
-IG9mIHRoZSB0ZXN0Pwo+ID4gPiAKPiA+IEFGQUlLIHRoZSBkZWdyYWRhdGlvbiBpcyBjb25zaXN0
-ZW50Lgo+ID4gCj4gPiA+ID4gQlRXIHdpdGggY2N3IEkvTyB0aGVyZSBpcwo+ID4gPiA+IChhcmNo
-aXRlY3R1cmFsbHkpIG5vIElPTU1VLCBzbyB0aGUgd2hvbGUgYWRkcmVzcyB0cmFuc2xhdGlvbiBt
-YWtlcyBubwo+ID4gPiA+IHNlbnNlIGluIHRoZSBjb250ZXh0IG9mIHZpcnRpby1jY3cuCj4gPiA+
-IAo+ID4gPiBJIHN1c3BlY3Qgd2UgY2FuIGRvIG9wdGltaXphdGlvbiBpbiBxZW11IHNpZGUuCj4g
-PiA+IAo+ID4gPiBFLmcgc2VuZCBtZW10YWJsZSBlbnRyeSB2aWEgSU9UTEIgQVBJIHdoZW4gdklP
-TU1VIGlzIG5vdCBlbmFibGVkLgo+ID4gPiAKPiA+ID4gSWYgdGhpcyBtYWtlcyBzZW5zZSwgSSBj
-YW4gZHJhZnQgcGF0Y2ggdG8gc2VlIGlmIHRoZXJlJ3MgYW55IGRpZmZlcmVuY2UuCj4gPiBGcmFu
-a2x5IEkgd291bGQgcHJlZmVyIHRvIGF2b2lkIElPVkFzIG9uIHRoZSBkZXNjcmlwdG9yIHJpbmcg
-KGFuZCB0aGUKPiA+IHRoZW4gbmVjZXNzYXJ5IHRyYW5zbGF0aW9uKSBmb3IgdmlydGlvLWNjdyBh
-bHRvZ2V0aGVyLiBCdXQgTWljaGFlbAo+ID4gdm9pY2VkIGhpcyBvcGluaW9uIHRoYXQgd2Ugc2hv
-dWxkIG1hbmRhdGUgRl9JT01NVV9QTEFURk9STSBmb3IgZGV2aWNlcwo+ID4gdGhhdCBjb3VsZCBi
-ZSB1c2VkIHdpdGggZ3Vlc3RzIHJ1bm5pbmcgaW4gcHJvdGVjdGVkIG1vZGUuIEkgZG9uJ3Qgc2hh
-cmUKPiA+IGhpcyBvcGluaW9uLCBidXQgdGhhdCdzIGFuIG9uZ29pbmcgZGlzY3Vzc2lvbi4KPiA+
-IAo+ID4gU2hvdWxkIHdlIGVuZCB1cCBoYXZpbmcgdG8gZG8gdHJhbnNsYXRpb24gZnJvbSBJT1ZB
-IGluIHZob3N0LCB3ZSBhcmUKPiA+IHZlcnkgaW50ZXJlc3RlZCBpbiB0aGF0IHRyYW5zbGF0aW9u
-IGJlaW5nIGZhc3QgYW5kIGVmZmljaWVudC4KPiA+IAo+ID4gSW4gdGhhdCBzZW5zZSB3ZSB3b3Vs
-ZCBiZSB2ZXJ5IGhhcHB5IHRvIHRlc3QgYW55IG9wdGltaXphdGlvbiB0aGF0IGFpbQo+ID4gaW50
-byB0aGF0IGRpcmVjdGlvbi4KPiA+IAo+ID4gVGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgeW91ciBp
-bnB1dCEKPiAKPiAKPiBVc2luZyBJT1RMQiBBUEkgb24gcGxhdGZvcm0gd2l0aG91dCBJT01NVSBz
-dXBwb3J0IGlzIG5vdCBpbnRlbmRlZC4gUGxlYXNlCj4gdHJ5IHRoZSBhdHRhY2hlZCBwYXRjaCB0
-byBzZWUgaWYgaXQgaGVscHMuCj4gCj4gVGhhbmtzCj4gCj4gCj4gPiAKPiA+IFJlZ2FyZHMsCj4g
-PiBIYWxpbAo+ID4gCj4gPiA+IFRoYW5rcwo+ID4gPiAKPiA+ID4gCj4gPiA+ID4gSGFsaWwgUGFz
-aWMgKDIpOgo+ID4gPiA+ICAgICBtbTogbW92ZSBmb3JjZV9kbWFfdW5lbmNyeXB0ZWQoKSB0byBt
-ZW1fZW5jcnlwdC5oCj4gPiA+ID4gICAgIHZpcnRpbzogbGV0IHZpcnRpbyB1c2UgRE1BIEFQSSB3
-aGVuIGd1ZXN0IFJBTSBpcyBwcm90ZWN0ZWQKPiA+ID4gPiAKPiA+ID4gPiAgICBkcml2ZXJzL3Zp
-cnRpby92aXJ0aW9fcmluZy5jIHwgIDMgKysrCj4gPiA+ID4gICAgaW5jbHVkZS9saW51eC9kbWEt
-ZGlyZWN0LmggICB8ICA5IC0tLS0tLS0tLQo+ID4gPiA+ICAgIGluY2x1ZGUvbGludXgvbWVtX2Vu
-Y3J5cHQuaCAgfCAxMCArKysrKysrKysrCj4gPiA+ID4gICAgMyBmaWxlcyBjaGFuZ2VkLCAxMyBp
-bnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQo+ID4gPiA+IAo+ID4gPiA+IAo+ID4gPiA+IGJh
-c2UtY29tbWl0OiBjYTdlMWZkMTAyNmM1YWY2YTUzM2I0YjU0NDdlMWQyZjE1M2UyOGYyCgo+ID5G
-cm9tIDY2ZmE3MzA0NjA4NzVhYzk5ZTgxZDdkYjIzMzRjZDE2YmIxZDJiMjcgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCj4gRnJvbTogSmFzb24gV2FuZyA8amFzb3dhbmdAcmVkaGF0LmNvbT4KPiBE
-YXRlOiBNb24sIDI0IEZlYiAyMDIwIDEyOjAwOjEwICswODAwCj4gU3ViamVjdDogW1BBVENIXSB2
-aXJ0aW86IHR1cm4gb24gSU9NTVVfUExBVEZPUk0gcHJvcGVybHkKPiAKPiBXaGVuIHRyYW5zcG9y
-dCBkb2VzIG5vdCBzdXBwb3J0IElPTU1VLCB3ZSBzaG91bGQgY2xlYXIgSU9NTVVfUExBVEZPUk0K
-PiBldmVuIGlmIHRoZSBkZXZpY2UgYW5kIHZob3N0IGNsYWltcyB0byBzdXBwb3J0IHRoYXQuIFRo
-aXMgaGVscCB0bwo+IGF2b2lkIHRoZSBwZXJmb3JtYW5jZSBvdmVyaGVhZCBjYXVzZWQgYnkgdW5u
-ZWNlc3NhcnkgSU9UTEIgbWlzcy91cGRhdGUKPiB0cmFuc2FjdGlvbnMgb24gc3VjaCBwbGF0Zm9y
-bS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBKYXNvbiBXYW5nIDxqYXNvd2FuZ0ByZWRoYXQuY29tPgo+
-IC0tLQo+ICBody92aXJ0aW8vdmlydGlvLWJ1cy5jIHwgNiArKystLS0KPiAgMSBmaWxlIGNoYW5n
-ZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvaHcv
-dmlydGlvL3ZpcnRpby1idXMuYyBiL2h3L3ZpcnRpby92aXJ0aW8tYnVzLmMKPiBpbmRleCBkNjMz
-MmQ0NWMzLi4yNzQxYjlmZGQyIDEwMDY0NAo+IC0tLSBhL2h3L3ZpcnRpby92aXJ0aW8tYnVzLmMK
-PiArKysgYi9ody92aXJ0aW8vdmlydGlvLWJ1cy5jCj4gQEAgLTQ3LDcgKzQ3LDYgQEAgdm9pZCB2
-aXJ0aW9fYnVzX2RldmljZV9wbHVnZ2VkKFZpcnRJT0RldmljZSAqdmRldiwgRXJyb3IgKiplcnJw
-KQo+ICAgICAgVmlydGlvQnVzU3RhdGUgKmJ1cyA9IFZJUlRJT19CVVMocWJ1cyk7Cj4gICAgICBW
-aXJ0aW9CdXNDbGFzcyAqa2xhc3MgPSBWSVJUSU9fQlVTX0dFVF9DTEFTUyhidXMpOwo+ICAgICAg
-VmlydGlvRGV2aWNlQ2xhc3MgKnZkYyA9IFZJUlRJT19ERVZJQ0VfR0VUX0NMQVNTKHZkZXYpOwo+
-IC0gICAgYm9vbCBoYXNfaW9tbXUgPSB2aXJ0aW9faG9zdF9oYXNfZmVhdHVyZSh2ZGV2LCBWSVJU
-SU9fRl9JT01NVV9QTEFURk9STSk7Cj4gICAgICBFcnJvciAqbG9jYWxfZXJyID0gTlVMTDsKPiAg
-Cj4gICAgICBEUFJJTlRGKCIlczogcGx1ZyBkZXZpY2UuXG4iLCBxYnVzLT5uYW1lKTsKPiBAQCAt
-NzcsMTAgKzc2LDExIEBAIHZvaWQgdmlydGlvX2J1c19kZXZpY2VfcGx1Z2dlZChWaXJ0SU9EZXZp
-Y2UgKnZkZXYsIEVycm9yICoqZXJycCkKPiAgICAgICAgICByZXR1cm47Cj4gICAgICB9Cj4gIAo+
-IC0gICAgaWYgKGtsYXNzLT5nZXRfZG1hX2FzICE9IE5VTEwgJiYgaGFzX2lvbW11KSB7Cj4gLSAg
-ICAgICAgdmlydGlvX2FkZF9mZWF0dXJlKCZ2ZGV2LT5ob3N0X2ZlYXR1cmVzLCBWSVJUSU9fRl9J
-T01NVV9QTEFURk9STSk7Cj4gKyAgICBpZiAoZmFsc2UgJiYga2xhc3MtPmdldF9kbWFfYXMgIT0g
-TlVMTCAmJgo+ICsgICAgICAgIHZpcnRpb19ob3N0X2hhc19mZWF0dXJlKHZkZXYsIFZJUlRJT19G
-X0lPTU1VX1BMQVRGT1JNKSkgewo+ICAgICAgICAgIHZkZXYtPmRtYV9hcyA9IGtsYXNzLT5nZXRf
-ZG1hX2FzKHFidXMtPnBhcmVudCk7Cj4gICAgICB9IGVsc2Ugewo+ICsgICAgICAgIHZpcnRpb19j
-bGVhcl9mZWF0dXJlKCZ2ZGV2LT5ob3N0X2ZlYXR1cmVzLCBWSVJUSU9fRl9JT01NVV9QTEFURk9S
-TSk7Cj4gICAgICAgICAgdmRldi0+ZG1hX2FzID0gJmFkZHJlc3Nfc3BhY2VfbWVtb3J5Owo+ICAg
-ICAgfQo+ICB9CgoKVGhpcyBzZWVtcyB0byBjbGVhciBpdCB1bmNvbmRpdGlvbmFsbHkuIEkgZ3Vl
-c3MgaXQncyBqdXN0IGEgZGVidWdnaW5nCnBhdGNoLCB0aGUgcmVhbCBvbmUgd2lsbCBjb21lIGxh
-dGVyPwoKPiAtLSAKPiAyLjE5LjEKPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3Vu
-ZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0
-aW5mby9pb21tdQ==
+
+--===============5966967518369619198==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="gatW/ieO32f1wygP"
+Content-Disposition: inline
+
+
+--gatW/ieO32f1wygP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Feb 21, 2020 at 07:07:02PM +0100, Halil Pasic wrote:
+> On Fri, 21 Feb 2020 10:48:15 -0500
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+>=20
+> > On Fri, Feb 21, 2020 at 02:06:39PM +0100, Halil Pasic wrote:
+> > > On Fri, 21 Feb 2020 14:27:27 +1100
+> > > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > >=20
+> > > > On Thu, Feb 20, 2020 at 05:31:35PM +0100, Christoph Hellwig wrote:
+> > > > > On Thu, Feb 20, 2020 at 05:23:20PM +0100, Christian Borntraeger w=
+rote:
+> > > > > > >From a users perspective it makes absolutely perfect sense to =
+use the
+> > > > > > bounce buffers when they are NEEDED.=20
+> > > > > > Forcing the user to specify iommu_platform just because you nee=
+d bounce buffers
+> > > > > > really feels wrong. And obviously we have a severe performance =
+issue
+> > > > > > because of the indirections.
+> > > > >=20
+> > > > > The point is that the user should not have to specify iommu_platf=
+orm.
+> > > > > We need to make sure any new hypervisor (especially one that migh=
+t require
+> > > > > bounce buffering) always sets it,
+> > > >=20
+> > > > So, I have draft qemu patches which enable iommu_platform by defaul=
+t.
+> > > > But that's really because of other problems with !iommu_platform, n=
+ot
+> > > > anything to do with bounce buffering or secure VMs.
+> > > >=20
+> > > > The thing is that the hypervisor *doesn't* require bounce buffering.
+> > > > In the POWER (and maybe s390 as well) models for Secure VMs, it's t=
+he
+> > > > *guest*'s choice to enter secure mode, so the hypervisor has no rea=
+son
+> > > > to know whether the guest needs bounce buffering.  As far as the
+> > > > hypervisor and qemu are concerned that's a guest internal detail, it
+> > > > just expects to get addresses it can access whether those are GPAs
+> > > > (iommu_platform=3Doff) or IOVAs (iommu_platform=3Don).
+> > >=20
+> > > I very much agree!
+> > >=20
+> > > >=20
+> > > > > as was a rather bogus legacy hack
+> > > >=20
+> > > > It was certainly a bad idea, but it was a bad idea that went into a
+> > > > public spec and has been widely deployed for many years.  We can't
+> > > > just pretend it didn't happen and move on.
+> > > >=20
+> > > > Turning iommu_platform=3Don by default breaks old guests, some of w=
+hich
+> > > > we still care about.  We can't (automatically) do it only for guests
+> > > > that need bounce buffering, because the hypervisor doesn't know that
+> > > > ahead of time.
+> > >=20
+> > > Turning iommu_platform=3Don for virtio-ccw makes no sense whatsover,
+> > > because for CCW I/O there is no such thing as IOMMU and the addresses
+> > > are always physical addresses.
+> >=20
+> > Fix the name then. The spec calls is ACCESS_PLATFORM now, which
+> > makes much more sense.
+>=20
+> I don't quite get it. Sorry. Maybe I will revisit this later.
+
+Halil, I think I can clarify this.
+
+The "iommu_platform" flag doesn't necessarily have anything to do with
+an iommu, although it often will.  Basically it means "access guest
+memory via the bus's normal DMA mechanism" rather than "access guest
+memory using GPA, because you're the hypervisor and you can do that".
+
+For the case of ccw, both mechanisms end up being the same thing,
+since CCW's normal DMA *is* untranslated GPA access.
+
+For this reason, the flag in the spec was renamed to ACCESS_PLATFORM,
+but the flag in qemu still has the old name.
+
+AIUI, Michael is saying you could trivially change the name in qemu
+(obviously you'd need to alias the old name to the new one for
+compatibility).
+
+
+Actually, the fact that ccw has no translation makes things easier for
+you: you don't really have any impediment to turning ACCESS_PLATFORM
+on by default, since it doesn't make any real change to how things
+work.
+
+The remaining difficulty is that the virtio driver - since it can sit
+on multiple buses - won't know this, and will reject the
+ACCESS_PLATFORM flag, even though it could just do what it normally
+does on ccw and it would work.
+
+For that case, we could consider a hack in qemu where for virtio-ccw
+devices *only* we allow the guest to nack the ACCESS_PLATFORM flag and
+carry on anyway.  Normally we insist that the guest accept the
+ACCESS_PLATFORM flag if offered, because on most platforms they
+*don't* amount to the same thing.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--gatW/ieO32f1wygP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5TQ/gACgkQbDjKyiDZ
+s5KScw/6A2bpuaDoeyju/89gg/50j1boGL5GLhZekxNikY9NGo8Q75SrCFgLeofE
+WKee9dbP9N7t/rufx/3GTmHZdcG1Ag+7CJmiDZbkROVckdBwRex/g8Og8iQa97gK
+aPUZKxNShLlV6p3FAUYYrv9F7t3nsJXLijRv/2t07uSKVsxY19DXGzgXFDrWj2R8
+C/Xond2gjve7erMO8Ld/yFxAU20E3zj0LgFWiqwUnAWMgPFxPlx1L6ssv0kTOcD3
+6tWGB5efKZz3UAbHHQyC3ziru+kPIRRKrk2tQ7rzQpoW8uPquTPZWl6+nJ6rKj4m
+/QU++2cDASm+dTHnTRXiTUsZt26+VBgcDh+CZmGu9vvf2OJgmCJzeGwpuf1mWYCY
+VXyT8dpChUq3q3YMxzoIuRVeyLJuBdZ8a8zofP6BCrXY4aMTji5eclg327DFonZB
+0u3oKQxUR+vcPjWjsASjSnePzE/qxMABZboqSErqXNzeNq6AZen/s9ctO6E6wuHk
+mXty/bXyjOeL/PI3kOUljvF7qtrGssMH+lxBxAaFdRD3DTdDxMwRd9bdYRBr7SJh
+lwt0VMzt9PaXGATp73GTB+Mp5hlzcgIuaZS4/+ksp98iOPQ9nmbpXfqr4NZG/YZs
+Uy5FiOjXXQASBIn+E2e83zoLgNsGMgTWDLh4NYs5vvzNxwD0YcM=
+=jat8
+-----END PGP SIGNATURE-----
+
+--gatW/ieO32f1wygP--
+
+--===============5966967518369619198==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============5966967518369619198==--
