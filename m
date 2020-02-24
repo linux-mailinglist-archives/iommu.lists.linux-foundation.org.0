@@ -1,56 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF3916B501
-	for <lists.iommu@lfdr.de>; Tue, 25 Feb 2020 00:21:16 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 733C416B504
+	for <lists.iommu@lfdr.de>; Tue, 25 Feb 2020 00:21:17 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 72035861A7;
-	Mon, 24 Feb 2020 23:21:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1B4858780D;
+	Mon, 24 Feb 2020 23:21:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ERRuVziTxkuO; Mon, 24 Feb 2020 23:21:13 +0000 (UTC)
+	with ESMTP id g5ZgDi5YAFsM; Mon, 24 Feb 2020 23:21:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3809B8609F;
-	Mon, 24 Feb 2020 23:21:13 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 89F97877E6;
+	Mon, 24 Feb 2020 23:21:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 30850C0177;
-	Mon, 24 Feb 2020 23:21:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 85C5CC0177;
+	Mon, 24 Feb 2020 23:21:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4A128C0177
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 23:21:12 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AA59CC0177
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 23:21:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 34397204FE
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 23:21:12 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 94ABF203DF
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 23:21:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id scG1L81SPomM for <iommu@lists.linux-foundation.org>;
+ with ESMTP id EEqurKI4vvDf for <iommu@lists.linux-foundation.org>;
  Mon, 24 Feb 2020 23:21:11 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by silver.osuosl.org (Postfix) with ESMTPS id 37BA5203DF
+ by silver.osuosl.org (Postfix) with ESMTPS id 8AA322048B
  for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 23:21:11 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 Feb 2020 15:21:10 -0800
+ 24 Feb 2020 15:21:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,481,1574150400"; d="scan'208";a="255749662"
+X-IronPort-AV: E=Sophos;i="5.70,481,1574150400"; d="scan'208";a="255749665"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by orsmga002.jf.intel.com with ESMTP; 24 Feb 2020 15:21:10 -0800
+ by orsmga002.jf.intel.com with ESMTP; 24 Feb 2020 15:21:11 -0800
 From: Jacob Pan <jacob.jun.pan@linux.intel.com>
 To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
  "Lu Baolu" <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
  David Woodhouse <dwmw2@infradead.org>
-Subject: [PATCH 0/2] Replace Intel SVM with IOMMU SVA APIs
-Date: Mon, 24 Feb 2020 15:26:34 -0800
-Message-Id: <1582586797-61697-1-git-send-email-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH 1/2] iommu/vt-d: report SVA feature with generic flag
+Date: Mon, 24 Feb 2020 15:26:35 -0800
+Message-Id: <1582586797-61697-2-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1582586797-61697-1-git-send-email-jacob.jun.pan@linux.intel.com>
+References: <1582586797-61697-1-git-send-email-jacob.jun.pan@linux.intel.com>
 Cc: "Tian, Kevin" <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
  Raj Ashok <ashok.raj@intel.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.com>
@@ -72,48 +74,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Shared virtual address (SVA) capable accelerator device drivers on Intel
-platform are required to call VT-d driver directly to bind a device with
-a given address space. It is conceptually incorrect with the following
-reasons:
-- A device driver is bypassing IOMMU generic layer
-- Device driver cannot be reused across architectures
-- Opens a door to duplicated code
+Query Shared Virtual Address/Memory capability is a generic feature. Report
+Intel SVM as SVA feature such that generic code such as Uacce [1] can use
+it.
+[1] https://lkml.org/lkml/2020/1/15/604
 
-Generic SVA APIs was introduced[1] and partially merged upstream which
-created a common ground for vendor IOMMU driver to consolidate SVA code.
+Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+---
+ drivers/iommu/intel-iommu.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-On the other hand, Uacce (Unified/User-space-access-intended Accelerator
-Framework) [2] is emerging to be a generic user-kernel interface for SVA
-capable devices.
-
-IOMMU generic SVA APIs are used by Uacce. Therefore, replacing VT-d SVM
-code with IOMMU SVA APIs are required by device drivers want to use
-Uacce.
-
-The features below will continue to work but are not included in this patch
-in that they are handled mostly within the IOMMU subsystem.
-- IO page fault
-- mmu notifier
-
-Consolidation of the above will come after generic IOMMU sva code[1].
-There should not be any changes needed for accelerator device drivers
-during this time.
-
-References:
-[1] http://jpbrucker.net/sva/
-[2] https://lkml.org/lkml/2020/1/15/604
-
-Jacob Pan (2):
-  iommu/vt-d: Report SVA feature with generic flag
-  iommu/vt-d: Replace intel SVM APIs with generic SVA APIs
-
- drivers/iommu/intel-iommu.c |   8 +++
- drivers/iommu/intel-svm.c   | 123 ++++++++++++++++++++++++--------------------
- include/linux/intel-iommu.h |   7 +++
- include/linux/intel-svm.h   |  85 ------------------------------
- 4 files changed, 83 insertions(+), 140 deletions(-)
-
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index 92c2f2e4197b..5eca6e10d2a4 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -6346,9 +6346,14 @@ intel_iommu_dev_has_feat(struct device *dev, enum iommu_dev_features feat)
+ static int
+ intel_iommu_dev_enable_feat(struct device *dev, enum iommu_dev_features feat)
+ {
++	struct intel_iommu *intel_iommu = dev_to_intel_iommu(dev);
++
+ 	if (feat == IOMMU_DEV_FEAT_AUX)
+ 		return intel_iommu_enable_auxd(dev);
+ 
++	if (feat == IOMMU_DEV_FEAT_SVA)
++		return intel_iommu->flags & VTD_FLAG_SVM_CAPABLE;
++
+ 	return -ENODEV;
+ }
+ 
 -- 
 2.7.4
 
