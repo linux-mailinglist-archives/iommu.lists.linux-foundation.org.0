@@ -1,97 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAEB416AFE3
-	for <lists.iommu@lfdr.de>; Mon, 24 Feb 2020 20:01:03 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A72B316B072
+	for <lists.iommu@lfdr.de>; Mon, 24 Feb 2020 20:45:16 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 554D685D21;
-	Mon, 24 Feb 2020 19:01:02 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5E30485FA3;
+	Mon, 24 Feb 2020 19:45:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dCMJGEsSftpe; Mon, 24 Feb 2020 19:01:01 +0000 (UTC)
+	with ESMTP id YDyC5uDsSLRZ; Mon, 24 Feb 2020 19:45:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D9F1385404;
-	Mon, 24 Feb 2020 19:01:01 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 117B2852DB;
+	Mon, 24 Feb 2020 19:45:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CE46AC0177;
-	Mon, 24 Feb 2020 19:01:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0C79EC0177;
+	Mon, 24 Feb 2020 19:45:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6F864C0177
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 19:01:00 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E02ECC0177
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 19:45:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 6B61486E1A
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 19:01:00 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id CB86E20523
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 19:45:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0mm5jwvnb5qF for <iommu@lists.linux-foundation.org>;
- Mon, 24 Feb 2020 19:00:59 +0000 (UTC)
+ with ESMTP id gJ49ZadP5YNK for <iommu@lists.linux-foundation.org>;
+ Mon, 24 Feb 2020 19:45:12 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
- [209.85.219.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id B51F085EE8
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 19:00:59 +0000 (UTC)
-Received: by mail-qv1-f66.google.com with SMTP id y8so4599388qvk.6
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 11:00:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=nS4y9b6My/7+JIxHts6eLm8z0C4thsb5l3wuyiXD29Q=;
- b=FnR6SEUSqjm6pva9hmjZjjMQWlNtH8BimVmLzNHoyK5KObnwJJd4v62FvcucQXR613
- Vs8HRCZGupCTQ5IZ0JUUxDfBksnOmCrAaBY+t9FVQ6WaO9/f1nfENMH64EtLf6mQOl3A
- ULGnEHBvxwQ+J67AeNEUPMlBMuj+D9qb1H5X2oBhmsBZnIHcb4yro7ts8Lp+wdj45jEW
- v76e8KPBbvQd89kU+MetflzO8JQksrPwRwleGV8a9HuL+52ruaZpjBkc9Ny6pYP+Y1YO
- IlJp1zbAGL4jPjja65grNuAP/DFEdsR9iZ2aPGrstIS0jUFiDV/TkZWtZDP/2nIWRKh9
- 659A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=nS4y9b6My/7+JIxHts6eLm8z0C4thsb5l3wuyiXD29Q=;
- b=FPE9a7jtrg/y9XgfEgU52fZoz45tf5uWZqOE7JpFMa4BfCYbJ6P1eNaLJS7sdSatZs
- 64HbcCPiRLPRHzICoD1may8Z68zqlpbJ3xqAbcKAnwEyy0iFYBiR0GZhS1leZUE6CZMS
- 45KMpnNfQKkrOOOFke4tsVVs9X/3KQdjLtzwMGEfWCehXbYZ2glqKO8WHyitcEYXB0+F
- QOba1bKeDWQsHt6wvcjtHyedHUefB+dFTuCQl4CZ9nSiEjPtbRFk7iNKJC6+x++CJ4Mo
- PBbIO93G/g0m4tCT1/rhqycReAmmQiQ2O6PltdxkUqj1XkZpUcu/0++n9I1Jz4+rEi2i
- CFWA==
-X-Gm-Message-State: APjAAAUk6xtb4E+Ovowhe9bQGaznaujbY/svPk02n60IYj/nHWasTAIu
- 1bE2Jm8XV9WTGyvIC0u77xr7yw==
-X-Google-Smtp-Source: APXvYqyNbYKidHbzZ1XJJ2LbIhIEjWa9RFdUt4bTzm6wm+o3ErpK3Y9OIJTvmpvQbXJ0sVD9TGvEfA==
-X-Received: by 2002:ad4:4b21:: with SMTP id s1mr47274639qvw.81.1582570858491; 
- Mon, 24 Feb 2020 11:00:58 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.57.212])
- by smtp.gmail.com with ESMTPSA id m17sm6086872qki.128.2020.02.24.11.00.57
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 24 Feb 2020 11:00:57 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
- (envelope-from <jgg@ziepe.ca>)
- id 1j6IyO-0005Dy-Tk; Mon, 24 Feb 2020 15:00:56 -0400
-Date: Mon, 24 Feb 2020 15:00:56 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v4 01/26] mm/mmu_notifiers: pass private data down to
- alloc_notifier()
-Message-ID: <20200224190056.GT31668@ziepe.ca>
-References: <20200224182401.353359-1-jean-philippe@linaro.org>
- <20200224182401.353359-2-jean-philippe@linaro.org>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by silver.osuosl.org (Postfix) with ESMTPS id 539B120520
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 19:45:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=Gm+CZDA4foMEAz/S+YdRBY9FpP1n0eNdAAovqDbFGNg=; b=kOdWiO2RLPJPCA0ELRlD0fILnT
+ Hi17mnHqCr3opBFn3tuitDQ9PxTd5CxA8RrpffuZlpZUQUuTCUbA/BMJ/yAzkokW5xwqVmVQl6DEo
+ Hi0W2vxjbyZnTDPXfH7Ijkrysfk6fHLOAzCzJ3e88xupPe+U0VuVbftERt+dg39KCPM8wZZAxckFC
+ 9KFd7o9hjEIGnP0u6hKYx5GMF3xVd8rv/AS2KPITioAVtYya/wB/YIzTZX0VXITAt1pqDLfdSzekD
+ SVtd+sn9CvtDhaY+TIbSPFpU1aQ52j6ym6jqrKZn1g3k+cLllQ2KdXym3e1aIJ/lbzDZw43sVXMFV
+ 13FNIrsA==;
+Received: from [4.28.11.157] (helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1j6Jeo-0006X6-W0; Mon, 24 Feb 2020 19:44:47 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jonas Bonn <jonas@southpole.se>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ Stafford Horne <shorne@gmail.com>
+Subject: provide in-place uncached remapping for dma-direct v2
+Date: Mon, 24 Feb 2020 11:44:40 -0800
+Message-Id: <20200224194446.690816-1-hch@lst.de>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200224182401.353359-2-jean-philippe@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: mark.rutland@arm.com, linux-pci@vger.kernel.org, linux-mm@kvack.org,
- will@kernel.org, Dimitri Sivanich <sivanich@sgi.com>, catalin.marinas@arm.com,
- zhangfei.gao@linaro.org, devicetree@vger.kernel.org, kevin.tian@intel.com,
- Arnd Bergmann <arnd@arndb.de>, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- iommu@lists.linux-foundation.org, Andrew Morton <akpm@linux-foundation.org>,
- robin.murphy@arm.com, christian.koenig@amd.com
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-arch@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, openrisc@lists.librecores.org,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,42 +80,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Feb 24, 2020 at 07:23:36PM +0100, Jean-Philippe Brucker wrote:
-> The new allocation scheme introduced by 2c7933f53f6b ("mm/mmu_notifiers:
-> add a get/put scheme for the registration") provides a convenient way
-> for users to attach notifier data to an mm. However, it would be even
-> better to create this notifier data atomically.
-> 
-> Since the alloc_notifier() callback only takes an mm argument at the
-> moment, some users have to perform the allocation in two times.
-> alloc_notifier() initially creates an incomplete structure, which is
-> then finalized using more context once mmu_notifier_get() returns. This
-> second step requires carrying an initialization lock in the notifier
-> data and playing dirty tricks to order memory accesses against live
-> invalidation.
+Hi all,
 
-This was the intended pattern. Tthere shouldn't be an real issue as
-there shouldn't be any data on which to invalidate, ie the later patch
-does:
+this series provides support for remapping places uncached in-place in
+the generic dma-direct code, and moves openrisc over from its own
+in-place remapping scheme.  The arm64 folks also had interest in such
+a scheme to avoid problems with speculating into cache aliases.
 
-+       list_for_each_entry_rcu(bond, &io_mm->devices, mm_head)
+Also all architectures that always use small page mappings for the
+kernel and have non-coherent DMA should look into enabling this
+scheme, as it is much more efficient than the vmap remapping.
 
-And that list is empty post-allocation, so no 'dirty tricks' required.
-
-The other op callback is release, which also cannot be called as the
-caller must hold a mmget to establish the notifier.
-
-So just use the locking that already exists. There is one function
-that calls io_mm_get() which immediately calls io_mm_attach, which
-immediately grabs the global iommu_sva_lock.
-
-Thus init the pasid for the first time under that lock and everything
-is fine.
-
-There is nothing inherently wrong with the approach in this patch, but
-it seems unneeded in this case..
-
-Jason
+Changes since v1:
+ - share the arch hook for inline remap and uncached segment support
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
