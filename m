@@ -1,80 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76E916AEAB
-	for <lists.iommu@lfdr.de>; Mon, 24 Feb 2020 19:24:41 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7309B16AEAE
+	for <lists.iommu@lfdr.de>; Mon, 24 Feb 2020 19:24:42 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 80645855D3;
-	Mon, 24 Feb 2020 18:24:40 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 34E7883F35;
+	Mon, 24 Feb 2020 18:24:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qZBWCYEB-Miw; Mon, 24 Feb 2020 18:24:38 +0000 (UTC)
+	with ESMTP id jGTbVzoNkxhs; Mon, 24 Feb 2020 18:24:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id F0D42854C0;
-	Mon, 24 Feb 2020 18:24:37 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 754DF85552;
+	Mon, 24 Feb 2020 18:24:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E434DC0177;
-	Mon, 24 Feb 2020 18:24:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 63499C0177;
+	Mon, 24 Feb 2020 18:24:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AC970C18DA
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 18:24:36 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CECB8C0177
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 18:24:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 9966286CD7
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 18:24:36 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id BE6132051A
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 18:24:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4FhpXL5M58hE for <iommu@lists.linux-foundation.org>;
- Mon, 24 Feb 2020 18:24:36 +0000 (UTC)
+ with ESMTP id HPrCdrEnhfJZ for <iommu@lists.linux-foundation.org>;
+ Mon, 24 Feb 2020 18:24:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
- [209.85.221.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id C50DE86D37
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 18:24:35 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id z3so11584479wru.3
- for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 10:24:35 -0800 (PST)
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+ [209.85.221.67])
+ by silver.osuosl.org (Postfix) with ESMTPS id 1B2BD20414
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 18:24:37 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id u6so11606537wrt.0
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 10:24:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=t1PrCtZ92DmYIwAPbSp2v0XRYBlM5YZLGBrm+uzQwJw=;
- b=k7mwUwe4f2eaHon/rtOusNwQtFja3+krXzwRGZ76SMD3QIwZYajs0PGl8nhuOu3e/Q
- 1apHjKKThGa9F78oa6DJmFMg6Kv3M0zbTmO8+Eugcb2SS/fYXhJ75yn9RhWShh6+ftqW
- SUfddUdmPp4ujwFKVXozNBlY07/fSNyDISwYswJ30vRiZLJreuqTJ9fsed4djsvvIOny
- CMUJVS9RaKMUHia7+nXA9mZRl4QIa/ovZElpv9c2ACyb/VTFsnCnfWqipmg5gOCNeNSo
- PYeBPGGuW7xmjQCqEwsgxBu69OnvQazgX6XmX1S0LvnK/9wPepXn8vuUv4vl+VoCv6/L
- MvGQ==
+ bh=4BAEKhOJP+vfPilA/A1esaPeb85rQ2xVF1xbquVY184=;
+ b=M99vGkY31vfp3/5YFldshvaVVuOLujfh7ojFCDTnoKW41IMEWZ1aa749ylDMF02mL8
+ EsF76A/xd0+D9G0LiMy/75wIjbUpTj5ggp4qwOihccmc7SvybU8lVP0RrXN+zijYA5Qc
+ apJfsPNlPuSkqhHR1soKd4ou/vRywxfhU5WwI8xMxkH50xEZuIxIVA73IGnf8LHXAHCj
+ UjbtPVxpTDPbVdR0XSSIE6QUa8HgvKgCyzUv3n8pFmnjopnM1ov1eMApD+8zJk5ozwNB
+ OxiUpbtucYRP2+G9IoH1N/DTaBxGAqy/M1yy3lxCR8X1HtuJnfAnMQlEHu+w73fAfXiH
+ B1Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t1PrCtZ92DmYIwAPbSp2v0XRYBlM5YZLGBrm+uzQwJw=;
- b=oNwiN/S+WSc7amfyj8oDoFA91lgPHlqVGBIV8WFouKQCXRnSEiqEOjC+0YGpcBadSy
- 1BvJ+80wQBFYMwSrpGQ4Nh8hVRbDOqPZO8+6LhNN5MMxS5TU9DdrwMNHj3Q6yF/fTpzQ
- 023nQG6VzDNp5m8PZcrL7HzQCDjlpffyugs9Jz3emZwwxFSfPiCz7bi44/tSp8KtH8VD
- qZ7UbIn/JR13WlST+lvkk0QcGxG1Sw7KMq/M7Hf72P1f6qjkTBYHgqadgEW7eXZLlzmi
- WGQfO1deWpnWOcyHVg5Xm5zIbn81OptCpoPrTpk/hKLmj4bdunrVwNY84lMekthA8WVt
- z72A==
-X-Gm-Message-State: APjAAAV5DsoMqyMlnZLNGtrFwFkMybCyQUV3rnAtFnZXneQ9e7drqZtD
- aRw6rf3D3Gh8HO2vwsF4TGgos1By9EA=
-X-Google-Smtp-Source: APXvYqyJoaGCAZwRcxK03cHvWfZ3rPd9BodvC//3q8tPBefjV5p8k/3KCURkzx9rn1YbvnVHRvzLqg==
-X-Received: by 2002:adf:e908:: with SMTP id f8mr4337597wrm.37.1582568674081;
- Mon, 24 Feb 2020 10:24:34 -0800 (PST)
+ bh=4BAEKhOJP+vfPilA/A1esaPeb85rQ2xVF1xbquVY184=;
+ b=hqnLuioQzgEznIRuD5Zi4/kY349JTRoklplPSDPmZt8kITwQjT+DlH7hUCVdX5fg5z
+ 51CU1dJmUR7Jq3ANF0WDrVixKVDbDorjVAvtLUKvNES7OcmKyzx87mUNJRTbsFAAIdgw
+ nSMBX/sUfzBTpF0jVdUbv+ET56Jkezd1nceAW79FmDQxeWGEtPGza4PtH3/McZbewpY0
+ fLjU10P0RqpYiqGarbLdTT0WecRxkwAvDB9l8SijX3X74GW7CayJ2+B4TstEn3bIXE7o
+ Pm9Lx7N9LD6AhiqRPUChM9YdLzFape34BaGlvv9e685aEFjV07R8rPpQGHhTJKP6nRTB
+ h4qg==
+X-Gm-Message-State: APjAAAU/r/HUrQPR1XVgQZ4xMkkadczKgzvGVYAo9evC6B0LKEJPnV5u
+ 968L3eOR0gL8mqE1YbVX+2naZzOomIo=
+X-Google-Smtp-Source: APXvYqzHbo1uSnOjPvq1dly/T3bNuAsEH0s+K/Vbu0r956R09tVR+hP/VVgCejHxcU6EI1GRu4bYzg==
+X-Received: by 2002:a5d:4651:: with SMTP id j17mr69088399wrs.237.1582568675196; 
+ Mon, 24 Feb 2020 10:24:35 -0800 (PST)
 Received: from localhost.localdomain
  ([2001:171b:c9a8:fbc0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id n3sm304255wmc.27.2020.02.24.10.24.32
+ by smtp.gmail.com with ESMTPSA id n3sm304255wmc.27.2020.02.24.10.24.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 10:24:33 -0800 (PST)
+ Mon, 24 Feb 2020 10:24:34 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: iommu@lists.linux-foundation.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
  linux-mm@kvack.org
-Subject: [PATCH v4 04/26] iommu/sva: Search mm by PASID
-Date: Mon, 24 Feb 2020 19:23:39 +0100
-Message-Id: <20200224182401.353359-5-jean-philippe@linaro.org>
+Subject: [PATCH v4 05/26] iommu/iopf: Handle mm faults
+Date: Mon, 24 Feb 2020 19:23:40 +0100
+Message-Id: <20200224182401.353359-6-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200224182401.353359-1-jean-philippe@linaro.org>
 References: <20200224182401.353359-1-jean-philippe@linaro.org>
@@ -102,62 +102,125 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
 
-The fault handler will need to find an mm given its PASID. This is the
-reason we have an IDR for storing address spaces, so hook it up.
+When a recoverable page fault is handled by the fault workqueue, find the
+associated mm and call handle_mm_fault.
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- drivers/iommu/iommu-sva.c | 19 +++++++++++++++++++
- include/linux/iommu.h     |  9 +++++++++
- 2 files changed, 28 insertions(+)
+ drivers/iommu/io-pgfault.c | 86 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 84 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iommu/iommu-sva.c b/drivers/iommu/iommu-sva.c
-index 64f1d1c82383..bfd0c477f290 100644
---- a/drivers/iommu/iommu-sva.c
-+++ b/drivers/iommu/iommu-sva.c
-@@ -559,3 +559,22 @@ int iommu_sva_get_pasid_generic(struct iommu_sva *handle)
- 	return pasid;
+diff --git a/drivers/iommu/io-pgfault.c b/drivers/iommu/io-pgfault.c
+index 76e153c59fe3..ffa9f14e0803 100644
+--- a/drivers/iommu/io-pgfault.c
++++ b/drivers/iommu/io-pgfault.c
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/iommu.h>
+ #include <linux/list.h>
++#include <linux/sched/mm.h>
+ #include <linux/slab.h>
+ #include <linux/workqueue.h>
+ 
+@@ -76,8 +77,65 @@ static int iopf_complete(struct device *dev, struct iopf_fault *iopf,
+ static enum iommu_page_response_code
+ iopf_handle_single(struct iopf_fault *iopf)
+ {
+-	/* TODO */
+-	return -ENODEV;
++	vm_fault_t ret;
++	struct mm_struct *mm;
++	struct vm_area_struct *vma;
++	unsigned int access_flags = 0;
++	unsigned int fault_flags = FAULT_FLAG_REMOTE;
++	struct iommu_fault_page_request *prm = &iopf->fault.prm;
++	enum iommu_page_response_code status = IOMMU_PAGE_RESP_INVALID;
++
++	if (!(prm->flags & IOMMU_FAULT_PAGE_REQUEST_PASID_VALID))
++		return status;
++
++	mm = iommu_sva_find(prm->pasid);
++	if (IS_ERR_OR_NULL(mm))
++		return status;
++
++	down_read(&mm->mmap_sem);
++
++	vma = find_extend_vma(mm, prm->addr);
++	if (!vma)
++		/* Unmapped area */
++		goto out_put_mm;
++
++	if (prm->perm & IOMMU_FAULT_PERM_READ)
++		access_flags |= VM_READ;
++
++	if (prm->perm & IOMMU_FAULT_PERM_WRITE) {
++		access_flags |= VM_WRITE;
++		fault_flags |= FAULT_FLAG_WRITE;
++	}
++
++	if (prm->perm & IOMMU_FAULT_PERM_EXEC) {
++		access_flags |= VM_EXEC;
++		fault_flags |= FAULT_FLAG_INSTRUCTION;
++	}
++
++	if (!(prm->perm & IOMMU_FAULT_PERM_PRIV))
++		fault_flags |= FAULT_FLAG_USER;
++
++	if (access_flags & ~vma->vm_flags)
++		/* Access fault */
++		goto out_put_mm;
++
++	ret = handle_mm_fault(vma, prm->addr, fault_flags);
++	status = ret & VM_FAULT_ERROR ? IOMMU_PAGE_RESP_INVALID :
++		IOMMU_PAGE_RESP_SUCCESS;
++
++out_put_mm:
++	up_read(&mm->mmap_sem);
++
++	/*
++	 * If the process exits while we're handling the fault on its mm, we
++	 * can't do mmput(). exit_mmap() would release the MMU notifier, calling
++	 * iommu_notifier_release(), which has to flush the fault queue that
++	 * we're executing on... So mmput_async() moves the release of the mm to
++	 * another thread, if we're the last user.
++	 */
++	mmput_async(mm);
++
++	return status;
  }
- EXPORT_SYMBOL_GPL(iommu_sva_get_pasid_generic);
-+
-+/* ioasid wants a void * argument */
-+static bool __mmget_not_zero(void *mm)
-+{
-+	return mmget_not_zero(mm);
-+}
-+
-+/**
-+ * iommu_sva_find() - Find mm associated to the given PASID
-+ * @pasid: Process Address Space ID assigned to the mm
+ 
+ static void iopf_handle_group(struct work_struct *work)
+@@ -111,6 +169,30 @@ static void iopf_handle_group(struct work_struct *work)
+  *
+  * Add a fault to the device workqueue, to be handled by mm.
+  *
++ * This module doesn't handle PCI PASID Stop Marker; IOMMU drivers must discard
++ * them before reporting faults. A PASID Stop Marker (LRW = 0b100) doesn't
++ * expect a response. It may be generated when disabling a PASID (issuing a
++ * PASID stop request) by some PCI devices.
 + *
-+ * Returns the mm corresponding to this PASID, or an error if not found. A
-+ * reference to the mm is taken, and must be released with mmput().
-+ */
-+struct mm_struct *iommu_sva_find(int pasid)
-+{
-+	return ioasid_find(&shared_pasid, pasid, __mmget_not_zero);
-+}
-+EXPORT_SYMBOL_GPL(iommu_sva_find);
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index e7bc47ba24f8..e52a8731e7a9 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -1091,6 +1091,15 @@ void iommu_debugfs_setup(void);
- static inline void iommu_debugfs_setup(void) {}
- #endif
- 
-+#ifdef CONFIG_IOMMU_SVA
-+extern struct mm_struct *iommu_sva_find(int pasid);
-+#else /* !CONFIG_IOMMU_SVA */
-+static inline struct mm_struct *iommu_sva_find(int pasid)
-+{
-+	return NULL;
-+}
-+#endif /* !CONFIG_IOMMU_SVA */
-+
- #ifdef CONFIG_IOMMU_PAGE_FAULT
- extern int iommu_queue_iopf(struct iommu_fault *fault, void *cookie);
- 
++ * The PASID stop request is triggered by the mm_exit() callback. When the
++ * callback returns from the device driver, no page request is generated for
++ * this PASID anymore and outstanding ones have been pushed to the IOMMU (as per
++ * PCIe 4.0r1.0 - 6.20.1 and 10.4.1.2 - Managing PASID TLP Prefix Usage). Some
++ * PCI devices will wait for all outstanding page requests to come back with a
++ * response before completing the PASID stop request. Others do not wait for
++ * page responses, and instead issue this Stop Marker that tells us when the
++ * PASID can be reallocated.
++ *
++ * It is safe to discard the Stop Marker because it is an optimization.
++ * a. Page requests, which are posted requests, have been flushed to the IOMMU
++ *    when mm_exit() returns,
++ * b. We flush all fault queues after mm_exit() returns and before freeing the
++ *    PASID.
++ *
++ * So even though the Stop Marker might be issued by the device *after* the stop
++ * request completes, outstanding faults will have been dealt with by the time
++ * we free the PASID.
++ *
+  * Return: 0 on success and <0 on error.
+  */
+ int iommu_queue_iopf(struct iommu_fault *fault, void *cookie)
 -- 
 2.25.0
 
