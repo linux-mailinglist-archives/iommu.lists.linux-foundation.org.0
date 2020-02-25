@@ -2,103 +2,81 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA3516B994
-	for <lists.iommu@lfdr.de>; Tue, 25 Feb 2020 07:21:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E4F16BA46
+	for <lists.iommu@lfdr.de>; Tue, 25 Feb 2020 08:14:24 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0B05B8543B;
-	Tue, 25 Feb 2020 06:21:15 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 06A14861A7;
+	Tue, 25 Feb 2020 07:14:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id B-Wzz9h5WDSf; Tue, 25 Feb 2020 06:21:13 +0000 (UTC)
+	with ESMTP id SMJyb8oL74hx; Tue, 25 Feb 2020 07:14:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 352BA855D8;
-	Tue, 25 Feb 2020 06:21:13 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4ADC7863BE;
+	Tue, 25 Feb 2020 07:14:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 294F6C0177;
-	Tue, 25 Feb 2020 06:21:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 39DBCC18DA;
+	Tue, 25 Feb 2020 07:14:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 31873C0177
- for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 06:21:12 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E9BA4C0177
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 06:59:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 2119986448
- for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 06:21:12 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id D26CC83883
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 06:59:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LMooh1ZaZter for <iommu@lists.linux-foundation.org>;
- Tue, 25 Feb 2020 06:21:11 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 8E4D8863AE
- for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 06:21:11 +0000 (UTC)
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01P6L0ji120016; Tue, 25 Feb 2020 01:21:04 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yb1as8a5v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Feb 2020 01:21:04 -0500
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01P6L3rZ120513;
- Tue, 25 Feb 2020 01:21:03 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yb1as8a26-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Feb 2020 01:21:03 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01P6JqV9018607;
- Tue, 25 Feb 2020 06:20:48 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma04dal.us.ibm.com with ESMTP id 2yaux6r3jx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Feb 2020 06:20:48 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01P6Kmev49414562
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Feb 2020 06:20:48 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 21836B205F;
- Tue, 25 Feb 2020 06:20:48 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 85627B2065;
- Tue, 25 Feb 2020 06:20:44 +0000 (GMT)
-Received: from [9.109.247.196] (unknown [9.109.247.196])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 25 Feb 2020 06:20:44 +0000 (GMT)
-Message-ID: <1582611644.19645.6.camel@abdul.in.ibm.com>
-Subject: Re: [linux-next/mainline][bisected 3acac06][ppc] Oops when
- unloading mpt3sas driver
-From: Abdul Haleem <abdhalee@linux.vnet.ibm.com>
-To: Christoph Hellwig <hch@infradead.org>
-Date: Tue, 25 Feb 2020 11:50:44 +0530
-In-Reply-To: <1579265473.17382.5.camel@abdul>
+ with ESMTP id gt9FFbYcl-Y4 for <iommu@lists.linux-foundation.org>;
+ Tue, 25 Feb 2020 06:59:15 +0000 (UTC)
+X-Greylist: delayed 00:05:49 by SQLgrey-1.7.6
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+ [209.85.167.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 07A98826E6
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 06:59:15 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id q81so11614733oig.0
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Feb 2020 22:59:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fSxteq8BvR6bLu5LA6jd2BwkLJks1DyRranxnHnzEYU=;
+ b=QSWYzPYTbGtdSQcLlCKj5AEGOQ+3AMV+xZg0/U1875q3JKfM5DYKKf5p6HAK6CwjIP
+ AOzaHHJjmake0476dUff+71jZhuvNc745oA0rLIGZ2I2H4J5IKOXbhyQXmahB1wqF2Iv
+ U7eNIah3q24sEOYyMKrA6vRUfjNnXNBHWLXsY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fSxteq8BvR6bLu5LA6jd2BwkLJks1DyRranxnHnzEYU=;
+ b=uJdZG/248o66gwMZqdj2lbhGqiIdeJjPD5tFFWKdxZcyfKvqSL2ooB1rFrxVAJNxAn
+ /zm6xsVU6hFTTDSqkhyh6/pItARBihLbIMhFtG1M9zHbb8hwEKgq8hqnLDdkUyS7IxPY
+ bGrYZ/H4tovsnc+DZdRCDmcHyVuBcddclli/PhGSxyXQ0i7ZjXPOWTpeWk69KkTFehnY
+ bH1RAb0vz58/ZfZGV1pR429FIAsCGVPTdaKOVOdV+gbOyuf93Q6q18H19kibP739N69M
+ 12sOoy2KuTOKPyjGGy1KLJh7AjsCa0prCU1yc+lb/zXFjES9sVDeBsIuPUx2sML4tfHA
+ liKw==
+X-Gm-Message-State: APjAAAWkct/Q1ae3d/DUtl3HPJxeAjQBCxSW+xhNe2AKmwxZwr2H+MWB
+ XzLQMcnHFjoht5acIJjgewnK9uFTx/oU12JqnJ6LO1yDcxwP1+sv
+X-Google-Smtp-Source: APXvYqzA/xFMqccjb+BVRQhIHMzDqHfwlaweZ5oYatBKG1/zxpMzG0KS3wxN/jHbU7SS9W3Ga5Oz56oRA9wsAEb0Dk0=
+X-Received: by 2002:aca:f587:: with SMTP id t129mr2226747oih.143.1582613605142; 
+ Mon, 24 Feb 2020 22:53:25 -0800 (PST)
+MIME-Version: 1.0
 References: <1578489498.29952.11.camel@abdul>
  <1578560245.30409.0.camel@abdul.in.ibm.com>
  <20200109142218.GA16477@infradead.org>
  <1578980874.11996.3.camel@abdul.in.ibm.com>
  <20200116174443.GA30158@infradead.org> <1579265473.17382.5.camel@abdul>
-X-Mailer: Evolution 3.10.4-0ubuntu1 
-Mime-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-25_01:2020-02-21,
- 2020-02-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 mlxlogscore=918 malwarescore=0 mlxscore=0 adultscore=0
- phishscore=0 bulkscore=0 clxscore=1011 impostorscore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002250050
+ <1582611644.19645.6.camel@abdul.in.ibm.com>
+In-Reply-To: <1582611644.19645.6.camel@abdul.in.ibm.com>
+Date: Tue, 25 Feb 2020 12:23:13 +0530
+Message-ID: <CAK=zhgpWCz0+xpSGymbQEAbysH_rQf=s8iQ1gn4KwysP3c1Gcw@mail.gmail.com>
+Subject: Re: [linux-next/mainline][bisected 3acac06][ppc] Oops when unloading
+ mpt3sas driver
+To: Abdul Haleem <abdhalee@linux.vnet.ibm.com>
+X-Mailman-Approved-At: Tue, 25 Feb 2020 07:14:21 +0000
 Cc: sachinp <sachinp@linux.vnet.ibm.com>,
  Chaitra P B <chaitra.basappa@broadcom.com>,
- linux-scsi <linux-scsi@vger.kernel.org>, MPT-FusionLinux.pdl@broadcom.com,
+ linux-scsi <linux-scsi@vger.kernel.org>,
+ PDL-MPT-FUSIONLINUX <MPT-FusionLinux.pdl@broadcom.com>,
  manvanth <manvanth@linux.vnet.ibm.com>,
  Sathya Prakash <sathya.prakash@broadcom.com>, jcmvbkbc@gmail.com,
  iommu@lists.linux-foundation.org, linux-next <linux-next@vger.kernel.org>,
@@ -118,40 +96,67 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Sreekanth Reddy via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, 2020-01-17 at 18:21 +0530, Abdul Haleem wrote:
-> On Thu, 2020-01-16 at 09:44 -0800, Christoph Hellwig wrote:
-> > Hi Abdul,
-> > 
-> > I think the problem is that mpt3sas has some convoluted logic to do
-> > some DMA allocations with a 32-bit coherent mask, and then switches
-> > to a 63 or 64 bit mask, which is not supported by the DMA API.
-> > 
-> > Can you try the patch below?
-> 
-> Thank you Christoph, with the given patch applied the bug is not seen.
-> 
-> rmmod of mpt3sas driver is successful, no kernel Oops
-> 
-> Reported-and-tested-by: Abdul Haleem <abdhalee@linux.vnet.ibm.com>
+On Tue, Feb 25, 2020 at 11:51 AM Abdul Haleem
+<abdhalee@linux.vnet.ibm.com> wrote:
+>
+> On Fri, 2020-01-17 at 18:21 +0530, Abdul Haleem wrote:
+> > On Thu, 2020-01-16 at 09:44 -0800, Christoph Hellwig wrote:
+> > > Hi Abdul,
+> > >
+> > > I think the problem is that mpt3sas has some convoluted logic to do
+> > > some DMA allocations with a 32-bit coherent mask, and then switches
+> > > to a 63 or 64 bit mask, which is not supported by the DMA API.
+> > >
+> > > Can you try the patch below?
+> >
+> > Thank you Christoph, with the given patch applied the bug is not seen.
+> >
+> > rmmod of mpt3sas driver is successful, no kernel Oops
+> >
+> > Reported-and-tested-by: Abdul Haleem <abdhalee@linux.vnet.ibm.com>
+>
+> Hi Christoph,
+>
+> I see the patch is under discussion, will this be merged upstream any
+> time soon ? as boot is broken on our machines with out your patch.
+>
 
-Hi Christoph,
+Hi Abdul,
 
-I see the patch is under discussion, will this be merged upstream any
-time soon ? as boot is broken on our machines with out your patch.
+We have posted a new set of patches to fix this issue. This patch set
+won't change the DMA Mask on the fly and also won't hardcode the DMA
+mask to 32 bit.
 
--- 
-Regard's
+[PATCH 0/5] mpt3sas: Fix changing coherent mask after allocation.
 
-Abdul Haleem
-IBM Linux Technology Centre
+This patchset will have below patches, Please review and try with this
+patch set.
 
+Suganath Prabu S (5):
+  mpt3sas: Don't change the dma coherent mask after      allocations
+  mpt3sas: Rename function name is_MSB_are_same
+  mpt3sas: Code Refactoring.
+  mpt3sas: Handle RDPQ DMA allocation in same 4g region
+  mpt3sas: Update version to 33.101.00.00
 
+Regards,
+Sreekanth
 
+> --
+> Regard's
+>
+> Abdul Haleem
+> IBM Linux Technology Centre
+>
+>
+>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
