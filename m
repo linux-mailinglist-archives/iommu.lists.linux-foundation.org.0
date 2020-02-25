@@ -1,88 +1,89 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B9D16BD38
-	for <lists.iommu@lfdr.de>; Tue, 25 Feb 2020 10:25:33 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id D82AB16BE51
+	for <lists.iommu@lfdr.de>; Tue, 25 Feb 2020 11:10:24 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1089D8620F;
-	Tue, 25 Feb 2020 09:25:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 648C220781;
+	Tue, 25 Feb 2020 10:10:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sN50dfPwtV5M; Tue, 25 Feb 2020 09:25:31 +0000 (UTC)
+	with ESMTP id 3H9qsKGGWDbr; Tue, 25 Feb 2020 10:10:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1C30F863E8;
-	Tue, 25 Feb 2020 09:25:31 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 300C4203F8;
+	Tue, 25 Feb 2020 10:10:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 07E52C18DA;
-	Tue, 25 Feb 2020 09:25:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 222E1C0177;
+	Tue, 25 Feb 2020 10:10:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A1B0BC18DA
- for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 09:25:29 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BF737C0177
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 10:10:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 90B97863BE
- for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 09:25:29 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B86E1868C4
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 10:10:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tnIPwtz21biI for <iommu@lists.linux-foundation.org>;
- Tue, 25 Feb 2020 09:25:28 +0000 (UTC)
+ with ESMTP id kQZJcRm5qWY7 for <iommu@lists.linux-foundation.org>;
+ Tue, 25 Feb 2020 10:10:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 9D98D86416
- for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 09:25:28 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id p9so2203419wmc.2
- for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 01:25:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 3AFA284778
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 10:09:46 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id p14so6927540pfn.4
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Feb 2020 02:09:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=xXjKrsLdZZ8wwVwaLKEsCAigMvn6xhJRvLjeY9bym8I=;
- b=xSQI/AECo2FF/n1rzar450UsJu6LS++K752YYamCvDgC3gmDDtm//+VyDKm1Kbo2U6
- UGZi3S+eGAsV0JhiWc2Y+ce9bAn+BhCUIiuI6B59vwHIUTq6SUXNmlTzd15+Ahi5vRFG
- ukAPDmTylaGIN6SKk9F1PWSiE0RSVvcWjauHpIV3567yMuNz7dwqRHqE/6rGd5/HRMTP
- eH8jduDDQ5OHpK9lVCEJlTuHYN+7fQfK4nUzE+8LOZ/Mm/LwrJnTJ2SDMtvUVs3fepv6
- tBSVxhhsDR+XbgoksqEMbEYIIMKi+cx4SZ96EM24GLhZV/KdTnpP6eY2JcEYDfuCgCzQ
- cgpg==
+ :content-disposition:in-reply-to:user-agent;
+ bh=Wh/aV6f8G9P8NFi86qh7LhwbQJ/WhimCuc3W3RTKcZE=;
+ b=KFlPaymx0DYUd8m3GIFgxt2xLl5otTfghyORLQBRAKY/JXiEDUAVl14Fq0LOhXd3OP
+ BYs0TTqBSzUJQeeX7D3QoHk0dHWQ31xJXe+Yhrn6loPk/pLsuoBW+58LUUXeOXRh5c4w
+ kffKXxC0pxA6WaWERdiPRpxhwX4LvfZiHeRe4FHKqZqX9dnUHAkMt105JgVtuxkqstNQ
+ vsXEPlFVreZI4LBgeEL7pSmHeS89OnPs9SVG1whCPo0FQwDWSHtqcR46u2munqOjGTcX
+ ihNvpq9o2/M6Upu2oD0eRNWLuFAl9lX6S9T4Zfx/vjya35tC5JBP2LWBRFdbbFNtXaRP
+ EOKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=xXjKrsLdZZ8wwVwaLKEsCAigMvn6xhJRvLjeY9bym8I=;
- b=N4ckYM8s6gSzKvBpKU4mD5dmTIorhfg4sIlnXwniwkdcqQOzDINgS7payBOiXp49zQ
- EyzN2cpQYJpI/b/obowWs4SNdygDixeZp6l7JPnIraVzVoQvN6Qdb/GPqmgh0Wv8UQIP
- z+WRpfWEx52inTkMV06DaeTIB3/4kptv5hvvU67dxGd2kUqgN8AudrAFgSG7b513EfUz
- zPvlHgpQhYWUEkuC2ERDV+h8kS0OzRr27sP/5xiYqFGIwTOwvOgn56mYmBXALngVP3FA
- fX3JiftZzqgCVlhb69y0TKLEIi/kp3QbcL8nb6NPdhM1wb5bEJUmslKPn4d/vNcce+sg
- ZobA==
-X-Gm-Message-State: APjAAAVORKPNQaqk2Ka8xTPDmkpwj5F0IpAmajRUmmwkh+IyteSSbSTh
- sFzQAMR0qrQTwcBV40mLuJm0GQ==
-X-Google-Smtp-Source: APXvYqyRPbcxq+DpGxqy4QJ4Y+9sIc/9udtBlHtjdqBZpekzFx+Ms4VTHLdlkurRNx5P5V2Nn5l0Xg==
-X-Received: by 2002:a7b:c204:: with SMTP id x4mr4229923wmi.20.1582622727153;
- Tue, 25 Feb 2020 01:25:27 -0800 (PST)
-Received: from myrica ([2001:171b:c9a8:fbc0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id x21sm3115712wmi.30.2020.02.25.01.25.26
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Wh/aV6f8G9P8NFi86qh7LhwbQJ/WhimCuc3W3RTKcZE=;
+ b=e4AIIbR7Rm3q65jyXvuN0yi0yU2HBADwa4MYfj5AktE5Z+GgB2vP223r+Piw8eHqb+
+ CcJvMmooICE0hDHoaKF2YivhDnX3Wru3Y0zY0izcjEHfiDPYWpGr9/cwWi1SuyPjG2Jf
+ 60DuZ6VCk69bexKCLIeL3CQwxQ2xbbuRgHIi0sl3SnAooj23fXXqaNzmD12eNCkUxBzK
+ Ky9lnnUb9feu7omPsCyMRkSwzZilLH/tGfhM5f15mG3LesW2tFemZOX9tH6q9iUltE37
+ QeQWXi99+ZG283o+xrWpnU4k3gbU2TmgOmD7LXKmbR7OgpOlPdKkb0ZWqGLrLnHbEPyW
+ a2xw==
+X-Gm-Message-State: APjAAAWtx4bVliht4mpdZQzWmKKGWa/P5YvFvpgyHywvvgnQFOKyWUJe
+ Tc69wfutxsvbCgSyOePnTLc=
+X-Google-Smtp-Source: APXvYqx8Yfc4lFhAWYyQXx8bh8cKTSKSygqvlznUOWE2jNOZJYYzwPYWixn6hqZq7vx8iXGletOiug==
+X-Received: by 2002:a63:3c4b:: with SMTP id i11mr58936564pgn.123.1582625385752; 
+ Tue, 25 Feb 2020 02:09:45 -0800 (PST)
+Received: from localhost (g183.222-224-185.ppp.wakwak.ne.jp. [222.224.185.183])
+ by smtp.gmail.com with ESMTPSA id b27sm16151184pgl.77.2020.02.25.02.09.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Feb 2020 01:25:26 -0800 (PST)
-Date: Tue, 25 Feb 2020 10:25:19 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Xu Zaibo <xuzaibo@huawei.com>
-Subject: Re: [PATCH v4 03/26] iommu: Add a page fault handler
-Message-ID: <20200225092519.GC375953@myrica>
-References: <20200224182401.353359-1-jean-philippe@linaro.org>
- <20200224182401.353359-4-jean-philippe@linaro.org>
- <cb8b5a85-7f1a-8eb7-85bd-db2f553f066d@huawei.com>
+ Tue, 25 Feb 2020 02:09:44 -0800 (PST)
+Date: Tue, 25 Feb 2020 19:09:42 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 5/5] openrisc: use the generic in-place uncached DMA
+ allocator
+Message-ID: <20200225100942.GB7926@lianli.shorne-pla.net>
+References: <20200224194446.690816-1-hch@lst.de>
+ <20200224194446.690816-6-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <cb8b5a85-7f1a-8eb7-85bd-db2f553f066d@huawei.com>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, kevin.tian@intel.com,
- will@kernel.org, Jean-Philippe Brucker <jean-philippe.brucker@arm.com>,
- linux-pci@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, robh+dt@kernel.org, catalin.marinas@arm.com,
- zhangfei.gao@linaro.org, robin.murphy@arm.com, christian.koenig@amd.com,
+In-Reply-To: <20200224194446.690816-6-hch@lst.de>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Cc: Jonas Bonn <jonas@southpole.se>, Mark Rutland <mark.rutland@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ iommu@lists.linux-foundation.org, openrisc@lists.librecores.org,
+ linux-arch@vger.kernel.org, Will Deacon <will@kernel.org>,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -101,36 +102,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Zaibo,
+On Mon, Feb 24, 2020 at 11:44:45AM -0800, Christoph Hellwig wrote:
+> Switch openrisc to use the dma-direct allocator and just provide the
+> hooks for setting memory uncached or cached.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-On Tue, Feb 25, 2020 at 11:30:05AM +0800, Xu Zaibo wrote:
-> > +struct iopf_queue *
-> > +iopf_queue_alloc(const char *name, iopf_queue_flush_t flush, void *cookie)
-> > +{
-> > +	struct iopf_queue *queue;
-> > +
-> > +	queue = kzalloc(sizeof(*queue), GFP_KERNEL);
-> > +	if (!queue)
-> > +		return NULL;
-> > +
-> > +	/*
-> > +	 * The WQ is unordered because the low-level handler enqueues faults by
-> > +	 * group. PRI requests within a group have to be ordered, but once
-> > +	 * that's dealt with, the high-level function can handle groups out of
-> > +	 * order.
-> > +	 */
-> > +	queue->wq = alloc_workqueue("iopf_queue/%s", WQ_UNBOUND, 0, name);
-> Should this workqueue use 'WQ_HIGHPRI | WQ_UNBOUND' or some flags like this
-> to decrease the unexpected
-> latency of I/O PageFault here? Or maybe, workqueue will show an uncontrolled
-> latency, even in a busy system.
+Reviewed-by: Stafford Horne <shorne@gmail.com>
 
-I'll investigate the effect of these flags. So far I've only run on
-completely idle systems but it would be interesting to add some
-workqueue-heavy load in my tests.
+I also test booted this series with linux 5.5 on my OpenRISC target.  There are
+no issues.  Note, I had an issue with patch 3/5 not cleanly applying with 'git am'
+but it worked fine using just patch, I didn't get any other details.
 
-Thanks,
-Jean
+-Stafford
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
