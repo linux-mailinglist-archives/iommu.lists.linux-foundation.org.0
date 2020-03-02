@@ -1,56 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA1AD175DE0
-	for <lists.iommu@lfdr.de>; Mon,  2 Mar 2020 16:08:48 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21293175E4D
+	for <lists.iommu@lfdr.de>; Mon,  2 Mar 2020 16:36:18 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9FE78876A0;
-	Mon,  2 Mar 2020 15:08:47 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B745B85BFA;
+	Mon,  2 Mar 2020 15:36:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Kfh7Lp51DU7I; Mon,  2 Mar 2020 15:08:46 +0000 (UTC)
+	with ESMTP id eFHefcIqwaUf; Mon,  2 Mar 2020 15:36:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7211E87670;
-	Mon,  2 Mar 2020 15:08:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2F76B85BCA;
+	Mon,  2 Mar 2020 15:36:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5EF3EC013E;
-	Mon,  2 Mar 2020 15:08:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1275DC013E;
+	Mon,  2 Mar 2020 15:36:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 765C1C013E
- for <iommu@lists.linux-foundation.org>; Mon,  2 Mar 2020 15:08:45 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8C0CCC013E
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Mar 2020 15:36:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 65060858A6
- for <iommu@lists.linux-foundation.org>; Mon,  2 Mar 2020 15:08:45 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 75FD885BFA
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Mar 2020 15:36:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hcpSBvX3mzD9 for <iommu@lists.linux-foundation.org>;
- Mon,  2 Mar 2020 15:08:43 +0000 (UTC)
+ with ESMTP id OKFWrCfD-ncw for <iommu@lists.linux-foundation.org>;
+ Mon,  2 Mar 2020 15:36:12 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B7ECA8589C
- for <iommu@lists.linux-foundation.org>; Mon,  2 Mar 2020 15:08:43 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 9D07C85BCA
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Mar 2020 15:36:12 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id A5A462AF; Mon,  2 Mar 2020 16:08:37 +0100 (CET)
-Date: Mon, 2 Mar 2020 16:08:34 +0100
+ id 9B23D5BC; Mon,  2 Mar 2020 16:36:09 +0100 (CET)
+Date: Mon, 2 Mar 2020 16:36:06 +0100
 From: Joerg Roedel <joro@8bytes.org>
-To: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
-Subject: Re: [PATCH V2 3/5] iommu: Add support to change default domain of an
- iommu_group
-Message-ID: <20200302150833.GA6540@8bytes.org>
-References: <cover.1581619464.git.sai.praneeth.prakhya@intel.com>
- <5aa5ef20ff81f706aafa9a6af68cef98fe60ad0f.1581619464.git.sai.praneeth.prakhya@intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2 2/4] iommu: Add Allwinner H6 IOMMU driver
+Message-ID: <20200302153606.GB6540@8bytes.org>
+References: <cover.a31c229a83f1d92e6928ae2adb70887da0fd44b3.1582222496.git-series.maxime@cerno.tech>
+ <6864f0f28825bb7a2ec1c0d811a4aacdecf5f945.1582222496.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <5aa5ef20ff81f706aafa9a6af68cef98fe60ad0f.1581619464.git.sai.praneeth.prakhya@intel.com>
+In-Reply-To: <6864f0f28825bb7a2ec1c0d811a4aacdecf5f945.1582222496.git-series.maxime@cerno.tech>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Ashok Raj <ashok.raj@intel.com>, Will Deacon <will.deacon@arm.com>,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,34 +68,118 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hello Sai, Baolu,
+Hi Maxime,
 
-On Sun, Feb 16, 2020 at 01:57:26PM -0800, Sai Praneeth Prakhya wrote:
-> Hence it will be helpful if there is some way to change the default
-> domain of a B:D.F dynamically. Since, linux iommu subsystem prefers to
-> deal at iommu_group level instead of B:D.F level, it might be helpful
-> if there is some way to change the default domain of a *iommu_group*
-> dynamically. Hence, add such support.
+On Thu, Feb 20, 2020 at 07:15:14PM +0100, Maxime Ripard wrote:
+> +struct sun50i_iommu_domain {
+> +	struct iommu_domain domain;
+> +
+> +	/* Number of devices attached to the domain */
+> +	refcount_t refcnt;
+> +
+> +	/* Lock to modify the Directory Table */
+> +	spinlock_t dt_lock;
 
-The question is how this plays together with the per-device private
-domains in the Intel VT-d driver. I recently debugged an issue there and
-I think there are more. The overall code for this seems to be pretty
-fragile, so I had the idea to make the private default domains more
-general.
+I suggest you make page-table updates lock-less. Otherwise this lock
+will become a bottle-neck when using the IOMMU through DMA-API.
 
-IOMMU default domains don't necessarily need to stick to the iommu-group
-granularity, because the default domain is used by in-kernel drivers
-only, and the kernel trusts itself.
+> +
+> +static int sun50i_iommu_map(struct iommu_domain *domain, unsigned long iova,
+> +			    phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+> +{
+> +	struct sun50i_iommu_domain *sun50i_domain = to_sun50i_domain(domain);
+> +	struct sun50i_iommu *iommu = sun50i_domain->iommu;
+> +	u32 pte_index;
+> +	u32 *page_table, *pte_addr;
+> +	unsigned long flags;
+> +	int ret = 0;
+> +
+> +	spin_lock_irqsave(&sun50i_domain->dt_lock, flags);
+> +	page_table = sun50i_dte_get_page_table(sun50i_domain, iova, gfp);
+> +	if (IS_ERR(page_table)) {
+> +		ret = PTR_ERR(page_table);
+> +		goto out;
+> +	}
+> +
+> +	pte_index = sun50i_iova_get_pte_index(iova);
+> +	pte_addr = &page_table[pte_index];
+> +	if (sun50i_pte_is_page_valid(*pte_addr)) {
 
-So my idea was to make the private-domain concept of the VT-d driver
-more generic and move it to the iommu core code. With that we can
-configure real per-device default domain types and don't have the race
-condition with driver probing when changing the default domain of
-multiple devices. We have to limit the ability to change default domain
-types to devices with no PCI aliases, but that should not be a problem
-for the intended use-case.
+You can use unlikely() here.
 
-What do you think?
+> +		phys_addr_t page_phys = sun50i_pte_get_page_address(*pte_addr);
+> +		dev_err(iommu->dev,
+> +			"iova %pad already mapped to %pa cannot remap to %pa prot: %#x\n",
+> +			&iova, &page_phys, &paddr, prot);
+> +		ret = -EBUSY;
+> +		goto out;
+> +	}
+> +
+> +	*pte_addr = sun50i_mk_pte(paddr, prot);
+> +	sun50i_table_flush(sun50i_domain, pte_addr, 1);
+
+This maps only one page, right? But the function needs to map up to
+'size' as given in the parameter list.
+
+> +
+> +	spin_lock_irqsave(&iommu->iommu_lock, flags);
+> +	sun50i_iommu_tlb_invalidate(iommu, iova);
+> +	spin_unlock_irqrestore(&iommu->iommu_lock, flags);
+
+Why is there a need to flush the TLB here? The IOMMU-API provides
+call-backs so that the user of the API can decide when it wants
+to flush the IO/TLB. Such flushes are usually expensive and doing them
+on every map and unmap will cost significant performance.
+
+> +static size_t sun50i_iommu_unmap(struct iommu_domain *domain, unsigned long iova,
+> +				 size_t size, struct iommu_iotlb_gather *gather)
+> +{
+> +	struct sun50i_iommu_domain *sun50i_domain = to_sun50i_domain(domain);
+> +	struct sun50i_iommu *iommu = sun50i_domain->iommu;
+> +	unsigned long flags;
+> +	phys_addr_t pt_phys;
+> +	dma_addr_t pte_dma;
+> +	u32 *pte_addr;
+> +	u32 dte;
+> +
+> +	spin_lock_irqsave(&sun50i_domain->dt_lock, flags);
+> +
+> +	dte = sun50i_domain->dt[sun50i_iova_get_dte_index(iova)];
+> +	if (!sun50i_dte_is_pt_valid(dte)) {
+> +		spin_unlock_irqrestore(&sun50i_domain->dt_lock, flags);
+> +		return 0;
+> +	}
+> +
+> +	pt_phys = sun50i_dte_get_pt_address(dte);
+> +	pte_addr = (u32 *)phys_to_virt(pt_phys) + sun50i_iova_get_pte_index(iova);
+> +	pte_dma = pt_phys + sun50i_iova_get_pte_index(iova) * PT_ENTRY_SIZE;
+> +
+> +	if (!sun50i_pte_is_page_valid(*pte_addr)) {
+> +		spin_unlock_irqrestore(&sun50i_domain->dt_lock, flags);
+> +		return 0;
+> +	}
+> +
+> +	memset(pte_addr, 0, sizeof(*pte_addr));
+> +	sun50i_table_flush(sun50i_domain, pte_addr, 1);
+> +
+> +	spin_lock(&iommu->iommu_lock);
+> +	sun50i_iommu_tlb_invalidate(iommu, iova);
+> +	sun50i_iommu_ptw_invalidate(iommu, iova);
+> +	spin_unlock(&iommu->iommu_lock);
+
+Same objections as in the map function. This only unmaps one page, and
+is the IO/TLB flush really needed here?
+
+> +static struct iommu_domain *sun50i_iommu_domain_alloc(unsigned type)
+> +{
+> +	struct sun50i_iommu_domain *sun50i_domain;
+> +
+> +	if (type != IOMMU_DOMAIN_DMA && type != IOMMU_DOMAIN_UNMANAGED)
+> +		return NULL;
+
+I think you should at least also support identity domains here. The
+iommu-core code might allocate those for default domains.
+
 
 Regards,
 
