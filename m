@@ -1,62 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583F0176AE1
-	for <lists.iommu@lfdr.de>; Tue,  3 Mar 2020 03:47:17 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBAAC176B1C
+	for <lists.iommu@lfdr.de>; Tue,  3 Mar 2020 03:48:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 68598812B9;
-	Tue,  3 Mar 2020 02:47:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 726B78733F;
+	Tue,  3 Mar 2020 02:48:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HXWxklDcTAip; Tue,  3 Mar 2020 02:47:14 +0000 (UTC)
+	with ESMTP id 3JfoIU5soAIW; Tue,  3 Mar 2020 02:48:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0C146811D1;
-	Tue,  3 Mar 2020 02:47:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3F25A8707A;
+	Tue,  3 Mar 2020 02:48:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E64B7C013E;
-	Tue,  3 Mar 2020 02:47:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 38E26C1D89;
+	Tue,  3 Mar 2020 02:48:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 74662C013E
- for <iommu@lists.linux-foundation.org>; Tue,  3 Mar 2020 02:47:12 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9BF64C013E
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Mar 2020 02:48:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 5D41E1FE0A
- for <iommu@lists.linux-foundation.org>; Tue,  3 Mar 2020 02:47:12 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 8A12F204EB
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Mar 2020 02:48:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hI9J4cq+qlPU for <iommu@lists.linux-foundation.org>;
- Tue,  3 Mar 2020 02:47:11 +0000 (UTC)
+ with ESMTP id KSsEYUwIMQ7Q for <iommu@lists.linux-foundation.org>;
+ Tue,  3 Mar 2020 02:48:28 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 1D7E320131
- for <iommu@lists.linux-foundation.org>; Tue,  3 Mar 2020 02:47:11 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 7185520449
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Mar 2020 02:48:28 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2B29724684;
- Tue,  3 Mar 2020 02:47:10 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7CC4624680;
+ Tue,  3 Mar 2020 02:48:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1583203630;
+ s=default; t=1583203708;
  bh=h8EAJl19Wp0HALYjFidwI9cUFJDeGchtkcXLkJUuArs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=g+Z2L1VqKU95QO2wvBRlaCUyGE0XiYUyZMTxY0G05Qw9mqOFnb14p1RKHWoTjS40J
- pubPKbh3OMrOskZUHvWKlg830lPe+QymHPg1xipBtGP05wreqZzh3V062hvBWPY2Tc
- J6ZCLPErE/K5bxfBEmX/MOzHUSNecAIz/RWnJyF0=
+ b=BlBeneV3vp6Xjgc+i1hsUdP+h1505g1QE2Ek2sInORlFdpuEb7+aBOt2XPh4bYsAl
+ G6pYz9lEQvQSYKh4ZNhbFkEJhw1rBskifToC73x6qHvR+4ZNEKHAp4yLOMRK3liY8S
+ i2M94Oo8pKfDOqJjfrQvxq1AMqeuok04RusO7YlM=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 44/66] iommu/amd: Disable IOMMU on Stoney Ridge
+Subject: [PATCH AUTOSEL 5.4 39/58] iommu/amd: Disable IOMMU on Stoney Ridge
  systems
-Date: Mon,  2 Mar 2020 21:45:53 -0500
-Message-Id: <20200303024615.8889-44-sashal@kernel.org>
+Date: Mon,  2 Mar 2020 21:47:21 -0500
+Message-Id: <20200303024740.9511-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200303024615.8889-1-sashal@kernel.org>
-References: <20200303024615.8889-1-sashal@kernel.org>
+In-Reply-To: <20200303024740.9511-1-sashal@kernel.org>
+References: <20200303024740.9511-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
