@@ -1,107 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA0C177C99
-	for <lists.iommu@lfdr.de>; Tue,  3 Mar 2020 18:01:09 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 329171782F5
+	for <lists.iommu@lfdr.de>; Tue,  3 Mar 2020 20:16:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7BF1185187;
-	Tue,  3 Mar 2020 17:01:08 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7113E86632;
+	Tue,  3 Mar 2020 19:16:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2_ynP89QofsK; Tue,  3 Mar 2020 17:01:07 +0000 (UTC)
+	with ESMTP id cebW83MpNB+9; Tue,  3 Mar 2020 19:16:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5BBC585065;
-	Tue,  3 Mar 2020 17:01:07 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BAE7586747;
+	Tue,  3 Mar 2020 19:16:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3ABC3C1D89;
-	Tue,  3 Mar 2020 17:01:07 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 99991C013E;
+	Tue,  3 Mar 2020 19:16:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E8024C013E
- for <iommu@lists.linux-foundation.org>; Tue,  3 Mar 2020 17:01:05 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 747AEC013E;
+ Tue,  3 Mar 2020 19:16:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id D1C0A85FAC
- for <iommu@lists.linux-foundation.org>; Tue,  3 Mar 2020 17:01:05 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 5E30185D6F;
+ Tue,  3 Mar 2020 19:16:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OaYxCIzAPXcw for <iommu@lists.linux-foundation.org>;
- Tue,  3 Mar 2020 17:01:03 +0000 (UTC)
+ with ESMTP id JXpT04JPJvre; Tue,  3 Mar 2020 19:16:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A64F1853C5
- for <iommu@lists.linux-foundation.org>; Tue,  3 Mar 2020 17:01:03 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 023GsOhe127300;
- Tue, 3 Mar 2020 17:00:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=YHBXFBSktgQjLaRBFzopaXSA2ylIlKhMSsg5ZAsockc=;
- b=jU4quvUitJTwIwf5TegZ6FvIOBcS7nc9vzYDmvRycgAyYS2EIZXF4yJGEcLYrT3KdvuV
- jhRwojj9cPlXqOkY6n5kvVVh5G0J0mOX6h2eaYotu+Vqjpw4ByxwHjDLm4fFJo61pLRo
- H15BnFMK6Nmmx9uaHL2jKDU5x/l8JQAbgTk30omrZLmb+HN2S+d72h7gTcX1QAQI+pB+
- taCAcpWazu99ZdDj9UPHFQGKFfTGOwvQsMb6orDhb+8sLl+XznEFUvdYGO1dnPpJfAxg
- w/EOHLbWP8RmoSrRnwywhAKt7G3HJdQx4RcbxkUHJw8pUKTOr1XrBUdm//7T8wTxEqYK NQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2yffwqrknh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Mar 2020 17:00:17 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 023GmTDr053801;
- Tue, 3 Mar 2020 17:00:16 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 2yg1p4vf44-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 03 Mar 2020 17:00:16 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 023H0AJR001636;
- Tue, 3 Mar 2020 17:00:11 GMT
-Received: from char.us.oracle.com (/10.152.32.25)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 03 Mar 2020 09:00:10 -0800
-Received: by char.us.oracle.com (Postfix, from userid 1000)
- id 7873A6A0129; Tue,  3 Mar 2020 12:03:53 -0500 (EST)
-Date: Tue, 3 Mar 2020 12:03:53 -0500
-From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-To: Ashish Kalra <ashish.kalra@amd.com>
-Subject: Re: [PATCH v2] swiotlb: Adjust SWIOTBL bounce buffer size for SEV
- guests.
-Message-ID: <20200303170353.GC31627@char.us.oracle.com>
-References: <20191209231346.5602-1-Ashish.Kalra@amd.com>
- <20191220015245.GA7010@localhost.localdomain>
- <20200121200947.GA24884@ashkalra_ubuntu_server>
- <20200121205403.GC75374@Konrads-MacBook-Pro.local>
- <20200124230008.GA1565@ashkalra_ubuntu_server>
- <20200204193500.GA15564@ashkalra_ubuntu_server>
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id F185784E77;
+ Tue,  3 Mar 2020 19:16:31 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 141212073B;
+ Tue,  3 Mar 2020 19:16:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1583262991;
+ bh=rRMdJDhihpbw492Akq7IhrH8YLKWl8VjOzCCbOZqZac=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DsP98JqYh3FZtjF1CgaIUF1AvB9sYez3Kr5jeTN/D4eI6y+Y2osl0oCTFHFAcXdE3
+ E2uj9eZLuK/81D2DscuklPOQ5jC12DWI+V9I2qOViOeoGxqyFsUDmSREGzym4rN9s8
+ CieEbNz093Xkw5rG5vlq33olUAgybJvqxCT02uRI=
+Date: Tue, 3 Mar 2020 19:16:25 +0000
+From: Will Deacon <will@kernel.org>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: Re: [PATCH 00/14] iommu: Move iommu_fwspec out of 'struct device'
+Message-ID: <20200303191624.GC27329@willie-the-truck>
+References: <20200228150820.15340-1-joro@8bytes.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200204193500.GA15564@ashkalra_ubuntu_server>
-User-Agent: Mutt/1.9.1 (2017-09-22)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9549
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- malwarescore=0
- mlxlogscore=999 mlxscore=0 spamscore=0 adultscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003030116
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9549
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 spamscore=0
- impostorscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
- phishscore=0 clxscore=1011 bulkscore=0 adultscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2003030116
-Cc: Thomas.Lendacky@amd.com, brijesh.singh@amd.com, dave.hansen@linux-intel.com,
- peterz@infradead.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, mingo@redhat.com, bp@alien8.de,
- luto@kernel.org, hpa@zytor.com, Konrad Rzeszutek Wilk <konrad@darnok.org>,
- tglx@linutronix.de, hch@lst.de
+In-Reply-To: <20200228150820.15340-1-joro@8bytes.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
+ linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ iommu@lists.linux-foundation.org, Thierry Reding <thierry.reding@gmail.com>,
+ linux-mediatek@lists.infradead.org, Andy Gross <agross@kernel.org>,
+ Hanjun Guo <guohanjun@huawei.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,67 +81,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Feb 04, 2020 at 07:35:00PM +0000, Ashish Kalra wrote:
-> Hello Konrad,
-> 
-> Looking fwd. to your feedback regarding support of other memory
-> encryption architectures such as Power, S390, etc.
-> 
-> Thanks,
-> Ashish
-> 
-> On Fri, Jan 24, 2020 at 11:00:08PM +0000, Ashish Kalra wrote:
-> > On Tue, Jan 21, 2020 at 03:54:03PM -0500, Konrad Rzeszutek Wilk wrote:
-> > > > 
-> > > > Additional memory calculations based on # of PCI devices and
-> > > > their memory ranges will make it more complicated with so
-> > > > many other permutations and combinations to explore, it is
-> > > > essential to keep this patch as simple as possible by 
-> > > > adjusting the bounce buffer size simply by determining it
-> > > > from the amount of provisioned guest memory.
-> > >> 
-> > >> Please rework the patch to:
-> > >> 
-> > >>  - Use a log solution instead of the multiplication.
-> > >>    Feel free to cap it at a sensible value.
-> > 
-> > Ok.
-> > 
-> > >> 
-> > >>  - Also the code depends on SWIOTLB calling in to the
-> > >>    adjust_swiotlb_default_size which looks wrong.
-> > >> 
-> > >>    You should not adjust io_tlb_nslabs from swiotlb_size_or_default.
-> > 
-> > >>    That function's purpose is to report a value.
-> > >> 
-> > >>  - Make io_tlb_nslabs be visible outside of the SWIOTLB code.
-> > >> 
-> > >>  - Can you utilize the IOMMU_INIT APIs and have your own detect which would
-> > >>    modify the io_tlb_nslabs (and set swiotbl=1?).
-> > 
-> > This seems to be a nice option, but then IOMMU_INIT APIs are
-> > x86-specific and this swiotlb buffer size adjustment is also needed
-> > for other memory encryption architectures like Power, S390, etc.
+Hi Joerg,
 
-Oh dear. That I hadn't considered.
-> > 
-> > >> 
-> > >>    Actually you seem to be piggybacking on pci_swiotlb_detect_4gb - so
-> > >>    perhaps add in this code ? Albeit it really should be in it's own
-> > >>    file, not in arch/x86/kernel/pci-swiotlb.c
-> > 
-> > Actually, we piggyback on pci_swiotlb_detect_override which sets
-> > swiotlb=1 as x86_64_start_kernel() and invocation of sme_early_init()
-> > forces swiotlb on, but again this is all x86 architecture specific.
+On Fri, Feb 28, 2020 at 04:08:06PM +0100, Joerg Roedel wrote:
+> here is a patch-set to rename iommu_param to dev_iommu and
+> establish it as a struct for generic per-device iommu-data.
+> Also move the iommu_fwspec pointer from struct device into
+> dev_iommu to have less iommu-related pointers in struct
+> device.
+> 
+> The bigger part of this patch-set moves the iommu_priv
+> pointer from struct iommu_fwspec to dev_iommu, making is
+> usable for iommu-drivers which do not use fwspecs.
+> 
+> The changes for that were mostly straightforward, except for
+> the arm-smmu (_not_ arm-smmu-v3) and the qcom iommu driver.
+> Unfortunatly I don't have the hardware for those, so any
+> testing of these drivers is greatly appreciated.
 
-Then it looks like the best bet is to do it from within swiotlb_init?
-We really can't do it from swiotlb_size_or_default - that function
-should just return a value and nothing else.
+I haven't had a chance to review this properly yet, but I did take it
+for a spin on my Seattle board with MMU-400 (arm-smmu) and it seems to
+work the same as before, so:
 
-> > 
-> > Thanks,
-> > Ashish
+Tested-by: Will Deacon <will@kernel.org> # arm-smmu
+
+I'll try to review the patches soon.
+
+Cheers,
+
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
