@@ -2,46 +2,46 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 516FD1796C9
-	for <lists.iommu@lfdr.de>; Wed,  4 Mar 2020 18:34:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C271796E5
+	for <lists.iommu@lfdr.de>; Wed,  4 Mar 2020 18:40:58 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C478086373;
-	Wed,  4 Mar 2020 17:34:53 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A06CB848F5;
+	Wed,  4 Mar 2020 17:40:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id n7knOxzGCDKw; Wed,  4 Mar 2020 17:34:53 +0000 (UTC)
+	with ESMTP id oAg7mPffGHaR; Wed,  4 Mar 2020 17:40:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CE716843BB;
-	Wed,  4 Mar 2020 17:34:52 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 26E1484C09;
+	Wed,  4 Mar 2020 17:40:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AC1C4C1D8E;
-	Wed,  4 Mar 2020 17:34:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 11307C013E;
+	Wed,  4 Mar 2020 17:40:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 64E56C013E;
- Wed,  4 Mar 2020 17:34:51 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 510EEC013E;
+ Wed,  4 Mar 2020 17:40:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 4E1A9811F0;
- Wed,  4 Mar 2020 17:34:51 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 4D96384581;
+ Wed,  4 Mar 2020 17:40:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gCgrWqwwTh24; Wed,  4 Mar 2020 17:34:49 +0000 (UTC)
+ with ESMTP id A_uu-OV-ml7u; Wed,  4 Mar 2020 17:40:52 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 9FC468405F;
- Wed,  4 Mar 2020 17:34:49 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 417A8843FD;
+ Wed,  4 Mar 2020 17:40:52 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id EE5B22E2; Wed,  4 Mar 2020 18:34:45 +0100 (CET)
-Date: Wed, 4 Mar 2020 18:34:42 +0100
+ id 4515C2E2; Wed,  4 Mar 2020 18:40:50 +0100 (CET)
+Date: Wed, 4 Mar 2020 18:40:46 +0100
 From: Joerg Roedel <joro@8bytes.org>
-To: Jacob Pan <jacob.jun.pan@intel.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
 Subject: Re: [PATCH v2 1/3] iommu/virtio: Add topology description to
  virtio-iommu config space
-Message-ID: <20200304173441.GB3315@8bytes.org>
+Message-ID: <20200304174045.GC3315@8bytes.org>
 References: <20200228172537.377327-1-jean-philippe@linaro.org>
  <20200228172537.377327-2-jean-philippe@linaro.org>
  <20200302161611.GD7829@8bytes.org>
@@ -50,17 +50,16 @@ References: <20200228172537.377327-1-jean-philippe@linaro.org>
  <20200303084753-mutt-send-email-mst@kernel.org>
  <20200303155318.GA3954@8bytes.org>
  <20200303105523-mutt-send-email-mst@kernel.org>
- <20200304133707.GB4177@8bytes.org>
- <20200304074854.3ea958a1@jacob-XPS-13-9365>
+ <20200304133707.GB4177@8bytes.org> <20200304153821.GE646000@myrica>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200304074854.3ea958a1@jacob-XPS-13-9365>
+In-Reply-To: <20200304153821.GE646000@myrica>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, kevin.tian@intel.com,
- "Michael S. Tsirkin" <mst@redhat.com>, linux-pci@vger.kernel.org,
- jasowang@redhat.com, virtualization@lists.linux-foundation.org,
- iommu@lists.linux-foundation.org, sebastien.boeuf@intel.com,
- bhelgaas@google.com, robin.murphy@arm.com
+Cc: kevin.tian@intel.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ linux-pci@vger.kernel.org, jasowang@redhat.com,
+ virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
+ sebastien.boeuf@intel.com, jacob.jun.pan@intel.com, bhelgaas@google.com,
+ robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,20 +77,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Mar 04, 2020 at 07:48:54AM -0800, Jacob Pan wrote:
-> For emulated VT-d IOMMU, GIOVA can also be build as first level page
-> tables then pass to the host IOMMU to bind. There is no need to shadow
-> in this case, pIOMMU will do nested translation and walk guest page
-> tables.
+On Wed, Mar 04, 2020 at 04:38:21PM +0100, Jean-Philippe Brucker wrote:
+> I agree with this. The problem is I don't know how to get a new ACPI table
+> or change an existing one. It needs to go through the UEFI forum in order
+> to be accepted, and I don't have any weight there. I've been trying to get
+> the tiny change into IORT for ages. I haven't been given any convincing
+> reason against it or offered any alternative, it's just stalled. The
+> topology description introduced here wasn't my first choice either but
+> unless someone can help finding another way into ACPI, I don't have a
+> better idea.
 
-Right, but that requires hardware support. A pure software emulation of
-VT-d requires the full shadow of the guest io-page-table.
+A quote from the ACPI Specification (Version 6.3, Section 5.2.6,
+Page 119):
 
-> I thought we have the universal device properties to abstract DT and
-> ACPI (via _DSD). Is that an option?
+	Table signatures will be reserved by the ACPI promoters and
+	posted independently of this specification in ACPI errata and
+	clarification documents on the ACPI web site. Requests to
+	reserve a 4-byte alphanumeric table signature should be sent to
+	the email address info@acpi.info and should include the purpose
+	of the table and reference URL to a document that describes the
+	table format. Tables defined outside of the ACPI specification
+	may define data value encodings in either little endian or big
+	endian format. For the purpose of clarity, external table
+	definition documents should include the endian-ness of their
+	data value encodings.
 
-I don't know whether this was considered, Jean-Philippe?
-
+So it sounds like you need to specifiy the table format and send a
+request to info@acpi.info to get a table signature for it.
 
 Regards,
 
