@@ -1,104 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A0617A903
-	for <lists.iommu@lfdr.de>; Thu,  5 Mar 2020 16:39:34 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id CF5FD20372;
-	Thu,  5 Mar 2020 15:39:32 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id izwEaNne1Ona; Thu,  5 Mar 2020 15:39:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id BE3192152A;
-	Thu,  5 Mar 2020 15:39:31 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AC5BDC18DA;
-	Thu,  5 Mar 2020 15:39:31 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2E39CC013E
- for <iommu@lists.linux-foundation.org>; Thu,  5 Mar 2020 15:39:30 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D5317A913
+	for <lists.iommu@lfdr.de>; Thu,  5 Mar 2020 16:42:44 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1774C86141
- for <iommu@lists.linux-foundation.org>; Thu,  5 Mar 2020 15:39:30 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4519F86155;
+	Thu,  5 Mar 2020 15:42:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id moItUclaQ6NE; Thu,  5 Mar 2020 15:42:42 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4605E86135;
+	Thu,  5 Mar 2020 15:42:42 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 39989C18DA;
+	Thu,  5 Mar 2020 15:42:42 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 306A8C013E
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Mar 2020 15:42:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 250E986AC7
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Mar 2020 15:42:40 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YJUxjbaDkivD for <iommu@lists.linux-foundation.org>;
- Thu,  5 Mar 2020 15:39:28 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id A1F0286135
- for <iommu@lists.linux-foundation.org>; Thu,  5 Mar 2020 15:39:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583422767;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NqkJYnrX939afrvZWNAzIUgTdi1dF3s2yc9aSiDADMI=;
- b=Me8PdntWsdSMYPB7S6cDG8kXcXIWyMSsPtvTgewxEte/DHrlpk/iRVZn1A6SVXBtP88jxP
- IMQ541gi4MZ2l+b919l/QD6ua2xoT7Uq8D/Ot/ZZDb/6tF8V3i8qNWH/+yTdFBomX45mB2
- Dv6O8uTy4kJ4p58YPGBZL/Af1kYYsNQ=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-35L0gFsbNKqhGu8rEmjehw-1; Thu, 05 Mar 2020 10:39:26 -0500
-X-MC-Unique: 35L0gFsbNKqhGu8rEmjehw-1
-Received: by mail-qt1-f198.google.com with SMTP id y3so4066292qti.15
- for <iommu@lists.linux-foundation.org>; Thu, 05 Mar 2020 07:39:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NqkJYnrX939afrvZWNAzIUgTdi1dF3s2yc9aSiDADMI=;
- b=GxnnRD3UPZrm8giNuL6Np8RPe70rvlgcB7FD0rrP+tF8qHmIBFzIsjCv/a43LkkkSb
- PwEzIb07A0sHuGgMqrE/WSNVzxInoWGkzVd852U+NvFoEEaCA9JhA3TYvFkBh1UrqI2O
- DEQ1lN5ScUKvmipc9nJMHR2Yp/KVLe91Wb54sbJEP2WoVp68OHGDwRAOb3b168Zx0alU
- XPLx2DU4YmwwCBgtawRm5mOoK0Qf80S0DMVDahUe3kqgPwN1MrjGPuzcNdSThg/wkRrJ
- lE8MUJ3gpMx1ZK+UrmC6BmHaRZRzHwszJLEQjXXgVnKssc5Or6qy+NsGVQK+qiSTRry0
- ChBw==
-X-Gm-Message-State: ANhLgQ3V2PXLDtKKE5ym7DVuNlsG23fGe7drOfwdvQA9wDzPOLoMgf6V
- IuuYjPCxw2rR22S0G/lYXKjMeXEdAuBXf21s3sS23MX5ngMoIF8IY9Xyg+VGF9KZEOv4OygbdWO
- Ea4VqhKuJOVNLN8PftvzQ00E+lREzqA==
-X-Received: by 2002:a37:ef04:: with SMTP id j4mr8605770qkk.68.1583422764390;
- Thu, 05 Mar 2020 07:39:24 -0800 (PST)
-X-Google-Smtp-Source: ADFU+vugbQrzs1xvBMEx8t8NnE6JKtfBaXVhDcJzv5NXl0ZNLWtGWOLk269aWs3+9NVlpA5U/V3/0w==
-X-Received: by 2002:a37:ef04:: with SMTP id j4mr8605755qkk.68.1583422764197;
- Thu, 05 Mar 2020 07:39:24 -0800 (PST)
-Received: from redhat.com (bzq-79-180-48-224.red.bezeqint.net. [79.180.48.224])
- by smtp.gmail.com with ESMTPSA id w4sm2509730qts.92.2020.03.05.07.39.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 07:39:22 -0800 (PST)
-Date: Thu, 5 Mar 2020 10:39:17 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: Re: [PATCH v2 1/3] iommu/virtio: Add topology description to
- virtio-iommu config space
-Message-ID: <20200305103759-mutt-send-email-mst@kernel.org>
-References: <20200228172537.377327-2-jean-philippe@linaro.org>
- <20200302161611.GD7829@8bytes.org>
- <9004f814-2f7c-9024-3465-6f9661b97b7a@redhat.com>
- <20200303130155.GA13185@8bytes.org>
- <20200303084753-mutt-send-email-mst@kernel.org>
- <20200303155318.GA3954@8bytes.org>
- <20200303105523-mutt-send-email-mst@kernel.org>
- <20200304133707.GB4177@8bytes.org>
- <20200304142838-mutt-send-email-mst@kernel.org>
- <20200304215001.GD3315@8bytes.org>
+ with ESMTP id RszVkteayq2X for <iommu@lists.linux-foundation.org>;
+ Thu,  5 Mar 2020 15:42:38 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 9B81E83491
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Mar 2020 15:42:38 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id BD43668B05; Thu,  5 Mar 2020 16:42:33 +0100 (CET)
+Date: Thu, 5 Mar 2020 16:42:33 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: David Rientjes <rientjes@google.com>
+Subject: Re: [rfc 2/6] dma-remap: add additional atomic pools to map to gfp
+ mask
+Message-ID: <20200305154233.GA5332@lst.de>
+References: <alpine.DEB.2.21.1912311738130.68206@chino.kir.corp.google.com>
+ <b22416ec-cc28-3fd2-3a10-89840be173fa@amd.com>
+ <alpine.DEB.2.21.2002280118461.165532@chino.kir.corp.google.com>
+ <alpine.DEB.2.21.2003011535510.213582@chino.kir.corp.google.com>
+ <alpine.DEB.2.21.2003011537000.213582@chino.kir.corp.google.com>
 MIME-Version: 1.0
-In-Reply-To: <20200304215001.GD3315@8bytes.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, kevin.tian@intel.com,
- linux-pci@vger.kernel.org, jasowang@redhat.com,
- virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
- sebastien.boeuf@intel.com, jacob.jun.pan@intel.com, bhelgaas@google.com,
- robin.murphy@arm.com
+In-Reply-To: <alpine.DEB.2.21.2003011537000.213582@chino.kir.corp.google.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, "Singh,
+ Brijesh" <brijesh.singh@amd.com>, "Grimm, Jon" <jon.grimm@amd.com>,
+ baekhw@google.com,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,25 +74,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Mar 04, 2020 at 10:50:02PM +0100, Joerg Roedel wrote:
-> On Wed, Mar 04, 2020 at 02:34:33PM -0500, Michael S. Tsirkin wrote:
-> > All these extra levels of indirection is one of the reasons
-> > hypervisors such as kata try to avoid ACPI.
+On Sun, Mar 01, 2020 at 04:05:13PM -0800, David Rientjes wrote:
+> The single atomic pool is allocated from the lowest zone possible since
+> it is guaranteed to be applicable for any DMA allocation.
 > 
-> Platforms that don't use ACPI need another hardware detection mechanism,
-> which can also be supported. But the first step here is to enable the
-> general case, and for x86 platforms this means ACPI.
+> Devices may allocate through the DMA API but not have a strict reliance
+> on GFP_DMA memory.  Since the atomic pool will be used for all
+> non-blockable allocations, returning all memory from ZONE_DMA may
+> unnecessarily deplete the zone.
 > 
-> Regards,
+> Provision for multiple atomic pools that will map to the optimal gfp
+> mask of the device.  These will be wired up in a subsequent patch.
 > 
-> 	Joerg
+> Signed-off-by: David Rientjes <rientjes@google.com>
+> ---
+>  kernel/dma/remap.c | 75 +++++++++++++++++++++++++++-------------------
+>  1 file changed, 45 insertions(+), 30 deletions(-)
+> 
+> diff --git a/kernel/dma/remap.c b/kernel/dma/remap.c
+> --- a/kernel/dma/remap.c
+> +++ b/kernel/dma/remap.c
+> @@ -100,6 +100,8 @@ void dma_common_free_remap(void *cpu_addr, size_t size)
+>  
+>  #ifdef CONFIG_DMA_DIRECT_REMAP
+>  static struct gen_pool *atomic_pool __ro_after_init;
+> +static struct gen_pool *atomic_pool_dma32 __ro_after_init;
+> +static struct gen_pool *atomic_pool_normal __ro_after_init;
 
-Frankly since a portable way to do it is needed anyway I don't see why
-we also need ACPI.
+Maybe rename atomic_pool as well as it really kinda looks like the
+default at the moment?
 
--- 
-MST
+>  
+>  #define DEFAULT_DMA_COHERENT_POOL_SIZE  SZ_256K
+>  static size_t atomic_pool_size __initdata = DEFAULT_DMA_COHERENT_POOL_SIZE;
+> @@ -111,66 +113,79 @@ static int __init early_coherent_pool(char *p)
+>  }
+>  early_param("coherent_pool", early_coherent_pool);
+>  
+> -static gfp_t dma_atomic_pool_gfp(void)
+> +static int __init __dma_atomic_pool_init(struct gen_pool **pool,
+> +					 size_t pool_size, gfp_t gfp)
+>  {
 
+Can this just return the pool and return NULL (or an ERR_PTR) on
+failure?
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
