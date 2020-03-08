@@ -1,61 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C7417D0DA
-	for <lists.iommu@lfdr.de>; Sun,  8 Mar 2020 03:08:33 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A7D17D0E0
+	for <lists.iommu@lfdr.de>; Sun,  8 Mar 2020 03:16:00 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D891B86F0C;
-	Sun,  8 Mar 2020 02:08:31 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id E8BD087DDD;
+	Sun,  8 Mar 2020 02:15:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iJxV69Z7j8Cj; Sun,  8 Mar 2020 02:08:30 +0000 (UTC)
+	with ESMTP id nQhk-kO2vHAg; Sun,  8 Mar 2020 02:15:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B3F8F86F1B;
-	Sun,  8 Mar 2020 02:08:30 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B55A887C16;
+	Sun,  8 Mar 2020 02:15:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98687C013E;
-	Sun,  8 Mar 2020 02:08:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A6F40C013E;
+	Sun,  8 Mar 2020 02:15:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 344EAC013E
- for <iommu@lists.linux-foundation.org>; Sun,  8 Mar 2020 02:08:29 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E5110C013E
+ for <iommu@lists.linux-foundation.org>; Sun,  8 Mar 2020 02:15:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1C2A7204C7
- for <iommu@lists.linux-foundation.org>; Sun,  8 Mar 2020 02:08:29 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id CCC4087D3B
+ for <iommu@lists.linux-foundation.org>; Sun,  8 Mar 2020 02:15:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ox03H1yjiJCY for <iommu@lists.linux-foundation.org>;
- Sun,  8 Mar 2020 02:08:28 +0000 (UTC)
+ with ESMTP id mky3g-9cTDvL for <iommu@lists.linux-foundation.org>;
+ Sun,  8 Mar 2020 02:15:54 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by silver.osuosl.org (Postfix) with ESMTPS id 58189204C6
- for <iommu@lists.linux-foundation.org>; Sun,  8 Mar 2020 02:08:28 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 1A59F87C16
+ for <iommu@lists.linux-foundation.org>; Sun,  8 Mar 2020 02:15:54 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Mar 2020 18:08:27 -0800
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 07 Mar 2020 18:15:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,528,1574150400"; d="scan'208";a="414402899"
+X-IronPort-AV: E=Sophos;i="5.70,528,1574150400"; d="scan'208";a="414404843"
 Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.211.93])
  ([10.254.211.93])
- by orsmga005.jf.intel.com with ESMTP; 07 Mar 2020 18:08:23 -0800
-Subject: Re: [PATCH 1/6] iommu: Add dev_def_domain_type() callback in iommu_ops
+ by orsmga005.jf.intel.com with ESMTP; 07 Mar 2020 18:15:49 -0800
+Subject: Re: [PATCH 3/6] iommu/vt-d: Don't force 32bit devices to uses DMA
+ domain
 To: Christoph Hellwig <hch@lst.de>
 References: <20200307062014.3288-1-baolu.lu@linux.intel.com>
- <20200307062014.3288-2-baolu.lu@linux.intel.com>
- <20200307141836.GA26190@lst.de>
+ <20200307062014.3288-4-baolu.lu@linux.intel.com>
+ <20200307142144.GB26190@lst.de>
 From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <4a4a04aa-7fb5-88c9-2b4d-ee4f3568944b@linux.intel.com>
-Date: Sun, 8 Mar 2020 10:08:22 +0800
+Message-ID: <b86e2bce-9907-05d0-b937-4b120797ba06@linux.intel.com>
+Date: Sun, 8 Mar 2020 10:15:48 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200307141836.GA26190@lst.de>
+In-Reply-To: <20200307142144.GB26190@lst.de>
 Content-Language: en-US
 Cc: kevin.tian@intel.com, ashok.raj@intel.com, linux-kernel@vger.kernel.org,
  Daniel Drake <drake@endlessm.com>, iommu@lists.linux-foundation.org,
@@ -80,17 +81,51 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 Hi Christoph,
 
-Thanks for your review.
+On 2020/3/7 22:21, Christoph Hellwig wrote:
+> On Sat, Mar 07, 2020 at 02:20:11PM +0800, Lu Baolu wrote:
+>> Currently, if a 32bit device initially uses an identity domain,
+>> Intel IOMMU driver will convert it forcibly to a DMA one if its
+>> address capability is not enough for the whole system memory.
+>> The motivation was to overcome the overhead caused by possible
+>> bounced buffer.
+>>
+>> Unfortunately, this improvement has led to many problems. For
+>> example, some 32bit devices are required to use an identity
+>> domain, forcing them to use DMA domain will cause the device
+>> not to work anymore. On the other hand, the VMD sub-devices
+>> share a domain but each sub-device might have different address
+>> capability. Forcing a VMD sub-device to use DMA domain blindly
+>> will impact the operation of other sub-devices without any
+>> notification. Further more, PCI aliased devices (PCI bridge
+>> and all devices beneath it, VMD devices and various devices
+>> quirked with pci_add_dma_alias()) must use the same domain.
+>> Forcing one device to switch to DMA domain during runtime
+>> will cause in-fligh DMAs for other devices to abort or target
+>> to other memory which might cause undefind system behavior.
+> 
+> I still don't like the idea to enforce either a strict dynamic
+> IOMMU mapping or an identify mapping mode.
+> 
+> Can we add a new AUTO domain which will allow using the identity
+> mapping when available?  That somewhat matches the existing x86
+> default, and also what powerpc does.
 
-On 2020/3/7 22:18, Christoph Hellwig wrote:
-> Do we really need the dev_ prefix in the method name?  Shouldn't the
-> struct device parameter be hint enough?
+Sai is proposing a series to change the default domain through sysfs
+during runtime.
 
-Fair enough. Will use def_domain_type().
+https://lore.kernel.org/linux-iommu/FFF73D592F13FD46B8700F0A279B802F4FBF7E4B@ORSMSX114.amr.corp.intel.com/T/#mb919da5567da7692ee7058a00a137145adf950a1
+
+It has evolved into v2. Not sure whether it's what you want.
+
+> I have a series to lift
+> that bypass mode into the core dma-mapping code that I need
+> to repost, which I think would be suitable for intel-iommu as well.
+> 
+
+Looking forward to your repost.
 
 Best regards,
 baolu
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
