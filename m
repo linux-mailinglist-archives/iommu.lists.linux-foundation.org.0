@@ -1,77 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB0417E251
-	for <lists.iommu@lfdr.de>; Mon,  9 Mar 2020 15:11:26 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FE217E250
+	for <lists.iommu@lfdr.de>; Mon,  9 Mar 2020 15:11:25 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9DCAB8843F;
-	Mon,  9 Mar 2020 14:11:24 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6C0C620484;
+	Mon,  9 Mar 2020 14:11:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BCsZQYdBilcb; Mon,  9 Mar 2020 14:11:23 +0000 (UTC)
+	with ESMTP id gBFYkSOogHj8; Mon,  9 Mar 2020 14:11:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2A7AA88440;
+	by silver.osuosl.org (Postfix) with ESMTP id 504FE25784;
 	Mon,  9 Mar 2020 14:11:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 251A6C18D3;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4BB78C18D3;
 	Mon,  9 Mar 2020 14:11:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A5D08C0177
- for <iommu@lists.linux-foundation.org>; Mon,  9 Mar 2020 14:01:50 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4B1CDC0177
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Mar 2020 14:01:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 9573686D73
- for <iommu@lists.linux-foundation.org>; Mon,  9 Mar 2020 14:01:50 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 3B035257B1
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Mar 2020 14:01:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yGuPjRCXtX6x for <iommu@lists.linux-foundation.org>;
- Mon,  9 Mar 2020 14:01:49 +0000 (UTC)
+ with ESMTP id kCtbLjPtGiVN for <iommu@lists.linux-foundation.org>;
+ Mon,  9 Mar 2020 14:01:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by hemlock.osuosl.org (Postfix) with ESMTPS id BDA4D86B2C
- for <iommu@lists.linux-foundation.org>; Mon,  9 Mar 2020 14:01:49 +0000 (UTC)
+ [207.211.31.120])
+ by silver.osuosl.org (Postfix) with ESMTPS id EA82B2578F
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Mar 2020 14:01:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1583762508;
+ s=mimecast20190719; t=1583762510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gmrIgOpC5xCUrW/eGnewrWRJsVzMqiKXr2pMquelru0=;
- b=hZUl2f/fnu9QhMG0N78mttj68F6db1q6iGFzhMbNcG27FgtDiPnfXigFR2OSqfYTC1FWWF
- DxoNgQSi0eun6tZj7kJQBQ2SqsSs1WyIzRoEp1j3yY9CW4AhvBOd17w/bR/mSh6/BPPKFZ
- vxNrQrCB3H78DwzOBqKwf6PEWZmkEK0=
+ bh=dwNeQ2bGQI9YeQt7X0VtkLkJtoPfZRFbqYALX2APQi4=;
+ b=J0zZHAnr2MVy8YLcGZEVRmPLS/oqMyVTFFYPTfXnVsREe2UntKZoTm2xIIMUKhy2RAX7xV
+ 4WzQytjO4Naq4PIW80g9Zz/U6zJRJt5XTmvUq0AjAdglUhLww5v3+SxrUCMOG/omLqX0ov
+ 5Top3XTOXHILj1O2b69mmHD3KNTmzfg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-RMiKwbBMMEaQpN1NK9CkOA-1; Mon, 09 Mar 2020 10:01:46 -0400
-X-MC-Unique: RMiKwbBMMEaQpN1NK9CkOA-1
+ us-mta-207-uUEhLOoRPJSOV2WNfFkmqA-1; Mon, 09 Mar 2020 10:01:49 -0400
+X-MC-Unique: uUEhLOoRPJSOV2WNfFkmqA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACE6C107ACC9;
- Mon,  9 Mar 2020 14:01:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6AF5CF98C;
+ Mon,  9 Mar 2020 14:01:47 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.36.118.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C530A60C87;
- Mon,  9 Mar 2020 14:01:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EEFA960C05;
+ Mon,  9 Mar 2020 14:01:44 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
  Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 1/2] iommu/vt-d: dmar: replace WARN_TAINT with pr_warn +
- add_taint
-Date: Mon,  9 Mar 2020 15:01:37 +0100
-Message-Id: <20200309140138.3753-2-hdegoede@redhat.com>
+Subject: [PATCH 2/2] iommu/vt-d: dmar_parse_one_rmrr: replace WARN_TAINT with
+ pr_warn + add_taint
+Date: Mon,  9 Mar 2020 15:01:38 +0100
+Message-Id: <20200309140138.3753-3-hdegoede@redhat.com>
 In-Reply-To: <20200309140138.3753-1-hdegoede@redhat.com>
 References: <20200309140138.3753-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mailman-Approved-At: Mon, 09 Mar 2020 14:11:20 +0000
 Cc: Hans de Goede <hdegoede@redhat.com>, iommu@lists.linux-foundation.org,
- stable@vger.kernel.org
+ Barret Rhoden <brho@google.com>, stable@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,77 +106,47 @@ is not helpful.
 
 Some distros, e.g. Fedora, have tools watching for the kernel backtraces
 logged by the WARN macros and offer the user an option to file a bug for
-this when these are encountered. The WARN_TAINT in warn_invalid_dmar()
+this when these are encountered. The WARN_TAINT in dmar_parse_one_rmrr
 + another iommu WARN_TAINT, addressed in another patch, have lead to over
 a 100 bugs being filed this way.
 
-This commit replaces the WARN_TAINT("...") calls, with
-pr_warn(FW_BUG "...") + add_taint(TAINT_FIRMWARE_WORKAROUND, ...) calls
+This commit replaces the WARN_TAINT("...") call, with a
+pr_warn(FW_BUG "...") + add_taint(TAINT_FIRMWARE_WORKAROUND, ...) call
 avoiding the backtrace and thus also avoiding bug-reports being filed
 about this against the kernel.
 
-BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1564895
-Fixes: e625b4a95d50 ("iommu/vt-d: Parse ANDD records")
-Fixes: fd0c8894893c ("intel-iommu: Set a more specific taint flag for invalid BI
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1808874
+Fixes: f5a68bb0752e ("iommu/vt-d: Mark firmware tainted if RMRR fails sanity check")
+Cc: Barret Rhoden <brho@google.com>
 Cc: stable@vger.kernel.org
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/iommu/dmar.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/iommu/intel-iommu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iommu/dmar.c b/drivers/iommu/dmar.c
-index 071bb42bbbc5..87194a46cb0b 100644
---- a/drivers/iommu/dmar.c
-+++ b/drivers/iommu/dmar.c
-@@ -440,12 +440,13 @@ static int __init dmar_parse_one_andd(struct acpi_dmar_header *header,
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index 6fa6de2b6ad5..3857a5cd1a75 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -4460,14 +4460,16 @@ int __init dmar_parse_one_rmrr(struct acpi_dmar_header *header, void *arg)
+ 	struct dmar_rmrr_unit *rmrru;
  
- 	/* Check for NUL termination within the designated length */
- 	if (strnlen(andd->device_name, header->length - 8) == header->length - 8) {
+ 	rmrr = (struct acpi_dmar_reserved_memory *)header;
+-	if (rmrr_sanity_check(rmrr))
 -		WARN_TAINT(1, TAINT_FIRMWARE_WORKAROUND,
++	if (rmrr_sanity_check(rmrr)) {
 +		pr_warn(FW_BUG
- 			   "Your BIOS is broken; ANDD object name is not NUL-terminated\n"
+ 			   "Your BIOS is broken; bad RMRR [%#018Lx-%#018Lx]\n"
  			   "BIOS vendor: %s; Ver: %s; Product Version: %s\n",
+ 			   rmrr->base_address, rmrr->end_address,
  			   dmi_get_system_info(DMI_BIOS_VENDOR),
  			   dmi_get_system_info(DMI_BIOS_VERSION),
  			   dmi_get_system_info(DMI_PRODUCT_VERSION));
 +		add_taint(TAINT_FIRMWARE_WORKAROUND, LOCKDEP_STILL_OK);
- 		return -EINVAL;
- 	}
- 	pr_info("ANDD device: %x name: %s\n", andd->device_number,
-@@ -471,14 +472,14 @@ static int dmar_parse_one_rhsa(struct acpi_dmar_header *header, void *arg)
- 			return 0;
- 		}
- 	}
--	WARN_TAINT(
--		1, TAINT_FIRMWARE_WORKAROUND,
-+	pr_warn(FW_BUG
- 		"Your BIOS is broken; RHSA refers to non-existent DMAR unit at %llx\n"
- 		"BIOS vendor: %s; Ver: %s; Product Version: %s\n",
- 		drhd->reg_base_addr,
- 		dmi_get_system_info(DMI_BIOS_VENDOR),
- 		dmi_get_system_info(DMI_BIOS_VERSION),
- 		dmi_get_system_info(DMI_PRODUCT_VERSION));
-+	add_taint(TAINT_FIRMWARE_WORKAROUND, LOCKDEP_STILL_OK);
++	}
  
- 	return 0;
- }
-@@ -827,14 +828,14 @@ int __init dmar_table_init(void)
- 
- static void warn_invalid_dmar(u64 addr, const char *message)
- {
--	WARN_TAINT_ONCE(
--		1, TAINT_FIRMWARE_WORKAROUND,
-+	pr_warn_once(FW_BUG
- 		"Your BIOS is broken; DMAR reported at address %llx%s!\n"
- 		"BIOS vendor: %s; Ver: %s; Product Version: %s\n",
- 		addr, message,
- 		dmi_get_system_info(DMI_BIOS_VENDOR),
- 		dmi_get_system_info(DMI_BIOS_VERSION),
- 		dmi_get_system_info(DMI_PRODUCT_VERSION));
-+	add_taint(TAINT_FIRMWARE_WORKAROUND, LOCKDEP_STILL_OK);
- }
- 
- static int __ref
+ 	rmrru = kzalloc(sizeof(*rmrru), GFP_KERNEL);
+ 	if (!rmrru)
 -- 
 2.25.1
 
