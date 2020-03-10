@@ -1,46 +1,46 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626B317F2E4
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9163217F2E5
 	for <lists.iommu@lfdr.de>; Tue, 10 Mar 2020 10:12:48 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 056928844A;
-	Tue, 10 Mar 2020 09:12:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C5E258692B;
+	Tue, 10 Mar 2020 09:12:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MqVoCJesNTin; Tue, 10 Mar 2020 09:12:42 +0000 (UTC)
+	with ESMTP id 4Qnfo1gy7lVO; Tue, 10 Mar 2020 09:12:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6337E8843A;
-	Tue, 10 Mar 2020 09:12:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 73AE786B62;
+	Tue, 10 Mar 2020 09:12:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 518DAC0177;
-	Tue, 10 Mar 2020 09:12:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5E7B1C0177;
+	Tue, 10 Mar 2020 09:12:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A4030C18D3;
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F09B7C0177;
  Tue, 10 Mar 2020 09:12:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 8EDD520427;
+ by hemlock.osuosl.org (Postfix) with ESMTP id ECF888832A;
  Tue, 10 Mar 2020 09:12:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id umu9WnjI9snG; Tue, 10 Mar 2020 09:12:37 +0000 (UTC)
+ with ESMTP id WXjDZhzeC+4Z; Tue, 10 Mar 2020 09:12:37 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id 15F3420421;
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 7DB4188311;
  Tue, 10 Mar 2020 09:12:37 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 24ECE396; Tue, 10 Mar 2020 10:12:32 +0100 (CET)
+ id 4F2504B7; Tue, 10 Mar 2020 10:12:32 +0100 (CET)
 From: Joerg Roedel <joro@8bytes.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH 02/15] ACPI/IORT: Remove direct access of dev->iommu_fwspec
-Date: Tue, 10 Mar 2020 10:12:16 +0100
-Message-Id: <20200310091229.29830-3-joro@8bytes.org>
+Subject: [PATCH 03/15] drm/msm/mdp5: Remove direct access of dev->iommu_fwspec
+Date: Tue, 10 Mar 2020 10:12:17 +0100
+Message-Id: <20200310091229.29830-4-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200310091229.29830-1-joro@8bytes.org>
 References: <20200310091229.29830-1-joro@8bytes.org>
@@ -76,36 +76,24 @@ From: Joerg Roedel <jroedel@suse.de>
 Use the accessor functions instead of directly dereferencing
 dev->iommu_fwspec.
 
-Tested-by: Hanjun Guo <guohanjun@huawei.com>
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/acpi/arm64/iort.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
-index ed3d2d1a7ae9..7d04424189df 100644
---- a/drivers/acpi/arm64/iort.c
-+++ b/drivers/acpi/arm64/iort.c
-@@ -1015,6 +1015,7 @@ const struct iommu_ops *iort_iommu_configure(struct device *dev)
- 		return ops;
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+index e43ecd4be10a..1252e1d76340 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+@@ -725,7 +725,7 @@ struct msm_kms *mdp5_kms_init(struct drm_device *dev)
  
- 	if (dev_is_pci(dev)) {
-+		struct iommu_fwspec *fwspec;
- 		struct pci_bus *bus = to_pci_dev(dev)->bus;
- 		struct iort_pci_alias_info info = { .dev = dev };
+ 	if (config->platform.iommu) {
+ 		iommu_dev = &pdev->dev;
+-		if (!iommu_dev->iommu_fwspec)
++		if (!dev_iommu_fwspec_get(iommu_dev))
+ 			iommu_dev = iommu_dev->parent;
  
-@@ -1027,8 +1028,9 @@ const struct iommu_ops *iort_iommu_configure(struct device *dev)
- 		err = pci_for_each_dma_alias(to_pci_dev(dev),
- 					     iort_pci_iommu_init, &info);
- 
--		if (!err && iort_pci_rc_supports_ats(node))
--			dev->iommu_fwspec->flags |= IOMMU_FWSPEC_PCI_RC_ATS;
-+		fwspec = dev_iommu_fwspec_get(dev);
-+		if (fwspec && iort_pci_rc_supports_ats(node))
-+			fwspec->flags |= IOMMU_FWSPEC_PCI_RC_ATS;
- 	} else {
- 		int i = 0;
- 
+ 		aspace = msm_gem_address_space_create(iommu_dev,
 -- 
 2.17.1
 
