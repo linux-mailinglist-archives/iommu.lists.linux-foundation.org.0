@@ -1,53 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23457180323
-	for <lists.iommu@lfdr.de>; Tue, 10 Mar 2020 17:23:32 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 205E01803D2
+	for <lists.iommu@lfdr.de>; Tue, 10 Mar 2020 17:44:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A3D1C885CC;
-	Tue, 10 Mar 2020 16:23:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6F81E2152C;
+	Tue, 10 Mar 2020 16:44:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id J-AX8Ea8hDtX; Tue, 10 Mar 2020 16:23:29 +0000 (UTC)
+	with ESMTP id Zv624uCQLp6c; Tue, 10 Mar 2020 16:44:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1A1B9885D4;
-	Tue, 10 Mar 2020 16:23:29 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DF67D21548;
+	Tue, 10 Mar 2020 16:44:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 101AAC1D8E;
-	Tue, 10 Mar 2020 16:23:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D526AC0177;
+	Tue, 10 Mar 2020 16:44:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B9FB9C0177
- for <iommu@lists.linux-foundation.org>; Tue, 10 Mar 2020 16:23:26 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C6BE2C0177
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Mar 2020 16:44:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A8D01885D4
- for <iommu@lists.linux-foundation.org>; Tue, 10 Mar 2020 16:23:26 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id B1A1C21548
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Mar 2020 16:44:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id u9ZX6sgeqUYK for <iommu@lists.linux-foundation.org>;
- Tue, 10 Mar 2020 16:23:25 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 53CAE885CC
- for <iommu@lists.linux-foundation.org>; Tue, 10 Mar 2020 16:23:25 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id BF8F2396; Tue, 10 Mar 2020 17:23:21 +0100 (CET)
-Date: Tue, 10 Mar 2020 17:23:20 +0100
-From: Joerg Roedel <joro@8bytes.org>
-To: Sibi Sankar <sibis@codeaurora.org>
+ with ESMTP id q7yIp0cZ4fio for <iommu@lists.linux-foundation.org>;
+ Tue, 10 Mar 2020 16:44:24 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by silver.osuosl.org (Postfix) with ESMTP id A779D2152C
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Mar 2020 16:44:24 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E0AB1FB;
+ Tue, 10 Mar 2020 09:44:24 -0700 (PDT)
+Received: from [10.1.196.37] (e121345-lin.cambridge.arm.com [10.1.196.37])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 09A613F67D;
+ Tue, 10 Mar 2020 09:44:19 -0700 (PDT)
 Subject: Re: [PATCH 0/3] Request direct mapping for modem firmware subdevice
-Message-ID: <20200310162320.GL3794@8bytes.org>
+To: Joerg Roedel <joro@8bytes.org>, Sibi Sankar <sibis@codeaurora.org>
 References: <20200309182255.20142-1-sibis@codeaurora.org>
  <20200310112332.GG3794@8bytes.org>
  <4ed6ddd667a3e6f670084a443d141474@codeaurora.org>
+ <20200310162320.GL3794@8bytes.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <a50040a9-54fe-f682-dd7e-b2991b48d633@arm.com>
+Date: Tue, 10 Mar 2020 16:44:12 +0000
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <4ed6ddd667a3e6f670084a443d141474@codeaurora.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200310162320.GL3794@8bytes.org>
+Content-Language: en-GB
 Cc: ohad@wizery.com, devicetree@vger.kernel.org,
  linux-kernel-owner@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -65,32 +71,43 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Mar 10, 2020 at 07:30:50PM +0530, Sibi Sankar wrote:
-> The accesses are initiated by the firmware
-> and they access modem reserved regions.
-> However as explained in ^^ any accesses
-> outside the region will result in a violation
-> and is controlled through XPUs (protection units).
+On 10/03/2020 4:23 pm, Joerg Roedel wrote:
+> On Tue, Mar 10, 2020 at 07:30:50PM +0530, Sibi Sankar wrote:
+>> The accesses are initiated by the firmware
+>> and they access modem reserved regions.
+>> However as explained in ^^ any accesses
+>> outside the region will result in a violation
+>> and is controlled through XPUs (protection units).
+> 
+> Okay, this sounds like a case for arm_smmu_get_resv_region(). It should
+> return an entry for the reserved memory region the firmware needs to
+> access, so that generic iommu can setup this mapping.
+> 
+> Note that it should return that entry only for your device, not for all
+> devices. Maybe there is a property in DT or IORT you can set to
+> transport this information into the arm-smmu driver.
+> 
+> This is pretty similar to RMRR mapping on the Intel VT-d IOMMU or
+> Unity-mapped ranges in the AMD-Vi IOMMU.
 
-Okay, this sounds like a case for arm_smmu_get_resv_region(). It should
-return an entry for the reserved memory region the firmware needs to
-access, so that generic iommu can setup this mapping.
+Yup, a way to describe boot-time memory regions in IORT is in the 
+process of being specced out; the first attempt at an equivalent for DT 
+is here:
 
-Note that it should return that entry only for your device, not for all
-devices. Maybe there is a property in DT or IORT you can set to
-transport this information into the arm-smmu driver.
+https://lore.kernel.org/linux-iommu/20191209150748.2471814-1-thierry.reding@gmail.com/
 
-This is pretty similar to RMRR mapping on the Intel VT-d IOMMU or
-Unity-mapped ranges in the AMD-Vi IOMMU.
+If that's not enough and the SMMU still needs to treat certain Stream 
+IDs specially because they may be untranslatable (due to having direct 
+access to memory as a side-channel), then that should be handled in the 
+SoC-specific corner of the SMMU driver, not delegated to individual 
+endpoint drivers.
 
-Regards,
-
-	Joerg
+Robin.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
