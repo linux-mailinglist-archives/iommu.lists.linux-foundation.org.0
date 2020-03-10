@@ -1,54 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42AD17F560
-	for <lists.iommu@lfdr.de>; Tue, 10 Mar 2020 11:51:20 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D4417F57F
+	for <lists.iommu@lfdr.de>; Tue, 10 Mar 2020 11:58:21 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7C6E387C72;
-	Tue, 10 Mar 2020 10:51:19 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 49997883C6;
+	Tue, 10 Mar 2020 10:58:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5w+9eq-suk7x; Tue, 10 Mar 2020 10:51:18 +0000 (UTC)
+	with ESMTP id wyW6xx25m5BX; Tue, 10 Mar 2020 10:58:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D74B487BEE;
-	Tue, 10 Mar 2020 10:51:18 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id AA7F0882EA;
+	Tue, 10 Mar 2020 10:58:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C1965C0177;
-	Tue, 10 Mar 2020 10:51:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9862EC1D8E;
+	Tue, 10 Mar 2020 10:58:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7D6EDC0177
- for <iommu@lists.linux-foundation.org>; Tue, 10 Mar 2020 10:51:17 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D40C9C0177
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Mar 2020 10:58:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 72A05883BF
- for <iommu@lists.linux-foundation.org>; Tue, 10 Mar 2020 10:51:17 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id BC72A882EA
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Mar 2020 10:58:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UkOM3-7jYYBy for <iommu@lists.linux-foundation.org>;
- Tue, 10 Mar 2020 10:51:16 +0000 (UTC)
+ with ESMTP id 1+5RzGnAVvG0 for <iommu@lists.linux-foundation.org>;
+ Tue, 10 Mar 2020 10:58:18 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by whitealder.osuosl.org (Postfix) with ESMTPS id C07A9882D6
- for <iommu@lists.linux-foundation.org>; Tue, 10 Mar 2020 10:51:16 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 193E7883BF
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Mar 2020 10:58:18 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id CA8DF364; Tue, 10 Mar 2020 11:51:14 +0100 (CET)
-Date: Tue, 10 Mar 2020 11:51:13 +0100
+ id 73287364; Tue, 10 Mar 2020 11:58:15 +0100 (CET)
+Date: Tue, 10 Mar 2020 11:58:14 +0100
 From: Joerg Roedel <joro@8bytes.org>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [Patch V1 0/2] iommu/vtd: Fixes to the IOMMU debugfs
-Message-ID: <20200310105113.GD3794@8bytes.org>
-References: <1583784587-26126-1-git-send-email-megha.dey@linux.intel.com>
- <378262ba-3ab8-c458-e6ca-a656bbcd653f@linux.intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 3/6] iommu/vt-d: Don't force 32bit devices to uses DMA
+ domain
+Message-ID: <20200310105813.GE3794@8bytes.org>
+References: <20200307062014.3288-1-baolu.lu@linux.intel.com>
+ <20200307062014.3288-4-baolu.lu@linux.intel.com>
+ <20200307142144.GB26190@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <378262ba-3ab8-c458-e6ca-a656bbcd653f@linux.intel.com>
+In-Reply-To: <20200307142144.GB26190@lst.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: dwmw2@infradead.org, iommu@lists.linux-foundation.org,
- Megha Dey <megha.dey@linux.intel.com>, megha.dey@intel.com
+Cc: kevin.tian@intel.com, ashok.raj@intel.com, linux-kernel@vger.kernel.org,
+ Daniel Drake <drake@endlessm.com>, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>,
+ Derrick Jonathan <jonathan.derrick@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,27 +70,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Mar 10, 2020 at 08:50:47AM +0800, Lu Baolu wrote:
-> Thanks for the fixes. For two patches in this series:
-> 
-> Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
-> 
-> Best regards,
-> baolu
-> 
-> On 2020/3/10 4:09, Megha Dey wrote:
-> > This patchset aims to fix some of the existing issues in the iommu debugfs.
-> > 
-> > The first patch aims to fix the debugfs register reads by using the correct
-> > read function variant while reading the contents of iommu registers while
-> > the second patch ensures the debugfs directory is populated even if DMA
-> > remapping is disabled.
-> > 
-> > Megha Dey (2):
-> >    iommu/vt-d: Fix debugfs register reads
-> >    iommu/vt-d: Populate debugfs if IOMMUs are detected
+On Sat, Mar 07, 2020 at 03:21:44PM +0100, Christoph Hellwig wrote:
+> Can we add a new AUTO domain which will allow using the identity
+> mapping when available?  That somewhat matches the existing x86
+> default, and also what powerpc does.  I have a series to lift
+> that bypass mode into the core dma-mapping code that I need
+> to repost, which I think would be suitable for intel-iommu as well.
 
-Applied both, thanks.
+Please Cc me on that series when you re-post it.
+
+
+Thanks,
+
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
