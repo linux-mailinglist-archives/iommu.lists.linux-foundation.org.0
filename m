@@ -1,46 +1,46 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A2617F2F3
-	for <lists.iommu@lfdr.de>; Tue, 10 Mar 2020 10:12:56 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A3FF17F2F0
+	for <lists.iommu@lfdr.de>; Tue, 10 Mar 2020 10:12:54 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BE22A883CC;
-	Tue, 10 Mar 2020 09:12:54 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2DABE866C4;
+	Tue, 10 Mar 2020 09:12:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5l56oa2x19GI; Tue, 10 Mar 2020 09:12:50 +0000 (UTC)
+	with ESMTP id eBFz2NO8BHfl; Tue, 10 Mar 2020 09:12:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B2A9F88575;
-	Tue, 10 Mar 2020 09:12:44 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 23D1486F3C;
+	Tue, 10 Mar 2020 09:12:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A3250C0177;
-	Tue, 10 Mar 2020 09:12:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 14C1BC0177;
+	Tue, 10 Mar 2020 09:12:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E79EEC18D3;
- Tue, 10 Mar 2020 09:12:42 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C6C24C0177;
+ Tue, 10 Mar 2020 09:12:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D1C8120456;
- Tue, 10 Mar 2020 09:12:42 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id AA4B5861C8;
+ Tue, 10 Mar 2020 09:12:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kRl+Zauew5W5; Tue, 10 Mar 2020 09:12:42 +0000 (UTC)
+ with ESMTP id 4E06e9q5uikd; Tue, 10 Mar 2020 09:12:43 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id E9BA72044D;
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id E65A78647E;
  Tue, 10 Mar 2020 09:12:41 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 019B87AB; Tue, 10 Mar 2020 10:12:32 +0100 (CET)
+ id 303657E6; Tue, 10 Mar 2020 10:12:33 +0100 (CET)
 From: Joerg Roedel <joro@8bytes.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH 07/15] iommu/arm-smmu: Fix uninitilized variable warning
-Date: Tue, 10 Mar 2020 10:12:21 +0100
-Message-Id: <20200310091229.29830-8-joro@8bytes.org>
+Subject: [PATCH 08/15] iommu: Introduce accessors for iommu private data
+Date: Tue, 10 Mar 2020 10:12:22 +0100
+Message-Id: <20200310091229.29830-9-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200310091229.29830-1-joro@8bytes.org>
 References: <20200310091229.29830-1-joro@8bytes.org>
@@ -73,37 +73,37 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Some unrelated changes in the iommu code caused a new warning to
-appear in the arm-smmu driver:
-
-  CC      drivers/iommu/arm-smmu.o
-drivers/iommu/arm-smmu.c: In function 'arm_smmu_add_device':
-drivers/iommu/arm-smmu.c:1441:2: warning: 'smmu' may be used uninitialized in this function [-Wmaybe-uninitialized]
-  arm_smmu_rpm_put(smmu);
-  ^~~~~~~~~~~~~~~~~~~~~~
-
-The warning is a false positive, but initialize the variable to NULL
-to get rid of it.
+Add dev_iommu_priv_get/set() functions to access per-device iommu
+private data. This makes it easier to move the pointer to a different
+location.
 
 Tested-by: Will Deacon <will@kernel.org> # arm-smmu
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/arm-smmu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/iommu.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index 16c4b87af42b..980aae73b45b 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -1383,7 +1383,7 @@ struct arm_smmu_device *arm_smmu_get_by_fwnode(struct fwnode_handle *fwnode)
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index f5edc21a644d..056900e75758 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -627,6 +627,16 @@ static inline void dev_iommu_fwspec_set(struct device *dev,
+ 	dev->iommu->fwspec = fwspec;
+ }
  
- static int arm_smmu_add_device(struct device *dev)
- {
--	struct arm_smmu_device *smmu;
-+	struct arm_smmu_device *smmu = NULL;
- 	struct arm_smmu_master_cfg *cfg;
- 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
- 	int i, ret;
++static inline void *dev_iommu_priv_get(struct device *dev)
++{
++	return dev->iommu->fwspec->iommu_priv;
++}
++
++static inline void dev_iommu_priv_set(struct device *dev, void *priv)
++{
++	dev->iommu->fwspec->iommu_priv = priv;
++}
++
+ int iommu_probe_device(struct device *dev);
+ void iommu_release_device(struct device *dev);
+ 
 -- 
 2.17.1
 
