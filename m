@@ -2,45 +2,45 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957CB17F2EA
-	for <lists.iommu@lfdr.de>; Tue, 10 Mar 2020 10:12:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A2617F2F3
+	for <lists.iommu@lfdr.de>; Tue, 10 Mar 2020 10:12:56 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2FE1E885D1;
-	Tue, 10 Mar 2020 09:12:51 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BE22A883CC;
+	Tue, 10 Mar 2020 09:12:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id McDeHOs7RxzK; Tue, 10 Mar 2020 09:12:47 +0000 (UTC)
+	with ESMTP id 5l56oa2x19GI; Tue, 10 Mar 2020 09:12:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1627688541;
+	by whitealder.osuosl.org (Postfix) with ESMTP id B2A9F88575;
 	Tue, 10 Mar 2020 09:12:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 04600C0177;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A3250C0177;
 	Tue, 10 Mar 2020 09:12:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A1DA7C1D87;
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E79EEC18D3;
  Tue, 10 Mar 2020 09:12:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8D65B8832A;
+ by silver.osuosl.org (Postfix) with ESMTP id D1C8120456;
  Tue, 10 Mar 2020 09:12:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GvY1epRxpBsG; Tue, 10 Mar 2020 09:12:42 +0000 (UTC)
+ with ESMTP id kRl+Zauew5W5; Tue, 10 Mar 2020 09:12:42 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E1F8A886D0;
+ by silver.osuosl.org (Postfix) with ESMTPS id E9BA72044D;
  Tue, 10 Mar 2020 09:12:41 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id CD11C768; Tue, 10 Mar 2020 10:12:32 +0100 (CET)
+ id 019B87AB; Tue, 10 Mar 2020 10:12:32 +0100 (CET)
 From: Joerg Roedel <joro@8bytes.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH 06/15] iommu: Move iommu_fwspec to struct dev_iommu
-Date: Tue, 10 Mar 2020 10:12:20 +0100
-Message-Id: <20200310091229.29830-7-joro@8bytes.org>
+Subject: [PATCH 07/15] iommu/arm-smmu: Fix uninitilized variable warning
+Date: Tue, 10 Mar 2020 10:12:21 +0100
+Message-Id: <20200310091229.29830-8-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200310091229.29830-1-joro@8bytes.org>
 References: <20200310091229.29830-1-joro@8bytes.org>
@@ -73,85 +73,37 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Move the iommu_fwspec pointer in struct device into struct dev_iommu.
-This is a step in the effort to reduce the iommu related pointers in
-struct device to one.
+Some unrelated changes in the iommu code caused a new warning to
+appear in the arm-smmu driver:
+
+  CC      drivers/iommu/arm-smmu.o
+drivers/iommu/arm-smmu.c: In function 'arm_smmu_add_device':
+drivers/iommu/arm-smmu.c:1441:2: warning: 'smmu' may be used uninitialized in this function [-Wmaybe-uninitialized]
+  arm_smmu_rpm_put(smmu);
+  ^~~~~~~~~~~~~~~~~~~~~~
+
+The warning is a false positive, but initialize the variable to NULL
+to get rid of it.
 
 Tested-by: Will Deacon <will@kernel.org> # arm-smmu
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/iommu.c  |  3 +++
- include/linux/device.h |  1 -
- include/linux/iommu.h  | 12 ++++++++----
- 3 files changed, 11 insertions(+), 5 deletions(-)
+ drivers/iommu/arm-smmu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index beac2ef063dd..826a67ba247f 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2405,6 +2405,9 @@ int iommu_fwspec_init(struct device *dev, struct fwnode_handle *iommu_fwnode,
- 	if (fwspec)
- 		return ops == fwspec->ops ? 0 : -EINVAL;
+diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+index 16c4b87af42b..980aae73b45b 100644
+--- a/drivers/iommu/arm-smmu.c
++++ b/drivers/iommu/arm-smmu.c
+@@ -1383,7 +1383,7 @@ struct arm_smmu_device *arm_smmu_get_by_fwnode(struct fwnode_handle *fwnode)
  
-+	if (!dev_iommu_get(dev))
-+		return -ENOMEM;
-+
- 	fwspec = kzalloc(sizeof(*fwspec), GFP_KERNEL);
- 	if (!fwspec)
- 		return -ENOMEM;
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 405a8f11bec1..ca29c39a6480 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -613,7 +613,6 @@ struct device {
- 
- 	void	(*release)(struct device *dev);
- 	struct iommu_group	*iommu_group;
--	struct iommu_fwspec	*iommu_fwspec;
- 	struct dev_iommu	*iommu;
- 
- 	bool			offline_disabled:1;
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 1c9fa5c1174b..f5edc21a644d 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -368,14 +368,15 @@ struct iommu_fault_param {
-  * struct dev_iommu - Collection of per-device IOMMU data
-  *
-  * @fault_param: IOMMU detected device fault reporting data
-+ * @fwspec:	 IOMMU fwspec data
-  *
-  * TODO: migrate other per device data pointers under iommu_dev_data, e.g.
-  *	struct iommu_group	*iommu_group;
-- *	struct iommu_fwspec	*iommu_fwspec;
-  */
- struct dev_iommu {
- 	struct mutex lock;
--	struct iommu_fault_param *fault_param;
-+	struct iommu_fault_param	*fault_param;
-+	struct iommu_fwspec		*fwspec;
- };
- 
- int  iommu_device_register(struct iommu_device *iommu);
-@@ -614,13 +615,16 @@ const struct iommu_ops *iommu_ops_from_fwnode(struct fwnode_handle *fwnode);
- 
- static inline struct iommu_fwspec *dev_iommu_fwspec_get(struct device *dev)
+ static int arm_smmu_add_device(struct device *dev)
  {
--	return dev->iommu_fwspec;
-+	if (dev->iommu)
-+		return dev->iommu->fwspec;
-+	else
-+		return NULL;
- }
- 
- static inline void dev_iommu_fwspec_set(struct device *dev,
- 					struct iommu_fwspec *fwspec)
- {
--	dev->iommu_fwspec = fwspec;
-+	dev->iommu->fwspec = fwspec;
- }
- 
- int iommu_probe_device(struct device *dev);
+-	struct arm_smmu_device *smmu;
++	struct arm_smmu_device *smmu = NULL;
+ 	struct arm_smmu_master_cfg *cfg;
+ 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+ 	int i, ret;
 -- 
 2.17.1
 
