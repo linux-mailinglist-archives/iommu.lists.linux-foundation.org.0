@@ -1,83 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D72181899
-	for <lists.iommu@lfdr.de>; Wed, 11 Mar 2020 13:47:13 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FC0C18189C
+	for <lists.iommu@lfdr.de>; Wed, 11 Mar 2020 13:47:14 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 504378758B;
-	Wed, 11 Mar 2020 12:47:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4BA002262E;
+	Wed, 11 Mar 2020 12:47:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 53m+CDzC5KVL; Wed, 11 Mar 2020 12:47:11 +0000 (UTC)
+	with ESMTP id 5IRV7b6twrOB; Wed, 11 Mar 2020 12:47:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3D9128764A;
-	Wed, 11 Mar 2020 12:47:11 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7546B22643;
+	Wed, 11 Mar 2020 12:47:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 24984C0177;
-	Wed, 11 Mar 2020 12:47:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6185AC0177;
+	Wed, 11 Mar 2020 12:47:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4C6D3C0177
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:09 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 92AE2C0177
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 361FF85F6E
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:09 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 7FC9222636
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id K8Hp7eVoo1E6 for <iommu@lists.linux-foundation.org>;
- Wed, 11 Mar 2020 12:47:08 +0000 (UTC)
+ with ESMTP id tTBi-EMutoR4 for <iommu@lists.linux-foundation.org>;
+ Wed, 11 Mar 2020 12:47:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
  [209.85.128.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 6E42885F67
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:08 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id a132so1947291wme.1
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 05:47:08 -0700 (PDT)
+ by silver.osuosl.org (Postfix) with ESMTPS id A85BA2262E
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:09 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id g62so1978582wme.1
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 05:47:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DVwcU8zMkbBCBeDrHNdhEC1RvSG6OG5A+AegDdk4FZg=;
- b=urRlNUx8hO97E3/ithv5W/xzktVGqA1nV8O5fFz7ObhKvbEb2aNkJgJoKBpnVdphl4
- 5KBtdCKu/sgivS/hsjhVd9Sr/X1Un9ZKJ87q0cEtnZScW1Pc4HHzlnmW0o+AbOz4ueP5
- zyiCCpfL8vGbdiD9DgrSXZ7XaFDisGxPx0ysInpR3PAK89famZ8K8Fj1an2TBiXDAYaE
- fG3FqhhJJeNEsHKKygqVfcWKtxEwUnRFtGqa5ACIlECBWpovqJEGF/dZ+xZf9pivDmhr
- lMwE+AWqy9HFztiZU7KrWfM0WAPgUIHsjlIQ7vDYMmjWMwOOE+sv6p+UcxnGShNeQvLg
- e2VQ==
+ bh=8zesK78yJZWicqhUwQPL3V6IqJnaQGS4nHnDD923Fhg=;
+ b=qpU0Jj2JGN061vUq5cRmJ2MXokC1AW2fzaoV1IqvSV4EPD/dGYLmROiwAk6c96x6vW
+ 3c/QS7+d0Xs5Hg4r7OeK7NtbyPvNPP+RLWm3RAqJWlVgADXkRpSmM4wionq4sZjhwfZ6
+ QnTdAlc42Rps5J6oHni3fFRJiGfPdNWPPBRs7orE3Sad+mMLGwaOhdJfGJcCqrGm0Pka
+ snPcqW+J2mj9avU/qFATUqel4P0ix1B8p1qv6emtgkrGOO7Rgx7QYRY1KdpBr/OIuiDx
+ vjQs8+BI98JR4mQqH2dqqlxDjanzHaFD/KL4Szy9PMzsMwMolUfmEEz9VwmReUMISzJz
+ hL8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DVwcU8zMkbBCBeDrHNdhEC1RvSG6OG5A+AegDdk4FZg=;
- b=DPNSqrtHBjdsrnj1JH/l1RO0ba+43irUeAI3MdDRIVjITGWLI2sSqQCV/A2FrW/M+G
- AJg9qUf6kT2E+xWLD9PBM9kLUSMoiDq9OGkJF3L1AC5sXswKF/jrifVK6Gpsi2KUr5j+
- Zc3NWbXc4c8d5ZLGRZPAbQyzWUtFA4PHtX66i2saKfxw35gmBrX/9TiuUXD+ue5uOqih
- xoFBTxF3nTAOoE+hGM7rKItJNTi1pu2MdJzVJYtAbzpzthrmRJ8HxzVAvCZmouKawvCy
- sucJJnsKwLIkOxXR+OCKRdtWID+ys8W6MW+L1w3lwuFgoxQ115NrYxLNP909CjJFIJ14
- Rxew==
-X-Gm-Message-State: ANhLgQ1B9JFYZXr92bKJ9E5SkAdH8zDkM+LV5eL33IM4k3hzrrMNJE8f
- Gqrq5pnmR6YoBxEE3fY/7CaRJA==
-X-Google-Smtp-Source: ADFU+vsyF4i09IJC6n7a05lkPoLiRARiHxJM+vYgxp5oWnXx/+N85xAu8rhEuiSrwLrfj5KAr4l3Ag==
-X-Received: by 2002:a05:600c:4114:: with SMTP id
- j20mr603263wmi.58.1583930826931; 
- Wed, 11 Mar 2020 05:47:06 -0700 (PDT)
+ bh=8zesK78yJZWicqhUwQPL3V6IqJnaQGS4nHnDD923Fhg=;
+ b=DrCG31qLDzCErPGLHsFXKWECLXuHT3Yc9+rc1cNXZ9by1oA7iTWBEaLwP715AuRc2K
+ aneOJ3oUApwkDIDJV7wOJFaHK19oSZm3s9NKcaSHoFe9RXq7Moz3oOEJZkaBGnW4Pgud
+ 2lUepw0IXD0udz4GOEu7sX/dZ73hI4+xyq9OHkDJd7OhRtRDOEmTvux2GNL6PYLuKJeN
+ HUBP9weMqaXuHEI++ICfuT/IdxL3K/vGKIBmpgxAtq6oOkjlfBZc7Gmns4gIOb9VzWx7
+ YSzoJYNbVLOKfVCerFW2HDCkQSvtDbl8n1CgOCgV35x5vAWQ7SG56T90d9HYnRRksZ4N
+ PDzw==
+X-Gm-Message-State: ANhLgQ3LjqeiKYbs76ki2Qqs2Tt+ajoObnSSbpd7wBOblmvKysdpau+q
+ qQYACIKYg0abiRPudEzdDrxWBA==
+X-Google-Smtp-Source: ADFU+vvKRqzKojPsnzu47XlfEmFywvbZvI7bIuc0VHfmPVsSrBbWdmKhaDCO0TaazIr2/co3EoA9sw==
+X-Received: by 2002:a1c:5fc5:: with SMTP id t188mr1007720wmb.110.1583930828211; 
+ Wed, 11 Mar 2020 05:47:08 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:171b:c9a8:fbc0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id c2sm8380020wma.39.2020.03.11.05.47.05
+ by smtp.gmail.com with ESMTPSA id c2sm8380020wma.39.2020.03.11.05.47.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Mar 2020 05:47:06 -0700 (PDT)
+ Wed, 11 Mar 2020 05:47:07 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org, joro@8bytes.org,
  baolu.lu@linux.intel.com, sudeep.holla@arm.com, linux-doc@vger.kernel.org,
  linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
  iommu@lists.linux-foundation.org
-Subject: [PATCH v2 09/11] ACPI/IORT: Drop ATS fwspec flag
-Date: Wed, 11 Mar 2020 13:45:04 +0100
-Message-Id: <20200311124506.208376-10-jean-philippe@linaro.org>
+Subject: [PATCH v2 10/11] arm64: dts: fast models: Enable PCIe ATS for Base
+ RevC FVP
+Date: Wed, 11 Mar 2020 13:45:05 +0100
+Message-Id: <20200311124506.208376-11-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200311124506.208376-1-jean-philippe@linaro.org>
 References: <20200311124506.208376-1-jean-philippe@linaro.org>
@@ -103,65 +103,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Now that the ats_supported flag is in the host bridge structure where it
-belongs, we can remove it from the per-device fwspec structure.
+Declare that the host controller supports ATS, so the OS can enable it
+for ATS-capable PCIe endpoints.
 
-Acked-by: Hanjun Guo <guohanjun@huawei.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- drivers/acpi/arm64/iort.c | 11 -----------
- include/linux/iommu.h     |  4 ----
- 2 files changed, 15 deletions(-)
+ arch/arm64/boot/dts/arm/fvp-base-revc.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
-index d99d7f5b51e1..f634641b3699 100644
---- a/drivers/acpi/arm64/iort.c
-+++ b/drivers/acpi/arm64/iort.c
-@@ -924,14 +924,6 @@ static int arm_smmu_iort_xlate(struct device *dev, u32 streamid,
- 	return ret;
- }
+diff --git a/arch/arm64/boot/dts/arm/fvp-base-revc.dts b/arch/arm64/boot/dts/arm/fvp-base-revc.dts
+index 335fff762451..9171bf0254bf 100644
+--- a/arch/arm64/boot/dts/arm/fvp-base-revc.dts
++++ b/arch/arm64/boot/dts/arm/fvp-base-revc.dts
+@@ -170,6 +170,7 @@ pci: pci@40000000 {
+ 		iommu-map = <0x0 &smmu 0x0 0x10000>;
  
--static bool iort_pci_rc_supports_ats(struct acpi_iort_node *node)
--{
--	struct acpi_iort_root_complex *pci_rc;
--
--	pci_rc = (struct acpi_iort_root_complex *)node->node_data;
--	return pci_rc->ats_attribute & ACPI_IORT_ATS_SUPPORTED;
--}
--
- static int iort_iommu_xlate(struct device *dev, struct acpi_iort_node *node,
- 			    u32 streamid)
- {
-@@ -1026,9 +1018,6 @@ const struct iommu_ops *iort_iommu_configure(struct device *dev)
- 		info.node = node;
- 		err = pci_for_each_dma_alias(to_pci_dev(dev),
- 					     iort_pci_iommu_init, &info);
--
--		if (!err && iort_pci_rc_supports_ats(node))
--			dev->iommu_fwspec->flags |= IOMMU_FWSPEC_PCI_RC_ATS;
- 	} else {
- 		int i = 0;
+ 		dma-coherent;
++		ats-supported;
+ 	};
  
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index d1b5f4d98569..1739f8a7a4b4 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -589,15 +589,11 @@ struct iommu_fwspec {
- 	const struct iommu_ops	*ops;
- 	struct fwnode_handle	*iommu_fwnode;
- 	void			*iommu_priv;
--	u32			flags;
- 	u32			num_pasid_bits;
- 	unsigned int		num_ids;
- 	u32			ids[1];
- };
- 
--/* ATS is supported */
--#define IOMMU_FWSPEC_PCI_RC_ATS			(1 << 0)
--
- /**
-  * struct iommu_sva - handle to a device-mm bond
-  */
+ 	smmu: smmu@2b400000 {
 -- 
 2.25.1
 
