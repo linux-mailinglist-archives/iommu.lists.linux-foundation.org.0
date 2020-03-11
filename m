@@ -1,60 +1,95 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78903181D9F
-	for <lists.iommu@lfdr.de>; Wed, 11 Mar 2020 17:19:09 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA09C181DA3
+	for <lists.iommu@lfdr.de>; Wed, 11 Mar 2020 17:21:25 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 315E5886D2;
-	Wed, 11 Mar 2020 16:19:08 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 962322107F;
+	Wed, 11 Mar 2020 16:21:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FWhJFtn2JnYq; Wed, 11 Mar 2020 16:19:07 +0000 (UTC)
+	with ESMTP id TyDqQdnATs1k; Wed, 11 Mar 2020 16:21:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 004CC886D1;
-	Wed, 11 Mar 2020 16:19:07 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0D6AE20C92;
+	Wed, 11 Mar 2020 16:21:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DC01BC18D3;
-	Wed, 11 Mar 2020 16:19:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE8EAC0177;
+	Wed, 11 Mar 2020 16:21:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 08576C0177
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 16:19:05 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E77EDC0177
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 16:21:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E90EC869C9
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 16:19:04 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id D641A20C92
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 16:21:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id krQfuMh7nzLq for <iommu@lists.linux-foundation.org>;
- Wed, 11 Mar 2020 16:19:04 +0000 (UTC)
+ with ESMTP id 6GBWr1rEJg5f for <iommu@lists.linux-foundation.org>;
+ Wed, 11 Mar 2020 16:21:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by fraxinus.osuosl.org (Postfix) with ESMTP id EFC59869AC
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 16:19:03 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6873F31B;
- Wed, 11 Mar 2020 09:19:03 -0700 (PDT)
-Received: from [10.1.196.37] (e121345-lin.cambridge.arm.com [10.1.196.37])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 59EFC3F6CF;
- Wed, 11 Mar 2020 09:19:02 -0700 (PDT)
-Subject: Re: [PATCH] device core: fix dma_mask handling in
- platform_device_register_full
-To: Christoph Hellwig <hch@lst.de>, torvalds@linux-foundation.org,
- gregkh@linuxfoundation.org
-References: <20200311160710.376090-1-hch@lst.de>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <8dda3bc4-d64c-e532-b992-614be8a2ab7c@arm.com>
-Date: Wed, 11 Mar 2020 16:19:01 +0000
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+ [209.85.208.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id D38EB20BF8
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 16:21:21 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id f10so3010868ljn.6
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 09:21:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7wRqHRwvmYRYhmXsXy7AGGNNPT7p4XfIy/7Zs7myQjo=;
+ b=R9KvMInv77iX75P+5glKEo9kPqEMRGzLlaxu3ohT58/6av82nvhnJvOlEcEUcDT5wN
+ YRKRjUGHZSsPrGgKB0nbdUcBjc28d8DP/JR59fN5slvamddNiORZmLU5oaRlZKiR5jaI
+ 5NQmxVAML+zK/53hVUBPZ7w/J8mtqfs9e3N2I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7wRqHRwvmYRYhmXsXy7AGGNNPT7p4XfIy/7Zs7myQjo=;
+ b=jEKUJoWMscQZ2Ol5B1xq5uwDisGdQhiZ/XpbU5wyZAWL4OHKY1XiB50Pw2/4n7VDxk
+ 55/R8TvsCS3RGWAxAapGqK4O3eIYS7/Vb6feI1lyeQ65K2H0HH7Xc/CAPYWHtwwXe3EV
+ o9I/PCiUJlDWmtYuP9Qn1qp25qu6XnThM71fRs3/TM7/UaTa3ZYD0F63YYZVRkhh8MJS
+ GvaOqXrRPFAVLaqjfkVWbO0c3bBbFAUFtsLDTk07n0E+SihUKn2T1y1kn6qKALDRR6IM
+ /xmi3TXCXuWvBTyGU7E39RjERkJDiJG8YIKVnwFpl5jr0Wxs2iYFSA0xb1o2xzVHfhxU
+ s3JA==
+X-Gm-Message-State: ANhLgQ3k1dGZA+4PPCdtChpSVlP5x8hGUcsesK4yNWtlGyHHgn24bmO9
+ koem86ZgXQGxk5+pqYWa/zHk9ITtvJZG1Q==
+X-Google-Smtp-Source: ADFU+vuxKkmhLJrgGPd0mxGq15XWhbRSESPuqdt4cpZh0OO5BNYdh9fZq/gN4vy7R+5ijKGCw4fIOg==
+X-Received: by 2002:a2e:b60d:: with SMTP id r13mr2521003ljn.185.1583943678856; 
+ Wed, 11 Mar 2020 09:21:18 -0700 (PDT)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com.
+ [209.85.208.173])
+ by smtp.gmail.com with ESMTPSA id s17sm21776659ljd.70.2020.03.11.09.21.17
+ for <iommu@lists.linux-foundation.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Mar 2020 09:21:17 -0700 (PDT)
+Received: by mail-lj1-f173.google.com with SMTP id 19so3006837ljj.7
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 09:21:17 -0700 (PDT)
+X-Received: by 2002:a2e:6819:: with SMTP id c25mr2633970lja.16.1583943677157; 
+ Wed, 11 Mar 2020 09:21:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200311160710.376090-1-hch@lst.de>
-Content-Language: en-GB
-Cc: aros@gmx.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org
+References: <bug-206175-5873@https.bugzilla.kernel.org/>
+ <bug-206175-5873-S6PaNNClEr@https.bugzilla.kernel.org/>
+ <CAHk-=wi4GS05j67V0D_cRXRQ=_Jh-NT0OuNpF-JFsDFj7jZK9A@mail.gmail.com>
+ <20200310162342.GA4483@lst.de>
+ <CAHk-=wgB2YMM6kw8W0wq=7efxsRERL14OHMOLU=Nd1OaR+sXvw@mail.gmail.com>
+ <20200310182546.GA9268@lst.de> <20200311152453.GB23704@lst.de>
+ <e70dd793-e8b8-ab0c-6027-6c22b5a99bfc@gmx.com> <20200311154328.GA24044@lst.de>
+ <20200311154718.GB24044@lst.de> <962693d9-b595-c44d-1390-e044f29e91d3@gmx.com>
+In-Reply-To: <962693d9-b595-c44d-1390-e044f29e91d3@gmx.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 11 Mar 2020 09:21:00 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wj0E9vCO_VTiK6xuXAW13ZeeLsW=G3v+yNsCaUm1+H61A@mail.gmail.com>
+Message-ID: <CAHk-=wj0E9vCO_VTiK6xuXAW13ZeeLsW=G3v+yNsCaUm1+H61A@mail.gmail.com>
+Subject: Re: [Bug 206175] Fedora >= 5.4 kernels instantly freeze on boot
+ without producing any display output
+To: "Artem S. Tashkinov" <aros@gmx.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ iommu <iommu@lists.linux-foundation.org>, Christoph Hellwig <hch@lst.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,64 +102,27 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 11/03/2020 4:07 pm, Christoph Hellwig wrote:
-> Ever since the generic platform device code started allocating DMA masks
-> itself the code to allocate and leak a private DMA mask in
-> platform_device_register_full has been superflous.  More so the fact that
-> it unconditionally frees the DMA mask allocation in the failure path
-> can lead to slab corruption if the function fails later on for a device
-> where it didn't allocate the mask.  Just remove the offending code.
+On Wed, Mar 11, 2020 at 9:02 AM Artem S. Tashkinov <aros@gmx.com> wrote:
+>
+> With this patch the system works (I haven't created an initrd, so it
+> doesn't completely boot and panics on not being able to mount root fs
+> but that's expected).
 
-I'm sure I mentioned this in passing at the time, but only in the 
-context of a cleanup; I never noticed it could be cause for an actual bug :)
+Perfect.
 
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+I ended up applying my earlier cleanup patch with just the added
+removal of the kfree(), which was the actual trigger of the bug.
 
-> Fixes: cdfee5623290 ("driver core: initialize a default DMA mask for platform device")
-> Reported-by: Artem S. Tashkinov <aros@gmx.com>
-> Tested-by: Artem S. Tashkinov <aros@gmx.com>
-> ---
->   drivers/base/platform.c | 14 --------------
->   1 file changed, 14 deletions(-)
-> 
-> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-> index 7fa654f1288b..47d3e6187a1c 100644
-> --- a/drivers/base/platform.c
-> +++ b/drivers/base/platform.c
-> @@ -662,19 +662,6 @@ struct platform_device *platform_device_register_full(
->   	pdev->dev.of_node_reused = pdevinfo->of_node_reused;
->   
->   	if (pdevinfo->dma_mask) {
-> -		/*
-> -		 * This memory isn't freed when the device is put,
-> -		 * I don't have a nice idea for that though.  Conceptually
-> -		 * dma_mask in struct device should not be a pointer.
-> -		 * See http://thread.gmane.org/gmane.linux.kernel.pci/9081
-> -		 */
-> -		pdev->dev.dma_mask =
-> -			kmalloc(sizeof(*pdev->dev.dma_mask), GFP_KERNEL);
-> -		if (!pdev->dev.dma_mask)
-> -			goto err;
-> -
-> -		kmemleak_ignore(pdev->dev.dma_mask);
-> -
->   		*pdev->dev.dma_mask = pdevinfo->dma_mask;
->   		pdev->dev.coherent_dma_mask = pdevinfo->dma_mask;
->   	}
-> @@ -700,7 +687,6 @@ struct platform_device *platform_device_register_full(
->   	if (ret) {
->   err:
->   		ACPI_COMPANION_SET(&pdev->dev, NULL);
-> -		kfree(pdev->dev.dma_mask);
->   		platform_device_put(pdev);
->   		return ERR_PTR(ret);
->   	}
-> 
+It's commit e423fb6929d4 ("driver code: clarify and fix platform
+device DMA mask allocation") in my tree. I've not pushed it out yet (I
+have a few pending pull requests), but it should be out shortly.
+
+           Linus
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
