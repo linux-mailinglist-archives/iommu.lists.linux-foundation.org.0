@@ -1,76 +1,75 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C89181DAF
-	for <lists.iommu@lfdr.de>; Wed, 11 Mar 2020 17:24:47 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 62FD320BF8;
-	Wed, 11 Mar 2020 16:24:46 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SLxjxgsfNPGA; Wed, 11 Mar 2020 16:24:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 88D81214E9;
-	Wed, 11 Mar 2020 16:24:45 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7191FC1D8E;
-	Wed, 11 Mar 2020 16:24:45 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3C8B8C0177
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 16:24:44 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5AB181E3E
+	for <lists.iommu@lfdr.de>; Wed, 11 Mar 2020 17:48:50 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 292838875F
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 16:24:44 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A05338748E;
+	Wed, 11 Mar 2020 16:48:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Z7EYR1sAzjI1; Wed, 11 Mar 2020 16:48:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 203158746D;
+	Wed, 11 Mar 2020 16:48:48 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 01E91C1D8E;
+	Wed, 11 Mar 2020 16:48:48 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BC989C0177
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 16:48:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id AB0302026D
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 16:48:46 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6qswi6gbiMg8 for <iommu@lists.linux-foundation.org>;
- Wed, 11 Mar 2020 16:24:43 +0000 (UTC)
+ with ESMTP id 11OTY4US2zGN for <iommu@lists.linux-foundation.org>;
+ Wed, 11 Mar 2020 16:48:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
- [209.85.208.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 2322988753
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 16:24:43 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id f13so3059628ljp.0
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 09:24:43 -0700 (PDT)
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+ [209.85.167.66])
+ by silver.osuosl.org (Postfix) with ESMTPS id C1BA72011A
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 16:48:45 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id n13so519010lfh.5
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 09:48:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linux-foundation.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ewAlQHQt8dNmtJm6MPN3fd97uVC477VMUv7XsNvWER4=;
- b=T4CQInzmlM2NS3Aw7NWKi1zS/EPg/I3ePyu2SZ6CEEMmQlPuypdSz89daz11monzuF
- Ah+MttBb+norGtqwBrEU/TbbOCS32LF7TwYCBY95bzhG0y61XDLQQ5mVUplCZol/nK1C
- guY8cMZZTIhfPI/ExVsw1ygxAVbRY1ifDJhlQ=
+ :cc; bh=nvdaEzJa7BlyOVahyajCu5RaMgVluQfvfvpupgNvYPI=;
+ b=gTYXTGLbY5loy6LLU50Ij4wvtWSkC1KAWrZXcHsoO1uCYD/i8UHh+Fp6H4Lfe4kdbN
+ +iCHTAZrtgnoEbw/v9CPYJjmPJSY9iJAV9hHJtzdILJGtgEkVlpC0w+CR2pyEVwiAyC5
+ UbZvFt+oRjc8PidJ6oJOx+Xw/Ygl8qTl+1lDw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ewAlQHQt8dNmtJm6MPN3fd97uVC477VMUv7XsNvWER4=;
- b=bW69+J1NCS3YzlxVhThx2UYP+AdCGCnqpONfoqpG10gxA2vM6JdFJHsaPeIl2tESUi
- zDxzRm0khi24Id78cH3D1n7whOCCUKjzhxALlr3298TLCKZWoRFv3h1rKRCW9yTC4v15
- pslZz4DSeruM3T90CTP9WBC1C4Tia/SHJSxUjanVI3SHDepayI+fwWAyC65B0dqBmIjm
- MJRWawOcKbe2OAHXKArCFeaPyZyw7q0YcUKilEr/ej6kgJTy34TbCUBP4B180Z3rv1hV
- bYrVFPFoLWdsB5Wn1ajYXpOvp6bgiqr43iKSXLumgm4UowFRvMXfvCrNm/a8qZjIB4/4
- ApsQ==
-X-Gm-Message-State: ANhLgQ2WEf2XJ7Xavgq24Qcjq4u4SmCkLtWxQ/LAZ3kc/mK657jccFHK
- +rCDcivhTAAV0Wdz/cA3HsI0NnIxILrk+w==
-X-Google-Smtp-Source: ADFU+vs9zaUgwcreYQXLa2BoHjpvHtOxAaxzzPhpJWE+yeEkhCXWsu7V3dWqefM/1QFM1yNrJ0DB2A==
-X-Received: by 2002:a2e:93c5:: with SMTP id p5mr2605322ljh.192.1583943880482; 
- Wed, 11 Mar 2020 09:24:40 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com.
- [209.85.208.169])
- by smtp.gmail.com with ESMTPSA id o17sm9430636lfd.89.2020.03.11.09.24.39
+ bh=nvdaEzJa7BlyOVahyajCu5RaMgVluQfvfvpupgNvYPI=;
+ b=l+iKrZvQv7Jv+e7HkOx15mZ9F0E4RYOsTamqWT4TOExa3o1x5cAghkz7UdfRB2eXAz
+ Uxv0ZtHwOn6WXPygHV84HKszG6DwFY6++G9h8j0g6/2RRb20ZbdrriKHl16WC0pC7NhB
+ IHuMzsCRlw8tixUzf5//Y8Cx0cNzRTiG8ZOky7qdPXILj8mMVL4Bps1P118XMLzODZUl
+ jlaaQVgfs4TbFQ2N2tQuEBw3fT6AYorfMdmrlwsbsruOuekWHVoOLwjpTtrV3YagTO9y
+ JlRnmGqpfX6fuMNI3kTZydpcyhyo7hE1kGdpdKIm1OCE1wrkjRGCmM4RZRQU6decF5BA
+ XnYg==
+X-Gm-Message-State: ANhLgQ0OF8ya/QYxClz0/oR6xddjc0mudpifgZmmFsd/m/j54SoXNAMO
+ KHTgCTdmYB4NbRMtjzSdrJAjORkol1UEGA==
+X-Google-Smtp-Source: ADFU+vuwK7lg8+4gMJdFzudajvClRZXAfR7TK8/MT30hJ618yH832FPmAGQs/Z4i+oQWdTp6KBAxVw==
+X-Received: by 2002:ac2:41d3:: with SMTP id d19mr2751578lfi.57.1583945323035; 
+ Wed, 11 Mar 2020 09:48:43 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com.
+ [209.85.208.182])
+ by smtp.gmail.com with ESMTPSA id 133sm6961866ljj.91.2020.03.11.09.48.41
  for <iommu@lists.linux-foundation.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Mar 2020 09:24:39 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id s13so3053350ljm.1
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 09:24:39 -0700 (PDT)
-X-Received: by 2002:a05:651c:230:: with SMTP id
- z16mr2626766ljn.201.1583943878724; 
- Wed, 11 Mar 2020 09:24:38 -0700 (PDT)
+ Wed, 11 Mar 2020 09:48:42 -0700 (PDT)
+Received: by mail-lj1-f182.google.com with SMTP id f13so3148665ljp.0
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 09:48:41 -0700 (PDT)
+X-Received: by 2002:a2e:89c7:: with SMTP id c7mr2718156ljk.265.1583945321533; 
+ Wed, 11 Mar 2020 09:48:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <bug-206175-5873@https.bugzilla.kernel.org/>
  <bug-206175-5873-S6PaNNClEr@https.bugzilla.kernel.org/>
@@ -81,11 +80,12 @@ References: <bug-206175-5873@https.bugzilla.kernel.org/>
  <e70dd793-e8b8-ab0c-6027-6c22b5a99bfc@gmx.com> <20200311154328.GA24044@lst.de>
  <20200311154718.GB24044@lst.de> <962693d9-b595-c44d-1390-e044f29e91d3@gmx.com>
  <CAHk-=wj0E9vCO_VTiK6xuXAW13ZeeLsW=G3v+yNsCaUm1+H61A@mail.gmail.com>
-In-Reply-To: <CAHk-=wj0E9vCO_VTiK6xuXAW13ZeeLsW=G3v+yNsCaUm1+H61A@mail.gmail.com>
+ <CAHk-=whFu_p-eiyJfiEevV=a+irzW=9LMWjMaaFSaaasXout9w@mail.gmail.com>
+In-Reply-To: <CAHk-=whFu_p-eiyJfiEevV=a+irzW=9LMWjMaaFSaaasXout9w@mail.gmail.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 11 Mar 2020 09:24:22 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whFu_p-eiyJfiEevV=a+irzW=9LMWjMaaFSaaasXout9w@mail.gmail.com>
-Message-ID: <CAHk-=whFu_p-eiyJfiEevV=a+irzW=9LMWjMaaFSaaasXout9w@mail.gmail.com>
+Date: Wed, 11 Mar 2020 09:48:25 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whkKCxj-U9343Tk4Bbkc7oatqq26XGdAM6JJ+X==R_iNQ@mail.gmail.com>
+Message-ID: <CAHk-=whkKCxj-U9343Tk4Bbkc7oatqq26XGdAM6JJ+X==R_iNQ@mail.gmail.com>
 Subject: Re: [Bug 206175] Fedora >= 5.4 kernels instantly freeze on boot
  without producing any display output
 To: "Artem S. Tashkinov" <aros@gmx.com>
@@ -109,22 +109,20 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Mar 11, 2020 at 9:21 AM Linus Torvalds
+On Wed, Mar 11, 2020 at 9:24 AM Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
 >
-> It's commit e423fb6929d4 ("driver code: clarify and fix platform
-> device DMA mask allocation") in my tree. I've not pushed it out yet (I
-> have a few pending pull requests), but it should be out shortly.
+> So it will have a different commit ID, updated message, and be a mix
+> of my patch and Christoph's.
 
-Actually, looking at other emails in my mailbox I see that Christoph
-send a patch with a sign-off, and there's a reviewed-by too, so since
-I haven't pushed mine out yet, I'll edit that up and give credit to
-Christoph properly, and add the reviewed-by.
+I ended up pushing it out before starting on the pull requests, so
+it's out there now.
 
-So it will have a different commit ID, updated message, and be a mix
-of my patch and Christoph's.
+Artem, it would be good to have confirmation that my (modified) tip of
+tree now works for you. I don't actually doubt it does, but a final
+confirmation would be appreciated.
 
-             Linus
+            Linus
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
