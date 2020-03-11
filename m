@@ -1,82 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0D9181881
-	for <lists.iommu@lfdr.de>; Wed, 11 Mar 2020 13:47:04 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1AE2181884
+	for <lists.iommu@lfdr.de>; Wed, 11 Mar 2020 13:47:05 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id EB900875CA;
-	Wed, 11 Mar 2020 12:47:02 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7035985F71;
+	Wed, 11 Mar 2020 12:47:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zCZ-O9g2f3Cj; Wed, 11 Mar 2020 12:47:01 +0000 (UTC)
+	with ESMTP id JuJb4QZD_9Aq; Wed, 11 Mar 2020 12:47:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A9EE0875FE;
-	Wed, 11 Mar 2020 12:47:01 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E830A85F7D;
+	Wed, 11 Mar 2020 12:47:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A1902C0177;
-	Wed, 11 Mar 2020 12:47:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D26CDC0177;
+	Wed, 11 Mar 2020 12:47:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 832D7C0177
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:00 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AD1B7C0177
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 7CE9785F71
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:00 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 55EFC85F7D
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Wd8YsPj2R5nr for <iommu@lists.linux-foundation.org>;
- Wed, 11 Mar 2020 12:47:00 +0000 (UTC)
+ with ESMTP id NNnkUWJa-P5x for <iommu@lists.linux-foundation.org>;
+ Wed, 11 Mar 2020 12:47:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
  [209.85.128.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C814285F67
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:46:59 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id e26so1954326wme.5
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 05:46:59 -0700 (PDT)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2B89D85F67
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:01 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id g62so1978114wme.1
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 05:47:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d7fzzw/5lEfLgru+68iO/J8krazqjJjWjKm9fH3TH5I=;
- b=d0OldcPYPTwC6lUxav+jf6KB+UcGBjwxPVFVLOS8P+DRcf4Nq9+Cgk3ER62YCupyKO
- n63Plm+lXXP1tDCSs66zuHCHs/M9n6CcfUD83j6S1A3sgTchEZWf/GNdy1+Sg6PJsXx7
- v6vVCuz7+yMQ9U+jeSTzabfnBGdgbxAl7+8p5eiV0vMWAbcwpvxqhcw3kVlpD7RcuEis
- e5lM+BenuFHNorZQvoPD0B0I5/lix/gZ+JhB+tlQQjDMmJ4sZt8Pupm67tdBc4wFY0mf
- EgB/VSPg8NrV9V5qGawXDH19VqniDfIEy7gvlpILkFxSAN86lG2R7fZNu+SKWuDilrZc
- hdmw==
+ bh=U47FGde+FbNcdQs+RPhyYEqijb3kd9q1HrNDc4ml5OM=;
+ b=PaFI7UScmuJq/vQMffhQojPOeVfgLOAOjM4tY3da2DCq6MkkfzqrKf7V1Pxw17ncw8
+ I7lQsl4LNyrad1s2jqB7jxtjderJz1RfVJLzyzLHT+oAi/Nou6U8jheMoW1RCz5MFSmt
+ 8TqQOYGDNPNoEyjr7Wiqwd81sNgrr8blWpNAwkKUf1YvpBlEq53rad+vRE26mSuLionw
+ wAz0sy3xHgGF1Xt7nkvW0dLEL7P3CqIctcFCnPvoWBwkwSJ3aEqgNcQBJaSFzZUK4ZuH
+ LE/gRrJ60DA+fHf+OG44ZIz5IHRMbefyq84xQfidyBcnHlOEgny1G6Qa9QaCs7OF3Ab7
+ 7uwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=d7fzzw/5lEfLgru+68iO/J8krazqjJjWjKm9fH3TH5I=;
- b=tLUstuT73L6wdUjVrct8wHchZZ1AsQ/4aCcFvdTHl+vYz1HWC1apIqdMh7rfp0mVo0
- aQfQVS95773THxBgTK2iS1x24LpmsnS1v3tGGGsxheBIPcAa8icpLPbcdsLM7DAEdUoO
- Ppm4UTVGcqugfnkKMZfoAVziEHw+MN7jwTqSwDcrNTR8WFy2TC0H/Lbr3IeXO5fG/75b
- Cgd40tTbrrdq7i2RWQfiZNnOpp3BqTGMaA+xoA9gbql8ulg1sR3KFFqPOL7+G/YpM9FJ
- +DhfcnXHt8ndmHN0xMbf2aZSlWvkC1QKQrUeTn0oO9wprczpSnsjx4I5JS+FFzkXJ5pw
- JPZQ==
-X-Gm-Message-State: ANhLgQ2DEz8LWxjQvSXp1rwaG54BJCW5KZx86YtIHiwXjdHU8NZjstKj
- YPh+20bcK8iLArmzzLsNkzuXmQ==
-X-Google-Smtp-Source: ADFU+vtrrbz3xW1uwROP0nlDBlOyziir6FkZYgi3Shk3F4IjgLnSc2vkzPiEnYQH9VQXQDGBOwBJWg==
-X-Received: by 2002:a1c:7e08:: with SMTP id z8mr3550520wmc.166.1583930818310; 
- Wed, 11 Mar 2020 05:46:58 -0700 (PDT)
+ bh=U47FGde+FbNcdQs+RPhyYEqijb3kd9q1HrNDc4ml5OM=;
+ b=CaLsTfxcyUnX7CPADUP0Q+mdr9eep+hS+8/tByZNA9c3GMbbCjTdo+wZk1GBNaWzDG
+ kCmbmAlq29gryI71nSRaysIMNkuwpxJ7kV5zj/UVDNCzXXd8OBc9pFJCPUZTQmRJXVS5
+ kp0tw8bEMJ8YZUjJnliZB0zfcnyq7Jdf6qJ5wVxApmycxxr7rezSFHQXJ0NFh+7gQAZR
+ h0AzbDKxaayqMAD6HFyqzAzmn+fCBKZGBce/5TK/35uIyI2eI51N5oeVqVL4uDeaNUan
+ 5WSYARHCEat1JInIw+aiKtqcO3qs7JzPr0WtHkIRekgjRJ1zKDKNv34ZoTBQI2KOnJvc
+ nPWA==
+X-Gm-Message-State: ANhLgQ1OUEMSlciZb0hV/IKJl0+iqoLZhmXv9G0iGLg3uTloQUxt96iU
+ f2ubL+9Rsiy39Tkyi5oMD9+GAg==
+X-Google-Smtp-Source: ADFU+vssp6pgSA4SHhUAKAeskjqrgFN5K6L5kBvQztm1aXqSMSSOxW9M674hcGUdXj2nfa3aXBAr9Q==
+X-Received: by 2002:a1c:5fc5:: with SMTP id t188mr1007198wmb.110.1583930819703; 
+ Wed, 11 Mar 2020 05:46:59 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:171b:c9a8:fbc0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id c2sm8380020wma.39.2020.03.11.05.46.57
+ by smtp.gmail.com with ESMTPSA id c2sm8380020wma.39.2020.03.11.05.46.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Mar 2020 05:46:57 -0700 (PDT)
+ Wed, 11 Mar 2020 05:46:59 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org, joro@8bytes.org,
  baolu.lu@linux.intel.com, sudeep.holla@arm.com, linux-doc@vger.kernel.org,
  linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
  iommu@lists.linux-foundation.org
-Subject: [PATCH v2 03/11] PCI: OF: Check whether the host bridge supports ATS
-Date: Wed, 11 Mar 2020 13:44:58 +0100
-Message-Id: <20200311124506.208376-4-jean-philippe@linaro.org>
+Subject: [PATCH v2 04/11] ACPI/IORT: Check ATS capability in root complex node
+Date: Wed, 11 Mar 2020 13:44:59 +0100
+Message-Id: <20200311124506.208376-5-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200311124506.208376-1-jean-philippe@linaro.org>
 References: <20200311124506.208376-1-jean-philippe@linaro.org>
@@ -102,45 +102,100 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When setting up a generic host on a device-tree based system, copy the
-ats-supported flag into the pci_host_bridge structure.
+When initializing a PCI root bridge, copy its "ATS supported" attribute
+into the root bridge.
 
+Acked-by: Hanjun Guo <guohanjun@huawei.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
-v1->v2: keep the helper in pci-host-common.c
----
- drivers/pci/controller/pci-host-common.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/acpi/arm64/iort.c | 27 +++++++++++++++++++++++++++
+ drivers/acpi/pci_root.c   |  3 +++
+ include/linux/acpi_iort.h |  8 ++++++++
+ 3 files changed, 38 insertions(+)
 
-diff --git a/drivers/pci/controller/pci-host-common.c b/drivers/pci/controller/pci-host-common.c
-index 250a3fc80ec6..2e800bc6ae7a 100644
---- a/drivers/pci/controller/pci-host-common.c
-+++ b/drivers/pci/controller/pci-host-common.c
-@@ -54,6 +54,16 @@ static struct pci_config_window *gen_pci_init(struct device *dev,
- 	return ERR_PTR(err);
+diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
+index ed3d2d1a7ae9..d99d7f5b51e1 100644
+--- a/drivers/acpi/arm64/iort.c
++++ b/drivers/acpi/arm64/iort.c
+@@ -1633,6 +1633,33 @@ static void __init iort_enable_acs(struct acpi_iort_node *iort_node)
+ 		}
+ 	}
  }
- 
-+static void of_pci_host_check_ats(struct pci_host_bridge *bridge)
++
++static acpi_status iort_match_host_bridge_callback(struct acpi_iort_node *node,
++						   void *context)
 +{
-+	struct device_node *np = bridge->bus->dev.of_node;
++	struct acpi_iort_root_complex *pci_rc;
++	struct pci_host_bridge *host_bridge = context;
 +
-+	if (!np)
-+		return;
++	pci_rc = (struct acpi_iort_root_complex *)node->node_data;
 +
-+	bridge->ats_supported = of_property_read_bool(np, "ats-supported");
++	return pci_domain_nr(host_bridge->bus) == pci_rc->pci_segment_number ?
++		AE_OK : AE_NOT_FOUND;
 +}
 +
- int pci_host_common_probe(struct platform_device *pdev,
- 			  struct pci_ecam_ops *ops)
- {
-@@ -92,6 +102,7 @@ int pci_host_common_probe(struct platform_device *pdev,
- 		return ret;
- 	}
++void iort_pci_host_bridge_setup(struct pci_host_bridge *host_bridge)
++{
++	struct acpi_iort_node *node;
++	struct acpi_iort_root_complex *pci_rc;
++
++	node = iort_scan_node(ACPI_IORT_NODE_PCI_ROOT_COMPLEX,
++			      iort_match_host_bridge_callback, host_bridge);
++	if (!node)
++		return;
++
++	pci_rc = (struct acpi_iort_root_complex *)node->node_data;
++	host_bridge->ats_supported = !!(pci_rc->ats_attribute &
++					ACPI_IORT_ATS_SUPPORTED);
++}
+ #else
+ static inline void iort_enable_acs(struct acpi_iort_node *iort_node) { }
+ #endif
+diff --git a/drivers/acpi/pci_root.c b/drivers/acpi/pci_root.c
+index d1e666ef3fcc..eb2fb8f17c0b 100644
+--- a/drivers/acpi/pci_root.c
++++ b/drivers/acpi/pci_root.c
+@@ -6,6 +6,7 @@
+  *  Copyright (C) 2001, 2002 Paul Diefenbaugh <paul.s.diefenbaugh@intel.com>
+  */
  
-+	of_pci_host_check_ats(bridge);
- 	platform_set_drvdata(pdev, bridge->bus);
- 	return 0;
- }
++#include <linux/acpi_iort.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/init.h>
+@@ -917,6 +918,8 @@ struct pci_bus *acpi_pci_root_create(struct acpi_pci_root *root,
+ 	if (!(root->osc_control_set & OSC_PCI_EXPRESS_LTR_CONTROL))
+ 		host_bridge->native_ltr = 0;
+ 
++	iort_pci_host_bridge_setup(host_bridge);
++
+ 	/*
+ 	 * Evaluate the "PCI Boot Configuration" _DSM Function.  If it
+ 	 * exists and returns 0, we must preserve any PCI resource
+diff --git a/include/linux/acpi_iort.h b/include/linux/acpi_iort.h
+index 8e7e2ec37f1b..7b06871cc3aa 100644
+--- a/include/linux/acpi_iort.h
++++ b/include/linux/acpi_iort.h
+@@ -10,6 +10,7 @@
+ #include <linux/acpi.h>
+ #include <linux/fwnode.h>
+ #include <linux/irqdomain.h>
++#include <linux/pci.h>
+ 
+ #define IORT_IRQ_MASK(irq)		(irq & 0xffffffffULL)
+ #define IORT_IRQ_TRIGGER_MASK(irq)	((irq >> 32) & 0xffffffffULL)
+@@ -55,4 +56,11 @@ int iort_iommu_msi_get_resv_regions(struct device *dev, struct list_head *head)
+ { return 0; }
+ #endif
+ 
++#if defined(CONFIG_ACPI_IORT) && defined(CONFIG_PCI)
++void iort_pci_host_bridge_setup(struct pci_host_bridge *host_bridge);
++#else
++static inline
++void iort_pci_host_bridge_setup(struct pci_host_bridge *host_bridge) { }
++#endif
++
+ #endif /* __ACPI_IORT_H__ */
 -- 
 2.25.1
 
