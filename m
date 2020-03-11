@@ -1,91 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5212118189F
-	for <lists.iommu@lfdr.de>; Wed, 11 Mar 2020 13:47:15 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C31181C43
+	for <lists.iommu@lfdr.de>; Wed, 11 Mar 2020 16:25:08 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 05D7C2077C;
-	Wed, 11 Mar 2020 12:47:14 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 26C4E86D4D;
+	Wed, 11 Mar 2020 15:25:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id liS-XMNxTixi; Wed, 11 Mar 2020 12:47:13 +0000 (UTC)
+	with ESMTP id M2yMaixr8JoM; Wed, 11 Mar 2020 15:25:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9146922610;
-	Wed, 11 Mar 2020 12:47:13 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 707F885F69;
+	Wed, 11 Mar 2020 15:25:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 87CC9C0177;
-	Wed, 11 Mar 2020 12:47:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5E21BC0177;
+	Wed, 11 Mar 2020 15:25:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 43E72C1D8E
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:12 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 149D5C0177
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 15:24:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3FBC887EB5
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:12 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 016D688760
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 15:24:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8EhaO2b+qq33 for <iommu@lists.linux-foundation.org>;
- Wed, 11 Mar 2020 12:47:11 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 27B8B87ED2
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 12:47:11 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id g62so1978659wme.1
- for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 05:47:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=d0rLUPpWc9LKXF0i9+CPpLN+OwQQCuUUQ2gfv2HulHQ=;
- b=IMq0GOglrv9AJ7IWePlqPKh+g5vEP7KPGWHNuTRmuqqvl++Phj5Ie3+A+QfEKkME3h
- q0vWho6oLDy9c22giASuCH1G1T6he+iSuHY/0OPrxfchkouzillYMOGGlzBA9bwKR7Yg
- +I0CgBIjKYUYCNZqgojagWqC+afKYcAZQQapMTNAk/850hRMXduZJO1Etpt2EYWQCcUy
- n3ofi2ltjHGzGZBjILh2yTVAHr185N6iaj4H1T9AvACvPv+DIvL+M85edL84HEByBf8K
- uVCJ+BkBjMVx15RAWG7GqnxYs9Z1XwTzh1D54MLnPmoo3LAkRQYN2UwFDW+zLVcZypwF
- ZfOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=d0rLUPpWc9LKXF0i9+CPpLN+OwQQCuUUQ2gfv2HulHQ=;
- b=QITcXq8L338h5ofewyhLzl4dbRM88fI+I4rkVugmjl3p2h0dIE9lo0fNs7iK0QwQ6H
- Zx+fehbPGJ/KO4tVApnqAgXLgPS5Q1/pEcmjUMhDPne1JDm65YwjrDRrv6U6vJcrCt3P
- BXcGx2OiDSxYkahFej58YCMbGwJtwlfwksoyvo5Tse4R/qZsOH6JBYJTXqYpleYi95n/
- R9RN8dVthih55Z179EM3hdN/cAitKgJRziUJZV6QOIC+JWAl93/SWltjzZG9TpM/OnRj
- RpyveCP5NlrCuA6CU9c6Brw3psGIw+arelfawMFatjY5v6RuRUnMBq3QsakqO14vRy65
- vGVA==
-X-Gm-Message-State: ANhLgQ1V5c0zyatyN6e86k2tyoEooNc53GgWJQ3lstyx3hnttizOd9OD
- l619//rinKg6GjcuBD8TFxYtcQ==
-X-Google-Smtp-Source: ADFU+vtSp3bp4YHfuXWS38IAA5q6tgH8hB5aWJ3nzhD3eOkPVBueydoPmuaFZUj0SnvU9SNNjQlTgg==
-X-Received: by 2002:a7b:c414:: with SMTP id k20mr3678319wmi.119.1583930829492; 
- Wed, 11 Mar 2020 05:47:09 -0700 (PDT)
-Received: from localhost.localdomain
- ([2001:171b:c9a8:fbc0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id c2sm8380020wma.39.2020.03.11.05.47.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Mar 2020 05:47:09 -0700 (PDT)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: bhelgaas@google.com, will@kernel.org, robh+dt@kernel.org, joro@8bytes.org,
- baolu.lu@linux.intel.com, sudeep.holla@arm.com, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- iommu@lists.linux-foundation.org
-Subject: [PATCH v2 11/11] Documentation: Generalize the "pci=noats" boot
- parameter
-Date: Wed, 11 Mar 2020 13:45:06 +0100
-Message-Id: <20200311124506.208376-12-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200311124506.208376-1-jean-philippe@linaro.org>
-References: <20200311124506.208376-1-jean-philippe@linaro.org>
+ with ESMTP id lkU6L1FiVjeK for <iommu@lists.linux-foundation.org>;
+ Wed, 11 Mar 2020 15:24:57 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8962A88750
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Mar 2020 15:24:57 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 7EEF568C65; Wed, 11 Mar 2020 16:24:53 +0100 (CET)
+Date: Wed, 11 Mar 2020 16:24:53 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [Bug 206175] Fedora >= 5.4 kernels instantly freeze on boot
+ without producing any display output
+Message-ID: <20200311152453.GB23704@lst.de>
+References: <bug-206175-5873@https.bugzilla.kernel.org/>
+ <bug-206175-5873-S6PaNNClEr@https.bugzilla.kernel.org/>
+ <CAHk-=wi4GS05j67V0D_cRXRQ=_Jh-NT0OuNpF-JFsDFj7jZK9A@mail.gmail.com>
+ <20200310162342.GA4483@lst.de>
+ <CAHk-=wgB2YMM6kw8W0wq=7efxsRERL14OHMOLU=Nd1OaR+sXvw@mail.gmail.com>
+ <20200310182546.GA9268@lst.de>
 MIME-Version: 1.0
-Cc: mark.rutland@arm.com, Jean-Philippe Brucker <jean-philippe@linaro.org>,
- frowand.list@gmail.com, corbet@lwn.net, liviu.dudau@arm.com, rjw@rjwysocki.net,
- guohanjun@huawei.com, amurray@thegoodpenguin.co.uk, robin.murphy@arm.com,
- dwmw2@infradead.org, lenb@kernel.org
+Content-Disposition: inline
+In-Reply-To: <20200310182546.GA9268@lst.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ iommu@lists.linux-foundation.org, aros@gmx.com, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,34 +71,23 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The "pci=noats" kernel parameter disables PCIe ATS globally, and affects
-any ATS-capable IOMMU driver. So rather than adding Arm SMMUv3, which
-recently gained ATS support, to the list of relevant build options,
-simplify the noats description.
+As you seem to have a mfd based usb card reader per bugzilla, can you
+try the patch form Robin below?  This ensures mfd doesn't mess with the
+dma mask and thus entangling it with the parent.  And please try to
+reply to the actual mail.  I found some updates in bugzilla when
+I checked it after I haven't seen any reply for a while, but that isn't
+a very efficient way to communicate.
 
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- Documentation/admin-guide/kernel-parameters.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--- a/drivers/mfd/mfd-core.c
++++ b/drivers/mfd/mfd-core.c
+@@ -138,7 +138,7 @@ static int mfd_add_device(struct device *parent, int id,
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c07815d230bc..3e17ddb76731 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3610,8 +3610,8 @@
- 				on: Turn realloc on
- 		realloc		same as realloc=on
- 		noari		do not use PCIe ARI.
--		noats		[PCIE, Intel-IOMMU, AMD-IOMMU]
--				do not use PCIe ATS (and IOMMU device IOTLB).
-+		noats		[PCIE] Do not use PCIe ATS (and IOMMU device
-+				IOTLB).
- 		pcie_scan_all	Scan all possible PCIe devices.  Otherwise we
- 				only look for one device below a PCIe downstream
- 				port.
--- 
-2.25.1
-
+  	pdev->dev.parent = parent;
+  	pdev->dev.type = &mfd_dev_type;
+-	pdev->dev.dma_mask = parent->dma_mask;
++	pdev->dma_mask = parent->dma_mask ? *parent->dma_mask : 0;
+  	pdev->dev.dma_parms = parent->dma_parms;
+  	pdev->dev.coherent_dma_mask = parent->coherent_dma_mask;
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
