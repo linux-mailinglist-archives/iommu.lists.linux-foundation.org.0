@@ -2,57 +2,80 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DA01828C5
-	for <lists.iommu@lfdr.de>; Thu, 12 Mar 2020 07:12:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79797182904
+	for <lists.iommu@lfdr.de>; Thu, 12 Mar 2020 07:29:01 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 251CB2612E;
-	Thu, 12 Mar 2020 06:12:40 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2F7D220398;
+	Thu, 12 Mar 2020 06:29:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dgv1IFSb7dP1; Thu, 12 Mar 2020 06:12:39 +0000 (UTC)
+	with ESMTP id y9GZS7MUkgyQ; Thu, 12 Mar 2020 06:28:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 15E00230F3;
-	Thu, 12 Mar 2020 06:12:39 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6382A2033B;
+	Thu, 12 Mar 2020 06:28:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0347FC1D8E;
-	Thu, 12 Mar 2020 06:12:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4DD61C1D8E;
+	Thu, 12 Mar 2020 06:28:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 649E8C0177
- for <iommu@lists.linux-foundation.org>; Thu, 12 Mar 2020 06:12:37 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 94C94C0177
+ for <iommu@lists.linux-foundation.org>; Thu, 12 Mar 2020 06:28:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5335187B0F
- for <iommu@lists.linux-foundation.org>; Thu, 12 Mar 2020 06:12:37 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 7EBA885F0B
+ for <iommu@lists.linux-foundation.org>; Thu, 12 Mar 2020 06:28:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 62pyanEkwcEu for <iommu@lists.linux-foundation.org>;
- Thu, 12 Mar 2020 06:12:36 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by hemlock.osuosl.org (Postfix) with ESMTPS id BDEED87A39
- for <iommu@lists.linux-foundation.org>; Thu, 12 Mar 2020 06:12:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 11 Mar 2020 23:12:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,543,1574150400"; d="scan'208";a="266226102"
-Received: from allen-box.sh.intel.com ([10.239.159.139])
- by fmsmga004.fm.intel.com with ESMTP; 11 Mar 2020 23:12:35 -0700
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 2/2] iommu/vt-d: Ignore devices with out-of-spec domain number
-Date: Thu, 12 Mar 2020 14:09:55 +0800
-Message-Id: <20200312060955.8523-3-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200312060955.8523-1-baolu.lu@linux.intel.com>
-References: <20200312060955.8523-1-baolu.lu@linux.intel.com>
+ with ESMTP id lcNTYL8cQ-6A for <iommu@lists.linux-foundation.org>;
+ Thu, 12 Mar 2020 06:28:56 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id ADC5C85E13
+ for <iommu@lists.linux-foundation.org>; Thu, 12 Mar 2020 06:28:53 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1583994536; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=1U9Dhk5Hq6bAWxKppOxTuYI7ucms9N1Z1Z8GWTVbRSk=;
+ b=JP241TvOKHdyXXedu2s96jIY4NlI7uzhtuBuYIS9KuqOTGiD68HgTF90X9EehJwaMHh/p82C
+ Moj9zYAKmJtto0Uq28HM6Ljoh86E1cZ+IdcrAvprb/TciKwsPcOBBFntdOYeC3B66g3BsLjE
+ colsP6nfS/azyWboPWvg53WjwOs=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e69d68f.7fa82e80fa08-smtp-out-n02;
+ Thu, 12 Mar 2020 06:28:31 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 14474C4478C; Thu, 12 Mar 2020 06:28:31 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 5FDDEC433CB;
+ Thu, 12 Mar 2020 06:28:30 +0000 (UTC)
 MIME-Version: 1.0
-Cc: iommu@lists.linux-foundation.org, Daniel Drake <drake@endlessm.com>
+Date: Thu, 12 Mar 2020 11:58:30 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 0/3] Request direct mapping for modem firmware subdevice
+In-Reply-To: <a50040a9-54fe-f682-dd7e-b2991b48d633@arm.com>
+References: <20200309182255.20142-1-sibis@codeaurora.org>
+ <20200310112332.GG3794@8bytes.org>
+ <4ed6ddd667a3e6f670084a443d141474@codeaurora.org>
+ <20200310162320.GL3794@8bytes.org>
+ <a50040a9-54fe-f682-dd7e-b2991b48d633@arm.com>
+Message-ID: <ff805c5c647326c5edaddf2efec5cb87@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
+Cc: ohad@wizery.com, devicetree@vger.kernel.org,
+ linux-kernel-owner@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bjorn.andersson@linaro.org, iommu@lists.linux-foundation.org,
+ robh+dt@kernel.org, Sibi Sankar <sibis@codeaurora.org>, agross@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,45 +88,59 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-RnJvbTogRGFuaWVsIERyYWtlIDxkcmFrZUBlbmRsZXNzbS5jb20+CgpWTUQgc3ViZGV2aWNlcyBh
-cmUgY3JlYXRlZCB3aXRoIGEgUENJIGRvbWFpbiBJRCBvZiAweDEwMDAwIG9yCmhpZ2hlci4KClRo
-ZXNlIHN1YmRldmljZXMgYXJlIGFsc28gaGFuZGxlZCBsaWtlIGFsbCBvdGhlciBQQ0kgZGV2aWNl
-cyBieQpkbWFyX3BjaV9idXNfbm90aWZpZXIoKS4KCkhvd2V2ZXIsIHdoZW4gZG1hcl9hbGxvY19w
-Y2lfbm90aWZ5X2luZm8oKSB0YWtlIHJlY29yZHMgb2Ygc3VjaCBkZXZpY2VzLAppdCB3aWxsIHRy
-dW5jYXRlIHRoZSBkb21haW4gSUQgdG8gYSB1MTYgdmFsdWUgKGluIGluZm8tPnNlZykuClRoZSBk
-ZXZpY2UgYXQgKGUuZy4pIDEwMDAwOjAwOjAyLjAgaXMgdGhlbiB0cmVhdGVkIGJ5IHRoZSBETUFS
-IGNvZGUgYXMgaWYKaXQgaXMgMDAwMDowMDowMi4wLgoKSW4gdGhlIHVubHVja3kgZXZlbnQgdGhh
-dCBhIHJlYWwgZGV2aWNlIGFsc28gZXhpc3RzIGF0IDAwMDA6MDA6MDIuMCBhbmQKYWxzbyBoYXMg
-YSBkZXZpY2Utc3BlY2lmaWMgZW50cnkgaW4gdGhlIERNQVIgdGFibGUsCmRtYXJfaW5zZXJ0X2Rl
-dl9zY29wZSgpIHdpbGwgY3Jhc2ggb246CiDCoCBCVUdfT04oaSA+PSBkZXZpY2VzX2NudCk7CgpU
-aGF0J3MgYmFzaWNhbGx5IGEgc2FuaXR5IGNoZWNrIHRoYXQgb25seSBvbmUgUENJIGRldmljZSBt
-YXRjaGVzIGEKc2luZ2xlIERNQVIgZW50cnk7IGluIHRoaXMgY2FzZSB3ZSBzZWVtIHRvIGhhdmUg
-dHdvIG1hdGNoaW5nIGRldmljZXMuCgpGaXggdGhpcyBieSBpZ25vcmluZyBkZXZpY2VzIHRoYXQg
-aGF2ZSBhIGRvbWFpbiBudW1iZXIgaGlnaGVyIHRoYW4Kd2hhdCBjYW4gYmUgbG9va2VkIHVwIGlu
-IHRoZSBETUFSIHRhYmxlLgoKVGhpcyBwcm9ibGVtIHdhcyBjYXJlZnVsbHkgZGlhZ25vc2VkIGJ5
-IEppYW4tSG9uZyBQYW4uCgpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgRHJha2UgPGRyYWtlQGVuZGxl
-c3NtLmNvbT4KU2lnbmVkLW9mZi1ieTogTHUgQmFvbHUgPGJhb2x1Lmx1QGxpbnV4LmludGVsLmNv
-bT4KLS0tCiBkcml2ZXJzL2lvbW11L2RtYXIuYyB8IDggKysrKysrKysKIDEgZmlsZSBjaGFuZ2Vk
-LCA4IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2lvbW11L2RtYXIuYyBiL2Ry
-aXZlcnMvaW9tbXUvZG1hci5jCmluZGV4IGM3YjE0NjFlOGQwYS4uZjc3ZGFlN2JhN2Q0IDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2lvbW11L2RtYXIuYworKysgYi9kcml2ZXJzL2lvbW11L2RtYXIuYwpA
-QCAtMjgsNiArMjgsNyBAQAogI2luY2x1ZGUgPGxpbnV4L3NsYWIuaD4KICNpbmNsdWRlIDxsaW51
-eC9pb21tdS5oPgogI2luY2x1ZGUgPGxpbnV4L251bWEuaD4KKyNpbmNsdWRlIDxsaW51eC9saW1p
-dHMuaD4KICNpbmNsdWRlIDxhc20vaXJxX3JlbWFwcGluZy5oPgogI2luY2x1ZGUgPGFzbS9pb21t
-dV90YWJsZS5oPgogCkBAIC0xMjgsNiArMTI5LDEzIEBAIGRtYXJfYWxsb2NfcGNpX25vdGlmeV9p
-bmZvKHN0cnVjdCBwY2lfZGV2ICpkZXYsIHVuc2lnbmVkIGxvbmcgZXZlbnQpCiAKIAlCVUdfT04o
-ZGV2LT5pc192aXJ0Zm4pOwogCisJLyoKKwkgKiBJZ25vcmUgZGV2aWNlcyB0aGF0IGhhdmUgYSBk
-b21haW4gbnVtYmVyIGhpZ2hlciB0aGFuIHdoYXQgY2FuCisJICogYmUgbG9va2VkIHVwIGluIERN
-QVIsIGUuZy4gVk1EIHN1YmRldmljZXMgd2l0aCBkb21haW4gMHgxMDAwMAorCSAqLworCWlmIChw
-Y2lfZG9tYWluX25yKGRldi0+YnVzKSA+IFUxNl9NQVgpCisJCXJldHVybiBOVUxMOworCiAJLyog
-T25seSBnZW5lcmF0ZSBwYXRoW10gZm9yIGRldmljZSBhZGRpdGlvbiBldmVudCAqLwogCWlmIChl
-dmVudCA9PSBCVVNfTk9USUZZX0FERF9ERVZJQ0UpCiAJCWZvciAodG1wID0gZGV2OyB0bXA7IHRt
-cCA9IHRtcC0+YnVzLT5zZWxmKQotLSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGlu
-dXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxt
-YW4vbGlzdGluZm8vaW9tbXU=
+Hi Robin,
+
+On 2020-03-10 22:14, Robin Murphy wrote:
+> On 10/03/2020 4:23 pm, Joerg Roedel wrote:
+>> On Tue, Mar 10, 2020 at 07:30:50PM +0530, Sibi Sankar wrote:
+>>> The accesses are initiated by the firmware
+>>> and they access modem reserved regions.
+>>> However as explained in ^^ any accesses
+>>> outside the region will result in a violation
+>>> and is controlled through XPUs (protection units).
+>> 
+>> Okay, this sounds like a case for arm_smmu_get_resv_region(). It 
+>> should
+>> return an entry for the reserved memory region the firmware needs to
+>> access, so that generic iommu can setup this mapping.
+>> 
+>> Note that it should return that entry only for your device, not for 
+>> all
+>> devices. Maybe there is a property in DT or IORT you can set to
+>> transport this information into the arm-smmu driver.
+>> 
+>> This is pretty similar to RMRR mapping on the Intel VT-d IOMMU or
+>> Unity-mapped ranges in the AMD-Vi IOMMU.
+> 
+> Yup, a way to describe boot-time memory regions in IORT is in the
+> process of being specced out; the first attempt at an equivalent for
+> DT is here:
+> 
+> https://lore.kernel.org/linux-iommu/20191209150748.2471814-1-thierry.reding@gmail.com/
+> 
+> If that's not enough and the SMMU still needs to treat certain Stream
+> IDs specially because they may be untranslatable (due to having direct
+> access to memory as a side-channel), then that should be handled in
+> the SoC-specific corner of the SMMU driver, not delegated to
+> individual endpoint drivers.
+> 
+
+Are you talking about this one for SoC specific change - 
+https://lore.kernel.org/patchwork/patch/1183530/
+
+Thanks,
+Sai
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
