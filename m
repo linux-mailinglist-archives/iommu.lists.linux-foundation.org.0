@@ -2,55 +2,50 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06E7218544C
-	for <lists.iommu@lfdr.de>; Sat, 14 Mar 2020 04:42:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C336185639
+	for <lists.iommu@lfdr.de>; Sat, 14 Mar 2020 20:03:14 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 8770520762;
-	Sat, 14 Mar 2020 03:42:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9B71A207EF;
+	Sat, 14 Mar 2020 19:03:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8rDQC9f3ZsDJ; Sat, 14 Mar 2020 03:42:40 +0000 (UTC)
+	with ESMTP id eP3C8L6W7Oz3; Sat, 14 Mar 2020 19:03:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7598422253;
-	Sat, 14 Mar 2020 03:42:40 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CC453259C9;
+	Sat, 14 Mar 2020 19:03:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6BDE9C0177;
-	Sat, 14 Mar 2020 03:42:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B2F2AC0177;
+	Sat, 14 Mar 2020 19:03:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27FC1C0177
- for <iommu@lists.linux-foundation.org>; Sat, 14 Mar 2020 03:42:38 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B0852C0177
+ for <iommu@lists.linux-foundation.org>; Sat, 14 Mar 2020 19:03:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2405288B58
- for <iommu@lists.linux-foundation.org>; Sat, 14 Mar 2020 03:42:38 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id A6B8422DEC
+ for <iommu@lists.linux-foundation.org>; Sat, 14 Mar 2020 19:03:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ddUDlKLoznUD for <iommu@lists.linux-foundation.org>;
- Sat, 14 Mar 2020 03:42:37 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 5ABE8881BE
- for <iommu@lists.linux-foundation.org>; Sat, 14 Mar 2020 03:42:37 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Mar 2020 20:42:36 -0700
-IronPort-SDR: N48ZcuvretEFR9Cc6Hb8vLgcYb6dMxTL9Kmis4INdmwHq0eSrDE8NBQWpymQwyK97Hi3WnN753
- l5fLH93dLkXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,551,1574150400"; d="scan'208";a="235495411"
-Received: from allen-box.sh.intel.com ([10.239.159.139])
- by fmsmga007.fm.intel.com with ESMTP; 13 Mar 2020 20:42:35 -0700
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH v2 1/1] iommu/vt-d: Populate debugfs if IOMMUs are detected
-Date: Sat, 14 Mar 2020 11:39:59 +0800
-Message-Id: <20200314033959.21904-1-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
+ with ESMTP id r9qCuS0RZILr for <iommu@lists.linux-foundation.org>;
+ Sat, 14 Mar 2020 19:03:09 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by silver.osuosl.org (Postfix) with ESMTPS id DAF05207EF
+ for <iommu@lists.linux-foundation.org>; Sat, 14 Mar 2020 19:03:08 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 9492235A; Sat, 14 Mar 2020 20:03:04 +0100 (CET)
+Date: Sat, 14 Mar 2020 20:03:01 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v2 1/1] iommu/vt-d: Populate debugfs if IOMMUs are detected
+Message-ID: <20200314190301.GR3794@8bytes.org>
+References: <20200314033959.21904-1-baolu.lu@linux.intel.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200314033959.21904-1-baolu.lu@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: iommu@lists.linux-foundation.org, Megha Dey <megha.dey@linux.intel.com>,
  Dan Carpenter <dan.carpenter@oracle.com>
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -65,98 +60,31 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Megha Dey <megha.dey@linux.intel.com>
+On Sat, Mar 14, 2020 at 11:39:59AM +0800, Lu Baolu wrote:
+> From: Megha Dey <megha.dey@linux.intel.com>
+> 
+> Currently, the intel iommu debugfs directory(/sys/kernel/debug/iommu/intel)
+> gets populated only when DMA remapping is enabled (dmar_disabled = 0)
+> irrespective of whether interrupt remapping is enabled or not.
+> 
+> Instead, populate the intel iommu debugfs directory if any IOMMUs are
+> detected.
+> 
+> Cc: Dan Carpenter <dan.carpenter@oracle.com>
+> Fixes: ee2636b8670b1 ("iommu/vt-d: Enable base Intel IOMMU debugfs support")
+> Signed-off-by: Megha Dey <megha.dey@linux.intel.com>
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> ---
+>  drivers/iommu/intel-iommu-debugfs.c | 11 ++++++++++-
+>  drivers/iommu/intel-iommu.c         |  4 +++-
+>  2 files changed, 13 insertions(+), 2 deletions(-)
 
-Currently, the intel iommu debugfs directory(/sys/kernel/debug/iommu/intel)
-gets populated only when DMA remapping is enabled (dmar_disabled = 0)
-irrespective of whether interrupt remapping is enabled or not.
-
-Instead, populate the intel iommu debugfs directory if any IOMMUs are
-detected.
-
-Cc: Dan Carpenter <dan.carpenter@oracle.com>
-Fixes: ee2636b8670b1 ("iommu/vt-d: Enable base Intel IOMMU debugfs support")
-Signed-off-by: Megha Dey <megha.dey@linux.intel.com>
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
----
- drivers/iommu/intel-iommu-debugfs.c | 11 ++++++++++-
- drivers/iommu/intel-iommu.c         |  4 +++-
- 2 files changed, 13 insertions(+), 2 deletions(-)
-
-Change log:
-v1->v2:
-  - Fix lock issue reported by Dan Carpenter <dan.carpenter@oracle.com>
-
-diff --git a/drivers/iommu/intel-iommu-debugfs.c b/drivers/iommu/intel-iommu-debugfs.c
-index 0a7791934a16..3eb1fe240fb0 100644
---- a/drivers/iommu/intel-iommu-debugfs.c
-+++ b/drivers/iommu/intel-iommu-debugfs.c
-@@ -282,9 +282,16 @@ static int dmar_translation_struct_show(struct seq_file *m, void *unused)
- {
- 	struct dmar_drhd_unit *drhd;
- 	struct intel_iommu *iommu;
-+	u32 sts;
- 
- 	rcu_read_lock();
- 	for_each_active_iommu(iommu, drhd) {
-+		sts = dmar_readl(iommu->reg + DMAR_GSTS_REG);
-+		if (!(sts & DMA_GSTS_TES)) {
-+			seq_printf(m, "DMA Remapping is not enabled on %s\n",
-+				   iommu->name);
-+			continue;
-+		}
- 		root_tbl_walk(m, iommu);
- 		seq_putc(m, '\n');
- 	}
-@@ -425,6 +432,7 @@ static int ir_translation_struct_show(struct seq_file *m, void *unused)
- 	struct dmar_drhd_unit *drhd;
- 	struct intel_iommu *iommu;
- 	u64 irta;
-+	u32 sts;
- 
- 	rcu_read_lock();
- 	for_each_active_iommu(iommu, drhd) {
-@@ -434,7 +442,8 @@ static int ir_translation_struct_show(struct seq_file *m, void *unused)
- 		seq_printf(m, "Remapped Interrupt supported on IOMMU: %s\n",
- 			   iommu->name);
- 
--		if (iommu->ir_table) {
-+		sts = dmar_readl(iommu->reg + DMAR_GSTS_REG);
-+		if (iommu->ir_table && (sts & DMA_GSTS_IRES)) {
- 			irta = virt_to_phys(iommu->ir_table->base);
- 			seq_printf(m, " IR table address:%llx\n", irta);
- 			ir_tbl_remap_entry_show(m, iommu);
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index 693380355dea..ec122b8a746b 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -5130,6 +5130,9 @@ int __init intel_iommu_init(void)
- 
- 	down_write(&dmar_global_lock);
- 
-+	if (!no_iommu)
-+		intel_iommu_debugfs_init();
-+
- 	if (no_iommu || dmar_disabled) {
- 		/*
- 		 * We exit the function here to ensure IOMMU's remapping and
-@@ -5225,7 +5228,6 @@ int __init intel_iommu_init(void)
- 	pr_info("Intel(R) Virtualization Technology for Directed I/O\n");
- 
- 	intel_iommu_enabled = 1;
--	intel_iommu_debugfs_init();
- 
- 	return 0;
- 
--- 
-2.17.1
-
+Applied, thanks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
