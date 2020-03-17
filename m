@@ -1,114 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317A6188796
-	for <lists.iommu@lfdr.de>; Tue, 17 Mar 2020 15:36:36 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A1E7788178;
-	Tue, 17 Mar 2020 14:36:34 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ls43QiAMczgB; Tue, 17 Mar 2020 14:36:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CFD9188154;
-	Tue, 17 Mar 2020 14:36:31 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B8D34C013E;
-	Tue, 17 Mar 2020 14:36:31 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 62E27C013E
- for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 14:36:30 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EABF188928
+	for <lists.iommu@lfdr.de>; Tue, 17 Mar 2020 16:27:55 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 4A34A88C56
- for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 14:36:30 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5664A893DF;
+	Tue, 17 Mar 2020 15:27:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2msAAFniDQos; Tue, 17 Mar 2020 15:27:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7FB52893DC;
+	Tue, 17 Mar 2020 15:27:53 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 56CB0C1D88;
+	Tue, 17 Mar 2020 15:27:53 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 82A2FC013E
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:27:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 71E2E866A9
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:27:52 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gqNE98uw-NIX for <iommu@lists.linux-foundation.org>;
- Tue, 17 Mar 2020 14:36:29 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-eopbgr60088.outbound.protection.outlook.com [40.107.6.88])
- by hemlock.osuosl.org (Postfix) with ESMTPS id A9D1D88C52
- for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 14:36:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hs2e9NDEZPSKheT4QJHvIvguGFviM+BjcEAdlHG978y+cKMZUvFQSeVV8XdcnbXvP3zUxlDcVrSzvyQaMGLvt0crARnLtzXGfrPMW2A6WVm0ukLWBBuQLlQ1poqwVhYhahdvSbHEpwi7cNk9OrCmVCOIXHWjYOF8Uaj8G0DEjfz2Vm94BKvhSRv3q5H8gjDoE7t88vMULWhpCZ1gpvgGUujKWNKH2RRc9qM7zlLxwb5Ws+5QSucuZ7OUK8ngxFLr2Lw7y0X7REZoCSkRDuk0A9ayQUgtwfkq2z2RUAi4RuLb9qVlpgiNmdP9jok6dQBg/SHW/r0ZGe2/NDvtvYOvJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PXn+DU1cF1s7c7fW4v9D4L4sRb6c5pfanXGsWA1/p3E=;
- b=UxJ5AQj3oJbq4Qw6NgBo5KDDR63FuqhtBIThChO1Q78CC1/pWWjpGIxrGdPyPKCLvrzKqoUryMB3i5Q1vDqUDsZ25G3lby0C2m3XnkPsnqLFSiNQsWrLxvSJGbuaj9k5k9XyU9wNNJq4ZaIE5t0pBcOhu1LrJgICbAbvB8I0egeT49oWlEnqoY8DdDEEPWiKb2vBDtJt//hxWm/rYQoMIdtkYIMXueKNt4cVnZKpRF9xoY04w+Fzzfab5lv2/c2vuKpVAb903HpW5SB7do2SGv/xfswdTHTxRbhZhnk359GRBmP09Ba8yBydmw5kWozJw/nTcV6YsaZOoMpmAxC5WA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PXn+DU1cF1s7c7fW4v9D4L4sRb6c5pfanXGsWA1/p3E=;
- b=DmQkzfPf3jTaHEaH4lzuO8HSJmtg6dVAQOGvpSDKxWe9dKc8EnHkd5HOY6u/Q8fwtFPw153ckAPge3wLVLwTA6J0Aq/0dtRy7P5+5p7iJfBa7MDOdIxI11IMOL+twRz+IIwcoy311blDoBqLLo5genxMgiqJKmAK/rhSEn9yhro=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=laurentiu.tudor@nxp.com; 
-Received: from AM6PR04MB5925.eurprd04.prod.outlook.com (20.179.2.147) by
- AM6PR04MB4070.eurprd04.prod.outlook.com (52.135.163.14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2814.18; Tue, 17 Mar 2020 14:21:18 +0000
-Received: from AM6PR04MB5925.eurprd04.prod.outlook.com
- ([fe80::fdd6:55d:c03e:5818]) by AM6PR04MB5925.eurprd04.prod.outlook.com
- ([fe80::fdd6:55d:c03e:5818%4]) with mapi id 15.20.2814.021; Tue, 17 Mar 2020
- 14:21:18 +0000
-From: laurentiu.tudor@nxp.com
-To: thierry.reding@gmail.com, robin.murphy@arm.com, will@kernel.org,
- iommu@lists.linux-foundation.org
-Subject: [RFC PATCH v2 0/2] iommu: arm-smmu: Add support for early direct
- mappings
-Date: Tue, 17 Mar 2020 16:21:05 +0200
-Message-Id: <20200317142107.28776-1-laurentiu.tudor@nxp.com>
-X-Mailer: git-send-email 2.17.1
-X-ClientProxiedBy: AM3PR05CA0105.eurprd05.prod.outlook.com
- (2603:10a6:207:1::31) To AM6PR04MB5925.eurprd04.prod.outlook.com
- (2603:10a6:20b:ab::19)
+ with ESMTP id Z8vUKmUZqzmh for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Mar 2020 15:27:51 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+ [209.85.160.196])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 16B308651A
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:27:51 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id t13so17701875qtn.13
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 08:27:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HqOBm7bQCludye1SGv0KdSFELKwpbPDMXnv2Sugq1V4=;
+ b=l254W5RQNfFLpxh3XTCQBj64u0gip2PXizITExpY6lAOsWn1MUvIebu1an3ADb11ac
+ liTXMm06RwsmMDI7Qxiw9AwtmT5Pq9dzz7YOo1yY/xONZZxMl1/9GUt/YT/Do+pTSGdB
+ LbzJPXVYWH5ymK7O98yRz+R6EsdJ99oOZtKTikglOEznI557wq65BJDifgceaq5MjBtM
+ MD2ztt6vDgt+RFxsqrUaKeQAXdaibVSfiqFDy2rYCj+/W/jcbmIRuSoa7Bwg0O0V5Q0Q
+ gUkz99+eQIieLq631DL+LXAbdAOqEbiyoIYUQDsB+lgYPHYbAecWPCKStQ6zNYLvYJeX
+ UiDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HqOBm7bQCludye1SGv0KdSFELKwpbPDMXnv2Sugq1V4=;
+ b=ata1MABPXQNo7bTZQcqx25qDNGozMJtVHWPfodfiJixy41djZBIIH0q1+ckyAvEUmP
+ gTpoyBwYSr0wJVlMjxnHXPRJTbyL3PSD+Py/kfCX8edRhWtgcjyrks9ppDoDDQ9ows/w
+ V7F7oQEHJh2Er9wi7kA4VNc/ixqH2G9HCej9uNpHCAiAyGVQ+swZFezWJg3KBuFU8Vz9
+ er8rBkeHYrVzgqEd7/iy3eSSSVRhD9N8f98UrIw8ZySExa3UP2EldiurNLdJUoJxHAAL
+ X+tnSFSWHN7ugOg7bibwSCppwe4In0pbvmz7vKcfI0urbVGD9ZZRH7B7QoPha/0c7eL5
+ Csrg==
+X-Gm-Message-State: ANhLgQ1cVjki0e9xxjBGtVYY2NbN+6KOlKjOIDk+IvIb4z31AqfAJ4vz
+ pwhetLps9QHW68RXK1KwoA0CCLDXBt89JQ==
+X-Google-Smtp-Source: ADFU+vt5wqdAcnNu9Z6Fsgi+m9R2A9sC6GlSijeQ7cGL3zxioALaVGP0oa2V6N9J1JQpQHnNsM1vEQ==
+X-Received: by 2002:a37:5b82:: with SMTP id p124mr5447016qkb.130.1584457415620; 
+ Tue, 17 Mar 2020 08:03:35 -0700 (PDT)
+Received: from ovpn-66-200.rdu2.redhat.com
+ (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
+ by smtp.gmail.com with ESMTPSA id n74sm2037090qke.125.2020.03.17.08.03.33
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 17 Mar 2020 08:03:34 -0700 (PDT)
+From: Qian Cai <cai@lca.pw>
+To: jroedel@suse.de
+Subject: [PATCH] iommu/vt-d: silence a RCU-list debugging warning
+Date: Tue, 17 Mar 2020 11:03:26 -0400
+Message-Id: <20200317150326.1659-1-cai@lca.pw>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122.2)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from fsr-ub1864-101.ea.freescale.net (89.37.124.34) by
- AM3PR05CA0105.eurprd05.prod.outlook.com (2603:10a6:207:1::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.15 via Frontend Transport; Tue, 17 Mar 2020 14:21:17 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [89.37.124.34]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7a9b013e-1c16-48e9-b064-08d7ca7e753e
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4070:|AM6PR04MB4070:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB4070952621790F41A31F89C6ECF60@AM6PR04MB4070.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 0345CFD558
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(346002)(39860400002)(366004)(376002)(136003)(199004)(66476007)(8676002)(2906002)(81156014)(66946007)(66556008)(81166006)(2616005)(36756003)(6506007)(6512007)(966005)(9686003)(16526019)(6486002)(7416002)(5660300002)(478600001)(316002)(52116002)(956004)(4326008)(8936002)(86362001)(6666004)(186003)(26005)(1076003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR04MB4070;
- H:AM6PR04MB5925.eurprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QAMrHGQfU2yImM/9DxMtpAOtcAENRFzqih5yjAX87sw493cSJVatV7ncNDCed0QOUJ/JKr8Ey4wxTBw0C8gulYV3PB5RPb9BNK9p64CZOgKvFjDZ0+6O9P0mtrR6qDtrOKt2SV4eln/e41CmhKxX19xunNT4yl6m+7/itU7mjULEccFqK8ujV6/QKeU4QCYNhU545yjBtUDIYG/sIm2wKFXL/ReDNrJ3sIIXhVNwsUmxwREASNvBzjE/J98vQ9IjLBHRuPxEv/3og4lsMg7zJoiDGgqDJDmbLJ/pX2eZHnTJ2FEXPFkrX9i1ma1Fl5176PR6vPzCyjQaDr+CrQgDddLeAwPPDdS76YQQVEfDsfERDsSjdKaR0ox9f7Gr7NlWxLM/cLJbVKIIzk9cVF7QDkFngP4Xgy2+V/4WUX51EwWZJ0hT3Uj8e/2fMh/QNlyXf6BYXhnIAwEqhP+k/XJCxXz1i7OLe2e91VCpBaEylRdIkAnOPnD13CpqFuyLmDfLrFT8kCTR0TPqiubZ2698jA==
-X-MS-Exchange-AntiSpam-MessageData: HtcqrkpXEFpOQk1h786oyB46Iiw6SPpJb5xyMKPNRi+pA2nlEX/N1QCEkSm8HTTj3LqFQf4kzBUfMTfhbG3rQI+1pnjejwFuus4/o1QizA7/zORJNUueJOAyfosr/B20B0Ay1R+PmJrK7Ub6EXDISw==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a9b013e-1c16-48e9-b064-08d7ca7e753e
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2020 14:21:17.9666 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W1zgjaaNYMgb+P9Z/T/xbhFda/np9AANwoJ9cKS3WDS0tB72/5G+z8YcvqsLqHq+84iVTftPQhmSI2B2QMyj9w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4070
-Cc: saravanak@google.com, pdaly@codeaurora.org, kernel-team@android.com,
- diana.craciun@nxp.com, linux-tegra@vger.kernel.org,
- Thierry Reding <treding@nvidia.com>, pratikp@codeaurora.org,
- linux-arm-kernel@lists.infradead.org
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -126,69 +93,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Thierry Reding <treding@nvidia.com>
+dmar_find_atsr() calls list_for_each_entry_rcu() outside of an RCU read
+side critical section but with dmar_global_lock held. Silence this
+false positive.
 
-On some platforms, the firmware will setup hardware to read from a given
-region of memory. One such example is a display controller that is
-scanning out a splash screen from physical memory.
+ drivers/iommu/intel-iommu.c:4504 RCU-list traversed in non-reader section!!
+ 1 lock held by swapper/0/1:
+ #0: ffffffff9755bee8 (dmar_global_lock){+.+.}, at: intel_iommu_init+0x1a6/0xe19
 
-During Linux' boot process, the ARM SMMU will configure all contexts to
-fault by default. This means that memory accesses that happen by an SMMU
-master before its driver has had a chance to properly set up the IOMMU
-will cause a fault. This is especially annoying for something like the
-display controller scanning out a splash screen because the faults will
-result in the display controller getting bogus data (all-ones on Tegra)
-and since it repeatedly scans that framebuffer, it will keep triggering
-such faults and spam the boot log with them.
+ Call Trace:
+  dump_stack+0xa4/0xfe
+  lockdep_rcu_suspicious+0xeb/0xf5
+  dmar_find_atsr+0x1ab/0x1c0
+  dmar_parse_one_atsr+0x64/0x220
+  dmar_walk_remapping_entries+0x130/0x380
+  dmar_table_init+0x166/0x243
+  intel_iommu_init+0x1ab/0xe19
+  pci_iommu_init+0x1a/0x44
+  do_one_initcall+0xae/0x4d0
+  kernel_init_freeable+0x412/0x4c5
+  kernel_init+0x19/0x193
 
-In order to work around such problems, scan the device tree for IOMMU
-masters and set up a special identity domain that will map 1:1 all of
-the reserved regions associated with them. This happens before the SMMU
-is enabled, so that the mappings are already set up before translations
-begin.
+Signed-off-by: Qian Cai <cai@lca.pw>
+---
+ drivers/iommu/intel-iommu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-One thing that was pointed out earlier, and which I don't have a good
-idea on how to solve it, is that the early identity domain is not
-discarded. The assumption is that the standard direct mappings code of
-the IOMMU framework will replace the early identity domain once devices
-are properly attached to domains, but we don't have a good point in time
-when it would be safe to remove the early identity domain.
-
-One option that I can think of would be to create an early identity
-domain for each master and inherit it when that master is attached to
-the domain later on, but that seems rather complicated from an book-
-keeping point of view and tricky because we need to be careful not to
-map regions twice, etc.
-
-Any good ideas on how to solve this? It'd also be interesting to see if
-there's a more generic way of doing this. I know that something like
-this isn't necessary on earlier Tegra SoCs with the custom Tegra SMMU
-because translations are only enabled when the devices are attached to a
-domain. I'm not sure about other IOMMUs, but in the absence of a struct
-device, I suspect that we can't really do anything really generic that
-would work across drivers.
-
-Previous version: https://patchwork.kernel.org/cover/11279577/
-
-Changes in v2:
- - recreate identity mappings when the device is placed in its rightful domain
- - delete its original identity mappings from the identity domain
- - added a counter to keep track of number of devices with identity mappings
- - free identity domain when the counter reaches 0
- - this should help fix our firmware issue, mentioned here [1]
-
-[1] https://patchwork.kernel.org/comment/23200041/
-
-Thierry Reding (2):
-  iommu: arm-smmu: Extract arm_smmu_of_parse()
-  iommu: arm-smmu: Add support for early direct mappings
-
- drivers/iommu/arm-smmu.c | 280 +++++++++++++++++++++++++++++++++++++--
- drivers/iommu/arm-smmu.h |   3 +
- 2 files changed, 275 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index 4be549478691..ef0a5246700e 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -4501,7 +4501,8 @@ static struct dmar_atsr_unit *dmar_find_atsr(struct acpi_dmar_atsr *atsr)
+ 	struct dmar_atsr_unit *atsru;
+ 	struct acpi_dmar_atsr *tmp;
+ 
+-	list_for_each_entry_rcu(atsru, &dmar_atsr_units, list) {
++	list_for_each_entry_rcu(atsru, &dmar_atsr_units, list,
++				dmar_rcu_check()) {
+ 		tmp = (struct acpi_dmar_atsr *)atsru->hdr;
+ 		if (atsr->segment != tmp->segment)
+ 			continue;
 -- 
-2.17.1
+2.21.0 (Apple Git-122.2)
 
 _______________________________________________
 iommu mailing list
