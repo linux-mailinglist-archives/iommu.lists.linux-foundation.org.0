@@ -1,81 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EABF188928
-	for <lists.iommu@lfdr.de>; Tue, 17 Mar 2020 16:27:55 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 615421888A9
+	for <lists.iommu@lfdr.de>; Tue, 17 Mar 2020 16:09:41 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5664A893DF;
-	Tue, 17 Mar 2020 15:27:54 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 18E5B8898D;
+	Tue, 17 Mar 2020 15:09:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2msAAFniDQos; Tue, 17 Mar 2020 15:27:53 +0000 (UTC)
+	with ESMTP id BbrjPr44+j53; Tue, 17 Mar 2020 15:09:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7FB52893DC;
-	Tue, 17 Mar 2020 15:27:53 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6521888923;
+	Tue, 17 Mar 2020 15:09:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 56CB0C1D88;
-	Tue, 17 Mar 2020 15:27:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 42969C013E;
+	Tue, 17 Mar 2020 15:09:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 82A2FC013E
- for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:27:52 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AD06BC013E
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:09:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 71E2E866A9
- for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:27:52 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 9C3A886538
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:09:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Z8vUKmUZqzmh for <iommu@lists.linux-foundation.org>;
- Tue, 17 Mar 2020 15:27:51 +0000 (UTC)
+ with ESMTP id C2XO4FT9LpJq for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Mar 2020 15:09:34 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
- [209.85.160.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 16B308651A
- for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:27:51 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id t13so17701875qtn.13
- for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 08:27:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HqOBm7bQCludye1SGv0KdSFELKwpbPDMXnv2Sugq1V4=;
- b=l254W5RQNfFLpxh3XTCQBj64u0gip2PXizITExpY6lAOsWn1MUvIebu1an3ADb11ac
- liTXMm06RwsmMDI7Qxiw9AwtmT5Pq9dzz7YOo1yY/xONZZxMl1/9GUt/YT/Do+pTSGdB
- LbzJPXVYWH5ymK7O98yRz+R6EsdJ99oOZtKTikglOEznI557wq65BJDifgceaq5MjBtM
- MD2ztt6vDgt+RFxsqrUaKeQAXdaibVSfiqFDy2rYCj+/W/jcbmIRuSoa7Bwg0O0V5Q0Q
- gUkz99+eQIieLq631DL+LXAbdAOqEbiyoIYUQDsB+lgYPHYbAecWPCKStQ6zNYLvYJeX
- UiDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HqOBm7bQCludye1SGv0KdSFELKwpbPDMXnv2Sugq1V4=;
- b=ata1MABPXQNo7bTZQcqx25qDNGozMJtVHWPfodfiJixy41djZBIIH0q1+ckyAvEUmP
- gTpoyBwYSr0wJVlMjxnHXPRJTbyL3PSD+Py/kfCX8edRhWtgcjyrks9ppDoDDQ9ows/w
- V7F7oQEHJh2Er9wi7kA4VNc/ixqH2G9HCej9uNpHCAiAyGVQ+swZFezWJg3KBuFU8Vz9
- er8rBkeHYrVzgqEd7/iy3eSSSVRhD9N8f98UrIw8ZySExa3UP2EldiurNLdJUoJxHAAL
- X+tnSFSWHN7ugOg7bibwSCppwe4In0pbvmz7vKcfI0urbVGD9ZZRH7B7QoPha/0c7eL5
- Csrg==
-X-Gm-Message-State: ANhLgQ1cVjki0e9xxjBGtVYY2NbN+6KOlKjOIDk+IvIb4z31AqfAJ4vz
- pwhetLps9QHW68RXK1KwoA0CCLDXBt89JQ==
-X-Google-Smtp-Source: ADFU+vt5wqdAcnNu9Z6Fsgi+m9R2A9sC6GlSijeQ7cGL3zxioALaVGP0oa2V6N9J1JQpQHnNsM1vEQ==
-X-Received: by 2002:a37:5b82:: with SMTP id p124mr5447016qkb.130.1584457415620; 
- Tue, 17 Mar 2020 08:03:35 -0700 (PDT)
-Received: from ovpn-66-200.rdu2.redhat.com
- (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
- by smtp.gmail.com with ESMTPSA id n74sm2037090qke.125.2020.03.17.08.03.33
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 17 Mar 2020 08:03:34 -0700 (PDT)
-From: Qian Cai <cai@lca.pw>
-To: jroedel@suse.de
-Subject: [PATCH] iommu/vt-d: silence a RCU-list debugging warning
-Date: Tue, 17 Mar 2020 11:03:26 -0400
-Message-Id: <20200317150326.1659-1-cai@lca.pw>
-X-Mailer: git-send-email 2.21.0 (Apple Git-122.2)
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 697A4850E6
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:09:30 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1584457774; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=DQyTxctuBEZTN8fXLm5dooxaiNu334g2EQVY7vU8oHo=;
+ b=T8xYNRCcQywmLJELRdWcol49ydgmnC+P0fu74UDJto68RFHacn1qzD5ctGbseAniseoIGoY9
+ Da8s9XBxMcs3wgLiMmlWOBv+E1nIWH7zijzbH5Ffk1lHAzHOA6iEmzzJBZ8HVUi3uZHXUBk1
+ v1fZDVrkgGJmYJw0nsTwBbAk+G4=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5e70e824.7fd9cd9a8570-smtp-out-n01;
+ Tue, 17 Mar 2020 15:09:24 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 00AF3C433CB; Tue, 17 Mar 2020 15:09:23 +0000 (UTC)
+Received: from blr-ubuntu-87.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: sibis)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 9A07AC433D2;
+ Tue, 17 Mar 2020 15:09:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9A07AC433D2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=sibis@codeaurora.org
+From: Sibi Sankar <sibis@codeaurora.org>
+To: bjorn.andersson@linaro.org, robh+dt@kernel.org, joro@8bytes.org,
+ robin.murphy@arm.com
+Subject: [PATCH v2 0/3] Request direct mapping for modem device
+Date: Tue, 17 Mar 2020 20:39:07 +0530
+Message-Id: <20200317150910.26053-1-sibis@codeaurora.org>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Cc: ohad@wizery.com, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dianders@chromium.org, iommu@lists.linux-foundation.org, agross@kernel.org,
+ Sibi Sankar <sibis@codeaurora.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,49 +91,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-dmar_find_atsr() calls list_for_each_entry_rcu() outside of an RCU read
-side critical section but with dmar_global_lock held. Silence this
-false positive.
+The Q6 modem sub-system has direct access to DDR through memnoc and
+an indirect access routed through a SMMU which MSS CE (crypto engine
+sub-component of MSS) uses during out of reset sequence. Request direct
+mapping for the modem device since smmu is not expected to provide access
+control/translation for these SIDs (sandboxing of the modem is achieved
+through XPUs engaged using SMC calls). This is done on platforms which
+don't have TrustZone (which programs the modem SIDs) to prevent the
+following global faults seen on Cheza/Trogdor:
 
- drivers/iommu/intel-iommu.c:4504 RCU-list traversed in non-reader section!!
- 1 lock held by swapper/0/1:
- #0: ffffffff9755bee8 (dmar_global_lock){+.+.}, at: intel_iommu_init+0x1a6/0xe19
+Cheza:
+arm-smmu 15000000.iommu: Unexpected global fault, this could be serious
+arm-smmu 15000000.iommu: GFSR 0x80000002, GFSYNR0 0x00000000,
+			 GFSYNR1 0x00000781, GFSYNR2 0x00000000
 
- Call Trace:
-  dump_stack+0xa4/0xfe
-  lockdep_rcu_suspicious+0xeb/0xf5
-  dmar_find_atsr+0x1ab/0x1c0
-  dmar_parse_one_atsr+0x64/0x220
-  dmar_walk_remapping_entries+0x130/0x380
-  dmar_table_init+0x166/0x243
-  intel_iommu_init+0x1ab/0xe19
-  pci_iommu_init+0x1a/0x44
-  do_one_initcall+0xae/0x4d0
-  kernel_init_freeable+0x412/0x4c5
-  kernel_init+0x19/0x193
+Trogdor:
+arm-smmu 15000000.iommu: Unexpected global fault, this could be serious
+arm-smmu 15000000.iommu: GFSR 0x80000002, GFSYNR0 0x00000000,
+			 GFSYNR1 0x00000461, GFSYNR2 0x00000000
 
-Signed-off-by: Qian Cai <cai@lca.pw>
----
- drivers/iommu/intel-iommu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+V2:
+ * Request direct mapping from SoC-specific corner of the SMMU
+   driver [Robin]
+ * Add iommu property to remoteproc modem node on Cheza
 
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index 4be549478691..ef0a5246700e 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -4501,7 +4501,8 @@ static struct dmar_atsr_unit *dmar_find_atsr(struct acpi_dmar_atsr *atsr)
- 	struct dmar_atsr_unit *atsru;
- 	struct acpi_dmar_atsr *tmp;
- 
--	list_for_each_entry_rcu(atsru, &dmar_atsr_units, list) {
-+	list_for_each_entry_rcu(atsru, &dmar_atsr_units, list,
-+				dmar_rcu_check()) {
- 		tmp = (struct acpi_dmar_atsr *)atsru->hdr;
- 		if (atsr->segment != tmp->segment)
- 			continue;
+Depends on:
+https://lore.kernel.org/patchwork/cover/1183528/
+
+Sibi Sankar (3):
+  dt-bindings: remoteproc: qcom: Add iommus property
+  remoteproc: qcom_q6v5_mss: Request direct mapping for modem device
+  arm64: dts: qcom: sdm845-cheza: Add iommus property
+
+ Documentation/devicetree/bindings/remoteproc/qcom,q6v5.txt | 3 +++
+ arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi                 | 4 ++++
+ drivers/iommu/arm-smmu-qcom.c                              | 6 ++++++
+ 3 files changed, 13 insertions(+)
+
 -- 
-2.21.0 (Apple Git-122.2)
-
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
