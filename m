@@ -2,62 +2,62 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A331888A8
-	for <lists.iommu@lfdr.de>; Tue, 17 Mar 2020 16:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D81411888AC
+	for <lists.iommu@lfdr.de>; Tue, 17 Mar 2020 16:09:42 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0B3878716B;
-	Tue, 17 Mar 2020 15:09:40 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 91E608651A;
+	Tue, 17 Mar 2020 15:09:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xoS9A44aW0PZ; Tue, 17 Mar 2020 15:09:39 +0000 (UTC)
+	with ESMTP id W6-EEnaDwYnM; Tue, 17 Mar 2020 15:09:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 876EB85F5C;
-	Tue, 17 Mar 2020 15:09:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1A6AE87173;
+	Tue, 17 Mar 2020 15:09:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7EF6EC013E;
-	Tue, 17 Mar 2020 15:09:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 15AA2C18DA;
+	Tue, 17 Mar 2020 15:09:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D4673C013E
- for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:09:37 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0B7B1C013E
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:09:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D0B88850E6
- for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:09:37 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id EE029850E6
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:09:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YHpSlOJ5yNxv for <iommu@lists.linux-foundation.org>;
- Tue, 17 Mar 2020 15:09:37 +0000 (UTC)
+ with ESMTP id CelF2J5tv2-s for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Mar 2020 15:09:38 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
  [104.130.122.26])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 2E52F85F5C
- for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:09:35 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id A0E428651A
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Mar 2020 15:09:36 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1584457777; h=Content-Transfer-Encoding: MIME-Version:
+ s=smtp; t=1584457778; h=Content-Transfer-Encoding: MIME-Version:
  References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=2oIoln8Sc314htSSDOzTFV2z2V9e1oBBZQTPh8927tw=;
- b=JKlZOZqi/OLi/TeIFsefhTSfiJsNXBXl47M9qtrTJKNN9kkF6YlEGihlG+AV6rp4a3PFjDA+
- yrIVbM6r5UPWOasCIoSZWmR/c/UCc1sz/GjzlvPKHrswDZxgKN3LuIWCLFcj2QuyHJ9ElCh7
- 2TUnWhvFGr8S78qLJoza9aYtRsE=
+ Sender; bh=Dpl+B/scWbZmo2gF6XnUI5Rycg75wr3H9pADUU/sGQI=;
+ b=KAHDfKArTX88f1JS+YJWpWGR8lY83ChksxoaqOHEqzGBnB6lQNuZnkp3ExXZfzWn/RG07yWJ
+ ycP14q96gXGKzzBYfbUMCSfDzeEFi+zHOvnwahcXhpNXYcB1tjOlx+pZn417Z75O5CisoTPH
+ O/G4p4GKal52CWX6FKAymW8L544=
 X-Mailgun-Sending-Ip: 104.130.122.26
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e70e829.7f859ad9cf48-smtp-out-n02;
- Tue, 17 Mar 2020 15:09:29 -0000 (UTC)
+ by mxa.mailgun.org with ESMTP id 5e70e82d.7fba7afdd340-smtp-out-n01;
+ Tue, 17 Mar 2020 15:09:33 -0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 88CD3C433CB; Tue, 17 Mar 2020 15:09:29 +0000 (UTC)
+ id A9950C43636; Tue, 17 Mar 2020 15:09:33 +0000 (UTC)
 Received: from blr-ubuntu-87.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: sibis)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 13C6BC4478C;
- Tue, 17 Mar 2020 15:09:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 13C6BC4478C
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 79D80C4478F;
+ Tue, 17 Mar 2020 15:09:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 79D80C4478F
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -65,9 +65,10 @@ Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
 From: Sibi Sankar <sibis@codeaurora.org>
 To: bjorn.andersson@linaro.org, robh+dt@kernel.org, joro@8bytes.org,
  robin.murphy@arm.com
-Subject: [PATCH v2 1/3] dt-bindings: remoteproc: qcom: Add iommus property
-Date: Tue, 17 Mar 2020 20:39:08 +0530
-Message-Id: <20200317150910.26053-2-sibis@codeaurora.org>
+Subject: [PATCH v2 2/3] remoteproc: qcom_q6v5_mss: Request direct mapping for
+ modem device
+Date: Tue, 17 Mar 2020 20:39:09 +0530
+Message-Id: <20200317150910.26053-3-sibis@codeaurora.org>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200317150910.26053-1-sibis@codeaurora.org>
 References: <20200317150910.26053-1-sibis@codeaurora.org>
@@ -93,28 +94,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add iommus property to allow Q6 modem to boot on platforms which do
-not have trustZone.
+Request direct mapping for modem on platforms which don't have TrustZone
+(which programs the modem SIDs) to prevent the following global faults seen
+on Cheza/Trogdor:
+
+arm-smmu 15000000.iommu: Unexpected global fault, this could be serious
+arm-smmu 15000000.iommu: GFSR 0x80000002, GFSYNR0 0x00000000,
+			 GFSYNR1 0x00000781, GFSYNR2 0x00000000
+
+arm-smmu 15000000.iommu: Unexpected global fault, this could be serious
+arm-smmu 15000000.iommu: GFSR 0x80000002, GFSYNR0 0x00000000,
+			 GFSYNR1 0x00000461, GFSYNR2 0x00000000
 
 Signed-off-by: Sibi Sankar <sibis@codeaurora.org>
 ---
- Documentation/devicetree/bindings/remoteproc/qcom,q6v5.txt | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/iommu/arm-smmu-qcom.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/remoteproc/qcom,q6v5.txt b/Documentation/devicetree/bindings/remoteproc/qcom,q6v5.txt
-index 88dfa3fc15f78..130e50aab7419 100644
---- a/Documentation/devicetree/bindings/remoteproc/qcom,q6v5.txt
-+++ b/Documentation/devicetree/bindings/remoteproc/qcom,q6v5.txt
-@@ -184,6 +184,9 @@ For the compatible strings below the following phandle references are required:
- 		    followed by the offset within syscon for conn_box_spare0
- 		    register.
+diff --git a/drivers/iommu/arm-smmu-qcom.c b/drivers/iommu/arm-smmu-qcom.c
+index ff746acd1c816..5dd7a788f59e1 100644
+--- a/drivers/iommu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm-smmu-qcom.c
+@@ -20,12 +20,18 @@ static const struct arm_smmu_client_match_data qcom_mdss = {
+ 	.direct_mapping = true,
+ };
  
-+The Hexagon node must contain iommus property as described in ../iommu/iommu.txt
-+on platforms which do not have TrustZone.
++static const struct arm_smmu_client_match_data qcom_mss = {
++	.direct_mapping = true,
++};
 +
- = SUBNODES:
- The Hexagon node must contain two subnodes, named "mba" and "mpss" representing
- the memory regions used by the Hexagon firmware. Each sub-node must contain:
+ static const struct of_device_id qcom_smmu_client_of_match[] = {
+ 	{ .compatible = "qcom,adreno", .data = &qcom_adreno },
+ 	{ .compatible = "qcom,mdp4", .data = &qcom_mdss },
+ 	{ .compatible = "qcom,mdss", .data = &qcom_mdss },
+ 	{ .compatible = "qcom,sc7180-mdss", .data = &qcom_mdss },
++	{ .compatible = "qcom,sc7180-mss-pil", .data = &qcom_mss },
+ 	{ .compatible = "qcom,sdm845-mdss", .data = &qcom_mdss },
++	{ .compatible = "qcom,sdm845-mss-pil", .data = &qcom_mss },
+ 	{},
+ };
+ 
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
