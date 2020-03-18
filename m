@@ -2,66 +2,66 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583D618A484
-	for <lists.iommu@lfdr.de>; Wed, 18 Mar 2020 21:54:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E604F18A488
+	for <lists.iommu@lfdr.de>; Wed, 18 Mar 2020 21:55:06 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0FC4587D56;
-	Wed, 18 Mar 2020 20:54:45 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id EE7D487E2E;
+	Wed, 18 Mar 2020 20:55:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Hj+2ktTAytU8; Wed, 18 Mar 2020 20:54:44 +0000 (UTC)
+	with ESMTP id oljtAUPlqiRc; Wed, 18 Mar 2020 20:55:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9245C87D11;
-	Wed, 18 Mar 2020 20:54:44 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B09DB87D11;
+	Wed, 18 Mar 2020 20:55:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 80442C1D8E;
-	Wed, 18 Mar 2020 20:54:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AB47DC1D8E;
+	Wed, 18 Mar 2020 20:55:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 74691C013E
- for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 20:54:43 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 06257C013E
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 20:55:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 5F5AA266D9
- for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 20:54:43 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id E88BE23115
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 20:55:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ENLmMVH6AR0F for <iommu@lists.linux-foundation.org>;
- Wed, 18 Mar 2020 20:54:41 +0000 (UTC)
+ with ESMTP id fQXlWmt5eJpd for <iommu@lists.linux-foundation.org>;
+ Wed, 18 Mar 2020 20:55:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id F028323115
- for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 20:54:41 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 47C2A2284C
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 20:55:00 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 199C8208E0;
- Wed, 18 Mar 2020 20:54:41 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 63A8F2173E;
+ Wed, 18 Mar 2020 20:54:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1584564881;
- bh=fCNfBvEj8FxR11jKzYU+guYTmGDCT7dasMbitXaR4R0=;
+ s=default; t=1584564900;
+ bh=r7+VUzxjLQB4PABrIOlLBl4f8gaO2eLJmpqEIWbWdWw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gJGy7/R7qHbCazNYWG2tii+/UlomRi6MvG7Wnkn8EYRF6JJbojlVZFIa20mcogQo5
- oL9T0v0MhZyyi91kRln5yuoE8l+DoyVuWhG9kgwlt2TDEiURTOw2xUeO+TOxiYG393
- zpkUEG3jadliCv/8cV16s03qWuI4lBzb2cGUaBFY=
+ b=oga0jxxlqqSiGLSx1rFZGG/WmV4fwgFhf8+JlgkGodTwi3dqevJKc6UskhESU852z
+ lTFXZPk3z1jCL1kR1I9FgMcbesbqAtR3dMyCp4mu6MNCcU6OkED798NXdlYUvaQso4
+ 1Wc+8dR/F8Pf63sHO6alVr9ICddq1yCq7dA5BJi0=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 51/73] iommu/vt-d: Silence RCU-list debugging
- warnings
-Date: Wed, 18 Mar 2020 16:53:15 -0400
-Message-Id: <20200318205337.16279-51-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 67/73] iommu/vt-d: quirk_ioat_snb_local_iommu:
+ replace WARN_TAINT with pr_warn + add_taint
+Date: Wed, 18 Mar 2020 16:53:31 -0400
+Message-Id: <20200318205337.16279-67-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200318205337.16279-1-sashal@kernel.org>
 References: <20200318205337.16279-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-Cc: Sasha Levin <sashal@kernel.org>, iommu@lists.linux-foundation.org,
- Joerg Roedel <jroedel@suse.de>
+Cc: Sasha Levin <sashal@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ iommu@lists.linux-foundation.org, Joerg Roedel <jroedel@suse.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,70 +79,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Qian Cai <cai@lca.pw>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit f5152416528c2295f35dd9c9bd4fb27c4032413d ]
+[ Upstream commit 81ee85d0462410de8eeeec1b9761941fd6ed8c7b ]
 
-Similar to the commit 02d715b4a818 ("iommu/vt-d: Fix RCU list debugging
-warnings"), there are several other places that call
-list_for_each_entry_rcu() outside of an RCU read side critical section
-but with dmar_global_lock held. Silence those false positives as well.
+Quoting from the comment describing the WARN functions in
+include/asm-generic/bug.h:
 
- drivers/iommu/intel-iommu.c:4288 RCU-list traversed in non-reader section!!
- 1 lock held by swapper/0/1:
-  #0: ffffffff935892c8 (dmar_global_lock){+.+.}, at: intel_iommu_init+0x1ad/0xb97
+ * WARN(), WARN_ON(), WARN_ON_ONCE, and so on can be used to report
+ * significant kernel issues that need prompt attention if they should ever
+ * appear at runtime.
+ *
+ * Do not use these macros when checking for invalid external inputs
 
- drivers/iommu/dmar.c:366 RCU-list traversed in non-reader section!!
- 1 lock held by swapper/0/1:
-  #0: ffffffff935892c8 (dmar_global_lock){+.+.}, at: intel_iommu_init+0x125/0xb97
+The (buggy) firmware tables which the dmar code was calling WARN_TAINT
+for really are invalid external inputs. They are not under the kernel's
+control and the issues in them cannot be fixed by a kernel update.
+So logging a backtrace, which invites bug reports to be filed about this,
+is not helpful.
 
- drivers/iommu/intel-iommu.c:5057 RCU-list traversed in non-reader section!!
- 1 lock held by swapper/0/1:
-  #0: ffffffffa71892c8 (dmar_global_lock){++++}, at: intel_iommu_init+0x61a/0xb13
-
-Signed-off-by: Qian Cai <cai@lca.pw>
+Fixes: 556ab45f9a77 ("ioat2: catch and recover from broken vtd configurations v6")
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+Link: https://lore.kernel.org/r/20200309182510.373875-1-hdegoede@redhat.com
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=701847
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/iommu/dmar.c | 3 ++-
- include/linux/dmar.h | 6 ++++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ drivers/iommu/intel-iommu.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/iommu/dmar.c b/drivers/iommu/dmar.c
-index 7196cabafb252..6ec5da4d028f9 100644
---- a/drivers/iommu/dmar.c
-+++ b/drivers/iommu/dmar.c
-@@ -363,7 +363,8 @@ dmar_find_dmaru(struct acpi_dmar_hardware_unit *drhd)
- {
- 	struct dmar_drhd_unit *dmaru;
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index 9b3d169c6ff53..be39363244389 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -4129,10 +4129,11 @@ static void quirk_ioat_snb_local_iommu(struct pci_dev *pdev)
  
--	list_for_each_entry_rcu(dmaru, &dmar_drhd_units, list)
-+	list_for_each_entry_rcu(dmaru, &dmar_drhd_units, list,
-+				dmar_rcu_check())
- 		if (dmaru->segment == drhd->segment &&
- 		    dmaru->reg_base_addr == drhd->address)
- 			return dmaru;
-diff --git a/include/linux/dmar.h b/include/linux/dmar.h
-index a7cf3599d9a1c..e0d52e9358c9c 100644
---- a/include/linux/dmar.h
-+++ b/include/linux/dmar.h
-@@ -73,11 +73,13 @@ extern struct list_head dmar_drhd_units;
- 	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list)
+ 	/* we know that the this iommu should be at offset 0xa000 from vtbar */
+ 	drhd = dmar_find_matched_drhd_unit(pdev);
+-	if (WARN_TAINT_ONCE(!drhd || drhd->reg_base_addr - vtbar != 0xa000,
+-			    TAINT_FIRMWARE_WORKAROUND,
+-			    "BIOS assigned incorrect VT-d unit for Intel(R) QuickData Technology device\n"))
++	if (!drhd || drhd->reg_base_addr - vtbar != 0xa000) {
++		pr_warn_once(FW_BUG "BIOS assigned incorrect VT-d unit for Intel(R) QuickData Technology device\n");
++		add_taint(TAINT_FIRMWARE_WORKAROUND, LOCKDEP_STILL_OK);
+ 		pdev->dev.archdata.iommu = DUMMY_DEVICE_DOMAIN_INFO;
++	}
+ }
+ DECLARE_PCI_FIXUP_ENABLE(PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_IOAT_SNB, quirk_ioat_snb_local_iommu);
  
- #define for_each_active_drhd_unit(drhd)					\
--	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list)		\
-+	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list,		\
-+				dmar_rcu_check())			\
- 		if (drhd->ignored) {} else
- 
- #define for_each_active_iommu(i, drhd)					\
--	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list)		\
-+	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list,		\
-+				dmar_rcu_check())			\
- 		if (i=drhd->iommu, drhd->ignored) {} else
- 
- #define for_each_iommu(i, drhd)						\
 -- 
 2.20.1
 
