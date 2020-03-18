@@ -1,65 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58AAE18A444
-	for <lists.iommu@lfdr.de>; Wed, 18 Mar 2020 21:53:23 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 583D618A484
+	for <lists.iommu@lfdr.de>; Wed, 18 Mar 2020 21:54:46 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 096F62107A;
-	Wed, 18 Mar 2020 20:53:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0FC4587D56;
+	Wed, 18 Mar 2020 20:54:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SrGkInUNoHJ9; Wed, 18 Mar 2020 20:53:21 +0000 (UTC)
+	with ESMTP id Hj+2ktTAytU8; Wed, 18 Mar 2020 20:54:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 5FF6C204FB;
-	Wed, 18 Mar 2020 20:53:21 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9245C87D11;
+	Wed, 18 Mar 2020 20:54:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 524EEC013E;
-	Wed, 18 Mar 2020 20:53:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 80442C1D8E;
+	Wed, 18 Mar 2020 20:54:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9C8B6C013E
- for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 20:53:19 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 74691C013E
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 20:54:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 8A4DA20522
- for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 20:53:19 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 5F5AA266D9
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 20:54:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZBR7iQzQbcH6 for <iommu@lists.linux-foundation.org>;
- Wed, 18 Mar 2020 20:53:19 +0000 (UTC)
+ with ESMTP id ENLmMVH6AR0F for <iommu@lists.linux-foundation.org>;
+ Wed, 18 Mar 2020 20:54:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 0262F204FB
- for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 20:53:19 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8A52320724;
- Wed, 18 Mar 2020 20:53:17 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id F028323115
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 20:54:41 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 199C8208E0;
+ Wed, 18 Mar 2020 20:54:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1584564798;
- bh=8wAN/f1aMP2liMU401snv1i6GPM2bYC2hDL+sl2agsk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eTDk4BlZ2XmtdjWrBoz5sahaOascBFFiphCoWC8j7ksnhWCEVTCP2hbk/EYF57Kcc
- CTOfTy23kC+5WDb66kARHCqAmUNhlpKCH/AMujD+LsCN1CWzKSEU3h2sTMdSRJECKI
- QPl/051JYZkT1y7cFKQLrY8nExshFesWdXWJp8XY=
-Date: Wed, 18 Mar 2020 20:53:14 +0000
-From: Will Deacon <will@kernel.org>
-To: John Garry <john.garry@huawei.com>
-Subject: Re: arm-smmu-v3 high cpu usage for NVMe
-Message-ID: <20200318205313.GB8094@willie-the-truck>
-References: <20190821151749.23743-1-will@kernel.org>
- <b2a6e26d-6d0d-7f0d-f222-589812f701d2@huawei.com>
+ s=default; t=1584564881;
+ bh=fCNfBvEj8FxR11jKzYU+guYTmGDCT7dasMbitXaR4R0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=gJGy7/R7qHbCazNYWG2tii+/UlomRi6MvG7Wnkn8EYRF6JJbojlVZFIa20mcogQo5
+ oL9T0v0MhZyyi91kRln5yuoE8l+DoyVuWhG9kgwlt2TDEiURTOw2xUeO+TOxiYG393
+ zpkUEG3jadliCv/8cV16s03qWuI4lBzb2cGUaBFY=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 51/73] iommu/vt-d: Silence RCU-list debugging
+ warnings
+Date: Wed, 18 Mar 2020 16:53:15 -0400
+Message-Id: <20200318205337.16279-51-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200318205337.16279-1-sashal@kernel.org>
+References: <20200318205337.16279-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b2a6e26d-6d0d-7f0d-f222-589812f701d2@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Marc Zyngier <maz@kernel.org>, Ming Lei <ming.lei@redhat.com>,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Cc: Sasha Levin <sashal@kernel.org>, iommu@lists.linux-foundation.org,
+ Joerg Roedel <jroedel@suse.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,47 +79,73 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi John,
+From: Qian Cai <cai@lca.pw>
 
-On Thu, Jan 02, 2020 at 05:44:39PM +0000, John Garry wrote:
-> And for the overall system, we have:
-> 
->   PerfTop:   85864 irqs/sec  kernel:89.6%  exact:  0.0% lost: 0/34434 drop:
-> 0/40116 [4000Hz cycles],  (all, 96 CPUs)
-> --------------------------------------------------------------------------------------------------------------------------
-> 
->     27.43%  [kernel]          [k] arm_smmu_cmdq_issue_cmdlist
->     11.71%  [kernel]          [k] _raw_spin_unlock_irqrestore
->      6.35%  [kernel]          [k] _raw_spin_unlock_irq
->      2.65%  [kernel]          [k] get_user_pages_fast
->      2.03%  [kernel]          [k] __slab_free
->      1.55%  [kernel]          [k] tick_nohz_idle_exit
->      1.47%  [kernel]          [k] arm_lpae_map
->      1.39%  [kernel]          [k] __fget
->      1.14%  [kernel]          [k] __lock_text_start
->      1.09%  [kernel]          [k] _raw_spin_lock
->      1.08%  [kernel]          [k] bio_release_pages.part.42
->      1.03%  [kernel]          [k] __sbitmap_get_word
->      0.97%  [kernel]          [k] arm_smmu_atc_inv_domain.constprop.42
->      0.91%  [kernel]          [k] fput_many
->      0.88%  [kernel]          [k] __arm_lpae_map
-> 
-> One thing to note is that we still spend an appreciable amount of time in
-> arm_smmu_atc_inv_domain(), which is disappointing when considering it should
-> effectively be a noop.
-> 
-> As for arm_smmu_cmdq_issue_cmdlist(), I do note that during the testing our
-> batch size is 1, so we're not seeing the real benefit of the batching. I
-> can't help but think that we could improve this code to try to combine CMD
-> SYNCs for small batches.
-> 
-> Anyway, let me know your thoughts or any questions. I'll have a look if a
-> get a chance for other possible bottlenecks.
+[ Upstream commit f5152416528c2295f35dd9c9bd4fb27c4032413d ]
 
-Did you ever get any more information on this? I don't have any SMMUv3
-hardware any more, so I can't really dig into this myself.
+Similar to the commit 02d715b4a818 ("iommu/vt-d: Fix RCU list debugging
+warnings"), there are several other places that call
+list_for_each_entry_rcu() outside of an RCU read side critical section
+but with dmar_global_lock held. Silence those false positives as well.
 
-Will
+ drivers/iommu/intel-iommu.c:4288 RCU-list traversed in non-reader section!!
+ 1 lock held by swapper/0/1:
+  #0: ffffffff935892c8 (dmar_global_lock){+.+.}, at: intel_iommu_init+0x1ad/0xb97
+
+ drivers/iommu/dmar.c:366 RCU-list traversed in non-reader section!!
+ 1 lock held by swapper/0/1:
+  #0: ffffffff935892c8 (dmar_global_lock){+.+.}, at: intel_iommu_init+0x125/0xb97
+
+ drivers/iommu/intel-iommu.c:5057 RCU-list traversed in non-reader section!!
+ 1 lock held by swapper/0/1:
+  #0: ffffffffa71892c8 (dmar_global_lock){++++}, at: intel_iommu_init+0x61a/0xb13
+
+Signed-off-by: Qian Cai <cai@lca.pw>
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+Signed-off-by: Joerg Roedel <jroedel@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/iommu/dmar.c | 3 ++-
+ include/linux/dmar.h | 6 ++++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/iommu/dmar.c b/drivers/iommu/dmar.c
+index 7196cabafb252..6ec5da4d028f9 100644
+--- a/drivers/iommu/dmar.c
++++ b/drivers/iommu/dmar.c
+@@ -363,7 +363,8 @@ dmar_find_dmaru(struct acpi_dmar_hardware_unit *drhd)
+ {
+ 	struct dmar_drhd_unit *dmaru;
+ 
+-	list_for_each_entry_rcu(dmaru, &dmar_drhd_units, list)
++	list_for_each_entry_rcu(dmaru, &dmar_drhd_units, list,
++				dmar_rcu_check())
+ 		if (dmaru->segment == drhd->segment &&
+ 		    dmaru->reg_base_addr == drhd->address)
+ 			return dmaru;
+diff --git a/include/linux/dmar.h b/include/linux/dmar.h
+index a7cf3599d9a1c..e0d52e9358c9c 100644
+--- a/include/linux/dmar.h
++++ b/include/linux/dmar.h
+@@ -73,11 +73,13 @@ extern struct list_head dmar_drhd_units;
+ 	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list)
+ 
+ #define for_each_active_drhd_unit(drhd)					\
+-	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list)		\
++	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list,		\
++				dmar_rcu_check())			\
+ 		if (drhd->ignored) {} else
+ 
+ #define for_each_active_iommu(i, drhd)					\
+-	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list)		\
++	list_for_each_entry_rcu(drhd, &dmar_drhd_units, list,		\
++				dmar_rcu_check())			\
+ 		if (i=drhd->iommu, drhd->ignored) {} else
+ 
+ #define for_each_iommu(i, drhd)						\
+-- 
+2.20.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
