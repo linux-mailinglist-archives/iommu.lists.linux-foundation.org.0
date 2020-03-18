@@ -1,69 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3166418A75A
-	for <lists.iommu@lfdr.de>; Wed, 18 Mar 2020 22:49:43 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id CE64C270F9;
-	Wed, 18 Mar 2020 21:49:41 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qjnJuvntpz-P; Wed, 18 Mar 2020 21:49:40 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 753F9272BC;
-	Wed, 18 Mar 2020 21:49:40 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5DD7AC087F;
-	Wed, 18 Mar 2020 21:49:40 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 78759C087F
- for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 21:49:38 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 191F418A7FF
+	for <lists.iommu@lfdr.de>; Wed, 18 Mar 2020 23:19:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 74BA3882BB
- for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 21:49:38 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C5D3B86F88;
+	Wed, 18 Mar 2020 22:19:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pww6dMqhMgxE; Wed, 18 Mar 2020 22:19:34 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4D97286F12;
+	Wed, 18 Mar 2020 22:19:34 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3C047C087F;
+	Wed, 18 Mar 2020 22:19:34 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 43B85C087F
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 22:19:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 3FA4F866C4
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 22:19:32 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YSpVafORvFec for <iommu@lists.linux-foundation.org>;
- Wed, 18 Mar 2020 21:49:38 +0000 (UTC)
+ with ESMTP id Jvv4tvT0Dy11 for <iommu@lists.linux-foundation.org>;
+ Wed, 18 Mar 2020 22:19:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id F3D06882B6
- for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 21:49:37 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id C602785F7E
+ for <iommu@lists.linux-foundation.org>; Wed, 18 Mar 2020 22:19:31 +0000 (UTC)
 Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3AB5F20754;
- Wed, 18 Mar 2020 21:49:34 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4C65D20714;
+ Wed, 18 Mar 2020 22:19:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1584568177;
- bh=P5WR7+CCKYuF1D3YjB6Qxj3jRbK8RLNPfWPK6xDhFJU=;
+ s=default; t=1584569971;
+ bh=IkV7guYcGBxx2wF92laAcTYpfXKU9uSDklWHHX0Iz94=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MYDwg6ol1Z+QGh9/zDrDHt8bnPDtWLxTMCHZXahQMrF2zKu+dxR/eo1lJ1FPMFmub
- rYxZ8TlyKf1p57qSoAehM9cwXmkd62W+Yj/ZFIe/fzmdsKEaGLM6wI5Isl4w5zHhXz
- i2Fyra1JtidfYnS4VkKmkpnTCTdgAjhqKz+PtDSA=
-Date: Wed, 18 Mar 2020 21:49:30 +0000
+ b=OnQF0+4Fq6ZNErBMLjeBnH8eIAgbVa+7NytYYV5+s3FzNuXdZVGumjsJMV46J1i3m
+ Fczeub7M4DVnFJf7bOPFYhY7AN1KHPqpGhewr+DNzAM7W1xUc1DtEif0df2irzmkoN
+ 64SEigRAb7LTCH/TL7CWVjn9aV3zIdYKrOwhvplw=
+Date: Wed, 18 Mar 2020 22:19:27 +0000
 From: Will Deacon <will@kernel.org>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v2 07/11] iommu/arm-smmu-v3: Use pci_ats_supported()
-Message-ID: <20200318214930.GB8477@willie-the-truck>
-References: <20200311124506.208376-1-jean-philippe@linaro.org>
- <20200311124506.208376-8-jean-philippe@linaro.org>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3] iommu/arm-smmu-v3: Add SMMUv3.2 range invalidation
+ support
+Message-ID: <20200318221926.GA10097@willie-the-truck>
+References: <20200224223129.1068-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200311124506.208376-8-jean-philippe@linaro.org>
+In-Reply-To: <20200224223129.1068-1-robh@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: mark.rutland@arm.com, linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
- liviu.dudau@arm.com, guohanjun@huawei.com, frowand.list@gmail.com,
- corbet@lwn.net, linux-acpi@vger.kernel.org, lenb@kernel.org,
- devicetree@vger.kernel.org, robh+dt@kernel.org, bhelgaas@google.com,
- linux-arm-kernel@lists.infradead.org, dwmw2@infradead.org, rjw@rjwysocki.net,
- iommu@lists.linux-foundation.org, sudeep.holla@arm.com, robin.murphy@arm.com,
- amurray@thegoodpenguin.co.uk
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,50 +77,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Mar 11, 2020 at 01:45:02PM +0100, Jean-Philippe Brucker wrote:
-> The new pci_ats_supported() function checks if a device supports ATS and
-> is allowed to use it.
+Hi Rob,
+
+On Mon, Feb 24, 2020 at 04:31:29PM -0600, Rob Herring wrote:
+> Arm SMMUv3.2 adds support for TLB range invalidate operations.
+> Support for range invalidate is determined by the RIL bit in the IDR3
+> register.
 > 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> The range invalidate is in units of the leaf page size and operates on
+> 1-32 chunks of a power of 2 multiple pages. First, we determine from the
+> size what power of 2 multiple we can use. Then we calculate how many
+> chunks (1-31) of the power of 2 size for the range on the iteration. On
+> each iteration, we move up in size by at least 5 bits.
+> 
+> Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->  drivers/iommu/arm-smmu-v3.c | 18 +++---------------
->  1 file changed, 3 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-> index 4f0a38dae6db..87ae31ef35a1 100644
-> --- a/drivers/iommu/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm-smmu-v3.c
-> @@ -2592,26 +2592,14 @@ static void arm_smmu_install_ste_for_dev(struct arm_smmu_master *master)
->  	}
->  }
->  
-> -#ifdef CONFIG_PCI_ATS
->  static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
->  {
-> -	struct pci_dev *pdev;
-> +	struct device *dev = master->dev;
->  	struct arm_smmu_device *smmu = master->smmu;
-> -	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(master->dev);
-> -
-> -	if (!(smmu->features & ARM_SMMU_FEAT_ATS) || !dev_is_pci(master->dev) ||
-> -	    !(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS) || pci_ats_disabled())
-> -		return false;
->  
-> -	pdev = to_pci_dev(master->dev);
-> -	return !pdev->untrusted && pdev->ats_cap;
-> +	return (smmu->features & ARM_SMMU_FEAT_ATS) && dev_is_pci(dev) &&
-> +		pci_ats_supported(to_pci_dev(dev));
->  }
-> -#else
-> -static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
-> -{
-> -	return false;
-> -}
-> -#endif
+> v3:
+> - Use inv_range local instead of modifying granule
+> - Simplify the TG calculation
+> - Use shift instead of divide by power of 2.
+> ---
+>  drivers/iommu/arm-smmu-v3.c | 69 +++++++++++++++++++++++++++++++++++--
+>  1 file changed, 67 insertions(+), 2 deletions(-)
 
-Acked-by: Will Deacon <will@kernel.org>
+I've queued this one, but I had to resolve some conflicts with the command
+queue batching changes, so please can you take a quick look at my
+resolution?
 
-Cheers for doing this.
+https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/commit/?h=for-joerg/arm-smmu/updates
+
+Cheers,
 
 Will
 _______________________________________________
