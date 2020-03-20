@@ -1,66 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2526818D3EC
-	for <lists.iommu@lfdr.de>; Fri, 20 Mar 2020 17:15:11 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE07718D442
+	for <lists.iommu@lfdr.de>; Fri, 20 Mar 2020 17:21:20 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C98A125DBB;
-	Fri, 20 Mar 2020 16:15:09 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9CDB0883A7;
+	Fri, 20 Mar 2020 16:21:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cfPwP+7XKPFJ; Fri, 20 Mar 2020 16:15:09 +0000 (UTC)
+	with ESMTP id 3sNiqlFwTsZG; Fri, 20 Mar 2020 16:21:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 1DA3E22622;
-	Fri, 20 Mar 2020 16:15:09 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A64B08832D;
+	Fri, 20 Mar 2020 16:21:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0C37EC1830;
-	Fri, 20 Mar 2020 16:15:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A0CBFC1D89;
+	Fri, 20 Mar 2020 16:21:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9EA2CC1830
- for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 16:15:07 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A6D1EC07FF
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 16:21:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 9B267204FF
- for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 16:15:07 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id A3EB8875E0
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 16:21:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id upLjC1sQtucx for <iommu@lists.linux-foundation.org>;
- Fri, 20 Mar 2020 16:15:06 +0000 (UTC)
+ with ESMTP id AcuD0H0Tz-4A for <iommu@lists.linux-foundation.org>;
+ Fri, 20 Mar 2020 16:21:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by silver.osuosl.org (Postfix) with ESMTPS id C03BB22622
- for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 16:15:06 +0000 (UTC)
-IronPort-SDR: VcoJzZw19FG1pMtmDB4lt9I0qwZA5l9FDGXMjaXQsItCALXmYeT4EMglNbPN0O+q8rU8iMrsE9
- crLUU78hx08w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2020 09:15:06 -0700
-IronPort-SDR: nfbF9FQqKHkQ9x3+7AJIAWSbRldf4humNn2N1DChKht7YMxC+rThaYhyh30bvSaeO6vZ5Pi7Qi
- tg2lPKnv9Zew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,285,1580803200"; d="scan'208";a="418762631"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga005.jf.intel.com with ESMTP; 20 Mar 2020 09:15:06 -0700
-Date: Fri, 20 Mar 2020 09:20:47 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 1/3] iommu/vt-d: Remove redundant IOTLB flush
-Message-ID: <20200320092047.4a4cf551@jacob-builder>
-In-Reply-To: <26ab1917-f087-aafa-e861-6a2478000a6f@linux.intel.com>
-References: <1584678751-43169-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1584678751-43169-2-git-send-email-jacob.jun.pan@linux.intel.com>
- <26ab1917-f087-aafa-e861-6a2478000a6f@linux.intel.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6C7B5863E1
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 16:21:16 +0000 (UTC)
+Received: from lhreml703-cah.china.huawei.com (unknown [172.18.7.108])
+ by Forcepoint Email with ESMTP id 1D4524398F6267688CFD;
+ Fri, 20 Mar 2020 16:21:12 +0000 (GMT)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ lhreml703-cah.china.huawei.com (10.201.108.44) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Fri, 20 Mar 2020 16:21:11 +0000
+Received: from [127.0.0.1] (10.210.167.248) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5; Fri, 20 Mar
+ 2020 16:21:11 +0000
+Subject: Re: arm-smmu-v3 high cpu usage for NVMe
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+References: <20190821151749.23743-1-will@kernel.org>
+ <b2a6e26d-6d0d-7f0d-f222-589812f701d2@huawei.com>
+ <20200318205313.GB8094@willie-the-truck>
+ <c6ab8020-dc06-0c7d-7a41-e792d90f97ba@huawei.com>
+ <20200319184349.GA1697676@myrica>
+ <c9ebe17d-66b8-1b8c-cc2c-5be0bd1501a7@huawei.com>
+ <20200320111842.GD1702630@myrica>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <b412fc9c-6266-e320-0769-f214d7752675@huawei.com>
+Date: Fri, 20 Mar 2020 16:20:53 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-Cc: Raj Ashok <ashok.raj@intel.com>, LKML <linux-kernel@vger.kernel.org>,
- iommu@lists.linux-foundation.org, David Woodhouse <dwmw2@infradead.org>
+In-Reply-To: <20200320111842.GD1702630@myrica>
+Content-Language: en-US
+X-Originating-IP: [10.210.167.248]
+X-ClientProxiedBy: lhreml704-chm.china.huawei.com (10.201.108.53) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: Will Deacon <will@kernel.org>, Ming Lei <ming.lei@redhat.com>,
+ iommu@lists.linux-foundation.org, Marc Zyngier <maz@kernel.org>, Robin
+ Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,74 +80,111 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, 20 Mar 2020 21:45:26 +0800
-Lu Baolu <baolu.lu@linux.intel.com> wrote:
 
-> On 2020/3/20 12:32, Jacob Pan wrote:
-> > IOTLB flush already included in the PASID tear down process. There
-> > is no need to flush again.  
+>>
+>>>
+>>> I've run a bunch of netperf instances on multiple cores and collecting
+>>> SMMU usage (on TaiShan 2280). I'm getting the following ratio pretty
+>>> consistently.
+>>>
+>>> - 6.07% arm_smmu_iotlb_sync
+>>>      - 5.74% arm_smmu_tlb_inv_range
+>>>           5.09% arm_smmu_cmdq_issue_cmdlist
+>>>           0.28% __pi_memset
+>>>           0.08% __pi_memcpy
+>>>           0.08% arm_smmu_atc_inv_domain.constprop.37
+>>>           0.07% arm_smmu_cmdq_build_cmd
+>>>           0.01% arm_smmu_cmdq_batch_add
+>>>        0.31% __pi_memset
+>>>
+>>> So arm_smmu_atc_inv_domain() takes about 1.4% of arm_smmu_iotlb_sync(),
+>>> when ATS is not used. According to the annotations, the load from the
+>>> atomic_read(), that checks whether the domain uses ATS, is 77% of the
+>>> samples in arm_smmu_atc_inv_domain() (265 of 345 samples), so I'm not sure
+>>> there is much room for optimization there.
+>>
+>> Well I did originally suggest using RCU protection to scan the list of
+>> devices, instead of reading an atomic and checking for non-zero value. But
+>> that would be an optimsation for ATS also, and there was no ATS devices at
+>> the time (to verify performance).
 > 
-> It seems that intel_pasid_tear_down_entry() doesn't flush the pasid
-> based device TLB?
+> Heh, I have yet to get my hands on one. Currently I can't evaluate ATS
+> performance, but I agree that using RCU to scan the list should get better
+> results when using ATS.
 > 
-I saw this code in intel_pasid_tear_down_entry(). Isn't the last line
-flush the devtlb? Not in guest of course since the passdown tlb flush
-is inclusive.
+> When ATS isn't in use however, I suspect reading nr_ats_masters should be
+> more efficient than taking the RCU lock + reading an "ats_devices" list
+> (since the smmu_domain->devices list also serves context descriptor
+> invalidation, even when ATS isn't in use). I'll run some tests however, to
+> see if I can micro-optimize this case, but I don't expect noticeable
+> improvements.
 
-	pasid_cache_invalidation_with_pasid(iommu, did, pasid);
-	iotlb_invalidation_with_pasid(iommu, did, pasid);
+ok, cheers. I, too, would not expect a significant improvement there.
 
-	/* Device IOTLB doesn't need to be flushed in caching mode. */
-	if (!cap_caching_mode(iommu->cap))
-		devtlb_invalidation_with_pasid(iommu, dev, pasid);
+JFYI, I've been playing for "perf annotate" today and it's giving 
+strange results for my NVMe testing. So "report" looks somewhat sane, if 
+not a worryingly high % for arm_smmu_cmdq_issue_cmdlist():
 
-> Best regards,
-> baolu
-> 
-> > 
-> > Cc: Lu Baolu <baolu.lu@linux.intel.com>
-> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > ---
-> >   drivers/iommu/intel-svm.c | 6 ++----
-> >   1 file changed, 2 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel-svm.c
-> > index 8f42d717d8d7..1483f1845762 100644
-> > --- a/drivers/iommu/intel-svm.c
-> > +++ b/drivers/iommu/intel-svm.c
-> > @@ -268,10 +268,9 @@ static void intel_mm_release(struct
-> > mmu_notifier *mn, struct mm_struct *mm)
-> >   	 * *has* to handle gracefully without affecting other
-> > processes. */
-> >   	rcu_read_lock();
-> > -	list_for_each_entry_rcu(sdev, &svm->devs, list) {
-> > +	list_for_each_entry_rcu(sdev, &svm->devs, list)
-> >   		intel_pasid_tear_down_entry(svm->iommu,
-> > sdev->dev, svm->pasid);
-> > -		intel_flush_svm_range_dev(svm, sdev, 0, -1, 0);
-> > -	}
-> > +
-> >   	rcu_read_unlock();
-> >   
-> >   }
-> > @@ -731,7 +730,6 @@ int intel_svm_unbind_mm(struct device *dev, int
-> > pasid)
-> >   			 * large and has to be physically
-> > contiguous. So it's
-> >   			 * hard to be as defensive as we might
-> > like. */ intel_pasid_tear_down_entry(iommu, dev, svm->pasid);
-> > -			intel_flush_svm_range_dev(svm, sdev, 0,
-> > -1, 0); kfree_rcu(sdev, rcu);
-> >   
-> >   			if (list_empty(&svm->devs)) {
-> >   
 
-[Jacob Pan]
+     55.39%  irq/342-nvme0q1  [kernel.kallsyms]  [k] 
+arm_smmu_cmdq_issue_cmdlist
+      9.74%  irq/342-nvme0q1  [kernel.kallsyms]  [k] 
+_raw_spin_unlock_irqrestore
+      2.02%  irq/342-nvme0q1  [kernel.kallsyms]  [k] nvme_irq
+      1.86%  irq/342-nvme0q1  [kernel.kallsyms]  [k] fput_many
+      1.73%  irq/342-nvme0q1  [kernel.kallsyms]  [k] 
+arm_smmu_atc_inv_domain.constprop.42
+      1.67%  irq/342-nvme0q1  [kernel.kallsyms]  [k] __arm_lpae_unmap
+      1.49%  irq/342-nvme0q1  [kernel.kallsyms]  [k] aio_complete_rw
+
+But "annotate" consistently tells me that a specific instruction 
+consumes ~99% of the load for the enqueue function:
+
+          :                      /* 5. If we are inserting a CMD_SYNC, 
+we must wait for it to complete */
+          :                      if (sync) {
+     0.00 :   ffff80001071c948:       ldr     w0, [x29, #108]
+          :                      int ret = 0;
+     0.00 :   ffff80001071c94c:       mov     w24, #0x0 
+      // #0
+          :                      if (sync) {
+     0.00 :   ffff80001071c950:       cbnz    w0, ffff80001071c990 
+<arm_smmu_cmdq_issue_cmdlist+0x420>
+          :                      arch_local_irq_restore():
+     0.00 :   ffff80001071c954:       msr     daif, x21
+          :                      arm_smmu_cmdq_issue_cmdlist():
+          :                      }
+          :                      }
+          :
+          :                      local_irq_restore(flags);
+          :                      return ret;
+          :                      }
+    99.51 :   ffff80001071c958:       adrp    x0, ffff800011909000 
+<page_wait_table+0x14c0>
+     0.00 :   ffff80001071c95c:       add     x21, x0, #0x908
+     0.02 :   ffff80001071c960:       ldr     x2, [x29, #488]
+     0.14 :   ffff80001071c964:       ldr     x1, [x21]
+     0.00 :   ffff80001071c968:       eor     x1, x2, x1
+     0.00 :   ffff80001071c96c:       mov     w0, w24
+
+
+But there may be a hint that we're getting consuming a lot of time in 
+polling the CMD_SYNC consumption.
+
+The files are available here:
+
+https://raw.githubusercontent.com/hisilicon/kernel-dev/private-topic-nvme-5.6-profiling/ann.txt, 
+report
+
+Or maybe I'm just not using the tool properly ...
+
+Cheers,
+John
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
