@@ -1,47 +1,47 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32E818C9B1
-	for <lists.iommu@lfdr.de>; Fri, 20 Mar 2020 10:14:32 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8B22088152;
-	Fri, 20 Mar 2020 09:14:31 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cJ83HBOH23bw; Fri, 20 Mar 2020 09:14:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DC17888157;
-	Fri, 20 Mar 2020 09:14:29 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D23D3C089E;
-	Fri, 20 Mar 2020 09:14:29 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 73FC0C07FF
- for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 09:14:28 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD18818C9BB
+	for <lists.iommu@lfdr.de>; Fri, 20 Mar 2020 10:14:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 636192353A
- for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 09:14:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6E304273BA;
+	Fri, 20 Mar 2020 09:14:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8PYjRzAK+v15; Fri, 20 Mar 2020 09:14:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 61F34273ED;
+	Fri, 20 Mar 2020 09:14:30 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4CEA5C07FF;
+	Fri, 20 Mar 2020 09:14:30 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2B07AC07FF
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 09:14:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 202AA87460
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 09:14:29 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Y21br4wjoVG9 for <iommu@lists.linux-foundation.org>;
- Fri, 20 Mar 2020 09:14:27 +0000 (UTC)
+ with ESMTP id kjsrFmvBkgwr for <iommu@lists.linux-foundation.org>;
+ Fri, 20 Mar 2020 09:14:28 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id 794D126D87
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id E494D8746E
  for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 09:14:27 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id DF2D0342; Fri, 20 Mar 2020 10:14:19 +0100 (CET)
+ id 13723352; Fri, 20 Mar 2020 10:14:20 +0100 (CET)
 From: Joerg Roedel <joro@8bytes.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH v3 03/15] drm/msm/mdp5: Remove direct access of
+Subject: [PATCH v3 04/15] iommu/tegra-gart: Remove direct access of
  dev->iommu_fwspec
-Date: Fri, 20 Mar 2020 10:14:02 +0100
-Message-Id: <20200320091414.3941-4-joro@8bytes.org>
+Date: Fri, 20 Mar 2020 10:14:03 +0100
+Message-Id: <20200320091414.3941-5-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200320091414.3941-1-joro@8bytes.org>
 References: <20200320091414.3941-1-joro@8bytes.org>
@@ -79,22 +79,22 @@ dev->iommu_fwspec.
 Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 2 +-
+ drivers/iommu/tegra-gart.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index e43ecd4be10a..1252e1d76340 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -725,7 +725,7 @@ struct msm_kms *mdp5_kms_init(struct drm_device *dev)
+diff --git a/drivers/iommu/tegra-gart.c b/drivers/iommu/tegra-gart.c
+index 3fb7ba72507d..db6559e8336f 100644
+--- a/drivers/iommu/tegra-gart.c
++++ b/drivers/iommu/tegra-gart.c
+@@ -247,7 +247,7 @@ static int gart_iommu_add_device(struct device *dev)
+ {
+ 	struct iommu_group *group;
  
- 	if (config->platform.iommu) {
- 		iommu_dev = &pdev->dev;
--		if (!iommu_dev->iommu_fwspec)
-+		if (!dev_iommu_fwspec_get(iommu_dev))
- 			iommu_dev = iommu_dev->parent;
+-	if (!dev->iommu_fwspec)
++	if (!dev_iommu_fwspec_get(dev))
+ 		return -ENODEV;
  
- 		aspace = msm_gem_address_space_create(iommu_dev,
+ 	group = iommu_group_get_for_dev(dev);
 -- 
 2.17.1
 
