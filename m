@@ -1,78 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7948F18D43F
-	for <lists.iommu@lfdr.de>; Fri, 20 Mar 2020 17:21:19 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2526818D3EC
+	for <lists.iommu@lfdr.de>; Fri, 20 Mar 2020 17:15:11 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 26742875E0;
-	Fri, 20 Mar 2020 16:21:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C98A125DBB;
+	Fri, 20 Mar 2020 16:15:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3HNcLk9LdvKZ; Fri, 20 Mar 2020 16:21:17 +0000 (UTC)
+	with ESMTP id cfPwP+7XKPFJ; Fri, 20 Mar 2020 16:15:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8626A87300;
-	Fri, 20 Mar 2020 16:21:17 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1DA3E22622;
+	Fri, 20 Mar 2020 16:15:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7F0CAC1D89;
-	Fri, 20 Mar 2020 16:21:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0C37EC1830;
+	Fri, 20 Mar 2020 16:15:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B83BCC07FF
- for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 16:21:16 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9EA2CC1830
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 16:15:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id A774D88B57
- for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 16:21:16 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 9B267204FF
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 16:15:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wG8MQKwnLwdd for <iommu@lists.linux-foundation.org>;
- Fri, 20 Mar 2020 16:21:16 +0000 (UTC)
+ with ESMTP id upLjC1sQtucx for <iommu@lists.linux-foundation.org>;
+ Fri, 20 Mar 2020 16:15:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-74.mimecast.com
- (us-smtp-delivery-74.mimecast.com [216.205.24.74])
- by hemlock.osuosl.org (Postfix) with ESMTPS id EFFDC88B41
- for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 16:21:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1584721274;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bXG84dHL0m4cU/Qn0Lqwx5Wj56OC04pQ0TdubjShMr8=;
- b=ee34v3Kl/8HQycJIqOLr67n0aPU4Uz9UXAT4udJtTvFQrlyUyMG0sBGmesq200CByDdr9q
- Kk0/+fGgyi8mQBXvuup2ugqx6Khlhn8Mx9ny/tQ0o/UMHtMxgK/R6bVSwAg3lVRgCqDi8a
- 2MdVQR1p286cQzKCeVmF2FP8kDNN12U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-Pi0HcnQSPJ6M84wPvl51YQ-1; Fri, 20 Mar 2020 12:21:13 -0400
-X-MC-Unique: Pi0HcnQSPJ6M84wPvl51YQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1B381005510;
- Fri, 20 Mar 2020 16:21:09 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-113-142.ams2.redhat.com [10.36.113.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85DEC60BFB;
- Fri, 20 Mar 2020 16:20:59 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, kvmarm@lists.cs.columbia.edu, joro@8bytes.org,
- alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
- yi.l.liu@intel.com, jean-philippe.brucker@arm.com, will.deacon@arm.com,
- robin.murphy@arm.com
-Subject: [PATCH v10 11/11] vfio: Document nested stage control
-Date: Fri, 20 Mar 2020 17:19:11 +0100
-Message-Id: <20200320161911.27494-12-eric.auger@redhat.com>
-In-Reply-To: <20200320161911.27494-1-eric.auger@redhat.com>
-References: <20200320161911.27494-1-eric.auger@redhat.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by silver.osuosl.org (Postfix) with ESMTPS id C03BB22622
+ for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 16:15:06 +0000 (UTC)
+IronPort-SDR: VcoJzZw19FG1pMtmDB4lt9I0qwZA5l9FDGXMjaXQsItCALXmYeT4EMglNbPN0O+q8rU8iMrsE9
+ crLUU78hx08w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2020 09:15:06 -0700
+IronPort-SDR: nfbF9FQqKHkQ9x3+7AJIAWSbRldf4humNn2N1DChKht7YMxC+rThaYhyh30bvSaeO6vZ5Pi7Qi
+ tg2lPKnv9Zew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,285,1580803200"; d="scan'208";a="418762631"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by orsmga005.jf.intel.com with ESMTP; 20 Mar 2020 09:15:06 -0700
+Date: Fri, 20 Mar 2020 09:20:47 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH 1/3] iommu/vt-d: Remove redundant IOTLB flush
+Message-ID: <20200320092047.4a4cf551@jacob-builder>
+In-Reply-To: <26ab1917-f087-aafa-e861-6a2478000a6f@linux.intel.com>
+References: <1584678751-43169-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1584678751-43169-2-git-send-email-jacob.jun.pan@linux.intel.com>
+ <26ab1917-f087-aafa-e861-6a2478000a6f@linux.intel.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Cc: marc.zyngier@arm.com, peter.maydell@linaro.org
+Cc: Raj Ashok <ashok.raj@intel.com>, LKML <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,120 +78,69 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The VFIO API was enhanced to support nested stage control: a bunch of
-new iotcls, one DMA FAULT region and an associated specific IRQ.
+On Fri, 20 Mar 2020 21:45:26 +0800
+Lu Baolu <baolu.lu@linux.intel.com> wrote:
 
-Let's document the process to follow to set up nested mode.
+> On 2020/3/20 12:32, Jacob Pan wrote:
+> > IOTLB flush already included in the PASID tear down process. There
+> > is no need to flush again.  
+> 
+> It seems that intel_pasid_tear_down_entry() doesn't flush the pasid
+> based device TLB?
+> 
+I saw this code in intel_pasid_tear_down_entry(). Isn't the last line
+flush the devtlb? Not in guest of course since the passdown tlb flush
+is inclusive.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+	pasid_cache_invalidation_with_pasid(iommu, did, pasid);
+	iotlb_invalidation_with_pasid(iommu, did, pasid);
 
----
+	/* Device IOTLB doesn't need to be flushed in caching mode. */
+	if (!cap_caching_mode(iommu->cap))
+		devtlb_invalidation_with_pasid(iommu, dev, pasid);
 
-v8 -> v9:
-- new names for SET_MSI_BINDING and SET_PASID_TABLE
-- new layout for the DMA FAULT memory region and specific IRQ
+> Best regards,
+> baolu
+> 
+> > 
+> > Cc: Lu Baolu <baolu.lu@linux.intel.com>
+> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > ---
+> >   drivers/iommu/intel-svm.c | 6 ++----
+> >   1 file changed, 2 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel-svm.c
+> > index 8f42d717d8d7..1483f1845762 100644
+> > --- a/drivers/iommu/intel-svm.c
+> > +++ b/drivers/iommu/intel-svm.c
+> > @@ -268,10 +268,9 @@ static void intel_mm_release(struct
+> > mmu_notifier *mn, struct mm_struct *mm)
+> >   	 * *has* to handle gracefully without affecting other
+> > processes. */
+> >   	rcu_read_lock();
+> > -	list_for_each_entry_rcu(sdev, &svm->devs, list) {
+> > +	list_for_each_entry_rcu(sdev, &svm->devs, list)
+> >   		intel_pasid_tear_down_entry(svm->iommu,
+> > sdev->dev, svm->pasid);
+> > -		intel_flush_svm_range_dev(svm, sdev, 0, -1, 0);
+> > -	}
+> > +
+> >   	rcu_read_unlock();
+> >   
+> >   }
+> > @@ -731,7 +730,6 @@ int intel_svm_unbind_mm(struct device *dev, int
+> > pasid)
+> >   			 * large and has to be physically
+> > contiguous. So it's
+> >   			 * hard to be as defensive as we might
+> > like. */ intel_pasid_tear_down_entry(iommu, dev, svm->pasid);
+> > -			intel_flush_svm_range_dev(svm, sdev, 0,
+> > -1, 0); kfree_rcu(sdev, rcu);
+> >   
+> >   			if (list_empty(&svm->devs)) {
+> >   
 
-v2 -> v3:
-- document the new fault API
-
-v1 -> v2:
-- use the new ioctl names
-- add doc related to fault handling
----
- Documentation/driver-api/vfio.rst | 77 +++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
-
-diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
-index f1a4d3c3ba0b..563ebcec9224 100644
---- a/Documentation/driver-api/vfio.rst
-+++ b/Documentation/driver-api/vfio.rst
-@@ -239,6 +239,83 @@ group and can access them as follows::
- 	/* Gratuitous device reset and go... */
- 	ioctl(device, VFIO_DEVICE_RESET);
- 
-+IOMMU Dual Stage Control
-+------------------------
-+
-+Some IOMMUs support 2 stages/levels of translation. "Stage" corresponds to
-+the ARM terminology while "level" corresponds to Intel's VTD terminology. In
-+the following text we use either without distinction.
-+
-+This is useful when the guest is exposed with a virtual IOMMU and some
-+devices are assigned to the guest through VFIO. Then the guest OS can use
-+stage 1 (IOVA -> GPA), while the hypervisor uses stage 2 for VM isolation
-+(GPA -> HPA).
-+
-+The guest gets ownership of the stage 1 page tables and also owns stage 1
-+configuration structures. The hypervisor owns the root configuration structure
-+(for security reason), including stage 2 configuration. This works as long
-+configuration structures and page table format are compatible between the
-+virtual IOMMU and the physical IOMMU.
-+
-+Assuming the HW supports it, this nested mode is selected by choosing the
-+VFIO_TYPE1_NESTING_IOMMU type through:
-+
-+ioctl(container, VFIO_SET_IOMMU, VFIO_TYPE1_NESTING_IOMMU);
-+
-+This forces the hypervisor to use the stage 2, leaving stage 1 available for
-+guest usage.
-+
-+Once groups are attached to the container, the guest stage 1 translation
-+configuration data can be passed to VFIO by using
-+
-+ioctl(container, VFIO_IOMMU_SET_PASID_TABLE, &pasid_table_info);
-+
-+This allows to combine the guest stage 1 configuration structure along with
-+the hypervisor stage 2 configuration structure. Stage 1 configuration
-+structures are dependent on the IOMMU type.
-+
-+As the stage 1 translation is fully delegated to the HW, translation faults
-+encountered during the translation process need to be propagated up to
-+the virtualizer and re-injected into the guest.
-+
-+The userspace must be prepared to receive faults. The VFIO-PCI device
-+exposes one dedicated DMA FAULT region: it contains a ring buffer and
-+its header that allows to manage the head/tail indices. The region is
-+identified by the following index/subindex:
-+- VFIO_REGION_TYPE_NESTED/VFIO_REGION_SUBTYPE_NESTED_DMA_FAULT
-+
-+The DMA FAULT region exposes a VFIO_REGION_INFO_CAP_PRODUCER_FAULT
-+region capability that allows the userspace to retrieve the ABI version
-+of the fault records filled by the host.
-+
-+On top of that region, the userspace can be notified whenever a fault
-+occurs at the physical level. It can use the VFIO_IRQ_TYPE_NESTED/
-+VFIO_IRQ_SUBTYPE_DMA_FAULT specific IRQ to attach the eventfd to be
-+signalled.
-+
-+The ring buffer containing the fault records can be mmapped. When
-+the userspace consumes a fault in the queue, it should increment
-+the consumer index to allow new fault records to replace the used ones.
-+
-+The queue size and the entry size can be retrieved in the header.
-+The tail index should never overshoot the producer index as in any
-+other circular buffer scheme. Also it must be less than the queue size
-+otherwise the change fails.
-+
-+When the guest invalidates stage 1 related caches, invalidations must be
-+forwarded to the host through
-+ioctl(container, VFIO_IOMMU_CACHE_INVALIDATE, &inv_data);
-+Those invalidations can happen at various granularity levels, page, context, ...
-+
-+The ARM SMMU specification introduces another challenge: MSIs are translated by
-+both the virtual SMMU and the physical SMMU. To build a nested mapping for the
-+IOVA programmed into the assigned device, the guest needs to pass its IOVA/MSI
-+doorbell GPA binding to the host. Then the hypervisor can build a nested stage 2
-+binding eventually translating into the physical MSI doorbell.
-+
-+This is achieved by calling
-+ioctl(container, VFIO_IOMMU_SET_MSI_BINDING, &guest_binding);
-+
- VFIO User API
- -------------------------------------------------------------------------------
- 
--- 
-2.20.1
-
+[Jacob Pan]
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
