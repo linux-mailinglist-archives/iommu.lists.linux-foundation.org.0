@@ -1,66 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CE118DBC0
-	for <lists.iommu@lfdr.de>; Sat, 21 Mar 2020 00:22:11 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22DD418DD74
+	for <lists.iommu@lfdr.de>; Sat, 21 Mar 2020 02:32:54 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2E36088568;
-	Fri, 20 Mar 2020 23:22:10 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BB6CD8733E;
+	Sat, 21 Mar 2020 01:32:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id d4tnL2SKB7Hr; Fri, 20 Mar 2020 23:22:07 +0000 (UTC)
+	with ESMTP id STNfzP1exzB1; Sat, 21 Mar 2020 01:32:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BDCF18858F;
-	Fri, 20 Mar 2020 23:22:06 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4D22C872D3;
+	Sat, 21 Mar 2020 01:32:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ABC00C07FF;
-	Fri, 20 Mar 2020 23:22:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 28350C07FF;
+	Sat, 21 Mar 2020 01:32:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DB801C07FF
- for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 23:22:04 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E2440C07FF
+ for <iommu@lists.linux-foundation.org>; Sat, 21 Mar 2020 01:32:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C881A88C7B
- for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 23:22:04 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id DE1A38733E
+ for <iommu@lists.linux-foundation.org>; Sat, 21 Mar 2020 01:32:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Of-GgS+4eeG8 for <iommu@lists.linux-foundation.org>;
- Fri, 20 Mar 2020 23:22:02 +0000 (UTC)
+ with ESMTP id Lj0GnvqWWkkN for <iommu@lists.linux-foundation.org>;
+ Sat, 21 Mar 2020 01:32:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by hemlock.osuosl.org (Postfix) with ESMTPS id A127588C91
- for <iommu@lists.linux-foundation.org>; Fri, 20 Mar 2020 23:22:02 +0000 (UTC)
-IronPort-SDR: HMpQBZ2cIX2GkLGekj59JSrQr5D+R143ljqwvl1oGf8v6FI7ZnaIW2d7GyFKsi1UPFjrpQY476
- GXA9LfAk/zAQ==
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id BF6E2872D3
+ for <iommu@lists.linux-foundation.org>; Sat, 21 Mar 2020 01:32:49 +0000 (UTC)
+IronPort-SDR: JM3L/MptMC0tZzBPqdO2bBa+hkPJERsZfTzygw3dcjCgamx1cSm/tFjQ2eXv4oD4pgymH+XSZz
+ vtvT+CA8fcJw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Mar 2020 16:22:02 -0700
-IronPort-SDR: OArpIzyGOuOclNA+3Hyp8qMen7WGEUqaJ3BfHHtsfGbHqit+qQOZWyp+b2ZbQxcBziRqgDLS/6
- lIbSzbqEXgUg==
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Mar 2020 18:32:48 -0700
+IronPort-SDR: bXMDXjJLJZodiuHPyhNhLQnhRC3EAGO3pLsdO9Vn0wH5EGRPtbOjHaj5g71r+Uft+ETIZad4+i
+ hYzFwvRA5JCg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,286,1580803200"; d="scan'208";a="418877262"
-Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by orsmga005.jf.intel.com with ESMTP; 20 Mar 2020 16:22:01 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: "Lu Baolu" <baolu.lu@linux.intel.com>, iommu@lists.linux-foundation.org,
- LKML <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>,
- David Woodhouse <dwmw2@infradead.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>
-Subject: [PATCH V10 11/11] iommu/vt-d: Add custom allocator for IOASID
-Date: Fri, 20 Mar 2020 16:27:41 -0700
-Message-Id: <1584746861-76386-12-git-send-email-jacob.jun.pan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1584746861-76386-1-git-send-email-jacob.jun.pan@linux.intel.com>
-References: <1584746861-76386-1-git-send-email-jacob.jun.pan@linux.intel.com>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- Liu@osuosl.org, Jonathan Cameron <jic23@kernel.org>
+X-IronPort-AV: E=Sophos;i="5.72,286,1580803200"; d="scan'208";a="249051243"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.211.188])
+ ([10.254.211.188])
+ by orsmga006.jf.intel.com with ESMTP; 20 Mar 2020 18:32:45 -0700
+Subject: Re: [PATCH 1/3] iommu/vt-d: Remove redundant IOTLB flush
+To: Jacob Pan <jacob.jun.pan@linux.intel.com>
+References: <1584678751-43169-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1584678751-43169-2-git-send-email-jacob.jun.pan@linux.intel.com>
+ <26ab1917-f087-aafa-e861-6a2478000a6f@linux.intel.com>
+ <20200320092047.4a4cf551@jacob-builder>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <06c9751a-417d-3c32-65af-0788593f811a@linux.intel.com>
+Date: Sat, 21 Mar 2020 09:32:45 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <20200320092047.4a4cf551@jacob-builder>
+Content-Language: en-US
+Cc: Raj Ashok <ashok.raj@intel.com>, LKML <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,159 +76,102 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When VT-d driver runs in the guest, PASID allocation must be
-performed via virtual command interface. This patch registers a
-custom IOASID allocator which takes precedence over the default
-XArray based allocator. The resulting IOASID allocation will always
-come from the host. This ensures that PASID namespace is system-
-wide.
+On 2020/3/21 0:20, Jacob Pan wrote:
+> On Fri, 20 Mar 2020 21:45:26 +0800
+> Lu Baolu <baolu.lu@linux.intel.com> wrote:
+> 
+>> On 2020/3/20 12:32, Jacob Pan wrote:
+>>> IOTLB flush already included in the PASID tear down process. There
+>>> is no need to flush again.
+>>
+>> It seems that intel_pasid_tear_down_entry() doesn't flush the pasid
+>> based device TLB?
+>>
+> I saw this code in intel_pasid_tear_down_entry(). Isn't the last line
+> flush the devtlb? Not in guest of course since the passdown tlb flush
+> is inclusive.
+> 
+> 	pasid_cache_invalidation_with_pasid(iommu, did, pasid);
+> 	iotlb_invalidation_with_pasid(iommu, did, pasid);
+> 
+> 	/* Device IOTLB doesn't need to be flushed in caching mode. */
+> 	if (!cap_caching_mode(iommu->cap))
+> 		devtlb_invalidation_with_pasid(iommu, dev, pasid);
+> 
 
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
-Signed-off-by: Liu, Yi L <yi.l.liu@intel.com>
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
----
- drivers/iommu/intel-iommu.c | 84 +++++++++++++++++++++++++++++++++++++++++++++
- include/linux/intel-iommu.h |  2 ++
- 2 files changed, 86 insertions(+)
+But devtlb_invalidation_with_pasid() doesn't do the right thing, it
+flushes the device tlb, instead of pasid-based device tlb.
 
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index a76afb0fd51a..c1c0b0fb93c3 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -1757,6 +1757,9 @@ static void free_dmar_iommu(struct intel_iommu *iommu)
- 		if (ecap_prs(iommu->ecap))
- 			intel_svm_finish_prq(iommu);
- 	}
-+	if (ecap_vcs(iommu->ecap) && vccap_pasid(iommu->vccap))
-+		ioasid_unregister_allocator(&iommu->pasid_allocator);
-+
- #endif
- }
- 
-@@ -3291,6 +3294,84 @@ static int copy_translation_tables(struct intel_iommu *iommu)
- 	return ret;
- }
- 
-+#ifdef CONFIG_INTEL_IOMMU_SVM
-+static ioasid_t intel_ioasid_alloc(ioasid_t min, ioasid_t max, void *data)
-+{
-+	struct intel_iommu *iommu = data;
-+	ioasid_t ioasid;
-+
-+	if (!iommu)
-+		return INVALID_IOASID;
-+	/*
-+	 * VT-d virtual command interface always uses the full 20 bit
-+	 * PASID range. Host can partition guest PASID range based on
-+	 * policies but it is out of guest's control.
-+	 */
-+	if (min < PASID_MIN || max > intel_pasid_max_id)
-+		return INVALID_IOASID;
-+
-+	if (vcmd_alloc_pasid(iommu, &ioasid))
-+		return INVALID_IOASID;
-+
-+	return ioasid;
-+}
-+
-+static void intel_ioasid_free(ioasid_t ioasid, void *data)
-+{
-+	struct intel_iommu *iommu = data;
-+
-+	if (!iommu)
-+		return;
-+	/*
-+	 * Sanity check the ioasid owner is done at upper layer, e.g. VFIO
-+	 * We can only free the PASID when all the devices are unbound.
-+	 */
-+	if (ioasid_find(NULL, ioasid, NULL)) {
-+		pr_alert("Cannot free active IOASID %d\n", ioasid);
-+		return;
-+	}
-+	vcmd_free_pasid(iommu, ioasid);
-+}
-+
-+static void register_pasid_allocator(struct intel_iommu *iommu)
-+{
-+	/*
-+	 * If we are running in the host, no need for custom allocator
-+	 * in that PASIDs are allocated from the host system-wide.
-+	 */
-+	if (!cap_caching_mode(iommu->cap))
-+		return;
-+
-+	if (!sm_supported(iommu)) {
-+		pr_warn("VT-d Scalable Mode not enabled, no PASID allocation\n");
-+		return;
-+	}
-+
-+	/*
-+	 * Register a custom PASID allocator if we are running in a guest,
-+	 * guest PASID must be obtained via virtual command interface.
-+	 * There can be multiple vIOMMUs in each guest but only one allocator
-+	 * is active. All vIOMMU allocators will eventually be calling the same
-+	 * host allocator.
-+	 */
-+	if (ecap_vcs(iommu->ecap) && vccap_pasid(iommu->vccap)) {
-+		pr_info("Register custom PASID allocator\n");
-+		iommu->pasid_allocator.alloc = intel_ioasid_alloc;
-+		iommu->pasid_allocator.free = intel_ioasid_free;
-+		iommu->pasid_allocator.pdata = (void *)iommu;
-+		if (ioasid_register_allocator(&iommu->pasid_allocator)) {
-+			pr_warn("Custom PASID allocator failed, scalable mode disabled\n");
-+			/*
-+			 * Disable scalable mode on this IOMMU if there
-+			 * is no custom allocator. Mixing SM capable vIOMMU
-+			 * and non-SM vIOMMU are not supported.
-+			 */
-+			intel_iommu_sm = 0;
-+		}
-+	}
-+}
-+#endif
-+
- static int __init init_dmars(void)
- {
- 	struct dmar_drhd_unit *drhd;
-@@ -3408,6 +3489,9 @@ static int __init init_dmars(void)
- 	 */
- 	for_each_active_iommu(iommu, drhd) {
- 		iommu_flush_write_buffer(iommu);
-+#ifdef CONFIG_INTEL_IOMMU_SVM
-+		register_pasid_allocator(iommu);
-+#endif
- 		iommu_set_root_entry(iommu);
- 		iommu->flush.flush_context(iommu, 0, 0, 0, DMA_CCMD_GLOBAL_INVL);
- 		iommu->flush.flush_iotlb(iommu, 0, 0, 0, DMA_TLB_GLOBAL_FLUSH);
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index 9cbf5357138b..9c357a325c72 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -19,6 +19,7 @@
- #include <linux/iommu.h>
- #include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/dmar.h>
-+#include <linux/ioasid.h>
- 
- #include <asm/cacheflush.h>
- #include <asm/iommu.h>
-@@ -563,6 +564,7 @@ struct intel_iommu {
- #ifdef CONFIG_INTEL_IOMMU_SVM
- 	struct page_req_dsc *prq;
- 	unsigned char prq_name[16];    /* Name for PRQ interrupt */
-+	struct ioasid_allocator_ops pasid_allocator; /* Custom allocator for PASIDs */
- #endif
- 	struct q_inval  *qi;            /* Queued invalidation info */
- 	u32 *iommu_state; /* Store iommu states between suspend and resume.*/
--- 
-2.7.4
+static void
+devtlb_invalidation_with_pasid(struct intel_iommu *iommu,
+                                struct device *dev, int pasid)
+{
+         struct device_domain_info *info;
+         u16 sid, qdep, pfsid;
 
+         info = dev->archdata.iommu;
+         if (!info || !info->ats_enabled)
+                 return;
+
+         sid = info->bus << 8 | info->devfn;
+         qdep = info->ats_qdep;
+         pfsid = info->pfsid;
+
+         qi_flush_dev_iotlb(iommu, sid, pfsid, qdep, 0, 64 - 
+VTD_PAGE_SHIFT);
+}
+
+Best regards,
+baolu
+
+>> Best regards,
+>> baolu
+>>
+>>>
+>>> Cc: Lu Baolu <baolu.lu@linux.intel.com>
+>>> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+>>> ---
+>>>    drivers/iommu/intel-svm.c | 6 ++----
+>>>    1 file changed, 2 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel-svm.c
+>>> index 8f42d717d8d7..1483f1845762 100644
+>>> --- a/drivers/iommu/intel-svm.c
+>>> +++ b/drivers/iommu/intel-svm.c
+>>> @@ -268,10 +268,9 @@ static void intel_mm_release(struct
+>>> mmu_notifier *mn, struct mm_struct *mm)
+>>>    	 * *has* to handle gracefully without affecting other
+>>> processes. */
+>>>    	rcu_read_lock();
+>>> -	list_for_each_entry_rcu(sdev, &svm->devs, list) {
+>>> +	list_for_each_entry_rcu(sdev, &svm->devs, list)
+>>>    		intel_pasid_tear_down_entry(svm->iommu,
+>>> sdev->dev, svm->pasid);
+>>> -		intel_flush_svm_range_dev(svm, sdev, 0, -1, 0);
+>>> -	}
+>>> +
+>>>    	rcu_read_unlock();
+>>>    
+>>>    }
+>>> @@ -731,7 +730,6 @@ int intel_svm_unbind_mm(struct device *dev, int
+>>> pasid)
+>>>    			 * large and has to be physically
+>>> contiguous. So it's
+>>>    			 * hard to be as defensive as we might
+>>> like. */ intel_pasid_tear_down_entry(iommu, dev, svm->pasid);
+>>> -			intel_flush_svm_range_dev(svm, sdev, 0,
+>>> -1, 0); kfree_rcu(sdev, rcu);
+>>>    
+>>>    			if (list_empty(&svm->devs)) {
+>>>    
+> 
+> [Jacob Pan]
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
