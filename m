@@ -1,51 +1,47 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9AE190CCD
-	for <lists.iommu@lfdr.de>; Tue, 24 Mar 2020 12:55:33 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id EFD0D204BE;
-	Tue, 24 Mar 2020 11:55:31 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pRvJNE1WWnrh; Tue, 24 Mar 2020 11:55:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id D512B203E5;
-	Tue, 24 Mar 2020 11:55:30 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C568DC1D89;
-	Tue, 24 Mar 2020 11:55:30 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 82841C0177
- for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 11:55:29 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C12190D11
+	for <lists.iommu@lfdr.de>; Tue, 24 Mar 2020 13:07:51 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 70A4587DB7
- for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 11:55:29 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7533A87DC2;
+	Tue, 24 Mar 2020 12:07:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id a3Is2HBFZiZ3; Tue, 24 Mar 2020 12:07:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7DE5487DB2;
+	Tue, 24 Mar 2020 12:07:48 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 652C7C0177;
+	Tue, 24 Mar 2020 12:07:48 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 10D7EC0177
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 12:07:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id EE79A882A1
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 12:07:46 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZH2iVXurX0h1 for <iommu@lists.linux-foundation.org>;
- Tue, 24 Mar 2020 11:55:27 +0000 (UTC)
+ with ESMTP id aEsWv2HSo1Ev for <iommu@lists.linux-foundation.org>;
+ Tue, 24 Mar 2020 12:07:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 4407F87DB4
- for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 11:55:26 +0000 (UTC)
-Received: from lhreml707-cah.china.huawei.com (unknown [172.18.7.106])
- by Forcepoint Email with ESMTP id CFDA23565599535A61F2;
- Tue, 24 Mar 2020 11:55:23 +0000 (GMT)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- lhreml707-cah.china.huawei.com (10.201.108.48) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Tue, 24 Mar 2020 11:55:23 +0000
-Received: from [127.0.0.1] (10.210.165.24) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 24 Mar
- 2020 11:55:22 +0000
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by hemlock.osuosl.org (Postfix) with ESMTP id AB42587B18
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 12:07:45 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 067EB1FB;
+ Tue, 24 Mar 2020 05:07:45 -0700 (PDT)
+Received: from [192.168.1.123] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 16A173F792;
+ Tue, 24 Mar 2020 05:07:42 -0700 (PDT)
 Subject: Re: arm-smmu-v3 high cpu usage for NVMe
-To: Marc Zyngier <maz@kernel.org>
+To: John Garry <john.garry@huawei.com>, Marc Zyngier <maz@kernel.org>
 References: <20190821151749.23743-1-will@kernel.org>
  <b2a6e26d-6d0d-7f0d-f222-589812f701d2@huawei.com>
  <20200318205313.GB8094@willie-the-truck>
@@ -59,23 +55,19 @@ References: <20190821151749.23743-1-will@kernel.org>
  <dd375cf6bffacd82174c84a4c7d46283@kernel.org>
  <0e00de15-596a-d342-f3cb-e19c389294e6@huawei.com>
  <20200324104307.57d2cde0@why>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <4c5e2482-1493-6bb7-d592-58cd027d39f9@huawei.com>
-Date: Tue, 24 Mar 2020 11:55:11 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+ <4c5e2482-1493-6bb7-d592-58cd027d39f9@huawei.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <10d5bcb3-e7c4-18f0-ede6-9fd8f0385254@arm.com>
+Date: Tue, 24 Mar 2020 12:07:42 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200324104307.57d2cde0@why>
-Content-Language: en-US
-X-Originating-IP: [10.210.165.24]
-X-ClientProxiedBy: lhreml732-chm.china.huawei.com (10.201.108.83) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+In-Reply-To: <4c5e2482-1493-6bb7-d592-58cd027d39f9@huawei.com>
+Content-Language: en-GB
 Cc: Mark Rutland <mark.rutland@arm.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Robin Murphy <robin.murphy@arm.com>, Ming Lei <ming.lei@redhat.com>,
- iommu@lists.linux-foundation.org, Will Deacon <will@kernel.org>,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+ Ming Lei <ming.lei@redhat.com>, iommu@lists.linux-foundation.org,
+ Will Deacon <will@kernel.org>, Julien Thierry <julien.thierry.kdev@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,44 +80,36 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 24/03/2020 10:43, Marc Zyngier wrote:
-> On Tue, 24 Mar 2020 09:18:10 +0000
-> John Garry<john.garry@huawei.com>  wrote:
-> 
->> On 23/03/2020 09:16, Marc Zyngier wrote:
->>
->> + Julien, Mark
->>
->> Hi Marc,
->>
->>>>> Time to enable pseudo-NMIs in the PMUv3 driver...
->>>>>
->>>> Do you know if there is any plan for this?
->>> There was. Julien Thierry has a bunch of patches for that [1], but they > needs
->>> reviving.
->>>
->> So those patches still apply cleanly (apart from the kvm patch, which
->> I can skip, I suppose) and build, so I can try this I figure. Is
->> there anything else which I should ensure or know about? Apart from
->> enable CONFIG_ARM64_PSUEDO_NMI.
-> You need to make sure that your firmware sets SCR_EL3.FIQ to 1. My D05
-> has it set to 0, preventing me from being able to use the feature
-> (hint, nudge...;-).
-
-Yeah, apparently it's set on our D06CS board, but I just need to double 
-check the FW version with our FW guy.
-
-As for D05, there has not been a FW update there in quite a long time 
-and no plans for it. Sorry.
-
-Cheers,
-John
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gMjAyMC0wMy0yNCAxMTo1NSBhbSwgSm9obiBHYXJyeSB3cm90ZToKPiBPbiAyNC8wMy8yMDIw
+IDEwOjQzLCBNYXJjIFp5bmdpZXIgd3JvdGU6Cj4+IE9uIFR1ZSwgMjQgTWFyIDIwMjAgMDk6MTg6
+MTAgKzAwMDAKPj4gSm9obiBHYXJyeTxqb2huLmdhcnJ5QGh1YXdlaS5jb20+wqAgd3JvdGU6Cj4+
+Cj4+PiBPbiAyMy8wMy8yMDIwIDA5OjE2LCBNYXJjIFp5bmdpZXIgd3JvdGU6Cj4+Pgo+Pj4gKyBK
+dWxpZW4sIE1hcmsKPj4+Cj4+PiBIaSBNYXJjLAo+Pj4KPj4+Pj4+IFRpbWUgdG8gZW5hYmxlIHBz
+ZXVkby1OTUlzIGluIHRoZSBQTVV2MyBkcml2ZXIuLi4KPj4+Pj4+Cj4+Pj4+IERvIHlvdSBrbm93
+IGlmIHRoZXJlIGlzIGFueSBwbGFuIGZvciB0aGlzPwo+Pj4+IFRoZXJlIHdhcy4gSnVsaWVuIFRo
+aWVycnkgaGFzIGEgYnVuY2ggb2YgcGF0Y2hlcyBmb3IgdGhhdCBbMV0sIGJ1dCAKPj4+PiB0aGV5
+ID4gbmVlZHMKPj4+PiByZXZpdmluZy4KPj4+Pgo+Pj4gU28gdGhvc2UgcGF0Y2hlcyBzdGlsbCBh
+cHBseSBjbGVhbmx5IChhcGFydCBmcm9tIHRoZSBrdm0gcGF0Y2gsIHdoaWNoCj4+PiBJIGNhbiBz
+a2lwLCBJIHN1cHBvc2UpIGFuZCBidWlsZCwgc28gSSBjYW4gdHJ5IHRoaXMgSSBmaWd1cmUuIElz
+Cj4+PiB0aGVyZSBhbnl0aGluZyBlbHNlIHdoaWNoIEkgc2hvdWxkIGVuc3VyZSBvciBrbm93IGFi
+b3V0PyBBcGFydCBmcm9tCj4+PiBlbmFibGUgQ09ORklHX0FSTTY0X1BTVUVET19OTUkuCj4+IFlv
+dSBuZWVkIHRvIG1ha2Ugc3VyZSB0aGF0IHlvdXIgZmlybXdhcmUgc2V0cyBTQ1JfRUwzLkZJUSB0
+byAxLiBNeSBEMDUKPj4gaGFzIGl0IHNldCB0byAwLCBwcmV2ZW50aW5nIG1lIGZyb20gYmVpbmcg
+YWJsZSB0byB1c2UgdGhlIGZlYXR1cmUKPj4gKGhpbnQsIG51ZGdlLi4uOy0pLgo+IAo+IFllYWgs
+IGFwcGFyZW50bHkgaXQncyBzZXQgb24gb3VyIEQwNkNTIGJvYXJkLCBidXQgSSBqdXN0IG5lZWQg
+dG8gZG91YmxlIAo+IGNoZWNrIHRoZSBGVyB2ZXJzaW9uIHdpdGggb3VyIEZXIGd1eS4KCkhvcGVm
+dWxseSB5b3Ugc2F3IHRoZSBoZWxwIGZvciBDT05GSUdfQVJNNjRfUFNVRURPX05NSSBhbHJlYWR5
+LCBidXQgCnNpbmNlIGl0J3Mgbm90IGJlZW4gY2FsbGVkIG91dDoKCgkgIFRoaXMgaGlnaCBwcmlv
+cml0eSBjb25maWd1cmF0aW9uIGZvciBpbnRlcnJ1cHRzIG5lZWRzIHRvIGJlCiAgICAgICAgICAg
+ZXhwbGljaXRseSBlbmFibGVkIGJ5IHNldHRpbmcgdGhlIGtlcm5lbCBwYXJhbWV0ZXIKICAgICAg
+ICAgICAiaXJxY2hpcC5naWN2M19wc2V1ZG9fbm1pIiB0byAxLgoKRldJVyBJIGJlbGlldmUgaXMg
+aXMgc3RpbGwgb24gdGhlIHBsYW4gZm9yIHNvbWVvbmUgaGVyZSB0byBkdXN0IG9mZiB0aGUgClBN
+VSBwTk1JIHBhdGNoZXMgYXQgc29tZSBwb2ludC4KClJvYmluLgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlz
+dHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3Jn
+L21haWxtYW4vbGlzdGluZm8vaW9tbXU=
