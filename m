@@ -1,73 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD9519035E
-	for <lists.iommu@lfdr.de>; Tue, 24 Mar 2020 02:42:37 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E73190362
+	for <lists.iommu@lfdr.de>; Tue, 24 Mar 2020 02:50:40 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9F6F785ABF;
-	Tue, 24 Mar 2020 01:42:35 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4387188042;
+	Tue, 24 Mar 2020 01:50:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xPOd1WuAr2Up; Tue, 24 Mar 2020 01:42:34 +0000 (UTC)
+	with ESMTP id HjZ+R43P3FDT; Tue, 24 Mar 2020 01:50:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 180BD85BB5;
-	Tue, 24 Mar 2020 01:42:34 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1EB5A8739D;
+	Tue, 24 Mar 2020 01:50:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 00A39C0177;
-	Tue, 24 Mar 2020 01:42:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 08552C0177;
+	Tue, 24 Mar 2020 01:50:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6B605C0177
- for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 01:42:30 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8185DC0177
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 01:50:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 5473D86E21
- for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 01:42:30 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6FA8E8739D
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 01:50:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id L09aju5DiiVA for <iommu@lists.linux-foundation.org>;
- Tue, 24 Mar 2020 01:42:29 +0000 (UTC)
+ with ESMTP id mHO1p-6vdXM7 for <iommu@lists.linux-foundation.org>;
+ Tue, 24 Mar 2020 01:50:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 868F086DCF
- for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 01:42:29 +0000 (UTC)
-IronPort-SDR: NSZ4tTDbw9UxRV31lmk5FLbF1M8JsLZrRz7IWwGstpJPrsQbgqVa/NSrQ289LcYUpGbB8aIR/o
- C7FcwFXCkAdQ==
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B19458739A
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 01:50:35 +0000 (UTC)
+IronPort-SDR: z5TTKX9AOT+wKXLXERxtJLbw924ElDJU1YZ1CHxnH91p4WNZJ7VlYZJojZWbaiFtN0/kOgTuHC
+ 6t3kMh/OhaaA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Mar 2020 18:42:28 -0700
-IronPort-SDR: LefSmsp92s2IYF/PXnr6Ipuk/XOB1mRv7a3IU3qijkzj/XlZb1QGzvYjNjxIF9jCqaFVGqPRmz
- mqkp44TBM4QA==
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Mar 2020 18:50:34 -0700
+IronPort-SDR: hb5mjBhKyue57icqQi85DOjV/OBJFZdhWqWaHBv3XK63dQ41SilVLnhUr8KHWtkMvg1bvqVUOU
+ wAVLSU3WTWJg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,298,1580803200"; d="scan'208";a="264976626"
+X-IronPort-AV: E=Sophos;i="5.72,298,1580803200"; d="scan'208";a="264978515"
 Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.208.83])
  ([10.254.208.83])
- by orsmga002.jf.intel.com with ESMTP; 23 Mar 2020 18:42:22 -0700
-Subject: Re: [PATCH 2/2] iommu/vt-d: Replace intel SVM APIs with generic SVA
- APIs
-To: "Raj, Ashok" <ashok.raj@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>
-References: <1582586797-61697-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1582586797-61697-4-git-send-email-jacob.jun.pan@linux.intel.com>
- <20200320092955.GA1702630@myrica> <20200323230113.GA84386@otc-nc-03>
+ by orsmga002.jf.intel.com with ESMTP; 23 Mar 2020 18:50:29 -0700
+Subject: Re: [PATCH V10 02/11] iommu/uapi: Define a mask for bind data
+To: Jacob Pan <jacob.jun.pan@linux.intel.com>
+References: <1584746861-76386-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1584746861-76386-3-git-send-email-jacob.jun.pan@linux.intel.com>
+ <ae2a1a46-07ed-8445-d905-37dda1459e28@linux.intel.com>
+ <20200323123726.64974d83@jacob-builder>
 From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <6cc2f1ea-5a7d-eeab-b50c-5b464098de6b@linux.intel.com>
-Date: Tue, 24 Mar 2020 09:42:20 +0800
+Message-ID: <c3a8337b-5e38-d883-5ea7-375ff9209acf@linux.intel.com>
+Date: Tue, 24 Mar 2020 09:50:28 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200323230113.GA84386@otc-nc-03>
+In-Reply-To: <20200323123726.64974d83@jacob-builder>
 Content-Language: en-US
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- "Lu, Baolu" <baolu.lu@intel.com>,
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.com>,
- LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- David Woodhouse <dwmw2@infradead.org>
+ iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ David Woodhouse <dwmw2@infradead.org>, Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,62 +84,49 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020/3/24 7:01, Raj, Ashok wrote:
-> Hi Jean
+On 2020/3/24 3:37, Jacob Pan wrote:
+> On Sun, 22 Mar 2020 09:29:32 +0800> Lu Baolu<baolu.lu@linux.intel.com>  wrote:
 > 
-> On Fri, Mar 20, 2020 at 10:29:55AM +0100, Jean-Philippe Brucker wrote:
->>> +#define to_intel_svm_dev(handle) container_of(handle, struct intel_svm_dev, sva)
->>> +struct iommu_sva *
->>> +intel_svm_bind(struct device *dev, struct mm_struct *mm, void *drvdata)
->>> +{
->>> +	struct iommu_sva *sva = ERR_PTR(-EINVAL);
->>> +	struct intel_svm_dev *sdev = NULL;
->>> +	int flags = 0;
->>> +	int ret;
+>> On 2020/3/21 7:27, Jacob Pan wrote:
+>>> Memory type related flags can be grouped together for one simple
+>>> check.
+>>>
+>>> ---
+>>> v9 renamed from EMT to MTS since these are memory type support
+>>> flags. ---
+>>>
+>>> Signed-off-by: Jacob Pan<jacob.jun.pan@linux.intel.com>
+>>> ---
+>>>    include/uapi/linux/iommu.h | 5 ++++-
+>>>    1 file changed, 4 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
+>>> index 4ad3496e5c43..d7bcbc5f79b0 100644
+>>> --- a/include/uapi/linux/iommu.h
+>>> +++ b/include/uapi/linux/iommu.h
+>>> @@ -284,7 +284,10 @@ struct iommu_gpasid_bind_data_vtd {
+>>>    	__u32 pat;
+>>>    	__u32 emt;
+>>>    };
+>>> -
+>>> +#define IOMMU_SVA_VTD_GPASID_MTS_MASK
+>>> (IOMMU_SVA_VTD_GPASID_CD | \
+>>> +					 IOMMU_SVA_VTD_GPASID_EMTE
+>>> | \
+>>> +					 IOMMU_SVA_VTD_GPASID_PCD
+>>> |  \
 >>> +
->>> +	/*
->>> +	 * TODO: Consolidate with generic iommu-sva bind after it is merged.
->>> +	 * It will require shared SVM data structures, i.e. combine io_mm
->>> +	 * and intel_svm etc.
->>> +	 */
->>> +	if (drvdata)
->>> +		flags = *(int *)drvdata;
+>>> IOMMU_SVA_VTD_GPASID_PWT)
+>> As name implies, can this move to intel-iommu.h?
 >>
->> drvdata is more for storing device driver contexts that can be passed to
->> iommu_sva_ops, but I get that this is temporary.
->>
->> As usual I'm dreading supervisor mode making it into the common API. What
->> are your plans regarding SUPERVISOR_MODE and PRIVATE_PASID flags?  The
->> previous discussion on the subject [1] had me hoping that you could
->> replace supervisor mode with normal mappings (auxiliary domains?)
->> I'm less worried about PRIVATE_PASID, it would just add complexity into
+> I also thought about this but the masks are in vendor specific part of
+> the UAPI.
 > 
-> We don't seem to have an immediate need for PRIVATE_PASID. There are some talks
-> about potential usages, but nothing concrete. I think it might be good to
-> get rid of it now and add when we really need.
-> 
-> For SUPERVISOR_MODE, the idea is to have aux domain. Baolu is working on
-> something to replace. Certainly the entire kernel address is opening up
-> the whole kimono.. so we are looking at dynamically creating mappings on demand.
-> It might take some of the benefits of SVA in general with no need to create
-> mappings, but for security somebody has to pay the price :-)
 
-My thought is to reuse below aux-domain API.
-
-int iommu_aux_attach_device(struct iommu_domain *domain,
-			    struct device *dev)
-
-Currently, it asks the vendor iommu driver to allocate a PASID and bind
-the domain with it. We can change it to allow the caller to pass in an
-existing supervisor PASID.
-
-int iommu_aux_attach_device(struct iommu_domain *domain,
-			    struct device *dev,
-			    int *pasid)
-
-In the vendor iommu driver, if (*pasid == INVALID_IOASID), it will
-allocate a pasid (the same as current behavior); otherwise, attach
-the domain with the pass-in pasid.
+I looked through this patch series. It looks good to me. I will do some
+code style cleanup and take it to v5.7. I am not the right person to
+decide whether include/uapi/linux/iommu.h is the right place for this,
+so I will move it to Intel IOMMU driver for now.
 
 Best regards,
 baolu
