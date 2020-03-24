@@ -1,117 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2586F190CA6
-	for <lists.iommu@lfdr.de>; Tue, 24 Mar 2020 12:45:16 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9AE190CCD
+	for <lists.iommu@lfdr.de>; Tue, 24 Mar 2020 12:55:33 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A9C3785FC7;
-	Tue, 24 Mar 2020 11:45:14 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EFD0D204BE;
+	Tue, 24 Mar 2020 11:55:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Jz2bMpkCxH_Q; Tue, 24 Mar 2020 11:45:14 +0000 (UTC)
+	with ESMTP id pRvJNE1WWnrh; Tue, 24 Mar 2020 11:55:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4CC8B85BC8;
-	Tue, 24 Mar 2020 11:45:14 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D512B203E5;
+	Tue, 24 Mar 2020 11:55:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3A846C0177;
-	Tue, 24 Mar 2020 11:45:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C568DC1D89;
+	Tue, 24 Mar 2020 11:55:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6D9A7C0177
- for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 11:45:12 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 82841C0177
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 11:55:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5994B88763
- for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 11:45:12 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 70A4587DB7
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 11:55:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ryg3NKrUDsR3 for <iommu@lists.linux-foundation.org>;
- Tue, 24 Mar 2020 11:45:11 +0000 (UTC)
+ with ESMTP id ZH2iVXurX0h1 for <iommu@lists.linux-foundation.org>;
+ Tue, 24 Mar 2020 11:55:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from EUR02-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr10053.outbound.protection.outlook.com [40.107.1.53])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 846268798B
- for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 11:45:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nu6qHAModcbzc7GFiK8R7Y0JVcwZGpPEPBbMHgBHxJUCa4HOQ62cWPVBfDOpzyi2b6+8gYkqmG0pAV/qSXvaqPZ9BoW6ac19dHmGicB78K2Ev4r1CzB/R5eYKFWx5J9FKb3u/yIBl6P8qr4L1sWiI4HqifrJkCc+ITdIEKMRYclwYBYVCtd8HcnsqTNsXsHIPhp4Ys8MgtK3IFtBO0HlWYViDaDbJ4QVSuxqKhYoLp9w6EgBuSS4IeFl0zj0zmiYBJ1XcErs9LDV5AGCyG03bGJK4KoFMDgORh2TSCa6EDfG2bJ4vX290uPKwfQnPPbvOjnAAwsml8wpiy/0/7qFVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jLlmxo3F4Gx/ZLPQd1vZdy7uzn9E1hqWbQUmSJHTuto=;
- b=L5VKEDN4ufQRRTWbJMCFiDSTz/vjDVkYTKhuBO85sdRBurf1urykidcMsICHDPW+3sAleokomXgIQhpSRyMVcYJYaIqaVW74zDihJfmibHG4quvkUvwIk9HIe8q/JRM5leQRTpHV0OxkL4qZrSo/raNgrxBuGONe6kFeFUNllWnAyXvHWJnVqE2a1uSSps/aDGxOLP+ckwmO4V9V9VvYbaC/7lRPd1uheSyPQJcr/F2qgMr05h0ldbAY6WBp2NZkNwUKLJ66EZKJbTTQnJ6eI+Q19ylp/bFx9WrNQRqOWLv3JL3smd0jPk/gkpZGVnCT4FwnSXIlHS97QnVlcvTERg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jLlmxo3F4Gx/ZLPQd1vZdy7uzn9E1hqWbQUmSJHTuto=;
- b=LvZ2b4I1/uVU6wxK3XG1vSRwiAqHCCFl93Hb+2nB8swADLl04+B43FMijrBTwZ73LiIhyhUBmyXQvmsc104Fe3nJLyMPeeu0WRVBhrCZ6P+C/rkLIBnG6LzU4IM30eaIitbIPypu6mLVLDOIyQK/cMuMU2pho6CmE7ZNuuHErA4=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=laurentiu.tudor@nxp.com; 
-Received: from AM6PR04MB5925.eurprd04.prod.outlook.com (20.179.2.147) by
- AM6PR04MB5960.eurprd04.prod.outlook.com (20.178.92.152) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.20; Tue, 24 Mar 2020 11:30:38 +0000
-Received: from AM6PR04MB5925.eurprd04.prod.outlook.com
- ([fe80::dd71:5f33:1b21:cd9e]) by AM6PR04MB5925.eurprd04.prod.outlook.com
- ([fe80::dd71:5f33:1b21:cd9e%5]) with mapi id 15.20.2835.023; Tue, 24 Mar 2020
- 11:30:38 +0000
-From: laurentiu.tudor@nxp.com
-To: robin.murphy@arm.com, lorenzo.pieralisi@arm.com,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-arm-kernel@lists.infradead.org, linux-acpi@vger.kernel.org
-Subject: [RFC PATCH v2 4/4] iommu/of: get rid of fsl-mc specific code
-Date: Tue, 24 Mar 2020 13:30:23 +0200
-Message-Id: <20200324113023.322-5-laurentiu.tudor@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200324113023.322-1-laurentiu.tudor@nxp.com>
-References: <20200324113023.322-1-laurentiu.tudor@nxp.com>
-X-ClientProxiedBy: AM0PR06CA0036.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::49) To AM6PR04MB5925.eurprd04.prod.outlook.com
- (2603:10a6:20b:ab::19)
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 4407F87DB4
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Mar 2020 11:55:26 +0000 (UTC)
+Received: from lhreml707-cah.china.huawei.com (unknown [172.18.7.106])
+ by Forcepoint Email with ESMTP id CFDA23565599535A61F2;
+ Tue, 24 Mar 2020 11:55:23 +0000 (GMT)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ lhreml707-cah.china.huawei.com (10.201.108.48) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 24 Mar 2020 11:55:23 +0000
+Received: from [127.0.0.1] (10.210.165.24) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 24 Mar
+ 2020 11:55:22 +0000
+Subject: Re: arm-smmu-v3 high cpu usage for NVMe
+To: Marc Zyngier <maz@kernel.org>
+References: <20190821151749.23743-1-will@kernel.org>
+ <b2a6e26d-6d0d-7f0d-f222-589812f701d2@huawei.com>
+ <20200318205313.GB8094@willie-the-truck>
+ <c6ab8020-dc06-0c7d-7a41-e792d90f97ba@huawei.com>
+ <20200319184349.GA1697676@myrica>
+ <c9ebe17d-66b8-1b8c-cc2c-5be0bd1501a7@huawei.com>
+ <20200320111842.GD1702630@myrica>
+ <b412fc9c-6266-e320-0769-f214d7752675@huawei.com>
+ <5198fcffc8ad6233e0274ebff9e9aa5f@kernel.org>
+ <cca67355-672d-81c5-3d37-72004eb8f14f@huawei.com>
+ <dd375cf6bffacd82174c84a4c7d46283@kernel.org>
+ <0e00de15-596a-d342-f3cb-e19c389294e6@huawei.com>
+ <20200324104307.57d2cde0@why>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <4c5e2482-1493-6bb7-d592-58cd027d39f9@huawei.com>
+Date: Tue, 24 Mar 2020 11:55:11 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from fsr-ub1864-101.ea.freescale.net (89.37.124.34) by
- AM0PR06CA0036.eurprd06.prod.outlook.com (2603:10a6:208:ab::49) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.18 via Frontend Transport; Tue, 24 Mar 2020 11:30:37 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [89.37.124.34]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: c3835b02-cca2-4989-c465-08d7cfe6c6ba
-X-MS-TrafficTypeDiagnostic: AM6PR04MB5960:|AM6PR04MB5960:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB5960544DCE02C73EB1CE0DE3ECF10@AM6PR04MB5960.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-Forefront-PRVS: 03524FBD26
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(376002)(136003)(39860400002)(346002)(396003)(366004)(66476007)(6486002)(66556008)(66946007)(6512007)(2906002)(9686003)(478600001)(81166006)(8676002)(186003)(16526019)(81156014)(26005)(52116002)(8936002)(6506007)(1076003)(7416002)(2616005)(5660300002)(956004)(4326008)(6666004)(36756003)(86362001)(316002)(26583001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR04MB5960;
- H:AM6PR04MB5925.eurprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; 
-Received-SPF: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jprZlMPOlQpD9VWfoltab5EXeP6bdDQwY0YASstvjwzGpmJB7C9N0ISjKYV0W0htCwnHaxybkiBs7P+F/GCTRjx2JzxM2ysIJZolbgbQ8y6fUapT2Jy4nEcE29dB8NsEgjkSK8Omb0Y3VzBw0628yRTZU91iDLqvTPfvNbqGlRV7w74x5TGHXzhhf13wx6wl/SuNaUccO1AfIUCGDpQyEcIWEse2UgxU6UF1w6li8lQAY3YDKZPhgkGVZ99gJA0TW2F7FcmMznicD06iAXiKuvkZbPb7Qrcp8A2KkUPO5jQQkmPq1d3yNPckNbYRXdL5xPbmA1A5QeBCoApP5lmfjgzYjSPfIpWYJjZDCkOMLCyAApjwqYih5ZMYrWKIdYdefMmMvZBkET5E2uAZWpk7h8o9wt1fI7+tWQmNNQ4/PJxIGq0s0waDv65t9ZbUO3BXXbKxZ059fIrqPZpwPCUOAWOCiUTxgIycHzqQiOrkaYGsEKZev39PAQxxwdIbywoi
-X-MS-Exchange-AntiSpam-MessageData: joCfkiIEpH/jZf9b5dOKaRl0IjWZal71mb2WT0Tm+6NPnBWMbbmHtKUFbbui1jLEhMtDrfEZnUPLsUg+SbxTSlrJ3sXKs+Zg4Q3rjJPvRIdqgnBfViCD2kaLSGdbBNrxYr6TytDfqtMBiofSstiFzw==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3835b02-cca2-4989-c465-08d7cfe6c6ba
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2020 11:30:38.2059 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: whkgTZ+FC6C/qgiOtKb6moU+0rq7TWFJejOvJeAIQb6Nh0HU98S9DRUgCIWXa3fwSQ60wZpBhdL2v3c1SgpZWQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB5960
-Cc: calvin.johnson@nxp.com, ard.biesheuvel@linaro.org, maz@kernel.org,
- pankaj.bansal@nxp.com, diana.craciun@oss.nxp.com, jon@solid-run.com,
- jeremy.linton@arm.com, makarand.pawagi@nxp.com, cristian.sovaiala@nxp.com,
- V.Sethi@nxp.com, ioana.ciornei@nxp.com, tglx@linutronix.de,
- jason@lakedaemon.net, Stuart.Yoder@arm.com
+In-Reply-To: <20200324104307.57d2cde0@why>
+Content-Language: en-US
+X-Originating-IP: [10.210.165.24]
+X-ClientProxiedBy: lhreml732-chm.china.huawei.com (10.201.108.83) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Robin Murphy <robin.murphy@arm.com>, Ming Lei <ming.lei@redhat.com>,
+ iommu@lists.linux-foundation.org, Will Deacon <will@kernel.org>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -124,70 +88,43 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+On 24/03/2020 10:43, Marc Zyngier wrote:
+> On Tue, 24 Mar 2020 09:18:10 +0000
+> John Garry<john.garry@huawei.com>  wrote:
+> 
+>> On 23/03/2020 09:16, Marc Zyngier wrote:
+>>
+>> + Julien, Mark
+>>
+>> Hi Marc,
+>>
+>>>>> Time to enable pseudo-NMIs in the PMUv3 driver...
+>>>>>
+>>>> Do you know if there is any plan for this?
+>>> There was. Julien Thierry has a bunch of patches for that [1], but they > needs
+>>> reviving.
+>>>
+>> So those patches still apply cleanly (apart from the kvm patch, which
+>> I can skip, I suppose) and build, so I can try this I figure. Is
+>> there anything else which I should ensure or know about? Apart from
+>> enable CONFIG_ARM64_PSUEDO_NMI.
+> You need to make sure that your firmware sets SCR_EL3.FIQ to 1. My D05
+> has it set to 0, preventing me from being able to use the feature
+> (hint, nudge...;-).
 
-Changing the way we configure dma for fsl-mc devices allows
-us to get rid of our fsl-mc specific code in the generic
-of iommu code.
+Yeah, apparently it's set on our D06CS board, but I just need to double 
+check the FW version with our FW guy.
 
-Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
----
- drivers/iommu/of_iommu.c | 20 --------------------
- 1 file changed, 20 deletions(-)
+As for D05, there has not been a FW update there in quite a long time 
+and no plans for it. Sorry.
 
-diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
-index 20738aacac89..332072ada474 100644
---- a/drivers/iommu/of_iommu.c
-+++ b/drivers/iommu/of_iommu.c
-@@ -15,7 +15,6 @@
- #include <linux/of_pci.h>
- #include <linux/pci.h>
- #include <linux/slab.h>
--#include <linux/fsl/mc.h>
- 
- #define NO_IOMMU	1
- 
-@@ -139,23 +138,6 @@ static int of_pci_iommu_init(struct pci_dev *pdev, u16 alias, void *data)
- 	return err;
- }
- 
--static int of_fsl_mc_iommu_init(struct fsl_mc_device *mc_dev,
--				struct device_node *master_np)
--{
--	struct of_phandle_args iommu_spec = { .args_count = 1 };
--	int err;
--
--	err = of_map_rid(master_np, mc_dev->icid, "iommu-map",
--			 "iommu-map-mask", &iommu_spec.np,
--			 iommu_spec.args);
--	if (err)
--		return err == -ENODEV ? NO_IOMMU : err;
--
--	err = of_iommu_xlate(&mc_dev->dev, &iommu_spec);
--	of_node_put(iommu_spec.np);
--	return err;
--}
--
- const struct iommu_ops *of_iommu_configure(struct device *dev,
- 					   struct device_node *master_np)
- {
-@@ -188,8 +170,6 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
- 		pci_request_acs();
- 		err = pci_for_each_dma_alias(to_pci_dev(dev),
- 					     of_pci_iommu_init, &info);
--	} else if (dev_is_fsl_mc(dev)) {
--		err = of_fsl_mc_iommu_init(to_fsl_mc_device(dev), master_np);
- 	} else {
- 		struct of_phandle_args iommu_spec;
- 		int idx = 0;
--- 
-2.17.1
-
+Cheers,
+John
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
