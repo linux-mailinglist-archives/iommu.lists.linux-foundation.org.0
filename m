@@ -1,66 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B918192FC6
-	for <lists.iommu@lfdr.de>; Wed, 25 Mar 2020 18:49:55 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE6C193250
+	for <lists.iommu@lfdr.de>; Wed, 25 Mar 2020 22:05:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9154C883B8;
-	Wed, 25 Mar 2020 17:49:53 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B6AE920527;
+	Wed, 25 Mar 2020 21:05:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LwqxHMsUQYsY; Wed, 25 Mar 2020 17:49:51 +0000 (UTC)
+	with ESMTP id 9czvUcL1qJww; Wed, 25 Mar 2020 21:05:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 962C1883AE;
-	Wed, 25 Mar 2020 17:49:51 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3690B204C1;
+	Wed, 25 Mar 2020 21:05:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 833E4C0177;
-	Wed, 25 Mar 2020 17:49:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2A385C0177;
+	Wed, 25 Mar 2020 21:05:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4464EC1D8A
- for <iommu@lists.linux-foundation.org>; Wed, 25 Mar 2020 17:49:50 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5D9C5C1D74
+ for <iommu@lists.linux-foundation.org>; Wed, 25 Mar 2020 21:05:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 2EF1786CEF
- for <iommu@lists.linux-foundation.org>; Wed, 25 Mar 2020 17:49:50 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 442F720527
+ for <iommu@lists.linux-foundation.org>; Wed, 25 Mar 2020 21:05:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E2qcHLV7fgZi for <iommu@lists.linux-foundation.org>;
- Wed, 25 Mar 2020 17:49:49 +0000 (UTC)
+ with ESMTP id O5N6c24fNPVF for <iommu@lists.linux-foundation.org>;
+ Wed, 25 Mar 2020 21:05:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id A04DE863A1
- for <iommu@lists.linux-foundation.org>; Wed, 25 Mar 2020 17:49:49 +0000 (UTC)
-IronPort-SDR: 0osURA7cMGYzG6PIPmaA4oa2PS2SOEGACS3zS6PzOoUhbWhGol8vAjlpdl/C9C3bSz2cj6Tz/N
- T/VX8MGcDNOQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2020 10:49:49 -0700
-IronPort-SDR: ARQgIwOFa7uTee97rp4tMpDfZY+JUyOLRBrt94THE7WOzu42tL43ONqjxD+4Pcv8CZNjHDOXtX
- YTGKWz//BP6A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,305,1580803200"; d="scan'208";a="393702219"
-Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by orsmga004.jf.intel.com with ESMTP; 25 Mar 2020 10:49:48 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- "Lu Baolu" <baolu.lu@linux.intel.com>, iommu@lists.linux-foundation.org,
- LKML <linux-kernel@vger.kernel.org>, David Woodhouse <dwmw2@infradead.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>
-Subject: [PATCH 10/10] iommu/vt-d: Register PASID notifier for status change
-Date: Wed, 25 Mar 2020 10:55:31 -0700
-Message-Id: <1585158931-1825-11-git-send-email-jacob.jun.pan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1585158931-1825-1-git-send-email-jacob.jun.pan@linux.intel.com>
-References: <1585158931-1825-1-git-send-email-jacob.jun.pan@linux.intel.com>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- Jonathan Cameron <jic23@kernel.org>
+Received: from us-smtp-delivery-74.mimecast.com
+ (us-smtp-delivery-74.mimecast.com [63.128.21.74])
+ by silver.osuosl.org (Postfix) with ESMTPS id 5EDDA204C1
+ for <iommu@lists.linux-foundation.org>; Wed, 25 Mar 2020 21:05:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585170325;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=geCa1OSxny+PzgSp/iZxt6RW2EJVp1S56y0SbXLYQ/Q=;
+ b=KmqP2Or98K9bGioZaH2B1B+9o0H7M3Xx9Tazl/cpY5OJUM5znwklPLB4KXvouxf8SW/Z2o
+ LHSR1kzIlSGHst1h/nw/g23nTLjHvQcugp1Nr2cI5mG2JXYCv1TJ1OfH9Sh5pcuAAvrQMC
+ m4mbYa9Dn97VF3ZLpsxzN3IPnjONTRM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-62-KBGHRYj6MUGvl1wqUslS3g-1; Wed, 25 Mar 2020 17:05:23 -0400
+X-MC-Unique: KBGHRYj6MUGvl1wqUslS3g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0969E189F762;
+ Wed, 25 Mar 2020 21:05:22 +0000 (UTC)
+Received: from [10.36.113.142] (ovpn-113-142.ams2.redhat.com [10.36.113.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 839E95D9CA;
+ Wed, 25 Mar 2020 21:05:18 +0000 (UTC)
+Subject: Re: [PATCH] iommu/virtio: Reject IOMMU page granule larger than
+ PAGE_SIZE
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ iommu@lists.linux-foundation.org, virtualization@lists.linux-foundation.org
+References: <20200318114047.1518048-1-jean-philippe@linaro.org>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <8305aadc-ee0e-382d-b605-b6cfce98b2ac@redhat.com>
+Date: Wed, 25 Mar 2020 22:05:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
+MIME-Version: 1.0
+In-Reply-To: <20200318114047.1518048-1-jean-philippe@linaro.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Cc: robin.murphy@arm.com, Bharat Bhushan <bbhushan2@marvell.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,155 +87,68 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-In bare metal SVA, IOMMU driver ensures that IOASID free call always comes
-after IOASID unbind operation.
+Hi Jean,
 
-However, for guest SVA the unbind and free call come from user space
-via VFIO, which could be out of order. This patch registers a notifier
-block in case IOASID free() comes before unbind such that VT-d driver
-can take action to clean up PASID context and data.
+On 3/18/20 12:40 PM, Jean-Philippe Brucker wrote:
+> We don't currently support IOMMUs with a page granule larger than the
+> system page size. The IOVA allocator has a BUG_ON() in this case, and
+> VFIO has a WARN_ON().
+> 
+> It might be possible to remove these obstacles if necessary. If the host
+> uses 64kB pages and the guest uses 4kB, then a device driver calling
+> alloc_page() followed by dma_map_page() will create a 64kB mapping for a
+> 4kB physical page, allowing the endpoint to access the neighbouring 60kB
+> of memory. This problem could be worked around with bounce buffers.
+> 
+> For the moment, rather than triggering the IOVA BUG_ON() on mismatched
+> page sizes, abort the virtio-iommu probe with an error message.
+> 
+> Reported-by: Bharat Bhushan <bbhushan2@marvell.com>
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> ---
+>  drivers/iommu/virtio-iommu.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
+> index 6d4e3c2a2ddb..80d5d8f621ab 100644
+> --- a/drivers/iommu/virtio-iommu.c
+> +++ b/drivers/iommu/virtio-iommu.c
+> @@ -998,6 +998,7 @@ static int viommu_probe(struct virtio_device *vdev)
+>  	struct device *parent_dev = vdev->dev.parent;
+>  	struct viommu_dev *viommu = NULL;
+>  	struct device *dev = &vdev->dev;
+> +	unsigned long viommu_page_size;
+>  	u64 input_start = 0;
+>  	u64 input_end = -1UL;
+>  	int ret;
+> @@ -1028,6 +1029,14 @@ static int viommu_probe(struct virtio_device *vdev)
+>  		goto err_free_vqs;
+>  	}
+>  
+> +	viommu_page_size = 1UL << __ffs(viommu->pgsize_bitmap);
+Given the fact we now head towards probing the device for its
+page_size_mask in viommu_add_device() the check may need to happen
+later, in viommu_domain_finalise() for instance?
 
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
----
- drivers/iommu/intel-svm.c   | 68 ++++++++++++++++++++++++++++++++++++++++++++-
- include/linux/intel-iommu.h |  1 +
- 2 files changed, 68 insertions(+), 1 deletion(-)
+Thanks
 
-diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel-svm.c
-index f511855d187b..779dd2c6f9e1 100644
---- a/drivers/iommu/intel-svm.c
-+++ b/drivers/iommu/intel-svm.c
-@@ -23,6 +23,7 @@
- #include "intel-pasid.h"
- 
- static irqreturn_t prq_event_thread(int irq, void *d);
-+static DEFINE_MUTEX(pasid_mutex);
- 
- #define PRQ_ORDER 0
- 
-@@ -92,6 +93,65 @@ static inline bool intel_svm_capable(struct intel_iommu *iommu)
- 	return iommu->flags & VTD_FLAG_SVM_CAPABLE;
- }
- 
-+#define pasid_lock_held() lock_is_held(&pasid_mutex.dep_map)
-+
-+static int pasid_status_change(struct notifier_block *nb,
-+				unsigned long code, void *data)
-+{
-+	struct ioasid_nb_args *args = (struct ioasid_nb_args *)data;
-+	struct intel_svm_dev *sdev;
-+	struct intel_svm *svm;
-+	int ret = NOTIFY_DONE;
-+
-+	if (code == IOASID_FREE) {
-+		/*
-+		 * Unbind all devices associated with this PASID which is
-+		 * being freed by other users such as VFIO.
-+		 */
-+		mutex_lock(&pasid_mutex);
-+		svm = ioasid_find(INVALID_IOASID_SET, args->id, NULL);
-+		if (!svm || !svm->iommu)
-+			goto done_unlock;
-+
-+		if (IS_ERR(svm)) {
-+			ret = NOTIFY_BAD;
-+			goto done_unlock;
-+		}
-+
-+		list_for_each_entry_rcu(sdev, &svm->devs, list, pasid_lock_held()) {
-+			/* Does not poison forward pointer */
-+			list_del_rcu(&sdev->list);
-+			intel_pasid_tear_down_entry(svm->iommu, sdev->dev,
-+						    svm->pasid);
-+			kfree_rcu(sdev, rcu);
-+
-+			/*
-+			 * Free before unbind only happens with guest usaged
-+			 * host PASIDs. IOASID free will detach private data
-+			 * and free the IOASID entry.
-+			 */
-+			if (list_empty(&svm->devs))
-+				kfree(svm);
-+		}
-+		mutex_unlock(&pasid_mutex);
-+
-+		return NOTIFY_OK;
-+	}
-+
-+done_unlock:
-+	mutex_unlock(&pasid_mutex);
-+	return ret;
-+}
-+
-+static struct notifier_block pasid_nb = {
-+		.notifier_call = pasid_status_change,
-+};
-+
-+void intel_svm_add_pasid_notifier(void)
-+{
-+	ioasid_add_notifier(&pasid_nb);
-+}
-+
- void intel_svm_check(struct intel_iommu *iommu)
- {
- 	if (!pasid_supported(iommu))
-@@ -219,7 +279,6 @@ static const struct mmu_notifier_ops intel_mmuops = {
- 	.invalidate_range = intel_invalidate_range,
- };
- 
--static DEFINE_MUTEX(pasid_mutex);
- static LIST_HEAD(global_svm_list);
- 
- #define for_each_svm_dev(sdev, svm, d)			\
-@@ -319,6 +378,7 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain,
- 			svm->gpasid = data->gpasid;
- 			svm->flags |= SVM_FLAG_GUEST_PASID;
- 		}
-+		svm->iommu = iommu;
- 
- 		ioasid_attach_data(data->hpasid, svm);
- 		INIT_LIST_HEAD_RCU(&svm->devs);
-@@ -383,6 +443,11 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain,
- 	}
- 	svm->flags |= SVM_FLAG_GUEST_MODE;
- 
-+	/*
-+	 * Notify KVM new host-guest PASID bind is ready. KVM will set up
-+	 * PASID translation table to support guest ENQCMD.
-+	 */
-+	ioasid_notify(data->hpasid, IOASID_BIND);
- 	init_rcu_head(&sdev->rcu);
- 	list_add_rcu(&sdev->list, &svm->devs);
-  out:
-@@ -440,6 +505,7 @@ int intel_svm_unbind_gpasid(struct device *dev, int pasid)
- 				 * used by another.
- 				 */
- 				ioasid_attach_data(pasid, NULL);
-+				ioasid_notify(pasid, IOASID_UNBIND);
- 				kfree(svm);
- 			}
- 		}
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index f8504a980981..64799067ea58 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -708,6 +708,7 @@ extern struct iommu_sva *
- intel_svm_bind(struct device *dev, struct mm_struct *mm, void *drvdata);
- extern void intel_svm_unbind(struct iommu_sva *handle);
- extern int intel_svm_get_pasid(struct iommu_sva *handle);
-+extern void intel_svm_add_pasid_notifier(void);
- 
- struct svm_dev_ops;
- 
--- 
-2.7.4
+Eric
+> +	if (viommu_page_size > PAGE_SIZE) {
+> +		dev_err(dev, "granule 0x%lx larger than system page size 0x%lx\n",
+> +			viommu_page_size, PAGE_SIZE);
+> +		ret = -EINVAL;
+> +		goto err_free_vqs;
+> +	}
+> +
+>  	viommu->map_flags = VIRTIO_IOMMU_MAP_F_READ | VIRTIO_IOMMU_MAP_F_WRITE;
+>  	viommu->last_domain = ~0U;
+>  
+> 
 
 _______________________________________________
 iommu mailing list
