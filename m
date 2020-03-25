@@ -2,49 +2,49 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1CDC192FCE
-	for <lists.iommu@lfdr.de>; Wed, 25 Mar 2020 18:49:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E1B5192FCA
+	for <lists.iommu@lfdr.de>; Wed, 25 Mar 2020 18:49:58 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5219587D91;
-	Wed, 25 Mar 2020 17:49:58 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1A2D487DDD;
+	Wed, 25 Mar 2020 17:49:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PgTInicZO8-8; Wed, 25 Mar 2020 17:49:55 +0000 (UTC)
+	with ESMTP id wa2flux+sf1H; Wed, 25 Mar 2020 17:49:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4D86E87E08;
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0814787DB0;
 	Wed, 25 Mar 2020 17:49:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3B29CC1D88;
-	Wed, 25 Mar 2020 17:49:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E99E8C1D7C;
+	Wed, 25 Mar 2020 17:49:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 85406C1D7C
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 302EDC1D88
  for <iommu@lists.linux-foundation.org>; Wed, 25 Mar 2020 17:49:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 7589E203C8
+ by silver.osuosl.org (Postfix) with ESMTP id 2274E203C8
  for <iommu@lists.linux-foundation.org>; Wed, 25 Mar 2020 17:49:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kX3NSFzEO8vN for <iommu@lists.linux-foundation.org>;
+ with ESMTP id O+4rPB20vdNQ for <iommu@lists.linux-foundation.org>;
  Wed, 25 Mar 2020 17:49:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by silver.osuosl.org (Postfix) with ESMTPS id 836062050D
+ by silver.osuosl.org (Postfix) with ESMTPS id B623C20551
  for <iommu@lists.linux-foundation.org>; Wed, 25 Mar 2020 17:49:50 +0000 (UTC)
-IronPort-SDR: UmlXOeo6cyH1NqXuoly3yAXMzfp5pqTXNvCwCS0LOtiLKPu1kwZahQODrkQSrjymwkhFGlrNfw
- FiUpLZXpSAKQ==
+IronPort-SDR: JCYEkEfPqEDBVV6Dhm7m5ZEg7B7Bmj5a+JUGmFMe65E8C9XAnCIf8Ut8+1A3hu4ft0v4em1u3o
+ DnC6Mn1DPH3g==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  25 Mar 2020 10:49:49 -0700
-IronPort-SDR: CQcA4JfLofRhka9mtUoO5weYjq8bYXaqfofvwTmcPeq2yb9H07yQUMSHv1MIURjk8A/LyZUmQk
- OZG9AbxWJlwQ==
+IronPort-SDR: qKTvv5GSnA5h7dqv9DnrGdJZqJU8gD7hexGiDDXFQy5yYIbC1AU2gRqGWsrAJcoHVEJFEkb3MK
+ ICEdMvGeLV8Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,305,1580803200"; d="scan'208";a="393702214"
+X-IronPort-AV: E=Sophos;i="5.72,305,1580803200"; d="scan'208";a="393702216"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
  by orsmga004.jf.intel.com with ESMTP; 25 Mar 2020 10:49:48 -0700
 From: Jacob Pan <jacob.jun.pan@linux.intel.com>
@@ -53,9 +53,9 @@ To: Joerg Roedel <joro@8bytes.org>,
  "Lu Baolu" <baolu.lu@linux.intel.com>, iommu@lists.linux-foundation.org,
  LKML <linux-kernel@vger.kernel.org>, David Woodhouse <dwmw2@infradead.org>,
  Jean-Philippe Brucker <jean-philippe@linaro.com>
-Subject: [PATCH 08/10] iommu/ioasid: Introduce notifier APIs
-Date: Wed, 25 Mar 2020 10:55:29 -0700
-Message-Id: <1585158931-1825-9-git-send-email-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH 09/10] iommu/ioasid: Support ioasid_set quota adjustment
+Date: Wed, 25 Mar 2020 10:55:30 -0700
+Message-Id: <1585158931-1825-10-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1585158931-1825-1-git-send-email-jacob.jun.pan@linux.intel.com>
 References: <1585158931-1825-1-git-send-email-jacob.jun.pan@linux.intel.com>
@@ -79,201 +79,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-IOASID users fit into the publisher-subscriber pattern, a system wide
-blocking notifier chain can be used to inform subscribers of state
-changes. Notifier mechanism also abstracts publisher from knowing the
-private context each subcriber may have.
+IOASID set is allocated with an initial quota, at runtime there may be
+needs to balance IOASID resources among different VMs/sets.
 
-This patch adds APIs and a global notifier chain, a further optimization
-might be per set notifier for ioasid_set aware users.
+This patch adds a new API to adjust per set quota.
 
-Usage example:
-KVM register notifier block such that it can keep its guest-host PASID
-translation table in sync with any IOASID updates.
-
-VFIO publish IOASID change by performing alloc/free, bind/unbind
-operations.
-
-IOMMU driver gets notified when IOASID is freed by VFIO or core mm code
-such that PASID context can be cleaned up.
-
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 ---
- drivers/iommu/ioasid.c | 61 ++++++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/ioasid.h | 40 +++++++++++++++++++++++++++++++++
- 2 files changed, 101 insertions(+)
+ drivers/iommu/ioasid.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/ioasid.h |  6 ++++++
+ 2 files changed, 50 insertions(+)
 
 diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
-index 8612fe6477dc..27dce2cb5af2 100644
+index 27dce2cb5af2..5ac28862a1db 100644
 --- a/drivers/iommu/ioasid.c
 +++ b/drivers/iommu/ioasid.c
-@@ -11,6 +11,22 @@
- #include <linux/xarray.h>
- 
- static DEFINE_XARRAY_ALLOC(ioasid_sets);
-+/*
-+ * An IOASID could have multiple consumers. When a status change occurs,
-+ * this notifier chain is used to keep them in sync. Each consumer of the
-+ * IOASID service must register notifier block early to ensure no events
-+ * are missed.
-+ *
-+ * This is a publisher-subscriber pattern where publisher can change the
-+ * state of each IOASID, e.g. alloc/free, bind IOASID to a device and mm.
-+ * On the other hand, subscribers gets notified for the state change and
-+ * keep local states in sync.
-+ *
-+ * Currently, the notifier is global. A further optimization could be per
-+ * IOASID set notifier chain.
-+ */
-+static BLOCKING_NOTIFIER_HEAD(ioasid_chain);
-+
- /**
-  * struct ioasid_set_data - Meta data about ioasid_set
-  *
-@@ -408,6 +424,7 @@ static void ioasid_free_locked(ioasid_t ioasid)
- {
- 	struct ioasid_data *ioasid_data;
- 	struct ioasid_set_data *sdata;
-+	struct ioasid_nb_args args;
- 
- 	ioasid_data = xa_load(&active_allocator->xa, ioasid);
- 	if (!ioasid_data) {
-@@ -415,6 +432,13 @@ static void ioasid_free_locked(ioasid_t ioasid)
- 		return;
- 	}
- 
-+	args.id = ioasid;
-+	args.sid = ioasid_data->sdata->sid;
-+	args.pdata = ioasid_data->private;
-+	args.set_token = ioasid_data->sdata->token;
-+
-+	/* Notify all users that this IOASID is being freed */
-+	blocking_notifier_call_chain(&ioasid_chain, IOASID_FREE, &args);
- 	active_allocator->ops->free(ioasid, active_allocator->ops->pdata);
- 	/* Custom allocator needs additional steps to free the xa element */
- 	if (active_allocator->flags & IOASID_ALLOCATOR_CUSTOM) {
-@@ -624,6 +648,43 @@ int ioasid_find_sid(ioasid_t ioasid)
+@@ -578,6 +578,50 @@ void ioasid_free_set(int sid, bool destroy_set)
  }
- EXPORT_SYMBOL_GPL(ioasid_find_sid);
+ EXPORT_SYMBOL_GPL(ioasid_free_set);
  
-+int ioasid_add_notifier(struct notifier_block *nb)
++/**
++ * ioasid_adjust_set - Adjust the quota of an IOASID set
++ * @quota:	Quota allowed in this set
++ * @sid:	IOASID set ID to be assigned
++ *
++ * Return 0 on success. If the new quota is smaller than the number of
++ * IOASIDs already allocated, -EINVAL will be returned. No change will be
++ * made to the existing quota.
++ */
++int ioasid_adjust_set(int sid, int quota)
 +{
-+	return blocking_notifier_chain_register(&ioasid_chain, nb);
-+}
-+EXPORT_SYMBOL_GPL(ioasid_add_notifier);
-+
-+void ioasid_remove_notifier(struct notifier_block *nb)
-+{
-+	blocking_notifier_chain_unregister(&ioasid_chain, nb);
-+}
-+EXPORT_SYMBOL_GPL(ioasid_remove_notifier);
-+
-+int ioasid_notify(ioasid_t ioasid, enum ioasid_notify_val cmd)
-+{
-+	struct ioasid_data *ioasid_data;
-+	struct ioasid_nb_args args;
++	struct ioasid_set_data *sdata;
 +	int ret = 0;
 +
 +	mutex_lock(&ioasid_allocator_lock);
-+	ioasid_data = xa_load(&active_allocator->xa, ioasid);
-+	if (!ioasid_data) {
-+		pr_err("Trying to free unknown IOASID %u\n", ioasid);
-+		mutex_unlock(&ioasid_allocator_lock);
-+		return -EINVAL;
++	sdata = xa_load(&ioasid_sets, sid);
++	if (!sdata || sdata->nr_ioasids > quota) {
++		pr_err("Failed to adjust IOASID set %d quota %d\n",
++			sid, quota);
++		ret = -EINVAL;
++		goto done_unlock;
 +	}
 +
-+	args.id = ioasid;
-+	args.sid = ioasid_data->sdata->sid;
-+	args.pdata = ioasid_data->private;
++	if (quota >= ioasid_capacity_avail) {
++		ret = -ENOSPC;
++		goto done_unlock;
++	}
 +
-+	ret = blocking_notifier_call_chain(&ioasid_chain, cmd, &args);
++	/* Return the delta back to system pool */
++	ioasid_capacity_avail += sdata->size - quota;
++
++	/*
++	 * May have a policy to prevent giving all available IOASIDs
++	 * to one set. But we don't enforce here, it should be in the
++	 * upper layers.
++	 */
++	sdata->size = quota;
++
++done_unlock:
 +	mutex_unlock(&ioasid_allocator_lock);
 +
 +	return ret;
 +}
-+EXPORT_SYMBOL_GPL(ioasid_notify);
-+
- MODULE_AUTHOR("Jean-Philippe Brucker <jean-philippe.brucker@arm.com>");
- MODULE_AUTHOR("Jacob Pan <jacob.jun.pan@linux.intel.com>");
- MODULE_DESCRIPTION("IO Address Space ID (IOASID) allocator");
++EXPORT_SYMBOL_GPL(ioasid_adjust_set);
+ 
+ /**
+  * ioasid_find - Find IOASID data
 diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
-index e19c0ad93bd7..32d032913828 100644
+index 32d032913828..6e7de6fb91bf 100644
 --- a/include/linux/ioasid.h
 +++ b/include/linux/ioasid.h
-@@ -4,6 +4,7 @@
- 
- #include <linux/types.h>
- #include <linux/errno.h>
-+#include <linux/notifier.h>
- 
- #define INVALID_IOASID ((ioasid_t)-1)
- #define INVALID_IOASID_SET (-1)
-@@ -30,6 +31,27 @@ struct ioasid_allocator_ops {
- 	void *pdata;
- };
- 
-+/* Notification data when IOASID status changed */
-+enum ioasid_notify_val {
-+	IOASID_ALLOC = 1,
-+	IOASID_FREE,
-+	IOASID_BIND,
-+	IOASID_UNBIND,
-+};
-+
-+/**
-+ * struct ioasid_nb_args - Argument provided by IOASID core when notifier
-+ * is called.
-+ * @id:		the IOASID being notified
-+ * @sid:	the IOASID set @id belongs to
-+ * @pdata:	the private data attached to the IOASID
-+ */
-+struct ioasid_nb_args {
-+	ioasid_t id;
-+	int sid;
-+	struct ioasid_set *set_token;
-+	void *pdata;
-+};
- /* Shared IOASID set for reserved for host system use */
- extern int system_ioasid_sid;
- 
-@@ -43,11 +65,15 @@ void *ioasid_find(int sid, ioasid_t ioasid, bool (*getter)(void *));
- int ioasid_register_allocator(struct ioasid_allocator_ops *allocator);
- void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
- int ioasid_attach_data(ioasid_t ioasid, void *data);
-+int ioasid_add_notifier(struct notifier_block *nb);
-+void ioasid_remove_notifier(struct notifier_block *nb);
- void ioasid_install_capacity(ioasid_t total);
- int ioasid_alloc_system_set(int quota);
- int ioasid_alloc_set(struct ioasid_set *token, ioasid_t quota, int *sid);
+@@ -73,6 +73,7 @@ int ioasid_alloc_set(struct ioasid_set *token, ioasid_t quota, int *sid);
  void ioasid_free_set(int sid, bool destroy_set);
  int ioasid_find_sid(ioasid_t ioasid);
-+int ioasid_notify(ioasid_t id, enum ioasid_notify_val cmd);
-+
+ int ioasid_notify(ioasid_t id, enum ioasid_notify_val cmd);
++int ioasid_adjust_set(int sid, int quota);
+ 
  #else /* !CONFIG_IOASID */
  static inline ioasid_t ioasid_alloc(int sid, ioasid_t min,
- 				    ioasid_t max, void *private)
-@@ -73,6 +99,20 @@ static inline void *ioasid_find(int sid, ioasid_t ioasid, bool (*getter)(void *)
- 	return NULL;
+@@ -136,5 +137,10 @@ static inline int ioasid_alloc_system_set(int quota)
+ 	return -ENOTSUPP;
  }
  
-+static inline int ioasid_add_notifier(struct notifier_block *nb)
++static inline int ioasid_adjust_set(int sid, int quota)
 +{
 +	return -ENOTSUPP;
 +}
 +
-+static inline void ioasid_remove_notifier(struct notifier_block *nb)
-+{
-+}
-+
-+int ioasid_notify(ioasid_t ioasid, enum ioasid_notify_val cmd)
-+{
-+	return -ENOTSUPP;
-+}
-+
- static inline int ioasid_register_allocator(struct ioasid_allocator_ops *allocator)
- {
- 	return -ENOTSUPP;
+ #endif /* CONFIG_IOASID */
+ #endif /* __LINUX_IOASID_H */
 -- 
 2.7.4
 
