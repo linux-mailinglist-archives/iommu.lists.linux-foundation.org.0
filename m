@@ -2,58 +2,65 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9AF219427B
-	for <lists.iommu@lfdr.de>; Thu, 26 Mar 2020 16:09:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD97194267
+	for <lists.iommu@lfdr.de>; Thu, 26 Mar 2020 16:08:48 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 754C58843F;
-	Thu, 26 Mar 2020 15:09:04 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 06EB886AD9;
+	Thu, 26 Mar 2020 15:08:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rP6UqNENuhp7; Thu, 26 Mar 2020 15:09:01 +0000 (UTC)
+	with ESMTP id OFAPSXtDLRSv; Thu, 26 Mar 2020 15:08:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7650F8867F;
-	Thu, 26 Mar 2020 15:08:57 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4FDB686A3C;
+	Thu, 26 Mar 2020 15:08:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6260DC0177;
-	Thu, 26 Mar 2020 15:08:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 420B9C1D87;
+	Thu, 26 Mar 2020 15:08:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 20E1CC0177
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:55 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6622BC0177
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 1DF6685C45
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:55 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 53268881CC
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PlzbrVFKPWQ8 for <iommu@lists.linux-foundation.org>;
- Thu, 26 Mar 2020 15:08:53 +0000 (UTC)
+ with ESMTP id ZPSUHP-svIFe for <iommu@lists.linux-foundation.org>;
+ Thu, 26 Mar 2020 15:08:39 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by whitealder.osuosl.org (Postfix) with ESMTPS id AC17086A3C
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:53 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 120DA8805D
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:39 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 7D7407E6; Thu, 26 Mar 2020 16:08:47 +0100 (CET)
-From: Joerg Roedel <joro@8bytes.org>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH v4 09/16] iommu/arm-smmu-v3: Use accessor functions for iommu
- private data
+ id D5F5329A; Thu, 26 Mar 2020 16:08:35 +0100 (CET)
 Date: Thu, 26 Mar 2020 16:08:34 +0100
-Message-Id: <20200326150841.10083-10-joro@8bytes.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200326150841.10083-1-joro@8bytes.org>
-References: <20200326150841.10083-1-joro@8bytes.org>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Joerg Roedel <jroedel@suse.de>, Will Deacon <will@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-msm@vger.kernel.org,
- guohanjun@huawei.com, linux-kernel@vger.kernel.org,
+From: Joerg Roedel <joro@8bytes.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v3 10/15] iommu/arm-smmu: Use accessor functions for
+ iommu private data
+Message-ID: <20200326150834.GA6937@8bytes.org>
+References: <20200320091414.3941-1-joro@8bytes.org>
+ <20200320091414.3941-11-joro@8bytes.org>
+ <09ed4676-449e-c6eb-8c51-c15b326c206c@arm.com>
+ <20200324100819.GA4038@8bytes.org>
+ <d69dad81-d025-96ef-863c-553b5ed2dd8e@arm.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <d69dad81-d025-96ef-863c-553b5ed2dd8e@arm.com>
+Cc: Joerg Roedel <jroedel@suse.de>, Will Deacon <will@kernel.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "guohanjun@huawei.com" <guohanjun@huawei.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>, linux-mediatek@lists.infradead.org,
- Andy Gross <agross@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- Robin Murphy <robin.murphy@arm.com>
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ Andy Gross <agross@kernel.org>, Sudeep Holla <Sudeep.Holla@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,75 +73,34 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Joerg Roedel <jroedel@suse.de>
+Hi Robin,
 
-Make use of dev_iommu_priv_set/get() functions in the code.
+On Wed, Mar 25, 2020 at 12:31:46PM +0000, Robin Murphy wrote:
+> Oops, sorry - as you might imagine I'm not in my normal workflow :)
 
-Tested-by: Hanjun Guo <guohanjun@huawei.com>
-Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
----
- drivers/iommu/arm-smmu-v3.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+No problem, nobody is right now :)
 
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index aa3ac2a03807..2b68498dfb66 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -2659,7 +2659,7 @@ static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
- 	if (!fwspec)
- 		return -ENOENT;
- 
--	master = fwspec->iommu_priv;
-+	master = dev_iommu_priv_get(dev);
- 	smmu = master->smmu;
- 
- 	arm_smmu_detach_dev(master);
-@@ -2795,7 +2795,7 @@ static int arm_smmu_add_device(struct device *dev)
- 	if (!fwspec || fwspec->ops != &arm_smmu_ops)
- 		return -ENODEV;
- 
--	if (WARN_ON_ONCE(fwspec->iommu_priv))
-+	if (WARN_ON_ONCE(dev_iommu_priv_get(dev)))
- 		return -EBUSY;
- 
- 	smmu = arm_smmu_get_by_fwnode(fwspec->iommu_fwnode);
-@@ -2810,7 +2810,7 @@ static int arm_smmu_add_device(struct device *dev)
- 	master->smmu = smmu;
- 	master->sids = fwspec->ids;
- 	master->num_sids = fwspec->num_ids;
--	fwspec->iommu_priv = master;
-+	dev_iommu_priv_set(dev, master);
- 
- 	/* Check the SIDs are in range of the SMMU and our stream table */
- 	for (i = 0; i < master->num_sids; i++) {
-@@ -2852,7 +2852,7 @@ static int arm_smmu_add_device(struct device *dev)
- 	iommu_device_unlink(&smmu->iommu, dev);
- err_free_master:
- 	kfree(master);
--	fwspec->iommu_priv = NULL;
-+	dev_iommu_priv_set(dev, NULL);
- 	return ret;
- }
- 
-@@ -2865,7 +2865,7 @@ static void arm_smmu_remove_device(struct device *dev)
- 	if (!fwspec || fwspec->ops != &arm_smmu_ops)
- 		return;
- 
--	master = fwspec->iommu_priv;
-+	master = dev_iommu_priv_get(dev);
- 	smmu = master->smmu;
- 	arm_smmu_detach_dev(master);
- 	iommu_group_remove_device(dev);
--- 
-2.17.1
+> Let me rebase that onto something actually in your tree (rather than
+> whatever detached HEAD this is checked out out on my laptop...) and try
+> resending it properly.
 
+Got it, thanks. Added to the next version of the patch-set which I will
+send out shortly.
+
+> Cool, let me know if you need a hand with all the *_iommu_configure() stuff
+> - I still have plans for overhauling that lot anyway, but not imminently, so
+> it probably is worthwhile to do the straightforward housekeeping first.
+
+Okay, I'll get back to you if I need help with the conversion.
+
+Thanks,
+
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
