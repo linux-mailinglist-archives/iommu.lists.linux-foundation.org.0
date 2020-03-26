@@ -2,85 +2,54 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870E9193F5A
-	for <lists.iommu@lfdr.de>; Thu, 26 Mar 2020 13:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC8B194268
+	for <lists.iommu@lfdr.de>; Thu, 26 Mar 2020 16:08:55 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0350788C15;
-	Thu, 26 Mar 2020 12:56:24 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id ABFCE881CC;
+	Thu, 26 Mar 2020 15:08:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jckS2Adr897O; Thu, 26 Mar 2020 12:56:22 +0000 (UTC)
+	with ESMTP id ws-xygw9QDrW; Thu, 26 Mar 2020 15:08:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id AEB1688937;
-	Thu, 26 Mar 2020 12:56:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C6F66891D5;
+	Thu, 26 Mar 2020 15:08:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A28ECC0177;
-	Thu, 26 Mar 2020 12:56:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B0028C1D7C;
+	Thu, 26 Mar 2020 15:08:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 549AEC0177
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 12:56:21 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8F28FC0177
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 235FA261BE
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 12:56:21 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 7DCBA2156E
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cvQFcEa+bl9Q for <iommu@lists.linux-foundation.org>;
- Thu, 26 Mar 2020 12:56:20 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by silver.osuosl.org (Postfix) with ESMTPS id 05BA7204D4
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 12:56:19 +0000 (UTC)
-IronPort-SDR: e0leqXBn2b5/LwtNfY59ELG2O8dIgUMi4vD7wL5s9QaVRmzeGmZzRE0h81p6DyGp4ZHdE4Ke+X
- 8tuJlKR0kHLg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2020 05:56:19 -0700
-IronPort-SDR: yiOsM0HzQtPs7uCAalT1rmEaVhDVR7PBoOr5v2NRZQDpTvBCDiL/gALwpPAPkTAp+Rfv0LXRHs
- WUCGki2QgF7w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,308,1580803200"; d="scan'208";a="393970616"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by orsmga004.jf.intel.com with ESMTP; 26 Mar 2020 05:56:18 -0700
-Received: from shsmsx102.ccr.corp.intel.com (10.239.4.154) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 26 Mar 2020 05:56:18 -0700
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.206]) by
- shsmsx102.ccr.corp.intel.com ([169.254.2.50]) with mapi id 14.03.0439.000;
- Thu, 26 Mar 2020 20:56:13 +0800
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>
-Subject: RE: [PATCH v1 0/8] vfio: expose virtual Shared Virtual Addressing
- to VMs
-Thread-Topic: [PATCH v1 0/8] vfio: expose virtual Shared Virtual Addressing
- to VMs
-Thread-Index: AQHWAEUdI4Sfhdx3H0+yWIyqzj+O7Kha2xeQ
-Date: Thu, 26 Mar 2020 12:56:13 +0000
-Message-ID: <A2975661238FB949B60364EF0F2C25743A20440A@SHSMSX104.ccr.corp.intel.com>
-References: <1584880325-10561-1-git-send-email-yi.l.liu@intel.com>
-In-Reply-To: <1584880325-10561-1-git-send-email-yi.l.liu@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
-MIME-Version: 1.0
-Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Raj, 
- Ashok" <ashok.raj@intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "Tian, Jun J" <jun.j.tian@intel.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Sun, Yi
- Y" <yi.y.sun@intel.com>, "Wu, Hao" <hao.wu@intel.com>
+ with ESMTP id UK18EDfoJOsY for <iommu@lists.linux-foundation.org>;
+ Thu, 26 Mar 2020 15:08:49 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by silver.osuosl.org (Postfix) with ESMTPS id DC20F20345
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:48 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 978072AA; Thu, 26 Mar 2020 16:08:45 +0100 (CET)
+From: Joerg Roedel <joro@8bytes.org>
+To: iommu@lists.linux-foundation.org
+Subject: [PATCH v4 00/16] iommu: Move iommu_fwspec out of 'struct device'
+Date: Thu, 26 Mar 2020 16:08:25 +0100
+Message-Id: <20200326150841.10083-1-joro@8bytes.org>
+X-Mailer: git-send-email 2.17.1
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Will Deacon <will@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-arm-msm@vger.kernel.org, guohanjun@huawei.com,
+ linux-kernel@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-mediatek@lists.infradead.org,
+ Andy Gross <agross@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,92 +62,75 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> From: Liu, Yi L <yi.l.liu@intel.com>
-> Sent: Sunday, March 22, 2020 8:32 PM
-> To: alex.williamson@redhat.com; eric.auger@redhat.com
-> Subject: [PATCH v1 0/8] vfio: expose virtual Shared Virtual Addressing to VMs
-> 
-> From: Liu Yi L <yi.l.liu@intel.com>
-> 
-> Shared Virtual Addressing (SVA), a.k.a, Shared Virtual Memory (SVM) on
-> Intel platforms allows address space sharing between device DMA and
-> applications. SVA can reduce programming complexity and enhance security.
-> 
-> This VFIO series is intended to expose SVA usage to VMs. i.e. Sharing
-> guest application address space with passthru devices. This is called
-> vSVA in this series. The whole vSVA enabling requires QEMU/VFIO/IOMMU
-> changes. For IOMMU and QEMU changes, they are in separate series (listed
-> in the "Related series").
-> 
-> The high-level architecture for SVA virtualization is as below, the key
-> design of vSVA support is to utilize the dual-stage IOMMU translation (
-> also known as IOMMU nesting translation) capability in host IOMMU.
-> 
-> 
->     .-------------.  .---------------------------.
->     |   vIOMMU    |  | Guest process CR3, FL only|
->     |             |  '---------------------------'
->     .----------------/
->     | PASID Entry |--- PASID cache flush -
->     '-------------'                       |
->     |             |                       V
->     |             |                CR3 in GPA
->     '-------------'
-> Guest
-> ------| Shadow |--------------------------|--------
->       v        v                          v
-> Host
->     .-------------.  .----------------------.
->     |   pIOMMU    |  | Bind FL for GVA-GPA  |
->     |             |  '----------------------'
->     .----------------/  |
->     | PASID Entry |     V (Nested xlate)
->     '----------------\.------------------------------.
->     |             |   |SL for GPA-HPA, default domain|
->     |             |   '------------------------------'
->     '-------------'
-> Where:
->  - FL = First level/stage one page tables
->  - SL = Second level/stage two page tables
-> 
-> There are roughly four parts in this patchset which are
-> corresponding to the basic vSVA support for PCI device
-> assignment
->  1. vfio support for PASID allocation and free for VMs
->  2. vfio support for guest page table binding request from VMs
->  3. vfio support for IOMMU cache invalidation from VMs
->  4. vfio support for vSVA usage on IOMMU-backed mdevs
-> 
-> The complete vSVA kernel upstream patches are divided into three phases:
->     1. Common APIs and PCI device direct assignment
->     2. IOMMU-backed Mediated Device assignment
->     3. Page Request Services (PRS) support
-> 
-> This patchset is aiming for the phase 1 and phase 2, and based on Jacob's
-> below series.
-> [PATCH V10 00/11] Nested Shared Virtual Address (SVA) VT-d support:
-> https://lkml.org/lkml/2020/3/20/1172
-> 
-> Complete set for current vSVA can be found in below branch.
-> https://github.com/luxis1999/linux-vsva.git: vsva-linux-5.6-rc6
-> 
-> The corresponding QEMU patch series is as below, complete QEMU set can be
-> found in below branch.
-> [PATCH v1 00/22] intel_iommu: expose Shared Virtual Addressing to VMs
-> complete QEMU set can be found in below link:
-> https://github.com/luxis1999/qemu.git: sva_vtd_v10_v1
+Hi,
 
-The ioasid extension is in the below link.
+here is the updated version of the changes to move iommu_fwspec out of
+'struct device'. Previous versions of this patch-set can be found here:
 
-https://lkml.org/lkml/2020/3/25/874
+	v3: https://lore.kernel.org/lkml/20200320091414.3941-1-joro@8bytes.org/
 
-Regards,
-Yi Liu
+	v2: https://lore.kernel.org/lkml/20200310091229.29830-1-joro@8bytes.org/
+
+	v1: https://lore.kernel.org/lkml/20200228150820.15340-1-joro@8bytes.org/
+
+Changes to v2:
+
+	- Addressed Robins review comments
+
+	- Added Robins patch to optimize arm-smmu changes
+
+	- Rebased to v5.6-rc7
+
+Please review.
+
+Thanks,
+
+	Joerg
+
+Joerg Roedel (15):
+  iommu: Define dev_iommu_fwspec_get() for !CONFIG_IOMMU_API
+  ACPI/IORT: Remove direct access of dev->iommu_fwspec
+  drm/msm/mdp5: Remove direct access of dev->iommu_fwspec
+  iommu/tegra-gart: Remove direct access of dev->iommu_fwspec
+  iommu: Rename struct iommu_param to dev_iommu
+  iommu: Move iommu_fwspec to struct dev_iommu
+  iommu/arm-smmu: Fix uninitilized variable warning
+  iommu: Introduce accessors for iommu private data
+  iommu/arm-smmu-v3: Use accessor functions for iommu private data
+  iommu/arm-smmu: Use accessor functions for iommu private data
+  iommu/renesas: Use accessor functions for iommu private data
+  iommu/mediatek: Use accessor functions for iommu private data
+  iommu/qcom: Use accessor functions for iommu private data
+  iommu/virtio: Use accessor functions for iommu private data
+  iommu: Move fwspec->iommu_priv to struct dev_iommu
+
+Robin Murphy (1):
+  iommu/arm-smmu: Refactor master_cfg/fwspec usage
+
+ drivers/acpi/arm64/iort.c                |  6 ++-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c |  2 +-
+ drivers/iommu/arm-smmu-v3.c              | 10 ++--
+ drivers/iommu/arm-smmu.c                 | 55 +++++++++++----------
+ drivers/iommu/iommu.c                    | 31 ++++++------
+ drivers/iommu/ipmmu-vmsa.c               |  7 +--
+ drivers/iommu/mtk_iommu.c                | 13 +++--
+ drivers/iommu/mtk_iommu_v1.c             | 14 +++---
+ drivers/iommu/qcom_iommu.c               | 61 ++++++++++++++----------
+ drivers/iommu/tegra-gart.c               |  2 +-
+ drivers/iommu/virtio-iommu.c             | 11 ++---
+ include/linux/device.h                   |  9 ++--
+ include/linux/iommu.h                    | 33 ++++++++++---
+ 13 files changed, 142 insertions(+), 112 deletions(-)
+
+-- 
+2.17.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
