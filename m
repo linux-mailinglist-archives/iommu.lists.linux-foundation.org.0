@@ -1,82 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810B2193BFF
-	for <lists.iommu@lfdr.de>; Thu, 26 Mar 2020 10:36:53 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00557193C01
+	for <lists.iommu@lfdr.de>; Thu, 26 Mar 2020 10:36:56 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 040FA88406;
-	Thu, 26 Mar 2020 09:36:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 63B0587152;
+	Thu, 26 Mar 2020 09:36:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id K+tgFkcwY13W; Thu, 26 Mar 2020 09:36:51 +0000 (UTC)
+	with ESMTP id kZBaqfdE152n; Thu, 26 Mar 2020 09:36:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4C40588496;
-	Thu, 26 Mar 2020 09:36:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9E3EF87128;
+	Thu, 26 Mar 2020 09:36:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3A022C0177;
-	Thu, 26 Mar 2020 09:36:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 98485C0177;
+	Thu, 26 Mar 2020 09:36:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 77D4CC0177
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DC48FC0177
  for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 09:36:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 669D821511
+ by whitealder.osuosl.org (Postfix) with ESMTP id D847388425
  for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 09:36:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wOduj5z-VOUX for <iommu@lists.linux-foundation.org>;
- Thu, 26 Mar 2020 09:36:48 +0000 (UTC)
+ with ESMTP id jBe6V5JQXK7G for <iommu@lists.linux-foundation.org>;
+ Thu, 26 Mar 2020 09:36:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
- [209.85.221.68])
- by silver.osuosl.org (Postfix) with ESMTPS id DDA07204AE
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 09:36:47 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id m17so6796273wrw.11
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 02:36:47 -0700 (PDT)
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+ [209.85.128.68])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E6B8988406
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 09:36:48 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id l20so6152816wmi.3
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 02:36:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=G7p7PJ6AcDeKyfPDjNpk4b1tbVGXZ0s/DSwOXa4tJGU=;
- b=MdEKy25/rECSTKfRqslDXiTmq8aAghSsjHwwsraYtjVMg3oQK/FR4Nq2Iq/su6rA+O
- HrqEBktp/2UIDjuDsUKfy6MTCLHLczrMrygOfZrt4/dGb4gee3s//As5K5zRdCQOQz6w
- OAF2yOm5oXjpmNjBHl2HKhlxdse3NT0WvqCdTsD/4lKYiygz/WPyXDQA7WW+NKzeZs8P
- zqjZEBsu675cHpDtIRgL61hZeGPZtjRtgJ/uVLoO4B3O5xsTCNj6XZ1DV+iT+s6ZVfkM
- 0NYqou+KrkDnZk9UzPKso9DceJifYwBiVzS5fnacYDQr5fsNh6kS9hUpn/OhOA6h8p2V
- S3Wg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=lajplBTzvlJjjyB5d/rvr6mxgKf8jthOYH/0XMGJYKc=;
+ b=tOIe/ldEqwY7T6oVRKLcieqlVoTJFQkrCmcTbJk+TxNDsbi+/4ULDAsTPtyGctvpZt
+ k+Mfq15KYEGUaGb1yPlI/2X9Do/QAAoOSoDC/MBpJjyYZCDZspvOSNt+SvI8WtEZC4M0
+ dmZ8AmrE1QMSd0xjwzV0YgmGcPhqw5MTmbokWBJe5IeKyRC4BOxF3oWWuC1QgSASzeTe
+ cf9+pF8ml8319t/sb7LzZq2qfWB01xvbILuRMyVK5yy3uJMiBQ1CGnrTqWU2jCjmilxt
+ AKDXUFW5E49gP1SKVe2+NGdu8wF73AyujQSlbM424IcJuas67XJXrbtpWA1ow3F109Ch
+ eU9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=G7p7PJ6AcDeKyfPDjNpk4b1tbVGXZ0s/DSwOXa4tJGU=;
- b=JbAf1sZQ8DUTrDhrWDNmI1/NXE1qu6+J0RvTosJ1h3XhxcuPaTJyfGQ5TNPakgp1QF
- ZKKaZSpjRE3YrcsAlaQGTfTNWXzkfavIP6/ItkJKUrMcW0+pVGZuQUaXDxHAeYYgNeEZ
- 5ydTQH1S2Ax4aCye/e9ZowU4nztA8+RRPG5DZ/NZrwcUjcZRSi10r7SwdBYHNHiJL8BF
- fZLX6ihriyd63HHZL63wfDz9x9T0bhJaK4pBXYe3uRxoETnMeV/GCA6yiLjLABbyfRyd
- UKStMHSibpdGaFpyzKHPCKAxIeZ12m00UWKvJXwNdkrmAvgNUl85A8wrIkS9RM1wONfB
- ifBA==
-X-Gm-Message-State: ANhLgQ2crzAM0tJcr+nGAY6jnS+KQE8SZGjcPF/cAojJCYoaIDIDRqvt
- 1A0RR3LZyhC7KcjJ2bj70ZaFdcGrXGD4ng==
-X-Google-Smtp-Source: ADFU+vtbZ1yGAz4pBh/4O+sIsvZFx+dJfbGrrMYuEMAEEDTRAA+DU6/7rWZWh0cSNFmldDCc8fR4rw==
-X-Received: by 2002:a05:6000:12c6:: with SMTP id
- l6mr8834464wrx.152.1585215405995; 
- Thu, 26 Mar 2020 02:36:45 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=lajplBTzvlJjjyB5d/rvr6mxgKf8jthOYH/0XMGJYKc=;
+ b=FXolZCymJ+UcHKxAOoigFOa2N4ni19L2Jcm4lRyjETFzxAM3ZOlWYO1oHkEz9Fc6i3
+ /ERQwGAqYEA19sjhwVyD63xhmvtIeBEmq3FafH/VvP/lrGUrU0+GPr8dAR3UFg5Mr4i0
+ Cct2M8NFd52MOg9IO7G9901u5zsxSZhtSbjCz+646n15Qk0gAu5ZZSZtgFn/FKWmPU/w
+ HOI50I0dDFtGHDvzl7NEQUQbPySjBFpwrnGZd2Oa1D8a/ilCOfLvcLn35wua8jTtkYQI
+ zxUOVw5yPXblmQiThrfyomFZ8V7CT7B25fZx160UGChoV28vKGvXv7LFSI/3ThklheVd
+ 85nw==
+X-Gm-Message-State: ANhLgQ3eth0K6VdDeKSt6dFWM5tZvKv3ofEt5B6VER+85/4Ypg/s5R8P
+ X9HS997Y5Cvp1ElXge8r5/kRIanOoNmDEA==
+X-Google-Smtp-Source: ADFU+vuY5MSZKCaL767WyqQNnptmDlZTfCQ4OZLTDBCvjrh4sKIYXa7lO+bG4W5+EiJ2BtAlIInK5g==
+X-Received: by 2002:a7b:cbcf:: with SMTP id n15mr2182434wmi.139.1585215407015; 
+ Thu, 26 Mar 2020 02:36:47 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:171b:226b:54a0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id u8sm2670165wrn.69.2020.03.26.02.36.45
+ by smtp.gmail.com with ESMTPSA id u8sm2670165wrn.69.2020.03.26.02.36.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Mar 2020 02:36:45 -0700 (PDT)
+ Thu, 26 Mar 2020 02:36:46 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH v2 0/3] iommu/virtio: Misc fixes
-Date: Thu, 26 Mar 2020 10:35:55 +0100
-Message-Id: <20200326093558.2641019-1-jean-philippe@linaro.org>
+Subject: [PATCH v2 1/3] iommu/virtio: Fix sparse warning
+Date: Thu, 26 Mar 2020 10:35:56 +0100
+Message-Id: <20200326093558.2641019-2-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200326093558.2641019-1-jean-philippe@linaro.org>
+References: <20200326093558.2641019-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, mst@redhat.com,
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ kbuild test robot <lkp@intel.com>, mst@redhat.com,
  virtualization@lists.linux-foundation.org, bbhushan2@marvell.com,
  jasowang@redhat.com
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -96,19 +98,80 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-A collection of fixes for the virtio-iommu driver. It might be too late
-for v5.6 since they need more review. Patch 2 is new, the others were
-posted separately. 
+We copied the virtio_iommu_config from the virtio-iommu specification,
+which declares the fields using little-endian annotations (for example
+le32). Unfortunately this causes sparse to warn about comparison between
+little- and cpu-endian, because of the typecheck() in virtio_cread():
 
-Jean-Philippe Brucker (3):
-  iommu/virtio: Fix sparse warning
-  iommu/virtio: Fix freeing of incomplete domains
-  iommu/virtio: Reject IOMMU page granule larger than PAGE_SIZE
+drivers/iommu/virtio-iommu.c:1024:9: sparse: sparse: incompatible types in comparison expression (different base types):
+drivers/iommu/virtio-iommu.c:1024:9: sparse:    restricted __le64 *
+drivers/iommu/virtio-iommu.c:1024:9: sparse:    unsigned long long *
+drivers/iommu/virtio-iommu.c:1036:9: sparse: sparse: incompatible types in comparison expression (different base types):
+drivers/iommu/virtio-iommu.c:1036:9: sparse:    restricted __le64 *
+drivers/iommu/virtio-iommu.c:1036:9: sparse:    unsigned long long *
+drivers/iommu/virtio-iommu.c:1040:9: sparse: sparse: incompatible types in comparison expression (different base types):
+drivers/iommu/virtio-iommu.c:1040:9: sparse:    restricted __le64 *
+drivers/iommu/virtio-iommu.c:1040:9: sparse:    unsigned long long *
+drivers/iommu/virtio-iommu.c:1044:9: sparse: sparse: incompatible types in comparison expression (different base types):
+drivers/iommu/virtio-iommu.c:1044:9: sparse:    restricted __le32 *
+drivers/iommu/virtio-iommu.c:1044:9: sparse:    unsigned int *
+drivers/iommu/virtio-iommu.c:1048:9: sparse: sparse: incompatible types in comparison expression (different base types):
+drivers/iommu/virtio-iommu.c:1048:9: sparse:    restricted __le32 *
+drivers/iommu/virtio-iommu.c:1048:9: sparse:    unsigned int *
+drivers/iommu/virtio-iommu.c:1052:9: sparse: sparse: incompatible types in comparison expression (different base types):
+drivers/iommu/virtio-iommu.c:1052:9: sparse:    restricted __le32 *
+drivers/iommu/virtio-iommu.c:1052:9: sparse:    unsigned int *
 
+Although virtio_cread() does convert virtio-endian (in our case
+little-endian) to cpu-endian, the typecheck() needs the two arguments to
+have the same endianness. Do as UAPI headers of other virtio devices do,
+and remove the endian annotation from the device config.
+
+Even though we change the UAPI this shouldn't cause any regression since
+QEMU, the existing implementation of virtio-iommu that uses this header,
+already removes the annotations when importing headers.
+
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+---
  include/uapi/linux/virtio_iommu.h | 12 ++++++------
- drivers/iommu/virtio-iommu.c      | 30 +++++++++++++++++++++---------
- 2 files changed, 27 insertions(+), 15 deletions(-)
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/include/uapi/linux/virtio_iommu.h b/include/uapi/linux/virtio_iommu.h
+index 237e36a280cb..48e3c29223b5 100644
+--- a/include/uapi/linux/virtio_iommu.h
++++ b/include/uapi/linux/virtio_iommu.h
+@@ -18,24 +18,24 @@
+ #define VIRTIO_IOMMU_F_MMIO			5
+ 
+ struct virtio_iommu_range_64 {
+-	__le64					start;
+-	__le64					end;
++	__u64					start;
++	__u64					end;
+ };
+ 
+ struct virtio_iommu_range_32 {
+-	__le32					start;
+-	__le32					end;
++	__u32					start;
++	__u32					end;
+ };
+ 
+ struct virtio_iommu_config {
+ 	/* Supported page sizes */
+-	__le64					page_size_mask;
++	__u64					page_size_mask;
+ 	/* Supported IOVA range */
+ 	struct virtio_iommu_range_64		input_range;
+ 	/* Max domain ID size */
+ 	struct virtio_iommu_range_32		domain_range;
+ 	/* Probe buffer size */
+-	__le32					probe_size;
++	__u32					probe_size;
+ };
+ 
+ /* Request types */
 -- 
 2.25.1
 
