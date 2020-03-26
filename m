@@ -2,68 +2,57 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B6819447A
-	for <lists.iommu@lfdr.de>; Thu, 26 Mar 2020 17:39:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1AB194504
+	for <lists.iommu@lfdr.de>; Thu, 26 Mar 2020 18:05:27 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 4D25320430;
-	Thu, 26 Mar 2020 16:39:03 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 79E31261DF;
+	Thu, 26 Mar 2020 17:05:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JIq5OVw6Uk7i; Thu, 26 Mar 2020 16:39:00 +0000 (UTC)
+	with ESMTP id h8hzJC58SSBW; Thu, 26 Mar 2020 17:05:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 996DE2042A;
-	Thu, 26 Mar 2020 16:39:00 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AF53126291;
+	Thu, 26 Mar 2020 17:05:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 826D0C0177;
-	Thu, 26 Mar 2020 16:39:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 98ABEC0177;
+	Thu, 26 Mar 2020 17:05:24 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EAF65C0177
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 16:38:59 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E0804C0177
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 17:05:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D9ED02042A
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 16:38:59 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id CB0B988587
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 17:05:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kA7UWb6Tun79 for <iommu@lists.linux-foundation.org>;
- Thu, 26 Mar 2020 16:38:59 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by silver.osuosl.org (Postfix) with ESMTPS id 155E120360
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 16:38:59 +0000 (UTC)
-IronPort-SDR: tSdojn6DozlHH7/JM0ZWYYiXojR2PSYJYeOMAbTlFHMxX+G9pGIDk00gjb7JZ3a30kOAxLN5X5
- CE91QQMp+3rA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2020 09:38:58 -0700
-IronPort-SDR: 5qAPNHMPSfUJ2crJnR1N0kbPgi0WNOKmtBXLIv/QW9b1irnPu+DsZbog/yh3hn+zQuOdOnAb5L
- +QiA/Z+IxVng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,309,1580803200"; d="scan'208";a="326618818"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga001.jf.intel.com with ESMTP; 26 Mar 2020 09:38:58 -0700
-Date: Thu, 26 Mar 2020 09:44:42 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH v2 1/3] iommu/uapi: Define uapi version and capabilities
-Message-ID: <20200326094442.5be042ce@jacob-builder>
-In-Reply-To: <20200326092316.GA31648@infradead.org>
-References: <1585178227-17061-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1585178227-17061-2-git-send-email-jacob.jun.pan@linux.intel.com>
- <20200326092316.GA31648@infradead.org>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+ with ESMTP id 9T61-2FFW5s7 for <iommu@lists.linux-foundation.org>;
+ Thu, 26 Mar 2020 17:05:21 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 4E7A78857E
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 17:05:21 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id CF3D2227A81; Thu, 26 Mar 2020 18:05:16 +0100 (CET)
+Date: Thu, 26 Mar 2020 18:05:16 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Alexander Graf <graf@amazon.com>
+Subject: Re: [PATCH] swiotlb: Allow swiotlb to live at pre-defined address
+Message-ID: <20200326170516.GB6387@lst.de>
+References: <20200326162922.27085-1-graf@amazon.com>
 MIME-Version: 1.0
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- Alex Williamson <alex.williamson@redhat.com>,
- David Woodhouse <dwmw2@infradead.org>
+Content-Disposition: inline
+In-Reply-To: <20200326162922.27085-1-graf@amazon.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Mark Rutland <mark.rutland@arm.com>, benh@amazon.com,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ Jan Kiszka <jan.kiszka@siemens.com>, x86@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, aggh@amazon.com, alcioa@amazon.com,
+ iommu@lists.linux-foundation.org, aagch@amazon.com, dhr@amazon.com,
+ dwmw@amazon.com, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,56 +70,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Christoph,
-
-Thanks for the review. Please see my comments inline.
-
-On Thu, 26 Mar 2020 02:23:16 -0700
-Christoph Hellwig <hch@infradead.org> wrote:
-
-> On Wed, Mar 25, 2020 at 04:17:05PM -0700, Jacob Pan wrote:
-> > Having a single UAPI version to govern the user-kernel data
-> > structures makes compatibility check straightforward. On the
-> > contrary, supporting combinations of multiple versions of the data
-> > can be a nightmare to maintain.
-> > 
-> > This patch defines a unified UAPI version to be used for
-> > compatibility checks between user and kernel.  
+On Thu, Mar 26, 2020 at 05:29:22PM +0100, Alexander Graf wrote:
+> The swiotlb is a very convenient fallback mechanism for bounce buffering of
+> DMAable data. It is usually used for the compatibility case where devices
+> can only DMA to a "low region".
 > 
-> This is bullshit.  Version numbers don't scale and we've avoided them
-> everywhere.  You need need flags specifying specific behavior.
+> However, in some scenarios this "low region" may be bound even more
+> heavily. For example, there are embedded system where only an SRAM region
+> is shared between device and CPU. There are also heterogeneous computing
+> scenarios where only a subset of RAM is cache coherent between the
+> components of the system. There are partitioning hypervisors, where
+> a "control VM" that implements device emulation has limited view into a
+> partition's memory for DMA capabilities due to safety concerns.
 > 
-We have flags or the equivalent in each UAPI structures. The flags
-are used for checking validity of extensions as well. And you are right
-we can use them for checking specific behavior.
-
-So we have two options here:
-1. Have a overall version for a quick compatibility check while
-starting a VM. If not compatible, we will stop guest SVA entirely.
-
-2. Let each API calls check its own capabilities/flags at runtime. It
-may fail later on and lead to more complex error handling.
-For example, guest starts with SVA support, allocate a PASID, bind
-guest PASID works great. Then when IO page fault happens, it try to do
-page request service and found out certain flags are not compatible.
-This case is more complex to handle.
-
-I am guessing your proposal is #2. right?
-
-Overall, we don;t expect much change to the UAPI other than adding some
-vendor specific part of the union. Is the scalability concern based on
-frequent changes?
-
-> > +#define IOMMU_UAPI_VERSION	1
-> > +static inline int iommu_get_uapi_version(void)
-> > +{
-> > +	return IOMMU_UAPI_VERSION;
-> > +}  
+> This patch adds a command line driven mechanism to move all DMA memory into
+> a predefined shared memory region which may or may not be part of the
+> physical address layout of the Operating System.
 > 
-> Also inline functions like this in UAPI headers that actually get
-> included by userspace programs simply don't work.
+> Ideally, the typical path to set this configuration would be through Device
+> Tree or ACPI, but neither of the two mechanisms is standardized yet. Also,
+> in the x86 MicroVM use case, we have neither ACPI nor Device Tree, but
+> instead configure the system purely through kernel command line options.
+> 
+> I'm sure other people will find the functionality useful going forward
+> though and extend it to be triggered by DT/ACPI in the future.
 
-I will remove that, user can just use IOMMU_UAPI_VERSION directly.
+I'm totally against hacking in a kernel parameter for this.  We'll need
+a proper documented DT or ACPI way.  We also need to feed this information
+into the actual DMA bounce buffering decisions and not just the swiotlb
+placement.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
