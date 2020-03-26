@@ -1,47 +1,46 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91324194269
-	for <lists.iommu@lfdr.de>; Thu, 26 Mar 2020 16:08:55 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 868AA19426E
+	for <lists.iommu@lfdr.de>; Thu, 26 Mar 2020 16:08:58 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 221D786228;
-	Thu, 26 Mar 2020 15:08:54 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2E0462634F;
+	Thu, 26 Mar 2020 15:08:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id x47X7KklqUqZ; Thu, 26 Mar 2020 15:08:51 +0000 (UTC)
+	with ESMTP id N7-ENMV3qkTI; Thu, 26 Mar 2020 15:08:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 83BB486C39;
-	Thu, 26 Mar 2020 15:08:51 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 62F2326320;
+	Thu, 26 Mar 2020 15:08:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6E63EC1D7C;
-	Thu, 26 Mar 2020 15:08:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 376ACC0177;
+	Thu, 26 Mar 2020 15:08:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 567D9C0177
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:50 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3DBF5C1D7C
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 52FC0881CC
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:50 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 38ABF86D88
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xsH38KUQFbIw for <iommu@lists.linux-foundation.org>;
- Thu, 26 Mar 2020 15:08:49 +0000 (UTC)
+ with ESMTP id DfAvDpia_g8B for <iommu@lists.linux-foundation.org>;
+ Thu, 26 Mar 2020 15:08:50 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id B153F8805D
- for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:49 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 616BD85F60
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Mar 2020 15:08:50 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id A256357; Thu, 26 Mar 2020 16:08:45 +0100 (CET)
+ id DC66D367; Thu, 26 Mar 2020 16:08:45 +0100 (CET)
 From: Joerg Roedel <joro@8bytes.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH v4 01/16] iommu: Define dev_iommu_fwspec_get() for
- !CONFIG_IOMMU_API
-Date: Thu, 26 Mar 2020 16:08:26 +0100
-Message-Id: <20200326150841.10083-2-joro@8bytes.org>
+Subject: [PATCH v4 02/16] ACPI/IORT: Remove direct access of dev->iommu_fwspec
+Date: Thu, 26 Mar 2020 16:08:27 +0100
+Message-Id: <20200326150841.10083-3-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326150841.10083-1-joro@8bytes.org>
 References: <20200326150841.10083-1-joro@8bytes.org>
@@ -74,32 +73,40 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-There are users outside of the IOMMU code that need to call that
-function. Define it for !CONFIG_IOMMU_API too so that compilation does
-not break.
+Use the accessor functions instead of directly dereferencing
+dev->iommu_fwspec.
 
-Reported-by: kbuild test robot <lkp@intel.com>
+Tested-by: Hanjun Guo <guohanjun@huawei.com>
 Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- include/linux/iommu.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/acpi/arm64/iort.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index d1b5f4d98569..3c4ca041d7a2 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -1073,6 +1073,10 @@ static inline int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
- 	return -ENODEV;
- }
+diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
+index ed3d2d1a7ae9..7d04424189df 100644
+--- a/drivers/acpi/arm64/iort.c
++++ b/drivers/acpi/arm64/iort.c
+@@ -1015,6 +1015,7 @@ const struct iommu_ops *iort_iommu_configure(struct device *dev)
+ 		return ops;
  
-+static inline struct iommu_fwspec *dev_iommu_fwspec_get(struct device *dev)
-+{
-+	return NULL;
-+}
- #endif /* CONFIG_IOMMU_API */
+ 	if (dev_is_pci(dev)) {
++		struct iommu_fwspec *fwspec;
+ 		struct pci_bus *bus = to_pci_dev(dev)->bus;
+ 		struct iort_pci_alias_info info = { .dev = dev };
  
- #ifdef CONFIG_IOMMU_DEBUGFS
+@@ -1027,8 +1028,9 @@ const struct iommu_ops *iort_iommu_configure(struct device *dev)
+ 		err = pci_for_each_dma_alias(to_pci_dev(dev),
+ 					     iort_pci_iommu_init, &info);
+ 
+-		if (!err && iort_pci_rc_supports_ats(node))
+-			dev->iommu_fwspec->flags |= IOMMU_FWSPEC_PCI_RC_ATS;
++		fwspec = dev_iommu_fwspec_get(dev);
++		if (fwspec && iort_pci_rc_supports_ats(node))
++			fwspec->flags |= IOMMU_FWSPEC_PCI_RC_ATS;
+ 	} else {
+ 		int i = 0;
+ 
 -- 
 2.17.1
 
