@@ -2,76 +2,85 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1755A195996
-	for <lists.iommu@lfdr.de>; Fri, 27 Mar 2020 16:10:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0E2195A96
+	for <lists.iommu@lfdr.de>; Fri, 27 Mar 2020 17:06:15 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BBD478776E;
-	Fri, 27 Mar 2020 15:10:10 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8FD9085A00;
+	Fri, 27 Mar 2020 16:06:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id A982Qextv1Kq; Fri, 27 Mar 2020 15:10:10 +0000 (UTC)
+	with ESMTP id FCQz-lS_y7do; Fri, 27 Mar 2020 16:06:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1FA8487777;
-	Fri, 27 Mar 2020 15:10:10 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0919D8560B;
+	Fri, 27 Mar 2020 16:06:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0DBF1C1D8A;
-	Fri, 27 Mar 2020 15:10:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EC391C1D8A;
+	Fri, 27 Mar 2020 16:06:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1DF5AC0177
- for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 15:10:08 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6BC5CC0177
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 16:06:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id DE3972152C
- for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 15:10:07 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 67D82887A0
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 16:06:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FAIPLeRSeW-u for <iommu@lists.linux-foundation.org>;
- Fri, 27 Mar 2020 15:10:06 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by silver.osuosl.org (Postfix) with ESMTPS id 4F6EB20780
- for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 15:10:04 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1585321806; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=8L+aqMqfHrTgXBDzMaiX/dTs4tE5Ws3f3P4pNDyIQpM=;
- b=ChNdvKcThrC5b49rb/DafiekUINLvt7HjhPTBt8dGVARhOx3VskYU/0/Qqt0eBYTj8AnQ/ua
- JfO5QLFQxyXgcxUHmC0O94+wq1ByIgQ1XzM6hCILnuC84wlymmc6VWK/lnnP81YiBI8mgR4C
- P8kAXP8TsvFjvd95mNgnvnGvHww=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e7e173c.7f69053bf5e0-smtp-out-n05;
- Fri, 27 Mar 2020 15:09:48 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id DA6AAC4478C; Fri, 27 Mar 2020 15:09:47 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ with ESMTP id 1WZEUASdyNtm for <iommu@lists.linux-foundation.org>;
+ Fri, 27 Mar 2020 16:06:09 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from us-smtp-delivery-74.mimecast.com
+ (us-smtp-delivery-74.mimecast.com [216.205.24.74])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 966ED8879F
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 16:06:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1585325168;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rADClTuM8rDCPwa+pftuZtYBhIX2IPiWqkZ05BPZYE0=;
+ b=YvqFNE8ocLlbbC/dzh48t/phYVg2fxiDs2BQCPrNNW28cXFy3lNb/WQ/4uOu0biMN5rpm7
+ /f09CKQgpbYB7pj9gMlnwisChDur/R99E7BVG0lKkSrXjZ2zb7pqRInRekMwkAWaL7q+YJ
+ /QF5wd+H0NGaU5mHnI8jSn+G5j2odA0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-461-K_ZuWAB8M42Xkd9Far-IRA-1; Fri, 27 Mar 2020 12:06:05 -0400
+X-MC-Unique: K_ZuWAB8M42Xkd9Far-IRA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A3E0BC433D2;
- Fri, 27 Mar 2020 15:09:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5251A8018A1;
+ Fri, 27 Mar 2020 16:06:03 +0000 (UTC)
+Received: from [10.36.113.142] (ovpn-113-142.ams2.redhat.com [10.36.113.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 957C460304;
+ Fri, 27 Mar 2020 16:05:54 +0000 (UTC)
+Subject: Re: [PATCH V10 04/11] iommu/vt-d: Use helper function to skip agaw
+ for SL
+To: "Tian, Kevin" <kevin.tian@intel.com>,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ David Woodhouse <dwmw2@infradead.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>
+References: <1584746861-76386-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1584746861-76386-5-git-send-email-jacob.jun.pan@linux.intel.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D7ED91C@SHSMSX104.ccr.corp.intel.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <310693c3-9bd2-a764-2053-cd785d329ee6@redhat.com>
+Date: Fri, 27 Mar 2020 17:05:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Date: Fri, 27 Mar 2020 20:39:46 +0530
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH] iommu/arm-smmu: Demote error messages to debug in
- shutdown callback
-In-Reply-To: <0023bc68-45fb-4e80-00c8-01fd0369243f@arm.com>
-References: <20200327132852.10352-1-saiprakash.ranjan@codeaurora.org>
- <0023bc68-45fb-4e80-00c8-01fd0369243f@arm.com>
-Message-ID: <37db9a4d524aa4d7529ae47a8065c9e0@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Douglas Anderson <dianders@chromium.org>, iommu@lists.linux-foundation.org,
- Will Deacon <will@kernel.org>
+In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D7ED91C@SHSMSX104.ccr.corp.intel.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Cc: "Raj, Ashok" <ashok.raj@intel.com>, Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,59 +93,73 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Robin,
+Hi Jacob,
 
-Thanks for taking a look at this.
-
-On 2020-03-27 19:42, Robin Murphy wrote:
-> On 2020-03-27 1:28 pm, Sai Prakash Ranjan wrote:
->> Currently on reboot/shutdown, the following messages are
->> displayed on the console as error messages before the
->> system reboots/shutdown.
->> 
->> On SC7180:
->> 
->>    arm-smmu 15000000.iommu: removing device with active domains!
->>    arm-smmu 5040000.iommu: removing device with active domains!
->> 
->> Demote the log level to debug since it does not offer much
->> help in identifying/fixing any issue as the system is anyways
->> going down and reduce spamming the kernel log.
+On 3/27/20 12:55 PM, Tian, Kevin wrote:
+>> From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+>> Sent: Saturday, March 21, 2020 7:28 AM
+>>
+>> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+>> ---
+>>  drivers/iommu/intel-pasid.c | 14 ++++----------
+>>  1 file changed, 4 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/iommu/intel-pasid.c b/drivers/iommu/intel-pasid.c
+>> index 191508c7c03e..9bdb7ee228b6 100644
+>> --- a/drivers/iommu/intel-pasid.c
+>> +++ b/drivers/iommu/intel-pasid.c
+>> @@ -544,17 +544,11 @@ int intel_pasid_setup_second_level(struct
+>> intel_iommu *iommu,
+>>  		return -EINVAL;
+>>  	}
+>>
+>> -	/*
+>> -	 * Skip top levels of page tables for iommu which has less agaw
+>> -	 * than default. Unnecessary for PT mode.
+>> -	 */
+>>  	pgd = domain->pgd;
+>> -	for (agaw = domain->agaw; agaw > iommu->agaw; agaw--) {
+>> -		pgd = phys_to_virt(dma_pte_addr(pgd));
+>> -		if (!dma_pte_present(pgd)) {
+>> -			dev_err(dev, "Invalid domain page table\n");
+>> -			return -EINVAL;
+>> -		}
+>> +	agaw = iommu_skip_agaw(domain, iommu, &pgd);
+>> +	if (agaw < 0) {
+>> +		dev_err(dev, "Invalid domain page table\n");
+is the dev_err() really requested. I see in domain_setup_first_level(),
+there is none.
+>> +		return -EINVAL;
+>>  	}
 > 
-> I've gone back and forth on this pretty much ever since we added the
-> shutdown hook - on the other hand, if any devices *are* still running
-> in those domains at this point, then once we turn off the SMMU and let
-> those IOVAs go out on the bus as physical addresses, all manner of
-> weirdness may ensue. Thus there is an argument for *some* indication
-> that this may happen, although IMO it could be downgraded to at least
-> dev_warn().
+> ok, I see how it is used. possibly combine last and this one together since
+> it's mostly moving code...
+
+I tend to agree with Kevin. May be better squash the 2 patches. Also not
+sure the inline of iommu_skip_agaw() is meaningful then. Also Add commit
+messages on the resulting patch.
+
+Note domain_setup_first_level() also could use the helper while we are
+it (if declaration moved to common helper). Only the error code differs
+in case !dma_pte_present(pgd), ie. -ENOMEM. May be good to align.
+
+Otherwise those stuff may be done in a fixup patch.
+
+Thanks
+
+Eric
+> 
+>>
+>>  	pgd_val = virt_to_phys(pgd);
+>> --
+>> 2.7.4
 > 
 
-Any pointers to the weirdness here after SMMU is turned off?
-Because if we look at the call sites, device_shutdown is called
-from kernel_restart_prepare or kernel_shutdown_prepare which would
-mean system is going down anyways, so do we really care about these
-error messages or warnings from SMMU?
-
-  arm_smmu_device_shutdown
-   platform_drv_shutdown
-    device_shutdown
-     kernel_restart_prepare
-      kernel_restart
-
-
-Thanks,
-Sai
-
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
