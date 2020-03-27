@@ -2,53 +2,58 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19331954E7
-	for <lists.iommu@lfdr.de>; Fri, 27 Mar 2020 11:11:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAC51954F3
+	for <lists.iommu@lfdr.de>; Fri, 27 Mar 2020 11:16:12 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 441A4894F1;
-	Fri, 27 Mar 2020 10:11:17 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5EBA4893DE;
+	Fri, 27 Mar 2020 10:16:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YNJIGRBR3UQL; Fri, 27 Mar 2020 10:11:15 +0000 (UTC)
+	with ESMTP id HHwo1ZlrgXPh; Fri, 27 Mar 2020 10:16:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 68209894F6;
-	Fri, 27 Mar 2020 10:11:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DA66589230;
+	Fri, 27 Mar 2020 10:16:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 48CC5C1D85;
-	Fri, 27 Mar 2020 10:11:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CAA43C0177;
+	Fri, 27 Mar 2020 10:16:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B386EC0177;
- Fri, 27 Mar 2020 10:11:13 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C58DAC0177
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 10:16:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id A0BF587383;
- Fri, 27 Mar 2020 10:11:13 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id AFAC2886E3
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 10:16:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1tp0zTjgMJ2z; Fri, 27 Mar 2020 10:11:12 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+ with ESMTP id Tx0b6BpmMcaH for <iommu@lists.linux-foundation.org>;
+ Fri, 27 Mar 2020 10:16:09 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id A5815871FD;
- Fri, 27 Mar 2020 10:11:12 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 27ED0886D8
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 10:16:09 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id AD2522C8; Fri, 27 Mar 2020 11:11:10 +0100 (CET)
-Date: Fri, 27 Mar 2020 11:11:09 +0100
+ id 8F9B42C8; Fri, 27 Mar 2020 11:16:06 +0100 (CET)
+Date: Fri, 27 Mar 2020 11:16:05 +0100
 From: Joerg Roedel <joro@8bytes.org>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v2 0/3] iommu/virtio: Misc fixes
-Message-ID: <20200327101109.GA3103@8bytes.org>
-References: <20200326093558.2641019-1-jean-philippe@linaro.org>
+To: iommu@lists.linux-foundation.org
+Subject: Re: [PATCH v4 00/16] iommu: Move iommu_fwspec out of 'struct device'
+Message-ID: <20200327101605.GB3103@8bytes.org>
+References: <20200326150841.10083-1-joro@8bytes.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200326093558.2641019-1-jean-philippe@linaro.org>
+In-Reply-To: <20200326150841.10083-1-joro@8bytes.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: mst@redhat.com, jasowang@redhat.com,
- virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
- bbhushan2@marvell.com
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Will Deacon <will@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-arm-msm@vger.kernel.org, guohanjun@huawei.com,
+ linux-kernel@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-mediatek@lists.infradead.org,
+ Andy Gross <agross@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,18 +71,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Mar 26, 2020 at 10:35:55AM +0100, Jean-Philippe Brucker wrote:
-> A collection of fixes for the virtio-iommu driver. It might be too late
-> for v5.6 since they need more review. Patch 2 is new, the others were
-> posted separately. 
-> 
-> Jean-Philippe Brucker (3):
->   iommu/virtio: Fix sparse warning
->   iommu/virtio: Fix freeing of incomplete domains
->   iommu/virtio: Reject IOMMU page granule larger than PAGE_SIZE
+On Thu, Mar 26, 2020 at 04:08:25PM +0100, Joerg Roedel wrote:
+> Joerg Roedel (15):
+>   iommu: Define dev_iommu_fwspec_get() for !CONFIG_IOMMU_API
+>   ACPI/IORT: Remove direct access of dev->iommu_fwspec
+>   drm/msm/mdp5: Remove direct access of dev->iommu_fwspec
+>   iommu/tegra-gart: Remove direct access of dev->iommu_fwspec
+>   iommu: Rename struct iommu_param to dev_iommu
+>   iommu: Move iommu_fwspec to struct dev_iommu
+>   iommu/arm-smmu: Fix uninitilized variable warning
+>   iommu: Introduce accessors for iommu private data
+>   iommu/arm-smmu-v3: Use accessor functions for iommu private data
+>   iommu/arm-smmu: Use accessor functions for iommu private data
+>   iommu/renesas: Use accessor functions for iommu private data
+>   iommu/mediatek: Use accessor functions for iommu private data
+>   iommu/qcom: Use accessor functions for iommu private data
+>   iommu/virtio: Use accessor functions for iommu private data
+>   iommu: Move fwspec->iommu_priv to struct dev_iommu
 
-Applied, thanks.
-
+Applied.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
