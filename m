@@ -2,93 +2,67 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4B4194F3D
-	for <lists.iommu@lfdr.de>; Fri, 27 Mar 2020 03:51:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD00194FAB
+	for <lists.iommu@lfdr.de>; Fri, 27 Mar 2020 04:31:27 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2A360893C3;
-	Fri, 27 Mar 2020 02:51:18 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A543D8914E;
+	Fri, 27 Mar 2020 03:31:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lCR6lZw6-Ryj; Fri, 27 Mar 2020 02:51:17 +0000 (UTC)
+	with ESMTP id 6GSXBf76kOJm; Fri, 27 Mar 2020 03:31:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7C88E89416;
-	Fri, 27 Mar 2020 02:50:30 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A206B8914A;
+	Fri, 27 Mar 2020 03:31:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5A057C0177;
-	Fri, 27 Mar 2020 02:50:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8954AC1D87;
+	Fri, 27 Mar 2020 03:31:24 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D2142C0177
- for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 02:50:27 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A8EB3C0177
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 03:31:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BB909887BE
- for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 02:50:27 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 90B8C880C8
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 03:31:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OFmpLS1a02CC for <iommu@lists.linux-foundation.org>;
- Fri, 27 Mar 2020 02:50:26 +0000 (UTC)
+ with ESMTP id 7n8fG72Cn6cG for <iommu@lists.linux-foundation.org>;
+ Fri, 27 Mar 2020 03:31:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A2D9E88762
- for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 02:50:23 +0000 (UTC)
-IronPort-SDR: t/LMy3ZAJX+wTr3RPtJ29SauqE0o9MQd6lLbhMOjlH9vP7xRHbGsyWUf4rZR7mSJn3+ZZdCy2N
- I/uBNc53Arvg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Mar 2020 19:50:23 -0700
-IronPort-SDR: CHlZ3MPtzD1Hv8X8cXbqnrKK43/lz90izk92jfpDHQetDs0JwMhrpSMHDBm2N7M2lCTO3+byiq
- tVNAt+JykFiw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,310,1580803200"; d="scan'208";a="241167286"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
- by orsmga008.jf.intel.com with ESMTP; 26 Mar 2020 19:50:22 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 26 Mar 2020 19:50:22 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 26 Mar 2020 19:50:21 -0700
-Received: from shsmsx154.ccr.corp.intel.com (10.239.6.54) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Thu, 26 Mar 2020 19:50:21 -0700
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.206]) by
- SHSMSX154.ccr.corp.intel.com ([169.254.7.145]) with mapi id 14.03.0439.000;
- Fri, 27 Mar 2020 10:49:55 +0800
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>, Christoph Hellwig
- <hch@infradead.org>
-Subject: RE: [PATCH v2 1/3] iommu/uapi: Define uapi version and capabilities
-Thread-Topic: [PATCH v2 1/3] iommu/uapi: Define uapi version and capabilities
-Thread-Index: AQHWAvq+z2SPyfblHkGvV1oKjQsO9ahaFEoAgAB7VgCAAS14gA==
-Date: Fri, 27 Mar 2020 02:49:55 +0000
-Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19D7ECB45@SHSMSX104.ccr.corp.intel.com>
-References: <1585178227-17061-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1585178227-17061-2-git-send-email-jacob.jun.pan@linux.intel.com>
- <20200326092316.GA31648@infradead.org>
- <20200326094442.5be042ce@jacob-builder>
-In-Reply-To: <20200326094442.5be042ce@jacob-builder>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.40]
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 519A785C7D
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Mar 2020 03:31:21 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id EF603D7CE21F66CD2DAD;
+ Fri, 27 Mar 2020 11:31:15 +0800 (CST)
+Received: from [127.0.0.1] (10.177.223.23) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Fri, 27 Mar 2020
+ 11:31:11 +0800
+Subject: Re: [PATCH v4 02/16] ACPI/IORT: Remove direct access of
+ dev->iommu_fwspec
+To: Joerg Roedel <joro@8bytes.org>, <iommu@lists.linux-foundation.org>
+References: <20200326150841.10083-1-joro@8bytes.org>
+ <20200326150841.10083-3-joro@8bytes.org>
+From: Hanjun Guo <guohanjun@huawei.com>
+Message-ID: <82dea1be-4a2e-e914-c607-8aeb924eb36f@huawei.com>
+Date: Fri, 27 Mar 2020 11:30:53 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.5.0
 MIME-Version: 1.0
-Cc: "Raj, Ashok" <ashok.raj@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- LKML <linux-kernel@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- David Woodhouse <dwmw2@infradead.org>
+In-Reply-To: <20200326150841.10083-3-joro@8bytes.org>
+Content-Language: en-US
+X-Originating-IP: [10.177.223.23]
+X-CFilter-Loop: Reflected
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Joerg Roedel <jroedel@suse.de>, Will Deacon <will@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-mediatek@lists.infradead.org,
+ Andy Gross <agross@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,64 +80,54 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Sent: Friday, March 27, 2020 12:45 AM
+On 2020/3/26 23:08, Joerg Roedel wrote:
+> From: Joerg Roedel <jroedel@suse.de>
 > 
-> Hi Christoph,
+> Use the accessor functions instead of directly dereferencing
+> dev->iommu_fwspec.
 > 
-> Thanks for the review. Please see my comments inline.
+> Tested-by: Hanjun Guo <guohanjun@huawei.com>
+> Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> Signed-off-by: Joerg Roedel <jroedel@suse.de>
+> ---
+>  drivers/acpi/arm64/iort.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> On Thu, 26 Mar 2020 02:23:16 -0700
-> Christoph Hellwig <hch@infradead.org> wrote:
-> 
-> > On Wed, Mar 25, 2020 at 04:17:05PM -0700, Jacob Pan wrote:
-> > > Having a single UAPI version to govern the user-kernel data
-> > > structures makes compatibility check straightforward. On the
-> > > contrary, supporting combinations of multiple versions of the data
-> > > can be a nightmare to maintain.
-> > >
-> > > This patch defines a unified UAPI version to be used for
-> > > compatibility checks between user and kernel.
-> >
-> > This is bullshit.  Version numbers don't scale and we've avoided them
-> > everywhere.  You need need flags specifying specific behavior.
-> >
-> We have flags or the equivalent in each UAPI structures. The flags
-> are used for checking validity of extensions as well. And you are right
-> we can use them for checking specific behavior.
-> 
-> So we have two options here:
-> 1. Have a overall version for a quick compatibility check while
-> starting a VM. If not compatible, we will stop guest SVA entirely.
-> 
-> 2. Let each API calls check its own capabilities/flags at runtime. It
-> may fail later on and lead to more complex error handling.
-> For example, guest starts with SVA support, allocate a PASID, bind
-> guest PASID works great. Then when IO page fault happens, it try to do
-> page request service and found out certain flags are not compatible.
-> This case is more complex to handle.
+> diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
+> index ed3d2d1a7ae9..7d04424189df 100644
+> --- a/drivers/acpi/arm64/iort.c
+> +++ b/drivers/acpi/arm64/iort.c
+> @@ -1015,6 +1015,7 @@ const struct iommu_ops *iort_iommu_configure(struct device *dev)
+>  		return ops;
+>  
+>  	if (dev_is_pci(dev)) {
+> +		struct iommu_fwspec *fwspec;
+>  		struct pci_bus *bus = to_pci_dev(dev)->bus;
+>  		struct iort_pci_alias_info info = { .dev = dev };
+>  
+> @@ -1027,8 +1028,9 @@ const struct iommu_ops *iort_iommu_configure(struct device *dev)
+>  		err = pci_for_each_dma_alias(to_pci_dev(dev),
+>  					     iort_pci_iommu_init, &info);
 
-If those API calls are inter-dependent for composing a feature (e.g. SVA),
-shouldn't we need a way to check them together before exposing the 
-feature to the guest, e.g. through a iommu_get_uapi_capabilities interface?
+...
 
+>  
+> -		if (!err && iort_pci_rc_supports_ats(node))
+> -			dev->iommu_fwspec->flags |= IOMMU_FWSPEC_PCI_RC_ATS;
+> +		fwspec = dev_iommu_fwspec_get(dev);
+> +		if (fwspec && iort_pci_rc_supports_ats(node))
+
+Should we check !err as well?
+
+Thanks
+Hanjun
+
+> +			fwspec->flags |= IOMMU_FWSPEC_PCI_RC_ATS;
+>  	} else {
+>  		int i = 0;
+>  
 > 
-> I am guessing your proposal is #2. right?
-> 
-> Overall, we don;t expect much change to the UAPI other than adding some
-> vendor specific part of the union. Is the scalability concern based on
-> frequent changes?
-> 
-> > > +#define IOMMU_UAPI_VERSION	1
-> > > +static inline int iommu_get_uapi_version(void)
-> > > +{
-> > > +	return IOMMU_UAPI_VERSION;
-> > > +}
-> >
-> > Also inline functions like this in UAPI headers that actually get
-> > included by userspace programs simply don't work.
-> 
-> I will remove that, user can just use IOMMU_UAPI_VERSION directly.
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
