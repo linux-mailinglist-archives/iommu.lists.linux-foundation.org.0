@@ -1,63 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA139196E2B
-	for <lists.iommu@lfdr.de>; Sun, 29 Mar 2020 17:34:38 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89715196E4B
+	for <lists.iommu@lfdr.de>; Sun, 29 Mar 2020 18:05:33 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 531D2875FE;
-	Sun, 29 Mar 2020 15:34:37 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0975786207;
+	Sun, 29 Mar 2020 16:05:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lfn3A-VDA0Oc; Sun, 29 Mar 2020 15:34:35 +0000 (UTC)
+	with ESMTP id VyrKhKxmqkvC; Sun, 29 Mar 2020 16:05:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 412D4875EA;
-	Sun, 29 Mar 2020 15:34:35 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E666786241;
+	Sun, 29 Mar 2020 16:05:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2798DC07FF;
-	Sun, 29 Mar 2020 15:34:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CA8BAC07FF;
+	Sun, 29 Mar 2020 16:05:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 31FB2C07FF
- for <iommu@lists.linux-foundation.org>; Sun, 29 Mar 2020 15:34:34 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 351DDC07FF
+ for <iommu@lists.linux-foundation.org>; Sun, 29 Mar 2020 16:05:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1E4102013C
- for <iommu@lists.linux-foundation.org>; Sun, 29 Mar 2020 15:34:34 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 127732034D
+ for <iommu@lists.linux-foundation.org>; Sun, 29 Mar 2020 16:05:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wSCgM5Cqyaet for <iommu@lists.linux-foundation.org>;
- Sun, 29 Mar 2020 15:34:32 +0000 (UTC)
+ with ESMTP id LiEFcFI4-QMw for <iommu@lists.linux-foundation.org>;
+ Sun, 29 Mar 2020 16:05:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from us-smtp-delivery-74.mimecast.com
- (us-smtp-delivery-74.mimecast.com [63.128.21.74])
- by silver.osuosl.org (Postfix) with ESMTPS id 0169E2002D
- for <iommu@lists.linux-foundation.org>; Sun, 29 Mar 2020 15:34:31 +0000 (UTC)
+ (us-smtp-delivery-74.mimecast.com [216.205.24.74])
+ by silver.osuosl.org (Postfix) with ESMTPS id 4A78620336
+ for <iommu@lists.linux-foundation.org>; Sun, 29 Mar 2020 16:05:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585496070;
+ s=mimecast20190719; t=1585497926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gr8qyUskxguDCiKHpXkMO/Amtup15DW+EgxPTyiCN+0=;
- b=hNpxXm4hjjMexuF2+qM462iATGdx9cIY9ePTCfM90YFforo92TFis6oP79WNNLEPz1WITY
- Xzda5VaWZsuSTQKf0jVrd4pg/vhYKBHXWRvxWDDiUbDudN0CVK/nBg8tKjt64yjmb8aiB4
- h6zNFn+SL63C/5KGUDEVEOrZUfhWY14=
+ bh=DcgqF7zZhEuXQ2Dqy4gLgy7HMpStESg1SD5TD+ixEfg=;
+ b=WPJX2cVIRxMvJsK9V3BsKM1KKQKWccYBj+BF9ruwlXymilfPyxTfy2zwRhXqss20r/30H2
+ xm8WnUOic001zytDn+aFlXs9J8JRDARGlB9qATdKRIQAydEP6BqHHgtKg8CQHCW8CMpMlq
+ 8oD4rRWbQ8hdxYrLw9Ls+rkZXvSlLnw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-2HAWSRdyORuChJUHi3Y0GQ-1; Sun, 29 Mar 2020 11:34:26 -0400
-X-MC-Unique: 2HAWSRdyORuChJUHi3Y0GQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-349-VoHfoCE0NxqRR9bkFDfBng-1; Sun, 29 Mar 2020 12:05:22 -0400
+X-MC-Unique: VoHfoCE0NxqRR9bkFDfBng-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB0A7800D5B;
- Sun, 29 Mar 2020 15:34:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FD2B107ACC4;
+ Sun, 29 Mar 2020 16:05:19 +0000 (UTC)
 Received: from [10.36.112.58] (ovpn-112-58.ams2.redhat.com [10.36.112.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C1E1360BEC;
- Sun, 29 Mar 2020 15:34:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 03CDF6EFA4;
+ Sun, 29 Mar 2020 16:05:10 +0000 (UTC)
 Subject: Re: [PATCH V10 08/11] iommu/vt-d: Add svm/sva invalidate function
 To: "Tian, Kevin" <kevin.tian@intel.com>,
  Jacob Pan <jacob.jun.pan@linux.intel.com>,
@@ -71,14 +71,14 @@ References: <1584746861-76386-1-git-send-email-jacob.jun.pan@linux.intel.com>
  <1584746861-76386-9-git-send-email-jacob.jun.pan@linux.intel.com>
  <AADFC41AFE54684AB9EE6CBC0274A5D19D7FA0AB@SHSMSX104.ccr.corp.intel.com>
 From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <3215b83c-81f7-a30f-fe82-a51f29d7b874@redhat.com>
-Date: Sun, 29 Mar 2020 17:34:15 +0200
+Message-ID: <5c76ab2a-7984-5454-4885-2c80f9048f6f@redhat.com>
+Date: Sun, 29 Mar 2020 18:05:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.4.0
 MIME-Version: 1.0
 In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D7FA0AB@SHSMSX104.ccr.corp.intel.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Cc: "Raj, Ashok" <ashok.raj@intel.com>, Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -97,7 +97,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
+
 
 On 3/28/20 11:01 AM, Tian, Kevin wrote:
 >> From: Jacob Pan <jacob.jun.pan@linux.intel.com>
@@ -184,22 +184,13 @@ On 3/28/20 11:01 AM, Tian, Kevin wrote:
 > Is this combination correct? when single PASID is being specified, it is 
 > essentially a page-selective invalidation since you need provide Address
 > and Size. 
-Isn't it the same when G=1? Still the addr/size is used. Doesn't it
-correspond to IOMMU_INV_GRANU_ADDR with IOMMU_INV_ADDR_FLAGS_PASID flag
-unset?
-
-so {0, 0, 1}?
-
-Thanks
-
-Eric
-
 > 
 >> +	/* PASID cache */
 > 
 > PASID cache is fully managed by the host. Guest PASID cache invalidation
 > is interpreted by vIOMMU for bind and unbind operations. I don't think
 > we should accept any PASID cache invalidation from userspace or guest.
+I tend to agree here.
 > 
 >> +	{1, 1, 0}
 >> +};
@@ -228,6 +219,11 @@ Eric
 > btw do we really need both map and table here? Can't we just
 > use one table with unsupported granularity marked as a special
 > value?
+I asked the same question some time ago. If I remember correctly the
+issue is while a granu can be supported in inv_type_granu_map, the
+associated value in inv_type_granu_table can be 0. This typically
+matches both values of G field (0 or 1) in the invalidation cmd. See
+other comment below.
 > 
 >> +	return 0;
 >> +}
@@ -377,6 +373,12 @@ Eric
 > 
 > I'm confused here. There are two granularities allowed for devtlb, but here
 > you only handle one of them?
+granu is the result of to_vtd_granularity() so it can take either of the
+2 values.
+
+Thanks
+
+Eric
 > 
 >> +			} else
 >> +				pr_warn("Passdown device IOTLB flush w/o
