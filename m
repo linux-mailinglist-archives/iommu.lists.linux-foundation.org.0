@@ -2,69 +2,113 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ECE2198827
-	for <lists.iommu@lfdr.de>; Tue, 31 Mar 2020 01:22:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D68EE198B50
+	for <lists.iommu@lfdr.de>; Tue, 31 Mar 2020 06:26:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6323587715;
-	Mon, 30 Mar 2020 23:22:54 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 749E88761A;
+	Tue, 31 Mar 2020 04:26:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Waya7aOcVdei; Mon, 30 Mar 2020 23:22:51 +0000 (UTC)
+	with ESMTP id KjIRVFipla7y; Tue, 31 Mar 2020 04:26:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 65DD187739;
-	Mon, 30 Mar 2020 23:22:51 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B30D8875CF;
+	Tue, 31 Mar 2020 04:26:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B2EDC07FF;
-	Mon, 30 Mar 2020 23:22:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 978FEC07FF;
+	Tue, 31 Mar 2020 04:26:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8C5DDC07FF
- for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 23:22:50 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 849BDC07FF
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 23:37:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 7A98988026
- for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 23:22:50 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 6FA3386A9D
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 23:37:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JiLTBujkZc5n for <iommu@lists.linux-foundation.org>;
- Mon, 30 Mar 2020 23:22:49 +0000 (UTC)
+ with ESMTP id sErmEA4ib6cg for <iommu@lists.linux-foundation.org>;
+ Mon, 30 Mar 2020 23:37:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 836B687EA4
- for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 23:22:49 +0000 (UTC)
-IronPort-SDR: 3qWOXVs/8J8pme3pniybjuitgqb8z7mrnYagUjwVcxXC4qnhIXMK4VwnWSL+kiRSnrXYPy5ufT
- +hQPSmnYqm3w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2020 16:22:48 -0700
-IronPort-SDR: sh7yWEKxwhMvfS4P1lxwEYQpxpI2vgEI9iX8UiORLi4Zxd3gfRJsmpeZvwMn5Ysg3kDeRSyUeF
- WuDqodOgyBtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,326,1580803200"; d="scan'208";a="272542078"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by fmsmga004.fm.intel.com with ESMTP; 30 Mar 2020 16:22:47 -0700
-Date: Mon, 30 Mar 2020 16:28:34 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Auger Eric <eric.auger@redhat.com>
-Subject: Re: [PATCH V10 07/11] iommu/vt-d: Support flushing more translation
- cache types
-Message-ID: <20200330162834.5ef42700@jacob-builder>
-In-Reply-To: <c90fafad-253a-b2f5-2a6c-87bc319edd02@redhat.com>
-References: <1584746861-76386-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1584746861-76386-8-git-send-email-jacob.jun.pan@linux.intel.com>
- <c90fafad-253a-b2f5-2a6c-87bc319edd02@redhat.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 9B3E186A8C
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 23:37:40 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02UNNTCo175413;
+ Mon, 30 Mar 2020 23:37:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=62p3SqIkPRrTrUQUrnww+150K3Afb4y1vUHtmaHqJDQ=;
+ b=S05WgtKNcniGTGoZkZru+F83SF9x+zQgMHlTW8JThcP3UculkmgVkB//MqH/IBuWIsgW
+ AhvBqYz5MHQCQLscQocRDwwiIkNDwkXINYYY2riJ6eZ3/PP97vOTrldIal4xgC3zF89E
+ Zys5ZHZcEKgpLdq0S0iYvF/HConRjWReUyWEo5M5RVM0lGv01utFD8VLCwsVyXf9MDxO
+ vpxkbiJqfQcHYYnZ/2b/TIbva1oeAamBfPdTzW7V6uUMdP5rSSkaTrBH2qkOYm0kuKws
+ e8ET8Gln4lknR4zOGV8HsOacIJ61Pu0YmcbKeHTgWdEYGM6FlH7eF8RNA3LJZqCF24as xQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 301xhkss0g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 30 Mar 2020 23:37:24 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02UNMIM5174852;
+ Mon, 30 Mar 2020 23:37:24 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 302g4qhm1t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 30 Mar 2020 23:37:24 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02UNbKmi008947;
+ Mon, 30 Mar 2020 23:37:20 GMT
+Received: from [10.154.136.252] (/10.154.136.252)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 30 Mar 2020 16:37:20 -0700
+Subject: Re: [PATCH] swiotlb: Allow swiotlb to live at pre-defined address
+To: Alexander Graf <graf@amazon.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ Kairui Song <kasong@redhat.com>,
+ Jan Setje-Eilers <jan.setjeeilers@oracle.com>
+References: <20200326162922.27085-1-graf@amazon.com>
+ <20200328115733.GA67084@dhcp-128-65.nay.redhat.com>
+ <CACPcB9d_Pz9SRhSsRzqygRR6waV7r8MnGcCP952svnZtpFaxnQ@mail.gmail.com>
+ <20200330134004.GA31026@char.us.oracle.com>
+ <51432837-8804-0600-c7a3-8849506f999e@amazon.com>
+From: Anthony Yznaga <anthony.yznaga@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <5dd6e987-8867-9fb8-386a-f86bbe0828e8@oracle.com>
+Date: Mon, 30 Mar 2020 16:37:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- David Woodhouse <dwmw2@infradead.org>, Jonathan Cameron <jic23@kernel.org>
+In-Reply-To: <51432837-8804-0600-c7a3-8849506f999e@amazon.com>
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9576
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ bulkscore=0 suspectscore=0
+ mlxscore=0 spamscore=0 malwarescore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003300192
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9576
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ mlxscore=0
+ suspectscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
+ clxscore=1011 phishscore=0 adultscore=0 priorityscore=1501 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003300192
+X-Mailman-Approved-At: Tue, 31 Mar 2020 04:26:09 +0000
+Cc: Mark Rutland <mark.rutland@arm.com>, brijesh.singh@amd.com,
+ Lianbo Jiang <lijiang@redhat.com>, linux-doc@vger.kernel.org,
+ Jan Kiszka <jan.kiszka@siemens.com>, "Schoenherr, Jan H." <jschoenh@amazon.de>,
+ Christoph Hellwig <hch@lst.de>, the arch/x86 maintainers <x86@kernel.org>,
+ Laszlo Ersek <lersek@redhat.com>, aggh@amazon.com, "Lendacky,
+ Thomas" <thomas.lendacky@amd.com>, alcioa@amazon.com, dhr@amazon.com,
+ benh@amazon.com, Dave Young <dyoung@redhat.com>, kexec@lists.infradead.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org, aagch@amazon.com,
+ Robin Murphy <robin.murphy@arm.com>, dwmw@amazon.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,178 +121,147 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, 27 Mar 2020 15:46:23 +0100
-Auger Eric <eric.auger@redhat.com> wrote:
 
-> Hi Jacob,
-> 
-> On 3/21/20 12:27 AM, Jacob Pan wrote:
-> > When Shared Virtual Memory is exposed to a guest via vIOMMU,
-> > scalable IOTLB invalidation may be passed down from outside IOMMU
-> > subsystems. This patch adds invalidation functions that can be used
-> > for additional translation cache types.
-> > 
-> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > 
-> > ---
-> > v9 -> v10:
-> > Fix off by 1 in pasid device iotlb flush
-> > 
-> > Address v7 missed review from Eric
-> > 
-> > ---
-> > ---
-> >  drivers/iommu/dmar.c        | 36
-> > ++++++++++++++++++++++++++++++++++++ drivers/iommu/intel-pasid.c |
-> > 3 ++- include/linux/intel-iommu.h | 20 ++++++++++++++++----
-> >  3 files changed, 54 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/iommu/dmar.c b/drivers/iommu/dmar.c
-> > index f77dae7ba7d4..4d6b7b5b37ee 100644
-> > --- a/drivers/iommu/dmar.c
-> > +++ b/drivers/iommu/dmar.c
-> > @@ -1421,6 +1421,42 @@ void qi_flush_piotlb(struct intel_iommu
-> > *iommu, u16 did, u32 pasid, u64 addr, qi_submit_sync(&desc, iommu);
-> >  }
-> >  
-> > +/* PASID-based device IOTLB Invalidate */
-> > +void qi_flush_dev_iotlb_pasid(struct intel_iommu *iommu, u16 sid,
-> > u16 pfsid,
-> > +		u32 pasid,  u16 qdep, u64 addr, unsigned
-> > size_order, u64 granu) +{
-> > +	unsigned long mask = 1UL << (VTD_PAGE_SHIFT + size_order -
-> > 1);
-> > +	struct qi_desc desc = {.qw2 = 0, .qw3 = 0};
-> > +
-> > +	desc.qw0 = QI_DEV_EIOTLB_PASID(pasid) |
-> > QI_DEV_EIOTLB_SID(sid) |
-> > +		QI_DEV_EIOTLB_QDEP(qdep) | QI_DEIOTLB_TYPE |
-> > +		QI_DEV_IOTLB_PFSID(pfsid);
-> > +	desc.qw1 = QI_DEV_EIOTLB_GLOB(granu);
-> > +
-> > +	/*
-> > +	 * If S bit is 0, we only flush a single page. If S bit is
-> > set,
-> > +	 * The least significant zero bit indicates the
-> > invalidation address
-> > +	 * range. VT-d spec 6.5.2.6.
-> > +	 * e.g. address bit 12[0] indicates 8KB, 13[0] indicates
-> > 16KB.
-> > +	 * size order = 0 is PAGE_SIZE 4KB
-> > +	 * Max Invs Pending (MIP) is set to 0 for now until we
-> > have DIT in
-> > +	 * ECAP.
-> > +	 */
-> > +	desc.qw1 |= addr & ~mask;
-> > +	if (size_order)
-> > +		desc.qw1 |= QI_DEV_EIOTLB_SIZE;
-> > +
-> > +	qi_submit_sync(&desc, iommu);
-> > +}
-> > +
-> > +void qi_flush_pasid_cache(struct intel_iommu *iommu, u16 did, u64
-> > granu, int pasid) +{
-> > +	struct qi_desc desc = {.qw1 = 0, .qw2 = 0, .qw3 = 0};
-> > +
-> > +	desc.qw0 = QI_PC_PASID(pasid) | QI_PC_DID(did) |
-> > QI_PC_GRAN(granu) | QI_PC_TYPE;
-> > +	qi_submit_sync(&desc, iommu);
-> > +}
-> > +
-> >  /*
-> >   * Disable Queued Invalidation interface.
-> >   */
-> > diff --git a/drivers/iommu/intel-pasid.c
-> > b/drivers/iommu/intel-pasid.c index 10c7856afc6b..9f6d07410722
-> > 100644 --- a/drivers/iommu/intel-pasid.c
-> > +++ b/drivers/iommu/intel-pasid.c
-> > @@ -435,7 +435,8 @@ pasid_cache_invalidation_with_pasid(struct
-> > intel_iommu *iommu, {
-> >  	struct qi_desc desc;
-> >  
-> > -	desc.qw0 = QI_PC_DID(did) | QI_PC_PASID_SEL |
-> > QI_PC_PASID(pasid);
-> > +	desc.qw0 = QI_PC_DID(did) | QI_PC_GRAN(QI_PC_PASID_SEL) |
-> > +		QI_PC_PASID(pasid) | QI_PC_TYPE;  
-> Just a nit, this fix is not documented in the commit message.
-> 
-Thanks, I just sent out this fix separately. Will remove this from the
-set.
-https://lkml.org/lkml/2020/3/30/1065
 
-> Besides
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> 
-> Thanks
-> 
-> Eric
-> 
-> >  	desc.qw1 = 0;
-> >  	desc.qw2 = 0;
-> >  	desc.qw3 = 0;
-> > diff --git a/include/linux/intel-iommu.h
-> > b/include/linux/intel-iommu.h index 85b05120940e..43539713b3b3
-> > 100644 --- a/include/linux/intel-iommu.h
-> > +++ b/include/linux/intel-iommu.h
-> > @@ -334,7 +334,7 @@ enum {
-> >  #define QI_IOTLB_GRAN(gran) 	(((u64)gran) >>
-> > (DMA_TLB_FLUSH_GRANU_OFFSET-4)) #define QI_IOTLB_ADDR(addr)
-> > (((u64)addr) & VTD_PAGE_MASK) #define
-> > QI_IOTLB_IH(ih)		(((u64)ih) << 6) -#define
-> > QI_IOTLB_AM(am)		(((u8)am)) +#define
-> > QI_IOTLB_AM(am)		(((u8)am) & 0x3f) 
-> >  #define QI_CC_FM(fm)		(((u64)fm) << 48)
-> >  #define QI_CC_SID(sid)		(((u64)sid) << 32)
-> > @@ -353,16 +353,21 @@ enum {
-> >  #define QI_PC_DID(did)		(((u64)did) << 16)
-> >  #define QI_PC_GRAN(gran)	(((u64)gran) << 4)
-> >  
-> > -#define QI_PC_ALL_PASIDS	(QI_PC_TYPE | QI_PC_GRAN(0))
-> > -#define QI_PC_PASID_SEL		(QI_PC_TYPE | QI_PC_GRAN(1))
-> > +/* PASID cache invalidation granu */
-> > +#define QI_PC_ALL_PASIDS	0
-> > +#define QI_PC_PASID_SEL		1
-> >  
-> >  #define QI_EIOTLB_ADDR(addr)	((u64)(addr) & VTD_PAGE_MASK)
-> >  #define QI_EIOTLB_IH(ih)	(((u64)ih) << 6)
-> > -#define QI_EIOTLB_AM(am)	(((u64)am))
-> > +#define QI_EIOTLB_AM(am)	(((u64)am) & 0x3f)
-> >  #define QI_EIOTLB_PASID(pasid) 	(((u64)pasid) << 32)
-> >  #define QI_EIOTLB_DID(did)	(((u64)did) << 16)
-> >  #define QI_EIOTLB_GRAN(gran) 	(((u64)gran) << 4)
-> >  
-> > +/* QI Dev-IOTLB inv granu */
-> > +#define QI_DEV_IOTLB_GRAN_ALL		1
-> > +#define QI_DEV_IOTLB_GRAN_PASID_SEL	0> +
-> >  #define QI_DEV_EIOTLB_ADDR(a)	((u64)(a) & VTD_PAGE_MASK)
-> >  #define QI_DEV_EIOTLB_SIZE	(((u64)1) << 11)
-> >  #define QI_DEV_EIOTLB_GLOB(g)	((u64)g)
-> > @@ -662,8 +667,15 @@ extern void qi_flush_iotlb(struct intel_iommu
-> > *iommu, u16 did, u64 addr, unsigned int size_order, u64 type);
-> >  extern void qi_flush_dev_iotlb(struct intel_iommu *iommu, u16 sid,
-> > u16 pfsid, u16 qdep, u64 addr, unsigned mask);
-> > +
-> >  void qi_flush_piotlb(struct intel_iommu *iommu, u16 did, u32
-> > pasid, u64 addr, unsigned long npages, bool ih);
-> > +
-> > +extern void qi_flush_dev_iotlb_pasid(struct intel_iommu *iommu,
-> > u16 sid, u16 pfsid,
-> > +			u32 pasid, u16 qdep, u64 addr, unsigned
-> > size_order, u64 granu); +
-> > +extern void qi_flush_pasid_cache(struct intel_iommu *iommu, u16
-> > did, u64 granu, int pasid); +
-> >  extern int qi_submit_sync(struct qi_desc *desc, struct intel_iommu
-> > *iommu); 
-> >  extern int dmar_ir_support(void);
-> >   
-> 
+On 3/30/20 1:42 PM, Alexander Graf wrote:
+>
+>
+> On 30.03.20 15:40, Konrad Rzeszutek Wilk wrote:
+>>
+>>
+>>
+>> On Mon, Mar 30, 2020 at 02:06:01PM +0800, Kairui Song wrote:
+>>> On Sat, Mar 28, 2020 at 7:57 PM Dave Young <dyoung@redhat.com> wrote:
+>>>>
+>>>> On 03/26/20 at 05:29pm, Alexander Graf wrote:
+>>>>> The swiotlb is a very convenient fallback mechanism for bounce buffer=
+ing of
+>>>>> DMAable data. It is usually used for the compatibility case where dev=
+ices
+>>>>> can only DMA to a "low region".
+>>>>>
+>>>>> However, in some scenarios this "low region" may be bound even more
+>>>>> heavily. For example, there are embedded system where only an SRAM re=
+gion
+>>>>> is shared between device and CPU. There are also heterogeneous comput=
+ing
+>>>>> scenarios where only a subset of RAM is cache coherent between the
+>>>>> components of the system. There are partitioning hypervisors, where
+>>>>> a "control VM" that implements device emulation has limited view into=
+ a
+>>>>> partition's memory for DMA capabilities due to safety concerns.
+>>>>>
+>>>>> This patch adds a command line driven mechanism to move all DMA memor=
+y into
+>>>>> a predefined shared memory region which may or may not be part of the
+>>>>> physical address layout of the Operating System.
+>>>>>
+>>>>> Ideally, the typical path to set this configuration would be through =
+Device
+>>>>> Tree or ACPI, but neither of the two mechanisms is standardized yet. =
+Also,
+>>>>> in the x86 MicroVM use case, we have neither ACPI nor Device Tree, but
+>>>>> instead configure the system purely through kernel command line optio=
+ns.
+>>>>>
+>>>>> I'm sure other people will find the functionality useful going forward
+>>>>> though and extend it to be triggered by DT/ACPI in the future.
+>>>>
+>>>> Hmm, we have a use case for kdump, this maybe useful.=A0 For example
+>>>> swiotlb is enabled by default if AMD SME/SEV is active, and in kdump
+>>>> kernel we have to increase the crashkernel reserved size for the extra
+>>>> swiotlb requirement.=A0 I wonder if we can just reuse the old kernel's
+>>>> swiotlb region and pass the addr to kdump kernel.
+>>>>
+>>>
+>>> Yes, definitely helpful for kdump kernel. This can help reduce the
+>>> crashkernel value.
+>>>
+>>> Previously I was thinking about something similar, play around the
+>>> e820 entry passed to kdump and let it place swiotlb in wanted region.
+>>> Simply remap it like in this patch looks much cleaner.
+>>>
+>>> If this patch is acceptable, one more patch is needed to expose the
+>>> swiotlb in iomem, so kexec-tools can pass the right kernel cmdline to
+>>> second kernel.
+>>
+>> We seem to be passsing a lot of data to kexec.. Perhaps something
+>> of a unified way since we seem to have a lot of things to pass - disabli=
+ng
+>> IOMMU, ACPI RSDT address, and then this.
+>>
+>> CC-ing Anthony who is working on something - would you by any chance
+>> have a doc on this?
+>
+>
+> I see in general 2 use cases here:
+>
+>
+> 1) Allow for a generic mechanism to have the fully system, individual bus=
+es, devices or functions of a device go through a particular, self-containe=
+d bounce buffer.
+>
+> This sounds like the holy grail to a lot of problems. It would solve typi=
+cal embedded scenarios where you only have a shared SRAM. It solves the saf=
+ety case (to some extent) where you need to ensure that one device interact=
+ion doesn't conflict with another device interaction. It also solves the pr=
+oblem I've tried to solve with the patch here.
+>
+> It's unfortunately a lot harder than the patch I sent, so it will take me=
+ some time to come up with a working patch set.. I suppose starting with a =
+DT binding only is sensible. Worst case, x86 does also support DT ...
+>
+> (And yes, I'm always happy to review patches if someone else beats me to =
+it)
 
-[Jacob Pan]
+Not precisely what is described here, but I am working on a somewhat generi=
+c mechanism for preserving pages across kexec based on this old RFC patch s=
+et: https://lkml.org/lkml/2013/7/1/211.=A0 I expect to post patches soon.
+
+Anthony
+
+>
+>
+> 2) Reuse the SWIOTLB from the previous boot on kexec/kdump
+>
+> I see little direct relation to SEV here. The only reason SEV makes it mo=
+re relevant, is that you need to have an SWIOTLB region available with SEV =
+while without you could live with a disabled IOMMU.
+>
+> However, I can definitely understand how you would want to have a way to =
+tell the new kexec'ed kernel where the old SWIOTLB was, so it can reuse its=
+ memory for its own SWIOTLB. That way, you don't have to reserve another 64=
+MB of RAM for kdump.
+>
+> What I'm curious on is whether we need to be as elaborate. Can't we just =
+pass the old SWIOTLB as free memory to the new kexec'ed kernel and everythi=
+ng else will fall into place? All that would take is a bit of shuffling on =
+the e820 table pass-through to the kexec'ed kernel, no?
+>
+>
+> Thanks,
+>
+> Alex
+>
+>
+>
+>
+> Amazon Development Center Germany GmbH
+> Krausenstr. 38
+> 10117 Berlin
+> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+> Sitz: Berlin
+> Ust-ID: DE 289 237 879
+>
+>
+>
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
