@@ -1,52 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6B6198574
-	for <lists.iommu@lfdr.de>; Mon, 30 Mar 2020 22:38:09 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF3E198579
+	for <lists.iommu@lfdr.de>; Mon, 30 Mar 2020 22:38:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0F39486A14;
-	Mon, 30 Mar 2020 20:38:08 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9574887E9B;
+	Mon, 30 Mar 2020 20:38:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9B0p31SWByLG; Mon, 30 Mar 2020 20:38:07 +0000 (UTC)
+	with ESMTP id J6zoAXBiqQuU; Mon, 30 Mar 2020 20:38:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id AC10686A22;
-	Mon, 30 Mar 2020 20:38:05 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E2AAE885D9;
+	Mon, 30 Mar 2020 20:38:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 95A33C07FF;
-	Mon, 30 Mar 2020 20:38:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D081CC1D89;
+	Mon, 30 Mar 2020 20:38:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 41A98C1D7E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F25F0C1D7E
  for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 20:38:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2FB7E20416
+ by silver.osuosl.org (Postfix) with ESMTP id DC13722E96
  for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 20:38:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id g3wrpb8Q9YGR for <iommu@lists.linux-foundation.org>;
- Mon, 30 Mar 2020 20:38:03 +0000 (UTC)
+ with ESMTP id HL9VbTY9vAUC for <iommu@lists.linux-foundation.org>;
+ Mon, 30 Mar 2020 20:38:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by silver.osuosl.org (Postfix) with ESMTPS id 68B8E22851
- for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 20:38:03 +0000 (UTC)
-IronPort-SDR: QTFydAUam5xS401oEoZ+uZrdpGM9VaBMRxJoM8i32ltP1SV8F9TMYlnNVxBkmoTa9LPnOgJn+P
- +n3wzUJzIkVg==
+ by silver.osuosl.org (Postfix) with ESMTPS id 3F9F622851
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 20:38:04 +0000 (UTC)
+IronPort-SDR: 70rI+twmkz4wT0hZJg0auIouZPakGog63jd+HwsJvDQsQkFJb8sRm1Wv+R8WjFweGH+neSKPec
+ VKmnckCq6niQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2020 13:38:03 -0700
-IronPort-SDR: haPA83LUmCXaOVy56e3v+JFkDdVu3y6B6FE7X4vFztwvFpQv4+jjdYqzMMdB7J88eLzXyVu++Y
- Q2XhKUl3h9/A==
+ 30 Mar 2020 13:38:04 -0700
+IronPort-SDR: CSSoTcScmVyPfUPOOfY3YTLN4JfQ2LiwNlB2QAn9UO0ffbWgKcWZRt0i4Q2gqsAMKLfRElPSQA
+ soFSCKE/xZRQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,325,1580803200"; d="scan'208";a="242143895"
+X-IronPort-AV: E=Sophos;i="5.72,325,1580803200"; d="scan'208";a="242143905"
 Received: from romley-ivt3.sc.intel.com ([172.25.110.60])
- by orsmga008.jf.intel.com with ESMTP; 30 Mar 2020 13:38:02 -0700
+ by orsmga008.jf.intel.com with ESMTP; 30 Mar 2020 13:38:03 -0700
 From: Fenghua Yu <fenghua.yu@intel.com>
 To: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
  "Borislav Petkov" <bp@alien8.de>, "H Peter Anvin" <hpa@zytor.com>,
@@ -57,9 +57,10 @@ To: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
  "Jacob Jun Pan" <jacob.jun.pan@intel.com>,
  "Dave Jiang" <dave.jiang@intel.com>, "Sohil Mehta" <sohil.mehta@intel.com>,
  "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH 6/7] x86/traps: Fix up invalid PASID
-Date: Mon, 30 Mar 2020 12:33:07 -0700
-Message-Id: <1585596788-193989-7-git-send-email-fenghua.yu@intel.com>
+Subject: [PATCH 7/7] x86/process: Clear PASID state for a newly forked/cloned
+ thread
+Date: Mon, 30 Mar 2020 12:33:08 -0700
+Message-Id: <1585596788-193989-8-git-send-email-fenghua.yu@intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <1585596788-193989-1-git-send-email-fenghua.yu@intel.com>
 References: <1585596788-193989-1-git-send-email-fenghua.yu@intel.com>
@@ -83,127 +84,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-A #GP fault is generated when ENQCMD instruction is executed without
-a valid PASID value programmed in. The #GP fault handler will initialize
-the current thread's PASID MSR.
+The PASID state has to be cleared on forks, since the child has a
+different address space. The PASID is also cleared for thread clone. While
+it would be correct to inherit the PASID in this case, it is unknown
+whether the new task will use ENQCMD. Giving it the PASID "just in case"
+would have the downside of increased context switch overhead to setting
+the PASID MSR.
 
-The following heuristic is used to avoid decoding the user instructions
-to determine the precise reason for the #GP fault:
-1) If the mm for the process has not been allocated a PASID, this #GP
-   cannot be fixed.
-2) If the PASID MSR is already initialized, then the #GP was for some
-   other reason
-3) Try initializing the PASID MSR and returning. If the #GP was from
-   an ENQCMD this will fix it. If not, the #GP fault will be repeated
-   and we will hit case "2".
+Since #GP faults have to be handled on any threads that were created before
+the PASID was assigned to the mm of the process, newly created threads
+might as well be treated in a consistent way.
 
 Suggested-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 ---
- arch/x86/include/asm/iommu.h |  1 +
- arch/x86/kernel/traps.c      | 17 +++++++++++++++++
- drivers/iommu/intel-svm.c    | 37 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 55 insertions(+)
+ arch/x86/kernel/process.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/arch/x86/include/asm/iommu.h b/arch/x86/include/asm/iommu.h
-index ed41259fe7ac..e9365a5d6f7d 100644
---- a/arch/x86/include/asm/iommu.h
-+++ b/arch/x86/include/asm/iommu.h
-@@ -27,5 +27,6 @@ arch_rmrr_sanity_check(struct acpi_dmar_reserved_memory *rmrr)
+diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+index 87de18c64cf5..cefdc8f7fc13 100644
+--- a/arch/x86/kernel/process.c
++++ b/arch/x86/kernel/process.c
+@@ -122,6 +122,16 @@ static int set_new_tls(struct task_struct *p, unsigned long tls)
+ 		return do_set_thread_area_64(p, ARCH_SET_FS, tls);
  }
  
- void __free_pasid(struct mm_struct *mm);
-+bool __fixup_pasid_exception(void);
- 
- #endif /* _ASM_X86_IOMMU_H */
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index 6ef00eb6fbb9..369b5ba94635 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -56,6 +56,7 @@
- #include <asm/umip.h>
- #include <asm/insn.h>
- #include <asm/insn-eval.h>
-+#include <asm/iommu.h>
- 
- #ifdef CONFIG_X86_64
- #include <asm/x86_init.h>
-@@ -488,6 +489,16 @@ static enum kernel_gp_hint get_kernel_gp_address(struct pt_regs *regs,
- 	return GP_CANONICAL;
- }
- 
-+static bool fixup_pasid_exception(void)
++/* Clear PASID MSR/state for the forked/cloned thread. */
++static void clear_task_pasid(struct task_struct *task)
 +{
-+	if (!IS_ENABLED(CONFIG_INTEL_IOMMU_SVM))
-+		return false;
-+	if (!static_cpu_has(X86_FEATURE_ENQCMD))
-+		return false;
-+
-+	return __fixup_pasid_exception();
++	/*
++	 * Clear the xfeatures bit in the PASID state so that the MSR will be
++	 * initialized to its init state (0) by XRSTORS.
++	 */
++	task->thread.fpu.state.xsave.header.xfeatures &= ~XFEATURE_MASK_PASID;
 +}
 +
- #define GPFSTR "general protection fault"
+ int copy_thread_tls(unsigned long clone_flags, unsigned long sp,
+ 		    unsigned long arg, struct task_struct *p, unsigned long tls)
+ {
+@@ -175,6 +185,9 @@ int copy_thread_tls(unsigned long clone_flags, unsigned long sp,
+ 	task_user_gs(p) = get_user_gs(current_pt_regs());
+ #endif
  
- dotraplinkage void do_general_protection(struct pt_regs *regs, long error_code)
-@@ -499,6 +510,12 @@ dotraplinkage void do_general_protection(struct pt_regs *regs, long error_code)
- 	int ret;
- 
- 	RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
++	if (static_cpu_has(X86_FEATURE_ENQCMD))
++		clear_task_pasid(p);
 +
-+	if (user_mode(regs) && fixup_pasid_exception()) {
-+		cond_local_irq_enable(regs);
-+		return;
-+	}
-+
- 	cond_local_irq_enable(regs);
- 
- 	if (static_cpu_has(X86_FEATURE_UMIP)) {
-diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel-svm.c
-index da718a49e91e..5ed39a022adb 100644
---- a/drivers/iommu/intel-svm.c
-+++ b/drivers/iommu/intel-svm.c
-@@ -759,3 +759,40 @@ void __free_pasid(struct mm_struct *mm)
- 	 */
- 	ioasid_free(pasid);
- }
-+
-+/*
-+ * Fix up the PASID MSR if possible.
-+ *
-+ * But if the #GP was due to another reason, a second #GP might be triggered
-+ * to force proper behavior.
-+ */
-+bool __fixup_pasid_exception(void)
-+{
-+	struct mm_struct *mm;
-+	bool ret = true;
-+	u64 pasid_msr;
-+	int pasid;
-+
-+	mm = get_task_mm(current);
-+	/* This #GP was triggered from user mode. So mm cannot be NULL. */
-+	pasid = mm->context.pasid;
-+	/* Ensure this process has been bound to a PASID. */
-+	if (!pasid) {
-+		ret = false;
-+		goto out;
-+	}
-+
-+	/* Check to see if the PASID MSR has already been set for this task. */
-+	rdmsrl(MSR_IA32_PASID, pasid_msr);
-+	if (pasid_msr & MSR_IA32_PASID_VALID) {
-+		ret = false;
-+		goto out;
-+	}
-+
-+	/* Fix up the MSR. */
-+	wrmsrl(MSR_IA32_PASID, pasid | MSR_IA32_PASID_VALID);
-+out:
-+	mmput(mm);
-+
-+	return ret;
-+}
+ 	/* Set a new TLS for the child thread? */
+ 	if (clone_flags & CLONE_SETTLS)
+ 		ret = set_new_tls(p, tls);
 -- 
 2.19.1
 
