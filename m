@@ -1,92 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476D81983BC
-	for <lists.iommu@lfdr.de>; Mon, 30 Mar 2020 20:50:03 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id D0E5B20768;
-	Mon, 30 Mar 2020 18:50:01 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AskBzYqIIaE6; Mon, 30 Mar 2020 18:50:01 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id EA3282010B;
-	Mon, 30 Mar 2020 18:50:00 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D66DCC07FF;
-	Mon, 30 Mar 2020 18:50:00 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0A844C07FF
- for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 18:49:59 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2B6198572
+	for <lists.iommu@lfdr.de>; Mon, 30 Mar 2020 22:38:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E8240869AB
- for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 18:49:58 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3AC8C8697C;
+	Mon, 30 Mar 2020 20:38:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id EMpfXaA0gMk1; Mon, 30 Mar 2020 20:38:04 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A91C9862D4;
+	Mon, 30 Mar 2020 20:38:04 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 950B2C1D87;
+	Mon, 30 Mar 2020 20:38:04 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A768AC07FF
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 20:38:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 96ECE22B7A
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 20:38:01 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Vu2uMv2lfUkW for <iommu@lists.linux-foundation.org>;
- Mon, 30 Mar 2020 18:49:58 +0000 (UTC)
+ with ESMTP id bl9Ta0ED6ADd for <iommu@lists.linux-foundation.org>;
+ Mon, 30 Mar 2020 20:38:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 767A8861A1
- for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 18:49:58 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id k15so3903445pfh.6
- for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 11:49:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NBiWhVp0IqfyFDNmwRRGA/s+Dtxuu8Q2mjZHUKcx0uk=;
- b=mlJLtlVPXBg1gWOsSAxsoafEcJT38NiNpF0UOqjmzXlo8GohAqgw297ZK1Swt56Bly
- V3nGgPyqvQPMeDtng5baT7oly6ktnoBEa56u9lCaFRUnAvGmc515iPKUrcWy2Hs+fCMI
- IFS1C4dlShgMqMwCUu2tNPruIHdi1VqoM0tac=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NBiWhVp0IqfyFDNmwRRGA/s+Dtxuu8Q2mjZHUKcx0uk=;
- b=tBJhIOTxyk6JwnjG7CLrPSYEl/84K9AePhGunaQ03fyJnRr4r3g7QY4ZhiaeYZiG/r
- JYEX8g1p7ekiHmPJmyV3CLhpNpRrqU9DiVBFVs2lyata/Nu3JILIbOvErTqKwZdD62cP
- 4SpxHYW33bCabf48iBQDMG0dMORD6ygE4XKKWp++kzM7LuYCe/5iwWGGDTrHrF4gieyP
- cNlSFl2UDlOdTFSPYZsonmL+n73z9WKtHDPmYDv/S0OzB4ZbXhqAW+fJscgDZ0cfB/FV
- h8X6L1j+mcs9CvwJLLTPBC+46vaS6+Rq5Afti0WhfY6qbtc2pfDIXlKJJaNAfgeSwvzd
- muJQ==
-X-Gm-Message-State: ANhLgQ3EpzG21ke7kfLaul9TVgZitjAclGzdXKk4jge5qcwSNCFMIt8s
- e/ptiuLC9WTw3cAXIlFm5xe06pRPA2I=
-X-Google-Smtp-Source: APiQypJQ7lTWDAV2N+IMIRZE46eM2iGJ2kJcLtVLbIwZ++HEvk6qAuFH5WfwTAk91OKGmq85WZHRYw==
-X-Received: by 2002:a67:24c1:: with SMTP id k184mr9270431vsk.177.1585592683628; 
- Mon, 30 Mar 2020 11:24:43 -0700 (PDT)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com.
- [209.85.221.169])
- by smtp.gmail.com with ESMTPSA id j21sm3490242vkj.56.2020.03.30.11.24.42
- for <iommu@lists.linux-foundation.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Mar 2020 11:24:42 -0700 (PDT)
-Received: by mail-vk1-f169.google.com with SMTP id s194so4960870vkb.11
- for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 11:24:42 -0700 (PDT)
-X-Received: by 2002:a1f:a9d2:: with SMTP id s201mr8815125vke.92.1585592681966; 
- Mon, 30 Mar 2020 11:24:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200327132852.10352-1-saiprakash.ranjan@codeaurora.org>
- <0023bc68-45fb-4e80-00c8-01fd0369243f@arm.com>
- <37db9a4d524aa4d7529ae47a8065c9e0@codeaurora.org>
- <5858bdac-b7f9-ac26-0c0d-c9653cef841d@arm.com>
- <d60196b548e1241b8334fadd0e8c2fb5@codeaurora.org>
-In-Reply-To: <d60196b548e1241b8334fadd0e8c2fb5@codeaurora.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 30 Mar 2020 11:24:30 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WXTN6xxqtL6d6MHxG8Epuo6FSQERRPfnoSCskhjh1KeQ@mail.gmail.com>
-Message-ID: <CAD=FV=WXTN6xxqtL6d6MHxG8Epuo6FSQERRPfnoSCskhjh1KeQ@mail.gmail.com>
-Subject: Re: [PATCH] iommu/arm-smmu: Demote error messages to debug in
- shutdown callback
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Will Deacon <will@kernel.org>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by silver.osuosl.org (Postfix) with ESMTPS id EBB182034D
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 20:37:59 +0000 (UTC)
+IronPort-SDR: v9p1nFQAoMVi3UJEpnW8TBvjjgjPFPNefV7xASyII5HgJHr+p36MrOMu97uag/vFOYxuOOAHqE
+ dMBvo+ZPsjbQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2020 13:37:58 -0700
+IronPort-SDR: CJQdaqrUSQQgilclDju/LPXmoVK/jl0KfY1ywgIPdbpVbsU8pb5eXwYaR08Z9wBUjW1FauLcmv
+ zW/pMYgTXpbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,325,1580803200"; d="scan'208";a="242143821"
+Received: from romley-ivt3.sc.intel.com ([172.25.110.60])
+ by orsmga008.jf.intel.com with ESMTP; 30 Mar 2020 13:37:57 -0700
+From: Fenghua Yu <fenghua.yu@intel.com>
+To: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>, "H Peter Anvin" <hpa@zytor.com>,
+ "David Woodhouse" <dwmw2@infradead.org>,
+ "Lu Baolu" <baolu.lu@linux.intel.com>,
+ "Dave Hansen" <dave.hansen@intel.com>, "Tony Luck" <tony.luck@intel.com>,
+ "Ashok Raj" <ashok.raj@intel.com>,
+ "Jacob Jun Pan" <jacob.jun.pan@intel.com>,
+ "Dave Jiang" <dave.jiang@intel.com>, "Sohil Mehta" <sohil.mehta@intel.com>,
+ "Ravi V Shankar" <ravi.v.shankar@intel.com>
+Subject: [PATCH 0/7] x86: tag application address space for devices
+Date: Mon, 30 Mar 2020 12:33:01 -0700
+Message-Id: <1585596788-193989-1-git-send-email-fenghua.yu@intel.com>
+X-Mailer: git-send-email 2.5.0
+Cc: Fenghua Yu <fenghua.yu@intel.com>, iommu@lists.linux-foundation.org,
+ x86 <x86@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,49 +75,88 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
+Typical hardware devices require a driver stack to translate application
+buffers to hardware addresses, and a kernel-user transition to notify the
+hardware of new work. What if both the translation and transition overhead
+could be eliminated? This is what Shared Virtual Address (SVA) and ENQCMD
+enabled hardware like Data Streaming Accelerator (DSA) aims to achieve.
+Applications map portals in their local-address-space and directly submit
+work to them using a new instruction.
 
-On Sat, Mar 28, 2020 at 12:35 AM Sai Prakash Ranjan
-<saiprakash.ranjan@codeaurora.org> wrote:
->
-> > Of course the fact that in practice we'll *always* see the warning
-> > because there's no way to tear down the default DMA domains, and even
-> > if all devices *have* been nicely quiesced there's no way to tell, is
-> > certainly less than ideal. Like I say, it's not entirely clear-cut
-> > either way...
-> >
->
-> Thanks for these examples, good to know these scenarios in case we come
-> across these.
-> However, if we see these error/warning messages appear everytime then
-> what will be
-> the credibility of these messages? We will just ignore these messages
-> when
-> these issues you mention actually appears because we see them everytime
-> on
-> reboot or shutdown.
+This series implements management of a new MSR (MSR_IA32_PASID). This new
+MSR allows an application address space to be associated with what the PCIe
+spec calls a Process Address Space ID (PASID). This PASID tag is carried
+along with all requests between applications and devices and allows devices
+to interact with the process address space.
 
-I would agree that if these messages are expected to be seen every
-time, there's no way to fix them, and they're not indicative of any
-problem then something should be done.  Seeing something printed at
-"dev_error" level with an exclamation point (!) at the end makes me
-feel like this is something that needs immediate action on my part.
+SVA and ENQCMD enabled device drivers will use this series in the future.
+For example, it will be used by the phase 2 DSA driver which will be
+released with SVA and ENQCMD support as explained in:
+https://01.org/blogs/2019/introducing-intel-data-streaming-accelerator
 
-If we really can't do better but feel that the messages need to be
-there, at least make them dev_info and less scary like:
+This series only provides simple and basic support for the MSR as follows:
+1. Explain different various technical terms used in the series (patch 1).
+2. Enumerate support for ENQCMD in the processor (patch 2).
+3. Handle FPU PASID state and the MSR during context switch (patches 3-4).
+4. Allocate and free PASID for a process (patch 5).
+5. Fix up the PASID MSR in #GP handler when one thread in a process
+   executes ENQCMD for the first time (patches 6).
+6. Clear PASID state for forked and cloned thread (patch 7).
 
-  arm-smmu 15000000.iommu: turning off; DMA should be quiesced before now
+And this patch series needs support from supervisor states patch set:
+https://lore.kernel.org/lkml/20200328164307.17497-1-yu-cheng.yu@intel.com/
 
-...that would still give you a hint in the logs that if you saw a DMA
-transaction after the message that it was a bug but also wouldn't
-sound scary to someone who wasn't seeing any other problems.
+The v3 supervisor states series, this patch series, and DSA phase 2 series
+(to be released shortly in idxd driver) can be cloned from:
+https://github.com/intel/idxd-driver.git     idxd-stage2
 
--Doug
+References:
+1. Detailed information on the ENQCMD/ENQCMDS instructions and the
+IA32_PASID MSR can be found in Intel Architecture Instruction Set
+Extensions and Future Features Programming Reference:
+https://software.intel.com/sites/default/files/managed/c5/15/architecture-instruction-set-extensions-programming-reference.pdf
+
+2. Detailed information on DSA can be found in DSA specification:
+https://software.intel.com/en-us/download/intel-data-streaming-accelerator-preliminary-architecture-specification
+
+Ashok Raj (1):
+  docs: x86: Add a documentation for ENQCMD
+
+Fenghua Yu (5):
+  x86/cpufeatures: Enumerate ENQCMD and ENQCMDS instructions
+  x86/msr-index: Define IA32_PASID MSR
+  x86/mmu: Allocate/free PASID
+  x86/traps: Fix up invalid PASID
+  x86/process: Clear PASID state for a newly forked/cloned thread
+
+Yu-cheng Yu (1):
+  x86/fpu/xstate: Add supervisor PASID state for ENQCMD feature
+
+ Documentation/x86/enqcmd.rst       | 185 +++++++++++++++++++++++++++++
+ arch/x86/include/asm/cpufeatures.h |   1 +
+ arch/x86/include/asm/fpu/types.h   |  10 ++
+ arch/x86/include/asm/fpu/xstate.h  |   2 +-
+ arch/x86/include/asm/iommu.h       |   3 +
+ arch/x86/include/asm/mmu.h         |   4 +
+ arch/x86/include/asm/mmu_context.h |  14 +++
+ arch/x86/include/asm/msr-index.h   |   3 +
+ arch/x86/kernel/cpu/cpuid-deps.c   |   1 +
+ arch/x86/kernel/fpu/xstate.c       |   4 +
+ arch/x86/kernel/process.c          |  13 ++
+ arch/x86/kernel/traps.c            |  17 +++
+ drivers/iommu/intel-svm.c          | 119 +++++++++++++++++--
+ 13 files changed, 367 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/x86/enqcmd.rst
+
+-- 
+2.19.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
