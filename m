@@ -1,124 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827E919893D
-	for <lists.iommu@lfdr.de>; Tue, 31 Mar 2020 02:58:41 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id F10AB85D5C;
-	Tue, 31 Mar 2020 00:58:39 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BBICpehhFAw8; Tue, 31 Mar 2020 00:58:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D94C585CF0;
-	Tue, 31 Mar 2020 00:58:38 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B6CB0C1D89;
-	Tue, 31 Mar 2020 00:58:38 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 409DBC07FF
- for <iommu@lists.linux-foundation.org>; Tue, 31 Mar 2020 00:58:37 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id E77EB198794
+	for <lists.iommu@lfdr.de>; Tue, 31 Mar 2020 00:48:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 282FE20357
- for <iommu@lists.linux-foundation.org>; Tue, 31 Mar 2020 00:58:37 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3D63020487;
+	Mon, 30 Mar 2020 22:48:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id I++Ookk555Lz; Mon, 30 Mar 2020 22:48:05 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 8CAA62044C;
+	Mon, 30 Mar 2020 22:48:05 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6E1BAC07FF;
+	Mon, 30 Mar 2020 22:48:05 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 48B75C07FF
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 22:48:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 31989867B9
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 22:48:04 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Mr3iB8vZsmkw for <iommu@lists.linux-foundation.org>;
- Tue, 31 Mar 2020 00:58:34 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2056.outbound.protection.outlook.com [40.107.244.56])
- by silver.osuosl.org (Postfix) with ESMTPS id 558992049A
- for <iommu@lists.linux-foundation.org>; Tue, 31 Mar 2020 00:58:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HKrkTWc7oFH3d97J/K2QNmmGQLCe7IKt+MbD7hfupSxAnaZgI8nFeg8CBt5G2wikruAKfwYng9Kk4G50MNNj6/RHx6R3advpwRO9ThcasinRQRIYywgvVe+5XXYtaYWNBPezNukxVxJDZJayHRt6pqmSP6K+1eNFxh+z/vHML/bACc7ZV9WTfyMpSTFpwy/i6Mn8xbdM+Lb8g/YlkDYL7FnlmL2qfK80XG6Or7aGfoU8huWPSav7mwrI+eThGeJ9XkhFA1w2LiHAcg3dbcJ6M07CSOCn+EgbtmkoTpr0NK8v9/HaWmYR1P1o6qRk5oIuXdY1slnqSvUeTS+Qr7AN+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2ozG5w59M3QSRn+8hX5T4j3YGLUMDX23sksYDBV/xBc=;
- b=L2riKfhmAhFh7JJCFfQxV5/CG2waCRD/Go9w27WA6THWqayWOAgw7qo9C1/tjIYbksByLUSqLiS+VVrBNFSVSeRg234phS2MY2PitPM9JaxJh4QjrSBODoUmLfcxmUM0d47aIzTW9av2GgnnIgh6FarRLT5ZxRYPrrcshsbfh/ipIhY4Bo+iQi9KPQMvGBwA2IytZyn8gGJjGoEaisau9xuWI8M0BrVTpe0lKMZpA/R7wDHg7oUh3iKAmrGkIIWR/Xqqd1oZkpT7kfweg6sSnTmenHiOcUhqE6n0WvTOW9tGDYej91cRgNr/OYykNgNdq3ptiNb41AiSjBAozz3OMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2ozG5w59M3QSRn+8hX5T4j3YGLUMDX23sksYDBV/xBc=;
- b=WwE2k8bV4YLV6MmHBdZiRqeW0pje/WZdlVkl+24SvCCg+W0rzmHWpdf3mQ0CyQ0mesyJlqfL1DEBilWYsXAlh6aus5Ujim/hv8jopKdUKhT4ia4xwVAl4E3WbovJBgQK2H/fRYIXgbex5H4A/dG7XwUyfsuKsjIQIz2sCkPbogE=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Ashish.Kalra@amd.com; 
-Received: from DM5PR12MB1386.namprd12.prod.outlook.com (2603:10b6:3:77::9) by
- DM5PR12MB1529.namprd12.prod.outlook.com (2603:10b6:4:3::23) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2856.18; Mon, 30 Mar 2020 22:25:58 +0000
-Received: from DM5PR12MB1386.namprd12.prod.outlook.com
- ([fe80::969:3d4e:6f37:c33c]) by DM5PR12MB1386.namprd12.prod.outlook.com
- ([fe80::969:3d4e:6f37:c33c%12]) with mapi id 15.20.2856.019; Mon, 30 Mar 2020
- 22:25:58 +0000
-Date: Mon, 30 Mar 2020 22:25:51 +0000
-From: Ashish Kalra <ashish.kalra@amd.com>
-To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-Subject: Re: [PATCH v2] swiotlb: Adjust SWIOTBL bounce buffer size for SEV
- guests.
-Message-ID: <20200330222551.GA22743@ashkalra_ubuntu_server>
-References: <20191209231346.5602-1-Ashish.Kalra@amd.com>
- <20191220015245.GA7010@localhost.localdomain>
- <20200121200947.GA24884@ashkalra_ubuntu_server>
- <20200121205403.GC75374@Konrads-MacBook-Pro.local>
- <20200124230008.GA1565@ashkalra_ubuntu_server>
- <20200204193500.GA15564@ashkalra_ubuntu_server>
- <20200303170353.GC31627@char.us.oracle.com>
-Content-Disposition: inline
-In-Reply-To: <20200303170353.GC31627@char.us.oracle.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: DM6PR02CA0040.namprd02.prod.outlook.com
- (2603:10b6:5:177::17) To DM5PR12MB1386.namprd12.prod.outlook.com
- (2603:10b6:3:77::9)
+ with ESMTP id Khzil2kyOgHu for <iommu@lists.linux-foundation.org>;
+ Mon, 30 Mar 2020 22:48:03 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id CF1EB86722
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Mar 2020 22:48:02 +0000 (UTC)
+IronPort-SDR: dD04YdVOXhsJNSBh/WV/MIrDgkwYJgZgSIqY6vY3QLs3CpPiQYWf7XCpDQnPjL/9FYKBEW+jj5
+ jeCJqCdG+xfQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2020 15:48:01 -0700
+IronPort-SDR: i97vZJR5ktMMM+dp55CFmc3Kqqh7WBc3ZRE3nTH07I8CqEkH+oVCCiHYYJoeveySTEKNLVURcb
+ m4qq0q9JstvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,325,1580803200"; d="scan'208";a="237507838"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by orsmga007.jf.intel.com with ESMTP; 30 Mar 2020 15:48:01 -0700
+Date: Mon, 30 Mar 2020 15:53:48 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH V10 06/11] iommu/vt-d: Add bind guest PASID support
+Message-ID: <20200330155348.11ec6b8f@jacob-builder>
+In-Reply-To: <62d2c2a1-0594-c647-1f2c-4d74c7b84d9a@redhat.com>
+References: <1584746861-76386-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1584746861-76386-7-git-send-email-jacob.jun.pan@linux.intel.com>
+ <62d2c2a1-0594-c647-1f2c-4d74c7b84d9a@redhat.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ashkalra_ubuntu_server (165.204.77.1) by
- DM6PR02CA0040.namprd02.prod.outlook.com (2603:10b6:5:177::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2856.18 via Frontend Transport; Mon, 30 Mar 2020 22:25:57 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 46578906-bf3a-4ed1-1fec-08d7d4f951fc
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1529:|DM5PR12MB1529:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB15294EE0B6237E7BFAD824C68ECB0@DM5PR12MB1529.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 0358535363
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1386.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10009020)(4636009)(136003)(376002)(39860400002)(396003)(346002)(366004)(478600001)(33716001)(8676002)(44832011)(1076003)(16526019)(26005)(8936002)(4326008)(186003)(6666004)(5660300002)(2906002)(956004)(66476007)(6496006)(52116002)(7416002)(86362001)(316002)(9686003)(6916009)(55016002)(66946007)(33656002)(81166006)(81156014)(66556008);
- DIR:OUT; SFP:1101; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: V1eB7G48QnrtsRJcDuk9F12pAvZdUr3SiHJH+k0u1Jj+3v17+jB920DPTfx5RDvYe4EKPLcRSC4bvJQftngH6TS5KeCaNbeRg5tpOKGMzI0nPPH9GYG04A7sJJjVh4L8R7DDznNWR9v0ly/XoKlWpemISvcS9553hd6Qv3zFWt+BAk7R54B5vTBYCcTqG4gwCC53ac9+TM232gx6VQW04LPwIcd5dVe7rS/urSLie6YKPnvPnLQl5vipU9LFa2R1oXmNFDSpyqGrJeNsF6Uhw8cGh4Z8zZJ+sjd0oHdY/lQlzdllpkUqT1FaGGnz2N+bYv0rv6WFoyBCCA1RqyRG1AgVzYn7xiqwkJqRR2wyn5u/koUCRUlj3i3phcvu4g9p1+rH2qVLyqtSpJGXB5kCWbWUaTOAkf0Unz9WUdsdhKi7NwINohAHuksF5jgAQvk2
-X-MS-Exchange-AntiSpam-MessageData: jFZUvw8CreeiIy9zj2r7I7MqNB/3zFI5ncg28de0/HhpBep58lvlaV1iw8f0LoKAhr4ieJo7rssJiHUDObZwTgKIMtIPDEYMNxzN3me52ri1Cj0lYoxQfYdJvf8/gL+AlLlYopHtn2ik1JzCKknRLQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46578906-bf3a-4ed1-1fec-08d7d4f951fc
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2020 22:25:58.6116 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LnJbc6XInHonQTJ3JygCS0jLQj8wkU+CWOEDzPRYqWLRW36wzEwEjXgzRiXUHfh/zJn5FObg3NyesbyCeTqx1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1529
-Cc: Thomas.Lendacky@amd.com, brijesh.singh@amd.com, dave.hansen@linux-intel.com,
- peterz@infradead.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, mingo@redhat.com, bp@alien8.de,
- luto@kernel.org, hpa@zytor.com, Konrad Rzeszutek Wilk <konrad@darnok.org>,
- tglx@linutronix.de, hch@lst.de
+Cc: Yi L <yi.l.liu@linux.intel.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ Raj Ashok <ashok.raj@intel.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ David Woodhouse <dwmw2@infradead.org>, Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -136,77 +82,446 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hello Konrad,
+On Sun, 29 Mar 2020 15:40:22 +0200
+Auger Eric <eric.auger@redhat.com> wrote:
 
-On Tue, Mar 03, 2020 at 12:03:53PM -0500, Konrad Rzeszutek Wilk wrote:
-> On Tue, Feb 04, 2020 at 07:35:00PM +0000, Ashish Kalra wrote:
-> > Hello Konrad,
-> > 
-> > Looking fwd. to your feedback regarding support of other memory
-> > encryption architectures such as Power, S390, etc.
-> > 
-> > Thanks,
-> > Ashish
-> > 
-> > On Fri, Jan 24, 2020 at 11:00:08PM +0000, Ashish Kalra wrote:
-> > > On Tue, Jan 21, 2020 at 03:54:03PM -0500, Konrad Rzeszutek Wilk wrote:
-> > > > > 
-> > > > > Additional memory calculations based on # of PCI devices and
-> > > > > their memory ranges will make it more complicated with so
-> > > > > many other permutations and combinations to explore, it is
-> > > > > essential to keep this patch as simple as possible by 
-> > > > > adjusting the bounce buffer size simply by determining it
-> > > > > from the amount of provisioned guest memory.
-> > > >> 
-> > > >> Please rework the patch to:
-> > > >> 
-> > > >>  - Use a log solution instead of the multiplication.
-> > > >>    Feel free to cap it at a sensible value.
-> > > 
-> > > Ok.
-> > > 
-> > > >> 
-> > > >>  - Also the code depends on SWIOTLB calling in to the
-> > > >>    adjust_swiotlb_default_size which looks wrong.
-> > > >> 
-> > > >>    You should not adjust io_tlb_nslabs from swiotlb_size_or_default.
-> > > 
-> > > >>    That function's purpose is to report a value.
-> > > >> 
-> > > >>  - Make io_tlb_nslabs be visible outside of the SWIOTLB code.
-> > > >> 
-> > > >>  - Can you utilize the IOMMU_INIT APIs and have your own detect which would
-> > > >>    modify the io_tlb_nslabs (and set swiotbl=1?).
-> > > 
-> > > This seems to be a nice option, but then IOMMU_INIT APIs are
-> > > x86-specific and this swiotlb buffer size adjustment is also needed
-> > > for other memory encryption architectures like Power, S390, etc.
+> Hi,
 > 
-> Oh dear. That I hadn't considered.
-> > > 
-> > > >> 
-> > > >>    Actually you seem to be piggybacking on pci_swiotlb_detect_4gb - so
-> > > >>    perhaps add in this code ? Albeit it really should be in it's own
-> > > >>    file, not in arch/x86/kernel/pci-swiotlb.c
-> > > 
-> > > Actually, we piggyback on pci_swiotlb_detect_override which sets
-> > > swiotlb=1 as x86_64_start_kernel() and invocation of sme_early_init()
-> > > forces swiotlb on, but again this is all x86 architecture specific.
+> On 3/21/20 12:27 AM, Jacob Pan wrote:
+> > When supporting guest SVA with emulated IOMMU, the guest PASID
+> > table is shadowed in VMM. Updates to guest vIOMMU PASID table
+> > will result in PASID cache flush which will be passed down to
+> > the host as bind guest PASID calls.
+> > 
+> > For the SL page tables, it will be harvested from device's
+> > default domain (request w/o PASID), or aux domain in case of
+> > mediated device.
+> > 
+> >     .-------------.  .---------------------------.
+> >     |   vIOMMU    |  | Guest process CR3, FL only|
+> >     |             |  '---------------------------'
+> >     .----------------/
+> >     | PASID Entry |--- PASID cache flush -
+> >     '-------------'                       |
+> >     |             |                       V
+> >     |             |                CR3 in GPA
+> >     '-------------'
+> > Guest
+> > ------| Shadow |--------------------------|--------
+> >       v        v                          v
+> > Host
+> >     .-------------.  .----------------------.
+> >     |   pIOMMU    |  | Bind FL for GVA-GPA  |
+> >     |             |  '----------------------'
+> >     .----------------/  |
+> >     | PASID Entry |     V (Nested xlate)
+> >     '----------------\.------------------------------.
+> >     |             |   |SL for GPA-HPA, default domain|
+> >     |             |   '------------------------------'
+> >     '-------------'
+> > Where:
+> >  - FL = First level/stage one page tables
+> >  - SL = Second level/stage two page tables
+> > 
+> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > Signed-off-by: Liu, Yi L <yi.l.liu@linux.intel.com>
+> > ---
+> >  drivers/iommu/intel-iommu.c |   4 +
+> >  drivers/iommu/intel-svm.c   | 224
+> > ++++++++++++++++++++++++++++++++++++++++++++
+> > include/linux/intel-iommu.h |   8 +- include/linux/intel-svm.h   |
+> > 17 ++++ 4 files changed, 252 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/iommu/intel-iommu.c
+> > b/drivers/iommu/intel-iommu.c index e599b2537b1c..b1477cd423dd
+> > 100644 --- a/drivers/iommu/intel-iommu.c
+> > +++ b/drivers/iommu/intel-iommu.c
+> > @@ -6203,6 +6203,10 @@ const struct iommu_ops intel_iommu_ops = {
+> >  	.dev_disable_feat	= intel_iommu_dev_disable_feat,
+> >  	.is_attach_deferred	=
+> > intel_iommu_is_attach_deferred, .pgsize_bitmap		=
+> > INTEL_IOMMU_PGSIZES, +#ifdef CONFIG_INTEL_IOMMU_SVM
+> > +	.sva_bind_gpasid	= intel_svm_bind_gpasid,
+> > +	.sva_unbind_gpasid	= intel_svm_unbind_gpasid,
+> > +#endif
+> >  };
+> >  
+> >  static void quirk_iommu_igfx(struct pci_dev *dev)
+> > diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel-svm.c
+> > index d7f2a5358900..47c0deb5ae56 100644
+> > --- a/drivers/iommu/intel-svm.c
+> > +++ b/drivers/iommu/intel-svm.c
+> > @@ -226,6 +226,230 @@ static LIST_HEAD(global_svm_list);
+> >  	list_for_each_entry((sdev), &(svm)->devs, list)	\
+> >  		if ((d) != (sdev)->dev) {} else
+> >  
+> > +int intel_svm_bind_gpasid(struct iommu_domain *domain,
+> > +			struct device *dev,
+> > +			struct iommu_gpasid_bind_data *data)
+> > +{
+> > +	struct intel_iommu *iommu = intel_svm_device_to_iommu(dev);
+> > +	struct dmar_domain *ddomain;
+> > +	struct intel_svm_dev *sdev;
+> > +	struct intel_svm *svm;
+> > +	int ret = 0;
+> > +
+> > +	if (WARN_ON(!iommu) || !data)
+> > +		return -EINVAL;
+> > +
+> > +	if (data->version != IOMMU_GPASID_BIND_VERSION_1 ||
+> > +	    data->format != IOMMU_PASID_FORMAT_INTEL_VTD)
+> > +		return -EINVAL;
+> > +
+> > +	if (dev_is_pci(dev)) {
+> > +		/* VT-d supports devices with full 20 bit PASIDs
+> > only */
+> > +		if (pci_max_pasids(to_pci_dev(dev)) != PASID_MAX)
+> > +			return -EINVAL;
+> > +	} else {
+> > +		return -ENOTSUPP;
+> > +	}
+> > +
+> > +	/*
+> > +	 * We only check host PASID range, we have no knowledge to
+> > check
+> > +	 * guest PASID range nor do we use the guest PASID.  
+> nit : "nor do we use the guest PASID". Well the guest PASID FLAG is
+> checked below and if set, svm->gpasid is set ;-)
+Yes, it is a little contradictory, I will remove the use.
+
+I meant we don;t really use the gpasid for real work in host driver :)
+
+> > +	 */
+> > +	if (data->hpasid <= 0 || data->hpasid >= PASID_MAX)
+> > +		return -EINVAL;
+> > +
+> > +	ddomain = to_dmar_domain(domain);
+> > +
+> > +	/* Sanity check paging mode support match between host and
+> > guest */
+> > +	if (data->addr_width == ADDR_WIDTH_5LEVEL &&
+> > +	    !cap_5lp_support(iommu->cap)) {
+> > +		pr_err("Cannot support 5 level paging requested by
+> > guest!\n");
+> > +		return -EINVAL;  
+> nit: This check also is done in intel_pasid_setup_nested with an extra
+> check:
+Good catch, I will remove this.
+
+> +	switch (addr_width) {
+> +	case ADDR_WIDTH_5LEVEL:
+> +		if (cpu_feature_enabled(X86_FEATURE_LA57) &&
+> +			cap_5lp_support(iommu->cap)) {
 > 
-> Then it looks like the best bet is to do it from within swiotlb_init?
-> We really can't do it from swiotlb_size_or_default - that function
-> should just return a value and nothing else.
+> > +	}
+> > +
+> > +	mutex_lock(&pasid_mutex);
+> > +	svm = ioasid_find(NULL, data->hpasid, NULL);
+> > +	if (IS_ERR(svm)) {
+> > +		ret = PTR_ERR(svm);
+> > +		goto out;
+> > +	}
+> > +
+> > +	if (svm) {
+> > +		/*
+> > +		 * If we found svm for the PASID, there must be at
+> > +		 * least one device bond, otherwise svm should be
+> > freed.
+> > +		 */
+> > +		if (WARN_ON(list_empty(&svm->devs))) {
+> > +			ret = -EINVAL;
+> > +			goto out;
+> > +		}
+> > +
+> > +		if (svm->mm == get_task_mm(current) &&
+> > +		    data->hpasid == svm->pasid &&
+> > +		    data->gpasid == svm->gpasid) {
+> > +			pr_warn("Cannot bind the same guest-host
+> > PASID for the same process\n");
+> > +			mmput(svm->mm);
+> > +			ret = -EINVAL;
+> > +			goto out;
+> > +		}
+> > +		mmput(current->mm);
+> > +
+> > +		for_each_svm_dev(sdev, svm, dev) {
+> > +			/* In case of multiple sub-devices of the
+> > same pdev
+> > +			 * assigned, we should allow multiple bind
+> > calls with
+> > +			 * the same PASID and pdev.
+> > +			 */
+> > +			sdev->users++;
+> > +			goto out;
+> > +		}
+> > +	} else {
+> > +		/* We come here when PASID has never been bond to
+> > a device. */
+> > +		svm = kzalloc(sizeof(*svm), GFP_KERNEL);
+> > +		if (!svm) {
+> > +			ret = -ENOMEM;
+> > +			goto out;
+> > +		}
+> > +		/* REVISIT: upper layer/VFIO can track host
+> > process that bind the PASID.
+> > +		 * ioasid_set = mm might be sufficient for vfio to
+> > check pasid VMM
+> > +		 * ownership.
+> > +		 */
+> > +		svm->mm = get_task_mm(current);
+> > +		svm->pasid = data->hpasid;
+> > +		if (data->flags & IOMMU_SVA_GPASID_VAL) {
+> > +			svm->gpasid = data->gpasid;
+> > +			svm->flags |= SVM_FLAG_GUEST_PASID;
+> > +		}
+> > +		ioasid_set_data(data->hpasid, svm);
+> > +		INIT_LIST_HEAD_RCU(&svm->devs);
+> > +		mmput(svm->mm);
+> > +	}
+> > +	sdev = kzalloc(sizeof(*sdev), GFP_KERNEL);
+> > +	if (!sdev) {
+> > +		if (list_empty(&svm->devs)) {
+> > +			ioasid_set_data(data->hpasid, NULL);
+> > +			kfree(svm);
+> > +		}  
+> nit: the above 4 lines are duplicated 3 times. Might be worth a
+> helper.
+Good point, I will add a helper like this
+
+static inline void intel_svm_free_if_empty(struct intel_svm *svm, u64 pasid)
+{
+	if (list_empty(&svm->devs)) {
+		ioasid_attach_data(pasid, NULL);
+		kfree(svm);
+	}
+}
+
+
+
+> > +		ret = -ENOMEM;
+> > +		goto out;
+> > +	}
+> > +	sdev->dev = dev;
+> > +	sdev->users = 1;
+> > +
+> > +	/* Set up device context entry for PASID if not enabled
+> > already */
+> > +	ret = intel_iommu_enable_pasid(iommu, sdev->dev);
+> > +	if (ret) {
+> > +		dev_err(dev, "Failed to enable PASID
+> > capability\n");  
+> unlimited tracing upon userspace call? Don't know what is the best
+> policy.
+Good point. Perhaps just use dev_err_ratelimited for all user calls?
+
+> > +		kfree(sdev);
+> > +		/*
+> > +		 * If this this a new PASID that never bond to a
+> > device, then
+> > +		 * the device list must be empty which indicates
+> > struct svm
+> > +		 * was allocated in this function.
+> > +		 */
+> > +		if (list_empty(&svm->devs)) {
+> > +			ioasid_set_data(data->hpasid, NULL);
+> > +			kfree(svm);
+> > +		}
+> > +		goto out;
+> > +	}
+> > +
+> > +	/*
+> > +	 * For guest bind, we need to set up PASID table entry as
+> > follows:
+> > +	 * - FLPM matches guest paging mode
+> > +	 * - turn on nested mode
+> > +	 * - SL guest address width matching
+> > +	 */
+> > +	ret = intel_pasid_setup_nested(iommu,
+> > +				       dev,
+> > +				       (pgd_t *)data->gpgd,
+> > +				       data->hpasid,
+> > +				       &data->vtd,
+> > +				       ddomain,
+> > +				       data->addr_width);
+> > +	if (ret) {
+> > +		dev_err(dev, "Failed to set up PASID %llu in
+> > nested mode, Err %d\n",
+> > +			data->hpasid, ret);
+> > +		/*
+> > +		 * PASID entry should be in cleared state if
+> > nested mode
+> > +		 * set up failed. So we only need to clear IOASID
+> > tracking
+> > +		 * data such that free call will succeed.
+> > +		 */
+> > +		kfree(sdev);
+> > +		if (list_empty(&svm->devs)) {
+> > +			ioasid_set_data(data->hpasid, NULL);
+> > +			kfree(svm);
+> > +		}  
+> 
+> > +		goto out;
+> > +	}
+> > +	svm->flags |= SVM_FLAG_GUEST_MODE;
+> > +
+> > +	init_rcu_head(&sdev->rcu);
+> > +	list_add_rcu(&sdev->list, &svm->devs);
+> > + out:
+> > +	mutex_unlock(&pasid_mutex);
+> > +	return ret;
+> > +}
+> > +
+> > +int intel_svm_unbind_gpasid(struct device *dev, int pasid)
+> > +{
+> > +	struct intel_iommu *iommu = intel_svm_device_to_iommu(dev);
+> > +	struct intel_svm_dev *sdev;
+> > +	struct intel_svm *svm;
+> > +	int ret = -EINVAL;
+> > +
+> > +	if (WARN_ON(!iommu))
+> > +		return -EINVAL;
+> > +
+> > +	mutex_lock(&pasid_mutex);
+> > +	svm = ioasid_find(NULL, pasid, NULL);
+> > +	if (!svm) {
+> > +		ret = -EINVAL;
+> > +		goto out;
+> > +	}
+> > +
+> > +	if (IS_ERR(svm)) {
+> > +		ret = PTR_ERR(svm);
+> > +		goto out;
+> > +	}
+> > +
+> > +	for_each_svm_dev(sdev, svm, dev) {
+> > +		ret = 0;
+> > +		sdev->users--;
+> > +		if (!sdev->users) {
+> > +			list_del_rcu(&sdev->list);
+> > +			intel_pasid_tear_down_entry(iommu, dev,
+> > svm->pasid);
+> > +			/* TODO: Drain in flight PRQ for the PASID
+> > since it
+> > +			 * may get reused soon, we don't want to
+> > +			 * confuse with its previous life.
+> > +			 * intel_svm_drain_prq(dev, pasid);
+> > +			 */
+> > +			kfree_rcu(sdev, rcu);
+> > +
+> > +			if (list_empty(&svm->devs)) {
+> > +				/*
+> > +				 * We do not free PASID here until
+> > explicit call
+> > +				 * from VFIO to free. The PASID
+> > life cycle
+> > +				 * management is largely tied to
+> > VFIO management
+> > +				 * of assigned device life cycles.
+> > In case of
+> > +				 * guest exit without a explicit
+> > free PASID call,
+> > +				 * the responsibility lies in VFIO
+> > layer to free
+> > +				 * the PASIDs allocated for the
+> > guest.
+> > +				 * For security reasons, VFIO has
+> > to track the
+> > +				 * PASID ownership per guest
+> > anyway to ensure
+> > +				 * that PASID allocated by one
+> > guest cannot be
+> > +				 * used by another.
+> > +				 */
+> > +				ioasid_set_data(pasid, NULL);
+> > +				kfree(svm);
+> > +			}
+> > +		}
+> > +		break;
+> > +	}
+> > +out:
+> > +	mutex_unlock(&pasid_mutex);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  int intel_svm_bind_mm(struct device *dev, int *pasid, int flags,
+> > struct svm_dev_ops *ops) {
+> >  	struct intel_iommu *iommu = intel_svm_device_to_iommu(dev);
+> > diff --git a/include/linux/intel-iommu.h
+> > b/include/linux/intel-iommu.h index eda1d6687144..85b05120940e
+> > 100644 --- a/include/linux/intel-iommu.h
+> > +++ b/include/linux/intel-iommu.h
+> > @@ -681,7 +681,9 @@ struct dmar_domain *find_domain(struct device
+> > *dev); extern void intel_svm_check(struct intel_iommu *iommu);
+> >  extern int intel_svm_enable_prq(struct intel_iommu *iommu);
+> >  extern int intel_svm_finish_prq(struct intel_iommu *iommu);
+> > -
+> > +extern int intel_svm_bind_gpasid(struct iommu_domain *domain,
+> > +		struct device *dev, struct iommu_gpasid_bind_data
+> > *data); +extern int intel_svm_unbind_gpasid(struct device *dev, int
+> > pasid); struct svm_dev_ops;
+> >  
+> >  struct intel_svm_dev {
+> > @@ -698,9 +700,13 @@ struct intel_svm_dev {
+> >  struct intel_svm {
+> >  	struct mmu_notifier notifier;
+> >  	struct mm_struct *mm;
+> > +
+> >  	struct intel_iommu *iommu;
+> >  	int flags;
+> >  	int pasid;
+> > +	int gpasid; /* Guest PASID in case of vSVA bind with
+> > non-identity host
+> > +		     * to guest PASID mapping.
+> > +		     */
+> >  	struct list_head devs;
+> >  	struct list_head list;
+> >  };
+> > diff --git a/include/linux/intel-svm.h b/include/linux/intel-svm.h
+> > index d7c403d0dd27..c19690937540 100644
+> > --- a/include/linux/intel-svm.h
+> > +++ b/include/linux/intel-svm.h
+> > @@ -44,6 +44,23 @@ struct svm_dev_ops {
+> >   * do such IOTLB flushes automatically.
+> >   */
+> >  #define SVM_FLAG_SUPERVISOR_MODE	(1<<1)
+> > +/*
+> > + * The SVM_FLAG_GUEST_MODE flag is used when a guest process bind
+> > to a device.
+> > + * In this case the mm_struct is in the guest kernel or userspace,
+> > its life
+> > + * cycle is managed by VMM and VFIO layer. For IOMMU driver, this
+> > API provides
+> > + * means to bind/unbind guest CR3 with PASIDs allocated for a
+> > device.
+> > + */
+> > +#define SVM_FLAG_GUEST_MODE	(1<<2)
+> > +/*
+> > + * The SVM_FLAG_GUEST_PASID flag is used when a guest has its own
+> > PASID space,
+> > + * which requires guest and host PASID translation at both
+> > directions. We keep
+> > + * track of guest PASID in order to provide lookup service to
+> > device drivers.
+> > + * One such example is a physical function (PF) driver that
+> > supports mediated
+> > + * device (mdev) assignment. Guest programming of mdev
+> > configuration space can
+> > + * only be done with guest PASID, therefore PF driver needs to
+> > find the matching
+> > + * host PASID to program the real hardware.
+> > + */
+> > +#define SVM_FLAG_GUEST_PASID	(1<<3)
+> >  
+> >  #ifdef CONFIG_INTEL_IOMMU_SVM
+> >  
+> >   
+> Thanks
+> 
+> Eric
 > 
 
-Actually, we need to do it in swiotlb_size_or_default() as this gets called by
-reserve_crashkernel_low() in arch/x86/kernel/setup.c and used to
-reserve low crashkernel memory. If we adjust swiotlb size later in
-swiotlb_init() which gets called later than reserve_crashkernel_low(),
-then any swiotlb size changes/expansion will conflict/overlap with the
-low memory reserved for crashkernel.
-
-Thanks,
-Ashish
+[Jacob Pan]
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
