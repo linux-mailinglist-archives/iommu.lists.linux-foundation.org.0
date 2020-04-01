@@ -2,95 +2,90 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4237B19AB0A
-	for <lists.iommu@lfdr.de>; Wed,  1 Apr 2020 13:47:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F94E19AC0A
+	for <lists.iommu@lfdr.de>; Wed,  1 Apr 2020 14:52:11 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id BBDC1203BB;
-	Wed,  1 Apr 2020 11:47:22 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 32A5620022;
+	Wed,  1 Apr 2020 12:52:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZdaSna-kbXN9; Wed,  1 Apr 2020 11:47:21 +0000 (UTC)
+	with ESMTP id dU1eECoVwNip; Wed,  1 Apr 2020 12:52:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 8C85D2000B;
-	Wed,  1 Apr 2020 11:47:21 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 56FB420794;
+	Wed,  1 Apr 2020 12:52:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6EEAFC089F;
-	Wed,  1 Apr 2020 11:47:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 50C34C089F;
+	Wed,  1 Apr 2020 12:52:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E59D5C089F
- for <iommu@lists.linux-foundation.org>; Wed,  1 Apr 2020 11:47:19 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 842FEC089F
+ for <iommu@lists.linux-foundation.org>; Wed,  1 Apr 2020 12:52:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D43B5203BB
- for <iommu@lists.linux-foundation.org>; Wed,  1 Apr 2020 11:47:19 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 733AD85D30
+ for <iommu@lists.linux-foundation.org>; Wed,  1 Apr 2020 12:52:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id R+GhaAaJwtAZ for <iommu@lists.linux-foundation.org>;
- Wed,  1 Apr 2020 11:47:18 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by silver.osuosl.org (Postfix) with ESMTPS id 311FC2000B
- for <iommu@lists.linux-foundation.org>; Wed,  1 Apr 2020 11:47:17 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 35F675C0301;
- Wed,  1 Apr 2020 07:47:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 01 Apr 2020 07:47:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=up1fljkptf0bGq0js9pbKjJnIdl
- 3ynNvtoaG6fa/Psw=; b=WwG62jJlMZ7G8xgpjVk/BLWWRLhTw3W8oafomFlnN0q
- kFCaA4EEocL2q/i7T1K+nbn11WHmRrmc2fElcAq7F3VzRvNHE9dRIf2EzGRElnp6
- 14IlQdexTZ9uIAXiXpHo9wlLenHAfdUSCC7FH13Wp3UYKZs4b7JaO3q7VL1mRMTV
- yp1zXrjCzTbBqEmvY/vokWN930bgBfwOPNAL0BddDM9IlHdnORwhEsK8y+nNp4D5
- mpMEiwcwA26lFI5tZLia7T7c2vY3rumTKW4HVKPe/gDR+HMAKwhGkyR3h4gNv2vv
- D5stU3InW8CKRNR3/E3KcxPVXXRrS3XsasWgt/TBaiA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=up1flj
- kptf0bGq0js9pbKjJnIdl3ynNvtoaG6fa/Psw=; b=HHz86apN3MklVlDQKBEU2i
- f1UpzqA6cI4n9VUHrXtSgkNryzafZk6wErXtUZYZgsPWcBkM9Kr/VQd6rvaOpJci
- 1JLqRPFYYTCO7XSxLngvbOg9bF0c9QRKeJt2hp5AnUOSWdZkjxjXo/O+IL1meXCH
- rwWQ23tdYD/YnwOTwi49skttIdGOMOPgWOjds2MBiQ2C0Vp4g870WL2dUqX7eBHd
- newIFkB/8i7MLj+Ymx4EpjerB2CGck+0/O25qPRrD2J2AkdNgHz6CWn1rjV21CrK
- 6JnrQkPQAa59dOQbCaES+dOmJfzcNHHWTagqlW9G5ygmuC9r85I/2dPwANL6ZFew
- ==
-X-ME-Sender: <xms:QX-EXhHqNQknuazhU5I68gEAkPc9SbflPSzdBGnnAMOLXIVF0WE2YA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrtddvgdeggecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinh
- epsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrieekrdejieenucevlhhushht
- vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrh
- hnohdrthgvtghh
-X-ME-Proxy: <xmx:QX-EXsfSdt-YHLQSsrfQjs9Ge12c5_QzhaXDt80sVPRiQfigK7DTGg>
- <xmx:QX-EXpo6nJJPz95tFzocJgEvcTkUbdQrCibVIUSmvHnK7KNekLyiww>
- <xmx:QX-EXhHluysXnI-Om-O5wJ0-xVxEpnNKw5h5cZgFRafgogs5inllXw>
- <xmx:RH-EXmAZuQv1FKx3Be5DtssKBU7zJB7u-16kopLbrCB7b575uWYVXA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id B92E3328005E;
- Wed,  1 Apr 2020 07:47:12 -0400 (EDT)
-Date: Wed, 1 Apr 2020 13:47:10 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: Re: [PATCH v2 2/4] iommu: Add Allwinner H6 IOMMU driver
-Message-ID: <20200401114710.doioefzmjhte7jwu@gilmour.lan>
-References: <cover.a31c229a83f1d92e6928ae2adb70887da0fd44b3.1582222496.git-series.maxime@cerno.tech>
- <6864f0f28825bb7a2ec1c0d811a4aacdecf5f945.1582222496.git-series.maxime@cerno.tech>
- <20200302153606.GB6540@8bytes.org>
+ with ESMTP id FgUlzbpAyxUP for <iommu@lists.linux-foundation.org>;
+ Wed,  1 Apr 2020 12:52:05 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 3F9B685D11
+ for <iommu@lists.linux-foundation.org>; Wed,  1 Apr 2020 12:52:05 +0000 (UTC)
+IronPort-SDR: xtLgF7q/AN88/Xrd4kghPiBjc+Hswd2wBXNwJ0LeGfM67llOgHuXNw7QXSVFi4Jx4eADLjQ4Cl
+ 3We94MMZxZpw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2020 05:52:04 -0700
+IronPort-SDR: mARSEAqYVJ6C6D6b35OEX3tlAKOtDWH3rdn0XTNobRLr1MupdzSy7Ipt8iOv4A8rs6pJN1Xo26
+ c6oQZydb8TkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,331,1580803200"; d="scan'208";a="395967696"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+ by orsmga004.jf.intel.com with ESMTP; 01 Apr 2020 05:52:03 -0700
+Received: from fmsmsx154.amr.corp.intel.com (10.18.116.70) by
+ FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 1 Apr 2020 05:52:03 -0700
+Received: from shsmsx108.ccr.corp.intel.com (10.239.4.97) by
+ FMSMSX154.amr.corp.intel.com (10.18.116.70) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 1 Apr 2020 05:52:03 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.225]) by
+ SHSMSX108.ccr.corp.intel.com ([169.254.8.7]) with mapi id 14.03.0439.000;
+ Wed, 1 Apr 2020 20:51:59 +0800
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Auger Eric <eric.auger@redhat.com>, "alex.williamson@redhat.com"
+ <alex.williamson@redhat.com>
+Subject: RE: [PATCH v1 5/8] vfio/type1: Report 1st-level/stage-1 format to
+ userspace
+Thread-Topic: [PATCH v1 5/8] vfio/type1: Report 1st-level/stage-1 format to
+ userspace
+Thread-Index: AQHWAEUcqZEEdiOKbEGofjWp2Yic+6hjfq+AgAC/vLA=
+Date: Wed, 1 Apr 2020 12:51:58 +0000
+Message-ID: <A2975661238FB949B60364EF0F2C25743A21DB4E@SHSMSX104.ccr.corp.intel.com>
+References: <1584880325-10561-1-git-send-email-yi.l.liu@intel.com>
+ <1584880325-10561-6-git-send-email-yi.l.liu@intel.com>
+ <cb68e9ab-77b0-7e97-a661-4836962041d9@redhat.com>
+In-Reply-To: <cb68e9ab-77b0-7e97-a661-4836962041d9@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
 MIME-Version: 1.0
-In-Reply-To: <20200302153606.GB6540@8bytes.org>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- iommu@lists.linux-foundation.org, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Raj, 
+ Ashok" <ashok.raj@intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "Tian, Jun J" <jun.j.tian@intel.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Sun, Yi
+ Y" <yi.y.sun@intel.com>, "Wu, Hao" <hao.wu@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,130 +98,185 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============5190885124881633516=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Hi Eric,
 
---===============5190885124881633516==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wkli2gubbmrrppjy"
-Content-Disposition: inline
+> From: Auger Eric <eric.auger@redhat.com>
+> Sent: Wednesday, April 1, 2020 4:51 PM
+> To: Liu, Yi L <yi.l.liu@intel.com>; alex.williamson@redhat.com
+> Subject: Re: [PATCH v1 5/8] vfio/type1: Report 1st-level/stage-1 format to
+> userspace
+> 
+> Hi Yi,
+> On 3/22/20 1:32 PM, Liu, Yi L wrote:
+> > From: Liu Yi L <yi.l.liu@intel.com>
+> >
+> > VFIO exposes IOMMU nesting translation (a.k.a dual stage translation)
+> > capability to userspace. Thus applications like QEMU could support
+> > vIOMMU with hardware's nesting translation capability for pass-through
+> > devices. Before setting up nesting translation for pass-through devices,
+> > QEMU and other applications need to learn the supported 1st-lvl/stage-1
+> > translation structure format like page table format.
+> >
+> > Take vSVA (virtual Shared Virtual Addressing) as an example, to support
+> > vSVA for pass-through devices, QEMU setup nesting translation for pass-
+> > through devices. The guest page table are configured to host as 1st-lvl/
+> > stage-1 page table. Therefore, guest format should be compatible with
+> > host side.
+> >
+> > This patch reports the supported 1st-lvl/stage-1 page table format on the
+> > current platform to userspace. QEMU and other alike applications should
+> > use this format info when trying to setup IOMMU nesting translation on
+> > host IOMMU.
+> >
+> > Cc: Kevin Tian <kevin.tian@intel.com>
+> > CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > Cc: Alex Williamson <alex.williamson@redhat.com>
+> > Cc: Eric Auger <eric.auger@redhat.com>
+> > Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> > ---
+> >  drivers/vfio/vfio_iommu_type1.c | 56
+> +++++++++++++++++++++++++++++++++++++++++
+> >  include/uapi/linux/vfio.h       |  1 +
+> >  2 files changed, 57 insertions(+)
+> >
+> > diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+> > index 9aa2a67..82a9e0b 100644
+> > --- a/drivers/vfio/vfio_iommu_type1.c
+> > +++ b/drivers/vfio/vfio_iommu_type1.c
+> > @@ -2234,11 +2234,66 @@ static int vfio_iommu_type1_pasid_free(struct
+> vfio_iommu *iommu,
+> >  	return ret;
+> >  }
+> >
+> > +static int vfio_iommu_get_stage1_format(struct vfio_iommu *iommu,
+> > +					 u32 *stage1_format)
+> vfio_pasid_format() to be homogeneous with vfio_pgsize_bitmap() which
+> does the same kind of enumeration of the vfio_iommu domains
 
+yes, similar.
 
---wkli2gubbmrrppjy
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi J=F6rg,
-
-Thanks for your review, I'll fix the issues you pointed out and I left
-out.
-
-On Mon, Mar 02, 2020 at 04:36:06PM +0100, Joerg Roedel wrote:
-> On Thu, Feb 20, 2020 at 07:15:14PM +0100, Maxime Ripard wrote:
-> > +struct sun50i_iommu_domain {
-> > +	struct iommu_domain domain;
-> > +
-> > +	/* Number of devices attached to the domain */
-> > +	refcount_t refcnt;
-> > +
-> > +	/* Lock to modify the Directory Table */
-> > +	spinlock_t dt_lock;
->
-> I suggest you make page-table updates lock-less. Otherwise this lock
-> will become a bottle-neck when using the IOMMU through DMA-API.
-
-As far as I understand it, the page table can be accessed concurrently
-since the framework doesn't seem to provide any serialization /
-locking, shouldn't we have some locks to prevent concurrent access?
-
-> > +
-> > +static int sun50i_iommu_map(struct iommu_domain *domain, unsigned long=
- iova,
-> > +			    phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
 > > +{
-> > +	struct sun50i_iommu_domain *sun50i_domain =3D to_sun50i_domain(domain=
-);
-> > +	struct sun50i_iommu *iommu =3D sun50i_domain->iommu;
-> > +	u32 pte_index;
-> > +	u32 *page_table, *pte_addr;
-> > +	unsigned long flags;
-> > +	int ret =3D 0;
+> > +	struct vfio_domain *domain;
+> > +	u32 format = 0, tmp_format = 0;
+> > +	int ret;
+> ret = -EINVAL;
+
+got it.
+
 > > +
-> > +	spin_lock_irqsave(&sun50i_domain->dt_lock, flags);
-> > +	page_table =3D sun50i_dte_get_page_table(sun50i_domain, iova, gfp);
-> > +	if (IS_ERR(page_table)) {
-> > +		ret =3D PTR_ERR(page_table);
-> > +		goto out;
+> > +	mutex_lock(&iommu->lock);
+> > +	if (list_empty(&iommu->domain_list)) {
+> goto out_unlock;
+
+right.
+> > +		mutex_unlock(&iommu->lock);
+> > +		return -EINVAL;
 > > +	}
 > > +
-> > +	pte_index =3D sun50i_iova_get_pte_index(iova);
-> > +	pte_addr =3D &page_table[pte_index];
-> > +	if (sun50i_pte_is_page_valid(*pte_addr)) {
->
-> You can use unlikely() here.
->
-> > +		phys_addr_t page_phys =3D sun50i_pte_get_page_address(*pte_addr);
-> > +		dev_err(iommu->dev,
-> > +			"iova %pad already mapped to %pa cannot remap to %pa prot: %#x\n",
-> > +			&iova, &page_phys, &paddr, prot);
-> > +		ret =3D -EBUSY;
-> > +		goto out;
+> > +	list_for_each_entry(domain, &iommu->domain_list, next) {
+> > +		if (iommu_domain_get_attr(domain->domain,
+> > +			DOMAIN_ATTR_PASID_FORMAT, &format)) {
+> I can find DOMAIN_ATTR_PASID_FORMAT in Jacob's v9 but not in v10
+
+oops, I guess he somehow missed. you may find it in below link.
+
+https://github.com/luxis1999/linux-vsva/commit/bf14b11a12f74d58ad3ee626a5d891de395082eb
+
+> > +			ret = -EINVAL;
+> could be removed
+
+sure.
+
+> > +			format = 0;
+> > +			goto out_unlock;
+> > +		}
+> > +		/*
+> > +		 * format is always non-zero (the first format is
+> > +		 * IOMMU_PASID_FORMAT_INTEL_VTD which is 1). For
+> > +		 * the reason of potential different backed IOMMU
+> > +		 * formats, here we expect to have identical formats
+> > +		 * in the domain list, no mixed formats support.
+> > +		 * return -EINVAL to fail the attempt of setup
+> > +		 * VFIO_TYPE1_NESTING_IOMMU if non-identical formats
+> > +		 * are detected.
+> > +		 */
+> > +		if (tmp_format && tmp_format != format) {
+> > +			ret = -EINVAL;
+> could be removed
+
+got it.
+
+> > +			format = 0;
+> > +			goto out_unlock;
+> > +		}
+> > +
+> > +		tmp_format = format;
 > > +	}
+> > +	ret = 0;
 > > +
-> > +	*pte_addr =3D sun50i_mk_pte(paddr, prot);
-> > +	sun50i_table_flush(sun50i_domain, pte_addr, 1);
->
-> This maps only one page, right? But the function needs to map up to
-> 'size' as given in the parameter list.
+> > +out_unlock:
+> > +	if (format)
+> if (!ret) ? then you can remove the format = 0 in case of error.
 
-It does, but pgsize_bitmap is set to 4k only (since the hardware only
-supports that), so we would have multiple calls to map, each time with
-a single page judging from:
-https://elixir.bootlin.com/linux/latest/source/drivers/iommu/iommu.c#L1948
+oh, yes.
 
-Right?
-
+> > +		*stage1_format = format;
+> > +	mutex_unlock(&iommu->lock);
+> > +	return ret;
+> > +}
 > > +
-> > +	spin_lock_irqsave(&iommu->iommu_lock, flags);
-> > +	sun50i_iommu_tlb_invalidate(iommu, iova);
-> > +	spin_unlock_irqrestore(&iommu->iommu_lock, flags);
->
-> Why is there a need to flush the TLB here? The IOMMU-API provides
-> call-backs so that the user of the API can decide when it wants
-> to flush the IO/TLB. Such flushes are usually expensive and doing them
-> on every map and unmap will cost significant performance.
+> >  static int vfio_iommu_info_add_nesting_cap(struct vfio_iommu *iommu,
+> >  					 struct vfio_info_cap *caps)
+> >  {
+> >  	struct vfio_info_cap_header *header;
+> >  	struct vfio_iommu_type1_info_cap_nesting *nesting_cap;
+> > +	u32 formats = 0;
+> > +	int ret;
+> > +
+> > +	ret = vfio_iommu_get_stage1_format(iommu, &formats);
+> > +	if (ret) {
+> > +		pr_warn("Failed to get stage-1 format\n");
+> trace triggered by userspace to be removed?
 
-The vendor driver was doing something along those lines and I wanted
-to be conservative with the cache management if we didn't run into
-performances issues, but I'll convert to the iotlb callbacks then.
+sure.
 
-Thanks!
-Maxime
+> > +		return ret;
+> > +	}
+> >
+> >  	header = vfio_info_cap_add(caps, sizeof(*nesting_cap),
+> >  				   VFIO_IOMMU_TYPE1_INFO_CAP_NESTING, 1);
+> > @@ -2254,6 +2309,7 @@ static int vfio_iommu_info_add_nesting_cap(struct
+> vfio_iommu *iommu,
+> >  		/* nesting iommu type supports PASID requests (alloc/free) */
+> >  		nesting_cap->nesting_capabilities |= VFIO_IOMMU_PASID_REQS;
+> What is the meaning for ARM?
 
---wkli2gubbmrrppjy
-Content-Type: application/pgp-signature; name="signature.asc"
+I think it's just a software capability exposed to userspace, on
+userspace side, it has a choice to use it or not. :-) The reason
+define it and report it in cap nesting is that I'd like to make
+the pasid alloc/free be available just for IOMMU with type
+VFIO_IOMMU_TYPE1_NESTING. Please feel free tell me if it is not
+good for ARM. We can find a proper way to report the availability.
 
------BEGIN PGP SIGNATURE-----
+> >  	}
+> > +	nesting_cap->stage1_formats = formats;
+> as spotted by Kevin, since a single format is supported, rename
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXoR/PgAKCRDj7w1vZxhR
-xXYcAP9XP4UWx0kXtAQTYqdIWRlCTg8pxpjxM8WaKIB8gOyhYgEAiHCVIjMhfPHb
-AFvK77mHDrT+707jO5g009pboY09zQ0=
-=okO0
------END PGP SIGNATURE-----
+ok, I was believing it may be possible on ARM or so. :-) will
+rename it.
 
---wkli2gubbmrrppjy--
+I'll refine the patch per your above comments.
 
---===============5190885124881633516==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Regards,
+Yi Liu
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============5190885124881633516==--
