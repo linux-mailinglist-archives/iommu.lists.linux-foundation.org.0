@@ -1,73 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3359F19CAAD
-	for <lists.iommu@lfdr.de>; Thu,  2 Apr 2020 21:57:19 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5BC019CB10
+	for <lists.iommu@lfdr.de>; Thu,  2 Apr 2020 22:24:44 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id CB39487569;
-	Thu,  2 Apr 2020 19:57:17 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 68C228835D;
+	Thu,  2 Apr 2020 20:24:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eX5a4bqqaEeK; Thu,  2 Apr 2020 19:57:16 +0000 (UTC)
+	with ESMTP id zxy6DBVp9spz; Thu,  2 Apr 2020 20:24:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E173E874AA;
-	Thu,  2 Apr 2020 19:57:16 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 728CF88325;
+	Thu,  2 Apr 2020 20:24:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C839BC07FF;
-	Thu,  2 Apr 2020 19:57:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 66F52C07FF;
+	Thu,  2 Apr 2020 20:24:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 14729C07FF
- for <iommu@lists.linux-foundation.org>; Thu,  2 Apr 2020 19:57:16 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E4143C07FF
+ for <iommu@lists.linux-foundation.org>; Thu,  2 Apr 2020 20:24:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 02C52888A7
- for <iommu@lists.linux-foundation.org>; Thu,  2 Apr 2020 19:57:16 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id D2B5B88D55
+ for <iommu@lists.linux-foundation.org>; Thu,  2 Apr 2020 20:24:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id scAowFCRlAh5 for <iommu@lists.linux-foundation.org>;
- Thu,  2 Apr 2020 19:57:14 +0000 (UTC)
+ with ESMTP id HcHv1WdGIi+Z for <iommu@lists.linux-foundation.org>;
+ Thu,  2 Apr 2020 20:24:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
  [205.139.110.61])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1598688808
- for <iommu@lists.linux-foundation.org>; Thu,  2 Apr 2020 19:57:13 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 07C8F88CC9
+ for <iommu@lists.linux-foundation.org>; Thu,  2 Apr 2020 20:24:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1585857430;
+ s=mimecast20190719; t=1585859078;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RxyoZsi9Tn8jWziDAMFiYcGYLKriOIyoSHN1gbJsJzs=;
- b=ELjl3yp6GXui+Z6AoSDJcQVXF5oMfbHFHUF6J9NcOvEmulQDcP8CKzKUvpFCe8anr2N98M
- hRnZI+QbBLwskh9ig7GOA3hVp2IlPxRhKjOyWjT/jUSoIgf3hdbsM+r6u+nMS5GNJkZj3Q
- tliTKzomyvtk/sZHYGY95zmvJtuC+O8=
+ bh=INka0vkxaweJDZ2c3Aa3hlqHFo9UCqLbH2gd4kVK5zY=;
+ b=botOPEzopVWrGIZQ16k7FDRD4Uk1rV+mXBR/purkipVzLbGZaGo9wCC9kVNz2whDo13eXo
+ Wb2m7tiPdHxWX5Y98/6klwi1whEFngjYc7yAxdODpYKwCP9uWxWHt3fXcxJBFB78ll0k3N
+ 70wkyBAhWVVziyYckEHhhCYg4ph0ydo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-ZZW0JrYzMsWT_D_Z6zHGUA-1; Thu, 02 Apr 2020 15:57:09 -0400
-X-MC-Unique: ZZW0JrYzMsWT_D_Z6zHGUA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-434-Bx5KEEKZNgCjKxiXu1j8Eg-1; Thu, 02 Apr 2020 16:24:37 -0400
+X-MC-Unique: Bx5KEEKZNgCjKxiXu1j8Eg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5F32107ACCA;
- Thu,  2 Apr 2020 19:57:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43DE51005509;
+ Thu,  2 Apr 2020 20:24:35 +0000 (UTC)
 Received: from w520.home (ovpn-112-162.phx2.redhat.com [10.3.112.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 321BE1001B09;
- Thu,  2 Apr 2020 19:57:01 +0000 (UTC)
-Date: Thu, 2 Apr 2020 13:57:00 -0600
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 898A5DA0F2;
+ Thu,  2 Apr 2020 20:24:28 +0000 (UTC)
+Date: Thu, 2 Apr 2020 14:24:28 -0600
 From: Alex Williamson <alex.williamson@redhat.com>
 To: "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: Re: [PATCH v1 6/8] vfio/type1: Bind guest page tables to host
-Message-ID: <20200402135700.0da30021@w520.home>
-In-Reply-To: <1584880325-10561-7-git-send-email-yi.l.liu@intel.com>
+Subject: Re: [PATCH v1 7/8] vfio/type1: Add VFIO_IOMMU_CACHE_INVALIDATE
+Message-ID: <20200402142428.2901432e@w520.home>
+In-Reply-To: <1584880325-10561-8-git-send-email-yi.l.liu@intel.com>
 References: <1584880325-10561-1-git-send-email-yi.l.liu@intel.com>
- <1584880325-10561-7-git-send-email-yi.l.liu@intel.com>
+ <1584880325-10561-8-git-send-email-yi.l.liu@intel.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Cc: jean-philippe@linaro.org, kevin.tian@intel.com, ashok.raj@intel.com,
  kvm@vger.kernel.org, jun.j.tian@intel.com, iommu@lists.linux-foundation.org,
  linux-kernel@vger.kernel.org, yi.y.sun@intel.com, hao.wu@intel.com
@@ -88,317 +88,162 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sun, 22 Mar 2020 05:32:03 -0700
+On Sun, 22 Mar 2020 05:32:04 -0700
 "Liu, Yi L" <yi.l.liu@intel.com> wrote:
 
-> From: Liu Yi L <yi.l.liu@intel.com>
+> From: Liu Yi L <yi.l.liu@linux.intel.com>
 > 
-> VFIO_TYPE1_NESTING_IOMMU is an IOMMU type which is backed by hardware
-> IOMMUs that have nesting DMA translation (a.k.a dual stage address
-> translation). For such hardware IOMMUs, there are two stages/levels of
-> address translation, and software may let userspace/VM to own the first-
-> level/stage-1 translation structures. Example of such usage is vSVA (
-> virtual Shared Virtual Addressing). VM owns the first-level/stage-1
-> translation structures and bind the structures to host, then hardware
-> IOMMU would utilize nesting translation when doing DMA translation fo
-> the devices behind such hardware IOMMU.
+> For VFIO IOMMUs with the type VFIO_TYPE1_NESTING_IOMMU, guest "owns" the
+> first-level/stage-1 translation structures, the host IOMMU driver has no
+> knowledge of first-level/stage-1 structure cache updates unless the guest
+> invalidation requests are trapped and propagated to the host.
 > 
-> This patch adds vfio support for binding guest translation (a.k.a stage 1)
-> structure to host iommu. And for VFIO_TYPE1_NESTING_IOMMU, not only bind
-> guest page table is needed, it also requires to expose interface to guest
-> for iommu cache invalidation when guest modified the first-level/stage-1
-> translation structures since hardware needs to be notified to flush stale
-> iotlbs. This would be introduced in next patch.
+> This patch adds a new IOCTL VFIO_IOMMU_CACHE_INVALIDATE to propagate guest
+> first-level/stage-1 IOMMU cache invalidations to host to ensure IOMMU cache
+> correctness.
 > 
-> In this patch, guest page table bind and unbind are done by using flags
-> VFIO_IOMMU_BIND_GUEST_PGTBL and VFIO_IOMMU_UNBIND_GUEST_PGTBL under IOCTL
-> VFIO_IOMMU_BIND, the bind/unbind data are conveyed by
-> struct iommu_gpasid_bind_data. Before binding guest page table to host,
-> VM should have got a PASID allocated by host via VFIO_IOMMU_PASID_REQUEST.
-> 
-> Bind guest translation structures (here is guest page table) to host
-> are the first step to setup vSVA (Virtual Shared Virtual Addressing).
+> With this patch, vSVA (Virtual Shared Virtual Addressing) can be used safely
+> as the host IOMMU iotlb correctness are ensured.
 > 
 > Cc: Kevin Tian <kevin.tian@intel.com>
 > CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
 > Cc: Alex Williamson <alex.williamson@redhat.com>
 > Cc: Eric Auger <eric.auger@redhat.com>
 > Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.com>
-> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> Signed-off-by: Liu Yi L <yi.l.liu@linux.intel.com>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 > ---
->  drivers/vfio/vfio_iommu_type1.c | 158 ++++++++++++++++++++++++++++++++++++++++
->  include/uapi/linux/vfio.h       |  46 ++++++++++++
->  2 files changed, 204 insertions(+)
+>  drivers/vfio/vfio_iommu_type1.c | 49 +++++++++++++++++++++++++++++++++++++++++
+>  include/uapi/linux/vfio.h       | 22 ++++++++++++++++++
+>  2 files changed, 71 insertions(+)
 > 
 > diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-> index 82a9e0b..a877747 100644
+> index a877747..937ec3f 100644
 > --- a/drivers/vfio/vfio_iommu_type1.c
 > +++ b/drivers/vfio/vfio_iommu_type1.c
-> @@ -130,6 +130,33 @@ struct vfio_regions {
->  #define IS_IOMMU_CAP_DOMAIN_IN_CONTAINER(iommu)	\
->  					(!list_empty(&iommu->domain_list))
->  
-> +struct domain_capsule {
-> +	struct iommu_domain *domain;
-> +	void *data;
-> +};
-> +
-> +/* iommu->lock must be held */
-> +static int vfio_iommu_for_each_dev(struct vfio_iommu *iommu,
-> +		      int (*fn)(struct device *dev, void *data),
-> +		      void *data)
-> +{
-> +	struct domain_capsule dc = {.data = data};
-> +	struct vfio_domain *d;
-> +	struct vfio_group *g;
-> +	int ret = 0;
-> +
-> +	list_for_each_entry(d, &iommu->domain_list, next) {
-> +		dc.domain = d->domain;
-> +		list_for_each_entry(g, &d->group_list, next) {
-> +			ret = iommu_group_for_each_dev(g->iommu_group,
-> +						       &dc, fn);
-> +			if (ret)
-> +				break;
-> +		}
-> +	}
-> +	return ret;
-> +}
-> +
->  static int put_pfn(unsigned long pfn, int prot);
->  
->  /*
-> @@ -2314,6 +2341,88 @@ static int vfio_iommu_info_add_nesting_cap(struct vfio_iommu *iommu,
->  	return 0;
+> @@ -2423,6 +2423,15 @@ static long vfio_iommu_type1_unbind_gpasid(struct vfio_iommu *iommu,
+>  	return ret;
 >  }
 >  
-> +static int vfio_bind_gpasid_fn(struct device *dev, void *data)
+> +static int vfio_cache_inv_fn(struct device *dev, void *data)
 > +{
 > +	struct domain_capsule *dc = (struct domain_capsule *)data;
-> +	struct iommu_gpasid_bind_data *gbind_data =
-> +		(struct iommu_gpasid_bind_data *) dc->data;
+> +	struct iommu_cache_invalidate_info *cache_inv_info =
+> +		(struct iommu_cache_invalidate_info *) dc->data;
 > +
-> +	return iommu_sva_bind_gpasid(dc->domain, dev, gbind_data);
-> +}
-> +
-> +static int vfio_unbind_gpasid_fn(struct device *dev, void *data)
-> +{
-> +	struct domain_capsule *dc = (struct domain_capsule *)data;
-> +	struct iommu_gpasid_bind_data *gbind_data =
-> +		(struct iommu_gpasid_bind_data *) dc->data;
-> +
-> +	return iommu_sva_unbind_gpasid(dc->domain, dev,
-> +					gbind_data->hpasid);
-> +}
-> +
-> +/**
-> + * Unbind specific gpasid, caller of this function requires hold
-> + * vfio_iommu->lock
-> + */
-> +static long vfio_iommu_type1_do_guest_unbind(struct vfio_iommu *iommu,
-> +				struct iommu_gpasid_bind_data *gbind_data)
-> +{
-> +	return vfio_iommu_for_each_dev(iommu,
-> +				vfio_unbind_gpasid_fn, gbind_data);
-> +}
-> +
-> +static long vfio_iommu_type1_bind_gpasid(struct vfio_iommu *iommu,
-> +				struct iommu_gpasid_bind_data *gbind_data)
-> +{
-> +	int ret = 0;
-> +
-> +	mutex_lock(&iommu->lock);
-> +	if (!IS_IOMMU_CAP_DOMAIN_IN_CONTAINER(iommu)) {
-> +		ret = -EINVAL;
-> +		goto out_unlock;
-> +	}
-> +
-> +	ret = vfio_iommu_for_each_dev(iommu,
-> +			vfio_bind_gpasid_fn, gbind_data);
-> +	/*
-> +	 * If bind failed, it may not be a total failure. Some devices
-> +	 * within the iommu group may have bind successfully. Although
-> +	 * we don't enable pasid capability for non-singletion iommu
-> +	 * groups, a unbind operation would be helpful to ensure no
-> +	 * partial binding for an iommu group.
-
-Where was the non-singleton group restriction done, I missed that.
-
-> +	 */
-> +	if (ret)
-> +		/*
-> +		 * Undo all binds that already succeeded, no need to
-> +		 * check the return value here since some device within
-> +		 * the group has no successful bind when coming to this
-> +		 * place switch.
-> +		 */
-> +		vfio_iommu_type1_do_guest_unbind(iommu, gbind_data);
-
-However, the for_each_dev function stops when the callback function
-returns error, are we just assuming we stop at the same device as we
-faulted on the first time and that we traverse the same set of devices
-the second time?  It seems strange to me that unbind should be able to
-fail.
-
-> +
-> +out_unlock:
-> +	mutex_unlock(&iommu->lock);
-> +	return ret;
-> +}
-> +
-> +static long vfio_iommu_type1_unbind_gpasid(struct vfio_iommu *iommu,
-> +				struct iommu_gpasid_bind_data *gbind_data)
-> +{
-> +	int ret = 0;
-> +
-> +	mutex_lock(&iommu->lock);
-> +	if (!IS_IOMMU_CAP_DOMAIN_IN_CONTAINER(iommu)) {
-> +		ret = -EINVAL;
-> +		goto out_unlock;
-> +	}
-> +
-> +	ret = vfio_iommu_type1_do_guest_unbind(iommu, gbind_data);
-
-How is a user supposed to respond to their unbind failing?
-
-> +
-> +out_unlock:
-> +	mutex_unlock(&iommu->lock);
-> +	return ret;
+> +	return iommu_cache_invalidate(dc->domain, dev, cache_inv_info);
 > +}
 > +
 >  static long vfio_iommu_type1_ioctl(void *iommu_data,
 >  				   unsigned int cmd, unsigned long arg)
 >  {
-> @@ -2471,6 +2580,55 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
->  		default:
->  			return -EINVAL;
+> @@ -2629,6 +2638,46 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
 >  		}
-> +
-> +	} else if (cmd == VFIO_IOMMU_BIND) {
-> +		struct vfio_iommu_type1_bind bind;
+>  		kfree(gbind_data);
+>  		return ret;
+> +	} else if (cmd == VFIO_IOMMU_CACHE_INVALIDATE) {
+> +		struct vfio_iommu_type1_cache_invalidate cache_inv;
 > +		u32 version;
-> +		int data_size;
-> +		void *gbind_data;
+> +		int info_size;
+> +		void *cache_info;
 > +		int ret;
 > +
-> +		minsz = offsetofend(struct vfio_iommu_type1_bind, flags);
+> +		minsz = offsetofend(struct vfio_iommu_type1_cache_invalidate,
+> +				    flags);
+
+This breaks backward compatibility as soon as struct
+iommu_cache_invalidate_info changes size by its defined versioning
+scheme.  ie. a field gets added, the version is bumped, all existing
+userspace breaks.  Our minsz is offsetofend to the version field,
+interpret the version to size, then reevaluate argsz.
+
 > +
-> +		if (copy_from_user(&bind, (void __user *)arg, minsz))
+> +		if (copy_from_user(&cache_inv, (void __user *)arg, minsz))
 > +			return -EFAULT;
 > +
-> +		if (bind.argsz < minsz)
+> +		if (cache_inv.argsz < minsz || cache_inv.flags)
 > +			return -EINVAL;
 > +
-> +		/* Get the version of struct iommu_gpasid_bind_data */
+> +		/* Get the version of struct iommu_cache_invalidate_info */
 > +		if (copy_from_user(&version,
-> +			(void __user *) (arg + minsz),
-> +					sizeof(version)))
+> +			(void __user *) (arg + minsz), sizeof(version)))
 > +			return -EFAULT;
-
-Why are we coping things from beyond the size we've validated that the
-user has provided again?
-
 > +
-> +		data_size = iommu_uapi_get_data_size(
-> +				IOMMU_UAPI_BIND_GPASID, version);
-> +		gbind_data = kzalloc(data_size, GFP_KERNEL);
-> +		if (!gbind_data)
+> +		info_size = iommu_uapi_get_data_size(
+> +					IOMMU_UAPI_CACHE_INVAL, version);
+> +
+> +		cache_info = kzalloc(info_size, GFP_KERNEL);
+> +		if (!cache_info)
 > +			return -ENOMEM;
 > +
-> +		if (copy_from_user(gbind_data,
-> +			 (void __user *) (arg + minsz), data_size)) {
-> +			kfree(gbind_data);
+> +		if (copy_from_user(cache_info,
+> +			(void __user *) (arg + minsz), info_size)) {
+> +			kfree(cache_info);
 > +			return -EFAULT;
 > +		}
-
-And again.  argsz isn't just for minsz.
-
 > +
-> +		switch (bind.flags & VFIO_IOMMU_BIND_MASK) {
-> +		case VFIO_IOMMU_BIND_GUEST_PGTBL:
-> +			ret = vfio_iommu_type1_bind_gpasid(iommu,
-> +							   gbind_data);
-> +			break;
-> +		case VFIO_IOMMU_UNBIND_GUEST_PGTBL:
-> +			ret = vfio_iommu_type1_unbind_gpasid(iommu,
-> +							     gbind_data);
-> +			break;
-> +		default:
-> +			ret = -EINVAL;
-> +			break;
-> +		}
-> +		kfree(gbind_data);
+> +		mutex_lock(&iommu->lock);
+> +		ret = vfio_iommu_for_each_dev(iommu, vfio_cache_inv_fn,
+> +					    cache_info);
+
+How does a user respond when their cache invalidate fails?  Isn't this
+also another case where our for_each_dev can fail at an arbitrary point
+leaving us with no idea whether each device even had the opportunity to
+perform the invalidation request.  I don't see how we have any chance
+to maintain coherency after this faults.
+
+> +		mutex_unlock(&iommu->lock);
+> +		kfree(cache_info);
 > +		return ret;
 >  	}
 >  
 >  	return -ENOTTY;
 > diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> index ebeaf3e..2235bc6 100644
+> index 2235bc6..62ca791 100644
 > --- a/include/uapi/linux/vfio.h
 > +++ b/include/uapi/linux/vfio.h
-> @@ -14,6 +14,7 @@
->  
->  #include <linux/types.h>
->  #include <linux/ioctl.h>
-> +#include <linux/iommu.h>
->  
->  #define VFIO_API_VERSION	0
->  
-> @@ -853,6 +854,51 @@ struct vfio_iommu_type1_pasid_request {
+> @@ -899,6 +899,28 @@ struct vfio_iommu_type1_bind {
 >   */
->  #define VFIO_IOMMU_PASID_REQUEST	_IO(VFIO_TYPE, VFIO_BASE + 22)
+>  #define VFIO_IOMMU_BIND		_IO(VFIO_TYPE, VFIO_BASE + 23)
 >  
 > +/**
-> + * Supported flags:
-> + *	- VFIO_IOMMU_BIND_GUEST_PGTBL: bind guest page tables to host for
-> + *			nesting type IOMMUs. In @data field It takes struct
-> + *			iommu_gpasid_bind_data.
-> + *	- VFIO_IOMMU_UNBIND_GUEST_PGTBL: undo a bind guest page table operation
-> + *			invoked by VFIO_IOMMU_BIND_GUEST_PGTBL.
+> + * VFIO_IOMMU_CACHE_INVALIDATE - _IOW(VFIO_TYPE, VFIO_BASE + 24,
+> + *			struct vfio_iommu_type1_cache_invalidate)
+> + *
+> + * Propagate guest IOMMU cache invalidation to the host. The cache
+> + * invalidation information is conveyed by @cache_info, the content
+> + * format would be structures defined in uapi/linux/iommu.h. User
+> + * should be aware of that the struct  iommu_cache_invalidate_info
+> + * has a @version field, vfio needs to parse this field before getting
+> + * data from userspace.
+> + *
+> + * Availability of this IOCTL is after VFIO_SET_IOMMU.
 
-This must require iommu_gpasid_bind_data in the data field as well,
-right?
+Is this a necessary qualifier?  A user can try to call this ioctl at
+any point, it only makes sense in certain configurations, but it should
+always "do the right thing" relative to the container iommu config.
 
-> + *
-> + */
-> +struct vfio_iommu_type1_bind {
-> +	__u32		argsz;
-> +	__u32		flags;
-> +#define VFIO_IOMMU_BIND_GUEST_PGTBL	(1 << 0)
-> +#define VFIO_IOMMU_UNBIND_GUEST_PGTBL	(1 << 1)
-> +	__u8		data[];
-> +};
-> +
-> +#define VFIO_IOMMU_BIND_MASK	(VFIO_IOMMU_BIND_GUEST_PGTBL | \
-> +					VFIO_IOMMU_UNBIND_GUEST_PGTBL)
-> +
-> +/**
-> + * VFIO_IOMMU_BIND - _IOW(VFIO_TYPE, VFIO_BASE + 23,
-> + *				struct vfio_iommu_type1_bind)
-> + *
-> + * Manage address spaces of devices in this container. Initially a TYPE1
-> + * container can only have one address space, managed with
-> + * VFIO_IOMMU_MAP/UNMAP_DMA.
-> + *
-> + * An IOMMU of type VFIO_TYPE1_NESTING_IOMMU can be managed by both MAP/UNMAP
-> + * and BIND ioctls at the same time. MAP/UNMAP acts on the stage-2 (host) page
-> + * tables, and BIND manages the stage-1 (guest) page tables. Other types of
-> + * IOMMU may allow MAP/UNMAP and BIND to coexist, where MAP/UNMAP controls
-> + * the traffics only require single stage translation while BIND controls the
-> + * traffics require nesting translation. But this depends on the underlying
-> + * IOMMU architecture and isn't guaranteed. Example of this is the guest SVA
-> + * traffics, such traffics need nesting translation to gain gVA->gPA and then
-> + * gPA->hPA translation.
-> + *
-> + * Availability of this feature depends on the device, its bus, the underlying
-> + * IOMMU and the CPU architecture.
+Also, I don't see anything in these last few patches testing the
+operating IOMMU model, what happens when a user calls them when not
+using the nesting IOMMU?
+
+Is this ioctl and the previous BIND ioctl only valid when configured
+for the nesting IOMMU type?
+
 > + *
 > + * returns: 0 on success, -errno on failure.
 > + */
-> +#define VFIO_IOMMU_BIND		_IO(VFIO_TYPE, VFIO_BASE + 23)
+> +struct vfio_iommu_type1_cache_invalidate {
+> +	__u32   argsz;
+> +	__u32   flags;
+> +	struct	iommu_cache_invalidate_info cache_info;
+> +};
+> +#define VFIO_IOMMU_CACHE_INVALIDATE      _IO(VFIO_TYPE, VFIO_BASE + 24)
+
+The future extension capabilities of this ioctl worry me, I wonder if
+we should do another data[] with flag defining that data as CACHE_INFO.
+
 > +
 >  /* -------- Additional API for SPAPR TCE (Server POWERPC) IOMMU -------- */
 >  
