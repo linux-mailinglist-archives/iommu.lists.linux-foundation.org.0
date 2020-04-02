@@ -1,85 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5505619C335
-	for <lists.iommu@lfdr.de>; Thu,  2 Apr 2020 15:52:56 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4525B19C51F
+	for <lists.iommu@lfdr.de>; Thu,  2 Apr 2020 16:58:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DF65C87EA9;
-	Thu,  2 Apr 2020 13:52:54 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id F236F8727D;
+	Thu,  2 Apr 2020 14:58:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZU+lIcGHlb3n; Thu,  2 Apr 2020 13:52:53 +0000 (UTC)
+	with ESMTP id Ca7qwckSddhB; Thu,  2 Apr 2020 14:58:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C28A9883E2;
-	Thu,  2 Apr 2020 13:52:53 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 59B4987278;
+	Thu,  2 Apr 2020 14:58:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AA48CC1D89;
-	Thu,  2 Apr 2020 13:52:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 51772C07FF;
+	Thu,  2 Apr 2020 14:58:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27587C07FF
- for <iommu@lists.linux-foundation.org>; Thu,  2 Apr 2020 13:52:52 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A570FC07FF
+ for <iommu@lists.linux-foundation.org>; Thu,  2 Apr 2020 14:53:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 1EDC2883E2
- for <iommu@lists.linux-foundation.org>; Thu,  2 Apr 2020 13:52:52 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 904A888091
+ for <iommu@lists.linux-foundation.org>; Thu,  2 Apr 2020 14:53:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9qrU8uHYtg8S for <iommu@lists.linux-foundation.org>;
- Thu,  2 Apr 2020 13:52:51 +0000 (UTC)
+ with ESMTP id wGdgWEP2dV8U for <iommu@lists.linux-foundation.org>;
+ Thu,  2 Apr 2020 14:53:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id DD98087EA9
- for <iommu@lists.linux-foundation.org>; Thu,  2 Apr 2020 13:52:50 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id i19so3781997wmb.0
- for <iommu@lists.linux-foundation.org>; Thu, 02 Apr 2020 06:52:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Af2JSDwihc8nF6h/8r9tRfhzK4NkNkC7mPnujbacA4E=;
- b=WYfXg3X36AvqTwJlAkbyeB6mKBOAK4tblKRvp+PMMksyR0S+HJiQ8pBMj3B8ZUuAyx
- 9iFRCYbcf7lfCQMiTODRucJHoBZHdViAHeeudHlctD3QMK3Nk6uqA4b6yPPC3ZrtUD/Z
- c5vy1wJM/9q0Xg/l6zOKJJ7K9Pdum8Yk6zYxbAJLfrX1bgMDIBsISAHQ93Ww2aOTyF9H
- jwL2pYynj7Sy+tGf70y/BhPAtrsRWlqoxT2kL2R3v3862E9vGOtoAK7yFFk4nfSD0oAw
- Ksv7LLgk+aMBu8EqTzLL7LcEDcdMqxpBUaNqyrkWiOHrfRYMiOPaqTtrrkwRGO7ljpMl
- KCHg==
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 0759088077
+ for <iommu@lists.linux-foundation.org>; Thu,  2 Apr 2020 14:53:08 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id k18so1424193pll.6
+ for <iommu@lists.linux-foundation.org>; Thu, 02 Apr 2020 07:53:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gjUUD6QNlvW5+sj/OX+BljKH59QNXj2Gt2J1SVUv6Sw=;
+ b=ehn/hXoUTJe3Y8c0P19r6zXuFp+SUe4FP80NLHWvEkg0bSA5NDKLEcgUhQCyvlXgCJ
+ BwXc/6Cf7BhLGtMN2kI6hvxgmhHyjKzO+X0DXyzQc6EIEJ1HDRsnZ2DOCtDalGJGK0AO
+ yGxCBhxFCZHz7BlI9ZtuSefS94sAtuONi12PolQvEZ7ramw5qWO5YWsmH/R9AwXMEZFY
+ g5xZqDHYCtd++IOYBnIbSYqVMZhLTakLZBydutfxZg5PIcPOfIi6Qc3sxyPQjzSWgXPb
+ nlYE29Bogp6Lsej60bhlOXc19e9T+G/8G6DoPSuZhpcK8NKSovy9d2EFPbaeFYDz2ENQ
+ JHkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Af2JSDwihc8nF6h/8r9tRfhzK4NkNkC7mPnujbacA4E=;
- b=iP/QaP3YFJSLU1UO8hPEBDC/V3dk+dvsu4gq6/zoGWwLaGTZBLvZQ7T6ggQ3G+MMlW
- AdaPDD0hvLmRCQI5cEBZcoqLCEdClWFpTcW5qqbCVFFrt/1Q6M2+riIy4DwtyEaA0IRe
- RcgVuYdZ/BZiiQyNZTYXDOv83hdQGSRpx5x8/4jvul3kDl0zvZQ4UCOowmgeyPXKm/h5
- JafUtbYJHfa4gn8MUJgO+kO9FSj5a49PDl0mB30bC4+H/b7Qsuuh0b6ZejV/o4vzisyE
- SZmRG8erGI+pAKrCjLHYBD7oLAFrN9TeUjH3mu0+csFrOEW3h5a1vWMRXsZtpfBnO/fT
- FsPw==
-X-Gm-Message-State: AGi0PubJs//8ut+8yRoWCD54X/2LoYTh2y4h1yFSc/93q1/f5p61PSsF
- VgithxvVUuYYE2cpi+rO+3acxA==
-X-Google-Smtp-Source: APiQypLNnVYOD2AZt87qLBOpKyN+9iazNk3xW8ANrER0HUdIDL6UmjerB/gZbsECOzD4MivOwsvPlw==
-X-Received: by 2002:a1c:2285:: with SMTP id i127mr3827555wmi.152.1585835569034; 
- Thu, 02 Apr 2020 06:52:49 -0700 (PDT)
-Received: from myrica ([2001:171b:226b:54a0:6097:1406:6470:33b5])
- by smtp.gmail.com with ESMTPSA id w204sm7370919wma.1.2020.04.02.06.52.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Apr 2020 06:52:48 -0700 (PDT)
-Date: Thu, 2 Apr 2020 15:52:40 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: Re: [PATCH v1 1/8] vfio: Add VFIO_IOMMU_PASID_REQUEST(alloc/free)
-Message-ID: <20200402135240.GE1176452@myrica>
-References: <1584880325-10561-1-git-send-email-yi.l.liu@intel.com>
- <1584880325-10561-2-git-send-email-yi.l.liu@intel.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gjUUD6QNlvW5+sj/OX+BljKH59QNXj2Gt2J1SVUv6Sw=;
+ b=aEZtubUxTBBuCV/rBnMtTUFF57pvAyn62wbVsWFtr57rGUzGCyjlGBvXrIvIXJbx18
+ ktf9pTcm/VWA2p8xUim4K5ywQZpc3teVhSF6qGsziOw0a/XDu91qPwKBqgSuv6PZv9LK
+ /QXX1Iyu7397qP7stRQoIgmgtt9xlENtBbPfjFtt/pfrgW6iF48iNNc/lCe8T+EAEqqT
+ PmiqdN5Os1UGbpVmd/M8ycQI3PYAA0jJkFPUhUae3HfWLsggnw8/OwKlWAe6FwzVAe/5
+ szn1Zb4VJITDcWw1OHQPWnQOieeOBultQ8VyvNTSSGTfiyHkntHG9tjFidT+zUy0sOfs
+ 7XTA==
+X-Gm-Message-State: AGi0Pua7e/GR+NXofcGIrODVJ+Q8Gvjcb9S0upyJeUWjYKMD/FPPs1fi
+ YfjvUwkyJlvAU78i7/pRWuP7zbQqiVk=
+X-Google-Smtp-Source: APiQypLsB4uUXyO6n50Uiy8e6kyCTAFVCBbDkYiFrlAENoQYnW7JprvIztp3Rz5ResFKsvFqoiW+2A==
+X-Received: by 2002:a17:90a:c20b:: with SMTP id
+ e11mr4213422pjt.57.1585839187417; 
+ Thu, 02 Apr 2020 07:53:07 -0700 (PDT)
+Received: from pek-lpggp6.wrs.com (unknown-105-123.windriver.com.
+ [147.11.105.123])
+ by smtp.gmail.com with ESMTPSA id u3sm4024376pfb.36.2020.04.02.07.53.03
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 02 Apr 2020 07:53:06 -0700 (PDT)
+From: Kevin Hao <haokexin@gmail.com>
+To: iommu@lists.linux-foundation.org
+Subject: [PATCH] iommu: Fix the memory leak in dev_iommu_free()
+Date: Thu,  2 Apr 2020 22:37:49 +0800
+Message-Id: <20200402143749.40500-1-haokexin@gmail.com>
+X-Mailer: git-send-email 2.25.1.377.g2d2118b814c1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1584880325-10561-2-git-send-email-yi.l.liu@intel.com>
-Cc: kevin.tian@intel.com, ashok.raj@intel.com, kvm@vger.kernel.org,
- yi.y.sun@intel.com, linux-kernel@vger.kernel.org, alex.williamson@redhat.com,
- iommu@lists.linux-foundation.org, jun.j.tian@intel.com, hao.wu@intel.com
+X-Mailman-Approved-At: Thu, 02 Apr 2020 14:58:35 +0000
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,152 +94,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Yi,
+In iommu_probe_device(), we would invoke dev_iommu_free() to free the
+dev->iommu after the ->add_device() returns failure. But after commit
+72acd9df18f1 ("iommu: Move iommu_fwspec to struct dev_iommu"), we also
+need to free the iommu_fwspec before the dev->iommu is freed. This fixes
+the following memory leak reported by kmemleak:
+  unreferenced object 0xffff000bc836c700 (size 128):
+    comm "swapper/0", pid 1, jiffies 4294896304 (age 782.120s)
+    hex dump (first 32 bytes):
+      00 00 00 00 00 00 00 00 d8 cd 9b ff 0b 00 ff ff  ................
+      00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    backtrace:
+      [<00000000df34077b>] kmem_cache_alloc_trace+0x244/0x4b0
+      [<000000000e560ac0>] iommu_fwspec_init+0x7c/0xb0
+      [<0000000075eda275>] of_iommu_xlate+0x80/0xe8
+      [<00000000728d6bf9>] of_pci_iommu_init+0xb0/0xb8
+      [<00000000d001fe6f>] pci_for_each_dma_alias+0x48/0x190
+      [<000000006db6bbce>] of_iommu_configure+0x1ac/0x1d0
+      [<00000000634745f8>] of_dma_configure+0xdc/0x220
+      [<000000002cbc8ba0>] pci_dma_configure+0x50/0x78
+      [<00000000cdf6e193>] really_probe+0x8c/0x340
+      [<00000000fddddc46>] driver_probe_device+0x60/0xf8
+      [<0000000061bcdb51>] __device_attach_driver+0x8c/0xd0
+      [<000000009b9ff58e>] bus_for_each_drv+0x80/0xd0
+      [<000000004b9c8aa3>] __device_attach+0xec/0x148
+      [<00000000a5c13bf3>] device_attach+0x1c/0x28
+      [<000000005071e151>] pci_bus_add_device+0x58/0xd0
+      [<000000002d4f87d1>] pci_bus_add_devices+0x40/0x90
 
-On Sun, Mar 22, 2020 at 05:31:58AM -0700, Liu, Yi L wrote:
-> From: Liu Yi L <yi.l.liu@intel.com>
-> 
-> For a long time, devices have only one DMA address space from platform
-> IOMMU's point of view. This is true for both bare metal and directed-
-> access in virtualization environment. Reason is the source ID of DMA in
-> PCIe are BDF (bus/dev/fnc ID), which results in only device granularity
-> DMA isolation. However, this is changing with the latest advancement in
-> I/O technology area. More and more platform vendors are utilizing the PCIe
-> PASID TLP prefix in DMA requests, thus to give devices with multiple DMA
-> address spaces as identified by their individual PASIDs. For example,
-> Shared Virtual Addressing (SVA, a.k.a Shared Virtual Memory) is able to
-> let device access multiple process virtual address space by binding the
-> virtual address space with a PASID. Wherein the PASID is allocated in
-> software and programmed to device per device specific manner. Devices
-> which support PASID capability are called PASID-capable devices. If such
-> devices are passed through to VMs, guest software are also able to bind
-> guest process virtual address space on such devices. Therefore, the guest
-> software could reuse the bare metal software programming model, which
-> means guest software will also allocate PASID and program it to device
-> directly. This is a dangerous situation since it has potential PASID
-> conflicts and unauthorized address space access.
+Fixes: 72acd9df18f1 ("iommu: Move iommu_fwspec to struct dev_iommu")
+Signed-off-by: Kevin Hao <haokexin@gmail.com>
+---
+ drivers/iommu/iommu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-It's worth noting that this applies to Intel VT-d with scalable mode, not
-IOMMUs that use one PASID space per VM
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 2b471419e26c..54757c404866 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -170,6 +170,7 @@ static struct dev_iommu *dev_iommu_get(struct device *dev)
+ 
+ static void dev_iommu_free(struct device *dev)
+ {
++	iommu_fwspec_free(dev);
+ 	kfree(dev->iommu);
+ 	dev->iommu = NULL;
+ }
+-- 
+2.25.1.377.g2d2118b814c1
 
-> It would be safer to
-> let host intercept in the guest software's PASID allocation. Thus PASID
-> are managed system-wide.
-> 
-> This patch adds VFIO_IOMMU_PASID_REQUEST ioctl which aims to passdown
-> PASID allocation/free request from the virtual IOMMU. Additionally, such
-> requests are intended to be invoked by QEMU or other applications which
-> are running in userspace, it is necessary to have a mechanism to prevent
-> single application from abusing available PASIDs in system. With such
-> consideration, this patch tracks the VFIO PASID allocation per-VM. There
-> was a discussion to make quota to be per assigned devices. e.g. if a VM
-> has many assigned devices, then it should have more quota. However, it
-> is not sure how many PASIDs an assigned devices will use. e.g. it is
-> possible that a VM with multiples assigned devices but requests less
-> PASIDs. Therefore per-VM quota would be better.
-> 
-> This patch uses struct mm pointer as a per-VM token. We also considered
-> using task structure pointer and vfio_iommu structure pointer. However,
-> task structure is per-thread, which means it cannot achieve per-VM PASID
-> alloc tracking purpose. While for vfio_iommu structure, it is visible
-> only within vfio. Therefore, structure mm pointer is selected. This patch
-> adds a structure vfio_mm. A vfio_mm is created when the first vfio
-> container is opened by a VM. On the reverse order, vfio_mm is free when
-> the last vfio container is released. Each VM is assigned with a PASID
-> quota, so that it is not able to request PASID beyond its quota. This
-> patch adds a default quota of 1000. This quota could be tuned by
-> administrator. Making PASID quota tunable will be added in another patch
-> in this series.
-> 
-> Previous discussions:
-> https://patchwork.kernel.org/patch/11209429/
-> 
-> Cc: Kevin Tian <kevin.tian@intel.com>
-> CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Eric Auger <eric.auger@redhat.com>
-> Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> ---
->  drivers/vfio/vfio.c             | 130 ++++++++++++++++++++++++++++++++++++++++
->  drivers/vfio/vfio_iommu_type1.c | 104 ++++++++++++++++++++++++++++++++
->  include/linux/vfio.h            |  20 +++++++
->  include/uapi/linux/vfio.h       |  41 +++++++++++++
->  4 files changed, 295 insertions(+)
-> 
-> diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-> index c848262..d13b483 100644
-> --- a/drivers/vfio/vfio.c
-> +++ b/drivers/vfio/vfio.c
-> @@ -32,6 +32,7 @@
->  #include <linux/vfio.h>
->  #include <linux/wait.h>
->  #include <linux/sched/signal.h>
-> +#include <linux/sched/mm.h>
->  
->  #define DRIVER_VERSION	"0.3"
->  #define DRIVER_AUTHOR	"Alex Williamson <alex.williamson@redhat.com>"
-> @@ -46,6 +47,8 @@ static struct vfio {
->  	struct mutex			group_lock;
->  	struct cdev			group_cdev;
->  	dev_t				group_devt;
-> +	struct list_head		vfio_mm_list;
-> +	struct mutex			vfio_mm_lock;
->  	wait_queue_head_t		release_q;
->  } vfio;
->  
-> @@ -2129,6 +2132,131 @@ int vfio_unregister_notifier(struct device *dev, enum vfio_notify_type type,
->  EXPORT_SYMBOL(vfio_unregister_notifier);
->  
->  /**
-> + * VFIO_MM objects - create, release, get, put, search
-> + * Caller of the function should have held vfio.vfio_mm_lock.
-> + */
-> +static struct vfio_mm *vfio_create_mm(struct mm_struct *mm)
-> +{
-> +	struct vfio_mm *vmm;
-> +	struct vfio_mm_token *token;
-> +	int ret = 0;
-> +
-> +	vmm = kzalloc(sizeof(*vmm), GFP_KERNEL);
-> +	if (!vmm)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	/* Per mm IOASID set used for quota control and group operations */
-> +	ret = ioasid_alloc_set((struct ioasid_set *) mm,
-
-Hmm, either we need to change the token of ioasid_alloc_set() to "void *",
-or pass an actual ioasid_set struct, but this cast doesn't look good :)
-
-As I commented on the IOASID series, I think we could embed a struct
-ioasid_set into vfio_mm, pass that struct to all other ioasid_* functions,
-and get rid of ioasid_sid.
-
-> +			       VFIO_DEFAULT_PASID_QUOTA, &vmm->ioasid_sid);
-> +	if (ret) {
-> +		kfree(vmm);
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	kref_init(&vmm->kref);
-> +	token = &vmm->token;
-> +	token->val = mm;
-
-Why the intermediate token struct?  Could we just store the mm_struct
-pointer within vfio_mm?
-
-Thanks,
-Jean
-
-> +	vmm->pasid_quota = VFIO_DEFAULT_PASID_QUOTA;
-> +	mutex_init(&vmm->pasid_lock);
-> +
-> +	list_add(&vmm->vfio_next, &vfio.vfio_mm_list);
-> +
-> +	return vmm;
-> +}
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
