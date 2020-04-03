@@ -2,70 +2,73 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A8819CF50
-	for <lists.iommu@lfdr.de>; Fri,  3 Apr 2020 06:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D410719CF57
+	for <lists.iommu@lfdr.de>; Fri,  3 Apr 2020 06:34:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 49658203C2;
-	Fri,  3 Apr 2020 04:30:04 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8061C204C6;
+	Fri,  3 Apr 2020 04:34:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xvHp2x6TbzSD; Fri,  3 Apr 2020 04:30:01 +0000 (UTC)
+	with ESMTP id B5+qWeQf8lM8; Fri,  3 Apr 2020 04:34:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id ACCDD204C6;
-	Fri,  3 Apr 2020 04:30:01 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AABCA204DA;
+	Fri,  3 Apr 2020 04:34:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9F5D8C1D74;
-	Fri,  3 Apr 2020 04:30:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9F065C07FF;
+	Fri,  3 Apr 2020 04:34:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3219FC07FF;
- Fri,  3 Apr 2020 04:30:00 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EF6EFC07FF;
+ Fri,  3 Apr 2020 04:34:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id CEE95890D5;
- Fri,  3 Apr 2020 04:29:59 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id CADEB204C6;
+ Fri,  3 Apr 2020 04:34:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id L4w2btA6rx2U; Fri,  3 Apr 2020 04:29:58 +0000 (UTC)
+ with ESMTP id D13oZkM9bJ1Y; Fri,  3 Apr 2020 04:34:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com
  [67.231.148.174])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 79470890BA;
- Fri,  3 Apr 2020 04:29:58 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 94777203DE;
+ Fri,  3 Apr 2020 04:34:40 +0000 (UTC)
 Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
  by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0334RqLR024143; Thu, 2 Apr 2020 21:29:53 -0700
+ 0334UFof026706; Thu, 2 Apr 2020 21:34:36 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
  h=from : to : cc :
  subject : date : message-id : mime-version : content-type; s=pfpt0818;
- bh=6Fujbofk1uPxntm7F3otZ0/z7SchjF/hI365ENJKv9k=;
- b=Ouv95Sk7jpyKRDEwLfHtB2jrviETbzyoxiDKXMf4QWkbS5LvVMySQEXhnPl7edC5uy0H
- IeTeTIcM+tMD5dC+0hoAEC+V/ICxBBEZv13oSBirLf+4BpDXeJErqlWAPs/pt/LqYfdn
- i4RIClIaE33h+eKUitu8ZkVuhVHPwYRZmybD6FNlvIYYGhm+sf1eo8pYhoFYr3Pkq6EO
- +0pZp80NqUjPMLK8mrDIjZ8djqZpQLHzSOYmchiTX7K11X+D6VjyB//l1zw110GgUbL1
- H76E4j47cXFjtkqD070x18wIsbrVJyvYFwbMEIYeYk/W4tR+6W5STAF9nRNU76qlNlHi vw== 
-Received: from sc-exch02.marvell.com ([199.233.58.182])
- by mx0a-0016f401.pphosted.com with ESMTP id 304855w1ex-1
+ bh=TkWTj8x6cVbPGq0lNl8q94o3EtXBBghb8lVzJFHginc=;
+ b=v7qWN9oGpr0rveIprpgo3l5JhMR600Qw+5wNnZOoj5szbo9JZrwBW+aq8ZRcG+ph3WCx
+ tnWDkkiKy4ErNn8PZTuxQKrclSo9VMipcYVI0hCt5Qjgxpeb5ChjMJTaZHhFvTNHqp9+
+ 03W2hRAtqvibzMukvbyOAYtylcBnR0dRkmejHnDFi26vPJUMdKgLPSsZyJjfG2N/FYAB
+ X0Sgw0aQo0RXoZ453YUlaniVcWyA6nRIeFR26jairYAirMpNn7GTJqIWpVhpWN28aqWS
+ fpHY38vYXeeTDpqQmIwVkEIVo5nm2vk+0PVQ3HtORR6n2ZNoISJ4v4nqk1Ox37C+yFPR Jg== 
+Received: from sc-exch03.marvell.com ([199.233.58.183])
+ by mx0a-0016f401.pphosted.com with ESMTP id 304855w1xt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Thu, 02 Apr 2020 21:29:52 -0700
-Received: from DC5-EXCH01.marvell.com (10.69.176.38) by SC-EXCH02.marvell.com
- (10.93.176.82) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 2 Apr 2020 21:29:51 -0700
+ Thu, 02 Apr 2020 21:34:36 -0700
+Received: from DC5-EXCH02.marvell.com (10.69.176.39) by SC-EXCH03.marvell.com
+ (10.93.176.83) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 2 Apr 2020 21:34:34 -0700
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by DC5-EXCH02.marvell.com
+ (10.69.176.39) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 2 Apr 2020 21:34:34 -0700
 Received: from bbhushan2.marvell.com (10.69.176.80) by DC5-EXCH01.marvell.com
  (10.69.176.38) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 2 Apr 2020 21:29:48 -0700
+ Transport; Thu, 2 Apr 2020 21:34:30 -0700
 From: Bharat Bhushan <bbhushan2@marvell.com>
 To: <jean-philippe@linaro.org>, <joro@8bytes.org>, <mst@redhat.com>,
  <jasowang@redhat.com>, <virtualization@lists.linux-foundation.org>,
  <iommu@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
  <eric.auger.pro@gmail.com>, <eric.auger@redhat.com>
-Subject: [RFC PATCH v3] iommu/virtio: Use page size bitmap supported by
+Subject: [RFC PATCH v4] iommu/virtio: Use page size bitmap supported by
  endpoint
-Date: Fri, 3 Apr 2020 09:59:46 +0530
-Message-ID: <20200403042946.28326-1-bbhushan2@marvell.com>
+Date: Fri, 3 Apr 2020 10:04:29 +0530
+Message-ID: <20200403043429.28484-1-bbhushan2@marvell.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
@@ -95,12 +98,19 @@ global page sizes.
 
 Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
 ---
- drivers/iommu/virtio-iommu.c      | 54 +++++++++++++++++++++++++++----
+v3->v4:
+ - Fix whitespace error
+
+v2->v3:
+ - Fixed error return for incompatible endpoint
+ - __u64 changed to __le64 in header file
+
+ drivers/iommu/virtio-iommu.c      | 53 +++++++++++++++++++++++++++----
  include/uapi/linux/virtio_iommu.h |  7 ++++
- 2 files changed, 55 insertions(+), 6 deletions(-)
+ 2 files changed, 54 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
-index cce329d71fba..2ea9e143d95c 100644
+index cce329d71fba..ab09c04b1702 100644
 --- a/drivers/iommu/virtio-iommu.c
 +++ b/drivers/iommu/virtio-iommu.c
 @@ -78,6 +78,7 @@ struct viommu_endpoint {
@@ -111,14 +121,13 @@ index cce329d71fba..2ea9e143d95c 100644
  };
  
  struct viommu_request {
-@@ -415,6 +416,20 @@ static int viommu_replay_mappings(struct viommu_domain *vdomain)
+@@ -415,6 +416,19 @@ static int viommu_replay_mappings(struct viommu_domain *vdomain)
  	return ret;
  }
  
 +static int viommu_set_pgsize_bitmap(struct viommu_endpoint *vdev,
 +				    struct virtio_iommu_probe_pgsize_mask *mask,
 +				    size_t len)
-+
 +{
 +	u64 pgsize_bitmap = le64_to_cpu(mask->pgsize_bitmap);
 +
@@ -132,7 +141,7 @@ index cce329d71fba..2ea9e143d95c 100644
  static int viommu_add_resv_mem(struct viommu_endpoint *vdev,
  			       struct virtio_iommu_probe_resv_mem *mem,
  			       size_t len)
-@@ -499,6 +514,9 @@ static int viommu_probe_endpoint(struct viommu_dev *viommu, struct device *dev)
+@@ -499,6 +513,9 @@ static int viommu_probe_endpoint(struct viommu_dev *viommu, struct device *dev)
  		case VIRTIO_IOMMU_PROBE_T_RESV_MEM:
  			ret = viommu_add_resv_mem(vdev, (void *)prop, len);
  			break;
@@ -142,7 +151,7 @@ index cce329d71fba..2ea9e143d95c 100644
  		default:
  			dev_err(dev, "unknown viommu prop 0x%x\n", type);
  		}
-@@ -607,16 +625,17 @@ static struct iommu_domain *viommu_domain_alloc(unsigned type)
+@@ -607,16 +624,17 @@ static struct iommu_domain *viommu_domain_alloc(unsigned type)
  	return &vdomain->domain;
  }
  
@@ -162,7 +171,7 @@ index cce329d71fba..2ea9e143d95c 100644
  	domain->geometry	= viommu->geometry;
  
  	ret = ida_alloc_range(&viommu->domain_ids, viommu->first_domain,
-@@ -642,6 +661,29 @@ static void viommu_domain_free(struct iommu_domain *domain)
+@@ -642,6 +660,29 @@ static void viommu_domain_free(struct iommu_domain *domain)
  	kfree(vdomain);
  }
  
@@ -192,7 +201,7 @@ index cce329d71fba..2ea9e143d95c 100644
  static int viommu_attach_dev(struct iommu_domain *domain, struct device *dev)
  {
  	int i;
-@@ -657,10 +699,9 @@ static int viommu_attach_dev(struct iommu_domain *domain, struct device *dev)
+@@ -657,10 +698,9 @@ static int viommu_attach_dev(struct iommu_domain *domain, struct device *dev)
  		 * Properly initialize the domain now that we know which viommu
  		 * owns it.
  		 */
@@ -206,7 +215,7 @@ index cce329d71fba..2ea9e143d95c 100644
  	}
  	mutex_unlock(&vdomain->mutex);
  
-@@ -875,6 +916,7 @@ static int viommu_add_device(struct device *dev)
+@@ -875,6 +915,7 @@ static int viommu_add_device(struct device *dev)
  
  	vdev->dev = dev;
  	vdev->viommu = viommu;
