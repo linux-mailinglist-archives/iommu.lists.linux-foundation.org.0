@@ -1,58 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0AF19F72E
-	for <lists.iommu@lfdr.de>; Mon,  6 Apr 2020 15:48:21 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F6219F89A
+	for <lists.iommu@lfdr.de>; Mon,  6 Apr 2020 17:12:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0897987EA8;
-	Mon,  6 Apr 2020 13:48:20 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9062C23109;
+	Mon,  6 Apr 2020 15:12:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id f5HjCjoRHPnV; Mon,  6 Apr 2020 13:48:19 +0000 (UTC)
+	with ESMTP id VySnyGT5D4-E; Mon,  6 Apr 2020 15:12:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 52A4987E90;
-	Mon,  6 Apr 2020 13:48:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CC9C8204D7;
+	Mon,  6 Apr 2020 15:12:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3BBF7C0177;
-	Mon,  6 Apr 2020 13:48:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BFE6EC0177;
+	Mon,  6 Apr 2020 15:12:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 98578C0177
- for <iommu@lists.linux-foundation.org>; Mon,  6 Apr 2020 13:48:17 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1D28AC0177
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Apr 2020 15:12:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9098086027
- for <iommu@lists.linux-foundation.org>; Mon,  6 Apr 2020 13:48:17 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 0976C88541
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Apr 2020 15:12:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zU4bBRxUv_BD for <iommu@lists.linux-foundation.org>;
- Mon,  6 Apr 2020 13:48:16 +0000 (UTC)
+ with ESMTP id mgAT6hk-VdJe for <iommu@lists.linux-foundation.org>;
+ Mon,  6 Apr 2020 15:12:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by fraxinus.osuosl.org (Postfix) with ESMTP id B3FA685FE6
- for <iommu@lists.linux-foundation.org>; Mon,  6 Apr 2020 13:48:16 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E289106F;
- Mon,  6 Apr 2020 06:48:16 -0700 (PDT)
-Received: from [10.57.55.221] (unknown [10.57.55.221])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 309FB3F73D;
- Mon,  6 Apr 2020 06:48:15 -0700 (PDT)
-Subject: Re: [RFC/RFT][PATCH] dma-mapping: set default segment_boundary_mask
- to ULONG_MAX
-To: Nicolin Chen <nicoleotsuka@gmail.com>, m.szyprowski@samsung.com, hch@lst.de
-References: <20200405005157.1318-1-nicoleotsuka@gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <c984d2ea-6036-a8ae-97df-b5178a2a9ab9@arm.com>
-Date: Mon, 6 Apr 2020 14:48:13 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id E0E418852A
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Apr 2020 15:12:09 +0000 (UTC)
+Received: from lhreml724-chm.china.huawei.com (unknown [172.18.7.107])
+ by Forcepoint Email with ESMTP id 417AF622916C4E4CAAC9;
+ Mon,  6 Apr 2020 16:12:06 +0100 (IST)
+Received: from [127.0.0.1] (10.47.10.197) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Mon, 6 Apr 2020
+ 16:12:05 +0100
+From: John Garry <john.garry@huawei.com>
+Subject: Re: arm-smmu-v3 high cpu usage for NVMe
+To: Will Deacon <will@kernel.org>
+References: <20190821151749.23743-1-will@kernel.org>
+ <b2a6e26d-6d0d-7f0d-f222-589812f701d2@huawei.com>
+ <20200318205313.GB8094@willie-the-truck>
+ <482c00d5-8e6d-1484-820e-1e89851ad5aa@huawei.com>
+Message-ID: <30664ea8-548d-b0a4-81bc-e7f311f84b5f@huawei.com>
+Date: Mon, 6 Apr 2020 16:11:43 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-In-Reply-To: <20200405005157.1318-1-nicoleotsuka@gmail.com>
-Content-Language: en-GB
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+In-Reply-To: <482c00d5-8e6d-1484-820e-1e89851ad5aa@huawei.com>
+Content-Language: en-US
+X-Originating-IP: [10.47.10.197]
+X-ClientProxiedBy: lhreml710-chm.china.huawei.com (10.201.108.61) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Marc Zyngier <maz@kernel.org>, Ming Lei <ming.lei@redhat.com>,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -70,61 +79,71 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-04-05 1:51 am, Nicolin Chen wrote:
-> The default segment_boundary_mask was set to DMA_BIT_MAKS(32)
-> a decade ago by referencing SCSI/block subsystem, as a 32-bit
-> mask was good enough for most of the devices.
+On 02/04/2020 13:10, John Garry wrote:
+> On 18/03/2020 20:53, Will Deacon wrote:
+>>> As for arm_smmu_cmdq_issue_cmdlist(), I do note that during the 
+>>> testing our
+>>> batch size is 1, so we're not seeing the real benefit of the batching. I
+>>> can't help but think that we could improve this code to try to 
+>>> combine CMD
+>>> SYNCs for small batches.
+>>>
+>>> Anyway, let me know your thoughts or any questions. I'll have a look 
+>>> if a
+>>> get a chance for other possible bottlenecks.
+>> Did you ever get any more information on this? I don't have any SMMUv3
+>> hardware any more, so I can't really dig into this myself.
+>>
 > 
-> Now more and more drivers set dma_masks above DMA_BIT_MAKS(32)
-> while only a handful of them call dma_set_seg_boundary(). This
-> means that most drivers have a 4GB segmention boundary because
-> DMA API returns a 32-bit default value, though they might not
-> really have such a limit.
-> 
-> The default segment_boundary_mask should mean "no limit" since
-> the device doesn't explicitly set the mask. But a 32-bit mask
-> certainly limits those devices capable of 32+ bits addressing.
-> 
-> And this 32-bit boundary mask might result in a situation that
-> when dma-iommu maps a DMA buffer (size > 4GB), iommu_map_sg()
-> cuts the IOVA region into discontiguous pieces, and creates a
-> faulty IOVA mapping that overlaps some physical memory outside
-> the scatter list, which might lead to some random kernel panic
-> after DMA overwrites that faulty IOVA space.
 
-Once again, get rid of this paragraph - it doesn't have much to do with 
-the *default* value since it describes a behaviour general to any 
-boundary mask. Plus it effectively says "if a driver uses a DMA-mapped 
-scatterlist incorrectly, this change can help paper over the bug", which 
-is rather the opposite of a good justification.
+Hi Will,
 
-(for example most SATA devices end up with a 64KB boundary mask, such 
-that padding the IOVAs to provide the appropriate alignment happens very 
-frequently, and they've been working just fine for years now)
+JFYI, I added some debug in arm_smmu_cmdq_issue_cmdlist() to get some 
+idea of what is going on. Perf annotate did not tell much.
 
-Robin.
+I tested NVMe performance with and without Marc's patchset to spread 
+LPIs for managed interrupts.
 
-> So this patch sets default segment_boundary_mask to ULONG_MAX.
-> 
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> ---
->   include/linux/dma-mapping.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-> index 330ad58fbf4d..ff8cefe85f30 100644
-> --- a/include/linux/dma-mapping.h
-> +++ b/include/linux/dma-mapping.h
-> @@ -736,7 +736,7 @@ static inline unsigned long dma_get_seg_boundary(struct device *dev)
->   {
->   	if (dev->dma_parms && dev->dma_parms->segment_boundary_mask)
->   		return dev->dma_parms->segment_boundary_mask;
-> -	return DMA_BIT_MASK(32);
-> +	return ULONG_MAX;
->   }
->   
->   static inline int dma_set_seg_boundary(struct device *dev, unsigned long mask)
-> 
+Average duration of arm_smmu_cmdq_issue_cmdlist() mainline [all results 
+are approximations]:
+owner: 6ms
+non-owner: 4ms
+
+mainline + LPI spreading patchset:
+owner: 25ms
+non-owner: 22ms
+
+For this, a list would be a itlb+cmd_sync.
+
+Please note that the LPI spreading patchset is still giving circa 25% 
+NVMe throughput increase. What happens there would be that we get many 
+more cpus involved, which creates more inter-cpu contention. But the 
+performance increase comes from just alleviating pressure on those 
+overloaded cpus.
+
+I also notice that with the LPI spreading patchset, on average a cpu is 
+an "owner" in arm_smmu_cmdq_issue_cmdlist() 1 in 8, as opposed to 1 in 3 
+for mainline. This means that we're just creating longer chains of lists 
+to be published.
+
+But I found that for a non-owner, average msi cmd_sync polling time is 
+12ms with the LPI spreading patchset. As such, it seems to be really 
+taking approx (12*2/8-1=) ~3ms to consume a single list. This seems 
+consistent with my finding that an owner polls consumption for 3ms also. 
+Without the LPI speading patchset, polling time is approx 2 and 3ms for 
+both owner and non-owner, respectively.
+
+As an experiment, I did try to hack the code to use a spinlock again for 
+protecting the command queue, instead of current solution - and always 
+saw a performance drop there. To be expected. But maybe we can try to 
+not use a spinlock, but still serialise production+consumption to 
+alleviate the long polling periods.
+
+Let me know your thoughts.
+
+Cheers,
+John
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
