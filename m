@@ -1,41 +1,41 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F851A140E
-	for <lists.iommu@lfdr.de>; Tue,  7 Apr 2020 20:38:31 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2AE1A1404
+	for <lists.iommu@lfdr.de>; Tue,  7 Apr 2020 20:38:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id AC427221FB;
-	Tue,  7 Apr 2020 18:38:29 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5ABFE87EE0;
+	Tue,  7 Apr 2020 18:38:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Hy8ApXf2spaV; Tue,  7 Apr 2020 18:38:25 +0000 (UTC)
+	with ESMTP id pJwchIANwiHt; Tue,  7 Apr 2020 18:38:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 39B3223E65;
-	Tue,  7 Apr 2020 18:38:12 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 60B8A87857;
+	Tue,  7 Apr 2020 18:38:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 22489C0177;
-	Tue,  7 Apr 2020 18:38:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D3D6C0177;
+	Tue,  7 Apr 2020 18:38:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 91828C1D8D;
- Tue,  7 Apr 2020 18:38:05 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99570C0177;
+ Tue,  7 Apr 2020 18:38:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8589287D98;
- Tue,  7 Apr 2020 18:38:05 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 94AD22210F;
+ Tue,  7 Apr 2020 18:38:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FKsjBejagonT; Tue,  7 Apr 2020 18:38:03 +0000 (UTC)
+ with ESMTP id jJN05W31Iw3G; Tue,  7 Apr 2020 18:38:01 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id C5C5D87E54;
- Tue,  7 Apr 2020 18:38:00 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 21BDB21507;
+ Tue,  7 Apr 2020 18:38:01 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 45F6455F; Tue,  7 Apr 2020 20:37:52 +0200 (CEST)
+ id 773C3596; Tue,  7 Apr 2020 20:37:52 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>,
@@ -50,10 +50,10 @@ To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [RFC PATCH 21/34] iommu/virtio: Convert to probe/release_device()
+Subject: [RFC PATCH 22/34] iommu/msm: Convert to probe/release_device()
  call-backs
-Date: Tue,  7 Apr 2020 20:37:29 +0200
-Message-Id: <20200407183742.4344-22-joro@8bytes.org>
+Date: Tue,  7 Apr 2020 20:37:30 +0200
+Message-Id: <20200407183742.4344-23-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200407183742.4344-1-joro@8bytes.org>
 References: <20200407183742.4344-1-joro@8bytes.org>
@@ -82,109 +82,79 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Convert the VirtIO IOMMU driver to use the probe_device() and
+Convert the MSM IOMMU driver to use the probe_device() and
 release_device() call-backs of iommu_ops, so that the iommu core code
 does the group and sysfs setup.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/virtio-iommu.c | 41 +++++++++---------------------------
- 1 file changed, 10 insertions(+), 31 deletions(-)
+ drivers/iommu/msm_iommu.c | 34 +++++++---------------------------
+ 1 file changed, 7 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
-index d5cac4f46ca5..bda300c2a438 100644
---- a/drivers/iommu/virtio-iommu.c
-+++ b/drivers/iommu/virtio-iommu.c
-@@ -865,24 +865,23 @@ static struct viommu_dev *viommu_get_by_fwnode(struct fwnode_handle *fwnode)
- 	return dev ? dev_to_virtio(dev)->priv : NULL;
+diff --git a/drivers/iommu/msm_iommu.c b/drivers/iommu/msm_iommu.c
+index 94a6df1bddd6..10cd4db0710a 100644
+--- a/drivers/iommu/msm_iommu.c
++++ b/drivers/iommu/msm_iommu.c
+@@ -388,43 +388,23 @@ static struct msm_iommu_dev *find_iommu_for_dev(struct device *dev)
+ 	return ret;
  }
  
--static int viommu_add_device(struct device *dev)
-+static struct iommu_device *viommu_probe_device(struct device *dev)
+-static int msm_iommu_add_device(struct device *dev)
++static struct iommu_device *msm_iommu_probe_device(struct device *dev)
  {
- 	int ret;
+ 	struct msm_iommu_dev *iommu;
 -	struct iommu_group *group;
- 	struct viommu_endpoint *vdev;
- 	struct viommu_dev *viommu = NULL;
- 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+ 	unsigned long flags;
  
- 	if (!fwspec || fwspec->ops != &viommu_ops)
+ 	spin_lock_irqsave(&msm_iommu_lock, flags);
+ 	iommu = find_iommu_for_dev(dev);
+ 	spin_unlock_irqrestore(&msm_iommu_lock, flags);
+ 
+-	if (iommu)
+-		iommu_device_link(&iommu->iommu, dev);
+-	else
 -		return -ENODEV;
-+		return ERR_PTR(-ENODEV);
- 
- 	viommu = viommu_get_by_fwnode(fwspec->iommu_fwnode);
- 	if (!viommu)
--		return -ENODEV;
-+		return ERR_PTR(-ENODEV);
- 
- 	vdev = kzalloc(sizeof(*vdev), GFP_KERNEL);
- 	if (!vdev)
--		return -ENOMEM;
-+		return ERR_PTR(-ENOMEM);
- 
- 	vdev->dev = dev;
- 	vdev->viommu = viommu;
-@@ -896,45 +895,25 @@ static int viommu_add_device(struct device *dev)
- 			goto err_free_dev;
- 	}
- 
--	ret = iommu_device_link(&viommu->iommu, dev);
--	if (ret)
--		goto err_free_dev;
-+	return &viommu->iommu;
- 
--	/*
--	 * Last step creates a default domain and attaches to it. Everything
--	 * must be ready.
--	 */
+-
 -	group = iommu_group_get_for_dev(dev);
--	if (IS_ERR(group)) {
--		ret = PTR_ERR(group);
--		goto err_unlink_dev;
--	}
+-	if (IS_ERR(group))
+-		return PTR_ERR(group);
 -
 -	iommu_group_put(group);
--
--	return PTR_ERR_OR_ZERO(group);
--
--err_unlink_dev:
--	iommu_device_unlink(&viommu->iommu, dev);
- err_free_dev:
- 	generic_iommu_put_resv_regions(dev, &vdev->resv_regions);
- 	kfree(vdev);
++	if (!iommu)
++		return ERR_PTR(-ENODEV);
  
--	return ret;
-+	return ERR_PTR(ret);
+-	return 0;
++	return &iommu->iommu;
  }
  
--static void viommu_remove_device(struct device *dev)
-+static void viommu_release_device(struct device *dev)
+-static void msm_iommu_remove_device(struct device *dev)
++static void msm_iommu_release_device(struct device *dev)
  {
--	struct viommu_endpoint *vdev;
- 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-+	struct viommu_endpoint *vdev;
- 
- 	if (!fwspec || fwspec->ops != &viommu_ops)
- 		return;
- 
- 	vdev = dev_iommu_priv_get(dev);
- 
+-	struct msm_iommu_dev *iommu;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&msm_iommu_lock, flags);
+-	iommu = find_iommu_for_dev(dev);
+-	spin_unlock_irqrestore(&msm_iommu_lock, flags);
+-
+-	if (iommu)
+-		iommu_device_unlink(&iommu->iommu, dev);
+-
 -	iommu_group_remove_device(dev);
--	iommu_device_unlink(&vdev->viommu->iommu, dev);
- 	generic_iommu_put_resv_regions(dev, &vdev->resv_regions);
- 	kfree(vdev);
  }
-@@ -960,8 +939,8 @@ static struct iommu_ops viommu_ops = {
- 	.unmap			= viommu_unmap,
- 	.iova_to_phys		= viommu_iova_to_phys,
- 	.iotlb_sync		= viommu_iotlb_sync,
--	.add_device		= viommu_add_device,
--	.remove_device		= viommu_remove_device,
-+	.probe_device		= viommu_probe_device,
-+	.release_device		= viommu_release_device,
- 	.device_group		= viommu_device_group,
- 	.get_resv_regions	= viommu_get_resv_regions,
- 	.put_resv_regions	= generic_iommu_put_resv_regions,
+ 
+ static int msm_iommu_attach_dev(struct iommu_domain *domain, struct device *dev)
+@@ -708,8 +688,8 @@ static struct iommu_ops msm_iommu_ops = {
+ 	 */
+ 	.iotlb_sync = NULL,
+ 	.iova_to_phys = msm_iommu_iova_to_phys,
+-	.add_device = msm_iommu_add_device,
+-	.remove_device = msm_iommu_remove_device,
++	.probe_device = msm_iommu_probe_device,
++	.release_device = msm_iommu_release_device,
+ 	.device_group = generic_device_group,
+ 	.pgsize_bitmap = MSM_IOMMU_PGSIZES,
+ 	.of_xlate = qcom_iommu_of_xlate,
 -- 
 2.17.1
 
