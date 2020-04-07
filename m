@@ -2,40 +2,40 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84321A13D2
-	for <lists.iommu@lfdr.de>; Tue,  7 Apr 2020 20:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FFB1A13EF
+	for <lists.iommu@lfdr.de>; Tue,  7 Apr 2020 20:38:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A595C85E69;
-	Tue,  7 Apr 2020 18:38:01 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A8F4C85E69;
+	Tue,  7 Apr 2020 18:38:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0SEJUjL03qbt; Tue,  7 Apr 2020 18:38:01 +0000 (UTC)
+	with ESMTP id xZXOnJS9JLsT; Tue,  7 Apr 2020 18:38:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 20C6E85D44;
-	Tue,  7 Apr 2020 18:38:01 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3169585608;
+	Tue,  7 Apr 2020 18:38:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0E1F8C0177;
-	Tue,  7 Apr 2020 18:38:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1A1D3C0177;
+	Tue,  7 Apr 2020 18:38:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 444D0C1AE2;
- Tue,  7 Apr 2020 18:37:59 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BCA2EC1AE2;
+ Tue,  7 Apr 2020 18:38:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 339C5855CF;
- Tue,  7 Apr 2020 18:37:59 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id A852D8776E;
+ Tue,  7 Apr 2020 18:38:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id k0IX3b4BgxJI; Tue,  7 Apr 2020 18:37:58 +0000 (UTC)
+ with ESMTP id BvZJUppn0DxW; Tue,  7 Apr 2020 18:38:03 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3AB8A85D44;
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 3AFD08796B;
  Tue,  7 Apr 2020 18:37:58 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id E3062312; Tue,  7 Apr 2020 20:37:49 +0200 (CEST)
+ id 1EE9A329; Tue,  7 Apr 2020 20:37:50 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>,
@@ -50,10 +50,10 @@ To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [RFC PATCH 09/34] iommu: Keep a list of allocated groups in
- __iommu_probe_device()
-Date: Tue,  7 Apr 2020 20:37:17 +0200
-Message-Id: <20200407183742.4344-10-joro@8bytes.org>
+Subject: [RFC PATCH 10/34] iommu: Move new probe_device path to separate
+ function
+Date: Tue,  7 Apr 2020 20:37:18 +0200
+Message-Id: <20200407183742.4344-11-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200407183742.4344-1-joro@8bytes.org>
 References: <20200407183742.4344-1-joro@8bytes.org>
@@ -82,62 +82,109 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-This is needed to defer default_domain allocation for new IOMMU groups
-until all devices have been added to the group.
+This makes it easier to remove to old code-path when all drivers are
+converted. As a side effect that it also fixes the error cleanup
+path.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/iommu.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/iommu/iommu.c | 69 ++++++++++++++++++++++++++++---------------
+ 1 file changed, 46 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 7a385c18e1a5..18eb3623bd00 100644
+index 18eb3623bd00..8be047a4808f 100644
 --- a/drivers/iommu/iommu.c
 +++ b/drivers/iommu/iommu.c
-@@ -44,6 +44,7 @@ struct iommu_group {
- 	int id;
- 	struct iommu_domain *default_domain;
- 	struct iommu_domain *domain;
-+	struct list_head entry;
- };
- 
- struct group_device {
-@@ -184,7 +185,7 @@ static void dev_iommu_free(struct device *dev)
- 	dev->iommu = NULL;
+@@ -218,12 +218,55 @@ static int __iommu_probe_device(struct device *dev, struct list_head *group_list
+ 	return ret;
  }
  
--static int __iommu_probe_device(struct device *dev)
-+static int __iommu_probe_device(struct device *dev, struct list_head *group_list)
++static int __iommu_probe_device_helper(struct device *dev)
++{
++	const struct iommu_ops *ops = dev->bus->iommu_ops;
++	struct iommu_group *group;
++	int ret;
++
++	ret = __iommu_probe_device(dev, NULL);
++	if (ret)
++		goto err_out;
++
++	/*
++	 * Try to allocate a default domain - needs support from the
++	 * IOMMU driver. There are still some drivers which don't
++	 * support default domains, so the return value is not yet
++	 * checked.
++	 */
++	iommu_alloc_default_domain(dev);
++
++	group = iommu_group_get(dev);
++	if (!group)
++		goto err_release;
++
++	if (group->default_domain)
++		ret = __iommu_attach_device(group->default_domain, dev);
++
++	iommu_group_put(group);
++
++	if (ret)
++		goto err_release;
++
++	if (ops->probe_finalize)
++		ops->probe_finalize(dev);
++
++	return 0;
++
++err_release:
++	iommu_release_device(dev);
++err_out:
++	return ret;
++
++}
++
+ int iommu_probe_device(struct device *dev)
  {
  	const struct iommu_ops *ops = dev->bus->iommu_ops;
- 	struct iommu_device *iommu_dev;
-@@ -204,6 +205,9 @@ static int __iommu_probe_device(struct device *dev)
- 	}
- 	iommu_group_put(group);
+ 	int ret;
  
-+	if (group_list && !group->default_domain && list_empty(&group->entry))
-+		list_add_tail(&group->entry, group_list);
+ 	WARN_ON(dev->iommu_group);
 +
- 	iommu_device_link(iommu_dev, dev);
+ 	if (!ops)
+ 		return -EINVAL;
  
- 	return 0;
-@@ -234,7 +238,7 @@ int iommu_probe_device(struct device *dev)
- 	if (ops->probe_device) {
- 		struct iommu_group *group;
+@@ -235,30 +278,10 @@ int iommu_probe_device(struct device *dev)
+ 		goto err_free_dev_param;
+ 	}
  
--		ret = __iommu_probe_device(dev);
-+		ret = __iommu_probe_device(dev, NULL);
+-	if (ops->probe_device) {
+-		struct iommu_group *group;
+-
+-		ret = __iommu_probe_device(dev, NULL);
+-
+-		/*
+-		 * Try to allocate a default domain - needs support from the
+-		 * IOMMU driver. There are still some drivers which don't
+-		 * support default domains, so the return value is not yet
+-		 * checked.
+-		 */
+-		if (!ret)
+-			iommu_alloc_default_domain(dev);
+-
+-		group = iommu_group_get(dev);
+-		if (group && group->default_domain) {
+-			ret = __iommu_attach_device(group->default_domain, dev);
+-			iommu_group_put(group);
+-		}
+-
+-	} else {
+-		ret = ops->add_device(dev);
+-	}
++	if (ops->probe_device)
++		return __iommu_probe_device_helper(dev);
  
- 		/*
- 		 * Try to allocate a default domain - needs support from the
-@@ -567,6 +571,7 @@ struct iommu_group *iommu_group_alloc(void)
- 	group->kobj.kset = iommu_group_kset;
- 	mutex_init(&group->mutex);
- 	INIT_LIST_HEAD(&group->devices);
-+	INIT_LIST_HEAD(&group->entry);
- 	BLOCKING_INIT_NOTIFIER_HEAD(&group->notifier);
++	ret = ops->add_device(dev);
+ 	if (ret)
+ 		goto err_module_put;
  
- 	ret = ida_simple_get(&iommu_group_ida, 0, 0, GFP_KERNEL);
 -- 
 2.17.1
 
