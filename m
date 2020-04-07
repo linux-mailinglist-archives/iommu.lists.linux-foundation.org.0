@@ -1,41 +1,41 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id C252B1A1410
-	for <lists.iommu@lfdr.de>; Tue,  7 Apr 2020 20:38:31 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D42E1A1423
+	for <lists.iommu@lfdr.de>; Tue,  7 Apr 2020 20:38:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7722787A60;
-	Tue,  7 Apr 2020 18:38:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4B2B32379C;
+	Tue,  7 Apr 2020 18:38:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oym0PRXlXOcN; Tue,  7 Apr 2020 18:38:26 +0000 (UTC)
+	with ESMTP id L5d+acg15F-D; Tue,  7 Apr 2020 18:38:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E218587E81;
-	Tue,  7 Apr 2020 18:38:15 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 72DF02413D;
+	Tue,  7 Apr 2020 18:38:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CF5D0C0177;
-	Tue,  7 Apr 2020 18:38:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5EDCEC0177;
+	Tue,  7 Apr 2020 18:38:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9F79DC1D8E;
- Tue,  7 Apr 2020 18:38:05 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 47451C1AE2;
+ Tue,  7 Apr 2020 18:38:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9B6E185C47;
- Tue,  7 Apr 2020 18:38:05 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 32A6985E98;
+ Tue,  7 Apr 2020 18:38:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tzpjmstALT5R; Tue,  7 Apr 2020 18:38:04 +0000 (UTC)
+ with ESMTP id JDaJz1TNu-K8; Tue,  7 Apr 2020 18:38:04 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 08A4F85F2D;
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 11DE485F4B;
  Tue,  7 Apr 2020 18:38:04 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 667F868C; Tue,  7 Apr 2020 20:37:54 +0200 (CEST)
+ id A01776A7; Tue,  7 Apr 2020 20:37:54 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>,
@@ -50,10 +50,10 @@ To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [RFC PATCH 31/34] iommu/exynos: Create iommu_device in struct
- exynos_iommu_owner
-Date: Tue,  7 Apr 2020 20:37:39 +0200
-Message-Id: <20200407183742.4344-32-joro@8bytes.org>
+Subject: [RFC PATCH 32/34] iommu/exynos: Convert to probe/release_device()
+ call-backs
+Date: Tue,  7 Apr 2020 20:37:40 +0200
+Message-Id: <20200407183742.4344-33-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200407183742.4344-1-joro@8bytes.org>
 References: <20200407183742.4344-1-joro@8bytes.org>
@@ -82,174 +82,78 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-The 'struct exynos_iommu_owner' is an umbrella for multiple SYSMMU
-instances attached to one master. As such all these instances are
-handled the same, they are all configured with the same iommu_domain,
-for example.
-
-The IOMMU core code expects each device to have only one IOMMU
-attached, so create the IOMMU-device for the umbrella instead of each
-hardware SYSMMU.
+Convert the Exynos IOMMU drivers to use the probe_device() and
+release_device() call-backs of iommu_ops, so that the iommu core code
+does the group and sysfs setup.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/exynos-iommu.c | 96 +++++++++++++++++++++++++++---------
- 1 file changed, 73 insertions(+), 23 deletions(-)
+ drivers/iommu/exynos-iommu.c | 23 ++++++-----------------
+ 1 file changed, 6 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/iommu/exynos-iommu.c b/drivers/iommu/exynos-iommu.c
-index 186ff5cc975c..86ecccbf0438 100644
+index 86ecccbf0438..f865c9093722 100644
 --- a/drivers/iommu/exynos-iommu.c
 +++ b/drivers/iommu/exynos-iommu.c
-@@ -235,6 +235,8 @@ struct exynos_iommu_owner {
- 	struct list_head controllers;	/* list of sysmmu_drvdata.owner_node */
- 	struct iommu_domain *domain;	/* domain this device is attached */
- 	struct mutex rpm_lock;		/* for runtime pm of all sysmmus */
-+
-+	struct iommu_device iommu;	/* IOMMU core handle */
- };
- 
- /*
-@@ -274,8 +276,6 @@ struct sysmmu_drvdata {
- 	struct list_head owner_node;	/* node for owner controllers list */
- 	phys_addr_t pgtable;		/* assigned page table structure */
- 	unsigned int version;		/* our version */
--
--	struct iommu_device iommu;	/* IOMMU core handle */
- };
- 
- static struct exynos_iommu_domain *to_exynos_domain(struct iommu_domain *dom)
-@@ -625,18 +625,6 @@ static int exynos_sysmmu_probe(struct platform_device *pdev)
- 	data->sysmmu = dev;
- 	spin_lock_init(&data->lock);
- 
--	ret = iommu_device_sysfs_add(&data->iommu, &pdev->dev, NULL,
--				     dev_name(data->sysmmu));
--	if (ret)
--		return ret;
--
--	iommu_device_set_ops(&data->iommu, &exynos_iommu_ops);
--	iommu_device_set_fwnode(&data->iommu, &dev->of_node->fwnode);
--
--	ret = iommu_device_register(&data->iommu);
--	if (ret)
--		return ret;
--
- 	platform_set_drvdata(pdev, data);
- 
- 	__sysmmu_get_version(data);
-@@ -1261,6 +1249,8 @@ static int exynos_iommu_add_device(struct device *dev)
- 	}
- 	iommu_group_put(group);
- 
-+	iommu_device_link(&owner->iommu, dev);
-+
- 	return 0;
+@@ -1223,19 +1223,13 @@ static phys_addr_t exynos_iommu_iova_to_phys(struct iommu_domain *iommu_domain,
+ 	return phys;
  }
  
-@@ -1282,18 +1272,82 @@ static void exynos_iommu_remove_device(struct device *dev)
+-static int exynos_iommu_add_device(struct device *dev)
++static struct iommu_device *exynos_iommu_probe_device(struct device *dev)
+ {
+ 	struct exynos_iommu_owner *owner = dev->archdata.iommu;
+ 	struct sysmmu_drvdata *data;
+-	struct iommu_group *group;
+ 
+ 	if (!has_sysmmu(dev))
+-		return -ENODEV;
+-
+-	group = iommu_group_get_for_dev(dev);
+-
+-	if (IS_ERR(group))
+-		return PTR_ERR(group);
++		return ERR_PTR(-ENODEV);
+ 
+ 	list_for_each_entry(data, &owner->controllers, owner_node) {
+ 		/*
+@@ -1247,14 +1241,11 @@ static int exynos_iommu_add_device(struct device *dev)
+ 					     DL_FLAG_STATELESS |
+ 					     DL_FLAG_PM_RUNTIME);
+ 	}
+-	iommu_group_put(group);
+ 
+-	iommu_device_link(&owner->iommu, dev);
+-
+-	return 0;
++	return &owner->iommu;
+ }
+ 
+-static void exynos_iommu_remove_device(struct device *dev)
++static void exynos_iommu_release_device(struct device *dev)
+ {
+ 	struct exynos_iommu_owner *owner = dev->archdata.iommu;
+ 	struct sysmmu_drvdata *data;
+@@ -1272,8 +1263,6 @@ static void exynos_iommu_remove_device(struct device *dev)
  			iommu_group_put(group);
  		}
  	}
-+	iommu_device_unlink(&owner->iommu, dev);
- 	iommu_group_remove_device(dev);
+-	iommu_device_unlink(&owner->iommu, dev);
+-	iommu_group_remove_device(dev);
  
  	list_for_each_entry(data, &owner->controllers, owner_node)
  		device_link_del(data->link);
- }
- 
-+static int exynos_iommu_device_init(struct exynos_iommu_owner *owner)
-+{
-+	static u32 counter = 0;
-+	int ret;
-+
-+	/*
-+	 * Create a virtual IOMMU device. In reality it is an umbrella for a
-+	 * number of SYSMMU platform devices, but that also means that any
-+	 * master can have more than one real IOMMU device. This drivers handles
-+	 * all the real devices for one master synchronously, so they appear as
-+	 * one anyway.
-+	 */
-+	ret = iommu_device_sysfs_add(&owner->iommu, NULL, NULL,
-+				     "sysmmu-owner-%d", counter++);
-+	if (ret)
-+		return ret;
-+
-+	iommu_device_set_ops(&owner->iommu, &exynos_iommu_ops);
-+
-+	return 0;
-+}
-+
-+static void exynos_iommu_device_remove(struct exynos_iommu_owner *owner)
-+{
-+	iommu_device_set_ops(&owner->iommu, NULL);
-+	iommu_device_sysfs_remove(&owner->iommu);
-+}
-+
-+static int exynos_owner_init(struct device *dev)
-+{
-+	struct exynos_iommu_owner *owner = dev->archdata.iommu;
-+	int ret;
-+
-+	if (owner)
-+		return 0;
-+
-+	owner = kzalloc(sizeof(*owner), GFP_KERNEL);
-+	if (!owner)
-+		return -ENOMEM;
-+
-+	ret = exynos_iommu_device_init(owner);
-+	if (ret)
-+		goto out_free_owner;
-+
-+	ret = iommu_device_register(&owner->iommu);
-+	if (ret)
-+		goto out_remove_iommu_device;
-+
-+	INIT_LIST_HEAD(&owner->controllers);
-+	mutex_init(&owner->rpm_lock);
-+	dev->archdata.iommu = owner;
-+
-+	return 0;
-+
-+out_remove_iommu_device:
-+	exynos_iommu_device_remove(owner);
-+out_free_owner:
-+	kfree(owner);
-+
-+	return ret;
-+}
-+
- static int exynos_iommu_of_xlate(struct device *dev,
- 				 struct of_phandle_args *spec)
- {
--	struct exynos_iommu_owner *owner = dev->archdata.iommu;
- 	struct platform_device *sysmmu = of_find_device_by_node(spec->np);
- 	struct sysmmu_drvdata *data, *entry;
-+	struct exynos_iommu_owner *owner;
-+	int ret;
- 
- 	if (!sysmmu)
- 		return -ENODEV;
-@@ -1302,15 +1356,11 @@ static int exynos_iommu_of_xlate(struct device *dev,
- 	if (!data)
- 		return -ENODEV;
- 
--	if (!owner) {
--		owner = kzalloc(sizeof(*owner), GFP_KERNEL);
--		if (!owner)
--			return -ENOMEM;
-+	ret = exynos_owner_init(dev);
-+	if (ret)
-+		return ret;
- 
--		INIT_LIST_HEAD(&owner->controllers);
--		mutex_init(&owner->rpm_lock);
--		dev->archdata.iommu = owner;
--	}
-+	owner = dev->archdata.iommu;
- 
- 	list_for_each_entry(entry, &owner->controllers, owner_node)
- 		if (entry == data)
+@@ -1381,8 +1370,8 @@ static const struct iommu_ops exynos_iommu_ops = {
+ 	.unmap = exynos_iommu_unmap,
+ 	.iova_to_phys = exynos_iommu_iova_to_phys,
+ 	.device_group = generic_device_group,
+-	.add_device = exynos_iommu_add_device,
+-	.remove_device = exynos_iommu_remove_device,
++	.probe_device = exynos_iommu_probe_device,
++	.release_device = exynos_iommu_release_device,
+ 	.pgsize_bitmap = SECT_SIZE | LPAGE_SIZE | SPAGE_SIZE,
+ 	.of_xlate = exynos_iommu_of_xlate,
+ };
 -- 
 2.17.1
 
