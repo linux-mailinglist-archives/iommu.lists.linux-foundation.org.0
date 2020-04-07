@@ -1,41 +1,41 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D494A1A13DF
-	for <lists.iommu@lfdr.de>; Tue,  7 Apr 2020 20:38:10 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6381A13D1
+	for <lists.iommu@lfdr.de>; Tue,  7 Apr 2020 20:38:01 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8482787750;
-	Tue,  7 Apr 2020 18:38:09 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3ECAF220C4;
+	Tue,  7 Apr 2020 18:38:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id je2wUFC4JxdJ; Tue,  7 Apr 2020 18:38:01 +0000 (UTC)
+	with ESMTP id 2vC04CKMb79B; Tue,  7 Apr 2020 18:37:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 59EE5879C2;
+	by silver.osuosl.org (Postfix) with ESMTP id 8F4A82154F;
 	Tue,  7 Apr 2020 18:37:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 53410C1D8D;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7F75BC0177;
 	Tue,  7 Apr 2020 18:37:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A786CC0177;
- Tue,  7 Apr 2020 18:37:55 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7B73BC1AE2;
+ Tue,  7 Apr 2020 18:37:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 879522047E;
- Tue,  7 Apr 2020 18:37:55 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 77BD287D33;
+ Tue,  7 Apr 2020 18:37:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ALHOBJ-4txdb; Tue,  7 Apr 2020 18:37:53 +0000 (UTC)
+ with ESMTP id 2kWnI0ANd01c; Tue,  7 Apr 2020 18:37:53 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id 8750B20385;
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 95184878B8;
  Tue,  7 Apr 2020 18:37:53 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id A093293; Tue,  7 Apr 2020 20:37:48 +0200 (CEST)
+ id CB48311D; Tue,  7 Apr 2020 20:37:48 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>,
@@ -50,9 +50,10 @@ To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [RFC PATCH 02/34] iommu: Add def_domain_type() callback in iommu_ops
-Date: Tue,  7 Apr 2020 20:37:10 +0200
-Message-Id: <20200407183742.4344-3-joro@8bytes.org>
+Subject: [RFC PATCH 03/34] iommu/amd: Implement iommu_ops->def_domain_type
+ call-back
+Date: Tue,  7 Apr 2020 20:37:11 +0200
+Message-Id: <20200407183742.4344-4-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200407183742.4344-1-joro@8bytes.org>
 References: <20200407183742.4344-1-joro@8bytes.org>
@@ -79,100 +80,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+From: Joerg Roedel <jroedel@suse.de>
 
-Some devices are reqired to use a specific type (identity or dma)
-of default domain when they are used with a vendor iommu. When the
-system level default domain type is different from it, the vendor
-iommu driver has to request a new default domain with
-iommu_request_dma_domain_for_dev() and iommu_request_dm_for_dev()
-in the add_dev() callback. Unfortunately, these two helpers only
-work when the group hasn't been assigned to any other devices,
-hence, some vendor iommu driver has to use a private domain if
-it fails to request a new default one.
+Implement the new def_domain_type call-back for the AMD IOMMU driver.
 
-This adds def_domain_type() callback in the iommu_ops, so that
-any special requirement of default domain for a device could be
-aware by the iommu generic layer.
-
-Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
-[ jroedel@suse.de: Added iommu_get_def_domain_type() function and use
-                   it to allocate the default domain ]
-Co-developed-by: Joerg Roedel <jroedel@suse.de>
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/iommu.c | 20 +++++++++++++++++---
- include/linux/iommu.h |  6 ++++++
- 2 files changed, 23 insertions(+), 3 deletions(-)
+ drivers/iommu/amd_iommu.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index bfe011760ed1..5877abd9b693 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -1361,21 +1361,35 @@ struct iommu_group *fsl_mc_device_group(struct device *dev)
+diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+index 20cce366e951..73b4f84cf449 100644
+--- a/drivers/iommu/amd_iommu.c
++++ b/drivers/iommu/amd_iommu.c
+@@ -2661,6 +2661,20 @@ static void amd_iommu_iotlb_sync(struct iommu_domain *domain,
+ 	amd_iommu_flush_iotlb_all(domain);
  }
- EXPORT_SYMBOL_GPL(fsl_mc_device_group);
  
-+static int iommu_get_def_domain_type(struct device *dev)
++static int amd_iommu_def_domain_type(struct device *dev)
 +{
-+	const struct iommu_ops *ops = dev->bus->iommu_ops;
-+	unsigned int type = 0;
++	struct iommu_dev_data *dev_data;
 +
-+	if (ops->def_domain_type)
-+		type = ops->def_domain_type(dev);
++	dev_data = get_dev_data(dev);
++	if (!dev_data)
++		return 0;
 +
-+	return (type == 0) ? iommu_def_domain_type : type;
++	if (dev_data->iommu_v2)
++		return IOMMU_DOMAIN_IDENTITY;
++
++	return 0;
 +}
 +
- static int iommu_alloc_default_domain(struct device *dev,
- 				      struct iommu_group *group)
- {
- 	struct iommu_domain *dom;
-+	unsigned int type;
- 
- 	if (group->default_domain)
- 		return 0;
- 
--	dom = __iommu_domain_alloc(dev->bus, iommu_def_domain_type);
--	if (!dom && iommu_def_domain_type != IOMMU_DOMAIN_DMA) {
-+	type = iommu_get_def_domain_type(dev);
-+
-+	dom = __iommu_domain_alloc(dev->bus, type);
-+	if (!dom && type != IOMMU_DOMAIN_DMA) {
- 		dom = __iommu_domain_alloc(dev->bus, IOMMU_DOMAIN_DMA);
- 		if (dom) {
- 			dev_warn(dev,
- 				 "failed to allocate default IOMMU domain of type %u; falling back to IOMMU_DOMAIN_DMA",
--				 iommu_def_domain_type);
-+				 type);
- 		}
- 	}
- 
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 7ef8b0bda695..1f027b07e499 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -248,6 +248,10 @@ struct iommu_iotlb_gather {
-  * @cache_invalidate: invalidate translation caches
-  * @sva_bind_gpasid: bind guest pasid and mm
-  * @sva_unbind_gpasid: unbind guest pasid and mm
-+ * @def_domain_type: device default domain type, return value:
-+ *		- IOMMU_DOMAIN_IDENTITY: must use an identity domain
-+ *		- IOMMU_DOMAIN_DMA: must use a dma domain
-+ *		- 0: use the default setting
-  * @pgsize_bitmap: bitmap of all possible supported page sizes
-  * @owner: Driver module providing these ops
-  */
-@@ -318,6 +322,8 @@ struct iommu_ops {
- 
- 	int (*sva_unbind_gpasid)(struct device *dev, int pasid);
- 
-+	int (*def_domain_type)(struct device *dev);
-+
- 	unsigned long pgsize_bitmap;
- 	struct module *owner;
+ const struct iommu_ops amd_iommu_ops = {
+ 	.capable = amd_iommu_capable,
+ 	.domain_alloc = amd_iommu_domain_alloc,
+@@ -2680,6 +2694,7 @@ const struct iommu_ops amd_iommu_ops = {
+ 	.pgsize_bitmap	= AMD_IOMMU_PGSIZES,
+ 	.flush_iotlb_all = amd_iommu_flush_iotlb_all,
+ 	.iotlb_sync = amd_iommu_iotlb_sync,
++	.def_domain_type = amd_iommu_def_domain_type,
  };
+ 
+ /*****************************************************************************
 -- 
 2.17.1
 
