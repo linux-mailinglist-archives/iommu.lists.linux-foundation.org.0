@@ -1,55 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1B11A25BA
-	for <lists.iommu@lfdr.de>; Wed,  8 Apr 2020 17:42:33 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB59A1A26AF
+	for <lists.iommu@lfdr.de>; Wed,  8 Apr 2020 18:04:44 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2035B85E98;
-	Wed,  8 Apr 2020 15:42:32 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6601E8806D;
+	Wed,  8 Apr 2020 16:04:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id q_0KlVaRL9vd; Wed,  8 Apr 2020 15:42:31 +0000 (UTC)
+	with ESMTP id jDwW4KEoS9Cz; Wed,  8 Apr 2020 16:04:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BDE4485E51;
-	Wed,  8 Apr 2020 15:42:31 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id ADD9C86233;
+	Wed,  8 Apr 2020 16:04:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A71D1C1D89;
-	Wed,  8 Apr 2020 15:42:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A1402C0177;
+	Wed,  8 Apr 2020 16:04:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 37BFAC0177
- for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 15:42:30 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C5A53C0177
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 16:04:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 27B1C8821F
- for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 15:42:30 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id B42AF875DA
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 16:04:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rNX5MPHmGeCT for <iommu@lists.linux-foundation.org>;
- Wed,  8 Apr 2020 15:42:29 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0CC3586D41
- for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 15:42:29 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 313AE68C4E; Wed,  8 Apr 2020 17:42:26 +0200 (CEST)
-Date: Wed, 8 Apr 2020 17:42:25 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Hillf Danton <hdanton@sina.com>
-Subject: Re: [PATCH 04/28] dma-mapping: use vmap insted of reimplementing it
-Message-ID: <20200408154225.GA28676@lst.de>
+ with ESMTP id ZiJ8uOmSoJNz for <iommu@lists.linux-foundation.org>;
+ Wed,  8 Apr 2020 16:04:36 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 3B30986DF1
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 16:04:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=y4DQEwKwOH0MUomtnsRqkgQ3Zf9nXVZUuXJQ4PCZDK0=; b=Sh3zQ4guix8l2EQIJKZhE1Lrz
+ yLT0fiMB+n4O0i+C7P0VPwU+ufEnLVUErGzSwIXrmptFOBuUw5czJ04XwhnQL0zdhoSy13kV43rJu
+ 82WbcBn9fWYEgz9DrW9lJFOA+lTh5t1ChiKifhjhPOJ7P4/Dmq84NykyCcdnXtZn2v47dcQirQ6Hh
+ a7TJcFZcA97Af/Setp/pqf+52MKYA/S2WaD26BT0wwGH5eVzoazup4gWe/wwdsUs/YWoID6yS0oXc
+ usRQ4SJEUqRpP8Xs+UDgPVSfsJyg34vDTJaW4P5vGRyKHv3Z/mvREaNV3P4XglhN4nW7obgJ76tJA
+ RnCdU8HGA==;
+Received: from shell.armlinux.org.uk
+ ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:35708)
+ by pandora.armlinux.org.uk with esmtpsa
+ (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1jMDAr-00075w-Kb; Wed, 08 Apr 2020 17:03:33 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1jMDAi-0001wo-US; Wed, 08 Apr 2020 17:03:24 +0100
+Date: Wed, 8 Apr 2020 17:03:24 +0100
+From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: decruft the vmalloc API
+Message-ID: <20200408160324.GS25745@shell.armlinux.org.uk>
 References: <20200408115926.1467567-1-hch@lst.de>
- <20200408131736.9532-1-hdanton@sina.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200408131736.9532-1-hdanton@sina.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
- Christoph Hellwig <hch@lst.de>, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org
+In-Reply-To: <20200408115926.1467567-1-hch@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+ Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
+ x86@kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Laura Abbott <labbott@redhat.com>, Nitin Gupta <ngupta@vflare.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Haiyang Zhang <haiyangz@microsoft.com>,
+ linaro-mm-sig@lists.linaro.org, bpf@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ Minchan Kim <minchan@kernel.org>, iommu@lists.linux-foundation.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,25 +96,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Apr 08, 2020 at 09:17:36PM +0800, Hillf Danton wrote:
-> > @@ -62,24 +42,20 @@ void *dma_common_pages_remap(struct page **pages, size_t size,
-> >  void *dma_common_contiguous_remap(struct page *page, size_t size,
-> >  			pgprot_t prot, const void *caller)
-> >  {
-> > -	int i;
-> > +	int count = size >> PAGE_SHIFT;
-> >  	struct page **pages;
-> > -	struct vm_struct *area;
-> > +	void *vaddr;
-> > +	int i;
-> >  
-> > -	pages = kmalloc(sizeof(struct page *) << get_order(size), GFP_KERNEL);
-> > +	pages = kmalloc_array(count, sizeof(struct page *), GFP_KERNEL);
+On Wed, Apr 08, 2020 at 01:58:58PM +0200, Christoph Hellwig wrote:
+> Hi all,
 > 
-> Is it making sense to vmalloc pages as long as array size is bigger than
-> PAGE_SIZE?
+> Peter noticed that with some dumb luck you can toast the kernel address
+> space with exported vmalloc symbols.
+> 
+> I used this as an opportunity to decruft the vmalloc.c API and make it
+> much more systematic.  This also removes any chance to create vmalloc
+> mappings outside the designated areas or using executable permissions
+> from modules.  Besides that it removes more than 300 lines of code.
 
-Maybe, maybe not.  But it certainly doesn't fit this series.
+I haven't read all your patches yet.
+
+Have you tested it on 32-bit ARM, where the module area is located
+_below_ PAGE_OFFSET and outside of the vmalloc area?
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 10.2Mbps down 587kbps up
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
