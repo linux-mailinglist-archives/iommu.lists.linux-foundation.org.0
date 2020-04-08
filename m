@@ -1,85 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 792C91A24D7
-	for <lists.iommu@lfdr.de>; Wed,  8 Apr 2020 17:18:34 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCE11A23C8
+	for <lists.iommu@lfdr.de>; Wed,  8 Apr 2020 16:07:11 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2FC5C8140D;
-	Wed,  8 Apr 2020 15:18:33 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 771BD81F70;
+	Wed,  8 Apr 2020 14:07:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cdU5Q4C4mZ-q; Wed,  8 Apr 2020 15:18:32 +0000 (UTC)
+	with ESMTP id Adymj7wP+LOO; Wed,  8 Apr 2020 14:07:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6F4EA810FB;
-	Wed,  8 Apr 2020 15:18:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 47FA185A1D;
+	Wed,  8 Apr 2020 14:06:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 566B4C0177;
-	Wed,  8 Apr 2020 15:18:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2CE50C0177;
+	Wed,  8 Apr 2020 14:06:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E0BE4C0177
- for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 15:18:30 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4866DC0177
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 14:06:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id CCDD220774
- for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 15:18:30 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 3322B20412
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 14:06:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NqhMwwA0o0GG for <iommu@lists.linux-foundation.org>;
- Wed,  8 Apr 2020 15:18:29 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by silver.osuosl.org (Postfix) with ESMTPS id 3129220450
- for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 15:18:29 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id f20so288878wmh.3
- for <iommu@lists.linux-foundation.org>; Wed, 08 Apr 2020 08:18:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KTNbvMU7aQQx9qJGSH4M5ifR831rELbiUR6t+ttVvkA=;
- b=FeeGjAHQ/nRD3Y0QdkEg9wQDHoQdUzsuxl1n1xXB4cud5R+Qa15XvjqgVLCXHgYvxY
- DNuM05JRsb3uOss+praTJBcbEcjm+p3+iw7INAuxavWn/HzXOmB+67KCwPjhYQIJVvtD
- JCDsemvezg33u7rPBwri6CoalWTuhLZHIKEq8TSdolp9q/YpJmMi8xyjQuN7EYuDXVIA
- RJ9m4yhplVDQfKdaxOQYhNMepZs5BEAooxbD0YgoMRWXXNad8F6oaeEji8GDuEsxlz+a
- nuSaHxE7Drp/nPOfLGk5hQn2GSEFiN9QIWHAMrq11qjjmo+J4gCqJqjVw5kXeZLgHeJ3
- TEsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KTNbvMU7aQQx9qJGSH4M5ifR831rELbiUR6t+ttVvkA=;
- b=BBTF3HOQjbQXCul/o95B3XF+VHd5qTJbBrhtA2s4aXOSbfACn6HdxFqUg2Fxm2xHfr
- 7wJpCvSQIX3bns4qBubZaBtElR+SMTfglK0hcMnANsxd5N6QeczJx8D2Xls7IJtQb9yU
- SIJ3bacqNTgHSKaRhY9XhtpLVViPZ3JZ4IEC15RfNie1qcVfY4hnq6NU4cA1arG7KKdg
- tI+DE+1oNuqN+xZXoUXnBn5OUjA/owbAYTcToPqKnB6T2IKlZoA6UV4Lw/AULin1vQWH
- GYDSeoBmb28/hdwmHpj7wPvt+zsSSMScqDJX52JGlCQiazq64KEOJLcEiGFjoSDeusQz
- dO5w==
-X-Gm-Message-State: AGi0PuYPxKnBpYIdIisK1GfVF1fGzfe7ieJFcYpm4/Gf3D6In3tpdHZJ
- 2zHEUzVEbHap3j34KtWRElyZIcKXi/+cuw==
-X-Google-Smtp-Source: APiQypJ4yv1s582oVztAXmtD52CmsN7XdkMPmk+61MTa+YdMRm5cP4333/fD9dowV4ke2oxMavEd8A==
-X-Received: by 2002:a7b:c401:: with SMTP id k1mr4754500wmi.152.1586354794445; 
- Wed, 08 Apr 2020 07:06:34 -0700 (PDT)
-Received: from localhost.localdomain
- ([2001:171b:226b:54a0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id h2sm6788351wmb.16.2020.04.08.07.06.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Apr 2020 07:06:34 -0700 (PDT)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: iommu@lists.linux-foundation.org,
-	linux-accelerators@lists.ozlabs.org
-Subject: [PATCH 2/2] iommu: Remove iommu_sva_ops::mm_exit()
-Date: Wed,  8 Apr 2020 16:04:27 +0200
-Message-Id: <20200408140427.212807-3-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200408140427.212807-1-jean-philippe@linaro.org>
-References: <20200408140427.212807-1-jean-philippe@linaro.org>
+ with ESMTP id 4yxqd4hJDyw2 for <iommu@lists.linux-foundation.org>;
+ Wed,  8 Apr 2020 14:06:52 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by silver.osuosl.org (Postfix) with ESMTPS id 96E2D20035
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 14:06:52 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id A412A2CC; Wed,  8 Apr 2020 16:06:50 +0200 (CEST)
+Date: Wed, 8 Apr 2020 16:06:49 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2 2/4] iommu: Add Allwinner H6 IOMMU driver
+Message-ID: <20200408140649.GI3103@8bytes.org>
+References: <cover.a31c229a83f1d92e6928ae2adb70887da0fd44b3.1582222496.git-series.maxime@cerno.tech>
+ <6864f0f28825bb7a2ec1c0d811a4aacdecf5f945.1582222496.git-series.maxime@cerno.tech>
+ <20200302153606.GB6540@8bytes.org>
+ <20200401114710.doioefzmjhte7jwu@gilmour.lan>
 MIME-Version: 1.0
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, arnd@arndb.de,
- gregkh@linuxfoundation.org, jgg@ziepe.ca, zhangfei.gao@linaro.org
+Content-Disposition: inline
+In-Reply-To: <20200401114710.doioefzmjhte7jwu@gilmour.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,144 +70,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-After binding a device to an mm, device drivers currently need to
-register a mm_exit handler. This function is called when the mm exits,
-to gracefully stop DMA targeting the address space and flush page faults
-to the IOMMU.
+Hi Maxime,
 
-This is deemed too complex for the MMU release() notifier, which may be
-triggered by any mmput() invocation, from about 120 callsites [1]. The
-upcoming SVA module has an example of such complexity: the I/O Page
-Fault handler would need to call mmput_async() instead of mmput() after
-handling an IOPF, to avoid triggering the release() notifier which would
-in turn drain the IOPF queue and lock up.
+On Wed, Apr 01, 2020 at 01:47:10PM +0200, Maxime Ripard wrote:
+> As far as I understand it, the page table can be accessed concurrently
+> since the framework doesn't seem to provide any serialization /
+> locking, shouldn't we have some locks to prevent concurrent access?
 
-Another concern is the DMA stop function taking too long, up to several
-minutes [2]. For some mmput() callers this may disturb other users. For
-example, if the OOM killer picks the mm bound to a device as the victim
-and that mm's memory is locked, if the release() takes too long, it
-might choose additional innocent victims to kill.
+The dma-iommu code makes sure that there are no concurrent accesses to
+the same address-range of the page-table, but there can (and will) be
+concurrent accesses to the same page-table, just for different parts of
+the address space.
 
-To simplify the MMU release notifier, don't forward the notification to
-device drivers. They don't need to stop DMA and drain page faults
-anymore in the release() path. IOMMU drivers still remove the pgd and
-invalidate IOTLBs, but they don't need to drain the IOPF queues anymore.
-The PASID isn't freed as soon as the mm exits, it is held until the
-device driver stops DMA and calls unbind.
+Making this lock-less usually involves updating non-leaf page-table
+entries using atomic compare-exchange instructions.
 
-Similarly to accessing invalid mappings:
-* Incoming DMA transactions are aborted but not reported.
-* ATS Translation Requests return Successful Translation Completions
-  with R=W=0.
-* PRI Page Requests return with Invalid Request.
+> > > +	*pte_addr = sun50i_mk_pte(paddr, prot);
+> > > +	sun50i_table_flush(sun50i_domain, pte_addr, 1);
+> >
+> > This maps only one page, right? But the function needs to map up to
+> > 'size' as given in the parameter list.
+> 
+> It does, but pgsize_bitmap is set to 4k only (since the hardware only
+> supports that), so we would have multiple calls to map, each time with
+> a single page judging from:
+> https://elixir.bootlin.com/linux/latest/source/drivers/iommu/iommu.c#L1948
+> 
+> Right?
 
-For now remove iommu_sva_ops entirerly. We might need to re-introduce
-them at some point, for example to notify device drivers of unhandled
-IOPF.
+Okay, you are right here. Just note that when this function is called
+for every 4k page it should better be fast and avoid slow things like
+TLB flushes.
 
-[1] https://lore.kernel.org/linux-iommu/20200306174239.GM31668@ziepe.ca/
-[2] https://lore.kernel.org/linux-iommu/4d68da96-0ad5-b412-5987-2f7a6aa796c3@amd.com/
+> The vendor driver was doing something along those lines and I wanted
+> to be conservative with the cache management if we didn't run into
+> performances issues, but I'll convert to the iotlb callbacks then.
 
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- include/linux/iommu.h | 30 ------------------------------
- drivers/iommu/iommu.c | 11 -----------
- 2 files changed, 41 deletions(-)
+Yeah, that definitly helps performance.
 
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 7ef8b0bda6951..bd330d6343b78 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -53,8 +53,6 @@ struct iommu_fault_event;
- 
- typedef int (*iommu_fault_handler_t)(struct iommu_domain *,
- 			struct device *, unsigned long, int, void *);
--typedef int (*iommu_mm_exit_handler_t)(struct device *dev, struct iommu_sva *,
--				       void *);
- typedef int (*iommu_dev_fault_handler_t)(struct iommu_fault *, void *);
- 
- struct iommu_domain_geometry {
-@@ -171,25 +169,6 @@ enum iommu_dev_features {
- 
- #define IOMMU_PASID_INVALID	(-1U)
- 
--/**
-- * struct iommu_sva_ops - device driver callbacks for an SVA context
-- *
-- * @mm_exit: called when the mm is about to be torn down by exit_mmap. After
-- *           @mm_exit returns, the device must not issue any more transaction
-- *           with the PASID given as argument.
-- *
-- *           The @mm_exit handler is allowed to sleep. Be careful about the
-- *           locks taken in @mm_exit, because they might lead to deadlocks if
-- *           they are also held when dropping references to the mm. Consider the
-- *           following call chain:
-- *           mutex_lock(A); mmput(mm) -> exit_mm() -> @mm_exit() -> mutex_lock(A)
-- *           Using mmput_async() prevents this scenario.
-- *
-- */
--struct iommu_sva_ops {
--	iommu_mm_exit_handler_t mm_exit;
--};
--
- #ifdef CONFIG_IOMMU_API
- 
- /**
-@@ -605,7 +584,6 @@ struct iommu_fwspec {
-  */
- struct iommu_sva {
- 	struct device			*dev;
--	const struct iommu_sva_ops	*ops;
- };
- 
- int iommu_fwspec_init(struct device *dev, struct fwnode_handle *iommu_fwnode,
-@@ -653,8 +631,6 @@ struct iommu_sva *iommu_sva_bind_device(struct device *dev,
- 					struct mm_struct *mm,
- 					void *drvdata);
- void iommu_sva_unbind_device(struct iommu_sva *handle);
--int iommu_sva_set_ops(struct iommu_sva *handle,
--		      const struct iommu_sva_ops *ops);
- int iommu_sva_get_pasid(struct iommu_sva *handle);
- 
- #else /* CONFIG_IOMMU_API */
-@@ -1058,12 +1034,6 @@ static inline void iommu_sva_unbind_device(struct iommu_sva *handle)
- {
- }
- 
--static inline int iommu_sva_set_ops(struct iommu_sva *handle,
--				    const struct iommu_sva_ops *ops)
--{
--	return -EINVAL;
--}
--
- static inline int iommu_sva_get_pasid(struct iommu_sva *handle)
- {
- 	return IOMMU_PASID_INVALID;
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 2b471419e26c3..dfed12328c032 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2637,17 +2637,6 @@ void iommu_sva_unbind_device(struct iommu_sva *handle)
- }
- EXPORT_SYMBOL_GPL(iommu_sva_unbind_device);
- 
--int iommu_sva_set_ops(struct iommu_sva *handle,
--		      const struct iommu_sva_ops *sva_ops)
--{
--	if (handle->ops && handle->ops != sva_ops)
--		return -EEXIST;
--
--	handle->ops = sva_ops;
--	return 0;
--}
--EXPORT_SYMBOL_GPL(iommu_sva_set_ops);
--
- int iommu_sva_get_pasid(struct iommu_sva *handle)
- {
- 	const struct iommu_ops *ops = handle->dev->bus->iommu_ops;
--- 
-2.26.0
+Regards,
 
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
