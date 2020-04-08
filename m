@@ -1,70 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7181A2476
-	for <lists.iommu@lfdr.de>; Wed,  8 Apr 2020 17:00:22 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id B25081A247F
+	for <lists.iommu@lfdr.de>; Wed,  8 Apr 2020 17:00:56 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 07811856BF;
-	Wed,  8 Apr 2020 15:00:21 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DD52A2047D;
+	Wed,  8 Apr 2020 15:00:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AzdJvITqUa9S; Wed,  8 Apr 2020 15:00:20 +0000 (UTC)
+	with ESMTP id L8J-8k09PppZ; Wed,  8 Apr 2020 15:00:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id AB6C4852D5;
-	Wed,  8 Apr 2020 15:00:20 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4DDBB20456;
+	Wed,  8 Apr 2020 15:00:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8C733C1D89;
-	Wed,  8 Apr 2020 15:00:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 35659C1D7E;
+	Wed,  8 Apr 2020 15:00:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4ED4AC0177;
- Wed,  8 Apr 2020 15:00:19 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CC4C1C0177
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 15:00:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3CDCE852D5;
- Wed,  8 Apr 2020 15:00:19 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 86ABB20458
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 15:00:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Vu1oqnxSP6Y5; Wed,  8 Apr 2020 15:00:18 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B168385264;
- Wed,  8 Apr 2020 15:00:18 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 7190D387; Wed,  8 Apr 2020 17:00:16 +0200 (CEST)
-Date: Wed, 8 Apr 2020 17:00:15 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [RFC PATCH 31/34] iommu/exynos: Create iommu_device in struct
- exynos_iommu_owner
-Message-ID: <20200408150014.GM3103@8bytes.org>
-References: <20200407183742.4344-1-joro@8bytes.org>
- <CGME20200407184501eucas1p25407bc96e4345df406cf6ba061ae6a82@eucas1p2.samsung.com>
- <20200407183742.4344-32-joro@8bytes.org>
- <449e7f16-e719-9617-ec92-63b82c0bc33f@samsung.com>
- <f59b0bb3-8c08-9cc9-bb1a-e69b7b226f60@samsung.com>
+ with ESMTP id CcWdyX-aSdQr for <iommu@lists.linux-foundation.org>;
+ Wed,  8 Apr 2020 15:00:51 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by silver.osuosl.org (Postfix) with ESMTPS id C6A3B20456
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 15:00:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+ Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+ Subject:Sender:Reply-To:Content-ID:Content-Description;
+ bh=81odF68XeQyz5jBMv8t8odv+sDTY8EdfdldOmQeF490=; b=IhSlLhSPOtjqYY/bC2Q6xlyDfP
+ m1ceIdJcBETNE/Y33JdbhHsvpge+6CjtfJsWHx1BpQcWBXjftAaee8FByw6Cdxa0CsNGXWIuvcf83
+ xnAtPrci8XC2DIFadIhS9JksFEX+yOAYM6aA1RFRL6uHNYV8EhnP/i2kX1hHci3Wv94VOVJTuJKSP
+ G1tx9zEYlSIqequjnivlIGE/e+mOWwqxQFda+FI/sDZ08X9Anunbas5cXcur96QRuBucxZDZKZj6/
+ J/9uJ+MVyF/WYC9jyY/8CZGaLRWsaMjKhbw+xXWv6F24KTz6Kd/zJ2fXrs8MbDJ0sIgVGl3Y7dzYl
+ 5PngBiLQ==;
+Received: from [2601:1c0:6280:3f0::19c2]
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jMCC9-0006TO-7r; Wed, 08 Apr 2020 15:00:49 +0000
+Subject: Re: [PATCH 09/28] mm: rename CONFIG_PGTABLE_MAPPING to
+ CONFIG_ZSMALLOC_PGTABLE_MAPPING
+To: Christoph Hellwig <hch@lst.de>, Andrew Morton
+ <akpm@linux-foundation.org>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ Stephen Hemminger <sthemmin@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ x86@kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Laura Abbott <labbott@redhat.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Minchan Kim
+ <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>
+References: <20200408115926.1467567-1-hch@lst.de>
+ <20200408115926.1467567-10-hch@lst.de>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <b0c35646-208e-d49f-72d9-06fb2b7b8869@infradead.org>
+Date: Wed, 8 Apr 2020 08:00:46 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <f59b0bb3-8c08-9cc9-bb1a-e69b7b226f60@samsung.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Heiko Stuebner <heiko@sntech.de>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-tegra@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- linux-samsung-soc@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org,
- Andy Gross <agross@kernel.org>, Joerg Roedel <jroedel@suse.de>,
- linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- virtualization@lists.linux-foundation.org,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- David Woodhouse <dwmw2@infradead.org>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Kukjin Kim <kgene@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20200408115926.1467567-10-hch@lst.de>
+Content-Language: en-US
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>, linux-arch@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-s390@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, bpf@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,28 +93,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Marek,
+On 4/8/20 4:59 AM, Christoph Hellwig wrote:
+> Rename the Kconfig variable to clarify the scope.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  arch/arm/configs/omap2plus_defconfig | 2 +-
+>  include/linux/zsmalloc.h             | 2 +-
+>  mm/Kconfig                           | 2 +-
+>  mm/zsmalloc.c                        | 8 ++++----
+>  4 files changed, 7 insertions(+), 7 deletions(-)
+> 
 
-On Wed, Apr 08, 2020 at 04:23:05PM +0200, Marek Szyprowski wrote:
-> I need a place to initialize properly all the structures for the given 
-> master (IOMMU client device, the one which performs DMA operations).
+Looks good. Thanks.
 
-That could be in the probe_device() call-back, no?
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-> I tried to move all the initialization from xlate() to device_probe(), 
-> but such approach doesn't work.
 
-device_probe() is exynos_sysmmu_probe(), then yes, this is called before
-any of the xlate() calls are made.
+-- 
+~Randy
 
-Would it work to keep the iommu_device structures in the sysmmus and
-also create them for the owners? This isn't really a nice solution but
-should work the the IOMMU driver until there is a better way to fix
-this.
-
-Regards,
-
-	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
