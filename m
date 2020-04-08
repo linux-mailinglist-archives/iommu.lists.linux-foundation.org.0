@@ -1,73 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2DC41A24A0
-	for <lists.iommu@lfdr.de>; Wed,  8 Apr 2020 17:07:45 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 918B31A24B4
+	for <lists.iommu@lfdr.de>; Wed,  8 Apr 2020 17:12:28 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5F88487E32;
-	Wed,  8 Apr 2020 15:07:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3D3F1204E0;
+	Wed,  8 Apr 2020 15:12:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yeXF88I-cOW4; Wed,  8 Apr 2020 15:07:43 +0000 (UTC)
+	with ESMTP id JR+zvvl9KSsq; Wed,  8 Apr 2020 15:12:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A529387DCC;
-	Wed,  8 Apr 2020 15:07:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 96247204C5;
+	Wed,  8 Apr 2020 15:12:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 898F7C1D89;
-	Wed,  8 Apr 2020 15:07:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7A5D9C1D89;
+	Wed,  8 Apr 2020 15:12:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 941FAC0177;
- Wed,  8 Apr 2020 15:07:41 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 183B3C0177
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 15:12:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 7CE6B87DF2;
- Wed,  8 Apr 2020 15:07:41 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 1333787B5D
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 15:12:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id l2DIr0tJ8FiK; Wed,  8 Apr 2020 15:07:40 +0000 (UTC)
+ with ESMTP id Bk+dkU9cjtt1 for <iommu@lists.linux-foundation.org>;
+ Wed,  8 Apr 2020 15:12:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by whitealder.osuosl.org (Postfix) with ESMTP id B2C9B87DCC;
- Wed,  8 Apr 2020 15:07:40 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 23D331063;
- Wed,  8 Apr 2020 08:07:40 -0700 (PDT)
-Received: from [10.57.55.221] (unknown [10.57.55.221])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B6D903F68F;
- Wed,  8 Apr 2020 08:07:35 -0700 (PDT)
-Subject: Re: [RFC PATCH 17/34] iommu/arm-smmu: Store device instead of group
- in arm_smmu_s2cr
-To: Joerg Roedel <joro@8bytes.org>
-References: <20200407183742.4344-1-joro@8bytes.org>
- <20200407183742.4344-18-joro@8bytes.org>
- <98c10a41-d223-e375-9742-b6471c3dc33c@arm.com>
- <20200408143707.GK3103@8bytes.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <f8b541c2-9271-fc48-dde6-166a2ed6679f@arm.com>
-Date: Wed, 8 Apr 2020 16:07:33 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 928DA8766C
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Apr 2020 15:12:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=Rjv5131jSAiyIu5HYACdcXLWZcmDSy5Ae4NdyG3A0EU=; b=FuXsAshYsSTgOfgG+tafxq311H
+ 2DLcoyBxKM/nbGCT2GEvorwEQ03/VOWi5DKAbxhI4DqIPjAGXNNsOWsSOG7aU/Lla3ICxHLRu6SzM
+ /q9DEwOTHGBUUXd+C1gWvP9Pjgc6GcW+Xi/RtUJFOAx/HNAnnerQFGHAfcPScOe5j3ll7FaXVMW5Z
+ Z2xjwSDzwp0YcD5TzxjStK7nQDDKjXVISOx5Itl6OOQeUK3wpMFWDuSjU7Q7E7VC31GOzaWh+PQx5
+ zbPF7UcdVGkG+53Xs4Olbyq1FLyXUWKqf1azA1wf6Pm9lsIEV7Cpflmxs3MnCPe2MFR6K51PRMHF8
+ JF/j+ctA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jMCN3-0004v8-A7; Wed, 08 Apr 2020 15:12:05 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 64B9E300478;
+ Wed,  8 Apr 2020 17:12:03 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 2B71F2BB026A0; Wed,  8 Apr 2020 17:12:03 +0200 (CEST)
+Date: Wed, 8 Apr 2020 17:12:03 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH 10/28] mm: only allow page table mappings for built-in
+ zsmalloc
+Message-ID: <20200408151203.GN20730@hirez.programming.kicks-ass.net>
+References: <20200408115926.1467567-1-hch@lst.de>
+ <20200408115926.1467567-11-hch@lst.de>
+ <c0c86feb-b3d8-78f2-127f-71d682ffc51f@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <20200408143707.GK3103@8bytes.org>
-Content-Language: en-GB
-Cc: Heiko Stuebner <heiko@sntech.de>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-tegra@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- linux-samsung-soc@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org,
- Andy Gross <agross@kernel.org>, Joerg Roedel <jroedel@suse.de>,
- linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- virtualization@lists.linux-foundation.org,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Kukjin Kim <kgene@kernel.org>,
- David Woodhouse <dwmw2@infradead.org>
+Content-Disposition: inline
+In-Reply-To: <c0c86feb-b3d8-78f2-127f-71d682ffc51f@infradead.org>
+Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+ Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
+ x86@kernel.org, Christoph Hellwig <hch@lst.de>,
+ Laura Abbott <labbott@redhat.com>, Nitin Gupta <ngupta@vflare.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Haiyang Zhang <haiyangz@microsoft.com>,
+ linaro-mm-sig@lists.linaro.org, bpf@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ Minchan Kim <minchan@kernel.org>, iommu@lists.linux-foundation.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,47 +94,35 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-04-08 3:37 pm, Joerg Roedel wrote:
-> Hi Robin,
+On Wed, Apr 08, 2020 at 08:01:00AM -0700, Randy Dunlap wrote:
+> Hi,
 > 
-> thanks for looking into this.
+> On 4/8/20 4:59 AM, Christoph Hellwig wrote:
+> > diff --git a/mm/Kconfig b/mm/Kconfig
+> > index 36949a9425b8..614cc786b519 100644
+> > --- a/mm/Kconfig
+> > +++ b/mm/Kconfig
+> > @@ -702,7 +702,7 @@ config ZSMALLOC
+> >  
+> >  config ZSMALLOC_PGTABLE_MAPPING
+> >  	bool "Use page table mapping to access object in zsmalloc"
+> > -	depends on ZSMALLOC
+> > +	depends on ZSMALLOC=y
 > 
-> On Wed, Apr 08, 2020 at 01:09:40PM +0100, Robin Murphy wrote:
->> For a hot-pluggable bus where logical devices may share Stream IDs (like
->> fsl-mc), this could happen:
->>
->>    create device A
->>    iommu_probe_device(A)
->>      iommu_device_group(A) -> alloc group X
->>    create device B
->>    iommu_probe_device(B)
->>      iommu_device_group(A) -> lookup returns group X
->>    ...
->>    iommu_remove_device(A)
->>    delete device A
->>    create device C
->>    iommu_probe_device(C)
->>      iommu_device_group(C) -> use-after-free of A
->>
->> Preserving the logical behaviour here would probably look *something* like
->> the mangled diff below, but I haven't thought it through 100%.
-> 
-> Yeah, I think you are right. How about just moving the loop which sets
-> s2crs[idx].group to arm_smmu_device_group()? In that case I can drop
-> this patch and leave the group pointer in place.
+> It's a bool so this shouldn't matter... not needed.
 
-Isn't that exactly what I suggested? :)
+My mm/Kconfig has:
 
-I don't recall for sure, but knowing me, that bit of group bookkeeping 
-is only where it currently is because it cheekily saves iterating the 
-IDs a second time. I don't think there's any technical reason.
+config ZSMALLOC
+	tristate "Memory allocator for compressed pages"
+	depends on MMU
 
-Robin.
+which I think means it can be modular, no?
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
