@@ -1,44 +1,44 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C478F1A2FC8
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 259801A2FC7
 	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 09:11:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5DFB886A9D;
-	Thu,  9 Apr 2020 07:11:28 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 66A6286FFF;
+	Thu,  9 Apr 2020 07:11:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Gp8wmvmGrzlw; Thu,  9 Apr 2020 07:11:26 +0000 (UTC)
+	with ESMTP id MAlxTHquGvmR; Thu,  9 Apr 2020 07:11:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 94B8A86A99;
+	by whitealder.osuosl.org (Postfix) with ESMTP id 71BE38704C;
 	Thu,  9 Apr 2020 07:11:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7CC18C1D7E;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 56FEBC0177;
 	Thu,  9 Apr 2020 07:11:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D7B22C1D7E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BD9F9C0177
  for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:51:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id D2EF6809F3
+ by whitealder.osuosl.org (Postfix) with ESMTP id A75A685C90
  for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:51:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wB3u1oSac6iy for <iommu@lists.linux-foundation.org>;
- Thu,  9 Apr 2020 00:51:55 +0000 (UTC)
-X-Greylist: delayed 00:10:02 by SQLgrey-1.7.6
-Received: from sonic308-37.consmr.mail.ne1.yahoo.com
- (sonic308-37.consmr.mail.ne1.yahoo.com [66.163.187.60])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 3851685C4C
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:51:55 +0000 (UTC)
+ with ESMTP id QZCheSfFl76o for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Apr 2020 00:51:54 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from sonic315-48.consmr.mail.ne1.yahoo.com
+ (sonic315-48.consmr.mail.ne1.yahoo.com [66.163.190.174])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8CB04809F3
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:51:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1586393514; bh=/6EYCRlfa2umBwyf6HMqnS88iYA4EIXadLKaqqSMGXc=;
+ t=1586393513; bh=/6EYCRlfa2umBwyf6HMqnS88iYA4EIXadLKaqqSMGXc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Subject;
- b=F33T5hyyEdNtnp6CAemGXqABDLl3evUvXGGZdSrJE7zROA1EU3l3m2rXruI1Cuh2YTyW8dOpSuSprmIN650vv8beTz1lQKS2s1n/QPuoZyimtM1g2Z/o8YYNV6KAaB/0yfQUyEtDYZl3wJr5epY08LWRqA99Al/Tw3JdtUjhd/AgVmJjxJTyj1L7X6EZal8BmtyLom4L1GuBEVDNmnnUVBmFCq4huNa0xmZLcyQQnZBBSHYEL6H3DwLtq7cDDtqJJYFA2uTFkpx6p+tCB6aa0/Q7Kumn/uDJ0Y+uCceIeA+RPDcc7fXVNlRTi7k8RhqUjeCFJkJvqVGnCKD4dhJTwA==
+ b=HvieXGvbwHIVIK/gYKQ1lC4pzEkccIoUtFVCXKQJQyyr9anzfAW4kR7cdzHKQVNdwKv2LwnplwjrD0aQkxt9HvZDnn0uRd9Jv6iSywy0mJFsQxB7g1WWgMN24xWmdS8GH+Id1lAeviwVAS624VUdgJOtK4L566xJwPjUiHuettyW8dE3sEmWtm4sMt5IL1ChkMHC+w6Bdr4Li8wh6mU9LmIoV/4GDMCB24Z6Ty2aJCnlNjtwzQWnhd2D07pQK7rk5fpC4u5SpSrA/nKGFxKgnZ54pp3f2NruS1R0bo8EPEXa754Eg/5Uww55uIFzHYKa9LpN3Co6H2k2pwG2l4jzcg==
 X-YMail-OSG: Kjs_hFQVM1mYR3Bbv__auOf2fhoaIk9dbexLkMUvZvDcgibPrEIH2uN_nb7TSk.
  AjTVDttprz38pf2agkDENCO9OlpstM6AKa5fqJSzz9g9BDnD9cEKZ6Kcqg9CatwzLNYThMuSUeYX
  2yEgN2U8e5xgtZHtWmAFsIbznPJD_UPhljYJl2r_EoL5qqrqeJu9Nnd9Y.Ff.0cQ6SO_SlnVXMbj
@@ -61,7 +61,7 @@ X-YMail-OSG: Kjs_hFQVM1mYR3Bbv__auOf2fhoaIk9dbexLkMUvZvDcgibPrEIH2uN_nb7TSk.
  _ECRk3ijYTNyDsC7idxPty4i4XJSa9KM2uH5RWvaV.R8phY0hHU.lO54DG8mygB9TxdZscMBwbtP
  JqFlYvAh9BGSO_QyxpGrs
 Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic308.consmr.mail.ne1.yahoo.com with HTTP; Thu, 9 Apr 2020 00:51:54 +0000
+ sonic315.consmr.mail.ne1.yahoo.com with HTTP; Thu, 9 Apr 2020 00:51:53 +0000
 Received: by smtp412.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
  ID 07bc1f76d2033b5244ea2e327c66bf87; 
  Thu, 09 Apr 2020 00:39:51 +0000 (UTC)
