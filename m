@@ -1,83 +1,97 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3D61A2CE6
-	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 02:33:11 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id C478F1A2FC8
+	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 09:11:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 440C58798A;
-	Thu,  9 Apr 2020 00:33:10 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5DFB886A9D;
+	Thu,  9 Apr 2020 07:11:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KLpX6oRZ6o0Y; Thu,  9 Apr 2020 00:33:08 +0000 (UTC)
+	with ESMTP id Gp8wmvmGrzlw; Thu,  9 Apr 2020 07:11:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id AD8098798D;
-	Thu,  9 Apr 2020 00:33:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 94B8A86A99;
+	Thu,  9 Apr 2020 07:11:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8F712C1D89;
-	Thu,  9 Apr 2020 00:33:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7CC18C1D7E;
+	Thu,  9 Apr 2020 07:11:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7C59EC0177
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:33:07 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D7B22C1D7E
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:51:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 668FA87986
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:33:07 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id D2EF6809F3
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:51:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RYd72gYRmYPu for <iommu@lists.linux-foundation.org>;
- Thu,  9 Apr 2020 00:33:04 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 6F14E87985
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:33:04 +0000 (UTC)
-IronPort-SDR: TSsGVLs0KhREkKp09ZhcWlKBo4QGCYSoefJpbqekelrBDUtwCi0mLum9t1ZE5rJu24c5JQgloL
- TNSF5iWLkUkQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2020 17:33:03 -0700
-IronPort-SDR: C1qL5Uv7rF+DQmP7fh9jTXrGc/LGfxRt0QrtVkuPxjfPpYBQrc5At/gGm3/fi6RvwufCk3LjSd
- XTRrdBZO4Efw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,360,1580803200"; d="scan'208";a="362000598"
-Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
- by fmsmga001.fm.intel.com with ESMTP; 08 Apr 2020 17:33:02 -0700
-Received: from orsmsx125.amr.corp.intel.com (10.22.240.125) by
- ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 8 Apr 2020 17:33:01 -0700
-Received: from orsmsx101.amr.corp.intel.com ([169.254.8.225]) by
- ORSMSX125.amr.corp.intel.com ([169.254.3.103]) with mapi id 14.03.0439.000;
- Wed, 8 Apr 2020 17:33:01 -0700
-From: "Derrick, Jonathan" <jonathan.derrick@intel.com>
-To: "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>,
- "drake@endlessm.com" <drake@endlessm.com>
-Subject: Re: [PATCH v4] iommu/vt-d: consider real PCI device when checking
- if mapping is needed
-Thread-Topic: [PATCH v4] iommu/vt-d: consider real PCI device when checking
- if mapping is needed
-Thread-Index: AQHV5tO6P1q7GPBOf0WbPL1Nv6XzmagiZPoAgAGRbgCAAGzJgIBMTL4AgAAEmAA=
-Date: Thu, 9 Apr 2020 00:33:00 +0000
-Message-ID: <ae740b4de5fd6cf7f52ee1baa7b9347fed26a3b4.camel@intel.com>
-References: <CAD8Lp47Bhv_58-Z+a+JFS9rTZW58_rWvE8N+XVtX7mmB-Tj55A@mail.gmail.com>
- <20200220100607.9044-1-drake@endlessm.com>
- <a99ff4f4edc4fd5495c9d6b245a590a256c9261b.camel@intel.com>
-In-Reply-To: <a99ff4f4edc4fd5495c9d6b245a590a256c9261b.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.6.119]
-Content-ID: <B84581C980EFBB4490BA4C90366C9409@intel.com>
+ with ESMTP id wB3u1oSac6iy for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Apr 2020 00:51:55 +0000 (UTC)
+X-Greylist: delayed 00:10:02 by SQLgrey-1.7.6
+Received: from sonic308-37.consmr.mail.ne1.yahoo.com
+ (sonic308-37.consmr.mail.ne1.yahoo.com [66.163.187.60])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 3851685C4C
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:51:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1586393514; bh=/6EYCRlfa2umBwyf6HMqnS88iYA4EIXadLKaqqSMGXc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Subject;
+ b=F33T5hyyEdNtnp6CAemGXqABDLl3evUvXGGZdSrJE7zROA1EU3l3m2rXruI1Cuh2YTyW8dOpSuSprmIN650vv8beTz1lQKS2s1n/QPuoZyimtM1g2Z/o8YYNV6KAaB/0yfQUyEtDYZl3wJr5epY08LWRqA99Al/Tw3JdtUjhd/AgVmJjxJTyj1L7X6EZal8BmtyLom4L1GuBEVDNmnnUVBmFCq4huNa0xmZLcyQQnZBBSHYEL6H3DwLtq7cDDtqJJYFA2uTFkpx6p+tCB6aa0/Q7Kumn/uDJ0Y+uCceIeA+RPDcc7fXVNlRTi7k8RhqUjeCFJkJvqVGnCKD4dhJTwA==
+X-YMail-OSG: Kjs_hFQVM1mYR3Bbv__auOf2fhoaIk9dbexLkMUvZvDcgibPrEIH2uN_nb7TSk.
+ AjTVDttprz38pf2agkDENCO9OlpstM6AKa5fqJSzz9g9BDnD9cEKZ6Kcqg9CatwzLNYThMuSUeYX
+ 2yEgN2U8e5xgtZHtWmAFsIbznPJD_UPhljYJl2r_EoL5qqrqeJu9Nnd9Y.Ff.0cQ6SO_SlnVXMbj
+ JYEgiFEkwq6TWViREF0oZDh5a7V1WTHk_fQL7mKo.zfkeUUkf9r2PC3YbrlM36YDrBNE7Vu_H_23
+ 7SUm_oYUdCkn.imVzOSTsbg1UKej12C_c6DVKmb2bShJF7ckagBec7h.F7Pz2jADVU.RAf_SzeRw
+ jnXQU.OYwZs7DtYvRPtgjcVfmgAxeq8RUp0VPoOeRchdyRoGHKkYEH1l0ufQv3CAgRqC9S3zsOd9
+ fnhObZjDMfX58eXYxHjcxjHRReqFOhx5Hz6aq8FIq7jw8y8OEbWPMrjaCpR4FKEn_bozdR4qyDFm
+ 4sbsu66FrZifwa3kj9UeUr.wGSL5S042VmSyGfETFpHOTRvx51GHTkDHF4kqnnRQjnt9cOY_TXoy
+ 6ikjZzl8Rym8MnuDSY3t2UEnyXfrQM8zmKcZMaBXZA.1JruNMW__SZDUsuarZwJACQIZFjYaEYcB
+ 6Fx2cC_OXlNG7d102FBbLxbbWE51eCCn6.Ao3BUdftIqkSfQqE8AmEChvpnb3Hjczsgr87hSe_ZY
+ FNPGuabtMxRjTV5vOhJN9EVsFZjNMIpNdxApHaOp9BBa0mK8Hd4Y8_sLLzgFE_OX._p_ww8OgQCS
+ _PZw5TJANZTRxfmtlnIT9WY8nJxFEz0ZzkRbyJrD7lBRVCuL2qRMMrbnVCU.d3atpGGNT71.FMTl
+ XJp9kOjDwdiPhEHaNTf0wy9.286eHx9hDHZx13ycI4lCw.BNZVla9tTflJZSkBR622oDAvju0pYi
+ chnjA_f0d_Rs3Y.w_0UWDDtsiqrp7Nd.ENOvnjBk3WtBBjbeqzYHxInpU0ICw.akO5xUiF4HXGRD
+ NGu7bFyqgIPHiVSYVkpfC.PnR3fZmrfgYy1Ktc5D_y5Xh2Z7vFADl5LC6uRiCqJ9Y4yLuHo1ATrn
+ PxNppKa486Nn86yT5d.pKQ3q49VQAxNEB7EGZ_QmK0uyT9X6oF2qpuwBBPhXWKUMiK3EbPuATGVw
+ L.4MdTecfHCHslUWJtwrtw2v46CslPDJY3TtzPBEF3b6hKOBHSxZ.8CqTxF3S2_xcA64udxpFdja
+ 9c_vKNU82cTswpLxDeBimIz._J7Xaum1i6dZEwCbc.uspehQ3L04kL45bX0fhpi7dDoUJat5aE3S
+ p_Fl8AHbSq3P.bkBJGmoklW4vRdsCXSUz4v5SYoPxJ86d1eVDsQ0qrpylWpfgRvkXgRw467FBrzC
+ _ECRk3ijYTNyDsC7idxPty4i4XJSa9KM2uH5RWvaV.R8phY0hHU.lO54DG8mygB9TxdZscMBwbtP
+ JqFlYvAh9BGSO_QyxpGrs
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic308.consmr.mail.ne1.yahoo.com with HTTP; Thu, 9 Apr 2020 00:51:54 +0000
+Received: by smtp412.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
+ ID 07bc1f76d2033b5244ea2e327c66bf87; 
+ Thu, 09 Apr 2020 00:39:51 +0000 (UTC)
+Date: Thu, 9 Apr 2020 08:39:35 +0800
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 17/28] mm: remove the prot argument from vm_map_ram
+Message-ID: <20200409003931.GA8418@hsiangkao-HP-ZHAN-66-Pro-G1>
+References: <20200408115926.1467567-1-hch@lst.de>
+ <20200408115926.1467567-18-hch@lst.de>
 MIME-Version: 1.0
-Cc: "bhelgaas@google.com" <bhelgaas@google.com>,
- "dwmw2@infradead.org" <dwmw2@infradead.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linux@endlessm.com" <linux@endlessm.com>
+Content-Disposition: inline
+In-Reply-To: <20200408115926.1467567-18-hch@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailer: WebService/1.1.15620 hermes Apache-HttpAsyncClient/4.1.4
+ (Java/11.0.6)
+X-Mailman-Approved-At: Thu, 09 Apr 2020 07:11:24 +0000
+Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+ Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
+ x86@kernel.org, Peter Zijlstra <peterz@infradead.org>,
+ Laura Abbott <labbott@redhat.com>, Nitin Gupta <ngupta@vflare.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Haiyang Zhang <haiyangz@microsoft.com>,
+ linaro-mm-sig@lists.linaro.org, bpf@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ Minchan Kim <minchan@kernel.org>, iommu@lists.linux-foundation.org,
+ Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,233 +104,31 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Gao Xiang via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Gao Xiang <hsiangkao@aol.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hm that didn't come through right..
+On Wed, Apr 08, 2020 at 01:59:15PM +0200, Christoph Hellwig wrote:
+> This is always GFP_KERNEL - for long term mappings with other properties
+> vmap should be used.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c   | 2 +-
+>  drivers/media/common/videobuf2/videobuf2-dma-sg.c  | 3 +--
+>  drivers/media/common/videobuf2/videobuf2-vmalloc.c | 3 +--
+>  fs/erofs/decompressor.c                            | 2 +-
 
-On Wed, 2020-04-08 at 18:16 -0600, Jonathan Derrick wrote:
-> Hi Daniel,
-> 
-> Reviving this thread
-> 
-> On Thu, 2020-02-20 at 18:06 +0800, Daniel Drake wrote:
-> > > On Wed, Feb 19, 2020 at 11:40 AM Lu Baolu <baolu.lu@linux.intel.com> wrote:
-> > > > With respect, this is problematical. The parent and all subdevices share
-> > > > a single translation entry. The DMA mask should be consistent.
-> > > > 
-> > > > Otherwise, for example, subdevice A has 64-bit DMA capability and uses
-> > > > an identity domain for DMA translation. While subdevice B has 32-bit DMA
-> > > > capability and is forced to switch to DMA domain. Subdevice A will be
-> > > > impacted without any notification.
-> > 
-> > Looking closer, this problematic codepath may already be happening for VMD,
-> > under intel_iommu_add_device(). Consider this function running for a VMD
-> > subdevice, we hit:
-> > 
-> >     domain = iommu_get_domain_for_dev(dev);
-> > 
-> > I can't quite grasp the code flow here, but domain->type now always seems
-> > to return the domain type of the real DMA device, which seems like pretty
-> > reasonable behaviour.
-> > 
-> >     if (domain->type == IOMMU_DOMAIN_DMA) {
-> > 
-> > and as detailed in previous mails, the real VMD device seems to be in a DMA
-> > domain by default, so we continue.
-> > 
-> >         if (device_def_domain_type(dev) == IOMMU_DOMAIN_IDENTITY) {
-> > 
-> > Now we checked the default domain type of the subdevice. This seems rather
-> > likely to return IDENTITY because that's effectively the default type...
-> > 
-> >             ret = iommu_request_dm_for_dev(dev);
-> >             if (ret) {
-> >                 dmar_remove_one_dev_info(dev);
-> >                 dmar_domain->flags |= DOMAIN_FLAG_LOSE_CHILDREN;
-> >                 domain_add_dev_info(si_domain, dev);
-> >                 dev_info(dev,
-> >                      "Device uses a private identity domain.\n");
-> >             }
-> >         }
-> > 
-> > and now we're doing the bad stuff that Lu pointed out: we only have one
-> > mapping shared for all the subdevices, so if we end up changing it for one
-> > subdevice, we're likely to be breaking another.
-> > In this case iommu_request_dm_for_dev() returns -EBUSY without doing anything
-> > and the following private identity code fortunately seems to have no
-> > consequential effects - the real DMA device continues to operate in the DMA
-> > domain, and all subdevice DMA requests go through the DMA mapping codepath.
-> > That's probably why VMD appears to be working fine anyway, but this seems
-> > fragile.
-> > 
-> > The following changes enforce that the real DMA device is in the DMA domain,
-> > and avoid the intel_iommu_add_device() codepaths that would try to change
-> > it to a different domain type. Let me know if I'm on the right lines...
-> > ---
-> >  drivers/iommu/intel-iommu.c               | 16 ++++++++++++++++
-> >  drivers/pci/controller/intel-nvme-remap.c |  6 ++++++
-> >  2 files changed, 22 insertions(+)
-> > 
-> > diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-> > index 9644a5b3e0ae..8872b8d1780d 100644
-> > --- a/drivers/iommu/intel-iommu.c
-> > +++ b/drivers/iommu/intel-iommu.c
-> > @@ -2911,6 +2911,9 @@ static int device_def_domain_type(struct device *dev)
-> >  	if (dev_is_pci(dev)) {
-> >  		struct pci_dev *pdev = to_pci_dev(dev);
-> >  
-> > +		if (pci_real_dma_dev(pdev) != pdev)
-> > +			return IOMMU_DOMAIN_DMA;
-> > +
-> >  		if (device_is_rmrr_locked(dev))
-> >  			return IOMMU_DOMAIN_DMA;
-> >  
-> > @@ -5580,6 +5583,7 @@ static bool intel_iommu_capable(enum iommu_cap cap)
-> >  
-> >  static int intel_iommu_add_device(struct device *dev)
-> >  {
-> > +	struct device *real_dev = dev;
-> >  	struct dmar_domain *dmar_domain;
-> >  	struct iommu_domain *domain;
-> >  	struct intel_iommu *iommu;
-> > @@ -5591,6 +5595,17 @@ static int intel_iommu_add_device(struct device *dev)
-> >  	if (!iommu)
-> >  		return -ENODEV;
-> >  
-> > +	if (dev_is_pci(dev))
-> > +		real_dev = &pci_real_dma_dev(to_pci_dev(dev))->dev;
-> > +
-> > +	if (real_dev != dev) {
-> > +		domain = iommu_get_domain_for_dev(real_dev);
-> > +		if (domain->type != IOMMU_DOMAIN_DMA) {
-> > +			dev_err(dev, "Real DMA device not in DMA domain; can't handle DMA\n");
-> > +			return -ENODEV;
-> > +		}
-> > +	}
-> > +
-> >  	iommu_device_link(&iommu->iommu, dev);
-> >  
-> >  	if (translation_pre_enabled(iommu))
-> > 
-> 
-> We need one additional change to enforce IOMMU_DOMAIN_DMA on the real
-> dma dev, otherwise it could be put into Identity and the subdevices as
-> DMA leading to this WARN:
-> 
-> struct intel_iommu *domain_get_iommu(struct dmar_domain *domain)
-> {
->         int iommu_id;
-> 
->         /* si_domain and vm domain should not get here. */
->         if (WARN_ON(domain->domain.type != IOMMU_DOMAIN_DMA))
->                 return NULL;
-> 
-> 
-> We could probably define and enforce it in device_def_domain_type. We
-> could also try moving real dma dev to DMA on the first subdevice, like
-> below. Though there might be a few cases we can't do that.
-> 
-> 
-> [snip]
+For EROFS part,
 
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index 4be549478691..6c80c6c9d808 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -3049,6 +3049,9 @@ static int device_def_domain_type(struct device *dev)
-                if ((iommu_identity_mapping & IDENTMAP_GFX) && IS_GFX_DEVICE(pdev))
-                        return IOMMU_DOMAIN_IDENTITY;
- 
-+               if (pci_real_dma_dev(pdev) != pdev)
-+                       return IOMMU_DOMAIN_DMA;
-+
-                /*
-                 * We want to start off with all devices in the 1:1 domain, and
-                 * take them out later if we find they can't access all of memory.
-@@ -5780,12 +5783,32 @@ static bool intel_iommu_capable(enum iommu_cap cap)
-        return false;
- }
- 
-+static int intel_iommu_request_dma_domain_for_dev(struct device *dev,
-+                                                  struct dmar_domain *domain)
-+{
-+       int ret;
-+
-+       ret = iommu_request_dma_domain_for_dev(dev);
-+       if (ret) {
-+               dmar_remove_one_dev_info(dev);
-+               domain->flags |= DOMAIN_FLAG_LOSE_CHILDREN;
-+               if (!get_private_domain_for_dev(dev)) {
-+                       dev_warn(dev,
-+                                "Failed to get a private domain.\n");
-+                               return -ENOMEM;
-+               }
-+       }
-+
-+       return 0;
-+}
-+
- static int intel_iommu_add_device(struct device *dev)
- {
-        struct dmar_domain *dmar_domain;
-        struct iommu_domain *domain;
-        struct intel_iommu *iommu;
-        struct iommu_group *group;
-+       struct device *real_dev = dev;
-        u8 bus, devfn;
-        int ret;
- 
-@@ -5809,6 +5832,21 @@ static int intel_iommu_add_device(struct device *dev)
- 
-        domain = iommu_get_domain_for_dev(dev);
-        dmar_domain = to_dmar_domain(domain);
-+
-+       if (dev_is_pci(dev))
-+               real_dev = &pci_real_dma_dev(to_pci_dev(dev))->dev;
-+
-+       if (real_dev != dev) {
-+               domain = iommu_get_domain_for_dev(real_dev);
-+               if (domain->type != IOMMU_DOMAIN_DMA) {
-+                       dmar_remove_one_dev_info(real_dev);
-+
-+                       ret = intel_iommu_request_dma_domain_for_dev(real_dev, dmar_domain);
-+                       if (ret)
-+                               goto unlink;
-+               }
-+       }
-+
-        if (domain->type == IOMMU_DOMAIN_DMA) {
-                if (device_def_domain_type(dev) == IOMMU_DOMAIN_IDENTITY) {
-                        ret = iommu_request_dm_for_dev(dev);
-@@ -5822,20 +5860,12 @@ static int intel_iommu_add_device(struct device *dev)
-                }
-        } else {
-                if (device_def_domain_type(dev) == IOMMU_DOMAIN_DMA) {
--                       ret = iommu_request_dma_domain_for_dev(dev);
--                       if (ret) {
--                               dmar_remove_one_dev_info(dev);
--                               dmar_domain->flags |= DOMAIN_FLAG_LOSE_CHILDREN;
--                               if (!get_private_domain_for_dev(dev)) {
--                                       dev_warn(dev,
--                                                "Failed to get a private domain.\n");
--                                       ret = -ENOMEM;
--                                       goto unlink;
--                               }
-+                       ret = intel_iommu_request_dma_domain_for_dev(dev, dmar_domain);
-+                       if (ret)
-+                               goto unlink;
- 
--                               dev_info(dev,
--                                        "Device uses a private dma domain.\n");
--                       }
-+                       dev_info(dev,
-+                                "Device uses a private dma domain.\n");
-                }
-        }
- 
+Acked-by: Gao Xiang <xiang@kernel.org>
+
+Thanks,
+Gao Xiang
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
