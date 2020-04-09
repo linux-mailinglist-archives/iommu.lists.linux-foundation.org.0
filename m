@@ -1,88 +1,94 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3161A3184
-	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 11:07:54 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8DC1A319E
+	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 11:15:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B5FFE87487;
-	Thu,  9 Apr 2020 09:07:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3ACF186AE4;
+	Thu,  9 Apr 2020 09:15:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Q2xEZaTK+WDp; Thu,  9 Apr 2020 09:07:52 +0000 (UTC)
+	with ESMTP id XkzYi3kUDtRr; Thu,  9 Apr 2020 09:15:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 197DF86DF4;
-	Thu,  9 Apr 2020 09:07:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 59A0886B0E;
+	Thu,  9 Apr 2020 09:15:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0C884C0177;
-	Thu,  9 Apr 2020 09:07:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 401ACC0177;
+	Thu,  9 Apr 2020 09:15:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 20CA6C0177
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 09:07:51 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 57C67C0177
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 09:15:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 05AF786DF4
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 09:07:51 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 4108620372
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 09:15:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iGSoNPegcaJI for <iommu@lists.linux-foundation.org>;
- Thu,  9 Apr 2020 09:07:50 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 4335B86C02
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 09:07:50 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id mn19so1031848pjb.0
- for <iommu@lists.linux-foundation.org>; Thu, 09 Apr 2020 02:07:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=h74J54nIpWHdgu91QVuvRexI7BsK/jOCn+821SMHg9c=;
- b=zx1ITjRH6p3gwKGp+J+RbI0XmbIz469PrPPB7SxR8yXCWOXetE2kzRk4a3lXxr3/Ti
- rXurpv8d4aAhsnTZzcNomePoW1IiuhFwMVzZ8UWfNfjDDIu8FkPQ+6Dqx6VyGxB1jmhw
- qJ7hV1rqXTcdI7gfnmz5tkZX5+VRm0X3UT+oC8JKW12lR7VGv8vnn48/b4YfUugajAFG
- SlY/Y/3dovdAqGFfNxRh0hsmOyyAruv2t8FU0UUYbVV0AVftqlYFWtYVJfSgTWdXE/Je
- RLzvKxgP1Fc5VYdtOSabNYwtpRfC7kimmSnC8QD6zFhWMOArBl4D6gsFUB+IAoGTzwNR
- 2JmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=h74J54nIpWHdgu91QVuvRexI7BsK/jOCn+821SMHg9c=;
- b=Q42ghor8YKAsXeRbY6BhJVERQ3iN6BuHJK9jzYoMOLcTeX+DYLDfVRFLMHpsdZEh7y
- v7QyKUNFXyJVSJkO4wewk/0q+lwug0T5XWsDokwBhTb0C0LjQTlGyjieRtn4pUVzXAvf
- MeRoC8ALLI051DgYOfZOIobtjbiIijoof1wSrRgtRUoTcO0pnaP4m2Ct3ix0o2Kd4dbE
- Y2aYs6O9mh2l00DFFEIxLC1ZSmsmdZbP7p1JjKoU3hSCnRtVQ210pyHxHpWXMBts6WMR
- JjJMWVN3BaMv5MCckZGLHPnyUqFj0OwbSMOlBI19hwKGfj1KB48qswonwOUzaWiZxf2r
- WUoA==
-X-Gm-Message-State: AGi0PuYkTiOhD4HOB4XyyMKGxbRnxjP1Pbf78JMki0w2wTiQ70560nCU
- by54SiN7eKll+bmAABNB7xoaeg==
-X-Google-Smtp-Source: APiQypKc7ZWGJ3tbjdGwZ+og6c1ed7I6ukW3kRixkj5hvt5RJ2DVzi0VV2uMJ5RyCpvustnNUG4zsg==
-X-Received: by 2002:a17:90a:d101:: with SMTP id
- l1mr10285320pju.1.1586423269825; 
- Thu, 09 Apr 2020 02:07:49 -0700 (PDT)
-Received: from [10.27.0.138] ([45.135.186.113])
- by smtp.gmail.com with ESMTPSA id n23sm4988770pgb.88.2020.04.09.02.07.43
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 09 Apr 2020 02:07:49 -0700 (PDT)
-Subject: Re: [PATCH 1/2] uacce: Remove mm_exit() op
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- iommu@lists.linux-foundation.org, linux-accelerators@lists.ozlabs.org
-References: <20200408140427.212807-1-jean-philippe@linaro.org>
- <20200408140427.212807-2-jean-philippe@linaro.org>
-From: Zhangfei Gao <zhangfei.gao@linaro.org>
-Message-ID: <5741a4d9-c3ae-f0d6-27f9-550bbeaa4c4a@linaro.org>
-Date: Thu, 9 Apr 2020 17:07:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200408140427.212807-2-jean-philippe@linaro.org>
+ with ESMTP id kkPbzBhKIhTG for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Apr 2020 09:15:36 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by silver.osuosl.org (Postfix) with ESMTPS id 471802036B
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 09:15:36 +0000 (UTC)
+IronPort-SDR: XtI9osndr7bSyunydo88dTTbplUWm6cIyXnzBda/3VuXQLEDGcjE9FTPNSXrF4xy9tiJ40m7Le
+ lqJbPGt5l92A==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Apr 2020 02:15:35 -0700
+IronPort-SDR: LKI2mMlF5gRpfCpUQKmtzZ9HxbE2ZCqbs8lOz4VEi0+4c9z2xO8vzNilg/v2NJuYCA6ZkGE25f
+ Tbc1DvUcnVCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,362,1580803200"; d="scan'208";a="270024062"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+ by orsmga002.jf.intel.com with ESMTP; 09 Apr 2020 02:15:35 -0700
+Received: from fmsmsx111.amr.corp.intel.com (10.18.116.5) by
+ fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 9 Apr 2020 02:15:34 -0700
+Received: from shsmsx107.ccr.corp.intel.com (10.239.4.96) by
+ fmsmsx111.amr.corp.intel.com (10.18.116.5) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 9 Apr 2020 02:15:33 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.225]) by
+ SHSMSX107.ccr.corp.intel.com ([169.254.9.191]) with mapi id 14.03.0439.000;
+ Thu, 9 Apr 2020 17:15:30 +0800
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: RE: [PATCH v1 6/8] vfio/type1: Bind guest page tables to host
+Thread-Topic: [PATCH v1 6/8] vfio/type1: Bind guest page tables to host
+Thread-Index: AQHWAEUdkW8K+/kg/06c7098DvJyv6hgm8wAgANYlCCAAK00AIAA6IawgAEUvACABu4SMIACfjcAgACRzFA=
+Date: Thu, 9 Apr 2020 09:15:29 +0000
+Message-ID: <A2975661238FB949B60364EF0F2C25743A228CCA@SHSMSX104.ccr.corp.intel.com>
+References: <1584880325-10561-1-git-send-email-yi.l.liu@intel.com>
+ <1584880325-10561-7-git-send-email-yi.l.liu@intel.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D7FF98F@SHSMSX104.ccr.corp.intel.com>
+ <A2975661238FB949B60364EF0F2C25743A21D8C6@SHSMSX104.ccr.corp.intel.com>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D805F75@SHSMSX104.ccr.corp.intel.com>
+ <A2975661238FB949B60364EF0F2C25743A21ED01@SHSMSX104.ccr.corp.intel.com>
+ <20200403083407.GB1269501@myrica>
+ <A2975661238FB949B60364EF0F2C25743A224C8F@SHSMSX104.ccr.corp.intel.com>
+ <20200409082846.GE2435@myrica>
+In-Reply-To: <20200409082846.GE2435@myrica>
+Accept-Language: en-US
 Content-Language: en-US
-Cc: arnd@arndb.de, gregkh@linuxfoundation.org, jgg@ziepe.ca
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, "Raj,
+ Ashok" <ashok.raj@intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Sun,
+ Yi Y" <yi.y.sun@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Tian,
+ Jun J" <jun.j.tian@intel.com>, "Wu, Hao" <hao.wu@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,35 +101,73 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-CgpPbiAyMDIwLzQvOCDkuIvljYgxMDowNCwgSmVhbi1QaGlsaXBwZSBCcnVja2VyIHdyb3RlOgo+
-IFRoZSBtbV9leGl0KCkgb3Agd2lsbCBiZSByZW1vdmVkIGZyb20gdGhlIFNWQSBBUEkuIFdoZW4g
-YSBwcm9jZXNzIGRpZXMKPiBhbmQgaXRzIG1tIGdvZXMgYXdheSwgdGhlIElPTU1VIGRyaXZlciB3
-b24ndCBub3RpZnkgZGV2aWNlIGRyaXZlcnMKPiBhbnltb3JlLiBEcml2ZXJzIHNob3VsZCBleHBl
-Y3QgdG8gaGFuZGxlIGEgbG90IG1vcmUgYWJvcnRlZCBETUEuIE9uIHRoZQo+IHVwc2lkZSwgaXQg
-ZG9lcyBncmVhdGx5IHNpbXBsaWZ5IHRoZSBxdWV1ZSBtYW5hZ2VtZW50Lgo+Cj4gVGhlIHVhY2Nl
-X21tIHN0cnVjdCwgdGhhdCB0cmFja3MgYWxsIHF1ZXVlcyBib3VuZCB0byBhbiBtbSwgd2FzIG9u
-bHkKPiB1c2VkIGJ5IHRoZSBtbV9leGl0KCkgY2FsbGJhY2suIFJlbW92ZSBpdC4KPgo+IFNpZ25l
-ZC1vZmYtYnk6IEplYW4tUGhpbGlwcGUgQnJ1Y2tlciA8amVhbi1waGlsaXBwZUBsaW5hcm8ub3Jn
-PgpUaGFua3MgSmVhbiBmb3IgZG9pbmcgdGhpcy4KClRlc3RlZC1ieTogWmhhbmdmZWkgR2FvIDx6
-aGFuZ2ZlaS5nYW9AbGluYXJvLm9yZz4KCkV4Y2VwdCBvbmUgbGluZS4KPiAtc3RhdGljIHZvaWQg
-dWFjY2VfbW1fcHV0KHN0cnVjdCB1YWNjZV9xdWV1ZSAqcSkKPiArc3RhdGljIHZvaWQgdWFjY2Vf
-dW5iaW5kX3F1ZXVlKHN0cnVjdCB1YWNjZV9xdWV1ZSAqcSkKPiAgIHsKPiAtCXN0cnVjdCB1YWNj
-ZV9tbSAqdWFjY2VfbW0gPSBxLT51YWNjZV9tbTsKPiAtCj4gLQlsb2NrZGVwX2Fzc2VydF9oZWxk
-KCZxLT51YWNjZS0+bW1fbG9jayk7Cj4gLQo+IC0JbXV0ZXhfbG9jaygmdWFjY2VfbW0tPmxvY2sp
-Owo+IC0JbGlzdF9kZWwoJnEtPmxpc3QpOwo+IC0JbXV0ZXhfdW5sb2NrKCZ1YWNjZV9tbS0+bG9j
-ayk7Cj4gLQo+IC0JaWYgKGxpc3RfZW1wdHkoJnVhY2NlX21tLT5xdWV1ZXMpKSB7Cj4gLQkJaWYg
-KHVhY2NlX21tLT5oYW5kbGUpCj4gLQkJCWlvbW11X3N2YV91bmJpbmRfZGV2aWNlKHVhY2NlX21t
-LT5oYW5kbGUpOwo+IC0JCWxpc3RfZGVsKCZ1YWNjZV9tbS0+bGlzdCk7Cj4gLQkJa2ZyZWUodWFj
-Y2VfbW0pOwo+IC0JfQo+ICsJaWYgKCFxLT5oYW5kbGUpCj4gKwkJcmV0dXJuOwo+ICsJaW9tbXVf
-c3ZhX3VuYmluZF9kZXZpY2UocS0+aGFuZGxlKTsKKyBxLT5oYW5kbGUgPSAwOwoKT3RoZXJ3aXNl
-IGlvbW11X3N2YV91bmJpbmRfZGV2aWNlIG1heWJlIGNhbGxlZCB0d2ljZS4KU2luY2UgdWFjY2Vf
-dW5iaW5kX3F1ZXVlIGNhbiBiZSBjYWxsZWQgYnkgdWFjY2VfcmVtb3ZlIGFuZCB1YWNjZV9mb3Bz
-X3JlbGVhc2UuCgpUaGFua3MKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9u
-Lm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9p
-b21tdQ==
+> From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> Sent: Thursday, April 9, 2020 4:29 PM
+> To: Liu, Yi L <yi.l.liu@intel.com>
+> 
+> On Tue, Apr 07, 2020 at 10:33:25AM +0000, Liu, Yi L wrote:
+> > Hi Jean,
+> >
+> > > From: Jean-Philippe Brucker < jean-philippe@linaro.org >
+> > > Sent: Friday, April 3, 2020 4:35 PM
+> > > Subject: Re: [PATCH v1 6/8] vfio/type1: Bind guest page tables to host
+> > >
+> > > On Thu, Apr 02, 2020 at 08:05:29AM +0000, Liu, Yi L wrote:
+> > > > > > > > static long vfio_iommu_type1_ioctl(void *iommu_data,
+> > > > > > > >  		default:
+> > > > > > > >  			return -EINVAL;
+> > > > > > > >  		}
+> > > > > > > > +
+> > > > > > > > +	} else if (cmd == VFIO_IOMMU_BIND) {
+> > > > > > >
+> > > > > > > BIND what? VFIO_IOMMU_BIND_PASID sounds clearer to me.
+> > > > > >
+> > > > > > Emm, it's up to the flags to indicate bind what. It was proposed to
+> > > > > > cover the three cases below:
+> > > > > > a) BIND/UNBIND_GPASID
+> > > > > > b) BIND/UNBIND_GPASID_TABLE
+> > > > > > c) BIND/UNBIND_PROCESS
+> > > > > > <only a) is covered in this patch>
+> > > > > > So it's called VFIO_IOMMU_BIND.
+> > > > >
+> > > > > but aren't they all about PASID related binding?
+> > > >
+> > > > yeah, I can rename it. :-)
+> > >
+> > > I don't know if anyone intends to implement it, but SMMUv2 supports
+> > > nesting translation without any PASID support. For that case the name
+> > > VFIO_IOMMU_BIND_GUEST_PGTBL without "PASID" anywhere makes more
+> sense.
+> > > Ideally we'd also use a neutral name for the IOMMU API instead of
+> > > bind_gpasid(), but that's easier to change later.
+> >
+> > I agree VFIO_IOMMU_BIND is somehow not straight-forward. Especially, it may
+> > cause confusion when thinking about VFIO_SET_IOMMU. How about using
+> > VFIO_NESTING_IOMMU_BIND_STAGE1 to cover a) and b)? And has another
+> > VFIO_BIND_PROCESS in future for the SVA bind case.
+> 
+> I think minimizing the number of ioctls is more important than finding the
+> ideal name. VFIO_IOMMU_BIND was fine to me, but if it's too vague then
+> rename it to VFIO_IOMMU_BIND_PASID and we'll just piggy-back on it for
+> non-PASID things (they should be rare enough).
+maybe we can start with VFIO_IOMMU_BIND_PASID. Actually, there is
+also a discussion on reusing the same ioctl and vfio structure for
+pasid_alloc/free, bind/unbind_gpasid. and cache_inv. how about your
+opinion?
+
+https://lkml.org/lkml/2020/4/3/833
+
+Regards,
+Yi Liu
+
+
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
