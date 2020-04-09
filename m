@@ -1,72 +1,99 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639691A3563
-	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 16:08:43 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3865E1A35C0
+	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 16:19:48 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 1317B20500;
-	Thu,  9 Apr 2020 14:08:42 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B2CC386B62;
+	Thu,  9 Apr 2020 14:19:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7NOjmMbxlNfZ; Thu,  9 Apr 2020 14:08:38 +0000 (UTC)
+	with ESMTP id Y7vySsiAF1zV; Thu,  9 Apr 2020 14:19:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id CA92020525;
-	Thu,  9 Apr 2020 14:08:38 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1209886B59;
+	Thu,  9 Apr 2020 14:19:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ADC55C0177;
-	Thu,  9 Apr 2020 14:08:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F111BC0177;
+	Thu,  9 Apr 2020 14:19:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CFC1AC0177
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 14:08:36 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6F739C0177
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 14:19:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 9E153203BB
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 14:08:35 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 64E5F2051A
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 14:19:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VRch-3vBPXnY for <iommu@lists.linux-foundation.org>;
- Thu,  9 Apr 2020 14:08:34 +0000 (UTC)
+ with ESMTP id IuPFlcnxIEXD for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Apr 2020 14:19:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by silver.osuosl.org (Postfix) with ESMTPS id 3047820449
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 14:08:34 +0000 (UTC)
-IronPort-SDR: lRtK/B+OdxCTR9Kc3eMNB0iNXBxE7xtFRnTPoDX4gH+aUHNqDEa9eh7MzV6FCO5A2WQj7ZEr6R
- ca38HZ4ou9RA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Apr 2020 07:08:33 -0700
-IronPort-SDR: dt9uFhbpbzQE2SppFY7xvwPd7a9KjYmkjMHS8yJ8SLq4GgGMxrXAwGC68xges7T5xzCOT4qa46
- CtGPdg/CbGYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,362,1580803200"; d="scan'208";a="425516630"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga005.jf.intel.com with ESMTP; 09 Apr 2020 07:08:33 -0700
-Date: Thu, 9 Apr 2020 07:14:24 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH 0/2] iommu: Remove iommu_sva_ops::mm_exit()
-Message-ID: <20200409071424.1653b889@jacob-builder>
-In-Reply-To: <20200409063905.GA2435@myrica>
-References: <20200408140427.212807-1-jean-philippe@linaro.org>
- <20200408113552.7888bfee@jacob-builder>
- <20200408190226.GA11886@ziepe.ca>
- <20200408143552.57f5837c@jacob-builder>
- <20200408223218.GC11886@ziepe.ca>
- <20200408164802.155a69e3@jacob-builder>
- <20200409063905.GA2435@myrica>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+ [209.85.221.68])
+ by silver.osuosl.org (Postfix) with ESMTPS id EE427203C2
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 14:19:42 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id h9so12122053wrc.8
+ for <iommu@lists.linux-foundation.org>; Thu, 09 Apr 2020 07:19:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZUmhXgHoG6HvjILgsbXz8GHCgll+LOxrRpBdz13V/lg=;
+ b=BC90dwXA5AK4WR90ooTtvULwZnu4ZsRVQnQLV9NzDFZ7lKqicRXsEGPNedNOxy+3QI
+ a1kmoOXSFteeDxdRL+7e8P62DjjD9bQZg3s3fofRhJoe7L1J9a46LbUxrQ6AtBTORXKV
+ NDIKSoT9CEStlFz6MiX3tbzgvTr7KX9SEjLdYBH0eiP7EZNSClTpfzc0SSPSYynPiChj
+ rYQTfJjtkntOCwrv+a6GMvAsCqYj/CQkd4PMEIkllHf9XhpKzORn/6xDs0+pafSbvmxv
+ oU2GBI4+6mAQrXmQRuIHv6FAH1pdnq+zGKXLFmqILm/RS3QETgMEHnp/o0W7dlcGkPIh
+ SqeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZUmhXgHoG6HvjILgsbXz8GHCgll+LOxrRpBdz13V/lg=;
+ b=DttKBt3BQwCZAQHeBO+X3ep6dnZgiVDIW100dVsamClcJtxF3mfUPiDJwQBreWnpeI
+ 957BgR0Rz4w/iPSDKbQ7R2sP//kK2EI7IwkzNvdyh1ws+7caz9IkTzGf8RjFVsD9ApSO
+ Sxfoh6livGnYGRyDwBkiaYOSDhCxs7Jm6LleRYFvkc/uUj28QCbbzDRWKSSX+qG6POgI
+ XxgCottpWlRRp02JdKNyot5po9RSG7syAG3Jf6fMx7mY6I+gJB8Sh13mLGFIBQ6xAFDW
+ hoM5iqR6dSlyPNpbP9eeSxPO+gS7D4LaTTACsILOym38Ouz1RsfQi7G3pWXgtAz2WDee
+ 7sqQ==
+X-Gm-Message-State: AGi0PuZmayJP337QVv4hEH8OhD02ypUDaW6KEWQ/FhdFAFr2ZdC7Wojy
+ 3fs/Qp3ZBZRIi1BIcie6iQJ1v6Zas8ERwFhVvTY=
+X-Google-Smtp-Source: APiQypLOoBbfys5GjBpuB2sw0gQny4RebKmCrdoglSc09SupmnqmNJDVTgB3bGVTn0oBHL2+TIHKXrenRgwfEr3zhLg=
+X-Received: by 2002:a5d:4145:: with SMTP id c5mr9091691wrq.362.1586441981450; 
+ Thu, 09 Apr 2020 07:19:41 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "Yu, Fenghua" <fenghua.yu@intel.com>, arnd@arndb.de,
- gregkh@linuxfoundation.org, iommu@lists.linux-foundation.org,
- Jason Gunthorpe <jgg@ziepe.ca>, zhangfei.gao@linaro.org,
- linux-accelerators@lists.ozlabs.org
+References: <20200408115926.1467567-1-hch@lst.de>
+ <20200408115926.1467567-20-hch@lst.de>
+ <20200408122504.GO3456981@phenom.ffwll.local>
+ <eb48f7b6327e482ea9911b129210c0417ab48345.camel@kernel.crashing.org>
+ <CAKMK7uHtkLvdsWFGiAtkzVa5mpnDvXkn3CHZQ6bgJ_enbyAc8A@mail.gmail.com>
+In-Reply-To: <CAKMK7uHtkLvdsWFGiAtkzVa5mpnDvXkn3CHZQ6bgJ_enbyAc8A@mail.gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 9 Apr 2020 10:19:30 -0400
+Message-ID: <CADnq5_MjTSm6j=_8huVQ854H6jXY5Rg36wc31QDfOpfjfscWxA@mail.gmail.com>
+Subject: Re: [PATCH 19/28] gpu/drm: remove the powerpc hack in
+ drm_legacy_sg_alloc
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Linux MM <linux-mm@kvack.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Christoph Hellwig <hch@lst.de>,
+ "open list:GENERIC INCLUDE/A..." <linux-arch@vger.kernel.org>,
+ linux-s390@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>, X86 ML <x86@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Laura Abbott <labbott@redhat.com>,
+ Nitin Gupta <ngupta@vflare.org>, Haiyang Zhang <haiyangz@microsoft.com>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Christophe Leroy <christophe.leroy@c-s.fr>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Minchan Kim <minchan@kernel.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ bpf <bpf@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,169 +111,105 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, 9 Apr 2020 08:39:05 +0200
-Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+On Thu, Apr 9, 2020 at 5:41 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, Apr 9, 2020 at 10:54 AM Benjamin Herrenschmidt
+> <benh@kernel.crashing.org> wrote:
+> >
+> > On Wed, 2020-04-08 at 14:25 +0200, Daniel Vetter wrote:
+> > > On Wed, Apr 08, 2020 at 01:59:17PM +0200, Christoph Hellwig wrote:
+> > > > If this code was broken for non-coherent caches a crude powerpc hack
+> > > > isn't going to help anyone else.  Remove the hack as it is the last
+> > > > user of __vmalloc passing a page protection flag other than PAGE_KERNEL.
+> > >
+> > > Well Ben added this to make stuff work on ppc, ofc the home grown dma
+> > > layer in drm from back then isn't going to work in other places. I guess
+> > > should have at least an ack from him, in case anyone still cares about
+> > > this on ppc. Adding Ben to cc.
+> >
+> > This was due to some drivers (radeon ?) trying to use vmalloc pages for
+> > coherent DMA, which means on those 4xx powerpc's need to be non-cached.
+> >
+> > There were machines using that (440 based iirc), though I honestly
+> > can't tell if anybody still uses any of it.
+>
+> agp subsystem still seems to happily do that (vmalloc memory for
+> device access), never having been ported to dma apis (or well
+> converted to iommu drivers, which they kinda are really). So I think
+> this all still works exactly as back then, even with the kms radeon
+> drivers. Question really is whether we have users left, and I have no
+> clue about that either.
+>
+> Now if these boxes didn't ever have agp then I think we can get away
+> with deleting this, since we've already deleted the legacy radeon
+> driver. And that one used vmalloc for everything. The new kms one does
+> use the dma-api if the gpu isn't connected through agp.
 
-> On Wed, Apr 08, 2020 at 04:48:02PM -0700, Jacob Pan wrote:
-> > On Wed, 8 Apr 2020 19:32:18 -0300
-> > Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >   
-> > > On Wed, Apr 08, 2020 at 02:35:52PM -0700, Jacob Pan wrote:  
-> > > > > On Wed, Apr 08, 2020 at 11:35:52AM -0700, Jacob Pan wrote:    
-> > > > > > Hi Jean,
-> > > > > > 
-> > > > > > On Wed,  8 Apr 2020 16:04:25 +0200
-> > > > > > Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
-> > > > > >       
-> > > > > > > The IOMMU SVA API currently requires device drivers to
-> > > > > > > implement an mm_exit() callback, which stops device jobs
-> > > > > > > that do DMA. This function is called in the release() MMU
-> > > > > > > notifier, when an address space that is shared with a
-> > > > > > > device exits.
-> > > > > > > 
-> > > > > > > It has been noted several time during discussions about
-> > > > > > > SVA that cancelling DMA jobs can be slow and complex, and
-> > > > > > > doing it in the release() notifier might cause
-> > > > > > > synchronization issues (patch 2 has more background).
-> > > > > > > Device drivers must in any case call unbind() to remove
-> > > > > > > their bond, after stopping DMA from a more favorable
-> > > > > > > context (release of a file descriptor).
-> > > > > > > 
-> > > > > > > So after mm exits, rather than notifying device drivers,
-> > > > > > > we can hold on to the PASID until unbind(), ask IOMMU
-> > > > > > > drivers to silently abort DMA and Page Requests in the
-> > > > > > > meantime. This change should relieve the mmput()
-> > > > > > > path.      
-> > > > > >
-> > > > > > I assume mm is destroyed after all the FDs are closed      
-> > > > > 
-> > > > > FDs do not hold a mmget(), but they may hold a mmgrab(), ie
-> > > > > anything using mmu_notifiers has to hold a grab until the
-> > > > > notifier is destroyed, which is often triggered by FD close.
-> > > > >     
-> > > > Sorry, I don't get this. Are you saying we have to hold a
-> > > > mmgrab() between svm_bind/mmu_notifier_register and
-> > > > svm_unbind/mmu_notifier_unregister?    
-> > > 
-> > > Yes. This is done automatically for the caller inside the
-> > > mmu_notifier implementation. We now even store the mm_struct
-> > > pointer inside the notifier.
-> > > 
-> > > Once a notifier is registered the mm_struct remains valid memory
-> > > until the notifier is unregistered.
-> > >   
-> > > > Isn't the idea of mmu_notifier is to avoid holding the mm
-> > > > reference and rely on the notifier to tell us when mm is going
-> > > > away?    
-> > > 
-> > > The notifier only holds a mmgrab(), not a mmget() - this allows
-> > > exit_mmap to proceed, but the mm_struct memory remains.
-> > > 
-> > > This is also probably why it is a bad idea to tie the lifetime of
-> > > something like a pasid to the mmdrop as a evil user could cause a
-> > > large number of mm structs to be released but not freed, probably
-> > > defeating cgroup limits and so forth (not sure)
-> > >   
-> > > > It seems both Intel and AMD iommu drivers don't hold mmgrab
-> > > > after mmu_notifier_register.    
-> > > 
-> > > It is done internally to the implementation.
-> > >   
-> > > > > So the exit_mmap() -> release() may happen before the FDs are
-> > > > > destroyed, but the final mmdrop() will be during some FD
-> > > > > release when the final mmdrop() happens.    
-> > > > 
-> > > > Do you mean mmdrop() is after FD release?     
-> > > 
-> > > Yes, it will be done by the mmu_notifier_unregister(), which
-> > > should be called during FD release if the iommu lifetime is
-> > > linked to some FD. 
-> > > > If so, unbind is called in FD release should take care of
-> > > > everything, i.e. stops DMA, clear PASID context on IOMMU, flush
-> > > > PRS queue etc.    
-> > > 
-> > > Yes, this is the proper way, when the DMA is stopped and no use
-> > > of the PASID remains then you can drop the mmu notifier and
-> > > release the PASID entirely. If that is linked to the lifetime of
-> > > the FD then forget completely about the mm_struct lifetime, it
-> > > doesn't matter.. 
-> > Got everything above, thanks a lot.
-> > 
-> > If everything is in order with the FD close. Why do we need to 
-> > "ask IOMMU drivers to silently abort DMA and Page Requests in the
-> > meantime." in mm_exit notifier? This will be done orderly in unbind
-> > anyway.  
-> 
-> When the process is killed, mm release can happen before fds are
-> released. If you look at do_exit() in kernel/exit.c:
-> 
-> 	exit_mm()
-> 	  mmput()
-> 	   -> mmu release notifier  
-> 	...
-> 	exit_files()
-> 	  close_files()
-> 	    fput()
-> 	exit_task_work()
-> 	  __fput()
-> 	   -> unbind()  
-> 
-So unbind is coming anyway, the difference in handling in mmu release
-notifier is whether we silently drop DMA fault vs. reporting fault?
-If a process crash during unbind, something already went seriously
-wrong, DMA fault is expected.
-I think having some error indication is useful, compared to "silently
-drop"
+All radeons have a built in remapping table to handle non-AGP systems.
+On the earlier radeons it wasn't quite as performant as AGP, but it
+was always more reliable because AGP is AGP.  Maybe it's time to let
+AGP go?
 
-Thanks,
+Alex
 
-Jacob
-
-> Thanks,
-> Jean
-> 
-> >   
-> > > > Enforcing unbind upon FD close might be a precarious path,
-> > > > perhaps that is why we have to deal with out of order
-> > > > situation?    
-> > > 
-> > > How so? You just put it in the FD release function :)
-> > >   
-> > I was thinking some driver may choose to defer unbind in some
-> > workqueue etc.
-> >   
-> > > > > > In VT-d, because of enqcmd and lazy PASID free we plan to
-> > > > > > hold on to the PASID until mmdrop.
-> > > > > > https://lore.kernel.org/patchwork/patch/1217762/      
-> > > > > 
-> > > > > Why? The bind already gets a mmu_notifier which has refcounts
-> > > > > and the right lifetime for PASID.. This code could already be
-> > > > > simplified by using the mmu_notifier_get()/put() stuff.
-> > > > >     
-> > > > Yes, I guess mmu_notifier_get()/put() is new :)
-> > > > +Fenghua    
-> > > 
-> > > I was going to convert the intel code when I did many other
-> > > drivers, but it was a bit too complex..
-> > > 
-> > > But the approach is straightforward. Get rid of the mm search
-> > > list and use mmu_notifier_get(). This returns a singlton notifier
-> > > for the mm_struct and handles refcounting/etc
-> > > 
-> > > Use mmu_notifier_put() during a unbind, it will callback to
-> > > free_notifier() to do the final frees (ie this is where the pasid
-> > > should go away)
-> > > 
-> > > For the SVM_FLAG_PRIVATE_PASID continue to use
-> > > mmu_notifier_register, however this can now be mixed with
-> > > mmu_notifier_put() so the cleanup is the same. A separate ops
-> > > static struct is needed to create a unique key though
-> > > 
-> > > Jason  
-> > 
-> > [Jacob Pan]  
-
-[Jacob Pan]
+> -Daniel
+>
+> > Cheers,
+> > Ben.
+> >
+> > > -Daniel
+> > >
+> > > >
+> > > > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_scatter.c | 11 +----------
+> > > >  1 file changed, 1 insertion(+), 10 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_scatter.c b/drivers/gpu/drm/drm_scatter.c
+> > > > index ca520028b2cb..f4e6184d1877 100644
+> > > > --- a/drivers/gpu/drm/drm_scatter.c
+> > > > +++ b/drivers/gpu/drm/drm_scatter.c
+> > > > @@ -43,15 +43,6 @@
+> > > >
+> > > >  #define DEBUG_SCATTER 0
+> > > >
+> > > > -static inline void *drm_vmalloc_dma(unsigned long size)
+> > > > -{
+> > > > -#if defined(__powerpc__) && defined(CONFIG_NOT_COHERENT_CACHE)
+> > > > -   return __vmalloc(size, GFP_KERNEL, pgprot_noncached_wc(PAGE_KERNEL));
+> > > > -#else
+> > > > -   return vmalloc_32(size);
+> > > > -#endif
+> > > > -}
+> > > > -
+> > > >  static void drm_sg_cleanup(struct drm_sg_mem * entry)
+> > > >  {
+> > > >     struct page *page;
+> > > > @@ -126,7 +117,7 @@ int drm_legacy_sg_alloc(struct drm_device *dev, void *data,
+> > > >             return -ENOMEM;
+> > > >     }
+> > > >
+> > > > -   entry->virtual = drm_vmalloc_dma(pages << PAGE_SHIFT);
+> > > > +   entry->virtual = vmalloc_32(pages << PAGE_SHIFT);
+> > > >     if (!entry->virtual) {
+> > > >             kfree(entry->busaddr);
+> > > >             kfree(entry->pagelist);
+> > > > --
+> > > > 2.25.1
+> > > >
+> > >
+> > >
+> >
+>
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
