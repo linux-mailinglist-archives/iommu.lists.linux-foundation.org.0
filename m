@@ -1,86 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E51481A3214
-	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 11:45:03 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB881A3253
+	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 12:14:48 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A6DED86019;
-	Thu,  9 Apr 2020 09:45:02 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D276787A33;
+	Thu,  9 Apr 2020 10:14:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UAqCwPO6twQc; Thu,  9 Apr 2020 09:45:02 +0000 (UTC)
+	with ESMTP id ZoaCvC0uPrfK; Thu,  9 Apr 2020 10:14:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 39FFD875E0;
-	Thu,  9 Apr 2020 09:45:02 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2C56487A15;
+	Thu,  9 Apr 2020 10:14:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 21C19C1D87;
-	Thu,  9 Apr 2020 09:45:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0BB90C1D89;
+	Thu,  9 Apr 2020 10:14:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5F87EC0177
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 09:45:01 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D2D46C0177
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 10:14:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 4A12B854D0
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 09:45:01 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id BC41E204B1
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 10:14:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MOroKUzXN0lw for <iommu@lists.linux-foundation.org>;
- Thu,  9 Apr 2020 09:45:00 +0000 (UTC)
+ with ESMTP id mgYDRaMvtn53 for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Apr 2020 10:14:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id CBAC5853D3
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 09:44:59 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id h2so3228436wmb.4
- for <iommu@lists.linux-foundation.org>; Thu, 09 Apr 2020 02:44:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=PesRHogudULc4/x9yhdrVQgI67Y/2LGQZWmhimPv3t4=;
- b=pPOs1I9W3kE0K0EX32bKoAS7AYeVXe/ym1tzYg00fJ1JDUmSPicjSIVRZkZ7tr403a
- Hn17sphcjZjxUHxDMHrcZYBwZcHOkCQpBHJWEHLF72kAyR95pS45Ua1yguLyI74N+BR+
- uD9wHsMyKQrzFG19X0J3ZGmKhQ9sGhQx0d7dCPmr59w3yWlzvZLXH9S7Uyd1sPCe+9tA
- 7lN+YtMD1q8vcrccr8rCM96+DB13c5XsBsatyYRP64GXCF6RN8JXpLLiQnCAINtrC3aZ
- 1S6cvDKFr2Xd4o5yOSKoAoH4Mzb1prXSGfPxBCmkJ2OQYEg9PQpScVHFCK0+EPR5a/ix
- LF/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=PesRHogudULc4/x9yhdrVQgI67Y/2LGQZWmhimPv3t4=;
- b=B0oiv2x7Y2GhLMCe8vJy6UtXUPV465PWE9E9WWV2gNQUkwKSF2ETk2WakVvNxJyW++
- 1vPidlP/XbUwsYz/yianXMnCid3hwYL8xGA4lQjYGYmrdPh5mByEPROwK+gdkku6xDd+
- wQzF0a02wL9jV5KSZObVS9Iyaz78tDEcfNve9EB/RrO8eSrdpNhGnGONknikNGGL2UB6
- WVByX7i+4+faqAoBsfU4Eqobz4lIpFEAxCW/Z2gSoluhbDdFnk3lFRhUGHIWFfXHZyRD
- 4BmLLNyzZqy9CgGFVaY/Iwg5EOT+X1RuFzJN8MNhUMRHO2fYCQDytYHb3HbI2GeBFlga
- mN1Q==
-X-Gm-Message-State: AGi0Puaw2SR3ntizllEKKpwmA6Nbl3liyVQVagf4B19uidyGAQZgwfM9
- WYOvo2KQRgxLnUgv0m2hCxsOVw==
-X-Google-Smtp-Source: APiQypLIUrIgM2XxQKdDqHVNyQcqogr57r2ycGCfdl5Lf1OXr2lVGgFDaKqXk4q7eve0zFW7IYgvLg==
-X-Received: by 2002:a1c:4c10:: with SMTP id z16mr9291034wmf.77.1586425498203; 
- Thu, 09 Apr 2020 02:44:58 -0700 (PDT)
-Received: from myrica ([2001:171b:226b:54a0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id n6sm2998144wmc.28.2020.04.09.02.44.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Apr 2020 02:44:57 -0700 (PDT)
-Date: Thu, 9 Apr 2020 11:44:50 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Zhangfei Gao <zhangfei.gao@linaro.org>
-Subject: Re: [PATCH 1/2] uacce: Remove mm_exit() op
-Message-ID: <20200409094450.GI2435@myrica>
-References: <20200408140427.212807-1-jean-philippe@linaro.org>
- <20200408140427.212807-2-jean-philippe@linaro.org>
- <5741a4d9-c3ae-f0d6-27f9-550bbeaa4c4a@linaro.org>
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [207.211.31.81])
+ by silver.osuosl.org (Postfix) with ESMTPS id 9E787203BD
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 10:14:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1586427282;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2CTnIFk7SlnjgfgjAutkIHAGc8WK5Yz+a7QSuHJlIns=;
+ b=b8uzVnoOXS9VVDlnnOZr3lOZIOk/xjg4YT5oKywMOEkXwtC2nyMJJRA/EeDfvw6RoTO+Ch
+ YAK72BPvdcmGVIlAibjWKdsJqVl567eWfV8ObUltLB7GySFbhG3k/eZRZHgeDvIuskj6HC
+ IXSwdq18v2url2vj4PcsWCnNyjl5FhY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-08xiuF_KNYOglmQhzs9DPA-1; Thu, 09 Apr 2020 06:14:40 -0400
+X-MC-Unique: 08xiuF_KNYOglmQhzs9DPA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A787B149C0;
+ Thu,  9 Apr 2020 10:14:38 +0000 (UTC)
+Received: from [10.36.115.53] (ovpn-115-53.ams2.redhat.com [10.36.115.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 231CAD766F;
+ Thu,  9 Apr 2020 10:14:32 +0000 (UTC)
+Subject: Re: [PATCH v11 08/10] iommu/vt-d: Cache virtual command capability
+ register
+To: Jacob Pan <jacob.jun.pan@linux.intel.com>,
+ Lu Baolu <baolu.lu@linux.intel.com>, iommu@lists.linux-foundation.org,
+ LKML <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ David Woodhouse <dwmw2@infradead.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>
+References: <1585939334-21396-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1585939334-21396-9-git-send-email-jacob.jun.pan@linux.intel.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <43e7452c-dea8-934c-105e-05798cb1d225@redhat.com>
+Date: Thu, 9 Apr 2020 12:14:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5741a4d9-c3ae-f0d6-27f9-550bbeaa4c4a@linaro.org>
-Cc: gregkh@linuxfoundation.org, iommu@lists.linux-foundation.org, arnd@arndb.de,
- linux-accelerators@lists.ozlabs.org, jgg@ziepe.ca
+In-Reply-To: <1585939334-21396-9-git-send-email-jacob.jun.pan@linux.intel.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,38 +91,82 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gVGh1LCBBcHIgMDksIDIwMjAgYXQgMDU6MDc6MzRQTSArMDgwMCwgWmhhbmdmZWkgR2FvIHdy
-b3RlOgo+IAo+IAo+IE9uIDIwMjAvNC84IOS4i+WNiDEwOjA0LCBKZWFuLVBoaWxpcHBlIEJydWNr
-ZXIgd3JvdGU6Cj4gPiBUaGUgbW1fZXhpdCgpIG9wIHdpbGwgYmUgcmVtb3ZlZCBmcm9tIHRoZSBT
-VkEgQVBJLiBXaGVuIGEgcHJvY2VzcyBkaWVzCj4gPiBhbmQgaXRzIG1tIGdvZXMgYXdheSwgdGhl
-IElPTU1VIGRyaXZlciB3b24ndCBub3RpZnkgZGV2aWNlIGRyaXZlcnMKPiA+IGFueW1vcmUuIERy
-aXZlcnMgc2hvdWxkIGV4cGVjdCB0byBoYW5kbGUgYSBsb3QgbW9yZSBhYm9ydGVkIERNQS4gT24g
-dGhlCj4gPiB1cHNpZGUsIGl0IGRvZXMgZ3JlYXRseSBzaW1wbGlmeSB0aGUgcXVldWUgbWFuYWdl
-bWVudC4KPiA+IAo+ID4gVGhlIHVhY2NlX21tIHN0cnVjdCwgdGhhdCB0cmFja3MgYWxsIHF1ZXVl
-cyBib3VuZCB0byBhbiBtbSwgd2FzIG9ubHkKPiA+IHVzZWQgYnkgdGhlIG1tX2V4aXQoKSBjYWxs
-YmFjay4gUmVtb3ZlIGl0Lgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBKZWFuLVBoaWxpcHBlIEJy
-dWNrZXIgPGplYW4tcGhpbGlwcGVAbGluYXJvLm9yZz4KPiBUaGFua3MgSmVhbiBmb3IgZG9pbmcg
-dGhpcy4KPiAKPiBUZXN0ZWQtYnk6IFpoYW5nZmVpIEdhbyA8emhhbmdmZWkuZ2FvQGxpbmFyby5v
-cmc+Cj4gCj4gRXhjZXB0IG9uZSBsaW5lLgo+ID4gLXN0YXRpYyB2b2lkIHVhY2NlX21tX3B1dChz
-dHJ1Y3QgdWFjY2VfcXVldWUgKnEpCj4gPiArc3RhdGljIHZvaWQgdWFjY2VfdW5iaW5kX3F1ZXVl
-KHN0cnVjdCB1YWNjZV9xdWV1ZSAqcSkKPiA+ICAgewo+ID4gLQlzdHJ1Y3QgdWFjY2VfbW0gKnVh
-Y2NlX21tID0gcS0+dWFjY2VfbW07Cj4gPiAtCj4gPiAtCWxvY2tkZXBfYXNzZXJ0X2hlbGQoJnEt
-PnVhY2NlLT5tbV9sb2NrKTsKPiA+IC0KPiA+IC0JbXV0ZXhfbG9jaygmdWFjY2VfbW0tPmxvY2sp
-Owo+ID4gLQlsaXN0X2RlbCgmcS0+bGlzdCk7Cj4gPiAtCW11dGV4X3VubG9jaygmdWFjY2VfbW0t
-PmxvY2spOwo+ID4gLQo+ID4gLQlpZiAobGlzdF9lbXB0eSgmdWFjY2VfbW0tPnF1ZXVlcykpIHsK
-PiA+IC0JCWlmICh1YWNjZV9tbS0+aGFuZGxlKQo+ID4gLQkJCWlvbW11X3N2YV91bmJpbmRfZGV2
-aWNlKHVhY2NlX21tLT5oYW5kbGUpOwo+ID4gLQkJbGlzdF9kZWwoJnVhY2NlX21tLT5saXN0KTsK
-PiA+IC0JCWtmcmVlKHVhY2NlX21tKTsKPiA+IC0JfQo+ID4gKwlpZiAoIXEtPmhhbmRsZSkKPiA+
-ICsJCXJldHVybjsKPiA+ICsJaW9tbXVfc3ZhX3VuYmluZF9kZXZpY2UocS0+aGFuZGxlKTsKPiAr
-IHEtPmhhbmRsZSA9IDA7Cj4gCj4gT3RoZXJ3aXNlIGlvbW11X3N2YV91bmJpbmRfZGV2aWNlIG1h
-eWJlIGNhbGxlZCB0d2ljZS4KPiBTaW5jZSB1YWNjZV91bmJpbmRfcXVldWUgY2FuIGJlIGNhbGxl
-ZCBieSB1YWNjZV9yZW1vdmUgYW5kIHVhY2NlX2ZvcHNfcmVsZWFzZS4KClRoYW5rcywgSSdsbCBh
-ZGQgaXQgaW4gdjIKCkplYW4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24u
-b3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lv
-bW11
+Hi Jacob,
+
+On 4/3/20 8:42 PM, Jacob Pan wrote:
+> Virtual command registers are used in the guest only, to prevent
+> vmexit cost, we cache the capability and store it during initialization.
+> 
+> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+nit: following Joerg's comment on 02/10, may be worth squashing it into
+the patch that uses it (10/10)
+
+Thanks
+
+Eric
+> 
+> ---
+> v7 Reviewed by Eric & Baolu
+> ---
+> 
+> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> ---
+>  drivers/iommu/dmar.c        | 1 +
+>  include/linux/intel-iommu.h | 5 +++++
+>  2 files changed, 6 insertions(+)
+> 
+> diff --git a/drivers/iommu/dmar.c b/drivers/iommu/dmar.c
+> index 4d6b7b5b37ee..3b36491c8bbb 100644
+> --- a/drivers/iommu/dmar.c
+> +++ b/drivers/iommu/dmar.c
+> @@ -963,6 +963,7 @@ static int map_iommu(struct intel_iommu *iommu, u64 phys_addr)
+>  		warn_invalid_dmar(phys_addr, " returns all ones");
+>  		goto unmap;
+>  	}
+> +	iommu->vccap = dmar_readq(iommu->reg + DMAR_VCCAP_REG);
+>  
+>  	/* the registers might be more than one page */
+>  	map_size = max_t(int, ecap_max_iotlb_offset(iommu->ecap),
+> diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
+> index f775bb825343..e02a96848586 100644
+> --- a/include/linux/intel-iommu.h
+> +++ b/include/linux/intel-iommu.h
+> @@ -194,6 +194,9 @@
+>  #define ecap_max_handle_mask(e) ((e >> 20) & 0xf)
+>  #define ecap_sc_support(e)	((e >> 7) & 0x1) /* Snooping Control */
+>  
+> +/* Virtual command interface capability */
+> +#define vccap_pasid(v)		((v & DMA_VCS_PAS)) /* PASID allocation */
+> +
+>  /* IOTLB_REG */
+>  #define DMA_TLB_FLUSH_GRANU_OFFSET  60
+>  #define DMA_TLB_GLOBAL_FLUSH (((u64)1) << 60)
+> @@ -287,6 +290,7 @@
+>  
+>  /* PRS_REG */
+>  #define DMA_PRS_PPR	((u32)1)
+> +#define DMA_VCS_PAS	((u64)1)
+>  
+>  #define IOMMU_WAIT_OP(iommu, offset, op, cond, sts)			\
+>  do {									\
+> @@ -562,6 +566,7 @@ struct intel_iommu {
+>  	u64		reg_size; /* size of hw register set */
+>  	u64		cap;
+>  	u64		ecap;
+> +	u64		vccap;
+>  	u32		gcmd; /* Holds TE, EAFL. Don't need SRTP, SFL, WBF */
+>  	raw_spinlock_t	register_lock; /* protect register handling */
+>  	int		seq_id;	/* sequence id of the iommu */
+> 
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
