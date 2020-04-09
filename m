@@ -2,96 +2,62 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259801A2FC7
-	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 09:11:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352AC1A2E27
+	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 06:05:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 66A6286FFF;
-	Thu,  9 Apr 2020 07:11:27 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 99C2C869BF;
+	Thu,  9 Apr 2020 04:05:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MAlxTHquGvmR; Thu,  9 Apr 2020 07:11:26 +0000 (UTC)
+	with ESMTP id SLw3zLC0x0QF; Thu,  9 Apr 2020 04:05:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 71BE38704C;
-	Thu,  9 Apr 2020 07:11:26 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1ABA58698E;
+	Thu,  9 Apr 2020 04:05:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 56FEBC0177;
-	Thu,  9 Apr 2020 07:11:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 159A9C0177;
+	Thu,  9 Apr 2020 04:05:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BD9F9C0177
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:51:55 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 32F24C0177
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 04:05:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A75A685C90
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:51:55 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 1C7D3203ED
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 04:05:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QZCheSfFl76o for <iommu@lists.linux-foundation.org>;
- Thu,  9 Apr 2020 00:51:54 +0000 (UTC)
+ with ESMTP id MPyt7QejnqlB for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Apr 2020 04:05:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from sonic315-48.consmr.mail.ne1.yahoo.com
- (sonic315-48.consmr.mail.ne1.yahoo.com [66.163.190.174])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 8CB04809F3
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 00:51:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1586393513; bh=/6EYCRlfa2umBwyf6HMqnS88iYA4EIXadLKaqqSMGXc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From:Subject;
- b=HvieXGvbwHIVIK/gYKQ1lC4pzEkccIoUtFVCXKQJQyyr9anzfAW4kR7cdzHKQVNdwKv2LwnplwjrD0aQkxt9HvZDnn0uRd9Jv6iSywy0mJFsQxB7g1WWgMN24xWmdS8GH+Id1lAeviwVAS624VUdgJOtK4L566xJwPjUiHuettyW8dE3sEmWtm4sMt5IL1ChkMHC+w6Bdr4Li8wh6mU9LmIoV/4GDMCB24Z6Ty2aJCnlNjtwzQWnhd2D07pQK7rk5fpC4u5SpSrA/nKGFxKgnZ54pp3f2NruS1R0bo8EPEXa754Eg/5Uww55uIFzHYKa9LpN3Co6H2k2pwG2l4jzcg==
-X-YMail-OSG: Kjs_hFQVM1mYR3Bbv__auOf2fhoaIk9dbexLkMUvZvDcgibPrEIH2uN_nb7TSk.
- AjTVDttprz38pf2agkDENCO9OlpstM6AKa5fqJSzz9g9BDnD9cEKZ6Kcqg9CatwzLNYThMuSUeYX
- 2yEgN2U8e5xgtZHtWmAFsIbznPJD_UPhljYJl2r_EoL5qqrqeJu9Nnd9Y.Ff.0cQ6SO_SlnVXMbj
- JYEgiFEkwq6TWViREF0oZDh5a7V1WTHk_fQL7mKo.zfkeUUkf9r2PC3YbrlM36YDrBNE7Vu_H_23
- 7SUm_oYUdCkn.imVzOSTsbg1UKej12C_c6DVKmb2bShJF7ckagBec7h.F7Pz2jADVU.RAf_SzeRw
- jnXQU.OYwZs7DtYvRPtgjcVfmgAxeq8RUp0VPoOeRchdyRoGHKkYEH1l0ufQv3CAgRqC9S3zsOd9
- fnhObZjDMfX58eXYxHjcxjHRReqFOhx5Hz6aq8FIq7jw8y8OEbWPMrjaCpR4FKEn_bozdR4qyDFm
- 4sbsu66FrZifwa3kj9UeUr.wGSL5S042VmSyGfETFpHOTRvx51GHTkDHF4kqnnRQjnt9cOY_TXoy
- 6ikjZzl8Rym8MnuDSY3t2UEnyXfrQM8zmKcZMaBXZA.1JruNMW__SZDUsuarZwJACQIZFjYaEYcB
- 6Fx2cC_OXlNG7d102FBbLxbbWE51eCCn6.Ao3BUdftIqkSfQqE8AmEChvpnb3Hjczsgr87hSe_ZY
- FNPGuabtMxRjTV5vOhJN9EVsFZjNMIpNdxApHaOp9BBa0mK8Hd4Y8_sLLzgFE_OX._p_ww8OgQCS
- _PZw5TJANZTRxfmtlnIT9WY8nJxFEz0ZzkRbyJrD7lBRVCuL2qRMMrbnVCU.d3atpGGNT71.FMTl
- XJp9kOjDwdiPhEHaNTf0wy9.286eHx9hDHZx13ycI4lCw.BNZVla9tTflJZSkBR622oDAvju0pYi
- chnjA_f0d_Rs3Y.w_0UWDDtsiqrp7Nd.ENOvnjBk3WtBBjbeqzYHxInpU0ICw.akO5xUiF4HXGRD
- NGu7bFyqgIPHiVSYVkpfC.PnR3fZmrfgYy1Ktc5D_y5Xh2Z7vFADl5LC6uRiCqJ9Y4yLuHo1ATrn
- PxNppKa486Nn86yT5d.pKQ3q49VQAxNEB7EGZ_QmK0uyT9X6oF2qpuwBBPhXWKUMiK3EbPuATGVw
- L.4MdTecfHCHslUWJtwrtw2v46CslPDJY3TtzPBEF3b6hKOBHSxZ.8CqTxF3S2_xcA64udxpFdja
- 9c_vKNU82cTswpLxDeBimIz._J7Xaum1i6dZEwCbc.uspehQ3L04kL45bX0fhpi7dDoUJat5aE3S
- p_Fl8AHbSq3P.bkBJGmoklW4vRdsCXSUz4v5SYoPxJ86d1eVDsQ0qrpylWpfgRvkXgRw467FBrzC
- _ECRk3ijYTNyDsC7idxPty4i4XJSa9KM2uH5RWvaV.R8phY0hHU.lO54DG8mygB9TxdZscMBwbtP
- JqFlYvAh9BGSO_QyxpGrs
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic315.consmr.mail.ne1.yahoo.com with HTTP; Thu, 9 Apr 2020 00:51:53 +0000
-Received: by smtp412.mail.gq1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA
- ID 07bc1f76d2033b5244ea2e327c66bf87; 
- Thu, 09 Apr 2020 00:39:51 +0000 (UTC)
-Date: Thu, 9 Apr 2020 08:39:35 +0800
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 17/28] mm: remove the prot argument from vm_map_ram
-Message-ID: <20200409003931.GA8418@hsiangkao-HP-ZHAN-66-Pro-G1>
-References: <20200408115926.1467567-1-hch@lst.de>
- <20200408115926.1467567-18-hch@lst.de>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200408115926.1467567-18-hch@lst.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailer: WebService/1.1.15620 hermes Apache-HttpAsyncClient/4.1.4
- (Java/11.0.6)
-X-Mailman-Approved-At: Thu, 09 Apr 2020 07:11:24 +0000
-Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- "K. Y. Srinivasan" <kys@microsoft.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
- x86@kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Laura Abbott <labbott@redhat.com>, Nitin Gupta <ngupta@vflare.org>,
- Daniel Vetter <daniel@ffwll.ch>, Haiyang Zhang <haiyangz@microsoft.com>,
- linaro-mm-sig@lists.linaro.org, bpf@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Christophe Leroy <christophe.leroy@c-s.fr>,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- Minchan Kim <minchan@kernel.org>, iommu@lists.linux-foundation.org,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id 876A02038D
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 04:05:27 +0000 (UTC)
+Subject: Re: [git pull] IOMMU Updates for Linux v5.7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1586405127;
+ bh=/iCiFLfNiF3lDS9yAdPdQdDcxKFBzlt/5vNI9IAYhjU=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=OaL50o8N/S53pWagcp6RAbqUFlYFfG+1qWIbyI5wkvAEyQyME5S8c1f214kKSmMC4
+ nQbOG5HYbkW54Zn4+vndYAkj0ovdM+FXj1fSvLjSqSHSQAVdq2C8RYYGrhdbDdinrY
+ /s4EF0cQfdYApC/krqOC26Hmjf9yu/s0+qH3Zdgs=
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20200407152635.GA10588@8bytes.org>
+References: <20200407152635.GA10588@8bytes.org>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20200407152635.GA10588@8bytes.org>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
+ tags/iommu-updates-v5.7
+X-PR-Tracked-Commit-Id: ff68eb23308e6538ec7864c83d39540f423bbe90
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 0906d8b975ff713cfb55328e4f3bf6de5967415e
+Message-Id: <158640512732.12302.9078407130199098833.pr-tracker-bot@kernel.org>
+Date: Thu, 09 Apr 2020 04:05:27 +0000
+To: Joerg Roedel <joro@8bytes.org>
+Cc: iommu@lists.linux-foundation.org,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,31 +70,24 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Gao Xiang via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Gao Xiang <hsiangkao@aol.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Apr 08, 2020 at 01:59:15PM +0200, Christoph Hellwig wrote:
-> This is always GFP_KERNEL - for long term mappings with other properties
-> vmap should be used.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/gpu/drm/i915/gem/selftests/mock_dmabuf.c   | 2 +-
->  drivers/media/common/videobuf2/videobuf2-dma-sg.c  | 3 +--
->  drivers/media/common/videobuf2/videobuf2-vmalloc.c | 3 +--
->  fs/erofs/decompressor.c                            | 2 +-
+The pull request you sent on Tue, 7 Apr 2020 17:26:40 +0200:
 
-For EROFS part,
+> git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git tags/iommu-updates-v5.7
 
-Acked-by: Gao Xiang <xiang@kernel.org>
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/0906d8b975ff713cfb55328e4f3bf6de5967415e
 
-Thanks,
-Gao Xiang
+Thank you!
 
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
