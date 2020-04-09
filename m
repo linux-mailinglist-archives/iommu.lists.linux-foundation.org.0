@@ -1,90 +1,95 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA911A2F44
-	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 08:39:20 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5179B1A3043
+	for <lists.iommu@lfdr.de>; Thu,  9 Apr 2020 09:35:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9C8EC86A14;
-	Thu,  9 Apr 2020 06:39:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 58232231B1;
+	Thu,  9 Apr 2020 07:35:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5OUSPvzo-ee8; Thu,  9 Apr 2020 06:39:18 +0000 (UTC)
+	with ESMTP id 9eA+lXpN6nuo; Thu,  9 Apr 2020 07:35:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BAE6086E82;
-	Thu,  9 Apr 2020 06:39:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 476BC20529;
+	Thu,  9 Apr 2020 07:35:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A3537C0177;
-	Thu,  9 Apr 2020 06:39:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 38520C0177;
+	Thu,  9 Apr 2020 07:35:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E5702C0177
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 06:39:16 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 309BAC0177
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 07:35:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id DC55420529
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 06:39:16 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 0CEC120529
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 07:35:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cpPQ-cU5E12r for <iommu@lists.linux-foundation.org>;
- Thu,  9 Apr 2020 06:39:15 +0000 (UTC)
+ with ESMTP id JR45WXCSDT9z for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Apr 2020 07:35:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by silver.osuosl.org (Postfix) with ESMTPS id 5675A203E3
- for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 06:39:15 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id x4so560638wmj.1
- for <iommu@lists.linux-foundation.org>; Wed, 08 Apr 2020 23:39:15 -0700 (PDT)
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+ [209.85.221.67])
+ by silver.osuosl.org (Postfix) with ESMTPS id A6E65204B1
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Apr 2020 07:35:43 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id f10so1026679wrr.9
+ for <iommu@lists.linux-foundation.org>; Thu, 09 Apr 2020 00:35:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=Xw8oFKTCw8UvO1T1xqfqpTmnZOgCyEdPNhItv3mKQzs=;
- b=Uk/ak+uUKrobra/cPfW2wTLbwFPuf3wPq2SmbKKHS3Exg0pmZT763RaDvEC+4H6GTV
- EtrTPhvxc3WZbI4knj6wrrPdtOix0t3KamOMqgbm8hjdQkFCt3r7xLMNFJifw79624s8
- SMGv3LDzUoX3DbJ4rmUcbm1txKOBmjK2J45phjERiny2PFiCIfzTLm+jBmDj32Su4ysT
- +JgqD4dyL6T1Y+LOO0hKTHvpNh4byzbhWBcJPBt5JjA4nx9aDEOCV5/omCktcBs50Hq3
- vIzJT/luQYLuohaNimnnb6l+nKFHRNA1O0+lQN/Nmnl7mQOjmWRPbQSiNKLoXbrYKccm
- shPg==
+ bh=GbBkYdAto3GmeZ8k9ai+VjMEZHKuaYzsx51nNI90NCs=;
+ b=K03CgJJLcnFNPtjHLyANjALcNZtiKJw0Pz76kqGtl2qssgAoISCq+CWgldcUQwBXgl
+ Ftd5QsOcXkbpYsubrkra83D8gLwjU4vaIENnAaJTitETPgwcPkWOjVSOFRAW36NvpRLX
+ jXzg1d5oNc50sf+kklslawSSsNCiug0BgTGIVo3MdYqhM9baAa+56mHQ8h/ev70sDw1L
+ vsKAOC46H5xnIf7seKGsL4bJQuA5wSzvYZNiN6fnhoo1KPkWPhOWduPWxW0AXB6RJMSv
+ JogfP/pdt4XyHstvSK3uuF3NHUUv1pTptLp+jIfpiydLcgO7UFQ2whVX3qdrwIzhnKI2
+ ZRLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Xw8oFKTCw8UvO1T1xqfqpTmnZOgCyEdPNhItv3mKQzs=;
- b=I0eZ4q3aXjcuJg7t3z0MoJ+gG8Os+UX5fHenNQZc0qjX9NafSpRy1pQBia8QEgBc38
- TV0azFsvyldvWDLH/047wVYNisML9HKCCPt9EQyyumELiZJLPDelpBieiehpOg1Myia0
- sRjMQsULi/NGpDY6nxQHGVhidnF2lm0CHSL0gtJUBcj2nOl2XAa7+qJp0dpgt7hAEs6P
- ms92varT8BkxgF5I5BhSU4+8YvnHj0TFyrghzT60oiaut0emgO8D3NO7zairzKZphkRO
- MpOvuvZePluERFK0Rs+3BvNzBFyxcU6cng7FQtUm6tQb/n4Ur9C8T/lOa/0+NIddc6fK
- uYxg==
-X-Gm-Message-State: AGi0PuYtZM7LGUh5fcjCwgxmgRXlLomSne6B7ltV3rkL7jv+dY3D6/Ln
- Usdvv1YCxXdQxTtB569YAu6e8A==
-X-Google-Smtp-Source: APiQypJMqc16joFNV9Ftn1MtCq9kNeSPLw50/5u8eoNEzS+JZ2LdNdI3gplaQisuTJ3h2/AL7V1zJw==
-X-Received: by 2002:a1c:9c47:: with SMTP id f68mr8154209wme.148.1586414353707; 
- Wed, 08 Apr 2020 23:39:13 -0700 (PDT)
+ bh=GbBkYdAto3GmeZ8k9ai+VjMEZHKuaYzsx51nNI90NCs=;
+ b=BvTkBtm0g2/c83rWvx6pOP4Qe5Pwxn2vTiXWGR795PxHx5znhzGo7XriXNv9dIZt0g
+ K1Ya0TLXz8QVtrC/twpCSXtwa4s9AFNorhXbliASWqo3Eex/868Zfl9IcCanG0Mri90w
+ 59KiUJhR3kVmsuoj/eYQccIPtH5PE0ssU0vrSbXYLfm+J0WRifSvlQTQGn88Kg9/25uA
+ x5Kxi1A6C8IEmADhkpwmdVibB3HvKZilwF9gcxyOeefHNfa5TBqkL6n8Q3/N+Fve6ChH
+ c4rJn6HmEZTGIGC4xmCp3lmpad15oNlW7jHIxOuu9qSe9P6DIKaijts48WXRPCopuPg2
+ 3hJA==
+X-Gm-Message-State: AGi0PuYXD1Ra15avwsUepps6Po+D6NSsuloEOu4E0oVE3aIjGwV1LSU9
+ /NEzikq6VD18iht7nHgjt5msrw==
+X-Google-Smtp-Source: APiQypIz+nbmA+BaiJDyHzloSsIZFWA0uygarvMoYqSYfnWro08ms2WONffA7OP5UIZr8Wh6a3bPpA==
+X-Received: by 2002:adf:ea06:: with SMTP id q6mr10006417wrm.301.1586417741859; 
+ Thu, 09 Apr 2020 00:35:41 -0700 (PDT)
 Received: from myrica ([2001:171b:226b:54a0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id z3sm2248120wma.22.2020.04.08.23.39.12
+ by smtp.gmail.com with ESMTPSA id w66sm2795410wma.38.2020.04.09.00.35.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Apr 2020 23:39:13 -0700 (PDT)
-Date: Thu, 9 Apr 2020 08:39:05 +0200
+ Thu, 09 Apr 2020 00:35:41 -0700 (PDT)
+Date: Thu, 9 Apr 2020 09:35:33 +0200
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Subject: Re: [PATCH 0/2] iommu: Remove iommu_sva_ops::mm_exit()
-Message-ID: <20200409063905.GA2435@myrica>
-References: <20200408140427.212807-1-jean-philippe@linaro.org>
- <20200408113552.7888bfee@jacob-builder>
- <20200408190226.GA11886@ziepe.ca>
- <20200408143552.57f5837c@jacob-builder>
- <20200408223218.GC11886@ziepe.ca>
- <20200408164802.155a69e3@jacob-builder>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH v1 2/2] vfio/pci: Emulate PASID/PRI capability for VFs
+Message-ID: <20200409073533.GB2435@myrica>
+References: <1584880394-11184-1-git-send-email-yi.l.liu@intel.com>
+ <1584880394-11184-3-git-send-email-yi.l.liu@intel.com>
+ <20200402165954.48d941ee@w520.home>
+ <A2975661238FB949B60364EF0F2C25743A2204FE@SHSMSX104.ccr.corp.intel.com>
+ <20200403112545.6c115ba3@w520.home>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D80E13D@SHSMSX104.ccr.corp.intel.com>
+ <20200407095801.648b1371@w520.home>
+ <20200408040021.GS67127@otc-nc-03>
+ <20200408101940.3459943d@w520.home>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200408164802.155a69e3@jacob-builder>
-Cc: "Yu, Fenghua" <fenghua.yu@intel.com>, arnd@arndb.de,
- gregkh@linuxfoundation.org, iommu@lists.linux-foundation.org,
- Jason Gunthorpe <jgg@ziepe.ca>, zhangfei.gao@linaro.org,
- linux-accelerators@lists.ozlabs.org
+In-Reply-To: <20200408101940.3459943d@w520.home>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Sun,
+ Yi Y" <yi.y.sun@intel.com>, Bjorn Helgaas <bhelgaas@google.com>, "Tian,
+ Jun J" <jun.j.tian@intel.com>, "Wu, Hao" <hao.wu@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,150 +107,98 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Apr 08, 2020 at 04:48:02PM -0700, Jacob Pan wrote:
-> On Wed, 8 Apr 2020 19:32:18 -0300
-> Jason Gunthorpe <jgg@ziepe.ca> wrote:
+On Wed, Apr 08, 2020 at 10:19:40AM -0600, Alex Williamson wrote:
+> On Tue, 7 Apr 2020 21:00:21 -0700
+> "Raj, Ashok" <ashok.raj@intel.com> wrote:
 > 
-> > On Wed, Apr 08, 2020 at 02:35:52PM -0700, Jacob Pan wrote:
-> > > > On Wed, Apr 08, 2020 at 11:35:52AM -0700, Jacob Pan wrote:  
-> > > > > Hi Jean,
-> > > > > 
-> > > > > On Wed,  8 Apr 2020 16:04:25 +0200
-> > > > > Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
-> > > > >     
-> > > > > > The IOMMU SVA API currently requires device drivers to
-> > > > > > implement an mm_exit() callback, which stops device jobs that
-> > > > > > do DMA. This function is called in the release() MMU
-> > > > > > notifier, when an address space that is shared with a device
-> > > > > > exits.
-> > > > > > 
-> > > > > > It has been noted several time during discussions about SVA
-> > > > > > that cancelling DMA jobs can be slow and complex, and doing
-> > > > > > it in the release() notifier might cause synchronization
-> > > > > > issues (patch 2 has more background). Device drivers must in
-> > > > > > any case call unbind() to remove their bond, after stopping
-> > > > > > DMA from a more favorable context (release of a file
-> > > > > > descriptor).
-> > > > > > 
-> > > > > > So after mm exits, rather than notifying device drivers, we
-> > > > > > can hold on to the PASID until unbind(), ask IOMMU drivers to
-> > > > > > silently abort DMA and Page Requests in the meantime. This
-> > > > > > change should relieve the mmput() path.    
-> > > > >
-> > > > > I assume mm is destroyed after all the FDs are closed    
-> > > > 
-> > > > FDs do not hold a mmget(), but they may hold a mmgrab(), ie
-> > > > anything using mmu_notifiers has to hold a grab until the
-> > > > notifier is destroyed, which is often triggered by FD close.
-> > > >   
-> > > Sorry, I don't get this. Are you saying we have to hold a mmgrab()
-> > > between svm_bind/mmu_notifier_register and
-> > > svm_unbind/mmu_notifier_unregister?  
+> > Hi Alex
 > > 
-> > Yes. This is done automatically for the caller inside the mmu_notifier
-> > implementation. We now even store the mm_struct pointer inside the
-> > notifier.
+> > + Bjorn
+> 
+>  + Don
+> 
+> > FWIW I can't understand why PCI SIG went different ways with ATS, 
+> > where its enumerated on PF and VF. But for PASID and PRI its only
+> > in PF. 
 > > 
-> > Once a notifier is registered the mm_struct remains valid memory until
-> > the notifier is unregistered.
+> > I'm checking with our internal SIG reps to followup on that.
 > > 
-> > > Isn't the idea of mmu_notifier is to avoid holding the mm reference
-> > > and rely on the notifier to tell us when mm is going away?  
-> > 
-> > The notifier only holds a mmgrab(), not a mmget() - this allows
-> > exit_mmap to proceed, but the mm_struct memory remains.
-> > 
-> > This is also probably why it is a bad idea to tie the lifetime of
-> > something like a pasid to the mmdrop as a evil user could cause a
-> > large number of mm structs to be released but not freed, probably
-> > defeating cgroup limits and so forth (not sure)
-> > 
-> > > It seems both Intel and AMD iommu drivers don't hold mmgrab after
-> > > mmu_notifier_register.  
-> > 
-> > It is done internally to the implementation.
-> > 
-> > > > So the exit_mmap() -> release() may happen before the FDs are
-> > > > destroyed, but the final mmdrop() will be during some FD release
-> > > > when the final mmdrop() happens.  
+> > On Tue, Apr 07, 2020 at 09:58:01AM -0600, Alex Williamson wrote:
+> > > > Is there vendor guarantee that hidden registers will locate at the
+> > > > same offset between PF and VF config space?   
 > > > 
-> > > Do you mean mmdrop() is after FD release?   
+> > > I'm not sure if the spec really precludes hidden registers, but the
+> > > fact that these registers are explicitly outside of the capability
+> > > chain implies they're only intended for device specific use, so I'd say
+> > > there are no guarantees about anything related to these registers.  
 > > 
-> > Yes, it will be done by the mmu_notifier_unregister(), which should be
-> > called during FD release if the iommu lifetime is linked to some FD.
+> > As you had suggested in the other thread, we could consider
+> > using the same offset as in PF, but even that's a better guess
+> > still not reliable.
 > > 
-> > > If so, unbind is called in FD release should take care of
-> > > everything, i.e. stops DMA, clear PASID context on IOMMU, flush PRS
-> > > queue etc.  
+> > The other option is to maybe extend driver ops in the PF to expose
+> > where the offsets should be. Sort of adding the quirk in the 
+> > implementation. 
 > > 
-> > Yes, this is the proper way, when the DMA is stopped and no use of the
-> > PASID remains then you can drop the mmu notifier and release the PASID
-> > entirely. If that is linked to the lifetime of the FD then forget
-> > completely about the mm_struct lifetime, it doesn't matter..
-> > 
-> Got everything above, thanks a lot.
+> > I'm not sure how prevalent are PASID and PRI in VF devices. If SIG is resisting 
+> > making VF's first class citizen, we might ask them to add some verbiage
+> > to suggest leave the same offsets as PF open to help emulation software.
 > 
-> If everything is in order with the FD close. Why do we need to 
-> "ask IOMMU drivers to silently abort DMA and Page Requests in the
-> meantime." in mm_exit notifier? This will be done orderly in unbind
-> anyway.
+> Even if we know where to expose these capabilities on the VF, it's not
+> clear to me how we can actually virtualize the capability itself.  If
+> the spec defines, for example, an enable bit as r/w then software that
+> interacts with that register expects the bit is settable.  There's no
+> protocol for "try to set the bit and re-read it to see if the hardware
+> accepted it".  Therefore a capability with a fixed enable bit
+> representing the state of the PF, not settable by the VF, is
+> disingenuous to the spec.
 
-When the process is killed, mm release can happen before fds are released.
-If you look at do_exit() in kernel/exit.c:
+Would it be OK to implement a lock down mechanism for the PF PASID
+capability, preventing changes to the PF cap when the VF is in use by
+VFIO?  The emulation would still break the spec: since the PF cap would
+always be enabled the VF configuration bits would have no effect, but it
+seems preferable to having the Enable bit not enable anything.
 
-	exit_mm()
-	  mmput()
-	   -> mmu release notifier
-	...
-	exit_files()
-	  close_files()
-	    fput()
-	exit_task_work()
-	  __fput()
-	   -> unbind()
+> 
+> If what we're trying to do is expose that PASID and PRI are enabled on
+> the PF to a VF driver, maybe duplicating the PF capabilities on the VF
+> without the ability to control it is not the right approach.  Maybe we
+> need new capabilities exposing these as slave features that cannot be
+> controlled?  We could define our own vendor capability for this, but of
+> course we have both the where to put it in config space issue, as well
+> as the issue of trying to push an ad-hoc standard.  vfio could expose
+> these as device features rather than emulating capabilities, but that
+> still leaves a big gap between vfio in the hypervisor and the driver in
+> the guest VM.  That might still help push the responsibility and policy
+> for how to expose it to the VM as a userspace problem though.
+
+Userspace might have more difficulty working around the issues mentioned
+in this thread. They would still need a guarantee that the PF PASID
+configuration doesn't change at runtime, and they wouldn't have the
+ability to talk to a vendor driver to figure out where to place the fake
+PASID capability.
 
 Thanks,
 Jean
 
 > 
-> > > Enforcing unbind upon FD close might be a precarious path, perhaps
-> > > that is why we have to deal with out of order situation?  
-> > 
-> > How so? You just put it in the FD release function :)
-> > 
-> I was thinking some driver may choose to defer unbind in some workqueue
-> etc.
+> I agree though, I don't know why the SIG would preclude implementing
+> per VF control of these features.  Thanks,
 > 
-> > > > > In VT-d, because of enqcmd and lazy PASID free we plan to hold
-> > > > > on to the PASID until mmdrop.
-> > > > > https://lore.kernel.org/patchwork/patch/1217762/    
-> > > > 
-> > > > Why? The bind already gets a mmu_notifier which has refcounts and
-> > > > the right lifetime for PASID.. This code could already be
-> > > > simplified by using the mmu_notifier_get()/put() stuff.
-> > > >   
-> > > Yes, I guess mmu_notifier_get()/put() is new :)
-> > > +Fenghua  
-> > 
-> > I was going to convert the intel code when I did many other drivers,
-> > but it was a bit too complex..
-> > 
-> > But the approach is straightforward. Get rid of the mm search list and
-> > use mmu_notifier_get(). This returns a singlton notifier for the
-> > mm_struct and handles refcounting/etc
-> > 
-> > Use mmu_notifier_put() during a unbind, it will callback to
-> > free_notifier() to do the final frees (ie this is where the pasid
-> > should go away)
-> > 
-> > For the SVM_FLAG_PRIVATE_PASID continue to use mmu_notifier_register,
-> > however this can now be mixed with mmu_notifier_put() so the cleanup
-> > is the same. A separate ops static struct is needed to create a unique
-> > key though
-> > 
-> > Jason
+> Alex
 > 
-> [Jacob Pan]
+> > > FWIW, vfio started out being more strict about restricting config space
+> > > access to defined capabilities, until...
+> > > 
+> > > commit a7d1ea1c11b33bda2691f3294b4d735ed635535a
+> > > Author: Alex Williamson <alex.williamson@redhat.com>
+> > > Date:   Mon Apr 1 09:04:12 2013 -0600
+> > >   
+> > 
+> > Cheers,
+> > Ashok
+> > 
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
