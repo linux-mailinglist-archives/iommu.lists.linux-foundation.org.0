@@ -2,136 +2,69 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFBD1A4C71
-	for <lists.iommu@lfdr.de>; Sat, 11 Apr 2020 01:10:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A151A4B77
+	for <lists.iommu@lfdr.de>; Fri, 10 Apr 2020 23:00:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2846E878A5;
-	Fri, 10 Apr 2020 23:10:33 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 087CB876E7;
+	Fri, 10 Apr 2020 21:00:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mwv3luNt3BSs; Fri, 10 Apr 2020 23:10:32 +0000 (UTC)
+	with ESMTP id CUW8R7BKTrvl; Fri, 10 Apr 2020 21:00:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5FB1E87885;
-	Fri, 10 Apr 2020 23:10:32 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id EBBD187593;
+	Fri, 10 Apr 2020 21:00:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 40B30C0177;
-	Fri, 10 Apr 2020 23:10:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CBF90C1D8D;
+	Fri, 10 Apr 2020 21:00:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 80CD5C0177
- for <iommu@lists.linux-foundation.org>; Fri, 10 Apr 2020 23:10:30 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9BB69C0177
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Apr 2020 21:00:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 6F78E204E5
- for <iommu@lists.linux-foundation.org>; Fri, 10 Apr 2020 23:10:30 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 83C5A20487
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Apr 2020 21:00:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zO9sztXwAVyg for <iommu@lists.linux-foundation.org>;
- Fri, 10 Apr 2020 23:10:29 +0000 (UTC)
-X-Greylist: delayed 02:15:52 by SQLgrey-1.7.6
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2096.outbound.protection.outlook.com [40.107.94.96])
- by silver.osuosl.org (Postfix) with ESMTPS id 22891204C1
- for <iommu@lists.linux-foundation.org>; Fri, 10 Apr 2020 23:10:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Aw2ZeqTFUqbJByz0S3f+6uLIOSNLHFUDiomjjV8ua+GbcSaK+gCIn4rzEMQblmi5+p27h4GUw4uiopBnOVVX9NF96dKfST1HAj3iwUWIQPocJM11iN5419kd+NJLfqm22mKODVHV9E8h9Xx1bWh98JkLDhMtt2QrEwcaZKXZJQ92vpuV7g4Sf6THY+AU6ClalBZmqoGngult+UE5jVeQCHAIrkAl1PmjRgJF8448LC1xSDbNhlxVCqO/03Zr4K0Jyw2FeE3ALQQoB8xB9538jzVdcEveIiE/vBJFT3x9WasrphlGE0CwSH00gAWtB8cyb3pXbca8HnsVty2/oIl62A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AxI15cV5ZOZn85Zvvz8N2nkqZ/SNnDxKOx5Qvn0sK2o=;
- b=A47fAhLmDhyOTdxby1MGYw7lMu+/zehb1fSTvG6tWqxGT0smEbuExsi1JXevWz+15txFJ877FRBDv7HbdzixP7BHla7e626Q7OHVEG4d5Djuzc4NnO4y498+7s10inuqzm+TDrMH/6McVYaecGI7O6fFeiPI/055EMy6QoC6DpLuRvs2hghd0t3lo2+jhFlCQ+TYACq6kgu42PY+ehLpabQzhm4re+3rnJAZz3USl8Ae6yDJO26ytRbOyuhnH1Ogq5jVxGw8UquN/6+Bm6Wjky8pxY5pMpFZAZgPVLUSQRuyoHhCrB6jKFt7XoocAJ2z+82cZkA07w3Y6zPaJkhptA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AxI15cV5ZOZn85Zvvz8N2nkqZ/SNnDxKOx5Qvn0sK2o=;
- b=Qxl2bm0d63GzV4vCOvZU6vbiYCA0bwSsF69cDss6OAfBrKUYZ4psysR9PjJR7Inm0DeexkrLFMrLZVpYv9b1zo4484fp9XeXTAbycifTYPqclAPiFdGAo0fCBJfa0QakGSG7iKoJlNjc9BDcyIM/G4VgZGajUOvMUeZ66Xemzck=
-Received: from DM5PR2101MB1047.namprd21.prod.outlook.com (2603:10b6:4:9e::16)
- by DM5PR2101MB1110.namprd21.prod.outlook.com (2603:10b6:4:a5::39)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.3; Fri, 10 Apr
- 2020 20:40:21 +0000
-Received: from DM5PR2101MB1047.namprd21.prod.outlook.com
- ([fe80::f54c:68f0:35cd:d3a2]) by DM5PR2101MB1047.namprd21.prod.outlook.com
- ([fe80::f54c:68f0:35cd:d3a2%9]) with mapi id 15.20.2921.009; Fri, 10 Apr 2020
- 20:40:21 +0000
-To: Christoph Hellwig <hch@lst.de>, Andrew Morton <akpm@linux-foundation.org>, 
- KY Srinivasan <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
- Stephen Hemminger <sthemmin@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
- "x86@kernel.org" <x86@kernel.org>, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>, Laura Abbott <labbott@redhat.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>
-Subject: RE: [PATCH 01/28] x86/hyperv: use vmalloc_exec for the hypercall page
-Thread-Topic: [PATCH 01/28] x86/hyperv: use vmalloc_exec for the hypercall page
-Thread-Index: AQHWDZ0/CoajD68QRkqSIM4FKSNiaKhy1QmA
-Date: Fri, 10 Apr 2020 20:40:21 +0000
-Message-ID: <DM5PR2101MB1047BD681D8EDD0797DD1E28D7DE0@DM5PR2101MB1047.namprd21.prod.outlook.com>
-References: <20200408115926.1467567-1-hch@lst.de>
- <20200408115926.1467567-2-hch@lst.de>
-In-Reply-To: <20200408115926.1467567-2-hch@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-04-10T20:40:19.1960251Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=1dcf4db3-748e-409d-8f7c-447fe27e9023;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=mikelley@microsoft.com; 
-x-originating-ip: [24.22.167.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: bd91a062-1bf1-46bf-b911-08d7dd8f638d
-x-ms-traffictypediagnostic: DM5PR2101MB1110:|DM5PR2101MB1110:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR2101MB1110D1A5D643D6374EEBE4D0D7DE0@DM5PR2101MB1110.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1107;
-x-forefront-prvs: 0369E8196C
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR2101MB1047.namprd21.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10019020)(4636009)(346002)(366004)(376002)(396003)(136003)(39860400002)(8676002)(86362001)(8936002)(66476007)(8990500004)(7696005)(66946007)(71200400001)(81156014)(66446008)(54906003)(66556008)(64756008)(10290500003)(478600001)(7416002)(110136005)(316002)(76116006)(6506007)(33656002)(4326008)(82950400001)(55016002)(52536014)(4744005)(186003)(2906002)(82960400001)(26005)(9686003)(5660300002)(921003)(1121003);
- DIR:OUT; SFP:1102; 
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: iPk50ujolCJd83GkVU8Q/GdEQxRbFm+HhFS2g3hzlQ3M61EOAzDmsYU7m+RWnkrXocM+HsEjPf9is5nPPFthji73D5Xp5Ed8eQyiIjms6PXaV8hi6LIA+PzuVCxyv0tzM2KSRI8J/0UN2ef2n21k5qp4IcuX/HwC7OLLVaioSzeDh2RPdp+6oVJPuNY1Itb9/b3+mtyFMXAv6vWk/8b0hzT6pxcQhjBond3LPQ762DrMG18Jqi1HfvEDKIUSjdDN6PxLmZy3+sgwx39EITjhSVpIS/Sdm7KqyU64jRGCJYS9XNxNNM8hm9BXfXXtPuJCxfN586xwrihjuR3wrgaZWMcKYjExOmUdG3E8n/zlNCcJDhmejfnWkIjNBnlGtLQI64Ihd+nbMzFuwtQW8BVNHqk2VN6FvWOW6pxiEn8+pQrlDp0oZSfGe81Lm40U0WueJkDGmRR7yiZtordaiODqu0t0ONDJn8+LsWdmzwJjkYfoH2/geWTzCwsOicrdobNi
-x-ms-exchange-antispam-messagedata: +tXqJ9SngzkET2ajAkgQpDK07e5qYoklVTvFxbVst2EBqO3DkVFzhGNkyeSOIorrnaoTQMUGzbAGKw+XKL0lj/sUP5klkB6enTMgGsrq59DD/x3W6slha3C2qb10maI+10LsOHRcRWru3TrPfIlLUg==
+ with ESMTP id 8EaEuD4SFjEd for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Apr 2020 21:00:14 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by silver.osuosl.org (Postfix) with ESMTPS id 0E5FF2011B
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Apr 2020 21:00:14 +0000 (UTC)
+IronPort-SDR: K44RfFFxNUQb7nF9VzD8QoJ+3OGcS5xvFDyVeIx78jsazTLJFgz7dORb6VE+LLEc1nRT740Uo+
+ 9/Vy3o7lYD4g==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2020 14:00:12 -0700
+IronPort-SDR: hw8vPaWSQRseTrREmDo4wEHF8666mtcHFEvvy/V5KhBxJx+IhmwkOEeDDxYKUMPmn9738D0XY4
+ XhMcrt1ZGmBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,368,1580803200"; d="scan'208";a="331278002"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by orsmga001.jf.intel.com with ESMTP; 10 Apr 2020 14:00:12 -0700
+Date: Fri, 10 Apr 2020 14:06:04 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH v11 05/10] iommu/vt-d: Add bind guest PASID support
+Message-ID: <20200410140604.403cb5b2@jacob-builder>
+In-Reply-To: <ab57b85b-235f-dc80-1c25-9b3d42dc5f4e@redhat.com>
+References: <1585939334-21396-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1585939334-21396-6-git-send-email-jacob.jun.pan@linux.intel.com>
+ <ab57b85b-235f-dc80-1c25-9b3d42dc5f4e@redhat.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd91a062-1bf1-46bf-b911-08d7dd8f638d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Apr 2020 20:40:21.4349 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZRCiv8Z7T3QM9EeSCGX8Y25Y1aZn3ejXpj1RdpMAAnRt2CHN5wCBdH+ON5JKRobDX7dRyxf/GdrzMHDy/MBMaoDe+dfn0eOaWJekJQejI5s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB1110
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Yi L <yi.l.liu@linux.intel.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Raj Ashok <ashok.raj@intel.com>,
+ David Woodhouse <dwmw2@infradead.org>, LKML <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -144,26 +77,62 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Michael Kelley via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Michael Kelley <mikelley@microsoft.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Christoph Hellwig <hch@lst.de> Sent: Wednesday, April 8, 2020 4:59 AM
-> 
-> Use the designated helper for allocating executable kernel memory, and
-> remove the now unused PAGE_KERNEL_RX define.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  arch/x86/hyperv/hv_init.c            | 2 +-
->  arch/x86/include/asm/pgtable_types.h | 2 --
->  2 files changed, 1 insertion(+), 3 deletions(-)
-> 
+Hi Eric,
 
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Missed a few things in the last reply.
+
+On Thu, 9 Apr 2020 09:41:32 +0200
+Auger Eric <eric.auger@redhat.com> wrote:
+
+> > +			intel_pasid_tear_down_entry(iommu, dev,
+> > svm->pasid);  
+> intel_svm_unbind_mm() calls intel_flush_svm_range_dev(svm, sdev, 0,
+> -1, 0); Don't we need to flush the (DEV-)IOTLBs as well?
+Right, pasid tear down should always include (DEV-)IOTLB flush, I
+initially thought it is taken care of by intel_pasid_tear_down_entry().
+
+> > +			/* TODO: Drain in flight PRQ for the PASID
+> > since it
+> > +			 * may get reused soon, we don't want to
+> > +			 * confuse with its previous life.
+> > +			 * intel_svm_drain_prq(dev, pasid);
+> > +			 */
+> > +			kfree_rcu(sdev, rcu);
+> > +
+> > +			if (list_empty(&svm->devs)) {
+> > +				/*
+> > +				 * We do not free the IOASID here
+> > in that
+> > +				 * IOMMU driver did not allocate
+> > it.  
+> s/in/as?
+I meant to say "in that" as "for the reason that"
+
+> > +				 * Unlike native SVM, IOASID for
+> > guest use was
+> > +				 * allocated prior to the bind
+> > call.> +				 * In any case, if the free
+> > call comes before
+> > +				 * the unbind, IOMMU driver will
+> > get notified
+> > +				 * and perform cleanup.
+> > +				 */
+> > +				ioasid_set_data(pasid, NULL);
+> > +				kfree(svm);
+> > +			}  
+> nit: you may use intel_svm_free_if_empty()
+True, but I meant to insert ioasid_notifier under the list_empty
+condition in the following ioasid patch.
+
+
+Thanks,
+
+Jacob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
