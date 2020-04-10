@@ -1,62 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4ECE1A3EEA
-	for <lists.iommu@lfdr.de>; Fri, 10 Apr 2020 05:47:13 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9401A3F1A
+	for <lists.iommu@lfdr.de>; Fri, 10 Apr 2020 05:48:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 561578695E;
-	Fri, 10 Apr 2020 03:47:12 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 542668817D;
+	Fri, 10 Apr 2020 03:48:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id u9_sISAE73dy; Fri, 10 Apr 2020 03:47:11 +0000 (UTC)
+	with ESMTP id H1WIhD8AUrCS; Fri, 10 Apr 2020 03:48:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D4AA18691A;
-	Fri, 10 Apr 2020 03:47:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2FD0B88127;
+	Fri, 10 Apr 2020 03:48:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C2505C0177;
-	Fri, 10 Apr 2020 03:47:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 26650C0177;
+	Fri, 10 Apr 2020 03:48:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 24223C0177
- for <iommu@lists.linux-foundation.org>; Fri, 10 Apr 2020 03:47:11 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9C125C0177
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Apr 2020 03:48:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2114620552
- for <iommu@lists.linux-foundation.org>; Fri, 10 Apr 2020 03:47:11 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 8278020527
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Apr 2020 03:48:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BGtqUPxyOBLm for <iommu@lists.linux-foundation.org>;
- Fri, 10 Apr 2020 03:47:10 +0000 (UTC)
+ with ESMTP id QB8Zyn4IysUB for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Apr 2020 03:48:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 6886C20532
- for <iommu@lists.linux-foundation.org>; Fri, 10 Apr 2020 03:47:10 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 6C37720109
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Apr 2020 03:48:24 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6892820936;
- Fri, 10 Apr 2020 03:47:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6C7D320936;
+ Fri, 10 Apr 2020 03:48:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586490430;
+ s=default; t=1586490504;
  bh=bLaYknW8xJkpruAeW9vzpZ0HesbH5LKBqP1T/qNO/0I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vpNX1b4+gNmhfZDC9ZnBsCyojD4dgmKN3h47Nev24o113d3ZuYkiVyXSnSXSjZAFh
- QdZt5+fw1lKky2m0NenCG7Lo7PKXMqRpjyzHRCcCqJUq/wkQ4QoZQBFL5g+rMkin3Q
- 2dwBmdFIt0oSqoOIzklMandP+ztg/v2mLzKdsmdI=
+ b=f3SrJ2/1DJAQ6a1cHbfvF8A8WkiJB5CXODmLx8v/oB2VyuztXdo1lYd5K8jDgN0jF
+ 9Z2ny94tz4d6hniUxTF9Xz/015POXDREyUKOl8ZzlUe3MjW8ZSdhoib04MJA+F2b3h
+ JpnL+TRafV2g0tCb1vZORLvlRC4EnOUQwY97ES9Q=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 28/68] dma-mapping: Fix dma_pgprot() for
+Subject: [PATCH AUTOSEL 5.5 19/56] dma-mapping: Fix dma_pgprot() for
  unencrypted coherent pages
-Date: Thu,  9 Apr 2020 23:45:53 -0400
-Message-Id: <20200410034634.7731-28-sashal@kernel.org>
+Date: Thu,  9 Apr 2020 23:47:23 -0400
+Message-Id: <20200410034800.8381-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200410034634.7731-1-sashal@kernel.org>
-References: <20200410034634.7731-1-sashal@kernel.org>
+In-Reply-To: <20200410034800.8381-1-sashal@kernel.org>
+References: <20200410034800.8381-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
