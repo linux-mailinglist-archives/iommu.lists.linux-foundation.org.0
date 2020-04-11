@@ -1,72 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B861A4E7E
-	for <lists.iommu@lfdr.de>; Sat, 11 Apr 2020 09:21:03 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D181A4EED
+	for <lists.iommu@lfdr.de>; Sat, 11 Apr 2020 10:28:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B1A9F879C5;
-	Sat, 11 Apr 2020 07:21:01 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7D95A22654;
+	Sat, 11 Apr 2020 08:28:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DUigRm5xrZa1; Sat, 11 Apr 2020 07:21:01 +0000 (UTC)
+	with ESMTP id 8MXhrwTRYdpU; Sat, 11 Apr 2020 08:28:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 31B18879A6;
-	Sat, 11 Apr 2020 07:21:01 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CE96E204F0;
+	Sat, 11 Apr 2020 08:28:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 169CAC1D8D;
-	Sat, 11 Apr 2020 07:21:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B900BC1D87;
+	Sat, 11 Apr 2020 08:28:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4C75DC0177
- for <iommu@lists.linux-foundation.org>; Sat, 11 Apr 2020 07:20:59 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AAC6FC0177
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Apr 2020 08:28:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 37512879A6
- for <iommu@lists.linux-foundation.org>; Sat, 11 Apr 2020 07:20:59 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 94E9685F72
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Apr 2020 08:28:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LnquiGWYJPg6 for <iommu@lists.linux-foundation.org>;
- Sat, 11 Apr 2020 07:20:57 +0000 (UTC)
+ with ESMTP id 4TVMLcYyQGpz for <iommu@lists.linux-foundation.org>;
+ Sat, 11 Apr 2020 08:28:03 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by hemlock.osuosl.org (Postfix) with ESMTPS id C065387987
- for <iommu@lists.linux-foundation.org>; Sat, 11 Apr 2020 07:20:57 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 4505168BFE; Sat, 11 Apr 2020 09:20:52 +0200 (CEST)
-Date: Sat, 11 Apr 2020 09:20:52 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Minchan Kim <minchan@kernel.org>
-Subject: Re: [PATCH 10/28] mm: only allow page table mappings for built-in
- zsmalloc
-Message-ID: <20200411072052.GA31242@lst.de>
-References: <20200408115926.1467567-1-hch@lst.de>
- <20200408115926.1467567-11-hch@lst.de> <20200409160826.GC247701@google.com>
- <20200409165030.GG20713@hirez.programming.kicks-ass.net>
- <20200409170813.GD247701@google.com>
- <20200410023845.GA2354@jagdpanzerIV.localdomain>
- <20200410231136.GA101325@google.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 696A485F68
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Apr 2020 08:28:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=Content-Type:MIME-Version:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=KfuGWUe+2Mm9mM6Tq6DQzvlxZlTVJLQ8Twm6DUylGx0=; b=SNfkwFxFTzvmT9W6Vu4e3A3hT2
+ bTlFmVVNjr1HLot9N1LHO/aY0mV5b1s+LHhNHfhIBf09UW9QQcHaK4ZqUzSchx+lThpnTAA+2kju+
+ SIgkS85jYu802NOc6Cb9oq/FNbHzjY6JZUxKLtZX92zG4Z7W4hQBFDyLEYiF0tmqpf8KeJfEPpphG
+ /oyFF0r35c9F+RMiHB5CORzlap4qGWYN+3jbNKhO/uU6rFQ+AVlU4QW8UkT2Muv+EEeLJIbNx5aGL
+ 5FME3ZaDTwgpXMMUsRBiXF+myUU006aZDscpsINyoDYqdHGHNFdb+4X20r8I8boyuzYXuv8DbpH3z
+ eBlWitcQ==;
+Received: from [2001:4bb8:180:5765:8cdf:b820:7ed9:b80c] (helo=localhost)
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jNBUf-0002nz-VN; Sat, 11 Apr 2020 08:28:02 +0000
+Date: Sat, 11 Apr 2020 10:28:00 +0200
+From: Christoph Hellwig <hch@infradead.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [GIT PULL] dma-mapping fixes for 5.7
+Message-ID: <20200411082800.GA1807013@infradead.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200410231136.GA101325@google.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- "K. Y. Srinivasan" <kys@microsoft.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
- x86@kernel.org, Christoph Hellwig <hch@lst.de>,
- Peter Zijlstra <peterz@infradead.org>, Laura Abbott <labbott@redhat.com>,
- Nitin Gupta <ngupta@vflare.org>, Daniel Vetter <daniel@ffwll.ch>,
- Haiyang Zhang <haiyangz@microsoft.com>, linaro-mm-sig@lists.linaro.org,
- bpf@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Christophe Leroy <christophe.leroy@c-s.fr>,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- iommu@lists.linux-foundation.org, Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev@lists.ozlabs.org
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,27 +75,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Minchan,
+The following changes since commit f5e94d10e4c468357019e5c28d48499f677b284f:
 
-On Fri, Apr 10, 2020 at 04:11:36PM -0700, Minchan Kim wrote:
-> It doesn't mean we couldn't use zsmalloc as module any longer. It means
-> we couldn't use zsmalloc as module with pgtable mapping whcih was little
-> bit faster on microbenchmark in some architecutre(However, I usually temped
-> to remove it since it had several problems). However, we could still use
-> zsmalloc as module as copy way instead of pgtable mapping. Thus, if someone
-> really want to rollback the feature, they should provide reasonable reason
-> why it doesn't work for them. "A little fast" wouldn't be enough to exports
-> deep internal to the module.
+  Merge tag 'drm-next-2020-04-08' of git://anongit.freedesktop.org/drm/drm (2020-04-07 20:24:34 -0700)
 
-do you have any data how much faster it is on arm (and does that include
-arm64 as well)?  Besides the exports which were my prime concern,
-zsmalloc with pgtable mappings also is the only user of map_kernel_range
-outside of vmalloc.c, if it really is another code base for tiny
-improvements we could mark map_kernel_range or in fact remove it entirely
-and open code it in the remaining callers.
+are available in the Git repository at:
 
-(unmap_kernel_range is a different story, it has a bunch of callers,
-and most look odd)
+  git://git.infradead.org/users/hch/dma-mapping.git tags/dma-mapping-5.7-1
+
+for you to fetch changes up to 9bb50ed7470944238ec8e30a94ef096caf9056ee:
+
+  dma-debug: fix displaying of dma allocation type (2020-04-08 21:46:57 +0200)
+
+----------------------------------------------------------------
+dma-mapping fixes for 5.7
+
+ - fix an integer truncation in dma_direct_get_required_mask
+   (Kishon Vijay Abraham)
+ - fix the display of dma mapping types (Grygorii Strashko)
+
+----------------------------------------------------------------
+Grygorii Strashko (1):
+      dma-debug: fix displaying of dma allocation type
+
+Kishon Vijay Abraham I (1):
+      dma-direct: fix data truncation in dma_direct_get_required_mask()
+
+ kernel/dma/debug.c  | 9 ++++++---
+ kernel/dma/direct.c | 3 ++-
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
