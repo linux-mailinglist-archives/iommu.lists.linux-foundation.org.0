@@ -1,58 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353511A8E88
-	for <lists.iommu@lfdr.de>; Wed, 15 Apr 2020 00:26:38 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2551A8F46
+	for <lists.iommu@lfdr.de>; Wed, 15 Apr 2020 01:47:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B057685751;
-	Tue, 14 Apr 2020 22:26:36 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5CAEC85421;
+	Tue, 14 Apr 2020 23:47:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id z8jUsVRZyXgj; Tue, 14 Apr 2020 22:26:35 +0000 (UTC)
+	with ESMTP id 76vkQfI0DUnI; Tue, 14 Apr 2020 23:47:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B2891856E9;
-	Tue, 14 Apr 2020 22:26:35 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B822C8628E;
+	Tue, 14 Apr 2020 23:47:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9B07DC089E;
-	Tue, 14 Apr 2020 22:26:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9D15EC0172;
+	Tue, 14 Apr 2020 23:47:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 21F55C0172
- for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 22:26:34 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ECFF2C0172
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 23:47:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 0805B8777B
- for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 22:26:34 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id DBCFC8628E
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 23:47:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZGjTJJJecaPV for <iommu@lists.linux-foundation.org>;
- Tue, 14 Apr 2020 22:26:33 +0000 (UTC)
+ with ESMTP id BxUCD0wRteD2 for <iommu@lists.linux-foundation.org>;
+ Tue, 14 Apr 2020 23:47:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4B87E85EB4
- for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 22:26:33 +0000 (UTC)
-IronPort-SDR: IgJi6Lgu4NAV5tCPTKw7Mn6GbdEFvPLBxz2DoLoM5YfqZk86DmMSz8wY5D8l524wVnKtaxRuuF
- vGDQc/XJcLug==
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D3F2E85421
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 23:47:45 +0000 (UTC)
+IronPort-SDR: IUbY9cmqJiCrE+7IOTQFUHWjzIEDW50BIf11w4445l5DithLJnkgx6putHQ16YH+6355ZEg1gR
+ JWx95iL6tD4g==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2020 15:26:32 -0700
-IronPort-SDR: oq184DX6aPOgdSCRIeNXAFlwjcOFZ478YzXipsC7CI01jOPfMgssJsoT9WC8XXqVQs3Lg+NN6g
- TnZK14ggE4AQ==
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2020 16:47:45 -0700
+IronPort-SDR: HJEwfmx2SlLZPGikH6t0hQXnR0ePb56U5BQzHKT4XGZ+/3vb8VlyroeVtSYWf0JrbYhiiKd1kK
+ 2vnv/4bA4F2g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,384,1580803200"; d="scan'208";a="427222967"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga005.jf.intel.com with ESMTP; 14 Apr 2020 15:26:32 -0700
-Date: Tue, 14 Apr 2020 15:32:26 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v2 1/3] iommu/uapi: Define uapi version and capabilities
-Message-ID: <20200414153226.30d8cab3@jacob-builder>
-In-Reply-To: <20200414101304.27e587eb@jacob-builder>
+X-IronPort-AV: E=Sophos;i="5.72,384,1580803200"; d="scan'208";a="400120235"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by orsmga004.jf.intel.com with ESMTP; 14 Apr 2020 16:47:44 -0700
+Received: from fmsmsx123.amr.corp.intel.com (10.18.125.38) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 14 Apr 2020 16:47:44 -0700
+Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
+ fmsmsx123.amr.corp.intel.com (10.18.125.38) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 14 Apr 2020 16:47:43 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.225]) by
+ SHSMSX101.ccr.corp.intel.com ([169.254.1.129]) with mapi id 14.03.0439.000;
+ Wed, 15 Apr 2020 07:47:41 +0800
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Jacob Pan <jacob.jun.pan@linux.intel.com>, Alex Williamson
+ <alex.williamson@redhat.com>
+Subject: RE: [PATCH v2 1/3] iommu/uapi: Define uapi version and capabilities
+Thread-Topic: [PATCH v2 1/3] iommu/uapi: Define uapi version and capabilities
+Thread-Index: AQHWAvq+z2SPyfblHkGvV1oKjQsO9ahaFEoAgAB7VgCAAS14gP//zqQAgAEODYCABAXlIIAALvMAgAFssACAACIBAIABY/uQgAHtwgCAEWzRgIAAG8+AgABw0ICAALrWAIAAEIMAgABZOwCAAJqrwA==
+Date: Tue, 14 Apr 2020 23:47:40 +0000
+Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19D81F901@SHSMSX104.ccr.corp.intel.com>
 References: <1585178227-17061-1-git-send-email-jacob.jun.pan@linux.intel.com>
  <1585178227-17061-2-git-send-email-jacob.jun.pan@linux.intel.com>
  <20200326092316.GA31648@infradead.org>
@@ -66,15 +77,21 @@ References: <1585178227-17061-1-git-send-email-jacob.jun.pan@linux.intel.com>
  <20200331085444.44bee0bb@jacob-builder>
  <AADFC41AFE54684AB9EE6CBC0274A5D19D803AFF@SHSMSX104.ccr.corp.intel.com>
  <20200402113604.6eea1e6f@jacob-builder>
- <20200413134157.395981a6@jacob-builder>
- <20200413162129.313b3b5a@w520.home>
- <20200413220515.25a107b6@jacob-builder>
- <20200414101358.3ae66ac5@w520.home>
+ <20200413134157.395981a6@jacob-builder>	<20200413162129.313b3b5a@w520.home>
+ <20200413220515.25a107b6@jacob-builder>	<20200414101358.3ae66ac5@w520.home>
  <20200414101304.27e587eb@jacob-builder>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+ <20200414153226.30d8cab3@jacob-builder>
+In-Reply-To: <20200414153226.30d8cab3@jacob-builder>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
 MIME-Version: 1.0
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+Cc: "Raj, Ashok" <ashok.raj@intel.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.com>,
  LKML <linux-kernel@vger.kernel.org>,
  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
@@ -96,58 +113,73 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, 14 Apr 2020 10:13:04 -0700
-Jacob Pan <jacob.jun.pan@linux.intel.com> wrote:
+> From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Sent: Wednesday, April 15, 2020 6:32 AM
+> 
+> On Tue, 14 Apr 2020 10:13:04 -0700
+> Jacob Pan <jacob.jun.pan@linux.intel.com> wrote:
+> 
+> > > > >  In any of the proposed solutions, the
+> > > > > IOMMU driver is ultimately responsible for validating the user
+> > > > > data, so do we want vfio performing the copy_from_user() to an
+> > > > > object that could later be assumed to be sanitized, or should
+> > > > > vfio just pass a user pointer to make it obvious that the
+> > > > > consumer is responsible for all the user protections?  Seems
+> > > > > like the latter.
+> > > > I like the latter as well.
+> > > >
+> On a second thought, I think the former is better. Two reasons:
+> 
+> 1. IOMMU API such as page_response is also used in baremetal. So it is
+> not suitable to pass a __user *.
+> https://www.spinics.net/lists/arm-kernel/msg798677.html
 
-> > > >  In any of the proposed solutions, the
-> > > > IOMMU driver is ultimately responsible for validating the user
-> > > > data, so do we want vfio performing the copy_from_user() to an
-> > > > object that could later be assumed to be sanitized, or should
-> > > > vfio just pass a user pointer to make it obvious that the
-> > > > consumer is responsible for all the user protections?  Seems
-> > > > like the latter.      
-> > > I like the latter as well.
-> > >     
-On a second thought, I think the former is better. Two reasons:
+You can have a wrapped version accepting a __user* and an internal
+version for kernel pointers.
 
-1. IOMMU API such as page_response is also used in baremetal. So it is
-not suitable to pass a __user *.
-https://www.spinics.net/lists/arm-kernel/msg798677.html
+> 
+> 2. Some data are in the mandatory (fixed offset, never removed or
+> extended) portion of the uAPI structure. It is simpler for VFIO to
+> extract that and pass it to IOMMU API. For example, the PASID value used
+> for unbind_gpasid(). VFIO also need to sanitize the PASID value to make
+> sure it belongs to the same VM that did the allocation.
 
-2. Some data are in the mandatory (fixed offset, never removed or
-extended) portion of the uAPI structure. It is simpler for VFIO to
-extract that and pass it to IOMMU API. For example, the PASID value used
-for unbind_gpasid(). VFIO also need to sanitize the PASID value to make
-sure it belongs to the same VM that did the allocation.
+I don't think this makes much difference. If anyway you still plan to
+let IOMMU driver parse some user pointers, why not making a clear
+split to have it sparse all IOMMU specific fields?
 
+Thanks
+Kevin
 
-> > > >  That still really
-> > > > doesn't address what's in that user data blob yet, but the vfio
-> > > > interface could be:
-> > > > 
-> > > > struct {
-> > > > 	__u32 argsz;
-> > > > 	__u32 flags;
-> > > > 	__u8  data[];
-> > > > }
-> > > > 
-> > > > Where flags might be partitioned like we do for DEVICE_FEATURE
-> > > > to indicate the format of data and what vfio should do with it,
-> > > > and data might simply be defined as a (__u64 __user *).
-> > > >       
-> > > So, __user * will be passed to IOMMU driver if VFIO checks minsz
-> > > include flags and they are valid.
-> > > IOMMU driver can copy the rest based on the mandatory
-> > > version/minsz and flags in the IOMMU uAPI structs.
-> > > Does it sound right? This is really choice #2.    
-> > 
-> > Sounds like each IOMMU UAPI struct just needs to have an embedded
-> > size and flags field, but yes.
-> >   
-> Yes, an argsz field can be added to each UAPI. There are already flags
-> or the equivalent. IOMMU driver can process the __user * based on the
-> argsz, flags, check argsz against offsetofend(iommu_uapi_struct,
-> last_element), etc.;
+> 
+> 
+> > > > >  That still really
+> > > > > doesn't address what's in that user data blob yet, but the vfio
+> > > > > interface could be:
+> > > > >
+> > > > > struct {
+> > > > > 	__u32 argsz;
+> > > > > 	__u32 flags;
+> > > > > 	__u8  data[];
+> > > > > }
+> > > > >
+> > > > > Where flags might be partitioned like we do for DEVICE_FEATURE
+> > > > > to indicate the format of data and what vfio should do with it,
+> > > > > and data might simply be defined as a (__u64 __user *).
+> > > > >
+> > > > So, __user * will be passed to IOMMU driver if VFIO checks minsz
+> > > > include flags and they are valid.
+> > > > IOMMU driver can copy the rest based on the mandatory
+> > > > version/minsz and flags in the IOMMU uAPI structs.
+> > > > Does it sound right? This is really choice #2.
+> > >
+> > > Sounds like each IOMMU UAPI struct just needs to have an embedded
+> > > size and flags field, but yes.
+> > >
+> > Yes, an argsz field can be added to each UAPI. There are already flags
+> > or the equivalent. IOMMU driver can process the __user * based on the
+> > argsz, flags, check argsz against offsetofend(iommu_uapi_struct,
+> > last_element), etc.;
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
