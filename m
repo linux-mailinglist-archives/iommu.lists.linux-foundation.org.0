@@ -2,79 +2,80 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BC7A1A86C2
-	for <lists.iommu@lfdr.de>; Tue, 14 Apr 2020 19:04:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C445D1A86C5
+	for <lists.iommu@lfdr.de>; Tue, 14 Apr 2020 19:05:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C63D586E3A;
-	Tue, 14 Apr 2020 17:04:57 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 845BC86E6E;
+	Tue, 14 Apr 2020 17:04:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pvT-q18MlqY1; Tue, 14 Apr 2020 17:04:53 +0000 (UTC)
+	with ESMTP id 5tu8MuhltaM6; Tue, 14 Apr 2020 17:04:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4E6BE86E71;
-	Tue, 14 Apr 2020 17:04:53 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9319086E5E;
+	Tue, 14 Apr 2020 17:04:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 47798C089E;
-	Tue, 14 Apr 2020 17:04:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 80C8EC1D8D;
+	Tue, 14 Apr 2020 17:04:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 41227C0172
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E6DAAC089E
  for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 17:04:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2BF5421577
+ by silver.osuosl.org (Postfix) with ESMTP id DCAE32154A
  for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 17:04:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Um0rc2v9s-88 for <iommu@lists.linux-foundation.org>;
- Tue, 14 Apr 2020 17:04:46 +0000 (UTC)
+ with ESMTP id 5duDYvcntfZz for <iommu@lists.linux-foundation.org>;
+ Tue, 14 Apr 2020 17:04:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
- [209.85.221.66])
- by silver.osuosl.org (Postfix) with ESMTPS id EA7FB2154A
- for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 17:04:45 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id f13so15227947wrm.13
- for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 10:04:45 -0700 (PDT)
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+ [209.85.221.68])
+ by silver.osuosl.org (Postfix) with ESMTPS id D717E21579
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 17:04:46 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id a25so15269649wrd.0
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 10:04:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iFQo4eLK0C51ieV33vlbkwWvrpzk0Iu0nUGg4g65CHs=;
- b=JI5QkA97eezOSapi2fPqRY+esAG4E9fuADRTO9KkwAXqshRxQg2LKwGOVpQ8bEJ81f
- 7XPxMj7271i5R78HnNq28pZSLk3B7jV9yN0c4/bTfJRpnWpYm9Lt2jtqPzuqS2HV02Z2
- hkq9kvDb8FIDY1FaOeaNgULZXDgiAcMd9YqMGytbbSvWq4fOyoPZG5zIKdYtbwIwjSXa
- /p9Mczkd/c2xupqo0EB5V5OSAvg3O/E1/F5JPD2SgV6IMuTc6+yiI7lkQVerTEvPWxXm
- XspXwZKvxZ42rz0b7zJEQWuYEyF6WUnRsl/SYo5BgSVSgOvKFQDMOtkvWsn7y2Hxn6V5
- 9ulA==
+ bh=D0bn8eYz56VMgxOp5ayoExfg5jGvgwB4FphM9uY9cuk=;
+ b=gaVetWITwcst6bu/nPvp9HMtqfUjFV8jNuR5DTxjtDB5fKnw4UC1WpM0ialzVE04YJ
+ aUTCOZCoH6xMH/pcYvzE14g/LWvFJeIGDMM4bbM2Xv23UMZAqzbaBOf3DW7r7emWqfWu
+ P74iWnOqiylnkhEnvcb/QDYz8b2LjhHXJNQ9vXxtONtwUVwG7wbLCDIQYJkvfUHwMNFM
+ 585ermQHWlAsr56de4uYSqQOLq+Ln0ys9qZJE/c5E2jIipl3ODDZgZVH0KJivAAXt/6Z
+ VSLToAvZ0G8jFDFeJynK4H7UNh5u8xJq73tAg5ay36N7Z15IH/HuICTVJh+B2QQCljjk
+ /pXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iFQo4eLK0C51ieV33vlbkwWvrpzk0Iu0nUGg4g65CHs=;
- b=ZFhhBpLHUqQt9WfQwPuY7tT3tTmaZVgVQo9s0Qe9hbQVXhxz4iCCxSPyDVjA1FbpSy
- 4IoGinpFJw9/0XqcCPqT+7pHwLKSfx+GWf/esLM2o+Gfg5lg/+AOSjfMXDkIUle9rnKE
- wKJnmm3K7xx2al8LXaOhC5muWHcvHlJgMnzsAmmylDnIP/evhLyyXMr/XEfvRlFsXtOX
- MCAboLYhmw9bNMDeSzBV8rRo/I4/4B7pVpROfUMAxmxqQK77emsqbnA/t1Pa3KeOQZSz
- 6j/BjEUf+dmMs00SZOqXlNqi7NUOmiVRQcMabmdxbVoG91sG65JCEDB3k10oJo7iZe4c
- bZpQ==
-X-Gm-Message-State: AGi0PubdRHGoO8dQl/gwCr9WyQqGuXA2bQ08qcHk2WJrlXBvOgVhxCW+
- j41+yf1z7ALJ4hd315s5304AbO/DScrF8g==
-X-Google-Smtp-Source: APiQypLZa+lawPw64nTDrcMPpw0HQPprW6BlaWllx/hPptH94lEGFoejVXa1lUE2ugeNThH+6x6yTQ==
-X-Received: by 2002:a5d:4085:: with SMTP id o5mr23364377wrp.327.1586883883718; 
- Tue, 14 Apr 2020 10:04:43 -0700 (PDT)
+ bh=D0bn8eYz56VMgxOp5ayoExfg5jGvgwB4FphM9uY9cuk=;
+ b=AGv7CsmksA5g4qwooUgTXEXvHl1lFbGpd1lL1F1hCio5GsxSbL3V8n8E8DPEfbkMVV
+ Ed1sOy+JD18lyGcXByTARhJOU60mKDPeg3RtocWQgkUrFDAAZ36xey3Mx1RYoi2fDVC7
+ p0lbIY+AdtS14ucfNmyd7bmdLKXAn0j55zN0JRoSvcGZOe7VuX+38609VPPz7OdA4DAv
+ Vf2JooTvMzjrntVWtVhe/Z9tzOu+trkMgnjGVQ6ESApBxPaip9I/WS0dAjOf8hEAuECr
+ c1Vxa/gSzgmxBadrmhfU4qnuXpVUHp1jNFL18tYiYDjDwWYiSp327Id9aMLsAHfUN5Ed
+ Fqwg==
+X-Gm-Message-State: AGi0PuZXzXyqyH+x8QyT7v4YuwO1Mrt7mF/4pdneNI8WSwG/vtL8OzK2
+ 0mnmEM0zWApHURc20DfOrj5BpMOrtcBbrQ==
+X-Google-Smtp-Source: APiQypIcTdHMtDvgZ2K33+lxk/gMLeR1nAQxEQBMjbieoGuouiMjyc3vdc5F4dRl+5YUbbh9Wf+MWQ==
+X-Received: by 2002:adf:9788:: with SMTP id s8mr1224774wrb.84.1586883885010;
+ Tue, 14 Apr 2020 10:04:45 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:171b:226b:54a0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id x18sm19549147wrs.11.2020.04.14.10.04.42
+ by smtp.gmail.com with ESMTPSA id x18sm19549147wrs.11.2020.04.14.10.04.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Apr 2020 10:04:43 -0700 (PDT)
+ Tue, 14 Apr 2020 10:04:44 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: iommu@lists.linux-foundation.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
  linux-mm@kvack.org
-Subject: [PATCH v5 18/25] iommu/arm-smmu-v3: Hook up ATC invalidation to mm ops
-Date: Tue, 14 Apr 2020 19:02:46 +0200
-Message-Id: <20200414170252.714402-19-jean-philippe@linaro.org>
+Subject: [PATCH v5 19/25] iommu/arm-smmu-v3: Add support for Hardware
+ Translation Table Update
+Date: Tue, 14 Apr 2020 19:02:47 +0200
+Message-Id: <20200414170252.714402-20-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200414170252.714402-1-jean-philippe@linaro.org>
 References: <20200414170252.714402-1-jean-philippe@linaro.org>
@@ -99,141 +100,105 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-iommu-sva calls us when an mm is modified. Perform the required ATC
-invalidations.
+If the SMMU supports it and the kernel was built with HTTU support, enable
+hardware update of access and dirty flags. This is essential for shared
+page tables, to reduce the number of access faults on the fault queue.
+
+We can enable HTTU even if CPUs don't support it, because the kernel
+always checks for HW dirty bit and updates the PTE flags atomically.
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
-v4->v5: more comments
+v4->v5: bump feature bits
 ---
- drivers/iommu/arm-smmu-v3.c | 70 ++++++++++++++++++++++++++++++-------
- 1 file changed, 58 insertions(+), 12 deletions(-)
+ drivers/iommu/arm-smmu-v3.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index 6640c2ac2a7c5..c4bffb14461aa 100644
+index c4bffb14461aa..4ed9df15581af 100644
 --- a/drivers/iommu/arm-smmu-v3.c
 +++ b/drivers/iommu/arm-smmu-v3.c
-@@ -2375,6 +2375,20 @@ arm_smmu_atc_inv_to_cmd(int ssid, unsigned long iova, size_t size,
- 	size_t inval_grain_shift = 12;
- 	unsigned long page_start, page_end;
+@@ -57,6 +57,8 @@
+ #define IDR0_ASID16			(1 << 12)
+ #define IDR0_ATS			(1 << 10)
+ #define IDR0_HYP			(1 << 9)
++#define IDR0_HD				(1 << 7)
++#define IDR0_HA				(1 << 6)
+ #define IDR0_BTM			(1 << 5)
+ #define IDR0_COHACC			(1 << 4)
+ #define IDR0_TTF			GENMASK(3, 2)
+@@ -308,6 +310,9 @@
+ #define CTXDESC_CD_0_TCR_IPS		GENMASK_ULL(34, 32)
+ #define CTXDESC_CD_0_TCR_TBI0		(1ULL << 38)
  
-+	/*
-+	 * ATS and PASID:
-+	 *
-+	 * If substream_valid is clear, the PCIe TLP is sent without a PASID
-+	 * prefix. In that case all ATC entries within the address range are
-+	 * invalidated, including those that were requested with a PASID! There
-+	 * is no way to invalidate only entries without PASID.
-+	 *
-+	 * When using STRTAB_STE_1_S1DSS_SSID0 (reserving CD 0 for non-PASID
-+	 * traffic), translation requests without PASID create ATC entries
-+	 * without PASID, which must be invalidated with substream_valid clear.
-+	 * This has the unpleasant side-effect of invalidating all PASID-tagged
-+	 * ATC entries within the address range.
-+	 */
- 	*cmd = (struct arm_smmu_cmdq_ent) {
- 		.opcode			= CMDQ_OP_ATC_INV,
- 		.substream_valid	= !!ssid,
-@@ -2418,12 +2432,12 @@ arm_smmu_atc_inv_to_cmd(int ssid, unsigned long iova, size_t size,
- 	cmd->atc.size	= log2_span;
- }
- 
--static int arm_smmu_atc_inv_master(struct arm_smmu_master *master)
-+static int arm_smmu_atc_inv_master(struct arm_smmu_master *master, int ssid)
- {
- 	int i;
- 	struct arm_smmu_cmdq_ent cmd;
- 
--	arm_smmu_atc_inv_to_cmd(0, 0, 0, &cmd);
-+	arm_smmu_atc_inv_to_cmd(ssid, 0, 0, &cmd);
- 
- 	for (i = 0; i < master->num_sids; i++) {
- 		cmd.atc.sid = master->sids[i];
-@@ -2934,7 +2948,7 @@ static void arm_smmu_disable_ats(struct arm_smmu_master *master)
- 	 * ATC invalidation via the SMMU.
- 	 */
- 	wmb();
--	arm_smmu_atc_inv_master(master);
-+	arm_smmu_atc_inv_master(master, 0);
- 	atomic_dec(&smmu_domain->nr_ats_masters);
- }
- 
-@@ -3131,7 +3145,22 @@ arm_smmu_iova_to_phys(struct iommu_domain *domain, dma_addr_t iova)
- static void arm_smmu_mm_invalidate(struct device *dev, int pasid, void *entry,
- 				   unsigned long iova, size_t size)
- {
--	/* TODO: Invalidate ATC */
-+	int i;
-+	struct arm_smmu_cmdq_ent cmd;
-+	struct arm_smmu_cmdq_batch cmds = {};
-+	struct arm_smmu_master *master = dev_iommu_priv_get(dev);
++#define CTXDESC_CD_0_TCR_HA		(1UL << 43)
++#define CTXDESC_CD_0_TCR_HD		(1UL << 42)
 +
-+	if (!master->ats_enabled)
-+		return;
+ #define CTXDESC_CD_0_AA64		(1UL << 41)
+ #define CTXDESC_CD_0_S			(1UL << 44)
+ #define CTXDESC_CD_0_R			(1UL << 45)
+@@ -659,6 +664,8 @@ struct arm_smmu_device {
+ #define ARM_SMMU_FEAT_E2H		(1 << 16)
+ #define ARM_SMMU_FEAT_BTM		(1 << 17)
+ #define ARM_SMMU_FEAT_SVA		(1 << 18)
++#define ARM_SMMU_FEAT_HA		(1 << 19)
++#define ARM_SMMU_FEAT_HD		(1 << 20)
+ 	u32				features;
+ 
+ #define ARM_SMMU_OPT_SKIP_PREFETCH	(1 << 0)
+@@ -1689,10 +1696,17 @@ static int __arm_smmu_write_ctx_desc(struct arm_smmu_domain *smmu_domain,
+ 		 * this substream's traffic
+ 		 */
+ 	} else { /* (1) and (2) */
++		u64 tcr = cd->tcr;
 +
-+	arm_smmu_atc_inv_to_cmd(pasid, iova, size, &cmd);
+ 		cdptr[1] = cpu_to_le64(cd->ttbr & CTXDESC_CD_1_TTB0_MASK);
+ 		cdptr[2] = 0;
+ 		cdptr[3] = cpu_to_le64(cd->mair);
+ 
++		if (!(smmu->features & ARM_SMMU_FEAT_HD))
++			tcr &= ~CTXDESC_CD_0_TCR_HD;
++		if (!(smmu->features & ARM_SMMU_FEAT_HA))
++			tcr &= ~CTXDESC_CD_0_TCR_HA;
 +
-+	for (i = 0; i < master->num_sids; i++) {
-+		cmd.atc.sid = master->sids[i];
-+		arm_smmu_cmdq_batch_add(master->smmu, &cmds, &cmd);
+ 		/*
+ 		 * STE is live, and the SMMU might read dwords of this CD in any
+ 		 * order. Ensure that it observes valid values before reading
+@@ -1700,7 +1714,7 @@ static int __arm_smmu_write_ctx_desc(struct arm_smmu_domain *smmu_domain,
+ 		 */
+ 		arm_smmu_sync_cd(smmu_domain, ssid, true);
+ 
+-		val = cd->tcr |
++		val = tcr |
+ #ifdef __BIG_ENDIAN
+ 			CTXDESC_CD_0_ENDI |
+ #endif
+@@ -1943,10 +1957,12 @@ static struct arm_smmu_ctx_desc *arm_smmu_alloc_shared_cd(struct mm_struct *mm)
+ 		return old_cd;
+ 	}
+ 
++	/* HA and HD will be filtered out later if not supported by the SMMU */
+ 	tcr = FIELD_PREP(CTXDESC_CD_0_TCR_T0SZ, 64ULL - VA_BITS) |
+ 	      FIELD_PREP(CTXDESC_CD_0_TCR_IRGN0, ARM_LPAE_TCR_RGN_WBWA) |
+ 	      FIELD_PREP(CTXDESC_CD_0_TCR_ORGN0, ARM_LPAE_TCR_RGN_WBWA) |
+ 	      FIELD_PREP(CTXDESC_CD_0_TCR_SH0, ARM_LPAE_TCR_SH_IS) |
++	      CTXDESC_CD_0_TCR_HA | CTXDESC_CD_0_TCR_HD |
+ 	      CTXDESC_CD_0_TCR_EPD1 | CTXDESC_CD_0_AA64;
+ 
+ 	switch (PAGE_SIZE) {
+@@ -4309,6 +4325,12 @@ static int arm_smmu_device_hw_probe(struct arm_smmu_device *smmu)
+ 			smmu->features |= ARM_SMMU_FEAT_E2H;
+ 	}
+ 
++	if (reg & (IDR0_HA | IDR0_HD)) {
++		smmu->features |= ARM_SMMU_FEAT_HA;
++		if (reg & IDR0_HD)
++			smmu->features |= ARM_SMMU_FEAT_HD;
 +	}
 +
-+	arm_smmu_cmdq_batch_submit(master->smmu, &cmds);
- }
- 
- static int arm_smmu_mm_attach(struct device *dev, int pasid, void *entry,
-@@ -3168,26 +3197,43 @@ static void arm_smmu_mm_clear(struct device *dev, int pasid, void *entry)
- 	 * for this ASID, so we need to do it manually.
- 	 */
- 	arm_smmu_tlb_inv_asid(smmu_domain->smmu, cd->asid);
--
--	/* TODO: invalidate ATC */
-+	arm_smmu_atc_inv_domain(smmu_domain, pasid, 0, 0);
- }
- 
- static void arm_smmu_mm_detach(struct device *dev, int pasid, void *entry,
- 			       bool detach_domain, bool cleared)
- {
- 	struct arm_smmu_ctx_desc *cd = entry;
-+	struct arm_smmu_master *master = dev_iommu_priv_get(dev);
- 	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
- 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
- 
--	if (detach_domain) {
-+	if (detach_domain)
- 		arm_smmu_write_ctx_desc(smmu_domain, pasid, NULL);
- 
--		if (!cleared)
--			/* See comment in arm_smmu_mm_clear() */
--			arm_smmu_tlb_inv_asid(smmu_domain->smmu, cd->asid);
--	}
-+	/*
-+	 * If we went through clear(), we've already invalidated, and no new TLB
-+	 * entry can have been formed.
-+	 */
-+	if (cleared)
-+		return;
-+
-+	if (detach_domain) {
-+		/* See comment in arm_smmu_mm_clear() */
-+		arm_smmu_tlb_inv_asid(smmu_domain->smmu, cd->asid);
-+		arm_smmu_atc_inv_domain(smmu_domain, pasid, 0, 0);
- 
--	/* TODO: invalidate ATC */
-+	} else if (master->ats_enabled) {
-+		/*
-+		 * There are more devices bound with this PASID in this domain,
-+		 * so we cannot yet clear the PASID entry, and this device could
-+		 * create new ATC entries. Invalidate the ATC for the sake of
-+		 * it. On unbinding the last device we'll properly invalidate
-+		 * all ATCs in the domain. Alternatively, an early detach_dev()
-+		 * on this device will also flush the ATC.
-+		 */
-+		arm_smmu_atc_inv_master(master, pasid);
-+	}
- }
- 
- static void *arm_smmu_mm_alloc(struct mm_struct *mm)
+ 	/*
+ 	 * If the CPU is using VHE, but the SMMU doesn't support it, the SMMU
+ 	 * will create TLB entries for NH-EL1 world and will miss the
 -- 
 2.26.0
 
