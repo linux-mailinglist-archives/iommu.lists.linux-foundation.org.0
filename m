@@ -1,41 +1,41 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id E125F1A7C65
-	for <lists.iommu@lfdr.de>; Tue, 14 Apr 2020 15:16:15 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 993611A7CC0
+	for <lists.iommu@lfdr.de>; Tue, 14 Apr 2020 15:17:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 90ACB87CDB;
-	Tue, 14 Apr 2020 13:16:14 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 558CC2107D;
+	Tue, 14 Apr 2020 13:17:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id U5xkTgBX9dcT; Tue, 14 Apr 2020 13:16:11 +0000 (UTC)
+	with ESMTP id 8kU9l9MCt+rR; Tue, 14 Apr 2020 13:17:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D738887D11;
-	Tue, 14 Apr 2020 13:16:06 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B7CE62094E;
+	Tue, 14 Apr 2020 13:17:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BE039C0172;
-	Tue, 14 Apr 2020 13:16:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B218DC1D7D;
+	Tue, 14 Apr 2020 13:17:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 94181C0172;
- Tue, 14 Apr 2020 13:16:04 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 39A67C0172;
+ Tue, 14 Apr 2020 13:17:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8C76987BB1;
- Tue, 14 Apr 2020 13:16:04 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2F25085B5D;
+ Tue, 14 Apr 2020 13:17:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6LzceZ5uCga9; Tue, 14 Apr 2020 13:16:02 +0000 (UTC)
+ with ESMTP id fUGOESqLaT12; Tue, 14 Apr 2020 13:16:57 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1156487A2F;
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 13B3D86A26;
  Tue, 14 Apr 2020 13:16:02 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id D28195D8; Tue, 14 Apr 2020 15:15:53 +0200 (CEST)
+ id 0F20F5FF; Tue, 14 Apr 2020 15:15:53 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>,
@@ -50,10 +50,9 @@ To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [PATCH v2 13/33] iommu: Export bus_iommu_probe() and make is safe for
- re-probing
-Date: Tue, 14 Apr 2020 15:15:22 +0200
-Message-Id: <20200414131542.25608-14-joro@8bytes.org>
+Subject: [PATCH v2 14/33] iommu/amd: Remove dev_data->passthrough
+Date: Tue, 14 Apr 2020 15:15:23 +0200
+Message-Id: <20200414131542.25608-15-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200414131542.25608-1-joro@8bytes.org>
 References: <20200414131542.25608-1-joro@8bytes.org>
@@ -82,52 +81,64 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Add a check to the bus_iommu_probe() call-path to make sure it ignores
-devices which have already been successfully probed. Then export the
-bus_iommu_probe() function so it can be used by IOMMU drivers.
+Make use of generic IOMMU infrastructure to gather the same information
+carried in dev_data->passthrough and remove the struct member.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/iommu.c | 6 +++++-
- include/linux/iommu.h | 1 +
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ drivers/iommu/amd_iommu.c       | 10 +++++-----
+ drivers/iommu/amd_iommu_types.h |  1 -
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 834a45da0ed0..a2ff95424044 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -1615,6 +1615,10 @@ static int probe_iommu_group(struct device *dev, void *data)
- 	if (!dev_iommu_get(dev))
- 		return -ENOMEM;
- 
-+	/* Device is probed already if in a group */
-+	if (iommu_group_get(dev) != NULL)
-+		return 0;
-+
- 	if (!try_module_get(ops->owner)) {
- 		ret = -EINVAL;
- 		goto err_free_dev_iommu;
-@@ -1783,7 +1787,7 @@ static int iommu_group_create_direct_mappings(struct iommu_group *group)
- 					  iommu_do_create_direct_mappings);
- }
- 
--static int bus_iommu_probe(struct bus_type *bus)
-+int bus_iommu_probe(struct bus_type *bus)
+diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+index 3e0d27f7622e..0b4b4faa876d 100644
+--- a/drivers/iommu/amd_iommu.c
++++ b/drivers/iommu/amd_iommu.c
+@@ -2047,8 +2047,8 @@ static int pdev_iommuv2_enable(struct pci_dev *pdev)
+ static int attach_device(struct device *dev,
+ 			 struct protection_domain *domain)
  {
- 	const struct iommu_ops *ops = bus->iommu_ops;
+-	struct pci_dev *pdev;
+ 	struct iommu_dev_data *dev_data;
++	struct pci_dev *pdev;
+ 	unsigned long flags;
  	int ret;
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 30170d191e5e..fea1622408ad 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -445,6 +445,7 @@ static inline void iommu_iotlb_gather_init(struct iommu_iotlb_gather *gather)
- #define IOMMU_GROUP_NOTIFY_UNBOUND_DRIVER	6 /* Post Driver unbind */
  
- extern int bus_set_iommu(struct bus_type *bus, const struct iommu_ops *ops);
-+extern int bus_iommu_probe(struct bus_type *bus);
- extern bool iommu_present(struct bus_type *bus);
- extern bool iommu_capable(struct bus_type *bus, enum iommu_cap cap);
- extern struct iommu_domain *iommu_domain_alloc(struct bus_type *bus);
+@@ -2067,8 +2067,10 @@ static int attach_device(struct device *dev,
+ 
+ 	pdev = to_pci_dev(dev);
+ 	if (domain->flags & PD_IOMMUV2_MASK) {
++		struct iommu_domain *def_domain = iommu_get_dma_domain(dev);
++
+ 		ret = -EINVAL;
+-		if (!dev_data->passthrough)
++		if (def_domain->type != IOMMU_DOMAIN_IDENTITY)
+ 			goto out;
+ 
+ 		if (dev_data->iommu_v2) {
+@@ -2189,9 +2191,7 @@ static int amd_iommu_add_device(struct device *dev)
+ 
+ 	/* Domains are initialized for this device - have a look what we ended up with */
+ 	domain = iommu_get_domain_for_dev(dev);
+-	if (domain->type == IOMMU_DOMAIN_IDENTITY)
+-		dev_data->passthrough = true;
+-	else if (domain->type == IOMMU_DOMAIN_DMA)
++	if (domain->type == IOMMU_DOMAIN_DMA)
+ 		iommu_setup_dma_ops(dev, IOVA_START_PFN << PAGE_SHIFT, 0);
+ 
+ out:
+diff --git a/drivers/iommu/amd_iommu_types.h b/drivers/iommu/amd_iommu_types.h
+index ca8c4522045b..d0d7b6a0c3d8 100644
+--- a/drivers/iommu/amd_iommu_types.h
++++ b/drivers/iommu/amd_iommu_types.h
+@@ -640,7 +640,6 @@ struct iommu_dev_data {
+ 	struct pci_dev *pdev;
+ 	u16 devid;			  /* PCI Device ID */
+ 	bool iommu_v2;			  /* Device can make use of IOMMUv2 */
+-	bool passthrough;		  /* Device is identity mapped */
+ 	struct {
+ 		bool enabled;
+ 		int qdep;
 -- 
 2.17.1
 
