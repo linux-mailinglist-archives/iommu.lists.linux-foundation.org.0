@@ -1,53 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7061A7C10
-	for <lists.iommu@lfdr.de>; Tue, 14 Apr 2020 15:14:29 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A801A7C11
+	for <lists.iommu@lfdr.de>; Tue, 14 Apr 2020 15:14:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 341A720512;
-	Tue, 14 Apr 2020 13:14:28 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4B60385B5D;
+	Tue, 14 Apr 2020 13:14:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7SdnM3Z+LApy; Tue, 14 Apr 2020 13:14:26 +0000 (UTC)
+	with ESMTP id wdwojQASB4Pf; Tue, 14 Apr 2020 13:14:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7AA812052F;
-	Tue, 14 Apr 2020 13:14:26 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BBC0A858AE;
+	Tue, 14 Apr 2020 13:14:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 75AA0C0172;
-	Tue, 14 Apr 2020 13:14:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A721BC0172;
+	Tue, 14 Apr 2020 13:14:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CF984C0172
- for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 13:14:24 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35648C0172
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 13:14:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C95318560C
- for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 13:14:24 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 18E6785B5D
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 13:14:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 39cLcaDLddlq for <iommu@lists.linux-foundation.org>;
- Tue, 14 Apr 2020 13:14:24 +0000 (UTC)
+ with ESMTP id yRPoG-GqROO1 for <iommu@lists.linux-foundation.org>;
+ Tue, 14 Apr 2020 13:14:27 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [198.137.202.133])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 707188459B
- for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 13:14:24 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id A1DD2858AE
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 13:14:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=rwITWnodxtxB053rM9yCZzqiIs1QEdMouA7A3MKpqno=; b=JmhKVjFD6Qtc4Rks1WP0QRtOVI
- EaUL8ftEcKjawkCLWwPZDx4nRVBGbezEGtvLPT7IDbJMqMtSZ0+oyd24qvIsLdHerkTY/1FXTSdPs
- 0p/noJIRPKmpuCZ19LecM57WC4hX/A33Cu7yHqAkJLCi4OvogbDj8zG0XdAH449MXmpUkwaaSj5up
- BVU/IFkT02nQTe7GDbtoRwsW3rlw3BwvxQ0SoRXia5xnTqKDb2L345edsRt7JsBVPlfVpwyZYySBG
- KviL7yjkAqDpJns8JZZrIzBdzsIgTRzvlKYT1z+2QI98z8/54DvBiUpaKLdBF+Gzu/QUyteboQQqB
- NHgrMHoQ==;
+ bh=P0QGXI8WIAUkLA5oaVQBkKr+RjNjEiTElf25rk2wDtU=; b=gkxa9gqqASDphVAfv8wQt845n9
+ jxkDvAqxlxq3J6swikqKkHBol2ekFVYuRiMkqfgxWqwJXtVowUJA7JjIek0DLR0hHrHAizB5G7Wsc
+ oot4UnFb6Xragn/foDCyGfKAjsCHRfqvVZRmIgXoRm+tCfezVrCYGWXgNNVttfszg/ayjEN/RMQ7R
+ 59IfeDRqEnNQLXqu1aFCyGpz2UAFfQmjKnYeQBjdx4DL6OZQoyk854r/C68f7mqnWD6X4Jwo3J6Mf
+ YdAyGkJTZ7GF84coUyuViF3tLk9sw6TRCoiRgWSxRil+PRCoYHLztBa/Op3s/jlDqMmwGscHlTz8c
+ rmXaTzog==;
 Received: from [2001:4bb8:180:384b:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jOLO3-0006Gl-Fp; Tue, 14 Apr 2020 13:13:59 +0000
+ id 1jOLO6-0006Jn-Io; Tue, 14 Apr 2020 13:14:03 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Andrew Morton <akpm@linux-foundation.org>,
  "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -58,9 +58,9 @@ To: Andrew Morton <akpm@linux-foundation.org>,
  Sumit Semwal <sumit.semwal@linaro.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>
-Subject: [PATCH 02/29] x86: fix vmap arguments in map_irq_stack
-Date: Tue, 14 Apr 2020 15:13:21 +0200
-Message-Id: <20200414131348.444715-3-hch@lst.de>
+Subject: [PATCH 03/29] staging: android: ion: use vmap instead of vm_map_ram
+Date: Tue, 14 Apr 2020 15:13:22 +0200
+Message-Id: <20200414131348.444715-4-hch@lst.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200414131348.444715-1-hch@lst.de>
 References: <20200414131348.444715-1-hch@lst.de>
@@ -72,7 +72,8 @@ Cc: Christophe Leroy <christophe.leroy@c-s.fr>, linux-arch@vger.kernel.org,
  Peter Zijlstra <peterz@infradead.org>, linuxppc-dev@lists.ozlabs.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, bpf@vger.kernel.org,
+ iommu@lists.linux-foundation.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, bpf@vger.kernel.org,
  Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -91,26 +92,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-vmap does not take a gfp_t, the flags argument is for VM_* flags.
+vm_map_ram can keep mappings around after the vm_unmap_ram.  Using that
+with non-PAGE_KERNEL mappings can lead to all kinds of aliasing issues.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/x86/kernel/irq_64.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/android/ion/ion_heap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/kernel/irq_64.c b/arch/x86/kernel/irq_64.c
-index 12df3a4abfdd..6b32ab009c19 100644
---- a/arch/x86/kernel/irq_64.c
-+++ b/arch/x86/kernel/irq_64.c
-@@ -43,7 +43,7 @@ static int map_irq_stack(unsigned int cpu)
- 		pages[i] = pfn_to_page(pa >> PAGE_SHIFT);
- 	}
+diff --git a/drivers/staging/android/ion/ion_heap.c b/drivers/staging/android/ion/ion_heap.c
+index 473b465724f1..0755b11348ed 100644
+--- a/drivers/staging/android/ion/ion_heap.c
++++ b/drivers/staging/android/ion/ion_heap.c
+@@ -99,12 +99,12 @@ int ion_heap_map_user(struct ion_heap *heap, struct ion_buffer *buffer,
  
--	va = vmap(pages, IRQ_STACK_SIZE / PAGE_SIZE, GFP_KERNEL, PAGE_KERNEL);
-+	va = vmap(pages, IRQ_STACK_SIZE / PAGE_SIZE, VM_MAP, PAGE_KERNEL);
- 	if (!va)
+ static int ion_heap_clear_pages(struct page **pages, int num, pgprot_t pgprot)
+ {
+-	void *addr = vm_map_ram(pages, num, -1, pgprot);
++	void *addr = vmap(pages, num, VM_MAP, pgprot);
+ 
+ 	if (!addr)
  		return -ENOMEM;
+ 	memset(addr, 0, PAGE_SIZE * num);
+-	vm_unmap_ram(addr, num);
++	vunmap(addr);
  
+ 	return 0;
+ }
 -- 
 2.25.1
 
