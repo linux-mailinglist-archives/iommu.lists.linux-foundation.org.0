@@ -1,41 +1,41 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023901A7C64
-	for <lists.iommu@lfdr.de>; Tue, 14 Apr 2020 15:16:14 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9148687C7D;
-	Tue, 14 Apr 2020 13:16:12 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rR+IW1rUM2ba; Tue, 14 Apr 2020 13:16:08 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 054C087C16;
-	Tue, 14 Apr 2020 13:16:06 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EEBDDC0172;
-	Tue, 14 Apr 2020 13:16:05 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 68A0EC0172;
- Tue, 14 Apr 2020 13:16:03 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AC5C1A7C5F
+	for <lists.iommu@lfdr.de>; Tue, 14 Apr 2020 15:16:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 49CFB2078B;
- Tue, 14 Apr 2020 13:16:03 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 354D120784;
+	Tue, 14 Apr 2020 13:16:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oqoLTkL700+W; Tue, 14 Apr 2020 13:16:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id A632C20785;
+	Tue, 14 Apr 2020 13:16:02 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 93B57C1D7D;
+	Tue, 14 Apr 2020 13:16:02 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7FF45C0172;
+ Tue, 14 Apr 2020 13:16:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 783CF87A12;
+ Tue, 14 Apr 2020 13:16:01 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Wi78UfPB6bXx; Tue, 14 Apr 2020 13:16:01 +0000 (UTC)
+ with ESMTP id Mw84CLkyMbGE; Tue, 14 Apr 2020 13:16:01 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id EA10620555;
+ by hemlock.osuosl.org (Postfix) with ESMTPS id DBA42879FF;
  Tue, 14 Apr 2020 13:16:00 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 1B5634DB; Tue, 14 Apr 2020 15:15:53 +0200 (CEST)
+ id 31ED54F2; Tue, 14 Apr 2020 15:15:53 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>,
@@ -50,10 +50,10 @@ To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [PATCH v2 09/33] iommu: Keep a list of allocated groups in
- __iommu_probe_device()
-Date: Tue, 14 Apr 2020 15:15:18 +0200
-Message-Id: <20200414131542.25608-10-joro@8bytes.org>
+Subject: [PATCH v2 10/33] iommu: Move new probe_device path to separate
+ function
+Date: Tue, 14 Apr 2020 15:15:19 +0200
+Message-Id: <20200414131542.25608-11-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200414131542.25608-1-joro@8bytes.org>
 References: <20200414131542.25608-1-joro@8bytes.org>
@@ -82,62 +82,109 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-This is needed to defer default_domain allocation for new IOMMU groups
-until all devices have been added to the group.
+This makes it easier to remove to old code-path when all drivers are
+converted. As a side effect that it also fixes the error cleanup
+path.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/iommu.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/iommu/iommu.c | 69 ++++++++++++++++++++++++++++---------------
+ 1 file changed, 46 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 7a385c18e1a5..18eb3623bd00 100644
+index 18eb3623bd00..8be047a4808f 100644
 --- a/drivers/iommu/iommu.c
 +++ b/drivers/iommu/iommu.c
-@@ -44,6 +44,7 @@ struct iommu_group {
- 	int id;
- 	struct iommu_domain *default_domain;
- 	struct iommu_domain *domain;
-+	struct list_head entry;
- };
- 
- struct group_device {
-@@ -184,7 +185,7 @@ static void dev_iommu_free(struct device *dev)
- 	dev->iommu = NULL;
+@@ -218,12 +218,55 @@ static int __iommu_probe_device(struct device *dev, struct list_head *group_list
+ 	return ret;
  }
  
--static int __iommu_probe_device(struct device *dev)
-+static int __iommu_probe_device(struct device *dev, struct list_head *group_list)
++static int __iommu_probe_device_helper(struct device *dev)
++{
++	const struct iommu_ops *ops = dev->bus->iommu_ops;
++	struct iommu_group *group;
++	int ret;
++
++	ret = __iommu_probe_device(dev, NULL);
++	if (ret)
++		goto err_out;
++
++	/*
++	 * Try to allocate a default domain - needs support from the
++	 * IOMMU driver. There are still some drivers which don't
++	 * support default domains, so the return value is not yet
++	 * checked.
++	 */
++	iommu_alloc_default_domain(dev);
++
++	group = iommu_group_get(dev);
++	if (!group)
++		goto err_release;
++
++	if (group->default_domain)
++		ret = __iommu_attach_device(group->default_domain, dev);
++
++	iommu_group_put(group);
++
++	if (ret)
++		goto err_release;
++
++	if (ops->probe_finalize)
++		ops->probe_finalize(dev);
++
++	return 0;
++
++err_release:
++	iommu_release_device(dev);
++err_out:
++	return ret;
++
++}
++
+ int iommu_probe_device(struct device *dev)
  {
  	const struct iommu_ops *ops = dev->bus->iommu_ops;
- 	struct iommu_device *iommu_dev;
-@@ -204,6 +205,9 @@ static int __iommu_probe_device(struct device *dev)
- 	}
- 	iommu_group_put(group);
+ 	int ret;
  
-+	if (group_list && !group->default_domain && list_empty(&group->entry))
-+		list_add_tail(&group->entry, group_list);
+ 	WARN_ON(dev->iommu_group);
 +
- 	iommu_device_link(iommu_dev, dev);
+ 	if (!ops)
+ 		return -EINVAL;
  
- 	return 0;
-@@ -234,7 +238,7 @@ int iommu_probe_device(struct device *dev)
- 	if (ops->probe_device) {
- 		struct iommu_group *group;
+@@ -235,30 +278,10 @@ int iommu_probe_device(struct device *dev)
+ 		goto err_free_dev_param;
+ 	}
  
--		ret = __iommu_probe_device(dev);
-+		ret = __iommu_probe_device(dev, NULL);
+-	if (ops->probe_device) {
+-		struct iommu_group *group;
+-
+-		ret = __iommu_probe_device(dev, NULL);
+-
+-		/*
+-		 * Try to allocate a default domain - needs support from the
+-		 * IOMMU driver. There are still some drivers which don't
+-		 * support default domains, so the return value is not yet
+-		 * checked.
+-		 */
+-		if (!ret)
+-			iommu_alloc_default_domain(dev);
+-
+-		group = iommu_group_get(dev);
+-		if (group && group->default_domain) {
+-			ret = __iommu_attach_device(group->default_domain, dev);
+-			iommu_group_put(group);
+-		}
+-
+-	} else {
+-		ret = ops->add_device(dev);
+-	}
++	if (ops->probe_device)
++		return __iommu_probe_device_helper(dev);
  
- 		/*
- 		 * Try to allocate a default domain - needs support from the
-@@ -567,6 +571,7 @@ struct iommu_group *iommu_group_alloc(void)
- 	group->kobj.kset = iommu_group_kset;
- 	mutex_init(&group->mutex);
- 	INIT_LIST_HEAD(&group->devices);
-+	INIT_LIST_HEAD(&group->entry);
- 	BLOCKING_INIT_NOTIFIER_HEAD(&group->notifier);
++	ret = ops->add_device(dev);
+ 	if (ret)
+ 		goto err_module_put;
  
- 	ret = ida_simple_get(&iommu_group_ida, 0, 0, GFP_KERNEL);
 -- 
 2.17.1
 
