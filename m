@@ -1,53 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709411A7C74
-	for <lists.iommu@lfdr.de>; Tue, 14 Apr 2020 15:16:31 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F721A7C21
+	for <lists.iommu@lfdr.de>; Tue, 14 Apr 2020 15:14:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0900F87CD6;
-	Tue, 14 Apr 2020 13:16:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 89E792052F;
+	Tue, 14 Apr 2020 13:14:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mWAnj4WOr9E2; Tue, 14 Apr 2020 13:16:28 +0000 (UTC)
+	with ESMTP id Kz7M2XCZjFSa; Tue, 14 Apr 2020 13:14:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0EFD087D46;
-	Tue, 14 Apr 2020 13:16:23 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CA31020518;
+	Tue, 14 Apr 2020 13:14:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F0F49C1D7D;
-	Tue, 14 Apr 2020 13:16:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B6575C0172;
+	Tue, 14 Apr 2020 13:14:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 31D94C0172
- for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 13:16:20 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 53203C0172
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 13:14:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id BBFA685F3A
- for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 13:16:19 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3C4AC862D2
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 13:14:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KKV1mjP50tqm for <iommu@lists.linux-foundation.org>;
- Tue, 14 Apr 2020 13:16:17 +0000 (UTC)
+ with ESMTP id VosOOCjOg8w3 for <iommu@lists.linux-foundation.org>;
+ Tue, 14 Apr 2020 13:14:48 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from bombadil.infradead.org (bombadil.infradead.org
  [198.137.202.133])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id AFBC585657
- for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 13:14:52 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6503A858AE
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Apr 2020 13:14:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
  :Reply-To:Content-Type:Content-ID:Content-Description;
- bh=e0PtFSPo0Iy8oJ4AyTx7isQx+jUj9sBCh3WiJ7noJgw=; b=VJlZLs1gWebRy4YQPswH/Z8Jx5
- qJDtJm9oUL50SK3MdnShcWlZj3qn/JmLl4WXQPMdfksoHOFPIy15ASpmhOOGsUxMbrHeVHV8gdWRU
- UCuBa+xiakEmMn6lvr0DTJmIJAgl2S01lnpBusJzo0U1J4z757NE4e2GDpCIwVpsyQPIs3FAFK0jy
- 4EXTYCe4HaWcotfsaa2WsYwxdP7SOCkBJH0yCmyWvoKBo5Aa+Psiv26r1eOwMk8O5QMGH0WZBtV8h
- NfsGFtFTw4PlQWMF4vJUqRreblEroLpFCwgul6XK9DKdIjFoicP5aS3yJsmZVL7XNYQK7QBkn/DFY
- 6YsSQ7fg==;
+ bh=mANdo6j2epctno1InF04j4Dw77xmPp8h8wAaCdRF8Vw=; b=DI14kD1XeS0W5KhA0t6BAHp3rd
+ S0XmRj6BN9qLSnyQW4BWceI286H+sdL6l5wXQlp/PagEahqNQoc/Vte3z0dkmoN7WyC3QSq5Nos84
+ 1U7uvNkXXTqwdBB+sCYnGPpQyVchL29JLw12DGWfGNnoC2a1smEJ/BbCn+9fMvEZQqpo4LGRxbyRi
+ q3g7FqT9277low0bB3O+WlMpXc/HBUbKaqELKnzXOdaelj3NHsFnhWBELU6D3sN43uGKnUsH35Fcl
+ 69oCltdRCL44kh1m43h+mvk3bQT0DCP+qBXhKFALQJtSDK19n3cB04OZpdAgN00ZPPjcchQ1N/Gd9
+ 4u8hovcQ==;
 Received: from [2001:4bb8:180:384b:c70:4a89:bc61:2] (helo=localhost)
  by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jOLOQ-0006bs-Qu; Tue, 14 Apr 2020 13:14:23 +0000
+ id 1jOLOU-0006eH-Ny; Tue, 14 Apr 2020 13:14:27 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Andrew Morton <akpm@linux-foundation.org>,
  "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -58,9 +58,10 @@ To: Andrew Morton <akpm@linux-foundation.org>,
  Sumit Semwal <sumit.semwal@linaro.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Minchan Kim <minchan@kernel.org>, Nitin Gupta <ngupta@vflare.org>
-Subject: [PATCH 09/29] mm: unexport unmap_kernel_range_noflush
-Date: Tue, 14 Apr 2020 15:13:28 +0200
-Message-Id: <20200414131348.444715-10-hch@lst.de>
+Subject: [PATCH 10/29] mm: rename CONFIG_PGTABLE_MAPPING to
+ CONFIG_ZSMALLOC_PGTABLE_MAPPING
+Date: Tue, 14 Apr 2020 15:13:29 +0200
+Message-Id: <20200414131348.444715-11-hch@lst.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200414131348.444715-1-hch@lst.de>
 References: <20200414131348.444715-1-hch@lst.de>
@@ -91,26 +92,97 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-There are no modular users of this function.
+Rename the Kconfig variable to clarify the scope.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Minchan Kim <minchan@kernel.org>
 Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- mm/vmalloc.c | 1 -
- 1 file changed, 1 deletion(-)
+ arch/arm/configs/omap2plus_defconfig | 2 +-
+ include/linux/zsmalloc.h             | 2 +-
+ mm/Kconfig                           | 2 +-
+ mm/zsmalloc.c                        | 8 ++++----
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index d1534d610b48..3375f9508ef6 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -2029,7 +2029,6 @@ void unmap_kernel_range_noflush(unsigned long addr, unsigned long size)
- {
- 	vunmap_page_range(addr, addr + size);
- }
--EXPORT_SYMBOL_GPL(unmap_kernel_range_noflush);
+diff --git a/arch/arm/configs/omap2plus_defconfig b/arch/arm/configs/omap2plus_defconfig
+index 3cc3ca5fa027..583d8abd80a4 100644
+--- a/arch/arm/configs/omap2plus_defconfig
++++ b/arch/arm/configs/omap2plus_defconfig
+@@ -81,7 +81,7 @@ CONFIG_PARTITION_ADVANCED=y
+ CONFIG_BINFMT_MISC=y
+ CONFIG_CMA=y
+ CONFIG_ZSMALLOC=m
+-CONFIG_PGTABLE_MAPPING=y
++CONFIG_ZSMALLOC_PGTABLE_MAPPING=y
+ CONFIG_NET=y
+ CONFIG_PACKET=y
+ CONFIG_UNIX=y
+diff --git a/include/linux/zsmalloc.h b/include/linux/zsmalloc.h
+index 2219cce81ca4..0fdbf653b173 100644
+--- a/include/linux/zsmalloc.h
++++ b/include/linux/zsmalloc.h
+@@ -20,7 +20,7 @@
+  * zsmalloc mapping modes
+  *
+  * NOTE: These only make a difference when a mapped object spans pages.
+- * They also have no effect when PGTABLE_MAPPING is selected.
++ * They also have no effect when ZSMALLOC_PGTABLE_MAPPING is selected.
+  */
+ enum zs_mapmode {
+ 	ZS_MM_RW, /* normal read-write mapping */
+diff --git a/mm/Kconfig b/mm/Kconfig
+index c1acc34c1c35..09a9edfb8461 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -705,7 +705,7 @@ config ZSMALLOC
+ 	  returned by an alloc().  This handle must be mapped in order to
+ 	  access the allocated space.
  
- /**
-  * unmap_kernel_range - unmap kernel VM area and flush cache and TLB
+-config PGTABLE_MAPPING
++config ZSMALLOC_PGTABLE_MAPPING
+ 	bool "Use page table mapping to access object in zsmalloc"
+ 	depends on ZSMALLOC
+ 	help
+diff --git a/mm/zsmalloc.c b/mm/zsmalloc.c
+index 2f836a2b993f..ac0524330b9b 100644
+--- a/mm/zsmalloc.c
++++ b/mm/zsmalloc.c
+@@ -293,7 +293,7 @@ struct zspage {
+ };
+ 
+ struct mapping_area {
+-#ifdef CONFIG_PGTABLE_MAPPING
++#ifdef CONFIG_ZSMALLOC_PGTABLE_MAPPING
+ 	struct vm_struct *vm; /* vm area for mapping object that span pages */
+ #else
+ 	char *vm_buf; /* copy buffer for objects that span pages */
+@@ -1113,7 +1113,7 @@ static struct zspage *find_get_zspage(struct size_class *class)
+ 	return zspage;
+ }
+ 
+-#ifdef CONFIG_PGTABLE_MAPPING
++#ifdef CONFIG_ZSMALLOC_PGTABLE_MAPPING
+ static inline int __zs_cpu_up(struct mapping_area *area)
+ {
+ 	/*
+@@ -1151,7 +1151,7 @@ static inline void __zs_unmap_object(struct mapping_area *area,
+ 	unmap_kernel_range(addr, PAGE_SIZE * 2);
+ }
+ 
+-#else /* CONFIG_PGTABLE_MAPPING */
++#else /* CONFIG_ZSMALLOC_PGTABLE_MAPPING */
+ 
+ static inline int __zs_cpu_up(struct mapping_area *area)
+ {
+@@ -1233,7 +1233,7 @@ static void __zs_unmap_object(struct mapping_area *area,
+ 	pagefault_enable();
+ }
+ 
+-#endif /* CONFIG_PGTABLE_MAPPING */
++#endif /* CONFIG_ZSMALLOC_PGTABLE_MAPPING */
+ 
+ static int zs_cpu_prepare(unsigned int cpu)
+ {
 -- 
 2.25.1
 
