@@ -1,41 +1,41 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361F11A7CCF
-	for <lists.iommu@lfdr.de>; Tue, 14 Apr 2020 15:17:21 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63FB71A7C88
+	for <lists.iommu@lfdr.de>; Tue, 14 Apr 2020 15:16:48 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E7CEC86C12;
-	Tue, 14 Apr 2020 13:17:19 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0E97687935;
+	Tue, 14 Apr 2020 13:16:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DqW4kc-gKB6Y; Tue, 14 Apr 2020 13:17:18 +0000 (UTC)
+	with ESMTP id HNC0BKNEt03G; Tue, 14 Apr 2020 13:16:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8142C86D13;
-	Tue, 14 Apr 2020 13:16:19 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9AD6887BB1;
+	Tue, 14 Apr 2020 13:16:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DBF2C1D8F;
-	Tue, 14 Apr 2020 13:16:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8CB63C0172;
+	Tue, 14 Apr 2020 13:16:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 92142C0172;
- Tue, 14 Apr 2020 13:16:15 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3898EC1D7D;
+ Tue, 14 Apr 2020 13:16:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 8BF1521135;
- Tue, 14 Apr 2020 13:16:15 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 32A0B859C1;
+ Tue, 14 Apr 2020 13:16:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OepsUtMe2gb5; Tue, 14 Apr 2020 13:16:08 +0000 (UTC)
+ with ESMTP id sFvJZU5FT3Gt; Tue, 14 Apr 2020 13:16:36 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id C567E20518;
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id D04FB85D41;
  Tue, 14 Apr 2020 13:16:04 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id DBFDF6BB; Tue, 14 Apr 2020 15:15:55 +0200 (CEST)
+ id 12DC670B; Tue, 14 Apr 2020 15:15:55 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>,
@@ -50,10 +50,10 @@ To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [PATCH v2 23/33] iommu/mediatek-v1 Convert to probe/release_device()
+Subject: [PATCH v2 24/33] iommu/qcom: Convert to probe/release_device()
  call-backs
-Date: Tue, 14 Apr 2020 15:15:32 +0200
-Message-Id: <20200414131542.25608-24-joro@8bytes.org>
+Date: Tue, 14 Apr 2020 15:15:33 +0200
+Message-Id: <20200414131542.25608-25-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200414131542.25608-1-joro@8bytes.org>
 References: <20200414131542.25608-1-joro@8bytes.org>
@@ -82,109 +82,79 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Convert the Mediatek-v1 IOMMU driver to use the probe_device() and
+Convert the QCOM IOMMU driver to use the probe_device() and
 release_device() call-backs of iommu_ops, so that the iommu core code
 does the group and sysfs setup.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/mtk_iommu_v1.c | 50 +++++++++++++++---------------------
- 1 file changed, 20 insertions(+), 30 deletions(-)
+ drivers/iommu/qcom_iommu.c | 24 +++++++-----------------
+ 1 file changed, 7 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-index a31be05601c9..7bdd74c7cb9f 100644
---- a/drivers/iommu/mtk_iommu_v1.c
-+++ b/drivers/iommu/mtk_iommu_v1.c
-@@ -416,14 +416,12 @@ static int mtk_iommu_create_mapping(struct device *dev,
- 	return 0;
+diff --git a/drivers/iommu/qcom_iommu.c b/drivers/iommu/qcom_iommu.c
+index 0e2a96467767..054e476ebd49 100644
+--- a/drivers/iommu/qcom_iommu.c
++++ b/drivers/iommu/qcom_iommu.c
+@@ -524,14 +524,13 @@ static bool qcom_iommu_capable(enum iommu_cap cap)
+ 	}
  }
  
--static int mtk_iommu_add_device(struct device *dev)
-+static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
+-static int qcom_iommu_add_device(struct device *dev)
++static struct iommu_device *qcom_iommu_probe_device(struct device *dev)
  {
- 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
--	struct dma_iommu_mapping *mtk_mapping;
- 	struct of_phandle_args iommu_spec;
- 	struct of_phandle_iterator it;
- 	struct mtk_iommu_data *data;
+ 	struct qcom_iommu_dev *qcom_iommu = to_iommu(dev);
 -	struct iommu_group *group;
- 	int err;
+ 	struct device_link *link;
  
- 	of_for_each_phandle(&it, err, dev->of_node, "iommus",
-@@ -442,35 +440,28 @@ static int mtk_iommu_add_device(struct device *dev)
+ 	if (!qcom_iommu)
+-		return -ENODEV;
++		return ERR_PTR(-ENODEV);
+ 
+ 	/*
+ 	 * Establish the link between iommu and master, so that the
+@@ -542,28 +541,19 @@ static int qcom_iommu_add_device(struct device *dev)
+ 	if (!link) {
+ 		dev_err(qcom_iommu->dev, "Unable to create device link between %s and %s\n",
+ 			dev_name(qcom_iommu->dev), dev_name(dev));
+-		return -ENODEV;
++		return ERR_PTR(-ENODEV);
  	}
  
- 	if (!fwspec || fwspec->ops != &mtk_iommu_ops)
--		return -ENODEV; /* Not a iommu client device */
-+		return ERR_PTR(-ENODEV); /* Not a iommu client device */
- 
--	/*
--	 * This is a short-term bodge because the ARM DMA code doesn't
--	 * understand multi-device groups, but we have to call into it
--	 * successfully (and not just rely on a normal IOMMU API attach
--	 * here) in order to set the correct DMA API ops on @dev.
--	 */
--	group = iommu_group_alloc();
+-	group = iommu_group_get_for_dev(dev);
 -	if (IS_ERR(group))
 -		return PTR_ERR(group);
-+	data = dev_iommu_priv_get(dev);
- 
--	err = iommu_group_add_device(group, dev);
+-
 -	iommu_group_put(group);
--	if (err)
--		return err;
-+	return &data->iommu;
-+}
- 
--	data = dev_iommu_priv_get(dev);
-+static void mtk_iommu_probe_finalize(struct device *dev)
-+{
-+	struct dma_iommu_mapping *mtk_mapping;
-+	struct mtk_iommu_data *data;
-+	int err;
-+
-+	data        = dev_iommu_priv_get(dev);
- 	mtk_mapping = data->dev->archdata.iommu;
--	err = arm_iommu_attach_device(dev, mtk_mapping);
--	if (err) {
--		iommu_group_remove_device(dev);
--		return err;
--	}
- 
--	return iommu_device_link(&data->iommu, dev);
-+	err = arm_iommu_attach_device(dev, mtk_mapping);
-+	if (err)
-+		dev_err(dev, "Can't create IOMMU mapping - DMA-OPS will not work\n");
+-	iommu_device_link(&qcom_iommu->iommu, dev);
+-
+-	return 0;
++	return &qcom_iommu->iommu;
  }
  
--static void mtk_iommu_remove_device(struct device *dev)
-+static void mtk_iommu_release_device(struct device *dev)
+-static void qcom_iommu_remove_device(struct device *dev)
++static void qcom_iommu_release_device(struct device *dev)
  {
- 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
- 	struct mtk_iommu_data *data;
-@@ -479,9 +470,6 @@ static void mtk_iommu_remove_device(struct device *dev)
+ 	struct qcom_iommu_dev *qcom_iommu = to_iommu(dev);
+ 
+ 	if (!qcom_iommu)
  		return;
  
- 	data = dev_iommu_priv_get(dev);
--	iommu_device_unlink(&data->iommu, dev);
--
+-	iommu_device_unlink(&qcom_iommu->iommu, dev);
 -	iommu_group_remove_device(dev);
  	iommu_fwspec_free(dev);
  }
  
-@@ -534,8 +522,10 @@ static const struct iommu_ops mtk_iommu_ops = {
- 	.map		= mtk_iommu_map,
- 	.unmap		= mtk_iommu_unmap,
- 	.iova_to_phys	= mtk_iommu_iova_to_phys,
--	.add_device	= mtk_iommu_add_device,
--	.remove_device	= mtk_iommu_remove_device,
-+	.probe_device	= mtk_iommu_probe_device,
-+	.probe_finalize = mtk_iommu_probe_finalize,
-+	.release_device	= mtk_iommu_release_device,
-+	.device_group	= generic_device_group,
- 	.pgsize_bitmap	= ~0UL << MT2701_IOMMU_PAGE_SHIFT,
- };
- 
+@@ -619,8 +609,8 @@ static const struct iommu_ops qcom_iommu_ops = {
+ 	.flush_iotlb_all = qcom_iommu_flush_iotlb_all,
+ 	.iotlb_sync	= qcom_iommu_iotlb_sync,
+ 	.iova_to_phys	= qcom_iommu_iova_to_phys,
+-	.add_device	= qcom_iommu_add_device,
+-	.remove_device	= qcom_iommu_remove_device,
++	.probe_device	= qcom_iommu_probe_device,
++	.release_device	= qcom_iommu_release_device,
+ 	.device_group	= generic_device_group,
+ 	.of_xlate	= qcom_iommu_of_xlate,
+ 	.pgsize_bitmap	= SZ_4K | SZ_64K | SZ_1M | SZ_16M,
 -- 
 2.17.1
 
