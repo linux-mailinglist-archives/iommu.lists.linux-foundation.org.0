@@ -2,90 +2,85 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1621AAB7D
-	for <lists.iommu@lfdr.de>; Wed, 15 Apr 2020 17:11:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9271AABF1
+	for <lists.iommu@lfdr.de>; Wed, 15 Apr 2020 17:33:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BD33A85CF0;
-	Wed, 15 Apr 2020 15:11:27 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 710F68680C;
+	Wed, 15 Apr 2020 15:33:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3DbcOGOEvzSG; Wed, 15 Apr 2020 15:11:26 +0000 (UTC)
+	with ESMTP id YCa+XcgvptKE; Wed, 15 Apr 2020 15:33:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E6B76857A4;
-	Wed, 15 Apr 2020 15:11:26 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4C08B863E8;
+	Wed, 15 Apr 2020 15:33:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CFAA3C0172;
-	Wed, 15 Apr 2020 15:11:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2EB82C1D8D;
+	Wed, 15 Apr 2020 15:33:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 35468C0172
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 15:11:25 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 74064C0172
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 15:33:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 2CDEB876A0
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 15:11:25 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 5EB6F86416
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 15:33:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dW-xvDSn8xcX for <iommu@lists.linux-foundation.org>;
- Wed, 15 Apr 2020 15:11:24 +0000 (UTC)
+ with ESMTP id fjUFHOT-nXP7 for <iommu@lists.linux-foundation.org>;
+ Wed, 15 Apr 2020 15:33:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
- [209.85.221.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 6676385CDB
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 15:11:24 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id h26so257483wrb.7
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 08:11:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Vzn5Qi0ZG5I2dfN+j2Q0PXBNrTKg5GnbDO72sf5kYmE=;
- b=kZ4BXox0LCjCv71j6mhvSC6hJT0Z/VGQda1i6/OdAyN4W1ETBfMrmBAaUNfak62dI3
- 3RgoMqf4NrWAUABEgfHAShe0W9Ugx0uqNG9HBnqOjFxKen/NZrjX0Kb3TvjWgSRd5gs0
- dlJSrbOOrGLjqJ65EYoQ+JQMoKJpmuTUVFeMQiv6GD/OXOuy0ROSiOpexEVW72YZL4ne
- 0OEx7p7O1RogVyTytQu6MdFp3uSbs3LBH4q+J6zMCsGLvBXD8XsoV76qaJGgdzoAikzc
- 9WM+V67zjUXRTeO4PdviJ4iCQ5dpsQ41nKcBL0kDP0/dwn+24klk82G1y0HwHLzgBR3P
- 2+9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Vzn5Qi0ZG5I2dfN+j2Q0PXBNrTKg5GnbDO72sf5kYmE=;
- b=TGjDVZsgVwMH4EtBPXrcUv9n7uDz+iXLHq40GGKyU+yB3U7Mp8YCxp0J3HTd+5KFsh
- Pk4ccMULszVrmx84BAgPQJ90I5xLBD5GuuB6sBdQm84TNtBH3DaUgNELUj7J+Rnltlxb
- mnjmgwuoXF1ul/TSyZ7ikEyH0YaOaodWjiYbkMGptfccBdEs0QGDpeHh048JZVIQecgj
- guKL39i3JW6MJJ5L0qDQ3SejnASWn5Yroihnr972lB+1epumPsa30nD5QsAcrgAE+jiO
- b29YqjvCw38NHPnP0ouamq6Ny+lrSbEEM/4nUDheGh1ZGAwySqY/T0P/iBd8XKTaJSOk
- UxOw==
-X-Gm-Message-State: AGi0PuZXKVvGNh8il/iXWvW7pnEX+jtTNgmXdpBo8gLKHK9Q05G1uh1y
- nMOiyoLFQ3sdss6jKiR3I9bMVA==
-X-Google-Smtp-Source: APiQypJ1tKF/+7Bq6w/nAZeilnVQ5/5MxeB23DPP2SO0LzWZkJI3hVp2OiXoJMV4vD1qTUVfbHmQog==
-X-Received: by 2002:adf:f844:: with SMTP id d4mr10793811wrq.362.1586963452757; 
- Wed, 15 Apr 2020 08:10:52 -0700 (PDT)
-Received: from myrica ([2001:171b:226b:54a0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id k184sm22809016wmf.9.2020.04.15.08.10.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Apr 2020 08:10:51 -0700 (PDT)
-Date: Wed, 15 Apr 2020 17:10:43 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Subject: Re: [PATCH 05/10] iommu/ioasid: Create an IOASID set for host SVA use
-Message-ID: <20200415151043.GB738821@myrica>
-References: <1585158931-1825-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1585158931-1825-6-git-send-email-jacob.jun.pan@linux.intel.com>
- <20200401135316.GF882512@myrica>
- <20200406083353.73efda5b@jacob-builder>
- <20200407110146.GB285264@myrica>
- <20200413150631.60e54d85@jacob-builder>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 5ED8686408
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 15:33:00 +0000 (UTC)
+IronPort-SDR: BH2+Sns9qhWnCmyAE0CgORGxBr0nGFxFqT8+WybQJTc6tBGXEZT6zlrG2A8/jTmkanmHIxYf61
+ pfBCjrJpcM4Q==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2020 08:32:59 -0700
+IronPort-SDR: zAszhCrP0cBmRUBK375yX4GljVs7Z18jsJ86HFuEIjlqxcIX/EPEnOkPYGrkiVj40CsJOWBRfI
+ 9ZxQ4i8L2FjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,387,1580803200"; d="scan'208";a="332530368"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by orsmga001.jf.intel.com with ESMTP; 15 Apr 2020 08:32:59 -0700
+Date: Wed, 15 Apr 2020 08:38:54 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [PATCH v2 1/3] iommu/uapi: Define uapi version and capabilities
+Message-ID: <20200415083854.6fefac01@jacob-builder>
+In-Reply-To: <AADFC41AFE54684AB9EE6CBC0274A5D19D81F901@SHSMSX104.ccr.corp.intel.com>
+References: <1585178227-17061-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <20200326092316.GA31648@infradead.org>
+ <20200326094442.5be042ce@jacob-builder>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D7ECB45@SHSMSX104.ccr.corp.intel.com>
+ <20200327074702.GA27959@infradead.org>
+ <20200327165335.397f24a3@jacob-builder>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D7FE150@SHSMSX104.ccr.corp.intel.com>
+ <20200330090746.23c5599c@jacob-builder>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D8011A9@SHSMSX104.ccr.corp.intel.com>
+ <20200331085444.44bee0bb@jacob-builder>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D803AFF@SHSMSX104.ccr.corp.intel.com>
+ <20200402113604.6eea1e6f@jacob-builder>
+ <20200413134157.395981a6@jacob-builder>
+ <20200413162129.313b3b5a@w520.home>
+ <20200413220515.25a107b6@jacob-builder>
+ <20200414101358.3ae66ac5@w520.home>
+ <20200414101304.27e587eb@jacob-builder>
+ <20200414153226.30d8cab3@jacob-builder>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D81F901@SHSMSX104.ccr.corp.intel.com>
+Organization: OTC
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200413150631.60e54d85@jacob-builder>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+Cc: "Raj, Ashok" <ashok.raj@intel.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.com>,
- LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
  Alex Williamson <alex.williamson@redhat.com>,
- David Woodhouse <dwmw2@infradead.org>, Jonathan Cameron <jic23@kernel.org>
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,35 +98,87 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Apr 13, 2020 at 03:06:31PM -0700, Jacob Pan wrote:
-> > > > But quotas are only necessary for VMs, when the host shares the
-> > > > PASID space with them (which isn't a use-case for Arm systems as
-> > > > far as I know, each VM gets its own PASID space).  
-> > > Is there a host-guest PASID translation? or the PASID used by the
-> > > VM is physical PASID? When a page request comes in to SMMU, how
-> > > does it know the owner of the PASID if PASID range can overlap
-> > > between host and guest?  
-> > 
-> > We assign PCI functions to VMs, so Page Requests are routed with
-> > RID:PASID, not PASID alone. The SMMU finds the struct device
-> > associated with the RID, and submits the fault with
-> > iommu_report_device_fault(). If the VF is assigned to a VM, then the
-> > page request gets injected into the VM, otherwise it uses the host
-> > IOPF handler
-> > 
-> Got it, VM private PASID space works then.
-> For VM, the IOASID search is within the VM ioasid_set.
-> For SVA, the IOASID search is within host default set.
-> Should be faster than global search once we have per set xarray.
-> I guess the PASID table is per VM instead of per RID (device)? Sorry if
-> you already answered it before.
+On Tue, 14 Apr 2020 23:47:40 +0000
+"Tian, Kevin" <kevin.tian@intel.com> wrote:
 
-The PASID table is per IOMMU domain, so it's closer to per RID than per
-VM, unless userspace puts all devices in the same VFIO container (hence in
-the same IOMMU domain).
+> > From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > Sent: Wednesday, April 15, 2020 6:32 AM
+> > 
+> > On Tue, 14 Apr 2020 10:13:04 -0700
+> > Jacob Pan <jacob.jun.pan@linux.intel.com> wrote:
+> >   
+> > > > > >  In any of the proposed solutions, the
+> > > > > > IOMMU driver is ultimately responsible for validating the
+> > > > > > user data, so do we want vfio performing the
+> > > > > > copy_from_user() to an object that could later be assumed
+> > > > > > to be sanitized, or should vfio just pass a user pointer to
+> > > > > > make it obvious that the consumer is responsible for all
+> > > > > > the user protections?  Seems like the latter.  
+> > > > > I like the latter as well.
+> > > > >  
+> > On a second thought, I think the former is better. Two reasons:
+> > 
+> > 1. IOMMU API such as page_response is also used in baremetal. So it
+> > is not suitable to pass a __user *.
+> > https://www.spinics.net/lists/arm-kernel/msg798677.html  
+> 
+> You can have a wrapped version accepting a __user* and an internal
+> version for kernel pointers.
+> 
+I have thought about that also but the problem is that some of the
+flags are processed in the vendor IOMMU ops so it is hard to do that in
+a generic wrapper.
 
-Thanks,
-Jean
+> > 
+> > 2. Some data are in the mandatory (fixed offset, never removed or
+> > extended) portion of the uAPI structure. It is simpler for VFIO to
+> > extract that and pass it to IOMMU API. For example, the PASID value
+> > used for unbind_gpasid(). VFIO also need to sanitize the PASID
+> > value to make sure it belongs to the same VM that did the
+> > allocation.  
+> 
+> I don't think this makes much difference. If anyway you still plan to
+> let IOMMU driver parse some user pointers, why not making a clear
+> split to have it sparse all IOMMU specific fields?
+>
+The plan is not to have IOMMU driver parse user pointers. This is the
+"former" case in Alex's comment. I.e. vfio performing the
+copy_from_user based on argsz in IOMMU uAPI.
+ 
+> Thanks
+> Kevin
+> 
+> > 
+> >   
+> > > > > >  That still really
+> > > > > > doesn't address what's in that user data blob yet, but the
+> > > > > > vfio interface could be:
+> > > > > >
+> > > > > > struct {
+> > > > > > 	__u32 argsz;
+> > > > > > 	__u32 flags;
+> > > > > > 	__u8  data[];
+> > > > > > }
+> > > > > >
+> > > > > > Where flags might be partitioned like we do for
+> > > > > > DEVICE_FEATURE to indicate the format of data and what vfio
+> > > > > > should do with it, and data might simply be defined as a
+> > > > > > (__u64 __user *). 
+> > > > > So, __user * will be passed to IOMMU driver if VFIO checks
+> > > > > minsz include flags and they are valid.
+> > > > > IOMMU driver can copy the rest based on the mandatory
+> > > > > version/minsz and flags in the IOMMU uAPI structs.
+> > > > > Does it sound right? This is really choice #2.  
+> > > >
+> > > > Sounds like each IOMMU UAPI struct just needs to have an
+> > > > embedded size and flags field, but yes.
+> > > >  
+> > > Yes, an argsz field can be added to each UAPI. There are already
+> > > flags or the equivalent. IOMMU driver can process the __user *
+> > > based on the argsz, flags, check argsz against
+> > > offsetofend(iommu_uapi_struct, last_element), etc.;  
+
+[Jacob Pan]
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
