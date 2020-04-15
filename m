@@ -1,67 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B781D1A9DC6
-	for <lists.iommu@lfdr.de>; Wed, 15 Apr 2020 13:48:34 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6B91985A54;
-	Wed, 15 Apr 2020 11:48:33 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0ceoQ6OmFMC8; Wed, 15 Apr 2020 11:48:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id F38A387AF4;
-	Wed, 15 Apr 2020 11:48:32 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DE63CC0172;
-	Wed, 15 Apr 2020 11:48:32 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C533EC0172
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 11:48:31 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2CD1AA01A
+	for <lists.iommu@lfdr.de>; Wed, 15 Apr 2020 14:29:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C1D8E85FD7
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 11:48:31 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2286285A74;
+	Wed, 15 Apr 2020 12:29:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ZTDKzhhgbHHx; Wed, 15 Apr 2020 12:29:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5392285629;
+	Wed, 15 Apr 2020 12:29:49 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3B759C1D8D;
+	Wed, 15 Apr 2020 12:29:49 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A340CC0172;
+ Wed, 15 Apr 2020 12:29:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 97593203AF;
+ Wed, 15 Apr 2020 12:29:47 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4m8DBUG1z0KG for <iommu@lists.linux-foundation.org>;
- Wed, 15 Apr 2020 11:48:31 +0000 (UTC)
+ with ESMTP id ZRXlo8YHETDd; Wed, 15 Apr 2020 12:29:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 60E8C85FB2
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 11:48:31 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 99F3E21582;
- Wed, 15 Apr 2020 11:48:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586951311;
- bh=BtC7U9P5apcHlMtbq2Wc/WnKSOeCOUtOQd4q6P+uVCA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m8/tTBZQUk40GcXOD5rvw/TXP7tgXOOOFpLkoJO6gbTx5CRGPpIKjW01p2Ecey5Nw
- e0pFFbTIW8dfPPTue0lViV/YSdzOKG/efgxEHQGCRhmHQQeX0WqapCI9DPt9L8VTdG
- R2nXpCN0LP7p9qbsb9yXMFKkboCfyUeBZ7tfpPLg=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 14/14] iommu/amd: Fix the configuration of GCR3
- table root pointer
-Date: Wed, 15 Apr 2020 07:48:14 -0400
-Message-Id: <20200415114814.15954-14-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200415114814.15954-1-sashal@kernel.org>
-References: <20200415114814.15954-1-sashal@kernel.org>
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by silver.osuosl.org (Postfix) with ESMTPS id 51AB62033E;
+ Wed, 15 Apr 2020 12:29:46 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx2.suse.de (Postfix) with ESMTP id 7F854AC11;
+ Wed, 15 Apr 2020 12:29:42 +0000 (UTC)
+Date: Wed, 15 Apr 2020 14:29:40 +0200
+From: Joerg Roedel <jroedel@suse.de>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v2 13/33] iommu: Export bus_iommu_probe() and make is
+ safe for re-probing
+Message-ID: <20200415122940.GB21899@suse.de>
+References: <20200414131542.25608-1-joro@8bytes.org>
+ <20200414131542.25608-14-joro@8bytes.org>
+ <1853992c-47a6-3724-812c-a52558c13732@linux.intel.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Cc: Sasha Levin <sashal@kernel.org>, iommu@lists.linux-foundation.org,
- Joerg Roedel <jroedel@suse.de>, Adrian Huang <ahuang12@lenovo.com>
+Content-Disposition: inline
+In-Reply-To: <1853992c-47a6-3724-812c-a52558c13732@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Heiko Stuebner <heiko@sntech.de>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, linux-tegra@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, Will Deacon <will@kernel.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ linux-samsung-soc@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org,
+ Andy Gross <agross@kernel.org>, linux-s390@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ virtualization@lists.linux-foundation.org,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ David Woodhouse <dwmw2@infradead.org>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Kukjin Kim <kgene@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,39 +82,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Adrian Huang <ahuang12@lenovo.com>
+Hi Baolu,
 
-[ Upstream commit c20f36534666e37858a14e591114d93cc1be0d34 ]
+On Wed, Apr 15, 2020 at 02:10:03PM +0800, Lu Baolu wrote:
+> On 2020/4/14 21:15, Joerg Roedel wrote:
+> > > +	/* Device is probed already if in a group */
+> > +	if (iommu_group_get(dev) != NULL)
+> 
+> Same as
+> 	if (iommu_group_get(dev))
+> ?
+> 
+> By the way, do we need to put the group if device has already been
+> probed?
 
-The SPA of the GCR3 table root pointer[51:31] masks 20 bits. However,
-this requires 21 bits (Please see the AMD IOMMU specification).
-This leads to the potential failure when the bit 51 of SPA of
-the GCR3 table root pointer is 1'.
+Right, fixed both, thank you.
 
-Signed-off-by: Adrian Huang <ahuang12@lenovo.com>
-Fixes: 52815b75682e2 ("iommu/amd: Add support for IOMMUv2 domain mode")
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/iommu/amd_iommu_types.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/amd_iommu_types.h b/drivers/iommu/amd_iommu_types.h
-index b08cf57bf4554..695d4e235438c 100644
---- a/drivers/iommu/amd_iommu_types.h
-+++ b/drivers/iommu/amd_iommu_types.h
-@@ -303,7 +303,7 @@
- 
- #define DTE_GCR3_VAL_A(x)	(((x) >> 12) & 0x00007ULL)
- #define DTE_GCR3_VAL_B(x)	(((x) >> 15) & 0x0ffffULL)
--#define DTE_GCR3_VAL_C(x)	(((x) >> 31) & 0xfffffULL)
-+#define DTE_GCR3_VAL_C(x)	(((x) >> 31) & 0x1fffffULL)
- 
- #define DTE_GCR3_INDEX_A	0
- #define DTE_GCR3_INDEX_B	1
--- 
-2.20.1
+Regards,
 
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
