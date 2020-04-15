@@ -2,81 +2,57 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C691A92EE
-	for <lists.iommu@lfdr.de>; Wed, 15 Apr 2020 08:10:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79571A9319
+	for <lists.iommu@lfdr.de>; Wed, 15 Apr 2020 08:19:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D1CFA86DCF;
-	Wed, 15 Apr 2020 06:10:15 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7528584D06;
+	Wed, 15 Apr 2020 06:19:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wpQxtV9U6tur; Wed, 15 Apr 2020 06:10:14 +0000 (UTC)
+	with ESMTP id 9yXHccvz8HVB; Wed, 15 Apr 2020 06:19:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3116B86DB3;
-	Wed, 15 Apr 2020 06:10:14 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A7324847BE;
+	Wed, 15 Apr 2020 06:19:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 108BDC0172;
-	Wed, 15 Apr 2020 06:10:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 974E4C0172;
+	Wed, 15 Apr 2020 06:19:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AD312C0172;
- Wed, 15 Apr 2020 06:10:12 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EF2ACC0172
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 06:19:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 972E987EA6;
- Wed, 15 Apr 2020 06:10:12 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D97EC84413
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 06:19:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KQ1OvP4SkOK4; Wed, 15 Apr 2020 06:10:12 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E20A487E9D;
- Wed, 15 Apr 2020 06:10:11 +0000 (UTC)
-IronPort-SDR: 1+STxtWfLtybNuT1yxJsEn2VQ4VHBsG9dWKgxw0fPcCeWcI30L0fFF/Nur04qdJA6hv3QA3cSz
- iT0kgnaJeRyQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2020 23:10:10 -0700
-IronPort-SDR: Xrzeker15iDL0GxYgNylnyNCcgOHg/5LrDmSleRIXI69KwIrj67IOyQN42jm1/hyg4yAT+vZ4w
- my6GtVMJbzjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,385,1580803200"; d="scan'208";a="363586963"
-Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.210.208])
- ([10.254.210.208])
- by fmsmga001.fm.intel.com with ESMTP; 14 Apr 2020 23:10:04 -0700
-Subject: Re: [PATCH v2 13/33] iommu: Export bus_iommu_probe() and make is safe
- for re-probing
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Kukjin Kim <kgene@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, David Woodhouse
- <dwmw2@infradead.org>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Heiko Stuebner <heiko@sntech.de>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>
-References: <20200414131542.25608-1-joro@8bytes.org>
- <20200414131542.25608-14-joro@8bytes.org>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <1853992c-47a6-3724-812c-a52558c13732@linux.intel.com>
-Date: Wed, 15 Apr 2020 14:10:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ with ESMTP id n0xT-ycZDWcM for <iommu@lists.linux-foundation.org>;
+ Wed, 15 Apr 2020 06:19:05 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 9D8E6840B8
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 06:19:05 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id C3C0368C65; Wed, 15 Apr 2020 08:18:59 +0200 (CEST)
+Date: Wed, 15 Apr 2020 08:18:59 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH 1/4] dma-mapping: move the remaining DMA API calls out
+ of line
+Message-ID: <20200415061859.GA32392@lst.de>
+References: <20200414122506.438134-1-hch@lst.de>
+ <20200414122506.438134-2-hch@lst.de>
+ <c2572d30-f03c-450d-e257-3a8673b42d44@ozlabs.ru>
 MIME-Version: 1.0
-In-Reply-To: <20200414131542.25608-14-joro@8bytes.org>
-Content-Language: en-US
-Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-rockchip@lists.infradead.org,
- iommu@lists.linux-foundation.org, Joerg Roedel <jroedel@suse.de>,
- linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <c2572d30-f03c-450d-e257-3a8673b42d44@ozlabs.ru>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Michael Ellerman <mpe@ellerman.id.au>,
+ linuxppc-dev@lists.ozlabs.org, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,44 +65,20 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020/4/14 21:15, Joerg Roedel wrote:
-> From: Joerg Roedel <jroedel@suse.de>
+On Wed, Apr 15, 2020 at 12:26:04PM +1000, Alexey Kardashevskiy wrote:
+> May be this is correct and allowed (no idea) but removing exported
+> symbols at least deserves a mention in the commit log, does not it?
 > 
-> Add a check to the bus_iommu_probe() call-path to make sure it ignores
-> devices which have already been successfully probed. Then export the
-> bus_iommu_probe() function so it can be used by IOMMU drivers.
-> 
-> Signed-off-by: Joerg Roedel <jroedel@suse.de>
-> ---
->   drivers/iommu/iommu.c | 6 +++++-
->   include/linux/iommu.h | 1 +
->   2 files changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 834a45da0ed0..a2ff95424044 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -1615,6 +1615,10 @@ static int probe_iommu_group(struct device *dev, void *data)
->   	if (!dev_iommu_get(dev))
->   		return -ENOMEM;
->   
-> +	/* Device is probed already if in a group */
-> +	if (iommu_group_get(dev) != NULL)
+> The rest of the series is fine and works. Thanks,
 
-Same as
-	if (iommu_group_get(dev))
-?
-
-By the way, do we need to put the group if device has already been
-probed?
-
-Best regards,
-baolu
+Maybe I can throw in a line, but the point is that dma_direct_*
+was exported as dma_* called them inline.  Now dma_* is out of line
+and exported instead, which always was the actual API.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
