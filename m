@@ -1,67 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556551A9DAE
-	for <lists.iommu@lfdr.de>; Wed, 15 Apr 2020 13:47:13 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F181A9DB8
+	for <lists.iommu@lfdr.de>; Wed, 15 Apr 2020 13:47:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 0307F207EF;
-	Wed, 15 Apr 2020 11:47:12 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5290587A77;
+	Wed, 15 Apr 2020 11:47:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Qj4aA3x7ze4J; Wed, 15 Apr 2020 11:47:11 +0000 (UTC)
+	with ESMTP id dOPdxFbmmf28; Wed, 15 Apr 2020 11:47:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 14F6520766;
-	Wed, 15 Apr 2020 11:47:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4196385A54;
+	Wed, 15 Apr 2020 11:47:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F2E3DC0172;
-	Wed, 15 Apr 2020 11:47:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3C27EC089E;
+	Wed, 15 Apr 2020 11:47:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AF102C0172
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 11:47:09 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1AAA5C0172
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 11:47:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 9980120766
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 11:47:09 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 0A3198745D
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 11:47:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CxA1fz9WlPyf for <iommu@lists.linux-foundation.org>;
- Wed, 15 Apr 2020 11:47:09 +0000 (UTC)
+ with ESMTP id rqxKlZUlB+OT for <iommu@lists.linux-foundation.org>;
+ Wed, 15 Apr 2020 11:47:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 0F52420531
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 11:47:09 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 0ECEC87456
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 11:47:43 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4515B216FD;
- Wed, 15 Apr 2020 11:47:08 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 344E020732;
+ Wed, 15 Apr 2020 11:47:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1586951228;
- bh=v7Vipc0VT/4/+NWQ5NLJhdexjHV4UhMafyaRIs4x8WU=;
+ s=default; t=1586951262;
+ bh=lgPhMdotdhKgmqQmyNc8nM7u7C/EUc4eKcLGVzrpjFY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=xDS/aLTEbXClbhYF4wKeFKtyP2Ir0Po1X5gVN0gqfjqmgZivMtejCv+ZV8Oyi8fTr
- J7pbRwQPPXfgPZ0XsBxmvfRoQqkpApmS41hZ1xU3xu5aLPLJ3eSCuAyiFUry/nFqHW
- KnyP7ifFx2CTSEPEYfUfwwG7BfWywn4N9oTv+oko=
+ b=zpN5+n/QWBPjNLIOd3wqDx8Aw6oYN2Gldr8wfR+dSBfzy7BEppV788idGemLV8HuM
+ zMYgTnD4a3MJubQi+nc6Be7S9iauXoJPeMhUAwFkfCsGUuFeX+TQ9dBGvBB6xoWeQt
+ 2Ih1YtW03dThsJLxZJ6+VKucHPIg5ERNY8tVfRaE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 39/40] iommu/amd: Fix the configuration of GCR3
- table root pointer
-Date: Wed, 15 Apr 2020 07:46:22 -0400
-Message-Id: <20200415114623.14972-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 26/30] iommu/vt-d: Fix mm reference leak
+Date: Wed, 15 Apr 2020 07:47:07 -0400
+Message-Id: <20200415114711.15381-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200415114623.14972-1-sashal@kernel.org>
-References: <20200415114623.14972-1-sashal@kernel.org>
+In-Reply-To: <20200415114711.15381-1-sashal@kernel.org>
+References: <20200415114711.15381-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Cc: Sasha Levin <sashal@kernel.org>, iommu@lists.linux-foundation.org,
- Joerg Roedel <jroedel@suse.de>, Adrian Huang <ahuang12@lenovo.com>
+ Joerg Roedel <jroedel@suse.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,36 +78,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Adrian Huang <ahuang12@lenovo.com>
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
 
-[ Upstream commit c20f36534666e37858a14e591114d93cc1be0d34 ]
+[ Upstream commit 902baf61adf6b187f0a6b789e70d788ea71ff5bc ]
 
-The SPA of the GCR3 table root pointer[51:31] masks 20 bits. However,
-this requires 21 bits (Please see the AMD IOMMU specification).
-This leads to the potential failure when the bit 51 of SPA of
-the GCR3 table root pointer is 1'.
+Move canonical address check before mmget_not_zero() to avoid mm
+reference leak.
 
-Signed-off-by: Adrian Huang <ahuang12@lenovo.com>
-Fixes: 52815b75682e2 ("iommu/amd: Add support for IOMMUv2 domain mode")
+Fixes: 9d8c3af31607 ("iommu/vt-d: IOMMU Page Request needs to check if address is canonical.")
+Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/iommu/amd_iommu_types.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iommu/intel-svm.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/iommu/amd_iommu_types.h b/drivers/iommu/amd_iommu_types.h
-index 69f3d4c95b530..859b06424e5c4 100644
---- a/drivers/iommu/amd_iommu_types.h
-+++ b/drivers/iommu/amd_iommu_types.h
-@@ -352,7 +352,7 @@
+diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel-svm.c
+index f5573bb9f450e..837459762eb39 100644
+--- a/drivers/iommu/intel-svm.c
++++ b/drivers/iommu/intel-svm.c
+@@ -613,14 +613,15 @@ static irqreturn_t prq_event_thread(int irq, void *d)
+ 		 * any faults on kernel addresses. */
+ 		if (!svm->mm)
+ 			goto bad_req;
+-		/* If the mm is already defunct, don't handle faults. */
+-		if (!mmget_not_zero(svm->mm))
+-			goto bad_req;
  
- #define DTE_GCR3_VAL_A(x)	(((x) >> 12) & 0x00007ULL)
- #define DTE_GCR3_VAL_B(x)	(((x) >> 15) & 0x0ffffULL)
--#define DTE_GCR3_VAL_C(x)	(((x) >> 31) & 0xfffffULL)
-+#define DTE_GCR3_VAL_C(x)	(((x) >> 31) & 0x1fffffULL)
+ 		/* If address is not canonical, return invalid response */
+ 		if (!is_canonical_address(address))
+ 			goto bad_req;
  
- #define DTE_GCR3_INDEX_A	0
- #define DTE_GCR3_INDEX_B	1
++		/* If the mm is already defunct, don't handle faults. */
++		if (!mmget_not_zero(svm->mm))
++			goto bad_req;
++
+ 		down_read(&svm->mm->mmap_sem);
+ 		vma = find_extend_vma(svm->mm, address);
+ 		if (!vma || address < vma->vm_start)
 -- 
 2.20.1
 
