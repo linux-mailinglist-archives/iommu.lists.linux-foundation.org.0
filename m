@@ -1,69 +1,102 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34471AAF90
-	for <lists.iommu@lfdr.de>; Wed, 15 Apr 2020 19:32:01 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 352D88464A;
-	Wed, 15 Apr 2020 17:32:00 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vzBBl7vp1eML; Wed, 15 Apr 2020 17:31:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6F88F86F92;
-	Wed, 15 Apr 2020 17:31:57 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 57FDDC0172;
-	Wed, 15 Apr 2020 17:31:57 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E0EA7C0172
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 17:31:55 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99111AB576
+	for <lists.iommu@lfdr.de>; Thu, 16 Apr 2020 03:27:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A3C7821511
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 17:31:55 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4111E20514;
+	Thu, 16 Apr 2020 01:27:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XqXvw130CPyh; Thu, 16 Apr 2020 01:27:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 217C7204C1;
+	Thu, 16 Apr 2020 01:27:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 10754C0172;
+	Thu, 16 Apr 2020 01:27:50 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 001A6C0172
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Apr 2020 01:27:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id DE8B587812
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Apr 2020 01:27:48 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0lrEOSzN+G8X for <iommu@lists.linux-foundation.org>;
- Wed, 15 Apr 2020 17:31:53 +0000 (UTC)
+ with ESMTP id G9hCZO0zYHgn for <iommu@lists.linux-foundation.org>;
+ Thu, 16 Apr 2020 01:27:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by silver.osuosl.org (Postfix) with ESMTP id 7A94F214E6
- for <iommu@lists.linux-foundation.org>; Wed, 15 Apr 2020 17:31:53 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 753D41FB;
- Wed, 15 Apr 2020 10:31:52 -0700 (PDT)
-Received: from [192.168.1.123] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D6613F68F;
- Wed, 15 Apr 2020 10:31:46 -0700 (PDT)
-Subject: Re: [RFC PATCH 1/4] bus: fsl-mc: add custom .dma_configure
- implementation
-To: Laurentiu Tudor <laurentiu.tudor@nxp.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-References: <20200227100542.13819-1-laurentiu.tudor@nxp.com>
- <20200325125109.GA5430@red-moon.cambridge.arm.com>
- <499fbf9a-416f-d7c7-0655-881d92138a6c@nxp.com>
- <20200414143211.GA14905@red-moon.cambridge.arm.com>
- <d37ca4e3-58cb-9d6f-3a98-5e4a21ca948b@nxp.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <78086898-d54f-63d0-f1f4-301ef2a8ea83@arm.com>
-Date: Wed, 15 Apr 2020 18:31:40 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 1C199873E3
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Apr 2020 01:27:48 +0000 (UTC)
+IronPort-SDR: pMqkSU3kyCBD374c0/cxmBocL4kSg6w1bradHEfXBMwl2tmTm5Y2mKWvdixvjrgx7BL0i5p78x
+ q2jQMpF3pPHA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2020 18:27:47 -0700
+IronPort-SDR: Wk3nxhxHRz6SOJx4koO+5TLJ19Tk+Xep0f/M6EQz7uv9hWQFF1lTYEQhkp3EGAYA81lqyf9aPT
+ wg4pqRCeUC5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,388,1580803200"; d="scan'208";a="242491517"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by orsmga007.jf.intel.com with ESMTP; 15 Apr 2020 18:27:47 -0700
+Received: from fmsmsx157.amr.corp.intel.com (10.18.116.73) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 15 Apr 2020 18:27:46 -0700
+Received: from shsmsx106.ccr.corp.intel.com (10.239.4.159) by
+ FMSMSX157.amr.corp.intel.com (10.18.116.73) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 15 Apr 2020 18:27:45 -0700
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.225]) by
+ SHSMSX106.ccr.corp.intel.com ([169.254.10.89]) with mapi id 14.03.0439.000;
+ Thu, 16 Apr 2020 09:27:44 +0800
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Subject: RE: [PATCH v2 1/3] iommu/uapi: Define uapi version and capabilities
+Thread-Topic: [PATCH v2 1/3] iommu/uapi: Define uapi version and capabilities
+Thread-Index: AQHWAvq+z2SPyfblHkGvV1oKjQsO9ahaFEoAgAB7VgCAAS14gP//zqQAgAEODYCABAXlIIAALvMAgAFssACAACIBAIABY/uQgAHtwgCAEWzRgIAAG8+AgABw0ICAALrWAIAAEIMAgABZOwCAAJqrwIAAhCAAgAEpdxA=
+Date: Thu, 16 Apr 2020 01:27:43 +0000
+Message-ID: <AADFC41AFE54684AB9EE6CBC0274A5D19D822943@SHSMSX104.ccr.corp.intel.com>
+References: <1585178227-17061-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <20200326092316.GA31648@infradead.org>
+ <20200326094442.5be042ce@jacob-builder>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D7ECB45@SHSMSX104.ccr.corp.intel.com>
+ <20200327074702.GA27959@infradead.org>
+ <20200327165335.397f24a3@jacob-builder>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D7FE150@SHSMSX104.ccr.corp.intel.com>
+ <20200330090746.23c5599c@jacob-builder>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D8011A9@SHSMSX104.ccr.corp.intel.com>
+ <20200331085444.44bee0bb@jacob-builder>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D803AFF@SHSMSX104.ccr.corp.intel.com>
+ <20200402113604.6eea1e6f@jacob-builder>
+ <20200413134157.395981a6@jacob-builder>	<20200413162129.313b3b5a@w520.home>
+ <20200413220515.25a107b6@jacob-builder>	<20200414101358.3ae66ac5@w520.home>
+ <20200414101304.27e587eb@jacob-builder>
+ <20200414153226.30d8cab3@jacob-builder>
+ <AADFC41AFE54684AB9EE6CBC0274A5D19D81F901@SHSMSX104.ccr.corp.intel.com>
+ <20200415083854.6fefac01@jacob-builder>
+In-Reply-To: <20200415083854.6fefac01@jacob-builder>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.40]
 MIME-Version: 1.0
-In-Reply-To: <d37ca4e3-58cb-9d6f-3a98-5e4a21ca948b@nxp.com>
-Content-Language: en-GB
-Cc: calvin.johnson@nxp.com, ard.biesheuvel@linaro.org, maz@kernel.org,
- pankaj.bansal@nxp.com, diana.craciun@oss.nxp.com, jon@solid-run.com,
- linux-kernel@vger.kernel.org, jeremy.linton@arm.com,
- linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org,
- cristian.sovaiala@nxp.com, jason@lakedaemon.net, V.Sethi@nxp.com,
- ioana.ciornei@nxp.com, tglx@linutronix.de, makarand.pawagi@nxp.com,
- linux-arm-kernel@lists.infradead.org, Stuart.Yoder@arm.com
+Cc: "Raj, Ashok" <ashok.raj@intel.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,168 +109,81 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-04-15 4:44 pm, Laurentiu Tudor wrote:
+> From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Sent: Wednesday, April 15, 2020 11:39 PM
 > 
+> On Tue, 14 Apr 2020 23:47:40 +0000
+> "Tian, Kevin" <kevin.tian@intel.com> wrote:
 > 
-> On 4/14/2020 5:32 PM, Lorenzo Pieralisi wrote:
->> On Wed, Mar 25, 2020 at 06:48:55PM +0200, Laurentiu Tudor wrote:
->>> Hi Lorenzo,
->>>
->>> On 3/25/2020 2:51 PM, Lorenzo Pieralisi wrote:
->>>> On Thu, Feb 27, 2020 at 12:05:39PM +0200, laurentiu.tudor@nxp.com wrote:
->>>>> From: Laurentiu Tudor <laurentiu.tudor@nxp.com>
->>>>>
->>>>> The devices on this bus are not discovered by way of device tree
->>>>> but by queries to the firmware. It makes little sense to trick the
->>>>> generic of layer into thinking that these devices are of related so
->>>>> that we can get our dma configuration. Instead of doing that, add
->>>>> our custom dma configuration implementation.
->>>>>
->>>>> Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
->>>>> ---
->>>>>   drivers/bus/fsl-mc/fsl-mc-bus.c | 31 ++++++++++++++++++++++++++++++-
->>>>>   1 file changed, 30 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/bus/fsl-mc/fsl-mc-bus.c b/drivers/bus/fsl-mc/fsl-mc-bus.c
->>>>> index 36eb25f82c8e..eafaa0e0b906 100644
->>>>> --- a/drivers/bus/fsl-mc/fsl-mc-bus.c
->>>>> +++ b/drivers/bus/fsl-mc/fsl-mc-bus.c
->>>>> @@ -132,11 +132,40 @@ static int fsl_mc_bus_uevent(struct device *dev, struct kobj_uevent_env *env)
->>>>>   static int fsl_mc_dma_configure(struct device *dev)
->>>>>   {
->>>>>   	struct device *dma_dev = dev;
->>>>> +	struct iommu_fwspec *fwspec;
->>>>> +	const struct iommu_ops *iommu_ops;
->>>>> +	struct fsl_mc_device *mc_dev = to_fsl_mc_device(dev);
->>>>> +	int ret;
->>>>> +	u32 icid;
->>>>>   
->>>>>   	while (dev_is_fsl_mc(dma_dev))
->>>>>   		dma_dev = dma_dev->parent;
->>>>>   
->>>>> -	return of_dma_configure(dev, dma_dev->of_node, 0);
->>>>> +	fwspec = dev_iommu_fwspec_get(dma_dev);
->>>>> +	if (!fwspec)
->>>>> +		return -ENODEV;
->>>>> +	iommu_ops = iommu_ops_from_fwnode(fwspec->iommu_fwnode);
->>>>> +	if (!iommu_ops)
->>>>> +		return -ENODEV;
->>>>> +
->>>>> +	ret = iommu_fwspec_init(dev, fwspec->iommu_fwnode, iommu_ops);
->>>>> +	if (ret)
->>>>> +		return ret;
->>>>> +
->>>>> +	icid = mc_dev->icid;
->>>>> +	ret = iommu_fwspec_add_ids(dev, &icid, 1);
->>>>
->>>> I see. So with this patch we would use the MC named component only to
->>>> retrieve the iommu_ops
->>>
->>> Right. I'd also add that the implementation tries to follow the existing
->>> standard .dma_configure implementations, e.g. of_dma_configure +
->>> of_iommu_configure. I'd also note that similarly to the ACPI case, this
->>> MC FW device is probed as a platform device in the DT scenario, binding
->>> here [1].
->>> A similar approach is used for the retrieval of the msi irq domain, see
->>> following patch.
->>>
->>>> - the streamid are injected directly here bypassing OF/IORT bindings translations altogether.
->>>
->>> Actually I've submitted a v2 [2] that calls into .of_xlate() to allow
->>> the smmu driver to do some processing on the raw streamid coming from
->>> the firmware. I have not yet tested this with ACPI but expect it to
->>> work, however, it's debatable how valid is this approach in the context
->>> of ACPI.
->>
->> Actually, what I think you need is of_map_rid() (and an IORT
->> equivalent, that I am going to write - generalizing iort_msi_map_rid()).
->>
->> Would that be enough to enable IORT "normal" mappings in the MC bus
->> named components ?
->>
+> > > From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > > Sent: Wednesday, April 15, 2020 6:32 AM
+> > >
+> > > On Tue, 14 Apr 2020 10:13:04 -0700
+> > > Jacob Pan <jacob.jun.pan@linux.intel.com> wrote:
+> > >
+> > > > > > >  In any of the proposed solutions, the
+> > > > > > > IOMMU driver is ultimately responsible for validating the
+> > > > > > > user data, so do we want vfio performing the
+> > > > > > > copy_from_user() to an object that could later be assumed
+> > > > > > > to be sanitized, or should vfio just pass a user pointer to
+> > > > > > > make it obvious that the consumer is responsible for all
+> > > > > > > the user protections?  Seems like the latter.
+> > > > > > I like the latter as well.
+> > > > > >
+> > > On a second thought, I think the former is better. Two reasons:
+> > >
+> > > 1. IOMMU API such as page_response is also used in baremetal. So it
+> > > is not suitable to pass a __user *.
+> > > https://www.spinics.net/lists/arm-kernel/msg798677.html
+> >
+> > You can have a wrapped version accepting a __user* and an internal
+> > version for kernel pointers.
+> >
+> I have thought about that also but the problem is that some of the
+> flags are processed in the vendor IOMMU ops so it is hard to do that in
+> a generic wrapper.
+
+All vendor IOMMU ops are defined in the same header file, so they
+can be verified in one common IOMMU wrapper, just like how you
+dealt with it in VFIO originally...
+
 > 
-> At a first glance, looks like this could very well fix the ACPI
-> scenario, but I have some unclarities on the approach:
->   * are we going to rely in DT and ACPI generic layers even if these
-> devices are not published / enumerated through DT or ACPI tables?
+> > >
+> > > 2. Some data are in the mandatory (fixed offset, never removed or
+> > > extended) portion of the uAPI structure. It is simpler for VFIO to
+> > > extract that and pass it to IOMMU API. For example, the PASID value
+> > > used for unbind_gpasid(). VFIO also need to sanitize the PASID
+> > > value to make sure it belongs to the same VM that did the
+> > > allocation.
+> >
+> > I don't think this makes much difference. If anyway you still plan to
+> > let IOMMU driver parse some user pointers, why not making a clear
+> > split to have it sparse all IOMMU specific fields?
+> >
+> The plan is not to have IOMMU driver parse user pointers. This is the
+> "former" case in Alex's comment. I.e. vfio performing the
+> copy_from_user based on argsz in IOMMU uAPI.
+> 
 
-Assuming you mean the DPRC devices rather than the MC itself, then yes; 
-in that sense it's exactly the same as how we treat 
-dynamically-discovered PCI devices.
+I'm confused. I thought Alex proposed the latter one:
+---[quote]
+> So, __user * will be passed to IOMMU driver if VFIO checks minsz
+> include flags and they are valid.
+> IOMMU driver can copy the rest based on the mandatory version/minsz and
+> flags in the IOMMU uAPI structs.
+> Does it sound right? This is really choice #2.
 
->   * the firmware manages and provides discrete streamids for the devices
-> it exposes so there's no translation involved. There's no
->     requestor_id / input_id involved but it seems that we would still do
-> some kind of translation relying for this on the DT/ACPI functions.
+Sounds like each IOMMU UAPI struct just needs to have an embedded size
+and flags field, but yes.
+----
 
-Wrong - last time I looked, what that firmware actually manages are 
-*ICIDs* for the devices, not SMMU Stream IDs or GIC Device IDs; what 
-DT/ACPI specifies is a translation from ICID to Stream ID/Device ID. The 
-ICID is very much the requester/input ID for that translation. Yes, in 
-practice the "translation" is effectively always a trivial identity 
-mapping, but conceptually it most definitely exists. Yes, the subtlety 
-is incredibly easy to overlook because it's basically drawing a 
-distinction between one end of some wires vs. the other end, but it matters.
-
-(and of course "trivial 1:1 translation" isn't even true in the case of 
-SMMU Stream ID values, since IIRC they are really composed of 5 
-different inputs, only one of which is (part of) the incoming ICID)
-
->   * MC firmware has its own stream_id (e.g. on some chips 0x4000, others
-> 0xf00, so outside the range of stream_ids used for the mc devices)
->     while for the devices on this bus, MC allocates stream_ids from a
-> range (e.g. 0x17 - 0x3f). Is it possible to describe this in the IORT table?
-
-If it represents a unique ICID allocated to the MC itself, then sure, it 
-simply goes through the mapping like anything else. Just like a PCI host 
-bridge owns requester ID 0:0.0 and thus whatever Stream ID/Device ID 
-that might map to.
-
-If (for the sake of argument, because AIUI everything is an ICID in this 
-particular case) it's some hard-wired thing that exists in Stream 
-ID/Device ID space only, then it's a little trickier, but still in 
-scope. In DT we have a lovely distinction between between "originating 
-from the node" and "translated through the node", e.g. "msi-parent" vs. 
-"msi-map"; IORT is not quite as clear-cut, but there are at least a few 
-options. If the valid input ID space is smaller than 32 bits, then the 
-"Named Component as bridge" binding could simply define special 
-out-of-range values to represent IDs originating from the bridge itself, 
-such that the NC driver knows what to do and from IORT's point of view 
-everything is just a normal mapping. Alternatively there's already the 
-example of SMMUv3 where we can have a mix of the normal mappings from 
-Stream ID to Device ID for the upstream masters plus a single mapping 
-for the SMMU's own Device ID - admittedly that depends on the additional 
-SMMUv3-specific Device ID Mapping Index property, but if necessary it 
-might be workable to have a de-facto interface for NCs that only 
-considers single mappings when configuring the NC itself, and only 
-considers normal mappings when configuring its children. Or maybe define 
-a new mapping flag or NC property if there's a real need to specify such 
-a situation unambiguously at the IORT level.
-
->   * Regarding the of_map_rid() use you mentioned, I was planning to
-> decouple the mc bus from the DT layer by dropping the use of
-> of_map_rid(), see patch 4.
-> I briefly glanced over the iort code and spotted this static function:
-> iort_iommu_xlate(). Wouldn't it also help, of course after making it public?
-
-I won't speak for Lorenzo or claim we've agreed on an approach at all 
-(not least because in all honesty we haven't really discussed it beyond 
-these various email threads), but FWIW my vision is that ultimately the 
-DT/ACPI code would expose a *_dma_configure() interface that takes an 
-optional input ID, or (perhaps more likely) an explicit pair of 
-interfaces for "configure this regular device" and "configure this 
-device based on this 'host' device and this ID", and it becomes the bus 
-code's responsibility to pass the right device(s) and deal with multiple 
-IDs (i.e. for starters all the PCI alias stuff goes back to the PCI code 
-where it really should be, rather than having multiple copies of magic 
-PCI awareness deep down in DT/ACPI code).
-
-Robin.
+Thanks
+Kevin
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
