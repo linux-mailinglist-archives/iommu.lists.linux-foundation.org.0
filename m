@@ -1,58 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75C91AECDB
-	for <lists.iommu@lfdr.de>; Sat, 18 Apr 2020 15:48:28 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D631AECEA
+	for <lists.iommu@lfdr.de>; Sat, 18 Apr 2020 15:48:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3D801881C8;
-	Sat, 18 Apr 2020 13:48:27 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5759B84906;
+	Sat, 18 Apr 2020 13:48:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8Cb+xJLa7ULN; Sat, 18 Apr 2020 13:48:26 +0000 (UTC)
+	with ESMTP id oozamzU4z5fd; Sat, 18 Apr 2020 13:48:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8EC0B881B7;
-	Sat, 18 Apr 2020 13:48:26 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A2D2384798;
+	Sat, 18 Apr 2020 13:48:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 73737C0172;
-	Sat, 18 Apr 2020 13:48:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 97F16C1D89;
+	Sat, 18 Apr 2020 13:48:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 50D1BC089F
- for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 13:48:25 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CDB5FC0172
+ for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 13:48:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3AF2E8816B
- for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 13:48:25 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id BCE3985F5D
+ for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 13:48:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NfKbZ2ecnGP1 for <iommu@lists.linux-foundation.org>;
- Sat, 18 Apr 2020 13:48:24 +0000 (UTC)
+ with ESMTP id jFKzZcQ_mfj9 for <iommu@lists.linux-foundation.org>;
+ Sat, 18 Apr 2020 13:48:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 860E288167
- for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 13:48:24 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 4DF1D85D54
+ for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 13:48:46 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9261E21BE5;
- Sat, 18 Apr 2020 13:48:23 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 798F821D6C;
+ Sat, 18 Apr 2020 13:48:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587217704;
- bh=Lue7JNmC6TQZFYuMx+fDmPgbAJvMm8ETEtKpp+9SUnw=;
+ s=default; t=1587217726;
+ bh=zcJtmfhcKpw/H11ES2lD9L7QUnOKJ0if8zjxjDQ4Yok=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BYwV4lkOGbzCqxmIaDxCTF7DZJPpaAPOvogxa8FhV1+0HCKkMFIoA0NXLDWFFROd6
- tiFxF9KhwNc3H/TMBV9U88lioxTAE6qpzZAk4lbddlxZHckxEEkLc8mlpwlzX3gfbA
- eIEVmqtnjSi78XrxxqJmp8CLd7nkoGJNEm3dD7g0=
+ b=ThSbhDIMV6N4ITLvuOK0Ss7FDJMvt8BTKo49E903P82ipog21vS7fylcGvnSCnjIh
+ pcrHQ3DX4swCxLjmSe5dJ+FSFKBlgz1ztR7HG1U6NG+5ZdkJnCTOWEVro0eUTdMTtt
+ HF7Fa7t9nC3Lf5zA2mvnAO+iBzUTHfXHTI8HCPJE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 07/73] iommu/vt-d: Fix mm reference leak
-Date: Sat, 18 Apr 2020 09:47:09 -0400
-Message-Id: <20200418134815.6519-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 25/73] dma-direct: fix data truncation in
+ dma_direct_get_required_mask()
+Date: Sat, 18 Apr 2020 09:47:27 -0400
+Message-Id: <20200418134815.6519-25-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200418134815.6519-1-sashal@kernel.org>
 References: <20200418134815.6519-1-sashal@kernel.org>
@@ -60,7 +61,7 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Cc: Sasha Levin <sashal@kernel.org>, iommu@lists.linux-foundation.org,
- Joerg Roedel <jroedel@suse.de>
+ Christoph Hellwig <hch@lst.de>, Kishon Vijay Abraham I <kishon@ti.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,45 +79,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+From: Kishon Vijay Abraham I <kishon@ti.com>
 
-[ Upstream commit 902baf61adf6b187f0a6b789e70d788ea71ff5bc ]
+[ Upstream commit cdcda0d1f8f4ab84efe7cd9921c98364398aefd7 ]
 
-Move canonical address check before mmget_not_zero() to avoid mm
-reference leak.
+The upper 32-bit physical address gets truncated inadvertently
+when dma_direct_get_required_mask() invokes phys_to_dma_direct().
+This results in dma_addressing_limited() return incorrect value
+when used in platforms with LPAE enabled.
+Fix it here by explicitly type casting 'max_pfn' to phys_addr_t
+in order to prevent overflow of intermediate value while evaluating
+'(max_pfn - 1) << PAGE_SHIFT'.
 
-Fixes: 9d8c3af31607 ("iommu/vt-d: IOMMU Page Request needs to check if address is canonical.")
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
+Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/iommu/intel-svm.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ kernel/dma/direct.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel-svm.c
-index edac769fc03d8..2998418f0a383 100644
---- a/drivers/iommu/intel-svm.c
-+++ b/drivers/iommu/intel-svm.c
-@@ -611,14 +611,15 @@ static irqreturn_t prq_event_thread(int irq, void *d)
- 		 * any faults on kernel addresses. */
- 		if (!svm->mm)
- 			goto bad_req;
--		/* If the mm is already defunct, don't handle faults. */
--		if (!mmget_not_zero(svm->mm))
--			goto bad_req;
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index ac7956c38f693..4b24275e306a4 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -39,7 +39,8 @@ static inline struct page *dma_direct_to_page(struct device *dev,
  
- 		/* If address is not canonical, return invalid response */
- 		if (!is_canonical_address(address))
- 			goto bad_req;
+ u64 dma_direct_get_required_mask(struct device *dev)
+ {
+-	u64 max_dma = phys_to_dma_direct(dev, (max_pfn - 1) << PAGE_SHIFT);
++	phys_addr_t phys = (phys_addr_t)(max_pfn - 1) << PAGE_SHIFT;
++	u64 max_dma = phys_to_dma_direct(dev, phys);
  
-+		/* If the mm is already defunct, don't handle faults. */
-+		if (!mmget_not_zero(svm->mm))
-+			goto bad_req;
-+
- 		down_read(&svm->mm->mmap_sem);
- 		vma = find_extend_vma(svm->mm, address);
- 		if (!vma || address < vma->vm_start)
+ 	return (1ULL << (fls64(max_dma) - 1)) * 2 - 1;
+ }
 -- 
 2.20.1
 
