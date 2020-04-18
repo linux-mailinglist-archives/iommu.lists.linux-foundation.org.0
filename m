@@ -1,56 +1,75 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C941AEC88
-	for <lists.iommu@lfdr.de>; Sat, 18 Apr 2020 14:42:12 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EB6EC873E3;
-	Sat, 18 Apr 2020 12:42:10 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0PPzsEjfToPi; Sat, 18 Apr 2020 12:42:10 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 85E348738A;
-	Sat, 18 Apr 2020 12:42:10 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6CA43C1D89;
-	Sat, 18 Apr 2020 12:42:10 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0BE29C0172
- for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 12:42:09 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41731AEC95
+	for <lists.iommu@lfdr.de>; Sat, 18 Apr 2020 14:45:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id EA7BB868B6
- for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 12:42:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 080A6868D1;
+	Sat, 18 Apr 2020 12:45:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jdiGXHgp9MV4; Sat, 18 Apr 2020 12:44:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AE4E5868D5;
+	Sat, 18 Apr 2020 12:44:58 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 93124C0172;
+	Sat, 18 Apr 2020 12:44:58 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3EDA4C0172;
+ Sat, 18 Apr 2020 12:44:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 389BD20448;
+ Sat, 18 Apr 2020 12:44:57 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8C0w2kEN8rj5 for <iommu@lists.linux-foundation.org>;
- Sat, 18 Apr 2020 12:42:08 +0000 (UTC)
+ with ESMTP id KLCukNKmywOS; Sat, 18 Apr 2020 12:44:56 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 792D286885
- for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 12:42:08 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 771C4203E4;
+ Sat, 18 Apr 2020 12:44:56 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id B57C0342; Sat, 18 Apr 2020 14:42:06 +0200 (CEST)
-Date: Sat, 18 Apr 2020 14:42:05 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 3/4] dma-mapping: add a dma_ops_bypass flag to struct
- device
-Message-ID: <20200418124205.GD6113@8bytes.org>
-References: <20200414122506.438134-1-hch@lst.de>
- <20200414122506.438134-4-hch@lst.de>
+ id 7275A48C; Sat, 18 Apr 2020 14:44:54 +0200 (CEST)
+Date: Sat, 18 Apr 2020 14:44:53 +0200
+From: "joro@8bytes.org" <joro@8bytes.org>
+To: "Derrick, Jonathan" <jonathan.derrick@intel.com>
+Subject: Re: [PATCH v2 00/33] iommu: Move iommu_group setup to IOMMU core code
+Message-ID: <20200418124452.GE6113@8bytes.org>
+References: <20200414131542.25608-1-joro@8bytes.org>
+ <20200417010335.31739-1-drake@endlessm.com>
+ <aafed865c0254934986528b3ce9c4d34ff2fccad.camel@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200414122506.438134-4-hch@lst.de>
+In-Reply-To: <aafed865c0254934986528b3ce9c4d34ff2fccad.camel@intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org
+Cc: "heiko@sntech.de" <heiko@sntech.de>,
+ "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ "drake@endlessm.com" <drake@endlessm.com>, "will@kernel.org" <will@kernel.org>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
+ "krzk@kernel.org" <krzk@kernel.org>,
+ "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+ "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
+ "kgene@kernel.org" <kgene@kernel.org>, "agross@kernel.org" <agross@kernel.org>,
+ "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "gerald.schaefer@de.ibm.com" <gerald.schaefer@de.ibm.com>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "dwmw2@infradead.org" <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,30 +87,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Christoph,
+Hi Jonathan, Hi Daniel,
 
-On Tue, Apr 14, 2020 at 02:25:05PM +0200, Christoph Hellwig wrote:
-> +static inline bool dma_map_direct(struct device *dev,
-> +		const struct dma_map_ops *ops)
-> +{
-> +	if (likely(!ops))
-> +		return true;
-> +	if (!dev->dma_ops_bypass)
-> +		return false;
-> +
-> +	return min_not_zero(*dev->dma_mask, dev->bus_dma_limit) >=
-> +			    dma_direct_get_required_mask(dev);
+On Fri, Apr 17, 2020 at 01:14:30AM +0000, Derrick, Jonathan wrote:
+> Hi Daniel> I should have CCed you on this, but it should temporarily resolve that
+> issue:
+> https://lists.linuxfoundation.org/pipermail/iommu/2020-April/043253.html
 
-Why is the dma-mask check done here? The dma-direct code handles memory
-outside of the devices dma-mask with swiotlb, no?
+Yes, this is an issue in the hotplug handling path which I already fixed
+in my branch. With next post of this series it should work.
 
-I also don't quite get what the difference between setting the
-dma_ops_bypass flag non-zero and setting ops to NULL is.
-
+Regards,
 
 	Joerg
-
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
