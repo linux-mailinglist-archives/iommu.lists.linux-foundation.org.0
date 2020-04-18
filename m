@@ -1,56 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949291AEC3F
-	for <lists.iommu@lfdr.de>; Sat, 18 Apr 2020 13:54:13 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6F51AEC49
+	for <lists.iommu@lfdr.de>; Sat, 18 Apr 2020 14:02:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2086D86B28;
-	Sat, 18 Apr 2020 11:54:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9E87820451;
+	Sat, 18 Apr 2020 12:02:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id crg2BUEZDVEI; Sat, 18 Apr 2020 11:54:11 +0000 (UTC)
+	with ESMTP id KwZi4MdBeW89; Sat, 18 Apr 2020 12:02:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7362A8770A;
-	Sat, 18 Apr 2020 11:54:11 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E080B20442;
+	Sat, 18 Apr 2020 12:02:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5D002C0172;
-	Sat, 18 Apr 2020 11:54:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A72A5C1D89;
+	Sat, 18 Apr 2020 12:02:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 51D78C0172
- for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 11:54:08 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6B497C0172
+ for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 12:02:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3B1C388222
- for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 11:54:08 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 5554087766
+ for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 12:02:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0uWhyst8h9JP for <iommu@lists.linux-foundation.org>;
- Sat, 18 Apr 2020 11:54:06 +0000 (UTC)
+ with ESMTP id uvrSzl6j2Jux for <iommu@lists.linux-foundation.org>;
+ Sat, 18 Apr 2020 12:02:53 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0E80B88216
- for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 11:54:06 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 3ED8E876F4
+ for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 12:02:53 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id F25AB342; Sat, 18 Apr 2020 13:54:02 +0200 (CEST)
-Date: Sat, 18 Apr 2020 13:54:00 +0200
+ id 06E11342; Sat, 18 Apr 2020 14:02:50 +0200 (CEST)
+Date: Sat, 18 Apr 2020 14:02:49 +0200
 From: Joerg Roedel <joro@8bytes.org>
-To: Tang Bin <tangbin@cmss.chinamobile.com>
-Subject: Re: [PATCH] iommu/qcom:fix local_base status check
-Message-ID: <20200418115400.GF21900@8bytes.org>
-References: <20200402063302.20640-1-tangbin@cmss.chinamobile.com>
- <20200402064552.GG663905@yoga>
- <7a565c74-f223-83da-cf32-0474be6c9460@cmss.chinamobile.com>
+To: Kevin Hao <haokexin@gmail.com>
+Subject: Re: [PATCH] iommu: Fix the memory leak in dev_iommu_free()
+Message-ID: <20200418120249.GG21900@8bytes.org>
+References: <20200402143749.40500-1-haokexin@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <7a565c74-f223-83da-cf32-0474be6c9460@cmss.chinamobile.com>
+In-Reply-To: <20200402143749.40500-1-haokexin@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, agross@kernel.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -63,34 +59,19 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Apr 16, 2020 at 02:42:23PM +0800, Tang Bin wrote:
-> =A0=A0=A0=A0=A0=A0=A0 The function qcom_iommu_device_probe() does not per=
-form sufficient
-> error checking after executing devm_ioremap_resource(), which can result =
-in
-> crashes if a critical error path is encountered.
-> =
+On Thu, Apr 02, 2020 at 10:37:49PM +0800, Kevin Hao wrote:
+> Fixes: 72acd9df18f1 ("iommu: Move iommu_fwspec to struct dev_iommu")
+> Signed-off-by: Kevin Hao <haokexin@gmail.com>
+> ---
+>  drivers/iommu/iommu.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-> Fixes: 0ae349a0("iommu/qcom: Add qcom_iommu")
-
-Yes, that sounds better. Please use it for the commit message and also
-add the Fixes line and resubmit the fix to me.
-Please make the fixes line:
-
-	Fixes: 0ae349a0f33f ("iommu/qcom: Add qcom_iommu")
-
-So that the commit-id is 12 characters long and a space between it and
-the subject.
-
-Thanks,
-
-	Joerg
-
+Applied, thanks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
