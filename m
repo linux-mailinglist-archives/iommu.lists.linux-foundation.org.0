@@ -1,67 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53BE1AEDCD
-	for <lists.iommu@lfdr.de>; Sat, 18 Apr 2020 16:09:44 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id E645E1AEDD5
+	for <lists.iommu@lfdr.de>; Sat, 18 Apr 2020 16:10:11 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 432A9876FB;
-	Sat, 18 Apr 2020 14:09:43 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9249E8650A;
+	Sat, 18 Apr 2020 14:10:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NPkkHoC-eoHJ; Sat, 18 Apr 2020 14:09:42 +0000 (UTC)
+	with ESMTP id Bp0v-Y1WUI7H; Sat, 18 Apr 2020 14:10:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C7C94877D0;
-	Sat, 18 Apr 2020 14:09:42 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1AC6386529;
+	Sat, 18 Apr 2020 14:10:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B502AC0172;
-	Sat, 18 Apr 2020 14:09:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 08CAFC0172;
+	Sat, 18 Apr 2020 14:10:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A5AA5C1D8A
- for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 14:09:40 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A1778C0172;
+ Sat, 18 Apr 2020 14:10:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9CC508682C
- for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 14:09:40 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 9E108876FB;
+ Sat, 18 Apr 2020 14:10:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id K1BMWG3+FSxY for <iommu@lists.linux-foundation.org>;
- Sat, 18 Apr 2020 14:09:39 +0000 (UTC)
+ with ESMTP id vvS-TFdp+Ks4; Sat, 18 Apr 2020 14:10:08 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id C6E3A8683A
- for <iommu@lists.linux-foundation.org>; Sat, 18 Apr 2020 14:09:39 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 1A1C78682C;
+ Sat, 18 Apr 2020 14:10:08 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E8DEC22245;
- Sat, 18 Apr 2020 14:09:38 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id EDCD621D6C;
+ Sat, 18 Apr 2020 14:10:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1587218979;
- bh=EKyrqKcM92RTUv/jYokQKHedpF2ezK8XL3yesjlpMl4=;
+ s=default; t=1587219007;
+ bh=W8o+PisOtU2oX7Zz9Q/BVrsKAC2DBRGXAIHr24EMmzs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=0NwlgfR3HvykIySAKoQazoTIVLcR6ZlGPXvPmj8lRUlYRpWO+OCFUGTK09Y3jkRxb
- uYzijSwXiOeIUGMhEUtLPoe+QXQHTk1sg/LjpBa6HNnDpH3Bg41cglRF9/c4cOF6Dc
- P5q/nJaWiUQIdU5nzotJYN1WNBhTBIxkCDTbxDmo=
+ b=2Jw0S5Sklct9YnAAh92kdtbRUb4/hyLd2cdPTrcNcWfGmx7PCQKcHEN6oc4xfWcus
+ YgITxWneRZa58nPKIz95/l+IZN37841Rge3AsU8XslhZG1UFQb1NFdHLZAKSx+5z1n
+ EdSlPfub7b+iTMpZqzslpAxK+L+t2K3B2OHLRKck=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 24/75] dma-debug: fix displaying of dma allocation
- type
-Date: Sat, 18 Apr 2020 10:08:19 -0400
-Message-Id: <20200418140910.8280-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 45/75] iommu/virtio: Fix freeing of incomplete
+ domains
+Date: Sat, 18 Apr 2020 10:08:40 -0400
+Message-Id: <20200418140910.8280-45-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200418140910.8280-1-sashal@kernel.org>
 References: <20200418140910.8280-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-Cc: Sasha Levin <sashal@kernel.org>, iommu@lists.linux-foundation.org,
- Grygorii Strashko <grygorii.strashko@ti.com>, Christoph Hellwig <hch@lst.de>
+Cc: Sasha Levin <sashal@kernel.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Joerg Roedel <jroedel@suse.de>, virtualization@lists.linux-foundation.org,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,53 +81,61 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Grygorii Strashko <grygorii.strashko@ti.com>
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-[ Upstream commit 9bb50ed7470944238ec8e30a94ef096caf9056ee ]
+[ Upstream commit 7062af3ed2ba451029e3733d9f677c68f5ea9e77 ]
 
-The commit 2e05ea5cdc1a ("dma-mapping: implement dma_map_single_attrs using
-dma_map_page_attrs") removed "dma_debug_page" enum, but missed to update
-type2name string table. This causes incorrect displaying of dma allocation
-type.
-Fix it by removing "page" string from type2name string table and switch to
-use named initializers.
+Calling viommu_domain_free() on a domain that hasn't been finalised (not
+attached to any device, for example) can currently cause an Oops,
+because we attempt to call ida_free() on ID 0, which may either be
+unallocated or used by another domain.
 
-Before (dma_alloc_coherent()):
-k3-ringacc 4b800000.ringacc: scather-gather idx 2208 P=d1140000 N=d114 D=d1140000 L=40 DMA_BIDIRECTIONAL dma map error check not applicable
-k3-ringacc 4b800000.ringacc: scather-gather idx 2216 P=d1150000 N=d115 D=d1150000 L=40 DMA_BIDIRECTIONAL dma map error check not applicable
+Only initialise the vdomain->viommu pointer, which denotes a finalised
+domain, at the end of a successful viommu_domain_finalise().
 
-After:
-k3-ringacc 4b800000.ringacc: coherent idx 2208 P=d1140000 N=d114 D=d1140000 L=40 DMA_BIDIRECTIONAL dma map error check not applicable
-k3-ringacc 4b800000.ringacc: coherent idx 2216 P=d1150000 N=d115 D=d1150000 L=40 DMA_BIDIRECTIONAL dma map error check not applicable
-
-Fixes: 2e05ea5cdc1a ("dma-mapping: implement dma_map_single_attrs using dma_map_page_attrs")
-Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
+Fixes: edcd69ab9a32 ("iommu: Add virtio-iommu driver")
+Reported-by: Eric Auger <eric.auger@redhat.com>
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+Link: https://lore.kernel.org/r/20200326093558.2641019-3-jean-philippe@linaro.org
+Signed-off-by: Joerg Roedel <jroedel@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- kernel/dma/debug.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/iommu/virtio-iommu.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
-index 2031ed1ad7fa1..9e1777c81f559 100644
---- a/kernel/dma/debug.c
-+++ b/kernel/dma/debug.c
-@@ -137,9 +137,12 @@ static const char *const maperr2str[] = {
- 	[MAP_ERR_CHECKED] = "dma map error checked",
- };
+diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
+index 315c7cc4f99d8..779a6025b5962 100644
+--- a/drivers/iommu/virtio-iommu.c
++++ b/drivers/iommu/virtio-iommu.c
+@@ -613,18 +613,20 @@ static int viommu_domain_finalise(struct viommu_dev *viommu,
+ 	int ret;
+ 	struct viommu_domain *vdomain = to_viommu_domain(domain);
  
--static const char *type2name[5] = { "single", "page",
--				    "scather-gather", "coherent",
--				    "resource" };
-+static const char *type2name[] = {
-+	[dma_debug_single] = "single",
-+	[dma_debug_sg] = "scather-gather",
-+	[dma_debug_coherent] = "coherent",
-+	[dma_debug_resource] = "resource",
-+};
+-	vdomain->viommu		= viommu;
+-	vdomain->map_flags	= viommu->map_flags;
++	ret = ida_alloc_range(&viommu->domain_ids, viommu->first_domain,
++			      viommu->last_domain, GFP_KERNEL);
++	if (ret < 0)
++		return ret;
++
++	vdomain->id		= (unsigned int)ret;
  
- static const char *dir2name[4] = { "DMA_BIDIRECTIONAL", "DMA_TO_DEVICE",
- 				   "DMA_FROM_DEVICE", "DMA_NONE" };
+ 	domain->pgsize_bitmap	= viommu->pgsize_bitmap;
+ 	domain->geometry	= viommu->geometry;
+ 
+-	ret = ida_alloc_range(&viommu->domain_ids, viommu->first_domain,
+-			      viommu->last_domain, GFP_KERNEL);
+-	if (ret >= 0)
+-		vdomain->id = (unsigned int)ret;
++	vdomain->map_flags	= viommu->map_flags;
++	vdomain->viommu		= viommu;
+ 
+-	return ret > 0 ? 0 : ret;
++	return 0;
+ }
+ 
+ static void viommu_domain_free(struct iommu_domain *domain)
 -- 
 2.20.1
 
