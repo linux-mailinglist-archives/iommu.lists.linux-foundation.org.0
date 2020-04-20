@@ -1,127 +1,97 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26711B1036
-	for <lists.iommu@lfdr.de>; Mon, 20 Apr 2020 17:32:35 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CADA1B0F38
+	for <lists.iommu@lfdr.de>; Mon, 20 Apr 2020 17:05:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 798EB85F9C;
-	Mon, 20 Apr 2020 15:32:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 46EB686DC5;
+	Mon, 20 Apr 2020 15:05:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id psu4xoSeRSug; Mon, 20 Apr 2020 15:32:32 +0000 (UTC)
+	with ESMTP id ae3YXV+yHRPk; Mon, 20 Apr 2020 15:05:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id AA99285F9A;
-	Mon, 20 Apr 2020 15:32:32 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A4C1786D82;
+	Mon, 20 Apr 2020 15:05:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 99032C0177;
-	Mon, 20 Apr 2020 15:32:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8C99DC0177;
+	Mon, 20 Apr 2020 15:05:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 69BE4C0177
- for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 15:32:31 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A46B9C0177
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 15:05:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 5008020C41
- for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 15:32:31 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8D7D985F41
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 15:05:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Po61vCgRG6oZ for <iommu@lists.linux-foundation.org>;
- Mon, 20 Apr 2020 15:32:30 +0000 (UTC)
-X-Greylist: delayed 00:17:06 by SQLgrey-1.7.6
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2056.outbound.protection.outlook.com [40.107.92.56])
- by silver.osuosl.org (Postfix) with ESMTPS id 0F6F32051B
- for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 15:32:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fHIMhyzm56zW1LYVVi6argaKxI1Xn6ZvR+PwXPaY7y3TFxUrDdzxjC8fS1MfjqXm4N53RxL1JaQTznOW+QtJDCCqzCZRwlsjhqY+NcFgZ9bT0VNvN6oiHxu9Go0Qkx9xYdbL1BmOYBewDfMKCVR4nr+rIfdrXy9oP10b3CKrWQCrxVbDh65cXyHfh5JD1Ykmhn9JkdvrT/XO/UBSq/KsnXh6reyMP6kNkPm+nzMe6m0HJhNI9rlX8bKtbj+28xpVMhZaKyNmuKxzn+opTavswIGPsW7jmD2RUcqnuPNjvT7LZnQsIq+h184+xb/FVM9+Pdt6sQz+US9GMGto+BHZUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SlB20+Rmyl7OHe/6tsHMMwNKNZcnARrih+6tZhS8YOs=;
- b=JpdVihNktXyb+Mwpk9XCUxlxd1K5oIiRS6Es1L5L4Cg8znAsE6P0LPjK/6pUacLWz8YTUfYqiYfU3QXkFZhEsoe11NtVcG0ve7Iyr/XzM1IAe+OcirL6RDLuHzD6IhMIuueU7y4PGQuYMAgWmOd7MYoGYlKfuA0fsocSg0k57Me8O2cE1M94jwBe6VWPFLp3P3Olm2EJ84Mg2U5VzdGMzE0P4lD7HNzg6bNy79wi61XWVRl0Kt8Q7WRuNld+MjjBo09x+jzV/PHbBOcoTpZ/vac14f5tu5E7FHHSDQQZZa8thgHd0OyBW/IahwnHbACcLPAFgwRK9iyoxW8YsY1hSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SlB20+Rmyl7OHe/6tsHMMwNKNZcnARrih+6tZhS8YOs=;
- b=tFvejdDoDzp/1HhexSfRt0UoHTVbYtPQ/V1TAGWhW9n9RyyM9I0atV511ZETTmuIU5VYxaGmiXoVlfu0SJ4r/0X3K7ixVu+UZ1Wbw7zpcCgxVofnUw70tn+X124ut2oDhINxNqKw+Nz46Hy17pR+DkVNy+LEYnC5JYi/nak1ec4=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Felix.Kuehling@amd.com; 
-Received: from SN1PR12MB2414.namprd12.prod.outlook.com (2603:10b6:802:2e::31)
- by SN1PR12MB2512.namprd12.prod.outlook.com (2603:10b6:802:31::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Mon, 20 Apr
- 2020 15:00:35 +0000
-Received: from SN1PR12MB2414.namprd12.prod.outlook.com
- ([fe80::38ef:1510:9525:f806]) by SN1PR12MB2414.namprd12.prod.outlook.com
- ([fe80::38ef:1510:9525:f806%7]) with mapi id 15.20.2921.027; Mon, 20 Apr 2020
- 15:00:34 +0000
-Subject: Re: [PATCH v5 02/25] iommu/sva: Manage process address spaces
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Christoph Hellwig <hch@infradead.org>
-References: <20200414170252.714402-1-jean-philippe@linaro.org>
- <20200414170252.714402-3-jean-philippe@linaro.org>
- <20200416072852.GA32000@infradead.org> <20200416085402.GB1286150@myrica>
- <20200416121331.GA18661@infradead.org> <20200420074213.GA3180232@myrica>
- <20200420081034.GA17305@infradead.org>
- <6b195512-fa73-9a49-03d8-1ed92e86f607@amd.com>
- <20200420115504.GA20664@infradead.org>
- <966e190e-ca9f-4c64-af05-43b0f0d8d012@amd.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Message-ID: <65709b48-526b-ff43-760c-0fe0317d5e9c@amd.com>
-Date: Mon, 20 Apr 2020 11:00:28 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-In-Reply-To: <966e190e-ca9f-4c64-af05-43b0f0d8d012@amd.com>
-Content-Language: en-US
-X-ClientProxiedBy: YTXPR0101CA0037.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:1::14) To SN1PR12MB2414.namprd12.prod.outlook.com
- (2603:10b6:802:2e::31)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.2.100] (142.116.63.128) by
- YTXPR0101CA0037.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
- Transport; Mon, 20 Apr 2020 15:00:29 +0000
-X-Originating-IP: [142.116.63.128]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 2e3e7dc6-48d1-4fca-58e2-08d7e53b91d8
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2512:|SN1PR12MB2512:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN1PR12MB2512BFA656FA189B33FD864592D40@SN1PR12MB2512.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 03793408BA
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN1PR12MB2414.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(10009020)(4636009)(396003)(376002)(39860400002)(366004)(346002)(136003)(26005)(81156014)(8936002)(8676002)(86362001)(316002)(2616005)(956004)(478600001)(66574012)(186003)(16526019)(16576012)(66476007)(66556008)(36756003)(31696002)(5660300002)(52116002)(4326008)(7416002)(110136005)(6486002)(44832011)(2906002)(31686004)(66946007);
- DIR:OUT; SFP:1101; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QRX8BVLLPrwFYYO28ur8xUzGd2KsrDdoQp3RWn85YlROeI0HViSEZtjDZ4JaHmL+bmvJnehRjn+BAEwuw8SypVVc+vQnNnYo7qX7HL+3BdfJr1sP1YbwFGqMZEgN5mXILFxiIinq+kZBIno82wiOJC152uhGYhkJUh9X88jeJWhA9TDj2i6d/Iy0QqpbPfLCNTdZ5E3OVmu457D/ARK68mZ7s3WXqBt7mIlnaUmAtVSpsZdJeOhqZ7WPyzixwoRJC8QOmlrHa1Qo6ZOoMoyNzuq6YNUIQy8lycg478VwXz9XzDNZbSfw4SkDItF0sXgMptXeRGhgWcFs1v4oJ9TW2aneYUKnKWHM24K7oR0breCLlfYb5YKCuJUJjp6nrQgvk2Hoq8l4eG5zzrRSeoENTe/g9QkROg1DhVe79UGph6NcnPD412kONpLK2I4Tw3zc
-X-MS-Exchange-AntiSpam-MessageData: APW4AuyB41nOOrK+bR6qIzEwB3b/5fh6NoLcQXetg1QZgKqALWMTu1aI764U6MR22praENZ5ljx2zKa8YUAHXyxMQkuw+Mbqkwv8knQ+E6HEyTCA1HdKH0BE/TOPJgepePG/qSAlFS+1rf2gKPW/NQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e3e7dc6-48d1-4fca-58e2-08d7e53b91d8
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2020 15:00:31.1099 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P+vtAbEtK09GfV5bFRarwkLDRgLklppa60qOdk2GuarJ/bDrDIcqDqwJOJgoAkfj1ZqCwTb3CUpeN6olbSoCaA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2512
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, kevin.tian@intel.com,
- devicetree@vger.kernel.org, jgg@ziepe.ca, linux-pci@vger.kernel.org,
- robin.murphy@arm.com, linux-mm@kvack.org, iommu@lists.linux-foundation.org,
- catalin.marinas@arm.com, zhangfei.gao@linaro.org, will@kernel.org,
- linux-arm-kernel@lists.infradead.org
+ with ESMTP id zEEiJcGv3b2D for <iommu@lists.linux-foundation.org>;
+ Mon, 20 Apr 2020 15:05:09 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 0E5C685F5C
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 15:05:08 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6F74531B;
+ Mon, 20 Apr 2020 08:05:08 -0700 (PDT)
+Received: from ssg-dev-vb.arm.com (unknown [10.57.26.77])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 03E073F73D;
+ Mon, 20 Apr 2020 08:04:51 -0700 (PDT)
+From: Hadar Gat <hadar.gat@arm.com>
+To: "David S. Miller" <davem@davemloft.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Vinod Koul <vkoul@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Tony Lindgren <tony@atomide.com>, Lee Jones <lee.jones@linaro.org>,
+ Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Jose Abreu <joabreu@synopsys.com>, JC Kuo <jckuo@nvidia.com>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>,
+ Stefan Agner <stefan@agner.ch>, Linus Walleij <linus.walleij@linaro.org>,
+ Kukjin Kim <kgene@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
+Subject: [PATCH v3] of_device: removed #include that caused a recursion in
+ included headers
+Date: Mon, 20 Apr 2020 18:04:29 +0300
+Message-Id: <1587395080-15722-1-git-send-email-hadar.gat@arm.com>
+X-Mailer: git-send-email 2.7.4
+Cc: linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mtd@lists.infradead.org, sparclinux@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Hadar Gat <hadar.gat@arm.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Ofir Drang <ofir.drang@arm.com>,
+ Gilad Ben-Yossef <gilad@benyossef.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ dmaengine@vger.kernel.org, freedreno@lists.freedesktop.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -134,72 +104,499 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-QW0gMjAyMC0wNC0yMCB1bSA4OjQwIGEubS4gc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOgo+IEFt
-IDIwLjA0LjIwIHVtIDEzOjU1IHNjaHJpZWIgQ2hyaXN0b3BoIEhlbGx3aWc6Cj4+IE9uIE1vbiwg
-QXByIDIwLCAyMDIwIGF0IDAxOjQ0OjU2UE0gKzAyMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6
-Cj4+PiBBbSAyMC4wNC4yMCB1bSAxMDoxMCBzY2hyaWViIENocmlzdG9waCBIZWxsd2lnOgo+Pj4+
-IE9uIE1vbiwgQXByIDIwLCAyMDIwIGF0IDA5OjQyOjEzQU0gKzAyMDAsIEplYW4tUGhpbGlwcGUg
-QnJ1Y2tlciB3cm90ZToKPj4+Pj4gUmlnaHQsIEkgY2FuIHNlZSB0aGUgYXBwZWFsLiBJIHN0aWxs
-IGxpa2UgaGF2aW5nIGEgc2luZ2xlIG1tdQo+Pj4+PiBub3RpZmllciBwZXIKPj4+Pj4gbW0gYmVj
-YXVzZSBpdCBlbnN1cmVzIHdlIGFsbG9jYXRlIGEgc2luZ2xlIFBBU0lEIHBlciBtbSAoYXMKPj4+
-Pj4gcmVxdWlyZWQgYnkKPj4+Pj4geDg2KS4gSSBzdXBwb3NlIG9uZSBhbHRlcm5hdGl2ZSBpcyB0
-byBtYWludGFpbiBhIGhhc2h0YWJsZSBvZgo+Pj4+PiBtbS0+cGFzaWQsCj4+Pj4+IHRvIGF2b2lk
-IGl0ZXJhdGluZyBvdmVyIGFsbCBib25kcyBkdXJpbmcgYWxsb2NhdGlvbi4KPj4+PiBHaXZlbiB0
-aGF0IHRoZSBQQVNJRCBpcyBhIHByZXR0eSBnZW5lcmljIGFuZCBpbXBvcnRhbnQgY29uY2VwdCBj
-YW4KPj4+PiB3ZSBqdXN0IGFkZCBpdCBkaXJlY3RseSB0byB0aGUgbW1fc3RydWN0IGFuZCBhbGxv
-Y2F0ZSBpdCBsYXppbHkgb25jZQo+Pj4+IHdlIGZpcnN0IG5lZWQgaXQ/Cj4+PiBXZWxsIHRoZSBw
-cm9ibGVtIGlzIHRoYXQgdGhlIFBBU0lEIG1pZ2h0IGFzIHdlbGwgYmUgZGV2aWNlIHNwZWNpZmlj
-Lgo+Pj4gRS5nLgo+Pj4gc29tZSBkZXZpY2VzIHVzZSAxNmJpdCBQQVNJRHMsIHNvbWUgMTViaXQs
-IHNvbWUgb3RoZXIgb25seSAxMmJpdC4KPj4+Cj4+PiBTbyB3aGF0IGNvdWxkIChhdCBsZWFzdCBp
-biB0aGVvcnkpIGhhcHBlbiBpcyB0aGF0IHlvdSBuZWVkIHRvIGFsbG9jYXRlCj4+PiBkaWZmZXJl
-bnQgUEFTSURzIGZvciB0aGUgc2FtZSBwcm9jZXNzIGJlY2F1c2UgZGlmZmVyZW50IGRldmljZXMg
-bmVlZAo+Pj4gb25lLgo+PiBUaGlzIGRpcmVjdGx5IGNvbnRyYWRpY3RzIHRoZSBzdGF0ZW1lbnQg
-ZnJvbSBKZWFuLVBoaWxpcHBlIGFib3ZlIHRoYXQKPj4geDg2IHJlcXVpcmVzIGEgc2luZ2xlIFBB
-U0lEIHBlciBtbV9zdHJ1Y3QuwqAgSWYgd2UgbWF5IG5lZWQgZGlmZmVyZW50Cj4+IFBBU0lEcyBm
-b3IgZGlmZmVyZW50IGRldmljZXMgYW5kIGNhbiBhY3R1YWxseSBzdXBwb3J0IHRoaXMganVzdAo+
-PiBhbGxvY2F0aW5nIG9uZSBwZXIgW2RldmljZSwgbW1fc3RydWN0XSB3b3VsZCBtYWtlIG1vc3Qg
-c2Vuc2Ugb2YgbWUsIGFzCj4+IGl0IGRvZXNuJ3QgY291cGxlIG90aGVyd2lzZSBkaXNqb2ludCBz
-dGF0ZS4KPgo+IFdlbGwgSSdtIG5vdCBhbiBleHBlcnQgb24gdGhpcyB0b3BpYy4gRmVsaXggY2Fu
-IHByb2JhYmx5IHRlbGwgeW91IGEKPiBiaXQgbW9yZSBhYm91dCB0aGF0Lgo+Cj4gTWF5YmUgaXQg
-aXMgc3VmZmljaWVudCB0byBrZWVwIHRoZSBhbGxvY2F0ZWQgUEFTSURzIGFzIHNtYWxsIGFzCj4g
-cG9zc2libGUgYW5kIHJldHVybiBhbiBhcHByb3ByaWF0ZSBlcnJvciBpZiBhIGRldmljZSBjYW4n
-dCBkZWFsIHdpdGgKPiB0aGUgYWxsb2NhdGVkIG51bWJlci4KPgo+IElmIGEgZGV2aWNlIGNhbiBv
-bmx5IGRlYWwgd2l0aCAxMmJpdCBQQVNJRHMgYW5kIG1vcmUgdGhhbiAyXjEyIHRyeSB0bwo+IHVz
-ZSBpdCB0aGVyZSBpc24ndCBtdWNoIGVsc2Ugd2UgY2FuIGRvIHRoYW4gcmV0dXJuaW5nIGFuIGVy
-cm9yIGFueXdheS4KCkknbSBwcm9iYWJseSBtaXNzaW5nIHNvbWUgY29udGV4dC4gQnV0IGxldCBt
-ZSB0cnkgZ2l2aW5nIGEgdXNlZnVsIHJlcGx5LgoKVGhlIGhhcmR3YXJlIGFsbG93cyB5b3UgdG8g
-aGF2ZSBkaWZmZXJlbnQgUEFTSURzIGZvciBlYWNoIGRldmljZQpyZWZlcnJpbmcgdG8gdGhlIHNh
-bWUgYWRkcmVzcyBzcGFjZS4gQnV0IEkgdGhpbmsgaXQncyBPSyBmb3Igc29mdHdhcmUgdG8KY2hv
-b3NlIG5vdCB0byBkbyB0aGF0LiBJZiBMaW51eCB3YW50cyB0byBtYW5hZ2Ugb25lIFBBU0lEIG5h
-bWVzcGFjZSBmb3IKYWxsIGRldmljZXMsIHRoYXQncyBhIHJlYXNvbmFibGUgY2hvaWNlIElNTy4K
-CkRpZmZlcmVudCBkZXZpY2VzIGhhdmUgZGlmZmVyZW50IGxpbWl0cyBmb3IgdGhlIHNpemUgb2Yg
-UEFTSUQgdGhleSBjYW4Kc3VwcG9ydC4gRm9yIGV4YW1wbGUgQU1EIEdQVXMgc3VwcG9ydCAxNi1i
-aXRzIGJ1dCB0aGUgSU9NTVUgc3VwcG9ydHMKbGVzcy4gU28gb24gQVBVcyB3ZSB1c2Ugc21hbGwg
-UEFTSURzIGZvciBjb250ZXh0cyB0aGF0IHdhbnQgdG8gdXNlCklPTU1VdjIgdG8gYWNjZXNzIG1l
-bW9yeSwgYnV0IGJpZ2dlciBQQVNJRHMgZm9yIGNvbnRleHRzIHRoYXQgZG8gbm90LgoKSSBjaG9v
-c2UgdGhlIHdvcmQgImNvbnRleHQiIGRlbGliZXJhdGVseSwgYmVjYXVzZSB0aGUgYW1kZ3B1IGRy
-aXZlciB1c2VzClBBU0lEcyBldmVuIHdoZW4gd2UncmUgbm90IHVzaW5nIElPTU1VdjIsIGFuZCB3
-ZSdyZSB1c2luZyB0aGVtIHRvCmlkZW50aWZ5IEdQVSB2aXJ0dWFsIGFkZHJlc3Mgc3BhY2VzLiBU
-aGVyZSBjYW4gYmUgbW9yZSB0aGFuIG9uZSBwZXIKcHJvY2Vzcy4gSW4gcHJhY3RpY2UgeW91IGNh
-biBoYXZlIHR3bywgb25lIGZvciBncmFwaGljcyAobm90IFNWTSwKZG9lc24ndCB1c2UgSU9NTVV2
-MikgYW5kIG9uZSBmb3IgS0ZEIGNvbXB1dGUgKFNWTSwgY2FuIHVzZSBJT01NVXYyIG9uIEFQVXMp
-LgoKQmVjYXVzZSB0aGUgSU9NTVV2MiBzdXBwb3J0cyBvbmx5IHNtYWxsZXIgUEFTSURzLCB3ZSB3
-YW50IHRvIGF2b2lkCmV4aGF1c3RpbmcgdGhhdCBzcGFjZSB3aXRoIFBBU0lEIGFsbG9jYXRpb25z
-IHRoYXQgZG9uJ3QgdXNlIHRoZSBJT01NVXYyLgpTbyBvdXIgUEFTSUQgYWxsb2NhdGlvbiBmdW5j
-dGlvbiBoYXMgYSAic2l6ZSIgcGFyYW1ldGVyLCBhbmQgd2UgdHJ5IHRvCmFsbG9jYXRlZCBhIFBB
-U0lEIGFzIGJpZyBhcyBwb3NzaWJsZSBpbiBvcmRlciB0byBsZWF2ZSBtb3JlIHByZWNpb3VzCnNt
-YWxsZXIgUEFTSURzIGZvciBjb250ZXh0cyB0aGF0IG5lZWQgdGhlbS4KClRoZSBib3R0b20gbGlu
-ZSBpcywgd2hlbiB5b3UgYWxsb2NhdGUgYSBQQVNJRCBmb3IgYSBjb250ZXh0LCB5b3Ugd2FudCB0
-bwprbm93IGhvdyBzbWFsbCBpdCBuZWVkcyB0byBiZSBmb3IgYWxsIHRoZSBkZXZpY2VzIHRoYXQg
-d2FudCB0byB1c2UgaXQuCklmIHlvdSBtYWtlIGl0IHRvbyBiaWcsIHNvbWUgZGV2aWNlIHdpbGwg
-bm90IGJlIGFibGUgdG8gdXNlIGl0LiBJZiB5b3UKbWFrZSBpdCB0b28gc21hbGwsIHlvdSB3YXN0
-ZSBwcmVjaW91cyBQQVNJRHMgdGhhdCBjb3VsZCBiZSB1c2VkIGZvcgpvdGhlciBjb250ZXh0cyB0
-aGF0IG5lZWQgdGhlbS4KClJlZ2FyZHMsCsKgIEZlbGl4CgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMu
-bGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21h
-aWxtYW4vbGlzdGluZm8vaW9tbXU=
+Both of_platform.h and of_device.h were included each other.
+In of_device.h, removed unneeded #include to of_platform.h
+and added include to of_platform.h in the files that needs it.
+
+Signed-off-by: Hadar Gat <hadar.gat@arm.com>
+Reported-by: kbuild test robot <lkp@intel.com>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
+Acked-by: Stephen Boyd <sboyd@kernel.org> # clk
+---
+v3: add include to of_platform.h in more files. (reported due other builds)
+v2: add include to of_platform.h in more files. (reported due other builds)
+
+ arch/sparc/kernel/pci.c                           | 1 +
+ arch/sparc/kernel/pci_sabre.c                     | 1 +
+ arch/sparc/kernel/pci_schizo.c                    | 1 +
+ arch/sparc/kernel/sbus.c                          | 1 +
+ arch/sparc/mm/io-unit.c                           | 1 +
+ arch/sparc/mm/iommu.c                             | 1 +
+ drivers/base/platform.c                           | 1 +
+ drivers/bus/imx-weim.c                            | 1 +
+ drivers/bus/vexpress-config.c                     | 1 +
+ drivers/clk/mediatek/clk-mt7622-aud.c             | 1 +
+ drivers/dma/at_hdmac.c                            | 1 +
+ drivers/dma/stm32-dmamux.c                        | 1 +
+ drivers/dma/ti/dma-crossbar.c                     | 1 +
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c             | 1 +
+ drivers/gpu/drm/msm/hdmi/hdmi.c                   | 1 +
+ drivers/gpu/drm/msm/msm_drv.c                     | 1 +
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 1 +
+ drivers/gpu/drm/sun4i/sun4i_tcon.c                | 1 +
+ drivers/iio/adc/stm32-adc-core.c                  | 1 +
+ drivers/iio/adc/stm32-dfsdm-adc.c                 | 1 +
+ drivers/iio/adc/stm32-dfsdm-core.c                | 1 +
+ drivers/iommu/tegra-smmu.c                        | 1 +
+ drivers/media/platform/coda/coda-common.c         | 1 +
+ drivers/memory/atmel-ebi.c                        | 1 +
+ drivers/mfd/palmas.c                              | 1 +
+ drivers/mfd/ssbi.c                                | 1 +
+ drivers/mtd/nand/raw/omap2.c                      | 1 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
+ drivers/net/ethernet/ti/cpsw.c                    | 1 +
+ drivers/phy/tegra/xusb.c                          | 1 +
+ drivers/pinctrl/freescale/pinctrl-imx1-core.c     | 1 +
+ drivers/pinctrl/nomadik/pinctrl-nomadik.c         | 1 +
+ drivers/soc/samsung/exynos-pmu.c                  | 1 +
+ drivers/soc/sunxi/sunxi_sram.c                    | 1 +
+ include/linux/of_device.h                         | 2 --
+ lib/genalloc.c                                    | 1 +
+ 36 files changed, 35 insertions(+), 2 deletions(-)
+
+diff --git a/arch/sparc/kernel/pci.c b/arch/sparc/kernel/pci.c
+index 5ed4382..89ea658 100644
+--- a/arch/sparc/kernel/pci.c
++++ b/arch/sparc/kernel/pci.c
+@@ -21,6 +21,7 @@
+ #include <linux/init.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ #include <linux/uaccess.h>
+ #include <asm/pgtable.h>
+diff --git a/arch/sparc/kernel/pci_sabre.c b/arch/sparc/kernel/pci_sabre.c
+index 3c38ca4..16761d0 100644
+--- a/arch/sparc/kernel/pci_sabre.c
++++ b/arch/sparc/kernel/pci_sabre.c
+@@ -14,6 +14,7 @@
+ #include <linux/slab.h>
+ #include <linux/interrupt.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ #include <asm/apb.h>
+ #include <asm/iommu.h>
+diff --git a/arch/sparc/kernel/pci_schizo.c b/arch/sparc/kernel/pci_schizo.c
+index 421aba0..733f069 100644
+--- a/arch/sparc/kernel/pci_schizo.c
++++ b/arch/sparc/kernel/pci_schizo.c
+@@ -12,6 +12,7 @@
+ #include <linux/export.h>
+ #include <linux/interrupt.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/numa.h>
+ 
+ #include <asm/iommu.h>
+diff --git a/arch/sparc/kernel/sbus.c b/arch/sparc/kernel/sbus.c
+index 32141e1..2f4051f 100644
+--- a/arch/sparc/kernel/sbus.c
++++ b/arch/sparc/kernel/sbus.c
+@@ -15,6 +15,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/numa.h>
+ 
+ #include <asm/page.h>
+diff --git a/arch/sparc/mm/io-unit.c b/arch/sparc/mm/io-unit.c
+index 289276b..5638399 100644
+--- a/arch/sparc/mm/io-unit.c
++++ b/arch/sparc/mm/io-unit.c
+@@ -15,6 +15,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ #include <asm/pgalloc.h>
+ #include <asm/pgtable.h>
+diff --git a/arch/sparc/mm/iommu.c b/arch/sparc/mm/iommu.c
+index b00dde1..9cbb2e7 100644
+--- a/arch/sparc/mm/iommu.c
++++ b/arch/sparc/mm/iommu.c
+@@ -16,6 +16,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ #include <asm/pgalloc.h>
+ #include <asm/pgtable.h>
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index 5255550..f549274b 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -12,6 +12,7 @@
+ #include <linux/string.h>
+ #include <linux/platform_device.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_irq.h>
+ #include <linux/module.h>
+ #include <linux/init.h>
+diff --git a/drivers/bus/imx-weim.c b/drivers/bus/imx-weim.c
+index 28bb65a..8c786da 100644
+--- a/drivers/bus/imx-weim.c
++++ b/drivers/bus/imx-weim.c
+@@ -11,6 +11,7 @@
+ #include <linux/clk.h>
+ #include <linux/io.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/mfd/syscon/imx6q-iomuxc-gpr.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/bus/vexpress-config.c b/drivers/bus/vexpress-config.c
+index ff70575..12b8b0b 100644
+--- a/drivers/bus/vexpress-config.c
++++ b/drivers/bus/vexpress-config.c
+@@ -8,6 +8,7 @@
+ #include <linux/init.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/vexpress.h>
+ 
+ 
+diff --git a/drivers/clk/mediatek/clk-mt7622-aud.c b/drivers/clk/mediatek/clk-mt7622-aud.c
+index 2bd4295..8cbb68f 100644
+--- a/drivers/clk/mediatek/clk-mt7622-aud.c
++++ b/drivers/clk/mediatek/clk-mt7622-aud.c
+@@ -9,6 +9,7 @@
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ 
+ #include "clk-mtk.h"
+diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
+index 73a2078..388f8e10 100644
+--- a/drivers/dma/at_hdmac.c
++++ b/drivers/dma/at_hdmac.c
+@@ -20,6 +20,7 @@
+ #include <linux/slab.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_dma.h>
+ 
+ #include "at_hdmac_regs.h"
+diff --git a/drivers/dma/stm32-dmamux.c b/drivers/dma/stm32-dmamux.c
+index 12f7637..b704896 100644
+--- a/drivers/dma/stm32-dmamux.c
++++ b/drivers/dma/stm32-dmamux.c
+@@ -16,6 +16,7 @@
+ #include <linux/init.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_dma.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/reset.h>
+diff --git a/drivers/dma/ti/dma-crossbar.c b/drivers/dma/ti/dma-crossbar.c
+index 4ba8fa5..2c0fd44 100644
+--- a/drivers/dma/ti/dma-crossbar.c
++++ b/drivers/dma/ti/dma-crossbar.c
+@@ -10,6 +10,7 @@
+ #include <linux/io.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_dma.h>
+ 
+ #define TI_XBAR_DRA7		0
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index c4e71ab..f523254 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -6,6 +6,7 @@
+ #include <linux/interconnect.h>
+ #include <linux/pm_domain.h>
+ #include <linux/pm_opp.h>
++#include <linux/of_platform.h>
+ #include <soc/qcom/cmd-db.h>
+ 
+ #include "a6xx_gpu.h"
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+index 737453b..5034d40 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/of_irq.h>
+ #include <linux/of_gpio.h>
++#include <linux/of_platform.h>
+ 
+ #include <sound/hdmi-codec.h>
+ #include "hdmi.h"
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 29295de..ddc9e85 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -8,6 +8,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/kthread.h>
+ #include <linux/uaccess.h>
++#include <linux/of_platform.h>
+ #include <uapi/linux/sched/types.h>
+ 
+ #include <drm/drm_drv.h>
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+index 6e1270e..d038bae 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+@@ -12,6 +12,7 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/phy/phy.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index 624437b..aa35757 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_irq.h>
+ #include <linux/regmap.h>
+ #include <linux/reset.h>
+diff --git a/drivers/iio/adc/stm32-adc-core.c b/drivers/iio/adc/stm32-adc-core.c
+index 2df88d2..3dc3453 100644
+--- a/drivers/iio/adc/stm32-adc-core.c
++++ b/drivers/iio/adc/stm32-adc-core.c
+@@ -17,6 +17,7 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+diff --git a/drivers/iio/adc/stm32-dfsdm-adc.c b/drivers/iio/adc/stm32-dfsdm-adc.c
+index 76a60d9..e83848cb 100644
+--- a/drivers/iio/adc/stm32-dfsdm-adc.c
++++ b/drivers/iio/adc/stm32-dfsdm-adc.c
+@@ -20,6 +20,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+diff --git a/drivers/iio/adc/stm32-dfsdm-core.c b/drivers/iio/adc/stm32-dfsdm-core.c
+index 26e2011..f6a53ab 100644
+--- a/drivers/iio/adc/stm32-dfsdm-core.c
++++ b/drivers/iio/adc/stm32-dfsdm-core.c
+@@ -12,6 +12,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
+diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
+index 63a147b..3797caa 100644
+--- a/drivers/iommu/tegra-smmu.c
++++ b/drivers/iommu/tegra-smmu.c
+@@ -10,6 +10,7 @@
+ #include <linux/kernel.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/dma-mapping.h>
+diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+index d0d093d..0874824 100644
+--- a/drivers/media/platform/coda/coda-common.c
++++ b/drivers/media/platform/coda/coda-common.c
+@@ -20,6 +20,7 @@
+ #include <linux/kfifo.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/slab.h>
+diff --git a/drivers/memory/atmel-ebi.c b/drivers/memory/atmel-ebi.c
+index 14386d0..272b1a8 100644
+--- a/drivers/memory/atmel-ebi.c
++++ b/drivers/memory/atmel-ebi.c
+@@ -13,6 +13,7 @@
+ #include <linux/mfd/syscon/atmel-smc.h>
+ #include <linux/init.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/regmap.h>
+ #include <soc/at91/atmel-sfr.h>
+ 
+diff --git a/drivers/mfd/palmas.c b/drivers/mfd/palmas.c
+index f5b3fa9..cca44bc 100644
+--- a/drivers/mfd/palmas.c
++++ b/drivers/mfd/palmas.c
+@@ -19,6 +19,7 @@
+ #include <linux/mfd/core.h>
+ #include <linux/mfd/palmas.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ static const struct regmap_config palmas_regmap_config[PALMAS_NUM_CLIENTS] = {
+ 	{
+diff --git a/drivers/mfd/ssbi.c b/drivers/mfd/ssbi.c
+index 94f60df..72cd45a 100644
+--- a/drivers/mfd/ssbi.c
++++ b/drivers/mfd/ssbi.c
+@@ -20,6 +20,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ /* SSBI 2.0 controller registers */
+ #define SSBI2_CMD			0x0008
+diff --git a/drivers/mtd/nand/raw/omap2.c b/drivers/mtd/nand/raw/omap2.c
+index ad77c11..d851ec7 100644
+--- a/drivers/mtd/nand/raw/omap2.c
++++ b/drivers/mtd/nand/raw/omap2.c
+@@ -22,6 +22,7 @@
+ #include <linux/slab.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ 
+ #include <linux/mtd/nand_bch.h>
+ #include <linux/platform_data/elm.h>
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 58e0511..d704d57 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -12,6 +12,7 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_mdio.h>
+ #include <linux/of_net.h>
+ #include <linux/phy.h>
+diff --git a/drivers/net/ethernet/ti/cpsw.c b/drivers/net/ethernet/ti/cpsw.c
+index c2c5bf8..6932945 100644
+--- a/drivers/net/ethernet/ti/cpsw.c
++++ b/drivers/net/ethernet/ti/cpsw.c
+@@ -28,6 +28,7 @@
+ #include <linux/of_mdio.h>
+ #include <linux/of_net.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/if_vlan.h>
+ #include <linux/kmemleak.h>
+ #include <linux/sys_soc.h>
+diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
+index de4a46f..0eac1b8 100644
+--- a/drivers/phy/tegra/xusb.c
++++ b/drivers/phy/tegra/xusb.c
+@@ -9,6 +9,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/phy/phy.h>
+ #include <linux/phy/tegra/xusb.h>
+ #include <linux/platform_device.h>
+diff --git a/drivers/pinctrl/freescale/pinctrl-imx1-core.c b/drivers/pinctrl/freescale/pinctrl-imx1-core.c
+index c00d002..d1c171e 100644
+--- a/drivers/pinctrl/freescale/pinctrl-imx1-core.c
++++ b/drivers/pinctrl/freescale/pinctrl-imx1-core.c
+@@ -16,6 +16,7 @@
+ #include <linux/io.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/pinctrl/machine.h>
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinctrl.h>
+diff --git a/drivers/pinctrl/nomadik/pinctrl-nomadik.c b/drivers/pinctrl/nomadik/pinctrl-nomadik.c
+index ca7bbe4..44974ac 100644
+--- a/drivers/pinctrl/nomadik/pinctrl-nomadik.c
++++ b/drivers/pinctrl/nomadik/pinctrl-nomadik.c
+@@ -19,6 +19,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/slab.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_address.h>
+ #include <linux/bitops.h>
+ #include <linux/pinctrl/machine.h>
+diff --git a/drivers/soc/samsung/exynos-pmu.c b/drivers/soc/samsung/exynos-pmu.c
+index 17304fa..25129b0 100644
+--- a/drivers/soc/samsung/exynos-pmu.c
++++ b/drivers/soc/samsung/exynos-pmu.c
+@@ -8,6 +8,7 @@
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/platform_device.h>
+ #include <linux/delay.h>
+diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+index 1b0d50f..423cec3 100644
+--- a/drivers/soc/sunxi/sunxi_sram.c
++++ b/drivers/soc/sunxi/sunxi_sram.c
+@@ -16,6 +16,7 @@
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ 
+diff --git a/include/linux/of_device.h b/include/linux/of_device.h
+index 8d31e39..752999b 100644
+--- a/include/linux/of_device.h
++++ b/include/linux/of_device.h
+@@ -4,8 +4,6 @@
+ 
+ #include <linux/cpu.h>
+ #include <linux/platform_device.h>
+-#include <linux/of_platform.h> /* temporary until merge */
+-
+ #include <linux/of.h>
+ #include <linux/mod_devicetable.h>
+ 
+diff --git a/lib/genalloc.c b/lib/genalloc.c
+index 7f1244b..08e21eeb 100644
+--- a/lib/genalloc.c
++++ b/lib/genalloc.c
+@@ -33,6 +33,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/genalloc.h>
+ #include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/vmalloc.h>
+ 
+ static inline size_t chunk_size(const struct gen_pool_chunk *chunk)
+-- 
+2.7.4
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
