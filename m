@@ -1,65 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEFB51B10D3
-	for <lists.iommu@lfdr.de>; Mon, 20 Apr 2020 17:58:08 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E6E1B113E
+	for <lists.iommu@lfdr.de>; Mon, 20 Apr 2020 18:16:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 96DF820552;
-	Mon, 20 Apr 2020 15:58:07 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1933686D96;
+	Mon, 20 Apr 2020 16:16:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id T6JdXlvuRMEk; Mon, 20 Apr 2020 15:58:04 +0000 (UTC)
+	with ESMTP id KLNg79BizWdb; Mon, 20 Apr 2020 16:16:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 0D28821519;
-	Mon, 20 Apr 2020 15:58:04 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 62E9686AF9;
+	Mon, 20 Apr 2020 16:16:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E3F19C0177;
-	Mon, 20 Apr 2020 15:58:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5047EC0177;
+	Mon, 20 Apr 2020 16:16:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27A4FC07FF
- for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 15:58:02 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DF7C2C0177
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 16:16:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 23FA385F94
- for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 15:58:02 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id CC90287E8B
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 16:16:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BM23-VeHNHEx for <iommu@lists.linux-foundation.org>;
- Mon, 20 Apr 2020 15:58:01 +0000 (UTC)
+ with ESMTP id FLgNUWFPPjvx for <iommu@lists.linux-foundation.org>;
+ Mon, 20 Apr 2020 16:16:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 5F0E286008
- for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 15:58:01 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id E1E7787E4C
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 16:16:38 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B36BD31B;
- Mon, 20 Apr 2020 08:58:00 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6440C31B;
+ Mon, 20 Apr 2020 09:16:38 -0700 (PDT)
 Received: from [10.57.33.63] (unknown [10.57.33.63])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6403E3F73D;
- Mon, 20 Apr 2020 08:57:58 -0700 (PDT)
-Subject: Re: [PATCHv2 2/6] iommu/arm-smmu: Allow client devices to select
- direct mapping
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Sibi Sankar <sibis@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Jordan Crouse <jcrouse@codeaurora.org>, Rob Clark <robdclark@gmail.com>
-References: <cover.1587392905.git.saiprakash.ranjan@codeaurora.org>
- <14539e787e6d8b7bd0a6d8f8a001baae6f691988.1587392905.git.saiprakash.ranjan@codeaurora.org>
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C420E3F73D;
+ Mon, 20 Apr 2020 09:16:36 -0700 (PDT)
+Subject: Re: [PATCH v2 2/4] iommu: Add Allwinner H6 IOMMU driver
+To: Maxime Ripard <maxime@cerno.tech>, Joerg Roedel <joro@8bytes.org>
+References: <cover.a31c229a83f1d92e6928ae2adb70887da0fd44b3.1582222496.git-series.maxime@cerno.tech>
+ <6864f0f28825bb7a2ec1c0d811a4aacdecf5f945.1582222496.git-series.maxime@cerno.tech>
+ <20200302153606.GB6540@8bytes.org>
+ <20200401114710.doioefzmjhte7jwu@gilmour.lan>
+ <20200408140649.GI3103@8bytes.org>
+ <20200420143958.rdn3j27tu3umtkrh@gilmour.lan>
 From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <e35b10dc-8e58-f201-8485-9543dafbadfe@arm.com>
-Date: Mon, 20 Apr 2020 16:57:55 +0100
+Message-ID: <af745738-9e0f-40b6-9a20-19c233a7e52a@arm.com>
+Date: Mon, 20 Apr 2020 17:16:34 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <14539e787e6d8b7bd0a6d8f8a001baae6f691988.1587392905.git.saiprakash.ranjan@codeaurora.org>
+In-Reply-To: <20200420143958.rdn3j27tu3umtkrh@gilmour.lan>
 Content-Language: en-GB
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Evan Green <evgreen@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
- iommu@lists.linux-foundation.org, Matthias Kaehlcke <mka@chromium.org>,
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Chen-Yu Tsai <wens@csie.org>, iommu@lists.linux-foundation.org,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -78,84 +77,37 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-04-20 3:37 pm, Sai Prakash Ranjan wrote:
-> From: Jordan Crouse <jcrouse@codeaurora.org>
+On 2020-04-20 3:39 pm, Maxime Ripard wrote:
+> Hi,
 > 
-> Some client devices want to directly map the IOMMU themselves instead
-> of using the DMA domain. Allow those devices to opt in to direct
-> mapping by way of a list of compatible strings.
+> On Wed, Apr 08, 2020 at 04:06:49PM +0200, Joerg Roedel wrote:
+>> On Wed, Apr 01, 2020 at 01:47:10PM +0200, Maxime Ripard wrote:
+>>> As far as I understand it, the page table can be accessed concurrently
+>>> since the framework doesn't seem to provide any serialization /
+>>> locking, shouldn't we have some locks to prevent concurrent access?
+>>
+>> The dma-iommu code makes sure that there are no concurrent accesses to
+>> the same address-range of the page-table, but there can (and will) be
+>> concurrent accesses to the same page-table, just for different parts of
+>> the address space.
+>>
+>> Making this lock-less usually involves updating non-leaf page-table
+>> entries using atomic compare-exchange instructions.
 > 
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> Co-developed-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-> ---
->   drivers/iommu/arm-smmu-qcom.c | 19 +++++++++++++++++++
->   drivers/iommu/arm-smmu.h      |  1 +
->   2 files changed, 20 insertions(+)
+> That makes sense, thanks!
 > 
-> diff --git a/drivers/iommu/arm-smmu-qcom.c b/drivers/iommu/arm-smmu-qcom.c
-> index 64a4ab270ab7..0b3f159065aa 100644
-> --- a/drivers/iommu/arm-smmu-qcom.c
-> +++ b/drivers/iommu/arm-smmu-qcom.c
-> @@ -3,6 +3,7 @@
->    * Copyright (c) 2019, The Linux Foundation. All rights reserved.
->    */
->   
-> +#include <linux/of_device.h>
->   #include <linux/qcom_scm.h>
->   
->   #include "arm-smmu.h"
-> @@ -11,6 +12,23 @@ struct qcom_smmu {
->   	struct arm_smmu_device smmu;
->   };
->   
-> +static const struct of_device_id qcom_smmu_client_of_match[] = {
-> +	{ .compatible = "qcom,adreno" },
-> +	{ .compatible = "qcom,mdp4" },
-> +	{ .compatible = "qcom,mdss" },
-> +	{ .compatible = "qcom,sc7180-mdss" },
-> +	{ .compatible = "qcom,sdm845-mdss" },
-> +	{ }
-> +};
-> +
-> +static int qcom_smmu_request_domain(struct device *dev)
-> +{
-> +	const struct of_device_id *match =
-> +		of_match_device(qcom_smmu_client_of_match, dev);
-> +
-> +	return match ? IOMMU_DOMAIN_IDENTITY : 0;
-> +}
-> +
->   static int qcom_sdm845_smmu500_reset(struct arm_smmu_device *smmu)
->   {
->   	int ret;
-> @@ -41,6 +59,7 @@ static int qcom_smmu500_reset(struct arm_smmu_device *smmu)
->   }
->   
->   static const struct arm_smmu_impl qcom_smmu_impl = {
-> +	.req_domain = qcom_smmu_request_domain,
->   	.reset = qcom_smmu500_reset,
->   };
->   
-> diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
-> index 8d1cd54d82a6..662fdb4dccd2 100644
-> --- a/drivers/iommu/arm-smmu.h
-> +++ b/drivers/iommu/arm-smmu.h
-> @@ -386,6 +386,7 @@ struct arm_smmu_impl {
->   	int (*init_context)(struct arm_smmu_domain *smmu_domain);
->   	void (*tlb_sync)(struct arm_smmu_device *smmu, int page, int sync,
->   			 int status);
-> +	int (*req_domain)(struct device *dev);
+> I'm not sure what I should compare with though, do you want to compare with 0 to
+> check if there's already a page table assigned to that DTE? If so, then we
+> should also allocate the possible page table before the fact so that we have
+> something to swap with, and deallocate it if we already had one?
 
-Nit: since the point is to implement the full iommu_ops::def_domain_type 
-interface, can we call it def_domain_type please?
+Indeed, for an example see arm_v7s_install_table() and how 
+__arm_v7s_map() calls it. The LPAE version in io-pgtable-arm.c does the 
+same too, but with some extra software-bit handshaking to track the 
+cache maintenance state as an optimisation, which you can probably do 
+without trying to make sense of ;)
 
 Robin.
-
->   };
->   
->   static inline void __iomem *arm_smmu_page(struct arm_smmu_device *smmu, int n)
-> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
