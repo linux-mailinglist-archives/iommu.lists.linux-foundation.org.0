@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4141B1B148C
-	for <lists.iommu@lfdr.de>; Mon, 20 Apr 2020 20:34:17 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EF555881B7;
-	Mon, 20 Apr 2020 18:34:15 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vnAhEGQOX61O; Mon, 20 Apr 2020 18:34:15 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 65DAA881A4;
-	Mon, 20 Apr 2020 18:34:15 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 60D32C0177;
-	Mon, 20 Apr 2020 18:34:15 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 723DEC0177
- for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 18:34:14 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 388F31B1496
+	for <lists.iommu@lfdr.de>; Mon, 20 Apr 2020 20:34:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 6DA4786932
- for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 18:34:14 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DA35A86938;
+	Mon, 20 Apr 2020 18:34:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id D41_zx4Etr47; Mon, 20 Apr 2020 18:34:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D9FBE86930;
+	Mon, 20 Apr 2020 18:34:40 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D48D1C0177;
+	Mon, 20 Apr 2020 18:34:40 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8B0EBC0177
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 18:34:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 78CBE87691
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 18:34:39 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6nW7SQh-FD4C for <iommu@lists.linux-foundation.org>;
- Mon, 20 Apr 2020 18:34:13 +0000 (UTC)
+ with ESMTP id KuIlhB2nP-9z for <iommu@lists.linux-foundation.org>;
+ Mon, 20 Apr 2020 18:34:38 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
- [104.130.122.27])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C26E886930
- for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 18:34:13 +0000 (UTC)
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id ED4648746E
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Apr 2020 18:34:33 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1587407653; h=Content-Transfer-Encoding: MIME-Version:
+ s=smtp; t=1587407678; h=Content-Transfer-Encoding: MIME-Version:
  References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=Ix/MdnxLfjPN0cVkJkI+uYStoKyur9aJ+Sj4mNFkPFE=;
- b=PsPp8sNWBkY5Qn81R3wadrHsGMXrsRqigZkBse0bCoBqsGkgef9+6w1nGGub6tvrt0qEUfWk
- Fg9dQA89w3qMw+m0gTD0fdrRYN04Z7Pj2PbAKuVcZKeXoEb+T8uxBT8vOEMqIkvKWOVBvBX9
- u+oDunKU0bYts+qPgYgWoAq9V7A=
-X-Mailgun-Sending-Ip: 104.130.122.27
+ Sender; bh=61buIY5X82HRMdX+d4mfLXJjssvVYLg7dZMcSf4n6g8=;
+ b=nbXOIrR1sRYft8d/Gr0+sY4Dpj05d7Knh1tdDT71wywJnGg9ZuWLFFPm+poHQ/e/Vh/KBSfW
+ 1uAGuTmrdUVbis15MxjOyGbW+Reru8O6RI/lCb2h6z+hvAyCT1jFEpGOHcNccDLkxFYpU9RZ
+ WbV2Va0ZxErgD9EQCu6f+4r8Lo4=
+X-Mailgun-Sending-Ip: 104.130.122.26
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e9deb25.7f9316399c00-smtp-out-n03;
- Mon, 20 Apr 2020 18:34:13 -0000 (UTC)
+ by mxa.mailgun.org with ESMTP id 5e9deb2a.7f37d1f968b8-smtp-out-n02;
+ Mon, 20 Apr 2020 18:34:18 -0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 7FD7EC44792; Mon, 20 Apr 2020 18:34:12 +0000 (UTC)
+ id C179BC44793; Mon, 20 Apr 2020 18:34:17 +0000 (UTC)
 Received: from blr-ubuntu-311.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id EDAD6C433CB;
- Mon, 20 Apr 2020 18:34:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org EDAD6C433CB
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 76F11C4478C;
+ Mon, 20 Apr 2020 18:34:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 76F11C4478C
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none
@@ -68,10 +68,10 @@ To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  Joerg Roedel <joro@8bytes.org>, Sibi Sankar <sibis@codeaurora.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Jordan Crouse <jcrouse@codeaurora.org>, Rob Clark <robdclark@gmail.com>
-Subject: [PATCHv4 1/6] iommu: arm-smmu-impl: Convert to a generic reset
- implementation
-Date: Tue, 21 Apr 2020 00:03:49 +0530
-Message-Id: <d24a0278021bc0b2732636c5728efe55e7318a8b.1587407458.git.saiprakash.ranjan@codeaurora.org>
+Subject: [PATCHv4 2/6] iommu/arm-smmu: Implement iommu_ops->def_domain_type
+ call-back
+Date: Tue, 21 Apr 2020 00:03:50 +0530
+Message-Id: <28c5d101cc4ac29aff3553ecec7cf256d0907ed7.1587407458.git.saiprakash.ranjan@codeaurora.org>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <cover.1587407458.git.saiprakash.ranjan@codeaurora.org>
 References: <cover.1587407458.git.saiprakash.ranjan@codeaurora.org>
@@ -97,84 +97,59 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Currently the QCOM specific smmu reset implementation is very
-specific to SDM845 SoC and has a wait-for-safe logic which
-may not be required for other SoCs. So move the SDM845 specific
-logic to its specific reset function. Also add SC7180 SMMU
-compatible for calling into QCOM specific implementation.
+Implement the new def_domain_type call-back for the ARM
+SMMU driver. We need this to support requesting the domain
+type by the client devices.
 
 Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/iommu/arm-smmu-impl.c |  8 +++++---
- drivers/iommu/arm-smmu-qcom.c | 16 +++++++++++++---
- 2 files changed, 18 insertions(+), 6 deletions(-)
+ drivers/iommu/arm-smmu.c | 12 ++++++++++++
+ drivers/iommu/arm-smmu.h |  1 +
+ 2 files changed, 13 insertions(+)
 
-diff --git a/drivers/iommu/arm-smmu-impl.c b/drivers/iommu/arm-smmu-impl.c
-index 74d97a886e93..c75b9d957b70 100644
---- a/drivers/iommu/arm-smmu-impl.c
-+++ b/drivers/iommu/arm-smmu-impl.c
-@@ -150,6 +150,8 @@ static const struct arm_smmu_impl arm_mmu500_impl = {
- 
- struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
- {
-+	const struct device_node *np = smmu->dev->of_node;
-+
- 	/*
- 	 * We will inevitably have to combine model-specific implementation
- 	 * quirks with platform-specific integration quirks, but everything
-@@ -166,11 +168,11 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
- 		break;
- 	}
- 
--	if (of_property_read_bool(smmu->dev->of_node,
--				  "calxeda,smmu-secure-config-access"))
-+	if (of_property_read_bool(np, "calxeda,smmu-secure-config-access"))
- 		smmu->impl = &calxeda_impl;
- 
--	if (of_device_is_compatible(smmu->dev->of_node, "qcom,sdm845-smmu-500"))
-+	if (of_device_is_compatible(np, "qcom,sdm845-smmu-500") ||
-+	    of_device_is_compatible(np, "qcom,sc7180-smmu-500"))
- 		return qcom_smmu_impl_init(smmu);
- 
- 	return smmu;
-diff --git a/drivers/iommu/arm-smmu-qcom.c b/drivers/iommu/arm-smmu-qcom.c
-index 24c071c1d8b0..64a4ab270ab7 100644
---- a/drivers/iommu/arm-smmu-qcom.c
-+++ b/drivers/iommu/arm-smmu-qcom.c
-@@ -15,8 +15,6 @@ static int qcom_sdm845_smmu500_reset(struct arm_smmu_device *smmu)
- {
- 	int ret;
- 
--	arm_mmu500_reset(smmu);
--
- 	/*
- 	 * To address performance degradation in non-real time clients,
- 	 * such as USB and UFS, turn off wait-for-safe on sdm845 based boards,
-@@ -30,8 +28,20 @@ static int qcom_sdm845_smmu500_reset(struct arm_smmu_device *smmu)
- 	return ret;
+diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+index e622f4e33379..b345a86085ce 100644
+--- a/drivers/iommu/arm-smmu.c
++++ b/drivers/iommu/arm-smmu.c
+@@ -1609,6 +1609,17 @@ static void arm_smmu_get_resv_regions(struct device *dev,
+ 	iommu_dma_get_resv_regions(dev, head);
  }
  
-+static int qcom_smmu500_reset(struct arm_smmu_device *smmu)
++static int arm_smmu_def_domain_type(struct device *dev)
 +{
-+	const struct device_node *np = smmu->dev->of_node;
++	struct arm_smmu_master_cfg *cfg = dev_iommu_priv_get(dev);
++	const struct arm_smmu_impl *impl = cfg->smmu->impl;
 +
-+	arm_mmu500_reset(smmu);
-+
-+	if (of_device_is_compatible(np, "qcom,sdm845-smmu-500"))
-+		return qcom_sdm845_smmu500_reset(smmu);
++	if (impl && impl->def_domain_type)
++		return impl->def_domain_type(dev);
 +
 +	return 0;
 +}
 +
- static const struct arm_smmu_impl qcom_smmu_impl = {
--	.reset = qcom_sdm845_smmu500_reset,
-+	.reset = qcom_smmu500_reset,
+ static struct iommu_ops arm_smmu_ops = {
+ 	.capable		= arm_smmu_capable,
+ 	.domain_alloc		= arm_smmu_domain_alloc,
+@@ -1627,6 +1638,7 @@ static struct iommu_ops arm_smmu_ops = {
+ 	.of_xlate		= arm_smmu_of_xlate,
+ 	.get_resv_regions	= arm_smmu_get_resv_regions,
+ 	.put_resv_regions	= generic_iommu_put_resv_regions,
++	.def_domain_type	= arm_smmu_def_domain_type,
+ 	.pgsize_bitmap		= -1UL, /* Restricted during device attach */
  };
  
- struct arm_smmu_device *qcom_smmu_impl_init(struct arm_smmu_device *smmu)
+diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
+index 8d1cd54d82a6..d172c024be61 100644
+--- a/drivers/iommu/arm-smmu.h
++++ b/drivers/iommu/arm-smmu.h
+@@ -386,6 +386,7 @@ struct arm_smmu_impl {
+ 	int (*init_context)(struct arm_smmu_domain *smmu_domain);
+ 	void (*tlb_sync)(struct arm_smmu_device *smmu, int page, int sync,
+ 			 int status);
++	int (*def_domain_type)(struct device *dev);
+ };
+ 
+ static inline void __iomem *arm_smmu_page(struct arm_smmu_device *smmu, int n)
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
