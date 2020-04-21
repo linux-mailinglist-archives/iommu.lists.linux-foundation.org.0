@@ -1,59 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B1B1B2E47
-	for <lists.iommu@lfdr.de>; Tue, 21 Apr 2020 19:26:12 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4A21B2F75
+	for <lists.iommu@lfdr.de>; Tue, 21 Apr 2020 20:47:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 76E7488137;
-	Tue, 21 Apr 2020 17:26:11 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 066E62034B;
+	Tue, 21 Apr 2020 18:46:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jFEe-W3kKgO0; Tue, 21 Apr 2020 17:26:10 +0000 (UTC)
+	with ESMTP id DN71+hhIePbq; Tue, 21 Apr 2020 18:46:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B21AA88094;
-	Tue, 21 Apr 2020 17:26:10 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8F06820423;
+	Tue, 21 Apr 2020 18:46:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A052AC0175;
-	Tue, 21 Apr 2020 17:26:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7B2BFC1797;
+	Tue, 21 Apr 2020 18:46:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 08BEBC0175
- for <iommu@lists.linux-foundation.org>; Tue, 21 Apr 2020 17:26:09 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7E375C0175
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Apr 2020 18:46:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id F3B8120419
- for <iommu@lists.linux-foundation.org>; Tue, 21 Apr 2020 17:26:08 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 7A422203F2
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Apr 2020 18:46:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ge22gkXdyQM0 for <iommu@lists.linux-foundation.org>;
- Tue, 21 Apr 2020 17:26:03 +0000 (UTC)
+ with ESMTP id 5Cdew98eidHT for <iommu@lists.linux-foundation.org>;
+ Tue, 21 Apr 2020 18:46:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by silver.osuosl.org (Postfix) with ESMTP id 36998203F0
- for <iommu@lists.linux-foundation.org>; Tue, 21 Apr 2020 17:26:03 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 910F21FB;
- Tue, 21 Apr 2020 10:25:58 -0700 (PDT)
-Received: from [10.57.33.63] (unknown [10.57.33.63])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC6073F73D;
- Tue, 21 Apr 2020 10:25:56 -0700 (PDT)
-Subject: Re: [PATCH] perf/smmuv3: Allow sharing MMIO registers with the SMMU
- driver
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, will@kernel.org,
- mark.rutland@arm.com
-References: <20200421155745.19815-1-jean-philippe@linaro.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <beec9760-f6f4-90fb-74fc-3e074b553b59@arm.com>
-Date: Tue, 21 Apr 2020 18:25:54 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <20200421155745.19815-1-jean-philippe@linaro.org>
-Content-Language: en-GB
-Cc: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id 1766920242
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Apr 2020 18:46:55 +0000 (UTC)
+IronPort-SDR: XWY9r3NPD7twTZFwXdInNd67uzDRYNzNpcigZ5Y8lP9b2DfF9UEOsw4IVr3i6amuf/i72YHduR
+ wsfvFAOGql0w==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2020 11:46:48 -0700
+IronPort-SDR: 0QmsZMol2UineBPjnJLcnI3Ht6x5MX1mZ16KJtDN+aMETxOpMG0zx7HB+0Ys7gp3S2h+k023rM
+ cu0dgEx7gZ5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,411,1580803200"; d="scan'208";a="334367858"
+Received: from jacob-builder.jf.intel.com ([10.7.199.155])
+ by orsmga001.jf.intel.com with ESMTP; 21 Apr 2020 11:46:47 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: "Lu Baolu" <baolu.lu@linux.intel.com>, iommu@lists.linux-foundation.org,
+ LKML <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ David Woodhouse <dwmw2@infradead.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ Eric Auger <eric.auger@redhat.com>
+Subject: [PATCH v12 0/8] Nested Shared Virtual Address (SVA) VT-d support
+Date: Tue, 21 Apr 2020 11:52:37 -0700
+Message-Id: <1587495165-80096-1-git-send-email-jacob.jun.pan@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,106 +73,192 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-04-21 4:57 pm, Jean-Philippe Brucker wrote:
-> Some Arm SMMUv3 implementations, for example Arm CoreLink MMU-600, embed
-> the PMCG registers into the SMMU MMIO regions. It currently causes probe
-> failure because the PMU and SMMU drivers request overlapping resources.
-> 
-> Avoid the conflict by calling devm_ioremap() directly from the PMU
-> driver. We loose some sanity-checking of the memory map provided by
-> firmware, which doesn't seem catastrophic.
-> 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
-> 
-> So this is the simplest solution, and I don't think we're missing much
-> by skipping the resource reservation. I've also been exploring a more
-> complex approach [1] which has the SMMU driver perform resource
-> reservation on behalf of the PMU driver, but I'm not sure it's
-> necessary.
+Shared virtual address (SVA), a.k.a, Shared virtual memory (SVM) on Intel
+platforms allow address space sharing between device DMA and applications.
+SVA can reduce programming complexity and enhance security.
+This series is intended to enable SVA virtualization, i.e. enable use of SVA
+within a guest user application.
 
-Now try it for potential future PMCGs on DTI masters in any old device 
-or root complex ;)
+This is the remaining portion of the original patchset that is based on
+Joerg's x86/vt-d branch. The preparatory and cleanup patches are merged here.
+(git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git)
 
-If we did want to go down the resource-claiming route, rather than new 
-inter-driver APIs it would probably be more sensible to just resolve the 
-associated device and rifle through its resource list directly within 
-the PMCG driver. Of course that probably leads to a whole bunch of probe 
-ordering and dependency issues, and if the end result is just to make 
-/proc/iomem look slightly nicer then I'd agree it's not worth the bother.
+Only IOMMU portion of the changes are included in this series. Additional
+support is needed in VFIO and QEMU (will be submitted separately) to complete
+this functionality.
 
-> Please test, I've only tried the RevC FastModel using devicetree so far.
+To make incremental changes and reduce the size of each patchset. This series
+does not inlcude support for page request services.
 
-For ACPI there's the additional fun that all the resources may already 
-have been claimed at least once more, by companion devices, but I guess 
-SMMU and PMCG at least escape that by virtue of not being namespace objects.
+In VT-d implementation, PASID table is per device and maintained in the host.
+Guest PASID table is shadowed in VMM where virtual IOMMU is emulated.
 
-Robin.
+    .-------------.  .---------------------------.
+    |   vIOMMU    |  | Guest process CR3, FL only|
+    |             |  '---------------------------'
+    .----------------/
+    | PASID Entry |--- PASID cache flush -
+    '-------------'                       |
+    |             |                       V
+    |             |                CR3 in GPA
+    '-------------'
+Guest
+------| Shadow |--------------------------|--------
+      v        v                          v
+Host
+    .-------------.  .----------------------.
+    |   pIOMMU    |  | Bind FL for GVA-GPA  |
+    |             |  '----------------------'
+    .----------------/  |
+    | PASID Entry |     V (Nested xlate)
+    '----------------\.------------------------------.
+    |             |   |SL for GPA-HPA, default domain|
+    |             |   '------------------------------'
+    '-------------'
+Where:
+ - FL = First level/stage one page tables
+ - SL = Second level/stage two page tables
 
-> [1] https://jpbrucker.net/git/linux/log/?h=smmu/pmu
-> ---
->   drivers/perf/arm_smmuv3_pmu.c | 28 +++++++++++++++++++++-------
->   1 file changed, 21 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/perf/arm_smmuv3_pmu.c b/drivers/perf/arm_smmuv3_pmu.c
-> index ca183a53a7f10..ad63d1e73333f 100644
-> --- a/drivers/perf/arm_smmuv3_pmu.c
-> +++ b/drivers/perf/arm_smmuv3_pmu.c
-> @@ -730,8 +730,8 @@ static void smmu_pmu_get_acpi_options(struct smmu_pmu *smmu_pmu)
->   
->   static int smmu_pmu_probe(struct platform_device *pdev)
->   {
-> +	struct resource *res_0, *res_1;
->   	struct smmu_pmu *smmu_pmu;
-> -	struct resource *res_0;
->   	u32 cfgr, reg_size;
->   	u64 ceid_64[2];
->   	int irq, err;
-> @@ -759,18 +759,32 @@ static int smmu_pmu_probe(struct platform_device *pdev)
->   		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
->   	};
->   
-> +	/*
-> +	 * If the PMCG registers are embedded into the SMMU regions, the
-> +	 * resources have to be shared with the SMMU driver. Use ioremap()
-> +	 * rather than ioremap_resource() to avoid conflicts.
-> +	 */
->   	res_0 = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	smmu_pmu->reg_base = devm_ioremap_resource(dev, res_0);
-> -	if (IS_ERR(smmu_pmu->reg_base))
-> -		return PTR_ERR(smmu_pmu->reg_base);
-> +	if (!res_0)
-> +		return -ENXIO;
-> +
-> +	smmu_pmu->reg_base = devm_ioremap(dev, res_0->start,
-> +					  resource_size(res_0));
-> +	if (!smmu_pmu->reg_base)
-> +		return -ENOMEM;
->   
->   	cfgr = readl_relaxed(smmu_pmu->reg_base + SMMU_PMCG_CFGR);
->   
->   	/* Determine if page 1 is present */
->   	if (cfgr & SMMU_PMCG_CFGR_RELOC_CTRS) {
-> -		smmu_pmu->reloc_base = devm_platform_ioremap_resource(pdev, 1);
-> -		if (IS_ERR(smmu_pmu->reloc_base))
-> -			return PTR_ERR(smmu_pmu->reloc_base);
-> +		res_1 = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-> +		if (!res_1)
-> +			return -ENXIO;
-> +
-> +		smmu_pmu->reloc_base = devm_ioremap(dev, res_1->start,
-> +						    resource_size(res_1));
-> +		if (!smmu_pmu->reloc_base)
-> +			return -ENOMEM;
->   	} else {
->   		smmu_pmu->reloc_base = smmu_pmu->reg_base;
->   	}
-> 
+This is the remaining VT-d only portion of V5 since the uAPIs and IOASID common
+code have been applied to Joerg's IOMMU core branch.
+(https://lkml.org/lkml/2019/10/2/833)
+
+The complete set with VFIO patches are here:
+https://github.com/jacobpan/linux.git:siov_sva
+
+The complete nested SVA upstream patches are divided into three phases:
+    1. Common APIs and PCI device direct assignment
+    2. Page Request Services (PRS) support
+    3. Mediated device assignment
+
+With this set and the accompanied VFIO code, we will achieve phase #1.
+
+Thanks,
+
+Jacob
+
+ChangeLog:
+	- v12
+	  - Fixed IA64 cross compile error
+	  - Squashed two patches that add macros with its users
+	  - Use ratelimited prints for all user called APIs
+	  - Check domain nesting attr for vSVA APIs.
+	  - Misc style improvements
+
+	- v11 Misc fixes and improvements based on review by Kevin & Eric
+	  - Fixed devTLB granularity conversion
+	  - Simplified VT-d granulairy lookup by replacing 2D map array
+	    with invalid entries.
+	  - Fixed locking in bind guest PASID
+	  - Added nesting domain attr check
+	  - Squashed agaw checking patch with user
+	  - Use rate limitted error message for all user originated calls
+ 
+	- v10
+	  - Addressed Eric's review in v7 and v9. Most fixes are in 3/10 and
+	    6/10. Extra condition checks and consolidation of duplicated codes.
+
+	- v9
+	  - Addressed Baolu's comments for v8 for IOTLB flush consolidation,
+	    bug fixes
+	  - Removed IOASID notifier code which will be submitted separately
+	    to address PASID life cycle management with multiple users.
+
+	- v8
+	  - Extracted cleanup patches from V7 and accepted into maintainer's
+	    tree (https://lkml.org/lkml/2019/12/2/514).
+	  - Added IOASID notifier and VT-d handler for termination of PASID
+	    IOMMU context upon free. This will ensure success of VFIO IOASID
+	    free API regardless PASID is in use.
+	    (https://lore.kernel.org/linux-iommu/1571919983-3231-1-git-send-email-yi.l.liu@intel.com/)
+
+	- V7
+	  - Respect vIOMMU PASID range in virtual command PASID/IOASID allocator
+	  - Caching virtual command capabilities to avoid runtime checks that
+	    could cause vmexits.
+
+	- V6
+	  - Rebased on top of Joerg's core branch
+	  (git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git core)
+	  - Adapt to new uAPIs and IOASID allocators
+
+	- V5
+	  Rebased on v5.3-rc4 which has some of the IOMMU fault APIs merged.
+ 	  Addressed v4 review comments from Eric Auger, Baolu Lu, and
+	    Jonathan Cameron. Specific changes are as follows:
+	  - Refined custom IOASID allocator to support multiple vIOMMU, hotplug
+	    cases.
+	  - Extracted vendor data from IOMMU guest PASID bind data, for VT-d
+	    will support all necessary guest PASID entry fields for PASID
+	    bind.
+	  - Support non-identity host-guest PASID mapping
+	  - Exception handling in various cases
+
+	- V4
+	  - Redesigned IOASID allocator such that it can support custom
+	  allocators with shared helper functions. Use separate XArray
+	  to store IOASIDs per allocator. Took advice from Eric Auger to
+	  have default allocator use the generic allocator structure.
+	  Combined into one patch in that the default allocator is just
+	  "another" allocator now. Can be built as a module in case of
+	  driver use without IOMMU.
+	  - Extended bind guest PASID data to support SMMU and non-identity
+	  guest to host PASID mapping https://lkml.org/lkml/2019/5/21/802
+	  - Rebased on Jean's sva/api common tree, new patches starts with
+	   [PATCH v4 10/22]
+
+	- V3
+	  - Addressed thorough review comments from Eric Auger (Thank you!)
+	  - Moved IOASID allocator from driver core to IOMMU code per
+	    suggestion by Christoph Hellwig
+	    (https://lkml.org/lkml/2019/4/26/462)
+	  - Rebased on top of Jean's SVA API branch and Eric's v7[1]
+	    (git://linux-arm.org/linux-jpb.git sva/api)
+	  - All IOMMU APIs are unmodified (except the new bind guest PASID
+	    call in patch 9/16)
+
+	- V2
+	  - Rebased on Joerg's IOMMU x86/vt-d branch v5.1-rc4
+	  - Integrated with Eric Auger's new v7 series for common APIs
+	  (https://github.com/eauger/linux/tree/v5.1-rc3-2stage-v7)
+	  - Addressed review comments from Andy Shevchenko and Alex Williamson on
+	    IOASID custom allocator.
+	  - Support multiple custom IOASID allocators (vIOMMUs) and dynamic
+	    registration.
+
+
+
+Jacob Pan (7):
+  iommu/vt-d: Move domain helper to header
+  iommu/vt-d: Use a helper function to skip agaw for SL
+  iommu/vt-d: Add nested translation helper function
+  iommu/vt-d: Add bind guest PASID support
+  iommu/vt-d: Support flushing more translation cache types
+  iommu/vt-d: Add svm/sva invalidate function
+  iommu/vt-d: Add custom allocator for IOASID
+
+Lu Baolu (1):
+  iommu/vt-d: Enlightened PASID allocation
+
+ drivers/iommu/dmar.c        |  40 ++++++
+ drivers/iommu/intel-iommu.c | 295 +++++++++++++++++++++++++++++++++----
+ drivers/iommu/intel-pasid.c | 344 ++++++++++++++++++++++++++++++++++++++++++--
+ drivers/iommu/intel-pasid.h |  23 ++-
+ drivers/iommu/intel-svm.c   | 204 ++++++++++++++++++++++++++
+ include/linux/intel-iommu.h |  71 ++++++++-
+ include/linux/intel-svm.h   |  17 +++
+ include/uapi/linux/iommu.h  |   5 +
+ 8 files changed, 948 insertions(+), 51 deletions(-)
+
+-- 
+2.7.4
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
