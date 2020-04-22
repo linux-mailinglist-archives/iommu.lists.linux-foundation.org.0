@@ -1,72 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67C01B3209
-	for <lists.iommu@lfdr.de>; Tue, 21 Apr 2020 23:45:22 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1491B399D
+	for <lists.iommu@lfdr.de>; Wed, 22 Apr 2020 10:09:28 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5941984ABB;
-	Tue, 21 Apr 2020 21:45:21 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D4ADC87F71;
+	Wed, 22 Apr 2020 08:09:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gNISp-7OSv5f; Tue, 21 Apr 2020 21:45:20 +0000 (UTC)
+	with ESMTP id ZcMZSIVvjXem; Wed, 22 Apr 2020 08:09:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3C78184F7A;
-	Tue, 21 Apr 2020 21:45:20 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BCC6487EA9;
+	Wed, 22 Apr 2020 08:09:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 25390C0175;
-	Tue, 21 Apr 2020 21:45:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AA3A4C0175;
+	Wed, 22 Apr 2020 08:09:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3E3BCC0175
- for <iommu@lists.linux-foundation.org>; Tue, 21 Apr 2020 21:45:18 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DCE43C0175
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Apr 2020 08:09:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 3899286B78
- for <iommu@lists.linux-foundation.org>; Tue, 21 Apr 2020 21:45:18 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id CB49C2076B
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Apr 2020 08:09:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7MnAzUBCPNEq for <iommu@lists.linux-foundation.org>;
- Tue, 21 Apr 2020 21:45:17 +0000 (UTC)
+ with ESMTP id Ne8AT26zx-F9 for <iommu@lists.linux-foundation.org>;
+ Wed, 22 Apr 2020 08:09:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 32E0B86B68
- for <iommu@lists.linux-foundation.org>; Tue, 21 Apr 2020 21:45:17 +0000 (UTC)
-IronPort-SDR: cQX0lO8X/0XwftNPQzxDofK2gie1h9jNVAyCsfH0r2Z7IcuO8PpnweEBoBB2XSYsZtxq353zLv
- T9Be5ZM+XTbg==
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by silver.osuosl.org (Postfix) with ESMTPS id E661C20526
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Apr 2020 08:09:22 +0000 (UTC)
+IronPort-SDR: qbMVfEbiuH2AofXbbRor7zXSJKiKjPsa1X+PKDX1A8yDWN4s8BLlBIVErLH0KoJQcwYo6CWrE5
+ EWofIr75wGmw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2020 14:45:16 -0700
-IronPort-SDR: MwvvF2uOE0/rXubMe0J7rP2SBZ7NPzFjCQFRpdgTxUXhT+1BkCZkaaUflxP8D0Ma8PrKuUH+uN
- o6C6CID10IyA==
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2020 01:09:22 -0700
+IronPort-SDR: NYAah0qsiK+CbyM/jO/clQIEDbrOCPop07kDA389yxLeqORC7eqQWTB0w7sqRpL07tXgPNqWp+
+ jEk/3J5OMTAQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,411,1580803200"; d="scan'208";a="244305142"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga007.jf.intel.com with ESMTP; 21 Apr 2020 14:45:16 -0700
-Date: Tue, 21 Apr 2020 14:51:14 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH 03/10] iommu/ioasid: Introduce per set allocation APIs
-Message-ID: <20200421145114.49e05059@jacob-builder>
-In-Reply-To: <20200407110107.GA285264@myrica>
-References: <1585158931-1825-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1585158931-1825-4-git-send-email-jacob.jun.pan@linux.intel.com>
- <20200401134745.GE882512@myrica>
- <20200406130245.690cfe15@jacob-builder>
- <20200407110107.GA285264@myrica>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- Christoph Hellwig <hch@infradead.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- David Woodhouse <dwmw2@infradead.org>, Jonathan Cameron <jic23@kernel.org>
+X-IronPort-AV: E=Sophos;i="5.72,412,1580803200"; d="scan'208";a="365609616"
+Received: from allen-box.sh.intel.com ([10.239.159.139])
+ by fmsmga001.fm.intel.com with ESMTP; 22 Apr 2020 01:09:20 -0700
+From: Lu Baolu <baolu.lu@linux.intel.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH v3 0/4] iommu/vt-d: Add page request draining support
+Date: Wed, 22 Apr 2020 16:06:07 +0800
+Message-Id: <20200422080611.15689-1-baolu.lu@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+Cc: kevin.tian@intel.com, ashok.raj@intel.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,96 +67,60 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jean,
+When a PASID is stopped or terminated, there can be pending PRQs
+(requests that haven't received responses) in the software and
+remapping hardware. The pending page requests must be drained
+so that the pasid could be reused. The chapter 7.10 in the VT-d
+specification specifies the software steps to drain pending page
+requests and responses.
 
-Sorry for the late reply, been trying to redesign the notification part.
+This includes two parts:
+ - PATCH 1/4 ~ 2/4: refactor the qi_submit_sync() to support multiple
+   descriptors per submission which will be used in the following
+   patch.
+ - PATCH 3/4 ~ 4/4: add page request drain support after a pasid entry
+   is torn down.
 
-On Tue, 7 Apr 2020 13:01:07 +0200
-Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+Please help to review.
 
-> On Mon, Apr 06, 2020 at 01:02:45PM -0700, Jacob Pan wrote:
-> > > > +	sdata = kzalloc(sizeof(*sdata), GFP_KERNEL);
-> > > > +	if (!sdata)
-> > > > +		return -ENOMEM;    
-> > > 
-> > > I don't understand why we need this structure at all, nor why we
-> > > need the SID. Users have already allocated an ioasid_set, so why
-> > > not just stick the content of ioasid_set_data in there, and pass
-> > > the ioasid_set pointer to ioasid_alloc()?
-> > >   
-> > 
-> > My thinking was that ioasid_set is an opaque user token, e.g. we
-> > use mm to identify a common set belong to a VM.
-> > 
-> > This sdata is an IOASID internal structure for managing & servicing
-> > per set data. If we let user fill in the content, some of the
-> > entries need to be managed by the IOASID code under a lock.  
-> 
-> We don't have to let users fill the content. A bit like iommu_domain:
-> device drivers don't modify it, they pass it to iommu_map() rather
-> than passing a domain ID.
-> 
-much better.
+Best regards,
+baolu
 
-> > IMO, not suitable to let user allocate and manage.
-> > 
-> > Perhaps we should rename struct ioasid_set to ioasid_set_token?  
-> 
-> Is the token actually used anywhere?  As far as I can tell VFIO does
-> its own uniqueness check before calling ioasid_alloc_set(), and
-> consumers of notifications don't read the token.
-> 
-for vt-d, the per vm token (preferrably mm) will be used by kvm to
-manage its PASID translation table.
-when kvm receives a notification about a new guest-host PASID mapping,
-it needs to know which vm it belongs to. So if mm is used as token,
-both vfio and kvm can identify PASID ownership.
+Change log:
+ v2->v3:
+  - Address Kevin's review comments
+    - Squash the first 2 patches together;
+    - The prq thread is serialized, no need to consider reentrance;
+    - Ensure no new-coming prq before drain prq in queue;
+    - Handle page request overflow case.
 
-> > 
-> > /**
-> >  * struct ioasid_set_data - Meta data about ioasid_set
-> >  *
-> >  * @token:	Unique to identify an IOASID set
-> >  * @xa:		XArray to store ioasid_set private ID to
-> > system-wide IOASID
-> >  *		mapping
-> >  * @max_id:	Max number of IOASIDs can be allocated within
-> > the set
-> >  * @nr_id	Number of IOASIDs allocated in the set
-> >  * @sid		ID of the set
-> >  */
-> > struct ioasid_set_data {
-> > 	struct ioasid_set *token;
-> > 	struct xarray xa;
-> > 	int size;
-> > 	int nr_ioasids;
-> > 	int sid;
-> > 	struct rcu_head rcu;
-> > };  
-> 
-> How about we remove the current ioasid_set, call this structure
-> ioasid_set instead of ioasid_set_data, and have ioasid_alloc_set()
-> return it, rather than requiring users to allocate the ioasid_set
-> themselves?
-> 
-> 	struct ioasid_set *ioasid_alloc_set(ioasid_t quota):
-> 
-> This way ioasid_set is opaque to users (we could have the definition
-> in ioasid.c), but it can be passed to ioasid_alloc() and avoids the
-> lookup by SID. Could also add the unique token as a void * argument to
-> ioasid_alloc_set(), if needed.
-> 
-Sounds good. still pass a token. Thanks for the idea.
+ v1->v2:
+  - Fix race between multiple prq handling threads.
 
-> Thanks,
-> Jean
 
-[Jacob Pan]
+Lu Baolu (4):
+  iommu/vt-d: Multiple descriptors per qi_submit_sync()
+  iommu/vt-d: debugfs: Add support to show inv queue internals
+  iommu/vt-d: Add page request draining support
+  iommu/vt-d: Remove redundant IOTLB flush
+
+ drivers/iommu/dmar.c                |  63 +++++++++-------
+ drivers/iommu/intel-iommu-debugfs.c |  62 +++++++++++++++
+ drivers/iommu/intel-pasid.c         |   4 +-
+ drivers/iommu/intel-svm.c           | 112 +++++++++++++++++++++++++---
+ drivers/iommu/intel_irq_remapping.c |   2 +-
+ include/linux/intel-iommu.h         |  13 +++-
+ 6 files changed, 216 insertions(+), 40 deletions(-)
+
+-- 
+2.17.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
