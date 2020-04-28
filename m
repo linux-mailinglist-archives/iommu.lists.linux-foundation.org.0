@@ -1,64 +1,78 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AAE1BBB12
-	for <lists.iommu@lfdr.de>; Tue, 28 Apr 2020 12:19:53 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 393CA1BBD03
+	for <lists.iommu@lfdr.de>; Tue, 28 Apr 2020 14:05:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 995F022668;
-	Tue, 28 Apr 2020 10:19:52 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BB7398723D;
+	Tue, 28 Apr 2020 12:05:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id imKAbusKE1eg; Tue, 28 Apr 2020 10:19:49 +0000 (UTC)
+	with ESMTP id pfOQxvYQL48H; Tue, 28 Apr 2020 12:05:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A67F422053;
-	Tue, 28 Apr 2020 10:19:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id CDA5D86FE9;
+	Tue, 28 Apr 2020 12:05:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9B816C0172;
-	Tue, 28 Apr 2020 10:19:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AD1CEC0172;
+	Tue, 28 Apr 2020 12:05:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9FFB9C0172
- for <iommu@lists.linux-foundation.org>; Tue, 28 Apr 2020 10:19:47 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CCA90C0172
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Apr 2020 11:39:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8E64186F12
- for <iommu@lists.linux-foundation.org>; Tue, 28 Apr 2020 10:19:47 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id BB02888047
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Apr 2020 11:39:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RNXKn7zRGO6o for <iommu@lists.linux-foundation.org>;
- Tue, 28 Apr 2020 10:19:45 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4232784B6A
- for <iommu@lists.linux-foundation.org>; Tue, 28 Apr 2020 10:19:45 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id E60A4AED6;
- Tue, 28 Apr 2020 10:19:41 +0000 (UTC)
-Subject: Re: [PATCH] xen/swiotlb: correct the check for
- xen_destroy_contiguous_region
-To: Peng Fan <peng.fan@nxp.com>,
- "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
- "boris.ostrovsky@oracle.com" <boris.ostrovsky@oracle.com>,
- "sstabellini@kernel.org" <sstabellini@kernel.org>
-References: <1588059225-11245-1-git-send-email-peng.fan@nxp.com>
- <1c01e97a-adcd-a703-55b5-8975b4ce4d2c@suse.com>
- <DB6PR0402MB2760A05135338B0CBB28123488AC0@DB6PR0402MB2760.eurprd04.prod.outlook.com>
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Message-ID: <dba804ea-4268-24ff-7447-ddef00e9e20c@suse.com>
-Date: Tue, 28 Apr 2020 12:19:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <DB6PR0402MB2760A05135338B0CBB28123488AC0@DB6PR0402MB2760.eurprd04.prod.outlook.com>
-Content-Language: en-US
-Cc: "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dl-linux-imx <linux-imx@nxp.com>
+ with ESMTP id 0p9WvRrVGl0k for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Apr 2020 11:39:50 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 3DF9288045
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Apr 2020 11:39:44 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1588073989; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=ooRoECL6kaq+8wAP+LaRpKy9DgdaIYNJI/EUtMplfHU=;
+ b=VND2zoOx5/YJigO5MGrQbIWRt/MqT72ltNDoUGsXegjFRCoA8DiAXZAdnowJMOEyVtL38Xz3
+ VchMNJWU78LKtFN6EX2GpI3QrHEWFS/8i2W1W2OuJq1cS6PfSKOFb3OMxf8bCZ7P4J/zImNz
+ 81q5to4Yh5roSyVaKuLBnQf/2Xs=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5ea815f3.7f97a7021298-smtp-out-n03;
+ Tue, 28 Apr 2020 11:39:31 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 9E9E8C433D2; Tue, 28 Apr 2020 11:39:29 +0000 (UTC)
+Received: from blr-ubuntu-31.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: svaddagi)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 92CB9C433CB;
+ Tue, 28 Apr 2020 11:39:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 92CB9C433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=vatsa@codeaurora.org
+From: Srivatsa Vaddagiri <vatsa@codeaurora.org>
+To: konrad.wilk@oracle.com, mst@redhat.com, jasowang@redhat.com,
+ jan.kiszka@siemens.com, will@kernel.org, stefano.stabellini@xilinx.com
+Subject: [PATCH 0/5] virtio on Type-1 hypervisor
+Date: Tue, 28 Apr 2020 17:09:13 +0530
+Message-Id: <1588073958-1793-1-git-send-email-vatsa@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Approved-At: Tue, 28 Apr 2020 12:05:44 +0000
+Cc: tsoni@codeaurora.org, virtio-dev@lists.oasis-open.org,
+ alex.bennee@linaro.org, vatsa@codeaurora.org, christoffer.dall@arm.com,
+ virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
+ pratikp@codeaurora.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,115 +85,97 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 28.04.20 10:25, Peng Fan wrote:
->> Subject: Re: [PATCH] xen/swiotlb: correct the check for
->> xen_destroy_contiguous_region
->>
->> On 28.04.20 09:33, peng.fan@nxp.com wrote:
->>> From: Peng Fan <peng.fan@nxp.com>
->>>
->>> When booting xen on i.MX8QM, met:
->>> "
->>> [    3.602128] Unable to handle kernel paging request at virtual address
->> 0000000000272d40
->>> [    3.610804] Mem abort info:
->>> [    3.613905]   ESR = 0x96000004
->>> [    3.617332]   EC = 0x25: DABT (current EL), IL = 32 bits
->>> [    3.623211]   SET = 0, FnV = 0
->>> [    3.626628]   EA = 0, S1PTW = 0
->>> [    3.630128] Data abort info:
->>> [    3.633362]   ISV = 0, ISS = 0x00000004
->>> [    3.637630]   CM = 0, WnR = 0
->>> [    3.640955] [0000000000272d40] user address but active_mm is
->> swapper
->>> [    3.647983] Internal error: Oops: 96000004 [#1] PREEMPT SMP
->>> [    3.654137] Modules linked in:
->>> [    3.677285] Hardware name: Freescale i.MX8QM MEK (DT)
->>> [    3.677302] Workqueue: events deferred_probe_work_func
->>> [    3.684253] imx6q-pcie 5f000000.pcie: PCI host bridge to bus 0000:00
->>> [    3.688297] pstate: 60000005 (nZCv daif -PAN -UAO)
->>> [    3.688310] pc : xen_swiotlb_free_coherent+0x180/0x1c0
->>> [    3.693993] pci_bus 0000:00: root bus resource [bus 00-ff]
->>> [    3.701002] lr : xen_swiotlb_free_coherent+0x44/0x1c0
->>> "
->>>
->>> In xen_swiotlb_alloc_coherent, if !(dev_addr + size - 1 <= dma_mask)
->>> or range_straddles_page_boundary(phys, size) are true, it will create
->>> contiguous region. So when free, we need to free contiguous region use
->>> upper check condition.
->>
->> No, this will break PV guests on x86.
-> 
-> Could you share more details why alloc and free not matching for the check?
+We ran into several problems in using virtio for IO paravirtualization on a
+Type-1 hypervisor with these characteristics:
 
-xen_create_contiguous_region() is needed only in case:
+* By default, all of a guests's memory is private to it (no other guest can
+  access its memory).
 
-- the bus address is not within dma_mask, or
-- the memory region is not physically contiguous (can happen only for
-   PV guests)
+* One of the VM is considered as primary and has access to most IO devices. This
+  is similar to dom0 VM in case of Xen. All other VMs are considered as
+  secondary VMs
 
-In any case it should arrange for the memory to be suitable for the
-DMA operation, so to be contiguous and within dma_mask afterwards. So
-xen_destroy_contiguous_region() should only ever called for areas
-which match above criteria, as otherwise we can be sure
-xen_create_contiguous_region() was not used for making the area DMA-able
-in the beginning.
+* virtio-backend drivers for all secondary VMs need to be hosted in primary VM
 
-And this is very important in the PV case, as in those guests the page
-tables are containing the host-PFNs, not the guest-PFNS, and
-xen_create_contiguous_region() will fiddle with host- vs. guest-PFN
-arrangements, and xen_destroy_contiguous_region() is reverting this
-fiddling. Any call of xen_destroy_contiguous_region() for an area it
-was not intended to be called for might swap physical pages beneath
-random virtual addresses, which was the reason for this test to be
-added by me.
+* Since secondary VM's memory is not accessible to primary VM, to make virtio
+  backend driver work, instead an additional piece of memory is provisioned 
+  by the hypervisor that is shared between primary and secondary VMs. This
+  shared memory can be used, for example, to host virtio-ring structures
+  and also to bounce IO buffers of secondary VM.
+
+* Message-queue and doorbell interfaces available in hypervisor to support
+  inter-VM communication. Messge-queue API (send/recv) allows one VM to send
+  short messages to another VM. Doorbell interface allows a VM to inject
+  an interrupt into another VM.
+
+* No support for MMIO transport i.e hypervisor does not support trapping MMIO
+  config space access by front-end driver and having it handled in backend
+  drivers.
+
+Few problem statements arising out of this:
+
+1) How can we make use of the shared memory region effectively to make virtio
+work in this scenario?
+
+What is proposed in the patch series for this problem is a virtio bounce driver
+that recognizes a shared memory region (shared between VMs) and makes use of
+swiotlb driver interfaces to bounce IO buffers between private and shared space.
+Some changes are proposed to swiotlb driver in this regard, that can let us
+reuse swiotlb functions to work with the shared memory pool. swiotlb driver can
+now recognize more than one pool of memory and extend its functions
+(allocate/free/bounce memory chunks) for each pool.
+
+2) What transport mechanism works best in this case? 
+
+I realize that ivshmem2-virtio proposal has discussed the possibility of using
+shared memory + doorbell as a virtio transport option. We can consider using
+that as a transport in case it will be acceptable upstream. Other option we had
+considered was to modify virtio_mmio.c itself to use message_queue send/recv
+hypercall interface (in place of readl/writel). That could be abstracted via
+'mmio_ops' structure providing suitable implementation of readl/writel. Another
+option suggested by Christopher Dall is to unmap the config space from kernel
+address space and as part of the fault handler, use hypervisor specific APIs to
+achieve config space IO.
+
+3) Which virtio backend drivers to leverage?
+
+We realized there are multiple implementations of virtio backend drivers,
+bundled as part of separate projects (Qemu, lkvm etc). We think it would be nice
+if we had some consolidation in that regard so that we can make use of the
+backend drivers that are not tightly coupled with a VMM. In our case, we need to
+be able to run virtio backend drivers as standalone programs (and not coupled
+with any VMM).
 
 
-Juergen
+Srivatsa Vaddagiri (5):
+  swiotlb: Introduce concept of swiotlb_pool
+  swiotlb: Allow for non-linear mapping between paddr and vaddr
+  swiotlb: Add alloc and free APIs
+  swiotlb: Add API to register new pool
+  virtio: Add bounce DMA ops
 
-> 
-> Thanks,
-> Peng.
-> 
->>
->> I think there is something wrong with your setup in combination with the ARM
->> xen_create_contiguous_region() implementation.
->>
->> Stefano?
->>
->>
->> Juergen
->>
->>>
->>> Signed-off-by: Peng Fan <peng.fan@nxp.com>
->>> ---
->>>    drivers/xen/swiotlb-xen.c | 4 ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
->>> index b6d27762c6f8..ab96e468584f 100644
->>> --- a/drivers/xen/swiotlb-xen.c
->>> +++ b/drivers/xen/swiotlb-xen.c
->>> @@ -346,8 +346,8 @@ xen_swiotlb_free_coherent(struct device *hwdev,
->> size_t size, void *vaddr,
->>>    	/* Convert the size to actually allocated. */
->>>    	size = 1UL << (order + XEN_PAGE_SHIFT);
->>>
->>> -	if (!WARN_ON((dev_addr + size - 1 > dma_mask) ||
->>> -		     range_straddles_page_boundary(phys, size)) &&
->>> +	if (((dev_addr + size - 1 > dma_mask) ||
->>> +	    range_straddles_page_boundary(phys, size)) &&
->>>    	    TestClearPageXenRemapped(virt_to_page(vaddr)))
->>>    		xen_destroy_contiguous_region(phys, order);
->>>
->>>
-> 
+ drivers/virtio/Makefile        |   2 +-
+ drivers/virtio/virtio.c        |   2 +
+ drivers/virtio/virtio_bounce.c | 150 +++++++++++
+ drivers/xen/swiotlb-xen.c      |   4 +-
+ include/linux/swiotlb.h        | 157 +++++++++++-
+ include/linux/virtio.h         |   4 +
+ kernel/dma/swiotlb.c           | 556 ++++++++++++++++++++++++-----------------
+ 7 files changed, 638 insertions(+), 237 deletions(-)
+ create mode 100644 drivers/virtio/virtio_bounce.c
 
+-- 
+2.7.4
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
