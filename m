@@ -1,114 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1138A1BD573
-	for <lists.iommu@lfdr.de>; Wed, 29 Apr 2020 09:12:41 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B797488354;
-	Wed, 29 Apr 2020 07:12:39 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Pbs-sqdouZR9; Wed, 29 Apr 2020 07:12:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id AE50C88311;
-	Wed, 29 Apr 2020 07:12:38 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 91C31C0172;
-	Wed, 29 Apr 2020 07:12:38 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 041F5C0172
- for <iommu@lists.linux-foundation.org>; Tue, 28 Apr 2020 23:43:04 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 852D81BC7AB
+	for <lists.iommu@lfdr.de>; Tue, 28 Apr 2020 20:21:22 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id E487D87594
- for <iommu@lists.linux-foundation.org>; Tue, 28 Apr 2020 23:43:03 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 09B8E87633;
+	Tue, 28 Apr 2020 18:21:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 6IxirLAMMi1T; Tue, 28 Apr 2020 18:21:19 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id AB92787626;
+	Tue, 28 Apr 2020 18:21:19 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 84E70C0172;
+	Tue, 28 Apr 2020 18:21:19 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9D127C0172
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Apr 2020 18:21:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 7E28C228D1
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Apr 2020 18:21:18 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sh0cSdxY3dpM for <iommu@lists.linux-foundation.org>;
- Tue, 28 Apr 2020 23:43:02 +0000 (UTC)
-X-Greylist: delayed 02:59:30 by SQLgrey-1.7.6
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2123.outbound.protection.outlook.com [40.107.94.123])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 88DAB87430
- for <iommu@lists.linux-foundation.org>; Tue, 28 Apr 2020 23:43:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M5JHCrr0GXr0IvRZz1b8jM2r3O8ENsi6hnRZqnWpRzN00y0jZtOiDejq/sbZgzrfbxbWeEfgdedhh267UIqi0mSPQeEJJwo3ui2O8elssfkWMc7ISc+Y2s8y3lsc04BpaoEiFzLUZRx4YvPwXyExUx34+p8XvBQ5gYrHqzTrPkdyNgfzpPYmbnqaQX5I9SS89JpwpD+ctzAYB1A+OLvV4hnN+mmHlyLVz/7mR0P9ltP0guugPpGrN9GpwCBt76SRGofT5K6e/rwurENSWOw4PeKULqWigRtEUy+6wied4b+h9ZCSw6gLIpn+rByRyqxqcxfD/xuImKIqalCJLVtoOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tKuYdmjn4Fj8J1ApQ+IOourv59XoWQ0o1RTkZAUJ0xk=;
- b=CattJ08uN+j1MpPLK/AdIBTqxbv4xBKKlNverhiVUyO25EKb3hl1Rd1749pBNkp0dHfJchxHqrsay5rFwRxkE8s7cImRVzQUotoJJdth2lNy+waH89iYODu69bFc3eQz9wEWBk8NP8lz2izby1vgBTvFqhhdABCUnL0/q6m3mxCzHucK+wxIyy1/ZhHnmcO7bf54LLAh8/bzz9worCatN9vuuDpGPpHd0uKOJUWqH+E2gqrGV7VBr+eUlcsIjsbvaTx6wW+j83xdlu3GwkhT/Ptjbi8npVWjzkVcculLhwRzjdZw3Q7kdhFUV5p6b4ySnPNII4EoYSuFVS9kF2y4Uw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=amperemail.onmicrosoft.com; dkim=pass
- header.d=amperemail.onmicrosoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tKuYdmjn4Fj8J1ApQ+IOourv59XoWQ0o1RTkZAUJ0xk=;
- b=MT2b0andHUgjWCfVMnKjw3oGwGHc+06ZfbYarkUc7fw9l18H+AB83rwm2yK1HkbcCfLpv9AQ7U1lOl+nv6f08vuOGVFhIA9ibDeQuXr04QlPgiRQvpZD7r9Obs8Oi4zBbcDjJd86qrwYasE6G8DWNtFQ84xREl049cMq5FdqR1U=
-Authentication-Results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none
- header.from=amperemail.onmicrosoft.com;
-Received: from BYAPR01MB4598.prod.exchangelabs.com (2603:10b6:a03:8a::18) by
- BYAPR01MB5688.prod.exchangelabs.com (2603:10b6:a03:125::33) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.22; Tue, 28 Apr 2020 18:10:13 +0000
-Received: from BYAPR01MB4598.prod.exchangelabs.com
- ([fe80::296c:b848:8bf0:6f2c]) by BYAPR01MB4598.prod.exchangelabs.com
- ([fe80::296c:b848:8bf0:6f2c%5]) with mapi id 15.20.2958.019; Tue, 28 Apr 2020
- 18:10:12 +0000
-Subject: Re: [PATCH] perf/smmuv3: Allow sharing MMIO registers with the SMMU
- driver
-From: Tuan Phan <tuanphan@amperemail.onmicrosoft.com>
-In-Reply-To: <20200421155745.19815-1-jean-philippe@linaro.org>
-Date: Tue, 28 Apr 2020 11:10:09 -0700
-Message-Id: <F8C2FB7F-2D21-44AA-B41D-0D4555A63660@amperemail.onmicrosoft.com>
-References: <20200421155745.19815-1-jean-philippe@linaro.org>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-X-ClientProxiedBy: CY4PR15CA0001.namprd15.prod.outlook.com
- (2603:10b6:910:14::11) To BYAPR01MB4598.prod.exchangelabs.com
- (2603:10b6:a03:8a::18)
+ with ESMTP id CpuVxgafE0VS for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Apr 2020 18:21:16 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by silver.osuosl.org (Postfix) with ESMTPS id ADFCE228BD
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Apr 2020 18:21:16 +0000 (UTC)
+IronPort-SDR: iEyCqjMxZpylRhiGeFKYm4HuL8vcB4hu7jLvZku7gcdwBYZdNj4/x2PxKggT31l29GZFKmxSEg
+ akndt63dqSjg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2020 11:21:16 -0700
+IronPort-SDR: fEllwY/yDUHilV4MwNXkmRzFM+lSBT+iRjfIEDui2kV6NyKP0dtFxyxrGbKIVjasPSUBTHPj1q
+ SUOQXnFqF6XQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,328,1583222400"; d="scan'208";a="302780227"
+Received: from jpan9-mobl2.amr.corp.intel.com (HELO localhost)
+ ([10.212.240.17])
+ by FMSMGA003.fm.intel.com with SMTP; 28 Apr 2020 11:21:14 -0700
+Date: Tue, 28 Apr 2020 11:21:13 -0700
+From: "Jacob Pan (Jun)" <jacob.jun.pan@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 5/7] x86/mmu: Allocate/free PASID
+Message-ID: <20200428112113.000033bd@intel.com>
+In-Reply-To: <87pnbus3du.fsf@nanos.tec.linutronix.de>
+References: <1585596788-193989-1-git-send-email-fenghua.yu@intel.com>
+ <1585596788-193989-6-git-send-email-fenghua.yu@intel.com>
+ <87pnbus3du.fsf@nanos.tec.linutronix.de>
+Organization: intel
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.0.173] (73.151.56.145) by
- CY4PR15CA0001.namprd15.prod.outlook.com (2603:10b6:910:14::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2958.19 via Frontend Transport; Tue, 28 Apr 2020 18:10:11 +0000
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-X-Originating-IP: [73.151.56.145]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ac7e4f50-13d4-40ac-0877-08d7eb9f6532
-X-MS-TrafficTypeDiagnostic: BYAPR01MB5688:
-X-Microsoft-Antispam-PRVS: <BYAPR01MB5688A45246F9B9F1A2BCC3D7E0AC0@BYAPR01MB5688.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 0387D64A71
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR01MB4598.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(346002)(39850400004)(136003)(376002)(396003)(316002)(52116002)(53546011)(54906003)(2906002)(966005)(4326008)(2616005)(6916009)(16576012)(83170400001)(186003)(16526019)(956004)(26005)(478600001)(8676002)(33656002)(66556008)(66476007)(6486002)(42882007)(66946007)(8936002)(5660300002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: asNcPy4r3Pf08wSPLPbcYSv+NGF38C7WduOt4rn+I25f6AE7Kk7pzjbQ1OjmPefKWMHxy7ZRHhR4URP2nmilfRk+aTAAM/+DrbN076meR0mVSPFmxin0ztm2/fCm+5Y8IJrs2+h+15CDbY0/06pcvj3FDa2B34aJzJHbBosP9O9s9ijhE/SKIcGF6XS0noQRbiKZDMsA0zNp4SXwMLeufv+LwiVis8XwIgtCunJaM5Rz/Gdy/uWwDKMBpwClzmsYQr0nUEwetSeI9SDJTI+87oWJbFM29RJmAnBrChHWO2T70M6PaaEaeGP7eJNcBcxaimyLQUqblQ7tjZkn378KSgP1ofW/s+P93T+V+Uiz2bxmCTA2Pb4I+XzRaqIE81FtNj4yQG0qp8iTfCc6idvnvE4/k0/ximzj6TsVVKn7F4YYx3AqKRagFz3g8zX2JZqsaZfWfIIaaXDJbK3E52kpWVSLnpK9SnrElacwSeJkVeRe/1ED6z90kA/QFIp5QIF6bVFUev2TyaFl6Fs1P3U2JQ==
-X-MS-Exchange-AntiSpam-MessageData: GtST+5BgCrB95LoZUQrsMLvwj0nsDQCnTuGiUf5NrnUbkMibYkobrKfqyWXVFyv0edd7dP0KJv5zk4FU42A0CoEpX59SylP9GevR1DN+R+7nIIWusmnin+3PXIYGI0/oS+4ijrn5VtbcUYb0AlYkZ6VKfjSwWxzh+oOpnCn9EnsYBMiSGDmh3JcUPTdeInFXn924gKJzM247F7XraCE8ipYTj7WHVg3G2X2gGX2yC1MChEd3DPRTzlWrAOSfaIwbw7UTZIGofawEKtByr6xBd5qjBfKh3WYpmf4ONZiRjEVEfAEhF2DhwFI0L2R+XxuWNc9lPbeEG0fDCpczNJPplRyuzuAJn6XHC2619OeQ1eY9VzM24OtXmwww79fjLBQqPZQOuoMbXVgIsMsgmVtE1lt3EhBLtOcw4An3Da6O1MzfGyQrYcoVI7NzzQq0kDCPkyuiyjyfd5WKPbpDi/RdBrVfmOyLDhTkOXu93k6YtiYiB9IDh0COo6C0T+SOj2sVLwheDIbSyPwuYHUsyWEFacWj81wtW0hGmN6VVkRbHaUHhEmmwwl6fxrH4nhs+tr+yga1qCZGCzX2djEOiCO5s3mN0NTGqfKlkpTe0dbbfcHPMQwEfI/igAknayu6DMgGHqWpYueQj5S58zkroW5OeznNzgUCR/iFF2l/BCvOe5pgD/8yeiRVVVGbUoQjtGjoBhRKPDxJHUi4Dbybk0t7deOONF2o2ZCHdvPz1hV+60x+4wAXvQH3/Ricdaiq7aZm+j3MkV0GwanFSMbHfySxbXRjKk5V+nCWX4vtnNG08os=
-X-OriginatorOrg: amperemail.onmicrosoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac7e4f50-13d4-40ac-0877-08d7eb9f6532
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2020 18:10:12.8468 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ayGi120GJt6NHvgCWZM7NqKceaOcR/ne0s6Zp6rIHLjBzYJf4d0MWKHSchKvRDyOgwBuhWXmZW02iPAHflTudyyhaYC35LAsHZTBtyM45eBhPvc1XAvxUDp6FoSmGm0j
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR01MB5688
-X-Mailman-Approved-At: Wed, 29 Apr 2020 07:12:36 +0000
-Cc: Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>,
- iommu@lists.linux-foundation.org, robin.murphy@arm.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Fenghua Yu <fenghua.yu@intel.com>, Tony Luck <tony.luck@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Ashok Raj <ashok.raj@intel.com>,
+ Ravi V Shankar <ravi.v.shankar@intel.com>, x86 <x86@kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Dave Hansen <dave.hansen@intel.com>, iommu@lists.linux-foundation.org,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ jacob.jun.pan@intel.com, H Peter Anvin <hpa@zytor.com>, David
+ Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -126,108 +85,224 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On Sun, 26 Apr 2020 16:55:25 +0200
+Thomas Gleixner <tglx@linutronix.de> wrote:
 
-> On Apr 21, 2020, at 8:57 AM, Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+> Fenghua Yu <fenghua.yu@intel.com> writes:
 > 
-> Some Arm SMMUv3 implementations, for example Arm CoreLink MMU-600, embed
-> the PMCG registers into the SMMU MMIO regions. It currently causes probe
-> failure because the PMU and SMMU drivers request overlapping resources.
+> > PASID is shared by all threads in a process. So the logical place
+> > to keep track of it is in the "mm". Add the field to the
+> > architecture specific mm_context_t structure.
+> >
+> > A PASID is allocated for an "mm" the first time any thread attaches
+> > to an SVM capable device. Later device atatches (whether to the
+> > same  
 > 
-> Avoid the conflict by calling devm_ioremap() directly from the PMU
-> driver. We loose some sanity-checking of the memory map provided by
-> firmware, which doesn't seem catastrophic.
+> atatches?
 > 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
+> > device or another SVM device) will re-use the same PASID.
+> >
+> > The PASID is freed when the process exits (so no need to keep
+> > reference counts on how many SVM devices are sharing the PASID).  
 > 
-> So this is the simplest solution, and I don't think we're missing much
-> by skipping the resource reservation. I've also been exploring a more
-> complex approach [1] which has the SMMU driver perform resource
-> reservation on behalf of the PMU driver, but I'm not sure it's
-> necessary.
+> I'm not buying that. If there is an outstanding request with the PASID
+> of a process then tearing down the process address space and freeing
+> the PASID (which might be reused) is fundamentally broken.
 > 
-> Please test, I've only tried the RevC FastModel using devicetree so far.
-> 
-> [1] https://jpbrucker.net/git/linux/log/?h=smmu/pmu
-> ---
-> drivers/perf/arm_smmuv3_pmu.c | 28 +++++++++++++++++++++-------
-> 1 file changed, 21 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/perf/arm_smmuv3_pmu.c b/drivers/perf/arm_smmuv3_pmu.c
-> index ca183a53a7f10..ad63d1e73333f 100644
-> --- a/drivers/perf/arm_smmuv3_pmu.c
-> +++ b/drivers/perf/arm_smmuv3_pmu.c
-> @@ -730,8 +730,8 @@ static void smmu_pmu_get_acpi_options(struct smmu_pmu *smmu_pmu)
-> 
-> static int smmu_pmu_probe(struct platform_device *pdev)
-> {
-> +	struct resource *res_0, *res_1;
-> 	struct smmu_pmu *smmu_pmu;
-> -	struct resource *res_0;
-> 	u32 cfgr, reg_size;
-> 	u64 ceid_64[2];
-> 	int irq, err;
-> @@ -759,18 +759,32 @@ static int smmu_pmu_probe(struct platform_device *pdev)
-> 		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
-> 	};
-> 
-> +	/*
-> +	 * If the PMCG registers are embedded into the SMMU regions, the
-> +	 * resources have to be shared with the SMMU driver. Use ioremap()
-> +	 * rather than ioremap_resource() to avoid conflicts.
-> +	 */
-> 	res_0 = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	smmu_pmu->reg_base = devm_ioremap_resource(dev, res_0);
-> -	if (IS_ERR(smmu_pmu->reg_base))
-> -		return PTR_ERR(smmu_pmu->reg_base);
-> +	if (!res_0)
-> +		return -ENXIO;
-> +
-> +	smmu_pmu->reg_base = devm_ioremap(dev, res_0->start,
-> +					  resource_size(res_0));
-> +	if (!smmu_pmu->reg_base)
-> +		return -ENOMEM;
-> 
-> 	cfgr = readl_relaxed(smmu_pmu->reg_base + SMMU_PMCG_CFGR);
-> 
-> 	/* Determine if page 1 is present */
-> 	if (cfgr & SMMU_PMCG_CFGR_RELOC_CTRS) {
-> -		smmu_pmu->reloc_base = devm_platform_ioremap_resource(pdev, 1);
-> -		if (IS_ERR(smmu_pmu->reloc_base))
-> -			return PTR_ERR(smmu_pmu->reloc_base);
-> +		res_1 = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-> +		if (!res_1)
-> +			return -ENXIO;
-> +
-> +		smmu_pmu->reloc_base = devm_ioremap(dev, res_1->start,
-> +						    resource_size(res_1));
-> +		if (!smmu_pmu->reloc_base)
-> +			return -ENOMEM;
+Device driver unbind PASID is tied to FD release. So when a process
+exits, FD close causes driver to do the following:
+1. stops DMA
+2. unbind PASID (clears the PASID entry in IOMMU, flush all TLBs, drain
+in flight page requests)
 
-I tested this patch on HW, however I need to add one more following change to make it works
+For bare metal SVM, if the last mmdrop always happens after FD release,
+we can ensure no outstanding requests at the point of ioasid_free().
+Perhaps this is a wrong assumption?
 
-@@ -2854,7 +2854,7 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
-        }
-        ioaddr = res->start;
- 
--       smmu->base = devm_ioremap_resource(dev, res);
-+       smmu->base = devm_ioremap(dev, res->start, resource_size(res));
-        if (IS_ERR(smmu->base))
-                return PTR_ERR(smmu->base);
+For guest SVM, there will be more users of a PASID. I am also
+working on adding refcounting to ioasid. ioasid_free() will not release
+the PASID back to the pool until all references are dropped.
 
+> > +void __free_pasid(struct mm_struct *mm);
+> > +
+> >  #endif /* _ASM_X86_IOMMU_H */
+> > diff --git a/arch/x86/include/asm/mmu.h b/arch/x86/include/asm/mmu.h
+> > index bdeae9291e5c..137bf51f19e6 100644
+> > --- a/arch/x86/include/asm/mmu.h
+> > +++ b/arch/x86/include/asm/mmu.h
+> > @@ -50,6 +50,10 @@ typedef struct {
+> >  	u16 pkey_allocation_map;
+> >  	s16 execute_only_pkey;
+> >  #endif
+> > +
+> > +#ifdef CONFIG_INTEL_IOMMU_SVM
+> > +	int pasid;  
+> 
+> int? It's a value which gets programmed into the MSR along with the
+> valid bit (bit 31) set. 
+> 
+> >  extern void switch_mm(struct mm_struct *prev, struct mm_struct
+> > *next, diff --git a/drivers/iommu/intel-svm.c
+> > b/drivers/iommu/intel-svm.c index d7f2a5358900..da718a49e91e 100644
+> > --- a/drivers/iommu/intel-svm.c
+> > +++ b/drivers/iommu/intel-svm.c
+> > @@ -226,6 +226,45 @@ static LIST_HEAD(global_svm_list);
+> >  	list_for_each_entry((sdev), &(svm)->devs, list)	\
+> >  		if ((d) != (sdev)->dev) {} else
+> >  
+> > +/*
+> > + * If this mm already has a PASID we can use it. Otherwise
+> > allocate a new one.
+> > + * Let the caller know if we did an allocation via 'new_pasid'.
+> > + */
+> > +static int alloc_pasid(struct intel_svm *svm, struct mm_struct *mm,
+> > +		       int pasid_max,  bool *new_pasid, int
+> > flags)  
+> 
+> Again, data types please. flags are generally unsigned and not plain
+> int. Also pasid_max is certainly not plain int either.
+> 
+> > +{
+> > +	int pasid;
+> > +
+> > +	/*
+> > +	 * Reuse the PASID if the mm already has a PASID and not a
+> > private
+> > +	 * PASID is requested.
+> > +	 */
+> > +	if (mm && mm->context.pasid && !(flags &
+> > SVM_FLAG_PRIVATE_PASID)) {
+> > +		/*
+> > +		 * Once a PASID is allocated for this mm, the PASID
+> > +		 * stays with the mm until the mm is dropped. Reuse
+> > +		 * the PASID which has been already allocated for
+> > the
+> > +		 * mm instead of allocating a new one.
+> > +		 */
+> > +		ioasid_set_data(mm->context.pasid, svm);  
+> 
+> So if the PASID is reused several times for different SVMs then every
+> time ioasid_data->private is set to a different SVM. How is that
+> supposed to work?
+> 
+For the lifetime of the mm, there is only one PASID. svm_bind/unbind_mm
+could happen many times with different private data: intel_svm.
+Multiple devices can bind to the same PASID as well. But private data
+don't change within the first bind and last unbind.
 
-> 	} else {
-> 		smmu_pmu->reloc_base = smmu_pmu->reg_base;
-> 	}
-> -- 
-> 2.26.0
+> > +		*new_pasid = false;
+> > +
+> > +		return mm->context.pasid;
+> > +	}
+> > +
+> > +	/*
+> > +	 * Allocate a new pasid. Do not use PASID 0, reserved for
+> > RID to
+> > +	 * PASID.
+> > +	 */
+> > +	pasid = ioasid_alloc(NULL, PASID_MIN, pasid_max - 1,
+> > svm);  
 > 
+> ioasid_alloc() uses ioasid_t which is
 > 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> typedef unsigned int ioasid_t;
 > 
+> Can we please have consistent types and behaviour all over the place?
+> 
+> > +	if (pasid == INVALID_IOASID)
+> > +		return -ENOSPC;
+> > +
+> > +	*new_pasid = true;
+> > +
+> > +	return pasid;
+> > +}
+> > +
+> >  int intel_svm_bind_mm(struct device *dev, int *pasid, int flags,
+> > struct svm_dev_ops *ops) {
+> >  	struct intel_iommu *iommu = intel_svm_device_to_iommu(dev);
+> > @@ -324,6 +363,8 @@ int intel_svm_bind_mm(struct device *dev, int
+> > *pasid, int flags, struct svm_dev_ init_rcu_head(&sdev->rcu);
+> >  
+> >  	if (!svm) {
+> > +		bool new_pasid;
+> > +
+> >  		svm = kzalloc(sizeof(*svm), GFP_KERNEL);
+> >  		if (!svm) {
+> >  			ret = -ENOMEM;
+> > @@ -335,15 +376,13 @@ int intel_svm_bind_mm(struct device *dev, int
+> > *pasid, int flags, struct svm_dev_ if (pasid_max >
+> > intel_pasid_max_id) pasid_max = intel_pasid_max_id;
+> >  
+> > -		/* Do not use PASID 0, reserved for RID to PASID */
+> > -		svm->pasid = ioasid_alloc(NULL, PASID_MIN,
+> > -					  pasid_max - 1, svm);
+> > -		if (svm->pasid == INVALID_IOASID) {
+> > +		svm->pasid = alloc_pasid(svm, mm, pasid_max,
+> > &new_pasid, flags);
+> > +		if (svm->pasid < 0) {
+> >  			kfree(svm);
+> >  			kfree(sdev);
+> > -			ret = -ENOSPC;  
+> 
+> ret gets magically initialized to an error return value, right?
+> 
+> >  			goto out;
+> >  		}
+> > +
+> >  		svm->notifier.ops = &intel_mmuops;
+> >  		svm->mm = mm;
+> >  		svm->flags = flags;
+> > @@ -353,7 +392,8 @@ int intel_svm_bind_mm(struct device *dev, int
+> > *pasid, int flags, struct svm_dev_ if (mm) {
+> >  			ret =
+> > mmu_notifier_register(&svm->notifier, mm); if (ret) {
+> > -				ioasid_free(svm->pasid);
+> > +				if (new_pasid)
+> > +					ioasid_free(svm->pasid);
+> >  				kfree(svm);
+> >  				kfree(sdev);
+> >  				goto out;
+> > @@ -371,12 +411,21 @@ int intel_svm_bind_mm(struct device *dev, int
+> > *pasid, int flags, struct svm_dev_ if (ret) {
+> >  			if (mm)
+> >  				mmu_notifier_unregister(&svm->notifier,
+> > mm);
+> > -			ioasid_free(svm->pasid);
+> > +			if (new_pasid)
+> > +				ioasid_free(svm->pasid);
+> >  			kfree(svm);
+> >  			kfree(sdev);  
+> 
+> So there are 3 places now freeing svm ad sdev and 2 of them
+> conditionally free svm->pasid. Can you please rewrite that to have a
+> proper error exit path instead of glueing that stuff into the existing
+> mess?
+> 
+> >  			goto out;
+> >  		}
+> >  
+> > +		if (mm && new_pasid && !(flags &
+> > SVM_FLAG_PRIVATE_PASID)) {
+> > +			/*
+> > +			 * Track the new pasid in the mm. The
+> > pasid will be
+> > +			 * freed at process exit. Don't track
+> > requested
+> > +			 * private PASID in the mm.  
+> 
+> What happens to private PASIDs?
+> 
+Private PASID feature will be removed. We are in the process of
+converting from intel_svm_bind_mm to generic sva_bind_device API.
+https://lkml.org/lkml/2020/3/23/1022
+
+Thanks,
+
+Jacob
+
+> Thanks,
+> 
+>         tglx
 
 _______________________________________________
 iommu mailing list
