@@ -1,41 +1,41 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84CCF1BDDCB
-	for <lists.iommu@lfdr.de>; Wed, 29 Apr 2020 15:37:45 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 962671BDDCC
+	for <lists.iommu@lfdr.de>; Wed, 29 Apr 2020 15:37:46 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 9EF7620489;
-	Wed, 29 Apr 2020 13:37:43 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 480D086A2B;
+	Wed, 29 Apr 2020 13:37:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eiwDY9vQQUBQ; Wed, 29 Apr 2020 13:37:41 +0000 (UTC)
+	with ESMTP id nHvRlQ_jknDE; Wed, 29 Apr 2020 13:37:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id B3DD6203F1;
-	Wed, 29 Apr 2020 13:37:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BF67E86A1A;
+	Wed, 29 Apr 2020 13:37:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 97349C0864;
-	Wed, 29 Apr 2020 13:37:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AAF90C0172;
+	Wed, 29 Apr 2020 13:37:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A15EDC0172;
- Wed, 29 Apr 2020 13:37:40 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B4187C0172;
+ Wed, 29 Apr 2020 13:37:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 8223D203F1;
- Wed, 29 Apr 2020 13:37:40 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id B033F878A0;
+ Wed, 29 Apr 2020 13:37:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id okld2FZQP1eJ; Wed, 29 Apr 2020 13:37:38 +0000 (UTC)
+ with ESMTP id FcBgEjNPBOGU; Wed, 29 Apr 2020 13:37:41 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id 7CA3B203AF;
- Wed, 29 Apr 2020 13:37:38 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 2683A87804;
+ Wed, 29 Apr 2020 13:37:41 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 49DD72E2; Wed, 29 Apr 2020 15:37:35 +0200 (CEST)
+ id 545071AF; Wed, 29 Apr 2020 15:37:35 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>,
@@ -50,16 +50,19 @@ To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [PATCH v3 00/34] iommu: Move iommu_group setup to IOMMU core code
-Date: Wed, 29 Apr 2020 15:36:38 +0200
-Message-Id: <20200429133712.31431-1-joro@8bytes.org>
+Subject: [PATCH v3 01/34] iommu: Move default domain allocation to separate
+ function
+Date: Wed, 29 Apr 2020 15:36:39 +0200
+Message-Id: <20200429133712.31431-2-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200429133712.31431-1-joro@8bytes.org>
+References: <20200429133712.31431-1-joro@8bytes.org>
 Cc: linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
  Daniel Drake <drake@endlessm.com>, linux-rockchip@lists.infradead.org,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- linux-tegra@vger.kernel.org, virtualization@lists.linux-foundation.org,
- jonathan.derrick@intel.com
+ iommu@lists.linux-foundation.org, Joerg Roedel <jroedel@suse.de>,
+ linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, jonathan.derrick@intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,99 +81,115 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
+From: Joerg Roedel <jroedel@suse.de>
 
-here is the third version of this patch-set. Older versions can be found
-here:
+Move the code out of iommu_group_get_for_dev() into a separate
+function.
 
-	v1: https://lore.kernel.org/lkml/20200407183742.4344-1-joro@8bytes.org/
-	    (Has some more introductory text)
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Joerg Roedel <jroedel@suse.de>
+---
+ drivers/iommu/iommu.c | 74 ++++++++++++++++++++++++++-----------------
+ 1 file changed, 45 insertions(+), 29 deletions(-)
 
-	v2: https://lore.kernel.org/lkml/20200414131542.25608-1-joro@8bytes.org/
-
-Changes v2 -> v3:
-
-	* Rebased v5.7-rc3
-
-	* Added a missing iommu_group_put() as reported by Lu Baolu.
-
-	* Added a patch to consolidate more initialization work in
-	  __iommu_probe_device(), fixing a bug where no 'struct
-	  device_iommu' was allocated in the hotplug path.
-
-There is also a git-branch available with these patches applied:
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/joro/linux.git/log/?h=iommu-probe-device-v3
-
-Please review. If there are no objections I plan to put these patches
-into the IOMMU tree early next week.
-
-Thanks,
-
-	Joerg
-
-Joerg Roedel (33):
-  iommu: Move default domain allocation to separate function
-  iommu/amd: Implement iommu_ops->def_domain_type call-back
-  iommu/vt-d: Wire up iommu_ops->def_domain_type
-  iommu/amd: Remove dma_mask check from check_device()
-  iommu/amd: Return -ENODEV in add_device when device is not handled by
-    IOMMU
-  iommu: Add probe_device() and release_device() call-backs
-  iommu: Move default domain allocation to iommu_probe_device()
-  iommu: Keep a list of allocated groups in __iommu_probe_device()
-  iommu: Move new probe_device path to separate function
-  iommu: Split off default domain allocation from group assignment
-  iommu: Move iommu_group_create_direct_mappings() out of
-    iommu_group_add_device()
-  iommu: Export bus_iommu_probe() and make is safe for re-probing
-  iommu/amd: Remove dev_data->passthrough
-  iommu/amd: Convert to probe/release_device() call-backs
-  iommu/vt-d: Convert to probe/release_device() call-backs
-  iommu/arm-smmu: Convert to probe/release_device() call-backs
-  iommu/pamu: Convert to probe/release_device() call-backs
-  iommu/s390: Convert to probe/release_device() call-backs
-  iommu/virtio: Convert to probe/release_device() call-backs
-  iommu/msm: Convert to probe/release_device() call-backs
-  iommu/mediatek: Convert to probe/release_device() call-backs
-  iommu/mediatek-v1 Convert to probe/release_device() call-backs
-  iommu/qcom: Convert to probe/release_device() call-backs
-  iommu/rockchip: Convert to probe/release_device() call-backs
-  iommu/tegra: Convert to probe/release_device() call-backs
-  iommu/renesas: Convert to probe/release_device() call-backs
-  iommu/omap: Remove orphan_dev tracking
-  iommu/omap: Convert to probe/release_device() call-backs
-  iommu/exynos: Use first SYSMMU in controllers list for IOMMU core
-  iommu/exynos: Convert to probe/release_device() call-backs
-  iommu: Remove add_device()/remove_device() code-paths
-  iommu: Move more initialization to __iommu_probe_device()
-  iommu: Unexport iommu_group_get_for_dev()
-
-Sai Praneeth Prakhya (1):
-  iommu: Add def_domain_type() callback in iommu_ops
-
- drivers/iommu/amd_iommu.c       |  97 ++++----
- drivers/iommu/amd_iommu_types.h |   1 -
- drivers/iommu/arm-smmu-v3.c     |  38 +---
- drivers/iommu/arm-smmu.c        |  39 ++--
- drivers/iommu/exynos-iommu.c    |  24 +-
- drivers/iommu/fsl_pamu_domain.c |  22 +-
- drivers/iommu/intel-iommu.c     |  68 +-----
- drivers/iommu/iommu.c           | 387 +++++++++++++++++++++++++-------
- drivers/iommu/ipmmu-vmsa.c      |  60 ++---
- drivers/iommu/msm_iommu.c       |  34 +--
- drivers/iommu/mtk_iommu.c       |  24 +-
- drivers/iommu/mtk_iommu_v1.c    |  50 ++---
- drivers/iommu/omap-iommu.c      |  99 ++------
- drivers/iommu/qcom_iommu.c      |  24 +-
- drivers/iommu/rockchip-iommu.c  |  26 +--
- drivers/iommu/s390-iommu.c      |  22 +-
- drivers/iommu/tegra-gart.c      |  24 +-
- drivers/iommu/tegra-smmu.c      |  31 +--
- drivers/iommu/virtio-iommu.c    |  41 +---
- include/linux/iommu.h           |  21 +-
- 20 files changed, 531 insertions(+), 601 deletions(-)
-
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 2b471419e26c..bfe011760ed1 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -1361,6 +1361,41 @@ struct iommu_group *fsl_mc_device_group(struct device *dev)
+ }
+ EXPORT_SYMBOL_GPL(fsl_mc_device_group);
+ 
++static int iommu_alloc_default_domain(struct device *dev,
++				      struct iommu_group *group)
++{
++	struct iommu_domain *dom;
++
++	if (group->default_domain)
++		return 0;
++
++	dom = __iommu_domain_alloc(dev->bus, iommu_def_domain_type);
++	if (!dom && iommu_def_domain_type != IOMMU_DOMAIN_DMA) {
++		dom = __iommu_domain_alloc(dev->bus, IOMMU_DOMAIN_DMA);
++		if (dom) {
++			dev_warn(dev,
++				 "failed to allocate default IOMMU domain of type %u; falling back to IOMMU_DOMAIN_DMA",
++				 iommu_def_domain_type);
++		}
++	}
++
++	if (!dom)
++		return -ENOMEM;
++
++	group->default_domain = dom;
++	if (!group->domain)
++		group->domain = dom;
++
++	if (!iommu_dma_strict) {
++		int attr = 1;
++		iommu_domain_set_attr(dom,
++				      DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE,
++				      &attr);
++	}
++
++	return 0;
++}
++
+ /**
+  * iommu_group_get_for_dev - Find or create the IOMMU group for a device
+  * @dev: target device
+@@ -1393,40 +1428,21 @@ struct iommu_group *iommu_group_get_for_dev(struct device *dev)
+ 
+ 	/*
+ 	 * Try to allocate a default domain - needs support from the
+-	 * IOMMU driver.
++	 * IOMMU driver. There are still some drivers which don't support
++	 * default domains, so the return value is not yet checked.
+ 	 */
+-	if (!group->default_domain) {
+-		struct iommu_domain *dom;
+-
+-		dom = __iommu_domain_alloc(dev->bus, iommu_def_domain_type);
+-		if (!dom && iommu_def_domain_type != IOMMU_DOMAIN_DMA) {
+-			dom = __iommu_domain_alloc(dev->bus, IOMMU_DOMAIN_DMA);
+-			if (dom) {
+-				dev_warn(dev,
+-					 "failed to allocate default IOMMU domain of type %u; falling back to IOMMU_DOMAIN_DMA",
+-					 iommu_def_domain_type);
+-			}
+-		}
+-
+-		group->default_domain = dom;
+-		if (!group->domain)
+-			group->domain = dom;
+-
+-		if (dom && !iommu_dma_strict) {
+-			int attr = 1;
+-			iommu_domain_set_attr(dom,
+-					      DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE,
+-					      &attr);
+-		}
+-	}
++	iommu_alloc_default_domain(dev, group);
+ 
+ 	ret = iommu_group_add_device(group, dev);
+-	if (ret) {
+-		iommu_group_put(group);
+-		return ERR_PTR(ret);
+-	}
++	if (ret)
++		goto out_put_group;
+ 
+ 	return group;
++
++out_put_group:
++	iommu_group_put(group);
++
++	return ERR_PTR(ret);
+ }
+ EXPORT_SYMBOL(iommu_group_get_for_dev);
+ 
 -- 
 2.17.1
 
