@@ -1,78 +1,86 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E711BD54D
-	for <lists.iommu@lfdr.de>; Wed, 29 Apr 2020 09:01:28 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id D337D1BD594
+	for <lists.iommu@lfdr.de>; Wed, 29 Apr 2020 09:21:19 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1CE8387B05;
-	Wed, 29 Apr 2020 07:01:27 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 62847876E8;
+	Wed, 29 Apr 2020 07:21:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2b+FcPQ9FIXb; Wed, 29 Apr 2020 07:01:23 +0000 (UTC)
+	with ESMTP id bSovrANKAy58; Wed, 29 Apr 2020 07:21:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D482888159;
-	Wed, 29 Apr 2020 07:01:23 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BB58686F9F;
+	Wed, 29 Apr 2020 07:21:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B54E5C0172;
-	Wed, 29 Apr 2020 07:01:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A4F03C0172;
+	Wed, 29 Apr 2020 07:21:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 42D05C0172;
- Wed, 29 Apr 2020 07:01:22 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2D041C0172
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Apr 2020 07:21:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3F4E3843C8;
- Wed, 29 Apr 2020 07:01:22 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 11F4A81BD6
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Apr 2020 07:21:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id P2R06XKxxImo; Wed, 29 Apr 2020 07:01:21 +0000 (UTC)
+ with ESMTP id Q6kL_zianK1h for <iommu@lists.linux-foundation.org>;
+ Wed, 29 Apr 2020 07:21:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9041184155;
- Wed, 29 Apr 2020 07:01:21 +0000 (UTC)
-IronPort-SDR: Y1y66GhbI992zJSdEINTwtsRUDg+CfhTBYqaR2ziHd1iopRzlzWZ/5JOTqK1gfcYAd5kdh8HXg
- 7tyGm+GsZ7+w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2020 00:01:20 -0700
-IronPort-SDR: 4DvuVAJfnwee41/vUOY7D8kJA2vxdQDguCSVgDEfD+VPgf23D9je1CKT13vT2xgvP4h9E5vTMK
- lf2m1SGXRZSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,330,1583222400"; d="scan'208";a="404952135"
-Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.210.254])
- ([10.254.210.254])
- by orsmga004.jf.intel.com with ESMTP; 29 Apr 2020 00:01:15 -0700
-Subject: Re: [PATCH 5/5] virtio: Add bounce DMA ops
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <1588073958-1793-1-git-send-email-vatsa@codeaurora.org>
- <1588073958-1793-6-git-send-email-vatsa@codeaurora.org>
- <20200428121232-mutt-send-email-mst@kernel.org>
- <20200428174952.GA5097@quicinc.com>
- <20200428163448-mutt-send-email-mst@kernel.org>
- <275eba4b-dd35-aa95-b2e3-9c5cbf7c6d71@linux.intel.com>
- <20200429004531-mutt-send-email-mst@kernel.org>
- <b676430c-65b3-096e-ca48-ceebf10f4b28@linux.intel.com>
- <20200429023842-mutt-send-email-mst@kernel.org>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <80a3a471-0a2c-3ab3-529c-1b8b624679f8@linux.intel.com>
-Date: Wed, 29 Apr 2020 15:01:14 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+ [209.85.128.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id ACBA881E4F
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Apr 2020 07:21:15 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id h4so772815wmb.4
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Apr 2020 00:21:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=cCAHFPkV5zKy0lOqNzgFSwfk1faaHM5kTxrOdR4mtV0=;
+ b=qfHixOrwUj7Z+T5hUCKAQQvbwoGTrwpUbqxft4Z0FW7cxbhKzWmTTBcrbmTUBD1BCU
+ UYUNL8rHAalDR3r/O6paaxcxkjvsqp7P1mGeGALESzQUvh8c5kchThOUHol9+MX9ZYce
+ KNZQ6rVy/4tK5R/7/kVurzd47F+eU1zSHEz+Cigo9VwyWeF7gsbfbsLQWz7kZavXHbIk
+ 30SKz/CXf60CiCh/5zaMuDwmvUWBwyjoytcRoYV/zZoV0F5YfA+1AFyVrjD/jHDMlYgv
+ /XN9sVJ/XiKC2VgDHnvYRvYINP7ZhukoeZnh4AN+xJXKZ/fpSKQcSOBBO6lDA9qhTxPC
+ Vqdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cCAHFPkV5zKy0lOqNzgFSwfk1faaHM5kTxrOdR4mtV0=;
+ b=fBO+9IauqHIsMSI1l3LZ5gvDUfgQr9otl3L/AMaSOvFFeg7Csm+7IH1Hg8QFHB1kD4
+ DTUTKXThX3s9iUF6BGhoCtjfNwYFl5CxxpRmMhY/Eu4eR4dfG5zWJxbc3VZVEeROHT2p
+ 75Nv8ctabmIsfjceTlzDpnZYeyL9lmS1I99YdLIJ4oRvlIgwjLCwlKslapJQFFfYBIaM
+ vGO/aZxRAErCIwXiKb+TkzlN4gau6rvw+AhsuZa8KZak9SJuPt6DhQiowbP4SNkVP5hA
+ BENBJ8X5T2ZtPE6NmN/T20qG+p+0PfH6U9RTJM+uMWcVqK4FAHv2lioP/sVNboffMfY5
+ dMEg==
+X-Gm-Message-State: AGi0PuYWQwoqrkZrraMOArN57aZIiFcN//qg6jQcLtlMxAS+ipZrn44V
+ +B7doqzUddkSibsUACBPZNVrhg==
+X-Google-Smtp-Source: APiQypJs+3J3cKxM/LtgKzAvg7qC3vSLpX2ePy1LG0WB6A/JB3tF2dYB0tGSkd5NOoDj8qQAP2sJSw==
+X-Received: by 2002:a1c:4ca:: with SMTP id 193mr1629206wme.18.1588144874110;
+ Wed, 29 Apr 2020 00:21:14 -0700 (PDT)
+Received: from myrica ([2001:171b:226e:c200:c43b:ef78:d083:b355])
+ by smtp.gmail.com with ESMTPSA id k3sm31836574wru.90.2020.04.29.00.21.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Apr 2020 00:21:13 -0700 (PDT)
+Date: Wed, 29 Apr 2020 09:21:04 +0200
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Tuan Phan <tuanphan@amperemail.onmicrosoft.com>
+Subject: Re: [PATCH] perf/smmuv3: Allow sharing MMIO registers with the SMMU
+ driver
+Message-ID: <20200429072104.GA817954@myrica>
+References: <20200421155745.19815-1-jean-philippe@linaro.org>
+ <F8C2FB7F-2D21-44AA-B41D-0D4555A63660@amperemail.onmicrosoft.com>
 MIME-Version: 1.0
-In-Reply-To: <20200429023842-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
-Cc: tsoni@codeaurora.org, virtio-dev@lists.oasis-open.org, will@kernel.org,
- konrad.wilk@oracle.com, jan.kiszka@siemens.com, jasowang@redhat.com,
- Srivatsa Vaddagiri <vatsa@codeaurora.org>, christoffer.dall@arm.com,
- pratikp@codeaurora.org, virtualization@lists.linux-foundation.org,
- iommu@lists.linux-foundation.org, stefano.stabellini@xilinx.com,
- alex.bennee@linaro.org, linux-kernel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <F8C2FB7F-2D21-44AA-B41D-0D4555A63660@amperemail.onmicrosoft.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Will Deacon <will@kernel.org>,
+ iommu@lists.linux-foundation.org, robin.murphy@arm.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,61 +93,44 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020/4/29 14:50, Michael S. Tsirkin wrote:
-> On Wed, Apr 29, 2020 at 01:42:13PM +0800, Lu Baolu wrote:
->> On 2020/4/29 12:57, Michael S. Tsirkin wrote:
->>> On Wed, Apr 29, 2020 at 10:22:32AM +0800, Lu Baolu wrote:
->>>> On 2020/4/29 4:41, Michael S. Tsirkin wrote:
->>>>> On Tue, Apr 28, 2020 at 11:19:52PM +0530, Srivatsa Vaddagiri wrote:
->>>>>> * Michael S. Tsirkin<mst@redhat.com>   [2020-04-28 12:17:57]:
->>>>>>
->>>>>>> Okay, but how is all this virtio specific?  For example, why not allow
->>>>>>> separate swiotlbs for any type of device?
->>>>>>> For example, this might make sense if a given device is from a
->>>>>>> different, less trusted vendor.
->>>>>> Is swiotlb commonly used for multiple devices that may be on different trust
->>>>>> boundaries (and not behind a hardware iommu)?
->>>>> Even a hardware iommu does not imply a 100% security from malicious
->>>>> hardware. First lots of people use iommu=pt for performance reasons.
->>>>> Second even without pt, unmaps are often batched, and sub-page buffers
->>>>> might be used for DMA, so we are not 100% protected at all times.
->>>>>
->>>> For untrusted devices, IOMMU is forced on even iommu=pt is used;
->>> I think you are talking about untrusted*drivers*  like with VFIO.
->> No. I am talking about untrusted devices like thunderbolt peripherals.
->> We always trust drivers hosted in kernel and the DMA APIs are designed
->> for them, right?
->>
->> Please refer to this series.
->>
->> https://lkml.org/lkml/2019/9/6/39
->>
->> Best regards,
->> baolu
-> Oh, thanks for that! I didn't realize Linux is doing this.
+On Tue, Apr 28, 2020 at 11:10:09AM -0700, Tuan Phan wrote:
+> I tested this patch on HW, however I need to add one more following change to make it works
+
+Thanks for testing. I don't understand why you need the change below
+though, do you know which other region is conflicting with the SMMU?
+It should be displayed in the error message and /proc/iomem.
+
+Thanks,
+Jean
+
+> @@ -2854,7 +2854,7 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
+>         }
+>         ioaddr = res->start;
+>  
+> -       smmu->base = devm_ioremap_resource(dev, res);
+> +       smmu->base = devm_ioremap(dev, res->start, resource_size(res));
+>         if (IS_ERR(smmu->base))
+>                 return PTR_ERR(smmu->base);
 > 
-> So it seems that with modern Linux, all one needs
-> to do on x86 is mark the device as untrusted.
-> It's already possible to do this with ACPI and with OF - would that be
-> sufficient for achieving what this patchset is trying to do?
-
-Yes.
-
 > 
-> Adding more ways to mark a device as untrusted, and adding
-> support for more platforms to use bounce buffers
-> sounds like a reasonable thing to do.
+> > 	} else {
+> > 		smmu_pmu->reloc_base = smmu_pmu->reg_base;
+> > 	}
+> > -- 
+> > 2.26.0
+> > 
+> > 
+> > _______________________________________________
+> > linux-arm-kernel mailing list
+> > linux-arm-kernel@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> > 
 > 
-
-Agreed.
-
-Best regards,
-baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
