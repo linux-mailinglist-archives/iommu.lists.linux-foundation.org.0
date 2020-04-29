@@ -1,41 +1,41 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55CD81BDE20
-	for <lists.iommu@lfdr.de>; Wed, 29 Apr 2020 15:38:41 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id A832C1BDE0D
+	for <lists.iommu@lfdr.de>; Wed, 29 Apr 2020 15:38:30 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0CB0B86ACB;
-	Wed, 29 Apr 2020 13:38:40 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 658B58793F;
+	Wed, 29 Apr 2020 13:38:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id I2jwMp4hCcGB; Wed, 29 Apr 2020 13:38:39 +0000 (UTC)
+	with ESMTP id 8IoCXHFQOdQr; Wed, 29 Apr 2020 13:38:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E313386ACC;
-	Wed, 29 Apr 2020 13:38:09 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 94B7E87BF6;
+	Wed, 29 Apr 2020 13:38:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D9A8DC0172;
-	Wed, 29 Apr 2020 13:38:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8085CC0172;
+	Wed, 29 Apr 2020 13:38:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 661FBC0864;
- Wed, 29 Apr 2020 13:37:59 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F14AEC0172;
+ Wed, 29 Apr 2020 13:37:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 550C086AC4;
- Wed, 29 Apr 2020 13:37:59 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id E4DB6231CB;
+ Wed, 29 Apr 2020 13:37:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BQCsm2GrLFUK; Wed, 29 Apr 2020 13:37:55 +0000 (UTC)
+ with ESMTP id rvVqLXKDNf0p; Wed, 29 Apr 2020 13:37:55 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 2D0AF86A54;
+ by silver.osuosl.org (Postfix) with ESMTPS id 9F1872309D;
  Wed, 29 Apr 2020 13:37:55 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id A52A0F14; Wed, 29 Apr 2020 15:37:41 +0200 (CEST)
+ id E8433F15; Wed, 29 Apr 2020 15:37:41 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>,
@@ -50,10 +50,9 @@ To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [PATCH v3 33/34] iommu: Move more initialization to
- __iommu_probe_device()
-Date: Wed, 29 Apr 2020 15:37:11 +0200
-Message-Id: <20200429133712.31431-34-joro@8bytes.org>
+Subject: [PATCH v3 34/34] iommu: Unexport iommu_group_get_for_dev()
+Date: Wed, 29 Apr 2020 15:37:12 +0200
+Message-Id: <20200429133712.31431-35-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200429133712.31431-1-joro@8bytes.org>
 References: <20200429133712.31431-1-joro@8bytes.org>
@@ -83,109 +82,58 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Move the calls to dev_iommu_get() and try_module_get() into
-__iommu_probe_device(), so that the callers don't have to do it on
-their own.
+The function is now only used in IOMMU core code and shouldn't be used
+outside of it anyway, so remove the export for it.
 
 Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/iommu.c | 47 +++++++++++++++++--------------------------
- 1 file changed, 18 insertions(+), 29 deletions(-)
+ drivers/iommu/iommu.c | 4 ++--
+ include/linux/iommu.h | 1 -
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 7f99e5ae432c..48a95f7d7999 100644
+index 48a95f7d7999..a9e5618cde80 100644
 --- a/drivers/iommu/iommu.c
 +++ b/drivers/iommu/iommu.c
-@@ -194,9 +194,19 @@ static int __iommu_probe_device(struct device *dev, struct list_head *group_list
- 	struct iommu_group *group;
- 	int ret;
+@@ -91,6 +91,7 @@ static void __iommu_detach_group(struct iommu_domain *domain,
+ 				 struct iommu_group *group);
+ static int iommu_create_device_direct_mappings(struct iommu_group *group,
+ 					       struct device *dev);
++static struct iommu_group *iommu_group_get_for_dev(struct device *dev);
  
-+	if (!dev_iommu_get(dev))
-+		return -ENOMEM;
-+
-+	if (!try_module_get(ops->owner)) {
-+		ret = -EINVAL;
-+		goto err_free;
-+	}
-+
- 	iommu_dev = ops->probe_device(dev);
--	if (IS_ERR(iommu_dev))
--		return PTR_ERR(iommu_dev);
-+	if (IS_ERR(iommu_dev)) {
-+		ret = PTR_ERR(iommu_dev);
-+		goto out_module_put;
-+	}
- 
- 	dev->iommu->iommu_dev = iommu_dev;
- 
-@@ -217,6 +227,12 @@ static int __iommu_probe_device(struct device *dev, struct list_head *group_list
- out_release:
- 	ops->release_device(dev);
- 
-+out_module_put:
-+	module_put(ops->owner);
-+
-+err_free:
-+	dev_iommu_free(dev);
-+
- 	return ret;
- }
- 
-@@ -226,14 +242,6 @@ int iommu_probe_device(struct device *dev)
- 	struct iommu_group *group;
- 	int ret;
- 
--	if (!dev_iommu_get(dev))
--		return -ENOMEM;
--
--	if (!try_module_get(ops->owner)) {
--		ret = -EINVAL;
--		goto err_out;
--	}
--
- 	ret = __iommu_probe_device(dev, NULL);
- 	if (ret)
- 		goto err_out;
-@@ -1532,14 +1540,10 @@ struct iommu_domain *iommu_group_default_domain(struct iommu_group *group)
- 
- static int probe_iommu_group(struct device *dev, void *data)
+ #define IOMMU_GROUP_ATTR(_name, _mode, _show, _store)		\
+ struct iommu_group_attribute iommu_group_attr_##_name =		\
+@@ -1500,7 +1501,7 @@ static int iommu_alloc_default_domain(struct device *dev)
+  * to the returned IOMMU group, which will already include the provided
+  * device.  The reference should be released with iommu_group_put().
+  */
+-struct iommu_group *iommu_group_get_for_dev(struct device *dev)
++static struct iommu_group *iommu_group_get_for_dev(struct device *dev)
  {
--	const struct iommu_ops *ops = dev->bus->iommu_ops;
- 	struct list_head *group_list = data;
+ 	const struct iommu_ops *ops = dev->bus->iommu_ops;
  	struct iommu_group *group;
- 	int ret;
+@@ -1531,7 +1532,6 @@ struct iommu_group *iommu_group_get_for_dev(struct device *dev)
  
--	if (!dev_iommu_get(dev))
--		return -ENOMEM;
--
- 	/* Device is probed already if in a group */
- 	group = iommu_group_get(dev);
- 	if (group) {
-@@ -1547,22 +1551,7 @@ static int probe_iommu_group(struct device *dev, void *data)
- 		return 0;
- 	}
+ 	return ERR_PTR(ret);
+ }
+-EXPORT_SYMBOL(iommu_group_get_for_dev);
  
--	if (!try_module_get(ops->owner)) {
--		ret = -EINVAL;
--		goto err_free_dev_iommu;
--	}
--
- 	ret = __iommu_probe_device(dev, group_list);
--	if (ret)
--		goto err_module_put;
--
--	return 0;
--
--err_module_put:
--	module_put(ops->owner);
--err_free_dev_iommu:
--	dev_iommu_free(dev);
--
- 	if (ret == -ENODEV)
- 		ret = 0;
+ struct iommu_domain *iommu_group_default_domain(struct iommu_group *group)
+ {
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index dd076366383f..7cfd2dddb49d 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -527,7 +527,6 @@ extern int iommu_page_response(struct device *dev,
+ 			       struct iommu_page_response *msg);
  
+ extern int iommu_group_id(struct iommu_group *group);
+-extern struct iommu_group *iommu_group_get_for_dev(struct device *dev);
+ extern struct iommu_domain *iommu_group_default_domain(struct iommu_group *);
+ 
+ extern int iommu_domain_get_attr(struct iommu_domain *domain, enum iommu_attr,
 -- 
 2.17.1
 
