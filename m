@@ -1,72 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBFD1BD88D
-	for <lists.iommu@lfdr.de>; Wed, 29 Apr 2020 11:44:44 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A08E1BD8CC
+	for <lists.iommu@lfdr.de>; Wed, 29 Apr 2020 11:52:19 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 6F49322EC9;
-	Wed, 29 Apr 2020 09:44:43 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 12ECF862FB;
+	Wed, 29 Apr 2020 09:52:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wzQs5dMCkBQ4; Wed, 29 Apr 2020 09:44:42 +0000 (UTC)
+	with ESMTP id KEE81neF1u1O; Wed, 29 Apr 2020 09:52:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A559322F26;
-	Wed, 29 Apr 2020 09:44:42 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 32F6B86930;
+	Wed, 29 Apr 2020 09:52:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 80DE1C0172;
-	Wed, 29 Apr 2020 09:44:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0D811C0172;
+	Wed, 29 Apr 2020 09:52:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 34955C0172
- for <iommu@lists.linux-foundation.org>; Wed, 29 Apr 2020 09:44:40 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6D926C0172
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Apr 2020 09:52:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 19A278774F
- for <iommu@lists.linux-foundation.org>; Wed, 29 Apr 2020 09:44:40 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 629A9882EC
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Apr 2020 09:52:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fye+iBbfbX3n for <iommu@lists.linux-foundation.org>;
- Wed, 29 Apr 2020 09:44:39 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
- [104.130.122.26])
- by whitealder.osuosl.org (Postfix) with ESMTPS id ACA0C87742
- for <iommu@lists.linux-foundation.org>; Wed, 29 Apr 2020 09:44:35 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1588153479; h=In-Reply-To: Content-Type: MIME-Version:
- References: Reply-To: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=xeoQ4Rw3CrXOQCQ/sgEZvG+//pNvDfL8fDquz8JatMw=;
- b=iVWfr14h8Re3QIrNgQgWAiVtsPvJckuTwWbtUI/hvpZ304jdXRki4CTyHb81OtqpNckE5VQZ
- lQ+wWUGsCmyObGayGP85wrlhJ/EmM8oOk4FhHykqzR1bv3/yLghL6EtQf/vOi+pHWnDmRYCg
- X4oEfMK6/ZmHJ2mRRtPnu5X24TE=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5ea94c74.7f3fd4cfcab0-smtp-out-n03;
- Wed, 29 Apr 2020 09:44:20 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 66990C44792; Wed, 29 Apr 2020 09:44:19 +0000 (UTC)
-Received: from quicinc.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: svaddagi)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id E1190C433CB;
- Wed, 29 Apr 2020 09:44:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E1190C433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=none smtp.mailfrom=vatsa@codeaurora.org
-Date: Wed, 29 Apr 2020 15:14:10 +0530
-From: Srivatsa Vaddagiri <vatsa@codeaurora.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
+ with ESMTP id KqcWr3SPGYPm for <iommu@lists.linux-foundation.org>;
+ Wed, 29 Apr 2020 09:52:13 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
+ [207.211.31.81])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9C5BF88309
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Apr 2020 09:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588153932;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7IZWphU6PtHquCqE0i6um38oK8paShAt54dfHnz8KmQ=;
+ b=CsO97eGEro2k/1INTTfYCmqXYsEZCa94o+Uc9h222lwfBC2Qp9/eY2eRzR4EPG0SNO4Kh9
+ oF/CCAbvdItLITpSscG5xrVmYYWhZTHVzcBp4YHreXkbBLDgqCaEh0AUpjgLwpsZnH++Tj
+ pyoUGCesv002+pJ+R9jnE26+3AGKFqY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-161-6DuUEx61OlKk333zseNZ5w-1; Wed, 29 Apr 2020 05:52:10 -0400
+X-MC-Unique: 6DuUEx61OlKk333zseNZ5w-1
+Received: by mail-wr1-f69.google.com with SMTP id i10so1451874wrq.8
+ for <iommu@lists.linux-foundation.org>; Wed, 29 Apr 2020 02:52:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7IZWphU6PtHquCqE0i6um38oK8paShAt54dfHnz8KmQ=;
+ b=ZK5XWUK1wnoMPMvdnOQgWvJ/lovVjGfvD8AoXdN+DKYxF7fjDQve/5xLX218gTsQpp
+ hfX4b/cCg2tCqph7gkrZuhxjLWoUxJaMx/hds1yuZlJGEoHEqrAnInUkrIUrUbHzkJdq
+ nczLnsTXeW1L3BLaEf7++IHcbKHWWjUgruAiI0ArqM1FOvZT4BI8D90L08fr8ZVuBkJB
+ i+Qj0vFyZxLFvgGG5j5DwLt4l/2VNCitLrrJIpCFZktSAI1ExiStV/LuDPi1md0TgdMS
+ +LlFQOdsINA0uJBRgJe4iz+4LOqIzMPGWc+P3GRRJIRo5MAqaSYtDsaKXIYFom1POKNS
+ ss7w==
+X-Gm-Message-State: AGi0Pub/YADUge9grduz6o3tUnso5ZMOdRSEcDt66/7TQVPUtQZyNnWC
+ h1RqCrmnwP1NQxLnI5oNMeyyrmKo3eq7LXVHzjTOgnEG2PyUJwL70e4B5BnGzoaJRuaKFCjezae
+ YdxGw5NJjbm7yKv/ojwHEU04jenOC6w==
+X-Received: by 2002:a5d:6851:: with SMTP id o17mr37134236wrw.267.1588153929721; 
+ Wed, 29 Apr 2020 02:52:09 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKRdM34lQ/3OGcwItQoxnplrvwZwErBKY2jH3AvTLAgP599BhH8xTgBBhPvAXTcnaVguo7aJg==
+X-Received: by 2002:a5d:6851:: with SMTP id o17mr37134206wrw.267.1588153929489; 
+ Wed, 29 Apr 2020 02:52:09 -0700 (PDT)
+Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
+ by smtp.gmail.com with ESMTPSA id
+ s24sm7232898wmj.28.2020.04.29.02.52.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Apr 2020 02:52:08 -0700 (PDT)
+Date: Wed, 29 Apr 2020 05:52:05 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Srivatsa Vaddagiri <vatsa@codeaurora.org>
 Subject: Re: [PATCH 5/5] virtio: Add bounce DMA ops
-Message-ID: <20200429094410.GD5097@quicinc.com>
+Message-ID: <20200429055125-mutt-send-email-mst@kernel.org>
 References: <1588073958-1793-1-git-send-email-vatsa@codeaurora.org>
  <1588073958-1793-6-git-send-email-vatsa@codeaurora.org>
  <20200428121232-mutt-send-email-mst@kernel.org>
@@ -76,10 +88,12 @@ References: <1588073958-1793-1-git-send-email-vatsa@codeaurora.org>
  <20200429004531-mutt-send-email-mst@kernel.org>
  <b676430c-65b3-096e-ca48-ceebf10f4b28@linux.intel.com>
  <20200429023842-mutt-send-email-mst@kernel.org>
+ <20200429094410.GD5097@quicinc.com>
 MIME-Version: 1.0
+In-Reply-To: <20200429094410.GD5097@quicinc.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
-In-Reply-To: <20200429023842-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: tsoni@codeaurora.org, virtio-dev@lists.oasis-open.org, will@kernel.org,
  konrad.wilk@oracle.com, jan.kiszka@siemens.com, jasowang@redhat.com,
  christoffer.dall@arm.com, pratikp@codeaurora.org,
@@ -98,28 +112,33 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Reply-To: Srivatsa Vaddagiri <vatsa@codeaurora.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-* Michael S. Tsirkin <mst@redhat.com> [2020-04-29 02:50:41]:
+On Wed, Apr 29, 2020 at 03:14:10PM +0530, Srivatsa Vaddagiri wrote:
+> * Michael S. Tsirkin <mst@redhat.com> [2020-04-29 02:50:41]:
+> 
+> > So it seems that with modern Linux, all one needs
+> > to do on x86 is mark the device as untrusted.
+> > It's already possible to do this with ACPI and with OF - would that be
+> > sufficient for achieving what this patchset is trying to do?
+> 
+> In my case, its not sufficient to just mark virtio device untrusted and thus
+> activate the use of swiotlb. All of the secondary VM memory, including those
+> allocate by swiotlb driver, is private to it.
 
-> So it seems that with modern Linux, all one needs
-> to do on x86 is mark the device as untrusted.
-> It's already possible to do this with ACPI and with OF - would that be
-> sufficient for achieving what this patchset is trying to do?
+So why not make the bounce buffer memory shared then?
 
-In my case, its not sufficient to just mark virtio device untrusted and thus
-activate the use of swiotlb. All of the secondary VM memory, including those
-allocate by swiotlb driver, is private to it. An additional piece of memory is
-available to secondary VM which is shared between VMs and which is where I need
-swiotlb driver to do its work.
+> An additional piece of memory is
+> available to secondary VM which is shared between VMs and which is where I need
+> swiotlb driver to do its work.
+> 
+> -- 
+> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+> of Code Aurora Forum, hosted by The Linux Foundation
 
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
