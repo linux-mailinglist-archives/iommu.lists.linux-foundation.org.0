@@ -1,65 +1,111 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA40F1BFFDD
-	for <lists.iommu@lfdr.de>; Thu, 30 Apr 2020 17:15:03 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D93E1BFFFB
+	for <lists.iommu@lfdr.de>; Thu, 30 Apr 2020 17:20:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 5A57824FF8;
-	Thu, 30 Apr 2020 15:15:02 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1AF5787F61;
+	Thu, 30 Apr 2020 15:20:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id D31v6y3TDVgo; Thu, 30 Apr 2020 15:15:01 +0000 (UTC)
+	with ESMTP id 15W8ctHFz18Z; Thu, 30 Apr 2020 15:20:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 46977204AD;
-	Thu, 30 Apr 2020 15:15:01 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5004587F6F;
+	Thu, 30 Apr 2020 15:20:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 28113C088F;
-	Thu, 30 Apr 2020 15:15:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3A24EC016F;
+	Thu, 30 Apr 2020 15:20:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5A9A5C016F
- for <iommu@lists.linux-foundation.org>; Thu, 30 Apr 2020 15:13:46 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 37AEBC016F;
+ Thu, 30 Apr 2020 15:19:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 42FC786DEA
- for <iommu@lists.linux-foundation.org>; Thu, 30 Apr 2020 15:13:46 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1EF2686DEA;
+ Thu, 30 Apr 2020 15:19:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5X0gu7O7tKjd for <iommu@lists.linux-foundation.org>;
- Thu, 30 Apr 2020 15:13:45 +0000 (UTC)
+ with ESMTP id DdcSeTkKZqIM; Thu, 30 Apr 2020 15:19:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 699F786DC9
- for <iommu@lists.linux-foundation.org>; Thu, 30 Apr 2020 15:13:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B73B4101E;
- Thu, 30 Apr 2020 08:13:44 -0700 (PDT)
-Received: from [10.37.12.139] (unknown [10.37.12.139])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4DCB23F68F;
- Thu, 30 Apr 2020 08:13:36 -0700 (PDT)
-Subject: Re: [PATCH v6 10/25] arm64: cpufeature: Export symbol
- read_sanitised_ftr_reg()
-To: jean-philippe@linaro.org, iommu@lists.linux-foundation.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-pci@vger.kernel.org, linux-mm@kvack.org
-References: <20200430143424.2787566-1-jean-philippe@linaro.org>
- <20200430143424.2787566-11-jean-philippe@linaro.org>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <ecec4f36-041f-0068-3863-106f9a082c62@arm.com>
-Date: Thu, 30 Apr 2020 16:18:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 3C39986DDA;
+ Thu, 30 Apr 2020 15:19:58 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03UFJh0b107342;
+ Thu, 30 Apr 2020 15:19:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=BlAQ+cr28c3G7QtbaaRKhxV/AvgpV2lx9FrBL1fLgEw=;
+ b=LHpVGc/hSWEqEyg2SK8MhCm7H9iX9+gDrfb94BbQlA18Q05XwbIkcwaInirP4E7lzBQh
+ dreySwYT2VAGG7p3q+GTOH6ZIcl3tDs6YPeJ8V4S33aQgkw+jyKrDxxBgcXo4gJnGb3M
+ TA1bRfDzzLS8LpfCLm3I29zMDcegOC/2InAzgB9tzlk640UicYVNqbZ69nhiqOc3dHqX
+ 7ce1+aiANeksvHKnsJ3qrXnRKtiLuxVoygJlinn3UrYGgcYY2Fbv80BA9tT3/+7QdgpD
+ S+KG/go1/ZVO2C6qVZzKn2iLHGUWM2EjVDovodzouUiifkg+2H3QlvwLoIO6OnfjlgCU DQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 30p2p0hhvf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 30 Apr 2020 15:19:50 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 03UFISuO077365;
+ Thu, 30 Apr 2020 15:19:49 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 30qtkwjy0e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 30 Apr 2020 15:19:49 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 03UFJlsc012797;
+ Thu, 30 Apr 2020 15:19:48 GMT
+Received: from char.us.oracle.com (/10.152.32.25)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 30 Apr 2020 08:19:47 -0700
+Received: by char.us.oracle.com (Postfix, from userid 1000)
+ id 90C566A00FC; Thu, 30 Apr 2020 11:20:09 -0400 (EDT)
+Date: Thu, 30 Apr 2020 11:20:08 -0400
+From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 5/5] virtio: Add bounce DMA ops
+Message-ID: <20200430152008.GB872@char.us.oracle.com>
+References: <20200428174952.GA5097@quicinc.com>
+ <20200428163448-mutt-send-email-mst@kernel.org>
+ <275eba4b-dd35-aa95-b2e3-9c5cbf7c6d71@linux.intel.com>
+ <20200429004531-mutt-send-email-mst@kernel.org>
+ <b676430c-65b3-096e-ca48-ceebf10f4b28@linux.intel.com>
+ <20200429023842-mutt-send-email-mst@kernel.org>
+ <20200429094410.GD5097@quicinc.com>
+ <20200429055125-mutt-send-email-mst@kernel.org>
+ <20200429100953.GE5097@quicinc.com>
+ <20200429061621-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200430143424.2787566-11-jean-philippe@linaro.org>
-Content-Language: en-US
-X-Mailman-Approved-At: Thu, 30 Apr 2020 15:14:59 +0000
-Cc: fenghua.yu@intel.com, kevin.tian@intel.com, jgg@ziepe.ca,
- catalin.marinas@arm.com, robin.murphy@arm.com, hch@infradead.org,
- zhangfei.gao@linaro.org, felix.kuehling@amd.com, will@kernel.org,
- christian.koenig@amd.com
+Content-Disposition: inline
+In-Reply-To: <20200429061621-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.9.1 (2017-09-22)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9607
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ suspectscore=0 mlxscore=0
+ phishscore=0 mlxlogscore=999 adultscore=0 malwarescore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004300124
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9607
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ phishscore=0 clxscore=1011
+ bulkscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
+ mlxscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004300124
+Cc: tsoni@codeaurora.org, virtio-dev@lists.oasis-open.org, will@kernel.org,
+ jan.kiszka@siemens.com, jasowang@redhat.com,
+ Srivatsa Vaddagiri <vatsa@codeaurora.org>, christoffer.dall@arm.com,
+ pratikp@codeaurora.org, virtualization@lists.linux-foundation.org,
+ iommu@lists.linux-foundation.org, stefano.stabellini@xilinx.com,
+ alex.bennee@linaro.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,39 +118,25 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 04/30/2020 03:34 PM, Jean-Philippe Brucker wrote:
-> The SMMUv3 driver would like to read the MMFR0 PARANGE field in order to
-> share CPU page tables with devices. Allow the driver to be built as
-> module by exporting the read_sanitized_ftr_reg() cpufeature symbol.
+On Wed, Apr 29, 2020 at 06:20:48AM -0400, Michael S. Tsirkin wrote:
+> On Wed, Apr 29, 2020 at 03:39:53PM +0530, Srivatsa Vaddagiri wrote:
+> > That would still not work I think where swiotlb is used for pass-thr devices
+> > (when private memory is fine) as well as virtio devices (when shared memory is
+> > required).
 > 
-> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-
-Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-
-> ---
->   arch/arm64/kernel/cpufeature.c | 1 +
->   1 file changed, 1 insertion(+)
+> So that is a separate question. When there are multiple untrusted
+> devices, at the moment it looks like a single bounce buffer is used.
 > 
-> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-> index 9fac745aa7bb2..5f6adbf4ae893 100644
-> --- a/arch/arm64/kernel/cpufeature.c
-> +++ b/arch/arm64/kernel/cpufeature.c
-> @@ -841,6 +841,7 @@ u64 read_sanitised_ftr_reg(u32 id)
->   	BUG_ON(!regp);
->   	return regp->sys_val;
->   }
-> +EXPORT_SYMBOL_GPL(read_sanitised_ftr_reg);
->   
->   #define read_sysreg_case(r)	\
->   	case r:		return read_sysreg_s(r)
-> 
+> Which to me seems like a security problem, I think we should protect
+> untrusted devices from each other.
 
+There are two DMA pools code in Linux already - the TTM one for graphics
+and the mm/dmapool.c - could those be used instead? Or augmented at least?
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
