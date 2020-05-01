@@ -2,58 +2,75 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE07D1C0ED1
-	for <lists.iommu@lfdr.de>; Fri,  1 May 2020 09:27:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BCC61C10DA
+	for <lists.iommu@lfdr.de>; Fri,  1 May 2020 12:31:07 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4018689719;
-	Fri,  1 May 2020 07:27:52 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9D6C088AF3;
+	Fri,  1 May 2020 10:31:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id casBgCYs5mVF; Fri,  1 May 2020 07:27:50 +0000 (UTC)
+	with ESMTP id 4Vj9K2GgaQeF; Fri,  1 May 2020 10:31:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 63B0589713;
-	Fri,  1 May 2020 07:27:50 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id F3DF288AF0;
+	Fri,  1 May 2020 10:31:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 489CDC016F;
-	Fri,  1 May 2020 07:27:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D29B7C016F;
+	Fri,  1 May 2020 10:31:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F163BC016F
- for <iommu@lists.linux-foundation.org>; Fri,  1 May 2020 07:27:48 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CBA8DC016F
+ for <iommu@lists.linux-foundation.org>; Fri,  1 May 2020 10:31:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DA2A688F1A
- for <iommu@lists.linux-foundation.org>; Fri,  1 May 2020 07:27:48 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id BEE97888D1
+ for <iommu@lists.linux-foundation.org>; Fri,  1 May 2020 10:31:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tT1XmSpJLRsu for <iommu@lists.linux-foundation.org>;
- Fri,  1 May 2020 07:27:47 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 91E8D88F19
- for <iommu@lists.linux-foundation.org>; Fri,  1 May 2020 07:27:47 +0000 (UTC)
-IronPort-SDR: WJP3mqwC1XrMy6C3HFwH8eHm7NdlahBZST0YUAfEg2FG62Rsfabg9VQvOogPsNiLZ5RRTJeug8
- VLWSuEAeU/2g==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 May 2020 00:27:46 -0700
-IronPort-SDR: MCvdbRwGNZAWvyHFXjfw+ePOBcf5ziBKLyaH2TCz4XQbVkOSGOPuxhSxEIIj7J4cculzt7FoF3
- 0MNW1ZuRllWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,338,1583222400"; d="scan'208";a="283117218"
-Received: from allen-box.sh.intel.com ([10.239.159.139])
- by fmsmga004.fm.intel.com with ESMTP; 01 May 2020 00:27:45 -0700
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 1/1] iommu/vt-d: Use right Kconfig option name
-Date: Fri,  1 May 2020 15:24:27 +0800
-Message-Id: <20200501072427.14265-1-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-Cc: iommu@lists.linux-foundation.org, Ashok Raj <ashok.raj@intel.com>
+ with ESMTP id OvGtVCGJadyc for <iommu@lists.linux-foundation.org>;
+ Fri,  1 May 2020 10:31:01 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 39000888C8
+ for <iommu@lists.linux-foundation.org>; Fri,  1 May 2020 10:30:58 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1588329061; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=h8hwQF5ztCsOShcunPyXVKekDKhVcOSKcApqM6iFnEM=;
+ b=f7+xWckJfqQ6vxhVT5ADXjqUFZL7eiWVJh1HdlPYB4/wg9uCGwAiHoxxFj3ckJPfUQuf+NJp
+ Dy2ABwsWbOeK2Tz9wuzfSrMF8Cf4mcuARWIonwZlHmsRm1tWt9fj6KDcIonsiyGXBKJk56M1
+ 9/rmIMqqSOHYkyzsmXTMMkk/JSY=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5eabfa59.7f7223286ab0-smtp-out-n03;
+ Fri, 01 May 2020 10:30:49 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 4D544C433CB; Fri,  1 May 2020 10:30:48 +0000 (UTC)
+Received: from smasetty-linux.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: smasetty)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id DD569C433D2;
+ Fri,  1 May 2020 10:30:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DD569C433D2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=smasetty@codeaurora.org
+From: Sharat Masetty <smasetty@codeaurora.org>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH 1/2] arm64: dts: qcom: sc7180: Add A618 gpu dt blob
+Date: Fri,  1 May 2020 16:00:35 +0530
+Message-Id: <1588329036-18732-1-git-send-email-smasetty@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
+Cc: will@kernel.org, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>, linux-kernel@vger.kernel.org,
+ dianders@chromium.org, iommu@lists.linux-foundation.org, mka@chromium.org,
+ dri-devel@freedesktop.org, robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,37 +89,131 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The CONFIG_ prefix should be added in the code.
+This patch adds the required dt nodes and properties
+to enabled A618 GPU.
 
-Fixes: 046182525db61 ("iommu/vt-d: Add Kconfig option to enable/disable scalable mode")
-Reported-and-tested-by: Kumar, Sanjay K <sanjay.k.kumar@intel.com>
-Cc: Ashok Raj <ashok.raj@intel.com>
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
 ---
- drivers/iommu/intel-iommu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+* Remove GCC_DDRSS_GPU_AXI_CLK clock reference from gpu smmu node.
 
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index ef0a5246700e..0182cff2c7ac 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -371,11 +371,11 @@ int dmar_disabled = 0;
- int dmar_disabled = 1;
- #endif /* CONFIG_INTEL_IOMMU_DEFAULT_ON */
- 
--#ifdef INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON
-+#ifdef CONFIG_INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON
- int intel_iommu_sm = 1;
- #else
- int intel_iommu_sm;
--#endif /* INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON */
-+#endif /* CONFIG_INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON */
- 
- int intel_iommu_enabled = 0;
- EXPORT_SYMBOL_GPL(intel_iommu_enabled);
--- 
-2.17.1
+ arch/arm64/boot/dts/qcom/sc7180.dtsi | 102 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 102 insertions(+)
 
+diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+index 4216b57..de9a054 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+@@ -1373,6 +1373,108 @@
+ 			};
+ 		};
+
++		gpu: gpu@5000000 {
++			compatible = "qcom,adreno-618.0", "qcom,adreno";
++			#stream-id-cells = <16>;
++			reg = <0 0x05000000 0 0x40000>, <0 0x0509e000 0 0x1000>,
++				<0 0x05061000 0 0x800>;
++			reg-names = "kgsl_3d0_reg_memory", "cx_mem", "cx_dbgc";
++			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
++			iommus = <&adreno_smmu 0>;
++			operating-points-v2 = <&gpu_opp_table>;
++			qcom,gmu = <&gmu>;
++
++			gpu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-800000000 {
++					opp-hz = /bits/ 64 <800000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
++				};
++
++				opp-650000000 {
++					opp-hz = /bits/ 64 <650000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
++				};
++
++				opp-565000000 {
++					opp-hz = /bits/ 64 <565000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
++				};
++
++				opp-430000000 {
++					opp-hz = /bits/ 64 <430000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
++				};
++
++				opp-355000000 {
++					opp-hz = /bits/ 64 <355000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
++				};
++
++				opp-267000000 {
++					opp-hz = /bits/ 64 <267000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
++				};
++
++				opp-180000000 {
++					opp-hz = /bits/ 64 <180000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
++				};
++			};
++		};
++
++		adreno_smmu: iommu@5040000 {
++			compatible = "qcom,sc7180-smmu-v2", "qcom,smmu-v2";
++			reg = <0 0x05040000 0 0x10000>;
++			#iommu-cells = <1>;
++			#global-interrupts = <2>;
++			interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 231 IRQ_TYPE_LEVEL_HIGH>,
++					<GIC_SPI 364 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 365 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 366 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 367 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 368 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 369 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 370 IRQ_TYPE_EDGE_RISING>,
++					<GIC_SPI 371 IRQ_TYPE_EDGE_RISING>;
++
++			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
++				<&gcc GCC_GPU_CFG_AHB_CLK>;
++			clock-names = "bus", "iface";
++
++			power-domains = <&gpucc CX_GDSC>;
++		};
++
++		gmu: gmu@506a000 {
++			compatible="qcom,adreno-gmu-618.0", "qcom,adreno-gmu";
++			reg = <0 0x0506a000 0 0x31000>, <0 0x0b290000 0 0x10000>,
++				<0 0x0b490000 0 0x10000>;
++			reg-names = "gmu", "gmu_pdc", "gmu_pdc_seq";
++			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
++				   <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "hfi", "gmu";
++			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
++			       <&gpucc GPU_CC_CXO_CLK>,
++			       <&gcc GCC_DDRSS_GPU_AXI_CLK>,
++			       <&gcc GCC_GPU_MEMNOC_GFX_CLK>;
++			clock-names = "gmu", "cxo", "axi", "memnoc";
++			power-domains = <&gpucc CX_GDSC>, <&gpucc GX_GDSC>;
++			power-domain-names = "cx", "gx";
++			iommus = <&adreno_smmu 5>;
++			operating-points-v2 = <&gmu_opp_table>;
++
++			gmu_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-200000000 {
++					opp-hz = /bits/ 64 <200000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
++				};
++			};
++		};
++
+ 		gpucc: clock-controller@5090000 {
+ 			compatible = "qcom,sc7180-gpucc";
+ 			reg = <0 0x05090000 0 0x9000>;
+--
+1.9.1
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
