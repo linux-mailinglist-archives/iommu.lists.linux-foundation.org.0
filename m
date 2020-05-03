@@ -1,56 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 112C51C2E8A
-	for <lists.iommu@lfdr.de>; Sun,  3 May 2020 20:39:41 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC681C2EBC
+	for <lists.iommu@lfdr.de>; Sun,  3 May 2020 21:20:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B81A988521;
-	Sun,  3 May 2020 18:39:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E5D4E868AB;
+	Sun,  3 May 2020 19:20:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0kRu6Yau3DbC; Sun,  3 May 2020 18:39:39 +0000 (UTC)
+	with ESMTP id hU7mu2M1_1mT; Sun,  3 May 2020 19:20:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0C6FD88520;
-	Sun,  3 May 2020 18:39:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 00F9C85EBB;
+	Sun,  3 May 2020 19:20:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E7560C0175;
-	Sun,  3 May 2020 18:39:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DC82BC0175;
+	Sun,  3 May 2020 19:20:20 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DD88EC0175
- for <iommu@lists.linux-foundation.org>; Sun,  3 May 2020 18:39:37 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 34897C0175
+ for <iommu@lists.linux-foundation.org>; Sun,  3 May 2020 19:20:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id C525C20470
- for <iommu@lists.linux-foundation.org>; Sun,  3 May 2020 18:39:37 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 0D01D2042D
+ for <iommu@lists.linux-foundation.org>; Sun,  3 May 2020 19:20:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Y5jHzpZ6XzrD for <iommu@lists.linux-foundation.org>;
- Sun,  3 May 2020 18:39:36 +0000 (UTC)
+ with ESMTP id kIqufV7maNPS for <iommu@lists.linux-foundation.org>;
+ Sun,  3 May 2020 19:20:17 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id 1404620363
- for <iommu@lists.linux-foundation.org>; Sun,  3 May 2020 18:39:35 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 191A2452; Sun,  3 May 2020 20:39:29 +0200 (CEST)
-Date: Sun, 3 May 2020 20:39:27 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Qian Cai <cai@lca.pw>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+ [209.85.160.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id 808732034C
+ for <iommu@lists.linux-foundation.org>; Sun,  3 May 2020 19:20:17 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id s30so12319880qth.2
+ for <iommu@lists.linux-foundation.org>; Sun, 03 May 2020 12:20:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
+ h=content-transfer-encoding:from:mime-version:subject:date:message-id
+ :references:cc:in-reply-to:to;
+ bh=QjQNTEl64oFXby2DcLfNG1WpAuKAiDgue7kNNdacJts=;
+ b=Hgghv2QJ8bnac2HvY//5dPe+3V01b//VZCjt/zPRvjM7sm9jIt80ZBdVClOxnSjU7b
+ ilPS4ugIYt9vvS3ClL6ewC4aYHioCOtQci7kozyJPcCscPNunCZ1xZGpaPUwCxyh68UB
+ /W6ac3C32vabUS5BIBVUqp30Vbe+cmgOuFcl2d6uM6HzgCoM2WgAwnPmstT9c8WjC1a6
+ FxSRnJkjQcEzCHZQER1maDAD1hqApgStExaPBxzTFvp+LcXmQPxxabiQ7pxrAqrDqVKy
+ 6eUsHobeZdKy6+X4fwTVOj8KYu8CGTQ/VnKnZVEf+WneJ6MX1uJT3/t+Jjm0FWo1l4mO
+ VqKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=QjQNTEl64oFXby2DcLfNG1WpAuKAiDgue7kNNdacJts=;
+ b=dgBuy0FNjh9aT/uqjBQvosOGOPXX2rYoaRkXlaLM9o7XILwN2JnNQ215Bj2Ihm9m+u
+ R5u8Zq6zfWf01BNSrVwzTAJL4UKKeXTMbfbqYVsNEEKssKFGFBi+r63zjB6mgDhSWVux
+ TYYqI7LrRmAAkB2TBgzSuI6XBGZY1Q/9inZnuMP2k9nB7aLRdGWN8W1NJJJk3GOItiCo
+ KnapDbN3X3A3zwIV0+o4v188QV/HDMMA2rOdsZKHMTPwJ/6n+jQrsGcVXUZCZsPg+hdn
+ vOWZKWHg7OfvjUjTtwMK69UVpPXJlT2V6zWUnAxBR5H9T3R7KrLs0wtl6kc6X/psLiE/
+ aynA==
+X-Gm-Message-State: AGi0PuYV1QaMzu0opAMB49Wre0S1vHmHjuPe4Eew0V6TOcCPoFWJEPwc
+ +ubCkmLXh1cUPUEzz11y1H5BMsIwo3X7Uw==
+X-Google-Smtp-Source: APiQypJibEKO4v/ek1bD86VUTy9GbWtdTI0sl6Lx3Eq8OG4JLinle7zFyUbyOwqebbSWTG5eTbuyuQ==
+X-Received: by 2002:a37:6dc4:: with SMTP id
+ i187mr13342595qkc.358.1588533136798; 
+ Sun, 03 May 2020 12:12:16 -0700 (PDT)
+Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net.
+ [71.184.117.43])
+ by smtp.gmail.com with ESMTPSA id t15sm9023400qtc.64.2020.05.03.12.12.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 03 May 2020 12:12:16 -0700 (PDT)
+From: Qian Cai <cai@lca.pw>
+Mime-Version: 1.0 (1.0)
 Subject: Re: [RFC PATCH] iommu/amd: fix a race in fetch_pte()
-Message-ID: <20200503183927.GA18353@8bytes.org>
-References: <20200418121022.GA6113@8bytes.org>
- <57CBF6B2-4745-4E36-9AA5-7E0876E3DA8F@lca.pw>
- <20200418183429.GH21900@8bytes.org>
- <7D03A3E2-647B-4FAD-886D-EE2764EC1EDB@lca.pw>
- <20200429112014.GN21900@8bytes.org>
- <E351FE35-3130-48B0-90ED-BC55469C73F7@lca.pw>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <E351FE35-3130-48B0-90ED-BC55469C73F7@lca.pw>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Date: Sun, 3 May 2020 15:12:15 -0400
+Message-Id: <E18E118B-A79A-40A8-89D4-4B81C24FB486@lca.pw>
+References: <20200503183927.GA18353@8bytes.org>
+In-Reply-To: <20200503183927.GA18353@8bytes.org>
+To: Joerg Roedel <joro@8bytes.org>
+X-Mailer: iPhone Mail (17D50)
 Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -69,28 +96,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Qian,
 
-On Sun, May 03, 2020 at 09:04:03AM -0400, Qian Cai wrote:
-> > On Apr 29, 2020, at 7:20 AM, Joerg Roedel <joro@8bytes.org> wrote:
-> > Can you please test this branch:
-> > 
-> > 	https://git.kernel.org/pub/scm/linux/kernel/git/joro/linux.git/log/?h=amd-iommu-fixes
-> > 
-> > It has the previous fix in it and a couple more to make sure the
-> > device-table is updated and flushed before increase_address_space()
-> > updates domain->pt_root.
+
+> On May 3, 2020, at 2:39 PM, Joerg Roedel <joro@8bytes.org> wrote:
 > 
-> I believe this closed the existing races as it had survived for many
-> days. Great work!
+> Can I add your Tested-by when I
+> send them to the mailing list tomorrow?
 
-Thanks a lot for testing these changes! Can I add your Tested-by when I
-send them to the mailing list tomorrow?
+Sure. Feel free to add,
 
-Regards,
-
-	Joerg
-
+Tested-by: Qian Cai <cai@lca.pw>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
