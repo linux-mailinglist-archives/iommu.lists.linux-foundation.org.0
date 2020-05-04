@@ -1,59 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B741C3D3C
-	for <lists.iommu@lfdr.de>; Mon,  4 May 2020 16:37:23 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 149001C3E29
+	for <lists.iommu@lfdr.de>; Mon,  4 May 2020 17:09:44 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8A12287E81;
-	Mon,  4 May 2020 14:37:22 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AF6622309D;
+	Mon,  4 May 2020 15:09:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Hacqi2QVREfc; Mon,  4 May 2020 14:37:21 +0000 (UTC)
+	with ESMTP id QkKROuALW16b; Mon,  4 May 2020 15:09:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BA91987E6E;
-	Mon,  4 May 2020 14:37:21 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 766F622EC9;
+	Mon,  4 May 2020 15:09:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A2460C0175;
-	Mon,  4 May 2020 14:37:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 52075C0175;
+	Mon,  4 May 2020 15:09:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DB179C0175
- for <iommu@lists.linux-foundation.org>; Mon,  4 May 2020 14:37:19 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F04A6C0175
+ for <iommu@lists.linux-foundation.org>; Mon,  4 May 2020 15:09:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id CA3F9871FC
- for <iommu@lists.linux-foundation.org>; Mon,  4 May 2020 14:37:19 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id DF630863E0
+ for <iommu@lists.linux-foundation.org>; Mon,  4 May 2020 15:09:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TACCtkpakUIq for <iommu@lists.linux-foundation.org>;
- Mon,  4 May 2020 14:37:18 +0000 (UTC)
+ with ESMTP id tBbC4sglrS4u for <iommu@lists.linux-foundation.org>;
+ Mon,  4 May 2020 15:09:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 45E7187073
- for <iommu@lists.linux-foundation.org>; Mon,  4 May 2020 14:37:18 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9D6461FB;
- Mon,  4 May 2020 07:37:17 -0700 (PDT)
-Received: from [10.37.12.17] (unknown [10.37.12.17])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 543783F305;
- Mon,  4 May 2020 07:37:04 -0700 (PDT)
-Subject: Re: [PATCH v6 11/25] iommu/arm-smmu-v3: Share process page tables
-To: jean-philippe@linaro.org
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+ [209.85.221.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id D7FAF85D78
+ for <iommu@lists.linux-foundation.org>; Mon,  4 May 2020 15:09:37 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id k1so21404347wrx.4
+ for <iommu@lists.linux-foundation.org>; Mon, 04 May 2020 08:09:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ymxZ/AHKc54MsFnFnjiy487/cd2cO0lIerw33LQLJwg=;
+ b=QNbwqk4D1MPIi3P7kInzB1wd9Nwnz4c2VQo9LuhJOdRLdMrPzNMgpvKqTLZMK1uPi+
+ P2pe+v2OCrrPEexPYdYwl192CIA5G6xYliglrRqqtdaIAR+usOr6a/3cJuAgWCIrlSe1
+ OdskZIteDeuDIgetVe9zuT/oEpmFwh99LEyLr+Zq8PUuCUTWaKKGaTmfFvbQ2/+u5d3b
+ tftW1WWsJsddoYK8llhhdNTtirX5vLRtjEeFAIEdNjNGfsIxaS1xLDMsskU7xZaWG3ng
+ uBZkgyMKL71WDmOBvkjPrl5x7RLtobyGsphgAfOHe28m7ebcN/qz+Xrs9em6Jezxz6jQ
+ 4Kkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ymxZ/AHKc54MsFnFnjiy487/cd2cO0lIerw33LQLJwg=;
+ b=R5Asaxzl6/rRf5xzi1jvQ6+8BmxMLpb5dpwaHqvG/paK4n0/hH+A+ThE/Cadzk0SGE
+ sLdfSzY0Y4pLOMyv8RhAL0Ohg5mT5AIaioc0Z2jaFO6rquc0L3UAqY7m05ac+zkvMeb8
+ PxWAL5QlB/Ob43x4keDIIt1L5CeZwP+umpiWgU+P6rFDfxP2O77C4QJrA1S8h07bTOby
+ oWycgqobgRBZP1rmDyRoLFakHnTAdaN6EDjgP1KSbyqzHZRYLe5tDTFOf61TaYt+85IZ
+ m3+6DO9QzBgP7/fvoDvecn31Biy2xjY48npIA9zhwu0L9llmw35HJ/cKZ3dZ4R0etHfM
+ 2qcg==
+X-Gm-Message-State: AGi0PubuNmY4Ia8J8FPri88zdCcnEsy95r3zp33YToUHJUCe7mfsFMPN
+ boZNjqPYHolItHMdAhSYzNLR9g==
+X-Google-Smtp-Source: APiQypIDrGUvuteScMrJ9fLWEogSG6ijt2/PYwyFrJ0NSjLGFvyO34VY4LnIIaZoFl/ctKT+r9PVxQ==
+X-Received: by 2002:adf:ee86:: with SMTP id b6mr56993wro.419.1588604976411;
+ Mon, 04 May 2020 08:09:36 -0700 (PDT)
+Received: from myrica ([2001:171b:226e:c200:c43b:ef78:d083:b355])
+ by smtp.gmail.com with ESMTPSA id w83sm14711145wmb.37.2020.05.04.08.09.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 May 2020 08:09:35 -0700 (PDT)
+Date: Mon, 4 May 2020 17:09:26 +0200
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Subject: Re: [PATCH v6 00/25] iommu: Shared Virtual Addressing for SMMUv3
+Message-ID: <20200504150926.GA176594@myrica>
 References: <20200430143424.2787566-1-jean-philippe@linaro.org>
- <20200430143424.2787566-12-jean-philippe@linaro.org>
- <580a915f-f8bf-3b3e-c77d-6d0c2ea4bd02@arm.com>
- <20200504141137.GA170104@myrica>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <82f54362-34f1-2378-49c2-2d87e065e385@arm.com>
-Date: Mon, 4 May 2020 15:42:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.7.0
+ <20200430141816.595b758f@jacob-builder>
 MIME-Version: 1.0
-In-Reply-To: <20200504141137.GA170104@myrica>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20200430141816.595b758f@jacob-builder>
 Cc: devicetree@vger.kernel.org, kevin.tian@intel.com, jgg@ziepe.ca,
  linux-pci@vger.kernel.org, robin.murphy@arm.com, fenghua.yu@intel.com,
  hch@infradead.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org,
@@ -72,64 +95,54 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 05/04/2020 03:11 PM, Jean-Philippe Brucker wrote:
-> On Thu, Apr 30, 2020 at 04:39:53PM +0100, Suzuki K Poulose wrote:
->> On 04/30/2020 03:34 PM, Jean-Philippe Brucker wrote:
->>> With Shared Virtual Addressing (SVA), we need to mirror CPU TTBR, TCR,
->>> MAIR and ASIDs in SMMU contexts. Each SMMU has a single ASID space split
->>> into two sets, shared and private. Shared ASIDs correspond to those
->>> obtained from the arch ASID allocator, and private ASIDs are used for
->>> "classic" map/unmap DMA.
->>>
->>> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
->>> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
->>> ---
->>
->>> +
->>> +	tcr = FIELD_PREP(CTXDESC_CD_0_TCR_T0SZ, 64ULL - VA_BITS) |
->>> +	      FIELD_PREP(CTXDESC_CD_0_TCR_IRGN0, ARM_LPAE_TCR_RGN_WBWA) |
->>> +	      FIELD_PREP(CTXDESC_CD_0_TCR_ORGN0, ARM_LPAE_TCR_RGN_WBWA) |
->>> +	      FIELD_PREP(CTXDESC_CD_0_TCR_SH0, ARM_LPAE_TCR_SH_IS) |
->>> +	      CTXDESC_CD_0_TCR_EPD1 | CTXDESC_CD_0_AA64;
->>> +
->>> +	switch (PAGE_SIZE) {
->>> +	case SZ_4K:
->>> +		tcr |= FIELD_PREP(CTXDESC_CD_0_TCR_TG0, ARM_LPAE_TCR_TG0_4K);
->>> +		break;
->>> +	case SZ_16K:
->>> +		tcr |= FIELD_PREP(CTXDESC_CD_0_TCR_TG0, ARM_LPAE_TCR_TG0_16K);
->>> +		break;
->>> +	case SZ_64K:
->>> +		tcr |= FIELD_PREP(CTXDESC_CD_0_TCR_TG0, ARM_LPAE_TCR_TG0_64K);
->>> +		break;
->>> +	default:
->>> +		WARN_ON(1);
->>> +		ret = -EINVAL;
->>> +		goto err_free_asid;
->>> +	}
->>> +
->>> +	reg = read_sanitised_ftr_reg(SYS_ID_AA64MMFR0_EL1);
->>> +	par = cpuid_feature_extract_unsigned_field(reg, ID_AA64MMFR0_PARANGE_SHIFT);
->>> +	tcr |= FIELD_PREP(CTXDESC_CD_0_TCR_IPS, par);
->>> +
->>> +	cd->ttbr = virt_to_phys(mm->pgd);
->>
->> Does the TTBR follow the same layout as TTBR_ELx for 52bit IPA ? i.e,
->> TTBR[5:2] = BADDR[51:48] ? Are you covered for that ?
+On Thu, Apr 30, 2020 at 02:18:16PM -0700, Jacob Pan wrote:
+> On Thu, 30 Apr 2020 16:33:59 +0200
+> Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
 > 
-> Good point, I don't remember checking this. The SMMU TTBR doesn't have the
-> same layout as the CPU's, and we don't need to swizzle the bits. For the
-> lower bits, the alignment requirements on the pgd are identical to the
-> MMU.
+> > Shared Virtual Addressing (SVA) allows to share process page tables
+> > with devices using the IOMMU, PASIDs and I/O page faults. Add SVA
+> > support to the Arm SMMUv3 driver.
+> > 
+> > Since v5 [1]:
+> > 
+> > * Added patches 1-3. Patch 1 adds a PASID field to mm_struct as
+> >   discussed in [1] and [2]. This is also needed for Intel ENQCMD.
+> > Patch 2 adds refcounts to IOASID and patch 3 adds a couple of helpers
+> > to allocate the PASID.
+> > 
+> > * Dropped most of iommu-sva.c. After getting rid of io_mm following
+> >   review of v5, there wasn't enough generic code left to justify the
+> >   indirect branch overhead of io_mm_ops in the MMU notifiers. I ended
+> > up with more glue than useful code, and couldn't find an easy way to
+> > deal with domains in the SMMU driver (we keep PASID tables per domain,
+> >   while x86 keeps them per device). The direct approach in patch 17 is
+> >   nicer and a little easier to read. The SMMU driver only gained 160
+> >   lines, while iommu-sva lost 470 lines.
+> > 
+> >   As a result I dropped the MMU notifier patch.
+> > 
+> >   Jacob, one upside of this rework is that we now free ioasids in
+> >   blocking context, which might help with your addition of notifiers
+> > to ioasid.c
+> > 
+> Thanks for the note. It does make notifier much easier, plus the
+> refcount can alleviate the constraint on ordering.
+> 
+> I guess we don't share mmu notifier code for now :)
 
-Ok, if that is the case:
+I think it's more efficient for each IOMMU driver to at least implement
+their own invalidate_range() callback and avoid indirect branches. For the
+rest I couldn't find a lot of code to share, most of it is writing PASID
+tables and invalidating. We can revisit later, as long as we agree on the
+bind() API the implementations should be similar enough.
 
-Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Thanks,
+Jean
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
