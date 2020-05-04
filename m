@@ -1,84 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3066C1C3D4B
-	for <lists.iommu@lfdr.de>; Mon,  4 May 2020 16:39:48 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B741C3D3C
+	for <lists.iommu@lfdr.de>; Mon,  4 May 2020 16:37:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C2416882FD;
-	Mon,  4 May 2020 14:39:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 8A12287E81;
+	Mon,  4 May 2020 14:37:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KbtAjCmJMfYB; Mon,  4 May 2020 14:39:46 +0000 (UTC)
+	with ESMTP id Hacqi2QVREfc; Mon,  4 May 2020 14:37:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3B16D8826F;
-	Mon,  4 May 2020 14:39:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BA91987E6E;
+	Mon,  4 May 2020 14:37:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2DEB1C0175;
-	Mon,  4 May 2020 14:39:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A2460C0175;
+	Mon,  4 May 2020 14:37:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E2F5BC0175
- for <iommu@lists.linux-foundation.org>; Mon,  4 May 2020 14:39:44 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DB179C0175
+ for <iommu@lists.linux-foundation.org>; Mon,  4 May 2020 14:37:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id CDAF72305A
- for <iommu@lists.linux-foundation.org>; Mon,  4 May 2020 14:39:44 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id CA3F9871FC
+ for <iommu@lists.linux-foundation.org>; Mon,  4 May 2020 14:37:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZG8dq8q439qc for <iommu@lists.linux-foundation.org>;
- Mon,  4 May 2020 14:39:44 +0000 (UTC)
+ with ESMTP id TACCtkpakUIq for <iommu@lists.linux-foundation.org>;
+ Mon,  4 May 2020 14:37:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
- [209.85.128.65])
- by silver.osuosl.org (Postfix) with ESMTPS id CE99922EC9
- for <iommu@lists.linux-foundation.org>; Mon,  4 May 2020 14:39:43 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id x25so8763630wmc.0
- for <iommu@lists.linux-foundation.org>; Mon, 04 May 2020 07:39:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=w4t0U+D/kp+A2G6So+DAelHTG97Zr7f3qIlp9fzkip4=;
- b=VT6A3yuhts/Sup1Aaf3TlojcaThJY4hOWcMYKaz7xPgexle4/kuynbkV7mgcUoEEbw
- Gn/CW2sYLNgTZA45X9XgPW8JrJWgoeIRF3BPeDrgJPKkGIcPRKop0Gyla7rJZz4Ol5w0
- 2lpW0x79AXvLKOlbwqjWSR7H42s53C2/AzDy/RZEYO8aimi5hqvmtvnptqLq1VKbO7a3
- hJy0881ArJOTDVsdeKrk0ixZzwswHqdRYytNWMCWIzu3HYx7Dg6+cxeyEeodVUIodnze
- KcHOc3sN/muaK/jcXS+hiuhM9+aCpMI9of01BChv2AdZ+UxLwm0J0i0JNuUhT5jFaKLt
- cvug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=w4t0U+D/kp+A2G6So+DAelHTG97Zr7f3qIlp9fzkip4=;
- b=s6+8us4fRMCKx5UtdAp1YBwspl8QiXzBig/aWIfrYgT1GGPOJfccud1gg2LN2O+muJ
- 77tWRspG45CvW7P9o1/1DBs189zXj78coqJ8PIQc2/z30PxpR89JvGVsnd1jC7rQRyrZ
- X/hR880Nmpbm7C54PRq3E2/ZlP7mK+meRo5vcU6B02WdtBep9VdvjKA4Q5AZNVUBKqKd
- 1r+9KBkh6cUvd5ZGcaOaqoHLxlKstSilag75SBHvrWWQwf3TQfDVjR8IOYmQ/VQZTxzv
- qYFLVqs/REQw8QGmEbBe0usSmzwDbXeDEhZdYnb148BELyvtxcJ8f7cncVX/ATBmdr3b
- 8vPQ==
-X-Gm-Message-State: AGi0PuYihhAH8ZDTPeg+5Ae95RlKKzFOjbFQSd3Jmjdob2a6YLf4wLHQ
- GJkB0m+QEoBKDjeN7oKMvoQx+A==
-X-Google-Smtp-Source: APiQypI2F7wsUGonQC0TZFKc5uxhIN4f0OL+bxJR0Xwpj7YciVqjrvdRQtQdeeCKgcaZ8I7mLJ+60A==
-X-Received: by 2002:a1c:1d92:: with SMTP id d140mr14822175wmd.67.1588603182395; 
- Mon, 04 May 2020 07:39:42 -0700 (PDT)
-Received: from myrica ([2001:171b:226e:c200:c43b:ef78:d083:b355])
- by smtp.gmail.com with ESMTPSA id p190sm14130168wmp.38.2020.05.04.07.39.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:39:41 -0700 (PDT)
-Date: Mon, 4 May 2020 16:39:32 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Subject: Re: [PATCH v6 02/25] iommu/ioasid: Add ioasid references
-Message-ID: <20200504143932.GC170104@myrica>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 45E7187073
+ for <iommu@lists.linux-foundation.org>; Mon,  4 May 2020 14:37:18 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9D6461FB;
+ Mon,  4 May 2020 07:37:17 -0700 (PDT)
+Received: from [10.37.12.17] (unknown [10.37.12.17])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 543783F305;
+ Mon,  4 May 2020 07:37:04 -0700 (PDT)
+Subject: Re: [PATCH v6 11/25] iommu/arm-smmu-v3: Share process page tables
+To: jean-philippe@linaro.org
 References: <20200430143424.2787566-1-jean-philippe@linaro.org>
- <20200430143424.2787566-3-jean-philippe@linaro.org>
- <20200430113931.0fbf7a37@jacob-builder>
- <20200430134842.74e596b8@jacob-builder>
+ <20200430143424.2787566-12-jean-philippe@linaro.org>
+ <580a915f-f8bf-3b3e-c77d-6d0c2ea4bd02@arm.com>
+ <20200504141137.GA170104@myrica>
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+Message-ID: <82f54362-34f1-2378-49c2-2d87e065e385@arm.com>
+Date: Mon, 4 May 2020 15:42:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200430134842.74e596b8@jacob-builder>
+In-Reply-To: <20200504141137.GA170104@myrica>
+Content-Language: en-US
 Cc: devicetree@vger.kernel.org, kevin.tian@intel.com, jgg@ziepe.ca,
  linux-pci@vger.kernel.org, robin.murphy@arm.com, fenghua.yu@intel.com,
  hch@infradead.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org,
@@ -97,47 +72,64 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Apr 30, 2020 at 01:48:42PM -0700, Jacob Pan wrote:
-> On Thu, 30 Apr 2020 11:39:31 -0700
-> Jacob Pan <jacob.jun.pan@linux.intel.com> wrote:
+On 05/04/2020 03:11 PM, Jean-Philippe Brucker wrote:
+> On Thu, Apr 30, 2020 at 04:39:53PM +0100, Suzuki K Poulose wrote:
+>> On 04/30/2020 03:34 PM, Jean-Philippe Brucker wrote:
+>>> With Shared Virtual Addressing (SVA), we need to mirror CPU TTBR, TCR,
+>>> MAIR and ASIDs in SMMU contexts. Each SMMU has a single ASID space split
+>>> into two sets, shared and private. Shared ASIDs correspond to those
+>>> obtained from the arch ASID allocator, and private ASIDs are used for
+>>> "classic" map/unmap DMA.
+>>>
+>>> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+>>> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+>>> ---
+>>
+>>> +
+>>> +	tcr = FIELD_PREP(CTXDESC_CD_0_TCR_T0SZ, 64ULL - VA_BITS) |
+>>> +	      FIELD_PREP(CTXDESC_CD_0_TCR_IRGN0, ARM_LPAE_TCR_RGN_WBWA) |
+>>> +	      FIELD_PREP(CTXDESC_CD_0_TCR_ORGN0, ARM_LPAE_TCR_RGN_WBWA) |
+>>> +	      FIELD_PREP(CTXDESC_CD_0_TCR_SH0, ARM_LPAE_TCR_SH_IS) |
+>>> +	      CTXDESC_CD_0_TCR_EPD1 | CTXDESC_CD_0_AA64;
+>>> +
+>>> +	switch (PAGE_SIZE) {
+>>> +	case SZ_4K:
+>>> +		tcr |= FIELD_PREP(CTXDESC_CD_0_TCR_TG0, ARM_LPAE_TCR_TG0_4K);
+>>> +		break;
+>>> +	case SZ_16K:
+>>> +		tcr |= FIELD_PREP(CTXDESC_CD_0_TCR_TG0, ARM_LPAE_TCR_TG0_16K);
+>>> +		break;
+>>> +	case SZ_64K:
+>>> +		tcr |= FIELD_PREP(CTXDESC_CD_0_TCR_TG0, ARM_LPAE_TCR_TG0_64K);
+>>> +		break;
+>>> +	default:
+>>> +		WARN_ON(1);
+>>> +		ret = -EINVAL;
+>>> +		goto err_free_asid;
+>>> +	}
+>>> +
+>>> +	reg = read_sanitised_ftr_reg(SYS_ID_AA64MMFR0_EL1);
+>>> +	par = cpuid_feature_extract_unsigned_field(reg, ID_AA64MMFR0_PARANGE_SHIFT);
+>>> +	tcr |= FIELD_PREP(CTXDESC_CD_0_TCR_IPS, par);
+>>> +
+>>> +	cd->ttbr = virt_to_phys(mm->pgd);
+>>
+>> Does the TTBR follow the same layout as TTBR_ELx for 52bit IPA ? i.e,
+>> TTBR[5:2] = BADDR[51:48] ? Are you covered for that ?
 > 
-> > > -void ioasid_free(ioasid_t ioasid)
-> > > +bool ioasid_free(ioasid_t ioasid)
-> > >  {
-> Sorry I missed this in the last reply.
-> 
-> I think free needs to be unconditional since there is not a good way to
-> fail it.
-> 
-> Also can we have more symmetric APIs, seems we don't have ioasid_put()
-> in this patchset.
+> Good point, I don't remember checking this. The SMMU TTBR doesn't have the
+> same layout as the CPU's, and we don't need to swizzle the bits. For the
+> lower bits, the alignment requirements on the pgd are identical to the
+> MMU.
 
-Yes I was thinking of renaming ioasid_free() to ioasid_put() but got lazy. 
+Ok, if that is the case:
 
-> How about?
-> ioasid_alloc()
-> ioasid_free(); //drop reference, mark inactive, but not reclaimed if
-> 		refcount is not zero.
-> ioasid_get() // returns err if the ioasid is marked inactive by
-> 		ioasid_free()
-
-How does the caller know that the ioasid is in active/inactive state, and
-not freed/reallocated?
-
-> ioasid_put();// drop reference, reclaim if refcount is 0.
-
-I'll add ioasid_put() for now. I'd like to avoid introducing the inactive
-state in this patch, so shall I change the calls in the Intel driver to
-ioasid_put(), and not introduce a new ioasid_free() for the moment?
-
-Thanks,
-Jean
-
+Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
