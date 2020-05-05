@@ -1,62 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609C61C52CC
-	for <lists.iommu@lfdr.de>; Tue,  5 May 2020 12:15:20 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0882387C5A;
-	Tue,  5 May 2020 10:15:19 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kPU4wRZz8g5N; Tue,  5 May 2020 10:15:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7827B877F4;
-	Tue,  5 May 2020 10:15:17 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6B6DDC0175;
-	Tue,  5 May 2020 10:15:17 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 30E1DC0175
- for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 10:15:16 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD661C530D
+	for <lists.iommu@lfdr.de>; Tue,  5 May 2020 12:22:44 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 24F28204DA
- for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 10:15:16 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 605482274E;
+	Tue,  5 May 2020 10:22:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id aeHYQ8FAVr1B; Tue,  5 May 2020 10:22:42 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id F342821519;
+	Tue,  5 May 2020 10:22:41 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E0404C0175;
+	Tue,  5 May 2020 10:22:41 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C86B7C0175
+ for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 10:22:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id B524F87DC1
+ for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 10:22:39 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rFhOGFlpS-Ow for <iommu@lists.linux-foundation.org>;
- Tue,  5 May 2020 10:15:14 +0000 (UTC)
+ with ESMTP id Qliu0+RXN8la for <iommu@lists.linux-foundation.org>;
+ Tue,  5 May 2020 10:22:38 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by silver.osuosl.org (Postfix) with ESMTPS id 6D51A204C6
- for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 10:15:14 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6E68C878E9
+ for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 10:22:38 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id A96F968C4E; Tue,  5 May 2020 12:15:08 +0200 (CEST)
-Date: Tue, 5 May 2020 12:15:08 +0200
+ id AC3CE68C4E; Tue,  5 May 2020 12:22:34 +0200 (CEST)
+Date: Tue, 5 May 2020 12:22:34 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH v3 02/25] drm: core: fix common struct sg_table related
- issues
-Message-ID: <20200505101508.GA14860@lst.de>
+Subject: Re: [PATCH v3 01/25] dma-mapping: add generic helpers for mapping
+ sgtable objects
+Message-ID: <20200505102234.GA15038@lst.de>
 References: <20200505083926.28503-1-m.szyprowski@samsung.com>
+ <CGME20200505084624eucas1p2a9a5c4d2aece2c1555a5480c19c2e050@eucas1p2.samsung.com>
  <20200505084614.30424-1-m.szyprowski@samsung.com>
- <CGME20200505084625eucas1p1a3c25fd171f360e0aab2f76700699454@eucas1p1.samsung.com>
- <20200505084614.30424-2-m.szyprowski@samsung.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200505084614.30424-2-m.szyprowski@samsung.com>
+In-Reply-To: <20200505084614.30424-1-m.szyprowski@samsung.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, iommu@lists.linux-foundation.org,
- Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ iommu@lists.linux-foundation.org, Daniel Vetter <daniel@ffwll.ch>,
  Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -76,21 +72,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> -		for_each_sg_page(st->sgl, &sg_iter, st->nents, 0)
-> +		for_each_sg_page(st->sgl, &sg_iter, st->orig_nents, 0)
+> +static inline int dma_map_sgtable_attrs(struct device *dev,
+> +	struct sg_table *sgt, enum dma_data_direction dir, unsigned long attrs)
 
-Would it make sense to also add a for_each_sgtable_page helper that
-hides the use of orig_nents?  To be used like:
+Two tab indents for parameter continuation, please.
 
-		for_each_sgtable_page(st, &sg_iter, 0) {
+Can we also skip the separate _attrs version?  The existing ones have the
+separate _attrs variant as there were pre-existing versions without the
+attrs argument and lots of users, but that doesn't really apply here as
+an extra 0 argument isn't really an issue.
 
-> +	for_each_sg(sgt->sgl, sg, sgt->orig_nents, count) {
+> +static inline size_t iommu_map_sgtable(struct iommu_domain *domain,
+> +			unsigned long iova, struct sg_table *sgt, int prot)
+> +{
+> +	return iommu_map_sg(domain, iova, sgt->sgl, sgt->orig_nents, prot);
+> +}
 
-Same here, e.g.
+Should this be a separate patch due to the different subsystems?
 
-	for_each_sgtable_entry(sgt, sg, count) {
-
-?
+FYI, I'll happily pick up the prep patches in an immutable branch of
+the dma-mapping tree one we have settled on the details.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
