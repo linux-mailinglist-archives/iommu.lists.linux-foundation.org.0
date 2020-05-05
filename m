@@ -1,126 +1,91 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id E250E1C50DC
-	for <lists.iommu@lfdr.de>; Tue,  5 May 2020 10:46:51 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBF21C51A9
+	for <lists.iommu@lfdr.de>; Tue,  5 May 2020 11:15:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9B7DF87856;
-	Tue,  5 May 2020 08:46:50 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4F2D388347;
+	Tue,  5 May 2020 09:15:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2D8VQuwjQcoa; Tue,  5 May 2020 08:46:50 +0000 (UTC)
+	with ESMTP id DWRT6vXk0x49; Tue,  5 May 2020 09:15:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 240F087855;
-	Tue,  5 May 2020 08:46:50 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BA9FC882E0;
+	Tue,  5 May 2020 09:15:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 178E9C0175;
-	Tue,  5 May 2020 08:46:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C51EC0175;
+	Tue,  5 May 2020 09:15:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F3361C0175
- for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 08:46:47 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1D8FDC0175
+ for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 09:15:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id E2D3487DC7
- for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 08:46:47 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 08D2A864F2
+ for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 09:15:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hSuMUD+EzGvt for <iommu@lists.linux-foundation.org>;
- Tue,  5 May 2020 08:46:41 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 2796C88376
- for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 08:46:41 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200505084639euoutp016cb2c0bffc44074d998c7e0376e35430~MFX4MlCZm0379303793euoutp01Q
- for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 08:46:39 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200505084639euoutp016cb2c0bffc44074d998c7e0376e35430~MFX4MlCZm0379303793euoutp01Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1588668399;
- bh=2O1dDvBYCdh6BPLh387jv2UbKzqeI6gCytCumofPH4Q=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XA/QgjysUxHcGWz9IvJh5dw/hVYOAhN47VJujHy+fR1sZHonbvdVZgjHwDONvJGEq
- /nQTH3s4RJ33VRWmBdTgzLN0NeBdocxvM8Un1Lt2lm/P1p3j2boG8lt+301vNjz0bt
- /D43D815rQEDEjCNXkvgTLpsvgqAkvlFL0630tgE=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200505084639eucas1p173a8284f2be074a153c2404e7f655dbd~MFX33JwHZ2423024230eucas1p1K;
- Tue,  5 May 2020 08:46:39 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 27.11.60698.FE721BE5; Tue,  5
- May 2020 09:46:39 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200505084638eucas1p2d4add214063543248d81c0977e3f1823~MFX3e70vA0589305893eucas1p2K;
- Tue,  5 May 2020 08:46:38 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200505084638eusmtrp100d54f7ca6d5967537629b8f97c7a226~MFX3eOdJ50942509425eusmtrp1e;
- Tue,  5 May 2020 08:46:38 +0000 (GMT)
-X-AuditID: cbfec7f5-a0fff7000001ed1a-57-5eb127ef2573
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id F3.31.07950.EE721BE5; Tue,  5
- May 2020 09:46:38 +0100 (BST)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20200505084638eusmtip135ec21b69c87a6f86b3072ab66aaeb78~MFX27jDnJ0686606866eusmtip1P;
- Tue,  5 May 2020 08:46:38 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 25/25] media: pci: fix common ALSA DMA-mapping related codes
-Date: Tue,  5 May 2020 10:46:14 +0200
-Message-Id: <20200505084614.30424-25-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200505084614.30424-1-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0VSa0hTYRju27nsODY5TcEPC42BiV10YuQhSwqMDkSQ/ekiLaceVHJTdtTS
- kCxZ5LxkWnlJxMQ0ndfNSyheNvKWubyhRoqa/khLlOY0RbTNo/bveZ/3ed7n4eMjELEBcyYi
- lbGMSimPkuACtKl7w3R62b1eJh3+bU9lmPp4VH1eLUbtNL1EqFHLMk5VaLt41FD+FEoVd/hR
- q6OzPEo3N4ZRIy2FOJVe14hR1Z+m+FSZbotHGVbmsYv2dFVRFaDb1opRWleZitPNazMYPZ3W
- w6P1pY/p79tzCJ0zUQ7o1m/JOJ3ZUAlos86F/mwx868L7wjOhzFRkfGMyss/WBAxMG5CY8ad
- Hhb3qdFk0OGoAXYEJM/AhYplXAMEhJj8AOCv6SaEG1YBLB1o4XGDGcAn71Z4+5afmWOAW5QD
- uP6mDT+wzPa2YjYVTnpDzZIGt2FHUg1gb4bQJkLITATqM/OAbeFABsLuxfbdsyjpBi2vu1Eb
- FpH+cOvPGsLFuUJtXecutrPyc8OTu2mQHObD5IwZnBMFwNEN857BAS72NPA5fBT256SjnCHF
- Ws9UzeeGdABHnnI1IOkHJ02b1kuEtZ8HrG3x4uhLcLC7j2+jIWkPJ5YO22jECrObchGOFsHn
- z8Sc+jgs6Kk5iDUMDu9JaKhuceUeqAtAfaMOzQKuBf+zigGoBE5MHKsIZ1gfJfPAk5Ur2Dhl
- uGdotEIHrB+rf7vH8hG0b4UYAUkAiVB0y1wrE2PyeDZBYQSQQCSOorK/dTKxKEyekMioou+p
- 4qIY1giOEKjESeRTsnBXTIbLY5n7DBPDqPa3PMLOORmkCGtuT92kjilrcoKMuOmKzzVPbLXh
- kCLplODVSkCrtNV9KWvW14EudJsLufHoi/QHcdZuJzyNFKpj00yBlhfaXEN2c2LGquFykTa6
- flCqye+sKFyfz52v0yddOCfzGJK+vZpSEvy+Pn3B/NV3M5RNHRHKnF2IzeD45bCgk0YJykbI
- vU8gKlb+DzuMqDFUAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIIsWRmVeSWpSXmKPExsVy+t/xu7rv1DfGGdy6ZGrRe+4kk8XGGetZ
- Lf5vm8hsceXrezaLlauPMllcnHmXxWLBfmuLL1ceMllsenyN1eLyrjlsFj0btrJarD1yl91i
- 2aY/TBYHPzxhdeDzWDNvDaPH3m8LWDw2repk89j+7QGrx/3u40wem5fUe9z+95jZY/KN5Ywe
- u282sHn0bVnF6PF5k5zHqa+f2QN4ovRsivJLS1IVMvKLS2yVog0tjPQMLS30jEws9QyNzWOt
- jEyV9O1sUlJzMstSi/TtEvQyzl4/x1JwXbxiwclWlgbG/SJdjJwcEgImEi/6rjGC2EICSxkl
- 5jRXQ8RlJE5Oa2CFsIUl/lzrYuti5AKq+cQocab/DQtIgk3AUKLrLURCRKCTUWJa90d2EIdZ
- YBqzxMLG50AZDg5hAX+JrjtuIA0sAqoSX6ceA2vmFbCT+PPpGzPEBnmJ1RsOgNmcQPHHl+6w
- QVxUKPHh/HfWCYx8CxgZVjGKpJYW56bnFhvpFSfmFpfmpesl5+duYgRGz7ZjP7fsYOx6F3yI
- UYCDUYmHd8PX9XFCrIllxZW5hxglOJiVRHiX/dgQJ8SbklhZlVqUH19UmpNafIjRFOioicxS
- osn5wMjOK4k3NDU0t7A0NDc2NzazUBLn7RA4GCMkkJ5YkpqdmlqQWgTTx8TBKdXA6N0Yt7zI
- OdP+vit/V94TgaYHBw/y8z1MeNvfLKL97+ZM/VpH2/Kb4fMi33H3Pvpw6fU1E2lvQ743ryd9
- 4HhyXLW60anTeX3X4ewMBXHpqcafGY3SLLm3hO+5ImIg0/vbdyGrG5NK3rUehcRJbx4xGWcZ
- CK6enSEjFDvlrwAnm7Tzup2MV6cosRRnJBpqMRcVJwIAa5fl0bQCAAA=
-X-CMS-MailID: 20200505084638eucas1p2d4add214063543248d81c0977e3f1823
-X-Msg-Generator: CA
-X-RootMTR: 20200505084638eucas1p2d4add214063543248d81c0977e3f1823
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200505084638eucas1p2d4add214063543248d81c0977e3f1823
-References: <20200505083926.28503-1-m.szyprowski@samsung.com>
- <20200505084614.30424-1-m.szyprowski@samsung.com>
- <CGME20200505084638eucas1p2d4add214063543248d81c0977e3f1823@eucas1p2.samsung.com>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, linux-media@vger.kernel.org,
- Daniel Vetter <daniel@ffwll.ch>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ with ESMTP id 68RqHHUPRuQ4 for <iommu@lists.linux-foundation.org>;
+ Tue,  5 May 2020 09:15:43 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+ [209.85.221.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id EE3848638F
+ for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 09:15:42 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id e16so1808850wra.7
+ for <iommu@lists.linux-foundation.org>; Tue, 05 May 2020 02:15:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=sU7U3FhjLtetQ4yGftkHmkBqFM+M9ZWPk430QlcmjSw=;
+ b=QXWA/MYxeBeYOjAoqaNN2WaAGPU0Tv3zhPwTqxa96+5wzt9CdxYYAAOCUz6pWhuzUl
+ 933MuJKNFPVD3w9C/QvD/C0e6iA+FZPTltexAp+raUdXk9hamFndUJbWV2K4iPOJiiz7
+ mqMyTD/SmVD6T8yeuC7kKEIaQK7SAcsO3TOplzzSgBS/tPHNt0Is/ZMyXCEdT7r2D46z
+ FIOLqY+T6XzzhHEgdFXwAFjHT0v74ZucOnNkxFTOaVA8+6OV7MLwC5bHsfh2sv+sT888
+ szyzUg2wNsB84mYvmwLGhiEl0EZfJEPVQVC4y7fppcLdtB5gerYO6mRdLiS7XmYwmwZ0
+ XEWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sU7U3FhjLtetQ4yGftkHmkBqFM+M9ZWPk430QlcmjSw=;
+ b=ZEasjr+/GbO+iMSUKDADX2wQWM7kvdWoFH6SiqFbw0a5gPg6CpZNJzKFGU9bLT9doc
+ 9ORxblQbOlEhYro5oXL4FsZ3frMu4iqv64q3w9pnu56YYVL1pyibniwAXdcE2wVPY2YL
+ YKAMQUCI5iK1XO0Z35SiuDVd33atX2F/eNdat7JZlHiqY5bSemjpDtTRSs2XGcg5dWeF
+ J87NVuAs1z3ezkxe0s/EDejaFQ5qf73YDW4tURBwJmiXEmq0og2Dl4FtMrYNoFMf2hxM
+ nI+SSGE3FH1Tjlreb9zgI/OJM7bQRaRMZ0hFKvz+M2c43/8L4flHf83T14CP4/M3Q9Ln
+ T40g==
+X-Gm-Message-State: AGi0PuY0L++4JnAYdM2zEC6VeXcrcx4rJzN7cgM0hx/i6XtydDXrPwyj
+ 4fAKysEGmHycDAiCmoHfzR0Axw==
+X-Google-Smtp-Source: APiQypLUdwS9EMNq1wqY/xPjJM+u52dIVylq937W1BwIZPG2UftDefGXQhpqhk5pltip4j2URFGphQ==
+X-Received: by 2002:a5d:4652:: with SMTP id j18mr2063792wrs.19.1588670141301; 
+ Tue, 05 May 2020 02:15:41 -0700 (PDT)
+Received: from myrica ([2001:171b:226e:c200:c43b:ef78:d083:b355])
+ by smtp.gmail.com with ESMTPSA id c190sm2856893wme.4.2020.05.05.02.15.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 May 2020 02:15:40 -0700 (PDT)
+Date: Tue, 5 May 2020 11:15:31 +0200
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Subject: Re: [PATCH v6 17/25] iommu/arm-smmu-v3: Implement
+ iommu_sva_bind/unbind()
+Message-ID: <20200505091531.GA203922@myrica>
+References: <20200430143424.2787566-1-jean-philippe@linaro.org>
+ <20200430143424.2787566-18-jean-philippe@linaro.org>
+ <20200430141617.6ad4be4c@jacob-builder>
+ <20200504164351.GJ170104@myrica>
+ <20200504134723.54e2ebcd@jacob-builder>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200504134723.54e2ebcd@jacob-builder>
+Cc: devicetree@vger.kernel.org, kevin.tian@intel.com, jgg@ziepe.ca,
+ linux-pci@vger.kernel.org, robin.murphy@arm.com, fenghua.yu@intel.com,
+ hch@infradead.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ zhangfei.gao@linaro.org, catalin.marinas@arm.com, felix.kuehling@amd.com,
+ will@kernel.org, christian.koenig@amd.com,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -134,85 +99,61 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The Documentation/DMA-API-HOWTO.txt states that dma_map_sg returns the
-numer of the created entries in the DMA address space. However the
-subsequent calls to dma_sync_sg_for_{device,cpu} and dma_unmap_sg must be
-called with the original number of entries passed to dma_map_sg. The
-sg_table->nents in turn holds the result of the dma_map_sg call as stated
-in include/linux/scatterlist.h. Adapt the code to obey those rules.
+On Mon, May 04, 2020 at 01:47:23PM -0700, Jacob Pan wrote:
+> > > > +	arm_smmu_write_ctx_desc(smmu_domain, mm->pasid,
+> > > > &invalid_cd); +
+> > > > +	arm_smmu_tlb_inv_asid(smmu_domain->smmu,
+> > > > smmu_mn->cd->asid);
+> > > > +	/* TODO: invalidate ATS */
+> > > > +  
+> > > If mm release is called after tlb invalidate range, is it still
+> > > necessary to invalidate again?  
+> > 
+> > No, provided all mappings from the address space are unmapped and
+> > invalidated. I'll double check, but in my tests invalidate range
+> > didn't seem to be called for all mappings on mm exit, so I believe we
+> > do need this.
+> > 
+> I think it is safe to invalidate again. There was a concern that mm
+> release may delete IOMMU driver from the notification list and miss tlb
+> invalidate range. I had a hard time to confirm that with ftrace while
+> killing a process, many lost events.
+> 
 
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
-For more information, see '[PATCH v3 00/25] DRM: fix struct sg_table nents
-vs. orig_nents misuse' thread: https://lkml.org/lkml/2020/5/5/187
----
- drivers/media/pci/cx23885/cx23885-alsa.c | 2 +-
- drivers/media/pci/cx25821/cx25821-alsa.c | 2 +-
- drivers/media/pci/cx88/cx88-alsa.c       | 2 +-
- drivers/media/pci/saa7134/saa7134-alsa.c | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+If it helps, I have a test that generates small DMA transactions on a SMMU
+model. This is the trace for a job on a 8kB mmap'd buffer:
 
-diff --git a/drivers/media/pci/cx23885/cx23885-alsa.c b/drivers/media/pci/cx23885/cx23885-alsa.c
-index df44ed7..3f366e4 100644
---- a/drivers/media/pci/cx23885/cx23885-alsa.c
-+++ b/drivers/media/pci/cx23885/cx23885-alsa.c
-@@ -129,7 +129,7 @@ static int cx23885_alsa_dma_unmap(struct cx23885_audio_dev *dev)
- 	if (!buf->sglen)
- 		return 0;
- 
--	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->sglen, PCI_DMA_FROMDEVICE);
-+	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->nr_pages, PCI_DMA_FROMDEVICE);
- 	buf->sglen = 0;
- 	return 0;
- }
-diff --git a/drivers/media/pci/cx25821/cx25821-alsa.c b/drivers/media/pci/cx25821/cx25821-alsa.c
-index 3016164..c40304d 100644
---- a/drivers/media/pci/cx25821/cx25821-alsa.c
-+++ b/drivers/media/pci/cx25821/cx25821-alsa.c
-@@ -193,7 +193,7 @@ static int cx25821_alsa_dma_unmap(struct cx25821_audio_dev *dev)
- 	if (!buf->sglen)
- 		return 0;
- 
--	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->sglen, PCI_DMA_FROMDEVICE);
-+	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->nr_pages, PCI_DMA_FROMDEVICE);
- 	buf->sglen = 0;
- 	return 0;
- }
-diff --git a/drivers/media/pci/cx88/cx88-alsa.c b/drivers/media/pci/cx88/cx88-alsa.c
-index 7d7acee..3c6fe6c 100644
---- a/drivers/media/pci/cx88/cx88-alsa.c
-+++ b/drivers/media/pci/cx88/cx88-alsa.c
-@@ -332,7 +332,7 @@ static int cx88_alsa_dma_unmap(struct cx88_audio_dev *dev)
- 	if (!buf->sglen)
- 		return 0;
- 
--	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->sglen,
-+	dma_unmap_sg(&dev->pci->dev, buf->sglist, buf->nr_pages,
- 		     PCI_DMA_FROMDEVICE);
- 	buf->sglen = 0;
- 	return 0;
-diff --git a/drivers/media/pci/saa7134/saa7134-alsa.c b/drivers/media/pci/saa7134/saa7134-alsa.c
-index 544ca57..398c47f 100644
---- a/drivers/media/pci/saa7134/saa7134-alsa.c
-+++ b/drivers/media/pci/saa7134/saa7134-alsa.c
-@@ -313,7 +313,7 @@ static int saa7134_alsa_dma_unmap(struct saa7134_dev *dev)
- 	if (!dma->sglen)
- 		return 0;
- 
--	dma_unmap_sg(&dev->pci->dev, dma->sglist, dma->sglen, PCI_DMA_FROMDEVICE);
-+	dma_unmap_sg(&dev->pci->dev, dma->sglist, dma->nr_pages, PCI_DMA_FROMDEVICE);
- 	dma->sglen = 0;
- 	return 0;
- }
--- 
-1.9.1
+  smmu_bind_alloc: dev=0000:00:03.0 pasid=1
+  dev_fault: IOMMU:0000:00:03.0 type=2 reason=0 addr=0x0000ffff860e6000 pasid=1 group=74 flags=3 prot=2
+  dev_page_response: IOMMU:0000:00:03.0 code=0 pasid=1 group=74
+  dev_fault: IOMMU:0000:00:03.0 type=2 reason=0 addr=0x0000ffff860e7000 pasid=1 group=143 flags=3 prot=2
+  dev_page_response: IOMMU:0000:00:03.0 code=0 pasid=1 group=143
+  smmu_mm_invalidate: pasid=1 start=0xffff860e6000 end=0xffff860e8000
+  smmu_mm_invalidate: pasid=1 start=0xffff860e6000 end=0xffff860e8000
+  smmu_mm_invalidate: pasid=1 start=0xffff860e8000 end=0xffff860ea000
+  smmu_mm_invalidate: pasid=1 start=0xffff860e8000 end=0xffff860ea000
+  smmu_unbind_free: dev=0000:00:03.0 pasid=1
 
+And this is the same job, but the process immediately kills itself after
+launching it.
+
+  smmu_bind_alloc: dev=0000:00:03.0 pasid=1
+  dev_fault: IOMMU:0000:00:03.0 type=2 reason=0 addr=0x0000ffffb9d15000 pasid=1 group=259 flags=3 prot=2
+  smmu_mm_release: pasid=1
+  dev_page_response: IOMMU:0000:00:03.0 code=0 pasid=1 group=259
+  dev_fault: IOMMU:0000:00:03.0 type=2 reason=0 addr=0x0000ffffb9d15000 pasid=1 group=383 flags=3 prot=2
+  dev_page_response: IOMMU:0000:00:03.0 code=1 pasid=1 group=383
+  smmu_unbind_free: dev=0000:00:03.0 pasid=1
+
+We don't get any invalidate_range notification in this case.
+
+Thanks,
+Jean
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
