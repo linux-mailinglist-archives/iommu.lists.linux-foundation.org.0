@@ -2,95 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4979E1C52A3
-	for <lists.iommu@lfdr.de>; Tue,  5 May 2020 12:09:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 609C61C52CC
+	for <lists.iommu@lfdr.de>; Tue,  5 May 2020 12:15:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 01C8D87D5C;
-	Tue,  5 May 2020 10:09:51 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0882387C5A;
+	Tue,  5 May 2020 10:15:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CVtRLmJhPGat; Tue,  5 May 2020 10:09:50 +0000 (UTC)
+	with ESMTP id kPU4wRZz8g5N; Tue,  5 May 2020 10:15:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 62501877F4;
-	Tue,  5 May 2020 10:09:50 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7827B877F4;
+	Tue,  5 May 2020 10:15:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A9D1C088B;
-	Tue,  5 May 2020 10:09:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6B6DDC0175;
+	Tue,  5 May 2020 10:15:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 51030C088B
- for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 10:09:48 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 30E1DC0175
+ for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 10:15:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3FF4E8863C
- for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 10:09:48 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 24F28204DA
+ for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 10:15:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Vj6T35PYKu5y for <iommu@lists.linux-foundation.org>;
- Tue,  5 May 2020 10:09:47 +0000 (UTC)
+ with ESMTP id rFhOGFlpS-Ow for <iommu@lists.linux-foundation.org>;
+ Tue,  5 May 2020 10:15:14 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E82D1885BD
- for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 10:09:46 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 6802F5C00FB;
- Tue,  5 May 2020 06:09:46 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 05 May 2020 06:09:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=ZkRxrxZSNGuow
- kN4P769eI5gSRZrMFISAKsJx9k9slQ=; b=nA5ILPf0AQg6dLXKDa1ck8Gb+YYRF
- T5c58/RVJ2DznRfZo4/RkbPy7k5x75tRx8xr2hkxLVat18hth9KHZm7J0DlAqV3a
- /kczUXEeySSfcTIwrz8CV/vxlFGEb/iNivsJrclQ2hw89JKo71U3N3NgXbx5gEIP
- z8eEBUR+wehlk33HCb7seB6Do5XmFVcXCwpYXCssd8d/e81MoQclMQU/O29t5UwT
- Z8rokeSnhBhsbde/cAQ83UqEtq45JqxVNE54JJx3H5IXGJohOZmZfs4vk4CX2xPq
- 9HUnmNrabYFPzNkaf6657PkcjC9nGsJ6X4hDpVEsIn7diHUehmq1itjNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=ZkRxrxZSNGuowkN4P769eI5gSRZrMFISAKsJx9k9slQ=; b=cO3vRcMa
- s3L8Bjhyk8eMNasE8zQcsyHrjeP2ZTbE2o3wo5k9HpkH4q2KDxWq2dcx4ylACzJP
- 4UNtoedlFhCCdpCndNu/VOmr+6FkxUmXDtM0bFnTiMAYgepk5cnNdLduhURNF11P
- YAxEtLvg0IoTVQPNIbLjXuENdQNh5CvkzLP3WvvcudUDkdb/Y5s/hjenP2q6xrqV
- 7EVfn+fzRQRBETYI2mmqhLWxCywhlVzcwBtUJlmx6OMgS31gVUgsB5jb6e969Upn
- glBnfDVJJ6k+UICOqVP7lOu8w8zpqB87mhN92CHvsQjZ5mx7KPtvDPkOVK21KP1I
- Qui73hm68dmXlQ==
-X-ME-Sender: <xms:ajuxXvaG3u16RtYgSZVj7EYmoy4QSwxdJklqz1Nsk0PJxz4LL9RnRA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrjeeigddvgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpeefnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ajuxXnusJuVCfT5YMomHO2hFabtOZf5u27yomLpVstiz8pfcaipwcw>
- <xmx:ajuxXp9bo0VzCtr4r3ByUnHKhrkNA67ehvGV2GAWgoKMAoi4Y5BnGQ>
- <xmx:ajuxXvU7ggdsEYp9GKR_mDEDOTITE5QsqilG5ZoFFC_RI94htSd6oA>
- <xmx:ajuxXvcDgSdce_cjKghqPHHNfpTt1vdtkOJPUEPeFTyAnLe7ZC1ElA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 060DC3065FD6;
- Tue,  5 May 2020 06:09:45 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Joerg Roedel <joro@8bytes.org>, Chen-Yu Tsai <wens@csie.org>,
- Maxime Ripard <mripard@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH v3 5/5] drm/sun4i: mixer: Call of_dma_configure if there's an
- IOMMU
-Date: Tue,  5 May 2020 12:09:34 +0200
-Message-Id: <842e925855d32dc394ebe358b2678474eddd3f33.1588673353.git-series.maxime@cerno.tech>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.70f96f9afd2e04161ebece593ae6cd7e17eca41b.1588673353.git-series.maxime@cerno.tech>
-References: <cover.70f96f9afd2e04161ebece593ae6cd7e17eca41b.1588673353.git-series.maxime@cerno.tech>
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by silver.osuosl.org (Postfix) with ESMTPS id 6D51A204C6
+ for <iommu@lists.linux-foundation.org>; Tue,  5 May 2020 10:15:14 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id A96F968C4E; Tue,  5 May 2020 12:15:08 +0200 (CEST)
+Date: Tue, 5 May 2020 12:15:08 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [PATCH v3 02/25] drm: core: fix common struct sg_table related
+ issues
+Message-ID: <20200505101508.GA14860@lst.de>
+References: <20200505083926.28503-1-m.szyprowski@samsung.com>
+ <20200505084614.30424-1-m.szyprowski@samsung.com>
+ <CGME20200505084625eucas1p1a3c25fd171f360e0aab2f76700699454@eucas1p1.samsung.com>
+ <20200505084614.30424-2-m.szyprowski@samsung.com>
 MIME-Version: 1.0
-Cc: devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
- Maxime Ripard <maxime@cerno.tech>, linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <20200505084614.30424-2-m.szyprowski@samsung.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, iommu@lists.linux-foundation.org,
+ Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,44 +76,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The main DRM device is actually a virtual device so it doesn't have the
-iommus property, which is instead on the DMA masters, in this case the
-mixers.
+> -		for_each_sg_page(st->sgl, &sg_iter, st->nents, 0)
+> +		for_each_sg_page(st->sgl, &sg_iter, st->orig_nents, 0)
 
-Add a call to of_dma_configure with the mixers DT node but on the DRM
-virtual device to configure it in the same way than the mixers.
+Would it make sense to also add a for_each_sgtable_page helper that
+hides the use of orig_nents?  To be used like:
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+		for_each_sgtable_page(st, &sg_iter, 0) {
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 4a64f7ae437a..19b3b4184704 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -452,6 +452,19 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	mixer->engine.ops = &sun8i_engine_ops;
- 	mixer->engine.node = dev->of_node;
- 
-+	if (of_find_property(dev->of_node, "iommus", NULL)) {
-+		/*
-+		 * This assume we have the same DMA constraints for
-+		 * all our the mixers in our pipeline. This sounds
-+		 * bad, but it has always been the case for us, and
-+		 * DRM doesn't do per-device allocation either, so we
-+		 * would need to fix DRM first...
-+		 */
-+		ret = of_dma_configure(drm->dev, dev->of_node, true);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	/*
- 	 * While this function can fail, we shouldn't do anything
- 	 * if this happens. Some early DE2 DT entries don't provide
--- 
-git-series 0.9.1
+> +	for_each_sg(sgt->sgl, sg, sgt->orig_nents, count) {
+
+Same here, e.g.
+
+	for_each_sgtable_entry(sgt, sg, count) {
+
+?
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
