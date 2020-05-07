@@ -2,64 +2,73 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235711C963B
-	for <lists.iommu@lfdr.de>; Thu,  7 May 2020 18:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5921F1C966C
+	for <lists.iommu@lfdr.de>; Thu,  7 May 2020 18:25:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 726762040F;
-	Thu,  7 May 2020 16:18:14 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 054C520517;
+	Thu,  7 May 2020 16:25:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1bhpbnH0CFTS; Thu,  7 May 2020 16:18:13 +0000 (UTC)
+	with ESMTP id 7yHrN7OQz5jN; Thu,  7 May 2020 16:25:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 5B9762107D;
-	Thu,  7 May 2020 16:18:13 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9AE4220511;
+	Thu,  7 May 2020 16:25:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 55044C07FF;
-	Thu,  7 May 2020 16:18:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7A81BC07FF;
+	Thu,  7 May 2020 16:25:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4A500C07FF
- for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 16:18:11 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5E4DDC07FF
+ for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 16:25:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 291BA2046E
- for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 16:18:11 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 46C08870D1
+ for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 16:25:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uka-YoqBi4VZ for <iommu@lists.linux-foundation.org>;
- Thu,  7 May 2020 16:18:09 +0000 (UTC)
+ with ESMTP id SqiWKJieLC1W for <iommu@lists.linux-foundation.org>;
+ Thu,  7 May 2020 16:25:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by silver.osuosl.org (Postfix) with ESMTPS id BA1B42040F
- for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 16:18:09 +0000 (UTC)
-IronPort-SDR: nfChbBqncUoKJs2QEbb5XU0mW2kBj3T/wDUeiXSNZ/c/BP2OxxiRzxFMBOPJj1QD4iPU3JZwmS
- 1ipChYh2vx5w==
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id AA13787097
+ for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 16:25:45 +0000 (UTC)
+IronPort-SDR: HLePSp05BktYDV9cwLjdmKtOWzJh1P5e6ILgZlE+RfcMdxQzk91cSF6bP0f10Vt0POmUf3D+jS
+ v5pkZkarob8g==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2020 09:18:08 -0700
-IronPort-SDR: RxDn4q3QhFbpQQwxrEwVYfPivfq8iQHQc1LKw4ZML0x1mSoC6dXPs3ewFFsRr0B+4s3h+laacp
- 5GnlzG7S/NMQ==
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2020 09:25:44 -0700
+IronPort-SDR: UI2DdPDFZfRj74OALBpuW41w58LXZwgsjf3LGqDj+vALiCsEHXQU/Sa9YbL1TRdZwaxVQulhgj
+ S1oqukCmHM3Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,364,1583222400"; d="scan'208";a="339399254"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orsmga001.jf.intel.com with ESMTP; 07 May 2020 09:18:07 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id 3F3DF124; Thu,  7 May 2020 19:18:06 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, iommu@lists.linux-foundation.org
-Subject: [PATCH v1 3/3] iommu/amd: Unify format of the printed messages
-Date: Thu,  7 May 2020 19:18:04 +0300
-Message-Id: <20200507161804.13275-3-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200507161804.13275-1-andriy.shevchenko@linux.intel.com>
-References: <20200507161804.13275-1-andriy.shevchenko@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.73,364,1583222400"; d="scan'208";a="278651044"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+ by orsmga002.jf.intel.com with ESMTP; 07 May 2020 09:25:43 -0700
+Date: Thu, 7 May 2020 09:31:50 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v6 17/25] iommu/arm-smmu-v3: Implement
+ iommu_sva_bind/unbind()
+Message-ID: <20200507093150.6da9d6fb@jacob-builder>
+In-Reply-To: <20200505091531.GA203922@myrica>
+References: <20200430143424.2787566-1-jean-philippe@linaro.org>
+ <20200430143424.2787566-18-jean-philippe@linaro.org>
+ <20200430141617.6ad4be4c@jacob-builder>
+ <20200504164351.GJ170104@myrica>
+ <20200504134723.54e2ebcd@jacob-builder>
+ <20200505091531.GA203922@myrica>
+Organization: OTC
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: devicetree@vger.kernel.org, kevin.tian@intel.com, jgg@ziepe.ca,
+ linux-pci@vger.kernel.org, robin.murphy@arm.com, fenghua.yu@intel.com,
+ hch@infradead.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ zhangfei.gao@linaro.org, catalin.marinas@arm.com, felix.kuehling@amd.com,
+ will@kernel.org, christian.koenig@amd.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,36 +86,66 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Unify format of the printed messages, i.e. replace printk(LEVEL ... )
-with pr_level(...).
+On Tue, 5 May 2020 11:15:31 +0200
+Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/iommu/amd_iommu_types.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> On Mon, May 04, 2020 at 01:47:23PM -0700, Jacob Pan wrote:
+> > > > > +	arm_smmu_write_ctx_desc(smmu_domain, mm->pasid,
+> > > > > &invalid_cd); +
+> > > > > +	arm_smmu_tlb_inv_asid(smmu_domain->smmu,
+> > > > > smmu_mn->cd->asid);
+> > > > > +	/* TODO: invalidate ATS */
+> > > > > +    
+> > > > If mm release is called after tlb invalidate range, is it still
+> > > > necessary to invalidate again?    
+> > > 
+> > > No, provided all mappings from the address space are unmapped and
+> > > invalidated. I'll double check, but in my tests invalidate range
+> > > didn't seem to be called for all mappings on mm exit, so I
+> > > believe we do need this.
+> > >   
+> > I think it is safe to invalidate again. There was a concern that mm
+> > release may delete IOMMU driver from the notification list and miss
+> > tlb invalidate range. I had a hard time to confirm that with ftrace
+> > while killing a process, many lost events.
+> >   
+> 
+> If it helps, I have a test that generates small DMA transactions on a
+> SMMU model. This is the trace for a job on a 8kB mmap'd buffer:
+> 
+>   smmu_bind_alloc: dev=0000:00:03.0 pasid=1
+>   dev_fault: IOMMU:0000:00:03.0 type=2 reason=0
+> addr=0x0000ffff860e6000 pasid=1 group=74 flags=3 prot=2
+> dev_page_response: IOMMU:0000:00:03.0 code=0 pasid=1 group=74
+> dev_fault: IOMMU:0000:00:03.0 type=2 reason=0 addr=0x0000ffff860e7000
+> pasid=1 group=143 flags=3 prot=2 dev_page_response:
+> IOMMU:0000:00:03.0 code=0 pasid=1 group=143 smmu_mm_invalidate:
+> pasid=1 start=0xffff860e6000 end=0xffff860e8000 smmu_mm_invalidate:
+> pasid=1 start=0xffff860e6000 end=0xffff860e8000 smmu_mm_invalidate:
+> pasid=1 start=0xffff860e8000 end=0xffff860ea000 smmu_mm_invalidate:
+> pasid=1 start=0xffff860e8000 end=0xffff860ea000 smmu_unbind_free:
+> dev=0000:00:03.0 pasid=1
+> 
+> And this is the same job, but the process immediately kills itself
+> after launching it.
+> 
+>   smmu_bind_alloc: dev=0000:00:03.0 pasid=1
+>   dev_fault: IOMMU:0000:00:03.0 type=2 reason=0
+> addr=0x0000ffffb9d15000 pasid=1 group=259 flags=3 prot=2
+> smmu_mm_release: pasid=1 dev_page_response: IOMMU:0000:00:03.0 code=0
+> pasid=1 group=259 dev_fault: IOMMU:0000:00:03.0 type=2 reason=0
+> addr=0x0000ffffb9d15000 pasid=1 group=383 flags=3 prot=2
+> dev_page_response: IOMMU:0000:00:03.0 code=1 pasid=1 group=383
+> smmu_unbind_free: dev=0000:00:03.0 pasid=1
+> 
+> We don't get any invalidate_range notification in this case.
+> 
+Thanks for the confirmation. We do need to invalidate here.
 
-diff --git a/drivers/iommu/amd_iommu_types.h b/drivers/iommu/amd_iommu_types.h
-index ca8c4522045b3..cf829ebe37cb5 100644
---- a/drivers/iommu/amd_iommu_types.h
-+++ b/drivers/iommu/amd_iommu_types.h
-@@ -395,10 +395,10 @@
- #define PD_IOMMUV2_MASK		(1UL << 3) /* domain has gcr3 table */
- 
- extern bool amd_iommu_dump;
--#define DUMP_printk(format, arg...)					\
--	do {								\
--		if (amd_iommu_dump)						\
--			printk(KERN_INFO "AMD-Vi: " format, ## arg);	\
-+#define DUMP_printk(format, arg...)				\
-+	do {							\
-+		if (amd_iommu_dump)				\
-+			pr_info("AMD-Vi: " format, ## arg);	\
- 	} while(0);
- 
- /* global flag if IOMMUs cache non-present entries */
--- 
-2.26.2
+> Thanks,
+> Jean
 
+[Jacob Pan]
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
