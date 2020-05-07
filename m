@@ -1,63 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13FB1C90EC
-	for <lists.iommu@lfdr.de>; Thu,  7 May 2020 16:56:35 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 844668748F;
-	Thu,  7 May 2020 14:56:34 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YG9vCcAJljbm; Thu,  7 May 2020 14:56:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 07F8687483;
-	Thu,  7 May 2020 14:56:34 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E7647C07FF;
-	Thu,  7 May 2020 14:56:33 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 94845C07FF
- for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 14:56:32 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id E43B51C963A
+	for <lists.iommu@lfdr.de>; Thu,  7 May 2020 18:18:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 7C96D26475
- for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 14:56:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A484C265AD;
+	Thu,  7 May 2020 16:18:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 523AeXm1-gUI; Thu,  7 May 2020 16:18:12 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 4699D207A1;
+	Thu,  7 May 2020 16:18:12 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2F2C3C07FF;
+	Thu,  7 May 2020 16:18:12 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2E271C0865
+ for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 16:18:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 10889890D5
+ for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 16:18:10 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ylZ8kx4CBvzn for <iommu@lists.linux-foundation.org>;
- Thu,  7 May 2020 14:56:31 +0000 (UTC)
+ with ESMTP id ajYm422yLXml for <iommu@lists.linux-foundation.org>;
+ Thu,  7 May 2020 16:18:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by silver.osuosl.org (Postfix) with ESMTP id 0D27626428
- for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 14:56:30 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 75A1C1FB;
- Thu,  7 May 2020 07:56:30 -0700 (PDT)
-Received: from [10.57.36.85] (unknown [10.57.36.85])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D63D3F68F;
- Thu,  7 May 2020 07:56:28 -0700 (PDT)
-Subject: Re: [PATCH] iomm/arm-smmu: Add stall implementation hook
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Rob Clark <robdclark@gmail.com>
-References: <20200421202004.11686-1-saiprakash.ranjan@codeaurora.org>
- <b491e02ad790a437115fdeab6b21bc48@codeaurora.org>
- <1ced023b-157c-21a0-ac75-1adef7f029f0@arm.com>
- <fad5dc096a2bd9404341ba8738ba8fc9@codeaurora.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <80a3b07d-f3a7-07c4-4e8f-76e28563027c@arm.com>
-Date: Thu, 7 May 2020 15:56:28 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 50C3988049
+ for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 16:18:09 +0000 (UTC)
+IronPort-SDR: 7LeScyuxN0x0Idajh6KlT/KoozE4SEsN4WV4klr9WSBiF5wOFcOrWeeySJtBW7U+qxRTDaatyZ
+ HRqeUI97FDWg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 May 2020 09:18:08 -0700
+IronPort-SDR: MEFham7AI39U+N2/UgsE/Ompa2TkOGA2PVmQdPo0iNSjOmlA7maxg8KAX8fVOLJXhfQN/D44nR
+ VIewiSsOhAMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,364,1583222400"; d="scan'208";a="260576207"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orsmga003.jf.intel.com with ESMTP; 07 May 2020 09:18:07 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id 25C4E119; Thu,  7 May 2020 19:18:05 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, iommu@lists.linux-foundation.org
+Subject: [PATCH v1 1/3] iommu/vt-d: Unify format of the printed messages
+Date: Thu,  7 May 2020 19:18:02 +0300
+Message-Id: <20200507161804.13275-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <fad5dc096a2bd9404341ba8738ba8fc9@codeaurora.org>
-Content-Language: en-GB
-Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -70,31 +70,36 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-05-07 1:06 pm, Sai Prakash Ranjan wrote:
-[...]
-> We could have our own context fault handler in QCOM implementation,
-> but that would just be duplicating things from arm-smmu context fault
-> handler. So I did not think it makes much sense to have our own
-> fault handler in qcom impl just for enabling stall model.
+Unify format of the printed messages, i.e. replace printk(LEVEL ... )
+with pr_level(...).
 
-Hmm, it's probably worth thinking ahead a bit here, to the "actually 
-doing things with stalls" plan. I don't have a clear picture off-hand of 
-how well the new device fault handler API might fit into arm-smmu - at 
-the very least trying to make it truly generic implies having to play 
-nasty tricks with disable_irq() for the general case given the "IRQ may 
-remain asserted while SS is active" possibility, and that isn't 
-particularly inviting. Not to mention tying it into the 
-pretend-auxdomain stuff that *is* rather dependent on the qcom impl. If 
-it turns out that you'll eventually have to reimplement the IRQ handler 
-anyway for all that, then starting off down that route *might* work out 
-cleaner and less hassle overall.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/iommu/intel-iommu.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Robin.
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index 0182cff2c7ac7..624831e5a583c 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -480,8 +480,7 @@ static int __init intel_iommu_setup(char *str)
+ 			pr_info("Intel-IOMMU: scalable mode supported\n");
+ 			intel_iommu_sm = 1;
+ 		} else if (!strncmp(str, "tboot_noforce", 13)) {
+-			printk(KERN_INFO
+-				"Intel-IOMMU: not forcing on after tboot. This could expose security risk for tboot\n");
++			pr_info("Intel-IOMMU: not forcing on after tboot. This could expose security risk for tboot\n");
+ 			intel_iommu_tboot_noforce = 1;
+ 		} else if (!strncmp(str, "nobounce", 8)) {
+ 			pr_info("Intel-IOMMU: No bounce buffer. This could expose security risks of DMA attacks\n");
+-- 
+2.26.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
