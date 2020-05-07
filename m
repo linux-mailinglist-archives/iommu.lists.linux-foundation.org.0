@@ -1,62 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7881C8E65
-	for <lists.iommu@lfdr.de>; Thu,  7 May 2020 16:28:29 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AFF71C8E78
+	for <lists.iommu@lfdr.de>; Thu,  7 May 2020 16:29:18 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8EA7D894D9;
-	Thu,  7 May 2020 14:28:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 94CCE263DC;
+	Thu,  7 May 2020 14:29:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VhIqkab4r3C7; Thu,  7 May 2020 14:28:27 +0000 (UTC)
+	with ESMTP id KrKdKb0kJ3tz; Thu,  7 May 2020 14:29:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DF725895B3;
-	Thu,  7 May 2020 14:28:27 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 82A082052F;
+	Thu,  7 May 2020 14:29:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C8124C088B;
-	Thu,  7 May 2020 14:28:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 735B6C0859;
+	Thu,  7 May 2020 14:29:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DA67FC07FF
- for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 14:28:26 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 83C1BC07FF
+ for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 14:29:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C8640894D9
- for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 14:28:26 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 729C38740C
+ for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 14:29:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JbzN-7mt7+EP for <iommu@lists.linux-foundation.org>;
- Thu,  7 May 2020 14:28:26 +0000 (UTC)
+ with ESMTP id MIAQFNcWcbxw for <iommu@lists.linux-foundation.org>;
+ Thu,  7 May 2020 14:29:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4AADB89356
- for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 14:28:26 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0FF8087241
+ for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 14:29:14 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 621FD2084D;
- Thu,  7 May 2020 14:28:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 34BF720838;
+ Thu,  7 May 2020 14:29:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588861706;
- bh=HSNsxHAnlLNekFFIcEI75oB9aFG1/56ExB3fMWB0mus=;
+ s=default; t=1588861753;
+ bh=XcDfiP0ZCqvEYlDjH1ykRT0KgP2TM/1IgOjzoxDwyC0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d8x9nK/SXAQ47sM4DIVEbHn2LEQ0B+cHuo1V9R2ntoW/fp/DREBrfCeEzNqhZ5Uu1
- FVCVHMtj0RVgUXNoi3TDJfHqfC+RE4Mno5QZ2mCz6Q9UJBhX2PXg3zFspmNs2BrZHX
- yuR+lg67ewV2S8WSzWdAoFcv5GBXQCpRBBZO7aL8=
+ b=TvcTOxNWTPeaUmpcv3nCNYnmKd1Tt6z2fQw5pIGBmuvd0Ffge4svrSPIpqtwK8sAE
+ 8x63lsFex6bAK0o7wIpJHNoJPOrchBItLHIyusydxOhkH/t7cyV8zTpR3RLwehkSfg
+ x6dFxa6TnqAZ0wQ85FhT/uEr/KMxjhDZ+4r5uqXI=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 46/50] iommu/amd: Fix legacy interrupt remapping
+Subject: [PATCH AUTOSEL 5.4 34/35] iommu/amd: Fix legacy interrupt remapping
  for x2APIC-enabled system
-Date: Thu,  7 May 2020 10:27:22 -0400
-Message-Id: <20200507142726.25751-46-sashal@kernel.org>
+Date: Thu,  7 May 2020 10:28:28 -0400
+Message-Id: <20200507142830.26239-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200507142726.25751-1-sashal@kernel.org>
-References: <20200507142726.25751-1-sashal@kernel.org>
+In-Reply-To: <20200507142830.26239-1-sashal@kernel.org>
+References: <20200507142830.26239-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -102,10 +102,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
-index 6be3853a5d978..2b9a67ecc6ac4 100644
+index b5ae9f7c0510b..ef14b00fa94b4 100644
 --- a/drivers/iommu/amd_iommu_init.c
 +++ b/drivers/iommu/amd_iommu_init.c
-@@ -2936,7 +2936,7 @@ static int __init parse_amd_iommu_intr(char *str)
+@@ -2946,7 +2946,7 @@ static int __init parse_amd_iommu_intr(char *str)
  {
  	for (; *str; ++str) {
  		if (strncmp(str, "legacy", 6) == 0) {
