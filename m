@@ -2,60 +2,81 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87161C9961
-	for <lists.iommu@lfdr.de>; Thu,  7 May 2020 20:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F171C9AE6
+	for <lists.iommu@lfdr.de>; Thu,  7 May 2020 21:22:38 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 793268961A;
-	Thu,  7 May 2020 18:33:55 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DCED288C6C;
+	Thu,  7 May 2020 19:22:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id p3B1iyuUGToK; Thu,  7 May 2020 18:33:54 +0000 (UTC)
+	with ESMTP id vhhF7E3h22Po; Thu,  7 May 2020 19:22:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CF87B8965E;
-	Thu,  7 May 2020 18:33:54 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 65C5288C21;
+	Thu,  7 May 2020 19:22:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B2D89C0890;
-	Thu,  7 May 2020 18:33:54 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 41C31C0890;
+	Thu,  7 May 2020 19:22:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0912DC07FF
- for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 18:33:53 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0BC99C07FF
+ for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 19:22:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id EABF48965E
- for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 18:33:52 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id E613D26688
+ for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 19:22:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FKzqbrb955qG for <iommu@lists.linux-foundation.org>;
- Thu,  7 May 2020 18:33:51 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id C68768961A
- for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 18:33:51 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 32AC730E;
- Thu,  7 May 2020 11:33:51 -0700 (PDT)
-Received: from [10.57.36.85] (unknown [10.57.36.85])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0FCD63F305;
- Thu,  7 May 2020 11:33:49 -0700 (PDT)
-Subject: Re: [PATCH] iommu/iova: Retry from last rb tree node if iova search
- fails
-To: Ajay kumar <ajaynumb@gmail.com>
-References: <1588795317-20879-1-git-send-email-vjitta@codeaurora.org>
- <d9bfde9f-8f16-bf1b-311b-ea6c2b8ab93d@arm.com>
- <CAEC9eQMKc0dK9jGqOjeOQ3LT0fkJtYjgScb+ZF6MNagLERC7Jw@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <099cb855-62c7-6f58-6836-d910466afd4d@arm.com>
-Date: Thu, 7 May 2020 19:33:48 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ with ESMTP id oLHZGuemGp3N for <iommu@lists.linux-foundation.org>;
+ Thu,  7 May 2020 19:22:33 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by silver.osuosl.org (Postfix) with ESMTPS id 74D6A204FC
+ for <iommu@lists.linux-foundation.org>; Thu,  7 May 2020 19:22:33 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1588879353; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=iv2+rEkcFZZMHapobHQ0seNnq8crBV2GyQlsMOGPnhc=;
+ b=hqGP++sz8g9J8kxWpBiFewhYNppp27tLdOUZBnBwEA1ERyfdAQUIHab7yONAFMnTLOYybwcl
+ Jdzm1y7x5Yg8EmzISMnwTgt8VfMdstB68JB39QgwuQetQCgHFfPuJLG8RbBTFrh/bpx691QP
+ L18tleW/9oCYs97utFwIFPG0avI=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5eb45ff8.7f1f1e55de68-smtp-out-n04;
+ Thu, 07 May 2020 19:22:32 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 382E4C44793; Thu,  7 May 2020 19:22:32 +0000 (UTC)
+Received: from blr-ubuntu-87.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: sibis)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 38DF2C433BA;
+ Thu,  7 May 2020 19:22:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 38DF2C433BA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=sibis@codeaurora.org
+From: Sibi Sankar <sibis@codeaurora.org>
+To: will@kernel.org,
+	robin.murphy@arm.com,
+	joro@8bytes.org
+Subject: [PATCH v5] iommu/arm-smmu-qcom: Request direct mapping for modem
+ device
+Date: Fri,  8 May 2020 00:51:57 +0530
+Message-Id: <20200507192157.6831-1-sibis@codeaurora.org>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-In-Reply-To: <CAEC9eQMKc0dK9jGqOjeOQ3LT0fkJtYjgScb+ZF6MNagLERC7Jw@mail.gmail.com>
-Content-Language: en-GB
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- vinmenon@codeaurora.org, vjitta@codeaurora.org, kernel-team@android.com
+Cc: linux-arm-msm@vger.kernel.org, swboyd@chromium.org, dianders@chromium.org,
+ evgreen@chromium.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, mka@chromium.org,
+ Sibi Sankar <sibis@codeaurora.org>, bjorn.andersson@linaro.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,163 +89,44 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-05-07 7:22 pm, Ajay kumar wrote:
-> On 5/7/20, Robin Murphy <robin.murphy@arm.com> wrote:
->> On 2020-05-06 9:01 pm, vjitta@codeaurora.org wrote:
->>> From: Vijayanand Jitta <vjitta@codeaurora.org>
->>>
->>> When ever a new iova alloc request comes iova is always searched
->>> from the cached node and the nodes which are previous to cached
->>> node. So, even if there is free iova space available in the nodes
->>> which are next to the cached node iova allocation can still fail
->>> because of this approach.
->>>
->>> Consider the following sequence of iova alloc and frees on
->>> 1GB of iova space
->>>
->>> 1) alloc - 500MB
->>> 2) alloc - 12MB
->>> 3) alloc - 499MB
->>> 4) free -  12MB which was allocated in step 2
->>> 5) alloc - 13MB
->>>
->>> After the above sequence we will have 12MB of free iova space and
->>> cached node will be pointing to the iova pfn of last alloc of 13MB
->>> which will be the lowest iova pfn of that iova space. Now if we get an
->>> alloc request of 2MB we just search from cached node and then look
->>> for lower iova pfn's for free iova and as they aren't any, iova alloc
->>> fails though there is 12MB of free iova space.
->>
->> Yup, this could definitely do with improving. Unfortunately I think this
->> particular implementation is slightly flawed...
->>
->>> To avoid such iova search failures do a retry from the last rb tree node
->>> when iova search fails, this will search the entire tree and get an iova
->>> if its available
->>>
->>> Signed-off-by: Vijayanand Jitta <vjitta@codeaurora.org>
->>> ---
->>>    drivers/iommu/iova.c | 11 +++++++++++
->>>    1 file changed, 11 insertions(+)
->>>
->>> diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
->>> index 0e6a953..2985222 100644
->>> --- a/drivers/iommu/iova.c
->>> +++ b/drivers/iommu/iova.c
->>> @@ -186,6 +186,7 @@ static int __alloc_and_insert_iova_range(struct
->>> iova_domain *iovad,
->>>    	unsigned long flags;
->>>    	unsigned long new_pfn;
->>>    	unsigned long align_mask = ~0UL;
->>> +	bool retry = false;
->>>
->>>    	if (size_aligned)
->>>    		align_mask <<= fls_long(size - 1);
->>> @@ -198,6 +199,8 @@ static int __alloc_and_insert_iova_range(struct
->>> iova_domain *iovad,
->>>
->>>    	curr = __get_cached_rbnode(iovad, limit_pfn);
->>>    	curr_iova = rb_entry(curr, struct iova, node);
->>> +
->>> +retry_search:
->>>    	do {
->>>    		limit_pfn = min(limit_pfn, curr_iova->pfn_lo);
->>>    		new_pfn = (limit_pfn - size) & align_mask;
->>> @@ -207,6 +210,14 @@ static int __alloc_and_insert_iova_range(struct
->>> iova_domain *iovad,
->>>    	} while (curr && new_pfn <= curr_iova->pfn_hi);
->>>
->>>    	if (limit_pfn < size || new_pfn < iovad->start_pfn) {
->>> +		if (!retry) {
->>> +			curr = rb_last(&iovad->rbroot);
->>
->> Why walk when there's an anchor node there already? However...
-> +1
->>
->>> +			curr_iova = rb_entry(curr, struct iova, node);
->>> +			limit_pfn = curr_iova->pfn_lo;
->>
->> ...this doesn't look right, as by now we've lost the original limit_pfn
->> supplied by the caller, so are highly likely to allocate beyond the
->> range our caller asked for. In fact AFAICS we'd start allocating from
->> directly directly below the anchor node, beyond the end of the entire
->> address space.
-> +1
->>
->> The logic I was imagining we want here was something like the rapidly
->> hacked up (and untested) diff below.
->>
->> Thanks,
->> Robin.
->>
->> ----->8-----
->> diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
->> index 0e6a9536eca6..3574c19272d6 100644
->> --- a/drivers/iommu/iova.c
->> +++ b/drivers/iommu/iova.c
->> @@ -186,6 +186,7 @@ static int __alloc_and_insert_iova_range(struct
->> iova_domain *iovad,
->>           unsigned long flags;
->>           unsigned long new_pfn;
->>           unsigned long align_mask = ~0UL;
->> +       unsigned long alloc_hi, alloc_lo;
->>
->>           if (size_aligned)
->>                   align_mask <<= fls_long(size - 1);
->> @@ -196,17 +197,27 @@ static int __alloc_and_insert_iova_range(struct
->> iova_domain *iovad,
->>                           size >= iovad->max32_alloc_size)
->>                   goto iova32_full;
->>
->> +       alloc_hi = IOVA_ANCHOR;
->> +       alloc_lo = iovad->start_pfn;
->> +retry:
->>           curr = __get_cached_rbnode(iovad, limit_pfn);
->>           curr_iova = rb_entry(curr, struct iova, node);
->> +       if (alloc_hi < curr_iova->pfn_hi) {
->> +               alloc_lo = curr_iova->pfn_hi;
->> +               alloc_hi = limit_pfn;
->> +       }
->> +
->>           do {
->> -               limit_pfn = min(limit_pfn, curr_iova->pfn_lo);
->> -               new_pfn = (limit_pfn - size) & align_mask;
->> +               alloc_hi = min(alloc_hi, curr_iova->pfn_lo);
-> During retry case, the curr and curr_iova is not updated. Kindly check it.
+The modem remote processor has two modes of access to the DDR, a direct
+mode and through a SMMU which requires direct mapping. The configuration
+of the modem SIDs is handled in TrustZone. On platforms where TrustZone
+is absent this needs to be explicitly done from kernel. Add compatibles
+for modem to opt in for direct mapping on such platforms.
 
-Right, after we've used the cached node to set the lower limit for the 
-retry pass, we also need to search the tree for the next node above 
-limit_pfn for the actual starting point.
+Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+Signed-off-by: Sibi Sankar <sibis@codeaurora.org>
+---
 
-Did I mention this was a completely untested brain-dump? :D
+V5
+ * Reword commit message and drop unnecessary details
 
-Thanks,
-Robin.
+ drivers/iommu/arm-smmu-qcom.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> Ajay
->> +               new_pfn = (alloc_hi - size) & align_mask;
->>                   prev = curr;
->>                   curr = rb_prev(curr);
->>                   curr_iova = rb_entry(curr, struct iova, node);
->>           } while (curr && new_pfn <= curr_iova->pfn_hi);
->>
->> -       if (limit_pfn < size || new_pfn < iovad->start_pfn) {
->> +       if (limit_pfn < size || new_pfn < alloc_lo) {
->> +               if (alloc_lo == iovad->start_pfn)
->> +                       goto retry;
->>                   iovad->max32_alloc_size = size;
->>                   goto iova32_full;
->>           }
->> _______________________________________________
->> iommu mailing list
->> iommu@lists.linux-foundation.org
->> https://lists.linuxfoundation.org/mailman/listinfo/iommu
->>
+diff --git a/drivers/iommu/arm-smmu-qcom.c b/drivers/iommu/arm-smmu-qcom.c
+index 5bedf21587a56..cf01d0215a397 100644
+--- a/drivers/iommu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm-smmu-qcom.c
+@@ -17,7 +17,9 @@ static const struct of_device_id qcom_smmu_client_of_match[] = {
+ 	{ .compatible = "qcom,mdp4" },
+ 	{ .compatible = "qcom,mdss" },
+ 	{ .compatible = "qcom,sc7180-mdss" },
++	{ .compatible = "qcom,sc7180-mss-pil" },
+ 	{ .compatible = "qcom,sdm845-mdss" },
++	{ .compatible = "qcom,sdm845-mss-pil" },
+ 	{ }
+ };
+ 
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
