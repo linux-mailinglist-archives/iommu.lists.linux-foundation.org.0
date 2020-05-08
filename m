@@ -1,71 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7ACE1CBA5C
-	for <lists.iommu@lfdr.de>; Sat,  9 May 2020 00:02:59 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 4101A2716B;
-	Fri,  8 May 2020 22:02:58 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NV4QnZ1DU4FY; Fri,  8 May 2020 22:02:56 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 8AB4E26B65;
-	Fri,  8 May 2020 22:02:56 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 69C40C07FF;
-	Fri,  8 May 2020 22:02:56 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B559EC07FF
- for <iommu@lists.linux-foundation.org>; Fri,  8 May 2020 22:02:55 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 902211CC365
+	for <lists.iommu@lfdr.de>; Sat,  9 May 2020 19:55:51 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id AB170893EE
- for <iommu@lists.linux-foundation.org>; Fri,  8 May 2020 22:02:55 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 25129885F6;
+	Sat,  9 May 2020 17:55:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id k662oXfwCikh; Sat,  9 May 2020 17:55:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id A07F4885C8;
+	Sat,  9 May 2020 17:55:47 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 83B2EC0893;
+	Sat,  9 May 2020 17:55:47 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E1F2FC07FF
+ for <iommu@lists.linux-foundation.org>; Fri,  8 May 2020 22:54:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 9E8C58746D
+ for <iommu@lists.linux-foundation.org>; Fri,  8 May 2020 22:54:30 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id b6DmqzugP40v for <iommu@lists.linux-foundation.org>;
- Fri,  8 May 2020 22:02:55 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 7A87189396
- for <iommu@lists.linux-foundation.org>; Fri,  8 May 2020 22:02:54 +0000 (UTC)
-Received: from localhost.localdomain ([149.172.19.189]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1Ma1oK-1jaQAZ0hW8-00W11D; Sat, 09 May 2020 00:02:27 +0200
-From: Arnd Bergmann <arnd@arndb.de>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH] iommu/renesas: fix unused-function warning
-Date: Sat,  9 May 2020 00:02:16 +0200
-Message-Id: <20200508220224.688985-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.26.0
+ with ESMTP id qy5f2X6ZBtMZ for <iommu@lists.linux-foundation.org>;
+ Fri,  8 May 2020 22:54:29 +0000 (UTC)
+X-Greylist: delayed 00:05:55 by SQLgrey-1.7.6
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+ [209.85.166.66])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D81AE86CC7
+ for <iommu@lists.linux-foundation.org>; Fri,  8 May 2020 22:54:29 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id s10so3426322iog.7
+ for <iommu@lists.linux-foundation.org>; Fri, 08 May 2020 15:54:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fWdsJ1NGPr7oPwWFvlUBsi6Qw8i1lzhg04lZd6bc6aM=;
+ b=aO/VaZcOYz/Kc0PeZol3BrIcDYWRjNYcEV4HH9TIWi6NIRkGQqrao0rXYf8DXlMYkw
+ 5iUYwq5F6iIKqthHa2WlsWQuNt/bv9OwTt/j5Hv8LdBA5qs2/EE2VFRkvHp4Xpocerqt
+ TLcefjFE87OQVuugLNM8vOr+L+WRXnbBFHnKY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fWdsJ1NGPr7oPwWFvlUBsi6Qw8i1lzhg04lZd6bc6aM=;
+ b=RRCmuv+44EeeaApnqir/tZQh8GWH1Ichh5omDsx4JqmnV9nzThWvAjrw8GCdqVbj9Z
+ qmhFstlgbbjTn7OkZ5EkgJ3wiKW+rke92pVNNjvSQJEFcY4y5j/kOxnvMWf6fPO4Zy0a
+ 0u3rlRCVf71XBJKDcfAdkBRdXYnXoWMHOIMvx8e7HNO9CRJ2BYzltH49T7w7tZGGCbzY
+ Vf07O0zzPQkm8oJ4W1u7cAvWvjinhbaYmOfmM44k6H8J1f6KEMWsmJsnSloUgXJOPLNq
+ yZ18N9ujZmLUr6jjvJEUWvEl+6ntcKaexoK7QiHDz8DF4qleELtHgksR5ABRHUdbs3BO
+ hU3Q==
+X-Gm-Message-State: AGi0Pubx+WwAy5UPE1ZBuKLqNWRnCE7N9gffluWrIksNXl4uZR51MSrX
+ BAuO6hRSbOs7ZMw+YHFhKyLN2YUQ0jXPaA==
+X-Google-Smtp-Source: APiQypI25iFqqbLfAR8A9ESKFC1ynWatFmSQmQsfDFNfZoDnC88RujwSFozsdqmou1Wfrnm/FyVC7g==
+X-Received: by 2002:a5d:8591:: with SMTP id f17mr3040492ioj.26.1588978113517; 
+ Fri, 08 May 2020 15:48:33 -0700 (PDT)
+Received: from rrangel920.bld.corp.google.com
+ (h184-60-195-141.arvdco.broadband.dynamic.tds.net. [184.60.195.141])
+ by smtp.gmail.com with ESMTPSA id 17sm431818ill.14.2020.05.08.15.48.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 May 2020 15:48:33 -0700 (PDT)
+From: Raul E Rangel <rrangel@chromium.org>
+To: Joerg Roedel <jroedel@suse.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ iommu@lists.linux-foundation.org, linux-acpi@vger.kernel.org
+Subject: [PATCH] iommu/amd: Fix get_acpihid_device_id
+Date: Fri,  8 May 2020 16:48:30 -0600
+Message-Id: <20200508164819.1.I6f1b6f973ee6c8af1348611370c73a0ec0ea53f1@changeid>
+X-Mailer: git-send-email 2.26.2.645.ge9eca65c58-goog
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:nguKpoyDbwtn9OPppaa1Wkm4f1dh24v77iIkSuLPsDpqTEETLOi
- 8fGI9X9HbB6Af8+GtEuUXekkCnA0zjffrQYJhHl/OPgS7W0gkuT+/ZASHGVNNBmD3SfMcH1
- AAGLAMgVzsl7553S0p0+gRRp9X/+7V2PRZdlyEWbVSJ2rM1gHU0VKGWC/NrJKqt0rHiFIR0
- 9FR0/q2tCmYqKwfxA3KEQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WGPHeoCJUXo=:PqfGjNxO7ONTBOkQt/zAOC
- QlMKZK0qcyOf3cdLRylgomWSUGUDNkcqfUM36WbBmvEoCzkvl4tr+BDAKe3jP7p18JxptopLs
- UFBYh+LgN7pY9RduTraN7x5nTpgkQf9C7A1MgDARF1JLR5f5N3SgY0v+EQqfHws6zHKvJMelL
- DwMo4oSCL+3M16cmQbmdraaCkOrVkJQ5gF34CO2ZzhRL7MHYHR1Iy1XIanAzGqyMbMKKuoDVR
- PlEKq1suHKxI/ATEie3dGznx1dEKJXxaPyvxEMf0Db5oldNDTMEX/WA6BYJ8dgUaw+b9j+aA7
- rEzTVjUnU6TDC9nmS+fWwabEaSuHLjMKWXeb5+emVhbQUyXXqv9d9L+r03km42Z7gsjfmPk6L
- kfESyxiLlnzSg8v9otXEYCsilsULpMPkbDGzmd5qkOdKt791iMo4VfYkuh7wqVsnjWEC+f3u+
- ow2BEzyCLe7JJvjuYy5ZbcP536WJ5f+sdjqgC7N9V0tk7nLCUcz9nbRuvx+Pt/AIJYOVwARoE
- Q249S44z3FYo0mCcrc2KtbBUqyNfidv0Vs0+maeykj9XySk/50QkEMeBbnyxkMgZr6efRHcLM
- mw/jeVZ9Lb3SJTfUszsp3y5+gzynRf1eQ2K2G5/d0qpVqiBudB/es/RMEY70VkyogwNIiohyJ
- P+icQj54FV47lv1EYva3zM/poh54vDXE31mCyN9HZRCujg9TnNtQrNGJoNV6OBQpX9LL4tARj
- sMMZ+qrS+jXKNKjD+eKroIiBhuCr74S0ycznjIn0tx/hAHkIKysvkzgqBZQorv2Gqgslt+Pis
- s2dgqRHg8mK402ZMbvmx3vt0xB3AStgNO3joc6teXckSiZ8M0o=
-Cc: Hai Nguyen Pham <hai.pham.ud@renesas.com>, Joerg Roedel <jroedel@suse.de>,
- Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Simon Horman <horms+renesas@verge.net.au>,
- Will Deacon <will@kernel.org>
+X-Mailman-Approved-At: Sat, 09 May 2020 17:55:46 +0000
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-kernel@vger.kernel.org,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, dianders@chromium.org,
+ evgreen@chromium.org, Adrian Hunter <adrian.hunter@intel.com>,
+ Raul E Rangel <rrangel@chromium.org>, Daniel Kurtz <djkurtz@chromium.org>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,39 +97,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-gcc warns because the only reference to ipmmu_find_group
-is inside of an #ifdef:
+acpi_dev_hid_uid_match expects a null pointer for UID if it doesn't
+exist. The acpihid_map_entry contains a char buffer for holding the
+UID. If no UID was provided in the IVRS table, this buffer will be
+zeroed. If we pass in a null string, acpi_dev_hid_uid_match will return
+false because it will try and match an empty string to the ACPI UID of
+the device.
 
-drivers/iommu/ipmmu-vmsa.c:878:28: error: 'ipmmu_find_group' defined but not used [-Werror=unused-function]
-
-Change the #ifdef to an equivalent IS_ENABLED().
-
-Fixes: 6580c8a78424 ("iommu/renesas: Convert to probe/release_device() call-backs")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Fixes: ae5e6c6439c3 ("iommu/amd: Switch to use acpi_dev_hid_uid_match()")
+Signed-off-by: Raul E Rangel <rrangel@chromium.org>
 ---
- drivers/iommu/ipmmu-vmsa.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-index fb7e702dee23..4c2972f3153b 100644
---- a/drivers/iommu/ipmmu-vmsa.c
-+++ b/drivers/iommu/ipmmu-vmsa.c
-@@ -903,11 +903,8 @@ static const struct iommu_ops ipmmu_ops = {
- 	.probe_device = ipmmu_probe_device,
- 	.release_device = ipmmu_release_device,
- 	.probe_finalize = ipmmu_probe_finalize,
--#if defined(CONFIG_ARM) && !defined(CONFIG_IOMMU_DMA)
--	.device_group = generic_device_group,
--#else
--	.device_group = ipmmu_find_group,
--#endif
-+	.device_group = IS_ENABLED(CONFIG_ARM) && !IS_ENABLED(CONFIG_IOMMU_DMA)
-+			? generic_device_group : ipmmu_find_group,
- 	.pgsize_bitmap = SZ_1G | SZ_2M | SZ_4K,
- 	.of_xlate = ipmmu_of_xlate,
- };
+ drivers/iommu/amd_iommu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+index 20cce366e951..06f603366cb1 100644
+--- a/drivers/iommu/amd_iommu.c
++++ b/drivers/iommu/amd_iommu.c
+@@ -125,7 +125,8 @@ static inline int get_acpihid_device_id(struct device *dev,
+ 		return -ENODEV;
+ 
+ 	list_for_each_entry(p, &acpihid_map, list) {
+-		if (acpi_dev_hid_uid_match(adev, p->hid, p->uid)) {
++		if (acpi_dev_hid_uid_match(adev, p->hid,
++					   p->uid[0] ? p->uid : NULL)) {
+ 			if (entry)
+ 				*entry = p;
+ 			return p->devid;
 -- 
-2.26.0
+2.26.2.645.ge9eca65c58-goog
 
 _______________________________________________
 iommu mailing list
