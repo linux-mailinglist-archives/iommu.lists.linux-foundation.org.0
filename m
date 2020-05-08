@@ -1,56 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B7F1CB091
-	for <lists.iommu@lfdr.de>; Fri,  8 May 2020 15:36:57 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E3D1CB2DF
+	for <lists.iommu@lfdr.de>; Fri,  8 May 2020 17:32:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B3616870DE;
-	Fri,  8 May 2020 13:36:55 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 72F4D8870F;
+	Fri,  8 May 2020 15:31:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xXw0XW3qaaAw; Fri,  8 May 2020 13:36:53 +0000 (UTC)
+	with ESMTP id 1NUv-BOORkkp; Fri,  8 May 2020 15:31:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9E0CE870B3;
-	Fri,  8 May 2020 13:36:53 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 38ABA88702;
+	Fri,  8 May 2020 15:31:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 878B7C07FF;
-	Fri,  8 May 2020 13:36:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0E82FC07FF;
+	Fri,  8 May 2020 15:31:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EC332C07FF
- for <iommu@lists.linux-foundation.org>; Fri,  8 May 2020 13:36:51 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 62468C07FF;
+ Fri,  8 May 2020 15:31:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id D56A588404
- for <iommu@lists.linux-foundation.org>; Fri,  8 May 2020 13:36:51 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 49EDA88702;
+ Fri,  8 May 2020 15:31:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vAWVPV4bDL2R for <iommu@lists.linux-foundation.org>;
- Fri,  8 May 2020 13:36:50 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by whitealder.osuosl.org (Postfix) with ESMTPS id E39E986C7E
- for <iommu@lists.linux-foundation.org>; Fri,  8 May 2020 13:36:49 +0000 (UTC)
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id EEA78221682FAA1CE929;
- Fri,  8 May 2020 21:36:46 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 8 May 2020 21:36:37 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH -next] iommu/amd: Remove set but not used variable 'iommu'
-Date: Fri, 8 May 2020 13:40:36 +0000
-Message-ID: <20200508134036.116569-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.20.1
+ with ESMTP id cRM4LpXc7+FX; Fri,  8 May 2020 15:31:55 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id DC61A88704;
+ Fri,  8 May 2020 15:31:54 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 8B21C423; Fri,  8 May 2020 17:31:51 +0200 (CEST)
+Date: Fri, 8 May 2020 17:31:49 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Julia Lawall <Julia.Lawall@inria.fr>
+Subject: Re: [PATCH] iommu/virtio: reverse arguments to list_add
+Message-ID: <20200508153149.GA10908@8bytes.org>
+References: <1588704467-13431-1-git-send-email-Julia.Lawall@inria.fr>
 MIME-Version: 1.0
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
-Cc: kernel-janitors@vger.kernel.org, iommu@lists.linux-foundation.org,
- YueHaibing <yuehaibing@huawei.com>, linux-kernel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <1588704467-13431-1-git-send-email-Julia.Lawall@inria.fr>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: eugene.volanschi@inria.fr, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,43 +66,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Fixes gcc '-Wunused-but-set-variable' warning:
+On Tue, May 05, 2020 at 08:47:47PM +0200, Julia Lawall wrote:
+> Elsewhere in the file, there is a list_for_each_entry with
+> &vdev->resv_regions as the second argument, suggesting that
+> &vdev->resv_regions is the list head.  So exchange the
+> arguments on the list_add call to put the list head in the
+> second argument.
+> 
+> Fixes: 2a5a31487445 ("iommu/virtio: Add probe request")
+> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-drivers/iommu/amd_iommu.c: In function 'amd_iommu_uninit_device':
-drivers/iommu/amd_iommu.c:422:20: warning:
- variable 'iommu' set but not used [-Wunused-but-set-variable]
-
-commit dce8d6964ebd ("iommu/amd: Convert to probe/release_device() call-backs")
-involved this, remove it.
-
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- drivers/iommu/amd_iommu.c | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index fef3689ee535..2b8eb58d2bea 100644
---- a/drivers/iommu/amd_iommu.c
-+++ b/drivers/iommu/amd_iommu.c
-@@ -419,15 +419,12 @@ static void iommu_ignore_device(struct device *dev)
- static void amd_iommu_uninit_device(struct device *dev)
- {
- 	struct iommu_dev_data *dev_data;
--	struct amd_iommu *iommu;
- 	int devid;
- 
- 	devid = get_device_id(dev);
- 	if (devid < 0)
- 		return;
- 
--	iommu = amd_iommu_rlookup_table[devid];
--
- 	dev_data = search_dev_data(devid);
- 	if (!dev_data)
- 		return;
-
-
-
+Applied for v5.7, thanks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
