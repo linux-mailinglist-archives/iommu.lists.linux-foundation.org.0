@@ -1,85 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902211CC365
-	for <lists.iommu@lfdr.de>; Sat,  9 May 2020 19:55:51 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CB51CBC47
+	for <lists.iommu@lfdr.de>; Sat,  9 May 2020 04:02:18 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 25129885F6;
-	Sat,  9 May 2020 17:55:50 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C890B87300;
+	Sat,  9 May 2020 02:02:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id k662oXfwCikh; Sat,  9 May 2020 17:55:47 +0000 (UTC)
+	with ESMTP id c7j20HNUkDMl; Sat,  9 May 2020 02:02:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A07F4885C8;
-	Sat,  9 May 2020 17:55:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 63486872FF;
+	Sat,  9 May 2020 02:02:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 83B2EC0893;
-	Sat,  9 May 2020 17:55:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4AD4EC07FF;
+	Sat,  9 May 2020 02:02:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E1F2FC07FF
- for <iommu@lists.linux-foundation.org>; Fri,  8 May 2020 22:54:30 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 59B2BC07FF
+ for <iommu@lists.linux-foundation.org>; Sat,  9 May 2020 02:02:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9E8C58746D
- for <iommu@lists.linux-foundation.org>; Fri,  8 May 2020 22:54:30 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 471A5872FF
+ for <iommu@lists.linux-foundation.org>; Sat,  9 May 2020 02:02:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qy5f2X6ZBtMZ for <iommu@lists.linux-foundation.org>;
- Fri,  8 May 2020 22:54:29 +0000 (UTC)
-X-Greylist: delayed 00:05:55 by SQLgrey-1.7.6
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
- [209.85.166.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D81AE86CC7
- for <iommu@lists.linux-foundation.org>; Fri,  8 May 2020 22:54:29 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id s10so3426322iog.7
- for <iommu@lists.linux-foundation.org>; Fri, 08 May 2020 15:54:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ with ESMTP id wKDAsv5xHTMq for <iommu@lists.linux-foundation.org>;
+ Sat,  9 May 2020 02:02:14 +0000 (UTC)
+X-Greylist: delayed 00:05:21 by SQLgrey-1.7.6
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+ [209.85.222.196])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 80727872DC
+ for <iommu@lists.linux-foundation.org>; Sat,  9 May 2020 02:02:14 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id g185so3900500qke.7
+ for <iommu@lists.linux-foundation.org>; Fri, 08 May 2020 19:02:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lca.pw; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=fWdsJ1NGPr7oPwWFvlUBsi6Qw8i1lzhg04lZd6bc6aM=;
- b=aO/VaZcOYz/Kc0PeZol3BrIcDYWRjNYcEV4HH9TIWi6NIRkGQqrao0rXYf8DXlMYkw
- 5iUYwq5F6iIKqthHa2WlsWQuNt/bv9OwTt/j5Hv8LdBA5qs2/EE2VFRkvHp4Xpocerqt
- TLcefjFE87OQVuugLNM8vOr+L+WRXnbBFHnKY=
+ bh=O6aNrpLgarISzda+xo8JJ01KVr07p8YFJB55nCgXOUg=;
+ b=M/H3SK/QI764fDKa50a73fqtS9IfCk2173bwOb54DjMcvfCK4GJaMddC2pZSoiOCr5
+ gaVYd+CZW+bvd014XbtNGcPkHvUesahxWTXu83v9h8GQy9pD7YA+/VtygJNkLVwKwu2W
+ 3mH1DQX5JNaz5btdocptRtiPjjLnfIWUF29feDg5W391AbWPx6kh3APuZ1gJXdD+Cpp8
+ 60jvnS+n3jEEDx01NHqBIAFIQCUwdTsCN2KddgcruNvZARMc1lQfjDuZG2Z3IsZZfrCO
+ DLNLqufNpnhd6fsZx81smmmtpWa8+Kj1A9YLe17udKkeIM31Uwizpwzf6S9dqGNmBQsW
+ UO8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=fWdsJ1NGPr7oPwWFvlUBsi6Qw8i1lzhg04lZd6bc6aM=;
- b=RRCmuv+44EeeaApnqir/tZQh8GWH1Ichh5omDsx4JqmnV9nzThWvAjrw8GCdqVbj9Z
- qmhFstlgbbjTn7OkZ5EkgJ3wiKW+rke92pVNNjvSQJEFcY4y5j/kOxnvMWf6fPO4Zy0a
- 0u3rlRCVf71XBJKDcfAdkBRdXYnXoWMHOIMvx8e7HNO9CRJ2BYzltH49T7w7tZGGCbzY
- Vf07O0zzPQkm8oJ4W1u7cAvWvjinhbaYmOfmM44k6H8J1f6KEMWsmJsnSloUgXJOPLNq
- yZ18N9ujZmLUr6jjvJEUWvEl+6ntcKaexoK7QiHDz8DF4qleELtHgksR5ABRHUdbs3BO
- hU3Q==
-X-Gm-Message-State: AGi0Pubx+WwAy5UPE1ZBuKLqNWRnCE7N9gffluWrIksNXl4uZR51MSrX
- BAuO6hRSbOs7ZMw+YHFhKyLN2YUQ0jXPaA==
-X-Google-Smtp-Source: APiQypI25iFqqbLfAR8A9ESKFC1ynWatFmSQmQsfDFNfZoDnC88RujwSFozsdqmou1Wfrnm/FyVC7g==
-X-Received: by 2002:a5d:8591:: with SMTP id f17mr3040492ioj.26.1588978113517; 
- Fri, 08 May 2020 15:48:33 -0700 (PDT)
-Received: from rrangel920.bld.corp.google.com
- (h184-60-195-141.arvdco.broadband.dynamic.tds.net. [184.60.195.141])
- by smtp.gmail.com with ESMTPSA id 17sm431818ill.14.2020.05.08.15.48.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 15:48:33 -0700 (PDT)
-From: Raul E Rangel <rrangel@chromium.org>
-To: Joerg Roedel <jroedel@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- iommu@lists.linux-foundation.org, linux-acpi@vger.kernel.org
-Subject: [PATCH] iommu/amd: Fix get_acpihid_device_id
-Date: Fri,  8 May 2020 16:48:30 -0600
-Message-Id: <20200508164819.1.I6f1b6f973ee6c8af1348611370c73a0ec0ea53f1@changeid>
-X-Mailer: git-send-email 2.26.2.645.ge9eca65c58-goog
+ bh=O6aNrpLgarISzda+xo8JJ01KVr07p8YFJB55nCgXOUg=;
+ b=tv7pucSQAHnVvlmJq457Wv2CpTW983AjH8A37/Tl6ntAzk3+P+Y5Mo2f82zST1NA6K
+ zG/mcaf6fD9C6ZmEP0Hs/VIlvffP8F1lWsYcM6mxefveEYGifkQOAMvGT5UeWL1I0YBP
+ DPgu/R9H2DqHmkJViLUjlKY9ZsmUybngq38G8yqQNVH6fZxRpiHVu6eU7KymhviG5nRk
+ kxtu6XUVBwn7Xs515m94i5NOY5yMAbqW0AwZyylwpdRKyA6+nCIvTQEMjETmbhzN0Z4n
+ jEK+iCBzckVY9et0EF3n+FGaHsYrU8FQIQRIwv2rInNeZgZPxhMmrzCLD+DB30+mFE1m
+ j4XQ==
+X-Gm-Message-State: AGi0PuazSbGzOesZC0tZVLeYKPumbNQr6HnoZAvxF24axXXRID+ADpNF
+ lqhRowXeuq4WZI7mzujZAMKSgcQdmIz8jw==
+X-Google-Smtp-Source: APiQypLkpVuPG2duq9fDZJmd5Lg1XiTR/9OSoq/UcFdtjZrghmKWDw1/OYWw2ix1GTyeRKcCizl09A==
+X-Received: by 2002:a37:7ac2:: with SMTP id v185mr5419583qkc.386.1588989412051; 
+ Fri, 08 May 2020 18:56:52 -0700 (PDT)
+Received: from ovpn-66-195.rdu2.redhat.com
+ (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
+ by smtp.gmail.com with ESMTPSA id p22sm3079186qte.2.2020.05.08.18.56.51
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 08 May 2020 18:56:51 -0700 (PDT)
+From: Qian Cai <cai@lca.pw>
+To: joro@8bytes.org
+Subject: [PATCH -next] iommu/amd: fix variable "iommu" set but not used
+Date: Fri,  8 May 2020 21:56:45 -0400
+Message-Id: <20200509015645.3236-1-cai@lca.pw>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122.2)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sat, 09 May 2020 17:55:46 +0000
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-kernel@vger.kernel.org,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, dianders@chromium.org,
- evgreen@chromium.org, Adrian Hunter <adrian.hunter@intel.com>,
- Raul E Rangel <rrangel@chromium.org>, Daniel Kurtz <djkurtz@chromium.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,36 +93,42 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-acpi_dev_hid_uid_match expects a null pointer for UID if it doesn't
-exist. The acpihid_map_entry contains a char buffer for holding the
-UID. If no UID was provided in the IVRS table, this buffer will be
-zeroed. If we pass in a null string, acpi_dev_hid_uid_match will return
-false because it will try and match an empty string to the ACPI UID of
-the device.
+The commit dce8d6964ebd ("iommu/amd: Convert to probe/release_device()
+call-backs") introduced an unused variable,
 
-Fixes: ae5e6c6439c3 ("iommu/amd: Switch to use acpi_dev_hid_uid_match()")
-Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+drivers/iommu/amd_iommu.c: In function 'amd_iommu_uninit_device':
+drivers/iommu/amd_iommu.c:422:20: warning: variable 'iommu' set but not
+used [-Wunused-but-set-variable]
+  struct amd_iommu *iommu;
+                    ^~~~~
+
+Signed-off-by: Qian Cai <cai@lca.pw>
 ---
-
- drivers/iommu/amd_iommu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/iommu/amd_iommu.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
-index 20cce366e951..06f603366cb1 100644
+index fef3689ee535..2b8eb58d2bea 100644
 --- a/drivers/iommu/amd_iommu.c
 +++ b/drivers/iommu/amd_iommu.c
-@@ -125,7 +125,8 @@ static inline int get_acpihid_device_id(struct device *dev,
- 		return -ENODEV;
+@@ -419,15 +419,12 @@ static void iommu_ignore_device(struct device *dev)
+ static void amd_iommu_uninit_device(struct device *dev)
+ {
+ 	struct iommu_dev_data *dev_data;
+-	struct amd_iommu *iommu;
+ 	int devid;
  
- 	list_for_each_entry(p, &acpihid_map, list) {
--		if (acpi_dev_hid_uid_match(adev, p->hid, p->uid)) {
-+		if (acpi_dev_hid_uid_match(adev, p->hid,
-+					   p->uid[0] ? p->uid : NULL)) {
- 			if (entry)
- 				*entry = p;
- 			return p->devid;
+ 	devid = get_device_id(dev);
+ 	if (devid < 0)
+ 		return;
+ 
+-	iommu = amd_iommu_rlookup_table[devid];
+-
+ 	dev_data = search_dev_data(devid);
+ 	if (!dev_data)
+ 		return;
 -- 
-2.26.2.645.ge9eca65c58-goog
+2.21.0 (Apple Git-122.2)
 
 _______________________________________________
 iommu mailing list
