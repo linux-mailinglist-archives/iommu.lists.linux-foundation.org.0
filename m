@@ -2,86 +2,85 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE6E1CCBF2
-	for <lists.iommu@lfdr.de>; Sun, 10 May 2020 17:28:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC0E1CCCEC
+	for <lists.iommu@lfdr.de>; Sun, 10 May 2020 20:35:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 6D488203A8;
-	Sun, 10 May 2020 15:28:13 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 34D2620506;
+	Sun, 10 May 2020 18:35:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LCJ6M4vXtsxp; Sun, 10 May 2020 15:28:12 +0000 (UTC)
+	with ESMTP id ey2wtB9FeXrs; Sun, 10 May 2020 18:35:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7015820398;
-	Sun, 10 May 2020 15:28:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0175820498;
+	Sun, 10 May 2020 18:35:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 51E4EC0890;
-	Sun, 10 May 2020 15:28:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D46CCC016F;
+	Sun, 10 May 2020 18:35:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B56A5C016F
- for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 15:28:10 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 10BECC016F
+ for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 18:35:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A289C868A8
- for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 15:28:10 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id E65788645E
+ for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 18:35:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id neb0QjuA8206 for <iommu@lists.linux-foundation.org>;
- Sun, 10 May 2020 15:28:07 +0000 (UTC)
-X-Greylist: delayed 00:28:44 by SQLgrey-1.7.6
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
- [209.85.217.68])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B8E1087675
- for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 15:28:07 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id g2so4063922vsb.4
- for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 08:28:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=VB6QB0k6yF1xCUNO7qdS9eL2WdSOXXOnR9sFnZiLOd4=;
- b=R+MsY9WCtRMMxoxZF4KOot1ecgDsOPB1vYqBzsx/sSAFnQsx9ArlIiv1oWrbe6IYzM
- Zk2VyZUIcN0aB7+7F+8JD/UHUpzpXTubVIrv/E6LkNO2Guiz9jcOztegpRyY0GE9Pcvu
- tCW74BbqPjb/gEN6ITnZvVZDxPyiMjQpEKZieR+v/hGQJ5Sj3AQG05OZwCtLAz7iWZnF
- YGG7EPQZ685umqmg2iQn37HlDAlMZfaujGc/l6o+gOSBjXcFfJTtIsAat0fm8UZpDH9H
- lxZMu7JeudSu6i/Sa4g+vY0TUnSRefgt8matT62fUh8rEHNhj6DVXiBA3VM8gkamkaSq
- z4TA==
+ with ESMTP id f9hFP_eRJuvC for <iommu@lists.linux-foundation.org>;
+ Sun, 10 May 2020 18:35:08 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+ [209.85.167.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 798F686448
+ for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 18:35:08 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id u4so5575730lfm.7
+ for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 11:35:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jmGhiEm22t+3OQvDts0G7B0MglaOf7LPWER0GV6uNyI=;
+ b=FnNwK+FpYxSe49d2HF2HI88DOsvdX7SLIXAH4QIjADNVX8Unc9CioH4sANmElWVzRY
+ KS6OL4IOKrQpg/mOQkEYEEC5ONLCRvfQlJyTg25V777MtM2gNyAJHNG+qwbYKjOXD3bu
+ R1cqqjG57VB79qMeUjZa9gGCfcfb6/ox3xyGs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=VB6QB0k6yF1xCUNO7qdS9eL2WdSOXXOnR9sFnZiLOd4=;
- b=olc4Eium/QKDiZCBMk1IBoRPTu30jazdyry/tZK1xVon5+VN9GqJF9378mzxKVqXaw
- 9BC7sxl1L6VG/njO/KgBrrewtKLN2chNl4ojmMokxL3R1snDWCb9TCpIQQIWU3Yi4Y1g
- 4/Muy97i96RYatcf7RAhnYaisN+/eMpzkXvSP6GFAEhPeCFsy5DwIbUhNANUGUdIWTFh
- bGTg3tnaoIte7W+DOofceEtoUKk+ZA0JQUQitQGi+LtERzkMvuYAtgtAe+XOu/9RiPmr
- bFtZ5nf71e2Pl0TsxyFaSE57nvz7ruiLnx/IhvEXEdYoRuK5E9tTskUqezRsFeokT9Aw
- sfkQ==
-X-Gm-Message-State: AGi0PuY0AyyZX8iSE9JhG8W2AV11Ut74MqTd++QaIKxLxoFiA/s9lg2A
- 1exQuhNHHx1aHB4tVrYLFYf9gajBHEI=
-X-Google-Smtp-Source: APiQypLVS+XTU5o7852M9jAyZ4wpgBqMnBWgIepU1EgoKyX04/8LK6qI8+34szonUh28DVcCpNNSNw==
-X-Received: by 2002:a17:902:bc86:: with SMTP id
- bb6mr10879547plb.243.1589121033101; 
- Sun, 10 May 2020 07:30:33 -0700 (PDT)
-Received: from dragon ([80.251.214.228])
- by smtp.gmail.com with ESMTPSA id g40sm7631138pje.38.2020.05.10.07.30.29
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 10 May 2020 07:30:32 -0700 (PDT)
-Date: Sun, 10 May 2020 22:30:21 +0800
-From: Shawn Guo <shawn.guo@linaro.org>
-To: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: Re: [PATCH] iommu/qcom: add optional clock for TLB invalidate
-Message-ID: <20200510143020.GA16939@dragon>
-References: <20200509130825.28248-1-shawn.guo@linaro.org>
- <e8150781-6000-dedc-ca10-6cee232c4364@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jmGhiEm22t+3OQvDts0G7B0MglaOf7LPWER0GV6uNyI=;
+ b=YW867BU6dk6K6+mTs9kQIkq4qv+yif9wW36YS/No2jLygJOyliDLA6eX2ocDRWoSe1
+ Q29BokB6Ydd4kOgB6igrRq68CicHnuD9tLKcG00xTcc5gq2aEoYQJn9sIrgildZmyo2g
+ g6WrZj9ORqhrHKhACcsi86v+IQbQD81kQtXBTD9pk4NCX29hI4rd8MCtnj8itJAtYGY/
+ r8sgFnQLntiGFF0AvtGaEJzoReadoCnf5yUVt+FcXsCC5GJfprnPuP4yKk2CBwPMDWbP
+ dAuVfLmN7OV9/VGHLiMQYR0sefcEo/fTfAD/9c31+Twd2f32Fu6Qs+1HDQ1x+oo0arni
+ X1bg==
+X-Gm-Message-State: AOAM532nv4uCNKBvZBS8ASp0vcIyYQaam+Ke+/zPAtHY6L9zdQICyMDu
+ gHeS9poJODzbWwXo3pVq5/IH/VY20UZ1kg==
+X-Google-Smtp-Source: ABdhPJxVKdZL56ML9KRZrJc1N9/XqxyWf4mDCyVHzC8okHxCT3FRq5QyOyrEM20GP46likGUrH1Evg==
+X-Received: by 2002:ac2:5046:: with SMTP id a6mr8327960lfm.103.1589135705992; 
+ Sun, 10 May 2020 11:35:05 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com.
+ [209.85.167.49])
+ by smtp.gmail.com with ESMTPSA id x11sm8013107lfe.6.2020.05.10.11.35.05
+ for <iommu@lists.linux-foundation.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 10 May 2020 11:35:05 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id c21so966984lfb.3
+ for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 11:35:05 -0700 (PDT)
+X-Received: by 2002:ac2:58c8:: with SMTP id u8mr8563575lfo.142.1589135704829; 
+ Sun, 10 May 2020 11:35:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <e8150781-6000-dedc-ca10-6cee232c4364@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: linux-arm-msm@vger.kernel.org, Konrad Dybcio <konradybcio@gmail.com>,
- iommu@lists.linux-foundation.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andy Gross <agross@kernel.org>
+References: <20200510122634.GA32616@8bytes.org>
+In-Reply-To: <20200510122634.GA32616@8bytes.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 10 May 2020 11:34:49 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wht3yDtJ6zka=DNaB8Nymh-zmUMZhGaC8yFz29nuW-EsA@mail.gmail.com>
+Message-ID: <CAHk-=wht3yDtJ6zka=DNaB8Nymh-zmUMZhGaC8yFz29nuW-EsA@mail.gmail.com>
+Subject: Re: [git pull] IOMMU Fixes for Linux v5.7-rc4
+To: Joerg Roedel <joro@8bytes.org>
+Cc: iommu <iommu@lists.linux-foundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,24 +98,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Stanimir,
+On Sun, May 10, 2020 at 5:26 AM Joerg Roedel <joro@8bytes.org> wrote:
+>
+>            The first race condition was around
+>           the non-atomic update of the domain page-table root pointer
+>           and the variable containing the page-table depth (called
+>           mode). This is fixed now be merging page-table root and mode
+>           into one 64-bit field which is read/written atomically.
 
-On Sat, May 09, 2020 at 04:21:20PM +0300, Stanimir Varbanov wrote:
-...
-> > @@ -839,6 +849,12 @@ static int qcom_iommu_device_probe(struct platform_device *pdev)
-> >  		return PTR_ERR(qcom_iommu->bus_clk);
-> >  	}
-> >  
-> > +	qcom_iommu->tlb_clk = devm_clk_get(dev, "tlb");
-> 
-> IMO, devm_clk_get_optional() would be better.
+This seems a bit odd.
 
-Yes, indeed.  The function will make it clear that the clock is
-an optional one.  I will make the change in v2.
+The pointer part is always page-aligned, and the "mode" is just three bits.
 
-Thanks for the comment!
+Why isn't it just encoded as one pointer with the low three bits being the mode?
 
-Shawn
+The thing is, the 64-bit atomic reads/writes are very expensive on
+32-bit x86. If it was just a native pointer, it would be much cheaper
+than an "atomic64_t".
+
+                Linus
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
