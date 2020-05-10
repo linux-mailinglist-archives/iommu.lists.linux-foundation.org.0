@@ -2,62 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10BDE1CCD5E
-	for <lists.iommu@lfdr.de>; Sun, 10 May 2020 21:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 096191CCE8F
+	for <lists.iommu@lfdr.de>; Mon, 11 May 2020 00:31:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6026B883E2;
-	Sun, 10 May 2020 19:45:07 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DDD4F883B8;
+	Sun, 10 May 2020 22:25:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4UWWl5JM0Zdu; Sun, 10 May 2020 19:45:06 +0000 (UTC)
+	with ESMTP id HZ7FT7xIL-aR; Sun, 10 May 2020 22:25:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 113B4883DC;
-	Sun, 10 May 2020 19:45:06 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4B200883B6;
+	Sun, 10 May 2020 22:25:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E44ADC016F;
-	Sun, 10 May 2020 19:45:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3897EC016F;
+	Sun, 10 May 2020 22:25:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8391FC016F
- for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 19:45:04 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 919A9C016F
+ for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 22:25:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 6B4758648C
- for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 19:45:04 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 79A5387969
+ for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 22:25:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Tu1QX4KjO6km for <iommu@lists.linux-foundation.org>;
- Sun, 10 May 2020 19:45:04 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1894B86463
- for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 19:45:04 +0000 (UTC)
+ with ESMTP id e4NTTjDrZGMV for <iommu@lists.linux-foundation.org>;
+ Sun, 10 May 2020 22:25:46 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E2FE3878C0
+ for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 22:25:45 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id DA7F12C8; Mon, 11 May 2020 00:25:42 +0200 (CEST)
+Date: Mon, 11 May 2020 00:25:41 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
 Subject: Re: [git pull] IOMMU Fixes for Linux v5.7-rc4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589139903;
- bh=bYqSfo4lMXohnc3IhL03zeCrUobYVL6txTc5psvv8o0=;
- h=From:In-Reply-To:References:Date:To:Cc:From;
- b=jwnIJFHFdDGmhDt7scI/4fbSvFmpLBfXZnpLPHgrC7Fxc4TMZw6kAza245HSyQQQg
- 6ADSMmgulm5rncegW6MPFo5zKGQ1hm7QL1QQVLckUdrlv3Ux6MbmrASkuOIx+rjsc5
- T+iPQidDmU4VKNP9r1kFfQ7e6113iJmDwntdqkGI=
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20200510122634.GA32616@8bytes.org>
+Message-ID: <20200510222540.GF18353@8bytes.org>
 References: <20200510122634.GA32616@8bytes.org>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20200510122634.GA32616@8bytes.org>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
- tags/iommu-fixes-v5.7-rc4
-X-PR-Tracked-Commit-Id: fb3637a113349f53830f7d6ca45891b7192cd28f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 27d2dcb1b95c8c39da417839c11eda2e665cd389
-Message-Id: <158913990386.3456.15345880973524741179.pr-tracker-bot@kernel.org>
-Date: Sun, 10 May 2020 19:45:03 +0000
-To: Joerg Roedel <joro@8bytes.org>
-Cc: iommu@lists.linux-foundation.org,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org
+ <CAHk-=wht3yDtJ6zka=DNaB8Nymh-zmUMZhGaC8yFz29nuW-EsA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wht3yDtJ6zka=DNaB8Nymh-zmUMZhGaC8yFz29nuW-EsA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: iommu <iommu@lists.linux-foundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -70,24 +61,43 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The pull request you sent on Sun, 10 May 2020 14:26:40 +0200:
+On Sun, May 10, 2020 at 11:34:49AM -0700, Linus Torvalds wrote:
+> On Sun, May 10, 2020 at 5:26 AM Joerg Roedel <joro@8bytes.org> wrote:
+> >
+> >            The first race condition was around
+> >           the non-atomic update of the domain page-table root pointer
+> >           and the variable containing the page-table depth (called
+> >           mode). This is fixed now be merging page-table root and mode
+> >           into one 64-bit field which is read/written atomically.
+> 
+> This seems a bit odd.
+> 
+> The pointer part is always page-aligned, and the "mode" is just three bits.
+> 
+> Why isn't it just encoded as one pointer with the low three bits being the mode?
+> 
+> The thing is, the 64-bit atomic reads/writes are very expensive on
+> 32-bit x86. If it was just a native pointer, it would be much cheaper
+> than an "atomic64_t".
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git tags/iommu-fixes-v5.7-rc4
+Yeah, when I think about it again, you are right. I think I used
+atomic64_t just to be on the safe side with memory odering and all. But
+in this case it doesn't really matter when a reader observes the
+update, it is only important that the reader does not observe one field
+updated while the other is not. And that should already be fullfilled
+with 64-bit writes on x86-64, like a native pointer write.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/27d2dcb1b95c8c39da417839c11eda2e665cd389
+I'll send a patch to Qian to test this, just to be sure I am not missing
+anything.
 
-Thank you!
+Thanks,
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
