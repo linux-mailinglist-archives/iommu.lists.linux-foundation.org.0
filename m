@@ -1,69 +1,51 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641D51CCEB8
-	for <lists.iommu@lfdr.de>; Mon, 11 May 2020 01:37:10 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C401CD8DF
+	for <lists.iommu@lfdr.de>; Mon, 11 May 2020 13:50:55 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DF47887E84;
-	Sun, 10 May 2020 23:20:00 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C270686A11;
+	Mon, 11 May 2020 11:50:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 46aEl6fJ1fJI; Sun, 10 May 2020 23:20:00 +0000 (UTC)
+	with ESMTP id nk2MoZSErRgt; Mon, 11 May 2020 11:50:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1522B87E77;
-	Sun, 10 May 2020 23:20:00 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AC2FA86278;
+	Mon, 11 May 2020 11:50:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F1C04C0890;
-	Sun, 10 May 2020 23:19:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 95399C016F;
+	Mon, 11 May 2020 11:50:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DCAD9C016F
- for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 23:19:58 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 52852C016F
+ for <iommu@lists.linux-foundation.org>; Mon, 11 May 2020 10:33:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 9A82422882
- for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 23:19:58 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2F7F0884FD
+ for <iommu@lists.linux-foundation.org>; Mon, 11 May 2020 10:33:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cNMHxBxFXCI9 for <iommu@lists.linux-foundation.org>;
- Sun, 10 May 2020 23:19:57 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by silver.osuosl.org (Postfix) with ESMTPS id 7EAA522846
- for <iommu@lists.linux-foundation.org>; Sun, 10 May 2020 23:19:57 +0000 (UTC)
-IronPort-SDR: 5IQoU251DZuylIG+aKfz0HBBZAUFRwjzCC8q0Ommx1M5+FKsHbSpIrs1eRZ35S6sbMlhfrGK9t
- MKMxk2y6I4eQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 May 2020 16:19:56 -0700
-IronPort-SDR: bMVr+HfzhLC7IDcW8Rgd6plGgxxu9+/Eji/jiXNKDERKa1e19pHZ6VicKFtf8Dpfrh0Rmd2H7z
- fTYtNw4Yfwng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,377,1583222400"; d="scan'208";a="279614189"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.139])
- ([10.239.159.139])
- by orsmga002.jf.intel.com with ESMTP; 10 May 2020 16:19:53 -0700
-Subject: Re: [PATCH v4 0/3] Replace private domain with per-group default
- domain
-To: Joerg Roedel <joro@8bytes.org>
-References: <20200506015947.28662-1-baolu.lu@linux.intel.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <7928dd48-93da-62f0-b455-6e6b248d0fae@linux.intel.com>
-Date: Mon, 11 May 2020 07:16:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ with ESMTP id 7fK2IehVLuOp for <iommu@lists.linux-foundation.org>;
+ Mon, 11 May 2020 10:33:25 +0000 (UTC)
+X-Greylist: delayed 00:06:05 by SQLgrey-1.7.6
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.45])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 5CDE6884E7
+ for <iommu@lists.linux-foundation.org>; Mon, 11 May 2020 10:33:25 +0000 (UTC)
+Received: from localhost.localdomain (unknown [46.188.10.168])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 21C86CD464;
+ Mon, 11 May 2020 13:27:18 +0300 (MSK)
+From: Alexander Monakov <amonakov@ispras.ru>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] iommu/amd: fix over-read of ACPI UID from IVRS table
+Date: Mon, 11 May 2020 10:23:52 +0000
+Message-Id: <20200511102352.1831-1-amonakov@ispras.ru>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200506015947.28662-1-baolu.lu@linux.intel.com>
-Content-Language: en-US
-Cc: kevin.tian@intel.com, ashok.raj@intel.com, linux-kernel@vger.kernel.org,
- Daniel Drake <drake@endlessm.com>, iommu@lists.linux-foundation.org,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- Derrick Jonathan <jonathan.derrick@intel.com>
+X-Mailman-Approved-At: Mon, 11 May 2020 11:50:51 +0000
+Cc: Alexander Monakov <amonakov@ispras.ru>, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,38 +58,81 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Joerg,
+IVRS parsing code always tries to read 255 bytes from memory when
+retrieving ACPI device path, and makes an assumption that firmware
+provides a zero-terminated string. Both of those are bugs: the entry
+is likely to be shorter than 255 bytes, and zero-termination is not
+guaranteed.
 
-On 5/6/20 9:59 AM, Lu Baolu wrote:
-> Some devices are required to use a specific type (identity or dma) of
-> default domain when they are used with a vendor iommu. When the system
-> level default domain type is different from it, the vendor iommu driver
-> has to request a new default domain with either
-> iommu_request_dma_domain_for_dev() or iommu_request_dm_for_dev() in the
-> add_dev() callback. Unfortunately, these two helpers only work when the
-> group hasn't been assigned to any other devices, hence, some vendor iommu
-> driver has to use a private domain if it fails to request a new default
-> one.
-> 
-> Joerg proposed an on-going proposal which makes the default domain
-> framework to support configuring per-group default domain during boot
-> process.
-> 
-> https://lkml.org/lkml/2020/4/14/616
-> [This has been applied in iommu/next.]
-> 
-> Hence, there is no need to keep the private domain implementation
-> in the Intel IOMMU driver. This patch series aims to remove it.
+With Acer SF314-42 firmware these issues manifest visibly in dmesg:
 
-Can you please take this series to iommu/next for wider test?
+AMD-Vi: ivrs, add hid:AMDI0020, uid:\_SB.FUR0\xf0\xa5, rdevid:160
+AMD-Vi: ivrs, add hid:AMDI0020, uid:\_SB.FUR1\xf0\xa5, rdevid:160
+AMD-Vi: ivrs, add hid:AMDI0020, uid:\_SB.FUR2\xf0\xa5, rdevid:160
+AMD-Vi: ivrs, add hid:AMDI0020, uid:\_SB.FUR3>\x83e\x8d\x9a\xd1...
 
-Best regards,
-baolu
+The first three lines show how the code over-reads adjacent table
+entries into the UID, and in the last line it even reads garbage data
+beyond the end of the IVRS table itself.
+
+Since each entry has the length of the UID (uidl member of ivhd_entry
+struct), use that for memcpy, and manually add a zero terminator.
+
+Avoid zero-filling hid and uid arrays up front, and instead ensure
+the uid array is always zero-terminated. No change needed for the hid
+array, as it was already properly zero-terminated.
+
+Fixes: 2a0cb4e2d423c ("iommu/amd: Add new map for storing IVHD dev entry type HID")
+
+Signed-off-by: Alexander Monakov <amonakov@ispras.ru>
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: iommu@lists.linux-foundation.org
+---
+ drivers/iommu/amd_iommu_init.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
+index 6be3853a5d97..faed3d35017a 100644
+--- a/drivers/iommu/amd_iommu_init.c
++++ b/drivers/iommu/amd_iommu_init.c
+@@ -1329,8 +1329,8 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
+ 		}
+ 		case IVHD_DEV_ACPI_HID: {
+ 			u16 devid;
+-			u8 hid[ACPIHID_HID_LEN] = {0};
+-			u8 uid[ACPIHID_UID_LEN] = {0};
++			u8 hid[ACPIHID_HID_LEN];
++			u8 uid[ACPIHID_UID_LEN];
+ 			int ret;
+ 
+ 			if (h->type != 0x40) {
+@@ -1347,6 +1347,7 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
+ 				break;
+ 			}
+ 
++			uid[0] = '\0';
+ 			switch (e->uidf) {
+ 			case UID_NOT_PRESENT:
+ 
+@@ -1361,8 +1362,8 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
+ 				break;
+ 			case UID_IS_CHARACTER:
+ 
+-				memcpy(uid, (u8 *)(&e->uid), ACPIHID_UID_LEN - 1);
+-				uid[ACPIHID_UID_LEN - 1] = '\0';
++				memcpy(uid, &e->uid, e->uidl);
++				uid[e->uidl] = '\0';
+ 
+ 				break;
+ 			default:
+-- 
+2.26.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
