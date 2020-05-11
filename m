@@ -1,51 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C401CD8DF
-	for <lists.iommu@lfdr.de>; Mon, 11 May 2020 13:50:55 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 120521CD724
+	for <lists.iommu@lfdr.de>; Mon, 11 May 2020 13:05:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C270686A11;
-	Mon, 11 May 2020 11:50:53 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5E5C78891A;
+	Mon, 11 May 2020 11:05:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nk2MoZSErRgt; Mon, 11 May 2020 11:50:52 +0000 (UTC)
+	with ESMTP id Mb5CL9SLlpaV; Mon, 11 May 2020 11:05:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id AC2FA86278;
-	Mon, 11 May 2020 11:50:52 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 53F9788915;
+	Mon, 11 May 2020 11:05:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 95399C016F;
-	Mon, 11 May 2020 11:50:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 33422C016F;
+	Mon, 11 May 2020 11:05:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 52852C016F
- for <iommu@lists.linux-foundation.org>; Mon, 11 May 2020 10:33:27 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35C04C016F
+ for <iommu@lists.linux-foundation.org>; Mon, 11 May 2020 11:05:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 2F7F0884FD
- for <iommu@lists.linux-foundation.org>; Mon, 11 May 2020 10:33:27 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 1EA6A88912
+ for <iommu@lists.linux-foundation.org>; Mon, 11 May 2020 11:05:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7fK2IehVLuOp for <iommu@lists.linux-foundation.org>;
- Mon, 11 May 2020 10:33:25 +0000 (UTC)
-X-Greylist: delayed 00:06:05 by SQLgrey-1.7.6
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.45])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5CDE6884E7
- for <iommu@lists.linux-foundation.org>; Mon, 11 May 2020 10:33:25 +0000 (UTC)
-Received: from localhost.localdomain (unknown [46.188.10.168])
- by mail.ispras.ru (Postfix) with ESMTPSA id 21C86CD464;
- Mon, 11 May 2020 13:27:18 +0300 (MSK)
-From: Alexander Monakov <amonakov@ispras.ru>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] iommu/amd: fix over-read of ACPI UID from IVRS table
-Date: Mon, 11 May 2020 10:23:52 +0000
-Message-Id: <20200511102352.1831-1-amonakov@ispras.ru>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 11 May 2020 11:50:51 +0000
-Cc: Alexander Monakov <amonakov@ispras.ru>, iommu@lists.linux-foundation.org
+ with ESMTP id muppVg4DrCNz for <iommu@lists.linux-foundation.org>;
+ Mon, 11 May 2020 11:05:19 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 044F988911
+ for <iommu@lists.linux-foundation.org>; Mon, 11 May 2020 11:05:18 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1589195119; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=mnWaIkTHcklbYjU+84DKeK3V8ZTY+Qs+iogIcck9Kf8=;
+ b=ReMyvZ5UpXpdIsjns3hvzYA+X1vLo8mi2FHTofosREkMkFJgUgxmmkZp1tAQceWzZwtLwQYb
+ axAEfEL+0ShbAXGOLnpWO4kClahkPNpRLXL3ZMYWiJTi5T7d1kL0kjRCV70KObbRIuTl251c
+ qiTNeg40DW375LkxWtgTatIvh+E=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5eb9316d.7f011d1d73b0-smtp-out-n01;
+ Mon, 11 May 2020 11:05:17 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 789ADC433BA; Mon, 11 May 2020 11:05:16 +0000 (UTC)
+Received: from vjitta-linux.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: vjitta)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 22866C433F2;
+ Mon, 11 May 2020 11:05:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 22866C433F2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=vjitta@codeaurora.org
+From: vjitta@codeaurora.org
+To: joro@8bytes.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] iommu/iova: Retry from last rb tree node if iova search
+ fails
+Date: Mon, 11 May 2020 16:34:53 +0530
+Message-Id: <1589195093-17129-1-git-send-email-vjitta@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
+Cc: kernel-team@android.com, vinmenon@codeaurora.org, robin.murphy@arm.com,
+ vjitta@codeaurora.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -58,81 +83,92 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-IVRS parsing code always tries to read 255 bytes from memory when
-retrieving ACPI device path, and makes an assumption that firmware
-provides a zero-terminated string. Both of those are bugs: the entry
-is likely to be shorter than 255 bytes, and zero-termination is not
-guaranteed.
+From: Vijayanand Jitta <vjitta@codeaurora.org>
 
-With Acer SF314-42 firmware these issues manifest visibly in dmesg:
+When ever a new iova alloc request comes iova is always searched
+from the cached node and the nodes which are previous to cached
+node. So, even if there is free iova space available in the nodes
+which are next to the cached node iova allocation can still fail
+because of this approach.
 
-AMD-Vi: ivrs, add hid:AMDI0020, uid:\_SB.FUR0\xf0\xa5, rdevid:160
-AMD-Vi: ivrs, add hid:AMDI0020, uid:\_SB.FUR1\xf0\xa5, rdevid:160
-AMD-Vi: ivrs, add hid:AMDI0020, uid:\_SB.FUR2\xf0\xa5, rdevid:160
-AMD-Vi: ivrs, add hid:AMDI0020, uid:\_SB.FUR3>\x83e\x8d\x9a\xd1...
+Consider the following sequence of iova alloc and frees on
+1GB of iova space
 
-The first three lines show how the code over-reads adjacent table
-entries into the UID, and in the last line it even reads garbage data
-beyond the end of the IVRS table itself.
+1) alloc - 500MB
+2) alloc - 12MB
+3) alloc - 499MB
+4) free -  12MB which was allocated in step 2
+5) alloc - 13MB
 
-Since each entry has the length of the UID (uidl member of ivhd_entry
-struct), use that for memcpy, and manually add a zero terminator.
+After the above sequence we will have 12MB of free iova space and
+cached node will be pointing to the iova pfn of last alloc of 13MB
+which will be the lowest iova pfn of that iova space. Now if we get an
+alloc request of 2MB we just search from cached node and then look
+for lower iova pfn's for free iova and as they aren't any, iova alloc
+fails though there is 12MB of free iova space.
 
-Avoid zero-filling hid and uid arrays up front, and instead ensure
-the uid array is always zero-terminated. No change needed for the hid
-array, as it was already properly zero-terminated.
+To avoid such iova search failures do a retry from the last rb tree node
+when iova search fails, this will search the entire tree and get an iova
+if its available
 
-Fixes: 2a0cb4e2d423c ("iommu/amd: Add new map for storing IVHD dev entry type HID")
-
-Signed-off-by: Alexander Monakov <amonakov@ispras.ru>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: iommu@lists.linux-foundation.org
+Signed-off-by: Vijayanand Jitta <vjitta@codeaurora.org>
 ---
- drivers/iommu/amd_iommu_init.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/iommu/iova.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
-index 6be3853a5d97..faed3d35017a 100644
---- a/drivers/iommu/amd_iommu_init.c
-+++ b/drivers/iommu/amd_iommu_init.c
-@@ -1329,8 +1329,8 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
- 		}
- 		case IVHD_DEV_ACPI_HID: {
- 			u16 devid;
--			u8 hid[ACPIHID_HID_LEN] = {0};
--			u8 uid[ACPIHID_UID_LEN] = {0};
-+			u8 hid[ACPIHID_HID_LEN];
-+			u8 uid[ACPIHID_UID_LEN];
- 			int ret;
+diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
+index 0e6a953..7d82afc 100644
+--- a/drivers/iommu/iova.c
++++ b/drivers/iommu/iova.c
+@@ -184,8 +184,9 @@ static int __alloc_and_insert_iova_range(struct iova_domain *iovad,
+ 	struct rb_node *curr, *prev;
+ 	struct iova *curr_iova;
+ 	unsigned long flags;
+-	unsigned long new_pfn;
++	unsigned long new_pfn, alloc_lo_new;
+ 	unsigned long align_mask = ~0UL;
++	unsigned long alloc_hi = limit_pfn, alloc_lo = iovad->start_pfn;
  
- 			if (h->type != 0x40) {
-@@ -1347,6 +1347,7 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
- 				break;
- 			}
+ 	if (size_aligned)
+ 		align_mask <<= fls_long(size - 1);
+@@ -198,15 +199,25 @@ static int __alloc_and_insert_iova_range(struct iova_domain *iovad,
  
-+			uid[0] = '\0';
- 			switch (e->uidf) {
- 			case UID_NOT_PRESENT:
+ 	curr = __get_cached_rbnode(iovad, limit_pfn);
+ 	curr_iova = rb_entry(curr, struct iova, node);
++	alloc_lo_new = curr_iova->pfn_hi;
++
++retry:
+ 	do {
+-		limit_pfn = min(limit_pfn, curr_iova->pfn_lo);
+-		new_pfn = (limit_pfn - size) & align_mask;
++		alloc_hi = min(alloc_hi, curr_iova->pfn_lo);
++		new_pfn = (alloc_hi - size) & align_mask;
+ 		prev = curr;
+ 		curr = rb_prev(curr);
+ 		curr_iova = rb_entry(curr, struct iova, node);
+ 	} while (curr && new_pfn <= curr_iova->pfn_hi);
  
-@@ -1361,8 +1362,8 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
- 				break;
- 			case UID_IS_CHARACTER:
- 
--				memcpy(uid, (u8 *)(&e->uid), ACPIHID_UID_LEN - 1);
--				uid[ACPIHID_UID_LEN - 1] = '\0';
-+				memcpy(uid, &e->uid, e->uidl);
-+				uid[e->uidl] = '\0';
- 
- 				break;
- 			default:
+-	if (limit_pfn < size || new_pfn < iovad->start_pfn) {
++	if (alloc_hi < size || new_pfn < alloc_lo) {
++		if (alloc_lo == iovad->start_pfn && alloc_lo_new < limit_pfn) {
++			alloc_hi = limit_pfn;
++			alloc_lo = alloc_lo_new;
++			curr = &iovad->anchor.node;
++			curr_iova = rb_entry(curr, struct iova, node);
++			goto retry;
++		}
+ 		iovad->max32_alloc_size = size;
+ 		goto iova32_full;
+ 	}
 -- 
-2.26.2
-
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, hosted by The Linux Foundation
+1.9.1
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
