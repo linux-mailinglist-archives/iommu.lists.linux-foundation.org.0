@@ -1,59 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id A30081D0BB1
-	for <lists.iommu@lfdr.de>; Wed, 13 May 2020 11:15:45 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 913C21D0D71
+	for <lists.iommu@lfdr.de>; Wed, 13 May 2020 11:53:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 569E984917;
-	Wed, 13 May 2020 09:15:44 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3C48988844;
+	Wed, 13 May 2020 09:53:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tTYRIhGlUTS1; Wed, 13 May 2020 09:15:43 +0000 (UTC)
+	with ESMTP id kAl48-s5f7SL; Wed, 13 May 2020 09:53:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D3709848FA;
-	Wed, 13 May 2020 09:15:43 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A2FDE887F3;
+	Wed, 13 May 2020 09:53:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C7308C016F;
-	Wed, 13 May 2020 09:15:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 976F9C016F;
+	Wed, 13 May 2020 09:53:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2C192C016F
- for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 09:15:42 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 386B2C016F
+ for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 09:53:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 1B86B88699
- for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 09:15:42 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 27B6E887F3
+ for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 09:53:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5zZRsgPXDkQO for <iommu@lists.linux-foundation.org>;
- Wed, 13 May 2020 09:15:40 +0000 (UTC)
+ with ESMTP id W6FuoLDs6vYh for <iommu@lists.linux-foundation.org>;
+ Wed, 13 May 2020 09:53:09 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 2A67388687
- for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 09:15:40 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 74AA6887E6
+ for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 09:53:09 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id A4EB8379; Wed, 13 May 2020 11:15:38 +0200 (CEST)
-Date: Wed, 13 May 2020 11:15:37 +0200
+ id 8FAD0379; Wed, 13 May 2020 11:53:05 +0200 (CEST)
+Date: Wed, 13 May 2020 11:53:04 +0200
 From: Joerg Roedel <joro@8bytes.org>
-To: Raul E Rangel <rrangel@chromium.org>
-Subject: Re: [PATCH v2] iommu/amd: Fix get_acpihid_device_id()
-Message-ID: <20200513091537.GJ9820@8bytes.org>
-References: <20200511103229.v2.1.I6f1b6f973ee6c8af1348611370c73a0ec0ea53f1@changeid>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v3 3/5] iommu: Add Allwinner H6 IOMMU driver
+Message-ID: <20200513095304.GK9820@8bytes.org>
+References: <cover.70f96f9afd2e04161ebece593ae6cd7e17eca41b.1588673353.git-series.maxime@cerno.tech>
+ <dcccd40c46982b6ab2fc1c5bc199d045798fbe8e.1588673353.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200511103229.v2.1.I6f1b6f973ee6c8af1348611370c73a0ec0ea53f1@changeid>
+In-Reply-To: <dcccd40c46982b6ab2fc1c5bc199d045798fbe8e.1588673353.git-series.maxime@cerno.tech>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Joerg Roedel <jroedel@suse.de>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-kernel@vger.kernel.org,
- Andy Shevchenko <andy.shevchenko@gmail.com>, dianders@chromium.org,
- evgreen@chromium.org, Adrian Hunter <adrian.hunter@intel.com>,
- linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org,
- Daniel Kurtz <djkurtz@chromium.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,30 +68,137 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, May 11, 2020 at 10:33:36AM -0600, Raul E Rangel wrote:
-> acpi_dev_hid_uid_match() expects a null pointer for UID if it doesn't
-> exist. The acpihid_map_entry contains a char buffer for holding the
-> UID. If no UID was provided in the IVRS table, this buffer will be
-> zeroed. If we pass in a null string, acpi_dev_hid_uid_match() will
-> return false because it will try and match an empty string to the ACPI
-> UID of the device.
-> 
-> Fixes: ae5e6c6439c3 ("iommu/amd: Switch to use acpi_dev_hid_uid_match()")
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> ---
-> 
-> Changes in v2:
-> - Added Suggested by
-> - Fixed commit description
-> - Decided to keep `p->uid[0]` instead of `*p->uid` since the data member is an array instead of a pointer.
-> - Used clang-format
-> 
->  drivers/iommu/amd_iommu.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+On Tue, May 05, 2020 at 12:09:32PM +0200, Maxime Ripard wrote:
+> +static u32 *sun50i_dte_get_page_table(struct sun50i_iommu_domain *sun50i_domain,
+> +				      dma_addr_t iova, gfp_t gfp)
+> +{
+> +	struct sun50i_iommu *iommu = sun50i_domain->iommu;
+> +	unsigned long flags;
+> +	u32 *page_table;
+> +	u32 *dte_addr;
+> +	u32 old_dte;
+> +	u32 dte;
+> +
+> +	dte_addr = &sun50i_domain->dt[sun50i_iova_get_dte_index(iova)];
+> +	dte = *dte_addr;
+> +	if (sun50i_dte_is_pt_valid(dte)) {
+> +		phys_addr_t pt_phys = sun50i_dte_get_pt_address(dte);
+> +		return (u32 *)phys_to_virt(pt_phys);
+> +	}
+> +
+> +	page_table = sun50i_iommu_alloc_page_table(iommu, gfp);
+> +	if (IS_ERR(page_table))
+> +		return page_table;
+> +
+> +	dte = sun50i_mk_dte(virt_to_phys(page_table));
+> +	old_dte = cmpxchg(dte_addr, 0, dte);
+> +	if (old_dte) {
+> +		phys_addr_t installed_pt_phys =
+> +			sun50i_dte_get_pt_address(old_dte);
+> +		u32 *installed_pt = phys_to_virt(installed_pt_phys);
+> +		u32 *drop_pt = page_table;
+> +
+> +		page_table = installed_pt;
+> +		dte = old_dte;
+> +		sun50i_iommu_free_page_table(iommu, drop_pt);
+> +	}
+> +
+> +	sun50i_table_flush(sun50i_domain, page_table, PT_SIZE);
+> +	sun50i_table_flush(sun50i_domain, dte_addr, 1);
+> +
+> +	spin_lock_irqsave(&iommu->iommu_lock, flags);
+> +	sun50i_iommu_ptw_invalidate(iommu, iova);
+> +	spin_unlock_irqrestore(&iommu->iommu_lock, flags);
 
-Applied for v5.7, thanks Raul.
+Why is that needed, does the PTW also cache non-present entries?
+
+> +static size_t sun50i_iommu_unmap(struct iommu_domain *domain, unsigned long iova,
+> +				 size_t size, struct iommu_iotlb_gather *gather)
+> +{
+> +	struct sun50i_iommu_domain *sun50i_domain = to_sun50i_domain(domain);
+> +	struct sun50i_iommu *iommu = sun50i_domain->iommu;
+> +	phys_addr_t pt_phys;
+> +	dma_addr_t pte_dma;
+> +	u32 *pte_addr;
+> +	u32 dte;
+> +
+> +	dte = sun50i_domain->dt[sun50i_iova_get_dte_index(iova)];
+> +	if (!sun50i_dte_is_pt_valid(dte))
+> +		return 0;
+> +
+> +	pt_phys = sun50i_dte_get_pt_address(dte);
+> +	pte_addr = (u32 *)phys_to_virt(pt_phys) + sun50i_iova_get_pte_index(iova);
+> +	pte_dma = pt_phys + sun50i_iova_get_pte_index(iova) * PT_ENTRY_SIZE;
+> +
+> +	if (!sun50i_pte_is_page_valid(*pte_addr))
+> +		return 0;
+> +
+> +	memset(pte_addr, 0, sizeof(*pte_addr));
+> +	sun50i_table_flush(sun50i_domain, pte_addr, 1);
+> +
+> +	spin_lock(&iommu->iommu_lock);
+> +	sun50i_iommu_ptw_invalidate(iommu, iova);
+> +	spin_unlock(&iommu->iommu_lock);
+
+And is that also needed? You clear a PTE here and not a top-level DT
+entry. All these spinlocks in the map/unmap paths will truly hurt
+performance.
+
+And if it is really needed you can defer it into the iotlb_sync()
+call-back.
+
+> +static int sun50i_iommu_add_device(struct device *dev)
+> +{
+> +	struct sun50i_iommu *iommu;
+> +	struct iommu_group *group;
+> +
+> +	iommu = sun50i_iommu_from_dev(dev);
+> +	if (!iommu)
+> +		return -ENODEV;
+> +
+> +	group = iommu_group_get_for_dev(dev);
+> +	if (IS_ERR(group))
+> +		return PTR_ERR(group);
+> +
+> +	iommu_group_put(group);
+> +
+> +	return 0;
+> +}
+> +
+> +static void sun50i_iommu_remove_device(struct device *dev)
+> +{
+> +	iommu_group_remove_device(dev);
+> +}
+
+
+These two call-backs have been renamed in the iommu-tree to
+probe_device() and release_device() with slightly different semantics
+and function signatures. I think for this driver they should look like
+this:
+
+	static struct iommu_device *sun50i_iommu_probe_device(struct device *dev)
+	{
+		struct sun50i_iommu *iommu;
+
+		iommu = sun50i_iommu_from_dev(dev);
+		if (!iommu)
+			return ERR_PTR(-ENODEV);
+
+		return &iommu->iommu;
+	}
+
+	static void sun50i_iommu_release_device(struct device *dev)
+	{
+	}
+
+Can you pleas rebase these patches to the 'core' branch of the
+iommu-tree and use these new call-backs?
+
+The rest of your driver looks good to me. Good work!
+
+Thanks,
+
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
