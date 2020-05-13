@@ -1,96 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5261D1710
-	for <lists.iommu@lfdr.de>; Wed, 13 May 2020 16:07:43 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id ADA0A89346;
-	Wed, 13 May 2020 14:07:42 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YWYH+HefNIdS; Wed, 13 May 2020 14:07:42 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1EFB588C56;
-	Wed, 13 May 2020 14:07:42 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 180E7C016F;
-	Wed, 13 May 2020 14:07:42 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C6E8AC016F
- for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 14:07:40 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E501D1780
+	for <lists.iommu@lfdr.de>; Wed, 13 May 2020 16:23:17 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A1BDB25E42
- for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 14:07:40 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6721721577;
+	Wed, 13 May 2020 14:23:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Tq-V-igruSqD; Wed, 13 May 2020 14:23:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 18A9521552;
+	Wed, 13 May 2020 14:23:15 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F1F6EC016F;
+	Wed, 13 May 2020 14:23:14 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F3C6BC016F
+ for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 14:23:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id D9BA088263
+ for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 14:23:12 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ycjKYeO0pnEE for <iommu@lists.linux-foundation.org>;
- Wed, 13 May 2020 14:07:40 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by silver.osuosl.org (Postfix) with ESMTPS id C8BAB21539
- for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 14:07:39 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 4570C5C01D4;
- Wed, 13 May 2020 10:07:39 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 13 May 2020 10:07:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=M/uT2VAMvJxq+
- N8SIgjpFxvdiYGvkWfI32zs4UAQuM4=; b=TyN/Kass/M132biLl9vpinE7KZ58U
- vXLigWwELkOFihewym59vM5MWrjupzlbcsqdGnF6hjCg8fBepMdEUW26gKm95NXR
- 4fWi5lFXqamZS7Iv/pSk96xbVWjuZELYsQ538vfyYgpTVQyxolKaeqy4DOmr6cPJ
- gdZrsZDVYcN1TUE2rIn+XPFWQeZFku2mKe9N02AtvRJnVIFzM11PRIp1xEILDQEa
- l5PeV7MWMqvn578w85jUJNJId8lIouv6zw+G+TG7dc+9omeYI8FWvJt3sLDsXrp0
- QaWlfC7N+K4mhsiT8W/d/LVslG1OiDxx9AvSRECyylds5Y7qbwL2HePxw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=M/uT2VAMvJxq+N8SIgjpFxvdiYGvkWfI32zs4UAQuM4=; b=jbDoz/0+
- /19pRxYNOLGM4fX1jG/0X4Wrwr9rYziyAAZspwLC0bnFSwDhW1t6h+mYfIUMi9Jc
- JBanS5GLd82bs0fA3e7VqpxYyJt0+YljOAYQ8b7o3UF/FKP3/Nw0KH7rUTZVNsGr
- DCE7VOlOg+KSftsKFK3AdulwmPcwCcdu3xf1rmXGKx1ylNYJtVT+aSTp4n1+m+vw
- BpSQ/qVKEcjJqQE5VWUatrLi/QbEUwzg4hc6I4vWm0CuyTUaEe2bOlecgVMRk3Oq
- CYTEJRMtdawWchWDCsLS7Yj9Fds+C3hlYqPd+k6t13o8oYpbV21ckkXhEV3rRAbZ
- 8wRjBn0UbC7I1w==
-X-ME-Sender: <xms:K_-7XsD2tylqE5CUUVk_addz0TZKCChKmfpFrjzMVIJoSpKMUaiAgA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrleeggdejvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
- vdenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedvnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:K_-7Xuir-ku70jvSRLp4u9i6pyV9poZSinRdM8QtTFIK_ck4Wsy24g>
- <xmx:K_-7Xvn5bTHi9aaS78pZir_hT16msnDAE86uznBoSygIa84xJDLlWQ>
- <xmx:K_-7XiyR2H58xceS9ymBELIBbAar2sbB8I9d0S-s7M8G5BHoQvhbKw>
- <xmx:K_-7XgGMEIKJEr_H2128NPPU_lDebadA1WqOLCWCS1afVNzWstvfkQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id BA2FD306630A;
- Wed, 13 May 2020 10:07:38 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Joerg Roedel <joro@8bytes.org>, Chen-Yu Tsai <wens@csie.org>,
- Maxime Ripard <mripard@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH v4 5/5] drm/sun4i: mixer: Call of_dma_configure if there's an
- IOMMU
-Date: Wed, 13 May 2020 16:07:24 +0200
-Message-Id: <9a4daf438dd3f2fe07afb23688bfb793a0613d7d.1589378833.git-series.maxime@cerno.tech>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.b27dedd61e008ffcf55a028ccddda3bb4d21dfc8.1589378833.git-series.maxime@cerno.tech>
-References: <cover.b27dedd61e008ffcf55a028ccddda3bb4d21dfc8.1589378833.git-series.maxime@cerno.tech>
+ with ESMTP id Il6DFlxQ-qpl for <iommu@lists.linux-foundation.org>;
+ Wed, 13 May 2020 14:23:12 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E398585784
+ for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 14:23:11 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D87851F;
+ Wed, 13 May 2020 16:23:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1589379788;
+ bh=5O0na2DMiyEwLbl3btgk9akjCBMQkQ7SFKipuPV1wEA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pH1mj81La2wuE/YKdMXdaFC6dPVPCdpdSi0cuzqw8PjTHID3iK73wYjzUCAE4HvrR
+ zN4hlCqtr1aD6xyomzlUiZrk1MQX1W3Bf9lN5A5B5od6IilQufrh8/enV5IVqdJkjO
+ bB3T1akcTlxGSYFdE9fzoJ30Xmff9mcari/gTrDc=
+Date: Wed, 13 May 2020 17:23:02 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [PATCH v5 29/38] drm: rcar-du: fix common struct sg_table
+ related issues
+Message-ID: <20200513142302.GK5945@pendragon.ideasonboard.com>
+References: <20200513132114.6046-1-m.szyprowski@samsung.com>
+ <20200513133245.6408-1-m.szyprowski@samsung.com>
+ <CGME20200513133317eucas1p27aead4025db2da13e5b7c3e14a7cd79d@eucas1p2.samsung.com>
+ <20200513133245.6408-29-m.szyprowski@samsung.com>
 MIME-Version: 1.0
-Cc: devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
- Maxime Ripard <maxime@cerno.tech>, linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <20200513133245.6408-29-m.szyprowski@samsung.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ iommu@lists.linux-foundation.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,44 +85,103 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The main DRM device is actually a virtual device so it doesn't have the
-iommus property, which is instead on the DMA masters, in this case the
-mixers.
+Hi Marek,
 
-Add a call to of_dma_configure with the mixers DT node but on the DRM
-virtual device to configure it in the same way than the mixers.
+Thank you for the patch.
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+On Wed, May 13, 2020 at 03:32:36PM +0200, Marek Szyprowski wrote:
+> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+> returns the number of the created entries in the DMA address space.
+> However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+> dma_unmap_sg must be called with the original number of the entries
+> passed to the dma_map_sg().
+> 
+> struct sg_table is a common structure used for describing a non-contiguous
+> memory buffer, used commonly in the DRM and graphics subsystems. It
+> consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+> as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+> and DMA mapped pages (nents entry).
+> 
+> It turned out that it was a common mistake to misuse nents and orig_nents
+> entries, calling DMA-mapping functions with a wrong number of entries or
+> ignoring the number of mapped entries returned by the dma_map_sg()
+> function.
+> 
+> To avoid such issues, lets use a common dma-mapping wrappers operating
+> directly on the struct sg_table objects and use scatterlist page
+> iterators where possible. This, almost always, hides references to the
+> nents and orig_nents entries, making the code robust, easier to follow
+> and copy/paste safe.
+> 
+> dma_map_sgtable() function returns zero or an error code, so adjust the
+> return value check for the vsp1_du_map_sg() function.
+> 
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 56cc037fd312..cc4fb916318f 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -363,6 +363,19 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	mixer->engine.ops = &sun8i_engine_ops;
- 	mixer->engine.node = dev->of_node;
- 
-+	if (of_find_property(dev->of_node, "iommus", NULL)) {
-+		/*
-+		 * This assume we have the same DMA constraints for
-+		 * all our the mixers in our pipeline. This sounds
-+		 * bad, but it has always been the case for us, and
-+		 * DRM doesn't do per-device allocation either, so we
-+		 * would need to fix DRM first...
-+		 */
-+		ret = of_dma_configure(drm->dev, dev->of_node, true);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	/*
- 	 * While this function can fail, we shouldn't do anything
- 	 * if this happens. Some early DE2 DT entries don't provide
+This is a very nice simplification, I've always foudn the dma_map_sg API
+cumbersome to use.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+I assume you will get the whole series merged in one go. If I need to
+pick the patch up at any point, please let me know. Otherwise I'll wait
+until I see it upstream, no reply needed :-)
+
+> ---
+> For more information, see '[PATCH v5 00/38] DRM: fix struct sg_table nents
+> vs. orig_nents misuse' thread:
+> https://lore.kernel.org/linux-iommu/20200513132114.6046-1-m.szyprowski@samsung.com/T/
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c  | 3 +--
+>  drivers/media/platform/vsp1/vsp1_drm.c | 8 ++++----
+>  2 files changed, 5 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> index 5e4faf2..2fc1816 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> @@ -197,9 +197,8 @@ int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
+>  			goto fail;
+>  
+>  		ret = vsp1_du_map_sg(vsp->vsp, sgt);
+> -		if (!ret) {
+> +		if (ret) {
+>  			sg_free_table(sgt);
+> -			ret = -ENOMEM;
+>  			goto fail;
+>  		}
+>  	}
+> diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
+> index a4a45d6..86d5e3f 100644
+> --- a/drivers/media/platform/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/vsp1/vsp1_drm.c
+> @@ -912,8 +912,8 @@ int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt)
+>  	 * skip cache sync. This will need to be revisited when support for
+>  	 * non-coherent buffers will be added to the DU driver.
+>  	 */
+> -	return dma_map_sg_attrs(vsp1->bus_master, sgt->sgl, sgt->nents,
+> -				DMA_TO_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
+> +	return dma_map_sgtable(vsp1->bus_master, sgt, DMA_TO_DEVICE,
+> +			       DMA_ATTR_SKIP_CPU_SYNC);
+>  }
+>  EXPORT_SYMBOL_GPL(vsp1_du_map_sg);
+>  
+> @@ -921,8 +921,8 @@ void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt)
+>  {
+>  	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+>  
+> -	dma_unmap_sg_attrs(vsp1->bus_master, sgt->sgl, sgt->nents,
+> -			   DMA_TO_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
+> +	dma_unmap_sgtable(vsp1->bus_master, sgt, DMA_TO_DEVICE,
+> +			  DMA_ATTR_SKIP_CPU_SYNC);
+>  }
+>  EXPORT_SYMBOL_GPL(vsp1_du_unmap_sg);
+>  
+
 -- 
-git-series 0.9.1
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
