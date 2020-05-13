@@ -1,59 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563A41D2261
-	for <lists.iommu@lfdr.de>; Thu, 14 May 2020 00:51:14 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 232AF1D2269
+	for <lists.iommu@lfdr.de>; Thu, 14 May 2020 00:55:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3C90C8842E;
-	Wed, 13 May 2020 22:51:12 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AC6CE8780E;
+	Wed, 13 May 2020 22:55:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CnLKdu6LPQYk; Wed, 13 May 2020 22:51:11 +0000 (UTC)
+	with ESMTP id bUbZtUftkNTp; Wed, 13 May 2020 22:55:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 095608843E;
-	Wed, 13 May 2020 22:51:11 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EC4B685D55;
+	Wed, 13 May 2020 22:55:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E1AF2C016F;
-	Wed, 13 May 2020 22:51:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E3E59C088B;
+	Wed, 13 May 2020 22:55:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 877F4C016F
- for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 22:51:09 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3A398C016F
+ for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 22:55:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 6F6DB885A9
- for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 22:51:09 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 28F7385E28
+ for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 22:55:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aa6m6kTXAuNK for <iommu@lists.linux-foundation.org>;
- Wed, 13 May 2020 22:51:08 +0000 (UTC)
+ with ESMTP id zCAfRqChyyO8 for <iommu@lists.linux-foundation.org>;
+ Wed, 13 May 2020 22:55:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 9662288544
- for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 22:51:08 +0000 (UTC)
-IronPort-SDR: zLMWsRe9z6ZwFRdD9V8ndkDzo/6PLNxENKSTycIuPtGt5NHKg6ILu+l+2pWdP5O/wO+LURKuR5
- QgRKXIJZCuCw==
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id F339785B5B
+ for <iommu@lists.linux-foundation.org>; Wed, 13 May 2020 22:55:40 +0000 (UTC)
+IronPort-SDR: FNguKax0X0rw/laB9ZEzwUdRLmoV/LvlxUF+AuNcuA5keiOMP6p4vjmQxDpSk3KXwDBG49WOVk
+ CRTb+ro41fRw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 May 2020 15:51:08 -0700
-IronPort-SDR: 5/q55Vhu7CU2c72Uw9srlVCKRxwGlGLoe+vpSVXXVjL4fn9dLp8IYUAMflvbDrwcGHNnPGgP8w
- AlIIKly94RZQ==
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 May 2020 15:55:40 -0700
+IronPort-SDR: gdf27HiroKhh8id9gEHCIMp4NPFHbAHmSAJVM10805B/VwJ6ZGJw2L1YZxqt3tXkho7slIY8aZ
+ ke5s7kg9Tvcg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,389,1583222400"; d="scan'208";a="251905960"
-Received: from sai-dev-mach.sc.intel.com ([143.183.140.153])
- by fmsmga007.fm.intel.com with ESMTP; 13 May 2020 15:51:06 -0700
-From: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH] iommu: Remove functions that support private domain
-Date: Wed, 13 May 2020 15:47:21 -0700
-Message-Id: <20200513224721.20504-1-sai.praneeth.prakhya@intel.com>
-X-Mailer: git-send-email 2.19.1
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="5.73,389,1583222400"; d="scan'208";a="437682645"
+Received: from jacob-builder.jf.intel.com ([10.7.199.155])
+ by orsmga005.jf.intel.com with ESMTP; 13 May 2020 15:55:39 -0700
+From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: "Lu Baolu" <baolu.lu@linux.intel.com>, iommu@lists.linux-foundation.org,
+ LKML <linux-kernel@vger.kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ David Woodhouse <dwmw2@infradead.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ Eric Auger <eric.auger@redhat.com>
+Subject: [PATCH v13 0/8] Nested Shared Virtual Address (SVA) VT-d support
+Date: Wed, 13 May 2020 16:01:41 -0700
+Message-Id: <1589410909-38925-1-git-send-email-jacob.jun.pan@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,139 +73,196 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-After moving iommu_group setup to iommu core code [1][2] and removing
-private domain support in vt-d [3], there are no users for functions such
-as iommu_request_dm_for_dev(), iommu_request_dma_domain_for_dev() and
-request_default_domain_for_dev(). So, remove these functions.
+Shared virtual address (SVA), a.k.a, Shared virtual memory (SVM) on Intel
+platforms allow address space sharing between device DMA and applications.
+SVA can reduce programming complexity and enhance security.
+This series is intended to enable SVA virtualization, i.e. enable use of SVA
+within a guest user application.
 
-[1] commit dce8d6964ebd ("iommu/amd: Convert to probe/release_device()
-    call-backs")
-[2] commit e5d1841f18b2 ("iommu/vt-d: Convert to probe/release_device()
-    call-backs")
-[3] commit 327d5b2fee91 ("iommu/vt-d: Allow 32bit devices to uses DMA
-    domain")
+This is the remaining portion of the original patchset that is based on
+Joerg's x86/vt-d branch. The preparatory and cleanup patches are merged here.
+(git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git)
 
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
-Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
----
- drivers/iommu/iommu.c | 65 -------------------------------------------
- include/linux/iommu.h | 12 --------
- 2 files changed, 77 deletions(-)
+Only IOMMU portion of the changes are included in this series. Additional
+support is needed in VFIO and QEMU (will be submitted separately) to complete
+this functionality.
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 4050569188be..374b34fd6fac 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2536,71 +2536,6 @@ struct iommu_resv_region *iommu_alloc_resv_region(phys_addr_t start,
- }
- EXPORT_SYMBOL_GPL(iommu_alloc_resv_region);
+To make incremental changes and reduce the size of each patchset. This series
+does not inlcude support for page request services.
+
+In VT-d implementation, PASID table is per device and maintained in the host.
+Guest PASID table is shadowed in VMM where virtual IOMMU is emulated.
+
+    .-------------.  .---------------------------.
+    |   vIOMMU    |  | Guest process CR3, FL only|
+    |             |  '---------------------------'
+    .----------------/
+    | PASID Entry |--- PASID cache flush -
+    '-------------'                       |
+    |             |                       V
+    |             |                CR3 in GPA
+    '-------------'
+Guest
+------| Shadow |--------------------------|--------
+      v        v                          v
+Host
+    .-------------.  .----------------------.
+    |   pIOMMU    |  | Bind FL for GVA-GPA  |
+    |             |  '----------------------'
+    .----------------/  |
+    | PASID Entry |     V (Nested xlate)
+    '----------------\.------------------------------.
+    |             |   |SL for GPA-HPA, default domain|
+    |             |   '------------------------------'
+    '-------------'
+Where:
+ - FL = First level/stage one page tables
+ - SL = Second level/stage two page tables
+
+This is the remaining VT-d only portion of V5 since the uAPIs and IOASID common
+code have been applied to Joerg's IOMMU core branch.
+(https://lkml.org/lkml/2019/10/2/833)
+
+The complete set with VFIO patches are here:
+https://github.com/jacobpan/linux.git:siov_sva
+
+The complete nested SVA upstream patches are divided into three phases:
+    1. Common APIs and PCI device direct assignment
+    2. Page Request Services (PRS) support
+    3. Mediated device assignment
+
+With this set and the accompanied VFIO code, we will achieve phase #1.
+
+Thanks,
+
+Jacob
+
+ChangeLog:
+	- v13
+	  - Dropped memory type support (MTS) in guest PASID bind
+	  - Do not support multiple bind gpasid if device has no aux domain
+	  - Removed extra error msgs in pasid_setup_bind_data()
+	  - Replaced SVM device list free function with combined out label
+
+	- v12
+	  - Fixed IA64 cross compile error
+	  - Squashed two patches that add macros with its users
+	  - Use ratelimited prints for all user called APIs
+	  - Check domain nesting attr for vSVA APIs.
+	  - Misc style improvements
+
+	- v11 Misc fixes and improvements based on review by Kevin & Eric
+	  - Fixed devTLB granularity conversion
+	  - Simplified VT-d granulairy lookup by replacing 2D map array
+	    with invalid entries.
+	  - Fixed locking in bind guest PASID
+	  - Added nesting domain attr check
+	  - Squashed agaw checking patch with user
+	  - Use rate limitted error message for all user originated calls
  
--static int
--request_default_domain_for_dev(struct device *dev, unsigned long type)
--{
--	struct iommu_domain *domain;
--	struct iommu_group *group;
--	int ret;
--
--	/* Device must already be in a group before calling this function */
--	group = iommu_group_get(dev);
--	if (!group)
--		return -EINVAL;
--
--	mutex_lock(&group->mutex);
--
--	ret = 0;
--	if (group->default_domain && group->default_domain->type == type)
--		goto out;
--
--	/* Don't change mappings of existing devices */
--	ret = -EBUSY;
--	if (iommu_group_device_count(group) != 1)
--		goto out;
--
--	ret = -ENOMEM;
--	domain = __iommu_domain_alloc(dev->bus, type);
--	if (!domain)
--		goto out;
--
--	/* Attach the device to the domain */
--	ret = __iommu_attach_group(domain, group);
--	if (ret) {
--		iommu_domain_free(domain);
--		goto out;
--	}
--
--	/* Make the domain the default for this group */
--	if (group->default_domain)
--		iommu_domain_free(group->default_domain);
--	group->default_domain = domain;
--
--	iommu_create_device_direct_mappings(group, dev);
--
--	dev_info(dev, "Using iommu %s mapping\n",
--		 type == IOMMU_DOMAIN_DMA ? "dma" : "direct");
--
--	ret = 0;
--out:
--	mutex_unlock(&group->mutex);
--	iommu_group_put(group);
--
--	return ret;
--}
--
--/* Request that a device is direct mapped by the IOMMU */
--int iommu_request_dm_for_dev(struct device *dev)
--{
--	return request_default_domain_for_dev(dev, IOMMU_DOMAIN_IDENTITY);
--}
--
--/* Request that a device can't be direct mapped by the IOMMU */
--int iommu_request_dma_domain_for_dev(struct device *dev)
--{
--	return request_default_domain_for_dev(dev, IOMMU_DOMAIN_DMA);
--}
--
- void iommu_set_default_passthrough(bool cmd_line)
- {
- 	if (cmd_line)
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 7cfd2dddb49d..78a26ae5c2b6 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -482,8 +482,6 @@ extern void iommu_get_resv_regions(struct device *dev, struct list_head *list);
- extern void iommu_put_resv_regions(struct device *dev, struct list_head *list);
- extern void generic_iommu_put_resv_regions(struct device *dev,
- 					   struct list_head *list);
--extern int iommu_request_dm_for_dev(struct device *dev);
--extern int iommu_request_dma_domain_for_dev(struct device *dev);
- extern void iommu_set_default_passthrough(bool cmd_line);
- extern void iommu_set_default_translated(bool cmd_line);
- extern bool iommu_default_passthrough(void);
-@@ -804,16 +802,6 @@ static inline int iommu_get_group_resv_regions(struct iommu_group *group,
- 	return -ENODEV;
- }
- 
--static inline int iommu_request_dm_for_dev(struct device *dev)
--{
--	return -ENODEV;
--}
--
--static inline int iommu_request_dma_domain_for_dev(struct device *dev)
--{
--	return -ENODEV;
--}
--
- static inline void iommu_set_default_passthrough(bool cmd_line)
- {
- }
+	- v10
+	  - Addressed Eric's review in v7 and v9. Most fixes are in 3/10 and
+	    6/10. Extra condition checks and consolidation of duplicated codes.
+
+	- v9
+	  - Addressed Baolu's comments for v8 for IOTLB flush consolidation,
+	    bug fixes
+	  - Removed IOASID notifier code which will be submitted separately
+	    to address PASID life cycle management with multiple users.
+
+	- v8
+	  - Extracted cleanup patches from V7 and accepted into maintainer's
+	    tree (https://lkml.org/lkml/2019/12/2/514).
+	  - Added IOASID notifier and VT-d handler for termination of PASID
+	    IOMMU context upon free. This will ensure success of VFIO IOASID
+	    free API regardless PASID is in use.
+	    (https://lore.kernel.org/linux-iommu/1571919983-3231-1-git-send-email-yi.l.liu@intel.com/)
+
+	- V7
+	  - Respect vIOMMU PASID range in virtual command PASID/IOASID allocator
+	  - Caching virtual command capabilities to avoid runtime checks that
+	    could cause vmexits.
+
+	- V6
+	  - Rebased on top of Joerg's core branch
+	  (git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git core)
+	  - Adapt to new uAPIs and IOASID allocators
+
+	- V5
+	  Rebased on v5.3-rc4 which has some of the IOMMU fault APIs merged.
+ 	  Addressed v4 review comments from Eric Auger, Baolu Lu, and
+	    Jonathan Cameron. Specific changes are as follows:
+	  - Refined custom IOASID allocator to support multiple vIOMMU, hotplug
+	    cases.
+	  - Extracted vendor data from IOMMU guest PASID bind data, for VT-d
+	    will support all necessary guest PASID entry fields for PASID
+	    bind.
+	  - Support non-identity host-guest PASID mapping
+	  - Exception handling in various cases
+
+	- V4
+	  - Redesigned IOASID allocator such that it can support custom
+	  allocators with shared helper functions. Use separate XArray
+	  to store IOASIDs per allocator. Took advice from Eric Auger to
+	  have default allocator use the generic allocator structure.
+	  Combined into one patch in that the default allocator is just
+	  "another" allocator now. Can be built as a module in case of
+	  driver use without IOMMU.
+	  - Extended bind guest PASID data to support SMMU and non-identity
+	  guest to host PASID mapping https://lkml.org/lkml/2019/5/21/802
+	  - Rebased on Jean's sva/api common tree, new patches starts with
+	   [PATCH v4 10/22]
+
+	- V3
+	  - Addressed thorough review comments from Eric Auger (Thank you!)
+	  - Moved IOASID allocator from driver core to IOMMU code per
+	    suggestion by Christoph Hellwig
+	    (https://lkml.org/lkml/2019/4/26/462)
+	  - Rebased on top of Jean's SVA API branch and Eric's v7[1]
+	    (git://linux-arm.org/linux-jpb.git sva/api)
+	  - All IOMMU APIs are unmodified (except the new bind guest PASID
+	    call in patch 9/16)
+
+	- V2
+	  - Rebased on Joerg's IOMMU x86/vt-d branch v5.1-rc4
+	  - Integrated with Eric Auger's new v7 series for common APIs
+	  (https://github.com/eauger/linux/tree/v5.1-rc3-2stage-v7)
+	  - Addressed review comments from Andy Shevchenko and Alex Williamson on
+	    IOASID custom allocator.
+	  - Support multiple custom IOASID allocators (vIOMMUs) and dynamic
+	    registration.
+
+
+Jacob Pan (7):
+  iommu/vt-d: Move domain helper to header
+  iommu/vt-d: Use a helper function to skip agaw for SL
+  iommu/vt-d: Add nested translation helper function
+  iommu/vt-d: Add bind guest PASID support
+  iommu/vt-d: Support flushing more translation cache types
+  iommu/vt-d: Add svm/sva invalidate function
+  iommu/vt-d: Add custom allocator for IOASID
+
+Lu Baolu (1):
+  iommu/vt-d: Enlightened PASID allocation
+
+ drivers/iommu/dmar.c        |  40 ++++++
+ drivers/iommu/intel-iommu.c | 291 +++++++++++++++++++++++++++++++++++++++-----
+ drivers/iommu/intel-pasid.c | 266 +++++++++++++++++++++++++++++++++++++---
+ drivers/iommu/intel-pasid.h |  23 +++-
+ drivers/iommu/intel-svm.c   | 203 ++++++++++++++++++++++++++++++
+ include/linux/intel-iommu.h |  69 ++++++++++-
+ include/linux/intel-svm.h   |  12 ++
+ include/uapi/linux/iommu.h  |   5 +
+ 8 files changed, 858 insertions(+), 51 deletions(-)
+
 -- 
-2.19.1
+2.7.4
 
 _______________________________________________
 iommu mailing list
