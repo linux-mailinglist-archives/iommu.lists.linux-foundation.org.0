@@ -2,82 +2,83 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47881D333A
-	for <lists.iommu@lfdr.de>; Thu, 14 May 2020 16:39:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5121D34CE
+	for <lists.iommu@lfdr.de>; Thu, 14 May 2020 17:17:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 58AFE87AC0;
-	Thu, 14 May 2020 14:39:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0783887961;
+	Thu, 14 May 2020 15:17:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ec51g0XaIVnV; Thu, 14 May 2020 14:39:22 +0000 (UTC)
+	with ESMTP id 2oLlLZ04Yto2; Thu, 14 May 2020 15:17:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BD43587AB4;
-	Thu, 14 May 2020 14:39:22 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1405C87A89;
+	Thu, 14 May 2020 15:17:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A039AC016F;
-	Thu, 14 May 2020 14:39:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 053A0C016F;
+	Thu, 14 May 2020 15:17:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E782FC016F
- for <iommu@lists.linux-foundation.org>; Thu, 14 May 2020 14:39:20 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DAC57C016F
+ for <iommu@lists.linux-foundation.org>; Thu, 14 May 2020 15:17:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id CFC9788613
- for <iommu@lists.linux-foundation.org>; Thu, 14 May 2020 14:39:20 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D68D88729F
+ for <iommu@lists.linux-foundation.org>; Thu, 14 May 2020 15:17:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id S-7Hrttq666y for <iommu@lists.linux-foundation.org>;
- Thu, 14 May 2020 14:39:16 +0000 (UTC)
+ with ESMTP id DoyegXm3DKN4 for <iommu@lists.linux-foundation.org>;
+ Thu, 14 May 2020 15:17:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id AD3BF889D5
- for <iommu@lists.linux-foundation.org>; Thu, 14 May 2020 14:39:16 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id x15so1405874pfa.1
- for <iommu@lists.linux-foundation.org>; Thu, 14 May 2020 07:39:16 -0700 (PDT)
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+ [209.85.214.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id F097B87A51
+ for <iommu@lists.linux-foundation.org>; Thu, 14 May 2020 15:17:05 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id u10so1274101pls.8
+ for <iommu@lists.linux-foundation.org>; Thu, 14 May 2020 08:17:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=p8VAiP+wdh9S4iV1FPgA8cT+xg80zpJkzOLZcJit37g=;
- b=WWrEtcLTe/AtT4EbCTYzam79Ra7lhJKHBrZL/Tnu4TCAtBVxGBCahYXo5PmodAwuHh
- 8k5LBghwsSy0kYyntrskTV8bDhmljrbaE6//K4X2W9Ot/g0R5TTgBIg56t8itWZj89hr
- nPaDDCjBdxDd6mx+299GW+PRdF14eFvxTpSJxuYU/JmR4UbDo0HVrLx7QyBxJ8YTnO4G
- rIqP7oByZMLPnJX1t4ZR/qEZKMRC8L0ueJO1VIRbDk2MDbOeBMa8QUWWfNAuB4/bFH9M
- EE6DDOJDgsV3sBGvA0Q8upX3C4Rw0k5RbHomhw98bQc2fwhLd79Crd2THuaQRgP3sABC
- Kyvw==
+ :content-disposition:in-reply-to;
+ bh=UOTOikrlMIdFP4aQmvMqbEPCvRUzwtRIl17AlTTVkFQ=;
+ b=FAV0FiFG8pM97LoBhxQbtROvqf5AWxbcndRpllxsWkcIaHB91vOCGimVplMMreOEkU
+ qmULzk7Z8/9dMEQh2GpPtXAgAVgIOrVijnr4Pnx8/0XJGCojoYh41JhId1eODIo/qiep
+ xvk5ETm2APEaZqfxNLnXRh317kjcD6LCKsIRIi04YPhTYU4Gwy0Ow34pSlur7iyAjK5z
+ MOf0RYaNnjUSa57Lmh+exTlxatlDaNGjkRGK+//LW74ckUsxdoEPLIK1K2KPWX1YDiP2
+ iH6uIOx00Z31Nqm3522GqrSiroWfCfOR1cuzfqq4k8cuko9iWbJZyev7hiNAM69rGiYs
+ 705Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=p8VAiP+wdh9S4iV1FPgA8cT+xg80zpJkzOLZcJit37g=;
- b=YQv3ZyeYD3h56Mx6sZun0dVNJxSoO3kPuLeD5+bvViQmCFZfvmJaJoP+OynGXTnQ7y
- ZKwzcGMJUm96OsG+7QUTQktX6zx7zma4JCQHsb9a/EAoQJ4PfanDQJj2/wa/IZy+M1XE
- VD+jfPYHdxaXs67npiQy6hqbp7iDCvDf1xMcAVeXsE1CP7hE6+VREkk3ayIZ6S2w2jCc
- PsYTHq52xcfeLBG/uIxus0N6APmQyh8K9LoCUsrY0glnwW+i7VSkbfFH3pSuPS4Ezbum
- S1Fw1g1LkMQ1OhCPrpMWwBMZcLTEtye0E6e3sLj2q7rADXER7ZTAXGruCcZp/LzL1BkS
- gAYg==
-X-Gm-Message-State: AOAM530IXHEmrDaUL4ebKEj4Hv828nYeqzAh1Li7CoVlGmFDJKgk3fGR
- YG71/lxViFJnrUaSTya3PkmweQ==
-X-Google-Smtp-Source: ABdhPJwJa3DynaOxyMoDTqqBxRvRIuQK5Syy/Akad8KVEGe6nuQZzUaCDK13UTkPlphhIeVlYqQ46w==
-X-Received: by 2002:aa7:8658:: with SMTP id a24mr4867093pfo.135.1589467156158; 
- Thu, 14 May 2020 07:39:16 -0700 (PDT)
-Received: from dragon ([80.251.214.228])
- by smtp.gmail.com with ESMTPSA id w2sm18702332pja.53.2020.05.14.07.39.12
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 14 May 2020 07:39:15 -0700 (PDT)
-Date: Thu, 14 May 2020 22:39:06 +0800
-From: Shawn Guo <shawn.guo@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
+ :mime-version:content-disposition:in-reply-to;
+ bh=UOTOikrlMIdFP4aQmvMqbEPCvRUzwtRIl17AlTTVkFQ=;
+ b=mLjPpxh1vdY4tqb3QIcjxV+ikIOPhaEjd+oE0XimbDdGGqFQ4vTC0x4lsZ0OIeUU92
+ kPbP5X3PNuWQK+azdjIV9oSeWOFxdbEkvvykHFWwFONs5H2FQ4SDxvPRABVboYVpbC5T
+ k1/ozHxp9+aq3ySUBGxH4FK5fNfSBV2D27RH6gJUpjEO7r7BC11H1vQI4jUb0KGvm0Yy
+ F8VJS8Nm0+bvVwcq9i/hz2NdUaolRN7xEhH0pAa6sq5CaEkTKx7RoQom1+xtunCM1wIo
+ LQT7ZUjYpCe0I6RfBkyiXgCyCLANQw//67eQPKaem401Js3PR3nObJidtvKAxWxrnc2W
+ 2MQQ==
+X-Gm-Message-State: AGi0Pub2OOEJJj4AbGj5n+nWy3sjNYJISFvH0duP5MI0xnVI77z8EFqU
+ 0q9TM6jj2ogIhwtpqEfkHxiJ7A==
+X-Google-Smtp-Source: APiQypIqLPWyOC5M9ILxiC3BfqbMDARmmWsJ8Dm25QhFLozp8vgxg4irNno8ImmwBQmFa6uK/83m+w==
+X-Received: by 2002:a17:90a:de8d:: with SMTP id
+ n13mr42417575pjv.173.1589469425327; 
+ Thu, 14 May 2020 08:17:05 -0700 (PDT)
+Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
+ [104.188.17.28])
+ by smtp.gmail.com with ESMTPSA id k7sm2346357pga.87.2020.05.14.08.17.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 May 2020 08:17:04 -0700 (PDT)
+Date: Thu, 14 May 2020 08:15:34 -0700
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Shawn Guo <shawn.guo@linaro.org>
 Subject: Re: [PATCH] iommu/qcom: add optional clock for TLB invalidate
-Message-ID: <20200514143905.GA10507@dragon>
+Message-ID: <20200514151534.GV2165@builder.lan>
 References: <20200509130825.28248-1-shawn.guo@linaro.org>
- <20200512055242.GJ1302550@yoga>
+ <20200512055242.GJ1302550@yoga> <20200514143905.GA10507@dragon>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200512055242.GJ1302550@yoga>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200514143905.GA10507@dragon>
 Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
  Konrad Dybcio <konradybcio@gmail.com>, Andy Gross <agross@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -97,82 +98,91 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Bjorn,
+On Thu 14 May 07:39 PDT 2020, Shawn Guo wrote:
 
-On Mon, May 11, 2020 at 10:52:42PM -0700, Bjorn Andersson wrote:
-> On Sat 09 May 06:08 PDT 2020, Shawn Guo wrote:
+> Hi Bjorn,
 > 
-> > On some SoCs like MSM8939 with A405 adreno, there is a gfx_tbu clock
-> > needs to be on while doing TLB invalidate. Otherwise, TLBSYNC status
-> > will not be correctly reflected, causing the system to go into a bad
-> > state.  Add it as an optional clock, so that platforms that have this
-> > clock can pass it over DT.
+> On Mon, May 11, 2020 at 10:52:42PM -0700, Bjorn Andersson wrote:
+> > On Sat 09 May 06:08 PDT 2020, Shawn Guo wrote:
 > > 
-> > Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
-> > ---
-> >  drivers/iommu/qcom_iommu.c | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
+> > > On some SoCs like MSM8939 with A405 adreno, there is a gfx_tbu clock
+> > > needs to be on while doing TLB invalidate. Otherwise, TLBSYNC status
+> > > will not be correctly reflected, causing the system to go into a bad
+> > > state.  Add it as an optional clock, so that platforms that have this
+> > > clock can pass it over DT.
+> > > 
+> > > Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+> > > ---
+> > >  drivers/iommu/qcom_iommu.c | 16 ++++++++++++++++
+> > >  1 file changed, 16 insertions(+)
+> > > 
+> > > diff --git a/drivers/iommu/qcom_iommu.c b/drivers/iommu/qcom_iommu.c
+> > > index 0e2a96467767..2f6c6da7d540 100644
+> > > --- a/drivers/iommu/qcom_iommu.c
+> > > +++ b/drivers/iommu/qcom_iommu.c
+> > > @@ -45,6 +45,7 @@ struct qcom_iommu_dev {
+> > >  	struct device		*dev;
+> > >  	struct clk		*iface_clk;
+> > >  	struct clk		*bus_clk;
+> > > +	struct clk		*tlb_clk;
+> > >  	void __iomem		*local_base;
+> > >  	u32			 sec_id;
+> > >  	u8			 num_ctxs;
+> > > @@ -643,11 +644,20 @@ static int qcom_iommu_enable_clocks(struct qcom_iommu_dev *qcom_iommu)
+> > >  		return ret;
+> > >  	}
+> > >  
+> > > +	ret = clk_prepare_enable(qcom_iommu->tlb_clk);
+> > > +	if (ret) {
+> > > +		dev_err(qcom_iommu->dev, "Couldn't enable tlb_clk\n");
+> > > +		clk_disable_unprepare(qcom_iommu->bus_clk);
+> > > +		clk_disable_unprepare(qcom_iommu->iface_clk);
+> > > +		return ret;
+> > > +	}
 > > 
-> > diff --git a/drivers/iommu/qcom_iommu.c b/drivers/iommu/qcom_iommu.c
-> > index 0e2a96467767..2f6c6da7d540 100644
-> > --- a/drivers/iommu/qcom_iommu.c
-> > +++ b/drivers/iommu/qcom_iommu.c
-> > @@ -45,6 +45,7 @@ struct qcom_iommu_dev {
-> >  	struct device		*dev;
-> >  	struct clk		*iface_clk;
-> >  	struct clk		*bus_clk;
-> > +	struct clk		*tlb_clk;
-> >  	void __iomem		*local_base;
-> >  	u32			 sec_id;
-> >  	u8			 num_ctxs;
-> > @@ -643,11 +644,20 @@ static int qcom_iommu_enable_clocks(struct qcom_iommu_dev *qcom_iommu)
-> >  		return ret;
-> >  	}
-> >  
-> > +	ret = clk_prepare_enable(qcom_iommu->tlb_clk);
-> > +	if (ret) {
-> > +		dev_err(qcom_iommu->dev, "Couldn't enable tlb_clk\n");
-> > +		clk_disable_unprepare(qcom_iommu->bus_clk);
-> > +		clk_disable_unprepare(qcom_iommu->iface_clk);
-> > +		return ret;
-> > +	}
+> > Seems this is an excellent opportunity to replace
+> > qcom_iommu_enable_clocks() to clk_bulk_prepare_enable() and disable,
+> > respectively.
 > 
-> Seems this is an excellent opportunity to replace
-> qcom_iommu_enable_clocks() to clk_bulk_prepare_enable() and disable,
-> respectively.
-
-So we have two required and one optional clocks.  I guess we don't want
-to use clk_bulk_get_optional() to get all of them as optional.  So we
-will end up with getting clock with individual call and enabling/disabling
-with bulk version.  I'm personally not fond of this mixed style.  But if
-you really like this, I can change.
-
+> So we have two required and one optional clocks.  I guess we don't want
+> to use clk_bulk_get_optional() to get all of them as optional.  So we
+> will end up with getting clock with individual call and enabling/disabling
+> with bulk version.  I'm personally not fond of this mixed style.  But if
+> you really like this, I can change.
 > 
-> > +
-> >  	return 0;
-> >  }
-> >  
-> >  static void qcom_iommu_disable_clocks(struct qcom_iommu_dev *qcom_iommu)
-> >  {
-> > +	clk_disable_unprepare(qcom_iommu->tlb_clk);
-> >  	clk_disable_unprepare(qcom_iommu->bus_clk);
-> >  	clk_disable_unprepare(qcom_iommu->iface_clk);
-> >  }
-> > @@ -839,6 +849,12 @@ static int qcom_iommu_device_probe(struct platform_device *pdev)
-> >  		return PTR_ERR(qcom_iommu->bus_clk);
-> >  	}
-> >  
-> > +	qcom_iommu->tlb_clk = devm_clk_get(dev, "tlb");
+
+I share your dislike for mixing them, but I do prefer it over the nasty
+error handling we end up with in qcom_iommu_enable_clocks().
+
+Regards,
+Bjorn
+
+> > 
+> > > +
+> > >  	return 0;
+> > >  }
+> > >  
+> > >  static void qcom_iommu_disable_clocks(struct qcom_iommu_dev *qcom_iommu)
+> > >  {
+> > > +	clk_disable_unprepare(qcom_iommu->tlb_clk);
+> > >  	clk_disable_unprepare(qcom_iommu->bus_clk);
+> > >  	clk_disable_unprepare(qcom_iommu->iface_clk);
+> > >  }
+> > > @@ -839,6 +849,12 @@ static int qcom_iommu_device_probe(struct platform_device *pdev)
+> > >  		return PTR_ERR(qcom_iommu->bus_clk);
+> > >  	}
+> > >  
+> > > +	qcom_iommu->tlb_clk = devm_clk_get(dev, "tlb");
+> > 
+> > Wouldn't "tbu" be a better name for this clock? Given that seems the
+> > actually be the hardware block you're clocking.
 > 
-> Wouldn't "tbu" be a better name for this clock? Given that seems the
-> actually be the hardware block you're clocking.
-
-I was trying to emphasize the function of this clock.  But I agree that
-'tbu' is a better name now.  I will change it in v2.
-
-Thanks for the comments.
-
-Shawn
+> I was trying to emphasize the function of this clock.  But I agree that
+> 'tbu' is a better name now.  I will change it in v2.
+> 
+> Thanks for the comments.
+> 
+> Shawn
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
