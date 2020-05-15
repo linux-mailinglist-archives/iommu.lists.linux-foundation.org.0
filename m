@@ -2,78 +2,78 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886D01D4B5A
-	for <lists.iommu@lfdr.de>; Fri, 15 May 2020 12:48:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E561D4B60
+	for <lists.iommu@lfdr.de>; Fri, 15 May 2020 12:48:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D7D6087BD3;
-	Fri, 15 May 2020 10:48:43 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4F60087BDC;
+	Fri, 15 May 2020 10:48:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Bkcd3xpwapFI; Fri, 15 May 2020 10:48:40 +0000 (UTC)
+	with ESMTP id qXuJneRbfJ3B; Fri, 15 May 2020 10:48:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3455D87C9F;
-	Fri, 15 May 2020 10:48:40 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5BF6987CBB;
+	Fri, 15 May 2020 10:48:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 20D08C0178;
-	Fri, 15 May 2020 10:48:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 49FEAC0178;
+	Fri, 15 May 2020 10:48:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A2F0DC016F
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 10:48:38 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BF7F9C016F
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 10:48:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 92D0887BD3
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 10:48:38 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id AB4A7894B1
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 10:48:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qDdIrQ2nyIZh for <iommu@lists.linux-foundation.org>;
- Fri, 15 May 2020 10:48:34 +0000 (UTC)
+ with ESMTP id ylo38LfbANLj for <iommu@lists.linux-foundation.org>;
+ Fri, 15 May 2020 10:48:36 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
- [209.85.128.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3AB3587BD5
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 10:48:34 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id f134so1844992wmf.1
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 03:48:34 -0700 (PDT)
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+ [209.85.128.67])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id BA80E89497
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 10:48:35 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id u16so2122785wmc.5
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 03:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=a6JIJM0/qnszNf/C3W1cfcENgwZD3tV9sE5r5AxKEdg=;
- b=dkOgLaKZgNbakPSRP7Xg1d2JPezWp8Wzc1IN+YzL2ukDlFUygw/oa6EQT8M2XqlTCz
- ITuN9QV0ywXV4ofR0kNh80z4tPGwVKsquc97eBK0CNEg2BYVNSMTj1o2Yb6UmqWBZjlr
- emzsm96xD2Kux4hLaBarRZQBAp3yJfXZIivFaOPGiHJuYf54/TcIl8cjoir+CegBn4h5
- AUVDdqHMF39wOISbc3FOzNe14afan4JQcxWpHPjxTLLpCXVr5MCCJeKyux6V/PE1Vq06
- Yw2WLEGTT679r7+OHD3vu1UOAOa/JxgOgbnXPMPb4TRcdsa2DVkMDiz0+9UOx0d5UhRT
- +32A==
+ bh=MQtP8fzJz2WKoMPMUWscfluDC7EhkHyxwXwDt+F/8Xo=;
+ b=PXoZE6nGzWzeAjrZVC4Q8qDDJTcc+HjmAowWP2rxhAIl1x1saIXWkTrkuPyrwa3NHP
+ yrSv8e2Hjy2yjlQ/runzqAADNByuuHASzKQn8JA/1UhZgEWKA+p+jj27buLk3nW/ROpD
+ BPr61cO2ih0JqRMJtrloloi8lbgPItEok935Uw5/8hRNcmgMeRL6CftHv+yKS3l+s4WU
+ iESxSPLqBjOeOA1KNZ7Y8/xjV9pWdJuANUQ8ZqvPc6wo+18lh8W3H7PofN1Gy/QF9Qth
+ 9hzcKT3MJdHAOaU/4IZQhzr/TKH/vkQjAFAtWKUVxBt4zMkvFJDnNIrBHa8WoNQEbB+/
+ SUHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=a6JIJM0/qnszNf/C3W1cfcENgwZD3tV9sE5r5AxKEdg=;
- b=gcMfDorzDfU5Ag2g6XyBdUE1EMhU3euobW1wgZbISkT/z/jX+r3D2D50+sh1ZIvwbV
- 5MHch+VdjUzpO4m9sNPgKk2GMDDOWPL/jROkFR2ScIZkpeNiAEoUVF0stm1OdR2DEFlh
- JLuapj5QqFRJQKqHpFvcf8Jd5iVGrKE50rQ8LHKN8PzvVoV91t317h3qwppaI67GveyU
- NxRthaOt5XlCR06n8o3sG+mwlIPire4IhYCojQthbYDWSGllrsJmLQkwu3b9iokf4iEh
- SWIpYBixHnawxZy8wx/Zgzt05r79O6iz14/+BnVZj4aosY35FSDAKYAyzTsezUjTdBYD
- OOJA==
-X-Gm-Message-State: AOAM530WXUOngDoJBZhCEvOnBvWSYWnb2ELn+2UfXSChtuUEGUjR31fC
- QhrmeuNzIvM/5eVnicrOj+mJHA==
-X-Google-Smtp-Source: ABdhPJzAXq9W8ciuEA3yi7eG0GjsyM8zeMTSGluCiWiblbXlc1dMrCYhmrkIsv/zARo7bX3QPoZVEA==
-X-Received: by 2002:a7b:c205:: with SMTP id x5mr3518890wmi.135.1589539712724; 
- Fri, 15 May 2020 03:48:32 -0700 (PDT)
+ bh=MQtP8fzJz2WKoMPMUWscfluDC7EhkHyxwXwDt+F/8Xo=;
+ b=ldy494mEikpcshk21j+dQG1JJwH9j+KSZ2EXs7LvCfLp/Agnaj0Ell/1O1FMh5aiWp
+ daaMQg/7IPsbuIVwz+2DLYtRYAx8Ws7M7bGdogpAunc8t+KDdO9KL8aPhxRx4QHHMRxu
+ QyWNnaqgJaWZrYab4fWTvWznfUqzeHxrkBp/b4NA/psMPuomCQjFvUlM7seQvu+SvoLj
+ aMTwsC0+NhdDzVB+LVfSxeoKsWIi2OrKH2sFi5uVwCovYCgF+krD7Cr+I3WV1hpWD7EN
+ mjBFzNnJ8v/ePqy3U4eZqiwHTwsWOAzjrDWKfBNjwa2wsJB1CYy75y7KIv4oI/RhfjAe
+ wtxQ==
+X-Gm-Message-State: AOAM532h8cnxZxLbhaSbevRBGXegxs8K6V4ZQ62LdJ0Q0qF711RUbRO6
+ jpMoP73UkKgf9VFXnE6JAnEW4w==
+X-Google-Smtp-Source: ABdhPJxehzJSSp1pQ/plR94V1b9IyYmarD9UuBiSu3T4yL++xWMNQCc3xOjcNEKwI82yKNouA7z5hw==
+X-Received: by 2002:a1c:7e4f:: with SMTP id z76mr3410526wmc.177.1589539714209; 
+ Fri, 15 May 2020 03:48:34 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:171b:226e:c200:c43b:ef78:d083:b355])
- by smtp.gmail.com with ESMTPSA id h27sm3510392wrc.46.2020.05.15.03.48.31
+ by smtp.gmail.com with ESMTPSA id h27sm3510392wrc.46.2020.05.15.03.48.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 03:48:32 -0700 (PDT)
+ Fri, 15 May 2020 03:48:33 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  iommu@lists.linux-foundation.org, joro@8bytes.org, bhelgaas@google.com
-Subject: [PATCH 3/4] iommu/arm-smmu-v3: Use pci_ats_supported()
-Date: Fri, 15 May 2020 12:44:01 +0200
-Message-Id: <20200515104359.1178606-4-jean-philippe@linaro.org>
+Subject: [PATCH 4/4] iommu/vt-d: Use pci_ats_supported()
+Date: Fri, 15 May 2020 12:44:02 +0200
+Message-Id: <20200515104359.1178606-5-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200515104359.1178606-1-jean-philippe@linaro.org>
 References: <20200515104359.1178606-1-jean-philippe@linaro.org>
@@ -98,54 +98,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The new pci_ats_supported() function checks if a device supports ATS and
-is allowed to use it.
+The pci_ats_supported() helper checks if a device supports ATS and is
+allowed to use it. By checking the ATS capability it also integrates the
+pci_ats_disabled() check from pci_ats_init(). Simplify the vt-d checks.
 
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
-I dropped the Ack because I slightly changed the patch to keep the
-fwspec check, since last version:
-https://lore.kernel.org/linux-iommu/20200311124506.208376-8-jean-philippe@linaro.org/
----
- drivers/iommu/arm-smmu-v3.c | 20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
+ drivers/iommu/intel-iommu.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index 82508730feb7a1..39b935e86ab203 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -2652,26 +2652,16 @@ static void arm_smmu_install_ste_for_dev(struct arm_smmu_master *master)
- 	}
- }
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index 0182cff2c7ac75..ed21ce6d123810 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -1454,8 +1454,7 @@ static void iommu_enable_dev_iotlb(struct device_domain_info *info)
+ 	    !pci_reset_pri(pdev) && !pci_enable_pri(pdev, 32))
+ 		info->pri_enabled = 1;
+ #endif
+-	if (!pdev->untrusted && info->ats_supported &&
+-	    pci_ats_page_aligned(pdev) &&
++	if (info->ats_supported && pci_ats_page_aligned(pdev) &&
+ 	    !pci_enable_ats(pdev, VTD_PAGE_SHIFT)) {
+ 		info->ats_enabled = 1;
+ 		domain_update_iotlb(info->domain);
+@@ -2611,10 +2610,8 @@ static struct dmar_domain *dmar_insert_one_dev_info(struct intel_iommu *iommu,
+ 	if (dev && dev_is_pci(dev)) {
+ 		struct pci_dev *pdev = to_pci_dev(info->dev);
  
--#ifdef CONFIG_PCI_ATS
- static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
- {
--	struct pci_dev *pdev;
-+	struct device *dev = master->dev;
- 	struct arm_smmu_device *smmu = master->smmu;
--	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(master->dev);
--
--	if (!(smmu->features & ARM_SMMU_FEAT_ATS) || !dev_is_pci(master->dev) ||
--	    !(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS) || pci_ats_disabled())
--		return false;
-+	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+-		if (!pdev->untrusted &&
+-		    !pci_ats_disabled() &&
+-		    ecap_dev_iotlb_support(iommu->ecap) &&
+-		    pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_ATS) &&
++		if (ecap_dev_iotlb_support(iommu->ecap) &&
++		    pci_ats_supported(pdev) &&
+ 		    dmar_find_matched_atsr_unit(pdev))
+ 			info->ats_supported = 1;
  
--	pdev = to_pci_dev(master->dev);
--	return !pdev->untrusted && pdev->ats_cap;
-+	return (smmu->features & ARM_SMMU_FEAT_ATS) &&
-+		!(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS) &&
-+		dev_is_pci(dev) && pci_ats_supported(to_pci_dev(dev));
- }
--#else
--static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
--{
--	return false;
--}
--#endif
- 
- static void arm_smmu_enable_ats(struct arm_smmu_master *master)
- {
 -- 
 2.26.2
 
