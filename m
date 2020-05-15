@@ -1,58 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DCC1D54ED
-	for <lists.iommu@lfdr.de>; Fri, 15 May 2020 17:42:38 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3521D54F5
+	for <lists.iommu@lfdr.de>; Fri, 15 May 2020 17:44:05 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 7F4372E899;
-	Fri, 15 May 2020 15:42:37 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4347789A82;
+	Fri, 15 May 2020 15:44:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Zq5Xlplrwdw1; Fri, 15 May 2020 15:42:32 +0000 (UTC)
+	with ESMTP id KQiYxsMtM+kb; Fri, 15 May 2020 15:43:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 535AE2E84A;
-	Fri, 15 May 2020 15:42:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A297489A7B;
+	Fri, 15 May 2020 15:43:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 40FCCC016F;
-	Fri, 15 May 2020 15:42:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 942FDC016F;
+	Fri, 15 May 2020 15:43:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A663CC016F
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 15:42:30 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5916BC016F
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 15:43:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9BBA187A77
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 15:42:30 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 470E489A7D
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 15:43:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6DFUhOZodXRz for <iommu@lists.linux-foundation.org>;
- Fri, 15 May 2020 15:42:25 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8E44487A32
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 15:42:25 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BEA322F;
- Fri, 15 May 2020 08:42:24 -0700 (PDT)
-Received: from [10.57.27.64] (unknown [10.57.27.64])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E26903F71E;
- Fri, 15 May 2020 08:42:23 -0700 (PDT)
-Subject: Re: [PATCH] iommu: Implement deferred domain attachment
-To: Joerg Roedel <joro@8bytes.org>
-References: <20200515094519.20338-1-joro@8bytes.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <d4e1cd9e-fc83-d41a-49c0-8f14f44b2701@arm.com>
-Date: Fri, 15 May 2020 16:42:23 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ with ESMTP id 4Y4b9K1cAQcQ for <iommu@lists.linux-foundation.org>;
+ Fri, 15 May 2020 15:43:53 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 2BEAC89A7B
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 15:43:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=BjsvnKmgLtuX+mwy7iZ0Hc2xoPJhHClDJ9oKI8T01Ec=; b=Yrd6nYC8k4cK9PpxgDftcC4dfg
+ 9Px+9LjhYk7LVdANR2rgAUg0/IuV/QWlGTx+cqQPC88JXWay2HP3TMaIqyhMiHf0Qo1wU3DmJnw6J
+ 67Kk1vLGt0YJINJ+22gk/YXFI9w8bbxr4gv1KqQQsoV/9hF8oQWsRaXU6k47Y6AJvmdw6w15W45w2
+ 4PeeDRN+Fx9XhZyilPxwtPApQzlzsBUddUZfvmIpcspEZcm+WqTHHRVu4VzkwgiEC66ljw5AFhRy5
+ dXojjXf721u5sEkGW7sS3iHdvWv0r0esq13SFz0BYIrQFRVS+MEV6T/PiUVK0vPjtd1hf/x4NtSFl
+ sdlzzfEQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red
+ Hat Linux)) id 1jZcV5-0002Ks-2e; Fri, 15 May 2020 15:43:51 +0000
+Date: Fri, 15 May 2020 08:43:51 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH 0/4] PCI, iommu: Factor 'untrusted' check for ATS
+ enablement
+Message-ID: <20200515154351.GA6546@infradead.org>
+References: <20200515104359.1178606-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200515094519.20338-1-joro@8bytes.org>
-Content-Language: en-GB
-Cc: iommu@lists.linux-foundation.org, jroedel@suse.de,
- linux-kernel@vger.kernel.org, Tom Murphy <murphyt7@tcd.ie>
+Content-Disposition: inline
+In-Reply-To: <20200515104359.1178606-1-jean-philippe@linaro.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: ashok.raj@intel.com, linux-pci@vger.kernel.org, alex.williamson@redhat.com,
+ iommu@lists.linux-foundation.org, bhelgaas@google.com, will@kernel.org,
+ dwmw2@infradead.org, linux-arm-kernel@lists.infradead.org,
+ robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,108 +75,14 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-05-15 10:45, Joerg Roedel wrote:
-> From: Joerg Roedel <jroedel@suse.de>
-> 
-> The IOMMU core code has support for deferring the attachment of a domain
-> to a device. This is needed in kdump kernels where the new domain must
-> not be attached to a device before the device driver takes it over.
-> 
-> But this needs support from the dma-ops code too, to actually do the
-> late attachment when there are DMA-API calls for the device. This got
-> lost in the AMD IOMMU driver after converting it to the dma-iommu code.
-> 
-> Do the late attachment in the dma-iommu code-path to fix the issue.
-> 
-> Cc: Jerry Snitselaar <jsnitsel@redhat.com>
-> Cc: Tom Murphy <murphyt7@tcd.ie>
-> Reported-by: Jerry Snitselaar <jsnitsel@redhat.com>
-> Tested-by: Jerry Snitselaar <jsnitsel@redhat.com>
-> Fixes: be62dbf554c5 ("iommu/amd: Convert AMD iommu driver to the dma-iommu api")
-> Signed-off-by: Joerg Roedel <jroedel@suse.de>
-> ---
->   drivers/iommu/iommu.c | 33 +++++++++++++++++++++++++++------
->   1 file changed, 27 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 4050569188be..f54ebb964271 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -1889,13 +1889,19 @@ void iommu_domain_free(struct iommu_domain *domain)
->   }
->   EXPORT_SYMBOL_GPL(iommu_domain_free);
->   
-> -static int __iommu_attach_device(struct iommu_domain *domain,
-> -				 struct device *dev)
-> +static bool __iommu_is_attach_deferred(struct iommu_domain *domain,
-> +				       struct device *dev)
-> +{
-> +	if (!domain->ops->is_attach_deferred)
-> +		return false;
-> +
-> +	return domain->ops->is_attach_deferred(domain, dev);
-> +}
-> +
-> +static int __iommu_attach_device_no_defer(struct iommu_domain *domain,
-> +					  struct device *dev)
->   {
->   	int ret;
-> -	if ((domain->ops->is_attach_deferred != NULL) &&
-> -	    domain->ops->is_attach_deferred(domain, dev))
-> -		return 0;
->   
->   	if (unlikely(domain->ops->attach_dev == NULL))
->   		return -ENODEV;
-> @@ -1903,9 +1909,19 @@ static int __iommu_attach_device(struct iommu_domain *domain,
->   	ret = domain->ops->attach_dev(domain, dev);
->   	if (!ret)
->   		trace_attach_device_to_domain(dev);
-> +
->   	return ret;
->   }
->   
-> +static int __iommu_attach_device(struct iommu_domain *domain,
-> +				 struct device *dev)
-> +{
-> +	if (__iommu_is_attach_deferred(domain, dev))
-> +		return 0;
-> +
-> +	return __iommu_attach_device_no_defer(domain, dev);
-> +}
-> +
->   int iommu_attach_device(struct iommu_domain *domain, struct device *dev)
->   {
->   	struct iommu_group *group;
-> @@ -2023,7 +2039,12 @@ EXPORT_SYMBOL_GPL(iommu_get_domain_for_dev);
->    */
->   struct iommu_domain *iommu_get_dma_domain(struct device *dev)
->   {
-> -	return dev->iommu_group->default_domain;
-> +	struct iommu_domain *domain = dev->iommu_group->default_domain;
-> +
-> +	if (__iommu_is_attach_deferred(domain, dev))
-> +		__iommu_attach_device_no_defer(domain, dev);
-
-This raises a red flag, since iommu-dma already has explicit deferred 
-attach handling where it should need it, immediately after this is 
-called to retrieve the domain. The whole thing smells to me like we 
-should have an explicit special-case in iommu_probe_device() rather than 
-hooking __iommu_attach_device() in general then having to bodge around 
-the fallout elsewhere.
-
-Robin.
-
-> +
-> +	return domain;
->   }
->   
->   /*
-> 
+Can you please lift the untrusted flag into struct device?  It really
+isn't a PCI specific concept, and we should not have code poking into
+pci_dev all over the iommu code.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
