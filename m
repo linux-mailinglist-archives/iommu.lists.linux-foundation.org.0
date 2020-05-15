@@ -1,69 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7AB61D47F2
-	for <lists.iommu@lfdr.de>; Fri, 15 May 2020 10:15:32 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4BD41D49EF
+	for <lists.iommu@lfdr.de>; Fri, 15 May 2020 11:50:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9867889A01;
-	Fri, 15 May 2020 08:15:31 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0E95487C52;
+	Fri, 15 May 2020 09:50:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mN7ZC8Rw1ohW; Fri, 15 May 2020 08:15:27 +0000 (UTC)
+	with ESMTP id hkB9Np1UAbIO; Fri, 15 May 2020 09:50:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1495989A09;
-	Fri, 15 May 2020 08:15:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 85803868DC;
+	Fri, 15 May 2020 09:50:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 00658C016F;
-	Fri, 15 May 2020 08:15:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7EA0EC016F;
+	Fri, 15 May 2020 09:50:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5AB88C016F
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 08:15:25 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2B8C8C016F
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 08:15:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 4902488CAE
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 08:15:25 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 3E8DD86D9D
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 08:15:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lrVUIeLOwI7d for <iommu@lists.linux-foundation.org>;
- Fri, 15 May 2020 08:15:21 +0000 (UTC)
-X-Greylist: delayed 00:05:01 by SQLgrey-1.7.6
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by whitealder.osuosl.org (Postfix) with ESMTP id E4AD288BAC
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 08:15:20 +0000 (UTC)
-X-UUID: aaadb563fd2a4076ad9ae7debebafb43-20200515
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=SnHDXWhq13xkpGV5Y45+FAXrSStxnyI/+HVQz04AZ8A=; 
- b=fBojTk2DxPktUP23pOO4TfvbwyleUQOuKl7YxSW0Ac0PofkKjTTEFgBtILTqUoNRQ94VE87st62W4Oayc4xx3L6IwYQtX5isjHrIel3iEkF6jXVsZQISpD9MkUP+yzGJSgsOeKOiDuMSR017PR3YiPAODC85KvLm9WfcDNjsoHg=;
-X-UUID: aaadb563fd2a4076ad9ae7debebafb43-20200515
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1828095223; Fri, 15 May 2020 16:10:15 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 15 May 2020 16:10:11 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 15 May 2020 16:10:10 +0800
-From: Yong Wu <yong.wu@mediatek.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH] iommu/mediatek-v1: Add def_domain_type
-Date: Fri, 15 May 2020 16:08:43 +0800
-Message-ID: <1589530123-30240-1-git-send-email-yong.wu@mediatek.com>
-X-Mailer: git-send-email 1.9.1
+ with ESMTP id 6cALmF7oPUAV for <iommu@lists.linux-foundation.org>;
+ Fri, 15 May 2020 08:15:41 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0798A858A6
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 08:15:40 +0000 (UTC)
+X-Originating-IP: 93.29.109.196
+Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
+ (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 6C5C51BF208;
+ Fri, 15 May 2020 08:15:34 +0000 (UTC)
+Date: Fri, 15 May 2020 10:15:33 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v4 5/5] drm/sun4i: mixer: Call of_dma_configure if
+ there's an IOMMU
+Message-ID: <20200515081533.GA2486@aptenodytes>
+References: <cover.b27dedd61e008ffcf55a028ccddda3bb4d21dfc8.1589378833.git-series.maxime@cerno.tech>
+ <9a4daf438dd3f2fe07afb23688bfb793a0613d7d.1589378833.git-series.maxime@cerno.tech>
 MIME-Version: 1.0
-X-MTK: N
-Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com, srv_heupstream@mediatek.com,
- Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+In-Reply-To: <9a4daf438dd3f2fe07afb23688bfb793a0613d7d.1589378833.git-series.maxime@cerno.tech>
+X-Mailman-Approved-At: Fri, 15 May 2020 09:50:39 +0000
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,86 +67,110 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============3098638967616801775=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The MediaTek V1 IOMMU is arm32 whose default domain type is
-IOMMU_DOMAIN_UNMANAGED. Add this to satisfy the bus_iommu_probe to
-enter "probe_finalize".
 
-The iommu framework will create a iommu domain for each a device.
-But all the devices share a iommu domain here, thus we skip all the
-other domains in the "attach_device" except the domain we create
-internally with arm_iommu_create_mapping.
+--===============3098638967616801775==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
+Content-Disposition: inline
 
-Also a minor change: in the attach_device, "data" always is not null.
-Remove "if (!data) return".
 
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
----
-a. rebase on linux-next.
-b. After this patch and fixed the mutex issue(locally I only move
-   mutex_unlock(&group->mutex) before __iommu_group_dma_attach(group)),
-   the mtk_iommu_v1.c could work normally.
----
- drivers/iommu/mtk_iommu_v1.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+--vkogqOf2sHV7VnPd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-index 7bdd74c..f353b07 100644
---- a/drivers/iommu/mtk_iommu_v1.c
-+++ b/drivers/iommu/mtk_iommu_v1.c
-@@ -265,10 +265,13 @@ static int mtk_iommu_attach_device(struct iommu_domain *domain,
- {
- 	struct mtk_iommu_data *data = dev_iommu_priv_get(dev);
- 	struct mtk_iommu_domain *dom = to_mtk_domain(domain);
-+	struct dma_iommu_mapping *mtk_mapping;
- 	int ret;
- 
--	if (!data)
--		return -ENODEV;
-+	/* Only allow the domain created internally. */
-+	mtk_mapping = data->dev->archdata.iommu;
-+	if (mtk_mapping->domain != domain)
-+		return 0;
- 
- 	if (!data->m4u_dom) {
- 		data->m4u_dom = dom;
-@@ -288,9 +291,6 @@ static void mtk_iommu_detach_device(struct iommu_domain *domain,
- {
- 	struct mtk_iommu_data *data = dev_iommu_priv_get(dev);
- 
--	if (!data)
--		return;
--
- 	mtk_iommu_config(data, dev, false);
- }
- 
-@@ -416,6 +416,11 @@ static int mtk_iommu_create_mapping(struct device *dev,
- 	return 0;
- }
- 
-+static int mtk_iommu_def_domain_type(struct device *dev)
-+{
-+	return IOMMU_DOMAIN_UNMANAGED;
-+}
-+
- static struct iommu_device *mtk_iommu_probe_device(struct device *dev)
- {
- 	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-@@ -525,6 +530,7 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data)
- 	.probe_device	= mtk_iommu_probe_device,
- 	.probe_finalize = mtk_iommu_probe_finalize,
- 	.release_device	= mtk_iommu_release_device,
-+	.def_domain_type = mtk_iommu_def_domain_type,
- 	.device_group	= generic_device_group,
- 	.pgsize_bitmap	= ~0UL << MT2701_IOMMU_PAGE_SHIFT,
- };
--- 
-1.9.1
+Hi,
+
+On Wed 13 May 20, 16:07, Maxime Ripard wrote:
+> The main DRM device is actually a virtual device so it doesn't have the
+> iommus property, which is instead on the DMA masters, in this case the
+> mixers.
+>=20
+> Add a call to of_dma_configure with the mixers DT node but on the DRM
+> virtual device to configure it in the same way than the mixers.
+
+Although I'm not very familiar with the DMA API, this looks legit to me and
+matches what's already done in sun4i_backend for the interconnect. So:
+
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Cheers,
+
+Paul
+
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_mixer.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/=
+sun8i_mixer.c
+> index 56cc037fd312..cc4fb916318f 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> @@ -363,6 +363,19 @@ static int sun8i_mixer_bind(struct device *dev, stru=
+ct device *master,
+>  	mixer->engine.ops =3D &sun8i_engine_ops;
+>  	mixer->engine.node =3D dev->of_node;
+> =20
+> +	if (of_find_property(dev->of_node, "iommus", NULL)) {
+> +		/*
+> +		 * This assume we have the same DMA constraints for
+> +		 * all our the mixers in our pipeline. This sounds
+> +		 * bad, but it has always been the case for us, and
+> +		 * DRM doesn't do per-device allocation either, so we
+> +		 * would need to fix DRM first...
+> +		 */
+> +		ret =3D of_dma_configure(drm->dev, dev->of_node, true);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	/*
+>  	 * While this function can fail, we shouldn't do anything
+>  	 * if this happens. Some early DE2 DT entries don't provide
+> --=20
+> git-series 0.9.1
+>=20
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--vkogqOf2sHV7VnPd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl6+T6UACgkQ3cLmz3+f
+v9H/UAgAkvadU2hkk0g8AzqD7A8wD9HZa1w2iDr5XqyJebfprIsxG8x5MpZWf9BQ
+RTe1YsTxBBAeX49KifKGTI+TxipHj2A0Ebt9nIDUpP6vXQ7q/t24R8VhOeRiFLLM
+Ke2pNX4F6XaV0CHM5YeQOp1OndJgZ1ioWlfqp+296kTRC1+8L7l6BPI1HkT8WVOi
+mi8+8iBF3szadtkUm+h33BwKNxAnkWsybWK06pg+VNUT4dcld6RUH/c+XCFOr39j
+2c617QVi3poan+h3psdcEFwnrbKwGyR8YsqHyBOwAZkW/2l4ItTUE3A6SFLKguca
+BeSlxCAarYm3YuaLzCm6TgeX+7u68w==
+=r6Qc
+-----END PGP SIGNATURE-----
+
+--vkogqOf2sHV7VnPd--
+
+--===============3098638967616801775==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============3098638967616801775==--
