@@ -1,80 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 373981D4B59
-	for <lists.iommu@lfdr.de>; Fri, 15 May 2020 12:48:43 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A721D4B5C
+	for <lists.iommu@lfdr.de>; Fri, 15 May 2020 12:48:46 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id D1B982044B;
-	Fri, 15 May 2020 10:48:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9F00089494;
+	Fri, 15 May 2020 10:48:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3f8nRNzujHnP; Fri, 15 May 2020 10:48:36 +0000 (UTC)
+	with ESMTP id WGKJgnIIvul1; Fri, 15 May 2020 10:48:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id BC25E20409;
-	Fri, 15 May 2020 10:48:36 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E9F7C894C8;
+	Fri, 15 May 2020 10:48:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98B0FC016F;
-	Fri, 15 May 2020 10:48:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D728CC016F;
+	Fri, 15 May 2020 10:48:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6DC51C016F
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 10:48:35 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2A200C016F
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 10:48:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 53B0920409
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 10:48:35 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2701587BDE
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 10:48:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9pKo1sAChaT0 for <iommu@lists.linux-foundation.org>;
- Fri, 15 May 2020 10:48:30 +0000 (UTC)
+ with ESMTP id DU-YVU1xrEzc for <iommu@lists.linux-foundation.org>;
+ Fri, 15 May 2020 10:48:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by silver.osuosl.org (Postfix) with ESMTPS id AA4AD203C7
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 10:48:30 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id g12so2135685wmh.3
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 03:48:30 -0700 (PDT)
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+ [209.85.128.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 9FFAD87BCE
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 10:48:32 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id f134so1844939wmf.1
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 03:48:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MESJTjk++c2lj6OjtUD3TbcX3ekoiLAlqLoQdQYenvk=;
- b=d8QewLSvnJpTn6f8rKB+iC7zL5g4c4zD4gf9Y5c58fo+EWwMkk3YHySYd9hhSQj+R5
- FtRM7iGqWUoDtBI3d64vkhP3ewTf0dPfnHlNzG1spLfWpiC6bh53mz+VswdP4TIl6iK/
- IAy+POK20EjpGebSxDJFa8vAl12orzLTbfozqcFuR8eQDkbwT0Jw4Yjn4tVR+qDkqyh7
- F2xJxcunlRjjcDBXrBsRGayTerKPqgLZn9JGXj0rsSf/599MitB9ROn5P6u02Jw3P7DY
- klaJCMzuR+677XbhASvrvRdqWHRaKKiH9YxoXbqAtFlvxCeNXzudfnXqKjWk659I3pc4
- KUlQ==
+ bh=guIyIxw2Cj+e2cp6UNPEu5aERqphnHRHK0daLjNZEtg=;
+ b=P6/7hIE4DwjSbFHn0gUenOd7tQIjElNY44np4Xp3owXyeiZ5/eDrsF2jXhN1HFtXI9
+ mzI4y6p5DgU2UcrYdlCXB96VGS31EbpJJbdZ9F86VezeEZeC0/al4dI1yjpzsPObxXFq
+ bH1rMvZMRi2LIS/5qWwon90KoCmlhOIT8yk6ptHFuyroaHqPfVbNWqX4o+QJrImdJg1K
+ yVQAnTXoaK5haWRQFRYea+uFgN4n5RLlto9awJagAWmH0iE5BZWxjLgcRKzajZy0eLZ/
+ 94povR05970KSOg2HzI7zF8fn1cxzEnzDPqenijZflhH7uWaKOz7YHkN5wHpu/4kyjB0
+ AxGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MESJTjk++c2lj6OjtUD3TbcX3ekoiLAlqLoQdQYenvk=;
- b=FTmt1Ih8l3X7FhfBPm7xFNI/qt2bwS1FFY0XzFvffLE99HtUlXbuAXN4CtSxYLZMzW
- 7xVp7AVreImYwbV3heMUIzS8uXBBhRgf0Vc32+nIW+7QkkQp20CqvLNJs8ZZa3VecYYT
- pVQN65LzSQX58110x6rehnKaPLUYTcNgYZmOOoI0TS1IxQIE1yKcFscJ/cPU77Lgy4pI
- oDqfcQ/OHOjeJc/jOa0ZBJnJASH5ErCfJPw+KmR0ywFIMnFQRg/9aO1bW8FA995YscHm
- 8EyKqdo9L6eqLo3UkeBHUei2L4PTQW92hR2tUWo1UNflm2JoC6MbbKksuTcTf1aYT3uY
- WuqA==
-X-Gm-Message-State: AOAM533gD8CkV5cfsFp7aws9z2pausDzFFMeoABOwQZYEXzbHy11olEX
- Zf6/fmdtjnoVWKLZvm7Y+MAdqA==
-X-Google-Smtp-Source: ABdhPJxoIQKh0Dl64xNJbAfP1xeyXsKEMQXWWN7NWj2VTSJfKf04HR+XDlR3TmJZkICfK6ATTtGKnA==
-X-Received: by 2002:a05:600c:2219:: with SMTP id
- z25mr3356941wml.128.1589539709090; 
- Fri, 15 May 2020 03:48:29 -0700 (PDT)
+ bh=guIyIxw2Cj+e2cp6UNPEu5aERqphnHRHK0daLjNZEtg=;
+ b=J2BRGEFvy69DnrAlnOt0ZO8oN0y+jkjKlHLrJd2E1XUHsw9TnmOWztl+/hI+IQIgKL
+ byt3XXKzDk05cGxvU3mi+j4eWq+7vhnyfRXqS69fTvjFXumJ6Ig6Jk6iSyMprL91Uutf
+ w/Y6IkuVT7Hwnvk2789fdWbCI/dqRh6g/HTr/mwjCPAyDV4Q888uF5BzUK2ndlwa4iB+
+ 9twhDcMAcAu0QkdWc1eIyl10rqvKiYybNPgJvgpoy2+5Rh3LhpgT2BBNSu+LY4mZXlzv
+ hL1XrbMK0R9NkBOLbd1KqDPbZZ08jR20CR9DzbaWH0rr3mjKteuWIcOmxub8utmxgZyB
+ CJ9w==
+X-Gm-Message-State: AOAM531NNMB0ziNP7MqSmprysvNhkVPYaKklzdytF5gFrTtRz0Oy7IUx
+ crWrbJsEbqRcUF6UHmef8pCo8A==
+X-Google-Smtp-Source: ABdhPJwOoccKW1cdQKZVyETbXOshCl3JLZVuvoDXSwsZotxA+Esgngps5B0KVjlnEG+HNrZiI1lhug==
+X-Received: by 2002:a1c:1d12:: with SMTP id d18mr3248638wmd.109.1589539711093; 
+ Fri, 15 May 2020 03:48:31 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:171b:226e:c200:c43b:ef78:d083:b355])
- by smtp.gmail.com with ESMTPSA id h27sm3510392wrc.46.2020.05.15.03.48.28
+ by smtp.gmail.com with ESMTPSA id h27sm3510392wrc.46.2020.05.15.03.48.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 May 2020 03:48:28 -0700 (PDT)
+ Fri, 15 May 2020 03:48:30 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  iommu@lists.linux-foundation.org, joro@8bytes.org, bhelgaas@google.com
-Subject: [PATCH 1/4] PCI/ATS: Only enable ATS for trusted devices
-Date: Fri, 15 May 2020 12:43:59 +0200
-Message-Id: <20200515104359.1178606-2-jean-philippe@linaro.org>
+Subject: [PATCH 2/4] iommu/amd: Use pci_ats_supported()
+Date: Fri, 15 May 2020 12:44:00 +0200
+Message-Id: <20200515104359.1178606-3-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200515104359.1178606-1-jean-philippe@linaro.org>
 References: <20200515104359.1178606-1-jean-philippe@linaro.org>
@@ -99,86 +98,59 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add pci_ats_supported(), which checks whether a device has an ATS
-capability, and whether it is trusted.  A device is untrusted if it is
-plugged into an external-facing port such as Thunderbolt and could be
-spoof an existing device to exploit weaknesses in the IOMMU
-configuration.  PCIe ATS is one such weaknesses since it allows
-endpoints to cache IOMMU translations and emit transactions with
-'Translated' Address Type (10b) that partially bypass the IOMMU
-translation.
+The pci_ats_supported() function checks if a device supports ATS and is
+allowed to use it. In addition to checking that the device has an ATS
+capability and that the global pci=noats is not set
+(pci_ats_disabled()), it also checks if a device is untrusted.
 
-The SMMUv3 and VT-d IOMMU drivers already disallow ATS and transactions
-with 'Translated' Address Type for untrusted devices.  Add the check to
-pci_enable_ats() to let other drivers (AMD IOMMU for now) benefit from
-it.
-
-By checking ats_cap, the pci_ats_supported() helper also returns whether
-ATS was globally disabled with pci=noats, and could later include more
-things, for example whether the whole PCIe hierarchy down to the
-endpoint supports ATS.
+A device is untrusted if it is plugged into an external-facing port such
+as Thunderbolt and could be spoofing an existing device to exploit
+weaknesses in the IOMMU configuration. By calling pci_ats_supported() we
+keep DTE[I]=0 for untrusted devices and abort transactions with
+Pretranslated Addresses.
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- include/linux/pci-ats.h |  3 +++
- drivers/pci/ats.c       | 18 +++++++++++++++++-
- 2 files changed, 20 insertions(+), 1 deletion(-)
+ drivers/iommu/amd_iommu.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/pci-ats.h b/include/linux/pci-ats.h
-index d08f0869f1213e..f75c307f346de9 100644
---- a/include/linux/pci-ats.h
-+++ b/include/linux/pci-ats.h
-@@ -6,11 +6,14 @@
+diff --git a/drivers/iommu/amd_iommu.c b/drivers/iommu/amd_iommu.c
+index 1dc3718560d0e8..8b7a9e811d33a6 100644
+--- a/drivers/iommu/amd_iommu.c
++++ b/drivers/iommu/amd_iommu.c
+@@ -313,16 +313,15 @@ static struct iommu_group *acpihid_device_group(struct device *dev)
+ static bool pci_iommuv2_capable(struct pci_dev *pdev)
+ {
+ 	static const int caps[] = {
+-		PCI_EXT_CAP_ID_ATS,
+ 		PCI_EXT_CAP_ID_PRI,
+ 		PCI_EXT_CAP_ID_PASID,
+ 	};
+ 	int i, pos;
  
- #ifdef CONFIG_PCI_ATS
- /* Address Translation Service */
-+bool pci_ats_supported(struct pci_dev *dev);
- int pci_enable_ats(struct pci_dev *dev, int ps);
- void pci_disable_ats(struct pci_dev *dev);
- int pci_ats_queue_depth(struct pci_dev *dev);
- int pci_ats_page_aligned(struct pci_dev *dev);
- #else /* CONFIG_PCI_ATS */
-+static inline bool pci_ats_supported(struct pci_dev *d)
-+{ return false; }
- static inline int pci_enable_ats(struct pci_dev *d, int ps)
- { return -ENODEV; }
- static inline void pci_disable_ats(struct pci_dev *d) { }
-diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
-index 390e92f2d8d1fc..15fa0c37fd8e44 100644
---- a/drivers/pci/ats.c
-+++ b/drivers/pci/ats.c
-@@ -30,6 +30,22 @@ void pci_ats_init(struct pci_dev *dev)
- 	dev->ats_cap = pos;
- }
+-	if (pci_ats_disabled())
++	if (!pci_ats_supported(pdev))
+ 		return false;
  
-+/**
-+ * pci_ats_supported - check if the device can use ATS
-+ * @dev: the PCI device
-+ *
-+ * Returns true if the device supports ATS and is allowed to use it, false
-+ * otherwise.
-+ */
-+bool pci_ats_supported(struct pci_dev *dev)
-+{
-+	if (!dev->ats_cap)
-+		return false;
-+
-+	return !dev->untrusted;
-+}
-+EXPORT_SYMBOL_GPL(pci_ats_supported);
-+
- /**
-  * pci_enable_ats - enable the ATS capability
-  * @dev: the PCI device
-@@ -42,7 +58,7 @@ int pci_enable_ats(struct pci_dev *dev, int ps)
- 	u16 ctrl;
- 	struct pci_dev *pdev;
+-	for (i = 0; i < 3; ++i) {
++	for (i = 0; i < 2; ++i) {
+ 		pos = pci_find_ext_capability(pdev, caps[i]);
+ 		if (pos == 0)
+ 			return false;
+@@ -3150,11 +3149,8 @@ int amd_iommu_device_info(struct pci_dev *pdev,
  
--	if (!dev->ats_cap)
-+	if (!pci_ats_supported(dev))
- 		return -EINVAL;
+ 	memset(info, 0, sizeof(*info));
  
- 	if (WARN_ON(dev->ats_enabled))
+-	if (!pci_ats_disabled()) {
+-		pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_ATS);
+-		if (pos)
+-			info->flags |= AMD_IOMMU_DEVICE_FLAG_ATS_SUP;
+-	}
++	if (pci_ats_supported(pdev))
++		info->flags |= AMD_IOMMU_DEVICE_FLAG_ATS_SUP;
+ 
+ 	pos = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_PRI);
+ 	if (pos)
 -- 
 2.26.2
 
