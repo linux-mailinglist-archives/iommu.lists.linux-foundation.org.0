@@ -1,60 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4BD41D49EF
-	for <lists.iommu@lfdr.de>; Fri, 15 May 2020 11:50:47 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B3A1D47FD
+	for <lists.iommu@lfdr.de>; Fri, 15 May 2020 10:19:22 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0E95487C52;
-	Fri, 15 May 2020 09:50:46 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5EAB0895BF;
+	Fri, 15 May 2020 08:19:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hkB9Np1UAbIO; Fri, 15 May 2020 09:50:40 +0000 (UTC)
+	with ESMTP id RdesHBRq8XKz; Fri, 15 May 2020 08:19:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 85803868DC;
-	Fri, 15 May 2020 09:50:40 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D869A896BA;
+	Fri, 15 May 2020 08:19:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7EA0EC016F;
-	Fri, 15 May 2020 09:50:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BE23AC016F;
+	Fri, 15 May 2020 08:19:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2B8C8C016F
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 08:15:47 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 977B5C016F
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 08:19:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3E8DD86D9D
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 08:15:46 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8551089673
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 08:19:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6cALmF7oPUAV for <iommu@lists.linux-foundation.org>;
- Fri, 15 May 2020 08:15:41 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 0798A858A6
- for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 08:15:40 +0000 (UTC)
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
- (Authenticated sender: paul.kocialkowski@bootlin.com)
- by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 6C5C51BF208;
- Fri, 15 May 2020 08:15:34 +0000 (UTC)
-Date: Fri, 15 May 2020 10:15:33 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v4 5/5] drm/sun4i: mixer: Call of_dma_configure if
- there's an IOMMU
-Message-ID: <20200515081533.GA2486@aptenodytes>
-References: <cover.b27dedd61e008ffcf55a028ccddda3bb4d21dfc8.1589378833.git-series.maxime@cerno.tech>
- <9a4daf438dd3f2fe07afb23688bfb793a0613d7d.1589378833.git-series.maxime@cerno.tech>
+ with ESMTP id Dox2L3YhKZuu for <iommu@lists.linux-foundation.org>;
+ Fri, 15 May 2020 08:19:11 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail26.static.mailgun.info (mail26.static.mailgun.info
+ [104.130.122.26])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 0E9B8895BF
+ for <iommu@lists.linux-foundation.org>; Fri, 15 May 2020 08:19:06 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1589530751; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=b15zrAYlQprMOsxRmwfaMv2/XJdzaN8Ceooz+8pLgE4=;
+ b=QEdxUttbo9n4pycHxgDQgZrETsAOlfmnuz+wRFhHj3IAy64ZILwQuu39OArgCDiJv57mxb0l
+ OUjLN8XYvrWxkH4+Xg+AkYxtryN30p7OVZLy/EIC4cEKC0y4diwPO1ejinO1fVPNgc+M+S8X
+ U1st/lt50+oQ0ZUm9QcXcBYDZWE=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 5ebe506f8ebbf95ecb593756 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 15 May 2020 08:18:55
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 558D0C43636; Fri, 15 May 2020 08:18:54 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: sibis)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 9BAE7C433D2;
+ Fri, 15 May 2020 08:18:53 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <9a4daf438dd3f2fe07afb23688bfb793a0613d7d.1589378833.git-series.maxime@cerno.tech>
-X-Mailman-Approved-At: Fri, 15 May 2020 09:50:39 +0000
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- iommu@lists.linux-foundation.org, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, linux-arm-kernel@lists.infradead.org
+Date: Fri, 15 May 2020 13:48:53 +0530
+From: Sibi Sankar <sibis@codeaurora.org>
+To: will@kernel.org, robin.murphy@arm.com, joro@8bytes.org
+Subject: Re: [PATCH v6] iommu/arm-smmu-qcom: Request direct mapping for modem
+ device
+In-Reply-To: <20200511175532.25874-1-sibis@codeaurora.org>
+References: <20200511175532.25874-1-sibis@codeaurora.org>
+Message-ID: <0f0679f57a213536dfbba78b5c2dab5c@codeaurora.org>
+X-Sender: sibis@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
+Cc: linux-kernel-owner@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ swboyd@chromium.org, dianders@chromium.org, evgreen@chromium.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ mka@chromium.org, bjorn.andersson@linaro.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,110 +86,62 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============3098638967616801775=="
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Hey Will,
 
---===============3098638967616801775==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="vkogqOf2sHV7VnPd"
-Content-Disposition: inline
-
-
---vkogqOf2sHV7VnPd
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Wed 13 May 20, 16:07, Maxime Ripard wrote:
-> The main DRM device is actually a virtual device so it doesn't have the
-> iommus property, which is instead on the DMA masters, in this case the
-> mixers.
->=20
-> Add a call to of_dma_configure with the mixers DT node but on the DRM
-> virtual device to configure it in the same way than the mixers.
-
-Although I'm not very familiar with the DMA API, this looks legit to me and
-matches what's already done in sun4i_backend for the interconnect. So:
-
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-
-Cheers,
-
-Paul
-
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+On 2020-05-11 23:25, Sibi Sankar wrote:
+> The modem remote processor has two access paths to DDR. One path is
+> directly connected to DDR and another path goes through an SMMU. The
+> SMMU path is configured to be a direct mapping because it's used by
+> various peripherals in the modem subsystem. Typically this direct
+> mapping is configured statically at EL2 by QHEE (Qualcomm's Hypervisor
+> Execution Environment) before the kernel is entered.
+> 
+> In certain firmware configuration, especially when the kernel is 
+> already
+> in full control of the SMMU, defer programming the modem SIDs to the
+> kernel. Let's add compatibles here so that we can have the kernel
+> program the SIDs for the modem in these cases.
+> 
+> Signed-off-by: Sibi Sankar <sibis@codeaurora.org>
 > ---
->  drivers/gpu/drm/sun4i/sun8i_mixer.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/=
-sun8i_mixer.c
-> index 56cc037fd312..cc4fb916318f 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> @@ -363,6 +363,19 @@ static int sun8i_mixer_bind(struct device *dev, stru=
-ct device *master,
->  	mixer->engine.ops =3D &sun8i_engine_ops;
->  	mixer->engine.node =3D dev->of_node;
-> =20
-> +	if (of_find_property(dev->of_node, "iommus", NULL)) {
-> +		/*
-> +		 * This assume we have the same DMA constraints for
-> +		 * all our the mixers in our pipeline. This sounds
-> +		 * bad, but it has always been the case for us, and
-> +		 * DRM doesn't do per-device allocation either, so we
-> +		 * would need to fix DRM first...
-> +		 */
-> +		ret =3D of_dma_configure(drm->dev, dev->of_node, true);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	/*
->  	 * While this function can fail, we shouldn't do anything
->  	 * if this happens. Some early DE2 DT entries don't provide
-> --=20
-> git-series 0.9.1
->=20
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Now that the patch is reworded can
+you please pick it up since its the
+only pending path from the series.
 
---vkogqOf2sHV7VnPd
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+> V6
+>  * Rebased on Will's for-joerg/arm-smmu/updates
+>  * Reword commit message and add more details [Stephen]
+> 
+>  drivers/iommu/arm-smmu-qcom.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/iommu/arm-smmu-qcom.c 
+> b/drivers/iommu/arm-smmu-qcom.c
+> index 5bedf21587a56..cf01d0215a397 100644
+> --- a/drivers/iommu/arm-smmu-qcom.c
+> +++ b/drivers/iommu/arm-smmu-qcom.c
+> @@ -17,7 +17,9 @@ static const struct of_device_id
+> qcom_smmu_client_of_match[] = {
+>  	{ .compatible = "qcom,mdp4" },
+>  	{ .compatible = "qcom,mdss" },
+>  	{ .compatible = "qcom,sc7180-mdss" },
+> +	{ .compatible = "qcom,sc7180-mss-pil" },
+>  	{ .compatible = "qcom,sdm845-mdss" },
+> +	{ .compatible = "qcom,sdm845-mss-pil" },
+>  	{ }
+>  };
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl6+T6UACgkQ3cLmz3+f
-v9H/UAgAkvadU2hkk0g8AzqD7A8wD9HZa1w2iDr5XqyJebfprIsxG8x5MpZWf9BQ
-RTe1YsTxBBAeX49KifKGTI+TxipHj2A0Ebt9nIDUpP6vXQ7q/t24R8VhOeRiFLLM
-Ke2pNX4F6XaV0CHM5YeQOp1OndJgZ1ioWlfqp+296kTRC1+8L7l6BPI1HkT8WVOi
-mi8+8iBF3szadtkUm+h33BwKNxAnkWsybWK06pg+VNUT4dcld6RUH/c+XCFOr39j
-2c617QVi3poan+h3psdcEFwnrbKwGyR8YsqHyBOwAZkW/2l4ItTUE3A6SFLKguca
-BeSlxCAarYm3YuaLzCm6TgeX+7u68w==
-=r6Qc
------END PGP SIGNATURE-----
-
---vkogqOf2sHV7VnPd--
-
---===============3098638967616801775==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============3098638967616801775==--
