@@ -2,64 +2,74 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1781D7D07
-	for <lists.iommu@lfdr.de>; Mon, 18 May 2020 17:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FD71D7D32
+	for <lists.iommu@lfdr.de>; Mon, 18 May 2020 17:45:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5E8C3885B5;
-	Mon, 18 May 2020 15:37:45 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4B877886A7;
+	Mon, 18 May 2020 15:45:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kWNxYp7mTlWk; Mon, 18 May 2020 15:37:44 +0000 (UTC)
+	with ESMTP id RQvm8cImIU+B; Mon, 18 May 2020 15:45:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CBC98885A3;
-	Mon, 18 May 2020 15:37:44 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id ADE6288698;
+	Mon, 18 May 2020 15:45:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B2171C0894;
-	Mon, 18 May 2020 15:37:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9CAD3C07FF;
+	Mon, 18 May 2020 15:45:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 674CBC07FF
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 15:37:42 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99E15C07FF
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 15:45:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 6326988581
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 15:37:42 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 8853221509
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 15:45:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UMomWrhu5ujq for <iommu@lists.linux-foundation.org>;
- Mon, 18 May 2020 15:37:39 +0000 (UTC)
+ with ESMTP id 1cXPhEbRBuB2 for <iommu@lists.linux-foundation.org>;
+ Mon, 18 May 2020 15:45:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id B5DF388575
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 15:37:39 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id C189820444
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 15:45:27 +0000 (UTC)
 Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B7CD720657;
- Mon, 18 May 2020 15:37:37 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3E63920657;
+ Mon, 18 May 2020 15:45:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589816259;
- bh=EhGDmXaw1hIzPjQBCe1L73zVhpK0WWSpGkldIfpkakQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=17iaSWZ809+SeQ4xkNM7+7yWrBt+CuPeic8ZjxN8zDpxcvigQFJAY6hS4xUTnZ0PV
- TVNE0WEfptLrFqoIPl+lzqq+9vY4pkCjIEfB45N5i++g4SKevueEzjo6flcMF7+Uv7
- CjtAqM5b0wEi2eNrbV0xoNpLji3A77Fduepja3Kw=
-Date: Mon, 18 May 2020 16:37:34 +0100
+ s=default; t=1589816727;
+ bh=lkx1dqDKnZ+7YQ40oS1fSOiu3vaTshH77dFDIsJ7zpY=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=1R3PT4Fh7iXsD1dBKDsTA2zU+v6Fh9XxL6QeojwFzCuedeAidtnj708jw4tqa4daW
+ WQzvXD/kyiA6nLQ/cGC3LCXT/X1PHq4EszC5UwDZfsIpkO7JTCeIkjtPCyXP0PWYuV
+ HoXh0/YZGhjrBX0kbc703WUMPr7fTluicvDCKH8s=
+Date: Mon, 18 May 2020 16:45:23 +0100
 From: Will Deacon <will@kernel.org>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH 3/4] iommu/arm-smmu-v3: Use pci_ats_supported()
-Message-ID: <20200518153733.GM32394@willie-the-truck>
-References: <20200515104359.1178606-1-jean-philippe@linaro.org>
- <20200515104359.1178606-4-jean-philippe@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Joerg Roedel <joro@8bytes.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>, 
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>
+Subject: Re: [PATCH] iomm/arm-smmu: Add stall implementation hook
+Message-ID: <20200518154522.GN32394@willie-the-truck>
+References: <20200421202004.11686-1-saiprakash.ranjan@codeaurora.org>
+ <b491e02ad790a437115fdeab6b21bc48@codeaurora.org>
+ <1ced023b-157c-21a0-ac75-1adef7f029f0@arm.com>
+ <20200507125357.GA31783@willie-the-truck>
+ <CAF6AEGuLU+_qP8HNO1s9PTPHqJnCMHzehmcT8NiJhiAwrfSH6w@mail.gmail.com>
+ <CAF6AEGvuHKObTR97XdSXjmjKB+qjQ8N1_wxM=ZU8bEkF=cXp-A@mail.gmail.com>
+ <20200511173008.GA24282@jcrouse1-lnx.qualcomm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200515104359.1178606-4-jean-philippe@linaro.org>
+In-Reply-To: <20200511173008.GA24282@jcrouse1-lnx.qualcomm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: ashok.raj@intel.com, linux-pci@vger.kernel.org, alex.williamson@redhat.com,
- iommu@lists.linux-foundation.org, bhelgaas@google.com, robin.murphy@arm.com,
- dwmw2@infradead.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,91 +87,88 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, May 15, 2020 at 12:44:01PM +0200, Jean-Philippe Brucker wrote:
-> The new pci_ats_supported() function checks if a device supports ATS and
-> is allowed to use it.
+On Mon, May 11, 2020 at 11:30:08AM -0600, Jordan Crouse wrote:
+> On Fri, May 08, 2020 at 08:40:40AM -0700, Rob Clark wrote:
+> > On Fri, May 8, 2020 at 8:32 AM Rob Clark <robdclark@gmail.com> wrote:
+> > >
+> > > On Thu, May 7, 2020 at 5:54 AM Will Deacon <will@kernel.org> wrote:
+> > > >
+> > > > On Thu, May 07, 2020 at 11:55:54AM +0100, Robin Murphy wrote:
+> > > > > On 2020-05-07 11:14 am, Sai Prakash Ranjan wrote:
+> > > > > > On 2020-04-22 01:50, Sai Prakash Ranjan wrote:
+> > > > > > > Add stall implementation hook to enable stalling
+> > > > > > > faults on QCOM platforms which supports it without
+> > > > > > > causing any kind of hardware mishaps. Without this
+> > > > > > > on QCOM platforms, GPU faults can cause unrelated
+> > > > > > > GPU memory accesses to return zeroes. This has the
+> > > > > > > unfortunate result of command-stream reads from CP
+> > > > > > > getting invalid data, causing a cascade of fail.
+> > > > >
+> > > > > I think this came up before, but something about this rationale doesn't add
+> > > > > up - we're not *using* stalls at all, we're still terminating faulting
+> > > > > transactions unconditionally; we're just using CFCFG to terminate them with
+> > > > > a slight delay, rather than immediately. It's really not clear how or why
+> > > > > that makes a difference. Is it a GPU bug? Or an SMMU bug? Is this reliable
+> > > > > (or even a documented workaround for something), or might things start
+> > > > > blowing up again if any other behaviour subtly changes? I'm not dead set
+> > > > > against adding this, but I'd *really* like to have a lot more confidence in
+> > > > > it.
+> > > >
+> > > > Rob mentioned something about the "bus returning zeroes" before, but I agree
+> > > > that we need more information so that we can reason about this and maintain
+> > > > the code as the driver continues to change. That needs to be a comment in
+> > > > the driver, and I don't think "but android seems to work" is a good enough
+> > > > justification. There was some interaction with HUPCF as well.
+> > >
+> > > The issue is that there are multiple parallel memory accesses
+> > > happening at the same time, for example CP (the cmdstream processor)
+> > > will be reading ahead and setting things up for the next draw or
+> > > compute grid, in parallel with some memory accesses from the shader
+> > > which could trigger a fault.  (And with faults triggered by something
+> > > in the shader, there are *many* shader threads running in parallel so
+> > > those tend to generate a big number of faults at the same time.)
+> > >
+> > > We need either CFCFG or HUPCF, otherwise what I have observed is that
+> > > while the fault happens, CP's memory access will start returning
+> > > zero's instead of valid cmdstream data, which triggers a GPU hang.  I
+> > > can't say whether this is something unique to qcom's implementation of
+> > > the smmu spec or not.
+> > >
+> > > *Often* a fault is the result of the usermode gl/vk/cl driver bug,
+> > > although I don't think that is an argument against fixing this in the
+> > > smmu driver.. I've been carrying around a local patch to set HUPCF for
+> > > *years* because debugging usermode driver issues is so much harder
+> > > without.  But there are some APIs where faults can be caused by the
+> > > user's app on top of the usermode driver.
+> > >
+> > 
+> > Also, I'll add to that, a big wish of mine is to have stall with the
+> > ability to resume later from a wq context.  That would enable me to
+> > hook in the gpu crash dump handling for faults, which would make
+> > debugging these sorts of issues much easier.  I think I posted a
+> > prototype of this quite some time back, which would schedule a worker
+> > on the first fault (since there are cases where you see 1000's of
+> > faults at once), which grabbed some information about the currently
+> > executing submit and some gpu registers to indicate *where* in the
+> > submit (a single submit could have 100's or 1000's of draws), and then
+> > resumed the iommu cb.
+> > 
+> > (This would ofc eventually be useful for svm type things.. I expect
+> > we'll eventually care about that too.)
 > 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
-> I dropped the Ack because I slightly changed the patch to keep the
-> fwspec check, since last version:
-> https://lore.kernel.org/linux-iommu/20200311124506.208376-8-jean-philippe@linaro.org/
-> ---
->  drivers/iommu/arm-smmu-v3.c | 20 +++++---------------
->  1 file changed, 5 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-> index 82508730feb7a1..39b935e86ab203 100644
-> --- a/drivers/iommu/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm-smmu-v3.c
-> @@ -2652,26 +2652,16 @@ static void arm_smmu_install_ste_for_dev(struct arm_smmu_master *master)
->  	}
->  }
->  
-> -#ifdef CONFIG_PCI_ATS
->  static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
->  {
-> -	struct pci_dev *pdev;
-> +	struct device *dev = master->dev;
->  	struct arm_smmu_device *smmu = master->smmu;
-> -	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(master->dev);
-> -
-> -	if (!(smmu->features & ARM_SMMU_FEAT_ATS) || !dev_is_pci(master->dev) ||
-> -	    !(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS) || pci_ats_disabled())
-> -		return false;
-> +	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
->  
-> -	pdev = to_pci_dev(master->dev);
-> -	return !pdev->untrusted && pdev->ats_cap;
-> +	return (smmu->features & ARM_SMMU_FEAT_ATS) &&
-> +		!(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS) &&
-> +		dev_is_pci(dev) && pci_ats_supported(to_pci_dev(dev));
+> Rob is right about HUPCF. Due to the parallel nature of the command processor
+> there is always a very good chance that a CP access is somewhere in the bus so
+> any pagefault is usually a death sentence. The GPU context bank would always
+> want HUPCF set to 1.
 
-nit, but I think this is clearer if you leave it split up (untested diff
-below).
+So this sounds like an erratum to me, and I'm happy to set HUPCF if we
+detect the broken implementation. However, it will need an entry in
+Documentation/arm64/silicon-errata.rst and a decent comment in the driver
+to explain what we're doing and why.
+
+Thanks,
 
 Will
-
---->8
-
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index 82508730feb7..c5730557dbe3 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -2652,26 +2652,20 @@ static void arm_smmu_install_ste_for_dev(struct arm_smmu_master *master)
- 	}
- }
- 
--#ifdef CONFIG_PCI_ATS
- static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
- {
--	struct pci_dev *pdev;
-+	struct device *dev = master->dev;
- 	struct arm_smmu_device *smmu = master->smmu;
--	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(master->dev);
-+	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
- 
--	if (!(smmu->features & ARM_SMMU_FEAT_ATS) || !dev_is_pci(master->dev) ||
--	    !(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS) || pci_ats_disabled())
-+	if (!(smmu->features & ARM_SMMU_FEAT_ATS))
- 		return false;
- 
--	pdev = to_pci_dev(master->dev);
--	return !pdev->untrusted && pdev->ats_cap;
--}
--#else
--static bool arm_smmu_ats_supported(struct arm_smmu_master *master)
--{
--	return false;
-+	if (!(fwspec->flags & IOMMU_FWSPEC_PCI_RC_ATS))
-+		return false;
-+
-+	return dev_is_pci(dev) && pci_ats_supported(to_pci_dev(dev));
- }
--#endif
- 
- static void arm_smmu_enable_ats(struct arm_smmu_master *master)
- {
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
