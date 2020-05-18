@@ -1,86 +1,89 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367351D668F
-	for <lists.iommu@lfdr.de>; Sun, 17 May 2020 10:29:27 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB5B1D7B5A
+	for <lists.iommu@lfdr.de>; Mon, 18 May 2020 16:35:38 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 623D98873B;
-	Sun, 17 May 2020 08:29:25 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B78E585F89;
+	Mon, 18 May 2020 14:35:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id D5mG9lWBRwS2; Sun, 17 May 2020 08:29:23 +0000 (UTC)
+	with ESMTP id Av0hU__5rZG0; Mon, 18 May 2020 14:35:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 849E688648;
-	Sun, 17 May 2020 08:29:23 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A3BAD85F7F;
+	Mon, 18 May 2020 14:35:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 79706C07FF;
-	Sun, 17 May 2020 08:29:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 89682C07FF;
+	Mon, 18 May 2020 14:35:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6222BC07FF
- for <iommu@lists.linux-foundation.org>; Sun, 17 May 2020 08:29:21 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 59DB8C07FF
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 01:27:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 59BE62037A
- for <iommu@lists.linux-foundation.org>; Sun, 17 May 2020 08:29:21 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 46B64883F0
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 01:27:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SuHbFo+M09vD for <iommu@lists.linux-foundation.org>;
- Sun, 17 May 2020 08:29:20 +0000 (UTC)
+ with ESMTP id uwhWiEPmaCmb for <iommu@lists.linux-foundation.org>;
+ Mon, 18 May 2020 01:27:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by silver.osuosl.org (Postfix) with ESMTPS id EDBF620377
- for <iommu@lists.linux-foundation.org>; Sun, 17 May 2020 08:29:19 +0000 (UTC)
-IronPort-SDR: w1I8qKGd9RJ7Lox+nQYMbXT1cAHIKQ+OU8GwYn3tzN7pWTP9nzLhcPRfGTJ5HqiQtjdzgO/vts
- r8dTnrlzqNAQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 May 2020 01:29:19 -0700
-IronPort-SDR: ERZ1qLrtwfcxnioOmhVkBshkvkZ3Xum1yxukSkFlCoITmyB48j8XHsX3kF1kifUWZ/Y01USK1p
- DujqguLmlc3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,402,1583222400"; d="scan'208";a="263644372"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
- by orsmga003.jf.intel.com with ESMTP; 17 May 2020 01:29:19 -0700
-Received: from orsmsx155.amr.corp.intel.com (10.22.240.21) by
- ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Sun, 17 May 2020 01:29:18 -0700
-Received: from orsmsx114.amr.corp.intel.com ([169.254.8.99]) by
- ORSMSX155.amr.corp.intel.com ([169.254.7.186]) with mapi id 14.03.0439.000;
- Sun, 17 May 2020 01:29:18 -0700
-From: "Prakhya, Sai Praneeth" <sai.praneeth.prakhya@intel.com>
-To: Joerg Roedel <joro@8bytes.org>, Lu Baolu <baolu.lu@linux.intel.com>
-Subject: RE: [PATCH] iommu: Remove functions that support private domain
-Thread-Topic: [PATCH] iommu: Remove functions that support private domain
-Thread-Index: AQHWKXk9fV5tekATV0S4blj7EpvL1KioBUCA///Q9SCAAIhBgP//i0rwgACMGYD//71zcAAlw0mAAAYo/gAABfT8AAAIODdw
-Date: Sun, 17 May 2020 08:29:17 +0000
-Message-ID: <FFF73D592F13FD46B8700F0A279B802F573A6BD6@ORSMSX114.amr.corp.intel.com>
-References: <20200513224721.20504-1-sai.praneeth.prakhya@intel.com>
- <20200514131315.GJ18353@8bytes.org>
- <FFF73D592F13FD46B8700F0A279B802F573A6427@ORSMSX114.amr.corp.intel.com>
- <20200514183233.GO18353@8bytes.org>
- <FFF73D592F13FD46B8700F0A279B802F573A651E@ORSMSX114.amr.corp.intel.com>
- <20200514195615.GP18353@8bytes.org>
- <FFF73D592F13FD46B8700F0A279B802F573A6672@ORSMSX114.amr.corp.intel.com>
- <20200515095919.GQ18353@8bytes.org>
- <9d65b30a-d22e-d566-d740-601f8d638bfd@linux.intel.com>
- <20200515154616.GY18353@8bytes.org>
-In-Reply-To: <20200515154616.GY18353@8bytes.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.140]
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+ [209.85.128.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 5666E883C2
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 01:27:24 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id d207so18271755wmd.0
+ for <iommu@lists.linux-foundation.org>; Sun, 17 May 2020 18:27:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uZfH/yW2EkwOl9gEcet4jN7ZXi9BLKHqqQrfr1sC6ac=;
+ b=vDcWgigWf+8ZKsquN2u4JqfQ8umHJX5fe46rUTGhJECREweESiSfWnUn0R+kFnVYzL
+ Po+JjR2lydKpGPNuAuKUfwyrCt05L9FE2SiboNT/Di3jcIyohybAZ7DEy0Rfme5FXmov
+ hLdWtACwrYRBlLG0QN8oUbUrydmDczxFu2izF8ScEASNprtdB5wc/pnUdJmba6hRwV9n
+ aHCMGNU+KjzWjQTSpCRhc4bWnVvgd0rJg1YDnGNoSnyOoDtovxLu56C1biuKkr+dRjvW
+ tJZ3MvsoObtcyH+Pvwi+VeXvwxYehRqFZ5a/TM/TAH2YVIfFH9U6+mtgTNk5l3SnaaaD
+ oGZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uZfH/yW2EkwOl9gEcet4jN7ZXi9BLKHqqQrfr1sC6ac=;
+ b=uSG83J5nwMxRhDlqQHYKML6BCOTG9eCg4EwAWNiR6zPbfF+bdxJkwtSj0Vbn2tR2dZ
+ jLh3mCCHGHCd91lndXWFVHLOHtFwXUzzr+qHziekG/BWnthEDBqk6yUscCgRs/FuxWK6
+ gu9BB8LJtDSMlZDVJ3dhg76pu53UGFCUJbtXBaBbd72u8UnV7aYvymewdj5hmIjsb92D
+ xNX/anHGndzPnt38+EJaea+jvWoqZEn/AmEtDEdih8/FVY27qlCBWmTbphUMHEcIA044
+ LukfCLSH0Qbz2LYMXwc8u+d62AXoPMPL6m6uJCZGit84znpL6MB2OVDHJ5qPx2EiLFAj
+ QKuw==
+X-Gm-Message-State: AOAM531wVBZqIqAae5HhYs5avAeMwaEZdyLbhiXat4aRb5MHEoAtbqJu
+ CwV2TZoYZ62sdOBE4RC6bopciDF3e7CsL7C2xfA=
+X-Google-Smtp-Source: ABdhPJwYXjut1W+agJe7qHIAazerG/VY4Qh5rG0NKf6TSwEA+kmhHmC2ZVellCufA3F7oGA23ea+FfJqOJUfr5uzS0A=
+X-Received: by 2002:a05:600c:2255:: with SMTP id
+ a21mr17035637wmm.67.1589765242888; 
+ Sun, 17 May 2020 18:27:22 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
+References: <20200513132114.6046-1-m.szyprowski@samsung.com>
+ <CGME20200513133305eucas1p15187ed8fa1e4af181cafa5c65ddab4cd@eucas1p1.samsung.com>
+ <20200513133245.6408-1-m.szyprowski@samsung.com>
+ <20200513133245.6408-13-m.szyprowski@samsung.com>
+In-Reply-To: <20200513133245.6408-13-m.szyprowski@samsung.com>
+From: Qiang Yu <yuq825@gmail.com>
+Date: Mon, 18 May 2020 09:27:11 +0800
+Message-ID: <CAKGbVbsSPhQY5zEBGPQtyhLu38w=Hw73OQr6UiV_dHC46DescQ@mail.gmail.com>
+Subject: Re: [PATCH v5 13/38] drm: lima: fix common struct sg_table related
+ issues
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+X-Mailman-Approved-At: Mon, 18 May 2020 14:35:33 +0000
+Cc: lima@lists.freedesktop.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
+ iommu@lists.linux-foundation.org, Daniel Vetter <daniel@ffwll.ch>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,86 +101,103 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> -----Original Message-----
-> From: Joerg Roedel <joro@8bytes.org>
-> Sent: Friday, May 15, 2020 8:46 AM
-> To: Lu Baolu <baolu.lu@linux.intel.com>
-> Cc: Prakhya, Sai Praneeth <sai.praneeth.prakhya@intel.com>;
-> iommu@lists.linux-foundation.org
-> Subject: Re: [PATCH] iommu: Remove functions that support private domain
-> 
-> On Fri, May 15, 2020 at 08:55:42PM +0800, Lu Baolu wrote:
-> > It seems that we can do like this:
-> >
-> > [1] mutex_lock(&group->lock)
-> > [2] for_each_group_device(device_lock())
-> > [3] if (for_each_group_device(!device_is_bound()))
-> > 	change_default_domain()
-> > [4] for_each_group_device_reverse(device_unlock())
-> > [5] mutex_unlock(&group->lock)
-
->> A possible problem exists at step 2 when another thread is trying to lock devices in the reverse order at the same time. -> By Allen
-
-Makes sense.. this could happen and we could prevent this if the iommu_group has only one device. So, going with Joerg's suggestion, if we support dynamic switching of default-domain of a group with only one device, I think we shouldn't hit this issue.
-
-> The problem here is that I am pretty sure we also have:
-> 
-> 	device_lock() /* from device/driver core code */
-> 	-> bus_notifier()
-> 	  -> iommu_bus_notifier()
-> 	    -> ...
-> 	      -> mutex_lock(&group->lock)
-> 
-> Which would cause lock-inversion with the above code.
-
-Thanks for this call chain, Joerg. It makes sense to me how lock inversion could happen
-
-iommu_bus_notifier()
--> iommu_release_device()
- -> ops->release_device() (Eg: intel_iommu_release_device())
-  -> iommu_group_remove_device()
-   -> mutex_lock()
-
-But, I added print statements to iommu_bus_notifier() and iommu_group_remove_device() and noticed that iommu_group_remove_device() wasn't being called upon modprobe -r <driver_name> and iommu_probe_device() isn't called upon modprobe <driver_name> because
-
-	if (action == BUS_NOTIFY_ADD_DEVICE) {
-		int ret;
-
-		ret = iommu_probe_device(dev);
-		return (ret) ? NOTIFY_DONE : NOTIFY_OK;
-	} else if (action == BUS_NOTIFY_REMOVED_DEVICE) {
-		iommu_release_device(dev);
-		return NOTIFY_OK;
-	}
-
-"action" was != BUS_NOTIFY_ADD_DEVICE || BUS_NOTIFY_REMOVED_DEVICE upon modprobe. So (after booting [1]), I am wondering when would action be == to one of the above so that these iommu functions get called.
-
-And,
-	switch (action) {
-	case BUS_NOTIFY_BIND_DRIVER:
-		group_action = IOMMU_GROUP_NOTIFY_BIND_DRIVER;
-		break;
-	case BUS_NOTIFY_BOUND_DRIVER:
-		group_action = IOMMU_GROUP_NOTIFY_BOUND_DRIVER;
-		break;
-	case BUS_NOTIFY_UNBIND_DRIVER:
-		group_action = IOMMU_GROUP_NOTIFY_UNBIND_DRIVER;
-		break;
-	case BUS_NOTIFY_UNBOUND_DRIVER:
-		group_action = IOMMU_GROUP_NOTIFY_UNBOUND_DRIVER;
-		break;
-	}
-
-	if (group_action)
-		blocking_notifier_call_chain(&group->notifier,
-					     group_action, dev);
-
-I also noticed that vfio is the only one that registers for group notifiers and from a first look it wasn't very obvious if vfio is trying to get group->mutex.
-
-[1] I am interested in after booting because dynamic switching of iommu_group default-domain is supported only through sysfs.
+Looks good for me, patch is:
+Reviewed-by: Qiang Yu <yuq825@gmail.com>
 
 Regards,
-Sai
+Qiang
+
+On Wed, May 13, 2020 at 9:33 PM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+> returns the number of the created entries in the DMA address space.
+> However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+> dma_unmap_sg must be called with the original number of the entries
+> passed to the dma_map_sg().
+>
+> struct sg_table is a common structure used for describing a non-contiguous
+> memory buffer, used commonly in the DRM and graphics subsystems. It
+> consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+> as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+> and DMA mapped pages (nents entry).
+>
+> It turned out that it was a common mistake to misuse nents and orig_nents
+> entries, calling DMA-mapping functions with a wrong number of entries or
+> ignoring the number of mapped entries returned by the dma_map_sg()
+> function.
+>
+> To avoid such issues, lets use a common dma-mapping wrappers operating
+> directly on the struct sg_table objects and use scatterlist page
+> iterators where possible. This, almost always, hides references to the
+> nents and orig_nents entries, making the code robust, easier to follow
+> and copy/paste safe.
+>
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> ---
+> For more information, see '[PATCH v5 00/38] DRM: fix struct sg_table nents
+> vs. orig_nents misuse' thread:
+> https://lore.kernel.org/linux-iommu/20200513132114.6046-1-m.szyprowski@samsung.com/T/
+> ---
+>  drivers/gpu/drm/lima/lima_gem.c | 11 ++++++++---
+>  drivers/gpu/drm/lima/lima_vm.c  |  5 ++---
+>  2 files changed, 10 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+> index 5404e0d..cda43f6 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.c
+> +++ b/drivers/gpu/drm/lima/lima_gem.c
+> @@ -69,8 +69,7 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
+>                 return ret;
+>
+>         if (bo->base.sgt) {
+> -               dma_unmap_sg(dev, bo->base.sgt->sgl,
+> -                            bo->base.sgt->nents, DMA_BIDIRECTIONAL);
+> +               dma_unmap_sgtable(dev, bo->base.sgt, DMA_BIDIRECTIONAL, 0);
+>                 sg_free_table(bo->base.sgt);
+>         } else {
+>                 bo->base.sgt = kmalloc(sizeof(*bo->base.sgt), GFP_KERNEL);
+> @@ -80,7 +79,13 @@ int lima_heap_alloc(struct lima_bo *bo, struct lima_vm *vm)
+>                 }
+>         }
+>
+> -       dma_map_sg(dev, sgt.sgl, sgt.nents, DMA_BIDIRECTIONAL);
+> +       ret = dma_map_sgtable(dev, &sgt, DMA_BIDIRECTIONAL, 0);
+> +       if (ret) {
+> +               sg_free_table(&sgt);
+> +               kfree(bo->base.sgt);
+> +               bo->base.sgt = NULL;
+> +               return ret;
+> +       }
+>
+>         *bo->base.sgt = sgt;
+>
+> diff --git a/drivers/gpu/drm/lima/lima_vm.c b/drivers/gpu/drm/lima/lima_vm.c
+> index 5b92fb8..2b2739a 100644
+> --- a/drivers/gpu/drm/lima/lima_vm.c
+> +++ b/drivers/gpu/drm/lima/lima_vm.c
+> @@ -124,7 +124,7 @@ int lima_vm_bo_add(struct lima_vm *vm, struct lima_bo *bo, bool create)
+>         if (err)
+>                 goto err_out1;
+>
+> -       for_each_sg_dma_page(bo->base.sgt->sgl, &sg_iter, bo->base.sgt->nents, 0) {
+> +       for_each_sgtable_dma_page(bo->base.sgt, &sg_iter, 0) {
+>                 err = lima_vm_map_page(vm, sg_page_iter_dma_address(&sg_iter),
+>                                        bo_va->node.start + offset);
+>                 if (err)
+> @@ -298,8 +298,7 @@ int lima_vm_map_bo(struct lima_vm *vm, struct lima_bo *bo, int pageoff)
+>         mutex_lock(&vm->lock);
+>
+>         base = bo_va->node.start + (pageoff << PAGE_SHIFT);
+> -       for_each_sg_dma_page(bo->base.sgt->sgl, &sg_iter,
+> -                            bo->base.sgt->nents, pageoff) {
+> +       for_each_sgtable_dma_page(bo->base.sgt, &sg_iter, pageoff) {
+>                 err = lima_vm_map_page(vm, sg_page_iter_dma_address(&sg_iter),
+>                                        base + offset);
+>                 if (err)
+> --
+> 1.9.1
+>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
