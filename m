@@ -1,56 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00ED1D7A3C
-	for <lists.iommu@lfdr.de>; Mon, 18 May 2020 15:42:37 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F6DE1D7A7A
+	for <lists.iommu@lfdr.de>; Mon, 18 May 2020 15:55:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 63B0D88600;
-	Mon, 18 May 2020 13:42:36 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D901E877D3;
+	Mon, 18 May 2020 13:55:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 45n9gGBWvQ9u; Mon, 18 May 2020 13:42:35 +0000 (UTC)
+	with ESMTP id VWHpURUiFCZm; Mon, 18 May 2020 13:55:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id ADF6C885FF;
-	Mon, 18 May 2020 13:42:35 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 605788770A;
+	Mon, 18 May 2020 13:55:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8ACA7C07FF;
-	Mon, 18 May 2020 13:42:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 457CAC07FF;
+	Mon, 18 May 2020 13:55:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5BF1AC07FF
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 13:42:34 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4A438C07FF
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 13:55:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 4A5CF20420
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 13:42:34 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 444858770A
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 13:55:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Sz1kzGMHK0mB for <iommu@lists.linux-foundation.org>;
- Mon, 18 May 2020 13:42:33 +0000 (UTC)
+ with ESMTP id zPzLk46JAlvW for <iommu@lists.linux-foundation.org>;
+ Mon, 18 May 2020 13:55:05 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id C7E2120113
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 13:42:32 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id A5A82876D7
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 13:55:05 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 336D3386; Mon, 18 May 2020 15:42:31 +0200 (CEST)
-Date: Mon, 18 May 2020 15:42:29 +0200
+ id 10B08386; Mon, 18 May 2020 15:55:04 +0200 (CEST)
+Date: Mon, 18 May 2020 15:55:02 +0200
 From: Joerg Roedel <joro@8bytes.org>
 To: Yong Wu <yong.wu@mediatek.com>
-Subject: Re: [PATCH] iommu/mediatek-v1: Add def_domain_type
-Message-ID: <20200518134229.GD18353@8bytes.org>
-References: <1589530123-30240-1-git-send-email-yong.wu@mediatek.com>
+Subject: Re: [PATCH v2 23/33] iommu/mediatek-v1 Convert to
+ probe/release_device() call-backs
+Message-ID: <20200518135502.GE18353@8bytes.org>
+References: <20200414131542.25608-1-joro@8bytes.org>
+ <20200414131542.25608-24-joro@8bytes.org>
+ <1589528699.26119.9.camel@mhfsdcap03>
+ <20200515100718.GS18353@8bytes.org>
+ <1589784680.15083.19.camel@mhfsdcap03>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1589530123-30240-1-git-send-email-yong.wu@mediatek.com>
+In-Reply-To: <1589784680.15083.19.camel@mhfsdcap03>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com, srv_heupstream@mediatek.com,
- Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Joerg Roedel <jroedel@suse.de>, Robin Murphy <robin.murphy@arm.com>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,30 +72,84 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, May 15, 2020 at 04:08:43PM +0800, Yong Wu wrote:
-> The MediaTek V1 IOMMU is arm32 whose default domain type is
-> IOMMU_DOMAIN_UNMANAGED. Add this to satisfy the bus_iommu_probe to
-> enter "probe_finalize".
-> 
-> The iommu framework will create a iommu domain for each a device.
-> But all the devices share a iommu domain here, thus we skip all the
-> other domains in the "attach_device" except the domain we create
-> internally with arm_iommu_create_mapping.
-> 
-> Also a minor change: in the attach_device, "data" always is not null.
-> Remove "if (!data) return".
-> 
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> ---
-> a. rebase on linux-next.
-> b. After this patch and fixed the mutex issue(locally I only move
->    mutex_unlock(&group->mutex) before __iommu_group_dma_attach(group)),
->    the mtk_iommu_v1.c could work normally.
-> ---
->  drivers/iommu/mtk_iommu_v1.c | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
+Hi,
 
-Applied, thanks.
+On Mon, May 18, 2020 at 02:51:20PM +0800, Yong Wu wrote:
+> below is my local patch. split "dma_attach" to attach_device and
+> probe_finalize. About attach_device, Use the existed
+> __iommu_attach_group instead. Then rename from the "dma_attach" to
+> "probe_finalize" to do the probe_finalize job. And move it outside of
+> the mutex_unlock.
+> 
+> I'm not sure if it is right. and of course I will test if you have any
+> other solution. Thanks.
+> 
+> 
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -1665,26 +1665,20 @@ static void probe_alloc_default_domain(struct
+> bus_type *bus,
+>  
+>  }
+>  
+> -static int iommu_group_do_dma_attach(struct device *dev, void *data)
+> +static int iommu_group_do_probe_finalize(struct device *dev, void
+> *data)
+>  {
+>  	struct iommu_domain *domain = data;
+> -	const struct iommu_ops *ops;
+> -	int ret;
+> -
+> -	ret = __iommu_attach_device(domain, dev);
+> -
+> -	ops = domain->ops;
+> +	const struct iommu_ops *ops = domain->ops;
+>  
+> -	if (ret == 0 && ops->probe_finalize)
+> +	if (ops->probe_finalize)
+>  		ops->probe_finalize(dev);
+> -
+> -	return ret;
+> +	return 0;
+>  }
+>  
+> -static int __iommu_group_dma_attach(struct iommu_group *group)
+> +static int iommu_group_probe_finalize(struct iommu_group *group)
+>  {
+>  	return __iommu_group_for_each_dev(group, group->default_domain,
+> -					  iommu_group_do_dma_attach);
+> +					  iommu_group_do_probe_finalize);
+>  }
+>  
+>  static int iommu_do_create_direct_mappings(struct device *dev, void
+> *data)
+> @@ -1731,12 +1725,14 @@ int bus_iommu_probe(struct bus_type *bus)
+>  
+>  		iommu_group_create_direct_mappings(group);
+>  
+> -		ret = __iommu_group_dma_attach(group);
+> +		ret = __iommu_attach_group(group->default_domain, group);
+>  
+>  		mutex_unlock(&group->mutex);
+>  
+>  		if (ret)
+>  			break;
+> +
+> +		iommu_group_probe_finalize(group);
+>  	}
+>  
+>  	return ret;
+> -- 
+
+Yes, I think moving the probe_finalize call out of the group->mutex
+section is the right fix for this issue.
+
+Thanks for reporting it and working on a fix.
+
+
+Regards,
+
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
