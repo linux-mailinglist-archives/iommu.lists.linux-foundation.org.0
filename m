@@ -1,66 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 798AF1D782A
-	for <lists.iommu@lfdr.de>; Mon, 18 May 2020 14:10:24 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F691D782D
+	for <lists.iommu@lfdr.de>; Mon, 18 May 2020 14:11:40 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 36C5D863DB;
-	Mon, 18 May 2020 12:10:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6BA4D87327;
+	Mon, 18 May 2020 12:11:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id e6hZtWNCMHtg; Mon, 18 May 2020 12:10:22 +0000 (UTC)
+	with ESMTP id ryeoldv2ZDIa; Mon, 18 May 2020 12:11:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7520886B24;
-	Mon, 18 May 2020 12:09:08 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 00275878FE;
+	Mon, 18 May 2020 12:11:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 61130C07FF;
-	Mon, 18 May 2020 12:09:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DA3C0C07FF;
+	Mon, 18 May 2020 12:11:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1ED93C07FF
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 12:09:07 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 16272C07FF
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 12:11:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 0E3DD885D0
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 12:09:07 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 04A72885CA
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 12:11:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id piu-5Md1N5ep for <iommu@lists.linux-foundation.org>;
- Mon, 18 May 2020 12:09:06 +0000 (UTC)
+ with ESMTP id 5woUqopumOLg for <iommu@lists.linux-foundation.org>;
+ Mon, 18 May 2020 12:11:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id ACC23885CD
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 12:09:06 +0000 (UTC)
-Received: from kozik-lap.mshome.net (unknown [194.230.155.188])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 082F8207ED;
- Mon, 18 May 2020 12:09:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589803746;
- bh=K8ytwBeEv/7qjVAmjbqoMgPkQXND2o+mOarQpQrSrLM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=D2aNRl6MPtFPULRQ9I8cg0etlWiCzM1wg/PS0cUSN8/YuicAz67EpeRX5g/6D6DMq
- 2pVJinHxlWVBIFmLpb6xuPNRBhUifZMn/wC2khRUJukYigeonJ2Ka8/MP0l/BzQPsj
- EVccCaz7+LmDpqExkbqRvRj/lR50PRZ1u5o5S2tw=
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, linux-ia64@vger.kernel.org,
- linux-kernel@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
- iommu@lists.linux-foundation.org
-Subject: [PATCH 2/2] x86: Hide the archdata.iommu field behind generic
- IOMMU_API
-Date: Mon, 18 May 2020 14:08:55 +0200
-Message-Id: <20200518120855.27822-2-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200518120855.27822-1-krzk@kernel.org>
-References: <20200518120855.27822-1-krzk@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id F1A98885DC
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 12:11:33 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04ICBUjx068823;
+ Mon, 18 May 2020 07:11:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1589803890;
+ bh=PvspkHCHgklIAa8UX8knX0bBRIv88ZmarBlCJ5WRq7Y=;
+ h=Subject:To:References:From:Date:In-Reply-To;
+ b=DT+qVjbXwu6cXfE0BHH8VsI8TUOU7ZTfWxriSmb3vuU5q7Z+QW0lppAEUPE0FsGRI
+ la6hdJSDfSiN9hfwbKvaQ0uRrYYgrpNc37iA2mUDagooLGPDKhNKmgklXKoPyLHGyW
+ O9ojyISH0d25lsFQwR5gaMaXsWag8X+Bbntc0sbQ=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 04ICBU0q066180
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 18 May 2020 07:11:30 -0500
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 18
+ May 2020 07:11:29 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 18 May 2020 07:11:29 -0500
+Received: from [127.0.0.1] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04ICBSBK002503;
+ Mon, 18 May 2020 07:11:28 -0500
+Subject: Re: [PATCH] iommu/omap: Add registration for DT fwnode pointer
+To: Tero Kristo <t-kristo@ti.com>, <iommu@lists.linux-foundation.org>,
+ <joro@8bytes.org>
+References: <20200424145828.3159-1-t-kristo@ti.com>
+Message-ID: <6a505438-2d2e-27da-fa38-f3ac15832480@ti.com>
+Date: Mon, 18 May 2020 15:11:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200424145828.3159-1-t-kristo@ti.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,47 +83,51 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+From: Tero Kristo via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Tero Kristo <t-kristo@ti.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-There is a generic, kernel wide configuration symbol for enabling the
-IOMMU specific bits: CONFIG_IOMMU_API.  Implementations (including
-INTEL_IOMMU and AMD_IOMMU driver) select it so use it here as well.
+On 24/04/2020 17:58, Tero Kristo via iommu wrote:
+> The fwnode pointer must be passed to the iommu core, so that the core
+> can map the IOMMU towards device requests properly. Without this, some
+> IOMMU clients like OMAP remoteproc will fail the iommu configuration
+> multiple times with -EPROBE_DEFER, which will eventually be ignored with
+> a kernel warning banner.
+> 
+> Signed-off-by: Tero Kristo <t-kristo@ti.com>
 
-This makes the conditional archdata.iommu field consistent with other
-platforms and also fixes any compile test builds of other IOMMU drivers,
-when INTEL_IOMMU or AMD_IOMMU are not selected).
+Hi Joerg,
 
-For the case when INTEL_IOMMU/AMD_IOMMU and COMPILE_TEST are not
-selected, this should create functionally equivalent code/choice.  With
-COMPILE_TEST this field could appear if other IOMMU drivers are chosen
-but neither INTEL_IOMMU nor AMD_IOMMU are not.
+I noticed this is still missing from next but there are some other OMAP 
+iommu patches queued up (see the bug fix I just posted against -next.)
 
-Reported-by: kbuild test robot <lkp@intel.com>
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- arch/x86/include/asm/device.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Whats the plan with this one?
 
-diff --git a/arch/x86/include/asm/device.h b/arch/x86/include/asm/device.h
-index 7e31f7f1bb06..49bd6cf3eec9 100644
---- a/arch/x86/include/asm/device.h
-+++ b/arch/x86/include/asm/device.h
-@@ -3,7 +3,7 @@
- #define _ASM_X86_DEVICE_H
- 
- struct dev_archdata {
--#if defined(CONFIG_INTEL_IOMMU) || defined(CONFIG_AMD_IOMMU)
-+#ifdef CONFIG_IOMMU_API
- 	void *iommu; /* hook for IOMMU specific extension */
- #endif
- };
--- 
-2.17.1
+-Tero
 
+> ---
+>   drivers/iommu/omap-iommu.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
+> index 887fefcb03b4..934726e20b72 100644
+> --- a/drivers/iommu/omap-iommu.c
+> +++ b/drivers/iommu/omap-iommu.c
+> @@ -1248,6 +1248,7 @@ static int omap_iommu_probe(struct platform_device *pdev)
+>   			goto out_group;
+>   
+>   		iommu_device_set_ops(&obj->iommu, &omap_iommu_ops);
+> +		iommu_device_set_fwnode(&obj->iommu, &of->fwnode);
+>   
+>   		err = iommu_device_register(&obj->iommu);
+>   		if (err)
+> 
+
+--
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki. Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
