@@ -1,82 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7181D7AE1
-	for <lists.iommu@lfdr.de>; Mon, 18 May 2020 16:17:16 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 153061D7B72
+	for <lists.iommu@lfdr.de>; Mon, 18 May 2020 16:39:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id F3C1887871;
-	Mon, 18 May 2020 14:17:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BB3DE880C3;
+	Mon, 18 May 2020 14:39:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3hLVj2feMTQR; Mon, 18 May 2020 14:17:13 +0000 (UTC)
+	with ESMTP id 2VZp-ckY-BES; Mon, 18 May 2020 14:39:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0EDAC87865;
-	Mon, 18 May 2020 14:17:13 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id AFFAF88223;
+	Mon, 18 May 2020 14:39:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EC094C07FF;
-	Mon, 18 May 2020 14:17:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A410BC07FF;
+	Mon, 18 May 2020 14:39:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EDDADC07FF
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 14:17:10 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 39944C07FF
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 14:39:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id DAF5520198
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 14:17:10 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 359168691E
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 14:39:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Fx1VbcElb6Ey for <iommu@lists.linux-foundation.org>;
- Mon, 18 May 2020 14:17:09 +0000 (UTC)
+ with ESMTP id 4HpUh-dVcgwF for <iommu@lists.linux-foundation.org>;
+ Mon, 18 May 2020 14:39:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by silver.osuosl.org (Postfix) with ESMTPS id 7E361204A6
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 14:17:09 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id n15so1760918pfd.0
- for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 07:17:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=W3AJP+K6AJWkLLQOo9n4PqYM8LSyyANs3tFVvvOywL0=;
- b=RGQGUk/tfqqGuNXaGCxWTAJNAvEYjiPagQiljTFsC+DRC//qRlcq2CWGWMvHiXJihY
- 9uxXBWzoPBe6/fy7ptegsd0TVwq2SL2047RWsMNmixmgsDCE6Nu8PWqddaBuxacnLzq1
- BApJwnG7ysiu3yG4rkBPROgngJtLEhJCGnY1PTcdYMcD/2uNrL59mmwmMcB6pqD/28kv
- 7ou+8yie54wvh8+oBAVgWAI1RsEILuVQDtIwbY89Eo8MM2R2DLKTr+pI/rKTFDwf+thB
- hUXJZ5MAhsYufcndvkOLf0IBzdTpuhN3Q7SnhKQ3wZoug1lziVjcDnVeA/fHAbAtCCuV
- 7ofg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=W3AJP+K6AJWkLLQOo9n4PqYM8LSyyANs3tFVvvOywL0=;
- b=ofBQyJuuJqZcgv/8y2rX9NKzWLMkeC0MRE7VF9299uIGjAh+tgG4zl3cxrzONI3MTn
- vATAfm43ZHMF/59bI5DjhLuSJTwjnZXrFy43ZkUE0q7TFG+3UgqxGC2NvQX2LmEafnGk
- o01HyFh6X29Dkc4sCD/rXYI0jVKDjMUdHPjg0KZQVe/8mXRQAnZPCdcoK6JG22Q7cNgN
- pbVdpsLwMPQ/m9RcKZYBJOCKg3XI/3sXBoBuE9qaDlpkXmpZQLQBVeFX78aKlyj4/F44
- GXFtBtyrx5htt6YsgCQuCgH7W6oUOTt85K8WXfX1NKekn0oQIdc0Z6ibRSaGo7ngGa7F
- RNhg==
-X-Gm-Message-State: AOAM532r3vD1P3liJTF+KeQMTOGQ0y+YZkuODWrmsF7OeHFWCPwYtBiz
- zzEEKztCvQsHRHF827KnPMLU0w==
-X-Google-Smtp-Source: ABdhPJyB3kYEFH6mVDkfhufF/BWyyWJtV7hYZRoT5slsf4JckFiNnVBK34o/hvILNZSnTXLimy+Xkw==
-X-Received: by 2002:a65:4c41:: with SMTP id l1mr15489284pgr.43.1589811428911; 
- Mon, 18 May 2020 07:17:08 -0700 (PDT)
-Received: from localhost.localdomain ([80.251.214.228])
- by smtp.gmail.com with ESMTPSA id d184sm8730925pfc.130.2020.05.18.07.17.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 May 2020 07:17:08 -0700 (PDT)
-From: Shawn Guo <shawn.guo@linaro.org>
-To: Rob Clark <robdclark@gmail.com>,
-	Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH v2] iommu/qcom: add optional 'tbu' clock for TLB invalidate
-Date: Mon, 18 May 2020 22:16:56 +0800
-Message-Id: <20200518141656.26284-1-shawn.guo@linaro.org>
-X-Mailer: git-send-email 2.17.1
-Cc: Shawn Guo <shawn.guo@linaro.org>, linux-arm-msm@vger.kernel.org,
- Konrad Dybcio <konradybcio@gmail.com>,
- Stanimir Varbanov <stanimir.varbanov@linaro.org>,
- iommu@lists.linux-foundation.org, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id B0356868DE
+ for <iommu@lists.linux-foundation.org>; Mon, 18 May 2020 14:39:26 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A3493206D4;
+ Mon, 18 May 2020 14:39:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1589812766;
+ bh=GprrLmwAeZJ8PFHBulg/A1Y9wa1v1Z8pfqmPDRcBdhA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=yI1drx19cqJLuwFH5QqQzEH2uc2tHmPgjP1Hu8gy+t8qJXWfN5Nb/+opvlnG5vn5o
+ I+MCPebT/mXZysMcaYzLjV18gouEW8lNXdeM/4v2f5fgfnEARWM7s1hkf8NDklsBM8
+ pQflbDnPil1K/Y8onoTayiwJ4cJbxZWcW7506fbw=
+Date: Mon, 18 May 2020 15:39:21 +0100
+From: Will Deacon <will@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH 2/2] dt-bindings: arm-smmu: Add sc7180 compatible string
+Message-ID: <20200518143920.GJ32394@willie-the-truck>
+References: <1588329036-18732-1-git-send-email-smasetty@codeaurora.org>
+ <1588329036-18732-2-git-send-email-smasetty@codeaurora.org>
+ <CAD=FV=WXv9DYf7LWoFBvro=7Bzeb1_0bXAvRH-suzxnrCu+V2A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=WXv9DYf7LWoFBvro=7Bzeb1_0bXAvRH-suzxnrCu+V2A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Robin Murphy <robin.murphy@arm.com>,
+ Sharat Masetty <smasetty@codeaurora.org>, LKML <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Matthias Kaehlcke <mka@chromium.org>, dri-devel@freedesktop.org,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,153 +77,41 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On some SoCs like MSM8939 with A405 adreno, there is a gfx_tbu clock
-needs to be on while doing TLB invalidate. Otherwise, TLBSYNC status
-will not be correctly reflected, causing the system to go into a bad
-state.  Add it as an optional clock, so that platforms that have this
-clock can pass it over DT.
+On Fri, May 15, 2020 at 12:05:39PM -0700, Doug Anderson wrote:
+> On Fri, May 1, 2020 at 3:30 AM Sharat Masetty <smasetty@codeaurora.org> wrote:
+> >
+> > This patch simply adds a new compatible string for SC7180 platform.
+> >
+> > Signed-off-by: Sharat Masetty <smasetty@codeaurora.org>
+> > ---
+> >  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > index 6515dbe..986098b 100644
+> > --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > @@ -28,6 +28,7 @@ properties:
+> >            - enum:
+> >                - qcom,msm8996-smmu-v2
+> >                - qcom,msm8998-smmu-v2
+> > +              - qcom,sc7180-smmu-v2
+> >                - qcom,sdm845-smmu-v2
+> >            - const: qcom,smmu-v2
+> 
+> Is anything blocking this patch from landing now?
 
-While adding the third clock, let's switch to bulk clk API to simplify
-the enable/disable calls.  clk_bulk_get() cannot used because the
-existing two clocks are required while the new one is optional.
+I thought updates to the bindings usually went via Rob and the device-tree
+tree, but neither of those are on cc.
 
-Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
----
-Changes for v2:
- - Use devm_clk_get_optional() to simplify code and improve readability.
- - Rename the new clock from 'tlb' to 'tbu'.
- - qcom_iommu: use bulk clk API to simplfy enable/disable.
+Perhaps resend with that fixed?
 
- drivers/iommu/qcom_iommu.c | 62 ++++++++++++++++----------------------
- 1 file changed, 26 insertions(+), 36 deletions(-)
-
-diff --git a/drivers/iommu/qcom_iommu.c b/drivers/iommu/qcom_iommu.c
-index 0e2a96467767..116d8188f87f 100644
---- a/drivers/iommu/qcom_iommu.c
-+++ b/drivers/iommu/qcom_iommu.c
-@@ -37,14 +37,20 @@
- 
- #define SMMU_INTR_SEL_NS     0x2000
- 
-+enum qcom_iommu_clk {
-+	CLK_IFACE,
-+	CLK_BUS,
-+	CLK_TBU,
-+	CLK_NUM,
-+};
-+
- struct qcom_iommu_ctx;
- 
- struct qcom_iommu_dev {
- 	/* IOMMU core code handle */
- 	struct iommu_device	 iommu;
- 	struct device		*dev;
--	struct clk		*iface_clk;
--	struct clk		*bus_clk;
-+	struct clk_bulk_data clks[CLK_NUM];
- 	void __iomem		*local_base;
- 	u32			 sec_id;
- 	u8			 num_ctxs;
-@@ -626,32 +632,6 @@ static const struct iommu_ops qcom_iommu_ops = {
- 	.pgsize_bitmap	= SZ_4K | SZ_64K | SZ_1M | SZ_16M,
- };
- 
--static int qcom_iommu_enable_clocks(struct qcom_iommu_dev *qcom_iommu)
--{
--	int ret;
--
--	ret = clk_prepare_enable(qcom_iommu->iface_clk);
--	if (ret) {
--		dev_err(qcom_iommu->dev, "Couldn't enable iface_clk\n");
--		return ret;
--	}
--
--	ret = clk_prepare_enable(qcom_iommu->bus_clk);
--	if (ret) {
--		dev_err(qcom_iommu->dev, "Couldn't enable bus_clk\n");
--		clk_disable_unprepare(qcom_iommu->iface_clk);
--		return ret;
--	}
--
--	return 0;
--}
--
--static void qcom_iommu_disable_clocks(struct qcom_iommu_dev *qcom_iommu)
--{
--	clk_disable_unprepare(qcom_iommu->bus_clk);
--	clk_disable_unprepare(qcom_iommu->iface_clk);
--}
--
- static int qcom_iommu_sec_ptbl_init(struct device *dev)
- {
- 	size_t psize = 0;
-@@ -808,6 +788,7 @@ static int qcom_iommu_device_probe(struct platform_device *pdev)
- 	struct qcom_iommu_dev *qcom_iommu;
- 	struct device *dev = &pdev->dev;
- 	struct resource *res;
-+	struct clk *clk;
- 	int ret, max_asid = 0;
- 
- 	/* find the max asid (which is 1:1 to ctx bank idx), so we know how
-@@ -827,17 +808,26 @@ static int qcom_iommu_device_probe(struct platform_device *pdev)
- 	if (res)
- 		qcom_iommu->local_base = devm_ioremap_resource(dev, res);
- 
--	qcom_iommu->iface_clk = devm_clk_get(dev, "iface");
--	if (IS_ERR(qcom_iommu->iface_clk)) {
-+	clk = devm_clk_get(dev, "iface");
-+	if (IS_ERR(clk)) {
- 		dev_err(dev, "failed to get iface clock\n");
--		return PTR_ERR(qcom_iommu->iface_clk);
-+		return PTR_ERR(clk);
- 	}
-+	qcom_iommu->clks[CLK_IFACE].clk = clk;
- 
--	qcom_iommu->bus_clk = devm_clk_get(dev, "bus");
--	if (IS_ERR(qcom_iommu->bus_clk)) {
-+	clk = devm_clk_get(dev, "bus");
-+	if (IS_ERR(clk)) {
- 		dev_err(dev, "failed to get bus clock\n");
--		return PTR_ERR(qcom_iommu->bus_clk);
-+		return PTR_ERR(clk);
-+	}
-+	qcom_iommu->clks[CLK_BUS].clk = clk;
-+
-+	clk = devm_clk_get_optional(dev, "tbu");
-+	if (IS_ERR(clk)) {
-+		dev_err(dev, "failed to get tbu clock\n");
-+		return PTR_ERR(clk);
- 	}
-+	qcom_iommu->clks[CLK_TBU].clk = clk;
- 
- 	if (of_property_read_u32(dev->of_node, "qcom,iommu-secure-id",
- 				 &qcom_iommu->sec_id)) {
-@@ -909,14 +899,14 @@ static int __maybe_unused qcom_iommu_resume(struct device *dev)
- {
- 	struct qcom_iommu_dev *qcom_iommu = dev_get_drvdata(dev);
- 
--	return qcom_iommu_enable_clocks(qcom_iommu);
-+	return clk_bulk_prepare_enable(CLK_NUM, qcom_iommu->clks);
- }
- 
- static int __maybe_unused qcom_iommu_suspend(struct device *dev)
- {
- 	struct qcom_iommu_dev *qcom_iommu = dev_get_drvdata(dev);
- 
--	qcom_iommu_disable_clocks(qcom_iommu);
-+	clk_bulk_disable_unprepare(CLK_NUM, qcom_iommu->clks);
- 
- 	return 0;
- }
--- 
-2.17.1
-
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
