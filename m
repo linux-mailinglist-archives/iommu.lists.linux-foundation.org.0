@@ -1,88 +1,90 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB9221D9E7B
-	for <lists.iommu@lfdr.de>; Tue, 19 May 2020 20:01:59 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6951C1D9E88
+	for <lists.iommu@lfdr.de>; Tue, 19 May 2020 20:02:03 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8FCF188005;
-	Tue, 19 May 2020 18:01:58 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E3C122326C;
+	Tue, 19 May 2020 18:02:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LfbDrpQBnQgG; Tue, 19 May 2020 18:01:57 +0000 (UTC)
+	with ESMTP id 62jenHQbjS83; Tue, 19 May 2020 18:02:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E4EA18801A;
-	Tue, 19 May 2020 18:01:56 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3C9AF23235;
+	Tue, 19 May 2020 18:02:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CDAD7C0881;
-	Tue, 19 May 2020 18:01:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 20F49C0881;
+	Tue, 19 May 2020 18:02:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 17820C088F
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 18:01:54 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 64B71C0176
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 18:01:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 0E31B888A2
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 18:01:54 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1B0EB86D38
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 18:01:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id k4CsTwDPgIZs for <iommu@lists.linux-foundation.org>;
- Tue, 19 May 2020 18:01:53 +0000 (UTC)
+ with ESMTP id 3TltTfpQGtXF for <iommu@lists.linux-foundation.org>;
+ Tue, 19 May 2020 18:01:54 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 167C488890
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 18:01:53 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id z72so213159wmc.2
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 11:01:52 -0700 (PDT)
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+ [209.85.221.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0345E86D19
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 18:01:54 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id w7so352364wre.13
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 11:01:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OlE3rnOB9MCKbV81bgfQSo1zIBpkt/AF9XwsE8EZHww=;
- b=PVltUbDtiUNJUYohQuAJijXOuB5A5bH0xkzVWvUq1H2+e2ibU19HCBKJgHG0LpvJOO
- Ig0UqvmrBwPjchj2eoYBA6yTE2yZMjt27StiBfvKzwPY0A4BZboeHT5Mq2aJCYWh6O3p
- Q4Dn6OKJZaLDx+E+zM3jpPFK6EoXV1JbeExIqt2da3BtZrBlufWbqYdyZBpifE02CiWo
- Dpcps1X5V7yvnFwAb6dgOCso+myoqErPY0GbTB3T56uonYvfNM2sdhN6ZZlzeHJdmz9V
- sW1KoZznYpI78h/lNulsayaggPntaZw0EAA8Mo+eWW+YEWyHD4MAwpzLho0o134xN2lw
- mKKA==
+ bh=tdr2nbJDVREjEd6opf3N1PUExNDbBuhp6Y6q/Aa2PEk=;
+ b=HkelvqOK2ASLLh8prk/cDS5hZTdQU9xrr2V3ZxvDu0Sq7ohsTnzBnIMz0gnehYydrd
+ QbNe0r28o6KsNU4c8jG6/OECzBTt1dgbKqKBO3Hy9R096LEbCLBtm5fJCXyPcoLUqC7z
+ nJYdYMckvaByveD0Pss3OR0UJ2rAqvk1aa9NiHwQWgUQzWYyPlH/WdC5rnr0FA7nXTHT
+ wUy4E18JFZwuckNo0n2C9EJ91f2GqeXNIr2Vo1ubIjolcQVPov+bsWVCo6uVm3u+gguw
+ ifDXz+1XuUSPfCuU2aV4GnReJ1qkGO0jRWJcKZ8SusFCa4UK2engyDtkMxBFLorw/oqX
+ 3ZVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OlE3rnOB9MCKbV81bgfQSo1zIBpkt/AF9XwsE8EZHww=;
- b=EP+wKDQLCerHKvDxugHShOucWbN7AbReHFSCQK9ElORwhMoF/qR2ZF52zamdBfRXRL
- 1VN/uS30sYuKumL5htb+xAvr1ghLPUWagvIsqja9klYoYP3xYOQe9wXTS4/oZnPlgy/S
- sU9t6TV0RIyWiQA0NmcHM93dbsN/rNCfHYxx1HUTWtFVEE0CMQY3u/foUrXh2LBbOpn6
- vLBN3SCHaNvl8qlaJI+4iVk1/3X7O0HElnmuwMc9ykKLORToPbgRQDqwfwT7Y2apFqEg
- dmer0q1NVe1xw9aublWali6ffiKsxc63Ejb0W+eOCLTPJCsUJO053aos4SuHY2aCdoKb
- hJKg==
-X-Gm-Message-State: AOAM531IUy82f8vQ4QAWCDVtSRXcR1+A+vMhU1MEI6lfrkJ2gdcWCCTi
- tcYiVkL5zeX7ey2g74Gf5dHn/7dPIAmRTg==
-X-Google-Smtp-Source: ABdhPJxm6LwKarbOgqdR2lNw/X/XowWuMGizAMxxxXwhldyYMSyTlek4+lJ4QVEwMcaSb4ml0HljTw==
-X-Received: by 2002:a1c:2e41:: with SMTP id u62mr615750wmu.91.1589911310989;
- Tue, 19 May 2020 11:01:50 -0700 (PDT)
+ bh=tdr2nbJDVREjEd6opf3N1PUExNDbBuhp6Y6q/Aa2PEk=;
+ b=kcFVQ/9YJa6t9FnyTSuduoS8k8MWTAmAwSl909DkmupPVRjmEL8cvxuzm1jdwjZCGY
+ q2BlciXUJTIPAKCRGz1IszCmo9YnBDs+FrfYxALiSCfiqgo8zuOyxCBIPgG7c76PaP1L
+ 1OlSA1oOHSqSHRSKVMMUebRfVqy+VYbXJi/6060NulHVSXXP8Rk4eN+N4qJ71KZ9QfZP
+ U/nfBF1n61w373mSG6to2uonCuQPKd0u0GGTsiblGHYxSoJu6LBGNnHbtMZL7BkeDxYS
+ TfBGZWpR7E24YxMkZB7gY7nEAubk7/+VoTraKWscDaS2h4e5P83YT1v6hAurouHMC/na
+ ExWg==
+X-Gm-Message-State: AOAM530DvodZWfS/49Y+PnB2eAXgrA6JGE04dJM2GrfL1WLKsjY3DTzX
+ e/m1kgKezy092zedbndxfcNwYWy4i2q/FQ==
+X-Google-Smtp-Source: ABdhPJynWLyIUGdI5MUqsN8GOzUd3ADLnVQan+95nD7CN0va9fcQVLO9UHUTvmOnyfYBlYSmz6uVWQ==
+X-Received: by 2002:adf:c508:: with SMTP id q8mr125580wrf.4.1589911312245;
+ Tue, 19 May 2020 11:01:52 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:171b:226e:c200:c43b:ef78:d083:b355])
- by smtp.gmail.com with ESMTPSA id 1sm510496wmz.13.2020.05.19.11.01.49
+ by smtp.gmail.com with ESMTPSA id 1sm510496wmz.13.2020.05.19.11.01.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 May 2020 11:01:50 -0700 (PDT)
+ Tue, 19 May 2020 11:01:51 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: iommu@lists.linux-foundation.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
  linux-mm@kvack.org
-Subject: [PATCH v7 08/24] iommu/arm-smmu-v3: Manage ASIDs with xarray
-Date: Tue, 19 May 2020 19:54:46 +0200
-Message-Id: <20200519175502.2504091-9-jean-philippe@linaro.org>
+Subject: [PATCH v7 09/24] arm64: cpufeature: Export symbol
+ read_sanitised_ftr_reg()
+Date: Tue, 19 May 2020 19:54:47 +0200
+Message-Id: <20200519175502.2504091-10-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200519175502.2504091-1-jean-philippe@linaro.org>
 References: <20200519175502.2504091-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Cc: fenghua.yu@intel.com, kevin.tian@intel.com, jgg@ziepe.ca,
- catalin.marinas@arm.com, robin.murphy@arm.com, hch@infradead.org,
- zhangfei.gao@linaro.org, Jean-Philippe Brucker <jean-philippe@linaro.org>,
- felix.kuehling@amd.com, will@kernel.org, christian.koenig@amd.com
+ catalin.marinas@arm.com, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ robin.murphy@arm.com, hch@infradead.org, zhangfei.gao@linaro.org,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, felix.kuehling@amd.com,
+ will@kernel.org, christian.koenig@amd.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,93 +102,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-In preparation for sharing some ASIDs with the CPU, use a global xarray to
-store ASIDs and their context. ASID#0 is now reserved, and the ASID
-space is global.
+The SMMUv3 driver would like to read the MMFR0 PARANGE field in order to
+share CPU page tables with devices. Allow the driver to be built as
+module by exporting the read_sanitized_ftr_reg() cpufeature symbol.
 
+Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- drivers/iommu/arm-smmu-v3.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+ arch/arm64/kernel/cpufeature.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index b5467e3e9250..847c7de0a93f 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -667,7 +667,6 @@ struct arm_smmu_device {
- 
- #define ARM_SMMU_MAX_ASIDS		(1 << 16)
- 	unsigned int			asid_bits;
--	DECLARE_BITMAP(asid_map, ARM_SMMU_MAX_ASIDS);
- 
- #define ARM_SMMU_MAX_VMIDS		(1 << 16)
- 	unsigned int			vmid_bits;
-@@ -727,6 +726,8 @@ struct arm_smmu_option_prop {
- 	const char *prop;
- };
- 
-+static DEFINE_XARRAY_ALLOC1(asid_xa);
-+
- static struct arm_smmu_option_prop arm_smmu_options[] = {
- 	{ ARM_SMMU_OPT_SKIP_PREFETCH, "hisilicon,broken-prefetch-cmd" },
- 	{ ARM_SMMU_OPT_PAGE0_REGS_ONLY, "cavium,cn9900-broken-page1-regspace"},
-@@ -1765,6 +1766,14 @@ static void arm_smmu_free_cd_tables(struct arm_smmu_domain *smmu_domain)
- 	cdcfg->cdtab = NULL;
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 9fac745aa7bb..5f6adbf4ae89 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -841,6 +841,7 @@ u64 read_sanitised_ftr_reg(u32 id)
+ 	BUG_ON(!regp);
+ 	return regp->sys_val;
  }
++EXPORT_SYMBOL_GPL(read_sanitised_ftr_reg);
  
-+static void arm_smmu_free_asid(struct arm_smmu_ctx_desc *cd)
-+{
-+	if (!cd->asid)
-+		return;
-+
-+	xa_erase(&asid_xa, cd->asid);
-+}
-+
- /* Stream table manipulation functions */
- static void
- arm_smmu_write_strtab_l1_desc(__le64 *dst, struct arm_smmu_strtab_l1_desc *desc)
-@@ -2450,10 +2459,9 @@ static void arm_smmu_domain_free(struct iommu_domain *domain)
- 	if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1) {
- 		struct arm_smmu_s1_cfg *cfg = &smmu_domain->s1_cfg;
- 
--		if (cfg->cdcfg.cdtab) {
-+		if (cfg->cdcfg.cdtab)
- 			arm_smmu_free_cd_tables(smmu_domain);
--			arm_smmu_bitmap_free(smmu->asid_map, cfg->cd.asid);
--		}
-+		arm_smmu_free_asid(&cfg->cd);
- 	} else {
- 		struct arm_smmu_s2_cfg *cfg = &smmu_domain->s2_cfg;
- 		if (cfg->vmid)
-@@ -2468,14 +2476,15 @@ static int arm_smmu_domain_finalise_s1(struct arm_smmu_domain *smmu_domain,
- 				       struct io_pgtable_cfg *pgtbl_cfg)
- {
- 	int ret;
--	int asid;
-+	u32 asid;
- 	struct arm_smmu_device *smmu = smmu_domain->smmu;
- 	struct arm_smmu_s1_cfg *cfg = &smmu_domain->s1_cfg;
- 	typeof(&pgtbl_cfg->arm_lpae_s1_cfg.tcr) tcr = &pgtbl_cfg->arm_lpae_s1_cfg.tcr;
- 
--	asid = arm_smmu_bitmap_alloc(smmu->asid_map, smmu->asid_bits);
--	if (asid < 0)
--		return asid;
-+	ret = xa_alloc(&asid_xa, &asid, &cfg->cd,
-+		       XA_LIMIT(1, (1 << smmu->asid_bits) - 1), GFP_KERNEL);
-+	if (ret)
-+		return ret;
- 
- 	cfg->s1cdmax = master->ssid_bits;
- 
-@@ -2508,7 +2517,7 @@ static int arm_smmu_domain_finalise_s1(struct arm_smmu_domain *smmu_domain,
- out_free_cd_tables:
- 	arm_smmu_free_cd_tables(smmu_domain);
- out_free_asid:
--	arm_smmu_bitmap_free(smmu->asid_map, asid);
-+	arm_smmu_free_asid(&cfg->cd);
- 	return ret;
- }
- 
+ #define read_sysreg_case(r)	\
+ 	case r:		return read_sysreg_s(r)
 -- 
 2.26.2
 
