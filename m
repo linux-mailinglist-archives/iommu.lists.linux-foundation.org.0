@@ -2,54 +2,65 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2B101D9635
-	for <lists.iommu@lfdr.de>; Tue, 19 May 2020 14:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 699B61D967A
+	for <lists.iommu@lfdr.de>; Tue, 19 May 2020 14:41:22 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 604538801A;
-	Tue, 19 May 2020 12:25:08 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1D26187872;
+	Tue, 19 May 2020 12:41:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 99fyM4M4H1bU; Tue, 19 May 2020 12:25:07 +0000 (UTC)
+	with ESMTP id 6Q-PC184Hejy; Tue, 19 May 2020 12:41:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2758488023;
-	Tue, 19 May 2020 12:25:07 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4F194876E3;
+	Tue, 19 May 2020 12:41:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 02775C0890;
-	Tue, 19 May 2020 12:25:07 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 48C8AC0176;
+	Tue, 19 May 2020 12:41:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CA495C0176
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:25:05 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A31C9C0176
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:41:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id B974A86599
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:25:05 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 92BCE876E3
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:41:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tN_HMKqZjHpT for <iommu@lists.linux-foundation.org>;
- Tue, 19 May 2020 12:25:01 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 98B1486444
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:25:01 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id B216B386; Tue, 19 May 2020 14:24:59 +0200 (CEST)
-Date: Tue, 19 May 2020 14:24:58 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Shawn Guo <shawn.guo@linaro.org>
-Subject: Re: [PATCH v2] iommu/qcom: add optional 'tbu' clock for TLB invalidate
-Message-ID: <20200519122458.GJ18353@8bytes.org>
-References: <20200518141656.26284-1-shawn.guo@linaro.org>
+ with ESMTP id KaQDVXUfebaq for <iommu@lists.linux-foundation.org>;
+ Tue, 19 May 2020 12:41:17 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id DBDE8876DD
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:41:16 +0000 (UTC)
+IronPort-SDR: j5nUYitujk+Du17RE6CvjthDMHc2GdAMWxNZzYCG4sCIcSrgIA+EJbe+0VhMWRQeMG4XRxfJh+
+ Hdte4rzsrGJQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 May 2020 05:41:16 -0700
+IronPort-SDR: Re8qdtwAq2f8ket4wEoqTBpCEkciwyBZ/b9aa6+Z5usrSc1/wzCxcoPMWSVeoHZ7YyB9fC+36r
+ q04fwq0LGD/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="373715219"
+Received: from cho2-mobl3.gar.corp.intel.com (HELO [10.249.172.134])
+ ([10.249.172.134])
+ by fmsmga001.fm.intel.com with ESMTP; 19 May 2020 05:41:14 -0700
+Subject: Re: [PATCH 1/1] iommu/vt-d: Fix pointer cast warnings on 32 bit
+To: Joerg Roedel <joro@8bytes.org>
+References: <20200519013423.11971-1-baolu.lu@linux.intel.com>
+ <20200519120911.GH18353@8bytes.org>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <b99ba52c-70bd-79d1-aa15-83deefc42f7d@linux.intel.com>
+Date: Tue, 19 May 2020 20:41:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200518141656.26284-1-shawn.guo@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: linux-arm-msm@vger.kernel.org, Konrad Dybcio <konradybcio@gmail.com>,
- iommu@lists.linux-foundation.org,
- Stanimir Varbanov <stanimir.varbanov@linaro.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>
+In-Reply-To: <20200519120911.GH18353@8bytes.org>
+Content-Language: en-US
+Cc: iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -62,33 +73,43 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, May 18, 2020 at 10:16:56PM +0800, Shawn Guo wrote:
-> On some SoCs like MSM8939 with A405 adreno, there is a gfx_tbu clock
-> needs to be on while doing TLB invalidate. Otherwise, TLBSYNC status
-> will not be correctly reflected, causing the system to go into a bad
-> state.  Add it as an optional clock, so that platforms that have this
-> clock can pass it over DT.
+On 2020/5/19 20:09, Joerg Roedel wrote:
+> On Tue, May 19, 2020 at 09:34:23AM +0800, Lu Baolu wrote:
+>> Pointers should be casted to unsigned long to avoid "cast from pointer
+>> to integer of different size" warnings.
+>>
+>> drivers/iommu/intel-pasid.c:818:6: warning:
+>>      cast from pointer to integer of different size [-Wpointer-to-int-cast]
+>> drivers/iommu/intel-pasid.c:821:9: warning:
+>>      cast from pointer to integer of different size [-Wpointer-to-int-cast]
+>> drivers/iommu/intel-pasid.c:824:23: warning:
+>>      cast from pointer to integer of different size [-Wpointer-to-int-cast]
+>> drivers/iommu/intel-svm.c:343:45: warning:
+>>      cast to pointer from integer of different size [-Wint-to-pointer-cast]
+>>
+>> Fixes: d64d47f4f5678 ("iommu/vt-d: Add nested translation helper function")
+>> Fixes: a3bea1a35c083 ("iommu/vt-d: Add bind guest PASID support")
+>> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+>> ---
+>>   drivers/iommu/intel-pasid.c | 8 ++++----
+>>   drivers/iommu/intel-svm.c   | 3 ++-
+>>   2 files changed, 6 insertions(+), 5 deletions(-)
 > 
-> While adding the third clock, let's switch to bulk clk API to simplify
-> the enable/disable calls.  clk_bulk_get() cannot used because the
-> existing two clocks are required while the new one is optional.
+> Applied, thanks.
 > 
-> Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
-> ---
-> Changes for v2:
->  - Use devm_clk_get_optional() to simplify code and improve readability.
->  - Rename the new clock from 'tlb' to 'tbu'.
->  - qcom_iommu: use bulk clk API to simplfy enable/disable.
-> 
->  drivers/iommu/qcom_iommu.c | 62 ++++++++++++++++----------------------
->  1 file changed, 26 insertions(+), 36 deletions(-)
+> Btw, I think the PASID and Intel SVM code is pretty useless on 32 bit
+> anyway, no? It only supports 4 and 5 level page-tables, not the 2 and
+> 3-level variants on 32-bit. Can you make it 64-bit only?
 
-Applied, thanks.
+Sure. I will make it.
+
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
