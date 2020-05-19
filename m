@@ -1,66 +1,49 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699B61D967A
-	for <lists.iommu@lfdr.de>; Tue, 19 May 2020 14:41:22 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id C10531D96F4
+	for <lists.iommu@lfdr.de>; Tue, 19 May 2020 15:03:57 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1D26187872;
-	Tue, 19 May 2020 12:41:21 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 41D752268D;
+	Tue, 19 May 2020 13:03:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6Q-PC184Hejy; Tue, 19 May 2020 12:41:19 +0000 (UTC)
+	with ESMTP id M-lTgYisjw7K; Tue, 19 May 2020 13:03:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4F194876E3;
-	Tue, 19 May 2020 12:41:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0CB67203AC;
+	Tue, 19 May 2020 13:03:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 48C8AC0176;
-	Tue, 19 May 2020 12:41:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CC57AC0176;
+	Tue, 19 May 2020 13:03:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A31C9C0176
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:41:17 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F145EC0176
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 13:03:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 92BCE876E3
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:41:17 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id D8CA287F00
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 13:03:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KaQDVXUfebaq for <iommu@lists.linux-foundation.org>;
- Tue, 19 May 2020 12:41:17 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by whitealder.osuosl.org (Postfix) with ESMTPS id DBDE8876DD
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:41:16 +0000 (UTC)
-IronPort-SDR: j5nUYitujk+Du17RE6CvjthDMHc2GdAMWxNZzYCG4sCIcSrgIA+EJbe+0VhMWRQeMG4XRxfJh+
- Hdte4rzsrGJQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 May 2020 05:41:16 -0700
-IronPort-SDR: Re8qdtwAq2f8ket4wEoqTBpCEkciwyBZ/b9aa6+Z5usrSc1/wzCxcoPMWSVeoHZ7YyB9fC+36r
- q04fwq0LGD/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; d="scan'208";a="373715219"
-Received: from cho2-mobl3.gar.corp.intel.com (HELO [10.249.172.134])
- ([10.249.172.134])
- by fmsmga001.fm.intel.com with ESMTP; 19 May 2020 05:41:14 -0700
-Subject: Re: [PATCH 1/1] iommu/vt-d: Fix pointer cast warnings on 32 bit
-To: Joerg Roedel <joro@8bytes.org>
-References: <20200519013423.11971-1-baolu.lu@linux.intel.com>
- <20200519120911.GH18353@8bytes.org>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <b99ba52c-70bd-79d1-aa15-83deefc42f7d@linux.intel.com>
-Date: Tue, 19 May 2020 20:41:14 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <20200519120911.GH18353@8bytes.org>
-Content-Language: en-US
-Cc: iommu@lists.linux-foundation.org
+ with ESMTP id AV1Bxn4XYIiJ for <iommu@lists.linux-foundation.org>;
+ Tue, 19 May 2020 13:03:51 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D12E8877B4
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 13:03:50 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id D58C3386; Tue, 19 May 2020 15:03:48 +0200 (CEST)
+From: Joerg Roedel <joro@8bytes.org>
+To: iommu@lists.linux-foundation.org
+Subject: [PATCH] iommu: Fix deferred domain attachment
+Date: Tue, 19 May 2020 15:03:40 +0200
+Message-Id: <20200519130340.14564-1-joro@8bytes.org>
+X-Mailer: git-send-email 2.17.1
+Cc: Joerg Roedel <jroedel@suse.de>, linux-kernel@vger.kernel.org,
+ Tom Murphy <murphyt7@tcd.ie>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,43 +56,93 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020/5/19 20:09, Joerg Roedel wrote:
-> On Tue, May 19, 2020 at 09:34:23AM +0800, Lu Baolu wrote:
->> Pointers should be casted to unsigned long to avoid "cast from pointer
->> to integer of different size" warnings.
->>
->> drivers/iommu/intel-pasid.c:818:6: warning:
->>      cast from pointer to integer of different size [-Wpointer-to-int-cast]
->> drivers/iommu/intel-pasid.c:821:9: warning:
->>      cast from pointer to integer of different size [-Wpointer-to-int-cast]
->> drivers/iommu/intel-pasid.c:824:23: warning:
->>      cast from pointer to integer of different size [-Wpointer-to-int-cast]
->> drivers/iommu/intel-svm.c:343:45: warning:
->>      cast to pointer from integer of different size [-Wint-to-pointer-cast]
->>
->> Fixes: d64d47f4f5678 ("iommu/vt-d: Add nested translation helper function")
->> Fixes: a3bea1a35c083 ("iommu/vt-d: Add bind guest PASID support")
->> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
->> ---
->>   drivers/iommu/intel-pasid.c | 8 ++++----
->>   drivers/iommu/intel-svm.c   | 3 ++-
->>   2 files changed, 6 insertions(+), 5 deletions(-)
-> 
-> Applied, thanks.
-> 
-> Btw, I think the PASID and Intel SVM code is pretty useless on 32 bit
-> anyway, no? It only supports 4 and 5 level page-tables, not the 2 and
-> 3-level variants on 32-bit. Can you make it 64-bit only?
+From: Joerg Roedel <jroedel@suse.de>
 
-Sure. I will make it.
+The IOMMU core code has support for deferring the attachment of a domain
+to a device. This is needed in kdump kernels where the new domain must
+not be attached to a device before the device driver takes it over.
 
-Best regards,
-baolu
+When the AMD IOMMU driver got converted to use the dma-iommu
+implementation, the deferred attaching got lost. The code in
+dma-iommu.c has support for deferred attaching, but it calls into
+iommu_attach_device() to actually do it. But iommu_attach_device()
+will check if the device should be deferred in it code-path and do
+nothing, breaking deferred attachment.
+
+Move the is_deferred_attach() check out of the attach_device path and
+into iommu_group_add_device() to make deferred attaching work from the
+dma-iommu code.
+
+Cc: Jerry Snitselaar <jsnitsel@redhat.com>
+Cc: Tom Murphy <murphyt7@tcd.ie>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Reported-by: Jerry Snitselaar <jsnitsel@redhat.com>
+Suggested-by: Robin Murphy <robin.murphy@arm.com>
+Tested-by: Jerry Snitselaar <jsnitsel@redhat.com>
+Fixes: 795bbbb9b6f8 ("iommu/dma-iommu: Handle deferred devices")
+Signed-off-by: Joerg Roedel <jroedel@suse.de>
+---
+ drivers/iommu/iommu.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 4050569188be..629d209b8e88 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -769,6 +769,15 @@ static int iommu_create_device_direct_mappings(struct iommu_group *group,
+ 	return ret;
+ }
+ 
++static bool iommu_is_attach_deferred(struct iommu_domain *domain,
++				     struct device *dev)
++{
++	if (domain->ops->is_attach_deferred)
++		return domain->ops->is_attach_deferred(domain, dev);
++
++	return false;
++}
++
+ /**
+  * iommu_group_add_device - add a device to an iommu group
+  * @group: the group into which to add the device (reference should be held)
+@@ -821,7 +830,7 @@ int iommu_group_add_device(struct iommu_group *group, struct device *dev)
+ 
+ 	mutex_lock(&group->mutex);
+ 	list_add_tail(&device->list, &group->devices);
+-	if (group->domain)
++	if (group->domain  && !iommu_is_attach_deferred(group->domain, dev))
+ 		ret = __iommu_attach_device(group->domain, dev);
+ 	mutex_unlock(&group->mutex);
+ 	if (ret)
+@@ -1893,9 +1902,6 @@ static int __iommu_attach_device(struct iommu_domain *domain,
+ 				 struct device *dev)
+ {
+ 	int ret;
+-	if ((domain->ops->is_attach_deferred != NULL) &&
+-	    domain->ops->is_attach_deferred(domain, dev))
+-		return 0;
+ 
+ 	if (unlikely(domain->ops->attach_dev == NULL))
+ 		return -ENODEV;
+@@ -1967,8 +1973,7 @@ EXPORT_SYMBOL_GPL(iommu_sva_unbind_gpasid);
+ static void __iommu_detach_device(struct iommu_domain *domain,
+ 				  struct device *dev)
+ {
+-	if ((domain->ops->is_attach_deferred != NULL) &&
+-	    domain->ops->is_attach_deferred(domain, dev))
++	if (iommu_is_attach_deferred(domain, dev))
+ 		return;
+ 
+ 	if (unlikely(domain->ops->detach_dev == NULL))
+-- 
+2.25.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
