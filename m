@@ -1,52 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44651D95EE
-	for <lists.iommu@lfdr.de>; Tue, 19 May 2020 14:09:23 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E8E1D9617
+	for <lists.iommu@lfdr.de>; Tue, 19 May 2020 14:19:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7DB2E864F5;
-	Tue, 19 May 2020 12:09:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id AB3BB886D4;
+	Tue, 19 May 2020 12:19:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BO8nFnOKpERQ; Tue, 19 May 2020 12:09:20 +0000 (UTC)
+	with ESMTP id oTL3JXy+bK6C; Tue, 19 May 2020 12:19:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E59D486773;
-	Tue, 19 May 2020 12:09:20 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 16B26886C0;
+	Tue, 19 May 2020 12:19:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CAEC7C0890;
-	Tue, 19 May 2020 12:09:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id ECD17C0176;
+	Tue, 19 May 2020 12:19:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F1413C0176
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:09:18 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 68270C0176
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:19:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id EDAE3864F5
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:09:18 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 61141226B0
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:19:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RpeuXd6vm2nj for <iommu@lists.linux-foundation.org>;
- Tue, 19 May 2020 12:09:16 +0000 (UTC)
+ with ESMTP id p4lcQwOoR+xW for <iommu@lists.linux-foundation.org>;
+ Tue, 19 May 2020 12:19:05 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 13331875BD
- for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:09:16 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 7F1A6203FF
+ for <iommu@lists.linux-foundation.org>; Tue, 19 May 2020 12:19:04 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 5AC77386; Tue, 19 May 2020 14:09:13 +0200 (CEST)
-Date: Tue, 19 May 2020 14:09:12 +0200
+ id A4833386; Tue, 19 May 2020 14:19:01 +0200 (CEST)
+Date: Tue, 19 May 2020 14:19:00 +0200
 From: Joerg Roedel <joro@8bytes.org>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 1/1] iommu/vt-d: Fix pointer cast warnings on 32 bit
-Message-ID: <20200519120911.GH18353@8bytes.org>
-References: <20200519013423.11971-1-baolu.lu@linux.intel.com>
+To: Yong Wu <yong.wu@mediatek.com>
+Subject: Re: [PATCH] iommu/mediatek-v1: Fix a build warning for a unused
+ variable 'data'
+Message-ID: <20200519121900.GI18353@8bytes.org>
+References: <1589875064-662-1-git-send-email-yong.wu@mediatek.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200519013423.11971-1-baolu.lu@linux.intel.com>
+In-Reply-To: <1589875064-662-1-git-send-email-yong.wu@mediatek.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: iommu@lists.linux-foundation.org
+Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com, srv_heupstream@mediatek.com,
+ Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -64,38 +69,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, May 19, 2020 at 09:34:23AM +0800, Lu Baolu wrote:
-> Pointers should be casted to unsigned long to avoid "cast from pointer
-> to integer of different size" warnings.
+On Tue, May 19, 2020 at 03:57:44PM +0800, Yong Wu wrote:
+> This patch fixes a build warning:
+> drivers/iommu/mtk_iommu_v1.c: In function 'mtk_iommu_release_device':
+> >> drivers/iommu/mtk_iommu_v1.c:467:25: warning: variable 'data' set but
+> >> not used [-Wunused-but-set-variable]
+> 467 |  struct mtk_iommu_data *data;
+> |                         ^~~~
 > 
-> drivers/iommu/intel-pasid.c:818:6: warning:
->     cast from pointer to integer of different size [-Wpointer-to-int-cast]
-> drivers/iommu/intel-pasid.c:821:9: warning:
->     cast from pointer to integer of different size [-Wpointer-to-int-cast]
-> drivers/iommu/intel-pasid.c:824:23: warning:
->     cast from pointer to integer of different size [-Wpointer-to-int-cast]
-> drivers/iommu/intel-svm.c:343:45: warning:
->     cast to pointer from integer of different size [-Wint-to-pointer-cast]
+> It's reported at:
+> https://lore.kernel.org/linux-iommu/202005191458.gY38V8bU%25lkp@intel.com/T/#u
 > 
-> Fixes: d64d47f4f5678 ("iommu/vt-d: Add nested translation helper function")
-> Fixes: a3bea1a35c083 ("iommu/vt-d: Add bind guest PASID support")
-> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 > ---
->  drivers/iommu/intel-pasid.c | 8 ++++----
->  drivers/iommu/intel-svm.c   | 3 ++-
->  2 files changed, 6 insertions(+), 5 deletions(-)
+>  drivers/iommu/mtk_iommu_v1.c | 2 --
+>  1 file changed, 2 deletions(-)
 
 Applied, thanks.
-
-Btw, I think the PASID and Intel SVM code is pretty useless on 32 bit
-anyway, no? It only supports 4 and 5 level page-tables, not the 2 and
-3-level variants on 32-bit. Can you make it 64-bit only?
-
-
-Regards,
-
-	Joerg
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
