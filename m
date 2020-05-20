@@ -1,86 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9DE1DB845
-	for <lists.iommu@lfdr.de>; Wed, 20 May 2020 17:32:57 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id E25CF1DB91A
+	for <lists.iommu@lfdr.de>; Wed, 20 May 2020 18:15:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0F8D086D3C;
-	Wed, 20 May 2020 15:32:56 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8949F20011;
+	Wed, 20 May 2020 16:15:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id C8T5ZoJaE4Fd; Wed, 20 May 2020 15:32:55 +0000 (UTC)
+	with ESMTP id dUjKYa+47dL8; Wed, 20 May 2020 16:15:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9674686E23;
-	Wed, 20 May 2020 15:32:55 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AAB9520009;
+	Wed, 20 May 2020 16:15:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 695ADC0176;
-	Wed, 20 May 2020 15:32:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9669EC0176;
+	Wed, 20 May 2020 16:15:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7BDBBC0176
- for <iommu@lists.linux-foundation.org>; Wed, 20 May 2020 15:32:53 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 20440C0176
+ for <iommu@lists.linux-foundation.org>; Wed, 20 May 2020 16:15:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 6A7BD88904
- for <iommu@lists.linux-foundation.org>; Wed, 20 May 2020 15:32:53 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 088DE20011
+ for <iommu@lists.linux-foundation.org>; Wed, 20 May 2020 16:15:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id it7O2yHtPRXd for <iommu@lists.linux-foundation.org>;
- Wed, 20 May 2020 15:32:52 +0000 (UTC)
+ with ESMTP id 8LCulu4Tw34u for <iommu@lists.linux-foundation.org>;
+ Wed, 20 May 2020 16:15:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 6062E88907
- for <iommu@lists.linux-foundation.org>; Wed, 20 May 2020 15:32:52 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id u1so2929632wmn.3
- for <iommu@lists.linux-foundation.org>; Wed, 20 May 2020 08:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=eyFn3P2XuGvmapYpvmXsfPpBpNlu7lMJiAWRzcy1I5I=;
- b=NvU+y8H/jAu6fTaZt01RqQqQcfHxhpgoN7+p0ux0i2Oq8yrHojsDIuAB1TDQoB7+iq
- ItCOMqP2wSggzqlVIvwuENI+1I2x5hp/8KvEOK36fICyUOgEwdk1sU//8q4oFoHeszEL
- BjRnMOgCnxRQZfH1h/SzPX0XXFn0xr9ecwlyA3hfQ3L1x2hVGSIVAuixez9uag+O1VRD
- 8S3YP14a5TWEbLnBlF1XfAlBGpRgTaQFWpOUGdRaSTHZZpZIUudxfyNrbORahZXopfyb
- 4eORiSCbkfAw18940CBJ5bBrPzAuTN+maYvUXW9TdE5VklVvU4/z8GEpTB+189e5Em1Q
- 8TaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=eyFn3P2XuGvmapYpvmXsfPpBpNlu7lMJiAWRzcy1I5I=;
- b=Iq7kzY3ZfW8RIFOBT2qU0c5C6ChDgapRdvQFmfmaahtH5TxgiryKbMsmjvwDP9DS8T
- CkTNYl1Z0Kgb5b/OLn1khKR6v28X2UK2YXkDHbo4VhH9YP0p1nY1iMoLAxxoQlgjxUF7
- iSF9YI5YtuSVn4Vw6EdO5Krtxat6roKT4yKkIu2iGTZyDFzPzlvtk53Yjv/03nsBwGiF
- tCwWxZ0jlvfhq1KKWGH3HZwPi+QyehdmFLGIqiexg3BLdrVWDPKHd/KB6C2/uzEdk9ap
- 6uFN44yipzEs58gBEDO5Uc37jtI9iMUgU0I8iaUUCVjQdTf8bYeYFb98x1YoRkXtiXfH
- s7CA==
-X-Gm-Message-State: AOAM532k+Q7XCtOg6eVAZeCCFYVNAQe7jsFTGGgqQOFuYyvJYlq0qu+h
- AcHFRNQqsIL557D/39sVLZr2kg==
-X-Google-Smtp-Source: ABdhPJwbawWEUkv2F66a8ndXGjiaJL6hn5qsqFZxdvvcUCO97AbeEjdJDdTC3ZxjJG51qbTRERgXqA==
-X-Received: by 2002:a1c:9ac3:: with SMTP id c186mr5149217wme.150.1589988770732; 
- Wed, 20 May 2020 08:32:50 -0700 (PDT)
-Received: from localhost.localdomain
- ([2001:171b:226e:c200:c43b:ef78:d083:b355])
- by smtp.gmail.com with ESMTPSA id 5sm3395840wmd.19.2020.05.20.08.32.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 May 2020 08:32:50 -0700 (PDT)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux-foundation.org, joro@8bytes.org, bhelgaas@google.com
-Subject: [PATCH v2 4/4] iommu/vt-d: Use pci_ats_supported()
-Date: Wed, 20 May 2020 17:22:03 +0200
-Message-Id: <20200520152201.3309416-5-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200520152201.3309416-1-jean-philippe@linaro.org>
-References: <20200520152201.3309416-1-jean-philippe@linaro.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id 04B1320009
+ for <iommu@lists.linux-foundation.org>; Wed, 20 May 2020 16:15:45 +0000 (UTC)
+Received: from localhost (mobile-166-175-190-200.mycingular.net
+ [166.175.190.200])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4A8C120671;
+ Wed, 20 May 2020 16:15:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1589991344;
+ bh=h9MTIGPYQzOllbjEkIgnEniE41lTl+OD7Fs3cDvWlC4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=dBQAsnvSt1BuQnO2Uz0LYcXqH8wrzmcE0sMq3dliKDQWy2VD07oQBTPN8C3Xz4q5j
+ EEp4TAFPoo5NVsbBnUlz3FFLpZ4E3P2l4+ULM4f39CP4KxODVhaYOqqg6ZguekD1Z4
+ YSmgsUdQndWtM7LDHv6BuDaL4cZ+TEEM751dZfMc=
+Date: Wed, 20 May 2020 11:15:41 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Jim Quinlan <james.quinlan@broadcom.com>
+Subject: Re: [PATCH 00/15] PCI: brcmstb: enable PCIe for STB chips
+Message-ID: <20200520161541.GA1089402@bjorn-Precision-5520>
 MIME-Version: 1.0
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, ashok.raj@intel.com,
- will@kernel.org, hch@infradead.org, alex.williamson@redhat.com,
- robin.murphy@arm.com, dwmw2@infradead.org
+Content-Disposition: inline
+In-Reply-To: <20200519203419.12369-1-james.quinlan@broadcom.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Saravana Kannan <saravanak@google.com>, Rob Herring <robh@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Julien Grall <julien.grall@arm.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:LIBATA SUBSYSTEM \(Serial and Parallel ATA drivers\)"
+ <linux-ide@vger.kernel.org>,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux-foundation.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "open list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
+ <linux-pci@vger.kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,46 +93,73 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The pci_ats_supported() helper checks if a device supports ATS and is
-allowed to use it. By checking the ATS capability it also integrates the
-pci_ats_disabled() check from pci_ats_init(). Simplify the vt-d checks.
+On Tue, May 19, 2020 at 04:33:58PM -0400, Jim Quinlan wrote:
+> This patchset expands the usefulness of the Broadcom Settop Box PCIe
+> controller by building upon the PCIe driver used currently by the
+> Raspbery Pi.  Other forms of this patchset were submitted by me years
+> ago and not accepted; the major sticking point was the code required
+> for the DMA remapping needed for the PCIe driver to work [1].
+> 
+> There have been many changes to the DMA and OF subsystems since that
+> time, making a cleaner and less intrusive patchset possible.  This
+> patchset implements a generalization of "dev->dma_pfn_offset", except
+> that instead of a single scalar offset it provides for multiple
+> offsets via a function which depends upon the "dma-ranges" property of
+> the PCIe host controller.  This is required for proper functionality
+> of the BrcmSTB PCIe controller and possibly some other devices.
+> 
+> [1] https://lore.kernel.org/linux-arm-kernel/1516058925-46522-5-git-send-email-jim2101024@gmail.com/
+> 
+> Jim Quinlan (15):
+>   PCI: brcmstb: PCIE_BRCMSTB depends on ARCH_BRCMSTB
+>   ahci_brcm: fix use of BCM7216 reset controller
+>   dt-bindings: PCI: Add bindings for more Brcmstb chips
+>   PCI: brcmstb: Add compatibily of other chips
+>   PCI: brcmstb: Add suspend and resume pm_ops
+>   PCI: brcmstb: Asserting PERST is different for 7278
+>   PCI: brcmstb: Add control of rescal reset
+>   of: Include a dev param in of_dma_get_range()
+>   device core: Add ability to handle multiple dma offsets
+>   dma-direct: Invoke dma offset func if needed
+>   arm: dma-mapping: Invoke dma offset func if needed
+>   PCI: brcmstb: Set internal memory viewport sizes
+>   PCI: brcmstb: Accommodate MSI for older chips
+>   PCI: brcmstb: Set bus max burst side by chip type
+>   PCI: brcmstb: add compatilbe chips to match list
 
-Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- drivers/iommu/intel-iommu.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+If you have occasion to post a v2 for other reasons,
 
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
-index 0182cff2c7ac..ed21ce6d1238 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel-iommu.c
-@@ -1454,8 +1454,7 @@ static void iommu_enable_dev_iotlb(struct device_domain_info *info)
- 	    !pci_reset_pri(pdev) && !pci_enable_pri(pdev, 32))
- 		info->pri_enabled = 1;
- #endif
--	if (!pdev->untrusted && info->ats_supported &&
--	    pci_ats_page_aligned(pdev) &&
-+	if (info->ats_supported && pci_ats_page_aligned(pdev) &&
- 	    !pci_enable_ats(pdev, VTD_PAGE_SHIFT)) {
- 		info->ats_enabled = 1;
- 		domain_update_iotlb(info->domain);
-@@ -2611,10 +2610,8 @@ static struct dmar_domain *dmar_insert_one_dev_info(struct intel_iommu *iommu,
- 	if (dev && dev_is_pci(dev)) {
- 		struct pci_dev *pdev = to_pci_dev(info->dev);
- 
--		if (!pdev->untrusted &&
--		    !pci_ats_disabled() &&
--		    ecap_dev_iotlb_support(iommu->ecap) &&
--		    pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_ATS) &&
-+		if (ecap_dev_iotlb_support(iommu->ecap) &&
-+		    pci_ats_supported(pdev) &&
- 		    dmar_find_matched_atsr_unit(pdev))
- 			info->ats_supported = 1;
- 
--- 
-2.26.2
+s/PCIE_BRCMSTB depends on ARCH_BRCMSTB/Allow PCIE_BRCMSTB on ARCH_BRCMSTB also/
+s/ahci_brcm: fix use of BCM7216 reset controller/ata: ahci_brcm: Fix .../
+s/Add compatibily of other chips/Add bcm7278 register info/
+s/Asserting PERST is different for 7278/Add bcm7278 PERST support/
+s/Set bus max burst side/Set bus max burst size/
+s/add compatilbe chips.*/Add bcm7211, bcm7216, bcm7445, bcm7278 to match list/
 
+Rewrap commit logs to use full 75 character lines (to allow for the 4
+spaces added by git log).
+
+In commit logs, s/This commit// (use imperative mood instead).
+
+In "Accommodate MSI for older chips" commit log, s/commont/common/.
+
+>  .../bindings/pci/brcm,stb-pcie.yaml           |  40 +-
+>  arch/arm/include/asm/dma-mapping.h            |  17 +-
+>  drivers/ata/ahci_brcm.c                       |  14 +-
+>  drivers/of/address.c                          |  54 ++-
+>  drivers/of/device.c                           |   2 +-
+>  drivers/of/of_private.h                       |   8 +-
+>  drivers/pci/controller/Kconfig                |   4 +-
+>  drivers/pci/controller/pcie-brcmstb.c         | 403 +++++++++++++++---
+>  include/linux/device.h                        |   9 +-
+>  include/linux/dma-direct.h                    |  16 +
+>  include/linux/dma-mapping.h                   |  44 ++
+>  kernel/dma/Kconfig                            |  12 +
+>  12 files changed, 542 insertions(+), 81 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
