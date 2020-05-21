@@ -1,83 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id D999F1DDAF7
-	for <lists.iommu@lfdr.de>; Fri, 22 May 2020 01:31:32 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CD21DDB38
+	for <lists.iommu@lfdr.de>; Fri, 22 May 2020 01:40:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 90DD3893DF;
-	Thu, 21 May 2020 23:31:31 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 465F78867A;
+	Thu, 21 May 2020 23:40:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lHJqU1QDOPmB; Thu, 21 May 2020 23:31:31 +0000 (UTC)
+	with ESMTP id j8pE34BOodyZ; Thu, 21 May 2020 23:40:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3485188720;
-	Thu, 21 May 2020 23:31:31 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A3BEF88617;
+	Thu, 21 May 2020 23:40:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2E272C0176;
-	Thu, 21 May 2020 23:31:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 99A3AC0176;
+	Thu, 21 May 2020 23:40:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 53413C0176
- for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 23:31:27 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9008FC0176
+ for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 23:40:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 4111D24F13
- for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 23:31:27 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 5939C876C7
+ for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 23:40:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nzzlt1jv-ONd for <iommu@lists.linux-foundation.org>;
- Thu, 21 May 2020 23:31:24 +0000 (UTC)
+ with ESMTP id uZTFOZE6o3NL for <iommu@lists.linux-foundation.org>;
+ Thu, 21 May 2020 23:40:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from hqnvemgate24.nvidia.com (hqnvemgate24.nvidia.com
- [216.228.121.143])
- by silver.osuosl.org (Postfix) with ESMTPS id C24EE203B0
- for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 23:31:24 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ec70ebb0002>; Thu, 21 May 2020 16:28:59 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Thu, 21 May 2020 16:31:24 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 21 May 2020 16:31:24 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 21 May
- 2020 23:31:23 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 21 May 2020 23:31:23 +0000
-Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by
- hqnvemgw03.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5ec70f4b0005>; Thu, 21 May 2020 16:31:23 -0700
-From: Krishna Reddy <vdumpa@nvidia.com>
-To: 
-Subject: [PATCH v5 5/5] arm64: tegra: enable SMMU for SDHCI and EQOS on T194
-Date: Thu, 21 May 2020 16:31:07 -0700
-Message-ID: <20200521233107.11968-6-vdumpa@nvidia.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200521233107.11968-1-vdumpa@nvidia.com>
-References: <20200521233107.11968-1-vdumpa@nvidia.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id EA5B4872B3
+ for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 23:40:52 +0000 (UTC)
+IronPort-SDR: 2YsEUysPlkQhyRofeK+qxfpTqtOSNC3PdOLWVS9iqjWbKq244F9xHGWqG5rsXjwceAh9T1TPkT
+ kMGoRURgTqaQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 May 2020 16:40:52 -0700
+IronPort-SDR: oMV6pdOLmBBvp2tg/0s2cHXMXmtpef4jgFMpno2H4JRWJDg9h3nQBjoD400muqIm8TlxWhzOzA
+ IvQNURBpQYgQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,419,1583222400"; d="scan'208";a="283229047"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.139])
+ ([10.239.159.139])
+ by orsmga002.jf.intel.com with ESMTP; 21 May 2020 16:40:49 -0700
+Subject: Re: [PATCH -next] iommu/vt-d: fix a GCC warning
+To: Qian Cai <cai@lca.pw>, jroedel@suse.de
+References: <20200521215030.16938-1-cai@lca.pw>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <27cf90e4-57bc-38da-fa30-69244f006f63@linux.intel.com>
+Date: Fri, 22 May 2020 07:37:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-NVConfidentiality: public
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1590103739; bh=gpJ7zVDEktQWdt8OOZ30mXZsuHmqPjP7Fg0Tdm8sNVg=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- In-Reply-To:References:MIME-Version:X-NVConfidentiality:
- Content-Transfer-Encoding:Content-Type;
- b=oXQHWs4XYEP3NOSJsoPvq5vf2dtfVy1SUVU04A6jGkEO9Xjnwilh0d0R67zhOygcU
- 3cI8gKO47XqWKY4T6/73ueHdnDpUFQMuU5e6HcgEeAIred5f8d1h9SlgHKIVee6VH0
- WlfIPFaAxJgVQuzTTzGFW7mbHQo1z/hlJOknUrIIKnnduU7R1Rxu4aFavb0aj1IsIY
- FIgn8wonsiRy5EyoG3psUr3W9x3LihXYGBMkDjAghvMgwg1e0cg+FLMresg7UomVJG
- BoV/gBkEO8wKFPNfKUZJ26h3Y2VytZMDRDhG8Scafj0WxmO7IBU4A1ixhXB9L4F4Kz
- totbuTXOTMY6Q==
-Cc: snikam@nvidia.com, mperttunen@nvidia.com, bhuntsman@nvidia.com,
- will@kernel.org, linux-kernel@vger.kernel.org, praithatha@nvidia.com,
- talho@nvidia.com, iommu@lists.linux-foundation.org, nicolinc@nvidia.com,
- linux-tegra@vger.kernel.org, yhsu@nvidia.com, treding@nvidia.com,
- robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org, bbiswas@nvidia.com
+In-Reply-To: <20200521215030.16938-1-cai@lca.pw>
+Content-Language: en-US
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,57 +72,50 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Enable SMMU translations for SDHCI and EQOS transactions on T194.
+Hi Qian,
 
-Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra194.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+Thanks!
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194.dtsi b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-index f7c4399afb55..706bbb439dcd 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194.dtsi
-@@ -59,6 +59,7 @@ ethernet@2490000 {
- 			clock-names = "master_bus", "slave_bus", "rx", "tx", "ptp_ref";
- 			resets = <&bpmp TEGRA194_RESET_EQOS>;
- 			reset-names = "eqos";
-+			iommus = <&smmu TEGRA194_SID_EQOS>;
- 			status = "disabled";
- 
- 			snps,write-requests = <1>;
-@@ -457,6 +458,7 @@ sdmmc1: sdhci@3400000 {
- 			clock-names = "sdhci";
- 			resets = <&bpmp TEGRA194_RESET_SDMMC1>;
- 			reset-names = "sdhci";
-+			iommus = <&smmu TEGRA194_SID_SDMMC1>;
- 			nvidia,pad-autocal-pull-up-offset-3v3-timeout =
- 									<0x07>;
- 			nvidia,pad-autocal-pull-down-offset-3v3-timeout =
-@@ -479,6 +481,7 @@ sdmmc3: sdhci@3440000 {
- 			clock-names = "sdhci";
- 			resets = <&bpmp TEGRA194_RESET_SDMMC3>;
- 			reset-names = "sdhci";
-+			iommus = <&smmu TEGRA194_SID_SDMMC3>;
- 			nvidia,pad-autocal-pull-up-offset-1v8 = <0x00>;
- 			nvidia,pad-autocal-pull-down-offset-1v8 = <0x7a>;
- 			nvidia,pad-autocal-pull-up-offset-3v3-timeout = <0x07>;
-@@ -506,6 +509,7 @@ sdmmc4: sdhci@3460000 {
- 					  <&bpmp TEGRA194_CLK_PLLC4>;
- 			resets = <&bpmp TEGRA194_RESET_SDMMC4>;
- 			reset-names = "sdhci";
-+			iommus = <&smmu TEGRA194_SID_SDMMC4>;
- 			nvidia,pad-autocal-pull-up-offset-hs400 = <0x00>;
- 			nvidia,pad-autocal-pull-down-offset-hs400 = <0x00>;
- 			nvidia,pad-autocal-pull-up-offset-1v8-timeout = <0x0a>;
--- 
-2.26.2
+On 5/22/20 5:50 AM, Qian Cai wrote:
+> The commit 6ee1b77ba3ac ("iommu/vt-d: Add svm/sva invalidate function")
+> introduced a GCC warning,
+> 
+> drivers/iommu/intel-iommu.c:5330:1: warning: 'static' is not at beginning of
+> declaration [-Wold-style-declaration]
+>   const static int
+>   ^~~~~
+> 
+> Signed-off-by: Qian Cai <cai@lca.pw>
 
+Fixes: 6ee1b77ba3ac0 ("iommu/vt-d: Add svm/sva invalidate function")
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+
+Best regards,
+baolu
+
+> ---
+>   drivers/iommu/intel-iommu.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+> index f75d7d9c231f..ff5a30a94679 100644
+> --- a/drivers/iommu/intel-iommu.c
+> +++ b/drivers/iommu/intel-iommu.c
+> @@ -5327,7 +5327,7 @@ static void intel_iommu_aux_detach_device(struct iommu_domain *domain,
+>    * [IOMMU_CACHE_INV_TYPE_IOTLB][IOMMU_INV_GRANU_ADDR]
+>    */
+>   
+> -const static int
+> +static const int
+>   inv_type_granu_table[IOMMU_CACHE_INV_TYPE_NR][IOMMU_INV_GRANU_NR] = {
+>   	/*
+>   	 * PASID based IOTLB invalidation: PASID selective (per PASID),
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
