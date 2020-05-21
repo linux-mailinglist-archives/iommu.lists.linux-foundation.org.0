@@ -1,60 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E4F1DCB1F
-	for <lists.iommu@lfdr.de>; Thu, 21 May 2020 12:35:25 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF801DCBEC
+	for <lists.iommu@lfdr.de>; Thu, 21 May 2020 13:12:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DE40487C9C;
-	Thu, 21 May 2020 10:35:23 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id AD4CA883C3;
+	Thu, 21 May 2020 11:12:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vRof0Hil-+sf; Thu, 21 May 2020 10:35:23 +0000 (UTC)
+	with ESMTP id UN2cKlZQm7I4; Thu, 21 May 2020 11:12:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 86E058929E;
-	Thu, 21 May 2020 10:35:23 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 391A7883C0;
+	Thu, 21 May 2020 11:12:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6C19FC0176;
-	Thu, 21 May 2020 10:35:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1F2E1C0176;
+	Thu, 21 May 2020 11:12:41 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 280A3C0176
- for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 10:35:21 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 51493C0176
+ for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 11:12:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 0FB0020506
- for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 10:35:21 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 2E69E24F92
+ for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 11:12:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lgnkFCZSVeaX for <iommu@lists.linux-foundation.org>;
- Thu, 21 May 2020 10:35:20 +0000 (UTC)
+ with ESMTP id 5mD2UuncFfwO for <iommu@lists.linux-foundation.org>;
+ Thu, 21 May 2020 11:12:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 7FB8420432
- for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 10:35:20 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 65A8E204A9
+ for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 11:12:38 +0000 (UTC)
 Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3ACFB207D3;
- Thu, 21 May 2020 10:35:17 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 155D420721;
+ Thu, 21 May 2020 11:12:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590057320;
- bh=a9hJk21ZfjUP7X59u528A9f5ow2mLYdP8uHbmtg8vZw=;
+ s=default; t=1590059558;
+ bh=iYAjQM9yDvPql0mmE1wLbplsG3C1/FtvidpyoFZTNcE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Z5EcqRcd2YGUS5rhJDclmz3R8zFpPuaz8n559EdvwZ4E29gACziYUBrsQNdJHuSjo
- rSEj0lQ6sAGcQTC7tKESxdfpcyP33agwVDT/h0+km7gZuULSnH/ymBjZgNsF4jYfyM
- RknuG+C678ZPapDa+RAU5OwwowB3K7ZkF9YyfZ9E=
-Date: Thu, 21 May 2020 11:35:14 +0100
+ b=LbQZQM+GNTzrdOvhJbIb17KBDxPUiI5biwavwK0ds9PBU1FY7uibn+697skdDAIVQ
+ yFXwMF5VvH/1rukebrLHWPGWqFtQ3+3TV0Kj0D1fp7w/HPbsd6cZlPIsSXZgvG/azC
+ D0cHphBjPJAlwYQJ5TJAw32lHV/7I7vDY2pYw23U=
+Date: Thu, 21 May 2020 12:12:31 +0100
 From: Will Deacon <will@kernel.org>
 To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v7 00/24] iommu: Shared Virtual Addressing for SMMUv3
-Message-ID: <20200521103513.GE5360@willie-the-truck>
+Subject: Re: [PATCH v7 18/24] iommu/arm-smmu-v3: Add support for Hardware
+ Translation Table Update
+Message-ID: <20200521111231.GA5949@willie-the-truck>
 References: <20200519175502.2504091-1-jean-philippe@linaro.org>
+ <20200519175502.2504091-19-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200519175502.2504091-1-jean-philippe@linaro.org>
+In-Reply-To: <20200519175502.2504091-19-jean-philippe@linaro.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: devicetree@vger.kernel.org, kevin.tian@intel.com, jgg@ziepe.ca,
  linux-pci@vger.kernel.org, fenghua.yu@intel.com, hch@infradead.org,
@@ -78,32 +80,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jean-Philippe,
-
-On Tue, May 19, 2020 at 07:54:38PM +0200, Jean-Philippe Brucker wrote:
-> Shared Virtual Addressing (SVA) allows to share process page tables with
-> devices using the IOMMU, PASIDs and I/O page faults. Add SVA support to
-> the Arm SMMUv3 driver.
+On Tue, May 19, 2020 at 07:54:56PM +0200, Jean-Philippe Brucker wrote:
+> If the SMMU supports it and the kernel was built with HTTU support,
+> enable hardware update of access and dirty flags. This is essential for
+> shared page tables, to reduce the number of access faults on the fault
+> queue. Normal DMA with io-pgtables doesn't currently use the access or
+> dirty flags.
 > 
-> Since v6 [1]:
-> * Rename ioasid_free() to ioasid_put() in patch 02, requiring changes to
->   the Intel drivers.
-> * Use mmu_notifier_register() in patch 16 to avoid copying the ops and
->   simplify the invalidate() notifier in patch 17.
-> * As a result, replace context spinlock with a mutex. Simplified locking in
->   patch 11 (That patch still looks awful, but I think the series is more
->   readable overall). And I've finally been able to remove the GFP_ATOMIC
->   allocations.
-> * Use a single patch (04) for io-pgfault.c, since the code was simplified
->   in v6. Fixed partial list in patch 04.
+> We can enable HTTU even if CPUs don't support it, because the kernel
+> always checks for HW dirty bit and updates the PTE flags atomically.
+> 
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> ---
+>  drivers/iommu/arm-smmu-v3.c | 24 +++++++++++++++++++++++-
+>  1 file changed, 23 insertions(+), 1 deletion(-)
 
-There's an awful lot here and it stretches across quite a few subsystems,
-with different git trees. What's the plan for merging it?
-
-I'm happy to take some of the arm64 and smmu changes for 5.8, then perhaps
-we can review what's left and target 5.9? It would also be helpful to split
-that up into separate series where there aren't strong dependencies, I
-think.
+How does this work if the SMMU isn't cache coherent? I'm guessing we don't
+want to enable any SVA stuff in that case, but I couldn't spot where that
+was being enforced. Did I just miss it?
 
 Will
 _______________________________________________
