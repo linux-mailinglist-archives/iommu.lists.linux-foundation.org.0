@@ -1,63 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id E128C1DD642
-	for <lists.iommu@lfdr.de>; Thu, 21 May 2020 20:49:11 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F2B1DD7B2
+	for <lists.iommu@lfdr.de>; Thu, 21 May 2020 21:56:55 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8599C88888;
-	Thu, 21 May 2020 18:49:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B699E88585;
+	Thu, 21 May 2020 19:56:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2k2RHtdkvjvd; Thu, 21 May 2020 18:49:10 +0000 (UTC)
+	with ESMTP id WQSKC3R8jmxf; Thu, 21 May 2020 19:56:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id F03D8888F8;
-	Thu, 21 May 2020 18:49:09 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DC8EC885B4;
+	Thu, 21 May 2020 19:56:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D49BDC0176;
-	Thu, 21 May 2020 18:49:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B5BEDC0891;
+	Thu, 21 May 2020 19:56:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E8324C0176
- for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 18:49:07 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 04CB4C0176
+ for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 19:56:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id D8D4081ECF
- for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 18:49:07 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id E31158855E
+ for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 19:56:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id K6AB4OStehEa for <iommu@lists.linux-foundation.org>;
- Thu, 21 May 2020 18:49:07 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+ with ESMTP id MEXLY3Vvc1rB for <iommu@lists.linux-foundation.org>;
+ Thu, 21 May 2020 19:56:46 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 5650B81AE8
- for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 18:49:07 +0000 (UTC)
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net
- [73.231.172.41])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id CBF408855D
+ for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 19:56:46 +0000 (UTC)
+Received: from localhost (mobile-166-175-190-200.mycingular.net
+ [166.175.190.200])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C68EB2088E;
- Thu, 21 May 2020 18:49:06 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 226AE20829;
+ Thu, 21 May 2020 19:56:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590086947;
- bh=MQiydCJAeNQDDg6xvAARulcUycFi5vbJdxdeJlhzfDE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=QKmNH2VvPf57Na/zQ2gmA79CWHOkhxYqCWUHTz8GymARd56PJRzMnMs2ugMmGlMSL
- lWg2YzYv8S365N3SrLlBdxy2pcfoDtWYkKRmnetUqoAv3ba8S13xoQ2kkTYRrFJYT0
- oG6yUhQgBGpz9WjQLfD8WBJ0b6BuVT+DUGET+qBQ=
-Date: Thu, 21 May 2020 11:49:06 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Prakash Gupta <guptap@codeaurora.org>
-Subject: Re: [PATCH] iommu/dma: limit iova free size to unmmaped iova
-Message-Id: <20200521114906.2f38fc04d3600d41f3409bd9@linux-foundation.org>
-In-Reply-To: <20200521113004.12438-1-guptap@codeaurora.org>
-References: <20200521113004.12438-1-guptap@codeaurora.org>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Cc: linux-mm@kvack.org, mhocko@suse.com, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org
+ s=default; t=1590091006;
+ bh=3pPxhsoMN8AFg9ooaYG2vkfeO0yylrZ+Y4cUkEkWdkk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=ZEHVBYHLP72nxe38Sw3h1kSXw8ATmk0v5q21R9wchW+xahwMzGbEsDbJgb9EZnlnh
+ v7ZanNXBfhlz6GdwVLqNlJXzxGPRQvEBqIMn57kkP7P7rFZALfVOjFui0msOei15uL
+ FR4uSaRrm7XQSfofT1IQKrYTYOGx9AwA5sXJqQIE=
+Date: Thu, 21 May 2020 14:56:44 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Subject: Re: [PATCH 02/12] ACPI/IORT: Make iort_get_device_domain IRQ domain
+ agnostic
+Message-ID: <20200521195644.GA1171134@bjorn-Precision-5520>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200521130008.8266-3-lorenzo.pieralisi@arm.com>
+Cc: Marc Zyngier <maz@kernel.org>, devicetree@vger.kernel.org,
+ linux-pci@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Hanjun Guo <guohanjun@huawei.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Robin Murphy <robin.murphy@arm.com>, linux-acpi@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
+ Makarand Pawagi <makarand.pawagi@nxp.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Diana Craciun <diana.craciun@oss.nxp.com>,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,31 +81,135 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, 21 May 2020 17:00:04 +0530 Prakash Gupta <guptap@codeaurora.org> wrote:
-
-> Limit the iova size while freeing based on unmapped size. In absence of
-> this even with unmap failure, invalid iova is pushed to iova rcache and
-> subsequently can cause panic while rcache magazine is freed.
+On Thu, May 21, 2020 at 01:59:58PM +0100, Lorenzo Pieralisi wrote:
+> iort_get_device_domain() is PCI specific but it need not be,
+> since it can be used to retrieve IRQ domain nexus of any kind
+> by adding an irq_domain_bus_token input to it.
 > 
-> Signed-off-by: Prakash Gupta <guptap@codeaurora.org>
+> Make it PCI agnostic by also renaming the requestor ID input
+> to a more generic ID name.
 > 
+> Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Hanjun Guo <guohanjun@huawei.com>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Sudeep Holla <sudeep.holla@arm.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+> Cc: Marc Zyngier <maz@kernel.org>
 
-I think we need a cc:stable here?
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>	# pci/msi.c
 
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -472,7 +472,8 @@ static void __iommu_dma_unmap(struct device *dev, dma_addr_t dma_addr,
+> ---
+>  drivers/acpi/arm64/iort.c | 14 +++++++-------
+>  drivers/pci/msi.c         |  3 ++-
+>  include/linux/acpi_iort.h |  7 ++++---
+>  3 files changed, 13 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
+> index 7cfd77b5e6e8..8f2a961c1364 100644
+> --- a/drivers/acpi/arm64/iort.c
+> +++ b/drivers/acpi/arm64/iort.c
+> @@ -567,7 +567,6 @@ static struct acpi_iort_node *iort_find_dev_node(struct device *dev)
+>  		node = iort_get_iort_node(dev->fwnode);
+>  		if (node)
+>  			return node;
+> -
+>  		/*
+>  		 * if not, then it should be a platform device defined in
+>  		 * DSDT/SSDT (with Named Component node in IORT)
+> @@ -658,13 +657,13 @@ static int __maybe_unused iort_find_its_base(u32 its_id, phys_addr_t *base)
+>  /**
+>   * iort_dev_find_its_id() - Find the ITS identifier for a device
+>   * @dev: The device.
+> - * @req_id: Device's requester ID
+> + * @id: Device's ID
+>   * @idx: Index of the ITS identifier list.
+>   * @its_id: ITS identifier.
+>   *
+>   * Returns: 0 on success, appropriate error value otherwise
+>   */
+> -static int iort_dev_find_its_id(struct device *dev, u32 req_id,
+> +static int iort_dev_find_its_id(struct device *dev, u32 id,
+>  				unsigned int idx, int *its_id)
+>  {
+>  	struct acpi_iort_its_group *its;
+> @@ -674,7 +673,7 @@ static int iort_dev_find_its_id(struct device *dev, u32 req_id,
+>  	if (!node)
+>  		return -ENXIO;
 >  
->  	if (!cookie->fq_domain)
->  		iommu_tlb_sync(domain, &iotlb_gather);
-> -	iommu_dma_free_iova(cookie, dma_addr, size);
-> +	if (unmapped)
-> +		iommu_dma_free_iova(cookie, dma_addr, unmapped);
+> -	node = iort_node_map_id(node, req_id, NULL, IORT_MSI_TYPE);
+> +	node = iort_node_map_id(node, id, NULL, IORT_MSI_TYPE);
+>  	if (!node)
+>  		return -ENXIO;
+>  
+> @@ -697,19 +696,20 @@ static int iort_dev_find_its_id(struct device *dev, u32 req_id,
+>   *
+>   * Returns: the MSI domain for this device, NULL otherwise
+>   */
+> -struct irq_domain *iort_get_device_domain(struct device *dev, u32 req_id)
+> +struct irq_domain *iort_get_device_domain(struct device *dev, u32 id,
+> +					  enum irq_domain_bus_token bus_token)
+>  {
+>  	struct fwnode_handle *handle;
+>  	int its_id;
+>  
+> -	if (iort_dev_find_its_id(dev, req_id, 0, &its_id))
+> +	if (iort_dev_find_its_id(dev, id, 0, &its_id))
+>  		return NULL;
+>  
+>  	handle = iort_find_domain_token(its_id);
+>  	if (!handle)
+>  		return NULL;
+>  
+> -	return irq_find_matching_fwnode(handle, DOMAIN_BUS_PCI_MSI);
+> +	return irq_find_matching_fwnode(handle, bus_token);
 >  }
 >  
->  static dma_addr_t __iommu_dma_map(struct device *dev, phys_addr_t phys,
-
-I'll assume that Joerg will handle this fix?
+>  static void iort_set_device_domain(struct device *dev,
+> diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
+> index 6b43a5455c7a..74a91f52ecc0 100644
+> --- a/drivers/pci/msi.c
+> +++ b/drivers/pci/msi.c
+> @@ -1558,7 +1558,8 @@ struct irq_domain *pci_msi_get_device_domain(struct pci_dev *pdev)
+>  	pci_for_each_dma_alias(pdev, get_msi_id_cb, &rid);
+>  	dom = of_msi_map_get_device_domain(&pdev->dev, rid);
+>  	if (!dom)
+> -		dom = iort_get_device_domain(&pdev->dev, rid);
+> +		dom = iort_get_device_domain(&pdev->dev, rid,
+> +					     DOMAIN_BUS_PCI_MSI);
+>  	return dom;
+>  }
+>  #endif /* CONFIG_PCI_MSI_IRQ_DOMAIN */
+> diff --git a/include/linux/acpi_iort.h b/include/linux/acpi_iort.h
+> index 8e7e2ec37f1b..08ec6bd2297f 100644
+> --- a/include/linux/acpi_iort.h
+> +++ b/include/linux/acpi_iort.h
+> @@ -29,7 +29,8 @@ struct fwnode_handle *iort_find_domain_token(int trans_id);
+>  #ifdef CONFIG_ACPI_IORT
+>  void acpi_iort_init(void);
+>  u32 iort_msi_map_rid(struct device *dev, u32 req_id);
+> -struct irq_domain *iort_get_device_domain(struct device *dev, u32 req_id);
+> +struct irq_domain *iort_get_device_domain(struct device *dev, u32 id,
+> +					  enum irq_domain_bus_token bus_token);
+>  void acpi_configure_pmsi_domain(struct device *dev);
+>  int iort_pmsi_get_dev_id(struct device *dev, u32 *dev_id);
+>  /* IOMMU interface */
+> @@ -40,8 +41,8 @@ int iort_iommu_msi_get_resv_regions(struct device *dev, struct list_head *head);
+>  static inline void acpi_iort_init(void) { }
+>  static inline u32 iort_msi_map_rid(struct device *dev, u32 req_id)
+>  { return req_id; }
+> -static inline struct irq_domain *iort_get_device_domain(struct device *dev,
+> -							u32 req_id)
+> +static inline struct irq_domain *iort_get_device_domain(
+> +	struct device *dev, u32 id, enum irq_domain_bus_token bus_token)
+>  { return NULL; }
+>  static inline void acpi_configure_pmsi_domain(struct device *dev) { }
+>  /* IOMMU interface */
+> -- 
+> 2.26.1
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
