@@ -1,68 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF801DCBEC
-	for <lists.iommu@lfdr.de>; Thu, 21 May 2020 13:12:43 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 008E71DCF97
+	for <lists.iommu@lfdr.de>; Thu, 21 May 2020 16:23:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id AD4CA883C3;
-	Thu, 21 May 2020 11:12:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B6D0886F01;
+	Thu, 21 May 2020 14:23:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UN2cKlZQm7I4; Thu, 21 May 2020 11:12:41 +0000 (UTC)
+	with ESMTP id VAnW0sa3Zk-K; Thu, 21 May 2020 14:23:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 391A7883C0;
-	Thu, 21 May 2020 11:12:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5B1A78702D;
+	Thu, 21 May 2020 14:23:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1F2E1C0176;
-	Thu, 21 May 2020 11:12:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4652AC0176;
+	Thu, 21 May 2020 14:23:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 51493C0176
- for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 11:12:39 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B20D7C0176
+ for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 11:30:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2E69E24F92
- for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 11:12:39 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 92F3B89343
+ for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 11:30:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5mD2UuncFfwO for <iommu@lists.linux-foundation.org>;
- Thu, 21 May 2020 11:12:38 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 65A8E204A9
- for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 11:12:38 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 155D420721;
- Thu, 21 May 2020 11:12:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590059558;
- bh=iYAjQM9yDvPql0mmE1wLbplsG3C1/FtvidpyoFZTNcE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LbQZQM+GNTzrdOvhJbIb17KBDxPUiI5biwavwK0ds9PBU1FY7uibn+697skdDAIVQ
- yFXwMF5VvH/1rukebrLHWPGWqFtQ3+3TV0Kj0D1fp7w/HPbsd6cZlPIsSXZgvG/azC
- D0cHphBjPJAlwYQJ5TJAw32lHV/7I7vDY2pYw23U=
-Date: Thu, 21 May 2020 12:12:31 +0100
-From: Will Deacon <will@kernel.org>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v7 18/24] iommu/arm-smmu-v3: Add support for Hardware
- Translation Table Update
-Message-ID: <20200521111231.GA5949@willie-the-truck>
-References: <20200519175502.2504091-1-jean-philippe@linaro.org>
- <20200519175502.2504091-19-jean-philippe@linaro.org>
+ with ESMTP id aR5rKBF01oCf for <iommu@lists.linux-foundation.org>;
+ Thu, 21 May 2020 11:30:36 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9D4DA89332
+ for <iommu@lists.linux-foundation.org>; Thu, 21 May 2020 11:30:33 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1590060635; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=lhRGU6l23pWyhwgP/bWEorni345nvViGnvyOWBGS/6U=;
+ b=L7MaZOPD4+SViCPUNE6UiHDHIxcjSDkculN+TZ1og4rDVKXhz2RgCM/5DRbWTH1DSycm5L/j
+ gpL8heH/vO5Kdv6d8PhicB7n2QucoDBNMgHYiF6B2YO7jFhZbC4Kh4QY4FB1vkN99GooCIIZ
+ +b+dSGSE4rqMjXLabQgp/87U5I4=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5ec66649.7f67d8db4fb8-smtp-out-n04;
+ Thu, 21 May 2020 11:30:17 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 68682C433CB; Thu, 21 May 2020 11:30:17 +0000 (UTC)
+Received: from guptap1-linux.qualcomm.com
+ (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: guptap)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 58119C433C6;
+ Thu, 21 May 2020 11:30:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 58119C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=guptap@codeaurora.org
+From: Prakash Gupta <guptap@codeaurora.org>
+To: akpm@linux-foundation.org,
+	mhocko@suse.com,
+	joro@8bytes.org
+Subject: [PATCH] iommu/dma: limit iova free size to unmmaped iova
+Date: Thu, 21 May 2020 17:00:04 +0530
+Message-Id: <20200521113004.12438-1-guptap@codeaurora.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200519175502.2504091-19-jean-philippe@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: devicetree@vger.kernel.org, kevin.tian@intel.com, jgg@ziepe.ca,
- linux-pci@vger.kernel.org, fenghua.yu@intel.com, hch@infradead.org,
- linux-mm@kvack.org, iommu@lists.linux-foundation.org, zhangfei.gao@linaro.org,
- catalin.marinas@arm.com, felix.kuehling@amd.com, robin.murphy@arm.com,
- christian.koenig@amd.com, linux-arm-kernel@lists.infradead.org
+X-Mailman-Approved-At: Thu, 21 May 2020 14:23:20 +0000
+Cc: linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, Prakash Gupta <guptap@codeaurora.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,26 +91,31 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, May 19, 2020 at 07:54:56PM +0200, Jean-Philippe Brucker wrote:
-> If the SMMU supports it and the kernel was built with HTTU support,
-> enable hardware update of access and dirty flags. This is essential for
-> shared page tables, to reduce the number of access faults on the fault
-> queue. Normal DMA with io-pgtables doesn't currently use the access or
-> dirty flags.
-> 
-> We can enable HTTU even if CPUs don't support it, because the kernel
-> always checks for HW dirty bit and updates the PTE flags atomically.
-> 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->  drivers/iommu/arm-smmu-v3.c | 24 +++++++++++++++++++++++-
->  1 file changed, 23 insertions(+), 1 deletion(-)
+Limit the iova size while freeing based on unmapped size. In absence of
+this even with unmap failure, invalid iova is pushed to iova rcache and
+subsequently can cause panic while rcache magazine is freed.
 
-How does this work if the SMMU isn't cache coherent? I'm guessing we don't
-want to enable any SVA stuff in that case, but I couldn't spot where that
-was being enforced. Did I just miss it?
+Signed-off-by: Prakash Gupta <guptap@codeaurora.org>
 
-Will
+:100644 100644 4959f5df21bd 098f7d377e04 M	drivers/iommu/dma-iommu.c
+
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 4959f5df21bd..098f7d377e04 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -472,7 +472,8 @@ static void __iommu_dma_unmap(struct device *dev, dma_addr_t dma_addr,
+ 
+ 	if (!cookie->fq_domain)
+ 		iommu_tlb_sync(domain, &iotlb_gather);
+-	iommu_dma_free_iova(cookie, dma_addr, size);
++	if (unmapped)
++		iommu_dma_free_iova(cookie, dma_addr, unmapped);
+ }
+ 
+ static dma_addr_t __iommu_dma_map(struct device *dev, phys_addr_t phys,
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
+member of the Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
