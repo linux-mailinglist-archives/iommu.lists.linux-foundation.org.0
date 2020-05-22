@@ -1,72 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F46C1DE912
-	for <lists.iommu@lfdr.de>; Fri, 22 May 2020 16:34:39 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 799941DEA22
+	for <lists.iommu@lfdr.de>; Fri, 22 May 2020 16:53:42 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DF2AE88CD1;
-	Fri, 22 May 2020 14:34:37 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C21AD25AD0;
+	Fri, 22 May 2020 14:53:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QNKDNoT0DFB9; Fri, 22 May 2020 14:34:36 +0000 (UTC)
+	with ESMTP id JBR9dwGZPWS4; Fri, 22 May 2020 14:53:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E0D1088CB8;
-	Fri, 22 May 2020 14:34:36 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 87BD925AA6;
+	Fri, 22 May 2020 14:53:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C5612C0863;
-	Fri, 22 May 2020 14:34:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6E951C0176;
+	Fri, 22 May 2020 14:53:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 16518C0176
- for <iommu@lists.linux-foundation.org>; Fri, 22 May 2020 14:34:35 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1A2C3C0176
+ for <iommu@lists.linux-foundation.org>; Fri, 22 May 2020 14:53:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id F259588C7E
- for <iommu@lists.linux-foundation.org>; Fri, 22 May 2020 14:34:34 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 0166E88ADA
+ for <iommu@lists.linux-foundation.org>; Fri, 22 May 2020 14:53:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Xv9HgYjHpFjg for <iommu@lists.linux-foundation.org>;
- Fri, 22 May 2020 14:34:32 +0000 (UTC)
+ with ESMTP id Xi6t-y3KxP7Y for <iommu@lists.linux-foundation.org>;
+ Fri, 22 May 2020 14:53:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id 090A5888F8
- for <iommu@lists.linux-foundation.org>; Fri, 22 May 2020 14:34:31 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5AEA0D6E;
- Fri, 22 May 2020 07:34:31 -0700 (PDT)
-Received: from [10.57.2.168] (unknown [10.57.2.168])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 26E7D3F68F;
- Fri, 22 May 2020 07:34:29 -0700 (PDT)
-Subject: Re: [PATCH 09/12] dt-bindings: arm: fsl: Add msi-map device-tree
- binding for fsl-mc bus
-To: Rob Herring <robh+dt@kernel.org>,
- Diana Craciun OSS <diana.craciun@oss.nxp.com>
-References: <20200521130008.8266-1-lorenzo.pieralisi@arm.com>
- <20200521130008.8266-10-lorenzo.pieralisi@arm.com>
- <CAL_Jsq+h18gH2D3B-OZku6ACCgonPUJcUnrN8a5=jApsXHdB5Q@mail.gmail.com>
- <abca6ecb-5d93-832f-ff7c-de53bb6203f3@arm.com>
- <ee7a5c04-814e-215f-ec74-52c2f3b881d0@oss.nxp.com>
- <CAL_JsqKf+cq9Nhs+M8ihC-Ls24YH-WEofW8H4kkFPWMhZw=unA@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <7f8d00ae-b225-a58d-8a11-e8c68edc877b@arm.com>
-Date: Fri, 22 May 2020 15:34:27 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 92AE388A9D
+ for <iommu@lists.linux-foundation.org>; Fri, 22 May 2020 14:53:35 +0000 (UTC)
+Received: from lhreml724-chm.china.huawei.com (unknown [172.18.7.106])
+ by Forcepoint Email with ESMTP id C483E8A93724536F38DA;
+ Fri, 22 May 2020 15:53:32 +0100 (IST)
+Received: from [127.0.0.1] (10.210.166.164) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Fri, 22 May
+ 2020 15:53:31 +0100
+Subject: Re: arm-smmu-v3 high cpu usage for NVMe
+From: John Garry <john.garry@huawei.com>
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+References: <20190821151749.23743-1-will@kernel.org>
+ <b2a6e26d-6d0d-7f0d-f222-589812f701d2@huawei.com>
+ <20200318205313.GB8094@willie-the-truck>
+ <c6ab8020-dc06-0c7d-7a41-e792d90f97ba@huawei.com>
+ <20200319184349.GA1697676@myrica>
+ <c9ebe17d-66b8-1b8c-cc2c-5be0bd1501a7@huawei.com>
+Message-ID: <4aacbd65-f1fd-55e0-c8bb-468badc9f600@huawei.com>
+Date: Fri, 22 May 2020 15:52:30 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqKf+cq9Nhs+M8ihC-Ls24YH-WEofW8H4kkFPWMhZw=unA@mail.gmail.com>
-Content-Language: en-GB
-Cc: devicetree@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
- PCI <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Makarand Pawagi <makarand.pawagi@nxp.com>, linux-acpi@vger.kernel.org,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Will Deacon <will@kernel.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+In-Reply-To: <c9ebe17d-66b8-1b8c-cc2c-5be0bd1501a7@huawei.com>
+Content-Language: en-US
+X-Originating-IP: [10.210.166.164]
+X-ClientProxiedBy: lhreml710-chm.china.huawei.com (10.201.108.61) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Marc Zyngier <maz@kernel.org>, Ming Lei <ming.lei@redhat.com>,
+ iommu@lists.linux-foundation.org, alexandru.elisei@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,156 +76,91 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-05-22 15:08, Rob Herring wrote:
-> On Fri, May 22, 2020 at 3:57 AM Diana Craciun OSS
-> <diana.craciun@oss.nxp.com> wrote:
->>
->> On 5/22/2020 12:42 PM, Robin Murphy wrote:
->>> On 2020-05-22 00:10, Rob Herring wrote:
->>>> On Thu, May 21, 2020 at 7:00 AM Lorenzo Pieralisi
->>>> <lorenzo.pieralisi@arm.com> wrote:
->>>>>
->>>>> From: Laurentiu Tudor <laurentiu.tudor@nxp.com>
->>>>>
->>>>> The existing bindings cannot be used to specify the relationship
->>>>> between fsl-mc devices and GIC ITSes.
->>>>>
->>>>> Add a generic binding for mapping fsl-mc devices to GIC ITSes, using
->>>>> msi-map property.
->>>>>
->>>>> Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
->>>>> Cc: Rob Herring <robh+dt@kernel.org>
->>>>> ---
->>>>>    .../devicetree/bindings/misc/fsl,qoriq-mc.txt | 30
->>>>> +++++++++++++++++--
->>>>>    1 file changed, 27 insertions(+), 3 deletions(-)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->>>>> b/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->>>>> index 9134e9bcca56..b0813b2d0493 100644
->>>>> --- a/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->>>>> +++ b/Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->>>>> @@ -18,9 +18,9 @@ same hardware "isolation context" and a 10-bit
->>>>> value called an ICID
->>>>>    the requester.
->>>>>
->>>>>    The generic 'iommus' property is insufficient to describe the
->>>>> relationship
->>>>> -between ICIDs and IOMMUs, so an iommu-map property is used to define
->>>>> -the set of possible ICIDs under a root DPRC and how they map to
->>>>> -an IOMMU.
->>>>> +between ICIDs and IOMMUs, so the iommu-map and msi-map properties
->>>>> are used
->>>>> +to define the set of possible ICIDs under a root DPRC and how they
->>>>> map to
->>>>> +an IOMMU and a GIC ITS respectively.
->>>>>
->>>>>    For generic IOMMU bindings, see
->>>>>    Documentation/devicetree/bindings/iommu/iommu.txt.
->>>>> @@ -28,6 +28,9 @@ Documentation/devicetree/bindings/iommu/iommu.txt.
->>>>>    For arm-smmu binding, see:
->>>>>    Documentation/devicetree/bindings/iommu/arm,smmu.yaml.
->>>>>
->>>>> +For GICv3 and GIC ITS bindings, see:
->>>>> +Documentation/devicetree/bindings/interrupt-controller/arm,gic-v3.yaml.
->>>>>
->>>>> +
->>>>>    Required properties:
->>>>>
->>>>>        - compatible
->>>>> @@ -119,6 +122,15 @@ Optional properties:
->>>>>      associated with the listed IOMMU, with the iommu-specifier
->>>>>      (i - icid-base + iommu-base).
->>>>>
->>>>> +- msi-map: Maps an ICID to a GIC ITS and associated iommu-specifier
->>>>> +  data.
->>>>> +
->>>>> +  The property is an arbitrary number of tuples of
->>>>> +  (icid-base,iommu,iommu-base,length).
->>>>
->>>> I'm confused because the example has GIC ITS phandle, not an IOMMU.
->>>>
->>>> What is an iommu-base?
->>>
->>> Right, I was already halfway through writing a reply to say that all
->>> the copy-pasted "iommu" references here should be using the
->>> terminology from the pci-msi.txt binding instead.
->>
->> Right, will change it.
->>
->>>
->>>>> +
->>>>> +  Any ICID in the interval [icid-base, icid-base + length) is
->>>>> +  associated with the listed GIC ITS, with the iommu-specifier
->>>>> +  (i - icid-base + iommu-base).
->>>>>    Example:
->>>>>
->>>>>            smmu: iommu@5000000 {
->>>>> @@ -128,6 +140,16 @@ Example:
->>>>>                   ...
->>>>>            };
->>>>>
->>>>> +       gic: interrupt-controller@6000000 {
->>>>> +               compatible = "arm,gic-v3";
->>>>> +               ...
->>>>> +               its: gic-its@6020000 {
->>>>> +                       compatible = "arm,gic-v3-its";
->>>>> +                       msi-controller;
->>>>> +                       ...
->>>>> +               };
->>>>> +       };
->>>>> +
->>>>>            fsl_mc: fsl-mc@80c000000 {
->>>>>                    compatible = "fsl,qoriq-mc";
->>>>>                    reg = <0x00000008 0x0c000000 0 0x40>,    /* MC
->>>>> portal base */
->>>>> @@ -135,6 +157,8 @@ Example:
->>>>>                    msi-parent = <&its>;
->>>
->>> Side note: is it right to keep msi-parent here? It rather implies that
->>> the MC itself has a 'native' Device ID rather than an ICID, which I
->>> believe is not strictly true. Plus it's extra-confusing that it
->>> doesn't specify an ID either way, since that makes it look like the
->>> legacy PCI case that gets treated implicitly as an identity msi-map,
->>> which makes no sense at all to combine with an actual msi-map.
->>
->> Before adding msi-map, the fsl-mc code assumed that ICID and streamID
->> are equal and used msi-parent just to get the reference to the ITS node.
->> Removing msi-parent will break the backward compatibility of the already
->> existing systems. Maybe we should mention that this is legacy and not to
->> be used for newer device trees.
-> 
-> If ids are 1:1, then the DT should use msi-parent. If there is
-> remapping, then use msi-map. A given system should use one or the
-> other. I suppose if some ids are 1:1 and the msi-map was added to add
-> additional support for ids not 1:1, then you could end up with both.
-> That's fine in dts files, but examples should reflect the 'right' way.
-
-Is that defined anywhere? The generic MSI binding just has some weaselly 
-wording about buses:
-
-"When #msi-cells is non-zero, busses with an msi-parent will require 
-additional properties to describe the relationship between devices on 
-the bus and the set of MSIs they can potentially generate."
-
-which appears at odds with its own definition of msi-parent as including 
-an msi-specifier (or at best very unclear about what value that 
-specifier should take in this case).
-
-The PCI MSI binding goes even further and specifically reserves 
-msi-parent for cases where there is no sideband data. As far as I'm 
-aware, the fact that the ITS driver implements a bodge for the "empty 
-msi-parent even though #msi-cells > 0" case is merely a compatibility 
-thing for old DTs from before this was really thought through, not an 
-officially-specified behaviour.
-
-Robin.
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gMjAvMDMvMjAyMCAxMDo0MSwgSm9obiBHYXJyeSB3cm90ZToKCisgQmFycnksIEFsZXhhbmRy
+dQoKPj4+Pj4gwqDCoMKgIFBlcmZUb3A6wqDCoCA4NTg2NCBpcnFzL3NlY8KgIGtlcm5lbDo4OS42
+JcKgIGV4YWN0OsKgIDAuMCUgbG9zdDogCj4+Pj4+IDAvMzQ0MzQgZHJvcDoKPj4+Pj4gMC80MDEx
+NiBbNDAwMEh6IGN5Y2xlc10swqAgKGFsbCwgOTYgQ1BVcykKPj4+Pj4gLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gCj4+Pj4+
+Cj4+Pj4+Cj4+Pj4+IMKgwqDCoMKgwqAgMjcuNDMlwqAgW2tlcm5lbF3CoMKgwqDCoMKgwqDCoMKg
+wqAgW2tdIGFybV9zbW11X2NtZHFfaXNzdWVfY21kbGlzdAo+Pj4+PiDCoMKgwqDCoMKgIDExLjcx
+JcKgIFtrZXJuZWxdwqDCoMKgwqDCoMKgwqDCoMKgIFtrXSBfcmF3X3NwaW5fdW5sb2NrX2lycXJl
+c3RvcmUKPj4+Pj4gwqDCoMKgwqDCoMKgIDYuMzUlwqAgW2tlcm5lbF3CoMKgwqDCoMKgwqDCoMKg
+wqAgW2tdIF9yYXdfc3Bpbl91bmxvY2tfaXJxCj4+Pj4+IMKgwqDCoMKgwqDCoCAyLjY1JcKgIFtr
+ZXJuZWxdwqDCoMKgwqDCoMKgwqDCoMKgIFtrXSBnZXRfdXNlcl9wYWdlc19mYXN0Cj4+Pj4+IMKg
+wqDCoMKgwqDCoCAyLjAzJcKgIFtrZXJuZWxdwqDCoMKgwqDCoMKgwqDCoMKgIFtrXSBfX3NsYWJf
+ZnJlZQo+Pj4+PiDCoMKgwqDCoMKgwqAgMS41NSXCoCBba2VybmVsXcKgwqDCoMKgwqDCoMKgwqDC
+oCBba10gdGlja19ub2h6X2lkbGVfZXhpdAo+Pj4+PiDCoMKgwqDCoMKgwqAgMS40NyXCoCBba2Vy
+bmVsXcKgwqDCoMKgwqDCoMKgwqDCoCBba10gYXJtX2xwYWVfbWFwCj4+Pj4+IMKgwqDCoMKgwqDC
+oCAxLjM5JcKgIFtrZXJuZWxdwqDCoMKgwqDCoMKgwqDCoMKgIFtrXSBfX2ZnZXQKPj4+Pj4gwqDC
+oMKgwqDCoMKgIDEuMTQlwqAgW2tlcm5lbF3CoMKgwqDCoMKgwqDCoMKgwqAgW2tdIF9fbG9ja190
+ZXh0X3N0YXJ0Cj4+Pj4+IMKgwqDCoMKgwqDCoCAxLjA5JcKgIFtrZXJuZWxdwqDCoMKgwqDCoMKg
+wqDCoMKgIFtrXSBfcmF3X3NwaW5fbG9jawo+Pj4+PiDCoMKgwqDCoMKgwqAgMS4wOCXCoCBba2Vy
+bmVsXcKgwqDCoMKgwqDCoMKgwqDCoCBba10gYmlvX3JlbGVhc2VfcGFnZXMucGFydC40Mgo+Pj4+
+PiDCoMKgwqDCoMKgwqAgMS4wMyXCoCBba2VybmVsXcKgwqDCoMKgwqDCoMKgwqDCoCBba10gX19z
+Yml0bWFwX2dldF93b3JkCj4+Pj4+IMKgwqDCoMKgwqDCoCAwLjk3JcKgIFtrZXJuZWxdwqDCoMKg
+wqDCoMKgwqDCoMKgIFtrXSAKPj4+Pj4gYXJtX3NtbXVfYXRjX2ludl9kb21haW4uY29uc3Rwcm9w
+LjQyCj4+Pj4+IMKgwqDCoMKgwqDCoCAwLjkxJcKgIFtrZXJuZWxdwqDCoMKgwqDCoMKgwqDCoMKg
+IFtrXSBmcHV0X21hbnkKPj4+Pj4gwqDCoMKgwqDCoMKgIDAuODglwqAgW2tlcm5lbF3CoMKgwqDC
+oMKgwqDCoMKgwqAgW2tdIF9fYXJtX2xwYWVfbWFwCj4+Pj4+CgpIaSBXaWxsLCBSb2JpbiwKCkkn
+bSBqdXN0IGdldHRpbmcgYXJvdW5kIHRvIGxvb2sgYXQgdGhpcyB0b3BpYyBhZ2Fpbi4gSGVyZSdz
+IHRoZSBjdXJyZW50IApwaWN0dXJlIGZvciBteSBOVk1lIHRlc3Q6CgpwZXJmIHRvcCAtQyAwICoK
+U2FtcGxlczogODA4IG9mIGV2ZW50ICdjeWNsZXM6cHBwJywgRXZlbnQgY291bnQgKGFwcHJveC4p
+OiA0Njk5MDkwMjQKT3ZlcmhlYWQgU2hhcmVkIE9iamVjdCBTeW1ib2wKNzUuOTElIFtrZXJuZWxd
+IFtrXSBhcm1fc21tdV9jbWRxX2lzc3VlX2NtZGxpc3QKMy4yOCUgW2tlcm5lbF0gW2tdIGFybV9z
+bW11X3RsYl9pbnZfcmFuZ2UKMi40MiUgW2tlcm5lbF0gW2tdIGFybV9zbW11X2F0Y19pbnZfZG9t
+YWluLmNvbnN0cHJvcC40OQoyLjM1JSBba2VybmVsXSBba10gX3Jhd19zcGluX3VubG9ja19pcnFy
+ZXN0b3JlCjEuMzIlIFtrZXJuZWxdIFtrXSBfX2FybV9zbW11X2NtZHFfcG9sbF9zZXRfdmFsaWRf
+bWFwLmlzcmEuNDEKMS4yMCUgW2tlcm5lbF0gW2tdIGFpb19jb21wbGV0ZV9ydwowLjk2JSBba2Vy
+bmVsXSBba10gZW5xdWV1ZV90YXNrX2ZhaXIKMC45MyUgW2tlcm5lbF0gW2tdIGdpY19oYW5kbGVf
+aXJxCjAuODYlIFtrZXJuZWxdIFtrXSBfcmF3X3NwaW5fbG9ja19pcnFzYXZlCjAuNzIlIFtrZXJu
+ZWxdIFtrXSBwdXRfcmVxc19hdmFpbGFibGUKMC43MiUgW2tlcm5lbF0gW2tdIHNiaXRtYXBfcXVl
+dWVfY2xlYXIKCiogb25seSBjZXJ0YWluIENQVXMgcnVuIHRoZSBkbWEgdW5tYXAgZm9yIG15IHNj
+ZW5hcmlvLCBjcHUwIGJlaW5nIG9uZSBvZiAKdGhlbS4KCkNvbGxlYWd1ZSBCYXJyeSBoYXMgc2lt
+aWxhciBmaW5kaW5ncyBmb3Igc29tZSBvdGhlciBzY2VuYXJpb3MuCgpTbyB3ZSB0cmllZCB0aGUg
+bGF0ZXN0IHBlcmYgTk1JIHN1cHBvcnQgd2lwIHBhdGNoZXMsIGFuZCBub3RpY2VkIGEgZmV3IApo
+b3RzcG90cyAoc2VlIApodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vaGlzaWxpY29u
+L2tlcm5lbC1kZXYvZmVlNjljOGNhMzc4NGI5ZGQzOTEyNzAzY2ZjZDQ5ODVhMDBmNmJiYi9wZXJm
+JTIwYW5ub3RhdGUgCmFuZCAKaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2hpc2ls
+aWNvbi9rZXJuZWwtZGV2L2ZlZTY5YzhjYTM3ODRiOWRkMzkxMjcwM2NmY2Q0OTg1YTAwZjZiYmIv
+cmVwb3J0LnR4dCkgCndoZW4gcnVubmluZyBzb21lIE5WTWUgdHJhZmZpYzoKCi0gaW5pdGlhbCBj
+bXB4Y2hnIHRvIGdldCBhIHBsYWNlIGluIHRoZSBxdWV1ZQoJLSB3aGVuIG1vcmUgQ1BVcyBnZXQg
+aW52b2x2ZWQsIHdlIHN0YXJ0IGZhaWxpbmcgYXQgYW4gZXhwb25lbnRpYWwgcmF0ZQowLjAwIDog
+ICAgICAgIGZmZmY4MDAwMTA3YTM1MDA6ICAgICAgIGNhcyAgICAgeDQsIHgyLCBbeDI3XQoyNi41
+MiA6ICAgICAgICBmZmZmODAwMDEwN2EzNTA0OiAgICAgICBtb3YgICAgIHgwLCB4NCA6IAphcm1f
+c21tdV9jbWRxX2lzc3VlX2NtZGxpc3QoKToKCi0gdGhlIHF1ZXVlIGxvY2tpbmcKLSBwb2xsaW5n
+IGNtZF9zeW5jCgpTb21lIGlkZWFzIHRvIG9wdGltaXNlOgoKYS4gaW5pdGlhbCBjbXB4Y2hnClNv
+IHRoaXMgY21weGNoZyBjb3VsZCBiZSBjb25zaWRlcmVkIHVuZmFpci4gSW4gYWRkaXRpb24sIHdp
+dGggYWxsIHRoZSAKY29udGVudGlvbiBvbiBhcm1fc21tdV9jbWRxLnEsIHRoYXQgY2FjaGVsaW5l
+IHdvdWxkIGJlIGNvbnN0YW50bHkgcGluZ2VkIAphcm91bmQgdGhlIHN5c3RlbS4KTWF5YmUgd2Ug
+Y2FuIGltcGxlbWVudCBzb21ldGhpbmcgc2ltaWxhciB0byB0aGUgaWRlYSBvZiBxdWV1ZWQvdGlj
+a2V0ZWQgCnNwaW5sb2NrcywgbWFraW5nIGEgQ1BVIHNwaW4gb24gb3duIGNvcHkgb2YgYXJtX3Nt
+bXVfY21kcS5xIGFmdGVyIAppbml0aWFsIGNtcHhjaGcgZmFpbHMsIHJlbGVhc2VkIGJ5IGl0cyBs
+ZWFkZXIsIGFuZCByZWxlYXNpbmcgc3Vic2VxdWVudCAKZm9sbG93ZXJzCgpiLiBEcm9wIHRoZSBx
+dWV1ZV9mdWxsIGNoZWNraW5nIGluIGNlcnRhaW4gY2lyY3Vtc3RhbmNlcwpJZiB3ZSBjYW5ub3Qg
+dGhlb3JldGljYWxseSBmaWxsIHRoZSBxdWV1ZSwgdGhlbiBzdG9wIHRoZSBjaGVja2luZyBmb3Ig
+CnF1ZXVlIGZ1bGwgb3Igc2ltaWxhci4gVGhpcyBzaG91bGQgYWxzbyBoZWxwIGN1cnJlbnQgcHJv
+YmxlbSBvZiBhLiwgYXMgCnRoZSBsZXNzIHRpbWUgYmV0d2VlbiBjbXB4Y2hnLCB0aGUgbGVzcyBj
+aGFuY2Ugb2YgZmFpbGluZyAoYXMgd2UgY2hlY2sgCnF1ZXVlIGF2YWlsYWJsZSBzcGFjZSBiZXR3
+ZWVuIGNtcHhjaGcgYXR0ZW1wdHMpLgoKU28gaWYgY21kcSBkZXB0aCA+IG5yX2F2YWlsYWJsZV9j
+cHVzICogKG1heCBiYXRjaCBzaXplICsgMSkgQU5EIHdlIAphbHdheXMgaXNzdWUgYSBjbWRfc3lu
+YyBmb3IgYSBiYXRjaCAocmVnYXJkbGVzcyBvZiB3aGV0aGVyIHJlcXVlc3RlZCksIAp0aGVuIHdl
+IHNob3VsZCBuZXZlciBmaWxsIChJIHRoaW5rKS4KCmMuIERvbid0IGRvIHF1ZXVlIGxvY2tpbmcg
+aW4gY2VydGFpbiBjaXJjdW1zdGFuY2VzCklmIHdlIGltcGxlbWVudCAoYW5kIHN1cHBvcnQpIGIu
+IGFuZCBzdXBwb3J0IE1TSSBwb2xsaW5nLCB0aGVuIEkgZG9uJ3QgCnRoaW5rIHRoYXQgdGhpcyBp
+cyByZXF1aXJlZC4KCmQuIE1vcmUgbWlub3IgaWRlYXMgYXJlIHRvIG1vdmUgZm9yd2FyZCB3aGVu
+IHRoZSAib3duZXIiIHN0b3BzIGdhdGhlcmluZyAKdG8gcmVkdWNlIHRpbWUgb2YgYWR2YW5jaW5n
+IHRoZSBwcm9kLCBob3BlZnVsbHkgcmVkdWNpbmcgY21kX3N5bmMgCnBvbGxpbmcgdGltZTsgYW5k
+IGFsc28gdXNlIGEgc21hbGxlciB3b3JkIHNpemUgZm9yIHRoZSB2YWxpZCBiaXRtYXAgCm9wZXJh
+dGlvbnMsIG1heWJlIDMyYiBhdG9taWMgb3BlcmF0aW9ucyBhcmUgb3ZlcmFsbCBtb3JlIGVmZmlj
+aWVudCAodGhhbiAKNjRiKSAtIG1vc3RseSB2YWxpZCByYW5nZSBjaGVjayBpcyA8IDE2IGJpdHMg
+ZnJvbSBteSBvYnNlcnZhdGlvbi4KCkxldCBtZSBrbm93IHlvdXIgdGhvdWdodHMgb3IgYW55IG90
+aGVyIGlkZWFzLgoKVGhhbmtzLApKb2huCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91
+bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlz
+dGluZm8vaW9tbXU=
