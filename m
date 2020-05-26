@@ -2,76 +2,84 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C691D1E1DFA
-	for <lists.iommu@lfdr.de>; Tue, 26 May 2020 11:09:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DBC71E20E1
+	for <lists.iommu@lfdr.de>; Tue, 26 May 2020 13:32:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 827CB883A8;
-	Tue, 26 May 2020 09:09:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B5A8B883CB;
+	Tue, 26 May 2020 11:32:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 61bFZqYG+r+G; Tue, 26 May 2020 09:09:08 +0000 (UTC)
+	with ESMTP id on30q2NnmxYQ; Tue, 26 May 2020 11:32:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EB7698838F;
-	Tue, 26 May 2020 09:09:08 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D643F883A4;
+	Tue, 26 May 2020 11:32:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C237EC016F;
-	Tue, 26 May 2020 09:09:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B584BC016F;
+	Tue, 26 May 2020 11:32:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7C53CC016F
- for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 09:09:06 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 47840C016F
+ for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 11:32:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 6F55885F50
- for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 09:09:06 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 329CD88265
+ for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 11:32:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6uvz3KsgJQX7 for <iommu@lists.linux-foundation.org>;
- Tue, 26 May 2020 09:09:05 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
- [209.85.221.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 955A885F15
- for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 09:09:05 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id c3so15364145wru.12
- for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 02:09:05 -0700 (PDT)
+ with ESMTP id gyfYv+C8dmvM for <iommu@lists.linux-foundation.org>;
+ Tue, 26 May 2020 11:31:59 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id D1A2F87F5D
+ for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 11:31:59 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id d7so15951458ote.6
+ for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 04:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=edTucrrhXN6V4llb+iJ6E89JH542mkCUYUO4cFFBSq8=;
+ b=aGN8/fYlBZtC/O0HPJioAJDFXEl1EKIqh48gVGEseZge1RSD+6ZJ+Vd1Ygk7WsUiBQ
+ 2koLpbOnSxVT+v4ugow+jFX2DiKRsHvM/7p+yEm/ZUa0ijbY2x4j1GqJXf51BsbzMDnD
+ BQSFbmNzjABlRFcmrqZN1EwG4aypCM6kLqRH0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=mKd3JTZJplU94QhSKbd/esureWVCaIfQr3MBhsFOydU=;
- b=uHawcrZ+olrio5JDmIr/B8ozclX57tO90dnhhW5Zk77CFz2dhN5+FHfJeb/CNo4MA5
- J3QM0WG3IW669omDLVUDSOh/oJ+FS75ivo+iqe2K6lGtR8bks3Z5qnwRJGVPlkzeACNe
- HncpEVvEkCuyg9QACgVuM+bs83++CgWGohCKNNbr/nSL32W3xLc5aOsX3G0QxJYqTwlq
- u0TDapSlAjnU3Q7rJ4bEr4Qrmk2X1qLfO39DTRfVkFESddKwZJQhPDSIDxMbU2n1GWsQ
- 1YlIPnoUEbWB+wfYZaOfhdXkG2YZM5LffTkBITk3+w3y08JtLlW6Mi7Z4lpxCvbIwsqf
- /z7w==
-X-Gm-Message-State: AOAM530NAzO96aSUVLO8KknZJG+yGZBgZRyd81MEJgVbHIK5CopNdSW0
- 5Q/kM8GJOSo9deQD3B82tUY=
-X-Google-Smtp-Source: ABdhPJzPzLK8j+Jjs7Zi3RaE1b1BwpiXzaWJ/jf4rjIE+RvGFP9AEm4LkOXcV313giaSc3ZJ2hBKvw==
-X-Received: by 2002:adf:f702:: with SMTP id r2mr19812123wrp.191.1590484144074; 
- Tue, 26 May 2020 02:09:04 -0700 (PDT)
-Received: from debian (82.149.115.87.dyn.plus.net. [87.115.149.82])
- by smtp.gmail.com with ESMTPSA id n17sm20446723wrr.42.2020.05.26.02.09.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 May 2020 02:09:03 -0700 (PDT)
-Date: Tue, 26 May 2020 10:09:01 +0100
-From: Wei Liu <wei.liu@kernel.org>
-To: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Subject: Re: [PATCH 1/2] iommu/hyper-v: Constify hyperv_ir_domain_ops
-Message-ID: <20200526090901.xuzobaw2v4lapfdc@debian>
-References: <20200525214958.30015-1-rikard.falkeborn@gmail.com>
- <20200525214958.30015-2-rikard.falkeborn@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=edTucrrhXN6V4llb+iJ6E89JH542mkCUYUO4cFFBSq8=;
+ b=X3i9bDMjSmD9qtsM4U8m9znlF5XBcR9p7in4CfJTLi5Erf5vXlEU/D17FZHgliIBaA
+ HAL0t2Nq2YgdIx3+ZX53tBb7UH8z5KfvLz1JKX9tz2eTlfonobCWGE8PVE12jWU1LtXF
+ elyOKBahKUUK6uEd1Q4xMYhm2IQtpHvNkfLWH8ArLCUbAagrJmHCrJI/f0/JYgX/x3EX
+ Wf8KW3WKFED3SdQlSe05WZsZmxlxs9ZiXcO41nKm1SQr/c38V+8z1CyFWKDpJs83JEAk
+ kOtyhcUnavSu5SbqS2s274BpHgA4udZfR9JHU6OBEyXrP2eqQ+D6Y9FdiYP0DkAUDqUd
+ HWvA==
+X-Gm-Message-State: AOAM531nVacsm/1pj3QCNxdFMyyyps+PTsOUcSLnj38TlbhHELMeOHS0
+ yJ3UZcvWJ/W7yUxwpQ41fRSCCFBRZcwGXQc9QKqj5A==
+X-Google-Smtp-Source: ABdhPJzCrvWpIr7oiZie/ZO14zr8xx2eKHZLh/b7YFaD0J7MeUVnKhbsTaugx/2157KZB7xg+CLgr312FbFucLK+W50=
+X-Received: by 2002:a9d:600e:: with SMTP id h14mr497056otj.281.1590492719014; 
+ Tue, 26 May 2020 04:31:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200525214958.30015-2-rikard.falkeborn@gmail.com>
-User-Agent: NeoMutt/20180716
-Cc: Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>
+References: <CGME20200513132127eucas1p23f6be10bbd627e69e36d2451068b3204@eucas1p2.samsung.com>
+ <20200513132114.6046-1-m.szyprowski@samsung.com>
+ <20200513134741.GA12712@lst.de>
+ <83d04017-c6f2-d714-963c-ffa9c7248790@samsung.com>
+In-Reply-To: <83d04017-c6f2-d714-963c-ffa9c7248790@samsung.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 26 May 2020 13:31:47 +0200
+Message-ID: <CAKMK7uFkvhytb9vKng+2_LuaLFvnEB_5e2s5EAWnVgA9VjRwZA@mail.gmail.com>
+Subject: Re: [PATCH v5 00/38] DRM: fix struct sg_table nents vs. orig_nents
+ misuse
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,42 +97,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, May 25, 2020 at 11:49:57PM +0200, Rikard Falkeborn wrote:
-> The struct hyperv_ir_domain_ops is not modified and can be made const to
-> allow the compiler to put it in read-only memory.
-> 
-> Before:
->    text    data     bss     dec     hex filename
->    2916    1180    1120    5216    1460 drivers/iommu/hyperv-iommu.o
-> 
-> After:
->    text    data     bss     dec     hex filename
->    3044    1052    1120    5216    1460 drivers/iommu/hyperv-iommu.o
-> 
-> Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+On Tue, May 26, 2020 at 9:01 AM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> Hi
+>
+> On 13.05.2020 15:47, Christoph Hellwig wrote:
+> > I've pushed out a branch with the first three patches here:
+> >
+> >     git://git.infradead.org/users/hch/dma-mapping.git dma-sg_table-helper
+> >
+> > Gitweb:
+> >
+> >     http://git.infradead.org/users/hch/dma-mapping.git/shortlog/refs/heads/dma-sg_table-helper
+> >
+> > and merged it into the dma-mapping for-next tree.  Unless someone shouts
+> > the branch should be considered immutable in 24 hours.
+>
+> David & Daniel: could you merge all the DRM related changes on top of
+> the provided branch? Merging those changes separately would take a lots
+> of time because of the dependencies on the sgtable helpers and changes
+> in the DRM core.
 
-Acked-by: Wei Liu <wei.liu@kernel.org>
+We generally freeze drm for big rework past -rc6 (small drivers tend
+to be a bit later). I think simpler if we just land this in the merge
+window and then smash the drm patches on top for 5.9 merge window.
 
-> ---
->  drivers/iommu/hyperv-iommu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
-> index a386b83e0e34..3c0c67a99c7b 100644
-> --- a/drivers/iommu/hyperv-iommu.c
-> +++ b/drivers/iommu/hyperv-iommu.c
-> @@ -131,7 +131,7 @@ static int hyperv_irq_remapping_activate(struct irq_domain *domain,
->  	return 0;
->  }
->  
-> -static struct irq_domain_ops hyperv_ir_domain_ops = {
-> +static const struct irq_domain_ops hyperv_ir_domain_ops = {
->  	.alloc = hyperv_irq_remapping_alloc,
->  	.free = hyperv_irq_remapping_free,
->  	.activate = hyperv_irq_remapping_activate,
-> -- 
-> 2.26.2
-> 
+Or all in in the same topic branch, but feels a bit late for that and
+making sure nothing breaks.
+-Daniel
+
+>
+> Best regards
+> --
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
+>
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
