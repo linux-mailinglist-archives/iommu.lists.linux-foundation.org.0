@@ -1,61 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A961E2C02
-	for <lists.iommu@lfdr.de>; Tue, 26 May 2020 21:11:16 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB311E2B55
+	for <lists.iommu@lfdr.de>; Tue, 26 May 2020 21:04:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id E130A230BD;
-	Tue, 26 May 2020 19:11:14 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7B613886D1;
+	Tue, 26 May 2020 19:04:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LtmZ43PExGvw; Tue, 26 May 2020 19:11:13 +0000 (UTC)
+	with ESMTP id wJ7bwvIvZDTx; Tue, 26 May 2020 19:04:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id CB4872288E;
-	Tue, 26 May 2020 19:11:13 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 07E0D886C5;
+	Tue, 26 May 2020 19:04:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AD21CC016F;
-	Tue, 26 May 2020 19:11:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DDA93C016F;
+	Tue, 26 May 2020 19:04:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8C5FFC016F
- for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 19:11:12 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A85BEC016F
+ for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 19:04:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 842E8230BD
- for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 19:11:12 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 5CD68230FD
+ for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 19:04:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wv8Ebi-G2UAl for <iommu@lists.linux-foundation.org>;
- Tue, 26 May 2020 19:11:10 +0000 (UTC)
+ with ESMTP id AIySq4Qdmb81 for <iommu@lists.linux-foundation.org>;
+ Tue, 26 May 2020 19:04:05 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id A64A123491
- for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 19:11:10 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id C19D1230BD
+ for <iommu@lists.linux-foundation.org>; Tue, 26 May 2020 19:04:05 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E1FF520888;
- Tue, 26 May 2020 19:11:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id DA3C6208B3;
+ Tue, 26 May 2020 19:04:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1590520270;
- bh=ECHHm1tjjPiVV5BIUfnlAx1LvvWnDMygf0UXIqwcJhQ=;
+ s=default; t=1590519845;
+ bh=iOAwMRBSlHy9XiMQy0/QkkEIEB2ri9V80CPULmrxMVo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=2TZAVr4eSX95Ris7Vtv2FHOyiZz97dYZgt2LUinVpkQL9WL8FUhq37xy/JPeYkX4T
- Yt7pItYTB826CIqj7yYOvXlWSqBRzEnAZ0CwVXDWLmz9jaS0du3SnBYN8b+Z/okP+W
- n5fNgcruqVT7AB353aTAZP0KJL3XyCCb7XdapseY=
+ b=uygF6mnmu44+2LXYNRceyW+TN36NBtQTgyvjz0SOBjvv77JxjDDUDg7jDJ9VzW1zQ
+ 6118+ll/58SGgEifAKaHw5Jhhx49jrBkeliDy9wkg/PXPVLrieXxfXPfJb0Oni8nFZ
+ Epiap2+T8yvheLW5zodJnSntRk5XEYpO9Lb8rDEU=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.6 014/126] iommu/amd: Fix over-read of ACPI UID from IVRS
+Subject: [PATCH 4.19 12/81] iommu/amd: Fix over-read of ACPI UID from IVRS
  table
-Date: Tue, 26 May 2020 20:52:31 +0200
-Message-Id: <20200526183938.780946925@linuxfoundation.org>
+Date: Tue, 26 May 2020 20:52:47 +0200
+Message-Id: <20200526183927.467526457@linuxfoundation.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200526183937.471379031@linuxfoundation.org>
-References: <20200526183937.471379031@linuxfoundation.org>
+In-Reply-To: <20200526183923.108515292@linuxfoundation.org>
+References: <20200526183923.108515292@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Cc: Sasha Levin <sashal@kernel.org>, Joerg Roedel <jroedel@suse.de>,
@@ -120,10 +120,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
-index 2b9a67ecc6ac..5b81fd16f5fa 100644
+index 2557ed112bc2..c7d0bb3b4a30 100644
 --- a/drivers/iommu/amd_iommu_init.c
 +++ b/drivers/iommu/amd_iommu_init.c
-@@ -1329,8 +1329,8 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
+@@ -1334,8 +1334,8 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
  		}
  		case IVHD_DEV_ACPI_HID: {
  			u16 devid;
@@ -134,7 +134,7 @@ index 2b9a67ecc6ac..5b81fd16f5fa 100644
  			int ret;
  
  			if (h->type != 0x40) {
-@@ -1347,6 +1347,7 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
+@@ -1352,6 +1352,7 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
  				break;
  			}
  
@@ -142,7 +142,7 @@ index 2b9a67ecc6ac..5b81fd16f5fa 100644
  			switch (e->uidf) {
  			case UID_NOT_PRESENT:
  
-@@ -1361,8 +1362,8 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
+@@ -1366,8 +1367,8 @@ static int __init init_iommu_from_acpi(struct amd_iommu *iommu,
  				break;
  			case UID_IS_CHARACTER:
  
