@@ -2,69 +2,56 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D293B1E45EE
-	for <lists.iommu@lfdr.de>; Wed, 27 May 2020 16:31:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 856C21E464D
+	for <lists.iommu@lfdr.de>; Wed, 27 May 2020 16:45:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7E3D786BAE;
-	Wed, 27 May 2020 14:31:02 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3BCF8849A3;
+	Wed, 27 May 2020 14:45:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rRQ-5gEvWAgh; Wed, 27 May 2020 14:31:01 +0000 (UTC)
+	with ESMTP id fqGCr-mEsTNz; Wed, 27 May 2020 14:45:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 32E6A86B8E;
-	Wed, 27 May 2020 14:31:01 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CD5A084989;
+	Wed, 27 May 2020 14:45:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1AE77C016F;
-	Wed, 27 May 2020 14:31:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B14EDC016F;
+	Wed, 27 May 2020 14:45:27 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F0A17C016F
- for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 14:30:58 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7B55BC016F
+ for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 14:45:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DE0AC86B8E
- for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 14:30:58 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 6A40C8484B
+ for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 14:45:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id T197gqrUwEyD for <iommu@lists.linux-foundation.org>;
- Wed, 27 May 2020 14:30:56 +0000 (UTC)
+ with ESMTP id 4KwYK0ZeqBQi for <iommu@lists.linux-foundation.org>;
+ Wed, 27 May 2020 14:45:26 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id CA3EA86B81
- for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 14:30:55 +0000 (UTC)
-Received: from zn.tnic (p200300ec2f0b870090dfd18f578962de.dip0.t-ipconnect.de
- [IPv6:2003:ec:2f0b:8700:90df:d18f:5789:62de])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 77CFD1EC0318;
- Wed, 27 May 2020 16:30:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1590589852;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=2LqA16cllcM9c+jwERRurW+RQE4oqz+AcFxnY1Ja6Rs=;
- b=ALBgDOjCCDNNPxAuvrg15Iz6Xx0Qb1XkjF/HdK4hSLHLhTzg2V9sr4JF2PRPXfpLxANBCJ
- 9AajydRV7HDSivfoFQ9lSu/OKXe+Kth1J+xvSr78tXIBWUlieckIcX8bSkv4RI5V0BZxfv
- YKcTlsPdylVRZL5SQWVkfPHfRHBn8sk=
-Date: Wed, 27 May 2020 16:30:46 +0200
-From: Borislav Petkov <bp@alien8.de>
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id CC93C84812
+ for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 14:45:25 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 985AE3C3; Wed, 27 May 2020 16:45:22 +0200 (CEST)
+Date: Wed, 27 May 2020 16:45:21 +0200
+From: Joerg Roedel <joro@8bytes.org>
 To: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH 2/2] x86: Hide the archdata.iommu field behind generic
+Subject: Re: [PATCH 1/2] ia64: Hide the archdata.iommu field behind generic
  IOMMU_API
-Message-ID: <20200527143046.GB1721@zn.tnic>
+Message-ID: <20200527144521.GL5221@8bytes.org>
 References: <20200518120855.27822-1-krzk@kernel.org>
- <20200518120855.27822-2-krzk@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200518120855.27822-2-krzk@kernel.org>
+In-Reply-To: <20200518120855.27822-1-krzk@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: Fenghua Yu <fenghua.yu@intel.com>, Tony Luck <tony.luck@intel.com>,
  linux-ia64@vger.kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
  iommu@lists.linux-foundation.org, Ingo Molnar <mingo@redhat.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>
+ Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
+ Thomas Gleixner <tglx@linutronix.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,47 +69,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, May 18, 2020 at 02:08:55PM +0200, Krzysztof Kozlowski wrote:
+On Mon, May 18, 2020 at 02:08:54PM +0200, Krzysztof Kozlowski wrote:
 > There is a generic, kernel wide configuration symbol for enabling the
 > IOMMU specific bits: CONFIG_IOMMU_API.  Implementations (including
-> INTEL_IOMMU and AMD_IOMMU driver) select it so use it here as well.
+> INTEL_IOMMU driver) select it so use it here as well.
 > 
 > This makes the conditional archdata.iommu field consistent with other
 > platforms and also fixes any compile test builds of other IOMMU drivers,
-> when INTEL_IOMMU or AMD_IOMMU are not selected).
+> when INTEL_IOMMU is not selected).
 > 
-> For the case when INTEL_IOMMU/AMD_IOMMU and COMPILE_TEST are not
-> selected, this should create functionally equivalent code/choice.  With
-> COMPILE_TEST this field could appear if other IOMMU drivers are chosen
-> but neither INTEL_IOMMU nor AMD_IOMMU are not.
+> For the case when INTEL_IOMMU and COMPILE_TEST are not selected, this
+> should create functionally equivalent code/choice.  With COMPILE_TEST
+> this field could appear if other IOMMU drivers are chosen but
+> INTEL_IOMMU not.
 > 
 > Reported-by: kbuild test robot <lkp@intel.com>
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  arch/x86/include/asm/device.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/arch/x86/include/asm/device.h b/arch/x86/include/asm/device.h
-> index 7e31f7f1bb06..49bd6cf3eec9 100644
-> --- a/arch/x86/include/asm/device.h
-> +++ b/arch/x86/include/asm/device.h
-> @@ -3,7 +3,7 @@
->  #define _ASM_X86_DEVICE_H
->  
->  struct dev_archdata {
-> -#if defined(CONFIG_INTEL_IOMMU) || defined(CONFIG_AMD_IOMMU)
-> +#ifdef CONFIG_IOMMU_API
->  	void *iommu; /* hook for IOMMU specific extension */
->  #endif
->  };
+> ---
+> 
+> See:
+> https://lore.kernel.org/lkml/202005181412.frC4juFy%25lkp@intel.com/
+> ---
+>  arch/ia64/include/asm/device.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Borislav Petkov <bp@suse.de>
+Applied both to iommu/fixes.
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
