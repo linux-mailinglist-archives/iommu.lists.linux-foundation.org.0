@@ -1,46 +1,46 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC141E4085
-	for <lists.iommu@lfdr.de>; Wed, 27 May 2020 13:53:38 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7271E4080
+	for <lists.iommu@lfdr.de>; Wed, 27 May 2020 13:53:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 61D5D86D2A;
-	Wed, 27 May 2020 11:53:37 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 258F288798;
+	Wed, 27 May 2020 11:53:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jITVp5xltWA5; Wed, 27 May 2020 11:53:33 +0000 (UTC)
+	with ESMTP id jScfGkYh-LU7; Wed, 27 May 2020 11:53:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 29DF586D41;
+	by hemlock.osuosl.org (Postfix) with ESMTP id 69BD78878A;
 	Wed, 27 May 2020 11:53:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 14649C016F;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4F720C016F;
 	Wed, 27 May 2020 11:53:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2CA7AC016F
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4EF9AC088D
  for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id F2FB788773
- for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:30 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 386BF2322B
+ for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id x+TdRwyKdMCP for <iommu@lists.linux-foundation.org>;
+ with ESMTP id 02ZSTOAXpn9z for <iommu@lists.linux-foundation.org>;
  Wed, 27 May 2020 11:53:29 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 7CCA988767
+ by silver.osuosl.org (Postfix) with ESMTPS id AFDF023E65
  for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:29 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 7B2F24A6; Wed, 27 May 2020 13:53:24 +0200 (CEST)
+ id A66554F0; Wed, 27 May 2020 13:53:24 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 08/10] iommu/amd: Merge private header files
-Date: Wed, 27 May 2020 13:53:11 +0200
-Message-Id: <20200527115313.7426-9-joro@8bytes.org>
+Subject: [PATCH 09/10] iommu/amd: Store dev_data as device iommu private data
+Date: Wed, 27 May 2020 13:53:12 +0200
+Message-Id: <20200527115313.7426-10-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200527115313.7426-1-joro@8bytes.org>
 References: <20200527115313.7426-1-joro@8bytes.org>
@@ -66,312 +66,180 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Merge amd_iommu_proto.h into amd_iommu.h.
+Do not use dev->archdata.iommu anymore and switch to using the private
+per-device pointer provided by the IOMMU core code.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/amd/amd_iommu.h       | 96 +++++++++++++++++++++++++++-
- drivers/iommu/amd/amd_iommu_proto.h | 97 -----------------------------
- drivers/iommu/amd/debugfs.c         |  5 +-
- drivers/iommu/amd/init.c            |  4 +-
- drivers/iommu/amd/iommu.c           |  4 +-
- drivers/iommu/amd/iommu_v2.c        |  4 +-
- 6 files changed, 100 insertions(+), 110 deletions(-)
- delete mode 100644 drivers/iommu/amd/amd_iommu_proto.h
+ drivers/iommu/amd/iommu.c | 44 +++++++++++++++++++--------------------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/iommu/amd/amd_iommu.h b/drivers/iommu/amd/amd_iommu.h
-index 12d540d9b59b..f892992c8744 100644
---- a/drivers/iommu/amd/amd_iommu.h
-+++ b/drivers/iommu/amd/amd_iommu.h
-@@ -1,9 +1,103 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2009-2010 Advanced Micro Devices, Inc.
-+ * Author: Joerg Roedel <jroedel@suse.de>
-+ */
- 
- #ifndef AMD_IOMMU_H
- #define AMD_IOMMU_H
- 
--int __init add_special_device(u8 type, u8 id, u16 *devid, bool cmd_line);
-+#include <linux/iommu.h>
-+
-+#include "amd_iommu_types.h"
-+
-+extern int amd_iommu_get_num_iommus(void);
-+extern int amd_iommu_init_dma_ops(void);
-+extern int amd_iommu_init_passthrough(void);
-+extern irqreturn_t amd_iommu_int_thread(int irq, void *data);
-+extern irqreturn_t amd_iommu_int_handler(int irq, void *data);
-+extern void amd_iommu_apply_erratum_63(u16 devid);
-+extern void amd_iommu_reset_cmd_buffer(struct amd_iommu *iommu);
-+extern int amd_iommu_init_devices(void);
-+extern void amd_iommu_uninit_devices(void);
-+extern void amd_iommu_init_notifier(void);
-+extern int amd_iommu_init_api(void);
-+
-+#ifdef CONFIG_AMD_IOMMU_DEBUGFS
-+void amd_iommu_debugfs_setup(struct amd_iommu *iommu);
-+#else
-+static inline void amd_iommu_debugfs_setup(struct amd_iommu *iommu) {}
-+#endif
-+
-+/* Needed for interrupt remapping */
-+extern int amd_iommu_prepare(void);
-+extern int amd_iommu_enable(void);
-+extern void amd_iommu_disable(void);
-+extern int amd_iommu_reenable(int);
-+extern int amd_iommu_enable_faulting(void);
-+extern int amd_iommu_guest_ir;
-+
-+/* IOMMUv2 specific functions */
-+struct iommu_domain;
-+
-+extern bool amd_iommu_v2_supported(void);
-+extern int amd_iommu_register_ppr_notifier(struct notifier_block *nb);
-+extern int amd_iommu_unregister_ppr_notifier(struct notifier_block *nb);
-+extern void amd_iommu_domain_direct_map(struct iommu_domain *dom);
-+extern int amd_iommu_domain_enable_v2(struct iommu_domain *dom, int pasids);
-+extern int amd_iommu_flush_page(struct iommu_domain *dom, int pasid,
-+				u64 address);
-+extern int amd_iommu_flush_tlb(struct iommu_domain *dom, int pasid);
-+extern int amd_iommu_domain_set_gcr3(struct iommu_domain *dom, int pasid,
-+				     unsigned long cr3);
-+extern int amd_iommu_domain_clear_gcr3(struct iommu_domain *dom, int pasid);
-+extern struct iommu_domain *amd_iommu_get_v2_domain(struct pci_dev *pdev);
-+
-+#ifdef CONFIG_IRQ_REMAP
-+extern int amd_iommu_create_irq_domain(struct amd_iommu *iommu);
-+#else
-+static inline int amd_iommu_create_irq_domain(struct amd_iommu *iommu)
-+{
-+	return 0;
-+}
-+#endif
-+
-+#define PPR_SUCCESS			0x0
-+#define PPR_INVALID			0x1
-+#define PPR_FAILURE			0xf
-+
-+extern int amd_iommu_complete_ppr(struct pci_dev *pdev, int pasid,
-+				  int status, int tag);
-+
-+static inline bool is_rd890_iommu(struct pci_dev *pdev)
-+{
-+	return (pdev->vendor == PCI_VENDOR_ID_ATI) &&
-+	       (pdev->device == PCI_DEVICE_ID_RD890_IOMMU);
-+}
-+
-+static inline bool iommu_feature(struct amd_iommu *iommu, u64 f)
-+{
-+	if (!(iommu->cap & (1 << IOMMU_CAP_EFR)))
-+		return false;
-+
-+	return !!(iommu->features & f);
-+}
-+
-+static inline u64 iommu_virt_to_phys(void *vaddr)
-+{
-+	return (u64)__sme_set(virt_to_phys(vaddr));
-+}
-+
-+static inline void *iommu_phys_to_virt(unsigned long paddr)
-+{
-+	return phys_to_virt(__sme_clr(paddr));
-+}
-+
-+extern bool translation_pre_enabled(struct amd_iommu *iommu);
-+extern bool amd_iommu_is_attach_deferred(struct iommu_domain *domain,
-+					 struct device *dev);
-+extern int __init add_special_device(u8 type, u8 id, u16 *devid,
-+				     bool cmd_line);
- 
- #ifdef CONFIG_DMI
- void amd_iommu_apply_ivrs_quirks(void);
-diff --git a/drivers/iommu/amd/amd_iommu_proto.h b/drivers/iommu/amd/amd_iommu_proto.h
-deleted file mode 100644
-index 1c6c12c11368..000000000000
---- a/drivers/iommu/amd/amd_iommu_proto.h
-+++ /dev/null
-@@ -1,97 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * Copyright (C) 2009-2010 Advanced Micro Devices, Inc.
-- * Author: Joerg Roedel <jroedel@suse.de>
-- */
--
--#ifndef _ASM_X86_AMD_IOMMU_PROTO_H
--#define _ASM_X86_AMD_IOMMU_PROTO_H
--
--#include "amd_iommu_types.h"
--
--extern int amd_iommu_get_num_iommus(void);
--extern int amd_iommu_init_dma_ops(void);
--extern int amd_iommu_init_passthrough(void);
--extern irqreturn_t amd_iommu_int_thread(int irq, void *data);
--extern irqreturn_t amd_iommu_int_handler(int irq, void *data);
--extern void amd_iommu_apply_erratum_63(u16 devid);
--extern void amd_iommu_reset_cmd_buffer(struct amd_iommu *iommu);
--extern int amd_iommu_init_devices(void);
--extern void amd_iommu_uninit_devices(void);
--extern void amd_iommu_init_notifier(void);
--extern int amd_iommu_init_api(void);
--
--#ifdef CONFIG_AMD_IOMMU_DEBUGFS
--void amd_iommu_debugfs_setup(struct amd_iommu *iommu);
--#else
--static inline void amd_iommu_debugfs_setup(struct amd_iommu *iommu) {}
--#endif
--
--/* Needed for interrupt remapping */
--extern int amd_iommu_prepare(void);
--extern int amd_iommu_enable(void);
--extern void amd_iommu_disable(void);
--extern int amd_iommu_reenable(int);
--extern int amd_iommu_enable_faulting(void);
--extern int amd_iommu_guest_ir;
--
--/* IOMMUv2 specific functions */
--struct iommu_domain;
--
--extern bool amd_iommu_v2_supported(void);
--extern int amd_iommu_register_ppr_notifier(struct notifier_block *nb);
--extern int amd_iommu_unregister_ppr_notifier(struct notifier_block *nb);
--extern void amd_iommu_domain_direct_map(struct iommu_domain *dom);
--extern int amd_iommu_domain_enable_v2(struct iommu_domain *dom, int pasids);
--extern int amd_iommu_flush_page(struct iommu_domain *dom, int pasid,
--				u64 address);
--extern int amd_iommu_flush_tlb(struct iommu_domain *dom, int pasid);
--extern int amd_iommu_domain_set_gcr3(struct iommu_domain *dom, int pasid,
--				     unsigned long cr3);
--extern int amd_iommu_domain_clear_gcr3(struct iommu_domain *dom, int pasid);
--extern struct iommu_domain *amd_iommu_get_v2_domain(struct pci_dev *pdev);
--
--#ifdef CONFIG_IRQ_REMAP
--extern int amd_iommu_create_irq_domain(struct amd_iommu *iommu);
--#else
--static inline int amd_iommu_create_irq_domain(struct amd_iommu *iommu)
--{
--	return 0;
--}
--#endif
--
--#define PPR_SUCCESS			0x0
--#define PPR_INVALID			0x1
--#define PPR_FAILURE			0xf
--
--extern int amd_iommu_complete_ppr(struct pci_dev *pdev, int pasid,
--				  int status, int tag);
--
--static inline bool is_rd890_iommu(struct pci_dev *pdev)
--{
--	return (pdev->vendor == PCI_VENDOR_ID_ATI) &&
--	       (pdev->device == PCI_DEVICE_ID_RD890_IOMMU);
--}
--
--static inline bool iommu_feature(struct amd_iommu *iommu, u64 f)
--{
--	if (!(iommu->cap & (1 << IOMMU_CAP_EFR)))
--		return false;
--
--	return !!(iommu->features & f);
--}
--
--static inline u64 iommu_virt_to_phys(void *vaddr)
--{
--	return (u64)__sme_set(virt_to_phys(vaddr));
--}
--
--static inline void *iommu_phys_to_virt(unsigned long paddr)
--{
--	return phys_to_virt(__sme_clr(paddr));
--}
--
--extern bool translation_pre_enabled(struct amd_iommu *iommu);
--extern bool amd_iommu_is_attach_deferred(struct iommu_domain *domain,
--					 struct device *dev);
--#endif /* _ASM_X86_AMD_IOMMU_PROTO_H  */
-diff --git a/drivers/iommu/amd/debugfs.c b/drivers/iommu/amd/debugfs.c
-index c6a5c737ef09..545372fcc72f 100644
---- a/drivers/iommu/amd/debugfs.c
-+++ b/drivers/iommu/amd/debugfs.c
-@@ -8,10 +8,9 @@
-  */
- 
- #include <linux/debugfs.h>
--#include <linux/iommu.h>
- #include <linux/pci.h>
--#include "amd_iommu_proto.h"
--#include "amd_iommu_types.h"
-+
-+#include "amd_iommu.h"
- 
- static struct dentry *amd_iommu_debugfs;
- static DEFINE_MUTEX(amd_iommu_debugfs_lock);
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index fda80fd1d9a6..6ebd4825e320 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
-@@ -18,7 +18,6 @@
- #include <linux/msi.h>
- #include <linux/amd-iommu.h>
- #include <linux/export.h>
--#include <linux/iommu.h>
- #include <linux/kmemleak.h>
- #include <linux/mem_encrypt.h>
- #include <asm/pci-direct.h>
-@@ -32,9 +31,8 @@
- #include <asm/irq_remapping.h>
- 
- #include <linux/crash_dump.h>
-+
- #include "amd_iommu.h"
--#include "amd_iommu_proto.h"
--#include "amd_iommu_types.h"
- #include "../irq_remapping.h"
- 
- /*
 diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index 7c87ef78f26a..e3fdc7a0e853 100644
+index e3fdc7a0e853..2504aa184837 100644
 --- a/drivers/iommu/amd/iommu.c
 +++ b/drivers/iommu/amd/iommu.c
-@@ -22,7 +22,6 @@
- #include <linux/dma-direct.h>
- #include <linux/dma-iommu.h>
- #include <linux/iommu-helper.h>
--#include <linux/iommu.h>
- #include <linux/delay.h>
- #include <linux/amd-iommu.h>
- #include <linux/notifier.h>
-@@ -43,8 +42,7 @@
- #include <asm/gart.h>
- #include <asm/dma.h>
+@@ -279,11 +279,6 @@ static struct iommu_dev_data *find_dev_data(u16 devid)
+ 	return dev_data;
+ }
  
--#include "amd_iommu_proto.h"
--#include "amd_iommu_types.h"
-+#include "amd_iommu.h"
- #include "../irq_remapping.h"
+-static struct iommu_dev_data *get_dev_data(struct device *dev)
+-{
+-	return dev->archdata.iommu;
+-}
+-
+ /*
+ * Find or create an IOMMU group for a acpihid device.
+ */
+@@ -334,7 +329,7 @@ static bool pdev_pri_erratum(struct pci_dev *pdev, u32 erratum)
+ {
+ 	struct iommu_dev_data *dev_data;
  
- #define CMD_SET_TYPE(cmd, t) ((cmd)->data[1] |= ((t) << 28))
-diff --git a/drivers/iommu/amd/iommu_v2.c b/drivers/iommu/amd/iommu_v2.c
-index 9b6e038150c1..c8a7b6b39222 100644
---- a/drivers/iommu/amd/iommu_v2.c
-+++ b/drivers/iommu/amd/iommu_v2.c
-@@ -13,13 +13,11 @@
- #include <linux/module.h>
- #include <linux/sched.h>
- #include <linux/sched/mm.h>
--#include <linux/iommu.h>
- #include <linux/wait.h>
- #include <linux/pci.h>
- #include <linux/gfp.h>
+-	dev_data = get_dev_data(&pdev->dev);
++	dev_data = dev_iommu_priv_get(&pdev->dev);
  
--#include "amd_iommu_types.h"
--#include "amd_iommu_proto.h"
-+#include "amd_iommu.h"
+ 	return dev_data->errata & (1 << erratum) ? true : false;
+ }
+@@ -369,7 +364,7 @@ static int iommu_init_device(struct device *dev)
+ 	struct iommu_dev_data *dev_data;
+ 	int devid;
  
- MODULE_LICENSE("GPL v2");
- MODULE_AUTHOR("Joerg Roedel <jroedel@suse.de>");
+-	if (dev->archdata.iommu)
++	if (dev_iommu_priv_get(dev))
+ 		return 0;
+ 
+ 	devid = get_device_id(dev);
+@@ -396,7 +391,7 @@ static int iommu_init_device(struct device *dev)
+ 		dev_data->iommu_v2 = iommu->is_iommu_v2;
+ 	}
+ 
+-	dev->archdata.iommu = dev_data;
++	dev_iommu_priv_set(dev, dev_data);
+ 
+ 	return 0;
+ }
+@@ -431,6 +426,8 @@ static void amd_iommu_uninit_device(struct device *dev)
+ 	if (dev_data->domain)
+ 		detach_device(dev);
+ 
++	dev_iommu_priv_set(dev, NULL);
++
+ 	/*
+ 	 * We keep dev_data around for unplugged devices and reuse it when the
+ 	 * device is re-plugged - not doing so would introduce a ton of races.
+@@ -493,7 +490,7 @@ static void amd_iommu_report_page_fault(u16 devid, u16 domain_id,
+ 	pdev = pci_get_domain_bus_and_slot(0, PCI_BUS_NUM(devid),
+ 					   devid & 0xff);
+ 	if (pdev)
+-		dev_data = get_dev_data(&pdev->dev);
++		dev_data = dev_iommu_priv_get(&pdev->dev);
+ 
+ 	if (dev_data && __ratelimit(&dev_data->rs)) {
+ 		pci_err(pdev, "Event logged [IO_PAGE_FAULT domain=0x%04x address=0x%llx flags=0x%04x]\n",
+@@ -2033,7 +2030,7 @@ static int attach_device(struct device *dev,
+ 
+ 	spin_lock_irqsave(&domain->lock, flags);
+ 
+-	dev_data = get_dev_data(dev);
++	dev_data = dev_iommu_priv_get(dev);
+ 
+ 	spin_lock(&dev_data->lock);
+ 
+@@ -2097,7 +2094,7 @@ static void detach_device(struct device *dev)
+ 	struct iommu_dev_data *dev_data;
+ 	unsigned long flags;
+ 
+-	dev_data = get_dev_data(dev);
++	dev_data = dev_iommu_priv_get(dev);
+ 	domain   = dev_data->domain;
+ 
+ 	spin_lock_irqsave(&domain->lock, flags);
+@@ -2146,7 +2143,7 @@ static struct iommu_device *amd_iommu_probe_device(struct device *dev)
+ 
+ 	iommu = amd_iommu_rlookup_table[devid];
+ 
+-	if (get_dev_data(dev))
++	if (dev_iommu_priv_get(dev))
+ 		return &iommu->iommu;
+ 
+ 	ret = iommu_init_device(dev);
+@@ -2435,7 +2432,7 @@ static void amd_iommu_domain_free(struct iommu_domain *dom)
+ static void amd_iommu_detach_device(struct iommu_domain *dom,
+ 				    struct device *dev)
+ {
+-	struct iommu_dev_data *dev_data = dev->archdata.iommu;
++	struct iommu_dev_data *dev_data = dev_iommu_priv_get(dev);
+ 	struct amd_iommu *iommu;
+ 	int devid;
+ 
+@@ -2473,7 +2470,7 @@ static int amd_iommu_attach_device(struct iommu_domain *dom,
+ 	if (!check_device(dev))
+ 		return -EINVAL;
+ 
+-	dev_data = dev->archdata.iommu;
++	dev_data = dev_iommu_priv_get(dev);
+ 	dev_data->defer_attach = false;
+ 
+ 	iommu = amd_iommu_rlookup_table[dev_data->devid];
+@@ -2632,7 +2629,7 @@ static void amd_iommu_get_resv_regions(struct device *dev,
+ bool amd_iommu_is_attach_deferred(struct iommu_domain *domain,
+ 				  struct device *dev)
+ {
+-	struct iommu_dev_data *dev_data = dev->archdata.iommu;
++	struct iommu_dev_data *dev_data = dev_iommu_priv_get(dev);
+ 
+ 	return dev_data->defer_attach;
+ }
+@@ -2659,7 +2656,7 @@ static int amd_iommu_def_domain_type(struct device *dev)
+ {
+ 	struct iommu_dev_data *dev_data;
+ 
+-	dev_data = get_dev_data(dev);
++	dev_data = dev_iommu_priv_get(dev);
+ 	if (!dev_data)
+ 		return 0;
+ 
+@@ -2992,7 +2989,7 @@ int amd_iommu_complete_ppr(struct pci_dev *pdev, int pasid,
+ 	struct amd_iommu *iommu;
+ 	struct iommu_cmd cmd;
+ 
+-	dev_data = get_dev_data(&pdev->dev);
++	dev_data = dev_iommu_priv_get(&pdev->dev);
+ 	iommu    = amd_iommu_rlookup_table[dev_data->devid];
+ 
+ 	build_complete_ppr(&cmd, dev_data->devid, pasid, status,
+@@ -3005,16 +3002,19 @@ EXPORT_SYMBOL(amd_iommu_complete_ppr);
+ struct iommu_domain *amd_iommu_get_v2_domain(struct pci_dev *pdev)
+ {
+ 	struct protection_domain *pdomain;
+-	struct iommu_domain *io_domain;
++	struct iommu_dev_data *dev_data;
+ 	struct device *dev = &pdev->dev;
++	struct iommu_domain *io_domain;
+ 
+ 	if (!check_device(dev))
+ 		return NULL;
+ 
+-	pdomain   = get_dev_data(dev)->domain;
++	dev_data  = dev_iommu_priv_get(&pdev->dev);
++	pdomain   = dev_data->domain;
+ 	io_domain = iommu_get_domain_for_dev(dev);
+-	if (pdomain == NULL && get_dev_data(dev)->defer_attach) {
+-		get_dev_data(dev)->defer_attach = false;
++
++	if (pdomain == NULL && dev_data->defer_attach) {
++		dev_data->defer_attach = false;
+ 		pdomain = to_pdomain(io_domain);
+ 		attach_device(dev, pdomain);
+ 	}
+@@ -3040,7 +3040,7 @@ void amd_iommu_enable_device_erratum(struct pci_dev *pdev, u32 erratum)
+ 	if (!amd_iommu_v2_supported())
+ 		return;
+ 
+-	dev_data = get_dev_data(&pdev->dev);
++	dev_data = dev_iommu_priv_get(&pdev->dev);
+ 	dev_data->errata |= (1 << erratum);
+ }
+ EXPORT_SYMBOL(amd_iommu_enable_device_erratum);
 -- 
 2.17.1
 
