@@ -1,47 +1,47 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0051E407D
-	for <lists.iommu@lfdr.de>; Wed, 27 May 2020 13:53:34 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 73D9A88767;
-	Wed, 27 May 2020 11:53:32 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DDWTw7skrmno; Wed, 27 May 2020 11:53:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id BE12888770;
-	Wed, 27 May 2020 11:53:30 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 97BD1C088D;
-	Wed, 27 May 2020 11:53:30 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 42E5BC016F
- for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:29 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06AA61E4088
+	for <lists.iommu@lfdr.de>; Wed, 27 May 2020 13:53:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 2BF4286D15
- for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BBF5086D15;
+	Wed, 27 May 2020 11:53:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lHB5s8eCm91o; Wed, 27 May 2020 11:53:38 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5343D86D56;
+	Wed, 27 May 2020 11:53:38 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4DF80C016F;
+	Wed, 27 May 2020 11:53:38 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 16030C016F
+ for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id EA32588767
+ for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:31 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5ssopwNGQDcy for <iommu@lists.linux-foundation.org>;
- Wed, 27 May 2020 11:53:27 +0000 (UTC)
+ with ESMTP id ysVORHxaAmrF for <iommu@lists.linux-foundation.org>;
+ Wed, 27 May 2020 11:53:28 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 964EB86D04
+ by hemlock.osuosl.org (Postfix) with ESMTPS id D1F5A8875A
  for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:27 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id A2F9E3D0; Wed, 27 May 2020 13:53:23 +0200 (CEST)
+ id D18B53E2; Wed, 27 May 2020 13:53:23 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 03/10] iommu/amd: Let free_pagetable() not rely on
- domain->pt_root
-Date: Wed, 27 May 2020 13:53:06 +0200
-Message-Id: <20200527115313.7426-4-joro@8bytes.org>
+Subject: [PATCH 04/10] iommu/amd: Allocate page-table in
+ protection_domain_init()
+Date: Wed, 27 May 2020 13:53:07 +0200
+Message-Id: <20200527115313.7426-5-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200527115313.7426-1-joro@8bytes.org>
 References: <20200527115313.7426-1-joro@8bytes.org>
@@ -67,107 +67,139 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Use 'struct domain_pgtable' instead to free_pagetable(). This solves
-the problem that amd_iommu_domain_direct_map() needs to restore
-domain->pt_root after the device table has been updated just to make
-free_pagetable release the domain page-table.
+Consolidate the allocation of the domain page-table in one place.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/amd/iommu.c | 36 ++++++++++++++++--------------------
- 1 file changed, 16 insertions(+), 20 deletions(-)
+ drivers/iommu/amd/iommu.c | 48 ++++++++++++++++++---------------------
+ 1 file changed, 22 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index 8368f6b9c17f..c7e47a7f0d45 100644
+index c7e47a7f0d45..0d5a5dbee9f3 100644
 --- a/drivers/iommu/amd/iommu.c
 +++ b/drivers/iommu/amd/iommu.c
-@@ -1391,20 +1391,19 @@ static struct page *free_sub_pt(unsigned long root, int mode,
- 	return freelist;
- }
- 
--static void free_pagetable(struct protection_domain *domain)
-+static void free_pagetable(struct domain_pgtable *pgtable)
- {
--	struct domain_pgtable pgtable;
- 	struct page *freelist = NULL;
- 	unsigned long root;
- 
--	amd_iommu_domain_get_pgtable(domain, &pgtable);
--	atomic64_set(&domain->pt_root, 0);
-+	if (pgtable->mode == PAGE_MODE_NONE)
-+		return;
- 
--	BUG_ON(pgtable.mode < PAGE_MODE_NONE ||
--	       pgtable.mode > PAGE_MODE_6_LEVEL);
-+	BUG_ON(pgtable->mode < PAGE_MODE_NONE ||
-+	       pgtable->mode > PAGE_MODE_6_LEVEL);
- 
--	root = (unsigned long)pgtable.root;
--	freelist = free_sub_pt(root, pgtable.mode, freelist);
-+	root = (unsigned long)pgtable->root;
-+	freelist = free_sub_pt(root, pgtable->mode, freelist);
- 
- 	free_page_list(freelist);
- }
-@@ -1823,12 +1822,16 @@ static void free_gcr3_table(struct protection_domain *domain)
+@@ -71,6 +71,8 @@
   */
- static void dma_ops_domain_free(struct protection_domain *domain)
- {
-+	struct domain_pgtable pgtable;
+ #define AMD_IOMMU_PGSIZES	((~0xFFFUL) & ~(2ULL << 38))
+ 
++#define DEFAULT_PGTABLE_LEVEL	PAGE_MODE_3_LEVEL
 +
+ static DEFINE_SPINLOCK(pd_bitmap_lock);
+ 
+ /* List of all available dev_data structures */
+@@ -99,7 +101,7 @@ struct iommu_cmd {
+ struct kmem_cache *amd_iommu_irq_cache;
+ 
+ static void update_domain(struct protection_domain *domain);
+-static int protection_domain_init(struct protection_domain *domain);
++static int protection_domain_init(struct protection_domain *domain, int mode);
+ static void detach_device(struct device *dev);
+ static void update_and_flush_device_table(struct protection_domain *domain,
+ 					  struct domain_pgtable *pgtable);
+@@ -1847,21 +1849,14 @@ static void dma_ops_domain_free(struct protection_domain *domain)
+ static struct protection_domain *dma_ops_domain_alloc(void)
+ {
+ 	struct protection_domain *domain;
+-	u64 *pt_root, root;
+ 
+ 	domain = kzalloc(sizeof(struct protection_domain), GFP_KERNEL);
  	if (!domain)
- 		return;
+ 		return NULL;
  
- 	iommu_put_dma_cookie(&domain->domain);
+-	if (protection_domain_init(domain))
+-		goto free_domain;
+-
+-	pt_root = (void *)get_zeroed_page(GFP_KERNEL);
+-	if (!pt_root)
++	if (protection_domain_init(domain, DEFAULT_PGTABLE_LEVEL))
+ 		goto free_domain;
  
--	free_pagetable(domain);
-+	amd_iommu_domain_get_pgtable(domain, &pgtable);
-+	atomic64_set(&domain->pt_root, 0);
-+	free_pagetable(&pgtable);
+-	root = amd_iommu_domain_encode_pgtable(pt_root, PAGE_MODE_3_LEVEL);
+-	atomic64_set(&domain->pt_root, root);
+ 	domain->flags = PD_DMA_OPS_MASK;
  
- 	if (domain->id)
- 		domain_id_free(domain->id);
-@@ -2496,9 +2499,8 @@ static void amd_iommu_domain_free(struct iommu_domain *dom)
+ 	if (iommu_get_dma_cookie(&domain->domain) == -ENOMEM)
+@@ -2401,18 +2396,31 @@ static void protection_domain_free(struct protection_domain *domain)
+ 	kfree(domain);
+ }
+ 
+-static int protection_domain_init(struct protection_domain *domain)
++static int protection_domain_init(struct protection_domain *domain, int mode)
+ {
++	u64 *pt_root = NULL, root;
++
++	BUG_ON(mode < PAGE_MODE_NONE || mode > PAGE_MODE_6_LEVEL);
++
+ 	spin_lock_init(&domain->lock);
+ 	domain->id = domain_id_alloc();
+ 	if (!domain->id)
+ 		return -ENOMEM;
+ 	INIT_LIST_HEAD(&domain->dev_list);
+ 
++	if (mode != PAGE_MODE_NONE) {
++		pt_root = (void *)get_zeroed_page(GFP_KERNEL);
++		if (!pt_root)
++			return -ENOMEM;
++	}
++
++	root = amd_iommu_domain_encode_pgtable(pt_root, mode);
++	atomic64_set(&domain->pt_root, root);
++
+ 	return 0;
+ }
+ 
+-static struct protection_domain *protection_domain_alloc(void)
++static struct protection_domain *protection_domain_alloc(int mode)
+ {
+ 	struct protection_domain *domain;
+ 
+@@ -2420,7 +2428,7 @@ static struct protection_domain *protection_domain_alloc(void)
+ 	if (!domain)
+ 		return NULL;
+ 
+-	if (protection_domain_init(domain))
++	if (protection_domain_init(domain, mode))
+ 		goto out_err;
+ 
+ 	return domain;
+@@ -2434,23 +2442,13 @@ static struct protection_domain *protection_domain_alloc(void)
+ static struct iommu_domain *amd_iommu_domain_alloc(unsigned type)
+ {
+ 	struct protection_domain *pdomain;
+-	u64 *pt_root, root;
+ 
+ 	switch (type) {
+ 	case IOMMU_DOMAIN_UNMANAGED:
+-		pdomain = protection_domain_alloc();
++		pdomain = protection_domain_alloc(DEFAULT_PGTABLE_LEVEL);
+ 		if (!pdomain)
+ 			return NULL;
+ 
+-		pt_root = (void *)get_zeroed_page(GFP_KERNEL);
+-		if (!pt_root) {
+-			protection_domain_free(pdomain);
+-			return NULL;
+-		}
+-
+-		root = amd_iommu_domain_encode_pgtable(pt_root, PAGE_MODE_3_LEVEL);
+-		atomic64_set(&pdomain->pt_root, root);
+-
+ 		pdomain->domain.geometry.aperture_start = 0;
+ 		pdomain->domain.geometry.aperture_end   = ~0ULL;
+ 		pdomain->domain.geometry.force_aperture = true;
+@@ -2464,11 +2462,9 @@ static struct iommu_domain *amd_iommu_domain_alloc(unsigned type)
+ 		}
+ 		break;
+ 	case IOMMU_DOMAIN_IDENTITY:
+-		pdomain = protection_domain_alloc();
++		pdomain = protection_domain_alloc(PAGE_MODE_NONE);
+ 		if (!pdomain)
+ 			return NULL;
+-
+-		atomic64_set(&pdomain->pt_root, PAGE_MODE_NONE);
  		break;
  	default:
- 		amd_iommu_domain_get_pgtable(domain, &pgtable);
--
--		if (pgtable.mode != PAGE_MODE_NONE)
--			free_pagetable(domain);
-+		atomic64_set(&domain->pt_root, 0);
-+		free_pagetable(&pgtable);
- 
- 		if (domain->flags & PD_IOMMUV2_MASK)
- 			free_gcr3_table(domain);
-@@ -2796,7 +2798,6 @@ void amd_iommu_domain_direct_map(struct iommu_domain *dom)
- 	struct protection_domain *domain = to_pdomain(dom);
- 	struct domain_pgtable pgtable;
- 	unsigned long flags;
--	u64 pt_root;
- 
- 	spin_lock_irqsave(&domain->lock, flags);
- 
-@@ -2804,18 +2805,13 @@ void amd_iommu_domain_direct_map(struct iommu_domain *dom)
- 	amd_iommu_domain_get_pgtable(domain, &pgtable);
- 
- 	/* Update data structure */
--	pt_root = amd_iommu_domain_encode_pgtable(NULL, PAGE_MODE_NONE);
--	atomic64_set(&domain->pt_root, pt_root);
-+	atomic64_set(&domain->pt_root, 0);
- 
- 	/* Make changes visible to IOMMUs */
- 	update_domain(domain);
- 
--	/* Restore old pgtable in domain->ptroot to free page-table */
--	pt_root = amd_iommu_domain_encode_pgtable(pgtable.root, pgtable.mode);
--	atomic64_set(&domain->pt_root, pt_root);
--
- 	/* Page-table is not visible to IOMMU anymore, so free it */
--	free_pagetable(domain);
-+	free_pagetable(&pgtable);
- 
- 	spin_unlock_irqrestore(&domain->lock, flags);
- }
+ 		return NULL;
 -- 
 2.17.1
 
