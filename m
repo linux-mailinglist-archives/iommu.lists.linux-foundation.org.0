@@ -2,45 +2,45 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00C21E407F
-	for <lists.iommu@lfdr.de>; Wed, 27 May 2020 13:53:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D271E4087
+	for <lists.iommu@lfdr.de>; Wed, 27 May 2020 13:53:40 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id EF98424723;
-	Wed, 27 May 2020 11:53:33 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8C52A2474E;
+	Wed, 27 May 2020 11:53:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Qg62lyDxyig8; Wed, 27 May 2020 11:53:32 +0000 (UTC)
+	with ESMTP id ZMN-2z6urOUr; Wed, 27 May 2020 11:53:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 34B5523E65;
-	Wed, 27 May 2020 11:53:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 88D0A23E65;
+	Wed, 27 May 2020 11:53:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2552EC088D;
-	Wed, 27 May 2020 11:53:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 81D64C016F;
+	Wed, 27 May 2020 11:53:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 36204C016F
- for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:30 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 39936C0894
+ for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 333E986D15
- for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:30 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 29FC387E2B
+ for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gieMK2baMUX1 for <iommu@lists.linux-foundation.org>;
- Wed, 27 May 2020 11:53:29 +0000 (UTC)
+ with ESMTP id VvfC9SxcW-an for <iommu@lists.linux-foundation.org>;
+ Wed, 27 May 2020 11:53:30 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7A32186D04
- for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:29 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 15057872F8
+ for <iommu@lists.linux-foundation.org>; Wed, 27 May 2020 11:53:30 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 2D471476; Wed, 27 May 2020 13:53:24 +0200 (CEST)
+ id 5449F485; Wed, 27 May 2020 13:53:24 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 06/10] iommu/amd: Consolidate domain allocation/freeing
-Date: Wed, 27 May 2020 13:53:09 +0200
-Message-Id: <20200527115313.7426-7-joro@8bytes.org>
+Subject: [PATCH 07/10] iommu/amd: Remove PD_DMA_OPS_MASK
+Date: Wed, 27 May 2020 13:53:10 +0200
+Message-Id: <20200527115313.7426-8-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200527115313.7426-1-joro@8bytes.org>
 References: <20200527115313.7426-1-joro@8bytes.org>
@@ -66,168 +66,71 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Merge the allocation code paths of DMA and UNMANAGED domains and
-remove code duplication.
+This is covered by IOMMU_DOMAIN_DMA from the IOMMU core code already,
+so remove it.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/amd/iommu.c | 116 +++++++++-----------------------------
- 1 file changed, 27 insertions(+), 89 deletions(-)
+ drivers/iommu/amd/iommu.c | 24 +++++++-----------------
+ 1 file changed, 7 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index 5282ff6b8ea0..9e0737932e0c 100644
+index 9e0737932e0c..7c87ef78f26a 100644
 --- a/drivers/iommu/amd/iommu.c
 +++ b/drivers/iommu/amd/iommu.c
-@@ -101,7 +101,6 @@ struct iommu_cmd {
- struct kmem_cache *amd_iommu_irq_cache;
- 
- static void update_domain(struct protection_domain *domain);
--static int protection_domain_init(struct protection_domain *domain, int mode);
- static void detach_device(struct device *dev);
- static void update_and_flush_device_table(struct protection_domain *domain,
- 					  struct domain_pgtable *pgtable);
-@@ -1818,58 +1817,6 @@ static void free_gcr3_table(struct protection_domain *domain)
+@@ -1817,15 +1817,6 @@ static void free_gcr3_table(struct protection_domain *domain)
  	free_page((unsigned long)domain->gcr3_tbl);
  }
  
 -/*
-- * Free a domain, only used if something went wrong in the
-- * allocation path and we need to free an already allocated page table
+- * little helper function to check whether a given protection domain is a
+- * dma_ops domain
 - */
--static void dma_ops_domain_free(struct protection_domain *domain)
+-static bool dma_ops_domain(struct protection_domain *domain)
 -{
--	struct domain_pgtable pgtable;
--
--	if (!domain)
--		return;
--
--	iommu_put_dma_cookie(&domain->domain);
--
--	amd_iommu_domain_get_pgtable(domain, &pgtable);
--	atomic64_set(&domain->pt_root, 0);
--	free_pagetable(&pgtable);
--
--	if (domain->id)
--		domain_id_free(domain->id);
--
--	kfree(domain);
+-	return domain->flags & PD_DMA_OPS_MASK;
 -}
 -
--/*
-- * Allocates a new protection domain usable for the dma_ops functions.
-- * It also initializes the page table and the address allocator data
-- * structures required for the dma_ops interface
-- */
--static struct protection_domain *dma_ops_domain_alloc(void)
--{
--	struct protection_domain *domain;
--
--	domain = kzalloc(sizeof(struct protection_domain), GFP_KERNEL);
--	if (!domain)
--		return NULL;
--
--	if (protection_domain_init(domain, DEFAULT_PGTABLE_LEVEL))
--		goto free_domain;
--
--	domain->flags = PD_DMA_OPS_MASK;
--
--	if (iommu_get_dma_cookie(&domain->domain) == -ENOMEM)
--		goto free_domain;
--
--	return domain;
--
--free_domain:
--	dma_ops_domain_free(domain);
--
--	return NULL;
--}
--
- /*
-  * little helper function to check whether a given protection domain is a
-  * dma_ops domain
-@@ -2447,36 +2394,32 @@ static struct protection_domain *protection_domain_alloc(int mode)
+ static void set_dte_entry(u16 devid, struct protection_domain *domain,
+ 			  struct domain_pgtable *pgtable,
+ 			  bool ats, bool ppr)
+@@ -2408,11 +2399,9 @@ static struct iommu_domain *amd_iommu_domain_alloc(unsigned type)
+ 	domain->domain.geometry.aperture_end   = ~0ULL;
+ 	domain->domain.geometry.force_aperture = true;
  
- static struct iommu_domain *amd_iommu_domain_alloc(unsigned type)
- {
--	struct protection_domain *pdomain;
--
--	switch (type) {
--	case IOMMU_DOMAIN_UNMANAGED:
--		pdomain = protection_domain_alloc(DEFAULT_PGTABLE_LEVEL);
--		if (!pdomain)
--			return NULL;
-+	struct protection_domain *domain;
-+	int mode = DEFAULT_PGTABLE_LEVEL;
- 
--		pdomain->domain.geometry.aperture_start = 0;
--		pdomain->domain.geometry.aperture_end   = ~0ULL;
--		pdomain->domain.geometry.force_aperture = true;
-+	if (type == IOMMU_DOMAIN_IDENTITY)
-+		mode = PAGE_MODE_NONE;
- 
--		break;
--	case IOMMU_DOMAIN_DMA:
--		pdomain = dma_ops_domain_alloc();
--		if (!pdomain) {
--			pr_err("Failed to allocate\n");
--			return NULL;
--		}
--		break;
--	case IOMMU_DOMAIN_IDENTITY:
--		pdomain = protection_domain_alloc(PAGE_MODE_NONE);
--		if (!pdomain)
--			return NULL;
--		break;
--	default:
-+	domain = protection_domain_alloc(mode);
-+	if (!domain)
- 		return NULL;
-+
-+	domain->domain.geometry.aperture_start = 0;
-+	domain->domain.geometry.aperture_end   = ~0ULL;
-+	domain->domain.geometry.force_aperture = true;
-+
-+	if (type == IOMMU_DOMAIN_DMA) {
-+		if (iommu_get_dma_cookie(&domain->domain) == -ENOMEM)
-+			goto free_domain;
-+		domain->flags = PD_DMA_OPS_MASK;
- 	}
- 
--	return &pdomain->domain;
-+	return &domain->domain;
-+
-+free_domain:
-+	protection_domain_free(domain);
-+
-+	return NULL;
- }
- 
- static void amd_iommu_domain_free(struct iommu_domain *dom)
-@@ -2493,18 +2436,13 @@ static void amd_iommu_domain_free(struct iommu_domain *dom)
- 	if (!dom)
- 		return;
- 
--	switch (dom->type) {
--	case IOMMU_DOMAIN_DMA:
--		/* Now release the domain */
--		dma_ops_domain_free(domain);
--		break;
--	default:
--		if (domain->flags & PD_IOMMUV2_MASK)
--			free_gcr3_table(domain);
-+	if (dom->type == IOMMU_DOMAIN_DMA)
-+		iommu_put_dma_cookie(&domain->domain);
- 
--		protection_domain_free(domain);
--		break;
+-	if (type == IOMMU_DOMAIN_DMA) {
+-		if (iommu_get_dma_cookie(&domain->domain) == -ENOMEM)
+-			goto free_domain;
+-		domain->flags = PD_DMA_OPS_MASK;
 -	}
-+	if (domain->flags & PD_IOMMUV2_MASK)
-+		free_gcr3_table(domain);
-+
-+	protection_domain_free(domain);
- }
++	if (type == IOMMU_DOMAIN_DMA &&
++	    iommu_get_dma_cookie(&domain->domain) == -ENOMEM)
++		goto free_domain;
  
- static void amd_iommu_detach_device(struct iommu_domain *dom,
+ 	return &domain->domain;
+ 
+@@ -3024,17 +3013,18 @@ struct iommu_domain *amd_iommu_get_v2_domain(struct pci_dev *pdev)
+ 	if (!check_device(dev))
+ 		return NULL;
+ 
+-	pdomain = get_dev_data(dev)->domain;
++	pdomain   = get_dev_data(dev)->domain;
++	io_domain = iommu_get_domain_for_dev(dev);
+ 	if (pdomain == NULL && get_dev_data(dev)->defer_attach) {
+ 		get_dev_data(dev)->defer_attach = false;
+-		io_domain = iommu_get_domain_for_dev(dev);
+ 		pdomain = to_pdomain(io_domain);
+ 		attach_device(dev, pdomain);
+ 	}
++
+ 	if (pdomain == NULL)
+ 		return NULL;
+ 
+-	if (!dma_ops_domain(pdomain))
++	if (io_domain->type != IOMMU_DOMAIN_DMA)
+ 		return NULL;
+ 
+ 	/* Only return IOMMUv2 domains */
 -- 
 2.17.1
 
