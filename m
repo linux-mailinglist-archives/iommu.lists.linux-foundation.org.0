@@ -1,64 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id A819A1E81B8
-	for <lists.iommu@lfdr.de>; Fri, 29 May 2020 17:23:19 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 08F8A25EC9;
-	Fri, 29 May 2020 15:23:18 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7JqVw8Wv0a+w; Fri, 29 May 2020 15:23:15 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 8B19025F6B;
-	Fri, 29 May 2020 15:23:15 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 70788C016F;
-	Fri, 29 May 2020 15:23:15 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C45C6C016F
- for <iommu@lists.linux-foundation.org>; Fri, 29 May 2020 15:23:13 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55F21E81F9
+	for <lists.iommu@lfdr.de>; Fri, 29 May 2020 17:38:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C0395874C7
- for <iommu@lists.linux-foundation.org>; Fri, 29 May 2020 15:23:13 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6590D874C5;
+	Fri, 29 May 2020 15:38:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id wh7ciP-ekLRZ; Fri, 29 May 2020 15:38:27 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id ED442874C8;
+	Fri, 29 May 2020 15:38:27 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CDBD3C07FF;
+	Fri, 29 May 2020 15:38:27 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 310E9C016F
+ for <iommu@lists.linux-foundation.org>; Fri, 29 May 2020 15:38:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 16C1B88432
+ for <iommu@lists.linux-foundation.org>; Fri, 29 May 2020 15:38:27 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xlAdjGsYZTw6 for <iommu@lists.linux-foundation.org>;
- Fri, 29 May 2020 15:23:13 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3D281874C5
- for <iommu@lists.linux-foundation.org>; Fri, 29 May 2020 15:23:13 +0000 (UTC)
-IronPort-SDR: cl0to7az8tA1yQRpxMcE6iZxaHQEunJ6cFMsHV78W+jVBoInaoFbKrXqpasLQcnb0LCoBvnkub
- Lx6hgGVW3p7w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 May 2020 08:23:12 -0700
-IronPort-SDR: l318gQ8nIBDjKO4cXKwE+zpz60aCkP0wzi8myVgviAVc9I2MiVxMtmit7k1V0dCrayrFk/5DoI
- Cwl6hZii3y+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,449,1583222400"; d="scan'208";a="443425001"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga005.jf.intel.com with ESMTP; 29 May 2020 08:23:12 -0700
-Date: Fri, 29 May 2020 08:29:30 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: Re: [PATCH] iommu/vt-d: Fix compile warning
-Message-ID: <20200529082930.798466dc@jacob-builder>
-In-Reply-To: <20200529131545.GE14598@8bytes.org>
-References: <1590689031-79318-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <20200529131545.GE14598@8bytes.org>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+ with ESMTP id ty2wL7eIyWal for <iommu@lists.linux-foundation.org>;
+ Fri, 29 May 2020 15:38:26 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 7C0A8883A9
+ for <iommu@lists.linux-foundation.org>; Fri, 29 May 2020 15:38:26 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id BEBD850C; Fri, 29 May 2020 17:38:23 +0200 (CEST)
+Date: Fri, 29 May 2020 17:38:22 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, jroedel@suse.de
+Subject: Re: [PATCH 01/10] iommu/amd: Move AMD IOMMU driver to a subdirectory
+Message-ID: <20200529153822.GH14598@8bytes.org>
+References: <20200527115313.7426-1-joro@8bytes.org>
+ <20200527115313.7426-2-joro@8bytes.org>
 MIME-Version: 1.0
-Cc: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20200527115313.7426-2-joro@8bytes.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,27 +65,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, 29 May 2020 15:15:45 +0200
-Joerg Roedel <joro@8bytes.org> wrote:
+On Wed, May 27, 2020 at 01:53:04PM +0200, Joerg Roedel wrote:
+> From: Joerg Roedel <jroedel@suse.de>
+> 
+> The driver consists of five C files and three header files by now.
+> Move them to their own subdirectory to not clutter to iommu top-level
+> directory with them.
+> 
+> Signed-off-by: Joerg Roedel <jroedel@suse.de>
+> ---
+>  MAINTAINERS                                          | 2 +-
+>  drivers/iommu/Makefile                               | 6 +++---
+>  drivers/iommu/{ => amd}/amd_iommu.h                  | 0
+>  drivers/iommu/{ => amd}/amd_iommu_proto.h            | 0
+>  drivers/iommu/{ => amd}/amd_iommu_types.h            | 0
+>  drivers/iommu/{amd_iommu_debugfs.c => amd/debugfs.c} | 0
+>  drivers/iommu/{amd_iommu_init.c => amd/init.c}       | 2 +-
+>  drivers/iommu/{amd_iommu.c => amd/iommu.c}           | 2 +-
+>  drivers/iommu/{amd_iommu_v2.c => amd/iommu_v2.c}     | 0
+>  drivers/iommu/{amd_iommu_quirks.c => amd/quirks.c}   | 0
+>  10 files changed, 6 insertions(+), 6 deletions(-)
+>  rename drivers/iommu/{ => amd}/amd_iommu.h (100%)
+>  rename drivers/iommu/{ => amd}/amd_iommu_proto.h (100%)
+>  rename drivers/iommu/{ => amd}/amd_iommu_types.h (100%)
+>  rename drivers/iommu/{amd_iommu_debugfs.c => amd/debugfs.c} (100%)
+>  rename drivers/iommu/{amd_iommu_init.c => amd/init.c} (99%)
+>  rename drivers/iommu/{amd_iommu.c => amd/iommu.c} (99%)
+>  rename drivers/iommu/{amd_iommu_v2.c => amd/iommu_v2.c} (100%)
+>  rename drivers/iommu/{amd_iommu_quirks.c => amd/quirks.c} (100%)
 
-> Applied, thanks.
-> 
-> On Thu, May 28, 2020 at 11:03:51AM -0700, Jacob Pan wrote:
-> > Make intel_svm_unbind_mm() a static function.
-> > 
-> > Fixes: 064a57d7ddfc ("iommu/vt-d: Replace intel SVM APIs with
-> > generic SVA APIs")  
-> 
-> Please make sure the fixes tags (or any other tags) are not
-> line-wrapped in future patch submissions.
-> 
-Got it, thanks.
+Okay, so there were a lot of conflicts creating my next branch after this
+patch-set was applied, so I skipped this patch to make resolving them a
+bit easier.
 
-> Thanks,
-> 
-> 	Joerg
+I will send out this patch again separatly together with a patch doing
+the same for VT-d and merge it directly into the next branch I will send
+to Linus.
 
-[Jacob Pan]
+
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
