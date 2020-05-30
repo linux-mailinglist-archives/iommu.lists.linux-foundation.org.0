@@ -1,74 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C911A1E8F9D
-	for <lists.iommu@lfdr.de>; Sat, 30 May 2020 10:17:31 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2E7D1E8F63
+	for <lists.iommu@lfdr.de>; Sat, 30 May 2020 10:12:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 2CBE020764;
-	Sat, 30 May 2020 08:17:30 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3319A88C8D;
+	Sat, 30 May 2020 08:12:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5P6g4hLabuJd; Sat, 30 May 2020 08:17:29 +0000 (UTC)
+	with ESMTP id Da-4NZ5DGy4V; Sat, 30 May 2020 08:12:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2AB3A20490;
-	Sat, 30 May 2020 08:17:29 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2448A88C52;
+	Sat, 30 May 2020 08:12:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 088AAC016F;
-	Sat, 30 May 2020 08:17:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0790CC016F;
+	Sat, 30 May 2020 08:12:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C5018C016F
- for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:17:27 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E0046C016F
+ for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:12:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id B243F883DD
- for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:17:27 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id C4BDA882FD
+ for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:12:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tQNxvdy31Y-X for <iommu@lists.linux-foundation.org>;
- Sat, 30 May 2020 08:17:26 +0000 (UTC)
-X-Greylist: delayed 00:05:01 by SQLgrey-1.7.6
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by whitealder.osuosl.org (Postfix) with ESMTP id 3D20088432
- for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:17:26 +0000 (UTC)
-X-UUID: 8a8b99a1de5645d48ccc77bfa68a829c-20200530
+ with ESMTP id QQtd2qK7SWJw for <iommu@lists.linux-foundation.org>;
+ Sat, 30 May 2020 08:12:36 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3845987E34
+ for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:12:36 +0000 (UTC)
+X-UUID: fbc85b79037b40fcae9b8fbcec22fa25-20200530
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=V8yQ0GxXRXQMXl/iXHArWIMs4HfP9plBlPfYP2LJor0=; 
- b=cxIr4GaEPMjVfBXN/wfzcG1r9RRPXSXNhlpW9fnLqATEEm2zOKK04MHNCZSXSC3NKhIAfEO4EfuMytDxRz1bSr2nNr2eH+aNgIr/E4tfN9ZwEGILehZZuI4Yys2oHpWsYfCeBOI5/7WGsrb2GoGkupDx5xru6nJTjU7rWgiu6cg=;
-X-UUID: 8a8b99a1de5645d48ccc77bfa68a829c-20200530
-Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
- mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
+ bh=YoE+PstubvdV+P9sL6XU+QZldj5rsjBxfw5MlFZPCr8=; 
+ b=F9g4eyzKmmWJylVtxvkUJycnrMMYr9AnRecc0wtoE447Ai/BJWsgXd47Ory4kHxOfUMujGU3IsniqKBtOCo9IvBLpZR9KdMLnRuoQK5Ob4azxrXFymTJl0MKmNKvkmBHUnttM/jaGMo5x4v5qOtxh8eRx7gp8iRAznK32Opo+pE=;
+X-UUID: fbc85b79037b40fcae9b8fbcec22fa25-20200530
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1813244251; Sat, 30 May 2020 16:12:22 +0800
+ with ESMTP id 14443008; Sat, 30 May 2020 16:12:30 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 30 May 2020 16:12:18 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 30 May 2020 16:12:27 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 30 May 2020 16:12:18 +0800
+ Transport; Sat, 30 May 2020 16:12:27 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
  Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v4 00/17] Clean up "mediatek,larb" after adding device_link
-Date: Sat, 30 May 2020 16:10:01 +0800
-Message-ID: <1590826218-23653-1-git-send-email-yong.wu@mediatek.com>
+Subject: [PATCH v4 01/17] media: dt-binding: mtk-vcodec: Separating mtk-vcodec
+ encode node.
+Date: Sat, 30 May 2020 16:10:02 +0800
+Message-ID: <1590826218-23653-2-git-send-email-yong.wu@mediatek.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1590826218-23653-1-git-send-email-yong.wu@mediatek.com>
+References: <1590826218-23653-1-git-send-email-yong.wu@mediatek.com>
 MIME-Version: 1.0
 X-MTK: N
-Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
- Nicolas Boichat <drinkcat@chromium.org>, cui.zhang@mediatek.com,
- eizan@chromium.org, srv_heupstream@mediatek.com, chao.hao@mediatek.com,
- Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
- Evan Green <evgreen@chromium.org>, Tomasz Figa <tfiga@google.com>,
- iommu@lists.linux-foundation.org, Matthias Kaehlcke <mka@chromium.org>,
- linux-mediatek@lists.infradead.org, ming-fan.chen@mediatek.com,
- anan.sun@mediatek.com, Robin Murphy <robin.murphy@arm.com>,
- acourbot@chromium.org, linux-arm-kernel@lists.infradead.org
+Cc: Maoguang Meng <maoguang.meng@mediatek.com>,
+ Will Deacon <will.deacon@arm.com>, youlin.pei@mediatek.com,
+ Irui Wang <irui.wang@mediatek.com>, Nicolas Boichat <drinkcat@chromium.org>,
+ Evan Green <evgreen@chromium.org>, eizan@chromium.org,
+ Matthias Kaehlcke <mka@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, cui.zhang@mediatek.com,
+ Tomasz Figa <tfiga@google.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, ming-fan.chen@mediatek.com,
+ anan.sun@mediatek.com, acourbot@chromium.org, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, chao.hao@mediatek.com,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,137 +91,120 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-MediaTek IOMMU block diagram always like below:
+From: Maoguang Meng <maoguang.meng@mediatek.com>
 
-        M4U
-         |
-    smi-common
-         |
-  -------------
-  |         |  ...
-  |         |
-larb1     larb2
-  |         |
-vdec       venc
+Update binding document since the avc and vp8 hardware encoder in
+mt8173 are now separated. Separate "mediatek,mt8173-vcodec-enc" to
+"mediatek,mt8173-vcodec-vp8-enc" and "mediatek,mt8173-vcodec-avc-enc".
 
-All the consumer connect with smi-larb, then connect with smi-common.
+This is a preparing patch for smi cleaning up "mediatek,larb".
 
-MediaTek IOMMU don't have its power-domain. When the consumer works,
-it should enable the smi-larb's power which also need enable the smi-common's
-power firstly.
+Signed-off-by: Maoguang Meng <maoguang.meng@mediatek.com>
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+---
+ .../devicetree/bindings/media/mediatek-vcodec.txt  | 58 ++++++++++++----------
+ 1 file changed, 31 insertions(+), 27 deletions(-)
 
-Thus, Firstly, use the device link connect the consumer and the
-smi-larbs. then add device link between the smi-larb and smi-common.
-
-After adding the device_link, then "mediatek,larb" property can be removed.
-the iommu consumer don't need call the mtk_smi_larb_get/put to enable
-the power and clock of smi-larb and smi-common.
-
-This patchset depends on v5.7-rc1 and several patchset. Mainly venc and MDP
-adjust their flow, then this patchset can work successfully.
-
-a) IOMMU depend on [1][2].
-b) MDP depend on [3][4][5].
-c) VENC depend on [6].
-
-[1] iommu: Move iommu_group setup to IOMMU core code
-   https://lore.kernel.org/linux-iommu/20200429133712.31431-1-joro@8bytes.org/
-[2] iommu/mediatek-v1: Fix a build warning for a unused variable 'data'
-   https://lore.kernel.org/linux-iommu/1589875064-662-1-git-send-email-yong.wu@mediatek.com/
-[3] arm64: dts: mt8173: fix mdp aliases property name
-   https://lore.kernel.org/linux-mediatek/20200414030815.192104-1-hsinyi@chromium.org/
-[4] MTK MDP driver cleanups to prep for futher work
-    https://lore.kernel.org/linux-mediatek/20200507102345.81849-1-eizan@chromium.org/
-[5] Refactor MDP driver and add dummy component driver
-    https://lore.kernel.org/linux-mediatek/20200506084039.249977-1-eizan@chromium.org/
-[6] media: mtk-vcodec: venc: support for MT8183
-    https://lore.kernel.org/linux-mediatek/20200520082723.96136-1-acourbot@chromium.org/
-
-[1][2][3] have already been in lastest linux-next.
-
-Change notes:
-
-v4: base on v5.7-rc1.
-  1) Move drm PM patch before smi patchs.
-  2) Change builtin_platform_driver to module_platform_driver since we may need
-     build as module.
-  3) Rebase many patchset as above.
-
-v3: https://lore.kernel.org/linux-iommu/1567503456-24725-1-git-send-email-yong.wu@mediatek.com/
-    1) rebase on v5.3-rc1 and the latest mt8183 patchset.
-    2) Use device_is_bound to check whether the driver is ready from Matthias.    
-    3) Add DL_FLAG_STATELESS flag when calling device_link_add and explain the
-   reason in the commit message[3/14].
-    4) Add a display patch[12/14] into this series. otherwise it may affect
-   display HW fastlogo even though it don't happen in mt8183.
-   
-v2: http://lists.infradead.org/pipermail/linux-mediatek/2019-June/020440.html
-   1) rebase on v5.2-rc1.
-   2) Move adding device_link between the consumer and smi-larb into
-iommu_add_device from Robin.
-   3) add DL_FLAG_AUTOREMOVE_CONSUMER even though the smi is built-in from Evan.
-   4) Remove the shutdown callback in iommu.   
-
-v1: https://lists.linuxfoundation.org/pipermail/iommu/2019-January/032387.html
-
-Irui Wang (1):
-  arm64: dts: mt8173: Separate mtk-vcodec-enc node
-
-Maoguang Meng (2):
-  media: dt-binding: mtk-vcodec: Separating mtk-vcodec encode node.
-  media: mtk-vcodec: separate mtk-vcodec-enc node.
-
-Yong Wu (13):
-  dt-binding: mediatek: Get rid of mediatek,larb for multimedia HW
-  iommu/mediatek: Add probe_defer for smi-larb
-  iommu/mediatek: Add device_link between the consumer and the larb
-    devices
-  memory: mtk-smi: Add device-link between smi-larb and smi-common
-  media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
-  media: mtk-mdp: Get rid of mtk_smi_larb_get/put
-  media: mtk-vcodec: Get rid of mtk_smi_larb_get/put
-  drm/mediatek: Get rid of mtk_smi_larb_get/put
-  memory: mtk-smi: Get rid of mtk_smi_larb_get/put
-  iommu/mediatek: Use module_platform_driver
-  memory: mtk-smi: Use device_is_bound to check if smi-common is ready
-  arm: dts: mediatek: Get rid of mediatek,larb for MM nodes
-  arm64: dts: mediatek: Get rid of mediatek,larb for MM nodes
-
-Yongqiang Niu (1):
-  drm/mediatek: Add pm runtime support for ovl and rdma
-
- .../bindings/display/mediatek/mediatek,disp.txt    |   9 --
- .../bindings/media/mediatek-jpeg-decoder.txt       |   4 -
- .../devicetree/bindings/media/mediatek-mdp.txt     |   8 --
- .../devicetree/bindings/media/mediatek-vcodec.txt  |  58 +++++-----
- arch/arm/boot/dts/mt2701.dtsi                      |   1 -
- arch/arm/boot/dts/mt7623.dtsi                      |   1 -
- arch/arm64/boot/dts/mediatek/mt8173.dtsi           |  72 +++++-------
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |   9 +-
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |   9 +-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c            |  19 +--
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c        |  21 +---
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h        |   2 +-
- drivers/iommu/mtk_iommu.c                          |  44 ++++---
- drivers/iommu/mtk_iommu_v1.c                       |  39 +++++--
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c    |  22 ----
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h    |   2 -
- drivers/media/platform/mtk-mdp/mtk_mdp_comp.c      |  44 +------
- drivers/media/platform/mtk-mdp/mtk_mdp_comp.h      |   2 -
- drivers/media/platform/mtk-mdp/mtk_mdp_core.c      |   1 -
- .../media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c  |  19 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h |  13 +--
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c |  24 +++-
- .../media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 127 +++++++++------------
- .../media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c  |  56 ---------
- .../media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h  |   1 -
- .../media/platform/mtk-vcodec/venc/venc_vp8_if.c   |   4 +-
- drivers/memory/mtk-smi.c                           |  41 +++----
- include/soc/mediatek/smi.h                         |  20 ----
- 28 files changed, 246 insertions(+), 426 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+index 8093335..1023740 100644
+--- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
++++ b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+@@ -4,7 +4,9 @@ Mediatek Video Codec is the video codec hw present in Mediatek SoCs which
+ supports high resolution encoding and decoding functionalities.
+ 
+ Required properties:
+-- compatible : "mediatek,mt8173-vcodec-enc" for MT8173 encoder
++- compatible : must be one of the following string:
++  "mediatek,mt8173-vcodec-vp8-enc" for mt8173 vp8 encoder.
++  "mediatek,mt8173-vcodec-avc-enc" for mt8173 avc encoder.
+   "mediatek,mt8183-vcodec-enc" for MT8183 encoder.
+   "mediatek,mt8173-vcodec-dec" for MT8173 decoder.
+ - reg : Physical base address of the video codec registers and length of
+@@ -13,10 +15,11 @@ Required properties:
+ - mediatek,larb : must contain the local arbiters in the current Socs.
+ - clocks : list of clock specifiers, corresponding to entries in
+   the clock-names property.
+-- clock-names: encoder must contain "venc_sel_src", "venc_sel",,
+-  "venc_lt_sel_src", "venc_lt_sel", decoder must contain "vcodecpll",
+-  "univpll_d2", "clk_cci400_sel", "vdec_sel", "vdecpll", "vencpll",
+-  "venc_lt_sel", "vdec_bus_clk_src".
++- clock-names:
++   avc venc must contain "venc_sel";
++   vp8 venc must contain "venc_lt_sel";
++   decoder  must contain "vcodecpll", "univpll_d2", "clk_cci400_sel",
++   "vdec_sel", "vdecpll", "vencpll", "venc_lt_sel", "vdec_bus_clk_src".
+ - iommus : should point to the respective IOMMU block with master port as
+   argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+   for details.
+@@ -80,14 +83,10 @@ vcodec_dec: vcodec@16000000 {
+     assigned-clock-rates = <0>, <0>, <0>, <1482000000>, <800000000>;
+   };
+ 
+-  vcodec_enc: vcodec@18002000 {
+-    compatible = "mediatek,mt8173-vcodec-enc";
+-    reg = <0 0x18002000 0 0x1000>,    /*VENC_SYS*/
+-          <0 0x19002000 0 0x1000>;    /*VENC_LT_SYS*/
+-    interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>,
+-		 <GIC_SPI 202 IRQ_TYPE_LEVEL_LOW>;
+-    mediatek,larb = <&larb3>,
+-		    <&larb5>;
++vcodec_enc: vcodec@18002000 {
++    compatible = "mediatek,mt8173-vcodec-avc-enc";
++    reg = <0 0x18002000 0 0x1000>;
++    interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>;
+     iommus = <&iommu M4U_PORT_VENC_RCPU>,
+              <&iommu M4U_PORT_VENC_REC>,
+              <&iommu M4U_PORT_VENC_BSDMA>,
+@@ -98,8 +97,20 @@ vcodec_dec: vcodec@16000000 {
+              <&iommu M4U_PORT_VENC_REF_LUMA>,
+              <&iommu M4U_PORT_VENC_REF_CHROMA>,
+              <&iommu M4U_PORT_VENC_NBM_RDMA>,
+-             <&iommu M4U_PORT_VENC_NBM_WDMA>,
+-             <&iommu M4U_PORT_VENC_RCPU_SET2>,
++             <&iommu M4U_PORT_VENC_NBM_WDMA>;
++    mediatek,larb = <&larb3>;
++    mediatek,vpu = <&vpu>;
++    clocks = <&topckgen CLK_TOP_VENC_SEL>;
++    clock-names = "venc_sel";
++    assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>;
++    assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL>;
++  };
++
++vcodec_enc_lt: vcodec@19002000 {
++    compatible = "mediatek,mt8173-vcodec-vp8-enc";
++    reg =  <0 0x19002000 0 0x1000>;	/* VENC_LT_SYS */
++    interrupts = <GIC_SPI 202 IRQ_TYPE_LEVEL_LOW>;
++    iommus = <&iommu M4U_PORT_VENC_RCPU_SET2>,
+              <&iommu M4U_PORT_VENC_REC_FRM_SET2>,
+              <&iommu M4U_PORT_VENC_BSDMA_SET2>,
+              <&iommu M4U_PORT_VENC_SV_COMA_SET2>,
+@@ -108,17 +119,10 @@ vcodec_dec: vcodec@16000000 {
+              <&iommu M4U_PORT_VENC_CUR_CHROMA_SET2>,
+              <&iommu M4U_PORT_VENC_REF_LUMA_SET2>,
+              <&iommu M4U_PORT_VENC_REC_CHROMA_SET2>;
++    mediatek,larb = <&larb5>;
+     mediatek,vpu = <&vpu>;
+-    clocks = <&topckgen CLK_TOP_VENCPLL_D2>,
+-             <&topckgen CLK_TOP_VENC_SEL>,
+-             <&topckgen CLK_TOP_UNIVPLL1_D2>,
+-             <&topckgen CLK_TOP_VENC_LT_SEL>;
+-    clock-names = "venc_sel_src",
+-                  "venc_sel",
+-                  "venc_lt_sel_src",
+-                  "venc_lt_sel";
+-    assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>,
+-                      <&topckgen CLK_TOP_VENC_LT_SEL>;
+-    assigned-clock-parents = <&topckgen CLK_TOP_VENCPLL_D2>,
+-                             <&topckgen CLK_TOP_UNIVPLL1_D2>;
++    clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
++    clock-names = "venc_lt_sel";
++    assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
++    assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL_370P5>;
+   };
 -- 
-1.9.1 
+1.9.1
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
