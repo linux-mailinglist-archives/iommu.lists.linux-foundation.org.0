@@ -1,62 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631741E8F88
-	for <lists.iommu@lfdr.de>; Sat, 30 May 2020 10:14:23 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CFE71E8FA6
+	for <lists.iommu@lfdr.de>; Sat, 30 May 2020 10:19:33 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1AA73885C6;
-	Sat, 30 May 2020 08:14:22 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E0CA220764;
+	Sat, 30 May 2020 08:19:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DDeKKOzAfG40; Sat, 30 May 2020 08:14:21 +0000 (UTC)
+	with ESMTP id YvzoR+6UUBSR; Sat, 30 May 2020 08:19:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 89FBE88BA4;
-	Sat, 30 May 2020 08:14:21 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D44BC221B7;
+	Sat, 30 May 2020 08:19:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 75981C016F;
-	Sat, 30 May 2020 08:14:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C8D3DC016F;
+	Sat, 30 May 2020 08:19:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 565D2C016F
- for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:14:19 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 04767C016F
+ for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:19:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 524C188357
- for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:14:19 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id E6B2386FEA
+ for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:19:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lI6mIitBzDsL for <iommu@lists.linux-foundation.org>;
- Sat, 30 May 2020 08:14:18 +0000 (UTC)
+ with ESMTP id 9kRocC0xIw6A for <iommu@lists.linux-foundation.org>;
+ Sat, 30 May 2020 08:19:28 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by whitealder.osuosl.org (Postfix) with ESMTP id 7A6A08758A
- for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:14:18 +0000 (UTC)
-X-UUID: 6edb94bfe3ba405d9c19a6e8ac650db8-20200530
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 19A9D84949
+ for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:19:27 +0000 (UTC)
+X-UUID: f3764fe00c43440686fc71b2f2004fb5-20200530
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=8H2tXyQBBPUD1GcH5xZGraxq7v8PS8Ye3wet1U9PU0c=; 
- b=bSoSH3xgmtyF636WFzCrKTwuUhjqeIpWrY5UJ1oACD3z1x91GMNP5fbYIzY89oLtzeUYUfRarzUkXnzalDFzBtGvmNwv+QH6H9aI2VcPTR4qM3ug5gh1uipYv7XJsZumG3gYU1L38lciGy0KnWa6tolCbn/B1KEDenNFAJ80/cs=;
-X-UUID: 6edb94bfe3ba405d9c19a6e8ac650db8-20200530
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
+ bh=3n8qQs/+XQtriV9uBcTrs++ZoOREAIe6PJ1LIF68gR4=; 
+ b=M2kAZT6ZrYkSk5AmgCpfM8peyFM2WHXUFizcc4Fd2f7i6Wd9SQppW0qScWN4LZUV0CQzQY/ALzGh46aEs4U5UULlcoOxRjp1+PzbeqE4lB0gbBlDlObHY/X0jUisfbLadi7I3IXPUmktqybifmTIvjbzbiD+Oz5/Bk+VorUvXXk=;
+X-UUID: f3764fe00c43440686fc71b2f2004fb5-20200530
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1464659450; Sat, 30 May 2020 16:14:13 +0800
+ with ESMTP id 274966586; Sat, 30 May 2020 16:14:26 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 30 May 2020 16:14:10 +0800
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 30 May 2020 16:14:22 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 30 May 2020 16:14:10 +0800
+ Transport; Sat, 30 May 2020 16:14:22 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
  Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v4 12/17] memory: mtk-smi: Get rid of mtk_smi_larb_get/put
-Date: Sat, 30 May 2020 16:10:13 +0800
-Message-ID: <1590826218-23653-13-git-send-email-yong.wu@mediatek.com>
+Subject: [PATCH v4 13/17] iommu/mediatek: Use module_platform_driver
+Date: Sat, 30 May 2020 16:10:14 +0800
+Message-ID: <1590826218-23653-14-git-send-email-yong.wu@mediatek.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1590826218-23653-1-git-send-email-yong.wu@mediatek.com>
 References: <1590826218-23653-1-git-send-email-yong.wu@mediatek.com>
@@ -88,74 +88,84 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-After adding device_link between the iommu consumer and smi-larb,
-the pm_runtime_get(_sync) of smi-larb and smi-common will be called
-automatically. we can get rid of mtk_smi_larb_get/put.
+MediaTek IOMMU should wait for smi larb which need wait for the
+power domain(mtk-scpsys.c) and the multimedia ccf, both are module
+init. Thus, subsys_initcall for MediaTek IOMMU is not helpful.
+Switch to module_platform_driver.
 
-CC: Matthias Brugger <matthias.bgg@gmail.com>
+Correspondingly, add the module license information.
+
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-Reviewed-by: Evan Green <evgreen@chromium.org>
 ---
- drivers/memory/mtk-smi.c   | 14 --------------
- include/soc/mediatek/smi.h | 20 --------------------
- 2 files changed, 34 deletions(-)
+for iommu v1: honghui's mail address is not valid now. I will be
+responsible for that file too, So I add myself in it.
+---
+ drivers/iommu/mtk_iommu.c    | 18 ++++++------------
+ drivers/iommu/mtk_iommu_v1.c | 12 +++++++-----
+ 2 files changed, 13 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
-index 6cdefda..19c3949 100644
---- a/drivers/memory/mtk-smi.c
-+++ b/drivers/memory/mtk-smi.c
-@@ -125,20 +125,6 @@ static void mtk_smi_clk_disable(const struct mtk_smi *smi)
- 	clk_disable_unprepare(smi->clk_apb);
- }
- 
--int mtk_smi_larb_get(struct device *larbdev)
--{
--	int ret = pm_runtime_get_sync(larbdev);
--
--	return (ret < 0) ? ret : 0;
--}
--EXPORT_SYMBOL_GPL(mtk_smi_larb_get);
--
--void mtk_smi_larb_put(struct device *larbdev)
--{
--	pm_runtime_put_sync(larbdev);
--}
--EXPORT_SYMBOL_GPL(mtk_smi_larb_put);
--
- static int
- mtk_smi_larb_bind(struct device *dev, struct device *master, void *data)
- {
-diff --git a/include/soc/mediatek/smi.h b/include/soc/mediatek/smi.h
-index 5a34b87..f8bf595 100644
---- a/include/soc/mediatek/smi.h
-+++ b/include/soc/mediatek/smi.h
-@@ -20,26 +20,6 @@ struct mtk_smi_larb_iommu {
- 	unsigned int   mmu;
+diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+index 5c3a6ba..0740ca9 100644
+--- a/drivers/iommu/mtk_iommu.c
++++ b/drivers/iommu/mtk_iommu.c
+@@ -15,6 +15,7 @@
+ #include <linux/iommu.h>
+ #include <linux/iopoll.h>
+ #include <linux/list.h>
++#include <linux/module.h>
+ #include <linux/of_address.h>
+ #include <linux/of_iommu.h>
+ #include <linux/of_irq.h>
+@@ -823,16 +824,9 @@ static int __maybe_unused mtk_iommu_resume(struct device *dev)
+ 		.pm = &mtk_iommu_pm_ops,
+ 	}
  };
++module_platform_driver(mtk_iommu_driver);
  
--/*
-- * mtk_smi_larb_get: Enable the power domain and clocks for this local arbiter.
-- *                   It also initialize some basic setting(like iommu).
-- * mtk_smi_larb_put: Disable the power domain and clocks for this local arbiter.
-- * Both should be called in non-atomic context.
-- *
-- * Returns 0 if successful, negative on failure.
-- */
--int mtk_smi_larb_get(struct device *larbdev);
--void mtk_smi_larb_put(struct device *larbdev);
--
--#else
--
--static inline int mtk_smi_larb_get(struct device *larbdev)
+-static int __init mtk_iommu_init(void)
 -{
--	return 0;
+-	int ret;
+-
+-	ret = platform_driver_register(&mtk_iommu_driver);
+-	if (ret != 0)
+-		pr_err("Failed to register MTK IOMMU driver\n");
+-
+-	return ret;
 -}
 -
--static inline void mtk_smi_larb_put(struct device *larbdev) { }
--
- #endif
+-subsys_initcall(mtk_iommu_init)
++MODULE_DESCRIPTION("IOMMU API for MediaTek M4U implementations");
++MODULE_AUTHOR("Yong Wu <yong.wu@mediatek.com>");
++MODULE_ALIAS("platform:MediaTek-M4U");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
+index 26b6c79..0852cb3 100644
+--- a/drivers/iommu/mtk_iommu_v1.c
++++ b/drivers/iommu/mtk_iommu_v1.c
+@@ -20,6 +20,7 @@
+ #include <linux/iommu.h>
+ #include <linux/iopoll.h>
+ #include <linux/list.h>
++#include <linux/module.h>
+ #include <linux/of_address.h>
+ #include <linux/of_iommu.h>
+ #include <linux/of_irq.h>
+@@ -711,9 +712,10 @@ static int __maybe_unused mtk_iommu_resume(struct device *dev)
+ 		.pm = &mtk_iommu_pm_ops,
+ 	}
+ };
++module_platform_driver(mtk_iommu_driver);
  
- #endif
+-static int __init m4u_init(void)
+-{
+-	return platform_driver_register(&mtk_iommu_driver);
+-}
+-subsys_initcall(m4u_init);
++MODULE_DESCRIPTION("IOMMU API for MediaTek M4U v1 implementations");
++MODULE_AUTHOR("Yong Wu <yong.wu@mediatek.com>");
++MODULE_AUTHOR("Honghui Zhang <honghui.zhang@mediatek.com>");
++MODULE_ALIAS("platform:MediaTek-M4U-v1");
++MODULE_LICENSE("GPL v2");
 -- 
 1.9.1
 _______________________________________________
