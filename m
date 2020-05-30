@@ -1,123 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E1AD1E8B12
-	for <lists.iommu@lfdr.de>; Sat, 30 May 2020 00:16:39 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 97F9A88493;
-	Fri, 29 May 2020 22:16:37 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DtTxAYINwirX; Fri, 29 May 2020 22:16:36 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CD15B883BB;
-	Fri, 29 May 2020 22:16:36 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A9016C0892;
-	Fri, 29 May 2020 22:16:36 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 294A2C016F
- for <iommu@lists.linux-foundation.org>; Fri, 29 May 2020 22:16:35 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id C911A1E8F9D
+	for <lists.iommu@lfdr.de>; Sat, 30 May 2020 10:17:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 0C4D122610
- for <iommu@lists.linux-foundation.org>; Fri, 29 May 2020 22:16:35 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2CBE020764;
+	Sat, 30 May 2020 08:17:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5P6g4hLabuJd; Sat, 30 May 2020 08:17:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 2AB3A20490;
+	Sat, 30 May 2020 08:17:29 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 088AAC016F;
+	Sat, 30 May 2020 08:17:29 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C5018C016F
+ for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:17:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id B243F883DD
+ for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:17:27 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xjplyye-hHKD for <iommu@lists.linux-foundation.org>;
- Fri, 29 May 2020 22:16:33 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by silver.osuosl.org (Postfix) with ESMTPS id 96C09220EF
- for <iommu@lists.linux-foundation.org>; Fri, 29 May 2020 22:16:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1590790592;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=RyWRgA39MpCS4B1s1Q6dcjnQ39Nmyes8pkIQMz0S9CE=;
- b=HyEydRMZTLGrdMZrhync1yjF80RTDrg5tllQ8JcDCwKF5HM1gHuL3kxdX10bl+DQhabkyB
- EDrpC3oDmktZI9oHoT+zfWbnRFMzHocyzPSUi8rG5h98NqPmqzMk5OClHcNQUB2gyoJsoz
- lvtDt5pyQRDGMJtCC3WFSCxzW0AhSkg=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-2bt8x7e4NIuAMDrBubhW_A-1; Fri, 29 May 2020 18:16:26 -0400
-X-MC-Unique: 2bt8x7e4NIuAMDrBubhW_A-1
-Received: by mail-qv1-f72.google.com with SMTP id s15so2313240qvo.6
- for <iommu@lists.linux-foundation.org>; Fri, 29 May 2020 15:16:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=RyWRgA39MpCS4B1s1Q6dcjnQ39Nmyes8pkIQMz0S9CE=;
- b=QzFLdS5ZEYKd0rEZe4tc6RFA3PCM86ZLG6TnNkuA1fsrQUtFZLZY4Tizt0hfNq+S1u
- 2pv49KugsK2Xzck6J2N8qNUFw/lS6UyLGeJQjuZuRoq1ewNB7MtVgeo5Cp8g2i9rxYcn
- IXWP2wZEBwRBNAhZmE0/7fwRrHmWkwe4IeBn/QFZgslulTQJ++GSPdYygWsked+/if1u
- eUtHnJhq2DZctYFixkllAM6hm18BKZxNGz74xOb15WKbWH/BGFDLQsxctC7sALvukltU
- ktiabVgNS8SwsHr+H7oMU9S6fHKBoqfi7Ii4fRTp74SlHsRgEAU+JqJ2PdfIHCnfclZd
- LLFA==
-X-Gm-Message-State: AOAM533Zfx3VZps6SzdffWi04jzwr4/ZDoW1zve8yUOzGjL3rWVBI8a6
- 7+EpB4xqnZoSmJvqEzuLQg5vXJZ/zDPz5M0HXX0sPGpuHTfm1di6rTfGHrgPxpLLhX7vg2CB/NF
- gKqbgcadfmZV8HDr6q9wBVuw7GblaSw==
-X-Received: by 2002:a37:6188:: with SMTP id v130mr4562285qkb.138.1590790585938; 
- Fri, 29 May 2020 15:16:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw51w0cnvYWh4WhXmhdM31BK730VJAQnizGJEPYNr8qH289FZOtd/33h3DF8AwAKbkwmoOGzg==
-X-Received: by 2002:a37:6188:: with SMTP id v130mr4562246qkb.138.1590790585671; 
- Fri, 29 May 2020 15:16:25 -0700 (PDT)
-Received: from localhost (ip70-163-223-149.ph.ph.cox.net. [70.163.223.149])
- by smtp.gmail.com with ESMTPSA id w13sm8244813qkb.91.2020.05.29.15.16.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 May 2020 15:16:24 -0700 (PDT)
-Date: Fri, 29 May 2020 15:16:23 -0700
-From: Jerry Snitselaar <jsnitsel@redhat.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: Re: [PATCH v2 00/33] iommu: Move iommu_group setup to IOMMU core code
-Message-ID: <20200529221623.qc6twmpzryh7nkvb@cantor>
-Mail-Followup-To: Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Kukjin Kim <kgene@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- linux-s390@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org,
- linux-rockchip@lists.infradead.org,
- iommu@lists.linux-foundation.org,
- linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org
-References: <20200414131542.25608-1-joro@8bytes.org>
+ with ESMTP id tQNxvdy31Y-X for <iommu@lists.linux-foundation.org>;
+ Sat, 30 May 2020 08:17:26 +0000 (UTC)
+X-Greylist: delayed 00:05:01 by SQLgrey-1.7.6
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3D20088432
+ for <iommu@lists.linux-foundation.org>; Sat, 30 May 2020 08:17:26 +0000 (UTC)
+X-UUID: 8a8b99a1de5645d48ccc77bfa68a829c-20200530
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=V8yQ0GxXRXQMXl/iXHArWIMs4HfP9plBlPfYP2LJor0=; 
+ b=cxIr4GaEPMjVfBXN/wfzcG1r9RRPXSXNhlpW9fnLqATEEm2zOKK04MHNCZSXSC3NKhIAfEO4EfuMytDxRz1bSr2nNr2eH+aNgIr/E4tfN9ZwEGILehZZuI4Yys2oHpWsYfCeBOI5/7WGsrb2GoGkupDx5xru6nJTjU7rWgiu6cg=;
+X-UUID: 8a8b99a1de5645d48ccc77bfa68a829c-20200530
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
+ mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1813244251; Sat, 30 May 2020 16:12:22 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 30 May 2020 16:12:18 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 30 May 2020 16:12:18 +0800
+From: Yong Wu <yong.wu@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
+ Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v4 00/17] Clean up "mediatek,larb" after adding device_link
+Date: Sat, 30 May 2020 16:10:01 +0800
+Message-ID: <1590826218-23653-1-git-send-email-yong.wu@mediatek.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <20200414131542.25608-1-joro@8bytes.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
-Cc: Heiko Stuebner <heiko@sntech.de>, virtualization@lists.linux-foundation.org,
- linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Will Deacon <will@kernel.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- linux-samsung-soc@vger.kernel.org, iommu@lists.linux-foundation.org,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- linux-rockchip@lists.infradead.org, Andy Gross <agross@kernel.org>,
- linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- David Woodhouse <dwmw2@infradead.org>, linux-kernel@vger.kernel.org,
- Kukjin Kim <kgene@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+X-MTK: N
+Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
+ Nicolas Boichat <drinkcat@chromium.org>, cui.zhang@mediatek.com,
+ eizan@chromium.org, srv_heupstream@mediatek.com, chao.hao@mediatek.com,
+ Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
+ Evan Green <evgreen@chromium.org>, Tomasz Figa <tfiga@google.com>,
+ iommu@lists.linux-foundation.org, Matthias Kaehlcke <mka@chromium.org>,
+ linux-mediatek@lists.infradead.org, ming-fan.chen@mediatek.com,
+ anan.sun@mediatek.com, Robin Murphy <robin.murphy@arm.com>,
+ acourbot@chromium.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -130,123 +81,142 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Reply-To: Jerry Snitselaar <jsnitsel@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue Apr 14 20, Joerg Roedel wrote:
->Hi,
->
->here is the second version of this patch-set. The first version with
->some more introductory text can be found here:
->
->	https://lore.kernel.org/lkml/20200407183742.4344-1-joro@8bytes.org/
->
->Changes v1->v2:
->
->	* Rebased to v5.7-rc1
->
->	* Re-wrote the arm-smmu changes as suggested by Robin Murphy
->
->	* Re-worked the Exynos patches to hopefully not break the
->	  driver anymore
->
->	* Fixed a missing mutex_unlock() reported by Marek Szyprowski,
->	  thanks for that.
->
->There is also a git-branch available with these patches applied:
->
->	https://git.kernel.org/pub/scm/linux/kernel/git/joro/linux.git/log/?h=iommu-probe-device-v2
->
->Please review.
->
->Thanks,
->
->	Joerg
->
->Joerg Roedel (32):
->  iommu: Move default domain allocation to separate function
->  iommu/amd: Implement iommu_ops->def_domain_type call-back
->  iommu/vt-d: Wire up iommu_ops->def_domain_type
->  iommu/amd: Remove dma_mask check from check_device()
->  iommu/amd: Return -ENODEV in add_device when device is not handled by
->    IOMMU
->  iommu: Add probe_device() and remove_device() call-backs
->  iommu: Move default domain allocation to iommu_probe_device()
->  iommu: Keep a list of allocated groups in __iommu_probe_device()
->  iommu: Move new probe_device path to separate function
->  iommu: Split off default domain allocation from group assignment
->  iommu: Move iommu_group_create_direct_mappings() out of
->    iommu_group_add_device()
->  iommu: Export bus_iommu_probe() and make is safe for re-probing
->  iommu/amd: Remove dev_data->passthrough
->  iommu/amd: Convert to probe/release_device() call-backs
->  iommu/vt-d: Convert to probe/release_device() call-backs
->  iommu/arm-smmu: Convert to probe/release_device() call-backs
->  iommu/pamu: Convert to probe/release_device() call-backs
->  iommu/s390: Convert to probe/release_device() call-backs
->  iommu/virtio: Convert to probe/release_device() call-backs
->  iommu/msm: Convert to probe/release_device() call-backs
->  iommu/mediatek: Convert to probe/release_device() call-backs
->  iommu/mediatek-v1 Convert to probe/release_device() call-backs
->  iommu/qcom: Convert to probe/release_device() call-backs
->  iommu/rockchip: Convert to probe/release_device() call-backs
->  iommu/tegra: Convert to probe/release_device() call-backs
->  iommu/renesas: Convert to probe/release_device() call-backs
->  iommu/omap: Remove orphan_dev tracking
->  iommu/omap: Convert to probe/release_device() call-backs
->  iommu/exynos: Use first SYSMMU in controllers list for IOMMU core
->  iommu/exynos: Convert to probe/release_device() call-backs
->  iommu: Remove add_device()/remove_device() code-paths
->  iommu: Unexport iommu_group_get_for_dev()
->
->Sai Praneeth Prakhya (1):
->  iommu: Add def_domain_type() callback in iommu_ops
->
-> drivers/iommu/amd_iommu.c       |  97 ++++----
-> drivers/iommu/amd_iommu_types.h |   1 -
-> drivers/iommu/arm-smmu-v3.c     |  38 +--
-> drivers/iommu/arm-smmu.c        |  39 ++--
-> drivers/iommu/exynos-iommu.c    |  24 +-
-> drivers/iommu/fsl_pamu_domain.c |  22 +-
-> drivers/iommu/intel-iommu.c     |  68 +-----
-> drivers/iommu/iommu.c           | 393 +++++++++++++++++++++++++-------
-> drivers/iommu/ipmmu-vmsa.c      |  60 ++---
-> drivers/iommu/msm_iommu.c       |  34 +--
-> drivers/iommu/mtk_iommu.c       |  24 +-
-> drivers/iommu/mtk_iommu_v1.c    |  50 ++--
-> drivers/iommu/omap-iommu.c      |  99 ++------
-> drivers/iommu/qcom_iommu.c      |  24 +-
-> drivers/iommu/rockchip-iommu.c  |  26 +--
-> drivers/iommu/s390-iommu.c      |  22 +-
-> drivers/iommu/tegra-gart.c      |  24 +-
-> drivers/iommu/tegra-smmu.c      |  31 +--
-> drivers/iommu/virtio-iommu.c    |  41 +---
-> include/linux/iommu.h           |  21 +-
-> 20 files changed, 533 insertions(+), 605 deletions(-)
->
->-- 
->2.17.1
->
->_______________________________________________
->iommu mailing list
->iommu@lists.linux-foundation.org
->https://lists.linuxfoundation.org/mailman/listinfo/iommu
->
+MediaTek IOMMU block diagram always like below:
 
-Hi Joerg,
+        M4U
+         |
+    smi-common
+         |
+  -------------
+  |         |  ...
+  |         |
+larb1     larb2
+  |         |
+vdec       venc
 
-With this patchset, I have an epyc system where if I boot with
-iommu=nopt and force a dump I will see some io page faults for a nic
-on the system. The vmcore is harvested and the system reboots. I
-haven't reproduced it on other systems yet, but without the patchset I
-don't see the io page faults during the kdump.
+All the consumer connect with smi-larb, then connect with smi-common.
 
-Regards,
-Jerry
+MediaTek IOMMU don't have its power-domain. When the consumer works,
+it should enable the smi-larb's power which also need enable the smi-common's
+power firstly.
 
+Thus, Firstly, use the device link connect the consumer and the
+smi-larbs. then add device link between the smi-larb and smi-common.
+
+After adding the device_link, then "mediatek,larb" property can be removed.
+the iommu consumer don't need call the mtk_smi_larb_get/put to enable
+the power and clock of smi-larb and smi-common.
+
+This patchset depends on v5.7-rc1 and several patchset. Mainly venc and MDP
+adjust their flow, then this patchset can work successfully.
+
+a) IOMMU depend on [1][2].
+b) MDP depend on [3][4][5].
+c) VENC depend on [6].
+
+[1] iommu: Move iommu_group setup to IOMMU core code
+   https://lore.kernel.org/linux-iommu/20200429133712.31431-1-joro@8bytes.org/
+[2] iommu/mediatek-v1: Fix a build warning for a unused variable 'data'
+   https://lore.kernel.org/linux-iommu/1589875064-662-1-git-send-email-yong.wu@mediatek.com/
+[3] arm64: dts: mt8173: fix mdp aliases property name
+   https://lore.kernel.org/linux-mediatek/20200414030815.192104-1-hsinyi@chromium.org/
+[4] MTK MDP driver cleanups to prep for futher work
+    https://lore.kernel.org/linux-mediatek/20200507102345.81849-1-eizan@chromium.org/
+[5] Refactor MDP driver and add dummy component driver
+    https://lore.kernel.org/linux-mediatek/20200506084039.249977-1-eizan@chromium.org/
+[6] media: mtk-vcodec: venc: support for MT8183
+    https://lore.kernel.org/linux-mediatek/20200520082723.96136-1-acourbot@chromium.org/
+
+[1][2][3] have already been in lastest linux-next.
+
+Change notes:
+
+v4: base on v5.7-rc1.
+  1) Move drm PM patch before smi patchs.
+  2) Change builtin_platform_driver to module_platform_driver since we may need
+     build as module.
+  3) Rebase many patchset as above.
+
+v3: https://lore.kernel.org/linux-iommu/1567503456-24725-1-git-send-email-yong.wu@mediatek.com/
+    1) rebase on v5.3-rc1 and the latest mt8183 patchset.
+    2) Use device_is_bound to check whether the driver is ready from Matthias.    
+    3) Add DL_FLAG_STATELESS flag when calling device_link_add and explain the
+   reason in the commit message[3/14].
+    4) Add a display patch[12/14] into this series. otherwise it may affect
+   display HW fastlogo even though it don't happen in mt8183.
+   
+v2: http://lists.infradead.org/pipermail/linux-mediatek/2019-June/020440.html
+   1) rebase on v5.2-rc1.
+   2) Move adding device_link between the consumer and smi-larb into
+iommu_add_device from Robin.
+   3) add DL_FLAG_AUTOREMOVE_CONSUMER even though the smi is built-in from Evan.
+   4) Remove the shutdown callback in iommu.   
+
+v1: https://lists.linuxfoundation.org/pipermail/iommu/2019-January/032387.html
+
+Irui Wang (1):
+  arm64: dts: mt8173: Separate mtk-vcodec-enc node
+
+Maoguang Meng (2):
+  media: dt-binding: mtk-vcodec: Separating mtk-vcodec encode node.
+  media: mtk-vcodec: separate mtk-vcodec-enc node.
+
+Yong Wu (13):
+  dt-binding: mediatek: Get rid of mediatek,larb for multimedia HW
+  iommu/mediatek: Add probe_defer for smi-larb
+  iommu/mediatek: Add device_link between the consumer and the larb
+    devices
+  memory: mtk-smi: Add device-link between smi-larb and smi-common
+  media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
+  media: mtk-mdp: Get rid of mtk_smi_larb_get/put
+  media: mtk-vcodec: Get rid of mtk_smi_larb_get/put
+  drm/mediatek: Get rid of mtk_smi_larb_get/put
+  memory: mtk-smi: Get rid of mtk_smi_larb_get/put
+  iommu/mediatek: Use module_platform_driver
+  memory: mtk-smi: Use device_is_bound to check if smi-common is ready
+  arm: dts: mediatek: Get rid of mediatek,larb for MM nodes
+  arm64: dts: mediatek: Get rid of mediatek,larb for MM nodes
+
+Yongqiang Niu (1):
+  drm/mediatek: Add pm runtime support for ovl and rdma
+
+ .../bindings/display/mediatek/mediatek,disp.txt    |   9 --
+ .../bindings/media/mediatek-jpeg-decoder.txt       |   4 -
+ .../devicetree/bindings/media/mediatek-mdp.txt     |   8 --
+ .../devicetree/bindings/media/mediatek-vcodec.txt  |  58 +++++-----
+ arch/arm/boot/dts/mt2701.dtsi                      |   1 -
+ arch/arm/boot/dts/mt7623.dtsi                      |   1 -
+ arch/arm64/boot/dts/mediatek/mt8173.dtsi           |  72 +++++-------
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |   9 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |   9 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c            |  19 +--
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c        |  21 +---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h        |   2 +-
+ drivers/iommu/mtk_iommu.c                          |  44 ++++---
+ drivers/iommu/mtk_iommu_v1.c                       |  39 +++++--
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c    |  22 ----
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h    |   2 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c      |  44 +------
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.h      |   2 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c      |   1 -
+ .../media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c  |  19 ---
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h |  13 +--
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c |  24 +++-
+ .../media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c | 127 +++++++++------------
+ .../media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c  |  56 ---------
+ .../media/platform/mtk-vcodec/mtk_vcodec_enc_pm.h  |   1 -
+ .../media/platform/mtk-vcodec/venc/venc_vp8_if.c   |   4 +-
+ drivers/memory/mtk-smi.c                           |  41 +++----
+ include/soc/mediatek/smi.h                         |  20 ----
+ 28 files changed, 246 insertions(+), 426 deletions(-)
+
+-- 
+1.9.1 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
