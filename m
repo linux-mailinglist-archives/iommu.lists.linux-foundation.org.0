@@ -1,51 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708D41EB86E
-	for <lists.iommu@lfdr.de>; Tue,  2 Jun 2020 11:26:33 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC9A1EB8F5
+	for <lists.iommu@lfdr.de>; Tue,  2 Jun 2020 11:57:18 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 28B4685D6E;
-	Tue,  2 Jun 2020 09:26:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 644AF2047A;
+	Tue,  2 Jun 2020 09:57:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DEvr8z9tZ5KN; Tue,  2 Jun 2020 09:26:31 +0000 (UTC)
+	with ESMTP id PiwPN8o25+AK; Tue,  2 Jun 2020 09:57:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EF363860C5;
-	Tue,  2 Jun 2020 09:26:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A65D52107D;
+	Tue,  2 Jun 2020 09:57:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DD32AC088D;
-	Tue,  2 Jun 2020 09:26:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6A9D2C0893;
+	Tue,  2 Jun 2020 09:57:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 55641C0178
- for <iommu@lists.linux-foundation.org>; Tue,  2 Jun 2020 09:26:29 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ACC9FC016E
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Jun 2020 07:35:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 4FD3E86937
- for <iommu@lists.linux-foundation.org>; Tue,  2 Jun 2020 09:26:29 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id A86A4876AA
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Jun 2020 07:35:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TKVgZ9Lvlrg5 for <iommu@lists.linux-foundation.org>;
- Tue,  2 Jun 2020 09:26:27 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 2A597876B4
- for <iommu@lists.linux-foundation.org>; Tue,  2 Jun 2020 09:26:27 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 5E6FD445; Tue,  2 Jun 2020 11:26:22 +0200 (CEST)
-From: Joerg Roedel <joro@8bytes.org>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 2/2] iommu/vt-d: Move Intel IOMMU driver into subdirectory
-Date: Tue,  2 Jun 2020 11:26:16 +0200
-Message-Id: <20200602092616.24638-3-joro@8bytes.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200602092616.24638-1-joro@8bytes.org>
-References: <20200602092616.24638-1-joro@8bytes.org>
-Cc: Joerg Roedel <jroedel@suse.de>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, David Woodhouse <dwmw2@infradead.org>
+ with ESMTP id Wipq1gyQ7OnX for <iommu@lists.linux-foundation.org>;
+ Tue,  2 Jun 2020 07:35:44 +0000 (UTC)
+X-Greylist: delayed 01:50:21 by SQLgrey-1.7.6
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com
+ [209.85.219.202])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6D35F876A4
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Jun 2020 07:35:44 +0000 (UTC)
+Received: by mail-yb1-f202.google.com with SMTP id r18so15962720ybg.10
+ for <iommu@lists.linux-foundation.org>; Tue, 02 Jun 2020 00:35:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=qiAGy0O4D5sZPZBUDOyzmafsREfPwQ+6o5+tiGkldzk=;
+ b=g9X7wqQHkwSsE67PytiDLtUkVlKt2EmXQ0Z2WRZ0Xh3f9+7wmd6h5PI65oCiURIzef
+ MvAXbSoNA7xpUP+3svirF5JhGDvXQZ1hGiTiID+6+4TXZMqd9HGHl42YU8KYdn1jlXX1
+ FMt8vXzUeNYIsYo7VzJ9wNA04qeDpKks+ZwPzp1zSUn24ptdkw6dUktr1kvqHK1hj/Dh
+ RbuIe+jX/KArQ5VsuwdkY5TYXdHBF42uQJwZ9RNePDGIoHfqlRknnDTaAHMFGPsBlaKN
+ 2MW4rywYhNxn+jhu9c2wfi6Jt/pIxSZxA7DPdJ0zojBygsgLVkYPzDrLC7UFgRFc/Tqb
+ QJtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=qiAGy0O4D5sZPZBUDOyzmafsREfPwQ+6o5+tiGkldzk=;
+ b=toLSg1/oBib0IGJUliYotejwVV2P/qnNiuzMBqH3pbYsY6/JjxsJDarVQMwoV8s+Dd
+ og5E4+OG6ZakjccIQMnMGD3wZ09ZxMlVHQIh+l7tAfvVXL/KuDMO1HHg1I3pTGXiV4D3
+ cWLUyB86SX6Phj9+CEKDkY5Ra4C2LFmquVODKlgzEFfGB/nsoZAQONN4TlvPp2kWEpVY
+ xN/VHhl+S9XtY529DqIAsGFbuRT+hoKEnc5I4nid5pe3fVPmfHLJKuP213s3mtrbwkkr
+ zETDpQY943Isup3yMOj1r8i8PwwkRZO3ByGXL264LJur168TmpUWfK8bUM5AjprtuRio
+ 4dTg==
+X-Gm-Message-State: AOAM533fmUWAPXn6Lahp63zyIztHS18CKWrkpQg4kZY4lCA+dhFkqBef
+ aKkSMik2+vGsa3IOSzBDhE4Ps4JHo7px
+X-Google-Smtp-Source: ABdhPJxQRom+GrIfagQbwRffGMeJJ+pGvfAJjE78cF4/2hejCZlko1O5W4bBRi7rlSUMctQMMaNTzCgul32z
+X-Received: by 2002:a25:fc5:: with SMTP id 188mr39503234ybp.429.1591076722056; 
+ Mon, 01 Jun 2020 22:45:22 -0700 (PDT)
+Date: Mon,  1 Jun 2020 22:45:17 -0700
+Message-Id: <20200602054517.191244-1-rajatja@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.rc2.251.g90737beb825-goog
+Subject: [PATCH] iommu/vt-d: Don't apply gfx quirks to untrusted devices
+To: David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org, 
+ linux-kernel@vger.kernel.org, Mika Westerberg <mika.westerberg@intel.com>, 
+ Ashok Raj <ashok.raj@intel.com>, lalithambika.krishnakumar@intel.com
+X-Mailman-Approved-At: Tue, 02 Jun 2020 09:57:14 +0000
+Cc: tbroch@google.com, rajatxjain@gmail.com, pmalani@google.com,
+ mnissler@google.com, bleung@google.com, Rajat Jain <rajatja@google.com>,
+ zsm@google.com, levinale@google.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -58,132 +86,94 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
+From: Rajat Jain via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Rajat Jain <rajatja@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Joerg Roedel <jroedel@suse.de>
+Currently, an external malicious PCI device can masquerade the VID:PID
+of faulty gfx devices, and thus apply iommu quirks to effectively
+disable the IOMMU restrictions for itself.
 
-Move all files related to the Intel IOMMU driver into its own
-subdirectory.
+Thus we need to ensure that the device we are applying quirks to, is
+indeed an internal trusted device.
 
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
+Signed-off-by: Rajat Jain <rajatja@google.com>
 ---
- drivers/iommu/Makefile                               | 12 ++++++------
- .../iommu/{intel-iommu-debugfs.c => intel/debugfs.c} |  0
- drivers/iommu/{ => intel}/dmar.c                     |  2 +-
- drivers/iommu/{ => intel}/intel-pasid.h              |  0
- drivers/iommu/{intel-iommu.c => intel/iommu.c}       |  2 +-
- .../{intel_irq_remapping.c => intel/irq_remapping.c} |  2 +-
- drivers/iommu/{intel-pasid.c => intel/pasid.c}       |  0
- drivers/iommu/{intel-svm.c => intel/svm.c}           |  0
- drivers/iommu/{intel-trace.c => intel/trace.c}       |  0
- 9 files changed, 9 insertions(+), 9 deletions(-)
- rename drivers/iommu/{intel-iommu-debugfs.c => intel/debugfs.c} (100%)
- rename drivers/iommu/{ => intel}/dmar.c (99%)
- rename drivers/iommu/{ => intel}/intel-pasid.h (100%)
- rename drivers/iommu/{intel-iommu.c => intel/iommu.c} (99%)
- rename drivers/iommu/{intel_irq_remapping.c => intel/irq_remapping.c} (99%)
- rename drivers/iommu/{intel-pasid.c => intel/pasid.c} (100%)
- rename drivers/iommu/{intel-svm.c => intel/svm.c} (100%)
- rename drivers/iommu/{intel-trace.c => intel/trace.c} (100%)
+ drivers/iommu/intel-iommu.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
-index 3af7e374b0cb..342190196dfb 100644
---- a/drivers/iommu/Makefile
-+++ b/drivers/iommu/Makefile
-@@ -17,13 +17,13 @@ obj-$(CONFIG_AMD_IOMMU_V2) += amd/iommu_v2.o
- obj-$(CONFIG_ARM_SMMU) += arm_smmu.o
- arm_smmu-objs += arm-smmu.o arm-smmu-impl.o arm-smmu-qcom.o
- obj-$(CONFIG_ARM_SMMU_V3) += arm-smmu-v3.o
--obj-$(CONFIG_DMAR_TABLE) += dmar.o
--obj-$(CONFIG_INTEL_IOMMU) += intel-iommu.o intel-pasid.o
--obj-$(CONFIG_INTEL_IOMMU) += intel-trace.o
--obj-$(CONFIG_INTEL_IOMMU_DEBUGFS) += intel-iommu-debugfs.o
--obj-$(CONFIG_INTEL_IOMMU_SVM) += intel-svm.o
-+obj-$(CONFIG_DMAR_TABLE) += intel/dmar.o
-+obj-$(CONFIG_INTEL_IOMMU) += intel/iommu.o intel/pasid.o
-+obj-$(CONFIG_INTEL_IOMMU) += intel/trace.o
-+obj-$(CONFIG_INTEL_IOMMU_DEBUGFS) += intel/debugfs.o
-+obj-$(CONFIG_INTEL_IOMMU_SVM) += intel/svm.o
- obj-$(CONFIG_IPMMU_VMSA) += ipmmu-vmsa.o
--obj-$(CONFIG_IRQ_REMAP) += intel_irq_remapping.o irq_remapping.o
-+obj-$(CONFIG_IRQ_REMAP) += intel/irq_remapping.o irq_remapping.o
- obj-$(CONFIG_MTK_IOMMU) += mtk_iommu.o
- obj-$(CONFIG_MTK_IOMMU_V1) += mtk_iommu_v1.o
- obj-$(CONFIG_OMAP_IOMMU) += omap-iommu.o
-diff --git a/drivers/iommu/intel-iommu-debugfs.c b/drivers/iommu/intel/debugfs.c
-similarity index 100%
-rename from drivers/iommu/intel-iommu-debugfs.c
-rename to drivers/iommu/intel/debugfs.c
-diff --git a/drivers/iommu/dmar.c b/drivers/iommu/intel/dmar.c
-similarity index 99%
-rename from drivers/iommu/dmar.c
-rename to drivers/iommu/intel/dmar.c
-index 60a2970c37ff..cc46dff98fa0 100644
---- a/drivers/iommu/dmar.c
-+++ b/drivers/iommu/intel/dmar.c
-@@ -32,7 +32,7 @@
- #include <asm/irq_remapping.h>
- #include <asm/iommu_table.h>
- 
--#include "irq_remapping.h"
-+#include "../irq_remapping.h"
- 
- typedef int (*dmar_res_handler_t)(struct acpi_dmar_header *, void *);
- struct dmar_res_callback {
-diff --git a/drivers/iommu/intel-pasid.h b/drivers/iommu/intel/intel-pasid.h
-similarity index 100%
-rename from drivers/iommu/intel-pasid.h
-rename to drivers/iommu/intel/intel-pasid.h
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel/iommu.c
-similarity index 99%
-rename from drivers/iommu/intel-iommu.c
-rename to drivers/iommu/intel/iommu.c
-index 648a785e078a..9129663a7406 100644
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index ef0a5246700e5..f2a480168a02f 100644
 --- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -47,7 +47,7 @@
- #include <asm/iommu.h>
- #include <trace/events/intel_iommu.h>
++++ b/drivers/iommu/intel-iommu.c
+@@ -6214,6 +6214,11 @@ const struct iommu_ops intel_iommu_ops = {
  
--#include "irq_remapping.h"
-+#include "../irq_remapping.h"
- #include "intel-pasid.h"
+ static void quirk_iommu_igfx(struct pci_dev *dev)
+ {
++	if (dev->untrusted) {
++		pci_warn(dev, "skipping iommu quirk for untrusted gfx dev\n");
++		return;
++	}
++
+ 	pci_info(dev, "Disabling IOMMU for graphics on this chipset\n");
+ 	dmar_map_gfx = 0;
+ }
+@@ -6255,6 +6260,11 @@ DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163D, quirk_iommu_igfx);
  
- #define ROOT_SIZE		VTD_PAGE_SIZE
-diff --git a/drivers/iommu/intel_irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
-similarity index 99%
-rename from drivers/iommu/intel_irq_remapping.c
-rename to drivers/iommu/intel/irq_remapping.c
-index a042f123b091..7f8769800815 100644
---- a/drivers/iommu/intel_irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -21,7 +21,7 @@
- #include <asm/pci-direct.h>
- #include <asm/msidef.h>
+ static void quirk_iommu_rwbf(struct pci_dev *dev)
+ {
++	if (dev->untrusted) {
++		pci_warn(dev, "skipping iommu quirk for untrusted dev\n");
++		return;
++	}
++
+ 	/*
+ 	 * Mobile 4 Series Chipset neglects to set RWBF capability,
+ 	 * but needs it. Same seems to hold for the desktop versions.
+@@ -6285,6 +6295,11 @@ static void quirk_calpella_no_shadow_gtt(struct pci_dev *dev)
+ {
+ 	unsigned short ggc;
  
--#include "irq_remapping.h"
-+#include "../irq_remapping.h"
++	if (dev->untrusted) {
++		pci_warn(dev, "skipping iommu quirk for untrusted gfx dev\n");
++		return;
++	}
++
+ 	if (pci_read_config_word(dev, GGC, &ggc))
+ 		return;
  
- enum irq_mode {
- 	IRQ_REMAPPING,
-diff --git a/drivers/iommu/intel-pasid.c b/drivers/iommu/intel/pasid.c
-similarity index 100%
-rename from drivers/iommu/intel-pasid.c
-rename to drivers/iommu/intel/pasid.c
-diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel/svm.c
-similarity index 100%
-rename from drivers/iommu/intel-svm.c
-rename to drivers/iommu/intel/svm.c
-diff --git a/drivers/iommu/intel-trace.c b/drivers/iommu/intel/trace.c
-similarity index 100%
-rename from drivers/iommu/intel-trace.c
-rename to drivers/iommu/intel/trace.c
+@@ -6318,6 +6333,13 @@ static void __init check_tylersburg_isoch(void)
+ 	pdev = pci_get_device(PCI_VENDOR_ID_INTEL, 0x3a3e, NULL);
+ 	if (!pdev)
+ 		return;
++
++	if (pdev->untrusted) {
++		pci_warn(pdev, "skipping iommu quirk due to untrusted dev\n");
++		pci_dev_put(pdev);
++		return;
++	}
++
+ 	pci_dev_put(pdev);
+ 
+ 	/* System Management Registers. Might be hidden, in which case
+@@ -6327,6 +6349,12 @@ static void __init check_tylersburg_isoch(void)
+ 	if (!pdev)
+ 		return;
+ 
++	if (pdev->untrusted) {
++		pci_warn(pdev, "skipping iommu quirk due to untrusted dev\n");
++		pci_dev_put(pdev);
++		return;
++	}
++
+ 	if (pci_read_config_dword(pdev, 0x188, &vtisochctrl)) {
+ 		pci_dev_put(pdev);
+ 		return;
 -- 
-2.17.1
+2.27.0.rc2.251.g90737beb825-goog
 
 _______________________________________________
 iommu mailing list
