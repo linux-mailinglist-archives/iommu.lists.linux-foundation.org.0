@@ -1,57 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24A51EB440
-	for <lists.iommu@lfdr.de>; Tue,  2 Jun 2020 06:23:49 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E331EB447
+	for <lists.iommu@lfdr.de>; Tue,  2 Jun 2020 06:24:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5879A87EE9;
-	Tue,  2 Jun 2020 04:23:48 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2C83C810C0;
+	Tue,  2 Jun 2020 04:24:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1QH3+h2Yc0Ck; Tue,  2 Jun 2020 04:23:47 +0000 (UTC)
+	with ESMTP id gFgpbEF9xIEy; Tue,  2 Jun 2020 04:24:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 78C6B87C70;
-	Tue,  2 Jun 2020 04:23:47 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 97AB1805D5;
+	Tue,  2 Jun 2020 04:24:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6399FC0176;
-	Tue,  2 Jun 2020 04:23:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 91501C0176;
+	Tue,  2 Jun 2020 04:24:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 23605C0176
- for <iommu@lists.linux-foundation.org>; Tue,  2 Jun 2020 04:23:46 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A06ACC0176
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Jun 2020 04:24:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0F54885E6E
- for <iommu@lists.linux-foundation.org>; Tue,  2 Jun 2020 04:23:46 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8E52287C70
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Jun 2020 04:24:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SzqYu1EzJtww for <iommu@lists.linux-foundation.org>;
- Tue,  2 Jun 2020 04:23:45 +0000 (UTC)
+ with ESMTP id D0fnh794kXnd for <iommu@lists.linux-foundation.org>;
+ Tue,  2 Jun 2020 04:24:09 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7E48285817
- for <iommu@lists.linux-foundation.org>; Tue,  2 Jun 2020 04:23:45 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 2044B87697
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Jun 2020 04:24:09 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 99144206C3;
- Tue,  2 Jun 2020 04:23:44 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 51BA2206C3;
+ Tue,  2 Jun 2020 04:24:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591071825;
- bh=KForfwzUUC3Tk8fGSUSDwVHsxPKPlXtsHIFrysGM4iY=;
+ s=default; t=1591071849;
+ bh=sgwt4wu4ovM7Au/m6y7eibwKEZOw6hctJEhJzRNy5qA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V45ZYtoL70LH0+jjtU6K2Pm6h5EN5dcw3LAqGkCFEUvGLepwp/RzbDsv1tm9nbE8X
- IKfw5CNMxoDntLxKInDAvmDaDJ9slDOOgr5WQi4LT/HYwuAb815pAredk+uHwsM3gx
- Wz/hBz4BIW9vvksL95NAPm/tvL3WM12JokdvE9Lo=
-Date: Tue, 2 Jun 2020 06:23:40 +0200
+ b=2mCrwM+OCoJJbKpsOl7IzXvXzqSIQvvzFDvcgtE/h+tT1HxckMVCL8VlHx2bSKnFx
+ qsZrZBk4RHyOzcOhWU8mvrbQCoOr6y7DjO19yKjTjIUYtAoedpIqKfRCx0SoSyLXoO
+ 7lFEOomn5NuR+TYks3LHPF5hQVc9Iq/BWxQkloLg=
+Date: Tue, 2 Jun 2020 06:24:06 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Barry Song <song.bao.hua@hisilicon.com>
 Subject: Re: [PATCH] driver core: platform: expose numa_node to users in sysfs
-Message-ID: <20200602042340.GA2130884@kroah.com>
+Message-ID: <20200602042406.GB2130884@kroah.com>
 References: <20200602030139.73012-1-song.bao.hua@hisilicon.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -134,15 +134,8 @@ On Tue, Jun 02, 2020 at 03:01:39PM +1200, Barry Song wrote:
 >  static int platform_uevent(struct device *dev, struct kobj_uevent_env *env)
 >  {
 
-Platform devices are NUMA?  That's crazy, and feels like a total abuse
-of platform devices and drivers that really should belong on a "real"
-bus.
+Also you forgot a new entry in Documentation/ABI/ :(
 
-What drivers in the kernel today have this issue?
-
-thanks,
-
-greg k-h
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
