@@ -2,70 +2,77 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20D21ECE0A
-	for <lists.iommu@lfdr.de>; Wed,  3 Jun 2020 13:12:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA13B1ED0B7
+	for <lists.iommu@lfdr.de>; Wed,  3 Jun 2020 15:26:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 4874020399;
-	Wed,  3 Jun 2020 11:12:11 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3563B21FA9;
+	Wed,  3 Jun 2020 13:25:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MHZAEeKaIGrp; Wed,  3 Jun 2020 11:12:10 +0000 (UTC)
+	with ESMTP id 50q21MxeS8-M; Wed,  3 Jun 2020 13:25:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 749D422CB0;
-	Wed,  3 Jun 2020 11:12:10 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C91D92039E;
+	Wed,  3 Jun 2020 13:25:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5C7AFC016E;
-	Wed,  3 Jun 2020 11:12:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B5997C016E;
+	Wed,  3 Jun 2020 13:25:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6D70CC016E
- for <iommu@lists.linux-foundation.org>; Wed,  3 Jun 2020 11:12:08 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 24565C016E
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Jun 2020 13:25:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 5CDBD86BA0
- for <iommu@lists.linux-foundation.org>; Wed,  3 Jun 2020 11:12:08 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 0CC87884DE
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Jun 2020 13:25:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TM54tLt-v8Oq for <iommu@lists.linux-foundation.org>;
- Wed,  3 Jun 2020 11:12:04 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id E1285850E9
- for <iommu@lists.linux-foundation.org>; Wed,  3 Jun 2020 11:12:04 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 30E882067B;
- Wed,  3 Jun 2020 11:12:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1591182724;
- bh=Xza7Kf3c+nc+4WelfKWntJ9cpTKEbMrpBSWK718FdBc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NANcdNB0vCZOqbyeeJf8M2LCgAsngzmzsHvZLb86tzCuCPkSpOIa/lju/l9/CcnG/
- CYfCtPG9X5ls7k40e8pb3GV5gopQoeV3XY4yGLR/+ZEZ3LWxRkTgd5ynPDZhnUNsPu
- 24iaoPVLFdOoXINYwwq+YkYBnVvIjrrZnikV25og=
-Date: Wed, 3 Jun 2020 12:11:59 +0100
-From: Will Deacon <will@kernel.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: Re: [RFC 0/2] iommu: arm-smmu: Add support for early direct mappings
-Message-ID: <20200603111159.GA8408@willie-the-truck>
-References: <20191209150748.2471814-1-thierry.reding@gmail.com>
- <20200228025700.GA856087@builder>
- <20200514193249.GE279327@builder.lan>
- <CALAqxLVmomdKJCwh=e-PX+8-seDX0RXA81FzmG4sEyJmbXBh9A@mail.gmail.com>
- <20200527110343.GD11111@willie-the-truck>
- <20200602063210.GT11847@yoga>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200602063210.GT11847@yoga>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- iommu@lists.linux-foundation.org, Thierry Reding <thierry.reding@gmail.com>,
- John Stultz <john.stultz@linaro.org>, linux-tegra@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+ with ESMTP id rWuLPkaGSSqb for <iommu@lists.linux-foundation.org>;
+ Wed,  3 Jun 2020 13:25:55 +0000 (UTC)
+X-Greylist: delayed 00:22:33 by SQLgrey-1.7.6
+Received: from mail-qt1-f202.google.com (mail-qt1-f202.google.com
+ [209.85.160.202])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 36A68884C1
+ for <iommu@lists.linux-foundation.org>; Wed,  3 Jun 2020 13:25:55 +0000 (UTC)
+Received: by mail-qt1-f202.google.com with SMTP id y7so1813727qti.8
+ for <iommu@lists.linux-foundation.org>; Wed, 03 Jun 2020 06:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=db/kQaLQg+0T8fOHQ2nb3EujmTQZxSTonth9y+N64Uw=;
+ b=hyHgdnESty+it4dM91ZX8qfTsvjopVZuLx7NZhlI7ymz/gMbMzfiSUOuSk3et7Fc3r
+ NYzkXQpApAIQ1KtveTHMUkeKsGl38ohGlyaccallRwA2bVzLUyG1D7jJKbXQRh6QhSPT
+ ZOZ7kWh0lu1nCNO95TPKVAst4EcTrn7qYt7HVUYmkDRel57RDygHEncjvFtJxpOpPumP
+ JxBaRZb/MyjsAYom7lKZeRdDenDUO7d3xtH5yJq5siM/Lv2HHCYXWJPohh49YGUoNWdr
+ imMezI6+UFIRUDX8opuJ/H3qsniO6imliwxPP1svQIExziR6B1TVg+alavwOiuic9UHW
+ 8FUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=db/kQaLQg+0T8fOHQ2nb3EujmTQZxSTonth9y+N64Uw=;
+ b=ivxOcWCb0IO4ciHNWtJFgU4T2UB8CnIrHZpJsP4QB1EmLb97ejBJkV/yxHGegKajNH
+ WXOR7cXpeVEGJUyEe0BX08sG1QHXRn5Ams5n7w763gjdOBDGEvcAGItYVC1sEjvXTnrs
+ hc3ZXA1yzkCE2JmvCx1dHksrUgu5YSnCgQPLCI/BGPY928MViPxDbHOOrhDAg29hCYM0
+ d/fwEsKy8gzAo073N1ivbbHsWDL3CgerNLpL0qAiRDd0g99Pa4fjGavPhrlC7ho+7B9W
+ mQevMhWi6fDoN407gwFXYvYee4zjFaVePWRmwsYv0iw+oRa7OPTPjVI8V1gqiS1wULds
+ kNow==
+X-Gm-Message-State: AOAM532FwDy2eIJOhvf9gpi4uIhG4v4v51n8q83TnPMIMlDrcYPRHO71
+ joI84cF0kRT1M9oagcpm2505pI6F73uc
+X-Google-Smtp-Source: ABdhPJzCA2PDywVGKDjNV3Cc55Uhss57Yqby9p8/gWrwS/ZB5sXzZjsmUyQMBnxfrIOcPgZGdZ10I20m2iTW
+X-Received: by 2002:ad4:4572:: with SMTP id o18mr30227802qvu.204.1591189400865; 
+ Wed, 03 Jun 2020 06:03:20 -0700 (PDT)
+Date: Wed,  3 Jun 2020 06:03:17 -0700
+Message-Id: <20200603130317.94672-1-rajatja@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.rc2.251.g90737beb825-goog
+Subject: [PATCH v4] iommu/vt-d: Don't apply gfx quirks to untrusted devices
+To: David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org, 
+ linux-kernel@vger.kernel.org, Mika Westerberg <mika.westerberg@intel.com>, 
+ Ashok Raj <ashok.raj@intel.com>, lalithambika.krishnakumar@intel.com
+Cc: tbroch@google.com, rajatxjain@gmail.com, pmalani@google.com,
+ mnissler@google.com, bleung@google.com, Rajat Jain <rajatja@google.com>,
+ zsm@google.com, levinale@google.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,106 +85,120 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Rajat Jain via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Rajat Jain <rajatja@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Jun 01, 2020 at 11:32:10PM -0700, Bjorn Andersson wrote:
-> On Wed 27 May 04:03 PDT 2020, Will Deacon wrote:
-> 
-> > Hi John, Bjorn,
-> > 
-> > On Tue, May 26, 2020 at 01:34:45PM -0700, John Stultz wrote:
-> > > On Thu, May 14, 2020 at 12:34 PM <bjorn.andersson@linaro.org> wrote:
-> > > >
-> > > > On Thu 27 Feb 18:57 PST 2020, Bjorn Andersson wrote:
-> > > >
-> > > > Rob, Will, we're reaching the point where upstream has enough
-> > > > functionality that this is becoming a critical issue for us.
-> > > >
-> > > > E.g. Lenovo Yoga C630 is lacking this and a single dts patch to boot
-> > > > mainline with display, GPU, WiFi and audio working and the story is
-> > > > similar on several devboards.
-> > > >
-> > > > As previously described, the only thing I want is the stream mapping
-> > > > related to the display controller in place, either with the CB with
-> > > > translation disabled or possibly with a way to specify the framebuffer
-> > > > region (although this turns out to mess things up in the display
-> > > > driver...)
-> > > >
-> > > > I did pick this up again recently and concluded that by omitting the
-> > > > streams for the USB controllers causes an instability issue seen on one
-> > > > of the controller to disappear. So I would prefer if we somehow could
-> > > > have a mechanism to only pick the display streams and the context
-> > > > allocation for this.
-> > > >
-> > > >
-> > > > Can you please share some pointers/insights/wishes for how we can
-> > > > conclude on this subject?
-> > > 
-> > > Ping? I just wanted to follow up on this discussion as this small
-> > > series is crucial for booting mainline on the Dragonboard 845c
-> > > devboard. It would be really valuable to be able to get some solution
-> > > upstream so we can test mainline w/o adding additional patches.
-> > 
-> > Sorry, it's been insanely busy recently and I haven't had a chance to think
-> > about this on top of everything else. We're also carrying a hack in Android
-> > for you :)
-> > 
-> 
-> Thanks for taking the time to get back to us on this!
-> 
-> > > The rest of the db845c series has been moving forward smoothly, but
-> > > this set seems to be very stuck with no visible progress since Dec.
-> > > 
-> > > Are there any pointers for what folks would prefer to see?
-> > 
-> > I've had a chat with Robin about this. Originally, I was hoping that
-> > people would all work together towards an idyllic future where firmware
-> > would be able to describe arbitrary pre-existing mappings for devices,
-> > irrespective of the IOMMU through which they master and Linux could
-> > inherit this configuration. However, that hasn't materialised (there was
-> > supposed to be an IORT update, but I don't know what happened to that)
-> > and, in actual fact, the problem that you have on db845 is /far/ more
-> > restricted than the general problem.
-> > 
-> > Could you please try hacking something along the following lines and see
-> > how you get on? You may need my for-joerg/arm-smmu/updates branch for
-> > all the pieces:
-> > 
-> >   1. Use the ->cfg_probe() callback to reserve the SMR/S2CRs you need
-> >      "pinning" and configure for bypass.
-> > 
-> >   2. Use the ->def_domain_type() callback to return IOMMU_DOMAIN_IDENTITY
-> >      for the display controller
-> > 
-> > I /think/ that's sufficient, but note that it differs from the current
-> > approach because we don't end up reserving a CB -- bypass is configured
-> > in the S2CR instead. Some invalidation might therefore be needed in
-> > ->cfg_probe() after unhooking the CB.
-> > 
-> > Thanks, and please yell if you run into problems with this approach.
-> > 
-> 
-> This sounded straight forward and cleaner, so I implemented it...
-> 
-> Unfortunately the hypervisor is playing tricks on me when writing to
-> S2CR registers:
-> - TRANS writes lands as requested
-> - BYPASS writes ends up in the register as requested, with type FAULT
-> - FAULT writes are ignored
-> 
-> In other words, the Qualcomm firmware prevents us from relying on
-> marking the relevant streams as BYPASS type.
+Currently, an external malicious PCI device can masquerade the VID:PID
+of faulty gfx devices, and thus apply iommu quirks to effectively
+disable the IOMMU restrictions for itself.
 
-Is this for all S2CR registers, or only the ones in use by the display
-controller? Is there any scope for stopping the hypervisor from doing this?
+Thus we need to ensure that the device we are applying quirks to, is
+indeed an internal trusted device.
 
-It makes it really difficult for the driver when the hardware is emulated
-in a way that doesn't match the architecture...
+Signed-off-by: Rajat Jain <rajatja@google.com>
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+Reviewed-by: Ashok Raj <ashok.raj@intel.com>
+---
+v4: - Add Ashok Raj's "Reviewed-by"
+    - Use pci_info() and split debug print cleanly into 2 statements. 
+v3: - Separate out the warning mesage in a function to be called from
+      other places. Change the warning string as suggested.
+v2: - Change the warning print strings.
+    - Add Lu Baolu's acknowledgement.
 
-Will
+ drivers/iommu/intel-iommu.c | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+
+diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel-iommu.c
+index ef0a5246700e5..efd1e5de947b9 100644
+--- a/drivers/iommu/intel-iommu.c
++++ b/drivers/iommu/intel-iommu.c
+@@ -6185,6 +6185,23 @@ intel_iommu_domain_set_attr(struct iommu_domain *domain,
+ 	return ret;
+ }
+ 
++/*
++ * Check that the device does not live on an external facing PCI port that is
++ * marked as untrusted. Such devices should not be able to apply quirks and
++ * thus not be able to bypass the IOMMU restrictions.
++ */
++static bool risky_device(struct pci_dev *pdev)
++{
++	if (pdev->untrusted) {
++		pci_info(pdev,
++			 "Skipping IOMMU quirk for dev [%04X:%04X] on untrusted PCI link\n",
++			 pdev->vendor, pdev->device);
++		pci_info(pdev, "Please check with your BIOS/Platform vendor about this\n");
++		return true;
++	}
++	return false;
++}
++
+ const struct iommu_ops intel_iommu_ops = {
+ 	.capable		= intel_iommu_capable,
+ 	.domain_alloc		= intel_iommu_domain_alloc,
+@@ -6214,6 +6231,9 @@ const struct iommu_ops intel_iommu_ops = {
+ 
+ static void quirk_iommu_igfx(struct pci_dev *dev)
+ {
++	if (risky_device(dev))
++		return;
++
+ 	pci_info(dev, "Disabling IOMMU for graphics on this chipset\n");
+ 	dmar_map_gfx = 0;
+ }
+@@ -6255,6 +6275,9 @@ DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163D, quirk_iommu_igfx);
+ 
+ static void quirk_iommu_rwbf(struct pci_dev *dev)
+ {
++	if (risky_device(dev))
++		return;
++
+ 	/*
+ 	 * Mobile 4 Series Chipset neglects to set RWBF capability,
+ 	 * but needs it. Same seems to hold for the desktop versions.
+@@ -6285,6 +6308,9 @@ static void quirk_calpella_no_shadow_gtt(struct pci_dev *dev)
+ {
+ 	unsigned short ggc;
+ 
++	if (risky_device(dev))
++		return;
++
+ 	if (pci_read_config_word(dev, GGC, &ggc))
+ 		return;
+ 
+@@ -6318,6 +6344,12 @@ static void __init check_tylersburg_isoch(void)
+ 	pdev = pci_get_device(PCI_VENDOR_ID_INTEL, 0x3a3e, NULL);
+ 	if (!pdev)
+ 		return;
++
++	if (risky_device(pdev)) {
++		pci_dev_put(pdev);
++		return;
++	}
++
+ 	pci_dev_put(pdev);
+ 
+ 	/* System Management Registers. Might be hidden, in which case
+@@ -6327,6 +6359,11 @@ static void __init check_tylersburg_isoch(void)
+ 	if (!pdev)
+ 		return;
+ 
++	if (risky_device(pdev)) {
++		pci_dev_put(pdev);
++		return;
++	}
++
+ 	if (pci_read_config_dword(pdev, 0x188, &vtisochctrl)) {
+ 		pci_dev_put(pdev);
+ 		return;
+-- 
+2.27.0.rc2.251.g90737beb825-goog
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
