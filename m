@@ -2,72 +2,110 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017621EE771
-	for <lists.iommu@lfdr.de>; Thu,  4 Jun 2020 17:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4E31EE74E
+	for <lists.iommu@lfdr.de>; Thu,  4 Jun 2020 17:05:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B0E0886F50;
-	Thu,  4 Jun 2020 15:13:13 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3EAC186C2F;
+	Thu,  4 Jun 2020 15:05:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BIgLwL7surc4; Thu,  4 Jun 2020 15:13:13 +0000 (UTC)
+	with ESMTP id g5rA-ykYLLC3; Thu,  4 Jun 2020 15:05:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 478FB86EEE;
-	Thu,  4 Jun 2020 15:13:13 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 488CD86C7A;
+	Thu,  4 Jun 2020 15:05:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 281DFC016E;
-	Thu,  4 Jun 2020 15:13:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 30162C016E;
+	Thu,  4 Jun 2020 15:05:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D8D71C016E
- for <iommu@lists.linux-foundation.org>; Thu,  4 Jun 2020 12:37:18 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CAE5AC016E
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Jun 2020 15:05:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C7F2888754
- for <iommu@lists.linux-foundation.org>; Thu,  4 Jun 2020 12:37:18 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id C5EA9881D9
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Jun 2020 15:05:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GmqpQhVAJiCf for <iommu@lists.linux-foundation.org>;
- Thu,  4 Jun 2020 12:37:18 +0000 (UTC)
+ with ESMTP id E67f2y4Otd7P for <iommu@lists.linux-foundation.org>;
+ Thu,  4 Jun 2020 15:05:54 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
- [209.85.208.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id EA8C8886B9
- for <iommu@lists.linux-foundation.org>; Thu,  4 Jun 2020 12:37:17 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id z18so7011258lji.12
- for <iommu@lists.linux-foundation.org>; Thu, 04 Jun 2020 05:37:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=187fRi3wAGXdsWJGdJdYxiJeP7RT5ffi4VOBDvE3vkA=;
- b=KnMf38a9uubw1WTNSJg8vAWa3P8WOHjJR13Zco84sLKrbNbHlO2CQG6rQ6F07iAF/F
- VeoN1+eEMZOoRlUgqnoU9/pimrekffoJjUkX+odUFr0ADsrJNj+sGReWJgDUMgkK5UQ6
- J/iDF42kRd92dKoBNmn/swGas7eTzIhyKeKL0p9SYjCBDwJy6nKBT+kP2Ip2uBGP/2yO
- +LTDaslSG/6plWfYDqjCvTUzASCPNUysB/eqN3vNAR90GLP+Pp8Y4rK8H9bKFaWAszuW
- l5mJWXsURVnRRvXKaN6ZqIieqk51aKrUGnGNc1pmrohu+32sPdSBYlf108UYGsGxnZTJ
- XSbQ==
-X-Gm-Message-State: AOAM533nCnVg6ErvDw8Sp2h4e6HsqqeURWa2Gms5Es1LmrL/nzDdvvfP
- vovjn8OOMWbJyUVxsfVFLpg=
-X-Google-Smtp-Source: ABdhPJwzuPhkc8BG3wHPWrXHjUZMF/zoqEJHIwPIOx3lb7BjY9OrlhBokKqh/KwK4rJpea2dTekN3g==
-X-Received: by 2002:a2e:9b4b:: with SMTP id o11mr2030133ljj.407.1591274236199; 
- Thu, 04 Jun 2020 05:37:16 -0700 (PDT)
-Received: from localhost.localdomain (broadband-37-110-38-130.ip.moscow.rt.ru.
- [37.110.38.130])
- by smtp.googlemail.com with ESMTPSA id 15sm1167175ljw.46.2020.06.04.05.37.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Jun 2020 05:37:15 -0700 (PDT)
-From: Denis Efremov <efremov@linux.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH] iommu: fsl_pamu: use kzfree() in fsl_pamu_probe()
-Date: Thu,  4 Jun 2020 15:37:09 +0300
-Message-Id: <20200604123709.96561-1-efremov@linux.com>
-X-Mailer: git-send-email 2.26.2
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id ED60D881E1
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Jun 2020 15:05:53 +0000 (UTC)
+IronPort-SDR: DX00KU/699M3LdlgvAjpljHLbo3LFmfl9jv9CNIDVFqUxT1g+lWITX30BcheWlO3bJflm8NSBI
+ nBgxiXxn0GlQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2020 08:05:53 -0700
+IronPort-SDR: HRM8jDe7P+G5Zgjy1TnzJJucuXEQ6HMKMi2ROvIfC1Ge6bv3mBEk82cX2giJaqO78Bj1A8U/4M
+ iiy7oSN/LwuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,472,1583222400"; d="scan'208";a="257754021"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by fmsmga007.fm.intel.com with ESMTP; 04 Jun 2020 08:05:40 -0700
+Received: from andy by smile with local (Exim 4.93)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1jgrR1-00ArEa-5g; Thu, 04 Jun 2020 18:05:35 +0300
+Date: Thu, 4 Jun 2020 18:05:35 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jim Quinlan <james.quinlan@broadcom.com>
+Subject: Re: [PATCH v3 09/13] device core: Introduce multiple dma pfn offsets
+Message-ID: <20200604150535.GB2428291@smile.fi.intel.com>
+References: <20200603192058.35296-1-james.quinlan@broadcom.com>
+ <20200603192058.35296-10-james.quinlan@broadcom.com>
+ <09c451e24f62e226e1ceaa0fe5d0a81109cace74.camel@suse.de>
+ <CA+-6iNz1-1wOurKoOJzhbVL0_YP7dbmp0wy1GWkLW_61yhRXyA@mail.gmail.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 04 Jun 2020 15:13:12 +0000
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- Denis Efremov <efremov@linux.com>
+Content-Disposition: inline
+In-Reply-To: <CA+-6iNz1-1wOurKoOJzhbVL0_YP7dbmp0wy1GWkLW_61yhRXyA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rich Felker <dalias@libc.org>,
+ "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
+ <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Wolfram Sang <wsa@kernel.org>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Frank Rowand <frowand.list@gmail.com>,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
+ "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ David Kershner <david.kershner@unisys.com>, Len Brown <lenb@kernel.org>,
+ Ohad Ben-Cohen <ohad@wizery.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Dan Williams <dan.j.williams@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ open list <linux-kernel@vger.kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Mark Brown <broonie@kernel.org>, Stefano Stabellini <sstabellini@kernel.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Sudeep Holla <sudeep.holla@arm.com>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,32 +123,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Use kzfree() instead of opencoded memset with 0 followed by kfree().
-Null check is not required since kzfree() checks for NULL internally.
+On Thu, Jun 04, 2020 at 10:35:12AM -0400, Jim Quinlan wrote:
+> On Thu, Jun 4, 2020 at 9:53 AM Nicolas Saenz Julienne
+> <nsaenzjulienne@suse.de> wrote:
+> > On Wed, 2020-06-03 at 15:20 -0400, Jim Quinlan wrote:
 
-Signed-off-by: Denis Efremov <efremov@linux.com>
----
- drivers/iommu/fsl_pamu.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+...
 
-diff --git a/drivers/iommu/fsl_pamu.c b/drivers/iommu/fsl_pamu.c
-index cde281b97afa..099a11a35fb9 100644
---- a/drivers/iommu/fsl_pamu.c
-+++ b/drivers/iommu/fsl_pamu.c
-@@ -1174,10 +1174,7 @@ static int fsl_pamu_probe(struct platform_device *pdev)
- 	if (irq != NO_IRQ)
- 		free_irq(irq, data);
- 
--	if (data) {
--		memset(data, 0, sizeof(struct pamu_isr_data));
--		kfree(data);
--	}
-+	kzfree(data);
- 
- 	if (pamu_regs)
- 		iounmap(pamu_regs);
+> > > +     phys = virt_to_phys(ret);
+> > > +     pfn =  phys >> PAGE_SHIFT;
+> >
+> > nit: not sure it really pays off to have a pfn variable here.
+> Did it for readability; the compiler's optimization should take care
+> of any extra variables.  But I can switch if you insist.
+
+One side note: please, try to get familiar with existing helpers in the kernel.
+For example, above line is like
+
+	pfn = PFN_DOWN(phys);
+
+...
+
+> > > +     if (!WARN_ON(!dev) && dev->dma_pfn_offset_map)
+
+> > > +             *dma_handle -= PFN_PHYS(
+> > > +                     dma_pfn_offset_from_phys_addr(dev, phys));
+
+Don't do such indentation, esp. we have now 100! :-)
+
 -- 
-2.26.2
+With Best Regards,
+Andy Shevchenko
+
 
 _______________________________________________
 iommu mailing list
