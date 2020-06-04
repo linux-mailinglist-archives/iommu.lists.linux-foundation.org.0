@@ -2,67 +2,72 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522951EE6EE
-	for <lists.iommu@lfdr.de>; Thu,  4 Jun 2020 16:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 017621EE771
+	for <lists.iommu@lfdr.de>; Thu,  4 Jun 2020 17:13:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0414B86FC5;
-	Thu,  4 Jun 2020 14:50:03 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B0E0886F50;
+	Thu,  4 Jun 2020 15:13:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8oAT5Bp8MDEd; Thu,  4 Jun 2020 14:50:00 +0000 (UTC)
+	with ESMTP id BIgLwL7surc4; Thu,  4 Jun 2020 15:13:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 67F7686FAF;
-	Thu,  4 Jun 2020 14:50:00 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 478FB86EEE;
+	Thu,  4 Jun 2020 15:13:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5D333C016E;
-	Thu,  4 Jun 2020 14:50:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 281DFC016E;
+	Thu,  4 Jun 2020 15:13:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1F17CC016E
- for <iommu@lists.linux-foundation.org>; Thu,  4 Jun 2020 14:49:59 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D8D71C016E
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Jun 2020 12:37:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 0B79987D69
- for <iommu@lists.linux-foundation.org>; Thu,  4 Jun 2020 14:49:59 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id C7F2888754
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Jun 2020 12:37:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OFrplMBLlia2 for <iommu@lists.linux-foundation.org>;
- Thu,  4 Jun 2020 14:49:57 +0000 (UTC)
+ with ESMTP id GmqpQhVAJiCf for <iommu@lists.linux-foundation.org>;
+ Thu,  4 Jun 2020 12:37:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by whitealder.osuosl.org (Postfix) with ESMTP id CF1AC87D86
- for <iommu@lists.linux-foundation.org>; Thu,  4 Jun 2020 14:49:57 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1C5B62B;
- Thu,  4 Jun 2020 07:49:57 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com
- [10.1.196.255])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9ECCE3F305;
- Thu,  4 Jun 2020 07:49:54 -0700 (PDT)
-Date: Thu, 4 Jun 2020 15:49:52 +0100
-From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To: Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 07/12] of/device: Add input id to of_dma_configure()
-Message-ID: <20200604144952.GB476@e121166-lin.cambridge.arm.com>
-References: <20200521130008.8266-1-lorenzo.pieralisi@arm.com>
- <20200521130008.8266-8-lorenzo.pieralisi@arm.com>
- <CAL_JsqJw3wyiUrbd1AekwDc5+uqhHi9BwoB-rYpypUEGNgzCtw@mail.gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+ [209.85.208.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id EA8C8886B9
+ for <iommu@lists.linux-foundation.org>; Thu,  4 Jun 2020 12:37:17 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id z18so7011258lji.12
+ for <iommu@lists.linux-foundation.org>; Thu, 04 Jun 2020 05:37:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=187fRi3wAGXdsWJGdJdYxiJeP7RT5ffi4VOBDvE3vkA=;
+ b=KnMf38a9uubw1WTNSJg8vAWa3P8WOHjJR13Zco84sLKrbNbHlO2CQG6rQ6F07iAF/F
+ VeoN1+eEMZOoRlUgqnoU9/pimrekffoJjUkX+odUFr0ADsrJNj+sGReWJgDUMgkK5UQ6
+ J/iDF42kRd92dKoBNmn/swGas7eTzIhyKeKL0p9SYjCBDwJy6nKBT+kP2Ip2uBGP/2yO
+ +LTDaslSG/6plWfYDqjCvTUzASCPNUysB/eqN3vNAR90GLP+Pp8Y4rK8H9bKFaWAszuW
+ l5mJWXsURVnRRvXKaN6ZqIieqk51aKrUGnGNc1pmrohu+32sPdSBYlf108UYGsGxnZTJ
+ XSbQ==
+X-Gm-Message-State: AOAM533nCnVg6ErvDw8Sp2h4e6HsqqeURWa2Gms5Es1LmrL/nzDdvvfP
+ vovjn8OOMWbJyUVxsfVFLpg=
+X-Google-Smtp-Source: ABdhPJwzuPhkc8BG3wHPWrXHjUZMF/zoqEJHIwPIOx3lb7BjY9OrlhBokKqh/KwK4rJpea2dTekN3g==
+X-Received: by 2002:a2e:9b4b:: with SMTP id o11mr2030133ljj.407.1591274236199; 
+ Thu, 04 Jun 2020 05:37:16 -0700 (PDT)
+Received: from localhost.localdomain (broadband-37-110-38-130.ip.moscow.rt.ru.
+ [37.110.38.130])
+ by smtp.googlemail.com with ESMTPSA id 15sm1167175ljw.46.2020.06.04.05.37.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Jun 2020 05:37:15 -0700 (PDT)
+From: Denis Efremov <efremov@linux.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH] iommu: fsl_pamu: use kzfree() in fsl_pamu_probe()
+Date: Thu,  4 Jun 2020 15:37:09 +0300
+Message-Id: <20200604123709.96561-1-efremov@linux.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqJw3wyiUrbd1AekwDc5+uqhHi9BwoB-rYpypUEGNgzCtw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Diana Craciun <diana.craciun@oss.nxp.com>,
- PCI <linux-pci@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Makarand Pawagi <makarand.pawagi@nxp.com>, linux-acpi@vger.kernel.org,
- Linux IOMMU <iommu@lists.linux-foundation.org>, Marc Zyngier <maz@kernel.org>,
- Hanjun Guo <guohanjun@huawei.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Robin Murphy <robin.murphy@arm.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+X-Mailman-Approved-At: Thu, 04 Jun 2020 15:13:12 +0000
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ Denis Efremov <efremov@linux.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,75 +85,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, May 21, 2020 at 05:02:20PM -0600, Rob Herring wrote:
-> On Thu, May 21, 2020 at 7:00 AM Lorenzo Pieralisi
-> <lorenzo.pieralisi@arm.com> wrote:
-> >
-> > Devices sitting on proprietary busses have a device ID space that
-> > is owned by the respective bus and related firmware bindings. In order
-> > to let the generic OF layer handle the input translations to
-> > an IOMMU id, for such busses the current of_dma_configure() interface
-> > should be extended in order to allow the bus layer to provide the
-> > device input id parameter - that is retrieved/assigned in bus
-> > specific code and firmware.
-> >
-> > Augment of_dma_configure() to add an optional input_id parameter,
-> > leaving current functionality unchanged.
-> >
-> > Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> > Cc: Rob Herring <robh+dt@kernel.org>
-> > Cc: Robin Murphy <robin.murphy@arm.com>
-> > Cc: Joerg Roedel <joro@8bytes.org>
-> > Cc: Laurentiu Tudor <laurentiu.tudor@nxp.com>
-> > ---
-> >  drivers/bus/fsl-mc/fsl-mc-bus.c |  4 ++-
-> >  drivers/iommu/of_iommu.c        | 53 +++++++++++++++++++++------------
-> >  drivers/of/device.c             |  8 +++--
-> >  include/linux/of_device.h       | 16 ++++++++--
-> >  include/linux/of_iommu.h        |  6 ++--
-> >  5 files changed, 60 insertions(+), 27 deletions(-)
-> >
-> > diff --git a/drivers/bus/fsl-mc/fsl-mc-bus.c b/drivers/bus/fsl-mc/fsl-mc-bus.c
-> > index 40526da5c6a6..8ead3f0238f2 100644
-> > --- a/drivers/bus/fsl-mc/fsl-mc-bus.c
-> > +++ b/drivers/bus/fsl-mc/fsl-mc-bus.c
-> > @@ -118,11 +118,13 @@ static int fsl_mc_bus_uevent(struct device *dev, struct kobj_uevent_env *env)
-> >  static int fsl_mc_dma_configure(struct device *dev)
-> >  {
-> >         struct device *dma_dev = dev;
-> > +       struct fsl_mc_device *mc_dev = to_fsl_mc_device(dev);
-> > +       u32 input_id = mc_dev->icid;
-> >
-> >         while (dev_is_fsl_mc(dma_dev))
-> >                 dma_dev = dma_dev->parent;
-> >
-> > -       return of_dma_configure(dev, dma_dev->of_node, 0);
-> > +       return of_dma_configure_id(dev, dma_dev->of_node, 0, &input_id);
-> >  }
-> >
-> >  static ssize_t modalias_show(struct device *dev, struct device_attribute *attr,
-> > diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
-> > index ad96b87137d6..4516d5bf6cc9 100644
-> > --- a/drivers/iommu/of_iommu.c
-> > +++ b/drivers/iommu/of_iommu.c
-> > @@ -139,25 +139,53 @@ static int of_pci_iommu_init(struct pci_dev *pdev, u16 alias, void *data)
-> >         return err;
-> >  }
-> >
-> > -static int of_fsl_mc_iommu_init(struct fsl_mc_device *mc_dev,
-> > -                               struct device_node *master_np)
-> > +static int of_iommu_configure_dev_id(struct device_node *master_np,
-> > +                                    struct device *dev,
-> > +                                    const u32 *id)
-> 
-> Should have read this patch before #6. I guess you could still make
-> of_pci_iommu_init() call
-> of_iommu_configure_dev_id.
+Use kzfree() instead of opencoded memset with 0 followed by kfree().
+Null check is not required since kzfree() checks for NULL internally.
 
-Yes that makes sense, I will update it.
+Signed-off-by: Denis Efremov <efremov@linux.com>
+---
+ drivers/iommu/fsl_pamu.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Thanks,
-Lorenzo
+diff --git a/drivers/iommu/fsl_pamu.c b/drivers/iommu/fsl_pamu.c
+index cde281b97afa..099a11a35fb9 100644
+--- a/drivers/iommu/fsl_pamu.c
++++ b/drivers/iommu/fsl_pamu.c
+@@ -1174,10 +1174,7 @@ static int fsl_pamu_probe(struct platform_device *pdev)
+ 	if (irq != NO_IRQ)
+ 		free_irq(irq, data);
+ 
+-	if (data) {
+-		memset(data, 0, sizeof(struct pamu_isr_data));
+-		kfree(data);
+-	}
++	kzfree(data);
+ 
+ 	if (pamu_regs)
+ 		iounmap(pamu_regs);
+-- 
+2.26.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
