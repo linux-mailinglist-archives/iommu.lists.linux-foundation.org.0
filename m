@@ -2,63 +2,62 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA3D1F07D4
-	for <lists.iommu@lfdr.de>; Sat,  6 Jun 2020 18:11:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B32A1F083E
+	for <lists.iommu@lfdr.de>; Sat,  6 Jun 2020 21:15:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C2B9887EA2;
-	Sat,  6 Jun 2020 16:11:52 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CFF368845D;
+	Sat,  6 Jun 2020 19:15:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ryjjoxrX1JUd; Sat,  6 Jun 2020 16:11:52 +0000 (UTC)
+	with ESMTP id GaT0uN2kfTId; Sat,  6 Jun 2020 19:15:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 57B1E87E43;
-	Sat,  6 Jun 2020 16:11:52 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 615F588455;
+	Sat,  6 Jun 2020 19:15:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 376ACC0895;
-	Sat,  6 Jun 2020 16:11:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 348BCC016E;
+	Sat,  6 Jun 2020 19:15:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3FC24C016E
- for <iommu@lists.linux-foundation.org>; Sat,  6 Jun 2020 16:11:47 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A49FCC016E
+ for <iommu@lists.linux-foundation.org>; Sat,  6 Jun 2020 19:15:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2EC0B87587
- for <iommu@lists.linux-foundation.org>; Sat,  6 Jun 2020 16:11:47 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 87D03204C3
+ for <iommu@lists.linux-foundation.org>; Sat,  6 Jun 2020 19:15:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KLOGgVfxYs0l for <iommu@lists.linux-foundation.org>;
- Sat,  6 Jun 2020 16:11:46 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by whitealder.osuosl.org (Postfix) with ESMTPS id ABD2587726
- for <iommu@lists.linux-foundation.org>; Sat,  6 Jun 2020 16:11:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20170209; h=Content-Type:MIME-Version:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=Mm+5DhSxR2Kbdc/sLQObOdz1Pr0vn51n7mq4wVieKGw=; b=nE5fDrqkNkWTT6na+5H7yEMIpS
- GaU3WO7WZp/+z4VEPR/nLdOh3xstH3JgOKJfCaox9btWKqNbTIRoYsFXDgyRJAycd8kpBSUC7tdMH
- jvWfP7AZLQBzyRlFslkZT35tb5gunfuJpPcYQ2dI4LgCSPPmxvi1lRERWV2XcQzGYPlOrfR3CVTRp
- Ejy5W3NYIbgdh7MxzjDcJajl+yKch/xh/eTlSQ2kfd8m9Y1K8ojxXH5Wu7yvfu/Q5/Pbt2f9QcZGH
- 3zb0oZuzRiNkF32hgwx0/yDPY1/1y/E42JRbP0VQqK9XBT/Jb7q3awxFi+dO8hZaBTuqgvmqoRGyn
- eNEoZceg==;
-Received: from 213-225-38-56.nat.highway.a1.net ([213.225.38.56]
- helo=localhost)
- by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jhbQ9-0004up-Gi; Sat, 06 Jun 2020 16:11:46 +0000
-Date: Sat, 6 Jun 2020 18:09:32 +0200
-From: Christoph Hellwig <hch@infradead.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [GIT PULL] dma-mapping updates for 5.8, part 2
-Message-ID: <20200606160932.GB3482728@infradead.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+ with ESMTP id VAmNWakvKI3q for <iommu@lists.linux-foundation.org>;
+ Sat,  6 Jun 2020 19:15:18 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id CD1562012F
+ for <iommu@lists.linux-foundation.org>; Sat,  6 Jun 2020 19:15:18 +0000 (UTC)
+Subject: Re: [GIT PULL] dma-mapping updates for 5.8, part 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1591470918;
+ bh=VRwezrwpQMvbb3BQiQdBcNFteObyDGAcxsXAXlCuYVo=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=p+RyqFQl6RcJ2C6Jxr0GZUyxOQhPVjrFqSish2/NsMQsNdnrcqz4ba3jcx/phYUNQ
+ VyZo7HkkFskIWIhZKzExtHAHyWQeD/iFYhIJte+gLS6HD5yWVPYAEINc46k8e6TV1j
+ pyu3m+AaYBzvZWkDAECQk4yu8ssMWdZusSdU2N6U=
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20200606160657.GA3482728@infradead.org>
+References: <20200606160657.GA3482728@infradead.org>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20200606160657.GA3482728@infradead.org>
+X-PR-Tracked-Remote: git://git.infradead.org/users/hch/dma-mapping.git
+ tags/dma-mapping-5.8
+X-PR-Tracked-Commit-Id: 298f3db6ee690259927b105d5ad1079563361323
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 1ee18de92927f37e6948d5a6fc73cbf89f806905
+Message-Id: <159147091841.3313.2281337702762277498.pr-tracker-bot@kernel.org>
+Date: Sat, 06 Jun 2020 19:15:18 +0000
+To: Christoph Hellwig <hch@infradead.org>
+Cc: iommu@lists.linux-foundation.org,
+ Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,44 +70,24 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-These were in a separate stable branch so that various media and drm
-trees could pull the in for bug fixes, but looking at linux-next that
-hasn't actually happened yet.  Still sending the APIs to you in the
-hope that these bug fixes get picked up for 5.8 in one way or another.
+The pull request you sent on Sat, 6 Jun 2020 18:06:57 +0200:
 
+> git://git.infradead.org/users/hch/dma-mapping.git tags/dma-mapping-5.8
 
-The following changes since commit 24085f70a6e1b0cb647ec92623284641d8270637:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/1ee18de92927f37e6948d5a6fc73cbf89f806905
 
-  Merge tag 'trace-v5.7-rc4' of git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace (2020-05-12 11:06:26 -0700)
+Thank you!
 
-are available in the Git repository at:
-
-  git://git.infradead.org/users/hch/dma-mapping.git tags/dma-mapping-5.8-2
-
-for you to fetch changes up to 48530d9fab0d3bf08827f9167be54acf66d4d457:
-
-  iommu: add generic helper for mapping sgtable objects (2020-05-13 15:48:20 +0200)
-
-----------------------------------------------------------------
-dma-mapping updates for 5.8, part 2
-
- - add DMA mapping helpers for struct sg_table (Marek Szyprowski)
-
-----------------------------------------------------------------
-Marek Szyprowski (3):
-      dma-mapping: add generic helpers for mapping sgtable objects
-      scatterlist: add generic wrappers for iterating over sgtable objects
-      iommu: add generic helper for mapping sgtable objects
-
- include/linux/dma-mapping.h | 80 +++++++++++++++++++++++++++++++++++++++++++++
- include/linux/iommu.h       | 16 +++++++++
- include/linux/scatterlist.h | 50 ++++++++++++++++++++++++++--
- 3 files changed, 143 insertions(+), 3 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
