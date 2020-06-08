@@ -1,58 +1,78 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2812F1F14BD
-	for <lists.iommu@lfdr.de>; Mon,  8 Jun 2020 10:52:41 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8531F151C
+	for <lists.iommu@lfdr.de>; Mon,  8 Jun 2020 11:13:22 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A8DBB8636A;
-	Mon,  8 Jun 2020 08:52:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0DE3985888;
+	Mon,  8 Jun 2020 09:13:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Cg5xKcPaBosj; Mon,  8 Jun 2020 08:52:39 +0000 (UTC)
+	with ESMTP id mDmPvSQyqMNS; Mon,  8 Jun 2020 09:13:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 19CA5863CE;
-	Mon,  8 Jun 2020 08:52:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8EC1085C95;
+	Mon,  8 Jun 2020 09:13:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 002C5C016F;
-	Mon,  8 Jun 2020 08:52:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6BA31C016F;
+	Mon,  8 Jun 2020 09:13:20 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A6065C016F
- for <iommu@lists.linux-foundation.org>; Mon,  8 Jun 2020 08:52:37 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9F883C016F
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Jun 2020 09:13:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 95FCD862A0
- for <iommu@lists.linux-foundation.org>; Mon,  8 Jun 2020 08:52:37 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 85E0F86614
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Jun 2020 09:13:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0vjgH3LIoD1P for <iommu@lists.linux-foundation.org>;
- Mon,  8 Jun 2020 08:52:35 +0000 (UTC)
+ with ESMTP id w+ndJz0gUjuo for <iommu@lists.linux-foundation.org>;
+ Mon,  8 Jun 2020 09:13:17 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 49A1C811C2
- for <iommu@lists.linux-foundation.org>; Mon,  8 Jun 2020 08:52:34 +0000 (UTC)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:c85f:a5bf:b1bd:702b])
- by michel.telenet-ops.be with bizsmtp
- id oYsY2200L0R8aca06YsY5g; Mon, 08 Jun 2020 10:52:32 +0200
-Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>)
- id 1jiDWC-0006nd-84; Mon, 08 Jun 2020 10:52:32 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>)
- id 1jiDWC-0002Ki-5C; Mon, 08 Jun 2020 10:52:32 +0200
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, David Rientjes <rientjes@google.com>
-Subject: [PATCH] dma-pool: Fix too large DMA pools on medium systems
-Date: Mon,  8 Jun 2020 10:52:31 +0200
-Message-Id: <20200608085231.8924-1-geert@linux-m68k.org>
-X-Mailer: git-send-email 2.17.1
-Cc: iommu@lists.linux-foundation.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- linux-kernel@vger.kernel.org
+Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
+ [104.130.122.27])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8D03586581
+ for <iommu@lists.linux-foundation.org>; Mon,  8 Jun 2020 09:13:13 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1591607597; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=GhhsEMufI8UvffSMZZKH6Z/KWhXYBPW2V1EIJtJ4Olg=;
+ b=gabxL+y3W3Grx2yuE/2Pwb+icJ3NSI/COnkWjViilcXwpEGAmzGmJBRRRnndmw80nrbQrXAb
+ VpTQtMEne59eRfkKxzXx17rYdGUzHZXck+1yV5H/CQCx8KPUQ6FmhEFmxpPKiESzZcuiUWiA
+ SYGtCztmix/iCWcWZfiWjyd9n2o=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n09.prod.us-west-2.postgun.com with SMTP id
+ 5ede0120cea6afef5fddb449 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 08 Jun 2020 09:13:04
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id E5857C43387; Mon,  8 Jun 2020 09:13:03 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 219B3C433C6;
+ Mon,  8 Jun 2020 09:13:03 +0000 (UTC)
+MIME-Version: 1.0
+Date: Mon, 08 Jun 2020 14:43:03 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [RFC PATCH] iommu/arm-smmu: Remove shutdown callback
+In-Reply-To: <20200608081846.GA1542@willie-the-truck>
+References: <20200607110918.1733-1-saiprakash.ranjan@codeaurora.org>
+ <20200608081846.GA1542@willie-the-truck>
+Message-ID: <08c293eefc20bc2c67f2d2639b93f0a5@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,43 +85,79 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On systems with at least 32 MiB, but less than 32 GiB of RAM, the DMA
-memory pools are much larger than intended (e.g. 2 MiB instead of 128
-KiB on a 256 MiB system).
+Hi Will,
 
-Fix this by correcting the calculation of the number of GiBs of RAM in
-the system.
+On 2020-06-08 13:48, Will Deacon wrote:
+> On Sun, Jun 07, 2020 at 04:39:18PM +0530, Sai Prakash Ranjan wrote:
+>> Remove SMMU shutdown callback since it seems to cause more
+>> problems than benefits. With this callback, we need to make
+>> sure that all clients/consumers of SMMU do not perform any
+>> DMA activity once the SMMU is shutdown and translation is
+>> disabled. In other words we need to add shutdown callbacks
+>> for all those clients to make sure they do not perform any
+>> DMA or else we see all kinds of weird crashes during reboot
+>> or shutdown. This is clearly not scalable as the number of
+>> clients of SMMU would vary across SoCs and we would need to
+>> add shutdown callbacks to almost all drivers eventually.
+>> This callback was added for kexec usecase where it was known
+>> to cause memory corruptions when SMMU was not shutdown but
+>> that does not directly relate to SMMU because the memory
+>> corruption could be because of the client of SMMU which is
+>> not shutdown properly before booting into new kernel. So in
+>> that case, we need to identify the client of SMMU causing
+>> the memory corruption and add appropriate shutdown callback
+>> to the client rather than to the SMMU.
+>> 
+>> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+>> ---
+>>  drivers/iommu/arm-smmu-v3.c | 6 ------
+>>  drivers/iommu/arm-smmu.c    | 6 ------
+>>  2 files changed, 12 deletions(-)
+> 
+> This feels like a giant bodge to me and I think that any driver which
+> continues to perform DMA after its ->shutdown() function has been 
+> invoked
+> is buggy. Wouldn't that cause problems with kexec(), for example?
+> 
 
-Fixes: 1d659236fb43c4d2 ("dma-pool: scale the default DMA coherent pool size with memory capacity")
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
----
- kernel/dma/pool.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Yes it is definitely a bug in the client driver if DMA is performed
+after shutdown callback of that respective driver is invoked and it must
+be fixed in that driver. But here the problem I was describing is not 
+that,
+most of the drivers do not have a shutdown callback to begin with and 
+adding
+it just because of shutdown dependency on SMMU doesn't seem so well 
+because
+we can have many more such clients in the future and then we have to 
+just go
+on adding the shutdown callbacks everywhere.
 
-diff --git a/kernel/dma/pool.c b/kernel/dma/pool.c
-index 35bb51c31fff370f..1c7eab2cc0498003 100644
---- a/kernel/dma/pool.c
-+++ b/kernel/dma/pool.c
-@@ -175,8 +175,8 @@ static int __init dma_atomic_pool_init(void)
- 	 * sizes to 128KB per 1GB of memory, min 128KB, max MAX_ORDER-1.
- 	 */
- 	if (!atomic_pool_size) {
--		atomic_pool_size = max(totalram_pages() >> PAGE_SHIFT, 1UL) *
--					SZ_128K;
-+		unsigned long gigs = totalram_pages() >> (30 - PAGE_SHIFT);
-+		atomic_pool_size = max(gigs, 1UL) * SZ_128K;
- 		atomic_pool_size = min_t(size_t, atomic_pool_size,
- 					 1 << (PAGE_SHIFT + MAX_ORDER-1));
- 	}
+> There's a clear shutdown dependency ordering, where the clients of the
+> SMMU need to shutdown before the SMMU itself, but that's not really
+> the SMMU driver's problem to solve.
+> 
+
+The problem with kexec may not be directly related to SMMU as you said
+above if DMA is performed after the client shutdown callback, then its a
+bug in the client driver, so that needs to be fixed in the client 
+driver,
+not the SMMU. So is there any point in having the SMMU shutdown 
+callback?
+As you see, with this SMMU shutdown callback, we need to add shutdown
+callbacks in all the client drivers.
+
+Thanks,
+Sai
+
 -- 
-2.17.1
-
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
