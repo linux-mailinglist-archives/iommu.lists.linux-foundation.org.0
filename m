@@ -2,87 +2,89 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77F21F47E5
-	for <lists.iommu@lfdr.de>; Tue,  9 Jun 2020 22:16:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5011F47E6
+	for <lists.iommu@lfdr.de>; Tue,  9 Jun 2020 22:16:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 5209C233B0;
+	by silver.osuosl.org (Postfix) with ESMTP id E576520027;
 	Tue,  9 Jun 2020 20:16:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZA-fyipN0Hhc; Tue,  9 Jun 2020 20:16:09 +0000 (UTC)
+	with ESMTP id Sf9F7EXebF1W; Tue,  9 Jun 2020 20:16:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id C940520485;
-	Tue,  9 Jun 2020 20:16:09 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3807E221B7;
+	Tue,  9 Jun 2020 20:16:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A1747C016F;
-	Tue,  9 Jun 2020 20:16:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2E62DC016F;
+	Tue,  9 Jun 2020 20:16:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 343D3C016F
- for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 19:48:51 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BE8DEC016F
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 20:11:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 2FE1587173
- for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 19:48:51 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id B96E220468
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 20:11:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kJjEB45rHuOX for <iommu@lists.linux-foundation.org>;
- Tue,  9 Jun 2020 19:48:50 +0000 (UTC)
-X-Greylist: delayed 00:08:16 by SQLgrey-1.7.6
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
- [209.85.222.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 023688716B
- for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 19:48:49 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id c185so22072892qke.7
- for <iommu@lists.linux-foundation.org>; Tue, 09 Jun 2020 12:48:49 -0700 (PDT)
+ with ESMTP id mNjZWV7VGdyW for <iommu@lists.linux-foundation.org>;
+ Tue,  9 Jun 2020 20:11:47 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+ [209.85.222.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id 3039720460
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 20:11:47 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id n141so22162622qke.2
+ for <iommu@lists.linux-foundation.org>; Tue, 09 Jun 2020 13:11:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fooRxBUyxBVZY7kJJL8VBy6grxiTlxx+OOYM9dBJ/2A=;
- b=M8PvEfs14mubrLj1XaXYuw77/9Sq33tjev7K9cNSQaxOHDR6yrSRTFwfmH4RdcsptN
- clItDCqBLGzhMO6BQxz8iY+SD7ORaFgogN0+hGx3LhLx2U5if5zrUtze9Cvuqx2wWmyf
- rVWn2umVU71LVwdc9Y1ADjYiP3GYlZBhLhBYHkT9ZvvGyzJj/7/lKO1Qfa3N/42fl1hk
- wj9BQXiP3HLYmgLp0xcIf6ahnjNgYmYP2y2OzCIQKvx3vfjKou6iKGKCX6eZFp5CVQoa
- bnB0dIKg22iA7Iv6XuLQCJATB1ao2T2Nm3oZNEVNKJDKHvUSmTPUMgV7nCcwWSdoExnm
- BmVw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=sHWV6OU0cqgaqdPacomRMLT+w3Ah3p0WG4kNzV6/a0A=;
+ b=R4aWwk4htZqHave/9h/EmzzlTvfpyow5xa1HrixdbeagLWiDVCahZX+fvgd72MMhKH
+ mifgYvUj+jhWaMGg3Sy/QuCRU/M6RKcSTiv3XoeJ3SlLx/OpCDJihfdQDGtJHK6Ma2fv
+ 57K4OCfyNvmS7Mj4coeIZrZFaJpqmVEx2dQAQ48cfDir+BZHYiiGfFlO10AOnFVbaQ4l
+ xacFlXm9XwJChbkrL3Ai0A69gf+8Aqb9dKIOsXRf2SdsS9hTKPcwi9G1oIrDRlCBi1AV
+ k2QWPQR6Xa9viXBp+BOnMgIdZtNoxs4Gk5hOWjYWXe04l4pzi5HWgoRZ0X44+xTY6pZd
+ w7ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fooRxBUyxBVZY7kJJL8VBy6grxiTlxx+OOYM9dBJ/2A=;
- b=T6XIT07pW1Alm33gkW3KeF80Hm1SdurWa08U1Rn7O6XmHTQLsqQEE+6UXQNxaLpJc5
- 0ctf8Ugy/jFDQkHXZMFEUuNvt/sQcW771GCo39+kH0a/eT7FB++YpK/DAGYzFVRFcojk
- u/yDZGDlSB4o0vJ3Ew2rX9K9fNlWQGy2yWn2IsR35K1sUCtyq9B9giIVsKejrBuAKzD7
- PvjV9sbc0oYJXbQrtDJIwjpLjq3jex4sPuHbVQJ1JPj2e/dnH2hWnY0tz/7O+6QuBZfh
- US63ZPuofL6NUUWmyETeiKr4taWl9/tKIRZCIOUWHgf4jj5zgU1SdL4GKi6oZm+TebMZ
- 6JgQ==
-X-Gm-Message-State: AOAM533w/G3P3aUatkhpT1hpX/t29u80yjWfv4ET5ZtHhO4JVvOrizSr
- EWQjPWxlJqG1bCEIv5lbMsCQZa4C2mbxuA==
-X-Google-Smtp-Source: ABdhPJyBKbeiX6PPFfn4v6iP/rDxW8LkNd+ZfOa5pftTCgh+62D/kuaiIKUv+4K4cVgbFk/e+K0MsA==
-X-Received: by 2002:a05:620a:153c:: with SMTP id
- n28mr29203054qkk.457.1591731633704; 
- Tue, 09 Jun 2020 12:40:33 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=sHWV6OU0cqgaqdPacomRMLT+w3Ah3p0WG4kNzV6/a0A=;
+ b=rxAAG+grwt+3zhOOD0fL6mlxvs4nNrN+9dWDEVLi7gcF5wGL4oyKng/gaIF1nZzafN
+ VdyRIeax+vJ7FoY8UxBiEWNaK6yefwVNUKSE6k8vj+9H2dYPQ7DVX7sjiCrkLjNnDAw0
+ eCzIXpPqNjHkpx4tzkM6IyQw1TdsJCdQwDOoOOxecqNLT/HVZkMDY/noT1yUtNf4Pltx
+ jqW/Wmul4vK6llcJ+2dTvQDIRrctCXDB0rlWVTHo2QuM+K4N/BgAkz117mRPgtWUWNgq
+ ZhUn8S0tlIcZVzOGd0Jf4KWfAqzOoleFMmgjBvjYFfNoxEewQUDVqv9WXj9OZUavwdxa
+ GE4g==
+X-Gm-Message-State: AOAM5330SR4FhedoyeOTk0pJZ8TUtvhhwgOnHlxsQoXmAHWXZp2iXX5Q
+ w+CRKY6Dr0FXrB9VKS9vBOx2bfCO89LN5g==
+X-Google-Smtp-Source: ABdhPJylYwtTWOmAgXhVLnUMhpb1BZNqKTLwO9QHJOFRb6EbibLEywFO6AcZedPsGIptantkT+8xEA==
+X-Received: by 2002:a05:620a:49c:: with SMTP id
+ 28mr30284895qkr.168.1591731634848; 
+ Tue, 09 Jun 2020 12:40:34 -0700 (PDT)
 Received: from localhost.localdomain ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id v8sm10513181qto.21.2020.06.09.12.40.32
+ by smtp.gmail.com with ESMTPSA id v8sm10513181qto.21.2020.06.09.12.40.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 12:40:32 -0700 (PDT)
+ Tue, 09 Jun 2020 12:40:34 -0700 (PDT)
 From: Jonathan Marek <jonathan@marek.ca>
 To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2 0/8] arm64: dts: qcom: smmu/USB nodes and HDK855/HDK865 dts
-Date: Tue,  9 Jun 2020 15:40:18 -0400
-Message-Id: <20200609194030.17756-1-jonathan@marek.ca>
+Subject: [PATCH v2 1/8] dt-bindings: arm-smmu: Add sm8150 and sm8250
+ compatible strings
+Date: Tue,  9 Jun 2020 15:40:19 -0400
+Message-Id: <20200609194030.17756-2-jonathan@marek.ca>
 X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20200609194030.17756-1-jonathan@marek.ca>
+References: <20200609194030.17756-1-jonathan@marek.ca>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 09 Jun 2020 20:16:08 +0000
 Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>, Will Deacon <will@kernel.org>,
- open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
  "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Andy Gross <agross@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Rob Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -101,39 +103,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add dts nodes for apps_smmu and USB for both sm8150 and sm8250.
+Add compatible strings for sm8150 and sm8250 iommus to documentation.
 
-Also add initial dts files for HDK855 and HDK865, based on mtp dts, with a
-few changes. Notably, the HDK865 dts has regulator config changed a bit based
-on downstream (I think sm8250-mtp.dts is wrong and copied too much from sm8150).
+Signed-off-by: Jonathan Marek <jonathan@marek.ca>
+---
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-V2 changes:
-* Added two patches for sm8150 and sm8250 iommu compatibles
-* Changed apps_smmu node patches to use new compatibles
-* Updated commit messages for apps_smmu patches to be more correct
-* Updated HDK dts patches based on Bjorn's comments
-
-Jonathan Marek (8):
-  dt-bindings: arm-smmu: Add sm8150 and sm8250 compatible strings
-  iommu: arm-smmu-impl: Use qcom impl for sm8150 and sm8250 compatibles
-  arm64: dts: qcom: sm8150: add apps_smmu node
-  arm64: dts: qcom: sm8250: add apps_smmu node
-  arm64: dts: qcom: sm8150: Add secondary USB and PHY nodes
-  arm64: dts: qcom: sm8250: Add USB and PHY device nodes
-  arm64: dts: qcom: add sm8150 hdk dts
-  arm64: dts: qcom: add sm8250 hdk dts
-
- .../devicetree/bindings/iommu/arm,smmu.yaml   |   2 +
- arch/arm64/boot/dts/qcom/Makefile             |   2 +
- arch/arm64/boot/dts/qcom/sm8150-hdk.dts       | 463 ++++++++++++++++++
- arch/arm64/boot/dts/qcom/sm8150.dtsi          | 180 +++++++
- arch/arm64/boot/dts/qcom/sm8250-hdk.dts       | 454 +++++++++++++++++
- arch/arm64/boot/dts/qcom/sm8250.dtsi          | 287 +++++++++++
- drivers/iommu/arm-smmu-impl.c                 |   4 +-
- 7 files changed, 1391 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/boot/dts/qcom/sm8150-hdk.dts
- create mode 100644 arch/arm64/boot/dts/qcom/sm8250-hdk.dts
-
+diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+index d7ceb4c34423..3ac741236c8b 100644
+--- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
++++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+@@ -37,6 +37,8 @@ properties:
+           - enum:
+               - qcom,sc7180-smmu-500
+               - qcom,sdm845-smmu-500
++              - qcom,sm8150-smmu-500
++              - qcom,sm8250-smmu-500
+           - const: arm,mmu-500
+       - items:
+           - const: arm,mmu-500
 -- 
 2.26.1
 
