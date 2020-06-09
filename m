@@ -1,51 +1,117 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89381F3B57
-	for <lists.iommu@lfdr.de>; Tue,  9 Jun 2020 15:03:19 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 934BF1F3B87
+	for <lists.iommu@lfdr.de>; Tue,  9 Jun 2020 15:14:17 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 83D8387739;
-	Tue,  9 Jun 2020 13:03:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 567D7227A3;
+	Tue,  9 Jun 2020 13:14:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cjDb2oXAJM96; Tue,  9 Jun 2020 13:03:16 +0000 (UTC)
+	with ESMTP id K0lqafXFRqFB; Tue,  9 Jun 2020 13:14:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 19261878E1;
-	Tue,  9 Jun 2020 13:03:16 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4C4FF2261A;
+	Tue,  9 Jun 2020 13:14:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EE192C0894;
-	Tue,  9 Jun 2020 13:03:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2B444C016F;
+	Tue,  9 Jun 2020 13:14:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8B74EC016F
- for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 13:03:14 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E245DC016F
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 13:14:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 75FFD8769E
- for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 13:03:14 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id C79782226B
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 13:14:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HZtX3NVwpfCW for <iommu@lists.linux-foundation.org>;
- Tue,  9 Jun 2020 13:03:12 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B0A8587694
- for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 13:03:12 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id EEAE33C3; Tue,  9 Jun 2020 15:03:09 +0200 (CEST)
-From: Joerg Roedel <joro@8bytes.org>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH v2 2/2] iommu/vt-d: Move Intel IOMMU driver into subdirectory
-Date: Tue,  9 Jun 2020 15:03:03 +0200
-Message-Id: <20200609130303.26974-3-joro@8bytes.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200609130303.26974-1-joro@8bytes.org>
-References: <20200609130303.26974-1-joro@8bytes.org>
-Cc: Joerg Roedel <jroedel@suse.de>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, David Woodhouse <dwmw2@infradead.org>
+ with ESMTP id 5-nN6USQeJUM for <iommu@lists.linux-foundation.org>;
+ Tue,  9 Jun 2020 13:14:11 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+ [209.85.128.67])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8762720444
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 13:14:11 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id r15so3078767wmh.5
+ for <iommu@lists.linux-foundation.org>; Tue, 09 Jun 2020 06:14:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=edVNPE5DX3OyCq+2fyjI6ylHeS+GOPrCyMzTtU1/fzY=;
+ b=gDaD4KM/t8KX5Al7J/BjBhHccNF2kg3Pg0xh6Ed7ue9e77HSVyYvClYpogccUWVa0o
+ sqMFc5fMJ7AvbB7JFU4K1yuD3yD/zO0J0V9y9SHUHDSSvISS8BVLyTPvZRaUOKotLugh
+ kY/jDSW0d+ynzLoQkWgw09J4fzf/weK6pnQL0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=edVNPE5DX3OyCq+2fyjI6ylHeS+GOPrCyMzTtU1/fzY=;
+ b=MBrLyug7mwthPlzyEfT+W/DzOiAhP3rc8lgS6jzuxbrzLtmh73YuUt2KB5LqWwfesM
+ qBq4NzwZBIWQXw4Rv/0blTWm9qun0ytyHqdghnqiQG9Pz1WtXavTn7T+HPPxVtdF8+ka
+ R2UcqyLTrPla89pHJZWWFHvSB7FEFOKkSJfYNj9917yGUjWKf9f2cZd2HHGI3mlNXgob
+ QIlGaxlFoPxPdDv1ptxhIO7QLmVZKF6qxhtz9T2KBzmCDEMDfEV9doWU2QDTwaHXeAA5
+ XonnmYyXeqUfOhtPzS8x1BZBraQ6Un1GId9kvI+XneTYoa+HFXuBA4WuXFMIDVTdE3M0
+ 9EvQ==
+X-Gm-Message-State: AOAM530TJ9Htqldyak58DR+bdafr/LgnkYU24Hst4bPBz6I4mRozOUVT
+ VzgDVU+egPjNqQGW5FJod76fimf9K8l7qBZNXZ69NA==
+X-Google-Smtp-Source: ABdhPJwjOaQHBYP5HBHod5WDWXLMU0/xp0eCkWKGBg/hRiGblG95btpxH0ojmWyIZmWbwAeUqcEutxDqrlqPy0PnDd4=
+X-Received: by 2002:a1c:7305:: with SMTP id d5mr4103395wmb.85.1591708448748;
+ Tue, 09 Jun 2020 06:14:08 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200605212706.7361-1-james.quinlan@broadcom.com>
+ <20200605212706.7361-9-james.quinlan@broadcom.com>
+ <20200607164950.GX2428291@smile.fi.intel.com>
+ <CA+-6iNyL12Z+igSrWnsmTzrwzyyeDtSK-9ULiZe0MwM5LO5bjQ@mail.gmail.com>
+ <20200609111828.GI2428291@smile.fi.intel.com>
+In-Reply-To: <20200609111828.GI2428291@smile.fi.intel.com>
+Date: Tue, 9 Jun 2020 09:13:57 -0400
+Message-ID: <CA+-6iNxPGKFd84zK3k2SsgZcC=ExR=fPsSM8KAxPDswnjzi7QQ@mail.gmail.com>
+Subject: Re: [PATCH v4 08/12] device core: Introduce multiple dma pfn offsets
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rich Felker <dalias@libc.org>,
+ "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
+ <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Wolfram Sang <wsa@kernel.org>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Frank Rowand <frowand.list@gmail.com>,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Ingo Molnar <mingo@redhat.com>,
+ "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
+ Ohad Ben-Cohen <ohad@wizery.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Dan Williams <dan.j.williams@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Oliver Neukum <oneukum@suse.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ open list <linux-kernel@vger.kernel.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Mark Brown <broonie@kernel.org>, Stefano Stabellini <sstabellini@kernel.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Sudeep Holla <sudeep.holla@arm.com>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -58,149 +124,51 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
+From: Jim Quinlan via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Jim Quinlan <james.quinlan@broadcom.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Joerg Roedel <jroedel@suse.de>
+Hi Andy,
 
-Move all files related to the Intel IOMMU driver into its own
-subdirectory.
+On Tue, Jun 9, 2020 at 7:18 AM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Mon, Jun 08, 2020 at 11:48:51AM -0400, Jim Quinlan wrote:
+> > On Sun, Jun 7, 2020 at 12:500f9bfe0fb8840b268af1bbcc51f1cd440514e PM
+> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > > On Fri, Jun 05, 2020 at 05:26:48PM -0400, Jim Quinlan wrote:
+>
+> ...
+>
+> > > > +     *map_size = (num_ranges + 1) * sizeof(**map);
+> > > > +     r = kzalloc(*map_size, GFP_KERNEL);
+> > >
+> > > kcalloc()
+> > Since I have to calculate the size anyway I thought kzalloc was fine.
+> > I'll switch.
+>
+> The point is to check multiplication overflow. See overflow.h for helpers.
 
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
----
- MAINTAINERS                                          |  3 +--
- drivers/iommu/Makefile                               | 12 ++++++------
- .../iommu/{intel-iommu-debugfs.c => intel/debugfs.c} |  0
- drivers/iommu/{ => intel}/dmar.c                     |  2 +-
- drivers/iommu/{ => intel}/intel-pasid.h              |  0
- drivers/iommu/{intel-iommu.c => intel/iommu.c}       |  2 +-
- .../{intel_irq_remapping.c => intel/irq_remapping.c} |  2 +-
- drivers/iommu/{intel-pasid.c => intel/pasid.c}       |  0
- drivers/iommu/{intel-svm.c => intel/svm.c}           |  0
- drivers/iommu/{intel-trace.c => intel/trace.c}       |  0
- 10 files changed, 10 insertions(+), 11 deletions(-)
- rename drivers/iommu/{intel-iommu-debugfs.c => intel/debugfs.c} (100%)
- rename drivers/iommu/{ => intel}/dmar.c (99%)
- rename drivers/iommu/{ => intel}/intel-pasid.h (100%)
- rename drivers/iommu/{intel-iommu.c => intel/iommu.c} (99%)
- rename drivers/iommu/{intel_irq_remapping.c => intel/irq_remapping.c} (99%)
- rename drivers/iommu/{intel-pasid.c => intel/pasid.c} (100%)
- rename drivers/iommu/{intel-svm.c => intel/svm.c} (100%)
- rename drivers/iommu/{intel-trace.c => intel/trace.c} (100%)
+I am aware of this check and didn't think of it as applicable here, as
+the most dma-ranges I can envision is six. I suppose that it is
+possible that this may change in the future to some big number.  At
+any rate, the next version has kcalloc().
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c2c31d3f8ae4..fa2078dd57d3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8716,8 +8716,7 @@ M:	Lu Baolu <baolu.lu@linux.intel.com>
- L:	iommu@lists.linux-foundation.org
- S:	Supported
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
--F:	drivers/iommu/dmar.c
--F:	drivers/iommu/intel*.[ch]
-+F:	drivers/iommu/intel/
- F:	include/linux/intel-iommu.h
- F:	include/linux/intel-svm.h
- 
-diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
-index 3af7e374b0cb..342190196dfb 100644
---- a/drivers/iommu/Makefile
-+++ b/drivers/iommu/Makefile
-@@ -17,13 +17,13 @@ obj-$(CONFIG_AMD_IOMMU_V2) += amd/iommu_v2.o
- obj-$(CONFIG_ARM_SMMU) += arm_smmu.o
- arm_smmu-objs += arm-smmu.o arm-smmu-impl.o arm-smmu-qcom.o
- obj-$(CONFIG_ARM_SMMU_V3) += arm-smmu-v3.o
--obj-$(CONFIG_DMAR_TABLE) += dmar.o
--obj-$(CONFIG_INTEL_IOMMU) += intel-iommu.o intel-pasid.o
--obj-$(CONFIG_INTEL_IOMMU) += intel-trace.o
--obj-$(CONFIG_INTEL_IOMMU_DEBUGFS) += intel-iommu-debugfs.o
--obj-$(CONFIG_INTEL_IOMMU_SVM) += intel-svm.o
-+obj-$(CONFIG_DMAR_TABLE) += intel/dmar.o
-+obj-$(CONFIG_INTEL_IOMMU) += intel/iommu.o intel/pasid.o
-+obj-$(CONFIG_INTEL_IOMMU) += intel/trace.o
-+obj-$(CONFIG_INTEL_IOMMU_DEBUGFS) += intel/debugfs.o
-+obj-$(CONFIG_INTEL_IOMMU_SVM) += intel/svm.o
- obj-$(CONFIG_IPMMU_VMSA) += ipmmu-vmsa.o
--obj-$(CONFIG_IRQ_REMAP) += intel_irq_remapping.o irq_remapping.o
-+obj-$(CONFIG_IRQ_REMAP) += intel/irq_remapping.o irq_remapping.o
- obj-$(CONFIG_MTK_IOMMU) += mtk_iommu.o
- obj-$(CONFIG_MTK_IOMMU_V1) += mtk_iommu_v1.o
- obj-$(CONFIG_OMAP_IOMMU) += omap-iommu.o
-diff --git a/drivers/iommu/intel-iommu-debugfs.c b/drivers/iommu/intel/debugfs.c
-similarity index 100%
-rename from drivers/iommu/intel-iommu-debugfs.c
-rename to drivers/iommu/intel/debugfs.c
-diff --git a/drivers/iommu/dmar.c b/drivers/iommu/intel/dmar.c
-similarity index 99%
-rename from drivers/iommu/dmar.c
-rename to drivers/iommu/intel/dmar.c
-index 60a2970c37ff..cc46dff98fa0 100644
---- a/drivers/iommu/dmar.c
-+++ b/drivers/iommu/intel/dmar.c
-@@ -32,7 +32,7 @@
- #include <asm/irq_remapping.h>
- #include <asm/iommu_table.h>
- 
--#include "irq_remapping.h"
-+#include "../irq_remapping.h"
- 
- typedef int (*dmar_res_handler_t)(struct acpi_dmar_header *, void *);
- struct dmar_res_callback {
-diff --git a/drivers/iommu/intel-pasid.h b/drivers/iommu/intel/intel-pasid.h
-similarity index 100%
-rename from drivers/iommu/intel-pasid.h
-rename to drivers/iommu/intel/intel-pasid.h
-diff --git a/drivers/iommu/intel-iommu.c b/drivers/iommu/intel/iommu.c
-similarity index 99%
-rename from drivers/iommu/intel-iommu.c
-rename to drivers/iommu/intel/iommu.c
-index 648a785e078a..9129663a7406 100644
---- a/drivers/iommu/intel-iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -47,7 +47,7 @@
- #include <asm/iommu.h>
- #include <trace/events/intel_iommu.h>
- 
--#include "irq_remapping.h"
-+#include "../irq_remapping.h"
- #include "intel-pasid.h"
- 
- #define ROOT_SIZE		VTD_PAGE_SIZE
-diff --git a/drivers/iommu/intel_irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
-similarity index 99%
-rename from drivers/iommu/intel_irq_remapping.c
-rename to drivers/iommu/intel/irq_remapping.c
-index a042f123b091..7f8769800815 100644
---- a/drivers/iommu/intel_irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -21,7 +21,7 @@
- #include <asm/pci-direct.h>
- #include <asm/msidef.h>
- 
--#include "irq_remapping.h"
-+#include "../irq_remapping.h"
- 
- enum irq_mode {
- 	IRQ_REMAPPING,
-diff --git a/drivers/iommu/intel-pasid.c b/drivers/iommu/intel/pasid.c
-similarity index 100%
-rename from drivers/iommu/intel-pasid.c
-rename to drivers/iommu/intel/pasid.c
-diff --git a/drivers/iommu/intel-svm.c b/drivers/iommu/intel/svm.c
-similarity index 100%
-rename from drivers/iommu/intel-svm.c
-rename to drivers/iommu/intel/svm.c
-diff --git a/drivers/iommu/intel-trace.c b/drivers/iommu/intel/trace.c
-similarity index 100%
-rename from drivers/iommu/intel-trace.c
-rename to drivers/iommu/intel/trace.c
--- 
-2.17.1
-
+Regards,
+Jim
+>
+>
+> > > > +     if (!r)
+> > > > +             return -ENOMEM;
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
