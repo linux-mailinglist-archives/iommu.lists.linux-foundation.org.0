@@ -1,88 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 841C81F47E4
-	for <lists.iommu@lfdr.de>; Tue,  9 Jun 2020 22:16:12 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FFF1F48BE
+	for <lists.iommu@lfdr.de>; Tue,  9 Jun 2020 23:21:11 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9C6AE88908;
-	Tue,  9 Jun 2020 20:16:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A736C87E0E;
+	Tue,  9 Jun 2020 21:21:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TlEaJXVC9O4l; Tue,  9 Jun 2020 20:16:10 +0000 (UTC)
+	with ESMTP id 3o8T85kqyR1d; Tue,  9 Jun 2020 21:21:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 13BCE8890B;
-	Tue,  9 Jun 2020 20:16:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7D1D587DAC;
+	Tue,  9 Jun 2020 21:21:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F118AC016F;
-	Tue,  9 Jun 2020 20:16:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6187DC016F;
+	Tue,  9 Jun 2020 21:21:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DBB76C0863
- for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 20:02:36 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 91DACC016F
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 21:21:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id B3D6020503
- for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 20:02:36 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 79E69878D8
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 21:21:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7t77IeFtu5ww for <iommu@lists.linux-foundation.org>;
- Tue,  9 Jun 2020 20:02:35 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
- [209.85.222.195])
- by silver.osuosl.org (Postfix) with ESMTPS id 83CA3203E7
- for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 20:02:35 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id n141so22132316qke.2
- for <iommu@lists.linux-foundation.org>; Tue, 09 Jun 2020 13:02:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0BqclPegqJok0tr1lg07n1QfpjQ6ftwveg7CVu5MR2U=;
- b=EJ5I7b0p5sm6fG2LVDGmZFIoyUoEMOuv8dVuO+rWpAYZVg5NR9bq0wHB8aFLqtXbzX
- /kFMTgm/V/5WvrVz2M2EsfKNKxHNUIvuVjvZQQQDkpY/UQkKY/ra/6hAunI0v+uMZh6D
- 0KyD/4Dhe9OBRkY/jQJgLgoVpLI87OZ0IGfTFEWHdL7PLOyC44ojCz/6e56gNWKMbygt
- P/VR1yGt2c8lH2OKGfLR+JiNAgrHj3fP6Ta+Nf74YWvAjaQr9cjHFme5RcIbHePSjo7u
- pR7FioGemlKZlrSNpD1MePBLmBhnAR+uUWkMJq5msxpz/0yE240PEL6jgGrlNq8pbix5
- eC2A==
+ with ESMTP id jx2VA-Fi9H4j for <iommu@lists.linux-foundation.org>;
+ Tue,  9 Jun 2020 21:21:05 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+ [209.85.166.67])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id A94C586214
+ for <iommu@lists.linux-foundation.org>; Tue,  9 Jun 2020 21:21:05 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id c8so24500343iob.6
+ for <iommu@lists.linux-foundation.org>; Tue, 09 Jun 2020 14:21:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0BqclPegqJok0tr1lg07n1QfpjQ6ftwveg7CVu5MR2U=;
- b=NT+FdJKN57yup6OfY0z3vdSJB3K+IRDIfSuE5gCIN/w35VBv/VTSXYRZdIff4lK2SG
- ND8NKqZhVceU2YYTkm2BSOtCb0Ogfc621walRhAf1ZZyCAqE45uRa2IIuj48sLGBynBz
- PjlQC8qRQOqrwIF4pIqybyeUiHxHcxflj49+xcTttnaeb45PSxBNDM3G6hsmiJf9NCOj
- +4ILq+mdLmXEmlCMs1Hdvr6mHveOKAxCm88hzizMHt41IkWmwI9ID/5iLJVBM4tr4j1v
- fq0a3jVJPtBIj3N9tCk56FYzig2aWdih9N/J9drewEFZ+R9LQtfjq/dukQ06cnYqfn1+
- bKbQ==
-X-Gm-Message-State: AOAM532uKf8LmCSVeX/oyIna6rUyaRiXREKzm+7erKQcz4oKaknf4iL7
- TnxJbc3+0cg3Em2+3Nr/oQxD1fL+Erlieg==
-X-Google-Smtp-Source: ABdhPJyz/M9ZpkYSVQxPXiFgNuTI0QUGQCMuSuyLv9c8jT0hNZNxRz1VGjqEgkrwXdXTkx7A3ZM78w==
-X-Received: by 2002:a37:6c2:: with SMTP id 185mr28950911qkg.95.1591731635916; 
- Tue, 09 Jun 2020 12:40:35 -0700 (PDT)
-Received: from localhost.localdomain ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id v8sm10513181qto.21.2020.06.09.12.40.35
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=XWzC2J2zPBRq99zmTAamTkCvAWsJFf56m/YNmkrqhjI=;
+ b=I6Z9j/DJujK96L2ebc0ZwT4toMHQKd9H6M5DnhYecTSiGB0Cwq6mmn/dUteP5Eh5O1
+ sa3q6vaamqtZ89VZXBOqqq0ifHcWwC7AkXhpFAYaSF8fEBOfB/x/tJaypgqV98e6LT6a
+ Z8/G5qSxh0OomHRAed917mX3EdI+lhlydguW7XYlxWD6J5G1lORcpyS9hmZ5gOpcL6CF
+ i5HS7pl+Kg2ELRlP+UVIYUtcmXz0vnBhupwyg0lgetp5Wx25c5Y5wq9fJOj/xNJ5spTV
+ cB2GoPUEr3NEzbQSAIpIa2WzZnRNkmmyEZmWAUNdXXSXT5ILRPwV9IH89nkeVnTyiA/U
+ pQsA==
+X-Gm-Message-State: AOAM531tJibnWi/qh4Y/H8dsIG7JykEgGheymhGbAlpjAobCpVKt6omm
+ 3QjhTuoH6Xk0ubrRnpkt9g==
+X-Google-Smtp-Source: ABdhPJwnyzqbzPdYRqQxyLBKph1AldYmaBNWEcQWN9kmn6fKm8rVJxp6frtZvPtxIvPRx1BxIouxcQ==
+X-Received: by 2002:a6b:39d7:: with SMTP id g206mr64811ioa.31.1591737664915;
+ Tue, 09 Jun 2020 14:21:04 -0700 (PDT)
+Received: from xps15 ([64.188.179.251])
+ by smtp.gmail.com with ESMTPSA id m90sm10061329ilb.79.2020.06.09.14.21.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Jun 2020 12:40:35 -0700 (PDT)
-From: Jonathan Marek <jonathan@marek.ca>
-To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2 2/8] iommu: arm-smmu-impl: Use qcom impl for sm8150 and
- sm8250 compatibles
-Date: Tue,  9 Jun 2020 15:40:20 -0400
-Message-Id: <20200609194030.17756-3-jonathan@marek.ca>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200609194030.17756-1-jonathan@marek.ca>
-References: <20200609194030.17756-1-jonathan@marek.ca>
+ Tue, 09 Jun 2020 14:21:04 -0700 (PDT)
+Received: (nullmailer pid 1492410 invoked by uid 1000);
+ Tue, 09 Jun 2020 21:21:02 -0000
+Date: Tue, 9 Jun 2020 15:21:02 -0600
+From: Rob Herring <robh@kernel.org>
+To: Yong Wu <yong.wu@mediatek.com>
+Subject: Re: [PATCH v4 01/17] media: dt-binding: mtk-vcodec: Separating
+ mtk-vcodec encode node.
+Message-ID: <20200609212102.GA1416099@bogus>
+References: <1590826218-23653-1-git-send-email-yong.wu@mediatek.com>
+ <1590826218-23653-2-git-send-email-yong.wu@mediatek.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 09 Jun 2020 20:16:08 +0000
-Cc: Will Deacon <will@kernel.org>, open list <linux-kernel@vger.kernel.org>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Robin Murphy <robin.murphy@arm.com>,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
+Content-Disposition: inline
+In-Reply-To: <1590826218-23653-2-git-send-email-yong.wu@mediatek.com>
+Cc: Maoguang Meng <maoguang.meng@mediatek.com>,
+ Will Deacon <will.deacon@arm.com>, youlin.pei@mediatek.com,
+ Irui Wang <irui.wang@mediatek.com>, Nicolas Boichat <drinkcat@chromium.org>,
+ Evan Green <evgreen@chromium.org>, eizan@chromium.org,
+ Matthias Kaehlcke <mka@chromium.org>, devicetree@vger.kernel.org,
+ cui.zhang@mediatek.com, Tomasz Figa <tfiga@google.com>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, ming-fan.chen@mediatek.com,
+ linux-arm-kernel@lists.infradead.org, anan.sun@mediatek.com,
+ acourbot@chromium.org, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, chao.hao@mediatek.com,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,31 +99,127 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Use the qcom implementation for IOMMU hardware on sm8150 and sm8250 SoCs.
+On Sat, May 30, 2020 at 04:10:02PM +0800, Yong Wu wrote:
+> From: Maoguang Meng <maoguang.meng@mediatek.com>
+> 
+> Update binding document since the avc and vp8 hardware encoder in
+> mt8173 are now separated. Separate "mediatek,mt8173-vcodec-enc" to
+> "mediatek,mt8173-vcodec-vp8-enc" and "mediatek,mt8173-vcodec-avc-enc".
 
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
----
- drivers/iommu/arm-smmu-impl.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+The h/w suddenly split in 2? You are breaking compatibility. Up to the 
+Mediatek maintainers to decide if that's okay, but you need to state you 
+are breaking compatibility (here and in the driver) and why that is 
+okay.
 
-diff --git a/drivers/iommu/arm-smmu-impl.c b/drivers/iommu/arm-smmu-impl.c
-index c75b9d957b70..f5f6cab626be 100644
---- a/drivers/iommu/arm-smmu-impl.c
-+++ b/drivers/iommu/arm-smmu-impl.c
-@@ -172,7 +172,9 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
- 		smmu->impl = &calxeda_impl;
- 
- 	if (of_device_is_compatible(np, "qcom,sdm845-smmu-500") ||
--	    of_device_is_compatible(np, "qcom,sc7180-smmu-500"))
-+	    of_device_is_compatible(np, "qcom,sc7180-smmu-500") ||
-+	    of_device_is_compatible(np, "qcom,sm8150-smmu-500") ||
-+	    of_device_is_compatible(np, "qcom,sm8250-smmu-500"))
- 		return qcom_smmu_impl_init(smmu);
- 
- 	return smmu;
--- 
-2.26.1
-
+> 
+> This is a preparing patch for smi cleaning up "mediatek,larb".
+> 
+> Signed-off-by: Maoguang Meng <maoguang.meng@mediatek.com>
+> Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> ---
+>  .../devicetree/bindings/media/mediatek-vcodec.txt  | 58 ++++++++++++----------
+>  1 file changed, 31 insertions(+), 27 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+> index 8093335..1023740 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+> +++ b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+> @@ -4,7 +4,9 @@ Mediatek Video Codec is the video codec hw present in Mediatek SoCs which
+>  supports high resolution encoding and decoding functionalities.
+>  
+>  Required properties:
+> -- compatible : "mediatek,mt8173-vcodec-enc" for MT8173 encoder
+> +- compatible : must be one of the following string:
+> +  "mediatek,mt8173-vcodec-vp8-enc" for mt8173 vp8 encoder.
+> +  "mediatek,mt8173-vcodec-avc-enc" for mt8173 avc encoder.
+>    "mediatek,mt8183-vcodec-enc" for MT8183 encoder.
+>    "mediatek,mt8173-vcodec-dec" for MT8173 decoder.
+>  - reg : Physical base address of the video codec registers and length of
+> @@ -13,10 +15,11 @@ Required properties:
+>  - mediatek,larb : must contain the local arbiters in the current Socs.
+>  - clocks : list of clock specifiers, corresponding to entries in
+>    the clock-names property.
+> -- clock-names: encoder must contain "venc_sel_src", "venc_sel",,
+> -  "venc_lt_sel_src", "venc_lt_sel", decoder must contain "vcodecpll",
+> -  "univpll_d2", "clk_cci400_sel", "vdec_sel", "vdecpll", "vencpll",
+> -  "venc_lt_sel", "vdec_bus_clk_src".
+> +- clock-names:
+> +   avc venc must contain "venc_sel";
+> +   vp8 venc must contain "venc_lt_sel";
+> +   decoder  must contain "vcodecpll", "univpll_d2", "clk_cci400_sel",
+> +   "vdec_sel", "vdecpll", "vencpll", "venc_lt_sel", "vdec_bus_clk_src".
+>  - iommus : should point to the respective IOMMU block with master port as
+>    argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+>    for details.
+> @@ -80,14 +83,10 @@ vcodec_dec: vcodec@16000000 {
+>      assigned-clock-rates = <0>, <0>, <0>, <1482000000>, <800000000>;
+>    };
+>  
+> -  vcodec_enc: vcodec@18002000 {
+> -    compatible = "mediatek,mt8173-vcodec-enc";
+> -    reg = <0 0x18002000 0 0x1000>,    /*VENC_SYS*/
+> -          <0 0x19002000 0 0x1000>;    /*VENC_LT_SYS*/
+> -    interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>,
+> -		 <GIC_SPI 202 IRQ_TYPE_LEVEL_LOW>;
+> -    mediatek,larb = <&larb3>,
+> -		    <&larb5>;
+> +vcodec_enc: vcodec@18002000 {
+> +    compatible = "mediatek,mt8173-vcodec-avc-enc";
+> +    reg = <0 0x18002000 0 0x1000>;
+> +    interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_LOW>;
+>      iommus = <&iommu M4U_PORT_VENC_RCPU>,
+>               <&iommu M4U_PORT_VENC_REC>,
+>               <&iommu M4U_PORT_VENC_BSDMA>,
+> @@ -98,8 +97,20 @@ vcodec_dec: vcodec@16000000 {
+>               <&iommu M4U_PORT_VENC_REF_LUMA>,
+>               <&iommu M4U_PORT_VENC_REF_CHROMA>,
+>               <&iommu M4U_PORT_VENC_NBM_RDMA>,
+> -             <&iommu M4U_PORT_VENC_NBM_WDMA>,
+> -             <&iommu M4U_PORT_VENC_RCPU_SET2>,
+> +             <&iommu M4U_PORT_VENC_NBM_WDMA>;
+> +    mediatek,larb = <&larb3>;
+> +    mediatek,vpu = <&vpu>;
+> +    clocks = <&topckgen CLK_TOP_VENC_SEL>;
+> +    clock-names = "venc_sel";
+> +    assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>;
+> +    assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL>;
+> +  };
+> +
+> +vcodec_enc_lt: vcodec@19002000 {
+> +    compatible = "mediatek,mt8173-vcodec-vp8-enc";
+> +    reg =  <0 0x19002000 0 0x1000>;	/* VENC_LT_SYS */
+> +    interrupts = <GIC_SPI 202 IRQ_TYPE_LEVEL_LOW>;
+> +    iommus = <&iommu M4U_PORT_VENC_RCPU_SET2>,
+>               <&iommu M4U_PORT_VENC_REC_FRM_SET2>,
+>               <&iommu M4U_PORT_VENC_BSDMA_SET2>,
+>               <&iommu M4U_PORT_VENC_SV_COMA_SET2>,
+> @@ -108,17 +119,10 @@ vcodec_dec: vcodec@16000000 {
+>               <&iommu M4U_PORT_VENC_CUR_CHROMA_SET2>,
+>               <&iommu M4U_PORT_VENC_REF_LUMA_SET2>,
+>               <&iommu M4U_PORT_VENC_REC_CHROMA_SET2>;
+> +    mediatek,larb = <&larb5>;
+>      mediatek,vpu = <&vpu>;
+> -    clocks = <&topckgen CLK_TOP_VENCPLL_D2>,
+> -             <&topckgen CLK_TOP_VENC_SEL>,
+> -             <&topckgen CLK_TOP_UNIVPLL1_D2>,
+> -             <&topckgen CLK_TOP_VENC_LT_SEL>;
+> -    clock-names = "venc_sel_src",
+> -                  "venc_sel",
+> -                  "venc_lt_sel_src",
+> -                  "venc_lt_sel";
+> -    assigned-clocks = <&topckgen CLK_TOP_VENC_SEL>,
+> -                      <&topckgen CLK_TOP_VENC_LT_SEL>;
+> -    assigned-clock-parents = <&topckgen CLK_TOP_VENCPLL_D2>,
+> -                             <&topckgen CLK_TOP_UNIVPLL1_D2>;
+> +    clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
+> +    clock-names = "venc_lt_sel";
+> +    assigned-clocks = <&topckgen CLK_TOP_VENC_LT_SEL>;
+> +    assigned-clock-parents = <&topckgen CLK_TOP_VCODECPLL_370P5>;
+>    };
+> -- 
+> 1.9.1
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
