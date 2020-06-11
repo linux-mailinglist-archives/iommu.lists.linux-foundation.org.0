@@ -2,80 +2,79 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566D81F6DEC
-	for <lists.iommu@lfdr.de>; Thu, 11 Jun 2020 21:20:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADAB01F6DF0
+	for <lists.iommu@lfdr.de>; Thu, 11 Jun 2020 21:20:38 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0B743882B3;
-	Thu, 11 Jun 2020 19:20:35 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5FE7788365;
+	Thu, 11 Jun 2020 19:20:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IDlHbL-1JnFu; Thu, 11 Jun 2020 19:20:34 +0000 (UTC)
+	with ESMTP id oNVLG1oM++K5; Thu, 11 Jun 2020 19:20:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 95539878BE;
-	Thu, 11 Jun 2020 19:20:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id E6D41884CE;
+	Thu, 11 Jun 2020 19:20:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 81FB8C016F;
-	Thu, 11 Jun 2020 19:20:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D2B65C0865;
+	Thu, 11 Jun 2020 19:20:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 24353C016F
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 19:20:33 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1B3F8C0865
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 19:20:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 1269B878BE
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 19:20:33 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 12116203C9
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 19:20:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sWCgVueLPScC for <iommu@lists.linux-foundation.org>;
- Thu, 11 Jun 2020 19:20:32 +0000 (UTC)
+ with ESMTP id fCyE1MYIGPCz for <iommu@lists.linux-foundation.org>;
+ Thu, 11 Jun 2020 19:20:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 69828881BC
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 19:20:32 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id b201so3112055pfb.0
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 12:20:32 -0700 (PDT)
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id B40272040F
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 19:20:33 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id s23so3095790pfh.7
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 12:20:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:from:to:cc:subject:in-reply-to:message-id:references
  :user-agent:mime-version;
- bh=9bbiOsDMVztchdkicPMjy84vDC6pYDsE3gWzL9+ymoc=;
- b=XQjGhruFzMHHQgB4Zy4X5dQbcKz9vjEXrit5SAvrCK5QPKjZ+l7tvfR0ba69ZgL9gm
- khfTkDKN8XAcKs1zfblop0/zLzMvz3pjzXbUrKQ/Qf+Qxy2nBR4KfsQctcPX4udAbTSl
- vcpR5dUEZuKk8N+ph6X73T9PyDMMabM6s1iYI86eKrsRsNyBgvmhf6uMxObDipndNKdn
- 5w7E9XWjkPxPkLsr9C82PeAxJXWtZ3GIePeerssU3YedpZMYKLcAyOJCBqEt74cKiucW
- XTf3ch1vyHKbxRoEIYQ6OflS0ecdgSEoBAUej0v28MsNiVlcykmMkHX7Ok2pNzyiQqeT
- W5tg==
+ bh=lhV8nqMz2laEO7u8yeQgJHEMBabnXS8HLs+yCx8wYRg=;
+ b=acPfkpj5/yf9SgDo/GgAHtc3dF88Ku0aHGKDg+7QAde4yPirke3PsVjTLGiw8CNyf5
+ rG2TeN3/YsFrowdQObRuyE5KZUNGYQVgTkHLC5YVK8hbZFVPU41QPkfdZek2TuIS8jYr
+ ha+G7dTRNoOt34arFuaABOYl6byG3HiaAuYlznexIvZnxhEGlzwcKiZRIkAfeiQ90QJd
+ XVezjcdXyBaGIsvdXilWU970/byi5P9BHFgT2xwISkH5IxvDu8aL50gDfuG5xWuMAcp9
+ ELWXt3Nr8CCIuG0NFyi1OsB8GLXXelexcGBOZV9WWFbayorCcW+7+9CT1EypI2M0tCut
+ Ys+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
  :references:user-agent:mime-version;
- bh=9bbiOsDMVztchdkicPMjy84vDC6pYDsE3gWzL9+ymoc=;
- b=HMqeTQUM00UzNoYNFEovUoN/4ugvqStEscpcfJ4vL/ulhsX7UocZr+Aj2NjKvJI9h7
- uz9M/42Hfu7WibSqu9xYA73QshYVSUkmNTLcxO/i1Sar0i2eRpNTC4QH5GYO/U5NMIdD
- EPt/NyuM6Sf/beTE9TICCbH547enTqWJEu6gIcgOOSHWMD7V8MOcMER2j+PDUsl4QdoW
- i1JEnUyLWd4AH2cpbUTAugzeg/Y9zDY+0gM1bqxnav80iWjaOJu31YFTfTN2N+bBxv+z
- e9GozdOYNIWB+WYJqxrDvr4/dn3iCcAPdAAhexhpIoNwNye5MBzJMCw3WQzui+xJ/Kqr
- wf8w==
-X-Gm-Message-State: AOAM532SNqwrYDjI6LbjXuoCJBr6Ojrl8r6bD5sU0c3rXTcjRM/E5ppV
- PruaqO+nBCTGGukijAWLM2cHtrERkf8=
-X-Google-Smtp-Source: ABdhPJxG2P9nH5r1G62i8Rxg0NJO4j6KzhMS4gR9YqZWKYkkG/6xq6nFS6lpMXkiRAG6l5IgQPXfTg==
-X-Received: by 2002:a05:6a00:1486:: with SMTP id
- v6mr8211804pfu.83.1591903231866; 
- Thu, 11 Jun 2020 12:20:31 -0700 (PDT)
+ bh=lhV8nqMz2laEO7u8yeQgJHEMBabnXS8HLs+yCx8wYRg=;
+ b=C1ne7i/iddGdAXBa3447nXCFraDf2h3lfGSyrcpuypECJUajVIchjTBAShz75f6WIq
+ 3cZtO9+kF8rYNq0JI1dpegKLrDfy4rMivm2mxPvLEAGKhdGRVAuBQ3ssBkGCEvEtqMWr
+ WMNQvqJlhu2vri6MVZRhK9ZskLL4vUmaPM4MZSo9M4XaccYoAHdtwM05WYPgg7yt7Rpe
+ LQ4uL0QvVAP85u75r0eEN2mdRpDqmZdhnG42iQoS2jsfDErYOnYhCbQ62SxdZbc3wu4A
+ 6Gbi/aIPJokw3JDqXj3dlVCNmJHEQZXaVhSZ73h2xuOrcsrymAgPBy+PuNfR9tq6sBWE
+ HsSg==
+X-Gm-Message-State: AOAM533beRFSSinU4m1QduuMXihS0i5x3CU67aUmu/6GfQ7NURf4Q8zO
+ B5Hhk90ORS2ax3mGGU9qxrpGow==
+X-Google-Smtp-Source: ABdhPJyh//Vnh2AOGbnU3pCU/jktEq7WXa1uG41bJSj6sWvqbsCFopBl8iIs0tjZMjC2tSJ5wleAQQ==
+X-Received: by 2002:a63:8b42:: with SMTP id j63mr3450720pge.131.1591903233130; 
+ Thu, 11 Jun 2020 12:20:33 -0700 (PDT)
 Received: from [2620:15c:17:3:3a5:23a7:5e32:4598]
  ([2620:15c:17:3:3a5:23a7:5e32:4598])
- by smtp.gmail.com with ESMTPSA id k126sm4135905pfd.129.2020.06.11.12.20.30
+ by smtp.gmail.com with ESMTPSA id z24sm3714630pfk.29.2020.06.11.12.20.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 12:20:31 -0700 (PDT)
-Date: Thu, 11 Jun 2020 12:20:30 -0700 (PDT)
+ Thu, 11 Jun 2020 12:20:32 -0700 (PDT)
+Date: Thu, 11 Jun 2020 12:20:32 -0700 (PDT)
 X-X-Sender: rientjes@chino.kir.corp.google.com
 To: Christoph Hellwig <hch@lst.de>
-Subject: [patch for-5.8 3/4] dma-direct: check return value when encrypting
- or decrypting memory
+Subject: [patch for-5.8 4/4] dma-direct: add missing set_memory_decrypted()
+ for coherent mapping
 In-Reply-To: <alpine.DEB.2.22.394.2006111218200.153880@chino.kir.corp.google.com>
-Message-ID: <alpine.DEB.2.22.394.2006111219410.153880@chino.kir.corp.google.com>
+Message-ID: <alpine.DEB.2.22.394.2006111220010.153880@chino.kir.corp.google.com>
 References: <alpine.DEB.2.22.394.2006111218200.153880@chino.kir.corp.google.com>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
@@ -101,66 +100,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-__change_page_attr() can fail which will cause set_memory_encrypted() and
-set_memory_decrypted() to return non-zero.
+When a coherent mapping is created in dma_direct_alloc_pages(), it needs
+to be decrypted if the device requires unencrypted DMA before returning.
 
-If the device requires unencrypted DMA memory and decryption fails, simply
-free the memory and fail.
-
-If attempting to re-encrypt in the failure path and that encryption fails,
-there is no alternative other than to leak the memory.
-
-Fixes: c10f07aa27da ("dma/direct: Handle force decryption for DMA coherent
-buffers in common code")
-Cc: stable@vger.kernel.org # 4.17+
+Fixes: 3acac065508f ("dma-mapping: merge the generic remapping helpers
+into dma-direct")
+Cc: stable@vger.kernel.org # 5.5+
 Signed-off-by: David Rientjes <rientjes@google.com>
 ---
- kernel/dma/direct.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ kernel/dma/direct.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
 --- a/kernel/dma/direct.c
 +++ b/kernel/dma/direct.c
-@@ -158,6 +158,7 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
- {
- 	struct page *page;
- 	void *ret;
-+	int err;
- 
- 	size = PAGE_ALIGN(size);
- 
-@@ -210,8 +211,12 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+@@ -195,6 +195,12 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+ 				__builtin_return_address(0));
+ 		if (!ret)
+ 			goto out_free_pages;
++		if (force_dma_unencrypted(dev)) {
++			err = set_memory_decrypted((unsigned long)ret,
++						   1 << get_order(size));
++			if (err)
++				goto out_free_pages;
++		}
+ 		memset(ret, 0, size);
+ 		goto done;
  	}
- 
- 	ret = page_address(page);
--	if (force_dma_unencrypted(dev))
--		set_memory_decrypted((unsigned long)ret, 1 << get_order(size));
-+	if (force_dma_unencrypted(dev)) {
-+		err = set_memory_decrypted((unsigned long)ret,
-+					   1 << get_order(size));
-+		if (err)
-+			goto out_free_pages;
-+	}
- 
- 	memset(ret, 0, size);
- 
-@@ -229,9 +234,13 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
- 		*dma_handle = phys_to_dma(dev, page_to_phys(page));
- 	return ret;
- out_encrypt_pages:
--	if (force_dma_unencrypted(dev))
--		set_memory_encrypted((unsigned long)page_address(page),
--				     1 << get_order(size));
-+	if (force_dma_unencrypted(dev)) {
-+		err = set_memory_encrypted((unsigned long)page_address(page),
-+					   1 << get_order(size));
-+		/* If memory cannot be re-encrypted, it must be leaked */
-+		if (err)
-+			return NULL;
-+	}
- out_free_pages:
- 	dma_free_contiguous(dev, page, size);
- 	return NULL;
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
