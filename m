@@ -1,81 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8291F6FE7
-	for <lists.iommu@lfdr.de>; Fri, 12 Jun 2020 00:21:53 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BF31F6FD5
+	for <lists.iommu@lfdr.de>; Fri, 12 Jun 2020 00:21:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 71FB288519;
-	Thu, 11 Jun 2020 22:21:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 30AAE878B2;
+	Thu, 11 Jun 2020 22:21:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ETC-BgAPxltF; Thu, 11 Jun 2020 22:21:51 +0000 (UTC)
+	with ESMTP id lkFEfsTYmEQ1; Thu, 11 Jun 2020 22:21:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A238A8853B;
-	Thu, 11 Jun 2020 22:21:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A14DB87859;
+	Thu, 11 Jun 2020 22:21:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9DAA0C0178;
-	Thu, 11 Jun 2020 22:21:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9190EC016F;
+	Thu, 11 Jun 2020 22:21:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9353EC016F
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 22:21:49 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A17B2C016F
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 22:21:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 81BB7878C7
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 22:21:49 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 906A087839
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 22:21:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ih7a3twin6_L for <iommu@lists.linux-foundation.org>;
- Thu, 11 Jun 2020 22:21:48 +0000 (UTC)
+ with ESMTP id YVHkdWSUJk-X for <iommu@lists.linux-foundation.org>;
+ Thu, 11 Jun 2020 22:21:43 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
  [104.130.122.27])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 2F9EF8782F
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 22:21:47 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 957F98782F
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 22:21:43 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1591914108; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1591914103; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=kwI9nFCS4dfmx/d3a/Nft429YjYk2J8jpbCay6YdWxE=;
- b=lerZ1/FE/W02N8yxlRJLFW60MkBLv/oHtTGdL5rfe4qKS8Kl/uu2GhwcRNeiXb4ayIO+Q7Fr
- FhcRiSqWeNbz6deWzZyKU+RjzPzHKmCp/EpGqTHkUDrzU5dcC1sXFY0pSvH6pDr/kL3TYoc+
- Dn4UuuenY1STfeDivam9+XCfpWM=
+ bh=OP3xFsI6qfPe2tOHRIeulmcqc0lIdDI/VKmv3JiLAsI=;
+ b=cD1thy7YxZ8SrWMEA/o0QEMY2XPCfPoXavLR14fW51hriTuE+vIyAkgwafGyGNrH3BAhjFi/
+ ty9AjvCowmpoJYvfczUVz4GqafuKHf5Ztk9JURHM70mh2mTB6lTkmyfLvARa5X69TfBv2C+c
+ FZVoYBjHayMZlrbTMwB0mZHepuw=
 X-Mailgun-Sending-Ip: 104.130.122.27
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5ee2ae76c76a4e7a2ab1a0f0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Jun 2020 22:21:42
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 5ee2ae77c76a4e7a2ab1a284 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 11 Jun 2020 22:21:43
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 71EC5C433B1; Thu, 11 Jun 2020 22:21:41 +0000 (UTC)
+ id 6BDDDC433AD; Thu, 11 Jun 2020 22:21:42 +0000 (UTC)
 Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 3A1B0C433CA;
- Thu, 11 Jun 2020 22:21:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3A1B0C433CA
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 979EBC433CB;
+ Thu, 11 Jun 2020 22:21:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 979EBC433CB
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v8 3/7] dt-bindings: arm-smmu: Add compatible string for
- Adreno GPU SMMU
-Date: Thu, 11 Jun 2020 16:21:24 -0600
-Message-Id: <20200611222128.28826-4-jcrouse@codeaurora.org>
+Subject: [PATCH v8 4/7] iommu/arm-smmu: Add a pointer to the attached device
+ to smmu_domain
+Date: Thu, 11 Jun 2020 16:21:25 -0600
+Message-Id: <20200611222128.28826-5-jcrouse@codeaurora.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200611222128.28826-1-jcrouse@codeaurora.org>
 References: <20200611222128.28826-1-jcrouse@codeaurora.org>
-Cc: devicetree@vger.kernel.org, Will Deacon <will@kernel.org>,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
+Cc: Will Deacon <will@kernel.org>, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
  Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -95,33 +94,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Every Qcom Adreno GPU has an embedded SMMU for its own use. These
-devices depend on unique features such as split pagetables,
-different stall/halt requirements and other settings. Identify them
-with a compatible string so that they can be identified in the
-arm-smmu implementation specific code.
+Add a link to the pointer to the struct device that is attached to a
+domain. This makes it easy to get the pointer if it is needed in the
+implementation specific code.
 
 Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
 
- Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/iommu/arm-smmu.c | 1 +
+ drivers/iommu/arm-smmu.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-index d7ceb4c34423..e52a1b146c97 100644
---- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-@@ -38,6 +38,10 @@ properties:
-               - qcom,sc7180-smmu-500
-               - qcom,sdm845-smmu-500
-           - const: arm,mmu-500
-+      - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
-+        items:
-+          - const: qcom,adreno-smmu
-+          - const: qcom,smmu-v2
-       - items:
-           - const: arm,mmu-500
-           - const: arm,smmu-v2
+diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+index 048de2681670..743d75b9ff3f 100644
+--- a/drivers/iommu/arm-smmu.c
++++ b/drivers/iommu/arm-smmu.c
+@@ -801,6 +801,7 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
+ 		cfg->asid = cfg->cbndx;
+ 
+ 	smmu_domain->smmu = smmu;
++	smmu_domain->dev = dev;
+ 
+ 	pgtbl_cfg = (struct io_pgtable_cfg) {
+ 		.pgsize_bitmap	= smmu->pgsize_bitmap,
+diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
+index 5f2de20e883b..d33cfe26b2f5 100644
+--- a/drivers/iommu/arm-smmu.h
++++ b/drivers/iommu/arm-smmu.h
+@@ -345,6 +345,7 @@ struct arm_smmu_domain {
+ 	struct mutex			init_mutex; /* Protects smmu pointer */
+ 	spinlock_t			cb_lock; /* Serialises ATS1* ops and TLB syncs */
+ 	struct iommu_domain		domain;
++	struct device			*dev;	/* Device attached to this domain */
+ };
+ 
+ static inline u32 arm_smmu_lpae_tcr(struct io_pgtable_cfg *cfg)
 -- 
 2.17.1
 
