@@ -1,81 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 816031F6DEE
-	for <lists.iommu@lfdr.de>; Thu, 11 Jun 2020 21:20:36 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C9E11F6DEF
+	for <lists.iommu@lfdr.de>; Thu, 11 Jun 2020 21:20:38 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 20818203C9;
-	Thu, 11 Jun 2020 19:20:35 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B077E89676;
+	Thu, 11 Jun 2020 19:20:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7Fjo9gw-Cm9i; Thu, 11 Jun 2020 19:20:33 +0000 (UTC)
+	with ESMTP id E9GiUSgqgAQS; Thu, 11 Jun 2020 19:20:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 79FC3203FB;
-	Thu, 11 Jun 2020 19:20:33 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BE35E89671;
+	Thu, 11 Jun 2020 19:20:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5ABBCC016F;
-	Thu, 11 Jun 2020 19:20:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A775FC0865;
+	Thu, 11 Jun 2020 19:20:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D7785C016F
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 19:20:30 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 02231C016F
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 19:20:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id D4609880C2
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 19:20:30 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 8A1AC204B8
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 19:20:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Kw+Cy9Oyrwcq for <iommu@lists.linux-foundation.org>;
- Thu, 11 Jun 2020 19:20:29 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A786F878BE
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 19:20:29 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id a45so3367761pje.1
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 12:20:29 -0700 (PDT)
+ with ESMTP id qporfBBtdcwn for <iommu@lists.linux-foundation.org>;
+ Thu, 11 Jun 2020 19:20:31 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 22763203C9
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 19:20:31 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id 64so3086918pfv.11
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 12:20:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:from:to:cc:subject:in-reply-to:message-id:references
  :user-agent:mime-version;
- bh=0RWHH5fLF59Um6Y5l8fqB4Uo2eJszov0rE1UzYFPSzI=;
- b=JdRQWISTkKmhO8vUDE4vizFpUg804f1yUuzpg9VXBOYxGIyGbiL0XFdu0GZ+GvlSXT
- PrAd9RYV1ky0p+RrYgxGIxbun8jtjtOeLjr+umGxdeUqbsBPMNd5KjsGMbN+DB7VPvBy
- VqCLY10ISyV7J0igBjPB7QYIqKjqNHx+xK60voGz1sLBHrNIe+YkEo8Xdvq7WMAI7OnI
- yArx81zMkQGM8m7uR0qqEFh7j3Xe9OMF223woYvkRZlJQjzHWRWfbL7A3z7X0yYdWR57
- /D/Uwaqwn/YZLRdlwSH1/t110UayyKpuU/YmyxMlsuuMUeCE6Pw1Jblkh+Xil+j5Y4o2
- uMcQ==
+ bh=2l2eSdBqJum9TFb5iBYuRa8B8B3NX05NjbHxGSSWmGQ=;
+ b=stnQuEF9g7MtyvCfbMgM4BZG5iEAgUHNwC3emgxuLm1ip4odsE+X2eQ+B/CMZNnSLX
+ h+E+21nnmJwDZLgetRoLzam+qDmI2n0Yt34BqilXHoA6SsR2XQEKy9wsQq6X9sYE6B+z
+ 8gnM/lzQ+/kH9Z9QQW9vyRUCgWW7Ov80VsWbasgZtmjGolYPnredfhVJYxqKMgK3WU8G
+ mD7kyMPrDvxDxlhx7XxOzxsqnaRfGODeN4mRAeKAk5e/u7yEu7JFYqZqT2t6eGYCQeVO
+ fUuxbdATffVa1AiHSlH5YnK9xERQotMeX0fy9zMSsKsAUxTToCn9bppApI0lPwyKKUD+
+ UIgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
  :references:user-agent:mime-version;
- bh=0RWHH5fLF59Um6Y5l8fqB4Uo2eJszov0rE1UzYFPSzI=;
- b=lr7zWCDfLxrqpuoapJ7LE8WVoqNUffD/Xb72HnGxj3sYBe6w4+LDAEALOoK+BaxSop
- 0jIwzujj3Lf/K6FtC2Av6LaNYKZu4C0cYb5XVt9B+oVQcIvBvzaNiqEo85BMeW+yHvV6
- Ad/d1TLmAtQ8rUCJXDVLS5i9hPU65lYIYD2V7h7nIE0t7GzBKQyx9gwV/2AEVYMECY9f
- KcuQyZ9phHHzJjOfx7Bhg0h5HJZIplLwCPw9Lg+POiqQRBuAQM9FSsS4swEtTR2kVDkh
- LtxucUh4Ac9yiWPBWY+CS2muBhOl/EbFZcBSbeZ2uchc4qS1kei+FoC8q8CY3LNoTibG
- VMCg==
-X-Gm-Message-State: AOAM533FW22ATlPj6JBtJ8uknCDcy5iJLXV3T1AqeGGFJJvnCy0Bvc+s
- dLvvQQKFTvCd/K8EPUbbe3mWng==
-X-Google-Smtp-Source: ABdhPJzvCw22dYLwxKcxQJKZqi3ugu6ayMxQGnkNzW9CE2wSsE0O83786LzlNuvg9IOoKYMmSyFAnw==
-X-Received: by 2002:a17:90b:3690:: with SMTP id
- mj16mr9472674pjb.104.1591903229097; 
- Thu, 11 Jun 2020 12:20:29 -0700 (PDT)
+ bh=2l2eSdBqJum9TFb5iBYuRa8B8B3NX05NjbHxGSSWmGQ=;
+ b=DdXhRd9HCf/bmNvJr6fEULyIX788Hl25Ey5kmiI+ddH68GDefNo7Cv7a8agfyPZNdN
+ 7PNfP+qIuV1wOVQhBmEPQi5k00rMGYSM0rG/vp/4tShrH9jXtjequaodtQC3Pw9CDam6
+ Ora9TixcAy2NpzqQ0LtZzejZvviqbqsCj/9d1fLYZNipW2K3Gqw9DSCxEB+T5F0UsfaA
+ 1xSdddB+x9yVTREEfo4uSKgTn4zbL3gK8nHTSnjCCbL59iSLWNz42XTpEPpoG8TtH8C1
+ qMqyN6vlePXljQqfjFMwx2Z6rkfgtgwE0Fdi2PQbQcNzjca6+mTsWW2jsd8VUPxDoAyq
+ IFJA==
+X-Gm-Message-State: AOAM532rhsG1N4Ed1dRUUI7XGq4QvyRpoPGHNOkDp/R5C1xvaWoQhHZo
+ r6mUbJNK2Qjtc/wYzNjawmXzCw==
+X-Google-Smtp-Source: ABdhPJxCPQOAO1kCYZxtbBLMJ5hveXXIZvFmxHaQU+0QJHM1hHDZlqDf+gP5tqaibcIDGdX1Tru62w==
+X-Received: by 2002:a63:1624:: with SMTP id w36mr8043260pgl.144.1591903230513; 
+ Thu, 11 Jun 2020 12:20:30 -0700 (PDT)
 Received: from [2620:15c:17:3:3a5:23a7:5e32:4598]
  ([2620:15c:17:3:3a5:23a7:5e32:4598])
- by smtp.gmail.com with ESMTPSA id bv16sm3380989pjb.46.2020.06.11.12.20.28
+ by smtp.gmail.com with ESMTPSA id u61sm3468710pjb.7.2020.06.11.12.20.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Jun 2020 12:20:28 -0700 (PDT)
-Date: Thu, 11 Jun 2020 12:20:28 -0700 (PDT)
+ Thu, 11 Jun 2020 12:20:29 -0700 (PDT)
+Date: Thu, 11 Jun 2020 12:20:29 -0700 (PDT)
 X-X-Sender: rientjes@chino.kir.corp.google.com
 To: Christoph Hellwig <hch@lst.de>
-Subject: [patch for-5.8 1/4] dma-direct: always align allocation size in
- dma_direct_alloc_pages()
+Subject: [patch for-5.8 2/4] dma-direct: re-encrypt memory if
+ dma_direct_alloc_pages() fails
 In-Reply-To: <alpine.DEB.2.22.394.2006111218200.153880@chino.kir.corp.google.com>
-Message-ID: <alpine.DEB.2.22.394.2006111218570.153880@chino.kir.corp.google.com>
+Message-ID: <alpine.DEB.2.22.394.2006111219200.153880@chino.kir.corp.google.com>
 References: <alpine.DEB.2.22.394.2006111218200.153880@chino.kir.corp.google.com>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
@@ -101,81 +100,40 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-dma_alloc_contiguous() does size >> PAGE_SHIFT and set_memory_decrypted()
-works at page granularity.  It's necessary to page align the allocation
-size in dma_direct_alloc_pages() for consistent behavior.
+If arch_dma_set_uncached() fails after memory has been decrypted, it needs
+to be re-encrypted before freeing.
 
-This also fixes an issue when arch_dma_prep_coherent() is called on an
-unaligned allocation size for dma_alloc_need_uncached() when
-CONFIG_DMA_DIRECT_REMAP is disabled but CONFIG_ARCH_HAS_DMA_SET_UNCACHED
-is enabled.
-
-Cc: stable@vger.kernel.org
+Fixes: fa7e2247c572 ("dma-direct: make uncached_kernel_address more
+general")
+Cc: stable@vger.kernel.org # 5.7
 Signed-off-by: David Rientjes <rientjes@google.com>
 ---
- kernel/dma/direct.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ kernel/dma/direct.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
 --- a/kernel/dma/direct.c
 +++ b/kernel/dma/direct.c
-@@ -112,11 +112,12 @@ static inline bool dma_should_free_from_pool(struct device *dev,
- struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
- 		gfp_t gfp, unsigned long attrs)
- {
--	size_t alloc_size = PAGE_ALIGN(size);
- 	int node = dev_to_node(dev);
- 	struct page *page = NULL;
- 	u64 phys_limit;
- 
-+	VM_BUG_ON(!PAGE_ALIGNED(size));
-+
- 	if (attrs & DMA_ATTR_NO_WARN)
- 		gfp |= __GFP_NOWARN;
- 
-@@ -124,14 +125,14 @@ struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
- 	gfp &= ~__GFP_ZERO;
- 	gfp |= dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
- 					   &phys_limit);
--	page = dma_alloc_contiguous(dev, alloc_size, gfp);
-+	page = dma_alloc_contiguous(dev, size, gfp);
- 	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
--		dma_free_contiguous(dev, page, alloc_size);
-+		dma_free_contiguous(dev, page, size);
- 		page = NULL;
+@@ -220,7 +220,7 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+ 		arch_dma_prep_coherent(page, size);
+ 		ret = arch_dma_set_uncached(ret, size);
+ 		if (IS_ERR(ret))
+-			goto out_free_pages;
++			goto out_encrypt_pages;
  	}
- again:
- 	if (!page)
--		page = alloc_pages_node(node, gfp, get_order(alloc_size));
-+		page = alloc_pages_node(node, gfp, get_order(size));
- 	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
- 		dma_free_contiguous(dev, page, size);
- 		page = NULL;
-@@ -158,8 +159,10 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
- 	struct page *page;
- 	void *ret;
- 
-+	size = PAGE_ALIGN(size);
-+
- 	if (dma_should_alloc_from_pool(dev, gfp, attrs)) {
--		ret = dma_alloc_from_pool(dev, PAGE_ALIGN(size), &page, gfp);
-+		ret = dma_alloc_from_pool(dev, size, &page, gfp);
- 		if (!ret)
- 			return NULL;
- 		goto done;
-@@ -183,10 +186,10 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
- 	     dma_alloc_need_uncached(dev, attrs)) ||
- 	    (IS_ENABLED(CONFIG_DMA_REMAP) && PageHighMem(page))) {
- 		/* remove any dirty cache lines on the kernel alias */
--		arch_dma_prep_coherent(page, PAGE_ALIGN(size));
-+		arch_dma_prep_coherent(page, size);
- 
- 		/* create a coherent mapping */
--		ret = dma_common_contiguous_remap(page, PAGE_ALIGN(size),
-+		ret = dma_common_contiguous_remap(page, size,
- 				dma_pgprot(dev, PAGE_KERNEL, attrs),
- 				__builtin_return_address(0));
- 		if (!ret)
+ done:
+ 	if (force_dma_unencrypted(dev))
+@@ -228,6 +228,10 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+ 	else
+ 		*dma_handle = phys_to_dma(dev, page_to_phys(page));
+ 	return ret;
++out_encrypt_pages:
++	if (force_dma_unencrypted(dev))
++		set_memory_encrypted((unsigned long)page_address(page),
++				     1 << get_order(size));
+ out_free_pages:
+ 	dma_free_contiguous(dev, page, size);
+ 	return NULL;
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
