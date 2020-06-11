@@ -1,53 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545EA1F6648
-	for <lists.iommu@lfdr.de>; Thu, 11 Jun 2020 13:10:46 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0E87387D2C;
-	Thu, 11 Jun 2020 11:10:45 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id d41s4ZsKEEvJ; Thu, 11 Jun 2020 11:10:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 08E8C8865E;
-	Thu, 11 Jun 2020 11:10:44 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F2B52C016F;
-	Thu, 11 Jun 2020 11:10:43 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4C6AFC016F
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 11:10:42 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCCE21F6647
+	for <lists.iommu@lfdr.de>; Thu, 11 Jun 2020 13:10:45 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3B8BD875F6
- for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 11:10:42 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9D83D87612;
+	Thu, 11 Jun 2020 11:10:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id V9nF6ktLK8lv; Thu, 11 Jun 2020 11:10:44 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 43B3087547;
+	Thu, 11 Jun 2020 11:10:44 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2BCA9C016F;
+	Thu, 11 Jun 2020 11:10:44 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6C841C016F
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 11:10:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 5B73A204AB
+ for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 11:10:42 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wK7_DrlIIJw7 for <iommu@lists.linux-foundation.org>;
+ with ESMTP id 3QcWDWvUNntY for <iommu@lists.linux-foundation.org>;
  Thu, 11 Jun 2020 11:10:41 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 25CD487547
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by silver.osuosl.org (Postfix) with ESMTP id 7C210204C8
  for <iommu@lists.linux-foundation.org>; Thu, 11 Jun 2020 11:10:41 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.73,499,1583161200"; d="scan'208";a="49201358"
+X-IronPort-AV: E=Sophos;i="5.73,499,1583161200"; d="scan'208";a="49411152"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 11 Jun 2020 20:10:39 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 11 Jun 2020 20:10:39 +0900
 Received: from localhost.localdomain (unknown [10.166.252.89])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2112A42B6920;
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 480B842B692D;
  Thu, 11 Jun 2020 20:10:39 +0900 (JST)
 From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To: joro@8bytes.org,
 	robh+dt@kernel.org
-Subject: [PATCH 1/2] dt-bindings: iommu: renesas,
- ipmmu-vmsa: add r8a77961 support
-Date: Thu, 11 Jun 2020 20:10:29 +0900
-Message-Id: <1591873830-10128-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 2/2] iommu/renesas: Add support for r8a77961
+Date: Thu, 11 Jun 2020 20:10:30 +0900
+Message-Id: <1591873830-10128-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1591873830-10128-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 References: <1591873830-10128-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
@@ -75,21 +74,40 @@ Add support for r8a77961 (R-Car M3-W+).
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
- Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/iommu/ipmmu-vmsa.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-index 39675cf..e9d28a4 100644
---- a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-+++ b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-@@ -35,6 +35,7 @@ properties:
-               - renesas,ipmmu-r8a774c0 # RZ/G2E
-               - renesas,ipmmu-r8a7795  # R-Car H3
-               - renesas,ipmmu-r8a7796  # R-Car M3-W
-+              - renesas,ipmmu-r8a77961 # R-Car M3-W+
-               - renesas,ipmmu-r8a77965 # R-Car M3-N
-               - renesas,ipmmu-r8a77970 # R-Car V3M
-               - renesas,ipmmu-r8a77980 # R-Car V3H
+diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+index 4c2972f..b57b1f2 100644
+--- a/drivers/iommu/ipmmu-vmsa.c
++++ b/drivers/iommu/ipmmu-vmsa.c
+@@ -3,7 +3,7 @@
+  * IOMMU API for Renesas VMSA-compatible IPMMU
+  * Author: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+  *
+- * Copyright (C) 2014 Renesas Electronics Corporation
++ * Copyright (C) 2014-2020 Renesas Electronics Corporation
+  */
+ 
+ #include <linux/bitmap.h>
+@@ -753,6 +753,7 @@ static const struct soc_device_attribute soc_rcar_gen3_whitelist[] = {
+ 	{ .soc_id = "r8a774b1", },
+ 	{ .soc_id = "r8a774c0", },
+ 	{ .soc_id = "r8a7795", .revision = "ES3.*" },
++	{ .soc_id = "r8a77961", },
+ 	{ .soc_id = "r8a77965", },
+ 	{ .soc_id = "r8a77990", },
+ 	{ .soc_id = "r8a77995", },
+@@ -970,6 +971,9 @@ static const struct of_device_id ipmmu_of_ids[] = {
+ 		.compatible = "renesas,ipmmu-r8a7796",
+ 		.data = &ipmmu_features_rcar_gen3,
+ 	}, {
++		.compatible = "renesas,ipmmu-r8a77961",
++		.data = &ipmmu_features_rcar_gen3,
++	}, {
+ 		.compatible = "renesas,ipmmu-r8a77965",
+ 		.data = &ipmmu_features_rcar_gen3,
+ 	}, {
 -- 
 2.7.4
 
