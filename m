@@ -1,146 +1,132 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E5B1F8D7B
-	for <lists.iommu@lfdr.de>; Mon, 15 Jun 2020 08:04:47 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2230588070;
-	Mon, 15 Jun 2020 06:04:46 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kcnll9SL24OZ; Mon, 15 Jun 2020 06:04:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C83D388062;
-	Mon, 15 Jun 2020 06:04:44 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AB3E1C089E;
-	Mon, 15 Jun 2020 06:04:44 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9BA88C016E
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 06:04:42 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A281F8E13
+	for <lists.iommu@lfdr.de>; Mon, 15 Jun 2020 08:47:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8A748871F3
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 06:04:42 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 38C77864CD;
+	Mon, 15 Jun 2020 06:47:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bW3bRCGThqfE; Mon, 15 Jun 2020 06:47:18 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9570F8692F;
+	Mon, 15 Jun 2020 06:47:18 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7FB1AC016E;
+	Mon, 15 Jun 2020 06:47:18 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B4C95C016E
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 06:47:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id A1FD088411
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 06:47:16 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AnupZVrg-iKC for <iommu@lists.linux-foundation.org>;
- Mon, 15 Jun 2020 06:04:41 +0000 (UTC)
+ with ESMTP id LK1Ff4Uba2yW for <iommu@lists.linux-foundation.org>;
+ Mon, 15 Jun 2020 06:47:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 841E9871ED
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 06:04:41 +0000 (UTC)
-IronPort-SDR: bmZY2Wp6nZUeySWpMf3or3TFWJPHjNtHndrkslAq08OBQQ9PGFGqo4yIVikMBLvg0ux6YA29RI
- TLtj0a4TcAXg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2020 23:04:41 -0700
-IronPort-SDR: b1yFa1mgp+a2cCYnmKCdN5OQB8T2wgo4zTcXT5kaktXOXCxDbPbJ4J7ngCKzOLzia/9FRnZWkV
- 9YZ3W/WKpPaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; d="scan'208";a="298403810"
-Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
- by fmsmga004.fm.intel.com with ESMTP; 14 Jun 2020 23:04:39 -0700
-Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
- ORSMSX104.amr.corp.intel.com (10.22.225.131) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Sun, 14 Jun 2020 23:04:38 -0700
-Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Sun, 14 Jun 2020 23:04:37 -0700
-Received: from ORSEDG001.ED.cps.intel.com (10.7.248.4) by
- orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Sun, 14 Jun 2020 23:04:37 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.172)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Sun, 14 Jun 2020 23:04:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nrrqb+6FaUqp2OAQKymyka3oluyWTEn/VS/zde86258dOzfO8KrzpbcQLBr82v5Foc7HTo06aOFVnV/5COgU842xEtrsjgbV/MVwKlMq1sMtJs91lWxZNsJ2yv0xkxRmWkEVdX3Et+yD/uWlDqj5TeObBP5wm0AwfUT2H29X2T52rqws5JCUXztDzjvySaPZhqe4qrxpMV+2+nDOQbVV5aLeRkzItnV8oSBc58oYCpDbPro3GafIcvGFDIQ+GG49pVh2h2C4tYEhnQ96LhGvOcYywNQ3Z8eaN4mXT8/oT7gbo+lcIU3ch+ZywgmTJNnPd6Ue4y1nr9HthKm98ZaZOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rwyu3v1JzHUfvrBiNW3tbWaOqiFaFxQDpE+alqdz4TU=;
- b=l4HjtCRew+NyKjX+TkyFu5VMgn6Y0vAywEe+rf7usS8E8jSABbgZNH4TB0U5Iwko/39FtKLt8LdKjUufeQ69EX3BCyQjbctb1vfH+C0bzVGO07RxHbx5NBr7DOdCf7jC3RN6PIK+3F9WW3z3Qwc4eabJBcLLtfFAO9JC840kWP0S7cFUZRKYsZtfSvLoVV7tI9yXXbRUUBUlRrYBxPWjpQAMUgoB8o6xS4uLmWWnbO+2X32M0jqJ7C5EhXlWsl7ZtHxxK9Ed01VRle0l39Pt9WdTVxoc2K4pbvK9iAhJh1NVfuGxifTt7eGcS76jG35eOJThqyvrWFh03v6qYU/yjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rwyu3v1JzHUfvrBiNW3tbWaOqiFaFxQDpE+alqdz4TU=;
- b=hXabXD+ncFu0XHRxVsgT1R2Yf7kt9OZmw/klJTtyPoiznrC5SPgBpX7JndsFDfPpsDAFtYhAXqE+QF8/pvnS1iLfLVj5S9U3GgPyaoCyl0qWQ+2Jxd7Uuw1z2yOY8azz/VSPxPoIfCe2GTbnJAxucDHjqvADUZnGWIEtkrAGxWI=
-Received: from DM5PR11MB1435.namprd11.prod.outlook.com (2603:10b6:4:7::18) by
- DM6PR11MB3803.namprd11.prod.outlook.com (2603:10b6:5:141::30) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3088.18; Mon, 15 Jun 2020 06:04:32 +0000
-Received: from DM5PR11MB1435.namprd11.prod.outlook.com
- ([fe80::2c3d:98d9:4e81:c86c]) by DM5PR11MB1435.namprd11.prod.outlook.com
- ([fe80::2c3d:98d9:4e81:c86c%6]) with mapi id 15.20.3088.028; Mon, 15 Jun 2020
- 06:04:32 +0000
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>, Alex Williamson
- <alex.williamson@redhat.com>
-Subject: RE: [PATCH v2 02/15] iommu: Report domain nesting info
-Thread-Topic: [PATCH v2 02/15] iommu: Report domain nesting info
-Thread-Index: AQHWP+lAvgybSaO2NECN4P16s7e2zKjTzaSAgADgFXCABDlcgIAARuNg
-Date: Mon, 15 Jun 2020 06:04:32 +0000
-Message-ID: <DM5PR11MB1435EB4D10A6EF16BF95C811C39C0@DM5PR11MB1435.namprd11.prod.outlook.com>
-References: <1591877734-66527-1-git-send-email-yi.l.liu@intel.com>
- <1591877734-66527-3-git-send-email-yi.l.liu@intel.com>
- <20200611133015.1418097f@x1.home>
- <DM5PR11MB143571773B05359FA2F46FB6C3810@DM5PR11MB1435.namprd11.prod.outlook.com>
- <MWHPR11MB1645A7EBC706AC8A075EA83D8C9C0@MWHPR11MB1645.namprd11.prod.outlook.com>
-In-Reply-To: <MWHPR11MB1645A7EBC706AC8A075EA83D8C9C0@MWHPR11MB1645.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.2.0.6
-dlp-product: dlpe-windows
-authentication-results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.55.52.198]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6f069fcc-a333-4440-85f8-08d810f1f900
-x-ms-traffictypediagnostic: DM6PR11MB3803:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR11MB3803FEF562D787B40FB4085DC39C0@DM6PR11MB3803.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 04359FAD81
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yZYVfKfgfGI3OpIoFITirdPU5jAJGsBAwrX+wN0kzM33LQgvcBreO28UA4B5CHUSclp9COfP+n0l7v4j60S9Siq3vVnTtp33cNF7bZVXBYnIetsbE1MAs67JVfsw+lS981VLsaxMipt6SsiWtMmcUSzyRNSkYYzb9mQTbaRt6YI2ePtcbd6XnmMSAUporG9Ry07PXa5sghLnYZ6v4Sw3FNb+OXeej82IH6HbhsYsurse890SDTAjKt2O0ZA1KW5QrGTX4W4434FEZGjxHuWU22wse6whBboVxKFyPWyWoD3gzVni1pSckVe0650AC8XKLNGQgZiNSle/qxeh8d4oUOJ7IPpMdDRrVDOjcLsCeF3Y3GXlyeJQjmk31CWxNlzZYUVGGdKw8xbAkfTkBeel4Q==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR11MB1435.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(136003)(396003)(366004)(376002)(39860400002)(346002)(8936002)(4326008)(26005)(6506007)(52536014)(9686003)(2906002)(7696005)(186003)(8676002)(33656002)(478600001)(55016002)(966005)(5660300002)(110136005)(66946007)(76116006)(66476007)(54906003)(64756008)(66446008)(66556008)(86362001)(7416002)(83380400001)(71200400001)(316002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 6d0B8qek8eGnGDV6hSTQdBT6IuceHg5PvRHI/W7vq4j3dUYs8awpC9SIYiDxyyIBk0kj/gw5y149ovFmBbbFRyCFzkxY0K6OhvVg4ARQeH/Jbp21XTFBGF0WIvVhhqpc4vcD83N8OK0RYEbGVcHdahyOqXmNT4S9UHYO3xYAVvMH3QYwzcPmWG8tIwef3+UIqkWMC6uSaS7QHs9p7Qd2KyJLTX/vX4IKpZzwys3q9WXriI4KasjPVD77BF2VUTXHFbWrw8bLGva9JerG+pjDJ8/ySjCjWTThKxFM/4/7wsidrv3h1znsXwvUOp0ieFfDBuDSlwRUeMbza2y/DNdAi0VeWd69IMLKsQem4YxQJu07th2WuGEJQrWOiUMjzRslhTi5WIb53iqG4XKWBv8hqlpYYJlroS0F15vhr/eRTa9ym0kOV5yX68mE9UcGIIrYEDyweIpLWsw+DBhBBN/I2u9Q25su00du+60AgQXwSVA=
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id CF7A5883CB
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 06:47:15 +0000 (UTC)
+Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de
+ [95.90.213.197])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 73B0120739;
+ Mon, 15 Jun 2020 06:47:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1592203635;
+ bh=GF2Otkk8GeL8AnPZYKuZzCwG9PVKg5Z7DVVHgebQ7f0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=fkfERACX/KYWbqRV8t7NVva9Lz8x+VqHnC1VM5w/C1EyVHebhNifzo3dQ171xOJrK
+ ObPfrHwHwEruPskgn2YnHQnGtDn4XjWbifORQiGr9U4Hg5yLGrpHKAr1xeGQuJNFXe
+ zUj9yUXIVup3rTuDe9+3oIQlqZcYnzoQlAjH9YrI=
+Received: from mchehab by mail.kernel.org with local (Exim 4.93)
+ (envelope-from <mchehab@kernel.org>)
+ id 1jkith-009nlx-C3; Mon, 15 Jun 2020 08:47:09 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: [PATCH 00/29] Documentation fixes
+Date: Mon, 15 Jun 2020 08:46:39 +0200
+Message-Id: <cover.1592203542.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f069fcc-a333-4440-85f8-08d810f1f900
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2020 06:04:32.2139 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: K2ySxnGNhqJI82xleBiQ17qT13yFhy+5r6kA1oG3LN3vRRwdo/hB+loDM5uZBNbhJgMOLP7LHkLZPqUbtaLUnA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3803
-X-OriginatorOrg: intel.com
-Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Raj,
- Ashok" <ashok.raj@intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Sun,
- Yi Y" <yi.y.sun@intel.com>, "Wu, Hao" <hao.wu@intel.com>, "Tian, 
- Jun J" <jun.j.tian@intel.com>
+Cc: =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
+ Paul Mackerras <paulus@samba.org>, Christoph Hellwig <hch@lst.de>,
+ linux-arch@vger.kernel.org, Mike Snitzer <snitzer@redhat.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, kasan-dev@googlegroups.com,
+ Ingo Molnar <mingo@redhat.com>, Alan Stern <stern@rowland.harvard.edu>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Boqun Feng <boqun.feng@gmail.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Thomas Gleixner <tglx@linutronix.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Eric Dumazet <edumazet@google.com>, keyrings@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Alasdair Kergon <agk@redhat.com>,
+ Daniel Kiss <daniel.kiss@arm.com>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ Fabio Estevam <festevam@gmail.com>, Helge Deller <deller@gmx.de>,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ Andrea Parri <parri.andrea@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Sean Wang <sean.wang@mediatek.com>, linux-gpio@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Tony Luck <tony.luck@intel.com>, dm-devel@redhat.com,
+ Alexey Gladkov <gladkov.alexey@gmail.com>,
+ Arnaud Pouliquen <arnaud.pouliquen@st.com>, Sandy Huang <hjc@rock-chips.com>,
+ linux-f2fs-devel@lists.sourceforge.net, linux-renesas-soc@vger.kernel.org,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Mike Kravetz <mike.kravetz@oracle.com>, linux-pci@vger.kernel.org,
+ Akira Yokosawa <akiyks@gmail.com>, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+ Dave Hansen <dave.hansen@intel.com>, linux-kselftest@vger.kernel.org,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Sukadev Bhattiprolu <sukadev@linux.ibm.com>, Will Deacon <will@kernel.org>,
+ Florian Fainelli <f.fainelli@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Haren Myneni <haren@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ Federico Vaga <federico.vaga@vaga.pv.it>, Jade Alglave <j.alglave@ucl.ac.uk>,
+ Alexey Dobriyan <adobriyan@gmail.com>, Fenghua Yu <fenghua.yu@intel.com>,
+ Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
+ Josh Triplett <josh@joshtriplett.org>, Steven Rostedt <rostedt@goodmis.org>,
+ rcu@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Luc Maranget <luc.maranget@inria.fr>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ Jeff Layton <jlayton@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ iommu@lists.linux-foundation.org, netdev@vger.kernel.org,
+ Shawn Guo <shawnguo@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Jan Kara <jack@suse.cz>, "Peter Zijlstra \(Intel\)" <peterz@infradead.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Howells <dhowells@redhat.com>, linux-mm@kvack.org,
+ Sandipan Das <sandipan@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, x86@kernel.org,
+ Russell King <linux@armlinux.org.uk>, Andy Gross <agross@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ devicetree@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Daniel Lustig <dlustig@nvidia.com>,
+ Chao Yu <chao@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Robin Murphy <robin.murphy@arm.com>, Akira Shimahara <akira215corp@gmail.com>,
+ linux-mips@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Borislav Petkov <bp@alien8.de>,
+ linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -158,150 +144,110 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Kevin,
+Hi Jon,
 
-> From: Tian, Kevin <kevin.tian@intel.com>
-> Sent: Monday, June 15, 2020 9:23 AM
-> 
-> > From: Liu, Yi L <yi.l.liu@intel.com>
-> > Sent: Friday, June 12, 2020 5:05 PM
-> >
-> > Hi Alex,
-> >
-> > > From: Alex Williamson <alex.williamson@redhat.com>
-> > > Sent: Friday, June 12, 2020 3:30 AM
-> > >
-> > > On Thu, 11 Jun 2020 05:15:21 -0700
-> > > Liu Yi L <yi.l.liu@intel.com> wrote:
-> > >
-> > > > IOMMUs that support nesting translation needs report the
-> > > > capability info to userspace, e.g. the format of first level/stage paging
-> structures.
-> > > >
-> > > > Cc: Kevin Tian <kevin.tian@intel.com>
-> > > > CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > > > Cc: Alex Williamson <alex.williamson@redhat.com>
-> > > > Cc: Eric Auger <eric.auger@redhat.com>
-> > > > Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > > > Cc: Joerg Roedel <joro@8bytes.org>
-> > > > Cc: Lu Baolu <baolu.lu@linux.intel.com>
-> > > > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> > > > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > > > ---
-> > > > @Jean, Eric: as nesting was introduced for ARM, but looks like no
-> > > > actual user of it. right? So I'm wondering if we can reuse
-> > > > DOMAIN_ATTR_NESTING to retrieve nesting info? how about your
-> > opinions?
-> > > >
-> > > >  include/linux/iommu.h      |  1 +
-> > > >  include/uapi/linux/iommu.h | 34
-> > ++++++++++++++++++++++++++++++++++
-> > > >  2 files changed, 35 insertions(+)
-> > > >
-> > > > diff --git a/include/linux/iommu.h b/include/linux/iommu.h index
-> > > > 78a26ae..f6e4b49 100644
-> > > > --- a/include/linux/iommu.h
-> > > > +++ b/include/linux/iommu.h
-> > > > @@ -126,6 +126,7 @@ enum iommu_attr {
-> > > >  	DOMAIN_ATTR_FSL_PAMUV1,
-> > > >  	DOMAIN_ATTR_NESTING,	/* two stages of translation */
-> > > >  	DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE,
-> > > > +	DOMAIN_ATTR_NESTING_INFO,
-> > > >  	DOMAIN_ATTR_MAX,
-> > > >  };
-> > > >
-> > > > diff --git a/include/uapi/linux/iommu.h
-> > > > b/include/uapi/linux/iommu.h index 303f148..02eac73 100644
-> > > > --- a/include/uapi/linux/iommu.h
-> > > > +++ b/include/uapi/linux/iommu.h
-> > > > @@ -332,4 +332,38 @@ struct iommu_gpasid_bind_data {
-> > > >  	};
-> > > >  };
-> > > >
-> > > > +struct iommu_nesting_info {
-> > > > +	__u32	size;
-> > > > +	__u32	format;
-> > > > +	__u32	features;
-> > > > +#define IOMMU_NESTING_FEAT_SYSWIDE_PASID	(1 << 0)
-> > > > +#define IOMMU_NESTING_FEAT_BIND_PGTBL		(1 << 1)
-> > > > +#define IOMMU_NESTING_FEAT_CACHE_INVLD		(1 << 2)
-> > > > +	__u32	flags;
-> > > > +	__u8	data[];
-> > > > +};
-> > > > +
-> > > > +/*
-> > > > + * @flags:	VT-d specific flags. Currently reserved for future
-> > > > + *		extension.
-> > > > + * @addr_width:	The output addr width of first level/stage
-> translation
-> > > > + * @pasid_bits:	Maximum supported PASID bits, 0 represents no
-> > PASID
-> > > > + *		support.
-> > > > + * @cap_reg:	Describe basic capabilities as defined in VT-d
-> > capability
-> > > > + *		register.
-> > > > + * @cap_mask:	Mark valid capability bits in @cap_reg.
-> > > > + * @ecap_reg:	Describe the extended capabilities as defined in VT-d
-> > > > + *		extended capability register.
-> > > > + * @ecap_mask:	Mark the valid capability bits in @ecap_reg.
-> > >
-> > > Please explain this a little further, why do we need to tell
-> > > userspace about cap/ecap register bits that aren't valid through this interface?
-> > > Thanks,
-> >
-> > we only want to tell userspace about the bits marked in the cap/ecap_mask.
-> > cap/ecap_mask is kind of white-list of the cap/ecap register.
-> > userspace should only care about the bits in the white-list, for other
-> > bits, it should ignore.
-> >
-> > Regards,
-> > Yi Liu
-> 
-> For invalid bits if kernel just clears them then do we still need additional mask bits
-> to explicitly mark them out? I guess this might be the point that Alex asked...
-
-For invalid bits, kernel will clear them. But I think the mask bits is
-still necessary. The mask bits tells user space the bits related to
-nesting. Without it, user space may have no idea about it.
-
-Maybe talk about QEMU usage of the cap/ecap bits would help. QEMU vIOMMU
-decides cap/ecap bits according to QEMU cmdline. But not all of them are
-compatible with hardware support. Especially, vIOMMU built on nesting.
-So needs to sync the cap/ecap bits with host side. Based on the mask
-bits, QEMU can compare the cap/ecap bits configured by QEMU cmdline with
-the cap/ecap bits reported by this interface. This comparation is limited
-to the nesting related bits in cap/ecap, the other bits are not included
-and can use the configuration by QEMU cmdline.
-
-The link below show the current Intel vIOMMU usage on the cap/ecap bits.
-For each assigned device, vIOMMU will compare the nesting related bits in
-cap/ecap and mask out the bits which hardware doesn't support. After the
-machine is intilized, the vIOMMU cap/ecap bits are determined. If user
-hot-plug devices to VM, vIOMMU will fail it if the hardware cap/ecap bits
-behind hot-plug device are not compatible with determined vIOMMU cap/ecap
-bits.
-
-https://www.spinics.net/lists/kvm/msg218294.html
+That's a bunch of files I have to be applied on the top of v5.8-rc1 fixing
+documentation warnings. I already removed some duplicated stuff.
 
 Regards,
-Yi Liu
+Mauro
 
-> >
-> > > Alex
-> > >
-> > >
-> > > > + */
-> > > > +struct iommu_nesting_info_vtd {
-> > > > +	__u32	flags;
-> > > > +	__u16	addr_width;
-> > > > +	__u16	pasid_bits;
-> > > > +	__u64	cap_reg;
-> > > > +	__u64	cap_mask;
-> > > > +	__u64	ecap_reg;
-> > > > +	__u64	ecap_mask;
-> > > > +};
-> > > > +
-> > > >  #endif /* _UAPI_IOMMU_H */
+Mauro Carvalho Chehab (29):
+  mm: vmalloc.c: remove a kernel-doc annotation from a removed parameter
+  net: dev: add a missing kernel-doc annotation
+  net: netdevice.h: add a description for napi_defer_hard_irqs
+  scripts/kernel-doc: parse __ETHTOOL_DECLARE_LINK_MODE_MASK
+  net: pylink.h: add kernel-doc descriptions for new fields at
+    phylink_config
+  scripts/kernel-doc: handle function pointer prototypes
+  fs: fs.h: fix a kernel-doc parameter description
+  gpio: driver.h: fix kernel-doc markup
+  kcsan: fix a kernel-doc warning
+  rcu: fix some kernel-doc warnings
+  fs: docs: f2fs.rst: fix a broken table
+  dt: update a reference for reneases pcar file renamed to yaml
+  dt: fix broken links due to txt->yaml renames
+  dt: Fix broken references to renamed docs
+  dt: fix reference to olpc,xo1.75-ec.txt
+  selftests/vm/keys: fix a broken reference at protection_keys.c
+  docs: hugetlbpage.rst: fix some warnings
+  docs: powerpc: fix some issues at vas-api.rst
+  docs: driver-model: remove a duplicated markup at driver.rst
+  docs: watch_queue.rst: supress some Sphinx warnings and move to
+    core-api
+  docs: device-mapper: add dm-ebs.rst to an index file
+  docs: it_IT: add two missing references
+  docs: ABI: fix a typo when pointing to w1-generic.rst
+  docs: fs: locking.rst: fix a broken table
+  docs: add bus-virt-phys-mapping.txt to core-api
+  docs: fix references for DMA*.txt files
+  docs: dt: minor adjustments at writing-schema.rst
+  docs: fs: proc.rst: fix a warning due to a merge conflict
+  docs: fs: proc.rst: convert a new chapter to ReST
+
+ .../ABI/testing/sysfs-driver-w1_therm         |   2 +-
+ Documentation/PCI/pci.rst                     |   6 +-
+ .../admin-guide/device-mapper/index.rst       |   1 +
+ Documentation/admin-guide/mm/hugetlbpage.rst  |  25 ++-
+ Documentation/block/biodoc.rst                |   2 +-
+ .../bus-virt-phys-mapping.rst}                |   2 +-
+ Documentation/core-api/dma-api.rst            |   6 +-
+ Documentation/core-api/dma-isa-lpc.rst        |   2 +-
+ Documentation/core-api/index.rst              |   2 +
+ Documentation/{ => core-api}/watch_queue.rst  |  34 ++--
+ .../bindings/arm/freescale/fsl,scu.txt        |   2 +-
+ .../bindings/display/bridge/sii902x.txt       |   2 +-
+ .../bindings/display/imx/fsl-imx-drm.txt      |   4 +-
+ .../devicetree/bindings/display/imx/ldb.txt   |   4 +-
+ .../display/rockchip/rockchip-drm.yaml        |   2 +-
+ .../bindings/misc/olpc,xo1.75-ec.txt          |   2 +-
+ .../bindings/net/mediatek-bluetooth.txt       |   2 +-
+ .../bindings/pinctrl/renesas,pfc-pinctrl.txt  |   2 +-
+ .../bindings/sound/audio-graph-card.txt       |   2 +-
+ .../bindings/sound/st,sti-asoc-card.txt       |   2 +-
+ .../bindings/spi/qcom,spi-geni-qcom.txt       |   2 +-
+ Documentation/devicetree/writing-schema.rst   |   9 +-
+ .../driver-api/driver-model/driver.rst        |   2 -
+ Documentation/driver-api/usb/dma.rst          |   6 +-
+ Documentation/filesystems/f2fs.rst            | 150 ++++++++++++------
+ Documentation/filesystems/locking.rst         |   6 +-
+ Documentation/filesystems/proc.rst            |  46 +++---
+ Documentation/memory-barriers.txt             |   6 +-
+ Documentation/mips/ingenic-tcu.rst            |   2 +-
+ Documentation/powerpc/vas-api.rst             |  23 ++-
+ Documentation/security/keys/core.rst          |   2 +-
+ .../it_IT/process/management-style.rst        |   2 +
+ .../it_IT/process/submitting-patches.rst      |   2 +
+ .../translations/ko_KR/memory-barriers.txt    |   6 +-
+ MAINTAINERS                                   |   8 +-
+ arch/ia64/hp/common/sba_iommu.c               |  12 +-
+ arch/parisc/kernel/pci-dma.c                  |   2 +-
+ arch/x86/include/asm/dma-mapping.h            |   4 +-
+ arch/x86/kernel/amd_gart_64.c                 |   2 +-
+ drivers/parisc/sba_iommu.c                    |  14 +-
+ include/linux/dma-mapping.h                   |   2 +-
+ include/linux/fs.h                            |   2 +-
+ include/linux/gpio/driver.h                   |   2 +-
+ include/linux/kcsan-checks.h                  |  10 +-
+ include/linux/netdevice.h                     |   2 +
+ include/linux/phylink.h                       |   4 +
+ include/linux/rculist.h                       |   2 +-
+ include/linux/watch_queue.h                   |   2 +-
+ include/media/videobuf-dma-sg.h               |   2 +-
+ init/Kconfig                                  |   2 +-
+ kernel/dma/debug.c                            |   2 +-
+ kernel/watch_queue.c                          |   2 +-
+ mm/vmalloc.c                                  |   1 -
+ net/core/dev.c                                |   1 +
+ scripts/kernel-doc                            |   7 +
+ tools/testing/selftests/vm/protection_keys.c  |   2 +-
+ 56 files changed, 282 insertions(+), 175 deletions(-)
+ rename Documentation/{bus-virt-phys-mapping.txt => core-api/bus-virt-phys-mapping.rst} (99%)
+ rename Documentation/{ => core-api}/watch_queue.rst (94%)
+
+-- 
+2.26.2
+
 
 _______________________________________________
 iommu mailing list
