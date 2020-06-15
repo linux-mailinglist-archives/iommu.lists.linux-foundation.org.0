@@ -1,71 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EC21F9F3F
-	for <lists.iommu@lfdr.de>; Mon, 15 Jun 2020 20:19:27 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 324A2861DE;
-	Mon, 15 Jun 2020 18:19:26 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mhC0GxkSppeg; Mon, 15 Jun 2020 18:19:24 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 937C986237;
-	Mon, 15 Jun 2020 18:19:24 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7A1D3C016E;
-	Mon, 15 Jun 2020 18:19:24 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 660E4C016E
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 18:19:23 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CD11F9F5F
+	for <lists.iommu@lfdr.de>; Mon, 15 Jun 2020 20:31:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 503FA87678
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 18:19:23 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B5DCB87FBE;
+	Mon, 15 Jun 2020 18:31:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kaE7+CEODK9G; Mon, 15 Jun 2020 18:31:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4BDCB88005;
+	Mon, 15 Jun 2020 18:31:47 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 308DDC016E;
+	Mon, 15 Jun 2020 18:31:47 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3294DC016E
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 18:31:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 0A18924E4B
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 18:31:45 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zaP6cFMod6jj for <iommu@lists.linux-foundation.org>;
- Mon, 15 Jun 2020 18:19:22 +0000 (UTC)
+ with ESMTP id 9pXWrRenHGpI for <iommu@lists.linux-foundation.org>;
+ Mon, 15 Jun 2020 18:31:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 71B2E87659
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 18:19:22 +0000 (UTC)
-IronPort-SDR: b5jEn8bHBNwFxTzcS8+KcdpyKV5ML4zza5iuUjHS5bXfSTQcD5luB4si72tCp3cZr9YXqUQlO3
- yx1oOT1lD5oA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2020 11:19:21 -0700
-IronPort-SDR: SdtFHoff29V9KtkfxtvNK8UK0GFz3weIqBlZYoLU507VjZSQ/qwXtL4fCM6H4L+ZylJ6G3K3Og
- KpQCvO0hDJeg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,515,1583222400"; d="scan'208";a="382621179"
-Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.25])
- by fmsmga001.fm.intel.com with ESMTP; 15 Jun 2020 11:19:21 -0700
-Date: Mon, 15 Jun 2020 11:19:21 -0700
-From: "Raj, Ashok" <ashok.raj@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
+Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
+ by silver.osuosl.org (Postfix) with ESMTPS id 5A7EC2280C
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 18:31:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=0uaXx1a8X6ge6muz2Sp6fD7wbgSxal+3tZhrZaa6Nx0=; b=D0jY9gpNa4VuJV7CCVE0XGTQx+
+ wFyrLfr7o8wDoY51qJTNQjm/4B8lqrCNzGQDtIaw4ik+p3fchHqc7GxZQo3PPjYkyaFuJN0vv+3BM
+ 2lQuY83HRICjGt/2OvYBHm3yWeok729oCC5gH6Ce1JzaIhM3P6pBkVkSZtPK8xvoWPiuvbFN6y7Wn
+ Urz7U9kmgzIn63lIN4t/iFRfGFOxrO7VZC7rNkYDf7PaemLg1BDQRCIIRd845l7uL243G3Kxz+WFs
+ Tlh3KXfKbIpNqHotyfOur8ysWtNG2ghRlTkgsgoiArC27XGJ1RhR25u1/kKY8q02E0olPt8AwdSSc
+ AroCuvcA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jkttA-0003xc-97; Mon, 15 Jun 2020 18:31:21 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5D9C03003E1;
+ Mon, 15 Jun 2020 20:31:16 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 4B487203B815D; Mon, 15 Jun 2020 20:31:16 +0200 (CEST)
+Date: Mon, 15 Jun 2020 20:31:16 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Fenghua Yu <fenghua.yu@intel.com>
 Subject: Re: [PATCH v2 12/12] x86/traps: Fix up invalid PASID
-Message-ID: <20200615181921.GA33928@otc-nc-03>
+Message-ID: <20200615183116.GD2531@hirez.programming.kicks-ass.net>
 References: <1592008893-9388-1-git-send-email-fenghua.yu@intel.com>
  <1592008893-9388-13-git-send-email-fenghua.yu@intel.com>
  <20200615075649.GK2497@hirez.programming.kicks-ass.net>
  <20200615154854.GB13792@romley-ivt3.sc.intel.com>
  <20200615160357.GA2531@hirez.programming.kicks-ass.net>
+ <20200615181259.GC13792@romley-ivt3.sc.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200615160357.GA2531@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: Ravi V Shankar <ravi.v.shankar@intel.com>,
- Dave Hansen <dave.hansen@intel.com>, H Peter Anvin <hpa@zytor.com>,
+In-Reply-To: <20200615181259.GC13792@romley-ivt3.sc.intel.com>
+Cc: Dave Hansen <dave.hansen@intel.com>, H Peter Anvin <hpa@zytor.com>,
  Dave Jiang <dave.jiang@intel.com>, Ashok Raj <ashok.raj@intel.com>,
  x86 <x86@kernel.org>, amd-gfx <amd-gfx@lists.freedesktop.org>,
- Ingo Molnar <mingo@redhat.com>, Fenghua Yu <fenghua.yu@intel.com>,
+ Ingo Molnar <mingo@redhat.com>, Ravi V Shankar <ravi.v.shankar@intel.com>,
  Yu-cheng Yu <yu-cheng.yu@intel.com>, Andrew Donnellan <ajd@linux.ibm.com>,
  Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
  Tony Luck <tony.luck@intel.com>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
@@ -90,31 +98,20 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Jun 15, 2020 at 06:03:57PM +0200, Peter Zijlstra wrote:
+On Mon, Jun 15, 2020 at 11:12:59AM -0700, Fenghua Yu wrote:
+> > I don't get why you need a rdmsr here, or why not having one would
+> > require a TIF flag. Is that because this MSR is XSAVE/XRSTOR managed?
 > 
-> I don't get why you need a rdmsr here, or why not having one would
-> require a TIF flag. Is that because this MSR is XSAVE/XRSTOR managed?
+> My concern is TIF flags are precious (only 3 slots available). Defining
+> a new TIF flag may be not worth it while rdmsr() can check if PASID
+> is valid in the MSR. And performance here might not be a big issue
+> in #GP.
 > 
-> > > > +	 */
-> > > > +	rdmsrl(MSR_IA32_PASID, pasid_msr);
-> > > > +	if (pasid_msr & MSR_IA32_PASID_VALID)
-> > > > +		return false;
-> > > > +
-> > > > +	/* Fix up the MSR if the MSR doesn't have a valid PASID. */
-> > > > +	wrmsrl(MSR_IA32_PASID, pasid | MSR_IA32_PASID_VALID);
-> 
-> How much more expensive is the wrmsr over the rdmsr? Can't we just
-> unconditionally write the current PASID and call it a day?
+> But if you think using TIF flag is better, I can define a new TIF flag
+> and maintain it per thread (init 0 when clone()/fork(), set 1 in fixup()).
+> Then we can avoid using rdmsr() to check valid PASID in the MSR.
 
-The reason to check the rdmsr() is because we are using a hueristic taking
-GP faults. If we already setup the MSR, but we get it a second time it
-means the reason is something other than PASID_MSR not being set.
-
-Ideally we should use the TIF_ to track this would be cheaper, but we were
-told those bits aren't easy to give out. 
-
-Cheers,
-Ashok
+WHY ?!?! What do you need a TIF flag for?
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
