@@ -1,81 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF11C1F9501
-	for <lists.iommu@lfdr.de>; Mon, 15 Jun 2020 13:06:27 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D161F94FF
+	for <lists.iommu@lfdr.de>; Mon, 15 Jun 2020 13:06:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 629C8204A4;
-	Mon, 15 Jun 2020 11:06:26 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A1D3786F6A;
+	Mon, 15 Jun 2020 11:06:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OYQM7QJc2Dvf; Mon, 15 Jun 2020 11:06:23 +0000 (UTC)
+	with ESMTP id xAH3INLdADkt; Mon, 15 Jun 2020 11:06:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9F24D22EC1;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CAB79870D0;
 	Mon, 15 Jun 2020 11:06:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 85F15C016E;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B5466C016E;
 	Mon, 15 Jun 2020 11:06:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AC77CC016E
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 09:41:33 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 548F2C016E
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 10:02:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 95F2888B37
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 09:41:33 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 392D186D5B
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 10:02:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RhppoTiBrZmf for <iommu@lists.linux-foundation.org>;
- Mon, 15 Jun 2020 09:41:32 +0000 (UTC)
+ with ESMTP id LS0h89oBkYHE for <iommu@lists.linux-foundation.org>;
+ Mon, 15 Jun 2020 10:02:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 4DFB188975
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 09:41:32 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id l26so13928104wme.3
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 02:41:32 -0700 (PDT)
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+ [209.85.128.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id CA18A8073A
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 10:02:18 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id d128so14182561wmc.1
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 03:02:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=KX2ULwgHf9kOaWMhPVMslim8oE0KSCOv/pZ2klCyRGI=;
- b=MADKiMUvO5q+6PpA7O/3H1wZ356C+bn7YJCQLTnaUNSoHutxT+2j5eIE9ZkXJ+DWxi
- NPrNRkA7Qdfa8fRr1zoKHDZTaZQLLGM1Ttq8bcuqecfCz/x3VhjouNbfQd08q6QLw2PY
- iNNqd0yr1mQvOJ0mN2hoblfClSj1xRs5n1jd9khVou1+7h9W2TT1NHEgxDTQgptOYJ53
- i2iJmywNJC9aksGIjW+YdbRYdKSB7uUCgPElSqa+ITDHQ0gXm+tRkTSxHS0wtwWvJ5/S
- dI2aUdQLDhB0Yj+9pWpcew4a9wV9L2cRkb/ti/IyjfoG6xrcZgOisuQsMrCj6nGtO+AN
- y/0Q==
+ bh=08GcNeJgDJiHZoSCn55z5bT9ubYArPoNshimIgtmrxI=;
+ b=QO0pRvC2qVcMaJQ1lTSuk7HXw4jnlqpbEwCy2b7HVqADTf/GNIv4YdnBzNHVw3OIKF
+ MLsXLdpHZPMdBG6PfwTT0SFTybZXh835oquCUm3jZWE6QH0/QhDucD7SUl35TWO6e/rV
+ mmbDpBoam0NEmYWiatJfvtqstG0WOrOLAIH5oAcUkSU/pJWz7lFjNjSE6NaolLfr3pbG
+ 87EkcDfgVc4XMUYzKZcUKGUSK3xEZ2eKA8JHRXDWTW65Imb84jXh5XDbArdXBC4p9Hao
+ i5lZNcj3+1DHaWTnpmE+rPhIg6sTXyGn2hnHJ5UgC+BicdM4b25DZUULNrvk6pERMvfR
+ UcbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=KX2ULwgHf9kOaWMhPVMslim8oE0KSCOv/pZ2klCyRGI=;
- b=qs45CPXAtU4sVAjDJZXVgwu8Jp8Z8wE9bEsc2vYntv2ESu4OJ1qRIhlBobCCIsaFvT
- fY27xTCvqsDSWJMP1c9ux+1dirjV4N8pp1aI28L6nj1ybPR0UlACFitL1fy0IFSymE2n
- 6Ppw78/u/dCzvEg1Ya+M4d6/HSVeQS4rH6wbsR6UWqIpsT4HCB1o3V3ixOZKFJC/82Qp
- QzXPTn9C047iR8zEsqk4L2M3vydB4w038UJiAdcAH1AUDlBIg7cgWdnUJZkHkt6keI94
- wAhm1J+JvTtKDMU+HArXfrQr1BAPZHEYmkWz97TFTMybOj+m8sQlT5eDsn1Q79Tl02wK
- pXMQ==
-X-Gm-Message-State: AOAM532b9TwbEChazOGWGuHW01RaCb1WvbYtG3S0ON9ougxb/l8O7+Eg
- LgYEgkeuSyxohp8gq+tdfGo=
-X-Google-Smtp-Source: ABdhPJyVaVd7y3qPeu+QQyc6wGoty9uDZd9oVpwHAHUFCZmUiI3IHbcATQ+TsPgQKHhygmoNJ17xlA==
-X-Received: by 2002:a1c:6006:: with SMTP id u6mr12071103wmb.39.1592214090818; 
- Mon, 15 Jun 2020 02:41:30 -0700 (PDT)
+ bh=08GcNeJgDJiHZoSCn55z5bT9ubYArPoNshimIgtmrxI=;
+ b=nRfJcv7crXyzp560xb1lpPbZV9ptLMzaFP/XzFPI1dtCqgEZjFSr07odNOS+KZ9srF
+ bnkXY8mDsACdjNWXuMJ4jC++TMnf6C+ETWJ5Yl+H1RPlMwprXMjJgC+bM43ux0CWCn9l
+ EocZbDYnm8gfo4T0lUi7ftYdS6ehubNUCEVQ5VuV4BF8iTHvtQ0M19EnCAVtNJOpa68W
+ sN8Etv327A8m9HlosfkVBTCgTKIOYuDdlY6vNMGHblZhqbTPkpN+EWzHvryrC4z2Io5j
+ i0FbVK87/2tzkpkJWH1bMFy0L74mBe0IiMqBkLZoeZGlfkUqAQry/19d1bn3gBCJzzNM
+ /CNg==
+X-Gm-Message-State: AOAM530EtdxOFET9tQjr7enkC1BDFLPQxzl3/MzbQAwOPXNqQ+kM8oNc
+ BrYtZDVrLkgL14n6JDcEOko=
+X-Google-Smtp-Source: ABdhPJzWSdHeJZNPFXdicH+0DDwzdE3V7acyxzPD+oe7DXfRReDP+5v+LccZQloVMXDtKOAvZKdHbg==
+X-Received: by 2002:a1c:dc44:: with SMTP id t65mr13176902wmg.128.1592215337114; 
+ Mon, 15 Jun 2020 03:02:17 -0700 (PDT)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id b8sm24305884wrs.36.2020.06.15.02.41.29
+ by smtp.gmail.com with ESMTPSA id k17sm23995217wrl.54.2020.06.15.03.02.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Jun 2020 02:41:29 -0700 (PDT)
-Date: Mon, 15 Jun 2020 10:41:28 +0100
+ Mon, 15 Jun 2020 03:02:16 -0700 (PDT)
+Date: Mon, 15 Jun 2020 11:02:14 +0100
 From: Stefan Hajnoczi <stefanha@gmail.com>
 To: Liu Yi L <yi.l.liu@intel.com>
-Subject: Re: [PATCH v2 14/15] vfio: Document dual stage control
-Message-ID: <20200615094128.GB1491454@stefanha-x1.localdomain>
+Subject: Re: [PATCH v2 00/15] vfio: expose virtual Shared Virtual Addressing
+ to VMs
+Message-ID: <20200615100214.GC1491454@stefanha-x1.localdomain>
 References: <1591877734-66527-1-git-send-email-yi.l.liu@intel.com>
- <1591877734-66527-15-git-send-email-yi.l.liu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1591877734-66527-15-git-send-email-yi.l.liu@intel.com>
+In-Reply-To: <1591877734-66527-1-git-send-email-yi.l.liu@intel.com>
 X-Mailman-Approved-At: Mon, 15 Jun 2020 11:06:21 +0000
 Cc: jean-philippe@linaro.org, kevin.tian@intel.com, ashok.raj@intel.com,
  kvm@vger.kernel.org, yi.y.sun@intel.com, linux-kernel@vger.kernel.org,
@@ -93,140 +93,98 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============5619824672421008511=="
+Content-Type: multipart/mixed; boundary="===============8610393235283134005=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 
---===============5619824672421008511==
+--===============8610393235283134005==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="MW5yreqqjyrRcusr"
+	protocol="application/pgp-signature"; boundary="E13BgyNx05feLLmH"
 Content-Disposition: inline
 
 
---MW5yreqqjyrRcusr
+--E13BgyNx05feLLmH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 11, 2020 at 05:15:33AM -0700, Liu Yi L wrote:
-> From: Eric Auger <eric.auger@redhat.com>
+On Thu, Jun 11, 2020 at 05:15:19AM -0700, Liu Yi L wrote:
+> Shared Virtual Addressing (SVA), a.k.a, Shared Virtual Memory (SVM) on
+> Intel platforms allows address space sharing between device DMA and
+> applications. SVA can reduce programming complexity and enhance security.
 >=20
-> The VFIO API was enhanced to support nested stage control: a bunch of
-> new iotcls and usage guideline.
+> This VFIO series is intended to expose SVA usage to VMs. i.e. Sharing
+> guest application address space with passthru devices. This is called
+> vSVA in this series. The whole vSVA enabling requires QEMU/VFIO/IOMMU
+> changes. For IOMMU and QEMU changes, they are in separate series (listed
+> in the "Related series").
 >=20
-> Let's document the process to follow to set up nested mode.
+> The high-level architecture for SVA virtualization is as below, the key
+> design of vSVA support is to utilize the dual-stage IOMMU translation (
+> also known as IOMMU nesting translation) capability in host IOMMU.
 >=20
-> Cc: Kevin Tian <kevin.tian@intel.com>
-> CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Eric Auger <eric.auger@redhat.com>
-> Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> Cc: Joerg Roedel <joro@8bytes.org>
-> Cc: Lu Baolu <baolu.lu@linux.intel.com>
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> ---
-> v1 -> v2:
-> *) new in v2, compared with Eric's original version, pasid table bind
->    and fault reporting is removed as this series doesn't cover them.
->    Original version from Eric.
->    https://lkml.org/lkml/2020/3/20/700
 >=20
->  Documentation/driver-api/vfio.rst | 64 +++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 64 insertions(+)
->=20
-> diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api=
-/vfio.rst
-> index f1a4d3c..06224bd 100644
-> --- a/Documentation/driver-api/vfio.rst
-> +++ b/Documentation/driver-api/vfio.rst
-> @@ -239,6 +239,70 @@ group and can access them as follows::
->  	/* Gratuitous device reset and go... */
->  	ioctl(device, VFIO_DEVICE_RESET);
-> =20
-> +IOMMU Dual Stage Control
-> +------------------------
-> +
-> +Some IOMMUs support 2 stages/levels of translation. Stage corresponds to
-> +the ARM terminology while level corresponds to Intel's VTD terminology.
-> +In the following text we use either without distinction.
-> +
-> +This is useful when the guest is exposed with a virtual IOMMU and some
-> +devices are assigned to the guest through VFIO. Then the guest OS can use
-> +stage 1 (GIOVA -> GPA or GVA->GPA), while the hypervisor uses stage 2 for
-> +VM isolation (GPA -> HPA).
-> +
-> +Under dual stage translation, the guest gets ownership of the stage 1 pa=
-ge
-> +tables and also owns stage 1 configuration structures. The hypervisor ow=
-ns
-> +the root configuration structure (for security reason), including stage 2
-> +configuration. This works as long configuration structures and page table
+>     .-------------.  .---------------------------.
+>     |   vIOMMU    |  | Guest process CR3, FL only|
+>     |             |  '---------------------------'
+>     .----------------/
+>     | PASID Entry |--- PASID cache flush -
+>     '-------------'                       |
+>     |             |                       V
+>     |             |                CR3 in GPA
+>     '-------------'
+> Guest
+> ------| Shadow |--------------------------|--------
+>       v        v                          v
+> Host
+>     .-------------.  .----------------------.
+>     |   pIOMMU    |  | Bind FL for GVA-GPA  |
+>     |             |  '----------------------'
+>     .----------------/  |
+>     | PASID Entry |     V (Nested xlate)
+>     '----------------\.------------------------------.
+>     |             |   |SL for GPA-HPA, default domain|
+>     |             |   '------------------------------'
+>     '-------------'
+> Where:
+>  - FL =3D First level/stage one page tables
+>  - SL =3D Second level/stage two page tables
 
-s/as long configuration/as long as configuration/
+Hi,
+Looks like an interesting feature!
 
-> +format are compatible between the virtual IOMMU and the physical IOMMU.
+To check I understand this feature: can applications now pass virtual
+addresses to devices instead of translating to IOVAs?
 
-s/format/formats/
+If yes, can guest applications restrict the vSVA address space so the
+device only has access to certain regions?
 
-> +
-> +Assuming the HW supports it, this nested mode is selected by choosing the
-> +VFIO_TYPE1_NESTING_IOMMU type through:
-> +
-> +    ioctl(container, VFIO_SET_IOMMU, VFIO_TYPE1_NESTING_IOMMU);
-> +
-> +This forces the hypervisor to use the stage 2, leaving stage 1 available
-> +for guest usage. The guest stage 1 format depends on IOMMU vendor, and
-> +it is the same with the nesting configuration method. User space should
-> +check the format and configuration method after setting nesting type by
-> +using:
-> +
-> +    ioctl(container->fd, VFIO_IOMMU_GET_INFO, &nesting_info);
-> +
-> +Details can be found in Documentation/userspace-api/iommu.rst. For Intel
-> +VT-d, each stage 1 page table is bound to host by:
-> +
-> +    nesting_op->flags =3D VFIO_IOMMU_NESTING_OP_BIND_PGTBL;
-> +    memcpy(&nesting_op->data, &bind_data, sizeof(bind_data));
-> +    ioctl(container->fd, VFIO_IOMMU_NESTING_OP, nesting_op);
-> +
-> +As mentioned above, guest OS may use stage 1 for GIOVA->GPA or GVA->GPA.
-> +GVA->GPA page tables are available when PASID (Process Address Space ID)
-> +is exposed to guest. e.g. guest with PASID-capable devices assigned. For
-> +such page table binding, the bind_data should include PASID info, which
-> +is allocated by guest itself or by host. This depends on hardware vendor
-> +e.g. Intel VT-d requires to allocate PASID from host. This requirement is
-> +available by VFIO_IOMMU_GET_INFO. User space could allocate PASID from
-> +host by:
-> +
-> +    req.flags =3D VFIO_IOMMU_ALLOC_PASID;
-> +    ioctl(container, VFIO_IOMMU_PASID_REQUEST, &req);
+On one hand replacing IOVA translation with virtual addresses simplifies
+the application programming model, but does it give up isolation if the
+device can now access all application memory?
 
-It is not clear how the userspace application determines whether PASIDs
-must be allocated from the host via VFIO_IOMMU_PASID_REQUEST or if the
-guest itself can allocate PASIDs. The text mentions VFIO_IOMMU_GET_INFO
-but what exactly should the userspace application check?
+Thanks,
+Stefan
 
---MW5yreqqjyrRcusr
+--E13BgyNx05feLLmH
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7nQkgACgkQnKSrs4Gr
-c8jZ0gf/XFjQsLCysIADPfVm33C/7VK8W+efHOrirtgQ8Hq2FEuki7UjwGgs933f
-RRuvRaPuVCeVMuM9pEXT7uZyAVNS8uKoTVv0Z0gzQsRv/wNHKH6SrgW+n+o6Yhyo
-6z200NLZZ9HrIt7J5cCYEqLv56KVSam5UfaX1LJMBF1I9YFNF7mo4oE12RJ69sT4
-f3cjbmN3DmUpuB4AhVxYxn6/cdE5nFa3wkxqFE68yExNbNjcvUvZumLbEiQnEZYW
-c4BVsNb71Q76yXB340m6RN4fU5pcS91eK9XAiDdPGYHtdFGNbSGA6Iadj8vbz++c
-qlxF2QhlrFHPiXHRgrnzLKJcvmmZrA==
-=/aVG
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl7nRyYACgkQnKSrs4Gr
+c8it8gf/TeJTtf8ILMVekJJKiE/LzXVWGX/dqeYBMEp9fhU6QYQIgieaQ9coR+zu
+2Rk66LdmgfNDct0Yd9JsUgcBzggYCE4EXUQq2gX5+43O6KkbMKPZq9XWG3c1lorL
+dcghm6bL66QtyXtTuirc4PLDyXHQXrSFE1XyCqb1LI4ZJ06ixoayWLvG1Y+OhaE6
+QsTzNbo5RhADYG+l5U40nTXoQu4sr/7oPK3fBT5BI8/iTGgVnb43tHBTLtxxMPXS
+h8S8N0eJpXdfudpdp7YMUu9crttpDcTvtWIRQm2gLVpF+t95Dh1RKtntiKPfNTzz
+dlmLpMC5acu6JEAimAswW5t7IYqzfQ==
+=zQiU
 -----END PGP SIGNATURE-----
 
---MW5yreqqjyrRcusr--
+--E13BgyNx05feLLmH--
 
---===============5619824672421008511==
+--===============8610393235283134005==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -236,4 +194,4 @@ _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============5619824672421008511==--
+--===============8610393235283134005==--
