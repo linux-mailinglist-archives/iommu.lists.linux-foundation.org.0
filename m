@@ -1,69 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91C11F94FE
-	for <lists.iommu@lfdr.de>; Mon, 15 Jun 2020 13:06:25 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88FEC1F9500
+	for <lists.iommu@lfdr.de>; Mon, 15 Jun 2020 13:06:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4E12B8813D;
-	Mon, 15 Jun 2020 11:06:24 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3C02988438;
+	Mon, 15 Jun 2020 11:06:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4Z0k4Djq8wUk; Mon, 15 Jun 2020 11:06:23 +0000 (UTC)
+	with ESMTP id s-t7wOlgjtOe; Mon, 15 Jun 2020 11:06:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3508587EFB;
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5BA2488489;
 	Mon, 15 Jun 2020 11:06:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0BEB4C089E;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 475BAC016E;
 	Mon, 15 Jun 2020 11:06:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6864AC016E
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 03:19:25 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 08DE6C016E
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 03:47:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 64CFF87784
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 03:19:25 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id E519988314
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 03:47:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3KhT20LZKjHa for <iommu@lists.linux-foundation.org>;
- Mon, 15 Jun 2020 03:19:24 +0000 (UTC)
+ with ESMTP id w1VIhbQA3Tjz for <iommu@lists.linux-foundation.org>;
+ Mon, 15 Jun 2020 03:47:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from youngberry.canonical.com (youngberry.canonical.com
  [91.189.89.112])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 5B89B8777F
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 03:19:24 +0000 (UTC)
-Received: from mail-oi1-f198.google.com ([209.85.167.198])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6CFB387DB7
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 03:47:04 +0000 (UTC)
+Received: from mail-ot1-f69.google.com ([209.85.210.69])
  by youngberry.canonical.com with esmtps
  (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <koba.ko@canonical.com>) id 1jkfec-0001vh-BD
- for iommu@lists.linux-foundation.org; Mon, 15 Jun 2020 03:19:22 +0000
-Received: by mail-oi1-f198.google.com with SMTP id j131so8342441oib.3
- for <iommu@lists.linux-foundation.org>; Sun, 14 Jun 2020 20:19:22 -0700 (PDT)
+ (envelope-from <koba.ko@canonical.com>) id 1jkg5O-0004u6-On
+ for iommu@lists.linux-foundation.org; Mon, 15 Jun 2020 03:47:02 +0000
+Received: by mail-ot1-f69.google.com with SMTP id s62so7721941otb.10
+ for <iommu@lists.linux-foundation.org>; Sun, 14 Jun 2020 20:47:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=J00uqwyYby1d3ZVEwMDTsX2oFDYv8bGGzVc3WDHD1JQ=;
- b=SnM0hvdXaM2KLzKb8zTWLyoiur2yizjqhpgHjiGTPU6AsuKZwqbLVBrnW90E3i0Tvk
- L0YCwacnvgWhXmOYPziDOHaSzA4YfY7Pix065Bv9PKfbcpMph4+5GY7rOAzN+Q/VmEOK
- +rhpr7NOPdDSQn/Yn+72sL7coMJ962OyO0cjFxfUzG9OGZ0ndqEs/WxCKpH6SNeujhu0
- Mn5M5bzWeVVXVA0/taiAkyw+PpI4T4UBdRZNP+MDhw5gu+J+/31PznXFAuzQr48DblFp
- 86kh05O7YXu0IGbj0cxpgRyxakhLI7y45Bb/PkN559MwPYRfimVfb+5wn/MAU8YjtpUF
- ogmQ==
-X-Gm-Message-State: AOAM533PWjAlPndDN4d9UHM2XNa+2oyPkPHe/+reMsdxITZath6fnDRK
- Mtll/nF2+YMEj8JM29DBmrv9ysJgPU2P5p8mPVGc7vB2xCR/UAusXhrlBiUrhK6rd2rXBxiCEL6
- RBuavYwA4ZG/wA7pajhGej8heCJpTzLBTVegPRt/Yts4+OenZh6gvYrNnkC0DdgA=
-X-Received: by 2002:a9d:20e9:: with SMTP id x96mr18730179ota.326.1592191161361; 
- Sun, 14 Jun 2020 20:19:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxHzZsJmkKI3e2WjLvMRDyK+Gdawuk8OT9TolyFnv648r5/K7e4BjThYumxl57En1J6mmIQ7mmHfHo+kak7+Es=
-X-Received: by 2002:a9d:20e9:: with SMTP id x96mr18730170ota.326.1592191161092; 
- Sun, 14 Jun 2020 20:19:21 -0700 (PDT)
+ bh=gLj1m6P/PsBOj+/yO4bax2TzGsrqf3sQFXrDZYfsUSU=;
+ b=ozV9l3gPWR3aJYp3TIJ97TSQKDeBKR+Dku9uNOraha5yU5aIFjzO2NtdtCim4RvQjX
+ Lbmob4S839EBgpRaqcuQyha3iL/yPSrUD8ZXtsRZFevEDWRZhAzhdqyKLuSHsInRbvtn
+ BrS2j+lOK3mblJNJUWa+e/cnXowvGrOEhiYCy9j6q8o4nWwXJQ9yWFGRQUnprWHAZfjm
+ BqsSn8yBPx2DFIdqoi4m2Ia0PlZ9DC61EMwK+Pf/b23lLlxs84DPdSQC8oOxEhR54uwf
+ V8ZZNiaMU/Ker6Awm3+Ekn5Hwbj3wfjV3Rbrt7EfWw0UF48ELb4toa7r/i9U7BWR2Fyi
+ II/g==
+X-Gm-Message-State: AOAM530zdJAGsivQDe40lX5ojQK4WzUzdzWxATPNj0hdfbZQfAk9BGvy
+ ebo+rQymXehqhbv65S/MBBuYNt8kv4udZM1/NaVkeb3hYVNmtlg4kPUzLDgqioUfaAPD2r8xf0M
+ jhldCoa+/89JHLmXxuu5bqRjM20Nxq8YRJc2lVc5fNRKIv4biAlEVWrtZxN9vi9U=
+X-Received: by 2002:aca:4dc3:: with SMTP id a186mr7707138oib.17.1592192821768; 
+ Sun, 14 Jun 2020 20:47:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw1eA2syoGY3ouBbg27yDaHoLb0qZMhWd1yZDnOXkdZehKjxXYqlXFUvzm7HmbNlQZfkgvjNqKaQWVhUIHQOZw=
+X-Received: by 2002:aca:4dc3:: with SMTP id a186mr7707130oib.17.1592192821489; 
+ Sun, 14 Jun 2020 20:47:01 -0700 (PDT)
 MIME-Version: 1.0
 From: Koba Ko <koba.ko@canonical.com>
-Date: Mon, 15 Jun 2020 11:19:10 +0800
-Message-ID: <CAJB-X+Ww=bZN2qZ=e=4EkN_RUTiZxHxkdnHh50y9iVqZmT_XQg@mail.gmail.com>
+Date: Mon, 15 Jun 2020 11:46:50 +0800
+Message-ID: <CAJB-X+VcHvYWngtMVHw5f_XaqA4i4T61yt=h7YvuD=eo3y7Rog@mail.gmail.com>
 Subject: [Issue]platform/x86: iommu: System can't shutdown because iommu
  driver keeps checking the status of DMA_GSTS_TES
 To: David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
@@ -84,22 +84,17 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1453415708377565533=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
-
---===============1453415708377565533==
-Content-Type: multipart/alternative; boundary="0000000000009261e805a816e4ab"
-
---0000000000009261e805a816e4ab
-Content-Type: text/plain; charset="UTF-8"
 
 hi All,
 I have a machine and there's only intel gpu.
 the secureboot and vt-d is enabled in BIOS.
 On the Ubuntu desktop, I do s2idle first and restart the machine.
-The machine can't restart successfully, so I need to press the power button
-to shutdown.
+The machine can't restart successfully, so I need to press the power
+button to shutdown.
 I tried  each of the following and the issue can't be triggered.
 1. disable secure boot in BIOS.
 2. intel_iommu=off.
@@ -107,58 +102,16 @@ I tried  each of the following and the issue can't be triggered.
 4. nomodeset
 5. i915.modeset=0.
 
-After I investigate further, find inte_iommu keeps checking the status of
-DMA_GSTS_TES.
-During the procedure of restart, the driver would disable iommu translation
-and
-check status of DMA_GSTS_TES until status of DMA_GSTS_TES is 0.
+After I investigate further, find inte_iommu keeps checking the status
+of DMA_GSTS_TES.
+During the procedure of restart, the driver would disable iommu translation and
+check the status of DMA_GSTS_TES until status of DMA_GSTS_TES is 0.
 
 If you need more information, I can provide it.
 
 Thanks
-*Koba Ko*
-
---0000000000009261e805a816e4ab
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">hi All,<div>I have a machine and there&#39;s only intel gp=
-u.<br><div>the secureboot=C2=A0and vt-d is enabled=C2=A0in BIOS.</div></div=
-><div>On the Ubuntu desktop, I do s2idle first and restart the machine.</di=
-v><div>The machine can&#39;t restart successfully, so I need to press the p=
-ower=C2=A0button to shutdown.</div><div>I tried=C2=A0 each of the following=
- and the issue can&#39;t be triggered.</div><div>1. disable secure boot=C2=
-=A0in BIOS.=C2=A0</div><div>2. intel_iommu=3Doff.</div><div>3. intel_iomm=
-=3Digfx_off.</div><div>4. nomodeset</div><div>5. i915.modeset=3D0.</div><di=
-v><br></div><div>After I investigate further, find inte_iommu keeps checkin=
-g the status of=C2=A0<span style=3D"background-color:rgb(0,0,0);color:rgb(2=
-55,255,255)">DMA_GSTS_TES.</span></div><div><span style=3D"background-color=
-:rgb(0,0,0);color:rgb(255,255,255)">During the procedure of restart, the dr=
-iver would disable=C2=A0iommu translation and=C2=A0</span></div><div><span =
-style=3D"background-color:rgb(0,0,0);color:rgb(255,255,255)">check=C2=A0</s=
-pan>status of=C2=A0<span style=3D"background-color:rgb(0,0,0);color:rgb(255=
-,255,255)">DMA_GSTS_TES until=C2=A0</span>status of=C2=A0<span style=3D"bac=
-kground-color:rgb(0,0,0);color:rgb(255,255,255)">DMA_GSTS_TES is 0.</span><=
-/div><div><span style=3D"background-color:rgb(0,0,0);color:rgb(255,255,255)=
-"><br></span></div><div><span style=3D"background-color:rgb(0,0,0);color:rg=
-b(255,255,255)">If you need more information, I can provide it.</span></div=
-><div><span style=3D"background-color:rgb(0,0,0);color:rgb(255,255,255)"><b=
-r></span></div><div><font color=3D"#ffffff" style=3D"--darkreader-inline-co=
-lor:#ffffff;"><span style=3D"background-color:rgb(0,0,0)">Thanks</span></fo=
-nt></div><div><font color=3D"#ffffff" style=3D"--darkreader-inline-color:#f=
-fffff;"><span style=3D"background-color:rgb(0,0,0)"><i><b>Koba Ko</b></i></=
-span></font></div></div>
-
---0000000000009261e805a816e4ab--
-
---===============1453415708377565533==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Koba Ko
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============1453415708377565533==--
