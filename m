@@ -1,92 +1,96 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946EF1FA2BC
-	for <lists.iommu@lfdr.de>; Mon, 15 Jun 2020 23:25:07 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C501FA31B
+	for <lists.iommu@lfdr.de>; Mon, 15 Jun 2020 23:54:32 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 517B687D24;
-	Mon, 15 Jun 2020 21:25:06 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2183A87074;
+	Mon, 15 Jun 2020 21:54:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TYEdhfBKNKGG; Mon, 15 Jun 2020 21:25:05 +0000 (UTC)
+	with ESMTP id BVqZtvto8mqg; Mon, 15 Jun 2020 21:54:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id F144A87D0D;
-	Mon, 15 Jun 2020 21:25:04 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8DF5E86F43;
+	Mon, 15 Jun 2020 21:54:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E639FC016E;
-	Mon, 15 Jun 2020 21:25:04 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 79E5DC016E;
+	Mon, 15 Jun 2020 21:54:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E066CC016E
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 21:25:02 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2AAEDC016E
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 21:54:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id DBF4087CE1
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 21:25:02 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 0B1D386F43
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 21:54:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dV4TF2OG1FFP for <iommu@lists.linux-foundation.org>;
- Mon, 15 Jun 2020 21:25:02 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 09C5387CB6
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 21:25:01 +0000 (UTC)
-IronPort-SDR: X+HQI2hUK8lD1bP/Al/sFTn9MmleLrwDVFmQ+f+PijbJhbHYpk4QBwh2lDfLUc8NZ3wB6IxThy
- anqWuERDx67A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2020 14:25:01 -0700
-IronPort-SDR: DPbSSKkl15RGLXjpYQfnrBQzsDrL2NKVfrTHzComI5JPwOJAfj8xqnwP2YPVXomnmdcjFehp/x
- VNCrnqd1nQ2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,516,1583222400"; d="scan'208";a="262830374"
-Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
- by fmsmga008.fm.intel.com with ESMTP; 15 Jun 2020 14:25:00 -0700
-Received: from orsmsx159.amr.corp.intel.com (10.22.240.24) by
- ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 15 Jun 2020 14:25:00 -0700
-Received: from orsmsx115.amr.corp.intel.com ([169.254.4.56]) by
- ORSMSX159.amr.corp.intel.com ([169.254.11.6]) with mapi id 14.03.0439.000;
- Mon, 15 Jun 2020 14:24:59 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Andy Lutomirski <luto@amacapital.net>
-Subject: RE: [PATCH v2 12/12] x86/traps: Fix up invalid PASID
-Thread-Topic: [PATCH v2 12/12] x86/traps: Fix up invalid PASID
-Thread-Index: AQHWQRt0fMmHYsE9aUKb3rSjyAIL46jZyC2AgACD5gCAAAQ1gIAAJA2AgAAFHACAAAbEgIAAA+gAgAATCICAAAmFgP//iy/ggAB8XID//4sJsA==
-Date: Mon, 15 Jun 2020 21:24:59 +0000
-Message-ID: <3908561D78D1C84285E8C5FCA982C28F7F66C93C@ORSMSX115.amr.corp.intel.com>
-References: <3908561D78D1C84285E8C5FCA982C28F7F66C849@ORSMSX115.amr.corp.intel.com>
- <E39A5DE2-5615-41FF-9953-4F4C4E8499D8@amacapital.net>
-In-Reply-To: <E39A5DE2-5615-41FF-9953-4F4C4E8499D8@amacapital.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.138]
-MIME-Version: 1.0
-Cc: "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
- Peter Zijlstra <peterz@infradead.org>, "Hansen, Dave" <dave.hansen@intel.com>,
- H Peter Anvin <hpa@zytor.com>, "Jiang, Dave" <dave.jiang@intel.com>, "Raj,
- Ashok" <ashok.raj@intel.com>, x86 <x86@kernel.org>,
- amd-gfx <amd-gfx@lists.freedesktop.org>, Ingo Molnar <mingo@redhat.com>, "Yu,
- Fenghua" <fenghua.yu@intel.com>, "Yu, 
- Yu-cheng" <yu-cheng.yu@intel.com>, Andrew
- Donnellan <ajd@linux.ibm.com>, Borislav Petkov <bp@alien8.de>,
- Thomas Gleixner <tglx@linutronix.de>,
+ with ESMTP id Ax3ExwpAUtXo for <iommu@lists.linux-foundation.org>;
+ Mon, 15 Jun 2020 21:54:27 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 932ED86F3B
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 21:54:27 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id j1so8447249pfe.4
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 14:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amacapital-net.20150623.gappssmtp.com; s=20150623;
+ h=content-transfer-encoding:from:mime-version:subject:date:message-id
+ :references:cc:in-reply-to:to;
+ bh=NEGpBhzajRvF6MnLoS3/tW4o+xI54R1ORmU7+pXtHgE=;
+ b=CAVO4gWs4evuqxTXK2KCGxd4s8FQi+TTDSLN297LSL3es1KODeKbGPV9mlrfjetsXf
+ v0HKTGVYLoAqhJhrwOd5Vk0N5GOco/ahrHy/bgts2ivjvsbkW6XgnzOHmBrYE+Pp2Y1J
+ nGdFYpsbdrlQlebSLBTotHPvmRSjaUsVZqye4Dd2PA0OURe3oRw0zP2eMBDcd6VQZihT
+ FRcuywOs/douthqwTVN6eo7mcBIE7qXFhbRpBk2SHNXj25Qi3MP8jltZVZIXtbslMuaB
+ VD3oaozewaoKV4crG14zN+9m85zBgfwiDTmWyKTBDDSH261G6U1wYGLJwtEtYDDK+7kb
+ c+Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=NEGpBhzajRvF6MnLoS3/tW4o+xI54R1ORmU7+pXtHgE=;
+ b=aTkQ7KjUKAes3el/3b+Tuhei0QfuMH3W2k90YNyM3Uu+CWPLX5Di54OaKJwiOJ2R8R
+ JiROaU6CMhOypF7PJvhNQczKxGs4ZyqOBiMl0xOv/qYiXLWmZnkG+wFRx4gRFyJnaulq
+ 55Vn4n34cpzsDOXpi8LDOezD0WGXsDcdgWhL579BBrHgu2NEfzpejvOkiLZCn8F43QFV
+ WtJToamuVXggUhQ0RXaUvbb6KJxFrxa41toQMsvntJHjG/p688HmjWZVUHoHwFEn1e9e
+ cKn2WfIsmzUhhXVTETx3T6rwljsjeuwYLyCLz2BPAhSGlez+gFXEQZmMsZE9ft0upN9X
+ Llsg==
+X-Gm-Message-State: AOAM532JVryxRWeAkof+JBaLXLCAXzxH8mPag4GUm+Pwv4BxZcC76wDF
+ NVqb+0PmVPSKFkbpEw5Z+TUAkRtxLjA=
+X-Google-Smtp-Source: ABdhPJzJVNx7nQtAyuRZTQv2cHaZxJpL+9jFfYmiZnjQELc31r77D7nEgtShc/qKvBOxL6bGQEnZAg==
+X-Received: by 2002:a17:902:7896:: with SMTP id
+ q22mr13701253pll.338.1592254306139; 
+ Mon, 15 Jun 2020 13:51:46 -0700 (PDT)
+Received: from ?IPv6:2601:646:c200:1ef2:bdcc:b60c:73b8:18ca?
+ ([2601:646:c200:1ef2:bdcc:b60c:73b8:18ca])
+ by smtp.gmail.com with ESMTPSA id i5sm14721024pfd.5.2020.06.15.13.51.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Jun 2020 13:51:45 -0700 (PDT)
+From: Andy Lutomirski <luto@amacapital.net>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v2 12/12] x86/traps: Fix up invalid PASID
+Date: Mon, 15 Jun 2020 13:51:39 -0700
+Message-Id: <C41D099B-BE2E-4D0E-A7B5-7CE587E11930@amacapital.net>
+References: <20200615201735.GE13792@romley-ivt3.sc.intel.com>
+In-Reply-To: <20200615201735.GE13792@romley-ivt3.sc.intel.com>
+To: Fenghua Yu <fenghua.yu@intel.com>
+X-Mailer: iPhone Mail (17F80)
+Cc: Peter Zijlstra <peterz@infradead.org>, Dave Hansen <dave.hansen@intel.com>,
+ H Peter Anvin <hpa@zytor.com>, Dave Jiang <dave.jiang@intel.com>,
+ Ashok Raj <ashok.raj@intel.com>, x86 <x86@kernel.org>,
+ amd-gfx <amd-gfx@lists.freedesktop.org>, Ingo Molnar <mingo@redhat.com>,
+ Ravi V Shankar <ravi.v.shankar@intel.com>, Yu-cheng Yu <yu-cheng.yu@intel.com>,
+ Andrew Donnellan <ajd@linux.ibm.com>, Borislav Petkov <bp@alien8.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Tony Luck <tony.luck@intel.com>,
  linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
  Felix Kuehling <Felix.Kuehling@amd.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Pan,
- Jacob jun" <jacob.jun.pan@intel.com>, Frederic Barrat <fbarrat@linux.ibm.com>,
- David Woodhouse <dwmw2@infradead.org>
+ linux-kernel <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
+ Jacob Jun Pan <jacob.jun.pan@intel.com>,
+ Frederic Barrat <fbarrat@linux.ibm.com>, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,21 +108,41 @@ Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-PiBTbyB3aGF04oCZcyB0aGUgUkRNU1IgZm9yPyAgU3VyZWx5IHlvdQ0KPiBoYXZlIHNvbWUgc3Rh
-dGUgc29tZXdoZXJlIHRoYXQgc2F5cyDigJx0aGlzIHRhc2sgaGFzIGEgUEFTSUQu4oCdDQo+IENh
-buKAmXQgeW91IGp1c3QgbWFrZSBzdXJlIHRoYXQgc3RheXMgaW4gc3luYyB3aXRoIHRoZSBNU1I/
-ICBUaGVuLCBvbiAjR1AsIGlmIHRoZSB0YXNrIGFscmVhZHkgaGFzIGEgUEFTSUQsIHlvdSBrbm93
-IHRoZSBNU1IgaXMgc2V0Lg0KDQpXZSBoYXZlIHN0YXRlIHRoYXQgc2F5cyB0aGUgcHJvY2VzcyAo
-Im1tIikgaGFzIGJlZW4gYWxsb2NhdGVkIGEgUEFTSUQuIEJ1dCBub3QgZm9yIGVhY2ggdGFzay4N
-Cg0KRS5nLiBhIHByb2Nlc3MgbWF5IGNsb25lIGEgYnVuY2ggb2YgdGFza3MsIHRoZW4gb25lIG9m
-IHRoZW0gb3BlbnMgYSBkZXZpY2UgdGhhdCBuZWVkcw0KYSBQQVNJRC4gICBXZSBkaWQgaW50ZXJu
-YWxseSBoYXZlIHBhdGNoZXMgdG8gZ28gaHVudCBkb3duIGFsbCB0aG9zZSBvdGhlciB0YXNrcyBh
-bmQNCmZvcmNlIGEgUEFTSUQgb250byBlYWNoLiBCdXQgdGhlIGNvZGUgd2FzIGJpZyBhbmQgdWds
-eS4gQWxzbyBtYXliZSB0aGUgd3JvbmcgdGhpbmcNCnRvIGRvIGlmIHRob3NlIHRocmVhZHMgZGlk
-bid0IGV2ZXIgbmVlZCB0byBhY2Nlc3MgdGhlIGRldmljZS4NCg0KUGV0ZXJaIHN1Z2dlc3RlZCB0
-aGF0IHdlIGNhbiBhZGQgYSBiaXQgdG8gdGhlIHRhc2sgc3RydWN0dXJlIGZvciB0aGlzIHB1cnBv
-c2UuDQoNCkZlbmdodWEgaXMgaGVzaXRhbnQgYWJvdXQgYWRkaW5nIGFuIHg4NiBvbmx5IGJpdCB0
-aGVyZS4NCg0KLVRvbnkNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9y
-ZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21t
-dQ==
+Cj4gT24gSnVuIDE1LCAyMDIwLCBhdCAxOjE3IFBNLCBGZW5naHVhIFl1IDxmZW5naHVhLnl1QGlu
+dGVsLmNvbT4gd3JvdGU6Cj4gCj4g77u/SGksIFBldGVyLAo+IAo+PiBPbiBNb24sIEp1biAxNSwg
+MjAyMCBhdCAwOTowOToyOFBNICswMjAwLCBQZXRlciBaaWpsc3RyYSB3cm90ZToKPj4+IE9uIE1v
+biwgSnVuIDE1LCAyMDIwIGF0IDExOjU1OjI5QU0gLTA3MDAsIEZlbmdodWEgWXUgd3JvdGU6Cj4+
+PiAKPj4+IE9yIGRvIHlvdSBzdWdnZXN0IHRvIGFkZCBhIHJhbmRvbSBuZXcgZmxhZyBpbiBzdHJ1
+Y3QgdGhyZWFkX2luZm8gaW5zdGVhZAo+Pj4gb2YgYSBUSUYgZmxhZz8KPj4gCj4+IFdoeSB0aHJl
+YWRfaW5mbz8gV2hhdCdzIHdyb25nIHdpdGggc29tZXRoaW5nIHNpbXBsZSBsaWtlIHRoZSBiZWxv
+dy4gSXQKPj4gdGFrZXMgYSBiaXQgZnJvbSB0aGUgJ3N0cmljdGx5IGN1cnJlbnQnIGZsYWdzIHdv
+cmQuCj4+IAo+PiAKPj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvc2NoZWQuaCBiL2luY2x1
+ZGUvbGludXgvc2NoZWQuaAo+PiBpbmRleCBiNjJlNmFhZjI4ZjAuLmZjYTgzMGI5NzA1NSAxMDA2
+NDQKPj4gLS0tIGEvaW5jbHVkZS9saW51eC9zY2hlZC5oCj4+ICsrKyBiL2luY2x1ZGUvbGludXgv
+c2NoZWQuaAo+PiBAQCAtODAxLDYgKzgwMSw5IEBAIHN0cnVjdCB0YXNrX3N0cnVjdCB7Cj4+ICAg
+IC8qIFN0YWxsZWQgZHVlIHRvIGxhY2sgb2YgbWVtb3J5ICovCj4+ICAgIHVuc2lnbmVkICAgICAg
+ICAgICAgaW5fbWVtc3RhbGw6MTsKPj4gI2VuZGlmCj4+ICsjaWZkZWYgQ09ORklHX1BDSV9QQVNJ
+RAo+PiArICAgIHVuc2lnbmVkICAgICAgICAgICAgaGFzX3ZhbGlkX3Bhc2lkOjE7Cj4+ICsjZW5k
+aWYKPj4gCj4+ICAgIHVuc2lnbmVkIGxvbmcgICAgICAgICAgICBhdG9taWNfZmxhZ3M7IC8qIEZs
+YWdzIHJlcXVpcmluZyBhdG9taWMgYWNjZXNzLiAqLwo+PiAKPj4gZGlmZiAtLWdpdCBhL2tlcm5l
+bC9mb3JrLmMgYi9rZXJuZWwvZm9yay5jCj4+IGluZGV4IDE0MmIyMzY0NWQ4Mi4uMTBiMzg5MWJl
+OTllIDEwMDY0NAo+PiAtLS0gYS9rZXJuZWwvZm9yay5jCj4+ICsrKyBiL2tlcm5lbC9mb3JrLmMK
+Pj4gQEAgLTk1NSw2ICs5NTUsMTAgQEAgc3RhdGljIHN0cnVjdCB0YXNrX3N0cnVjdCAqZHVwX3Rh
+c2tfc3RydWN0KHN0cnVjdCB0YXNrX3N0cnVjdCAqb3JpZywgaW50IG5vZGUpCj4+ICAgIHRzay0+
+dXNlX21lbWRlbGF5ID0gMDsKPj4gI2VuZGlmCj4+IAo+PiArI2lmZGVmIENPTkZJR19QQ0lfUEFT
+SUQKPj4gKyAgICB0c2stPmhhc192YWxpZF9wYXNpZCA9IDA7Cj4+ICsjZW5kaWYKPj4gKwo+PiAj
+aWZkZWYgQ09ORklHX01FTUNHCj4+ICAgIHRzay0+YWN0aXZlX21lbWNnID0gTlVMTDsKPj4gI2Vu
+ZGlmCj4gCj4gVGhlIFBBU0lEIE1TUiBpcyB4ODYgc3BlY2lmaWMgYWx0aG91Z2ggUEFTSUQgaXMg
+UENJZSBjb25jZXB0IGFuZCBwZXItbW0uCj4gQ2hlY2tpbmcgaWYgdGhlIE1TUiBoYXMgdmFsaWQg
+UEFTSUQgKGJpdDMxPTEpIGlzIGFuIHg4NiBzcGVjaWZjIHdvcmsuCj4gVGhlIGZsYWcgc2hvdWxk
+IGJlIGNsZWFyZWQgaW4gY2xvbmVkKCkvZm9ya2VkKCkgYW5kIGlzIG9ubHkgc2V0IGFuZAo+IHJl
+YWQgaW4gZml4dXAoKSBpbiB4ODYgI0dQIGZvciBoZXVyaXN0aWMuIEl0J3Mgbm90IHVzZWQgYW55
+d2hlcmUgb3V0c2lkZQo+IG9mIHg4Ni4KPiAKPiBUaGF0J3Mgd2h5IHdlIHRoaW5rIHRoZSBmbGFn
+IHNob3VsZCBiZSBpbiB4ODYgc3RydWN0IHRocmVhZF9pbmZvIGluc3RlYWQKPiBvZiBpbiBnZW5l
+cmljZSBzdHJ1Y3QgdGFza19zdHJ1Y3QuCj4gCgpBcmUgd2UgcGxhbm5pbmcgdG8ga2VlcCBQQVNJ
+RCBsaXZlIG9uY2UgYSB0YXNrIGhhcyB1c2VkIGl0IG9uY2Ugb3IgYXJlIHdlIGdvaW5nIHRvIHN3
+YXAgaXQgbGF6aWx5PyAgSWYgdGhlIGxhdHRlciwgYSBwZXJjcHUgdmFyaWFibGUgbWlnaHQgYmUg
+YmV0dGVyLgoKPiBQbGVhc2UgYWR2aWNlLgo+IAo+IFRoYW5rcy4KPiAKPiAtRmVuZ2h1YQpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5n
+IGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51
+eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
