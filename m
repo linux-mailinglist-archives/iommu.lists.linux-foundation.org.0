@@ -1,57 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 237AA1F9FB4
-	for <lists.iommu@lfdr.de>; Mon, 15 Jun 2020 20:55:36 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C251F9FF0
+	for <lists.iommu@lfdr.de>; Mon, 15 Jun 2020 21:09:44 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 8BC2225075;
-	Mon, 15 Jun 2020 18:55:34 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 01C7C8623E;
+	Mon, 15 Jun 2020 19:09:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HKjIEEDYDLRZ; Mon, 15 Jun 2020 18:55:33 +0000 (UTC)
+	with ESMTP id XPNLGneiF1U2; Mon, 15 Jun 2020 19:09:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 85D8D24FFE;
-	Mon, 15 Jun 2020 18:55:33 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 906DD86F22;
+	Mon, 15 Jun 2020 19:09:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6A771C016E;
-	Mon, 15 Jun 2020 18:55:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 77A74C016E;
+	Mon, 15 Jun 2020 19:09:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 89AD4C016E
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 18:55:31 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2B550C016E
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 19:09:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 583F425075
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 18:55:31 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 12B0525075
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 19:09:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ndazAKCc2Wb3 for <iommu@lists.linux-foundation.org>;
- Mon, 15 Jun 2020 18:55:29 +0000 (UTC)
+ with ESMTP id k+bLBed+UiUy for <iommu@lists.linux-foundation.org>;
+ Mon, 15 Jun 2020 19:09:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by silver.osuosl.org (Postfix) with ESMTPS id D323824FFE
- for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 18:55:29 +0000 (UTC)
-IronPort-SDR: LgsKRjdNAPwqGTLTWjR7nxwHC1SiXhwgU54lqV7OktWmR7zfiO5FqcsOL+OLeTR6/fuJpqoEly
- 6TTCUj0/jSpg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jun 2020 11:55:29 -0700
-IronPort-SDR: 7AOfFl+Q9Zk9+pLDv+ctsLfdexol4Ooa9fms1lqtuvgDaDmflZdjgu5bI2sLLO96QFzKhPty0n
- Vry9GVkoZi+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,515,1583222400"; d="scan'208";a="382630204"
-Received: from romley-ivt3.sc.intel.com ([172.25.110.60])
- by fmsmga001.fm.intel.com with ESMTP; 15 Jun 2020 11:55:30 -0700
-Date: Mon, 15 Jun 2020 11:55:29 -0700
-From: Fenghua Yu <fenghua.yu@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [198.137.202.133])
+ by silver.osuosl.org (Postfix) with ESMTPS id 14A9A24E4B
+ for <iommu@lists.linux-foundation.org>; Mon, 15 Jun 2020 19:09:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=fqlg5vRi2+I+nrKU5A1wOWFzOs9FiP4c5PxmnzSYwA0=; b=gXa24hOmL3f4ENeQJul7Im5dEd
+ w7ctb4wDsGweOpZvIkVt8UvddTn4QcOA8/Sq//DDvayT1tkNGm6cF7n7/TzqHktPh2J0tgKLu6mOZ
+ sbQbVBqNpdagwsYXsG2pjFVVtclpy2gMGNcJJJ5UPhfC8hXm5fNDDQZG+4AvT3DidPZhREqrSPGJd
+ FBGtX6NRwXmzIsq8pBkneXn34UhoJgnkgjV5aFRDKULI0jwRw6c8AxD24ev/a3M0W9v15SJdQqRu4
+ gpAeiRnnH8kpDrKovMLILqON2rdxli7WzLoqN7h8KA+3tq6fotpaiNU8ucXkXoItZyFtOwFOuv7hd
+ P4sIex2A==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1jkuU7-0003Gj-L4; Mon, 15 Jun 2020 19:09:31 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E7166301A32;
+ Mon, 15 Jun 2020 21:09:28 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id D1EA4201CB844; Mon, 15 Jun 2020 21:09:28 +0200 (CEST)
+Date: Mon, 15 Jun 2020 21:09:28 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Fenghua Yu <fenghua.yu@intel.com>
 Subject: Re: [PATCH v2 12/12] x86/traps: Fix up invalid PASID
-Message-ID: <20200615185529.GD13792@romley-ivt3.sc.intel.com>
+Message-ID: <20200615190928.GJ2531@hirez.programming.kicks-ass.net>
 References: <1592008893-9388-1-git-send-email-fenghua.yu@intel.com>
  <1592008893-9388-13-git-send-email-fenghua.yu@intel.com>
  <20200615075649.GK2497@hirez.programming.kicks-ass.net>
@@ -59,10 +69,10 @@ References: <1592008893-9388-1-git-send-email-fenghua.yu@intel.com>
  <20200615160357.GA2531@hirez.programming.kicks-ass.net>
  <20200615181259.GC13792@romley-ivt3.sc.intel.com>
  <20200615183116.GD2531@hirez.programming.kicks-ass.net>
+ <20200615185529.GD13792@romley-ivt3.sc.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200615183116.GD2531@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20200615185529.GD13792@romley-ivt3.sc.intel.com>
 Cc: Dave Hansen <dave.hansen@intel.com>, H Peter Anvin <hpa@zytor.com>,
  Dave Jiang <dave.jiang@intel.com>, Ashok Raj <ashok.raj@intel.com>,
  x86 <x86@kernel.org>, amd-gfx <amd-gfx@lists.freedesktop.org>,
@@ -91,40 +101,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi, Peter,
+On Mon, Jun 15, 2020 at 11:55:29AM -0700, Fenghua Yu wrote:
 
-On Mon, Jun 15, 2020 at 08:31:16PM +0200, Peter Zijlstra wrote:
-> On Mon, Jun 15, 2020 at 11:12:59AM -0700, Fenghua Yu wrote:
-> > > I don't get why you need a rdmsr here, or why not having one would
-> > > require a TIF flag. Is that because this MSR is XSAVE/XRSTOR managed?
-> > 
-> > My concern is TIF flags are precious (only 3 slots available). Defining
-> > a new TIF flag may be not worth it while rdmsr() can check if PASID
-> > is valid in the MSR. And performance here might not be a big issue
-> > in #GP.
-> > 
-> > But if you think using TIF flag is better, I can define a new TIF flag
-> > and maintain it per thread (init 0 when clone()/fork(), set 1 in fixup()).
-> > Then we can avoid using rdmsr() to check valid PASID in the MSR.
-> 
-> WHY ?!?! What do you need a TIF flag for?
+> Or do you suggest to add a random new flag in struct thread_info instead
+> of a TIF flag?
 
-We need "a way" to check if the per thread MSR has a valid PASID. If yes,
-no need to fix up the MSR (wrmsr()), and let other handler to handle the #GP.
-Otherwise, apply the heuristics and fix up the MSR and exit the #GP.
+Why thread_info? What's wrong with something simple like the below. It
+takes a bit from the 'strictly current' flags word.
 
-The way to check the valid PASID in the MSR is rdmsr() in this series.
-A TIF flag will be much faster than rdmsr() and seems a sutiable way
-to check valid PASID status per thread. That's why it could replace
-rdmsr() to check PASID in the MSR.
 
-Or do you suggest to add a random new flag in struct thread_info instead
-of a TIF flag?
-
-Thanks.
-
--Fenghua
-
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index b62e6aaf28f0..fca830b97055 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -801,6 +801,9 @@ struct task_struct {
+ 	/* Stalled due to lack of memory */
+ 	unsigned			in_memstall:1;
+ #endif
++#ifdef CONFIG_PCI_PASID
++	unsigned			has_valid_pasid:1;
++#endif
+ 
+ 	unsigned long			atomic_flags; /* Flags requiring atomic access. */
+ 
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 142b23645d82..10b3891be99e 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -955,6 +955,10 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
+ 	tsk->use_memdelay = 0;
+ #endif
+ 
++#ifdef CONFIG_PCI_PASID
++	tsk->has_valid_pasid = 0;
++#endif
++
+ #ifdef CONFIG_MEMCG
+ 	tsk->active_memcg = NULL;
+ #endif
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
