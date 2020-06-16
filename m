@@ -2,57 +2,87 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791E01FAFC5
-	for <lists.iommu@lfdr.de>; Tue, 16 Jun 2020 14:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806E71FB3BE
+	for <lists.iommu@lfdr.de>; Tue, 16 Jun 2020 16:10:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 21A4F88618;
-	Tue, 16 Jun 2020 12:02:19 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2E9A7881EC;
+	Tue, 16 Jun 2020 14:10:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IrRPwMdAy7g2; Tue, 16 Jun 2020 12:02:17 +0000 (UTC)
+	with ESMTP id 93soN0lHKEmZ; Tue, 16 Jun 2020 14:10:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 93DD78870B;
-	Tue, 16 Jun 2020 12:02:17 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 82641890A9;
+	Tue, 16 Jun 2020 14:10:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7BEB4C016E;
-	Tue, 16 Jun 2020 12:02:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 62E38C016E;
+	Tue, 16 Jun 2020 14:10:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 307A7C016E
- for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 12:02:15 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8D83BC016E
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 11:30:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 020B820442
- for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 12:02:15 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7BC7C88550
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 11:30:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vwz6Y9ExVW1n for <iommu@lists.linux-foundation.org>;
- Tue, 16 Jun 2020 12:02:13 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by silver.osuosl.org (Postfix) with ESMTP id AE43B20407
- for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 12:02:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C45C81FB;
- Tue, 16 Jun 2020 05:02:12 -0700 (PDT)
-Received: from [10.57.45.14] (unknown [10.57.45.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C22173F6CF;
- Tue, 16 Jun 2020 05:02:11 -0700 (PDT)
-Subject: Re: [PATCH] dma-direct: enable mmap for !CONFIG_MMU
-To: Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux-foundation.org
-References: <20200615070542.43761-1-hch@lst.de>
-From: Vladimir Murzin <vladimir.murzin@arm.com>
-Message-ID: <0f7dd526-653f-bbb3-f9bd-b6923ce7ba8c@arm.com>
-Date: Tue, 16 Jun 2020 13:02:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ with ESMTP id ijZTj5NArtk9 for <iommu@lists.linux-foundation.org>;
+ Tue, 16 Jun 2020 11:30:15 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 0801B88548
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 11:30:13 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1592307015; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=RTLcSYYKGCznp62vlVdfOr6g6s60R3IwkNGZ7WpqjjY=;
+ b=ea8pnMq9Tz/nYTJfja3Ct7bUNA7NfxfbAxrPKxiAfEKRTciQ8Jfjn19JDZPctG1eUGtoL8zW
+ ckKSRY0kaZBHgoToa/S03fRnnJl2/fYx3DWS2khqYBeaNsUWOhXU28tTmJDZ0PhPBUsiv8lN
+ 8TxJpE7qXpAl2/X0l4LLWamiEVg=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n14.prod.us-east-1.postgun.com with SMTP id
+ 5ee8ad43c76a4e7a2a5f0e88 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 16 Jun 2020 11:30:11
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 63A66C433AD; Tue, 16 Jun 2020 11:30:10 +0000 (UTC)
+Received: from [192.168.43.129] (unknown [106.222.0.113])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: mkshah)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 3A225C433C9;
+ Tue, 16 Jun 2020 11:30:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3A225C433C9
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=mkshah@codeaurora.org
+Subject: Re: [RFC][PATCH 3/5] irqchip: Allow QCOM_PDC to be loadable as a
+ perment module
+To: John Stultz <john.stultz@linaro.org>, lkml <linux-kernel@vger.kernel.org>
+References: <20200616061338.109499-1-john.stultz@linaro.org>
+ <20200616061338.109499-4-john.stultz@linaro.org>
+From: Maulik Shah <mkshah@codeaurora.org>
+Message-ID: <55e5982a-1e73-7013-e02d-5d1d30815fba@codeaurora.org>
+Date: Tue, 16 Jun 2020 16:59:58 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200615070542.43761-1-hch@lst.de>
-Content-Language: en-US
-Cc: dillon min <dillon.minfei@gmail.com>
+In-Reply-To: <20200616061338.109499-4-john.stultz@linaro.org>
+Content-Language: en-GB
+X-Mailman-Approved-At: Tue, 16 Jun 2020 14:10:37 +0000
+Cc: Jason Cooper <jason@lakedaemon.net>, Saravana Kannan <saravanak@google.com>,
+ Marc Zyngier <maz@kernel.org>, Lina Iyer <ilina@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, linux-gpio@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Andy Gross <agross@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Linus Walleij <linus.walleij@linaro.org>,
+ linux-arm-msm@vger.kernel.org, Todd Kjos <tkjos@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,76 +95,118 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 6/15/20 8:05 AM, Christoph Hellwig wrote:
-> nommu configfs can trivially map the coherent allocations to user space,
-> as no actual page table setup is required and the kernel and the user
-> space programs share the same address space.
-> 
-> Fixes: 62fcee9a3bd7 ("dma-mapping: remove CONFIG_ARCH_NO_COHERENT_DMA_MMAP")
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reported-by: dillon min <dillon.minfei@gmail.com>
-> Reviewed-by: Vladimir Murzin <vladimir.murzin@arm.com>
-> Tested-by: dillon min <dillon.minfei@gmail.com>
+Hi,
+
+On 6/16/2020 11:43 AM, John Stultz wrote:
+> Allows qcom-pdc driver to be loaded as a permenent module
+
+typo: permanent
+
+> Also, due to the fact that IRQCHIP_DECLARE becomes a no-op when
+> building as a module, we have to add the platform driver hooks
+> explicitly.
+>
+> Thanks to Saravana for his help on pointing out the
+> IRQCHIP_DECLARE issue and guidance on a solution.
+>
+> Cc: Andy Gross <agross@kernel.org>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Jason Cooper <jason@lakedaemon.net>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Lina Iyer <ilina@codeaurora.org>
+> Cc: Saravana Kannan <saravanak@google.com>
+> Cc: Todd Kjos <tkjos@google.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: iommu@lists.linux-foundation.org
+> Cc: linux-gpio@vger.kernel.org
+> Signed-off-by: John Stultz <john.stultz@linaro.org>
 > ---
->  kernel/dma/Kconfig  |  1 +
->  kernel/dma/direct.c | 14 --------------
->  2 files changed, 1 insertion(+), 14 deletions(-)
-> 
-> diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-> index d006668c0027d2..e0dae570a51530 100644
-> --- a/kernel/dma/Kconfig
-> +++ b/kernel/dma/Kconfig
-> @@ -71,6 +71,7 @@ config SWIOTLB
->  # in the pagetables
->  #
->  config DMA_NONCOHERENT_MMAP
-> +	default y if !MMU
->  	bool
->  
->  config DMA_REMAP
-> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-> index 0a4881e59aa7d6..9ec6a5c3fc578c 100644
-> --- a/kernel/dma/direct.c
-> +++ b/kernel/dma/direct.c
-> @@ -459,7 +459,6 @@ int dma_direct_get_sgtable(struct device *dev, struct sg_table *sgt,
->  	return ret;
->  }
->  
-> -#ifdef CONFIG_MMU
->  bool dma_direct_can_mmap(struct device *dev)
->  {
->  	return dev_is_dma_coherent(dev) ||
-> @@ -485,19 +484,6 @@ int dma_direct_mmap(struct device *dev, struct vm_area_struct *vma,
->  	return remap_pfn_range(vma, vma->vm_start, pfn + vma->vm_pgoff,
->  			user_count << PAGE_SHIFT, vma->vm_page_prot);
->  }
-> -#else /* CONFIG_MMU */
-> -bool dma_direct_can_mmap(struct device *dev)
-> -{
-> -	return false;
-> -}
-> -
-> -int dma_direct_mmap(struct device *dev, struct vm_area_struct *vma,
-> -		void *cpu_addr, dma_addr_t dma_addr, size_t size,
-> -		unsigned long attrs)
-> -{
-> -	return -ENXIO;
-> -}
-> -#endif /* CONFIG_MMU */
->  
->  int dma_direct_supported(struct device *dev, u64 mask)
->  {
-> 
+>   drivers/irqchip/Kconfig    |  2 +-
+>   drivers/irqchip/qcom-pdc.c | 30 ++++++++++++++++++++++++++++++
+>   2 files changed, 31 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+> index 29fead208cad..12765bed08f9 100644
+> --- a/drivers/irqchip/Kconfig
+> +++ b/drivers/irqchip/Kconfig
+> @@ -425,7 +425,7 @@ config GOLDFISH_PIC
+>            for Goldfish based virtual platforms.
+>   
+>   config QCOM_PDC
+> -	bool "QCOM PDC"
+> +	tristate "QCOM PDC"
+>   	depends on ARCH_QCOM
+>   	select IRQ_DOMAIN_HIERARCHY
+>   	help
+> diff --git a/drivers/irqchip/qcom-pdc.c b/drivers/irqchip/qcom-pdc.c
+> index 6ae9e1f0819d..98d74160afcd 100644
+> --- a/drivers/irqchip/qcom-pdc.c
+> +++ b/drivers/irqchip/qcom-pdc.c
+> @@ -11,7 +11,9 @@
+>   #include <linux/irqdomain.h>
+>   #include <linux/io.h>
+>   #include <linux/kernel.h>
+> +#include <linux/module.h>
+>   #include <linux/of.h>
+> +#include <linux/of_irq.h>
+please move this include in order after of_device.h
+>   #include <linux/of_address.h>
+>   #include <linux/of_device.h>
+>   #include <linux/soc/qcom/irq.h>
+> @@ -430,4 +432,32 @@ static int qcom_pdc_init(struct device_node *node, struct device_node *parent)
+>   	return ret;
+>   }
+>   
+> +#ifdef MODULE
+> +static int qcom_pdc_probe(struct platform_device *pdev)
+> +{
+> +	struct device_node *np = pdev->dev.of_node;
+> +	struct device_node *parent = of_irq_find_parent(np);
+> +
+> +	return qcom_pdc_init(np, parent);
+> +}
+> +
+> +static const struct of_device_id qcom_pdc_match_table[] = {
+> +	{ .compatible = "qcom,pdc" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, qcom_pdc_match_table);
+> +
+> +static struct platform_driver qcom_pdc_driver = {
+> +	.probe = qcom_pdc_probe,
+> +	.driver = {
+> +		.name = "qcom-pdc",
+> +		.of_match_table = qcom_pdc_match_table,
 
-LGTM. Should it go stable as well?
+can you please set .suppress_bind_attrs = true,
 
-Cheers
-Vladimir
+This is to prevent bind/unbind using sysfs. Once irqchip driver module 
+is loaded, it shouldn't get unbind at runtime.
+
+Thanks,
+Maulik
+> +	},
+> +};
+> +module_platform_driver(qcom_pdc_driver);
+> +#else
+>   IRQCHIP_DECLARE(qcom_pdc, "qcom,pdc", qcom_pdc_init);
+> +#endif
+> +
+> +MODULE_DESCRIPTION("Qualcomm Technologies, Inc. Power Domain Controller");
+> +MODULE_LICENSE("GPL v2");
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, hosted by The Linux Foundation
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
