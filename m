@@ -1,60 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD951FB35E
-	for <lists.iommu@lfdr.de>; Tue, 16 Jun 2020 16:04:19 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D7601FB4F5
+	for <lists.iommu@lfdr.de>; Tue, 16 Jun 2020 16:49:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id AFF5B26209;
-	Tue, 16 Jun 2020 14:04:17 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 24BE589357;
+	Tue, 16 Jun 2020 14:49:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MIdRFEVOymuJ; Tue, 16 Jun 2020 14:04:15 +0000 (UTC)
+	with ESMTP id wsrx69KCxJu8; Tue, 16 Jun 2020 14:49:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 8580326202;
-	Tue, 16 Jun 2020 14:04:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A021A893AE;
+	Tue, 16 Jun 2020 14:49:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 714BAC0895;
-	Tue, 16 Jun 2020 14:04:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 99E4BC016E;
+	Tue, 16 Jun 2020 14:49:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A4580C016E
- for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 14:04:14 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 53050C016E
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 14:48:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 7E43926202
- for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 14:04:14 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 418F7877A6
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 14:48:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xGC22itxXR86 for <iommu@lists.linux-foundation.org>;
- Tue, 16 Jun 2020 14:04:13 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by silver.osuosl.org (Postfix) with ESMTPS id A929920417
- for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 14:04:12 +0000 (UTC)
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 99BA45AC549A2D2B9715;
- Tue, 16 Jun 2020 22:04:02 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.58) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 16 Jun 2020 22:03:52 +0800
-From: John Garry <john.garry@huawei.com>
-To: <will@kernel.org>, <robin.murphy@arm.com>
-Subject: [PATCH RFC v2 4/4] iommu/arm-smmu-v3: Remove cmpxchg() in
- arm_smmu_cmdq_issue_cmdlist()
-Date: Tue, 16 Jun 2020 21:59:53 +0800
-Message-ID: <1592315993-164290-5-git-send-email-john.garry@huawei.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1592315993-164290-1-git-send-email-john.garry@huawei.com>
-References: <1592315993-164290-1-git-send-email-john.garry@huawei.com>
+ with ESMTP id vJAsinmJ4jF1 for <iommu@lists.linux-foundation.org>;
+ Tue, 16 Jun 2020 14:48:58 +0000 (UTC)
+X-Greylist: delayed 06:20:26 by SQLgrey-1.7.6
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
+ [209.85.218.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 50C858779C
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 14:48:58 +0000 (UTC)
+Received: by mail-ej1-f65.google.com with SMTP id gl26so21775812ejb.11
+ for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 07:48:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=F6zJ1ro/1WnNh9ke4tywP5KbL3kzsxhy9IOq2L8+wSs=;
+ b=dRxIqLR/l7U/1wiuNrWXAuxmWaS8Kz3utjBr+naKr/fAnhgPXGs03Df2912obU/1bf
+ WadnmoMXmmdUZ9EqCn/HniUvnGaZB4bKHcL/mm/zY3lnt8vIJ2CbZtfKyxieOwjeDrvp
+ xXQDAnJrXrLoGa+NcRXczCWenow54qu31pqXb2DbWS3z23GDSN4PVFYytjNq4AJos71y
+ gbmvwExnyksPD9dJaKTEumJFxGXC+AeS0ABIC+qm13/ybBqDrKsozre/9+Ktu993icLD
+ OONWnKdS7zlXHKk8jYBTjgFj6k0bYdZgYTG6OW5OyzKf93WWToB1CDgiqMt4QL69BFjr
+ u0Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=F6zJ1ro/1WnNh9ke4tywP5KbL3kzsxhy9IOq2L8+wSs=;
+ b=PJ/ZQ8CUmLddBDxdTjabRtq7MV6H6h7vC1JMnitzGcmCCQ7+XSg6Hpz3ntSM5u5nze
+ q0tBH8lGYLVqyWpNmuC8IWb3B5D7CJFr7DNNG1XjaxndlMvW2Wfdqqiq4RL02BPieqhx
+ /29k3CtukZ4YhTsL+asmK6IKgz2PgELVUAlExOC14+ad0fHYd5fQHJa4g5xgCXV5u6KB
+ JvRjDUlapCyTl6TfJTIrvA3RKJLU7+vA7uigC6r9T7iQxn8yh/t/xzM4M2qqTk+aVTKO
+ LeiL918E8cnam9sJbVPDNjzRT7Xhadr0XU+yujEVV0rOWDiR89qczZqkytqUb1Vn81rq
+ BRew==
+X-Gm-Message-State: AOAM532p5A2A4nF0PtZ/ld53j62d7dV6HG2t3/IVMfW5uaZNdsyKXBuD
+ RvPgrrUypqYtR6hKpT2WZc4LtA==
+X-Google-Smtp-Source: ABdhPJwQ0QgG8PR9DeG1zwjqB8x7BMt2H8ZKhJzACJ0pukGEzpbQuwJ4SuzV2QdwhFBTISWRUVRKqQ==
+X-Received: by 2002:a17:906:1c8e:: with SMTP id
+ g14mr3160606ejh.136.1592318936607; 
+ Tue, 16 Jun 2020 07:48:56 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2001:171b:226e:c200:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id h9sm10175109edr.65.2020.06.16.07.48.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Jun 2020 07:48:56 -0700 (PDT)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: joro@8bytes.org
+Subject: [PATCH] iommu: Allow page responses without PASID
+Date: Tue, 16 Jun 2020 16:47:14 +0200
+Message-Id: <20200616144712.748818-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.58]
-X-CFilter-Loop: Reflected
-Cc: trivial@kernel.org, maz@kernel.org, linuxarm@huawei.com,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,239 +95,101 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-It has been shown that the cmpxchg() for finding space in the cmdq can
-be a real bottleneck:
-- for more CPUs contending the cmdq, the cmpxchg() will fail more often
-- since the software-maintained cons pointer is updated on the same 64b
-  memory region, the chance of cmpxchg() failure increases again
+Some PCIe devices do not expect a PASID value in PRI Page Responses.
+If the "PRG Response PASID Required" bit in the PRI capability is zero,
+then the OS should not set the PASID field. Similarly on Arm SMMU,
+responses to stall events do not have a PASID.
 
-The cmpxchg() is removed as part of 2 related changes:
+Currently iommu_page_response() systematically checks that the PASID in
+the page response corresponds to the one in the page request. This can't
+work with virtualization because a page response coming from a guest OS
+won't have a PASID if the passed-through device does not require one.
 
-- Update prod and cmdq owner in a single atomic add operation. For this, we
-  count the prod and owner in separate regions in prod memory.
+Add a flag to page requests that declares whether the corresponding
+response needs to have a PASID. When this flag isn't set, allow page
+responses without PASID.
 
-  As with simple binary counting, once the prod+wrap fields overflow, they
-  will zero. They should never overflow into "owner" region, and we zero
-  the non-owner, prod region for each owner. This maintains the prod
-  pointer.
-
-  As for the "owner", we now count this value, instead of setting a flag.
-  Similar to before, once the owner has finished gathering, it will clear
-  a mask. As such, a CPU declares itself as the "owner" when it reads zero
-  for this region. This zeroing will also clear possible overflow in
-  wrap+prod region, above.
-
-  The owner is now responsible for cmdq locking to avoid possible deadlock.
-  The owner will lock the cmdq for all non-owers it has gathered when they
-  have space in the queue and have written their entries.
-
-- Check for space in the cmdq after the prod pointer has been assigned.
-
-  We don't bother checking for space in the cmdq before assigning the prod
-  pointer, as this would be racy.
-
-  So since the prod pointer is updated unconditionally, it would be common
-  for no space to be available in the cmdq when prod is assigned - that
-  is, according the software-maintained prod and cons pointer. So now
-  it must be ensured that the entries are not yet written and not until
-  there is space.
-
-  How the prod pointer is maintained also leads to a strange condition
-  where the prod pointer can wrap past the cons pointer. We can detect this
-  condition, and report no space here. However, a prod pointer progressed
-  twice past the cons pointer cannot be detected. But it can be ensured that
-  this that this scenario does not occur, as we limit the amount of
-  commands any CPU can issue at any given time, such that we cannot
-  progress prod pointer further.
-
-Signed-off-by: John Garry <john.garry@huawei.com>
+Reported-by: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- drivers/iommu/arm-smmu-v3.c | 102 +++++++++++++++++++++---------------
- 1 file changed, 61 insertions(+), 41 deletions(-)
+ include/uapi/linux/iommu.h |  6 +++++-
+ drivers/iommu/iommu.c      | 23 +++++++++++++++++------
+ 2 files changed, 22 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index 36648163364c..fd42a98f501f 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -772,10 +772,19 @@ static bool queue_has_space(struct arm_smmu_ll_queue *q, u32 n)
- 	prod = Q_IDX(q, q->prod);
- 	cons = Q_IDX(q, q->cons);
- 
--	if (Q_WRP(q, q->prod) == Q_WRP(q, q->cons))
-+	if (Q_WRP(q, q->prod) == Q_WRP(q, q->cons)) {
-+		/* check if we have wrapped twice, meaning definitely no space */
-+		if (cons > prod)
-+			return false;
-+
- 		space = (1 << q->max_n_shift) - (prod - cons);
--	else
-+	} else {
-+		/* similar check to above */
-+		if (prod > cons)
-+			return false;
-+
- 		space = cons - prod;
-+	}
- 
- 	return space >= n;
- }
-@@ -1073,7 +1082,7 @@ static void arm_smmu_cmdq_skip_err(struct arm_smmu_device *smmu)
-  *   fails if the caller appears to be the last lock holder (yes, this is
-  *   racy). All successful UNLOCK routines have RELEASE semantics.
-  */
--static void arm_smmu_cmdq_shared_lock(struct arm_smmu_cmdq *cmdq)
-+static void arm_smmu_cmdq_shared_lock(struct arm_smmu_cmdq *cmdq, int count)
+diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
+index e907b7091a463..c2b2caf9ed412 100644
+--- a/include/uapi/linux/iommu.h
++++ b/include/uapi/linux/iommu.h
+@@ -81,7 +81,10 @@ struct iommu_fault_unrecoverable {
+ /**
+  * struct iommu_fault_page_request - Page Request data
+  * @flags: encodes whether the corresponding fields are valid and whether this
+- *         is the last page in group (IOMMU_FAULT_PAGE_REQUEST_* values)
++ *         is the last page in group (IOMMU_FAULT_PAGE_REQUEST_* values).
++ *         When IOMMU_FAULT_PAGE_RESPONSE_NEEDS_PASID is set, the page response
++ *         must have the same PASID value as the page request. When it is clear,
++ *         the page response should not have a PASID.
+  * @pasid: Process Address Space ID
+  * @grpid: Page Request Group Index
+  * @perm: requested page permissions (IOMMU_FAULT_PERM_* values)
+@@ -92,6 +95,7 @@ struct iommu_fault_page_request {
+ #define IOMMU_FAULT_PAGE_REQUEST_PASID_VALID	(1 << 0)
+ #define IOMMU_FAULT_PAGE_REQUEST_LAST_PAGE	(1 << 1)
+ #define IOMMU_FAULT_PAGE_REQUEST_PRIV_DATA	(1 << 2)
++#define IOMMU_FAULT_PAGE_RESPONSE_NEEDS_PASID	(1 << 3)
+ 	__u32	flags;
+ 	__u32	pasid;
+ 	__u32	grpid;
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index d43120eb1dc56..1ed1e14a1f0cf 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -1185,11 +1185,12 @@ EXPORT_SYMBOL_GPL(iommu_report_device_fault);
+ int iommu_page_response(struct device *dev,
+ 			struct iommu_page_response *msg)
  {
- 	int val;
+-	bool pasid_valid;
++	bool needs_pasid;
+ 	int ret = -EINVAL;
+ 	struct iommu_fault_event *evt;
+ 	struct iommu_fault_page_request *prm;
+ 	struct dev_iommu *param = dev->iommu;
++	bool has_pasid = msg->flags & IOMMU_PAGE_RESP_PASID_VALID;
+ 	struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
  
-@@ -1083,12 +1092,12 @@ static void arm_smmu_cmdq_shared_lock(struct arm_smmu_cmdq *cmdq)
- 	 * to INT_MIN so these increments won't hurt as the value will remain
- 	 * negative.
+ 	if (!domain || !domain->ops->page_response)
+@@ -1214,14 +1215,24 @@ int iommu_page_response(struct device *dev,
  	 */
--	if (atomic_fetch_inc_relaxed(&cmdq->lock) >= 0)
-+	if (atomic_fetch_add_relaxed(count, &cmdq->lock) >= 0)
- 		return;
+ 	list_for_each_entry(evt, &param->fault_param->faults, list) {
+ 		prm = &evt->fault.prm;
+-		pasid_valid = prm->flags & IOMMU_FAULT_PAGE_REQUEST_PASID_VALID;
++		if (prm->grpid != msg->grpid)
++			continue;
  
- 	do {
- 		val = atomic_cond_read_relaxed(&cmdq->lock, VAL >= 0);
--	} while (atomic_cmpxchg_relaxed(&cmdq->lock, val, val + 1) != val);
-+	} while (atomic_cmpxchg_relaxed(&cmdq->lock, val, val + count) != val);
- }
- 
- static void arm_smmu_cmdq_shared_unlock(struct arm_smmu_cmdq *cmdq)
-@@ -1374,8 +1383,10 @@ static void arm_smmu_cmdq_write_entries(struct arm_smmu_cmdq *cmdq, u64 *cmds,
-  *   insert their own list of commands then all of the commands from one
-  *   CPU will appear before any of the commands from the other CPU.
-  *
-- * - A CMD_SYNC is always inserted, ensuring that any CPU does not issue
-- *   more than the permitted amount commands at once.
-+ * - A CMD_SYNC is always inserted, which ensures we limit the prod pointer
-+ *   for when the cmdq is full, such that we don't wrap more than twice.
-+ *   It also makes it easy for the owner to know by how many to increment the
-+ *   cmdq lock.
-  */
- static int arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
- 				       u64 *cmds, int n)
-@@ -1388,39 +1399,38 @@ static int arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
- 	struct arm_smmu_cmdq *cmdq = &smmu->cmdq;
- 	struct arm_smmu_ll_queue llq = {
- 		.max_n_shift = cmdq->q.llq.max_n_shift,
--	}, head = llq;
-+	}, head = llq, space = llq;
-+	u32 owner_val = 1 << cmdq->q.llq.owner_count_shift;
-+	u32 prod_mask = GENMASK(cmdq->q.llq.max_n_shift, 0);
-+	u32 owner_mask = GENMASK(30, cmdq->q.llq.owner_count_shift);
- 	int ret = 0;
- 
- 	/* 1. Allocate some space in the queue */
- 	local_irq_save(flags);
--	llq.val = READ_ONCE(cmdq->q.llq.val);
--	do {
--		u64 old;
- 
--		while (!queue_has_space(&llq, n + sync)) {
--			local_irq_restore(flags);
--			if (arm_smmu_cmdq_poll_until_not_full(smmu, &llq))
--				dev_err_ratelimited(smmu->dev, "CMDQ timeout\n");
--			local_irq_save(flags);
--		}
-+	prod = atomic_fetch_add(n + sync + owner_val,
-+				&cmdq->q.llq.atomic.prod);
- 
--		head.cons = llq.cons;
--		head.prod = queue_inc_prod_n(&llq, n + sync) |
--					     CMDQ_PROD_OWNED_FLAG;
-+	owner = !(prod & owner_mask);
-+	llq.prod = prod_mask & prod;
-+	head.prod = queue_inc_prod_n(&llq, n + sync);
- 
--		old = cmpxchg_relaxed(&cmdq->q.llq.val, llq.val, head.val);
--		if (old == llq.val)
--			break;
-+	/*
-+	 * Ensure it's safe to write the entries. For this, we need to ensure
-+	 * that there is space in the queue from our prod pointer.
-+	 */
-+	space.cons = READ_ONCE(cmdq->q.llq.cons);
-+	space.prod = llq.prod;
-+	while (!queue_has_space(&space, n + sync)) {
-+		if (arm_smmu_cmdq_poll_until_not_full(smmu, &space))
-+			dev_err_ratelimited(smmu->dev, "CMDQ timeout\n");
- 
--		llq.val = old;
--	} while (1);
--	owner = !(llq.prod & CMDQ_PROD_OWNED_FLAG);
--	head.prod &= ~CMDQ_PROD_OWNED_FLAG;
--	llq.prod &= ~CMDQ_PROD_OWNED_FLAG;
-+		space.prod = llq.prod;
-+	}
- 
- 	/*
- 	 * 2. Write our commands into the queue
--	 * Dependency ordering from the cmpxchg() loop above.
-+	 * Dependency ordering from the space-checking while loop, above.
- 	 */
- 	arm_smmu_cmdq_write_entries(cmdq, cmds, llq.prod, n);
- 
-@@ -1428,27 +1438,24 @@ static int arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
- 	arm_smmu_cmdq_build_sync_cmd(cmd_sync, smmu, prod);
- 	queue_write(Q_ENT(&cmdq->q, prod), cmd_sync, CMDQ_ENT_DWORDS);
- 
--	/*
--	 * In order to determine completion of our CMD_SYNC, we must
--	 * ensure that the queue can't wrap twice without us noticing.
--	 * We achieve that by taking the cmdq lock as shared before
--	 * marking our slot as valid.
--	 */
--	arm_smmu_cmdq_shared_lock(cmdq);
--
- 	/* 3. Mark our slots as valid, ensuring commands are visible first */
- 	dma_wmb();
- 	arm_smmu_cmdq_set_valid_map(cmdq, llq.prod, head.prod);
- 
- 	/* 4. If we are the owner, take control of the SMMU hardware */
- 	if (owner) {
-+		int owner_count;
-+		u32 prod_tmp;
-+
- 		/* a. Wait for previous owner to finish */
- 		atomic_cond_read_relaxed(&cmdq->owner_prod, VAL == llq.prod);
- 
--		/* b. Stop gathering work by clearing the owned flag */
--		prod = atomic_fetch_andnot_relaxed(CMDQ_PROD_OWNED_FLAG,
--						   &cmdq->q.llq.atomic.prod);
--		prod &= ~CMDQ_PROD_OWNED_FLAG;
-+		/* b. Stop gathering work by clearing the owned mask */
-+		prod_tmp = atomic_fetch_andnot_relaxed(~prod_mask,
-+						       &cmdq->q.llq.atomic.prod);
-+		prod = prod_tmp & prod_mask;
-+		owner_count = prod_tmp & owner_mask;
-+		owner_count >>= cmdq->q.llq.owner_count_shift;
- 
- 		/*
- 		 * c. Wait for any gathered work to be written to the queue.
-@@ -1457,6 +1464,19 @@ static int arm_smmu_cmdq_issue_cmdlist(struct arm_smmu_device *smmu,
- 		 */
- 		arm_smmu_cmdq_poll_valid_map(cmdq, llq.prod, prod);
- 
+-		if ((pasid_valid && prm->pasid != msg->pasid) ||
+-		    prm->grpid != msg->grpid)
 +		/*
-+		 * In order to determine completion of the CMD_SYNCs, we must
-+		 * ensure that the queue can't wrap twice without us noticing.
-+		 * We achieve that by taking the cmdq lock as shared before
-+		 * progressing the prod pointer.
-+		 * The owner does this for all the non-owners it has gathered.
-+		 * Otherwise, some non-owner(s) may lock the cmdq, blocking
-+		 * cons being updating. This could be when the cmdq has just
-+		 * become full. In this case, other sibling non-owners could be
-+		 * blocked from progressing, leading to deadlock.
++		 * If the PASID is required, the corresponding request is
++		 * matched using the group ID, the PASID valid bit and the PASID
++		 * value. Otherwise only the group ID matches request and
++		 * response.
 +		 */
-+		arm_smmu_cmdq_shared_lock(cmdq, owner_count);
-+
- 		/*
- 		 * d. Advance the hardware prod pointer
- 		 * Control dependency ordering from the entries becoming valid.
++		needs_pasid = prm->flags & IOMMU_FAULT_PAGE_RESPONSE_NEEDS_PASID;
++		if (needs_pasid && (!has_pasid || msg->pasid != prm->pasid))
+ 			continue;
+ 
+-		/* Sanitize the reply */
+-		msg->flags = pasid_valid ? IOMMU_PAGE_RESP_PASID_VALID : 0;
++		if (!needs_pasid && has_pasid) {
++			/* No big deal, just clear it. */
++			msg->flags &= ~IOMMU_PAGE_RESP_PASID_VALID;
++			msg->pasid = 0;
++		}
+ 
+ 		ret = domain->ops->page_response(dev, evt, msg);
+ 		list_del(&evt->list);
 -- 
-2.26.2
+2.27.0
 
 _______________________________________________
 iommu mailing list
