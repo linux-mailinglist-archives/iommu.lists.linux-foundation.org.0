@@ -1,81 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C9F1FC241
-	for <lists.iommu@lfdr.de>; Wed, 17 Jun 2020 01:23:51 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 14D6888A41;
-	Tue, 16 Jun 2020 23:23:50 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wI2nZ7nFk5uw; Tue, 16 Jun 2020 23:23:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6BFC888A37;
-	Tue, 16 Jun 2020 23:23:49 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4CA2BC0895;
-	Tue, 16 Jun 2020 23:23:49 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 568E3C016E
- for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 23:23:48 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545071FC44F
+	for <lists.iommu@lfdr.de>; Wed, 17 Jun 2020 05:01:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3D87189551
- for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 23:23:48 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 044E28939D;
+	Wed, 17 Jun 2020 03:01:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ryVLF8DvgjhI; Wed, 17 Jun 2020 03:01:12 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8B4118979D;
+	Wed, 17 Jun 2020 03:01:12 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 77BD8C016E;
+	Wed, 17 Jun 2020 03:01:12 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B8737C016E
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 03:01:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id A83E7895F9
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 03:01:09 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8cPE-SQlp7la for <iommu@lists.linux-foundation.org>;
- Tue, 16 Jun 2020 23:23:47 +0000 (UTC)
+ with ESMTP id ErwJKj88VGmf for <iommu@lists.linux-foundation.org>;
+ Wed, 17 Jun 2020 03:01:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 8C0AF89549
- for <iommu@lists.linux-foundation.org>; Tue, 16 Jun 2020 23:23:47 +0000 (UTC)
-IronPort-SDR: Nd4u/bRgQK1ERcYh4DZx4qbBnvNk7snueLT8pXcz0Uh+Wj2aj98UeQnesFwg5IEWrc2OcU3hsb
- VD0sg4aLe/UA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2020 16:23:46 -0700
-IronPort-SDR: PUdSL9s9aHkzES9vhHisJzVKu+uTZCb7Oi6VKOJd77E027eK2Hl4S07EMQa0cGcGT0pSq7Rw33
- qrXIWSr0CLkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,520,1583222400"; d="scan'208";a="383022347"
-Received: from romley-ivt3.sc.intel.com ([172.25.110.60])
- by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2020 16:23:46 -0700
-Date: Tue, 16 Jun 2020 16:23:46 -0700
-From: Fenghua Yu <fenghua.yu@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH v2 12/12] x86/traps: Fix up invalid PASID
-Message-ID: <20200616232345.GC15763@romley-ivt3.sc.intel.com>
-References: <1592008893-9388-1-git-send-email-fenghua.yu@intel.com>
- <1592008893-9388-13-git-send-email-fenghua.yu@intel.com>
- <20200615075649.GK2497@hirez.programming.kicks-ass.net>
- <20200615154854.GB13792@romley-ivt3.sc.intel.com>
- <20200615160357.GA2531@hirez.programming.kicks-ass.net>
- <20200615181259.GC13792@romley-ivt3.sc.intel.com>
- <20200615183116.GD2531@hirez.programming.kicks-ass.net>
- <20200615185529.GD13792@romley-ivt3.sc.intel.com>
- <20200615190928.GJ2531@hirez.programming.kicks-ass.net>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 0CFFA895F2
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 03:01:05 +0000 (UTC)
+X-UUID: d02e977045d64f77a28e31b6a9db254d-20200617
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=Wis5vDqsbbB93AdFA7XLcfdhnuaZidhnla8UOIBO0ek=; 
+ b=Z0lZDMfuA73ttTRjNXk5cXsLpPy7lxeqDcRx9fGKBUDMHklFmQAbR+KGEzCw+bggY4Ik7696457hhpO40ruHPMXxLLBLPIiykfDihVXe/qt/qn6K322WXCFsYmbRinGvmWgbAJHOxKiN/KvakUy4aBGhHKUnGP6iE1Ft9gE7a2I=;
+X-UUID: d02e977045d64f77a28e31b6a9db254d-20200617
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <chao.hao@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 404865493; Wed, 17 Jun 2020 11:01:02 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 17 Jun 2020 11:00:50 +0800
+Received: from localhost.localdomain (10.15.20.246) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 17 Jun 2020 11:00:48 +0800
+From: Chao Hao <chao.hao@mediatek.com>
+To: Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>
+Subject: [PATCH v4 00/07] MT6779 IOMMU SUPPORT
+Date: Wed, 17 Jun 2020 11:00:22 +0800
+Message-ID: <20200617030029.4082-1-chao.hao@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200615190928.GJ2531@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Dave Hansen <dave.hansen@intel.com>, H Peter Anvin <hpa@zytor.com>,
- Dave Jiang <dave.jiang@intel.com>, Ashok Raj <ashok.raj@intel.com>,
- x86 <x86@kernel.org>, amd-gfx <amd-gfx@lists.freedesktop.org>,
- Ingo Molnar <mingo@redhat.com>, Ravi V Shankar <ravi.v.shankar@intel.com>,
- Yu-cheng Yu <yu-cheng.yu@intel.com>, Andrew Donnellan <ajd@linux.ibm.com>,
- Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
- Tony Luck <tony.luck@intel.com>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- linux-kernel <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- Jacob Jun Pan <jacob.jun.pan@intel.com>,
- Frederic Barrat <fbarrat@linux.ibm.com>, David Woodhouse <dwmw2@infradead.org>
+X-TM-SNTS-SMTP: FB8C3C131B059E05A7015CC9206665E6513E2B80B0D5808ABDA7442D20A11FCC2000:8
+X-MTK: N
+Cc: devicetree@vger.kernel.org, FY Yang <fy.yang@mediatek.com>,
+ wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
+ Chao Hao <chao.hao@mediatek.com>, iommu@lists.linux-foundation.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,54 +82,79 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi, Peter,
+This patchset adds mt6779 iommu support.
+mt6779 has two iommus, they are MM_IOMMU(M4U) and APU_IOMMU which used ARM Short-Descriptor translation format.
+The mt6779's MM_IOMMU-SMI and APU_IOMMU HW diagram is as below, it is only a brief diagram:
 
-On Mon, Jun 15, 2020 at 09:09:28PM +0200, Peter Zijlstra wrote:
-> On Mon, Jun 15, 2020 at 11:55:29AM -0700, Fenghua Yu wrote:
-> 
-> > Or do you suggest to add a random new flag in struct thread_info instead
-> > of a TIF flag?
-> 
-> Why thread_info? What's wrong with something simple like the below. It
-> takes a bit from the 'strictly current' flags word.
-> 
-> 
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index b62e6aaf28f0..fca830b97055 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -801,6 +801,9 @@ struct task_struct {
->  	/* Stalled due to lack of memory */
->  	unsigned			in_memstall:1;
->  #endif
-> +#ifdef CONFIG_PCI_PASID
-> +	unsigned			has_valid_pasid:1;
-> +#endif
->  
->  	unsigned long			atomic_flags; /* Flags requiring atomic access. */
->  
-> diff --git a/kernel/fork.c b/kernel/fork.c
-> index 142b23645d82..10b3891be99e 100644
-> --- a/kernel/fork.c
-> +++ b/kernel/fork.c
-> @@ -955,6 +955,10 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
->  	tsk->use_memdelay = 0;
->  #endif
->  
-> +#ifdef CONFIG_PCI_PASID
-> +	tsk->has_valid_pasid = 0;
-> +#endif
-> +
->  #ifdef CONFIG_MEMCG
->  	tsk->active_memcg = NULL;
->  #endif
+		       EMI
+		        |
+     --------------------------------------
+     |                                    |
+  MM_IOMMU                            APU_IOMMU
+     |                                    |
+  SMI_COMMOM-----------                 APU_BUS
+     |                |                   |
+  SMI_LARB(0~11)      |                   |
+     |                |                   |
+     |                |             --------------
+     |                |             |     |      |
+Multimedia engine      CCU           VPU   MDLA   EMDA
 
-Can I add "Signed-off-by: Peter Zijlstra <peterz@infradead.org>"
-to this patch? I will send this patch in the next version of the series.
+All the connections are hardware fixed, software can not adjust it.
+Compared with mt8183, SMI_BUS_ID width has changed from 10 to 12. SMI Larb number is described in bit[11:7],
+Port number is described in bit[6:2]. In addition, there are some registers has changed in mt6779, so we need
+to redefine and reuse them.
 
-Thanks.
+The patchset only used MM_IOMMU, so we only add MM_IOMMU basic function, such as smi_larb port definition, registers
+definition and hardware initialization.
 
--Fenghua
+change notes:
+ v4:
+   1. Rebase on v5.8-rc1.
+   2. Fix coding style.
+   3. Add F_MMU_IN_DRDER_WR_EN definition in MISC_CTRL to improve performance.
+
+ v3:
+   1. Rebase on v5.7-rc1.
+   2. Remove unused port definition,ex:APU and CCU port in mt6779-larb-port.h.
+   3. Remove "change single domain to multiple domain" part(from PATCH v2 09/19 to PATCH v2 19/19).
+   4. Redesign mt6779 basic part
+      (1)Add some register definition and reuse them.
+      (2)Redesign smi larb bus ID to analyze IOMMU translation fault.
+      (3)Only init MM_IOMMU and not use APU_IOMMU.
+
+ http://lists.infradead.org/pipermail/linux-mediatek/2020-May/029811.html
+
+ v2:
+   1. Rebase on v5.5-rc1.
+   2. Delete M4U_PORT_UNKNOWN define because of not use it.
+   3. Correct coding format.
+   4. Rename offset=0x48 register.
+   5. Split "iommu/mediatek: Add mt6779 IOMMU basic support(patch v1)" to several patches(patch v2).
+
+ http://lists.infradead.org/pipermail/linux-mediatek/2020-January/026131.html
+
+ v1:
+ http://lists.infradead.org/pipermail/linux-mediatek/2019-November/024567.html
+
+Chao Hao (7):
+  dt-bindings: mediatek: Add bindings for MT6779
+  iommu/mediatek: Rename the register STANDARD_AXI_MODE(0x48) to
+                  MISC_CTRL
+  iommu/mediatek: Set MISC_CTRL register
+  iommu/mediatek: Move inv_sel_reg into the plat_data
+  iommu/mediatek: Add sub_comm id in translation fault
+  iommu/mediatek: Add REG_MMU_WR_LEN definition preparing for mt6779
+  iommu/mediatek: Add mt6779 basic support
+
+ .../bindings/iommu/mediatek,iommu.txt         |   2 +
+ drivers/iommu/mtk_iommu.c                     |  92 ++++++--
+ drivers/iommu/mtk_iommu.h                     |  10 +-
+ include/dt-bindings/memory/mt6779-larb-port.h | 206 ++++++++++++++++++
+ 4 files changed, 285 insertions(+), 25 deletions(-)
+
+--
+2.18.0
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
