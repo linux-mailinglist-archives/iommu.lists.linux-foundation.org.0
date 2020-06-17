@@ -2,113 +2,85 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BAE1FCA00
-	for <lists.iommu@lfdr.de>; Wed, 17 Jun 2020 11:38:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7298F1FC9E1
+	for <lists.iommu@lfdr.de>; Wed, 17 Jun 2020 11:32:35 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 57D5A2154F;
-	Wed, 17 Jun 2020 09:38:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 01A432042C;
+	Wed, 17 Jun 2020 09:32:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QXxDzhGroN3o; Wed, 17 Jun 2020 09:38:17 +0000 (UTC)
+	with ESMTP id 3JzcjzJyWmh8; Wed, 17 Jun 2020 09:32:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9C98C2042C;
-	Wed, 17 Jun 2020 09:38:17 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 826332041F;
+	Wed, 17 Jun 2020 09:32:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7E81EC07FF;
-	Wed, 17 Jun 2020 09:38:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5F249C016E;
+	Wed, 17 Jun 2020 09:32:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 10ABAC016E
- for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 09:38:16 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AAAC1C016E
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 09:32:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id EE3718778C
- for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 09:38:15 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 996AA88EFF
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 09:32:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id moCgeUy16jzZ for <iommu@lists.linux-foundation.org>;
- Wed, 17 Jun 2020 09:38:15 +0000 (UTC)
+ with ESMTP id 4+ZIVBgJDltY for <iommu@lists.linux-foundation.org>;
+ Wed, 17 Jun 2020 09:32:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2048.outbound.protection.outlook.com [40.107.220.48])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id ED3998777D
- for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 09:38:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OtHitlVuqS1ccxRV6RSFIithpWIinnF49ep4Sf4kETAFyU3cKhlqmGREv1cqcDqKIihKv8WwvJoevzxDlyEw+3DZbMbQHM8AmAqrICrgueX8sk9mYRt9YCS8RoGONcJcnY736yHuMxAHrxc9f0AIVhqd4BTdobWtXfpKdyaryh7uzX67TCeoQqIPmIY6msBoYPoeQTk3gQ1x07Grv76BoCSDMrSC2nZO1Cg6n4YdqM4Uw9/vfpKV1lN3ZV6tYf4Gmx3k7zwkEGyFmKuoo5AtlVyXzDBcNhtcRTtAOkEDrto1u4EDftAF0en7vwTb0Fxa5nJ6CgZ5/pbESUOAa135OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tu92nTxobvAJtjnQ/c7Gy6Os60UMOGVIfb4f/SrYR2w=;
- b=jjAbyTWRvl+BiyCJ1tFAgwKhvzVis6I4JuvreG+hxgwq5OkC1d1tEFPVFFBj3KcI+mD/bB8Mq5rgrSMghOkoQZWPdHBPUMDUWNUtXo4CNgxt6YWuxhm6S8zjaWXxKpARY/mQ/jSiBgczHi5KDD+pIFhtMnouB3VrQTAS1Ed4+tjA2tsssYMBmI+PdjlqKpk0ZXziF5ggpAMo9oCIHfvAiav/hWTXfwRuS05f2iYdA3rVa+BF54Hkx9XIJq28OAbBWwxAX7Ezn88jAjolEVZYYyIthPMLJy8XabGrpVMewkgTtcL19lYcKt0RR7Rk+2qj/FG0aeIUxefyCdcPZmcA2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tu92nTxobvAJtjnQ/c7Gy6Os60UMOGVIfb4f/SrYR2w=;
- b=KeWoQCJCV1DireJOBXrlGK3D16f6J8TjZjvccqzEssJhfpdu1LrpSqdU0xc42tL59IEPITQwisIHocg+LW8qD4krRWuLozlPDHQ4vtj97rwxvc5X4Ct22CF5cp8elfp82CcTBCK0Xtmr3AnsDpHEHhxvedqGbFVnzPr7IEZfAYA=
-Authentication-Results: lists.linux-foundation.org; dkim=none (message not
- signed) header.d=none;lists.linux-foundation.org; dmarc=none action=none
- header.from=amd.com;
-Received: from DM5PR12MB1163.namprd12.prod.outlook.com (2603:10b6:3:7a::18) by
- DM6PR12MB3083.namprd12.prod.outlook.com (2603:10b6:5:11d::28) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3088.23; Wed, 17 Jun 2020 09:23:11 +0000
-Received: from DM5PR12MB1163.namprd12.prod.outlook.com
- ([fe80::c1bc:8ef9:9ba3:99bf]) by DM5PR12MB1163.namprd12.prod.outlook.com
- ([fe80::c1bc:8ef9:9ba3:99bf%10]) with mapi id 15.20.3109.021; Wed, 17 Jun
- 2020 09:23:11 +0000
-Subject: Re: [PATCH] iommu/amd: Print extended features in one line to fix
- divergent log levels
-To: Paul Menzel <pmenzel@molgen.mpg.de>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?=
- <joro@8bytes.org>
-References: <20200616220420.19466-1-pmenzel@molgen.mpg.de>
-From: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Message-ID: <8250b9fa-b62b-7d80-d2b6-99b8587f4df4@amd.com>
-Date: Wed, 17 Jun 2020 16:23:02 +0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <20200616220420.19466-1-pmenzel@molgen.mpg.de>
-Content-Language: en-US
-X-ClientProxiedBy: SGAP274CA0002.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::14)
- To DM5PR12MB1163.namprd12.prod.outlook.com
- (2603:10b6:3:7a::18)
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
+ [209.85.218.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id AE3A688E5B
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 09:32:29 +0000 (UTC)
+Received: by mail-ej1-f68.google.com with SMTP id n24so1601407ejd.0
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 02:32:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=cTmd5tX6YVYoIxY4tpUy+apEsuQqZLQPN2tP1qBmaWs=;
+ b=UbutnNHTQwhmHowciBnS6G2F8ot4diXcsL2QMDte9vC4ANIEyGGtivu1J6xAobtx0l
+ LG6+/q0CKuQhAUeehhOYn/ssnfAkMft+pGrNKiUyMcadMPsNf6SHPWMIqtqEReKqauwA
+ DBH5tL6/XGPuA+RqoWP6waLtpNQrn0YKnyJ5kAnkLAcT2G+540YKljKU7joTcoy6Zzds
+ K8p1U8PR88QXqO67erDw6E11SM42uV1S9b2OIwPyXK8ILyYP81IIrXi3mBJOoiVX7ksp
+ NoOewQ7GoqzZ40VrhkW9eU4r07QVk2amn6UFFZ6v07P2n9uwqktaBwI0sEkgCDEyfuPE
+ XtLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cTmd5tX6YVYoIxY4tpUy+apEsuQqZLQPN2tP1qBmaWs=;
+ b=CGvxGRFoptyTycjYA42WdtNpzKBHYTQdWb1ckSD/nVXPZH0bKo1B7m9cJQameEB1o/
+ Zhbv6tJMQgxyxMawKJC3R7MU6yr0+PagS0zGyro0FVrRqNxPRl3vMuq8kIszCG38aMCB
+ 0GsKFtDB+TaG9MYuvF4E2UozFK3RH2EIAW1lcqmfLKYT3OwnU1bflsJlx/OQY5tFRD7R
+ J4GPHXJzRl1SzBmZ7hu5SEnJlUxsPuEqIqcs6zodSd7heIIRF/ms+hxLSy82wYMWvlTf
+ I3AP56kPRnL7lBgCIRv5r2ZBSn7iMS4vducvPb1D3grAwhk2ipnubbtMfMTKpZ+XP8YY
+ pmNg==
+X-Gm-Message-State: AOAM530duREnw8OXi6CzHIwRAIT96IQ5ww0WehEovONDjNEDd0Ld//Jd
+ hVxsd+pLOqoGkCiYwoGpengL9g==
+X-Google-Smtp-Source: ABdhPJyklQPyHL2n4G1KEjImmjswHON24/eVFkuz53itdZaig2qjcx7EF/rtovwtXuJ6CEqXcbsiLg==
+X-Received: by 2002:a17:906:7693:: with SMTP id
+ o19mr6318850ejm.295.1592386348039; 
+ Wed, 17 Jun 2020 02:32:28 -0700 (PDT)
+Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id y12sm9380552edj.37.2020.06.17.02.32.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Jun 2020 02:32:27 -0700 (PDT)
+Date: Wed, 17 Jun 2020 11:32:17 +0200
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Zhangfei Gao <zhangfei.gao@linaro.org>
+Subject: Re: [PATCH] uacce: remove uacce_vma_fault
+Message-ID: <20200617093217.GD871763@myrica>
+References: <1592229357-1904-1-git-send-email-zhangfei.gao@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Suravees-MacBook-Pro.local (165.204.140.250) by
- SGAP274CA0002.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3109.21 via Frontend Transport; Wed, 17 Jun 2020 09:23:10 +0000
-X-Originating-IP: [165.204.140.250]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 2765826d-9fce-4fed-f977-08d812a00e47
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3083:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB308375BAFD5CCE5F3C472477F39A0@DM6PR12MB3083.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:265;
-X-Forefront-PRVS: 04371797A5
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ztsbFglI0ACWZiobPLqfJvNB3lqOqX5J3B4EfyWy54bFYQrooQTG+V9WJpFm1Pi4ZdodWF0tKxMiEXvdam6nla3xMAh9CKzPMcUnxjtN4a9Wxi7vU1OXVJXYVa41yqJ5l5EtsvjMphtCXT7WX15gFLnHdUri6v2yb23EflChobxI80RXxUAyBe8QTIEp0E2AIYQELwqot9TvYm01MJYlhZSUG2Us/L6X8yPXXURUAZM4Tuvlk3e5twGL0Bc49DMgfM2xnMuKDt9I83lRNHzCE9gmHtHYpC7TB1dUYZKqBpwCc/pvmBNeWcOD5I+QXisX0pDs7+3pRe6fU1kXUk0YyuNEDl4/4ZY8q8qWPv3jUu6Y7jlL/Oc0Bm12jKqdae80
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1163.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(366004)(346002)(136003)(376002)(39860400002)(4326008)(16526019)(186003)(36756003)(5660300002)(8676002)(52116002)(66946007)(2906002)(66476007)(26005)(66556008)(31686004)(6512007)(8936002)(6486002)(31696002)(316002)(110136005)(6506007)(44832011)(2616005)(956004)(86362001)(6666004)(53546011)(478600001)(83380400001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 41ommfsIDAQwj/eCf/YyXtSbGXXhF9pzZ32q7sCe1iF+Yb1rkD5ltoYQJvLDbAS5rO9RFzPC4fW7OByMJbS1ea7anC7wuzxITUB4wYqVO1HJt5MzRfy4fotIwcemuC+LL+ulSlI/PfEq5/KSdRlnWERQZ0v11rGA/lfonw4HfxX0AfhpqALgop2MdG9H+gtgzkK//MA7Q0gc7tYXk0kXIAhxrG4niLqJZ4E90Z1eRI5a8VtiWr5xUmlQEQkKZeIi0ZqbjJHqDkT1TcYulsBjxsq2qb5/htATgQ+hQZ1K5YF+3LueM81wbBRaQSHPXqrWCvdY1ht/VfXvgEz9jBzWo1wpCCz83LvBxU+UZNaSATEvmg6Zz3fuzrtyHN0YlfRyCOvuvaoUA0MPabNImP3YmnI8+Myburjrc6KC17Bvc7V0E0i/gYkmQgo+ISN61PDaP2mUhiIFacpf8GaN5H/ILGxDiwFDI9vHn0jBc1YObwIno7Fe1SHBlFoARJQ2JBTI
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2765826d-9fce-4fed-f977-08d812a00e47
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2020 09:23:11.8829 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k8vqcxTI853Zbvpq9qTbXbv+uyCLXo5Jmngp/7zkxZxlGIC2W/zQGKRqlABOTYbPJgVKt7Wo5K6thQ3ENsawVg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3083
-Cc: iommu@lists.linux-foundation.org
+Content-Disposition: inline
+In-Reply-To: <1592229357-1904-1-git-send-email-zhangfei.gao@linaro.org>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-crypto@vger.kernel.org,
+ linux-accelerators@lists.ozlabs.org, kenneth-lee-2012@foxmail.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,72 +93,56 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On Mon, Jun 15, 2020 at 09:55:57PM +0800, Zhangfei Gao wrote:
+> Fix NULL pointer error if removing uacce's parent module during app's
+> running. SIGBUS is already reported by do_page_fault, so uacce_vma_fault
+> is not needed. If providing vma_fault, vmf->page has to be filled as well,
+> required by __do_fault.
+> 
+> Reported-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> Signed-off-by: Zhangfei Gao <zhangfei.gao@linaro.org>
 
+Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-On 6/17/20 5:04 AM, Paul Menzel wrote:
-> Currently, Linux logs the two messages below.
-> 
->      [    0.979142] pci 0000:00:00.2: AMD-Vi: Extended features (0xf77ef22294ada):
->      [    0.979546]  PPR NX GT IA GA PC GA_vAPIC
-> 
-> The log level of these lines differs though. The first one has level
-> *info*, while the second has level *warn*, which is confusing.
-> 
->      $ dmesg -T --level=info | grep "Extended features"
->      [Tue Jun 16 21:46:58 2020] pci 0000:00:00.2: AMD-Vi: Extended features (0xf77ef22294ada):
->      $ dmesg -T --level=warn | grep "PPR"
->      [Tue Jun 16 21:46:58 2020]  PPR NX GT IA GA PC GA_vAPIC
-> 
-> The problem is, that commit 3928aa3f57 ("iommu/amd: Detect and enable
-> guest vAPIC support") introduced a newline, causing `pr_cont()`, used to
-> print the features, to default back to the default log level.
-> 
->      /**
->       * pr_cont - Continues a previous log message in the same line.
->       * @fmt: format string
->       * @...: arguments for the format string
->       *
->       * This macro expands to a printk with KERN_CONT loglevel. It should only be
->       * used when continuing a log message with no newline ('\n') enclosed. Otherwise
->       * it defaults back to KERN_DEFAULT loglevel.
->       */
->      #define pr_cont(fmt, ...) \
->              printk(KERN_CONT fmt, ##__VA_ARGS__)
-> 
-> So, remove the line break, so only one line is logged.
-> 
-> Fixes: 3928aa3f57 ("iommu/amd: Detect and enable guest vAPIC support")
-> Cc: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-> Cc: iommu@lists.linux-foundation.org
-> Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
 > ---
->   drivers/iommu/amd_iommu_init.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/misc/uacce/uacce.c | 9 ---------
+>  1 file changed, 9 deletions(-)
 > 
-> diff --git a/drivers/iommu/amd_iommu_init.c b/drivers/iommu/amd_iommu_init.c
-> index 5b81fd16f5faf8..8d9b2c94178c43 100644
-> --- a/drivers/iommu/amd_iommu_init.c
-> +++ b/drivers/iommu/amd_iommu_init.c
-> @@ -1844,7 +1844,7 @@ static void print_iommu_info(void)
->   		pci_info(pdev, "Found IOMMU cap 0x%hx\n", iommu->cap_ptr);
->   
->   		if (iommu->cap & (1 << IOMMU_CAP_EFR)) {
-> -			pci_info(pdev, "Extended features (%#llx):\n",
-> +			pci_info(pdev, "Extended features (%#llx):",
->   				 iommu->features);
->   			for (i = 0; i < ARRAY_SIZE(feat_str); ++i) {
->   				if (iommu_feature(iommu, (1ULL << i)))
+> diff --git a/drivers/misc/uacce/uacce.c b/drivers/misc/uacce/uacce.c
+> index 107028e..aa91f69 100644
+> --- a/drivers/misc/uacce/uacce.c
+> +++ b/drivers/misc/uacce/uacce.c
+> @@ -179,14 +179,6 @@ static int uacce_fops_release(struct inode *inode, struct file *filep)
+>  	return 0;
+>  }
+>  
+> -static vm_fault_t uacce_vma_fault(struct vm_fault *vmf)
+> -{
+> -	if (vmf->flags & (FAULT_FLAG_MKWRITE | FAULT_FLAG_WRITE))
+> -		return VM_FAULT_SIGBUS;
+> -
+> -	return 0;
+> -}
+> -
+>  static void uacce_vma_close(struct vm_area_struct *vma)
+>  {
+>  	struct uacce_queue *q = vma->vm_private_data;
+> @@ -199,7 +191,6 @@ static void uacce_vma_close(struct vm_area_struct *vma)
+>  }
+>  
+>  static const struct vm_operations_struct uacce_vm_ops = {
+> -	.fault = uacce_vma_fault,
+>  	.close = uacce_vma_close,
+>  };
+>  
+> -- 
+> 2.7.4
 > 
-
-Reviewed-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-
-Thanks,
-Suravee
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
