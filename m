@@ -2,65 +2,66 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A1F1FC44E
-	for <lists.iommu@lfdr.de>; Wed, 17 Jun 2020 05:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0081FC450
+	for <lists.iommu@lfdr.de>; Wed, 17 Jun 2020 05:01:16 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 31D2E2155E;
-	Wed, 17 Jun 2020 03:01:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C6D682156E;
+	Wed, 17 Jun 2020 03:01:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nxr94yvqd1K9; Wed, 17 Jun 2020 03:01:10 +0000 (UTC)
+	with ESMTP id 6oUL5vFoUYqC; Wed, 17 Jun 2020 03:01:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 6824D2155F;
-	Wed, 17 Jun 2020 03:01:10 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A4C482157D;
+	Wed, 17 Jun 2020 03:01:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 50B9CC016E;
-	Wed, 17 Jun 2020 03:01:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9AE72C016E;
+	Wed, 17 Jun 2020 03:01:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D08ABC016E
- for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 03:01:08 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D8258C016E
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 03:01:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id AF096895F9
- for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 03:01:08 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id BE25B895F1
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 03:01:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O3SICJ7LCf8L for <iommu@lists.linux-foundation.org>;
- Wed, 17 Jun 2020 03:01:07 +0000 (UTC)
+ with ESMTP id 2lWMzHGlxK-9 for <iommu@lists.linux-foundation.org>;
+ Wed, 17 Jun 2020 03:01:11 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by whitealder.osuosl.org (Postfix) with ESMTP id C0DB7895F1
- for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 03:01:06 +0000 (UTC)
-X-UUID: 8aae768659564b31ab15fbe8f50eaf86-20200617
+ by whitealder.osuosl.org (Postfix) with ESMTP id D1406895F3
+ for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 03:01:10 +0000 (UTC)
+X-UUID: 2199202b9e9d46e7b7348b334e5d656a-20200617
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=p1YWGhIu0LX6gKqSZSLL3Y/0TgVjX18Sd7QTQRcQuR0=; 
- b=fRBaOdS9rqziynXyoERKQpe9NtO80sZRZrZR0RykltMehrDcsFzoo7GLqtgihWxXnlrnsPJ0XRjOjV3YXUHwoiq41vyLl6d/bIyn41pkTefOCee6bt6xMYfqVEB+Gcr1PKyZC3am33QCkog4EEYC4lOzpv0yQq05Y1SM25LVAa0=;
-X-UUID: 8aae768659564b31ab15fbe8f50eaf86-20200617
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ bh=tkakusBQyxgP04a3jC23uWYdoIiyLQlQm27PNB6jVwY=; 
+ b=uyynP4LVTAjBTen8TtUbTeflr+SNSz6ICzuiPNlrvAqk6uRcMf+9Ns77mB7iWg9dv/U4malFJkzIuiUxU4isrc7dvT3uZEyHJ2XNmLqEMfj2WsdH5sI6H+QOi2BCo0sDDVLKZZl8a6O6D+GFLzZ/E3Or4XvMetfQqTLGhJnRDpM=;
+X-UUID: 2199202b9e9d46e7b7348b334e5d656a-20200617
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
  (envelope-from <chao.hao@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 505986526; Wed, 17 Jun 2020 11:01:05 +0800
+ with ESMTP id 971613930; Wed, 17 Jun 2020 11:01:08 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 17 Jun 2020 11:01:03 +0800
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 17 Jun 2020 11:01:02 +0800
 Received: from localhost.localdomain (10.15.20.246) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 17 Jun 2020 11:00:57 +0800
+ Transport; Wed, 17 Jun 2020 11:01:00 +0800
 From: Chao Hao <chao.hao@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>, Matthias
  Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v4 3/7] iommu/mediatek: Set MISC_CTRL register
-Date: Wed, 17 Jun 2020 11:00:25 +0800
-Message-ID: <20200617030029.4082-4-chao.hao@mediatek.com>
+Subject: [PATCH v4 4/7] iommu/mediatek: Move inv_sel_reg into the plat_data
+Date: Wed, 17 Jun 2020 11:00:26 +0800
+Message-ID: <20200617030029.4082-5-chao.hao@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20200617030029.4082-1-chao.hao@mediatek.com>
 References: <20200617030029.4082-1-chao.hao@mediatek.com>
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: 9A84840B6F993EE5A68EC36BD397D22E6AF46A9C2AC5DC1368FCE26DA913A3182000:8
 X-MTK: N
 Cc: devicetree@vger.kernel.org, FY Yang <fy.yang@mediatek.com>,
  wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
@@ -83,63 +84,98 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add F_MMU_IN_ORDER_WR_EN definition in MISC_CTRL.
-In order to improve performance, we always disable STANDARD_AXI_MODE
-and IN_ORDER_WR_EN in MISC_CTRL.
+For mt6779, MMU_INV_SEL register's offset is changed from
+0x38 to 0x2c, so we can put inv_sel_reg in the plat_data to
+use it.
+In addition, we renamed it to REG_MMU_INV_SEL_GEN1 and use it
+before mt6779.
 
 Change since v3:
-1. Rename Disable STANDARD_AXI_MODE in MISC_CTRL to Set MISC_CTRL register
-2. Add F_MMU_IN_DRDER_WR_EN definition in MISC_CTRL
-       We need to disable in_order_write to improve performance
+1. Fix coding style
 
 Cc: Yong Wu <yong.wu@mediatek.com>
 Signed-off-by: Chao Hao <chao.hao@mediatek.com>
 ---
- drivers/iommu/mtk_iommu.c | 11 +++++++++++
+ drivers/iommu/mtk_iommu.c | 19 +++++++++++--------
  drivers/iommu/mtk_iommu.h |  1 +
- 2 files changed, 12 insertions(+)
+ 2 files changed, 12 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 88d3df5b91c2..239d2cdbbc9f 100644
+index 239d2cdbbc9f..f23919feba4e 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -42,6 +42,9 @@
+@@ -37,7 +37,7 @@
+ #define REG_MMU_INVLD_START_A			0x024
+ #define REG_MMU_INVLD_END_A			0x028
+ 
+-#define REG_MMU_INV_SEL				0x038
++#define REG_MMU_INV_SEL_GEN1			0x038
+ #define F_INVLD_EN0				BIT(0)
  #define F_INVLD_EN1				BIT(1)
  
- #define REG_MMU_MISC_CTRL			0x048
-+#define F_MMU_IN_ORDER_WR_EN			(BIT(1) | BIT(17))
-+#define F_MMU_STANDARD_AXI_MODE_BIT		(BIT(3) | BIT(19))
-+
- #define REG_MMU_DCM_DIS				0x050
+@@ -168,7 +168,7 @@ static void mtk_iommu_tlb_flush_all(void *cookie)
  
- #define REG_MMU_CTRL_REG			0x110
-@@ -578,6 +581,14 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data)
- 		writel_relaxed(0, data->base + REG_MMU_MISC_CTRL);
+ 	for_each_m4u(data) {
+ 		writel_relaxed(F_INVLD_EN1 | F_INVLD_EN0,
+-			       data->base + REG_MMU_INV_SEL);
++			       data->base + data->plat_data->inv_sel_reg);
+ 		writel_relaxed(F_ALL_INVLD, data->base + REG_MMU_INVALIDATE);
+ 		wmb(); /* Make sure the tlb flush all done */
  	}
+@@ -185,7 +185,7 @@ static void mtk_iommu_tlb_flush_range_sync(unsigned long iova, size_t size,
+ 	for_each_m4u(data) {
+ 		spin_lock_irqsave(&data->tlb_lock, flags);
+ 		writel_relaxed(F_INVLD_EN1 | F_INVLD_EN0,
+-			       data->base + REG_MMU_INV_SEL);
++			       data->base + data->plat_data->inv_sel_reg);
  
-+	if (data->plat_data->has_misc_ctrl) {
-+		/* For mm_iommu, it can improve performance by the setting */
-+		regval = readl_relaxed(data->base + REG_MMU_MISC_CTRL);
-+		regval &= ~F_MMU_STANDARD_AXI_MODE_BIT;
-+		regval &= ~F_MMU_IN_ORDER_WR_EN;
-+		writel_relaxed(regval, data->base + REG_MMU_MISC_CTRL);
-+	}
-+
- 	if (devm_request_irq(data->dev, data->irq, mtk_iommu_isr, 0,
- 			     dev_name(data->dev), (void *)data)) {
- 		writel_relaxed(0, data->base + REG_MMU_PT_BASE_ADDR);
+ 		writel_relaxed(iova, data->base + REG_MMU_INVLD_START_A);
+ 		writel_relaxed(iova + size - 1,
+@@ -773,11 +773,12 @@ static const struct dev_pm_ops mtk_iommu_pm_ops = {
+ };
+ 
+ static const struct mtk_iommu_plat_data mt2712_data = {
+-	.m4u_plat     = M4U_MT2712,
+-	.has_4gb_mode = true,
+-	.has_bclk     = true,
+-	.has_vld_pa_rng   = true,
+-	.larbid_remap = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
++	.m4u_plat       = M4U_MT2712,
++	.has_4gb_mode   = true,
++	.has_bclk       = true,
++	.has_vld_pa_rng = true,
++	.inv_sel_reg    = REG_MMU_INV_SEL_GEN1,
++	.larbid_remap   = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
+ };
+ 
+ static const struct mtk_iommu_plat_data mt8173_data = {
+@@ -785,12 +786,14 @@ static const struct mtk_iommu_plat_data mt8173_data = {
+ 	.has_4gb_mode = true,
+ 	.has_bclk     = true,
+ 	.reset_axi    = true,
++	.inv_sel_reg  = REG_MMU_INV_SEL_GEN1,
+ 	.larbid_remap = {0, 1, 2, 3, 4, 5}, /* Linear mapping. */
+ };
+ 
+ static const struct mtk_iommu_plat_data mt8183_data = {
+ 	.m4u_plat     = M4U_MT8183,
+ 	.reset_axi    = true,
++	.inv_sel_reg  = REG_MMU_INV_SEL_GEN1,
+ 	.larbid_remap = {0, 4, 5, 6, 7, 2, 3, 1},
+ };
+ 
 diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
-index 1b6ea839b92c..d711ac630037 100644
+index d711ac630037..afd7a2de5c1e 100644
 --- a/drivers/iommu/mtk_iommu.h
 +++ b/drivers/iommu/mtk_iommu.h
-@@ -40,6 +40,7 @@ struct mtk_iommu_plat_data {
- 
- 	/* HW will use the EMI clock if there isn't the "bclk". */
- 	bool                has_bclk;
-+	bool		    has_misc_ctrl;
+@@ -43,6 +43,7 @@ struct mtk_iommu_plat_data {
+ 	bool		    has_misc_ctrl;
  	bool                has_vld_pa_rng;
  	bool                reset_axi;
++	u32                 inv_sel_reg;
  	unsigned char       larbid_remap[MTK_LARB_NR_MAX];
+ };
+ 
 -- 
 2.18.0
 _______________________________________________
