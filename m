@@ -1,86 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE841FF818
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 106DC1FF817
 	for <lists.iommu@lfdr.de>; Thu, 18 Jun 2020 17:52:46 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id BC83D2269B;
+	by whitealder.osuosl.org (Postfix) with ESMTP id A804F8890E;
 	Thu, 18 Jun 2020 15:52:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id H40RvrCv4vhS; Thu, 18 Jun 2020 15:52:43 +0000 (UTC)
+	with ESMTP id PZpff24nHxvH; Thu, 18 Jun 2020 15:52:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id F05F920502;
-	Thu, 18 Jun 2020 15:52:42 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 161AF88906;
+	Thu, 18 Jun 2020 15:52:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CE670C016E;
-	Thu, 18 Jun 2020 15:52:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0E628C089E;
+	Thu, 18 Jun 2020 15:52:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DBBCBC016E
- for <iommu@lists.linux-foundation.org>; Thu, 18 Jun 2020 15:52:41 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 854D3C016E
+ for <iommu@lists.linux-foundation.org>; Thu, 18 Jun 2020 15:52:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id C23F7888D5
- for <iommu@lists.linux-foundation.org>; Thu, 18 Jun 2020 15:52:41 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 81A7A876DA
+ for <iommu@lists.linux-foundation.org>; Thu, 18 Jun 2020 15:52:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m8KiEhWrVFud for <iommu@lists.linux-foundation.org>;
- Thu, 18 Jun 2020 15:52:40 +0000 (UTC)
+ with ESMTP id ziWWgi2blxfI for <iommu@lists.linux-foundation.org>;
+ Thu, 18 Jun 2020 15:52:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
- [209.85.218.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 7B82F888D3
- for <iommu@lists.linux-foundation.org>; Thu, 18 Jun 2020 15:52:40 +0000 (UTC)
-Received: by mail-ej1-f66.google.com with SMTP id dp18so6925969ejc.8
- for <iommu@lists.linux-foundation.org>; Thu, 18 Jun 2020 08:52:40 -0700 (PDT)
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+ [209.85.208.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 96E7687171
+ for <iommu@lists.linux-foundation.org>; Thu, 18 Jun 2020 15:52:41 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id d15so5225342edm.10
+ for <iommu@lists.linux-foundation.org>; Thu, 18 Jun 2020 08:52:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NmZThf3a2J6NoF89O5jcQpvbS3tCRuSL8WpQATN4J9s=;
- b=SbiiUTm8b3lLb0G44o0xNz2wAgbRXUJ40PYOfCJkPu1U+7Cz8Q4JukOUgbmBL4er9G
- dJ7Cvj4FRyYN6pkQMQx5jjEvD+YDt6nqjJe71GKRTEca0dl+iI7cVyX+emnBPTvQNZH1
- 7pVSfRIPOLiuxhIplgAZNKMP7lTRijVPY3nU7ESh9RJnGqfVgRbjeK36QO9Pakbr47NN
- uESVwsqZ9183zVksg3VwFAlQpoVTv+ObmiUCYcEIKH+gD6ob33Pu/KV8/XRytPEDSHly
- 85315iMObHd1V22KfsfQCuO6ehxup/gAkt1TrAqM5SxrS1hQPyM9Ci7EKySAcQPBLKqa
- I3TQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=yTcZ/yCb5ZAy6PQyVCfw2AueTEndBOUdt4lrv7Qejz4=;
+ b=JW/LxFcIwVMI0FUMp2Hp5J9IV4CbwtAZdbhqoRMEX3idf6gsNu+wnpKU+K3PCkEzT8
+ Z3hEEF3Lg+SzSDaBz8tcAqxQjhy71Hu/Nh7PPuiPBeASjeLBJqrfF5i7bXMkwYa+eigH
+ 8+Y0YMlZi4ZiOEFSBA3y9zy+M2LQWPS8nlsoOCRjNS4B97KfnIBhcC8uZYIvrZkmkCXZ
+ fy4O/KVuDHT8KFgHZkRQkJ1/cOE6bXgfZT9ug04N9mAHyTmklDntEvl1BaNCOX6gnZO9
+ laYmc4vN5AFc+ATfGfVf5zHp5iPGL+9By9clhNoZNcyQO2BWBFKRiJtia49h75bNu6W8
+ +pAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NmZThf3a2J6NoF89O5jcQpvbS3tCRuSL8WpQATN4J9s=;
- b=rYEbqbZH7vh7FJNt0uM4pEBYw3FdtlrUv5KUbwzuRAujJGCOM7H/B1sKHS5wB6zaHI
- zj04vILVkV2MN6yRjR9A5r2og3+IiagDWfrjY0jQD11zCGsbrtIgXA9uAfhEuxhQQfOk
- Af09zpB4Cr8F3Yk9zkYH0eOc4V7lGjaTqD/eu/dd8NDPTAk3Ji39S9+uyD3j9TFWoN0N
- hD5oUm0gw2DkUZL9mebHF4hPeCXKnF+j8M+BRaJvP5wCVHidMBztMTp5XcckaBfKGz5j
- 64R+MopYf8FSN9+bL3bQNTyJ3U3jpOvG6mJ2PnuLyeoyzWOLxh/UWOA6oW1BpgN7LZmD
- sTkg==
-X-Gm-Message-State: AOAM530uGXAvL4FKqF9t2cuBYrOhgoB4sIndaRkXoYrEJKfYxqbqtAQm
- Bmm9fmLsAHYfZNAkrMUukqsoM2IZQ6BFxA==
-X-Google-Smtp-Source: ABdhPJzjU3VVFUa1Qo56KhnjygVu/pLnUdL9+i0/7jp5cNFPr0/ZP9y2960Bjo4LpilqevPtcgOLCQ==
-X-Received: by 2002:a17:906:d9cd:: with SMTP id
- qk13mr4511193ejb.268.1592495558670; 
- Thu, 18 Jun 2020 08:52:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=yTcZ/yCb5ZAy6PQyVCfw2AueTEndBOUdt4lrv7Qejz4=;
+ b=OyuNs7OpYHn75TGdR5+E3hMKrnCSrDcv+uoaif1eQgaArVm/D5jCbJh3rc4HeJknYF
+ qjr/+RRHkeQl8sibdjlSnLD/oTdDbMafGoF08s5N8GdB/NjeIZmpfh9beSsZz3xvZwxb
+ G0mnkAMKvPXvcDBUdW1P5ORYa/IL4fGfZ/OJyrGMJjFwtUe1fqowJ8h6jXKhe8YVdW03
+ KW4iQGlYgjwG58loybZ5a2Rp9OweSTi7sprHHzXUtwZjQgZGPQHEbrsXhyrO4QS9uJnX
+ bIx+O1YtaaIqA0a5blTVEHB09oyEQ/Kvuj4/MQpUhq1x89LW6Eb9v9feR8cCFqEfXJjU
+ usYg==
+X-Gm-Message-State: AOAM530wOpua+ej19q6V0UphQCWCBtC0dQwrmXqujsk7F9+HC5iM1Bbs
+ QRQJOPmZxsqI5e98mQhlw1hTj5I2B2cMwA==
+X-Google-Smtp-Source: ABdhPJyr+YsmKXyyVo8ML8+oCnbztzhK2ZSjk0S597/jP9A5VGpW8hFIgvZu6EuzmCv59bIsyCybEw==
+X-Received: by 2002:aa7:c908:: with SMTP id b8mr4725695edt.76.1592495559755;
+ Thu, 18 Jun 2020 08:52:39 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id 63sm2402267edy.8.2020.06.18.08.52.37
+ by smtp.gmail.com with ESMTPSA id 63sm2402267edy.8.2020.06.18.08.52.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Jun 2020 08:52:38 -0700 (PDT)
+ Thu, 18 Jun 2020 08:52:39 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org,
  linux-mm@kvack.org
-Subject: [PATCH v8 00/12] iommu: Shared Virtual Addressing for SMMUv3 (PT
- sharing part)
-Date: Thu, 18 Jun 2020 17:51:13 +0200
-Message-Id: <20200618155125.1548969-1-jean-philippe@linaro.org>
+Subject: [PATCH v8 01/12] mm: Define pasid in mm
+Date: Thu, 18 Jun 2020 17:51:14 +0200
+Message-Id: <20200618155125.1548969-2-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200618155125.1548969-1-jean-philippe@linaro.org>
+References: <20200618155125.1548969-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
-Cc: fenghua.yu@intel.com, Jean-Philippe Brucker <jean-philippe@linaro.org>,
- catalin.marinas@arm.com, robin.murphy@arm.com, hch@infradead.org,
- zhengxiang9@huawei.com, zhangfei.gao@linaro.org, will@kernel.org
+Cc: fenghua.yu@intel.com, catalin.marinas@arm.com, robin.murphy@arm.com,
+ hch@infradead.org, zhengxiang9@huawei.com, Tony Luck <tony.luck@intel.com>,
+ Christoph Hellwig <hch@infradeed.org>, zhangfei.gao@linaro.org,
+ will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,60 +99,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Since v7 [1], I split the series into three parts to ease review. This
-first one adds page table sharing to the SMMUv3 driver. The second one
-adds support for I/O page faults through PRI and Stall, and the last one
-adds additional and optional features (DVM, VHE and HTTU). SVA needs the
-three parts to work. No significant change apart from that, I just
-addressed the previous comments.
+From: Fenghua Yu <fenghua.yu@intel.com>
 
-I'd rather everything went through the IOMMU tree but I'm assuming patch
-1 will also go through the x86 tree as part of [2]. It is definitely
-required by patch 3 which is required by patch 11. I don't know how this
-kind of conflict is usually resolved, but if it's a problem I could
-further shrink the series to only patches 4-10 this cycle.
+PASID is shared by all threads in a process. So the logical place to keep
+track of it is in the "mm". Both ARM and X86 need to use the PASID in the
+"mm".
 
-[1] https://lore.kernel.org/linux-iommu/20200519175502.2504091-1-jean-philippe@linaro.org/
-[2] https://lore.kernel.org/linux-iommu/1592418233-17762-1-git-send-email-fenghua.yu@intel.com/
+Suggested-by: Christoph Hellwig <hch@infradeed.org>
+Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
+Reviewed-by: Tony Luck <tony.luck@intel.com>
+---
+https://lore.kernel.org/linux-iommu/1592418233-17762-9-git-send-email-fenghua.yu@intel.com/
+---
+ include/linux/mm_types.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Fenghua Yu (1):
-  mm: Define pasid in mm
-
-Jean-Philippe Brucker (11):
-  iommu/ioasid: Add ioasid references
-  iommu/sva: Add PASID helpers
-  arm64: mm: Pin down ASIDs for sharing mm with devices
-  iommu/io-pgtable-arm: Move some definitions to a header
-  arm64: cpufeature: Export symbol read_sanitised_ftr_reg()
-  iommu/arm-smmu-v3: Share process page tables
-  iommu/arm-smmu-v3: Seize private ASID
-  iommu/arm-smmu-v3: Check for SVA features
-  iommu/arm-smmu-v3: Add SVA device feature
-  iommu/arm-smmu-v3: Implement iommu_sva_bind/unbind()
-  iommu/arm-smmu-v3: Hook up ATC invalidation to mm ops
-
- drivers/iommu/Kconfig                |   7 +
- drivers/iommu/Makefile               |   1 +
- arch/arm64/include/asm/mmu.h         |   1 +
- arch/arm64/include/asm/mmu_context.h |  11 +-
- drivers/iommu/io-pgtable-arm.h       |  30 ++
- drivers/iommu/iommu-sva-lib.h        |  15 +
- include/linux/ioasid.h               |  10 +-
- include/linux/mm_types.h             |   4 +
- arch/arm64/kernel/cpufeature.c       |   1 +
- arch/arm64/mm/context.c              |  95 +++-
- drivers/iommu/arm-smmu-v3.c          | 702 ++++++++++++++++++++++++++-
- drivers/iommu/intel/iommu.c          |   4 +-
- drivers/iommu/intel/svm.c            |   6 +-
- drivers/iommu/io-pgtable-arm.c       |  27 +-
- drivers/iommu/ioasid.c               |  38 +-
- drivers/iommu/iommu-sva-lib.c        |  85 ++++
- MAINTAINERS                          |   3 +-
- 17 files changed, 977 insertions(+), 63 deletions(-)
- create mode 100644 drivers/iommu/io-pgtable-arm.h
- create mode 100644 drivers/iommu/iommu-sva-lib.h
- create mode 100644 drivers/iommu/iommu-sva-lib.c
-
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 64ede5f150dc5..1ad0e54ebbbaa 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -538,6 +538,10 @@ struct mm_struct {
+ 		atomic_long_t hugetlb_usage;
+ #endif
+ 		struct work_struct async_put_work;
++
++#ifdef CONFIG_IOMMU_SUPPORT
++		unsigned int pasid;
++#endif
+ 	} __randomize_layout;
+ 
+ 	/*
 -- 
 2.27.0
 
