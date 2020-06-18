@@ -1,81 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E091FD90D
-	for <lists.iommu@lfdr.de>; Thu, 18 Jun 2020 00:40:33 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B311187B49;
-	Wed, 17 Jun 2020 22:40:31 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xJmTt25bEBZt; Wed, 17 Jun 2020 22:40:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 18B1B87CB0;
-	Wed, 17 Jun 2020 22:40:30 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 11DF7C016E;
-	Wed, 17 Jun 2020 22:40:30 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 48363C016E
- for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 22:40:29 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0B21FDB60
+	for <lists.iommu@lfdr.de>; Thu, 18 Jun 2020 03:13:07 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3639387215
- for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 22:40:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1B85C86CA1;
+	Thu, 18 Jun 2020 01:13:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kpb3eQejUd85; Thu, 18 Jun 2020 01:13:05 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 955FE86C93;
+	Thu, 18 Jun 2020 01:13:05 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7C905C016E;
+	Thu, 18 Jun 2020 01:13:05 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3BD7DC016E
+ for <iommu@lists.linux-foundation.org>; Thu, 18 Jun 2020 01:13:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 1C90A203E1
+ for <iommu@lists.linux-foundation.org>; Thu, 18 Jun 2020 01:13:04 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zpwPO0S9vBto for <iommu@lists.linux-foundation.org>;
- Wed, 17 Jun 2020 22:40:28 +0000 (UTC)
+ with ESMTP id jV0Xe+j2dLWe for <iommu@lists.linux-foundation.org>;
+ Thu, 18 Jun 2020 01:13:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
- [209.85.166.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id E2BFD87210
- for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 22:40:27 +0000 (UTC)
-Received: by mail-il1-f194.google.com with SMTP id a13so3965010ilh.3
- for <iommu@lists.linux-foundation.org>; Wed, 17 Jun 2020 15:40:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Zfs6fQ9dNu1WR3lr294IASeX3pxyyPciqezJugqbLdg=;
- b=PAOLKTPzEk92FLpg4N+YwzTIIhcIjypWDg+9v27wcqT4Zy5xIMt9zrFs0cbQ2aM7bx
- KJYlbWkia33dQoGgyWpSgjFqI9r6Mm1fPV7rXULf41odAxg/iKI/tl8ztie5vpke6lIl
- MlTaxLaD4Os2b0pPO4/0TXjkx6HovtiLojQkZzlsYe4iW5lb7GfZ+5t98EYauQkZpnV7
- pPR9A9z8GuAFVMRK18+Gz3BKV49K0oEvL3nVV5XPMm6tmSfZo4Zy9DVw8LK3NR9G3Bak
- QPv84ISjM1jO87Y248APeopgo8n1UiSh5lJ8hbCTqx7yMvF4XsFAqjP5hOTdDD/5p+S1
- r8tA==
-X-Gm-Message-State: AOAM530dQWxGizs7Nd6JkDkVYORqClf1r0P2Rne4Bh+U9dTMVgpfE/QB
- DFLLxbsShThIHFnBzPe0oA==
-X-Google-Smtp-Source: ABdhPJzRwz/0uaYi76fA5Zd1pUASZHPvWS/+PxMD1pnVAfG3nH0ehNSUR64R0ytuzMsQ9XxUG4dQDg==
-X-Received: by 2002:a05:6e02:ef2:: with SMTP id
- j18mr1221721ilk.69.1592433627244; 
- Wed, 17 Jun 2020 15:40:27 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id c85sm537559ilg.41.2020.06.17.15.40.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Jun 2020 15:40:26 -0700 (PDT)
-Received: (nullmailer pid 2970050 invoked by uid 1000);
- Wed, 17 Jun 2020 22:40:25 -0000
-Date: Wed, 17 Jun 2020 16:40:25 -0600
-From: Rob Herring <robh@kernel.org>
-To: Jordan Crouse <jcrouse@codeaurora.org>
-Subject: Re: [PATCH v8 3/7] dt-bindings: arm-smmu: Add compatible string for
- Adreno GPU SMMU
-Message-ID: <20200617224025.GA2969998@bogus>
-References: <20200611222128.28826-1-jcrouse@codeaurora.org>
- <20200611222128.28826-4-jcrouse@codeaurora.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id 384FF203BE
+ for <iommu@lists.linux-foundation.org>; Thu, 18 Jun 2020 01:13:03 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4E4E5214DB;
+ Thu, 18 Jun 2020 01:13:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1592442782;
+ bh=ogNUmHb4ecHAb3xp0gFwbZJRDxgJbUk5Zy0HwUo3QbM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=iomfH5F2e1MPXSIL4LniY2fzXvlFgV9CjbLYokI+7d0Zle+cUGZMnlbRSgZLYctW5
+ gUnNj+Nl1CHvljDckwDNQdZ/1jvYj9C2bTb8UcPmShXG87SGa6TMicPyCUIFXxROYD
+ 7G9juesyDK2VyOvhvdphGbM6yOod/jUQQa6CTdT8=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.7 227/388] iommu/arm-smmu-v3: Don't reserve
+ implementation defined register space
+Date: Wed, 17 Jun 2020 21:05:24 -0400
+Message-Id: <20200618010805.600873-227-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200618010805.600873-1-sashal@kernel.org>
+References: <20200618010805.600873-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200611222128.28826-4-jcrouse@codeaurora.org>
-Cc: freedreno@lists.freedesktop.org, Will Deacon <will@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Rob Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+X-stable: review
+X-Patchwork-Hint: Ignore
+Cc: Sasha Levin <sashal@kernel.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,21 +81,110 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, 11 Jun 2020 16:21:24 -0600, Jordan Crouse wrote:
-> Every Qcom Adreno GPU has an embedded SMMU for its own use. These
-> devices depend on unique features such as split pagetables,
-> different stall/halt requirements and other settings. Identify them
-> with a compatible string so that they can be identified in the
-> arm-smmu implementation specific code.
-> 
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-> ---
-> 
->  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+[ Upstream commit 52f3fab0067d6fa9e99c1b7f63265dd48ca76046 ]
+
+Some SMMUv3 implementation embed the Perf Monitor Group Registers (PMCG)
+inside the first 64kB region of the SMMU. Since PMCG are managed by a
+separate driver, this layout causes resource reservation conflicts
+during boot.
+
+To avoid this conflict, don't reserve the MMIO regions that are
+implementation defined. Although devm_ioremap_resource() still works on
+full pages under the hood, this way we benefit from resource conflict
+checks.
+
+Fixes: 7d839b4b9e00 ("perf/smmuv3: Add arm64 smmuv3 pmu driver")
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+Link: https://lore.kernel.org/r/20200513110255.597203-1-jean-philippe@linaro.org
+Signed-off-by: Will Deacon <will@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/iommu/arm-smmu-v3.c | 35 +++++++++++++++++++++++++++++++----
+ 1 file changed, 31 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
+index 82508730feb7..af21d24a09e8 100644
+--- a/drivers/iommu/arm-smmu-v3.c
++++ b/drivers/iommu/arm-smmu-v3.c
+@@ -171,6 +171,8 @@
+ #define ARM_SMMU_PRIQ_IRQ_CFG1		0xd8
+ #define ARM_SMMU_PRIQ_IRQ_CFG2		0xdc
+ 
++#define ARM_SMMU_REG_SZ			0xe00
++
+ /* Common MSI config fields */
+ #define MSI_CFG0_ADDR_MASK		GENMASK_ULL(51, 2)
+ #define MSI_CFG2_SH			GENMASK(5, 4)
+@@ -628,6 +630,7 @@ struct arm_smmu_strtab_cfg {
+ struct arm_smmu_device {
+ 	struct device			*dev;
+ 	void __iomem			*base;
++	void __iomem			*page1;
+ 
+ #define ARM_SMMU_FEAT_2_LVL_STRTAB	(1 << 0)
+ #define ARM_SMMU_FEAT_2_LVL_CDTAB	(1 << 1)
+@@ -733,9 +736,8 @@ static struct arm_smmu_option_prop arm_smmu_options[] = {
+ static inline void __iomem *arm_smmu_page1_fixup(unsigned long offset,
+ 						 struct arm_smmu_device *smmu)
+ {
+-	if ((offset > SZ_64K) &&
+-	    (smmu->options & ARM_SMMU_OPT_PAGE0_REGS_ONLY))
+-		offset -= SZ_64K;
++	if (offset > SZ_64K)
++		return smmu->page1 + offset - SZ_64K;
+ 
+ 	return smmu->base + offset;
+ }
+@@ -4021,6 +4023,18 @@ err_reset_pci_ops: __maybe_unused;
+ 	return err;
+ }
+ 
++static void __iomem *arm_smmu_ioremap(struct device *dev, resource_size_t start,
++				      resource_size_t size)
++{
++	struct resource res = {
++		.flags = IORESOURCE_MEM,
++		.start = start,
++		.end = start + size - 1,
++	};
++
++	return devm_ioremap_resource(dev, &res);
++}
++
+ static int arm_smmu_device_probe(struct platform_device *pdev)
+ {
+ 	int irq, ret;
+@@ -4056,10 +4070,23 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
+ 	}
+ 	ioaddr = res->start;
+ 
+-	smmu->base = devm_ioremap_resource(dev, res);
++	/*
++	 * Don't map the IMPLEMENTATION DEFINED regions, since they may contain
++	 * the PMCG registers which are reserved by the PMU driver.
++	 */
++	smmu->base = arm_smmu_ioremap(dev, ioaddr, ARM_SMMU_REG_SZ);
+ 	if (IS_ERR(smmu->base))
+ 		return PTR_ERR(smmu->base);
+ 
++	if (arm_smmu_resource_size(smmu) > SZ_64K) {
++		smmu->page1 = arm_smmu_ioremap(dev, ioaddr + SZ_64K,
++					       ARM_SMMU_REG_SZ);
++		if (IS_ERR(smmu->page1))
++			return PTR_ERR(smmu->page1);
++	} else {
++		smmu->page1 = smmu->base;
++	}
++
+ 	/* Interrupt lines */
+ 
+ 	irq = platform_get_irq_byname_optional(pdev, "combined");
+-- 
+2.25.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
