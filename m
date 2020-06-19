@@ -1,86 +1,150 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698301FFFBA
-	for <lists.iommu@lfdr.de>; Fri, 19 Jun 2020 03:36:00 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 289D720001D
+	for <lists.iommu@lfdr.de>; Fri, 19 Jun 2020 04:15:45 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C349688B1F;
-	Fri, 19 Jun 2020 01:35:58 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D2B4D89910;
+	Fri, 19 Jun 2020 02:15:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qIuD5jCevBI3; Fri, 19 Jun 2020 01:35:58 +0000 (UTC)
+	with ESMTP id U6Tv63VP8EGg; Fri, 19 Jun 2020 02:15:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DBA4888B4A;
-	Fri, 19 Jun 2020 01:35:56 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3A3118990C;
+	Fri, 19 Jun 2020 02:15:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D16F1C016E;
-	Fri, 19 Jun 2020 01:35:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1FE2CC016E;
+	Fri, 19 Jun 2020 02:15:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C103BC016E
- for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 01:20:56 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9CBE0C016E
+ for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 02:15:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A04F8231A1
- for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 01:20:56 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8DF6E89909
+ for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 02:15:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EwRpxZ2rpmRa for <iommu@lists.linux-foundation.org>;
- Fri, 19 Jun 2020 01:20:55 +0000 (UTC)
+ with ESMTP id DPFSRcWhbT-T for <iommu@lists.linux-foundation.org>;
+ Fri, 19 Jun 2020 02:15:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by silver.osuosl.org (Postfix) with ESMTPS id 37F7920486
- for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 01:20:55 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id l27so8455779ejc.1
- for <iommu@lists.linux-foundation.org>; Thu, 18 Jun 2020 18:20:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B+mCEUMGpp5uEDagLGIH08diwth5m6HcRon8RKEagLE=;
- b=panxh388JxJ72RQ5hZ7/NiWF9ZehHX75fOMrwirRvUTqd8vE4LfMlo5H3W4m4P9b7D
- 6/Fa9XHxuZULb4BUGuaq3lxNHbGmJ61Z6lPpi2T7aZunkXi4kUFJKzlKtn0pcg004EQk
- AxlYypCbjl5cqkqtcf/jt0ewjkE1dKgA3usj4Ello0CmRXos+7osvfZPF+2/OQ1olfyI
- DqGhN5uFZ3CogXb1T6wAep8+qG78fLyfJsSmFD4ZFNtpcS2QDPp8IFWHYia8VuGqzAtS
- /9MvVkgLLd9U2fmhUeeEBPaXuYwpYS1eqjvVaU+iPmfAEPDPR4A5eU6KbHwUoqgvi6wf
- 52JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=B+mCEUMGpp5uEDagLGIH08diwth5m6HcRon8RKEagLE=;
- b=EhhmEOoFlEgOjszLe58ecgAJnjl8NCDPBTVnuhaq91En0SRavbRvCzYuOu2bJqgmgu
- frjTuiWmz2RAMcabNIwSotxQ7+5Mx5iB41K5jFVBBQTiYIuzBuhy+9HQlnQHhaEYsr9n
- eg0usvXG5tZldba9YJSnu7zbMpIheGAI9zK6NVrGTgt/G1TfQzC8RIzTV73R0tWOvfEA
- HC04Jy72XFk4pcyv09U6ltuQ7a7CWLhWF0JfyCC1ZvHcyppK1UF9v/v5Ef01YlTAxlYR
- QM7VB1I4qcKd2b0qxe2KfyaHM4ynzDAm8nVArcvLDIQnCgCH3yeyrOWV+dGAfw7HKFj2
- WlGw==
-X-Gm-Message-State: AOAM532C/bjXp8mwzkuPF4Vxnzj3YAiStMRCz+M9ZwCIbVXg2OJuYvt+
- rwamfIiCIjM45uuLtzyZr5oN7heotnDVKQU/mck=
-X-Google-Smtp-Source: ABdhPJx7r2HJwq3Rancv83KNTAHcg2iKdnMhlFj53Az2RLaUqwL2RHrJ7Xt3jhJy6H68ZNpu8kwCZ0h0ktkLENbL7VU=
-X-Received: by 2002:a17:906:5496:: with SMTP id
- r22mr1402476ejo.449.1592529653595; 
- Thu, 18 Jun 2020 18:20:53 -0700 (PDT)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id A1D0289905
+ for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 02:15:40 +0000 (UTC)
+IronPort-SDR: ffmkDDR46UJqt6K7Y63hPndg1YCTlYuJ9q/GjHiOJsV10KXPgFY5XgPy2NysJLF5caPSMHMpaq
+ IqZusvDWoKpA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9656"; a="141106155"
+X-IronPort-AV: E=Sophos;i="5.75,253,1589266800"; d="scan'208";a="141106155"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2020 19:15:39 -0700
+IronPort-SDR: zEXCVlEmXzlCz/gTXZg97LsMhMvRhpFjzL2fCDyGjvaRzOCXfzFC4N8+Ztd8nQIWxWRnIZjqG+
+ YDDw9hG9unAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,253,1589266800"; d="scan'208";a="291972460"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by orsmga002.jf.intel.com with ESMTP; 18 Jun 2020 19:15:39 -0700
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 18 Jun 2020 19:15:38 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 18 Jun 2020 19:15:38 -0700
+Received: from FMSEDG001.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Thu, 18 Jun 2020 19:15:38 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.105)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server (TLS) id
+ 14.3.439.0; Thu, 18 Jun 2020 19:15:38 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B3MiG8n6AiR6cMaqrjfj3EGisjRWCXb2jT7dfu/xoKvqOVuEKru9xyPEOGnpi9ROeiDdnTx06yX7ONDWXhr0TAnaxuWca9Wpq64dmS7YjujpxLr4y3D0/jlr+QJJVqvxKxeVsIgmroLi6pCQcjp0x4Z0G/68PnDDJ+QHRrGVdASXpgPJHk75U4W/1U+nxVHvl3ofyeDyqkAlAGFJMQCPSBGcvv4RH4le2kVtBzFdwy8uah13rrxF6rilHvxTDA/cLSfO9/bQT2AKmBUJGTDK+Q5MStbtzmUeakzY+n0Z9jiOYb/Dwf+XzEh9CbUDuc/HaJBxjfHjaCrBXMFv23v1XQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dxGeDymKDy/oKPImvDlV50avB/Gk03RAhc9nh+fEyMU=;
+ b=cfvsjOVSrmjfRFLBrLVSf+QnthlqVukvE8jIVDe19FQ1kl+Tu0olFy0ePe9iCigk3rbKJlWXHNgFqdDgQZbm6aJ502e53Vha6koAdouutPtiPbIWRHHFWBm53GADkQ8JLmHHYiSBG4mUHmv1ifAkLyaljtgHO9JY9aLM/YCk/wuuZZuS9GUMAPuQvYGG7L89hHRlqzDiJeKpMlm9HheIHa3OQEEmljfJIJ+z+Kr/wvBQY95CPZSAC0H+bMm7O0IRRBhRkqoJOvP9piGU+mzgnOwALr+eNRRdKY8YA70N/MzQlis7Of0TXOBVSWy8EgBhTg+2/H8AlJFJacn+kIr5Zg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dxGeDymKDy/oKPImvDlV50avB/Gk03RAhc9nh+fEyMU=;
+ b=Q3aYfxKw1KXphRa8nZbOSdy0lHCxVVIDvmQs/goiOLx+AK8t/2sEYCxsfSK1/hFbXn/2R3H9rbca3UJRji91sZFSOPx0U/WCeM+xeZFwzWoa8gXpeUDHkw/HbltM6O8nQSh/JgdpyEcnRM5bEHIlAC4o8Q4+EHIIF2E2slcu0iw=
+Received: from DM5PR11MB1435.namprd11.prod.outlook.com (2603:10b6:4:7::18) by
+ DM6PR11MB3195.namprd11.prod.outlook.com (2603:10b6:5:5d::17) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3109.23; Fri, 19 Jun 2020 02:15:37 +0000
+Received: from DM5PR11MB1435.namprd11.prod.outlook.com
+ ([fe80::2c3d:98d9:4e81:c86c]) by DM5PR11MB1435.namprd11.prod.outlook.com
+ ([fe80::2c3d:98d9:4e81:c86c%6]) with mapi id 15.20.3109.023; Fri, 19 Jun 2020
+ 02:15:36 +0000
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Alex Williamson <alex.williamson@redhat.com>, "Tian, Kevin"
+ <kevin.tian@intel.com>
+Subject: RE: [PATCH v2 1/3] docs: IOMMU user API
+Thread-Topic: [PATCH v2 1/3] docs: IOMMU user API
+Thread-Index: AQHWP6WkhOQLPQDE2EquIdJoSq1UYKjTj/yAgABESYCAAA2bgIAAP1SAgAdDUQCAAPjyYIAAJcYAgAJxwoCAADPkoA==
+Date: Fri, 19 Jun 2020 02:15:36 +0000
+Message-ID: <DM5PR11MB1435FA1C517087E8C5DEACB3C3980@DM5PR11MB1435.namprd11.prod.outlook.com>
+References: <1591848735-12447-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1591848735-12447-2-git-send-email-jacob.jun.pan@linux.intel.com>
+ <20200611094741.6d118fa8@w520.home>	<20200611125205.1e0280d3@jacob-builder>
+ <20200611144047.79613c32@x1.home>	<20200611172727.78dbb822@jacob-builder>
+ <20200616082212.0c1611dd@jacob-builder>
+ <DM5PR11MB1435DD578488DA08A1E699ACC39A0@DM5PR11MB1435.namprd11.prod.outlook.com>
+ <MWHPR11MB164595B754BE441255902DCA8C9A0@MWHPR11MB1645.namprd11.prod.outlook.com>
+ <20200618154805.049219db@w520.home>
+In-Reply-To: <20200618154805.049219db@w520.home>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.2.0.6
+dlp-product: dlpe-windows
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [192.198.147.213]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 12d19ac7-e5ba-4457-e423-08d813f6a7b9
+x-ms-traffictypediagnostic: DM6PR11MB3195:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR11MB3195638C9C2B4A1E59840721C3980@DM6PR11MB3195.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0439571D1D
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 1SBD3G5opleNivyo0mE7rxxu76aJrR/jE9g8vbfs0c7YFtpOZb6npNO/BBGk8I2dqLKnkR6383KZquMeChiywO7YZt6vWlMbDvfp0w4L4KxCGz1xqFfaPspcPKwA9b+Wz72MtSgCi1GbxpRrUprl7CqEZFEie5pmFr3tcFMGduOLG0KU01KOYZkqWgE7CJIpjXhexIaeykVLJ9F7dvCmzaO22Kh42FxQSN/v6hkpuizK0skqQBKlF674uG3GIP7UlYYDWG3qQZzOAMWDj/8cwcXOO019025HxpDcIBBfIp7NwlzwN1m6wCendMzV7ewh0jTxRDJn1ymZr3xCDskyLQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR11MB1435.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(136003)(39860400002)(376002)(346002)(366004)(83380400001)(2906002)(26005)(8936002)(186003)(8676002)(6506007)(71200400001)(4326008)(7696005)(54906003)(52536014)(7416002)(110136005)(86362001)(66946007)(9686003)(76116006)(33656002)(5660300002)(66476007)(64756008)(6636002)(66446008)(478600001)(316002)(66556008)(55016002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: DWlRgAdIW6Exr8vUhXvBcQ20CN77qY0mgAGQ976Lz47ClkbqT2pMAoFCrwPR3CyDrhFEeZlNyg2uQX2c6h6iDYOHCavM855F94Bztatibqr7vfXofalLYEXu8yGlRYs36QcA0Y1wnh99W6uTZiI98C3tDTSgpV5cEzMXsX954L/T9IzGNYr6nbigEg5KsH78wvN3SBQMDeBkQqpLp+Cf3jIMB3TY8q1kk7Y75jxBcqNndnkALW8IHuvwBXz04VdUG6JPLNT1w+PHWFoyzCmiJ9lkY7XP3S8MDJWCccuU3VYNbFXzbmDLpzym5+1BzFLgXQFPNFtdRubyPlcfoPyt4TCp8L+daFEjfVxQzbhXa1EbKOLySB5HrQ6f9sd/mDSldSE2/T/F/EIm97a+VZ5MYzfM+S3UK7a2m3eoqV3MCt1tLgOhkLESdRkDbK4yXYi3F35Uu64XUmObLjGjJj5ePHR4J2yNKuusaz0ofp1LGXGFXV0NQAv8aOKMZUbyIOC4
 MIME-Version: 1.0
-References: <20200619001938.GA135965@carbon.dhcp.thefacebook.com>
- <CAHbLzkrDcn-GQOrAM=m7+2g5_J6obsz4K50Oqb-1RD5p1iWTPQ@mail.gmail.com>
- <20200619011449.GC135965@carbon.dhcp.thefacebook.com>
-In-Reply-To: <20200619011449.GC135965@carbon.dhcp.thefacebook.com>
-From: Yang Shi <shy828301@gmail.com>
-Date: Thu, 18 Jun 2020 18:20:37 -0700
-Message-ID: <CAHbLzkpOHXd-H=rMGoi-WvoBsFDvy1up_mfeoYJgW2kq04hzaA@mail.gmail.com>
-Subject: Re: kernel BUG at mm/huge_memory.c:2613!
-To: Roman Gushchin <guro@fb.com>
-X-Mailman-Approved-At: Fri, 19 Jun 2020 01:35:54 +0000
-Cc: Andrea Arcangeli <aarcange@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Michal Hocko <mhocko@kernel.org>, Linux MM <linux-mm@kvack.org>,
- iommu@lists.linux-foundation.org, Wei Yang <richardw.yang@linux.intel.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12d19ac7-e5ba-4457-e423-08d813f6a7b9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2020 02:15:36.8535 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2bPqQbpq6Mo3r5IG9nWWEE6L5eQDgpuEaWZvmwv+CsKUkr8AGzZYGzccetODjz41+EGwDjTZ32jL7/mkbqSb2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3195
+X-OriginatorOrg: intel.com
+Cc: "Raj, Ashok" <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ LKML <linux-kernel@vger.kernel.org>, Christoph Hellwig <hch@infradead.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,137 +162,87 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jun 18, 2020 at 6:15 PM Roman Gushchin <guro@fb.com> wrote:
->
-> On Thu, Jun 18, 2020 at 05:46:24PM -0700, Yang Shi wrote:
-> > On Thu, Jun 18, 2020 at 5:19 PM Roman Gushchin <guro@fb.com> wrote:
-> > >
-> > > Hi!
-> > >
-> > > I was consistently hitting a VM_BUG_ON_PAGE() in split_huge_page_to_list()
-> > > when running vanilla 5.8-rc1 on my desktop. It was happening on every boot
-> > > during the system start. I haven't seen this issue on 5.7.
-> > >
-> > > It looks like split_huge_page() expects the page to be locked,
-> > > but it hasn't been changed from 5.7. I do not see any suspicious
-> > > commits around the call side either.
-> > >
-> > > I've tried the following patch:
-> > >
-> > > --
-> > > From 4af38fbf06a9354fadf22a78f1a42dfbb24fbc3a Mon Sep 17 00:00:00 2001
-> > > From: Roman Gushchin <guro@fb.com>
-> > > Date: Thu, 18 Jun 2020 16:33:47 -0700
-> > > Subject: [PATCH] iommu/dma: lock page before calling split_huge_page()
-> > >
-> > > split_huge_page() expects a locked page. The following stacktrace
-> > > is generated if debug is on. Fix this by locking the page before
-> > > passing it to split_huge_page().
-> > >
-> > > [   24.861385] page:ffffef044fb1fa00 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 head:ffffef044fb1fa00 order:2 compound_mapcount:0 compound_pincount:0
-> > > [   24.861389] flags: 0x17ffffc0010000(head)
-> > > [   24.861393] raw: 0017ffffc0010000 dead000000000100 dead000000000122 0000000000000000
-> > > [   24.861395] raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
-> > > [   24.861396] page dumped because: VM_BUG_ON_PAGE(!PageLocked(head))
-> > > [   24.861411] ------------[ cut here ]------------
-> > > [   24.861413] kernel BUG at mm/huge_memory.c:2613!
-> > > [   24.861428] invalid opcode: 0000 [#1] SMP NOPTI
-> > > [   24.861432] CPU: 10 PID: 1505 Comm: pulseaudio Not tainted 5.8.0-rc1+ #689
-> > > [   24.861433] Hardware name: Gigabyte Technology Co., Ltd. AB350-Gaming/AB350-Gaming-CF, BIOS F25 01/16/2019
-> > > [   24.861441] RIP: 0010:split_huge_page_to_list+0x731/0xae0
-> > > [   24.861444] Code: 44 00 00 8b 47 34 85 c0 0f 84 b4 02 00 00 f0 ff 4f 34 75 c2 e8 e0 12 f7 ff eb bb 48 c7 c6 d0 16 39 ba 4c 89 c7 e8 ef 85 f9 ff <0f> 0b 48 c7 44 24 10 ff ff ff ff 31 db e9 bb fa ff ff 48 8b 7c 24
-> > > [   24.861446] RSP: 0018:ffffc1030254bb50 EFLAGS: 00010286
-> > > [   24.861449] RAX: 0000000000000000 RBX: 0000000000000002 RCX: ffff9b54cee98d08
-> > > [   24.861451] RDX: 00000000ffffffd8 RSI: 0000000000000000 RDI: ffff9b54cee98d00
-> > > [   24.861452] RBP: ffffef044fb1fa00 R08: 0000000000000547 R09: 0000000000000003
-> > > [   24.861454] R10: 0000000000000000 R11: 0000000000000001 R12: ffff9b54df37f188
-> > > [   24.861455] R13: ffff9b54df355000 R14: ffffef044fb1fa00 R15: ffffef044fb1fa00
-> > > [   24.861458] FS:  00007fd2dc132880(0000) GS:ffff9b54cee80000(0000) knlGS:0000000000000000
-> > > [   24.861460] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > [   24.861461] CR2: 00007fd2cb100000 CR3: 00000003feb16000 CR4: 00000000003406e0
-> > > [   24.861464] Call Trace:
-> > > [   24.861473]  ? __mod_lruvec_state+0x41/0xf0
-> > > [   24.861478]  ? __alloc_pages_nodemask+0x15c/0x320
-> > > [   24.861483]  iommu_dma_alloc+0x316/0x580
-> > > [   24.861496]  snd_dma_alloc_pages+0xdf/0x160 [snd_pcm]
-> > > [   24.861508]  snd_dma_alloc_pages_fallback+0x5d/0x80 [snd_pcm]
-> > > [   24.861516]  snd_malloc_sgbuf_pages+0x166/0x380 [snd_pcm]
-> > > [   24.861523]  ? snd_pcm_hw_refine+0x29d/0x310 [snd_pcm]
-> > > [   24.861529]  ? _cond_resched+0x16/0x40
-> > > [   24.861535]  snd_dma_alloc_pages+0x64/0x160 [snd_pcm]
-> > > [   24.861542]  snd_pcm_lib_malloc_pages+0x136/0x1d0 [snd_pcm]
-> > > [   24.861550]  ? snd_pcm_lib_ioctl+0x167/0x210 [snd_pcm]
-> > > [   24.861556]  snd_pcm_hw_params+0x3c0/0x490 [snd_pcm]
-> > > [   24.861563]  snd_pcm_common_ioctl+0x1c5/0x1110 [snd_pcm]
-> > > [   24.861571]  ? snd_pcm_info_user+0x64/0x80 [snd_pcm]
-> > > [   24.861578]  snd_pcm_ioctl+0x23/0x30 [snd_pcm]
-> > > [   24.861583]  ksys_ioctl+0x82/0xc0
-> > > [   24.861587]  __x64_sys_ioctl+0x16/0x20
-> > > [   24.861593]  do_syscall_64+0x4d/0x90
-> > > [   24.861597]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > >
-> > > Signed-off-by: Roman Gushchin <guro@fb.com>
-> > > ---
-> > >  drivers/iommu/dma-iommu.c | 12 ++++++++++--
-> > >  1 file changed, 10 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> > > index 4959f5df21bd..31e4e305d8d5 100644
-> > > --- a/drivers/iommu/dma-iommu.c
-> > > +++ b/drivers/iommu/dma-iommu.c
-> > > @@ -24,6 +24,7 @@
-> > >  #include <linux/scatterlist.h>
-> > >  #include <linux/vmalloc.h>
-> > >  #include <linux/crash_dump.h>
-> > > +#include <linux/pagemap.h>
-> > >
-> > >  struct iommu_dma_msi_page {
-> > >         struct list_head        list;
-> > > @@ -549,8 +550,15 @@ static struct page **__iommu_dma_alloc_pages(struct device *dev,
-> > >                         if (!PageCompound(page)) {
-> > >                                 split_page(page, order);
-> > >                                 break;
-> > > -                       } else if (!split_huge_page(page)) {
-> > > -                               break;
-> > > +                       } else {
-> > > +                               int err;
-> > > +
-> > > +                               lock_page(page);
-> > > +                               err = split_huge_page(page);
-> > > +                               unlock_page(page);
-> >
-> > Yes, THP split does need the page locked, in addition it needs the
-> > caller hold a pin on the page too (refcount bump).
-> >
-> > But, I don't get how the code could even really work by a quick look.
-> > Actually split_huge_page() assumes the passed in THP is user THP (anon
-> > or file cache) and the order is PMD order However, it looks the iommu
-> > driver just wants to allocate a bunch of base pages by allocating a
-> > huge page (could by any order if I read the code correctly) then split
-> > them to base pages. I don't think this is the correct approach IMO.
-> > Anyway I'm not iommu expert, if I miss anything please feel free to
-> > let me know.
->
-> I agree. The whole
->
->         page = alloc_pages_node(nid, alloc_flags, order);
->         if (!page)
->                 continue;
->         if (!order)
->                 break;
->         if (!PageCompound(page)) {
->                 split_page(page, order);
->                 break;
->         } else if (!split_huge_page(page)) {
->                 break;
->         }
->
-> looks very suspicious to me.
-> My wild guess is that gfp flags changed somewhere above, so we hit
-> the branch which was never hit before.
+Hi Alex,
 
-It seems so. The page flag has PG_head set then hit the branch, but
-the order is 2. I guess __GFP_COMP is set in gfp flag somewhere.
+> From: Alex Williamson <alex.williamson@redhat.com>
+> Sent: Friday, June 19, 2020 5:48 AM
+> 
+> On Wed, 17 Jun 2020 08:28:24 +0000
+> "Tian, Kevin" <kevin.tian@intel.com> wrote:
+> 
+> > > From: Liu, Yi L <yi.l.liu@intel.com>
+> > > Sent: Wednesday, June 17, 2020 2:20 PM
+> > >
+> > > > From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > > > Sent: Tuesday, June 16, 2020 11:22 PM
+> > > >
+> > > > On Thu, 11 Jun 2020 17:27:27 -0700
+> > > > Jacob Pan <jacob.jun.pan@linux.intel.com> wrote:
+> > > >
+> > > > > >
+> > > > > > But then I thought it even better if VFIO leaves the entire
+> > > > > > copy_from_user() to the layer consuming it.
+> > > > > >
+> > > > > OK. Sounds good, that was what Kevin suggested also. I just wasn't
+> > > > > sure how much VFIO wants to inspect, I thought VFIO layer wanted to do
+> > > > > a sanity check.
+> > > > >
+> > > > > Anyway, I will move copy_from_user to iommu uapi layer.
+> > > >
+> > > > Just one more point brought up by Yi when we discuss this offline.
+> > > >
+> > > > If we move copy_from_user to iommu uapi layer, then there will be
+> > > multiple
+> > > > copy_from_user calls for the same data when a VFIO container has
+> > > multiple domains,
+> > > > devices. For bind, it might be OK. But might be additional overhead for TLB
+> > > flush
+> > > > request from the guest.
+> > >
+> > > I think it is the same with bind and TLB flush path. will be multiple
+> > > copy_from_user.
+> >
+> > multiple copies is possibly fine. In reality we allow only one group per
+> > nesting container (as described in patch [03/15]), and usually there
+> > is just one SVA-capable device per group.
+> >
+> > >
+> > > BTW. for moving data copy to iommy layer, there is another point which
+> > > need to consider. VFIO needs to do unbind in bind path if bind failed,
+> > > so it will assemble unbind_data and pass to iommu layer. If iommu layer
+> > > do the copy_from_user, I think it will be failed. any idea?
+> 
+> If a call into a UAPI fails, there should be nothing to undo.  Creating
+> a partial setup for a failed call that needs to be undone by the caller
+> is not good practice.
+
+is it still a problem if it's the VFIO to undo the partial setup before
+returning to user space?
+
+> > This might be mitigated if we go back to use the same bind_data for both
+> > bind/unbind. Then you can reuse the user object for unwinding.
+> >
+> > However there is another case where VFIO may need to assemble the
+> > bind_data itself. When a VM is killed, VFIO needs to walk allocated PASIDs
+> > and unbind them one-by-one. In such case copy_from_user doesn't work
+> > since the data is created by kernel. Alex, do you have a suggestion how this
+> > usage can be supported? e.g. asking IOMMU driver to provide two sets of
+> > APIs to handle user/kernel generated requests?
+> 
+> Yes, it seems like vfio would need to make use of a driver API to do
+> this, we shouldn't be faking a user buffer in the kernel in order to
+> call through to a UAPI.  Thanks,
+
+ok, so if VFIO wants to issue unbind by itself, it should use an API which
+passes kernel buffer to IOMMU layer. If the unbind request is from user
+space, then VFIO should use another API which passes user buffer pointer
+to IOMMU layer. makes sense. will align with jacob.
+
+Regards,
+Yi Liu
+
+> Alex
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
