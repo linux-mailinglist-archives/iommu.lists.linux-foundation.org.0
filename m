@@ -1,126 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4282C2006B4
-	for <lists.iommu@lfdr.de>; Fri, 19 Jun 2020 12:37:58 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02DCF200746
+	for <lists.iommu@lfdr.de>; Fri, 19 Jun 2020 12:51:05 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id DF05627B00;
-	Fri, 19 Jun 2020 10:37:56 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 45EE58778C;
+	Fri, 19 Jun 2020 10:51:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ru+B1l3NldZn; Fri, 19 Jun 2020 10:37:51 +0000 (UTC)
+	with ESMTP id ffVchhXPPw_J; Fri, 19 Jun 2020 10:51:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id B746127B72;
-	Fri, 19 Jun 2020 10:37:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5332686EA8;
+	Fri, 19 Jun 2020 10:51:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A2715C016E;
-	Fri, 19 Jun 2020 10:37:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 38E3CC016E;
+	Fri, 19 Jun 2020 10:51:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6BED7C016E
- for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 10:37:38 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DB89BC016E
+ for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 10:51:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 560AC22170
- for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 10:37:38 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id D09DE88E29
+ for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 10:51:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id q18yfwq3VfCg for <iommu@lists.linux-foundation.org>;
- Fri, 19 Jun 2020 10:37:27 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by silver.osuosl.org (Postfix) with ESMTPS id 2FFD5279FC
- for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 10:37:20 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200619103718euoutp022150759f44d624dde0410d6d117d2225~Z66VjM2HN2363023630euoutp027
- for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 10:37:18 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200619103718euoutp022150759f44d624dde0410d6d117d2225~Z66VjM2HN2363023630euoutp027
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1592563038;
- bh=YMIG5bHxXQqN5d5M++pcw1k2ev5cU8mbz0/sM4bdCmk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QaCdmllbUxEAD5ZjaL8GWVgJwhHWyV+faaTh0iKBa++PNRYIfVUQszsLqSyRiWhVM
- O/PHlsj2z3Cu7H19XxB0/m1HHi0pCD3x+vFUW767WUI9WxhDy37yjgimVpw7unoJrq
- wybo2Uwemo7zqDCjIJOUUsb8crxGYoxdVIXS8G8w=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200619103718eucas1p279c5d3b6dd39f8329aaac70fbeea6c28~Z66VSCx1R1012910129eucas1p2E;
- Fri, 19 Jun 2020 10:37:18 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id FE.9C.06318.E559CEE5; Fri, 19
- Jun 2020 11:37:18 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200619103718eucas1p11cd577b435672197f48bfcba2d06bc18~Z66U-TWoX1886818868eucas1p1F;
- Fri, 19 Jun 2020 10:37:18 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200619103718eusmtrp1fda9e78f890c50ada601e7a901e0c506~Z66U_pH1r1007310073eusmtrp1P;
- Fri, 19 Jun 2020 10:37:18 +0000 (GMT)
-X-AuditID: cbfec7f5-38bff700000018ae-92-5eec955e9134
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id DC.1B.06017.E559CEE5; Fri, 19
- Jun 2020 11:37:18 +0100 (BST)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200619103717eusmtip22d49d87032e791d6ea43be27272dd983~Z66USePPR0229502295eusmtip2o;
- Fri, 19 Jun 2020 10:37:17 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v7 36/36] videobuf2: use sgtable-based scatterlist wrappers
-Date: Fri, 19 Jun 2020 12:36:36 +0200
-Message-Id: <20200619103636.11974-37-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200619103636.11974-1-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA0VSfUgTYRzuvdvdTtvymoEvFgnri4o0UejStAyto/4wqDCKzJmHSn6xS9OK
- Wn5Eze+sNKkcZs6mZq21UuljYi4bmSuJlZnpRFPTSp2pqOV5av89v+fjfX78eAlUYsKciciY
- k4w8RhYlxe0F+obxpk3B134Eb84ec6YymxoR6mFBFUb91eeiVIvtJ07dK3+FUOYbbQJK9cKb
- GmnpQCit9SNGfai5iVMZDx5jVGV9m5Aq1U4i1NWBcSFl+NWF7XCgK25XAPrZqEpAazWXcfrJ
- 6DeMbk83IvSjkvN067QVpfMsakDXflLgtHWiF6ezdBpAD2tX0m9sw8J94sP228KYqMgERu7m
- G2IfYetSI3HVgYmjyV2IAoz4KYEdAUlPaJmeECqBPSEhywC8betB+GEEwLtm3ZwyDKDl9w90
- PlLZkSLgBTWAhlwzthBpr9LPunDSHSoHlDiHl5FpAL7OFHEmlKxC4djXPMAJjuReqM5uRDgs
- INdA3dTgTJggxKQvNLZ6820usPzBy9k37Wbo/lTDbBkkO4Wwq6UB403+sOdC9xx2hH1Gbm8O
- r4CmvAwBH0gBsKOpUsgPGQB+SC4AvMsbfmmawLlmlFwPq2rceNoP6pTNgKMhuQRaBpZyNDoD
- r+jzUZ4Ww0sXJbx7LSw03l+oNTS/n7sWDWvTB3H+QLkAtpqz0BzgUvi/TAWABjgx8Wx0OMN6
- xDCnXFlZNBsfE+56PDZaC2a+mGnaaHsKnk+G1gGSAFKR+PuB/mAJJktgk6LrACRQ6TLxzrem
- YIk4TJZ0mpHHHpPHRzFsHVhOCKROYo/i3qMSMlx2kjnBMHGMfF5FCDtnBfBb7LXmzJayoMaN
- FgfNxGCpR3toAk387LPblZq7W6HyDwwShezfKqyWFY29ObNHl/ZwVb9U8tlH4+m+/Vx7hXGd
- wXtYoUwqLrcm31qUL5o8mDDUeeQsW+8bkJMjUpYoChPDp7IrApBfTl5ZQz6L1P2Oq3tN1J3r
- 3a1/rhUdosXvpAI2Qua+AZWzsn9deqhcXgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrNIsWRmVeSWpSXmKPExsVy+t/xe7pxU9/EGTy5zWnRe+4kk8XGGetZ
- Lf5vm8hsceXrezaLlauPMllcnHmXxWLBfmuLL1ceMllsenyN1eLyrjlsFj0btrJarD1yl91i
- 2aY/TBZT3v5ktzj44QmrA7/HmnlrGD32flvA4rFpVSebx/ZvD1g97ncfZ/LYvKTe4/a/x8we
- k28sZ/TYfbOBzePxr5dsHn1bVjF6fN4k53Hq62f2AN4oPZui/NKSVIWM/OISW6VoQwsjPUNL
- Cz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYyvT5YzFez0r/jW9ISpgfGLYxcjJ4eEgInE
- 2ofNLCC2kMBSRolJh4Mh4jISJ6c1sELYwhJ/rnWxdTFyAdV8YpS4/mMzM0iCTcBQoustREJE
- oJNRYlr3R3YQh1lgJ7PExOstYFXCAt4Sy/tPMoHYLAKqElv+vgOKc3DwCthJHL9tDbFBXmL1
- hgNg5ZxA4dctB1khLrKVWL7gPfMERr4FjAyrGEVSS4tz03OLjfSKE3OLS/PS9ZLzczcxAiNq
- 27GfW3Ywdr0LPsQowMGoxMP7IuR1nBBrYllxZe4hRgkOZiURXqezp+OEeFMSK6tSi/Lji0pz
- UosPMZoC3TSRWUo0OR8Y7Xkl8YamhuYWlobmxubGZhZK4rwdAgdjhATSE0tSs1NTC1KLYPqY
- ODilGhjZcqMawr3yimcrJIkvvR54VI/njE3E5skL1H79s5i7e2XxY6er9afXMtxweMTha/xl
- b67vWn+dHYcdbjWK36mqUWY6yPaG28ijr0Sf6RbTtsO/5MWbiqIbJbYvNbOcybr58J8ToXet
- 2lmPt5ksFf8gPSPNTlvOwHmaQbSb6q0l0+OUw98JWCixFGckGmoxFxUnAgA336lcvgIAAA==
-X-CMS-MailID: 20200619103718eucas1p11cd577b435672197f48bfcba2d06bc18
-X-Msg-Generator: CA
-X-RootMTR: 20200619103718eucas1p11cd577b435672197f48bfcba2d06bc18
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200619103718eucas1p11cd577b435672197f48bfcba2d06bc18
-References: <20200619103636.11974-1-m.szyprowski@samsung.com>
- <CGME20200619103718eucas1p11cd577b435672197f48bfcba2d06bc18@eucas1p1.samsung.com>
-Cc: Pawel Osciak <pawel@osciak.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, linux-media@vger.kernel.org,
- Daniel Vetter <daniel@ffwll.ch>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ with ESMTP id Nr1I3CcqNXcc for <iommu@lists.linux-foundation.org>;
+ Fri, 19 Jun 2020 10:50:59 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 91DB288AAD
+ for <iommu@lists.linux-foundation.org>; Fri, 19 Jun 2020 10:50:58 +0000 (UTC)
+X-UUID: d4a0e3d3c90c4db28257144de8e7b092-20200619
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=gLyZez7zoj9lEggZKjZhObz4KPttckUsAiOpo+MoMv8=; 
+ b=u41T8bgvRxbYNhF5iQVVk9FXc6UvS0j/TVxf9jjgfTYUEvIpqYxdi9DtRJYFc4mruH/tkp3pffkU4VdX+ea5yNlDI85BUHBsrAU9SJLoKwbK46/wJVgOP27516TZimen906NIWrPxSePZCMT0lIr/b4ndjoABmnWnlSW7RXMzM4=;
+X-UUID: d4a0e3d3c90c4db28257144de8e7b092-20200619
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ (envelope-from <chao.hao@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 1334683904; Fri, 19 Jun 2020 18:50:53 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 19 Jun 2020 18:50:50 +0800
+Received: from [10.15.20.246] (10.15.20.246) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 19 Jun 2020 18:50:49 +0800
+Message-ID: <1592563824.5692.1.camel@mbjsdccf07>
+Subject: Re: [PATCH v4 7/7] iommu/mediatek: Add mt6779 basic support
+From: chao hao <Chao.Hao@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+Date: Fri, 19 Jun 2020 18:50:24 +0800
+In-Reply-To: <9618cc95-99ac-63d0-f502-335e38819842@gmail.com>
+References: <20200617030029.4082-1-chao.hao@mediatek.com>
+ <20200617030029.4082-8-chao.hao@mediatek.com>
+ <64f63ccc-92a4-191c-3566-de00c9e04ca2@gmail.com>
+ <1592481247.12647.9.camel@mbjsdccf07>
+ <9618cc95-99ac-63d0-f502-335e38819842@gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+X-MTK: N
+Cc: devicetree@vger.kernel.org, FY Yang <fy.yang@mediatek.com>,
+ wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
+ Chao Hao <chao.hao@mediatek.com>, iommu@lists.linux-foundation.org,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -134,268 +82,153 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Use recently introduced common wrappers operating directly on the struct
-sg_table objects and scatterlist page iterators to make the code a bit
-more compact, robust, easier to follow and copy/paste safe.
+On Thu, 2020-06-18 at 18:00 +0200, Matthias Brugger wrote:
+> 
+> On 18/06/2020 13:54, chao hao wrote:
+> > On Wed, 2020-06-17 at 11:33 +0200, Matthias Brugger wrote:
+> >>
+> >> On 17/06/2020 05:00, Chao Hao wrote:
+> >>> 1. Start from mt6779, INVLDT_SEL move to offset=0x2c, so we add
+> >>>    REG_MMU_INV_SEL_GEN2 definition and mt6779 uses it.
+> >>> 2. Change PROTECT_PA_ALIGN from 128 byte to 256 byte.
+> >>> 3. For REG_MMU_CTRL_REG register, we only need to change bit[2:0],
+> >>>    others bits keep default value, ex: enable victim tlb.
+> >>> 4. Add mt6779_data to support mm_iommu HW init.
+> >>>
+> >>> Change since v3:
+> >>> 1. When setting MMU_CTRL_REG, we don't need to include mt8173.
+> >>>
+> >>> Cc: Yong Wu <yong.wu@mediatek.com>
+> >>> Signed-off-by: Chao Hao <chao.hao@mediatek.com>
+> >>> ---
+> >>>  drivers/iommu/mtk_iommu.c | 20 ++++++++++++++++++--
+> >>>  drivers/iommu/mtk_iommu.h |  1 +
+> >>>  2 files changed, 19 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> >>> index c706bca6487e..def2e996683f 100644
+> >>> --- a/drivers/iommu/mtk_iommu.c
+> >>> +++ b/drivers/iommu/mtk_iommu.c
+> >>> @@ -37,6 +37,11 @@
+> >>>  #define REG_MMU_INVLD_START_A			0x024
+> >>>  #define REG_MMU_INVLD_END_A			0x028
+> >>>  
+> >>> +/* In latest Coda, MMU_INV_SEL's offset is changed to 0x02c.
+> >>> + * So we named offset = 0x02c to "REG_MMU_INV_SEL_GEN2"
+> >>> + * and offset = 0x038 to "REG_MMU_INV_SEL_GEN1".
+> >>> + */
+> >>
+> >> Please delete the comment, this should be understandable from the git history
+> > 
+> > ok, thanks
+> > 
+> >>
+> >>> +#define REG_MMU_INV_SEL_GEN2			0x02c
+> >>>  #define REG_MMU_INV_SEL_GEN1			0x038
+> >>>  #define F_INVLD_EN0				BIT(0)
+> >>>  #define F_INVLD_EN1				BIT(1)
+> >>> @@ -98,7 +103,7 @@
+> >>>  #define F_MMU_INT_ID_LARB_ID(a)			(((a) >> 7) & 0x7)
+> >>>  #define F_MMU_INT_ID_PORT_ID(a)			(((a) >> 2) & 0x1f)
+> >>>  
+> >>> -#define MTK_PROTECT_PA_ALIGN			128
+> >>> +#define MTK_PROTECT_PA_ALIGN			256
+> >>
+> >> Do we need 512 bytes for all gen2 IOMMUs?
+> >> I'm not sure if we should add this in plat_data or if we should just bump up the
+> >> value for all SoCs.
+> >> In both cases this should be a separate patch.
+> >>
+> > From mt6779, MTK_PROTECT_PA_ALIGN is extend to 256 bytes and don't be
+> > changed for a long time from our HW designer comment. The legacy iommu
+> > also can use it, mabye it doesn't set it by platform.
+> > 
+> 
+> Ok then just bump it to 256 in a new patch. Thanks for clarification.
 
-No functional change, because the code already properly did all the
-scaterlist related calls.
+  Ok, thanks
 
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
- .../common/videobuf2/videobuf2-dma-contig.c   | 34 ++++++++-----------
- .../media/common/videobuf2/videobuf2-dma-sg.c | 32 +++++++----------
- .../common/videobuf2/videobuf2-vmalloc.c      | 12 +++----
- 3 files changed, 31 insertions(+), 47 deletions(-)
+> > 
+> >>>  
+> >>>  /*
+> >>>   * Get the local arbiter ID and the portid within the larb arbiter
+> >>> @@ -543,11 +548,12 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data)
+> >>>  		return ret;
+> >>>  	}
+> >>>  
+> >>> +	regval = readl_relaxed(data->base + REG_MMU_CTRL_REG);
+> >>>  	if (data->plat_data->m4u_plat == M4U_MT8173)
+> >>>  		regval = F_MMU_PREFETCH_RT_REPLACE_MOD |
+> >>>  			 F_MMU_TF_PROT_TO_PROGRAM_ADDR_MT8173;
+> >>>  	else
+> >>> -		regval = F_MMU_TF_PROT_TO_PROGRAM_ADDR;
+> >>> +		regval |= F_MMU_TF_PROT_TO_PROGRAM_ADDR;
+> >>
+> >> Why do we change this, is it that the bootloader for mt6779 set some values in
+> >> the register we have to keep? In this case I think we should update the regval
+> >> accordingly.
+> > 
+> > For REG_MMU_CTRL_REG, bit[12] represents victim_tlb_en feature and
+> > victim_tlb is enable defaultly(bit[12]=1),but if we use "regval =
+> > F_MMU_TF_PROT_TO_PROGRAM_ADDR", victim_tlb will disable, it will drop
+> > iommu performace for mt6779
+> > 
+> 
+> Got it. Please put that in a separate patch then.
+> 
+  Ok, thanks
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-index f4b4a7c135eb..0a16a85f0284 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-@@ -53,10 +53,10 @@ static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
- 	unsigned int i;
- 	unsigned long size = 0;
- 
--	for_each_sg(sgt->sgl, s, sgt->nents, i) {
-+	for_each_sgtable_dma_sg(sgt, s, i) {
- 		if (sg_dma_address(s) != expected)
- 			break;
--		expected = sg_dma_address(s) + sg_dma_len(s);
-+		expected += sg_dma_len(s);
- 		size += sg_dma_len(s);
- 	}
- 	return size;
-@@ -99,8 +99,7 @@ static void vb2_dc_prepare(void *buf_priv)
- 	if (!sgt || buf->db_attach)
- 		return;
- 
--	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
--			       buf->dma_dir);
-+	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
- }
- 
- static void vb2_dc_finish(void *buf_priv)
-@@ -112,7 +111,7 @@ static void vb2_dc_finish(void *buf_priv)
- 	if (!sgt || buf->db_attach)
- 		return;
- 
--	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
-+	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
- }
- 
- /*********************************************/
-@@ -273,8 +272,8 @@ static void vb2_dc_dmabuf_ops_detach(struct dma_buf *dbuf,
- 		 * memory locations do not require any explicit cache
- 		 * maintenance prior or after being used by the device.
- 		 */
--		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
-+				  DMA_ATTR_SKIP_CPU_SYNC);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
-@@ -299,8 +298,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				   attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
-+				  DMA_ATTR_SKIP_CPU_SYNC);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
-@@ -308,9 +307,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
- 	 * mapping to the client with new direction, no cache sync
- 	 * required see comment in vb2_dc_dmabuf_ops_detach()
- 	 */
--	sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				      dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
--	if (!sgt->nents) {
-+	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
-+			    DMA_ATTR_SKIP_CPU_SYNC)) {
- 		pr_err("failed to map scatterlist\n");
- 		mutex_unlock(lock);
- 		return ERR_PTR(-EIO);
-@@ -423,8 +421,8 @@ static void vb2_dc_put_userptr(void *buf_priv)
- 		 * No need to sync to CPU, it's already synced to the CPU
- 		 * since the finish() memop will have been called before this.
- 		 */
--		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
-+				  DMA_ATTR_SKIP_CPU_SYNC);
- 		pages = frame_vector_pages(buf->vec);
- 		/* sgt should exist only if vector contains pages... */
- 		BUG_ON(IS_ERR(pages));
-@@ -521,9 +519,8 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
- 	 * No need to sync to the device, this will happen later when the
- 	 * prepare() memop is called.
- 	 */
--	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
--	if (sgt->nents <= 0) {
-+	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
-+			    DMA_ATTR_SKIP_CPU_SYNC)) {
- 		pr_err("failed to map scatterlist\n");
- 		ret = -EIO;
- 		goto fail_sgt_init;
-@@ -545,8 +542,7 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
- 	return buf;
- 
- fail_map_sg:
--	dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--			   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
- 
- fail_sgt_init:
- 	sg_free_table(sgt);
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-index 92072a08af25..08c40311eea0 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-@@ -142,9 +142,8 @@ static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
- 	 * No need to sync to the device, this will happen later when the
- 	 * prepare() memop is called.
- 	 */
--	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
--	if (!sgt->nents)
-+	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
-+			    DMA_ATTR_SKIP_CPU_SYNC))
- 		goto fail_map;
- 
- 	buf->handler.refcount = &buf->refcount;
-@@ -180,8 +179,8 @@ static void vb2_dma_sg_put(void *buf_priv)
- 	if (refcount_dec_and_test(&buf->refcount)) {
- 		dprintk(1, "%s: Freeing buffer of %d pages\n", __func__,
- 			buf->num_pages);
--		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-+		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
-+				  DMA_ATTR_SKIP_CPU_SYNC);
- 		if (buf->vaddr)
- 			vm_unmap_ram(buf->vaddr, buf->num_pages);
- 		sg_free_table(buf->dma_sgt);
-@@ -202,8 +201,7 @@ static void vb2_dma_sg_prepare(void *buf_priv)
- 	if (buf->db_attach)
- 		return;
- 
--	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
--			       buf->dma_dir);
-+	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
- }
- 
- static void vb2_dma_sg_finish(void *buf_priv)
-@@ -215,7 +213,7 @@ static void vb2_dma_sg_finish(void *buf_priv)
- 	if (buf->db_attach)
- 		return;
- 
--	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
-+	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
- }
- 
- static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
-@@ -258,9 +256,8 @@ static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
- 	 * No need to sync to the device, this will happen later when the
- 	 * prepare() memop is called.
- 	 */
--	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
--				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
--	if (!sgt->nents)
-+	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
-+			    DMA_ATTR_SKIP_CPU_SYNC))
- 		goto userptr_fail_map;
- 
- 	return buf;
-@@ -286,8 +283,7 @@ static void vb2_dma_sg_put_userptr(void *buf_priv)
- 
- 	dprintk(1, "%s: Releasing userspace buffer of %d pages\n",
- 	       __func__, buf->num_pages);
--	dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir,
--			   DMA_ATTR_SKIP_CPU_SYNC);
-+	dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
- 	if (buf->vaddr)
- 		vm_unmap_ram(buf->vaddr, buf->num_pages);
- 	sg_free_table(buf->dma_sgt);
-@@ -410,8 +406,7 @@ static void vb2_dma_sg_dmabuf_ops_detach(struct dma_buf *dbuf,
- 
- 	/* release the scatterlist cache */
- 	if (attach->dma_dir != DMA_NONE)
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
-@@ -436,15 +431,12 @@ static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
- 	/* mapping to the client with new direction */
--	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				dma_dir);
--	if (!sgt->nents) {
-+	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
- 		pr_err("failed to map scatterlist\n");
- 		mutex_unlock(lock);
- 		return ERR_PTR(-EIO);
-diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-index c66fda4a65e4..bf5ac63a5742 100644
---- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-+++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-@@ -229,7 +229,7 @@ static int vb2_vmalloc_dmabuf_ops_attach(struct dma_buf *dbuf,
- 		kfree(attach);
- 		return ret;
- 	}
--	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-+	for_each_sgtable_sg(sgt, sg, i) {
- 		struct page *page = vmalloc_to_page(vaddr);
- 
- 		if (!page) {
-@@ -259,8 +259,7 @@ static void vb2_vmalloc_dmabuf_ops_detach(struct dma_buf *dbuf,
- 
- 	/* release the scatterlist cache */
- 	if (attach->dma_dir != DMA_NONE)
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
- 	sg_free_table(sgt);
- 	kfree(attach);
- 	db_attach->priv = NULL;
-@@ -285,15 +284,12 @@ static struct sg_table *vb2_vmalloc_dmabuf_ops_map(
- 
- 	/* release any previous cache */
- 	if (attach->dma_dir != DMA_NONE) {
--		dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--			attach->dma_dir);
-+		dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
- 		attach->dma_dir = DMA_NONE;
- 	}
- 
- 	/* mapping to the client with new direction */
--	sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
--				dma_dir);
--	if (!sgt->nents) {
-+	if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
- 		pr_err("failed to map scatterlist\n");
- 		mutex_unlock(lock);
- 		return ERR_PTR(-EIO);
--- 
-2.17.1
+> Regards,
+> Matthias
+> 
+> > 
+> >>
+> >>>  	writel_relaxed(regval, data->base + REG_MMU_CTRL_REG);
+> >>>  
+> >>>  	regval = F_L2_MULIT_HIT_EN |
+> >>> @@ -797,6 +803,15 @@ static const struct mtk_iommu_plat_data mt2712_data = {
+> >>>  	.larbid_remap   = {{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}},
+> >>>  };
+> >>>  
+> >>> +static const struct mtk_iommu_plat_data mt6779_data = {
+> >>> +	.m4u_plat      = M4U_MT6779,
+> >>> +	.has_sub_comm  = true,
+> >>> +	.has_wr_len    = true,
+> >>> +	.has_misc_ctrl = true,
+> >>> +	.inv_sel_reg   = REG_MMU_INV_SEL_GEN2,
+> >>> +	.larbid_remap  = {{0}, {1}, {2}, {3}, {5}, {7, 8}, {10}, {9}},
+> >>> +};
+> >>> +
+> >>>  static const struct mtk_iommu_plat_data mt8173_data = {
+> >>>  	.m4u_plat     = M4U_MT8173,
+> >>>  	.has_4gb_mode = true,
+> >>> @@ -815,6 +830,7 @@ static const struct mtk_iommu_plat_data mt8183_data = {
+> >>>  
+> >>>  static const struct of_device_id mtk_iommu_of_ids[] = {
+> >>>  	{ .compatible = "mediatek,mt2712-m4u", .data = &mt2712_data},
+> >>> +	{ .compatible = "mediatek,mt6779-m4u", .data = &mt6779_data},
+> >>>  	{ .compatible = "mediatek,mt8173-m4u", .data = &mt8173_data},
+> >>>  	{ .compatible = "mediatek,mt8183-m4u", .data = &mt8183_data},
+> >>>  	{}
+> >>> diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
+> >>> index 9971cedd72ea..fb79e710c8d9 100644
+> >>> --- a/drivers/iommu/mtk_iommu.h
+> >>> +++ b/drivers/iommu/mtk_iommu.h
+> >>> @@ -31,6 +31,7 @@ struct mtk_iommu_suspend_reg {
+> >>>  enum mtk_iommu_plat {
+> >>>  	M4U_MT2701,
+> >>>  	M4U_MT2712,
+> >>> +	M4U_MT6779,
+> >>>  	M4U_MT8173,
+> >>>  	M4U_MT8183,
+> >>>  };
+> >>>
+> > 
 
 _______________________________________________
 iommu mailing list
