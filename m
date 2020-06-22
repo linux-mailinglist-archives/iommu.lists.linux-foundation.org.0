@@ -2,83 +2,60 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22C02202CE5
-	for <lists.iommu@lfdr.de>; Sun, 21 Jun 2020 23:12:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E32420363C
+	for <lists.iommu@lfdr.de>; Mon, 22 Jun 2020 13:53:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 92E902639A;
-	Sun, 21 Jun 2020 21:12:06 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1C3FF203F2;
+	Mon, 22 Jun 2020 11:53:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DF1932QrLnBF; Sun, 21 Jun 2020 21:12:05 +0000 (UTC)
+	with ESMTP id R42KSRTt2Z2A; Mon, 22 Jun 2020 11:53:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 8B44E26387;
-	Sun, 21 Jun 2020 21:12:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E7E5E203AA;
+	Mon, 22 Jun 2020 11:53:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 698DAC016F;
-	Sun, 21 Jun 2020 21:12:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D1E76C016F;
+	Mon, 22 Jun 2020 11:53:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BA172C016F
- for <iommu@lists.linux-foundation.org>; Sun, 21 Jun 2020 21:12:03 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A9A1FC016F
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 11:53:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id A4B3C88BAE
- for <iommu@lists.linux-foundation.org>; Sun, 21 Jun 2020 21:12:03 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id A596486398
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 11:53:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ApQd0znYsvrq for <iommu@lists.linux-foundation.org>;
- Sun, 21 Jun 2020 21:12:03 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
- [209.85.215.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1EE0B88A43
- for <iommu@lists.linux-foundation.org>; Sun, 21 Jun 2020 21:12:03 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id p3so4505524pgh.3
- for <iommu@lists.linux-foundation.org>; Sun, 21 Jun 2020 14:12:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=5Qe/ojxL/WbEUbkj+sYdL2ReXOMy86ieWc6LpdIrkow=;
- b=r6RKGL4qGHvw7XsVSMWYtIIZ2Jp2YisDw0HZnipUsXGl0y/Rj8cWweNo2/PsE5pyn5
- ZyFZvk/p4wBbXEOTSg8t2P1RHCJpLdKZNWEly1F8+ibMzPzRLU1MYTd5XElxlo32TIL2
- cgzZDpr4j1yM+5CxUlkg0V5nOCaFDLwjYIZxTA6VC6GbTnMT09qVV8vHpXDv797VAhD3
- 9fjs7rFKH8TM9m676G5ecoa+rqee7gxIxHxgyrYCigqZs03ZMXHXsaWMtDhDIXChsZJT
- ZR6q0wmSLK98aQpyfZqYAxGnVAGtpq//7ua3ra7XZ7T3ufJO7PzUeJIggVhmpYq8ParQ
- PB8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :mime-version:content-disposition:user-agent;
- bh=5Qe/ojxL/WbEUbkj+sYdL2ReXOMy86ieWc6LpdIrkow=;
- b=FXFmMQ1cBDJ0GLyRgdi84hhY52+QFtb1Izl/aYRQ1ydAXQf9Sw39/NaT+q+YVdD5/4
- 1OhsbSJ0WxuOYY2lwkXcVwvkIKIzpthrNNZ2sb64NKbBRueyVWuH1tAkn588yCjMk6ii
- Uio5SdfRRkqf1SpiURd1mIwrZeti/eysorZDXT3Z/V0hNY2p6kop9UrxeprrOPER5JrK
- JF3edPvMLSnFfe/+uh5nyCBsOdkCi3EUkyWnapaPMhYDFp0OhkP7pHj5oNg1E/GIlDKx
- VCeH+8/tsUyQQUDmRdTy+MVX0VaYd+4xCxqqQOWSAHFyMoJcYS8LW9gtgA2RIKC05oaJ
- VG9Q==
-X-Gm-Message-State: AOAM532ReySABzpXSf7ZMzdUz1919fZTtB/DpwP9NUqxmeb2bHuqcF67
- EubVo/XvwVBTetNGWYvKyQ0=
-X-Google-Smtp-Source: ABdhPJzL27D7dHCiiuzQzs6kuoS3kOVvNpzTQk7p3tE9/mdd1lD6BVzy7x5Tf30nggWdEwnRFqM8yQ==
-X-Received: by 2002:a63:7c4d:: with SMTP id l13mr10527112pgn.12.1592773922412; 
- Sun, 21 Jun 2020 14:12:02 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id i125sm9184113pgd.21.2020.06.21.14.12.01
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 21 Jun 2020 14:12:01 -0700 (PDT)
-Date: Sun, 21 Jun 2020 14:12:00 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: David Rientjes <rientjes@google.com>
-Subject: Re: [patch] dma-pool: warn when coherent pool is depleted
-Message-ID: <20200621211200.GA158319@roeck-us.net>
+ with ESMTP id eiIBF62j_TtB for <iommu@lists.linux-foundation.org>;
+ Mon, 22 Jun 2020 11:53:53 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 19EEA8638E
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 11:53:52 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id AA30A36B; Mon, 22 Jun 2020 13:53:49 +0200 (CEST)
+Date: Mon, 22 Jun 2020 13:53:48 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH 0/2] Introduce PCI_FIXUP_IOMMU
+Message-ID: <20200622115347.GG3701@8bytes.org>
+References: <20200528073344.GO5221@8bytes.org>
+ <20200601174104.GA734973@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>
+In-Reply-To: <20200601174104.GA734973@bjorn-Precision-5520>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: jean-philippe <jean-philippe@linaro.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Arnd Bergmann <arnd@arndb.de>,
+ linux-pci@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hanjun Guo <guohanjun@huawei.com>, "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ kenneth-lee-2012@foxmail.com, linux-acpi@vger.kernel.org,
+ linux-crypto@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Zhangfei Gao <zhangfei.gao@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, Len Brown <lenb@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,50 +73,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sun, Jun 21, 2020 at 01:43:02PM -0700, David Rientjes wrote:
-> When a DMA coherent pool is depleted, allocation failures may or may not
-> get reported in the kernel log depending on the allocator.
+On Mon, Jun 01, 2020 at 12:41:04PM -0500, Bjorn Helgaas wrote:
+> I found this [1] from Paul Menzel, which was a slowdown caused by
+> quirk_usb_early_handoff().  I think the real problem is individual
+> quirks that take a long time.
 > 
-> The admin does have a workaround, however, by using coherent_pool= on the
-> kernel command line.
-> 
-> Provide some guidance on the failure and a recommended minimum size for
-> the pools (double the size).
-> 
-> Signed-off-by: David Rientjes <rientjes@google.com>
+> The PCI_FIXUP_IOMMU things we're talking about should be fast, and of
+> course, they're only run for matching devices anyway.  So I'd rather
+> keep them as PCI_FIXUP_FINAL than add a whole new phase.
 
-Tested-by: Guenter Roeck <linux@roeck-us.net>
+Okay, so if it is not a performance problem, then I am fine with using
+PCI_FIXUP_FINAL. But I dislike calling the fixups from IOMMU code, there
+must be a better solution.
 
-Also confirmed that coherent_pool=256k works around the crash
-I had observed.
 
-Guenter
+Regards,
 
-> ---
->  kernel/dma/pool.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/kernel/dma/pool.c b/kernel/dma/pool.c
-> --- a/kernel/dma/pool.c
-> +++ b/kernel/dma/pool.c
-> @@ -239,12 +239,16 @@ void *dma_alloc_from_pool(struct device *dev, size_t size,
->  	}
->  
->  	val = gen_pool_alloc(pool, size);
-> -	if (val) {
-> +	if (likely(val)) {
->  		phys_addr_t phys = gen_pool_virt_to_phys(pool, val);
->  
->  		*ret_page = pfn_to_page(__phys_to_pfn(phys));
->  		ptr = (void *)val;
->  		memset(ptr, 0, size);
-> +	} else {
-> +		WARN_ONCE(1, "DMA coherent pool depleted, increase size "
-> +			     "(recommended min coherent_pool=%zuK)\n",
-> +			  gen_pool_size(pool) >> 9);
->  	}
->  	if (gen_pool_avail(pool) < atomic_pool_size)
->  		schedule_work(&atomic_pool_work);
+	Joerg
+
+> [1] https://lore.kernel.org/linux-pci/b1533fd5-1fae-7256-9597-36d3d5de9d2a@molgen.mpg.de/
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
