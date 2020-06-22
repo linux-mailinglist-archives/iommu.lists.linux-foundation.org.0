@@ -1,64 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1659204459
-	for <lists.iommu@lfdr.de>; Tue, 23 Jun 2020 01:18:14 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DFB620445A
+	for <lists.iommu@lfdr.de>; Tue, 23 Jun 2020 01:18:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 92434886AE;
-	Mon, 22 Jun 2020 23:18:13 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 47A14253E2;
+	Mon, 22 Jun 2020 23:18:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sZmFfUzxa-If; Mon, 22 Jun 2020 23:18:12 +0000 (UTC)
+	with ESMTP id qwxd-YnA4gZo; Mon, 22 Jun 2020 23:18:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D7B8988900;
-	Mon, 22 Jun 2020 23:18:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7FC3225406;
+	Mon, 22 Jun 2020 23:18:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BCB00C016F;
-	Mon, 22 Jun 2020 23:18:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 68ED2C016F;
+	Mon, 22 Jun 2020 23:18:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9652FC016F
- for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 23:18:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 707E38872B
- for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 23:18:09 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
- by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id g2I9AzveFs4X for <iommu@lists.linux-foundation.org>;
- Mon, 22 Jun 2020 23:18:06 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by whitealder.osuosl.org (Postfix) with ESMTPS id C369D888D6
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 71712C016F
  for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 23:18:06 +0000 (UTC)
-IronPort-SDR: c7uLpTxUd5INwMqlduNqf2wtQ2Y7678rgBzTfHNSsdCgR9Fu+iVB2tmtjaUUkMJHAelcJWS6d4
- dH/uOyLN715g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9660"; a="124176536"
-X-IronPort-AV: E=Sophos;i="5.75,268,1589266800"; d="scan'208";a="124176536"
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 6184686DA1
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 23:18:06 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 94f1UzuCHYog for <iommu@lists.linux-foundation.org>;
+ Mon, 22 Jun 2020 23:18:05 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id B249B86D6A
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 23:18:05 +0000 (UTC)
+IronPort-SDR: gqAHY8aSjllS5ciGBbNakuq+W0V9NZGzceyBpbQeqIBYUMCsqLMLuVybfG5HHJWk8tvJq7756R
+ UGFourg+N+AQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9660"; a="145405642"
+X-IronPort-AV: E=Sophos;i="5.75,268,1589266800"; d="scan'208";a="145405642"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  22 Jun 2020 16:18:05 -0700
-IronPort-SDR: liPi7WMSZYPTV+q07DuIsL8+6WPRWVHgDpXxUWndRmvzOkOpcr1B9HbSM/x9/oCsewwVBZ5m4F
- 6jk8nemzZe+A==
+IronPort-SDR: HMvk6RRXxD859ZXybX/K9sO2bPq0f66B15g1qtA+AS1ewSXR6/BXoZ40a/bzJ+WKBiILGxhkF5
+ OxX9u15qlyCw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,268,1589266800"; d="scan'208";a="301006528"
+X-IronPort-AV: E=Sophos;i="5.75,268,1589266800"; d="scan'208";a="301006537"
 Received: from allen-box.sh.intel.com ([10.239.159.139])
- by fmsmga004.fm.intel.com with ESMTP; 22 Jun 2020 16:18:01 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 22 Jun 2020 16:18:03 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 2/6] iommu/vt-d: Set U/S bit in first level page table by
- default
-Date: Tue, 23 Jun 2020 07:13:41 +0800
-Message-Id: <20200622231345.29722-3-baolu.lu@linux.intel.com>
+Subject: [PATCH 3/6] iommu/vt-d: Don't apply gfx quirks to untrusted devices
+Date: Tue, 23 Jun 2020 07:13:42 +0800
+Message-Id: <20200622231345.29722-4-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200622231345.29722-1-baolu.lu@linux.intel.com>
 References: <20200622231345.29722-1-baolu.lu@linux.intel.com>
-Cc: iommu@lists.linux-foundation.org
+Cc: iommu@lists.linux-foundation.org, Rajat Jain <rajatja@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,69 +76,106 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When using first-level translation for IOVA, currently the U/S bit in the
-page table is cleared which implies DMA requests with user privilege are
-blocked. As the result, following error messages might be observed when
-passing through a device to user level:
+From: Rajat Jain <rajatja@google.com>
 
-DMAR: DRHD: handling fault status reg 3
-DMAR: [DMA Read] Request device [41:00.0] PASID 1 fault addr 7ecdcd000
-        [fault reason 129] SM: U/S set 0 for first-level translation
-        with user privilege
+Currently, an external malicious PCI device can masquerade the VID:PID
+of faulty gfx devices, and thus apply iommu quirks to effectively
+disable the IOMMU restrictions for itself.
 
-This fixes it by setting U/S bit in the first level page table and makes
-IOVA over first level compatible with previous second-level translation.
+Thus we need to ensure that the device we are applying quirks to, is
+indeed an internal trusted device.
 
-Fixes: b802d070a52a1 ("iommu/vt-d: Use iova over first level")
-Reported-by: Xin Zeng <xin.zeng@intel.com>
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+Signed-off-by: Rajat Jain <rajatja@google.com>
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+Reviewed-by: Ashok Raj <ashok.raj@intel.com>
+Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/iommu/intel/iommu.c | 5 ++---
- include/linux/intel-iommu.h | 1 +
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/iommu/intel/iommu.c | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
 diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 9129663a7406..0fa394f7bbf9 100644
+index 0fa394f7bbf9..66d07b1a3be2 100644
 --- a/drivers/iommu/intel/iommu.c
 +++ b/drivers/iommu/intel/iommu.c
-@@ -921,7 +921,7 @@ static struct dma_pte *pfn_to_dma_pte(struct dmar_domain *domain,
- 			domain_flush_cache(domain, tmp_page, VTD_PAGE_SIZE);
- 			pteval = ((uint64_t)virt_to_dma_pfn(tmp_page) << VTD_PAGE_SHIFT) | DMA_PTE_READ | DMA_PTE_WRITE;
- 			if (domain_use_first_level(domain))
--				pteval |= DMA_FL_PTE_XD;
-+				pteval |= DMA_FL_PTE_XD | DMA_FL_PTE_US;
- 			if (cmpxchg64(&pte->val, 0ULL, pteval))
- 				/* Someone else set it while we were thinking; use theirs. */
- 				free_pgtable_page(tmp_page);
-@@ -1951,7 +1951,6 @@ static inline void
- context_set_sm_rid2pasid(struct context_entry *context, unsigned long pasid)
- {
- 	context->hi |= pasid & ((1 << 20) - 1);
--	context->hi |= (1 << 20);
+@@ -6020,6 +6020,23 @@ intel_iommu_domain_set_attr(struct iommu_domain *domain,
+ 	return ret;
  }
  
- /*
-@@ -2243,7 +2242,7 @@ static int __domain_mapping(struct dmar_domain *domain, unsigned long iov_pfn,
++/*
++ * Check that the device does not live on an external facing PCI port that is
++ * marked as untrusted. Such devices should not be able to apply quirks and
++ * thus not be able to bypass the IOMMU restrictions.
++ */
++static bool risky_device(struct pci_dev *pdev)
++{
++	if (pdev->untrusted) {
++		pci_info(pdev,
++			 "Skipping IOMMU quirk for dev [%04X:%04X] on untrusted PCI link\n",
++			 pdev->vendor, pdev->device);
++		pci_info(pdev, "Please check with your BIOS/Platform vendor about this\n");
++		return true;
++	}
++	return false;
++}
++
+ const struct iommu_ops intel_iommu_ops = {
+ 	.capable		= intel_iommu_capable,
+ 	.domain_alloc		= intel_iommu_domain_alloc,
+@@ -6059,6 +6076,9 @@ const struct iommu_ops intel_iommu_ops = {
  
- 	attr = prot & (DMA_PTE_READ | DMA_PTE_WRITE | DMA_PTE_SNP);
- 	if (domain_use_first_level(domain))
--		attr |= DMA_FL_PTE_PRESENT | DMA_FL_PTE_XD;
-+		attr |= DMA_FL_PTE_PRESENT | DMA_FL_PTE_XD | DMA_FL_PTE_US;
+ static void quirk_iommu_igfx(struct pci_dev *dev)
+ {
++	if (risky_device(dev))
++		return;
++
+ 	pci_info(dev, "Disabling IOMMU for graphics on this chipset\n");
+ 	dmar_map_gfx = 0;
+ }
+@@ -6100,6 +6120,9 @@ DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163D, quirk_iommu_igfx);
  
- 	if (!sg) {
- 		sg_res = nr_pages;
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index 4100bd224f5c..3e8fa1c7a1e6 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -41,6 +41,7 @@
- #define DMA_PTE_SNP		BIT_ULL(11)
+ static void quirk_iommu_rwbf(struct pci_dev *dev)
+ {
++	if (risky_device(dev))
++		return;
++
+ 	/*
+ 	 * Mobile 4 Series Chipset neglects to set RWBF capability,
+ 	 * but needs it. Same seems to hold for the desktop versions.
+@@ -6130,6 +6153,9 @@ static void quirk_calpella_no_shadow_gtt(struct pci_dev *dev)
+ {
+ 	unsigned short ggc;
  
- #define DMA_FL_PTE_PRESENT	BIT_ULL(0)
-+#define DMA_FL_PTE_US		BIT_ULL(2)
- #define DMA_FL_PTE_XD		BIT_ULL(63)
++	if (risky_device(dev))
++		return;
++
+ 	if (pci_read_config_word(dev, GGC, &ggc))
+ 		return;
  
- #define ADDR_WIDTH_5LEVEL	(57)
+@@ -6163,6 +6189,12 @@ static void __init check_tylersburg_isoch(void)
+ 	pdev = pci_get_device(PCI_VENDOR_ID_INTEL, 0x3a3e, NULL);
+ 	if (!pdev)
+ 		return;
++
++	if (risky_device(pdev)) {
++		pci_dev_put(pdev);
++		return;
++	}
++
+ 	pci_dev_put(pdev);
+ 
+ 	/* System Management Registers. Might be hidden, in which case
+@@ -6172,6 +6204,11 @@ static void __init check_tylersburg_isoch(void)
+ 	if (!pdev)
+ 		return;
+ 
++	if (risky_device(pdev)) {
++		pci_dev_put(pdev);
++		return;
++	}
++
+ 	if (pci_read_config_dword(pdev, 0x188, &vtisochctrl)) {
+ 		pci_dev_put(pdev);
+ 		return;
 -- 
 2.17.1
 
