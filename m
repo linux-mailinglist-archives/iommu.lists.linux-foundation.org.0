@@ -1,63 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2D36203C35
-	for <lists.iommu@lfdr.de>; Mon, 22 Jun 2020 18:08:09 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9107203E07
+	for <lists.iommu@lfdr.de>; Mon, 22 Jun 2020 19:32:57 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B296A8723F;
-	Mon, 22 Jun 2020 16:08:08 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9A4EE8879A;
+	Mon, 22 Jun 2020 17:32:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6V3xfk4nqZat; Mon, 22 Jun 2020 16:08:07 +0000 (UTC)
+	with ESMTP id srCb41zhTWOS; Mon, 22 Jun 2020 17:32:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 963D5871CE;
-	Mon, 22 Jun 2020 16:08:07 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C0E658877F;
+	Mon, 22 Jun 2020 17:32:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8140BC016F;
-	Mon, 22 Jun 2020 16:08:07 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AB7FDC016F;
+	Mon, 22 Jun 2020 17:32:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A03CAC016F
- for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 16:08:05 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C822AC016F
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 17:32:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 99926893F9
- for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 16:08:05 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id B4F4B8918B
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 17:32:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id U7fMirMIUrLh for <iommu@lists.linux-foundation.org>;
- Mon, 22 Jun 2020 16:08:04 +0000 (UTC)
+ with ESMTP id DBuEO3YUpSMI for <iommu@lists.linux-foundation.org>;
+ Mon, 22 Jun 2020 17:32:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id 862B3893F2
- for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 16:08:04 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF4DA31B;
- Mon, 22 Jun 2020 09:08:03 -0700 (PDT)
-Received: from [10.57.9.128] (unknown [10.57.9.128])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1CA053F71E;
- Mon, 22 Jun 2020 09:07:55 -0700 (PDT)
-Subject: Re: [PATCH v2] dma-pool: Fix too large DMA pools on medium systems
-To: David Rientjes <rientjes@google.com>, Guenter Roeck <linux@roeck-us.net>
-References: <20200608132217.29945-1-geert@linux-m68k.org>
- <20200620200936.GA106151@roeck-us.net>
- <CAMuHMdX3mBDm9iHk+jhbGfmo+dbix=3tp5z2ewyddWxM1tdqGQ@mail.gmail.com>
- <c0889f5c-34ae-2314-6530-a9240e0901f2@roeck-us.net>
- <alpine.DEB.2.22.394.2006211308500.195301@chino.kir.corp.google.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <1287bffd-3363-0764-0309-32222b2b8c9a@arm.com>
-Date: Mon, 22 Jun 2020 17:07:55 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id AB2C888DA6
+ for <iommu@lists.linux-foundation.org>; Mon, 22 Jun 2020 17:32:51 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 791CB6476C5AEFFEEC27;
+ Tue, 23 Jun 2020 01:32:48 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.58) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 23 Jun 2020 01:32:39 +0800
+From: John Garry <john.garry@huawei.com>
+To: <will@kernel.org>, <robin.murphy@arm.com>
+Subject: [PATCH 0/4] iommu/arm-smmu-v3: Improve cmdq lock efficiency
+Date: Tue, 23 Jun 2020 01:28:36 +0800
+Message-ID: <1592846920-45338-1-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.22.394.2006211308500.195301@chino.kir.corp.google.com>
-Content-Language: en-GB
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Christoph Hellwig <hch@lst.de>
+X-Originating-IP: [10.69.192.58]
+X-CFilter-Loop: Reflected
+Cc: trivial@kernel.org, maz@kernel.org, linuxarm@huawei.com,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -70,77 +64,45 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-06-21 21:20, David Rientjes wrote:
-> On Sun, 21 Jun 2020, Guenter Roeck wrote:
-> 
->>>> This patch results in a boot failure in some of my powerpc boot tests,
->>>> specifically those testing boots from mptsas1068 devices. Error message:
->>>>
->>>> mptsas 0000:00:02.0: enabling device (0000 -> 0002)
->>>> mptbase: ioc0: Initiating bringup
->>>> ioc0: LSISAS1068 A0: Capabilities={Initiator}
->>>> mptbase: ioc0: ERROR - Unable to allocate Reply, Request, Chain Buffers!
->>>> mptbase: ioc0: ERROR - didn't initialize properly! (-3)
->>>> mptsas: probe of 0000:00:02.0 failed with error -3
->>>>
->>>> Configuration is bamboo:44x/bamboo_defconfig plus various added drivers.
->>>> Qemu command line is
->>>>
->>>> qemu-system-ppc -kernel vmlinux -M bamboo \
->>>>       -m 256 -no-reboot -snapshot -device mptsas1068,id=scsi \
->>>>       -device scsi-hd,bus=scsi.0,drive=d0,wwn=0x5000c50015ea71ac -drive \
->>>>       file=rootfs.ext2,format=raw,if=none,id=d0 \
->>>>       --append "panic=-1 slub_debug=FZPUA root=/dev/sda  mem=256M console=ttyS0" \
->>>>       -monitor none -nographic
->>>>
->>>> canyonlands_defconfig with sam460ex machine and otherwise similar command line
->>>> fails as well.
->>>>
->>>> Reverting this patch fixes the problem.
->>>
->>> This looks like the minimum value of 128 KiB is not sufficient, and the
->>> bug is in the intention of 1d659236fb43c4d2 ("dma-pool: scale the
->>> default DMA coherent pool size with memory capacity")?
->>> Before, there was a single pool of (fixed) 256 KiB size, now there are
->>> up to three coherent pools (DMA, DMA32, and kernel), albeit of smaller
->>> size (128 KiB each).
->>>
->>> Can you print the requested size in drivers/message/fusion/mptbase.c:
->>> PrimeIocFifos()?
->>
->> 172928 bytes
->>
->>> Does replacing all SZ_128K by SZ_256K in my patch help?
->>
->> Yes, it does.
->>
-> 
-> The new coherent pools should auto expand when they are close to being
-> depleted but there's no guarantee that it can be done fast enough.
+As mentioned in [0], the CPU may consume many cycles processing
+arm_smmu_cmdq_issue_cmdlist(). One issue we find is the cmpxchg() loop to
+get space on the queue takes approx 25% of the cycles for this function.
 
-More to the point, it's never going to help if the pool is empty and one 
-allocation is simply larger than the entire thing ;)
+This series removes that cmpxchg().
 
-Another angle, though, is to question why this driver is making such a 
-large allocation with GFP_ATOMIC in the first place. At a glance it 
-looks like there's no reason at all other than that it's still using the 
-legacy pci_alloc_consistent() API, since every path to that appears to 
-have CAN_SLEEP passed as its flag - modernising that would arguably be 
-an even better long-term win.
+For my NVMe test with 3x NVMe SSDs, I'm getting a ~24% throughput
+increase:
+Before: 1310 IOPs
+After: 1630 IOPs
 
-Robin.
+I also have a test harness to check the rate of DMA map+unmaps we can
+achieve:
 
-> Switching the min size to be the previous min size (256KB) seems like the
-> best option and it matches what
-> Documentation/admin-guide/kernel-parameters.txt still stays.
-> 
-> I'll also send a patch to point in the right direction when this happens.
-> 
+CPU count	32	64	128
+Before:		63187	19418	10169
+After:		93287	44789	15862
+
+(unit is map+unmaps per CPU per second)
+
+[0] https://lore.kernel.org/linux-iommu/B926444035E5E2439431908E3842AFD24B86DB@DGGEMI525-MBS.china.huawei.com/T/#ma02e301c38c3e94b7725e685757c27e39c7cbde3
+
+John Garry (4):
+  iommu/arm-smmu-v3: Fix trivial typo
+  iommu/arm-smmu-v3: Calculate bits for prod and owner
+  iommu/arm-smmu-v3: Always issue a CMD_SYNC per batch
+  iommu/arm-smmu-v3: Remove cmpxchg() in arm_smmu_cmdq_issue_cmdlist()
+
+ drivers/iommu/arm-smmu-v3.c | 233 +++++++++++++++++++++++-------------
+ 1 file changed, 151 insertions(+), 82 deletions(-)
+
+-- 
+2.26.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
