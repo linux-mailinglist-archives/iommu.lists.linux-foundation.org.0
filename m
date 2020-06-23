@@ -1,61 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57A7205809
-	for <lists.iommu@lfdr.de>; Tue, 23 Jun 2020 18:57:37 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 116A420580C
+	for <lists.iommu@lfdr.de>; Tue, 23 Jun 2020 18:57:40 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 8C1242DB63;
-	Tue, 23 Jun 2020 16:57:36 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BA5CE88CCB;
+	Tue, 23 Jun 2020 16:57:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6s8Ub4axk9WO; Tue, 23 Jun 2020 16:57:33 +0000 (UTC)
+	with ESMTP id NRXX+rf9vqDw; Tue, 23 Jun 2020 16:57:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id B1224203D0;
-	Tue, 23 Jun 2020 16:57:33 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6B28988D6D;
+	Tue, 23 Jun 2020 16:57:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8D691C016F;
-	Tue, 23 Jun 2020 16:57:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 65220C0891;
+	Tue, 23 Jun 2020 16:57:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C29ADC016F
- for <iommu@lists.linux-foundation.org>; Tue, 23 Jun 2020 16:57:31 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 203FFC016F
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Jun 2020 16:57:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 99C26260AD
- for <iommu@lists.linux-foundation.org>; Tue, 23 Jun 2020 16:57:31 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 0898E203A6
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Jun 2020 16:57:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id h00M6bb5tigI for <iommu@lists.linux-foundation.org>;
- Tue, 23 Jun 2020 16:57:29 +0000 (UTC)
+ with ESMTP id lHanjGDgnR5J for <iommu@lists.linux-foundation.org>;
+ Tue, 23 Jun 2020 16:57:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by silver.osuosl.org (Postfix) with ESMTPS id 2F6C9203A6
- for <iommu@lists.linux-foundation.org>; Tue, 23 Jun 2020 16:57:29 +0000 (UTC)
-IronPort-SDR: njT+UbAGh5p3jzXapW8TyY7BcpfSE+I9bgfIROXx2MS03Gtg9JWa3X0N7La3kZxaax5mDfUGsx
- +jJ+vVfR0CwA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9661"; a="132541403"
-X-IronPort-AV: E=Sophos;i="5.75,271,1589266800"; d="scan'208";a="132541403"
+ by silver.osuosl.org (Postfix) with ESMTPS id 886DB203D0
+ for <iommu@lists.linux-foundation.org>; Tue, 23 Jun 2020 16:57:30 +0000 (UTC)
+IronPort-SDR: QrxaAXpp1JKywZcsOw2HfK2JClS7GtVqUltKhibz+Br/rtRbLihxEBMEY+IqLInBqLnUs7tuWJ
+ uAi+w9Jyhs6A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9661"; a="132541406"
+X-IronPort-AV: E=Sophos;i="5.75,271,1589266800"; d="scan'208";a="132541406"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Jun 2020 09:57:28 -0700
-IronPort-SDR: gGl+vfJLsDZerAtB00Ng5Oi0UslNesAb+AmtqDSv7qYGZNCKjsrRiPTN14Ze1wbvFN8qJOJEO3
- 9sr4/WilAZTA==
+IronPort-SDR: 6rWLdZr1MKX8EfLVte3qQNbQid/YwBhoEz3m5KJY/1rFE3Xc29LibDl1t9Y51wu8UPYQ8YPgtV
+ uCJtSU+2Q5EA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,271,1589266800"; d="scan'208";a="452290903"
+X-IronPort-AV: E=Sophos;i="5.75,271,1589266800"; d="scan'208";a="452290905"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
  by orsmga005.jf.intel.com with ESMTP; 23 Jun 2020 09:57:28 -0700
 From: Jacob Pan <jacob.jun.pan@linux.intel.com>
 To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
  Joerg Roedel <joro@8bytes.org>,
  Alex Williamson <alex.williamson@redhat.com>
-Subject: [PATCH v3 4/5] iommu/uapi: Handle data and argsz filled by users
-Date: Tue, 23 Jun 2020 10:03:56 -0700
-Message-Id: <1592931837-58223-5-git-send-email-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH v3 5/5] iommu/uapi: Support both kernel and user unbind guest
+ PASID
+Date: Tue, 23 Jun 2020 10:03:57 -0700
+Message-Id: <1592931837-58223-6-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1592931837-58223-1-git-send-email-jacob.jun.pan@linux.intel.com>
 References: <1592931837-58223-1-git-send-email-jacob.jun.pan@linux.intel.com>
@@ -81,181 +82,164 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-IOMMU UAPI data has a user filled argsz field which indicates the data
-length comes with the API call. User data is not trusted, argsz must be
-validated based on the current kernel data size, mandatory data size,
-and feature flags.
-
-User data may also be extended, results in possible argsz increase.
-Backward compatibility is ensured based on size and flags checking.
-Details are documented in Documentation/userspace-api/iommu.rst
-
-This patch adds sanity checks in both IOMMU layer and vendor code, where
-VT-d is the only user for now.
+Guest SVA unbind data can come from either kernel and user space, if a
+user pointer is passed in, IOMMU driver must copy from data from user.
+If the unbind data is assembled in kernel, data can be trusted and
+directly used. This patch creates a wrapper for unbind gpasid such that
+user pointer can be parsed and sanitized before calling into the kernel
+unbind function. Common user data copy code also consolidated.
 
 Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 ---
- drivers/iommu/intel/svm.c |  3 ++
- drivers/iommu/iommu.c     | 96 ++++++++++++++++++++++++++++++++++++++++++++---
- include/linux/iommu.h     |  7 ++--
- 3 files changed, 98 insertions(+), 8 deletions(-)
+ drivers/iommu/iommu.c | 70 ++++++++++++++++++++++++++++++++++++++-------------
+ include/linux/iommu.h | 13 ++++++++--
+ 2 files changed, 64 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 713b3a218483..237db56878c0 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -244,6 +244,9 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
- 	    data->format != IOMMU_PASID_FORMAT_INTEL_VTD)
- 		return -EINVAL;
- 
-+	if (data->argsz != offsetofend(struct iommu_gpasid_bind_data, vendor.vtd))
-+		return -EINVAL;
-+
- 	if (!dev_is_pci(dev))
- 		return -ENOTSUPP;
- 
 diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index d43120eb1dc5..4a025c429b41 100644
+index 4a025c429b41..595527e4c6b7 100644
 --- a/drivers/iommu/iommu.c
 +++ b/drivers/iommu/iommu.c
-@@ -1951,22 +1951,108 @@ int iommu_attach_device(struct iommu_domain *domain, struct device *dev)
- EXPORT_SYMBOL_GPL(iommu_attach_device);
- 
- int iommu_cache_invalidate(struct iommu_domain *domain, struct device *dev,
--			   struct iommu_cache_invalidate_info *inv_info)
-+			void __user *uinfo)
- {
-+	struct iommu_cache_invalidate_info inv_info;
-+	unsigned long minsz, maxsz;
-+
- 	if (unlikely(!domain->ops->cache_invalidate))
- 		return -ENODEV;
- 
--	return domain->ops->cache_invalidate(domain, dev, inv_info);
-+	/* Current kernel data size is the max to be copied from user */
-+	maxsz = sizeof(struct iommu_cache_invalidate_info);
-+	memset((void *)&inv_info, 0, maxsz);
-+
-+	/*
-+	 * No new spaces can be added before the variable sized union, the
-+	 * minimum size is the offset to the union.
-+	 */
-+	minsz = offsetof(struct iommu_cache_invalidate_info, granu);
-+
-+	/* Copy minsz from user to get flags and argsz */
-+	if (copy_from_user(&inv_info, uinfo, minsz))
-+		return -EFAULT;
-+
-+	/* Fields before variable size union is mandatory */
-+	if (inv_info.argsz < minsz)
-+		return -EINVAL;
-+	/*
-+	 * User might be using a newer UAPI header, we shall let IOMMU vendor
-+	 * driver decide on what size it needs. Since the UAPI data extension
-+	 * can be vendor specific, larger argsz could be the result of extension
-+	 * for one vendor but it should not affect another vendor.
-+	 */
-+	/*
-+	 * User might be using a newer UAPI header which has a larger data
-+	 * size, we shall support the existing flags within the current
-+	 * size.
-+	 */
-+	if (inv_info.argsz > maxsz)
-+		inv_info.argsz = maxsz;
-+
-+	/* Checking the exact argsz based on generic flags */
-+	if (inv_info.granularity == IOMMU_INV_GRANU_ADDR &&
-+		inv_info.argsz != offsetofend(struct iommu_cache_invalidate_info,
-+					granu.addr_info))
-+		return -EINVAL;
-+
-+	if (inv_info.granularity == IOMMU_INV_GRANU_PASID &&
-+		inv_info.argsz != offsetofend(struct iommu_cache_invalidate_info,
-+					granu.pasid_info))
-+		return -EINVAL;
-+
-+	/* Copy the remaining user data _after_ minsz */
-+	if (copy_from_user((void *)&inv_info + minsz, uinfo + minsz,
-+				inv_info.argsz - minsz))
-+		return -EFAULT;
-+
-+	return domain->ops->cache_invalidate(domain, dev, &inv_info);
+@@ -2010,19 +2010,15 @@ int iommu_cache_invalidate(struct iommu_domain *domain, struct device *dev,
  }
  EXPORT_SYMBOL_GPL(iommu_cache_invalidate);
  
--int iommu_sva_bind_gpasid(struct iommu_domain *domain,
--			   struct device *dev, struct iommu_gpasid_bind_data *data)
+-int iommu_sva_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+-						void __user *udata)
+-{
+ 
+-	struct iommu_gpasid_bind_data data;
++static int iommu_sva_prepare_bind_data(void __user *udata, bool bind,
++				       struct iommu_gpasid_bind_data *data)
++{
+ 	unsigned long minsz, maxsz;
+ 
+-	if (unlikely(!domain->ops->sva_bind_gpasid))
+-		return -ENODEV;
+-
+ 	/* Current kernel data size is the max to be copied from user */
+ 	maxsz = sizeof(struct iommu_gpasid_bind_data);
+-	memset((void *)&data, 0, maxsz);
++	memset((void *)data, 0, maxsz);
+ 
+ 	/*
+ 	 * No new spaces can be added before the variable sized union, the
+@@ -2031,11 +2027,11 @@ int iommu_sva_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+ 	minsz = offsetof(struct iommu_gpasid_bind_data, vendor);
+ 
+ 	/* Copy minsz from user to get flags and argsz */
+-	if (copy_from_user(&data, udata, minsz))
++	if (copy_from_user(data, udata, minsz))
+ 		return -EFAULT;
+ 
+ 	/* Fields before variable size union is mandatory */
+-	if (data.argsz < minsz)
++	if (data->argsz < minsz)
+ 		return -EINVAL;
+ 	/*
+ 	 * User might be using a newer UAPI header, we shall let IOMMU vendor
+@@ -2043,26 +2039,66 @@ int iommu_sva_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+ 	 * can be vendor specific, larger argsz could be the result of extension
+ 	 * for one vendor but it should not affect another vendor.
+ 	 */
+-	if (data.argsz > maxsz)
+-		data.argsz = maxsz;
++	if (data->argsz > maxsz)
++		data->argsz = maxsz;
++
++	/*
++	 * For unbind, we don't need any extra data, host PASID is included in
++	 * the minsz and that is all we need.
++	 */
++	if (!bind)
++		return 0;
+ 
+ 	/* Copy the remaining user data _after_ minsz */
+-	if (copy_from_user((void *)&data + minsz, udata + minsz,
+-				data.argsz - minsz))
++	if (copy_from_user((void *)data + minsz, udata + minsz,
++				data->argsz - minsz))
+ 		return -EFAULT;
+ 
++	return 0;
++}
++
 +int iommu_sva_bind_gpasid(struct iommu_domain *domain, struct device *dev,
 +						void __user *udata)
- {
++{
 +
 +	struct iommu_gpasid_bind_data data;
-+	unsigned long minsz, maxsz;
++	int ret;
 +
- 	if (unlikely(!domain->ops->sva_bind_gpasid))
- 		return -ENODEV;
++	if (unlikely(!domain->ops->sva_bind_gpasid))
++		return -ENODEV;
++
++	ret = iommu_sva_prepare_bind_data(udata, true, &data);
++	if (ret)
++		return ret;
  
--	return domain->ops->sva_bind_gpasid(domain, dev, data);
-+	/* Current kernel data size is the max to be copied from user */
-+	maxsz = sizeof(struct iommu_gpasid_bind_data);
-+	memset((void *)&data, 0, maxsz);
-+
-+	/*
-+	 * No new spaces can be added before the variable sized union, the
-+	 * minimum size is the offset to the union.
-+	 */
-+	minsz = offsetof(struct iommu_gpasid_bind_data, vendor);
-+
-+	/* Copy minsz from user to get flags and argsz */
-+	if (copy_from_user(&data, udata, minsz))
-+		return -EFAULT;
-+
-+	/* Fields before variable size union is mandatory */
-+	if (data.argsz < minsz)
-+		return -EINVAL;
-+	/*
-+	 * User might be using a newer UAPI header, we shall let IOMMU vendor
-+	 * driver decide on what size it needs. Since the guest PASID bind data
-+	 * can be vendor specific, larger argsz could be the result of extension
-+	 * for one vendor but it should not affect another vendor.
-+	 */
-+	if (data.argsz > maxsz)
-+		data.argsz = maxsz;
-+
-+	/* Copy the remaining user data _after_ minsz */
-+	if (copy_from_user((void *)&data + minsz, udata + minsz,
-+				data.argsz - minsz))
-+		return -EFAULT;
-+
-+
-+	return domain->ops->sva_bind_gpasid(domain, dev, &data);
+ 	return domain->ops->sva_bind_gpasid(domain, dev, &data);
  }
  EXPORT_SYMBOL_GPL(iommu_sva_bind_gpasid);
  
+-int iommu_sva_unbind_gpasid(struct iommu_domain *domain, struct device *dev,
+-			     ioasid_t pasid)
++int __iommu_sva_unbind_gpasid(struct iommu_domain *domain, struct device *dev,
++			struct iommu_gpasid_bind_data *data)
+ {
+ 	if (unlikely(!domain->ops->sva_unbind_gpasid))
+ 		return -ENODEV;
+ 
+-	return domain->ops->sva_unbind_gpasid(dev, pasid);
++	return domain->ops->sva_unbind_gpasid(dev, data->hpasid);
++}
++EXPORT_SYMBOL_GPL(__iommu_sva_unbind_gpasid);
++
++int iommu_sva_unbind_gpasid(struct iommu_domain *domain, struct device *dev,
++			void __user *udata)
++{
++	struct iommu_gpasid_bind_data data;
++	int ret;
++
++	if (unlikely(!domain->ops->sva_bind_gpasid))
++		return -ENODEV;
++
++	ret = iommu_sva_prepare_bind_data(udata, false, &data);
++	if (ret)
++		return ret;
++
++	return __iommu_sva_unbind_gpasid(domain, dev, &data);
+ }
+ EXPORT_SYMBOL_GPL(iommu_sva_unbind_gpasid);
+ 
 diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 5f0b7859d2eb..a688fea42ae5 100644
+index a688fea42ae5..2567c33dc4e8 100644
 --- a/include/linux/iommu.h
 +++ b/include/linux/iommu.h
-@@ -432,9 +432,10 @@ extern void iommu_detach_device(struct iommu_domain *domain,
- 				struct device *dev);
- extern int iommu_cache_invalidate(struct iommu_domain *domain,
- 				  struct device *dev,
--				  struct iommu_cache_invalidate_info *inv_info);
-+				  void __user *uinfo);
-+
+@@ -437,7 +437,9 @@ extern int iommu_cache_invalidate(struct iommu_domain *domain,
  extern int iommu_sva_bind_gpasid(struct iommu_domain *domain,
--		struct device *dev, struct iommu_gpasid_bind_data *data);
-+				struct device *dev, void __user *udata);
+ 				struct device *dev, void __user *udata);
  extern int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
- 				struct device *dev, ioasid_t pasid);
+-				struct device *dev, ioasid_t pasid);
++				struct device *dev, void __user *udata);
++extern int __iommu_sva_unbind_gpasid(struct iommu_domain *domain,
++				struct device *dev, struct iommu_gpasid_bind_data *data);
  extern struct iommu_domain *iommu_get_domain_for_dev(struct device *dev);
-@@ -1062,7 +1063,7 @@ iommu_cache_invalidate(struct iommu_domain *domain,
- 	return -ENODEV;
+ extern struct iommu_domain *iommu_get_dma_domain(struct device *dev);
+ extern int iommu_map(struct iommu_domain *domain, unsigned long iova,
+@@ -1069,7 +1071,14 @@ static inline int iommu_sva_bind_gpasid(struct iommu_domain *domain,
  }
- static inline int iommu_sva_bind_gpasid(struct iommu_domain *domain,
--				struct device *dev, struct iommu_gpasid_bind_data *data)
-+				struct device *dev, void __user *udata)
+ 
+ static inline int iommu_sva_unbind_gpasid(struct iommu_domain *domain,
+-					   struct device *dev, int pasid)
++					   struct device *dev, void __user *udata)
++{
++	return -ENODEV;
++}
++
++static inline int __iommu_sva_unbind_gpasid(struct iommu_domain *domain,
++					struct device *dev,
++					struct iommu_gpasid_bind_data *data)
  {
  	return -ENODEV;
  }
