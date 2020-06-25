@@ -1,46 +1,46 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408F4209F2F
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id B472D209F30
 	for <lists.iommu@lfdr.de>; Thu, 25 Jun 2020 15:08:56 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 02E4287CB1;
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7C66C88726;
 	Thu, 25 Jun 2020 13:08:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LhM00lJYAjgI; Thu, 25 Jun 2020 13:08:51 +0000 (UTC)
+	with ESMTP id NKcpWjDsjYMx; Thu, 25 Jun 2020 13:08:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 712D687C0E;
-	Thu, 25 Jun 2020 13:08:50 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 151E088828;
+	Thu, 25 Jun 2020 13:08:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 69C11C088E;
-	Thu, 25 Jun 2020 13:08:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0E947C016F;
+	Thu, 25 Jun 2020 13:08:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1BA92C016F
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 13:08:47 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 07F52C08A5
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 13:08:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 09A4723119
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 13:08:47 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id EC17F87C17
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 13:08:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bHOGa9srCzdM for <iommu@lists.linux-foundation.org>;
- Thu, 25 Jun 2020 13:08:45 +0000 (UTC)
+ with ESMTP id GdCED1R7zIfU for <iommu@lists.linux-foundation.org>;
+ Thu, 25 Jun 2020 13:08:47 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id 6BE532313D
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 13:08:45 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 88FAF87C93
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 13:08:46 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 93AF64DE; Thu, 25 Jun 2020 15:08:39 +0200 (CEST)
+ id B928850C; Thu, 25 Jun 2020 15:08:39 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH 09/13] x86: Remove dev->archdata.iommu pointer
-Date: Thu, 25 Jun 2020 15:08:32 +0200
-Message-Id: <20200625130836.1916-10-joro@8bytes.org>
+Subject: [PATCH 10/13] ia64: Remove dev->archdata.iommu pointer
+Date: Thu, 25 Jun 2020 15:08:33 +0200
+Message-Id: <20200625130836.1916-11-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200625130836.1916-1-joro@8bytes.org>
 References: <20200625130836.1916-1-joro@8bytes.org>
@@ -84,15 +84,15 @@ per-device private pointer offered by IOMMU core.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- arch/x86/include/asm/device.h | 3 ---
+ arch/ia64/include/asm/device.h | 3 ---
  1 file changed, 3 deletions(-)
 
-diff --git a/arch/x86/include/asm/device.h b/arch/x86/include/asm/device.h
-index 49bd6cf3eec9..7c0a52ca2f4d 100644
---- a/arch/x86/include/asm/device.h
-+++ b/arch/x86/include/asm/device.h
-@@ -3,9 +3,6 @@
- #define _ASM_X86_DEVICE_H
+diff --git a/arch/ia64/include/asm/device.h b/arch/ia64/include/asm/device.h
+index 3eb397415381..918b198cd5bb 100644
+--- a/arch/ia64/include/asm/device.h
++++ b/arch/ia64/include/asm/device.h
+@@ -6,9 +6,6 @@
+ #define _ASM_IA64_DEVICE_H
  
  struct dev_archdata {
 -#ifdef CONFIG_IOMMU_API
