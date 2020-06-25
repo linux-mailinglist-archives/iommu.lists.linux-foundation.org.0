@@ -1,77 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD16C209790
-	for <lists.iommu@lfdr.de>; Thu, 25 Jun 2020 02:16:57 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA880209764
+	for <lists.iommu@lfdr.de>; Thu, 25 Jun 2020 02:10:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9418587E65;
-	Thu, 25 Jun 2020 00:16:56 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0BA45879AB;
+	Thu, 25 Jun 2020 00:10:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 53Nr0PAPAghi; Thu, 25 Jun 2020 00:16:56 +0000 (UTC)
+	with ESMTP id v2IUe+dvI9bq; Thu, 25 Jun 2020 00:10:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3443987E45;
-	Thu, 25 Jun 2020 00:16:56 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 33EC6879E9;
+	Thu, 25 Jun 2020 00:10:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2E030C016F;
-	Thu, 25 Jun 2020 00:16:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1451DC016F;
+	Thu, 25 Jun 2020 00:10:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 000D3C016F
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 00:16:54 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8BA73C016F
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 00:10:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id EEC5E86B46
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 00:16:54 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7B5AF886C4
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 00:10:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HLvCpZuH4RWD for <iommu@lists.linux-foundation.org>;
- Thu, 25 Jun 2020 00:16:54 +0000 (UTC)
+ with ESMTP id izFg59ZD09Nx for <iommu@lists.linux-foundation.org>;
+ Thu, 25 Jun 2020 00:10:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 42DFB86277
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 00:16:54 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id a21so3426166oic.8
- for <iommu@lists.linux-foundation.org>; Wed, 24 Jun 2020 17:16:54 -0700 (PDT)
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+ [209.85.214.193])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B4100886B6
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 00:10:46 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id x8so1010967plm.10
+ for <iommu@lists.linux-foundation.org>; Wed, 24 Jun 2020 17:10:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=qCGYxi6L0dmDdYzHShkkSHiKc6T34aWWoWuQkkFnaWU=;
- b=rOF1YhixiSD8M50+j5CiMzpdohF2arfJt6iyO3UNYlYzhcfBE1/ym4B6dvjJpTZQXZ
- zNVl2oHPobEbAf/+XE2fkhaKapUULh2NUBFuLnvMJpyrqa8xhuu4qGqnVEr92Hp1cXAH
- QQaYRDNL3+IxM2eAoostdDGI9aTtunbnEzAclrm8dcD0BhYaha73Pc10WKlQIrMw4nxg
- 75l1QGAhHoBHeSHNEKMgI82S4ZsIAl9YBGDMdZeoKr7tX9q0TN//+8jFTFf9KrKkZQYF
- OuDtsKWUUZAau3d1SAJhBktN2QePVibBmLBb7cygtwzBQmNZ/HXDf1LYhCdnotpzASWL
- PR/w==
+ bh=+LAKpRiBafd2oOjp/6TfYpZhYF0M8uCnrw227kRHd7U=;
+ b=HAlI1u32UitdJLPZdVwEahciwS3ZTB6W+Ys4ec6296HJhVkA4/UXBs25d9AQ+OnJp5
+ FP+ahCS3vHw/A1Zixz+Z8l54n8cr+EbLkrbQdselXivq7UG6o3/nTNH9TfuKRZVvEDsJ
+ ofl9wVPBBA6nbueD3tW+G8ob3X7lEsPQ1H6Q+ve46dM/XR0/tfXKtcaezay7Xz9G0n7v
+ URLpDKtNy6XhKPddMkq2OxknBGWDnel78c7gqfwSTY2o1Gzvi5Owk8HJbpT+y3fBPXvR
+ +mgKFgPxG1Ptvh4tLpk/H9kouGfX+/EM2oVuzATRTKR9rYV6C1scXP36jU2P1tL7OnpJ
+ vkTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=qCGYxi6L0dmDdYzHShkkSHiKc6T34aWWoWuQkkFnaWU=;
- b=JX32dUX7ot8g1XUGuspoLKRezUH/icttaCjXpVVta++ery4qG6gNNtFAZg597M/cOy
- zsU8avMET+jC522CaBGkEgPektrbq2a9QnF7YiRJqJDP88fgM10s9OYpv4UCuTbqBXS0
- SjWsAiOjoamN3q3propfh2zeNyDrYnFnFfKeRVmrzygl3A/3mzuLxF3FBG+XN/3aQRDL
- fOHXJG+pEUkIMJehGLD5GOiOT/S/T0pf2IWVYLvo0/MTkTfLSJaZzuhl66VWWvS+ZWZ9
- euWgnCXmcZZXVBYBXWUsxZRudOEk/in5ARsanA6jbzinvRQL7lPJkmhqIe0m7Ly3/mor
- i/fQ==
-X-Gm-Message-State: AOAM531uSYsv5F1iX9y/lIbxOqc5Hbl+DdQhWYeRtv4u4QxB0WaW5E1+
- J7ci/IFxNizekb0oE1REK59EnP1XU0Q=
-X-Google-Smtp-Source: ABdhPJxGeqEMqjAA50eBDK/+kqthZdDuh3xyYY2kWfjMLxc1bNitFm5ktScRYkrsfEUgv5rN5ZagFQ==
-X-Received: by 2002:a17:90a:1781:: with SMTP id q1mr392515pja.8.1593043844977; 
- Wed, 24 Jun 2020 17:10:44 -0700 (PDT)
+ bh=+LAKpRiBafd2oOjp/6TfYpZhYF0M8uCnrw227kRHd7U=;
+ b=gjjwbNs7bF9AVLKG9yIzMw6PkC1kY+OuV36lf5tprk3Kc5gIDMQplkj97grev8Uh43
+ gpoR2lF5WsY78TmCkoti26S/jC0PKcMNKe8tox5/+cfyEiztb+bXARtipqMqI04bFnNH
+ IMfNocKI1fom8/DZrEKzhjiUGM/XnwJn0Xv+0UsPxttbhQz/c+T9Fz02kPm5NUorIrAv
+ MBNuhegQ1KvfDDmfXXhF4xpj4ulT4fxPtxJPIvivuSo0b09wh1SP/xtVS74uHw74Oy9S
+ JCPXu9C7oftTwxcOW0Cc5eqfAtBsu0Bru8m9B98NTsmPJz/RQdESexWue5+HHw6eg6BN
+ bxag==
+X-Gm-Message-State: AOAM533S0a92waaKDuKMRD7rG83IRBXy0V9PvxXoTHpWeFILpwxvPb0X
+ tSRCI9TRAmNiDQXotG+7T2Ku2Q==
+X-Google-Smtp-Source: ABdhPJwidESwyZghUA8phlmnKseTB1UOw0TCgrn0ehnZTRkv2moQtUQaHy71nTZcExOkP0oXzBdcaQ==
+X-Received: by 2002:a17:902:9303:: with SMTP id
+ bc3mr3763473plb.56.1593043846320; 
+ Wed, 24 Jun 2020 17:10:46 -0700 (PDT)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
  by smtp.gmail.com with ESMTPSA id
- n19sm17458671pgb.0.2020.06.24.17.10.43
+ n19sm17458671pgb.0.2020.06.24.17.10.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Jun 2020 17:10:44 -0700 (PDT)
+ Wed, 24 Jun 2020 17:10:45 -0700 (PDT)
 From: John Stultz <john.stultz@linaro.org>
 To: lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 1/5] irq: irqdomain: Export irq_domain_update_bus_token
-Date: Thu, 25 Jun 2020 00:10:35 +0000
-Message-Id: <20200625001039.56174-2-john.stultz@linaro.org>
+Subject: [PATCH v2 2/5] irq: irqchip: Export irq_chip_retrigger_hierarchy and
+ irq_chip_set_vcpu_affinity_parent
+Date: Thu, 25 Jun 2020 00:10:36 +0000
+Message-Id: <20200625001039.56174-3-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200625001039.56174-1-john.stultz@linaro.org>
 References: <20200625001039.56174-1-john.stultz@linaro.org>
@@ -101,9 +103,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add export for irq_domain_update_bus_token() so that
-we can allow drivers like the qcom-pdc driver to be
-loadable as a module.
+Add EXPORT_SYMBOL_GPL entries for irq_chip_retrigger_hierarchy()
+and irq_chip_set_vcpu_affinity_parent() so that we can allow
+drivers like the qcom-pdc driver to be loadable as a module.
 
 Cc: Andy Gross <agross@kernel.org>
 Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
@@ -122,21 +124,30 @@ Cc: iommu@lists.linux-foundation.org
 Cc: linux-gpio@vger.kernel.org
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 ---
- kernel/irq/irqdomain.c | 1 +
- 1 file changed, 1 insertion(+)
+ kernel/irq/chip.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/kernel/irq/irqdomain.c b/kernel/irq/irqdomain.c
-index a4c2c915511d..ca974d965fda 100644
---- a/kernel/irq/irqdomain.c
-+++ b/kernel/irq/irqdomain.c
-@@ -281,6 +281,7 @@ void irq_domain_update_bus_token(struct irq_domain *domain,
+diff --git a/kernel/irq/chip.c b/kernel/irq/chip.c
+index 41e7e37a0928..ba6ce66d7ed6 100644
+--- a/kernel/irq/chip.c
++++ b/kernel/irq/chip.c
+@@ -1478,6 +1478,7 @@ int irq_chip_retrigger_hierarchy(struct irq_data *data)
  
- 	mutex_unlock(&irq_domain_mutex);
+ 	return 0;
  }
-+EXPORT_SYMBOL_GPL(irq_domain_update_bus_token);
++EXPORT_SYMBOL_GPL(irq_chip_retrigger_hierarchy);
  
  /**
-  * irq_domain_add_simple() - Register an irq_domain and optionally map a range of irqs
+  * irq_chip_set_vcpu_affinity_parent - Set vcpu affinity on the parent interrupt
+@@ -1492,7 +1493,7 @@ int irq_chip_set_vcpu_affinity_parent(struct irq_data *data, void *vcpu_info)
+ 
+ 	return -ENOSYS;
+ }
+-
++EXPORT_SYMBOL_GPL(irq_chip_set_vcpu_affinity_parent);
+ /**
+  * irq_chip_set_wake_parent - Set/reset wake-up on the parent interrupt
+  * @data:	Pointer to interrupt specific data
 -- 
 2.17.1
 
