@@ -2,73 +2,166 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074B520A6A1
-	for <lists.iommu@lfdr.de>; Thu, 25 Jun 2020 22:18:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64AB620A840
+	for <lists.iommu@lfdr.de>; Fri, 26 Jun 2020 00:32:33 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 85B05234AA;
-	Thu, 25 Jun 2020 20:18:57 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D6CFA2033B;
+	Thu, 25 Jun 2020 22:32:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id V4PFBa5sMH5I; Thu, 25 Jun 2020 20:18:56 +0000 (UTC)
+	with ESMTP id QaQPnMdCWZTi; Thu, 25 Jun 2020 22:32:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 219572201C;
-	Thu, 25 Jun 2020 20:18:56 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E19E020338;
+	Thu, 25 Jun 2020 22:32:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1AE89C016F;
-	Thu, 25 Jun 2020 20:18:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A5B96C016F;
+	Thu, 25 Jun 2020 22:32:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A7FF4C016F
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 20:18:54 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7E7CEC016F
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 22:32:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8D6F4881B3
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 20:18:54 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 60AFE8665D
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 22:32:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uUzQoQNa9cNV for <iommu@lists.linux-foundation.org>;
- Thu, 25 Jun 2020 20:18:50 +0000 (UTC)
+ with ESMTP id 87QsPgXosZ1I for <iommu@lists.linux-foundation.org>;
+ Thu, 25 Jun 2020 22:32:28 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by whitealder.osuosl.org (Postfix) with ESMTPS id DD4C4882AE
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 20:18:42 +0000 (UTC)
-IronPort-SDR: GyxgYPIWKZ6qyc10yaCGNAL24cVCIBnvrsk0ZoU1PzOg6xcjpTJ2QM2Z6UoNMT0K0c9cbJOwMQ
- xQgIlr67tJ7Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9663"; a="146566771"
-X-IronPort-AV: E=Sophos;i="5.75,280,1589266800"; d="scan'208";a="146566771"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jun 2020 13:18:42 -0700
-IronPort-SDR: FFc/YcmSGfhkw1N/sTKw9822mWl9jFt7gW0xMpG7hpJJL4yAo0vU189BfNLbCKrqXPX2w3OPao
- kh17kHKJ77WA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,280,1589266800"; d="scan'208";a="453132270"
-Received: from romley-ivt3.sc.intel.com ([172.25.110.60])
- by orsmga005.jf.intel.com with ESMTP; 25 Jun 2020 13:18:41 -0700
-From: Fenghua Yu <fenghua.yu@intel.com>
-To: "Thomas Gleixner" <tglx@linutronix.de>, "Joerg Roedel" <joro@8bytes.org>,
- "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
- "Peter Zijlstra" <peterz@infradead.org>, "H Peter Anvin" <hpa@zytor.com>,
- "David Woodhouse" <dwmw2@infradead.org>,
- "Lu Baolu" <baolu.lu@linux.intel.com>,
- "Dave Hansen" <dave.hansen@intel.com>, "Tony Luck" <tony.luck@intel.com>,
- "Jean-Philippe Brucker" <jean-philippe@linaro.org>,
- "Christoph Hellwig" <hch@infradeed.org>, "Ashok Raj" <ashok.raj@intel.com>,
- "Jacob Jun Pan" <jacob.jun.pan@intel.com>,
- "Dave Jiang" <dave.jiang@intel.com>, "Sohil Mehta" <sohil.mehta@intel.com>,
- "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH v4 12/12] x86/traps: Fix up invalid PASID
-Date: Thu, 25 Jun 2020 13:17:22 -0700
-Message-Id: <1593116242-31507-13-git-send-email-fenghua.yu@intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1593116242-31507-1-git-send-email-fenghua.yu@intel.com>
-References: <1593116242-31507-1-git-send-email-fenghua.yu@intel.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>, iommu@lists.linux-foundation.org,
- x86 <x86@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B90AF8651C
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 22:32:28 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5ef525cd0000>; Thu, 25 Jun 2020 15:31:41 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Thu, 25 Jun 2020 15:32:28 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Thu, 25 Jun 2020 15:32:28 -0700
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 25 Jun
+ 2020 22:32:26 +0000
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.176)
+ by HQMAIL101.nvidia.com (172.20.187.10) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Thu, 25 Jun 2020 22:32:26 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hJgRWP/8UBXqYktyBIz0hQENGAMToAU1XyRKiFztCN/YITF3Jn00jDss6cgACdbTtqArsXWpGZLS4RRN3VrDg6QX9WF38baAZ/Dud1Nf9WDVduLoeU5ZoX8zWdmwTY1tja8GvJ4k6gpTPECWINga07ySNenQPH254hxmQoZt60ZJXqEaZq0bs/6JOPLAU0zKfMLxLqZLjZhbbjIC9xHsxQtPplVaH2r82SM+bblmmYw67s+zOEVKWDhFEOvZJfufKFgr/PF63HdIgCHxq7IMvA0UWtPZgGL0ZwzBuEA6/SfMTtOrI4ngIqCMeEsPrJwSVbjFa5wvuOxg08wVnR9WpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BBT4oXmAgqHlR4wtELUFVV/DkDUb7NSZEI3m+QnPTaU=;
+ b=JKtLKKxOeDQ/OoJMjLvcZXNirE5+slhWnjBr6rMpDVsIcfqd7ALuxUu98s6h/xG5BwdLt72cLNyPeyV7ltldsl+slUr3EfT+GJegCALCcCZdwp2xVCdfOIk0JFU6BxyUjDJvhNrAc/YFEyCd6wekV+MFdfNkSqEONXYG34EaG/bevxb2x6Y86/iiB1eHx/ZzP9/Dkv3A5bmTHLklfQUy64PiXEaAWstZVxWiMBOh8loL0tHH1HZYaQMniPQLXu2aCKoKYNGeKt/EOqclbRTeDGCebZpODYkibTeo7mW+q6CDvlV458NA255l+ZqTU19CjwKNbpBBJAXK9TeelOKYsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from BYAPR12MB2822.namprd12.prod.outlook.com (2603:10b6:a03:9a::17)
+ by BYAPR12MB3126.namprd12.prod.outlook.com (2603:10b6:a03:df::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.21; Thu, 25 Jun
+ 2020 22:32:25 +0000
+Received: from BYAPR12MB2822.namprd12.prod.outlook.com
+ ([fe80::70bd:803f:78b6:ebf2]) by BYAPR12MB2822.namprd12.prod.outlook.com
+ ([fe80::70bd:803f:78b6:ebf2%2]) with mapi id 15.20.3109.026; Thu, 25 Jun 2020
+ 22:32:25 +0000
+From: Krishna Reddy <vdumpa@nvidia.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: RE: [PATCH v6 2/4] dt-bindings: arm-smmu: Add binding for Tegra194
+ SMMU
+Thread-Topic: [PATCH v6 2/4] dt-bindings: arm-smmu: Add binding for Tegra194
+ SMMU
+Thread-Index: AQHWOsoatXeRYg22cUKdLG2g64TOnKjl/cCAgAQNp9A=
+Date: Thu, 25 Jun 2020 22:32:25 +0000
+Message-ID: <BYAPR12MB28227065EDF92A406A770ECBB3920@BYAPR12MB2822.namprd12.prod.outlook.com>
+References: <20200604234414.21912-1-vdumpa@nvidia.com>
+ <20200604234414.21912-3-vdumpa@nvidia.com> <20200623083827.GC4098287@ulmo>
+In-Reply-To: <20200623083827.GC4098287@ulmo>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=VDUMPA@nvidia.com;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2020-06-25T22:32:21.5028718Z;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=65d84281-7db6-49a0-bed5-2431a618c7a1;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=nvidia.com;
+x-originating-ip: [216.228.112.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 346089c7-a281-4665-9351-08d81957a298
+x-ms-traffictypediagnostic: BYAPR12MB3126:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR12MB3126F22C7BB7C1E1B17EEAC3B3920@BYAPR12MB3126.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-forefront-prvs: 0445A82F82
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9+/yCn9iEGOzX9xCfzUbcnNDckJEC9nQ4iQIcmkoWCT1H6BxSy7yH1UpA2n+EdT11qfYBvV/Rj9mR68GX2fyDblAzdCUxzvFO87B+iGO9pxqPW9M6gInIg5hRwK0xW0iFfYgl2M0lRLTS2afr5e/ZbfuROmoZzbvmt3gw9n4xYQkbgHhDjoOlVrvp/OQG49cmRvOZi4KPwJQuik+DkxHuDGAvDZHwX7x1u1cMfPINtwLvqrBoK8HaG+sWu6Cb8ClP+hALsL3dOwczVYoSwPhEaQVCSdIqvJ/J3vOv0TM1jNs23BVVGXeRvBxlqcpzUkVUhR6o/HZoJebcI3UJCjq7Q==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR12MB2822.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(39860400002)(346002)(366004)(396003)(376002)(136003)(33656002)(6506007)(107886003)(316002)(54906003)(26005)(71200400001)(478600001)(7696005)(558084003)(2906002)(186003)(4326008)(52536014)(55016002)(9686003)(86362001)(6916009)(76116006)(66556008)(8936002)(66446008)(66476007)(64756008)(5660300002)(8676002)(66946007);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: +k7+tlB9+4EtuKOjx0wjupqMHa3NLwfZhesuo63F6qzQGOyhVA/29dD3l8JpiIsNIIgxZ4APgpMRMdc5lq3dzONjgcTWeh+LgM2Iwyw+n7mzU1X+VzawLVxMxnG6LgCYZ/PoVAby2kJv4PIK0fNrq+Ljy+zerPwFUqqjCKfoF8TgEVmjERx5yygTIv4dLk41biEBA971dZXWrHoS0HPTspqpVbyaSjYGqzeTYuPjOXfBnsSarwf3ZDgtaQ3hMNPYXFVQRh6w+76eoqOWBF28sOxvDFWyo/iOCOHxH6p/jfsjZyzkcbCjFxVVAT8sdzPnLlDPkXSwD2r1gWEuTfxhDO3NZxF5mpOeqVFC+G8+eOJEeZWIJ18slDSGNgO9B08FODP/ooja0F+kWBQ60KnXdLM+fmsqVFrGWzzXnjHYedQadRnrBx7F3MV7bMcGH3Khz0DfV9lrhx7GfAtpIlawCUo0OvF15nJs2juV6thtsVgcsKonOa/WM/ooOh8VgBWO
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2822.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 346089c7-a281-4665-9351-08d81957a298
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2020 22:32:25.1533 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Q9lgTtMK6X74OzojGX8XIRz9jz+M8VHmDXOEWXwrDxgbY9mpenI/LGMpyx0fypTyflR3+lHQ44RPMbKAnjLEnQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3126
+X-OriginatorOrg: Nvidia.com
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1593124301; bh=BBT4oXmAgqHlR4wtELUFVV/DkDUb7NSZEI3m+QnPTaU=;
+ h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
+ ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
+ Thread-Index:Date:Message-ID:References:In-Reply-To:
+ Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
+ authentication-results:x-originating-ip:x-ms-publictraffictype:
+ x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
+ x-ms-exchange-transport-forked:x-microsoft-antispam-prvs:
+ x-ms-oob-tlc-oobclassifiers:x-forefront-prvs:
+ x-ms-exchange-senderadcheck:x-microsoft-antispam:
+ x-microsoft-antispam-message-info:x-forefront-antispam-report:
+ x-ms-exchange-antispam-messagedata:MIME-Version:
+ X-MS-Exchange-CrossTenant-AuthAs:
+ X-MS-Exchange-CrossTenant-AuthSource:
+ X-MS-Exchange-CrossTenant-Network-Message-Id:
+ X-MS-Exchange-CrossTenant-originalarrivaltime:
+ X-MS-Exchange-CrossTenant-fromentityheader:
+ X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+ X-MS-Exchange-CrossTenant-userprincipalname:
+ X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
+ Content-Language:Content-Type:Content-Transfer-Encoding;
+ b=oHDmyDW8I7GfYIVeLKTsopRdzkvSYz6oOggAIPERlGKHSPBiLBDD1Ad09SACrE4vz
+ iigJOH21YDP1hRIgA+WNIgJscg7ElLCPQ6OabVJ7e32plz7oDANSLkmoGyBrkdTBHy
+ k3lOIzr7lvHak17aENL3bU0qM4jzbAquhWLF8UWB5BgY3tME7Y0fa2T45hRlJxaKda
+ zFkuXoqGqrLT/hp42DMFmZ1vR0MRUiEZtnoXvIZjlDvMdnipVFuyikox3uOuLtfVxl
+ LZnpKNXa9h6fXsD0WAhekXX9K4McuBhkWZrCqq1HmsJU907XhchgCPpOIB3+8frZXf
+ 8T+yzyDpUtdPw==
+Cc: Thierry Reding <treding@nvidia.com>, Bryan Huntsman <bhuntsman@nvidia.com>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Timo Alho <talho@nvidia.com>,
+ Sachin Nikam <Snikam@nvidia.com>, Nicolin Chen <nicolinc@nvidia.com>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ Yu-Huan Hsu <YHsu@nvidia.com>, Pritesh Raithatha <praithatha@nvidia.com>,
+ "will@kernel.org" <will@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Bitan Biswas <bbiswas@nvidia.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,205 +174,17 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-A #GP fault is generated when ENQCMD instruction is executed without
-a valid PASID value programmed in the current thread's PASID MSR. The
-#GP fault handler will initialize the MSR if a PASID has been allocated
-for this process.
+>> +              - nvdia,tegra194-smmu-500
+>The -500 suffix here seems a bit redundant since there's no other type of SMMU in Tegra194, correct?
 
-Decoding the user instruction is ugly and sets a bad architecture
-precedent. It may not function if the faulting instruction is modified
-after #GP.
+Yeah, there is only one type of SMMU supported in T194. It was added to be synonymous with mmu-500.  Can be removed.
 
-Thomas suggested to provide a reason for the #GP caused by executing ENQCMD
-without a valid PASID value programmed. #GP error codes are 16 bits and all
-16 bits are taken. Refer to SDM Vol 3, Chapter 16.13 for details. The other
-choice was to reflect the error code in an MSR. ENQCMD can also cause #GP
-when loading from the source operand, so its not fully comprehending all
-the reasons. Rather than special case the ENQCMD, in future Intel may
-choose a different fault mechanism for such cases if recovery is needed on
-#GP.
-
-The following heuristic is used to avoid decoding the user instructions
-to determine the precise reason for the #GP fault:
-1) If the mm for the process has not been allocated a PASID, this #GP
-   cannot be fixed.
-2) If the PASID MSR is already initialized, then the #GP was for some
-   other reason
-3) Try initializing the PASID MSR and returning. If the #GP was from
-   an ENQCMD this will fix it. If not, the #GP fault will be repeated
-   and will hit case "2".
-
-Suggested-by: Thomas Gleixner <tglx@linutronix.de>
-Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
----
-v4:
-- Change PASID type to u32 (Christoph)
-
-v3:
-- Check and set current->has_valid_pasid in fixup() (PeterZ)
-- Add fpu__pasid_write() to update the MSR (PeterZ)
-- Add ioasid_find() sanity check in fixup()
-
-v2:
-- Update the first paragraph of the commit message (Thomas)
-- Add reasons why don't decode the user instruction and don't use
-  #GP error code (Thomas)
-- Change get_task_mm() to current->mm (Thomas)
-- Add comments on why IRQ is disabled during PASID fixup (Thomas)
-- Add comment in fixup() that the function is called when #GP is from
-  user (so mm is not NULL) (Dave Hansen)
-
- arch/x86/include/asm/iommu.h |  1 +
- arch/x86/kernel/traps.c      | 14 +++++++
- drivers/iommu/intel/svm.c    | 78 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 93 insertions(+)
-
-diff --git a/arch/x86/include/asm/iommu.h b/arch/x86/include/asm/iommu.h
-index ed41259fe7ac..e9365a5d6f7d 100644
---- a/arch/x86/include/asm/iommu.h
-+++ b/arch/x86/include/asm/iommu.h
-@@ -27,5 +27,6 @@ arch_rmrr_sanity_check(struct acpi_dmar_reserved_memory *rmrr)
- }
- 
- void __free_pasid(struct mm_struct *mm);
-+bool __fixup_pasid_exception(void);
- 
- #endif /* _ASM_X86_IOMMU_H */
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index f9727b96961f..2352f3f1f7ed 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -59,6 +59,7 @@
- #include <asm/umip.h>
- #include <asm/insn.h>
- #include <asm/insn-eval.h>
-+#include <asm/iommu.h>
- 
- #ifdef CONFIG_X86_64
- #include <asm/x86_init.h>
-@@ -514,6 +515,16 @@ static enum kernel_gp_hint get_kernel_gp_address(struct pt_regs *regs,
- 	return GP_CANONICAL;
- }
- 
-+static bool fixup_pasid_exception(void)
-+{
-+	if (!IS_ENABLED(CONFIG_INTEL_IOMMU_SVM))
-+		return false;
-+	if (!static_cpu_has(X86_FEATURE_ENQCMD))
-+		return false;
-+
-+	return __fixup_pasid_exception();
-+}
-+
- #define GPFSTR "general protection fault"
- 
- DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
-@@ -526,6 +537,9 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
- 
- 	cond_local_irq_enable(regs);
- 
-+	if (user_mode(regs) && fixup_pasid_exception())
-+		goto exit;
-+
- 	if (static_cpu_has(X86_FEATURE_UMIP)) {
- 		if (user_mode(regs) && fixup_umip_exception(regs))
- 			goto exit;
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 4c788880b037..4a84c82a4f8c 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -1105,3 +1105,81 @@ void __free_pasid(struct mm_struct *mm)
- 	 */
- 	ioasid_free(pasid);
- }
-+
-+/*
-+ * Write the current task's PASID MSR/state. This is called only when PASID
-+ * is enabled.
-+ */
-+static void fpu__pasid_write(u32 pasid)
-+{
-+	u64 msr_val = pasid | MSR_IA32_PASID_VALID;
-+
-+	fpregs_lock();
-+
-+	/*
-+	 * If the MSR is active and owned by the current task's FPU, it can
-+	 * be directly written.
-+	 *
-+	 * Otherwise, write the fpstate.
-+	 */
-+	if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
-+		wrmsrl(MSR_IA32_PASID, msr_val);
-+	} else {
-+		struct ia32_pasid_state *ppasid_state;
-+
-+		ppasid_state = get_xsave_addr(&current->thread.fpu.state.xsave,
-+					      XFEATURE_PASID);
-+		/*
-+		 * ppasid_state shouldn't be NULL because XFEATURE_PASID
-+		 * is enabled.
-+		 */
-+		WARN_ON_ONCE(!ppasid_state);
-+		ppasid_state->pasid = msr_val;
-+	}
-+	fpregs_unlock();
-+}
-+
-+/*
-+ * Apply some heuristics to see if the #GP fault was caused by a thread
-+ * that hasn't had the IA32_PASID MSR initialized.  If it looks like that
-+ * is the problem, try initializing the IA32_PASID MSR. If the heuristic
-+ * guesses incorrectly, take one more #GP fault.
-+ */
-+bool __fixup_pasid_exception(void)
-+{
-+	struct intel_svm *svm;
-+	struct mm_struct *mm;
-+	u32 pasid;
-+
-+	/*
-+	 * If the current task already has a valid PASID in the MSR,
-+	 * the #GP must be for some other reason.
-+	 */
-+	if (current->has_valid_pasid)
-+		return false;
-+
-+	/*
-+	 * This function is called only when this #GP was triggered from user
-+	 * space. So the mm cannot be NULL.
-+	 */
-+	mm = current->mm;
-+	pasid = mm->pasid;
-+
-+	/*
-+	 * If the PASID isn't found, cannot help.
-+	 *
-+	 * Don't care if the PASID is bound to the mm here. #PF will handle the
-+	 * case that the MSR is fixed up by an unbound PASID.
-+	 */
-+	svm = ioasid_find(NULL, pasid, NULL);
-+	if (IS_ERR_OR_NULL(svm))
-+		return false;
-+
-+	/* Fix up the MSR by the PASID in the mm. */
-+	fpu__pasid_write(pasid);
-+
-+	/* Now the current task has a valid PASID in the MSR. */
-+	current->has_valid_pasid = 1;
-+
-+	return true;
-+}
--- 
-2.19.1
-
+-KR
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
