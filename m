@@ -1,64 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6BD209D5B
-	for <lists.iommu@lfdr.de>; Thu, 25 Jun 2020 13:16:01 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D32209EEB
+	for <lists.iommu@lfdr.de>; Thu, 25 Jun 2020 14:54:30 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 9D6D92313D;
-	Thu, 25 Jun 2020 11:16:00 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5FDA986091;
+	Thu, 25 Jun 2020 12:54:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id t5XlYz-SSwKk; Thu, 25 Jun 2020 11:15:58 +0000 (UTC)
+	with ESMTP id 06l+A3xnaERX; Thu, 25 Jun 2020 12:54:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 887872313B;
-	Thu, 25 Jun 2020 11:15:58 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 87C63869F8;
+	Thu, 25 Jun 2020 12:54:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 64430C016F;
-	Thu, 25 Jun 2020 11:15:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6CA58C016F;
+	Thu, 25 Jun 2020 12:54:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 42B8DC016F
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 11:15:57 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0B019C016F
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 12:54:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 302B78614A
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 11:15:57 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id EE673868E5
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 12:54:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SxcGJYjiYT00 for <iommu@lists.linux-foundation.org>;
- Thu, 25 Jun 2020 11:15:56 +0000 (UTC)
+ with ESMTP id 5fdUFuPZvn4i for <iommu@lists.linux-foundation.org>;
+ Thu, 25 Jun 2020 12:54:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 29B80860F9
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 11:15:56 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 680B21FB;
- Thu, 25 Jun 2020 04:15:55 -0700 (PDT)
-Received: from [10.57.13.97] (unknown [10.57.13.97])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 571643F73C;
- Thu, 25 Jun 2020 04:15:53 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] arm64: mm: reserve per-numa CMA after numa_init
-To: Barry Song <song.bao.hua@hisilicon.com>, hch@lst.de,
- m.szyprowski@samsung.com, will@kernel.org, ganapatrao.kulkarni@cavium.com,
- catalin.marinas@arm.com
-References: <20200625074330.13668-1-song.bao.hua@hisilicon.com>
- <20200625074330.13668-3-song.bao.hua@hisilicon.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <53b97598-6c83-1cb2-5763-4ded441403c5@arm.com>
-Date: Thu, 25 Jun 2020 12:15:50 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 3BCFC86091
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 12:54:26 +0000 (UTC)
+IronPort-SDR: KgIAc3Hf2rKjzDe3sCI1cC16lPXIy281uuPZcHx2c8yenEZubab7xdFY/1S4XbbT7ouWV6N74j
+ pnPglmaMLFlw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="143962333"
+X-IronPort-AV: E=Sophos;i="5.75,279,1589266800"; d="scan'208";a="143962333"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2020 05:54:25 -0700
+IronPort-SDR: 604t9fzSsToorAiXk1e2QV9ssp+DA11lpkBgLXjc441qtWdtpCW7bq++NhHiVciHxVJKCHpF1O
+ AKsWP6VHxW3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,279,1589266800"; d="scan'208";a="263914182"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.255.28.52])
+ ([10.255.28.52])
+ by fmsmga007.fm.intel.com with ESMTP; 25 Jun 2020 05:54:23 -0700
+Subject: Re: [PATCH 7/7] iommu/vt-d: Disable multiple GPASID-dev bind
+To: Jacob Pan <jacob.jun.pan@linux.intel.com>,
+ iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>
+References: <1592926996-47914-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1592926996-47914-8-git-send-email-jacob.jun.pan@linux.intel.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <e8725709-8720-ade2-34a3-999f0cf61fde@linux.intel.com>
+Date: Thu, 25 Jun 2020 20:54:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200625074330.13668-3-song.bao.hua@hisilicon.com>
-Content-Language: en-GB
-Cc: Steve Capper <steve.capper@arm.com>, linuxarm@huawei.com,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-arm-kernel@lists.infradead.org,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@linux.ibm.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+In-Reply-To: <1592926996-47914-8-git-send-email-jacob.jun.pan@linux.intel.com>
+Content-Language: en-US
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,50 +82,76 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-06-25 08:43, Barry Song wrote:
-> Right now, smmu is using dma_alloc_coherent() to get memory to save queues
-> and tables. Typically, on ARM64 server, there is a default CMA located at
-> node0, which could be far away from node2, node3 etc.
-> with this patch, smmu will get memory from local numa node to save command
-> queues and page tables. that means dma_unmap latency will be shrunk much.
-> Meanwhile, when iommu.passthrough is on, device drivers which call dma_
-> alloc_coherent() will also get local memory and avoid the travel between
-> numa nodes.
+On 2020/6/23 23:43, Jacob Pan wrote:
+> For the unlikely use case where multiple aux domains from the same pdev
+> are attached to a single guest and then bound to a single process
+> (thus same PASID) within that guest, we cannot easily support this case
+> by refcounting the number of users. As there is only one SL page table
+> per PASID while we have multiple aux domains thus multiple SL page tables
+> for the same PASID.
 > 
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> Cc: Steve Capper <steve.capper@arm.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Mike Rapoport <rppt@linux.ibm.com>
-> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+> Extra unbinding guest PASID can happen due to race between normal and
+> exception cases. Termination of one aux domain may affect others unless
+> we actively track and switch aux domains to ensure the validity of SL
+> page tables and TLB states in the shared PASID entry.
+> 
+> Support for sharing second level PGDs across domains can reduce the
+> complexity but this is not available due to the limitations on VFIO
+> container architecture. We can revisit this decision once sharing PGDs
+> are available.
+> 
+> Overall, the complexity and potential glitch do not warrant this unlikely
+> use case thereby removed by this patch.
+> 
+> Cc: Kevin Tian <kevin.tian@intel.com>
+> Cc: Lu Baolu <baolu.lu@linux.intel.com>
+> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+
+Fixes: 56722a4398a30 ("iommu/vt-d: Add bind guest PASID support")
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+
+Best regards,
+baolu
+
 > ---
->   arch/arm64/mm/init.c | 2 ++
->   1 file changed, 2 insertions(+)
+>   drivers/iommu/intel/svm.c | 22 +++++++++-------------
+>   1 file changed, 9 insertions(+), 13 deletions(-)
 > 
-> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-> index 1e93cfc7c47a..07d4d1fe7983 100644
-> --- a/arch/arm64/mm/init.c
-> +++ b/arch/arm64/mm/init.c
-> @@ -420,6 +420,8 @@ void __init bootmem_init(void)
+> diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
+> index 6c87c807a0ab..d386853121a2 100644
+> --- a/drivers/iommu/intel/svm.c
+> +++ b/drivers/iommu/intel/svm.c
+> @@ -277,20 +277,16 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+>   			goto out;
+>   		}
 >   
->   	arm64_numa_init();
->   
-> +	dma_pernuma_cma_reserve();
-> +
-
-It might be worth putting this after the hugetlb_cma_reserve() call for 
-clarity, since the comment below applies equally to this call too.
-
-Robin.
-
->   	/*
->   	 * must be done after arm64_numa_init() which calls numa_init() to
->   	 * initialize node_online_map that gets used in hugetlb_cma_reserve()
+> +		/*
+> +		 * Do not allow multiple bindings of the same device-PASID since
+> +		 * there is only one SL page tables per PASID. We may revisit
+> +		 * once sharing PGD across domains are supported.
+> +		 */
+>   		for_each_svm_dev(sdev, svm, dev) {
+> -			/*
+> -			 * For devices with aux domains, we should allow
+> -			 * multiple bind calls with the same PASID and pdev.
+> -			 */
+> -			if (iommu_dev_feature_enabled(dev,
+> -						      IOMMU_DEV_FEAT_AUX)) {
+> -				sdev->users++;
+> -			} else {
+> -				dev_warn_ratelimited(dev,
+> -						     "Already bound with PASID %u\n",
+> -						     svm->pasid);
+> -				ret = -EBUSY;
+> -			}
+> +			dev_warn_ratelimited(dev,
+> +					     "Already bound with PASID %u\n",
+> +					     svm->pasid);
+> +			ret = -EBUSY;
+>   			goto out;
+>   		}
+>   	} else {
 > 
 _______________________________________________
 iommu mailing list
