@@ -1,46 +1,46 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C04209F2A
-	for <lists.iommu@lfdr.de>; Thu, 25 Jun 2020 15:08:51 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 962C0209F2C
+	for <lists.iommu@lfdr.de>; Thu, 25 Jun 2020 15:08:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 646E588810;
-	Thu, 25 Jun 2020 13:08:50 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 53EAF2324B;
+	Thu, 25 Jun 2020 13:08:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id liSR3BBEg5Km; Thu, 25 Jun 2020 13:08:49 +0000 (UTC)
+	with ESMTP id R9RMH6Hj+TYw; Thu, 25 Jun 2020 13:08:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C7A8F887ED;
-	Thu, 25 Jun 2020 13:08:49 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AF4B523236;
+	Thu, 25 Jun 2020 13:08:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BF15DC016F;
-	Thu, 25 Jun 2020 13:08:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A501C016F;
+	Thu, 25 Jun 2020 13:08:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8BE1DC016F
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 13:08:46 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 134ADC016F
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 13:08:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 87FD723143
- for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 13:08:46 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 0CF752313D
+ for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 13:08:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LFW89xcZYGX2 for <iommu@lists.linux-foundation.org>;
+ with ESMTP id hQgHESLUKgCs for <iommu@lists.linux-foundation.org>;
  Thu, 25 Jun 2020 13:08:44 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by silver.osuosl.org (Postfix) with ESMTPS id 7FBC223119
+ by silver.osuosl.org (Postfix) with ESMTPS id 7C12123115
  for <iommu@lists.linux-foundation.org>; Thu, 25 Jun 2020 13:08:44 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 2FD2B4C4; Thu, 25 Jun 2020 15:08:39 +0200 (CEST)
+ id 5E1104CB; Thu, 25 Jun 2020 15:08:39 +0200 (CEST)
 From: Joerg Roedel <joro@8bytes.org>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH 07/13] iommu/pamu: Use dev_iommu_priv_get/set()
-Date: Thu, 25 Jun 2020 15:08:30 +0200
-Message-Id: <20200625130836.1916-8-joro@8bytes.org>
+Subject: [PATCH 08/13] iommu/mediatek: Do no use dev->archdata.iommu
+Date: Thu, 25 Jun 2020 15:08:31 +0200
+Message-Id: <20200625130836.1916-9-joro@8bytes.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200625130836.1916-1-joro@8bytes.org>
 References: <20200625130836.1916-1-joro@8bytes.org>
@@ -79,47 +79,78 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-Remove the use of dev->archdata.iommu_domain and use the private
-per-device pointer provided by IOMMU core code instead.
+The iommu private pointer is already used in the Mediatek IOMMU v1
+driver, so move the dma_iommu_mapping pointer into 'struct
+mtk_iommu_data' and do not use dev->archdata.iommu anymore.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/fsl_pamu_domain.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/iommu/mtk_iommu.h    |  2 ++
+ drivers/iommu/mtk_iommu_v1.c | 10 ++++------
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/iommu/fsl_pamu_domain.c b/drivers/iommu/fsl_pamu_domain.c
-index 928d37771ece..b2110767caf4 100644
---- a/drivers/iommu/fsl_pamu_domain.c
-+++ b/drivers/iommu/fsl_pamu_domain.c
-@@ -323,7 +323,7 @@ static void remove_device_ref(struct device_domain_info *info, u32 win_cnt)
- 	pamu_disable_liodn(info->liodn);
- 	spin_unlock_irqrestore(&iommu_lock, flags);
- 	spin_lock_irqsave(&device_domain_lock, flags);
--	info->dev->archdata.iommu_domain = NULL;
-+	dev_iommu_priv_set(info->dev, NULL);
- 	kmem_cache_free(iommu_devinfo_cache, info);
- 	spin_unlock_irqrestore(&device_domain_lock, flags);
- }
-@@ -352,7 +352,7 @@ static void attach_device(struct fsl_dma_domain *dma_domain, int liodn, struct d
- 	 * Check here if the device is already attached to domain or not.
- 	 * If the device is already attached to a domain detach it.
- 	 */
--	old_domain_info = dev->archdata.iommu_domain;
-+	old_domain_info = dev_iommu_priv_get(dev);
- 	if (old_domain_info && old_domain_info->domain != dma_domain) {
- 		spin_unlock_irqrestore(&device_domain_lock, flags);
- 		detach_device(dev, old_domain_info->domain);
-@@ -371,8 +371,8 @@ static void attach_device(struct fsl_dma_domain *dma_domain, int liodn, struct d
- 	 * the info for the first LIODN as all
- 	 * LIODNs share the same domain
- 	 */
--	if (!dev->archdata.iommu_domain)
--		dev->archdata.iommu_domain = info;
-+	if (!dev_iommu_priv_get(dev))
-+		dev_iommu_priv_set(dev, info);
- 	spin_unlock_irqrestore(&device_domain_lock, flags);
- }
+diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
+index ea949a324e33..1682406e98dc 100644
+--- a/drivers/iommu/mtk_iommu.h
++++ b/drivers/iommu/mtk_iommu.h
+@@ -62,6 +62,8 @@ struct mtk_iommu_data {
+ 	struct iommu_device		iommu;
+ 	const struct mtk_iommu_plat_data *plat_data;
  
++	struct dma_iommu_mapping	*mapping; /* For mtk_iommu_v1.c */
++
+ 	struct list_head		list;
+ 	struct mtk_smi_larb_iommu	larb_imu[MTK_LARB_NR_MAX];
+ };
+diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
+index c9d79cff4d17..82ddfe9170d4 100644
+--- a/drivers/iommu/mtk_iommu_v1.c
++++ b/drivers/iommu/mtk_iommu_v1.c
+@@ -269,7 +269,7 @@ static int mtk_iommu_attach_device(struct iommu_domain *domain,
+ 	int ret;
+ 
+ 	/* Only allow the domain created internally. */
+-	mtk_mapping = data->dev->archdata.iommu;
++	mtk_mapping = data->mapping;
+ 	if (mtk_mapping->domain != domain)
+ 		return 0;
+ 
+@@ -369,7 +369,6 @@ static int mtk_iommu_create_mapping(struct device *dev,
+ 	struct mtk_iommu_data *data;
+ 	struct platform_device *m4updev;
+ 	struct dma_iommu_mapping *mtk_mapping;
+-	struct device *m4udev;
+ 	int ret;
+ 
+ 	if (args->args_count != 1) {
+@@ -401,8 +400,7 @@ static int mtk_iommu_create_mapping(struct device *dev,
+ 		return ret;
+ 
+ 	data = dev_iommu_priv_get(dev);
+-	m4udev = data->dev;
+-	mtk_mapping = m4udev->archdata.iommu;
++	mtk_mapping = data->mapping;
+ 	if (!mtk_mapping) {
+ 		/* MTK iommu support 4GB iova address space. */
+ 		mtk_mapping = arm_iommu_create_mapping(&platform_bus_type,
+@@ -410,7 +408,7 @@ static int mtk_iommu_create_mapping(struct device *dev,
+ 		if (IS_ERR(mtk_mapping))
+ 			return PTR_ERR(mtk_mapping);
+ 
+-		m4udev->archdata.iommu = mtk_mapping;
++		data->mapping = mtk_mapping;
+ 	}
+ 
+ 	return 0;
+@@ -459,7 +457,7 @@ static void mtk_iommu_probe_finalize(struct device *dev)
+ 	int err;
+ 
+ 	data        = dev_iommu_priv_get(dev);
+-	mtk_mapping = data->dev->archdata.iommu;
++	mtk_mapping = data->mapping;
+ 
+ 	err = arm_iommu_attach_device(dev, mtk_mapping);
+ 	if (err)
 -- 
 2.27.0
 
