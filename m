@@ -2,80 +2,81 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2985620B9D8
-	for <lists.iommu@lfdr.de>; Fri, 26 Jun 2020 22:04:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735E720B9C9
+	for <lists.iommu@lfdr.de>; Fri, 26 Jun 2020 22:04:48 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D88B78789B;
-	Fri, 26 Jun 2020 20:04:56 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 422FB87D1A;
+	Fri, 26 Jun 2020 20:04:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gGlhJae2vq6b; Fri, 26 Jun 2020 20:04:55 +0000 (UTC)
+	with ESMTP id 9Uvra4vocSNk; Fri, 26 Jun 2020 20:04:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 940FD87E3B;
-	Fri, 26 Jun 2020 20:04:55 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C2B9F87CB6;
+	Fri, 26 Jun 2020 20:04:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6EBA0C016F;
-	Fri, 26 Jun 2020 20:04:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A92CDC016F;
+	Fri, 26 Jun 2020 20:04:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 93085C016F
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 20:04:53 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D5EABC016F
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 20:04:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8A5BD87DAD
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 20:04:53 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id BFAF787CEC
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 20:04:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id POGdyGlTmsEZ for <iommu@lists.linux-foundation.org>;
- Fri, 26 Jun 2020 20:04:52 +0000 (UTC)
+ with ESMTP id XVAoSDvHtELr for <iommu@lists.linux-foundation.org>;
+ Fri, 26 Jun 2020 20:04:44 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 7073B8789B
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 20:04:47 +0000 (UTC)
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id DA7C887CB6
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 20:04:40 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1593201892; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1593201884; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=PQnTZkYVOn9g39XJGJ/Fc5lnyvhq0qe68meDTmbVWdk=;
- b=RMthErzW3x/ae22Fbtx5JWaV2OL/wDMGqtQjQwMKP7dvRff5ZUkVUGpt1ZPdnEc4yZ0TCn3l
- /bLka09KYKUgkwHTnNbcWCB8ZMmojRQ+fUssO70c/VLhYXPUaK7VInjojSOzXspIRbh7zDwA
- 2hmiKSS7su+3n0GSkfm17OiQNa8=
-X-Mailgun-Sending-Ip: 69.72.43.7
+ bh=w7L9q0FJyrGR9ubHX5bPA568m/fho6YvIBGV3F8A+Ko=;
+ b=h8oceMwaJDcBv0Bx4NVtGQIN2rFud8gw9HoSpbw2ZbWrkJJWj8hHKCxtX6/cabd748/z1wIr
+ g143fVBxXB/cHQvu0bhgJhoDVAnweB4J7g3Wux/vOMMKDltJEt5NdVc7IrVUtyhX0wlpYWGQ
+ tV8G7YnqdTBYbuUQlbvTXUnlE8k=
+X-Mailgun-Sending-Ip: 104.130.122.29
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n18.prod.us-east-1.postgun.com with SMTP id
- 5ef654caa6e154319f63f4c3 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Jun 2020 20:04:26
+ smtp-out-n08.prod.us-east-1.postgun.com with SMTP id
+ 5ef654ccc4bb4f886d84e2de (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 26 Jun 2020 20:04:28
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id DE0C7C433B6; Fri, 26 Jun 2020 20:04:25 +0000 (UTC)
+ id 4F7FDC433BA; Fri, 26 Jun 2020 20:04:27 +0000 (UTC)
 Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id C030EC433C6;
- Fri, 26 Jun 2020 20:04:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C030EC433C6
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A88A6C433C8;
+ Fri, 26 Jun 2020 20:04:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A88A6C433C8
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2 2/6] iommu/io-pgtable: Allow a pgtable implementation to
- skip TLB operations
-Date: Fri, 26 Jun 2020 14:04:10 -0600
-Message-Id: <20200626200414.14382-3-jcrouse@codeaurora.org>
+Subject: [PATCH v2 3/6] iommu/arm-smmu: Add a domain attribute to pass the
+ pagetable config
+Date: Fri, 26 Jun 2020 14:04:11 -0600
+Message-Id: <20200626200414.14382-4-jcrouse@codeaurora.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200626200414.14382-1-jcrouse@codeaurora.org>
 References: <20200626200414.14382-1-jcrouse@codeaurora.org>
-Cc: Joerg Roedel <jroedel@suse.de>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, John Stultz <john.stultz@linaro.org>,
- freedreno@lists.freedesktop.org
+Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ John Stultz <john.stultz@linaro.org>, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,57 +95,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Allow a io-pgtable implementation to skip TLB operations by checking for
-NULL pointers in the helper functions. It will be up to to the owner
-of the io-pgtable instance to make sure that they independently handle
-the TLB correctly.
+The Adreno GPU has the capacity to manage its own pagetables and switch
+them dynamically from the hardware. Add a domain attribute for arm-smmu-v2
+to get the default pagetable configuration so that the GPU driver can match
+the format for its own pagetables.
 
 Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
 
- include/linux/io-pgtable.h | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/iommu/arm-smmu.c | 12 ++++++++++++
+ include/linux/iommu.h    |  1 +
+ 2 files changed, 13 insertions(+)
 
-diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
-index 53d53c6c2be9..bbed1d3925ba 100644
---- a/include/linux/io-pgtable.h
-+++ b/include/linux/io-pgtable.h
-@@ -210,21 +210,24 @@ struct io_pgtable {
- 
- static inline void io_pgtable_tlb_flush_all(struct io_pgtable *iop)
- {
--	iop->cfg.tlb->tlb_flush_all(iop->cookie);
-+	if (iop->cfg.tlb)
-+		iop->cfg.tlb->tlb_flush_all(iop->cookie);
- }
- 
- static inline void
- io_pgtable_tlb_flush_walk(struct io_pgtable *iop, unsigned long iova,
- 			  size_t size, size_t granule)
- {
--	iop->cfg.tlb->tlb_flush_walk(iova, size, granule, iop->cookie);
-+	if (iop->cfg.tlb)
-+		iop->cfg.tlb->tlb_flush_walk(iova, size, granule, iop->cookie);
- }
- 
- static inline void
- io_pgtable_tlb_flush_leaf(struct io_pgtable *iop, unsigned long iova,
- 			  size_t size, size_t granule)
- {
--	iop->cfg.tlb->tlb_flush_leaf(iova, size, granule, iop->cookie);
-+	if (iop->cfg.tlb)
-+		iop->cfg.tlb->tlb_flush_leaf(iova, size, granule, iop->cookie);
- }
- 
- static inline void
-@@ -232,7 +235,7 @@ io_pgtable_tlb_add_page(struct io_pgtable *iop,
- 			struct iommu_iotlb_gather * gather, unsigned long iova,
- 			size_t granule)
- {
--	if (iop->cfg.tlb->tlb_add_page)
-+	if (iop->cfg.tlb && iop->cfg.tlb->tlb_add_page)
- 		iop->cfg.tlb->tlb_add_page(gather, iova, granule, iop->cookie);
- }
+diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+index ce6d654301bf..4bd247dfd703 100644
+--- a/drivers/iommu/arm-smmu.c
++++ b/drivers/iommu/arm-smmu.c
+@@ -1714,6 +1714,18 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
+ 		case DOMAIN_ATTR_NESTING:
+ 			*(int *)data = (smmu_domain->stage == ARM_SMMU_DOMAIN_NESTED);
+ 			return 0;
++		case DOMAIN_ATTR_PGTABLE_CFG: {
++			struct io_pgtable *pgtable;
++			struct io_pgtable_cfg *dest = data;
++
++			if (!smmu_domain->pgtbl_ops)
++				return -ENODEV;
++
++			pgtable = io_pgtable_ops_to_pgtable(smmu_domain->pgtbl_ops);
++
++			memcpy(dest, &pgtable->cfg, sizeof(*dest));
++			return 0;
++		}
+ 		default:
+ 			return -ENODEV;
+ 		}
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index 5f0b7859d2eb..2388117641f1 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -124,6 +124,7 @@ enum iommu_attr {
+ 	DOMAIN_ATTR_FSL_PAMUV1,
+ 	DOMAIN_ATTR_NESTING,	/* two stages of translation */
+ 	DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE,
++	DOMAIN_ATTR_PGTABLE_CFG,
+ 	DOMAIN_ATTR_MAX,
+ };
  
 -- 
 2.17.1
