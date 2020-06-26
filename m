@@ -1,88 +1,96 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2892620AD86
-	for <lists.iommu@lfdr.de>; Fri, 26 Jun 2020 09:47:58 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CFBF588305;
-	Fri, 26 Jun 2020 07:47:56 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Zm3JKjzS4A4Y; Fri, 26 Jun 2020 07:47:56 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0C539883E2;
-	Fri, 26 Jun 2020 07:47:56 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EBD49C016F;
-	Fri, 26 Jun 2020 07:47:55 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B41E8C016F
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 07:47:54 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D67F20AE43
+	for <lists.iommu@lfdr.de>; Fri, 26 Jun 2020 10:14:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id B0FEA86A27
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 07:47:54 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 24CBF868DE;
+	Fri, 26 Jun 2020 08:14:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Qlfy2qCilXgM; Fri, 26 Jun 2020 08:14:00 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 74B3F86C11;
+	Fri, 26 Jun 2020 08:14:00 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 58C38C016F;
+	Fri, 26 Jun 2020 08:14:00 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BB328C016F
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 07:53:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id A23CE883CD
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 07:53:10 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gjTk2GG0m-_Y for <iommu@lists.linux-foundation.org>;
- Fri, 26 Jun 2020 07:47:52 +0000 (UTC)
+ with ESMTP id pQzw4TQYryMr for <iommu@lists.linux-foundation.org>;
+ Fri, 26 Jun 2020 07:53:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 5288F8698F
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 07:47:52 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id w6so8438438ejq.6
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 00:47:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=uilk6pA4v6KKUsLLMKY6bcWg9QtWqaF5/DWx18U/CC0=;
- b=wNRHexa5s1zJiUOQyWtpLRXSG5ABe3ivQzpVwdwmn8o/tEZ3m+fyj4FO67sPTR7iGi
- DpNfp1sF5xQI6z+w34Q0nCrcdbvULmc0+e1I8AwkbPv/n7tBvK9hQWB5afKP87qjKW06
- AKTO4Ic3DR6pc55MzBsi6SUhapT0eVSocXd+lW+19x5PYMm8xySVNbEGipLDiYUeTeVV
- cK+kzpFrFU3vZ6pjqQRkZj4aeFNbOMZ6nFAAh/Mr4AEKLD+UxIHEOX3PSGfZ1VYrpPSl
- C+jhxyMXPeiK8p3tM4y8nLAf39PmbenImLBlqlgNyJa2RI/2nWh4gggsgzCCsz1g3Flx
- Wr3g==
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+ [209.85.166.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 71F638837C
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 07:53:09 +0000 (UTC)
+Received: by mail-il1-f195.google.com with SMTP id x18so7721197ilp.1
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 00:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Bny++tBIMk54Yvx2zfPmbf+0Ot1GMKL64TsxDOduJ60=;
+ b=pi6qOR8sPj7wZ3XcK4gDbT3e2yS9IRpuNkEBpAAyS6vV2vySKo5Vm4MZOHf5dN9/n6
+ rZDPHSot2GRbxX/1REKPttlo+Gzk75IZceDEaIfFmYI8QXZB1LQg8qHLSxJxDsLKnxml
+ l0cwdUTYDBeOKmNiN4Q4pARW90E2EoDrX3YkT0CSSeeqdi8A0SGs3Dqcl9ovEFyfi1Yx
+ sZGDoFNouIlleCmILazYchvNRfPX6sKs4K/xW6F/9FmIvA1+S+9jyKRggl7PqLJFkorf
+ Tag+SsZRh2Zu+9n87emt6epFAkp6mqih/EHD8iJ4U29ckOKIHgwgJgpsK2LVXpMVVvS2
+ lXRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uilk6pA4v6KKUsLLMKY6bcWg9QtWqaF5/DWx18U/CC0=;
- b=Lj15n/zu7MckskQC+Dkz0f1KWHmIYt+8yluKLc1kFO6k7bXDABNtKBirws+SmCtptz
- LDxStpBoC3cF99l3DHmMWD+dEKP1XoFxlg4pwlu1QmZjwIbSQf54MMRs7rpxpZVEpiUA
- zEeYdLui0TeNRC2v4gkRXKDRNmUx233VcrV4LLg8sliC0XE4FePwDNHfbO3TO4BqC6CF
- 8NYLVynFtNyDDYnS4ykg3JVQ5RchKtqXMesN/3kdEPIK0dKXLHVfiCs3iFarRwDQ/JGT
- omt9J1lC1dIpBggP7vdznkdlDjEZt09eazB8+07TsOpYuoID+sIrwp1kYdoMKaNlOkh0
- N4Qw==
-X-Gm-Message-State: AOAM533yW7CHo7ICYSijE+C8+au6hDifbfO0xd0FpaR39702xM3OjIbc
- abWKdfBXeaKz6WzvE0sNPiXZBQ==
-X-Google-Smtp-Source: ABdhPJz95Ad9tZXwAAZZfpGTo9871UG/cCB3/qufTsd1aPfFz2/WXFO57hB5+K4dVtoXfNQLW+GeCg==
-X-Received: by 2002:a17:906:c14f:: with SMTP id
- dp15mr1444508ejc.454.1593157670667; 
- Fri, 26 Jun 2020 00:47:50 -0700 (PDT)
-Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id be2sm8717486edb.92.2020.06.26.00.47.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Jun 2020 00:47:50 -0700 (PDT)
-Date: Fri, 26 Jun 2020 09:47:38 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Liu Yi L <yi.l.liu@intel.com>
-Subject: Re: [PATCH v3 02/14] iommu: Report domain nesting info
-Message-ID: <20200626074738.GA2107508@myrica>
-References: <1592988927-48009-1-git-send-email-yi.l.liu@intel.com>
- <1592988927-48009-3-git-send-email-yi.l.liu@intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Bny++tBIMk54Yvx2zfPmbf+0Ot1GMKL64TsxDOduJ60=;
+ b=J85yvYTaJV90Tv7rJEKGIDMuWx0adkjta4ZfrrBep6Hao4szjF85pvMyuv9vMS47BG
+ l0Zct29TFLXrYOLUNWT0K6P90mAJR+8oVndMhvQa/kdL/hWjxG5bDTpwW+aL+Q9yxITi
+ c0xcBS/GvT4sTSeIoD46YfqZKh9MK50lIJG762FgX4/sdLyyJPnBTgEGi5FP7wNtHcd6
+ bjEDP6Ac599dLs6LhcRkJX93xhjx8ZxCvTv8tp4UokAovbRrlPyoJyyW01jED2ZktaBA
+ JClCsQo3k6GK50zpHVA5+6oSNufgxf9TGIcsK28xwSUqmh83XQgCGxidtoq9NG8HckTH
+ EvVA==
+X-Gm-Message-State: AOAM531j78e7WPN5pe/M9VL7aHxbVty+cIAImfNL+Fx94Gp3dIZa4vyf
+ yohjmH3MBi5Lf0IgaH2WfkTG79HG2Koijk5DdPc=
+X-Google-Smtp-Source: ABdhPJxWukgYdKg85VYa/UxfpvGS2QookcbFIPNFv/QZkXY9QvIFnKJ30Qho5lEy3R+IADOlR2rMSdIe2qRRQsQNYrE=
+X-Received: by 2002:a92:5e17:: with SMTP id s23mr1766973ilb.149.1593157988638; 
+ Fri, 26 Jun 2020 00:53:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1592988927-48009-3-git-send-email-yi.l.liu@intel.com>
-Cc: kevin.tian@intel.com, ashok.raj@intel.com, kvm@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>, yi.y.sun@intel.com,
- linux-kernel@vger.kernel.org, alex.williamson@redhat.com,
- iommu@lists.linux-foundation.org, hao.wu@intel.com,
- Will Deacon <will@kernel.org>, jun.j.tian@intel.com
+References: <20200626002710.110200-1-rajatja@google.com>
+ <20200626002710.110200-2-rajatja@google.com>
+In-Reply-To: <20200626002710.110200-2-rajatja@google.com>
+From: "Oliver O'Halloran" <oohall@gmail.com>
+Date: Fri, 26 Jun 2020 17:52:57 +1000
+Message-ID: <CAOSf1CHwj7qD6CdZ+AnY3s1JQXvO0eAG5CgoSHAUBGjtZ6+QfA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] pci: Add parameter to disable attaching untrusted
+ devices
+To: Rajat Jain <rajatja@google.com>
+X-Mailman-Approved-At: Fri, 26 Jun 2020 08:13:58 +0000
+Cc: Todd Broch <tbroch@google.com>, linux-pci <linux-pci@vger.kernel.org>,
+ "Krishnakumar, Lalithambika" <lalithambika.krishnakumar@intel.com>,
+ Diego Rivas <diegorivas@google.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Furquan Shaikh <furquan@google.com>, Raj Ashok <ashok.raj@intel.com>,
+ linux-acpi@vger.kernel.org, Christian Kellner <christian@kellner.me>,
+ Mattias Nissler <mnissler@google.com>, Jesse Barnes <jsbarnes@google.com>,
+ Len Brown <lenb@kernel.org>, Rajat Jain <rajatxjain@gmail.com>,
+ Prashant Malani <pmalani@google.com>, Aaron Durbin <adurbin@google.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Bernie Keany <bernie.keany@intel.com>, Duncan Laurie <dlaurie@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org, Benson Leung <bleung@google.com>,
+ David Woodhouse <dwmw2@infradead.org>, Alex Levin <levinale@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,209 +108,63 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jun 24, 2020 at 01:55:15AM -0700, Liu Yi L wrote:
-> IOMMUs that support nesting translation needs report the capability info
-> to userspace, e.g. the format of first level/stage paging structures.
-> 
-> This patch reports nesting info by DOMAIN_ATTR_NESTING. Caller can get
-> nesting info after setting DOMAIN_ATTR_NESTING.
-> 
-> v2 -> v3:
-> *) remvoe cap/ecap_mask in iommu_nesting_info.
-> *) reuse DOMAIN_ATTR_NESTING to get nesting info.
-> *) return an empty iommu_nesting_info for SMMU drivers per Jean'
->    suggestion.
-> 
-> Cc: Kevin Tian <kevin.tian@intel.com>
-> CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Eric Auger <eric.auger@redhat.com>
-> Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> Cc: Joerg Roedel <joro@8bytes.org>
-> Cc: Lu Baolu <baolu.lu@linux.intel.com>
-> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+On Fri, Jun 26, 2020 at 10:27 AM Rajat Jain <rajatja@google.com> wrote:
+>
+> Introduce a PCI parameter that disables the automatic attachment of
+> untrusted devices to their drivers.
+>
+> Signed-off-by: Rajat Jain <rajatja@google.com>
 > ---
->  drivers/iommu/arm-smmu-v3.c | 29 ++++++++++++++++++++--
->  drivers/iommu/arm-smmu.c    | 29 ++++++++++++++++++++--
+> Context:
+>
+>   I set out to implement the approach outlined in
+>     https://lkml.org/lkml/2020/6/9/1331
+>     https://lkml.org/lkml/2020/6/15/1453
+>
+>   But to my surprise, I found that the new hotplugged PCI devices
+>   were getting automatically attached to drivers even though
+>   /sys/bus/pci/drivers_autoprobe was set to 0.
+>
+>   I realized that the device core's "drivers_autoprobe":
+>
+>   * only disables the *initial* probe of the device (i.e. from
+>     device_add()). If a subsystem calls device_attach() explicitly
+>     for its devices like PCI subsystem does, the drivers_autoprobe
+>     setting does not matter. The core will attach device to the driver.
+>     This looks like correct semantic behavior to me because PCI is
+>     explicitly calling device_attach(), which is a way to explicitly
+>     ask the core to find and attach a driver for a device.
 
-Looks reasonable to me. Please move the SMMU changes to a separate patch
-and Cc the SMMU maintainers:
+Right, but we're doing using device_attach() largely because the
+driver core doesn't provide any mechanism for deferring the initial
+probe. I didn't think there was any deeper reason for it, but while
+looking I noticed that the initial probe can be async and
+device_attach() forces probing to be synchronous. That has the side
+effect of serialising all PCI device probing which might be
+intentional to avoid device renaming due to the change in probe order.
+Userspace is better at dealing with device names changing now days,
+but you might still get some people mad at you for changing it.
 
-Cc: Will Deacon <will@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>
+>   2) Make the drivers_autoprobe property available to PCI to use
+>      (currently it is private to device core). The PCI could use this
+>      to determine whether or not to call device_attach(). This still
+>      leaves the other problem (of not being able to set
+>      drivers_autoprobe via command line open).
+>
+>   3) I found the pci_dev->match_driver, which seemed similar to what I
+>      am trying to do, but can't be controlled from userspace. I considered
+>      populating that field based on drivers_autoprobe (still need (2)).
+>      But the problem is that there is the AMD IOMMU driver which is setting
+>      this independently, so setting the match_driver based on
+>      drivers_autoprobe may not be a good idea.
 
-Thanks,
-Jean
+Huh, that's pretty weird. Even with that hack you should be able
+trigger the bug they're working around by removing the IOMMU device in
+sysfs and doing a rescan. I wouldn't worry much about making
+match_device user controllable since you would need to work pretty
+hard for it to be an issue.
 
->  include/uapi/linux/iommu.h  | 59 +++++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 113 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-> index f578677..0c45d4d 100644
-> --- a/drivers/iommu/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm-smmu-v3.c
-> @@ -3019,6 +3019,32 @@ static struct iommu_group *arm_smmu_device_group(struct device *dev)
->  	return group;
->  }
->  
-> +static int arm_smmu_domain_nesting_info(struct arm_smmu_domain *smmu_domain,
-> +					void *data)
-> +{
-> +	struct iommu_nesting_info *info = (struct iommu_nesting_info *) data;
-> +	u32 size;
-> +
-> +	if (!info || smmu_domain->stage != ARM_SMMU_DOMAIN_NESTED)
-> +		return -ENODEV;
-> +
-> +	size = sizeof(struct iommu_nesting_info);
-> +
-> +	/*
-> +	 * if provided buffer size is not equal to the size, should
-> +	 * return 0 and also the expected buffer size to caller.
-> +	 */
-> +	if (info->size != size) {
-> +		info->size = size;
-> +		return 0;
-> +	}
-> +
-> +	/* report an empty iommu_nesting_info for now */
-> +	memset(info, 0x0, size);
-> +	info->size = size;
-> +	return 0;
-> +}
-> +
->  static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
->  				    enum iommu_attr attr, void *data)
->  {
-> @@ -3028,8 +3054,7 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
->  	case IOMMU_DOMAIN_UNMANAGED:
->  		switch (attr) {
->  		case DOMAIN_ATTR_NESTING:
-> -			*(int *)data = (smmu_domain->stage == ARM_SMMU_DOMAIN_NESTED);
-> -			return 0;
-> +			return arm_smmu_domain_nesting_info(smmu_domain, data);
->  		default:
->  			return -ENODEV;
->  		}
-> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-> index 243bc4c..908607d 100644
-> --- a/drivers/iommu/arm-smmu.c
-> +++ b/drivers/iommu/arm-smmu.c
-> @@ -1506,6 +1506,32 @@ static struct iommu_group *arm_smmu_device_group(struct device *dev)
->  	return group;
->  }
->  
-> +static int arm_smmu_domain_nesting_info(struct arm_smmu_domain *smmu_domain,
-> +					void *data)
-> +{
-> +	struct iommu_nesting_info *info = (struct iommu_nesting_info *) data;
-> +	u32 size;
-> +
-> +	if (!info || smmu_domain->stage != ARM_SMMU_DOMAIN_NESTED)
-> +		return -ENODEV;
-> +
-> +	size = sizeof(struct iommu_nesting_info);
-> +
-> +	/*
-> +	 * if provided buffer size is not equal to the size, should
-> +	 * return 0 and also the expected buffer size to caller.
-> +	 */
-> +	if (info->size != size) {
-> +		info->size = size;
-> +		return 0;
-> +	}
-> +
-> +	/* report an empty iommu_nesting_info for now */
-> +	memset(info, 0x0, size);
-> +	info->size = size;
-> +	return 0;
-> +}
-> +
->  static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
->  				    enum iommu_attr attr, void *data)
->  {
-> @@ -1515,8 +1541,7 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
->  	case IOMMU_DOMAIN_UNMANAGED:
->  		switch (attr) {
->  		case DOMAIN_ATTR_NESTING:
-> -			*(int *)data = (smmu_domain->stage == ARM_SMMU_DOMAIN_NESTED);
-> -			return 0;
-> +			return arm_smmu_domain_nesting_info(smmu_domain, data);
->  		default:
->  			return -ENODEV;
->  		}
-> diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
-> index 1afc661..898c99a 100644
-> --- a/include/uapi/linux/iommu.h
-> +++ b/include/uapi/linux/iommu.h
-> @@ -332,4 +332,63 @@ struct iommu_gpasid_bind_data {
->  	} vendor;
->  };
->  
-> +/*
-> + * struct iommu_nesting_info - Information for nesting-capable IOMMU.
-> + *				user space should check it before using
-> + *				nesting capability.
-> + *
-> + * @size:	size of the whole structure
-> + * @format:	PASID table entry format, the same definition with
-> + *		@format of struct iommu_gpasid_bind_data.
-> + * @features:	supported nesting features.
-> + * @flags:	currently reserved for future extension.
-> + * @data:	vendor specific cap info.
-> + *
-> + * +---------------+----------------------------------------------------+
-> + * | feature       |  Notes                                             |
-> + * +===============+====================================================+
-> + * | SYSWIDE_PASID |  Kernel manages PASID in system wide, PASIDs used  |
-> + * |               |  in the system should be allocated by host kernel  |
-> + * +---------------+----------------------------------------------------+
-> + * | BIND_PGTBL    |  bind page tables to host PASID, the PASID could   |
-> + * |               |  either be a host PASID passed in bind request or  |
-> + * |               |  default PASIDs (e.g. default PASID of aux-domain) |
-> + * +---------------+----------------------------------------------------+
-> + * | CACHE_INVLD   |  mandatory feature for nesting capable IOMMU       |
-> + * +---------------+----------------------------------------------------+
-> + *
-> + */
-> +struct iommu_nesting_info {
-> +	__u32	size;
-> +	__u32	format;
-> +	__u32	features;
-> +#define IOMMU_NESTING_FEAT_SYSWIDE_PASID	(1 << 0)
-> +#define IOMMU_NESTING_FEAT_BIND_PGTBL		(1 << 1)
-> +#define IOMMU_NESTING_FEAT_CACHE_INVLD		(1 << 2)
-> +	__u32	flags;
-> +	__u8	data[];
-> +};
-> +
-> +/*
-> + * struct iommu_nesting_info_vtd - Intel VT-d specific nesting info
-> + *
-> + *
-> + * @flags:	VT-d specific flags. Currently reserved for future
-> + *		extension.
-> + * @addr_width:	The output addr width of first level/stage translation
-> + * @pasid_bits:	Maximum supported PASID bits, 0 represents no PASID
-> + *		support.
-> + * @cap_reg:	Describe basic capabilities as defined in VT-d capability
-> + *		register.
-> + * @ecap_reg:	Describe the extended capabilities as defined in VT-d
-> + *		extended capability register.
-> + */
-> +struct iommu_nesting_info_vtd {
-> +	__u32	flags;
-> +	__u16	addr_width;
-> +	__u16	pasid_bits;
-> +	__u64	cap_reg;
-> +	__u64	ecap_reg;
-> +};
-> +
->  #endif /* _UAPI_IOMMU_H */
-> -- 
-> 2.7.4
-> 
+Oliver
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
