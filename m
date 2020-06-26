@@ -1,80 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE61420AF2D
-	for <lists.iommu@lfdr.de>; Fri, 26 Jun 2020 11:45:19 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6E120AF65
+	for <lists.iommu@lfdr.de>; Fri, 26 Jun 2020 12:06:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A2E0787D51;
-	Fri, 26 Jun 2020 09:45:18 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 38E0787D40;
+	Fri, 26 Jun 2020 10:06:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id csg47fgTci63; Fri, 26 Jun 2020 09:45:18 +0000 (UTC)
+	with ESMTP id H+lbN7ocxYaZ; Fri, 26 Jun 2020 10:06:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 069C487D46;
-	Fri, 26 Jun 2020 09:45:18 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A9F6887D33;
+	Fri, 26 Jun 2020 10:06:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E0B49C016F;
-	Fri, 26 Jun 2020 09:45:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8B4B6C016F;
+	Fri, 26 Jun 2020 10:06:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9AA40C016F
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 09:45:13 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6FAABC016F
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 10:06:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 7F487226E5
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 09:45:13 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6463687D33
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 10:06:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EKWnf-AFTXV7 for <iommu@lists.linux-foundation.org>;
- Fri, 26 Jun 2020 09:45:11 +0000 (UTC)
+ with ESMTP id 3uUc04xULowb for <iommu@lists.linux-foundation.org>;
+ Fri, 26 Jun 2020 10:06:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
- by silver.osuosl.org (Postfix) with ESMTPS id A6182221DC
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 09:45:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=oGMIMXlIlCUxBQEVDocoCkzxsIEfyIRY9Aj5R1plPtE=; b=Sknfyfor34r7Xi+MJY/BouCu0w
- ZL1fVw+zVjAajorw4AsXlSKf6jdNN25PoEwzEber3uWmJpXVYlIB1dAH+YVpK/xFH63MhHtio1Qlg
- qt83BqUDObvW/PVxquYsBNzUtP1HPEPt2800r/lBYLe4hBJ9FHOHltb7bzYDXQ17v0nWHNDYOiQ+g
- 8enV6WQqgeFxiHfWNfA3z1NI1QMiD9RPXTNDxrXMRHVp0LfdCZeJDf3ZbUC2kH/cxIh6a1lMRdgpG
- 7DM1L2MF7W6RSMtG96vjQqfklke50DR25+fLPQ6d4+qkfclyRkFdw+nZlxc6k1CJpZZ+kJh96aVok
- Qa04xpzw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=noisy.programming.kicks-ass.net)
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jokui-0000wC-M1; Fri, 26 Jun 2020 09:44:52 +0000
-Received: from hirez.programming.kicks-ass.net
- (hirez.programming.kicks-ass.net [192.168.1.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 3B76A301A32;
- Fri, 26 Jun 2020 11:44:50 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id 2D6F529AD694F; Fri, 26 Jun 2020 11:44:50 +0200 (CEST)
-Date: Fri, 26 Jun 2020 11:44:50 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Fenghua Yu <fenghua.yu@intel.com>
-Subject: Re: [PATCH v4 12/12] x86/traps: Fix up invalid PASID
-Message-ID: <20200626094450.GJ4800@hirez.programming.kicks-ass.net>
-References: <1593116242-31507-1-git-send-email-fenghua.yu@intel.com>
- <1593116242-31507-13-git-send-email-fenghua.yu@intel.com>
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 5B40887D6A
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 10:06:49 +0000 (UTC)
+Received: from lhreml724-chm.china.huawei.com (unknown [172.18.7.107])
+ by Forcepoint Email with ESMTP id 040B89BFDCAC94704736;
+ Fri, 26 Jun 2020 11:06:46 +0100 (IST)
+Received: from [127.0.0.1] (10.47.7.19) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Fri, 26 Jun
+ 2020 11:06:44 +0100
+Subject: Re: [PATCH 4/4] iommu/arm-smmu-v3: Remove cmpxchg() in
+ arm_smmu_cmdq_issue_cmdlist()
+To: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+References: <1592846920-45338-5-git-send-email-john.garry@huawei.com>
+ <202006230905.3HpPgtSC%lkp@intel.com>
+ <5ba2e240-b324-d316-c00c-38c03ee49baa@huawei.com>
+ <CADRDgG4=uD3Ni6r7D3kHdSo=ketaXKGririHfFvPYq4qz8KjfQ@mail.gmail.com>
+ <ee2d7a1e-3e22-f25a-ced9-82ccced28f8c@huawei.com>
+ <CADRDgG5pOstGK=fm8s3Be_v8+vc-EyRYmpiMsTCeK-rMk2ZRQQ@mail.gmail.com>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <4f87e2e4-ec7d-49d1-037c-158e94f25ab6@huawei.com>
+Date: Fri, 26 Jun 2020 11:05:13 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1593116242-31507-13-git-send-email-fenghua.yu@intel.com>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Tony Luck <tony.luck@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Ashok Raj <ashok.raj@intel.com>, Ravi V Shankar <ravi.v.shankar@intel.com>,
- x86 <x86@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>,
- Dave Hansen <dave.hansen@intel.com>, iommu@lists.linux-foundation.org,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Jacob Jun Pan <jacob.jun.pan@intel.com>, H Peter Anvin <hpa@zytor.com>,
- Christoph Hellwig <hch@infradeed.org>, Thomas Gleixner <tglx@linutronix.de>,
- David Woodhouse <dwmw2@infradead.org>
+In-Reply-To: <CADRDgG5pOstGK=fm8s3Be_v8+vc-EyRYmpiMsTCeK-rMk2ZRQQ@mail.gmail.com>
+Content-Language: en-US
+X-Originating-IP: [10.47.7.19]
+X-ClientProxiedBy: lhreml714-chm.china.huawei.com (10.201.108.65) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: "trivial@kernel.org" <trivial@kernel.org>,
+ kernel test robot <lkp@intel.com>, will@kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Linuxarm <linuxarm@huawei.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "maz@kernel.org" <maz@kernel.org>,
+ "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,32 +83,39 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jun 25, 2020 at 01:17:22PM -0700, Fenghua Yu wrote:
-
-> +static bool fixup_pasid_exception(void)
-> +{
-> +	if (!IS_ENABLED(CONFIG_INTEL_IOMMU_SVM))
-> +		return false;
-> +	if (!static_cpu_has(X86_FEATURE_ENQCMD))
-> +		return false;
-
-elsewhere you had another variation:
-
-+       if (!IS_ENABLED(CONFIG_INTEL_IOMMU_SVM))
-+               return;
-+
-+       if (!cpu_feature_enabled(X86_FEATURE_ENQCMD))
-+               return;
-
-Which is it, and why do we need the CONFIG thing when combined with the
-enabled thing?
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gMjMvMDYvMjAyMCAxNDo1NSwgUmlrYXJkIEZhbGtlYm9ybiB3cm90ZToKPiBEZW4gdGlzIDIz
+IGp1bmkgMjAyMCAxMjoyMUpvaG4gR2FycnkgPGpvaG4uZ2FycnlAaHVhd2VpLmNvbSAKPiA8bWFp
+bHRvOmpvaG4uZ2FycnlAaHVhd2VpLmNvbT4+IHNrcmV2Ogo+IAo+ICAgICBPbiAyMy8wNi8yMDIw
+IDEwOjM1LCBSaWthcmQgRmFsa2Vib3JuIHdyb3RlOgo+ICAgICAgPgo+ICAgICAgPsKgIMKgIMKg
+SSdkIHNheSB0aGF0IEdFTk1BU0tfSU5QVVRfQ0hFQ0soKSBzaG91bGQgYmUgYWJsZSB0byBoYW5k
+bGUgYQo+ICAgICBsPTAgYW5kCj4gICAgICA+wqAgwqAgwqBoPXVuc2lnbmVkIHZhbHVlLCBzbyBJ
+IGRvdWJ0IHRoaXMgd2Fybi4KPiAgICAgID4KPiAgICAgID7CoCDCoCDCoFVzaW5nIEdFTk1BU0so
+KGludCljbWRxLT5xLmxscS5tYXhfbl9zaGlmdCwgMCkgcmVzb2x2ZXMgaXQsCj4gICAgIGJ1dCBp
+dAo+ICAgICAgPsKgIMKgIMKgbG9va3MKPiAgICAgID7CoCDCoCDCoGxpa2UgR0VOTUFTS19JTlBV
+VF9DSEVDSygpIGNvdWxkIGJlIGltcHJvdmVkLgo+ICAgICAgPgo+ICAgICAgPgo+ICAgICAgPiBJ
+bmRlZWQgaXQgY291bGQsIGl0IGlzIGZpeGVkIGluIC1uZXh0Lgo+IAo+ICAgICBvaywgdGhhbmtz
+IGZvciB0aGUgcG9pbnRlciwgYnV0IEkgc3RpbGwgc2VlIHRoaXMgb24gdG9kYXkncyAtbmV4dCB3
+aXRoCj4gICAgIHRoaXMgcGF0Y2g6Cj4gCj4gICAgIG1ha2UgVz0xIGRyaXZlcnMvaW9tbXUvYXJt
+LXNtbXUtdjMubwo+IAo+IAo+IE9oLCBvayB0aGFua3MgZm9yIHJlcG9ydGluZy4gSSBndWVzcyBk
+aWZmZXJlbnQgZ2NjIHZlcnNpb25zIGhhdmUgCj4gZGlmZmVyZW50IGJlaGF2aW91ci4gSSBndWVz
+cyB3ZSdsbCBoYXZlIHRvIGNoYW5nZSB0aGUgY29tcGFyaXNvbiB0byAKPiAoISgoaCkgPT0gKGwp
+IHx8IChoKSA+IChsKSkpIGluc3RlYWQgKG5vdCBzdXJlIEkgZ290IGFsbCBwYXJlbnRoZXNpcyBh
+bmQgCj4gbG9naWMgY29ycmVjdCBidXQgeW91IGdldCB0aGUgaWRlYSkuCj4gCgpZZWFoLCBzbyB0
+aGlzIGxvb2tzIHRvIGZpeCBpdDoKCi0tLSBhL2luY2x1ZGUvbGludXgvYml0cy5oCisrKyBiL2lu
+Y2x1ZGUvbGludXgvYml0cy5oCkBAIC0yMyw3ICsyMyw4IEBACiNpbmNsdWRlIDxsaW51eC9idWls
+ZF9idWcuaD4KI2RlZmluZSBHRU5NQVNLX0lOUFVUX0NIRUNLKGgsIGwpIFwKICAgICAgICAoQlVJ
+TERfQlVHX09OX1pFUk8oX19idWlsdGluX2Nob29zZV9leHByKCBcCi0gICAgICAgICAgICAgICBf
+X2J1aWx0aW5fY29uc3RhbnRfcCgobCkgPiAoaCkpLCAobCkgPiAoaCksIDApKSkKKyAgICAgICAg
+ICAgICAgIF9fYnVpbHRpbl9jb25zdGFudF9wKCEoKGgpID09IChsKSB8fChoKSA+IChsKSkpLCAh
+KChoKSAKPT0gKGwpIHx8KGgpID4gKGwpKSwgMCkpKQorCgpXZSBtYXkgYmUgYWJsZSB0byBqdXN0
+IHVzZSAoaCkgPT0gKGwpIGFzIHRoZSBjb25zdCBleHByIHRvIG1ha2UgaXQgbW9yZSAKY29uY2lz
+ZSwgYnV0IHRoYXQgbWF5IGJlIGNvbmZ1c2luZy4KCkkgb25seSB0ZXN0ZWQgd2l0aCBteSB0b29s
+Y2hhaW4gYmFzZWQgb24gNy41LjAKClRoYW5rcywKSm9obgoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3Rz
+LmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2lvbW11
