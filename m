@@ -1,96 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D67F20AE43
-	for <lists.iommu@lfdr.de>; Fri, 26 Jun 2020 10:14:02 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D78D20ADD8
+	for <lists.iommu@lfdr.de>; Fri, 26 Jun 2020 10:05:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 24CBF868DE;
-	Fri, 26 Jun 2020 08:14:01 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5716987678;
+	Fri, 26 Jun 2020 08:05:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Qlfy2qCilXgM; Fri, 26 Jun 2020 08:14:00 +0000 (UTC)
+	with ESMTP id Fh+W3-KFP+nl; Fri, 26 Jun 2020 08:05:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 74B3F86C11;
-	Fri, 26 Jun 2020 08:14:00 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C87B4875D4;
+	Fri, 26 Jun 2020 08:05:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 58C38C016F;
-	Fri, 26 Jun 2020 08:14:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A7CA8C088C;
+	Fri, 26 Jun 2020 08:05:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BB328C016F
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 07:53:10 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 311B2C016F
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 08:05:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id A23CE883CD
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 07:53:10 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 29EDA87678
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 08:05:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pQzw4TQYryMr for <iommu@lists.linux-foundation.org>;
- Fri, 26 Jun 2020 07:53:09 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
- [209.85.166.195])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 71F638837C
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 07:53:09 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id x18so7721197ilp.1
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 00:53:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Bny++tBIMk54Yvx2zfPmbf+0Ot1GMKL64TsxDOduJ60=;
- b=pi6qOR8sPj7wZ3XcK4gDbT3e2yS9IRpuNkEBpAAyS6vV2vySKo5Vm4MZOHf5dN9/n6
- rZDPHSot2GRbxX/1REKPttlo+Gzk75IZceDEaIfFmYI8QXZB1LQg8qHLSxJxDsLKnxml
- l0cwdUTYDBeOKmNiN4Q4pARW90E2EoDrX3YkT0CSSeeqdi8A0SGs3Dqcl9ovEFyfi1Yx
- sZGDoFNouIlleCmILazYchvNRfPX6sKs4K/xW6F/9FmIvA1+S+9jyKRggl7PqLJFkorf
- Tag+SsZRh2Zu+9n87emt6epFAkp6mqih/EHD8iJ4U29ckOKIHgwgJgpsK2LVXpMVVvS2
- lXRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Bny++tBIMk54Yvx2zfPmbf+0Ot1GMKL64TsxDOduJ60=;
- b=J85yvYTaJV90Tv7rJEKGIDMuWx0adkjta4ZfrrBep6Hao4szjF85pvMyuv9vMS47BG
- l0Zct29TFLXrYOLUNWT0K6P90mAJR+8oVndMhvQa/kdL/hWjxG5bDTpwW+aL+Q9yxITi
- c0xcBS/GvT4sTSeIoD46YfqZKh9MK50lIJG762FgX4/sdLyyJPnBTgEGi5FP7wNtHcd6
- bjEDP6Ac599dLs6LhcRkJX93xhjx8ZxCvTv8tp4UokAovbRrlPyoJyyW01jED2ZktaBA
- JClCsQo3k6GK50zpHVA5+6oSNufgxf9TGIcsK28xwSUqmh83XQgCGxidtoq9NG8HckTH
- EvVA==
-X-Gm-Message-State: AOAM531j78e7WPN5pe/M9VL7aHxbVty+cIAImfNL+Fx94Gp3dIZa4vyf
- yohjmH3MBi5Lf0IgaH2WfkTG79HG2Koijk5DdPc=
-X-Google-Smtp-Source: ABdhPJxWukgYdKg85VYa/UxfpvGS2QookcbFIPNFv/QZkXY9QvIFnKJ30Qho5lEy3R+IADOlR2rMSdIe2qRRQsQNYrE=
-X-Received: by 2002:a92:5e17:: with SMTP id s23mr1766973ilb.149.1593157988638; 
- Fri, 26 Jun 2020 00:53:08 -0700 (PDT)
+ with ESMTP id l5BYFDD67YnJ for <iommu@lists.linux-foundation.org>;
+ Fri, 26 Jun 2020 08:05:45 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id DB91A875D4
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 08:05:44 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id DBB1F3FA; Fri, 26 Jun 2020 10:05:41 +0200 (CEST)
+Date: Fri, 26 Jun 2020 10:05:40 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Qian Cai <cai@lca.pw>
+Subject: Re: [PATCH 2/2] iommu/amd: Use 'unsigned long' for domain->pt_root
+Message-ID: <20200626080539.GP3701@8bytes.org>
+References: <20200625145227.4159-1-joro@8bytes.org>
+ <20200625145227.4159-3-joro@8bytes.org>
+ <20200625153720.GA1127@lca.pw>
 MIME-Version: 1.0
-References: <20200626002710.110200-1-rajatja@google.com>
- <20200626002710.110200-2-rajatja@google.com>
-In-Reply-To: <20200626002710.110200-2-rajatja@google.com>
-From: "Oliver O'Halloran" <oohall@gmail.com>
-Date: Fri, 26 Jun 2020 17:52:57 +1000
-Message-ID: <CAOSf1CHwj7qD6CdZ+AnY3s1JQXvO0eAG5CgoSHAUBGjtZ6+QfA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] pci: Add parameter to disable attaching untrusted
- devices
-To: Rajat Jain <rajatja@google.com>
-X-Mailman-Approved-At: Fri, 26 Jun 2020 08:13:58 +0000
-Cc: Todd Broch <tbroch@google.com>, linux-pci <linux-pci@vger.kernel.org>,
- "Krishnakumar, Lalithambika" <lalithambika.krishnakumar@intel.com>,
- Diego Rivas <diegorivas@google.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Furquan Shaikh <furquan@google.com>, Raj Ashok <ashok.raj@intel.com>,
- linux-acpi@vger.kernel.org, Christian Kellner <christian@kellner.me>,
- Mattias Nissler <mnissler@google.com>, Jesse Barnes <jsbarnes@google.com>,
- Len Brown <lenb@kernel.org>, Rajat Jain <rajatxjain@gmail.com>,
- Prashant Malani <pmalani@google.com>, Aaron Durbin <adurbin@google.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Bernie Keany <bernie.keany@intel.com>, Duncan Laurie <dlaurie@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- iommu@lists.linux-foundation.org, Benson Leung <bleung@google.com>,
- David Woodhouse <dwmw2@infradead.org>, Alex Levin <levinale@google.com>
+Content-Disposition: inline
+In-Reply-To: <20200625153720.GA1127@lca.pw>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: iommu@lists.linux-foundation.org, Joerg Roedel <jroedel@suse.de>,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,63 +67,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jun 26, 2020 at 10:27 AM Rajat Jain <rajatja@google.com> wrote:
->
-> Introduce a PCI parameter that disables the automatic attachment of
-> untrusted devices to their drivers.
->
-> Signed-off-by: Rajat Jain <rajatja@google.com>
-> ---
-> Context:
->
->   I set out to implement the approach outlined in
->     https://lkml.org/lkml/2020/6/9/1331
->     https://lkml.org/lkml/2020/6/15/1453
->
->   But to my surprise, I found that the new hotplugged PCI devices
->   were getting automatically attached to drivers even though
->   /sys/bus/pci/drivers_autoprobe was set to 0.
->
->   I realized that the device core's "drivers_autoprobe":
->
->   * only disables the *initial* probe of the device (i.e. from
->     device_add()). If a subsystem calls device_attach() explicitly
->     for its devices like PCI subsystem does, the drivers_autoprobe
->     setting does not matter. The core will attach device to the driver.
->     This looks like correct semantic behavior to me because PCI is
->     explicitly calling device_attach(), which is a way to explicitly
->     ask the core to find and attach a driver for a device.
+Hi Qian,
 
-Right, but we're doing using device_attach() largely because the
-driver core doesn't provide any mechanism for deferring the initial
-probe. I didn't think there was any deeper reason for it, but while
-looking I noticed that the initial probe can be async and
-device_attach() forces probing to be synchronous. That has the side
-effect of serialising all PCI device probing which might be
-intentional to avoid device renaming due to the change in probe order.
-Userspace is better at dealing with device names changing now days,
-but you might still get some people mad at you for changing it.
+On Thu, Jun 25, 2020 at 11:37:20AM -0400, Qian Cai wrote:
+> On Thu, Jun 25, 2020 at 04:52:27PM +0200, Joerg Roedel wrote:
+> > -	u64 pt_root = atomic64_read(&domain->pt_root);
+> > +	unsigned long pt_root = domain->pt_root;
+> 
+> The pt_root might be reload later in case of register pressure where the
+> compiler decides to not store it as a stack variable, so it needs
+> smp_rmb() here to match to the smp_wmb() in
+> amd_iommu_domain_set_pt_root() to make the load visiable to all CPUs.
+> 
+> Then, smp_rmb/wmb() wouldn't be able to deal with data races, so it
+> needs,
+> 
+> unsigned long pt_root = READ_ONCE(domain->pt_root);
+> 
+> >  
+> >  	pgtable->root = (u64 *)(pt_root & PAGE_MASK);
+> >  	pgtable->mode = pt_root & 7; /* lowest 3 bits encode pgtable mode */
+> > @@ -164,7 +164,13 @@ static void amd_iommu_domain_get_pgtable(struct protection_domain *domain,
+> >  
+> >  static void amd_iommu_domain_set_pt_root(struct protection_domain *domain, u64 root)
+> >  {
+> > -	atomic64_set(&domain->pt_root, root);
+> > +	domain->pt_root = root;
+> 
+> WRITE_ONCE(domain->pt_root, root);
 
->   2) Make the drivers_autoprobe property available to PCI to use
->      (currently it is private to device core). The PCI could use this
->      to determine whether or not to call device_attach(). This still
->      leaves the other problem (of not being able to set
->      drivers_autoprobe via command line open).
->
->   3) I found the pci_dev->match_driver, which seemed similar to what I
->      am trying to do, but can't be controlled from userspace. I considered
->      populating that field based on drivers_autoprobe (still need (2)).
->      But the problem is that there is the AMD IOMMU driver which is setting
->      this independently, so setting the match_driver based on
->      drivers_autoprobe may not be a good idea.
+Thanks for your review. I addressed your comments and will send an
+updated version shortly.
 
-Huh, that's pretty weird. Even with that hack you should be able
-trigger the bug they're working around by removing the IOMMU device in
-sysfs and doing a rescan. I wouldn't worry much about making
-match_device user controllable since you would need to work pretty
-hard for it to be an issue.
 
-Oliver
+Regards,
+
+	Joerg
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
