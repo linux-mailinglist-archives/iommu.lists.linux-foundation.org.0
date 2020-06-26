@@ -2,84 +2,74 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E7620B5B4
-	for <lists.iommu@lfdr.de>; Fri, 26 Jun 2020 18:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA2320B7D4
+	for <lists.iommu@lfdr.de>; Fri, 26 Jun 2020 20:10:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id AD72585374;
-	Fri, 26 Jun 2020 16:14:06 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9068F8764A;
+	Fri, 26 Jun 2020 18:10:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Jagkww27T7hE; Fri, 26 Jun 2020 16:14:04 +0000 (UTC)
+	with ESMTP id 9oEsYYJkvvA1; Fri, 26 Jun 2020 18:10:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B61DF81B8E;
-	Fri, 26 Jun 2020 16:14:04 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id AC91687673;
+	Fri, 26 Jun 2020 18:10:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A849CC0895;
-	Fri, 26 Jun 2020 16:14:04 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8F13AC0895;
+	Fri, 26 Jun 2020 18:10:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 804DCC016F
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 16:14:03 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03B3FC016F
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 18:10:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 6C46387DE2
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 16:14:03 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id CFA6422D2D
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 18:10:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rKhueI-YC5pL for <iommu@lists.linux-foundation.org>;
- Fri, 26 Jun 2020 16:14:02 +0000 (UTC)
+ with ESMTP id mC960lVtCT6m for <iommu@lists.linux-foundation.org>;
+ Fri, 26 Jun 2020 18:10:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D66FD877D1
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 16:14:02 +0000 (UTC)
-Received: from lwn.net (localhost [127.0.0.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id DCE73374;
- Fri, 26 Jun 2020 16:13:59 +0000 (UTC)
-Date: Fri, 26 Jun 2020 10:13:58 -0600
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH v2 00/15] Documentation fixes
-Message-ID: <20200626101358.6efc4f8f@lwn.net>
-In-Reply-To: <cover.1592895969.git.mchehab+huawei@kernel.org>
-References: <cover.1592895969.git.mchehab+huawei@kernel.org>
-Organization: LWN.net
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by silver.osuosl.org (Postfix) with ESMTPS id 9B4002052C
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 18:10:16 +0000 (UTC)
+IronPort-SDR: NAzTLOrgTArY2NcdP2IjbhSa4eGCdAA2gZnIZacmebpvSwVF+uhAgdSBX6zFd1xb4q0IIMR183
+ RfZyz6wnAS0g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9664"; a="230194038"
+X-IronPort-AV: E=Sophos;i="5.75,284,1589266800"; d="scan'208";a="230194038"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2020 11:10:01 -0700
+IronPort-SDR: g2OBDAD4vVXNapwoCfCslq8K5czLXdJb63lCtfHN+z8y3tjb0E6UQHVMO50vSKUtUJeHklLtUf
+ e0+2TA6XdnTQ==
+X-IronPort-AV: E=Sophos;i="5.75,284,1589266800"; d="scan'208";a="302408152"
+Received: from agluck-desk2.sc.intel.com (HELO
+ agluck-desk2.amr.corp.intel.com) ([10.3.52.68])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2020 11:10:01 -0700
+Date: Fri, 26 Jun 2020 11:10:00 -0700
+From: "Luck, Tony" <tony.luck@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v4 12/12] x86/traps: Fix up invalid PASID
+Message-ID: <20200626181000.GA22833@agluck-desk2.amr.corp.intel.com>
+References: <1593116242-31507-1-git-send-email-fenghua.yu@intel.com>
+ <1593116242-31507-13-git-send-email-fenghua.yu@intel.com>
+ <20200626094450.GJ4800@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Cc: linux-ia64@vger.kernel.org,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>, "Peter
- Zijlstra \(Intel\)" <peterz@infradead.org>, linux-pci@vger.kernel.org,
- Ram Pai <linuxram@us.ibm.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- linux-mm@kvack.org, Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
- Paul Mackerras <paulus@samba.org>, Sandipan Das <sandipan@linux.ibm.com>,
- linux-kselftest@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Jan Kara <jack@suse.cz>, Sukadev Bhattiprolu <sukadev@linux.ibm.com>,
- Shuah Khan <shuah@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Florian Fainelli <f.fainelli@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
- Will Deacon <will@kernel.org>, Helge Deller <deller@gmx.de>, x86@kernel.org,
- Haren Myneni <haren@linux.ibm.com>, Russell King <linux@armlinux.org.uk>,
- kasan-dev@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
- Gerald Schaefer <gerald.schaefer@de.ibm.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Jakub Kicinski <kuba@kernel.org>, Alexey Dobriyan <adobriyan@gmail.com>,
- linux-media@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
- Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>,
- Robin Murphy <robin.murphy@arm.com>, Borislav Petkov <bp@alien8.de>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Bjorn Helgaas <bhelgaas@google.com>,
- Thomas Gleixner <tglx@linutronix.de>, Dmitry Vyukov <dvyukov@google.com>,
- Tony Luck <tony.luck@intel.com>, linux-parisc@vger.kernel.org,
- Dave Hansen <dave.hansen@intel.com>, Alexey Gladkov <gladkov.alexey@gmail.com>,
- Akira Shimahara <akira215corp@gmail.com>, Jeff Layton <jlayton@kernel.org>,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- "David S.
- Miller" <davem@davemloft.net>, Mike Kravetz <mike.kravetz@oracle.com>
+Content-Disposition: inline
+In-Reply-To: <20200626094450.GJ4800@hirez.programming.kicks-ass.net>
+Cc: Fenghua Yu <fenghua.yu@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Ashok Raj <ashok.raj@intel.com>, Ravi V Shankar <ravi.v.shankar@intel.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, x86 <x86@kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Dave Hansen <dave.hansen@intel.com>, iommu@lists.linux-foundation.org,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Jacob Jun Pan <jacob.jun.pan@intel.com>, H Peter Anvin <hpa@zytor.com>,
+ Christoph Hellwig <hch@infradeed.org>, Thomas Gleixner <tglx@linutronix.de>,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,31 +87,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, 23 Jun 2020 09:08:56 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-
-> As requested, this is a rebase of a previous series posted on Jan, 15.
+On Fri, Jun 26, 2020 at 11:44:50AM +0200, Peter Zijlstra wrote:
+> On Thu, Jun 25, 2020 at 01:17:22PM -0700, Fenghua Yu wrote:
 > 
-> Since then, several patches got merged via other trees or became
-> obsolete. There were also 2 patches before that fits better at the
-> ReST conversion patchset. So, I'll be sending it on another patch
-> series together with the remaining ReST conversions.
+> > +static bool fixup_pasid_exception(void)
+> > +{
+> > +	if (!IS_ENABLED(CONFIG_INTEL_IOMMU_SVM))
+> > +		return false;
+> > +	if (!static_cpu_has(X86_FEATURE_ENQCMD))
+> > +		return false;
 > 
-> I also added reviews/acks received.
+> elsewhere you had another variation:
 > 
-> So, the series reduced from 29 to 15 patches.
+> +       if (!IS_ENABLED(CONFIG_INTEL_IOMMU_SVM))
+> +               return;
+> +
+> +       if (!cpu_feature_enabled(X86_FEATURE_ENQCMD))
+> +               return;
 > 
-> Let's hope b4 would be able to properly handle this one.
+> Which is it, and why do we need the CONFIG thing when combined with the
+> enabled thing?
 
-Nope.  I don't know what it is about your patch series, but b4 is never
-able to put them together.
+Do we have a standard way of coding for a feature that depends on multiple
+other features?  For this case the system needs to both suport the ENQCMD
+instruction, and also have kernel code that programs the IOMMU.
 
-I've applied the series except for #1, which already went through the -mm
-tree.
+And/or guidance on when to use each of the very somewhat simlar looking
+	boot_cpu_has()
+	static_cpu_has()
+	IS_ENABLED()
+	cpu_feature_enabled()
+options?
 
-Thanks,
-
-jon
+-Tony
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
