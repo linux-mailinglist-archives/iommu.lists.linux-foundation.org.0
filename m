@@ -1,86 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9D820BD9A
-	for <lists.iommu@lfdr.de>; Sat, 27 Jun 2020 03:34:41 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 692F320BDE1
+	for <lists.iommu@lfdr.de>; Sat, 27 Jun 2020 05:19:55 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7B72488726;
-	Sat, 27 Jun 2020 01:34:40 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5FA3588298;
+	Sat, 27 Jun 2020 03:19:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cRBhKYfjPlyk; Sat, 27 Jun 2020 01:34:39 +0000 (UTC)
+	with ESMTP id sqXJYiLkVYfF; Sat, 27 Jun 2020 03:19:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B3FB788713;
-	Sat, 27 Jun 2020 01:34:39 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 39C6B88295;
+	Sat, 27 Jun 2020 03:19:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 96092C016F;
-	Sat, 27 Jun 2020 01:34:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1B81EC016F;
+	Sat, 27 Jun 2020 03:19:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 48CD9C016F
- for <iommu@lists.linux-foundation.org>; Sat, 27 Jun 2020 01:34:38 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 11B5AC016F
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Jun 2020 03:19:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3DE9A86C4D
- for <iommu@lists.linux-foundation.org>; Sat, 27 Jun 2020 01:34:38 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id EDAD9882A1
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Jun 2020 03:19:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rH0xAHO-IoCG for <iommu@lists.linux-foundation.org>;
- Sat, 27 Jun 2020 01:34:37 +0000 (UTC)
+ with ESMTP id 7x0ulVLUWNzX for <iommu@lists.linux-foundation.org>;
+ Sat, 27 Jun 2020 03:19:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
- [209.85.167.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 5947386A2B
- for <iommu@lists.linux-foundation.org>; Sat, 27 Jun 2020 01:34:37 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id w17so8933315oie.6
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 18:34:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1jpCExq+eHfFEMfkbsUn644B5k2G8+hh80ffAHW6PL8=;
- b=izHKJvh6y3TVjh4IG2BGh6jTU0K4C8jAoBJ0Pn1+ey5G0z6DZbBCnhiH3RhYvLrR5r
- 0ELeduNA6e7CsEg5aaz3xr6dkf7ioiCwcaom5lzuGnLzoEyC1msnx4QbMYUvFgL5kMSp
- a6vjqg7OihGNuyN4mlaRBkzYrvrUidBnf96iqjcp0yrIfzjAnyrwDZkMuoKd42rKr20X
- bXLCLoxXPnkIYv2cJLLnXKkGLpOsFEluv/80WkBx75084FfBn3sZ15Gi9+fIDbBalhtJ
- sZICk71IYOGt9JzwQlVzXsoPSPUBcXrTYEHNfjW9WRjGuxr7skNRFMNwP0d7vshq6yFg
- 9YMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1jpCExq+eHfFEMfkbsUn644B5k2G8+hh80ffAHW6PL8=;
- b=FXCHWik/J8O+OMbNY/K8HhDtI+6asuuYB9PygmS43NGXKcs6yxGnZ8thhDx4fQOJVM
- 1VjDnUihIYgduByjfsnnBYWwY4iwRS2F9O4VBYi9xHL0dfEO79UmS2kPnJV1ex0AYIca
- 8Puuwi8i72f+U0KwSl7dqcTXkJmOORWZqUf7cTQmSMqf5tlYq8RjiwUNc4bpYDGXGHOO
- VCUe1TIlcHdNHWlEiWoOKtQJ9SYQlGIQj3aWoDoPTtVSRlf1mFeDnSrS+gW7/WHYJlRU
- lxlj8FPp1MBqs6dWbjAxIp+Wm7f7bC8Y9nPccdeDib1bMGhM8sRWw9ZdS1u6F7ZwkUML
- vy/Q==
-X-Gm-Message-State: AOAM531fgz4qCrNo7XAQBtVoAxbMWhUBtKToBOYbzyUux4IQcHJ64tHH
- HuELJQQc1ymCOXtw0yjBbzCUZp68vn6MsOlW0/1HqA==
-X-Google-Smtp-Source: ABdhPJyuXjLu+pU7DcszFUFYt5+y4us4RJUjkakZpxdm6Q+jQJSt+9NSjit4HO/Hh/mlFK2HxRLTWxOFjCAXsjqYfP8=
-X-Received: by 2002:aca:2108:: with SMTP id 8mr4729470oiz.10.1593221676493;
- Fri, 26 Jun 2020 18:34:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200625001039.56174-1-john.stultz@linaro.org>
- <20200625001039.56174-4-john.stultz@linaro.org>
- <159315737502.62212.16093934831673347066@swboyd.mtv.corp.google.com>
-In-Reply-To: <159315737502.62212.16093934831673347066@swboyd.mtv.corp.google.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Fri, 26 Jun 2020 18:34:25 -0700
-Message-ID: <CALAqxLVNGar8g+FvHaVHN_e-MOZZ+=ZPmDt_GKKSC8AS-wLFGg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] irqchip: Allow QCOM_PDC to be loadable as a
- permanent module
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Maulik Shah <mkshah@codeaurora.org>, Jason Cooper <jason@lakedaemon.net>,
- Saravana Kannan <saravanak@google.com>, Marc Zyngier <maz@kernel.org>,
- lkml <linux-kernel@vger.kernel.org>, Lina Iyer <ilina@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-gpio@vger.kernel.org,
- iommu@lists.linux-foundation.org, Andy Gross <agross@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Gleixner <tglx@linutronix.de>, Linus Walleij <linus.walleij@linaro.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Todd Kjos <tkjos@google.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id BF3E38829A
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Jun 2020 03:19:48 +0000 (UTC)
+IronPort-SDR: CW5jlbgFd1+/CGUOmyZT5nst06eCb7Um7HdLLNvOacQZ6G+LoqLxetgPFTdVYjn1LPtZCvtQ2l
+ UywlfVtm7muA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9664"; a="143799264"
+X-IronPort-AV: E=Sophos;i="5.75,286,1589266800"; d="scan'208";a="143799264"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2020 20:19:47 -0700
+IronPort-SDR: qY7Jeb0gjAhCYKqtByIdcIK5OQ+iplSWB3X3cDvSESt7Dti7Yy0tRrjx9TsUe4kK0esTBPdZ6f
+ m+bf/00U1rBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,286,1589266800"; d="scan'208";a="302510424"
+Received: from allen-box.sh.intel.com ([10.239.159.139])
+ by fmsmga004.fm.intel.com with ESMTP; 26 Jun 2020 20:19:45 -0700
+From: Lu Baolu <baolu.lu@linux.intel.com>
+To: Joerg Roedel <joro@8bytes.org>,
+ Alex Williamson <alex.williamson@redhat.com>
+Subject: [PATCH 1/2] iommu: Add iommu_group_get/set_domain()
+Date: Sat, 27 Jun 2020 11:15:31 +0800
+Message-Id: <20200627031532.28046-1-baolu.lu@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Kevin Tian <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Ashok Raj <ashok.raj@intel.com>, kvm@vger.kernel.org,
+ Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,60 +72,121 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jun 26, 2020 at 12:42 AM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting John Stultz (2020-06-24 17:10:37)
-> > diff --git a/drivers/irqchip/qcom-pdc.c b/drivers/irqchip/qcom-pdc.c
-> > index 6ae9e1f0819d..3fee8b655da1 100644
-> > --- a/drivers/irqchip/qcom-pdc.c
-> > +++ b/drivers/irqchip/qcom-pdc.c
-> > @@ -430,4 +432,33 @@ static int qcom_pdc_init(struct device_node *node, struct device_node *parent)
-> >         return ret;
-> >  }
-> >
-> > +#ifdef MODULE
-> > +static int qcom_pdc_probe(struct platform_device *pdev)
-> > +{
-> > +       struct device_node *np = pdev->dev.of_node;
-> > +       struct device_node *parent = of_irq_find_parent(np);
-> > +
-> > +       return qcom_pdc_init(np, parent);
-> > +}
-> > +
-> > +static const struct of_device_id qcom_pdc_match_table[] = {
-> > +       { .compatible = "qcom,pdc" },
-> > +       {}
-> > +};
-> > +MODULE_DEVICE_TABLE(of, qcom_pdc_match_table);
-> > +
-> > +static struct platform_driver qcom_pdc_driver = {
-> > +       .probe = qcom_pdc_probe,
-> > +       .driver = {
-> > +               .name = "qcom-pdc",
-> > +               .of_match_table = qcom_pdc_match_table,
-> > +               .suppress_bind_attrs = true,
-> > +       },
-> > +};
-> > +module_platform_driver(qcom_pdc_driver);
-> > +#else
-> >  IRQCHIP_DECLARE(qcom_pdc, "qcom,pdc", qcom_pdc_init);
->
-> Is there any reason to use IRQCHIP_DECLARE if this can work as a
-> platform device driver?
->
+The hardware assistant vfio mediated device is a use case of iommu
+aux-domain. The interactions between vfio/mdev and iommu during mdev
+creation and passthr are:
 
-Hey! Thanks so much for the review!
+- Create a group for mdev with iommu_group_alloc();
+- Add the device to the group with
+        group = iommu_group_alloc();
+        if (IS_ERR(group))
+                return PTR_ERR(group);
 
-Mostly it was done this way to minimize the change in the non-module
-case. But if you'd rather avoid the #ifdefery I'll respin it without.
+        ret = iommu_group_add_device(group, &mdev->dev);
+        if (!ret)
+                dev_info(&mdev->dev, "MDEV: group_id = %d\n",
+                         iommu_group_id(group));
+- Allocate an aux-domain
+	iommu_domain_alloc()
+- Attach the aux-domain to the physical device from which the mdev is
+  created.
+	iommu_aux_attach_device()
 
-thanks
--john
+In the whole process, an iommu group was allocated for the mdev and an
+iommu domain was attached to the group, but the group->domain leaves
+NULL. As the result, iommu_get_domain_for_dev() doesn't work anymore.
+
+This adds iommu_group_get/set_domain() so that group->domain could be
+managed whenever a domain is attached or detached through the aux-domain
+api's.
+
+Fixes: 7bd50f0cd2fd5 ("vfio/type1: Add domain at(de)taching group helpers")
+Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+---
+ drivers/iommu/iommu.c | 28 ++++++++++++++++++++++++++++
+ include/linux/iommu.h | 14 ++++++++++++++
+ 2 files changed, 42 insertions(+)
+
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index d43120eb1dc5..e2b665303d70 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -715,6 +715,34 @@ int iommu_group_set_name(struct iommu_group *group, const char *name)
+ }
+ EXPORT_SYMBOL_GPL(iommu_group_set_name);
+ 
++/**
++ * iommu_group_get_domain - get domain of a group
++ * @group: the group
++ *
++ * This is called to get the domain of a group.
++ */
++struct iommu_domain *iommu_group_get_domain(struct iommu_group *group)
++{
++	return group->domain;
++}
++EXPORT_SYMBOL_GPL(iommu_group_get_domain);
++
++/**
++ * iommu_group_set_domain - set domain for a group
++ * @group: the group
++ * @domain: iommu domain
++ *
++ * This is called to set the domain for a group. In aux-domain case, a domain
++ * might attach or detach to an iommu group through the aux-domain apis, but
++ * the group->domain doesn't get a chance to be updated there.
++ */
++void iommu_group_set_domain(struct iommu_group *group,
++			    struct iommu_domain *domain)
++{
++	group->domain = domain;
++}
++EXPORT_SYMBOL_GPL(iommu_group_set_domain);
++
+ static int iommu_create_device_direct_mappings(struct iommu_group *group,
+ 					       struct device *dev)
+ {
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index 5f0b7859d2eb..ff88d548a870 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -496,6 +496,9 @@ extern void iommu_group_set_iommudata(struct iommu_group *group,
+ 				      void *iommu_data,
+ 				      void (*release)(void *iommu_data));
+ extern int iommu_group_set_name(struct iommu_group *group, const char *name);
++extern struct iommu_domain *iommu_group_get_domain(struct iommu_group *group);
++extern void iommu_group_set_domain(struct iommu_group *group,
++				   struct iommu_domain *domain);
+ extern int iommu_group_add_device(struct iommu_group *group,
+ 				  struct device *dev);
+ extern void iommu_group_remove_device(struct device *dev);
+@@ -840,6 +843,17 @@ static inline int iommu_group_set_name(struct iommu_group *group,
+ 	return -ENODEV;
+ }
+ 
++static inline
++struct iommu_domain *iommu_group_get_domain(struct iommu_group *group)
++{
++	return NULL;
++}
++
++static inline void iommu_group_set_domain(struct iommu_group *group,
++					  struct iommu_domain *domain)
++{
++}
++
+ static inline int iommu_group_add_device(struct iommu_group *group,
+ 					 struct device *dev)
+ {
+-- 
+2.17.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
