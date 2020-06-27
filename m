@@ -1,67 +1,86 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6EF220BD48
-	for <lists.iommu@lfdr.de>; Sat, 27 Jun 2020 01:57:25 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9D820BD9A
+	for <lists.iommu@lfdr.de>; Sat, 27 Jun 2020 03:34:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 689E985EC4;
-	Fri, 26 Jun 2020 23:57:24 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7B72488726;
+	Sat, 27 Jun 2020 01:34:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6p2sW5DADluQ; Fri, 26 Jun 2020 23:57:23 +0000 (UTC)
+	with ESMTP id cRBhKYfjPlyk; Sat, 27 Jun 2020 01:34:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5AB6485F60;
-	Fri, 26 Jun 2020 23:57:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B3FB788713;
+	Sat, 27 Jun 2020 01:34:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3F4CAC016F;
-	Fri, 26 Jun 2020 23:57:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 96092C016F;
+	Sat, 27 Jun 2020 01:34:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A4B78C016F
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 23:26:44 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 48CD9C016F
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Jun 2020 01:34:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9663F86D33
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 23:26:44 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 3DE9A86C4D
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Jun 2020 01:34:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ah3ZfnHTBXFb for <iommu@lists.linux-foundation.org>;
- Fri, 26 Jun 2020 23:26:43 +0000 (UTC)
-X-Greylist: delayed 00:26:00 by SQLgrey-1.7.6
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 30F8086D2E
- for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 23:26:43 +0000 (UTC)
-Received: from sslproxy03.your-server.de ([88.198.220.132])
- by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.89_1) (envelope-from <daniel@iogearbox.net>)
- id 1joxKW-0000PS-RM; Sat, 27 Jun 2020 01:00:20 +0200
-Received: from [178.196.57.75] (helo=pc-9.home)
- by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <daniel@iogearbox.net>)
- id 1joxKW-000HDo-F1; Sat, 27 Jun 2020 01:00:20 +0200
-Subject: Re: [PATCH net] xsk: remove cheap_dma optimization
-To: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>,
- netdev@vger.kernel.org
-References: <20200626134358.90122-1-bjorn.topel@gmail.com>
-From: Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <c60dfb5a-2bf3-20bd-74b3-6b5e215f73f8@iogearbox.net>
-Date: Sat, 27 Jun 2020 01:00:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ with ESMTP id rH0xAHO-IoCG for <iommu@lists.linux-foundation.org>;
+ Sat, 27 Jun 2020 01:34:37 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 5947386A2B
+ for <iommu@lists.linux-foundation.org>; Sat, 27 Jun 2020 01:34:37 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id w17so8933315oie.6
+ for <iommu@lists.linux-foundation.org>; Fri, 26 Jun 2020 18:34:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1jpCExq+eHfFEMfkbsUn644B5k2G8+hh80ffAHW6PL8=;
+ b=izHKJvh6y3TVjh4IG2BGh6jTU0K4C8jAoBJ0Pn1+ey5G0z6DZbBCnhiH3RhYvLrR5r
+ 0ELeduNA6e7CsEg5aaz3xr6dkf7ioiCwcaom5lzuGnLzoEyC1msnx4QbMYUvFgL5kMSp
+ a6vjqg7OihGNuyN4mlaRBkzYrvrUidBnf96iqjcp0yrIfzjAnyrwDZkMuoKd42rKr20X
+ bXLCLoxXPnkIYv2cJLLnXKkGLpOsFEluv/80WkBx75084FfBn3sZ15Gi9+fIDbBalhtJ
+ sZICk71IYOGt9JzwQlVzXsoPSPUBcXrTYEHNfjW9WRjGuxr7skNRFMNwP0d7vshq6yFg
+ 9YMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1jpCExq+eHfFEMfkbsUn644B5k2G8+hh80ffAHW6PL8=;
+ b=FXCHWik/J8O+OMbNY/K8HhDtI+6asuuYB9PygmS43NGXKcs6yxGnZ8thhDx4fQOJVM
+ 1VjDnUihIYgduByjfsnnBYWwY4iwRS2F9O4VBYi9xHL0dfEO79UmS2kPnJV1ex0AYIca
+ 8Puuwi8i72f+U0KwSl7dqcTXkJmOORWZqUf7cTQmSMqf5tlYq8RjiwUNc4bpYDGXGHOO
+ VCUe1TIlcHdNHWlEiWoOKtQJ9SYQlGIQj3aWoDoPTtVSRlf1mFeDnSrS+gW7/WHYJlRU
+ lxlj8FPp1MBqs6dWbjAxIp+Wm7f7bC8Y9nPccdeDib1bMGhM8sRWw9ZdS1u6F7ZwkUML
+ vy/Q==
+X-Gm-Message-State: AOAM531fgz4qCrNo7XAQBtVoAxbMWhUBtKToBOYbzyUux4IQcHJ64tHH
+ HuELJQQc1ymCOXtw0yjBbzCUZp68vn6MsOlW0/1HqA==
+X-Google-Smtp-Source: ABdhPJyuXjLu+pU7DcszFUFYt5+y4us4RJUjkakZpxdm6Q+jQJSt+9NSjit4HO/Hh/mlFK2HxRLTWxOFjCAXsjqYfP8=
+X-Received: by 2002:aca:2108:: with SMTP id 8mr4729470oiz.10.1593221676493;
+ Fri, 26 Jun 2020 18:34:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200626134358.90122-1-bjorn.topel@gmail.com>
-Content-Language: en-US
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.102.3/25855/Fri Jun 26 15:19:25 2020)
-X-Mailman-Approved-At: Fri, 26 Jun 2020 23:57:22 +0000
-Cc: maximmi@mellanox.com, konrad.wilk@oracle.com, linux-kernel@vger.kernel.org,
- davem@davemloft.net, iommu@lists.linux-foundation.org,
- jonathan.lemon@gmail.com, bpf@vger.kernel.org,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>, hch@lst.de,
- magnus.karlsson@intel.com
+References: <20200625001039.56174-1-john.stultz@linaro.org>
+ <20200625001039.56174-4-john.stultz@linaro.org>
+ <159315737502.62212.16093934831673347066@swboyd.mtv.corp.google.com>
+In-Reply-To: <159315737502.62212.16093934831673347066@swboyd.mtv.corp.google.com>
+From: John Stultz <john.stultz@linaro.org>
+Date: Fri, 26 Jun 2020 18:34:25 -0700
+Message-ID: <CALAqxLVNGar8g+FvHaVHN_e-MOZZ+=ZPmDt_GKKSC8AS-wLFGg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] irqchip: Allow QCOM_PDC to be loadable as a
+ permanent module
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Maulik Shah <mkshah@codeaurora.org>, Jason Cooper <jason@lakedaemon.net>,
+ Saravana Kannan <saravanak@google.com>, Marc Zyngier <maz@kernel.org>,
+ lkml <linux-kernel@vger.kernel.org>, Lina Iyer <ilina@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, linux-gpio@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Andy Gross <agross@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Linus Walleij <linus.walleij@linaro.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, Todd Kjos <tkjos@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,35 +93,61 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gNi8yNi8yMCAzOjQzIFBNLCBCasO2cm4gVMO2cGVsIHdyb3RlOgo+IEZyb206IEJqw7ZybiBU
-w7ZwZWwgPGJqb3JuLnRvcGVsQGludGVsLmNvbT4KPiAKPiBXaGVuIHRoZSBBRl9YRFAgYnVmZmVy
-IGFsbG9jYXRpb24gQVBJIHdhcyBpbnRyb2R1Y2VkIGl0IGhhZCBhbgo+IG9wdGltaXphdGlvbiwg
-ImNoZWFwX2RtYSIuIFRoZSBpZGVhIHdhcyB0aGF0IHdoZW4gdGhlIHVtZW0gd2FzIERNQQo+IG1h
-cHBlZCwgdGhlIHBvb2wgYWxzbyBjaGVja2VkIHdoZXRoZXIgdGhlIG1hcHBpbmcgcmVxdWlyZWQg
-YQo+IHN5bmNocm9uaXphdGlvbiAoQ1BVIHRvIGRldmljZSwgYW5kIHZpY2UgdmVyc2EpLiBJZiBu
-b3QsIGl0IHdvdWxkIGJlCj4gbWFya2VkIGFzICJjaGVhcF9kbWEiIGFuZCB0aGUgc3luY2hyb25p
-emF0aW9uIHdvdWxkIGJlIGVsaWRlZC4KPiAKPiBJbiBbMV0gQ2hyaXN0b3BoIHBvaW50cyBvdXQg
-dGhhdCB0aGUgb3B0aW1pemF0aW9uIGFib3ZlIGJyZWFrcyB0aGUgRE1BCj4gQVBJIGFic3RyYWN0
-aW9uLCBhbmQgc2hvdWxkIGJlIHJlbW92ZWQuIEZ1cnRoZXIsIENocmlzdG9waCBwb2ludHMgb3V0
-Cj4gdGhhdCBvcHRpbWl6YXRpb25zIGxpa2UgdGhpcyBzaG91bGQgYmUgZG9uZSB3aXRoaW4gdGhl
-IERNQSBtYXBwaW5nCj4gY29yZSwgYW5kIG5vdCBlbHNld2hlcmUuCj4gCj4gVW5mb3J0dW5hdGVs
-eSB0aGlzIGhhcyBpbXBsaWNhdGlvbnMgZm9yIHRoZSBwYWNrZXQgcmF0ZQo+IHBlcmZvcm1hbmNl
-LiBUaGUgQUZfWERQIHJ4ZHJvcCBzY2VuYXJpbyBzaG93cyBhIDklIGRlY3JlYXNlIGluIHBhY2tl
-dHMKPiBwZXIgc2Vjb25kLgo+IAo+IFsxXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9uZXRkZXYv
-MjAyMDA2MjYwNzQ3MjUuR0EyMTc5MEBsc3QuZGUvCj4gCj4gQ2M6IENocmlzdG9waCBIZWxsd2ln
-IDxoY2hAbHN0LmRlPgo+IEZpeGVzOiAyYjQzNDcwYWRkOGMgKCJ4c2s6IEludHJvZHVjZSBBRl9Y
-RFAgYnVmZmVyIGFsbG9jYXRpb24gQVBJIikKPiBTaWduZWQtb2ZmLWJ5OiBCasO2cm4gVMO2cGVs
-IDxiam9ybi50b3BlbEBpbnRlbC5jb20+CgpHaXZlbiB0aGVyZSBpcyByb3VnaGx5IGEgfjUgd2Vl
-a3Mgd2luZG93IGF0IG1heCB3aGVyZSB0aGlzIHJlbW92YWwgY291bGQKc3RpbGwgYmUgYXBwbGll
-ZCBpbiB0aGUgd29yc3QgY2FzZSwgY291bGQgd2UgY29tZSB1cCB3aXRoIGEgZml4IC8gcHJvcG9z
-YWwKZmlyc3QgdGhhdCBtb3ZlcyB0aGlzIGludG8gdGhlIERNQSBtYXBwaW5nIGNvcmU/IElmIHRo
-ZXJlIGlzIHNvbWV0aGluZyB0aGF0CmNhbiBiZSBhZ3JlZWQgdXBvbiBieSBhbGwgcGFydGllcywg
-dGhlbiB3ZSBjb3VsZCBhdm9pZCByZS1hZGRpbmcgdGhlIDklCnNsb3dkb3duLiA6LwoKVGhhbmtz
-LApEYW5pZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-aW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBz
-Oi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+On Fri, Jun 26, 2020 at 12:42 AM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting John Stultz (2020-06-24 17:10:37)
+> > diff --git a/drivers/irqchip/qcom-pdc.c b/drivers/irqchip/qcom-pdc.c
+> > index 6ae9e1f0819d..3fee8b655da1 100644
+> > --- a/drivers/irqchip/qcom-pdc.c
+> > +++ b/drivers/irqchip/qcom-pdc.c
+> > @@ -430,4 +432,33 @@ static int qcom_pdc_init(struct device_node *node, struct device_node *parent)
+> >         return ret;
+> >  }
+> >
+> > +#ifdef MODULE
+> > +static int qcom_pdc_probe(struct platform_device *pdev)
+> > +{
+> > +       struct device_node *np = pdev->dev.of_node;
+> > +       struct device_node *parent = of_irq_find_parent(np);
+> > +
+> > +       return qcom_pdc_init(np, parent);
+> > +}
+> > +
+> > +static const struct of_device_id qcom_pdc_match_table[] = {
+> > +       { .compatible = "qcom,pdc" },
+> > +       {}
+> > +};
+> > +MODULE_DEVICE_TABLE(of, qcom_pdc_match_table);
+> > +
+> > +static struct platform_driver qcom_pdc_driver = {
+> > +       .probe = qcom_pdc_probe,
+> > +       .driver = {
+> > +               .name = "qcom-pdc",
+> > +               .of_match_table = qcom_pdc_match_table,
+> > +               .suppress_bind_attrs = true,
+> > +       },
+> > +};
+> > +module_platform_driver(qcom_pdc_driver);
+> > +#else
+> >  IRQCHIP_DECLARE(qcom_pdc, "qcom,pdc", qcom_pdc_init);
+>
+> Is there any reason to use IRQCHIP_DECLARE if this can work as a
+> platform device driver?
+>
+
+Hey! Thanks so much for the review!
+
+Mostly it was done this way to minimize the change in the non-module
+case. But if you'd rather avoid the #ifdefery I'll respin it without.
+
+thanks
+-john
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
