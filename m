@@ -1,64 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53BA920C78B
-	for <lists.iommu@lfdr.de>; Sun, 28 Jun 2020 13:15:02 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id E941A20C926
+	for <lists.iommu@lfdr.de>; Sun, 28 Jun 2020 19:16:45 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D00DC8650A;
-	Sun, 28 Jun 2020 11:15:00 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1DF5420411;
+	Sun, 28 Jun 2020 17:16:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id COm79-QOz2AI; Sun, 28 Jun 2020 11:15:00 +0000 (UTC)
+	with ESMTP id 6JTpvjzMcZaG; Sun, 28 Jun 2020 17:16:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5596C868EF;
-	Sun, 28 Jun 2020 11:15:00 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 05CBE203F2;
+	Sun, 28 Jun 2020 17:16:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4291DC016E;
-	Sun, 28 Jun 2020 11:15:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D27B0C016E;
+	Sun, 28 Jun 2020 17:16:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6E034C016E
- for <iommu@lists.linux-foundation.org>; Sun, 28 Jun 2020 11:14:58 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A8A1BC016E
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Jun 2020 17:16:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5D63687E60
- for <iommu@lists.linux-foundation.org>; Sun, 28 Jun 2020 11:14:58 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 9201120411
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Jun 2020 17:16:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1Z7myPHXel2N for <iommu@lists.linux-foundation.org>;
- Sun, 28 Jun 2020 11:14:56 +0000 (UTC)
+ with ESMTP id 7BxbiljVehE1 for <iommu@lists.linux-foundation.org>;
+ Sun, 28 Jun 2020 17:16:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by hemlock.osuosl.org (Postfix) with ESMTPS id C140587E53
- for <iommu@lists.linux-foundation.org>; Sun, 28 Jun 2020 11:14:56 +0000 (UTC)
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id A70DF5C48FD15961F035;
- Sun, 28 Jun 2020 19:14:53 +0800 (CST)
-Received: from SWX921481.china.huawei.com (10.126.201.68) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.487.0; Sun, 28 Jun 2020 19:14:46 +0800
-From: Barry Song <song.bao.hua@hisilicon.com>
-To: <hch@lst.de>, <m.szyprowski@samsung.com>, <robin.murphy@arm.com>,
- <will@kernel.org>, <ganapatrao.kulkarni@cavium.com>,
- <catalin.marinas@arm.com>
-Subject: [PATCH v3 2/2] arm64: mm: reserve per-numa CMA to localize coherent
- dma buffers
-Date: Sun, 28 Jun 2020 23:12:51 +1200
-Message-ID: <20200628111251.19108-3-song.bao.hua@hisilicon.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <20200628111251.19108-1-song.bao.hua@hisilicon.com>
-References: <20200628111251.19108-1-song.bao.hua@hisilicon.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by silver.osuosl.org (Postfix) with ESMTPS id 1BD28203F2
+ for <iommu@lists.linux-foundation.org>; Sun, 28 Jun 2020 17:16:40 +0000 (UTC)
+IronPort-SDR: czluCaUcjDoB/XkL0nY0WOotfX2Kv1xEaWSpe35XIVfWA5CGfKTsGa2EwITuOA7ca+KS+pbEgN
+ /2V+s6fKX81A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="147404173"
+X-IronPort-AV: E=Sophos;i="5.75,291,1589266800"; d="scan'208";a="147404173"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2020 10:16:38 -0700
+IronPort-SDR: s/CaFswzkV9uLr+zFxqweD+BHz4N478o0Avg93xSnrVl+Mvwb54GAnFPN8KiQhUTMFnXdTGpBB
+ 1JKO8wlMnqdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,291,1589266800"; d="scan'208";a="453934416"
+Received: from unknown (HELO btopel-mobl.ger.intel.com) ([10.252.54.42])
+ by orsmga005.jf.intel.com with ESMTP; 28 Jun 2020 10:16:34 -0700
+Subject: Re: [PATCH net] xsk: remove cheap_dma optimization
+To: Christoph Hellwig <hch@lst.de>, Daniel Borkmann <daniel@iogearbox.net>
+References: <20200626134358.90122-1-bjorn.topel@gmail.com>
+ <c60dfb5a-2bf3-20bd-74b3-6b5e215f73f8@iogearbox.net>
+ <20200627070406.GB11854@lst.de>
+From: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>
+Message-ID: <88d27e1b-dbda-301c-64ba-2391092e3236@intel.com>
+Date: Sun, 28 Jun 2020 19:16:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Originating-IP: [10.126.201.68]
-X-CFilter-Loop: Reflected
-Cc: Steve Capper <steve.capper@arm.com>, linuxarm@huawei.com,
+In-Reply-To: <20200627070406.GB11854@lst.de>
+Content-Language: en-US
+Cc: maximmi@mellanox.com, konrad.wilk@oracle.com, jonathan.lemon@gmail.com,
  linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-arm-kernel@lists.infradead.org,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@linux.ibm.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+ netdev@vger.kernel.org, bpf@vger.kernel.org, davem@davemloft.net,
+ magnus.karlsson@intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,58 +78,66 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Right now, smmu is using dma_alloc_coherent() to get memory to save queues
-and tables. Typically, on ARM64 server, there is a default CMA located at
-node0, which could be far away from node2, node3 etc.
-with this patch, smmu will get memory from local numa node to save command
-queues and page tables. that means dma_unmap latency will be shrunk much.
-Meanwhile, when iommu.passthrough is on, device drivers which call dma_
-alloc_coherent() will also get local memory and avoid the travel between
-numa nodes.
-
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Cc: Steve Capper <steve.capper@arm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mike Rapoport <rppt@linux.ibm.com>
-Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
----
- -v3:
-  * move dma_pernuma_cma_reserve() after hugetlb_cma_reserve() to
-  reuse the comment before hugetlb_cma_reserve() with respect to
-  Robin's comment
-
- arch/arm64/mm/init.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 1e93cfc7c47a..a01eeb829372 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -429,6 +429,8 @@ void __init bootmem_init(void)
- 	hugetlb_cma_reserve(PUD_SHIFT - PAGE_SHIFT);
- #endif
- 
-+	dma_pernuma_cma_reserve();
-+
- 	/*
- 	 * Sparsemem tries to allocate bootmem in memory_present(), so must be
- 	 * done after the fixed reservations.
--- 
-2.27.0
-
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+Ck9uIDIwMjAtMDYtMjcgMDk6MDQsIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+IE9uIFNhdCwg
+SnVuIDI3LCAyMDIwIGF0IDAxOjAwOjE5QU0gKzAyMDAsIERhbmllbCBCb3JrbWFubiB3cm90ZToK
+Pj4gR2l2ZW4gdGhlcmUgaXMgcm91Z2hseSBhIH41IHdlZWtzIHdpbmRvdyBhdCBtYXggd2hlcmUg
+dGhpcyByZW1vdmFsIGNvdWxkCj4+IHN0aWxsIGJlIGFwcGxpZWQgaW4gdGhlIHdvcnN0IGNhc2Us
+IGNvdWxkIHdlIGNvbWUgdXAgd2l0aCBhIGZpeCAvIHByb3Bvc2FsCj4+IGZpcnN0IHRoYXQgbW92
+ZXMgdGhpcyBpbnRvIHRoZSBETUEgbWFwcGluZyBjb3JlPyBJZiB0aGVyZSBpcyBzb21ldGhpbmcg
+dGhhdAo+PiBjYW4gYmUgYWdyZWVkIHVwb24gYnkgYWxsIHBhcnRpZXMsIHRoZW4gd2UgY291bGQg
+YXZvaWQgcmUtYWRkaW5nIHRoZSA5JQo+PiBzbG93ZG93bi4gOi8KPiAKPiBJJ2QgcmF0aGVyIHR1
+cm4gaXQgdXBzaWRlIGRvd24gLSB0aGlzIGFidXNlIG9mIHRoZSBpbnRlcm5hbHMgYmxvY2tzIHdv
+cmsKPiB0aGF0IGhhcyBiYXNpY2FsbHkganVzdCBtaXNzZWQgdGhlIHByZXZpb3VzIHdpbmRvdyBh
+bmQgSSdtIG5vdCBnb2luZwo+IHRvIHdhaXQgd2Vla3MgdG8gc29ydCBvdXQgdGhlIEFQSSBtaXN1
+c2UuICBCdXQgd2UgY2FuIGFkZCBvcHRpbWl6YXRpb25zCj4gYmFjayBsYXRlciBpZiB3ZSBmaW5k
+IGEgc2FuZSB3YXkuCj4KCkknbSBub3Qgc3VwZXIgZXhjaXRlZCBhYm91dCB0aGUgcGVyZm9ybWFu
+Y2UgbG9zcywgYnV0IEkgZG8gZ2V0CkNocmlzdG9waCdzIGZydXN0cmF0aW9uIGFib3V0IGd1dHRp
+bmcgdGhlIERNQSBBUEkgbWFraW5nIGl0IGhhcmRlciBmb3IKRE1BIHBlb3BsZSB0byBnZXQgd29y
+ayBkb25lLiBMZXRzIHRyeSB0byBzb2x2ZSB0aGlzIHByb3Blcmx5IHVzaW5nCnByb3BlciBETUEg
+QVBJcy4KCgo+IFRoYXQgYmVpbmcgc2FpZCBJIHJlYWxseSBjYW4ndCBzZWUgaG93IHRoaXMgd291
+bGQgbWFrZSBzbyBtdWNoIG9mIGEKPiBkaWZmZXJlbmNlLiAgV2hhdCBhcmNoaXRlY3R1cmUgYW5k
+IHdoYXQgZG1hX29wcyBhcmUgeW91IHVzaW5nIGZvcgo+IHRob3NlIG1lYXN1cmVtZW50cz8gIFdo
+YXQgaXMgdGhlIHdvcmtsb2FkPwo+IAoKVGhlIDklIGlzIGZvciBhbiBBRl9YRFAgKEZhc3QgcmF3
+IEV0aGVybmV0IHNvY2tldC4gVGhpbmsgQUZfUEFDS0VULCBidXQgCmZhc3Rlci4pIGJlbmNobWFy
+azogcmVjZWl2ZSB0aGUgcGFja2V0IGZyb20gdGhlIE5JQywgYW5kIGRyb3AgaXQuIFRoZSAKRE1B
+IHN5bmNzIHN0YW5kIG91dCBpbiB0aGUgcGVyZiB0b3A6CgogICAyOC42MyUgIFtrZXJuZWxdICAg
+ICAgICAgICAgICAgICAgIFtrXSBpNDBlX2NsZWFuX3J4X2lycV96YwogICAxNy4xMiUgIFtrZXJu
+ZWxdICAgICAgICAgICAgICAgICAgIFtrXSB4cF9hbGxvYwogICAgOC44MCUgIFtrZXJuZWxdICAg
+ICAgICAgICAgICAgICAgIFtrXSBfX3hza19yY3ZfemMKICAgIDcuNjklICBba2VybmVsXSAgICAg
+ICAgICAgICAgICAgICBba10geGRwX2RvX3JlZGlyZWN0CiAgICA1LjM1JSAgYnBmX3Byb2dfOTky
+ZDlkZGM4MzVlNTYyOSAgW2tdIGJwZl9wcm9nXzk5MmQ5ZGRjODM1ZTU2MjkKICAgIDQuNzclICBb
+a2VybmVsXSAgICAgICAgICAgICAgICAgICBba10geHNrX3Jjdi5wYXJ0LjAKICAgIDQuMDclICBb
+a2VybmVsXSAgICAgICAgICAgICAgICAgICBba10gX194c2tfbWFwX3JlZGlyZWN0CiAgICAzLjgw
+JSAgW2tlcm5lbF0gICAgICAgICAgICAgICAgICAgW2tdIGRtYV9kaXJlY3Rfc3luY19zaW5nbGVf
+Zm9yX2NwdQogICAgMy4wMyUgIFtrZXJuZWxdICAgICAgICAgICAgICAgICAgIFtrXSBkbWFfZGly
+ZWN0X3N5bmNfc2luZ2xlX2Zvcl9kZXZpY2UKICAgIDIuNzYlICBba2VybmVsXSAgICAgICAgICAg
+ICAgICAgICBba10gaTQwZV9hbGxvY19yeF9idWZmZXJzX3pjCiAgICAxLjgzJSAgW2tlcm5lbF0g
+ICAgICAgICAgICAgICAgICAgW2tdIHhza19mbHVzaAouLi4KCkZvciB0aGlzIGJlbmNobWFyayB0
+aGUgZG1hX29wcyBhcmUgTlVMTCAoZG1hX2lzX2RpcmVjdCgpID09IHRydWUpLCBhbmQKdGhlIG1h
+aW4gaXNzdWUgaXMgdGhhdCBTV0lPVExCIGlzIG5vdyB1bmNvbmRpdGlvbmFsbHkgZW5hYmxlZCBb
+MV0gZm9yCng4NiwgYW5kIGZvciBlYWNoIHN5bmMgd2UgaGF2ZSB0byBjaGVjayB0aGF0IGlmIGlz
+X3N3aW90bGJfYnVmZmVyKCkKd2hpY2ggaW52b2x2ZXMgYSBzb21lIGNvc3RseSBpbmRpcmVjdGlv
+bi4KClRoYXQgd2FzIHByZXR0eSBtdWNoIHdoYXQgbXkgaGFjayBhdm9pZGVkLiBJbnN0ZWFkIHdl
+IGRpZCBhbGwgdGhlIGNoZWNrcwp1cGZyb250LCBzaW5jZSBBRl9YRFAgaGFzIGxvbmctdGVybSBE
+TUEgbWFwcGluZ3MsIGFuZCBqdXN0IHNldCBhIGZsYWcKZm9yIHRoYXQuCgpBdm9pZGluZyB0aGUg
+d2hvbGUgImlzIHRoaXMgYWRkcmVzcyBzd2lvdGxiIiBpbgpkbWFfZGlyZWN0X3N5bmNfc2luZ2xl
+X2Zvcl97Y3B1LCBkZXZpY2VdKCkgcGVyLXBhY2tldAp3b3VsZCBoZWxwIGEgbG90LgoKU29tZXdo
+YXQgcmVsYXRlZCB0byB0aGUgRE1BIEFQSTsgSXQgd291bGQgaGF2ZSBwZXJmb3JtYW5jZSBiZW5l
+Zml0cyBmb3IKQUZfWERQIGlmIHRoZSBETUEgcmFuZ2Ugb2YgdGhlIG1hcHBlZCBtZW1vcnkgd2Fz
+IGxpbmVhciwgaS5lLiBieSBJT01NVQp1dGlsaXphdGlvbi4gSSd2ZSBzdGFydGVkIGhhY2tpbmcg
+YSB0aGluZyBhIGxpdHRsZSBiaXQsIGJ1dCBpdCB3b3VsZCBiZQpuaWNlIGlmIHN1Y2ggQVBJIHdh
+cyBwYXJ0IG9mIHRoZSBtYXBwaW5nIGNvcmUuCgpJbnB1dDogYXJyYXkgb2YgcGFnZXMgT3V0cHV0
+OiBhcnJheSBvZiBkbWEgYWRkcnMgKGFuZCBvYnZpb3VzbHkgZGV2LApmbGFncyBhbmQgc3VjaCkK
+CkZvciBub24tSU9NTVUgbGVuKGFycmF5IG9mIHBhZ2VzKSA9PSBsZW4oYXJyYXkgb2YgZG1hIGFk
+ZHJzKQpGb3IgYmVzdC1jYXNlIElPTU1VIGxlbihhcnJheSBvZiBkbWEgYWRkcnMpID09IDEgKGxh
+cmdlIGxpbmVhciBzcGFjZSkKCkJ1dCB0aGF0J3MgZm9yIGxhdGVyLiA6LSkKCgpCasO2cm4KCgpb
+MV0gY29tbWl0OiAwOTIzMGNiYzFiYWIgKCJzd2lvdGxiOiBtb3ZlIHRoZSBTV0lPVExCIGNvbmZp
+ZyBzeW1ib2wgdG8gCmxpYi9LY29uZmlnIikKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1m
+b3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9pb21tdQ==
