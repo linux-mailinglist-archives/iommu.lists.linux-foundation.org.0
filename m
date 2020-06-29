@@ -1,84 +1,125 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FE020CBC2
-	for <lists.iommu@lfdr.de>; Mon, 29 Jun 2020 04:28:48 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A75E486D3C;
-	Mon, 29 Jun 2020 02:28:47 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6szIo0Og6E53; Mon, 29 Jun 2020 02:28:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EA3AF86D80;
-	Mon, 29 Jun 2020 02:28:46 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D6C1EC016E;
-	Mon, 29 Jun 2020 02:28:46 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B4F9DC016E
- for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 02:28:45 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6638220CC0E
+	for <lists.iommu@lfdr.de>; Mon, 29 Jun 2020 05:15:24 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id B087988614
- for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 02:28:45 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1A79188690;
+	Mon, 29 Jun 2020 03:15:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id p9BYSIodL7iy; Mon, 29 Jun 2020 03:15:21 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id A04168867F;
+	Mon, 29 Jun 2020 03:15:21 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 86D99C016E;
+	Mon, 29 Jun 2020 03:15:21 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6DA68C016E;
+ Mon, 29 Jun 2020 03:15:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 5C18D86F97;
+ Mon, 29 Jun 2020 03:15:19 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id x9KL1UPDr516 for <iommu@lists.linux-foundation.org>;
- Mon, 29 Jun 2020 02:28:44 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 605CD885E8
- for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 02:28:44 +0000 (UTC)
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ef951cf0000>; Sun, 28 Jun 2020 19:28:31 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Sun, 28 Jun 2020 19:28:43 -0700
-X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Sun, 28 Jun 2020 19:28:43 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 29 Jun
- 2020 02:28:43 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 29 Jun 2020 02:28:43 +0000
-Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by
- hqnvemgw03.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
- id <B5ef951db0002>; Sun, 28 Jun 2020 19:28:43 -0700
-From: Krishna Reddy <vdumpa@nvidia.com>
-To: 
-Subject: [PATCH v7 3/3] iommu/arm-smmu: Add global/context fault
- implementation hooks
-Date: Sun, 28 Jun 2020 19:28:38 -0700
-Message-ID: <20200629022838.29628-4-vdumpa@nvidia.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200629022838.29628-1-vdumpa@nvidia.com>
-References: <20200629022838.29628-1-vdumpa@nvidia.com>
+ with ESMTP id y5Ukd6ctQoQz; Mon, 29 Jun 2020 03:15:18 +0000 (UTC)
+X-Greylist: delayed 00:15:04 by SQLgrey-1.7.6
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-eopbgr80050.outbound.protection.outlook.com [40.107.8.50])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6D5CF86F74;
+ Mon, 29 Jun 2020 03:15:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aL8wxT8ULA7WFH5G8xcDuoZtllx95ZG8Oou7/uyLlz7QcdOC7lbr7W7V1ZP73APB3dvcmO6hnkfAUeJGPJbyY76CYHHkmyNMaREEdofUgQeQHhP+Us1mkLiOOSwpMHfjPfDi87TWoop0lZCa5ArAhGDevbh/tYjL1QNj/4HuthNinoNXoEh4DIeaoOc6ihKT5vWdroiB5S7Fjd5rupkSv9e8xR2Sts3c4zgpfClvxTjm9ky0hbveLMNoa0+6apM4C3JUZS14nj7vmuVBxxR2YsPDbWwDIuw/bHjMRZ+xGoGaU1+Ot+csSyXlo/wcB0PWAZZbEOBs3n3Gtfe30hu8Kg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cEkYM3WrGoh9CXGo+3w9YCuBPjOjwUC6rQ5FN+BYd+Q=;
+ b=aqKrKDEyOEfrZou1eB6GvbcYHaUFHQBdaRnV8JcR08eIOh4h82jzISYZ1zAsor5P7TzitKfWzZrpZz3P7buieHZM+HnsLJF4oqYm3jkT1hg7F7VpI6dtA9IS1UmLtQHs4JGeaXtfHYItRDM7LzIzMF4i1Vd2brIfGqCdg//K+V7L8eBCyQWycbIarWouMR95rNdDd2mHojsToSsUSovB4YVCtJReqW0Xa03umPbNcVbwpQRwMfghG7ck4+2m9agBVcYx5zzl9d82FB3GK6C+VggygChY6DC2NK49/Zo0f6U2Zb5WapPiLGIT2U2s15cUYqb+CFNFTygvOp7uokgtWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cEkYM3WrGoh9CXGo+3w9YCuBPjOjwUC6rQ5FN+BYd+Q=;
+ b=qmk4pcuEisqTd4+4+dH8ia2k/C7g9J8/LFQncpSN9+AZLiY4QhGQRjB7jSW9SfDx4QOJDHH4V9Ag7Q+1Di5BK6YnWPt9PSDUiq1GY4bYLa9SksOItQAdNHUwpHnV4Y2Pdsw/5cLz2900b4ef4bDRTmRseKO2dMm/udvcOt+dCU0=
+Received: from DB6PR0402MB2760.eurprd04.prod.outlook.com (2603:10a6:4:a1::14)
+ by DB6PR0402MB2933.eurprd04.prod.outlook.com (2603:10a6:4:9c::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.26; Mon, 29 Jun
+ 2020 03:00:08 +0000
+Received: from DB6PR0402MB2760.eurprd04.prod.outlook.com
+ ([fe80::2d36:b569:17c:7701]) by DB6PR0402MB2760.eurprd04.prod.outlook.com
+ ([fe80::2d36:b569:17c:7701%4]) with mapi id 15.20.3131.026; Mon, 29 Jun 2020
+ 03:00:08 +0000
+From: Peng Fan <peng.fan@nxp.com>
+To: Stefano Stabellini <sstabellini@kernel.org>, "Michael S. Tsirkin"
+ <mst@redhat.com>
+Subject: RE: [PATCH] xen: introduce xen_vring_use_dma
+Thread-Topic: [PATCH] xen: introduce xen_vring_use_dma
+Thread-Index: AQHWSgTusARd8c8cRkWwDit233DtZajneYoAgACU6oCAAC7QAIAAEpoAgAAGSwCAAUK2gIAFVRgQ
+Date: Mon, 29 Jun 2020 03:00:08 +0000
+Message-ID: <DB6PR0402MB2760B02A5EA92A24D5703344886E0@DB6PR0402MB2760.eurprd04.prod.outlook.com>
+References: <20200624091732.23944-1-peng.fan@nxp.com>
+ <20200624050355-mutt-send-email-mst@kernel.org>
+ <alpine.DEB.2.21.2006241047010.8121@sstabellini-ThinkPad-T480s>
+ <20200624163940-mutt-send-email-mst@kernel.org>
+ <alpine.DEB.2.21.2006241351430.8121@sstabellini-ThinkPad-T480s>
+ <20200624181026-mutt-send-email-mst@kernel.org>
+ <alpine.DEB.2.21.2006251014230.8121@sstabellini-ThinkPad-T480s>
+In-Reply-To: <alpine.DEB.2.21.2006251014230.8121@sstabellini-ThinkPad-T480s>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.71]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 13ba3640-e9ad-4e19-0273-08d81bd88847
+x-ms-traffictypediagnostic: DB6PR0402MB2933:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB6PR0402MB29339084D7549C71A0F58503886E0@DB6PR0402MB2933.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 044968D9E1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: q15QAvPQSN0Timky4oDpoQS5EjdrqXyUR1t7gIHO5/lII+2gdPQVQdSXSXhZlqnIolxDskOU3zxxiut6WJYFzfMoEOWmyXxCCkrmkJUDu4RPemXo/DT+xmilbdL2bDtr1mK4zk0D+ZBfixO0e+3oi3FEGBWy6wIJdve3no6VbjcKt3xeaNgMSMcObV3TcVbe34A9rMQTAwW13OGg+pSU3bcOhcaP618ZDtTdibEE/WKv1LdNtyKkrxUQUHUIsQfbq/lap48+BOfN27XzbUlcDnoJtTg0OROcVqPHqy+KtiYaAlSAN578MUzdINBTKV/2DX/+wnQyYNL/yAU/SX7fAV1ESIK6Jd+4o+cK8hCyWeLJDGotGeePClJRbt7UXruSXxt+pRzoLXiKAhVsVNm+qw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB6PR0402MB2760.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(376002)(346002)(136003)(366004)(39860400002)(316002)(76116006)(966005)(52536014)(66476007)(54906003)(66946007)(6506007)(66446008)(64756008)(66556008)(7416002)(4326008)(186003)(26005)(7696005)(2906002)(33656002)(86362001)(110136005)(45080400002)(8676002)(83080400001)(8936002)(71200400001)(83380400001)(9686003)(478600001)(44832011)(55016002)(5660300002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: rIh4hpyZRlq1oXv0Jp5uXtz/ZBRmR5fCy7P/DPCVKSUc/ZUSfpco3e197h5zPE5YrX0mUvrKaBvhrFyzRq+9kYsTkXIrfhrFiaxdUUMTeNk1AxnwEzDWrTwrDVUsqYfeb39VGV2HX6MlChnzz1Sfssl23UkXqLY4EpkUHniCtEbQqB+PbqHtC0h3po7KQdmlp8juiiCFoWhyEjahToeZhOejGxGZaMbO3PjO7gkzxgj2Vuv77kLSNTKpk8qtWRSdhboted7dHYzWMtS8oQEnkQM9QJn6kKvKlXDsVyn3kzuPDJnY/wQoNuT7r9jgj2GdeH6z+JZTztjeIrjiupnElYwagCedNMcPOXx2mTRYyv+coPNroPMnopkCFQwRGSIYdYz6BuuHHzVrl03FUD2loYS1doMczk0yWXrj+QCtwHItMAxJFbBQcPHSIS0IiLZDLGkEPYO8W9aGAfCSigmp+B+Ts5tbl3mtHZFDIytzrMb6UyVZ+IpG9Pt+WLI5COp6
 MIME-Version: 1.0
-X-NVConfidentiality: public
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1593397711; bh=DeTOvgGx0JLkiA+WHeFmx2Voym9GjZi724XC1XCiwp0=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- In-Reply-To:References:MIME-Version:X-NVConfidentiality:
- Content-Transfer-Encoding:Content-Type;
- b=WFIghWOCSZ9Z/MTbHmKsAQoxkhSTXp62cWPPS+j2ppeMkI9pesENyEA7BzOkxb4yk
- cF9PLH1vOa/P1GIdA2/K+aNDbqqdT8jh5Pxxku9rbjEOJcbeJkDrkK7BQuxxkipSFR
- N/d2wXQ4TRnYxisDmMVjcZspAXALycLKFaGegk1BDGMsJEHzDcaRhX4aUYB8FjSyYE
- Lymow5O1O8PcYHz5cvyTGOTRanC6PQocYd0TDay+LCHc8gjsNQNaA0n42Lil0IrkXA
- i8NtXgEuH+p5scebLmYBPTjJRm9pE9AvQ+2ASRJXkgpE770D3yQS/csv66OxKgtZ/v
- Lv+QSUgAGcd1Q==
-Cc: snikam@nvidia.com, mperttunen@nvidia.com, bhuntsman@nvidia.com,
- will@kernel.org, linux-kernel@vger.kernel.org, praithatha@nvidia.com,
- talho@nvidia.com, iommu@lists.linux-foundation.org, nicolinc@nvidia.com,
- linux-tegra@vger.kernel.org, yhsu@nvidia.com, treding@nvidia.com,
- robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org, bbiswas@nvidia.com
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB6PR0402MB2760.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13ba3640-e9ad-4e19-0273-08d81bd88847
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 03:00:08.4686 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WFb8Yle0owm/sFCkI7lJMnCMp8RzUFPNAIHnY7sAQRRBmHrab9Fa7cCfi1CtCu1BSYp+Oj2wBJAQ58CduENUEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0402MB2933
+Cc: "jgross@suse.com" <jgross@suse.com>,
+ "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>, "x86@kernel.org" <x86@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ dl-linux-imx <linux-imx@nxp.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ "boris.ostrovsky@oracle.com" <boris.ostrovsky@oracle.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,217 +137,147 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add global/context fault hooks to allow NVIDIA SMMU implementation
-handle faults across multiple SMMUs.
+> Subject: Re: [PATCH] xen: introduce xen_vring_use_dma
+> 
+> On Wed, 24 Jun 2020, Michael S. Tsirkin wrote:
+> > On Wed, Jun 24, 2020 at 02:53:54PM -0700, Stefano Stabellini wrote:
+> > > On Wed, 24 Jun 2020, Michael S. Tsirkin wrote:
+> > > > On Wed, Jun 24, 2020 at 10:59:47AM -0700, Stefano Stabellini wrote:
+> > > > > On Wed, 24 Jun 2020, Michael S. Tsirkin wrote:
+> > > > > > On Wed, Jun 24, 2020 at 05:17:32PM +0800, Peng Fan wrote:
+> > > > > > > Export xen_swiotlb for all platforms using xen swiotlb
+> > > > > > >
+> > > > > > > Use xen_swiotlb to determine when vring should use dma APIs
+> > > > > > > to map the
+> > > > > > > ring: when xen_swiotlb is enabled the dma API is required.
+> > > > > > > When it is disabled, it is not required.
+> > > > > > >
+> > > > > > > Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> > > > > >
+> > > > > > Isn't there some way to use VIRTIO_F_IOMMU_PLATFORM for this?
+> > > > > > Xen was there first, but everyone else is using that now.
+> > > > >
+> > > > > Unfortunately it is complicated and it is not related to
+> > > > > VIRTIO_F_IOMMU_PLATFORM :-(
+> > > > >
+> > > > >
+> > > > > The Xen subsystem in Linux uses dma_ops via swiotlb_xen to
+> > > > > translate foreign mappings (memory coming from other VMs) to
+> physical addresses.
+> > > > > On x86, it also uses dma_ops to translate Linux's idea of a
+> > > > > physical address into a real physical address (this is unneeded
+> > > > > on ARM.)
+> > > > >
+> > > > >
+> > > > > So regardless of VIRTIO_F_IOMMU_PLATFORM, dma_ops should be
+> used
+> > > > > on Xen/x86 always and on Xen/ARM if Linux is Dom0 (because it
+> > > > > has foreign
+> > > > > mappings.) That is why we have the if (xen_domain) return true;
+> > > > > in vring_use_dma_api.
+> > > >
+> > > > VIRTIO_F_IOMMU_PLATFORM makes guest always use DMA ops.
+> > > >
+> > > > Xen hack predates VIRTIO_F_IOMMU_PLATFORM so it *also* forces
+> DMA
+> > > > ops even if VIRTIO_F_IOMMU_PLATFORM is clear.
+> > > >
+> > > > Unfortunately as a result Xen never got around to properly setting
+> > > > VIRTIO_F_IOMMU_PLATFORM.
+> > >
+> > > I don't think VIRTIO_F_IOMMU_PLATFORM would be correct for this
+> > > because the usage of swiotlb_xen is not a property of virtio,
+> >
+> >
+> > Basically any device without VIRTIO_F_ACCESS_PLATFORM (that is it's
+> > name in latest virtio spec, VIRTIO_F_IOMMU_PLATFORM is what linux
+> > calls it) is declared as "special, don't follow normal rules for
+> > access".
+> >
+> > So yes swiotlb_xen is not a property of virtio, but what *is* a
+> > property of virtio is that it's not special, just a regular device from DMA POV.
+> 
+> I am trying to understand what you meant but I think I am missing something.
+> 
+> Are you saying that modern virtio should always have
+> VIRTIO_F_ACCESS_PLATFORM, hence use normal dma_ops as any other
+> devices?
+> 
+> If that is the case, how is it possible that virtio breaks on ARM using the
+> default dma_ops? The breakage is not Xen related (except that Xen turns
+> dma_ops on). The original message from Peng was:
+> 
+>   vring_map_one_sg -> vring_use_dma_api
+>                    -> dma_map_page
+>   		       -> __swiotlb_map_page
+>   		                ->swiotlb_map_page
+>   				->__dma_map_area(phys_to_virt(dma_to_phys(dev,
+> dev_addr)), size, dir);
+>   However we are using per device dma area for rpmsg, phys_to_virt
+>   could not return a correct virtual address for virtual address in
+>   vmalloc area. Then kernel panic.
+> 
+> I must be missing something. Maybe it is because it has to do with RPMesg?
 
-Signed-off-by: Krishna Reddy <vdumpa@nvidia.com>
----
- drivers/iommu/arm-smmu-nvidia.c | 101 +++++++++++++++++++++++++++++++-
- drivers/iommu/arm-smmu.c        |  17 +++++-
- drivers/iommu/arm-smmu.h        |   3 +
- 3 files changed, 118 insertions(+), 3 deletions(-)
+I am not going to fix the rpmsg issue with this patch. It is when ARM DomU
+Android os communicate with secure world trusty os using virtio, the
+vring_use_dma_api will return true for xen domu, but I no need it return
+true and fall into swiotlb.
 
-diff --git a/drivers/iommu/arm-smmu-nvidia.c b/drivers/iommu/arm-smmu-nvidia.c
-index b73c483fa3376..7276bb203ae79 100644
---- a/drivers/iommu/arm-smmu-nvidia.c
-+++ b/drivers/iommu/arm-smmu-nvidia.c
-@@ -147,6 +147,102 @@ static int nvidia_smmu_reset(struct arm_smmu_device *smmu)
- 	return 0;
- }
- 
-+static struct arm_smmu_domain *to_smmu_domain(struct iommu_domain *dom)
-+{
-+	return container_of(dom, struct arm_smmu_domain, domain);
-+}
-+
-+static irqreturn_t nvidia_smmu_global_fault_inst(int irq,
-+					       struct arm_smmu_device *smmu,
-+					       int inst)
-+{
-+	u32 gfsr, gfsynr0, gfsynr1, gfsynr2;
-+	void __iomem *gr0_base = nvidia_smmu_page(smmu, inst, 0);
-+
-+	gfsr = readl_relaxed(gr0_base + ARM_SMMU_GR0_sGFSR);
-+	gfsynr0 = readl_relaxed(gr0_base + ARM_SMMU_GR0_sGFSYNR0);
-+	gfsynr1 = readl_relaxed(gr0_base + ARM_SMMU_GR0_sGFSYNR1);
-+	gfsynr2 = readl_relaxed(gr0_base + ARM_SMMU_GR0_sGFSYNR2);
-+
-+	if (!gfsr)
-+		return IRQ_NONE;
-+
-+	dev_err_ratelimited(smmu->dev,
-+		"Unexpected global fault, this could be serious\n");
-+	dev_err_ratelimited(smmu->dev,
-+		"\tGFSR 0x%08x, GFSYNR0 0x%08x, GFSYNR1 0x%08x, GFSYNR2 0x%08x\n",
-+		gfsr, gfsynr0, gfsynr1, gfsynr2);
-+
-+	writel_relaxed(gfsr, gr0_base + ARM_SMMU_GR0_sGFSR);
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t nvidia_smmu_global_fault(int irq, void *dev)
-+{
-+	int inst;
-+	irqreturn_t irq_ret = IRQ_NONE;
-+	struct arm_smmu_device *smmu = dev;
-+	struct nvidia_smmu *nvidia_smmu = to_nvidia_smmu(smmu);
-+
-+	for (inst = 0; inst < nvidia_smmu->num_inst; inst++) {
-+		irq_ret = nvidia_smmu_global_fault_inst(irq, smmu, inst);
-+		if (irq_ret == IRQ_HANDLED)
-+			return irq_ret;
-+	}
-+
-+	return irq_ret;
-+}
-+
-+static irqreturn_t nvidia_smmu_context_fault_bank(int irq,
-+					    struct arm_smmu_device *smmu,
-+					    int idx, int inst)
-+{
-+	u32 fsr, fsynr, cbfrsynra;
-+	unsigned long iova;
-+	void __iomem *gr1_base = nvidia_smmu_page(smmu, inst, 1);
-+	void __iomem *cb_base = nvidia_smmu_page(smmu, inst, smmu->numpage + idx);
-+
-+	fsr = arm_smmu_cb_read(smmu, idx, ARM_SMMU_CB_FSR);
-+	if (!(fsr & ARM_SMMU_FSR_FAULT))
-+		return IRQ_NONE;
-+
-+	fsynr = readl_relaxed(cb_base + ARM_SMMU_CB_FSYNR0);
-+	iova = readq_relaxed(cb_base + ARM_SMMU_CB_FAR);
-+	cbfrsynra = readl_relaxed(gr1_base + ARM_SMMU_GR1_CBFRSYNRA(idx));
-+
-+	dev_err_ratelimited(smmu->dev,
-+	"Unhandled context fault: fsr=0x%x, iova=0x%08lx, fsynr=0x%x, cbfrsynra=0x%x, cb=%d\n",
-+			    fsr, iova, fsynr, cbfrsynra, idx);
-+
-+	writel_relaxed(fsr, cb_base + ARM_SMMU_CB_FSR);
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t nvidia_smmu_context_fault(int irq, void *dev)
-+{
-+	int inst, idx;
-+	irqreturn_t irq_ret = IRQ_NONE;
-+	struct iommu_domain *domain = dev;
-+	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
-+	struct arm_smmu_device *smmu = smmu_domain->smmu;
-+
-+	for (inst = 0; inst < to_nvidia_smmu(smmu)->num_inst; inst++) {
-+		/*
-+		 * Interrupt line shared between all context faults.
-+		 * Check for faults across all contexts.
-+		 */
-+		for (idx = 0; idx < smmu->num_context_banks; idx++) {
-+			irq_ret = nvidia_smmu_context_fault_bank(irq, smmu,
-+								 idx, inst);
-+
-+			if (irq_ret == IRQ_HANDLED)
-+				return irq_ret;
-+		}
-+	}
-+
-+	return irq_ret;
-+}
-+
- static const struct arm_smmu_impl nvidia_smmu_impl = {
- 	.read_reg = nvidia_smmu_read_reg,
- 	.write_reg = nvidia_smmu_write_reg,
-@@ -154,6 +250,8 @@ static const struct arm_smmu_impl nvidia_smmu_impl = {
- 	.write_reg64 = nvidia_smmu_write_reg64,
- 	.reset = nvidia_smmu_reset,
- 	.tlb_sync = nvidia_smmu_tlb_sync,
-+	.global_fault = nvidia_smmu_global_fault,
-+	.context_fault = nvidia_smmu_context_fault,
- };
- 
- struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *smmu)
-@@ -185,7 +283,8 @@ struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *smmu)
- 	}
- 
- 	nvidia_smmu->smmu.impl = &nvidia_smmu_impl;
--	/* Free the arm_smmu_device struct allocated in arm-smmu.c.
-+	/*
-+	 * Free the arm_smmu_device struct allocated in arm-smmu.c.
- 	 * Once this function returns, arm-smmu.c would use arm_smmu_device
- 	 * allocated as part of nvidia_smmu struct.
- 	 */
-diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index 243bc4cb2705b..3bb0aba15a356 100644
---- a/drivers/iommu/arm-smmu.c
-+++ b/drivers/iommu/arm-smmu.c
-@@ -673,6 +673,7 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 	enum io_pgtable_fmt fmt;
- 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
- 	struct arm_smmu_cfg *cfg = &smmu_domain->cfg;
-+	irqreturn_t (*context_fault)(int irq, void *dev);
- 
- 	mutex_lock(&smmu_domain->init_mutex);
- 	if (smmu_domain->smmu)
-@@ -835,7 +836,13 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 	 * handler seeing a half-initialised domain state.
- 	 */
- 	irq = smmu->irqs[smmu->num_global_irqs + cfg->irptndx];
--	ret = devm_request_irq(smmu->dev, irq, arm_smmu_context_fault,
-+
-+	if (smmu->impl && smmu->impl->context_fault)
-+		context_fault = smmu->impl->context_fault;
-+	else
-+		context_fault = arm_smmu_context_fault;
-+
-+	ret = devm_request_irq(smmu->dev, irq, context_fault,
- 			       IRQF_SHARED, "arm-smmu-context-fault", domain);
- 	if (ret < 0) {
- 		dev_err(smmu->dev, "failed to request context IRQ %d (%u)\n",
-@@ -2107,6 +2114,7 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
- 	struct arm_smmu_device *smmu;
- 	struct device *dev = &pdev->dev;
- 	int num_irqs, i, err;
-+	irqreturn_t (*global_fault)(int irq, void *dev);
- 
- 	smmu = devm_kzalloc(dev, sizeof(*smmu), GFP_KERNEL);
- 	if (!smmu) {
-@@ -2193,9 +2201,14 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
- 		smmu->num_context_irqs = smmu->num_context_banks;
- 	}
- 
-+	if (smmu->impl && smmu->impl->global_fault)
-+		global_fault = smmu->impl->global_fault;
-+	else
-+		global_fault = arm_smmu_global_fault;
-+
- 	for (i = 0; i < smmu->num_global_irqs; ++i) {
- 		err = devm_request_irq(smmu->dev, smmu->irqs[i],
--				       arm_smmu_global_fault,
-+				       global_fault,
- 				       IRQF_SHARED,
- 				       "arm-smmu global fault",
- 				       smmu);
-diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
-index 8cf1511ed9874..8b330076ff2af 100644
---- a/drivers/iommu/arm-smmu.h
-+++ b/drivers/iommu/arm-smmu.h
-@@ -18,6 +18,7 @@
- #include <linux/io-64-nonatomic-hi-lo.h>
- #include <linux/io-pgtable.h>
- #include <linux/iommu.h>
-+#include <linux/irqreturn.h>
- #include <linux/mutex.h>
- #include <linux/spinlock.h>
- #include <linux/types.h>
-@@ -387,6 +388,8 @@ struct arm_smmu_impl {
- 	void (*tlb_sync)(struct arm_smmu_device *smmu, int page, int sync,
- 			 int status);
- 	int (*def_domain_type)(struct device *dev);
-+	irqreturn_t (*global_fault)(int irq, void *dev);
-+	irqreturn_t (*context_fault)(int irq, void *dev);
- };
- 
- static inline void __iomem *arm_smmu_page(struct arm_smmu_device *smmu, int n)
--- 
-2.26.2
+Thanks,
+Peng.
 
+> 
+> 
+> > > > > You might have noticed that I missed one possible case above:
+> > > > > Xen/ARM DomU :-)
+> > > > >
+> > > > > Xen/ARM domUs don't need swiotlb_xen, it is not even
+> > > > > initialized. So if
+> > > > > (xen_domain) return true; would give the wrong answer in that case.
+> > > > > Linux would end up calling the "normal" dma_ops, not
+> > > > > swiotlb-xen, and the "normal" dma_ops fail.
+> > > > >
+> > > > >
+> > > > > The solution I suggested was to make the check in
+> > > > > vring_use_dma_api more flexible by returning true if the
+> > > > > swiotlb_xen is supposed to be used, not in general for all Xen
+> > > > > domains, because that is what the check was really meant to do.
+> > > >
+> > > > Why not fix DMA ops so they DTRT (nop) on Xen/ARM DomU? What is
+> wrong with that?
+> > >
+> > > swiotlb-xen is not used on Xen/ARM DomU, the default dma_ops are the
+> > > ones that are used. So you are saying, why don't we fix the default
+> > > dma_ops to work with virtio?
+> > >
+> > > It is bad that the default dma_ops crash with virtio, so yes I think
+> > > it would be good to fix that. However, even if we fixed that, the if
+> > > (xen_domain()) check in vring_use_dma_api is still a problem.
+> >
+> > Why is it a problem? It just makes virtio use DMA API.
+> > If that in turn works, problem solved.
+> 
+> You are correct in the sense that it would work. However I do think it is wrong
+> for vring_use_dma_api to enable dma_ops/swiotlb-xen for Xen/ARM DomUs
+> that don't need it. There are many different types of Xen guests, Xen x86 is
+> drastically different from Xen ARM, it seems wrong to treat them the same
+> way.
+> 
+> 
+> 
+> Anyway, re-reading the last messages of the original thread [1], it looks like
+> Peng had a clear idea on how to fix the general issue. Peng, what happened
+> with that?
+> 
+> 
+> [1]
+> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.ke
+> rnel.org%2Fpatchwork%2Fpatch%2F1033801%2F%231222404&amp;data=02
+> %7C01%7Cpeng.fan%40nxp.com%7C27edb29c11da49a2249008d8192d98cc
+> %7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637287030912707
+> 092&amp;sdata=MsF%2FLmBmJ1V%2BoOQ%2FmdhEJ3PFzH55DaSNvorRUU
+> QvBvQ%3D&amp;reserved=0
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
