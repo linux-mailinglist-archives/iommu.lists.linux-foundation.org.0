@@ -1,129 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B745620CCCA
-	for <lists.iommu@lfdr.de>; Mon, 29 Jun 2020 08:35:56 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 479CC8755A;
-	Mon, 29 Jun 2020 06:35:55 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id z-c1JL6jRQJY; Mon, 29 Jun 2020 06:35:54 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BFBDF873F7;
-	Mon, 29 Jun 2020 06:35:54 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A8025C016E;
-	Mon, 29 Jun 2020 06:35:54 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 55548C016E;
- Mon, 29 Jun 2020 06:35:53 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7620820CCF0
+	for <lists.iommu@lfdr.de>; Mon, 29 Jun 2020 09:14:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 4AF3589332;
- Mon, 29 Jun 2020 06:35:53 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C59688935E;
+	Mon, 29 Jun 2020 07:14:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1DbVgmgF7pPH; Mon, 29 Jun 2020 07:14:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id AE3D08936E;
+	Mon, 29 Jun 2020 07:14:23 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 97AA2C016E;
+	Mon, 29 Jun 2020 07:14:23 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 19803C016E
+ for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 07:14:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id F3DA288580
+ for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 07:14:20 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Wk5dSZ7dYnbz; Mon, 29 Jun 2020 06:35:52 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (mail-eopbgr80074.outbound.protection.outlook.com [40.107.8.74])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E1A8B892A4;
- Mon, 29 Jun 2020 06:35:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gzr/k4oCbcvEW7AiZGYcqOtnZAuZ87sdUvtk2U1+45np+2XqI2wkn+fFSSxJpPvBzvIfY95CTvIOq74St4++o8KZSmmblZNTye/HXpATwTRNThRGDatoR7ljUseNIFLWjftAAYrgrzzhTocZ/TiG3sCYqAeB1r2A0QBTr/A1BuQsislJYxR8T/fhQB79nJpgE5K96HOZEwU801Bn2jlsjNAYE4K+uG3LRDRjpBayLVgvveyp4ZZSzCLH0nB8khiVoZOn2Ld67ikv6ce9mfoHwXG40rdyS7MF+wCGem4kduqbS3hMeLpWkcEFDTQUvYhDSTh8Df04Ob2TLaJwJ8gtaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jt9aKkcohM+VBBAMcQ1zSn0OzkcLoXfaQdNHqrsc8go=;
- b=I19SIRA9E+ml4KlImtDM2f6dT2GjHOpm/8bQAdGCULUf7DUSebu1q6C/JEQQ0ZoD5czHKgShajRH6E8quwskYdXQrzJfn+BWOHsgk/ylOAEslvjCLUXnqiYfrr31rvAWJsumKBYEoB53GLwvctI0j8ms0CZg5nttGNUPix2ZLACLyf8/jdtFuC95JbVqXotqdhbEoV0cgmf+v07H7UuHofCgk1ft3b8hZnXEyEeIUp23T10ZYTN/LgLHpL7WsN/+yuJc5e+M2O/sjq6bnvSKohrrNhgmA8xyXA7NlZAZkvgt3wCT/sr95qbheSpOaRlE434mT7ymF9kj/VMpYltmvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jt9aKkcohM+VBBAMcQ1zSn0OzkcLoXfaQdNHqrsc8go=;
- b=AmBn7Z1Vgx95lJz5b3JxDQb7dpR0/wYgFEuq3Qzew0A79iEejI01TsVFHzD149IWXAhzENJq8qJnyaImapEQolKWf0QRGEawwdDBkZNk1rzw+FT+BwyKqToGmCXB7v+rtFqIIzKTJNTMt9LLg+JmWqc28jUbdUiyQym7kw7s8VU=
-Received: from DB6PR0402MB2760.eurprd04.prod.outlook.com (2603:10a6:4:a1::14)
- by DB7PR04MB4764.eurprd04.prod.outlook.com (2603:10a6:10:15::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.25; Mon, 29 Jun
- 2020 06:35:48 +0000
-Received: from DB6PR0402MB2760.eurprd04.prod.outlook.com
- ([fe80::2d36:b569:17c:7701]) by DB6PR0402MB2760.eurprd04.prod.outlook.com
- ([fe80::2d36:b569:17c:7701%4]) with mapi id 15.20.3131.026; Mon, 29 Jun 2020
- 06:35:48 +0000
-From: Peng Fan <peng.fan@nxp.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: RE: [PATCH] xen: introduce xen_vring_use_dma
-Thread-Topic: [PATCH] xen: introduce xen_vring_use_dma
-Thread-Index: AQHWSgTusARd8c8cRkWwDit233DtZajneYoAgACU6oCAAC7QAIAAEpoAgAAGSwCAAUK2gIABcSaAgAPk6cCAADgrAIAAAH5wgAAC0YCAAABHUA==
-Date: Mon, 29 Jun 2020 06:35:48 +0000
-Message-ID: <DB6PR0402MB27606A2A6308135D62476D80886E0@DB6PR0402MB2760.eurprd04.prod.outlook.com>
-References: <20200624050355-mutt-send-email-mst@kernel.org>
- <alpine.DEB.2.21.2006241047010.8121@sstabellini-ThinkPad-T480s>
- <20200624163940-mutt-send-email-mst@kernel.org>
- <alpine.DEB.2.21.2006241351430.8121@sstabellini-ThinkPad-T480s>
- <20200624181026-mutt-send-email-mst@kernel.org>
- <alpine.DEB.2.21.2006251014230.8121@sstabellini-ThinkPad-T480s>
- <20200626110629-mutt-send-email-mst@kernel.org>
- <DB6PR0402MB27601CA74B85DA5A9F5E5DD6886E0@DB6PR0402MB2760.eurprd04.prod.outlook.com>
- <20200629022124-mutt-send-email-mst@kernel.org>
- <DB6PR0402MB27602AB2A9A242D79343CE48886E0@DB6PR0402MB2760.eurprd04.prod.outlook.com>
- <20200629023225-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200629023225-mutt-send-email-mst@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nxp.com;
-x-originating-ip: [119.31.174.71]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: e07dc2d3-9155-49ce-2410-08d81bf6a91d
-x-ms-traffictypediagnostic: DB7PR04MB4764:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB7PR04MB4764AE24947258994AB8A440886E0@DB7PR04MB4764.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4714;
-x-forefront-prvs: 044968D9E1
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fK08amyxZaUi4JckED6/kpeUqMMw5buBVlalapbUcm+JSQK4QI84PEPgIYnkjkipS0xD9ABwB8ZcXtU/h/Y1OsDKtAVt4k4y7yMsyjn1Oa5BSHHepcIY7m4GIwnbEVNJJuthC4iVCMt+doQZU+ZAh26iGubJ/DeuGuOOXyNv4oM6PLJurQOiHffS1g7sdTacZiTsr+zppsy1C/3VBuisiyRVGG4KfeS0ux+2g8v3UsA7a2J/kgVZnBPHi2P5+10HIdKRjvpPPZ6yxmJFe43F3T3WeOuT1xkhR6Zi6ivDSCaAWVO+op7BLHTy95nrWHskMjgKfYQDmudAalEtAL7cIA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB6PR0402MB2760.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(396003)(346002)(376002)(136003)(39860400002)(66946007)(8936002)(8676002)(7416002)(9686003)(83380400001)(86362001)(44832011)(26005)(64756008)(2906002)(66556008)(6916009)(4326008)(66476007)(6506007)(66446008)(186003)(76116006)(4744005)(71200400001)(5660300002)(33656002)(478600001)(55016002)(316002)(7696005)(52536014)(54906003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: 63k2owGulhusPRazW46hh/2a+efDxnw5Ak9iGbwd161buaq9mmMSZvvaGZMS87V5f2GDrg3WF4Oh7JXqPRgBE5SUGQmUoXnhTBOO19GPSMYZt+Lrlj0OpzO0Jql3BMWWSQplbol/Q+Z80+e4LL7EIQWzIhSBfPZjbEjV39ucPFLEIFEwTFsCsyK+6WFjKMeIrepcXL+MG+tAEIdcaugN7F9Y6LGblmbsvcCe/CTmqDsMDIq57bI+0chNC+fJQj24C3V+DPYtwKLJHwkrD0Wc90v8IQhcMJg4hjUp3lDEDbgI6vqOpEIfN4t2Zpxl16NFJ9+EvD5RN4ilnaa84iCF5iOkD+KQIlMPB5ex8az2GvDte+xkV4Mzg2p3SWTOKf0qsk3HKvh74vTDX2Bk1B+Zqsz+Z1harUbTpuDLx2jAEA5kih/aoXOqjQRM5mrc1peNTAo9qYuTNWsaSiK1sRsVD0Qc9Nun+TWq/L5HOWc68O5MhgpgJvac9kppMJ+CTTA4
+ with ESMTP id lJzPeFJs4tfa for <iommu@lists.linux-foundation.org>;
+ Mon, 29 Jun 2020 07:14:20 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by whitealder.osuosl.org (Postfix) with ESMTP id F0D2C8859C
+ for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 07:14:19 +0000 (UTC)
+X-UUID: 989a9aedb14f42eb9622a687f3483f8d-20200629
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=eQSffpyY3QwD6v9nyZvoSuQ+Lu76geQsw/vxH4WGBnE=; 
+ b=Kf11B4z/+Imfoj75543OrjLE5xE2OKbJ6PXQh67A8TpGIr/svPPhIbMFTO08NLS1WKAgjS5iPxUfUvReksyIZJDrPvg7xgcm3CfKyY8xdrGQJCsJT51HanqVeWkh2bRQBZWn7DCFQ4KtC3glO2k2wIgxuMy7Yo2nyBUPvLJa1Zo=;
+X-UUID: 989a9aedb14f42eb9622a687f3483f8d-20200629
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+ (envelope-from <chao.hao@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+ with ESMTP id 888407227; Mon, 29 Jun 2020 15:14:18 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 29 Jun 2020 15:14:07 +0800
+Received: from localhost.localdomain (10.15.20.246) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 29 Jun 2020 15:14:07 +0800
+From: Chao Hao <chao.hao@mediatek.com>
+To: Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>
+Subject: [PATCH v5 00/10] MT6779 IOMMU SUPPORT
+Date: Mon, 29 Jun 2020 15:13:00 +0800
+Message-ID: <20200629071310.1557-1-chao.hao@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB6PR0402MB2760.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e07dc2d3-9155-49ce-2410-08d81bf6a91d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 06:35:48.4429 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NmRyPfTWtT9tmgZRVPpOrkiU+mkQIwuldVriqMockyAX0T7RoLpPgZZtv1zNbSJXKaVO8ByTSQcBW7CQ4G2crw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR04MB4764
-Cc: "jgross@suse.com" <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>, "x86@kernel.org" <x86@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- dl-linux-imx <linux-imx@nxp.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- "boris.ostrovsky@oracle.com" <boris.ostrovsky@oracle.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+X-TM-SNTS-SMTP: EB340D25FCF0995099D65A6A691B61DC50D13EB1B663B4F80CE82A4AA1C94A382000:8
+X-MTK: N
+Cc: devicetree@vger.kernel.org, FY Yang <fy.yang@mediatek.com>,
+ wsd_upstream@mediatek.com, linux-kernel@vger.kernel.org,
+ Evan Green <evgreen@chromium.org>, Chao Hao <chao.hao@mediatek.com>,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -141,39 +83,92 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> Subject: Re: [PATCH] xen: introduce xen_vring_use_dma
-> 
-> On Mon, Jun 29, 2020 at 06:25:41AM +0000, Peng Fan wrote:
-> > > > > > Anyway, re-reading the last messages of the original thread
-> > > > > > [1], it looks like Peng had a clear idea on how to fix the general issue.
-> > > > > > Peng, what happened with that?
-> > > >
-> > > > We shrinked the rpmsg reserved area to workaround the issue.
-> > > > So still use the dma apis in rpmsg.
-> > > >
-> > > > But here I am going to address domu android trusty issue using virtio.
-> > >
-> > > My suggestion is to first of all fix DMA API so it works properly.
-> >
-> > Could you please elaborate more details?
-> >
-> > You mean the DMA API usage of rpmsg? Or xen domu dma_ops?
-> >
-> > Thanks,
-> > Peng.
-> 
-> Not 100% sure but I think xen dma ops.
+This patchset adds mt6779 iommu support.
+mt6779 has two iommus, they are MM_IOMMU(M4U) and APU_IOMMU which used ARM Short-Descriptor translation format.
+The mt6779's MM_IOMMU-SMI and APU_IOMMU HW diagram is as below, it is only a brief diagram:
 
-Sorry to ask again, could you explain more details about what issues
-do you see of current xen ARM domu dma_ops? 
-Or Dom0 swiotlb xen dma_ops?
+                       EMI
+		        |
+      --------------------------------------
+      |                                    |
+   MM_IOMMU                            APU_IOMMU
+      |                                    |
+   SMI_COMMOM-----------                 APU_BUS
+      |                |                   |
+   SMI_LARB(0~11)      |                   |
+      |                |                   |
+      |                |             --------------
+      |                |             |     |      |
+ Multimedia engine    CCU           VPU   MDLA   EMDA
 
-Thanks,
-Pen.g
+ All the connections are hardware fixed, software can not adjust it.
+ Compared with mt8183, SMI_BUS_ID width has changed from 10 to 12. SMI Larb number is described in bit[11:7],
+ Port number is described in bit[6:2]. In addition, there are some registers has changed in mt6779, so we need
+ to redefine and reuse them.
 
-> 
-> --
-> MST
+ The patchset only used MM_IOMMU, so we only add MM_IOMMU basic function, such as smi_larb port definition, registers
+ definition and hardware initialization.
+
+ change notes:
+  v5:
+   1. Split "iommu/mediatek: Add mt6779 IOMMU basic support(patch v4)" to three patches(from PATCH v5 08/10 to PATCH v5 10/10).
+   2. Use macro definitions to replace bool values in mtk_iommu_plat_data structure
+
+  v4:
+   1. Rebase on v5.8-rc1.
+   2. Fix coding style.
+   3. Add F_MMU_IN_DRDER_WR_EN definition in MISC_CTRL to improve performance.
+  https://lkml.org/lkml/2020/6/16/1741
+
+  v3:
+   1. Rebase on v5.7-rc1.
+   2. Remove unused port definition,ex:APU and CCU port in mt6779-larb-port.h.
+   3. Remove "change single domain to multiple domain" part(from PATCH v2 09/19 to PATCH v2 19/19).
+   4. Redesign mt6779 basic part
+      (1)Add some register definition and reuse them.
+      (2)Redesign smi larb bus ID to analyze IOMMU translation fault.
+      (3)Only init MM_IOMMU and not use APU_IOMMU.
+  http://lists.infradead.org/pipermail/linux-mediatek/2020-May/029811.html
+
+  v2:
+   1. Rebase on v5.5-rc1.
+   2. Delete M4U_PORT_UNKNOWN define because of not use it.
+   3. Correct coding format.
+   4. Rename offset=0x48 register.
+   5. Split "iommu/mediatek: Add mt6779 IOMMU basic support(patch v1)" to several patches(patch v2).
+  http://lists.infradead.org/pipermail/linux-mediatek/2020-January/026131.html
+
+  v1:
+  http://lists.infradead.org/pipermail/linux-mediatek/2019-November/024567.html
+
+
+Chao Hao (10):
+  dt-bindings: mediatek: Add bindings for MT6779
+  iommu/mediatek: Rename the register STANDARD_AXI_MODE(0x48) to MISC_CTRL
+  iommu/mediatek: Modify the usage of mtk_iommu_plat_data structure
+  iommu/mediatek: Setting MISC_CTRL register
+  iommu/mediatek: Move inv_sel_reg into the plat_data
+  iommu/mediatek: Add sub_comm id in translation fault
+  iommu/mediatek: Add REG_MMU_WR_LEN register definition
+  iommu/mediatek: Extend protect pa alignment value
+  iommu/mediatek: Modify MMU_CTRL register setting
+  iommu/mediatek: Add mt6779 basic support
+
+  .../bindings/iommu/mediatek,iommu.txt         |   2 +
+  drivers/iommu/mtk_iommu.c                     | 100 ++++++---
+  drivers/iommu/mtk_iommu.h                     |  26 ++-
+  include/dt-bindings/memory/mt6779-larb-port.h | 206 ++++++++++++++++++
+  include/soc/mediatek/smi.h                    |   2 +
+  5 files changed, 299 insertions(+), 37 deletions(-)
+
+--
+2.18.0
+
+
+
+
+
+
 
 _______________________________________________
 iommu mailing list
