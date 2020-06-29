@@ -1,55 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id F421420CD23
-	for <lists.iommu@lfdr.de>; Mon, 29 Jun 2020 10:06:08 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0663920CD2E
+	for <lists.iommu@lfdr.de>; Mon, 29 Jun 2020 10:13:05 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9C6408754E;
-	Mon, 29 Jun 2020 08:06:07 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 95DFC887CA;
+	Mon, 29 Jun 2020 08:13:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AqSUfzf7gkuS; Mon, 29 Jun 2020 08:06:05 +0000 (UTC)
+	with ESMTP id qecRSnhVcNFz; Mon, 29 Jun 2020 08:13:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id ED17687557;
-	Mon, 29 Jun 2020 08:06:05 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DEF19887C6;
+	Mon, 29 Jun 2020 08:13:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D5242C016E;
-	Mon, 29 Jun 2020 08:06:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C18DAC016E;
+	Mon, 29 Jun 2020 08:13:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1E692C016E
- for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 08:06:04 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8A545C016E
+ for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 08:13:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1097F203A6
- for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 08:06:04 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 737D38937D
+ for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 08:13:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tak6ZCF0NqYb for <iommu@lists.linux-foundation.org>;
- Mon, 29 Jun 2020 08:06:02 +0000 (UTC)
+ with ESMTP id bzfw+NclGyeC for <iommu@lists.linux-foundation.org>;
+ Mon, 29 Jun 2020 08:13:00 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by silver.osuosl.org (Postfix) with ESMTPS id 5F13E1FDAF
- for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 08:06:01 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 463E88937B
+ for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 08:13:00 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id C35C168AFE; Mon, 29 Jun 2020 10:05:56 +0200 (CEST)
-Date: Mon, 29 Jun 2020 10:05:56 +0200
+ id 335C268B05; Mon, 29 Jun 2020 10:12:56 +0200 (CEST)
+Date: Mon, 29 Jun 2020 10:12:55 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: David Rientjes <rientjes@google.com>
-Subject: Re: [patch] dma-pool: warn when coherent pool is depleted
-Message-ID: <20200629080556.GA32027@lst.de>
-References: <20200621211200.GA158319@roeck-us.net>
- <alpine.DEB.2.22.394.2006272124470.591864@chino.kir.corp.google.com>
+To: Marion & Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH v2] dma-pool: Fix too large DMA pools on medium systems
+Message-ID: <20200629081255.GA32155@lst.de>
+References: <20200608132217.29945-1-geert@linux-m68k.org>
+ <20200620200936.GA106151@roeck-us.net> <20200624073815.GE18609@lst.de>
+ <6473db8e-4116-c994-aa08-6b50a6c609fb@wanadoo.fr>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2006272124470.591864@chino.kir.corp.google.com>
+In-Reply-To: <6473db8e-4116-c994-aa08-6b50a6c609fb@wanadoo.fr>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Robin Murphy <robin.murphy@arm.com>,
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ David Rientjes <rientjes@google.com>, Robin Murphy <robin.murphy@arm.com>,
  Christoph Hellwig <hch@lst.de>, Guenter Roeck <linux@roeck-us.net>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -68,13 +69,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sat, Jun 27, 2020 at 09:25:21PM -0700, David Rientjes wrote:
-> Thanks Guenter.  Christoph, does it make sense to apply this patch since 
-> there may not be an artifact left behind in the kernel log on allocation 
-> failure by the caller?
+On Sat, Jun 27, 2020 at 06:13:43PM +0200, Marion & Christophe JAILLET wrote:
+> I'm sorry, but I will not send pci_ --> dma_ conversion for this driver.
+> I'm a bit puzzled by some choice of GFP_KERNEL and GFP_ATOMIC that not all 
+> that obvious to me.
+>
+> I'll try to send some patches for other easier drivers in the coming weeks.
 
-Sorry, this fell through the cracks.  I've added it to the dma-mapping
-tree now.
+No problem, I sent a patch for the conversion of the allocations that
+caused problems.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
