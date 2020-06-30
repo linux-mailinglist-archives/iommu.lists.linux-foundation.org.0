@@ -2,64 +2,79 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B10220FE50
-	for <lists.iommu@lfdr.de>; Tue, 30 Jun 2020 23:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B45420FF79
+	for <lists.iommu@lfdr.de>; Tue, 30 Jun 2020 23:50:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2D1C0884F1;
-	Tue, 30 Jun 2020 21:01:13 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C30F488524;
+	Tue, 30 Jun 2020 21:50:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IDTezS3htBZz; Tue, 30 Jun 2020 21:01:13 +0000 (UTC)
+	with ESMTP id retvz5EDj6Yh; Tue, 30 Jun 2020 21:50:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EE79788499;
-	Tue, 30 Jun 2020 21:01:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 47BAA884ED;
+	Tue, 30 Jun 2020 21:50:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D81DCC016E;
-	Tue, 30 Jun 2020 21:01:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2FD5BC0865;
+	Tue, 30 Jun 2020 21:50:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3FF8FC016E
- for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 21:01:10 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CA614C016E
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 21:50:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1F8F820407
- for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 21:01:10 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 9E9E6230FB
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 21:50:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FPtxMmIcXKTC for <iommu@lists.linux-foundation.org>;
- Tue, 30 Jun 2020 21:01:07 +0000 (UTC)
+ with ESMTP id awNQFWgYrkCC for <iommu@lists.linux-foundation.org>;
+ Tue, 30 Jun 2020 21:50:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by silver.osuosl.org (Postfix) with ESMTPS id 45F5722B6D
- for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 21:01:07 +0000 (UTC)
-IronPort-SDR: XY4k6gQ4nqqRNrjS/tHkz1UpHl+u+pd0XUsmiwn/0LdkY8eUtwmloM9fhRPrcH+qUcj+Ve1HM5
- lw1kcYB21f/g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="146382049"
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="146382049"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2020 14:01:05 -0700
-IronPort-SDR: /wmag5B4Ql9P15sI9srtqyRDa0eh7ubLTsJmfUYXd82SUf6Tho+/plx1WvmKmMlYKGjq3oA2u7
- sxgXik/19Wag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; d="scan'208";a="425337243"
-Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by orsmga004.jf.intel.com with ESMTP; 30 Jun 2020 14:01:05 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- "Lu Baolu" <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- David Woodhouse <dwmw2@infradead.org>
-Subject: [PATCH v2 7/7] iommu/vt-d: Disable multiple GPASID-dev bind
-Date: Tue, 30 Jun 2020 14:07:38 -0700
-Message-Id: <1593551258-39854-8-git-send-email-jacob.jun.pan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1593551258-39854-1-git-send-email-jacob.jun.pan@linux.intel.com>
-References: <1593551258-39854-1-git-send-email-jacob.jun.pan@linux.intel.com>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id 0BB70230F6
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 21:50:19 +0000 (UTC)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
+ [209.85.167.181])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A8E98207FF
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 21:50:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593553818;
+ bh=ps1O6n5AnikolRhBCTihXbQMNSMQfOZXAH36HgCoRS4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=WL8mIUlvP8ZdPw97GTFDhLE9owK5PSRrzSYFoyrfrPy7s6zYlX4vGfNy0fqqs/2oh
+ el9Aov4LRM2pzOeyBjVVPOwgDWzB2EipRzYWknIge+BAXW4Ump22ZlnusvWs75GUYZ
+ 7+yeYxD7tbCNEwxePoIMEH2LsV9pocliXL/hIIcE=
+Received: by mail-oi1-f181.google.com with SMTP id k6so14871440oij.11
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 14:50:18 -0700 (PDT)
+X-Gm-Message-State: AOAM5331LHJrXJ4N3LYMDvtpDNE0laguh4UQYg57qx7Qd//uBuLIfR44
+ 1py6f/KYEpPyvTKv9eITxrLgedWjfQgNHyEMtA==
+X-Google-Smtp-Source: ABdhPJzCDnjeyS6viPAYkeruMzz+Xbix7X+IUVSkcFqPPKsJXUmSUC2CQjq4+pFIKX1D4r7LaJBSvTlLXTtZij02xWI=
+X-Received: by 2002:aca:6004:: with SMTP id u4mr18457843oib.106.1593553817987; 
+ Tue, 30 Jun 2020 14:50:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200521130008.8266-1-lorenzo.pieralisi@arm.com>
+ <20200619082013.13661-1-lorenzo.pieralisi@arm.com>
+ <20200619082013.13661-8-lorenzo.pieralisi@arm.com>
+In-Reply-To: <20200619082013.13661-8-lorenzo.pieralisi@arm.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 30 Jun 2020 15:50:06 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK45W7i0jWum4_FL9+ZRzF8W-m2zzDTmJpRKwmyGDzAjw@mail.gmail.com>
+Message-ID: <CAL_JsqK45W7i0jWum4_FL9+ZRzF8W-m2zzDTmJpRKwmyGDzAjw@mail.gmail.com>
+Subject: Re: [PATCH v2 07/12] of/device: Add input id to of_dma_configure()
+To: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Diana Craciun <diana.craciun@oss.nxp.com>,
+ PCI <linux-pci@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+ Makarand Pawagi <makarand.pawagi@nxp.com>, linux-acpi@vger.kernel.org,
+ Linux IOMMU <iommu@lists.linux-foundation.org>, Marc Zyngier <maz@kernel.org>,
+ Hanjun Guo <guohanjun@huawei.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,79 +87,39 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-For the unlikely use case where multiple aux domains from the same pdev
-are attached to a single guest and then bound to a single process
-(thus same PASID) within that guest, we cannot easily support this case
-by refcounting the number of users. As there is only one SL page table
-per PASID while we have multiple aux domains thus multiple SL page tables
-for the same PASID.
+On Fri, Jun 19, 2020 at 2:20 AM Lorenzo Pieralisi
+<lorenzo.pieralisi@arm.com> wrote:
+>
+> Devices sitting on proprietary busses have a device ID space that
+> is owned by the respective bus and related firmware bindings. In order
+> to let the generic OF layer handle the input translations to
+> an IOMMU id, for such busses the current of_dma_configure() interface
+> should be extended in order to allow the bus layer to provide the
+> device input id parameter - that is retrieved/assigned in bus
+> specific code and firmware.
+>
+> Augment of_dma_configure() to add an optional input_id parameter,
+> leaving current functionality unchanged.
+>
+> Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+> ---
+>  drivers/bus/fsl-mc/fsl-mc-bus.c |  4 +-
+>  drivers/iommu/of_iommu.c        | 81 ++++++++++++++++++---------------
+>  drivers/of/device.c             |  8 ++--
+>  include/linux/of_device.h       | 16 ++++++-
+>  include/linux/of_iommu.h        |  6 ++-
+>  5 files changed, 70 insertions(+), 45 deletions(-)
 
-Extra unbinding guest PASID can happen due to race between normal and
-exception cases. Termination of one aux domain may affect others unless
-we actively track and switch aux domains to ensure the validity of SL
-page tables and TLB states in the shared PASID entry.
-
-Support for sharing second level PGDs across domains can reduce the
-complexity but this is not available due to the limitations on VFIO
-container architecture. We can revisit this decision once sharing PGDs
-are available.
-
-Overall, the complexity and potential glitch do not warrant this unlikely
-use case thereby removed by this patch.
-
-Fixes: 56722a4398a30 ("iommu/vt-d: Add bind guest PASID support")
-Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
----
- drivers/iommu/intel/svm.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 6c87c807a0ab..d386853121a2 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -277,20 +277,16 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
- 			goto out;
- 		}
- 
-+		/*
-+		 * Do not allow multiple bindings of the same device-PASID since
-+		 * there is only one SL page tables per PASID. We may revisit
-+		 * once sharing PGD across domains are supported.
-+		 */
- 		for_each_svm_dev(sdev, svm, dev) {
--			/*
--			 * For devices with aux domains, we should allow
--			 * multiple bind calls with the same PASID and pdev.
--			 */
--			if (iommu_dev_feature_enabled(dev,
--						      IOMMU_DEV_FEAT_AUX)) {
--				sdev->users++;
--			} else {
--				dev_warn_ratelimited(dev,
--						     "Already bound with PASID %u\n",
--						     svm->pasid);
--				ret = -EBUSY;
--			}
-+			dev_warn_ratelimited(dev,
-+					     "Already bound with PASID %u\n",
-+					     svm->pasid);
-+			ret = -EBUSY;
- 			goto out;
- 		}
- 	} else {
--- 
-2.7.4
-
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
