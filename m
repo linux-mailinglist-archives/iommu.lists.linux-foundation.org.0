@@ -1,97 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4F120E99A
-	for <lists.iommu@lfdr.de>; Tue, 30 Jun 2020 01:53:00 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE1C620E9E6
+	for <lists.iommu@lfdr.de>; Tue, 30 Jun 2020 02:10:57 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C616E2039C;
-	Mon, 29 Jun 2020 23:52:58 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1888586B43;
+	Tue, 30 Jun 2020 00:10:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DMJk89tEHagx; Mon, 29 Jun 2020 23:52:58 +0000 (UTC)
+	with ESMTP id vnhBaPW84zwa; Tue, 30 Jun 2020 00:10:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 4B9202039A;
-	Mon, 29 Jun 2020 23:52:58 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 985A787509;
+	Tue, 30 Jun 2020 00:10:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 31218C016E;
-	Mon, 29 Jun 2020 23:52:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 69DD7C016E;
+	Tue, 30 Jun 2020 00:10:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EDF2AC016E
- for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 23:52:56 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 71292C016E
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 00:10:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id DCD11884AD
- for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 23:52:56 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 55D9A89273
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 00:10:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZW1jKbd+iodp for <iommu@lists.linux-foundation.org>;
- Mon, 29 Jun 2020 23:52:56 +0000 (UTC)
+ with ESMTP id 1xtJAWFve7an for <iommu@lists.linux-foundation.org>;
+ Tue, 30 Jun 2020 00:10:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 3956A88498
- for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 23:52:56 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id b16so8563683pfi.13
- for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 16:52:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ZGfMUVHQlxfLiTJM1WLol0nRk5sgJRj1wqf4MkKus5s=;
- b=Xh/Vue0q76LlXZ1IVtyp0plcHCg+yS3sou6eCNEplyeHb1RBascLD5jXemJu3z6ioE
- PEQnSUC8EAaBfx1BtSvvbgAwQNJJ2ucrQrroIdlGPAQQv/7jpS25OnRr1gUi9wsK/b8D
- RXvb9lS0v+ikbVT8ubeL0uwKOXgpuTQlKgq3cZGlJyHIg97a4iDob4bDoRx23oRNdD4r
- xS4iFrH3Nj5YbxJ5wrinYNGmgIzT/kcoFq6Q4gZt8F4LDM8PTotHdQ34JLVbDkoMMSoG
- EZmJRILAhOY7EzQ4a7o/NpFeYhXMbTo5ogcOKUxCV0/o/kqWxbIp7d4kZl3BvTlhgcMg
- 2qdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ZGfMUVHQlxfLiTJM1WLol0nRk5sgJRj1wqf4MkKus5s=;
- b=Xe7nXXRr/j6GRnBJTZXka8d8pPZZRjIpgmf8bvbagdM+rDMDMFPPVLpMgzyfb2olFi
- tp9GOpcLu9g6NH4tApju0GfuAqwir7udJLWXUj2rQApsxkTFsclhVa6D/a+KEJaYGhVh
- KRHgbQtYKgxO1t4c2eb7iPWqTizqayngdYU6sKtON73XBx9mAdyr5tGt/xyRWbb1yQ70
- uvUCBDAqtSE0dOz3gIHR5YSnRGTwQGUuldvDg8rBC7vUpElDfj63BkPPXykq1/B6QQjJ
- 1+XxNhwhfbJdvTl9dp37Nje40aeWQyRLWCjMkzebJueHmOCFSVaLNebEYl47+FSsOsp8
- xqUg==
-X-Gm-Message-State: AOAM5310XiOTjPOm9O5OsytoNF1sp8YM+n6RpMhWDlB0HQf1ZxX9FWtv
- ES5CEt9Ur9eTeUR1g2UK3Ng=
-X-Google-Smtp-Source: ABdhPJyHRiIXYw7M7C5K2woDsZLaiq4jmATiThuvEjJzM6tygMJ9vTs50c26tg/Ye6SHSxXi2HFHdA==
-X-Received: by 2002:aa7:988f:: with SMTP id r15mr7658817pfl.2.1593474775473;
- Mon, 29 Jun 2020 16:52:55 -0700 (PDT)
-Received: from Asurada-Nvidia (searspoint.nvidia.com. [216.228.112.21])
- by smtp.gmail.com with ESMTPSA id y18sm662361pff.10.2020.06.29.16.52.54
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 29 Jun 2020 16:52:55 -0700 (PDT)
-Date: Mon, 29 Jun 2020 16:52:20 -0700
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: Krishna Reddy <vdumpa@nvidia.com>
-Subject: Re: [PATCH v7 1/3] iommu/arm-smmu: add NVIDIA implementation for
- dual ARM MMU-500 usage
-Message-ID: <20200629235219.GA14616@Asurada-Nvidia>
-References: <20200629022838.29628-1-vdumpa@nvidia.com>
- <20200629022838.29628-2-vdumpa@nvidia.com>
- <20200629215124.GD27967@Asurada-Nvidia>
- <BYAPR12MB2822B08564C7BD7212DCCEFEB36E0@BYAPR12MB2822.namprd12.prod.outlook.com>
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B5E2C8923C
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 00:10:52 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5efa82ff0001>; Mon, 29 Jun 2020 17:10:39 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 29 Jun 2020 17:10:52 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Mon, 29 Jun 2020 17:10:52 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 30 Jun
+ 2020 00:10:50 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
+ Frontend Transport; Tue, 30 Jun 2020 00:10:50 +0000
+Received: from vdumpa-ubuntu.nvidia.com (Not Verified[172.17.173.140]) by
+ rnnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+ id <B5efa83090000>; Mon, 29 Jun 2020 17:10:50 -0700
+From: Krishna Reddy <vdumpa@nvidia.com>
+To: 
+Subject: [PATCH v8 0/3] Nvidia Arm SMMUv2 Implementation
+Date: Mon, 29 Jun 2020 17:10:48 -0700
+Message-ID: <20200630001051.12350-1-vdumpa@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <BYAPR12MB2822B08564C7BD7212DCCEFEB36E0@BYAPR12MB2822.namprd12.prod.outlook.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: Sachin Nikam <Snikam@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Bryan Huntsman <bhuntsman@nvidia.com>, "will@kernel.org" <will@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Pritesh Raithatha <praithatha@nvidia.com>, Timo Alho <talho@nvidia.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Nicolin Chen <nicolinc@nvidia.com>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- Yu-Huan Hsu <YHsu@nvidia.com>, Thierry Reding <treding@nvidia.com>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Bitan Biswas <bbiswas@nvidia.com>
+X-NVConfidentiality: public
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1593475839; bh=A/DY8WfS/ePl/C6tRJmTrHqrrBEogIsRd+4oj+0xSTA=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
+ Content-Type;
+ b=lGhEO/9E2j7hRcPdFudAxb/eK0vwaElmUAjU13AvIaUJc3ZwS//D+u2EEKmJqrG0M
+ naWxl9V51xSUFkiBqsACvrb+V6Tbb3fjJCu8moZ6hepC9rYzzNPSUUNUaverbuqOGg
+ DMACFX8Uqx3EIKYYvIZqZmB+uT02YZ/4DxkPoAgZOdCzzPmAquBVqrEalWfDL46+eJ
+ nfks+f1bmAdz7M/ECpxgxsKd5qUhm3IhSep5L6HeWxqiDMEKiZws1PpC+af4T2FR+o
+ ZcWqUcJvo1BKS2y2eHYTUUUvBpvt1bUNzOSJL7lyb3bOvmex2m/o4wTN3ZOFvw2FuD
+ 5x0Xrg4Jdh1TA==
+Cc: snikam@nvidia.com, nicoleotsuka@gmail.com, mperttunen@nvidia.com,
+ bhuntsman@nvidia.com, will@kernel.org, linux-kernel@vger.kernel.org,
+ praithatha@nvidia.com, talho@nvidia.com, iommu@lists.linux-foundation.org,
+ nicolinc@nvidia.com, linux-tegra@vger.kernel.org, yhsu@nvidia.com,
+ treding@nvidia.com, robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org,
+ bbiswas@nvidia.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,18 +94,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Jun 29, 2020 at 10:49:31PM +0000, Krishna Reddy wrote:
-> >> +     if (!nvidia_smmu->bases[0])
-> >> +             nvidia_smmu->bases[0] = smmu->base;
-> >> +
-> >> +     return nvidia_smmu->bases[inst] + (page << smmu->pgshift); }
-> 
-> >Not critical -- just a nit: why not put the bases[0] in init()?
-> 
-> smmu->base is not available during nvidia_smmu_impl_init() call. It is set afterwards in arm-smmu.c.
-> It can't be avoided without changing the devm_ioremap() and impl_init() call order in arm-smmu.c. 
+Changes in v8:
+Fixed incorrect CB_FSR read issue during context bank fault.
+Rebased and validated patches on top of git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
 
-I see...just checked arm_ssmu_impl_init().
+v7 - https://lkml.org/lkml/2020/6/28/347
+v6 - https://lkml.org/lkml/2020/6/4/1018
+v5 - https://lkml.org/lkml/2020/5/21/1114
+v4 - https://lkml.org/lkml/2019/10/30/1054
+v3 - https://lkml.org/lkml/2019/10/18/1601
+v2 - https://lkml.org/lkml/2019/9/2/980
+v1 - https://lkml.org/lkml/2019/8/29/1588
+
+Krishna Reddy (3):
+  iommu/arm-smmu: add NVIDIA implementation for dual ARM MMU-500 usage
+  dt-bindings: arm-smmu: Add binding for Tegra194 SMMU
+  iommu/arm-smmu: Add global/context fault implementation hooks
+
+ .../devicetree/bindings/iommu/arm,smmu.yaml   |   5 +
+ MAINTAINERS                                   |   2 +
+ drivers/iommu/Makefile                        |   2 +-
+ drivers/iommu/arm-smmu-impl.c                 |   3 +
+ drivers/iommu/arm-smmu-nvidia.c               | 294 ++++++++++++++++++
+ drivers/iommu/arm-smmu.c                      |  17 +-
+ drivers/iommu/arm-smmu.h                      |   4 +
+ 7 files changed, 324 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/iommu/arm-smmu-nvidia.c
+
+
+base-commit: 48f0bcfb7aad2c6eb4c1e66476b58475aa14393e
+-- 
+2.26.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
