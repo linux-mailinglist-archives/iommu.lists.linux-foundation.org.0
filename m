@@ -1,99 +1,143 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE18120EDD8
-	for <lists.iommu@lfdr.de>; Tue, 30 Jun 2020 07:51:00 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 27392864AD;
-	Tue, 30 Jun 2020 05:50:59 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DVwxmkA6Xj03; Tue, 30 Jun 2020 05:50:58 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9124B86813;
-	Tue, 30 Jun 2020 05:50:58 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7FDA9C016E;
-	Tue, 30 Jun 2020 05:50:58 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4A363C016E
- for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 05:50:56 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5AF20EDF3
+	for <lists.iommu@lfdr.de>; Tue, 30 Jun 2020 08:01:24 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1F36420377
- for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 05:50:56 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CE67C203A0;
+	Tue, 30 Jun 2020 06:01:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gK6XEgN-C386; Tue, 30 Jun 2020 06:01:21 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 6FFE62037B;
+	Tue, 30 Jun 2020 06:01:21 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D7E4C016E;
+	Tue, 30 Jun 2020 06:01:21 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 74779C016E
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 06:01:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6895287D6E
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 06:01:19 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BsZ3uyyHJ8V7 for <iommu@lists.linux-foundation.org>;
- Tue, 30 Jun 2020 05:50:55 +0000 (UTC)
-X-Greylist: delayed 00:54:08 by SQLgrey-1.7.6
-Received: from mail-oo1-f74.google.com (mail-oo1-f74.google.com
- [209.85.161.74])
- by silver.osuosl.org (Postfix) with ESMTPS id E024D20357
- for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 05:50:54 +0000 (UTC)
-Received: by mail-oo1-f74.google.com with SMTP id f20so770471oot.7
- for <iommu@lists.linux-foundation.org>; Mon, 29 Jun 2020 22:50:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=4vDncP2teZqEXBfb800/aEh0NO8oHsdmcXXXRRGWulY=;
- b=qKfJwCm7AT0BlfktAUmwXkHFpGx7Oh79bjH+pxC9SFGuzzGtOsIQxWs5Yj5phY/cqR
- 45gYinm4T35G4tjqFwkV9aSr7wWQxsY1P4wUDPVSLq7L144QzVPw9Je6ohlEDpSLC9nm
- Uqd6Gb5/YhRsTodxBhPYntMsn2Gfo/0bCSgfjk2MiN5Cc3Bivrb2skYwEKddwTq9qSSj
- 31cbZbHQz15k9yatl1muDzJiSkFI+87X7Xa5iBSnZami9myyuYwEW/ifoFJAh5sMur4H
- zysOT+Xrvm66HaayFqV0f6nbFP2WrzQBAb4HBOufuAhGFqxcrqI+6IeKEiNqG8A/jaLj
- KggQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=4vDncP2teZqEXBfb800/aEh0NO8oHsdmcXXXRRGWulY=;
- b=M1/WDZ3S3d880qVDtjMzB16JJRo70owQQVaWdsvD/v5t6PvLsWGKIfTnDrT+XgOacF
- YaJ5Yt+svQXV4f8i50gU6wrGcwclTfhwB53oFfK5hXkNDY9aL4Bo1OJ/+JeWWTyxIWMV
- eys2a3QP9QJQrwIVcOyba34oreOCJoPjb2XahQpbJD8TwqCiIe0bHKks06VQo8u9dTqw
- 597LU67xD6QEecAaS23JVUYVuFNSM2ouGH1MgU0Ja140mKHX+/IuBq2SN82yVbKId/g+
- rhRaYGHF59dPj87TsqcBgnINBEcX2i9faMy/6bDQLivy2qmoLQgu0LdkHCn12Ln1+zn6
- jScA==
-X-Gm-Message-State: AOAM53048FGH55K4830FKeQFh8Gal9reszzfT8JsfuhQcEaURKDbIP9V
- I1tbPZqNIvzqNh8ud+qBWgn2xQJ3dNBl
-X-Google-Smtp-Source: ABdhPJy7/9qcpqbednFkmBX9y9QX6DThdAm5Y+t91G8xTDRUtBBKWkL0VbqPTiirQl0bhQoYHnqP79Ft+Iel
-X-Received: by 2002:a17:90a:304:: with SMTP id
- 4mr20033768pje.219.1593492601508; 
- Mon, 29 Jun 2020 21:50:01 -0700 (PDT)
-Date: Mon, 29 Jun 2020 21:49:43 -0700
-In-Reply-To: <20200630044943.3425049-1-rajatja@google.com>
-Message-Id: <20200630044943.3425049-8-rajatja@google.com>
-Mime-Version: 1.0
-References: <20200630044943.3425049-1-rajatja@google.com>
-X-Mailer: git-send-email 2.27.0.212.ge8ba1cc988-goog
-Subject: [PATCH v2 7/7] PCI: Add parameter to disable attaching external
- devices
-To: David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Joerg Roedel <joro@8bytes.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>,
- iommu@lists.linux-foundation.org, 
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
- linux-acpi@vger.kernel.org, Raj Ashok <ashok.raj@intel.com>, 
- lalithambika.krishnakumar@intel.com, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Prashant Malani <pmalani@google.com>, 
- Benson Leung <bleung@google.com>, Todd Broch <tbroch@google.com>,
- Alex Levin <levinale@google.com>, 
- Mattias Nissler <mnissler@google.com>, Rajat Jain <rajatxjain@gmail.com>, 
- Bernie Keany <bernie.keany@intel.com>, Aaron Durbin <adurbin@google.com>, 
- Diego Rivas <diegorivas@google.com>, Duncan Laurie <dlaurie@google.com>, 
- Furquan Shaikh <furquan@google.com>, Jesse Barnes <jsbarnes@google.com>, 
- Christian Kellner <christian@kellner.me>,
- Alex Williamson <alex.williamson@redhat.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, oohall@gmail.com, 
- Saravana Kannan <saravanak@google.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Rajat Jain <rajatja@google.com>
+ with ESMTP id b5sDk2aZOW65 for <iommu@lists.linux-foundation.org>;
+ Tue, 30 Jun 2020 06:01:18 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 30AB187933
+ for <iommu@lists.linux-foundation.org>; Tue, 30 Jun 2020 06:01:18 +0000 (UTC)
+IronPort-SDR: JC+ERAtiBu5t5FdYcokvkH7C6gB7REnmsvamMIsIyXqCEpQS8MtAm4mSj9UsBREG1njNQGB0wD
+ 0l/zSMBsJDoA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="134453578"
+X-IronPort-AV: E=Sophos;i="5.75,296,1589266800"; d="scan'208";a="134453578"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jun 2020 23:01:17 -0700
+IronPort-SDR: SVNmju1c9IGo8ZcnwAKfIv0fsHfXc1TExlQGMpGbiIWFGaFaqCPIfnxABo8DhKfYxgKM7voBIr
+ HfEmsPqALAIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,296,1589266800"; d="scan'208";a="425084854"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+ by orsmga004.jf.intel.com with ESMTP; 29 Jun 2020 23:01:17 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 29 Jun 2020 23:01:17 -0700
+Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 29 Jun 2020 23:01:16 -0700
+Received: from FMSEDG001.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Mon, 29 Jun 2020 23:01:16 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.176)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server (TLS) id
+ 14.3.439.0; Mon, 29 Jun 2020 23:01:15 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lDoUAJe5Y+uBZ4d7mu8rxabocUZM2DbOk8WfvdFFxt55oa5n+4dYyzskCRXXDO/aPKPqoHWNNoBAyDJxoUwdXx4kqNSdn1C5kt9jyWoi9cVhq/BTzJgM+8mNlDphsZEzAowPxFEj6YR5PevVotIFCoELmsvfnM0InFL0FYLs3ZfIGSz3P08cv/Gzy9e5D/0uCb1lJW5mwSvSTVAuVVGaz65N+hG5ahjHqugtCkqq1G68dXsGbbfhZW0hcT8uUqiUeOkSqTgljadwy17JjQapmOnklUiAlPSvDZj/npUMqZdyvpif73ZTspeqQAoCUG/5f48XN5SbgxUzNBcnkrbwYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mXwDTbDVal80iOHXg4ln/4vivgxK8YWUDQEJs+uaEEo=;
+ b=IpHdGBP/cNiq4vCnxleM7RMRcrHFH+XguTy1u/WOGPEEkDzeYt014kfV0zb+SBD8zQkkusHmJICriKZgCr6qJAxX/HNjAWzZ9MoLUEo9z12vK9abYkxD+T/dcUzKmX7tMcizug99AWiP1oe+xnZOCJygFUu0pGdMGZtJP3f99P5Y23KIun66KGyg0INvZxsX2kVMZxrDj+G3l2Y5fJVjBft/ktLAGXxLBkNGOyHttvkrQGiJF2+UFCqxCh25k7D+nVbMJLHIvLgLjHwdBsI5jR1603AZT94Meap+CEv0I4hMWY5uMeQ/57R6IVNi1vbyrj6iiDhU0q8Up1m8qRu7ew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mXwDTbDVal80iOHXg4ln/4vivgxK8YWUDQEJs+uaEEo=;
+ b=Oq8hWvq5uFXLkyzpj+NfPVQDyXY/IiPP+ERNqG8LxuzR0/DlccFfVqI8+q7w8oLfTQfQoOduPPsfiLcbYS6wTYzNJh9483Q9Tw4jnqqRkkrRLsdRrRGrj1psK5sDkn+vrXYB2SCIkN9yebryjaY04PAI2ORpucEf7+GTMsbno9I=
+Received: from MWHPR11MB1645.namprd11.prod.outlook.com (2603:10b6:301:b::12)
+ by MWHPR11MB1600.namprd11.prod.outlook.com (2603:10b6:301:b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.23; Tue, 30 Jun
+ 2020 06:01:13 +0000
+Received: from MWHPR11MB1645.namprd11.prod.outlook.com
+ ([fe80::9864:e0cb:af36:6feb]) by MWHPR11MB1645.namprd11.prod.outlook.com
+ ([fe80::9864:e0cb:af36:6feb%5]) with mapi id 15.20.3131.027; Tue, 30 Jun 2020
+ 06:01:13 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>, "iommu@lists.linux-foundation.org"
+ <iommu@lists.linux-foundation.org>
+Subject: RE: [PATCH 3/4] iommu/vt-d: Report page request faults for guest SVA
+Thread-Topic: [PATCH 3/4] iommu/vt-d: Report page request faults for guest SVA
+Thread-Index: AQHWTORmc6i/ZJuiBUa22CGtnx99Najwq+Cg
+Date: Tue, 30 Jun 2020 06:01:13 +0000
+Message-ID: <MWHPR11MB16450BD48B3EF42A8E82E5698C6F0@MWHPR11MB1645.namprd11.prod.outlook.com>
+References: <20200628003332.5720-1-baolu.lu@linux.intel.com>
+ <20200628003332.5720-4-baolu.lu@linux.intel.com>
+In-Reply-To: <20200628003332.5720-4-baolu.lu@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.2.0.6
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [192.198.147.207]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4fa150f1-4311-4896-1fef-08d81cbafe89
+x-ms-traffictypediagnostic: MWHPR11MB1600:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR11MB1600567CC31794F270411F6C8C6F0@MWHPR11MB1600.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0450A714CB
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: n7a4oJyBgGKglN7ZHVUTXJ8VK6UnbPrPcz4aVlH6rfe08uou0kkaWnBL/KoseCD2EkZzT3CgL/coXNWzXXoDB0fEXdSGdFUO7eNGrUdo238T+497QIJNpf1INIxDz4zxQaiWHrpDFT+07c+ToP//jWzbaIdW34EM+CJmzP/TMXEUvMau+avLEnr24nFtRHwAPY6Q4mX3NmSEi0WLwMDJ3abnvX2kDIDNj+sajQWIIjiPIE4orx8arrbv7ZPwVlEU9VUvoNTP3SE/t1TXQEOYmQyBkR6SHwawfxAvEwhu1EAOK08iepWwwYSMb1GHtQL118UJYMpKwNO5waZ5sE9BpQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB1645.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(136003)(346002)(39860400002)(366004)(396003)(186003)(76116006)(54906003)(8936002)(66946007)(4326008)(66446008)(5660300002)(86362001)(71200400001)(110136005)(52536014)(66476007)(33656002)(2906002)(64756008)(66556008)(8676002)(83380400001)(9686003)(26005)(55016002)(316002)(478600001)(7696005)(6506007);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: 2hitLfJYjVw9AT88psEqmmXTu3ahjZVb341Akqj9rA/1VagxrJklVm4fq8HRSno6XtDgqYkBPv1iVaQaV8IV/MFAOmo96bYkUW9Mj6vNYGj+CxyXZG39Q9E9miixEe4R2cv3wKnG99ONzTEvsc54j8LeH4qJ9+tQl1DRlBAA2cU67DTuBUfI1llnKcjP2V2vCymNuQnD8edSH9pVMRhRFsBVGeGvhmO9aBeQ0MLO7R1JuhX5nHAhSIWDq6wNL4wGZ2EDaFfXpfnoh6lz/tqqOnK218qOyhbcCwTRsW3ItRg+P3uER8KCRJIEbvd/TlxhBk0n2pgk0qPishc8S5EG6Wdbe2LBRYoiUojvUomiwcEiDxDNJTQaDqGxH3DnJU923gGkPDjhBYlAYkaJd/uk18xSaMEu68T0S6o9T513onoTVsX+HMQAxc7kFIU4L7GbUbgxvRC3SA0thefw2edPE1fGTTOahMiv4xytxFnPn8RmusFXcFJ7xfE4qRlHyb9s
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1645.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4fa150f1-4311-4896-1fef-08d81cbafe89
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2020 06:01:13.0670 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BZY3w6tIYtY9lpJXZt8f39/9h4h4YPEF+o6B5m2BexQ+7kUKe2BUvxWBLUlagdOAwFIwc1Xh7D77ZwLeLHNFSg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1600
+X-OriginatorOrg: intel.com
+Cc: "Raj, Ashok" <ashok.raj@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,102 +150,192 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Rajat Jain via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Rajat Jain <rajatja@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Introduce a PCI parameter that disables the automatic attachment of
-external devices to their drivers.
+> From: Lu Baolu <baolu.lu@linux.intel.com>
+> Sent: Sunday, June 28, 2020 8:34 AM
+> 
+> A pasid might be bound to a page table from a VM guest via the iommu
+> ops.sva_bind_gpasid. In this case, when a DMA page fault is detected
+> on the physical IOMMU, we need to inject the page fault request into
+> the guest. After the guest completes handling the page fault, a page
+> response need to be sent back via the iommu ops.page_response().
+> 
+> This adds support to report a page request fault. Any external module
+> which is interested in handling this fault should regiester a notifier
+> callback.
+> 
+> Co-developed-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Co-developed-by: Liu Yi L <yi.l.liu@intel.com>
+> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+> ---
+>  drivers/iommu/intel/svm.c | 83
+> +++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 80 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
+> index c23167877b2b..4800bb6f8794 100644
+> --- a/drivers/iommu/intel/svm.c
+> +++ b/drivers/iommu/intel/svm.c
+> @@ -815,6 +815,69 @@ static void intel_svm_drain_prq(struct device *dev,
+> int pasid)
+>  	}
+>  }
+> 
+> +static int prq_to_iommu_prot(struct page_req_dsc *req)
+> +{
+> +	int prot = 0;
+> +
+> +	if (req->rd_req)
+> +		prot |= IOMMU_FAULT_PERM_READ;
+> +	if (req->wr_req)
+> +		prot |= IOMMU_FAULT_PERM_WRITE;
+> +	if (req->exe_req)
+> +		prot |= IOMMU_FAULT_PERM_EXEC;
+> +	if (req->pm_req)
+> +		prot |= IOMMU_FAULT_PERM_PRIV;
+> +
+> +	return prot;
+> +}
+> +
+> +static int
+> +intel_svm_prq_report(struct intel_iommu *iommu, struct page_req_dsc
+> *desc)
+> +{
+> +	struct iommu_fault_event event;
+> +	struct pci_dev *pdev;
+> +	u8 bus, devfn;
+> +	int ret = 0;
+> +
+> +	memset(&event, 0, sizeof(struct iommu_fault_event));
+> +	bus = PCI_BUS_NUM(desc->rid);
+> +	devfn = desc->rid & 0xff;
+> +	pdev = pci_get_domain_bus_and_slot(iommu->segment, bus, devfn);
 
-This is needed to allow an admin to control which drivers he wants to
-allow on external ports. For more context, see threads at:
-https://lore.kernel.org/linux-pci/20200609210400.GA1461839@bjorn-Precision-5520/
-https://lore.kernel.org/linux-pci/CACK8Z6H-DZQYBMqtU5_H5TTwwn35Q7Yysm9a7Wj0twfQP8QBzA@mail.gmail.com/
+Is this step necessary? dev can be passed in (based on sdev), and more
+importantly iommu_report_device_fault already handles the ref counting
+e.g. get_device(dev) when fault handler is valid...
 
-drivers_autoprobe can only be disabled after userspace comes up. So
-any external devices that were plugged in before boot may still bind
-to drivers before userspace gets a chance to clear drivers_autoprobe.
-Another problem is that even with drivers_autoprobe=0, the hot-added
-PCI devices are bound to drivers because PCI explicitly calls
-device_attach() asking driver core to find and attach a driver. This
-patch helps with both of these problems.
+> +
+> +	if (!pdev) {
+> +		pr_err("No PCI device found for PRQ [%02x:%02x.%d]\n",
+> +		       bus, PCI_SLOT(devfn), PCI_FUNC(devfn));
+> +		return -ENODEV;
+> +	}
+> +
+> +	/* Fill in event data for device specific processing */
+> +	event.fault.type = IOMMU_FAULT_PAGE_REQ;
+> +	event.fault.prm.addr = desc->addr;
+> +	event.fault.prm.pasid = desc->pasid;
+> +	event.fault.prm.grpid = desc->prg_index;
+> +	event.fault.prm.perm = prq_to_iommu_prot(desc);
+> +
+> +	/*
+> +	 * Set last page in group bit if private data is present,
+> +	 * page response is required as it does for LPIG.
+> +	 */
+> +	if (desc->lpig)
+> +		event.fault.prm.flags |=
+> IOMMU_FAULT_PAGE_REQUEST_LAST_PAGE;
+> +	if (desc->pasid_present)
+> +		event.fault.prm.flags |=
+> IOMMU_FAULT_PAGE_REQUEST_PASID_VALID;
+> +	if (desc->priv_data_present) {
+> +		event.fault.prm.flags |=
+> IOMMU_FAULT_PAGE_REQUEST_LAST_PAGE;
 
-Signed-off-by: Rajat Jain <rajatja@google.com>
----
-v2: Use the newly introduced dev_is_external() from device core
-    commit log elaborated
+why setting lpig under this condition? 
 
- drivers/pci/bus.c | 11 ++++++++---
- drivers/pci/pci.c |  9 +++++++++
- drivers/pci/pci.h |  1 +
- 3 files changed, 18 insertions(+), 3 deletions(-)
+> +		event.fault.prm.flags |=
+> IOMMU_FAULT_PAGE_REQUEST_PRIV_DATA;
+> +		memcpy(event.fault.prm.private_data, desc->priv_data,
+> +		       sizeof(desc->priv_data));
+> +	}
+> +
+> +	ret = iommu_report_device_fault(&pdev->dev, &event);
+> +	pci_dev_put(pdev);
+> +
+> +	return ret;
+> +}
+> +
+>  static irqreturn_t prq_event_thread(int irq, void *d)
+>  {
+>  	struct intel_iommu *iommu = d;
+> @@ -874,6 +937,19 @@ static irqreturn_t prq_event_thread(int irq, void *d)
+>  		if (!is_canonical_address(address))
+>  			goto bad_req;
+> 
+> +		/*
+> +		 * If prq is to be handled outside iommu driver via receiver of
+> +		 * the fault notifiers, we skip the page response here.
+> +		 */
+> +		if (svm->flags & SVM_FLAG_GUEST_MODE) {
+> +			int res = intel_svm_prq_report(iommu, req);
+> +
+> +			if (!res)
+> +				goto prq_advance;
+> +			else
+> +				goto bad_req;
+> +		}
+> +
 
-diff --git a/drivers/pci/bus.c b/drivers/pci/bus.c
-index 3cef835b375fd..c11725bccffb0 100644
---- a/drivers/pci/bus.c
-+++ b/drivers/pci/bus.c
-@@ -321,9 +321,14 @@ void pci_bus_add_device(struct pci_dev *dev)
- 	pci_bridge_d3_update(dev);
- 
- 	dev->match_driver = true;
--	retval = device_attach(&dev->dev);
--	if (retval < 0 && retval != -EPROBE_DEFER)
--		pci_warn(dev, "device attach failed (%d)\n", retval);
-+
-+	if (pci_dont_attach_external_devs && dev_is_external(&dev->dev)) {
-+		pci_info(dev, "not attaching external device\n");
-+	} else {
-+		retval = device_attach(&dev->dev);
-+		if (retval < 0 && retval != -EPROBE_DEFER)
-+			pci_warn(dev, "device attach failed (%d)\n", retval);
-+	}
- 
- 	pci_dev_assign_added(dev, true);
- }
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 35f25ac39167b..3ebcfa8b33178 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -128,6 +128,13 @@ static bool pcie_ats_disabled;
- /* If set, the PCI config space of each device is printed during boot. */
- bool pci_early_dump;
- 
-+/*
-+ * If set, the devices behind external-facing bridges (as marked by firmware)
-+ * shall not be attached automatically. Userspace will need to attach them
-+ * manually: echo <pci device>  > /sys/bus/pci/drivers/<driver>/bind
-+ */
-+bool pci_dont_attach_external_devs;
-+
- bool pci_ats_disabled(void)
- {
- 	return pcie_ats_disabled;
-@@ -6539,6 +6546,8 @@ static int __init pci_setup(char *str)
- 				pci_add_flags(PCI_SCAN_ALL_PCIE_DEVS);
- 			} else if (!strncmp(str, "disable_acs_redir=", 18)) {
- 				disable_acs_redir_param = str + 18;
-+			} else if (!strcmp(str, "dont_attach_external_devs")) {
-+				pci_dont_attach_external_devs = true;
- 			} else {
- 				pr_err("PCI: Unknown option `%s'\n", str);
- 			}
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 12fb79fbe29d3..875fecb9b2612 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -13,6 +13,7 @@
- 
- extern const unsigned char pcie_link_speed[];
- extern bool pci_early_dump;
-+extern bool pci_dont_attach_external_devs;
- 
- bool pcie_cap_has_lnkctl(const struct pci_dev *dev);
- bool pcie_cap_has_rtctl(const struct pci_dev *dev);
--- 
-2.27.0.212.ge8ba1cc988-goog
+I noted in bad_req there is another reporting logic:
+
+                if (sdev && sdev->ops && sdev->ops->fault_cb) {
+                        int rwxp = (req->rd_req << 3) | (req->wr_req << 2) |
+                                (req->exe_req << 1) | (req->pm_req);
+                        sdev->ops->fault_cb(sdev->dev, req->pasid, req->addr,
+                                            req->priv_data, rwxp, result);
+                }
+
+It was introduced in the 1st version of svm.c. It might be unrelated to
+this patch, but I wonder whether that one should be replaced with 
+iommu_report_device_fault too?
+
+Thanks
+Kevin
+
+>  		/* If the mm is already defunct, don't handle faults. */
+>  		if (!mmget_not_zero(svm->mm))
+>  			goto bad_req;
+> @@ -892,10 +968,10 @@ static irqreturn_t prq_event_thread(int irq, void *d)
+>  			goto invalid;
+> 
+>  		result = QI_RESP_SUCCESS;
+> -	invalid:
+> +invalid:
+>  		mmap_read_unlock(svm->mm);
+>  		mmput(svm->mm);
+> -	bad_req:
+> +bad_req:
+>  		/* Accounting for major/minor faults? */
+>  		rcu_read_lock();
+>  		list_for_each_entry_rcu(sdev, &svm->devs, list) {
+> @@ -920,7 +996,7 @@ static irqreturn_t prq_event_thread(int irq, void *d)
+>  		   and these can be NULL. Do not use them below this point!
+> */
+>  		sdev = NULL;
+>  		svm = NULL;
+> -	no_pasid:
+> +no_pasid:
+>  		if (req->lpig || req->priv_data_present) {
+>  			/*
+>  			 * Per VT-d spec. v3.0 ch7.7, system software must
+> @@ -945,6 +1021,7 @@ static irqreturn_t prq_event_thread(int irq, void *d)
+>  			resp.qw3 = 0;
+>  			qi_submit_sync(iommu, &resp, 1, 0);
+>  		}
+> +prq_advance:
+>  		head = (head + sizeof(*req)) & PRQ_RING_MASK;
+>  	}
+> 
+> --
+> 2.17.1
 
 _______________________________________________
 iommu mailing list
