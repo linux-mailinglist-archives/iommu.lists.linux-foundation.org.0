@@ -1,62 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15592213D87
-	for <lists.iommu@lfdr.de>; Fri,  3 Jul 2020 18:26:04 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9F70213DC0
+	for <lists.iommu@lfdr.de>; Fri,  3 Jul 2020 18:52:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 43E8E21503;
-	Fri,  3 Jul 2020 16:26:02 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5E66F87B61;
+	Fri,  3 Jul 2020 16:52:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id f5esTk7ywcZ1; Fri,  3 Jul 2020 16:26:01 +0000 (UTC)
+	with ESMTP id pi-QqXJ0JNcW; Fri,  3 Jul 2020 16:52:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2FCBA23236;
-	Fri,  3 Jul 2020 16:26:01 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D5D0287B49;
+	Fri,  3 Jul 2020 16:52:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1678AC0733;
-	Fri,  3 Jul 2020 16:26:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CE7CBC0733;
+	Fri,  3 Jul 2020 16:52:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8C7EFC0733
- for <iommu@lists.linux-foundation.org>; Fri,  3 Jul 2020 16:26:00 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D2587C0733
+ for <iommu@lists.linux-foundation.org>; Fri,  3 Jul 2020 16:52:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 73142231AB
- for <iommu@lists.linux-foundation.org>; Fri,  3 Jul 2020 16:26:00 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id CD24420440
+ for <iommu@lists.linux-foundation.org>; Fri,  3 Jul 2020 16:52:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bXTp6aKF5dMk for <iommu@lists.linux-foundation.org>;
- Fri,  3 Jul 2020 16:25:59 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 29D1A21503
- for <iommu@lists.linux-foundation.org>; Fri,  3 Jul 2020 16:25:59 +0000 (UTC)
-Received: from localhost.localdomain (236.31.169.217.in-addr.arpa
- [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ with ESMTP id 6zRAYT+8uzzo for <iommu@lists.linux-foundation.org>;
+ Fri,  3 Jul 2020 16:52:17 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by silver.osuosl.org (Postfix) with ESMTPS id 93362203DA
+ for <iommu@lists.linux-foundation.org>; Fri,  3 Jul 2020 16:52:14 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1593795137; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=bs2X7o2ChfprwqSiXjt12ikg0daLURrNcQQ/2tEqmJI=;
+ b=pX32wXRXKu17uIrkkypR/ejY5n5S34fvXBDg+VCranOanrmzw7409nfyv6Ex7UmRIv9Tzyc+
+ ioFXxUMyPJzQtcdImrOXFz4bHFOBGhYX9l8jetMgX+TkBwITudPt+18EHQiDlYxZcVlrfXe7
+ kPtAu/Nx7sXpBn8vZESXwijqV70=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n08.prod.us-west-2.postgun.com with SMTP id
+ 5eff62294c9690533a728d25 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 03 Jul 2020 16:51:53
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 4628AC4339C; Fri,  3 Jul 2020 16:51:53 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 36E912073E;
- Fri,  3 Jul 2020 16:25:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1593793559;
- bh=7F1X4zquMazIejX1qFVDckVNrvMQPCeEeV21KqUMgQw=;
- h=From:To:Cc:Subject:Date:From;
- b=1qYfEO29U/AR6nzkGg3y7uXyIAPVmDGsC8iauC523Qrz/zmUTIsIMZBI3AcANp5iz
- 8Z1CHFffsgekV8r2xrpsOXCwK8F0VEAZ3FggIUNUCSFW8aS2dI7XzBGhZvONg7RVJW
- QKqSNJqxFwa3sfgtV77ajRS7v63QOdPSfAPGzVW0=
-From: Will Deacon <will@kernel.org>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH] iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag
-Date: Fri,  3 Jul 2020 17:25:48 +0100
-Message-Id: <20200703162548.19953-1-will@kernel.org>
-X-Mailer: git-send-email 2.20.1
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 5CB1EC433C8;
+ Fri,  3 Jul 2020 16:51:52 +0000 (UTC)
 MIME-Version: 1.0
+Date: Fri, 03 Jul 2020 22:21:52 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH] iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag
+In-Reply-To: <20200703162548.19953-1-will@kernel.org>
+References: <20200703162548.19953-1-will@kernel.org>
+Message-ID: <88f8a3021ae29534ad0d6a9269a1af40@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>, kernel-team@android.com,
- linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,66 +84,38 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The IOMMU_SYS_CACHE_ONLY flag was never exposed via the DMA API and
-has no in-tree users. Remove it.
+On 2020-07-03 21:55, Will Deacon wrote:
+> The IOMMU_SYS_CACHE_ONLY flag was never exposed via the DMA API and
+> has no in-tree users. Remove it.
+> 
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Signed-off-by: Will Deacon <will@kernel.org>
+> ---
+> 
+> As discussed in [1], sounds like this should be a domain attribute 
+> anyway
+> when it's needed by the GPU.
+> 
+> [1]
+> https://lore.kernel.org/r/CAF6AEGsCROVTsi2R7_aUkmH9Luoc_guMR0w0KUJc2cEgpfj79w@mail.gmail.com
+> 
 
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Cc: Rob Clark <robdclark@gmail.com>
-Signed-off-by: Will Deacon <will@kernel.org>
----
+Reviewed-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org
 
-As discussed in [1], sounds like this should be a domain attribute anyway
-when it's needed by the GPU.
-
-[1] https://lore.kernel.org/r/CAF6AEGsCROVTsi2R7_aUkmH9Luoc_guMR0w0KUJc2cEgpfj79w@mail.gmail.com
-
- drivers/iommu/io-pgtable-arm.c | 3 ---
- include/linux/iommu.h          | 6 ------
- 2 files changed, 9 deletions(-)
-
-diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-index 04fbd4bf0ff9..8f175c02f8e3 100644
---- a/drivers/iommu/io-pgtable-arm.c
-+++ b/drivers/iommu/io-pgtable-arm.c
-@@ -438,9 +438,6 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
- 		else if (prot & IOMMU_CACHE)
- 			pte |= (ARM_LPAE_MAIR_ATTR_IDX_CACHE
- 				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
--		else if (prot & IOMMU_SYS_CACHE_ONLY)
--			pte |= (ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE
--				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
- 	}
- 
- 	if (prot & IOMMU_CACHE)
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 5f0b7859d2eb..bee1a8fa1fb1 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -31,12 +31,6 @@
-  * if the IOMMU page table format is equivalent.
-  */
- #define IOMMU_PRIV	(1 << 5)
--/*
-- * Non-coherent masters can use this page protection flag to set cacheable
-- * memory attributes for only a transparent outer level of cache, also known as
-- * the last-level or system cache.
-- */
--#define IOMMU_SYS_CACHE_ONLY	(1 << 6)
- 
- struct iommu_ops;
- struct iommu_group;
 -- 
-2.27.0.212.ge8ba1cc988-goog
-
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
