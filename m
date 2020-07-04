@@ -1,67 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F782144F9
-	for <lists.iommu@lfdr.de>; Sat,  4 Jul 2020 13:20:04 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01ABC214605
+	for <lists.iommu@lfdr.de>; Sat,  4 Jul 2020 15:09:37 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6E4638852E;
-	Sat,  4 Jul 2020 11:20:03 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A5C432051D;
+	Sat,  4 Jul 2020 13:09:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gnvvyABMyT8y; Sat,  4 Jul 2020 11:20:02 +0000 (UTC)
+	with ESMTP id 8HhEQWmhY0T8; Sat,  4 Jul 2020 13:09:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7AB0089380;
-	Sat,  4 Jul 2020 11:20:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 87D742049A;
+	Sat,  4 Jul 2020 13:09:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 71E3DC0733;
-	Sat,  4 Jul 2020 11:20:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6E596C0733;
+	Sat,  4 Jul 2020 13:09:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5C0B9C1798
- for <iommu@lists.linux-foundation.org>; Sat,  4 Jul 2020 11:19:58 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 462E3C0733
+ for <iommu@lists.linux-foundation.org>; Sat,  4 Jul 2020 13:09:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3E7C489177
- for <iommu@lists.linux-foundation.org>; Sat,  4 Jul 2020 11:19:58 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 34FF18934A
+ for <iommu@lists.linux-foundation.org>; Sat,  4 Jul 2020 13:09:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cgZPaWHkIV4i for <iommu@lists.linux-foundation.org>;
- Sat,  4 Jul 2020 11:19:56 +0000 (UTC)
+ with ESMTP id qXG1qLUt+-XM for <iommu@lists.linux-foundation.org>;
+ Sat,  4 Jul 2020 13:09:28 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by hemlock.osuosl.org (Postfix) with ESMTPS id BBD2489357
- for <iommu@lists.linux-foundation.org>; Sat,  4 Jul 2020 11:19:55 +0000 (UTC)
-IronPort-SDR: mQt2zlwuW7aW70vIFYAcVWSIsFqK56g/1V+uXyq8HerJX8LS1ARuJG15wuvWUYzB9GYAzaCrFd
- MHooWZn4BXkw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="134701886"
-X-IronPort-AV: E=Sophos;i="5.75,311,1589266800"; d="scan'208";a="134701886"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2020 04:19:53 -0700
-IronPort-SDR: h1ON9ETzssuBh2NUHeKx3XWaxFJYgjZnBju22b4lJCMGJch1c4hNBI03NqOWz88xQEFNWlU7ri
- JlOT6KXhzlxA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,311,1589266800"; d="scan'208";a="282521463"
-Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by orsmga006.jf.intel.com with ESMTP; 04 Jul 2020 04:19:53 -0700
-From: Liu Yi L <yi.l.liu@intel.com>
-To: alex.williamson@redhat.com, eric.auger@redhat.com,
- baolu.lu@linux.intel.com, joro@8bytes.org
-Subject: [PATCH v4 15/15] iommu/vt-d: Support reporting nesting capability info
-Date: Sat,  4 Jul 2020 04:26:29 -0700
-Message-Id: <1593861989-35920-16-git-send-email-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1593861989-35920-1-git-send-email-yi.l.liu@intel.com>
-References: <1593861989-35920-1-git-send-email-yi.l.liu@intel.com>
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com, ashok.raj@intel.com,
- kvm@vger.kernel.org, stefanha@gmail.com, jun.j.tian@intel.com,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- yi.y.sun@intel.com, hao.wu@intel.com
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 53B1E888EB
+ for <iommu@lists.linux-foundation.org>; Sat,  4 Jul 2020 13:09:28 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0E48F2075D;
+ Sat,  4 Jul 2020 13:09:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1593868168;
+ bh=XKkYUna+C06YzYOPFLvRPSDNzCZHTcnnHceCSplfaDo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UQGCEihcRR8O+4v1S89+qf+2jJkRhmrnWFknwJYLWkBg5Z/dQ75ffTq12DsnOKMiA
+ gg5x/N0JSgmAq656qlHecV6niqLIryBTuDHAFrCPSMiuDMtV75akZowtq8QyvEWLze
+ zxMxUuXexGPuai9UV2WwDb6idRHJqhw3KHGUJgN8=
+Date: Sat, 4 Jul 2020 14:09:23 +0100
+From: Will Deacon <will@kernel.org>
+To: Konrad Dybcio <konradybcio@gmail.com>
+Subject: Re: [PATCH 1/1] iommu/arm-smmu: Implement qcom,skip-init
+Message-ID: <20200704130922.GB21333@willie-the-truck>
+References: <20200704122809.73794-1-konradybcio@gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200704122809.73794-1-konradybcio@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: devicetree@vger.kernel.org, skrzynka@konradybcio.pl,
+ linux-kernel@vger.kernel.org, bjorn.andersson@linaro.org,
+ iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
+ john.stultz@linaro.org, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,169 +73,79 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Cc: Kevin Tian <kevin.tian@intel.com>
-CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Eric Auger <eric.auger@redhat.com>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
----
-v2 -> v3:
-*) remove cap/ecap_mask in iommu_nesting_info.
----
- drivers/iommu/intel/iommu.c | 81 +++++++++++++++++++++++++++++++++++++++++++--
- include/linux/intel-iommu.h | 16 +++++++++
- 2 files changed, 95 insertions(+), 2 deletions(-)
+[Adding Bjorn, Jordan and John because I really don't want a bunch of
+different ways to tell the driver that the firmware is screwing things up]
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 7bebf82..4c10f4f 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -5659,12 +5659,16 @@ static inline bool iommu_pasid_support(void)
- static inline bool nested_mode_support(void)
- {
- 	struct dmar_drhd_unit *drhd;
--	struct intel_iommu *iommu;
-+	struct intel_iommu *iommu, *prev = NULL;
- 	bool ret = true;
- 
- 	rcu_read_lock();
- 	for_each_active_iommu(iommu, drhd) {
--		if (!sm_supported(iommu) || !ecap_nest(iommu->ecap)) {
-+		if (!prev)
-+			prev = iommu;
-+		if (!sm_supported(iommu) || !ecap_nest(iommu->ecap) ||
-+		    (VTD_CAP_MASK & (iommu->cap ^ prev->cap)) ||
-+		    (VTD_ECAP_MASK & (iommu->ecap ^ prev->ecap))) {
- 			ret = false;
- 			break;
- 		}
-@@ -6073,6 +6077,78 @@ intel_iommu_domain_set_attr(struct iommu_domain *domain,
- 	return ret;
- }
- 
-+static int intel_iommu_get_nesting_info(struct iommu_domain *domain,
-+					struct iommu_nesting_info *info)
-+{
-+	struct dmar_domain *dmar_domain = to_dmar_domain(domain);
-+	u64 cap = VTD_CAP_MASK, ecap = VTD_ECAP_MASK;
-+	struct device_domain_info *domain_info;
-+	struct iommu_nesting_info_vtd vtd;
-+	unsigned long flags;
-+	u32 size;
-+
-+	if ((domain->type != IOMMU_DOMAIN_UNMANAGED) ||
-+	    !(dmar_domain->flags & DOMAIN_FLAG_NESTING_MODE))
-+		return -ENODEV;
-+
-+	if (!info)
-+		return -EINVAL;
-+
-+	size = sizeof(struct iommu_nesting_info) +
-+		sizeof(struct iommu_nesting_info_vtd);
-+	/*
-+	 * if provided buffer size is not equal to the size, should
-+	 * return 0 and also the expected buffer size to caller.
-+	 */
-+	if (info->size != size) {
-+		info->size = size;
-+		return 0;
-+	}
-+
-+	spin_lock_irqsave(&device_domain_lock, flags);
-+	/*
-+	 * arbitrary select the first domain_info as all nesting
-+	 * related capabilities should be consistent across iommu
-+	 * units.
-+	 */
-+	domain_info = list_first_entry(&dmar_domain->devices,
-+				      struct device_domain_info, link);
-+	cap &= domain_info->iommu->cap;
-+	ecap &= domain_info->iommu->ecap;
-+	spin_unlock_irqrestore(&device_domain_lock, flags);
-+
-+	info->format = IOMMU_PASID_FORMAT_INTEL_VTD;
-+	info->features = IOMMU_NESTING_FEAT_SYSWIDE_PASID |
-+			 IOMMU_NESTING_FEAT_BIND_PGTBL |
-+			 IOMMU_NESTING_FEAT_CACHE_INVLD;
-+	info->addr_width = dmar_domain->gaw;
-+	info->pasid_bits = ilog2(intel_pasid_max_id);
-+	info->padding = 0;
-+	vtd.flags = 0;
-+	vtd.padding = 0;
-+	vtd.cap_reg = cap;
-+	vtd.ecap_reg = ecap;
-+
-+	memcpy(info->data, &vtd, sizeof(vtd));
-+	return 0;
-+}
-+
-+static int intel_iommu_domain_get_attr(struct iommu_domain *domain,
-+				       enum iommu_attr attr, void *data)
-+{
-+	switch (attr) {
-+	case DOMAIN_ATTR_NESTING:
-+	{
-+		struct iommu_nesting_info *info =
-+				(struct iommu_nesting_info *) data;
-+
-+		return intel_iommu_get_nesting_info(domain, info);
-+	}
-+	default:
-+		return -ENODEV;
-+	}
-+}
-+
- /*
-  * Check that the device does not live on an external facing PCI port that is
-  * marked as untrusted. Such devices should not be able to apply quirks and
-@@ -6095,6 +6171,7 @@ const struct iommu_ops intel_iommu_ops = {
- 	.domain_alloc		= intel_iommu_domain_alloc,
- 	.domain_free		= intel_iommu_domain_free,
- 	.domain_set_attr	= intel_iommu_domain_set_attr,
-+	.domain_get_attr	= intel_iommu_domain_get_attr,
- 	.attach_dev		= intel_iommu_attach_device,
- 	.detach_dev		= intel_iommu_detach_device,
- 	.aux_attach_dev		= intel_iommu_aux_attach_device,
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index 18f292e..a5728d7 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -197,6 +197,22 @@
- #define ecap_max_handle_mask(e) ((e >> 20) & 0xf)
- #define ecap_sc_support(e)	((e >> 7) & 0x1) /* Snooping Control */
- 
-+/* Nesting Support Capability Alignment */
-+#define VTD_CAP_FL1GP		(1ULL << 56)
-+#define VTD_CAP_FL5LP		(1ULL << 60)
-+#define VTD_ECAP_PRS		(1ULL << 29)
-+#define VTD_ECAP_ERS		(1ULL << 30)
-+#define VTD_ECAP_SRS		(1ULL << 31)
-+#define VTD_ECAP_EAFS		(1ULL << 34)
-+#define VTD_ECAP_PASID		(1ULL << 40)
-+
-+/* Only capabilities marked in below MASKs are reported */
-+#define VTD_CAP_MASK		(VTD_CAP_FL1GP | VTD_CAP_FL5LP)
-+
-+#define VTD_ECAP_MASK		(VTD_ECAP_PRS | VTD_ECAP_ERS | \
-+				 VTD_ECAP_SRS | VTD_ECAP_EAFS | \
-+				 VTD_ECAP_PASID)
-+
- /* Virtual command interface capability */
- #define vccap_pasid(v)		(((v) & DMA_VCS_PAS)) /* PASID allocation */
- 
--- 
-2.7.4
+On Sat, Jul 04, 2020 at 02:28:09PM +0200, Konrad Dybcio wrote:
+> This adds the downstream property required to support
+> SMMUs on SDM630 and other platforms (the need for it
+> most likely depends on firmware configuration).
+> 
+> Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
+> ---
+>  .../devicetree/bindings/iommu/arm,smmu.yaml       | 10 ++++++++++
+>  drivers/iommu/arm-smmu.c                          | 15 +++++++++------
+>  2 files changed, 19 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> index d7ceb4c34423..9abd6d41a32c 100644
+> --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> @@ -102,6 +102,16 @@ properties:
+>        access to SMMU configuration registers. In this case non-secure aliases of
+>        secure registers have to be used during SMMU configuration.
+>  
+> +  qcom,skip-init:
+> +    description: |
+> +      Disable resetting configuration for all context banks
+> +      during device reset.  This is useful for targets where
+> +      some context banks are dedicated to other execution
+> +      environments outside of Linux and those other EEs are
+> +      programming their own stream match tables, SCTLR, etc.
+> +      Without setting this option we will trample on their
+> +      configuration.
 
+It would probably be better to know _which_ context banks we shouldn't
+touch, no? Otherwise what happens to the others?
+
+> +
+>    stream-match-mask:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+>      description: |
+> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+> index 243bc4cb2705..a5c623d4caf9 100644
+> --- a/drivers/iommu/arm-smmu.c
+> +++ b/drivers/iommu/arm-smmu.c
+> @@ -1655,13 +1655,16 @@ static void arm_smmu_device_reset(struct arm_smmu_device *smmu)
+>  	 * Reset stream mapping groups: Initial values mark all SMRn as
+>  	 * invalid and all S2CRn as bypass unless overridden.
+>  	 */
+> -	for (i = 0; i < smmu->num_mapping_groups; ++i)
+> -		arm_smmu_write_sme(smmu, i);
+>  
+> -	/* Make sure all context banks are disabled and clear CB_FSR  */
+> -	for (i = 0; i < smmu->num_context_banks; ++i) {
+> -		arm_smmu_write_context_bank(smmu, i);
+> -		arm_smmu_cb_write(smmu, i, ARM_SMMU_CB_FSR, ARM_SMMU_FSR_FAULT);
+> +	if (!of_find_property(smmu->dev->of_node, "qcom,skip-init", NULL)) {
+> +		for (i = 0; i < smmu->num_mapping_groups; ++i)
+> +			arm_smmu_write_sme(smmu, i);
+> +
+> +		/* Make sure all context banks are disabled and clear CB_FSR  */
+> +		for (i = 0; i < smmu->num_context_banks; ++i) {
+> +			arm_smmu_write_context_bank(smmu, i);
+> +			arm_smmu_cb_write(smmu, i, ARM_SMMU_CB_FSR, ARM_SMMU_FSR_FAULT);
+> +		}
+>  	}
+
+Do we not need to worry about the SMRs as well?
+
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
