@@ -1,60 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D562144FD
-	for <lists.iommu@lfdr.de>; Sat,  4 Jul 2020 13:20:07 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F27214500
+	for <lists.iommu@lfdr.de>; Sat,  4 Jul 2020 13:20:18 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 100B088614;
-	Sat,  4 Jul 2020 11:20:06 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C4CEF22721;
+	Sat,  4 Jul 2020 11:20:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id X4p8lYRHubry; Sat,  4 Jul 2020 11:20:02 +0000 (UTC)
+	with ESMTP id 1rgo5dwNjSBd; Sat,  4 Jul 2020 11:20:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7237988552;
-	Sat,  4 Jul 2020 11:19:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7460C258FF;
+	Sat,  4 Jul 2020 11:20:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6029CC088C;
-	Sat,  4 Jul 2020 11:19:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 57420C0733;
+	Sat,  4 Jul 2020 11:20:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EB281C088C
- for <iommu@lists.linux-foundation.org>; Sat,  4 Jul 2020 11:19:56 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7CBC2C088C
+ for <iommu@lists.linux-foundation.org>; Sat,  4 Jul 2020 11:19:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id CEFF189165
- for <iommu@lists.linux-foundation.org>; Sat,  4 Jul 2020 11:19:56 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 73FA520452
+ for <iommu@lists.linux-foundation.org>; Sat,  4 Jul 2020 11:19:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aqT+Symfm56p for <iommu@lists.linux-foundation.org>;
+ with ESMTP id zueqnR4Q6E2w for <iommu@lists.linux-foundation.org>;
  Sat,  4 Jul 2020 11:19:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 2EF4B89347
+ by silver.osuosl.org (Postfix) with ESMTPS id 1FA07204FE
  for <iommu@lists.linux-foundation.org>; Sat,  4 Jul 2020 11:19:55 +0000 (UTC)
-IronPort-SDR: vl/yiSXYkKS66T/D8KNpR2FT6OphCd9+1otbhxmw83K4f4RAUIoikZJkv602n1iI7Sqd+ZfAaG
- SKKATchIQU9w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="134701881"
-X-IronPort-AV: E=Sophos;i="5.75,311,1589266800"; d="scan'208";a="134701881"
+IronPort-SDR: jOvmJRMBJrGuxNjgwpq8cnuBymlDjnEFjvdtlLHszTOq5if65CzmINMP0FxyG+VCShaiFKU+EE
+ p85sSGJCg7hw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="134701880"
+X-IronPort-AV: E=Sophos;i="5.75,311,1589266800"; d="scan'208";a="134701880"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Jul 2020 04:19:53 -0700
-IronPort-SDR: 1CPHyZICftC/uPwmyfs+8MZ7sF++35C2lDMCeXe59RoftSriaaG1ijdMC53UUa0obPhpIEwVa9
- rf6Rno6yNUqg==
+IronPort-SDR: HTxM5lKwCwUFzgu9PPHBTvK3VED0OO66TmehNnlNtPB060IfHFkMcDflPiyePJmastDEugxYQ+
+ ZwaUFfg3oAmg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,311,1589266800"; d="scan'208";a="282521438"
+X-IronPort-AV: E=Sophos;i="5.75,311,1589266800"; d="scan'208";a="282521440"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
  by orsmga006.jf.intel.com with ESMTP; 04 Jul 2020 04:19:53 -0700
 From: Liu Yi L <yi.l.liu@intel.com>
 To: alex.williamson@redhat.com, eric.auger@redhat.com,
  baolu.lu@linux.intel.com, joro@8bytes.org
-Subject: [PATCH v4 08/15] iommu: Pass domain to sva_unbind_gpasid()
-Date: Sat,  4 Jul 2020 04:26:22 -0700
-Message-Id: <1593861989-35920-9-git-send-email-yi.l.liu@intel.com>
+Subject: [PATCH v4 09/15] iommu/vt-d: Check ownership for PASIDs from
+ user-space
+Date: Sat,  4 Jul 2020 04:26:23 -0700
+Message-Id: <1593861989-35920-10-git-send-email-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1593861989-35920-1-git-send-email-yi.l.liu@intel.com>
 References: <1593861989-35920-1-git-send-email-yi.l.liu@intel.com>
@@ -80,18 +81,10 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Yi Sun <yi.y.sun@intel.com>
-
-Current interface is good enough for SVA virtualization on an assigned
-physical PCI device, but when it comes to mediated devices, a physical
-device may attached with multiple aux-domains. Also, for guest unbind,
-the PASID to be unbind should be allocated to the VM. This check requires
-to know the ioasid_set which is associated with the domain.
-
-So this interface needs to pass in domain info. Then the iommu driver is
-able to know which domain will be used for the 2nd stage translation of
-the nesting mode and also be able to do PASID ownership check. This patch
-passes @domain per the above reason.
+When an IOMMU domain with nesting attribute is used for guest SVA, a
+system-wide PASID is allocated for binding with the device and the domain.
+For security reason, we need to check the PASID passsed from user-space.
+e.g. page table bind/unbind and PASID related cache invalidation.
 
 Cc: Kevin Tian <kevin.tian@intel.com>
 CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
@@ -100,77 +93,74 @@ Cc: Eric Auger <eric.auger@redhat.com>
 Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
 Cc: Joerg Roedel <joro@8bytes.org>
 Cc: Lu Baolu <baolu.lu@linux.intel.com>
-Signed-off-by: Yi Sun <yi.y.sun@intel.com>
 Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 ---
-v2 -> v3:
-*) pass in domain info only
-*) use ioasid_t for pasid instead of int type
+ drivers/iommu/intel/iommu.c | 10 ++++++++++
+ drivers/iommu/intel/svm.c   |  7 +++++--
+ 2 files changed, 15 insertions(+), 2 deletions(-)
 
-v1 -> v2:
-*) added in v2.
----
- drivers/iommu/intel/svm.c   | 3 ++-
- drivers/iommu/iommu.c       | 2 +-
- include/linux/intel-iommu.h | 3 ++-
- include/linux/iommu.h       | 3 ++-
- 4 files changed, 7 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index 89d708d..7bebf82 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -5437,6 +5437,7 @@ intel_iommu_sva_invalidate(struct iommu_domain *domain, struct device *dev,
+ 		int granu = 0;
+ 		u64 pasid = 0;
+ 		u64 addr = 0;
++		void *pdata;
+ 
+ 		granu = to_vtd_granularity(cache_type, inv_info->granularity);
+ 		if (granu == -EINVAL) {
+@@ -5456,6 +5457,15 @@ intel_iommu_sva_invalidate(struct iommu_domain *domain, struct device *dev,
+ 			 (inv_info->granu.addr_info.flags & IOMMU_INV_ADDR_FLAGS_PASID))
+ 			pasid = inv_info->granu.addr_info.pasid;
+ 
++		pdata = ioasid_find(dmar_domain->ioasid_sid, pasid, NULL);
++		if (!pdata) {
++			ret = -EINVAL;
++			goto out_unlock;
++		} else if (IS_ERR(pdata)) {
++			ret = PTR_ERR(pdata);
++			goto out_unlock;
++		}
++
+ 		switch (BIT(cache_type)) {
+ 		case IOMMU_CACHE_INV_TYPE_IOTLB:
+ 			/* HW will ignore LSB bits based on address mask */
 diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index e995e1a..1e567a1 100644
+index 1e567a1..aa2e1aa 100644
 --- a/drivers/iommu/intel/svm.c
 +++ b/drivers/iommu/intel/svm.c
-@@ -436,7 +436,8 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
- 	return ret;
- }
+@@ -323,7 +323,7 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+ 	dmar_domain = to_dmar_domain(domain);
  
--int intel_svm_unbind_gpasid(struct device *dev, int pasid)
-+int intel_svm_unbind_gpasid(struct iommu_domain *domain,
-+			    struct device *dev, ioasid_t pasid)
+ 	mutex_lock(&pasid_mutex);
+-	svm = ioasid_find(INVALID_IOASID_SET, data->hpasid, NULL);
++	svm = ioasid_find(dmar_domain->ioasid_sid, data->hpasid, NULL);
+ 	if (IS_ERR(svm)) {
+ 		ret = PTR_ERR(svm);
+ 		goto out;
+@@ -440,6 +440,7 @@ int intel_svm_unbind_gpasid(struct iommu_domain *domain,
+ 			    struct device *dev, ioasid_t pasid)
  {
  	struct intel_iommu *iommu = intel_svm_device_to_iommu(dev);
++	struct dmar_domain *dmar_domain;
  	struct intel_svm_dev *sdev;
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 595527e..5f74837 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2081,7 +2081,7 @@ int __iommu_sva_unbind_gpasid(struct iommu_domain *domain, struct device *dev,
- 	if (unlikely(!domain->ops->sva_unbind_gpasid))
- 		return -ENODEV;
+ 	struct intel_svm *svm;
+ 	int ret = -EINVAL;
+@@ -447,8 +448,10 @@ int intel_svm_unbind_gpasid(struct iommu_domain *domain,
+ 	if (WARN_ON(!iommu))
+ 		return -EINVAL;
  
--	return domain->ops->sva_unbind_gpasid(dev, data->hpasid);
-+	return domain->ops->sva_unbind_gpasid(domain, dev, data->hpasid);
- }
- EXPORT_SYMBOL_GPL(__iommu_sva_unbind_gpasid);
- 
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index 0d0ab32..18f292e 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -738,7 +738,8 @@ extern int intel_svm_enable_prq(struct intel_iommu *iommu);
- extern int intel_svm_finish_prq(struct intel_iommu *iommu);
- int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
- 			  struct iommu_gpasid_bind_data *data);
--int intel_svm_unbind_gpasid(struct device *dev, int pasid);
-+int intel_svm_unbind_gpasid(struct iommu_domain *domain,
-+			    struct device *dev, ioasid_t pasid);
- struct iommu_sva *intel_svm_bind(struct device *dev, struct mm_struct *mm,
- 				 void *drvdata);
- void intel_svm_unbind(struct iommu_sva *handle);
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 21d32be..22f0730 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -303,7 +303,8 @@ struct iommu_ops {
- 	int (*sva_bind_gpasid)(struct iommu_domain *domain,
- 			struct device *dev, struct iommu_gpasid_bind_data *data);
- 
--	int (*sva_unbind_gpasid)(struct device *dev, int pasid);
-+	int (*sva_unbind_gpasid)(struct iommu_domain *domain,
-+				 struct device *dev, ioasid_t pasid);
- 
- 	int (*def_domain_type)(struct device *dev);
- 
++	dmar_domain = to_dmar_domain(domain);
++
+ 	mutex_lock(&pasid_mutex);
+-	svm = ioasid_find(INVALID_IOASID_SET, pasid, NULL);
++	svm = ioasid_find(dmar_domain->ioasid_sid, pasid, NULL);
+ 	if (!svm) {
+ 		ret = -EINVAL;
+ 		goto out;
 -- 
 2.7.4
 
