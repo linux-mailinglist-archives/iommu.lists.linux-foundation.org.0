@@ -1,89 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id D619B2149DB
-	for <lists.iommu@lfdr.de>; Sun,  5 Jul 2020 05:37:40 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BE7214BAB
+	for <lists.iommu@lfdr.de>; Sun,  5 Jul 2020 11:54:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 68D5688A87;
-	Sun,  5 Jul 2020 03:37:39 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0848387D9F;
+	Sun,  5 Jul 2020 09:54:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MvP7zJyFruTF; Sun,  5 Jul 2020 03:37:38 +0000 (UTC)
+	with ESMTP id 0MeHMVjZpk3i; Sun,  5 Jul 2020 09:54:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8246C88A93;
-	Sun,  5 Jul 2020 03:37:38 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1DE7387DB4;
+	Sun,  5 Jul 2020 09:54:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6A08DC0733;
-	Sun,  5 Jul 2020 03:37:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE474C016F;
+	Sun,  5 Jul 2020 09:54:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3D36AC0733
- for <iommu@lists.linux-foundation.org>; Sun,  5 Jul 2020 03:37:37 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6612EC016F
+ for <iommu@lists.linux-foundation.org>; Sun,  5 Jul 2020 09:54:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 2533A88A87
- for <iommu@lists.linux-foundation.org>; Sun,  5 Jul 2020 03:37:37 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 4C413203B5
+ for <iommu@lists.linux-foundation.org>; Sun,  5 Jul 2020 09:54:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SGLMsapTiswA for <iommu@lists.linux-foundation.org>;
- Sun,  5 Jul 2020 03:37:35 +0000 (UTC)
+ with ESMTP id t8saKFmjFkkR for <iommu@lists.linux-foundation.org>;
+ Sun,  5 Jul 2020 09:54:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
- [209.85.214.193])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E963588A76
- for <iommu@lists.linux-foundation.org>; Sun,  5 Jul 2020 03:37:35 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id s14so14025318plq.6
- for <iommu@lists.linux-foundation.org>; Sat, 04 Jul 2020 20:37:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=M5ZbztlPkvw+9ErJFWw7Qbat+ZkMk081NbvPHaI46hs=;
- b=O2lLgZzcbDRX8J92t5mKKUYXAwjo/sQXHSA3N7D4uuiEl8hO5WSoR/nmtz3zSlJyNz
- H4tFAx0OhM+bYW5A2+HaVgdhP8n38fXZCTnw9ok2Aahub5NKT/tgPW+8b/SMC7izclFy
- gYj2DhmS110EYhViIceJGIaX4DZMUPJkhNJ7o/feDHm78xBYlGfwCtuEq/mI08PXg5SN
- e7GCRB0oJVvxKxFFy1DmJpa1rNquJg9FjMhmetGE81blw8bV6lsReGYMclOJpkdYsX8S
- K8RbC0lFNrxBmYqQ9u2xuG964lHJL/qmc87VxTU6jwr5pmEiyqB01/PYLWoRyl/lHG8C
- bamA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=M5ZbztlPkvw+9ErJFWw7Qbat+ZkMk081NbvPHaI46hs=;
- b=s+DyNQ1ChzcMLbbzwZ76CVPuHVnyThf535gNjkxWNYfHw+xBhweRwxMjJgtiZBDKAj
- RNWwv73bl8jv59Ractg888MR4dpm9dO+jucKZEH35gAVlRUznA4g8qHQL4EweHrepfsR
- sBFRfN3NVmCSWaI6RZFtOAMlZd+bynCg9QDCTqH6KlwWEnsQsSyKKzUgA+MGU5V3oQRX
- 7vEcAib4XpIVkK3HDz+GFXGjKoWwbF+m4L3K7I9+z/Xeh7oe6qZOKmEt7i6kUmdcERi5
- uEuvElxD8p6nZ8I7+SdixNpZnTpSRKjo6QDcNv+bNL/xBlqnF972ACZSjzG4nMeeGu+1
- 5KsA==
-X-Gm-Message-State: AOAM531r3WLezKwXmkyzMC2y72ZdbuiB3kmA13ZaA2zTTTtVexkwvd9H
- jTep3nX0RsJTSP2Tg5rtRT9a8g==
-X-Google-Smtp-Source: ABdhPJwYJ4bAkZPeI8sSzaQN9k6F5rcjd5JMGeKP/JEQ+CUkkHSBMoFuFc3gUDQ0nwnKd5YninLHog==
-X-Received: by 2002:a17:90a:db48:: with SMTP id
- u8mr14034064pjx.169.1593920255249; 
- Sat, 04 Jul 2020 20:37:35 -0700 (PDT)
-Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
- [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id x10sm15766727pfp.80.2020.07.04.20.37.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Jul 2020 20:37:34 -0700 (PDT)
-Date: Sat, 4 Jul 2020 20:35:11 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
+Received: from huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by silver.osuosl.org (Postfix) with ESMTPS id A3200203A9
+ for <iommu@lists.linux-foundation.org>; Sun,  5 Jul 2020 09:54:13 +0000 (UTC)
+Received: from dggemi402-hub.china.huawei.com (unknown [172.30.72.53])
+ by Forcepoint Email with ESMTP id 1233445E69CF5014C674;
+ Sun,  5 Jul 2020 17:54:06 +0800 (CST)
+Received: from DGGEMI525-MBS.china.huawei.com ([169.254.6.177]) by
+ dggemi402-hub.china.huawei.com ([10.3.17.135]) with mapi id 14.03.0487.000;
+ Sun, 5 Jul 2020 17:53:59 +0800
+From: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
 To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 1/1] iommu/arm-smmu: Implement qcom,skip-init
-Message-ID: <20200705033511.GR388985@builder.lan>
-References: <20200704122809.73794-1-konradybcio@gmail.com>
- <20200704130922.GB21333@willie-the-truck>
+Subject: RE: [PATCH] iommu/arm-smmu-v3: expose numa_node attribute to users
+ in sysfs
+Thread-Topic: [PATCH] iommu/arm-smmu-v3: expose numa_node attribute to users
+ in sysfs
+Thread-Index: AQHWUVYP5+oz7AgxZUmeNHR/kRBG2aj4ucrQ
+Date: Sun, 5 Jul 2020 09:53:58 +0000
+Message-ID: <B926444035E5E2439431908E3842AFD25559F2@DGGEMI525-MBS.china.huawei.com>
+References: <20200530091505.56664-1-song.bao.hua@hisilicon.com>
+ <20200703162137.GA19780@willie-the-truck>
+In-Reply-To: <20200703162137.GA19780@willie-the-truck>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.126.202.129]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200704130922.GB21333@willie-the-truck>
-Cc: devicetree@vger.kernel.org, skrzynka@konradybcio.pl,
- Konrad Dybcio <konradybcio@gmail.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
- john.stultz@linaro.org, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+X-CFilter-Loop: Reflected
+Cc: Linuxarm <linuxarm@huawei.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>, "hch@lst.de" <hch@lst.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,129 +80,93 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sat 04 Jul 06:09 PDT 2020, Will Deacon wrote:
 
-> [Adding Bjorn, Jordan and John because I really don't want a bunch of
-> different ways to tell the driver that the firmware is screwing things up]
+
+> -----Original Message-----
+> From: Will Deacon [mailto:will@kernel.org]
+> Sent: Saturday, July 4, 2020 4:22 AM
+> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>
+> Cc: robin.murphy@arm.com; hch@lst.de; m.szyprowski@samsung.com;
+> iommu@lists.linux-foundation.org; linux-arm-kernel@lists.infradead.org;
+> Linuxarm <linuxarm@huawei.com>
+> Subject: Re: [PATCH] iommu/arm-smmu-v3: expose numa_node attribute to
+> users in sysfs
 > 
-
-Thanks Will.
-
-> On Sat, Jul 04, 2020 at 02:28:09PM +0200, Konrad Dybcio wrote:
-> > This adds the downstream property required to support
-> > SMMUs on SDM630 and other platforms (the need for it
-> > most likely depends on firmware configuration).
-> > 
-> > Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
-> > ---
-> >  .../devicetree/bindings/iommu/arm,smmu.yaml       | 10 ++++++++++
-> >  drivers/iommu/arm-smmu.c                          | 15 +++++++++------
-> >  2 files changed, 19 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-> > index d7ceb4c34423..9abd6d41a32c 100644
-> > --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-> > +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-> > @@ -102,6 +102,16 @@ properties:
-> >        access to SMMU configuration registers. In this case non-secure aliases of
-> >        secure registers have to be used during SMMU configuration.
-> >  
-> > +  qcom,skip-init:
-> > +    description: |
-> > +      Disable resetting configuration for all context banks
-> > +      during device reset.  This is useful for targets where
-> > +      some context banks are dedicated to other execution
-> > +      environments outside of Linux and those other EEs are
-> > +      programming their own stream match tables, SCTLR, etc.
-> > +      Without setting this option we will trample on their
-> > +      configuration.
+> On Sat, May 30, 2020 at 09:15:05PM +1200, Barry Song wrote:
+> > As tests show the latency of dma_unmap can increase dramatically while
+> > calling them cross NUMA nodes, especially cross CPU packages, eg.
+> > 300ns vs 800ns while waiting for the completion of CMD_SYNC in an
+> > empty command queue. The large latency causing by remote node will
+> > in turn make contention of the command queue more serious, and enlarge
+> > the latency of DMA users within local NUMA nodes.
+> >
+> > Users might intend to enforce NUMA locality with the consideration of
+> > the position of SMMU. The patch provides minor benefit by presenting
+> > this information to users directly, as they might want to know it without
+> > checking hardware spec at all.
 > 
-> It would probably be better to know _which_ context banks we shouldn't
-> touch, no? Otherwise what happens to the others?
+> I don't think that's a very good reason to expose things to userspace.
+> I know sysfs shouldn't be treated as ABI, but the grim reality is that
+> once somebody relies on this stuff then we can't change it, so I'd
+> rather avoid exposing it unless it's absolutely necessary.
+
+Will, thanks for taking a look!
+
+I am not sure if it is absolutely necessary, but it is useful to users. The whole story started
+from some users who wanted to know the hardware topology very clear by reading some
+sysfs node just like they are able to do that for pci devices. The intention is that users can
+know hardware topology of various devices easily from linux since they maybe don't know
+all the hardware details.
+
+For pci devices, kernel has done that. And there are some other drivers out of pci
+exposing numa_node as well. It seems it is hard to say it is absolutely necessary
+for them too since sysfs shouldn't be treated as ABI. 
+
+I got some input from Linux users who also wanted to know the numa node for
+other devices which are not PCI, for example, platform devices. And I thought the
+requirement is kind of reasonable. So I also had another patch to generally support
+this kind of requirements, with the below patch, this smmu patch is not necessary
+any more:
+https://lkml.org/lkml/2020/6/18/1257
+
+for platform device created by ARM ACPI/IORT and general acpi_create_platform_device()
+drivers/acpi/scan.c:
+static void acpi_default_enumeration(struct acpi_device *device)
+{
+	...
+	if (!device->flags.enumeration_by_parent) {
+		acpi_create_platform_device(device, NULL);
+		acpi_device_set_enumerated(device);
+	}
+}
+
+struct platform_device *acpi_create_platform_device(struct acpi_device *adev,
+					struct property_entry *properties)
+{
+	...
+
+	pdev = platform_device_register_full(&pdevinfo);
+	if (IS_ERR(pdev))
+		...
+	else {
+		set_dev_node(&pdev->dev, acpi_get_node(adev->handle));
+		...
+	}
+	...
+}
+numa_node is set for this kind of devices.
+
+Anyway, just want to explain to you the background some people want to know the 
+hardware topology from Linux in same simple way. And it seems it is a reasonable
+requirement to me :-)
+
 > 
-
-From my investigations of the issue of maintaining the boot display
-through the initialization of arm-smmu I assume the reason for skipping
-this step don't want to flush out the SMR, S2CR and context bank
-initialization because it would disrupt the display hardware's access to
-memory.
-
-And in itself I believe that this is quite certainly going to work -
-until you start attaching devices. Because in itself this does nothing
-to ensure that the driver won't overwrite stream mapping or context bank
-configuration as devices are attached.
-
-So on e.g. SDM845 we need to ensure that the driver doesn't stomp over
-the display mapping left by the bootloader.
-
-
-Further more, on platforms such as QCS405 (which are derived from
-platforms supported by qcom_iommu today), the stream mapping registers
-(SMR and S2CR) are write ignore, which means that without knowledge
-about the existing mappings the hardware and driver will be out of sync.
-
-NB. Compared to the platforms that is supported by qcom_iommu, the
-stream mapping registers are readable on these newer platforms, while on
-e.g. MSM8916 we get an access violation by attempting to read SMR/S2CR.
-
-> > +
-> >    stream-match-mask:
-> >      $ref: /schemas/types.yaml#/definitions/uint32
-> >      description: |
-> > diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-> > index 243bc4cb2705..a5c623d4caf9 100644
-> > --- a/drivers/iommu/arm-smmu.c
-> > +++ b/drivers/iommu/arm-smmu.c
-> > @@ -1655,13 +1655,16 @@ static void arm_smmu_device_reset(struct arm_smmu_device *smmu)
-> >  	 * Reset stream mapping groups: Initial values mark all SMRn as
-> >  	 * invalid and all S2CRn as bypass unless overridden.
-> >  	 */
-> > -	for (i = 0; i < smmu->num_mapping_groups; ++i)
-> > -		arm_smmu_write_sme(smmu, i);
-> >  
-> > -	/* Make sure all context banks are disabled and clear CB_FSR  */
-> > -	for (i = 0; i < smmu->num_context_banks; ++i) {
-> > -		arm_smmu_write_context_bank(smmu, i);
-> > -		arm_smmu_cb_write(smmu, i, ARM_SMMU_CB_FSR, ARM_SMMU_FSR_FAULT);
-> > +	if (!of_find_property(smmu->dev->of_node, "qcom,skip-init", NULL)) {
-> > +		for (i = 0; i < smmu->num_mapping_groups; ++i)
-> > +			arm_smmu_write_sme(smmu, i);
-> > +
-> > +		/* Make sure all context banks are disabled and clear CB_FSR  */
-> > +		for (i = 0; i < smmu->num_context_banks; ++i) {
-> > +			arm_smmu_write_context_bank(smmu, i);
-> > +			arm_smmu_cb_write(smmu, i, ARM_SMMU_CB_FSR, ARM_SMMU_FSR_FAULT);
-> > +		}
-> >  	}
+> Thanks,
 > 
-> Do we not need to worry about the SMRs as well?
-> 
+> Will
 
-I don't think we should skip the actual initialization, because to avoid
-strange side effects we need to ensure that the driver and hardware are
-in sync (either for specific streams/banks or for all of them).
-
-I've continued my work on supporting boot display on e.g. SDM845, based
-on Thierry's patches, but still have some unresolved corner cases to
-fully resolve - e.g. how to ensure that the display hardware's stream
-mapping survives the probe deferral of the display driver. Hopefully I
-will be able to post something in a few days.
-
-
-
-That said, there's a generation of platforms between MSM8916 (which we
-support using qcom_iommu) and SDM845 (which can run with arm-smmu).
-AngeloGioacchino proposed a series last year to extend the qcom_iommu to
-support these [1]. If SD630 falls in this category, or in the newer
-SDM845/SM8150 category I don't know.
-
-It would be quite interesting to hear more about the exact behaviors
-seems on SDM630, to see how we can support this as well.
-
-[1] https://lore.kernel.org/linux-arm-msm/20191001155641.37117-1-kholk11@gmail.com/
-
-Regards,
-Bjorn
+Thanks
+barry
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
