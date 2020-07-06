@@ -1,58 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A34215C26
-	for <lists.iommu@lfdr.de>; Mon,  6 Jul 2020 18:45:20 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CA0588940F;
-	Mon,  6 Jul 2020 16:45:18 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RWKvsJ-1G+7t; Mon,  6 Jul 2020 16:45:18 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 57EC28940A;
-	Mon,  6 Jul 2020 16:45:18 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E2C5C016F;
-	Mon,  6 Jul 2020 16:45:18 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8FF00C016F
- for <iommu@lists.linux-foundation.org>; Mon,  6 Jul 2020 16:45:16 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFBAF215CA9
+	for <lists.iommu@lfdr.de>; Mon,  6 Jul 2020 19:08:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8B3BE879B4
- for <iommu@lists.linux-foundation.org>; Mon,  6 Jul 2020 16:45:16 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8EBED86966;
+	Mon,  6 Jul 2020 17:07:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XvELqmZH0WPe; Mon,  6 Jul 2020 17:07:41 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 20CDF8691A;
+	Mon,  6 Jul 2020 17:07:41 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 047BAC016F;
+	Mon,  6 Jul 2020 17:07:41 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8019FC016F
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Jul 2020 17:07:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 6E12188A98
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Jul 2020 17:07:39 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YzgRJLRdYkKu for <iommu@lists.linux-foundation.org>;
- Mon,  6 Jul 2020 16:45:16 +0000 (UTC)
+ with ESMTP id F+fa--vQW20U for <iommu@lists.linux-foundation.org>;
+ Mon,  6 Jul 2020 17:07:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 04412879AD
- for <iommu@lists.linux-foundation.org>; Mon,  6 Jul 2020 16:45:16 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E009588A92
+ for <iommu@lists.linux-foundation.org>; Mon,  6 Jul 2020 17:07:38 +0000 (UTC)
 Received: from localhost (mobile-166-175-191-139.mycingular.net
  [166.175.191.139])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4AC32206CD;
- Mon,  6 Jul 2020 16:45:15 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3B60621582;
+ Mon,  6 Jul 2020 17:07:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594053915;
- bh=6e7i6fPg3xNw9i2TFYGWKkuRV4+OY0qFf0hJHUNZFAk=;
+ s=default; t=1594055258;
+ bh=cgNaJHVbncoKaqoIbXTBer9BB2nT8TXGZr+shQ3g/Xs=;
  h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=EhB2ATgroVPgNiiTvitOSzxGM8K1faRPJTHq+pWF9OWRXMbByn3s7Po687Z06TgqX
- VRr6vipnlOr72zbR5kU6z77tc6gv0H6MISA7cfsxuie6Xcsxdp0PmqZB60L2npF6bE
- EwgK1dlIzDci0mNcLWOVvgFQIU8qG/+6YxMdV6LM=
-Date: Mon, 6 Jul 2020 11:45:14 -0500
+ b=bTn70ba/xuVwnxBCjc4lESFrm5pgWMuOMTIBxZY74YZ8UuoFBHzJvM0rbGpRChWZP
+ /If90R9yPSWmBDE8XSdiC23JSZBjzIoDHXMltHgbv1FswHQbry2CAC1qVeO8AiYWog
+ PhOIsaTPF8/VDgpwRsVq2HtQZIguzla6VUrLfzwg=
+Date: Mon, 6 Jul 2020 12:07:36 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Rajat Jain <rajatja@google.com>
 Subject: Re: [PATCH v2 3/7] PCI/ACS: Enable PCI_ACS_TB for
  untrusted/external-facing devices
-Message-ID: <20200706164514.GA124720@bjorn-Precision-5520>
+Message-ID: <20200706170736.GA125844@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <20200630044943.3425049-4-rajatja@google.com>
@@ -132,15 +132,27 @@ On Mon, Jun 29, 2020 at 09:49:39PM -0700, Rajat Jain wrote:
 > +/*
 > + * Currently this quirk does the equivalent of
 > + * PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_UF | PCI_ACS_SV
+
+Nit: Reorder these as in c8de8ed2dcaa ("PCI: Make ACS quirk
+implementations more uniform") so they match other similar lists in
+the code.
+
+But more to the point: we have a bunch of other quirks for devices
+that do not have an ACS capability but *do* provide some ACS-like
+features.  Most of them support
+
+  PCI_ACS_SV | PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_UF
+
+because that's what we usually want.  But I bet some of them also
+actually provide the equivalent of PCI_ACS_TB.
+
+REQ_ACS_FLAGS doesn't include PCI_ACS_TB.  Is there anything we need
+to do on the pci_acs_enabled() side to check for PCI_ACS_TB, and
+consequently, to update any of the quirks for devices that provide it?
+
 > + *
 > + * Currently missing, it also needs to do equivalent of PCI_ACS_TB,
 > + * if dev->external_facing || dev->untrusted
-
-I don't understand this comment.  Is this a "TODO"?  Is there
-something more that needs to be done here?
-
-After a patch is applied, a comment should describe the code as it is.
-
 > + */
 >  static int pci_quirk_enable_intel_pch_acs(struct pci_dev *dev)
 >  {
