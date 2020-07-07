@@ -1,98 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AFF21669A
-	for <lists.iommu@lfdr.de>; Tue,  7 Jul 2020 08:43:44 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C42216694
+	for <lists.iommu@lfdr.de>; Tue,  7 Jul 2020 08:41:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4560F895BB;
-	Tue,  7 Jul 2020 06:43:43 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6A95E867DF;
+	Tue,  7 Jul 2020 06:41:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id d9jj3lJu4OXy; Tue,  7 Jul 2020 06:43:42 +0000 (UTC)
+	with ESMTP id yCiVg0ZRspCz; Tue,  7 Jul 2020 06:41:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3870689596;
-	Tue,  7 Jul 2020 06:43:42 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BFCA28675F;
+	Tue,  7 Jul 2020 06:41:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 14695C016F;
-	Tue,  7 Jul 2020 06:43:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9FAFEC08A5;
+	Tue,  7 Jul 2020 06:41:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 93B6AC016F
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 06:43:40 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2E13EC016F
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 06:41:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 7965B254B3
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 06:43:40 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1582687846
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 06:41:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E2zw0JQy5tyj for <iommu@lists.linux-foundation.org>;
- Tue,  7 Jul 2020 06:43:39 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com
- [209.85.210.201])
- by silver.osuosl.org (Postfix) with ESMTPS id BED1925432
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 06:43:39 +0000 (UTC)
-Received: by mail-pf1-f201.google.com with SMTP id s24so6974942pfe.9
- for <iommu@lists.linux-foundation.org>; Mon, 06 Jul 2020 23:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=Qk/CudVh/aYmFA4VGFCO8mdbAWkl57VHCd1ZIJWN+1w=;
- b=Xre+DO5bBquqMu+hdF9c3GWOfwJPU0JSYZ82fhlA0HFoIo0LganFlMRGd90xICWjvh
- x6VqENjaJX+E6NmE7NvnAmKue5CkshpdqCfHOJDdbjwtbGNakh6+Y2o2MCQzOFHd8mWB
- Tx6gwJgY9b5m33RdN7MXjvEI7lNExtH3p/MO6RXgh/of/7qxV2dhNwE5Ya8bmsH5mhBC
- KVvnUlfyjdwVqd5LHb1/V/h1A+eW5DYc5Y2+BZt27U5BtA20FnqlrWGeEQKgYsXSbbew
- xusxlAqAeT++ykRLTsGvPyIrcRpvzT4IW00uhXW1Wj6u8ayVQwdQHaPEUuR7QMoK/PRD
- 25lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=Qk/CudVh/aYmFA4VGFCO8mdbAWkl57VHCd1ZIJWN+1w=;
- b=ZSKusKJjBpG9PTd/QEZjS+7qGX1VJGWAqXS8y62jwR3i7heqU9VSWQbwHYvRc2MFK8
- 2TLIZeRAJzvFyWejPR8Bu4nzoUqQyOexrrk1zWEVZHdAH27hl6xSLu2YeZ1cuta5i2AF
- kRSmKWxtR67spdytg0abOhpT25xA42y/1jqwB2Vey0yQMg6cKqHq5ckfv/lMm9zlW/QK
- QH1ZHz8QFRHUhsuwaCboJKoqZFy2wM73/v+NoazviGkuBsu1YMWMkV6mGxRpamFNjb7O
- 6SAVBa77ueBNlp6dHc2+yh02SIYM+fvTjPfDYyhQcE1fu9ZwrV70pnnn9rz0Sa/bsfjY
- vJnA==
-X-Gm-Message-State: AOAM531Ccwut99bJ9hYPoaewlNMimkDLlbL0hKdLKEyGemNwUb1U4RyC
- l1oe53qLX32sWheGk+bN0RWKdix4ADos
-X-Google-Smtp-Source: ABdhPJxwPXvnk3sNJWoQC6YwOTWi9tymhjLuGByDfNWQcfhaj8ZWG0wbKLQWCrNYPqv0Xn0Z4pBVaY07uBDo
-X-Received: by 2002:a0c:aed6:: with SMTP id n22mr50763155qvd.70.1594097669245; 
- Mon, 06 Jul 2020 21:54:29 -0700 (PDT)
-Date: Mon,  6 Jul 2020 21:54:18 -0700
-In-Reply-To: <20200707045418.3517076-1-rajatja@google.com>
-Message-Id: <20200707045418.3517076-4-rajatja@google.com>
-Mime-Version: 1.0
-References: <20200707045418.3517076-1-rajatja@google.com>
-X-Mailer: git-send-email 2.27.0.212.ge8ba1cc988-goog
-Subject: [PATCH v3 4/4] PCI/ACS: Enable PCI_ACS_TB for
- untrusted/external-facing devices
-To: David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Joerg Roedel <joro@8bytes.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>,
- iommu@lists.linux-foundation.org, 
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
- linux-acpi@vger.kernel.org, Raj Ashok <ashok.raj@intel.com>, 
- lalithambika.krishnakumar@intel.com, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Prashant Malani <pmalani@google.com>, 
- Benson Leung <bleung@google.com>, Todd Broch <tbroch@google.com>,
- Alex Levin <levinale@google.com>, 
- Mattias Nissler <mnissler@google.com>, Rajat Jain <rajatxjain@gmail.com>, 
- Bernie Keany <bernie.keany@intel.com>, Aaron Durbin <adurbin@google.com>, 
- Diego Rivas <diegorivas@google.com>, Duncan Laurie <dlaurie@google.com>, 
- Furquan Shaikh <furquan@google.com>, Jesse Barnes <jsbarnes@google.com>, 
- Christian Kellner <christian@kellner.me>,
- Alex Williamson <alex.williamson@redhat.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, oohall@gmail.com, 
- Saravana Kannan <saravanak@google.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Arnd Bergmann <arnd@arndb.de>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Rajat Jain <rajatja@google.com>
+ with ESMTP id Qsu9IlFDjj6m for <iommu@lists.linux-foundation.org>;
+ Tue,  7 Jul 2020 06:41:27 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id C9A4386F0A
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 06:41:26 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 8D51F68AFE; Tue,  7 Jul 2020 08:41:22 +0200 (CEST)
+Date: Tue, 7 Jul 2020 08:41:22 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH] iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag
+Message-ID: <20200707064122.GA23444@lst.de>
+References: <20200703162548.19953-1-will@kernel.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200703162548.19953-1-will@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>, kernel-team@android.com,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,79 +61,18 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Rajat Jain via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Rajat Jain <rajatja@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When enabling ACS, enable translation blocking for external facing ports
-and untrusted devices.
+On Fri, Jul 03, 2020 at 05:25:48PM +0100, Will Deacon wrote:
+> The IOMMU_SYS_CACHE_ONLY flag was never exposed via the DMA API and
+> has no in-tree users. Remove it.
 
-Signed-off-by: Rajat Jain <rajatja@google.com>
----
-v3: print warning if ACS_TB not supported on external-facing/untrusted ports.
-    Minor code comments fixes.
-v2: Commit log change
+Looks good,
 
- drivers/pci/pci.c    |  7 +++++++
- drivers/pci/quirks.c | 14 ++++++++++++++
- 2 files changed, 21 insertions(+)
-
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 73a8627822140..497ac05bf36e8 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -876,6 +876,13 @@ static void pci_std_enable_acs(struct pci_dev *dev)
- 	/* Upstream Forwarding */
- 	ctrl |= (cap & PCI_ACS_UF);
- 
-+	/* Enable Translation Blocking for external devices */
-+	if (dev->external_facing || dev->untrusted)
-+		if (cap & PCI_ACS_TB)
-+			ctrl |= PCI_ACS_TB;
-+		else
-+			pci_warn(dev, "ACS: No Trans Blocking on ext dev\n");
-+
- 	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
- }
- 
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index b341628e47527..9cc8c1dc215ee 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -4934,6 +4934,13 @@ static void pci_quirk_enable_intel_rp_mpc_acs(struct pci_dev *dev)
- 	}
- }
- 
-+/*
-+ * Currently this quirk does the equivalent of
-+ * PCI_ACS_SV | PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_UF
-+ *
-+ * TODO: This quirk also needs to do equivalent of PCI_ACS_TB,
-+ * if dev->external_facing || dev->untrusted
-+ */
- static int pci_quirk_enable_intel_pch_acs(struct pci_dev *dev)
- {
- 	if (!pci_quirk_intel_pch_acs_match(dev))
-@@ -4973,6 +4980,13 @@ static int pci_quirk_enable_intel_spt_pch_acs(struct pci_dev *dev)
- 	ctrl |= (cap & PCI_ACS_CR);
- 	ctrl |= (cap & PCI_ACS_UF);
- 
-+	/* Enable Translation Blocking for external devices */
-+	if (dev->external_facing || dev->untrusted)
-+		if (cap & PCI_ACS_TB)
-+			ctrl |= PCI_ACS_TB;
-+		else
-+			pci_warn(dev, "ACS: No Trans Blocking on ext dev\n");
-+
- 	pci_write_config_dword(dev, pos + INTEL_SPT_ACS_CTRL, ctrl);
- 
- 	pci_info(dev, "Intel SPT PCH root port ACS workaround enabled\n");
--- 
-2.27.0.212.ge8ba1cc988-goog
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
