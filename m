@@ -1,61 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5CD2162CA
-	for <lists.iommu@lfdr.de>; Tue,  7 Jul 2020 02:06:28 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B892162C8
+	for <lists.iommu@lfdr.de>; Tue,  7 Jul 2020 02:06:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 455DE87A37;
-	Tue,  7 Jul 2020 00:06:27 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gsHt8NL5T9Ga; Tue,  7 Jul 2020 00:06:26 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0355687A11;
-	Tue,  7 Jul 2020 00:06:26 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E9E4AC08A0;
+	by silver.osuosl.org (Postfix) with ESMTP id 29CAE27253;
 	Tue,  7 Jul 2020 00:06:25 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 0z0kjtBQsRX2; Tue,  7 Jul 2020 00:06:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id CD40F27408;
+	Tue,  7 Jul 2020 00:06:22 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A974AC08A8;
+	Tue,  7 Jul 2020 00:06:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A620AC016F
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 00:06:23 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 52E5DC016F
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 00:06:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 93A4E86397
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 00:06:23 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3E94486397
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 00:06:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BTn3EMOs7Um5 for <iommu@lists.linux-foundation.org>;
+ with ESMTP id GfhZh5M3AaRK for <iommu@lists.linux-foundation.org>;
  Tue,  7 Jul 2020 00:06:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 79B3F8643F
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 9F77D864A0
  for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 00:06:19 +0000 (UTC)
-IronPort-SDR: KQXHzOHnS0Q9Xz9K9tFwLOH+5+sUQIRNZYv+Kq9MfRe/ME+ESyhqfGrQVjUZw8k7YLCCqGaxoN
- NBrKK6/X4nLQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9674"; a="232379350"
-X-IronPort-AV: E=Sophos;i="5.75,321,1589266800"; d="scan'208";a="232379350"
+IronPort-SDR: a18uVMpXX4/tqSXqwwEsjNshBgqZ00MdmFT/N3PkDmqoualZxNTHWvcCPJuut38dxgzTdrO8bg
+ nioiWzgznWuQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9674"; a="232379353"
+X-IronPort-AV: E=Sophos;i="5.75,321,1589266800"; d="scan'208";a="232379353"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2020 17:06:17 -0700
-IronPort-SDR: Vde5gJKB1M2vQl74Yv5UwhAujmpsR6aVp+INtk3C1PVUFtmyyzZdw9wdRvC+divgkgoFJc0atm
- lSavRQZjqNtQ==
+ 06 Jul 2020 17:06:19 -0700
+IronPort-SDR: fkYAVSxIRBBWJHkxRirdEJhXhbVqjRmHZAvxL6MDyaz2l7ogk1YhS1NXmigm5/LN9IrgVPSajd
+ UvY2RNpt3JCQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,321,1589266800"; d="scan'208";a="456913817"
+X-IronPort-AV: E=Sophos;i="5.75,321,1589266800"; d="scan'208";a="456913822"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
  by orsmga005.jf.intel.com with ESMTP; 06 Jul 2020 17:06:17 -0700
 From: Jacob Pan <jacob.jun.pan@linux.intel.com>
 To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
  "Lu Baolu" <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
  David Woodhouse <dwmw2@infradead.org>
-Subject: [PATCH v4 3/7] iommu/vt-d: Fix PASID devTLB invalidation
-Date: Mon,  6 Jul 2020 17:12:50 -0700
-Message-Id: <1594080774-33413-4-git-send-email-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH v4 4/7] iommu/vt-d: Handle non-page aligned address
+Date: Mon,  6 Jul 2020 17:12:51 -0700
+Message-Id: <1594080774-33413-5-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1594080774-33413-1-git-send-email-jacob.jun.pan@linux.intel.com>
 References: <1594080774-33413-1-git-send-email-jacob.jun.pan@linux.intel.com>
@@ -78,44 +78,57 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-DevTLB flush can be used for both DMA request with and without PASIDs.
-The former uses PASID#0 (RID2PASID), latter uses non-zero PASID for SVA
-usage.
+From: Liu Yi L <yi.l.liu@intel.com>
 
-This patch adds a check for PASID value such that devTLB flush with
-PASID is used for SVA case. This is more efficient in that multiple
-PASIDs can be used by a single device, when tearing down a PASID entry
-we shall flush only the devTLB specific to a PASID.
+Address information for device TLB invalidation comes from userspace
+when device is directly assigned to a guest with vIOMMU support.
+VT-d requires page aligned address. This patch checks and enforce
+address to be page aligned, otherwise reserved bits can be set in the
+invalidation descriptor. Unrecoverable fault will be reported due to
+non-zero value in the reserved bits.
 
-Fixes: 6f7db75e1c46 ("iommu/vt-d: Add second level page table")
+Fixes: 61a06a16e36d8 ("iommu/vt-d: Support flushing more translation
+cache types")
 Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
----
- drivers/iommu/intel/pasid.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/intel/pasid.c b/drivers/iommu/intel/pasid.c
-index c81f0f17c6ba..fa0154cce537 100644
---- a/drivers/iommu/intel/pasid.c
-+++ b/drivers/iommu/intel/pasid.c
-@@ -486,7 +486,16 @@ devtlb_invalidation_with_pasid(struct intel_iommu *iommu,
- 	qdep = info->ats_qdep;
- 	pfsid = info->pfsid;
+---
+ drivers/iommu/intel/dmar.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
+index d9f973fa1190..b2c53bada905 100644
+--- a/drivers/iommu/intel/dmar.c
++++ b/drivers/iommu/intel/dmar.c
+@@ -1455,9 +1455,25 @@ void qi_flush_dev_iotlb_pasid(struct intel_iommu *iommu, u16 sid, u16 pfsid,
+ 	 * Max Invs Pending (MIP) is set to 0 for now until we have DIT in
+ 	 * ECAP.
+ 	 */
+-	desc.qw1 |= addr & ~mask;
+-	if (size_order)
++	if (addr & GENMASK_ULL(size_order + VTD_PAGE_SHIFT, 0))
++		pr_warn_ratelimited("Invalidate non-aligned address %llx, order %d\n", addr, size_order);
++
++	/* Take page address */
++	desc.qw1 = QI_DEV_EIOTLB_ADDR(addr);
++
++	if (size_order) {
++		/*
++		 * Existing 0s in address below size_order may be the least
++		 * significant bit, we must set them to 1s to avoid having
++		 * smaller size than desired.
++		 */
++		desc.qw1 |= GENMASK_ULL(size_order + VTD_PAGE_SHIFT,
++					VTD_PAGE_SHIFT);
++		/* Clear size_order bit to indicate size */
++		desc.qw1 &= ~mask;
++		/* Set the S bit to indicate flushing more than 1 page */
+ 		desc.qw1 |= QI_DEV_EIOTLB_SIZE;
++	}
  
--	qi_flush_dev_iotlb(iommu, sid, pfsid, qdep, 0, 64 - VTD_PAGE_SHIFT);
-+	/*
-+	 * When PASID 0 is used, it indicates RID2PASID(DMA request w/o PASID),
-+	 * devTLB flush w/o PASID should be used. For non-zero PASID under
-+	 * SVA usage, device could do DMA with multiple PASIDs. It is more
-+	 * efficient to flush devTLB specific to the PASID.
-+	 */
-+	if (pasid == PASID_RID2PASID)
-+		qi_flush_dev_iotlb(iommu, sid, pfsid, qdep, 0, 64 - VTD_PAGE_SHIFT);
-+	else
-+		qi_flush_dev_iotlb_pasid(iommu, sid, pfsid, pasid, qdep, 0, 64 - VTD_PAGE_SHIFT);
+ 	qi_submit_sync(iommu, &desc, 1, 0);
  }
- 
- void intel_pasid_tear_down_entry(struct intel_iommu *iommu, struct device *dev,
 -- 
 2.7.4
 
