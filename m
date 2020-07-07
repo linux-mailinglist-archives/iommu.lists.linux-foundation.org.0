@@ -2,151 +2,131 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5FE3216932
-	for <lists.iommu@lfdr.de>; Tue,  7 Jul 2020 11:37:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1E93216973
+	for <lists.iommu@lfdr.de>; Tue,  7 Jul 2020 11:48:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5B41F899A9;
-	Tue,  7 Jul 2020 09:37:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7EAAA899B2;
+	Tue,  7 Jul 2020 09:47:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MmDsbfMsga7W; Tue,  7 Jul 2020 09:37:44 +0000 (UTC)
+	with ESMTP id TWATf355b5Dh; Tue,  7 Jul 2020 09:47:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id AEA9F899A6;
-	Tue,  7 Jul 2020 09:37:44 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DC9E8899B3;
+	Tue,  7 Jul 2020 09:47:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A1DBC016F;
-	Tue,  7 Jul 2020 09:37:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C85DBC016F;
+	Tue,  7 Jul 2020 09:47:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4EE8AC016F
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 09:37:43 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D29FBC016F
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 09:47:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3D430899A9
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 09:37:43 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id BD8A5253D1
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 09:47:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YG7GlXItOLXZ for <iommu@lists.linux-foundation.org>;
- Tue,  7 Jul 2020 09:37:42 +0000 (UTC)
+ with ESMTP id 4hHKdpEwhzZQ for <iommu@lists.linux-foundation.org>;
+ Tue,  7 Jul 2020 09:47:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 6E828899A6
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 09:37:42 +0000 (UTC)
-IronPort-SDR: vhoNLUHmHkd8S1AECjGeHTqq3PXgkSKyjBO5VPdvwXgNGLbeHvjjeqbuB+q8K38+HrHNmR+Mgg
- mona3G98vqFw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9674"; a="149073212"
-X-IronPort-AV: E=Sophos;i="5.75,323,1589266800"; d="scan'208";a="149073212"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2020 02:37:41 -0700
-IronPort-SDR: ZYv/SNMrbfKvY0Jn6oyI/pCcD69B27/gRJ3Sq7lCPe7vg/MG74SxjrBf1bmnhx//p7SPXe0Ctu
- IJIAyt4SO+ZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,323,1589266800"; d="scan'208";a="305600781"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by fmsmga004.fm.intel.com with ESMTP; 07 Jul 2020 02:37:39 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 7 Jul 2020 02:37:37 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 7 Jul 2020 02:37:37 -0700
-Received: from ORSEDG001.ED.cps.intel.com (10.7.248.4) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Tue, 7 Jul 2020 02:37:37 -0700
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com (104.47.38.52) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Tue, 7 Jul 2020 02:37:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZQjp9B1uLn2TwGmFdwFKVo0PxLTbC8U7pUStl8JWJ2ZJAuVKcUwIsS1bVA3WNCzG4Z0ImTM9GsR8GTbXEwBbGq82GlZDO8oVgrEQ4/yGLSWIggg/DLFilYwGcHnbG2r7LANyzyjdfv8jTdJHY0T00fegwWJ8oDsvRYjwIWP2h86OZRfi+8y1nwOD7kBeUSZGuvXE0quliPA3HmFCJeZB2cqwd+93HR1PqcbmDjtcT6sDQpamkJkIwXZs/twJW8a2MoEMRF/BCqVUru8OVjYNESCK3J69CB+h87cc2OVo2T4ZQL8HsoQ1bgVDYzEyp/ONMPFY9JAac3BSqHOXfMDzkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iuzY5aLq0Lr8Z+ioYE3u2gdJvrPWPFeDdM3zAI6rmZg=;
- b=N0QhmhL2bkxWfJR1W9znpvY0aU5wUHwusESOeI36uNaPCZ/nozEqLvCWHCn8mm3AAE/XCfIfoy8HukNvLqsm322uasCpxVwKrgp46AdvtVMOZpBB8FQAVOBuu1TvflH2BxFvhjt0ckWqBagSDg7Pcs5JbDg5DLOWWgKYpbiA8dDq4rhc8n+UwADhUPiZ2sYG4csRQeC3hsnXLR1VPAvjwh41ow7KMsXq6rV1WkltFS1qExDy8i/jwaAR59NRdrR47/lhKqq8pfFz2i2fEyTBcdAyaEf0Emrx0WG93zrOWRiKQbHBiL80a7hCqfG6wDSpv2QOwBtmEmoan7yeNroSHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iuzY5aLq0Lr8Z+ioYE3u2gdJvrPWPFeDdM3zAI6rmZg=;
- b=QfI53lbETs/tNT5UXN73E4jvJAsgIE6ABSR1aaLCABr+PF9utAJ6zGmKbK0D8M8DOBzqzpuamLsoPhlGuNevjqsHVfEnAtSftSWyKrTdhChCndjl+ejPsdLoD2DZyNCNXY9yaEIvCKHKkKTlHF7Y+Wgfvv1S2KHJE2b/YnwCHnI=
-Received: from DM5PR11MB1435.namprd11.prod.outlook.com (2603:10b6:4:7::18) by
- DM6PR11MB3068.namprd11.prod.outlook.com (2603:10b6:5:6b::18) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3153.21; Tue, 7 Jul 2020 09:37:35 +0000
-Received: from DM5PR11MB1435.namprd11.prod.outlook.com
- ([fe80::9002:97a2:d8c0:8364]) by DM5PR11MB1435.namprd11.prod.outlook.com
- ([fe80::9002:97a2:d8c0:8364%10]) with mapi id 15.20.3153.029; Tue, 7 Jul 2020
- 09:37:35 +0000
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: Auger Eric <eric.auger@redhat.com>, "alex.williamson@redhat.com"
- <alex.williamson@redhat.com>, "baolu.lu@linux.intel.com"
- <baolu.lu@linux.intel.com>, "joro@8bytes.org" <joro@8bytes.org>
-Subject: RE: [PATCH v4 06/15] iommu/vt-d: Support setting ioasid set to domain
-Thread-Topic: [PATCH v4 06/15] iommu/vt-d: Support setting ioasid set to domain
-Thread-Index: AQHWUfUYO2lBnvRuAEuteXmbkCY+m6j6picAgAE6LVA=
-Date: Tue, 7 Jul 2020 09:37:35 +0000
-Message-ID: <DM5PR11MB14353BF4E197D947CFF720BAC3660@DM5PR11MB1435.namprd11.prod.outlook.com>
-References: <1593861989-35920-1-git-send-email-yi.l.liu@intel.com>
- <1593861989-35920-7-git-send-email-yi.l.liu@intel.com>
- <d47367ab-f986-4c09-2578-3e364aa57835@redhat.com>
-In-Reply-To: <d47367ab-f986-4c09-2578-3e364aa57835@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.2.0.6
-dlp-product: dlpe-windows
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.198.147.214]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 468e22d8-df4d-4e63-8e78-08d822596155
-x-ms-traffictypediagnostic: DM6PR11MB3068:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR11MB30689DFBB6AE506BD2A43C1DC3660@DM6PR11MB3068.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0457F11EAF
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: p8U9fEye7imZOx6PTYTfuPvne5qYYIROdw/qeDApf31d+LK2c5+J04CnnolZ5mbPQU9PwyFf7SvG6nVeEjsQHhGdqGauD0m0omWw4817YCqQI85gWfLCq61TVcKyCJUjVLfbDXd6+KSJ2ITA3RLW1Moer3eCKVB/LfAT+uyp+PM3tQpSi0xwOSuKKllhbB1mktLuwk+wM/x74AadfCXtycQh3NXKB7Jz6ff2LrH/6YG+o+hPRXzZv+hiDmZ8bJbvUZCYVbYj4MIgwU7Xzhix9OMNctFCqVDjfOSgv7nc+BC8dMr0WEyl+udEQz6YOpO3T35MHeDfpsDK5aFXWFK2Bw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR11MB1435.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39860400002)(346002)(376002)(366004)(396003)(136003)(66446008)(5660300002)(186003)(66476007)(110136005)(55016002)(9686003)(316002)(33656002)(54906003)(8936002)(66556008)(86362001)(64756008)(26005)(2906002)(66946007)(71200400001)(76116006)(8676002)(52536014)(478600001)(53546011)(83380400001)(6506007)(7696005)(4326008)(7416002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: VKIcd/NGO665LBP+b1Js6ucdJ8nMsCUzWpZ+Qhb2GMWZGT3Ssr70G8DNABjrhYQw93yj+ihNVwGvFDYVPQGWm8icMkuG95OdcV/2EETpipOaQvP4HsrAw4aGYKkVe/jf/gM/cbqXQTYwNN/B+cVH/hA2hqYk7p4dDrtpSpOnpt4GkOL67SqZ9FVdDaYzVvrE20GWafhzZU2n5fgPbbAZwSapV+bHOe2I0+fFnp3Ob1o4yBOQEVCKNdao8NG7EEqLHNNSSlHlychrbuOgKV579ZyKeMcKxRWyWYrpe7kuz7rfG0QA4cdLpmCMy3I1s7AK1bR6xfQy5asXIhDbJZy9J04N6jDv/B7U/99UJC9Tqdct3UAy/P0d1zV/4SKgE7FY8Bgc6qYJy0gVKZpoMJMK48gC+zJzZMr3V0s24bmQCGEz8O/As6oM0VZCVsg4GIQUTjZFbE/clUfSgdQIk3P7zYO+lY+XkT+tWOzXgdGMmeJlJgDl/7ZhQ0RaEQ9PXOyd
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by silver.osuosl.org (Postfix) with ESMTPS id DF1CE20382
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 09:47:54 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200707094032euoutp028a302a9c2ac1e2bf02d48fd78deb3d08~fbv6TOCL41565115651euoutp02i
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 09:40:32 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200707094032euoutp028a302a9c2ac1e2bf02d48fd78deb3d08~fbv6TOCL41565115651euoutp02i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1594114832;
+ bh=NKIXIZf7DqPM44p634PRRQQpgwlo737WpVwaop6YS/g=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=sOGIb1BW/40xaj8x9YhGIpD57NGrAvROgKGk93RNW5GHXK1UpyxgPS6tiWEoO2sZN
+ 0nwgX2MW0/AkcMQ+jPZ7NiSuZl742N2uo5UcxndmbuASgxEeG4cexd4CX9/wEJSu3p
+ /HU/16m0NcWbHIzg4NIMJgZlCNZ0ppSNgfGp7mms=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200707094032eucas1p1561b02b886cf5d6b07ab5f897da3a11f~fbv55PHXs0287902879eucas1p1-;
+ Tue,  7 Jul 2020 09:40:32 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id A9.67.05997.013440F5; Tue,  7
+ Jul 2020 10:40:32 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200707094031eucas1p167fcabe5e1275d9d8584de4baccc36fc~fbv5kG1Zu0287902879eucas1p1_;
+ Tue,  7 Jul 2020 09:40:31 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200707094031eusmtrp224005f38d42d83c2425b55661f7c16bd~fbv5jYt8d0878708787eusmtrp2H;
+ Tue,  7 Jul 2020 09:40:31 +0000 (GMT)
+X-AuditID: cbfec7f4-677ff7000000176d-07-5f04431045b6
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id DF.69.06314.F03440F5; Tue,  7
+ Jul 2020 10:40:31 +0100 (BST)
+Received: from [106.210.85.205] (unknown [106.210.85.205]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200707094029eusmtip24fc305116ea90ec9f9c6e9d4392554ca~fbv3CyALk0258102581eusmtip2U;
+ Tue,  7 Jul 2020 09:40:29 +0000 (GMT)
+Subject: Re: [PATCH v7 08/36] drm: exynos: fix common struct sg_table
+ related issues
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <53d2ae18-3d60-773f-4544-3c8f55749038@samsung.com>
+Date: Tue, 7 Jul 2020 11:40:26 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1435.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 468e22d8-df4d-4e63-8e78-08d822596155
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2020 09:37:35.1126 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: llJ3NBjt1MHNy8N7o7HXK0QYnfcFQDa44v54Dqcu0At56kFoob9BPTY3UcRwTh4I741Ze7Fc/mvVrFjt4Fwvww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3068
-X-OriginatorOrg: intel.com
-Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "stefanha@gmail.com" <stefanha@gmail.com>, "Tian, 
- Jun J" <jun.j.tian@intel.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Sun,
- Yi Y" <yi.y.sun@intel.com>, "Wu, Hao" <hao.wu@intel.com>
+In-Reply-To: <20200619103636.11974-9-m.szyprowski@samsung.com>
+Content-Language: en-GB
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0gUURiGOTM747i5Nq6WB63MrRCLtLJiwLDUkJGC6o+BkDrl4G0vtquW
+ QbhkiGxkXvK2aS2SeMd01900UNouunhZMfGChpf1R0qL5S2L0nYcI/8953zv+33fezgEKh7C
+ vIgkeRqrlDNSCS4UGD/+tB4nwwWxJ5ZNu6nHAxaEailrxqjh1UWcqmv4gFC6rmBqZXgGoVpt
+ Ixj1qaMCp8qsnQjV9P6zE/X22xxGlRXN4xdc6MbnjYA2rU1j9NSjboTWv8yiJzZsKF00VgPo
+ N+NqnM4z1AN6ufXAVedo4bl4VpqUwSoDQ+KEiYUTu1JtHnfNbV8RNchx0wCCgORpOPssTgOE
+ hJisBbBm6YcTf1gBsHLdgvKHZQBLxq1AA5y3HNWWQoxjMVkDYPZsPC9aBLBpdFDAtXUno+Do
+ pg+n8SANDk1xBKdByWIE2oydKFfASX/4Rz+OcywiQ2B5vnlrgIA8DA3NrQjHe8gY2DxvQniN
+ G7SUzwk4dnboWzYNW16U9IEmewXKsyd8sFKHccMg+d0J1umLUX7ri7C7emGb3eFCt8GJ531w
+ s/0FwnMWnKp9iPLmXADbXrVvG4Lh5MAvnEuGOrZu7gjk3y4UtmUf4dEVjtnd+BVcYaGxFOWv
+ RTA3R8z38IVT/W3b/Txh9eAqng8k2h3BtDvCaHeE0f4fqwOCeuDJpqtkCazqlJy9E6BiZKp0
+ eULALYWsFTh+Wu9G98pr0PH7phmQBJC4iHJxNFaMMRmqTJkZQAKVeIjC+ntjxKJ4JvMeq1TE
+ KtOlrMoMvAmBxFMUVDV/Q0wmMGlsCsumssp/VYRw9lKDp/kF68m+MtuZteuLGmNJl+LJ9Lvb
+ ey9HFVRTh7QjS3qfS8es5Vj6ULbX/mBlT9Xwgj38bMpoqCbLvcE/jDBda1R/oYqZoOTJg1Zj
+ RJdfT+SVykhF37Qk1E8crWe0k3Z6Ro7NW88X5NmFuSnJ9b5WvXe7LtWScL9Ul5fYJ5UIVInM
+ yaOoUsX8Bby5r5xlAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFIsWRmVeSWpSXmKPExsVy+t/xe7r8zizxBhcfmVv0njvJZLFxxnpW
+ iytf37NZrFx9lMliwX5riy9XHjJZbHp8jdXi8q45bBYzzu9jslh75C67xcEPT1gtZkx+yebA
+ 47Fm3hpGj+3fHrB63O8+zuSxeUm9x+1/j5k9Jt9Yzuix+2YDm0ffllWMHp83yQVwRunZFOWX
+ lqQqZOQXl9gqRRtaGOkZWlroGZlY6hkam8daGZkq6dvZpKTmZJalFunbJehlTLrNXfBYpOLQ
+ 1jdMDYxtgl2MnBwSAiYSS09OYu1i5OIQEljKKPHw810miIS4xO75b5khbGGJP9e62CCK3jJK
+ fFkyDSwhLBAmcaLjJli3iMAWRolnKw4zgjjMAtOZJG52/YCae5RR4sqyCWAtbAKaEn8332QD
+ sXkF7CRmTjjECGKzCKhIbFm/CWy3qECcxPIt89khagQlTs58wgJicwLVb/y/BayXWcBMYt7m
+ h8wQtrzE9rdzoGxxiaYvK1knMArNQtI+C0nLLCQts5C0LGBkWcUoklpanJueW2yoV5yYW1ya
+ l66XnJ+7iREYz9uO/dy8g/HSxuBDjAIcjEo8vAlHmOOFWBPLiitzDzFKcDArifA6nT0dJ8Sb
+ klhZlVqUH19UmpNafIjRFOi5icxSosn5wFSTVxJvaGpobmFpaG5sbmxmoSTO2yFwMEZIID2x
+ JDU7NbUgtQimj4mDU6qB0ZV1eqvW5kxGBT/G0qmNIRmqeXcObzFNqVYpeXCA5fWX1zNXaZ0O
+ nGOYP0t7aR33lT1BEcH3TwSUZXPFvii+9CBIYbLx1X7O5EXndq+TdG7RKTxYcSfJdlOvzAIH
+ oXKBRUHmLf97VFg8frvVXP6/y/1w5guTT8f9BBL/C/dv2iNR5zWxLstZiaU4I9FQi7moOBEA
+ P2s+Qv0CAAA=
+X-CMS-MailID: 20200707094031eucas1p167fcabe5e1275d9d8584de4baccc36fc
+X-Msg-Generator: CA
+X-RootMTR: 20200619103658eucas1p1c3236e2de2798c2d8c02279a9263e9a9
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200619103658eucas1p1c3236e2de2798c2d8c02279a9263e9a9
+References: <20200619103636.11974-1-m.szyprowski@samsung.com>
+ <CGME20200619103658eucas1p1c3236e2de2798c2d8c02279a9263e9a9@eucas1p1.samsung.com>
+ <20200619103636.11974-9-m.szyprowski@samsung.com>
+Cc: linux-samsung-soc@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -164,118 +144,72 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Eric,
 
-> From: Auger Eric <eric.auger@redhat.com>
-> Sent: Monday, July 6, 2020 10:52 PM
-> 
-> Hi Yi,
-> 
-> On 7/4/20 1:26 PM, Liu Yi L wrote:
-> > From IOMMU p.o.v., PASIDs allocated and managed by external components
-> > (e.g. VFIO) will be passed in for gpasid_bind/unbind operation. IOMMU
-> > needs some knowledge to check the PASID ownership, hence add an interface
-> > for those components to tell the PASID owner.
-> >
-> > In latest kernel design, PASID ownership is managed by IOASID set where
-> > the PASID is allocated from. This patch adds support for setting ioasid
-> > set ID to the domains used for nesting/vSVA. Subsequent SVA operations
-> > on the PASID will be checked against its IOASID set for proper ownership.
-> >
-> > Cc: Kevin Tian <kevin.tian@intel.com>
-> > CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > Cc: Alex Williamson <alex.williamson@redhat.com>
-> > Cc: Eric Auger <eric.auger@redhat.com>
-> > Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > Cc: Joerg Roedel <joro@8bytes.org>
-> > Cc: Lu Baolu <baolu.lu@linux.intel.com>
-> > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > ---
-> >  drivers/iommu/intel/iommu.c | 16 ++++++++++++++++
-> >  include/linux/intel-iommu.h |  4 ++++
-> >  include/linux/iommu.h       |  1 +
-> >  3 files changed, 21 insertions(+)
-> >
-> > diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> > index 62ebe01..89d708d 100644
-> > --- a/drivers/iommu/intel/iommu.c
-> > +++ b/drivers/iommu/intel/iommu.c
-> > @@ -1793,6 +1793,7 @@ static struct dmar_domain *alloc_domain(int flags)
-> >  	if (first_level_by_default())
-> >  		domain->flags |= DOMAIN_FLAG_USE_FIRST_LEVEL;
-> >  	domain->has_iotlb_device = false;
-> > +	domain->ioasid_sid = INVALID_IOASID_SET;
-> >  	INIT_LIST_HEAD(&domain->devices);
-> >
-> >  	return domain;
-> > @@ -6039,6 +6040,21 @@ intel_iommu_domain_set_attr(struct iommu_domain
-> *domain,
-> >  		}
-> >  		spin_unlock_irqrestore(&device_domain_lock, flags);
-> >  		break;
-> > +	case DOMAIN_ATTR_IOASID_SID:
-> no need to take the device_domain_lock?
+On 19.06.2020 12:36, Marek Szyprowski wrote:
+> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+> returns the number of the created entries in the DMA address space.
+> However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+> dma_unmap_sg must be called with the original number of the entries
+> passed to the dma_map_sg().
+>
+> struct sg_table is a common structure used for describing a non-contiguous
+> memory buffer, used commonly in the DRM and graphics subsystems. It
+> consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+> as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+> and DMA mapped pages (nents entry).
+>
+> It turned out that it was a common mistake to misuse nents and orig_nents
+> entries, calling DMA-mapping functions with a wrong number of entries or
+> ignoring the number of mapped entries returned by the dma_map_sg()
+> function.
+>
+> To avoid such issues, lets use a common dma-mapping wrappers operating
+> directly on the struct sg_table objects and use scatterlist page
+> iterators where possible. This, almost always, hides references to the
+> nents and orig_nents entries, making the code robust, easier to follow
+> and copy/paste safe.
+>
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-oh, yes. thanks for spotting it.
+Reviewed-by <a.hajda@samsung.com>
 
-> > +		if (!(dmar_domain->flags & DOMAIN_FLAG_NESTING_MODE)) {
-> > +			ret = -ENODEV;
-> > +			break;
-> > +		}
-> > +		if ((dmar_domain->ioasid_sid != INVALID_IOASID_SET) &&
-> > +		    (dmar_domain->ioasid_sid != (*(int *) data))) {
-> storing *(int *) data) in a local variable would increase the
-> readability of the code I think.
+Regards
+Andrzej
 
-will do it. :-)
 
-Regards,
-Yi Liu
-
-> > +			pr_warn_ratelimited("multi ioasid_set (%d:%d) setting",
-> > +					    dmar_domain->ioasid_sid,
-> > +					    (*(int *) data));
-> > +			ret = -EBUSY;
-> > +			break;
-> > +		}
-> > +		dmar_domain->ioasid_sid = *(int *) data;
-> > +		break;
-> >  	default:
-> >  		ret = -EINVAL;
-> >  		break;
-> > diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-> > index 3f23c26..0d0ab32 100644
-> > --- a/include/linux/intel-iommu.h
-> > +++ b/include/linux/intel-iommu.h
-> > @@ -549,6 +549,10 @@ struct dmar_domain {
-> >  					   2 == 1GiB, 3 == 512GiB, 4 == 1TiB */
-> >  	u64		max_addr;	/* maximum mapped address */
-> >
-> > +	int		ioasid_sid;	/*
-> > +					 * the ioasid set which tracks all
-> > +					 * PASIDs used by the domain.
-> > +					 */
-> >  	int		default_pasid;	/*
-> >  					 * The default pasid used for non-SVM
-> >  					 * traffic on mediated devices.
-> > diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> > index 2567c33..21d32be 100644
-> > --- a/include/linux/iommu.h
-> > +++ b/include/linux/iommu.h
-> > @@ -124,6 +124,7 @@ enum iommu_attr {
-> >  	DOMAIN_ATTR_FSL_PAMUV1,
-> >  	DOMAIN_ATTR_NESTING,	/* two stages of translation */
-> >  	DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE,
-> > +	DOMAIN_ATTR_IOASID_SID,
-> >  	DOMAIN_ATTR_MAX,
-> >  };
-> >
-> >
-> Thanks
-> 
-> Eric
-
+> ---
+>   drivers/gpu/drm/exynos/exynos_drm_g2d.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_g2d.c b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> index fcee33a43aca..7014a8cd971a 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_g2d.c
+> @@ -395,8 +395,8 @@ static void g2d_userptr_put_dma_addr(struct g2d_data *g2d,
+>   		return;
+>   
+>   out:
+> -	dma_unmap_sg(to_dma_dev(g2d->drm_dev), g2d_userptr->sgt->sgl,
+> -			g2d_userptr->sgt->nents, DMA_BIDIRECTIONAL);
+> +	dma_unmap_sgtable(to_dma_dev(g2d->drm_dev), g2d_userptr->sgt,
+> +			  DMA_BIDIRECTIONAL, 0);
+>   
+>   	pages = frame_vector_pages(g2d_userptr->vec);
+>   	if (!IS_ERR(pages)) {
+> @@ -511,10 +511,10 @@ static dma_addr_t *g2d_userptr_get_dma_addr(struct g2d_data *g2d,
+>   
+>   	g2d_userptr->sgt = sgt;
+>   
+> -	if (!dma_map_sg(to_dma_dev(g2d->drm_dev), sgt->sgl, sgt->nents,
+> -				DMA_BIDIRECTIONAL)) {
+> +	ret = dma_map_sgtable(to_dma_dev(g2d->drm_dev), sgt,
+> +			      DMA_BIDIRECTIONAL, 0);
+> +	if (ret) {
+>   		DRM_DEV_ERROR(g2d->dev, "failed to map sgt with dma region.\n");
+> -		ret = -ENOMEM;
+>   		goto err_sg_free_table;
+>   	}
+>   
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
