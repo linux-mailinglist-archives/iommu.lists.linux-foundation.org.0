@@ -1,54 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3C42216694
-	for <lists.iommu@lfdr.de>; Tue,  7 Jul 2020 08:41:31 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6A95E867DF;
-	Tue,  7 Jul 2020 06:41:30 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yCiVg0ZRspCz; Tue,  7 Jul 2020 06:41:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BFCA28675F;
-	Tue,  7 Jul 2020 06:41:29 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9FAFEC08A5;
-	Tue,  7 Jul 2020 06:41:29 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2E13EC016F
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 06:41:28 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1522166A9
+	for <lists.iommu@lfdr.de>; Tue,  7 Jul 2020 08:47:39 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1582687846
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 06:41:28 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0B429869B8;
+	Tue,  7 Jul 2020 06:47:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fdTV4S_hBjh3; Tue,  7 Jul 2020 06:47:37 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 99C058698F;
+	Tue,  7 Jul 2020 06:47:37 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7F8F8C016F;
+	Tue,  7 Jul 2020 06:47:37 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 76B6CC016F
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 06:47:35 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 65C85893AF
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 06:47:35 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Qsu9IlFDjj6m for <iommu@lists.linux-foundation.org>;
- Tue,  7 Jul 2020 06:41:27 +0000 (UTC)
+ with ESMTP id YfvGM5YWprPM for <iommu@lists.linux-foundation.org>;
+ Tue,  7 Jul 2020 06:47:34 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C9A4386F0A
- for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 06:41:26 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 39BDD88F41
+ for <iommu@lists.linux-foundation.org>; Tue,  7 Jul 2020 06:47:34 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 8D51F68AFE; Tue,  7 Jul 2020 08:41:22 +0200 (CEST)
-Date: Tue, 7 Jul 2020 08:41:22 +0200
+ id AD38268AFE; Tue,  7 Jul 2020 08:47:30 +0200 (CEST)
+Date: Tue, 7 Jul 2020 08:47:30 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH] iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag
-Message-ID: <20200707064122.GA23444@lst.de>
-References: <20200703162548.19953-1-will@kernel.org>
+To: Jonathan Lemon <jonathan.lemon@gmail.com>
+Subject: Re: [PATCH 1/4] dma-mapping: add a new dma_need_sync API
+Message-ID: <20200707064730.GA23602@lst.de>
+References: <20200629130359.2690853-1-hch@lst.de>
+ <20200629130359.2690853-2-hch@lst.de>
+ <20200706194227.vfhv5o4lporxjxmq@bsd-mbp.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200703162548.19953-1-will@kernel.org>
+In-Reply-To: <20200706194227.vfhv5o4lporxjxmq@bsd-mbp.dhcp.thefacebook.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>, kernel-team@android.com,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, bpf@vger.kernel.org,
+ =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+ Christoph Hellwig <hch@lst.de>, Magnus Karlsson <magnus.karlsson@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,13 +69,29 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jul 03, 2020 at 05:25:48PM +0100, Will Deacon wrote:
-> The IOMMU_SYS_CACHE_ONLY flag was never exposed via the DMA API and
-> has no in-tree users. Remove it.
+On Mon, Jul 06, 2020 at 12:42:27PM -0700, Jonathan Lemon wrote:
+> On Mon, Jun 29, 2020 at 03:03:56PM +0200, Christoph Hellwig wrote:
+> > Add a new API to check if calls to dma_sync_single_for_{device,cpu} are
+> > required for a given DMA streaming mapping.
+> > 
+> > +::
+> > +
+> > +	bool
+> > +	dma_need_sync(struct device *dev, dma_addr_t dma_addr);
+> > +
+> > +Returns %true if dma_sync_single_for_{device,cpu} calls are required to
+> > +transfer memory ownership.  Returns %false if those calls can be skipped.
+> 
+> Hi Christoph -
+> 
+> Thie call above is for a specific dma_addr.  For correctness, would I
+> need to check every addr, or can I assume that for a specific memory
+> type (pages returned from malloc), that the answer would be identical?
 
-Looks good,
-
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+You need to check every mapping.  E.g. this API pairs with a
+dma_map_single/page call.  For S/G mappings you'd need to call it for
+each entry, although if you have a use case for that we really should
+add a dma_sg_need_sync helper instea of open coding the scatterlist walk.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
