@@ -1,56 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD76218C6D
-	for <lists.iommu@lfdr.de>; Wed,  8 Jul 2020 18:00:44 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 34EF82C336;
-	Wed,  8 Jul 2020 16:00:43 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2RH9SaDQe8x0; Wed,  8 Jul 2020 16:00:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 0AF372C342;
-	Wed,  8 Jul 2020 16:00:41 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E8F80C016F;
-	Wed,  8 Jul 2020 16:00:40 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5B21BC016F
- for <iommu@lists.linux-foundation.org>; Wed,  8 Jul 2020 16:00:40 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F43218C93
+	for <lists.iommu@lfdr.de>; Wed,  8 Jul 2020 18:10:19 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 4950888504
- for <iommu@lists.linux-foundation.org>; Wed,  8 Jul 2020 16:00:40 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 220C98867F;
+	Wed,  8 Jul 2020 16:10:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id RNIHUh7RU-Ou; Wed,  8 Jul 2020 16:10:17 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 38E92888EF;
+	Wed,  8 Jul 2020 16:10:17 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2707CC0895;
+	Wed,  8 Jul 2020 16:10:17 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CD906C016F
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Jul 2020 16:10:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B503D87542
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Jul 2020 16:10:15 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Pzq+LQrJ0Ypo for <iommu@lists.linux-foundation.org>;
- Wed,  8 Jul 2020 16:00:39 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 58FC8884AD
- for <iommu@lists.linux-foundation.org>; Wed,  8 Jul 2020 16:00:39 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id BC203AE25;
- Wed,  8 Jul 2020 16:00:37 +0000 (UTC)
-Message-ID: <e81db35628a22a0d1635699d1e87bacde706ad25.camel@suse.de>
+ with ESMTP id m8FfgnHPbhL8 for <iommu@lists.linux-foundation.org>;
+ Wed,  8 Jul 2020 16:10:15 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2488C87D24
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Jul 2020 16:10:15 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 3407068B05; Wed,  8 Jul 2020 18:10:11 +0200 (CEST)
+Date: Wed, 8 Jul 2020 18:10:10 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Subject: Re: [PATCH] dma-pool: use single atomic pool for both DMA zones
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Christoph Hellwig <hch@lst.de>
-Date: Wed, 08 Jul 2020 18:00:35 +0200
-In-Reply-To: <20200708153509.GA26743@lst.de>
+Message-ID: <20200708161010.GA30184@lst.de>
 References: <20200707122804.21262-1-nsaenzjulienne@suse.de>
  <20200708153509.GA26743@lst.de>
-User-Agent: Evolution 3.36.3 
+ <e81db35628a22a0d1635699d1e87bacde706ad25.camel@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <e81db35628a22a0d1635699d1e87bacde706ad25.camel@suse.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: linux-kernel@vger.kernel.org, jeremy.linton@arm.com,
  iommu@lists.linux-foundation.org, linux-rpi-kernel@lists.infradead.org,
- David Rientjes <rientjes@google.com>, Robin Murphy <robin.murphy@arm.com>
+ David Rientjes <rientjes@google.com>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -63,83 +64,43 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============3581263261944886709=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On Wed, Jul 08, 2020 at 06:00:35PM +0200, Nicolas Saenz Julienne wrote:
+> On Wed, 2020-07-08 at 17:35 +0200, Christoph Hellwig wrote:
+> > On Tue, Jul 07, 2020 at 02:28:04PM +0200, Nicolas Saenz Julienne wrote:
+> > > When allocating atomic DMA memory for a device, the dma-pool core
+> > > queries __dma_direct_optimal_gfp_mask() to check which atomic pool to
+> > > use. It turns out the GFP flag returned is only an optimistic guess.
+> > > The pool selected might sometimes live in a zone higher than the
+> > > device's view of memory.
+> > > 
+> > > As there isn't a way to grantee a mapping between a device's DMA
+> > > constraints and correct GFP flags this unifies both DMA atomic pools.
+> > > The resulting pool is allocated in the lower DMA zone available, if any,
+> > > so as for devices to always get accessible memory while having the
+> > > flexibility of using dma_pool_kernel for the non constrained ones.
+> > > 
+> > > Fixes: c84dc6e68a1d ("dma-pool: add additional coherent pools to map to gfp
+> > > mask")
+> > > Reported-by: Jeremy Linton <jeremy.linton@arm.com>
+> > > Suggested-by: Robin Murphy <robin.murphy@arm.com>
+> > > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> > 
+> > Hmm, this is not what I expected from the previous thread.  I thought
+> > we'd just use one dma pool based on runtime available of the zones..
+> 
+> I may be misunderstanding you, but isn't that going back to how things used to
+> be before pulling in David Rientjes' work? The benefit of having a GFP_KERNEL
+> pool is that non-address-constrained devices can get their atomic memory there,
+> instead of consuming somewhat scarcer low memory.
 
---===============3581263261944886709==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-1l9N/1yPO/4ruj6aYldS"
-
-
---=-1l9N/1yPO/4ruj6aYldS
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, 2020-07-08 at 17:35 +0200, Christoph Hellwig wrote:
-> On Tue, Jul 07, 2020 at 02:28:04PM +0200, Nicolas Saenz Julienne wrote:
-> > When allocating atomic DMA memory for a device, the dma-pool core
-> > queries __dma_direct_optimal_gfp_mask() to check which atomic pool to
-> > use. It turns out the GFP flag returned is only an optimistic guess.
-> > The pool selected might sometimes live in a zone higher than the
-> > device's view of memory.
-> >=20
-> > As there isn't a way to grantee a mapping between a device's DMA
-> > constraints and correct GFP flags this unifies both DMA atomic pools.
-> > The resulting pool is allocated in the lower DMA zone available, if any=
-,
-> > so as for devices to always get accessible memory while having the
-> > flexibility of using dma_pool_kernel for the non constrained ones.
-> >=20
-> > Fixes: c84dc6e68a1d ("dma-pool: add additional coherent pools to map to=
- gfp
-> > mask")
-> > Reported-by: Jeremy Linton <jeremy.linton@arm.com>
-> > Suggested-by: Robin Murphy <robin.murphy@arm.com>
-> > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
->=20
-> Hmm, this is not what I expected from the previous thread.  I thought
-> we'd just use one dma pool based on runtime available of the zones..
-
-I may be misunderstanding you, but isn't that going back to how things used=
- to
-be before pulling in David Rientjes' work? The benefit of having a GFP_KERN=
-EL
-pool is that non-address-constrained devices can get their atomic memory th=
-ere,
-instead of consuming somewhat scarcer low memory.
-
-
---=-1l9N/1yPO/4ruj6aYldS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl8F7aMACgkQlfZmHno8
-x/5/9gf+NzyxgUaobjh+kSJ+z1K3KcgSbBWTsleHIga7PNEsLskweeTIbHy8Mu+L
-+l3d5Luho/JiDNEwb/ogwIUOxxVnRMMypi0Pi1sSQKC8saaZBaACuZHlbl9FYola
-+hM7aLJNaSdqN5lEqo185qtvbWE4czz+Lvhw+AiuzzI4d4bKswtCYj9kKO70ir+I
-cTIIpzcwHXjDELCOGBnTmhIIL11feTP7BDZszZdk+Pp99KFBLPedpmSvp0PoaKN0
-qxchAwBNrt31Jb1VjkMpRyAUqFZFPbcbBw0cqNdovej39bRIdJnjKUV2Qpg56ZRh
-S5MgcOa4ctQVFoo7VirwED00A3dGDg==
-=bCcC
------END PGP SIGNATURE-----
-
---=-1l9N/1yPO/4ruj6aYldS--
-
-
---===============3581263261944886709==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Yes, I think we are misunderstanding each other.  I don't want to remove
+any pool, just make better runtime decisions when to use them.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============3581263261944886709==--
-
