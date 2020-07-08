@@ -1,108 +1,151 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8852221824A
-	for <lists.iommu@lfdr.de>; Wed,  8 Jul 2020 10:28:34 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D67F218204
+	for <lists.iommu@lfdr.de>; Wed,  8 Jul 2020 10:08:55 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3800A24F04;
-	Wed,  8 Jul 2020 08:28:33 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5A76987AF4;
+	Wed,  8 Jul 2020 08:08:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rpYYLgnx-tD4; Wed,  8 Jul 2020 08:28:30 +0000 (UTC)
+	with ESMTP id CuLAkS42hDNs; Wed,  8 Jul 2020 08:08:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 5F63C24F76;
-	Wed,  8 Jul 2020 08:28:30 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id ACC8E87AE6;
+	Wed,  8 Jul 2020 08:08:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 38862C016F;
-	Wed,  8 Jul 2020 08:28:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8D72BC016F;
+	Wed,  8 Jul 2020 08:08:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BC6DFC016F
- for <iommu@lists.linux-foundation.org>; Wed,  8 Jul 2020 06:29:04 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BA9DBC016F
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Jul 2020 08:08:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B2DB18898E
- for <iommu@lists.linux-foundation.org>; Wed,  8 Jul 2020 06:29:04 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id A73F4895C6
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Jul 2020 08:08:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xve2ameTJYm5 for <iommu@lists.linux-foundation.org>;
- Wed,  8 Jul 2020 06:29:03 +0000 (UTC)
+ with ESMTP id 6Tq3oGyeDtJO for <iommu@lists.linux-foundation.org>;
+ Wed,  8 Jul 2020 08:08:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail3-relais-sop.national.inria.fr
- (mail3-relais-sop.national.inria.fr [192.134.164.104])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 31AD0885D2
- for <iommu@lists.linux-foundation.org>; Wed,  8 Jul 2020 06:29:02 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.75,326,1589234400"; d="scan'208";a="353892050"
-Received: from 91-160-5-165.subs.proxad.net (HELO [192.168.44.21])
- ([91.160.5.165])
- by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-SHA;
- 08 Jul 2020 08:28:59 +0200
-Subject: Re: [PATCH] iommu/arm-smmu-v3: expose numa_node attribute to users in
- sysfs
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
- "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-References: <20200530091505.56664-1-song.bao.hua@hisilicon.com>
- <20200703162137.GA19780@willie-the-truck>
- <B926444035E5E2439431908E3842AFD25559F2@DGGEMI525-MBS.china.huawei.com>
- <20200706092649.0000676d@Huawei.com>
-From: Brice Goglin <Brice.Goglin@inria.fr>
-Autocrypt: addr=Brice.Goglin@inria.fr; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <1b731c0a-d5ad-ce1e-9489-f616671959cc@inria.fr>
-Date: Wed, 8 Jul 2020 08:28:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <20200706092649.0000676d@Huawei.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C0F7589538
+ for <iommu@lists.linux-foundation.org>; Wed,  8 Jul 2020 08:08:51 +0000 (UTC)
+IronPort-SDR: Kq3FBdiD3/Gj9Bl2y4+fX8AS4b5yXIrvb7dxt5ATzLvHTM7sGLo0Kis/uftq/WEX1VXBWIVb4W
+ Y253eOA0Z2ow==
+X-IronPort-AV: E=McAfee;i="6000,8403,9675"; a="127356914"
+X-IronPort-AV: E=Sophos;i="5.75,327,1589266800"; d="scan'208";a="127356914"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2020 01:08:51 -0700
+IronPort-SDR: HqExt5Ydq/O2JVGcZl8NU9tduvZ3s/5NI5qHf6mALfhXEQdxZ4Zdzd0qtnjtPctqlY3tvLCzZX
+ N1ZN5G/+xNeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,327,1589266800"; d="scan'208";a="297647597"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+ by orsmga002.jf.intel.com with ESMTP; 08 Jul 2020 01:08:50 -0700
+Received: from fmsmsx151.amr.corp.intel.com (10.18.125.4) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 8 Jul 2020 01:08:50 -0700
+Received: from FMSEDG002.ED.cps.intel.com (10.1.192.134) by
+ FMSMSX151.amr.corp.intel.com (10.18.125.4) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Wed, 8 Jul 2020 01:08:42 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
+ by edgegateway.intel.com (192.55.55.69) with Microsoft SMTP Server (TLS) id
+ 14.3.439.0; Wed, 8 Jul 2020 01:08:42 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LzL/GSpR3NS4nC6bU0OYsiHOW4cZem33Y2s98HBshKqK1JK800BozaRlvAvU1Kkx8kXSr8FACsfp8qUmBf0ixyo7446pDe931i87PuDfIhSJB+C9VQY+1hbscslBLWYW1t67shJq1ctsKMrTQpBrE5uaq+2cyk9FHBl4UxYF3n0NXSAdiikxoWSCZNCEv7b8AT7Mo0skhPBAlrNa+BA4UgyvTyhmC94zl/9qczm9RsAALVI5adb/WwRi3ZD3PZUmYNoYl2TGFZCoCXUyi9TpbCaMeBBhCNvc58Q4sWtP39G8M7sgqBniXcF13kGdcyZs0s/Q6vToIIN3VLfp7KLfHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a2EwgJFRYruhtOGqjRBGUFgbcUCZvP39L4zSBk5l6co=;
+ b=HF3X7SUJxaK3VmExW3cYJ2v8pk/sBqVyZZIlYNmlnZfxSJMlsUIor/4MaWm/jOJpkdnYUscvtBG0Fs1p19/PSN0GK+6/Is+SeOdMNSfhogy/ProX7aIc+Qpg+GlRNdxL2dn3NVQjT+ndhuVTcfFXwL7URon+9upclcbhkHjvS8J7CIeSaF7rrSMIHB3ZU7c5mheSnW4NOApB9QIFBahvNKORlLDe5qu8B0XQ157+NavL492PAM3bhHb0Or7JpLBrQ0SocYRDNQUgyso04TfcYxsvubrx1dRxW19GZVRXevzEu+sVXxhMHJw27057Hg4JmiKDIuZM3uj0UdiVjpQ/fA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a2EwgJFRYruhtOGqjRBGUFgbcUCZvP39L4zSBk5l6co=;
+ b=hXHnik2VNN2zcGj3+/PsFU4UtGcTYnJ+7/zmw520QpYPLKfim7OWhToli65JP25kn3d1qBY0YDD5rMlWteuVBr4iucsMKQ9617sg3ftSJ6YWWMyslnpYyxav7eTtp38J+Yj6VHy0ivkxmo1CJBT1ZJxqUy2CGJ1xwztnFnp9soA=
+Received: from DM5PR11MB1435.namprd11.prod.outlook.com (2603:10b6:4:7::18) by
+ DM6PR11MB4530.namprd11.prod.outlook.com (2603:10b6:5:2a4::22) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3153.22; Wed, 8 Jul 2020 08:08:40 +0000
+Received: from DM5PR11MB1435.namprd11.prod.outlook.com
+ ([fe80::9002:97a2:d8c0:8364]) by DM5PR11MB1435.namprd11.prod.outlook.com
+ ([fe80::9002:97a2:d8c0:8364%10]) with mapi id 15.20.3174.021; Wed, 8 Jul 2020
+ 08:08:40 +0000
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Auger Eric <eric.auger@redhat.com>, "alex.williamson@redhat.com"
+ <alex.williamson@redhat.com>, "baolu.lu@linux.intel.com"
+ <baolu.lu@linux.intel.com>, "joro@8bytes.org" <joro@8bytes.org>
+Subject: RE: [PATCH v4 04/15] vfio/type1: Report iommu nesting info to
+ userspace
+Thread-Topic: [PATCH v4 04/15] vfio/type1: Report iommu nesting info to
+ userspace
+Thread-Index: AQHWUfUbywl8Q+WBl0+9l/PlGyuXiKj6XuYAgAAkWACAABBDgIABSlsAgAF6DCA=
+Date: Wed, 8 Jul 2020 08:08:40 +0000
+Message-ID: <DM5PR11MB143531E2B54ED82FB0649F8CC3670@DM5PR11MB1435.namprd11.prod.outlook.com>
+References: <1593861989-35920-1-git-send-email-yi.l.liu@intel.com>
+ <1593861989-35920-5-git-send-email-yi.l.liu@intel.com>
+ <d434cbcc-d3b1-d11d-0304-df2d2c93efa0@redhat.com>
+ <DM5PR11MB1435290B6CD561EC61027892C3690@DM5PR11MB1435.namprd11.prod.outlook.com>
+ <94b4e5d3-8d24-9a55-6bee-ed86f3846996@redhat.com>
+ <DM5PR11MB14357A5953EB630A58FF568EC3660@DM5PR11MB1435.namprd11.prod.outlook.com>
+In-Reply-To: <DM5PR11MB14357A5953EB630A58FF568EC3660@DM5PR11MB1435.namprd11.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-Mailman-Approved-At: Wed, 08 Jul 2020 08:28:28 +0000
-Cc: Will Deacon <will@kernel.org>, Linuxarm <linuxarm@huawei.com>,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.2.0.6
+dlp-product: dlpe-windows
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [117.169.230.114]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e54e2b05-dd4f-4980-2b5e-08d823161ffd
+x-ms-traffictypediagnostic: DM6PR11MB4530:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR11MB45308D374E10F3131D9271D8C3670@DM6PR11MB4530.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 04583CED1A
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: jICB7Yt7OF4AoPe8jBNCHe5nWMCRPjg4zDP4LZgSz4IAK5VG0x6DDi6Up5oCCa7xbCZCWo031R8I45jn44zREMQwKCPXv++qeaeOGb2/61yeeXtX2KMpMaKCJx6KRl74+yWhnmGZNzjXym7W0Iw0peiFSnw9TH04HjIFwnrAcTCp3m6DTXQaxda3WlcNPLZQAWyJW8PlT+6iVW4MKiMI0MEsAnxM6w7/Q/XVU4Ru7Vv5Q16QTIxMy0OPLnI5bZb6x53aEK/1RIAcW9Opi9nDjiupPsrrhDTUf9wA9yNXlyym0Rh525UP6vYTZUvRvD/Fi5JoKEojtTkzsYwhrz/TIRTYIZ5nIM9qSJL4guudTVg=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR11MB1435.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39860400002)(396003)(376002)(136003)(346002)(366004)(54906003)(5660300002)(33656002)(71200400001)(478600001)(8676002)(966005)(8936002)(316002)(4326008)(110136005)(45080400002)(2906002)(64756008)(66946007)(76116006)(7416002)(52536014)(66556008)(66476007)(9686003)(66446008)(55016002)(26005)(186003)(7696005)(6506007)(86362001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: n5gIFVGpJXTrVpW7Z3F6R9qQkS0X69H0WLTATRaF5L6P4sGLQc4VjewVzx3rFF5/1yZX7+rYYRqLg3H2bStMf3L9jR6gysBOT1ZYPxRYCMD8HvkqKyiWkNOr2iNXmt/ESy1NSa9g/X3/AyocQUWYc3yn0NQcnbOgKRJaCFNwxiNK6RS8+/gmO2MboOXAP8ebAiN6fCjRGXu+fUn4Pmnm8dfd27SJdybERO8bW3LW8IWU3JTLvdlq8MIaLCFA/oWtnxgOlYYsVVfa/gGelKEnhWxC54pRwAKD52hkd64X+EVJABfM5BH/hM29RtSrChYiuAOR0284+f7FaNlcNBPQDdyuoJM+0lOxqQW8atQne2ShKfwSKtgKNLf+/MFfpxcK3/7BoaG/pIVupot+BH/DdEBYri0woZTv9Z/Y5fVZq95BqoL4CGlKfRSrUa+uHruiR1MNKaxFGT184tH0pkdME1a7ngMUdLdhwdD2dqjqDjMvsdGzcoJCyAkfTJGZ+YyO
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1435.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e54e2b05-dd4f-4980-2b5e-08d823161ffd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2020 08:08:40.4473 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SzRW2T3KIwwXNxKeRj1mgOO3AjLBwAGqM4TNVqY+Pa9atRZMEms8VfEbmar1E3lfO6I/ear1FiuzGneu+GoZGQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4530
+X-OriginatorOrg: intel.com
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "stefanha@gmail.com" <stefanha@gmail.com>, "Tian, 
+ Jun J" <jun.j.tian@intel.com>,
  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>, "hch@lst.de" <hch@lst.de>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Sun,
+ Yi Y" <yi.y.sun@intel.com>, "Wu, Hao" <hao.wu@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,68 +158,85 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-CkxlIDA2LzA3LzIwMjAgw6AgMTA6MjYsIEpvbmF0aGFuIENhbWVyb24gYSDDqWNyaXTCoDoKPiBP
-biBTdW4sIDUgSnVsIDIwMjAgMDk6NTM6NTggKzAwMDAKPiAiU29uZyBCYW8gSHVhIChCYXJyeSBT
-b25nKSIgPHNvbmcuYmFvLmh1YUBoaXNpbGljb24uY29tPiB3cm90ZToKPgo+Pj4gLS0tLS1Pcmln
-aW5hbCBNZXNzYWdlLS0tLS0KPj4+IEZyb206IFdpbGwgRGVhY29uIFttYWlsdG86d2lsbEBrZXJu
-ZWwub3JnXQo+Pj4gU2VudDogU2F0dXJkYXksIEp1bHkgNCwgMjAyMCA0OjIyIEFNCj4+PiBUbzog
-U29uZyBCYW8gSHVhIChCYXJyeSBTb25nKSA8c29uZy5iYW8uaHVhQGhpc2lsaWNvbi5jb20+Cj4+
-PiBDYzogcm9iaW4ubXVycGh5QGFybS5jb207IGhjaEBsc3QuZGU7IG0uc3p5cHJvd3NraUBzYW1z
-dW5nLmNvbTsKPj4+IGlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnOyBsaW51eC1hcm0t
-a2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmc7Cj4+PiBMaW51eGFybSA8bGludXhhcm1AaHVhd2Vp
-LmNvbT4KPj4+IFN1YmplY3Q6IFJlOiBbUEFUQ0hdIGlvbW11L2FybS1zbW11LXYzOiBleHBvc2Ug
-bnVtYV9ub2RlIGF0dHJpYnV0ZSB0bwo+Pj4gdXNlcnMgaW4gc3lzZnMKPj4+Cj4+PiBPbiBTYXQs
-IE1heSAzMCwgMjAyMCBhdCAwOToxNTowNVBNICsxMjAwLCBCYXJyeSBTb25nIHdyb3RlOiAgCj4+
-Pj4gQXMgdGVzdHMgc2hvdyB0aGUgbGF0ZW5jeSBvZiBkbWFfdW5tYXAgY2FuIGluY3JlYXNlIGRy
-YW1hdGljYWxseSB3aGlsZQo+Pj4+IGNhbGxpbmcgdGhlbSBjcm9zcyBOVU1BIG5vZGVzLCBlc3Bl
-Y2lhbGx5IGNyb3NzIENQVSBwYWNrYWdlcywgZWcuCj4+Pj4gMzAwbnMgdnMgODAwbnMgd2hpbGUg
-d2FpdGluZyBmb3IgdGhlIGNvbXBsZXRpb24gb2YgQ01EX1NZTkMgaW4gYW4KPj4+PiBlbXB0eSBj
-b21tYW5kIHF1ZXVlLiBUaGUgbGFyZ2UgbGF0ZW5jeSBjYXVzaW5nIGJ5IHJlbW90ZSBub2RlIHdp
-bGwKPj4+PiBpbiB0dXJuIG1ha2UgY29udGVudGlvbiBvZiB0aGUgY29tbWFuZCBxdWV1ZSBtb3Jl
-IHNlcmlvdXMsIGFuZCBlbmxhcmdlCj4+Pj4gdGhlIGxhdGVuY3kgb2YgRE1BIHVzZXJzIHdpdGhp
-biBsb2NhbCBOVU1BIG5vZGVzLgo+Pj4+Cj4+Pj4gVXNlcnMgbWlnaHQgaW50ZW5kIHRvIGVuZm9y
-Y2UgTlVNQSBsb2NhbGl0eSB3aXRoIHRoZSBjb25zaWRlcmF0aW9uIG9mCj4+Pj4gdGhlIHBvc2l0
-aW9uIG9mIFNNTVUuIFRoZSBwYXRjaCBwcm92aWRlcyBtaW5vciBiZW5lZml0IGJ5IHByZXNlbnRp
-bmcKPj4+PiB0aGlzIGluZm9ybWF0aW9uIHRvIHVzZXJzIGRpcmVjdGx5LCBhcyB0aGV5IG1pZ2h0
-IHdhbnQgdG8ga25vdyBpdCB3aXRob3V0Cj4+Pj4gY2hlY2tpbmcgaGFyZHdhcmUgc3BlYyBhdCBh
-bGwuICAKPj4+IEkgZG9uJ3QgdGhpbmsgdGhhdCdzIGEgdmVyeSBnb29kIHJlYXNvbiB0byBleHBv
-c2UgdGhpbmdzIHRvIHVzZXJzcGFjZS4KPj4+IEkga25vdyBzeXNmcyBzaG91bGRuJ3QgYmUgdHJl
-YXRlZCBhcyBBQkksIGJ1dCB0aGUgZ3JpbSByZWFsaXR5IGlzIHRoYXQKPj4+IG9uY2Ugc29tZWJv
-ZHkgcmVsaWVzIG9uIHRoaXMgc3R1ZmYgdGhlbiB3ZSBjYW4ndCBjaGFuZ2UgaXQsIHNvIEknZAo+
-Pj4gcmF0aGVyIGF2b2lkIGV4cG9zaW5nIGl0IHVubGVzcyBpdCdzIGFic29sdXRlbHkgbmVjZXNz
-YXJ5LiAgCj4+IFdpbGwsIHRoYW5rcyBmb3IgdGFraW5nIGEgbG9vayEKPj4KPj4gSSBhbSBub3Qg
-c3VyZSBpZiBpdCBpcyBhYnNvbHV0ZWx5IG5lY2Vzc2FyeSwgYnV0IGl0IGlzIHVzZWZ1bCB0byB1
-c2Vycy4gVGhlIHdob2xlIHN0b3J5IHN0YXJ0ZWQKPj4gZnJvbSBzb21lIHVzZXJzIHdobyB3YW50
-ZWQgdG8ga25vdyB0aGUgaGFyZHdhcmUgdG9wb2xvZ3kgdmVyeSBjbGVhciBieSByZWFkaW5nIHNv
-bWUKPj4gc3lzZnMgbm9kZSBqdXN0IGxpa2UgdGhleSBhcmUgYWJsZSB0byBkbyB0aGF0IGZvciBw
-Y2kgZGV2aWNlcy4gVGhlIGludGVudGlvbiBpcyB0aGF0IHVzZXJzIGNhbgo+PiBrbm93IGhhcmR3
-YXJlIHRvcG9sb2d5IG9mIHZhcmlvdXMgZGV2aWNlcyBlYXNpbHkgZnJvbSBsaW51eCBzaW5jZSB0
-aGV5IG1heWJlIGRvbid0IGtub3cKPj4gYWxsIHRoZSBoYXJkd2FyZSBkZXRhaWxzLgo+Pgo+PiBG
-b3IgcGNpIGRldmljZXMsIGtlcm5lbCBoYXMgZG9uZSB0aGF0LiBBbmQgdGhlcmUgYXJlIHNvbWUg
-b3RoZXIgZHJpdmVycyBvdXQgb2YgcGNpCj4+IGV4cG9zaW5nIG51bWFfbm9kZSBhcyB3ZWxsLiBJ
-dCBzZWVtcyBpdCBpcyBoYXJkIHRvIHNheSBpdCBpcyBhYnNvbHV0ZWx5IG5lY2Vzc2FyeQo+PiBm
-b3IgdGhlbSB0b28gc2luY2Ugc3lzZnMgc2hvdWxkbid0IGJlIHRyZWF0ZWQgYXMgQUJJLiAKPiBC
-cmljZSwKPgo+IEdpdmVuIGh3bG9jIGlzIHByb2JhYmx5IHRoZSBtb3N0IGRlbWFuZGluZyB1c2Vy
-IG9mIHRvcG9sb2d5IGluZm9ybWF0aW9uCj4gY3VycmVudGx5Li4uCj4KPiBIb3cgdXNlZnVsIHdv
-dWxkIHRoaXMgaW5mbyBiZSBmb3IgaHdsb2MgYW5kIGh3bG9jIHVzZXJzPwo+IFNvcnQgb2YgZmVl
-bHMgbGlrZSBpdCBtaWdodCBiZSB1c2VmdWwgaW4gc29tZSBjYXNlcy4KPgo+IFRoZSB2ZXJ5IGJy
-aWVmIGRlc2NyaXB0aW9uIG9mIHdoYXQgd2UgaGF2ZSBoZXJlIGlzIGV4cG9zaW5nIHRoZSBudW1h
-IG5vZGUKPiBvZiBhbiBJT01NVS4gIFRoZSBkaXNjdXNzaW9uIGFsc28gZGl2ZXJ0ZWQgaW50byB3
-aGV0aGVyIGl0IGp1c3QgbWFrZXMgc2Vuc2UKPiB0byBleHBvc2UgdGhpcyBmb3IgYWxsIHBsYXRm
-b3JtIGRldmljZXMgb3IgZXZlbiBkbyBpdCBhdCB0aGUgZGV2aWNlIGxldmVsLgoKCkhlbGxvCgpX
-ZSBkb24ndCBoYXZlIGFueXRoaW5nIGFib3V0IElPTU1VIGluIGh3bG9jIHNvIGZhciwgbGlrZWx5
-IGJlY2F1c2UgaXRzCmxvY2FsaXR5IG5ldmVyIG1hdHRlcmVkIGluIHRoZSBwYXN0PyBJIGd1ZXNz
-IHdlJ2xsIGdldCBzb21lIHVzZXIKcmVxdWVzdHMgZm9yIGl0IG9uY2UgbW9yZSBwbGF0Zm9ybXMg
-c2hvdyB0aGlzIGlzc3VlIGFuZCBzb21lCnBlcmZvcm1hbmNlLWNyaXRpY2FsIGFwcGxpY2F0aW9u
-cyBhcmUgbm90IGhhcHB5IHdpdGggaXQuCgpDYW4geW91IGNsYXJpZnkgd2hhdCB0aGUgd2hvbGUg
-bWFjaGluZSB0b3BvbG9neSBsb29rIGxpa2U/IEFyZSB3ZQp0YWxraW5nIGFib3V0IHNvbWUgUENJ
-IGRldmljZXMgYmVpbmcgYXR0YWNoZWQgdG8gb25lIHNvY2tldCBidXQgdGFsa2luZwp0byB0aGUg
-SU9NTVUgb2YgdGhlIG90aGVyIHNvY2tldD8KCkJyaWNlCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMu
-bGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21h
-aWxtYW4vbGlzdGluZm8vaW9tbXU=
+Hi Alex,
+
+Eric asked if we will to have data strcut other than struct iommu_nesting_info
+type in the struct vfio_iommu_type1_info_cap_nesting @info[] field. I'm not
+quit sure on it. I guess the answer may be not as VFIO's nesting support should
+based on IOMMU UAPI. how about your opinion?
+
++#define VFIO_IOMMU_TYPE1_INFO_CAP_NESTING  3
++
++/*
++ * Reporting nesting info to user space.
++ *
++ * @info:	the nesting info provided by IOMMU driver. Today
++ *		it is expected to be a struct iommu_nesting_info
++ *		data.
++ */
++struct vfio_iommu_type1_info_cap_nesting {
++	struct	vfio_info_cap_header header;
++	__u32	flags;
++	__u32	padding;
++	__u8	info[];
++};
+
+https://lore.kernel.org/linux-iommu/DM5PR11MB1435290B6CD561EC61027892C3690@DM5PR11MB1435.namprd11.prod.outlook.com/
+
+Regards,
+Yi Liu
+
+> From: Liu, Yi L
+> Sent: Tuesday, July 7, 2020 5:32 PM
+> 
+[...]
+> > >
+> > >>> +
+> > >>> +/*
+> > >>> + * Reporting nesting info to user space.
+> > >>> + *
+> > >>> + * @info:	the nesting info provided by IOMMU driver. Today
+> > >>> + *		it is expected to be a struct iommu_nesting_info
+> > >>> + *		data.
+> > >> Is it expected to change?
+> > >
+> > > honestly, I'm not quite sure on it. I did considered to embed struct
+> > > iommu_nesting_info here instead of using info[]. but I hesitated as
+> > > using info[] may leave more flexibility on this struct. how about
+> > > your opinion? perhaps it's fine to embed the struct
+> > > iommu_nesting_info here as long as VFIO is setup nesting based on
+> > > IOMMU UAPI.
+> > >
+> > >>> + */
+> > >>> +struct vfio_iommu_type1_info_cap_nesting {
+> > >>> +	struct	vfio_info_cap_header header;
+> > >>> +	__u32	flags;
+> > >> You may document flags.
+> > >
+> > > sure. it's reserved for future.
+> > >
+> > > Regards,
+> > > Yi Liu
+> > >
+> > >>> +	__u32	padding;
+> > >>> +	__u8	info[];
+> > >>> +};
+> > >>> +
+> > >>>  #define VFIO_IOMMU_GET_INFO _IO(VFIO_TYPE, VFIO_BASE + 12)
+> > >>>
+> > >>>  /**
+> > >>>
+> > >> Thanks
+> > >>
+> > >> Eric
+> > >
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
