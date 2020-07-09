@@ -1,50 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7DC321A48D
-	for <lists.iommu@lfdr.de>; Thu,  9 Jul 2020 18:19:37 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5054321A491
+	for <lists.iommu@lfdr.de>; Thu,  9 Jul 2020 18:19:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8DABE87BED;
-	Thu,  9 Jul 2020 16:19:36 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id ED7022C91A;
+	Thu,  9 Jul 2020 16:19:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WSW76EGywiAq; Thu,  9 Jul 2020 16:19:36 +0000 (UTC)
+	with ESMTP id vhKK0gUfQueE; Thu,  9 Jul 2020 16:19:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1CCFA87B82;
-	Thu,  9 Jul 2020 16:19:36 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A258F228F1;
+	Thu,  9 Jul 2020 16:19:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 04FA9C016F;
-	Thu,  9 Jul 2020 16:19:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 77644C016F;
+	Thu,  9 Jul 2020 16:19:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E6E38C016F
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 16:19:34 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0E3CBC0865
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 16:19:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D5B9B87B7B
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 16:19:34 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id EE851893A1
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 16:19:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jZ31O_KWt6NY for <iommu@lists.linux-foundation.org>;
- Thu,  9 Jul 2020 16:19:33 +0000 (UTC)
+ with ESMTP id 7MhabALhZuig for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Jul 2020 16:19:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7FACB879B5
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 16:19:33 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9FDE088A6C
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 16:19:34 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 37A87AEB9;
- Thu,  9 Jul 2020 16:19:31 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 7ADF6AEC4;
+ Thu,  9 Jul 2020 16:19:32 +0000 (UTC)
 From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To: hch@lst.de, Robin Murphy <robin.murphy@arm.com>,
- David Rientjes <rientjes@google.com>, iommu@lists.linux-foundation.org
-Subject: [PATCH 0/4] dma-pool: Fix atomic pool selection
-Date: Thu,  9 Jul 2020 18:19:00 +0200
-Message-Id: <20200709161903.26229-1-nsaenzjulienne@suse.de>
+ David Rientjes <rientjes@google.com>, iommu@lists.linux-foundation.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: [PATCH 1/4] dma-direct: Provide function to check physical memory
+ area validity
+Date: Thu,  9 Jul 2020 18:19:01 +0200
+Message-Id: <20200709161903.26229-2-nsaenzjulienne@suse.de>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200709161903.26229-1-nsaenzjulienne@suse.de>
+References: <20200709161903.26229-1-nsaenzjulienne@suse.de>
 MIME-Version: 1.0
 Cc: linux-rpi-kernel@lists.infradead.org, jeremy.linton@arm.com,
  linux-kernel@vger.kernel.org
@@ -65,28 +69,40 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This is my attempt at fixing one of the regressions we've seen[1] after
-the introduction of per-zone atomic pools.
+dma_coherent_ok() checks if a physical memory area fits a device's DMA
+constraints.
 
-This combined with "dma-pool: Do not allocate pool memory from CMA"[2]
-should fix the boot issues on Jeremy's RPi4 setup.
-
-[1] https://lkml.org/lkml/2020/7/2/974
-[2] https://lkml.org/lkml/2020/7/8/1108
-
+Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 ---
+ include/linux/dma-direct.h | 1 +
+ kernel/dma/direct.c        | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Nicolas Saenz Julienne (4):
-  dma-direct: Provide function to check physical memory area validity
-  dma-pool: Get rid of dma_in_atomic_pool()
-  dma-pool: Introduce dma_guess_pool()
-  dma-pool: Make sure atomic pool suits device
-
- include/linux/dma-direct.h |  1 +
- kernel/dma/direct.c        |  2 +-
- kernel/dma/pool.c          | 76 +++++++++++++++++++++++++++-----------
- 3 files changed, 56 insertions(+), 23 deletions(-)
-
+diff --git a/include/linux/dma-direct.h b/include/linux/dma-direct.h
+index cdfa400f89b3..cb23a8305132 100644
+--- a/include/linux/dma-direct.h
++++ b/include/linux/dma-direct.h
+@@ -69,6 +69,7 @@ static inline bool dma_capable(struct device *dev, dma_addr_t addr, size_t size,
+ u64 dma_direct_get_required_mask(struct device *dev);
+ gfp_t dma_direct_optimal_gfp_mask(struct device *dev, u64 dma_mask,
+ 				  u64 *phys_mask);
++bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size);
+ void *dma_direct_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
+ 		gfp_t gfp, unsigned long attrs);
+ void dma_direct_free(struct device *dev, size_t size, void *cpu_addr,
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index 93f578a8e613..4de864cacd22 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -70,7 +70,7 @@ gfp_t dma_direct_optimal_gfp_mask(struct device *dev, u64 dma_mask,
+ 	return 0;
+ }
+ 
+-static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
++bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
+ {
+ 	return phys_to_dma_direct(dev, phys) + size - 1 <=
+ 			min_not_zero(dev->coherent_dma_mask, dev->bus_dma_limit);
 -- 
 2.27.0
 
