@@ -1,51 +1,50 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5054321A491
-	for <lists.iommu@lfdr.de>; Thu,  9 Jul 2020 18:19:43 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 223D021A48E
+	for <lists.iommu@lfdr.de>; Thu,  9 Jul 2020 18:19:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id ED7022C91A;
-	Thu,  9 Jul 2020 16:19:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D2A9687CA3;
+	Thu,  9 Jul 2020 16:19:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vhKK0gUfQueE; Thu,  9 Jul 2020 16:19:39 +0000 (UTC)
+	with ESMTP id QfAVhgqi08Ue; Thu,  9 Jul 2020 16:19:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A258F228F1;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4D72787B82;
 	Thu,  9 Jul 2020 16:19:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 77644C016F;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 394C7C016F;
 	Thu,  9 Jul 2020 16:19:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0E3CBC0865
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 16:19:36 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DD951C08A5
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 16:19:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id EE851893A1
+ by silver.osuosl.org (Postfix) with ESMTP id D62972333F
  for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 16:19:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7MhabALhZuig for <iommu@lists.linux-foundation.org>;
- Thu,  9 Jul 2020 16:19:34 +0000 (UTC)
+ with ESMTP id G6B0B70a5pNP for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Jul 2020 16:19:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 9FDE088A6C
+ by silver.osuosl.org (Postfix) with ESMTPS id E81EB22699
  for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 16:19:34 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7ADF6AEC4;
- Thu,  9 Jul 2020 16:19:32 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 3B598AEBE;
+ Thu,  9 Jul 2020 16:19:33 +0000 (UTC)
 From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To: hch@lst.de, Robin Murphy <robin.murphy@arm.com>,
  David Rientjes <rientjes@google.com>, iommu@lists.linux-foundation.org,
  Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCH 1/4] dma-direct: Provide function to check physical memory
- area validity
-Date: Thu,  9 Jul 2020 18:19:01 +0200
-Message-Id: <20200709161903.26229-2-nsaenzjulienne@suse.de>
+Subject: [PATCH 2/4] dma-pool: Get rid of dma_in_atomic_pool()
+Date: Thu,  9 Jul 2020 18:19:02 +0200
+Message-Id: <20200709161903.26229-3-nsaenzjulienne@suse.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200709161903.26229-1-nsaenzjulienne@suse.de>
 References: <20200709161903.26229-1-nsaenzjulienne@suse.de>
@@ -69,40 +68,42 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-dma_coherent_ok() checks if a physical memory area fits a device's DMA
-constraints.
+The function is only used once and can be simplified to a one-liner.
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 ---
- include/linux/dma-direct.h | 1 +
- kernel/dma/direct.c        | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ kernel/dma/pool.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/include/linux/dma-direct.h b/include/linux/dma-direct.h
-index cdfa400f89b3..cb23a8305132 100644
---- a/include/linux/dma-direct.h
-+++ b/include/linux/dma-direct.h
-@@ -69,6 +69,7 @@ static inline bool dma_capable(struct device *dev, dma_addr_t addr, size_t size,
- u64 dma_direct_get_required_mask(struct device *dev);
- gfp_t dma_direct_optimal_gfp_mask(struct device *dev, u64 dma_mask,
- 				  u64 *phys_mask);
-+bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size);
- void *dma_direct_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
- 		gfp_t gfp, unsigned long attrs);
- void dma_direct_free(struct device *dev, size_t size, void *cpu_addr,
-diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-index 93f578a8e613..4de864cacd22 100644
---- a/kernel/dma/direct.c
-+++ b/kernel/dma/direct.c
-@@ -70,7 +70,7 @@ gfp_t dma_direct_optimal_gfp_mask(struct device *dev, u64 dma_mask,
- 	return 0;
+diff --git a/kernel/dma/pool.c b/kernel/dma/pool.c
+index 8cfa01243ed2..7363640fc91c 100644
+--- a/kernel/dma/pool.c
++++ b/kernel/dma/pool.c
+@@ -217,15 +217,6 @@ static inline struct gen_pool *dev_to_pool(struct device *dev)
+ 	return atomic_pool_kernel;
  }
  
--static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
-+bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
+-static bool dma_in_atomic_pool(struct device *dev, void *start, size_t size)
+-{
+-	struct gen_pool *pool = dev_to_pool(dev);
+-
+-	if (unlikely(!pool))
+-		return false;
+-	return gen_pool_has_addr(pool, (unsigned long)start, size);
+-}
+-
+ void *dma_alloc_from_pool(struct device *dev, size_t size,
+ 			  struct page **ret_page, gfp_t flags)
  {
- 	return phys_to_dma_direct(dev, phys) + size - 1 <=
- 			min_not_zero(dev->coherent_dma_mask, dev->bus_dma_limit);
+@@ -256,7 +247,7 @@ bool dma_free_from_pool(struct device *dev, void *start, size_t size)
+ {
+ 	struct gen_pool *pool = dev_to_pool(dev);
+ 
+-	if (!dma_in_atomic_pool(dev, start, size))
++	if (!pool || !gen_pool_has_addr(pool, (unsigned long)start, size))
+ 		return false;
+ 	gen_pool_free(pool, (unsigned long)start, size);
+ 	return true;
 -- 
 2.27.0
 
