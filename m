@@ -1,81 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5584F219799
-	for <lists.iommu@lfdr.de>; Thu,  9 Jul 2020 07:01:46 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0AEE2197AE
+	for <lists.iommu@lfdr.de>; Thu,  9 Jul 2020 07:08:29 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 07CF5884CA;
-	Thu,  9 Jul 2020 05:01:45 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8BC592047F;
+	Thu,  9 Jul 2020 05:08:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id S-BzFY4LEf9b; Thu,  9 Jul 2020 05:01:44 +0000 (UTC)
+	with ESMTP id KRFxkdtMdR1k; Thu,  9 Jul 2020 05:08:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 43291884DB;
-	Thu,  9 Jul 2020 05:01:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 21B8222846;
+	Thu,  9 Jul 2020 05:08:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 26B8DC016F;
-	Thu,  9 Jul 2020 05:01:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0287AC08A0;
+	Thu,  9 Jul 2020 05:08:27 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AF7FAC016F
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 05:01:41 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 44279C016F
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 05:08:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9BDE1884CA
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 05:01:41 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 3C5AD21517
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 05:08:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YGxGi4LniqfJ for <iommu@lists.linux-foundation.org>;
- Thu,  9 Jul 2020 05:01:40 +0000 (UTC)
+ with ESMTP id DTYycMw-FM4G for <iommu@lists.linux-foundation.org>;
+ Thu,  9 Jul 2020 05:08:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id DE31E883A7
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 05:01:40 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id d4so449199pgk.4
- for <iommu@lists.linux-foundation.org>; Wed, 08 Jul 2020 22:01:40 -0700 (PDT)
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+ [209.85.167.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id CDA202047F
+ for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 05:08:23 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id k4so936533oik.2
+ for <iommu@lists.linux-foundation.org>; Wed, 08 Jul 2020 22:08:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uN2T4CF/tRygg+rOfQBDGtucvrJg7l2si9rKgMZR/j0=;
- b=BXPSxo5VbjQ5clTT5R39r8mnuahuMmSnFAX8dVZrldk0UdIVgqWclLWUaFgB9EEvGs
- 5iz3KpwAkAgn90jBHAhrbXixnEOIEYtjcRThFOHPaMP1iW7G5A9VtiBNmc4MAkl+PePn
- X8Qxrz9Owin3O+N62O6MOn8S4A+iGJ6Wxb9sX2WIiLAY51C87Q29o3eXidoSP6ooqh+D
- qS6uu3fHwmtVABvqz/lvBdCP/QxOAANNR/YrgTRHreSoizLsqM/gfFPjeLgGJoCsorW3
- bcPBMKwdryQ+Fp3uaE4IZn7ZWggNMNBSXgKfxkkYCqUvqDoX7YBNX084BbbLThuTS7Ou
- LIZg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=T+6WxJ1O6k89NNQZzhHWgQkm03zUeIAl0iKHL4vPlUk=;
+ b=AOLHWt2GPk9pGPq6HPxBOiLg8IkaE8fySTF+79CaOlFbY/Ii9OChxP90kbGu1Kpp4g
+ 1geiQB3FJADTo1pUFgW3Sxa65geoU2CT5za4/L0HfEdsLOAuiS/hjjGJAhLd5WpirmZf
+ FtqNIv1CQKnyDdPXdmuFBCNC6yhLvo2cYc6qSM5QnmTXkmdX5EeDxnIrVvTmG4ZIadtN
+ 9Wc0sp5jXMyQsZ3p/wY2QYy7Ht2049b7nCZwdk1eGIpkU//mzH2EjylQGA8lOiKrtshJ
+ LlRfr/5BOfigasYH241F2AoEDk2ymoYdc1UD+9rYiSk5J9TrKnHdKxLfuGL8+sE3Lbxw
+ Lrdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uN2T4CF/tRygg+rOfQBDGtucvrJg7l2si9rKgMZR/j0=;
- b=hshW4KYks0K5hSzflZAb+dMRZpiB+lidxtsgnRu8DJfGLripl68woE1lLnpZIM+iqc
- YTNW8g/jEXfYAMn/VTmFd84RzN9QXjbdiw/A+DwZ4sI4VMfxiG1L0EfqVqFeVUSIsmv3
- S+27O9xzkfQ1InTF1KgWrCRQitPTEqtMGqeTPwawPp9lYUehQtr0NJv/11nIfBxB63Gq
- uU4I+ndpj3BcMABfy5hpEzjNw2YLUfmYU5PvYBTXfAzn6QpknxYhyWWZbs9yjg/lU1Bf
- Q4Exyk+APn6Z4Vw40ZLK3Y/v8Cn4MN0BUd5HsCX6L2HHTQ5q/mPYvp8IhBMlORr5aJTG
- OJEQ==
-X-Gm-Message-State: AOAM531JxjV5XGPk2E15ixyFYib2sMraAA/yxowMy71kZN8jkSYJ/Lo/
- qVPZwRx3PyGF9spSPqVmAKyEcw==
-X-Google-Smtp-Source: ABdhPJyYxb2sGMCNEAHm5ala37cPOSV+iadH/fkL3XmUf96HbWpfFw5r1l8q9UAC1q8UkeO/UH2wlA==
-X-Received: by 2002:a62:346:: with SMTP id 67mr14522608pfd.111.1594270900163; 
- Wed, 08 Jul 2020 22:01:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=T+6WxJ1O6k89NNQZzhHWgQkm03zUeIAl0iKHL4vPlUk=;
+ b=kLu5vVJORCZVomMHCEAYo1vIUo0F1cqJKAojQlQFOSQksuQhVLn0IYsyAN0g5YsZku
+ 7sPWvfRUoZL9gYl0oTaNlcdXqXty9Jj3oZv3g+0dqbHu1/Bym1q8VSXUpohLzsiqI0Vj
+ vpz12qiXgFJoeQDrQZbCfvZeswul3Yuz2yaRI7AR1Pg3VeHejzelPi/amHDt6d7PCsEc
+ Rq944z9XmjCgtDMAgrbsBxxqyz7IjdMNzW02gLRdMGlC74DUAF7AFAQjCFN0NEDTewi0
+ qbsPE5wLZmwnhyfy8jvDLcYLCeDJAoc0QyP85OneH9O2CwkwiAoZxSaWY7lostwose+N
+ wQGw==
+X-Gm-Message-State: AOAM531Okym9vAQtVUNbg+kKDbAeBiMvQK1B2dl78pt7A2OjBe6qb37k
+ 4yoxDxJ4QDhyVwGSeKMvJN763MXqceg=
+X-Google-Smtp-Source: ABdhPJxF4d+sWu8w2NwzlZP7r/VFELTU9n5hnbo5rdODjHR0wnwyVgaX97f2R3IqlZFh0Lej268MjA==
+X-Received: by 2002:a17:90b:4d08:: with SMTP id
+ mw8mr12970883pjb.119.1594270901682; 
+ Wed, 08 Jul 2020 22:01:41 -0700 (PDT)
 Received: from localhost.localdomain
  (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id h15sm999974pjc.14.2020.07.08.22.01.38
+ by smtp.gmail.com with ESMTPSA id h15sm999974pjc.14.2020.07.08.22.01.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jul 2020 22:01:39 -0700 (PDT)
+ Wed, 08 Jul 2020 22:01:41 -0700 (PDT)
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  Joerg Roedel <joro@8bytes.org>, Thierry Reding <thierry.reding@gmail.com>,
  Laurentiu Tudor <laurentiu.tudor@nxp.com>
-Subject: [PATCH 0/5] iommu/arm-smmu: Support maintaining bootloader mappings
-Date: Wed,  8 Jul 2020 22:01:40 -0700
-Message-Id: <20200709050145.3520931-1-bjorn.andersson@linaro.org>
+Subject: [PATCH 1/5] iommu/arm-smmu: Make all valid stream mappings BYPASS
+Date: Wed,  8 Jul 2020 22:01:41 -0700
+Message-Id: <20200709050145.3520931-2-bjorn.andersson@linaro.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200709050145.3520931-1-bjorn.andersson@linaro.org>
+References: <20200709050145.3520931-1-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
 Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
  Jonathan Marek <jonathan@marek.ca>, linux-kernel@vger.kernel.org,
@@ -97,41 +100,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Based on previous attempts and discussions this is the latest attempt at
-inheriting stream mappings set up by the bootloader, for e.g. boot splash or
-efifb.
+Turn all stream mappings marked as valid into BYPASS. This allows the
+platform specific implementation to configure stream mappings to match
+the boot loader's configuration for e.g. display to continue to function
+through the reset of the SMMU.
 
-The first patch is an implementation of Robin's suggestion that we should just
-mark the relevant stream mappings as BYPASS. Relying on something else to set
-up the stream mappings wanted - e.g. by reading it back in platform specific
-implementation code.
+Suggested-by: Robin Murphy <robin.murphy@arm.com>
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
+ drivers/iommu/arm-smmu.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-The series then tackles the problem seen in most versions of Qualcomm firmware,
-that the hypervisor intercepts BYPASS writes and turn them into FAULTs. It does
-this by allocating context banks for identity domains as well, with translation
-disabled.
-
-Lastly it amends the stream mapping initialization code to allocate a specific
-identity domain that is used for any mappings inherited from the bootloader, if
-above Qualcomm quirk is required.
-
-
-The series has been tested and shown to allow booting SDM845, SDM850, SM8150,
-SM8250 with boot splash screen setup by the bootloader. Specifically it also
-allows the Lenovo Yoga C630 to boot with SMMU and efifb enabled.
-
-Bjorn Andersson (5):
-  iommu/arm-smmu: Make all valid stream mappings BYPASS
-  iommu/arm-smmu: Emulate bypass by using context banks
-  iommu/arm-smmu: Move SMR and S2CR definitions to header file
-  iommu/arm-smmu-qcom: Consstently initialize stream mappings
-  iommu/arm-smmu: Setup identity domain for boot mappings
-
- drivers/iommu/arm-smmu-qcom.c |  48 +++++++++++++
- drivers/iommu/arm-smmu.c      | 124 +++++++++++++++++++++++++++++-----
- drivers/iommu/arm-smmu.h      |  21 ++++++
- 3 files changed, 175 insertions(+), 18 deletions(-)
-
+diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+index 243bc4cb2705..2e27cf9815ab 100644
+--- a/drivers/iommu/arm-smmu.c
++++ b/drivers/iommu/arm-smmu.c
+@@ -1924,6 +1924,22 @@ static int arm_smmu_device_cfg_probe(struct arm_smmu_device *smmu)
+ 	return 0;
+ }
+ 
++int arm_smmu_setup_identity(struct arm_smmu_device *smmu)
++{
++	int i;
++
++	for (i = 0; i < smmu->num_mapping_groups; i++) {
++		if (smmu->smrs[i].valid) {
++			smmu->s2crs[i].type = S2CR_TYPE_BYPASS;
++			smmu->s2crs[i].privcfg = S2CR_PRIVCFG_DEFAULT;
++			smmu->s2crs[i].cbndx = 0xff;
++			smmu->s2crs[i].count++;
++		}
++	}
++
++	return 0;
++}
++
+ struct arm_smmu_match_data {
+ 	enum arm_smmu_arch_version version;
+ 	enum arm_smmu_implementation model;
+@@ -2181,6 +2197,10 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
+ 	if (err)
+ 		return err;
+ 
++	err = arm_smmu_setup_identity(smmu);
++	if (err)
++		return err;
++
+ 	if (smmu->version == ARM_SMMU_V2) {
+ 		if (smmu->num_context_banks > smmu->num_context_irqs) {
+ 			dev_err(dev,
 -- 
 2.26.2
 
