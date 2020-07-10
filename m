@@ -1,87 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D9221A9F4
-	for <lists.iommu@lfdr.de>; Thu,  9 Jul 2020 23:52:10 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0441621ACD8
+	for <lists.iommu@lfdr.de>; Fri, 10 Jul 2020 04:03:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8353D88483;
-	Thu,  9 Jul 2020 21:52:09 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7B3FD2E0DA;
+	Fri, 10 Jul 2020 02:03:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UQP-74kkbrNW; Thu,  9 Jul 2020 21:52:08 +0000 (UTC)
+	with ESMTP id 6AYVVT8MRViE; Fri, 10 Jul 2020 02:03:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 83B3E88481;
-	Thu,  9 Jul 2020 21:52:08 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5E5C42E0E4;
+	Fri, 10 Jul 2020 02:03:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 68BE0C016F;
-	Thu,  9 Jul 2020 21:52:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 408AFC077B;
+	Fri, 10 Jul 2020 02:03:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6ECCBC016F
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 21:52:07 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E8335C016F
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 02:03:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id A089689AD1
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 21:51:15 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id DD3D889A55
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 02:03:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8VRZ8Vg2JTTB for <iommu@lists.linux-foundation.org>;
- Thu,  9 Jul 2020 21:51:15 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 3366A89ABD
- for <iommu@lists.linux-foundation.org>; Thu,  9 Jul 2020 21:51:15 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id f16so1692629pjt.0
- for <iommu@lists.linux-foundation.org>; Thu, 09 Jul 2020 14:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=yZE59xCL3eBQXoSAxSBT7tm0J2D29/mHRf5l4hrUISI=;
- b=KmKQ4RFjJZN8heHwcunUI+xmSk3O4O7DS/tcqI/shA4R/8tNWpEFDLOaySPCFZvWp0
- pnmJL8xRUDDhptx9Z3jpLMortBNwszOKdCEwWLmCDClzKmP0PfHJTQouFtl9Gwb3UG2t
- Hj5B/OJ3WQZwUBMCrYVBOZrTSHyNr1a9bsFItVX+rEVahrUtcYOaoRxIsg4zx5WoJrtG
- 1FaWdcSiC/eqUjRVwPigfrWqMO0M/6VyqMmMndTJ7g49Rr/O6JGgWtJaO1V+gcLr9x+l
- IeEfHITYzSZFf7BWirupcVcL8NQJwun0thCSKLQ2xnWNLiyyqBjTL8foD9POx5zI7Uqp
- VSoA==
+ with ESMTP id N2q2GJDmuVsO for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Jul 2020 02:03:53 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id D64F689A4F
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 02:03:52 +0000 (UTC)
+Received: from mail-ot1-f71.google.com ([209.85.210.71])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <koba.ko@canonical.com>) id 1jtiOE-0001KM-Fw
+ for iommu@lists.linux-foundation.org; Fri, 10 Jul 2020 02:03:50 +0000
+Received: by mail-ot1-f71.google.com with SMTP id b22so2447284otp.2
+ for <iommu@lists.linux-foundation.org>; Thu, 09 Jul 2020 19:03:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=yZE59xCL3eBQXoSAxSBT7tm0J2D29/mHRf5l4hrUISI=;
- b=BMIxJIyzXsz2o9p99mqkl7ARZIElZMMGc4ozdVN+AoRG55gBsyJQgc/70TlR0LGv91
- p/yLiKf5c03u8TYxTKMT/YqRaLPwBqjPTkKLcd1v+aHhU0jDI33+ZOR9mWjM7GbwNCJw
- rAQgQ+WbWimwguWlUf4l0CvyJkaiJVcENN32ycIz76+i26FyytBlK4a7gNRVd4AvQ7dW
- EAApNSv29WAF1KkhzYF00p5q3+SgLEjsf0Not8Iv0uZYXPnEe8IyJ0La/ebWxrWOMUe7
- Pu8mSXRCxYXPya80sCJgUmlIHpcpy+Z7hn4vQ0VK5Oru38ECdN8OshmQhOJ69WK9skgV
- 3KNw==
-X-Gm-Message-State: AOAM533PJGGrTIG8p6YwydWDJeZbzoJYECVSPNEffLtJUE/Enys+HrLy
- O2TyeF5aZsuEwbQhqyR2EZkNdg==
-X-Google-Smtp-Source: ABdhPJw4jj1Ar0xu4SkVS219xhic6hKPDR7al9eAtmxNdCW/w3Vk/zjOX56TAskC31yPRk75GOCl9w==
-X-Received: by 2002:a17:90b:283:: with SMTP id
- az3mr2264678pjb.38.1594331474724; 
- Thu, 09 Jul 2020 14:51:14 -0700 (PDT)
-Received: from [2620:15c:17:3:4a0f:cfff:fe51:6667]
- ([2620:15c:17:3:4a0f:cfff:fe51:6667])
- by smtp.gmail.com with ESMTPSA id t126sm3841690pfd.214.2020.07.09.14.51.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jul 2020 14:51:14 -0700 (PDT)
-Date: Thu, 9 Jul 2020 14:51:13 -0700 (PDT)
-X-X-Sender: rientjes@chino.kir.corp.google.com
-To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: Re: [PATCH 2/4] dma-pool: Get rid of dma_in_atomic_pool()
-In-Reply-To: <20200709161903.26229-3-nsaenzjulienne@suse.de>
-Message-ID: <alpine.DEB.2.23.453.2007091449540.972523@chino.kir.corp.google.com>
-References: <20200709161903.26229-1-nsaenzjulienne@suse.de>
- <20200709161903.26229-3-nsaenzjulienne@suse.de>
-User-Agent: Alpine 2.23 (DEB 453 2020-06-18)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SQxlxH8w1XRv/PIUz5GYKxBrNAiYJPuPTh1GdFkqGIs=;
+ b=ZSCdTA28VzbidnnAdMMj3Cb74me81+DbVFvfB2eateQ8YBCwYia49yMzcPE09qZpE1
+ Bz7cK26wJfDy0Xl1JmWlGk2g2SQf6LUYXKpOUvIlNtsCYFNMGRKJR4ZPAtf9QBLMBpOU
+ 3rfaBGTafTLYPfk9TcgETcgTcUnTfBbXgHvV+wOH9CFr3FxRQXZM5GYw/G/uSq5FdBfj
+ RBbceiXwRDvOF2lfTiQZrc6QQvZyfy0rLGNyRtSHUm+ISnxZROgNDuHjZnIvjBz55Cu8
+ M6lfpZAyPbQSa8XawxLMJ+NZmeGbOyofYO+QOQDj4XmolYi09MoyL2cmKz79P2KAKrB2
+ ijsg==
+X-Gm-Message-State: AOAM533F8mXIZ9NQYxSTsNXO1vpIDndHy9fjfz/TpZwows1nVAhP5pX5
+ eicycPV2spKzJ7+S3LK/zaP6vG0vUmhzoOYgW9i3zn/WSgd6qeebQfa7hmQFEu6/V5x/RGFmXES
+ vlzZFWmY0JzB+PXDI3mcVt6WAg14VG0mnfs6nYe5jXyvVZO7D/1u4anhmpwXkOfA=
+X-Received: by 2002:aca:53cc:: with SMTP id h195mr2497091oib.49.1594346629493; 
+ Thu, 09 Jul 2020 19:03:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz90EXEBZzxChOGSMn3vAPnhPKqsDehoEfZ24XLl6I6F50PLmaY8HIRbNnEjkQ9CdqtwnBSbeAYwTS32c6cGEs=
+X-Received: by 2002:aca:53cc:: with SMTP id h195mr2497064oib.49.1594346629211; 
+ Thu, 09 Jul 2020 19:03:49 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, jeremy.linton@arm.com,
- iommu@lists.linux-foundation.org, linux-rpi-kernel@lists.infradead.org,
- Robin Murphy <robin.murphy@arm.com>, hch@lst.de
+References: <CAJB-X+VcHvYWngtMVHw5f_XaqA4i4T61yt=h7YvuD=eo3y7Rog@mail.gmail.com>
+ <DM6PR19MB2636E5A28FB655C2F657FDF8FA640@DM6PR19MB2636.namprd19.prod.outlook.com>
+In-Reply-To: <DM6PR19MB2636E5A28FB655C2F657FDF8FA640@DM6PR19MB2636.namprd19.prod.outlook.com>
+From: Koba Ko <koba.ko@canonical.com>
+Date: Fri, 10 Jul 2020 10:03:38 +0800
+Message-ID: <CAJB-X+UJx+xTJ05snD9xuf7N-ofvTk3ddeSTtNfrGZ738SRvYg@mail.gmail.com>
+Subject: Re: [Issue]platform/x86: iommu: System can't shutdown because iommu
+ driver keeps checking the status of DMA_GSTS_TES
+To: "Limonciello, Mario" <Mario.Limonciello@dell.com>
+Cc: Christian Kellner <ckellner@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Anthony Wong <anthony.wong@canonical.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Kai Heng Feng <kai.heng.feng@canonical.com>,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,23 +89,72 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: David Rientjes via iommu <iommu@lists.linux-foundation.org>
-Reply-To: David Rientjes <rientjes@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, 9 Jul 2020, Nicolas Saenz Julienne wrote:
+Hi Mario
+On Fri, Jul 10, 2020 at 4:58 AM Limonciello, Mario
+<Mario.Limonciello@dell.com> wrote:
+>
+> > -----Original Message-----
+> > From: iommu <iommu-bounces@lists.linux-foundation.org> On Behalf Of Koba Ko
+> > Sent: Sunday, June 14, 2020 10:47 PM
+> > To: David Woodhouse; Lu Baolu; Joerg Roedel
+> > Cc: iommu@lists.linux-foundation.org; Kai Heng Feng; Linux Kernel Mailing
+> > List
+> > Subject: [Issue]platform/x86: iommu: System can't shutdown because iommu
+> > driver keeps checking the status of DMA_GSTS_TES
+> >
+> > hi All,
+> > I have a machine and there's only intel gpu.
+> > the secureboot and vt-d is enabled in BIOS.
+> > On the Ubuntu desktop, I do s2idle first and restart the machine.
+> > The machine can't restart successfully, so I need to press the power
+> > button to shutdown.
+> > I tried  each of the following and the issue can't be triggered.
+> > 1. disable secure boot in BIOS.
+>
+> Just to explain why this happens, on many of Dell's systems VT-d is only enabled
+> when secure boot is enabled.
+>
+> > 2. intel_iommu=off.
+> > 3. intel_iomm=igfx_off.
+> > 4. nomodeset
+> > 5. i915.modeset=0.
+> >
+> > After I investigate further, find inte_iommu keeps checking the status
+> > of DMA_GSTS_TES.
+> > During the procedure of restart, the driver would disable iommu translation
+> > and
+> > check the status of DMA_GSTS_TES until status of DMA_GSTS_TES is 0.
+> >
+> > If you need more information, I can provide it.
+> >
+> > Thanks
+> > Koba Ko
+> > _______________________________________________
+> > iommu mailing list
+> > iommu@lists.linux-foundation.org
+> > https://lists.linuxfoundation.org/mailman/listinfo/iommu
+>
+> This is reported on TGL pre-production system, but actually same symptom is also
+> happening in ICL production systems such as XPS 7390 2-in-1 and XPS 9300.
+>
+> Details for the ICL issue are available here:
+> https://bugzilla.kernel.org/show_bug.cgi?id=206571
+>
+> A user did bisect it back to commit 6c3a44ed3c553c324845744f30bcd1d3b07d61fd in
+> 5.5.  Glancing through the code and comparing the suspend case, I would ask is it
+> just a case of missing a flush at shutdown (IE iommu_flush_all)?
+>
+If dma translation doesn't be disabled during shutdown, the machine
+would be powered off successfully.
+I have tried to flush before disabled and this can't affect the result
+of the issue.
 
-> The function is only used once and can be simplified to a one-liner.
-> 
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-
-I'll leave this one to Christoph to decide on.  One thing I really liked 
-about hacking around in kernel/dma is the coding style, it really follows 
-"one function does one thing and does it well" even if there is only one 
-caller.  dma_in_atomic_pool() was an attempt to follow in those footsteps.
+koba ko
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
