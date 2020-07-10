@@ -1,167 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE54121BE74
-	for <lists.iommu@lfdr.de>; Fri, 10 Jul 2020 22:30:13 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 839D021BEAC
+	for <lists.iommu@lfdr.de>; Fri, 10 Jul 2020 22:39:19 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8BC6789382;
-	Fri, 10 Jul 2020 20:30:12 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3A21889E1A;
+	Fri, 10 Jul 2020 20:39:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1jU-3MNMo-OS; Fri, 10 Jul 2020 20:30:10 +0000 (UTC)
+	with ESMTP id qbCmCQftasB9; Fri, 10 Jul 2020 20:39:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3ACC889B62;
-	Fri, 10 Jul 2020 20:30:10 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 774C589E14;
+	Fri, 10 Jul 2020 20:39:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 19E32C016F;
-	Fri, 10 Jul 2020 20:30:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 63856C016F;
+	Fri, 10 Jul 2020 20:39:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 08525C016F
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 20:30:08 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4FF51C016F
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 20:39:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id EE17B89367
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 20:30:01 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id C49698886D
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 20:39:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mQz3rR1klFh5 for <iommu@lists.linux-foundation.org>;
- Fri, 10 Jul 2020 20:30:01 +0000 (UTC)
+ with ESMTP id UZpSUJe6OdDh for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Jul 2020 20:39:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from nat-hk.nvidia.com (nat-hk.nvidia.com [203.18.50.4])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 01DDF891E2
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 20:30:00 +0000 (UTC)
-Received: from hkpgpgate102.nvidia.com (Not Verified[10.18.92.9]) by
- nat-hk.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5f08cfc60000>; Sat, 11 Jul 2020 04:29:58 +0800
-Received: from HKMAIL104.nvidia.com ([10.18.16.13])
- by hkpgpgate102.nvidia.com (PGP Universal service);
- Fri, 10 Jul 2020 13:29:58 -0700
-X-PGP-Universal: processed;
- by hkpgpgate102.nvidia.com on Fri, 10 Jul 2020 13:29:58 -0700
-Received: from HKMAIL101.nvidia.com (10.18.16.10) by HKMAIL104.nvidia.com
- (10.18.16.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 10 Jul
- 2020 20:29:57 +0000
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.174)
- by HKMAIL101.nvidia.com (10.18.16.10) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Fri, 10 Jul 2020 20:29:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aw5hhF1MW1UL5B8uvRxHhqLGnarVOzVesa10V+HSZcYXakwqfNtj0fnwm7OMvAdmGKqYaLDxOr4zS46YDFT8nP0XnL9tgU4hGKWz1JupBFYVzatPN5xGuhP7i8uzBs15UwfZZ5RTspZYB9GzheH6SpRicYOQV+rhJHSW+Q5XyPXA/pZjCfci7sydMcOat/3ozWlj+s9BuNdMSwdkCMw8LQRJOyHzrpWFLrqDRXuDnb/vmBeeY6G16VXEuZYTUHpZUTM5/XBqfVrVwsnWfZYai7XdmVB7OxZEIAbxiE4tjwHDe2IwvBxrDXBRZS3mewhawGzXEpCgYXiq+SdC1Znm0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EmV8bfmQ8MFo4bzA2Q41Ohx9MfS0VJSqHj698eSkUmo=;
- b=IGM8th0vDvb0hcdrfG3Guj75eLR+lK3FG2jMw48eyxlGaMWdyZCvrrtKid1ABlCySOCrFHw+ZUWL+m0ZdI87/S8kCGuZnZvRMFza71OOJtODhzIzheoyQokMEAaG38pmDFqg3v2EWbQpr2rxaKYmsxxv+plmdjTXJgh4bvu/uvtyVF6Vq5NRbIvhLOOD7Jg52TFIiEHNXdwIjwP1jLa/r+l4LNMVEjAK+OOnwbNKLrZhOoDa/tyHH/G4lhmE4o8fkF7T7E8ywxSE7bTA8OofHaMh/+EtzvPq06XBbtvprLykK/wncarZxFVHDh6zAGCXFshAqUYCtY6flQ33GpUU0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from BYAPR12MB2822.namprd12.prod.outlook.com (2603:10b6:a03:9a::17)
- by BYAPR12MB2984.namprd12.prod.outlook.com (2603:10b6:a03:da::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Fri, 10 Jul
- 2020 20:29:55 +0000
-Received: from BYAPR12MB2822.namprd12.prod.outlook.com
- ([fe80::70bd:803f:78b6:ebf2]) by BYAPR12MB2822.namprd12.prod.outlook.com
- ([fe80::70bd:803f:78b6:ebf2%2]) with mapi id 15.20.3174.021; Fri, 10 Jul 2020
- 20:29:55 +0000
-From: Krishna Reddy <vdumpa@nvidia.com>
-To: Rob Herring <robh@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Subject: RE: [PATCH v10 4/5] dt-bindings: arm-smmu: add binding for Tegra194
- SMMU
-Thread-Topic: [PATCH v10 4/5] dt-bindings: arm-smmu: add binding for Tegra194
- SMMU
-Thread-Index: AQHWVOS3zMIxJUroL0+UAGESja2lEaj/sR8AgAGTnSA=
-Date: Fri, 10 Jul 2020 20:29:55 +0000
-Message-ID: <BYAPR12MB2822514F93F831507A811EE9B3650@BYAPR12MB2822.namprd12.prod.outlook.com>
-References: <20200708050017.31563-1-vdumpa@nvidia.com>
- <20200708050017.31563-5-vdumpa@nvidia.com> <20200709201348.GA808454@bogus>
-In-Reply-To: <20200709201348.GA808454@bogus>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=VDUMPA@nvidia.com;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2020-07-10T20:29:53.5607832Z;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=23cc9e9f-01f6-44f5-8d5a-b542cf46bcbb;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nvidia.com;
-x-originating-ip: [216.228.112.22]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2b4df9d0-2f6a-4aff-4194-08d8251001da
-x-ms-traffictypediagnostic: BYAPR12MB2984:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR12MB2984D7E03CA683FC0F61CE7BB3650@BYAPR12MB2984.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ui6Aca/1DauNO4+g7LOV5k3iXJ/ZI6bAv+4kpP/pO/9iGZ/cpzQkeMCYsLQ/tpK9NXznUwE2jG/ZzYCl5y57X6Fz4A0YaH3hcC9Pf38XVRQ0ZxXGQua+PGWLMDsVt1nWUBzhIj/kTI302DGPpgoNahAC8FlYNPnI7clnBZpSSlNadPp4AXZTNTNAaSI5GuqwUUwQYXgrLmOZPXUZirbEt2+W6aiWvx7ywzMqmJW67TmtJ/fbt3G/eVGOpRJk69e9WjHX2LgDhNuSvwGMBaDV1logX0TAxTdG48SdVtkknnbCWrq59qGjusuxsHr/8EeLJQptrEi+MjwgLACqPZm3MA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB2822.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(376002)(366004)(39860400002)(396003)(346002)(33656002)(66476007)(66556008)(66446008)(186003)(64756008)(7416002)(8936002)(26005)(54906003)(316002)(110136005)(66946007)(2906002)(52536014)(86362001)(55016002)(7696005)(5660300002)(4744005)(4326008)(6506007)(9686003)(478600001)(76116006)(71200400001)(8676002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: BlzVI7A2I+2R7bY/sKk4p6BqG4YHIqwSmYX7GcDadXz45h69LrdL5NjkY0pN3R9G0mwMozflB44C/hV4L91tGdusrWnpsE6ZyO5909EMx6cvZDeaEn6N13vb+3vsOH1AZHP7jTTQPG4c6x4FU4Xob+0EST1FhXQ70yg5eiXVpdkJLBl+oZ588+CLAMiBLT1AZS+6KuEBzP5Ye2VdW51ryW6L6+ufEILAs7UXXXNPJG/aEu5GntIYs0NqIbsp+gjRvjD+CsqNtVKh1sXPBMSkaFVIEpGs3XkqIkRZ0WUZ1BeUpGrlGmXJXY1wVzXNu1zV4fRJU2J8aIWgexpNd5JRaCcUGsnxDbIQGe5jMIGLmfhN4r8vZ2PNXdOwCEfK3v7S40viRyng/HkWQYsIV2ZmeflkAWa1+6XveG/iMdvqr32LuEPwKJ9tRe/zNxL1qASXOTbtECYYOxoDm6HSMt15ILNLn7wqURASHJJxYI8rerF14x82RiCwI4CubMcUrSyB
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 1A3108742D
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 20:39:10 +0000 (UTC)
+Received: from localhost (mobile-166-175-191-139.mycingular.net
+ [166.175.191.139])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5F3322078B;
+ Fri, 10 Jul 2020 20:39:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1594413549;
+ bh=CnULaI9ELEBbbUKasyXBx7S1yYTMAfrX6S5PK1vzqPc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=gXwmLksh2phrQuh3r16fXH2dSS+qJLkUVFIFOQ7fs+LmrslitdklFssUpLoYz9I8Y
+ lUrIIXu5nceiiz6Ng+acnL1PBISNLpHxHzziPuyEXZFF+3BmBvoleu9x8bQfWWOOKM
+ aXWIxklG362XQ5JOsbI4ldpWDFcyAHfMCNnrf6sI=
+Date: Fri, 10 Jul 2020 15:39:08 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Rajat Jain <rajatja@google.com>
+Subject: Re: [PATCH v4 1/4] PCI: Move pci_enable_acs() and its dependencies
+ up in pci.c
+Message-ID: <20200710203908.GA78277@bjorn-Precision-5520>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2822.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b4df9d0-2f6a-4aff-4194-08d8251001da
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2020 20:29:55.1431 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iSB5184FiW0ez3CQRcv4/OMWuSS/Lc6NCXceU5Kt+sYA79zQcGI4IAY+D3cdb+OGIGUumSl06rk4dDjGRnAX6A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2984
-X-OriginatorOrg: Nvidia.com
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1594412998; bh=EmV8bfmQ8MFo4bzA2Q41Ohx9MfS0VJSqHj698eSkUmo=;
- h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
- ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
- Thread-Index:Date:Message-ID:References:In-Reply-To:
- Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
- authentication-results:x-originating-ip:x-ms-publictraffictype:
- x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
- x-ms-exchange-transport-forked:x-microsoft-antispam-prvs:
- x-ms-oob-tlc-oobclassifiers:x-ms-exchange-senderadcheck:
- x-microsoft-antispam:x-microsoft-antispam-message-info:
- x-forefront-antispam-report:x-ms-exchange-antispam-messagedata:
- MIME-Version:X-MS-Exchange-CrossTenant-AuthAs:
- X-MS-Exchange-CrossTenant-AuthSource:
- X-MS-Exchange-CrossTenant-Network-Message-Id:
- X-MS-Exchange-CrossTenant-originalarrivaltime:
- X-MS-Exchange-CrossTenant-fromentityheader:
- X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
- X-MS-Exchange-CrossTenant-userprincipalname:
- X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
- Content-Language:Content-Type:Content-Transfer-Encoding;
- b=Smcoh1p/Qe0iB9mVdM7x+GFNPHk/7d7z4fb4F1pERMyAEkzEZ554ycZRSkZjYVSpB
- hSA/JLxTTiSsqaX9esjloPx5SG01bvjVq5xNhzCivVfcTFy9D00IoX2gsIhV5h7Muu
- QsQR6YxUNM4LN3wI1KOWkOMO8euxUoyIbLsHgNOIy9K2mR6eWdoX0zpxOXUPN6q6FI
- 6owwum0vPOtHISMXUjBsDLHzBTDCANB6ZnNLX3J3og0XG9DgaFiAUxofZ2B0zJa4gD
- 2EswYE8bLLSzY67Q8HuAsyqa0xj1CkZxDfEoPad9xACnL0Gi4996L7fZmIqbEAIaTX
- HVBPBNA/AHevg==
-Cc: Sachin Nikam <Snikam@nvidia.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Pritesh Raithatha <praithatha@nvidia.com>,
- Bryan Huntsman <bhuntsman@nvidia.com>, "will@kernel.org" <will@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Timo Alho <talho@nvidia.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Nicolin Chen <nicolinc@nvidia.com>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- Yu-Huan Hsu <YHsu@nvidia.com>, Thierry Reding <treding@nvidia.com>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Bitan Biswas <bbiswas@nvidia.com>
+Content-Disposition: inline
+In-Reply-To: <20200707224604.3737893-1-rajatja@google.com>
+Cc: Todd Broch <tbroch@google.com>, linux-pci@vger.kernel.org,
+ lalithambika.krishnakumar@intel.com,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Diego Rivas <diegorivas@google.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Furquan Shaikh <furquan@google.com>, Raj Ashok <ashok.raj@intel.com>,
+ Saravana Kannan <saravanak@google.com>, linux-acpi@vger.kernel.org,
+ Christian Kellner <christian@kellner.me>,
+ Mattias Nissler <mnissler@google.com>, Jesse Barnes <jsbarnes@google.com>,
+ Len Brown <lenb@kernel.org>, Rajat Jain <rajatxjain@gmail.com>,
+ Prashant Malani <pmalani@google.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Aaron Durbin <adurbin@google.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Bernie Keany <bernie.keany@intel.com>, Duncan Laurie <dlaurie@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Arnd Bergmann <arnd@arndb.de>,
+ oohall@gmail.com, Benson Leung <bleung@google.com>,
+ David Woodhouse <dwmw2@infradead.org>, Alex Levin <levinale@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -179,31 +94,302 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Thanks Rob. One question on setting "minItems: ". Please see below.
+On Tue, Jul 07, 2020 at 03:46:01PM -0700, Rajat Jain wrote:
+> Move pci_enable_acs() and the functions it depends on, further up in the
+> source code to avoid having to forward declare it when we make it static
+> in near future (next patch).
+> 
+> No functional changes intended.
+> 
+> Signed-off-by: Rajat Jain <rajatja@google.com>
 
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - nvidia,tegra194-smmu
->> +    then:
->> +      properties:
->> +        reg:
->> +          minItems: 2
->> +          maxItems: 2
+Applied patches 1-3 to pci/enumeration for v5.9, thanks!
 
->This doesn't work. The main part of the schema already said there's only
->1 reg region. This part is ANDed with that, not an override. You need to add an else clause with 'maxItems: 1' and change the base schema to
->{minItems: 1, maxItems: 2}.
+I held off on patch 4 (enabling PCI_ACS_TB) until we have a little
+more conversation on the impact of it.
 
-As the earlier version of base schema doesn't have "minItems: " set, should it be set to 0 for backward compatibility?  Or can it just be omitted setting in base schema as before?
-
-"else" part to set "maxItems: 1" and setting "maxItems: 2" in base schema is clear to me.
-
-
--KR
+> ---
+> v4: Same as v3
+> v3: Initial version of the patch, created per Bjorn's suggestion
+> 
+>  drivers/pci/pci.c | 254 +++++++++++++++++++++++-----------------------
+>  1 file changed, 127 insertions(+), 127 deletions(-)
+> 
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index ce096272f52b1..eec625f0e594e 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -777,6 +777,133 @@ int pci_wait_for_pending(struct pci_dev *dev, int pos, u16 mask)
+>  	return 0;
+>  }
+>  
+> +static int pci_acs_enable;
+> +
+> +/**
+> + * pci_request_acs - ask for ACS to be enabled if supported
+> + */
+> +void pci_request_acs(void)
+> +{
+> +	pci_acs_enable = 1;
+> +}
+> +
+> +static const char *disable_acs_redir_param;
+> +
+> +/**
+> + * pci_disable_acs_redir - disable ACS redirect capabilities
+> + * @dev: the PCI device
+> + *
+> + * For only devices specified in the disable_acs_redir parameter.
+> + */
+> +static void pci_disable_acs_redir(struct pci_dev *dev)
+> +{
+> +	int ret = 0;
+> +	const char *p;
+> +	int pos;
+> +	u16 ctrl;
+> +
+> +	if (!disable_acs_redir_param)
+> +		return;
+> +
+> +	p = disable_acs_redir_param;
+> +	while (*p) {
+> +		ret = pci_dev_str_match(dev, p, &p);
+> +		if (ret < 0) {
+> +			pr_info_once("PCI: Can't parse disable_acs_redir parameter: %s\n",
+> +				     disable_acs_redir_param);
+> +
+> +			break;
+> +		} else if (ret == 1) {
+> +			/* Found a match */
+> +			break;
+> +		}
+> +
+> +		if (*p != ';' && *p != ',') {
+> +			/* End of param or invalid format */
+> +			break;
+> +		}
+> +		p++;
+> +	}
+> +
+> +	if (ret != 1)
+> +		return;
+> +
+> +	if (!pci_dev_specific_disable_acs_redir(dev))
+> +		return;
+> +
+> +	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
+> +	if (!pos) {
+> +		pci_warn(dev, "cannot disable ACS redirect for this hardware as it does not have ACS capabilities\n");
+> +		return;
+> +	}
+> +
+> +	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
+> +
+> +	/* P2P Request & Completion Redirect */
+> +	ctrl &= ~(PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC);
+> +
+> +	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
+> +
+> +	pci_info(dev, "disabled ACS redirect\n");
+> +}
+> +
+> +/**
+> + * pci_std_enable_acs - enable ACS on devices using standard ACS capabilities
+> + * @dev: the PCI device
+> + */
+> +static void pci_std_enable_acs(struct pci_dev *dev)
+> +{
+> +	int pos;
+> +	u16 cap;
+> +	u16 ctrl;
+> +
+> +	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
+> +	if (!pos)
+> +		return;
+> +
+> +	pci_read_config_word(dev, pos + PCI_ACS_CAP, &cap);
+> +	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
+> +
+> +	/* Source Validation */
+> +	ctrl |= (cap & PCI_ACS_SV);
+> +
+> +	/* P2P Request Redirect */
+> +	ctrl |= (cap & PCI_ACS_RR);
+> +
+> +	/* P2P Completion Redirect */
+> +	ctrl |= (cap & PCI_ACS_CR);
+> +
+> +	/* Upstream Forwarding */
+> +	ctrl |= (cap & PCI_ACS_UF);
+> +
+> +	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
+> +}
+> +
+> +/**
+> + * pci_enable_acs - enable ACS if hardware support it
+> + * @dev: the PCI device
+> + */
+> +void pci_enable_acs(struct pci_dev *dev)
+> +{
+> +	if (!pci_acs_enable)
+> +		goto disable_acs_redir;
+> +
+> +	if (!pci_dev_specific_enable_acs(dev))
+> +		goto disable_acs_redir;
+> +
+> +	pci_std_enable_acs(dev);
+> +
+> +disable_acs_redir:
+> +	/*
+> +	 * Note: pci_disable_acs_redir() must be called even if ACS was not
+> +	 * enabled by the kernel because it may have been enabled by
+> +	 * platform firmware.  So if we are told to disable it, we should
+> +	 * always disable it after setting the kernel's default
+> +	 * preferences.
+> +	 */
+> +	pci_disable_acs_redir(dev);
+> +}
+> +
+>  /**
+>   * pci_restore_bars - restore a device's BAR values (e.g. after wake-up)
+>   * @dev: PCI device to have its BARs restored
+> @@ -3230,133 +3357,6 @@ void pci_configure_ari(struct pci_dev *dev)
+>  	}
+>  }
+>  
+> -static int pci_acs_enable;
+> -
+> -/**
+> - * pci_request_acs - ask for ACS to be enabled if supported
+> - */
+> -void pci_request_acs(void)
+> -{
+> -	pci_acs_enable = 1;
+> -}
+> -
+> -static const char *disable_acs_redir_param;
+> -
+> -/**
+> - * pci_disable_acs_redir - disable ACS redirect capabilities
+> - * @dev: the PCI device
+> - *
+> - * For only devices specified in the disable_acs_redir parameter.
+> - */
+> -static void pci_disable_acs_redir(struct pci_dev *dev)
+> -{
+> -	int ret = 0;
+> -	const char *p;
+> -	int pos;
+> -	u16 ctrl;
+> -
+> -	if (!disable_acs_redir_param)
+> -		return;
+> -
+> -	p = disable_acs_redir_param;
+> -	while (*p) {
+> -		ret = pci_dev_str_match(dev, p, &p);
+> -		if (ret < 0) {
+> -			pr_info_once("PCI: Can't parse disable_acs_redir parameter: %s\n",
+> -				     disable_acs_redir_param);
+> -
+> -			break;
+> -		} else if (ret == 1) {
+> -			/* Found a match */
+> -			break;
+> -		}
+> -
+> -		if (*p != ';' && *p != ',') {
+> -			/* End of param or invalid format */
+> -			break;
+> -		}
+> -		p++;
+> -	}
+> -
+> -	if (ret != 1)
+> -		return;
+> -
+> -	if (!pci_dev_specific_disable_acs_redir(dev))
+> -		return;
+> -
+> -	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
+> -	if (!pos) {
+> -		pci_warn(dev, "cannot disable ACS redirect for this hardware as it does not have ACS capabilities\n");
+> -		return;
+> -	}
+> -
+> -	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
+> -
+> -	/* P2P Request & Completion Redirect */
+> -	ctrl &= ~(PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC);
+> -
+> -	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
+> -
+> -	pci_info(dev, "disabled ACS redirect\n");
+> -}
+> -
+> -/**
+> - * pci_std_enable_acs - enable ACS on devices using standard ACS capabilities
+> - * @dev: the PCI device
+> - */
+> -static void pci_std_enable_acs(struct pci_dev *dev)
+> -{
+> -	int pos;
+> -	u16 cap;
+> -	u16 ctrl;
+> -
+> -	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
+> -	if (!pos)
+> -		return;
+> -
+> -	pci_read_config_word(dev, pos + PCI_ACS_CAP, &cap);
+> -	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
+> -
+> -	/* Source Validation */
+> -	ctrl |= (cap & PCI_ACS_SV);
+> -
+> -	/* P2P Request Redirect */
+> -	ctrl |= (cap & PCI_ACS_RR);
+> -
+> -	/* P2P Completion Redirect */
+> -	ctrl |= (cap & PCI_ACS_CR);
+> -
+> -	/* Upstream Forwarding */
+> -	ctrl |= (cap & PCI_ACS_UF);
+> -
+> -	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
+> -}
+> -
+> -/**
+> - * pci_enable_acs - enable ACS if hardware support it
+> - * @dev: the PCI device
+> - */
+> -void pci_enable_acs(struct pci_dev *dev)
+> -{
+> -	if (!pci_acs_enable)
+> -		goto disable_acs_redir;
+> -
+> -	if (!pci_dev_specific_enable_acs(dev))
+> -		goto disable_acs_redir;
+> -
+> -	pci_std_enable_acs(dev);
+> -
+> -disable_acs_redir:
+> -	/*
+> -	 * Note: pci_disable_acs_redir() must be called even if ACS was not
+> -	 * enabled by the kernel because it may have been enabled by
+> -	 * platform firmware.  So if we are told to disable it, we should
+> -	 * always disable it after setting the kernel's default
+> -	 * preferences.
+> -	 */
+> -	pci_disable_acs_redir(dev);
+> -}
+> -
+>  static bool pci_acs_flags_enabled(struct pci_dev *pdev, u16 acs_flags)
+>  {
+>  	int pos;
+> -- 
+> 2.27.0.212.ge8ba1cc988-goog
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
