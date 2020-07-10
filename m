@@ -1,67 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839D021BEAC
-	for <lists.iommu@lfdr.de>; Fri, 10 Jul 2020 22:39:19 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B8F921BF32
+	for <lists.iommu@lfdr.de>; Fri, 10 Jul 2020 23:28:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3A21889E1A;
-	Fri, 10 Jul 2020 20:39:18 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1DC5C89C36;
+	Fri, 10 Jul 2020 21:28:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qbCmCQftasB9; Fri, 10 Jul 2020 20:39:17 +0000 (UTC)
+	with ESMTP id XY0IR8dzLQhX; Fri, 10 Jul 2020 21:28:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 774C589E14;
-	Fri, 10 Jul 2020 20:39:17 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7BE4589C12;
+	Fri, 10 Jul 2020 21:28:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 63856C016F;
-	Fri, 10 Jul 2020 20:39:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5AB12C08A9;
+	Fri, 10 Jul 2020 21:28:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4FF51C016F
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 20:39:16 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9ABEAC016F
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 21:28:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C49698886D
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 20:39:10 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7BC4889E87
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 21:28:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UZpSUJe6OdDh for <iommu@lists.linux-foundation.org>;
- Fri, 10 Jul 2020 20:39:10 +0000 (UTC)
+ with ESMTP id Rq7G+K4-PIqv for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Jul 2020 21:28:54 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1A3108742D
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 20:39:10 +0000 (UTC)
-Received: from localhost (mobile-166-175-191-139.mycingular.net
- [166.175.191.139])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5F3322078B;
- Fri, 10 Jul 2020 20:39:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594413549;
- bh=CnULaI9ELEBbbUKasyXBx7S1yYTMAfrX6S5PK1vzqPc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=gXwmLksh2phrQuh3r16fXH2dSS+qJLkUVFIFOQ7fs+LmrslitdklFssUpLoYz9I8Y
- lUrIIXu5nceiiz6Ng+acnL1PBISNLpHxHzziPuyEXZFF+3BmBvoleu9x8bQfWWOOKM
- aXWIxklG362XQ5JOsbI4ldpWDFcyAHfMCNnrf6sI=
-Date: Fri, 10 Jul 2020 15:39:08 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Rajat Jain <rajatja@google.com>
-Subject: Re: [PATCH v4 1/4] PCI: Move pci_enable_acs() and its dependencies
- up in pci.c
-Message-ID: <20200710203908.GA78277@bjorn-Precision-5520>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id BB10789E2F
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 21:28:54 +0000 (UTC)
+IronPort-SDR: 5A0O4fFyUuHZxAevRj02vHMiMOdwJ22n1g6yYduXXNYGIdc7nfhQP+vEkIXY/O5M/QctDfhZGh
+ HHUGbkwFi1Jg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9678"; a="166383207"
+X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="166383207"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2020 14:28:54 -0700
+IronPort-SDR: QtJ0Svtzt5o6heD9E9eaHtgim1i9h9gjLpXXGOf4JZ7gPfDKJXpNrqYhYQmshlI4nLU8n/Z1Rf
+ QFQDNbv/W8kQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,336,1589266800"; d="scan'208";a="306677452"
+Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.25])
+ by fmsmga004.fm.intel.com with ESMTP; 10 Jul 2020 14:28:53 -0700
+Date: Fri, 10 Jul 2020 14:28:53 -0700
+From: "Raj, Ashok" <ashok.raj@intel.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH v4 4/4] PCI/ACS: Enable PCI_ACS_TB for
+ untrusted/external-facing devices
+Message-ID: <20200710212853.GA328472@otc-nc-03>
+References: <20200707224604.3737893-4-rajatja@google.com>
+ <20200710202922.GA77140@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200707224604.3737893-1-rajatja@google.com>
+In-Reply-To: <20200710202922.GA77140@bjorn-Precision-5520>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: Todd Broch <tbroch@google.com>, linux-pci@vger.kernel.org,
  lalithambika.krishnakumar@intel.com,
  Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Diego Rivas <diegorivas@google.com>,
+ Diego Rivas <diegorivas@google.com>, Rajat Jain <rajatja@google.com>,
  Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Furquan Shaikh <furquan@google.com>, Raj Ashok <ashok.raj@intel.com>,
+ Furquan Shaikh <furquan@google.com>, Arnd Bergmann <arnd@arndb.de>,
  Saravana Kannan <saravanak@google.com>, linux-acpi@vger.kernel.org,
  Christian Kellner <christian@kellner.me>,
  Mattias Nissler <mnissler@google.com>, Jesse Barnes <jsbarnes@google.com>,
@@ -71,12 +76,13 @@ Cc: Todd Broch <tbroch@google.com>, linux-pci@vger.kernel.org,
  Alex Williamson <alex.williamson@redhat.com>,
  Bjorn Helgaas <bhelgaas@google.com>,
  Mika Westerberg <mika.westerberg@linux.intel.com>,
- Bernie Keany <bernie.keany@intel.com>, Duncan Laurie <dlaurie@google.com>,
+ Benson Leung <bleung@google.com>, Ashok Raj <ashok.raj@intel.com>,
+ Duncan Laurie <dlaurie@google.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Arnd Bergmann <arnd@arndb.de>,
- oohall@gmail.com, Benson Leung <bleung@google.com>,
- David Woodhouse <dwmw2@infradead.org>, Alex Levin <levinale@google.com>
+ iommu@lists.linux-foundation.org, oohall@gmail.com,
+ Bernie Keany <bernie.keany@intel.com>, David Woodhouse <dwmw2@infradead.org>,
+ Alex Levin <levinale@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,302 +100,112 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Jul 07, 2020 at 03:46:01PM -0700, Rajat Jain wrote:
-> Move pci_enable_acs() and the functions it depends on, further up in the
-> source code to avoid having to forward declare it when we make it static
-> in near future (next patch).
-> 
-> No functional changes intended.
-> 
-> Signed-off-by: Rajat Jain <rajatja@google.com>
+Hi Bjorn
 
-Applied patches 1-3 to pci/enumeration for v5.9, thanks!
 
-I held off on patch 4 (enabling PCI_ACS_TB) until we have a little
-more conversation on the impact of it.
+On Fri, Jul 10, 2020 at 03:29:22PM -0500, Bjorn Helgaas wrote:
+> On Tue, Jul 07, 2020 at 03:46:04PM -0700, Rajat Jain wrote:
+> > When enabling ACS, enable translation blocking for external facing ports
+> > and untrusted devices.
+> > 
+> > Signed-off-by: Rajat Jain <rajatja@google.com>
+> > ---
+> > v4: Add braces to avoid warning from kernel robot
+> >     print warning for only external-facing devices.
+> > v3: print warning if ACS_TB not supported on external-facing/untrusted ports.
+> >     Minor code comments fixes.
+> > v2: Commit log change
+> > 
+> >  drivers/pci/pci.c    |  8 ++++++++
+> >  drivers/pci/quirks.c | 15 +++++++++++++++
+> >  2 files changed, 23 insertions(+)
+> > 
+> > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> > index 73a8627822140..a5a6bea7af7ce 100644
+> > --- a/drivers/pci/pci.c
+> > +++ b/drivers/pci/pci.c
+> > @@ -876,6 +876,14 @@ static void pci_std_enable_acs(struct pci_dev *dev)
+> >  	/* Upstream Forwarding */
+> >  	ctrl |= (cap & PCI_ACS_UF);
+> >  
+> > +	/* Enable Translation Blocking for external devices */
+> > +	if (dev->external_facing || dev->untrusted) {
+> > +		if (cap & PCI_ACS_TB)
+> > +			ctrl |= PCI_ACS_TB;
+> > +		else if (dev->external_facing)
+> > +			pci_warn(dev, "ACS: No Translation Blocking on external-facing dev\n");
+> > +	}
+> 
+> IIUC, this means that external devices can *never* use ATS and can
+> never cache translations.  And (I guess, I'm not an expert) it can
+> also never use the Page Request Services?
 
-> ---
-> v4: Same as v3
-> v3: Initial version of the patch, created per Bjorn's suggestion
+Yep, sounds like it.
+
 > 
->  drivers/pci/pci.c | 254 +++++++++++++++++++++++-----------------------
->  1 file changed, 127 insertions(+), 127 deletions(-)
+> Is this what we want?  Do we have any idea how many external devices
+> this will affect or how much of a performance impact they will see?
 > 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index ce096272f52b1..eec625f0e594e 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -777,6 +777,133 @@ int pci_wait_for_pending(struct pci_dev *dev, int pos, u16 mask)
->  	return 0;
->  }
->  
-> +static int pci_acs_enable;
-> +
-> +/**
-> + * pci_request_acs - ask for ACS to be enabled if supported
-> + */
-> +void pci_request_acs(void)
-> +{
-> +	pci_acs_enable = 1;
-> +}
-> +
-> +static const char *disable_acs_redir_param;
-> +
-> +/**
-> + * pci_disable_acs_redir - disable ACS redirect capabilities
-> + * @dev: the PCI device
-> + *
-> + * For only devices specified in the disable_acs_redir parameter.
-> + */
-> +static void pci_disable_acs_redir(struct pci_dev *dev)
-> +{
-> +	int ret = 0;
-> +	const char *p;
-> +	int pos;
-> +	u16 ctrl;
-> +
-> +	if (!disable_acs_redir_param)
-> +		return;
-> +
-> +	p = disable_acs_redir_param;
-> +	while (*p) {
-> +		ret = pci_dev_str_match(dev, p, &p);
-> +		if (ret < 0) {
-> +			pr_info_once("PCI: Can't parse disable_acs_redir parameter: %s\n",
-> +				     disable_acs_redir_param);
-> +
-> +			break;
-> +		} else if (ret == 1) {
-> +			/* Found a match */
-> +			break;
-> +		}
-> +
-> +		if (*p != ';' && *p != ',') {
-> +			/* End of param or invalid format */
-> +			break;
-> +		}
-> +		p++;
-> +	}
-> +
-> +	if (ret != 1)
-> +		return;
-> +
-> +	if (!pci_dev_specific_disable_acs_redir(dev))
-> +		return;
-> +
-> +	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
-> +	if (!pos) {
-> +		pci_warn(dev, "cannot disable ACS redirect for this hardware as it does not have ACS capabilities\n");
-> +		return;
-> +	}
-> +
-> +	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
-> +
-> +	/* P2P Request & Completion Redirect */
-> +	ctrl &= ~(PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC);
-> +
-> +	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
-> +
-> +	pci_info(dev, "disabled ACS redirect\n");
-> +}
-> +
-> +/**
-> + * pci_std_enable_acs - enable ACS on devices using standard ACS capabilities
-> + * @dev: the PCI device
-> + */
-> +static void pci_std_enable_acs(struct pci_dev *dev)
-> +{
-> +	int pos;
-> +	u16 cap;
-> +	u16 ctrl;
-> +
-> +	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
-> +	if (!pos)
-> +		return;
-> +
-> +	pci_read_config_word(dev, pos + PCI_ACS_CAP, &cap);
-> +	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
-> +
-> +	/* Source Validation */
-> +	ctrl |= (cap & PCI_ACS_SV);
-> +
-> +	/* P2P Request Redirect */
-> +	ctrl |= (cap & PCI_ACS_RR);
-> +
-> +	/* P2P Completion Redirect */
-> +	ctrl |= (cap & PCI_ACS_CR);
-> +
-> +	/* Upstream Forwarding */
-> +	ctrl |= (cap & PCI_ACS_UF);
-> +
-> +	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
-> +}
-> +
-> +/**
-> + * pci_enable_acs - enable ACS if hardware support it
-> + * @dev: the PCI device
-> + */
-> +void pci_enable_acs(struct pci_dev *dev)
-> +{
-> +	if (!pci_acs_enable)
-> +		goto disable_acs_redir;
-> +
-> +	if (!pci_dev_specific_enable_acs(dev))
-> +		goto disable_acs_redir;
-> +
-> +	pci_std_enable_acs(dev);
-> +
-> +disable_acs_redir:
-> +	/*
-> +	 * Note: pci_disable_acs_redir() must be called even if ACS was not
-> +	 * enabled by the kernel because it may have been enabled by
-> +	 * platform firmware.  So if we are told to disable it, we should
-> +	 * always disable it after setting the kernel's default
-> +	 * preferences.
-> +	 */
-> +	pci_disable_acs_redir(dev);
-> +}
-> +
->  /**
->   * pci_restore_bars - restore a device's BAR values (e.g. after wake-up)
->   * @dev: PCI device to have its BARs restored
-> @@ -3230,133 +3357,6 @@ void pci_configure_ari(struct pci_dev *dev)
->  	}
->  }
->  
-> -static int pci_acs_enable;
-> -
-> -/**
-> - * pci_request_acs - ask for ACS to be enabled if supported
-> - */
-> -void pci_request_acs(void)
-> -{
-> -	pci_acs_enable = 1;
-> -}
-> -
-> -static const char *disable_acs_redir_param;
-> -
-> -/**
-> - * pci_disable_acs_redir - disable ACS redirect capabilities
-> - * @dev: the PCI device
-> - *
-> - * For only devices specified in the disable_acs_redir parameter.
-> - */
-> -static void pci_disable_acs_redir(struct pci_dev *dev)
-> -{
-> -	int ret = 0;
-> -	const char *p;
-> -	int pos;
-> -	u16 ctrl;
-> -
-> -	if (!disable_acs_redir_param)
-> -		return;
-> -
-> -	p = disable_acs_redir_param;
-> -	while (*p) {
-> -		ret = pci_dev_str_match(dev, p, &p);
-> -		if (ret < 0) {
-> -			pr_info_once("PCI: Can't parse disable_acs_redir parameter: %s\n",
-> -				     disable_acs_redir_param);
-> -
-> -			break;
-> -		} else if (ret == 1) {
-> -			/* Found a match */
-> -			break;
-> -		}
-> -
-> -		if (*p != ';' && *p != ',') {
-> -			/* End of param or invalid format */
-> -			break;
-> -		}
-> -		p++;
-> -	}
-> -
-> -	if (ret != 1)
-> -		return;
-> -
-> -	if (!pci_dev_specific_disable_acs_redir(dev))
-> -		return;
-> -
-> -	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
-> -	if (!pos) {
-> -		pci_warn(dev, "cannot disable ACS redirect for this hardware as it does not have ACS capabilities\n");
-> -		return;
-> -	}
-> -
-> -	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
-> -
-> -	/* P2P Request & Completion Redirect */
-> -	ctrl &= ~(PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC);
-> -
-> -	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
-> -
-> -	pci_info(dev, "disabled ACS redirect\n");
-> -}
-> -
-> -/**
-> - * pci_std_enable_acs - enable ACS on devices using standard ACS capabilities
-> - * @dev: the PCI device
-> - */
-> -static void pci_std_enable_acs(struct pci_dev *dev)
-> -{
-> -	int pos;
-> -	u16 cap;
-> -	u16 ctrl;
-> -
-> -	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ACS);
-> -	if (!pos)
-> -		return;
-> -
-> -	pci_read_config_word(dev, pos + PCI_ACS_CAP, &cap);
-> -	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
-> -
-> -	/* Source Validation */
-> -	ctrl |= (cap & PCI_ACS_SV);
-> -
-> -	/* P2P Request Redirect */
-> -	ctrl |= (cap & PCI_ACS_RR);
-> -
-> -	/* P2P Completion Redirect */
-> -	ctrl |= (cap & PCI_ACS_CR);
-> -
-> -	/* Upstream Forwarding */
-> -	ctrl |= (cap & PCI_ACS_UF);
-> -
-> -	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
-> -}
-> -
-> -/**
-> - * pci_enable_acs - enable ACS if hardware support it
-> - * @dev: the PCI device
-> - */
-> -void pci_enable_acs(struct pci_dev *dev)
-> -{
-> -	if (!pci_acs_enable)
-> -		goto disable_acs_redir;
-> -
-> -	if (!pci_dev_specific_enable_acs(dev))
-> -		goto disable_acs_redir;
-> -
-> -	pci_std_enable_acs(dev);
-> -
-> -disable_acs_redir:
-> -	/*
-> -	 * Note: pci_disable_acs_redir() must be called even if ACS was not
-> -	 * enabled by the kernel because it may have been enabled by
-> -	 * platform firmware.  So if we are told to disable it, we should
-> -	 * always disable it after setting the kernel's default
-> -	 * preferences.
-> -	 */
-> -	pci_disable_acs_redir(dev);
-> -}
-> -
->  static bool pci_acs_flags_enabled(struct pci_dev *pdev, u16 acs_flags)
->  {
->  	int pos;
-> -- 
-> 2.27.0.212.ge8ba1cc988-goog
+> Do we need some kind of override or mechanism to authenticate certain
+> devices so they can use ATS and PRI?
+
+Sounds like we would need some form of an allow-list to start with so we
+can have something in the interim. 
+
+I suppose a future platform might have a facilty to ensure ATS is secure and
+authenticated we could enable for all of devices in the system, in addition
+to PCI CMA/IDE. 
+
+I think having a global override to enable all devices so platform can
+switch to current behavior, or maybe via a cmdline switch.. as much as we
+have a billion of those, it still gives an option in case someone needs it.
+
+
+
 > 
+> If we do decide this is the right thing to do, I think we need to
+> expand the commit log a bit, because this is potentially a significant
+> user-visible change.
+> 
+> >  	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
+> >  }
+> >  
+> > diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+> > index b341628e47527..bb22b46c1d719 100644
+> > --- a/drivers/pci/quirks.c
+> > +++ b/drivers/pci/quirks.c
+> > @@ -4934,6 +4934,13 @@ static void pci_quirk_enable_intel_rp_mpc_acs(struct pci_dev *dev)
+> >  	}
+> >  }
+> >  
+> > +/*
+> > + * Currently this quirk does the equivalent of
+> > + * PCI_ACS_SV | PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_UF
+> > + *
+> > + * TODO: This quirk also needs to do equivalent of PCI_ACS_TB,
+> > + * if dev->external_facing || dev->untrusted
+> > + */
+> >  static int pci_quirk_enable_intel_pch_acs(struct pci_dev *dev)
+> >  {
+> >  	if (!pci_quirk_intel_pch_acs_match(dev))
+> > @@ -4973,6 +4980,14 @@ static int pci_quirk_enable_intel_spt_pch_acs(struct pci_dev *dev)
+> >  	ctrl |= (cap & PCI_ACS_CR);
+> >  	ctrl |= (cap & PCI_ACS_UF);
+> >  
+> > +	/* Enable Translation Blocking for external devices */
+> > +	if (dev->external_facing || dev->untrusted) {
+> > +		if (cap & PCI_ACS_TB)
+> > +			ctrl |= PCI_ACS_TB;
+> > +		else if (dev->external_facing)
+> > +			pci_warn(dev, "ACS: No Translation Blocking on external-facing dev\n");
+> > +	}
+> > +
+> >  	pci_write_config_dword(dev, pos + INTEL_SPT_ACS_CTRL, ctrl);
+> >  
+> >  	pci_info(dev, "Intel SPT PCH root port ACS workaround enabled\n");
+> > -- 
+> > 2.27.0.212.ge8ba1cc988-goog
+> > 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
