@@ -1,65 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5F621B5CC
-	for <lists.iommu@lfdr.de>; Fri, 10 Jul 2020 15:05:36 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 271018996C;
-	Fri, 10 Jul 2020 13:05:35 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id D9IehPQsz8eF; Fri, 10 Jul 2020 13:05:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A625E89976;
-	Fri, 10 Jul 2020 13:05:34 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 876E2C016F;
-	Fri, 10 Jul 2020 13:05:34 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0D7B4C016F
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 13:05:33 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id A517F21B650
+	for <lists.iommu@lfdr.de>; Fri, 10 Jul 2020 15:27:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id EBC2488252
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 13:05:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5FB8E89C42;
+	Fri, 10 Jul 2020 13:27:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id mw6fJMBBrThn; Fri, 10 Jul 2020 13:27:19 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0694F89C44;
+	Fri, 10 Jul 2020 13:27:19 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E33DCC016F;
+	Fri, 10 Jul 2020 13:27:18 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 050F1C016F
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 13:27:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id E38A020415
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 13:27:16 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7DWB53v+F4kT for <iommu@lists.linux-foundation.org>;
- Fri, 10 Jul 2020 13:05:31 +0000 (UTC)
+ with ESMTP id t-LbA6Bz3jbT for <iommu@lists.linux-foundation.org>;
+ Fri, 10 Jul 2020 13:27:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id CA1B788236
- for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 13:05:31 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 02D9C20748;
- Fri, 10 Jul 2020 13:05:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594386331;
- bh=EDql9LXT2itJkdhBRq+W0xaKADE3RTfhQuAty2vmxuo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TnRVM/8nu6yid3DGoPwuPeKeWJebZK5Gp9pEALAT1xgI2b0x1fade4Xmvt8jN7NXM
- 1UFZgjEFLUyYtUD2ARniQ7l9C5exu7qfh8cKLJdz0qQdka4Z7dM95ETYShr8fyiusf
- 7NM8UBJW94sAgoG0yolNnJEiHjitQugvwimRz5Sc=
-Date: Fri, 10 Jul 2020 14:05:27 +0100
-From: Will Deacon <will@kernel.org>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: Re: [PATCH] iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag
-Message-ID: <20200710130526.GA30578@willie-the-truck>
-References: <20200703162548.19953-1-will@kernel.org>
- <20200710125831.GI27672@8bytes.org>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+ [205.139.110.120])
+ by silver.osuosl.org (Postfix) with ESMTPS id DA2962045A
+ for <iommu@lists.linux-foundation.org>; Fri, 10 Jul 2020 13:27:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1594387634;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8A/1vpEmoSOyHkkH6nhIq0DHvbGeWI2fZCwGb0gKD0U=;
+ b=N80RV3LqN5bz2s18o0c3FN3L0JmGOPh/GZ4R8AhH+psuFLh04qlI7x8FV0J6P7dbcjuWG4
+ 7ikTbJPZk5SA0e2pcSSvam/QFinDDNVZ6ciAZG6MeAm4WN0sx9h/COgj5R/6e6mydYzacf
+ jV2u+UCSAJM1lEg2MOiabTsfIBPfe60=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-iB5ik_0TPn-3lfedhmvmhg-1; Fri, 10 Jul 2020 09:27:10 -0400
+X-MC-Unique: iB5ik_0TPn-3lfedhmvmhg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 447AB1092;
+ Fri, 10 Jul 2020 13:27:08 +0000 (UTC)
+Received: from carbon (unknown [10.40.208.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACAD478A4B;
+ Fri, 10 Jul 2020 13:27:00 +0000 (UTC)
+Date: Fri, 10 Jul 2020 15:26:58 +0200
+From: Jesper Dangaard Brouer <brouer@redhat.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: generic DMA bypass flag v4
+Message-ID: <20200710152658.31a9391a@carbon>
+In-Reply-To: <20200708152449.316476-1-hch@lst.de>
+References: <20200708152449.316476-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200710125831.GI27672@8bytes.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>, kernel-team@android.com,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Cc: Daniel Borkmann <daniel@iogearbox.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, brouer@redhat.com,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,48 +83,26 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Joerg,
-
-On Fri, Jul 10, 2020 at 02:58:32PM +0200, Joerg Roedel wrote:
-> On Fri, Jul 03, 2020 at 05:25:48PM +0100, Will Deacon wrote:
-> > The IOMMU_SYS_CACHE_ONLY flag was never exposed via the DMA API and
-> > has no in-tree users. Remove it.
-> > 
-> > Cc: Robin Murphy <robin.murphy@arm.com>
-> > Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>
-> > Cc: Joerg Roedel <joro@8bytes.org>
-> > Cc: Christoph Hellwig <hch@lst.de>
-> > Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-> > Cc: Rob Clark <robdclark@gmail.com>
-> > Signed-off-by: Will Deacon <will@kernel.org>
-> > ---
-> > 
-> > As discussed in [1], sounds like this should be a domain attribute anyway
-> > when it's needed by the GPU.
-> > 
-> > [1] https://lore.kernel.org/r/CAF6AEGsCROVTsi2R7_aUkmH9Luoc_guMR0w0KUJc2cEgpfj79w@mail.gmail.com
-> > 
-> >  drivers/iommu/io-pgtable-arm.c | 3 ---
-> >  include/linux/iommu.h          | 6 ------
-> >  2 files changed, 9 deletions(-)
-> 
-> Applied, thanks.
-
-Ah, I'd already got this queued for 5.9:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/log/?h=for-joerg/arm-smmu/updates
-
-and I've queued a small number of patches on top of it now.
-
-Are you planning to send it for 5.8? If so, I suspect I'll have to rebase.
-
-Will
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gV2VkLCAgOCBKdWwgMjAyMCAxNzoyNDo0NCArMDIwMApDaHJpc3RvcGggSGVsbHdpZyA8aGNo
+QGxzdC5kZT4gd3JvdGU6Cgo+IE5vdGUgdGhhdCBhcy1pcyB0aGlzIGJyZWFrcyB0aGUgWFNLIGJ1
+ZmZlciBwb29sLCB3aGljaCB1bmZvcnR1bmF0ZWx5Cj4gcG9rZWQgZGlyZWN0bHkgaW50byBETUEg
+aW50ZXJuYWxzLiAgQSBmaXggZm9yIHRoYXQgaXMgYWxyZWFkeSBxdWV1ZWQKPiB1cCBpbiB0aGUg
+bmV0ZGV2IHRyZWUuCj4gCj4gSmVzcGVyIGFuZCBYRFAgZ2FuZzogdGhpcyBzaG91bGQgbm90IHJl
+Z3Jlc3MgYW55IHBlcmZvcm1hbmNlIGFzCj4gdGhlIGRtYS1kaXJlY3QgY2FsbHMgYXJlIG5vdyBp
+bmxpbmVkIGludG8gdGhlIG91dCBvZiBsaW5lIERNQSBtYXBwaW5nCj4gY2FsbHMuICBCdXQgaWYg
+eW91IGNhbiB2ZXJpZnkgdGhlIHBlcmZvcm1hbmNlIG51bWJlcnMgdGhhdCB3b3VsZCBiZQo+IGdy
+ZWF0bHkgYXBwcmVjaWF0ZWQuCgpGcm9tIGEgc3VwZXJmaWNpYWwgcmV2aWV3IG9mIHRoZSBwYXRj
+aGVzLCB0aGV5IGxvb2sgb2theSB0byBtZS4gSSBkb24ndApoYXZlIHRpbWUgdG8gcnVuIGEgcGVy
+Zm9ybWFuY2UgYmVuY2htYXJrIChiZWZvcmUgSSBnbyBvbiB2YWNhdGlvbikuCgpJIGhvcGVkIEJq
+w7ZybiBjb3VsZCB0ZXN0L2JlbmNobWFyayB0aGlzKD8pLCBnaXZlbiAoYXMgbWVudGlvbmVkKSB0
+aGlzCmFsc28gYWZmZWN0IFhTSyAvIEFGX1hEUCBwZXJmb3JtYW5jZS4KCi0tIApCZXN0IHJlZ2Fy
+ZHMsCiAgSmVzcGVyIERhbmdhYXJkIEJyb3VlcgogIE1TYy5DUywgUHJpbmNpcGFsIEtlcm5lbCBF
+bmdpbmVlciBhdCBSZWQgSGF0CiAgTGlua2VkSW46IGh0dHA6Ly93d3cubGlua2VkaW4uY29tL2lu
+L2Jyb3VlcgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+aW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBz
+Oi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
