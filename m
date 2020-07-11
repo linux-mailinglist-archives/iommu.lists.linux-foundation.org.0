@@ -1,62 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D3721C2A7
-	for <lists.iommu@lfdr.de>; Sat, 11 Jul 2020 08:50:36 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE82121C2A9
+	for <lists.iommu@lfdr.de>; Sat, 11 Jul 2020 08:50:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id F29358873C;
-	Sat, 11 Jul 2020 06:50:14 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 61C1688810;
+	Sat, 11 Jul 2020 06:50:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LleoVE9YIAc9; Sat, 11 Jul 2020 06:50:13 +0000 (UTC)
+	with ESMTP id ilvPAyOy9NX9; Sat, 11 Jul 2020 06:50:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 66A1388A73;
-	Sat, 11 Jul 2020 06:50:13 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id F0C6088367;
+	Sat, 11 Jul 2020 06:50:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 958E7C1AE2;
-	Sat, 11 Jul 2020 06:50:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DDAE1C016F;
+	Sat, 11 Jul 2020 06:50:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 69689C08A2
- for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:50:09 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A31B8C016F
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:50:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 6096E88A8C
- for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:50:07 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 8C0D388334
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:50:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aIeC-l0K3rOE for <iommu@lists.linux-foundation.org>;
- Sat, 11 Jul 2020 06:50:06 +0000 (UTC)
+ with ESMTP id Kr+AgvbTKdRH for <iommu@lists.linux-foundation.org>;
+ Sat, 11 Jul 2020 06:50:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2480388328
- for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:50:05 +0000 (UTC)
-X-UUID: 4e06c3eac4b141eba298de744f2c6a0b-20200711
+ by whitealder.osuosl.org (Postfix) with ESMTP id 273B489ABD
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:50:15 +0000 (UTC)
+X-UUID: 3a91b375458b486f8ec06bde54248efb-20200711
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=sgr1Zs/aJm2W+sw/MhVKuVhlKEzM0+yMq/CPDd+2YIE=; 
- b=urKCtOUXlWMZ463/DtoGXbjDNh6FUidoqSFYgJnBfD56p/AK8UhSwsAoNv9n9DaBVDoIRRPIvW8TC2cT1tq8ZgAHJzLrwA5SzZeUVRDWJDADXyWtDGAZi2Lmy2VamT6oGK5HSJNlrNKroz67ctcyhq3o/ExLu4BFtwCPJ5ZWdA8=;
-X-UUID: 4e06c3eac4b141eba298de744f2c6a0b-20200711
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
+ bh=x0xfVmpYZuSxhMoMzStadgCKhVFTNZwOTohvBaXulhY=; 
+ b=I6Ivn84Kk6j3l4x6kkuq8+p45REHIpQ/X+O7TnH9YaUMDpe8P8OnkbCUbTdqA0Z6iY/28XFExbKRd2E0ivT9oOc3rCvNtf2gB/G59BKKpD4n4McKje7GASWYqsvpgJindf7B23mMGx/tkH5vLgK8BJ4oOhhLYp1Cnzl8xrIbMds=;
+X-UUID: 3a91b375458b486f8ec06bde54248efb-20200711
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by
+ mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 221799176; Sat, 11 Jul 2020 14:50:02 +0800
+ with ESMTP id 1629835902; Sat, 11 Jul 2020 14:50:11 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
  mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 11 Jul 2020 14:49:58 +0800
+ 15.0.1497.2; Sat, 11 Jul 2020 14:50:07 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 11 Jul 2020 14:49:57 +0800
+ Transport; Sat, 11 Jul 2020 14:50:06 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
  Rob Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 02/21] dt-binding: memory: mediatek: Extend LARB_NR_MAX to 32
-Date: Sat, 11 Jul 2020 14:48:27 +0800
-Message-ID: <20200711064846.16007-3-yong.wu@mediatek.com>
+Subject: [PATCH 03/21] dt-binding: memory: mediatek: Add domain definition
+Date: Sat, 11 Jul 2020 14:48:28 +0800
+Message-ID: <20200711064846.16007-4-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20200711064846.16007-1-yong.wu@mediatek.com>
 References: <20200711064846.16007-1-yong.wu@mediatek.com>
@@ -87,28 +87,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Extend the max larb number definition as mt8192 has larb_nr over 16.
+In the latest SoC, there are several HW IP require a sepecial iova
+range, mainly CCU and VPU has this requirement. Take CCU as a example,
+CCU require its iova locate in the range(0x4000_0000 ~ 0x43ff_ffff).
+
+In this patch we add a domain definition for the special port. This is
+a preparing patch for multi-domain support.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 ---
- include/dt-bindings/memory/mtk-smi-larb-port.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/dt-bindings/memory/mtk-smi-larb-port.h | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/include/dt-bindings/memory/mtk-smi-larb-port.h b/include/dt-bindings/memory/mtk-smi-larb-port.h
-index 2ec7fe5ce4e9..f4d8e3aed0bc 100644
+index f4d8e3aed0bc..d00f5de8438b 100644
 --- a/include/dt-bindings/memory/mtk-smi-larb-port.h
 +++ b/include/dt-bindings/memory/mtk-smi-larb-port.h
-@@ -6,10 +6,10 @@
- #ifndef __DTS_MTK_IOMMU_PORT_H_
+@@ -7,9 +7,16 @@
  #define __DTS_MTK_IOMMU_PORT_H_
  
--#define MTK_LARB_NR_MAX			16
-+#define MTK_LARB_NR_MAX			32
+ #define MTK_LARB_NR_MAX			32
++#define MTK_M4U_DOM_NR_MAX		8
++
++#define MTK_M4U_DOM_ID(domid, larb, port)	\
++	(((domid) & 0x7) << 16 | (((larb) & 0x1f) << 5) | ((port) & 0x1f))
++
++/* The default dom id is 0. */
++#define MTK_M4U_ID(larb, port)		MTK_M4U_DOM_ID(0, larb, port)
  
- #define MTK_M4U_ID(larb, port)		(((larb) << 5) | (port))
--#define MTK_M4U_TO_LARB(id)		(((id) >> 5) & 0xf)
-+#define MTK_M4U_TO_LARB(id)		(((id) >> 5) & 0x1f)
+-#define MTK_M4U_ID(larb, port)		(((larb) << 5) | (port))
+ #define MTK_M4U_TO_LARB(id)		(((id) >> 5) & 0x1f)
  #define MTK_M4U_TO_PORT(id)		((id) & 0x1f)
++#define MTK_M4U_TO_DOM(id)		(((id) >> 16) & 0x7)
  
  #endif
 -- 
