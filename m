@@ -1,68 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A3321C2CD
-	for <lists.iommu@lfdr.de>; Sat, 11 Jul 2020 08:52:30 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB5521C2D3
+	for <lists.iommu@lfdr.de>; Sat, 11 Jul 2020 08:52:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9236F87E28;
-	Sat, 11 Jul 2020 06:52:29 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 96CA188852;
+	Sat, 11 Jul 2020 06:52:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id waOrbtqbsEYS; Sat, 11 Jul 2020 06:52:29 +0000 (UTC)
+	with ESMTP id dljzlVT5lTBN; Sat, 11 Jul 2020 06:52:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1DD7687F16;
-	Sat, 11 Jul 2020 06:52:29 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E2F7288C48;
+	Sat, 11 Jul 2020 06:52:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1731EC016F;
-	Sat, 11 Jul 2020 06:52:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DAC06C088E;
+	Sat, 11 Jul 2020 06:52:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EACB2C016F
- for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:52:27 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E930AC088E
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:52:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id D920888AE0
- for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:52:27 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id D3A4E88810
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:52:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MLLXqS7oOSb6 for <iommu@lists.linux-foundation.org>;
- Sat, 11 Jul 2020 06:52:27 +0000 (UTC)
+ with ESMTP id lS0Qkw0ik6fn for <iommu@lists.linux-foundation.org>;
+ Sat, 11 Jul 2020 06:52:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by whitealder.osuosl.org (Postfix) with ESMTP id 028AC88334
- for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:52:26 +0000 (UTC)
-X-UUID: d00f0842725b4934b79905f092bbc8fc-20200711
+ by whitealder.osuosl.org (Postfix) with ESMTP id CBCD888334
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:52:39 +0000 (UTC)
+X-UUID: be68c517f8804365b67975553d85335d-20200711
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=i+xI+KeJuezDZCl6yM9uO3x45152AOUlch6QK5pwCQk=; 
- b=LZXfok9ig7/OmOzfQGA1FLxgGHqe/1TYwmxbA36TrTczirJv3cVfPLEy5gwcob8R7EtS+95yBTEmEC8uayDYz3z0opliqpP2ueBoVWUUAA06BVRmrRsaSA1Pt64el0Af1an5xY+SdDUL2UIR1kYHZdiOR3hh5ck6l5G14W9DCls=;
-X-UUID: d00f0842725b4934b79905f092bbc8fc-20200711
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+ bh=SMQQ6cvreFHKCw1lLAb1UVMLyz1zf9fnxfMshvwqUfA=; 
+ b=guSC6q38+9QwXABxM65BAHlvWbYGuWwOSNjAq3gVbylThxWz8vExLcdQoqYrQx6K0v5HbutmfTtRD0CLkv3Vr4NCfga3wLDMw2XrznWXrZEW7MsGki1jlwBanHqM/c6b/EbeDW8k6EyE3LyJfJfehVAYdmsDz+fUxwztqz7XeUg=;
+X-UUID: be68c517f8804365b67975553d85335d-20200711
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 619948064; Sat, 11 Jul 2020 14:52:23 +0800
+ with ESMTP id 475382782; Sat, 11 Jul 2020 14:52:35 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 11 Jul 2020 14:52:19 +0800
+ mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 11 Jul 2020 14:52:25 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 11 Jul 2020 14:52:18 +0800
+ Transport; Sat, 11 Jul 2020 14:52:24 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
  Rob Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 17/21] iommu/mediatek: Support report iova 34bit translation
- fault in ISR
-Date: Sat, 11 Jul 2020 14:48:42 +0800
-Message-ID: <20200711064846.16007-18-yong.wu@mediatek.com>
+Subject: [PATCH 18/21] iommu/mediatek: Add support for multi domain
+Date: Sat, 11 Jul 2020 14:48:43 +0800
+Message-ID: <20200711064846.16007-19-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20200711064846.16007-1-yong.wu@mediatek.com>
 References: <20200711064846.16007-1-yong.wu@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: E322B87B68A8DC1470E5469B2953FD5E87CB7C7BC1EDF1B4D37DF27B250DBE302000:8
 X-MTK: N
 Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
  Nicolas Boichat <drinkcat@chromium.org>, cui.zhang@mediatek.com,
@@ -89,79 +87,151 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-If the iova is over 32bit, the fault status register bit is a little
-different. Add a flag for the special register bits.
+Some HW IP(ex: CCU) require the special iova range. That means the
+iova got from dma_alloc_attrs for that devices must locate in his
+special range. In this patch, we allocate a special iova_range for
+each a special requirement and create each a iommu domain for each
+a iova_range.
+
+meanwhile we still use one pagetable which support 16GB iova.
+
+After this patch, If the iova range of a master is over 4G, the master
+should:
+a) Declare its special dma_ranges in its dtsi node. For example, If we
+preassign the iova 4G-8G for vcodec, then the vcodec dtsi node should:
+	dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;  /* 4G ~ 8G */
+b) Update the dma_mask:
+ dma_set_mask_and_coherent(dev, DMA_BIT_MASK(33));
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 ---
- drivers/iommu/mtk_iommu.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ drivers/iommu/mtk_iommu.c | 49 ++++++++++++++++++++++++++++++++-------
+ drivers/iommu/mtk_iommu.h |  3 ++-
+ 2 files changed, 42 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 9c6649a97bd7..766c9e73d541 100644
+index 766c9e73d541..7dfd8071a858 100644
 --- a/drivers/iommu/mtk_iommu.c
 +++ b/drivers/iommu/mtk_iommu.c
-@@ -4,6 +4,7 @@
-  * Author: Yong Wu <yong.wu@mediatek.com>
-  */
- #include <linux/memblock.h>
-+#include <linux/bitfield.h>
- #include <linux/bug.h>
- #include <linux/clk.h>
- #include <linux/component.h>
-@@ -87,6 +88,9 @@
- #define F_REG_MMU1_FAULT_MASK			GENMASK(13, 7)
- 
- #define REG_MMU0_FAULT_VA			0x13c
-+#define F_MMU_INVAL_VA_31_12_MASK		GENMASK(31, 12)
-+#define F_MMU_INVAL_VA_34_32_MASK		GENMASK(11, 9)
-+#define F_MMU_INVAL_PA_34_32_MASK		GENMASK(8, 6)
- #define F_MMU_FAULT_VA_WRITE_BIT		BIT(1)
- #define F_MMU_FAULT_VA_LAYER_BIT		BIT(0)
- 
-@@ -110,6 +114,7 @@
- #define OUT_ORDER_WR_EN			BIT(4)
- #define HAS_SUB_COMM			BIT(5)
- #define WR_THROT_EN			BIT(6)
-+#define IOVA_34_EN			BIT(7)
- 
- #define MTK_IOMMU_HAS_FLAG(pdata, _x) \
- 		((((pdata)->flags) & (_x)) == (_x))
-@@ -269,8 +274,9 @@ static irqreturn_t mtk_iommu_isr(int irq, void *dev_id)
+@@ -361,6 +361,14 @@ static int mtk_iommu_domain_finalise(struct mtk_iommu_domain *dom)
  {
- 	struct mtk_iommu_data *data = dev_id;
- 	struct mtk_iommu_domain *dom = data->m4u_dom;
--	u32 int_state, regval, fault_iova, fault_pa;
- 	unsigned int fault_larb, fault_port, sub_comm = 0;
-+	u32 int_state, regval, va34_32, pa34_32;
-+	u64 fault_iova, fault_pa;
- 	bool layer, write;
+ 	struct mtk_iommu_data *data = mtk_iommu_get_m4u_data();
  
- 	/* Read error info from registers */
-@@ -286,6 +292,14 @@ static irqreturn_t mtk_iommu_isr(int irq, void *dev_id)
- 	}
- 	layer = fault_iova & F_MMU_FAULT_VA_LAYER_BIT;
- 	write = fault_iova & F_MMU_FAULT_VA_WRITE_BIT;
-+	if (MTK_IOMMU_HAS_FLAG(data->plat_data, IOVA_34_EN)) {
-+		va34_32 = FIELD_GET(F_MMU_INVAL_VA_34_32_MASK, fault_iova);
-+		pa34_32 = FIELD_GET(F_MMU_INVAL_PA_34_32_MASK, fault_iova);
-+		fault_iova = fault_iova & F_MMU_INVAL_VA_31_12_MASK;
-+		fault_iova |=  (u64)va34_32 << 32;
-+		fault_pa |= (u64)pa34_32 << 32;
++	/* Use the exist domain as there is one m4u pgtable here. */
++	if (data->m4u_dom) {
++		dom->iop = data->m4u_dom->iop;
++		dom->cfg = data->m4u_dom->cfg;
++		dom->domain.pgsize_bitmap = data->m4u_dom->cfg.pgsize_bitmap;
++		return 0;
 +	}
 +
- 	fault_port = F_MMU_INT_ID_PORT_ID(regval);
- 	if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_SUB_COMM)) {
- 		fault_larb = F_MMU_INT_ID_COMM_ID(regval);
-@@ -299,7 +313,7 @@ static irqreturn_t mtk_iommu_isr(int irq, void *dev_id)
- 			       write ? IOMMU_FAULT_WRITE : IOMMU_FAULT_READ)) {
- 		dev_err_ratelimited(
- 			data->dev,
--			"fault type=0x%x iova=0x%x pa=0x%x larb=%d port=%d layer=%d %s\n",
-+			"fault type=0x%x iova=0x%llx pa=0x%llx larb=%d port=%d layer=%d %s\n",
- 			int_state, fault_iova, fault_pa, fault_larb, fault_port,
- 			layer, write ? "write" : "read");
+ 	dom->cfg = (struct io_pgtable_cfg) {
+ 		.quirks = IO_PGTABLE_QUIRK_ARM_NS |
+ 			IO_PGTABLE_QUIRK_NO_PERMS |
+@@ -386,6 +394,8 @@ static int mtk_iommu_domain_finalise(struct mtk_iommu_domain *dom)
+ 
+ static struct iommu_domain *mtk_iommu_domain_alloc(unsigned type)
+ {
++	struct mtk_iommu_data *data = mtk_iommu_get_m4u_data();
++	const struct mtk_iommu_iova_region *region;
+ 	struct mtk_iommu_domain *dom;
+ 
+ 	if (type != IOMMU_DOMAIN_DMA)
+@@ -401,8 +411,10 @@ static struct iommu_domain *mtk_iommu_domain_alloc(unsigned type)
+ 	if (mtk_iommu_domain_finalise(dom))
+ 		goto  put_dma_cookie;
+ 
+-	dom->domain.geometry.aperture_start = 0;
+-	dom->domain.geometry.aperture_end = DMA_BIT_MASK(32);
++	region = data->plat_data->iova_region + data->cur_domid;
++	dom->domain.geometry.aperture_start = region->iova_base;
++	dom->domain.geometry.aperture_end = region->iova_base +
++						region->size - 1;
+ 	dom->domain.geometry.force_aperture = true;
+ 
+ 	return &dom->domain;
+@@ -540,19 +552,31 @@ static void mtk_iommu_release_device(struct device *dev)
+ static struct iommu_group *mtk_iommu_device_group(struct device *dev)
+ {
+ 	struct mtk_iommu_data *data = mtk_iommu_get_m4u_data();
++	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
++	struct iommu_group *group;
++	int domid;
+ 
+ 	if (!data)
+ 		return ERR_PTR(-ENODEV);
+ 
+-	/* All the client devices are in the same m4u iommu-group */
+-	if (!data->m4u_group) {
+-		data->m4u_group = iommu_group_alloc();
+-		if (IS_ERR(data->m4u_group))
++	domid = MTK_M4U_TO_DOM(fwspec->ids[0]);
++	if (domid >= data->plat_data->iova_region_nr) {
++		dev_err(dev, "domain id(%d/%d) is error.\n", domid,
++			data->plat_data->iova_region_nr);
++		return ERR_PTR(-EINVAL);
++	}
++
++	group = data->m4u_group[domid];
++	if (!group) {
++		group = iommu_group_alloc();
++		if (IS_ERR(group))
+ 			dev_err(dev, "Failed to allocate M4U IOMMU group\n");
++		data->m4u_group[domid] = group;
+ 	} else {
+-		iommu_group_ref_get(data->m4u_group);
++		iommu_group_ref_get(group);
  	}
+-	return data->m4u_group;
++	data->cur_domid = domid;
++	return group;
+ }
+ 
+ static int mtk_iommu_of_xlate(struct device *dev, struct of_phandle_args *args)
+@@ -581,14 +605,21 @@ static void mtk_iommu_get_resv_regions(struct device *dev,
+ 				       struct list_head *head)
+ {
+ 	struct mtk_iommu_data *data = dev_iommu_priv_get(dev);
+-	const struct mtk_iommu_iova_region *resv;
++	const struct mtk_iommu_iova_region *resv, *curdom;
+ 	struct iommu_resv_region *region;
+ 	int prot = IOMMU_WRITE | IOMMU_READ;
+ 	unsigned int i;
+ 
++	curdom = data->plat_data->iova_region + data->cur_domid;
+ 	for (i = 0; i < data->plat_data->iova_region_nr; i++) {
+ 		resv = data->plat_data->iova_region + i;
+ 
++		/* Only reserve when the region is in the current domain */
++		if (resv->iova_base <= curdom->iova_base ||
++		    resv->iova_base + resv->size >=
++					curdom->iova_base + curdom->size)
++			continue;
++
+ 		region = iommu_alloc_resv_region(resv->iova_base, resv->size,
+ 						 prot, IOMMU_RESV_RESERVED);
+ 		if (!region)
+diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
+index bb929b875d8c..11795b8d82ff 100644
+--- a/drivers/iommu/mtk_iommu.h
++++ b/drivers/iommu/mtk_iommu.h
+@@ -65,7 +65,7 @@ struct mtk_iommu_data {
+ 	phys_addr_t			protect_base; /* protect memory base */
+ 	struct mtk_iommu_suspend_reg	reg;
+ 	struct mtk_iommu_domain		*m4u_dom;
+-	struct iommu_group		*m4u_group;
++	struct iommu_group		*m4u_group[MTK_M4U_DOM_NR_MAX];
+ 	bool                            enable_4GB;
+ 	spinlock_t			tlb_lock; /* lock for tlb range flush */
+ 
+@@ -73,6 +73,7 @@ struct mtk_iommu_data {
+ 	const struct mtk_iommu_plat_data *plat_data;
+ 	struct device			*smicomm_dev;
+ 
++	unsigned int			cur_domid;
+ 	struct list_head		list;
+ 	struct mtk_smi_larb_iommu	larb_imu[MTK_LARB_NR_MAX];
+ };
 -- 
 2.18.0
 _______________________________________________
