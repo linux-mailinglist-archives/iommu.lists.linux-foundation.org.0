@@ -2,61 +2,61 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA6121C2D1
-	for <lists.iommu@lfdr.de>; Sat, 11 Jul 2020 08:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D04D21C2DD
+	for <lists.iommu@lfdr.de>; Sat, 11 Jul 2020 08:53:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9CB938826F;
-	Sat, 11 Jul 2020 06:52:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CB5E788282;
+	Sat, 11 Jul 2020 06:53:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5APhxxIrjBEI; Sat, 11 Jul 2020 06:52:47 +0000 (UTC)
+	with ESMTP id SaCh3KUE3f0c; Sat, 11 Jul 2020 06:53:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 32C1F88279;
-	Sat, 11 Jul 2020 06:52:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5D2A2881F5;
+	Sat, 11 Jul 2020 06:53:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D472C016F;
-	Sat, 11 Jul 2020 06:52:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 542B8C088E;
+	Sat, 11 Jul 2020 06:53:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A8624C088E
- for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:52:44 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CA0F2C016F
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:53:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 97B7988AE0
- for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:52:44 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id C56D088810
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:53:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m3sd28FrFbAc for <iommu@lists.linux-foundation.org>;
- Sat, 11 Jul 2020 06:52:43 +0000 (UTC)
+ with ESMTP id RtEvzbP7aoHQ for <iommu@lists.linux-foundation.org>;
+ Sat, 11 Jul 2020 06:53:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2EFE488334
- for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:52:43 +0000 (UTC)
-X-UUID: 8bf2ef7cbbad4d0ba7fc277f275626e5-20200711
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 0AE6688334
+ for <iommu@lists.linux-foundation.org>; Sat, 11 Jul 2020 06:53:03 +0000 (UTC)
+X-UUID: a9be5e49686e45f984eb477d9ca6576d-20200711
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=yf085KSU3PMUn6TkSNQXo1sLly+cdKGR+5jbWgYX2B0=; 
- b=hZ+5XT6LTicyUwJekF9VLxKtDj9tElV7YuQ7GR/3FnDbMD+JVcFzl3ZxGKAeUcmubHnIMNHDfceU2ZkFrsOCrDVMt7gyDZYDd92Q6OLVpPmlfnag1tTNiBdq9+CIYG/b9AM+3KjPEekGgm+EvEzQxZO6HigiadFmlt5U6tJlQBo=;
-X-UUID: 8bf2ef7cbbad4d0ba7fc277f275626e5-20200711
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+ bh=XFYjQD+5gyhYkftQ2TMlioSGdoG7pjkq+qUmw2l1IQM=; 
+ b=KvNa3smyoENggP7SkLXpoU8qThLR+cpBfIn2d4aZSsoTqneaMXBC3Ni2VQnZ8+BgKHeAaTkBVfjp3wWJ9kye30yr41zuBlovFdbktiJNe55Uf6N9YaeGD15PGDJE37g1lCJ+maZE9uYeqDCSI0NlNXblOn4kAePKbWpPM+CFC40=;
+X-UUID: a9be5e49686e45f984eb477d9ca6576d-20200711
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1085459974; Sat, 11 Jul 2020 14:52:41 +0800
+ with ESMTP id 1721728080; Sat, 11 Jul 2020 14:53:01 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
  mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 11 Jul 2020 14:52:37 +0800
+ 15.0.1497.2; Sat, 11 Jul 2020 14:52:45 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 11 Jul 2020 14:52:36 +0800
+ Transport; Sat, 11 Jul 2020 14:52:44 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
  Rob Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 20/21] iommu/mediatek: Add mt8192 support
-Date: Sat, 11 Jul 2020 14:48:45 +0800
-Message-ID: <20200711064846.16007-21-yong.wu@mediatek.com>
+Subject: [PATCH 21/21] memory: mtk-smi: Add mt8192 support
+Date: Sat, 11 Jul 2020 14:48:46 +0800
+Message-ID: <20200711064846.16007-22-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20200711064846.16007-1-yong.wu@mediatek.com>
 References: <20200711064846.16007-1-yong.wu@mediatek.com>
@@ -87,69 +87,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add mt8192 iommu support.
+Add mt8192 smi support.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 ---
- drivers/iommu/mtk_iommu.c | 20 ++++++++++++++++++++
- drivers/iommu/mtk_iommu.h |  1 +
- 2 files changed, 21 insertions(+)
+ drivers/memory/mtk-smi.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index a4ac41e60c4f..da7d055af919 100644
---- a/drivers/iommu/mtk_iommu.c
-+++ b/drivers/iommu/mtk_iommu.c
-@@ -168,6 +168,14 @@ static const struct mtk_iommu_iova_region single_domain[] = {
- 	{.iova_base = 0, .size = SZ_4G},
+diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
+index f2f6100c74ef..5d0268630e70 100644
+--- a/drivers/memory/mtk-smi.c
++++ b/drivers/memory/mtk-smi.c
+@@ -252,6 +252,10 @@ static const struct mtk_smi_larb_gen mtk_smi_larb_mt8183 = {
+ 				      /* IPU0 | IPU1 | CCU */
  };
  
-+static const struct mtk_iommu_iova_region mt8192_multi_dom[] = {
-+	{ .iova_base = 0x0, .size = SZ_4G},	      /* disp : 0 ~ 4G */
-+	{ .iova_base = SZ_4G, .size = SZ_4G},         /* vdec : 4G ~ 8G */
-+	{ .iova_base = SZ_4G * 2, .size = SZ_4G},     /* CAM/MDP: 8G ~ 12G */
-+	{ .iova_base = 0x240000000ULL, .size = 0x4000000}, /* CCU0 */
-+	{ .iova_base = 0x244000000ULL, .size = 0x4000000}, /* CCU1 */
++static const struct mtk_smi_larb_gen mtk_smi_larb_mt8192 = {
++	.config_port                = mtk_smi_larb_config_port_gen2_general,
 +};
 +
- /*
-  * There may be 1 or 2 M4U HWs, But we always expect they are in the same domain
-  * for the performance.
-@@ -991,11 +999,23 @@ static const struct mtk_iommu_plat_data mt8183_data = {
- 	.larbid_remap = {{0}, {4}, {5}, {6}, {7}, {2}, {3}, {1}},
- };
- 
-+static const struct mtk_iommu_plat_data mt8192_data = {
-+	.m4u_plat       = M4U_MT8192,
-+	.flags          = HAS_SUB_COMM | OUT_ORDER_WR_EN | WR_THROT_EN
-+			  | IOVA_34_EN,
-+	.inv_sel_reg    = REG_MMU_INV_SEL_GEN2,
-+	.iova_region    = mt8192_multi_dom,
-+	.iova_region_nr = ARRAY_SIZE(mt8192_multi_dom),
-+	.larbid_remap   = {{0}, {1}, {4, 5}, {7}, {2}, {9, 11, 19, 20},
-+			   {0, 14, 16}, {0, 13, 18, 17}},
-+};
-+
- static const struct of_device_id mtk_iommu_of_ids[] = {
- 	{ .compatible = "mediatek,mt2712-m4u", .data = &mt2712_data},
- 	{ .compatible = "mediatek,mt6779-m4u", .data = &mt6779_data},
- 	{ .compatible = "mediatek,mt8173-m4u", .data = &mt8173_data},
- 	{ .compatible = "mediatek,mt8183-m4u", .data = &mt8183_data},
-+	{ .compatible = "mediatek,mt8192-m4u", .data = &mt8192_data},
+ static const struct of_device_id mtk_smi_larb_of_ids[] = {
+ 	{
+ 		.compatible = "mediatek,mt8173-smi-larb",
+@@ -269,6 +273,10 @@ static const struct of_device_id mtk_smi_larb_of_ids[] = {
+ 		.compatible = "mediatek,mt8183-smi-larb",
+ 		.data = &mtk_smi_larb_mt8183
+ 	},
++	{
++		.compatible = "mediatek,mt8192-smi-larb",
++		.data = &mtk_smi_larb_mt8192
++	},
  	{}
  };
  
-diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
-index 11795b8d82ff..d42a250156bd 100644
---- a/drivers/iommu/mtk_iommu.h
-+++ b/drivers/iommu/mtk_iommu.h
-@@ -41,6 +41,7 @@ enum mtk_iommu_plat {
- 	M4U_MT6779,
- 	M4U_MT8173,
- 	M4U_MT8183,
-+	M4U_MT8192,
+@@ -401,6 +409,13 @@ static const struct mtk_smi_common_plat mtk_smi_common_mt8183 = {
+ 		    F_MMU1_LARB(7),
  };
  
- struct mtk_iommu_iova_region;
++static const struct mtk_smi_common_plat mtk_smi_common_mt8192 = {
++	.gen      = MTK_SMI_GEN2,
++	.has_gals = true,
++	.bus_sel  = F_MMU1_LARB(1) | F_MMU1_LARB(2) | F_MMU1_LARB(5) |
++		    F_MMU1_LARB(6),
++};
++
+ static const struct of_device_id mtk_smi_common_of_ids[] = {
+ 	{
+ 		.compatible = "mediatek,mt8173-smi-common",
+@@ -418,6 +433,10 @@ static const struct of_device_id mtk_smi_common_of_ids[] = {
+ 		.compatible = "mediatek,mt8183-smi-common",
+ 		.data = &mtk_smi_common_mt8183,
+ 	},
++	{
++		.compatible = "mediatek,mt8192-smi-common",
++		.data = &mtk_smi_common_mt8192,
++	},
+ 	{}
+ };
+ 
 -- 
 2.18.0
 _______________________________________________
