@@ -2,45 +2,45 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28A321E2AC
-	for <lists.iommu@lfdr.de>; Mon, 13 Jul 2020 23:54:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2180221E2AE
+	for <lists.iommu@lfdr.de>; Mon, 13 Jul 2020 23:54:05 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6E18688549;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CAA8A88555;
 	Mon, 13 Jul 2020 21:54:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GlT9fxGtFiJZ; Mon, 13 Jul 2020 21:54:02 +0000 (UTC)
+	with ESMTP id SrNOVVrL1xGV; Mon, 13 Jul 2020 21:54:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1D59388782;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 51C9888797;
 	Mon, 13 Jul 2020 21:54:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0381DC0733;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3C9DCC0733;
 	Mon, 13 Jul 2020 21:54:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3837CC0733
- for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 21:40:57 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4A4A2C0733
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 21:41:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 31923230A4
- for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 21:40:57 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 33A3F204CB
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 21:41:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m0T7EJnjuaAx for <iommu@lists.linux-foundation.org>;
- Mon, 13 Jul 2020 21:40:55 +0000 (UTC)
+ with ESMTP id m2JdOoFYwvn3 for <iommu@lists.linux-foundation.org>;
+ Mon, 13 Jul 2020 21:40:59 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by silver.osuosl.org (Postfix) with ESMTP id 5192C204CB
- for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 21:40:55 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.75,348,1589209200"; d="scan'208";a="52016003"
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by silver.osuosl.org (Postfix) with ESMTP id DBDAB22660
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 21:40:58 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.75,348,1589209200"; d="scan'208";a="51803377"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie5.idc.renesas.com with ESMTP; 14 Jul 2020 06:35:51 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 14 Jul 2020 06:35:55 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id 532E640F7FC8;
- Tue, 14 Jul 2020 06:35:47 +0900 (JST)
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7347C40F7FC8;
+ Tue, 14 Jul 2020 06:35:51 +0900 (JST)
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
@@ -49,10 +49,9 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Joerg Roedel <joro@8bytes.org>,
  Sergei Shtylyov <sergei.shtylyov@gmail.com>,
  "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 6/9] dt-bindings: gpio: renesas,
- rcar-gpio: Add r8a774e1 support
-Date: Mon, 13 Jul 2020 22:35:17 +0100
-Message-Id: <1594676120-5862-7-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 7/9] arm64: dts: renesas: r8a774e1: Add GPIO device nodes
+Date: Mon, 13 Jul 2020 22:35:18 +0100
+Message-Id: <1594676120-5862-8-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -80,26 +79,161 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Document Renesas RZ/G2H (R8A774E1) GPIO blocks compatibility within the
-relevant dt-bindings.
+From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
+Add GPIO device nodes to the DT of the r8a774e1 SoC.
+
+Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/renesas/r8a774e1.dtsi | 73 +++++++++++++++++------
+ 1 file changed, 56 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
-index 397d9383d15a..a9a9dd0854e7 100644
---- a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
-+++ b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
-@@ -37,6 +37,7 @@ properties:
-              - renesas,gpio-r8a774a1     # RZ/G2M
-              - renesas,gpio-r8a774b1     # RZ/G2N
-              - renesas,gpio-r8a774c0     # RZ/G2E
-+             - renesas,gpio-r8a774e1     # RZ/G2H
-              - renesas,gpio-r8a7795      # R-Car H3
-              - renesas,gpio-r8a7796      # R-Car M3-W
-              - renesas,gpio-r8a77961     # R-Car M3-W+
+diff --git a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
+index 9e05d134a295..599703d87b56 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
+@@ -246,84 +246,123 @@
+ 		};
+ 
+ 		gpio0: gpio@e6050000 {
++			compatible = "renesas,gpio-r8a774e1",
++				     "renesas,rcar-gen3-gpio";
+ 			reg = <0 0xe6050000 0 0x50>;
++			interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
+ 			#gpio-cells = <2>;
+ 			gpio-controller;
++			gpio-ranges = <&pfc 0 0 16>;
+ 			#interrupt-cells = <2>;
+ 			interrupt-controller;
+-
+-			/* placeholder */
++			clocks = <&cpg CPG_MOD 912>;
++			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
++			resets = <&cpg 912>;
+ 		};
+ 
+ 		gpio1: gpio@e6051000 {
++			compatible = "renesas,gpio-r8a774e1",
++				     "renesas,rcar-gen3-gpio";
+ 			reg = <0 0xe6051000 0 0x50>;
++			interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
+ 			#gpio-cells = <2>;
+ 			gpio-controller;
++			gpio-ranges = <&pfc 0 32 29>;
+ 			#interrupt-cells = <2>;
+ 			interrupt-controller;
+-
+-			/* placeholder */
++			clocks = <&cpg CPG_MOD 911>;
++			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
++			resets = <&cpg 911>;
+ 		};
+ 
+ 		gpio2: gpio@e6052000 {
++			compatible = "renesas,gpio-r8a774e1",
++				     "renesas,rcar-gen3-gpio";
+ 			reg = <0 0xe6052000 0 0x50>;
++			interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>;
+ 			#gpio-cells = <2>;
+ 			gpio-controller;
++			gpio-ranges = <&pfc 0 64 15>;
+ 			#interrupt-cells = <2>;
+ 			interrupt-controller;
+-
+-			/* placeholder */
++			clocks = <&cpg CPG_MOD 910>;
++			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
++			resets = <&cpg 910>;
+ 		};
+ 
+ 		gpio3: gpio@e6053000 {
+-			/* placeholder */
++			compatible = "renesas,gpio-r8a774e1",
++				     "renesas,rcar-gen3-gpio";
+ 			reg = <0 0xe6053000 0 0x50>;
++			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+ 			#gpio-cells = <2>;
+ 			gpio-controller;
++			gpio-ranges = <&pfc 0 96 16>;
+ 			#interrupt-cells = <2>;
+ 			interrupt-controller;
+-
+-			/* placeholder */
++			clocks = <&cpg CPG_MOD 909>;
++			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
++			resets = <&cpg 909>;
+ 		};
+ 
+ 		gpio4: gpio@e6054000 {
++			compatible = "renesas,gpio-r8a774e1",
++				     "renesas,rcar-gen3-gpio";
+ 			reg = <0 0xe6054000 0 0x50>;
++			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+ 			#gpio-cells = <2>;
+ 			gpio-controller;
++			gpio-ranges = <&pfc 0 128 18>;
+ 			#interrupt-cells = <2>;
+ 			interrupt-controller;
+-
+-			/* placeholder */
++			clocks = <&cpg CPG_MOD 908>;
++			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
++			resets = <&cpg 908>;
+ 		};
+ 
+ 		gpio5: gpio@e6055000 {
++			compatible = "renesas,gpio-r8a774e1",
++				     "renesas,rcar-gen3-gpio";
+ 			reg = <0 0xe6055000 0 0x50>;
++			interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
+ 			#gpio-cells = <2>;
+ 			gpio-controller;
++			gpio-ranges = <&pfc 0 160 26>;
+ 			#interrupt-cells = <2>;
+ 			interrupt-controller;
+-
+-			/* placeholder */
++			clocks = <&cpg CPG_MOD 907>;
++			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
++			resets = <&cpg 907>;
+ 		};
+ 
+ 		gpio6: gpio@e6055400 {
++			compatible = "renesas,gpio-r8a774e1",
++				     "renesas,rcar-gen3-gpio";
+ 			reg = <0 0xe6055400 0 0x50>;
++			interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
+ 			#gpio-cells = <2>;
+ 			gpio-controller;
++			gpio-ranges = <&pfc 0 192 32>;
+ 			#interrupt-cells = <2>;
+ 			interrupt-controller;
+-
+-			/* placeholder */
++			clocks = <&cpg CPG_MOD 906>;
++			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
++			resets = <&cpg 906>;
+ 		};
+ 
+ 		gpio7: gpio@e6055800 {
++			compatible = "renesas,gpio-r8a774e1",
++				     "renesas,rcar-gen3-gpio";
+ 			reg = <0 0xe6055800 0 0x50>;
++			interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
+ 			#gpio-cells = <2>;
+ 			gpio-controller;
++			gpio-ranges = <&pfc 0 224 4>;
+ 			#interrupt-cells = <2>;
+ 			interrupt-controller;
+-
+-			/* placeholder */
++			clocks = <&cpg CPG_MOD 905>;
++			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
++			resets = <&cpg 905>;
+ 		};
+ 
+ 		pfc: pin-controller@e6060000 {
 -- 
 2.17.1
 
