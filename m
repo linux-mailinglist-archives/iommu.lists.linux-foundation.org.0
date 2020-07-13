@@ -2,72 +2,56 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54E621D7E7
-	for <lists.iommu@lfdr.de>; Mon, 13 Jul 2020 16:10:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B79D21D818
+	for <lists.iommu@lfdr.de>; Mon, 13 Jul 2020 16:16:03 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 628F3845A3;
-	Mon, 13 Jul 2020 14:10:49 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E034087803;
+	Mon, 13 Jul 2020 14:16:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id i0W2TDTpTY_m; Mon, 13 Jul 2020 14:10:49 +0000 (UTC)
+	with ESMTP id OKMD--4PHdVy; Mon, 13 Jul 2020 14:16:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id F32C8876C9;
-	Mon, 13 Jul 2020 14:10:48 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id AE94687808;
+	Mon, 13 Jul 2020 14:16:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D97C4C0733;
-	Mon, 13 Jul 2020 14:10:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 95B72C088E;
+	Mon, 13 Jul 2020 14:16:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AB899C0733
- for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 14:10:46 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 49E7FC0733
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 14:15:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9636786381
- for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 14:10:46 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 2BB0223735
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 14:15:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id u3xpk6g1DstR for <iommu@lists.linux-foundation.org>;
- Mon, 13 Jul 2020 14:10:45 +0000 (UTC)
+ with ESMTP id BGG1tewAT5dE for <iommu@lists.linux-foundation.org>;
+ Mon, 13 Jul 2020 14:15:57 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C0A1D845A3
- for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 14:10:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18D3E30E;
- Mon, 13 Jul 2020 07:10:45 -0700 (PDT)
-Received: from [10.57.62.178] (unknown [10.57.62.178])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EA2E43F7BB;
- Mon, 13 Jul 2020 07:10:40 -0700 (PDT)
-Subject: Re: [PATCH v10 4/5] dt-bindings: arm-smmu: add binding for Tegra194
- SMMU
-To: Krishna Reddy <vdumpa@nvidia.com>, Rob Herring <robh@kernel.org>
-References: <20200708050017.31563-1-vdumpa@nvidia.com>
- <20200708050017.31563-5-vdumpa@nvidia.com> <20200709201348.GA808454@bogus>
- <BYAPR12MB2822514F93F831507A811EE9B3650@BYAPR12MB2822.namprd12.prod.outlook.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <c2ab2a0d-419d-555f-c124-2cfa1ecb2a81@arm.com>
-Date: Mon, 13 Jul 2020 15:10:25 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8197B23504
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 14:15:57 +0000 (UTC)
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 7CDD5BCC515B84495D4F;
+ Mon, 13 Jul 2020 22:15:48 +0800 (CST)
+Received: from kernelci-master.huawei.com (10.175.101.6) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 13 Jul 2020 22:15:38 +0800
+From: Wei Yongjun <weiyongjun1@huawei.com>
+To: Hulk Robot <hulkci@huawei.com>, Joerg Roedel <joro@8bytes.org>, Eric Auger
+ <eric.auger@redhat.com>, Tom Murphy <murphyt7@tcd.ie>
+Subject: [PATCH -next] iommu: Make some functions static
+Date: Mon, 13 Jul 2020 22:25:42 +0800
+Message-ID: <20200713142542.50294-1-weiyongjun1@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <BYAPR12MB2822514F93F831507A811EE9B3650@BYAPR12MB2822.namprd12.prod.outlook.com>
-Content-Language: en-GB
-Cc: Sachin Nikam <Snikam@nvidia.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Pritesh Raithatha <praithatha@nvidia.com>,
- Bryan Huntsman <bhuntsman@nvidia.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Timo Alho <talho@nvidia.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Nicolin Chen <nicolinc@nvidia.com>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- Yu-Huan Hsu <YHsu@nvidia.com>, Thierry Reding <treding@nvidia.com>,
- "will@kernel.org" <will@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Bitan Biswas <bbiswas@nvidia.com>
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Cc: iommu@lists.linux-foundation.org, Wei Yongjun <weiyongjun1@huawei.com>,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,44 +64,53 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-07-10 21:29, Krishna Reddy wrote:
-> Thanks Rob. One question on setting "minItems: ". Please see below.
-> 
->>> +allOf:
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            enum:
->>> +              - nvidia,tegra194-smmu
->>> +    then:
->>> +      properties:
->>> +        reg:
->>> +          minItems: 2
->>> +          maxItems: 2
-> 
->> This doesn't work. The main part of the schema already said there's only
->> 1 reg region. This part is ANDed with that, not an override. You need to add an else clause with 'maxItems: 1' and change the base schema to
->> {minItems: 1, maxItems: 2}.
-> 
-> As the earlier version of base schema doesn't have "minItems: " set, should it be set to 0 for backward compatibility?  Or can it just be omitted setting in base schema as before?
+The sparse tool complains as follows:
 
-We've always needed at least 1 "reg" specifier in practice, so I don't 
-think being backwards-compatible with broken DTs is a concern :)
+drivers/iommu/iommu.c:386:5: warning:
+ symbol 'iommu_insert_resv_region' was not declared. Should it be static?
+drivers/iommu/iommu.c:2182:5: warning:
+ symbol '__iommu_map' was not declared. Should it be static?
 
-Robin.
+Those functions are not used outside of iommu.c, so mark them static.
 
-> 
-> "else" part to set "maxItems: 1" and setting "maxItems: 2" in base schema is clear to me.
-> 
-> 
-> -KR
-> 
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+---
+ drivers/iommu/iommu.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 1ed1e14a1f0c..40947f5bc6c5 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -383,8 +383,8 @@ static ssize_t iommu_group_show_name(struct iommu_group *group, char *buf)
+  * Elements are sorted by start address and overlapping segments
+  * of the same type are merged.
+  */
+-int iommu_insert_resv_region(struct iommu_resv_region *new,
+-			     struct list_head *regions)
++static int iommu_insert_resv_region(struct iommu_resv_region *new,
++				    struct list_head *regions)
+ {
+ 	struct iommu_resv_region *iter, *tmp, *nr, *top;
+ 	LIST_HEAD(stack);
+@@ -2179,8 +2179,8 @@ static size_t iommu_pgsize(struct iommu_domain *domain,
+ 	return pgsize;
+ }
+ 
+-int __iommu_map(struct iommu_domain *domain, unsigned long iova,
+-	      phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
++static int __iommu_map(struct iommu_domain *domain, unsigned long iova,
++		       phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
+ {
+ 	const struct iommu_ops *ops = domain->ops;
+ 	unsigned long orig_iova = iova;
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
