@@ -1,66 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5A021E2B0
-	for <lists.iommu@lfdr.de>; Mon, 13 Jul 2020 23:54:05 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6041F21E266
+	for <lists.iommu@lfdr.de>; Mon, 13 Jul 2020 23:36:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1DDC688782;
-	Mon, 13 Jul 2020 21:54:04 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E4D66264B4;
+	Mon, 13 Jul 2020 21:36:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0_G2NMMrO-HX; Mon, 13 Jul 2020 21:54:02 +0000 (UTC)
+	with ESMTP id qEOaQ8tMMs2F; Mon, 13 Jul 2020 21:36:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B092688542;
-	Mon, 13 Jul 2020 21:54:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9735825B92;
+	Mon, 13 Jul 2020 21:36:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AA72CC0733;
-	Mon, 13 Jul 2020 21:54:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6F6ACC0733;
+	Mon, 13 Jul 2020 21:36:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D667AC0733
- for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 21:41:06 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99315C0733
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 21:36:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C5BD38846E
- for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 21:41:06 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 88D7F8A055
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 21:36:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pWPI__-ELU0l for <iommu@lists.linux-foundation.org>;
- Mon, 13 Jul 2020 21:41:06 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DFD9A8845C
- for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 21:41:05 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.75,348,1589209200"; d="scan'208";a="51803389"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
- by relmlie6.idc.renesas.com with ESMTP; 14 Jul 2020 06:36:03 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
- by relmlir6.idc.renesas.com (Postfix) with ESMTP id B6A4C40F7FC8;
- Tue, 14 Jul 2020 06:35:59 +0900 (JST)
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Joerg Roedel <joro@8bytes.org>,
- Sergei Shtylyov <sergei.shtylyov@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 9/9] arm64: dts: renesas: r8a774e1: Add Ethernet AVB node
-Date: Mon, 13 Jul 2020 22:35:20 +0100
-Message-Id: <1594676120-5862-10-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailman-Approved-At: Mon, 13 Jul 2020 21:53:59 +0000
-Cc: devicetree@vger.kernel.org, netdev@vger.kernel.org,
- Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
- iommu@lists.linux-foundation.org, Prabhakar <prabhakar.csengg@gmail.com>,
- dmaengine@vger.kernel.org
+ with ESMTP id gGvsxxq6vqWX for <iommu@lists.linux-foundation.org>;
+ Mon, 13 Jul 2020 21:36:08 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 1357889919
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 21:36:08 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id p205so6592142iod.8
+ for <iommu@lists.linux-foundation.org>; Mon, 13 Jul 2020 14:36:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=Ds31A3g/zm7RWz12Mdt2xEVw3TUuXdV7t8TgREVUS5k=;
+ b=H7rZQHUXfrv7yV3sSvMrx/uEAG2fKgcDe7dIp+ICwq2cyvTBjiZyk6cas2lo+CHD7P
+ umGZaKzOfZAnheNb3dNriXZ/CNeuFoEVCV+YB8nERVmUH6UWZrJ8zfLjj7kXshwsIUR/
+ V0q4VGaEl2XQcmopx6G2w9e/qZeKO4p3fvl0VBjEwoQxP0fqvrsimQRaxDlVlMSqerIf
+ e4Bk3nGl3+Oo1ZgumOH8IKU2NcaPpZx+zw2Ki1ngw41m9SqdJxK2EoKBd03u4SkbvRWr
+ MxmSWZiNFc1+zwIQGTEb69k29PNmw9vMflV4sTwsBshRK4hwnmEN2KuCUbQdxnorkiw8
+ ykgA==
+X-Gm-Message-State: AOAM531e2JgGcjyB8tcoWvsZe6zNo6R8dzaBMmXRpdN0qUmcbn6LBDux
+ LRmIw0Te0mZu7vBl3WV05Q==
+X-Google-Smtp-Source: ABdhPJzIjXhyFFB2gzub0W2jM/rvGAFEwl9LO8mdLyLFlXaE/U0x+bzAY8WF8WzxMPhaHpWDEwsegA==
+X-Received: by 2002:a02:10c1:: with SMTP id 184mr2288036jay.135.1594676167287; 
+ Mon, 13 Jul 2020 14:36:07 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+ by smtp.gmail.com with ESMTPSA id x19sm1372922ioh.38.2020.07.13.14.36.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jul 2020 14:36:06 -0700 (PDT)
+Received: (nullmailer pid 769509 invoked by uid 1000);
+ Mon, 13 Jul 2020 21:36:05 -0000
+Date: Mon, 13 Jul 2020 15:36:05 -0600
+From: Rob Herring <robh@kernel.org>
+To: Tomasz Nowicki <tn@semihalf.com>
+Subject: Re: [PATCH v3 3/4] dt-bindings: arm-smmu: add compatible string for
+ Marvell Armada-AP806 SMMU-500
+Message-ID: <20200713213605.GA766184@bogus>
+References: <20200702201633.22693-1-tn@semihalf.com>
+ <20200702201633.22693-4-tn@semihalf.com>
+ <3172ec21-d773-7fcb-f1ee-f557f72f20c5@arm.com>
+ <972f5cbd-705b-e18a-7477-5f6922804361@semihalf.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <972f5cbd-705b-e18a-7477-5f6922804361@semihalf.com>
+Cc: devicetree@vger.kernel.org, gregory.clement@bootlin.com,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ nadavh@marvell.com, iommu@lists.linux-foundation.org, catalin.marinas@arm.com,
+ mw@semihalf.com, will@kernel.org, hannah@marvell.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,82 +90,56 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+On Fri, Jul 03, 2020 at 11:26:32AM +0200, Tomasz Nowicki wrote:
+> On 03.07.2020 11:05, Robin Murphy wrote:
+> > On 2020-07-02 21:16, Tomasz Nowicki wrote:
+> > > Add specific compatible string for Marvell usage due to errata of
+> > > accessing 64bits registers of ARM SMMU, in AP806.
+> > > =
 
-This patch adds the SoC specific part of the Ethernet AVB
-device tree node.
+> > > AP806 SoC uses the generic ARM-MMU500, and there's no specific
+> > > implementation of Marvell, this compatible is used for errata only.
+> > > =
 
-Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r8a774e1.dtsi | 41 +++++++++++++++++++++--
- 1 file changed, 39 insertions(+), 2 deletions(-)
+> > > Signed-off-by: Hanna Hawa <hannah@marvell.com>
+> > > Signed-off-by: Gregory CLEMENT <gregory.clement@bootlin.com>
+> > > Signed-off-by: Tomasz Nowicki <tn@semihalf.com>
+> > > ---
+> > > =A0 Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 5 +++++
+> > > =A0 1 file changed, 5 insertions(+)
+> > > =
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-index 599703d87b56..caca319aafcf 100644
---- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-@@ -695,12 +695,49 @@
- 		};
- 
- 		avb: ethernet@e6800000 {
-+			compatible = "renesas,etheravb-r8a774e1",
-+				     "renesas,etheravb-rcar-gen3";
- 			reg = <0 0xe6800000 0 0x800>;
-+			interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 52 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 54 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 57 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 59 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 60 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 61 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 62 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 63 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "ch0", "ch1", "ch2", "ch3",
-+					  "ch4", "ch5", "ch6", "ch7",
-+					  "ch8", "ch9", "ch10", "ch11",
-+					  "ch12", "ch13", "ch14", "ch15",
-+					  "ch16", "ch17", "ch18", "ch19",
-+					  "ch20", "ch21", "ch22", "ch23",
-+					  "ch24";
-+			clocks = <&cpg CPG_MOD 812>;
-+			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
-+			resets = <&cpg 812>;
-+			phy-mode = "rgmii";
-+			iommus = <&ipmmu_ds0 16>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 			status = "disabled";
--
--			/* placeholder */
- 		};
- 
- 		can0: can@e6c30000 {
--- 
-2.17.1
+> > > diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > > b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > > index d7ceb4c34423..7beca9c00b12 100644
+> > > --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > > +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > > @@ -38,6 +38,11 @@ properties:
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 - qcom,sc7180-smmu-500
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 - qcom,sdm845-smmu-500
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 - const: arm,mmu-500
+> > > +=A0=A0=A0=A0=A0 - description: Marvell SoCs implementing "arm,mmu-50=
+0"
+> > > +=A0=A0=A0=A0=A0=A0=A0 items:
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - enum:
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 - marvell,ap806-smmu-500
+> > =
 
+> > Isn't a single-valued enum just a constant? :P
+> =
+
+> That's how copy-paste engineering ends up :)
+
+It's fine like this if you expect more SoCs to be added.
+
+Either way,
+
+Reviewed-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
