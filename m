@@ -1,75 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9197C21ECF5
-	for <lists.iommu@lfdr.de>; Tue, 14 Jul 2020 11:34:00 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4819321ECF8
+	for <lists.iommu@lfdr.de>; Tue, 14 Jul 2020 11:34:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 300D520362;
-	Tue, 14 Jul 2020 09:33:59 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 003D2883D7;
+	Tue, 14 Jul 2020 09:34:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id m1d+NGfBPKPt; Tue, 14 Jul 2020 09:33:57 +0000 (UTC)
+	with ESMTP id 9f4mEZAfcPBL; Tue, 14 Jul 2020 09:34:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 56E4220336;
-	Tue, 14 Jul 2020 09:33:57 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 92F8D88384;
+	Tue, 14 Jul 2020 09:34:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 44750C0733;
-	Tue, 14 Jul 2020 09:33:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7BCD5C0733;
+	Tue, 14 Jul 2020 09:34:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E2F34C0733
- for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 09:33:55 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CE682C0733
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 09:34:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DF048883D7
- for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 09:33:55 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id BC969883D7
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 09:34:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DJzbfh9HSH6Z for <iommu@lists.linux-foundation.org>;
- Tue, 14 Jul 2020 09:33:54 +0000 (UTC)
+ with ESMTP id P0q7hDaHQcZL for <iommu@lists.linux-foundation.org>;
+ Tue, 14 Jul 2020 09:34:02 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C08D988384
- for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 09:33:53 +0000 (UTC)
-X-UUID: 03cb09f6c67347d4bd174cae1c380851-20200714
+ by fraxinus.osuosl.org (Postfix) with ESMTP id AD00888384
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 09:34:01 +0000 (UTC)
+X-UUID: 294ffe915ddd4f2ebdd084d2a09cb58b-20200714
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=k1s7sjnnsRye1CFdb6q0XzdF7nQsqyfBB1IhxQ2urWM=; 
- b=I0lhH+SgvmpVYRsa1E8cdyHfe2AuG/Qfq59D7x4V0Xq7oNnoXNT5Z+MVFpgFPN3M5eyulToc4tuqz1y4YHjhZwKmiBMIQG24M+WGajW4otv82ZBmBuEz3X77+92ieROMdmh3OGIh+9dXBLvgYT/4yIUnthElkq7mdi5YyidF3/Y=;
-X-UUID: 03cb09f6c67347d4bd174cae1c380851-20200714
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ bh=g0vfCKfsVImSYs7pBa71fJvZ3L9cSxC+jFd3c5Ar0OA=; 
+ b=qga6wQmnl6LFOkFK300s5TBJueZg6wKqfCxqm5ApKl/ZRsDH9DFKNGfON9o0N811mIV5nbnXtOhLq1skUUp1gl8KFO7yK+XzxmK+qHBqDCq+Tf2eYe/t2m2HpEiDShWesjx0GfIE2m3D5iou3wiEwCOHQkXt+aM8yocisuLvyqU=;
+X-UUID: 294ffe915ddd4f2ebdd084d2a09cb58b-20200714
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
  (envelope-from <yong.wu@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 220981910; Tue, 14 Jul 2020 17:33:48 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS32N2.mediatek.inc
- (172.27.4.72) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 14 Jul 2020 17:33:47 +0800
+ with ESMTP id 1789059505; Tue, 14 Jul 2020 17:33:57 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N2.mediatek.inc
+ (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 14 Jul 2020 17:33:55 +0800
 Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
  (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 14 Jul 2020 17:33:45 +0800
-Message-ID: <1594719177.16172.33.camel@mhfsdcap03>
-Subject: Re: [PATCH 12/21] iommu/mediatek: Add iova reserved function
+ Transport; Tue, 14 Jul 2020 17:33:54 +0800
+Message-ID: <1594719186.16172.35.camel@mhfsdcap03>
+Subject: Re: [PATCH 11/21] iommu/mediatek: Add power-domain operation
 From: Yong Wu <yong.wu@mediatek.com>
 To: Pi-Hsun Shih <pihsun@chromium.org>
-Date: Tue, 14 Jul 2020 17:32:57 +0800
-In-Reply-To: <CANdKZ0d8CSWQepCj9RFFxrvYq8K8G=oZCnskRiA3aY3gY-DD=w@mail.gmail.com>
+Date: Tue, 14 Jul 2020 17:33:06 +0800
+In-Reply-To: <CANdKZ0e3=AeCxpSHVk7daUE01L7AgJYmZ7jeOQDT169SaowL-g@mail.gmail.com>
 References: <20200711064846.16007-1-yong.wu@mediatek.com>
- <20200711064846.16007-13-yong.wu@mediatek.com>
- <CANdKZ0d8CSWQepCj9RFFxrvYq8K8G=oZCnskRiA3aY3gY-DD=w@mail.gmail.com>
+ <20200711064846.16007-12-yong.wu@mediatek.com>
+ <CANdKZ0e3=AeCxpSHVk7daUE01L7AgJYmZ7jeOQDT169SaowL-g@mail.gmail.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: DEC085A44EA7D3545BF3F8F5EDD48DA486042A01F90A9595EFE295D355A786BF2000:8
+X-TM-SNTS-SMTP: 4A868CC5672C9E09033785D03A34B39C2AB230B1DC2A9B4BD748D338AF6B73A92000:8
 X-MTK: N
 Cc: Youlin Pei =?UTF-8?Q?=28=E8=A3=B4=E5=8F=8B=E6=9E=97=29?=
  <youlin.pei@mediatek.com>, "open
  list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>, Nicolas Boichat <drinkcat@chromium.org>,
- cui.zhang@mediatek.com, Hao Chao <hao.chao@mediatek.com>,
- srv_heupstream@mediatek.com, chao.hao@mediatek.com,
+ cui.zhang@mediatek.com, srv_heupstream@mediatek.com, chao.hao@mediatek.com,
  Robin Murphy <robin.murphy@arm.com>, open list <linux-kernel@vger.kernel.org>,
  Evan Green <evgreen@chromium.org>, Tomasz Figa <tfiga@google.com>,
  iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
@@ -95,50 +94,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, 2020-07-13 at 15:33 +0800, Pi-Hsun Shih wrote:
+On Mon, 2020-07-13 at 15:03 +0800, Pi-Hsun Shih wrote:
 > On Sat, Jul 11, 2020 at 2:51 PM Yong Wu <yong.wu@mediatek.com> wrote:
 > >
-> > For multiple iommu_domains, we need to reserve some iova regions, so we
-> > will add mtk_iommu_iova_region structure. It includes the base address
-> > and size of the range.
-> > This is a preparing patch for supporting multi-domain.
+> > In the previous SoC, the M4U HW is in the EMI power domain which is
+> > always on. the latest M4U is in the display power domain which may be
+> > turned on/off, thus we have to add pm_runtime interface for it.
 > >
-> > Signed-off-by: Anan sun<anan.sun@mediatek.com>
-> > Signed-off-by: Hao Chao<hao.chao@mediatek.com>
+> > we should enable its power before M4U hw initial. and disable it after HW
+> > initialize.
+> >
+> > When the engine work, the engine always enable the power and clocks for
+> > smi-larb/smi-common, then the M4U's power will always be powered on
+> > automatically via the device link with smi-common.
+> >
+> > Note: we don't enable the M4U power in iommu_map/unmap for tlb flush.
+> > If its power already is on, of course it is ok. if the power is off,
+> > the main tlb will be reset while M4U power on, thus the tlb flush while
+> > m4u power off is unnecessary, just skip it.
+> >
 > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 > > ---
-> >  drivers/iommu/mtk_iommu.c | 37 +++++++++++++++++++++++++++++++++++++
-> >  drivers/iommu/mtk_iommu.h |  5 +++++
-> >  2 files changed, 42 insertions(+)
-> >
-> > diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-> > index 03a6d66f4bef..fdfdb75706e0 100644
-> > --- a/drivers/iommu/mtk_iommu.c
-> > +++ b/drivers/iommu/mtk_iommu.c
-> > @@ -151,6 +151,11 @@ static LIST_HEAD(m4ulist); /* List all the M4U HWs */
+> >  drivers/iommu/mtk_iommu.c | 54 ++++++++++++++++++++++++++++++++++-----
+> >  1 file changed, 47 insertions(+), 7 deletions(-)
 > > ...
-> > +
-> > +static void mtk_iommu_put_resv_regions(struct device *dev,
-> > +                                      struct list_head *head)
-> > +{
-> > +       struct iommu_resv_region *entry, *next;
-> > +
-> > +       list_for_each_entry_safe(entry, next, head, list)
-> > +               kfree(entry);
-> > +}
+> >         for_each_m4u(data) {
+> > +               /* skip tlb flush when pm is not active */
+> > +               if (pm_runtime_enabled(data->dev) &&
+> > +                   !pm_runtime_active(data->dev))
+> > +                       continue;
 > > +
 > 
-> This is the same as generic_iommu_put_resv_regions, use that as the
-> .put_resv_regions callback instead?
+> pm_runtime_active(dev) == false implies dev->power.disable_depth == 0,
+> which implies pm_runtime_enabled(dev) == true, so the
+> pm_runtime_enabled(data->dev) can be omitted here.
 
-Thanks very much for the review.
-
-Yes. I will fix it in next version.
+Yes. Thanks.
+Will fix in next version.
 
 > 
+> >                 spin_lock_irqsave(&data->tlb_lock, flags);
+> >                 writel_relaxed(F_INVLD_EN1 | F_INVLD_EN0,
+> >                                data->base + data->plat_data->inv_sel_reg);
 > > ...
-> > --
-> > 2.18.0
 
 _______________________________________________
 iommu mailing list
