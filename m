@@ -2,55 +2,84 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC8721F19D
-	for <lists.iommu@lfdr.de>; Tue, 14 Jul 2020 14:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B3B21F191
+	for <lists.iommu@lfdr.de>; Tue, 14 Jul 2020 14:39:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id F40742BE70;
-	Tue, 14 Jul 2020 12:40:11 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6214C2637A;
+	Tue, 14 Jul 2020 12:39:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KtXN6T-47Acu; Tue, 14 Jul 2020 12:40:08 +0000 (UTC)
+	with ESMTP id xcCCXLezJ8QB; Tue, 14 Jul 2020 12:39:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 94CA42674B;
-	Tue, 14 Jul 2020 12:40:08 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4700A2514E;
+	Tue, 14 Jul 2020 12:39:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 82893C0733;
-	Tue, 14 Jul 2020 12:40:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 31824C0888;
+	Tue, 14 Jul 2020 12:39:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D5AB7C1798
- for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 12:40:03 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 653D3C0733
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 12:39:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8DC518A4F3
- for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 12:40:03 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 4BD838A27B
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 12:39:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BIQjbBAIniUU for <iommu@lists.linux-foundation.org>;
- Tue, 14 Jul 2020 12:40:02 +0000 (UTC)
+ with ESMTP id fSM50PDn11oV for <iommu@lists.linux-foundation.org>;
+ Tue, 14 Jul 2020 12:39:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 620088A3A2
- for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 12:40:02 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 6931AB036;
- Tue, 14 Jul 2020 12:40:03 +0000 (UTC)
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: hch@lst.de, linux-kernel@vger.kernel.org,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, David Rientjes <rientjes@google.com>
-Subject: [PATCH v2 4/4] dma-pool: Make sure atomic pool suits device
-Date: Tue, 14 Jul 2020 14:39:28 +0200
-Message-Id: <20200714123928.8581-5-nsaenzjulienne@suse.de>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200714123928.8581-1-nsaenzjulienne@suse.de>
-References: <20200714123928.8581-1-nsaenzjulienne@suse.de>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 4C15F8A279
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 12:39:51 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id 5so12866563oty.11
+ for <iommu@lists.linux-foundation.org>; Tue, 14 Jul 2020 05:39:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1gkM+uPTnitshLBuV08goagb6Ra5DyU+s9EwRHXtZeQ=;
+ b=Za5qYW1pV1a1PbxqLnfNQ+0pt2c6C+7+bcsD0ea440qQcwRdFRbQ9Fu7hZsU4e/3hD
+ MDi6pMQNgmWafnyWIjjaihEbgBnegRhHfs4sG5lh/j+DwNVcK8fkjMCJNhIMH90qUg1g
+ z66AGe3ES3xMIY8hevllRt1zjIkKmUv5YJawfnxK5gMcQCX8e3cO35+R3pf8uaOcH0vd
+ tPGaJ6CEYrgHlURpSN1Gli18xglM+DU8GnmWdizYUGy7DXPkf1BSmPn/n8GfOo8e7J5t
+ pOahdMNqDX03uJyj3yxaTezzjeYeO2xUAagXQyxdU7n9vaKONuRDONqUuanExvNU0sQo
+ WuSA==
+X-Gm-Message-State: AOAM533D0tYcxQhDC8ViXXurVmS/Q5gtDhOiXPKuVhpBcaBg7B641Kc4
+ Is9gno4KycVjrlTz014vzEKYQSrrHfkX7HIjAlc=
+X-Google-Smtp-Source: ABdhPJwQEGIYICCEl9+rMfVmtnnA3KEy1Oav7DAM0WyYTDfpBWgrg5GEkZrfN+c/weUUf5GnvXRjVxzrNetFysb/vow=
+X-Received: by 2002:a9d:2646:: with SMTP id a64mr3637009otb.107.1594730390491; 
+ Tue, 14 Jul 2020 05:39:50 -0700 (PDT)
 MIME-Version: 1.0
-Cc: iommu@lists.linux-foundation.org, linux-rpi-kernel@lists.infradead.org,
- jeremy.linton@arm.com
+References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594676120-5862-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdV4zzrk_=-2Cmgq8=PKTeU457iveJ58gYekJ-Z8SXqaCQ@mail.gmail.com>
+ <CA+V-a8tB0mA17f51GMQQ-Cj_CUXze_JjTahrpoAtmwuOFHQV6g@mail.gmail.com>
+ <CAMuHMdXM3qf266exJtJrN0XAogEsJoM-k3FON9CjX+stLpuMFA@mail.gmail.com>
+ <TY2PR01MB3692A868DD4E67D770C610E3D8610@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY2PR01MB3692A868DD4E67D770C610E3D8610@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 14 Jul 2020 14:39:39 +0200
+Message-ID: <CAMuHMdUry12MnLvVgmd7NJ+Gv4mA86qKKfsQobP1o-ohzKm=RQ@mail.gmail.com>
+Subject: Re: [PATCH 2/9] iommu/ipmmu-vmsa: Hook up R8A774E1 DT matching code
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ netdev <netdev@vger.kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+ Magnus Damm <magnus.damm@gmail.com>, "Lad,
+ Prabhakar" <prabhakar.csengg@gmail.com>,
+ Linux IOMMU <iommu@lists.linux-foundation.org>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ dmaengine <dmaengine@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -68,106 +97,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When allocating DMA memory from a pool, the core can only guess which
-atomic pool will fit a device's constraints. If it doesn't, get a safer
-atomic pool and try again.
+Hi Shimoda-san,
 
-Fixes: c84dc6e68a1d ("dma-pool: add additional coherent pools to map to gfp mask")
-Reported-by: Jeremy Linton <jeremy.linton@arm.com>
-Suggested-by: Robin Murphy <robin.murphy@arm.com>
-Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
----
+On Tue, Jul 14, 2020 at 1:42 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Geert Uytterhoeven, Sent: Tuesday, July 14, 2020 5:42 PM
+> > On Tue, Jul 14, 2020 at 10:30 AM Lad, Prabhakar
+> > <prabhakar.csengg@gmail.com> wrote:
+> > > On Tue, Jul 14, 2020 at 9:09 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > On Mon, Jul 13, 2020 at 11:35 PM Lad Prabhakar
+> > > Also the recent patch to add
+> > > "r8a77961" just adds to soc_rcar_gen3_whitelist.
+> >
+> > Oops, commit 17fe16181639801b ("iommu/renesas: Add support for r8a77961")
+> > did it wrong, too.
+>
+> Thank you for the point it out. We should add r8a77961 to the soc_rcar_gen3[].
+> However, I don't know why I could not realize this issue...
+> So, I investigated this a little and then, IIUC, glob_match() which
+> soc_device_match() uses seems to return true, if *pat = "r8a7796" and *str = "r8a77961".
 
-Changes since v1:
- - Rebase to linus' master
+Are you sure about this?
+I enabled CONFIG_GLOB_SELFTEST, and globtest succeeded.
+It does test glob_match("a", "aa"), which is a similar test.
 
- kernel/dma/pool.c | 57 ++++++++++++++++++++++++++++++-----------------
- 1 file changed, 37 insertions(+), 20 deletions(-)
+To be 100% sure, I added:
 
-diff --git a/kernel/dma/pool.c b/kernel/dma/pool.c
-index 5b9eaa2b498d..d48d9acb585f 100644
---- a/kernel/dma/pool.c
-+++ b/kernel/dma/pool.c
-@@ -240,39 +240,56 @@ static inline struct gen_pool *dma_guess_pool(struct device *dev,
- void *dma_alloc_from_pool(struct device *dev, size_t size,
- 			  struct page **ret_page, gfp_t flags)
- {
--	struct gen_pool *pool = dma_guess_pool(dev, NULL);
--	unsigned long val;
-+	struct gen_pool *pool = NULL;
-+	unsigned long val = 0;
- 	void *ptr = NULL;
--
--	if (!pool) {
--		WARN(1, "%pGg atomic pool not initialised!\n", &flags);
--		return NULL;
-+	phys_addr_t phys;
-+
-+	while (1) {
-+		pool = dma_guess_pool(dev, pool);
-+		if (!pool) {
-+			WARN(1, "Failed to get suitable pool for %s\n",
-+			     dev_name(dev));
-+			break;
-+		}
-+
-+		val = gen_pool_alloc(pool, size);
-+		if (!val)
-+			continue;
-+
-+		phys = gen_pool_virt_to_phys(pool, val);
-+		if (dma_coherent_ok(dev, phys, size))
-+			break;
-+
-+		gen_pool_free(pool, val, size);
-+		val = 0;
- 	}
- 
--	val = gen_pool_alloc(pool, size);
--	if (likely(val)) {
--		phys_addr_t phys = gen_pool_virt_to_phys(pool, val);
- 
-+	if (val) {
- 		*ret_page = pfn_to_page(__phys_to_pfn(phys));
- 		ptr = (void *)val;
- 		memset(ptr, 0, size);
--	} else {
--		WARN_ONCE(1, "DMA coherent pool depleted, increase size "
--			     "(recommended min coherent_pool=%zuK)\n",
--			  gen_pool_size(pool) >> 9);
-+
-+		if (gen_pool_avail(pool) < atomic_pool_size)
-+			schedule_work(&atomic_pool_work);
- 	}
--	if (gen_pool_avail(pool) < atomic_pool_size)
--		schedule_work(&atomic_pool_work);
- 
- 	return ptr;
- }
- 
- bool dma_free_from_pool(struct device *dev, void *start, size_t size)
- {
--	struct gen_pool *pool = dma_guess_pool(dev, NULL);
-+	struct gen_pool *pool = NULL;
- 
--	if (!pool || !gen_pool_has_addr(pool, (unsigned long)start, size))
--		return false;
--	gen_pool_free(pool, (unsigned long)start, size);
--	return true;
-+	while (1) {
-+		pool = dma_guess_pool(dev, pool);
-+		if (!pool)
-+			return false;
-+
-+		if (gen_pool_has_addr(pool, (unsigned long)start, size)) {
-+			gen_pool_free(pool, (unsigned long)start, size);
-+			return true;
-+		}
-+	}
- }
+--- a/lib/globtest.c
++++ b/lib/globtest.c
+@@ -59,6 +59,7 @@ static char const glob_tests[] __initconst =
+        "1" "a\0" "a\0"
+        "0" "a\0" "b\0"
+        "0" "a\0" "aa\0"
++       "0" "r8a7796\0" "r8a77961\0"
+        "0" "a\0" "\0"
+        "1" "\0" "\0"
+        "0" "\0" "a\0"
+
+and it still succeeded.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.27.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
