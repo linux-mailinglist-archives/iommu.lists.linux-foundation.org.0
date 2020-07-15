@@ -1,58 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F213220A08
-	for <lists.iommu@lfdr.de>; Wed, 15 Jul 2020 12:32:40 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id E54EF20430;
-	Wed, 15 Jul 2020 10:32:38 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iJlnUxiJ7Fhx; Wed, 15 Jul 2020 10:32:36 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A06AC20435;
-	Wed, 15 Jul 2020 10:32:36 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7A9F5C0733;
-	Wed, 15 Jul 2020 10:32:36 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 31921C0733
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 10:32:35 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D638220A1E
+	for <lists.iommu@lfdr.de>; Wed, 15 Jul 2020 12:36:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 2083D8AC0C
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 10:32:35 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 08B1489875;
+	Wed, 15 Jul 2020 10:36:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Vy+VpA4j5kIh; Wed, 15 Jul 2020 10:36:52 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7032389917;
+	Wed, 15 Jul 2020 10:36:52 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 500AAC0733;
+	Wed, 15 Jul 2020 10:36:52 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E3B38C0733
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 10:36:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D204F89211
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 10:36:50 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BhO2h7QuhHFY for <iommu@lists.linux-foundation.org>;
- Wed, 15 Jul 2020 10:32:34 +0000 (UTC)
+ with ESMTP id zn7TWXq6ZBAN for <iommu@lists.linux-foundation.org>;
+ Wed, 15 Jul 2020 10:36:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id 2B53E8AC0B
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 10:32:34 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id EC20786BBD
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 10:36:49 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B851230E;
- Wed, 15 Jul 2020 03:32:33 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 46B5D30E;
+ Wed, 15 Jul 2020 03:36:49 -0700 (PDT)
 Received: from [10.57.32.45] (unknown [10.57.32.45])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A8E623F718;
- Wed, 15 Jul 2020 03:32:31 -0700 (PDT)
-Subject: Re: [PATCH v4 2/4] iommu/arm-smmu: Workaround for Marvell
- Armada-AP806 SoC erratum #582743
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 62A763F718;
+ Wed, 15 Jul 2020 03:36:47 -0700 (PDT)
+Subject: Re: [PATCH v4 3/4] dt-bindings: arm-smmu: add compatible string for
+ Marvell Armada-AP806 SMMU-500
 To: Tomasz Nowicki <tn@semihalf.com>, will@kernel.org, joro@8bytes.org,
  gregory.clement@bootlin.com, robh+dt@kernel.org, hannah@marvell.com
 References: <20200715070649.18733-1-tn@semihalf.com>
- <20200715070649.18733-3-tn@semihalf.com>
+ <20200715070649.18733-4-tn@semihalf.com>
 From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <793ede4d-79e9-3615-9da1-57cfe1a44c4d@arm.com>
-Date: Wed, 15 Jul 2020 11:32:30 +0100
+Message-ID: <7147e4ae-30e2-5a2f-7fb0-4027e9adc94c@arm.com>
+Date: Wed, 15 Jul 2020 11:36:45 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200715070649.18733-3-tn@semihalf.com>
+In-Reply-To: <20200715070649.18733-4-tn@semihalf.com>
 Content-Language: en-GB
 Cc: devicetree@vger.kernel.org, catalin.marinas@arm.com,
  linux-kernel@vger.kernel.org, nadavh@marvell.com,
@@ -76,117 +76,42 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 On 2020-07-15 08:06, Tomasz Nowicki wrote:
-> From: Hanna Hawa <hannah@marvell.com>
+> Add specific compatible string for Marvell usage due to errata of
+> accessing 64bits registers of ARM SMMU, in AP806.
 > 
-> Due to erratum #582743, the Marvell Armada-AP806 can't access 64bit to
-> ARM SMMUv2 registers.
-> 
-> Provide implementation relevant hooks:
-> - split the writeq/readq to two accesses of writel/readl.
-> - mask the MMU_IDR2.PTFSv8 fields to not use AArch64 format (but
-> only AARCH32_L) since with AArch64 format 32 bits access is not supported.
-> 
-> Note that most 64-bit registers like TTBRn can be accessed as two 32-bit
-> halves without issue, and AArch32 format ensures that the register writes
-> which must be atomic (for TLBI etc.) need only be 32-bit.
-
-Thanks Tomasz, this has ended up as clean as I'd hoped it could, and 
-there's still room to come back and play more complicated games later if 
-a real need for AARCH64_64K at stage 2 crops up.
+> AP806 SoC uses the generic ARM-MMU500, and there's no specific
+> implementation of Marvell, this compatible is used for errata only.
 
 Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 
+Presumably Will can pick up these first 3 patches for 5.9 and #4 can go 
+via arm-soc.
+
+Robin.
+
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > Signed-off-by: Hanna Hawa <hannah@marvell.com>
 > Signed-off-by: Gregory CLEMENT <gregory.clement@bootlin.com>
 > Signed-off-by: Tomasz Nowicki <tn@semihalf.com>
 > ---
->   Documentation/arm64/silicon-errata.rst |  3 ++
->   drivers/iommu/arm-smmu-impl.c          | 45 ++++++++++++++++++++++++++
->   2 files changed, 48 insertions(+)
+>   Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
-> diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-> index 936cf2a59ca4..157214d3abe1 100644
-> --- a/Documentation/arm64/silicon-errata.rst
-> +++ b/Documentation/arm64/silicon-errata.rst
-> @@ -125,6 +125,9 @@ stable kernels.
->   | Cavium         | ThunderX2 Core  | #219            | CAVIUM_TX2_ERRATUM_219      |
->   +----------------+-----------------+-----------------+-----------------------------+
->   +----------------+-----------------+-----------------+-----------------------------+
-> +| Marvell        | ARM-MMU-500     | #582743         | N/A                         |
-> ++----------------+-----------------+-----------------+-----------------------------+
-> ++----------------+-----------------+-----------------+-----------------------------+
-
-And in case anyone feels like nit-picking the order here, I think the 
-current respective corporate structures perfectly justify "Marvell" 
-sorting alphabetically before "NXP", to be next to "Cavium" :D
-
-Robin.
-
->   | Freescale/NXP  | LS2080A/LS1043A | A-008585        | FSL_ERRATUM_A008585         |
->   +----------------+-----------------+-----------------+-----------------------------+
->   +----------------+-----------------+-----------------+-----------------------------+
-> diff --git a/drivers/iommu/arm-smmu-impl.c b/drivers/iommu/arm-smmu-impl.c
-> index c75b9d957b70..59422cb92488 100644
-> --- a/drivers/iommu/arm-smmu-impl.c
-> +++ b/drivers/iommu/arm-smmu-impl.c
-> @@ -147,6 +147,48 @@ static const struct arm_smmu_impl arm_mmu500_impl = {
->   	.reset = arm_mmu500_reset,
->   };
->   
-> +static u64 mrvl_mmu500_readq(struct arm_smmu_device *smmu, int page, int off)
-> +{
-> +	/*
-> +	 * Marvell Armada-AP806 erratum #582743.
-> +	 * Split all the readq to double readl
-> +	 */
-> +	return hi_lo_readq_relaxed(arm_smmu_page(smmu, page) + off);
-> +}
-> +
-> +static void mrvl_mmu500_writeq(struct arm_smmu_device *smmu, int page, int off,
-> +			       u64 val)
-> +{
-> +	/*
-> +	 * Marvell Armada-AP806 erratum #582743.
-> +	 * Split all the writeq to double writel
-> +	 */
-> +	hi_lo_writeq_relaxed(val, arm_smmu_page(smmu, page) + off);
-> +}
-> +
-> +static int mrvl_mmu500_cfg_probe(struct arm_smmu_device *smmu)
-> +{
-> +
-> +	/*
-> +	 * Armada-AP806 erratum #582743.
-> +	 * Hide the SMMU_IDR2.PTFSv8 fields to sidestep the AArch64
-> +	 * formats altogether and allow using 32 bits access on the
-> +	 * interconnect.
-> +	 */
-> +	smmu->features &= ~(ARM_SMMU_FEAT_FMT_AARCH64_4K |
-> +			    ARM_SMMU_FEAT_FMT_AARCH64_16K |
-> +			    ARM_SMMU_FEAT_FMT_AARCH64_64K);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct arm_smmu_impl mrvl_mmu500_impl = {
-> +	.read_reg64 = mrvl_mmu500_readq,
-> +	.write_reg64 = mrvl_mmu500_writeq,
-> +	.cfg_probe = mrvl_mmu500_cfg_probe,
-> +	.reset = arm_mmu500_reset,
-> +};
-> +
->   
->   struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
->   {
-> @@ -175,5 +217,8 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
->   	    of_device_is_compatible(np, "qcom,sc7180-smmu-500"))
->   		return qcom_smmu_impl_init(smmu);
->   
-> +	if (of_device_is_compatible(np, "marvell,ap806-smmu-500"))
-> +		smmu->impl = &mrvl_mmu500_impl;
-> +
->   	return smmu;
->   }
+> diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> index d7ceb4c34423..156b38924a00 100644
+> --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> @@ -38,6 +38,10 @@ properties:
+>                 - qcom,sc7180-smmu-500
+>                 - qcom,sdm845-smmu-500
+>             - const: arm,mmu-500
+> +      - description: Marvell SoCs implementing "arm,mmu-500"
+> +        items:
+> +          - const: marvell,ap806-smmu-500
+> +          - const: arm,mmu-500
+>         - items:
+>             - const: arm,mmu-500
+>             - const: arm,smmu-v2
 > 
 _______________________________________________
 iommu mailing list
