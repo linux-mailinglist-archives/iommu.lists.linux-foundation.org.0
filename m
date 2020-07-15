@@ -1,67 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D7D2209D5
-	for <lists.iommu@lfdr.de>; Wed, 15 Jul 2020 12:21:37 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6171288455;
-	Wed, 15 Jul 2020 10:21:36 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xdKq+GedRtDA; Wed, 15 Jul 2020 10:21:35 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 64FA7884CF;
-	Wed, 15 Jul 2020 10:21:35 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4C912C0733;
-	Wed, 15 Jul 2020 10:21:35 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 385ECC0733
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 10:21:34 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE9B2209DB
+	for <lists.iommu@lfdr.de>; Wed, 15 Jul 2020 12:22:05 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 21C8C88126
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 10:21:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 20AF1879B1;
+	Wed, 15 Jul 2020 10:22:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lsN9Hamz2V30; Wed, 15 Jul 2020 10:22:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id BD0C988126;
+	Wed, 15 Jul 2020 10:22:02 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 95FDFC0733;
+	Wed, 15 Jul 2020 10:22:02 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 07B81C0733
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 10:22:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 040E6891EE
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 10:22:01 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tw3wbpgTz-pT for <iommu@lists.linux-foundation.org>;
- Wed, 15 Jul 2020 10:21:33 +0000 (UTC)
+ with ESMTP id IvYgtribThLl for <iommu@lists.linux-foundation.org>;
+ Wed, 15 Jul 2020 10:21:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
- [209.85.167.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id DB597879B1
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 10:21:32 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id t198so1796908oie.7
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 03:21:32 -0700 (PDT)
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+ [209.85.167.195])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 835D4891E6
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 10:21:59 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id x83so1789487oif.10
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 03:21:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6inM0ocEyZQ5HchWw8zVdrmAmJqjlnWoNUy7SfSkBcE=;
- b=D05KaMh6tDYZpt79p/tsE4Ed7gsVzXZSPPS8TnW6Uu2bDJ2JfehlQcF8omuOio8ic8
- rZzO7kwTMfY1IhA2e3lktEbJRWD2H57QbSPZiqc/VhLvsyhYcJEaAaRn7uJfGKK8238k
- 54rQW0De2q2+EW/8N464qLCSuQFKqDR0+ilG8/kbLgK7b452CUXg1BHx1iFLHMy9oBIp
- hB8tFZn7v7J74z6ZSghgHcnqUvN+8BwFyY01hP2yglqazkOm+nQS7d+H0BpUGc8CQSbJ
- r4HIsNzv6kMTdVf1941n4S05lOVJPJHqUasH/SRNJ6Y9UjoZkyBMamTb+tOJxP3Kgv/L
- 6T7Q==
-X-Gm-Message-State: AOAM533hPrLH0hFrIWZPCcG1IZ585kSmtqodbwFQmn/Z2buM2lGdJA6h
- 9/m1p9zpWHaYr2ecqYtSBQHkRIpNpz3KQUirzFc=
-X-Google-Smtp-Source: ABdhPJxYdI5rswCbbqKyGuRp4F+uj/OCEoqH521lJ2O2n+yEpcXSA2cgisjpKCexy5j/wlDx5/JSDUabZJAJaHhTISE=
+ bh=mglmcsKPXfYjFgkpFQPfnyRmHIvI83yiimMnStaOfVM=;
+ b=keymNDomh/0sk0aV4QSlMNpdLam80DvcER0xVGAey++mI1Pd3IloRLV3vMe3Byqojm
+ P/MWju09edr+jobCF9F5PaunB23TQYyRSwWLvXJBrygzU+0VGF4HUud0yDUD3E+6HAn0
+ YgbT6KLrvxqZxEaUrkO8CgEvsJZxnlPsuuig99DWWTEEsdNB9d05X6D88Db/9KyQR0tJ
+ 6+a9ccyU7v+uoofjRWQd7tK7LxTM7Zf969kD0VrMODCw2oKbYM85zxDsW71iZQtFUd0z
+ v9REm+8nmGNIG3HD04Z9sZo4NDMzHhg3nWnxDMkBt6ZUme250HIKgMuTEEs97u0He11p
+ Bk/w==
+X-Gm-Message-State: AOAM533H4J7I+dHhKLfi71kiwpPUinsJ6oYrFoPKKICfyFVTWeqWIea5
+ VXIdgmhNU97urPHO5heMA/91mtBC3Vgymg4HhAE=
+X-Google-Smtp-Source: ABdhPJxetY2zZjsVuoA3jOWHEG6J+zzk5r64HjE7xop1bHsgYqjER5pXa5UqlqTc4KwjUMQB7HpJmP64L5RrgK0EPW4=
 X-Received: by 2002:a05:6808:64a:: with SMTP id
- z10mr7225247oih.54.1594808492194; 
- Wed, 15 Jul 2020 03:21:32 -0700 (PDT)
+ z10mr7226625oih.54.1594808518858; 
+ Wed, 15 Jul 2020 03:21:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594676120-5862-8-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1594676120-5862-8-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594676120-5862-10-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594676120-5862-10-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 15 Jul 2020 12:21:21 +0200
-Message-ID: <CAMuHMdV4w75-CNiamJo_nxHBA2kugQj58edPYDh_dx-PN4Vx-w@mail.gmail.com>
-Subject: Re: [PATCH 7/9] arm64: dts: renesas: r8a774e1: Add GPIO device nodes
+Date: Wed, 15 Jul 2020 12:21:48 +0200
+Message-ID: <CAMuHMdX63hYJ=wx08_S++TjfcZCbYrZCBd6PYY8GQmBwVsw_Bg@mail.gmail.com>
+Subject: Re: [PATCH 9/9] arm64: dts: renesas: r8a774e1: Add Ethernet AVB node
 To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>,
@@ -93,11 +93,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Jul 13, 2020 at 11:35 PM Lad Prabhakar
+On Mon, Jul 13, 2020 at 11:36 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 >
-> Add GPIO device nodes to the DT of the r8a774e1 SoC.
+> This patch adds the SoC specific part of the Ethernet AVB
+> device tree node.
 >
 > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
