@@ -1,65 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3767A22086A
-	for <lists.iommu@lfdr.de>; Wed, 15 Jul 2020 11:15:51 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1242208DD
+	for <lists.iommu@lfdr.de>; Wed, 15 Jul 2020 11:33:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 8F2F620BF9;
-	Wed, 15 Jul 2020 09:15:49 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1DDF88AB57;
+	Wed, 15 Jul 2020 09:33:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Yui8bqP-EkvJ; Wed, 15 Jul 2020 09:15:48 +0000 (UTC)
+	with ESMTP id YIJHca58ufoU; Wed, 15 Jul 2020 09:33:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 496E2204E9;
-	Wed, 15 Jul 2020 09:15:48 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 558F18AB56;
+	Wed, 15 Jul 2020 09:33:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2949CC0733;
-	Wed, 15 Jul 2020 09:15:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 48041C07FF;
+	Wed, 15 Jul 2020 09:33:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 67DCFC0733
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 09:15:46 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CDF32C0733
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 09:33:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5056A8A876
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 09:15:46 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id B63C58AB56
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 09:33:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id d89dKALDlaRL for <iommu@lists.linux-foundation.org>;
- Wed, 15 Jul 2020 09:15:45 +0000 (UTC)
+ with ESMTP id Btw1WFH58EzW for <iommu@lists.linux-foundation.org>;
+ Wed, 15 Jul 2020 09:33:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id 1B6C38A6A6
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 09:15:44 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A2411FB;
- Wed, 15 Jul 2020 02:15:44 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com
- [10.1.196.255])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ED8903F718;
- Wed, 15 Jul 2020 02:15:41 -0700 (PDT)
-Date: Wed, 15 Jul 2020 10:15:39 +0100
-From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To: linux-arm-kernel@lists.infradead.org, Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH v2 03/12] ACPI/IORT: Make iort_msi_map_rid() PCI agnostic
-Message-ID: <20200715091539.GB30074@e121166-lin.cambridge.arm.com>
-References: <20200521130008.8266-1-lorenzo.pieralisi@arm.com>
- <20200619082013.13661-1-lorenzo.pieralisi@arm.com>
- <20200619082013.13661-4-lorenzo.pieralisi@arm.com>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+ [209.85.210.67])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id D6BF58A9C1
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 09:33:18 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id n24so933614otr.13
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 02:33:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2zSBza/A2TbTL8HuxHQLfop5BTTpNoqMx+x88U5xSCg=;
+ b=rCz7isYowa+neY14mJk8j76NLxDZlDS+DpxRNdAruaxT/tIiYunpckHB4WygsRaARv
+ 2tQgRToHQn28ZHYobYPzL37WfLuTTorYWyjPpdI0aRnUKdY/EEE4a4fbg6YCGZhGpSzJ
+ RyHK20NolsevGrK6KSTzeo2PXD4mzFailYhpQhe5hqM18tnwuViknggL1nBmtxMs7Dum
+ eA7W+Lnr5gvBixRWWy96pDs5kJAcDiYBnRbsdEhX6fbGHgtsiv9uIs9bgn9WOhsce74Y
+ yG1mXcM4gn25O2c3tBjC6sXnpZ/aWJudi+KXricVDi5kg+YwjWIFYy0eV/wb+yvdtQzJ
+ 5Hag==
+X-Gm-Message-State: AOAM5327cUIKfrl9+42H5OV1Hpl9gPu5RJl6XOPZr0lC9x+Mqr8l2Hv0
+ MXF9CYDQ0S5Zb3P/hTZxK/svqDnGjseyeEQWkaE=
+X-Google-Smtp-Source: ABdhPJzzj1yYj1U/ZCf95+Q2ORWnAZ+lygEjLDT7captY+3H5kw2r+KzelfwvLYQjScnf26pKt+qpkoPFsnNPuoqAI4=
+X-Received: by 2002:a9d:2646:: with SMTP id a64mr7514251otb.107.1594805598066; 
+ Wed, 15 Jul 2020 02:33:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200619082013.13661-4-lorenzo.pieralisi@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: devicetree@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
- Makarand Pawagi <makarand.pawagi@nxp.com>, linux-pci@vger.kernel.org,
- Catalin Marinas <catalin.marinas@arm.com>, Hanjun Guo <guohanjun@huawei.com>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, Robin Murphy <robin.murphy@arm.com>,
- linux-acpi@vger.kernel.org, iommu@lists.linux-foundation.org,
- Rob Herring <robh+dt@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
- Will Deacon <will@kernel.org>, Diana Craciun <diana.craciun@oss.nxp.com>
+References: <1594722055-9298-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594722055-9298-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594722055-9298-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 15 Jul 2020 11:33:07 +0200
+Message-ID: <CAMuHMdWOgYkWNj0UTUvqi_8O5tKf6NOc61RpEyNWoJPxeC_rqw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] iommu/ipmmu-vmsa: Hook up R8A774E1 DT matching code
+To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: Prabhakar <prabhakar.csengg@gmail.com>,
+ Linux IOMMU <iommu@lists.linux-foundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,106 +82,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jun 19, 2020 at 09:20:04AM +0100, Lorenzo Pieralisi wrote:
-> There is nothing PCI specific in iort_msi_map_rid().
-> 
-> Rename the function using a bus protocol agnostic name,
-> iort_msi_map_id(), and convert current callers to it.
-> 
-> Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Hanjun Guo <guohanjun@huawei.com>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Sudeep Holla <sudeep.holla@arm.com>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-> ---
->  drivers/acpi/arm64/iort.c | 12 ++++++------
->  drivers/pci/msi.c         |  2 +-
+On Tue, Jul 14, 2020 at 12:21 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+>
+> Add support for RZ/G2H (R8A774E1) SoC IPMMUs.
+>
+> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Bjorn,
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-please let me know if you are OK with this change, thanks.
+Gr{oetje,eeting}s,
 
-Lorenzo
+                        Geert
 
->  include/linux/acpi_iort.h |  6 +++---
->  3 files changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
-> index 902e2aaca946..53f9ef515089 100644
-> --- a/drivers/acpi/arm64/iort.c
-> +++ b/drivers/acpi/arm64/iort.c
-> @@ -568,22 +568,22 @@ static struct acpi_iort_node *iort_find_dev_node(struct device *dev)
->  }
->  
->  /**
-> - * iort_msi_map_rid() - Map a MSI requester ID for a device
-> + * iort_msi_map_id() - Map a MSI input ID for a device
->   * @dev: The device for which the mapping is to be done.
-> - * @req_id: The device requester ID.
-> + * @input_id: The device input ID.
->   *
-> - * Returns: mapped MSI RID on success, input requester ID otherwise
-> + * Returns: mapped MSI ID on success, input ID otherwise
->   */
-> -u32 iort_msi_map_rid(struct device *dev, u32 req_id)
-> +u32 iort_msi_map_id(struct device *dev, u32 input_id)
->  {
->  	struct acpi_iort_node *node;
->  	u32 dev_id;
->  
->  	node = iort_find_dev_node(dev);
->  	if (!node)
-> -		return req_id;
-> +		return input_id;
->  
-> -	iort_node_map_id(node, req_id, &dev_id, IORT_MSI_TYPE);
-> +	iort_node_map_id(node, input_id, &dev_id, IORT_MSI_TYPE);
->  	return dev_id;
->  }
->  
-> diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-> index 74a91f52ecc0..77f48b95e277 100644
-> --- a/drivers/pci/msi.c
-> +++ b/drivers/pci/msi.c
-> @@ -1536,7 +1536,7 @@ u32 pci_msi_domain_get_msi_rid(struct irq_domain *domain, struct pci_dev *pdev)
->  
->  	of_node = irq_domain_get_of_node(domain);
->  	rid = of_node ? of_msi_map_rid(&pdev->dev, of_node, rid) :
-> -			iort_msi_map_rid(&pdev->dev, rid);
-> +			iort_msi_map_id(&pdev->dev, rid);
->  
->  	return rid;
->  }
-> diff --git a/include/linux/acpi_iort.h b/include/linux/acpi_iort.h
-> index 08ec6bd2297f..e51425e083da 100644
-> --- a/include/linux/acpi_iort.h
-> +++ b/include/linux/acpi_iort.h
-> @@ -28,7 +28,7 @@ void iort_deregister_domain_token(int trans_id);
->  struct fwnode_handle *iort_find_domain_token(int trans_id);
->  #ifdef CONFIG_ACPI_IORT
->  void acpi_iort_init(void);
-> -u32 iort_msi_map_rid(struct device *dev, u32 req_id);
-> +u32 iort_msi_map_id(struct device *dev, u32 id);
->  struct irq_domain *iort_get_device_domain(struct device *dev, u32 id,
->  					  enum irq_domain_bus_token bus_token);
->  void acpi_configure_pmsi_domain(struct device *dev);
-> @@ -39,8 +39,8 @@ const struct iommu_ops *iort_iommu_configure(struct device *dev);
->  int iort_iommu_msi_get_resv_regions(struct device *dev, struct list_head *head);
->  #else
->  static inline void acpi_iort_init(void) { }
-> -static inline u32 iort_msi_map_rid(struct device *dev, u32 req_id)
-> -{ return req_id; }
-> +static inline u32 iort_msi_map_id(struct device *dev, u32 id)
-> +{ return id; }
->  static inline struct irq_domain *iort_get_device_domain(
->  	struct device *dev, u32 id, enum irq_domain_bus_token bus_token)
->  { return NULL; }
-> -- 
-> 2.26.1
-> 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
