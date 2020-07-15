@@ -1,78 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667442205C8
-	for <lists.iommu@lfdr.de>; Wed, 15 Jul 2020 09:07:07 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64DCF2205C9
+	for <lists.iommu@lfdr.de>; Wed, 15 Jul 2020 09:07:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E7DF28AC02;
-	Wed, 15 Jul 2020 07:07:05 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DCE6F88D04;
+	Wed, 15 Jul 2020 07:07:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1UBd2e586HP9; Wed, 15 Jul 2020 07:07:04 +0000 (UTC)
+	with ESMTP id q4lXC2J8snbY; Wed, 15 Jul 2020 07:07:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 31FD88AB29;
-	Wed, 15 Jul 2020 07:07:04 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 73DBD88CF5;
+	Wed, 15 Jul 2020 07:07:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1738CC0733;
-	Wed, 15 Jul 2020 07:07:04 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5150EC0733;
+	Wed, 15 Jul 2020 07:07:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 89338C0733
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 07:07:02 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 94FADC0733
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 07:07:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 783DD8A7DF
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 07:07:02 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 8FB788AB2A
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 07:07:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3cDBVI0hFVKs for <iommu@lists.linux-foundation.org>;
- Wed, 15 Jul 2020 07:07:01 +0000 (UTC)
+ with ESMTP id yirwk7vtHU-6 for <iommu@lists.linux-foundation.org>;
+ Wed, 15 Jul 2020 07:07:03 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
  [209.85.208.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 814238A7DE
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 07:07:01 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id j11so1367560ljo.7
- for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 00:07:01 -0700 (PDT)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 075838A868
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 07:07:02 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id b25so1374292ljp.6
+ for <iommu@lists.linux-foundation.org>; Wed, 15 Jul 2020 00:07:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=semihalf-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=f+OWOpfWyZI+F0HgW7n2hwhFXyMKZItWbfC1yFlsvCc=;
- b=RuYIhyy6Vun1cpT90eal+PKxa32bFtRJ4QJZsVJCnrgQX0fss6A3cp4kx135P7vbO5
- xBGcSD0hKkXa7L5uL2fhiOWgEreLdOaGpLZts88rFUhOIEMdeYo270DHzNNKWnse8pET
- s/r8obiibS+e9uTzvXbGYQN/5/l7eIlyeEpH0UPYC5875GyJm9FveAe4HGs+mlat90kk
- cQ5hxa7Io2yvoTRdrfQ6HOknyLICzTIWPiRaYctpISOCsalAuuLuOJALPhgNrb+tt0yh
- i6B9Cw7bk3T9eURK3leVgsUKSD1xmMuodu6Cdzc9Wgh1IWK1T0s8SL86N1QNdtksWTlA
- hT/A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=rDtvw0IlmYfY+jCdx2Lo57EMXtb9r+H9pF0oFjzHHyo=;
+ b=ROeZDbiYc0S1qiJ+zPLW4iZ2xz7bxM4vKz+szew4oa0S3/i4Tsj9Db1Djs8wqhrDPA
+ wJVmm30Nnb2KdsbXPrZWchGqSXHO720gjZZkro0giw2+zCmubxZOI5ILdKnQ3th9Xdgz
+ l/awUtt1Ygeq4YioavlodnaPxhV7HYI8iIqmhbGdcs1ZMKNyL751oDG7y1lUrJTmJkwj
+ 0tq+FC77087fb7ayIUN30UuhGJcEX2m20NDwm58NrsDBJIIpNiD8XN94SUyUxYRa3PD1
+ 4ayfacD0RrkjIymW0xkigMB25F+DaQAQ5F3f4ISektuOrjdIKKU4GzSmG++qj2D1fL7X
+ wfEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=f+OWOpfWyZI+F0HgW7n2hwhFXyMKZItWbfC1yFlsvCc=;
- b=D0yDLlaW/RPpaFwwzLtQz4fI2SdSGoXjO7jk3wiceEOhDPxlohXDR54E2T5JAPvRSP
- doTh1QEDPULsT8wHrLzgQGfUC/dGJsjifrXeQwmiZO2HoIEWIzAmhdHdkaTkVQYBrHB+
- t/du9KKZH29EU1KrlXhx0Ht3/cHsJZDSVa+wOFasLcg59HAdV55K+V/xmbsJeBBxmtuq
- FoNjCaZckR9CwMqpqN/XStsEVW+8D1oyTHxkf/o/7hl/jgVCgqdZtCje/Y8JHKeHS2yR
- ZvGQRzfrkYIzs/ZuOavGgDh/BR4FGk8TjvDaUTZYmz5/zF4+nrbwMBAu4sRUHW+qKRPJ
- hjtw==
-X-Gm-Message-State: AOAM532KsVYKiWbymLnpBlzl7LHKS1ZU6JqThf+XFduBnq35PTpievL+
- 2BE1pEVtWagSYBzKl/bM1qDToA==
-X-Google-Smtp-Source: ABdhPJySFX/Z8aMMJm+W1T7u3FGwHCXcNbKvVxMytXVqr0/sY0t9GCaz6iJJoGgIyrffm7iJaeHtDg==
-X-Received: by 2002:a2e:9dd6:: with SMTP id x22mr4201166ljj.199.1594796819526; 
- Wed, 15 Jul 2020 00:06:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=rDtvw0IlmYfY+jCdx2Lo57EMXtb9r+H9pF0oFjzHHyo=;
+ b=I5oiodMsQU3zrcMlxTVQ5xhc7a7R47TMEuVf2S3u4fYCt8EPo15Op84L8jWRSasdkW
+ 9+UFoEKYYrOgV60VpBR/eNRhc24zottAOhR/5lnzC7IfBtIyy+jW7mMHqDu7oY/Rykxz
+ lDPCgdssiOYhZA/Gai9yuMTlI3FtmLhb0FvFMJ59WIATCE92rr1imX6enMwUsWpIjgi3
+ ngOIjZ9TocOySEETIet8Ihk03pjiTQFiC3DzSQoj7zWWrg9VS5m5kvMjm2SNn9iNCX1n
+ 4rCJZ3k6HnA5oc7V3ZSa0St3VCo7Mr4XvzSotUMgUpy5bGpHTJ1gL65bu6RBKqN8gW2P
+ 6Hqg==
+X-Gm-Message-State: AOAM531edxnOnoEiAHizWxs60huE16HaLSnShlil5plqBznwisFx4CAx
+ C6rU5KF0cqNAwQTWOqbBHDZv5w==
+X-Google-Smtp-Source: ABdhPJydCAuceNb5bOv6bKj797GCX8yDPnodbrk36mq0CVMxEl0bcpvWYkELgCrKsdNuJMCF/cXNlg==
+X-Received: by 2002:a2e:3619:: with SMTP id d25mr4044931lja.204.1594796821024; 
+ Wed, 15 Jul 2020 00:07:01 -0700 (PDT)
 Received: from localhost.localdomain ([83.68.95.66])
- by smtp.gmail.com with ESMTPSA id 83sm276040ljj.51.2020.07.15.00.06.57
+ by smtp.gmail.com with ESMTPSA id 83sm276040ljj.51.2020.07.15.00.06.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jul 2020 00:06:58 -0700 (PDT)
+ Wed, 15 Jul 2020 00:07:00 -0700 (PDT)
 From: Tomasz Nowicki <tn@semihalf.com>
 To: will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
  gregory.clement@bootlin.com, robh+dt@kernel.org, hannah@marvell.com
-Subject: [PATCH v4 0/4] Add system mmu support for Armada-806
-Date: Wed, 15 Jul 2020 09:06:45 +0200
-Message-Id: <20200715070649.18733-1-tn@semihalf.com>
+Subject: [PATCH v4 1/4] iommu/arm-smmu: Call configuration impl hook before
+ consuming features
+Date: Wed, 15 Jul 2020 09:06:46 +0200
+Message-Id: <20200715070649.18733-2-tn@semihalf.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200715070649.18733-1-tn@semihalf.com>
+References: <20200715070649.18733-1-tn@semihalf.com>
 Cc: devicetree@vger.kernel.org, catalin.marinas@arm.com,
  linux-kernel@vger.kernel.org, nadavh@marvell.com,
  iommu@lists.linux-foundation.org, mw@semihalf.com,
@@ -95,48 +99,57 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The series is meant to support SMMU for AP806 and a workaround
-for accessing ARM SMMU 64bit registers is the gist of it.
+'cfg_probe' hook is called at the very end of configuration probing
+procedure and therefore features override and workaround may become
+complex like for ID register fixups. In preparation for adding Marvell
+errata move 'cfg_probe' a bit earlier to have chance to adjust
+the detected features before we start consuming them.
 
-For the record, AP-806 can't access SMMU registers with 64bit width.
-This patches split the readq/writeq into two 32bit accesses instead
-and update DT bindings.
+Since the Cavium quirk (the only user) does not alter features
+it is safe to do so.
 
-The series was successfully tested on a vanilla v5.8-rc3 kernel and
-Intel e1000e PCIe NIC. The same for platform devices like SATA and USB.
+Suggested-by: Robin Murphy <robin.murphy@arm.com>
+Signed-off-by: Tomasz Nowicki <tn@semihalf.com>
+---
+ drivers/iommu/arm-smmu.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-For reference, previous versions are listed below:
-V1: https://lkml.org/lkml/2018/10/15/373
-V2: https://lkml.org/lkml/2019/7/11/426
-V3: https://lkml.org/lkml/2020/7/2/1114
-
-v3 -> v4
-- call cfg_probe() impl hook a bit earlier which simplifies errata handling
-- use hi_lo_readq_relaxed() and hi_lo_writeq_relaxed() for register accessors
-- keep SMMU status disabled by default and enable where possible (DTS changes)
-- commit logs improvements and other minor fixes
-
-Hanna Hawa (1):
-  iommu/arm-smmu: Workaround for Marvell Armada-AP806 SoC erratum
-    #582743
-
-Marcin Wojtas (1):
-  arm64: dts: marvell: add SMMU support
-
-Tomasz Nowicki (2):
-  iommu/arm-smmu: Call configuration impl hook before consuming features
-  dt-bindings: arm-smmu: add compatible string for Marvell Armada-AP806
-    SMMU-500
-
- Documentation/arm64/silicon-errata.rst        |  3 ++
- .../devicetree/bindings/iommu/arm,smmu.yaml   |  4 ++
- arch/arm64/boot/dts/marvell/armada-7040.dtsi  | 28 ++++++++++++
- arch/arm64/boot/dts/marvell/armada-8040.dtsi  | 40 +++++++++++++++++
- arch/arm64/boot/dts/marvell/armada-ap80x.dtsi | 18 ++++++++
- drivers/iommu/arm-smmu-impl.c                 | 45 +++++++++++++++++++
- drivers/iommu/arm-smmu.c                      | 11 +++--
- 7 files changed, 145 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+index 243bc4cb2705..19f906de6420 100644
+--- a/drivers/iommu/arm-smmu.c
++++ b/drivers/iommu/arm-smmu.c
+@@ -1728,7 +1728,7 @@ static int arm_smmu_device_cfg_probe(struct arm_smmu_device *smmu)
+ 	unsigned int size;
+ 	u32 id;
+ 	bool cttw_reg, cttw_fw = smmu->features & ARM_SMMU_FEAT_COHERENT_WALK;
+-	int i;
++	int i, ret;
+ 
+ 	dev_notice(smmu->dev, "probing hardware configuration...\n");
+ 	dev_notice(smmu->dev, "SMMUv%d with:\n",
+@@ -1891,6 +1891,12 @@ static int arm_smmu_device_cfg_probe(struct arm_smmu_device *smmu)
+ 			smmu->features |= ARM_SMMU_FEAT_FMT_AARCH64_64K;
+ 	}
+ 
++	if (smmu->impl && smmu->impl->cfg_probe) {
++		ret = smmu->impl->cfg_probe(smmu);
++		if (ret)
++			return ret;
++	}
++
+ 	/* Now we've corralled the various formats, what'll it do? */
+ 	if (smmu->features & ARM_SMMU_FEAT_FMT_AARCH32_S)
+ 		smmu->pgsize_bitmap |= SZ_4K | SZ_64K | SZ_1M | SZ_16M;
+@@ -1918,9 +1924,6 @@ static int arm_smmu_device_cfg_probe(struct arm_smmu_device *smmu)
+ 		dev_notice(smmu->dev, "\tStage-2: %lu-bit IPA -> %lu-bit PA\n",
+ 			   smmu->ipa_size, smmu->pa_size);
+ 
+-	if (smmu->impl && smmu->impl->cfg_probe)
+-		return smmu->impl->cfg_probe(smmu);
+-
+ 	return 0;
+ }
+ 
 -- 
 2.17.1
 
