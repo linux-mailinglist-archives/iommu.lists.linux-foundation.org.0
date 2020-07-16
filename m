@@ -1,62 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF56222088
-	for <lists.iommu@lfdr.de>; Thu, 16 Jul 2020 12:22:41 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D7822209C
+	for <lists.iommu@lfdr.de>; Thu, 16 Jul 2020 12:28:28 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 095F786529;
-	Thu, 16 Jul 2020 10:22:40 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1544D22DEC;
+	Thu, 16 Jul 2020 10:28:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WDA0l7s7TMX0; Thu, 16 Jul 2020 10:22:39 +0000 (UTC)
+	with ESMTP id 6dL4WGV9yZw2; Thu, 16 Jul 2020 10:28:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A18B686374;
-	Thu, 16 Jul 2020 10:22:39 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5313D22DB0;
+	Thu, 16 Jul 2020 10:28:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 93C91C08A5;
-	Thu, 16 Jul 2020 10:22:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4AEE0C0733;
+	Thu, 16 Jul 2020 10:28:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BD29BC0733
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jul 2020 10:22:38 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BB07AC0733
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jul 2020 10:28:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id B4B8E8AFEF
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jul 2020 10:22:38 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id B66CD8B012
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jul 2020 10:28:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zVA96MdVEcJe for <iommu@lists.linux-foundation.org>;
- Thu, 16 Jul 2020 10:22:38 +0000 (UTC)
+ with ESMTP id kYpYu7YlGRUy for <iommu@lists.linux-foundation.org>;
+ Thu, 16 Jul 2020 10:28:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 44DB68AFEC
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jul 2020 10:22:38 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 89A51204EA;
- Thu, 16 Jul 2020 10:22:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1594894958;
- bh=vzEaE1HWTa7LYtbebB7ritpzkpel2YtikBtG3CEZDzU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=O7qT433Bf508kbmPUyZtGJ1ha3eKm5yrmKHurnYxiVO1tk+RfIFdFzfIP9a4dEULJ
- cxskKb6f2hESv3IlEBT1RUtZQsbEm8i3bC2eetulC0gX+ABbte+A6hbUMZv5oMxo3Z
- dEeF7i7CvTyJM+Yn2p8YoEk1EHckrb6iEUSt+mB4=
-Date: Thu, 16 Jul 2020 11:22:33 +0100
-From: Will Deacon <will@kernel.org>
-To: John Garry <john.garry@huawei.com>
-Subject: Re: [PATCH 0/4] iommu/arm-smmu-v3: Improve cmdq lock efficiency
-Message-ID: <20200716102233.GC7036@willie-the-truck>
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 80DEE8B045
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jul 2020 10:28:22 +0000 (UTC)
+Received: from lhreml724-chm.china.huawei.com (unknown [172.18.7.107])
+ by Forcepoint Email with ESMTP id 3B92680604F5E70695B5;
+ Thu, 16 Jul 2020 11:28:18 +0100 (IST)
+Received: from [127.0.0.1] (10.210.168.254) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Thu, 16 Jul
+ 2020 11:28:17 +0100
+Subject: Re: [PATCH 4/4] iommu/arm-smmu-v3: Remove cmpxchg() in
+ arm_smmu_cmdq_issue_cmdlist()
+To: Will Deacon <will@kernel.org>
 References: <1592846920-45338-1-git-send-email-john.garry@huawei.com>
- <20200716101940.GA7036@willie-the-truck>
+ <1592846920-45338-5-git-send-email-john.garry@huawei.com>
+ <20200716102037.GB7036@willie-the-truck>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <36fe9596-745b-b01c-181c-b87a544a413b@huawei.com>
+Date: Thu, 16 Jul 2020 11:26:29 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200716101940.GA7036@willie-the-truck>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200716102037.GB7036@willie-the-truck>
+Content-Language: en-US
+X-Originating-IP: [10.210.168.254]
+X-ClientProxiedBy: lhreml714-chm.china.huawei.com (10.201.108.65) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Cc: trivial@kernel.org, maz@kernel.org, linux-kernel@vger.kernel.org,
  linuxarm@huawei.com, iommu@lists.linux-foundation.org, robin.murphy@arm.com,
  linux-arm-kernel@lists.infradead.org
@@ -72,25 +74,67 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jul 16, 2020 at 11:19:41AM +0100, Will Deacon wrote:
-> On Tue, Jun 23, 2020 at 01:28:36AM +0800, John Garry wrote:
-> > As mentioned in [0], the CPU may consume many cycles processing
-> > arm_smmu_cmdq_issue_cmdlist(). One issue we find is the cmpxchg() loop to
-> > get space on the queue takes approx 25% of the cycles for this function.
-> > 
-> > This series removes that cmpxchg().
+On 16/07/2020 11:20, Will Deacon wrote:
+> On Tue, Jun 23, 2020 at 01:28:40AM +0800, John Garry wrote:
+>> It has been shown that the cmpxchg() for finding space in the cmdq can
+>> be a bottleneck:
+>> - for more CPUs contending the cmdq, the cmpxchg() will fail more often
+>> - since the software-maintained cons pointer is updated on the same 64b
+>>    memory region, the chance of cmpxchg() failure increases again
+>>
+>> The cmpxchg() is removed as part of 2 related changes:
+>>
+>> - Update prod and cmdq owner in a single atomic add operation. For this, we
+>>    count the prod and owner in separate regions in prod memory.
+>>
+>>    As with simple binary counting, once the prod+wrap fields overflow, they
+>>    will zero. They should never overflow into "owner" region, and we zero
+>>    the non-owner, prod region for each owner. This maintains the prod
+>>    pointer.
+>>
+>>    As for the "owner", we now count this value, instead of setting a flag.
+>>    Similar to before, once the owner has finished gathering, it will clear
+>>    a mask. As such, a CPU declares itself as the "owner" when it reads zero
+>>    for this region. This zeroing will also clear possible overflow in
+>>    wrap+prod region, above.
+>>
+>>    The owner is now responsible for all cmdq locking to avoid possible
+>>    deadlock. The owner will lock the cmdq for all non-owers it has gathered
+>>    when they have space in the queue and have written their entries.
+>>
+>> - Check for space in the cmdq after the prod pointer has been assigned.
+>>
+>>    We don't bother checking for space in the cmdq before assigning the prod
+>>    pointer, as this would be racy.
+>>
+>>    So since the prod pointer is updated unconditionally, it would be common
+>>    for no space to be available in the cmdq when prod is assigned - that
+>>    is, according the software-maintained prod and cons pointer. So now
+>>    it must be ensured that the entries are not yet written and not until
+>>    there is space.
+>>
+>>    How the prod pointer is maintained also leads to a strange condition
+>>    where the prod pointer can wrap past the cons pointer. We can detect this
+>>    condition, and report no space here. However, a prod pointer progressed
+>>    twice past the cons pointer cannot be detected. But it can be ensured that
+>>    this that this scenario does not occur, as we limit the amount of
+>>    commands any CPU can issue at any given time, such that we cannot
+>>    progress prod pointer further.
+>>
+>> Signed-off-by: John Garry <john.garry@huawei.com>
+>> ---
+>>   drivers/iommu/arm-smmu-v3.c | 101 ++++++++++++++++++++++--------------
+>>   1 file changed, 61 insertions(+), 40 deletions(-)
 > 
-> How about something much simpler like the diff below?
+> I must admit, you made me smile putting trivial@kernel.org on cc for this ;)
+> 
 
-Ah, scratch that, I don't drop the lock if we fail the cas with it held.
-Let me hack it some more (I have no hardware so I can only build-test this).
-
-Will
+Yes, quite ironic :)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
