@@ -1,80 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05286222FCC
-	for <lists.iommu@lfdr.de>; Fri, 17 Jul 2020 02:16:30 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D55222FCD
+	for <lists.iommu@lfdr.de>; Fri, 17 Jul 2020 02:16:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9320D863DC;
-	Fri, 17 Jul 2020 00:16:28 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2D4298808E;
+	Fri, 17 Jul 2020 00:16:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id j6K8w-CtrLMW; Fri, 17 Jul 2020 00:16:28 +0000 (UTC)
+	with ESMTP id AFBtHu4m4URf; Fri, 17 Jul 2020 00:16:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7C0B7863E3;
-	Fri, 17 Jul 2020 00:16:27 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A70BC88086;
+	Fri, 17 Jul 2020 00:16:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6542FC07FF;
-	Fri, 17 Jul 2020 00:16:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 93684C0733;
+	Fri, 17 Jul 2020 00:16:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0440BC0733
- for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 00:16:26 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 940E4C0733
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 00:16:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E725A863AC
- for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 00:16:25 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 916BF863C5
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 00:16:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lFgTZivcEjQX for <iommu@lists.linux-foundation.org>;
- Fri, 17 Jul 2020 00:16:25 +0000 (UTC)
+ with ESMTP id uW-dCs5QPLKq for <iommu@lists.linux-foundation.org>;
+ Fri, 17 Jul 2020 00:16:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3E6948639F
- for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 00:16:25 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id u185so4514779pfu.1
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jul 2020 17:16:25 -0700 (PDT)
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id B1CB58639F
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 00:16:26 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id n5so5775607pgf.7
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jul 2020 17:16:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jYsMERNFzcWVzzWKbxXkh/fS5B+pLfajmEgKGDyW4yE=;
- b=ACUa/dg0RtByVMt9xT8idk9edkL1VWJ+N7/9FygWGHzA75v425qOq0Z8LN40KT48aQ
- XS+uAB6LyIMEXYIm6xVr8V/lfpFNWEfD0sd1XgRGnyTDRKRk2eL/F3PTm0dyZIVhbCqw
- MVJD6CT7OYkIUAbzHKZSCuf7bppvuS8+OxFPlu/eEr+Nd+S6mOumj6wpwaxxWTJ69sB/
- kEFuECFghKm8t17l3PHuKfjJsJ6nQSGNtzlFVWOR8i5+tPMJADbxpJO492+meqeVpTUz
- oCM4cFpko71JnxaLabhcDlrbF9bqfKG7GQXRQA9v8u0MDZuK7zcvNd+x8ZRjIx85dd3s
- jdqA==
+ bh=uWqUMnqB20Yorh5LQCiLslCOOm0+DCqawJ+UCE1bquU=;
+ b=HFN+J5lasdtEzt8WaDQDidUq/66N+NwxdcjPVhWpvCd+d0hZ5zNSLuBzBCKO+fjAOK
+ C8nKyAjwFqxuDObJnah2wuyJoJ2ffpvR5fWK8OkvnlSYCccjKz9rrM/TXwPfAQzddKXp
+ JegnspuFxDCFrVLUsvFTDz2sEWZMKfmsZDCWl7v+E+v74347FvLqBFFcl354G2qMbekZ
+ CZw7OAC26K6gtekJV0WnxnzqtDWPvg3aZFxlc3AFEfFeKAnJnR8VesnoH5Ln6MN1a6LP
+ 94BkbVX/W5v3NeO0S5E4tZtZFQDXPnct1E0y/1HPGl1JKar2q9ypxL2cnAewiG2S6oco
+ 2I/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jYsMERNFzcWVzzWKbxXkh/fS5B+pLfajmEgKGDyW4yE=;
- b=Q016Dy5UIKmNUjUU7gI+Bd9wz/+xttiZati2m9ohdo9tpWyx78psDwgEV2iatBjPB7
- AYr0MVwiax45+KB+3lqdlrvY12sEvMcmw/JNXLDj6itn4n0tTKgPj/W95slsnSBtMu/R
- X+QLbtJJU7B6XJroCxGndU8YJIKx74LqLCTYiAyy+fgtsxUaCs7RuRuYJl+Kh4zu3/NU
- U1yUm5Avoc6ki4Tzck5pRdNgC0P/i7V9vKguqPiarU+VI3JNUNiax3rFMjtw5FiId12k
- 2Yi/ZxJ0RtBe+VtNbDDGVzT8Q73Dx7KtBPxrkZgztdFRvlGdnWCdZ6Gn3WXdiEP71E0n
- JnMw==
-X-Gm-Message-State: AOAM530v/XCqq8YOWpORAFWCTgLhbV7KtijJj18ei3EEcEC6JUiaAdy6
- aEzXoVoD1vsYMzi9nXlJmoIpJQ==
-X-Google-Smtp-Source: ABdhPJwiyfAnAN/TK+ra7+uHH2Vvek0wIikdAmdNSXORE85NgOe0yoW3wbsVsxu+69uyGeh2UlLvqg==
-X-Received: by 2002:a63:1b4b:: with SMTP id b11mr6245310pgm.243.1594944984685; 
- Thu, 16 Jul 2020 17:16:24 -0700 (PDT)
+ bh=uWqUMnqB20Yorh5LQCiLslCOOm0+DCqawJ+UCE1bquU=;
+ b=VWpAXxoE/DKU5u+H0gj3TobW9nD7OoiHaHOtMcDA1gS5xoZoaO4pFDwe9R2kVZ+9f3
+ XPZ3bESY44OC0pUN/1j1scM0+xuXJlKx672IfVcTfBjW4yPGr6Ss+zA5v82zggu21PCv
+ sTE53EPc8MGY7K+89EmDE/e0hDQPPXK4zzoQPTxUZDiY+N4SOgY4xMB/VAPt2b7N4Tzh
+ pd9dA4BsfwjPZm7DViKtTBR9en1Yd1RNXV6pG2qq+ghpanPbAVr93UeQvr2vgZV46iB7
+ GUb1N3g5pj9wivZzf/n4PoGobRJD+v1Z+CB13cGbncBEmikPqbv8XZJ0dHdSdSMwLyEd
+ 8myg==
+X-Gm-Message-State: AOAM530lyTp2hfIcF6lnGznHXw2D0oLVFZ+d0B9GHR8Cbmnx8IO0LmGf
+ K9GUV/+yfknjY7byYxoH0kjwyA==
+X-Google-Smtp-Source: ABdhPJzhp8wrF9EsgCUoqrojoUNB4BkSM3/fWxyDMIkhZTNNrxXnc9QP6rLIKqr2mcsWBO8ZpScFnA==
+X-Received: by 2002:a63:140f:: with SMTP id u15mr6116836pgl.94.1594944986245; 
+ Thu, 16 Jul 2020 17:16:26 -0700 (PDT)
 Received: from localhost.localdomain
  (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id r7sm6211950pgu.51.2020.07.16.17.16.23
+ by smtp.gmail.com with ESMTPSA id r7sm6211950pgu.51.2020.07.16.17.16.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jul 2020 17:16:24 -0700 (PDT)
+ Thu, 16 Jul 2020 17:16:25 -0700 (PDT)
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  Joerg Roedel <joro@8bytes.org>, Thierry Reding <thierry.reding@gmail.com>,
  Laurentiu Tudor <laurentiu.tudor@nxp.com>
-Subject: [PATCH v2 2/5] iommu/arm-smmu: Emulate bypass by using context banks
-Date: Thu, 16 Jul 2020 17:16:16 -0700
-Message-Id: <20200717001619.325317-3-bjorn.andersson@linaro.org>
+Subject: [PATCH v2 3/5] iommu/arm-smmu: Move SMR and S2CR definitions to
+ header file
+Date: Thu, 16 Jul 2020 17:16:17 -0700
+Message-Id: <20200717001619.325317-4-bjorn.andersson@linaro.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200717001619.325317-1-bjorn.andersson@linaro.org>
 References: <20200717001619.325317-1-bjorn.andersson@linaro.org>
@@ -100,18 +101,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Some firmware found on various Qualcomm platforms traps writes to S2CR
-of type BYPASS and writes FAULT into the register. This prevents us from
-marking the streams for the display controller as BYPASS to allow
-continued scanout of the screen through the initialization of the ARM
-SMMU.
-
-This adds a Qualcomm specific cfg_probe function, which probes the
-behavior of the S2CR registers and if found faulty enables the related
-quirk. Based on this quirk context banks are allocated for IDENTITY
-domains as well, but with ARM_SMMU_SCTLR_M omitted.
-
-The result is valid stream mappings, without translation.
+Expose the SMR and S2CR structs in the header file, to allow platform
+specific implementations to populate/initialize the smrs and s2cr
+arrays.
 
 Tested-by: John Stultz <john.stultz@linaro.org>
 Tested-by: Vinod Koul <vkoul@kernel.org>
@@ -121,109 +113,64 @@ Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 Changes since v1:
 - Picked up tested-by
 
- drivers/iommu/arm-smmu-qcom.c | 21 +++++++++++++++++++++
- drivers/iommu/arm-smmu.c      | 14 ++++++++++++--
- drivers/iommu/arm-smmu.h      |  3 +++
- 3 files changed, 36 insertions(+), 2 deletions(-)
+ drivers/iommu/arm-smmu.c | 14 --------------
+ drivers/iommu/arm-smmu.h | 15 +++++++++++++++
+ 2 files changed, 15 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/iommu/arm-smmu-qcom.c b/drivers/iommu/arm-smmu-qcom.c
-index be4318044f96..d95a5ee8c83c 100644
---- a/drivers/iommu/arm-smmu-qcom.c
-+++ b/drivers/iommu/arm-smmu-qcom.c
-@@ -23,6 +23,26 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
- 	{ }
- };
- 
-+static int qcom_smmu_cfg_probe(struct arm_smmu_device *smmu)
-+{
-+	unsigned int last_s2cr = ARM_SMMU_GR0_S2CR(smmu->num_mapping_groups - 1);
-+	u32 reg;
-+
-+	/*
-+	 * With some firmware writes to S2CR of type FAULT are ignored, and
-+	 * writing BYPASS will end up as FAULT in the register. Perform a write
-+	 * to S2CR to detect if this is the case with the current firmware.
-+	 */
-+	arm_smmu_gr0_write(smmu, last_s2cr, FIELD_PREP(ARM_SMMU_S2CR_TYPE, S2CR_TYPE_BYPASS) |
-+					    FIELD_PREP(ARM_SMMU_S2CR_CBNDX, 0xff) |
-+					    FIELD_PREP(ARM_SMMU_S2CR_PRIVCFG, S2CR_PRIVCFG_DEFAULT));
-+	reg = arm_smmu_gr0_read(smmu, last_s2cr);
-+	if (FIELD_GET(ARM_SMMU_S2CR_TYPE, reg) != S2CR_TYPE_BYPASS)
-+		smmu->qcom_bypass_quirk = true;
-+
-+	return 0;
-+}
-+
- static int qcom_smmu_def_domain_type(struct device *dev)
- {
- 	const struct of_device_id *match =
-@@ -61,6 +81,7 @@ static int qcom_smmu500_reset(struct arm_smmu_device *smmu)
- }
- 
- static const struct arm_smmu_impl qcom_smmu_impl = {
-+	.cfg_probe = qcom_smmu_cfg_probe,
- 	.def_domain_type = qcom_smmu_def_domain_type,
- 	.reset = qcom_smmu500_reset,
- };
 diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-index fb85e716ae9a..5d5fe6741ed4 100644
+index 5d5fe6741ed4..08a650fe02e3 100644
 --- a/drivers/iommu/arm-smmu.c
 +++ b/drivers/iommu/arm-smmu.c
-@@ -654,7 +654,9 @@ static void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx)
+@@ -68,24 +68,10 @@ module_param(disable_bypass, bool, S_IRUGO);
+ MODULE_PARM_DESC(disable_bypass,
+ 	"Disable bypass streams such that incoming transactions from devices that are not attached to an iommu domain will report an abort back to the device and will not be allowed to pass through the SMMU.");
  
- 	/* SCTLR */
- 	reg = ARM_SMMU_SCTLR_CFIE | ARM_SMMU_SCTLR_CFRE | ARM_SMMU_SCTLR_AFE |
--	      ARM_SMMU_SCTLR_TRE | ARM_SMMU_SCTLR_M;
-+	      ARM_SMMU_SCTLR_TRE;
-+	if (cfg->m)
-+		reg |= ARM_SMMU_SCTLR_M;
- 	if (stage1)
- 		reg |= ARM_SMMU_SCTLR_S1_ASIDPNE;
- 	if (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN))
-@@ -678,7 +680,11 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 	if (smmu_domain->smmu)
- 		goto out_unlock;
+-struct arm_smmu_s2cr {
+-	struct iommu_group		*group;
+-	int				count;
+-	enum arm_smmu_s2cr_type		type;
+-	enum arm_smmu_s2cr_privcfg	privcfg;
+-	u8				cbndx;
+-};
+-
+ #define s2cr_init_val (struct arm_smmu_s2cr){				\
+ 	.type = disable_bypass ? S2CR_TYPE_FAULT : S2CR_TYPE_BYPASS,	\
+ }
  
--	if (domain->type == IOMMU_DOMAIN_IDENTITY) {
-+	/*
-+	 * Nothing to do for IDENTITY domains,unless disabled context banks are
-+	 * used to emulate bypass mappings on Qualcomm platforms.
-+	 */
-+	if (domain->type == IOMMU_DOMAIN_IDENTITY && !smmu->qcom_bypass_quirk) {
- 		smmu_domain->stage = ARM_SMMU_DOMAIN_BYPASS;
- 		smmu_domain->smmu = smmu;
- 		goto out_unlock;
-@@ -826,6 +832,10 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 	domain->geometry.aperture_end = (1UL << ias) - 1;
- 	domain->geometry.force_aperture = true;
- 
-+	/* Enable translation for non-identity context banks */
-+	if (domain->type != IOMMU_DOMAIN_IDENTITY)
-+		cfg->m = true;
-+
- 	/* Initialise the context bank with our page table cfg */
- 	arm_smmu_init_context_bank(smmu_domain, &pgtbl_cfg);
- 	arm_smmu_write_context_bank(smmu, cfg->cbndx);
+-struct arm_smmu_smr {
+-	u16				mask;
+-	u16				id;
+-	bool				valid;
+-};
+-
+ struct arm_smmu_cb {
+ 	u64				ttbr[2];
+ 	u32				tcr[2];
 diff --git a/drivers/iommu/arm-smmu.h b/drivers/iommu/arm-smmu.h
-index d172c024be61..a71d193073e4 100644
+index a71d193073e4..bcd160d01c53 100644
 --- a/drivers/iommu/arm-smmu.h
 +++ b/drivers/iommu/arm-smmu.h
-@@ -305,6 +305,8 @@ struct arm_smmu_device {
+@@ -251,6 +251,21 @@ enum arm_smmu_implementation {
+ 	QCOM_SMMUV2,
+ };
  
- 	/* IOMMU core code handle */
- 	struct iommu_device		iommu;
++struct arm_smmu_s2cr {
++	struct iommu_group		*group;
++	int				count;
++	enum arm_smmu_s2cr_type		type;
++	enum arm_smmu_s2cr_privcfg	privcfg;
++	u8				cbndx;
++};
 +
-+	bool				qcom_bypass_quirk;
- };
- 
- enum arm_smmu_context_fmt {
-@@ -323,6 +325,7 @@ struct arm_smmu_cfg {
- 	};
- 	enum arm_smmu_cbar_type		cbar;
- 	enum arm_smmu_context_fmt	fmt;
-+	bool				m;
- };
- #define ARM_SMMU_INVALID_IRPTNDX	0xff
++struct arm_smmu_smr {
++	u16				mask;
++	u16				id;
++	bool				valid;
++	bool				pinned;
++};
++
+ struct arm_smmu_device {
+ 	struct device			*dev;
  
 -- 
 2.26.2
