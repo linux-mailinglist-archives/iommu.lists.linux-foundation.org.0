@@ -1,57 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5012222EA5
-	for <lists.iommu@lfdr.de>; Fri, 17 Jul 2020 01:09:32 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 374F5222FC6
+	for <lists.iommu@lfdr.de>; Fri, 17 Jul 2020 02:16:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 17FF020396;
-	Thu, 16 Jul 2020 23:09:31 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DDB9688273;
+	Fri, 17 Jul 2020 00:16:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NEOxkErA-mVK; Thu, 16 Jul 2020 23:09:27 +0000 (UTC)
+	with ESMTP id QjwbOru0-M1F; Fri, 17 Jul 2020 00:16:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9A4D82039E;
-	Thu, 16 Jul 2020 23:09:27 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id F03D788266;
+	Fri, 17 Jul 2020 00:16:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 841C3C08A9;
-	Thu, 16 Jul 2020 23:09:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E34A6C0733;
+	Fri, 17 Jul 2020 00:16:24 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E7383C0733
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jul 2020 23:09:25 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 351E7C0733
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 00:16:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D619286949
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jul 2020 23:09:25 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2870A87FB0
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 00:16:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ce3X-A5HN0oT for <iommu@lists.linux-foundation.org>;
- Thu, 16 Jul 2020 23:09:24 +0000 (UTC)
+ with ESMTP id A2ARdRhK8DbL for <iommu@lists.linux-foundation.org>;
+ Fri, 17 Jul 2020 00:16:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 408BD86948
- for <iommu@lists.linux-foundation.org>; Thu, 16 Jul 2020 23:09:23 +0000 (UTC)
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 554288012DFCE76CF193;
- Fri, 17 Jul 2020 07:09:19 +0800 (CST)
-Received: from SWX921481.china.huawei.com (10.126.203.111) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 17 Jul 2020 07:09:12 +0800
-From: Barry Song <song.bao.hua@hisilicon.com>
-To: <robin.murphy@arm.com>, <will@kernel.org>, <joro@8bytes.org>
-Subject: [PATCH] iommu/arm-smmu-v3: remove the approach of MSI polling for CMD
- SYNC
-Date: Fri, 17 Jul 2020 11:07:09 +1200
-Message-ID: <20200716230709.32820-1-song.bao.hua@hisilicon.com>
-X-Mailer: git-send-email 2.21.0.windows.1
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 5126C8805C
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 00:16:22 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id s189so5762686pgc.13
+ for <iommu@lists.linux-foundation.org>; Thu, 16 Jul 2020 17:16:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Sl4GNsmArDLipzZLi4IQVk0TOodt16D37OUgWF5KbPo=;
+ b=BowF3PwOju4VnW5jUNBztNr1QHxUEqy6HgjuXfuKh5dztvWW9CDzCYmzt53X4es9xV
+ RlSOQ69RWaykSCNTQqfIuQTyahoqTJ1Qq+wjNd4t3mq49H33azZSu94Wo3tTp/EzNMSV
+ Y7UAuPuqAEvl7l9bkXQPh6qsQiSrCiD4TjJykBMTSgncyJJM0WV9KQ+tzStfHur3Qed+
+ yW2tN0Ig6kRObfnuHsbUU6oHen8rYu7+FKCPneQuomx9XugKY1Jzu2LOxVUi+TupWX+z
+ MIKZFc9U6nQIH+p0hDJ+v8GeWcFYgfr4eM2FCi1Loloh4liZ0bxGo7kKE1bkyL7CHWQ+
+ kJcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Sl4GNsmArDLipzZLi4IQVk0TOodt16D37OUgWF5KbPo=;
+ b=iZPCzLMW3EAZsUwawe/7cmSa1vs6yzclKZmR8nGJm19ZdkY+eUYCKryihy/3NgjoqD
+ yDhgB7LQUolwwJmqlAMZ++mDJSGzn2VKk1BGB1iNwVUYhJyILdOv8eg1qV2IhdyiHKRj
+ a9iq0ei4d6dMwvD9S/bFSTOkudIGIGmbV5NNUpF9UVb565O1EAQRBhaTbbQbTjkuntJ4
+ EW22wx7XCc76a/AUCShC3+EPMAHqcdgCAPAihcSz5Z0HgLbtDex5OerPibatPQYNojrN
+ Bpnl4V++zjAhxX+UMsq034ShFd9n2bbkv3qQSA5+upuOtx9QMvFDtrUlRyLDXQrYMhna
+ wNwQ==
+X-Gm-Message-State: AOAM531k9sr70n+NlYOGyOiXizbCLjliyVM9kip6x04E82Swax+CYqeZ
+ G7ZgibLr8FOJIg0D1CiCupseyQ==
+X-Google-Smtp-Source: ABdhPJyyEAViHTA6jZ1fWkKlx3Fq/q+F6yP4gOxKkTTTvDCGA+QkPdiuE8amuhBa7Q2HIfcbSX2LeA==
+X-Received: by 2002:a65:6089:: with SMTP id t9mr6633639pgu.236.1594944981548; 
+ Thu, 16 Jul 2020 17:16:21 -0700 (PDT)
+Received: from localhost.localdomain
+ (104-188-17-28.lightspeed.sndgca.sbcglobal.net. [104.188.17.28])
+ by smtp.gmail.com with ESMTPSA id r7sm6211950pgu.51.2020.07.16.17.16.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jul 2020 17:16:20 -0700 (PDT)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Subject: [PATCH v2 0/5] iommu/arm-smmu: Support maintaining bootloader mappings
+Date: Thu, 16 Jul 2020 17:16:14 -0700
+Message-Id: <20200717001619.325317-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Originating-IP: [10.126.203.111]
-X-CFilter-Loop: Reflected
-Cc: linux-kernel@vger.kernel.org, linuxarm@huawei.com,
- iommu@lists.linux-foundation.org, Prime Zeng <prime.zeng@hisilicon.com>,
+Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Jonathan Marek <jonathan@marek.ca>, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -70,113 +97,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Before commit 587e6c10a7ce ("iommu/arm-smmu-v3: Reduce contention during
-command-queue insertion"), msi polling perhaps performed better since
-it could run outside the spin_lock_irqsave() while the code polling cons
-reg was running in the lock.
+Based on previous attempts and discussions this is the latest attempt at
+inheriting stream mappings set up by the bootloader, for e.g. boot splash or
+efifb.
 
-But after the great reorganization of smmu queue, neither of these two
-polling methods are running in a spinlock. And real tests show polling
-cons reg via sev means smaller latency. It is probably because polling
-by msi will ask hardware to write memory but sev polling depends on the
-update of register only.
+The first patch is an implementation of Robin's suggestion that we should just
+mark the relevant stream mappings as BYPASS. Relying on something else to set
+up the stream mappings wanted - e.g. by reading it back in platform specific
+implementation code.
 
-Using 16 threads to run netperf on hns3 100G NIC with UDP packet size
-in 32768bytes and set iommu to strict, TX throughput can improve from
-25227.74Mbps to 27145.59Mbps by this patch. In this case, SMMU is super
-busy as hns3 sends map/unmap requests extremely frequently.
+The series then tackles the problem seen in most versions of Qualcomm firmware,
+that the hypervisor intercepts BYPASS writes and turn them into FAULTs. It does
+this by allocating context banks for identity domains as well, with translation
+disabled.
 
-Cc: Prime Zeng <prime.zeng@hisilicon.com>
-Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
----
- drivers/iommu/arm-smmu-v3.c | 46 +------------------------------------
- 1 file changed, 1 insertion(+), 45 deletions(-)
+Lastly it amends the stream mapping initialization code to allocate a specific
+identity domain that is used for any mappings inherited from the bootloader, if
+above Qualcomm quirk is required.
 
-diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index f578677a5c41..e55282a636c8 100644
---- a/drivers/iommu/arm-smmu-v3.c
-+++ b/drivers/iommu/arm-smmu-v3.c
-@@ -964,12 +964,7 @@ static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
- 		cmd[1] |= FIELD_PREP(CMDQ_PRI_1_RESP, ent->pri.resp);
- 		break;
- 	case CMDQ_OP_CMD_SYNC:
--		if (ent->sync.msiaddr) {
--			cmd[0] |= FIELD_PREP(CMDQ_SYNC_0_CS, CMDQ_SYNC_0_CS_IRQ);
--			cmd[1] |= ent->sync.msiaddr & CMDQ_SYNC_1_MSIADDR_MASK;
--		} else {
--			cmd[0] |= FIELD_PREP(CMDQ_SYNC_0_CS, CMDQ_SYNC_0_CS_SEV);
--		}
-+		cmd[0] |= FIELD_PREP(CMDQ_SYNC_0_CS, CMDQ_SYNC_0_CS_SEV);
- 		cmd[0] |= FIELD_PREP(CMDQ_SYNC_0_MSH, ARM_SMMU_SH_ISH);
- 		cmd[0] |= FIELD_PREP(CMDQ_SYNC_0_MSIATTR, ARM_SMMU_MEMATTR_OIWB);
- 		break;
-@@ -983,21 +978,10 @@ static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
- static void arm_smmu_cmdq_build_sync_cmd(u64 *cmd, struct arm_smmu_device *smmu,
- 					 u32 prod)
- {
--	struct arm_smmu_queue *q = &smmu->cmdq.q;
- 	struct arm_smmu_cmdq_ent ent = {
- 		.opcode = CMDQ_OP_CMD_SYNC,
- 	};
- 
--	/*
--	 * Beware that Hi16xx adds an extra 32 bits of goodness to its MSI
--	 * payload, so the write will zero the entire command on that platform.
--	 */
--	if (smmu->features & ARM_SMMU_FEAT_MSI &&
--	    smmu->features & ARM_SMMU_FEAT_COHERENCY) {
--		ent.sync.msiaddr = q->base_dma + Q_IDX(&q->llq, prod) *
--				   q->ent_dwords * 8;
--	}
--
- 	arm_smmu_cmdq_build_cmd(cmd, &ent);
- }
- 
-@@ -1251,30 +1235,6 @@ static int arm_smmu_cmdq_poll_until_not_full(struct arm_smmu_device *smmu,
- 	return ret;
- }
- 
--/*
-- * Wait until the SMMU signals a CMD_SYNC completion MSI.
-- * Must be called with the cmdq lock held in some capacity.
-- */
--static int __arm_smmu_cmdq_poll_until_msi(struct arm_smmu_device *smmu,
--					  struct arm_smmu_ll_queue *llq)
--{
--	int ret = 0;
--	struct arm_smmu_queue_poll qp;
--	struct arm_smmu_cmdq *cmdq = &smmu->cmdq;
--	u32 *cmd = (u32 *)(Q_ENT(&cmdq->q, llq->prod));
--
--	queue_poll_init(smmu, &qp);
--
--	/*
--	 * The MSI won't generate an event, since it's being written back
--	 * into the command queue.
--	 */
--	qp.wfe = false;
--	smp_cond_load_relaxed(cmd, !VAL || (ret = queue_poll(&qp)));
--	llq->cons = ret ? llq->prod : queue_inc_prod_n(llq, 1);
--	return ret;
--}
--
- /*
-  * Wait until the SMMU cons index passes llq->prod.
-  * Must be called with the cmdq lock held in some capacity.
-@@ -1332,10 +1292,6 @@ static int __arm_smmu_cmdq_poll_until_consumed(struct arm_smmu_device *smmu,
- static int arm_smmu_cmdq_poll_until_sync(struct arm_smmu_device *smmu,
- 					 struct arm_smmu_ll_queue *llq)
- {
--	if (smmu->features & ARM_SMMU_FEAT_MSI &&
--	    smmu->features & ARM_SMMU_FEAT_COHERENCY)
--		return __arm_smmu_cmdq_poll_until_msi(smmu, llq);
--
- 	return __arm_smmu_cmdq_poll_until_consumed(smmu, llq);
- }
- 
+
+The series has been tested and shown to allow booting SDM845, SDM850, SM8150,
+SM8250 with boot splash screen setup by the bootloader. Specifically it also
+allows the Lenovo Yoga C630 to boot with SMMU and efifb enabled.
+
+Bjorn Andersson (5):
+  iommu/arm-smmu: Make all valid stream mappings BYPASS
+  iommu/arm-smmu: Emulate bypass by using context banks
+  iommu/arm-smmu: Move SMR and S2CR definitions to header file
+  iommu/arm-smmu-qcom: Consistently initialize stream mappings
+  iommu/arm-smmu: Setup identity domain for boot mappings
+
+ drivers/iommu/arm-smmu-qcom.c |  48 +++++++++++++
+ drivers/iommu/arm-smmu.c      | 123 +++++++++++++++++++++++++++++-----
+ drivers/iommu/arm-smmu.h      |  21 ++++++
+ 3 files changed, 174 insertions(+), 18 deletions(-)
+
 -- 
-2.27.0
-
+2.26.2
 
 _______________________________________________
 iommu mailing list
