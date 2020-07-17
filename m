@@ -2,59 +2,69 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6E6223768
-	for <lists.iommu@lfdr.de>; Fri, 17 Jul 2020 10:54:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F67F2237CC
+	for <lists.iommu@lfdr.de>; Fri, 17 Jul 2020 11:08:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0E53D882A7;
-	Fri, 17 Jul 2020 08:54:45 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1BA17882D3;
+	Fri, 17 Jul 2020 09:08:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cs2zTP8tuQ2a; Fri, 17 Jul 2020 08:54:43 +0000 (UTC)
+	with ESMTP id PIk6dmRSg8hy; Fri, 17 Jul 2020 09:08:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B242D8829D;
-	Fri, 17 Jul 2020 08:54:43 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 63F16882C4;
+	Fri, 17 Jul 2020 09:08:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 94B16C0733;
-	Fri, 17 Jul 2020 08:54:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4400FC0733;
+	Fri, 17 Jul 2020 09:08:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D049EC0733
- for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 08:54:41 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C16CAC0733
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 09:08:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A4103880DE
- for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 08:54:41 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id A3DE88822A
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 09:08:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eGfCGQUV-WV3 for <iommu@lists.linux-foundation.org>;
- Fri, 17 Jul 2020 08:54:40 +0000 (UTC)
+ with ESMTP id L2YDk-CcFP7X for <iommu@lists.linux-foundation.org>;
+ Fri, 17 Jul 2020 09:08:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by whitealder.osuosl.org (Postfix) with ESMTP id 74D4187D77
- for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 08:54:40 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AB88B30E;
- Fri, 17 Jul 2020 01:54:39 -0700 (PDT)
-Received: from [10.57.35.46] (unknown [10.57.35.46])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EE1A63F718;
- Fri, 17 Jul 2020 01:54:37 -0700 (PDT)
-Subject: Re: [PATCH] iommu/arm-smmu-v3: remove the approach of MSI polling for
- CMD SYNC
-To: Barry Song <song.bao.hua@hisilicon.com>, will@kernel.org, joro@8bytes.org
+Received: from huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 61EE1882B1
+ for <iommu@lists.linux-foundation.org>; Fri, 17 Jul 2020 09:08:06 +0000 (UTC)
+Received: from dggemi404-hub.china.huawei.com (unknown [172.30.72.57])
+ by Forcepoint Email with ESMTP id A7392E30ACC198C40E8B;
+ Fri, 17 Jul 2020 17:07:59 +0800 (CST)
+Received: from DGGEMI525-MBS.china.huawei.com ([169.254.6.52]) by
+ dggemi404-hub.china.huawei.com ([10.3.17.142]) with mapi id 14.03.0487.000;
+ Fri, 17 Jul 2020 17:07:48 +0800
+From: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+To: Robin Murphy <robin.murphy@arm.com>, "will@kernel.org" <will@kernel.org>, 
+ "joro@8bytes.org" <joro@8bytes.org>
+Subject: RE: [PATCH] iommu/arm-smmu-v3: remove the approach of MSI polling
+ for CMD SYNC
+Thread-Topic: [PATCH] iommu/arm-smmu-v3: remove the approach of MSI polling
+ for CMD SYNC
+Thread-Index: AQHWW8YiwSsIgpwKv0qM0ZdQNf6ByakK8iGAgACG1CA=
+Date: Fri, 17 Jul 2020 09:07:48 +0000
+Message-ID: <B926444035E5E2439431908E3842AFD25900C6@DGGEMI525-MBS.china.huawei.com>
 References: <20200716230709.32820-1-song.bao.hua@hisilicon.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <35b54698-bd43-a8fc-00db-94ee0dfc789f@arm.com>
-Date: Fri, 17 Jul 2020 09:54:35 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <35b54698-bd43-a8fc-00db-94ee0dfc789f@arm.com>
+In-Reply-To: <35b54698-bd43-a8fc-00db-94ee0dfc789f@arm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.126.203.111]
 MIME-Version: 1.0
-In-Reply-To: <20200716230709.32820-1-song.bao.hua@hisilicon.com>
-Content-Language: en-GB
-Cc: iommu@lists.linux-foundation.org, Prime Zeng <prime.zeng@hisilicon.com>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linuxarm@huawei.com
+X-CFilter-Loop: Reflected
+Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Linuxarm <linuxarm@huawei.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,126 +77,98 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-07-17 00:07, Barry Song wrote:
-> Before commit 587e6c10a7ce ("iommu/arm-smmu-v3: Reduce contention during
-> command-queue insertion"), msi polling perhaps performed better since
-> it could run outside the spin_lock_irqsave() while the code polling cons
-> reg was running in the lock.
-> 
-> But after the great reorganization of smmu queue, neither of these two
-> polling methods are running in a spinlock. And real tests show polling
-> cons reg via sev means smaller latency. It is probably because polling
-> by msi will ask hardware to write memory but sev polling depends on the
-> update of register only.
-> 
-> Using 16 threads to run netperf on hns3 100G NIC with UDP packet size
-> in 32768bytes and set iommu to strict, TX throughput can improve from
-> 25227.74Mbps to 27145.59Mbps by this patch. In this case, SMMU is super
-> busy as hns3 sends map/unmap requests extremely frequently.
 
-How many different systems and SMMU implementations are those numbers 
-representative of? Given that we may have cases where the SMMU can use 
-MSIs but can't use SEV, so would have to fall back to inefficient 
-busy-polling, I'd be wary of removing this entirely. Allowing particular 
-platforms or SMMU implementations to suppress MSI functionality if they 
-know for sure it makes sense seems like a safer bet.
 
-Robin.
+> -----Original Message-----
+> From: Robin Murphy [mailto:robin.murphy@arm.com]
+> Sent: Friday, July 17, 2020 8:55 PM
+> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>; will@kernel.org;
+> joro@8bytes.org
+> Cc: linux-kernel@vger.kernel.org; Linuxarm <linuxarm@huawei.com>;
+> linux-arm-kernel@lists.infradead.org; iommu@lists.linux-foundation.org;
+> Zengtao (B) <prime.zeng@hisilicon.com>
+> Subject: Re: [PATCH] iommu/arm-smmu-v3: remove the approach of MSI
+> polling for CMD SYNC
+> 
+> On 2020-07-17 00:07, Barry Song wrote:
+> > Before commit 587e6c10a7ce ("iommu/arm-smmu-v3: Reduce contention
+> during
+> > command-queue insertion"), msi polling perhaps performed better since
+> > it could run outside the spin_lock_irqsave() while the code polling cons
+> > reg was running in the lock.
+> >
+> > But after the great reorganization of smmu queue, neither of these two
+> > polling methods are running in a spinlock. And real tests show polling
+> > cons reg via sev means smaller latency. It is probably because polling
+> > by msi will ask hardware to write memory but sev polling depends on the
+> > update of register only.
+> >
+> > Using 16 threads to run netperf on hns3 100G NIC with UDP packet size
+> > in 32768bytes and set iommu to strict, TX throughput can improve from
+> > 25227.74Mbps to 27145.59Mbps by this patch. In this case, SMMU is super
+> > busy as hns3 sends map/unmap requests extremely frequently.
+> 
+> How many different systems and SMMU implementations are those numbers
+> representative of? Given that we may have cases where the SMMU can use
+> MSIs but can't use SEV, so would have to fall back to inefficient
+> busy-polling, I'd be wary of removing this entirely. Allowing particular
+> platforms or SMMU implementations to suppress MSI functionality if they
+> know for sure it makes sense seems like a safer bet.
+> 
+Hello Robin,
 
-> Cc: Prime Zeng <prime.zeng@hisilicon.com>
-> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
-> ---
->   drivers/iommu/arm-smmu-v3.c | 46 +------------------------------------
->   1 file changed, 1 insertion(+), 45 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-> index f578677a5c41..e55282a636c8 100644
-> --- a/drivers/iommu/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm-smmu-v3.c
-> @@ -964,12 +964,7 @@ static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
->   		cmd[1] |= FIELD_PREP(CMDQ_PRI_1_RESP, ent->pri.resp);
->   		break;
->   	case CMDQ_OP_CMD_SYNC:
-> -		if (ent->sync.msiaddr) {
-> -			cmd[0] |= FIELD_PREP(CMDQ_SYNC_0_CS, CMDQ_SYNC_0_CS_IRQ);
-> -			cmd[1] |= ent->sync.msiaddr & CMDQ_SYNC_1_MSIADDR_MASK;
-> -		} else {
-> -			cmd[0] |= FIELD_PREP(CMDQ_SYNC_0_CS, CMDQ_SYNC_0_CS_SEV);
-> -		}
-> +		cmd[0] |= FIELD_PREP(CMDQ_SYNC_0_CS, CMDQ_SYNC_0_CS_SEV);
->   		cmd[0] |= FIELD_PREP(CMDQ_SYNC_0_MSH, ARM_SMMU_SH_ISH);
->   		cmd[0] |= FIELD_PREP(CMDQ_SYNC_0_MSIATTR, ARM_SMMU_MEMATTR_OIWB);
->   		break;
-> @@ -983,21 +978,10 @@ static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
->   static void arm_smmu_cmdq_build_sync_cmd(u64 *cmd, struct arm_smmu_device *smmu,
->   					 u32 prod)
->   {
-> -	struct arm_smmu_queue *q = &smmu->cmdq.q;
->   	struct arm_smmu_cmdq_ent ent = {
->   		.opcode = CMDQ_OP_CMD_SYNC,
->   	};
->   
-> -	/*
-> -	 * Beware that Hi16xx adds an extra 32 bits of goodness to its MSI
-> -	 * payload, so the write will zero the entire command on that platform.
-> -	 */
-> -	if (smmu->features & ARM_SMMU_FEAT_MSI &&
-> -	    smmu->features & ARM_SMMU_FEAT_COHERENCY) {
-> -		ent.sync.msiaddr = q->base_dma + Q_IDX(&q->llq, prod) *
-> -				   q->ent_dwords * 8;
-> -	}
-> -
->   	arm_smmu_cmdq_build_cmd(cmd, &ent);
->   }
->   
-> @@ -1251,30 +1235,6 @@ static int arm_smmu_cmdq_poll_until_not_full(struct arm_smmu_device *smmu,
->   	return ret;
->   }
->   
-> -/*
-> - * Wait until the SMMU signals a CMD_SYNC completion MSI.
-> - * Must be called with the cmdq lock held in some capacity.
-> - */
-> -static int __arm_smmu_cmdq_poll_until_msi(struct arm_smmu_device *smmu,
-> -					  struct arm_smmu_ll_queue *llq)
-> -{
-> -	int ret = 0;
-> -	struct arm_smmu_queue_poll qp;
-> -	struct arm_smmu_cmdq *cmdq = &smmu->cmdq;
-> -	u32 *cmd = (u32 *)(Q_ENT(&cmdq->q, llq->prod));
-> -
-> -	queue_poll_init(smmu, &qp);
-> -
-> -	/*
-> -	 * The MSI won't generate an event, since it's being written back
-> -	 * into the command queue.
-> -	 */
-> -	qp.wfe = false;
-> -	smp_cond_load_relaxed(cmd, !VAL || (ret = queue_poll(&qp)));
-> -	llq->cons = ret ? llq->prod : queue_inc_prod_n(llq, 1);
-> -	return ret;
-> -}
-> -
->   /*
->    * Wait until the SMMU cons index passes llq->prod.
->    * Must be called with the cmdq lock held in some capacity.
-> @@ -1332,10 +1292,6 @@ static int __arm_smmu_cmdq_poll_until_consumed(struct arm_smmu_device *smmu,
->   static int arm_smmu_cmdq_poll_until_sync(struct arm_smmu_device *smmu,
->   					 struct arm_smmu_ll_queue *llq)
->   {
-> -	if (smmu->features & ARM_SMMU_FEAT_MSI &&
-> -	    smmu->features & ARM_SMMU_FEAT_COHERENCY)
-> -		return __arm_smmu_cmdq_poll_until_msi(smmu, llq);
-> -
->   	return __arm_smmu_cmdq_poll_until_consumed(smmu, llq);
->   }
->   
-> 
+Thanks for taking a look. Actually I was really struggling with the good way to make every platform happy.
+And I don't have other platforms to test and check if those platforms run better by sev polling. Even two
+platforms have completely same SMMU features, it is still possible they behave differently.
+So I simply sent this patch to get the discussion started to get opinions.
+
+At the first beginning, I wanted to have a module parameter for users to decide if msi polling should be disabled.
+But the module parameter might be totally ignored by linux distro.
+
+--- a/drivers/iommu/arm-smmu-v3.c
++++ b/drivers/iommu/arm-smmu-v3.c
+@@ -418,6 +418,11 @@ module_param_named(disable_bypass, disable_bypass, bool, S_IRUGO);  MODULE_PARM_DESC(disable_bypass,
+ 	"Disable bypass streams such that incoming transactions from devices that are not attached to an iommu domain will report an abort back to the device and will not be allowed to pass through the SMMU.");
+ 
++static bool disable_msipolling = 1;
++module_param_named(disable_msipolling, disable_msipolling, bool, 
++S_IRUGO); MODULE_PARM_DESC(disable_msipolling,
++	"Don't use MSI to poll the completion of CMD_SYNC if it is slower than 
++SEV");
++
+ enum pri_resp {
+ 	PRI_RESP_DENY = 0,
+ 	PRI_RESP_FAIL = 1,
+@@ -992,7 +997,7 @@ static void arm_smmu_cmdq_build_sync_cmd(u64 *cmd, struct arm_smmu_device *smmu,
+ 	 * Beware that Hi16xx adds an extra 32 bits of goodness to its MSI
+ 	 * payload, so the write will zero the entire command on that platform.
+ 	 */
+-	if (smmu->features & ARM_SMMU_FEAT_MSI &&
++	if (!disable_msipolling && smmu->features & ARM_SMMU_FEAT_MSI &&
+ 	    smmu->features & ARM_SMMU_FEAT_COHERENCY) {
+ 		ent.sync.msiaddr = q->base_dma + Q_IDX(&q->llq, prod) *
+ 				   q->ent_dwords * 8;
+@@ -1332,7 +1337,7 @@ static int __arm_smmu_cmdq_poll_until_consumed(struct arm_smmu_device *smmu,  static int arm_smmu_cmdq_poll_until_sync(struct arm_smmu_device *smmu,
+ 					 struct arm_smmu_ll_queue *llq)
+ {
+-	if (smmu->features & ARM_SMMU_FEAT_MSI &&
++	if (!disable_msipolling && smmu->features & ARM_SMMU_FEAT_MSI &&
+ 	    smmu->features & ARM_SMMU_FEAT_COHERENCY)
+ 		return __arm_smmu_cmdq_poll_until_msi(smmu, llq);
+
+
+Another option is that we don't use module parameter, alternatively, we check the vendor/chip ID,
+if the chip has better performance on sev polling, it may set disable_msipolling to true.
+
+You are very welcome to give your suggestions.
+
+Thanks
+Barry
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
