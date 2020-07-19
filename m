@@ -1,62 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 552DF225075
-	for <lists.iommu@lfdr.de>; Sun, 19 Jul 2020 09:39:38 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2FA225286
+	for <lists.iommu@lfdr.de>; Sun, 19 Jul 2020 17:38:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DEC13869E1;
-	Sun, 19 Jul 2020 07:39:36 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2260A87A77;
+	Sun, 19 Jul 2020 15:38:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vL62fp4edOpE; Sun, 19 Jul 2020 07:39:36 +0000 (UTC)
+	with ESMTP id c1f0yDFpQA3N; Sun, 19 Jul 2020 15:38:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 48582869CA;
-	Sun, 19 Jul 2020 07:39:36 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6EBE487A60;
+	Sun, 19 Jul 2020 15:38:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2BF04C1797;
-	Sun, 19 Jul 2020 07:39:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 55385C016F;
+	Sun, 19 Jul 2020 15:38:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 682B9C016F
- for <iommu@lists.linux-foundation.org>; Sun, 19 Jul 2020 07:39:34 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A68D7C016F
+ for <iommu@lists.linux-foundation.org>; Sun, 19 Jul 2020 15:38:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5002887B3E
- for <iommu@lists.linux-foundation.org>; Sun, 19 Jul 2020 07:39:34 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 88CDE87A77
+ for <iommu@lists.linux-foundation.org>; Sun, 19 Jul 2020 15:38:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9mC4cW+rF1W7 for <iommu@lists.linux-foundation.org>;
- Sun, 19 Jul 2020 07:39:32 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 857E987635
- for <iommu@lists.linux-foundation.org>; Sun, 19 Jul 2020 07:39:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=cNsbswgmt5UoWdjIXqDw0mZBByTg/kfR0BZVwY68014=; b=ghtU5skADnySWERfccuHaUPDLU
- xw5ZNDLYS8qTNezw5W/6s6oEP0HWgA1JUGbQPw67eJ1PJhSBJXv5VOjjvMmQ1ZgAzDpRYYV6Ri9OK
- uIubRA4ivmUEKXzNFttfrPbrn03mPshlB7XAYf+amj8tfUf6dQmjwFjRNgB6vEH2imqVBJx2T5MAn
- WCNSIQSI5YYkxxdPz1fzt84g/5gMFF3PI+skmmQNxpJO/UclCJYSmBm+iQTU01ZExKMIvDGC22k1W
- 0DkksMIwpiaXDNwT8r7I6QWwpWA9QIS1Bd3vrxoRYfXHrNP1Rws8IbFxNZCUn3wcfm8sh8O+N0K36
- XYcWTenA==;
-Received: from [2001:4bb8:105:4a81:4ef5:9f24:cda4:103f] (helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1jx3uy-0001IV-2o; Sun, 19 Jul 2020 07:39:28 +0000
-Date: Sun, 19 Jul 2020 09:39:27 +0200
-From: Christoph Hellwig <hch@infradead.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [GIT PULL] dma-mapping fixes for 5.8
-Message-ID: <20200719073927.GA114439@infradead.org>
+ with ESMTP id O4wWE-9KtkFb for <iommu@lists.linux-foundation.org>;
+ Sun, 19 Jul 2020 15:38:07 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 52B1087A60
+ for <iommu@lists.linux-foundation.org>; Sun, 19 Jul 2020 15:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1595173085;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gFa20iOvNaIpC3/ExmrY2AxI8kzsflBaDnsmuPlGFx8=;
+ b=VPEzdOYYFpg9+s49DFJLApYnfK4jIS4asUSiuKOjt1cTugrIQx9++EJkct569yiNWOP95e
+ 2uhEXHJJmIlPfeOT/phW7kE35SkErDYIeA341d1FuJabrqNKrsWnSihJF4Teo1tXnRPDqr
+ z851lMMCH2dM4vtbv9otIcox2ViREJc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-bjCNlHG2Os-xmHBRAOqNFQ-1; Sun, 19 Jul 2020 11:38:01 -0400
+X-MC-Unique: bjCNlHG2Os-xmHBRAOqNFQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 805CD80183C;
+ Sun, 19 Jul 2020 15:37:59 +0000 (UTC)
+Received: from [10.36.115.54] (ovpn-115-54.ams2.redhat.com [10.36.115.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 727001A90F;
+ Sun, 19 Jul 2020 15:37:50 +0000 (UTC)
+Subject: Re: [PATCH v5 08/15] iommu: Pass domain to sva_unbind_gpasid()
+To: Liu Yi L <yi.l.liu@intel.com>, alex.williamson@redhat.com,
+ baolu.lu@linux.intel.com, joro@8bytes.org
+References: <1594552870-55687-1-git-send-email-yi.l.liu@intel.com>
+ <1594552870-55687-9-git-send-email-yi.l.liu@intel.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <27ac7880-bdd3-2891-139e-b4a7cd18420b@redhat.com>
+Date: Sun, 19 Jul 2020 17:37:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+In-Reply-To: <1594552870-55687-9-git-send-email-yi.l.liu@intel.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Cc: jean-philippe@linaro.org, kevin.tian@intel.com, ashok.raj@intel.com,
+ kvm@vger.kernel.org, stefanha@gmail.com, jun.j.tian@intel.com,
+ iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ yi.y.sun@intel.com, hao.wu@intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,36 +93,107 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The following changes since commit 0dc589da873b58b70f4caf4b070fb0cf70fdd1dc:
+Yi,
 
-  Merge tag 'iommu-fixes-v5.8-rc5' of git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu (2020-07-13 12:34:05 -0700)
+On 7/12/20 1:21 PM, Liu Yi L wrote:
+> From: Yi Sun <yi.y.sun@intel.com>
+> 
+> Current interface is good enough for SVA virtualization on an assigned
+> physical PCI device, but when it comes to mediated devices, a physical
+> device may attached with multiple aux-domains. Also, for guest unbind,
+> the PASID to be unbind should be allocated to the VM. This check requires
+> to know the ioasid_set which is associated with the domain.
+> 
+> So this interface needs to pass in domain info. Then the iommu driver is
+> able to know which domain will be used for the 2nd stage translation of
+> the nesting mode and also be able to do PASID ownership check. This patch
+> passes @domain per the above reason.
+> 
+> Cc: Kevin Tian <kevin.tian@intel.com>
+> CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Eric Auger <eric.auger@redhat.com>
+> Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: Lu Baolu <baolu.lu@linux.intel.com>
+> Signed-off-by: Yi Sun <yi.y.sun@intel.com>
+> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> ---
+> v2 -> v3:
+> *) pass in domain info only
+> *) use ioasid_t for pasid instead of int type
+> 
+> v1 -> v2:
+> *) added in v2.
+> ---
+>  drivers/iommu/intel/svm.c   | 3 ++-
+>  drivers/iommu/iommu.c       | 2 +-
+>  include/linux/intel-iommu.h | 3 ++-
+>  include/linux/iommu.h       | 3 ++-
+>  4 files changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
+> index b9a9c55..d2c0e1a 100644
+> --- a/drivers/iommu/intel/svm.c
+> +++ b/drivers/iommu/intel/svm.c
+> @@ -432,7 +432,8 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+>  	return ret;
+>  }
+>  
+> -int intel_svm_unbind_gpasid(struct device *dev, int pasid)
+> +int intel_svm_unbind_gpasid(struct iommu_domain *domain,
+> +			    struct device *dev, ioasid_t pasid)
+int -> ioasid_t proto change is not described in the commit message,
+>  {
+>  	struct intel_iommu *iommu = intel_svm_device_to_iommu(dev);
+>  	struct intel_svm_dev *sdev;
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 7910249..d3e554c 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -2151,7 +2151,7 @@ int __iommu_sva_unbind_gpasid(struct iommu_domain *domain, struct device *dev,
+>  	if (unlikely(!domain->ops->sva_unbind_gpasid))
+>  		return -ENODEV;
+>  
+> -	return domain->ops->sva_unbind_gpasid(dev, data->hpasid);
+> +	return domain->ops->sva_unbind_gpasid(domain, dev, data->hpasid);
+>  }
+>  EXPORT_SYMBOL_GPL(__iommu_sva_unbind_gpasid);
+>  
+> diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
+> index 0d0ab32..18f292e 100644
+> --- a/include/linux/intel-iommu.h
+> +++ b/include/linux/intel-iommu.h
+> @@ -738,7 +738,8 @@ extern int intel_svm_enable_prq(struct intel_iommu *iommu);
+>  extern int intel_svm_finish_prq(struct intel_iommu *iommu);
+>  int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+>  			  struct iommu_gpasid_bind_data *data);
+> -int intel_svm_unbind_gpasid(struct device *dev, int pasid);
+> +int intel_svm_unbind_gpasid(struct iommu_domain *domain,
+> +			    struct device *dev, ioasid_t pasid);
+>  struct iommu_sva *intel_svm_bind(struct device *dev, struct mm_struct *mm,
+>  				 void *drvdata);
+>  void intel_svm_unbind(struct iommu_sva *handle);
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index e84a1d5..ca5edd8 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -303,7 +303,8 @@ struct iommu_ops {
+>  	int (*sva_bind_gpasid)(struct iommu_domain *domain,
+>  			struct device *dev, struct iommu_gpasid_bind_data *data);
+>  
+> -	int (*sva_unbind_gpasid)(struct device *dev, int pasid);
+> +	int (*sva_unbind_gpasid)(struct iommu_domain *domain,
+> +				 struct device *dev, ioasid_t pasid);
+>  
+>  	int (*def_domain_type)(struct device *dev);
+>  
+> 
+Besides
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-are available in the Git repository at:
+Eric
 
-  git://git.infradead.org/users/hch/dma-mapping.git tags/dma-mapping-5.8-6
-
-for you to fetch changes up to d9765e41d8e9ea2251bf73735a2895c8bad546fc:
-
-  dma-pool: do not allocate pool memory from CMA (2020-07-14 15:46:32 +0200)
-
-----------------------------------------------------------------
-dma-mapping fixes for 5.8:
-
- - ensure we always have fully addressable memory in the dma coherent
-   pool (Nicolas Saenz Julienne)
-
-----------------------------------------------------------------
-Nicolas Saenz Julienne (5):
-      dma-direct: provide function to check physical memory area validity
-      dma-pool: get rid of dma_in_atomic_pool()
-      dma-pool: introduce dma_guess_pool()
-      dma-pool: make sure atomic pool suits device
-      dma-pool: do not allocate pool memory from CMA
-
- include/linux/dma-direct.h |  1 +
- kernel/dma/direct.c        |  2 +-
- kernel/dma/pool.c          | 91 ++++++++++++++++++++++++++++------------------
- 3 files changed, 58 insertions(+), 36 deletions(-)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
