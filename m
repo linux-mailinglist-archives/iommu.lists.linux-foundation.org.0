@@ -1,57 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D7E9225780
-	for <lists.iommu@lfdr.de>; Mon, 20 Jul 2020 08:20:35 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2F9225788
+	for <lists.iommu@lfdr.de>; Mon, 20 Jul 2020 08:23:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 304ED85DD1;
-	Mon, 20 Jul 2020 06:20:34 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 195B2204A1;
+	Mon, 20 Jul 2020 06:23:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4KluF6Zga39X; Mon, 20 Jul 2020 06:20:32 +0000 (UTC)
+	with ESMTP id pgxiWhgUFDbJ; Mon, 20 Jul 2020 06:23:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 54BC585DC7;
-	Mon, 20 Jul 2020 06:20:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DC0662049F;
+	Mon, 20 Jul 2020 06:23:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2FAC7C016F;
-	Mon, 20 Jul 2020 06:20:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BD847C016F;
+	Mon, 20 Jul 2020 06:23:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 91A82C016F
- for <iommu@lists.linux-foundation.org>; Mon, 20 Jul 2020 06:20:30 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7A7D6C016F
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Jul 2020 06:23:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 7656386C02
- for <iommu@lists.linux-foundation.org>; Mon, 20 Jul 2020 06:20:30 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6B894880E7
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Jul 2020 06:23:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id g3H+wYDDaNQE for <iommu@lists.linux-foundation.org>;
- Mon, 20 Jul 2020 06:20:29 +0000 (UTC)
+ with ESMTP id nNskyFGDuSsl for <iommu@lists.linux-foundation.org>;
+ Mon, 20 Jul 2020 06:23:43 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by whitealder.osuosl.org (Postfix) with ESMTPS id DAE4086C12
- for <iommu@lists.linux-foundation.org>; Mon, 20 Jul 2020 06:20:28 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 15765880E0
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Jul 2020 06:23:42 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 324A068BFE; Mon, 20 Jul 2020 08:20:24 +0200 (CEST)
-Date: Mon, 20 Jul 2020 08:20:24 +0200
+ id AC9E368BFE; Mon, 20 Jul 2020 08:23:39 +0200 (CEST)
+Date: Mon, 20 Jul 2020 08:23:39 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH 3/5] dma-mapping: make support for dma ops optional
-Message-ID: <20200720062024.GA10878@lst.de>
-References: <20200708152449.316476-1-hch@lst.de>
- <20200708152449.316476-4-hch@lst.de> <20200718171714.GA237687@roeck-us.net>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH] dma-debug: use named initializers for dir2name
+Message-ID: <20200720062339.GB10878@lst.de>
+References: <20200716150112.476896-1-hch@lst.de>
+ <c31374eb-855a-839b-5d52-96bc93ca69f3@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200718171714.GA237687@roeck-us.net>
+In-Reply-To: <c31374eb-855a-839b-5d52-96bc93ca69f3@arm.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: Daniel Borkmann <daniel@iogearbox.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Jesper Dangaard Brouer <brouer@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+Cc: iommu@lists.linux-foundation.org, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,16 +65,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sat, Jul 18, 2020 at 10:17:14AM -0700, Guenter Roeck wrote:
-> On Wed, Jul 08, 2020 at 05:24:47PM +0200, Christoph Hellwig wrote:
-> > Avoid the overhead of the dma ops support for tiny builds that only
-> > use the direct mapping.
-> > 
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> 
-> For ppc:pmac32_defconfig and other configurations, this patch results in:
+On Thu, Jul 16, 2020 at 05:12:30PM +0100, Robin Murphy wrote:
+>> +static const char *dir2name[4] = {
+>
+> Nit: I think you can probably drop the explicit array size here.
+>
+> Otherwise, very welcome clarity!
+>
+> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
 
-Fixed and force pushed.
+Applied with the explicit array size removed.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
