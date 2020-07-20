@@ -1,60 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85D2225A9E
-	for <lists.iommu@lfdr.de>; Mon, 20 Jul 2020 10:58:51 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7C27C85EC4;
-	Mon, 20 Jul 2020 08:58:50 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5565juV7EEY2; Mon, 20 Jul 2020 08:58:50 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1091D85EC0;
-	Mon, 20 Jul 2020 08:58:50 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F3EBBC016F;
-	Mon, 20 Jul 2020 08:58:49 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C3580C016F
- for <iommu@lists.linux-foundation.org>; Mon, 20 Jul 2020 08:58:48 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC06225ABB
+	for <lists.iommu@lfdr.de>; Mon, 20 Jul 2020 11:03:48 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id AA98621080
- for <iommu@lists.linux-foundation.org>; Mon, 20 Jul 2020 08:58:48 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 04ED1214E9;
+	Mon, 20 Jul 2020 09:03:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MCJVE5g+yOxi; Mon, 20 Jul 2020 09:03:46 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 002F421080;
+	Mon, 20 Jul 2020 09:03:45 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CF5E6C016F;
+	Mon, 20 Jul 2020 09:03:45 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7B1B5C016F
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Jul 2020 09:03:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 619A28560E
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Jul 2020 09:03:44 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GwpH2OcHIktO for <iommu@lists.linux-foundation.org>;
- Mon, 20 Jul 2020 08:58:47 +0000 (UTC)
+ with ESMTP id mmu6piAZZXYD for <iommu@lists.linux-foundation.org>;
+ Mon, 20 Jul 2020 09:03:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id A22F5204B0
- for <iommu@lists.linux-foundation.org>; Mon, 20 Jul 2020 08:58:47 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id EEF6C855F6
+ for <iommu@lists.linux-foundation.org>; Mon, 20 Jul 2020 09:03:43 +0000 (UTC)
 Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 628882080D;
- Mon, 20 Jul 2020 08:58:45 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id AC263208E4;
+ Mon, 20 Jul 2020 09:03:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595235527;
- bh=5dRm17x/4YmOg9N68msaTYgFDv010nts5Csj4JsnuNo=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=xgL1HXG5V4cFym6tqGx4SK3Zg1MNmAKtWRpSGhMqIhBBohFlDkQoTq230Hvd6SuYw
- w5wKTAdMcYJFzMnBoDGNZQdpgG3RMqInDwJCnWZWRhOSHxtTbnxoZOfI6U+8vb+A16
- dZrt94iCFWjJhK+PR14gN9iFFGOQoq/bJjf98yfs=
-Date: Mon, 20 Jul 2020 09:58:42 +0100
+ s=default; t=1595235823;
+ bh=KcQt2EOigF1ebrTQ7hvGmXwS8Ro1HrFCMeZYHFhnS7o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=2MQ1krqOi3hi5kU835rdrlryHLYqM1P79nmjhvl/68c5WzpyyCv+6MttAMk7f8ulC
+ YeFKtEdgbAcBW1900hLCi6R7J7eTvWGEVT8fSsekUCI9pgNtzklh3LRlfN5Yzz1rlp
+ QzmMdqjcenT2oFxV7+Mb/zf/kuE5sm2d2fy1q2pQ=
+Date: Mon, 20 Jul 2020 10:03:38 +0100
 From: Will Deacon <will@kernel.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: Re: [PATCH v2 2/5] iommu/arm-smmu: Emulate bypass by using context
- banks
-Message-ID: <20200720085841.GA11189@willie-the-truck>
+Subject: Re: [PATCH v2 5/5] iommu/arm-smmu: Setup identity domain for boot
+ mappings
+Message-ID: <20200720090338.GB11189@willie-the-truck>
+References: <20200717001619.325317-1-bjorn.andersson@linaro.org>
+ <20200717001619.325317-6-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200717001619.325317-3-bjorn.andersson@linaro.org>
+In-Reply-To: <20200717001619.325317-6-bjorn.andersson@linaro.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Marek <jonathan@marek.ca>,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -78,19 +80,19 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jul 16, 2020 at 05:16:16PM -0700, Bjorn Andersson wrote:
-> Some firmware found on various Qualcomm platforms traps writes to S2CR
-> of type BYPASS and writes FAULT into the register. This prevents us from
-> marking the streams for the display controller as BYPASS to allow
-> continued scanout of the screen through the initialization of the ARM
-> SMMU.
+On Thu, Jul 16, 2020 at 05:16:19PM -0700, Bjorn Andersson wrote:
+> With many Qualcomm platforms not having functional S2CR BYPASS a
+> temporary IOMMU domain, without translation, needs to be allocated in
+> order to allow these memory transactions.
 > 
-> This adds a Qualcomm specific cfg_probe function, which probes the
-> behavior of the S2CR registers and if found faulty enables the related
-> quirk. Based on this quirk context banks are allocated for IDENTITY
-> domains as well, but with ARM_SMMU_SCTLR_M omitted.
+> Unfortunately the boot loader uses the first few context banks, so
+> rather than overwriting a active bank the last context bank is used and
+> streams are diverted here during initialization.
 > 
-> The result is valid stream mappings, without translation.
+> This also performs the readback of SMR registers for the Qualcomm
+> platform, to trigger the mechanism.
+> 
+> This is based on prior work by Thierry Reding and Laurentiu Tudor.
 > 
 > Tested-by: John Stultz <john.stultz@linaro.org>
 > Tested-by: Vinod Koul <vkoul@kernel.org>
@@ -98,51 +100,16 @@ On Thu, Jul 16, 2020 at 05:16:16PM -0700, Bjorn Andersson wrote:
 > ---
 > 
 > Changes since v1:
+> - Rebased to avoid conflict
 > - Picked up tested-by
 > 
->  drivers/iommu/arm-smmu-qcom.c | 21 +++++++++++++++++++++
->  drivers/iommu/arm-smmu.c      | 14 ++++++++++++--
->  drivers/iommu/arm-smmu.h      |  3 +++
->  3 files changed, 36 insertions(+), 2 deletions(-)
+>  drivers/iommu/arm-smmu-qcom.c | 11 +++++
+>  drivers/iommu/arm-smmu.c      | 79 +++++++++++++++++++++++++++++++++--
 
-[...]
-
-> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
-> index fb85e716ae9a..5d5fe6741ed4 100644
-> --- a/drivers/iommu/arm-smmu.c
-> +++ b/drivers/iommu/arm-smmu.c
-> @@ -654,7 +654,9 @@ static void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx)
->  
->  	/* SCTLR */
->  	reg = ARM_SMMU_SCTLR_CFIE | ARM_SMMU_SCTLR_CFRE | ARM_SMMU_SCTLR_AFE |
-> -	      ARM_SMMU_SCTLR_TRE | ARM_SMMU_SCTLR_M;
-> +	      ARM_SMMU_SCTLR_TRE;
-> +	if (cfg->m)
-> +		reg |= ARM_SMMU_SCTLR_M;
->  	if (stage1)
->  		reg |= ARM_SMMU_SCTLR_S1_ASIDPNE;
->  	if (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN))
-> @@ -678,7 +680,11 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
->  	if (smmu_domain->smmu)
->  		goto out_unlock;
->  
-> -	if (domain->type == IOMMU_DOMAIN_IDENTITY) {
-> +	/*
-> +	 * Nothing to do for IDENTITY domains,unless disabled context banks are
-> +	 * used to emulate bypass mappings on Qualcomm platforms.
-> +	 */
-> +	if (domain->type == IOMMU_DOMAIN_IDENTITY && !smmu->qcom_bypass_quirk) {
-
-Given that the other thread [1] with Jordan (why haven't you cc'd him?! --
-adding him now) has identified the need for a callback to allocate the
-context bank, why don't we use the same sort of idea here? If the impl
-provides a CB allocator function, call it irrespective of the domain type.
-If it allocates a domain even for an identity domain, then we can install
-if with SCTLR.M clear.
+Perhaps the CB allocator callback can help to reduce the changes to the core
+driver here. What do you think?
 
 Will
-
-[1] https://lore.kernel.org/r/20200716151625.GA14526@jcrouse1-lnx.qualcomm.com
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
