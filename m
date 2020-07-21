@@ -1,60 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46EE228964
-	for <lists.iommu@lfdr.de>; Tue, 21 Jul 2020 21:44:29 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B791228A6C
+	for <lists.iommu@lfdr.de>; Tue, 21 Jul 2020 23:14:05 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 998BA8543B;
-	Tue, 21 Jul 2020 19:44:28 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id EEB88886A0;
+	Tue, 21 Jul 2020 21:14:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ya5o5Qm8QaKP; Tue, 21 Jul 2020 19:44:27 +0000 (UTC)
+	with ESMTP id 9SLL9P7AZeC3; Tue, 21 Jul 2020 21:14:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E3A36853FC;
-	Tue, 21 Jul 2020 19:44:27 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 65992886A7;
+	Tue, 21 Jul 2020 21:14:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C810BC016F;
-	Tue, 21 Jul 2020 19:44:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4BEB2C016F;
+	Tue, 21 Jul 2020 21:14:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 895CAC016F
- for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 19:44:26 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E0D38C016F
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 21:14:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 724AA86A75
- for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 19:44:26 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id B83EB22735
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 21:14:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TR0-BoN4JNKR for <iommu@lists.linux-foundation.org>;
- Tue, 21 Jul 2020 19:44:25 +0000 (UTC)
+ with ESMTP id h-YTwrU-WNnw for <iommu@lists.linux-foundation.org>;
+ Tue, 21 Jul 2020 21:13:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B248F86A73
- for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 19:44:25 +0000 (UTC)
-IronPort-SDR: xTDKgexHuVAWs21zAoBKtdGWqQ2O0fR+qtjTRh9/2HrtBPZXo8oyC1LgxKCg8yRyczU7c4ZYm5
- zccChDPr0pzw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="138302328"
-X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; d="scan'208";a="138302328"
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by silver.osuosl.org (Postfix) with ESMTPS id C76EF2274B
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 21:13:58 +0000 (UTC)
+IronPort-SDR: Uk73DVgP6ur6S0v7pXrWGb4gHzEQE2TdOrhSJtzYo7jKa33m3/h6mE0aNWIC15jXpQEaSyIe/q
+ RLDBlt5b49Bw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="130315022"
+X-IronPort-AV: E=Sophos;i="5.75,380,1589266800"; d="scan'208";a="130315022"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2020 12:44:25 -0700
-IronPort-SDR: LjU3Q2bNdiXBdGUjRgtcumpVhVHG2+Pn7mZ69Avb09AwR1PnNjOrmsKAOqmHOHlZ1Mqyk+jSut
- x0SwjbM3tfCQ==
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2020 14:13:58 -0700
+IronPort-SDR: jfP3vxj61yHJHjlo5BFoMGLMIGVER/KB9BFhTq7pwA32SEp1fHghBmm3qZzbILTAlgK6CnJ7wY
+ 4vXaZlScbvfA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,379,1589266800"; d="scan'208";a="327980667"
+X-IronPort-AV: E=Sophos;i="5.75,380,1589266800"; d="scan'208";a="270554953"
 Received: from otc-nc-03.jf.intel.com ([10.54.39.25])
- by orsmga007.jf.intel.com with ESMTP; 21 Jul 2020 12:44:24 -0700
+ by fmsmga007.fm.intel.com with ESMTP; 21 Jul 2020 14:13:58 -0700
 From: Ashok Raj <ashok.raj@intel.com>
 To: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
  Joerg Roedel <joro@8bytes.org>
 Subject: [PATCH] PCI/ATS: PASID and PRI are only enumerated in PF devices.
-Date: Tue, 21 Jul 2020 12:44:20 -0700
-Message-Id: <1595360660-213129-1-git-send-email-ashok.raj@intel.com>
+Date: Tue, 21 Jul 2020 14:13:45 -0700
+Message-Id: <1595366025-239046-1-git-send-email-ashok.raj@intel.com>
 X-Mailer: git-send-email 2.7.4
 Cc: iommu@lists.linux-foundation.org, Ashok Raj <ashok.raj@intel.com>,
  stable@vger.kernel.org, linux-kernel@vger.kernel.org
@@ -87,6 +87,9 @@ v2: Fixed build failure from lkp when CONFIG_PRI=n
     Almost all the PRI functions were called only when CONFIG_PASID is
     set. Except the new pci_pri_supported().
 
+    previous version sent in error because i missed dry-run before recompile
+    :-(
+
 To: Bjorn Helgaas <bhelgaas@google.com>
 To: Joerg Roedel <joro@8bytes.com>
 To: Lu Baolu <baolu.lu@intel.com>
@@ -97,9 +100,9 @@ Cc: Ashok Raj <ashok.raj@intel.com>
 Cc: iommu@lists.linux-foundation.org
 ---
  drivers/iommu/intel/iommu.c |  2 +-
- drivers/pci/ats.c           | 14 ++++++++++++++
+ drivers/pci/ats.c           | 13 +++++++++++++
  include/linux/pci-ats.h     |  4 ++++
- 3 files changed, 19 insertions(+), 1 deletion(-)
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
 index d759e7234e98..276452f5e6a7 100644
@@ -115,19 +118,19 @@ index d759e7234e98..276452f5e6a7 100644
  		}
  	}
 diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
-index b761c1f72f67..ffb4de8c5a77 100644
+index b761c1f72f67..2e6cf0c700f7 100644
 --- a/drivers/pci/ats.c
 +++ b/drivers/pci/ats.c
-@@ -461,6 +461,20 @@ int pci_pasid_features(struct pci_dev *pdev)
- }
- EXPORT_SYMBOL_GPL(pci_pasid_features);
+@@ -325,6 +325,19 @@ int pci_prg_resp_pasid_required(struct pci_dev *pdev)
  
+ 	return pdev->pasid_required;
+ }
++
 +/**
 + * pci_pri_supported - Check if PRI is supported.
 + * @pdev: PCI device structure
 + *
-+ * Returns false when no PRI capability is present.
-+ * Returns true if PRI feature is supported and enabled
++ * Returns true if PRI capability is present, false otherwise.
 + */
 +bool pci_pri_supported(struct pci_dev *pdev)
 +{
@@ -135,12 +138,11 @@ index b761c1f72f67..ffb4de8c5a77 100644
 +	return !!(pci_physfn(pdev)->pri_cap);
 +}
 +EXPORT_SYMBOL_GPL(pci_pri_supported);
-+
- #define PASID_NUMBER_SHIFT	8
- #define PASID_NUMBER_MASK	(0x1f << PASID_NUMBER_SHIFT)
- /**
+ #endif /* CONFIG_PCI_PRI */
+ 
+ #ifdef CONFIG_PCI_PASID
 diff --git a/include/linux/pci-ats.h b/include/linux/pci-ats.h
-index f75c307f346d..fc989295daf3 100644
+index f75c307f346d..df54cd5b15db 100644
 --- a/include/linux/pci-ats.h
 +++ b/include/linux/pci-ats.h
 @@ -28,6 +28,10 @@ int pci_enable_pri(struct pci_dev *pdev, u32 reqs);
@@ -149,7 +151,7 @@ index f75c307f346d..fc989295daf3 100644
  int pci_prg_resp_pasid_required(struct pci_dev *pdev);
 +bool pci_pri_supported(struct pci_dev *pdev);
 +#else
-+bool pci_pri_supported(struct pci_dev *pdev)
++static inline bool pci_pri_supported(struct pci_dev *pdev)
 +{ return false; }
  #endif /* CONFIG_PCI_PRI */
  
