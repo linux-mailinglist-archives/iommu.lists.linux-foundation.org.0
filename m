@@ -2,61 +2,57 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2B5227A1D
-	for <lists.iommu@lfdr.de>; Tue, 21 Jul 2020 10:04:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82718227AE6
+	for <lists.iommu@lfdr.de>; Tue, 21 Jul 2020 10:39:57 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3D63387484;
-	Tue, 21 Jul 2020 08:04:00 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3731387385;
+	Tue, 21 Jul 2020 08:39:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jo23demDDpyR; Tue, 21 Jul 2020 08:03:59 +0000 (UTC)
+	with ESMTP id qiyJ9c0iQnV0; Tue, 21 Jul 2020 08:39:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C0B188747D;
-	Tue, 21 Jul 2020 08:03:59 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 94F92873A4;
+	Tue, 21 Jul 2020 08:39:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 950D4C08A6;
-	Tue, 21 Jul 2020 08:03:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8022CC016F;
+	Tue, 21 Jul 2020 08:39:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CC3FAC016F
- for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 08:03:58 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B8F37C016F
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 08:39:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C1873894D9
- for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 08:03:58 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id A7669813F6
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 08:39:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9BmmPReO9zkY for <iommu@lists.linux-foundation.org>;
- Tue, 21 Jul 2020 08:03:58 +0000 (UTC)
+ with ESMTP id yTjzzoWFXW+E for <iommu@lists.linux-foundation.org>;
+ Tue, 21 Jul 2020 08:39:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 3F651894D8
- for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 08:03:58 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E8E4820709;
- Tue, 21 Jul 2020 08:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595318638;
- bh=+MyaGmTaU19aPpvAgrnfqAXQzHmb6mhfDcgxCLDkT9E=;
- h=Date:From:To:Cc:Subject:From;
- b=a6oaoypm/8b8eKHs4w9CyA8FwIifMPoXrvDj5jj0k0QhmP89uNbdaXVhTvSeLCvOj
- 9ptI6ZQw/oWLsYe3436+stZiDSd/Gzxo0/KCc2AIHGFxUmz1TeVShAhd8Wnn4VxjUz
- SSAUielerz1JpuKgUy5MgxVHUz7hFc7JqBzPFW/s=
-Date: Tue, 21 Jul 2020 09:03:53 +0100
-From: Will Deacon <will@kernel.org>
-To: joro@8bytes.org
-Subject: [GIT PULL] iommu/arm-smmu: Updates for 5.9
-Message-ID: <20200721080352.GA13023@willie-the-truck>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 9DAE0806EF
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 08:39:53 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 080F5AC46;
+ Tue, 21 Jul 2020 08:39:58 +0000 (UTC)
+Message-ID: <550b30a86c0785049d24c945e2c6628d491cee3a.camel@suse.de>
+Subject: Re: [PATCH] dma-pool: Do not allocate pool memory from CMA
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: Amit Pundir <amit.pundir@linaro.org>
+Date: Tue, 21 Jul 2020 10:39:49 +0200
+In-Reply-To: <CAMi1Hd35tRM=cnmzwX=SDgu-OoXi1Xj+twFkoULaVZBbTpe6sw@mail.gmail.com>
+References: <20200708164936.9340-1-nsaenzjulienne@suse.de>
+ <CAMi1Hd35tRM=cnmzwX=SDgu-OoXi1Xj+twFkoULaVZBbTpe6sw@mail.gmail.com>
+User-Agent: Evolution 3.36.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: kernel-team@android.com, iommu@lists.linux-foundation.org,
- robin.murphy@arm.com, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: lkml <linux-kernel@vger.kernel.org>, jeremy.linton@arm.com,
+ Sumit Semwal <sumit.semwal@linaro.org>, iommu@lists.linux-foundation.org,
+ John Stultz <john.stultz@linaro.org>, linux-rpi-kernel@lists.infradead.org,
+ David Rientjes <rientjes@google.com>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,83 +70,103 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Joerg,
+Hi Amit,
 
-Please pull these Arm SMMU driver updates for 5.9. Summary is in the tag,
-but the main thing is support for two new SoC integrations, one of which
-is considerably more brain-dead than the other (determining which one is
-left as an exercise to the reader although the diffstat is fairly revealing).
+On Tue, 2020-07-21 at 12:51 +0530, Amit Pundir wrote:
+> On Wed, 8 Jul 2020 at 22:43, Nicolas Saenz Julienne
+> <nsaenzjulienne@suse.de> wrote:
+> > There is no guarantee to CMA's placement, so allocating a zone
+> > specific
+> > atomic pool from CMA might return memory from a completely
+> > different
+> > memory zone. So stop using it.
+> > 
+> > Fixes: c84dc6e68a1d ("dma-pool: add additional coherent pools to
+> > map to gfp mask")
+> 
+> Hi Nicolas,
+> 
+> I see a boot regression with this commit d9765e41d8e9 "dma-pool:
+> Do not allocate pool memory from CMA" on my Xiaomi Poco F1
+> (Qcom sdm845) phone running v5.8-rc6. I can't boot past the
+> bootloader splash screen with this patch.
+> 
+> Phone boots fine if I revert this patch. I carry only one out of tree
+> dts patch https://lkml.org/lkml/2020/6/25/52. And since this is a
+> stock
+> phone, I don't have access to serial/dmesg logs until I boot to AOSP
+> (adb) shell.
+> 
+> Any thoughts as to what might be going wrong here? I'd be happy to
+> help debug things. For what it's worth, I don't see this regression
+> on
+> other two sdm845 devices (db845c and Pixel 3) I tested on.
 
-Cheers,
+Can you provide a boot log (even if without my patch) and the device-
+tree files? It'd help a lot figuring things out.
 
-Will
+Regards,
+Nicolas
 
---->8
+> Regards,
+> Amit Pundir
+> 
+> > Reported-by: Jeremy Linton <jeremy.linton@arm.com>
+> > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> > ---
+> > 
+> > An more costly alternative would be adding an option to
+> > dma_alloc_from_contiguous() so it fails when the allocation doesn't
+> > fall
+> > in a specific zone.
+> > 
+> >  kernel/dma/pool.c | 11 ++---------
+> >  1 file changed, 2 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/kernel/dma/pool.c b/kernel/dma/pool.c
+> > index 8cfa01243ed2..4bc1c46ae6ef 100644
+> > --- a/kernel/dma/pool.c
+> > +++ b/kernel/dma/pool.c
+> > @@ -6,7 +6,6 @@
+> >  #include <linux/debugfs.h>
+> >  #include <linux/dma-direct.h>
+> >  #include <linux/dma-noncoherent.h>
+> > -#include <linux/dma-contiguous.h>
+> >  #include <linux/init.h>
+> >  #include <linux/genalloc.h>
+> >  #include <linux/set_memory.h>
+> > @@ -69,12 +68,7 @@ static int atomic_pool_expand(struct gen_pool
+> > *pool, size_t pool_size,
+> > 
+> >         do {
+> >                 pool_size = 1 << (PAGE_SHIFT + order);
+> > -
+> > -               if (dev_get_cma_area(NULL))
+> > -                       page = dma_alloc_from_contiguous(NULL, 1 <<
+> > order,
+> > -                                                        order,
+> > false);
+> > -               else
+> > -                       page = alloc_pages(gfp, order);
+> > +               page = alloc_pages(gfp, order);
+> >         } while (!page && order-- > 0);
+> >         if (!page)
+> >                 goto out;
+> > @@ -118,8 +112,7 @@ static int atomic_pool_expand(struct gen_pool
+> > *pool, size_t pool_size,
+> >         dma_common_free_remap(addr, pool_size);
+> >  #endif
+> >  free_page: __maybe_unused
+> > -       if (!dma_release_from_contiguous(NULL, page, 1 << order))
+> > -               __free_pages(page, order);
+> > +       __free_pages(page, order);
+> >  out:
+> >         return ret;
+> >  }
+> > --
+> > 2.27.0
+> > 
 
-The following changes since commit 9ebcfadb0610322ac537dd7aa5d9cbc2b2894c68:
-
-  Linux 5.8-rc3 (2020-06-28 15:00:24 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git tags/arm-smmu-updates
-
-for you to fetch changes up to aa7ec73297df57a86308fee78d2bf86e22ea0bae:
-
-  iommu/arm-smmu: Add global/context fault implementation hooks (2020-07-20 09:30:51 +0100)
-
-----------------------------------------------------------------
-Arm SMMU updates for 5.9
-
-- Support for SMMU-500 implementation in Marvell Armada-AP806 SoC
-
-- Support for SMMU-500 implementation in NVIDIA Tegra194 SoC
-
-- DT compatible string updates
-
-- Remove unused IOMMU_SYS_CACHE_ONLY flag
-
-----------------------------------------------------------------
-Hanna Hawa (1):
-      iommu/arm-smmu: Workaround for Marvell Armada-AP806 SoC erratum #582743
-
-John Garry (1):
-      iommu/arm-smmu-v3: Fix trivial typo
-
-Jonathan Marek (2):
-      dt-bindings: arm-smmu: Add sm8150 and sm8250 compatible strings
-      iommu: arm-smmu-impl: Use qcom impl for sm8150 and sm8250 compatibles
-
-Krishna Reddy (5):
-      iommu/arm-smmu: move TLB timeout and spin count macros
-      iommu/arm-smmu: ioremap smmu mmio region before implementation init
-      iommu/arm-smmu: add NVIDIA implementation for ARM MMU-500 usage
-      dt-bindings: arm-smmu: add binding for Tegra194 SMMU
-      iommu/arm-smmu: Add global/context fault implementation hooks
-
-Robin Murphy (1):
-      iommu/arm-smmu: Update impl quirks comment
-
-Tomasz Nowicki (2):
-      iommu/arm-smmu: Call configuration impl hook before consuming features
-      dt-bindings: arm-smmu: add compatible string for Marvell Armada-AP806 SMMU-500
-
-Will Deacon (1):
-      iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag
-
- Documentation/arm64/silicon-errata.rst             |   3 +
- .../devicetree/bindings/iommu/arm,smmu.yaml        |  31 ++-
- MAINTAINERS                                        |   2 +
- drivers/iommu/Makefile                             |   2 +-
- drivers/iommu/arm-smmu-impl.c                      |  60 ++++-
- drivers/iommu/arm-smmu-nvidia.c                    | 278 +++++++++++++++++++++
- drivers/iommu/arm-smmu-v3.c                        |   2 +-
- drivers/iommu/arm-smmu.c                           |  40 ++-
- drivers/iommu/arm-smmu.h                           |   6 +
- drivers/iommu/io-pgtable-arm.c                     |   3 -
- include/linux/iommu.h                              |   6 -
- 11 files changed, 403 insertions(+), 30 deletions(-)
- create mode 100644 drivers/iommu/arm-smmu-nvidia.c
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
