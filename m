@@ -1,72 +1,165 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42499228C7A
-	for <lists.iommu@lfdr.de>; Wed, 22 Jul 2020 01:11:33 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id E07D5228CCD
+	for <lists.iommu@lfdr.de>; Wed, 22 Jul 2020 01:45:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EC37C88305;
-	Tue, 21 Jul 2020 23:11:31 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7BC01204E8;
+	Tue, 21 Jul 2020 23:45:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Cr54qMUp7OaS; Tue, 21 Jul 2020 23:11:30 +0000 (UTC)
+	with ESMTP id CcuMUzHes2vR; Tue, 21 Jul 2020 23:45:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 190A58839E;
-	Tue, 21 Jul 2020 23:11:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D02CC20437;
+	Tue, 21 Jul 2020 23:45:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F2B09C016F;
-	Tue, 21 Jul 2020 23:11:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BC413C016F;
+	Tue, 21 Jul 2020 23:45:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A35ECC016F
- for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 23:11:28 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 97CE6C016F
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 23:45:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8BBF286B91
- for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 23:11:28 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 9228586B13
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 23:45:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XewWnXlXwEXb for <iommu@lists.linux-foundation.org>;
- Tue, 21 Jul 2020 23:11:27 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 6C5FB86A63
- for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 23:11:27 +0000 (UTC)
-IronPort-SDR: SZ78U6f8ydYdab/HBNmZ0a4R+3cEyEE4AT1jIQPlb7rFBmwxTQWUEjet94dqITFi7xF5ihWuFX
- Z6km2p0lb2ng==
-X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="129812120"
-X-IronPort-AV: E=Sophos;i="5.75,380,1589266800"; d="scan'208";a="129812120"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2020 16:11:26 -0700
-IronPort-SDR: C7qpFthRpY7j1xN5UN4w9e70yD8qizRyIMSpLkg2/PQ1Z2P+sYuxVyqfjVS0D/Qg4zalvOPhN8
- ADbrdQw/L+8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,380,1589266800"; d="scan'208";a="432176133"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga004.jf.intel.com with ESMTP; 21 Jul 2020 16:11:26 -0700
-Date: Tue, 21 Jul 2020 16:18:12 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v5 4/5] iommu/uapi: Handle data and argsz filled by users
-Message-ID: <20200721161812.3ca8cf63@jacob-builder>
-In-Reply-To: <20200717135954.6ddbbac9@x1.home>
-References: <1594925117-64892-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1594925117-64892-5-git-send-email-jacob.jun.pan@linux.intel.com>
- <20200717135954.6ddbbac9@x1.home>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+ with ESMTP id 4AclfGwDDUsf for <iommu@lists.linux-foundation.org>;
+ Tue, 21 Jul 2020 23:45:29 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mx0a-00154904.pphosted.com (mx0a-00154904.pphosted.com
+ [148.163.133.20])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 7DA8886B10
+ for <iommu@lists.linux-foundation.org>; Tue, 21 Jul 2020 23:45:29 +0000 (UTC)
+Received: from pps.filterd (m0170389.ppops.net [127.0.0.1])
+ by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06LNfSUF022639; Tue, 21 Jul 2020 19:45:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=d1NnGQDbcyoHgZFB3bgsugHJcB6GbPyi41eIJe6p5Ys=;
+ b=AvX1mS1HQFsRyzBnfJTCr2p5nUAASpSBZGZNab3xIYWYfmIkUt6JwDauElXu0t7OFDVO
+ 7jifhcs8DmMnUnggBZKXk4p0PkVJaeE8Rf/t+EAI7qbjjPnR7rJ2h1Lv8H9nUvrFpbWR
+ HvLG6vyE5MoV4xpmgK6a+bwn5InKJYkOCrU3+OaGJVk+6X68JMm0pCy8zxoBYcXaNp/J
+ 2f/WW3C2FgwvpwoBfuXl+K4fHdeUyuO6+X+vAcT3X5CtOADwvgWPspmg9dcD6oMTnl+1
+ fZ2H93xHXegh6IWOUm6JLbTs2aXGBpKnUBRPP8QITft76yJ+cJznRG3AS8et3BOkASko WA== 
+Received: from mx0a-00154901.pphosted.com (mx0a-00154901.pphosted.com
+ [67.231.149.39])
+ by mx0a-00154904.pphosted.com with ESMTP id 32bw3k2mm9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jul 2020 19:45:21 -0400
+Received: from pps.filterd (m0142693.ppops.net [127.0.0.1])
+ by mx0a-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 06LNivRN028672; Tue, 21 Jul 2020 19:45:20 -0400
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02lp2059.outbound.protection.outlook.com [104.47.36.59])
+ by mx0a-00154901.pphosted.com with ESMTP id 32e9s8gagk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 21 Jul 2020 19:45:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NeTt/nmhu4LpduE25uZFlAE9SW6HOBQcoD75W6d1D6pQMx1qIHS8/XEAxpKL25SjmFNn/evMCP/kqG8/4Rbt7/Mi3zplIIfcfr0ZZ4Mvm3gv1As3h8EvshBNS52kNb8vdkarhopIDxoMiKiHe9gzX5TNpavzGfwVPK3DnEns++0MT1y7dMOBVlXfNHi0S6ttkj9wNv8egpCJ3oMzYmZZBczeEFB87UVZ6HDAOeVbwXGpJhmnjQyWDZPPGihPo963CN5UI9ovnWonMZyEFt+gM+FQmw9GdgXDUrmGpNgisI0Mh0N3wsviXfTI3tK0lTWMNEpK8J1KxCjq7BI2MNJSZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d1NnGQDbcyoHgZFB3bgsugHJcB6GbPyi41eIJe6p5Ys=;
+ b=LBgYD9a+qzNCETq+uhqaFMTbC7J5H2BZGBEFdCZ5ShdpDQ2yz/GqtI9uGRmY2TSVjUddv/fx6eJbcPJgJgBNgycPjtgBm3ifMEBhtgKfOQw2PZWBoV2AxGtK5IeTRR2KHHha5tOG91B2AmqIW6ux1HNkLKxG7vKSIZ42Rg5pGtdv3rtBbFZXx4bs6+JcO8SPh3Vg/zxOAcuCkRFHtGJqcCwELzxP4I/vf0vGfcYk92FiX8Rash3NGRaLRyJroFNwyF/qTcshmcXy0DVr/NU2bF1OQwK6g1Bs42ht3l/WyhlQTeVfsp4I5z+wOa/KVJ0EWEsT5584/Zu1mKmsh/03qQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
+ dkim=pass header.d=dell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Dell.onmicrosoft.com; 
+ s=selector1-Dell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d1NnGQDbcyoHgZFB3bgsugHJcB6GbPyi41eIJe6p5Ys=;
+ b=BjzGG/PJF+wBQ8D7IZ+c/EUb7715ZEUrcYVnC5+J7IjmVBMMYFG0gIiEYjr6M9E3dyJrpLCXA/MFbLO5wdymLpFurD9JBmQ28MlGHHsFjNqIa1OXFCuGjOkbpjbzjI0RzWufa7TIK1EXu7+5IM5XCgqqUSXlVyUZvNL1lwWLoUs=
+Received: from DM6PR19MB2636.namprd19.prod.outlook.com (2603:10b6:5:15f::15)
+ by DM6PR19MB3628.namprd19.prod.outlook.com (2603:10b6:5:1dc::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.23; Tue, 21 Jul
+ 2020 23:45:17 +0000
+Received: from DM6PR19MB2636.namprd19.prod.outlook.com
+ ([fe80::f1c7:5bf4:a3b:ff40]) by DM6PR19MB2636.namprd19.prod.outlook.com
+ ([fe80::f1c7:5bf4:a3b:ff40%6]) with mapi id 15.20.3195.022; Tue, 21 Jul 2020
+ 23:45:17 +0000
+From: "Limonciello, Mario" <Mario.Limonciello@dell.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>
+Subject: RE: [PATCH 1/1] iommu/vt-d: Skip TE disabling on quirky gfx dedicated
+ iommu
+Thread-Topic: [PATCH 1/1] iommu/vt-d: Skip TE disabling on quirky gfx
+ dedicated iommu
+Thread-Index: AQErn65qGPIxx4/vDRlqxKGcSijyaKpnmsGwgACNHwCAAAmvIA==
+Date: Tue, 21 Jul 2020 23:45:17 +0000
+Message-ID: <DM6PR19MB263622CA8CAA7CDA3973E0DBFA780@DM6PR19MB2636.namprd19.prod.outlook.com>
+References: <20200721001713.24282-1-baolu.lu@linux.intel.com>
+ <DM6PR19MB2636D1CC549743E2113C0EAFFA780@DM6PR19MB2636.namprd19.prod.outlook.com>
+ <d8548318-ee2e-ca3f-cb0a-e219ce23d471@linux.intel.com>
+In-Reply-To: <d8548318-ee2e-ca3f-cb0a-e219ce23d471@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-07-21T23:45:15.7100149Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=4b8a033c-1b1a-41f2-8df9-fcfe4756eda9;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
+authentication-results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none header.from=Dell.com;
+x-originating-ip: [76.251.167.31]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ec5b67ac-6034-4030-fd55-08d82dd01f95
+x-ms-traffictypediagnostic: DM6PR19MB3628:
+x-microsoft-antispam-prvs: <DM6PR19MB36289AD87963AA20B5D39514FA780@DM6PR19MB3628.namprd19.prod.outlook.com>
+x-exotenant: 2khUwGVqB6N9v58KS13ncyUmMJd8q4
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: T2TeGQsaVfP6mkBJoVnV1nY2HzcCNEmkpwXfBY6Y7b7ldFZx26AAfhD8G+ZpBxHAXUiAJ4H7L/pmREGe7e/TlDRU6W18V9QuwN139gT7bY1JUPJ6yAK2ANeDiCFxVO41Egi8I7c8AOpnucfVhjmYEJ4HfLIXUgvRHu+NIY0M/F3Mr1g1EIIRGXHxrGFtJv/Z/FAO8CDbIRIM3Qgh2ZYpsPlJXk6vkhN0RN1cuyH2dq2m6fg2jFJ/w/jilc3EdDMZ02IrbJktwNTTI0NKqi+wtIwjFWeOwWrk/l/+T1gjXbgY9I1Ys688PKfHiQICd+O+0SGiE+Px9wjx6RD+6KYZA60x42xjSHzoGGVJrpPdjXv+6ckCE/VRjpG9MimMbM94EDJPehEw21qUcYgs1e+F7A==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR19MB2636.namprd19.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(39850400004)(366004)(136003)(396003)(346002)(376002)(66446008)(64756008)(66946007)(66556008)(66476007)(26005)(316002)(71200400001)(54906003)(786003)(478600001)(110136005)(9686003)(76116006)(86362001)(966005)(52536014)(83380400001)(55016002)(7696005)(6506007)(5660300002)(2906002)(4326008)(8676002)(53546011)(186003)(8936002)(33656002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: T9Rim8TBp6qN+5r4yXtkImhbOdfYip17WEA7NFZetx3Loeop0YJiu/sm0nYw8GTAIQ+0BuIO4PT8KvXXk3yTWT2SBbE55HrCVf+Me09vS3nLLvCP6Ou6eYqNijTtfqwsIBU+WFoEyXdEazRnUew8c0+fAWG3wHVninoADe7wC0tQW5XkcxW6iciZDOqpdFE3SffeK9difLbHfVvcCu3cZogKeL8KahULr3vA38krCD2TW11OAU7WJ9+SVR9NQ2skdKon8Lau3hV6AMVXiK1s57SIXWxP5dEy4isgZaGh+3GTk0zctcDoRXhDzgx/ErF/WByyjsIqmPLp68veIhCY1mGP+Y4g0LW6agy7ZE0riaipdB/eNlxpw7UKhndBJ7NtSnT1BoUsZlo/aSxesfhEDXE8H8okotbJyiPtjtJLkTYtaPTBv7YNGAJbsnlXvUv9fM1zNZDxQl10XuZiqHKSGBNM++GRfUr9gYx8/x7hCdvPWXPLc+YtPyN5p/HBXsWl
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- LKML <linux-kernel@vger.kernel.org>, Christoph
- Hellwig <hch@infradead.org>, iommu@lists.linux-foundation.org,
- David Woodhouse <dwmw2@infradead.org>
+X-OriginatorOrg: Dell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR19MB2636.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec5b67ac-6034-4030-fd55-08d82dd01f95
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jul 2020 23:45:17.8136 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LFfyZBMQENAArxcKDF3sSmG+Bv6UlJSKfFkJ1shCdCnjFEMY2kWq01Yj4f6ycKMR9wVt3/zLXV0F8GaAcqpEZghiczG1F9UpcRnBn209z5A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR19MB3628
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-07-21_15:2020-07-21,
+ 2020-07-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ suspectscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
+ mlxlogscore=999 phishscore=0 adultscore=0 lowpriorityscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007210149
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ suspectscore=0
+ malwarescore=0 spamscore=0 mlxlogscore=999 adultscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007210149
+Cc: Ashok Raj <ashok.raj@intel.com>, Christian Kellner <ckellner@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ Koba Ko <koba.ko@canonical.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,400 +177,66 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, 17 Jul 2020 13:59:54 -0600
-Alex Williamson <alex.williamson@redhat.com> wrote:
 
-> On Thu, 16 Jul 2020 11:45:16 -0700
-> Jacob Pan <jacob.jun.pan@linux.intel.com> wrote:
-> 
-> > IOMMU UAPI data has a user filled argsz field which indicates the
-> > data length comes with the API call. User data is not trusted,
-> > argsz must be validated based on the current kernel data size,
-> > mandatory data size, and feature flags.
-> > 
-> > User data may also be extended, results in possible argsz increase.
-> > Backward compatibility is ensured based on size and flags checking.
-> > 
-> > This patch adds sanity checks in the IOMMU layer. In addition to
-> > argsz, reserved/unused fields in padding, flags, and version are
-> > also checked. Details are documented in
-> > Documentation/userspace-api/iommu.rst
-> > 
-> > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > ---
-> >  drivers/iommu/iommu.c | 192
-> > ++++++++++++++++++++++++++++++++++++++++++++++++--
-> > include/linux/iommu.h |  20 ++++-- 2 files changed, 200
-> > insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> > index d43120eb1dc5..fe30a940d19e 100644
-> > --- a/drivers/iommu/iommu.c
-> > +++ b/drivers/iommu/iommu.c
-> > @@ -1950,36 +1950,214 @@ int iommu_attach_device(struct
-> > iommu_domain *domain, struct device *dev) }
-> >  EXPORT_SYMBOL_GPL(iommu_attach_device);
-> >  
-> > +/*
-> > + * Check flags and other user privided data for valid
-> > combinations. We also
-> > + * make sure no reserved fields or unused flags are not set. This
-> > is to ensure
-> > + * not breaking userspace in the future when these fields or flags
-> > are used.
-> > + */
-> > +static int iommu_check_cache_invl_data(struct
-> > iommu_cache_invalidate_info *info) +{
-> > +	u32 mask;
-> > +
-> > +	if (info->version != IOMMU_CACHE_INVALIDATE_INFO_VERSION_1)
-> > +		return -EINVAL;
-> > +
-> > +	mask = (1 << IOMMU_CACHE_INV_TYPE_NR) - 1;
-> > +	if (info->cache & ~mask)
-> > +		return -EINVAL;
-> > +
-> > +	if (info->granularity >= IOMMU_INV_GRANU_NR)
-> > +		return -EINVAL;
-> > +
-> > +	switch (info->granularity) {
-> > +	case IOMMU_INV_GRANU_ADDR:
-> > +		mask = IOMMU_INV_ADDR_FLAGS_PASID |
-> > +			IOMMU_INV_ADDR_FLAGS_ARCHID |
-> > +			IOMMU_INV_ADDR_FLAGS_LEAF;
-> > +
-> > +		if (info->granu.addr_info.flags & ~mask)
-> > +			return -EINVAL;
-> > +		break;
-> > +	case IOMMU_INV_GRANU_PASID:
-> > +		mask = IOMMU_INV_PASID_FLAGS_PASID |
-> > +			IOMMU_INV_PASID_FLAGS_ARCHID;
-> > +		if (info->granu.pasid_info.flags & ~mask)
-> > +			return -EINVAL;
-> > +
-> > +		break;
-> > +	case IOMMU_INV_GRANU_DOMAIN:
-> > +		/* No flags to check */
-> > +		break;
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (info->padding[0] || info->padding[1])
-> > +		return -EINVAL;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  int iommu_cache_invalidate(struct iommu_domain *domain, struct
-> > device *dev,
-> > -			   struct iommu_cache_invalidate_info
-> > *inv_info)
-> > +			   void __user *uinfo)
-> >  {
-> > +	struct iommu_cache_invalidate_info inv_info = { 0 };
-> > +	u32 minsz, maxsz;
-> > +	int ret = 0;
-> > +
-> >  	if (unlikely(!domain->ops->cache_invalidate))
-> >  		return -ENODEV;
-> >  
-> > -	return domain->ops->cache_invalidate(domain, dev,
-> > inv_info);
-> > +	/* Current kernel data size is the max to be copied from
-> > user */
-> > +	maxsz = sizeof(struct iommu_cache_invalidate_info);
-> > +
-> > +	/*
-> > +	 * No new spaces can be added before the variable sized
-> > union, the
-> > +	 * minimum size is the offset to the union.
-> > +	 */
-> > +	minsz = offsetof(struct iommu_cache_invalidate_info,
-> > granu); +
-> > +	/* Copy minsz from user to get flags and argsz */
-> > +	if (copy_from_user(&inv_info, uinfo, minsz))
-> > +		return -EFAULT;
-> > +
-> > +	/* Fields before variable size union is mandatory */
-> > +	if (inv_info.argsz < minsz)
-> > +		return -EINVAL;
-> > +
-> > +	/* PASID and address granu requires additional info beyond
-> > minsz */
-> > +	if (inv_info.argsz == minsz &&
-> > +		((inv_info.granularity == IOMMU_INV_GRANU_PASID) ||
-> > +			(inv_info.granularity ==
-> > IOMMU_INV_GRANU_ADDR)))
-> > +		return -EINVAL;
-> > +	/*
-> > +	 * User might be using a newer UAPI header which has a
-> > larger data
-> > +	 * size, we shall support the existing flags within the
-> > current
-> > +	 * size. Copy the remaining user data _after_ minsz but
-> > not more
-> > +	 * than the current kernel supported size.
-> > +	 */
-> > +	if (copy_from_user((void *)&inv_info + minsz, uinfo +
-> > minsz,
-> > +				min(inv_info.argsz, maxsz) -
-> > minsz))
-> > +		return -EFAULT;  
-> 
-> To further clarify previous comments about maxsz usage:
-> 
-> s/maxsz/sizeof(inv_info)/
-> 
-Yes, will remove maxsz.
 
-> > +
-> > +	/* Now the argsz is validated, check the content */
-> > +	ret = iommu_check_cache_invl_data(&inv_info);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return domain->ops->cache_invalidate(domain, dev,
-> > &inv_info); }
-> >  EXPORT_SYMBOL_GPL(iommu_cache_invalidate);  
+> -----Original Message-----
+> From: Lu Baolu <baolu.lu@linux.intel.com>
+> Sent: Tuesday, July 21, 2020 6:07 PM
+> To: Limonciello, Mario; Joerg Roedel
+> Cc: baolu.lu@linux.intel.com; Ashok Raj; linux-kernel@vger.kernel.org;
+> stable@vger.kernel.org; Koba Ko; iommu@lists.linux-foundation.org
+> Subject: Re: [PATCH 1/1] iommu/vt-d: Skip TE disabling on quirky gfx dedicated
+> iommu
 > 
 > 
-> Remainder of comments for above provided in 1/5.
+> [EXTERNAL EMAIL]
 > 
-Got it.
-
-> >  
-> > -int iommu_sva_bind_gpasid(struct iommu_domain *domain,
-> > -			   struct device *dev, struct
-> > iommu_gpasid_bind_data *data) +
-> > +static int iommu_check_bind_data(struct iommu_gpasid_bind_data
-> > *data) {
-> > +	u32 mask;
-> > +	int i;
-> > +
-> > +	if (data->version != IOMMU_GPASID_BIND_VERSION_1)
-> > +		return -EINVAL;
-> > +
-> > +	/* Check all supported format, for now just VT-d */
-> > +	mask = IOMMU_PASID_FORMAT_INTEL_VTD;
-> > +	if (data->format & ~mask)
-> > +		return -EINVAL;
-> > +
-> > +	/* Check all flags */
-> > +	mask = IOMMU_SVA_GPASID_VAL;
-> > +	if (data->flags & ~mask)
-> > +		return -EINVAL;
-> > +
-> > +	/* Check reserved padding fields */
-> > +	for (i = 0; i < 12; i++) {
-> > +		if (data->padding[i])
-> > +			return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int iommu_sva_prepare_bind_data(void __user *udata,
-> > +				       struct
-> > iommu_gpasid_bind_data *data) +{
-> > +	u32 minsz, maxsz;
-> > +
-> > +	/* Current kernel data size is the max to be copied from
-> > user */
-> > +	maxsz = sizeof(struct iommu_gpasid_bind_data);
-> > +	memset((void *)data, 0, maxsz);  
+> Hi Limonciello,
 > 
-> Let the caller pass a zero'd structure.
+> On 7/21/20 10:44 PM, Limonciello, Mario wrote:
+> >> -----Original Message-----
+> >> From: iommu<iommu-bounces@lists.linux-foundation.org>  On Behalf Of Lu
+> >> Baolu
+> >> Sent: Monday, July 20, 2020 7:17 PM
+> >> To: Joerg Roedel
+> >> Cc: Ashok Raj;linux-kernel@vger.kernel.org;stable@vger.kernel.org; Koba
+> >> Ko;iommu@lists.linux-foundation.org
+> >> Subject: [PATCH 1/1] iommu/vt-d: Skip TE disabling on quirky gfx dedicated
+> >> iommu
+> >>
+> >> The VT-d spec requires (10.4.4 Global Command Register, TE field) that:
+> >>
+> >> Hardware implementations supporting DMA draining must drain any in-flight
+> >> DMA read/write requests queued within the Root-Complex before completing
+> >> the translation enable command and reflecting the status of the command
+> >> through the TES field in the Global Status register.
+> >>
+> >> Unfortunately, some integrated graphic devices fail to do so after some
+> >> kind of power state transition. As the result, the system might stuck in
+> >> iommu_disable_translation(), waiting for the completion of TE transition.
+> >>
+> >> This provides a quirk list for those devices and skips TE disabling if
+> >> the qurik hits.
+> >>
+> >> Fixes:https://bugzilla.kernel.org/show_bug.cgi?id=208363
+> > That one is for TGL.
+> >
+> > I think you also want to add this one for ICL:
+> > Fixes:https://bugzilla.kernel.org/show_bug.cgi?id=206571
+> >
 > 
-Sounds good.
-
-> > +
-> > +	/*
-> > +	 * No new spaces can be added before the variable sized
-> > union, the
-> > +	 * minimum size is the offset to the union.
-> > +	 */
-> > +	minsz = offsetof(struct iommu_gpasid_bind_data, vendor);
-> > +
-> > +	/* Copy minsz from user to get flags and argsz */
-> > +	if (copy_from_user(data, udata, minsz))
-> > +		return -EFAULT;
-> > +
-> > +	/* Fields before variable size union is mandatory */
-> > +	if (data->argsz < minsz)
-> > +		return -EINVAL;
-> > +	/*
-> > +	 * User might be using a newer UAPI header, we shall let
-> > IOMMU vendor
-> > +	 * driver decide on what size it needs. Since the guest
-> > PASID bind data
-> > +	 * can be vendor specific, larger argsz could be the
-> > result of extension
-> > +	 * for one vendor but it should not affect another vendor.
-> > +	 * Copy the remaining user data _after_ minsz
-> > +	 */
-> > +	if (copy_from_user((void *)data + minsz, udata + minsz,
-> > +				min(data->argsz, maxsz) - minsz))  
-> 
-> 
-> We could replace maxsz entirely with sizeof(*data)
-will do.
-
-> 
-> > +		return -EFAULT;
-> > +
-> > +	return iommu_check_bind_data(data);
-> > +}
-> > +
-> > +int iommu_sva_bind_gpasid(struct iommu_domain *domain, struct
-> > device *dev,
-> > +						void __user
-> > *udata)  
-> 
-> iommu_uapi_sva_bind_gpasid(...
-> 
-will do. make naming consistent for all UAPIs.
-
-> > +{
-> > +
-> > +	struct iommu_gpasid_bind_data data;  
-> 
-> 	= { 0 }
-> 
-yes, callee does not need to zero out the data.
-
-> > +	int ret;
-> > +
-> >  	if (unlikely(!domain->ops->sva_bind_gpasid))
-> >  		return -ENODEV;
-> >  
-> > -	return domain->ops->sva_bind_gpasid(domain, dev, data);
-> > +	ret = iommu_sva_prepare_bind_data(udata, &data);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return domain->ops->sva_bind_gpasid(domain, dev, &data);
-> >  }
-> >  EXPORT_SYMBOL_GPL(iommu_sva_bind_gpasid);
-> >  
-> >  int iommu_sva_unbind_gpasid(struct iommu_domain *domain, struct
-> > device *dev,
-> > -			     ioasid_t pasid)
-> > +			struct iommu_gpasid_bind_data *data)
-> >  {
-> >  	if (unlikely(!domain->ops->sva_unbind_gpasid))
-> >  		return -ENODEV;
-> >  
-> > -	return domain->ops->sva_unbind_gpasid(dev, pasid);
-> > +	return domain->ops->sva_unbind_gpasid(dev, data->hpasid);
-> >  }
-> >  EXPORT_SYMBOL_GPL(iommu_sva_unbind_gpasid);
-> >  
-> > +int iommu_uapi_sva_unbind_gpasid(struct iommu_domain *domain,
-> > struct device *dev,
-> > +			void __user *udata)
-> > +{
-> > +	struct iommu_gpasid_bind_data data;  
-> 
-> 	= { 0 };
-Ditto
-
-> 
-> > +	int ret;
-> > +
-> > +	if (unlikely(!domain->ops->sva_bind_gpasid))
-> > +		return -ENODEV;
-> > +
-> > +	ret = iommu_sva_prepare_bind_data(udata, &data);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return iommu_sva_unbind_gpasid(domain, dev, &data);
-> > +}
-> > +EXPORT_SYMBOL_GPL(iommu_uapi_sva_unbind_gpasid);
-> > +
-> >  static void __iommu_detach_device(struct iommu_domain *domain,
-> >  				  struct device *dev)
-> >  {
-> > diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> > index 5f0b7859d2eb..439f34a7b5b2 100644
-> > --- a/include/linux/iommu.h
-> > +++ b/include/linux/iommu.h
-> > @@ -432,11 +432,14 @@ extern void iommu_detach_device(struct
-> > iommu_domain *domain, struct device *dev);
-> >  extern int iommu_cache_invalidate(struct iommu_domain *domain,  
-> 
-> uapi
-got it.
-
-> 
-> >  				  struct device *dev,
-> > -				  struct
-> > iommu_cache_invalidate_info *inv_info);
-> > +				  void __user *uinfo);
-> > +
-> >  extern int iommu_sva_bind_gpasid(struct iommu_domain *domain,  
-> 
-> uapi
-> 
-got it.
-
-> > -		struct device *dev, struct iommu_gpasid_bind_data
-> > *data);
-> > +				struct device *dev, void __user
-> > *udata); +extern int iommu_uapi_sva_unbind_gpasid(struct
-> > iommu_domain *domain,
-> > +				        struct device *dev, void
-> > __user *udata); extern int iommu_sva_unbind_gpasid(struct
-> > iommu_domain *domain,
-> > -				struct device *dev, ioasid_t
-> > pasid);
-> > +				   struct device *dev, struct
-> > iommu_gpasid_bind_data *data); extern struct iommu_domain
-> > *iommu_get_domain_for_dev(struct device *dev); extern struct
-> > iommu_domain *iommu_get_dma_domain(struct device *dev); extern int
-> > iommu_map(struct iommu_domain *domain, unsigned long iova, @@
-> > -1062,13 +1065,20 @@ iommu_cache_invalidate(struct iommu_domain
-> > *domain, return -ENODEV; }
-> >  static inline int iommu_sva_bind_gpasid(struct iommu_domain
-> > *domain,
-> > -				struct device *dev, struct
-> > iommu_gpasid_bind_data *data)
-> > +				struct device *dev, void __user
-> > *udata) {
-> >  	return -ENODEV;
-> >  }
-> >  
-> >  static inline int iommu_sva_unbind_gpasid(struct iommu_domain
-> > *domain,
-> > -					   struct device *dev, int
-> > pasid)
-> > +					   struct device *dev,
-> > void __user *udata) +{
-> > +	return -ENODEV;
-> > +}
-> > +
-> > +static inline int __iommu_sva_unbind_gpasid(struct iommu_domain
-> > *domain,  
-> 
-> 
-> These don't match the previous semantics.  Thanks,
-> 
-My mistake, will fix.
-
-Thanks
-
-> Alex
-> 
-> > +					struct device *dev,
-> > +					struct
-> > iommu_gpasid_bind_data *data) {
-> >  	return -ENODEV;
-> >  }  
+> Do you mean someone have tested that this patch also fixes the problem
+> described in 206571?
 > 
 
-[Jacob Pan]
+Yes, confusingly https://bugzilla.kernel.org/show_bug.cgi?id=208363#c31 actually
+is the XPS 9300 ICL system and issue.
+
+I also have a private confirmation from another person that it resolves it for
+them on another ICL platform.
+
+Christian, maybe you can add a tested by clause for the ICL testing.
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
