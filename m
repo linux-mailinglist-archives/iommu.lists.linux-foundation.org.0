@@ -1,71 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E7B228D5C
-	for <lists.iommu@lfdr.de>; Wed, 22 Jul 2020 03:06:22 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8AB228E46
+	for <lists.iommu@lfdr.de>; Wed, 22 Jul 2020 04:45:18 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 32D568831B;
-	Wed, 22 Jul 2020 01:06:21 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B7CDF88606;
+	Wed, 22 Jul 2020 02:45:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qx9LHR0jR7UT; Wed, 22 Jul 2020 01:06:19 +0000 (UTC)
+	with ESMTP id 84lDYzp4pppx; Wed, 22 Jul 2020 02:45:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 37A5D88319;
-	Wed, 22 Jul 2020 01:06:19 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A6A5488604;
+	Wed, 22 Jul 2020 02:45:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 17147C089F;
-	Wed, 22 Jul 2020 01:06:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 921B0C016F;
+	Wed, 22 Jul 2020 02:45:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A89B7C016F
- for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 01:06:17 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9344AC016F
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 02:45:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 973D18831B
- for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 01:06:17 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8916988606
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 02:45:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id veGqtBI67JRz for <iommu@lists.linux-foundation.org>;
- Wed, 22 Jul 2020 01:06:13 +0000 (UTC)
+ with ESMTP id rWKHA1rUAfcd for <iommu@lists.linux-foundation.org>;
+ Wed, 22 Jul 2020 02:45:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D9BA988319
- for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 01:06:13 +0000 (UTC)
-IronPort-SDR: HcZ1JKC6m03l1nWEtMnCrbuWFxGTb2S5TsaAxYOekULkCMxc7SK8WhGtBzrF/wR8tKTbuzaCNo
- bbHD5IHsDlgA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="130336525"
-X-IronPort-AV: E=Sophos;i="5.75,381,1589266800"; d="scan'208";a="130336525"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id ECADA88604
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 02:45:11 +0000 (UTC)
+IronPort-SDR: NFxoTQ6ShcA7f95elML1/ZI8G4+6DkHxxzKc2P7tBfjr3mpIApSh0+Fj6SAymcMitGXJDGsIty
+ TvaDQt9IwKdA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9689"; a="151590015"
+X-IronPort-AV: E=Sophos;i="5.75,381,1589266800"; d="scan'208";a="151590015"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2020 18:06:13 -0700
-IronPort-SDR: rRK2QOhEswznu82D5O8AVJvsH3HtTfgWnE7Secv6pJtJlwm4qJNo8h8La5U3dnaOd5xK4cQNjM
- GVX7xVlahmiA==
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2020 19:45:06 -0700
+IronPort-SDR: RmFrsz1pSqV972rnpbM1aylP3SgTt9vSuztKszdJZg4PSgL0Fca7zEH2cHTU+JIBJOV9MRyXS9
+ gPOevvMW1Rsw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,381,1589266800"; d="scan'208";a="462275980"
+X-IronPort-AV: E=Sophos;i="5.75,381,1589266800"; d="scan'208";a="392541736"
 Received: from allen-box.sh.intel.com (HELO [10.239.159.139])
  ([10.239.159.139])
- by orsmga005.jf.intel.com with ESMTP; 21 Jul 2020 18:06:10 -0700
-Subject: Re: [PATCH v4 4/7] iommu/vt-d: Handle non-page aligned address
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>,
- iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>, David Woodhouse <dwmw2@infradead.org>
-References: <1594080774-33413-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1594080774-33413-5-git-send-email-jacob.jun.pan@linux.intel.com>
- <20200721095036.1977e3bf@jacob-builder>
+ by fmsmga001.fm.intel.com with ESMTP; 21 Jul 2020 19:45:05 -0700
+Subject: Re: Subject: Re: [PATCH 1/1] iommu/vt-d: Skip TE disabling on quirky
+ gfx dedicated iommu
+To: "Miao, Jun" <Jun.Miao@windriver.com>
+References: <DM6PR11MB2587034DFBEDFB091CE9AAD58E790@DM6PR11MB2587.namprd11.prod.outlook.com>
 From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <7a8f70af-f39b-1b57-a9eb-db085ab63149@linux.intel.com>
-Date: Wed, 22 Jul 2020 09:01:27 +0800
+Message-ID: <0f4b6760-bb8f-ebd3-ab9d-4ecba819883c@linux.intel.com>
+Date: Wed, 22 Jul 2020 10:40:17 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200721095036.1977e3bf@jacob-builder>
+In-Reply-To: <DM6PR11MB2587034DFBEDFB091CE9AAD58E790@DM6PR11MB2587.namprd11.prod.outlook.com>
 Content-Language: en-US
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>
+Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,91 +82,55 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jacob,
+Hi Jun,
 
-On 7/22/20 12:50 AM, Jacob Pan wrote:
-> Hi Baolu,
-> 
-> Not sure what state is this patch in, there is a bug in this patch
-> (see below), shall I send out an updated version of this one only? or
-> another incremental patch.
+On 7/22/20 10:26 AM, Miao, Jun wrote:
+>>> Kernel panic - not syncing: DMAR hardware is malfunctioning
+>>> CPU: 0 PID: 347 Comm: rtcwake Not tainted 5.4.0-yocto-standard #124
+>>> Hardware name: Intel Corporation Ice Lake Client Platform/IceLake U DDR4
+>>> SODIMM PD RVP TLC, BIOS ICLSFWR1.R00.3162.A00.1904162000 04/16/2019
+>>> Call Trace:
+>>>    dump_stack+0x59/0x75
+>>>    panic+0xff/0x2d4
+>>>    iommu_disable_translation+0x88/0x90
+>>>    iommu_suspend+0x12f/0x1b0
+>>>    syscore_suspend+0x6c/0x220
+>>>    suspend_devices_and_enter+0x313/0x840
+>>>    pm_suspend+0x30d/0x390
+>>>    state_store+0x82/0xf0
+>>>    kobj_attr_store+0x12/0x20
+>>>    sysfs_kf_write+0x3c/0x50
+>>>    kernfs_fop_write+0x11d/0x190
+>>>    __vfs_write+0x1b/0x40
+>>>    vfs_write+0xc6/0x1d0
+>>>    ksys_write+0x5e/0xe0
+>>>    __x64_sys_write+0x1a/0x20
+>>>    do_syscall_64+0x4d/0x150
+>>>    entry_SYSCALL_64_after_hwframe+0x44/0xa9
+>>> RIP: 0033:0x7f97b8080113
+>>> Code: 8b 15 81 bd 0c 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00
+>>> 64 8b 04 25 18 00 00 00 85 c0 75 14 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff
+>>> 77 55 c3 0f 1f 40 00 48 83 ec 28 48 89 54 24 18
+>>> RSP: 002b:00007ffcfa6f48b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+>>> RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 00007f97b8080113
+>>> RDX: 0000000000000004 RSI: 000055e7db03b700 RDI: 0000000000000004
+>>> RBP: 000055e7db03b700 R08: 000055e7db03b700 R09: 0000000000000004
+>>> R10: 0000000000000004 R11: 0000000000000246 R12: 0000000000000004
+>>> R13: 000055e7db039380 R14: 0000000000000004 R15: 00007f97b814d700
+>>> Kernel Offset: 0x38a00000 from 0xffffffff81000000 (relocation range:
+>>> 0xffffffff80000000-0xffffffffbfffffff)
+>>> ---[ end Kernel panic - not syncing: DMAR hardware is malfunctioning ]---
+>
 
-Please send an updated version. I hope Joerg could pick these as 5.8
-fix.
+Do you mean that system hangs in iommu_disable_translation() without 
+this fix.
+
+> [S3 successfully with the patch]
+
+And, this failure disappeared after you applied this fix?
 
 Best regards,
 baolu
-
-> 
-> Thanks,
-> 
-> Jacob
-> 
-> On Mon,  6 Jul 2020 17:12:51 -0700
-> Jacob Pan <jacob.jun.pan@linux.intel.com> wrote:
-> 
->> From: Liu Yi L <yi.l.liu@intel.com>
->>
->> Address information for device TLB invalidation comes from userspace
->> when device is directly assigned to a guest with vIOMMU support.
->> VT-d requires page aligned address. This patch checks and enforce
->> address to be page aligned, otherwise reserved bits can be set in the
->> invalidation descriptor. Unrecoverable fault will be reported due to
->> non-zero value in the reserved bits.
->>
->> Fixes: 61a06a16e36d8 ("iommu/vt-d: Support flushing more translation
->> cache types")
->> Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
->> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
->> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
->>
->> ---
->>   drivers/iommu/intel/dmar.c | 20 ++++++++++++++++++--
->>   1 file changed, 18 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
->> index d9f973fa1190..b2c53bada905 100644
->> --- a/drivers/iommu/intel/dmar.c
->> +++ b/drivers/iommu/intel/dmar.c
->> @@ -1455,9 +1455,25 @@ void qi_flush_dev_iotlb_pasid(struct
->> intel_iommu *iommu, u16 sid, u16 pfsid,
->>   	 * Max Invs Pending (MIP) is set to 0 for now until we have
->> DIT in
->>   	 * ECAP.
->>   	 */
->> -	desc.qw1 |= addr & ~mask;
->> -	if (size_order)
->> +	if (addr & GENMASK_ULL(size_order + VTD_PAGE_SHIFT, 0))
->> +		pr_warn_ratelimited("Invalidate non-aligned address
->> %llx, order %d\n", addr, size_order); +
->> +	/* Take page address */
->> +	desc.qw1 = QI_DEV_EIOTLB_ADDR(addr);
->> +
->> +	if (size_order) {
->> +		/*
->> +		 * Existing 0s in address below size_order may be
->> the least
->> +		 * significant bit, we must set them to 1s to avoid
->> having
->> +		 * smaller size than desired.
->> +		 */
->> +		desc.qw1 |= GENMASK_ULL(size_order + VTD_PAGE_SHIFT,
->> +					VTD_PAGE_SHIFT);
-> Yi reported the issue, it should be:
-> desc.qw1 |= GENMASK_ULL(size_order + VTD_PAGE_SHIFT - 1,
-> 					VTD_PAGE_SHIFT);
-> 
->> +		/* Clear size_order bit to indicate size */
->> +		desc.qw1 &= ~mask;
->> +		/* Set the S bit to indicate flushing more than 1
->> page */ desc.qw1 |= QI_DEV_EIOTLB_SIZE;
->> +	}
->>   
->>   	qi_submit_sync(iommu, &desc, 1, 0);
->>   }
-> 
-> [Jacob Pan]
-> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
