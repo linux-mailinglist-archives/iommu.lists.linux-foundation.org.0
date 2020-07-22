@@ -1,65 +1,88 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BC422A005
-	for <lists.iommu@lfdr.de>; Wed, 22 Jul 2020 21:19:55 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D2E22A096
+	for <lists.iommu@lfdr.de>; Wed, 22 Jul 2020 22:12:16 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C976B20507;
-	Wed, 22 Jul 2020 19:19:53 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 828B988703;
+	Wed, 22 Jul 2020 20:12:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id a5XQkMH9YIuX; Wed, 22 Jul 2020 19:19:49 +0000 (UTC)
+	with ESMTP id UJa7QjYRV05q; Wed, 22 Jul 2020 20:12:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 0706922622;
-	Wed, 22 Jul 2020 19:19:49 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0709A886F4;
+	Wed, 22 Jul 2020 20:12:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EE69EC004C;
-	Wed, 22 Jul 2020 19:19:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E307AC004C;
+	Wed, 22 Jul 2020 20:12:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id ADFBBC013C
- for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 19:19:46 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4C531C004C
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 20:12:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9DFEF80646
- for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 19:19:46 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 29D19203A8
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 20:12:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id z7wp128zeV5B for <iommu@lists.linux-foundation.org>;
- Wed, 22 Jul 2020 19:19:45 +0000 (UTC)
+ with ESMTP id OfxBLKVOacyJ for <iommu@lists.linux-foundation.org>;
+ Wed, 22 Jul 2020 20:12:11 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B1A71883E7
- for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 19:19:44 +0000 (UTC)
-IronPort-SDR: +D+6WDvawYnHHb3gGNSlRokznOL3Q7K/Ww1LDTc6o4ceWTcw/O3mxK/6ZBB5W60gEzupR5Uchn
- NfD1pN0RyEMA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="129972729"
-X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; d="scan'208";a="129972729"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2020 12:19:44 -0700
-IronPort-SDR: 5LMxRQi+eYfauGaJHs4kpC18AGGWyn+s6cia5QZiq8wJz/HjP9uXzJ/hnfNHA1YC+AVEzMuV/8
- 72fPcOp5QxkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; d="scan'208";a="362811909"
-Received: from jacob-builder.jf.intel.com ([10.7.199.155])
- by orsmga001.jf.intel.com with ESMTP; 22 Jul 2020 12:19:43 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- "Lu Baolu" <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- David Woodhouse <dwmw2@infradead.org>
-Subject: [PATCH v5 7/7] iommu/vt-d: Disable multiple GPASID-dev bind
-Date: Wed, 22 Jul 2020 12:26:27 -0700
-Message-Id: <1595445987-40095-8-git-send-email-jacob.jun.pan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1595445987-40095-1-git-send-email-jacob.jun.pan@linux.intel.com>
-References: <1595445987-40095-1-git-send-email-jacob.jun.pan@linux.intel.com>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+ [209.85.208.67])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8039820387
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 20:12:11 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id z17so2625889edr.9
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 13:12:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yLTkTEgt4xUndPHOWAIycnFkBJ6E45HfBo7NtTWjQFQ=;
+ b=alnd3LC7bZF88GYjqDHdUOdzWFQohQLO9Zvh+1FMMZ/ID4cWZFhRotTy+TXlkoXEcf
+ /R/ehmAb7jpmit194UXGc9oHqec/B+O6xg0Xi4GOVYWeopAdz+GgbJH4mtBQ3L/F/m/7
+ 6nuEk1jyoebnggTXW43/6lCtVcqTkYhJqL9NfUvfcg4Y3Zkp/E7L6EyLalgH29DAEicz
+ 2QuLDQthO5ZatNjafPEkj3YXlG8nab81KYeYJ8FrgNaJNJTNOCjhCCUfRCUI3LM5jZRr
+ eQSYhuGhZTnw9eyUG6mJd6PFKgfPsTZBfG6nZJh+blW6cQC6zcwQVNjVtrQtUgKEYDh8
+ /E1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yLTkTEgt4xUndPHOWAIycnFkBJ6E45HfBo7NtTWjQFQ=;
+ b=t+UqSA1xuN9O+DqCgT/ruwt/FlBNSTYf60ZwJeYMLRqQSgMwDm/rDltiTTRmrv+H6w
+ u7r790eTB6rql5gT/SpY6/GhEsZe5ysPErtKwSxzTQspWB5Y/WaigMHEmW6Odq7cMnxt
+ kxiR8WminLR88DbHqr/mruhSYeOAx/bqVliNOW4TWj2GOdCh4f4ynRTiS3ep2qmq7NOh
+ liSXyEefu9tBFtu91eCVgk2zkuA1bodECeNCwGFJsw4mWkHb+I1WyZyokainMl0wZ84K
+ bvAplbD00YiEwO3in0uM1XsHNKCuyW9wiKZ/XqO+LEgIKaJiOdq17B4Ylnxx85kCE9wF
+ xoAw==
+X-Gm-Message-State: AOAM533mPQSs2wjgWlWgi8/0DUo3JmdyvHSBdX+LmJFUZueBP/drRiZI
+ 5fhriMPZOGHsDq7Xm7eH/MCTHzj2pQFWlVRkUZU=
+X-Google-Smtp-Source: ABdhPJwD6t4bQXAbY3FRXxsABN08L0GguqxGCWf0AiDRNWyt939YcTYR9qUzVbF6BmoonWaoJpBlCZjucX05l9KQJZ4=
+X-Received: by 2002:a05:6402:1ade:: with SMTP id
+ ba30mr1031198edb.231.1595448729790; 
+ Wed, 22 Jul 2020 13:12:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200704122809.73794-1-konradybcio@gmail.com>
+ <20200704130922.GB21333@willie-the-truck>
+ <20200705033511.GR388985@builder.lan>
+ <CAMS8qEWO-1mNd12Zs-2WogCrgNF5=6RkF=Z1pTeOZxSuKjx+qg@mail.gmail.com>
+ <20200721154415.GA5758@jcrouse1-lnx.qualcomm.com>
+ <CAMS8qEXNh6n9SpMkPAr8cPneasPvJPELD2TZ4gxUf0byxNePbg@mail.gmail.com>
+ <20200721235650.GN388985@builder.lan>
+In-Reply-To: <20200721235650.GN388985@builder.lan>
+From: Konrad Dybcio <konradybcio@gmail.com>
+Date: Wed, 22 Jul 2020 22:11:34 +0200
+Message-ID: <CAMS8qEVXGddTdbrPwK3NJMx71HH0hoVyqiJG6-g9tiBRMRYZ8w@mail.gmail.com>
+Subject: Re: [PATCH 1/1] iommu/arm-smmu: Implement qcom,skip-init
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: DTML <devicetree@vger.kernel.org>, skrzynka@konradybcio.pl,
+ Will Deacon <will@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
+ John Stultz <john.stultz@linaro.org>, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,80 +95,23 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-For the unlikely use case where multiple aux domains from the same pdev
-are attached to a single guest and then bound to a single process
-(thus same PASID) within that guest, we cannot easily support this case
-by refcounting the number of users. As there is only one SL page table
-per PASID while we have multiple aux domains thus multiple SL page tables
-for the same PASID.
+>Is the problem on SDM630 that when you write to SMR/S2CR the device
+>reboots? Or that when you start writing out the context bank
+>configuration that trips the display and the device reboots?
 
-Extra unbinding guest PASID can happen due to race between normal and
-exception cases. Termination of one aux domain may affect others unless
-we actively track and switch aux domains to ensure the validity of SL
-page tables and TLB states in the shared PASID entry.
+I added some debug prints and the phone hangs after reaching the
+seventh CB (with i=6) at
 
-Support for sharing second level PGDs across domains can reduce the
-complexity but this is not available due to the limitations on VFIO
-container architecture. We can revisit this decision once sharing PGDs
-are available.
+arm_smmu_cb_write(smmu, i, ARM_SMMU_CB_FSR, ARM_SMMU_FSR_FAULT);
 
-Overall, the complexity and potential glitch do not warrant this unlikely
-use case thereby removed by this patch.
+line in arm_smmu_device_reset.
 
-Fixes: 56722a4398a30 ("iommu/vt-d: Add bind guest PASID support")
-Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
----
- drivers/iommu/intel/svm.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 6c87c807a0ab..d386853121a2 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -277,20 +277,16 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
- 			goto out;
- 		}
- 
-+		/*
-+		 * Do not allow multiple bindings of the same device-PASID since
-+		 * there is only one SL page tables per PASID. We may revisit
-+		 * once sharing PGD across domains are supported.
-+		 */
- 		for_each_svm_dev(sdev, svm, dev) {
--			/*
--			 * For devices with aux domains, we should allow
--			 * multiple bind calls with the same PASID and pdev.
--			 */
--			if (iommu_dev_feature_enabled(dev,
--						      IOMMU_DEV_FEAT_AUX)) {
--				sdev->users++;
--			} else {
--				dev_warn_ratelimited(dev,
--						     "Already bound with PASID %u\n",
--						     svm->pasid);
--				ret = -EBUSY;
--			}
-+			dev_warn_ratelimited(dev,
-+					     "Already bound with PASID %u\n",
-+					     svm->pasid);
-+			ret = -EBUSY;
- 			goto out;
- 		}
- 	} else {
--- 
-2.7.4
-
+Konrad
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
