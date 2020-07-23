@@ -1,77 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3561C22AEB0
-	for <lists.iommu@lfdr.de>; Thu, 23 Jul 2020 14:08:49 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD2522B029
+	for <lists.iommu@lfdr.de>; Thu, 23 Jul 2020 15:16:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DE1C18985C;
-	Thu, 23 Jul 2020 12:08:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8907687E2F;
+	Thu, 23 Jul 2020 13:16:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FwfrpGw0jv95; Thu, 23 Jul 2020 12:08:47 +0000 (UTC)
+	with ESMTP id Lt18A3Btw4OJ; Thu, 23 Jul 2020 13:16:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5456989862;
-	Thu, 23 Jul 2020 12:08:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0594887E33;
+	Thu, 23 Jul 2020 13:16:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 355A7C016F;
-	Thu, 23 Jul 2020 12:08:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E91C3C004C;
+	Thu, 23 Jul 2020 13:16:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1FDABC004C
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 12:08:45 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A66E5C004C
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 13:16:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 0E5C989862
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 12:08:45 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 91CEA87E33
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 13:16:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6av3kWPaFrl7 for <iommu@lists.linux-foundation.org>;
- Thu, 23 Jul 2020 12:08:41 +0000 (UTC)
+ with ESMTP id avOun6zSxf9M for <iommu@lists.linux-foundation.org>;
+ Thu, 23 Jul 2020 13:16:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 587458985C
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 12:08:40 +0000 (UTC)
-Received: from dggemi403-hub.china.huawei.com (unknown [172.30.72.56])
- by Forcepoint Email with ESMTP id AEB4C4CFE7EA0B6A3EA7;
- Thu, 23 Jul 2020 20:08:36 +0800 (CST)
-Received: from DGGEMI525-MBS.china.huawei.com ([169.254.6.52]) by
- dggemi403-hub.china.huawei.com ([10.3.17.136]) with mapi id 14.03.0487.000;
- Thu, 23 Jul 2020 20:08:28 +0800
-From: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: RE: [PATCH v3 1/2] dma-direct: provide the ability to reserve
- per-numa CMA
-Thread-Topic: [PATCH v3 1/2] dma-direct: provide the ability to reserve
- per-numa CMA
-Thread-Index: AQHWTT1ZxTwLmOgUCE+K/2/rfDv6P6kTSH2AgAD8G8CAAGyigIAAhoXw
-Date: Thu, 23 Jul 2020 12:08:27 +0000
-Message-ID: <B926444035E5E2439431908E3842AFD25A4F81@DGGEMI525-MBS.china.huawei.com>
-References: <20200628111251.19108-1-song.bao.hua@hisilicon.com>
- <20200628111251.19108-2-song.bao.hua@hisilicon.com>
- <20200722142943.GB17658@lst.de>
- <B926444035E5E2439431908E3842AFD25A1606@DGGEMI525-MBS.china.huawei.com>
- <20200723120051.GB31598@lst.de>
-In-Reply-To: <20200723120051.GB31598@lst.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.126.201.39]
+Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0AB8887E2F
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 13:16:18 +0000 (UTC)
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 06CE15201532D799B7EC;
+ Thu, 23 Jul 2020 21:16:15 +0800 (CST)
+Received: from SWX921481.china.huawei.com (10.126.202.55) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 23 Jul 2020 21:16:05 +0800
+From: Barry Song <song.bao.hua@hisilicon.com>
+To: <hch@lst.de>, <m.szyprowski@samsung.com>, <robin.murphy@arm.com>,
+ <will@kernel.org>, <ganapatrao.kulkarni@cavium.com>,
+ <catalin.marinas@arm.com>
+Subject: [PATCH v4 0/2] make dma_alloc_coherent NUMA-aware by per-NUMA CMA
+Date: Fri, 24 Jul 2020 01:13:42 +1200
+Message-ID: <20200723131344.41472-1-song.bao.hua@hisilicon.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
+X-Originating-IP: [10.126.202.55]
 X-CFilter-Loop: Reflected
-Cc: "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- Steve Capper <steve.capper@arm.com>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>, Linuxarm <linuxarm@huawei.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
- "ganapatrao.kulkarni@cavium.com" <ganapatrao.kulkarni@cavium.com>,
- huangdaode <huangdaode@huawei.com>, Andrew Morton <akpm@linux-foundation.org>,
- Mike Rapoport <rppt@linux.ibm.com>, "will@kernel.org" <will@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: linux-kernel@vger.kernel.org, linuxarm@huawei.com, huangdaode@huawei.com,
+ iommu@lists.linux-foundation.org, prime.zeng@hisilicon.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,116 +71,95 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Ganapatrao Kulkarni has put some effort on making arm-smmu-v3 use local
+memory to save command queues[1]. I also did similar job in patch
+"iommu/arm-smmu-v3: allocate the memory of queues in local numa node"
+[2] while not realizing Ganapatrao has done that before.
 
+But it seems it is much better to make dma_alloc_coherent() to be
+inherently NUMA-aware on NUMA-capable systems.
 
-> -----Original Message-----
-> From: Christoph Hellwig [mailto:hch@lst.de]
-> Sent: Friday, July 24, 2020 12:01 AM
-> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>
-> Cc: Christoph Hellwig <hch@lst.de>; m.szyprowski@samsung.com;
-> robin.murphy@arm.com; will@kernel.org; ganapatrao.kulkarni@cavium.com;
-> catalin.marinas@arm.com; iommu@lists.linux-foundation.org; Linuxarm
-> <linuxarm@huawei.com>; linux-arm-kernel@lists.infradead.org;
-> linux-kernel@vger.kernel.org; Jonathan Cameron
-> <jonathan.cameron@huawei.com>; Nicolas Saenz Julienne
-> <nsaenzjulienne@suse.de>; Steve Capper <steve.capper@arm.com>; Andrew
-> Morton <akpm@linux-foundation.org>; Mike Rapoport <rppt@linux.ibm.com>;
-> Zengtao (B) <prime.zeng@hisilicon.com>; huangdaode
-> <huangdaode@huawei.com>
-> Subject: Re: [PATCH v3 1/2] dma-direct: provide the ability to reserve
-> per-numa CMA
-> 
-> On Wed, Jul 22, 2020 at 09:41:50PM +0000, Song Bao Hua (Barry Song)
-> wrote:
-> > I got a kernel robot warning which said dev should be checked before
-> > being accessed when I did a similar change in v1. Probably it was an
-> > invalid warning if dev should never be null.
-> 
-> That usually shows up if a function is inconsistent about sometimes checking it
-> and sometimes now.
-> 
-> > Yes, it looks much better.
-> 
-> Below is a prep patch to rebase on top of:
+Right now, smmu is using dma_alloc_coherent() to get memory to save queues
+and tables. Typically, on ARM64 server, there is a default CMA located at
+node0, which could be far away from node2, node3 etc.
+Saving queues and tables remotely will increase the latency of ARM SMMU
+significantly. For example, when SMMU is at node2 and the default global
+CMA is at node0, after sending a CMD_SYNC in an empty command queue, we
+have to wait more than 550ns for the completion of the command CMD_SYNC.
+However, if we save them locally, we only need to wait for 240ns.
 
-Thanks for letting me know.
+with per-numa CMA, smmu will get memory from local numa node to save command
+queues and page tables. that means dma_unmap latency will be shrunk much.
 
-Will rebase on top of your patch.
+Meanwhile, when iommu.passthrough is on, device drivers which call dma_
+alloc_coherent() will also get local memory and avoid the travel between
+numa nodes.
 
-> 
-> ---
-> From b81a5e1da65fce9750f0a8b66dbb6f842cbfdd4d Mon Sep 17 00:00:00
-> 2001
-> From: Christoph Hellwig <hch@lst.de>
-> Date: Wed, 22 Jul 2020 16:33:43 +0200
-> Subject: dma-contiguous: cleanup dma_alloc_contiguous
-> 
-> Split out a cma_alloc_aligned helper to deal with the "interesting"
-> calling conventions for cma_alloc, which then allows to the main function to
-> be written straight forward.  This also takes advantage of the fact that NULL
-> dev arguments have been gone from the DMA API for a while.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  kernel/dma/contiguous.c | 31 ++++++++++++++-----------------
->  1 file changed, 14 insertions(+), 17 deletions(-)
-> 
-> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c index
-> 15bc5026c485f2..cff7e60968b9e1 100644
-> --- a/kernel/dma/contiguous.c
-> +++ b/kernel/dma/contiguous.c
-> @@ -215,6 +215,13 @@ bool dma_release_from_contiguous(struct device
-> *dev, struct page *pages,
->  	return cma_release(dev_get_cma_area(dev), pages, count);  }
-> 
-> +static struct page *cma_alloc_aligned(struct cma *cma, size_t size,
-> +gfp_t gfp) {
-> +	unsigned int align = min(get_order(size), CONFIG_CMA_ALIGNMENT);
-> +
-> +	return cma_alloc(cma, size >> PAGE_SHIFT, align, gfp & __GFP_NOWARN);
-> +}
-> +
->  /**
->   * dma_alloc_contiguous() - allocate contiguous pages
->   * @dev:   Pointer to device for which the allocation is performed.
-> @@ -231,24 +238,14 @@ bool dma_release_from_contiguous(struct device
-> *dev, struct page *pages,
->   */
->  struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
-> {
-> -	size_t count = size >> PAGE_SHIFT;
-> -	struct page *page = NULL;
-> -	struct cma *cma = NULL;
-> -
-> -	if (dev && dev->cma_area)
-> -		cma = dev->cma_area;
-> -	else if (count > 1)
-> -		cma = dma_contiguous_default_area;
-> -
->  	/* CMA can be used only in the context which permits sleeping */
-> -	if (cma && gfpflags_allow_blocking(gfp)) {
-> -		size_t align = get_order(size);
-> -		size_t cma_align = min_t(size_t, align, CONFIG_CMA_ALIGNMENT);
-> -
-> -		page = cma_alloc(cma, count, cma_align, gfp & __GFP_NOWARN);
-> -	}
-> -
-> -	return page;
-> +	if (!gfpflags_allow_blocking(gfp))
-> +		return NULL;
-> +	if (dev->cma_area)
-> +		return cma_alloc_aligned(dev->cma_area, size, gfp);
-> +	if (size <= PAGE_SIZE || !dma_contiguous_default_area)
-> +		return NULL;
-> +	return cma_alloc_aligned(dma_contiguous_default_area, size, gfp);
->  }
-> 
->  /**
-> --
-> 2.27.0
+[1] https://lists.linuxfoundation.org/pipermail/iommu/2017-October/024455.html
+[2] https://www.spinics.net/lists/iommu/msg44767.html
 
-Thanks
-Barry
+-v4:
+ * rebase on top of Christoph Hellwig's patch:
+ [PATCH v2] dma-contiguous: cleanup dma_alloc_contiguous
+ https://lore.kernel.org/linux-iommu/20200723120133.94105-1-hch@lst.de/
+ * cleanup according to Christoph's comment
+ * patch 2/2 rebased on top of linux-next to avoid arch/arm64 conflicts
+ * reserve cma by checking N_MEMORY rather than N_ONLINE
+
+-v3:
+  * move to use page_to_nid() while freeing cma with respect to Robin's
+  comment, but this will only work after applying my below patch:
+  "mm/cma.c: use exact_nid true to fix possible per-numa cma leak"
+  https://marc.info/?l=linux-mm&m=159333034726647&w=2
+
+  * handle the case count <= 1 more properly according to Robin's
+  comment;
+
+  * add pernuma_cma parameter to support dynamic setting of per-numa
+  cma size;
+  ideally we can leverage the CMA_SIZE_MBYTES, CMA_SIZE_PERCENTAGE and
+  "cma=" kernel parameter and avoid a new paramter separately for per-
+  numa cma. Practically, it is really too complicated considering the
+  below problems:
+  (1) if we leverage the size of default numa for per-numa, we have to
+  avoid creating two cma with same size in node0 since default cma is
+  probably on node0.
+  (2) default cma can consider the address limitation for old devices
+  while per-numa cma doesn't support GFP_DMA and GFP_DMA32. all
+  allocations with limitation flags will fallback to default one.
+  (3) hard to apply CMA_SIZE_PERCENTAGE to per-numa. it is hard to
+  decide if the percentage should apply to the whole memory size
+  or only apply to the memory size of a specific numa node.
+  (4) default cma size has CMA_SIZE_SEL_MIN and CMA_SIZE_SEL_MAX, it
+  makes things even more complicated to per-numa cma.
+
+  I haven't figured out a good way to leverage the size of default cma
+  for per-numa cma. it seems a separate parameter for per-numa could
+  make life easier.
+
+  * move dma_pernuma_cma_reserve() after hugetlb_cma_reserve() to
+  reuse the comment before hugetlb_cma_reserve() with respect to
+  Robin's comment
+
+-v2: 
+  * fix some issues reported by kernel test robot
+  * fallback to default cma while allocation fails in per-numa cma
+     free memory properly
+
+Barry Song (2):
+  dma-direct: provide the ability to reserve per-numa CMA
+  arm64: mm: reserve per-numa CMA to localize coherent dma buffers
+
+ .../admin-guide/kernel-parameters.txt         |  9 ++
+ arch/arm64/mm/init.c                          |  2 +
+ include/linux/dma-contiguous.h                |  4 +
+ kernel/dma/Kconfig                            | 10 ++
+ kernel/dma/contiguous.c                       | 94 +++++++++++++++++--
+ 5 files changed, 109 insertions(+), 10 deletions(-)
+
+-- 
+2.27.0
+
 
 _______________________________________________
 iommu mailing list
