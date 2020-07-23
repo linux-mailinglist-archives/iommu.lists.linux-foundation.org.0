@@ -2,79 +2,79 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0300122B224
-	for <lists.iommu@lfdr.de>; Thu, 23 Jul 2020 17:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8810C22B223
+	for <lists.iommu@lfdr.de>; Thu, 23 Jul 2020 17:06:03 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9F93D883ED;
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4870E88414;
 	Thu, 23 Jul 2020 15:06:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oziBZWEmK8J3; Thu, 23 Jul 2020 15:06:01 +0000 (UTC)
+	with ESMTP id jbnwK5Wmt4as; Thu, 23 Jul 2020 15:06:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 168CC88483;
-	Thu, 23 Jul 2020 15:06:01 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BE96688496;
+	Thu, 23 Jul 2020 15:06:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EAC2BC004E;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A930BC004C;
 	Thu, 23 Jul 2020 15:06:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 210C8C004C
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 15:06:00 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 95536C004C
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 15:05:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 10AB3883BF
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 15:06:00 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 91B9786910
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 15:05:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HxitJDVEof8S for <iommu@lists.linux-foundation.org>;
- Thu, 23 Jul 2020 15:05:57 +0000 (UTC)
+ with ESMTP id 7eLjgqg5teNJ for <iommu@lists.linux-foundation.org>;
+ Thu, 23 Jul 2020 15:05:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 80A62883AD
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 15:05:57 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id a1so6723500ejg.12
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 08:05:57 -0700 (PDT)
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
+ [209.85.218.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 8E3368665E
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 15:05:58 +0000 (UTC)
+Received: by mail-ej1-f66.google.com with SMTP id lx13so6750061ejb.4
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 08:05:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yWZ8FjwXK+dksOqK3nLYWBRxXcByntJO5CNNaeLNHxY=;
- b=zCsk0FDm4L+791n8G8Whn/IMan8qkhGJpd3itkoU2fE4osc7hietit0/wFo1MMYCKu
- YLh4ONxoCZqgiKb+XNT+lMP18iTusa796HBhYJrr5tU2ULz1O4FRtnBHbffYUzkXfTay
- U2N2iJLFAWrq4ssTfz+EYfwXdEtRdmw4xUqyNvL8TOvB/Xl5frW7qhDd7PmG53A+849b
- 2F3zMOhjDVPKjHCSorennkhS7NA9x26f8xfQYpuud3Sz6YXKCb4f3r/GUwMW17iFcJhH
- FBm3FAb2l2kcUOpcoW9wxg5I2AOLZKNQw1ZaRwxmYriNdw8jTws/j/LEr0o48ZwuyLdw
- 1qkQ==
+ bh=wskuJloDXQffCZslMedcsZLhDNM/RTcftR4W5M+lmWM=;
+ b=aCMH28yfVT0dvw1jNUUZbraQg0/4QDSbSz+ipcvfIDhdbz2vRFp3gQyyZcGEeOpIOf
+ Rk6ZnzcSzfP5U5s7YRqSVsQpUjLMeafohbmXpBJ7W3cP6eonBGltklz41+NaxrRh6KXR
+ 8nNwD3m8wK5KJI5I9RTCs8hDN+qtGUb0sL89irJmOnt7TQswOSqjyvx+Wz0jNW/5DKde
+ fBEmAZK5nmCq5IqFkb7+f6r0CSP5mi6nGaFF2fC/yjVrGHFemFsd/NxvuU7UB/IEY2QF
+ 6M6jVyc3K+eUpLxJwuaNq2xpP+hdAOSlWiiFig33xtIJIKR1oyfLwAn2X87VVQSoEQqK
+ xLlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yWZ8FjwXK+dksOqK3nLYWBRxXcByntJO5CNNaeLNHxY=;
- b=fGicwc3hEcYtT6DpWNU3UINM7l6l+R+NYfYADrLF3V16Ijz86ddtBlOZV+kmw9gyRq
- Jyx5sxYN96koCAFw93AN3480RvIkvnaaqqa+aTgYgy2z6ZRwQb0rANKlc/lKl/fZpgrV
- gKj7Vn1zC/j9CNIHo8WEv4cwemZLqcROw/l8AEgaQkTuD8t9HEHpDekzaESZs0iMA/iV
- hfLpj7rdGFGUYIO5lRmcz+IOoROxg6Ka/K3wRVXbuPs+IxLAYmqu7GjVP4yEObRd0fLr
- 7HQJlMeuud8Ib38Ryi5ve3RgOPOrtfnr4la/khKuLPMpH9elJI0Ps9yezBuHhQ8jcpnA
- 2hIA==
-X-Gm-Message-State: AOAM532p9DnPxASriIzN42Yq3q8vvOcsF8rTt/fAzy7xgU/oLGfc/60k
- HMRtC2oapu8e3FHyjucrmdxrGK8svHQ=
-X-Google-Smtp-Source: ABdhPJylrtOaxrTLvFdaGtqIle2qLiXnjnEywz0sCPFX1x5omIQ/yFKbHKVthU0n2KaXfMbOZkXhOQ==
-X-Received: by 2002:a17:907:20b4:: with SMTP id
- pw20mr4955394ejb.225.1595516755496; 
- Thu, 23 Jul 2020 08:05:55 -0700 (PDT)
+ bh=wskuJloDXQffCZslMedcsZLhDNM/RTcftR4W5M+lmWM=;
+ b=BkWRBSg+Lt/PY18dwZ/eGsKD+5QSR2N5BAcENOczVHK/VyouaZVgfd0oBBfO7iD3bJ
+ MNsY/begdw/TLfnc4sStWaK/A7v9uk/+mUFq2il5FBHjNkKxDghwcfIsnoXFd5F+eRjw
+ y68vPiIFcZoMIFy9TZxwiI5QE/IVqkAYKuxWqqXKXoHQ0joiBdYK0GWO6UPl+y+fxrh1
+ o/WgY03gjgx5kOi+WH4qh8sO0H8NOjxyt44ZqoD5QLktQhgY75SWQXL7yDaS7LGRO1l6
+ z2cSjyzwVGgi05s7iQcWYJ7GukaXQsb6Mu8A6rL9PcoWDyfYY5IpVtuJszxzuZ+AHop5
+ qfWw==
+X-Gm-Message-State: AOAM532Xm1FPaGMHBISN9jJbKuyVhi4Ufj5Ov338fWAwhGGt3jdfZAKF
+ UOS3SsNbh4+KD7xhG/bPfFWWxVbfm4s=
+X-Google-Smtp-Source: ABdhPJyB1Vkh5KERl8YmjBS8VfddZR0PFejHbSzUL2vYjqtEO7CwYUzdDRG0iR2rh/YcuHmXTAF++A==
+X-Received: by 2002:a17:906:1747:: with SMTP id
+ d7mr4752761eje.39.1595516756567; 
+ Thu, 23 Jul 2020 08:05:56 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id k15sm2145952eji.49.2020.07.23.08.05.54
+ by smtp.gmail.com with ESMTPSA id k15sm2145952eji.49.2020.07.23.08.05.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jul 2020 08:05:54 -0700 (PDT)
+ Thu, 23 Jul 2020 08:05:56 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org,
  linux-mm@kvack.org
-Subject: [PATCH v9 08/13] iommu/arm-smmu-v3: Share process page tables
-Date: Thu, 23 Jul 2020 16:57:20 +0200
-Message-Id: <20200723145724.3014766-9-jean-philippe@linaro.org>
+Subject: [PATCH v9 09/13] iommu/arm-smmu-v3: Seize private ASID
+Date: Thu, 23 Jul 2020 16:57:21 +0200
+Message-Id: <20200723145724.3014766-10-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200723145724.3014766-1-jean-philippe@linaro.org>
 References: <20200723145724.3014766-1-jean-philippe@linaro.org>
@@ -99,318 +99,162 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-With Shared Virtual Addressing (SVA), we need to mirror CPU TTBR, TCR,
-MAIR and ASIDs in SMMU contexts. Each SMMU has a single ASID space split
-into two sets, shared and private. Shared ASIDs correspond to those
-obtained from the arch ASID allocator, and private ASIDs are used for
-"classic" map/unmap DMA.
+The SMMU has a single ASID space, the union of shared and private ASID
+sets. This means that the SMMU driver competes with the arch allocator
+for ASIDs. Shared ASIDs are those of Linux processes, allocated by the
+arch, and contribute in broadcast TLB maintenance. Private ASIDs are
+allocated by the SMMU driver and used for "classic" map/unmap DMA. They
+require command-queue TLB invalidations.
 
-A possible conflict happens when trying to use a shared ASID that has
-already been allocated for private use by the SMMU driver. This will be
-addressed in a later patch by replacing the private ASID. At the
-moment we return -EBUSY.
-
-Each mm_struct shared with the SMMU will have a single context
-descriptor. Add a refcount to keep track of this. It will be protected
-by the global SVA lock.
-
-Introduce a new arm-smmu-v3-sva.c file and the CONFIG_ARM_SMMU_V3_SVA
-option to let users opt in SVA support.
+When we pin down an mm_context and get an ASID that is already in use by
+the SMMU, it belongs to a private context. We used to simply abort the
+bind, but this is unfair to users that would be unable to bind a few
+seemingly random processes. Try to allocate a new private ASID for the
+context, and make the old ASID shared.
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
-v9: Move to arm-smmu-v3-sva.c
----
- drivers/iommu/Kconfig           |  10 +++
- drivers/iommu/Makefile          |   5 +-
- drivers/iommu/arm-smmu-v3.h     |   8 +++
- drivers/iommu/arm-smmu-v3-sva.c | 123 ++++++++++++++++++++++++++++++++
- drivers/iommu/arm-smmu-v3.c     |  34 +++++++--
- 5 files changed, 172 insertions(+), 8 deletions(-)
- create mode 100644 drivers/iommu/arm-smmu-v3-sva.c
+ drivers/iommu/arm-smmu-v3.h     |  3 +++
+ drivers/iommu/arm-smmu-v3-sva.c | 36 +++++++++++++++++++++++++++++++--
+ drivers/iommu/arm-smmu-v3.c     | 34 +++++++++++++++++++------------
+ 3 files changed, 58 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 490c86e3615a..afe355c02a50 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -446,6 +446,16 @@ config ARM_SMMU_V3
- 	  Say Y here if your system includes an IOMMU device implementing
- 	  the ARM SMMUv3 architecture.
- 
-+config ARM_SMMU_V3_SVA
-+	bool "Shared Virtual Addressing support for the ARM SMMUv3"
-+	depends on ARM_SMMU_V3
-+	help
-+	  Support for sharing process address spaces with devices using the
-+	  SMMUv3.
-+
-+	  Say Y here if your system supports SVA extensions such as PCIe PASID
-+	  and PRI.
-+
- config S390_IOMMU
- 	def_bool y if S390 && PCI
- 	depends on S390 && PCI
-diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
-index 0fe5a7f9bc69..929a752e4723 100644
---- a/drivers/iommu/Makefile
-+++ b/drivers/iommu/Makefile
-@@ -16,7 +16,10 @@ obj-$(CONFIG_AMD_IOMMU_DEBUGFS) += amd/debugfs.o
- obj-$(CONFIG_AMD_IOMMU_V2) += amd/iommu_v2.o
- obj-$(CONFIG_ARM_SMMU) += arm_smmu.o
- arm_smmu-objs += arm-smmu.o arm-smmu-impl.o arm-smmu-qcom.o
--obj-$(CONFIG_ARM_SMMU_V3) += arm-smmu-v3.o
-+arm_smmu_v3-objs-y += arm-smmu-v3.o
-+arm_smmu_v3-objs-$(CONFIG_ARM_SMMU_V3_SVA) += arm-smmu-v3-sva.o
-+arm_smmu_v3-objs := $(arm_smmu_v3-objs-y)
-+obj-$(CONFIG_ARM_SMMU_V3) += arm_smmu_v3.o
- obj-$(CONFIG_DMAR_TABLE) += intel/dmar.o
- obj-$(CONFIG_INTEL_IOMMU) += intel/iommu.o intel/pasid.o
- obj-$(CONFIG_INTEL_IOMMU) += intel/trace.o
 diff --git a/drivers/iommu/arm-smmu-v3.h b/drivers/iommu/arm-smmu-v3.h
-index 51a9ce07b2d6..6b06a6f19604 100644
+index 6b06a6f19604..90c08f156b43 100644
 --- a/drivers/iommu/arm-smmu-v3.h
 +++ b/drivers/iommu/arm-smmu-v3.h
-@@ -540,6 +540,9 @@ struct arm_smmu_ctx_desc {
- 	u64				ttbr;
- 	u64				tcr;
- 	u64				mair;
-+
-+	refcount_t			refs;
-+	struct mm_struct		*mm;
- };
+@@ -678,6 +678,9 @@ struct arm_smmu_domain {
+ extern struct xarray arm_smmu_asid_xa;
+ extern struct mutex arm_smmu_asid_lock;
  
- struct arm_smmu_l1_ctx_desc {
-@@ -672,4 +675,9 @@ struct arm_smmu_domain {
- 	spinlock_t			devices_lock;
- };
++int arm_smmu_write_ctx_desc(struct arm_smmu_domain *smmu_domain, int ssid,
++			    struct arm_smmu_ctx_desc *cd);
++void arm_smmu_tlb_inv_asid(struct arm_smmu_device *smmu, u16 asid);
+ bool arm_smmu_free_asid(struct arm_smmu_ctx_desc *cd);
  
-+extern struct xarray arm_smmu_asid_xa;
-+extern struct mutex arm_smmu_asid_lock;
-+
-+bool arm_smmu_free_asid(struct arm_smmu_ctx_desc *cd);
-+
  #endif /* _ARM_SMMU_V3_H */
 diff --git a/drivers/iommu/arm-smmu-v3-sva.c b/drivers/iommu/arm-smmu-v3-sva.c
-new file mode 100644
-index 000000000000..7c1541864688
---- /dev/null
+index 7c1541864688..d590c864bdf3 100644
+--- a/drivers/iommu/arm-smmu-v3-sva.c
 +++ b/drivers/iommu/arm-smmu-v3-sva.c
-@@ -0,0 +1,123 @@
-+// SPDX-License-Identifier: GPL-2.0
+@@ -10,10 +10,19 @@
+ #include "arm-smmu-v3.h"
+ #include "io-pgtable-arm.h"
+ 
 +/*
-+ * Implementation of the IOMMU SVA API for the ARM SMMUv3
++ * Try to reserve this ASID in the SMMU. If it is in use, try to steal it from
++ * the private entry. Careful here, we may be modifying the context tables of
++ * another SMMU!
 + */
+ static struct arm_smmu_ctx_desc *
+ arm_smmu_share_asid(struct mm_struct *mm, u16 asid)
+ {
++	int ret;
++	u32 new_asid;
+ 	struct arm_smmu_ctx_desc *cd;
++	struct arm_smmu_device *smmu;
++	struct arm_smmu_domain *smmu_domain;
+ 
+ 	cd = xa_load(&arm_smmu_asid_xa, asid);
+ 	if (!cd)
+@@ -27,8 +36,31 @@ arm_smmu_share_asid(struct mm_struct *mm, u16 asid)
+ 		return cd;
+ 	}
+ 
+-	/* Ouch, ASID is already in use for a private cd. */
+-	return ERR_PTR(-EBUSY);
++	smmu_domain = container_of(cd, struct arm_smmu_domain, s1_cfg.cd);
++	smmu = smmu_domain->smmu;
 +
-+#include <linux/mm.h>
-+#include <linux/mmu_context.h>
-+#include <linux/slab.h>
-+
-+#include "arm-smmu-v3.h"
-+#include "io-pgtable-arm.h"
-+
-+static struct arm_smmu_ctx_desc *
-+arm_smmu_share_asid(struct mm_struct *mm, u16 asid)
-+{
-+	struct arm_smmu_ctx_desc *cd;
-+
-+	cd = xa_load(&arm_smmu_asid_xa, asid);
-+	if (!cd)
-+		return NULL;
-+
-+	if (cd->mm) {
-+		if (WARN_ON(cd->mm != mm))
-+			return ERR_PTR(-EINVAL);
-+		/* All devices bound to this mm use the same cd struct. */
-+		refcount_inc(&cd->refs);
-+		return cd;
-+	}
-+
-+	/* Ouch, ASID is already in use for a private cd. */
-+	return ERR_PTR(-EBUSY);
-+}
-+
-+__maybe_unused
-+static struct arm_smmu_ctx_desc *arm_smmu_alloc_shared_cd(struct mm_struct *mm)
-+{
-+	u16 asid;
-+	int err = 0;
-+	u64 tcr, par, reg;
-+	struct arm_smmu_ctx_desc *cd;
-+	struct arm_smmu_ctx_desc *ret = NULL;
-+
-+	asid = arm64_mm_context_get(mm);
-+	if (!asid)
-+		return ERR_PTR(-ESRCH);
-+
-+	cd = kzalloc(sizeof(*cd), GFP_KERNEL);
-+	if (!cd) {
-+		err = -ENOMEM;
-+		goto out_put_context;
-+	}
-+
-+	refcount_set(&cd->refs, 1);
-+
-+	mutex_lock(&arm_smmu_asid_lock);
-+	ret = arm_smmu_share_asid(mm, asid);
-+	if (ret) {
-+		mutex_unlock(&arm_smmu_asid_lock);
-+		goto out_free_cd;
-+	}
-+
-+	err = xa_insert(&arm_smmu_asid_xa, asid, cd, GFP_KERNEL);
-+	mutex_unlock(&arm_smmu_asid_lock);
-+
-+	if (err)
-+		goto out_free_asid;
-+
-+	tcr = FIELD_PREP(CTXDESC_CD_0_TCR_T0SZ, 64ULL - VA_BITS) |
-+	      FIELD_PREP(CTXDESC_CD_0_TCR_IRGN0, ARM_LPAE_TCR_RGN_WBWA) |
-+	      FIELD_PREP(CTXDESC_CD_0_TCR_ORGN0, ARM_LPAE_TCR_RGN_WBWA) |
-+	      FIELD_PREP(CTXDESC_CD_0_TCR_SH0, ARM_LPAE_TCR_SH_IS) |
-+	      CTXDESC_CD_0_TCR_EPD1 | CTXDESC_CD_0_AA64;
-+
-+	switch (PAGE_SIZE) {
-+	case SZ_4K:
-+		tcr |= FIELD_PREP(CTXDESC_CD_0_TCR_TG0, ARM_LPAE_TCR_TG0_4K);
-+		break;
-+	case SZ_16K:
-+		tcr |= FIELD_PREP(CTXDESC_CD_0_TCR_TG0, ARM_LPAE_TCR_TG0_16K);
-+		break;
-+	case SZ_64K:
-+		tcr |= FIELD_PREP(CTXDESC_CD_0_TCR_TG0, ARM_LPAE_TCR_TG0_64K);
-+		break;
-+	default:
-+		WARN_ON(1);
-+		err = -EINVAL;
-+		goto out_free_asid;
-+	}
-+
-+	reg = read_sanitised_ftr_reg(SYS_ID_AA64MMFR0_EL1);
-+	par = cpuid_feature_extract_unsigned_field(reg, ID_AA64MMFR0_PARANGE_SHIFT);
-+	tcr |= FIELD_PREP(CTXDESC_CD_0_TCR_IPS, par);
-+
-+	cd->ttbr = virt_to_phys(mm->pgd);
-+	cd->tcr = tcr;
++	ret = xa_alloc(&arm_smmu_asid_xa, &new_asid, cd,
++		       XA_LIMIT(1, 1 << smmu->asid_bits), GFP_KERNEL);
++	if (ret)
++		return ERR_PTR(-ENOSPC);
 +	/*
-+	 * MAIR value is pretty much constant and global, so we can just get it
-+	 * from the current CPU register
++	 * Race with unmap: TLB invalidations will start targeting the new ASID,
++	 * which isn't assigned yet. We'll do an invalidate-all on the old ASID
++	 * later, so it doesn't matter.
 +	 */
-+	cd->mair = read_sysreg(mair_el1);
-+	cd->asid = asid;
-+	cd->mm = mm;
++	cd->asid = new_asid;
++	/*
++	 * Update ASID and invalidate CD in all associated masters. There will
++	 * be some overlap between use of both ASIDs, until we invalidate the
++	 * TLB.
++	 */
++	arm_smmu_write_ctx_desc(smmu_domain, 0, cd);
 +
-+	return cd;
++	/* Invalidate TLB entries previously associated with that context */
++	arm_smmu_tlb_inv_asid(smmu, asid);
 +
-+out_free_asid:
-+	arm_smmu_free_asid(cd);
-+out_free_cd:
-+	kfree(cd);
-+out_put_context:
-+	arm64_mm_context_put(mm);
-+	return err < 0 ? ERR_PTR(err) : ret;
-+}
-+
-+__maybe_unused
-+static void arm_smmu_free_shared_cd(struct arm_smmu_ctx_desc *cd)
-+{
-+	if (arm_smmu_free_asid(cd)) {
-+		/* Unpin ASID */
-+		arm64_mm_context_put(cd->mm);
-+		kfree(cd);
-+	}
-+}
++	xa_erase(&arm_smmu_asid_xa, asid);
++	return NULL;
+ }
+ 
+ __maybe_unused
 diff --git a/drivers/iommu/arm-smmu-v3.c b/drivers/iommu/arm-smmu-v3.c
-index 827334ed312b..06f148a9ed82 100644
+index 06f148a9ed82..4a47b977ed01 100644
 --- a/drivers/iommu/arm-smmu-v3.c
 +++ b/drivers/iommu/arm-smmu-v3.c
-@@ -68,7 +68,8 @@ struct arm_smmu_option_prop {
- 	const char *prop;
- };
- 
--static DEFINE_XARRAY_ALLOC1(asid_xa);
-+DEFINE_XARRAY_ALLOC1(arm_smmu_asid_xa);
-+DEFINE_MUTEX(arm_smmu_asid_lock);
- 
- static struct arm_smmu_option_prop arm_smmu_options[] = {
- 	{ ARM_SMMU_OPT_SKIP_PREFETCH, "hisilicon,broken-prefetch-cmd" },
-@@ -1004,7 +1005,8 @@ static int arm_smmu_write_ctx_desc(struct arm_smmu_domain *smmu_domain,
- #ifdef __BIG_ENDIAN
- 			CTXDESC_CD_0_ENDI |
- #endif
--			CTXDESC_CD_0_R | CTXDESC_CD_0_A | CTXDESC_CD_0_ASET |
-+			CTXDESC_CD_0_R | CTXDESC_CD_0_A |
-+			(cd->mm ? 0 : CTXDESC_CD_0_ASET) |
- 			CTXDESC_CD_0_AA64 |
- 			FIELD_PREP(CTXDESC_CD_0_ASID, cd->asid) |
- 			CTXDESC_CD_0_V;
-@@ -1108,12 +1110,20 @@ static void arm_smmu_free_cd_tables(struct arm_smmu_domain *smmu_domain)
- 	cdcfg->cdtab = NULL;
+@@ -873,6 +873,17 @@ static int arm_smmu_cmdq_batch_submit(struct arm_smmu_device *smmu,
  }
  
--static void arm_smmu_free_asid(struct arm_smmu_ctx_desc *cd)
-+bool arm_smmu_free_asid(struct arm_smmu_ctx_desc *cd)
+ /* Context descriptor manipulation functions */
++void arm_smmu_tlb_inv_asid(struct arm_smmu_device *smmu, u16 asid)
++{
++	struct arm_smmu_cmdq_ent cmd = {
++		.opcode = CMDQ_OP_TLBI_NH_ASID,
++		.tlbi.asid = asid,
++	};
++
++	arm_smmu_cmdq_issue_cmd(smmu, &cmd);
++	arm_smmu_cmdq_issue_sync(smmu);
++}
++
+ static void arm_smmu_sync_cd(struct arm_smmu_domain *smmu_domain,
+ 			     int ssid, bool leaf)
  {
-+	bool free;
-+	struct arm_smmu_ctx_desc *old_cd;
-+
- 	if (!cd->asid)
--		return;
-+		return false;
- 
--	xa_erase(&asid_xa, cd->asid);
-+	free = refcount_dec_and_test(&cd->refs);
-+	if (free) {
-+		old_cd = xa_erase(&arm_smmu_asid_xa, cd->asid);
-+		WARN_ON(old_cd != cd);
-+	}
-+	return free;
+@@ -953,8 +964,8 @@ static __le64 *arm_smmu_get_cd_ptr(struct arm_smmu_domain *smmu_domain,
+ 	return l1_desc->l2ptr + idx * CTXDESC_CD_DWORDS;
  }
  
- /* Stream table manipulation functions */
-@@ -1801,9 +1811,12 @@ static void arm_smmu_domain_free(struct iommu_domain *domain)
- 	if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1) {
- 		struct arm_smmu_s1_cfg *cfg = &smmu_domain->s1_cfg;
+-static int arm_smmu_write_ctx_desc(struct arm_smmu_domain *smmu_domain,
+-				   int ssid, struct arm_smmu_ctx_desc *cd)
++int arm_smmu_write_ctx_desc(struct arm_smmu_domain *smmu_domain, int ssid,
++			    struct arm_smmu_ctx_desc *cd)
+ {
+ 	/*
+ 	 * This function handles the following cases:
+@@ -1610,15 +1621,6 @@ static void arm_smmu_tlb_inv_context(void *cookie)
+ 	struct arm_smmu_device *smmu = smmu_domain->smmu;
+ 	struct arm_smmu_cmdq_ent cmd;
  
-+		/* Prevent SVA from touching the CD while we're freeing it */
-+		mutex_lock(&arm_smmu_asid_lock);
- 		if (cfg->cdcfg.cdtab)
- 			arm_smmu_free_cd_tables(smmu_domain);
- 		arm_smmu_free_asid(&cfg->cd);
-+		mutex_unlock(&arm_smmu_asid_lock);
- 	} else {
- 		struct arm_smmu_s2_cfg *cfg = &smmu_domain->s2_cfg;
- 		if (cfg->vmid)
-@@ -1823,10 +1836,14 @@ static int arm_smmu_domain_finalise_s1(struct arm_smmu_domain *smmu_domain,
- 	struct arm_smmu_s1_cfg *cfg = &smmu_domain->s1_cfg;
- 	typeof(&pgtbl_cfg->arm_lpae_s1_cfg.tcr) tcr = &pgtbl_cfg->arm_lpae_s1_cfg.tcr;
- 
--	ret = xa_alloc(&asid_xa, &asid, &cfg->cd,
-+	refcount_set(&cfg->cd.refs, 1);
-+
-+	/* Prevent SVA from modifying the ASID until it is written to the CD */
-+	mutex_lock(&arm_smmu_asid_lock);
-+	ret = xa_alloc(&arm_smmu_asid_xa, &asid, &cfg->cd,
- 		       XA_LIMIT(1, (1 << smmu->asid_bits) - 1), GFP_KERNEL);
- 	if (ret)
--		return ret;
-+		goto out_unlock;
- 
- 	cfg->s1cdmax = master->ssid_bits;
- 
-@@ -1854,12 +1871,15 @@ static int arm_smmu_domain_finalise_s1(struct arm_smmu_domain *smmu_domain,
- 	if (ret)
- 		goto out_free_cd_tables;
- 
-+	mutex_unlock(&arm_smmu_asid_lock);
- 	return 0;
- 
- out_free_cd_tables:
- 	arm_smmu_free_cd_tables(smmu_domain);
- out_free_asid:
- 	arm_smmu_free_asid(&cfg->cd);
-+out_unlock:
-+	mutex_unlock(&arm_smmu_asid_lock);
- 	return ret;
+-	if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1) {
+-		cmd.opcode	= CMDQ_OP_TLBI_NH_ASID;
+-		cmd.tlbi.asid	= smmu_domain->s1_cfg.cd.asid;
+-		cmd.tlbi.vmid	= 0;
+-	} else {
+-		cmd.opcode	= CMDQ_OP_TLBI_S12_VMALL;
+-		cmd.tlbi.vmid	= smmu_domain->s2_cfg.vmid;
+-	}
+-
+ 	/*
+ 	 * NOTE: when io-pgtable is in non-strict mode, we may get here with
+ 	 * PTEs previously cleared by unmaps on the current CPU not yet visible
+@@ -1626,8 +1628,14 @@ static void arm_smmu_tlb_inv_context(void *cookie)
+ 	 * insertion to guarantee those are observed before the TLBI. Do be
+ 	 * careful, 007.
+ 	 */
+-	arm_smmu_cmdq_issue_cmd(smmu, &cmd);
+-	arm_smmu_cmdq_issue_sync(smmu);
++	if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1) {
++		arm_smmu_tlb_inv_asid(smmu, smmu_domain->s1_cfg.cd.asid);
++	} else {
++		cmd.opcode	= CMDQ_OP_TLBI_S12_VMALL;
++		cmd.tlbi.vmid	= smmu_domain->s2_cfg.vmid;
++		arm_smmu_cmdq_issue_cmd(smmu, &cmd);
++		arm_smmu_cmdq_issue_sync(smmu);
++	}
+ 	arm_smmu_atc_inv_domain(smmu_domain, 0, 0, 0);
  }
  
 -- 
