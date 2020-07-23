@@ -1,83 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E2422B811
-	for <lists.iommu@lfdr.de>; Thu, 23 Jul 2020 22:47:37 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3164A22B9BE
+	for <lists.iommu@lfdr.de>; Fri, 24 Jul 2020 00:37:38 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4C03F8889B;
-	Thu, 23 Jul 2020 20:47:36 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D8629884B9;
+	Thu, 23 Jul 2020 22:37:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yayC9YO0kIai; Thu, 23 Jul 2020 20:47:34 +0000 (UTC)
+	with ESMTP id liOnfrVqJGLJ; Thu, 23 Jul 2020 22:37:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id AB8B6888EE;
-	Thu, 23 Jul 2020 20:47:34 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 47D8F884A1;
+	Thu, 23 Jul 2020 22:37:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 94FA1C004C;
-	Thu, 23 Jul 2020 20:47:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 32E05C004C;
+	Thu, 23 Jul 2020 22:37:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 54A02C004C
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 20:47:33 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99E5BC004C
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 22:37:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 3CC152040B
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 20:47:33 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 88D9C884A9
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 22:37:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Zm5bKp1xYyXj for <iommu@lists.linux-foundation.org>;
- Thu, 23 Jul 2020 20:47:32 +0000 (UTC)
+ with ESMTP id VLeWW2THcdiC for <iommu@lists.linux-foundation.org>;
+ Thu, 23 Jul 2020 22:37:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
- [209.85.166.193])
- by silver.osuosl.org (Postfix) with ESMTPS id 5F56E203CF
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 20:47:32 +0000 (UTC)
-Received: by mail-il1-f193.google.com with SMTP id p15so5456525ilh.13
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 13:47:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/ykIh0i0xy9qqdWkp/0xl4AY6xx/230nGu1DDjaI5lo=;
- b=Bmz2LAr9RfT8UwO+3Bn8+aAj9XRnMFc7XXSG2pcNf02XCR2U1Y5JmT997UkT2+W3/B
- 7U6UPb1KzG3/uuXG2q4Lc8Qbz9OUEJWEebCnKX2/rKLLX7dnlBvQbKQDmW7ucLksUCBI
- p0GIKUJgBvId/cbprcP8iusVcRnlJCQ7yeYjbF0P6IdprH8JzGtLMQgS09WEsqNSRaK8
- WrPViTE2N1QE63VPfjYs9dCCs5Fx/xBwOQXye5bpbdttNRNaN6NGM0avls6sTtou3YbD
- Cwy9/aiWdnvWWurvXPKr3OwyIUMt0RCkKRDhL8ape8TslZBa9V9h+bBMJccpPk3LdRre
- ksGg==
-X-Gm-Message-State: AOAM532M9uHYoX0eUPcqWwIMpyDy20xTCfKGHca2Cv4lIZHausA5Tcg2
- yThSbjU/CjXAasGdbuCVHQ==
-X-Google-Smtp-Source: ABdhPJxj977xyK987KA25YXvHJw0KF0pYIdsSwCRmIfXKkWWW85uigcOZS4pmbBfQX5gRynZmqjiXQ==
-X-Received: by 2002:a92:c792:: with SMTP id c18mr7006999ilk.223.1595537251697; 
- Thu, 23 Jul 2020 13:47:31 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
- by smtp.gmail.com with ESMTPSA id w5sm2032325ilm.46.2020.07.23.13.47.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jul 2020 13:47:30 -0700 (PDT)
-Received: (nullmailer pid 833108 invoked by uid 1000);
- Thu, 23 Jul 2020 20:47:29 -0000
-Date: Thu, 23 Jul 2020 14:47:29 -0600
-From: Rob Herring <robh@kernel.org>
-To: Yong Wu <yong.wu@mediatek.com>
-Subject: Re: [PATCH 18/21] iommu/mediatek: Add support for multi domain
-Message-ID: <20200723204729.GA823856@bogus>
-References: <20200711064846.16007-1-yong.wu@mediatek.com>
- <20200711064846.16007-19-yong.wu@mediatek.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200711064846.16007-19-yong.wu@mediatek.com>
-Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
- Nicolas Boichat <drinkcat@chromium.org>, cui.zhang@mediatek.com,
- srv_heupstream@mediatek.com, chao.hao@mediatek.com,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- Evan Green <evgreen@chromium.org>, Tomasz Figa <tfiga@google.com>,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, ming-fan.chen@mediatek.com,
- anan.sun@mediatek.com, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C238A884A1
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 22:37:33 +0000 (UTC)
+IronPort-SDR: 5wAy3w+gSaZJU67v+gpPs2ygFlkcsJnGi8k+35wlSvfiEBcAshVsLmYtcd5j/fPvItQ2DnAXSl
+ fzGhJoPD7bnA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="215225203"
+X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; d="scan'208";a="215225203"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jul 2020 15:37:32 -0700
+IronPort-SDR: EY9s5rW5U1aQy5GNQAR9ZgvrDr76Axq9ss9gxITH1EAgoJHJ+6EbSpbf8LmFYkpNc8X3sUts6d
+ rG4eADnva0VQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; d="scan'208";a="272425639"
+Received: from otc-nc-03.jf.intel.com ([10.54.39.25])
+ by fmsmga008.fm.intel.com with ESMTP; 23 Jul 2020 15:37:32 -0700
+From: Ashok Raj <ashok.raj@intel.com>
+To: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Joerg Roedel <joro@8bytes.org>, Lu Baolu <baolu.lu@intel.com>
+Subject: [PATCH v3 1/1] PCI/ATS: Check PRI supported on the PF device when
+ SRIOV is enabled
+Date: Thu, 23 Jul 2020 15:37:29 -0700
+Message-Id: <1595543849-19692-1-git-send-email-ashok.raj@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: iommu@lists.linux-foundation.org, Ashok Raj <ashok.raj@intel.com>,
+ stable@vger.kernel.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,40 +71,92 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sat, Jul 11, 2020 at 02:48:43PM +0800, Yong Wu wrote:
-> Some HW IP(ex: CCU) require the special iova range. That means the
-> iova got from dma_alloc_attrs for that devices must locate in his
-> special range. In this patch, we allocate a special iova_range for
-> each a special requirement and create each a iommu domain for each
-> a iova_range.
-> 
-> meanwhile we still use one pagetable which support 16GB iova.
-> 
-> After this patch, If the iova range of a master is over 4G, the master
-> should:
-> a) Declare its special dma_ranges in its dtsi node. For example, If we
-> preassign the iova 4G-8G for vcodec, then the vcodec dtsi node should:
-> 	dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;  /* 4G ~ 8G */
+PASID and PRI capabilities are only enumerated in PF devices. VF devices
+do not enumerate these capabilites. IOMMU drivers also need to enumerate
+them before enabling features in the IOMMU. Extending the same support as
+PASID feature discovery (pci_pasid_features) for PRI.
 
-BTW, dma-ranges should be in the parent node of the vcodec.
+Fixes: b16d0cb9e2fc ("iommu/vt-d: Always enable PASID/PRI PCI capabilities before ATS")
+Signed-off-by: Ashok Raj <ashok.raj@intel.com>
 
-> b) Update the dma_mask:
->  dma_set_mask_and_coherent(dev, DMA_BIT_MASK(33));
+To: Bjorn Helgaas <bhelgaas@google.com>
+To: Joerg Roedel <joro@8bytes.com>
+To: Lu Baolu <baolu.lu@intel.com>
+Cc: stable@vger.kernel.org
+Cc: linux-pci@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Ashok Raj <ashok.raj@intel.com>
+Cc: iommu@lists.linux-foundation.org
+---
+v3: Added Fixes tag
+v2: Fixed build failure reported from lkp when CONFIG_PRI=n
 
-This should happen for you automatically. The DMA PFN offset 
-should also be 4GB here.
+ drivers/iommu/intel/iommu.c |  2 +-
+ drivers/pci/ats.c           | 13 +++++++++++++
+ include/linux/pci-ats.h     |  4 ++++
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
-> 
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> ---
->  drivers/iommu/mtk_iommu.c | 49 ++++++++++++++++++++++++++++++++-------
->  drivers/iommu/mtk_iommu.h |  3 ++-
->  2 files changed, 42 insertions(+), 10 deletions(-)
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index d759e7234e98..276452f5e6a7 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -2560,7 +2560,7 @@ static struct dmar_domain *dmar_insert_one_dev_info(struct intel_iommu *iommu,
+ 			}
+ 
+ 			if (info->ats_supported && ecap_prs(iommu->ecap) &&
+-			    pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_PRI))
++			    pci_pri_supported(pdev))
+ 				info->pri_supported = 1;
+ 		}
+ 	}
+diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
+index b761c1f72f67..2e6cf0c700f7 100644
+--- a/drivers/pci/ats.c
++++ b/drivers/pci/ats.c
+@@ -325,6 +325,19 @@ int pci_prg_resp_pasid_required(struct pci_dev *pdev)
+ 
+ 	return pdev->pasid_required;
+ }
++
++/**
++ * pci_pri_supported - Check if PRI is supported.
++ * @pdev: PCI device structure
++ *
++ * Returns true if PRI capability is present, false otherwise.
++ */
++bool pci_pri_supported(struct pci_dev *pdev)
++{
++	/* VFs share the PF PRI configuration */
++	return !!(pci_physfn(pdev)->pri_cap);
++}
++EXPORT_SYMBOL_GPL(pci_pri_supported);
+ #endif /* CONFIG_PCI_PRI */
+ 
+ #ifdef CONFIG_PCI_PASID
+diff --git a/include/linux/pci-ats.h b/include/linux/pci-ats.h
+index f75c307f346d..df54cd5b15db 100644
+--- a/include/linux/pci-ats.h
++++ b/include/linux/pci-ats.h
+@@ -28,6 +28,10 @@ int pci_enable_pri(struct pci_dev *pdev, u32 reqs);
+ void pci_disable_pri(struct pci_dev *pdev);
+ int pci_reset_pri(struct pci_dev *pdev);
+ int pci_prg_resp_pasid_required(struct pci_dev *pdev);
++bool pci_pri_supported(struct pci_dev *pdev);
++#else
++static inline bool pci_pri_supported(struct pci_dev *pdev)
++{ return false; }
+ #endif /* CONFIG_PCI_PRI */
+ 
+ #ifdef CONFIG_PCI_PASID
+-- 
+2.7.4
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
