@@ -1,70 +1,89 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCC622A4DC
-	for <lists.iommu@lfdr.de>; Thu, 23 Jul 2020 03:48:01 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id C990322A6D3
+	for <lists.iommu@lfdr.de>; Thu, 23 Jul 2020 07:15:40 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9BA8E89357;
-	Thu, 23 Jul 2020 01:48:00 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7433988F09;
+	Thu, 23 Jul 2020 05:15:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vZbv+q+vCu+g; Thu, 23 Jul 2020 01:48:00 +0000 (UTC)
+	with ESMTP id MPf0Jh+fS77h; Thu, 23 Jul 2020 05:15:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 00C488935A;
-	Thu, 23 Jul 2020 01:48:00 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A89AC88F0B;
+	Thu, 23 Jul 2020 05:15:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DA81AC004C;
-	Thu, 23 Jul 2020 01:47:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8D420C004C;
+	Thu, 23 Jul 2020 05:15:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 20B6FC004C
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 01:47:58 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 14E60C004C
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 05:15:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 06A3288B87
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 01:47:58 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id F168688F0A
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 05:15:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cUGe0zBY0lC4 for <iommu@lists.linux-foundation.org>;
- Thu, 23 Jul 2020 01:47:57 +0000 (UTC)
+ with ESMTP id uWoO0Dr1coOr for <iommu@lists.linux-foundation.org>;
+ Thu, 23 Jul 2020 05:15:36 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by whitealder.osuosl.org (Postfix) with ESMTP id BF6F988B85
- for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 01:47:56 +0000 (UTC)
-X-UUID: dc3f9e2680a5426f90fec775d1b71688-20200723
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
- bh=xB3vYsH5mGVvpIjLZzZB6IHf61wU6lbXndzMHp0RF0o=; 
- b=AJvIf34L8HGRiopROr4BOPH7SmMvvNAvwW6FTy9GhSNzC2oAGDHwUCgU8Q0TzL0ARy87E565P7KDQyUm0gUnwQY73BL6WjHl3xAUrx8BOmSX4ZRUvJ8s07pVzUg0fRD7hztefeRfbwILULsfCA6qmhgtl8XSz56MjkM+EbKmBqs=;
-X-UUID: dc3f9e2680a5426f90fec775d1b71688-20200723
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <miles.chen@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
- with ESMTP id 1119077577; Thu, 23 Jul 2020 09:47:53 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 23 Jul 2020 09:47:51 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Thu, 23 Jul 2020 09:47:51 +0800
-From: Miles Chen <miles.chen@mediatek.com>
-To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- Rob Herring <robh@kernel.org>
-Subject: [PATCH v4] iommu/mediatek: check 4GB mode by reading infracfg
-Date: Thu, 23 Jul 2020 09:47:50 +0800
-Message-ID: <20200723014750.14491-1-miles.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+ [209.85.128.67])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E067E88F09
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 05:15:35 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id 184so4002092wmb.0
+ for <iommu@lists.linux-foundation.org>; Wed, 22 Jul 2020 22:15:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bX4hF15fb4QpI7ClXOhtVIgAOWzu+DtBaB8S3WsGu9Y=;
+ b=FPZoKCncFCCOJIrOpOgeYJ4kwY9n/6s988T1EfCLMfwVfkXTc1B/+umcAHDY9RbS5v
+ n0yR1Psi9ZEBb94v+PLNbqE0Z/x11MuCmKkzCx04Lqx+I43COT0M9YuPsODgB1VWTUbv
+ 4max/Y3eQAsiiTUnHHr2ha0hg+Y15p3TrX+6OHrE4ZA2eRkdkwKO77G2fVxY/m2V6zQi
+ R7ZZYOAoP2ROJd/cMz7m6/WeGFlzS9BgdTAhTL868K5xaXmzLzU1PupiMH3bSNQlb6mw
+ 4deqkHRoCPfmT7cY5c/ZgnJrWgqJXZu16pSRLn3Ul7kcu4TfMowa1z4aB5RIfUBsZ/QL
+ IUpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bX4hF15fb4QpI7ClXOhtVIgAOWzu+DtBaB8S3WsGu9Y=;
+ b=j/ihRwTcJV60jwKTcTi44Qrdr2ec98C32ypH518GRJUYr6sQ16tlAYb1SPr4wWWWhL
+ c8ni4IfiS/z09lVI0Uoa/G4vGHHuJ+QWefQ9TtmwDtB5QmS2g/gGVTXPh92vrJZ7H2zZ
+ G771NiMw3dAbbRVfb/Ag3SjDeP1GTf2x13OBxRKs0UlYD4Xszl4wDKRB8CTqKBXmeqMr
+ UOhGBupThUUSgQrnC3j6U7E7N5R2XcP6Itf8Fa19miFBMAG8QrROUTNoWmE2UcJPVK9h
+ c2AmHFzoUDcNj0w6WqKOH8OZkah3a8d4U1d2teKDCos3Z5r+d4+p1s8eiohua5bUeWNa
+ dpjg==
+X-Gm-Message-State: AOAM531GyepVs3fd3MPSvHB98HDhYrTwXkYvy8giKHEE2fEKJwZ4PSd6
+ w/flV627lqDHRJn+nKUMBIrKtKXeloqWlTdOQ/PhMQ==
+X-Google-Smtp-Source: ABdhPJwQKeWViofbSLvDDVtSH5ftjWOqVCzRvEn5jLpMrBww8td7Otzpsuum4Q6T2K7Dp674XwXYZ44UkJOEB44u0CQ=
+X-Received: by 2002:a05:600c:2209:: with SMTP id
+ z9mr2452342wml.70.1595481334259; 
+ Wed, 22 Jul 2020 22:15:34 -0700 (PDT)
 MIME-Version: 1.0
-X-MTK: N
-Cc: wsd_upstream@mediatek.com, David Hildenbrand <david@redhat.com>,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- Miles Chen <miles.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- Yingjoe Chen <yingjoe.chen@mediatek.com>, Mike Rapoport <rppt@linux.ibm.com>,
- Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org
+References: <20200708164936.9340-1-nsaenzjulienne@suse.de>
+ <CAMi1Hd35tRM=cnmzwX=SDgu-OoXi1Xj+twFkoULaVZBbTpe6sw@mail.gmail.com>
+ <550b30a86c0785049d24c945e2c6628d491cee3a.camel@suse.de>
+ <CAMi1Hd2V2pJjP=USS4r-Z3vK-aq7_aBy-jcVNk1GvbdEQAuzWg@mail.gmail.com>
+ <011994f8a717a00dcd9ed7682a1ddeb421c2c43f.camel@suse.de>
+ <CAMi1Hd0=ZsGhTkSy221EP9Vb3GMOcS0UMczX2u5X9qK37_ea1A@mail.gmail.com>
+ <01831596e4a2a6c9c066138b23bd30435f8e5569.camel@suse.de>
+ <CAMi1Hd3C6kh5E49EgytBAQ_2AE_jvnp+eSNsxBYaux+exSvdbg@mail.gmail.com>
+ <6db722947546221ed99d3f473f78e1a6de65d7d6.camel@suse.de>
+In-Reply-To: <6db722947546221ed99d3f473f78e1a6de65d7d6.camel@suse.de>
+From: Amit Pundir <amit.pundir@linaro.org>
+Date: Thu, 23 Jul 2020 10:44:58 +0530
+Message-ID: <CAMi1Hd0Xz6kOJFpA5PEpi6RDDGOcz0RmQ7tTOkuXq4QneOO_vQ@mail.gmail.com>
+Subject: Re: [PATCH] dma-pool: Do not allocate pool memory from CMA
+To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc: lkml <linux-kernel@vger.kernel.org>, jeremy.linton@arm.com,
+ Sumit Semwal <sumit.semwal@linaro.org>, iommu@lists.linux-foundation.org,
+ John Stultz <john.stultz@linaro.org>, linux-rpi-kernel@lists.infradead.org,
+ David Rientjes <rientjes@google.com>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,139 +101,90 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-In previous discussion [1] and [2], we found that it is risky to
-use max_pfn or totalram_pages to tell if 4GB mode is enabled.
+Hi Nicolas,
 
-Check 4GB mode by reading infracfg register, remove the usage
-of the un-exported symbol max_pfn.
+Sorry I got stuck on other things yesterday.
 
-This is a step towards building mtk_iommu as a kernel module.
+On Tue, 21 Jul 2020 at 21:57, Nicolas Saenz Julienne
+<nsaenzjulienne@suse.de> wrote:
+>
+> On Tue, 2020-07-21 at 20:52 +0530, Amit Pundir wrote:
+>
+> [...]
+>
+> > > > > Can you try booting *without* my patch and this in the kernel
+> > > > > command
+> > > > > line: "cma=16M@0x100000000-0x200000000".
+> > > >
+> > > > It doesn't boot with this added kernel command line.
+> > >
+> > > For the record, this placed the CMA in the [4GB, 8GB] address space
+> > > instead of you setup's default: [3GB, 4GB]. All atomic pools fall
+> > > in
+> > > that memory area without my patch, which makes me think some of the
+> > > devices on your board might not like higher addresses.
+> > >
+> >
+> > Thank you Nicolas for the details. Though we don't set the CMA
+> > alloc-ranges explicitly in upstream sdm845 dts, but I dug around and
+> > found that CMA alloc-ranges in the downstream kernel are indeed in
+> > lower address space.
+> > https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/dipper-q-oss/arch/arm64/boot/dts/qcom/sdm845.dtsi#L662
+> >
+> > /* global autoconfigured region for contiguous allocations */
+> > linux,cma {
+> >         compatible = "shared-dma-pool";
+> >         alloc-ranges = <0 0x00000000 0 0xffffffff>;
+> >         reusable;
+> >         alignment = <0 0x400000>;
+> >         size = <0 0x2000000>;
+> >         linux,cma-default;
+> > };
+>
+> Pretty standard, and similar to what it's being used upstream by
+> default.
+>
+> >
+> > > What happens if you boot with my troublesome patch with this in
+> > > your
+> > > device tree? (insert it at the bottom of sdm845-beryllium.dts)
+> > >
+> > > &soc {
+> > >         dma-ranges = <0 0 0 0 0x1 0>;
+> > > };
+> > >
+> >
+> > Device still doesn't boot up to adb shell.
+>
+> Let's get a bigger hammer, I'm just looking for clues here. Can you
+> apply this and provide the dmesg output.
+>
+> diff --git a/kernel/dma/pool.c b/kernel/dma/pool.c
+> index 6bc74a2d5127..2160676bf488 100644
+> --- a/kernel/dma/pool.c
+> +++ b/kernel/dma/pool.c
+> @@ -268,6 +268,8 @@ void *dma_alloc_from_pool(struct device *dev, size_t size,
+>                         schedule_work(&atomic_pool_work);
+>         }
+>
+> +       dev_info(dev, "%s: size %lx, phys addr %llx, flags 0x%x\n", __func__, size, phys, flags);
+> +
+>         return ptr;
+>  }
 
-[1] https://lore.kernel.org/lkml/20200603161132.2441-1-miles.chen@mediatek.com/
-[2] https://lore.kernel.org/lkml/20200604080120.2628-1-miles.chen@mediatek.com/
-[3] https://lore.kernel.org/lkml/20200715205120.GA778876@bogus/
+I never made it to dma_alloc_from_pool() call from
+dma_direct_alloc_pages(), dma_should_alloc_from_pool() returns False
+from gfpflags_allow_blocking() block.
 
-Cc: Mike Rapoport <rppt@linux.ibm.com>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Yong Wu <yong.wu@mediatek.com>
-Cc: Yingjoe Chen <yingjoe.chen@mediatek.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Signed-off-by: Miles Chen <miles.chen@mediatek.com>
 
----
+Regards,
+Amit Pundir
 
-Change since v3
-- use lore.kernel.org links
-- move "change since..." after "---"
-
-Change since v2:
-- determine compatible string by m4u_plat
-- rebase to next-20200720
-- add "---"
-
-Change since v1:
-- remove the phandle usage, search for infracfg instead [3]
-- use infracfg instead of infracfg_regmap
-- move infracfg definitaions to linux/soc/mediatek/infracfg.h
-- update enable_4GB only when has_4gb_mode
----
- drivers/iommu/mtk_iommu.c             | 34 +++++++++++++++++++++++----
- include/linux/soc/mediatek/infracfg.h |  3 +++
- 2 files changed, 32 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 59e5a62a34db..9ec666168822 100644
---- a/drivers/iommu/mtk_iommu.c
-+++ b/drivers/iommu/mtk_iommu.c
-@@ -3,7 +3,6 @@
-  * Copyright (c) 2015-2016 MediaTek Inc.
-  * Author: Yong Wu <yong.wu@mediatek.com>
-  */
--#include <linux/memblock.h>
- #include <linux/bug.h>
- #include <linux/clk.h>
- #include <linux/component.h>
-@@ -15,13 +14,16 @@
- #include <linux/iommu.h>
- #include <linux/iopoll.h>
- #include <linux/list.h>
-+#include <linux/mfd/syscon.h>
- #include <linux/of_address.h>
- #include <linux/of_iommu.h>
- #include <linux/of_irq.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
-+#include <linux/regmap.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
-+#include <linux/soc/mediatek/infracfg.h>
- #include <asm/barrier.h>
- #include <soc/mediatek/smi.h>
- 
-@@ -640,8 +642,11 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 	struct resource         *res;
- 	resource_size_t		ioaddr;
- 	struct component_match  *match = NULL;
-+	struct regmap		*infracfg;
- 	void                    *protect;
- 	int                     i, larb_nr, ret;
-+	u32			val;
-+	char                    *p;
- 
- 	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
- 	if (!data)
-@@ -655,10 +660,29 @@ static int mtk_iommu_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	data->protect_base = ALIGN(virt_to_phys(protect), MTK_PROTECT_PA_ALIGN);
- 
--	/* Whether the current dram is over 4GB */
--	data->enable_4GB = !!(max_pfn > (BIT_ULL(32) >> PAGE_SHIFT));
--	if (!MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_4GB_MODE))
--		data->enable_4GB = false;
-+	data->enable_4GB = false;
-+	if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_4GB_MODE)) {
-+		switch (data->plat_data->m4u_plat) {
-+		case M4U_MT2712:
-+			p = "mediatek,mt2712-infracfg";
-+			break;
-+		case M4U_MT8173:
-+			p = "mediatek,mt8173-infracfg";
-+			break;
-+		default:
-+			p = NULL;
-+		}
-+
-+		infracfg = syscon_regmap_lookup_by_compatible(p);
-+
-+		if (IS_ERR(infracfg))
-+			return PTR_ERR(infracfg);
-+
-+		ret = regmap_read(infracfg, REG_INFRA_MISC, &val);
-+		if (ret)
-+			return ret;
-+		data->enable_4GB = !!(val & F_DDR_4GB_SUPPORT_EN);
-+	}
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	data->base = devm_ioremap_resource(dev, res);
-diff --git a/include/linux/soc/mediatek/infracfg.h b/include/linux/soc/mediatek/infracfg.h
-index fd25f0148566..233463d789c6 100644
---- a/include/linux/soc/mediatek/infracfg.h
-+++ b/include/linux/soc/mediatek/infracfg.h
-@@ -32,6 +32,9 @@
- #define MT7622_TOP_AXI_PROT_EN_WB		(BIT(2) | BIT(6) | \
- 						 BIT(7) | BIT(8))
- 
-+#define REG_INFRA_MISC				0xf00
-+#define F_DDR_4GB_SUPPORT_EN			BIT(13)
-+
- int mtk_infracfg_set_bus_protection(struct regmap *infracfg, u32 mask,
- 		bool reg_update);
- int mtk_infracfg_clear_bus_protection(struct regmap *infracfg, u32 mask,
--- 
-2.18.0
+>
+>
+> Regards,
+> Nicolas
+>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
