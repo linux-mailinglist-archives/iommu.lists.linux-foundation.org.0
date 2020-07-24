@@ -1,59 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430B222BBC1
-	for <lists.iommu@lfdr.de>; Fri, 24 Jul 2020 03:54:44 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E1E22BBC3
+	for <lists.iommu@lfdr.de>; Fri, 24 Jul 2020 03:54:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EC10E88606;
-	Fri, 24 Jul 2020 01:54:42 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id CE51B882CB;
+	Fri, 24 Jul 2020 01:54:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 582WSR20T2bA; Fri, 24 Jul 2020 01:54:42 +0000 (UTC)
+	with ESMTP id MBHSxX9q6s8j; Fri, 24 Jul 2020 01:54:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 43ED9885CB;
-	Fri, 24 Jul 2020 01:54:42 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 694E287E76;
+	Fri, 24 Jul 2020 01:54:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3021DC004C;
-	Fri, 24 Jul 2020 01:54:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 55A64C004C;
+	Fri, 24 Jul 2020 01:54:44 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 98BEBC004C
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jul 2020 01:54:39 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 23003C004C
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jul 2020 01:54:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 87AA687E76
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jul 2020 01:54:39 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1308387E76
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jul 2020 01:54:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ey7-fFWmB6td for <iommu@lists.linux-foundation.org>;
- Fri, 24 Jul 2020 01:54:38 +0000 (UTC)
+ with ESMTP id mH1CO-Y8Z7+o for <iommu@lists.linux-foundation.org>;
+ Fri, 24 Jul 2020 01:54:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B4F8288227
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jul 2020 01:54:38 +0000 (UTC)
-IronPort-SDR: C/qCs7F9tIMBsv8fPHm+kXZWQypHc6i5kklwZjUsVigb9rla6MSw64/Mi7ZgaCNzeworXiOplh
- ik+ltl+5SClA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="168778784"
-X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; d="scan'208";a="168778784"
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 5BB7488222
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jul 2020 01:54:40 +0000 (UTC)
+IronPort-SDR: cW+OrerGYpoNId/ezJuqbOo1JnDyYiPTo0Ot7wzaf4cRi/SMa8UDeyCATcRFOTo6wdl/OC2IJl
+ bqMmUTZal/vw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="168778786"
+X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; d="scan'208";a="168778786"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2020 18:54:38 -0700
-IronPort-SDR: K5pii7V/yxjaWFj/DsuM0l6qAP9jortaWYeRVg5oSP/Lickni3UWXqCpRzkHTFrAKqq2lO/Cte
- T+wx+LnUWEaQ==
+ 23 Jul 2020 18:54:40 -0700
+IronPort-SDR: 4urPSF6nT8ElU7xS45lzGp+PyQRso8trVBriHQBgaGMe2VaFKqBe2Ulmi1x1KVOfPN+PcZvO0r
+ XCQaowkeUBGA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; d="scan'208";a="488576762"
+X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; d="scan'208";a="488576780"
 Received: from allen-box.sh.intel.com ([10.239.159.139])
- by fmsmga006.fm.intel.com with ESMTP; 23 Jul 2020 18:54:37 -0700
+ by fmsmga006.fm.intel.com with ESMTP; 23 Jul 2020 18:54:38 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 08/12] iommu/vt-d: Refactor device_to_iommu() helper
-Date: Fri, 24 Jul 2020 09:49:21 +0800
-Message-Id: <20200724014925.15523-9-baolu.lu@linux.intel.com>
+Subject: [PATCH 09/12] iommu/vt-d: Add a helper to get svm and sdev for pasid
+Date: Fri, 24 Jul 2020 09:49:22 +0800
+Message-Id: <20200724014925.15523-10-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200724014925.15523-1-baolu.lu@linux.intel.com>
 References: <20200724014925.15523-1-baolu.lu@linux.intel.com>
@@ -76,217 +76,206 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-It is refactored in two ways:
-
-- Make it global so that it could be used in other files.
-
-- Make bus/devfn optional so that callers could ignore these two returned
-values when they only want to get the coresponding iommu pointer.
+There are several places in the code that need to get the pointers of
+svm and sdev according to a pasid and device. Add a helper to achieve
+this for code consolidation and readability.
 
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 Reviewed-by: Kevin Tian <kevin.tian@intel.com>
 ---
- drivers/iommu/intel/iommu.c | 55 +++++++++++--------------------------
- drivers/iommu/intel/svm.c   |  8 +++---
- include/linux/intel-iommu.h |  3 +-
- 3 files changed, 21 insertions(+), 45 deletions(-)
+ drivers/iommu/intel/svm.c | 115 +++++++++++++++++++++-----------------
+ 1 file changed, 65 insertions(+), 50 deletions(-)
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 592869ce2a0f..097a71b3b75d 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -779,16 +779,16 @@ is_downstream_to_pci_bridge(struct device *dev, struct device *bridge)
- 	return false;
- }
- 
--static struct intel_iommu *device_to_iommu(struct device *dev, u8 *bus, u8 *devfn)
-+struct intel_iommu *device_to_iommu(struct device *dev, u8 *bus, u8 *devfn)
- {
- 	struct dmar_drhd_unit *drhd = NULL;
-+	struct pci_dev *pdev = NULL;
- 	struct intel_iommu *iommu;
- 	struct device *tmp;
--	struct pci_dev *pdev = NULL;
- 	u16 segment = 0;
- 	int i;
- 
--	if (iommu_dummy(dev))
-+	if (!dev || iommu_dummy(dev))
- 		return NULL;
- 
- 	if (dev_is_pci(dev)) {
-@@ -819,8 +819,10 @@ static struct intel_iommu *device_to_iommu(struct device *dev, u8 *bus, u8 *devf
- 				if (pdev && pdev->is_virtfn)
- 					goto got_pdev;
- 
--				*bus = drhd->devices[i].bus;
--				*devfn = drhd->devices[i].devfn;
-+				if (bus && devfn) {
-+					*bus = drhd->devices[i].bus;
-+					*devfn = drhd->devices[i].devfn;
-+				}
- 				goto out;
- 			}
- 
-@@ -830,8 +832,10 @@ static struct intel_iommu *device_to_iommu(struct device *dev, u8 *bus, u8 *devf
- 
- 		if (pdev && drhd->include_all) {
- 		got_pdev:
--			*bus = pdev->bus->number;
--			*devfn = pdev->devfn;
-+			if (bus && devfn) {
-+				*bus = pdev->bus->number;
-+				*devfn = pdev->devfn;
-+			}
- 			goto out;
- 		}
- 	}
-@@ -5152,11 +5156,10 @@ static int aux_domain_add_dev(struct dmar_domain *domain,
- 			      struct device *dev)
- {
- 	int ret;
--	u8 bus, devfn;
- 	unsigned long flags;
- 	struct intel_iommu *iommu;
- 
--	iommu = device_to_iommu(dev, &bus, &devfn);
-+	iommu = device_to_iommu(dev, NULL, NULL);
- 	if (!iommu)
- 		return -ENODEV;
- 
-@@ -5242,9 +5245,8 @@ static int prepare_domain_attach_device(struct iommu_domain *domain,
- 	struct dmar_domain *dmar_domain = to_dmar_domain(domain);
- 	struct intel_iommu *iommu;
- 	int addr_width;
--	u8 bus, devfn;
- 
--	iommu = device_to_iommu(dev, &bus, &devfn);
-+	iommu = device_to_iommu(dev, NULL, NULL);
- 	if (!iommu)
- 		return -ENODEV;
- 
-@@ -5674,9 +5676,8 @@ static bool intel_iommu_capable(enum iommu_cap cap)
- static struct iommu_device *intel_iommu_probe_device(struct device *dev)
- {
- 	struct intel_iommu *iommu;
--	u8 bus, devfn;
- 
--	iommu = device_to_iommu(dev, &bus, &devfn);
-+	iommu = device_to_iommu(dev, NULL, NULL);
- 	if (!iommu)
- 		return ERR_PTR(-ENODEV);
- 
-@@ -5689,9 +5690,8 @@ static struct iommu_device *intel_iommu_probe_device(struct device *dev)
- static void intel_iommu_release_device(struct device *dev)
- {
- 	struct intel_iommu *iommu;
--	u8 bus, devfn;
- 
--	iommu = device_to_iommu(dev, &bus, &devfn);
-+	iommu = device_to_iommu(dev, NULL, NULL);
- 	if (!iommu)
- 		return;
- 
-@@ -5841,37 +5841,14 @@ static struct iommu_group *intel_iommu_device_group(struct device *dev)
- 	return generic_device_group(dev);
- }
- 
--#ifdef CONFIG_INTEL_IOMMU_SVM
--struct intel_iommu *intel_svm_device_to_iommu(struct device *dev)
--{
--	struct intel_iommu *iommu;
--	u8 bus, devfn;
--
--	if (iommu_dummy(dev)) {
--		dev_warn(dev,
--			 "No IOMMU translation for device; cannot enable SVM\n");
--		return NULL;
--	}
--
--	iommu = device_to_iommu(dev, &bus, &devfn);
--	if ((!iommu)) {
--		dev_err(dev, "No IOMMU for device; cannot enable SVM\n");
--		return NULL;
--	}
--
--	return iommu;
--}
--#endif /* CONFIG_INTEL_IOMMU_SVM */
--
- static int intel_iommu_enable_auxd(struct device *dev)
- {
- 	struct device_domain_info *info;
- 	struct intel_iommu *iommu;
- 	unsigned long flags;
--	u8 bus, devfn;
- 	int ret;
- 
--	iommu = device_to_iommu(dev, &bus, &devfn);
-+	iommu = device_to_iommu(dev, NULL, NULL);
- 	if (!iommu || dmar_disabled)
- 		return -EINVAL;
- 
 diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index d386853121a2..65d2327dcd0d 100644
+index 65d2327dcd0d..c104a50a625c 100644
 --- a/drivers/iommu/intel/svm.c
 +++ b/drivers/iommu/intel/svm.c
-@@ -231,7 +231,7 @@ static LIST_HEAD(global_svm_list);
+@@ -228,13 +228,57 @@ static LIST_HEAD(global_svm_list);
+ 	list_for_each_entry((sdev), &(svm)->devs, list)	\
+ 		if ((d) != (sdev)->dev) {} else
+ 
++static int pasid_to_svm_sdev(struct device *dev, unsigned int pasid,
++			     struct intel_svm **rsvm,
++			     struct intel_svm_dev **rsdev)
++{
++	struct intel_svm_dev *d, *sdev = NULL;
++	struct intel_svm *svm;
++
++	/* The caller should hold the pasid_mutex lock */
++	if (WARN_ON(!mutex_is_locked(&pasid_mutex)))
++		return -EINVAL;
++
++	if (pasid == INVALID_IOASID || pasid >= PASID_MAX)
++		return -EINVAL;
++
++	svm = ioasid_find(NULL, pasid, NULL);
++	if (IS_ERR(svm))
++		return PTR_ERR(svm);
++
++	if (!svm)
++		goto out;
++
++	/*
++	 * If we found svm for the PASID, there must be at least one device
++	 * bond.
++	 */
++	if (WARN_ON(list_empty(&svm->devs)))
++		return -EINVAL;
++
++	rcu_read_lock();
++	list_for_each_entry_rcu(d, &svm->devs, list) {
++		if (d->dev == dev) {
++			sdev = d;
++			break;
++		}
++	}
++	rcu_read_unlock();
++
++out:
++	*rsvm = svm;
++	*rsdev = sdev;
++
++	return 0;
++}
++
  int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
  			  struct iommu_gpasid_bind_data *data)
  {
--	struct intel_iommu *iommu = intel_svm_device_to_iommu(dev);
-+	struct intel_iommu *iommu = device_to_iommu(dev, NULL, NULL);
+ 	struct intel_iommu *iommu = device_to_iommu(dev, NULL, NULL);
++	struct intel_svm_dev *sdev = NULL;
  	struct dmar_domain *dmar_domain;
- 	struct intel_svm_dev *sdev;
- 	struct intel_svm *svm;
-@@ -369,7 +369,7 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+-	struct intel_svm_dev *sdev;
+-	struct intel_svm *svm;
++	struct intel_svm *svm = NULL;
+ 	int ret = 0;
  
- int intel_svm_unbind_gpasid(struct device *dev, int pasid)
- {
--	struct intel_iommu *iommu = intel_svm_device_to_iommu(dev);
-+	struct intel_iommu *iommu = device_to_iommu(dev, NULL, NULL);
- 	struct intel_svm_dev *sdev;
- 	struct intel_svm *svm;
- 	int ret = -EINVAL;
-@@ -426,7 +426,7 @@ static int
- intel_svm_bind_mm(struct device *dev, int flags, struct svm_dev_ops *ops,
- 		  struct mm_struct *mm, struct intel_svm_dev **sd)
- {
--	struct intel_iommu *iommu = intel_svm_device_to_iommu(dev);
-+	struct intel_iommu *iommu = device_to_iommu(dev, NULL, NULL);
- 	struct device_domain_info *info;
- 	struct intel_svm_dev *sdev;
- 	struct intel_svm *svm = NULL;
-@@ -604,7 +604,7 @@ static int intel_svm_unbind_mm(struct device *dev, int pasid)
- 	struct intel_svm *svm;
- 	int ret = -EINVAL;
+ 	if (WARN_ON(!iommu) || !data)
+@@ -261,35 +305,23 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+ 	dmar_domain = to_dmar_domain(domain);
  
--	iommu = intel_svm_device_to_iommu(dev);
-+	iommu = device_to_iommu(dev, NULL, NULL);
+ 	mutex_lock(&pasid_mutex);
+-	svm = ioasid_find(NULL, data->hpasid, NULL);
+-	if (IS_ERR(svm)) {
+-		ret = PTR_ERR(svm);
++	ret = pasid_to_svm_sdev(dev, data->hpasid, &svm, &sdev);
++	if (ret)
+ 		goto out;
+-	}
+-
+-	if (svm) {
+-		/*
+-		 * If we found svm for the PASID, there must be at
+-		 * least one device bond, otherwise svm should be freed.
+-		 */
+-		if (WARN_ON(list_empty(&svm->devs))) {
+-			ret = -EINVAL;
+-			goto out;
+-		}
+ 
++	if (sdev) {
+ 		/*
+ 		 * Do not allow multiple bindings of the same device-PASID since
+ 		 * there is only one SL page tables per PASID. We may revisit
+ 		 * once sharing PGD across domains are supported.
+ 		 */
+-		for_each_svm_dev(sdev, svm, dev) {
+-			dev_warn_ratelimited(dev,
+-					     "Already bound with PASID %u\n",
+-					     svm->pasid);
+-			ret = -EBUSY;
+-			goto out;
+-		}
+-	} else {
++		dev_warn_ratelimited(dev, "Already bound with PASID %u\n",
++				     svm->pasid);
++		ret = -EBUSY;
++		goto out;
++	}
++
++	if (!svm) {
+ 		/* We come here when PASID has never been bond to a device. */
+ 		svm = kzalloc(sizeof(*svm), GFP_KERNEL);
+ 		if (!svm) {
+@@ -372,25 +404,17 @@ int intel_svm_unbind_gpasid(struct device *dev, int pasid)
+ 	struct intel_iommu *iommu = device_to_iommu(dev, NULL, NULL);
+ 	struct intel_svm_dev *sdev;
+ 	struct intel_svm *svm;
+-	int ret = -EINVAL;
++	int ret;
+ 
+ 	if (WARN_ON(!iommu))
+ 		return -EINVAL;
+ 
+ 	mutex_lock(&pasid_mutex);
+-	svm = ioasid_find(NULL, pasid, NULL);
+-	if (!svm) {
+-		ret = -EINVAL;
+-		goto out;
+-	}
+-
+-	if (IS_ERR(svm)) {
+-		ret = PTR_ERR(svm);
++	ret = pasid_to_svm_sdev(dev, pasid, &svm, &sdev);
++	if (ret)
+ 		goto out;
+-	}
+ 
+-	for_each_svm_dev(sdev, svm, dev) {
+-		ret = 0;
++	if (sdev) {
+ 		if (iommu_dev_feature_enabled(dev, IOMMU_DEV_FEAT_AUX))
+ 			sdev->users--;
+ 		if (!sdev->users) {
+@@ -414,7 +438,6 @@ int intel_svm_unbind_gpasid(struct device *dev, int pasid)
+ 				kfree(svm);
+ 			}
+ 		}
+-		break;
+ 	}
+ out:
+ 	mutex_unlock(&pasid_mutex);
+@@ -592,7 +615,7 @@ intel_svm_bind_mm(struct device *dev, int flags, struct svm_dev_ops *ops,
+ 	if (sd)
+ 		*sd = sdev;
+ 	ret = 0;
+- out:
++out:
+ 	return ret;
+ }
+ 
+@@ -608,17 +631,11 @@ static int intel_svm_unbind_mm(struct device *dev, int pasid)
  	if (!iommu)
  		goto out;
  
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index 383847b859a1..7e69aec60592 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -729,6 +729,7 @@ void iommu_flush_write_buffer(struct intel_iommu *iommu);
- int intel_iommu_enable_pasid(struct intel_iommu *iommu, struct device *dev);
- struct dmar_domain *find_domain(struct device *dev);
- struct device_domain_info *get_domain_info(struct device *dev);
-+struct intel_iommu *device_to_iommu(struct device *dev, u8 *bus, u8 *devfn);
- 
- #ifdef CONFIG_INTEL_IOMMU_SVM
- extern void intel_svm_check(struct intel_iommu *iommu);
-@@ -767,8 +768,6 @@ struct intel_svm {
- 	struct list_head devs;
- 	struct list_head list;
- };
+-	svm = ioasid_find(NULL, pasid, NULL);
+-	if (!svm)
+-		goto out;
 -
--extern struct intel_iommu *intel_svm_device_to_iommu(struct device *dev);
- #else
- static inline void intel_svm_check(struct intel_iommu *iommu) {}
- #endif
+-	if (IS_ERR(svm)) {
+-		ret = PTR_ERR(svm);
++	ret = pasid_to_svm_sdev(dev, pasid, &svm, &sdev);
++	if (ret)
+ 		goto out;
+-	}
+ 
+-	for_each_svm_dev(sdev, svm, dev) {
+-		ret = 0;
++	if (sdev) {
+ 		sdev->users--;
+ 		if (!sdev->users) {
+ 			list_del_rcu(&sdev->list);
+@@ -647,10 +664,8 @@ static int intel_svm_unbind_mm(struct device *dev, int pasid)
+ 				kfree(svm);
+ 			}
+ 		}
+-		break;
+ 	}
+- out:
+-
++out:
+ 	return ret;
+ }
+ 
 -- 
 2.17.1
 
