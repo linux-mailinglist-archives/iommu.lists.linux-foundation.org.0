@@ -1,63 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AEF022BBC5
-	for <lists.iommu@lfdr.de>; Fri, 24 Jul 2020 03:54:49 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4B99B88579;
-	Fri, 24 Jul 2020 01:54:48 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Eqo-jBVoCzIH; Fri, 24 Jul 2020 01:54:47 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C9EBB885D9;
-	Fri, 24 Jul 2020 01:54:47 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C47B5C004C;
-	Fri, 24 Jul 2020 01:54:47 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 62DEAC004C
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jul 2020 01:54:46 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624BD22BBEB
+	for <lists.iommu@lfdr.de>; Fri, 24 Jul 2020 04:13:34 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 52D0F881BB
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jul 2020 01:54:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id E65FA87722;
+	Fri, 24 Jul 2020 02:13:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id vsuD9k-siZQ2; Fri, 24 Jul 2020 02:13:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2438C8815F;
+	Fri, 24 Jul 2020 02:13:32 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1654CC004C;
+	Fri, 24 Jul 2020 02:13:32 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4065CC004C
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jul 2020 02:13:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 366B5883A8
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jul 2020 02:13:30 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6Say64m+J+yd for <iommu@lists.linux-foundation.org>;
- Fri, 24 Jul 2020 01:54:45 +0000 (UTC)
+ with ESMTP id iIvWaPI1TknC for <iommu@lists.linux-foundation.org>;
+ Fri, 24 Jul 2020 02:13:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 260F587F40
- for <iommu@lists.linux-foundation.org>; Fri, 24 Jul 2020 01:54:45 +0000 (UTC)
-IronPort-SDR: eOsSyryxFAOuxNRQpJgFQ5HxKvce4FFmBmBZSPdNfThOR1oB2DeDhtVE4Np2TDJgUvcv3cWxhL
- DfmeCKfF25sA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="168778806"
-X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; d="scan'208";a="168778806"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jul 2020 18:54:45 -0700
-IronPort-SDR: 0b55RnZFjcgbHPHS1PUHYVpFeDJMCZqYrqo/kTzF3tX/lNvl69kXHrgeCE+5rTus2ERMyXVNoL
- qGw9oMMF3toA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; d="scan'208";a="488576812"
-Received: from allen-box.sh.intel.com ([10.239.159.139])
- by fmsmga006.fm.intel.com with ESMTP; 23 Jul 2020 18:54:43 -0700
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 12/12] iommu/vt-d: Rename intel-pasid.h to pasid.h
-Date: Fri, 24 Jul 2020 09:49:25 +0800
-Message-Id: <20200724014925.15523-13-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200724014925.15523-1-baolu.lu@linux.intel.com>
-References: <20200724014925.15523-1-baolu.lu@linux.intel.com>
-Cc: iommu@lists.linux-foundation.org
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id ADE33882E0
+ for <iommu@lists.linux-foundation.org>; Fri, 24 Jul 2020 02:13:29 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id s26so4211005pfm.4
+ for <iommu@lists.linux-foundation.org>; Thu, 23 Jul 2020 19:13:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=0ezvLmjG/q+RN9ebJWxPsibO7j9/WR9vnJdI3K9oadE=;
+ b=NSWVYNKJrWJKr2yxjaxueLtwySQ2EaaRUNUnt+tSStycg2DVdHneqQEmH7QhsXJsqT
+ fA/ihqpy3pL9ODXCnAG9RJaQTe1qvSTMrzlhgyPiXSE6QCIMN9rYUnfox0JcPfdErGZl
+ gbg9y8tzBBBXmMU76dvS3OcSjaaeVBtG0cEGdCmQ/FsjDLx8iGqR58iVaTjpQlNvaown
+ tqxVtcKjGbfUvEM5CFKc7VCWyKWH2dMDv3/j6ZBtXGCIN+0fv25tY6o3h/Qll840rMxS
+ UE2b5jy0eGEji5Iz40up+lGUqJTETq7fJMnAylLNkPkSV6bhcBxUQHjSLjW8x0DpPz6a
+ RYSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=0ezvLmjG/q+RN9ebJWxPsibO7j9/WR9vnJdI3K9oadE=;
+ b=Fje+SnJaFlI/FMKIsIAT3SdvbQCWslDOCpGVdcyV6nvnR0HAh3XV0v31VAPxunq2QG
+ 8ch0/jxThc9EkmfM1GEx7Nk8TlFmF8Rvuq+IEE9AmaO6GWe76zjFskPuRmYq/GFGSo/B
+ xxBskkAmrUwcSoybhMaCLPl/FefKavwl9+oPyuGUd/EgCmXzPNJz76BF44cc2fOgrAua
+ wsMTUd40+YD7pk1Frw77w+CTTZtU1gVCKRWhmPVshI/m5kRO9dl1G7ErUPQh6aKeIKA7
+ YszhpaHA5m4wk8mriHA39Wr+Ipftc4Ea/UEoP+AnlH3qE04Q/jK8tKbUSDWc75AnREou
+ 0+Kw==
+X-Gm-Message-State: AOAM5302WDkBMyGwQxA2CQZVGZ2p2elzXKW0Cq6fUUwd3JoKSbgI7r1m
+ W7ebWl1eDqaLzCkJNCFSY27sOXaDvWnKfA==
+X-Google-Smtp-Source: ABdhPJye+C0NXMFLBsqdFyUgu7PNP9+YDj8e6Eg/1bzhyT0DRd4zxD8aK7Tye8PUtKHxK7R/OSa2aA==
+X-Received: by 2002:a65:4b85:: with SMTP id t5mr6715879pgq.36.1595556809199;
+ Thu, 23 Jul 2020 19:13:29 -0700 (PDT)
+Received: from Asurada-Nvidia (searspoint.nvidia.com. [216.228.112.21])
+ by smtp.gmail.com with ESMTPSA id k26sm4341096pgt.90.2020.07.23.19.13.28
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 23 Jul 2020 19:13:28 -0700 (PDT)
+Date: Thu, 23 Jul 2020 19:12:53 -0700
+From: Nicolin Chen <nicoleotsuka@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v2] dma-contiguous: cleanup dma_alloc_contiguous
+Message-ID: <20200724021246.GA10498@Asurada-Nvidia>
+References: <20200723120133.94105-1-hch@lst.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200723120133.94105-1-hch@lst.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: iommu@lists.linux-foundation.org, robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -70,95 +90,31 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-As Intel VT-d files have been moved to its own subdirectory, the prefix
-makes no sense. No functional changes.
+Hi Christoph,
 
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
----
- drivers/iommu/intel/debugfs.c                  | 2 +-
- drivers/iommu/intel/iommu.c                    | 2 +-
- drivers/iommu/intel/pasid.c                    | 2 +-
- drivers/iommu/intel/{intel-pasid.h => pasid.h} | 2 +-
- drivers/iommu/intel/svm.c                      | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
- rename drivers/iommu/intel/{intel-pasid.h => pasid.h} (98%)
+On Thu, Jul 23, 2020 at 02:01:33PM +0200, Christoph Hellwig wrote:
+> Split out a cma_alloc_aligned helper to deal with the "interesting"
+> calling conventions for cma_alloc, which then allows to the main
+> function to be written straight forward.  This also takes advantage
+> of the fact that NULL dev arguments have been gone from the DMA API
+> for a while.
 
-diff --git a/drivers/iommu/intel/debugfs.c b/drivers/iommu/intel/debugfs.c
-index cf1ebb98e418..efea7f02abd9 100644
---- a/drivers/iommu/intel/debugfs.c
-+++ b/drivers/iommu/intel/debugfs.c
-@@ -15,7 +15,7 @@
- 
- #include <asm/irq_remapping.h>
- 
--#include "intel-pasid.h"
-+#include "pasid.h"
- 
- struct tbl_walk {
- 	u16 bus;
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index a939d17d40a1..ca557d351518 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -48,7 +48,7 @@
- #include <trace/events/intel_iommu.h>
- 
- #include "../irq_remapping.h"
--#include "intel-pasid.h"
-+#include "pasid.h"
- 
- #define ROOT_SIZE		VTD_PAGE_SIZE
- #define CONTEXT_SIZE		VTD_PAGE_SIZE
-diff --git a/drivers/iommu/intel/pasid.c b/drivers/iommu/intel/pasid.c
-index fa0154cce537..e6faedf42fd4 100644
---- a/drivers/iommu/intel/pasid.c
-+++ b/drivers/iommu/intel/pasid.c
-@@ -19,7 +19,7 @@
- #include <linux/pci-ats.h>
- #include <linux/spinlock.h>
- 
--#include "intel-pasid.h"
-+#include "pasid.h"
- 
- /*
-  * Intel IOMMU system wide PASID name space:
-diff --git a/drivers/iommu/intel/intel-pasid.h b/drivers/iommu/intel/pasid.h
-similarity index 98%
-rename from drivers/iommu/intel/intel-pasid.h
-rename to drivers/iommu/intel/pasid.h
-index c5318d40e0fa..c9850766c3a9 100644
---- a/drivers/iommu/intel/intel-pasid.h
-+++ b/drivers/iommu/intel/pasid.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * intel-pasid.h - PASID idr, table and entry header
-+ * pasid.h - PASID idr, table and entry header
-  *
-  * Copyright (C) 2018 Intel Corporation
-  *
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 85ce8daa3177..442623ac4b47 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -20,7 +20,7 @@
- #include <linux/ioasid.h>
- #include <asm/page.h>
- 
--#include "intel-pasid.h"
-+#include "pasid.h"
- 
- static irqreturn_t prq_event_thread(int irq, void *d);
- static void intel_svm_drain_prq(struct device *dev, int pasid);
--- 
-2.17.1
+I am still seeing some potential NULL dev callers:
+drivers/staging/emxx_udc/emxx_udc.c:2596:			ep->virt_buf = dma_alloc_coherent(NULL, PAGE_SIZE,
+drivers/tty/synclink.c:3667:		info->buffer_list = dma_alloc_coherent(NULL, BUFFERLISTSIZE, &info->buffer_list_dma_addr, GFP_KERNEL);
+drivers/tty/synclink.c:3777:			BufferList[i].virt_addr = dma_alloc_coherent(NULL, DMABUFFERSIZE, &BufferList[i].dma_addr, GFP_KERNEL);
 
+Personally I don't feel that it hurts to check the dev pointer
+as we do now, but if you are confident with this version:
+
+Reviewed-by: Nicolin Chen <nicoleotsuka@gmail.com>
+
+Thanks
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
