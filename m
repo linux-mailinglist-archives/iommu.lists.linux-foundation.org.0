@@ -1,72 +1,102 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05BE230317
-	for <lists.iommu@lfdr.de>; Tue, 28 Jul 2020 08:38:01 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A7A2304FF
+	for <lists.iommu@lfdr.de>; Tue, 28 Jul 2020 10:10:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 0D8F720461;
-	Tue, 28 Jul 2020 06:38:00 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8A6F8883A3;
+	Tue, 28 Jul 2020 08:10:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id azz3m+i8GBrN; Tue, 28 Jul 2020 06:37:59 +0000 (UTC)
+	with ESMTP id xdSQeLOwIz7R; Tue, 28 Jul 2020 08:10:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 5CEC020454;
-	Tue, 28 Jul 2020 06:37:59 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 78E6288378;
+	Tue, 28 Jul 2020 08:10:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3ED70C004D;
-	Tue, 28 Jul 2020 06:37:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FFE7C0864;
+	Tue, 28 Jul 2020 08:10:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4025FC004D
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 06:37:57 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 72E7FC004D
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 08:09:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 2C3F68654E
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 06:37:57 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6AE328839E
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 08:09:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E7aW4s6CK2Po for <iommu@lists.linux-foundation.org>;
- Tue, 28 Jul 2020 06:37:56 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id CF87986591
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 06:37:55 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id EF4D868B05; Tue, 28 Jul 2020 08:37:49 +0200 (CEST)
-Date: Tue, 28 Jul 2020 08:37:49 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH 02/15] dma-contiguous: simplify cma_early_percent_memory()
-Message-ID: <20200728063749.GA21221@lst.de>
-References: <20200728051153.1590-1-rppt@kernel.org>
- <20200728051153.1590-3-rppt@kernel.org>
+ with ESMTP id nc9alFTKmLHf for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Jul 2020 08:09:57 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+ [209.85.216.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 4D9D788388
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 08:09:57 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id f9so4927956pju.4
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 01:09:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mO4UW6jhce2IwLYWJIjyNoNVa+Gr5PBQ2rV1LkhhIeA=;
+ b=bNG6JL/O5TVQki3sHfHEOfTczEIMUXR0OLqZGWSVnVXN0YvSLXQj4R1CZin1hIrLmj
+ rDRSSHKktD8YAK18dQ3Ix7Lo07yJ8erIxBxxxxqVLyUXKDeyjbkBvyU6KTuEXDNL+VQr
+ 1QQzuFpqB0CYmf+5pX3A4eJDz9R/FeezQPycBuGnXY4EFLSYZVijwWE1t6E2M5B99qAH
+ FniHRX5RxN1gZw65OKCdqnG/UzIrS3ICQ278hYR6IoGyzyd6ykow+PajTtCN7ldzFD83
+ Hcz6o03i9dPHjv0yz+B7ucVCSupfsp/DKM7XkQQq14g4beE60uqTFBLLU79wWmkWweg4
+ xE4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mO4UW6jhce2IwLYWJIjyNoNVa+Gr5PBQ2rV1LkhhIeA=;
+ b=J4JvqFG6BFPAjH8YOBV1fAvPNO/jfIYEc0bpaBm9YsE8mWZe6xH3prpNNqVr7O5Fc0
+ +TeHccZER+uENYg6FmN40pzKgxw7qEzVEKlbiAQeRcq6VzfaUk7PZEMvYJ4RSoiYCVbc
+ R6qGyLJVdcy76Ac/0a/s7KF2VgrVzsXBOiQM/Tf7pg1R9t9OrMS4Q/2ueOztMXUAtOxS
+ huXulk6EkBoudWO7IJLUgzUdLXeSxbjlCQzppA+0RYcLGFehw1oO7OGNZgbWwLBj3L6p
+ GpW5g8d7KqN96ZZTdSFYtInSQHk0uxlziu8z2nvLaolWvS51Rg7wvl72ffc5n6WwX0A8
+ 07ig==
+X-Gm-Message-State: AOAM530e1DjpetIcHyfAZaRt5/qqtQA322fveA+JlsKOAo0gCfKrlSd6
+ BI7vK2C3pUepWdJOFFLJY8zFVhAIrGapPCJgWXs=
+X-Google-Smtp-Source: ABdhPJwl2tr9ClL3asn7D0daWCLxpbWcicGBHl3RglmUadciWpYNtKvtb4F0xzOXS215QqSA9z2se3QNEhc8iGYlMEA=
+X-Received: by 2002:a17:90a:8918:: with SMTP id
+ u24mr3082134pjn.7.1595923796912; 
+ Tue, 28 Jul 2020 01:09:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200728051153.1590-3-rppt@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+References: <20200728051153.1590-1-rppt@kernel.org>
+ <20200728051153.1590-4-rppt@kernel.org>
+In-Reply-To: <20200728051153.1590-4-rppt@kernel.org>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Tue, 28 Jul 2020 01:09:45 -0700
+Message-ID: <CAMo8Bf+VKHmAm1GV=0D9Um2mpsxjnwp9WrAJq_eKW1MK+_8r6g@mail.gmail.com>
+Subject: Re: [PATCH 03/15] arm,
+ xtensa: simplify initialization of high memory pages
+To: Mike Rapoport <rppt@kernel.org>
+Cc: "open list:SUPERH" <linux-sh@vger.kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
  Dave Hansen <dave.hansen@linux.intel.com>, linux-mips@vger.kernel.org,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
- Will Deacon <will@kernel.org>, Stafford Horne <shorne@gmail.com>,
- linux-s390@vger.kernel.org, linux-c6x-dev@linux-c6x.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Paul Mackerras <paulus@samba.org>,
+ "open list:SPARC + UltraSPAR..." <sparclinux@vger.kernel.org>,
+ linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
+ Stafford Horne <shorne@gmail.com>, linux-s390 <linux-s390@vger.kernel.org>,
+ linux-c6x-dev@linux-c6x.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ "maintainer:X86 ARCHITECTURE..." <x86@kernel.org>,
  Russell King <linux@armlinux.org.uk>, Mike Rapoport <rppt@linux.ibm.com>,
  clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
  Catalin Marinas <catalin.marinas@arm.com>,
- uclinux-h8-devel@lists.sourceforge.jp, linux-xtensa@linux-xtensa.org,
+ "moderated list:H8/300 ARCHITECTURE" <uclinux-h8-devel@lists.sourceforge.jp>,
+ "open list:TENSILICA XTENSA PORT \(xtensa\)" <linux-xtensa@linux-xtensa.org>,
  openrisc@lists.librecores.org, Borislav Petkov <bp@alien8.de>,
  Andy Lutomirski <luto@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
  Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Michal Simek <monstr@monstr.eu>, linux-mm@kvack.org,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Palmer Dabbelt <palmer@dabbelt.com>,
- Andrew Morton <akpm@linux-foundation.org>, Christoph Hellwig <hch@lst.de>
+ Michal Simek <monstr@monstr.eu>, linuxppc-dev@lists.ozlabs.org,
+ LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,24 +114,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Jul 28, 2020 at 08:11:40AM +0300, Mike Rapoport wrote:
+On Mon, Jul 27, 2020 at 10:12 PM Mike Rapoport <rppt@kernel.org> wrote:
+>
 > From: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> The memory size calculation in cma_early_percent_memory() traverses
-> memblock.memory rather than simply call memblock_phys_mem_size(). The
-> comment in that function suggests that at some point there should have been
-> call to memblock_analyze() before memblock_phys_mem_size() could be used.
-> As of now, there is no memblock_analyze() at all and
-> memblock_phys_mem_size() can be used as soon as cold-plug memory is
-> registerd with memblock.
-> 
-> Replace loop over memblock.memory with a call to memblock_phys_mem_size().
-> 
+>
+> The function free_highpages() in both arm and xtensa essentially open-code
+> for_each_free_mem_range() loop to detect high memory pages that were not
+> reserved and that should be initialized and passed to the buddy allocator.
+>
+> Replace open-coded implementation of for_each_free_mem_range() with usage
+> of memblock API to simplify the code.
+>
 > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+>  arch/arm/mm/init.c    | 48 +++++++------------------------------
+>  arch/xtensa/mm/init.c | 55 ++++++++-----------------------------------
+>  2 files changed, 18 insertions(+), 85 deletions(-)
 
-Looks good:
+For the xtensa part:
+Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
+Tested-by: Max Filippov <jcmvbkbc@gmail.com>
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+-- 
+Thanks.
+-- Max
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
