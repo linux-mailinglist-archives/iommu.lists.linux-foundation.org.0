@@ -2,55 +2,55 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E8A23014F
-	for <lists.iommu@lfdr.de>; Tue, 28 Jul 2020 07:13:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E22230151
+	for <lists.iommu@lfdr.de>; Tue, 28 Jul 2020 07:13:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id DCA1720454;
-	Tue, 28 Jul 2020 05:13:16 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 017C5221AF;
+	Tue, 28 Jul 2020 05:13:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Qu98uFlBHZHa; Tue, 28 Jul 2020 05:13:15 +0000 (UTC)
+	with ESMTP id nI5hbbPkolVm; Tue, 28 Jul 2020 05:13:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id BD06E22008;
-	Tue, 28 Jul 2020 05:13:15 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EB41720796;
+	Tue, 28 Jul 2020 05:13:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A89C4C004D;
-	Tue, 28 Jul 2020 05:13:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D73D8C004D;
+	Tue, 28 Jul 2020 05:13:24 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BDD12C004D
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 05:13:13 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 95278C004D
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 05:13:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id AA72C882D8
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 05:13:13 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 81F808788B
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 05:13:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id maPLGRfGIJQJ for <iommu@lists.linux-foundation.org>;
- Tue, 28 Jul 2020 05:13:13 +0000 (UTC)
+ with ESMTP id TNb56WuRrEvs for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Jul 2020 05:13:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 30B8E882A0
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 05:13:13 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 05BEB87880
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 05:13:23 +0000 (UTC)
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B649522B45;
- Tue, 28 Jul 2020 05:13:03 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8DAC422B4B;
+ Tue, 28 Jul 2020 05:13:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595913193;
- bh=w0NUYCkRPztxWdauIZ7iYp1zOp1jLcG8AD5t4PqIxsg=;
+ s=default; t=1595913202;
+ bh=VFCNoINiV/6S6XOOU0JrFdtc5FxR22TwcA9ornig1+M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YAjIiROU+83p25BDNEgIN9KISlKJXThut30Rs4cNno1O6shiBCHaHk29LQKLS7Ax5
- Ejyf6BAz+viwYwWWCNj69uR3Ffj9ovcm+78DaXms94OZuxA4yw2XiA7huGDx/Xn9eG
- FxVpJAd03+F3yNWhAm0fZShWCJUQp1/pDjBxfrnc=
+ b=lm11f6W8H5Kt1f4GF53UuB9StgNeXXYMOzCHMtSc6ip+HxivUfHkIzQp4H7kbBfiQ
+ R4w5HP/auPjqJ3VOOs7h6yurNCYT5/NX/RKpovw7T59wzfCV3lZd8arOEtF2QHEPMO
+ EVQjpZ2a9wkqFdb/sI6Zv2AmZmV/w/5C6sQ4Yc28=
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH 06/15] powerpc: fadamp: simplify fadump_reserve_crash_area()
-Date: Tue, 28 Jul 2020 08:11:44 +0300
-Message-Id: <20200728051153.1590-7-rppt@kernel.org>
+Subject: [PATCH 07/15] riscv: drop unneeded node initialization
+Date: Tue, 28 Jul 2020 08:11:45 +0300
+Message-Id: <20200728051153.1590-8-rppt@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200728051153.1590-1-rppt@kernel.org>
 References: <20200728051153.1590-1-rppt@kernel.org>
@@ -94,49 +94,37 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-fadump_reserve_crash_area() reserves memory from a specified base address
-till the end of the RAM.
+RISC-V does not (yet) support NUMA  and for UMA architectures node 0 is
+used implicitly during early memory initialization.
 
-Replace iteration through the memblock.memory with a single call to
-memblock_reserve() with appropriate  that will take care of proper memory
-reservation.
+There is no need to call memblock_set_node(), remove this call and the
+surrounding code.
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
 ---
- arch/powerpc/kernel/fadump.c | 20 +-------------------
- 1 file changed, 1 insertion(+), 19 deletions(-)
+ arch/riscv/mm/init.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/arch/powerpc/kernel/fadump.c b/arch/powerpc/kernel/fadump.c
-index 78ab9a6ee6ac..2446a61e3c25 100644
---- a/arch/powerpc/kernel/fadump.c
-+++ b/arch/powerpc/kernel/fadump.c
-@@ -1658,25 +1658,7 @@ int __init fadump_reserve_mem(void)
- /* Preserve everything above the base address */
- static void __init fadump_reserve_crash_area(u64 base)
- {
--	struct memblock_region *reg;
--	u64 mstart, msize;
+diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+index 79e9d55bdf1a..7440ba2cdaaa 100644
+--- a/arch/riscv/mm/init.c
++++ b/arch/riscv/mm/init.c
+@@ -191,15 +191,6 @@ void __init setup_bootmem(void)
+ 	early_init_fdt_scan_reserved_mem();
+ 	memblock_allow_resize();
+ 	memblock_dump_all();
 -
 -	for_each_memblock(memory, reg) {
--		mstart = reg->base;
--		msize  = reg->size;
+-		unsigned long start_pfn = memblock_region_memory_base_pfn(reg);
+-		unsigned long end_pfn = memblock_region_memory_end_pfn(reg);
 -
--		if ((mstart + msize) < base)
--			continue;
--
--		if (mstart < base) {
--			msize -= (base - mstart);
--			mstart = base;
--		}
--
--		pr_info("Reserving %lluMB of memory at %#016llx for preserving crash data",
--			(msize >> 20), mstart);
--		memblock_reserve(mstart, msize);
+-		memblock_set_node(PFN_PHYS(start_pfn),
+-				  PFN_PHYS(end_pfn - start_pfn),
+-				  &memblock.memory, 0);
 -	}
-+	memblock_reserve(base, memblock_end_of_DRAM() - base);
  }
  
- unsigned long __init arch_reserved_kernel_pages(void)
+ #ifdef CONFIG_MMU
 -- 
 2.26.2
 
