@@ -1,81 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8705523018A
-	for <lists.iommu@lfdr.de>; Tue, 28 Jul 2020 07:14:46 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8D423028C
+	for <lists.iommu@lfdr.de>; Tue, 28 Jul 2020 08:21:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 38F36882CC;
-	Tue, 28 Jul 2020 05:14:45 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A056F86999;
+	Tue, 28 Jul 2020 06:21:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ROI7eXVgKyv4; Tue, 28 Jul 2020 05:14:44 +0000 (UTC)
+	with ESMTP id zTb5MCtLBRoW; Tue, 28 Jul 2020 06:21:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id ABD0D882C3;
-	Tue, 28 Jul 2020 05:14:44 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B6E57868D0;
+	Tue, 28 Jul 2020 06:21:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 952B5C004D;
-	Tue, 28 Jul 2020 05:14:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9FED9C004F;
+	Tue, 28 Jul 2020 06:21:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B38ADC004D
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 05:14:42 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E7F81C004F
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 06:20:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A152120796
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 05:14:42 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id D1BE6204B4
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 06:20:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5sOOcey7fCjz for <iommu@lists.linux-foundation.org>;
- Tue, 28 Jul 2020 05:14:41 +0000 (UTC)
+ with ESMTP id OzTn3g885k+a for <iommu@lists.linux-foundation.org>;
+ Tue, 28 Jul 2020 06:20:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id EE14320454
- for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 05:14:41 +0000 (UTC)
-Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7F8F021D95;
- Tue, 28 Jul 2020 05:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595913281;
- bh=hyYCib2EzOYupEpjqTA02kWUy84POJABcJ/qGLZac04=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XDqolARt7JP4OTgvgXGBzFyeZRytmbAFbtGJaFk1lZHBHYKYmJhZtfCfKN9tIFvku
- TKBPHHtbHVB/wUBdRDOwh8QsDOP2utFTiOILOl0mq07BFNqNdrKi5EMjqjtlAYe4x4
- ixC0LlEffXTqoengolg1jQ37jbrs/aEBEQqXuFZs=
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH 15/15] memblock: remove 'type' parameter from
- for_each_memblock()
-Date: Tue, 28 Jul 2020 08:11:53 +0300
-Message-Id: <20200728051153.1590-16-rppt@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200728051153.1590-1-rppt@kernel.org>
-References: <20200728051153.1590-1-rppt@kernel.org>
-MIME-Version: 1.0
-Cc: linux-sh@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-mips@vger.kernel.org,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
- Will Deacon <will@kernel.org>, Stafford Horne <shorne@gmail.com>,
- linux-s390@vger.kernel.org, linux-c6x-dev@linux-c6x.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
- Russell King <linux@armlinux.org.uk>, Mike Rapoport <rppt@linux.ibm.com>,
- clang-built-linux@googlegroups.com, Ingo Molnar <mingo@redhat.com>,
- Catalin Marinas <catalin.marinas@arm.com>,
- uclinux-h8-devel@lists.sourceforge.jp, linux-xtensa@linux-xtensa.org,
- openrisc@lists.librecores.org, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Michal Simek <monstr@monstr.eu>, linux-mm@kvack.org,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Palmer Dabbelt <palmer@dabbelt.com>,
- Christoph Hellwig <hch@lst.de>, Mike Rapoport <rppt@kernel.org>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by silver.osuosl.org (Postfix) with ESMTPS id D59C7204DC
+ for <iommu@lists.linux-foundation.org>; Tue, 28 Jul 2020 06:20:56 +0000 (UTC)
+IronPort-SDR: Tv38B2JocrWUgskrE9/fMOu07MVYJ13Kv23L4CXZDSljbEYyL9fe9qWAsxZ+Hr3DNTnuz+Zzlt
+ pRcl7ud02EIg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9695"; a="130719782"
+X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="130719782"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jul 2020 23:20:55 -0700
+IronPort-SDR: 1R39JSLKZPY/jvYAqc2FiYUhyk4zIpzPhvlm+gQ8r/A7hesyzH4vUVqpSzLgdgTY8jaHP1qsWV
+ FFgP2ywW5Srg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,405,1589266800"; d="scan'208";a="320274385"
+Received: from jacob-builder.jf.intel.com ([10.7.199.155])
+ by orsmga008.jf.intel.com with ESMTP; 27 Jul 2020 23:20:55 -0700
+From: Liu Yi L <yi.l.liu@intel.com>
+To: alex.williamson@redhat.com, eric.auger@redhat.com,
+ baolu.lu@linux.intel.com, joro@8bytes.org
+Subject: [PATCH v6 00/15] vfio: expose virtual Shared Virtual Addressing to VMs
+Date: Mon, 27 Jul 2020 23:27:29 -0700
+Message-Id: <1595917664-33276-1-git-send-email-yi.l.liu@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jean-philippe@linaro.org, kevin.tian@intel.com, ashok.raj@intel.com,
+ kvm@vger.kernel.org, stefanha@gmail.com, jun.j.tian@intel.com,
+ iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ yi.y.sun@intel.com, hao.wu@intel.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,154 +72,199 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Mike Rapoport <rppt@linux.ibm.com>
+Shared Virtual Addressing (SVA), a.k.a, Shared Virtual Memory (SVM) on
+Intel platforms allows address space sharing between device DMA and
+applications. SVA can reduce programming complexity and enhance security.
 
-for_each_memblock() is used exclusively to iterate over memblock.memory in
-a few places that use data from memblock_region rather than the memory
-ranges.
+This VFIO series is intended to expose SVA usage to VMs. i.e. Sharing
+guest application address space with passthru devices. This is called
+vSVA in this series. The whole vSVA enabling requires QEMU/VFIO/IOMMU
+changes. For IOMMU and QEMU changes, they are in separate series (listed
+in the "Related series").
 
-Remove type parameter from the for_each_memblock() iterator to improve
-encapsulation of memblock internals from its users.
+The high-level architecture for SVA virtualization is as below, the key
+design of vSVA support is to utilize the dual-stage IOMMU translation (
+also known as IOMMU nesting translation) capability in host IOMMU.
 
-Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+
+    .-------------.  .---------------------------.
+    |   vIOMMU    |  | Guest process CR3, FL only|
+    |             |  '---------------------------'
+    .----------------/
+    | PASID Entry |--- PASID cache flush -
+    '-------------'                       |
+    |             |                       V
+    |             |                CR3 in GPA
+    '-------------'
+Guest
+------| Shadow |--------------------------|--------
+      v        v                          v
+Host
+    .-------------.  .----------------------.
+    |   pIOMMU    |  | Bind FL for GVA-GPA  |
+    |             |  '----------------------'
+    .----------------/  |
+    | PASID Entry |     V (Nested xlate)
+    '----------------\.------------------------------.
+    |             |   |SL for GPA-HPA, default domain|
+    |             |   '------------------------------'
+    '-------------'
+Where:
+ - FL = First level/stage one page tables
+ - SL = Second level/stage two page tables
+
+Patch Overview:
+ 1. a refactor to vfio_iommu_type1 ioctl (patch 0001)
+ 2. reports IOMMU nesting info to userspace ( patch 0002, 0003, 0004 and 0015)
+ 3. vfio support for PASID allocation and free for VMs (patch 0005, 0006, 0007)
+ 4. vfio support for binding guest page table to host (patch 0008, 0009, 0010)
+ 5. vfio support for IOMMU cache invalidation from VMs (patch 0011)
+ 6. vfio support for vSVA usage on IOMMU-backed mdevs (patch 0012)
+ 7. expose PASID capability to VM (patch 0013)
+ 8. add doc for VFIO dual stage control (patch 0014)
+
+The complete vSVA kernel upstream patches are divided into three phases:
+    1. Common APIs and PCI device direct assignment
+    2. IOMMU-backed Mediated Device assignment
+    3. Page Request Services (PRS) support
+
+This patchset is aiming for the phase 1 and phase 2, and based on Jacob's
+below series.
+*) [PATCH v6 0/6] IOMMU user API enhancement - wip
+   https://lore.kernel.org/linux-iommu/1595525140-23899-1-git-send-email-jacob.jun.pan@linux.intel.com/
+
+*) [PATCH 00/10] IOASID extensions for guest SVA - wip
+   https://lore.kernel.org/linux-iommu/1585158931-1825-1-git-send-email-jacob.jun.pan@linux.intel.com/
+
+The latest IOASID code added below new interface for itertate all PASIDs of an
+ioasid_set. The implementation is not sent out yet as Jacob needs some cleanup,
+it can be found in branch vsva-linux-5.8-rc6-v6 on github (mentioned below):
+ int ioasid_set_for_each_ioasid(int sid, void (*fn)(ioasid_t id, void *data), void *data);
+
+Complete set for current vSVA can be found in below branch.
+https://github.com/luxis1999/linux-vsva.git: vsva-linux-5.8-rc6-v6
+
+The corresponding QEMU patch series is included in below branch:
+https://github.com/luxis1999/qemu.git: vsva_5.8_rc6_qemu_rfcv9
+
+
+Regards,
+Yi Liu
+
+Changelog:
+	- Patch v5 -> Patch v6:
+	  a) Address comments against v5 from Eric.
+	  b) rebase on Jacob's v6 IOMMU uapi enhancement
+	  Patch v5: https://lore.kernel.org/kvm/1594552870-55687-1-git-send-email-yi.l.liu@intel.com/
+
+	- Patch v4 -> Patch v5:
+	  a) Address comments against v4
+	  Patch v4: https://lore.kernel.org/kvm/1593861989-35920-1-git-send-email-yi.l.liu@intel.com/
+
+	- Patch v3 -> Patch v4:
+	  a) Address comments against v3
+	  b) Add rb from Stefan on patch 14/15
+	  Patch v3: https://lore.kernel.org/linux-iommu/1592988927-48009-1-git-send-email-yi.l.liu@intel.com/
+
+	- Patch v2 -> Patch v3:
+	  a) Rebase on top of Jacob's v3 iommu uapi patchset
+	  b) Address comments from Kevin and Stefan Hajnoczi
+	  c) Reuse DOMAIN_ATTR_NESTING to get iommu nesting info
+	  d) Drop [PATCH v2 07/15] iommu/uapi: Add iommu_gpasid_unbind_data
+	  Patch v2: https://lore.kernel.org/linux-iommu/1591877734-66527-1-git-send-email-yi.l.liu@intel.com/#r
+
+	- Patch v1 -> Patch v2:
+	  a) Refactor vfio_iommu_type1_ioctl() per suggestion from Christoph
+	     Hellwig.
+	  b) Re-sequence the patch series for better bisect support.
+	  c) Report IOMMU nesting cap info in detail instead of a format in
+	     v1.
+	  d) Enforce one group per nesting type container for vfio iommu type1
+	     driver.
+	  e) Build the vfio_mm related code from vfio.c to be a separate
+	     vfio_pasid.ko.
+	  f) Add PASID ownership check in IOMMU driver.
+	  g) Adopted to latest IOMMU UAPI design. Removed IOMMU UAPI version
+	     check. Added iommu_gpasid_unbind_data for unbind requests from
+	     userspace.
+	  h) Define a single ioctl:VFIO_IOMMU_NESTING_OP for bind/unbind_gtbl
+	     and cahce_invld.
+	  i) Document dual stage control in vfio.rst.
+	  Patch v1: https://lore.kernel.org/linux-iommu/1584880325-10561-1-git-send-email-yi.l.liu@intel.com/
+
+	- RFC v3 -> Patch v1:
+	  a) Address comments to the PASID request(alloc/free) path
+	  b) Report PASID alloc/free availabitiy to user-space
+	  c) Add a vfio_iommu_type1 parameter to support pasid quota tuning
+	  d) Adjusted to latest ioasid code implementation. e.g. remove the
+	     code for tracking the allocated PASIDs as latest ioasid code
+	     will track it, VFIO could use ioasid_free_set() to free all
+	     PASIDs.
+	  RFC v3: https://lore.kernel.org/linux-iommu/1580299912-86084-1-git-send-email-yi.l.liu@intel.com/
+
+	- RFC v2 -> v3:
+	  a) Refine the whole patchset to fit the roughly parts in this series
+	  b) Adds complete vfio PASID management framework. e.g. pasid alloc,
+	  free, reclaim in VM crash/down and per-VM PASID quota to prevent
+	  PASID abuse.
+	  c) Adds IOMMU uAPI version check and page table format check to ensure
+	  version compatibility and hardware compatibility.
+	  d) Adds vSVA vfio support for IOMMU-backed mdevs.
+	  RFC v2: https://lore.kernel.org/linux-iommu/1571919983-3231-1-git-send-email-yi.l.liu@intel.com/
+
+	- RFC v1 -> v2:
+	  Dropped vfio: VFIO_IOMMU_ATTACH/DETACH_PASID_TABLE.
+	  RFC v1: https://lore.kernel.org/linux-iommu/1562324772-3084-1-git-send-email-yi.l.liu@intel.com/
+
 ---
- arch/arm64/kernel/setup.c      |  2 +-
- arch/arm64/mm/numa.c           |  2 +-
- arch/mips/netlogic/xlp/setup.c |  2 +-
- include/linux/memblock.h       | 10 +++++++---
- mm/memblock.c                  |  4 ++--
- mm/page_alloc.c                |  8 ++++----
- 6 files changed, 16 insertions(+), 12 deletions(-)
+Eric Auger (1):
+  vfio: Document dual stage control
 
-diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
-index 93b3844cf442..23da7908cbed 100644
---- a/arch/arm64/kernel/setup.c
-+++ b/arch/arm64/kernel/setup.c
-@@ -217,7 +217,7 @@ static void __init request_standard_resources(void)
- 	if (!standard_resources)
- 		panic("%s: Failed to allocate %zu bytes\n", __func__, res_size);
- 
--	for_each_memblock(memory, region) {
-+	for_each_memblock(region) {
- 		res = &standard_resources[i++];
- 		if (memblock_is_nomap(region)) {
- 			res->name  = "reserved";
-diff --git a/arch/arm64/mm/numa.c b/arch/arm64/mm/numa.c
-index 0cbdbcc885fb..08721d2c0b79 100644
---- a/arch/arm64/mm/numa.c
-+++ b/arch/arm64/mm/numa.c
-@@ -350,7 +350,7 @@ static int __init numa_register_nodes(void)
- 	struct memblock_region *mblk;
- 
- 	/* Check that valid nid is set to memblks */
--	for_each_memblock(memory, mblk) {
-+	for_each_memblock(mblk) {
- 		int mblk_nid = memblock_get_region_node(mblk);
- 
- 		if (mblk_nid == NUMA_NO_NODE || mblk_nid >= MAX_NUMNODES) {
-diff --git a/arch/mips/netlogic/xlp/setup.c b/arch/mips/netlogic/xlp/setup.c
-index 1a0fc5b62ba4..e69d9fc468cf 100644
---- a/arch/mips/netlogic/xlp/setup.c
-+++ b/arch/mips/netlogic/xlp/setup.c
-@@ -70,7 +70,7 @@ static void nlm_fixup_mem(void)
- 	const int pref_backup = 512;
- 	struct memblock_region *mem;
- 
--	for_each_memblock(memory, mem) {
-+	for_each_memblock(mem) {
- 		memblock_remove(mem->base + mem->size - pref_backup,
- 			pref_backup);
- 	}
-diff --git a/include/linux/memblock.h b/include/linux/memblock.h
-index d70c2835e913..c901cb8ecf92 100644
---- a/include/linux/memblock.h
-+++ b/include/linux/memblock.h
-@@ -527,9 +527,13 @@ static inline unsigned long memblock_region_reserved_end_pfn(const struct memblo
- 	return PFN_UP(reg->base + reg->size);
- }
- 
--#define for_each_memblock(memblock_type, region)					\
--	for (region = memblock.memblock_type.regions;					\
--	     region < (memblock.memblock_type.regions + memblock.memblock_type.cnt);	\
-+/**
-+ * for_each_memblock - itereate over registered memory regions
-+ * @region: loop variable
-+ */
-+#define for_each_memblock(region)					\
-+	for (region = memblock.memory.regions;				\
-+	     region < (memblock.memory.regions + memblock.memory.cnt);	\
- 	     region++)
- 
- extern void *alloc_large_system_hash(const char *tablename,
-diff --git a/mm/memblock.c b/mm/memblock.c
-index 2ad5e6e47215..550bb72cf6cb 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -1694,7 +1694,7 @@ static phys_addr_t __init_memblock __find_max_addr(phys_addr_t limit)
- 	 * the memory memblock regions, if the @limit exceeds the total size
- 	 * of those regions, max_addr will keep original value PHYS_ADDR_MAX
- 	 */
--	for_each_memblock(memory, r) {
-+	for_each_memblock(r) {
- 		if (limit <= r->size) {
- 			max_addr = r->base + limit;
- 			break;
-@@ -1864,7 +1864,7 @@ void __init_memblock memblock_trim_memory(phys_addr_t align)
- 	phys_addr_t start, end, orig_start, orig_end;
- 	struct memblock_region *r;
- 
--	for_each_memblock(memory, r) {
-+	for_each_memblock(r) {
- 		orig_start = r->base;
- 		orig_end = r->base + r->size;
- 		start = round_up(orig_start, align);
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 95af111d69d3..8a19f46dc86e 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -5927,7 +5927,7 @@ overlap_memmap_init(unsigned long zone, unsigned long *pfn)
- 
- 	if (mirrored_kernelcore && zone == ZONE_MOVABLE) {
- 		if (!r || *pfn >= memblock_region_memory_end_pfn(r)) {
--			for_each_memblock(memory, r) {
-+			for_each_memblock(r) {
- 				if (*pfn < memblock_region_memory_end_pfn(r))
- 					break;
- 			}
-@@ -6528,7 +6528,7 @@ static unsigned long __init zone_absent_pages_in_node(int nid,
- 		unsigned long start_pfn, end_pfn;
- 		struct memblock_region *r;
- 
--		for_each_memblock(memory, r) {
-+		for_each_memblock(r) {
- 			start_pfn = clamp(memblock_region_memory_base_pfn(r),
- 					  zone_start_pfn, zone_end_pfn);
- 			end_pfn = clamp(memblock_region_memory_end_pfn(r),
-@@ -7122,7 +7122,7 @@ static void __init find_zone_movable_pfns_for_nodes(void)
- 	 * options.
- 	 */
- 	if (movable_node_is_enabled()) {
--		for_each_memblock(memory, r) {
-+		for_each_memblock(r) {
- 			if (!memblock_is_hotpluggable(r))
- 				continue;
- 
-@@ -7143,7 +7143,7 @@ static void __init find_zone_movable_pfns_for_nodes(void)
- 	if (mirrored_kernelcore) {
- 		bool mem_below_4gb_not_mirrored = false;
- 
--		for_each_memblock(memory, r) {
-+		for_each_memblock(r) {
- 			if (memblock_is_mirror(r))
- 				continue;
- 
+Liu Yi L (13):
+  vfio/type1: Refactor vfio_iommu_type1_ioctl()
+  iommu: Report domain nesting info
+  iommu/smmu: Report empty domain nesting info
+  vfio/type1: Report iommu nesting info to userspace
+  vfio: Add PASID allocation/free support
+  iommu/vt-d: Support setting ioasid set to domain
+  vfio/type1: Add VFIO_IOMMU_PASID_REQUEST (alloc/free)
+  iommu/vt-d: Check ownership for PASIDs from user-space
+  vfio/type1: Support binding guest page tables to PASID
+  vfio/type1: Allow invalidating first-level/stage IOMMU cache
+  vfio/type1: Add vSVA support for IOMMU-backed mdevs
+  vfio/pci: Expose PCIe PASID capability to guest
+  iommu/vt-d: Support reporting nesting capability info
+
+Yi Sun (1):
+  iommu: Pass domain to sva_unbind_gpasid()
+
+ Documentation/driver-api/vfio.rst  |  75 ++++
+ drivers/iommu/arm-smmu-v3.c        |  29 +-
+ drivers/iommu/arm-smmu.c           |  29 +-
+ drivers/iommu/intel/iommu.c        | 114 +++++-
+ drivers/iommu/intel/svm.c          |  10 +-
+ drivers/iommu/iommu.c              |   2 +-
+ drivers/vfio/Kconfig               |   6 +
+ drivers/vfio/Makefile              |   1 +
+ drivers/vfio/pci/vfio_pci_config.c |   2 +-
+ drivers/vfio/vfio_iommu_type1.c    | 796 ++++++++++++++++++++++++++++---------
+ drivers/vfio/vfio_pasid.c          | 284 +++++++++++++
+ include/linux/intel-iommu.h        |  23 +-
+ include/linux/iommu.h              |   4 +-
+ include/linux/vfio.h               |  54 +++
+ include/uapi/linux/iommu.h         |  74 ++++
+ include/uapi/linux/vfio.h          |  90 +++++
+ 16 files changed, 1391 insertions(+), 202 deletions(-)
+ create mode 100644 drivers/vfio/vfio_pasid.c
+
 -- 
-2.26.2
+2.7.4
 
 _______________________________________________
 iommu mailing list
