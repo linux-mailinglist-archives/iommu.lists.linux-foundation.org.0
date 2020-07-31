@@ -1,96 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE50233ECA
-	for <lists.iommu@lfdr.de>; Fri, 31 Jul 2020 07:52:44 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2DC008870C;
-	Fri, 31 Jul 2020 05:52:43 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sjqNDXuOzLuu; Fri, 31 Jul 2020 05:52:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6AC3F88648;
-	Fri, 31 Jul 2020 05:52:41 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 602F8C004D;
-	Fri, 31 Jul 2020 05:52:41 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 73DD4C004D
- for <iommu@lists.linux-foundation.org>; Fri, 31 Jul 2020 05:52:39 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C28B233F1A
+	for <lists.iommu@lfdr.de>; Fri, 31 Jul 2020 08:30:16 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 3A01120498
- for <iommu@lists.linux-foundation.org>; Fri, 31 Jul 2020 05:52:39 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AA50B2048B;
+	Fri, 31 Jul 2020 06:30:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id D-ATQ04Evd4M; Fri, 31 Jul 2020 06:30:13 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id EE8132045F;
+	Fri, 31 Jul 2020 06:30:12 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C9142C0864;
+	Fri, 31 Jul 2020 06:30:12 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9F40DC004D
+ for <iommu@lists.linux-foundation.org>; Fri, 31 Jul 2020 06:30:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 936058863B
+ for <iommu@lists.linux-foundation.org>; Fri, 31 Jul 2020 06:30:11 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PqdorRNJDj-i for <iommu@lists.linux-foundation.org>;
- Fri, 31 Jul 2020 05:52:38 +0000 (UTC)
+ with ESMTP id ohGj6Bwh1d-E for <iommu@lists.linux-foundation.org>;
+ Fri, 31 Jul 2020 06:30:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
- [209.85.216.65])
- by silver.osuosl.org (Postfix) with ESMTPS id 803E32048B
- for <iommu@lists.linux-foundation.org>; Fri, 31 Jul 2020 05:52:38 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id mt12so6353002pjb.4
- for <iommu@lists.linux-foundation.org>; Thu, 30 Jul 2020 22:52:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Is9oz0WcdC4oayT0KXurF1vgNIwYI6FKERnV58px2yQ=;
- b=T+HPx65fgNudEBURjrQX4qo0u8tnu0dj3iDP1cV+BTCL8y/j4LUor93lChMKi1Jsk+
- vdg9mhmNbqrhL9/udDjUihbN5Bolx1RV8wDqTi5lomByyhQ8dJ4yBgxcielqGHS62Ea7
- rx9xxs5NmTukhbJaOzLTmx/OknOZlhE1tHBWwB0Bi45k68GIGqA7DH65mPwxMsc4OJIe
- GvZvqU28Mnpfeynbn4fyApxImnpsNCDKfN78nVugs8mWGW0rEHNnd0a/vN0NvkpDtyU4
- nrKtl3z8E6o8rnS8LVFBrZh2yKKD006qOH/vwY4THo3iltRqVVrYWuUafHyOnmLnzuIE
- xRyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Is9oz0WcdC4oayT0KXurF1vgNIwYI6FKERnV58px2yQ=;
- b=saYkRh6fIlYYjOjDPr6nfhGqIcZ7t1EFN9rnICnAX7Vcf8mxsoFNVoDGKZr8NRWfYp
- XBdkgn/3Gp7bEBqFaZwQCZEkJxPToabHLtrkdq0zLrexCcl1M6D9scubHtJaCcj7EaIo
- y3k72WYovQy4/hac46zCRildZFJ4Au/VbvawoD/IdbvhXOpPrSq2DCnp0SiY+5IpxeHD
- mh7/GBKaq9RuxXpxSbvKH6KJt67G3K63CZGIcE7biC1H54fMsFOF9UWPsY1OterFvfDI
- pzuAFIuyL0A6dip0JkC7gq6qHEhAvYmpN3Sh8lzVbBwPZquy1v833e8q+u86QWp4KhXY
- KpZw==
-X-Gm-Message-State: AOAM533BmTzbR7NoHMzDqdJzukuLO1oqrftj5gpO+tJ7CuwLiBiXctZ0
- MzlKteMaPmpzynGaZPt/yFJksw==
-X-Google-Smtp-Source: ABdhPJwx3vBThEbfSeGBoL9hNvNZyU1Q4RNIGLqBu9j0WBIoW6X1bMtfz0R1dAPxFdWb26AAhctwbQ==
-X-Received: by 2002:a17:90a:fd82:: with SMTP id
- cx2mr2664842pjb.67.1596174757993; 
- Thu, 30 Jul 2020 22:52:37 -0700 (PDT)
-Received: from builder.lan (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
- [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id k6sm4360389pfp.87.2020.07.30.22.52.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jul 2020 22:52:37 -0700 (PDT)
-Date: Thu, 30 Jul 2020 22:48:50 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Konrad Dybcio <konradybcio@gmail.com>
-Subject: Re: [PATCH 1/1] iommu/arm-smmu: Implement qcom,skip-init
-Message-ID: <20200731054850.GA20825@builder.lan>
-References: <20200704122809.73794-1-konradybcio@gmail.com>
- <20200704130922.GB21333@willie-the-truck>
- <20200705033511.GR388985@builder.lan>
- <CAMS8qEWO-1mNd12Zs-2WogCrgNF5=6RkF=Z1pTeOZxSuKjx+qg@mail.gmail.com>
- <20200721154415.GA5758@jcrouse1-lnx.qualcomm.com>
- <CAMS8qEXNh6n9SpMkPAr8cPneasPvJPELD2TZ4gxUf0byxNePbg@mail.gmail.com>
- <20200721235650.GN388985@builder.lan>
- <CAMS8qEVXGddTdbrPwK3NJMx71HH0hoVyqiJG6-g9tiBRMRYZ8w@mail.gmail.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id A2B7D88638
+ for <iommu@lists.linux-foundation.org>; Fri, 31 Jul 2020 06:30:10 +0000 (UTC)
+IronPort-SDR: 3LXu2QWw12Zob5cz3Ck2QkROf5k1vDaIHjyFvuxVAwAXqGqHhjwpCl0Ud9MzrgQH4cqR6ha/u/
+ 7+IrxqHo4G8g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9698"; a="236601927"
+X-IronPort-AV: E=Sophos;i="5.75,417,1589266800"; d="scan'208";a="236601927"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jul 2020 23:30:09 -0700
+IronPort-SDR: zX0i7UjX9khEP8dd1fClb0ZgGv4jktjUAWeeAPNWqdnllhKOSoYF4zKfKXMGsBk6HaRnhUzDgA
+ XHE5s3SdIx7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,417,1589266800"; d="scan'208";a="321320272"
+Received: from daisygao-mobl.ccr.corp.intel.com (HELO [10.254.211.68])
+ ([10.254.211.68])
+ by orsmga008.jf.intel.com with ESMTP; 30 Jul 2020 23:30:04 -0700
+Subject: Re: [PATCH v3 3/4] iommu: Add iommu_aux_get_domain_for_dev()
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20200714055703.5510-1-baolu.lu@linux.intel.com>
+ <20200714055703.5510-4-baolu.lu@linux.intel.com>
+ <20200729142507.182cd18a@x1.home>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <06fd91c1-a978-d526-7e2b-fec619a458e4@linux.intel.com>
+Date: Fri, 31 Jul 2020 14:30:03 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAMS8qEVXGddTdbrPwK3NJMx71HH0hoVyqiJG6-g9tiBRMRYZ8w@mail.gmail.com>
-Cc: DTML <devicetree@vger.kernel.org>, skrzynka@konradybcio.pl,
- Will Deacon <will@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
- John Stultz <john.stultz@linaro.org>, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20200729142507.182cd18a@x1.home>
+Content-Language: en-US
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Kevin Tian <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Ashok Raj <ashok.raj@intel.com>, kvm@vger.kernel.org,
+ Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,37 +80,111 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed 22 Jul 13:11 PDT 2020, Konrad Dybcio wrote:
+Hi Alex,
 
-> >Is the problem on SDM630 that when you write to SMR/S2CR the device
-> >reboots? Or that when you start writing out the context bank
-> >configuration that trips the display and the device reboots?
+On 2020/7/30 4:25, Alex Williamson wrote:
+> On Tue, 14 Jul 2020 13:57:02 +0800
+> Lu Baolu<baolu.lu@linux.intel.com>  wrote:
 > 
-> I added some debug prints and the phone hangs after reaching the
-> seventh CB (with i=6) at
+>> The device driver needs an API to get its aux-domain. A typical usage
+>> scenario is:
+>>
+>>          unsigned long pasid;
+>>          struct iommu_domain *domain;
+>>          struct device *dev = mdev_dev(mdev);
+>>          struct device *iommu_device = vfio_mdev_get_iommu_device(dev);
+>>
+>>          domain = iommu_aux_get_domain_for_dev(dev);
+>>          if (!domain)
+>>                  return -ENODEV;
+>>
+>>          pasid = iommu_aux_get_pasid(domain, iommu_device);
+>>          if (pasid <= 0)
+>>                  return -EINVAL;
+>>
+>>           /* Program the device context */
+>>           ....
+>>
+>> This adds an API for such use case.
+>>
+>> Suggested-by: Alex Williamson<alex.williamson@redhat.com>
+>> Signed-off-by: Lu Baolu<baolu.lu@linux.intel.com>
+>> ---
+>>   drivers/iommu/iommu.c | 18 ++++++++++++++++++
+>>   include/linux/iommu.h |  7 +++++++
+>>   2 files changed, 25 insertions(+)
+>>
+>> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+>> index cad5a19ebf22..434bf42b6b9b 100644
+>> --- a/drivers/iommu/iommu.c
+>> +++ b/drivers/iommu/iommu.c
+>> @@ -2817,6 +2817,24 @@ void iommu_aux_detach_group(struct iommu_domain *domain,
+>>   }
+>>   EXPORT_SYMBOL_GPL(iommu_aux_detach_group);
+>>   
+>> +struct iommu_domain *iommu_aux_get_domain_for_dev(struct device *dev)
+>> +{
+>> +	struct iommu_domain *domain = NULL;
+>> +	struct iommu_group *group;
+>> +
+>> +	group = iommu_group_get(dev);
+>> +	if (!group)
+>> +		return NULL;
+>> +
+>> +	if (group->aux_domain_attached)
+>> +		domain = group->domain;
+> Why wouldn't the aux domain flag be on the domain itself rather than
+> the group?  Then if we wanted sanity checking in patch 1/ we'd only
+> need to test the flag on the object we're provided.
+
+Agreed. Given that a group may contain both non-aux and aux devices,
+adding such flag in iommu_group doesn't make sense.
+
 > 
-> arm_smmu_cb_write(smmu, i, ARM_SMMU_CB_FSR, ARM_SMMU_FSR_FAULT);
-> 
-> line in arm_smmu_device_reset.
-> 
+> If we had such a flag, we could create an iommu_domain_is_aux()
+> function and then simply use iommu_get_domain_for_dev() and test that
+> it's an aux domain in the example use case.  It seems like that would
+> resolve the jump from a domain to an aux-domain just as well as adding
+> this separate iommu_aux_get_domain_for_dev() interface.  The is_aux
+> test might also be useful in other cases too.
 
-Sounds like things are progressing nicely for a while there, presumably
-until the next time the display is being refreshed.
+Let's rehearsal our use case.
 
-Would you be willing to try out the following work in progress:
-https://lore.kernel.org/linux-arm-msm/20200717001619.325317-1-bjorn.andersson@linaro.org/
+         unsigned long pasid;
+         struct iommu_domain *domain;
+         struct device *dev = mdev_dev(mdev);
+         struct device *iommu_device = vfio_mdev_get_iommu_device(dev);
 
-You need to adjust drivers/iommu/arm-smmu-impl.c so that
-arm_smmu_impl_init() will invoke qcom_smmu_impl_init() as it spots your
-apps smmu.
+[1]     domain = iommu_get_domain_for_dev(dev);
+         if (!domain)
+                 return -ENODEV;
 
-Regards,
-Bjorn
+[2]     pasid = iommu_aux_get_pasid(domain, iommu_device);
+         if (pasid <= 0)
+                 return -EINVAL;
+
+          /* Program the device context */
+          ....
+
+The reason why I add this iommu_aux_get_domain_for_dev() is that we need
+to make sure the domain got at [1] is valid to be used at [2].
+
+https://lore.kernel.org/linux-iommu/20200707150408.474d81f1@x1.home/
+
+When calling into iommu_aux_get_pasid(), the iommu driver should make
+sure that @domain is a valid aux-domain for @iommu_device. Hence, for
+our use case, it seems that there's no need for a is_aux_domain() api.
+
+Anyway, I'm not against adding a new is_aux_domain() api if there's a
+need elsewhere.
+
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
