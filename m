@@ -1,106 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F66F2359A6
-	for <lists.iommu@lfdr.de>; Sun,  2 Aug 2020 20:03:16 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC6D235A03
+	for <lists.iommu@lfdr.de>; Sun,  2 Aug 2020 20:47:28 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8797087D28;
-	Sun,  2 Aug 2020 18:03:14 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 82AA28636A;
+	Sun,  2 Aug 2020 18:47:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MZjqgMED5ARU; Sun,  2 Aug 2020 18:03:14 +0000 (UTC)
+	with ESMTP id 0LInrAmqtyRg; Sun,  2 Aug 2020 18:47:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 08C8587BFE;
-	Sun,  2 Aug 2020 18:03:14 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D80F886230;
+	Sun,  2 Aug 2020 18:47:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E2E36C0050;
-	Sun,  2 Aug 2020 18:03:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B853DC0051;
+	Sun,  2 Aug 2020 18:47:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9D672C004C
- for <iommu@lists.linux-foundation.org>; Sun,  2 Aug 2020 18:03:12 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 349B9C004C
+ for <iommu@lists.linux-foundation.org>; Sun,  2 Aug 2020 18:47:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8BD4985D3A
- for <iommu@lists.linux-foundation.org>; Sun,  2 Aug 2020 18:03:12 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1D74F86E77
+ for <iommu@lists.linux-foundation.org>; Sun,  2 Aug 2020 18:47:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iKFDeCxKW92O for <iommu@lists.linux-foundation.org>;
- Sun,  2 Aug 2020 18:03:10 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3D8BD84D09
- for <iommu@lists.linux-foundation.org>; Sun,  2 Aug 2020 18:03:10 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id o18so36321297eje.7
- for <iommu@lists.linux-foundation.org>; Sun, 02 Aug 2020 11:03:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=fQZKbY0rONiHjM83HibQy63AEJaxpKeGQhQtY04gDSU=;
- b=NClt20d7Ft+K6FkgUCUu4JaE3tIZQCut3LntjJUJhXUsmJc9/hAN8f1uhRfdf1xDS4
- v+mVxDX9o4kozVR+Ah8Xum0mBupoLJJ8sGRFuq+zGUPap92vHCw3QWRVbrRdpExOLg1f
- PfYSYoa+08lkV+ejUHsbzm11vb6ZXDx9wG5OH/PIC6kGD+/IwmcMBK0f+S9Q47Ilfp0r
- CnDK0w5UJZcBtyEbi0uelKFQBUpbqi9svF4nCggxxWbCeGrL/RSClOw7dY42O+RKurT4
- SeQmDc1qACQRwd/qkF4Bl6+EBF1g484NpzCeNGAZebTMM88+MrzhcW/7+ogo+dclYvqf
- xJRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=fQZKbY0rONiHjM83HibQy63AEJaxpKeGQhQtY04gDSU=;
- b=Vrtw6Laxe49dtf0tmJM+J5v1NAHqZwjNUHSzG4EvqIjZAyqGxJ9oM08vxVm+iaUiBz
- 3Eyt92x8d4bqGPK76/RAG40ewDsaL1raojwmKSea5WPBxWUzVtyi70YWd8uymWKvtzcQ
- fNF4nOSd5VhfBBZ24DcTVfN3KsWz59CnRjmK0L64WWsPI9Nb0YFiECIS6JR2dWhO6mex
- YOP+tcmiXjT7xfnh1/3rZIuSYswxlTkiEjq+/5m/octEzYWj6qJl+bwVpoAP9HyVxJaF
- xvZFU9lqZHcGmarEpiNAx4cRuI5LGZrS5CfihjGbOJ4rNM3J2lUggxtkwCyt6THq/RlM
- fS3Q==
-X-Gm-Message-State: AOAM532ENk8+Ws84G6rmVcs6ymhLJo/mWmG1vmIbeLm7OetzGaUwz/ia
- JzQlS+L42LS3i/WPPJH3b3s=
-X-Google-Smtp-Source: ABdhPJwRVVa9oTHFz53Gep6kufj7aL7kFTxC9FLC9t+X6tOc6fXoy+b82cv+AC/Z1BhRkxvbjIG1Og==
-X-Received: by 2002:a17:907:94ce:: with SMTP id
- dn14mr12944760ejc.351.1596391388538; 
- Sun, 02 Aug 2020 11:03:08 -0700 (PDT)
-Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
- by smtp.gmail.com with ESMTPSA id x1sm13599477ejc.119.2020.08.02.11.03.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Aug 2020 11:03:07 -0700 (PDT)
-Date: Sun, 2 Aug 2020 20:03:04 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH v2 17/17] memblock: use separate iterators for memory and
- reserved regions
-Message-ID: <20200802180304.GC86614@gmail.com>
-References: <20200802163601.8189-1-rppt@kernel.org>
- <20200802163601.8189-18-rppt@kernel.org>
+ with ESMTP id QfmVvB5npJug for <iommu@lists.linux-foundation.org>;
+ Sun,  2 Aug 2020 18:47:23 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8857486230
+ for <iommu@lists.linux-foundation.org>; Sun,  2 Aug 2020 18:47:23 +0000 (UTC)
+Received: from nazgul.tnic (unknown [78.130.214.198])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6060E1EC027B;
+ Sun,  2 Aug 2020 20:47:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1596394040;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=6tNJPljLjNx2x9QEIVJnns37NMBlLLp4EAbpTzGkx/k=;
+ b=km2ppJ9W1lKPkeogNByCZRPPB90pQ77y1xFpzqsz5v2Gw4jUrJuG2BUGC6FlwifBWKp5xA
+ i/pwFuidiFCe1IAhyK7PX67NxCd1gqUPGlQREtpW/WPoHky93LT53Q3Zqf5RRY0CErhAu0
+ 8YCnO7sm9NOsIwnrSCtwGhnf6GzAdAw=
+Date: Sun, 2 Aug 2020 20:46:48 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Saheed Bolarinwa <refactormyself@gmail.com>
+Subject: Re: [RFC PATCH 00/17] Drop uses of pci_read_config_*() return value
+Message-ID: <20200802184648.GA23190@nazgul.tnic>
+References: <20200801112446.149549-1-refactormyself@gmail.com>
+ <20200801125657.GA25391@nazgul.tnic>
+ <b720aa44-895a-203b-e220-ecdb3acd9278@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200802163601.8189-18-rppt@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
- Emil Renner Berthing <kernel@esmil.dk>, linux-sh@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-mips@vger.kernel.org,
- Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
- sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
- Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-c6x-dev@linux-c6x.org, Michael Ellerman <mpe@ellerman.id.au>,
- x86@kernel.org, Russell King <linux@armlinux.org.uk>,
- Mike Rapoport <rppt@linux.ibm.com>, clang-built-linux@googlegroups.com,
- Ingo Molnar <mingo@redhat.com>, linux-arm-kernel@lists.infradead.org,
- Catalin Marinas <catalin.marinas@arm.com>,
- uclinux-h8-devel@lists.sourceforge.jp, linux-xtensa@linux-xtensa.org,
- openrisc@lists.librecores.org, Borislav Petkov <bp@alien8.de>,
- Andy Lutomirski <luto@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
- Stafford Horne <shorne@gmail.com>, Hari Bathini <hbathini@linux.ibm.com>,
- Michal Simek <monstr@monstr.eu>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Palmer Dabbelt <palmer@dabbelt.com>,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org
+In-Reply-To: <b720aa44-895a-203b-e220-ecdb3acd9278@gmail.com>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>, trix@redhat.com,
+ linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-ide@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-i2c@vger.kernel.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-rdma@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+ linux-atm-general@lists.sourceforge.net, helgaas@kernel.org,
+ linux-pci@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Wolfgang Grandegger <wg@grandegger.com>, intel-gfx@lists.freedesktop.org,
+ linux-gpio@vger.kernel.org, Marc Kleine-Budde <mkl@pengutronix.de>,
+ skhan@linuxfoundation.org, bjorn@helgaas.com,
+ Kalle Valo <kvalo@codeaurora.org>, linux-edac@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-crypto@vger.kernel.org,
+ dmaengine@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,37 +92,65 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On Sun, Aug 02, 2020 at 07:28:00PM +0200, Saheed Bolarinwa wrote:
+> Because the value ~0 has a meaning to some drivers and only
 
-* Mike Rapoport <rppt@kernel.org> wrote:
+No, ~0 means that the PCI read failed. For *every* PCI device I know.
 
-> From: Mike Rapoport <rppt@linux.ibm.com>
-> 
-> for_each_memblock() is used to iterate over memblock.memory in
-> a few places that use data from memblock_region rather than the memory
-> ranges.
-> 
-> Introduce separate for_each_mem_region() and for_each_reserved_mem_region()
-> to improve encapsulation of memblock internals from its users.
-> 
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> ---
->  .clang-format                  |  3 ++-
->  arch/arm64/kernel/setup.c      |  2 +-
->  arch/arm64/mm/numa.c           |  2 +-
->  arch/mips/netlogic/xlp/setup.c |  2 +-
->  arch/x86/mm/numa.c             |  2 +-
->  include/linux/memblock.h       | 19 ++++++++++++++++---
->  mm/memblock.c                  |  4 ++--
->  mm/page_alloc.c                |  8 ++++----
->  8 files changed, 28 insertions(+), 14 deletions(-)
+Here's me reading from 0xf0 offset of my hostbridge:
 
-The x86 part:
+# setpci -s 00:00.0 0xf0.l
+01000000
 
-Acked-by: Ingo Molnar <mingo@kernel.org>
+That device doesn't have extended config space, so the last valid byte
+is 0xff. Let's read beyond that:
 
-Thanks,
+# setpci -s 00:00.0 0x100.l
+ffffffff
 
-	Ingo
+> Again, only the drivers can determine if ~0 is a valid value. This
+> information is not available inside pci_config_read*().
+
+Of course it is.
+
+*every* change you've done in 6/17 - this is the only patch I have
+received - checks for == ~0. So that check can just as well be moved
+inside pci_config_read_*().
+
+Here's how one could do it:
+
+#define PCI_OP_READ(size, type, len) \
+int noinline pci_bus_read_config_##size \
+	(struct pci_bus *bus, unsigned int devfn, int pos, type *value)	\
+{									\
+	int res;							\
+	unsigned long flags;						\
+	u32 data = 0;							\
+	if (PCI_##size##_BAD) return PCIBIOS_BAD_REGISTER_NUMBER;	\
+	pci_lock_config(flags);						\
+	res = bus->ops->read(bus, devfn, pos, len, &data);		\
+
+	/* Check we actually read something which is not all 1s.*/
+	if (data == ~0)
+		return PCIBIOS_READ_FAILED;
+
+	*value = (type)data;						\
+	pci_unlock_config(flags);					\
+	return res;							\
+}
+
+Also, I'd prefer a function to *not* return void but return either
+an error or success. In the success case, the @value argument can be
+consumed by the caller and otherwise not.
+
+In any case, that change is a step in the wrong direction and I don't
+like it, sorry.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
