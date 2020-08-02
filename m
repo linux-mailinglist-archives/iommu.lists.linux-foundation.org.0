@@ -1,57 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16ACD2358B6
-	for <lists.iommu@lfdr.de>; Sun,  2 Aug 2020 18:37:36 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C1195854A7;
-	Sun,  2 Aug 2020 16:37:34 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VzWfvSyukGRe; Sun,  2 Aug 2020 16:37:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6658E854E7;
-	Sun,  2 Aug 2020 16:37:34 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 609F8C0051;
-	Sun,  2 Aug 2020 16:37:34 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4883AC004C
- for <iommu@lists.linux-foundation.org>; Sun,  2 Aug 2020 16:37:33 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF5F2358BD
+	for <lists.iommu@lfdr.de>; Sun,  2 Aug 2020 18:37:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 376DF865D3
- for <iommu@lists.linux-foundation.org>; Sun,  2 Aug 2020 16:37:33 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 225AD86416;
+	Sun,  2 Aug 2020 16:37:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PC95+d+1e84b; Sun,  2 Aug 2020 16:37:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id A064C86519;
+	Sun,  2 Aug 2020 16:37:45 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8DD88C004C;
+	Sun,  2 Aug 2020 16:37:45 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 06075C004C
+ for <iommu@lists.linux-foundation.org>; Sun,  2 Aug 2020 16:37:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id F2A9B8560E
+ for <iommu@lists.linux-foundation.org>; Sun,  2 Aug 2020 16:37:43 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id H1yGZMlOqsan for <iommu@lists.linux-foundation.org>;
- Sun,  2 Aug 2020 16:37:32 +0000 (UTC)
+ with ESMTP id z0KskeIEIr1Q for <iommu@lists.linux-foundation.org>;
+ Sun,  2 Aug 2020 16:37:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A8C9486519
- for <iommu@lists.linux-foundation.org>; Sun,  2 Aug 2020 16:37:32 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 82168854E7
+ for <iommu@lists.linux-foundation.org>; Sun,  2 Aug 2020 16:37:43 +0000 (UTC)
 Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3666920738;
- Sun,  2 Aug 2020 16:37:21 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 13C5E207BB;
+ Sun,  2 Aug 2020 16:37:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1596386252;
- bh=HXplIo2+gHV+5Rh8qlUVMl6HMHdXi6PCG7vTxqabI+Q=;
+ s=default; t=1596386263;
+ bh=Bk2P7sJWRrlh9DIJh+EEUqVaYV+j9jXoTAkyubSAGEU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=i6snSLL+tUy7qx1MT8Y0WlTt7K7xsB+200RZjNxvlCfDTlL0zp0M2lbScyr/xCvdb
- XBHSU6bwVrHkiu+01VUxj2S2IPxvzJ0Iz0Z+k3cp6BN5/KFgGc8QojbZY8QOVM5TfC
- RWrbEVhyzsC706fbEGPlXZlfrPPH1Raq9SmF7u58=
+ b=Xkrtb/NnZuRj9wKvAXpeIlB3+bYoq60qFjBRzOA9/WIgAd3c3thtLHE58AeON1qpI
+ Y8+QZ2LOBBah4eeK8wYtIrAl+wXzwLjIRtcGigqFAEyWGljxgxiQ/qWVumOKxaB5yQ
+ k5tln6kB6HLGJvUE3EGslheASCGEhwXBPDAu0QAo=
 From: Mike Rapoport <rppt@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 07/17] mircoblaze: drop unneeded NUMA and sparsemem
- initializations
-Date: Sun,  2 Aug 2020 19:35:51 +0300
-Message-Id: <20200802163601.8189-8-rppt@kernel.org>
+Subject: [PATCH v2 08/17] memblock: make for_each_memblock_type() iterator
+ private
+Date: Sun,  2 Aug 2020 19:35:52 +0300
+Message-Id: <20200802163601.8189-9-rppt@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200802163601.8189-1-rppt@kernel.org>
 References: <20200802163601.8189-1-rppt@kernel.org>
@@ -97,53 +97,48 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Mike Rapoport <rppt@linux.ibm.com>
 
-microblaze does not support neither NUMA not SPARSMEM, so there is no point
-to call memblock_set_node() and sparse_memory_present_with_active_regions()
-functions during microblaze memory initialization.
-
-Remove these calls and the surrounding code.
+for_each_memblock_type() is not used outside mm/memblock.c, move it there
+from include/linux/memblock.h
 
 Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+Reviewed-by: Baoquan He <bhe@redhat.com>
 ---
- arch/microblaze/mm/init.c | 17 +----------------
- 1 file changed, 1 insertion(+), 16 deletions(-)
+ include/linux/memblock.h | 5 -----
+ mm/memblock.c            | 5 +++++
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/arch/microblaze/mm/init.c b/arch/microblaze/mm/init.c
-index 521b59ba716c..49e0c241f9b1 100644
---- a/arch/microblaze/mm/init.c
-+++ b/arch/microblaze/mm/init.c
-@@ -105,9 +105,8 @@ static void __init paging_init(void)
+diff --git a/include/linux/memblock.h b/include/linux/memblock.h
+index 017fae833d4a..220b5f0dad42 100644
+--- a/include/linux/memblock.h
++++ b/include/linux/memblock.h
+@@ -532,11 +532,6 @@ static inline unsigned long memblock_region_reserved_end_pfn(const struct memblo
+ 	     region < (memblock.memblock_type.regions + memblock.memblock_type.cnt);	\
+ 	     region++)
  
- void __init setup_memory(void)
- {
--	struct memblock_region *reg;
+-#define for_each_memblock_type(i, memblock_type, rgn)			\
+-	for (i = 0, rgn = &memblock_type->regions[0];			\
+-	     i < memblock_type->cnt;					\
+-	     i++, rgn = &memblock_type->regions[i])
 -
- #ifndef CONFIG_MMU
-+	struct memblock_region *reg;
- 	u32 kernel_align_start, kernel_align_size;
+ extern void *alloc_large_system_hash(const char *tablename,
+ 				     unsigned long bucketsize,
+ 				     unsigned long numentries,
+diff --git a/mm/memblock.c b/mm/memblock.c
+index 39aceafc57f6..a5b9b3df81fc 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -129,6 +129,11 @@ struct memblock memblock __initdata_memblock = {
+ 	.current_limit		= MEMBLOCK_ALLOC_ANYWHERE,
+ };
  
- 	/* Find main memory where is the kernel */
-@@ -161,20 +160,6 @@ void __init setup_memory(void)
- 	pr_info("%s: max_low_pfn: %#lx\n", __func__, max_low_pfn);
- 	pr_info("%s: max_pfn: %#lx\n", __func__, max_pfn);
- 
--	/* Add active regions with valid PFNs */
--	for_each_memblock(memory, reg) {
--		unsigned long start_pfn, end_pfn;
--
--		start_pfn = memblock_region_memory_base_pfn(reg);
--		end_pfn = memblock_region_memory_end_pfn(reg);
--		memblock_set_node(start_pfn << PAGE_SHIFT,
--				  (end_pfn - start_pfn) << PAGE_SHIFT,
--				  &memblock.memory, 0);
--	}
--
--	/* XXX need to clip this if using highmem? */
--	sparse_memory_present_with_active_regions(0);
--
- 	paging_init();
- }
- 
++#define for_each_memblock_type(i, memblock_type, rgn)			\
++	for (i = 0, rgn = &memblock_type->regions[0];			\
++	     i < memblock_type->cnt;					\
++	     i++, rgn = &memblock_type->regions[i])
++
+ int memblock_debug __initdata_memblock;
+ static bool system_has_some_mirror __initdata_memblock = false;
+ static int memblock_can_resize __initdata_memblock;
 -- 
 2.26.2
 
