@@ -1,84 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE4B23AD22
-	for <lists.iommu@lfdr.de>; Mon,  3 Aug 2020 21:36:09 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6083E23AD2A
+	for <lists.iommu@lfdr.de>; Mon,  3 Aug 2020 21:36:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3C71785736;
-	Mon,  3 Aug 2020 19:36:08 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D772E20510;
+	Mon,  3 Aug 2020 19:36:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DVYUqnPGwoK7; Mon,  3 Aug 2020 19:36:07 +0000 (UTC)
+	with ESMTP id 6iaZsCgGQANJ; Mon,  3 Aug 2020 19:36:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B5E41855D9;
-	Mon,  3 Aug 2020 19:36:07 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 29C75204FD;
+	Mon,  3 Aug 2020 19:36:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9E19CC088E;
-	Mon,  3 Aug 2020 19:36:07 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1FDE4C004C;
+	Mon,  3 Aug 2020 19:36:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 04A87C004C
- for <iommu@lists.linux-foundation.org>; Mon,  3 Aug 2020 19:36:05 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 11728C004C
+ for <iommu@lists.linux-foundation.org>; Mon,  3 Aug 2020 19:36:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 00F95852D5
- for <iommu@lists.linux-foundation.org>; Mon,  3 Aug 2020 19:36:05 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 0BDFD853E5
+ for <iommu@lists.linux-foundation.org>; Mon,  3 Aug 2020 19:36:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YZtjoicXad6s for <iommu@lists.linux-foundation.org>;
- Mon,  3 Aug 2020 19:36:04 +0000 (UTC)
+ with ESMTP id M6f3NSFQC0tE for <iommu@lists.linux-foundation.org>;
+ Mon,  3 Aug 2020 19:36:20 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1864B851CC
- for <iommu@lists.linux-foundation.org>; Mon,  3 Aug 2020 19:36:03 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 93ED9852D5
+ for <iommu@lists.linux-foundation.org>; Mon,  3 Aug 2020 19:36:18 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1596483364; h=Content-Transfer-Encoding: MIME-Version:
+ s=smtp; t=1596483380; h=Content-Transfer-Encoding: MIME-Version:
  References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=FHtW4WjaTsFoNisPqVbyXMhsG1JBUXON5dZ+qL6ZJhk=;
- b=LGZI8pJTSvO5T2AMvzMZh49De8j0AmVDLw+945CliRvsHa/f9oYONS0uOF/8HnsHhPaMIZ5C
- 56usx/pO7bKL+4K8dBaYGswh5UMLAlM0aO5UqG+HBpp2p239KaYG8VIJvbuKksMHKzBJRQKP
- a8VsFLs5REin78lFbydOGPCRNCo=
+ Sender; bh=J+r2IuMCdiQpFZk2LJ7Mue1k3xmchWvzAhnGNLaZ568=;
+ b=gQCx09brzeJTu0JQceIIoEqxM0eb3UFC+qgcZKd+dPVN86BI/4bj/9B9vlA5UhdM83PCdrDe
+ 7/G3xIMhCtIhmu9dDYs2TAdAyVukgI71v9Z6uNUCBGcv/eCF6eM6aLKsCC11EtjVujHTrfsH
+ HnnV5NUFjJLhtO5zaEVhhq6n3kU=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n10.prod.us-east-1.postgun.com with SMTP id
- 5f28672076a940cda8ee5b2c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 03 Aug 2020 19:36:00
+ smtp-out-n14.prod.us-east-1.postgun.com with SMTP id
+ 5f28672314acd1952bec74b2 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 03 Aug 2020 19:36:03
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id AF62FC433B7; Mon,  3 Aug 2020 19:35:58 +0000 (UTC)
+ id 78E2FC433AF; Mon,  3 Aug 2020 19:36:01 +0000 (UTC)
 Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 149CFC433CB;
- Mon,  3 Aug 2020 19:35:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 149CFC433CB
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id AE01DC433B2;
+ Mon,  3 Aug 2020 19:35:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org AE01DC433B2
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v11 01/12] iommu/arm-smmu: Pass io-pgtable config to
- implementation specific function
-Date: Mon,  3 Aug 2020 13:35:36 -0600
-Message-Id: <20200803193547.305660-2-jcrouse@codeaurora.org>
+Subject: [PATCH v11 02/12] iommu/arm-smmu: Add support for split pagetables
+Date: Mon,  3 Aug 2020 13:35:37 -0600
+Message-Id: <20200803193547.305660-3-jcrouse@codeaurora.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200803193547.305660-1-jcrouse@codeaurora.org>
 References: <20200803193547.305660-1-jcrouse@codeaurora.org>
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
- Robin Murphy <robin.murphy@arm.com>, Stephen Boyd <swboyd@chromium.org>,
- iommu@lists.linux-foundation.org, Thierry Reding <thierry.reding@gmail.com>,
- Vivek Gautam <vivek.gautam@codeaurora.org>,
+Cc: Thierry Reding <treding@nvidia.com>, linux-kernel@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Robin Murphy <robin.murphy@arm.com>,
+ iommu@lists.linux-foundation.org,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Pritesh Raithatha <praithatha@nvidia.com>, Will Deacon <will@kernel.org>,
+ Jon Hunter <jonathanh@nvidia.com>, Will Deacon <will@kernel.org>,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -97,75 +95,103 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Construct the io-pgtable config before calling the implementation specific
-init_context function and pass it so the implementation specific function
-can get a chance to change it before the io-pgtable is created.
+Enable TTBR1 for a context bank if IO_PGTABLE_QUIRK_ARM_TTBR1 is selected
+by the io-pgtable configuration.
 
 Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
 
- drivers/iommu/arm/arm-smmu/arm-smmu-impl.c |  3 ++-
- drivers/iommu/arm/arm-smmu/arm-smmu.c      | 11 ++++++-----
- drivers/iommu/arm/arm-smmu/arm-smmu.h      |  3 ++-
- 3 files changed, 10 insertions(+), 7 deletions(-)
+ drivers/iommu/arm/arm-smmu/arm-smmu.c | 21 ++++++++++++++++-----
+ drivers/iommu/arm/arm-smmu/arm-smmu.h | 25 +++++++++++++++++++------
+ 2 files changed, 35 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-index f4ff124a1967..a9861dcd0884 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-@@ -68,7 +68,8 @@ static int cavium_cfg_probe(struct arm_smmu_device *smmu)
- 	return 0;
- }
- 
--static int cavium_init_context(struct arm_smmu_domain *smmu_domain)
-+static int cavium_init_context(struct arm_smmu_domain *smmu_domain,
-+		struct io_pgtable_cfg *pgtbl_cfg)
- {
- 	struct cavium_smmu *cs = container_of(smmu_domain->smmu,
- 					      struct cavium_smmu, smmu);
 diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index 09c42af9f31e..37d8d49299b4 100644
+index 37d8d49299b4..976d43a7f2ff 100644
 --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
 +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -795,11 +795,6 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 		cfg->asid = cfg->cbndx;
+@@ -552,11 +552,15 @@ static void arm_smmu_init_context_bank(struct arm_smmu_domain *smmu_domain,
+ 			cb->ttbr[0] = pgtbl_cfg->arm_v7s_cfg.ttbr;
+ 			cb->ttbr[1] = 0;
+ 		} else {
+-			cb->ttbr[0] = pgtbl_cfg->arm_lpae_s1_cfg.ttbr;
+-			cb->ttbr[0] |= FIELD_PREP(ARM_SMMU_TTBRn_ASID,
+-						  cfg->asid);
++			cb->ttbr[0] = FIELD_PREP(ARM_SMMU_TTBRn_ASID,
++				cfg->asid);
+ 			cb->ttbr[1] = FIELD_PREP(ARM_SMMU_TTBRn_ASID,
+-						 cfg->asid);
++				cfg->asid);
++
++			if (pgtbl_cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1)
++				cb->ttbr[1] |= pgtbl_cfg->arm_lpae_s1_cfg.ttbr;
++			else
++				cb->ttbr[0] |= pgtbl_cfg->arm_lpae_s1_cfg.ttbr;
+ 		}
+ 	} else {
+ 		cb->ttbr[0] = pgtbl_cfg->arm_lpae_s2_cfg.vttbr;
+@@ -822,7 +826,14 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
  
- 	smmu_domain->smmu = smmu;
--	if (smmu->impl && smmu->impl->init_context) {
--		ret = smmu->impl->init_context(smmu_domain);
--		if (ret)
--			goto out_unlock;
--	}
- 
- 	pgtbl_cfg = (struct io_pgtable_cfg) {
- 		.pgsize_bitmap	= smmu->pgsize_bitmap,
-@@ -810,6 +805,12 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
- 		.iommu_dev	= smmu->dev,
- 	};
- 
-+	if (smmu->impl && smmu->impl->init_context) {
-+		ret = smmu->impl->init_context(smmu_domain, &pgtbl_cfg);
-+		if (ret)
-+			goto out_clear_smmu;
+ 	/* Update the domain's page sizes to reflect the page table format */
+ 	domain->pgsize_bitmap = pgtbl_cfg.pgsize_bitmap;
+-	domain->geometry.aperture_end = (1UL << ias) - 1;
++
++	if (pgtbl_cfg.quirks & IO_PGTABLE_QUIRK_ARM_TTBR1) {
++		domain->geometry.aperture_start = ~0UL << ias;
++		domain->geometry.aperture_end = ~0UL;
++	} else {
++		domain->geometry.aperture_end = (1UL << ias) - 1;
 +	}
 +
- 	if (smmu_domain->non_strict)
- 		pgtbl_cfg.quirks |= IO_PGTABLE_QUIRK_NON_STRICT;
+ 	domain->geometry.force_aperture = true;
  
+ 	/* Initialise the context bank with our page table cfg */
 diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-index d890a4a968e8..83294516ac08 100644
+index 83294516ac08..f3e456893f28 100644
 --- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
 +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-@@ -386,7 +386,8 @@ struct arm_smmu_impl {
- 			    u64 val);
- 	int (*cfg_probe)(struct arm_smmu_device *smmu);
- 	int (*reset)(struct arm_smmu_device *smmu);
--	int (*init_context)(struct arm_smmu_domain *smmu_domain);
-+	int (*init_context)(struct arm_smmu_domain *smmu_domain,
-+			struct io_pgtable_cfg *cfg);
- 	void (*tlb_sync)(struct arm_smmu_device *smmu, int page, int sync,
- 			 int status);
- 	int (*def_domain_type)(struct device *dev);
+@@ -169,10 +169,12 @@ enum arm_smmu_cbar_type {
+ #define ARM_SMMU_CB_TCR			0x30
+ #define ARM_SMMU_TCR_EAE		BIT(31)
+ #define ARM_SMMU_TCR_EPD1		BIT(23)
++#define ARM_SMMU_TCR_A1			BIT(22)
+ #define ARM_SMMU_TCR_TG0		GENMASK(15, 14)
+ #define ARM_SMMU_TCR_SH0		GENMASK(13, 12)
+ #define ARM_SMMU_TCR_ORGN0		GENMASK(11, 10)
+ #define ARM_SMMU_TCR_IRGN0		GENMASK(9, 8)
++#define ARM_SMMU_TCR_EPD0		BIT(7)
+ #define ARM_SMMU_TCR_T0SZ		GENMASK(5, 0)
+ 
+ #define ARM_SMMU_VTCR_RES1		BIT(31)
+@@ -350,12 +352,23 @@ struct arm_smmu_domain {
+ 
+ static inline u32 arm_smmu_lpae_tcr(struct io_pgtable_cfg *cfg)
+ {
+-	return ARM_SMMU_TCR_EPD1 |
+-	       FIELD_PREP(ARM_SMMU_TCR_TG0, cfg->arm_lpae_s1_cfg.tcr.tg) |
+-	       FIELD_PREP(ARM_SMMU_TCR_SH0, cfg->arm_lpae_s1_cfg.tcr.sh) |
+-	       FIELD_PREP(ARM_SMMU_TCR_ORGN0, cfg->arm_lpae_s1_cfg.tcr.orgn) |
+-	       FIELD_PREP(ARM_SMMU_TCR_IRGN0, cfg->arm_lpae_s1_cfg.tcr.irgn) |
+-	       FIELD_PREP(ARM_SMMU_TCR_T0SZ, cfg->arm_lpae_s1_cfg.tcr.tsz);
++	u32 tcr = FIELD_PREP(ARM_SMMU_TCR_TG0, cfg->arm_lpae_s1_cfg.tcr.tg) |
++		FIELD_PREP(ARM_SMMU_TCR_SH0, cfg->arm_lpae_s1_cfg.tcr.sh) |
++		FIELD_PREP(ARM_SMMU_TCR_ORGN0, cfg->arm_lpae_s1_cfg.tcr.orgn) |
++		FIELD_PREP(ARM_SMMU_TCR_IRGN0, cfg->arm_lpae_s1_cfg.tcr.irgn) |
++		FIELD_PREP(ARM_SMMU_TCR_T0SZ, cfg->arm_lpae_s1_cfg.tcr.tsz);
++
++       /*
++	* When TTBR1 is selected shift the TCR fields by 16 bits and disable
++	* translation in TTBR0
++	*/
++	if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1) {
++		tcr = (tcr << 16) & ~ARM_SMMU_TCR_A1;
++		tcr |= ARM_SMMU_TCR_EPD0;
++	} else
++		tcr |= ARM_SMMU_TCR_EPD1;
++
++	return tcr;
+ }
+ 
+ static inline u32 arm_smmu_lpae_tcr2(struct io_pgtable_cfg *cfg)
 -- 
 2.25.1
 
