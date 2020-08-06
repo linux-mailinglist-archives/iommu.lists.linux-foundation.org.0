@@ -1,61 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA23E23DB02
-	for <lists.iommu@lfdr.de>; Thu,  6 Aug 2020 15:55:35 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F39423DB73
+	for <lists.iommu@lfdr.de>; Thu,  6 Aug 2020 17:54:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6895D86DAD;
-	Thu,  6 Aug 2020 13:55:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3962788120;
+	Thu,  6 Aug 2020 15:54:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VFIStcRdnJqD; Thu,  6 Aug 2020 13:55:33 +0000 (UTC)
+	with ESMTP id xed93Waurnvc; Thu,  6 Aug 2020 15:54:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A9A8A86DAB;
-	Thu,  6 Aug 2020 13:55:33 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C076888279;
+	Thu,  6 Aug 2020 15:54:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9187AC004C;
-	Thu,  6 Aug 2020 13:55:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A3275C004C;
+	Thu,  6 Aug 2020 15:54:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4C934C004C
- for <iommu@lists.linux-foundation.org>; Thu,  6 Aug 2020 13:55:32 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 57F97C004C
+ for <iommu@lists.linux-foundation.org>; Thu,  6 Aug 2020 15:54:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 388E988052
- for <iommu@lists.linux-foundation.org>; Thu,  6 Aug 2020 13:55:32 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3A3F58814A
+ for <iommu@lists.linux-foundation.org>; Thu,  6 Aug 2020 15:54:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xW0pwPxtSiIb for <iommu@lists.linux-foundation.org>;
- Thu,  6 Aug 2020 13:55:30 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by whitealder.osuosl.org (Postfix) with ESMTPS id C574C88058
- for <iommu@lists.linux-foundation.org>; Thu,  6 Aug 2020 13:55:30 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id AA0EC68D0D; Thu,  6 Aug 2020 15:55:25 +0200 (CEST)
-Date: Thu, 6 Aug 2020 15:55:25 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: Re: [PATCH v2 2/2] dma-pool: Only allocate from CMA when in same
- memory zone
-Message-ID: <20200806135525.GA4380@lst.de>
-References: <20200803160956.19235-1-nsaenzjulienne@suse.de>
- <20200803160956.19235-3-nsaenzjulienne@suse.de>
- <20200804060633.GA7368@lst.de>
- <e0b2a00c8cf86cb1a91804942d35c9d4b98e9f9f.camel@suse.de>
- <20200806051814.GA10143@lst.de>
- <3a530804ad5aa96d2502da8ee3e8650b0b477c0f.camel@suse.de>
+ with ESMTP id fGOUwP5ukKek for <iommu@lists.linux-foundation.org>;
+ Thu,  6 Aug 2020 15:54:08 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+ [209.85.208.67])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 46C1888120
+ for <iommu@lists.linux-foundation.org>; Thu,  6 Aug 2020 15:54:08 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id di22so28339955edb.12
+ for <iommu@lists.linux-foundation.org>; Thu, 06 Aug 2020 08:54:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=O+ufeIly26hH0HVmgJKBo9pM+PAzFRO+Yv7COUuQIJo=;
+ b=R6SO5z7N72KtfknpWpSlCKTbeB/0zDuyBWmEmGrL/iBpFU2SRozwszNFSBCuGR8ZMf
+ XdTFXpawMMuAuNV/6/EDPgAJVxePs27K7gYczFkiMWA6plwzAoLcrWHQAMzVaBJzfVtQ
+ zMsr5F9GOrBNwGm3zMRmIOswiuzaebXIQnOcIaa6FWX0oVWN6FQIY2+5Qudu2eyLV16t
+ WEdasvBvmfLPXI40zDN2OYfMsV/TABIXiXPSVVid5Z5n7hmprxD63WkG8wGjMttmJCuq
+ nuQxMp1bBWW9eKWsaw8TGjWyEyB+hJaT5e4UdyV9RRz30iInDqb55QpUcHTgfOO302/T
+ ClmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=O+ufeIly26hH0HVmgJKBo9pM+PAzFRO+Yv7COUuQIJo=;
+ b=BN80xr1WRbLZqmgpYQ4rC0Dg4ZtIHBoDjOEz+OC4460bunz1zJw+q8qHYFdkbnJbO8
+ Umr32g+RQKTrPS3Hm9/492w1RL0PRP16TGViyhBpjr+GcgHdH3r+MorCaC5lua0eoW3b
+ REUwzXlK2xm6qWR7l2ID7zoFtSeFkKVD6ZIhYzf8trceGAFkJ8jx2KQzu2VVCGYy9iiG
+ 16wjmC+YH0xwoXtr8DL26e+1F1/PlvCCENI4sbc/fPRp0DG1k1Pbo8Pd8JGV6/BPWDWh
+ i7tZYRGLNb0epbSLVdVvj8+tnk/jjv45aAH1Xw+vKH2OazVSK53We0bwdvKBgcqGFm2T
+ lWRg==
+X-Gm-Message-State: AOAM533hzLV/559xobSHgltrgm37QrCuqRzNVpdCkT6T7rz1FsYE15pA
+ ok6DnnDN3Uj2+pE02ULpmCE=
+X-Google-Smtp-Source: ABdhPJyPwZ6Q04MNu67pZ1O1nuhWiXIm8oC4MsQ55Qogir4NVqKRn01KwQylpRo9pqoFSDhTqVkaJg==
+X-Received: by 2002:a05:6402:33a:: with SMTP id
+ q26mr4973328edw.8.1596729246587; 
+ Thu, 06 Aug 2020 08:54:06 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id b16sm3741696edy.73.2020.08.06.08.54.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Aug 2020 08:54:05 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH 0/3] iommu/tegra-smmu: Reference count fixes
+Date: Thu,  6 Aug 2020 17:54:01 +0200
+Message-Id: <20200806155404.3936074-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3a530804ad5aa96d2502da8ee3e8650b0b477c0f.camel@suse.de>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: amit.pundir@linaro.org, linux-kernel@vger.kernel.org, jeremy.linton@arm.com,
- iommu@lists.linux-foundation.org, linux-rpi-kernel@lists.infradead.org,
- rientjes@google.com, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Jon Hunter <jonathanh@nvidia.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,14 +94,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Aug 06, 2020 at 01:50:29PM +0200, Nicolas Saenz Julienne wrote:
-> > The latter is pretty much what I expect, as we only support the default and
-> > per-device DMA CMAs.
-> 
-> Fair enough, should I send a v3 with everything cleaned-up/rebased, or you'd
-> rather pick it up from your version?
+From: Thierry Reding <treding@nvidia.com>
 
-Please just resend the whole thing. 
+I was running into some use-after-free conditions after recent changes
+to the host1x driver cause the child devices to be destroyed upon driver
+unloading. This in turn caused the IOMMU groups associated with the
+child devices to also get released and that uncovered a subtle reference
+count unbalance.
+
+This contains two fixes for these issues and also includes a patch that
+sets the IOMMU group name for "static" groups to help with debugging.
+
+Thierry
+
+Thierry Reding (3):
+  iommu/tegra-smmu: Set IOMMU group name
+  iommu/tegra-smmu: Balance IOMMU group reference count
+  iommu/tegra-smmu: Prune IOMMU group when it is released
+
+ drivers/iommu/tegra-smmu.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+-- 
+2.27.0
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
