@@ -1,84 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D883E23DB76
-	for <lists.iommu@lfdr.de>; Thu,  6 Aug 2020 17:54:20 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9D823E165
+	for <lists.iommu@lfdr.de>; Thu,  6 Aug 2020 20:49:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8FD5786F8D;
-	Thu,  6 Aug 2020 15:54:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DEB6124FA8;
+	Thu,  6 Aug 2020 18:49:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kphEdXNBVp98; Thu,  6 Aug 2020 15:54:19 +0000 (UTC)
+	with ESMTP id 1tmi3J5xubXi; Thu,  6 Aug 2020 18:49:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3346B86F80;
-	Thu,  6 Aug 2020 15:54:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E923C203E7;
+	Thu,  6 Aug 2020 18:49:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 206C8C004C;
-	Thu,  6 Aug 2020 15:54:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D9B58C004C;
+	Thu,  6 Aug 2020 18:49:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A19A1C004C
- for <iommu@lists.linux-foundation.org>; Thu,  6 Aug 2020 15:54:16 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A0EE9C004C
+ for <iommu@lists.linux-foundation.org>; Thu,  6 Aug 2020 18:49:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 89B268814A
- for <iommu@lists.linux-foundation.org>; Thu,  6 Aug 2020 15:54:16 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 959F4884A8
+ for <iommu@lists.linux-foundation.org>; Thu,  6 Aug 2020 18:49:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hZYgAGY6Uaoi for <iommu@lists.linux-foundation.org>;
- Thu,  6 Aug 2020 15:54:15 +0000 (UTC)
+ with ESMTP id qD+T-a+A8Fiq for <iommu@lists.linux-foundation.org>;
+ Thu,  6 Aug 2020 18:49:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
- [209.85.218.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 99F0E882C5
- for <iommu@lists.linux-foundation.org>; Thu,  6 Aug 2020 15:54:15 +0000 (UTC)
-Received: by mail-ej1-f67.google.com with SMTP id g19so37041179ejc.9
- for <iommu@lists.linux-foundation.org>; Thu, 06 Aug 2020 08:54:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=UHM7NrOeh2iQ0mr8lE8C+H1rDTyZhW846howQnzmmso=;
- b=EanimBfT/WgajAIB3u1A3iBG9JEfttCiNI4/b2mLS3LDpcOHaoEzg5NwcDZjwy3F/4
- 2+8hqioyGVh8kPTtan451m+cp/w7HVWAJyFkATdglqDptfIe0noU9vsmxbhE0XQs4Xgq
- YmPniWhdRSYWx5q9UCbFxpkshPhhCmCPmbZQgTSlgOIrkGk8D0VeEAzu/BNVng2Yi/nm
- f6jh5Q+BS0E6exQaFrJPQSjTdk6N6WLlbzbSn/nQgLAPcoBByx/xymqjgDHVdRVtPWao
- KcsFRWzqK4IF+gLWeddZlORJsrz578WHCBcSAZkW6b/rnDiGLMPfRTdXpgFg8jTGPSJB
- ipRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UHM7NrOeh2iQ0mr8lE8C+H1rDTyZhW846howQnzmmso=;
- b=HqS3g2OkWgt4ze1PvMqEQM3A6YDc3HAGlD3m6HGHpXYXNY3yMxwBrme+4pfBI1D7tM
- T8v+FE8nWQ1MR/9UzXAU5g2EhmKmb0UZ+1dAoh9481NAAU9cD+aVq0qpRV62mXWVfi2P
- DU5MoySBUVrd073QPpmcd7zYSqJEFbAPKv0+zlUM+vFkWhAiPxsVqGtpCDkyOLY0MovA
- xjsbgvLLjg/U9oJE/OTFznvQcDakL/eSzgNY9N08JEvO8knvnrKnkwbGc0VVgZifjjt3
- DLaUBRF2gfhW9Fh8yY4fEkTZCQGESMs3I9Cdfcx+f2SLVi0cLSyCBnnuk5cIwRrZawCe
- xQUA==
-X-Gm-Message-State: AOAM533B67zhggkMeQzoLukm3MCUKUUAqTdJ6+4JpwEgPCg4Uklr0TFT
- bnAbqGTXQuSaJQQzzegOv8c=
-X-Google-Smtp-Source: ABdhPJyS5VFo4rwNX3VlJZqao9YiV3jX+fDzIHN5dP0+0vpr5zAZ6By09k6fuYjcdV0RfC2TVc5ZHg==
-X-Received: by 2002:a17:906:3756:: with SMTP id
- e22mr5204598ejc.487.1596729254164; 
- Thu, 06 Aug 2020 08:54:14 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id g25sm3955136ejh.110.2020.08.06.08.54.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Aug 2020 08:54:13 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 3/3] iommu/tegra-smmu: Prune IOMMU group when it is released
-Date: Thu,  6 Aug 2020 17:54:04 +0200
-Message-Id: <20200806155404.3936074-4-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200806155404.3936074-1-thierry.reding@gmail.com>
-References: <20200806155404.3936074-1-thierry.reding@gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8077F88482
+ for <iommu@lists.linux-foundation.org>; Thu,  6 Aug 2020 18:49:08 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D3E86AC82;
+ Thu,  6 Aug 2020 18:49:23 +0000 (UTC)
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: amit.pundir@linaro.org,
+	hch@lst.de,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] dma-pool fixes
+Date: Thu,  6 Aug 2020 20:47:53 +0200
+Message-Id: <20200806184756.32075-1-nsaenzjulienne@suse.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Cc: linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
- Jon Hunter <jonathanh@nvidia.com>
+Cc: jeremy.linton@arm.com, iommu@lists.linux-foundation.org,
+ linux-rpi-kernel@lists.infradead.org, rientjes@google.com,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,65 +67,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Thierry Reding <treding@nvidia.com>
+Now that we have an explanation to Amir's issue, we can re-spin this
+series.
 
-In order to share groups between multiple devices we keep track of them
-in a per-SMMU list. When an IOMMU group is released, a dangling pointer
-to it stays around in that list. Fix this by implementing an IOMMU data
-release callback for groups where the dangling pointer can be removed.
-
-Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/iommu/tegra-smmu.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Changes since v2:
+ - Go back to v1's behavior for patch #2
 
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index c439c0929ef8..2574e716086b 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -19,6 +19,7 @@
- 
- struct tegra_smmu_group {
- 	struct list_head list;
-+	struct tegra_smmu *smmu;
- 	const struct tegra_smmu_group_soc *soc;
- 	struct iommu_group *group;
- };
-@@ -813,6 +814,16 @@ tegra_smmu_find_group(struct tegra_smmu *smmu, unsigned int swgroup)
- 	return NULL;
- }
- 
-+static void tegra_smmu_group_release(void *iommu_data)
-+{
-+	struct tegra_smmu_group *group = iommu_data;
-+	struct tegra_smmu *smmu = group->smmu;
-+
-+	mutex_lock(&smmu->lock);
-+	list_del(&group->list);
-+	mutex_unlock(&smmu->lock);
-+}
-+
- static struct iommu_group *tegra_smmu_group_get(struct tegra_smmu *smmu,
- 						unsigned int swgroup)
- {
-@@ -840,6 +851,7 @@ static struct iommu_group *tegra_smmu_group_get(struct tegra_smmu *smmu,
- 	}
- 
- 	INIT_LIST_HEAD(&group->list);
-+	group->smmu = smmu;
- 	group->soc = soc;
- 
- 	group->group = iommu_group_alloc();
-@@ -849,6 +861,7 @@ static struct iommu_group *tegra_smmu_group_get(struct tegra_smmu *smmu,
- 		return NULL;
- 	}
- 
-+	iommu_group_set_iommudata(group->group, group, tegra_smmu_group_release);
- 	iommu_group_set_name(group->group, soc->name);
- 	list_add_tail(&group->list, &smmu->groups);
- 	mutex_unlock(&smmu->lock);
+Changes since v1:
+ - Make cma_in_zone() more strict, GFP_KERNEL doesn't default to true
+   now
+
+ - Check if phys_addr_ok() exists prior calling it
+
+Christoph Hellwig (1):
+  dma-pool: fix coherent pool allocations for IOMMU mappings
+
+Nicolas Saenz Julienne (1):
+  dma-pool: Only allocate from CMA when in same memory zone
+
+ drivers/iommu/dma-iommu.c   |   4 +-
+ include/linux/dma-direct.h  |   3 -
+ include/linux/dma-mapping.h |   5 +-
+ kernel/dma/direct.c         |  13 +++-
+ kernel/dma/pool.c           | 145 +++++++++++++++++++-----------------
+ 5 files changed, 92 insertions(+), 78 deletions(-)
+
 -- 
-2.27.0
+2.28.0
 
 _______________________________________________
 iommu mailing list
