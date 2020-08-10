@@ -1,73 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90CB724131D
-	for <lists.iommu@lfdr.de>; Tue, 11 Aug 2020 00:27:52 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC98241328
+	for <lists.iommu@lfdr.de>; Tue, 11 Aug 2020 00:28:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4629887807;
-	Mon, 10 Aug 2020 22:27:51 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2677A226DB;
+	Mon, 10 Aug 2020 22:28:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xncxyiYov7da; Mon, 10 Aug 2020 22:27:50 +0000 (UTC)
+	with ESMTP id Id2u6KcJeSX6; Mon, 10 Aug 2020 22:27:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 798C087824;
-	Mon, 10 Aug 2020 22:27:50 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0BF462043C;
+	Mon, 10 Aug 2020 22:27:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 65E53C004D;
-	Mon, 10 Aug 2020 22:27:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EA9C3C004D;
+	Mon, 10 Aug 2020 22:27:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CE911C004D
- for <iommu@lists.linux-foundation.org>; Mon, 10 Aug 2020 22:27:47 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 454E6C004D
+ for <iommu@lists.linux-foundation.org>; Mon, 10 Aug 2020 22:27:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BD3A3876FC
- for <iommu@lists.linux-foundation.org>; Mon, 10 Aug 2020 22:27:47 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 32BC187730
+ for <iommu@lists.linux-foundation.org>; Mon, 10 Aug 2020 22:27:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9Cy5sQbyeDny for <iommu@lists.linux-foundation.org>;
- Mon, 10 Aug 2020 22:27:46 +0000 (UTC)
+ with ESMTP id I355th-ywLhy for <iommu@lists.linux-foundation.org>;
+ Mon, 10 Aug 2020 22:27:55 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B56CD876F6
- for <iommu@lists.linux-foundation.org>; Mon, 10 Aug 2020 22:27:43 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id C681A8779F
+ for <iommu@lists.linux-foundation.org>; Mon, 10 Aug 2020 22:27:53 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1597098466; h=Content-Transfer-Encoding: MIME-Version:
+ s=smtp; t=1597098475; h=Content-Transfer-Encoding: MIME-Version:
  References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=iq9TuxnwB5kGxb5cTMsU0LE5bIkRcWS49YoceQPqScU=;
- b=GyTFX1xPHJKxCNrpFr8vUHem6krIS88z1ThbNWhImPM8gIjvk/HmHt9wWW1vlGc92WpUZdZm
- ToW24CoygDnDMZ1F4ukJWUXF9lli8hIjMhfsKKhN4UCH32SKwXJNjXOTWDTUIrU3oDTQc7vh
- D3tcTyz77dy6nUEI6TrzQreEVys=
+ Sender; bh=1l56jKTnCbGbzDy9PC9bfDI6CvjcNk4zvHShg3Sn/ic=;
+ b=IS8JJ9KNVfFcT3dZme9RsDFewpgtv+d29IiXNcN+JmDqysj+GjVsPoTz/W4jrDGRZTWU0UvJ
+ kkA/4t3awNz5WuVvSgNwhEFm2gTfS7ifxvFoSXyrgBVfWoMSdIEF3eas6gIstydmprC8hvQq
+ o17cFov/4WF8wzhpBS/pZ/7Pa0w=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n14.prod.us-west-2.postgun.com with SMTP id
- 5f31c9da3f2ce110209d9011 (version=TLS1.2,
+ smtp-out-n08.prod.us-west-2.postgun.com with SMTP id
+ 5f31c9da1e4d3989d419804f (version=TLS1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 10 Aug 2020 22:27:38
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id CBCFAC4344A; Mon, 10 Aug 2020 22:27:34 +0000 (UTC)
+ id 7659BC43449; Mon, 10 Aug 2020 22:27:35 +0000 (UTC)
 Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 1DFF9C433AF;
- Mon, 10 Aug 2020 22:27:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1DFF9C433AF
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A2429C433B2;
+ Mon, 10 Aug 2020 22:27:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A2429C433B2
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=none smtp.mailfrom=jcrouse@codeaurora.org
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v12 09/13] drm/msm: Add support to create a local pagetable
-Date: Mon, 10 Aug 2020 16:26:53 -0600
-Message-Id: <20200810222657.1841322-10-jcrouse@codeaurora.org>
+Subject: [PATCH v12 10/13] drm/msm: Add support for private address space
+ instances
+Date: Mon, 10 Aug 2020 16:26:54 -0600
+Message-Id: <20200810222657.1841322-11-jcrouse@codeaurora.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200810222657.1841322-1-jcrouse@codeaurora.org>
 References: <20200810222657.1841322-1-jcrouse@codeaurora.org>
@@ -94,297 +95,167 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add support to create a io-pgtable for use by targets that support
-per-instance pagetables. In order to support per-instance pagetables the
-GPU SMMU device needs to have the qcom,adreno-smmu compatible string and
-split pagetables enabled.
+Add support for allocating private address space instances. Targets that
+support per-context pagetables should implement their own function to
+allocate private address spaces.
+
+The default will return a pointer to the global address space.
 
 Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 ---
 
- drivers/gpu/drm/msm/msm_gpummu.c |   2 +-
- drivers/gpu/drm/msm/msm_iommu.c  | 190 ++++++++++++++++++++++++++++++-
- drivers/gpu/drm/msm/msm_mmu.h    |  16 ++-
- 3 files changed, 205 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.c     | 13 +++++++------
+ drivers/gpu/drm/msm/msm_drv.h     |  5 +++++
+ drivers/gpu/drm/msm/msm_gem_vma.c |  9 +++++++++
+ drivers/gpu/drm/msm/msm_gpu.c     | 22 ++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_gpu.h     |  5 +++++
+ 5 files changed, 48 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gpummu.c b/drivers/gpu/drm/msm/msm_gpummu.c
-index 310a31b05faa..aab121f4beb7 100644
---- a/drivers/gpu/drm/msm/msm_gpummu.c
-+++ b/drivers/gpu/drm/msm/msm_gpummu.c
-@@ -102,7 +102,7 @@ struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu)
- 	}
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 108b663c3ef2..f072306f1260 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -597,7 +597,7 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
+ 	kref_init(&ctx->ref);
+ 	msm_submitqueue_init(dev, ctx);
  
- 	gpummu->gpu = gpu;
--	msm_mmu_init(&gpummu->base, dev, &funcs);
-+	msm_mmu_init(&gpummu->base, dev, &funcs, MSM_MMU_GPUMMU);
+-	ctx->aspace = priv->gpu ? priv->gpu->aspace : NULL;
++	ctx->aspace = msm_gpu_create_private_address_space(priv->gpu);
+ 	file->driver_priv = ctx;
  
- 	return &gpummu->base;
+ 	return 0;
+@@ -780,18 +780,19 @@ static int msm_ioctl_gem_cpu_fini(struct drm_device *dev, void *data,
  }
-diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-index 1b6635504069..bc04dda8a198 100644
---- a/drivers/gpu/drm/msm/msm_iommu.c
-+++ b/drivers/gpu/drm/msm/msm_iommu.c
-@@ -4,15 +4,201 @@
-  * Author: Rob Clark <robdclark@gmail.com>
-  */
  
-+#include <linux/io-pgtable.h>
- #include "msm_drv.h"
- #include "msm_mmu.h"
+ static int msm_ioctl_gem_info_iova(struct drm_device *dev,
+-		struct drm_gem_object *obj, uint64_t *iova)
++		struct drm_file *file, struct drm_gem_object *obj,
++		uint64_t *iova)
+ {
+-	struct msm_drm_private *priv = dev->dev_private;
++	struct msm_file_private *ctx = file->driver_priv;
  
- struct msm_iommu {
- 	struct msm_mmu base;
- 	struct iommu_domain *domain;
-+	atomic_t pagetables;
- };
+-	if (!priv->gpu)
++	if (!ctx->aspace)
+ 		return -EINVAL;
+ 
+ 	/*
+ 	 * Don't pin the memory here - just get an address so that userspace can
+ 	 * be productive
+ 	 */
+-	return msm_gem_get_iova(obj, priv->gpu->aspace, iova);
++	return msm_gem_get_iova(obj, ctx->aspace, iova);
+ }
+ 
+ static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
+@@ -830,7 +831,7 @@ static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
+ 		args->value = msm_gem_mmap_offset(obj);
+ 		break;
+ 	case MSM_INFO_GET_IOVA:
+-		ret = msm_ioctl_gem_info_iova(dev, obj, &args->value);
++		ret = msm_ioctl_gem_info_iova(dev, file, obj, &args->value);
+ 		break;
+ 	case MSM_INFO_SET_NAME:
+ 		/* length check should leave room for terminating null: */
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index f69c6d62584d..51a5c9083e13 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -249,6 +249,10 @@ int msm_gem_map_vma(struct msm_gem_address_space *aspace,
+ void msm_gem_close_vma(struct msm_gem_address_space *aspace,
+ 		struct msm_gem_vma *vma);
+ 
 +
- #define to_msm_iommu(x) container_of(x, struct msm_iommu, base)
++struct msm_gem_address_space *
++msm_gem_address_space_get(struct msm_gem_address_space *aspace);
++
+ void msm_gem_address_space_put(struct msm_gem_address_space *aspace);
  
-+struct msm_iommu_pagetable {
-+	struct msm_mmu base;
-+	struct msm_mmu *parent;
-+	struct io_pgtable_ops *pgtbl_ops;
-+	phys_addr_t ttbr;
-+	u32 asid;
-+};
-+static struct msm_iommu_pagetable *to_pagetable(struct msm_mmu *mmu)
+ struct msm_gem_address_space *
+@@ -434,6 +438,7 @@ static inline void msm_file_private_destroy(struct kref *kref)
+ 	struct msm_file_private *ctx = container_of(kref,
+ 		struct msm_file_private, ref);
+ 
++	msm_gem_address_space_put(ctx->aspace);
+ 	kfree(ctx);
+ }
+ 
+diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
+index 5f6a11211b64..29cc1305cf37 100644
+--- a/drivers/gpu/drm/msm/msm_gem_vma.c
++++ b/drivers/gpu/drm/msm/msm_gem_vma.c
+@@ -27,6 +27,15 @@ void msm_gem_address_space_put(struct msm_gem_address_space *aspace)
+ 		kref_put(&aspace->kref, msm_gem_address_space_destroy);
+ }
+ 
++struct msm_gem_address_space *
++msm_gem_address_space_get(struct msm_gem_address_space *aspace)
 +{
-+	return container_of(mmu, struct msm_iommu_pagetable, base);
++	if (!IS_ERR_OR_NULL(aspace))
++		kref_get(&aspace->kref);
++
++	return aspace;
 +}
 +
-+static int msm_iommu_pagetable_unmap(struct msm_mmu *mmu, u64 iova,
-+		size_t size)
+ /* Actually unmap memory for the vma */
+ void msm_gem_purge_vma(struct msm_gem_address_space *aspace,
+ 		struct msm_gem_vma *vma)
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index a1f3da6550e5..b070355369d8 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -823,6 +823,28 @@ static int get_clocks(struct platform_device *pdev, struct msm_gpu *gpu)
+ 	return 0;
+ }
+ 
++/* Return a new address space for a msm_drm_private instance */
++struct msm_gem_address_space *
++msm_gpu_create_private_address_space(struct msm_gpu *gpu)
 +{
-+	struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-+	struct io_pgtable_ops *ops = pagetable->pgtbl_ops;
-+	size_t unmapped = 0;
++	struct msm_gem_address_space *aspace = NULL;
 +
-+	/* Unmap the block one page at a time */
-+	while (size) {
-+		unmapped += ops->unmap(ops, iova, 4096, NULL);
-+		iova += 4096;
-+		size -= 4096;
-+	}
-+
-+	iommu_flush_tlb_all(to_msm_iommu(pagetable->parent)->domain);
-+
-+	return (unmapped == size) ? 0 : -EINVAL;
-+}
-+
-+static int msm_iommu_pagetable_map(struct msm_mmu *mmu, u64 iova,
-+		struct sg_table *sgt, size_t len, int prot)
-+{
-+	struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-+	struct io_pgtable_ops *ops = pagetable->pgtbl_ops;
-+	struct scatterlist *sg;
-+	size_t mapped = 0;
-+	u64 addr = iova;
-+	unsigned int i;
-+
-+	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-+		size_t size = sg->length;
-+		phys_addr_t phys = sg_phys(sg);
-+
-+		/* Map the block one page at a time */
-+		while (size) {
-+			if (ops->map(ops, addr, phys, 4096, prot, GFP_KERNEL)) {
-+				msm_iommu_pagetable_unmap(mmu, iova, mapped);
-+				return -EINVAL;
-+			}
-+
-+			phys += 4096;
-+			addr += 4096;
-+			size -= 4096;
-+			mapped += 4096;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void msm_iommu_pagetable_destroy(struct msm_mmu *mmu)
-+{
-+	struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-+	struct msm_iommu *iommu = to_msm_iommu(pagetable->parent);
++	if (!gpu)
++		return NULL;
 +
 +	/*
-+	 * If this is the last attached pagetable for the parent,
-+	 * disable TTBR0 in the arm-smmu driver
++	 * If the target doesn't support private address spaces then return
++	 * the global one
 +	 */
-+	if (atomic_dec_return(&iommu->pagetables) == 0)
-+		iommu_domain_set_attr(iommu->domain,
-+			DOMAIN_ATTR_PGTABLE_CFG, NULL);
++	if (gpu->funcs->create_private_address_space)
++		aspace = gpu->funcs->create_private_address_space(gpu);
 +
-+	free_io_pgtable_ops(pagetable->pgtbl_ops);
-+	kfree(pagetable);
++	if (IS_ERR_OR_NULL(aspace))
++		aspace = msm_gem_address_space_get(gpu->aspace);
++
++	return aspace;
 +}
 +
-+int msm_iommu_pagetable_params(struct msm_mmu *mmu,
-+		phys_addr_t *ttbr, int *asid)
-+{
-+	struct msm_iommu_pagetable *pagetable;
-+
-+	if (mmu->type != MSM_MMU_IOMMU_PAGETABLE)
-+		return -EINVAL;
-+
-+	pagetable = to_pagetable(mmu);
-+
-+	if (ttbr)
-+		*ttbr = pagetable->ttbr;
-+
-+	if (asid)
-+		*asid = pagetable->asid;
-+
-+	return 0;
-+}
-+
-+static const struct msm_mmu_funcs pagetable_funcs = {
-+		.map = msm_iommu_pagetable_map,
-+		.unmap = msm_iommu_pagetable_unmap,
-+		.destroy = msm_iommu_pagetable_destroy,
-+};
-+
-+static void msm_iommu_tlb_flush_all(void *cookie)
-+{
-+}
-+
-+static void msm_iommu_tlb_flush_walk(unsigned long iova, size_t size,
-+		size_t granule, void *cookie)
-+{
-+}
-+
-+static void msm_iommu_tlb_add_page(struct iommu_iotlb_gather *gather,
-+		unsigned long iova, size_t granule, void *cookie)
-+{
-+}
-+
-+static const struct iommu_flush_ops null_tlb_ops = {
-+	.tlb_flush_all = msm_iommu_tlb_flush_all,
-+	.tlb_flush_walk = msm_iommu_tlb_flush_walk,
-+	.tlb_flush_leaf = msm_iommu_tlb_flush_walk,
-+	.tlb_add_page = msm_iommu_tlb_add_page,
-+};
-+
-+struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent)
-+{
-+	struct msm_iommu *iommu = to_msm_iommu(parent);
-+	static int next_asid = 16;
-+	struct msm_iommu_pagetable *pagetable;
-+	struct io_pgtable_cfg cfg;
-+	int ret;
-+
-+	/* Get the pagetable configuration from the domain */
-+	ret = iommu_domain_get_attr(iommu->domain,
-+		DOMAIN_ATTR_PGTABLE_CFG, &cfg);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	pagetable = kzalloc(sizeof(*pagetable), GFP_KERNEL);
-+	if (!pagetable)
-+		return ERR_PTR(-ENOMEM);
-+
-+	msm_mmu_init(&pagetable->base, parent->dev, &pagetable_funcs,
-+		MSM_MMU_IOMMU_PAGETABLE);
-+
-+	/* The incoming cfg will have the TTBR1 quirk enabled */
-+	cfg.quirks &= ~IO_PGTABLE_QUIRK_ARM_TTBR1;
-+	cfg.tlb = &null_tlb_ops;
-+
-+	pagetable->pgtbl_ops = alloc_io_pgtable_ops(ARM_64_LPAE_S1,
-+		&cfg, iommu->domain);
-+
-+	if (!pagetable->pgtbl_ops) {
-+		kfree(pagetable);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	/*
-+	 * If this is the first pagetable that we've allocated, send it back to
-+	 * the arm-smmu driver as a trigger to set up TTBR0
-+	 */
-+	if (atomic_inc_return(&iommu->pagetables) == 1) {
-+		ret = iommu_domain_set_attr(iommu->domain,
-+			DOMAIN_ATTR_PGTABLE_CFG, &cfg);
-+		if (ret) {
-+			free_io_pgtable_ops(pagetable->pgtbl_ops);
-+			kfree(pagetable);
-+			return ERR_PTR(ret);
-+		}
-+	}
-+
-+	/* Needed later for TLB flush */
-+	pagetable->parent = parent;
-+	pagetable->ttbr = cfg.arm_lpae_s1_cfg.ttbr;
-+
-+	pagetable->asid = next_asid;
-+	next_asid = (next_asid + 1) % 255;
-+	next_asid = min(16, next_asid);
-+
-+	return &pagetable->base;
-+}
-+
- static int msm_fault_handler(struct iommu_domain *domain, struct device *dev,
- 		unsigned long iova, int flags, void *arg)
- {
-@@ -85,9 +271,11 @@ struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain)
- 		return ERR_PTR(-ENOMEM);
- 
- 	iommu->domain = domain;
--	msm_mmu_init(&iommu->base, dev, &funcs);
-+	msm_mmu_init(&iommu->base, dev, &funcs, MSM_MMU_IOMMU);
- 	iommu_set_fault_handler(domain, msm_fault_handler, iommu);
- 
-+	atomic_set(&iommu->pagetables, 0);
-+
- 	ret = iommu_attach_device(iommu->domain, dev);
- 	if (ret) {
- 		kfree(iommu);
-diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
-index 3a534ee59bf6..61ade89d9e48 100644
---- a/drivers/gpu/drm/msm/msm_mmu.h
-+++ b/drivers/gpu/drm/msm/msm_mmu.h
-@@ -17,18 +17,26 @@ struct msm_mmu_funcs {
- 	void (*destroy)(struct msm_mmu *mmu);
+ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+ 		struct msm_gpu *gpu, const struct msm_gpu_funcs *funcs,
+ 		const char *name, struct msm_gpu_config *config)
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index d496d488222c..d298657b4730 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -64,6 +64,8 @@ struct msm_gpu_funcs {
+ 	void (*gpu_set_freq)(struct msm_gpu *gpu, struct dev_pm_opp *opp);
+ 	struct msm_gem_address_space *(*create_address_space)
+ 		(struct msm_gpu *gpu, struct platform_device *pdev);
++	struct msm_gem_address_space *(*create_private_address_space)
++		(struct msm_gpu *gpu);
  };
  
-+enum msm_mmu_type {
-+	MSM_MMU_GPUMMU,
-+	MSM_MMU_IOMMU,
-+	MSM_MMU_IOMMU_PAGETABLE,
-+};
-+
- struct msm_mmu {
- 	const struct msm_mmu_funcs *funcs;
- 	struct device *dev;
- 	int (*handler)(void *arg, unsigned long iova, int flags);
- 	void *arg;
-+	enum msm_mmu_type type;
- };
+ struct msm_gpu {
+@@ -286,6 +288,9 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+ 		struct msm_gpu *gpu, const struct msm_gpu_funcs *funcs,
+ 		const char *name, struct msm_gpu_config *config);
  
- static inline void msm_mmu_init(struct msm_mmu *mmu, struct device *dev,
--		const struct msm_mmu_funcs *funcs)
-+		const struct msm_mmu_funcs *funcs, enum msm_mmu_type type)
- {
- 	mmu->dev = dev;
- 	mmu->funcs = funcs;
-+	mmu->type = type;
- }
- 
- struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain);
-@@ -41,7 +49,13 @@ static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
- 	mmu->handler = handler;
- }
- 
-+struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent);
++struct msm_gem_address_space *
++msm_gpu_create_private_address_space(struct msm_gpu *gpu);
 +
- void msm_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
- 		dma_addr_t *tran_error);
+ void msm_gpu_cleanup(struct msm_gpu *gpu);
  
-+
-+int msm_iommu_pagetable_params(struct msm_mmu *mmu, phys_addr_t *ttbr,
-+		int *asid);
-+
- #endif /* __MSM_MMU_H__ */
+ struct msm_gpu *adreno_load_gpu(struct drm_device *dev);
 -- 
 2.25.1
 
