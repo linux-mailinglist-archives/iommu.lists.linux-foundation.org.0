@@ -1,82 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78730242DBC
-	for <lists.iommu@lfdr.de>; Wed, 12 Aug 2020 18:59:33 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 93814883DC;
-	Wed, 12 Aug 2020 16:59:31 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id o-QPBBempVv3; Wed, 12 Aug 2020 16:59:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C3D82883D7;
-	Wed, 12 Aug 2020 16:59:29 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B192FC004D;
-	Wed, 12 Aug 2020 16:59:29 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 37791C004D
- for <iommu@lists.linux-foundation.org>; Wed, 12 Aug 2020 16:59:28 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718492433A5
+	for <lists.iommu@lfdr.de>; Thu, 13 Aug 2020 07:38:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 33EBF86A57
- for <iommu@lists.linux-foundation.org>; Wed, 12 Aug 2020 16:59:28 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A2C14821BC;
+	Thu, 13 Aug 2020 05:38:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id GBCbPUXfA6y6; Thu, 13 Aug 2020 05:38:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7849C85F8B;
+	Thu, 13 Aug 2020 05:38:23 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5C2E4C013C;
+	Thu, 13 Aug 2020 05:38:23 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4DE6CC004D
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Aug 2020 05:38:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 4167387F50
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Aug 2020 05:38:21 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AJUwdMQjeGV2 for <iommu@lists.linux-foundation.org>;
- Wed, 12 Aug 2020 16:59:27 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id EE47A869FE
- for <iommu@lists.linux-foundation.org>; Wed, 12 Aug 2020 16:59:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1597251565;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x/TMDbTXRPMHA++0X0V/1R29t8yISpXHRZTrFNiw52A=;
- b=WfnkuvzI+Wv8PA3PAqHeBPBFHu6yumt6Z3mdCFpHnZgAxlc4IJq56wsv39RsGHqJcWwmJx
- 1LCVkKLD+TI0fHhJ6RY81kz9i18GP9xDEXm4cKFvfHXdqhUWMdAk/utYMNQ43A3fTKWHj+
- Tn5bCu3t9SfWFM+mzGtpxk2Q3Rd2DiI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-pPvv2GvsObOnxmeBqAXoZA-1; Wed, 12 Aug 2020 12:59:23 -0400
-X-MC-Unique: pPvv2GvsObOnxmeBqAXoZA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7AFF1835862;
- Wed, 12 Aug 2020 16:59:21 +0000 (UTC)
-Received: from [10.36.113.93] (ovpn-113-93.ams2.redhat.com [10.36.113.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1168119D71;
- Wed, 12 Aug 2020 16:59:15 +0000 (UTC)
-Subject: Re: [PATCH v7 2/7] iommu/uapi: Add argsz for user filled data
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>,
- iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>, Alex Williamson <alex.williamson@redhat.com>
-References: <1596068467-49322-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1596068467-49322-3-git-send-email-jacob.jun.pan@linux.intel.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <1ac39547-143b-2a2e-e142-92be023ef8d7@redhat.com>
-Date: Wed, 12 Aug 2020 18:59:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ with ESMTP id dVhV+6NMBuq9 for <iommu@lists.linux-foundation.org>;
+ Thu, 13 Aug 2020 05:38:20 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 8333F87EE6
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Aug 2020 05:38:17 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1597297100; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=FWAfiwn/2LtjfC+jVU8NoR3c1nS9gxFfZo5aGupJqbI=;
+ b=aBYbgc9omfjSfCdnez7UZRa3JV5eCO1z0V46FaxxdPCf72mMpstFIqTHrVhj0k4iggOySEBt
+ FoOIqyhaH12hdAHJAA2wPBUne1Q3mJIEAmpZtO1U9GrI1DNm3fLxzgTUqkC65jRRX0HzOt/4
+ guy0z8d+Vom40q6r6YRpQcmXzcg=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 5f34d193d96d28d61e6aa156 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 13 Aug 2020 05:37:23
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 2020EC433CB; Thu, 13 Aug 2020 05:37:23 +0000 (UTC)
+Received: from [192.168.43.216] (unknown [157.48.144.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: vjitta)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 6075CC433C6;
+ Thu, 13 Aug 2020 05:37:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6075CC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=none smtp.mailfrom=vjitta@codeaurora.org
+Subject: Re: [PATCH 2/2] iommu/iova: Free global iova rcache on iova alloc
+ failure
+To: Joerg Roedel <joro@8bytes.org>
+References: <1593785835-27250-1-git-send-email-vjitta@codeaurora.org>
+ <1593785835-27250-2-git-send-email-vjitta@codeaurora.org>
+ <29f44540-44f8-570d-886f-2090596a3b8e@codeaurora.org>
+ <20200812151608.GG3721@8bytes.org>
+From: Vijayanand Jitta <vjitta@codeaurora.org>
+Message-ID: <b6c7eb2b-d1f5-058f-943c-1b7c14fe1f7c@codeaurora.org>
+Date: Thu, 13 Aug 2020 11:06:52 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <1596068467-49322-3-git-send-email-jacob.jun.pan@linux.intel.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- Christoph Hellwig <hch@infradead.org>, David Woodhouse <dwmw2@infradead.org>
+In-Reply-To: <20200812151608.GG3721@8bytes.org>
+Content-Language: en-GB
+Cc: vinmenon@codeaurora.org, iommu@lists.linux-foundation.org,
+ kernel-team@android.com, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,108 +96,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
 
-On 7/30/20 2:21 AM, Jacob Pan wrote:
-> As IOMMU UAPI gets extended, user data size may increase. To support
-> backward compatibiliy, this patch introduces a size field to each UAPI
-s/compatibiliy/compatibility
-> data structures. It is *always* the responsibility for the user to fill in
-> the correct size. Padding fields are adjusted to ensure 8 byte alignment.
+
+On 8/12/2020 8:46 PM, Joerg Roedel wrote:
+> On Mon, Aug 03, 2020 at 03:30:48PM +0530, Vijayanand Jitta wrote:
+>> ping?
 > 
-> Specific scenarios for user data handling are documented in:
-> Documentation/userspace-api/iommu.rst
-
-you may mention the struct version does not need to be incremented as no
-IOCTL uses the structs yet.
+> Please repost when v5.9-rc1 is released and add
 > 
-> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> ---
->  include/uapi/linux/iommu.h | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
+> 	Robin Murphy <robin.murphy@arm.com>
 > 
-> diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
-> index e907b7091a46..d5e9014f690e 100644
-> --- a/include/uapi/linux/iommu.h
-> +++ b/include/uapi/linux/iommu.h
-> @@ -135,6 +135,7 @@ enum iommu_page_response_code {
->  
->  /**
->   * struct iommu_page_response - Generic page response information
-> + * @argsz: User filled size of this data
->   * @version: API version of this structure
->   * @flags: encodes whether the corresponding fields are valid
->   *         (IOMMU_FAULT_PAGE_RESPONSE_* values)
-> @@ -143,6 +144,7 @@ enum iommu_page_response_code {
->   * @code: response code from &enum iommu_page_response_code
->   */
->  struct iommu_page_response {
-> +	__u32	argsz;
->  #define IOMMU_PAGE_RESP_VERSION_1	1
->  	__u32	version;
->  #define IOMMU_PAGE_RESP_PASID_VALID	(1 << 0)
-> @@ -218,6 +220,7 @@ struct iommu_inv_pasid_info {
->  /**
->   * struct iommu_cache_invalidate_info - First level/stage invalidation
->   *     information
-> + * @argsz: User filled size of this data
->   * @version: API version of this structure
->   * @cache: bitfield that allows to select which caches to invalidate
->   * @granularity: defines the lowest granularity used for the invalidation:
-> @@ -246,6 +249,7 @@ struct iommu_inv_pasid_info {
->   * must support the used granularity.
->   */
->  struct iommu_cache_invalidate_info {
-> +	__u32	argsz;
->  #define IOMMU_CACHE_INVALIDATE_INFO_VERSION_1 1
->  	__u32	version;
->  /* IOMMU paging structure cache */
-> @@ -255,7 +259,7 @@ struct iommu_cache_invalidate_info {
->  #define IOMMU_CACHE_INV_TYPE_NR		(3)
->  	__u8	cache;
->  	__u8	granularity;
-> -	__u8	padding[2];
-> +	__u8	padding[6];
->  	union {
->  		struct iommu_inv_pasid_info pasid_info;
->  		struct iommu_inv_addr_info addr_info;
-> @@ -292,6 +296,7 @@ struct iommu_gpasid_bind_data_vtd {
->  
->  /**
->   * struct iommu_gpasid_bind_data - Information about device and guest PASID binding
-> + * @argsz:	User filled size of this data
->   * @version:	Version of this data structure
->   * @format:	PASID table entry format
->   * @flags:	Additional information on guest bind request
-> @@ -309,17 +314,18 @@ struct iommu_gpasid_bind_data_vtd {
->   * PASID to host PASID based on this bind data.
->   */
->  struct iommu_gpasid_bind_data {
-> +	__u32 argsz;
->  #define IOMMU_GPASID_BIND_VERSION_1	1
->  	__u32 version;
->  #define IOMMU_PASID_FORMAT_INTEL_VTD	1
->  	__u32 format;
-> +	__u32 addr_width;
->  #define IOMMU_SVA_GPASID_VAL	(1 << 0) /* guest PASID valid */
->  	__u64 flags;
->  	__u64 gpgd;
->  	__u64 hpasid;
->  	__u64 gpasid;
-> -	__u32 addr_width;
-> -	__u8  padding[12];
-> +	__u8  padding[8];
->  	/* Vendor specific data */
->  	union {
->  		struct iommu_gpasid_bind_data_vtd vtd;
+> on your Cc list.
 > 
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Thanks,
+> 
+> 	Joerg
+> 
 
-Thanks
+Sure, will do.
 
-Eric
-
+Thanks,
+Vijay
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
+member of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
