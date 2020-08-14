@@ -2,78 +2,77 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 600EA24434B
-	for <lists.iommu@lfdr.de>; Fri, 14 Aug 2020 04:41:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7ACF244351
+	for <lists.iommu@lfdr.de>; Fri, 14 Aug 2020 04:41:30 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1E75F88A33;
-	Fri, 14 Aug 2020 02:41:25 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 908BE88A41;
+	Fri, 14 Aug 2020 02:41:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WBWzui496sot; Fri, 14 Aug 2020 02:41:24 +0000 (UTC)
+	with ESMTP id Gmc-dYtu2trE; Fri, 14 Aug 2020 02:41:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6850E88A38;
-	Fri, 14 Aug 2020 02:41:24 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9FFD988A43;
+	Fri, 14 Aug 2020 02:41:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 61F5AC004D;
-	Fri, 14 Aug 2020 02:41:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8C5A6C004D;
+	Fri, 14 Aug 2020 02:41:27 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 66F1FC004D
- for <iommu@lists.linux-foundation.org>; Fri, 14 Aug 2020 02:41:23 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6BA76C004D
+ for <iommu@lists.linux-foundation.org>; Fri, 14 Aug 2020 02:41:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 6333C87099
- for <iommu@lists.linux-foundation.org>; Fri, 14 Aug 2020 02:41:23 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 5B1E387099
+ for <iommu@lists.linux-foundation.org>; Fri, 14 Aug 2020 02:41:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dCxn3VyJpzdJ for <iommu@lists.linux-foundation.org>;
- Fri, 14 Aug 2020 02:41:22 +0000 (UTC)
+ with ESMTP id hgEYXidgFQnY for <iommu@lists.linux-foundation.org>;
+ Fri, 14 Aug 2020 02:41:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
  [209.85.216.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B49128705D
- for <iommu@lists.linux-foundation.org>; Fri, 14 Aug 2020 02:41:22 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id ep8so3700527pjb.3
- for <iommu@lists.linux-foundation.org>; Thu, 13 Aug 2020 19:41:22 -0700 (PDT)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id DCCF686FD7
+ for <iommu@lists.linux-foundation.org>; Fri, 14 Aug 2020 02:41:25 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id f9so3694482pju.4
+ for <iommu@lists.linux-foundation.org>; Thu, 13 Aug 2020 19:41:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wvz5YKiT932AWU4GOoumP4PC6lpfTwxubtkW9TJEg2g=;
- b=BY1djzUz+d/FaHPXRf8zOyhi08GOGS0hirvcPAsRghIkOsjdUuKuMMyqlO4f6hT0cI
- i7u0JfTwggmLPZbHSaceG2c3CH86UErv7laONOr+eg+QNJ3Fpj5vNL5T6V8SPU2Yj5Uv
- bBnolp/TOSK65L9B15Upktswzx0alm2zg1nj/mk76yuZ+oe19SsItpmo6RODs5Agt9ae
- aLwOCvULFDESiwZJrXmMQShRjaL5T72AgMOTueBZfqnH/tSv3Rx5lGrZt2t6TYU5JDap
- Z4nOzcW0iVPyhNu5uzxJ92fkdqAHV+kybDOx2aGKcvOZInD1wXK86qMLLuBP0dulv5rY
- RCxw==
+ bh=QZSqosPE87e929PMVaJawJzeXi6lq5p/xdY765Ye8VY=;
+ b=Jl8ZKrVeqcpHE/9cX3IGbDic8c9E//iKikanBK0fNcVQf9EBq8/AaBSn+6QRY865HH
+ BWUYGfGQEtSfT9iM8c6RpjadExBQYODl/u9vdD/EpQC6Dy79i82z/nYRCB6b4AFpRu0B
+ cr6XBS8NIb04nkMe+3v1y0TbceUjglnNMCSXl/mWWPYI7TUE3QjSs+mHHhNq/fRFqe0w
+ iOXO+mi/R7K8y51/BeVCmXkO5b+uPus2ghRhYwn0nJ2RLSaMfe6XnJkPa1Rs4b21d1RP
+ oOfBPZROaxcqvs9WLwp5d3NWq74wMKBdIMieFvEZ7tlS1wIyh5tjYc5xIUrhrQ0mM7T2
+ UXbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wvz5YKiT932AWU4GOoumP4PC6lpfTwxubtkW9TJEg2g=;
- b=MpDjSvRkPwPb4GsECCBvJI17oNRqdY2O0ULxlSk11GrIOnHhZhI64JVeJ6iPpeul3J
- jONcJV31BMkO4xLftHMVebBVGMa5AH5TULu3T976HUiQCCv3TstcKptF5CDhZulWYfiN
- IX0QENWDZef7aijQC6Vo5oR4n2F+EJuiOxwj3pTEXJVX89T1qHD8x+Ls7rkiJrRqtVrM
- LgJ5fba4+Zv/BLF5NRSUi9wM/gg/jv/DDDF0ArHe4Ctus7JWpR0Nbku/UqqDD8F1/riv
- ngJ3M/94OuekdLI+WzigzhjvXkbbioRRvvc/Rn/DJPDYaZXJISpRHA/RswAcWoV7kM5f
- fQIQ==
-X-Gm-Message-State: AOAM531byNYC5rPGok0IAylS99H5npdiWWU22Tb5jIsy+uti9UBx6VTH
- vq/pYcS3WY58OqQxWZ4dMS4=
-X-Google-Smtp-Source: ABdhPJy4dHAT604MoCIe4Uk9f4LkQMWMG3gqnhqu2rwnAqeOg+nz/DkG02oCFmjTMkKZbIOZsZxW/Q==
-X-Received: by 2002:a17:902:8bcc:: with SMTP id
- r12mr539052plo.314.1597372882332; 
- Thu, 13 Aug 2020 19:41:22 -0700 (PDT)
+ bh=QZSqosPE87e929PMVaJawJzeXi6lq5p/xdY765Ye8VY=;
+ b=JRfDzV/mr+WJfP7XBZGmTAKHfOI8NJQHDFptZBALSkM4ASigeQ/EBqXdIlbgI9ADp+
+ zzxndQRY1etxrCpN4Io6yuBfG1/QT7+KBzmt6vxNnzypCLWPIBqN82nsiZiy/u3WJY5/
+ 0EFmSRd0vyozVctZrxt/rIY/7XoP+9Nk4vFcidwPXglDuijRsM9DkfuQBB4bIxC1N9gU
+ INU6XM+35W3gET0kZ27rDpLip6I2/jRHW9vVqJw0jTTROyvfpGqKwL76l1/B8pbLL/FE
+ 8u49Z03ol96y+0JlFqjzvfEKrcepWza8GQY8bArsUuSFmzsQEMuO/O0RLgQvBr63GdIj
+ ZQlg==
+X-Gm-Message-State: AOAM532NlOaq9+ZA/ZVZUdEUQvxkjmfU5uVOH2W9bJH9MJyAlc2kmMRs
+ 7giQgwo1o+jfLIZKQRshfp8=
+X-Google-Smtp-Source: ABdhPJwP3zxBj8X0vl3pY8kQ3H2TddtgM2lrWQd+wxYR2/ooRvwlAKmhBCaebrrUIdkVUHf4/5pfGA==
+X-Received: by 2002:a17:90b:514:: with SMTP id r20mr561556pjz.82.1597372885479; 
+ Thu, 13 Aug 2020 19:41:25 -0700 (PDT)
 Received: from localhost ([2601:1c0:5200:a6:307:a401:7b76:c6e5])
- by smtp.gmail.com with ESMTPSA id y10sm7200316pff.177.2020.08.13.19.41.20
+ by smtp.gmail.com with ESMTPSA id e3sm6691711pgu.40.2020.08.13.19.41.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Aug 2020 19:41:21 -0700 (PDT)
+ Thu, 13 Aug 2020 19:41:24 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linux-arm-msm@vger.kernel.org
-Subject: [PATCH 06/19] drm/msm/gpu: add dev_to_gpu() helper
-Date: Thu, 13 Aug 2020 19:41:01 -0700
-Message-Id: <20200814024114.1177553-7-robdclark@gmail.com>
+Subject: [PATCH 07/19] drm/msm: set adreno_smmu as gpu's drvdata
+Date: Thu, 13 Aug 2020 19:41:02 -0700
+Message-Id: <20200814024114.1177553-8-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200810222657.1841322-1-jcrouse@codeaurora.org>
 References: <20200810222657.1841322-1-jcrouse@codeaurora.org>
@@ -106,104 +105,73 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-In a later patch, the drvdata will not directly be 'struct msm_gpu *',
-so add a helper to reduce the churn.
+This will be populated by adreno-smmu, to provide a way for coordinating
+enabling/disabling TTBR0 translation.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/adreno/adreno_device.c | 10 ++++------
- drivers/gpu/drm/msm/msm_gpu.c              |  6 +++---
- drivers/gpu/drm/msm/msm_gpu.h              |  5 +++++
- 3 files changed, 12 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/msm/adreno/adreno_device.c | 2 --
+ drivers/gpu/drm/msm/msm_gpu.c              | 2 +-
+ drivers/gpu/drm/msm/msm_gpu.h              | 6 +++++-
+ 3 files changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index 9eeb46bf2a5d..26664e1b30c0 100644
+index 26664e1b30c0..58e03b20e1c7 100644
 --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
 +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -282,7 +282,7 @@ struct msm_gpu *adreno_load_gpu(struct drm_device *dev)
- 	int ret;
+@@ -417,8 +417,6 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
+ 		return PTR_ERR(gpu);
+ 	}
  
- 	if (pdev)
--		gpu = platform_get_drvdata(pdev);
-+		gpu = dev_to_gpu(&pdev->dev);
- 
- 	if (!gpu) {
- 		dev_err_once(dev->dev, "no GPU device was found\n");
-@@ -425,7 +425,7 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
- static void adreno_unbind(struct device *dev, struct device *master,
- 		void *data)
- {
--	struct msm_gpu *gpu = dev_get_drvdata(dev);
-+	struct msm_gpu *gpu = dev_to_gpu(dev);
- 
- 	pm_runtime_force_suspend(dev);
- 	gpu->funcs->destroy(gpu);
-@@ -490,16 +490,14 @@ static const struct of_device_id dt_match[] = {
- #ifdef CONFIG_PM
- static int adreno_resume(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct msm_gpu *gpu = platform_get_drvdata(pdev);
-+	struct msm_gpu *gpu = dev_to_gpu(dev);
- 
- 	return gpu->funcs->pm_resume(gpu);
+-	dev_set_drvdata(dev, gpu);
+-
+ 	return 0;
  }
  
- static int adreno_suspend(struct device *dev)
- {
--	struct platform_device *pdev = to_platform_device(dev);
--	struct msm_gpu *gpu = platform_get_drvdata(pdev);
-+	struct msm_gpu *gpu = dev_to_gpu(dev);
- 
- 	return gpu->funcs->pm_suspend(gpu);
- }
 diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index d5645472b25d..6aa9e04e52e7 100644
+index 6aa9e04e52e7..806eb0957280 100644
 --- a/drivers/gpu/drm/msm/msm_gpu.c
 +++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -24,7 +24,7 @@
- static int msm_devfreq_target(struct device *dev, unsigned long *freq,
- 		u32 flags)
- {
--	struct msm_gpu *gpu = platform_get_drvdata(to_platform_device(dev));
-+	struct msm_gpu *gpu = dev_to_gpu(dev);
- 	struct dev_pm_opp *opp;
+@@ -892,7 +892,7 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+ 		gpu->gpu_cx = NULL;
  
- 	opp = devfreq_recommended_opp(dev, freq, flags);
-@@ -45,7 +45,7 @@ static int msm_devfreq_target(struct device *dev, unsigned long *freq,
- static int msm_devfreq_get_dev_status(struct device *dev,
- 		struct devfreq_dev_status *status)
- {
--	struct msm_gpu *gpu = platform_get_drvdata(to_platform_device(dev));
-+	struct msm_gpu *gpu = dev_to_gpu(dev);
- 	ktime_t time;
+ 	gpu->pdev = pdev;
+-	platform_set_drvdata(pdev, gpu);
++	platform_set_drvdata(pdev, &gpu->adreno_smmu);
  
- 	if (gpu->funcs->gpu_get_freq)
-@@ -64,7 +64,7 @@ static int msm_devfreq_get_dev_status(struct device *dev,
+ 	msm_devfreq_init(gpu);
  
- static int msm_devfreq_get_cur_freq(struct device *dev, unsigned long *freq)
- {
--	struct msm_gpu *gpu = platform_get_drvdata(to_platform_device(dev));
-+	struct msm_gpu *gpu = dev_to_gpu(dev);
- 
- 	if (gpu->funcs->gpu_get_freq)
- 		*freq = gpu->funcs->gpu_get_freq(gpu);
 diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 0db117a7339b..8bda7beaed4b 100644
+index 8bda7beaed4b..f91b141add75 100644
 --- a/drivers/gpu/drm/msm/msm_gpu.h
 +++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -141,6 +141,11 @@ struct msm_gpu {
- 	struct msm_gpu_state *crashstate;
- };
+@@ -7,6 +7,7 @@
+ #ifndef __MSM_GPU_H__
+ #define __MSM_GPU_H__
  
-+static inline struct msm_gpu *dev_to_gpu(struct device *dev)
-+{
-+	return dev_get_drvdata(dev);
-+}
++#include <linux/adreno-smmu-priv.h>
+ #include <linux/clk.h>
+ #include <linux/interconnect.h>
+ #include <linux/pm_opp.h>
+@@ -73,6 +74,8 @@ struct msm_gpu {
+ 	struct platform_device *pdev;
+ 	const struct msm_gpu_funcs *funcs;
+ 
++	struct adreno_smmu_priv adreno_smmu;
 +
+ 	/* performance counters (hw & sw): */
+ 	spinlock_t perf_lock;
+ 	bool perfcntr_active;
+@@ -143,7 +146,8 @@ struct msm_gpu {
+ 
+ static inline struct msm_gpu *dev_to_gpu(struct device *dev)
+ {
+-	return dev_get_drvdata(dev);
++	struct adreno_smmu_priv *adreno_smmu = dev_get_drvdata(dev);
++	return container_of(adreno_smmu, struct msm_gpu, adreno_smmu);
+ }
+ 
  /* It turns out that all targets use the same ringbuffer size */
- #define MSM_GPU_RINGBUFFER_SZ SZ_32K
- #define MSM_GPU_RINGBUFFER_BLKSIZE 32
 -- 
 2.26.2
 
