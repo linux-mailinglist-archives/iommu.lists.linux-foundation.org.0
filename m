@@ -1,88 +1,88 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26536246DF1
-	for <lists.iommu@lfdr.de>; Mon, 17 Aug 2020 19:18:40 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F3D246DF3
+	for <lists.iommu@lfdr.de>; Mon, 17 Aug 2020 19:18:45 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D900887A43;
-	Mon, 17 Aug 2020 17:18:38 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D57A42052E;
+	Mon, 17 Aug 2020 17:18:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kGdsiuRkfqwe; Mon, 17 Aug 2020 17:18:38 +0000 (UTC)
+	with ESMTP id cQ0Gn0Z4aqEq; Mon, 17 Aug 2020 17:18:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 43BCD87A52;
-	Mon, 17 Aug 2020 17:18:38 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 867AA20474;
+	Mon, 17 Aug 2020 17:18:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3B563C088E;
-	Mon, 17 Aug 2020 17:18:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 69EE9C088E;
+	Mon, 17 Aug 2020 17:18:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C3718C088E
- for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 17:18:36 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EF125C07FF
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 17:18:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id B18D6866A7
- for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 17:18:36 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id EB7B887A43
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 17:18:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eceBYwdwjf4J for <iommu@lists.linux-foundation.org>;
- Mon, 17 Aug 2020 17:18:36 +0000 (UTC)
+ with ESMTP id 0JbeuI4SLSfg for <iommu@lists.linux-foundation.org>;
+ Mon, 17 Aug 2020 17:18:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
- [209.85.218.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id BE07786354
- for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 17:18:35 +0000 (UTC)
-Received: by mail-ej1-f66.google.com with SMTP id f24so18657059ejx.6
- for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 10:18:35 -0700 (PDT)
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+ [209.85.208.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 3E25B87A52
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 17:18:37 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id df16so12905580edb.9
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 10:18:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AKoU6GH4WMVSoitttIfWWNjP9rWuhKvTuCBbLBSGUMk=;
- b=cUCZqVVf7aBV+dB2znY3judJfSrvRGEe2jmYpWKKNsKDqyiFlWVWiTlklwKEV4SZ98
- JhAkwWmK+KkRuaaoGPP0b7Zi3Izg0ko8XfAHUWTYrEu7rp1tat7ev0y69CzOp/DR77Ii
- 7z11GjEnTFffX/0vDQW0XhxVfynfh+ZXZwWXJ4G7DKggLgy93gtsSwR/TO3cLtVt/6J7
- DaSgtyEcY8RPHsePZhW5WnwAkxWFfu3O0vtNgTEts+2SJDQ0HtqxZAEkd4858mdoC+aS
- A5GvVCKndg7a4H5DEBStaJEOxo24eKc5yOH9yWx5zFnXMO2wksxx7qQdvAWr+umbQ+Sk
- GQgQ==
+ bh=xAI4tW8Sd4qwo2LwzvQq9a4HDeBi7JUGf6WbxKMhMtc=;
+ b=HdY3UMpsIG6P36/EZPxC5TOek26U3SzSg5oCDHf7GXV4MG1fcY2+0w7JjDSCM/riWM
+ 8NgRT4R5DmKniz/jbgzsm+ayvm9lx6r8nIjij+ZEfLKZhkCU2seNP1hcdHHs8IKaFxPW
+ wlB15OgrU0MTruCv6Xsp6OsTtaYbM7pmuZEaWU4p4/IeRYlg4SF95lcSMet2x0dWYaea
+ xl8lvA12VneRBGrOFd18Sr5BkI+4Y41vDB2aeoSp4SJPgH8/A9T6IphzMD5Q7h5xEZRN
+ lwq8/5qDALP+AlegMr3+EDpDBNDCMeUksBf8GOgLKxDaDqdkqY9aoi0gtQKlsuIVCWTx
+ soJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AKoU6GH4WMVSoitttIfWWNjP9rWuhKvTuCBbLBSGUMk=;
- b=MyqCT/3Rj8sGTngzk1hVEpiwUdGzj2ZwnA1VjX7ltraCYyA3IbOTDZshfy7ruXu342
- IMZdugZDZqfHQV/uEJhlUGJ4iIZFJoVm49vfkdxtqOK7Cd35jI+r7P5xzx5XPjfOZFqq
- cDxXlryUSitKWUwJmsaHC/iy7okjOtq1GmMNCeqgYpWaZ3T/eR+2T34t3Sf1l+gJaaCC
- jjid+k8ZcrF5aLPd/b+dpFi7KvtUwcDcYs/NBAiJUUIsIyi4lq6kLsmHRN7RBZCueKgS
- Ig0YVzX58pOKtRlpb1pWJRfWTBFYPwIHdst4W2gASaguHncdlXXeV2t/U5CSjP18GobV
- Am5w==
-X-Gm-Message-State: AOAM530gW8bscP0LOpClcjtXc3lxNHTa6ttnlGVLnx40O23OZufLsflD
- 2XbiS8gzRa7pNwViKTpec4sBb9aEXPYpvceo
-X-Google-Smtp-Source: ABdhPJw4Zd8Ey3MlIWUL4peSa7shKA0lf3ITTL2we+AnuDWwA3NsSSXsKUWIrg/IO7p5VmZVyqqGMw==
-X-Received: by 2002:a17:906:57ce:: with SMTP id
- u14mr16792500ejr.175.1597684713858; 
- Mon, 17 Aug 2020 10:18:33 -0700 (PDT)
+ bh=xAI4tW8Sd4qwo2LwzvQq9a4HDeBi7JUGf6WbxKMhMtc=;
+ b=JqUclC3CzzR2dHtoFTNhgpyfjBWLq/627l0+c4Nq9T5ijNmNm2kMagQBoI6QJQlXDA
+ HdhK/P8u6sKyplKAFTelqT1SzrvFYJBEFsKC6KWn2fd76Kk67lDbszmy5WMt94AFGZUf
+ QDhw3d9iwqai9frAue1TFphl55RqQ1a7XiPyYjzYDMR93T6wNWQ/mNbs1F2xZE4wH1Ty
+ uOyLHvsh+mK7utADG/KAlwOlKYQPyv1QEf7OJyYnslNdUqwBa3UFjNuADFx2SwIGSQOP
+ rQtriETQ7jQsUG8nl1KcZOD4Am+mjoxeEZpT4KXJfCb/e9VSRgb3n/MXWAD7YgkG0/8e
+ hMnQ==
+X-Gm-Message-State: AOAM531Aj7YpehmI2kwBYVzLKmF69dpqrQ8Ejo0TeSATRmSEt1QhQeLH
+ IqIDDtPIn1ZcSD4A8OoANLoVKS0tRCzeElX2
+X-Google-Smtp-Source: ABdhPJyP5Y5MpD0YB8+dyaifXxCyKDE5gN7qRt1wotAqYWR1y6+qzi5cQp7FPsY/uvIqK+78YHkUxA==
+X-Received: by 2002:aa7:dd94:: with SMTP id g20mr15446073edv.238.1597684715386; 
+ Mon, 17 Aug 2020 10:18:35 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id lc18sm14672502ejb.29.2020.08.17.10.18.32
+ by smtp.gmail.com with ESMTPSA id lc18sm14672502ejb.29.2020.08.17.10.18.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 10:18:33 -0700 (PDT)
+ Mon, 17 Aug 2020 10:18:34 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org,
  linux-mm@kvack.org
-Subject: [PATCH RESEND v9 05/13] iommu/io-pgtable-arm: Move some definitions
- to a header
-Date: Mon, 17 Aug 2020 19:15:51 +0200
-Message-Id: <20200817171558.325917-6-jean-philippe@linaro.org>
+Subject: [PATCH RESEND v9 06/13] arm64: cpufeature: Export symbol
+ read_sanitised_ftr_reg()
+Date: Mon, 17 Aug 2020 19:15:52 +0200
+Message-Id: <20200817171558.325917-7-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200817171558.325917-1-jean-philippe@linaro.org>
 References: <20200817171558.325917-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Cc: fenghua.yu@intel.com, Jean-Philippe Brucker <jean-philippe@linaro.org>,
- catalin.marinas@arm.com, robin.murphy@arm.com, zhengxiang9@huawei.com,
- zhangfei.gao@linaro.org, will@kernel.org
+ catalin.marinas@arm.com, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ robin.murphy@arm.com, zhengxiang9@huawei.com, zhangfei.gao@linaro.org,
+ will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,120 +100,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Extract some of the most generic TCR defines, so they can be reused by
-the page table sharing code.
+The SMMUv3 driver would like to read the MMFR0 PARANGE field in order to
+share CPU page tables with devices. Allow the driver to be built as
+module by exporting the read_sanitized_ftr_reg() cpufeature symbol.
 
-Acked-by: Will Deacon <will@kernel.org>
+Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- drivers/iommu/io-pgtable-arm.h | 30 ++++++++++++++++++++++++++++++
- drivers/iommu/io-pgtable-arm.c | 27 ++-------------------------
- MAINTAINERS                    |  3 +--
- 3 files changed, 33 insertions(+), 27 deletions(-)
- create mode 100644 drivers/iommu/io-pgtable-arm.h
+ arch/arm64/kernel/cpufeature.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/iommu/io-pgtable-arm.h b/drivers/iommu/io-pgtable-arm.h
-new file mode 100644
-index 000000000000..ba7cfdf7afa0
---- /dev/null
-+++ b/drivers/iommu/io-pgtable-arm.h
-@@ -0,0 +1,30 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef IO_PGTABLE_ARM_H_
-+#define IO_PGTABLE_ARM_H_
-+
-+#define ARM_LPAE_TCR_TG0_4K		0
-+#define ARM_LPAE_TCR_TG0_64K		1
-+#define ARM_LPAE_TCR_TG0_16K		2
-+
-+#define ARM_LPAE_TCR_TG1_16K		1
-+#define ARM_LPAE_TCR_TG1_4K		2
-+#define ARM_LPAE_TCR_TG1_64K		3
-+
-+#define ARM_LPAE_TCR_SH_NS		0
-+#define ARM_LPAE_TCR_SH_OS		2
-+#define ARM_LPAE_TCR_SH_IS		3
-+
-+#define ARM_LPAE_TCR_RGN_NC		0
-+#define ARM_LPAE_TCR_RGN_WBWA		1
-+#define ARM_LPAE_TCR_RGN_WT		2
-+#define ARM_LPAE_TCR_RGN_WB		3
-+
-+#define ARM_LPAE_TCR_PS_32_BIT		0x0ULL
-+#define ARM_LPAE_TCR_PS_36_BIT		0x1ULL
-+#define ARM_LPAE_TCR_PS_40_BIT		0x2ULL
-+#define ARM_LPAE_TCR_PS_42_BIT		0x3ULL
-+#define ARM_LPAE_TCR_PS_44_BIT		0x4ULL
-+#define ARM_LPAE_TCR_PS_48_BIT		0x5ULL
-+#define ARM_LPAE_TCR_PS_52_BIT		0x6ULL
-+
-+#endif /* IO_PGTABLE_ARM_H_ */
-diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-index dc7bcf858b6d..534810b6be77 100644
---- a/drivers/iommu/io-pgtable-arm.c
-+++ b/drivers/iommu/io-pgtable-arm.c
-@@ -20,6 +20,8 @@
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index a389b999482e..c53666a47e1d 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -1111,6 +1111,7 @@ u64 read_sanitised_ftr_reg(u32 id)
+ 		return 0;
+ 	return regp->sys_val;
+ }
++EXPORT_SYMBOL_GPL(read_sanitised_ftr_reg);
  
- #include <asm/barrier.h>
- 
-+#include "io-pgtable-arm.h"
-+
- #define ARM_LPAE_MAX_ADDR_BITS		52
- #define ARM_LPAE_S2_MAX_CONCAT_PAGES	16
- #define ARM_LPAE_MAX_LEVELS		4
-@@ -100,23 +102,6 @@
- #define ARM_LPAE_PTE_MEMATTR_DEV	(((arm_lpae_iopte)0x1) << 2)
- 
- /* Register bits */
--#define ARM_LPAE_TCR_TG0_4K		0
--#define ARM_LPAE_TCR_TG0_64K		1
--#define ARM_LPAE_TCR_TG0_16K		2
--
--#define ARM_LPAE_TCR_TG1_16K		1
--#define ARM_LPAE_TCR_TG1_4K		2
--#define ARM_LPAE_TCR_TG1_64K		3
--
--#define ARM_LPAE_TCR_SH_NS		0
--#define ARM_LPAE_TCR_SH_OS		2
--#define ARM_LPAE_TCR_SH_IS		3
--
--#define ARM_LPAE_TCR_RGN_NC		0
--#define ARM_LPAE_TCR_RGN_WBWA		1
--#define ARM_LPAE_TCR_RGN_WT		2
--#define ARM_LPAE_TCR_RGN_WB		3
--
- #define ARM_LPAE_VTCR_SL0_MASK		0x3
- 
- #define ARM_LPAE_TCR_T0SZ_SHIFT		0
-@@ -124,14 +109,6 @@
- #define ARM_LPAE_VTCR_PS_SHIFT		16
- #define ARM_LPAE_VTCR_PS_MASK		0x7
- 
--#define ARM_LPAE_TCR_PS_32_BIT		0x0ULL
--#define ARM_LPAE_TCR_PS_36_BIT		0x1ULL
--#define ARM_LPAE_TCR_PS_40_BIT		0x2ULL
--#define ARM_LPAE_TCR_PS_42_BIT		0x3ULL
--#define ARM_LPAE_TCR_PS_44_BIT		0x4ULL
--#define ARM_LPAE_TCR_PS_48_BIT		0x5ULL
--#define ARM_LPAE_TCR_PS_52_BIT		0x6ULL
--
- #define ARM_LPAE_MAIR_ATTR_SHIFT(n)	((n) << 3)
- #define ARM_LPAE_MAIR_ATTR_MASK		0xff
- #define ARM_LPAE_MAIR_ATTR_DEVICE	0x04
-diff --git a/MAINTAINERS b/MAINTAINERS
-index deaafb617361..4470769a9833 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1506,8 +1506,7 @@ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- F:	Documentation/devicetree/bindings/iommu/arm,smmu*
- F:	drivers/iommu/arm/
--F:	drivers/iommu/io-pgtable-arm-v7s.c
--F:	drivers/iommu/io-pgtable-arm.c
-+F:	drivers/iommu/io-pgtable-arm*
- 
- ARM SUB-ARCHITECTURES
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ #define read_sysreg_case(r)	\
+ 	case r:		return read_sysreg_s(r)
 -- 
 2.28.0
 
