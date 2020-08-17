@@ -1,92 +1,90 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B3024799D
-	for <lists.iommu@lfdr.de>; Tue, 18 Aug 2020 00:03:04 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id B693A2479A5
+	for <lists.iommu@lfdr.de>; Tue, 18 Aug 2020 00:03:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 24A6C878E5;
-	Mon, 17 Aug 2020 22:03:03 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id BF60820521;
+	Mon, 17 Aug 2020 22:03:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6snLx710eVxP; Mon, 17 Aug 2020 22:03:02 +0000 (UTC)
+	with ESMTP id W8cdM0BksXLB; Mon, 17 Aug 2020 22:03:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A3CB8878CD;
-	Mon, 17 Aug 2020 22:03:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D641520511;
+	Mon, 17 Aug 2020 22:03:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A3C7C0051;
-	Mon, 17 Aug 2020 22:03:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B0C12C0895;
+	Mon, 17 Aug 2020 22:03:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D45B8C0051
- for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 22:03:01 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DF07CC0051
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 22:03:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id B74EF204B1
- for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 22:03:01 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 6B4CE204F7
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 22:03:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id H0vFFGh5gvbI for <iommu@lists.linux-foundation.org>;
- Mon, 17 Aug 2020 22:02:59 +0000 (UTC)
+ with ESMTP id PpKIcqssDSu7 for <iommu@lists.linux-foundation.org>;
+ Mon, 17 Aug 2020 22:03:02 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by silver.osuosl.org (Postfix) with ESMTPS id 35865204F7
- for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 22:02:59 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id i10so3227608pgk.1
- for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 15:02:59 -0700 (PDT)
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+ [209.85.214.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id 4974B204C6
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 22:03:02 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id t10so8220177plz.10
+ for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 15:03:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kKA+x0uy5NlO00Iqox0wh7pVzFT+/CgBiD5qZahgaMc=;
- b=VAMqIWBU3E4H7weX9792RxhLwClzSja5Owo67Nir+n0DGErszZ85LILA8By5JjWhiq
- pcpm3+G+LpRNVPPV7cxjVU/fGJYoWIhs26Mon4PQlXpZvrGvoIdy4PDNm9NQGR3eawWg
- HCoe8VNzumSPyjn/aDXRmJIqqBPvnKaGmhs3h1Pbrq6xZAy5G7T0181+qv78O8LcN01v
- ndtCFs5Y2cHk7rw9Kcshjp/R+oBiEEbyZZS5h78/o8S1/SuZE1ru05Bwnuzt4LwKtgbY
- NUsPwV8l5p24osze87hLN0fWuICNpDdLPzSFaGqyBudeTIsD6ZTx2sSqK8QvxTpYrwnw
- 4Qlg==
+ bh=y1K2Dho0nJutgfr+kiq5BGpgP0OUNz/4tACHNitZgJ8=;
+ b=tjul4HofBVrdZ1UXA+wlh3PGDHIqvxAn+jIuXNzuv5hmwRfyKJgKlscENyHtpkfNMU
+ 1B7L2MwLm1Kx40EHDYS9UyLrbf4ogAmY50TY5juKH7wSVP0ZoK/sFqNu+HX8M6klzTxD
+ PJ8/FltCctJl2T0wSKEyJOwBE9US9qpj0tVyaPwRCND9l/E2kxYMhc/7ezG+2JpzkgE2
+ E9ZWqTYxOMJ9cfnWpzhuuL9aKeTtX9P5jGokjlnqLHFuHLkZA4s1CmycRC2dht/LmHoC
+ JAnrrN8eHvAVX0DmgoSdb77M4isabrrUGgLAGMooCpMvA3IUEm0Iz0ZB1msxpOANIrEn
+ GUFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kKA+x0uy5NlO00Iqox0wh7pVzFT+/CgBiD5qZahgaMc=;
- b=KiCl1wzfSJPi/m6s8UeENSox5TWHVR6uwOImIvNJ6lshO/hK1tE/LYLwh/Totl2wOk
- s9XhAtXdxPGw+gY7D8j4RIPXmMVa3kz4nj9K8lt+9uSqpo7bKnaSEwect0Dknwtqvcv0
- MUvrqk1kTo9k0OAoc2xN8sTgd9wB6n/nXdCkd9hbLsiJH0RNKhq14XNDafMm6O4gC1c2
- /DLONrX3edepBP84QQP37cZt1vLVAL8ZjJRT9k9IgyxlDmoyQH2O5lOE8IefB+iB6XXn
- WbQO/ugDX7oOh948POVFe1zN2i+qiEHMxiMJx5D89EgL4ZAXzao3HM3TmzGo/Soxs2pL
- OvtA==
-X-Gm-Message-State: AOAM530Mv8GlNU4yOYnNqDVTgjIlS41Z11HJ0PKEnGMv1HSvff6JsF6M
- Y0ToH9njRIlJADavvy92/uQ=
-X-Google-Smtp-Source: ABdhPJwRqI1VC8tNrq9d6HBXBZWWdKGzpiYCGqPx76mvvjUpcZ4iuBnTpueYAH+n+ifu5gdkS6wnNA==
-X-Received: by 2002:a63:1b12:: with SMTP id b18mr11343563pgb.21.1597701778691; 
- Mon, 17 Aug 2020 15:02:58 -0700 (PDT)
+ bh=y1K2Dho0nJutgfr+kiq5BGpgP0OUNz/4tACHNitZgJ8=;
+ b=aDGLTts4exMNPEo4YdplO/F2Gp8a/XWTPYlI0NUzPJdRqPAy37QWep9ZM2QPeOnBOd
+ J2WGHVgUByKZRQFEKU724YH/EZN8Jc3xSBPzpFsQ02hZUrLEFqiiY0QR/dDf2P5gkyhS
+ UeZgXlKkwMjqMk/CeNywtAdWlHiE8z1r+/H4sBuiAuVi1fKVZQxMvZsFvr6u8olA1Aw5
+ wXBMOamqofUWTVkjSmtOxvtVWOATrDcnZ/1Hz1VdyRMRH/P7pObkbt1EvWbD2D1KbTMp
+ oLldLpWqrU3p5wAgxFR64ZB4MOMHEffDpmFjr0XGwoePtConARmGMTFaIF8nSxKlTZ/g
+ 6FPA==
+X-Gm-Message-State: AOAM532QS0Y+pXYHjxx8QBZUga4T7eyUrVPZfZ2P9Xd3S3mTRw4TCSZY
+ +SB9Nr9mkjrUTnc6fyWFv3o=
+X-Google-Smtp-Source: ABdhPJw5GIRFGnKrlKuAMi80JdLMNc4DZVFUUn0Gs12aljbPCBPngItkPGFzEVmw6b0sVJ2avTp50Q==
+X-Received: by 2002:a17:90a:f286:: with SMTP id
+ fs6mr14083024pjb.221.1597701781678; 
+ Mon, 17 Aug 2020 15:03:01 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- x13sm18066264pga.30.2020.08.17.15.02.57
+ q66sm18840239pjq.17.2020.08.17.15.03.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 15:02:57 -0700 (PDT)
+ Mon, 17 Aug 2020 15:03:00 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
  linux-arm-msm@vger.kernel.org
-Subject: [PATCH 10/20] dt-bindings: arm-smmu: Add compatible string for Adreno
- GPU SMMU
-Date: Mon, 17 Aug 2020 15:01:35 -0700
-Message-Id: <20200817220238.603465-11-robdclark@gmail.com>
+Subject: [PATCH 11/20] drm/msm: Add a context pointer to the submitqueue
+Date: Mon, 17 Aug 2020 15:01:36 -0700
+Message-Id: <20200817220238.603465-12-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200817220238.603465-1-robdclark@gmail.com>
 References: <20200817220238.603465-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Cc: Rob Clark <robdclark@chromium.org>, Rob Herring <robh@kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh+dt@kernel.org>,
+Cc: Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Sean Paul <sean@poorly.run>,
  Sibi Sankar <sibis@codeaurora.org>, Vivek Gautam <vivek.gautam@codeaurora.org>,
  Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
+ open list <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,34 +104,157 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Jordan Crouse <jcrouse@codeaurora.org>
 
-Every Qcom Adreno GPU has an embedded SMMU for its own use. These
-devices depend on unique features such as split pagetables,
-different stall/halt requirements and other settings. Identify them
-with a compatible string so that they can be identified in the
-arm-smmu implementation specific code.
+Each submitqueue is attached to a context. Add a pointer to the
+context to the submitqueue at create time and refcount it so
+that it stays around through the life of the queue.
 
+Co-developed-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/msm/msm_drv.c         |  3 ++-
+ drivers/gpu/drm/msm/msm_drv.h         | 20 ++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_gem.h         |  1 +
+ drivers/gpu/drm/msm/msm_gem_submit.c  |  6 +++---
+ drivers/gpu/drm/msm/msm_gpu.h         |  1 +
+ drivers/gpu/drm/msm/msm_submitqueue.c |  3 +++
+ 6 files changed, 30 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-index 503160a7b9a0..5ec5d0d691f6 100644
---- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-@@ -40,6 +40,10 @@ properties:
-               - qcom,sm8150-smmu-500
-               - qcom,sm8250-smmu-500
-           - const: arm,mmu-500
-+      - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
-+        items:
-+          - const: qcom,adreno-smmu
-+          - const: qcom,smmu-v2
-       - description: Marvell SoCs implementing "arm,mmu-500"
-         items:
-           - const: marvell,ap806-smmu-500
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index 7d641c7e3514..01845a3b8d52 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -594,6 +594,7 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
+ 	if (!ctx)
+ 		return -ENOMEM;
+ 
++	kref_init(&ctx->ref);
+ 	msm_submitqueue_init(dev, ctx);
+ 
+ 	ctx->aspace = priv->gpu ? priv->gpu->aspace : NULL;
+@@ -615,7 +616,7 @@ static int msm_open(struct drm_device *dev, struct drm_file *file)
+ static void context_close(struct msm_file_private *ctx)
+ {
+ 	msm_submitqueue_close(ctx);
+-	kfree(ctx);
++	msm_file_private_put(ctx);
+ }
+ 
+ static void msm_postclose(struct drm_device *dev, struct drm_file *file)
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index af259b0573ea..4561bfb5e745 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -57,6 +57,7 @@ struct msm_file_private {
+ 	struct list_head submitqueues;
+ 	int queueid;
+ 	struct msm_gem_address_space *aspace;
++	struct kref ref;
+ };
+ 
+ enum msm_mdp_plane_property {
+@@ -428,6 +429,25 @@ void msm_submitqueue_close(struct msm_file_private *ctx);
+ 
+ void msm_submitqueue_destroy(struct kref *kref);
+ 
++static inline void __msm_file_private_destroy(struct kref *kref)
++{
++	struct msm_file_private *ctx = container_of(kref,
++		struct msm_file_private, ref);
++
++	kfree(ctx);
++}
++
++static inline void msm_file_private_put(struct msm_file_private *ctx)
++{
++	kref_put(&ctx->ref, __msm_file_private_destroy);
++}
++
++static inline struct msm_file_private *msm_file_private_get(
++	struct msm_file_private *ctx)
++{
++	kref_get(&ctx->ref);
++	return ctx;
++}
+ 
+ #define DBG(fmt, ...) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
+ #define VERB(fmt, ...) if (0) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 972490b14ba5..9c573c4269cb 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -142,6 +142,7 @@ struct msm_gem_submit {
+ 	bool valid;         /* true if no cmdstream patching needed */
+ 	bool in_rb;         /* "sudo" mode, copy cmds into RB */
+ 	struct msm_ringbuffer *ring;
++	struct msm_file_private *ctx;
+ 	unsigned int nr_cmds;
+ 	unsigned int nr_bos;
+ 	u32 ident;	   /* A "identifier" for the submit for logging */
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 8cb9aa15ff90..1464b04d25d3 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -27,7 +27,7 @@
+ #define BO_PINNED   0x2000
+ 
+ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+-		struct msm_gpu *gpu, struct msm_gem_address_space *aspace,
++		struct msm_gpu *gpu,
+ 		struct msm_gpu_submitqueue *queue, uint32_t nr_bos,
+ 		uint32_t nr_cmds)
+ {
+@@ -43,7 +43,7 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+ 		return NULL;
+ 
+ 	submit->dev = dev;
+-	submit->aspace = aspace;
++	submit->aspace = queue->ctx->aspace;
+ 	submit->gpu = gpu;
+ 	submit->fence = NULL;
+ 	submit->cmd = (void *)&submit->bos[nr_bos];
+@@ -677,7 +677,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		}
+ 	}
+ 
+-	submit = submit_create(dev, gpu, ctx->aspace, queue, args->nr_bos,
++	submit = submit_create(dev, gpu, queue, args->nr_bos,
+ 		args->nr_cmds);
+ 	if (!submit) {
+ 		ret = -ENOMEM;
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index f91b141add75..97c527e98391 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -190,6 +190,7 @@ struct msm_gpu_submitqueue {
+ 	u32 flags;
+ 	u32 prio;
+ 	int faults;
++	struct msm_file_private *ctx;
+ 	struct list_head node;
+ 	struct kref ref;
+ };
+diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+index 90c9d84e6155..c3d206105d28 100644
+--- a/drivers/gpu/drm/msm/msm_submitqueue.c
++++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+@@ -12,6 +12,8 @@ void msm_submitqueue_destroy(struct kref *kref)
+ 	struct msm_gpu_submitqueue *queue = container_of(kref,
+ 		struct msm_gpu_submitqueue, ref);
+ 
++	msm_file_private_put(queue->ctx);
++
+ 	kfree(queue);
+ }
+ 
+@@ -83,6 +85,7 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+ 
+ 	write_lock(&ctx->queuelock);
+ 
++	queue->ctx = msm_file_private_get(ctx);
+ 	queue->id = ctx->queueid++;
+ 
+ 	if (id)
 -- 
 2.26.2
 
