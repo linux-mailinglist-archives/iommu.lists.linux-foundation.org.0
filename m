@@ -1,64 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE01248821
-	for <lists.iommu@lfdr.de>; Tue, 18 Aug 2020 16:48:03 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id B98C52488EC
+	for <lists.iommu@lfdr.de>; Tue, 18 Aug 2020 17:16:56 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D0A5C861F4;
-	Tue, 18 Aug 2020 14:48:01 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3D85E203C4;
+	Tue, 18 Aug 2020 15:16:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id icp1sJPjtAZh; Tue, 18 Aug 2020 14:48:01 +0000 (UTC)
+	with ESMTP id cSLt1Dk4sCQD; Tue, 18 Aug 2020 15:16:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 38B268619A;
-	Tue, 18 Aug 2020 14:48:01 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4ED8320026;
+	Tue, 18 Aug 2020 15:16:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D5B4C0051;
-	Tue, 18 Aug 2020 14:48:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 40351C0051;
+	Tue, 18 Aug 2020 15:16:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8CDF5C0051
- for <iommu@lists.linux-foundation.org>; Tue, 18 Aug 2020 14:47:59 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 97BB0C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Aug 2020 15:16:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 74818877AE
- for <iommu@lists.linux-foundation.org>; Tue, 18 Aug 2020 14:47:59 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 87E658539A
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Aug 2020 15:16:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nP8n0lCmLDkN for <iommu@lists.linux-foundation.org>;
- Tue, 18 Aug 2020 14:47:58 +0000 (UTC)
+ with ESMTP id 5Xa81zrFZMml for <iommu@lists.linux-foundation.org>;
+ Tue, 18 Aug 2020 15:16:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8B22F87765
- for <iommu@lists.linux-foundation.org>; Tue, 18 Aug 2020 14:47:58 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E23541FB;
- Tue, 18 Aug 2020 07:47:57 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E81D3F66B;
- Tue, 18 Aug 2020 07:47:55 -0700 (PDT)
-Subject: Re: [PATCH 00/16] IOMMU driver for Kirin 960/970
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <cover.1597650455.git.mchehab+huawei@kernel.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <5c7918b6-c506-680b-cb0f-9e5f6a7038d9@arm.com>
-Date: Tue, 18 Aug 2020 15:47:55 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id F26A18538A
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Aug 2020 15:16:48 +0000 (UTC)
+Received: from aquarius.haifa.ibm.com (nesher1.haifa.il.ibm.com [195.110.40.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 140422054F;
+ Tue, 18 Aug 2020 15:16:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1597763808;
+ bh=pWqW8YgLG90UU3p8BWQ4xo9QKFARTHRes7KpRDQutEY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=mZ4Dw/78TkBwbT4zckybu8GS6IeYljCyckNW7F7V9LPqkH0uP6lZLns364B8ofjDq
+ g40MFxNJ9gEv01k6pNkEpjYOvmf4wvbJAjpvy8rkOX3Ub/pu7s4r9Q//DEwKnW4wz3
+ DIa8FLdmh9cooXoz1dI6BSyEhKPCYBl/+8BDlFOg=
+From: Mike Rapoport <rppt@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v3 00/17] memblock: seasonal cleaning^w cleanup
+Date: Tue, 18 Aug 2020 18:16:17 +0300
+Message-Id: <20200818151634.14343-1-rppt@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <cover.1597650455.git.mchehab+huawei@kernel.org>
-Content-Language: en-GB
-Cc: devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
- Joerg Roedel <jroedel@suse.de>, Manivannan Sadhasivam <mani@kernel.org>,
- Chenfeng <puck.chen@hisilicon.com>, Suzhuangluan <suzhuangluan@hisilicon.com>,
- linuxarm@huawei.com, Wei Xu <xuwei5@hisilicon.com>,
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+ Emil Renner Berthing <kernel@esmil.dk>, linux-sh@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, linux-mips@vger.kernel.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Paul Mackerras <paulus@samba.org>,
+ sparclinux@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ linux-arch@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-c6x-dev@linux-c6x.org, Michael Ellerman <mpe@ellerman.id.au>,
+ x86@kernel.org, Russell King <linux@armlinux.org.uk>,
+ Mike Rapoport <rppt@linux.ibm.com>, clang-built-linux@googlegroups.com,
+ Ingo Molnar <mingo@redhat.com>, linux-arm-kernel@lists.infradead.org,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ uclinux-h8-devel@lists.sourceforge.jp, linux-xtensa@linux-xtensa.org,
+ openrisc@lists.librecores.org, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Stafford Horne <shorne@gmail.com>, Hari Bathini <hbathini@linux.ibm.com>,
+ Daniel Axtens <dja@axtens.net>, Michal Simek <monstr@monstr.eu>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Rob Herring <robh+dt@kernel.org>, John Stultz <john.stultz@linaro.org>,
- mauro.chehab@huawei.com, linux-arm-kernel@lists.infradead.org
+ Palmer Dabbelt <palmer@dabbelt.com>, linuxppc-dev@lists.ozlabs.org,
+ Mike Rapoport <rppt@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,72 +88,116 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-08-17 08:49, Mauro Carvalho Chehab wrote:
-> Add a driver for the Kirin 960/970 iommu.
-> 
-> As on the past series, this starts from the original 4.9 driver from
-> the 96boards tree:
-> 
-> 	https://github.com/96boards-hikey/linux/tree/hikey970-v4.9
-> 
-> The remaining patches add SPDX headers and make it build and run with
-> the upstream Kernel.
-> 
-> Chenfeng (1):
->    iommu: add support for HiSilicon Kirin 960/970 iommu
-> 
-> Mauro Carvalho Chehab (15):
->    iommu: hisilicon: remove default iommu_map_sg handler
->    iommu: hisilicon: map and unmap ops gained new arguments
->    iommu: hisi_smmu_lpae: rebase it to work with upstream
->    iommu: hisi_smmu: remove linux/hisi/hisi-iommu.h
->    iommu: hisilicon: cleanup its code style
->    iommu: hisi_smmu_lpae: get rid of IOMMU_SEC and IOMMU_DEVICE
->    iommu: get rid of map/unmap tile functions
->    iommu: hisi_smmu_lpae: use the right code to get domain-priv data
->    iommu: hisi_smmu_lpae: convert it to probe_device
->    iommu: add Hisilicon Kirin970 iommu at the building system
->    iommu: hisi_smmu_lpae: cleanup printk macros
->    iommu: hisi_smmu_lpae: make OF compatible more standard
+From: Mike Rapoport <rppt@linux.ibm.com>
 
-Echoing the other comments about none of the driver patches being CC'd 
-to the IOMMU list...
+Hi,
 
-Still, I dug the series up on lore and frankly I'm not sure what to make 
-of it - AFAICS the "driver" is just yet another implementation of Arm 
-LPAE pagetable code, with no obvious indication of how those pagetables 
-ever get handed off to IOMMU hardware (and indeed no indication of IOMMU 
-hardware at all). Can you explain how it's supposed to work?
+These patches simplify several uses of memblock iterators and hide some of
+the memblock implementation details from the rest of the system.
 
-And as a pre-emptive strike, we really don't need any more LPAE 
-implementations - that's what the io-pgtable library is all about (which 
-incidentally has been around since 4.0...). I think that should make the 
-issue of preserving authorship largely moot since there's no need to 
-preserve most of the code anyway ;)
+The patches are on top of v5.9-rc1
 
-Robin.
+v3 changes:
+* rebase on v5.9-rc1, as the result this required some non-trivial changes
+  in patches 10 and 16. I didn't add Baoquan's Reviewed-by to theses
+  patches, but I keept Thomas and Miguel
+* Add Acked-by from Thomas and Miguel as there were changes in MIPS and
+  only trivial changes in .clang-format
+* Added Reviewed-by from Baoquan except for the patches 10 and 16
+* Fixed misc build errors and warnings reported by kbuild bot
+* Updated PowerPC KVM reservation size (patch 2), as per Daniel's comment
 
->    dt: add an spec for the Kirin36x0 SMMU
->    dt: hi3670-hikey970.dts: load the SMMU driver on Hikey970
->    staging: hikey9xx: add an item about the iommu driver
-> 
->   .../iommu/hisilicon,kirin36x0-smmu.yaml       |  55 ++
->   .../boot/dts/hisilicon/hi3670-hikey970.dts    |   3 +
->   drivers/staging/hikey9xx/Kconfig              |   9 +
->   drivers/staging/hikey9xx/Makefile             |   1 +
->   drivers/staging/hikey9xx/TODO                 |   1 +
->   drivers/staging/hikey9xx/hisi_smmu.h          | 196 ++++++
->   drivers/staging/hikey9xx/hisi_smmu_lpae.c     | 648 ++++++++++++++++++
->   7 files changed, 913 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/iommu/hisilicon,kirin36x0-smmu.yaml
->   create mode 100644 drivers/staging/hikey9xx/hisi_smmu.h
->   create mode 100644 drivers/staging/hikey9xx/hisi_smmu_lpae.c
-> 
+v2 changes:
+* replace for_each_memblock() with two versions, one for memblock.memory
+  and another one for memblock.reserved
+* fix overzealous cleanup of powerpc fadamp: keep the traversal over the
+  memblocks, but use better suited iterators
+* don't remove traversal over memblock.reserved in x86 numa cleanup but
+  replace for_each_memblock() with new for_each_reserved_mem_region()
+* simplify ramdisk and crash kernel allocations on x86
+* drop more redundant and unused code: __next_reserved_mem_region() and
+  memblock_mem_size()
+* add description of numa initialization fix on arm64 (thanks Jonathan)
+* add Acked and Reviewed tags
+
+Mike Rapoport (17):
+  KVM: PPC: Book3S HV: simplify kvm_cma_reserve()
+  dma-contiguous: simplify cma_early_percent_memory()
+  arm, xtensa: simplify initialization of high memory pages
+  arm64: numa: simplify dummy_numa_init()
+  h8300, nds32, openrisc: simplify detection of memory extents
+  riscv: drop unneeded node initialization
+  mircoblaze: drop unneeded NUMA and sparsemem initializations
+  memblock: make for_each_memblock_type() iterator private
+  memblock: make memblock_debug and related functionality private
+  memblock: reduce number of parameters in for_each_mem_range()
+  arch, mm: replace for_each_memblock() with for_each_mem_pfn_range()
+  arch, drivers: replace for_each_membock() with for_each_mem_range()
+  x86/setup: simplify initrd relocation and reservation
+  x86/setup: simplify reserve_crashkernel()
+  memblock: remove unused memblock_mem_size()
+  memblock: implement for_each_reserved_mem_region() using
+    __next_mem_region()
+  memblock: use separate iterators for memory and reserved regions
+
+ .clang-format                            |  5 +-
+ arch/arm/kernel/setup.c                  | 18 +++--
+ arch/arm/mm/init.c                       | 59 +++------------
+ arch/arm/mm/mmu.c                        | 39 ++++------
+ arch/arm/mm/pmsa-v7.c                    | 23 +++---
+ arch/arm/mm/pmsa-v8.c                    | 17 ++---
+ arch/arm/xen/mm.c                        |  7 +-
+ arch/arm64/kernel/machine_kexec_file.c   |  6 +-
+ arch/arm64/kernel/setup.c                |  4 +-
+ arch/arm64/mm/init.c                     | 11 +--
+ arch/arm64/mm/kasan_init.c               | 10 +--
+ arch/arm64/mm/mmu.c                      | 11 +--
+ arch/arm64/mm/numa.c                     | 15 ++--
+ arch/c6x/kernel/setup.c                  |  9 ++-
+ arch/h8300/kernel/setup.c                |  8 +-
+ arch/microblaze/mm/init.c                | 21 ++----
+ arch/mips/cavium-octeon/dma-octeon.c     | 12 +--
+ arch/mips/kernel/setup.c                 | 31 ++++----
+ arch/mips/netlogic/xlp/setup.c           |  2 +-
+ arch/nds32/kernel/setup.c                |  8 +-
+ arch/openrisc/kernel/setup.c             |  9 +--
+ arch/openrisc/mm/init.c                  |  8 +-
+ arch/powerpc/kernel/fadump.c             | 57 +++++++-------
+ arch/powerpc/kexec/file_load_64.c        | 16 ++--
+ arch/powerpc/kvm/book3s_hv_builtin.c     | 12 +--
+ arch/powerpc/mm/book3s64/hash_utils.c    | 16 ++--
+ arch/powerpc/mm/book3s64/radix_pgtable.c | 10 +--
+ arch/powerpc/mm/kasan/kasan_init_32.c    |  8 +-
+ arch/powerpc/mm/mem.c                    | 33 ++++----
+ arch/powerpc/mm/numa.c                   |  7 +-
+ arch/powerpc/mm/pgtable_32.c             |  8 +-
+ arch/riscv/mm/init.c                     | 36 +++------
+ arch/riscv/mm/kasan_init.c               | 10 +--
+ arch/s390/kernel/setup.c                 | 27 ++++---
+ arch/s390/mm/page-states.c               |  6 +-
+ arch/s390/mm/vmem.c                      |  7 +-
+ arch/sh/mm/init.c                        |  9 +--
+ arch/sparc/mm/init_64.c                  | 12 +--
+ arch/x86/kernel/setup.c                  | 56 +++++---------
+ arch/x86/mm/numa.c                       |  2 +-
+ arch/xtensa/mm/init.c                    | 55 +++-----------
+ drivers/bus/mvebu-mbus.c                 | 12 +--
+ drivers/irqchip/irq-gic-v3-its.c         |  2 +-
+ include/linux/memblock.h                 | 88 +++++++++++++---------
+ kernel/dma/contiguous.c                  | 11 +--
+ mm/memblock.c                            | 95 ++++++++++--------------
+ mm/page_alloc.c                          | 11 ++-
+ mm/sparse.c                              | 10 +--
+ 48 files changed, 387 insertions(+), 562 deletions(-)
+
+-- 
+2.26.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
