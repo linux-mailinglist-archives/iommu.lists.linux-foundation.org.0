@@ -1,100 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84017247E31
-	for <lists.iommu@lfdr.de>; Tue, 18 Aug 2020 08:04:31 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B522485039;
-	Tue, 18 Aug 2020 06:04:29 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KniqRD4PbklI; Tue, 18 Aug 2020 06:04:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 157F185BCC;
-	Tue, 18 Aug 2020 06:04:28 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EF9B3C088B;
-	Tue, 18 Aug 2020 06:04:27 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 00563C0051
- for <iommu@lists.linux-foundation.org>; Tue, 18 Aug 2020 06:04:27 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A271247ED6
+	for <lists.iommu@lfdr.de>; Tue, 18 Aug 2020 08:59:22 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id E3BB987530
- for <iommu@lists.linux-foundation.org>; Tue, 18 Aug 2020 06:04:26 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 340618754B;
+	Tue, 18 Aug 2020 06:59:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Ohpr-JuNTtpU; Tue, 18 Aug 2020 06:59:20 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4B4218738B;
+	Tue, 18 Aug 2020 06:59:20 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3811CC0051;
+	Tue, 18 Aug 2020 06:59:20 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2FB2CC0051
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Aug 2020 06:59:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1826184D41
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Aug 2020 06:59:18 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MgF3Kw7CbyCd for <iommu@lists.linux-foundation.org>;
- Tue, 18 Aug 2020 06:04:26 +0000 (UTC)
-X-Greylist: delayed 08:44:22 by SQLgrey-1.7.6
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
- [209.85.214.193])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 73CBE87535
- for <iommu@lists.linux-foundation.org>; Tue, 18 Aug 2020 06:04:26 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id t11so8723610plr.5
- for <iommu@lists.linux-foundation.org>; Mon, 17 Aug 2020 23:04:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tcd-ie.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=a6SU4e7qioZa1MSGn21iWR1ma/iTKUTYpUuysCGcy14=;
- b=hxpRljSMtWhlvVTpffp4qhvMX1mdxLX6f0iMxptJuN7hUOC5AHsbLalFs+KtKDLB/V
- YL6y4BRukmSd0p99UL6RuVK4dHIwnPQgujw5EkR0OwSLbuHb6cHKrRpJ9I9XehRsNagY
- rxVhoRNaj3NwPAkQz+yOOdny8t4nvLbSgWrNevsCNIQB2QmDSOJnPiGn8C2yAhJBBcU6
- SA3gEspw8HLI8LBXCjAdHDMxYTIUo9jpwo1cNNTJfUxHkX/I3V3In9OZhaglBBrdlzyT
- s8Fv+oSbk5r/Z+poak4UteeUno8QRtJmD4t+F9iexuoY0lyXqxIis3Td5/onXebHC4tY
- tBtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=a6SU4e7qioZa1MSGn21iWR1ma/iTKUTYpUuysCGcy14=;
- b=eat7U3zdQsy5+hjOO1lGXM3JEdZz/JZx4/RcE2/qIdITLd28GPYke8B2Bf3sPojnUQ
- iaPA7qBYOaE5OZCkTNR5cXgs3wuRJwZsIUQNG2F+qYWMmichkVlGje/5RQl5GYHwBs0W
- OB7g+gJEZtJx1TpPxLJNu/ye8viRG39bLNlgIl2zyjQmJm1pQitwymTx7HYqW1ftQ9Q6
- uZ27GcubsZH5opPTMNWEU3FLJr4aFW+lbuuBgp5OHUtrJJqXljCYJea87DUXc2uBtc6h
- jXbZ26ztUXzg7xAb92vhYXBcQ2vr5UWqD5d+Yp7ogbmLGxMbvIZyiNUgP7t23ZFcpPir
- Z0gg==
-X-Gm-Message-State: AOAM530GGNJBIr9KqmZ+4pJAhVpXro4/bty4hdsiRXoaNeVwST59wxNe
- 1E4N1ecPGSxrebxdmM9Dm32V7zW6qJO3pnrW5dE=
-X-Google-Smtp-Source: ABdhPJwIgdAjrz0QhHxtqrEjKsSeJiVX/sPlDBbqWWmVnl1cgdOijSjJUBJdGuOHZxzXZMmQ6vRK4Q==
-X-Received: by 2002:a17:90a:1682:: with SMTP id
- o2mr16209039pja.227.1597730665925; 
- Mon, 17 Aug 2020 23:04:25 -0700 (PDT)
-Received: from tom-ThinkPad-X1-Carbon-5th.teksavvy.com ([69.172.145.184])
- by smtp.googlemail.com with ESMTPSA id v10sm7102985pjy.3.2020.08.17.23.04.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Aug 2020 23:04:25 -0700 (PDT)
-From: Tom Murphy <murphyt7@tcd.ie>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH V2 2/2] Handle init_iova_flush_queue failure in dma-iommu path
-Date: Tue, 18 Aug 2020 07:04:14 +0100
-Message-Id: <20200818060415.19522-2-murphyt7@tcd.ie>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200818060415.19522-1-murphyt7@tcd.ie>
-References: <20200818060415.19522-1-murphyt7@tcd.ie>
+ with ESMTP id SaByuoK-1XvK for <iommu@lists.linux-foundation.org>;
+ Tue, 18 Aug 2020 06:59:16 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id B762F84D0A
+ for <iommu@lists.linux-foundation.org>; Tue, 18 Aug 2020 06:59:16 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 1DC1A68AFE; Tue, 18 Aug 2020 08:59:12 +0200 (CEST)
+Date: Tue, 18 Aug 2020 08:59:11 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Subject: Re: [PATCH v2] powerpc/pseries/svm: Allocate SWIOTLB buffer
+ anywhere in memory
+Message-ID: <20200818065911.GA2324@lst.de>
+References: <20200817214658.103093-1-bauerman@linux.ibm.com>
 MIME-Version: 1.0
-Cc: Heiko Stuebner <heiko@sntech.de>, Matthew Rosato <mjrosato@linux.ibm.com>,
- linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Will Deacon <will@kernel.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- linux-samsung-soc@vger.kernel.org, kvm@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- Andy Gross <agross@kernel.org>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, linux-s390@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- virtualization@lists.linux-foundation.org,
- linux-arm-kernel@lists.infradead.org, David Woodhouse <dwmw2@infradead.org>,
- Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
- Tom Murphy <murphyt7@tcd.ie>, Kukjin Kim <kgene@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
+Content-Disposition: inline
+In-Reply-To: <20200817214658.103093-1-bauerman@linux.ibm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ Robin Murphy <robin.murphy@arm.com>, Ram Pai <linuxram@us.ibm.com>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,36 +70,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-init_iova_flush_queue can fail if we run out of memory. Fall back to no
-flush queue if it fails.
+On Mon, Aug 17, 2020 at 06:46:58PM -0300, Thiago Jung Bauermann wrote:
+> POWER secure guests (i.e., guests which use the Protection Execution
+> Facility) need to use SWIOTLB to be able to do I/O with the hypervisor, but
+> they don't need the SWIOTLB memory to be in low addresses since the
+> hypervisor doesn't have any addressing limitation.
+> 
+> This solves a SWIOTLB initialization problem we are seeing in secure guests
+> with 128 GB of RAM: they are configured with 4 GB of crashkernel reserved
+> memory, which leaves no space for SWIOTLB in low addresses.
+> 
+> To do this, we use mostly the same code as swiotlb_init(), but allocate the
+> buffer using memblock_alloc() instead of memblock_alloc_low().
+> 
+> We also need to add swiotlb_set_no_iotlb_memory() in order to set the
+> no_iotlb_memory flag if initialization fails.
 
-Signed-off-by: Tom Murphy <murphyt7@tcd.ie>
----
- drivers/iommu/dma-iommu.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 7433f74d921a..5445e2be08b5 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -356,9 +356,11 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
- 
- 	if (!cookie->fq_domain && !iommu_domain_get_attr(domain,
- 			DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE, &attr) && attr) {
--		cookie->fq_domain = domain;
--		init_iova_flush_queue(iovad, iommu_dma_flush_iotlb_all,
--				iommu_dma_entry_dtor);
-+		if (init_iova_flush_queue(iovad, iommu_dma_flush_iotlb_all,
-+				iommu_dma_entry_dtor))
-+			pr_warn("iova flush queue initialization failed\n");
-+		else
-+			cookie->fq_domain = domain;
- 	}
- 
- 	if (!dev)
--- 
-2.20.1
-
+Do you really need the helper?  As far as I can tell the secure guests
+very much rely on swiotlb for all I/O, so you might as well panic if
+you fail to allocate it.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
