@@ -2,67 +2,98 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123F324A54F
-	for <lists.iommu@lfdr.de>; Wed, 19 Aug 2020 19:54:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A1A24A5DE
+	for <lists.iommu@lfdr.de>; Wed, 19 Aug 2020 20:21:05 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BF2E085910;
-	Wed, 19 Aug 2020 17:54:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B56CB85FC6;
+	Wed, 19 Aug 2020 18:21:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rDXo0mrTeSOS; Wed, 19 Aug 2020 17:54:21 +0000 (UTC)
+	with ESMTP id JB3kGI327DM6; Wed, 19 Aug 2020 18:21:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6404085992;
-	Wed, 19 Aug 2020 17:54:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 36CAD85FAE;
+	Wed, 19 Aug 2020 18:21:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4DDA3C0051;
-	Wed, 19 Aug 2020 17:54:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1618BC0890;
+	Wed, 19 Aug 2020 18:21:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B5F8FC0051
- for <iommu@lists.linux-foundation.org>; Wed, 19 Aug 2020 17:54:20 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AE09EC0051
+ for <iommu@lists.linux-foundation.org>; Wed, 19 Aug 2020 18:21:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id AC7DF20417
- for <iommu@lists.linux-foundation.org>; Wed, 19 Aug 2020 17:54:20 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 86FEA20419
+ for <iommu@lists.linux-foundation.org>; Wed, 19 Aug 2020 18:21:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WwNTi5i0tRaJ for <iommu@lists.linux-foundation.org>;
- Wed, 19 Aug 2020 17:54:15 +0000 (UTC)
+ with ESMTP id 5SQHSQfUG41e for <iommu@lists.linux-foundation.org>;
+ Wed, 19 Aug 2020 18:21:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 775EF20419
- for <iommu@lists.linux-foundation.org>; Wed, 19 Aug 2020 17:54:09 +0000 (UTC)
-Received: from kozik-lap.mshome.net (unknown [194.230.155.216])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EDB942067C;
- Wed, 19 Aug 2020 17:54:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597859649;
- bh=+lMEGCp5k/4W2mojZvtyfBE+r5nQiIYYlfpn6vSb4ZE=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=MMUT8j46k7Uvd2tGhO09R/5TjMjgqPb8V52uNie6ncFfyWFg4q6jAlr5u2QVuLI8z
- KTTJuWjKIrEexR1GUkhlZ5mhEGM2Qk5YXHRqMcEQC0hRDXBTgKW+vLtcih3Xnm23KB
- qP8zrLdz4w4hOwFaC8ECEnfV5fkXmP/2tsQnPCLo=
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-Subject: [RESEND PATCH 5/5] iommu: qcom: Drop of_match_ptr to fix
- -Wunused-const-variable
-Date: Wed, 19 Aug 2020 19:53:45 +0200
-Message-Id: <20200819175345.20833-5-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200819175345.20833-1-krzk@kernel.org>
-References: <20200819175345.20833-1-krzk@kernel.org>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+ [209.85.217.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id C43551FEDF
+ for <iommu@lists.linux-foundation.org>; Wed, 19 Aug 2020 18:20:59 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id y8so12445277vsq.8
+ for <iommu@lists.linux-foundation.org>; Wed, 19 Aug 2020 11:20:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AacBmJ1F+/EQU2Ta6hd78j336wiWeooUogfDqt5vhVU=;
+ b=MJ511LjL0Gf8T+5otwSMIHAYNGoOTa7oOz3vFzBU6AZJ6dAX+nI9cC7118htwG/ORX
+ eBs8xHYraAXfTg3+3J/RFpfkMga9Cj17oTb4p/TBhXJhoh4jgceQywdVOQqMSK/JOJ3l
+ PwBzJDQ8H04HrV4VQtbb6ovc5H+eRX5T4ho3g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AacBmJ1F+/EQU2Ta6hd78j336wiWeooUogfDqt5vhVU=;
+ b=dB/eXVTNHWiieh0zyVBe6EaewW9gdnWDn9uNC2rTEWgE+qLRwlAg9gMVN49XVOsClP
+ 0R1VOXEkxIg1CEp6UIe/oQhr2aLh+38/y/Sks/RYE4cCRrCeAyGpop1sNAhDvatVU31I
+ L0UT74SQYUcDlDh6fQh6Aj1Iuba2vy/wM7Iu3e3j62yTGFDKr64bVsnDWrvhBpdiubJp
+ /RPdJp1Zdkewt7RFEYeJ+NKmaQ5ldMHh3NgKY6gIlQkiTNPDKfHJsTQlwfCOvMr4nZ0c
+ gTJ2WjgyZIK4B5+hofJkAgiGovF7V90RsuvY+/JLC2/80RwUgtlSLpQ/D5BarbuJglBS
+ 1Mvw==
+X-Gm-Message-State: AOAM531DD05lLfPZ/kF/oeMLuSxtix3ohf7cNClGic57c7sxyfzjD/D/
+ dANd48OYA6F5sd9Opk5xytOhxJy6L2sKnA==
+X-Google-Smtp-Source: ABdhPJyKqAKu1tZOaGeiT1YdwWgS9ulJFBceI86G5Yt+aDgdlzyf/rBLyJBiTL8ZHFfddhpgu9wwEw==
+X-Received: by 2002:a67:fb4e:: with SMTP id e14mr5316159vsr.98.1597861258522; 
+ Wed, 19 Aug 2020 11:20:58 -0700 (PDT)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com.
+ [209.85.221.178])
+ by smtp.gmail.com with ESMTPSA id a26sm844691uaq.19.2020.08.19.11.20.57
+ for <iommu@lists.linux-foundation.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Aug 2020 11:20:57 -0700 (PDT)
+Received: by mail-vk1-f178.google.com with SMTP id x187so5338811vkc.1
+ for <iommu@lists.linux-foundation.org>; Wed, 19 Aug 2020 11:20:57 -0700 (PDT)
+X-Received: by 2002:a1f:2fc1:: with SMTP id v184mr15612583vkv.42.1597861257099; 
+ Wed, 19 Aug 2020 11:20:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200817220238.603465-1-robdclark@gmail.com>
+ <20200817220238.603465-11-robdclark@gmail.com>
+ <CAD=FV=VzYSL-3q0oFPPSP7FiEdLeTEN6Zy=kp-73B=8LAavmVw@mail.gmail.com>
+ <CAF6AEGt=tGe3WQfyF_NuvJVXRbMH1=fnNK63MLpz0zxjZ9cwgQ@mail.gmail.com>
+In-Reply-To: <CAF6AEGt=tGe3WQfyF_NuvJVXRbMH1=fnNK63MLpz0zxjZ9cwgQ@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 19 Aug 2020 11:20:44 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XxtA_1gp=gahjZiPkCJUy9ZgRoEnnE4apUQ1WVX_cs4A@mail.gmail.com>
+Message-ID: <CAD=FV=XxtA_1gp=gahjZiPkCJUy9ZgRoEnnE4apUQ1WVX_cs4A@mail.gmail.com>
+Subject: Re: [PATCH 10/20] dt-bindings: arm-smmu: Add compatible string for
+ Adreno GPU SMMU
+To: Rob Clark <robdclark@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>, Rob Herring <robh@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Rob Herring <robh+dt@kernel.org>, Sibi Sankar <sibis@codeaurora.org>,
+ Vivek Gautam <vivek.gautam@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,49 +106,89 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The of_device_id is included unconditionally by of.h header and used
-in the driver as well.  Remove of_match_ptr to fix W=1 compile test
-warning with !CONFIG_OF:
+Hi,
 
-    drivers/iommu/qcom_iommu.c:910:34: warning: 'qcom_iommu_of_match' defined but not used [-Wunused-const-variable=]
-      910 | static const struct of_device_id qcom_iommu_of_match[] = {
+On Wed, Aug 19, 2020 at 10:36 AM Rob Clark <robdclark@gmail.com> wrote:
+>
+> On Wed, Aug 19, 2020 at 10:03 AM Doug Anderson <dianders@chromium.org> wrote:
+> >
+> > Hi,
+> >
+> > On Mon, Aug 17, 2020 at 3:03 PM Rob Clark <robdclark@gmail.com> wrote:
+> > >
+> > > From: Jordan Crouse <jcrouse@codeaurora.org>
+> > >
+> > > Every Qcom Adreno GPU has an embedded SMMU for its own use. These
+> > > devices depend on unique features such as split pagetables,
+> > > different stall/halt requirements and other settings. Identify them
+> > > with a compatible string so that they can be identified in the
+> > > arm-smmu implementation specific code.
+> > >
+> > > Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > > ---
+> > >  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > > index 503160a7b9a0..5ec5d0d691f6 100644
+> > > --- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > > +++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+> > > @@ -40,6 +40,10 @@ properties:
+> > >                - qcom,sm8150-smmu-500
+> > >                - qcom,sm8250-smmu-500
+> > >            - const: arm,mmu-500
+> > > +      - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
+> > > +        items:
+> > > +          - const: qcom,adreno-smmu
+> > > +          - const: qcom,smmu-v2
+> >
+> > I know I'm kinda late to the game, but this seems weird to me,
+> > especially given the later patches in the series like:
+> >
+> > https://lore.kernel.org/r/20200817220238.603465-19-robdclark@gmail.com
+> >
+> > Specifically in that patch you can see that this IOMMU already had a
+> > compatible string and we're changing it and throwing away the
+> > model-specific string?  I'm guessing that you're just trying to make
+> > it easier for code to identify the adreno iommu, but it seems like a
+> > better way would have been to just add the adreno compatible in the
+> > middle, like:
+> >
+> >       - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
+> >         items:
+> >           - enum:
+> >               - qcom,msm8996-smmu-v2
+> >               - qcom,msm8998-smmu-v2
+> >               - qcom,sc7180-smmu-v2
+> >               - qcom,sdm845-smmu-v2
+> >         - const: qcom,adreno-smmu
+> >         - const: qcom,smmu-v2
+> >
+> > Then we still have the SoC-specific compatible string in case we need
+> > it but we also have the generic one?  It also means that we're not
+> > deleting the old compatible string...
+>
+> I did bring up the thing about removing the compat string in an
+> earlier revision of the series.. but then we realized that
+> qcom,sc7180-smmu-v2 was never actually used anywhere.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- drivers/iommu/arm/arm-smmu/qcom_iommu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Right, so at least there's not going to be weird issues where landing
+the dts before the code change will break anything.
 
-diff --git a/drivers/iommu/arm/arm-smmu/qcom_iommu.c b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
-index af6bec3ace00..9535a6af7553 100644
---- a/drivers/iommu/arm/arm-smmu/qcom_iommu.c
-+++ b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
-@@ -752,7 +752,7 @@ static const struct of_device_id ctx_of_match[] = {
- static struct platform_driver qcom_iommu_ctx_driver = {
- 	.driver	= {
- 		.name		= "qcom-iommu-ctx",
--		.of_match_table	= of_match_ptr(ctx_of_match),
-+		.of_match_table	= ctx_of_match,
- 	},
- 	.probe	= qcom_iommu_ctx_probe,
- 	.remove = qcom_iommu_ctx_remove,
-@@ -915,7 +915,7 @@ static const struct of_device_id qcom_iommu_of_match[] = {
- static struct platform_driver qcom_iommu_driver = {
- 	.driver	= {
- 		.name		= "qcom-iommu",
--		.of_match_table	= of_match_ptr(qcom_iommu_of_match),
-+		.of_match_table	= qcom_iommu_of_match,
- 		.pm		= &qcom_iommu_pm_ops,
- 	},
- 	.probe	= qcom_iommu_device_probe,
--- 
-2.17.1
 
+> But I guess we could:  compatible = "qcom,sc7180-smmu-v2",
+> "qcom,adreno-smmu", "qcom,smmu-v2";
+
+Yeah, that was what I was suggesting.
+
+-Doug
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
