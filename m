@@ -1,70 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0F224AA87
-	for <lists.iommu@lfdr.de>; Thu, 20 Aug 2020 02:02:53 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A18F24ACDE
+	for <lists.iommu@lfdr.de>; Thu, 20 Aug 2020 04:12:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id BFAB587C9C;
-	Thu, 20 Aug 2020 00:02:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7CC0B868BF;
+	Thu, 20 Aug 2020 02:12:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5OCBWS47nwNJ; Thu, 20 Aug 2020 00:02:51 +0000 (UTC)
+	with ESMTP id 5F8jZ3R8aXX4; Thu, 20 Aug 2020 02:12:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4DB6D8820B;
-	Thu, 20 Aug 2020 00:02:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8E256868BC;
+	Thu, 20 Aug 2020 02:12:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2B273C0051;
-	Thu, 20 Aug 2020 00:02:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 752E3C07FF;
+	Thu, 20 Aug 2020 02:12:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D3D66C0051
- for <iommu@lists.linux-foundation.org>; Thu, 20 Aug 2020 00:02:49 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 24978C07FF
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Aug 2020 02:12:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C1FF08820B
- for <iommu@lists.linux-foundation.org>; Thu, 20 Aug 2020 00:02:49 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2114184E27
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Aug 2020 02:12:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id T00GbrI0WsRm for <iommu@lists.linux-foundation.org>;
- Thu, 20 Aug 2020 00:02:49 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4723687C9C
- for <iommu@lists.linux-foundation.org>; Thu, 20 Aug 2020 00:02:49 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0F7E3207FB;
- Thu, 20 Aug 2020 00:02:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1597881769;
- bh=UfnvacykJk5ebnnFuOHKhcQ5y/mX76Whr9BDBzHGjPA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FmaOUcfOGd/3w/4J8SwDQW16uqVgKoJYFbpXnGhTqCnG5lse5VfSMgGUVu3D+fhXX
- 9xBA0hxKq/PxYDSxrxQd1u5y0NGeBpUZvaMZKH31ptNN75qLPOaL+c2HIwQFg0JVB/
- PSEA/GU+awW0cbC2d3DbsLFNZO4y1b6uayKSmldM=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 14/22] swiotlb-xen: use vmalloc_to_page on vmalloc
- virt addresses
-Date: Wed, 19 Aug 2020 20:02:21 -0400
-Message-Id: <20200820000229.215333-14-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200820000229.215333-1-sashal@kernel.org>
-References: <20200820000229.215333-1-sashal@kernel.org>
+ with ESMTP id h4Qv18anLG7l for <iommu@lists.linux-foundation.org>;
+ Thu, 20 Aug 2020 02:12:43 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 0B886815D7
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Aug 2020 02:12:42 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4BX7TM3wDzz9sRN;
+ Thu, 20 Aug 2020 12:12:39 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+ s=201909; t=1597889560;
+ bh=gPdGSuMbBr6AKJw/++doCCfD8GkVb+j4pQ8PJ3xV49A=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=pZigIs87s/0HJCQu3CMeGxmU0e2JIr0P58tO7g3RDssIi9EJAWo6dG2xAEOeHDFUN
+ H/U0C6GQyVs1FTXIqdcuIOi1g6VWt3esLh1358kQCRaPPn3HpgPcIfg7b0MqD4lPxa
+ vaedp/MpmDiMZyRDSUDUTwoIyNc2WvONX4FWrm9ApXlgHzNAHzVOQ1LWJQ6aL7VIQv
+ jYci3SYKpJhI7xoajLFJH8NrnUEgQdKBtqb/Gnjb6UVVuc40f9BgYZO2HAzBFkSGh8
+ Ym6AviUgzKcWLDdtvnZFf5y5fvG+orpGwMv3tCGcngvhsq4jMphAzi+hKg7TzFnQqq
+ YO31FxQ3zKJzg==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Christoph Hellwig <hch@lst.de>,
+ Thiago Jung Bauermann <bauerman@linux.ibm.com>
+Subject: Re: [PATCH v3] powerpc/pseries/svm: Allocate SWIOTLB buffer anywhere
+ in memory
+In-Reply-To: <20200819044351.GA19391@lst.de>
+References: <20200818221126.391073-1-bauerman@linux.ibm.com>
+ <20200819044351.GA19391@lst.de>
+Date: Thu, 20 Aug 2020 12:12:35 +1000
+Message-ID: <877dtuhxpo.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Cc: Juergen Gross <jgross@suse.com>, Corey Minyard <cminyard@mvista.com>,
- Sasha Levin <sashal@kernel.org>, Roman Shaposhnik <roman@zededa.com>,
- iommu@lists.linux-foundation.org, xen-devel@lists.xenproject.org,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Stefano Stabellini <stefano.stabellini@xilinx.com>
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ Robin Murphy <robin.murphy@arm.com>, Ram Pai <linuxram@us.ibm.com>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>,
+ linuxppc-dev@lists.ozlabs.org, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,64 +83,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Christoph Hellwig <hch@lst.de> writes:
+> On Tue, Aug 18, 2020 at 07:11:26PM -0300, Thiago Jung Bauermann wrote:
+>> POWER secure guests (i.e., guests which use the Protection Execution
+>> Facility) need to use SWIOTLB to be able to do I/O with the hypervisor, but
+>> they don't need the SWIOTLB memory to be in low addresses since the
+>> hypervisor doesn't have any addressing limitation.
+>> 
+>> This solves a SWIOTLB initialization problem we are seeing in secure guests
+>> with 128 GB of RAM: they are configured with 4 GB of crashkernel reserved
+>> memory, which leaves no space for SWIOTLB in low addresses.
+>> 
+>> To do this, we use mostly the same code as swiotlb_init(), but allocate the
+>> buffer using memblock_alloc() instead of memblock_alloc_low().
+>> 
+>> Signed-off-by: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+>
+> Looks fine to me (except for the pointlessly long comment lines, but I've
+> been told that's the powerpc way).
 
-[ Upstream commit 8b1e868f66076490189a36d984fcce286cdd6295 ]
+They're 80 columns AFAICS?
 
-xen_alloc_coherent_pages might return pages for which virt_to_phys and
-virt_to_page don't work, e.g. ioremap'ed pages.
-
-So in xen_swiotlb_free_coherent we can't assume that virt_to_page works.
-Instead add a is_vmalloc_addr check and use vmalloc_to_page on vmalloc
-virt addresses.
-
-This patch fixes the following crash at boot on RPi4 (the underlying
-issue is not RPi4 specific):
-https://marc.info/?l=xen-devel&m=158862573216800
-
-Signed-off-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Signed-off-by: Stefano Stabellini <stefano.stabellini@xilinx.com>
-Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Tested-by: Corey Minyard <cminyard@mvista.com>
-Tested-by: Roman Shaposhnik <roman@zededa.com>
-Link: https://lore.kernel.org/r/20200710223427.6897-1-sstabellini@kernel.org
-Signed-off-by: Juergen Gross <jgross@suse.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/xen/swiotlb-xen.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
-index bd3a10dfac157..06346422f7432 100644
---- a/drivers/xen/swiotlb-xen.c
-+++ b/drivers/xen/swiotlb-xen.c
-@@ -335,6 +335,7 @@ xen_swiotlb_free_coherent(struct device *hwdev, size_t size, void *vaddr,
- 	int order = get_order(size);
- 	phys_addr_t phys;
- 	u64 dma_mask = DMA_BIT_MASK(32);
-+	struct page *page;
- 
- 	if (hwdev && hwdev->coherent_dma_mask)
- 		dma_mask = hwdev->coherent_dma_mask;
-@@ -346,9 +347,14 @@ xen_swiotlb_free_coherent(struct device *hwdev, size_t size, void *vaddr,
- 	/* Convert the size to actually allocated. */
- 	size = 1UL << (order + XEN_PAGE_SHIFT);
- 
-+	if (is_vmalloc_addr(vaddr))
-+		page = vmalloc_to_page(vaddr);
-+	else
-+		page = virt_to_page(vaddr);
-+
- 	if (!WARN_ON((dev_addr + size - 1 > dma_mask) ||
- 		     range_straddles_page_boundary(phys, size)) &&
--	    TestClearPageXenRemapped(virt_to_page(vaddr)))
-+	    TestClearPageXenRemapped(page))
- 		xen_destroy_contiguous_region(phys, order);
- 
- 	xen_free_coherent_pages(hwdev, size, vaddr, (dma_addr_t)phys, attrs);
--- 
-2.25.1
-
+cheers
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
