@@ -1,55 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC64B24AE32
-	for <lists.iommu@lfdr.de>; Thu, 20 Aug 2020 07:02:26 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE08524AE4D
+	for <lists.iommu@lfdr.de>; Thu, 20 Aug 2020 07:15:22 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 5E58422270;
-	Thu, 20 Aug 2020 05:02:25 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 94D9387D2C;
+	Thu, 20 Aug 2020 05:15:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KAuH9S9TC7Wk; Thu, 20 Aug 2020 05:02:22 +0000 (UTC)
+	with ESMTP id M1wB5tr7oWYP; Thu, 20 Aug 2020 05:15:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A549B220CA;
-	Thu, 20 Aug 2020 05:02:21 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 22AA7876D4;
+	Thu, 20 Aug 2020 05:15:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 718B7C0895;
-	Thu, 20 Aug 2020 05:02:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F1E02C0051;
+	Thu, 20 Aug 2020 05:15:20 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 44EDAC0051
- for <iommu@lists.linux-foundation.org>; Thu, 20 Aug 2020 05:02:20 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 497D5C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Aug 2020 05:15:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 327AE867A5
- for <iommu@lists.linux-foundation.org>; Thu, 20 Aug 2020 05:02:20 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 29C00863E0
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Aug 2020 05:15:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HO7arMuU_aTQ for <iommu@lists.linux-foundation.org>;
- Thu, 20 Aug 2020 05:02:19 +0000 (UTC)
+ with ESMTP id 59FvW93bgyIO for <iommu@lists.linux-foundation.org>;
+ Thu, 20 Aug 2020 05:15:18 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9AC85865E0
- for <iommu@lists.linux-foundation.org>; Thu, 20 Aug 2020 05:02:19 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 64E5A86396
+ for <iommu@lists.linux-foundation.org>; Thu, 20 Aug 2020 05:15:18 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 7DCC068BEB; Thu, 20 Aug 2020 07:02:14 +0200 (CEST)
-Date: Thu, 20 Aug 2020 07:02:14 +0200
+ id A894C68BEB; Thu, 20 Aug 2020 07:15:12 +0200 (CEST)
+Date: Thu, 20 Aug 2020 07:15:12 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH 05/28] media/v4l2: remove V4L2-FLAG-MEMORY-NON-CONSISTENT
-Message-ID: <20200820050214.GA4815@lst.de>
+To: Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH 19/28] dma-mapping: replace DMA_ATTR_NON_CONSISTENT
+ with dma_{alloc, free}_pages
+Message-ID: <20200820051512.GA5141@lst.de>
 References: <20200819065555.1802761-1-hch@lst.de>
- <20200819065555.1802761-6-hch@lst.de>
- <CAAFQd5COLxjydDYrfx47ht8tj-aNPiaVnC+WyQA7nvpW4gs=ww@mail.gmail.com>
- <62e4f4fc-c8a5-3ee8-c576-fe7178cb4356@arm.com>
- <CAAFQd5AcCTDguB2C9KyDiutXWoEvBL8tL7+a==Uo8vj_8CLOJw@mail.gmail.com>
- <2b32f1d8-16f7-3352-40a5-420993d52fb5@arm.com>
+ <20200819065555.1802761-20-hch@lst.de>
+ <CAAFQd5Bbp-eAVKS1MKS8xtrT4ZoOmBPfZyw9mys=eOmDb6r8Lw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <2b32f1d8-16f7-3352-40a5-420993d52fb5@arm.com>
+In-Reply-To: <CAAFQd5Bbp-eAVKS1MKS8xtrT4ZoOmBPfZyw9mys=eOmDb6r8Lw@mail.gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
  Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -59,16 +57,18 @@ Cc: alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
  linux-mm@kvack.org, Christoph Hellwig <hch@lst.de>,
  linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
  Joonyoung Shim <jy0922.shim@samsung.com>, linux-scsi@vger.kernel.org,
- "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Ben Skeggs <bskeggs@redhat.com>, Matt Porter <mporter@kernel.crashing.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Matt Porter <mporter@kernel.crashing.org>,
  Linux Media Mailing List <linux-media@vger.kernel.org>,
  Tom Lendacky <thomas.lendacky@amd.com>, Pawel Osciak <pawel@osciak.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <linux-arm-kernel@lists.infradead.org>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
  netdev@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Kyungmin Park <kyungmin.park@samsung.com>
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,52 +86,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Aug 19, 2020 at 03:07:04PM +0100, Robin Murphy wrote:
->> FWIW, I asked back in time what the plan is for non-coherent
->> allocations and it seemed like DMA_ATTR_NON_CONSISTENT and
->> dma_sync_*() was supposed to be the right thing to go with. [2] The
->> same thread also explains why dma_alloc_pages() isn't suitable for the
->> users of dma_alloc_attrs() and DMA_ATTR_NON_CONSISTENT.
->
-> AFAICS even back then Christoph was implying getting rid of NON_CONSISTENT 
-> and *replacing* it with something streaming-API-based - i.e. this series - 
-> not encouraging mixing the existing APIs. It doesn't seem impossible to 
-> implement a remapping version of this new dma_alloc_pages() for 
-> IOMMU-backed ops if it's really warranted (although at that point it seems 
-> like "non-coherent" vb2-dc starts to have significant conceptual overlap 
-> with vb2-sg).
+On Wed, Aug 19, 2020 at 05:03:52PM +0200, Tomasz Figa wrote:
+> >
+> > -Warning: These pieces of the DMA API should not be used in the
+> > -majority of cases, since they cater for unlikely corner cases that
+> > -don't belong in usual drivers.
+> > +These APIs allow to allocate pages that can be used like normal pages
+> > +in the kernel direct mapping, but are guaranteed to be DMA addressable.
+> 
+> Could we elaborate a bit more on what "like normal pages in kernel
+> direct mapping" mean from the driver perspective?
 
-You can alway vmap the returned pages from dma_alloc_pages, but it will
-make cache invalidation hell - you'll need to use
-invalidate_kernel_vmap_range and flush_kernel_vmap_range to properly
-handle virtually indexed caches.
+It mostly means you can call virt_to_page and then do anything you'd
+do with a page struct.  Unlike dma_alloc_attrs that just return an
+opaque virtual address that the caller is not allowed to poke into.
 
-Or with remapping you mean using the iommu do de-scatter/gather?
+> There is one aspect that the existing dma_alloc_attrs() handles, but
+> this new function doesn't: IOMMU support. The function will always
+> allocate a physically-contiguous block memory, which is a costly
+> operation and not even guaranteed to succeed, even if enough free
+> memory is available.
+> 
+> Modern SoCs employ IOMMUs to avoid the need to allocate
+> physically-contiguous memory and those happen to be also the devices
+> that could benefit from non-coherent allocations a lot. One of the
+> tasks of the DMA API was making it possible to allocate suitable
+> memory for a given device, without having the driver know about the
+> SoC integration details, such as the presence of an IOMMU.
 
-You can implement that trivially implement it yourself for the iommu
-case:
-
-{
-	merge_boundary = dma_get_merge_boundary(dev);
-	if (!merge_boundary || merge_boundary > chunk_size - 1) {
-		/* can't coalesce */
-		return -EINVAL;
-	}
-
-	
-	nents = DIV_ROUND_UP(total_size, chunk_size);
-	sg = sgl_alloc();
-	for_each_sgl() {
-		sg->page = __alloc_pages(get_order(chunk_size))
-		sg->len = chunk_size;
-	}
-	dma_map_sg(sg, DMA_ATTR_SKIP_CPU_SYNC);
-	// you are guaranteed to get a single dma_addr out
-}
-
-Of course this still uses the scatterlist structure with its annoying
-mix of input and output parametes, so I'd rather not expose it as
-an official API at the DMA layer.
+This is completely out of scope for this API exactly because it
+guarantees a page in the direct mapping.  But see my previous mail
+in reply to Robin on how you can implement the funtionality you
+want right now without any help from the dma-mapping subsystem.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
