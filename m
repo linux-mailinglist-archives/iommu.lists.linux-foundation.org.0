@@ -1,107 +1,167 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64AC24D759
-	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 16:28:45 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 023B424D7C7
+	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 17:00:19 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A55BA87EA7;
-	Fri, 21 Aug 2020 14:28:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7C31120396;
+	Fri, 21 Aug 2020 15:00:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1EtlwRXhY+YY; Fri, 21 Aug 2020 14:28:42 +0000 (UTC)
+	with ESMTP id TNcSJkLzPbyH; Fri, 21 Aug 2020 15:00:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 996CE87E9B;
-	Fri, 21 Aug 2020 14:28:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3746F204D1;
+	Fri, 21 Aug 2020 15:00:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 74429C0051;
-	Fri, 21 Aug 2020 14:28:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 16ED7C0891;
+	Fri, 21 Aug 2020 15:00:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4524BC0051
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 14:28:41 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D44ACC0051
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 12:46:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3A6C5862C7
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 14:28:41 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id D011688546
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 12:46:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8tEuiLGh_rJX for <iommu@lists.linux-foundation.org>;
- Fri, 21 Aug 2020 14:28:39 +0000 (UTC)
+ with ESMTP id OB9DeU3rP-8n for <iommu@lists.linux-foundation.org>;
+ Fri, 21 Aug 2020 12:46:05 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id ACD1F86194
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 14:28:39 +0000 (UTC)
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 07LER7QR030815; Fri, 21 Aug 2020 10:28:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=AIr0krHtySX330UJYHqhrO9p46eIJWxHy6x3jCSssWM=;
- b=hKX6+2z9iWhy+gGfo3t+GLTF8u147m1/MAEpSCXY9KXowAiceVsS09krQfmQg3/KPW0e
- akJa8er+y8betG7LJZEYeIiMNZo4Sv4zJUFpR78lRk9HQx/YTKjFm9FJ3ouR1UANLIIR
- iwuQvC4Q70kTKAX302ojFubThoTjXxbdYU8qRPEhlcA5ZoL43P9C8RlC+JAtzJQL0t3a
- qfaxsAc0Tv5acqM/uXPg+1R+lmwk9Ok4rXb6GLwYpoplUP/EVxE9NFQ4GauXKKGHemkf
- EPv4aFf8xUmdHRzMGUNscwEsPaXOgirTNcTNKGxq0iFb4tU5JLcWAkNlbS9QF8ae/sRO Iw== 
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0b-001b2d01.pphosted.com with ESMTP id 332f0cj1bb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Aug 2020 10:28:12 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07LEP0Oe018796;
- Fri, 21 Aug 2020 14:28:10 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma05fra.de.ibm.com with ESMTP id 3304bujqwr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Aug 2020 14:28:10 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 07LEQcgg63242524
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 Aug 2020 14:26:38 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1291611C050;
- Fri, 21 Aug 2020 14:28:08 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 71B3811C052;
- Fri, 21 Aug 2020 14:28:06 +0000 (GMT)
-Received: from linux.ibm.com (unknown [9.145.34.219])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Fri, 21 Aug 2020 14:28:06 +0000 (GMT)
-Date: Fri, 21 Aug 2020 17:28:04 +0300
-From: Mike Rapoport <rppt@linux.ibm.com>
-To: Barry Song <song.bao.hua@hisilicon.com>
-Subject: Re: [PATCH v7 1/3] dma-contiguous: provide the ability to reserve
- per-numa CMA
-Message-ID: <20200821142804.GR969206@linux.ibm.com>
-References: <20200821113355.6140-1-song.bao.hua@hisilicon.com>
- <20200821113355.6140-2-song.bao.hua@hisilicon.com>
-MIME-Version: 1.0
+Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
+ [216.228.121.64])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 30CAF88543
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 12:46:05 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5f3fc1d10000>; Fri, 21 Aug 2020 05:45:05 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Fri, 21 Aug 2020 05:46:04 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Fri, 21 Aug 2020 05:46:04 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 21 Aug
+ 2020 12:45:50 +0000
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.173)
+ by HQMAIL109.nvidia.com (172.20.187.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Fri, 21 Aug 2020 12:45:50 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Py9ewiDH8EpfOU/AGCbhXdH876ONWFt9/IJp2y78uyzcc9bvi/OYw3HhLNdbHgPnDtT46XJSkhQ/EnIToSrGgwbfbVHR7EGZAJai+9wk8XMHMnFeQVycyzKeCmRQxqGrp2hku5bm+jHrxdlltkJt1XJ38s+JSK6S216wZuLChNij4WjdqjSw1NuJGOgQzfWfJdukKRbplhwIZMXHXdbUiB3Il6vVZq4Hfmk4f9Szuc9G6xpR5s/skhU1O+a1FzYabtKzL6i6k8V22Rg2y5XTF0MtxvAU11cUjafthVS7hyz5ocAApuPjiuZuW7OSeU4SP2DGrmraRtN2FpEw4aYr1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S/r45NtRV2mWSwf7qjxe4p+L5bNQhEDLKcj6MRy1GZY=;
+ b=evGBf2zmiTrwkGakIKRpLZJIavBoMH/xJQ39k33OJVN1lh3Hvvjn/d/KY4Mv9mvNYkWF1nF/MagKkRb6sNsBooTvNQClCHGNqkbye6CId663c0ZyAfdtL0qX1GVDzDG1zBpyHvHN0llyeHvOGLoIOO0VUOz6hEvQakPIbrpjZ1w74piCh4qur1OBvQk1CyPc0WaPvj51NuZG4WPcoZd520XlcRxv0QlpB0oxEA4U8ZFqpVODyvecbtX55w7tnj9sg3HNmapAps1B74E3ebBy1Erxq1QpjYhqw0DOg6cvxTdvEktzgQ4FabWV/tfDDenWkrQpv/lqRsS0pazwilVl7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Authentication-Results: linutronix.de; dkim=none (message not signed)
+ header.d=none;linutronix.de; dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB2937.namprd12.prod.outlook.com (2603:10b6:5:181::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Fri, 21 Aug
+ 2020 12:45:49 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::2d79:7f96:6406:6c76]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::2d79:7f96:6406:6c76%3]) with mapi id 15.20.3305.025; Fri, 21 Aug 2020
+ 12:45:49 +0000
+Date: Fri, 21 Aug 2020 09:45:47 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [patch RFC 38/38] irqchip: Add IMS array driver - NOT FOR MERGING
+Message-ID: <20200821124547.GY1152540@nvidia.com>
+References: <20200821002424.119492231@linutronix.de>
+ <20200821002949.049867339@linutronix.de>
 Content-Disposition: inline
-In-Reply-To: <20200821113355.6140-2-song.bao.hua@hisilicon.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-08-21_08:2020-08-21,
- 2020-08-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1011
- mlxlogscore=999 adultscore=0 malwarescore=0 suspectscore=5 mlxscore=0
- spamscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008210125
-Cc: catalin.marinas@arm.com, Steve Capper <steve.capper@arm.com>,
- robin.murphy@arm.com, linuxarm@huawei.com, linux-kernel@vger.kernel.org,
- huangdaode@huawei.com, iommu@lists.linux-foundation.org,
- prime.zeng@hisilicon.com, ganapatrao.kulkarni@cavium.com,
- akpm@linux-foundation.org, will@kernel.org, hch@lst.de,
- linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20200821002949.049867339@linutronix.de>
+X-ClientProxiedBy: MN2PR08CA0011.namprd08.prod.outlook.com
+ (2603:10b6:208:239::16) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 255.255.255.255 (255.255.255.255) by
+ MN2PR08CA0011.namprd08.prod.outlook.com (2603:10b6:208:239::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24 via Frontend
+ Transport; Fri, 21 Aug 2020 12:45:48 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1k96QV-00Ayig-6v; Fri, 21 Aug 2020 09:45:47 -0300
+X-Originating-IP: [156.34.48.30]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bde6f1d1-43e6-42ec-314e-08d845d02124
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2937:
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+X-Microsoft-Antispam-PRVS: <DM6PR12MB2937FEC575829A8FF4C2E77DC25B0@DM6PR12MB2937.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NTZmBqehfqmaqXdboT4a5dPhpMPqxQMk3nzOKj8aoHxyw/uxQ6H7ffv7wBIIUDVU1HNXZkFZoieh+fH87lKdrgC75kmAJ/p6BHTuv6HvwrLF0w+oAN48RL3waxEyGYBLTToRWXoLrrdEkUcyoWiKobqZfCur/80bhIY000+FmgO9lWys6XFnuEgIWSzEaDEu9S2xekROonudt36Y5PFPmUzLKH9UYFeUWhJai90MF+18P0EVLD2VQsbxbC9tOLZPmhkL7Rg1Szb527BPdKqs2y5ttw1fqLNdgqEveGhrqPK2fCNo1ZreOlAhPxbHWCr9jxO+RtbrOBHpktXjgzbIiQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3834.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39860400002)(346002)(376002)(396003)(136003)(54906003)(2906002)(66556008)(66476007)(5660300002)(66946007)(316002)(7416002)(9786002)(7406005)(9746002)(478600001)(6916009)(36756003)(33656002)(1076003)(4744005)(26005)(426003)(8936002)(4326008)(186003)(2616005)(8676002)(86362001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: xdfQ1ln1+gknfpqk+yefyLuDMQezgwh8sAvdLDdi3bRnR9+EVySYjZ32sLbqTPr3GOPyr2GT7iS4Dot4AbjnjgJiEmP6towdnAiD90MllKn4HEU0CI9vbS/IiRJ9Y5Uj7ZCewdUzQZsyvVa4N+o+mXMoXDXxxsCWAvDuW1lHlqXVitL8d+uot4qj/KDDj/NX3rGOLpGspy0+TiR2rBhNwyi4+I4NX4v3trjuqlnOUsoZwQ9zJ9cI6uK128NHu22PlGmxOLrwFwYhRR15+mXNQSxKZiaPTavOaara5mqcj3/t0gcTyqe9fi2qea3PhIBc6FKMPbaBKpjD1cV1OLyG7Z8izrwg/TZIgb19a5CsXx3aXmu3+JFz/iAJ/z5BAbQbLARTh4MoDbbLzHgf5BBTTFU6OTJGmkR02cu6F32/EaLTelFzw4DmzIcSmhr5X+RTcElJjxMf5s+VpAH8I7IGwd0HJc1ebcUNKjx/Hzzx1DCCXgEDKBlTHN2pa5de3QWsZtWS/axV4Z/IGTISH0FySR+bLt3z7n1D3JcrI+SxefwDWHO6nIa68s9a5P1ttiloCxQXclMERvpqk9vIhicgkcEQy6a55DgJusQ9Ec0KWtq1l7IVlc0NEYNpj0A+vEJw/g1NHbVzt0A/KeNwI75iZA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: bde6f1d1-43e6-42ec-314e-08d845d02124
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2020 12:45:49.4623 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: j3TlBq1PIsLScvIyK33fZSmTrweg157FP0Uo29a0R88+Ej7tjaTpI2E2O9tgD4wU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2937
+X-OriginatorOrg: Nvidia.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1598013905; bh=S/r45NtRV2mWSwf7qjxe4p+L5bNQhEDLKcj6MRy1GZY=;
+ h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
+ ARC-Authentication-Results:Authentication-Results:Date:From:To:CC:
+ Subject:Message-ID:References:Content-Type:Content-Disposition:
+ In-Reply-To:X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType:X-Originating-IP:
+ X-MS-PublicTrafficType:X-MS-Office365-Filtering-Correlation-Id:
+ X-MS-TrafficTypeDiagnostic:X-LD-Processed:
+ X-Microsoft-Antispam-PRVS:X-MS-Oob-TLC-OOBClassifiers:
+ X-MS-Exchange-SenderADCheck:X-Microsoft-Antispam:
+ X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+ X-MS-Exchange-AntiSpam-MessageData:
+ X-MS-Exchange-CrossTenant-Network-Message-Id:
+ X-MS-Exchange-CrossTenant-AuthSource:
+ X-MS-Exchange-CrossTenant-AuthAs:
+ X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+ X-MS-Exchange-CrossTenant-FromEntityHeader:
+ X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+ X-MS-Exchange-CrossTenant-UserPrincipalName:
+ X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+ b=OoFeZ3zwH31c6dazGymdvgknGb81DFgIUSnvLMAkOno9B8E4DhKLCoS0MgbbVvXGX
+ HsLgjVI15O7wL2ODd192xH5XW5S12JBdDBdrhSuU6gmiKlHH3S2NJ0Qh2U0d6CyxwI
+ 9lRB6TTzy7ndUAmLBzM0d361sx6un9I+9AYXs2HBEwvGbEguEgqg8VSGg3ITw98Xfo
+ pgt0+WmMkc1o7O+088ROFed4xB30u7ERE+RJXVCPAsTe4ZEE7nmEMSMUhZaQh0F6B/
+ BRpGKkqOCUX2TJkzDJrEptjte0H2deVnD1rBVn4Dz3VgQj3qlpnJ8PPrIC58AX+Xgt
+ VRdvBp+7mtNWw==
+X-Mailman-Approved-At: Fri, 21 Aug 2020 15:00:13 +0000
+Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
+ Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Wei Liu <wei.liu@kernel.org>,
+ Dave Jiang <dave.jiang@intel.com>, Baolu Lu <baolu.lu@intel.com>,
+ Marc Zyngier <maz@kernel.org>, x86@kernel.org, Megha Dey <megha.dey@intel.com>,
+ xen-devel@lists.xenproject.org, Kevin Tian <kevin.tian@intel.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Stephen Hemminger <sthemmin@microsoft.com>,
+ Dan Williams <dan.j.williams@intel.com>, Jon
+ Derrick <jonathan.derrick@intel.com>, Juergen Gross <jgross@suse.com>,
+ Russ Anderson <rja@hpe.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org, Jacob
+ Pan <jacob.jun.pan@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,302 +179,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Aug 21, 2020 at 11:33:53PM +1200, Barry Song wrote:
-> Right now, drivers like ARM SMMU are using dma_alloc_coherent() to get
-> coherent DMA buffers to save their command queues and page tables. As
-> there is only one default CMA in the whole system, SMMUs on nodes other
-> than node0 will get remote memory. This leads to significant latency.
-> 
-> This patch provides per-numa CMA so that drivers like SMMU can get local
-> memory. Tests show localizing CMA can decrease dma_unmap latency much.
-> For instance, before this patch, SMMU on node2  has to wait for more than
-> 560ns for the completion of CMD_SYNC in an empty command queue; with this
-> patch, it needs 240ns only.
-> 
-> A positive side effect of this patch would be improving performance even
-> further for those users who are worried about performance more than DMA
-> security and use iommu.passthrough=1 to skip IOMMU. With local CMA, all
-> drivers can get local coherent DMA buffers.
-> 
-> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Ganapatrao Kulkarni <ganapatrao.kulkarni@cavium.com>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> Cc: Steve Capper <steve.capper@arm.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Mike Rapoport <rppt@linux.ibm.com>
-> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
-> ---
->  -v7: with respect to Will's comments
->  * move to use for_each_online_node
->  * add description if users don't specify pernuma_cma
->  * provide default value for CONFIG_DMA_PERNUMA_CMA
-> 
->  .../admin-guide/kernel-parameters.txt         |  11 ++
->  include/linux/dma-contiguous.h                |   6 ++
->  kernel/dma/Kconfig                            |  11 ++
->  kernel/dma/contiguous.c                       | 100 ++++++++++++++++--
->  4 files changed, 118 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index bdc1f33fd3d1..c609527fc35a 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -599,6 +599,17 @@
->  			altogether. For more information, see
->  			include/linux/dma-contiguous.h
->  
-> +	pernuma_cma=nn[MG]
-
-Maybe cma_pernuma or cma_pernode?
-
-> +			[ARM64,KNL]
-> +			Sets the size of kernel per-numa memory area for
-> +			contiguous memory allocations. A value of 0 disables
-> +			per-numa CMA altogether. And If this option is not
-> +			specificed, the default value is 0.
-> +			With per-numa CMA enabled, DMA users on node nid will
-> +			first try to allocate buffer from the pernuma area
-> +			which is located in node nid, if the allocation fails,
-> +			they will fallback to the global default memory area.
-> +
->  	cmo_free_hint=	[PPC] Format: { yes | no }
->  			Specify whether pages are marked as being inactive
->  			when they are freed.  This is used in CMO environments
-> diff --git a/include/linux/dma-contiguous.h b/include/linux/dma-contiguous.h
-> index 03f8e98e3bcc..fe55e004f1f4 100644
-> --- a/include/linux/dma-contiguous.h
-> +++ b/include/linux/dma-contiguous.h
-> @@ -171,6 +171,12 @@ static inline void dma_free_contiguous(struct device *dev, struct page *page,
->  
->  #endif
->  
-> +#ifdef CONFIG_DMA_PERNUMA_CMA
-> +void dma_pernuma_cma_reserve(void);
-> +#else
-> +static inline void dma_pernuma_cma_reserve(void) { }
-> +#endif
-> +
->  #endif
->  
->  #endif
-> diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-> index 847a9d1fa634..c38979d45b13 100644
-> --- a/kernel/dma/Kconfig
-> +++ b/kernel/dma/Kconfig
-> @@ -118,6 +118,17 @@ config DMA_CMA
->  	  If unsure, say "n".
->  
->  if  DMA_CMA
-> +
-> +config DMA_PERNUMA_CMA
-> +	bool "Enable separate DMA Contiguous Memory Area for each NUMA Node"
-> +	default NUMA && ARM64
-> +	help
-> +	  Enable this option to get pernuma CMA areas so that devices like
-> +	  ARM64 SMMU can get local memory by DMA coherent APIs.
-> +
-> +	  You can set the size of pernuma CMA by specifying "pernuma_cma=size"
-> +	  on the kernel's command line.
-> +
->  comment "Default contiguous memory area size:"
->  
->  config CMA_SIZE_MBYTES
-> diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
-> index cff7e60968b9..0383c9b86715 100644
-> --- a/kernel/dma/contiguous.c
-> +++ b/kernel/dma/contiguous.c
-> @@ -69,6 +69,19 @@ static int __init early_cma(char *p)
->  }
->  early_param("cma", early_cma);
->  
-> +#ifdef CONFIG_DMA_PERNUMA_CMA
-> +
-> +static struct cma *dma_contiguous_pernuma_area[MAX_NUMNODES];
-> +static phys_addr_t pernuma_size_bytes __initdata;
-> +
-> +static int __init early_pernuma_cma(char *p)
+On Fri, Aug 21, 2020 at 02:25:02AM +0200, Thomas Gleixner wrote:
+> +static void ims_mask_irq(struct irq_data *data)
 > +{
-> +	pernuma_size_bytes = memparse(p, &p);
-> +	return 0;
-> +}
-> +early_param("pernuma_cma", early_pernuma_cma);
-> +#endif
+> +	struct msi_desc *desc = irq_data_get_msi_desc(data);
+> +	struct ims_array_slot __iomem *slot = desc->device_msi.priv_iomem;
+> +	u32 __iomem *ctrl = &slot->ctrl;
 > +
->  #ifdef CONFIG_CMA_SIZE_PERCENTAGE
->  
->  static phys_addr_t __init __maybe_unused cma_early_percent_memory(void)
-> @@ -96,6 +109,34 @@ static inline __maybe_unused phys_addr_t cma_early_percent_memory(void)
->  
->  #endif
->  
-> +#ifdef CONFIG_DMA_PERNUMA_CMA
-> +void __init dma_pernuma_cma_reserve(void)
-> +{
-> +	int nid;
-> +
-> +	if (!pernuma_size_bytes)
-> +		return;
-> +
-> +	for_each_online_node(nid) {
-> +		int ret;
-> +		char name[20];
-> +		struct cma **cma = &dma_contiguous_pernuma_area[nid];
-> +
-> +		snprintf(name, sizeof(name), "pernuma%d", nid);
-> +		ret = cma_declare_contiguous_nid(0, pernuma_size_bytes, 0, 0,
-> +						 0, false, name, cma, nid);
-> +		if (ret) {
-> +			pr_warn("%s: reservation failed: err %d, node %d", __func__,
-> +				ret, nid);
-> +			continue;
-> +		}
-> +
-> +		pr_debug("%s: reserved %llu MiB on node %d\n", __func__,
-> +			(unsigned long long)pernuma_size_bytes / SZ_1M, nid);
-> +	}
-> +}
-> +#endif
-> +
->  /**
->   * dma_contiguous_reserve() - reserve area(s) for contiguous memory handling
->   * @limit: End address of the reserved memory (optional, 0 for any).
-> @@ -228,23 +269,44 @@ static struct page *cma_alloc_aligned(struct cma *cma, size_t size, gfp_t gfp)
->   * @size:  Requested allocation size.
->   * @gfp:   Allocation flags.
->   *
-> - * This function allocates contiguous memory buffer for specified device. It
-> - * tries to use device specific contiguous memory area if available, or the
-> - * default global one.
-> + * tries to use device specific contiguous memory area if available, or it
-> + * tries to use per-numa cma, if the allocation fails, it will fallback to
-> + * try default global one.
->   *
-> - * Note that it byapss one-page size of allocations from the global area as
-> - * the addresses within one page are always contiguous, so there is no need
-> - * to waste CMA pages for that kind; it also helps reduce fragmentations.
-> + * Note that it bypass one-page size of allocations from the per-numa and
-> + * global area as the addresses within one page are always contiguous, so
-> + * there is no need to waste CMA pages for that kind; it also helps reduce
-> + * fragmentations.
->   */
->  struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
->  {
-> +#ifdef CONFIG_DMA_PERNUMA_CMA
-> +	int nid = dev_to_node(dev);
-> +#endif
-> +
->  	/* CMA can be used only in the context which permits sleeping */
->  	if (!gfpflags_allow_blocking(gfp))
->  		return NULL;
->  	if (dev->cma_area)
->  		return cma_alloc_aligned(dev->cma_area, size, gfp);
-> -	if (size <= PAGE_SIZE || !dma_contiguous_default_area)
-> +	if (size <= PAGE_SIZE)
-> +		return NULL;
-> +
-> +#ifdef CONFIG_DMA_PERNUMA_CMA
-> +	if (nid != NUMA_NO_NODE && !(gfp & (GFP_DMA | GFP_DMA32))) {
-> +		struct cma *cma = dma_contiguous_pernuma_area[nid];
+> +	iowrite32(ioread32(ctrl) & ~IMS_VECTOR_CTRL_UNMASK, ctrl);
 
-It could be that for some node reservation failedm than
-dma_contiguous_pernuma_area[nid] would be NULL.
-I'd add a fallback to another node here.
+Just to be clear, this is exactly the sort of operation we can't do
+with non-MSI interrupts. For a real PCI device to execute this it
+would have to keep the data on die.
 
-> +		struct page *page;
-> +
-> +		if (cma) {
-> +			page = cma_alloc_aligned(cma, size, gfp);
-> +			if (page)
-> +				return page;
-> +		}
-> +	}
-> +#endif
+I saw the idxd driver was doing something like this, I assume it
+avoids trouble because it is a fake PCI device integrated with the
+CPU, not on a real PCI bus?
 
-I think the selection of the area can be put in a helper funciton and
-then here we just try to allocate from the selected area. E.g.
+It is really nice to see irq_domain used properly in x86!
 
-static struct cma* dma_get_cma_area(struct device *dev)
-{
-#ifdef CONFIG_DMA_PERNUMA_CMA
-	int nid = dev_to_node(dev);
-	struct cma *cma = dma_contiguous_pernuma_area[nid];
-
-	if (!cma)
-		/* select cma from another node */ ;
-		
-	return cma;
-#else
-	return dma_contiguous_default_area;
-#endif
-}
-
-struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
-{
-	struct cma *cma;
-	...
-
-
-	cma = dma_get_cma_area(dev);
-	if (!cma)
-		return NULL;
-
-	return cma_alloc_aligned(cma, size, gfp);
-}	
- 
-> +	if (!dma_contiguous_default_area)
->  		return NULL;
-> +
->  	return cma_alloc_aligned(dma_contiguous_default_area, size, gfp);
->  }
->  
-> @@ -261,9 +323,27 @@ struct page *dma_alloc_contiguous(struct device *dev, size_t size, gfp_t gfp)
->   */
->  void dma_free_contiguous(struct device *dev, struct page *page, size_t size)
->  {
-> -	if (!cma_release(dev_get_cma_area(dev), page,
-> -			 PAGE_ALIGN(size) >> PAGE_SHIFT))
-> -		__free_pages(page, get_order(size));
-
-Here as well, dev_get_cma_area() can be replaced with, say
-dma_get_dev_cma_area(dev, page) that will hide the below logic.
-
-> +	unsigned int count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-> +
-> +	/* if dev has its own cma, free page from there */
-> +	if (dev->cma_area) {
-> +		if (cma_release(dev->cma_area, page, count))
-> +			return;
-> +	} else {
-> +		/*
-> +		 * otherwise, page is from either per-numa cma or default cma
-> +		 */
-> +#ifdef CONFIG_DMA_PERNUMA_CMA
-> +		if (cma_release(dma_contiguous_pernuma_area[page_to_nid(page)],
-> +					page, count))
-> +			return;
-> +#endif
-> +		if (cma_release(dma_contiguous_default_area, page, count))
-> +			return;
-> +	}
-> +
-> +	/* not in any cma, free from buddy */
-> +	__free_pages(page, get_order(size));
->  }
->  
->  /*
-> -- 
-> 2.27.0
-> 
-> 
-
--- 
-Sincerely yours,
-Mike.
+Thanks,
+Jason
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
