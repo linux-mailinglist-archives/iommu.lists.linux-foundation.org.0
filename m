@@ -2,66 +2,66 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29AB024CA23
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B44524CA24
 	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 04:17:24 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D373488612;
+	by hemlock.osuosl.org (Postfix) with ESMTP id D351488607;
 	Fri, 21 Aug 2020 02:17:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dHKcnriQ0zxb; Fri, 21 Aug 2020 02:17:21 +0000 (UTC)
+	with ESMTP id A6-h+vWKGLNh; Fri, 21 Aug 2020 02:17:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D3C3E88603;
-	Fri, 21 Aug 2020 02:17:21 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 25D848860A;
+	Fri, 21 Aug 2020 02:17:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C91FCC0051;
-	Fri, 21 Aug 2020 02:17:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 117B8C0889;
+	Fri, 21 Aug 2020 02:17:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 44AF6C0889
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C125BC0051
  for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 178EB88607
+ by fraxinus.osuosl.org (Postfix) with ESMTP id BD9C086CF9
  for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gFIKdnMCys36 for <iommu@lists.linux-foundation.org>;
+ with ESMTP id WJrQurxGOumv for <iommu@lists.linux-foundation.org>;
  Fri, 21 Aug 2020 02:17:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E56BB885FB
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:18 +0000 (UTC)
-Message-Id: <20200821002948.379447552@linutronix.de>
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 7F34586CEF
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:19 +0000 (UTC)
+Message-Id: <20200821002948.472642859@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1597976237;
+ s=2020; t=1597976238;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=/s0W3ueaG6RtDzEeGUOI0RGBVruM5KofEMx/9DI9MLQ=;
- b=lhEvEN53FVmm7WaATrlbrU5ndLFii2LKbFg5sOWGT7H+n7al6/w9HhdVruRVrDYtOIEFMv
- JDlX8SKzQY5EyF2uM472V9qjU3IMvsqzbOWjOd6lcSAS2lis/6p6/43NObKcwJMcaROLRT
- isNBG1VfW+VhAscmgCqMl6CbeQFaiqBUuhrbm4zGR06CHqJiGmm5tFrJul177II1iXHN6U
- JqiLxD/1koJNOnYePuc93IRS5OQ3wiHQUabnterO5JENke8VWJNXDg7Kxk4q9L0IZdzV8Z
- kO1OfD/dFzMjxmvoxXA6WcJ00IcS9QOm0WtLGabMefC5f/FLnv7iSqVJmJfmxA==
+ bh=YM0Jb+0jacRYeAAEIXyvt7LyQs4eenP0P8zOev+VYEA=;
+ b=XYwY5aZBZHc/cE8NoEwTRaXWx4kQ9d5LAVJKdZmLxtBDVRWBQIJ1CD55OOiD8/PaSIC/Qz
+ 86xyuToyG6fI0SYmZSPxwoPMnRKptHaFKEijx8ccnzdBv83L4NnYP/UaMCRLf1xPIu9QD6
+ LnA+w+4x3Jkpbea1y5BQ1kxBaz1UJLA/aMDIsKy/If47+NLxbOJk4c2rnPclYU5gciOWt2
+ q7yABVl1IeaRUY1SCLr5pnWVG3Lc67GbPkqqE2Np8EEdfhi2F/dQu1naD6Hi5jWT+CBefq
+ 9I1Ctkigd4ye/r+nFa9qaNWht25+BgwifwFgNJLDdwMDEhIbqsoywHttGKLZ8A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1597976237;
+ s=2020e; t=1597976238;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=/s0W3ueaG6RtDzEeGUOI0RGBVruM5KofEMx/9DI9MLQ=;
- b=QHm30rz5+fz6MVN5gJxMivl2CwMWIfo/V05Ng5lEi8dMBMkPwGvNfN6ORhWZ6ka1Rkg62S
- pVIbqqFvU832pWBw==
-Date: Fri, 21 Aug 2020 02:24:55 +0200
+ bh=YM0Jb+0jacRYeAAEIXyvt7LyQs4eenP0P8zOev+VYEA=;
+ b=SJFB1hWrc9NTcS6nWGalTM0SJUTy+5x03Z372SqiJn9+JXrx5GkSr1rUnc2/RHr+HRLf5m
+ OPRQxTlNSr1y7xCA==
+Date: Fri, 21 Aug 2020 02:24:56 +0200
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch RFC 31/38] x86/irq: Cleanup the arch_*_msi_irqs() leftovers
+Subject: [patch RFC 32/38] x86/irq: Make most MSI ops XEN private
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline;
- filename="x86-irq--Cleanup-the-arch_msi_irqs-leftovers.patch"
+ filename="x86-irq--Make-most-MSI-ops-XEN-private.patch"
 Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
  Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
  "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -97,145 +97,85 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Get rid of all the gunk and enable CONFIG_PCI_MSI_DISABLE_ARCH_FALLBACKS.
+Nothing except XEN uses the setup/teardown ops. Hide them there.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Cc: xen-devel@lists.xenproject.org
 Cc: linux-pci@vger.kernel.org
 ---
- arch/x86/Kconfig                |    1 +
- arch/x86/include/asm/pci.h      |   11 -----------
- arch/x86/include/asm/x86_init.h |    1 -
- arch/x86/kernel/apic/msi.c      |   22 ----------------------
- arch/x86/kernel/x86_init.c      |   18 ------------------
- arch/x86/pci/xen.c              |    7 -------
- 6 files changed, 1 insertion(+), 59 deletions(-)
+ arch/x86/include/asm/x86_init.h |    2 --
+ arch/x86/pci/xen.c              |   23 +++++++++++++++--------
+ 2 files changed, 15 insertions(+), 10 deletions(-)
 
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -225,6 +225,7 @@ config X86
- 	select NEED_SG_DMA_LENGTH
- 	select PCI_DOMAINS			if PCI
- 	select PCI_LOCKLESS_CONFIG		if PCI
-+	select PCI_MSI_DISABLE_ARCH_FALLBACKS
- 	select PERF_EVENTS
- 	select RTC_LIB
- 	select RTC_MC146818_LIB
---- a/arch/x86/include/asm/pci.h
-+++ b/arch/x86/include/asm/pci.h
-@@ -105,17 +105,6 @@ static inline void early_quirks(void) {
- 
- extern void pci_iommu_alloc(void);
- 
--#ifdef CONFIG_PCI_MSI
--/* implemented in arch/x86/kernel/apic/io_apic. */
--struct msi_desc;
--int native_setup_msi_irqs(struct pci_dev *dev, int nvec, int type);
--void native_teardown_msi_irq(unsigned int irq);
--void native_restore_msi_irqs(struct pci_dev *dev);
--#else
--#define native_setup_msi_irqs		NULL
--#define native_teardown_msi_irq		NULL
--#endif
--
- /* generic pci stuff */
- #include <asm-generic/pci.h>
- 
 --- a/arch/x86/include/asm/x86_init.h
 +++ b/arch/x86/include/asm/x86_init.h
-@@ -277,7 +277,6 @@ struct pci_dev;
+@@ -276,8 +276,6 @@ struct x86_platform_ops {
+ struct pci_dev;
  
  struct x86_msi_ops {
- 	int (*setup_msi_irqs)(struct pci_dev *dev, int nvec, int type);
--	void (*teardown_msi_irq)(unsigned int irq);
- 	void (*teardown_msi_irqs)(struct pci_dev *dev);
+-	int (*setup_msi_irqs)(struct pci_dev *dev, int nvec, int type);
+-	void (*teardown_msi_irqs)(struct pci_dev *dev);
  	void (*restore_msi_irqs)(struct pci_dev *dev);
  };
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -182,28 +182,6 @@ static struct irq_chip pci_msi_controlle
- 	.flags			= IRQCHIP_SKIP_SET_WAKE,
- };
  
--int native_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
--{
--	struct irq_domain *domain;
--	struct irq_alloc_info info;
--
--	init_irq_alloc_info(&info, NULL);
--	info.type = X86_IRQ_ALLOC_TYPE_PCI_MSI;
--
--	domain = irq_remapping_get_irq_domain(&info);
--	if (domain == NULL)
--		domain = x86_pci_msi_default_domain;
--	if (domain == NULL)
--		return -ENOSYS;
--
--	return msi_domain_alloc_irqs(domain, &dev->dev, nvec);
--}
--
--void native_teardown_msi_irq(unsigned int irq)
--{
--	irq_domain_free_irqs(irq, 1);
--}
--
- int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
- 		    msi_alloc_info_t *arg)
- {
---- a/arch/x86/kernel/x86_init.c
-+++ b/arch/x86/kernel/x86_init.c
-@@ -145,28 +145,10 @@ EXPORT_SYMBOL_GPL(x86_platform);
- 
- #if defined(CONFIG_PCI_MSI)
- struct x86_msi_ops x86_msi __ro_after_init = {
--	.setup_msi_irqs		= native_setup_msi_irqs,
--	.teardown_msi_irq	= native_teardown_msi_irq,
--	.teardown_msi_irqs	= default_teardown_msi_irqs,
- 	.restore_msi_irqs	= default_restore_msi_irqs,
- };
- 
- /* MSI arch specific hooks */
--int arch_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
--{
--	return x86_msi.setup_msi_irqs(dev, nvec, type);
--}
--
--void arch_teardown_msi_irqs(struct pci_dev *dev)
--{
--	x86_msi.teardown_msi_irqs(dev);
--}
--
--void arch_teardown_msi_irq(unsigned int irq)
--{
--	x86_msi.teardown_msi_irq(irq);
--}
--
- void arch_restore_msi_irqs(struct pci_dev *dev)
- {
- 	x86_msi.restore_msi_irqs(dev);
 --- a/arch/x86/pci/xen.c
 +++ b/arch/x86/pci/xen.c
-@@ -401,11 +401,6 @@ static void xen_pv_teardown_msi_irqs(str
- 	xen_teardown_msi_irqs(dev);
+@@ -156,6 +156,13 @@ static int acpi_register_gsi_xen(struct
+ struct xen_pci_frontend_ops *xen_pci_frontend;
+ EXPORT_SYMBOL_GPL(xen_pci_frontend);
+ 
++struct xen_msi_ops {
++	int (*setup_msi_irqs)(struct pci_dev *dev, int nvec, int type);
++	void (*teardown_msi_irqs)(struct pci_dev *dev);
++};
++
++static struct xen_msi_ops xen_msi_ops __ro_after_init;
++
+ static int xen_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
+ {
+ 	int irq, ret, i;
+@@ -414,7 +421,7 @@ static int xen_msi_domain_alloc_irqs(str
+ 	else
+ 		type = PCI_CAP_ID_MSI;
+ 
+-	return x86_msi.setup_msi_irqs(to_pci_dev(dev), nvec, type);
++	return xen_msi_ops.setup_msi_irqs(to_pci_dev(dev), nvec, type);
  }
  
--static void xen_teardown_msi_irq(unsigned int irq)
--{
--	WARN_ON_ONCE(1);
--}
--
- static int xen_msi_domain_alloc_irqs(struct irq_domain *domain,
- 				     struct device *dev,  int nvec)
- {
-@@ -482,8 +477,6 @@ static __init void xen_setup_pci_msi(voi
+ static void xen_msi_domain_free_irqs(struct irq_domain *domain,
+@@ -423,7 +430,7 @@ static void xen_msi_domain_free_irqs(str
+ 	if (WARN_ON_ONCE(!dev_is_pci(dev)))
  		return;
- 	}
  
--	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
--
- 	/*
- 	 * Override the PCI/MSI irq domain init function. No point
- 	 * in allocating the native domain and never use it.
+-	x86_msi.teardown_msi_irqs(to_pci_dev(dev));
++	xen_msi_ops.teardown_msi_irqs(to_pci_dev(dev));
+ }
+ 
+ static struct msi_domain_ops xen_pci_msi_domain_ops = {
+@@ -461,17 +468,17 @@ static __init struct irq_domain *xen_cre
+ static __init void xen_setup_pci_msi(void)
+ {
+ 	if (xen_initial_domain()) {
+-		x86_msi.setup_msi_irqs = xen_initdom_setup_msi_irqs;
+-		x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
++		xen_msi_ops.setup_msi_irqs = xen_initdom_setup_msi_irqs;
++		xen_msi_ops.teardown_msi_irqs = xen_teardown_msi_irqs;
+ 		x86_msi.restore_msi_irqs = xen_initdom_restore_msi_irqs;
+ 		pci_msi_ignore_mask = 1;
+ 	} else if (xen_pv_domain()) {
+-		x86_msi.setup_msi_irqs = xen_setup_msi_irqs;
+-		x86_msi.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
++		xen_msi_ops.setup_msi_irqs = xen_setup_msi_irqs;
++		xen_msi_ops.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
+ 		pci_msi_ignore_mask = 1;
+ 	} else if (xen_hvm_domain()) {
+-		x86_msi.setup_msi_irqs = xen_hvm_setup_msi_irqs;
+-		x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
++		xen_msi_ops.setup_msi_irqs = xen_hvm_setup_msi_irqs;
++		xen_msi_ops.teardown_msi_irqs = xen_teardown_msi_irqs;
+ 	} else {
+ 		WARN_ON_ONCE(1);
+ 		return;
 
 _______________________________________________
 iommu mailing list
