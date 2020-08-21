@@ -2,66 +2,66 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039E624CA1E
-	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 04:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9B724CA25
+	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 04:17:24 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B212D8869D;
-	Fri, 21 Aug 2020 02:17:20 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3BC9D8869E;
+	Fri, 21 Aug 2020 02:17:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qChKXnLp5HYy; Fri, 21 Aug 2020 02:17:18 +0000 (UTC)
+	with ESMTP id 8fa1tvEYl-bS; Fri, 21 Aug 2020 02:17:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B3607886BD;
+	by whitealder.osuosl.org (Postfix) with ESMTP id D86DC886C2;
 	Fri, 21 Aug 2020 02:17:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C97AC0889;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D00C6C0051;
 	Fri, 21 Aug 2020 02:17:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 24797C0051
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E5F37C0051
  for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1362F86CD4
+ by hemlock.osuosl.org (Postfix) with ESMTP id D52B4885F6
  for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JkdhmNcaPTEA for <iommu@lists.linux-foundation.org>;
- Fri, 21 Aug 2020 02:17:12 +0000 (UTC)
+ with ESMTP id 22dLpj7IQc8I for <iommu@lists.linux-foundation.org>;
+ Fri, 21 Aug 2020 02:17:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 2E5E286CEF
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:12 +0000 (UTC)
-Message-Id: <20200821002947.868727656@linutronix.de>
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 42A4F885E7
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:13 +0000 (UTC)
+Message-Id: <20200821002947.976983300@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1597976230;
+ s=2020; t=1597976231;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=TtSCch4Pl9idW7lZ/MfqjUP9Aer+OWMrbEhYjWyctzk=;
- b=ajI2pJdEYzOm/NA7mpsVnmmYpP8BChSbOklVsS1Clri/O+HTySypMyq7V9Aw/6oWO1KmUT
- DxKpuJLMRwQ0KE3iVhSMBKYHFDiHrvGC7RE6UmzR14YefId9dgx5pU0BBUz4EPNu9EKsub
- e1HrJdYrH+nKV762GYpTzhxjnjNa3+TTxl6Qh9dbQCrhltTygTZebPaudPK1tsCadByiUp
- OhqKB1ZySsgRfQWYfMY91XPjiowAtQJE4zIRTMtpE7//eE4b7p9H69mUH8dVKxAZ08m/1N
- 95TY2NPmPXmzOiPUd0jhPkGPYbcghDXRR+H7jdLv/Ddyc481pN2Axj0dNhkMmQ==
+ bh=SGz3jtzA9Q1y95hnVuLxxhCEaendeRp/03jNV4aYAm8=;
+ b=N2+U2u4I8yJg8VF+uL4FQq9guu91mSkYx2sWqM85NBILITb3QcvFgm3DFxyihU8cdO6L2r
+ tjLGN4ImjBGwPeuIZo27Ukf2dhXy/slZLMN6IOkVCA2U0KMUQrtgLJy8hFf3CWnR8A6uYW
+ t8Xgtgt7favibCuGa/mRXiQLNak7Xxj6xhZkiFkDTWwNRR0WIAnA6TMAGlUKDPc9uZoeM3
+ dCXAofwGcByhVxrZT++YN5qD88X6DPgym6vieG2bSZeSDJHGp+nyRpxD4houiQjBvXz9DH
+ gIJbh4Od3qhPa5HhYgTwFJo9kwDaUZ3hm5hVrna8JJwUYVfrgVppvdByPkSgmQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1597976230;
+ s=2020e; t=1597976231;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=TtSCch4Pl9idW7lZ/MfqjUP9Aer+OWMrbEhYjWyctzk=;
- b=mU3SPMbQsB++v6eyvlflbVy+D6aYL3jGw0t+vLRnS/VfAKbRJOsLYlNIUdAfx3WAYLh4wO
- XJc9lvDYLRoiMOCw==
-Date: Fri, 21 Aug 2020 02:24:50 +0200
+ bh=SGz3jtzA9Q1y95hnVuLxxhCEaendeRp/03jNV4aYAm8=;
+ b=ca4eWdnEIOSuKlOGPK+65FKofe5JXsumdjO2jo0sJX45NwsOG0Tk62i1rXRTSyUBmVAOfx
+ wHjKYSP2PINyZoCA==
+Date: Fri, 21 Aug 2020 02:24:51 +0200
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch RFC 26/38] x86/xen: Wrap XEN MSI management into irqdomain
+Subject: [patch RFC 27/38] iommm/vt-d: Store irq domain in struct device
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline;
- filename="x86-xen--Wrap-XEN-MSI-management-into-irqdomain.patch"
+ filename="iommm-vt-d--Store-irq-domain-in-struct-device.patch"
 Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
  Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
  "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -97,104 +97,80 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-To allow utilizing the irq domain pointer in struct device it is necessary
-to make XEN/MSI irq domain compatible.
+As a first step to make X86 utilize the direct MSI irq domain operations
+store the irq domain pointer in the device struct when a device is probed.
 
-While the right solution would be to truly convert XEN to irq domains, this
-is an exercise which is not possible for mere mortals with limited XENology.
+This is done from dmar_pci_bus_add_dev() because it has to work even when
+DMA remapping is disabled. It only overrides the irqdomain of devices which
+are handled by a regular PCI/MSI irq domain which protects PCI devices
+behind special busses like VMD which have their own irq domain.
 
-Provide a plain irqdomain wrapper around XEN. While this is blatant
-violation of the irqdomain design, it's the only solution for a XEN igorant
-person to make progress on the issue which triggered this change.
+No functional change. It just avoids the redirection through
+arch_*_msi_irqs() and allows the PCI/MSI core to directly invoke the irq
+domain alloc/free functions instead of having to look up the irq domain for
+every single MSI interupt.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-pci@vger.kernel.org
-Cc: xen-devel@lists.xenproject.org
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: iommu@lists.linux-foundation.org
+Cc: Lu Baolu <baolu.lu@linux.intel.com>
 ---
-Note: This is completely untested, but it compiles so it must be perfect.
----
- arch/x86/pci/xen.c |   63 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ drivers/iommu/intel/dmar.c          |    3 +++
+ drivers/iommu/intel/irq_remapping.c |   16 ++++++++++++++++
+ include/linux/intel-iommu.h         |    5 +++++
+ 3 files changed, 24 insertions(+)
 
---- a/arch/x86/pci/xen.c
-+++ b/arch/x86/pci/xen.c
-@@ -406,6 +406,63 @@ static void xen_teardown_msi_irq(unsigne
- 	WARN_ON_ONCE(1);
+--- a/drivers/iommu/intel/dmar.c
++++ b/drivers/iommu/intel/dmar.c
+@@ -316,6 +316,9 @@ static int dmar_pci_bus_add_dev(struct d
+ 	if (ret < 0 && dmar_dev_scope_status == 0)
+ 		dmar_dev_scope_status = ret;
+ 
++	if (ret >= 0)
++		intel_irq_remap_add_device(info);
++
+ 	return ret;
  }
  
-+static int xen_msi_domain_alloc_irqs(struct irq_domain *domain,
-+				     struct device *dev,  int nvec)
+--- a/drivers/iommu/intel/irq_remapping.c
++++ b/drivers/iommu/intel/irq_remapping.c
+@@ -1086,6 +1086,22 @@ static int reenable_irq_remapping(int ei
+ 	return -1;
+ }
+ 
++/*
++ * Store the MSI remapping domain pointer in the device if enabled.
++ *
++ * This is called from dmar_pci_bus_add_dev() so it works even when DMA
++ * remapping is disabled. Only update the pointer if the device is not
++ * already handled by a non default PCI/MSI interrupt domain. This protects
++ * e.g. VMD devices.
++ */
++void intel_irq_remap_add_device(struct dmar_pci_notify_info *info)
 +{
-+	int type;
-+
-+	if (WARN_ON_ONCE(!dev_is_pci(dev)))
-+		return -EINVAL;
-+
-+	if (first_msi_entry(dev)->msi_attrib.is_msix)
-+		type = PCI_CAP_ID_MSIX;
-+	else
-+		type = PCI_CAP_ID_MSI;
-+
-+	return x86_msi.setup_msi_irqs(to_pci_dev(dev), nvec, type);
-+}
-+
-+static void xen_msi_domain_free_irqs(struct irq_domain *domain,
-+				     struct device *dev)
-+{
-+	if (WARN_ON_ONCE(!dev_is_pci(dev)))
++	if (!irq_remapping_enabled || pci_dev_has_special_msi_domain(info->dev))
 +		return;
 +
-+	x86_msi.teardown_msi_irqs(to_pci_dev(dev));
++	dev_set_msi_domain(&info->dev->dev, map_dev_to_ir(info->dev));
 +}
 +
-+static struct msi_domain_ops xen_pci_msi_domain_ops = {
-+	.domain_alloc_irqs	= xen_msi_domain_alloc_irqs,
-+	.domain_free_irqs	= xen_msi_domain_free_irqs,
-+};
-+
-+static struct msi_domain_info xen_pci_msi_domain_info = {
-+	.ops			= &xen_pci_msi_domain_ops,
-+};
-+
-+/*
-+ * This irq domain is a blatant violation of the irq domain design, but
-+ * distangling XEN into real irq domains is not a job for mere mortals with
-+ * limited XENology. But it's the least dangerous way for a mere mortal to
-+ * get rid of the arch_*_msi_irqs() hackery in order to store the irq
-+ * domain pointer in struct device. This irq domain wrappery allows to do
-+ * that without breaking XEN terminally.
-+ */
-+static __init struct irq_domain *xen_create_pci_msi_domain(void)
-+{
-+	struct irq_domain *d = NULL;
-+	struct fwnode_handle *fn;
-+
-+	fn = irq_domain_alloc_named_fwnode("XEN-MSI");
-+	if (fn)
-+		d = msi_create_irq_domain(fn, &xen_pci_msi_domain_info, NULL);
-+
-+	/* FIXME: No idea how to survive if this fails */
-+	BUG_ON(!d);
-+
-+	return d;
-+}
-+
- static __init void xen_setup_pci_msi(void)
+ static void prepare_irte(struct irte *irte, int vector, unsigned int dest)
  {
- 	if (xen_initial_domain()) {
-@@ -426,6 +483,12 @@ static __init void xen_setup_pci_msi(voi
- 	}
- 
- 	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
+ 	memset(irte, 0, sizeof(*irte));
+--- a/include/linux/intel-iommu.h
++++ b/include/linux/intel-iommu.h
+@@ -439,6 +439,11 @@ struct ir_table {
+ 	struct irte *base;
+ 	unsigned long *bitmap;
+ };
 +
-+	/*
-+	 * Override the PCI/MSI irq domain init function. No point
-+	 * in allocating the native domain and never use it.
-+	 */
-+	x86_init.irqs.create_pci_msi_domain = xen_create_pci_msi_domain;
- }
++void intel_irq_remap_add_device(struct dmar_pci_notify_info *info);
++#else
++static inline void
++intel_irq_remap_add_device(struct dmar_pci_notify_info *info) { }
+ #endif
  
- #else /* CONFIG_PCI_MSI */
+ struct iommu_flush {
 
 _______________________________________________
 iommu mailing list
