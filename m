@@ -1,87 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E4D24D696
-	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 15:50:45 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 093D08849B;
-	Fri, 21 Aug 2020 13:50:44 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aa+Wu71YdW0x; Fri, 21 Aug 2020 13:50:43 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4DCC588495;
-	Fri, 21 Aug 2020 13:50:43 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1EAC3C0891;
-	Fri, 21 Aug 2020 13:50:43 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2D855C0051
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:50:42 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1302124D6C0
+	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 15:58:30 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id EB1A6203AB
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:50:41 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9EF1820387;
+	Fri, 21 Aug 2020 13:58:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id LATSqFs+n0xc; Fri, 21 Aug 2020 13:58:25 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id AEF1A2038A;
+	Fri, 21 Aug 2020 13:58:25 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8D563C0889;
+	Fri, 21 Aug 2020 13:58:25 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9BAEBC0051
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:58:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 97FAD86D2F
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:58:22 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZP3Ob8y9HjXG for <iommu@lists.linux-foundation.org>;
- Fri, 21 Aug 2020 13:50:40 +0000 (UTC)
+ with ESMTP id gi01AVMcswU6 for <iommu@lists.linux-foundation.org>;
+ Fri, 21 Aug 2020 13:58:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by silver.osuosl.org (Postfix) with ESMTPS id 9E1F820399
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:50:40 +0000 (UTC)
-Received: from mail-pl1-f198.google.com ([209.85.214.198])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <kai.heng.feng@canonical.com>) id 1k97RG-0007WL-Fc
- for iommu@lists.linux-foundation.org; Fri, 21 Aug 2020 13:50:38 +0000
-Received: by mail-pl1-f198.google.com with SMTP id f17so1155822plj.16
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 06:50:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=Ixzpb7ZTHJuiKoZP8ciVIDdnuS6WspeERPksthDch4Y=;
- b=HvoKC43p5SXcmThZtLNt2WAAk8IvRm923/s8TSLrGsgEmaTnWyDhAnDGj3Y2hJS57J
- uRrwCyHtbnpCejjnqC0k0RrTlkYIiv8eQRG6GjBxuKRJq2Q7CyzBA7JT7IOKA00l3lQM
- 5f0c2/6A9RyamugtnlBrj5fr2ayEYblyoKqOLeBoOd9e/JE4LZ3EfpJqQsKpy2mML/4y
- 2D1bUBWd7uWXqm83jhU5/QSmywnPt/6s6okAdAGPCgfoEwfuaVrvrWwjPtBcccFyD6Sd
- 2fPniKyMZv6fARwrHym4MRgSmHMeTqI6gQXWaCR2Kd/R4bDG6GAYGGNK3PgYS/skBkNw
- +Gyg==
-X-Gm-Message-State: AOAM532KUuV+fqP76ldPFjcuJ0jRGyY4dXoIzxtl1dHQ6vNyQLzyGQjt
- z8m8TshbuN1i8AxI3Q3aW2M/9erYbz2F0FjwBBDo8u0pQWSHbPQ3XjgJWOq481Q6wbHniKsJtQV
- w/qMW/HOklGKIh5zWRHWeZRgJi+Mvqr+Dx27uJ/mLSTWMpgI=
-X-Received: by 2002:aa7:9096:: with SMTP id i22mr2636812pfa.310.1598017836965; 
- Fri, 21 Aug 2020 06:50:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxz9IMJ2Q79QQio5v7ZYraOE2lxE3lXGA5Fa/cyXoTyQecljb6qYd041APJoAVi65wVQprz5Q==
-X-Received: by 2002:aa7:9096:: with SMTP id i22mr2636791pfa.310.1598017836623; 
- Fri, 21 Aug 2020 06:50:36 -0700 (PDT)
-Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net.
- [220.133.187.190])
- by smtp.gmail.com with ESMTPSA id r186sm2928966pfr.162.2020.08.21.06.50.34
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Aug 2020 06:50:35 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
-Subject: Re: [Regression] "iommu/amd: Relax locking in dma_ops path" makes tg3
- ethernet transmit queue timeout
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <20200821134300.GM3354@suse.de>
-Date: Fri, 21 Aug 2020 21:50:33 +0800
-Message-Id: <5D7A63DF-D360-4453-845C-924F4C13E3DB@canonical.com>
-References: <4E9B03FB-9DA5-4831-B4CE-A0AA645D3F22@canonical.com>
- <20200518133209.GM8135@suse.de>
- <381D21C9-C913-4C33-A6F4-0440B5D11670@canonical.com>
- <8D375E06-A763-4B5E-9C6D-DA5EBC62530E@canonical.com>
- <CFC22DE4-E342-4F32-B758-6A690755C498@canonical.com>
- <20200821134300.GM3354@suse.de>
-To: Joerg Roedel <jroedel@suse.de>
-X-Mailer: Apple Mail (2.3608.120.23.2.1)
-Cc: iommu@lists.linux-foundation.org, open list <linux-kernel@vger.kernel.org>
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 3122486D5D
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:58:21 +0000 (UTC)
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 1382B9333EB0FF14B947;
+ Fri, 21 Aug 2020 21:58:15 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.58) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 21 Aug 2020 21:58:04 +0800
+From: John Garry <john.garry@huawei.com>
+To: <will@kernel.org>, <robin.murphy@arm.com>
+Subject: [PATCH v2 0/2] iommu/arm-smmu-v3: Improve cmdq lock efficiency
+Date: Fri, 21 Aug 2020 21:54:20 +0800
+Message-ID: <1598018062-175608-1-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+X-Originating-IP: [10.69.192.58]
+X-CFilter-Loop: Reflected
+Cc: maz@kernel.org, linux-kernel@vger.kernel.org, linuxarm@huawei.com,
+ iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,29 +68,44 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Joerg,
+As mentioned in [0], the CPU may consume many cycles processing
+arm_smmu_cmdq_issue_cmdlist(). One issue we find is the cmpxchg() loop to
+get space on the queue takes a lot of time once we start getting many
+CPUs contending - from experiment, for 64 CPUs contending the cmdq,
+success rate is ~ 1 in 12, which is poor, but not totally awful.
 
-> On Aug 21, 2020, at 21:43, Joerg Roedel <jroedel@suse.de> wrote:
-> 
-> Hi Kai,
-> 
-> On Mon, Jun 29, 2020 at 08:33:22PM +0800, Kai-Heng Feng wrote:
->> I am still seeing the issue on v5.8-rc3. The issue goes away as soon
->> as "iommu=off" is added.
-> 
-> Can you probably help with debugging this issue? I've had no luck so far
-> getting my hands on a machine with tg3 hardware and an AMD IOMMU.
+This series removes that cmpxchg() and replaces with an atomic_add,
+same as how the actual cmdq deals with maintaining the prod pointer.
 
-Of course, I still have the system at my side.
+For my NVMe test with 3x NVMe SSDs, I'm getting a ~24% throughput
+increase:
+Before: 1250K IOPs
+After: 1550K IOPs
 
-The offending commit is 92d420ec028d ("iommu/amd: Relax locking in dma_ops path"), however be62dbf554c5 ("iommu/amd: Convert AMD iommu driver to the dma-iommu api") removed .map_page entirely so I don't know where to start.
+I also have a test harness to check the rate of DMA map+unmaps we can
+achieve:
 
-Kai-Heng
+CPU count	8	16	32	64
+Before:		282K	115K	36K	11K
+After:		302K	193K	80K	30K
 
-> 
-> Regards,
-> 
-> 	Joerg
+(unit is map+unmaps per CPU per second)
+
+[0] https://lore.kernel.org/linux-iommu/B926444035E5E2439431908E3842AFD24B86DB@DGGEMI525-MBS.china.huawei.com/T/#ma02e301c38c3e94b7725e685757c27e39c7cbde3
+
+Differences to v1:
+- Simplify by dropping patch to always issue a CMD_SYNC
+- Use 64b atomic add, keeping prod in a separate 32b field
+
+John Garry (2):
+  iommu/arm-smmu-v3: Calculate max commands per batch
+  iommu/arm-smmu-v3: Remove cmpxchg() in arm_smmu_cmdq_issue_cmdlist()
+
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 166 ++++++++++++++------
+ 1 file changed, 114 insertions(+), 52 deletions(-)
+
+-- 
+2.26.2
 
 _______________________________________________
 iommu mailing list
