@@ -2,60 +2,60 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB9A24D9BC
-	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 18:16:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065D824D9E9
+	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 18:17:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B5C4E886AD;
-	Fri, 21 Aug 2020 16:16:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B706B886AD;
+	Fri, 21 Aug 2020 16:17:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EZF5jsoiGMoB; Fri, 21 Aug 2020 16:16:11 +0000 (UTC)
+	with ESMTP id 6tIFQu2nSG5J; Fri, 21 Aug 2020 16:17:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 49CB9886BB;
-	Fri, 21 Aug 2020 16:16:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9B5B3884F0;
+	Fri, 21 Aug 2020 16:17:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 432BDC0051;
-	Fri, 21 Aug 2020 16:16:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 895EFC0051;
+	Fri, 21 Aug 2020 16:17:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E371DC0051
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 16:16:09 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0A177C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 16:17:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id DDD65886BB
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 16:16:09 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id ED5A787DC6
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 16:17:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YN9QTykmhqkn for <iommu@lists.linux-foundation.org>;
- Fri, 21 Aug 2020 16:16:09 +0000 (UTC)
+ with ESMTP id hVEM8wi5TVMM for <iommu@lists.linux-foundation.org>;
+ Fri, 21 Aug 2020 16:17:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1D12E886AD
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 16:16:09 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6A8F287CDC
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 16:17:23 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 30C89208DB;
- Fri, 21 Aug 2020 16:16:08 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8473622BF5;
+ Fri, 21 Aug 2020 16:17:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598026569;
+ s=default; t=1598026643;
  bh=VZu/xCLM/zvS86LzuuApCHR8B0eir2DgfJaLNqhOAVA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M0/81QjCHN/QgHjWIUKlWa3LQMT9x/xKrIH1+MTxHpMd1a6QW3PtPT7TyesgPkRHE
- W7VORL+Ru8RiYWl9e3ZpDglb2NYDv+K+VihC6IOLBgTPmhzFiVxj9v+h++eLgsvfUE
- M6TsPG4K4AgKM3usRhrFVSnNSY0jISqzOKvQC94k=
+ b=rMcFXSr8qWi6dJC0MRGWGLENUmEg5odNSPuSv6fTWNmtHtg5bkwlKijCieUW7ZGxz
+ e+9H2ErH4SYrQNf3zgzC3NLvGReLudyfGof0X7+y/6DKjXH2MvfN+KXP7gsy1ru/dP
+ /XUTOHeJ6+cWncP3oiemU0Mt7sEaQ2qkiEnTmHLA=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 19/61] iommu/iova: Don't BUG on invalid PFNs
-Date: Fri, 21 Aug 2020 12:15:03 -0400
-Message-Id: <20200821161545.347622-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 15/48] iommu/iova: Don't BUG on invalid PFNs
+Date: Fri, 21 Aug 2020 12:16:31 -0400
+Message-Id: <20200821161704.348164-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200821161545.347622-1-sashal@kernel.org>
-References: <20200821161545.347622-1-sashal@kernel.org>
+In-Reply-To: <20200821161704.348164-1-sashal@kernel.org>
+References: <20200821161704.348164-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
