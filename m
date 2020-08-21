@@ -2,71 +2,71 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1571724CA0F
-	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 04:17:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 190F124CA1C
+	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 04:17:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C0A80885F4;
-	Fri, 21 Aug 2020 02:17:08 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CA70288604;
+	Fri, 21 Aug 2020 02:17:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bOeZ+e0KMnMA; Fri, 21 Aug 2020 02:17:08 +0000 (UTC)
+	with ESMTP id m-sxuQpEi2iK; Fri, 21 Aug 2020 02:17:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4FDAB885FD;
-	Fri, 21 Aug 2020 02:17:08 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 24CA488607;
+	Fri, 21 Aug 2020 02:17:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3AB5FC0051;
-	Fri, 21 Aug 2020 02:17:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0E63BC0889;
+	Fri, 21 Aug 2020 02:17:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A4E81C0889
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:06 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 77E97C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 938F8885F6
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:06 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 6E2E622F22
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8AHjjWg1mRc0 for <iommu@lists.linux-foundation.org>;
- Fri, 21 Aug 2020 02:17:06 +0000 (UTC)
+ with ESMTP id diJS-7zSXw9D for <iommu@lists.linux-foundation.org>;
+ Fri, 21 Aug 2020 02:17:07 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 014B0885E7
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:05 +0000 (UTC)
-Message-Id: <20200821002947.373714034@linutronix.de>
+ by silver.osuosl.org (Postfix) with ESMTPS id 537C522EC9
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:07 +0000 (UTC)
+Message-Id: <20200821002947.464203710@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1597976224;
+ s=2020; t=1597976225;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=reYnyh7jh+yv1GDoiXq7RNM83WC+1VYQVpYCVOOTMoA=;
- b=CryCUTKazFP6s599DZ8seDe98Lq3ytoT7AnXMnvl0MqK5auZjh7l7ev5Glpg3b2Jaf6LEd
- KB3L9RvTDX7Frs5Tgaj5q+40l6HQs+gI/8imc31WFyKqizOYD3QqETg6VrllcsdXOSr6KO
- hU7V3fUx+wqM7A2G6+e0aMQJCTz0aN3XsHqd2ie+W4Rtqnl31nsOhv+QzsiDMyKycxlWrp
- xwWzmd6VV0DuDyEmFbD7F3Iq+vSy7gNyhX4acto/HkvlgSpceqArTg8iKn9Yw0vSrU4QZn
- lxUXRue9tJbWEPgnLjNYtnS/hsq7zQauzhBY2BQg3GR0q9zfgAvnhRAdAQsfJw==
+ bh=dPxit2e89mZWZCCiMpEUS6iF/wsktMMgYd58N2BBpyo=;
+ b=a95MDNskdEo+EDmYcXSnuFOWHSWxtCujQO0IV2xm/4C/eA0rxhBPT8ZNmHe0JYhniEINcb
+ IFu1crITpj0j/TGl5HCfm3AoY0XUc3Mawzk8Q2Dbv4J9LrnFEOC707XBZ1om+quHOcCY8p
+ LgRj6cN2UkF8//WimkFDZWyqLGbUMYGrgoDInMQTZjdg8lIsGb+jquyE79hW/y/j6cY8hH
+ lO8qOsEcYlNYx5zG+jcNVSxjdUeHAAgwIfBlRyYMDm08vRIjZHIZWKabH+7B4FftfBQ9Rp
+ Nqkl20FzWp7aAR60fjb+cmTF22y3ruiyerLL+9CYWZH7h9BuLq0q+vcnObBEBQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1597976224;
+ s=2020e; t=1597976225;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=reYnyh7jh+yv1GDoiXq7RNM83WC+1VYQVpYCVOOTMoA=;
- b=TuwW+F3TicX0d31PeQeYxQl6anEIOdzcRuaGCUNWyZvMzGJVHaQ3q0eAgvoOznLCzeI2Is
- M1MxM4FYQTvFykAQ==
-Date: Fri, 21 Aug 2020 02:24:45 +0200
+ bh=dPxit2e89mZWZCCiMpEUS6iF/wsktMMgYd58N2BBpyo=;
+ b=I2nkTUkyNw4H5SXSR3lo/snSYOmbbBODI8HUl/uMOl6QGgZZinUUN3m2/fSKk5QNtF00Y1
+ p7CEV1tcGok2HlBw==
+Date: Fri, 21 Aug 2020 02:24:46 +0200
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch RFC 21/38] PCI: MSI: Provide pci_dev_has_special_msi_domain()
- helper
+Subject: [patch RFC 22/38] x86/xen: Make xen_msi_init() static and rename it
+ to xen_hvm_msi_init()
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
-Content-Disposition: inline;
- filename="genirq-msi--Provide-pci_dev_has_special_msi_domain"
+Content-Disposition: inline; filename="x86-xen--Make-xen_msi_init"
 Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
  Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
  "K. Y. Srinivasan" <kys@microsoft.com>,
  Dan Williams <dan.j.williams@intel.com>, Wei Liu <wei.liu@kernel.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
  Stephen Hemminger <sthemmin@microsoft.com>, Baolu Lu <baolu.lu@intel.com>,
  Marc Zyngier <maz@kernel.org>, x86@kernel.org,
  Jason Gunthorpe <jgg@mellanox.com>, Megha Dey <megha.dey@intel.com>,
@@ -74,7 +74,6 @@ Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
  Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
  Haiyang Zhang <haiyangz@microsoft.com>,
  Alex Williamson <alex.williamson@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
  Bjorn Helgaas <bhelgaas@google.com>, Dave Jiang <dave.jiang@intel.com>,
  Boris Ostrovsky <boris.ostrovsky@oracle.com>,
  Jonathan Derrick <jonathan.derrick@intel.com>, Juergen Gross <jgross@suse.com>,
@@ -98,58 +97,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Provide a helper function to check whether a PCI device is handled by a
-non-standard PCI/MSI domain. This will be used to exclude such devices
-which hang of a special bus, e.g. VMD, to be excluded from the irq domain
-override in irq remapping.
+The only user is in the same file and the name is too generic because this
+function is only ever used for HVM domains.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
 Cc: linux-pci@vger.kernel.org
----
- drivers/pci/msi.c   |   22 ++++++++++++++++++++++
- include/linux/msi.h |    1 +
- 2 files changed, 23 insertions(+)
+Cc: xen-devel@lists.xenproject.org
+Cc: Juergen Gross <jgross@suse.com>
+Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>
 
---- a/drivers/pci/msi.c
-+++ b/drivers/pci/msi.c
-@@ -1553,4 +1553,26 @@ struct irq_domain *pci_msi_get_device_do
- 					     DOMAIN_BUS_PCI_MSI);
- 	return dom;
+---
+ arch/x86/pci/xen.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+--- a/arch/x86/pci/xen.c
++++ b/arch/x86/pci/xen.c
+@@ -419,7 +419,7 @@ int __init pci_xen_init(void)
  }
-+
-+/**
-+ * pci_dev_has_special_msi_domain - Check whether the device is handled by
-+ *				    a non-standard PCI-MSI domain
-+ * @pdev:	The PCI device to check.
-+ *
-+ * Returns: True if the device irqdomain or the bus irqdomain is
-+ * non-standard PCI/MSI.
-+ */
-+bool pci_dev_has_special_msi_domain(struct pci_dev *pdev)
-+{
-+	struct irq_domain *dom = dev_get_msi_domain(&pdev->dev);
-+
-+	if (!dom)
-+		dom = dev_get_msi_domain(&pdev->bus->dev);
-+
-+	if (!dom)
-+		return true;
-+
-+	return dom->bus_token != DOMAIN_BUS_PCI_MSI;
-+}
-+
- #endif /* CONFIG_PCI_MSI_IRQ_DOMAIN */
---- a/include/linux/msi.h
-+++ b/include/linux/msi.h
-@@ -374,6 +374,7 @@ int pci_msi_domain_check_cap(struct irq_
- 			     struct msi_domain_info *info, struct device *dev);
- u32 pci_msi_domain_get_msi_rid(struct irq_domain *domain, struct pci_dev *pdev);
- struct irq_domain *pci_msi_get_device_domain(struct pci_dev *pdev);
-+bool pci_dev_has_special_msi_domain(struct pci_dev *pdev);
- #else
- static inline struct irq_domain *pci_msi_get_device_domain(struct pci_dev *pdev)
+ 
+ #ifdef CONFIG_PCI_MSI
+-void __init xen_msi_init(void)
++static void __init xen_hvm_msi_init(void)
  {
+ 	if (!disable_apic) {
+ 		/*
+@@ -459,7 +459,7 @@ int __init pci_xen_hvm_init(void)
+ 	 * We need to wait until after x2apic is initialized
+ 	 * before we can set MSI IRQ ops.
+ 	 */
+-	x86_platform.apic_post_init = xen_msi_init;
++	x86_platform.apic_post_init = xen_hvm_msi_init;
+ #endif
+ 	return 0;
+ }
 
 _______________________________________________
 iommu mailing list
