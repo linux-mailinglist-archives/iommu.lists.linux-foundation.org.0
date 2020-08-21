@@ -1,81 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588DC24D5F2
-	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 15:16:18 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8524424D5EF
+	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 15:16:17 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 067E485C11;
-	Fri, 21 Aug 2020 13:16:17 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8895588354;
+	Fri, 21 Aug 2020 13:16:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Kq5nx_5czlRO; Fri, 21 Aug 2020 13:16:16 +0000 (UTC)
+	with ESMTP id kzBCq+pUSOZP; Fri, 21 Aug 2020 13:16:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2610D86493;
-	Fri, 21 Aug 2020 13:16:16 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D462688520;
+	Fri, 21 Aug 2020 13:16:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 12CA7C0051;
-	Fri, 21 Aug 2020 13:16:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C547FC0051;
+	Fri, 21 Aug 2020 13:16:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A1682C0894
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:16:14 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C26FEC0051
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:16:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 970ED85C9F
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:16:14 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id AB0C98819B
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:16:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xustTQhN5Scd for <iommu@lists.linux-foundation.org>;
+ with ESMTP id S3bcWa1p01hY for <iommu@lists.linux-foundation.org>;
  Fri, 21 Aug 2020 13:16:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 5A80485FA6
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 76D6C8805E
  for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:16:12 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id l23so1369482edv.11
+Received: by mail-ed1-f68.google.com with SMTP id w17so1368921edt.8
  for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 06:16:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qIWN2A9Pg6dkinmsu+W9xC580ElUmiDl+mJTFgDdlfk=;
- b=lJXaHRtihKmQ0Z2fAhiSdOZT5NzKnzoSxLejvf96zLb4lOwQTV2Mth4JS8ym05KJfj
- hbZuRDp8ARmG/8/q30QH/hSDRmtTGGlcAihsxtc72ByHW7yYNak+CEcwcMEL71gQ2sJm
- DHN6LUUhbybZNvBQeMbghUQKNhDFO/9WxcYazlqTb7ApD0jzGbGI0b4yvUJpXE+fF6bN
- 69U2Fw1Qrm94pB44JFwSqFPgMODwH43iIYsIO0i0faBkkZ1i+TxwuoQIuXkHN0VuU7E3
- IH0FlmWpLAOeeRpFjqrbDLBLyAssqLX6ZOTkwS72nMckwOMlG81tV46gVG/P6PC40tNf
- alrQ==
+ bh=AnnlDaJISLBh3tlC6QY64TitbeK2bzvjOXLypqqoQOw=;
+ b=Evc7JHiQsscTCCzRJuF4RGxVPF/TfJEQoNFtq/F7l4VJCPfkB8ZnzeHE1jSsjrZ5r7
+ 5C5idkHzraOBGbOnKZ34LNp9EprEIaOlttQSmNnVriYiMTyEn0rEcuYChBq7/TbDjIa9
+ h9y8+WSyeAHbE/U5TdEhnhnBK3VaWQsOiKiNRvRwvjKBbSoZrDHgc/ZU3yHnRDYGsqwM
+ dcz4chm8cEyq8yr22YRPHjEUeukQaL7QYjLiVubrUsFr+Z3R6l5PdO1A8jIMu+4qOmwq
+ DC8C2F+j/g3CwmANZ24gMXCH2L7IB0mQp2b8fBSq4UKvRyEOgAylfTesVJgJHr38GfK+
+ JKGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qIWN2A9Pg6dkinmsu+W9xC580ElUmiDl+mJTFgDdlfk=;
- b=eDWOFEI86hfW71aT8N9HafEPAZLY64MNnlBQQAooVYv6IMXqHRSUkSG/zlbMk1GA21
- nRktozGe/SBr7gNhPtgvvzmgS9XNb8O3eWoKRpL0fjg+pWb8txWbzPBtlSZOr/So/BN1
- Wt36lp/hTN919/R5xqcjEkPGWqlTpxgxgWZwoVouTHL4igRw9apmUQf7RvfiOKhVcly0
- pOx5PYTBinU6d2WYJTBp1tpyeAWp2O2NeNogoNXBPMyVTpOlUcF41m/QmyqJcRXwSLBp
- OtO/nzXGlDDfRFsm2fRHkutXerarHYZPOtnPVH+sCiJ+TvE+N0xr0XbzMvNhoCBbQ3Jn
- pcrA==
-X-Gm-Message-State: AOAM5300LyLonEyKeoGAgAtJEFLsgseLLw+JbUQZEGWgLySh5vq3uBIT
- aVRNA4vLPwqzIuopSjm2sVZsWDkAAtANYwVs
-X-Google-Smtp-Source: ABdhPJzxq1c9JigDVrS42THmZTWZeFAgfMyVfSNwCK+EUYesa8zCQaunBd0jytbwhye3B13DjvZOhA==
-X-Received: by 2002:a05:6402:1d92:: with SMTP id
- dk18mr2705911edb.206.1598015769483; 
- Fri, 21 Aug 2020 06:16:09 -0700 (PDT)
+ bh=AnnlDaJISLBh3tlC6QY64TitbeK2bzvjOXLypqqoQOw=;
+ b=VxT04Hcwzv02Yh6YOuD2gcs8M6N8NyNdnwnkX1ZV6DIjvizBXjiEnqHqBaBID1s2OT
+ WPlXT7cEwdjXZ73WEkR3NNdgtEGWd+8+FacAY0zS5YLyc4hej7iwFAzIC4ozqB/IiOBO
+ oDX3VuzDpCkqnEbgOR/8UAtYEruZx5V9+Tzt+ZwT/6cLxWRkNQWMlXOrh48xorMDxsmL
+ s1Dv/kQdNFK/fIHbmLwWSUcvZHhiggKBiotEgSW+WtAfe6oDF/cUxNenZ2dgfsa2PjVG
+ 7D+MYDixML/+iZhsyVoSzCNizM+UdtusvHM71HbP/jvToOhgBogbjCWxjQLvl6lcTDaU
+ 38aA==
+X-Gm-Message-State: AOAM531SAkPSEmFC3m09E6r+PaxHJv/IhiTIHvFYCWELcYOCaG40+Snw
+ YDsFwlvppHuIVcpmWfPA0iXDBuuC8Sq5TF0K
+X-Google-Smtp-Source: ABdhPJxLTyEDp1sdq7LgF1huRP9DNgLTxWOLZlImVJP3z0/PYSRni9H4ifVAEYm5/PMqx1CpjBujwg==
+X-Received: by 2002:aa7:c353:: with SMTP id j19mr2827173edr.128.1598015770571; 
+ Fri, 21 Aug 2020 06:16:10 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id v4sm1299748eje.39.2020.08.21.06.16.08
+ by smtp.gmail.com with ESMTPSA id v4sm1299748eje.39.2020.08.21.06.16.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 06:16:08 -0700 (PDT)
+ Fri, 21 Aug 2020 06:16:10 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: iommu@lists.linux-foundation.org,
  virtualization@lists.linux-foundation.org, virtio-dev@lists.oasis-open.org,
  linux-pci@vger.kernel.org
-Subject: [PATCH v3 2/6] iommu/virtio: Add topology helpers
-Date: Fri, 21 Aug 2020 15:15:36 +0200
-Message-Id: <20200821131540.2801801-3-jean-philippe@linaro.org>
+Subject: [PATCH v3 3/6] PCI: Add DMA configuration for virtual platforms
+Date: Fri, 21 Aug 2020 15:15:37 +0200
+Message-Id: <20200821131540.2801801-4-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200821131540.2801801-1-jean-philippe@linaro.org>
 References: <20200821131540.2801801-1-jean-philippe@linaro.org>
@@ -100,367 +99,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-To support topology description from ACPI and from the builtin
-description, add helpers to keep track of I/O topology descriptors.
+Hardware platforms usually describe the IOMMU topology using either
+device-tree pointers or vendor-specific ACPI tables.  For virtual
+platforms that don't provide a device-tree, the virtio-iommu device
+contains a description of the endpoints it manages.  That information
+allows us to probe endpoints after the IOMMU is probed (possibly as late
+as userspace modprobe), provided it is discovered early enough.
 
-To ease re-use of the helpers by other drivers and future ACPI
-extensions, use the "virt_" prefix rather than "virtio_" when naming
-structs and functions.
+Add a hook to pci_dma_configure(), which returns -EPROBE_DEFER if the
+endpoint is managed by a vIOMMU that will be loaded later, or 0 in any
+other case to avoid disturbing the normal DMA configuration methods.
+When CONFIG_VIRTIO_IOMMU_TOPOLOGY_HELPERS isn't selected, the call to
+virt_dma_configure() is compiled out.
 
+As long as the information is consistent, platforms can provide both a
+device-tree and a built-in topology, and the IOMMU infrastructure is
+able to deal with multiple DMA configuration methods.
+
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- drivers/iommu/Kconfig                   |   3 +
- drivers/iommu/virtio/Makefile           |   1 +
- drivers/iommu/virtio/topology-helpers.h |  50 ++++++
- include/linux/virt_iommu.h              |  15 ++
- drivers/iommu/virtio/topology-helpers.c | 196 ++++++++++++++++++++++++
- drivers/iommu/virtio/virtio-iommu.c     |   4 +
- MAINTAINERS                             |   1 +
- 7 files changed, 270 insertions(+)
- create mode 100644 drivers/iommu/virtio/topology-helpers.h
- create mode 100644 include/linux/virt_iommu.h
- create mode 100644 drivers/iommu/virtio/topology-helpers.c
+ drivers/pci/pci-driver.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index bef5d75e306b..e29ae50f7100 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -391,4 +391,7 @@ config VIRTIO_IOMMU
- 
- 	  Say Y here if you intend to run this kernel as a guest.
- 
-+config VIRTIO_IOMMU_TOPOLOGY_HELPERS
-+	bool
-+
- endif # IOMMU_SUPPORT
-diff --git a/drivers/iommu/virtio/Makefile b/drivers/iommu/virtio/Makefile
-index 279368fcc074..b42ad47eac7e 100644
---- a/drivers/iommu/virtio/Makefile
-+++ b/drivers/iommu/virtio/Makefile
-@@ -1,2 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_VIRTIO_IOMMU) += virtio-iommu.o
-+obj-$(CONFIG_VIRTIO_IOMMU_TOPOLOGY_HELPERS) += topology-helpers.o
-diff --git a/drivers/iommu/virtio/topology-helpers.h b/drivers/iommu/virtio/topology-helpers.h
-new file mode 100644
-index 000000000000..436ca6a900c5
---- /dev/null
-+++ b/drivers/iommu/virtio/topology-helpers.h
-@@ -0,0 +1,50 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef TOPOLOGY_HELPERS_H_
-+#define TOPOLOGY_HELPERS_H_
-+
-+#ifdef CONFIG_VIRTIO_IOMMU_TOPOLOGY_HELPERS
-+
-+/* Identify a device node in the topology */
-+struct virt_topo_dev_id {
-+	unsigned int			type;
-+#define VIRT_TOPO_DEV_TYPE_PCI		1
-+#define VIRT_TOPO_DEV_TYPE_MMIO		2
-+	union {
-+		/* PCI endpoint or range */
-+		struct {
-+			u16		segment;
-+			u16		bdf_start;
-+			u16		bdf_end;
-+		};
-+		/* MMIO region */
-+		u64			base;
-+	};
-+};
-+
-+/* Specification of an IOMMU */
-+struct virt_topo_iommu {
-+	struct virt_topo_dev_id		dev_id;
-+	struct device			*dev; /* transport device */
-+	struct fwnode_handle		*fwnode;
-+	struct iommu_ops		*ops;
-+	struct list_head		list;
-+};
-+
-+/* Specification of an endpoint */
-+struct virt_topo_endpoint {
-+	struct virt_topo_dev_id		dev_id;
-+	u32				endpoint_id;
-+	struct virt_topo_iommu		*viommu;
-+	struct list_head		list;
-+};
-+
-+void virt_topo_add_endpoint(struct virt_topo_endpoint *ep);
-+void virt_topo_add_iommu(struct virt_topo_iommu *viommu);
-+
-+void virt_topo_set_iommu_ops(struct device *dev, struct iommu_ops *ops);
-+
-+#else /* !CONFIG_VIRTIO_IOMMU_TOPOLOGY_HELPERS */
-+static inline void virt_topo_set_iommu_ops(struct device *dev, struct iommu_ops *ops)
-+{ }
-+#endif /* !CONFIG_VIRTIO_IOMMU_TOPOLOGY_HELPERS */
-+#endif /* TOPOLOGY_HELPERS_H_ */
-diff --git a/include/linux/virt_iommu.h b/include/linux/virt_iommu.h
-new file mode 100644
-index 000000000000..17d2bd4732e0
---- /dev/null
-+++ b/include/linux/virt_iommu.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef VIRT_IOMMU_H_
-+#define VIRT_IOMMU_H_
-+
-+#ifdef CONFIG_VIRTIO_IOMMU_TOPOLOGY_HELPERS
-+int virt_dma_configure(struct device *dev);
-+
-+#else /* !CONFIG_VIRTIO_IOMMU_TOPOLOGY_HELPERS */
-+static inline int virt_dma_configure(struct device *dev)
-+{
-+	/* Don't disturb the normal DMA configuration methods */
-+	return 0;
-+}
-+#endif /* !CONFIG_VIRTIO_IOMMU_TOPOLOGY_HELPERS */
-+#endif /* VIRT_IOMMU_H_ */
-diff --git a/drivers/iommu/virtio/topology-helpers.c b/drivers/iommu/virtio/topology-helpers.c
-new file mode 100644
-index 000000000000..8815e3a5d431
---- /dev/null
-+++ b/drivers/iommu/virtio/topology-helpers.c
-@@ -0,0 +1,196 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/dma-iommu.h>
-+#include <linux/list.h>
-+#include <linux/pci.h>
-+#include <linux/platform_device.h>
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index 449466f71040..dbe9d33606b0 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -19,6 +19,7 @@
+ #include <linux/kexec.h>
+ #include <linux/of_device.h>
+ #include <linux/acpi.h>
 +#include <linux/virt_iommu.h>
-+
-+#include "topology-helpers.h"
-+
-+static LIST_HEAD(viommus);
-+static LIST_HEAD(pci_endpoints);
-+static LIST_HEAD(mmio_endpoints);
-+static DEFINE_MUTEX(viommus_lock);
-+
-+static bool virt_topo_device_match(struct device *dev,
-+				   struct virt_topo_dev_id *id)
-+{
-+	if (id->type == VIRT_TOPO_DEV_TYPE_PCI && dev_is_pci(dev)) {
-+		struct pci_dev *pdev = to_pci_dev(dev);
-+		u16 dev_id = pci_dev_id(pdev);
-+
-+		return pci_domain_nr(pdev->bus) == id->segment &&
-+			dev_id >= id->bdf_start &&
-+			dev_id <= id->bdf_end;
-+	} else if (id->type == VIRT_TOPO_DEV_TYPE_MMIO &&
-+		   dev_is_platform(dev)) {
-+		struct platform_device *plat_dev = to_platform_device(dev);
-+		struct resource *mem;
-+
-+		mem = platform_get_resource(plat_dev, IORESOURCE_MEM, 0);
-+		if (!mem)
-+			return false;
-+		return mem->start == id->base;
-+	}
-+	return false;
-+}
-+
-+static const struct iommu_ops *virt_iommu_setup(struct device *dev)
-+{
-+	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-+	struct virt_topo_iommu *viommu = NULL;
-+	struct virt_topo_endpoint *ep;
-+	struct pci_dev *pci_dev = NULL;
-+	u32 epid;
-+	int ret;
-+
-+	/* Already translated? */
-+	if (fwspec && fwspec->ops)
-+		return NULL;
-+
-+	mutex_lock(&viommus_lock);
-+	if (dev_is_pci(dev)) {
-+		pci_dev = to_pci_dev(dev);
-+		list_for_each_entry(ep, &pci_endpoints, list) {
-+			if (virt_topo_device_match(dev, &ep->dev_id)) {
-+				epid = pci_dev_id(pci_dev) -
-+					ep->dev_id.bdf_start +
-+					ep->endpoint_id;
-+				viommu = ep->viommu;
-+				break;
-+			}
-+		}
-+	} else if (dev_is_platform(dev)) {
-+		list_for_each_entry(ep, &mmio_endpoints, list) {
-+			if (virt_topo_device_match(dev, &ep->dev_id)) {
-+				epid = ep->endpoint_id;
-+				viommu = ep->viommu;
-+				break;
-+			}
-+		}
-+	}
-+	mutex_unlock(&viommus_lock);
-+	if (!viommu)
-+		return NULL;
-+
-+	/* We're not translating ourselves. */
-+	if (virt_topo_device_match(dev, &viommu->dev_id) ||
-+	    dev == viommu->dev)
-+		return NULL;
-+
-+	/*
-+	 * If we found a PCI range managed by the viommu, we're the one that has
-+	 * to request ACS.
-+	 */
-+	if (pci_dev)
-+		pci_request_acs();
-+
-+	if (!viommu->ops)
-+		return ERR_PTR(-EPROBE_DEFER);
-+
-+	ret = iommu_fwspec_init(dev, viommu->fwnode, viommu->ops);
+ #include "pci.h"
+ #include "pcie/portdrv.h"
+ 
+@@ -1605,6 +1606,10 @@ static int pci_dma_configure(struct device *dev)
+ 	struct device *bridge;
+ 	int ret = 0;
+ 
++	ret = virt_dma_configure(dev);
 +	if (ret)
-+		return ERR_PTR(ret);
++		return ret;
 +
-+	iommu_fwspec_add_ids(dev, &epid, 1);
-+
-+	return viommu->ops;
-+}
-+
-+/**
-+ * virt_topo_add_endpoint - Register endpoint specification
-+ * @ep: the endpoint specification
-+ */
-+void virt_topo_add_endpoint(struct virt_topo_endpoint *ep)
-+{
-+	mutex_lock(&viommus_lock);
-+	list_add(&ep->list,
-+		 ep->dev_id.type == VIRT_TOPO_DEV_TYPE_MMIO ?
-+		 &mmio_endpoints : &pci_endpoints);
-+	mutex_unlock(&viommus_lock);
-+}
-+
-+/**
-+ * virt_topo_add_iommu - Register IOMMU specification
-+ * @viommu: the IOMMU specification
-+ */
-+void virt_topo_add_iommu(struct virt_topo_iommu *viommu)
-+{
-+	mutex_lock(&viommus_lock);
-+	list_add(&viommu->list, &viommus);
-+	mutex_unlock(&viommus_lock);
-+}
-+
-+/**
-+ * virt_dma_configure - Configure DMA of virtualized devices
-+ * @dev: the endpoint
-+ *
-+ * Setup the DMA and IOMMU ops of a virtual device, for platforms without DT or
-+ * ACPI.
-+ *
-+ * Return: -EPROBE_DEFER if the device is managed by an IOMMU that hasn't been
-+ *   probed yet, 0 otherwise
-+ */
-+int virt_dma_configure(struct device *dev)
-+{
-+	const struct iommu_ops *iommu_ops;
-+
-+	iommu_ops = virt_iommu_setup(dev);
-+	if (IS_ERR_OR_NULL(iommu_ops)) {
-+		int ret = PTR_ERR(iommu_ops);
-+
-+		if (ret == -EPROBE_DEFER || ret == 0)
-+			return ret;
-+		dev_err(dev, "error %d while setting up virt IOMMU\n", ret);
-+		return 0;
-+	}
-+
-+	/*
-+	 * If we have reason to believe the IOMMU driver missed the initial
-+	 * add_device callback for dev, replay it to get things in order.
-+	 */
-+	if (dev->bus && !device_iommu_mapped(dev))
-+		iommu_probe_device(dev);
-+
-+	/* Assume coherent, as well as full 64-bit addresses. */
-+#ifdef CONFIG_ARCH_HAS_SETUP_DMA_OPS
-+	arch_setup_dma_ops(dev, 0, ~0ULL, iommu_ops, true);
-+#else
-+	iommu_setup_dma_ops(dev, 0, ~0ULL);
-+#endif
-+	return 0;
-+}
-+
-+/**
-+ * virt_topo_set_iommu_ops - Set the IOMMU ops of a virtual IOMMU device
-+ * @dev: the IOMMU device (transport)
-+ * @ops: the new IOMMU ops or NULL
-+ *
-+ * Setup the iommu_ops associated to an IOMMU, once the driver is loaded
-+ * and the device probed.
-+ */
-+void virt_topo_set_iommu_ops(struct device *dev, struct iommu_ops *ops)
-+{
-+	struct virt_topo_iommu *viommu;
-+
-+	mutex_lock(&viommus_lock);
-+	list_for_each_entry(viommu, &viommus, list) {
-+		/*
-+		 * In case the topology driver didn't have a dev handle when
-+		 * registering the topology, add it now.
-+		 */
-+		if (!viommu->dev &&
-+		    virt_topo_device_match(dev, &viommu->dev_id))
-+			viommu->dev = dev;
-+
-+		if (viommu->dev == dev) {
-+			viommu->ops = ops;
-+			viommu->fwnode = ops ? dev->fwnode : NULL;
-+			break;
-+		}
-+	}
-+	mutex_unlock(&viommus_lock);
-+}
-+EXPORT_SYMBOL_GPL(virt_topo_set_iommu_ops);
-diff --git a/drivers/iommu/virtio/virtio-iommu.c b/drivers/iommu/virtio/virtio-iommu.c
-index b4da396cce60..b371d15f837f 100644
---- a/drivers/iommu/virtio/virtio-iommu.c
-+++ b/drivers/iommu/virtio/virtio-iommu.c
-@@ -25,6 +25,8 @@
+ 	bridge = pci_get_host_bridge_device(to_pci_dev(dev));
  
- #include <uapi/linux/virtio_iommu.h>
- 
-+#include "topology-helpers.h"
-+
- #define MSI_IOVA_BASE			0x8000000
- #define MSI_IOVA_LENGTH			0x100000
- 
-@@ -1065,6 +1067,7 @@ static int viommu_probe(struct virtio_device *vdev)
- 	if (ret)
- 		goto err_free_vqs;
- 
-+	virt_topo_set_iommu_ops(dev->parent, &viommu_ops);
- 	iommu_device_set_ops(&viommu->iommu, &viommu_ops);
- 	iommu_device_set_fwnode(&viommu->iommu, parent_dev->fwnode);
- 
-@@ -1111,6 +1114,7 @@ static void viommu_remove(struct virtio_device *vdev)
- {
- 	struct viommu_dev *viommu = vdev->priv;
- 
-+	virt_topo_set_iommu_ops(vdev->dev.parent, NULL);
- 	iommu_device_sysfs_remove(&viommu->iommu);
- 	iommu_device_unregister(&viommu->iommu);
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3602b223c9b2..8fd53c22a0ab 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18452,6 +18452,7 @@ M:	Jean-Philippe Brucker <jean-philippe@linaro.org>
- L:	virtualization@lists.linux-foundation.org
- S:	Maintained
- F:	drivers/iommu/virtio/
-+F:	include/linux/virt_iommu.h
- F:	include/uapi/linux/virtio_iommu.h
- 
- VIRTIO MEM DRIVER
+ 	if (IS_ENABLED(CONFIG_OF) && bridge->parent &&
 -- 
 2.28.0
 
