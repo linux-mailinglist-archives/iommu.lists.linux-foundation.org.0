@@ -2,66 +2,66 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F0A24CA07
-	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 04:17:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B50D24CA0D
+	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 04:17:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4261486CC1;
-	Fri, 21 Aug 2020 02:17:03 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B067E86CDF;
+	Fri, 21 Aug 2020 02:17:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uHlQMnWEQytR; Fri, 21 Aug 2020 02:17:02 +0000 (UTC)
+	with ESMTP id 7k1wD4fkm_BM; Fri, 21 Aug 2020 02:17:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BF9AC86CD4;
-	Fri, 21 Aug 2020 02:17:02 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4591586CE4;
+	Fri, 21 Aug 2020 02:17:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ADF5FC0889;
-	Fri, 21 Aug 2020 02:17:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E689C0889;
+	Fri, 21 Aug 2020 02:17:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 96847C0051
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:00 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4AAB6C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 854808869C
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:00 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 34E9722EC1
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id B8F7V8N4iuo6 for <iommu@lists.linux-foundation.org>;
- Fri, 21 Aug 2020 02:16:59 +0000 (UTC)
+ with ESMTP id 5v6JMFZ4TkfE for <iommu@lists.linux-foundation.org>;
+ Fri, 21 Aug 2020 02:17:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 9560A88691
+ by silver.osuosl.org (Postfix) with ESMTPS id D397F22E8C
  for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:16:59 +0000 (UTC)
-Message-Id: <20200821002946.779723926@linutronix.de>
+Message-Id: <20200821002946.887237419@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
  s=2020; t=1597976218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=d8EPioWtx5drJqrcXnN7xcWjcEFvzbwtUk0NCHv0h4o=;
- b=Rsv1T8F/5id3E2QlMxxoUYNs9OrQBiJXcdBWv+VUDTaLWtAd3zGdtL2TgS/zxGfcSo2sdk
- s/3Nys6r5NkcPDwEIDudSphnlW5ek9FfWWGra7vP8r3S9Ko9RdsogSQsMdaNqOL5G4nr1b
- mgh18ADIgpivQp44XrdHu7qbFz0CLMcTz5p6e2CXH81FYKmF8ubeE32KoI9SxDMrHH57zc
- 0zVkj56GrnvfVLlmm7ENGGosWtnUqi7u3Yv6XbTwtiAw5h8l9sliGu8hdD/SRC6N/7r5ZQ
- H/1oePq3VSz+QkOSrnU6+PD4ELo6cRfPODfe8VWXCDci3DJz9vCbwi0frf3U5w==
+ bh=GYsCif/3llmuLBvpYPtjuTHhsKUK5MCMDeW2t2MJscU=;
+ b=q7dSxIfa2NAL9KD2teMyDV01SxnyZKzF6/JmWFSxrt4bg5x1doERDgaXnVj7u4mOEdz45i
+ s8eTgKutbpA8zbvLN5XbMOhfEhT83rB5QSmk3Nf0wJfsbCBE7O+H8RbvjPFoHLYvaj3PI5
+ 0Ir3gWIVXdw7KlQi2QzmUFBvtwM6SWdulp/PPE8Spn9KjhcUnevfsg+y1085hUP5RhdjNK
+ F3NUTNp6L/aTcVNHc6YLFBxk5XAo5Pz16xMSpAOmFrmGxGLLpFdTuB0EtA14DMy8whOStx
+ rsDXjkHsk66HqrWp+bjMVgu9KVh7sP5kmRE4Up2Fo/rMlXBGcFLN0TtbKmh7Xw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
  s=2020e; t=1597976218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=d8EPioWtx5drJqrcXnN7xcWjcEFvzbwtUk0NCHv0h4o=;
- b=b9OJ97C9AmXxu38Qx9+yLOswWlewjRXers9iQg2+nezGb8zb/+p2RX3IXe/2SnyX1Q314M
- 9rB9ovwHoTsGx+Aw==
-Date: Fri, 21 Aug 2020 02:24:39 +0200
+ bh=GYsCif/3llmuLBvpYPtjuTHhsKUK5MCMDeW2t2MJscU=;
+ b=QYOx4xUygE/UcllLug+eYgjWxrxLwQK7B3c3lbd2KZJMEHg+1hEG377sd9w4Vwj9eR08qW
+ BT1NC9ypZFV92bAg==
+Date: Fri, 21 Aug 2020 02:24:40 +0200
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch RFC 15/38] x86/msi: Use generic MSI domain ops
+Subject: [patch RFC 16/38] x86/irq: Move apic_post_init() invocation to one
+ place
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
-Content-Disposition: inline;
- filename="x86-msi--Use-generic-MSI-domain-ops.patch"
+Content-Disposition: inline; filename="x86-irq--Move-apic_post_init"
 Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
  Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
  "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -97,127 +97,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-pci_msi_get_hwirq() and pci_msi_set_desc are not longer special. Enable the
-generic MSI domain ops in the core and PCI MSI code unconditionally and get
-rid of the x86 specific implementations in the X86 MSI code and in the
-hyperv PCI driver.
+No point to call it from both 32bit and 64bit implementations of
+default_setup_apic_routing(). Move it to the caller.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Wei Liu <wei.liu@kernel.org>
-Cc: Stephen Hemminger <sthemmin@microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: linux-pci@vger.kernel.org
-Cc: linux-hyperv@vger.kernel.org
 ---
- arch/x86/include/asm/msi.h          |    2 --
- arch/x86/kernel/apic/msi.c          |   15 ---------------
- drivers/pci/controller/pci-hyperv.c |    8 --------
- drivers/pci/msi.c                   |    4 ----
- kernel/irq/msi.c                    |    6 ------
- 5 files changed, 35 deletions(-)
+ arch/x86/kernel/apic/apic.c     |    3 +++
+ arch/x86/kernel/apic/probe_32.c |    3 ---
+ arch/x86/kernel/apic/probe_64.c |    3 ---
+ 3 files changed, 3 insertions(+), 6 deletions(-)
 
---- a/arch/x86/include/asm/msi.h
-+++ b/arch/x86/include/asm/msi.h
-@@ -9,6 +9,4 @@ typedef struct irq_alloc_info msi_alloc_
- int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
- 		    msi_alloc_info_t *arg);
+--- a/arch/x86/kernel/apic/apic.c
++++ b/arch/x86/kernel/apic/apic.c
+@@ -1429,6 +1429,9 @@ void __init apic_intr_mode_init(void)
+ 		break;
+ 	}
  
--void pci_msi_set_desc(msi_alloc_info_t *arg, struct msi_desc *desc);
++	if (x86_platform.apic_post_init)
++		x86_platform.apic_post_init();
++
+ 	apic_bsp_setup(upmode);
+ }
+ 
+--- a/arch/x86/kernel/apic/probe_32.c
++++ b/arch/x86/kernel/apic/probe_32.c
+@@ -170,9 +170,6 @@ void __init default_setup_apic_routing(v
+ 
+ 	if (apic->setup_apic_routing)
+ 		apic->setup_apic_routing();
 -
- #endif /* _ASM_X86_MSI_H */
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -204,12 +204,6 @@ void native_teardown_msi_irq(unsigned in
- 	irq_domain_free_irqs(irq, 1);
+-	if (x86_platform.apic_post_init)
+-		x86_platform.apic_post_init();
  }
  
--static irq_hw_number_t pci_msi_get_hwirq(struct msi_domain_info *info,
--					 msi_alloc_info_t *arg)
--{
--	return arg->hwirq;
--}
+ void __init generic_apic_probe(void)
+--- a/arch/x86/kernel/apic/probe_64.c
++++ b/arch/x86/kernel/apic/probe_64.c
+@@ -32,9 +32,6 @@ void __init default_setup_apic_routing(v
+ 			break;
+ 		}
+ 	}
 -
- int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
- 		    msi_alloc_info_t *arg)
- {
-@@ -228,17 +222,8 @@ int pci_msi_prepare(struct irq_domain *d
- }
- EXPORT_SYMBOL_GPL(pci_msi_prepare);
- 
--void pci_msi_set_desc(msi_alloc_info_t *arg, struct msi_desc *desc)
--{
--	arg->desc = desc;
--	arg->hwirq = pci_msi_domain_calc_hwirq(desc);
--}
--EXPORT_SYMBOL_GPL(pci_msi_set_desc);
--
- static struct msi_domain_ops pci_msi_domain_ops = {
--	.get_hwirq	= pci_msi_get_hwirq,
- 	.msi_prepare	= pci_msi_prepare,
--	.set_desc	= pci_msi_set_desc,
- };
- 
- static struct msi_domain_info pci_msi_domain_info = {
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -1531,16 +1531,8 @@ static struct irq_chip hv_msi_irq_chip =
- 	.irq_unmask		= hv_irq_unmask,
- };
- 
--static irq_hw_number_t hv_msi_domain_ops_get_hwirq(struct msi_domain_info *info,
--						   msi_alloc_info_t *arg)
--{
--	return arg->hwirq;
--}
--
- static struct msi_domain_ops hv_msi_ops = {
--	.get_hwirq	= hv_msi_domain_ops_get_hwirq,
- 	.msi_prepare	= pci_msi_prepare,
--	.set_desc	= pci_msi_set_desc,
- 	.msi_free	= hv_msi_free,
- };
- 
---- a/drivers/pci/msi.c
-+++ b/drivers/pci/msi.c
-@@ -1401,16 +1401,12 @@ static int pci_msi_domain_handle_error(s
- 	return error;
+-	if (x86_platform.apic_post_init)
+-		x86_platform.apic_post_init();
  }
  
--#ifdef GENERIC_MSI_DOMAIN_OPS
- static void pci_msi_domain_set_desc(msi_alloc_info_t *arg,
- 				    struct msi_desc *desc)
- {
- 	arg->desc = desc;
- 	arg->hwirq = pci_msi_domain_calc_hwirq(desc);
- }
--#else
--#define pci_msi_domain_set_desc		NULL
--#endif
- 
- static struct msi_domain_ops pci_msi_domain_ops_default = {
- 	.set_desc	= pci_msi_domain_set_desc,
---- a/kernel/irq/msi.c
-+++ b/kernel/irq/msi.c
-@@ -187,7 +187,6 @@ static const struct irq_domain_ops msi_d
- 	.deactivate	= msi_domain_deactivate,
- };
- 
--#ifdef GENERIC_MSI_DOMAIN_OPS
- static irq_hw_number_t msi_domain_ops_get_hwirq(struct msi_domain_info *info,
- 						msi_alloc_info_t *arg)
- {
-@@ -206,11 +205,6 @@ static void msi_domain_ops_set_desc(msi_
- {
- 	arg->desc = desc;
- }
--#else
--#define msi_domain_ops_get_hwirq	NULL
--#define msi_domain_ops_prepare		NULL
--#define msi_domain_ops_set_desc		NULL
--#endif /* !GENERIC_MSI_DOMAIN_OPS */
- 
- static int msi_domain_ops_init(struct irq_domain *domain,
- 			       struct msi_domain_info *info,
+ int __init default_acpi_madt_oem_check(char *oem_id, char *oem_table_id)
 
 _______________________________________________
 iommu mailing list
