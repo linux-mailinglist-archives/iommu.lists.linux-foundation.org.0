@@ -1,70 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA9124CA3E
-	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 04:17:31 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C59024CA3F
+	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 04:17:32 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A712E86CDD;
+	by whitealder.osuosl.org (Postfix) with ESMTP id C8D4588690;
 	Fri, 21 Aug 2020 02:17:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Q3zus_oXF8Rd; Fri, 21 Aug 2020 02:17:29 +0000 (UTC)
+	with ESMTP id 8ASZZFKiPaFI; Fri, 21 Aug 2020 02:17:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E8F9786CC5;
-	Fri, 21 Aug 2020 02:17:29 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 389C188698;
+	Fri, 21 Aug 2020 02:17:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DF54EC0889;
-	Fri, 21 Aug 2020 02:17:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 24702C0894;
+	Fri, 21 Aug 2020 02:17:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DAEE2C0051
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:26 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 039B2C0889
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id C7646886B3
+ by whitealder.osuosl.org (Postfix) with ESMTP id E1288886AA
  for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id V4-rnLws4eJP for <iommu@lists.linux-foundation.org>;
- Fri, 21 Aug 2020 02:17:25 +0000 (UTC)
+ with ESMTP id H+RNpk4aQJFE for <iommu@lists.linux-foundation.org>;
+ Fri, 21 Aug 2020 02:17:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 1E352886AA
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D45F8886AE
  for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 02:17:25 +0000 (UTC)
-Message-Id: <20200821002948.864315814@linutronix.de>
+Message-Id: <20200821002948.957173267@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1597976243;
+ s=2020; t=1597976244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=t2NP7pVQXQ51g4UiBc17WkLPgfxzXUgtml1iOCs60Co=;
- b=hfuhL/7fph6qJyz7le4PFdDuEV6MgavC4eL9tY98pIvs0YVze1YpWy0KRD91j37VO5xh00
- tTfHk67g95+hQUTKU8KKSJA9eo2nfkCdUr6TNnpfLcGvt2wuEY9nmzSH6VO99xeXV0+A4+
- 3UjDpnDV9ZJztKDU7K04c6z+Rh36p1B0DxMcS/s4gAC3meHhAazcpz19IpHsV1rKXTUXlh
- F48/seVKLFST8w9pwF9LxUe+fNZV2bhNMA1EJOOHcS0s4CTtWwFjNzrfnnkfJhn0NvlpGT
- seVvAX6gLDDs+OR8IS0+3pMgXtOebMT5uXucoYewe42TFsA9VJ16SSbZ+2wV0g==
+ bh=MBz11fb1y0SE61ESFW1a7CcpOIrqCZo4UZnpmxe0caQ=;
+ b=mT69zWbqwzYr72TDoZpl1gLGTJ55DZw2Vv6z3jUPH/nrcsLHz9KLIT93NVjBl+3vcMvBRc
+ CqKcDx2xnJQQIiyTsIeSwv+6Bdf0tEX1V2wJD+UvqFHZnXOmGHJQ+2uH12yXT7cT8NFVg0
+ ECpHS2QO2Cr7DCOiouur6vbnMb9QdTLMVjN0Nvnoki3NsxyqjUv18HiPkFPcXewwfDDvx7
+ te+desFYiJoLvNHI/HhnldQUsW9p0WRWEFCxfTgIMTfQ3r9MYYVFRehstXWPekQ85f0VOy
+ brgxhSlfw9BieAuZc11A8YeAeWGO4DIvBMQpssjjareY82nstIQWnrJdyL39Hg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1597976243;
+ s=2020e; t=1597976244;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=t2NP7pVQXQ51g4UiBc17WkLPgfxzXUgtml1iOCs60Co=;
- b=vm7OTzxc+ZgBvpRZzpZI8vCsQAhHhTud1cF5+49Ul2OutYT4sEg30INjxq8N+0un9/anLJ
- iwhMU1saq0+BRDAw==
-Date: Fri, 21 Aug 2020 02:25:00 +0200
+ bh=MBz11fb1y0SE61ESFW1a7CcpOIrqCZo4UZnpmxe0caQ=;
+ b=Dwkt+c9Oh4UbvZmtg7B+uyvXpCShVXkZvd7fqALYgsIWyxidXsx5Fii4HTZY1T4upIV9/2
+ zFJ6kUyY7XD+NiCQ==
+Date: Fri, 21 Aug 2020 02:25:01 +0200
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch RFC 36/38] platform-msi: Add device MSI infrastructure
+Subject: [patch RFC 37/38] irqdomain/msi: Provide msi_alloc/free_store()
+ callbacks
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline;
- filename="platform-msi--Add-device-MSI-infrastructure.patch"
+ filename="irqdomain-msi--Provide-msi_alloc-free_store---callbacks.patch"
 Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
- "Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
- Steve Wahl <steve.wahl@hpe.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
+ Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
  Dan Williams <dan.j.williams@intel.com>, Wei Liu <wei.liu@kernel.org>,
  Stephen Hemminger <sthemmin@microsoft.com>, Baolu Lu <baolu.lu@intel.com>,
  Marc Zyngier <maz@kernel.org>, x86@kernel.org,
@@ -78,7 +79,8 @@ Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
  Boris Ostrovsky <boris.ostrovsky@oracle.com>,
  Jonathan Derrick <jonathan.derrick@intel.com>, Juergen Gross <jgross@suse.com>,
  Russ Anderson <rja@hpe.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- iommu@lists.linux-foundation.org, Jacob Pan <jacob.jun.pan@intel.com>
+ iommu@lists.linux-foundation.org, Jacob Pan <jacob.jun.pan@intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,236 +98,85 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add device specific MSI domain infrastructure for devices which have their
-own resource management and interrupt chip. These devices are not related
-to PCI and contrary to platform MSI they do not share a common resource and
-interrupt chip. They provide their own domain specific resource management
-and interrupt chip.
+For devices which don't have a standard storage for MSI messages like the
+upcoming IMS (Interrupt Message Storm) it's required to allocate storage
+space before allocating interrupts and after freeing them.
 
-This utilizes the new alloc/free override in a non evil way which avoids
-having yet another set of specialized alloc/free functions. Just using
-msi_domain_alloc/free_irqs() is sufficient
+This could be achieved with the existing callbacks, but that would be
+awkward because they operate on msi_alloc_info_t which is not uniform
+accross architectures. Also these callbacks are invoked per interrupt but
+the allocation might have bulk requirements depending on the device.
 
-While initially it was suggested and tried to piggyback device MSI on
-platform MSI, the better variant is to reimplement platform MSI on top of
-device MSI.
+As such devices can operate on different architectures it is simpler to
+have seperate callbacks which operate on struct device. The resulting
+storage information has to be stored in struct msi_desc so the underlying
+irq chip implementation can retrieve it for the relevant operations.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Marc Zyngier <maz@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 ---
- drivers/base/platform-msi.c |  129 ++++++++++++++++++++++++++++++++++++++++++++
- include/linux/irqdomain.h   |    1 
- include/linux/msi.h         |   24 ++++++++
- kernel/irq/Kconfig          |    4 +
- 4 files changed, 158 insertions(+)
+ include/linux/msi.h |    8 ++++++++
+ kernel/irq/msi.c    |   11 +++++++++++
+ 2 files changed, 19 insertions(+)
 
---- a/drivers/base/platform-msi.c
-+++ b/drivers/base/platform-msi.c
-@@ -412,3 +412,132 @@ int platform_msi_domain_alloc(struct irq
- 
- 	return err;
- }
-+
-+#ifdef CONFIG_DEVICE_MSI
-+/*
-+ * Device specific MSI domain infrastructure for devices which have their
-+ * own resource management and interrupt chip. These devices are not
-+ * related to PCI and contrary to platform MSI they do not share a common
-+ * resource and interrupt chip. They provide their own domain specific
-+ * resource management and interrupt chip.
-+ */
-+
-+static void device_msi_free_msi_entries(struct device *dev)
-+{
-+	struct list_head *msi_list = dev_to_msi_list(dev);
-+	struct msi_desc *entry, *tmp;
-+
-+	list_for_each_entry_safe(entry, tmp, msi_list, list) {
-+		list_del(&entry->list);
-+		free_msi_entry(entry);
-+	}
-+}
-+
-+/**
-+ * device_msi_free_irqs - Free MSI interrupts assigned to  a device
-+ * @dev:	Pointer to the device
-+ *
-+ * Frees the interrupt and the MSI descriptors.
-+ */
-+static void device_msi_free_irqs(struct irq_domain *domain, struct device *dev)
-+{
-+	__msi_domain_free_irqs(domain, dev);
-+	device_msi_free_msi_entries(dev);
-+}
-+
-+/**
-+ * device_msi_alloc_irqs - Allocate MSI interrupts for a device
-+ * @dev:	Pointer to the device
-+ * @nvec:	Number of vectors
-+ *
-+ * Allocates the required number of MSI descriptors and the corresponding
-+ * interrupt descriptors.
-+ */
-+static int device_msi_alloc_irqs(struct irq_domain *domain, struct device *dev, int nvec)
-+{
-+	int i, ret = -ENOMEM;
-+
-+	for (i = 0; i < nvec; i++) {
-+		struct msi_desc *entry = alloc_msi_entry(dev, 1, NULL);
-+
-+		if (!entry)
-+			goto fail;
-+		list_add_tail(&entry->list, dev_to_msi_list(dev));
-+	}
-+
-+	ret = __msi_domain_alloc_irqs(domain, dev, nvec);
-+	if (!ret)
-+		return 0;
-+fail:
-+	device_msi_free_msi_entries(dev);
-+	return ret;
-+}
-+
-+static void device_msi_update_dom_ops(struct msi_domain_info *info)
-+{
-+	if (!info->ops->domain_alloc_irqs)
-+		info->ops->domain_alloc_irqs = device_msi_alloc_irqs;
-+	if (!info->ops->domain_free_irqs)
-+		info->ops->domain_free_irqs = device_msi_free_irqs;
-+	if (!info->ops->msi_prepare)
-+		info->ops->msi_prepare = arch_msi_prepare;
-+}
-+
-+/**
-+ * device_msi_create_msi_irq_domain - Create an irq domain for devices
-+ * @fwnode:	Firmware node of the interrupt controller
-+ * @info:	MSI domain info to configure the new domain
-+ * @parent:	Parent domain
-+ */
-+struct irq_domain *device_msi_create_irq_domain(struct fwnode_handle *fn,
-+						struct msi_domain_info *info,
-+						struct irq_domain *parent)
-+{
-+	struct irq_domain *domain;
-+
-+	if (info->flags & MSI_FLAG_USE_DEF_CHIP_OPS)
-+		platform_msi_update_chip_ops(info);
-+
-+	if (info->flags & MSI_FLAG_USE_DEF_DOM_OPS)
-+		device_msi_update_dom_ops(info);
-+
-+	domain = msi_create_irq_domain(fn, info, parent);
-+	if (domain)
-+		irq_domain_update_bus_token(domain, DOMAIN_BUS_DEVICE_MSI);
-+	return domain;
-+}
-+
-+#ifdef CONFIG_PCI
-+#include <linux/pci.h>
-+
-+/**
-+ * pci_subdevice_msi_create_irq_domain - Create an irq domain for subdevices
-+ * @pdev:	Pointer to PCI device for which the subdevice domain is created
-+ * @info:	MSI domain info to configure the new domain
-+ */
-+struct irq_domain *pci_subdevice_msi_create_irq_domain(struct pci_dev *pdev,
-+						       struct msi_domain_info *info)
-+{
-+	struct irq_domain *domain, *pdev_msi;
-+	struct fwnode_handle *fn;
-+
-+	/*
-+	 * Retrieve the parent domain of the underlying PCI device's MSI
-+	 * domain. This is going to be the parent of the new subdevice
-+	 * domain as well.
-+	 */
-+	pdev_msi = dev_get_msi_domain(&pdev->dev);
-+	if (!pdev_msi)
-+		return NULL;
-+
-+	fn = irq_domain_alloc_named_fwnode(dev_name(&pdev->dev));
-+	if (!fn)
-+		return NULL;
-+	domain = device_msi_create_irq_domain(fn, info, pdev_msi->parent);
-+	if (!domain)
-+		irq_domain_free_fwnode(fn);
-+	return domain;
-+}
-+EXPORT_SYMBOL_GPL(pci_subdevice_msi_create_irq_domain);
-+#endif /* CONFIG_PCI */
-+#endif /* CONFIG_DEVICE_MSI */
---- a/include/linux/irqdomain.h
-+++ b/include/linux/irqdomain.h
-@@ -85,6 +85,7 @@ enum irq_domain_bus_token {
- 	DOMAIN_BUS_TI_SCI_INTA_MSI,
- 	DOMAIN_BUS_WAKEUP,
- 	DOMAIN_BUS_VMD_MSI,
-+	DOMAIN_BUS_DEVICE_MSI,
- };
- 
- /**
 --- a/include/linux/msi.h
 +++ b/include/linux/msi.h
-@@ -56,6 +56,18 @@ struct ti_sci_inta_msi_desc {
+@@ -279,6 +279,10 @@ struct msi_domain_info;
+  *			function.
+  * @domain_free_irqs:	Optional function to override the default free
+  *			function.
++ * @msi_alloc_store:	Optional callback to allocate storage in a device
++ *			specific non-standard MSI store
++ * @msi_alloc_free:	Optional callback to free storage in a device
++ *			specific non-standard MSI store
+  *
+  * @get_hwirq, @msi_init and @msi_free are callbacks used by
+  * msi_create_irq_domain() and related interfaces
+@@ -328,6 +332,10 @@ struct msi_domain_ops {
+ 					     struct device *dev, int nvec);
+ 	void		(*domain_free_irqs)(struct irq_domain *domain,
+ 					    struct device *dev);
++	int		(*msi_alloc_store)(struct irq_domain *domain,
++					   struct device *dev, int nvec);
++	void		(*msi_free_store)(struct irq_domain *domain,
++					    struct device *dev);
  };
  
  /**
-+ * device_msi_desc - Device MSI specific MSI descriptor data
-+ * @priv:		Pointer to device specific private data
-+ * @priv_iomem:		Pointer to device specific private io memory
-+ * @hwirq:		The hardware irq number in the device domain
-+ */
-+struct device_msi_desc {
-+	void		*priv;
-+	void __iomem	*priv_iomem;
-+	u16		hwirq;
-+};
-+
-+/**
-  * struct msi_desc - Descriptor structure for MSI based interrupts
-  * @list:	List head for management
-  * @irq:	The base interrupt number
-@@ -127,6 +139,7 @@ struct msi_desc {
- 		struct platform_msi_desc platform;
- 		struct fsl_mc_msi_desc fsl_mc;
- 		struct ti_sci_inta_msi_desc inta;
-+		struct device_msi_desc device_msi;
- 	};
- };
+--- a/kernel/irq/msi.c
++++ b/kernel/irq/msi.c
+@@ -410,6 +410,12 @@ int __msi_domain_alloc_irqs(struct irq_d
+ 	if (ret)
+ 		return ret;
  
-@@ -412,6 +425,17 @@ void platform_msi_domain_free(struct irq
- void *platform_msi_get_host_data(struct irq_domain *domain);
- #endif /* CONFIG_GENERIC_MSI_IRQ_DOMAIN */
- 
-+#ifdef CONFIG_DEVICE_MSI
-+struct irq_domain *device_msi_create_irq_domain(struct fwnode_handle *fn,
-+						struct msi_domain_info *info,
-+						struct irq_domain *parent);
++	if (ops->msi_alloc_store) {
++		ret = ops->msi_alloc_store(domain, dev, nvec);
++		if (ret)
++			return ret;
++	}
 +
-+# ifdef CONFIG_PCI
-+struct irq_domain *pci_subdevice_msi_create_irq_domain(struct pci_dev *pdev,
-+						       struct msi_domain_info *info);
-+# endif
-+#endif /* CONFIG_DEVICE_MSI */
-+
- #ifdef CONFIG_PCI_MSI_IRQ_DOMAIN
- void pci_msi_domain_write_msg(struct irq_data *irq_data, struct msi_msg *msg);
- struct irq_domain *pci_msi_create_irq_domain(struct fwnode_handle *fwnode,
---- a/kernel/irq/Kconfig
-+++ b/kernel/irq/Kconfig
-@@ -93,6 +93,10 @@ config GENERIC_MSI_IRQ_DOMAIN
- 	select IRQ_DOMAIN_HIERARCHY
- 	select GENERIC_MSI_IRQ
+ 	for_each_msi_entry(desc, dev) {
+ 		ops->set_desc(&arg, desc);
  
-+config DEVICE_MSI
-+	bool
-+	select GENERIC_MSI_IRQ_DOMAIN
-+
- config IRQ_MSI_IOMMU
- 	bool
+@@ -509,6 +515,8 @@ int msi_domain_alloc_irqs(struct irq_dom
  
+ void __msi_domain_free_irqs(struct irq_domain *domain, struct device *dev)
+ {
++	struct msi_domain_info *info = domain->host_data;
++	struct msi_domain_ops *ops = info->ops;
+ 	struct msi_desc *desc;
+ 
+ 	for_each_msi_entry(desc, dev) {
+@@ -522,6 +530,9 @@ void __msi_domain_free_irqs(struct irq_d
+ 			desc->irq = 0;
+ 		}
+ 	}
++
++	if (ops->msi_free_store)
++		ops->msi_free_store(domain, dev);
+ }
+ 
+ /**
 
 _______________________________________________
 iommu mailing list
