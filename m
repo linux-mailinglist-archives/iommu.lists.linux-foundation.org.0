@@ -2,69 +2,66 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EA624E096
-	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 21:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3566124E0A7
+	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 21:30:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 47C4524981;
-	Fri, 21 Aug 2020 19:18:24 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id BD226203F6;
+	Fri, 21 Aug 2020 19:30:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id t6My7wLSstZM; Fri, 21 Aug 2020 19:18:07 +0000 (UTC)
+	with ESMTP id 2t8UX-+5SF7B; Fri, 21 Aug 2020 19:30:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id F0CDC230FD;
-	Fri, 21 Aug 2020 19:17:09 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1BAB42040E;
+	Fri, 21 Aug 2020 19:30:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DAC2BC0051;
-	Fri, 21 Aug 2020 19:17:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 04B56C0051;
+	Fri, 21 Aug 2020 19:30:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E809EC0890
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 19:17:08 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1140FC0051
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 19:30:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C5DD986E97
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 19:17:08 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id EFC8A86E41
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 19:30:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mXcjXp_YKftm for <iommu@lists.linux-foundation.org>;
- Fri, 21 Aug 2020 19:17:07 +0000 (UTC)
+ with ESMTP id 9q84HreGpLTp for <iommu@lists.linux-foundation.org>;
+ Fri, 21 Aug 2020 19:30:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 8F0E386EAA
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 19:17:07 +0000 (UTC)
-Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.55])
- by Forcepoint Email with ESMTP id 29221672D2BB94E0A5A2;
- Sat, 22 Aug 2020 03:17:05 +0800 (CST)
+Received: from huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 87EF586E29
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 19:30:01 +0000 (UTC)
+Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.56])
+ by Forcepoint Email with ESMTP id AED36C3FAF846FD56BCF;
+ Sat, 22 Aug 2020 03:29:55 +0800 (CST)
 Received: from dggema722-chm.china.huawei.com (10.3.20.86) by
  DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Sat, 22 Aug 2020 03:17:04 +0800
+ id 14.3.487.0; Sat, 22 Aug 2020 03:29:55 +0800
 Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
  dggema722-chm.china.huawei.com (10.3.20.86) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Sat, 22 Aug 2020 03:17:04 +0800
+ 15.1.1913.5; Sat, 22 Aug 2020 03:29:55 +0800
 Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
  dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.1913.007;
- Sat, 22 Aug 2020 03:17:04 +0800
+ Sat, 22 Aug 2020 03:29:55 +0800
 From: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-To: Randy Dunlap <rdunlap@infradead.org>, "hch@lst.de" <hch@lst.de>,
+To: Mike Kravetz <mike.kravetz@oracle.com>, "hch@lst.de" <hch@lst.de>,
  "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>, "robin.murphy@arm.com"
  <robin.murphy@arm.com>, "will@kernel.org" <will@kernel.org>,
  "ganapatrao.kulkarni@cavium.com" <ganapatrao.kulkarni@cavium.com>,
  "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
  "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-Subject: RE: [PATCH v7 1/3] dma-contiguous: provide the ability to reserve
- per-numa CMA
-Thread-Topic: [PATCH v7 1/3] dma-contiguous: provide the ability to reserve
- per-numa CMA
-Thread-Index: AQHWd69ix8OgXlSJiUCOYl4oKg5K9qlCNSCAgAC5sFA=
-Date: Fri, 21 Aug 2020 19:17:04 +0000
-Message-ID: <b24cfc9fca7842b78ff6b7af575c0843@hisilicon.com>
+Subject: RE: [PATCH v7 0/3] make dma_alloc_coherent NUMA-aware by per-NUMA CMA
+Thread-Topic: [PATCH v7 0/3] make dma_alloc_coherent NUMA-aware by per-NUMA CMA
+Thread-Index: AQHWd+P3Cxxhv5+npUG1WD6UP12kNalC7yyQ
+Date: Fri, 21 Aug 2020 19:29:55 +0000
+Message-ID: <328438204e9e4afba84b20c6b778c504@hisilicon.com>
 References: <20200821113355.6140-1-song.bao.hua@hisilicon.com>
- <20200821113355.6140-2-song.bao.hua@hisilicon.com>
- <5eafce91-cc92-e6ed-23b0-98f253129e1b@infradead.org>
-In-Reply-To: <5eafce91-cc92-e6ed-23b0-98f253129e1b@infradead.org>
+ <e47f4bfd-3af7-f682-23a1-51800f992d35@oracle.com>
+In-Reply-To: <e47f4bfd-3af7-f682-23a1-51800f992d35@oracle.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -72,8 +69,7 @@ X-MS-TNEF-Correlator:
 x-originating-ip: [10.126.201.113]
 MIME-Version: 1.0
 X-CFilter-Loop: Reflected
-Cc: Mike Rapoport <rppt@linux.ibm.com>, Steve Capper <steve.capper@arm.com>,
- Linuxarm <linuxarm@huawei.com>,
+Cc: Linuxarm <linuxarm@huawei.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
  "Zengtao \(B\)" <prime.zeng@hisilicon.com>, huangdaode <huangdaode@huawei.com>,
@@ -98,76 +94,56 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 
 > -----Original Message-----
-> From: Randy Dunlap [mailto:rdunlap@infradead.org]
-> Sent: Saturday, August 22, 2020 4:08 AM
+> From: Mike Kravetz [mailto:mike.kravetz@oracle.com]
+> Sent: Saturday, August 22, 2020 5:53 AM
 > To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>; hch@lst.de;
 > m.szyprowski@samsung.com; robin.murphy@arm.com; will@kernel.org;
 > ganapatrao.kulkarni@cavium.com; catalin.marinas@arm.com;
 > akpm@linux-foundation.org
 > Cc: iommu@lists.linux-foundation.org; linux-arm-kernel@lists.infradead.org;
 > linux-kernel@vger.kernel.org; Zengtao (B) <prime.zeng@hisilicon.com>;
-> huangdaode <huangdaode@huawei.com>; Linuxarm <linuxarm@huawei.com>;
-> Jonathan Cameron <jonathan.cameron@huawei.com>; Nicolas Saenz Julienne
-> <nsaenzjulienne@suse.de>; Steve Capper <steve.capper@arm.com>; Mike
-> Rapoport <rppt@linux.ibm.com>
-> Subject: Re: [PATCH v7 1/3] dma-contiguous: provide the ability to reserve
-> per-numa CMA
+> huangdaode <huangdaode@huawei.com>; Linuxarm <linuxarm@huawei.com>
+> Subject: Re: [PATCH v7 0/3] make dma_alloc_coherent NUMA-aware by
+> per-NUMA CMA
+> 
+> Hi Barry,
+> Sorry for jumping in so late.
 > 
 > On 8/21/20 4:33 AM, Barry Song wrote:
-> > ---
-> >  -v7: with respect to Will's comments
-> >  * move to use for_each_online_node
-> >  * add description if users don't specify pernuma_cma
-> >  * provide default value for CONFIG_DMA_PERNUMA_CMA
 > >
-> >  .../admin-guide/kernel-parameters.txt         |  11 ++
-> >  include/linux/dma-contiguous.h                |   6 ++
-> >  kernel/dma/Kconfig                            |  11 ++
-> >  kernel/dma/contiguous.c                       | 100
-> ++++++++++++++++--
-> >  4 files changed, 118 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt
-> b/Documentation/admin-guide/kernel-parameters.txt
-> > index bdc1f33fd3d1..c609527fc35a 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -599,6 +599,17 @@
-> >  			altogether. For more information, see
-> >  			include/linux/dma-contiguous.h
-> >
-> > +	pernuma_cma=nn[MG]
-> > +			[ARM64,KNL]
-> > +			Sets the size of kernel per-numa memory area for
-> > +			contiguous memory allocations. A value of 0 disables
-> > +			per-numa CMA altogether. And If this option is not
-> > +			specificed, the default value is 0.
-> > +			With per-numa CMA enabled, DMA users on node nid will
-> > +			first try to allocate buffer from the pernuma area
-> > +			which is located in node nid, if the allocation fails,
-> > +			they will fallback to the global default memory area.
-> > +
+> > with per-numa CMA, smmu will get memory from local numa node to save
+> command
+> > queues and page tables. that means dma_unmap latency will be shrunk
+> much.
 > 
-> Entries in kernel-parameters.txt are supposed to be in alphabetical order
-> but this one is not.  If you want to keep it near the cma= entry, you can
-> rename it like Mike suggested.  Otherwise it needs to be moved.
+> Since per-node CMA areas for hugetlb was introduced, I have been thinking
+> about the limited number of CMA areas.  In most configurations, I believe
+> it is limited to 7.  And, IIRC it is not something that can be changed at
+> runtime, you need to reconfig and rebuild to increase the number.  In contrast
+> some configs have NODES_SHIFT set to 10.  I wasn't too worried because of
+> the limited hugetlb use case.  However, this series is adding another user
+> of per-node CMA areas.
+> 
+> With more users, should try to sync up number of CMA areas and number of
+> nodes?  Or, perhaps I am worrying about nothing?
 
-As I've replied in Mike's comment, I'd like to rename it to cma_per...
+Hi Mike,
+The current limitation is 8. If the server has 4 nodes and we enable both pernuma
+CMA and hugetlb, the last node will fail to get one cma area as the default
+global cma area will take 1 of 8. So users need to change menuconfig.
+If the server has 8 nodes, we enable one of pernuma cma and hugetlb, one node
+will fail to get cma.
 
-> 
-> 
-> >  	cmo_free_hint=	[PPC] Format: { yes | no }
-> >  			Specify whether pages are marked as being inactive
-> >  			when they are freed.  This is used in CMO environments
-> 
-> 
-> 
+We may set the default number of CMA areas as 8+MAX_NODES(if hugetlb enabled) +
+MAX_NODES(if pernuma cma enabled) if we don't expect users to change config, but
+right now hugetlb has not an option in Kconfig to enable or disable like pernuma cma
+has DMA_PERNUMA_CMA.
+
 > --
-> ~Randy
+> Mike Kravetz
 
 Thanks
 Barry
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
