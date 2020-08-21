@@ -1,88 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53AA224D5F6
-	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 15:16:21 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE35A24D647
+	for <lists.iommu@lfdr.de>; Fri, 21 Aug 2020 15:43:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E92BF8819B;
-	Fri, 21 Aug 2020 13:16:19 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 71F39884CE;
+	Fri, 21 Aug 2020 13:43:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xTVvsV0p9EVb; Fri, 21 Aug 2020 13:16:17 +0000 (UTC)
+	with ESMTP id BsHQ17jiV4UW; Fri, 21 Aug 2020 13:43:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E0B36886BF;
-	Fri, 21 Aug 2020 13:16:17 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C4D418851F;
+	Fri, 21 Aug 2020 13:43:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DAFBAC0889;
-	Fri, 21 Aug 2020 13:16:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A3D43C0051;
+	Fri, 21 Aug 2020 13:43:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A0FCDC0051
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:16:16 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 18830C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:43:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 880FF85C11
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:16:16 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 0662286CEF
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:43:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gfLpQazmW-1s for <iommu@lists.linux-foundation.org>;
- Fri, 21 Aug 2020 13:16:16 +0000 (UTC)
+ with ESMTP id RAzdxHIRXoS9 for <iommu@lists.linux-foundation.org>;
+ Fri, 21 Aug 2020 13:43:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
- [209.85.218.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id D0F9285FA6
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:16:15 +0000 (UTC)
-Received: by mail-ej1-f67.google.com with SMTP id o23so2257685ejr.1
- for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 06:16:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZnnZtMxmP4b7OMlDsIV6bQJbOj4fdGL8aaL1hhmjLLA=;
- b=pY2YbYHS5mikDdweoT7I0A6q9uT3ometn8FGbkCmiALLLRBZ7T5CUUIzOPSzePumsr
- 5nVU/Of+D1O09VPiw+V19VBWqEeiR+ed6F2FuDNqj5OXZVpR1r7CKaXoH8BU2TGA//Mk
- REi4qfELDk/LPFv51pecAc0wLz0sjnbltg48c2UZ6oEGqEddU0eeHvEiktKMfM8CrXAR
- 24BjGg9QPwJCXtKW16GNd3wBjTWgXDlouU7YYfmHXPSVH2UUgSKlFi6UCokoDcksLjeF
- CK67SeJGYmClge7RphPcpwaKaSeXvKeSAqpLlgFvQ5ACoV5W0wlnksDr2TVEpp4Owz1b
- j69Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZnnZtMxmP4b7OMlDsIV6bQJbOj4fdGL8aaL1hhmjLLA=;
- b=P1F0UZDoGc1f/gm3AZi0cSozNC6x+4nVcdaROkMcGYBSjFU8IjW5hfury35Qai0xBh
- +LfQKr3L8tYPJQiwkhq+9FjkUYZnwurisv7DsaJk9QfefiVNOb/6fpInfCnpreeiT/mR
- 6+V2ONIb16PfO9uey9BySPIDaLPvQLd4PfnOpr7ODy3hMJqfGR6FrVSVUk8vR0ulXNri
- jHgBSs0FNpBlb4dR0c8ZTGN2EqpgF+K5p3iHZ8ZZdzhyjOO/1JcFL7WrLos57MksHYRV
- YjX7WkJfX5x80DZwNwhggAVlkx0UDI7nqHECGw54s/mzVA52IBqhUfqOld1IXGnAwXnJ
- zcpQ==
-X-Gm-Message-State: AOAM5339rxwEpup3EU/hiZAKV6BoL7Oy2wpxkk+KwqDBCYk03G2Kq+OY
- UVWJEhQkewipn7QFVcZlbv8oLw90TF79rALE
-X-Google-Smtp-Source: ABdhPJzPzKZv0XqkxFhftdpeIsh87fWGpOtYot+rgSUcL/9LlvBX6pXEuFdZEBC/z0H9ehxzTOYJaw==
-X-Received: by 2002:a17:906:e17:: with SMTP id
- l23mr2725404eji.13.1598015774044; 
- Fri, 21 Aug 2020 06:16:14 -0700 (PDT)
-Received: from localhost.localdomain
- ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id v4sm1299748eje.39.2020.08.21.06.16.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Aug 2020 06:16:13 -0700 (PDT)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: iommu@lists.linux-foundation.org,
- virtualization@lists.linux-foundation.org, virtio-dev@lists.oasis-open.org,
- linux-pci@vger.kernel.org
-Subject: [PATCH v3 6/6] iommu/virtio: Enable x86 support
-Date: Fri, 21 Aug 2020 15:15:40 +0200
-Message-Id: <20200821131540.2801801-7-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200821131540.2801801-1-jean-philippe@linaro.org>
-References: <20200821131540.2801801-1-jean-philippe@linaro.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 56A3C86CC5
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 13:43:04 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 342BFACB8;
+ Fri, 21 Aug 2020 13:43:30 +0000 (UTC)
+Date: Fri, 21 Aug 2020 15:43:00 +0200
+From: Joerg Roedel <jroedel@suse.de>
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: Re: [Regression] "iommu/amd: Relax locking in dma_ops path" makes
+ tg3 ethernet transmit queue timeout
+Message-ID: <20200821134300.GM3354@suse.de>
+References: <4E9B03FB-9DA5-4831-B4CE-A0AA645D3F22@canonical.com>
+ <20200518133209.GM8135@suse.de>
+ <381D21C9-C913-4C33-A6F4-0440B5D11670@canonical.com>
+ <8D375E06-A763-4B5E-9C6D-DA5EBC62530E@canonical.com>
+ <CFC22DE4-E342-4F32-B758-6A690755C498@canonical.com>
 MIME-Version: 1.0
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, kevin.tian@intel.com,
- mst@redhat.com, sebastien.boeuf@intel.com, bhelgaas@google.com,
- jasowang@redhat.com
+Content-Disposition: inline
+In-Reply-To: <CFC22DE4-E342-4F32-B758-6A690755C498@canonical.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: iommu@lists.linux-foundation.org, open list <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,37 +71,18 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-With the built-in topology description in place, x86 platforms can now
-use the virtio-iommu.
+Hi Kai,
 
-Architectures that use the generic iommu_dma_ops should normally select
-CONFIG_IOMMU_DMA themselves (from arch/*/Kconfig). Since not all x86
-drivers have been converted yet, it's currently up to the IOMMU Kconfig
-to select it.
+On Mon, Jun 29, 2020 at 08:33:22PM +0800, Kai-Heng Feng wrote:
+> I am still seeing the issue on v5.8-rc3. The issue goes away as soon
+> as "iommu=off" is added.
 
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- drivers/iommu/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Can you probably help with debugging this issue? I've had no luck so far
+getting my hands on a machine with tg3 hardware and an AMD IOMMU.
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 98d28fdbc19a..d7cf158745eb 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -383,8 +383,9 @@ config HYPERV_IOMMU
- config VIRTIO_IOMMU
- 	tristate "Virtio IOMMU driver"
- 	depends on VIRTIO
--	depends on ARM64
-+	depends on (ARM64 || X86)
- 	select IOMMU_API
-+	select IOMMU_DMA if X86
- 	select INTERVAL_TREE
- 	help
- 	  Para-virtualised IOMMU driver with virtio.
--- 
-2.28.0
+Regards,
 
+	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
