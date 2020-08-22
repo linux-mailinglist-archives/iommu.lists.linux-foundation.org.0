@@ -2,68 +2,86 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB7B24E500
-	for <lists.iommu@lfdr.de>; Sat, 22 Aug 2020 06:03:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B6E824E5F9
+	for <lists.iommu@lfdr.de>; Sat, 22 Aug 2020 09:09:35 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6C89586248;
-	Sat, 22 Aug 2020 04:03:53 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E609C86A34;
+	Sat, 22 Aug 2020 07:09:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id u41Ba2IDhjpU; Sat, 22 Aug 2020 04:03:52 +0000 (UTC)
+	with ESMTP id 4RWx_qmbZ5Rm; Sat, 22 Aug 2020 07:09:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BC999862DB;
-	Sat, 22 Aug 2020 04:03:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 52E4686A22;
+	Sat, 22 Aug 2020 07:09:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B39AFC0889;
-	Sat, 22 Aug 2020 04:03:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 321BCC0051;
+	Sat, 22 Aug 2020 07:09:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 423D4C0051
- for <iommu@lists.linux-foundation.org>; Sat, 22 Aug 2020 04:03:50 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DFBD3C0051
+ for <iommu@lists.linux-foundation.org>; Sat, 22 Aug 2020 04:28:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 322BC85F0E
- for <iommu@lists.linux-foundation.org>; Sat, 22 Aug 2020 04:03:50 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id CDB8188686
+ for <iommu@lists.linux-foundation.org>; Sat, 22 Aug 2020 04:28:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Nj63RDdeXEBP for <iommu@lists.linux-foundation.org>;
- Sat, 22 Aug 2020 04:03:49 +0000 (UTC)
+ with ESMTP id 9P0UcCQgjlj0 for <iommu@lists.linux-foundation.org>;
+ Sat, 22 Aug 2020 04:28:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9C4B785EF0
- for <iommu@lists.linux-foundation.org>; Sat, 22 Aug 2020 04:03:49 +0000 (UTC)
-IronPort-SDR: Yk1SWGzRFNheVO25bY3quyCSkja204Boz/YxI1gFOsvYjnvzrO4YYvOqwGg+kCoU+HkhdJOoj9
- lV3D106l/rRw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9720"; a="240497827"
-X-IronPort-AV: E=Sophos;i="5.76,339,1592895600"; d="scan'208";a="240497827"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2020 21:03:49 -0700
-IronPort-SDR: zZFW2T9KvPhqEGXWnyv6F3815ZvhuknzJAilH8LmVYHbkQ9FmXEJUiVObXeDDJZUvMpnCwwZe1
- qkr1iduWSPkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,339,1592895600"; d="scan'208";a="298135856"
-Received: from purley-4s.sc.intel.com ([172.25.112.112])
- by orsmga006.jf.intel.com with ESMTP; 21 Aug 2020 21:03:49 -0700
-From: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH V6 3/3] iommu: Document usage of
- "/sys/kernel/iommu_groups/<grp_id>/type" file
-Date: Sun, 23 Aug 2020 22:17:28 -0700
-Message-Id: <59f594421615152012df9555362261b03eef3d1b.1595619936.git.sai.praneeth.prakhya@intel.com>
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id ECD3188587
+ for <iommu@lists.linux-foundation.org>; Sat, 22 Aug 2020 04:28:22 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id d4so1666973pjx.5
+ for <iommu@lists.linux-foundation.org>; Fri, 21 Aug 2020 21:28:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YYpeb/PkPwRbYOwET4nNHLv4kDK8jDR1mJWP198+wu4=;
+ b=loWFE4rMVDX8IGXeu/alOJRUkonwP9feeX6uYFVfzGYkUYTqL0rN1TSZox0V/jBcyE
+ ST0IcVmRzqfvHAw59t0VXChNV9zmzKHttulB69GBPiMG+Zrf25IK179q5Z+pPQY+X69a
+ BdTrJxCFPs99S9DEJGUsAljDdRDO0zuWgQeODz3iY3GcIi6iqLbsT22dMqgr/ZA+7ulJ
+ fDeI4TBx18g9TnJnrtonVP9OLRI2oiJt32HScRYg4A3t22ALg9tfafoLn+MEo+T0Xeho
+ kg7zMvakUzqOY6fTRrb/HvAKBjQJ99Iww5ownAxZe1ZpugIu1tbk8qh1uF/Uxe0VkhJZ
+ B97g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YYpeb/PkPwRbYOwET4nNHLv4kDK8jDR1mJWP198+wu4=;
+ b=T8zF3x/RzBDRtQcLub4h069UnY7AnTDB21TZVQGsQNAx8EJcWxJZIGBhDHlueSk+3V
+ 0ag5Sel3NbwhzMySaBKIpY/UmCkrb7grvAdQvOGcWIRA5L1NpXXWNr3qHzCIvznwSD9z
+ eeWxodyr6iugO6/1UoBYlAt85MGKa9LaME8NFnTc12pFsfs1u2KuWpk8WwvOetwNPskX
+ FvzeWCckzCMUw9sHVPsPs9UFyE1eabwRt891a4zt+w8og8CcAVUBf2Vzd6Rihj4K1MaS
+ J3c3nqMPsJvt0MB6M4heheQN8YocjcOOkVsSLvywosX48annlUnHgRmvtEvp9SCGv+g0
+ H9Wg==
+X-Gm-Message-State: AOAM530B5cp4jQKrhx6u7eDSnC6t/vaRlOBOuPmFmRHZeaFHJSC5M9nm
+ ULo97/0vimPpxoSbalic4HwberR7HlDBJWwP
+X-Google-Smtp-Source: ABdhPJymyNPfeAEVglq7lG1V+0IlRKVWGITLjG2VC6ZG7AQXKNBReKqOjLFGvlAWcjuhjRyR29xPQA==
+X-Received: by 2002:a17:902:690a:: with SMTP id
+ j10mr4872494plk.155.1598070502310; 
+ Fri, 21 Aug 2020 21:28:22 -0700 (PDT)
+Received: from jacob-builder.jf.intel.com ([192.55.55.43])
+ by smtp.gmail.com with ESMTPSA id q5sm3341582pgi.31.2020.08.21.21.28.20
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 21 Aug 2020 21:28:21 -0700 (PDT)
+From: Jacob Pan <jacob.pan.linux@gmail.com>
+X-Google-Original-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ "Lu Baolu" <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+ David Woodhouse <dwmw2@infradead.org>
+Subject: [PATCH v2 0/9] IOASID extensions for guest SVA
+Date: Fri, 21 Aug 2020 21:35:09 -0700
+Message-Id: <1598070918-21321-1-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1595619936.git.sai.praneeth.prakhya@intel.com>
-References: <cover.1595619936.git.sai.praneeth.prakhya@intel.com>
-In-Reply-To: <cover.1595619936.git.sai.praneeth.prakhya@intel.com>
-References: <cover.1595619936.git.sai.praneeth.prakhya@intel.com>
-Cc: Ashok Raj <ashok.raj@intel.com>, Will Deacon <will.deacon@arm.com>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+MIME-Version: 1.0
+X-Mailman-Approved-At: Sat, 22 Aug 2020 07:09:31 +0000
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+ Wu Hao <hao.wu@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,70 +94,81 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The default domain type of an iommu group can be changed by writing to
-"/sys/kernel/iommu_groups/<grp_id>/type" file. Hence, document it's usage
-and more importantly spell out its limitations.
+IOASID was introduced in v5.5 as a generic kernel allocator service for
+both PCIe Process Address Space ID (PASID) and ARM SMMU's Sub Stream
+ID. In addition to basic ID allocation, ioasid_set was defined as a
+token that is shared by a group of IOASIDs. This set token can be used
+for permission checking, but lack of some features to address the
+following needs by guest Shared Virtual Address (SVA).
+- Manage IOASIDs by group, group ownership, quota, etc.
+- State synchronization among IOASID users
+- Non-identity guest-host IOASID mapping
+- Lifecycle management across many users
 
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Ashok Raj <ashok.raj@intel.com>
-Cc: Will Deacon <will.deacon@arm.com>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: Sohil Mehta <sohil.mehta@intel.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
-Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
----
- .../ABI/testing/sysfs-kernel-iommu_groups     | 30 +++++++++++++++++++
- 1 file changed, 30 insertions(+)
+This patchset introduces the following extensions as solutions to the
+problems above.
+- Redefine and extend IOASID set such that IOASIDs can be managed by groups.
+- Add notifications for IOASID state synchronization
+- Add reference counting for life cycle alignment among users
+- Support ioasid_set private IDs, which can be used as guest IOASIDs
+Please refer to Documentation/ioasid.rst in enclosed patch 1/9 for more
+details.
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-iommu_groups b/Documentation/ABI/testing/sysfs-kernel-iommu_groups
-index 017f5bc3920c..5b50f0ddd2a1 100644
---- a/Documentation/ABI/testing/sysfs-kernel-iommu_groups
-+++ b/Documentation/ABI/testing/sysfs-kernel-iommu_groups
-@@ -33,3 +33,33 @@ Description:    In case an RMRR is used only by graphics or USB devices
- 		it is now exposed as "direct-relaxable" instead of "direct".
- 		In device assignment use case, for instance, those RMRR
- 		are considered to be relaxable and safe.
-+
-+What:		/sys/kernel/iommu_groups/<grp_id>/type
-+Date:		August 2020
-+KernelVersion:	v5.9
-+Contact:	Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
-+Description:	Let the user know the type of default domain in use by iommu
-+		for this group. A privileged user could request kernel to change
-+		the group type by writing to this file. Presently, only three
-+		types are supported
-+		1. DMA: All the DMA transactions from the device in this group
-+			are translated by the iommu.
-+		2. identity: All the DMA transactions from the device in this
-+			     group are *not* translated by the iommu.
-+		3. auto: Change to the type the device was booted with. When the
-+			 user reads the file he would never see "auto". This is
-+			 just a write only value.
-+		Note:
-+		-----
-+		A group type could be modified only when
-+		1. The group has *only* one device
-+		2. The device in the group is not bound to any device driver.
-+		   So, the user must first unbind the appropriate driver and
-+		   then change the default domain type.
-+		Caution:
-+		--------
-+		Unbinding a device driver will take away the driver's control
-+		over the device and if done on devices that host root file
-+		system could lead to catastrophic effects (the user might
-+		need to reboot the machine to get it to normal state). So, it's
-+		expected that the user understands what he is doing.
+This patchset only included VT-d driver as users of some of the new APIs.
+VFIO and KVM patches are coming up to fully utilize the APIs introduced
+here.
+
+You can find this series at:
+https://github.com/jacobpan/linux.git ioasid_ext_v2
+(VFIO and KVM patches will be available at this branch when published.)
+
+This work is a result of collaboration with many people:
+Liu, Yi L <yi.l.liu@intel.com>
+Wu Hao <hao.wu@intel.com>
+Ashok Raj <ashok.raj@intel.com>
+Kevin Tian <kevin.tian@intel.com>
+
+Thanks,
+
+Jacob
+
+Changelog
+
+V2:
+- Redesigned ioasid_set APIs, removed set ID
+- Added set private ID (SPID) for guest PASID usage.
+- Add per ioasid_set notification and priority support.
+- Back to use spinlocks and atomic notifications.
+- Added async work in VT-d driver to perform teardown outside atomic context
+
+Jacob Pan (9):
+  docs: Document IO Address Space ID (IOASID) APIs
+  iommu/ioasid: Rename ioasid_set_data()
+  iommu/ioasid: Introduce ioasid_set APIs
+  iommu/ioasid: Add reference couting functions
+  iommu/ioasid: Introduce ioasid_set private ID
+  iommu/ioasid: Introduce notification APIs
+  iommu/vt-d: Listen to IOASID notifications
+  iommu/vt-d: Send IOASID bind/unbind notifications
+  iommu/vt-d: Store guest PASID during bind
+
+ Documentation/ioasid.rst    | 618 ++++++++++++++++++++++++++++++++
+ drivers/iommu/intel/iommu.c |  27 +-
+ drivers/iommu/intel/pasid.h |   1 +
+ drivers/iommu/intel/svm.c   |  97 ++++-
+ drivers/iommu/ioasid.c      | 835 ++++++++++++++++++++++++++++++++++++++++++--
+ include/linux/intel-iommu.h |   2 +
+ include/linux/ioasid.h      | 166 ++++++++-
+ 7 files changed, 1699 insertions(+), 47 deletions(-)
+ create mode 100644 Documentation/ioasid.rst
+
 -- 
-2.19.1
+2.7.4
 
 _______________________________________________
 iommu mailing list
