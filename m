@@ -1,88 +1,104 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8231424F06D
-	for <lists.iommu@lfdr.de>; Mon, 24 Aug 2020 01:05:56 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 509DE24F09E
+	for <lists.iommu@lfdr.de>; Mon, 24 Aug 2020 02:04:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id B2FCA203BE;
-	Sun, 23 Aug 2020 23:05:54 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C9ECE85CD8;
+	Mon, 24 Aug 2020 00:04:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id G64X+G3y1jA2; Sun, 23 Aug 2020 23:05:52 +0000 (UTC)
+	with ESMTP id Ce-NN8oN4W8T; Mon, 24 Aug 2020 00:04:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id AF6692034F;
-	Sun, 23 Aug 2020 23:05:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 02BD585C7A;
+	Mon, 24 Aug 2020 00:04:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 899FFC0051;
-	Sun, 23 Aug 2020 23:05:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D9E8CC0051;
+	Mon, 24 Aug 2020 00:04:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 915E3C0051
- for <iommu@lists.linux-foundation.org>; Sun, 23 Aug 2020 23:05:50 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0B4DEC0051
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 00:04:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 6986C87D75
- for <iommu@lists.linux-foundation.org>; Sun, 23 Aug 2020 23:05:50 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id E4CBB86E1F
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 00:04:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZNxqusyP0fvP for <iommu@lists.linux-foundation.org>;
- Sun, 23 Aug 2020 23:05:49 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5061387D3D
- for <iommu@lists.linux-foundation.org>; Sun, 23 Aug 2020 23:05:49 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id 67so557970pgd.12
- for <iommu@lists.linux-foundation.org>; Sun, 23 Aug 2020 16:05:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=rXg5ASTJKuS2X6twhw4KiiTJ11cb3nEvoe/6O1rzpFA=;
- b=TsXvoWqU84vmi9BoaUbGwBu0FapYlXJXX/AAIBvYoJuj01qPejSnDkFHpmgu5hFyBR
- v/8EnTWuOcu9kayTHFrbtnRsfVWfrvwa+FUoU1AjQ9heIhjTC0J3LJv/GFGISYKkEG4e
- LkGd32MHVU6nP/z5Rq6++B1/c+Mzj0qlPhqjMjo97MnMT8JY0dlLjANmm8qDaesTc5uF
- A3WZXlgcUGBugnJNmOCIgtyLqktpYiH7I8Ox4lchKO8tMcmyBnCeDTrOq1VMCLWWp6t5
- AXZVc4aFAFLQzJeFTEG2NskFitLMQWBneex1agMFvl57FU7qbyWkCKhoKEtL4r8XNubQ
- l/Kg==
+ with ESMTP id TRsqhaNj4bix for <iommu@lists.linux-foundation.org>;
+ Mon, 24 Aug 2020 00:04:47 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+ [209.85.166.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 38DA686C11
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 00:04:47 +0000 (UTC)
+Received: by mail-il1-f195.google.com with SMTP id t4so5829015iln.1
+ for <iommu@lists.linux-foundation.org>; Sun, 23 Aug 2020 17:04:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tcd-ie.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2qvzvkep7ZlQHNyjrGsuXQAp+x7s+RjdNiOv81NxtoQ=;
+ b=ph3cmZeijsQTsHnHnrr9eCGgxMPexaLwCGnu3F9Od9T7oE9SJ1xriseSecoaLR+A31
+ cxdttU99z8vHmtpSvs9wLGOOgPOY6GzwuKuovZh4UMjplaxKJu/wyAtKKGV99cTnuUCc
+ b9jW667DJd78gpOSqL093TQrnCvZ9zpW4sDgc9e3s4gqdpHbIh0cqwIbSVLaQrTLqDAX
+ thER0vKrZAtqkOJvYQeGZuITMeh4kPZ6AWC1kOvIEmnWvuxZr35lD2OOnlXMpkqB5GBo
+ XlqFU7D/ggoXmysuTUVEiDWk1jvnBEMzHRuwpliqu/K2HYrSEPvB6WXxqYArt4mYifKa
+ QdMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=rXg5ASTJKuS2X6twhw4KiiTJ11cb3nEvoe/6O1rzpFA=;
- b=h+fK8JvthsxuJbAqelgf2HoogafGBHOnua4gcuqgJVeSR5BCHYHPJ81v4lqsJ/3/FH
- xQSetwJEIpV3hbWqtX6Rfxeb0ctEdxgDn5d3UqeEwz2C/UXjTZRS8xC4iGWQsfIbt6En
- H9zfhP2ACE17gxAvQJxirXa6ti6tjFV6WYTZ5QSWo66L5we3khbgNQMHDvlhJjwRunEQ
- 5bb7rQKCSQWdvQHZP7v5gjLubvXXrmMC98ffvgwsC9Y5GHORHBihEXf3Wu7Wwxjdt4Mq
- UE2tc4HbUdTfhVVDZVa5qtmvnUU9FYTMoRuNzJv3jPQdkrXlj982puGTBh/z45kJH95+
- 5/Mw==
-X-Gm-Message-State: AOAM533oXNcbEarPs2mwax+MHEu5od9T7u3X3mpl6XwWV0WWWBgkC6Op
- Bkchl0wiRRDAPTh6TjCdm/8=
-X-Google-Smtp-Source: ABdhPJwfvPy+sDses+GtoesDUewMlb1JaroSst40hW/p6qpgdSpWzbIrAHIwiqfhj0Iikn7Qc0J4Nw==
-X-Received: by 2002:a65:4502:: with SMTP id n2mr1758109pgq.132.1598223948586; 
- Sun, 23 Aug 2020 16:05:48 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id b24sm7562652pjp.22.2020.08.23.16.05.47
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 23 Aug 2020 16:05:48 -0700 (PDT)
-Date: Sun, 23 Aug 2020 16:05:46 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Jordan Crouse <jcrouse@codeaurora.org>
-Subject: Re: [PATCH v12 09/13] drm/msm: Add support to create a local pagetable
-Message-ID: <20200823230546.GA189660@roeck-us.net>
-References: <20200810222657.1841322-1-jcrouse@codeaurora.org>
- <20200810222657.1841322-10-jcrouse@codeaurora.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2qvzvkep7ZlQHNyjrGsuXQAp+x7s+RjdNiOv81NxtoQ=;
+ b=durn2wjTyLiTdrX0nT4Kw5Ib0EPgfRnrBcMEHMqrWgvk2pvJeD8lRrXH2dthLjN3Gr
+ +8GW7583BvErRupsyNBaPVNrICjW/Vt5m6feHmcajN5uWFDD5OQAbJYTRWlYzpRnF1/X
+ U/WvWii7nO7PL5KOiwryY3QOl1fPsih3owA1O0wAfbfyNjaXPWA443h87ujjxnPZECpx
+ cyqs503zDF3H5XHBBmzOTV/OiQTXDfHPaSc5G5dtnaV/sKL6TC2DiY/hep9LiqGLajzD
+ YBqmwrBdOdCpcTb59VSLJAfe96i6Es9Xp07ubipREOlnWPE5oAAcCDPegrTy11QvOI8K
+ QD2A==
+X-Gm-Message-State: AOAM533oyP4QhEtclpFt9i+Nsv0dx5iqdUPrG1cv2ka6vjQvItPdcz9j
+ FFBm4ehiWhAjz3RTkKgoldQuio97Ppb/0prwEWN0Tw==
+X-Google-Smtp-Source: ABdhPJx+Rb9Dh5afCkPV93ubbfa83YINwHuyBNL6aGGIC9gNFt/GVdQQ5DqMV2LQPpqLPd5cGrS+QMzugsAJ9rHE3h4=
+X-Received: by 2002:a92:4f:: with SMTP id 76mr2640989ila.11.1598227486317;
+ Sun, 23 Aug 2020 17:04:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200810222657.1841322-10-jcrouse@codeaurora.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: Sean Paul <sean@poorly.run>, Will Deacon <will@kernel.org>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
- iommu@lists.linux-foundation.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+References: <20191221150402.13868-1-murphyt7@tcd.ie>
+ <465815ae-9292-f37a-59b9-03949cb68460@deltatee.com>
+ <20200529124523.GA11817@infradead.org>
+ <CGME20200529190523eucas1p2c086133e707257c0cdc002f502d4f51d@eucas1p2.samsung.com>
+ <33137cfb-603c-86e8-1091-f36117ecfaf3@deltatee.com>
+ <ef2150d5-7b6a-df25-c10d-e43316fe7812@samsung.com>
+ <b9140772-0370-a858-578c-af503a06d8e9@deltatee.com>
+In-Reply-To: <b9140772-0370-a858-578c-af503a06d8e9@deltatee.com>
+From: Tom Murphy <murphyt7@tcd.ie>
+Date: Mon, 24 Aug 2020 01:04:35 +0100
+Message-ID: <CALQxJuutRaeX89k2o4ffTKYRMizmMu0XbRnzpFuSSrkQR02jKg@mail.gmail.com>
+Subject: Re: [PATCH 0/8] Convert the intel iommu driver to the dma-iommu api
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ Julien Grall <julien.grall@arm.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Will Deacon <will@kernel.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Christoph Hellwig <hch@infradead.org>, linux-rockchip@lists.infradead.org,
+ Andy Gross <agross@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ linux-mediatek@lists.infradead.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ virtualization@lists.linux-foundation.org,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ David Woodhouse <dwmw2@infradead.org>, Cornelia Huck <cohuck@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org, Kukjin Kim <kgene@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,304 +116,68 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Aug 10, 2020 at 04:26:53PM -0600, Jordan Crouse wrote:
-> Add support to create a io-pgtable for use by targets that support
-> per-instance pagetables. In order to support per-instance pagetables the
-> GPU SMMU device needs to have the qcom,adreno-smmu compatible string and
-> split pagetables enabled.
-> 
-> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+Hi Logan/All,
 
-This patch adds a hard dependency on IOMMU_IO_PGTABLE (for
-alloc_io_pgtable_ops and free_io_pgtable_ops).
+I have added a check for the sg_dma_len == 0 :
+"""
+ } __sgt_iter(struct scatterlist *sgl, bool dma) {
+        struct sgt_iter s = { .sgp = sgl };
 
-Guenter
++       if (sgl && sg_dma_len(sgl) == 0)
++           s.sgp = NULL;
 
-> ---
-> 
->  drivers/gpu/drm/msm/msm_gpummu.c |   2 +-
->  drivers/gpu/drm/msm/msm_iommu.c  | 190 ++++++++++++++++++++++++++++++-
->  drivers/gpu/drm/msm/msm_mmu.h    |  16 ++-
->  3 files changed, 205 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_gpummu.c b/drivers/gpu/drm/msm/msm_gpummu.c
-> index 310a31b05faa..aab121f4beb7 100644
-> --- a/drivers/gpu/drm/msm/msm_gpummu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpummu.c
-> @@ -102,7 +102,7 @@ struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu)
->  	}
->  
->  	gpummu->gpu = gpu;
-> -	msm_mmu_init(&gpummu->base, dev, &funcs);
-> +	msm_mmu_init(&gpummu->base, dev, &funcs, MSM_MMU_GPUMMU);
->  
->  	return &gpummu->base;
->  }
-> diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-> index 1b6635504069..bc04dda8a198 100644
-> --- a/drivers/gpu/drm/msm/msm_iommu.c
-> +++ b/drivers/gpu/drm/msm/msm_iommu.c
-> @@ -4,15 +4,201 @@
->   * Author: Rob Clark <robdclark@gmail.com>
->   */
->  
-> +#include <linux/io-pgtable.h>
->  #include "msm_drv.h"
->  #include "msm_mmu.h"
->  
->  struct msm_iommu {
->  	struct msm_mmu base;
->  	struct iommu_domain *domain;
-> +	atomic_t pagetables;
->  };
-> +
->  #define to_msm_iommu(x) container_of(x, struct msm_iommu, base)
->  
-> +struct msm_iommu_pagetable {
-> +	struct msm_mmu base;
-> +	struct msm_mmu *parent;
-> +	struct io_pgtable_ops *pgtbl_ops;
-> +	phys_addr_t ttbr;
-> +	u32 asid;
-> +};
-> +static struct msm_iommu_pagetable *to_pagetable(struct msm_mmu *mmu)
-> +{
-> +	return container_of(mmu, struct msm_iommu_pagetable, base);
-> +}
-> +
-> +static int msm_iommu_pagetable_unmap(struct msm_mmu *mmu, u64 iova,
-> +		size_t size)
-> +{
-> +	struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-> +	struct io_pgtable_ops *ops = pagetable->pgtbl_ops;
-> +	size_t unmapped = 0;
-> +
-> +	/* Unmap the block one page at a time */
-> +	while (size) {
-> +		unmapped += ops->unmap(ops, iova, 4096, NULL);
-> +		iova += 4096;
-> +		size -= 4096;
-> +	}
-> +
-> +	iommu_flush_tlb_all(to_msm_iommu(pagetable->parent)->domain);
-> +
-> +	return (unmapped == size) ? 0 : -EINVAL;
-> +}
-> +
-> +static int msm_iommu_pagetable_map(struct msm_mmu *mmu, u64 iova,
-> +		struct sg_table *sgt, size_t len, int prot)
-> +{
-> +	struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-> +	struct io_pgtable_ops *ops = pagetable->pgtbl_ops;
-> +	struct scatterlist *sg;
-> +	size_t mapped = 0;
-> +	u64 addr = iova;
-> +	unsigned int i;
-> +
-> +	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-> +		size_t size = sg->length;
-> +		phys_addr_t phys = sg_phys(sg);
-> +
-> +		/* Map the block one page at a time */
-> +		while (size) {
-> +			if (ops->map(ops, addr, phys, 4096, prot, GFP_KERNEL)) {
-> +				msm_iommu_pagetable_unmap(mmu, iova, mapped);
-> +				return -EINVAL;
-> +			}
-> +
-> +			phys += 4096;
-> +			addr += 4096;
-> +			size -= 4096;
-> +			mapped += 4096;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void msm_iommu_pagetable_destroy(struct msm_mmu *mmu)
-> +{
-> +	struct msm_iommu_pagetable *pagetable = to_pagetable(mmu);
-> +	struct msm_iommu *iommu = to_msm_iommu(pagetable->parent);
-> +
-> +	/*
-> +	 * If this is the last attached pagetable for the parent,
-> +	 * disable TTBR0 in the arm-smmu driver
-> +	 */
-> +	if (atomic_dec_return(&iommu->pagetables) == 0)
-> +		iommu_domain_set_attr(iommu->domain,
-> +			DOMAIN_ATTR_PGTABLE_CFG, NULL);
-> +
-> +	free_io_pgtable_ops(pagetable->pgtbl_ops);
-> +	kfree(pagetable);
-> +}
-> +
-> +int msm_iommu_pagetable_params(struct msm_mmu *mmu,
-> +		phys_addr_t *ttbr, int *asid)
-> +{
-> +	struct msm_iommu_pagetable *pagetable;
-> +
-> +	if (mmu->type != MSM_MMU_IOMMU_PAGETABLE)
-> +		return -EINVAL;
-> +
-> +	pagetable = to_pagetable(mmu);
-> +
-> +	if (ttbr)
-> +		*ttbr = pagetable->ttbr;
-> +
-> +	if (asid)
-> +		*asid = pagetable->asid;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct msm_mmu_funcs pagetable_funcs = {
-> +		.map = msm_iommu_pagetable_map,
-> +		.unmap = msm_iommu_pagetable_unmap,
-> +		.destroy = msm_iommu_pagetable_destroy,
-> +};
-> +
-> +static void msm_iommu_tlb_flush_all(void *cookie)
-> +{
-> +}
-> +
-> +static void msm_iommu_tlb_flush_walk(unsigned long iova, size_t size,
-> +		size_t granule, void *cookie)
-> +{
-> +}
-> +
-> +static void msm_iommu_tlb_add_page(struct iommu_iotlb_gather *gather,
-> +		unsigned long iova, size_t granule, void *cookie)
-> +{
-> +}
-> +
-> +static const struct iommu_flush_ops null_tlb_ops = {
-> +	.tlb_flush_all = msm_iommu_tlb_flush_all,
-> +	.tlb_flush_walk = msm_iommu_tlb_flush_walk,
-> +	.tlb_flush_leaf = msm_iommu_tlb_flush_walk,
-> +	.tlb_add_page = msm_iommu_tlb_add_page,
-> +};
-> +
-> +struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent)
-> +{
-> +	struct msm_iommu *iommu = to_msm_iommu(parent);
-> +	static int next_asid = 16;
-> +	struct msm_iommu_pagetable *pagetable;
-> +	struct io_pgtable_cfg cfg;
-> +	int ret;
-> +
-> +	/* Get the pagetable configuration from the domain */
-> +	ret = iommu_domain_get_attr(iommu->domain,
-> +		DOMAIN_ATTR_PGTABLE_CFG, &cfg);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	pagetable = kzalloc(sizeof(*pagetable), GFP_KERNEL);
-> +	if (!pagetable)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	msm_mmu_init(&pagetable->base, parent->dev, &pagetable_funcs,
-> +		MSM_MMU_IOMMU_PAGETABLE);
-> +
-> +	/* The incoming cfg will have the TTBR1 quirk enabled */
-> +	cfg.quirks &= ~IO_PGTABLE_QUIRK_ARM_TTBR1;
-> +	cfg.tlb = &null_tlb_ops;
-> +
-> +	pagetable->pgtbl_ops = alloc_io_pgtable_ops(ARM_64_LPAE_S1,
-> +		&cfg, iommu->domain);
-> +
-> +	if (!pagetable->pgtbl_ops) {
-> +		kfree(pagetable);
-> +		return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	/*
-> +	 * If this is the first pagetable that we've allocated, send it back to
-> +	 * the arm-smmu driver as a trigger to set up TTBR0
-> +	 */
-> +	if (atomic_inc_return(&iommu->pagetables) == 1) {
-> +		ret = iommu_domain_set_attr(iommu->domain,
-> +			DOMAIN_ATTR_PGTABLE_CFG, &cfg);
-> +		if (ret) {
-> +			free_io_pgtable_ops(pagetable->pgtbl_ops);
-> +			kfree(pagetable);
-> +			return ERR_PTR(ret);
-> +		}
-> +	}
-> +
-> +	/* Needed later for TLB flush */
-> +	pagetable->parent = parent;
-> +	pagetable->ttbr = cfg.arm_lpae_s1_cfg.ttbr;
-> +
-> +	pagetable->asid = next_asid;
-> +	next_asid = (next_asid + 1) % 255;
-> +	next_asid = min(16, next_asid);
-> +
-> +	return &pagetable->base;
-> +}
-> +
->  static int msm_fault_handler(struct iommu_domain *domain, struct device *dev,
->  		unsigned long iova, int flags, void *arg)
->  {
-> @@ -85,9 +271,11 @@ struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain)
->  		return ERR_PTR(-ENOMEM);
->  
->  	iommu->domain = domain;
-> -	msm_mmu_init(&iommu->base, dev, &funcs);
-> +	msm_mmu_init(&iommu->base, dev, &funcs, MSM_MMU_IOMMU);
->  	iommu_set_fault_handler(domain, msm_fault_handler, iommu);
->  
-> +	atomic_set(&iommu->pagetables, 0);
-> +
->  	ret = iommu_attach_device(iommu->domain, dev);
->  	if (ret) {
->  		kfree(iommu);
-> diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
-> index 3a534ee59bf6..61ade89d9e48 100644
-> --- a/drivers/gpu/drm/msm/msm_mmu.h
-> +++ b/drivers/gpu/drm/msm/msm_mmu.h
-> @@ -17,18 +17,26 @@ struct msm_mmu_funcs {
->  	void (*destroy)(struct msm_mmu *mmu);
->  };
->  
-> +enum msm_mmu_type {
-> +	MSM_MMU_GPUMMU,
-> +	MSM_MMU_IOMMU,
-> +	MSM_MMU_IOMMU_PAGETABLE,
-> +};
-> +
->  struct msm_mmu {
->  	const struct msm_mmu_funcs *funcs;
->  	struct device *dev;
->  	int (*handler)(void *arg, unsigned long iova, int flags);
->  	void *arg;
-> +	enum msm_mmu_type type;
->  };
->  
->  static inline void msm_mmu_init(struct msm_mmu *mmu, struct device *dev,
-> -		const struct msm_mmu_funcs *funcs)
-> +		const struct msm_mmu_funcs *funcs, enum msm_mmu_type type)
->  {
->  	mmu->dev = dev;
->  	mmu->funcs = funcs;
-> +	mmu->type = type;
->  }
->  
->  struct msm_mmu *msm_iommu_new(struct device *dev, struct iommu_domain *domain);
-> @@ -41,7 +49,13 @@ static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
->  	mmu->handler = handler;
->  }
->  
-> +struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent);
-> +
->  void msm_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
->  		dma_addr_t *tran_error);
->  
-> +
-> +int msm_iommu_pagetable_params(struct msm_mmu *mmu, phys_addr_t *ttbr,
-> +		int *asid);
-> +
->  #endif /* __MSM_MMU_H__ */
+        if (s.sgp) {
+            .....
+"""
+at location [1].
+but it doens't fix the problem.
+
+You're right though, this change does need to be made, this code
+doesn't handle pages of sg_dma_len(sg) == 0 correctly
+So my guess is that we have more bugs in other parts of the i915
+driver (or there is a problem with my "sg_dma_len == 0" fix above).
+I have been trying to spot where else the code might be buggy but I
+haven't had any luck so far.
+
+I'm doing a microconfernce (at LPC 2020) this wednesdays [1] on this
+if you're interested in attending.
+I'm hoping I can chat about it with a few people and find how can
+reproduce and fix this issues. I don't have any more time I can give
+to this unfortunately and it would be a shame for the work to go to
+waste.
+
+[0] https://github.com/torvalds/linux/blob/d012a7190fc1fd72ed48911e77ca97ba4521bccd/drivers/gpu/drm/i915/i915_scatterlist.h#L28
+[1] https://linuxplumbersconf.org/event/7/contributions/846/
+
+On Fri, 29 May 2020 at 22:21, Logan Gunthorpe <logang@deltatee.com> wrote:
+>
+>
+>
+> On 2020-05-29 3:11 p.m., Marek Szyprowski wrote:
+> > Patches are pending:
+> > https://lore.kernel.org/linux-iommu/20200513132114.6046-1-m.szyprowski@samsung.com/T/
+>
+> Cool, nice! Though, I still don't think that fixes the issue in
+> i915_scatterlist.h given it still ignores sg_dma_len() and strictly
+> relies on sg_next()/sg_is_last() to stop iterating -- and I suspect this
+> is the bug that got in Tom's way.
+>
+> >> However, as Robin pointed out, there are other ugly tricks like stopping
+> >> iterating through the SGL when sg_dma_len() is zero. For example, the
+> >> AMD driver appears to use drm_prime_sg_to_page_addr_arrays() which does
+> >> this trick and thus likely isn't buggy (otherwise, I'd expect someone to
+> >> have complained by now seeing AMD has already switched to IOMMU-DMA.
+> >
+> > I'm not sure that this is a trick. Stopping at zero sg_dma_len() was
+> > somewhere documented.
+>
+> Well whatever you want to call it, it is ugly to have some drivers doing
+> one thing with the returned value and others assuming there's an extra
+> zero at the end. It just causes confusion for people reading/copying the
+> code. It would be better if they are all consistent. However, I concede
+> stopping at zero should not be broken, presently.
+>
+> Logan
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
