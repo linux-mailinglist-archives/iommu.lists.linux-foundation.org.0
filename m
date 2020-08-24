@@ -2,53 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C61924F215
-	for <lists.iommu@lfdr.de>; Mon, 24 Aug 2020 07:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF29424F27B
+	for <lists.iommu@lfdr.de>; Mon, 24 Aug 2020 08:21:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E639587E91;
-	Mon, 24 Aug 2020 05:09:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5761387EDB;
+	Mon, 24 Aug 2020 06:21:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3FoMxNMh4b63; Mon, 24 Aug 2020 05:09:41 +0000 (UTC)
+	with ESMTP id KLqyaoW-TSLU; Mon, 24 Aug 2020 06:21:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 489F987E78;
-	Mon, 24 Aug 2020 05:09:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 769F487EB5;
+	Mon, 24 Aug 2020 06:21:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2A09DC0051;
-	Mon, 24 Aug 2020 05:09:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 594CBC0051;
+	Mon, 24 Aug 2020 06:21:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A77E2C0051
- for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 05:09:39 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 06F15C0051
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 06:21:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8F02985A96
- for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 05:09:39 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id DAA6C2044F
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 06:21:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fPHeR3Ulkd22 for <iommu@lists.linux-foundation.org>;
- Mon, 24 Aug 2020 05:09:38 +0000 (UTC)
+ with ESMTP id khvUk4-nb+sW for <iommu@lists.linux-foundation.org>;
+ Mon, 24 Aug 2020 06:21:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 6B0B785A92
- for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 05:09:38 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 433C720018
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 06:21:09 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 36A65AD71;
- Mon, 24 Aug 2020 05:10:06 +0000 (UTC)
-Subject: Re: [patch RFC 23/38] x86/xen: Rework MSI teardown
+ by mx2.suse.de (Postfix) with ESMTP id C1123AC3F;
+ Mon, 24 Aug 2020 06:21:36 +0000 (UTC)
+Subject: Re: [patch RFC 26/38] x86/xen: Wrap XEN MSI management into irqdomain
 To: Thomas Gleixner <tglx@linutronix.de>, LKML <linux-kernel@vger.kernel.org>
 References: <20200821002424.119492231@linutronix.de>
- <20200821002947.575838946@linutronix.de>
+ <20200821002947.868727656@linutronix.de>
 From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Message-ID: <c81c2536-2258-19b0-4d77-0de1d2fa88db@suse.com>
-Date: Mon, 24 Aug 2020 07:09:35 +0200
+Message-ID: <8860c7bc-67ab-ce64-0340-1458d2483a39@suse.com>
+Date: Mon, 24 Aug 2020 08:21:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200821002947.575838946@linutronix.de>
+In-Reply-To: <20200821002947.868727656@linutronix.de>
 Content-Language: en-US
 Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
  Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
@@ -86,97 +86,121 @@ Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 On 21.08.20 02:24, Thomas Gleixner wrote:
-> X86 cannot store the irq domain pointer in struct device without breaking
-> XEN because the irq domain pointer takes precedence over arch_*_msi_irqs()
-> fallbacks.
+> To allow utilizing the irq domain pointer in struct device it is necessary
+> to make XEN/MSI irq domain compatible.
 > 
-> XENs MSI teardown relies on default_teardown_msi_irqs() which invokes
-> arch_teardown_msi_irq(). default_teardown_msi_irqs() is a trivial iterator
-> over the msi entries associated to a device.
+> While the right solution would be to truly convert XEN to irq domains, this
+> is an exercise which is not possible for mere mortals with limited XENology.
 > 
-> Implement this loop in xen_teardown_msi_irqs() to prepare for removal of
-> the fallbacks for X86.
-> 
-> This is a preparatory step to wrap XEN MSI alloc/free into a irq domain
-> which in turn allows to store the irq domain pointer in struct device and
-> to use the irq domain functions directly.
+> Provide a plain irqdomain wrapper around XEN. While this is blatant
+> violation of the irqdomain design, it's the only solution for a XEN igorant
+> person to make progress on the issue which triggered this change.
 > 
 > Signed-off-by: Thomas Gleixner<tglx@linutronix.de>
-> ---
->   arch/x86/pci/xen.c |   23 ++++++++++++++++++-----
->   1 file changed, 18 insertions(+), 5 deletions(-)
-> 
-> --- a/arch/x86/pci/xen.c
-> +++ b/arch/x86/pci/xen.c
-> @@ -376,20 +376,31 @@ static void xen_initdom_restore_msi_irqs
->   static void xen_teardown_msi_irqs(struct pci_dev *dev)
->   {
->   	struct msi_desc *msidesc;
-> +	int i;
-> +
-> +	for_each_pci_msi_entry(msidesc, dev) {
-> +		if (msidesc->irq) {
-> +			for (i = 0; i < msidesc->nvec_used; i++)
-> +				xen_destroy_irq(msidesc->irq + i);
-> +		}
-> +	}
-> +}
-> +
-> +static void xen_pv_teardown_msi_irqs(struct pci_dev *dev)
-> +{
-> +	struct msi_desc *msidesc = first_pci_msi_entry(dev);
->   
-> -	msidesc = first_pci_msi_entry(dev);
->   	if (msidesc->msi_attrib.is_msix)
->   		xen_pci_frontend_disable_msix(dev);
->   	else
->   		xen_pci_frontend_disable_msi(dev);
->   
-> -	/* Free the IRQ's and the msidesc using the generic code. */
-> -	default_teardown_msi_irqs(dev);
-> +	xen_teardown_msi_irqs(dev);
->   }
->   
->   static void xen_teardown_msi_irq(unsigned int irq)
->   {
-> -	xen_destroy_irq(irq);
-> +	WARN_ON_ONCE(1);
->   }
->   
->   #endif
-> @@ -412,7 +423,7 @@ int __init pci_xen_init(void)
->   #ifdef CONFIG_PCI_MSI
->   	x86_msi.setup_msi_irqs = xen_setup_msi_irqs;
->   	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
-> -	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
-> +	x86_msi.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
->   	pci_msi_ignore_mask = 1;
->   #endif
->   	return 0;
-> @@ -436,6 +447,7 @@ static void __init xen_hvm_msi_init(void
->   	}
->   
->   	x86_msi.setup_msi_irqs = xen_hvm_setup_msi_irqs;
-> +	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
->   	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
->   }
->   #endif
-> @@ -472,6 +484,7 @@ int __init pci_xen_initial_domain(void)
->   #ifdef CONFIG_PCI_MSI
->   	x86_msi.setup_msi_irqs = xen_initdom_setup_msi_irqs;
->   	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
-> +	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
+> Cc:linux-pci@vger.kernel.org
+> Cc:xen-devel@lists.xenproject.org
 
-This should be xen_pv_teardown_msi_irqs, as pci_xen_initial_domain() is
-called only for the pv initial domain case today.
+Acked-by: Juergen Gross <jgross@suse.com>
 
->   	x86_msi.restore_msi_irqs = xen_initdom_restore_msi_irqs;
->   	pci_msi_ignore_mask = 1;
->   #endif
-> 
+Looking into https://www.kernel.org/doc/Documentation/IRQ-domain.txt (is
+this still valid?) I believe Xen should be able to use the "No Map"
+approach, as Xen only ever uses software IRQs (at least those are the
+only ones visible to any driver). The (virtualized) hardware interrupts
+are Xen events after all.
+
+So maybe morphing Xen into supporting irqdomains in a sane way isn't
+that complicated. Maybe I'm missing the main complexities, though.
 
 
 Juergen
+
+> ---
+> Note: This is completely untested, but it compiles so it must be perfect.
+> ---
+>   arch/x86/pci/xen.c |   63 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 63 insertions(+)
+> 
+> --- a/arch/x86/pci/xen.c
+> +++ b/arch/x86/pci/xen.c
+> @@ -406,6 +406,63 @@ static void xen_teardown_msi_irq(unsigne
+>   	WARN_ON_ONCE(1);
+>   }
+>   
+> +static int xen_msi_domain_alloc_irqs(struct irq_domain *domain,
+> +				     struct device *dev,  int nvec)
+> +{
+> +	int type;
+> +
+> +	if (WARN_ON_ONCE(!dev_is_pci(dev)))
+> +		return -EINVAL;
+> +
+> +	if (first_msi_entry(dev)->msi_attrib.is_msix)
+> +		type = PCI_CAP_ID_MSIX;
+> +	else
+> +		type = PCI_CAP_ID_MSI;
+> +
+> +	return x86_msi.setup_msi_irqs(to_pci_dev(dev), nvec, type);
+> +}
+> +
+> +static void xen_msi_domain_free_irqs(struct irq_domain *domain,
+> +				     struct device *dev)
+> +{
+> +	if (WARN_ON_ONCE(!dev_is_pci(dev)))
+> +		return;
+> +
+> +	x86_msi.teardown_msi_irqs(to_pci_dev(dev));
+> +}
+> +
+> +static struct msi_domain_ops xen_pci_msi_domain_ops = {
+> +	.domain_alloc_irqs	= xen_msi_domain_alloc_irqs,
+> +	.domain_free_irqs	= xen_msi_domain_free_irqs,
+> +};
+> +
+> +static struct msi_domain_info xen_pci_msi_domain_info = {
+> +	.ops			= &xen_pci_msi_domain_ops,
+> +};
+> +
+> +/*
+> + * This irq domain is a blatant violation of the irq domain design, but
+> + * distangling XEN into real irq domains is not a job for mere mortals with
+> + * limited XENology. But it's the least dangerous way for a mere mortal to
+> + * get rid of the arch_*_msi_irqs() hackery in order to store the irq
+> + * domain pointer in struct device. This irq domain wrappery allows to do
+> + * that without breaking XEN terminally.
+> + */
+> +static __init struct irq_domain *xen_create_pci_msi_domain(void)
+> +{
+> +	struct irq_domain *d = NULL;
+> +	struct fwnode_handle *fn;
+> +
+> +	fn = irq_domain_alloc_named_fwnode("XEN-MSI");
+> +	if (fn)
+> +		d = msi_create_irq_domain(fn, &xen_pci_msi_domain_info, NULL);
+> +
+> +	/* FIXME: No idea how to survive if this fails */
+> +	BUG_ON(!d);
+> +
+> +	return d;
+> +}
+> +
+>   static __init void xen_setup_pci_msi(void)
+>   {
+>   	if (xen_initial_domain()) {
+> @@ -426,6 +483,12 @@ static __init void xen_setup_pci_msi(voi
+>   	}
+>   
+>   	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
+> +
+> +	/*
+> +	 * Override the PCI/MSI irq domain init function. No point
+> +	 * in allocating the native domain and never use it.
+> +	 */
+> +	x86_init.irqs.create_pci_msi_domain = xen_create_pci_msi_domain;
+>   }
+>   
+>   #else /* CONFIG_PCI_MSI */
+> 
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
