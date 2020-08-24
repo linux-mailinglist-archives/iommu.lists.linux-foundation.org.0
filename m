@@ -1,62 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C151624E4FF
-	for <lists.iommu@lfdr.de>; Sat, 22 Aug 2020 06:03:53 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB7B24E500
+	for <lists.iommu@lfdr.de>; Sat, 22 Aug 2020 06:03:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 37375887E2;
-	Sat, 22 Aug 2020 04:03:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6C89586248;
+	Sat, 22 Aug 2020 04:03:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kn6fhUDycrRU; Sat, 22 Aug 2020 04:03:51 +0000 (UTC)
+	with ESMTP id u41Ba2IDhjpU; Sat, 22 Aug 2020 04:03:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 51200886ED;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BC999862DB;
 	Sat, 22 Aug 2020 04:03:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2E2D0C0051;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B39AFC0889;
 	Sat, 22 Aug 2020 04:03:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0A78EC0889
- for <iommu@lists.linux-foundation.org>; Sat, 22 Aug 2020 04:03:49 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 423D4C0051
+ for <iommu@lists.linux-foundation.org>; Sat, 22 Aug 2020 04:03:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 075AB85EF0
- for <iommu@lists.linux-foundation.org>; Sat, 22 Aug 2020 04:03:49 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 322BC85F0E
+ for <iommu@lists.linux-foundation.org>; Sat, 22 Aug 2020 04:03:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id T9hDLmstJaks for <iommu@lists.linux-foundation.org>;
- Sat, 22 Aug 2020 04:03:48 +0000 (UTC)
+ with ESMTP id Nj63RDdeXEBP for <iommu@lists.linux-foundation.org>;
+ Sat, 22 Aug 2020 04:03:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 8012585F35
- for <iommu@lists.linux-foundation.org>; Sat, 22 Aug 2020 04:03:48 +0000 (UTC)
-IronPort-SDR: NowcnVezUp2TIqfM4Ld3OC9w1W4XiSJP8ODsfR8brwh9Eb7IoYkkpxTgxzs2Ux8xeg1Zh8MGGD
- vVngGEGA0/9w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9720"; a="240497820"
-X-IronPort-AV: E=Sophos;i="5.76,339,1592895600"; d="scan'208";a="240497820"
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 9C4B785EF0
+ for <iommu@lists.linux-foundation.org>; Sat, 22 Aug 2020 04:03:49 +0000 (UTC)
+IronPort-SDR: Yk1SWGzRFNheVO25bY3quyCSkja204Boz/YxI1gFOsvYjnvzrO4YYvOqwGg+kCoU+HkhdJOoj9
+ lV3D106l/rRw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9720"; a="240497827"
+X-IronPort-AV: E=Sophos;i="5.76,339,1592895600"; d="scan'208";a="240497827"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Aug 2020 21:03:48 -0700
-IronPort-SDR: n7LRqsb1IWHlQbpDfKQrGWvXNe401Xlf3TrkdFjOG5rE6MXi80qSU4h8o+Ea85JYzc0hmQXkUH
- zTqOzPZPGpHg==
+ 21 Aug 2020 21:03:49 -0700
+IronPort-SDR: zZFW2T9KvPhqEGXWnyv6F3815ZvhuknzJAilH8LmVYHbkQ9FmXEJUiVObXeDDJZUvMpnCwwZe1
+ qkr1iduWSPkw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,339,1592895600"; d="scan'208";a="298135850"
+X-IronPort-AV: E=Sophos;i="5.76,339,1592895600"; d="scan'208";a="298135856"
 Received: from purley-4s.sc.intel.com ([172.25.112.112])
- by orsmga006.jf.intel.com with ESMTP; 21 Aug 2020 21:03:48 -0700
+ by orsmga006.jf.intel.com with ESMTP; 21 Aug 2020 21:03:49 -0700
 From: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
 To: iommu@lists.linux-foundation.org
-Subject: [PATCH V6 2/3] iommu: Take lock before reading iommu group default
- domain type
-Date: Sun, 23 Aug 2020 22:17:27 -0700
-Message-Id: <1c874d14614921c7283de594fb69d430e3be6cc7.1595619936.git.sai.praneeth.prakhya@intel.com>
+Subject: [PATCH V6 3/3] iommu: Document usage of
+ "/sys/kernel/iommu_groups/<grp_id>/type" file
+Date: Sun, 23 Aug 2020 22:17:28 -0700
+Message-Id: <59f594421615152012df9555362261b03eef3d1b.1595619936.git.sai.praneeth.prakhya@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1595619936.git.sai.praneeth.prakhya@intel.com>
 References: <cover.1595619936.git.sai.praneeth.prakhya@intel.com>
@@ -82,16 +82,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-"/sys/kernel/iommu_groups/<grp_id>/type" file could be read to find out the
-default domain type of an iommu group. The default domain of an iommu group
-doesn't change after booting and hence could be read directly. But,
-after addding support to dynamically change iommu group default domain, the
-above assumption no longer stays valid.
-
-iommu group default domain type could be changed at any time by writing to
-"/sys/kernel/iommu_groups/<grp_id>/type". So, take group mutex before
-reading iommu group default domain type so that the user wouldn't see stale
-values or iommu_group_show_type() doesn't try to derefernce stale pointers.
+The default domain type of an iommu group can be changed by writing to
+"/sys/kernel/iommu_groups/<grp_id>/type" file. Hence, document it's usage
+and more importantly spell out its limitations.
 
 Cc: Christoph Hellwig <hch@lst.de>
 Cc: Joerg Roedel <joro@8bytes.org>
@@ -104,29 +97,47 @@ Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
 Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
 ---
- drivers/iommu/iommu.c | 2 ++
- 1 file changed, 2 insertions(+)
+ .../ABI/testing/sysfs-kernel-iommu_groups     | 30 +++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 939b37727722..b1607832ede9 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -501,6 +501,7 @@ static ssize_t iommu_group_show_type(struct iommu_group *group,
- {
- 	char *type = "unknown\n";
- 
-+	mutex_lock(&group->mutex);
- 	if (group->default_domain) {
- 		switch (group->default_domain->type) {
- 		case IOMMU_DOMAIN_BLOCKED:
-@@ -517,6 +518,7 @@ static ssize_t iommu_group_show_type(struct iommu_group *group,
- 			break;
- 		}
- 	}
-+	mutex_unlock(&group->mutex);
- 	strcpy(buf, type);
- 
- 	return strlen(type);
+diff --git a/Documentation/ABI/testing/sysfs-kernel-iommu_groups b/Documentation/ABI/testing/sysfs-kernel-iommu_groups
+index 017f5bc3920c..5b50f0ddd2a1 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-iommu_groups
++++ b/Documentation/ABI/testing/sysfs-kernel-iommu_groups
+@@ -33,3 +33,33 @@ Description:    In case an RMRR is used only by graphics or USB devices
+ 		it is now exposed as "direct-relaxable" instead of "direct".
+ 		In device assignment use case, for instance, those RMRR
+ 		are considered to be relaxable and safe.
++
++What:		/sys/kernel/iommu_groups/<grp_id>/type
++Date:		August 2020
++KernelVersion:	v5.9
++Contact:	Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
++Description:	Let the user know the type of default domain in use by iommu
++		for this group. A privileged user could request kernel to change
++		the group type by writing to this file. Presently, only three
++		types are supported
++		1. DMA: All the DMA transactions from the device in this group
++			are translated by the iommu.
++		2. identity: All the DMA transactions from the device in this
++			     group are *not* translated by the iommu.
++		3. auto: Change to the type the device was booted with. When the
++			 user reads the file he would never see "auto". This is
++			 just a write only value.
++		Note:
++		-----
++		A group type could be modified only when
++		1. The group has *only* one device
++		2. The device in the group is not bound to any device driver.
++		   So, the user must first unbind the appropriate driver and
++		   then change the default domain type.
++		Caution:
++		--------
++		Unbinding a device driver will take away the driver's control
++		over the device and if done on devices that host root file
++		system could lead to catastrophic effects (the user might
++		need to reboot the machine to get it to normal state). So, it's
++		expected that the user understands what he is doing.
 -- 
 2.19.1
 
