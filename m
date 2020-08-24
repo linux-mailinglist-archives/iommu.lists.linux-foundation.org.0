@@ -1,75 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D33324F149
-	for <lists.iommu@lfdr.de>; Mon, 24 Aug 2020 04:48:47 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id A911024F203
+	for <lists.iommu@lfdr.de>; Mon, 24 Aug 2020 06:49:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 053E687EA0;
-	Mon, 24 Aug 2020 02:48:46 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 25A5C20119;
+	Mon, 24 Aug 2020 04:48:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id z-5QTzXsFuzK; Mon, 24 Aug 2020 02:48:44 +0000 (UTC)
+	with ESMTP id oIniga5xd17Q; Mon, 24 Aug 2020 04:48:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4A51687EA9;
-	Mon, 24 Aug 2020 02:48:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A8C612045C;
+	Mon, 24 Aug 2020 04:48:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 31C8EC0051;
-	Mon, 24 Aug 2020 02:48:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 76EEEC0051;
+	Mon, 24 Aug 2020 04:48:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 22CD9C0051
- for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 02:48:43 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F1737C0051
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 04:48:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 1118E86E59
- for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 02:48:43 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id D875D87CD6
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 04:48:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gGrTs0tK3zQ4 for <iommu@lists.linux-foundation.org>;
- Mon, 24 Aug 2020 02:48:41 +0000 (UTC)
+ with ESMTP id VWhmzykKdJ3e for <iommu@lists.linux-foundation.org>;
+ Mon, 24 Aug 2020 04:48:54 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B349086840
- for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 02:48:41 +0000 (UTC)
-IronPort-SDR: sVDg4/GVxrh/eg8T+swfc1pEiZJGVsv6bQtaw8+RfN+Lp3FoucLZLRQR7osynCrJn4ZZmAY6PC
- Gsb0YrWO8unA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9722"; a="220101539"
-X-IronPort-AV: E=Sophos;i="5.76,347,1592895600"; d="scan'208";a="220101539"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Aug 2020 19:48:40 -0700
-IronPort-SDR: QvQrd05CTCm6a18WSN5g52+fKEeZzJw+BZjybGfSwfSIY/837bNnl3ts3+SG+3Z8aXPqt68Nxs
- 6o9jE1mGy/Bg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,347,1592895600"; d="scan'208";a="402124727"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.139])
- ([10.239.159.139])
- by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2020 19:48:38 -0700
-Subject: Re: [RESEND PATCH 4/5] iommu: intel: Drop kerneldoc marker from
- regular comment
-To: Krzysztof Kozlowski <krzk@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- David Woodhouse <dwmw2@infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20200819175345.20833-1-krzk@kernel.org>
- <20200819175345.20833-4-krzk@kernel.org>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <93184b50-d55c-b84a-7563-ffd28de3179e@linux.intel.com>
-Date: Mon, 24 Aug 2020 10:43:11 +0800
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C49BE87CCB
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 04:48:53 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 33352AAC7;
+ Mon, 24 Aug 2020 04:49:21 +0000 (UTC)
+Subject: Re: [patch RFC 22/38] x86/xen: Make xen_msi_init() static and rename
+ it to xen_hvm_msi_init()
+To: Thomas Gleixner <tglx@linutronix.de>, LKML <linux-kernel@vger.kernel.org>
+References: <20200821002424.119492231@linutronix.de>
+ <20200821002947.464203710@linutronix.de>
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Message-ID: <1af3d4a2-0f73-4e58-0e23-ac667d2c9141@suse.com>
+Date: Mon, 24 Aug 2020 06:48:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <20200819175345.20833-4-krzk@kernel.org>
+In-Reply-To: <20200821002947.464203710@linutronix.de>
 Content-Language: en-US
+Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
+ Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Dan Williams <dan.j.williams@intel.com>, Wei Liu <wei.liu@kernel.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>, Baolu Lu <baolu.lu@intel.com>,
+ Marc Zyngier <maz@kernel.org>, x86@kernel.org,
+ Jason Gunthorpe <jgg@mellanox.com>, Megha Dey <megha.dey@intel.com>,
+ xen-devel@lists.xenproject.org, Kevin Tian <kevin.tian@intel.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Dave Jiang <dave.jiang@intel.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Jon Derrick <jonathan.derrick@intel.com>, Russ Anderson <rja@hpe.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ iommu@lists.linux-foundation.org, Jacob Pan <jacob.jun.pan@intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,41 +86,22 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
-
-On 8/20/20 1:53 AM, Krzysztof Kozlowski wrote:
-> Fix W=1 compile warnings (invalid kerneldoc):
+On 21.08.20 02:24, Thomas Gleixner wrote:
+> The only user is in the same file and the name is too generic because this
+> function is only ever used for HVM domains.
 > 
->      drivers/iommu/intel/dmar.c:389: warning: Function parameter or member 'header' not described in 'dmar_parse_one_drhd'
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Signed-off-by: Thomas Gleixner<tglx@linutronix.de>
+> Cc: Konrad Rzeszutek Wilk<konrad.wilk@oracle.com>
+> Cc:linux-pci@vger.kernel.org
+> Cc:xen-devel@lists.xenproject.org
+> Cc: Juergen Gross<jgross@suse.com>
+> Cc: Boris Ostrovsky<boris.ostrovsky@oracle.com>
+> Cc: Stefano Stabellini<sstabellini@kernel.org>
 
-Adjust the commit title to "iommu/vt-d: Drop kerneldoc marker from
-regular comment",
+Reviewed-by: Juergen Gross<jgross@suse.com>
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 
-Best regards,
-baolu
-
-> ---
->   drivers/iommu/intel/dmar.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
-> index 93e6345f3414..ba47edf03941 100644
-> --- a/drivers/iommu/intel/dmar.c
-> +++ b/drivers/iommu/intel/dmar.c
-> @@ -380,7 +380,7 @@ dmar_find_dmaru(struct acpi_dmar_hardware_unit *drhd)
->   	return NULL;
->   }
->   
-> -/**
-> +/*
->    * dmar_parse_one_drhd - parses exactly one DMA remapping hardware definition
->    * structure which uniquely represent one DMA remapping hardware unit
->    * present in the platform
-> 
+Juergen
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
