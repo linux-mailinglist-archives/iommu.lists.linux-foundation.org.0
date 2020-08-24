@@ -1,84 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3692A250120
-	for <lists.iommu@lfdr.de>; Mon, 24 Aug 2020 17:29:13 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A62F2502C1
+	for <lists.iommu@lfdr.de>; Mon, 24 Aug 2020 18:35:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D7ACD88301;
-	Mon, 24 Aug 2020 15:29:11 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AAAC520489;
+	Mon, 24 Aug 2020 16:35:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LoQS50fc7Pcb; Mon, 24 Aug 2020 15:29:09 +0000 (UTC)
+	with ESMTP id NdnSUCGGxSZw; Mon, 24 Aug 2020 16:35:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D8F48882DD;
-	Mon, 24 Aug 2020 15:29:09 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C4A1E2077C;
+	Mon, 24 Aug 2020 16:35:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B935DC0051;
-	Mon, 24 Aug 2020 15:29:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A3C78C089E;
+	Mon, 24 Aug 2020 16:35:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6FF31C0051
- for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 15:17:24 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9D0AFC0051
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 16:35:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 624F687D41
- for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 15:17:24 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8C2AF873CE
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 16:35:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Xot4tW0D8Ll7 for <iommu@lists.linux-foundation.org>;
- Mon, 24 Aug 2020 15:17:22 +0000 (UTC)
+ with ESMTP id WyIDtifWVWVM for <iommu@lists.linux-foundation.org>;
+ Mon, 24 Aug 2020 16:35:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
- [209.85.219.66])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 81A3987CD9
- for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 15:17:22 +0000 (UTC)
-Received: by mail-qv1-f66.google.com with SMTP id o2so3864249qvk.6
- for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 08:17:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xO2hufuR2hzmvF0TesfUEji3i5T80XFzYS5Ku5tED9o=;
- b=euP02ZI0+14NdPGh40ChACf5Qw8rSvoC71X4PYXhCsMJLEYrK5EfRigGEvwCaAWs/2
- 0ATsU0iUV5BygcpQqpFeipf/GuhUfHaxY/N6GhpCz5V87z7jJ6cq9YSFaKiPbLIfJVnn
- NpBq/NPDLBGZkgkYULgBeK1aKlqOEECQ9jBmQyhA3jfmkQfKAIm+p1tk/dN73Ifmn5Hs
- Nft2GrXfFvVIbmKqxQBWtl/rnqOpRMUPs4rIiTcDoH3B8uBBnSLTbUIUA/BSXDd7vggh
- YDjp9xe4S1q6BwjA53U2GmfKUkbHHIQrvJUAtLLSQqKIRyCLB2s2xbSJVIdGhUSgULuC
- rbjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xO2hufuR2hzmvF0TesfUEji3i5T80XFzYS5Ku5tED9o=;
- b=MjJVXOJlFd0YkqsAf7kc393CHKaTUnrXUFLocQ3bcNlxZ2XNcJivqZLnxKU6M4aIzV
- r9FJLZYtzvBuFMH13kFX9DraroOw5u8MTwuLTwn3KZDM7svQrLnrkdvDEQZqyBfSvvrM
- WKmrBrQ3lFXrAzrbRMZNoq49i+DBSUyw//2SgjhPnXhDtS5e2IEe7xgc8UjeXvElKj/G
- 2L8n94Mid+VrcX0FcHBzP8RolkUJYEN+fm94zVlJ4S09ei09X/CEDGuoG3yG8ZYyCetZ
- IIyLJLWBxmnam4lmQxOuA4+28vwC8lpbHmPMNALUEdtTAelQc4nsPW7tORc1l+nf63CB
- a/mA==
-X-Gm-Message-State: AOAM532Z6ga6dXu9n2NKAqXQEwsUo6EFZgYYL/KcJmU+Pi/xvTUKcTVz
- Vo5xsGRFvQ3CRgKgMh5NAFI7cJ+1Bq88OVYnxabVnA==
-X-Google-Smtp-Source: ABdhPJxYpKYHVw2yutp5q7a1M/IRWptS0LEvZHMlXEyb0HwRG+8VXJF6STDrTYscgMZWHKnBzytoRcOLpUkex7iLXq8=
-X-Received: by 2002:a0c:cc94:: with SMTP id f20mr5313443qvl.159.1598282241040; 
- Mon, 24 Aug 2020 08:17:21 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 8840587108
+ for <iommu@lists.linux-foundation.org>; Mon, 24 Aug 2020 16:35:45 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id AF40122CB1;
+ Mon, 24 Aug 2020 16:35:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1598286945;
+ bh=cLkDo8c1SNPGN7bXjRRVrlna/Rvaono203tgkp3GZBY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=jZCyKnyYdlFxC+O8bKKITv8D0IxCUqYEWDAJ0x/Ur5zeHZURgDr3NGJtrrBI/2ALn
+ AzZ3E2WIeObiuVKFR9E+zw3uJu59xBNSBr67jx9NsD096E3D651I8yslPebTRcweWB
+ GQxkVwGjKFfYPy2srx0Rlh8Az3bZpaG/PSLZ5cBA=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.8 30/63] dma-pool: fix coherent pool allocations for
+ IOMMU mappings
+Date: Mon, 24 Aug 2020 12:34:30 -0400
+Message-Id: <20200824163504.605538-30-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200824163504.605538-1-sashal@kernel.org>
+References: <20200824163504.605538-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <0000000000000c1f0005ac333382@google.com>
- <20200824150650.GD21321@char.us.oracle.com>
-In-Reply-To: <20200824150650.GD21321@char.us.oracle.com>
-Date: Mon, 24 Aug 2020 17:17:09 +0200
-Message-ID: <CACT4Y+ZNN_zWf_ZQbaQwuJiev7kGxCzBdgZfioqsDeQEoZPmMA@mail.gmail.com>
-Subject: Re: Is: virtio_gpu_object_shmem_init issues? Was:Re: upstream boot
- error: general protection fault in swiotlb_map
-To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-X-Mailman-Approved-At: Mon, 24 Aug 2020 15:29:07 +0000
-Cc: thomas.tai@oracle.com, syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- LKML <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>,
- "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
- iommu@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
- Dave Airlie <airlied@redhat.com>, robin.murphy@arm.com,
- Christoph Hellwig <hch@lst.de>,
- syzbot <syzbot+3f86afd0b1e4bf1cb64c@syzkaller.appspotmail.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Cc: Amit Pundir <amit.pundir@linaro.org>, Sasha Levin <sashal@kernel.org>,
+ iommu@lists.linux-foundation.org, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,219 +74,263 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Dmitry Vyukov via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Aug 24, 2020 at 5:07 PM Konrad Rzeszutek Wilk
-<konrad.wilk@oracle.com> wrote:
->
-> On Thu, Aug 06, 2020 at 03:46:23AM -0700, syzbot wrote:
-> > Hello,
-> >
-> > syzbot found the following issue on:
-> >
-> > HEAD commit:    47ec5303 Merge git://git.kernel.org/pub/scm/linux/kernel/g..
-> > git tree:       upstream
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=16fe1dea900000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=7c06047f622c5724
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=3f86afd0b1e4bf1cb64c
-> > compiler:       gcc (GCC) 10.1.0-syz 20200507
-> >
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+3f86afd0b1e4bf1cb64c@syzkaller.appspotmail.com
-> >
-> > ceph: loaded (mds proto 32)
-> > NET: Registered protocol family 38
-> > async_tx: api initialized (async)
-> > Key type asymmetric registered
-> > Asymmetric key parser 'x509' registered
-> > Asymmetric key parser 'pkcs8' registered
-> > Key type pkcs7_test registered
-> > Asymmetric key parser 'tpm_parser' registered
-> > Block layer SCSI generic (bsg) driver version 0.4 loaded (major 243)
-> > io scheduler mq-deadline registered
-> > io scheduler kyber registered
-> > io scheduler bfq registered
-> > hgafb: HGA card not detected.
-> > hgafb: probe of hgafb.0 failed with error -22
-> > usbcore: registered new interface driver udlfb
-> > uvesafb: failed to execute /sbin/v86d
-> > uvesafb: make sure that the v86d helper is installed and executable
-> > uvesafb: Getting VBE info block failed (eax=0x4f00, err=-2)
-> > uvesafb: vbe_init() failed with -22
-> > uvesafb: probe of uvesafb.0 failed with error -22
-> > vga16fb: mapped to 0x000000008aac772d
-> > Console: switching to colour frame buffer device 80x30
-> > fb0: VGA16 VGA frame buffer device
-> > input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
-> > ACPI: Power Button [PWRF]
-> > ioatdma: Intel(R) QuickData Technology Driver 5.00
-> > PCI Interrupt Link [GSIF] enabled at IRQ 21
-> > PCI Interrupt Link [GSIG] enabled at IRQ 22
-> > PCI Interrupt Link [GSIH] enabled at IRQ 23
-> > N_HDLC line discipline registered with maxframe=4096
-> > Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
-> > 00:05: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
-> > Cyclades driver 2.6
-> > Initializing Nozomi driver 2.1d
-> > RocketPort device driver module, version 2.09, 12-June-2003
-> > No rocketport ports found; unloading driver
-> > Non-volatile memory driver v1.3
-> > Linux agpgart interface v0.103
-> > [drm] Initialized vgem 1.0.0 20120112 for vgem on minor 0
-> > [drm] Initialized vkms 1.0.0 20180514 for vkms on minor 1
-> > usbcore: registered new interface driver udl
-> > [drm] pci: virtio-vga detected at 0000:00:01.0
-> > fb0: switching to virtiodrmfb from VGA16 VGA
-> > Console: switching to colour VGA+ 80x25
-> > virtio-pci 0000:00:01.0: vgaarb: deactivate vga console
-> > Console: switching to colour dummy device 80x25
-> > [drm] features: -virgl +edid
-> > [drm] number of scanouts: 1
-> > [drm] number of cap sets: 0
-> > [drm] Initialized virtio_gpu 0.1.0 0 for virtio0 on minor 2
-> > general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] PREEMPT SMP KASAN
-> > KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-> > CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-syzkaller #0
-> > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
-> > RIP: 0010:swiotlb_map+0x5ac/0x700 kernel/dma/swiotlb.c:683
-> > Code: 28 04 00 00 48 c1 ea 03 80 3c 02 00 0f 85 4d 01 00 00 4c 8b a5 18 04 00 00 48 b8 00 00 00 00 00 fc ff df 4c 89 e2 48 c1 ea 03 <80> 3c 02 00 0f 85 1e 01 00 00 48 8d 7d 50 4d 8b 24 24 48 b8 00 00
-> > RSP: 0000:ffffc9000034f3e0 EFLAGS: 00010246
-> > RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff8162cc1d
-> > RDX: 0000000000000000 RSI: ffffffff8162cc98 RDI: ffff88802971a470
-> > RBP: ffff88802971a048 R08: 0000000000000001 R09: ffffffff8c5dba77
-> > R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> > R13: 000000007ac00000 R14: dffffc0000000000 R15: 0000000000001000
-> > FS:  0000000000000000(0000) GS:ffff88802ce00000(0000) knlGS:0000000000000000
-> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > CR2: 00000000ffffffff CR3: 0000000009a8d000 CR4: 0000000000350ef0
-> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> > Call Trace:
-> >  dma_direct_map_page include/linux/dma-direct.h:170 [inline]
-> >  dma_direct_map_sg+0x3bb/0x670 kernel/dma/direct.c:368
-> >  dma_map_sg_attrs+0xd0/0x160 kernel/dma/mapping.c:183
-> >  drm_gem_shmem_get_pages_sgt drivers/gpu/drm/drm_gem_shmem_helper.c:700 [inline]
-> >  drm_gem_shmem_get_pages_sgt+0x1fc/0x310 drivers/gpu/drm/drm_gem_shmem_helper.c:679
-> >  virtio_gpu_object_shmem_init drivers/gpu/drm/virtio/virtgpu_object.c:153 [inline]
-> >  virtio_gpu_object_create+0x2fd/0xa70 drivers/gpu/drm/virtio/virtgpu_object.c:232
-> >  virtio_gpu_gem_create drivers/gpu/drm/virtio/virtgpu_gem.c:45 [inline]
-> >  virtio_gpu_mode_dumb_create+0x298/0x530 drivers/gpu/drm/virtio/virtgpu_gem.c:85
-> >  drm_mode_create_dumb+0x27c/0x300 drivers/gpu/drm/drm_dumb_buffers.c:94
-> >  drm_client_buffer_create drivers/gpu/drm/drm_client.c:267 [inline]
-> >  drm_client_framebuffer_create+0x1b7/0x770 drivers/gpu/drm/drm_client.c:412
-> >  drm_fb_helper_generic_probe+0x1e5/0x810 drivers/gpu/drm/drm_fb_helper.c:2086
-> >  drm_fb_helper_single_fb_probe drivers/gpu/drm/drm_fb_helper.c:1635 [inline]
-> >  __drm_fb_helper_initial_config_and_unlock+0xbc6/0x12d0 drivers/gpu/drm/drm_fb_helper.c:1793
-> >  drm_fb_helper_initial_config drivers/gpu/drm/drm_fb_helper.c:1888 [inline]
-> >  drm_fb_helper_initial_config drivers/gpu/drm/drm_fb_helper.c:1880 [inline]
-> >  drm_fbdev_client_hotplug+0x2d4/0x580 drivers/gpu/drm/drm_fb_helper.c:2180
-> >  drm_fbdev_generic_setup+0x1c8/0x450 drivers/gpu/drm/drm_fb_helper.c:2262
-> >  virtio_gpu_probe+0x28f/0x2e0 drivers/gpu/drm/virtio/virtgpu_drv.c:127
-> >  virtio_dev_probe+0x445/0x6f0 drivers/virtio/virtio.c:248
-> >  really_probe+0x282/0x9f0 drivers/base/dd.c:553
-> >  driver_probe_device+0xfe/0x1d0 drivers/base/dd.c:738
-> >  device_driver_attach+0x228/0x290 drivers/base/dd.c:1013
-> >  __driver_attach drivers/base/dd.c:1090 [inline]
-> >  __driver_attach+0xda/0x240 drivers/base/dd.c:1044
-> >  bus_for_each_dev+0x147/0x1d0 drivers/base/bus.c:305
-> >  bus_add_driver+0x348/0x5a0 drivers/base/bus.c:622
-> >  driver_register+0x220/0x3a0 drivers/base/driver.c:171
-> >  do_one_initcall+0x10a/0x7b0 init/main.c:1201
-> >  do_initcall_level init/main.c:1274 [inline]
-> >  do_initcalls init/main.c:1290 [inline]
-> >  do_basic_setup init/main.c:1310 [inline]
-> >  kernel_init_freeable+0x589/0x638 init/main.c:1505
-> >  kernel_init+0xd/0x1c0 init/main.c:1399
-> >  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
-> > Modules linked in:
-> > ---[ end trace 11a290451cfd19ed ]---
-> > RIP: 0010:swiotlb_map+0x5ac/0x700 kernel/dma/swiotlb.c:683
-> > Code: 28 04 00 00 48 c1 ea 03 80 3c 02 00 0f 85 4d 01 00 00 4c 8b a5 18 04 00 00 48 b8 00 00 00 00 00 fc ff df 4c 89 e2 48 c1 ea 03 <80> 3c 02 00 0f 85 1e 01 00 00 48 8d 7d 50 4d 8b 24 24 48 b8 00 00
-> > RSP: 0000:ffffc9000034f3e0 EFLAGS: 00010246
-> > RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff8162cc1d
-> > RDX: 0000000000000000 RSI: ffffffff8162cc98 RDI: ffff88802971a470
-> > RBP: ffff88802971a048 R08: 0000000000000001 R09: ffffffff8c5dba77
-> > R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> > R13: 000000007ac00000 R14: dffffc0000000000 R15: 0000000000001000
-> > FS:  0000000000000000(0000) GS:ffff88802ce00000(0000) knlGS:0000000000000000
-> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > CR2: 00000000ffffffff CR3: 0000000009a8d000 CR4: 0000000000350ef0
-> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
->
-> So it fails at
->
-> 683                 dev_WARN_ONCE(dev, 1,
-> 684                         "swiotlb addr %pad+%zu overflow (mask %llx, bus limit %llx).\n",
-> 685                         &dma_addr, size, *dev->dma_mask, dev->bus_dma_limit);
->
->
-> which makes no sense to me as `dev` surely exists. I can see in the console log:
->
-> virtio-pci 0000:00:01.0: vgaarb: deactivate vga console
->
-> So what gives?
->
-> Code: 28 04 00 00 48 c1 ea 03 80 3c 02 00 0f 85 4d 01 00 00 4c 8b a5 18 04 00 00 48 b8 00 00 00 00 00 fc ff df 4c 89 e2 48 c1 ea 03 <80> 3c 02 00 0f 85 1e 01 00 00 48 8d 7d 50 4d 8b 24 24 48 b8 00 00
-> is
-> All code
-> ========
->    0:   28 04 00                sub    %al,(%rax,%rax,1)
->    3:   00 48 c1                add    %cl,-0x3f(%rax)
->    6:   ea                      (bad)
->    7:   03 80 3c 02 00 0f       add    0xf00023c(%rax),%eax
->    d:   85 4d 01                test   %ecx,0x1(%rbp)
->   10:   00 00                   add    %al,(%rax)
->   12:   4c 8b a5 18 04 00 00    mov    0x418(%rbp),%r12
->   19:   48 b8 00 00 00 00 00    movabs $0xdffffc0000000000,%rax
->   20:   fc ff df
->   23:   4c 89 e2                mov    %r12,%rdx
->   26:   48 c1 ea 03             shr    $0x3,%rdx
->   2a:*  80 3c 02 00             cmpb   $0x0,(%rdx,%rax,1)               <-- trapping instruction
->   2e:   0f 85 1e 01 00 00       jne    0x152
->   34:   48 8d 7d 50             lea    0x50(%rbp),%rdi
->   38:   4d 8b 24 24             mov    (%r12),%r12
->   3c:   48                      rex.W
->   3d:   b8                      .byte 0xb8
->
-> So %r12 was expected to have something valid, put in %rdx, and shifted by three (line 26). Then
-> we fetch from
-> base =  0000000000000000 (%rdx) + 0xdffffc0000000000(%rax)* scale 1.
->
-> and compare against 0 (if I am reading this right).
->
-> No clue here.
+From: Christoph Hellwig <hch@lst.de>
 
-Hi Konrad,
+[ Upstream commit 9420139f516d7fbc248ce17f35275cb005ed98ea ]
 
-This 0xdffffc0000000000 access is KASAN instrumentation to check shadow memory.
-Since KASAN did not produce any bug report, most likely it is irrelevant here.
+When allocating coherent pool memory for an IOMMU mapping we don't care
+about the DMA mask.  Move the guess for the initial GFP mask into the
+dma_direct_alloc_pages and pass dma_coherent_ok as a function pointer
+argument so that it doesn't get applied to the IOMMU case.
 
-> I tried compiling the upstream kernel with the .config mentioned at the top
-> but sadly I can't find anything that similar to this code to figure out
-> what exactly it is trying to access and crash.
->
-> CC-ing a fellow engineer who is debugging this, but it looks to be related to VirtIO DRM.
->
-> >
-> >
-> > ---
-> > This report is generated by a bot. It may contain errors.
-> > See https://goo.gl/tpsmEJ for more information about syzbot.
-> > syzbot engineers can be reached at syzkaller@googlegroups.com.
-> >
-> > syzbot will keep track of this issue. See:
-> > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
->
-> --
-> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/20200824150650.GD21321%40char.us.oracle.com.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Tested-by: Amit Pundir <amit.pundir@linaro.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/iommu/dma-iommu.c   |   4 +-
+ include/linux/dma-direct.h  |   3 -
+ include/linux/dma-mapping.h |   5 +-
+ kernel/dma/direct.c         |  13 ++--
+ kernel/dma/pool.c           | 114 +++++++++++++++---------------------
+ 5 files changed, 62 insertions(+), 77 deletions(-)
+
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 4959f5df21bd0..5141d49a046ba 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -1035,8 +1035,8 @@ static void *iommu_dma_alloc(struct device *dev, size_t size,
+ 
+ 	if (IS_ENABLED(CONFIG_DMA_DIRECT_REMAP) &&
+ 	    !gfpflags_allow_blocking(gfp) && !coherent)
+-		cpu_addr = dma_alloc_from_pool(dev, PAGE_ALIGN(size), &page,
+-					       gfp);
++		page = dma_alloc_from_pool(dev, PAGE_ALIGN(size), &cpu_addr,
++					       gfp, NULL);
+ 	else
+ 		cpu_addr = iommu_dma_alloc_pages(dev, size, &page, gfp, attrs);
+ 	if (!cpu_addr)
+diff --git a/include/linux/dma-direct.h b/include/linux/dma-direct.h
+index ab2e20cba9514..ba22952c24e24 100644
+--- a/include/linux/dma-direct.h
++++ b/include/linux/dma-direct.h
+@@ -67,9 +67,6 @@ static inline bool dma_capable(struct device *dev, dma_addr_t addr, size_t size,
+ }
+ 
+ u64 dma_direct_get_required_mask(struct device *dev);
+-gfp_t dma_direct_optimal_gfp_mask(struct device *dev, u64 dma_mask,
+-				  u64 *phys_mask);
+-bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size);
+ void *dma_direct_alloc(struct device *dev, size_t size, dma_addr_t *dma_handle,
+ 		gfp_t gfp, unsigned long attrs);
+ void dma_direct_free(struct device *dev, size_t size, void *cpu_addr,
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index a33ed3954ed46..0dc08701d7b7e 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -715,8 +715,9 @@ void *dma_common_pages_remap(struct page **pages, size_t size,
+ 			pgprot_t prot, const void *caller);
+ void dma_common_free_remap(void *cpu_addr, size_t size);
+ 
+-void *dma_alloc_from_pool(struct device *dev, size_t size,
+-			  struct page **ret_page, gfp_t flags);
++struct page *dma_alloc_from_pool(struct device *dev, size_t size,
++		void **cpu_addr, gfp_t flags,
++		bool (*phys_addr_ok)(struct device *, phys_addr_t, size_t));
+ bool dma_free_from_pool(struct device *dev, void *start, size_t size);
+ 
+ int
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index 67f060b86a73f..f17aec9d01f0c 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -45,7 +45,7 @@ u64 dma_direct_get_required_mask(struct device *dev)
+ 	return (1ULL << (fls64(max_dma) - 1)) * 2 - 1;
+ }
+ 
+-gfp_t dma_direct_optimal_gfp_mask(struct device *dev, u64 dma_mask,
++static gfp_t dma_direct_optimal_gfp_mask(struct device *dev, u64 dma_mask,
+ 				  u64 *phys_limit)
+ {
+ 	u64 dma_limit = min_not_zero(dma_mask, dev->bus_dma_limit);
+@@ -70,7 +70,7 @@ gfp_t dma_direct_optimal_gfp_mask(struct device *dev, u64 dma_mask,
+ 	return 0;
+ }
+ 
+-bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
++static bool dma_coherent_ok(struct device *dev, phys_addr_t phys, size_t size)
+ {
+ 	return phys_to_dma_direct(dev, phys) + size - 1 <=
+ 			min_not_zero(dev->coherent_dma_mask, dev->bus_dma_limit);
+@@ -163,8 +163,13 @@ void *dma_direct_alloc_pages(struct device *dev, size_t size,
+ 	size = PAGE_ALIGN(size);
+ 
+ 	if (dma_should_alloc_from_pool(dev, gfp, attrs)) {
+-		ret = dma_alloc_from_pool(dev, size, &page, gfp);
+-		if (!ret)
++		u64 phys_mask;
++
++		gfp |= dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
++				&phys_mask);
++		page = dma_alloc_from_pool(dev, size, &ret, gfp,
++				dma_coherent_ok);
++		if (!page)
+ 			return NULL;
+ 		goto done;
+ 	}
+diff --git a/kernel/dma/pool.c b/kernel/dma/pool.c
+index 6bc74a2d51273..5d071d4a3cbaa 100644
+--- a/kernel/dma/pool.c
++++ b/kernel/dma/pool.c
+@@ -196,93 +196,75 @@ static int __init dma_atomic_pool_init(void)
+ }
+ postcore_initcall(dma_atomic_pool_init);
+ 
+-static inline struct gen_pool *dma_guess_pool_from_device(struct device *dev)
++static inline struct gen_pool *dma_guess_pool(struct gen_pool *prev, gfp_t gfp)
+ {
+-	u64 phys_mask;
+-	gfp_t gfp;
+-
+-	gfp = dma_direct_optimal_gfp_mask(dev, dev->coherent_dma_mask,
+-					  &phys_mask);
+-	if (IS_ENABLED(CONFIG_ZONE_DMA) && gfp == GFP_DMA)
++	if (prev == NULL) {
++		if (IS_ENABLED(CONFIG_ZONE_DMA32) && (gfp & GFP_DMA32))
++			return atomic_pool_dma32;
++		if (IS_ENABLED(CONFIG_ZONE_DMA) && (gfp & GFP_DMA))
++			return atomic_pool_dma;
++		return atomic_pool_kernel;
++	}
++	if (prev == atomic_pool_kernel)
++		return atomic_pool_dma32 ? atomic_pool_dma32 : atomic_pool_dma;
++	if (prev == atomic_pool_dma32)
+ 		return atomic_pool_dma;
+-	if (IS_ENABLED(CONFIG_ZONE_DMA32) && gfp == GFP_DMA32)
+-		return atomic_pool_dma32;
+-	return atomic_pool_kernel;
++	return NULL;
+ }
+ 
+-static inline struct gen_pool *dma_get_safer_pool(struct gen_pool *bad_pool)
++static struct page *__dma_alloc_from_pool(struct device *dev, size_t size,
++		struct gen_pool *pool, void **cpu_addr,
++		bool (*phys_addr_ok)(struct device *, phys_addr_t, size_t))
+ {
+-	if (bad_pool == atomic_pool_kernel)
+-		return atomic_pool_dma32 ? : atomic_pool_dma;
++	unsigned long addr;
++	phys_addr_t phys;
+ 
+-	if (bad_pool == atomic_pool_dma32)
+-		return atomic_pool_dma;
++	addr = gen_pool_alloc(pool, size);
++	if (!addr)
++		return NULL;
+ 
+-	return NULL;
+-}
++	phys = gen_pool_virt_to_phys(pool, addr);
++	if (phys_addr_ok && !phys_addr_ok(dev, phys, size)) {
++		gen_pool_free(pool, addr, size);
++		return NULL;
++	}
+ 
+-static inline struct gen_pool *dma_guess_pool(struct device *dev,
+-					      struct gen_pool *bad_pool)
+-{
+-	if (bad_pool)
+-		return dma_get_safer_pool(bad_pool);
++	if (gen_pool_avail(pool) < atomic_pool_size)
++		schedule_work(&atomic_pool_work);
+ 
+-	return dma_guess_pool_from_device(dev);
++	*cpu_addr = (void *)addr;
++	memset(*cpu_addr, 0, size);
++	return pfn_to_page(__phys_to_pfn(phys));
+ }
+ 
+-void *dma_alloc_from_pool(struct device *dev, size_t size,
+-			  struct page **ret_page, gfp_t flags)
++struct page *dma_alloc_from_pool(struct device *dev, size_t size,
++		void **cpu_addr, gfp_t gfp,
++		bool (*phys_addr_ok)(struct device *, phys_addr_t, size_t))
+ {
+ 	struct gen_pool *pool = NULL;
+-	unsigned long val = 0;
+-	void *ptr = NULL;
+-	phys_addr_t phys;
+-
+-	while (1) {
+-		pool = dma_guess_pool(dev, pool);
+-		if (!pool) {
+-			WARN(1, "Failed to get suitable pool for %s\n",
+-			     dev_name(dev));
+-			break;
+-		}
+-
+-		val = gen_pool_alloc(pool, size);
+-		if (!val)
+-			continue;
+-
+-		phys = gen_pool_virt_to_phys(pool, val);
+-		if (dma_coherent_ok(dev, phys, size))
+-			break;
+-
+-		gen_pool_free(pool, val, size);
+-		val = 0;
+-	}
+-
+-
+-	if (val) {
+-		*ret_page = pfn_to_page(__phys_to_pfn(phys));
+-		ptr = (void *)val;
+-		memset(ptr, 0, size);
++	struct page *page;
+ 
+-		if (gen_pool_avail(pool) < atomic_pool_size)
+-			schedule_work(&atomic_pool_work);
++	while ((pool = dma_guess_pool(pool, gfp))) {
++		page = __dma_alloc_from_pool(dev, size, pool, cpu_addr,
++					     phys_addr_ok);
++		if (page)
++			return page;
+ 	}
+ 
+-	return ptr;
++	WARN(1, "Failed to get suitable pool for %s\n", dev_name(dev));
++	return NULL;
+ }
+ 
+ bool dma_free_from_pool(struct device *dev, void *start, size_t size)
+ {
+ 	struct gen_pool *pool = NULL;
+ 
+-	while (1) {
+-		pool = dma_guess_pool(dev, pool);
+-		if (!pool)
+-			return false;
+-
+-		if (gen_pool_has_addr(pool, (unsigned long)start, size)) {
+-			gen_pool_free(pool, (unsigned long)start, size);
+-			return true;
+-		}
++	while ((pool = dma_guess_pool(pool, 0))) {
++		if (!gen_pool_has_addr(pool, (unsigned long)start, size))
++			continue;
++		gen_pool_free(pool, (unsigned long)start, size);
++		return true;
+ 	}
++
++	return false;
+ }
+-- 
+2.25.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
