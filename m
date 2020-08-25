@@ -1,72 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 976D32522CF
-	for <lists.iommu@lfdr.de>; Tue, 25 Aug 2020 23:28:37 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id B97A12522DA
+	for <lists.iommu@lfdr.de>; Tue, 25 Aug 2020 23:30:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 155B3875D1;
-	Tue, 25 Aug 2020 21:28:36 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 54763882D8;
+	Tue, 25 Aug 2020 21:30:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sIE-5ReJIuFr; Tue, 25 Aug 2020 21:28:35 +0000 (UTC)
+	with ESMTP id uuBNN3V8ne6G; Tue, 25 Aug 2020 21:30:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 737BC875EA;
-	Tue, 25 Aug 2020 21:28:35 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 37BFF882DB;
+	Tue, 25 Aug 2020 21:30:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5F79FC07FF;
-	Tue, 25 Aug 2020 21:28:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0051FC0051;
+	Tue, 25 Aug 2020 21:30:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E9C04C0051
- for <iommu@lists.linux-foundation.org>; Tue, 25 Aug 2020 21:28:33 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1EAEDC0051
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Aug 2020 21:30:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id D8362875D1
- for <iommu@lists.linux-foundation.org>; Tue, 25 Aug 2020 21:28:33 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 137B0875CD
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Aug 2020 21:30:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pcKEoiJR8Bbj for <iommu@lists.linux-foundation.org>;
- Tue, 25 Aug 2020 21:28:33 +0000 (UTC)
+ with ESMTP id XUlYeAxNFUMb for <iommu@lists.linux-foundation.org>;
+ Tue, 25 Aug 2020 21:30:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 11D1B875CD
- for <iommu@lists.linux-foundation.org>; Tue, 25 Aug 2020 21:28:33 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B020E8696A
+ for <iommu@lists.linux-foundation.org>; Tue, 25 Aug 2020 21:30:43 +0000 (UTC)
 From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1598390910;
+ s=2020; t=1598391042;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DM8kbYiy7ZvYakB3fMHVSwg1j58bcLwh1sILIYH/AFI=;
- b=tOoYjJYvUPFZDmOguQPFJDhQeHuqRavvHi/bJrAyTkchveyhC+en4z3ohJa6FmPIHI2vow
- qc9HQ8/FTpaHEhGVpgURbiV1lVl+XKejxCXJmH2j3Sj2h8nwPHrrK3/Kb6Do9W3PTncSXY
- TOuqFSROfKTujH662yP4shxjPWBDkywHOauPnwUWRRiR+DHAaP2psLdtuzSJtmNFJD79PB
- hjeXftohGgS9rC9Xb2dZuw6mNwzd/d9QfmdUvlkZy88Ftt7fM3r9rWu4L7KrgJ8gocSx1K
- eGa2PZEjfsTIQ/LxJMcJsM3xNXGuHKDY89giMPP0/QzKHuUEf3bJ22fUusSPsg==
+ bh=laLU5yxufmnFbi5ts+Ew5ZowSakjcO5PUqgrvOPNK+M=;
+ b=ZVFEoRRlNJXFUgq6mQ2rduXlE2yad4xOmO34uYv0zEgHs0EncfZCre9kecOLZD0qyCUmIm
+ fK/IA91Xv4YdestP0rW84OW5ZZqMJjbjso9OohwlJurrsXdtw0ybCtY6AJQtoUHjVvlvpz
+ YMUdF+VrZgCxpTtiriD1TFTT0mADfgDYfGO0mJ/ZJWuV5BgLjH+scZb6eYP5Gg6K5n8dfA
+ zzArbSiNPOkDqe2ro8oObhpqB71UKiq2qGT5YKQfOuP+ihQy5K+0KcqrFFA4jQkfQoRB9K
+ cLIrHEKf3zeejhobeqwNwZWz6IoWsSqpvafIyP2+XFH9zXiVQCwVctTHzYueGQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1598390910;
+ s=2020e; t=1598391042;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DM8kbYiy7ZvYakB3fMHVSwg1j58bcLwh1sILIYH/AFI=;
- b=oQR1S/0DMHh75hr94qI0low3SKHVQ7r24k+kTQlDcy/nGiegnvAQmFWoo65Pv64XBO7xgV
- AXir3AUyBr42qvBg==
+ bh=laLU5yxufmnFbi5ts+Ew5ZowSakjcO5PUqgrvOPNK+M=;
+ b=x70sLQs+vhFrFlF+FHbXLrFMyKKxpeRA9gYzPYp3g2ps1QJSE2dXtMNyCBRtV1YY3fSv8d
+ R8wzoviTHQJFosAw==
 To: Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [patch RFC 30/38] PCI/MSI: Allow to disable arch fallbacks
-In-Reply-To: <20200825200742.GA1924669@bjorn-Precision-5520>
-References: <20200825200742.GA1924669@bjorn-Precision-5520>
-Date: Tue, 25 Aug 2020 23:28:30 +0200
-Message-ID: <87a6yixvnl.fsf@nanos.tec.linutronix.de>
+Subject: Re: [patch RFC 34/38] x86/msi: Let pci_msi_prepare() handle non-PCI
+ MSI
+In-Reply-To: <20200825202419.GA1925250@bjorn-Precision-5520>
+References: <20200825202419.GA1925250@bjorn-Precision-5520>
+Date: Tue, 25 Aug 2020 23:30:41 +0200
+Message-ID: <877dtmxvjy.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
 Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
- Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Dan Williams <dan.j.williams@intel.com>, Wei Liu <wei.liu@kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>, Baolu Lu <baolu.lu@intel.com>,
- Marc Zyngier <maz@kernel.org>, x86@kernel.org,
+ Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org, "K. Y.
+ Srinivasan" <kys@microsoft.com>, Dan Williams <dan.j.williams@intel.com>,
+ Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
+ Baolu Lu <baolu.lu@intel.com>, Marc Zyngier <maz@kernel.org>, x86@kernel.org,
  Jason Gunthorpe <jgg@mellanox.com>, Megha Dey <megha.dey@intel.com>,
  xen-devel@lists.xenproject.org, Kevin Tian <kevin.tian@intel.com>,
  Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
@@ -96,47 +96,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Aug 25 2020 at 15:07, Bjorn Helgaas wrote:
->> + * The arch hooks to setup up msi irqs. Default functions are implemented
->> + * as weak symbols so that they /can/ be overriden by architecture specific
->> + * code if needed.
->> + *
->> + * They can be replaced by stubs with warnings via
->> + * CONFIG_PCI_MSI_DISABLE_ARCH_FALLBACKS when the architecture fully
->> + * utilizes direct irqdomain based setup.
+On Tue, Aug 25 2020 at 15:24, Bjorn Helgaas wrote:
+> On Fri, Aug 21, 2020 at 02:24:58AM +0200, Thomas Gleixner wrote:
+>> Rename it to x86_msi_prepare() and handle the allocation type setup
+>> depending on the device type.
 >
-> Do you expect *all* arches to eventually use direct irqdomain setup?
+> I see what you're doing, but the subject reads a little strangely
 
-Ideally that happens some day. We have five left when x86 is converted:
+Yes :(
 
-IA64, MIPS, POWERPC, S390, SPARC
+> ("pci_msi_prepare() handling non-PCI" stuff) since it doesn't mention
+> the rename.  Maybe not practical or worthwhile to split into a rename
+> + make generic, I dunno.
 
-IA64 is unlikely to be fixed, but might be solved naturally by removal.
+What about
 
-For the others I don't know, but it's not on the horizon anytime soon I
-fear.
-
-> And in that case, to remove the config option?
-
-Yes, and all the code which depends on it.
-
-> If not, it seems like it'd be nicer to have the burden on the arches
-> that need/want to use arch-specific code instead of on the arches that
-> do things generically.
-
-Right, but they still share the common code there and some of them
-provide only parts of the weak callbacks. I'm not sure whether it's a
-good idea to copy all of this into each affected architecture.
-
-Or did you just mean that those architectures should select
-CONFIG_I_WANT_THE CRUFT instead of opting out on the fully irq domain
-based ones?
+x86/msi: Rename and rework pci_msi_prepare() to cover non-PCI MSI
 
 Thanks,
 
         tglx
-
-
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
