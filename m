@@ -1,64 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC07D252D6A
-	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 14:01:48 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF80252D5F
+	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 14:01:37 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7426186934;
-	Wed, 26 Aug 2020 12:01:47 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 158D386A4F;
+	Wed, 26 Aug 2020 12:01:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7eFvFbfkF3Jh; Wed, 26 Aug 2020 12:01:45 +0000 (UTC)
+	with ESMTP id tMsRpDwkylC0; Wed, 26 Aug 2020 12:01:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 953028685B;
-	Wed, 26 Aug 2020 12:01:45 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id E8DFA8723E;
+	Wed, 26 Aug 2020 12:01:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8C6E8C07FF;
-	Wed, 26 Aug 2020 12:01:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CBC57C0051;
+	Wed, 26 Aug 2020 12:01:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6911BC0051
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:01:41 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B8560C07FF
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:01:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2D2BE228DB
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:01:41 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 96536868C9
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:01:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iAL7LytGi4Dc for <iommu@lists.linux-foundation.org>;
- Wed, 26 Aug 2020 12:01:34 +0000 (UTC)
+ with ESMTP id u33mo5Fh25Ki for <iommu@lists.linux-foundation.org>;
+ Wed, 26 Aug 2020 12:01:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by silver.osuosl.org (Postfix) with ESMTPS id 5E832228E7
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:01:29 +0000 (UTC)
-Message-Id: <20200826112333.234097629@linutronix.de>
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 5C89186934
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:01:31 +0000 (UTC)
+Message-Id: <20200826112333.326841410@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1598443287;
+ s=2020; t=1598443288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=s4SeYBthv8w4UR8KrcCzunKzBoXJmS11W4/9Ii+wPwg=;
- b=0jSenzh6VMcbo5+9rHYdiJaVUtSyatLMPnP8UId36opBJ9reS21zWdvIP9laqMLP72TxHN
- qJyfblVrn8J8N517J1EWmCfktvN/NZ1CtZN8nlF7bZid5zFAegxBMcdfQHQgHC+Gp90H7n
- 9sESDryS5HzKppZp1LW/c/8dAAsikLDjI2lZJqftZV6DBFcT+b9vqq03XohIEfOcxWc38J
- 6ES89Am49KT0SjmgVddjV0/u3LM1wfI75S6yDON/Jm2XufuKdlV2oFDfwlySAbkxdY492a
- CHmqsE5ke05SYtf5Cmr0DlQ88El+cd+cFGaXihvD7PXFoDTGLuoQC9YRKVzlDw==
+ bh=pWFmsUcFsRa+ZQPUyY9l6i/Ptm0fiSvCYr5L6A2XYBA=;
+ b=vXtAyApTtuCfG5BYP4assb/j+cBeP89Kxhh0WpAXDmqkrySzry9EIa81BCWbuqDPysiRV5
+ UA51a1qFzXUk+l7k+IchM6cgliPwWolFtnvHqJpRCMiI/Pf8I2f0mx2Jqrff/VUJ9eRrzm
+ Pabm2gZ9VGeFKdG0iu/j+meUNCfNr7eKEkvtx4381ivq71VWEtl9xwhZUrvCZbIVoXXDox
+ FOZ2I6CULrb9dZhoS6jjHLPbLMljRV0z2c8ypaxHy6uhTuce0zQRnfSZ4kd08F5xBF9BV6
+ P5hUlYT0IGGWYsQ7PZV3chaIHeG1KQ8im76GYiNuSdOeDFQPFe/OtzSDk4v9Og==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1598443287;
+ s=2020e; t=1598443288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=s4SeYBthv8w4UR8KrcCzunKzBoXJmS11W4/9Ii+wPwg=;
- b=C8u5XcoTZYCozPWWBT669Nb/bz2gzhwadoicELlzkl29EJb0qX+wUaZv2O6m5j6Ql9skbp
- WYNcQvMK17AqSGCQ==
-Date: Wed, 26 Aug 2020 13:16:54 +0200
+ bh=pWFmsUcFsRa+ZQPUyY9l6i/Ptm0fiSvCYr5L6A2XYBA=;
+ b=syOM68toRaTrOCmyKOY8xULsP7wEIpKhMMwbMTYSFnERZcypX7xwqt29P6SxCNcDtggCTB
+ t5wSt9ZoiVKA9ABQ==
+Date: Wed, 26 Aug 2020 13:16:55 +0200
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V2 26/46] x86/xen: Make xen_msi_init() static and rename it to
- xen_hvm_msi_init()
+Subject: [patch V2 27/46] x86/xen: Rework MSI teardown
 References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
 Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
@@ -98,37 +97,91 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-The only user is in the same file and the name is too generic because this
-function is only ever used for HVM domains.
+X86 cannot store the irq domain pointer in struct device without breaking
+XEN because the irq domain pointer takes precedence over arch_*_msi_irqs()
+fallbacks.
+
+XENs MSI teardown relies on default_teardown_msi_irqs() which invokes
+arch_teardown_msi_irq(). default_teardown_msi_irqs() is a trivial iterator
+over the msi entries associated to a device.
+
+Implement this loop in xen_teardown_msi_irqs() to prepare for removal of
+the fallbacks for X86.
+
+This is a preparatory step to wrap XEN MSI alloc/free into a irq domain
+which in turn allows to store the irq domain pointer in struct device and
+to use the irq domain functions directly.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Reviewed-by: Juergen Gross<jgross@suse.com>
-
-
 ---
- arch/x86/pci/xen.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+V2: Use teardown_pv... for initial domain (Juergen)
+---
+ arch/x86/pci/xen.c |   23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
 --- a/arch/x86/pci/xen.c
 +++ b/arch/x86/pci/xen.c
-@@ -420,7 +420,7 @@ int __init pci_xen_init(void)
+@@ -377,20 +377,31 @@ static void xen_initdom_restore_msi_irqs
+ static void xen_teardown_msi_irqs(struct pci_dev *dev)
+ {
+ 	struct msi_desc *msidesc;
++	int i;
++
++	for_each_pci_msi_entry(msidesc, dev) {
++		if (msidesc->irq) {
++			for (i = 0; i < msidesc->nvec_used; i++)
++				xen_destroy_irq(msidesc->irq + i);
++		}
++	}
++}
++
++static void xen_pv_teardown_msi_irqs(struct pci_dev *dev)
++{
++	struct msi_desc *msidesc = first_pci_msi_entry(dev);
+ 
+-	msidesc = first_pci_msi_entry(dev);
+ 	if (msidesc->msi_attrib.is_msix)
+ 		xen_pci_frontend_disable_msix(dev);
+ 	else
+ 		xen_pci_frontend_disable_msi(dev);
+ 
+-	/* Free the IRQ's and the msidesc using the generic code. */
+-	default_teardown_msi_irqs(dev);
++	xen_teardown_msi_irqs(dev);
  }
  
- #ifdef CONFIG_PCI_MSI
--void __init xen_msi_init(void)
-+static void __init xen_hvm_msi_init(void)
+ static void xen_teardown_msi_irq(unsigned int irq)
  {
- 	if (!disable_apic) {
- 		/*
-@@ -460,7 +460,7 @@ int __init pci_xen_hvm_init(void)
- 	 * We need to wait until after x2apic is initialized
- 	 * before we can set MSI IRQ ops.
- 	 */
--	x86_platform.apic_post_init = xen_msi_init;
-+	x86_platform.apic_post_init = xen_hvm_msi_init;
+-	xen_destroy_irq(irq);
++	WARN_ON_ONCE(1);
+ }
+ 
+ #endif
+@@ -413,7 +424,7 @@ int __init pci_xen_init(void)
+ #ifdef CONFIG_PCI_MSI
+ 	x86_msi.setup_msi_irqs = xen_setup_msi_irqs;
+ 	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
+-	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
++	x86_msi.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
+ 	pci_msi_ignore_mask = 1;
  #endif
  	return 0;
+@@ -437,6 +448,7 @@ static void __init xen_hvm_msi_init(void
+ 	}
+ 
+ 	x86_msi.setup_msi_irqs = xen_hvm_setup_msi_irqs;
++	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
+ 	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
  }
+ #endif
+@@ -473,6 +485,7 @@ int __init pci_xen_initial_domain(void)
+ #ifdef CONFIG_PCI_MSI
+ 	x86_msi.setup_msi_irqs = xen_initdom_setup_msi_irqs;
+ 	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
++	x86_msi.teardown_msi_irqs = xen_teardown_pv_msi_irqs;
+ 	x86_msi.restore_msi_irqs = xen_initdom_restore_msi_irqs;
+ 	pci_msi_ignore_mask = 1;
+ #endif
 
 _______________________________________________
 iommu mailing list
