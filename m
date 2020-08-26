@@ -1,84 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C310A252E0C
-	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 14:09:00 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C43252E8F
+	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 14:17:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6D28387B8E;
-	Wed, 26 Aug 2020 12:08:59 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DAA9E86B19;
+	Wed, 26 Aug 2020 12:17:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id n7HTSkbQ3gGQ; Wed, 26 Aug 2020 12:08:58 +0000 (UTC)
+	with ESMTP id 5XF6BHhpMY3n; Wed, 26 Aug 2020 12:17:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5017687B65;
-	Wed, 26 Aug 2020 12:08:58 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BF6FE86B2D;
+	Wed, 26 Aug 2020 12:17:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1C475C0051;
-	Wed, 26 Aug 2020 12:08:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AA3FCC0051;
+	Wed, 26 Aug 2020 12:17:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5E0E3C0051
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:08:56 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 77F27C0051
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:17:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2EB0E203E4
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:08:56 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 67C7A86A48
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:17:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HbLHEQx2rdVj for <iommu@lists.linux-foundation.org>;
- Wed, 26 Aug 2020 12:08:49 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by silver.osuosl.org (Postfix) with ESMTPS id 2A0AB203AA
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:08:49 +0000 (UTC)
-Message-Id: <20200826112335.202234502@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1598443312;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=uPQqEgGFOe4cl6XAlfv+gagaLsuiNZm2NWUpf1sogAY=;
- b=zyVd7NX6ttwVL4AxLaDbK+42XmkO5hSjdZ+yHCJtQTRzO5BkPhQ0siM+olIZkmvOtlPyR5
- qoIdRg7v+ZoUpI6Garx+ZUpueZPO3JuVdeLVi8onnz1vkzHUrM9oVExcVgJjGAAYHHKghw
- bC6iDtRAwu27SbvZwNdlbpL5PtqT9hq8Jpoxs6aPmfa4/H297Vm4iPn23gYPm78j3yePHh
- XFPIDXpGksQvfO0bU87Jr0bwWCqGCxHKoRP+2fqfCh3pKYt5LBO9Pd2pQSLB0mcyWe/5i3
- dqtZ8CVnIqGLUUO9SMTgOUtJqC93FlQCDOvNJhJwi5GFSuFX686Z2haE0N+grg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1598443312;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=uPQqEgGFOe4cl6XAlfv+gagaLsuiNZm2NWUpf1sogAY=;
- b=+iA+4gTK4+hVCN7IQ5xXgQsk1j5xKpfs62FvyLwf2zKAjL323xaFNOuSL/nz/DvdzDwINe
- r57s9BG+f4uFPZDg==
-Date: Wed, 26 Aug 2020 13:17:14 +0200
-From: Thomas Gleixner <tglx@linutronix.de>
-To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V2 46/46] irqchip: Add IMS (Interrupt Message Storm) driver -
- NOT FOR MERGING
-References: <20200826111628.794979401@linutronix.de>
+ with ESMTP id c01xTz3l3QP3 for <iommu@lists.linux-foundation.org>;
+ Wed, 26 Aug 2020 12:17:44 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+ [104.130.122.29])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id AF1938650E
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:17:40 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1598444264; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=r/4qUAmqAI0V7gRbqKrmT3zgfbrjj739xnjXpNtJKmA=;
+ b=AHAhjrDVOLBOKFAP9fyruXKE3MrzuS68DTnsFaC2cg84Fu20UDTVvJ+/MjkS9vYD3GAT4zon
+ C9/fJdc7xonfOH+snB0W2MsSPJlWY67o+KN9tuFFIjmHs7H+EHnN5O6EFk0p+lMUb3ibvr06
+ F7sfP5HgN1WK5u5I6ZOSL8GmQPs=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 5f4652dbe64cc21df87f2fdf (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 26 Aug 2020 12:17:31
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 24441C4339C; Wed, 26 Aug 2020 12:17:31 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 5D919C433CA;
+ Wed, 26 Aug 2020 12:17:30 +0000 (UTC)
 MIME-Version: 1.0
-Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
- Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Dan Williams <dan.j.williams@intel.com>, Wei Liu <wei.liu@kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>, Baolu Lu <baolu.lu@intel.com>,
- Marc Zyngier <maz@kernel.org>, x86@kernel.org,
- Jason Gunthorpe <jgg@mellanox.com>, Megha Dey <megha.dey@intel.com>,
- xen-devel@lists.xenproject.org, Kevin Tian <kevin.tian@intel.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Dave Jiang <dave.jiang@intel.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Jon Derrick <jonathan.derrick@intel.com>, Juergen Gross <jgross@suse.com>,
- Russ Anderson <rja@hpe.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- iommu@lists.linux-foundation.org, Jacob Pan <jacob.jun.pan@intel.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 26 Aug 2020 17:47:30 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Robin Murphy <robin.murphy@arm.com>, Douglas Anderson
+ <dianders@chromium.org>
+Subject: Re: [PATCH] iommu: Add support to filter non-strict/lazy mode based
+ on device names
+In-Reply-To: <e3e4da33-a44f-0a07-9e2e-0f806875ab0b@arm.com>
+References: <20200825154249.20011-1-saiprakash.ranjan@codeaurora.org>
+ <e3e4da33-a44f-0a07-9e2e-0f806875ab0b@arm.com>
+Message-ID: <d9b1f1b614057d87279c26e13cbbb1f5@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, iommu@lists.linux-foundation.org,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,514 +87,59 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Generic IMS irq chips and irq domain implementations for IMS based devices
-in both variants:
+On 2020-08-26 17:07, Robin Murphy wrote:
+> On 2020-08-25 16:42, Sai Prakash Ranjan wrote:
+>> Currently the non-strict or lazy mode of TLB invalidation can only be 
+>> set
+>> for all or no domains. This works well for development platforms where
+>> setting to non-strict/lazy mode is fine for performance reasons but on
+>> production devices, we need a more fine grained control to allow only
+>> certain peripherals to support this mode where we can be sure that it 
+>> is
+>> safe. So add support to filter non-strict/lazy mode based on the 
+>> device
+>> names that are passed via cmdline parameter "iommu.nonstrict_device".
+> 
+> There seems to be considerable overlap here with both the existing
+> patches for per-device default domain control [1], and the broader
+> ongoing development on how to define, evaluate and handle "trusted"
+> vs. "untrusted" devices (e.g. [2],[3]). I'd rather see work done to
+> make sure those integrate properly together and work well for
+> everyone's purposes, than add more disjoint mechanisms that only
+> address small pieces of the overall issue.
+> 
+> Robin.
+> 
+> [1]
+> https://lore.kernel.org/linux-iommu/20200824051726.7xaJRTTszJuzdFWGJ8YNsshCtfNR0BNeMrlILAyqt_0@z/
+> [2]
+> https://lore.kernel.org/linux-iommu/20200630044943.3425049-1-rajatja@google.com/
+> [3]
+> https://lore.kernel.org/linux-iommu/20200626002710.110200-2-rajatja@google.com/
+> 
 
-   - Message store in an array in device memory
-   - Message store in system RAM (part of queue memory)
+Thanks for the links, [1] definitely sounds interesting, I was under the 
+impression
+that changing such via sysfs is late, but seems like other Sai has got 
+it working
+for the default domain type. So we can extend that and add a strict 
+attribute as well,
+we should be definitely OK with system booting with default strict mode 
+for all
+peripherals as long as we have an option to change that later, Doug?
 
-Allocation and freeing of interrupts happens via the generic
-msi_domain_alloc/free_irqs() interface. No special purpose IMS magic
-required as long as the interrupt domain is stored in the underlying device
-struct.
-                                                                                                                                                                                                                                                                               
-Completely untested of course and mostly for illustration and educational
-purpose. This should of course be a modular irq chip, but adding that
-support is left as an exercise for the people who care about this deeply.
+Thanks,
+Sai
 
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
-V2: Reworked to handle both devmem arrays and queue based storage.
----
- drivers/irqchip/Kconfig             |   19 +
- drivers/irqchip/Makefile            |    1 
- drivers/irqchip/irq-ims-msi.c       |  343 ++++++++++++++++++++++++++++++++++++
- include/linux/irqchip/irq-ims-msi.h |   95 +++++++++
- 4 files changed, 458 insertions(+)
-
---- a/drivers/irqchip/Kconfig
-+++ b/drivers/irqchip/Kconfig
-@@ -571,4 +571,23 @@ config LOONGSON_PCH_MSI
- 	help
- 	  Support for the Loongson PCH MSI Controller.
- 
-+config IMS_MSI
-+	depends on PCI
-+	select DEVICE_MSI
-+	bool
-+
-+config IMS_MSI_ARRAY
-+	bool "IMS Interrupt Message Storm MSI controller for device memory storage arrays"
-+	select IMS_MSI
-+	help
-+	  Support for IMS Interrupt Message Storm MSI controller
-+	  with IMS slot storage in a slot array in device memory
-+
-+config IMS_MSI_QUEUE
-+	bool "IMS Interrupt Message Storm MSI controller for IMS queue storage"
-+	select IMS_MSI
-+	help
-+	  Support for IMS Interrupt Message Storm MSI controller
-+	  with IMS slot storage in the queue storage of a device
-+
- endmenu
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -111,3 +111,4 @@ obj-$(CONFIG_LOONGSON_HTPIC)		+= irq-loo
- obj-$(CONFIG_LOONGSON_HTVEC)		+= irq-loongson-htvec.o
- obj-$(CONFIG_LOONGSON_PCH_PIC)		+= irq-loongson-pch-pic.o
- obj-$(CONFIG_LOONGSON_PCH_MSI)		+= irq-loongson-pch-msi.o
-+obj-$(CONFIG_IMS_MSI)			+= irq-ims-msi.o
---- /dev/null
-+++ b/drivers/irqchip/irq-ims-msi.c
-@@ -0,0 +1,343 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// (C) Copyright 2020 Thomas Gleixner <tglx@linutronix.de>
-+/*
-+ * Shared interrupt chips and irq domains for IMS devices
-+ */
-+#include <linux/device.h>
-+#include <linux/slab.h>
-+#include <linux/msi.h>
-+#include <linux/irq.h>
-+
-+#include <linux/irqchip/irq-ims-msi.h>
-+
-+#ifdef CONFIG_IMS_ARRAY
-+
-+struct ims_array_data {
-+	struct ims_array_info	info;
-+	unsigned long		map[0];
-+};
-+
-+static void ims_array_mask_irq(struct irq_data *data)
-+{
-+	struct msi_desc *desc = irq_data_get_msi_desc(data);
-+	struct ims_slot __iomem *slot = desc->device_msi.priv_iomem;
-+	u32 __iomem *ctrl = &slot->ctrl;
-+
-+	iowrite32(ioread32(ctrl) & ~IMS_VECTOR_CTRL_UNMASK, ctrl);
-+}
-+
-+static void ims_array_unmask_irq(struct irq_data *data)
-+{
-+	struct msi_desc *desc = irq_data_get_msi_desc(data);
-+	struct ims_slot __iomem *slot = desc->device_msi.priv_iomem;
-+	u32 __iomem *ctrl = &slot->ctrl;
-+
-+	iowrite32(ioread32(ctrl) | IMS_VECTOR_CTRL_UNMASK, ctrl);
-+}
-+
-+static void ims_array_write_msi_msg(struct irq_data *data, struct msi_msg *msg)
-+{
-+	struct msi_desc *desc = irq_data_get_msi_desc(data);
-+	struct ims_slot __iomem *slot = desc->device_msi.priv_iomem;
-+
-+	iowrite32(msg->address_lo, &slot->address_lo);
-+	iowrite32(msg->address_hi, &slot->address_hi);
-+	iowrite32(msg->data, &slot->data);
-+}
-+
-+static const struct irq_chip ims_array_msi_controller = {
-+	.name			= "IMS",
-+	.irq_mask		= ims_array_mask_irq,
-+	.irq_unmask		= ims_array_unmask_irq,
-+	.irq_write_msi_msg	= ims_array_write_msi_msg,
-+	.irq_retrigger		= irq_chip_retrigger_hierarchy,
-+	.flags			= IRQCHIP_SKIP_SET_WAKE,
-+};
-+
-+static void ims_array_reset_slot(struct ims_slot __iomem *slot)
-+{
-+	iowrite32(0, &slot->address_lo);
-+	iowrite32(0, &slot->address_hi);
-+	iowrite32(0, &slot->data);
-+	iowrite32(0, &slot->ctrl);
-+}
-+
-+static void ims_array_free_msi_store(struct irq_domain *domain,
-+				     struct device *dev)
-+{
-+	struct msi_domain_info *info = domain->host_data;
-+	struct ims_array_data *ims = info->data;
-+	struct msi_desc *entry;
-+
-+	for_each_msi_entry(entry, dev) {
-+		if (entry->device_msi.priv_iomem) {
-+			clear_bit(entry->device_msi.hwirq, ims->map);
-+			ims_array_reset_slot(entry->device_msi.priv_iomem);
-+			entry->device_msi.priv_iomem = NULL;
-+			entry->device_msi.hwirq = 0;
-+		}
-+	}
-+}
-+
-+static int ims_array_alloc_msi_store(struct irq_domain *domain,
-+				     struct device *dev, int nvec)
-+{
-+	struct msi_domain_info *info = domain->host_data;
-+	struct ims_array_data *ims = info->data;
-+	struct msi_desc *entry;
-+
-+	for_each_msi_entry(entry, dev) {
-+		unsigned int idx;
-+
-+		idx = find_first_zero_bit(ims->map, ims->info.max_slots);
-+		if (idx >= ims->info.max_slots)
-+			goto fail;
-+		set_bit(idx, ims->map);
-+		entry->device_msi.priv_iomem = &ims->info.slots[idx];
-+		entry->device_msi.hwirq = idx;
-+	}
-+	return 0;
-+
-+fail:
-+	ims_array_free_msi_store(domain, dev);
-+	return -ENOSPC;
-+}
-+
-+struct ims_domain_template {
-+	struct msi_domain_ops	ops;
-+	struct msi_domain_info	info;
-+};
-+
-+static const struct ims_array_domain_template ims_array_domain_template = {
-+	.ops = {
-+		.msi_alloc_store	= ims_array_alloc_msi_store,
-+		.msi_free_store		= ims_array_free_msi_store,
-+	},
-+	.info = {
-+		.flags		= MSI_FLAG_USE_DEF_DOM_OPS |
-+				  MSI_FLAG_USE_DEF_CHIP_OPS,
-+		.handler	= handle_edge_irq,
-+		.handler_name	= "edge",
-+	},
-+};
-+
-+struct irq_domain *
-+pci_ims_array_create_msi_irq_domain(struct pci_dev *pdev,
-+				    struct ims_array_info *ims_info)
-+{
-+	struct ims_domain_template *info;
-+	struct ims_array_data *data;
-+	struct irq_domain *domain;
-+	struct irq_chip *chip;
-+	unsigned int size;
-+
-+	/* Allocate new domain storage */
-+	info = kmemdup(&ims_array_domain_template,
-+		       sizeof(ims_array_domain_template), GFP_KERNEL);
-+	if (!info)
-+		return NULL;
-+	/* Link the ops */
-+	info->info.ops = &info->ops;
-+
-+	/* Allocate ims_info along with the bitmap */
-+	size = sizeof(*data);
-+	size += BITS_TO_LONGS(ims_info->max_slots) * sizeof(unsigned long);
-+	data = kzalloc(size, GFP_KERNEL);
-+	if (!data)
-+		goto err_info;
-+
-+	data->info = *ims_info;
-+	info->info.data = data;
-+
-+	/*
-+	 * Allocate an interrupt chip because the core needs to be able to
-+	 * update it with default callbacks.
-+	 */
-+	chip = kmemdup(&ims_array_msi_controller,
-+		       sizeof(ims_array_msi_controller), GFP_KERNEL);
-+	if (!chip)
-+		goto err_data;
-+	info->info.chip = chip;
-+
-+	domain = pci_subdevice_msi_create_irq_domain(pdev, &info->info);
-+	if (!domain)
-+		goto err_chip;
-+
-+	return domain;
-+
-+err_chip:
-+	kfree(chip);
-+err_data:
-+	kfree(data);
-+err_info:
-+	kfree(info);
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(pci_ims_array_create_msi_irq_domain);
-+
-+#endif /* CONFIG_IMS_ARRAY */
-+
-+#ifdef CONFIG_IMS_QUEUE
-+
-+static void ims_queue_mask_irq(struct irq_data *data)
-+{
-+	struct msi_desc *desc = irq_data_get_msi_desc(data);
-+	struct ims_slot *slot = desc->device_msi.priv;
-+
-+	slot->ctrl &= ~IMS_VECTOR_CTRL_UNMASK;
-+}
-+
-+static void ims_queue_unmask_irq(struct irq_data *data)
-+{
-+	struct msi_desc *desc = irq_data_get_msi_desc(data);
-+	struct ims_slot *slot = desc->device_msi.priv;
-+
-+	slot->ctrl |= IMS_VECTOR_CTRL_UNMASK;
-+}
-+
-+static void ims_queue_write_msi_msg(struct irq_data *data, struct msi_msg *msg)
-+{
-+	struct msi_desc *desc = irq_data_get_msi_desc(data);
-+	struct ims_slot *slot = desc->device_msi.priv;
-+
-+	slot->address_lo = msg->address_lo;
-+	slot->address_hi = msg->address_hi;
-+	slot->data = msg->data;
-+}
-+
-+static void ims_queue_lock(struct irq_data *data)
-+{
-+	struct ims_queue_info *ims = irq_data_get_chip_data(data);
-+	struct msi_desc *desc = irq_data_get_msi_desc(data);
-+
-+	ims->queue_lock(desc->device_msi.priv);
-+}
-+
-+static void ims_queue_sync_unlock(struct irq_data *data)
-+{
-+	struct ims_queue_info *ims = irq_data_get_chip_data(data);
-+	struct msi_desc *desc = irq_data_get_msi_desc(data);
-+
-+	ims->queue_sync_unlock(desc->device_msi.priv);
-+}
-+
-+static const struct irq_chip ims_queue_msi_controller = {
-+	.name			= "IMS",
-+	.irq_mask		= ims_queue_mask_irq,
-+	.irq_unmask		= ims_queue_unmask_irq,
-+	.irq_disable		= ims_queue_mask_irq,
-+	.irq_enable		= ims_queue_unmask_irq,
-+	.irq_write_msi_msg	= ims_queue_write_msi_msg,
-+	.irq_retrigger		= irq_chip_retrigger_hierarchy,
-+	.irq_bus_lock		= ims_queue_lock,
-+	.irq_bus_sync_unlock	= ims_queue_sync_unlock,
-+	.flags			= IRQCHIP_SKIP_SET_WAKE,
-+};
-+
-+static void ims_queue_reset_slot(struct ims_slot *slot)
-+{
-+	memset(slot, 0, sizeof(*slot));
-+}
-+
-+static void ims_queue_free_msi_store(struct irq_domain *domain, struct device *dev)
-+{
-+	struct msi_domain_info *info = domain->host_data;
-+	struct ims_queue_info *ims = info->chip_data;
-+	struct msi_desc *entry;
-+
-+	for_each_msi_entry(entry, dev) {
-+		if (entry->device_msi.priv) {
-+			ims_queue_reset_slot(entry->device_msi.priv);
-+			entry->device_msi.priv = NULL;
-+			entry->device_msi.hwirq = 0;
-+		}
-+	}
-+}
-+
-+static int ims_queue_alloc_msi_store(struct irq_domain *domain,
-+				     struct device *dev,
-+				     int nvec)
-+{
-+	struct msi_domain_info *info = domain->host_data;
-+	struct ims_queue_info *ims = info->chip_data;
-+	struct msi_desc *entry;
-+	struct ims_slot *slot;
-+	int idx = 0;
-+
-+	for_each_msi_entry(entry, dev) {
-+		slot = ims->queue_get_shadow(dev, idx);
-+		if (!slot)
-+			goto fail;
-+		entry->device_msi.priv = slot;
-+		entry->device_msi.hwirq = (dev->id << 16) | idx;
-+		idx++;
-+	}
-+	return 0;
-+
-+fail:
-+	ims_queue_free_msi_store(domain, dev);
-+	return -ENOSPC;
-+}
-+
-+struct ims_domain_template {
-+	struct msi_domain_ops	ops;
-+	struct msi_domain_info	info;
-+};
-+
-+static const struct ims_queue_domain_template ims_queue_domain_template = {
-+	.ops = {
-+		.msi_alloc_store	= ims_queue_alloc_msi_store,
-+		.msi_free_store		= ims_queue_free_msi_store,
-+	},
-+	.info = {
-+		.flags		= MSI_FLAG_USE_DEF_DOM_OPS |
-+				  MSI_FLAG_USE_DEF_CHIP_OPS,
-+		.handler	= handle_edge_irq,
-+		.handler_name	= "edge",
-+	},
-+};
-+
-+struct irq_domain *
-+pci_ims_queue_create_msi_irq_domain(struct pci_dev *pdev,
-+				    struct ims_queue_info *ims_info)
-+{
-+	struct ims_domain_template *info;
-+	struct irq_domain *domain;
-+	struct irq_chip *chip;
-+	unsigned int size;
-+
-+	/* Allocate new domain storage */
-+	info = kmemdup(&ims_queue_domain_template,
-+			  sizeof(ims_queue_domain_template), GFP_KERNEL);
-+	if (!info)
-+		return NULL;
-+	/* Link the ops */
-+	info->info.ops = &info->ops;
-+
-+	info->info.chip_data = ims_info;
-+
-+	/*
-+	 * Allocate an interrupt chip because the core needs to be able to
-+	 * update it with default callbacks.
-+	 */
-+	chip = kmemdup(&ims_queue_msi_controller,
-+		       sizeof(ims_queue_msi_controller), GFP_KERNEL);
-+	if (!chip)
-+		goto err_info;
-+	info->info.chip = chip;
-+
-+	domain = pci_subdevice_msi_create_irq_domain(pdev, &info->info);
-+	if (!domain)
-+		goto err_chip;
-+
-+	return domain;
-+
-+err_chip:
-+	kfree(chip);
-+err_info:
-+	kfree(info);
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(pci_ims_queue_create_msi_irq_domain);
-+
-+#endif /* CONFIG_IMS_ARRAY */
---- /dev/null
-+++ b/include/linux/irqchip/irq-ims-msi.h
-@@ -0,0 +1,95 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* (C) Copyright 2020 Thomas Gleixner <tglx@linutronix.de> */
-+
-+#ifndef _LINUX_IRQCHIP_IRQ_IMS_MSI_H
-+#define _LINUX_IRQCHIP_IRQ_IMS_MSI_H
-+
-+#include <linux/types.h>
-+
-+/**
-+ * ims_hw_slot - The hardware layout of an IMS based MSI message
-+ * @address_lo:	Lower 32bit address
-+ * @address_hi:	Upper 32bit address
-+ * @data:	Message data
-+ * @ctrl:	Control word
-+ *
-+ * This structure is used by both the device memory array and the queue
-+ * memory variants of IMS.
-+ */
-+struct ims_slot {
-+	u32	address_lo;
-+	u32	address_hi;
-+	u32	data;
-+	u32	ctrl;
-+} __packed;
-+
-+/* Bit to unmask the interrupt in ims_hw_slot::ctrl */
-+#define IMS_VECTOR_CTRL_UNMASK	0x01
-+
-+/**
-+ * struct ims_array_info - Information to create an IMS array domain
-+ * @slots:	Pointer to the start of the array
-+ * @max_slots:	Maximum number of slots in the array
-+ */
-+struct ims_array_info {
-+	struct ims_slot		__iomem *slots;
-+	unsigned int		max_slots;
-+};
-+
-+/**
-+ * ims_queue_info - Information to create an IMS queue domain
-+ * @queue_lock:		Callback which informs the device driver that
-+ *			an interrupt management operation starts.
-+ * @queue_sync_unlock:	Callback which informs the device driver that an
-+ *			interrupt management operation ends.
-+
-+ * @queue_get_shadow:   Callback to retrieve te shadow storage for a MSI
-+ *			entry associated to a queue. The queue is
-+ *			identified by the device struct which is used for
-+ *			allocating interrupts and the msi entry index.
-+ *
-+ * @queue_lock() and @queue_sync_unlock() are only called for management
-+ * operations on a particular interrupt: request, free, enable, disable,
-+ * affinity setting.  These functions are never called from atomic context,
-+ * like low level interrupt handling code. The purpose of these functions
-+ * is to signal the device driver the start and end of an operation which
-+ * affects the IMS queue shadow state. @queue_lock() allows the driver to
-+ * do preperatory work, e.g. locking. Note, that @queue_lock() has to
-+ * preserve the sleepable state on return. That means the driver cannot
-+ * disable preemption and (soft)interrupts in @queue_lock and then undo
-+ * that operation in @queue_sync_unlock() which restricts the lock types
-+ * for eventual serialization of these operations to sleepable locks. Of
-+ * course the driver can disable preemption and (soft)interrupts
-+ * temporarily for internal work.
-+ *
-+ * On @queue_sync_unlock() the driver has to check whether the shadow state
-+ * changed and issue a command to update the hardware state and wait for
-+ * the command to complete. If the command fails or times out then the
-+ * driver has to take care of the resulting mess as this is called from
-+ * functions which have no return value and none of the callers can deal
-+ * with the failure. The lock which is used by the driver to protect a
-+ * operation sequence must obviously not be released before the command
-+ * completes or fails. Otherwise new operations on the same interrupt line
-+ * could take place and change the shadow state before the driver was able
-+ * to compose the command.
-+ *
-+ * The serialization is not provided by the common interrupt chip and also
-+ * not by the core code to let the driver decide about the granularity of
-+ * the locking and the lock type.
-+ */
-+struct ims_queue_info {
-+	void		(*queue_lock)(struct ims_slot *shadow);
-+	void		(*queue_sync_unlock)(struct ims_slot *shadow);
-+	struct ims_slot	*(*queue_get_shadow)(struct device *dev, unsigned int msi_index);
-+};
-+
-+struct pci_dev;
-+struct irq_domain;
-+
-+struct irq_domain *pci_ims_array_create_msi_irq_domain(struct pci_dev *pdev,
-+						       struct ims_array_info *ims_info);
-+
-+struct irq_domain *pci_ims_queue_create_msi_irq_domain(struct pci_dev *pdev,
-+						       struct ims_queue_info *ims_info);
-+
-+#endif
-
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
