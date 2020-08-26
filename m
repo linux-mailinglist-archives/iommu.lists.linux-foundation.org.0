@@ -1,86 +1,108 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F9825395E
-	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 22:50:46 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81DD9253973
+	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 22:57:46 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EEF3788311;
-	Wed, 26 Aug 2020 20:50:44 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 205E08762A;
+	Wed, 26 Aug 2020 20:57:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Qe1sVcMqad-W; Wed, 26 Aug 2020 20:50:44 +0000 (UTC)
+	with ESMTP id Wc6Flgy1IR+B; Wed, 26 Aug 2020 20:57:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3A66F882EB;
-	Wed, 26 Aug 2020 20:50:44 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 21DC38773A;
+	Wed, 26 Aug 2020 20:57:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0A8E6C0891;
-	Wed, 26 Aug 2020 20:50:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 05A82C0051;
+	Wed, 26 Aug 2020 20:57:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 63DA0C0051
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 20:50:42 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2AB8AC0051
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 20:57:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 51E3A86ACE
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 20:50:42 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 189E9866A3
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 20:57:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GD6VqtzipBck for <iommu@lists.linux-foundation.org>;
- Wed, 26 Aug 2020 20:50:41 +0000 (UTC)
+ with ESMTP id ud9vwcl7nLwi for <iommu@lists.linux-foundation.org>;
+ Wed, 26 Aug 2020 20:57:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id A93EA8073A
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 20:50:17 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1598475014;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JG/TkMq9NWC6OfHgPC/IbFpW4xr9Kt9L0ix/14aZbxc=;
- b=s4YbUFCtbJEMrLqgKd7OwtYh18vHyM4HfQLj0mVtwmVQVO9mPe+rbcu9/9RQcu7BDqxIXq
- 4SC8x5F55ReokeL0LN8UUQFD5m3BjRCcVnOHVA++cJ3n9iGLghzLvQHLb6sr4Opghelyw7
- wtiHRsopz/7aQ7mxdNa4ubr9zMjw6kUfb9G723x0mquWT/8sbYu95BnkyTknE0X6c2XJfj
- G2IbL55VnbnoeT093T8n8BdlC4i9HNmIpjyrPxF0OWHJtvkDyBhZ80We7p7G5tVUd/JFYJ
- lndw1zv+U67ElbvOK78N7X9qxyNKvPXDl0P5nwVk071fVAGS++QK4AuCw0xoVg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1598475014;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JG/TkMq9NWC6OfHgPC/IbFpW4xr9Kt9L0ix/14aZbxc=;
- b=aS6JntODH9ZvZZJHE2vQuw6G8LnzzNi8bSa6D1XA+HMxu+eOePiLVi0SGkTN8Uz37jCbMJ
- TOeuyIqSX/IO5mCA==
-To: "Dey\, Megha" <megha.dey@intel.com>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [patch V2 15/46] x86/irq: Consolidate DMAR irq allocation
-In-Reply-To: <878se1uulb.fsf@nanos.tec.linutronix.de>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 78BD787727
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 20:57:39 +0000 (UTC)
+IronPort-SDR: AnGs0idd8QwTX93kVdM5/SgbaBsyEmzujZ1xUV6fHAbW6PA54HIMAHJyptalJFnDmynlYhvyOH
+ lHCH2th9s0jg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9725"; a="136449748"
+X-IronPort-AV: E=Sophos;i="5.76,357,1592895600"; d="scan'208";a="136449748"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Aug 2020 13:57:39 -0700
+IronPort-SDR: uWEevjo2fcSLS632lk5XvO4XX4B7UKiqIdkS0Y90NWd9XPgDl0SbIVpxAt9IDuzj/jQabTIcbh
+ D+Zjh/W/gpjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,357,1592895600"; d="scan'208";a="323341367"
+Received: from fmsmsx603-2.cps.intel.com (HELO fmsmsx603.amr.corp.intel.com)
+ ([10.18.84.213])
+ by fmsmga004.fm.intel.com with ESMTP; 26 Aug 2020 13:57:39 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 26 Aug 2020 13:57:38 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 26 Aug 2020 13:57:37 -0700
+Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
+ fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.1713.004;
+ Wed, 26 Aug 2020 13:57:37 -0700
+From: "Derrick, Jonathan" <jonathan.derrick@intel.com>
+To: "maz@kernel.org" <maz@kernel.org>, "tglx@linutronix.de"
+ <tglx@linutronix.de>
+Subject: Re: [patch V2 23/46] irqdomain/msi: Provide DOMAIN_BUS_VMD_MSI
+Thread-Topic: [patch V2 23/46] irqdomain/msi: Provide DOMAIN_BUS_VMD_MSI
+Thread-Index: AQHWe6ChLzvzi3ZHs0+G2tRNy2Bxi6lLUO2AgAACG4A=
+Date: Wed, 26 Aug 2020 20:57:37 +0000
+Message-ID: <0d68de22e417e73b17410172fae9414bf9ac455b.camel@intel.com>
 References: <20200826111628.794979401@linutronix.de>
- <20200826112332.163462706@linutronix.de>
- <812d9647-ad2e-95e9-aa99-b54ff7ebc52d@intel.com>
- <878se1uulb.fsf@nanos.tec.linutronix.de>
-Date: Wed, 26 Aug 2020 22:50:13 +0200
-Message-ID: <87r1rtt9mi.fsf@nanos.tec.linutronix.de>
+ <20200826112332.954409970@linutronix.de> <875z952l6w.wl-maz@kernel.org>
+In-Reply-To: <875z952l6w.wl-maz@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.212.222.2]
+Content-ID: <8982C94C84D0124FB278E32A1F74E921@intel.com>
 MIME-Version: 1.0
-Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
- Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org, "K. Y.
- Srinivasan" <kys@microsoft.com>, Dan Williams <dan.j.williams@intel.com>,
- Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
- Baolu Lu <baolu.lu@intel.com>, Marc Zyngier <maz@kernel.org>, x86@kernel.org,
- Jason Gunthorpe <jgg@mellanox.com>, xen-devel@lists.xenproject.org,
- Kevin Tian <kevin.tian@intel.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Dave Jiang <dave.jiang@intel.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Jon Derrick <jonathan.derrick@intel.com>, Juergen Gross <jgross@suse.com>,
- Russ Anderson <rja@hpe.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- iommu@lists.linux-foundation.org, Jacob Pan <jacob.jun.pan@intel.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: "sivanich@hpe.com" <sivanich@hpe.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "rafael@kernel.org" <rafael@kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "steve.wahl@hpe.com" <steve.wahl@hpe.com>,
+ "kys@microsoft.com" <kys@microsoft.com>,
+ "boris.ostrovsky@oracle.com" <boris.ostrovsky@oracle.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "sstabellini@kernel.org" <sstabellini@kernel.org>, "Jiang,
+ Dave" <dave.jiang@intel.com>, "Lu, Baolu" <baolu.lu@intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "jgg@mellanox.com" <jgg@mellanox.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>, "Tian, 
+ Kevin" <kevin.tian@intel.com>,
+ "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "bhelgaas@google.com" <bhelgaas@google.com>,
+ "sthemmin@microsoft.com" <sthemmin@microsoft.com>, "Williams,
+ Dan J" <dan.j.williams@intel.com>, "Dey, Megha" <megha.dey@intel.com>,
+ "jgross@suse.com" <jgross@suse.com>, "rja@hpe.com" <rja@hpe.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Pan,
+ Jacob jun" <jacob.jun.pan@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,22 +120,60 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Aug 26 2020 at 20:32, Thomas Gleixner wrote:
-> On Wed, Aug 26 2020 at 09:50, Megha Dey wrote:
->>> @@ -329,15 +329,15 @@ static struct irq_chip dmar_msi_controll
->>>   static irq_hw_number_t dmar_msi_get_hwirq(struct msi_domain_info *info,
->>>   					  msi_alloc_info_t *arg)
->>>   {
->>> -	return arg->dmar_id;
->>> +	return arg->hwirq;
->>
->> Shouldn't this return the arg->devid which gets set in dmar_alloc_hwirq?
->
-> Indeed.
+On Wed, 2020-08-26 at 21:42 +0100, Marc Zyngier wrote:
+> On Wed, 26 Aug 2020 12:16:51 +0100,
+> Thomas Gleixner <tglx@linutronix.de> wrote:
+> > From: Thomas Gleixner <tglx@linutronix.de>
+> > 
+> > PCI devices behind a VMD bus are not subject to interrupt remapping, but
+> > the irq domain for VMD MSI cannot be distinguished from a regular PCI/MSI
+> > irq domain.
+> > 
+> > Add a new domain bus token and allow it in the bus token check in
+> > msi_check_reservation_mode() to keep the functionality the same once VMD
+> > uses this token.
+> > 
+> > Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> > 
+> > ---
+> >  include/linux/irqdomain.h |    1 +
+> >  kernel/irq/msi.c          |    7 ++++++-
+> >  2 files changed, 7 insertions(+), 1 deletion(-)
+> > 
+> > --- a/include/linux/irqdomain.h
+> > +++ b/include/linux/irqdomain.h
+> > @@ -84,6 +84,7 @@ enum irq_domain_bus_token {
+> >  	DOMAIN_BUS_FSL_MC_MSI,
+> >  	DOMAIN_BUS_TI_SCI_INTA_MSI,
+> >  	DOMAIN_BUS_WAKEUP,
+> > +	DOMAIN_BUS_VMD_MSI,
+> >  };
+> >  
+> >  /**
+> > --- a/kernel/irq/msi.c
+> > +++ b/kernel/irq/msi.c
+> > @@ -370,8 +370,13 @@ static bool msi_check_reservation_mode(s
+> >  {
+> >  	struct msi_desc *desc;
+> >  
+> > -	if (domain->bus_token != DOMAIN_BUS_PCI_MSI)
+> > +	switch(domain->bus_token) {
+> > +	case DOMAIN_BUS_PCI_MSI:
+> > +	case DOMAIN_BUS_VMD_MSI:
+> > +		break;
+> > +	default:
+> >  		return false;
+> > +	}
+> >  
+> >  	if (!(info->flags & MSI_FLAG_MUST_REACTIVATE))
+> >  		return false;
+> 
+> Acked-by: Marc Zyngier <maz@kernel.org>
+> 
+> 	M.
+> 
 
-But for simplicity we can set arg->hwirq to the dmar id right in the
-alloc function and then once the generic ops are enabled remove the dmar
-callback completely.
+Acked-by: Jon Derrick <jonathan.derrick@intel.com>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
