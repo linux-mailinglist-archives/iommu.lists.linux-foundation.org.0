@@ -1,63 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26E0252D69
-	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 14:01:48 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE4B5252D7A
+	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 14:02:02 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4052886B33;
-	Wed, 26 Aug 2020 12:01:47 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5662D864EC;
+	Wed, 26 Aug 2020 12:02:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DugQ+o6KxeUJ; Wed, 26 Aug 2020 12:01:46 +0000 (UTC)
+	with ESMTP id VLK5W7tBW5z6; Wed, 26 Aug 2020 12:02:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 92A5086C24;
-	Wed, 26 Aug 2020 12:01:46 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0611A861F1;
+	Wed, 26 Aug 2020 12:02:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 730E4C07FF;
-	Wed, 26 Aug 2020 12:01:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E63BAC0051;
+	Wed, 26 Aug 2020 12:02:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A766DC0051
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:01:44 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 45246C0051
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:01:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9702C86BBD
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:01:44 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 0CD8322011
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:01:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ECcJF5GCp0sZ for <iommu@lists.linux-foundation.org>;
- Wed, 26 Aug 2020 12:01:44 +0000 (UTC)
+ with ESMTP id vtDXfEByiYwg for <iommu@lists.linux-foundation.org>;
+ Wed, 26 Aug 2020 12:01:54 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by whitealder.osuosl.org (Postfix) with ESMTPS id EF8898633E
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:01:43 +0000 (UTC)
-Message-Id: <20200826112334.400700807@linutronix.de>
+ by silver.osuosl.org (Postfix) with ESMTPS id 91BBA21561
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 12:01:45 +0000 (UTC)
+Message-Id: <20200826112334.493642963@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1598443302;
+ s=2020; t=1598443303;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=XS2OtPL63+BbeAwrgOvQZ62jjX8dKd2NUee/RefW/jE=;
- b=g7xv50ATWyf0Y9KZtfd5GDP7gv+ub4Reyp3zzVcltJZHJTLFQiFFXZP+cdXkZqtXlfvIpG
- tdDcnRDMiB+NAD5pfoxdVPRDMENd5IGhIAds5207sNs7ZFUbnwlncbC9MFo6M3VyfOi/E2
- sTAtg0h0YKOOz9nDA3vW1m6MWO8ZCD3zzYaI7xVc9jcBd/G5iYloQEx+PRC6EaWAe2KhaK
- owm1ZICVZYAXvrQzrjTMUaGTpQ4IZGqclzgFWEqg5L8qaWofCWb0s81fNwQhQPAj02rxjV
- cyoLMosaH14iqtGJnoLcXp3hzvcc4rpt7+YOBBmYbBg+vQie4RgCA7KB9JgMBQ==
+ bh=Jbe7LG9G4Zvu5BS675dx2ovvPd7Zs7K+V3j/Ww3fTeI=;
+ b=H5ct7yxyfPkw9COn6I7pDw6V1ilNzNBmxLT5gZpiqG5VFJDTYIRVrKS9MvIkCv/cVCNxwb
+ 9rABWH11GRrt/F1XhhSDp0w0Wy41gVFSZzn9pQiNTcHs+63DsMc+BAwMYNXNq+QlX8TbDd
+ 4nuvxxC6zG54EVKX1tE1lNMYsndx6DnV51i+GGKczVfx6JZBYjHMTx3ogkXMbyFmrmgHIh
+ /Vtqytt4cTeGvYKfsbOypaBGU6hCS9jWwmQ59jHoutngqHxs7Z7hy9qB5xiKsaUmM/tmYI
+ M4N9kw88/wBcNGfGIXWdqU/EB32+w2yt5iCXEHIfU/0M3jstk1ercqpAR2sL5A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1598443302;
+ s=2020e; t=1598443303;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=XS2OtPL63+BbeAwrgOvQZ62jjX8dKd2NUee/RefW/jE=;
- b=YlpLIMOqrorOG1iP3fEgl8h8huJ+SEm1UgkOPUBIUHdgsvpjhvsDnVL85p8wf3l/OswF4l
- 3rF6X4dWCwWuIwAQ==
-Date: Wed, 26 Aug 2020 13:17:06 +0200
+ bh=Jbe7LG9G4Zvu5BS675dx2ovvPd7Zs7K+V3j/Ww3fTeI=;
+ b=IbCUcGl7XvQeZPqcjY0sMmXx+SATO7tqwsqpLLv6njqYgigJNA52AxgTU6srAQXn4Ie9po
+ 9VYvOCbhOnB1xaDg==
+Date: Wed, 26 Aug 2020 13:17:07 +0200
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch V2 38/46] iommu/amd: Remove domain search for PCI/MSI
+Subject: [patch V2 39/46] x86/irq: Add DEV_MSI allocation type
 References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
 Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
@@ -95,28 +95,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Now that the domain can be retrieved through device::msi_domain the domain
-search for PCI_MSI[X] is not longer required. Remove it.
+From: Thomas Gleixner <tglx@linutronix.de>
+
+For the upcoming device MSI support a new allocation type is
+required.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
-V2: New patch
----
- drivers/iommu/amd/iommu.c |    3 ---
- 1 file changed, 3 deletions(-)
 
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -3548,9 +3548,6 @@ static struct irq_domain *get_irq_domain
- 	case X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT:
- 	case X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT:
- 		return iommu->ir_domain;
--	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
--	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
--		return iommu->msi_domain;
- 	default:
- 		WARN_ON_ONCE(1);
- 		return NULL;
+---
+ arch/x86/include/asm/hw_irq.h |    1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/arch/x86/include/asm/hw_irq.h
++++ b/arch/x86/include/asm/hw_irq.h
+@@ -40,6 +40,7 @@ enum irq_alloc_type {
+ 	X86_IRQ_ALLOC_TYPE_PCI_MSIX,
+ 	X86_IRQ_ALLOC_TYPE_DMAR,
+ 	X86_IRQ_ALLOC_TYPE_UV,
++	X86_IRQ_ALLOC_TYPE_DEV_MSI,
+ 	X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT,
+ 	X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT,
+ };
+
 
 _______________________________________________
 iommu mailing list
