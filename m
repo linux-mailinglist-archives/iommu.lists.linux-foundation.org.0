@@ -1,143 +1,120 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07F025268E
-	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 07:30:05 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF35E2526F2
+	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 08:35:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 505C586356;
-	Wed, 26 Aug 2020 05:30:04 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4CF48869E3;
+	Wed, 26 Aug 2020 06:35:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JgnLrnVvYALn; Wed, 26 Aug 2020 05:30:03 +0000 (UTC)
+	with ESMTP id jByNLDumyY1R; Wed, 26 Aug 2020 06:35:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D25608627E;
-	Wed, 26 Aug 2020 05:30:03 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2452A869BB;
+	Wed, 26 Aug 2020 06:35:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BD852C0051;
-	Wed, 26 Aug 2020 05:30:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 063AAC0891;
+	Wed, 26 Aug 2020 06:35:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2453BC0051
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 05:30:02 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 55E07C0051
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 06:35:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 080E886356
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 05:30:02 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 47E1D87A43
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 06:35:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id n1qjD6LR+TJB for <iommu@lists.linux-foundation.org>;
- Wed, 26 Aug 2020 05:30:00 +0000 (UTC)
+ with ESMTP id Q3gDTyQ18osQ for <iommu@lists.linux-foundation.org>;
+ Wed, 26 Aug 2020 06:35:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by whitealder.osuosl.org (Postfix) with ESMTPS id BFBF28627E
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 05:30:00 +0000 (UTC)
-IronPort-SDR: qxQSf3tCMFmg9IXmm7inHfATEcKPTuxMGJYDLGQW5IeM8Vfgrz/nao8VOjUwOS4K7Uso8YYW/0
- 7M7skaQ6qXtw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9724"; a="136300164"
-X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; d="scan'208";a="136300164"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Aug 2020 22:30:00 -0700
-IronPort-SDR: Jt2ceYFI/7Fsqa0r21yQ11clU5rXr3FG7Zwl/2FEIN9mWUYDx4x70MzXzwbPNV00UBQZcs/azF
- vBPTNoV6LBCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,354,1592895600"; d="scan'208";a="281703751"
-Received: from orsmsx603-2.jf.intel.com (HELO ORSMSX603.amr.corp.intel.com)
- ([10.22.229.83])
- by fmsmga008.fm.intel.com with ESMTP; 25 Aug 2020 22:30:00 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 25 Aug 2020 22:29:59 -0700
-Received: from orsmsx105.amr.corp.intel.com (10.22.225.132) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Tue, 25 Aug 2020 22:29:59 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- ORSMSX105.amr.corp.intel.com (10.22.225.132) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 25 Aug 2020 22:29:59 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.176)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Tue, 25 Aug 2020 22:29:58 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T1JVr7PctWDPT2gw9ujtp4UVtdpnnve2BCR2qUX5Wpi/DnLFcJQlJFMgskKRt8Bkr55jLFTc0N/JBwjT6Kq9KuoHRDBYgAtnTJ8iGfhTs1BySeU+RsQeTImLtPEuPEGfND9/T6jcBETwx4pVCrDfUmnp/y+olgU+6lX5U2OIzIQxPjK1vh1t1L3zJ+XW3BOc7QP9PyUIzSB3gD/SPvnHQjNW6iH1AYBMqR6ptO8ea6BaqEE+D2o+0TdoFJR3+v+xWYus5qJD2Y0NnoBC9n1vjxwN0helZYSmTX27XPFBTKEGMbIxtndugBPIcZtVZhTuNMHuhy5AnBVandUItICtGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o6OYQo2EVedvCCcJnWa62h3FlE+DzERw6dzpAdXS+bE=;
- b=PCtslae1r9sICIA+CHj+hRpDaabojsPTVTT2Tw+zFXjBm63uoJj9SBDGH4lur1/TGYaWYdhz27WViipkh6l0NB3NW3dtzNbOktBrsKKRDh5/nRtypIM8Wx1+B6sHTXeMoqaZ13/jtsPWYbsYdhQE4beHh+6LfT82QRgaBE66Y631RH/s6xb0T90FAPZy1jpCDs4J5LG7SGpFCYiHtIaTBR90Ei+yntRLPpxQRb8+XDsrComGz1d+D2mjuIR45zFXRg+oi3NE4Hjl/NROrABZK2m92giit1ckrSICgrKawa3Z8NCQQs+16HVLffsS7dH9EM8NA0xiqZiQJkbgKbwSzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o6OYQo2EVedvCCcJnWa62h3FlE+DzERw6dzpAdXS+bE=;
- b=YqWKwZSteFODW7Fvaj4TtJmSpFYQglgDc+aSwKj3CavmII9fU4QZFaFEkkXPHOsMHwZk+vijvgshBYAa+FTYwMwEzTx55eNpqf8yARaFmDqWdN2ea5IW5w7wvXgsF+xQ3PIsM/9mepjaIBXyZB8Pz4n6N2EH2WrA33mMM/fwvzc=
-Received: from MWHPR11MB1645.namprd11.prod.outlook.com (2603:10b6:301:b::12)
- by MWHPR11MB1389.namprd11.prod.outlook.com (2603:10b6:300:26::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Wed, 26 Aug
- 2020 05:29:57 +0000
-Received: from MWHPR11MB1645.namprd11.prod.outlook.com
- ([fe80::6dfe:feb8:25f1:ac9c]) by MWHPR11MB1645.namprd11.prod.outlook.com
- ([fe80::6dfe:feb8:25f1:ac9c%7]) with mapi id 15.20.3305.032; Wed, 26 Aug 2020
- 05:29:57 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>
-Subject: RE: [PATCH 1/1] iommu/vt-d: Serialize IOMMU GCMD register
- modifications
-Thread-Topic: [PATCH 1/1] iommu/vt-d: Serialize IOMMU GCMD register
- modifications
-Thread-Index: AQHWe1XHGEAHwUhH/kWUEasne4rewalJ3GZw
-Date: Wed, 26 Aug 2020 05:29:57 +0000
-Message-ID: <MWHPR11MB16457C6EC72943EF615AF2538C540@MWHPR11MB1645.namprd11.prod.outlook.com>
-References: <20200826025825.2322-1-baolu.lu@linux.intel.com>
-In-Reply-To: <20200826025825.2322-1-baolu.lu@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.198.147.200]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e44e79ff-8c62-4b31-1015-08d849811224
-x-ms-traffictypediagnostic: MWHPR11MB1389:
-x-microsoft-antispam-prvs: <MWHPR11MB138915B1EBB9445010AFCCF18C540@MWHPR11MB1389.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LFRCjHHKjUBDGp7Kv9fzq7IxEEWkheaKbRNDKzffEzFoD5hl76tgw8njUQfZGEYM3JIWOyXzIeUzcKyuLDw6sZfp+lYM2qSVXVcDMuEzs+Ce4jvao+7nxmOaxlDOLlv4YEyE0hEXg3p6Y7/FJEeBTrPoKC+woGs6fic9fD3ywPI7n2kFUKGyeY9D1ogzQ/9a6wHW1fV//2JGwTU7SBtA0DdVUpO8I8yNSOPBdCU7DgCu2csjLv9fr50h3mWWa1rmyGPAlS3iNRBGmtE8LqnaftEujZkGOqjGA5h4P1oi9PtAphV22zqAOxUQhGjOAGnJPiV8TxOngJnmlw+Bsra5KmGQQkq63n975cG4tZ5DjpePrTrKT+leGVt050XUoGSwJa/8Q1aFmXUREL6+Gttung==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR11MB1645.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39860400002)(366004)(136003)(376002)(396003)(8936002)(966005)(316002)(6506007)(4326008)(110136005)(8676002)(478600001)(186003)(2906002)(7696005)(26005)(9686003)(54906003)(86362001)(76116006)(66946007)(5660300002)(33656002)(66476007)(83380400001)(64756008)(52536014)(55016002)(66446008)(71200400001)(66556008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 6jKwItuvLysNOETd4DYC8u1dB7sIQz8Bmc3HwEtu2jUm4b0Pz8jUrFW9XBlTboRKGcXImOOx/mclRndZFg+cBhqKdAdwy2jSyeQsVqem/10URo5AZYgBzaE99flKG0faWyRaRbFSA1+fH8KusZcw97R96HMEhaj70PqsQg+i2DEK4kBaLoD8o3+CkZzAlsFIHglZKK++Z5qv/JB62m70B0yWlso34U4fGUdLzxowxPZMuvfegwYa91ZCvYSIKvNRiZujCsfTd68o5Ujvu0ry6MgQOiIr0J3cdIuRzNoNdc3xlBdupXzsNaFtPP1FgmTI+stNQ9B/ZT06s+3QO7XMb/eQSiUuzi1aAZ1UMx9dA6ayzWvy8fdIBQIJysaAe2d9I7wLC6rLwTWnKEHZshuhYDLkODgP9aoqS+zFE9VNf+nzW1auTZnvwuCMX8eo1p3CfK8nPVen24nwnkyuYrS4JNvaKfIu9cjWH+2ShMVl8MS37JLhD0CJJ4DhroYWspxHy5AaUWvinl5t3RqXe+5A5O3tPdIyly2YA1WG0zP+P6FEJRksoHYusxUmoCYc0SlerRxbk0LZ2Ks1aPMvnC3mPc1dI6Tbq9rtP5vJ+DnOmakHuDLCF9lTJIuOXensnuZyZmGnS4DZHRkgq6DlByQQjA==
-x-ms-exchange-transport-forked: True
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1645.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e44e79ff-8c62-4b31-1015-08d849811224
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Aug 2020 05:29:57.4278 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: r6Wi2EWqDROb45LfTBjYPuw5pI+6mEWUxyuO5MZDgHugXfr7le59P+S9JkyNIWoEAawKvObCjqg6O71Ca1CMDg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1389
-X-OriginatorOrg: intel.com
-Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Andy Lutomirski <luto@amacapital.net>
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id CC40587A04
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 06:35:30 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200826063527euoutp0298ab7e84b88dad96acfc8faa70fadade~uvelqDng51443214432euoutp02i
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 06:35:27 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200826063527euoutp0298ab7e84b88dad96acfc8faa70fadade~uvelqDng51443214432euoutp02i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1598423728;
+ bh=1MCZ7qD0YSw+vW7M0Jq5j+OMEgFramV5TYV3kLcqQiY=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=jO50FVYMcIUQOwPCq+OaprDsq6vZYeS3GSqrm/PhfadE2YpprpS5r/AVW6GfTyD6w
+ Kf8tIXVasqp9L30iBL8M+rSbomuRe9cZ5yUEtMic8KAVGA8AonTwiy5ToX2WW/ln0x
+ /rCza8L8EDDcjGadz2GB2aiDC99Fah9mozRajN4k=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200826063527eucas1p1f30db8c822b5927863374ca5651ef3f9~uvelWdDhi1803218032eucas1p17;
+ Wed, 26 Aug 2020 06:35:27 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id DD.9D.05997.FA2064F5; Wed, 26
+ Aug 2020 07:35:27 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200826063527eucas1p21ab50cf46bad1d9ea5d7f202dd6ec722~uvek5DN4k0398703987eucas1p2V;
+ Wed, 26 Aug 2020 06:35:27 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200826063527eusmtrp2c8fccba275d728e009c6969efa91e824~uvek4W8Dk0396003960eusmtrp2e;
+ Wed, 26 Aug 2020 06:35:27 +0000 (GMT)
+X-AuditID: cbfec7f4-677ff7000000176d-b1-5f4602af2adb
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 98.43.06017.FA2064F5; Wed, 26
+ Aug 2020 07:35:27 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200826063526eusmtip2dce0f6c4b1bb55b1c8a6d6afb3338e26~uvekYGt020092300923eusmtip2O;
+ Wed, 26 Aug 2020 06:35:26 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v9 00/32] DRM: fix struct sg_table nents vs. orig_nents misuse
+Date: Wed, 26 Aug 2020 08:32:44 +0200
+Message-Id: <20200826063316.23486-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprNKsWRmVeSWpSXmKPExsWy7djP87rrmdziDd4vVLDoPXeSyWLjjPWs
+ Fv+3TWS2uPL1PZvFytVHmSwW7Le2+HLlIZPFpsfXWC0u75rDZrH2yF12i4MfnrA6cHusmbeG
+ 0WPvtwUsHtu/PWD1uN99nMlj85J6j9v/HjN7TL6xnNFj980GNo++LasYPT5vkgvgiuKySUnN
+ ySxLLdK3S+DKeLN7M1vBat+KWVd3sTcwvrftYuTkkBAwkdh3bgpbFyMXh5DACkaJoyd+MEM4
+ XxglXk7byQrhfGaUaOndwwjTMmPnTEaIxHJGiat9d1ngWq4dXQRWxSZgKNH1tosNxBYRaGWU
+ ONHLA2IzC8xgkjj6uhTEFhYIkJh0bilYPYuAqsTsN0eZQGxeAVuJuZ3v2CC2yUus3nAA7CYJ
+ gcnsElO+b4dKuEi0npvHDmELS7w6vgXKlpH4v3M+E0RDM6PEw3Nr2SGcHkaJy00zoJ6wlrhz
+ 7hfQJA6gkzQl1u/Shwg7SkzYMAMsLCHAJ3HjrSDE0XwSk7ZNZ4YI80p0tAlBVKtJzDq+Dm7t
+ wQuXmCFsD4mvTzaBnSkkECtxqKGXeQKj3CyEXQsYGVcxiqeWFuempxYb5aWW6xUn5haX5qXr
+ JefnbmIEJpnT/45/2cG460/SIUYBDkYlHt4FbK7xQqyJZcWVuYcYJTiYlUR4nc6ejhPiTUms
+ rEotyo8vKs1JLT7EKM3BoiTOa7zoZayQQHpiSWp2ampBahFMlomDU6qBUahFbM7jfYZvgiWY
+ IpzXvfvlaiPgvcG4xfHFRBGF9YriBdcPr7EX+vFj96Pye/rZh5rt1r0QWblq5zPTlwFcHgkC
+ 0b9WbH2W5c9++bVW/EYVhl77/9+m/5u9MT+krf0c01cPRZvsQhXVec5SIbvFP0XcD17+/8Da
+ /JYZoZxMS6tNl773LdQPUGIpzkg01GIuKk4EAJBInTguAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrELMWRmVeSWpSXmKPExsVy+t/xe7rrmdziDU4/ZrHoPXeSyWLjjPWs
+ Fv+3TWS2uPL1PZvFytVHmSwW7Le2+HLlIZPFpsfXWC0u75rDZrH2yF12i4MfnrA6cHusmbeG
+ 0WPvtwUsHtu/PWD1uN99nMlj85J6j9v/HjN7TL6xnNFj980GNo++LasYPT5vkgvgitKzKcov
+ LUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DLeLN7M1vBat+K
+ WVd3sTcwvrftYuTkkBAwkZixcyZjFyMXh5DAUkaJ2Z8usEIkZCROTmuAsoUl/lzrYoMo+sQo
+ ce32YTaQBJuAoUTXW4iEiEAno8S07o/sIA6zwDwmiUUPD7GDVAkL+Ek0Pe0EG8UioCox+81R
+ JhCbV8BWYm7nOzaIFfISqzccYJ7AyLOAkWEVo0hqaXFuem6xkV5xYm5xaV66XnJ+7iZGYHhv
+ O/Zzyw7GrnfBhxgFOBiVeHgXsLnGC7EmlhVX5h5ilOBgVhLhdTp7Ok6INyWxsiq1KD++qDQn
+ tfgQoynQ8onMUqLJ+cDYyyuJNzQ1NLewNDQ3Njc2s1AS5+0QOBgjJJCeWJKanZpakFoE08fE
+ wSnVwNjvnBxbdnF/VSabg1Dm25k7d4dt05hT+ueTvR+H3PRrGQpth+znMfAsCFjxu7B9pe+z
+ XGetSTx+lf7B87WXRe8Ws7i5xtY78fNFudaKhjt9MY5Xjx7Y+TDkZY3x6+83befe/+8upb7S
+ 4/Ks4sVpoRNmFNzPFk7LdLggVRMXzf9D/NJZ/uXRlUosxRmJhlrMRcWJAI/aOqmFAgAA
+X-CMS-MailID: 20200826063527eucas1p21ab50cf46bad1d9ea5d7f202dd6ec722
+X-Msg-Generator: CA
+X-RootMTR: 20200826063527eucas1p21ab50cf46bad1d9ea5d7f202dd6ec722
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200826063527eucas1p21ab50cf46bad1d9ea5d7f202dd6ec722
+References: <CGME20200826063527eucas1p21ab50cf46bad1d9ea5d7f202dd6ec722@eucas1p2.samsung.com>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -150,69 +127,211 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> From: Lu Baolu
-> Sent: Wednesday, August 26, 2020 10:58 AM
-> 
-> The VT-d spec requires (10.4.4 Global Command Register, GCMD_REG
-> General
-> Description) that:
-> 
-> If multiple control fields in this register need to be modified, software
-> must serialize the modifications through multiple writes to this register.
-> 
-> However, in irq_remapping.c, modifications of IRE and CFI are done in one
-> write. We need to do two separate writes with STS checking after each.
-> 
-> Fixes: af8d102f999a4 ("x86/intel/irq_remapping: Clean up x2apic opt-out
-> security warning mess")
-> Cc: Andy Lutomirski <luto@amacapital.net>
-> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
-> ---
->  drivers/iommu/intel/irq_remapping.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iommu/intel/irq_remapping.c
-> b/drivers/iommu/intel/irq_remapping.c
-> index 9564d23d094f..19d7e18876fe 100644
-> --- a/drivers/iommu/intel/irq_remapping.c
-> +++ b/drivers/iommu/intel/irq_remapping.c
-> @@ -507,12 +507,16 @@ static void iommu_enable_irq_remapping(struct
-> intel_iommu *iommu)
-> 
->  	/* Enable interrupt-remapping */
->  	iommu->gcmd |= DMA_GCMD_IRE;
-> -	iommu->gcmd &= ~DMA_GCMD_CFI;  /* Block compatibility-format
-> MSIs */
->  	writel(iommu->gcmd, iommu->reg + DMAR_GCMD_REG);
-> -
->  	IOMMU_WAIT_OP(iommu, DMAR_GSTS_REG,
->  		      readl, (sts & DMA_GSTS_IRES), sts);
-> 
-> +	/* Block compatibility-format MSIs */
-> +	iommu->gcmd &= ~DMA_GCMD_CFI;
-> +	writel(iommu->gcmd, iommu->reg + DMAR_GCMD_REG);
-> +	IOMMU_WAIT_OP(iommu, DMAR_GSTS_REG,
-> +		      readl, !(sts & DMA_GSTS_CFIS), sts);
-> +
+Dear All,
 
-Better do it only when CFI is actually enabled (by checking sts).
+During the Exynos DRM GEM rework and fixing the issues in the.
+drm_prime_sg_to_page_addr_arrays() function [1] I've noticed that most
+drivers in DRM framework incorrectly use nents and orig_nents entries of
+the struct sg_table.
 
->  	/*
->  	 * With CFI clear in the Global Command register, we should be
->  	 * protected from dangerous (i.e. compatibility) interrupts
-> --
-> 2.17.1
-> 
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+In case of the most DMA-mapping implementations exchanging those two
+entries or using nents for all loops on the scatterlist is harmless,
+because they both have the same value. There exists however a DMA-mapping
+implementations, for which such incorrect usage breaks things. The nents
+returned by dma_map_sg() might be lower than the nents passed as its
+parameter and this is perfectly fine. DMA framework or IOMMU is allowed
+to join consecutive chunks while mapping if such operation is supported
+by the underlying HW (bus, bridge, IOMMU, etc). Example of the case
+where dma_map_sg() might return 1 'DMA' chunk for the 4 'physical' pages
+is described here [2]
+
+The DMA-mapping framework documentation [3] states that dma_map_sg()
+returns the numer of the created entries in the DMA address space.
+However the subsequent calls to dma_sync_sg_for_{device,cpu} and
+dma_unmap_sg must be called with the original number of entries passed to
+dma_map_sg. The common pattern in DRM drivers were to assign the
+dma_map_sg() return value to sg_table->nents and use that value for
+the subsequent calls to dma_sync_sg_* or dma_unmap_sg functions. Also
+the code iterated over nents times to access the pages stored in the
+processed scatterlist, while it should use orig_nents as the numer of
+the page entries.
+
+I've tried to identify all such incorrect usage of sg_table->nents and
+this is a result of my research. It looks that the incorrect pattern has
+been copied over the many drivers mainly in the DRM subsystem. Too bad in
+most cases it even worked correctly if the system used a simple, linear
+DMA-mapping implementation, for which swapping nents and orig_nents
+doesn't make any difference. To avoid similar issues in the future, I've
+introduced a common wrappers for DMA-mapping calls, which operate directly
+on the sg_table objects. I've also added wrappers for iterating over the
+scatterlists stored in the sg_table objects and applied them where
+possible. This, together with some common DRM prime helpers, allowed me
+to almost get rid of all nents/orig_nents usage in the drivers. I hope
+that such change makes the code robust, easier to follow and copy/paste
+safe.
+
+The biggest TODO is DRM/i915 driver and I don't feel brave enough to fix
+it fully. The driver creatively uses sg_table->orig_nents to store the
+size of the allocate scatterlist and ignores the number of the entries
+returned by dma_map_sg function. In this patchset I only fixed the
+sg_table objects exported by dmabuf related functions. I hope that I
+didn't break anything there.
+
+Patches are based on top of Linux next-20200825. The required changes to
+DMA-mapping framework has been already merged to v5.8-rc1.
+
+I would like ask for merging of the 1-27 patches via DRM misc tree.
+
+Best regards,
+Marek Szyprowski
+
+
+References:
+
+[1] https://lkml.org/lkml/2020/3/27/555
+[2] https://lkml.org/lkml/2020/3/29/65
+[3] Documentation/DMA-API-HOWTO.txt
+[4] https://lore.kernel.org/linux-iommu/20200512121931.GD20393@lst.de/T/#ma18c958a48c3b241d5409517fa7d192eef87459b
+
+Changelog:
+
+v9:
+- rebased onto Linux next-20200825, which is based on v5.9-rc2; fixed conflicts
+- dropped merged patches
+
+v8:
+- rapidio: fixed issues pointed by kbuilt test robot (use of uninitialized
+    variable
+- vb2: rebased after recent changes in the code
+
+v7: https://lore.kernel.org/linux-iommu/20200619103636.11974-1-m.szyprowski@samsung.com/T/
+- changed DMA page interators to standard DMA SG iterators in drm/prime and
+  videobuf2-dma-contig as suggested by Robin Murphy
+- fixed build issues
+
+v6: https://lore.kernel.org/linux-iommu/20200618153956.29558-1-m.szyprowski@samsung.com/T/
+- rebased onto Linux next-20200618, which is based on v5.8-rc1; fixed conflicts
+
+v5: https://lore.kernel.org/linux-iommu/20200513132114.6046-1-m.szyprowski@samsung.com/T/
+- fixed some minor style issues and typos
+- fixed lack of the attrs argument in ion, dmabuf, rapidio, fastrpc and
+  vfio patches
+
+v4: https://lore.kernel.org/linux-iommu/20200512121931.GD20393@lst.de/T/
+- added for_each_sgtable_* wrappers and applied where possible
+- added drm_prime_get_contiguous_size() and applied where possible
+- applied drm_prime_sg_to_page_addr_arrays() where possible to remove page
+  extraction from sg_table objects
+- added documentation for the introduced wrappers
+- improved patches description a bit
+
+v3: https://lore.kernel.org/dri-devel/20200505083926.28503-1-m.szyprowski@samsung.com/
+- introduce dma_*_sgtable_* wrappers and use them in all patches
+
+v2: https://lore.kernel.org/linux-iommu/c01c9766-9778-fd1f-f36e-2dc7bd376ba4@arm.com/T/
+- dropped most of the changes to drm/i915
+- added fixes for rcar-du, xen, media and ion
+- fixed a few issues pointed by kbuild test robot
+- added wide cc: list for each patch
+
+v1: https://lore.kernel.org/linux-iommu/c01c9766-9778-fd1f-f36e-2dc7bd376ba4@arm.com/T/
+- initial version
+
+
+Patch summary:
+
+Marek Szyprowski (32):
+  drm: prime: add common helper to check scatterlist contiguity
+  drm: prime: use sgtable iterators in
+    drm_prime_sg_to_page_addr_arrays()
+  drm: core: fix common struct sg_table related issues
+  drm: armada: fix common struct sg_table related issues
+  drm: etnaviv: fix common struct sg_table related issues
+  drm: exynos: use common helper for a scatterlist contiguity check
+  drm: exynos: fix common struct sg_table related issues
+  drm: i915: fix common struct sg_table related issues
+  drm: lima: fix common struct sg_table related issues
+  drm: mediatek: use common helper for a scatterlist contiguity check
+  drm: mediatek: use common helper for extracting pages array
+  drm: msm: fix common struct sg_table related issues
+  drm: omapdrm: use common helper for extracting pages array
+  drm: omapdrm: fix common struct sg_table related issues
+  drm: panfrost: fix common struct sg_table related issues
+  drm: rockchip: use common helper for a scatterlist contiguity check
+  drm: rockchip: fix common struct sg_table related issues
+  drm: tegra: fix common struct sg_table related issues
+  drm: v3d: fix common struct sg_table related issues
+  drm: virtio: fix common struct sg_table related issues
+  drm: vmwgfx: fix common struct sg_table related issues
+  drm: xen: fix common struct sg_table related issues
+  xen: gntdev: fix common struct sg_table related issues
+  drm: host1x: fix common struct sg_table related issues
+  drm: rcar-du: fix common struct sg_table related issues
+  dmabuf: fix common struct sg_table related issues
+  staging: tegra-vde: fix common struct sg_table related issues
+  misc: fastrpc: fix common struct sg_table related issues
+  rapidio: fix common struct sg_table related issues
+  samples: vfio-mdev/mbochs: fix common struct sg_table related issues
+  media: pci: fix common ALSA DMA-mapping related codes
+  videobuf2: use sgtable-based scatterlist wrappers
+
+ drivers/dma-buf/heaps/heap-helpers.c          | 13 ++-
+ drivers/dma-buf/udmabuf.c                     |  7 +-
+ drivers/gpu/drm/armada/armada_gem.c           | 12 +--
+ drivers/gpu/drm/drm_cache.c                   |  2 +-
+ drivers/gpu/drm/drm_gem_cma_helper.c          | 23 +----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 14 ++-
+ drivers/gpu/drm/drm_prime.c                   | 91 +++++++++++--------
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c         | 12 +--
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c         | 13 +--
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c       | 10 +-
+ drivers/gpu/drm/exynos/exynos_drm_gem.c       | 23 +----
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    | 11 +--
+ .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |  7 +-
+ drivers/gpu/drm/lima/lima_gem.c               | 11 ++-
+ drivers/gpu/drm/lima/lima_vm.c                |  5 +-
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c        | 37 ++------
+ drivers/gpu/drm/msm/msm_gem.c                 | 13 +--
+ drivers/gpu/drm/msm/msm_gpummu.c              | 14 ++-
+ drivers/gpu/drm/msm/msm_iommu.c               |  2 +-
+ drivers/gpu/drm/omapdrm/omap_gem.c            | 20 ++--
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  4 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c       |  7 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  3 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c   | 42 +++------
+ drivers/gpu/drm/tegra/gem.c                   | 27 ++----
+ drivers/gpu/drm/tegra/plane.c                 | 15 +--
+ drivers/gpu/drm/v3d/v3d_mmu.c                 | 13 ++-
+ drivers/gpu/drm/virtio/virtgpu_object.c       | 36 +++++---
+ drivers/gpu/drm/virtio/virtgpu_vq.c           | 12 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    | 17 +---
+ drivers/gpu/drm/xen/xen_drm_front_gem.c       |  2 +-
+ drivers/gpu/host1x/job.c                      | 22 ++---
+ .../common/videobuf2/videobuf2-dma-contig.c   | 34 +++----
+ .../media/common/videobuf2/videobuf2-dma-sg.c | 32 +++----
+ .../common/videobuf2/videobuf2-vmalloc.c      | 12 +--
+ drivers/media/pci/cx23885/cx23885-alsa.c      |  2 +-
+ drivers/media/pci/cx25821/cx25821-alsa.c      |  2 +-
+ drivers/media/pci/cx88/cx88-alsa.c            |  2 +-
+ drivers/media/pci/saa7134/saa7134-alsa.c      |  2 +-
+ drivers/media/platform/vsp1/vsp1_drm.c        |  8 +-
+ drivers/misc/fastrpc.c                        |  4 +-
+ drivers/rapidio/devices/rio_mport_cdev.c      | 11 +--
+ drivers/staging/media/tegra-vde/iommu.c       |  4 +-
+ drivers/xen/gntdev-dmabuf.c                   | 13 ++-
+ include/drm/drm_prime.h                       |  2 +
+ samples/vfio-mdev/mbochs.c                    |  3 +-
+ 46 files changed, 273 insertions(+), 398 deletions(-)
+
+-- 
+2.17.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
