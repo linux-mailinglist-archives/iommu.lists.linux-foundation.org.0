@@ -2,93 +2,128 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFBB02532E3
-	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 17:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406B3253422
+	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 17:57:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 590A986B17;
-	Wed, 26 Aug 2020 15:07:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2054C85DA4;
+	Wed, 26 Aug 2020 15:57:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bO12YHUYweQC; Wed, 26 Aug 2020 15:07:48 +0000 (UTC)
+	with ESMTP id fWRji8q3YGXD; Wed, 26 Aug 2020 15:57:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A426886AFD;
-	Wed, 26 Aug 2020 15:07:48 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9D76D85BDF;
+	Wed, 26 Aug 2020 15:57:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9B342C0051;
-	Wed, 26 Aug 2020 15:07:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 89C58C0051;
+	Wed, 26 Aug 2020 15:57:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 63C2DC0051
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 15:07:47 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 43EFCC0051
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 15:57:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 525A487C11
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 15:07:47 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 3B1B9879C5
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 15:57:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HzGGdtfBhyDY for <iommu@lists.linux-foundation.org>;
- Wed, 26 Aug 2020 15:07:46 +0000 (UTC)
+ with ESMTP id JIv9axjhKhal for <iommu@lists.linux-foundation.org>;
+ Wed, 26 Aug 2020 15:57:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
- [209.85.222.68])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 7A92D87BFF
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 15:07:46 +0000 (UTC)
-Received: by mail-ua1-f68.google.com with SMTP id g11so663950ual.2
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 08:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uCHfqt376JxFgHX9UXwwv2S+UaAdW2ySAIyzZLYkbq8=;
- b=ikiywTJw5XY4hdhfD8BEmtd4hfBBE1CdYMlFhd5fcS4hFo2MVh9XW1+LCdTG5TpE/6
- V4M+Zbb/jdM9ajawXCXmdVa4tey3tcm70KX3uWKYYrVqgSgfLfadNjcSo2pQPYCfTffR
- kjT6ROxXMbcTK8veOuw7mDMspOCnoVuGMQNw0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uCHfqt376JxFgHX9UXwwv2S+UaAdW2ySAIyzZLYkbq8=;
- b=ZlY6cfYYaRfphTMk/Q0eeBeQatabOA0JnzHdYUv+N9VpQ/LGFMnr8hs5glbrMskwwd
- zN6aeEAP3lcMfabT9UEcJevBCA1UzhGtXAa5IY9zfo0Btox97inhQ7h6noZYqK3U66pk
- JXoRPqZBY7FrfiiKtSPjmjiZsThRrKpOtobv1kQGrba8nonu+LXDOlBRNmOfkGz2JbtU
- Mfmp6BY9hPsSmIFAXDEjf7ub5xmu/jRZjTA79N06RA1WvMv2nQJJ1w3/qTPNiYLJPwJJ
- yaWghy9h2Vljd606b5AV/E0SGAkJb7T8qJRIWI+ZOlb8uHLXfkvFfr3IG7dQwIxdUDRt
- EkaA==
-X-Gm-Message-State: AOAM530XSvqRp7oCLE/3le9+y2WQenLZV5Lh1glUEuGUksaa5OGPfOme
- VCoeFJ79+HtD9gLc01ckJwPOtLGuLyuufw==
-X-Google-Smtp-Source: ABdhPJw1veZjeW2PM/dP+ZHCHbS8rRhLF5mbpwCP3eq7MBAFPqinJvB7GzQgCklLKpP3UHeFgcTuzg==
-X-Received: by 2002:ab0:6943:: with SMTP id c3mr5146756uas.44.1598454464961;
- Wed, 26 Aug 2020 08:07:44 -0700 (PDT)
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com.
- [209.85.221.182])
- by smtp.gmail.com with ESMTPSA id h8sm274290uab.13.2020.08.26.08.07.44
- for <iommu@lists.linux-foundation.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Aug 2020 08:07:44 -0700 (PDT)
-Received: by mail-vk1-f182.google.com with SMTP id o2so493237vke.13
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 08:07:44 -0700 (PDT)
-X-Received: by 2002:a1f:c10b:: with SMTP id r11mr9195774vkf.70.1598454463470; 
- Wed, 26 Aug 2020 08:07:43 -0700 (PDT)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2045.outbound.protection.outlook.com [40.107.243.45])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 7E51187BC0
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 15:57:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OKT0DuWZVJrDwwD9ijG10RxLvR2CZTaAeivrM5k2YuAMB+A2axr0UHUvIhvD9jvYWN5TAA4msc31yijqyR5csOM2qY6BUL+zRlXaWlIfxhAlRg749mYU+mqgYgbQq7h/tUUyiCNKxlkCVObpfdhYz5hefSN/IQ2WAjg1lmGVqR5gRv9lxDKw8QZrnHt60PtbdrwT/QWtgPsXsMrvAjv1bYZJNi/rSPOPePQn+unNX9EqZDXuVSC2JJmrZNV7SKc4paetcH5kul6N3X03LHlGEdH5BNm3ATLdM7b2i6Z8oQhQYMq5ZEFMXocis+uwrciuHmr1Z4PYc+92qN5v7lOT3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mvsxsrD4+yaAfXt5bAJ1kJPuHeH79aRd6vAdtW4y5Qo=;
+ b=ES6YiiUss7s1OME4enetq1xdtnsdVxo6WH8pTeudxUpHzF9H0dil/aameBJqL18p1srgTLasYIsGJDUFI3MyxGcZDQLdD7BFyngZfvWj5k+ByPLHciZU+hy4wrxU2fMUQKtG1VW9Wub5Zw/VQLMCrcQzldDdqHvbAFVtZvkENZMxwD8Nn8x8QJe1XphUUmRJInFSoZLXHiaNOXpTYFUxWH1ZOslAUjWQtiTYhV3qzWpgrP1uawz6PjHXNSpc7NvEv/uXlRW/hg2KgrAU7EPocoQ2D+G5KZe4ILU9m9qUGIRcByWzeKYOYmqw0A0vYl+Mx2Xsvmmg4hFZD8LqQkcBpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mvsxsrD4+yaAfXt5bAJ1kJPuHeH79aRd6vAdtW4y5Qo=;
+ b=DEUlJ33l3IJNEizPTTB9cxs6sharKUySquuLDTBELI/vbNGcUmdLwQtTKH2T3hNrgMh7OlAfpMoSbhgj6ySqT5vdltPrPsijluP4Nj149d4pZwdsfWoT996OZF5LjTOOnmwvgkvr7MrbRKcxjRzKpUcrqQyUS+K2Gwb84kKo4/w=
+Received: from MN2PR12MB4488.namprd12.prod.outlook.com (2603:10b6:208:24e::19)
+ by MN2PR12MB4472.namprd12.prod.outlook.com (2603:10b6:208:267::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.22; Wed, 26 Aug
+ 2020 14:23:44 +0000
+Received: from MN2PR12MB4488.namprd12.prod.outlook.com
+ ([fe80::889d:3c2f:a794:67fb]) by MN2PR12MB4488.namprd12.prod.outlook.com
+ ([fe80::889d:3c2f:a794:67fb%7]) with mapi id 15.20.3305.032; Wed, 26 Aug 2020
+ 14:23:44 +0000
+From: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+To: Joerg Roedel <joro@8bytes.org>, "iommu@lists.linux-foundation.org"
+ <iommu@lists.linux-foundation.org>, "Kuehling, Felix"
+ <Felix.Kuehling@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>
+Subject: RE: [PATCH 1/2] iommu/amd: Do not force direct mapping when SME is
+ active
+Thread-Topic: [PATCH 1/2] iommu/amd: Do not force direct mapping when SME is
+ active
+Thread-Index: AQHWegTsBj7N+qef/0+36KKtrMBTq6lKc7sQ
+Date: Wed, 26 Aug 2020 14:23:44 +0000
+Message-ID: <MN2PR12MB44887D5839767CFF49C24696F7540@MN2PR12MB4488.namprd12.prod.outlook.com>
+References: <20200824105415.21000-1-joro@8bytes.org>
+ <20200824105415.21000-2-joro@8bytes.org>
+In-Reply-To: <20200824105415.21000-2-joro@8bytes.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Enabled=true;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SetDate=2020-08-26T14:20:54Z; 
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Method=Privileged;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_Name=Public_0;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ActionId=0ef889e4-247e-4615-9728-0000bae6c8b2;
+ MSIP_Label_0d814d60-469d-470c-8cb0-58434e2bf457_ContentBits=1
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_enabled: true
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_setdate: 2020-08-26T14:23:41Z
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_method: Privileged
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_name: Public_0
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_actionid: 08e3a570-2169-4890-9234-00006685c9d7
+msip_label_0d814d60-469d-470c-8cb0-58434e2bf457_contentbits: 0
+authentication-results: 8bytes.org; dkim=none (message not signed)
+ header.d=none;8bytes.org; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [165.204.10.250]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: c78fe514-f17a-40ff-10f3-08d849cba3d2
+x-ms-traffictypediagnostic: MN2PR12MB4472:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR12MB4472D42FF78461C44CA4A922F7540@MN2PR12MB4472.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: xU+cMJwtd3vDeJ2EPliN6gbHPlGOdaZG3zvOLVjG4jQYeF0u4MQplIz4OJnq0rZCe1IEbsFIHh1FQ/fTgTEkLkwhEoHehB2FCOlmnh73iwJ19amei08C9iwadM/KhZzMcYyhigOlHBUf6lqoF5zcamFP/qGwCocnsaqLndw4HGtyxULlb0eKXzoQIa6KhUvs2WPpRIbKvBZM439AroicLvb89W6iBBHraFW0GHPpcLEdf0pTZnSZ8gnDm1JFjMVQH7lNHPwiMASOuwMXQz2KFKy+tNUXTQVjfk8kG/Ym0HTUHZJPIbk2Kn3AeZFH3CKCTwIv0+2YoACIZOyf6TC9DA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4488.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(376002)(39860400002)(136003)(346002)(366004)(478600001)(55016002)(2906002)(6506007)(26005)(53546011)(6636002)(52536014)(76116006)(8936002)(316002)(71200400001)(86362001)(66946007)(33656002)(66446008)(54906003)(66476007)(110136005)(64756008)(83380400001)(8676002)(66556008)(5660300002)(4326008)(7696005)(9686003)(186003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: UqghtZlKRi5ySrRS30Lb31rtGr6AaB5IUHHPFAaP4Aj7nHf2CTxTwzV3yktpUAO8brhPOsCHD4P7LAEDoCr6IJbkrUbezQVPBMjmAJrlAzHahOgxT0M6f4uwlrT78c4f1c8JEKYaOu8iG1yXJXFqLE7txJx/6/PoB+cEwM5wv+nOWUDKof52SX+EFpqOdACz48WmJJE3ZIh++z1RMVkLPzbTKMk9hDTaVVn6g28/vOBYAdS7kf+CZyyViqiH4UiUjPq/hujV1u1B7PkhMokMcVO5XhGeICqVZyz5YRDRh/2prAulGBplV2ylEAFD0tRr7VCvX2AxToouPo87pSXAML7aQ9pv1o6IM7vnMofjdw2QQ2hcZPCN0iMPOvLF0/plN22yPpA8hGPgs2GxledTjnvlMGZkf93/fIkzulf+HvTzzM1Knx8UX0V4YRBi2++WfvKlmcW0NZ7nPpKw2qNeI1dng9O8YUPaj/5Nb2Dk40QdveLv2Hw7xGXOvxHk1pGzel5/l3uWr3osQOVVqaybI+PR7XKmJj+iE1wXViiacRFw5ANuMPewWbnjLxZ5As78SEuTWyfLGSceWVGe5mctkgammvCkjiOWSRV2TtVvbOYoLZGrhbaUQp+mlTc7W8mP0Jb4QM8a3W0Ie0+i6/h8mg==
 MIME-Version: 1.0
-References: <20200825154249.20011-1-saiprakash.ranjan@codeaurora.org>
- <e3e4da33-a44f-0a07-9e2e-0f806875ab0b@arm.com>
- <d9b1f1b614057d87279c26e13cbbb1f5@codeaurora.org>
- <a03ce8f0-cab5-2782-ac50-930cf94b7dcd@arm.com>
- <f8ac8f57bcf10b2218b4795197efb854@codeaurora.org>
-In-Reply-To: <f8ac8f57bcf10b2218b4795197efb854@codeaurora.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 26 Aug 2020 08:07:31 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UFC4ciHanaPe_=9Rb75Sz3Lzosd15ehuovZiNPOtbgYQ@mail.gmail.com>
-Message-ID: <CAD=FV=UFC4ciHanaPe_=9Rb75Sz3Lzosd15ehuovZiNPOtbgYQ@mail.gmail.com>
-Subject: Re: [PATCH] iommu: Add support to filter non-strict/lazy mode based
- on device names
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, LKML <linux-kernel@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Will Deacon <will@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4488.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c78fe514-f17a-40ff-10f3-08d849cba3d2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Aug 2020 14:23:44.7551 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GdhocXPeA7wM8mdLWj+2ZEKi9uzwCkS5WCekyW1NMMzkrzkATJVUuHHNuDKatV2wo26mJAq6ahGXd+S6zTbEKQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4472
+Cc: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+ "jroedel@suse.de" <jroedel@suse.de>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,86 +141,59 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
+[AMD Public Use]
 
-On Wed, Aug 26, 2020 at 8:01 AM Sai Prakash Ranjan
-<saiprakash.ranjan@codeaurora.org> wrote:
->
-> On 2020-08-26 19:21, Robin Murphy wrote:
-> > On 2020-08-26 13:17, Sai Prakash Ranjan wrote:
-> >> On 2020-08-26 17:07, Robin Murphy wrote:
-> >>> On 2020-08-25 16:42, Sai Prakash Ranjan wrote:
-> >>>> Currently the non-strict or lazy mode of TLB invalidation can only
-> >>>> be set
-> >>>> for all or no domains. This works well for development platforms
-> >>>> where
-> >>>> setting to non-strict/lazy mode is fine for performance reasons but
-> >>>> on
-> >>>> production devices, we need a more fine grained control to allow
-> >>>> only
-> >>>> certain peripherals to support this mode where we can be sure that
-> >>>> it is
-> >>>> safe. So add support to filter non-strict/lazy mode based on the
-> >>>> device
-> >>>> names that are passed via cmdline parameter
-> >>>> "iommu.nonstrict_device".
-> >>>
-> >>> There seems to be considerable overlap here with both the existing
-> >>> patches for per-device default domain control [1], and the broader
-> >>> ongoing development on how to define, evaluate and handle "trusted"
-> >>> vs. "untrusted" devices (e.g. [2],[3]). I'd rather see work done to
-> >>> make sure those integrate properly together and work well for
-> >>> everyone's purposes, than add more disjoint mechanisms that only
-> >>> address small pieces of the overall issue.
-> >>>
-> >>> Robin.
-> >>>
-> >>> [1]
-> >>> https://lore.kernel.org/linux-iommu/20200824051726.7xaJRTTszJuzdFWGJ8YNsshCtfNR0BNeMrlILAyqt_0@z/
-> >>> [2]
-> >>> https://lore.kernel.org/linux-iommu/20200630044943.3425049-1-rajatja@google.com/
-> >>> [3]
-> >>> https://lore.kernel.org/linux-iommu/20200626002710.110200-2-rajatja@google.com/
-> >>
-> >> Thanks for the links, [1] definitely sounds interesting, I was under
-> >> the impression
-> >> that changing such via sysfs is late, but seems like other Sai has got
-> >> it working
-> >> for the default domain type. So we can extend that and add a strict
-> >> attribute as well,
-> >> we should be definitely OK with system booting with default strict
-> >> mode for all
-> >> peripherals as long as we have an option to change that later, Doug?
-> >
-> > Right, IIRC there was initially a proposal of a command line option
-> > there too, and it faced the same criticism around not being very
-> > generic or scalable. I believe sysfs works as a reasonable compromise
-> > since in many cases it can be tweaked relatively early from an initrd,
-> > and non-essential devices can effectively be switched at any time by
-> > removing and reprobing their driver.
-> >
->
-> Ah I see, so the catch is that device must not be bound to the driver
-> and won't work for the internal devices or builtin drivers probed early.
++ Felix, Christian
 
-Hrm, that wouldn't work so well for us for eMMC.  I don't think I'm
-going to manage to convince folks that we need an initrd just for
-this.  I'm probably being naive and I haven't looked at the code, but
-it does seem a little weird that this isn't the kind of thing that
-could just be tweaked for transfers going forward...
+> -----Original Message-----
+> From: Joerg Roedel <joro@8bytes.org>
+> Sent: Monday, August 24, 2020 6:54 AM
+> To: iommu@lists.linux-foundation.org
+> Cc: Joerg Roedel <joro@8bytes.org>; jroedel@suse.de; Lendacky, Thomas
+> <Thomas.Lendacky@amd.com>; Suthikulpanit, Suravee
+> <Suravee.Suthikulpanit@amd.com>; Deucher, Alexander
+> <Alexander.Deucher@amd.com>; linux-kernel@vger.kernel.org
+> Subject: [PATCH 1/2] iommu/amd: Do not force direct mapping when SME is
+> active
+> 
+> From: Joerg Roedel <jroedel@suse.de>
+> 
+> Do not force devices supporting IOMMUv2 to be direct mapped when
+> memory encryption is active. This might cause them to be unusable because
+> their DMA mask does not include the encryption bit.
+> 
+> Signed-off-by: Joerg Roedel <jroedel@suse.de>
+> ---
+>  drivers/iommu/amd/iommu.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+> index ba9f3dbc5b94..77e4268e41cf 100644
+> --- a/drivers/iommu/amd/iommu.c
+> +++ b/drivers/iommu/amd/iommu.c
+> @@ -2659,7 +2659,12 @@ static int amd_iommu_def_domain_type(struct
+> device *dev)
+>  	if (!dev_data)
+>  		return 0;
+> 
+> -	if (dev_data->iommu_v2)
+> +	/*
+> +	 * Do not identity map IOMMUv2 capable devices when memory
+> encryption is
+> +	 * active, because some of those devices (AMD GPUs) don't have the
+> +	 * encryption bit in their DMA-mask and require remapping.
+> +	 */
 
+I think on the integrated GPUs in APUs I'd prefer to have the identity mapping over SME, but I guess this is fine because you have to explicitly enable SME and if you do that you know what you are getting into.
 
-> > As for a general approach for internal devices where you do believe
-> > the hardware is honest but don't necessarily trust whatever firmware
-> > it happens to be running, I'm pretty sure that's come up already, but
-> > I'll be sure to mention it at Rajat's imminent LPC talk if nobody else
-> > does.
+Alex
 
-I'll at least attend.  We'll see how useful my contributions are
-since, as per usual, I'm wandering into an area I'm not an expert in
-here.  ;-)
-
--Doug
+> +	if (!mem_encrypt_active() && dev_data->iommu_v2)
+>  		return IOMMU_DOMAIN_IDENTITY;
+> 
+>  	return 0;
+> --
+> 2.28.0
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
