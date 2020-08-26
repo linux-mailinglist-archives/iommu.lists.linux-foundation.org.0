@@ -2,87 +2,61 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10DF1252ACB
-	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 11:53:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369CB252B64
+	for <lists.iommu@lfdr.de>; Wed, 26 Aug 2020 12:28:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id ABFA387E9D;
-	Wed, 26 Aug 2020 09:53:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B62F687D63;
+	Wed, 26 Aug 2020 10:28:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id q63D9AVUS5Qi; Wed, 26 Aug 2020 09:53:21 +0000 (UTC)
+	with ESMTP id 0w3zFGFlzqZA; Wed, 26 Aug 2020 10:28:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 628DD87E99;
-	Wed, 26 Aug 2020 09:53:21 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E18EE87BC0;
+	Wed, 26 Aug 2020 10:28:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 41044C0051;
-	Wed, 26 Aug 2020 09:53:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D741BC0051;
+	Wed, 26 Aug 2020 10:28:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C30D8C0051
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 09:53:19 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C89FCC016F
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 10:28:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BE9E586C34
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 09:53:19 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id ACF288687B
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 10:28:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 516rE9S7ZuEH for <iommu@lists.linux-foundation.org>;
- Wed, 26 Aug 2020 09:53:19 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 1CFB886C1A
- for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 09:53:19 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1598435595;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mv4TqayOvYT1PZy4IB6XdyAxCqLJFuyrG/iBXdVvDGo=;
- b=gry5Gqjf5XbHVcJKaDXMPK4boPx5u/IEBob5D9Wn36xeFWifKRFQGrLYl80/EuQiMfzysE
- R0d4KWtrjVjHsKfDbzzjWDT5squtWA8CAJmXu6ssTTvFAl1Dp0Qb/5Gseu91lYmL0/YUjO
- NbsGg1x1qsfcwMmq40s6f8QzME/wE8mMh0jkO28671y+OSXzdMJAa+d/pRnJ+IIBJUer6F
- myfzP6CTQbmP/AgP0sGex0XapaKloSSKztkVFL6Agugb80R0gctiC6HeZ9PqzrabjLNIkQ
- pAIkMvt8UaWwzx1EMmCW7rVmlO3SHuNH8U5WRqRwrLaG8IAQqyASWZnve1tyYQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1598435595;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mv4TqayOvYT1PZy4IB6XdyAxCqLJFuyrG/iBXdVvDGo=;
- b=T18EHlogGsekmXEOkS3bdJRDQU5OgZArZ4psx/80SWGB5Jkvh72YqFLOhYbYkZrSz/1STi
- ppR6UR793IwPtlAg==
-To: Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [patch RFC 10/38] x86/ioapic: Consolidate IOAPIC allocation
-In-Reply-To: <20200826084019.GA6174@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
-References: <20200821002424.119492231@linutronix.de>
- <20200821002946.297823391@linutronix.de>
- <20200826084019.GA6174@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
-Date: Wed, 26 Aug 2020 11:53:15 +0200
-Message-ID: <871rjtwx6c.fsf@nanos.tec.linutronix.de>
+ with ESMTP id 5sz7rYV0Fped for <iommu@lists.linux-foundation.org>;
+ Wed, 26 Aug 2020 10:28:13 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from ZXSHCAS1.zhaoxin.com (unknown [203.148.12.81])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 5029686849
+ for <iommu@lists.linux-foundation.org>; Wed, 26 Aug 2020 10:28:12 +0000 (UTC)
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHCAS1.zhaoxin.com
+ (10.28.252.161) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Wed, 26 Aug
+ 2020 18:28:01 +0800
+Received: from localhost.localdomain (61.148.243.98) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Wed, 26 Aug
+ 2020 18:27:59 +0800
+From: FelixCuioc <FelixCui-oc@zhaoxin.com>
+To: Joerg Roedel <joro@8bytes.org>, <iommu@lists.linux-foundation.org>,
+ <linux-kernel@vger.kernel.org>, David Woodhouse <dwmw2@infradead.org>, "Lu
+ Baolu" <baolu.lu@linux.intel.com>, Dan Carpenter <dan.carpenter@oracle.com>,
+ <kbuild@lists.01.org>
+Subject: [PATCH v2 0/3] Add support for ACPI device in RMRR to access reserved
+ memory
+Date: Wed, 26 Aug 2020 06:27:49 -0400
+Message-ID: <20200826102752.3776-1-FelixCui-oc@zhaoxin.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
- Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Dan Williams <dan.j.williams@intel.com>, Wei Liu <wei.liu@kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>, Baolu Lu <baolu.lu@intel.com>,
- Marc Zyngier <maz@kernel.org>, x86@kernel.org,
- Jason Gunthorpe <jgg@mellanox.com>, Megha Dey <megha.dey@intel.com>,
- xen-devel@lists.xenproject.org, Kevin Tian <kevin.tian@intel.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Dave Jiang <dave.jiang@intel.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Jon Derrick <jonathan.derrick@intel.com>, Juergen Gross <jgross@suse.com>,
- Russ Anderson <rja@hpe.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- Jacob Pan <jacob.jun.pan@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>
+X-Originating-IP: [61.148.243.98]
+X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
+ zxbjmbx1.zhaoxin.com (10.29.252.163)
+Cc: TonyWWang-oc@zhaoxin.com, kbuild-all@lists.01.org, CobeChen-oc@zhaoxin.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,19 +69,57 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gV2VkLCBBdWcgMjYgMjAyMCBhdCAxNjo0MCwgQm9xdW4gRmVuZyB3cm90ZToKPiBJIGhpdCBh
-IGNvbXBpbGVyIGVycm9yIHdoaWxlIEkgd2FzIHRyeWluZyB0byBjb21waWxlIHRoaXMgcGF0Y2hz
-ZXQ6Cj4KPiBhcmNoL3g4Ni9rZXJuZWwvZGV2aWNldHJlZS5jOiBJbiBmdW5jdGlvbiDigJhkdF9p
-cnFkb21haW5fYWxsb2PigJk6Cj4gYXJjaC94ODYva2VybmVsL2RldmljZXRyZWUuYzoyMzI6Njog
-ZXJyb3I6IOKAmHN0cnVjdCBpcnFfYWxsb2NfaW5mb+KAmSBoYXMgbm8gbWVtYmVyIG5hbWVkIOKA
-mGlvYXBpY19pZOKAmTsgZGlkIHlvdSBtZWFuIOKAmGlvYXBpY+KAmT8KPiAgIDIzMiB8ICB0bXAu
-aW9hcGljX2lkID0gbXBjX2lvYXBpY19pZChtcF9pcnFkb21haW5faW9hcGljX2lkeChkb21haW4p
-KTsKClllYWgsIG5vdGljZWQgbXlzZWxmIGFscmVhZHkgYW5kIDBkYXkgY29tcGxhaW5lZCBhcyB3
-ZWxsIDopCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpp
-b21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6
-Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+BIOS allocate reserved memory ranges that may be DMA targets.
+BIOS may report each such reserved memory region through the
+RMRR structures,along with the devices that requires access to
+the specified reserved memory region.
+
+The purpose of this series is to achieve ACPI device in RMRR
+access reserved memory.Therefore,it is necessary to increase
+the analysis of acpi device in RMRR and establish a mapping
+for this device.
+
+The first patch adds interfaces for detecting ACPI device in RMRR
+and in order to distinguish it from pci device,some interface
+functions are modified.
+
+The second patch adds support for probing ACPI device in RMRR.
+In probe_acpi_namespace_devices(),add support for direct mapping
+of ACPI device and add support for physical node of acpi device
+to be NULL.
+
+The last patch adds mutex_unlock(&adev->physical_node_lock)
+before returning in probe_acpi_namespace_devices().
+
+v1->v2:
+   - Split the patch set to small series of patches
+   - Move the processing of physical node of acpi device for NULL
+     to probe_acpi_namespace_devices().
+   - Add mutex_unlock(&adev->physical_node_lock) before returning
+     in probe_acpi_namespace_devices().
+
+
+FelixCuioc (3):
+  iommu/vt-d:Add support for detecting ACPI device in RMRR
+  iommu/vt-d:Add support for probing ACPI device in RMRR
+  iommu/vt-d:Add mutex_unlock() before returning
+
+ drivers/iommu/intel/dmar.c  | 74 ++++++++++++++++++++-----------------
+ drivers/iommu/intel/iommu.c | 50 ++++++++++++++++++++++++-
+ drivers/iommu/iommu.c       |  6 +++
+ include/linux/dmar.h        | 12 +++++-
+ include/linux/iommu.h       |  3 ++
+ 5 files changed, 109 insertions(+), 36 deletions(-)
+
+-- 
+2.17.1
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
