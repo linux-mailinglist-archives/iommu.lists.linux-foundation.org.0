@@ -1,52 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC9E254869
-	for <lists.iommu@lfdr.de>; Thu, 27 Aug 2020 17:07:08 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4F125486C
+	for <lists.iommu@lfdr.de>; Thu, 27 Aug 2020 17:07:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9196686A61;
-	Thu, 27 Aug 2020 15:07:06 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CF0338842A;
+	Thu, 27 Aug 2020 15:07:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 47HftalUSbhh; Thu, 27 Aug 2020 15:07:05 +0000 (UTC)
+	with ESMTP id ye2VOR7JOE2P; Thu, 27 Aug 2020 15:07:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D406286A10;
-	Thu, 27 Aug 2020 15:07:05 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DF90A8848A;
+	Thu, 27 Aug 2020 15:07:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A71FAC0051;
-	Thu, 27 Aug 2020 15:07:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CC1B3C0051;
+	Thu, 27 Aug 2020 15:07:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 61E07C0051
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:04 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 346FBC0051
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 5C28586ACB
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:04 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 2E6B5203B4
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id n4LmaCMKEdAl for <iommu@lists.linux-foundation.org>;
- Thu, 27 Aug 2020 15:07:02 +0000 (UTC)
+ with ESMTP id FPke12xZ3-39 for <iommu@lists.linux-foundation.org>;
+ Thu, 27 Aug 2020 15:07:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D652186AB6
+ by silver.osuosl.org (Postfix) with ESMTPS id 234B720526
  for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:01 +0000 (UTC)
-IronPort-SDR: 6s6R4E3X0bBuvIXpPlMq0UtjheTA+1GLNhzQWqYGu9GtQTe7sYaoy7y2XX87QU9ERLBeKOckYe
- siiJtvJ3uRhg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="144175678"
-X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; d="scan'208";a="144175678"
+IronPort-SDR: Cm/HA+K/RK+1VKZxyHb89XtcyE24Fgf6F9oAbjfX609Wh/8HJAlCiaJU97J0dYuxPhM2pN3hlY
+ ypcxk9eLxk7A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="144175679"
+X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; d="scan'208";a="144175679"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Aug 2020 08:07:00 -0700
-IronPort-SDR: sXW/5cAB0KoQkxUAL+dX5ekCBLtkuyaYEF1nhOEaG+tPQoyPYwDNppjhREDOpO3wf207kGgpco
- fL3X+y5ypNWg==
+IronPort-SDR: Xg7voNoK5fZYuKFbJjlFDUYuGwghawCJyVA/W+yRYt3yxL+IngxtuYFfxWcY3uZCFHzrI4y+4y
+ at7uvxqs31ZA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; d="scan'208";a="332212864"
+X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; d="scan'208";a="332212867"
 Received: from romley-ivt3.sc.intel.com ([172.25.110.60])
  by fmsmga002.fm.intel.com with ESMTP; 27 Aug 2020 08:06:59 -0700
 From: Fenghua Yu <fenghua.yu@intel.com>
@@ -63,9 +63,9 @@ To: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
  "Jacob Jun Pan" <jacob.jun.pan@intel.com>,
  "Dave Jiang" <dave.jiang@intel.com>, "Sohil Mehta" <sohil.mehta@intel.com>,
  "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH v7 6/9] x86/msr-index: Define IA32_PASID MSR
-Date: Thu, 27 Aug 2020 08:06:31 -0700
-Message-Id: <1598540794-132666-7-git-send-email-fenghua.yu@intel.com>
+Subject: [PATCH v7 7/9] mm: Define pasid in mm
+Date: Thu, 27 Aug 2020 08:06:32 -0700
+Message-Id: <1598540794-132666-8-git-send-email-fenghua.yu@intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <1598540794-132666-1-git-send-email-fenghua.yu@intel.com>
 References: <1598540794-132666-1-git-send-email-fenghua.yu@intel.com>
@@ -89,35 +89,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The IA32_PASID MSR (0xd93) contains the Process Address Space Identifier
-(PASID), a 20-bit value. Bit 31 must be set to indicate the value
-programmed in the MSR is valid. Hardware uses PASID to identify process
-address space and direct responses to the right address space.
+PASID is shared by all threads in a process. So the logical place to keep
+track of it is in the "mm". Both ARM and X86 need to use the PASID in the
+"mm".
 
+Suggested-by: Christoph Hellwig <hch@infradead.org>
 Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 ---
+v4:
+- Change PASID type to u32 (Christoph)
+
+v3:
+- Change CONFIG_PCI_PASID to CONFIG_IOMMU_SUPPORT because non-PCI device
+  can have PASID in ARM (Jean)
+
 v2:
-- Change "identify process" to "identify process address space" in the
-  commit message (Thomas)
+- This new patch moves "pasid" from x86 specific mm_context_t to generic
+  struct mm_struct per Christopher's comment: https://lore.kernel.org/linux-iommu/20200414170252.714402-1-jean-philippe@linaro.org/T/#mb57110ffe1aaa24750eeea4f93b611f0d1913911
+- Jean-Philippe Brucker released a virtually same patch. I still put this
+  patch in the series for better review. The upstream kernel only needs one
+  of the two patches eventually.
+https://lore.kernel.org/linux-iommu/20200519175502.2504091-2-jean-philippe@linaro.org/
+- Change CONFIG_IOASID to CONFIG_PCI_PASID (Ashok)
 
- arch/x86/include/asm/msr-index.h | 3 +++
- 1 file changed, 3 insertions(+)
+ include/linux/mm_types.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index 2859ee4f39a8..aaddc6a9e237 100644
---- a/arch/x86/include/asm/msr-index.h
-+++ b/arch/x86/include/asm/msr-index.h
-@@ -257,6 +257,9 @@
- #define MSR_IA32_LASTINTFROMIP		0x000001dd
- #define MSR_IA32_LASTINTTOIP		0x000001de
- 
-+#define MSR_IA32_PASID			0x00000d93
-+#define MSR_IA32_PASID_VALID		BIT_ULL(31)
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 496c3ff97cce..1ff0615ef19f 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -542,6 +542,10 @@ struct mm_struct {
+ 		atomic_long_t hugetlb_usage;
+ #endif
+ 		struct work_struct async_put_work;
 +
- /* DEBUGCTLMSR bits (others vary by model): */
- #define DEBUGCTLMSR_LBR			(1UL <<  0) /* last branch recording */
- #define DEBUGCTLMSR_BTF_SHIFT		1
++#ifdef CONFIG_IOMMU_SUPPORT
++		u32 pasid;
++#endif
+ 	} __randomize_layout;
+ 
+ 	/*
 -- 
 2.19.1
 
