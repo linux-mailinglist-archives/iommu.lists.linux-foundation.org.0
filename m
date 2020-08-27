@@ -1,63 +1,90 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B6725430D
-	for <lists.iommu@lfdr.de>; Thu, 27 Aug 2020 12:02:53 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F59B2543B8
+	for <lists.iommu@lfdr.de>; Thu, 27 Aug 2020 12:29:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 229D722654;
-	Thu, 27 Aug 2020 10:02:52 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0575387CF9;
+	Thu, 27 Aug 2020 10:29:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uvqhhhUKHP8Q; Thu, 27 Aug 2020 10:02:45 +0000 (UTC)
+	with ESMTP id uwXJK1EQepe1; Thu, 27 Aug 2020 10:29:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 0AD602264A;
-	Thu, 27 Aug 2020 10:02:44 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3C41387C8B;
+	Thu, 27 Aug 2020 10:29:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C799CC0051;
-	Thu, 27 Aug 2020 10:02:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 227D8C0051;
+	Thu, 27 Aug 2020 10:29:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DD247C0051
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 10:02:42 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D17A6C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 10:29:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D769E2042D
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 10:02:42 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B9FD486888
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 10:29:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cfgEA95jJ0vi for <iommu@lists.linux-foundation.org>;
- Thu, 27 Aug 2020 10:02:39 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from ZXSHCAS1.zhaoxin.com (unknown [203.148.12.81])
- by silver.osuosl.org (Postfix) with ESMTPS id 316D322794
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 10:02:38 +0000 (UTC)
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHCAS1.zhaoxin.com
- (10.28.252.161) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 27 Aug
- 2020 18:02:28 +0800
-Received: from localhost.localdomain (61.148.245.65) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Thu, 27 Aug
- 2020 18:02:27 +0800
-From: FelixCuioc <FelixCui-oc@zhaoxin.com>
-To: Joerg Roedel <joro@8bytes.org>, <iommu@lists.linux-foundation.org>,
- <linux-kernel@vger.kernel.org>, David Woodhouse <dwmw2@infradead.org>, "Lu
- Baolu" <baolu.lu@linux.intel.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- <kbuild@lists.01.org>
-Subject: [PATCH v3 2/2] iommu/vt-d:Add support for probing ACPI device in RMRR
-Date: Thu, 27 Aug 2020 06:02:17 -0400
-Message-ID: <20200827100217.21324-3-FelixCui-oc@zhaoxin.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200827100217.21324-1-FelixCui-oc@zhaoxin.com>
-References: <20200827100217.21324-1-FelixCui-oc@zhaoxin.com>
+ with ESMTP id 29HO44V_O0oo for <iommu@lists.linux-foundation.org>;
+ Thu, 27 Aug 2020 10:29:05 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com
+ [209.85.219.193])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 200A1867F6
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 10:29:05 +0000 (UTC)
+Received: by mail-yb1-f193.google.com with SMTP id p191so2686502ybg.0
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 03:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9p4OFhVWpfoFModMO68JgN4kLUfWn4ZrdXLtONTzats=;
+ b=cfWl0T/uduUii6AXuAat69qCUSaqTEdxBOxERMz8xs9hUTeNu4BCzoJcLPwR00qgaV
+ e3eVum1dak1LKAu6424cfl806r5wrJQjNM2K8QVrKluzB3jgu6C3boB0V2FEr9rrfxL7
+ lIXQPqg7SeiBTIppjggaUv9YEH/mBrPYIKUDHoeO8TO3qeIdPjYyO2uLYq/c0tLtyZgK
+ yTMSksf7A3iJiUAafJDVQbjzP3gldibdgWZtol3EGo79vI2HpSRKC9BWaG4o7nGdFQOD
+ HB/hCPrmJJLgxvzee4ibdYUvgpLcL+vEmQ0FoV3MwVvx1Psro+P6iikMcwUAL/H1Qp5J
+ Xz8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9p4OFhVWpfoFModMO68JgN4kLUfWn4ZrdXLtONTzats=;
+ b=syoiAkPkILJ4hx79NLrRXi6CCSf6zQIFznInmU+XqUGRe4XiEzwSRZxz+h3HjlXnpF
+ wXZyOEFCeglZ0LNP4NKJM1fU0A2J7j6mhuaALYiE5UdOBdYwL3rSur+SEPh2g5tCFGka
+ XfaKkCHqr6awgGozznwHJsGhsem0LmANXKF0MQpB3n1XIjApIGHz/52+ZTmQi1IRfeCH
+ 36eA/aIodhwA/PlK8BNS1yrkPAQvTj13OxQgPeEo1Ta62cgz1aWdTpYZ1EGpzsMiEOj5
+ oIsIaftiqvD0NplJ92A932oyUVe3Uceomwtvzk8ChRuFcQ7cqfkvmNZPDmoRDOseoF3l
+ sA+w==
+X-Gm-Message-State: AOAM533Vj/okLUAY+k6o8v0EJSu8flt9h5E3YeFx6b8H7RMYCNSxKOho
+ WCD6KcdL21Rv/cxwNDPz2lZy7m6IQXtg6h9REFM=
+X-Google-Smtp-Source: ABdhPJx324llbhik3pGqUwsEqNwv5W5jnr6M095ctSXSrBgZc/2KENC6v9kVZnh8wCEtOOI2vH7CQaoNO4SKSVMh3Go=
+X-Received: by 2002:a25:8149:: with SMTP id j9mr28778381ybm.214.1598524144200; 
+ Thu, 27 Aug 2020 03:29:04 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [61.148.245.65]
-X-ClientProxiedBy: ZXSHCAS2.zhaoxin.com (10.28.252.162) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-Cc: TonyWWang-oc@zhaoxin.com, CobeChen-oc@zhaoxin.com
+References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594676120-5862-9-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594676120-5862-9-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 27 Aug 2020 11:28:37 +0100
+Message-ID: <CA+V-a8voHnHdmSBmewE3BStksxE4dEM1CtE7KwPZ5dn6PmV_0A@mail.gmail.com>
+Subject: Re: [PATCH 8/9] dt-bindings: net: renesas,ravb: Add support for
+ r8a774e1 SoC
+To: "David S. Miller" <davem@davemloft.net>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ netdev <netdev@vger.kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Linux IOMMU <iommu@lists.linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, dmaengine <dmaengine@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,116 +102,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-After acpi device in RMRR is detected,it is necessary
-to establish a mapping for these devices.
-In acpi_device_create_direct_mappings(),create a mapping
-for the acpi device in RMRR.
-Add a helper to achieve the acpi namespace device can
-access the RMRR region.
+Hi David,
 
-Signed-off-by: FelixCuioc <FelixCui-oc@zhaoxin.com>
----
- drivers/iommu/intel/iommu.c | 29 +++++++++++++++++++++++++++++
- drivers/iommu/iommu.c       |  6 ++++++
- include/linux/iommu.h       |  3 +++
- 3 files changed, 38 insertions(+)
+On Mon, Jul 13, 2020 at 10:36 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+>
+> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+>
+> Document RZ/G2H (R8A774E1) SoC bindings.
+>
+> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/net/renesas,ravb.txt | 1 +
+>  1 file changed, 1 insertion(+)
+>
+Gentle ping, this patch is not queued up yet at [1].
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 208a91605288..51d7a5b18f41 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -4799,6 +4799,21 @@ static int __init platform_optin_force_iommu(void)
- 	return 1;
- }
- 
-+static int acpi_device_create_direct_mappings(struct device *pn_dev, struct device *acpi_device)
-+{
-+	struct iommu_group *group;
-+
-+	acpi_device->bus->iommu_ops = &intel_iommu_ops;
-+	group = iommu_group_get(pn_dev);
-+	if (!group) {
-+		pr_warn("ACPI name space devices create direct mappings wrong!\n");
-+		return -EINVAL;
-+	}
-+	__acpi_device_create_direct_mappings(group, acpi_device);
-+
-+	return 0;
-+}
-+
- static int __init probe_acpi_namespace_devices(void)
- {
- 	struct dmar_drhd_unit *drhd;
-@@ -4813,6 +4828,7 @@ static int __init probe_acpi_namespace_devices(void)
- 			struct acpi_device_physical_node *pn;
- 			struct iommu_group *group;
- 			struct acpi_device *adev;
-+			struct device *pn_dev = NULL;
- 
- 			if (dev->bus != &acpi_bus_type)
- 				continue;
-@@ -4823,6 +4839,7 @@ static int __init probe_acpi_namespace_devices(void)
- 					    &adev->physical_node_list, node) {
- 				group = iommu_group_get(pn->dev);
- 				if (group) {
-+					pn_dev = pn->dev;
- 					iommu_group_put(group);
- 					continue;
- 				}
-@@ -4831,7 +4848,19 @@ static int __init probe_acpi_namespace_devices(void)
- 				ret = iommu_probe_device(pn->dev);
- 				if (ret)
- 					break;
-+				pn_dev = pn->dev;
-+			}
-+			if (!pn_dev) {
-+				dev->bus->iommu_ops = &intel_iommu_ops;
-+				ret = iommu_probe_device(dev);
-+				if (ret) {
-+					pr_err("acpi_device probe fail! ret:%d\n", ret);
-+					goto unlock;
-+				}
-+				goto unlock;
- 			}
-+			ret = acpi_device_create_direct_mappings(pn_dev, dev);
-+unlock:
- 			mutex_unlock(&adev->physical_node_lock);
- 
- 			if (ret)
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 609bd25bf154..4f714a2d5ef7 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -779,6 +779,12 @@ static bool iommu_is_attach_deferred(struct iommu_domain *domain,
- 	return false;
- }
- 
-+void  __acpi_device_create_direct_mappings(struct iommu_group *group, struct device *acpi_device)
-+{
-+	iommu_create_device_direct_mappings(group, acpi_device);
-+}
-+EXPORT_SYMBOL_GPL(__acpi_device_create_direct_mappings);
-+
- /**
-  * iommu_group_add_device - add a device to an iommu group
-  * @group: the group into which to add the device (reference should be held)
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index fee209efb756..9be134775886 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -514,6 +514,9 @@ extern void iommu_domain_window_disable(struct iommu_domain *domain, u32 wnd_nr)
- extern int report_iommu_fault(struct iommu_domain *domain, struct device *dev,
- 			      unsigned long iova, int flags);
- 
-+extern void __acpi_device_create_direct_mappings(struct iommu_group *group,
-+						struct device *acpi_device);
-+
- static inline void iommu_flush_tlb_all(struct iommu_domain *domain)
- {
- 	if (domain->ops->flush_iotlb_all)
--- 
-2.17.1
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/log/
 
+Cheers,
+Prabhakar
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
