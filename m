@@ -1,76 +1,94 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFD525486D
-	for <lists.iommu@lfdr.de>; Thu, 27 Aug 2020 17:07:10 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BDE2549C6
+	for <lists.iommu@lfdr.de>; Thu, 27 Aug 2020 17:45:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 96F9D88466;
-	Thu, 27 Aug 2020 15:07:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 185CD8636D;
+	Thu, 27 Aug 2020 15:45:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pzBV9d8vGWTx; Thu, 27 Aug 2020 15:07:06 +0000 (UTC)
+	with ESMTP id PJh5bkHhmpQa; Thu, 27 Aug 2020 15:45:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9FD378842A;
-	Thu, 27 Aug 2020 15:07:06 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 97FE586277;
+	Thu, 27 Aug 2020 15:45:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 87B43C0051;
-	Thu, 27 Aug 2020 15:07:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7E1F5C0051;
+	Thu, 27 Aug 2020 15:45:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EED54C0051
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:04 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C2B56C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:45:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id DD52D86ACB
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:04 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id AAC1586AF2
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:45:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mW01atb2jV2e for <iommu@lists.linux-foundation.org>;
- Thu, 27 Aug 2020 15:07:02 +0000 (UTC)
+ with ESMTP id s0q6+fZuvmDD for <iommu@lists.linux-foundation.org>;
+ Thu, 27 Aug 2020 15:45:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 22A0686A70
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:02 +0000 (UTC)
-IronPort-SDR: gQPMph5Z3bmt2+ij6KG2F+6qt50n0e4Y5v03AmAeoeaSFSMuly511EJImobIdQu5y4QSW0dotP
- c/g+lrpgtB9Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="144175681"
-X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; d="scan'208";a="144175681"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Aug 2020 08:07:00 -0700
-IronPort-SDR: 5iWFj7LdX/DYg6s2cCgFzAavsgCvohV07HFPm268lGJlNHnjGRdDLrZki56Dm8kXNb9hMbQlc0
- J2OquSTpIN3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; d="scan'208";a="332212874"
-Received: from romley-ivt3.sc.intel.com ([172.25.110.60])
- by fmsmga002.fm.intel.com with ESMTP; 27 Aug 2020 08:07:00 -0700
-From: Fenghua Yu <fenghua.yu@intel.com>
-To: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>, "H Peter Anvin" <hpa@zytor.com>,
- "Andy Lutomirski" <luto@kernel.org>,
- "Jean-Philippe Brucker" <jean-philippe@linaro.org>,
- "Christoph Hellwig" <hch@infradead.org>,
- "Peter Zijlstra" <peterz@infradead.org>,
- "David Woodhouse" <dwmw2@infradead.org>,
- "Lu Baolu" <baolu.lu@linux.intel.com>,
- "Dave Hansen" <dave.hansen@intel.com>, "Tony Luck" <tony.luck@intel.com>,
- "Ashok Raj" <ashok.raj@intel.com>,
- "Jacob Jun Pan" <jacob.jun.pan@intel.com>,
- "Dave Jiang" <dave.jiang@intel.com>, "Sohil Mehta" <sohil.mehta@intel.com>,
- "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH v7 9/9] x86/mmu: Allocate/free PASID
-Date: Thu, 27 Aug 2020 08:06:34 -0700
-Message-Id: <1598540794-132666-10-git-send-email-fenghua.yu@intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1598540794-132666-1-git-send-email-fenghua.yu@intel.com>
-References: <1598540794-132666-1-git-send-email-fenghua.yu@intel.com>
-Cc: Fenghua Yu <fenghua.yu@intel.com>, iommu@lists.linux-foundation.org,
- x86 <x86@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+ [209.85.208.66])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 9A90486866
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:45:06 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id c10so5342229edk.6
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 08:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=74Ao/c7oeFoBT1F8v8BlKUziYBzWC4YEYws/h439jKs=;
+ b=AMPa8N1AoD9YB7fIeGgmF/cNowE7jTvmdnSlHkNXqWgTuHGj1LDyz6RY9dorKnL/fN
+ Z30pyVOeUrs4fDWQn3hrs1dZvRxrbplQZbImRrNJNHdCgPH/5mhyGT43pJeH7xkrp6Sb
+ MZBcScUrs/MJyLn42oxJRGaNJrvbJexbN1cPg2Cxkb3XtnP+LC3+ovtJFuj8hqptSUOv
+ CcXCkksNHNjATY9ob/FlyIIO46cj2X4u3uwybNf4+PMBFfX+68NaraOwOxzF+DfICVCM
+ VN25BNvOEthy10Y2DCDS0ilfaqRXmZ3ernBzLlAAUqcBNegk+XnORCZVVMope4D1TZQ+
+ iXvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=74Ao/c7oeFoBT1F8v8BlKUziYBzWC4YEYws/h439jKs=;
+ b=PnwGVNYbLKyDhjaRw4AEm2/jS3k6C4NnXw7BO+z0obcIWI6ZvodKvve8XOytKGbykG
+ uNkVa0GXtLTC8fGf1HvdVPBOfOJ8LzyRJqxlHXLB/dVDxmFJE3IjoanMB0pJC1bdklAB
+ K+atR1EMvgxhpGfvYgie0Jprfhe+R6GzqltZyyARr55B97s/udYcMaRA0i9cwEgt5iaT
+ vm3BYW3nr5dHA4HpXYkHvveYg3EEwlKuR5iRQM3hyIuUdjNTOCl9zitvp+n3a2OyPkIa
+ m1hEOnFBbSGvwGqDXZdSOe3WqZ0YPWrfJuKovgPjkmf2F1Ik46EyIBlSMHmmneQo24Ta
+ l49A==
+X-Gm-Message-State: AOAM532iNsxZLiQ2c7u1NOzQgc2q+Eou7zS/rXbzUhhLlb/aENep23eR
+ ZNDMGyAkxxaC9G/owEFSSN8=
+X-Google-Smtp-Source: ABdhPJxRtAe6Y1ma+0338eCNyd9I0m6G1oP+UGM2tA/8xgx0U3OYLFtKYBAAwxNFg0VrZz+x/RmEmw==
+X-Received: by 2002:a05:6402:3088:: with SMTP id
+ de8mr20472098edb.88.1598543104973; 
+ Thu, 27 Aug 2020 08:45:04 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+ by smtp.gmail.com with ESMTPSA id u4sm1804409edt.11.2020.08.27.08.45.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Aug 2020 08:45:03 -0700 (PDT)
+Date: Thu, 27 Aug 2020 17:45:02 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 13/18] iommu/tegra: Add IOMMU_DOMAIN_DMA support
+Message-ID: <20200827154502.GA1660457@ulmo>
+References: <cover.1597931875.git.robin.murphy@arm.com>
+ <cd11bc7851dbe46db6d14821a942678047331913.1597931876.git.robin.murphy@arm.com>
+MIME-Version: 1.0
+In-Reply-To: <cd11bc7851dbe46db6d14821a942678047331913.1597931876.git.robin.murphy@arm.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+Cc: geert+renesas@glider.be, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ digetx@gmail.com, will@kernel.org, hch@lst.de,
+ linux-samsung-soc@vger.kernel.org, magnus.damm@gmail.com,
+ linux@armlinux.org.uk, jonathanh@nvidia.com, agross@kernel.org,
+ kyungmin.park@samsung.com, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, inki.dae@samsung.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, sw0312.kim@samsung.com,
+ linux-kernel@vger.kernel.org, t-kristo@ti.com,
+ iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,217 +101,78 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============6936220530884252532=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-A PASID is allocated for an "mm" the first time any thread binds
-to an SVM capable device and is freed from the "mm" when the SVM is
-unbound by the last thread. It's possible for the "mm" to have different
-PASID values in different binding/unbinding SVM cycles.
 
-The mm's PASID (non-zero for valid PASID or 0 for invalid PASID) is
-propagated to per-thread PASID MSR for all threads within the mm through
-through IPI, context switch, or inherit to ensure a running thread has
-the right PASID MSR matching the mm's PASID.
+--===============6936220530884252532==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="YiEDa0DAkWCtVeE4"
+Content-Disposition: inline
 
-Suggested-by: Andy Lutomirski <luto@kernel.org>
-Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
-Reviewed-by: Tony Luck <tony.luck@intel.com>
----
-v7:
-- Don't fix up PASID in #GP. Instead, update the PASID MSR by IPI and
-  context switch after PASID allocation and free. Inherit PASID from
-  parent. (Andy)
 
-Before v7:
-- Allocate a PASID for the mm and free it until mm exit.
+--YiEDa0DAkWCtVeE4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- arch/x86/include/asm/disabled-features.h |  2 +-
- arch/x86/include/asm/fpu/api.h           | 12 +++++
- arch/x86/include/asm/fpu/internal.h      |  2 +
- arch/x86/kernel/fpu/xstate.c             | 56 ++++++++++++++++++++++++
- drivers/iommu/intel/svm.c                | 28 +++++++++++-
- 5 files changed, 98 insertions(+), 2 deletions(-)
+On Thu, Aug 20, 2020 at 04:08:32PM +0100, Robin Murphy wrote:
+> Now that arch/arm is wired up for default domains and iommu-dma,
+> implement the corresponding driver-side support for DMA domains.
+>=20
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>  drivers/iommu/tegra-smmu.c | 37 +++++++++++++++++++++----------------
+>  1 file changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
-index 588d83e9da49..5861d34f9771 100644
---- a/arch/x86/include/asm/disabled-features.h
-+++ b/arch/x86/include/asm/disabled-features.h
-@@ -56,7 +56,7 @@
- # define DISABLE_PTI		(1 << (X86_FEATURE_PTI & 31))
- #endif
- 
--#ifdef CONFIG_INTEL_IOMMU_SVM
-+#ifdef CONFIG_IOMMU_SUPPORT
- # define DISABLE_ENQCMD	0
- #else
- # define DISABLE_ENQCMD (1 << (X86_FEATURE_ENQCMD & 31))
-diff --git a/arch/x86/include/asm/fpu/api.h b/arch/x86/include/asm/fpu/api.h
-index b774c52e5411..dcd9503b1098 100644
---- a/arch/x86/include/asm/fpu/api.h
-+++ b/arch/x86/include/asm/fpu/api.h
-@@ -62,4 +62,16 @@ extern void switch_fpu_return(void);
-  */
- extern int cpu_has_xfeatures(u64 xfeatures_mask, const char **feature_name);
- 
-+/*
-+ * Tasks that are not using SVA have mm->pasid set to zero to note that they
-+ * will not have the valid bit set in MSR_IA32_PASID while they are running.
-+ */
-+#define PASID_DISABLED	0
-+
-+#ifdef CONFIG_IOMMU_SUPPORT
-+/* Update current's PASID MSR/state by mm's PASID. */
-+void update_pasid(void);
-+#else
-+static inline void update_pasid(void) { }
-+#endif
- #endif /* _ASM_X86_FPU_API_H */
-diff --git a/arch/x86/include/asm/fpu/internal.h b/arch/x86/include/asm/fpu/internal.h
-index 0a460f2a3f90..2d737e02b59a 100644
---- a/arch/x86/include/asm/fpu/internal.h
-+++ b/arch/x86/include/asm/fpu/internal.h
-@@ -583,6 +583,8 @@ static inline void switch_fpu_finish(struct fpu *new_fpu)
- 			pkru_val = pk->pkru;
- 	}
- 	__write_pkru(pkru_val);
-+
-+	update_pasid();
- }
- 
- /*
-diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
-index 67f1a03b9b23..556040e14f1c 100644
---- a/arch/x86/kernel/fpu/xstate.c
-+++ b/arch/x86/kernel/fpu/xstate.c
-@@ -1402,3 +1402,59 @@ int proc_pid_arch_status(struct seq_file *m, struct pid_namespace *ns,
- 	return 0;
- }
- #endif /* CONFIG_PROC_PID_ARCH_STATUS */
-+
-+#ifdef CONFIG_IOMMU_SUPPORT
-+void update_pasid(void)
-+{
-+	u64 pasid_state;
-+	u32 pasid;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_ENQCMD))
-+		return;
-+
-+	if (!current->mm)
-+		return;
-+
-+	pasid = READ_ONCE(current->mm->pasid);
-+	/* Set the valid bit in the PASID MSR/state only for valid pasid. */
-+	pasid_state = pasid == PASID_DISABLED ?
-+		      pasid : pasid | MSR_IA32_PASID_VALID;
-+
-+	/*
-+	 * No need to hold fregs_lock() since the task's fpstate won't
-+	 * be changed by others (e.g. ptrace) while the task is being
-+	 * switched to or is in IPI.
-+	 */
-+	if (!test_thread_flag(TIF_NEED_FPU_LOAD)) {
-+		/* The MSR is active and can be directly updated. */
-+		wrmsrl(MSR_IA32_PASID, pasid_state);
-+	} else {
-+		struct fpu *fpu = &current->thread.fpu;
-+		struct ia32_pasid_state *ppasid_state;
-+		struct xregs_state *xsave;
-+
-+		/*
-+		 * The CPU's xstate registers are not currently active. Just
-+		 * update the PASID state in the memory buffer here. The
-+		 * PASID MSR will be loaded when returning to user mode.
-+		 */
-+		xsave = &fpu->state.xsave;
-+		xsave->header.xfeatures |= XFEATURE_MASK_PASID;
-+		ppasid_state = get_xsave_addr(xsave, XFEATURE_PASID);
-+		if (ppasid_state) {
-+			/*
-+			 * Only update the task's PASID state when it's
-+			 * different from the mm's pasid.
-+			 */
-+			if (ppasid_state->pasid != pasid_state) {
-+				/*
-+				 * Invalid fpregs so that xrstors will pick up
-+				 * the PASID state.
-+				 */
-+				__fpu_invalidate_fpregs_state(fpu);
-+				ppasid_state->pasid = pasid_state;
-+			}
-+		}
-+	}
-+}
-+#endif /* CONFIG_IOMMU_SUPPORT */
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index fc90a079e228..60ffe083b6d6 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -19,6 +19,7 @@
- #include <linux/mm_types.h>
- #include <linux/ioasid.h>
- #include <asm/page.h>
-+#include <asm/fpu/api.h>
- 
- #include "pasid.h"
- 
-@@ -444,6 +445,24 @@ int intel_svm_unbind_gpasid(struct device *dev, u32 pasid)
- 	return ret;
- }
- 
-+static void _load_pasid(void *unused)
-+{
-+	update_pasid();
-+}
-+
-+static void load_pasid(struct mm_struct *mm, u32 pasid)
-+{
-+	mutex_lock(&mm->context.lock);
-+
-+	/* Synchronize with READ_ONCE in update_pasid(). */
-+	smp_store_release(&mm->pasid, pasid);
-+
-+	/* Update PASID MSR on all CPUs running the mm's tasks. */
-+	on_each_cpu_mask(mm_cpumask(mm), _load_pasid, NULL, true);
-+
-+	mutex_unlock(&mm->context.lock);
-+}
-+
- /* Caller must hold pasid_mutex, mm reference */
- static int
- intel_svm_bind_mm(struct device *dev, unsigned int flags,
-@@ -591,6 +610,10 @@ intel_svm_bind_mm(struct device *dev, unsigned int flags,
- 		}
- 
- 		list_add_tail(&svm->list, &global_svm_list);
-+		if (mm) {
-+			/* The newly allocated pasid is loaded to the mm. */
-+			load_pasid(mm, svm->pasid);
-+		}
- 	} else {
- 		/*
- 		 * Binding a new device with existing PASID, need to setup
-@@ -654,8 +677,11 @@ static int intel_svm_unbind_mm(struct device *dev, u32 pasid)
- 
- 			if (list_empty(&svm->devs)) {
- 				ioasid_free(svm->pasid);
--				if (svm->mm)
-+				if (svm->mm) {
- 					mmu_notifier_unregister(&svm->notifier, svm->mm);
-+					/* Clear mm's pasid. */
-+					load_pasid(svm->mm, PASID_DISABLED);
-+				}
- 				list_del(&svm->list);
- 				/* We mandate that no page faults may be outstanding
- 				 * for the PASID when intel_svm_unbind_mm() is called.
--- 
-2.19.1
+We can't do that yet because it will currently still break for use-cases
+such as display where we don't properly set up identity mappings during
+boot. The result is that the dma-iommu code will enable translations
+before the driver gets a chance to set up any mappings and if the
+display controller was left on by the bootloader, scanning out a splash
+screen, this causes faults between the point where dma-iommu is being
+set up for the display controller and where the display controller
+starts mapping its own buffers (rather than the ones mapped by the
+bootloader).
+
+That said, I do have a series that I've been carrying around for longer
+than I've wanted that does exactly this for Tegra SMMU and I'd prefer if
+you could drop this particular change from your series so that I can
+keep working on resolving the identity mapping issues first.
+
+Thierry
+
+--YiEDa0DAkWCtVeE4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9H1PwACgkQ3SOs138+
+s6GMrhAAqb0k0/ZQ/J5VIibNnM1oZSG1CTD/3tuwm94u1T1J++b71xlQpN0U7Fru
+gJNX22olSrdpzdecS9LQ3Twqu4qgPzLazvenfBLxxrDuwS466j3hbbW8cG1Tlb/m
+6lEbacziO0f91GP7ao5dAG0HIPZvIYfU1PIA/eOPnBcOlFVvWVfCnN6gOjPOSocz
+20X/S1W6d5Jo7x2T0PtA0TFpD9BZVzjZA2q9XVzPSxkqLfEVMU00Yp/TnHySfWJ3
++sfRxeaUl5Ysjrtkd5YeFoIGlVctyKIKtGCIR60HU4bPlB4cdaVaaJBVkJAM7kQh
+p+UGnGgl09/DyAe57qVaEWsbcXwHaxeveFmdjMHn9y0veGidzQPg0KtDUL2k7D3V
+NXHKnets8HdkODT8PjTSbS3ELLEHf1GxsYAcR9aHvV1FLMl3c/8ZmMA1RZ5CIAbD
+rmFaxQENmVHUev0lQnwlYP7Wwt2YyXc62L9UfyhrIkQjHmm/D+uIlPmjkr/YDreI
+xndQ7H0OgVFKuc9nfSpnBOgIEeLDNr2AA59wzUxHikB+5MfDyxOk5TqnsjdcqSqr
+b8257AC5ZWe79OOD0/hwDAlmSlx/hB3lO2kmm3BhLX+5tOTQv7vTSgr9BTppkZrD
+dQHiT2TjMsiQyBhXhceazD0hhSAC3MSh1+TpgLDrBy2Sh96zUQ8=
+=Dzgn
+-----END PGP SIGNATURE-----
+
+--YiEDa0DAkWCtVeE4--
+
+--===============6936220530884252532==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============6936220530884252532==--
