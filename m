@@ -1,95 +1,104 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12B225456F
-	for <lists.iommu@lfdr.de>; Thu, 27 Aug 2020 14:54:48 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 752C7876EB;
-	Thu, 27 Aug 2020 12:54:47 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kPIMaL5T4whj; Thu, 27 Aug 2020 12:54:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E3374876F9;
-	Thu, 27 Aug 2020 12:54:45 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C9BDDC0051;
-	Thu, 27 Aug 2020 12:54:45 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id ED309C0051
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 12:54:44 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A592545EC
+	for <lists.iommu@lfdr.de>; Thu, 27 Aug 2020 15:30:18 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D58A185FAC
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 12:54:44 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1427B8636D;
+	Thu, 27 Aug 2020 13:30:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id k3mEySiNufUC; Thu, 27 Aug 2020 13:30:16 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 933B2864D1;
+	Thu, 27 Aug 2020 13:30:16 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 713E6C0051;
+	Thu, 27 Aug 2020 13:30:16 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1472AC0051
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 13:30:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id C9B92204CC
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 13:30:14 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id f3STxf03RyUJ for <iommu@lists.linux-foundation.org>;
- Thu, 27 Aug 2020 12:54:41 +0000 (UTC)
+ with ESMTP id 4tqTaAs59mCC for <iommu@lists.linux-foundation.org>;
+ Thu, 27 Aug 2020 13:30:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 0712186073
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 12:54:41 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id s13so5069363wmh.4
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 05:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=a5lpHFvSWQoGrjybaXmlV69Axq+442tGTTEhKXzXB/M=;
- b=FGT1CbGRN8nWIZimQQJFHaFlgGbXUWXcohmF6aYnzTMEIdoXLV8ASHcjH/rftf8dPu
- 05h7ynqky+tK0sVnESIUNMOkwDJXKaIKOOjfk8ZzK2aS6ItFzfPK1RiS8Sgq9gCPkksa
- s87z1TYPj+YUb/w6uaLEL+ETfgmlzhXCU10ucGJlzNXsBINUdbYoCrfyflOTHYw+cbz4
- RAdiDof8rxMnyZ5hwply2FrDERb1PY3A2wl1RdJOsOW1zwqi8pXPitwO0zzOFjipVey5
- oUPQnIgnx+nqlo3zwpUr7dRtVO/mC+2RV5+VHT1jDZZ+PWuU7gSvtmMNjL2CWO/kpKhp
- IGew==
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+ [209.85.221.68])
+ by silver.osuosl.org (Postfix) with ESMTPS id 230FE2046D
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 13:30:13 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id d10so4476912wrw.2
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 06:30:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p33Zl85F48xSFFwh9Fvb6fYwVy/Jt4DGVFmz86MHbko=;
+ b=CUujgUZRienGvENy9ZeNSE4OLq/gTozkw9vqhnndn3e+Pp27upZYxzcOy348qWT4x6
+ fZ9HzhrGd6ok0/lpV6XJMXIHbIrfSS3H2kc5d+JTd1lletPZjVOkUQ8WZMoDnSSylgRw
+ zOHH0JLxrQJsHR8v5+SGQOGgwwu7dIE6xp9Po=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=a5lpHFvSWQoGrjybaXmlV69Axq+442tGTTEhKXzXB/M=;
- b=pr9f3f8N6pKY6M1lDp7bRAgGZ99V7HXTeU8Wxaaw8bjr8Ylup13fAcnwsAYKWkf8gE
- A1vaAhyCfi0oa6Gc8DwrgmKMzqkHD6v5caI2JJilGF5GeKdUQ6wfSFgJERHiXR7rmVS0
- t7azEdK2McxDDYctV2eWkdAR2xEVYtP1A6/e3F9Ud4rWvcySGKCP0z9vFmXE8Gasc+HG
- Zqb+29x99iG6Eh/xKkBpXimQGj36XAmcXFXyL8IhnZ61ARmg0jLV7HyUgtn0gkoEiIMn
- G7oxOBA/NVkvhQzhpzgNk22BS/D+AQG4ELZM8ld0+v2SPZs5bcf7LrTkO50iiwjK8Cxj
- g5wg==
-X-Gm-Message-State: AOAM530S/80NY+7u6mUxTx/tfs5x+VnXBaDdjWBBMFcNHLX8PPS7TQGX
- pSeoZOPPCjcE0N/n7eH4qCysVnooTvXbmrE0
-X-Google-Smtp-Source: ABdhPJwqZV7pk1FvOSkguIjKJvFkFK+Tun3miq523wTMnXd9BGquVzYW29lvsrXbzl2PtJrmqLojuA==
-X-Received: by 2002:a1c:7d55:: with SMTP id y82mr3074513wmc.100.1598532878977; 
- Thu, 27 Aug 2020 05:54:38 -0700 (PDT)
-Received: from ziggy.stardust ([213.195.119.187])
- by smtp.gmail.com with ESMTPSA id m11sm5436719wrn.11.2020.08.27.05.54.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Aug 2020 05:54:38 -0700 (PDT)
-Subject: Re: Aw: [PATCH 00/18] Convert arch/arm to use iommu-dma
-To: Frank Wunderlich <frank-w@public-files.de>,
- Robin Murphy <robin.murphy@arm.com>
-References: <cover.1597931875.git.robin.murphy@arm.com>
- <trinity-d6be65d8-9086-42bc-b993-238b731cdf60-1598531519064@3c-app-gmx-bap26>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Message-ID: <d54f5d47-63aa-d07e-3875-6acce69073f3@gmail.com>
-Date: Thu, 27 Aug 2020 14:54:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p33Zl85F48xSFFwh9Fvb6fYwVy/Jt4DGVFmz86MHbko=;
+ b=XUmFZkJjvGSITuh7s8vGOU4psSA+cZYfc1xEJvwK6yaGcQYg4Sfgb4CvYlaGBoDnL9
+ PzGSgqKtYLk7DSoLoflPMbC0FYSEZHiKtZkdJEbg03KP0DKCXIrRIEyxCq6fEn748mZW
+ AIEirPTbYJzs+hBZa8pV21YljV9rOnxqRb2qbctCEbNHNX5PfXh3zwp4APtEinsa+eW4
+ lRfIascQHV7PLe2c5iOuRZaQUvqlyrRewlApknWsqzAaaSoUXxhPbljFKYIlIbuwErYZ
+ MXVbSuYXcI1wSoJPzE8cD2C1pcLbO431AwP+9C5WEYFP0EhtFWvFCBB/tNF5S1RkoeqA
+ ldaw==
+X-Gm-Message-State: AOAM530GosY7G07DZ0vpSv3pQWHWRFiPofObVma2z4kGl7a0H4Jx/gr/
+ Hn66IFssmh/qbxO9NJA4n57K4nAm9tbB4Pu2IOo8/w==
+X-Google-Smtp-Source: ABdhPJyMtaFishcwtzNCj7DHN/faPMoK+tSF7O0vKJaBGS+gpAIRdF6geUez9pCQeleah1w6P5SJ7nzMgTS0KKpMqRI=
+X-Received: by 2002:adf:bb54:: with SMTP id x20mr19609148wrg.413.1598535011238; 
+ Thu, 27 Aug 2020 06:30:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <trinity-d6be65d8-9086-42bc-b993-238b731cdf60-1598531519064@3c-app-gmx-bap26>
-Content-Language: en-US
-Cc: geert+renesas@glider.be, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, laurent.pinchart@ideasonboard.com, digetx@gmail.com,
- will@kernel.org, hch@lst.de, linux-samsung-soc@vger.kernel.org,
- magnus.damm@gmail.com, linux@armlinux.org.uk, iommu@lists.linux-foundation.org,
- jonathanh@nvidia.com, agross@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- inki.dae@samsung.com, linux-mediatek@lists.infradead.org,
- linux-tegra@vger.kernel.org, sw0312.kim@samsung.com,
- linux-kernel@vger.kernel.org, t-kristo@ti.com, kyungmin.park@samsung.com
+References: <20200824193036.6033-1-james.quinlan@broadcom.com>
+ <b19bc982-a0c4-c6ff-d8f5-650f2b3a83c8@gmail.com>
+ <20200827063517.GA4637@lst.de>
+In-Reply-To: <20200827063517.GA4637@lst.de>
+Date: Thu, 27 Aug 2020 09:29:59 -0400
+Message-ID: <CA+-6iNy3U9pO0Bykzgvb9n9fcsBi6FiatLdpA1s0HgQNWZ49mg@mail.gmail.com>
+Subject: Re: [PATCH v11 00/11] PCI: brcmstb: enable PCIe for STB chips
+To: Christoph Hellwig <hch@lst.de>
+Cc: "open list:SUPERH" <linux-sh@vger.kernel.org>,
+ "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
+ <linux-pci@vger.kernel.org>,
+ "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
+ <linux-remoteproc@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
+ Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
+ "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+ Rob Herring <robh@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
+ Saravana Kannan <saravanak@google.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, Joerg Roedel <jroedel@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,26 +111,37 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Jim Quinlan via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Jim Quinlan <james.quinlan@broadcom.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-
-
-On 27/08/2020 14:31, Frank Wunderlich wrote:
-> Tested full series on bananapi r2 (mt7623/mt2701, 5.9-rc1 + hdmi-patches), works so far fbcon+x without issues
-> 
-> Tested-by: Frank Wunderlich <frank-w@public-files.de>
-> 
-
-Thanks for testing.
-
-Robin this is especially relevant for:
-[PATCH 09/18] iommu/mediatek-v1: Add IOMMU_DOMAIN_DMA support
-
-Regards,
-Matthias
+On Thu, Aug 27, 2020 at 2:35 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Tue, Aug 25, 2020 at 10:40:27AM -0700, Florian Fainelli wrote:
+> > Hi,
+> >
+> > On 8/24/2020 12:30 PM, Jim Quinlan wrote:
+> >>
+> >> Patchset Summary:
+> >>    Enhance a PCIe host controller driver.  Because of its unusual design
+> >>    we are foced to change dev->dma_pfn_offset into a more general role
+> >>    allowing multiple offsets.  See the 'v1' notes below for more info.
+> >
+> > We are version 11 and counting, and it is not clear to me whether there is
+> > any chance of getting these patches reviewed and hopefully merged for the
+> > 5.10 merge window.
+> >
+> > There are a lot of different files being touched, so what would be the
+> > ideal way of routing those changes towards inclusion?
+>
+> FYI, I offered to take the dma-mapping bits through the dma-mapping tree.
+> I have a bit of a backlog, but plan to review and if Jim is ok with that
+> apply the current version.
+Sounds good to me.
+Thanks, Jim
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
