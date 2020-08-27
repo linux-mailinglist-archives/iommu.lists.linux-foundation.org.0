@@ -1,52 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B553B254870
-	for <lists.iommu@lfdr.de>; Thu, 27 Aug 2020 17:07:13 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC9E254869
+	for <lists.iommu@lfdr.de>; Thu, 27 Aug 2020 17:07:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D6185884A2;
-	Thu, 27 Aug 2020 15:07:11 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9196686A61;
+	Thu, 27 Aug 2020 15:07:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QP6zpLxs4PCQ; Thu, 27 Aug 2020 15:07:11 +0000 (UTC)
+	with ESMTP id 47HftalUSbhh; Thu, 27 Aug 2020 15:07:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9EB31884BF;
-	Thu, 27 Aug 2020 15:07:10 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D406286A10;
+	Thu, 27 Aug 2020 15:07:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7A7E8C0051;
-	Thu, 27 Aug 2020 15:07:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A71FAC0051;
+	Thu, 27 Aug 2020 15:07:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B8E7AC016F
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:05 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 61E07C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A159086ACB
- for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:05 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 5C28586ACB
+ for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TFXkYfRddZfv for <iommu@lists.linux-foundation.org>;
- Thu, 27 Aug 2020 15:07:01 +0000 (UTC)
+ with ESMTP id n4LmaCMKEdAl for <iommu@lists.linux-foundation.org>;
+ Thu, 27 Aug 2020 15:07:02 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 940C786A48
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D652186AB6
  for <iommu@lists.linux-foundation.org>; Thu, 27 Aug 2020 15:07:01 +0000 (UTC)
-IronPort-SDR: BTSpSwEMIaZdx9FZRrmA9LaYABGcifgNC43+FWZoGOaoZHMrQqma4KZupb0WSXAb8uigrvNAhP
- KCmQvo/D9D8A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="144175677"
-X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; d="scan'208";a="144175677"
+IronPort-SDR: 6s6R4E3X0bBuvIXpPlMq0UtjheTA+1GLNhzQWqYGu9GtQTe7sYaoy7y2XX87QU9ERLBeKOckYe
+ siiJtvJ3uRhg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="144175678"
+X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; d="scan'208";a="144175678"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  27 Aug 2020 08:07:00 -0700
-IronPort-SDR: 5qZDgVN5Mywpie7uW+kZ1nsUF1zqbEwHLQDelhymvP05xbVtb1JeDMpuetWbWmkP9czXYhehc+
- uyl0+bc1PS5w==
+IronPort-SDR: sXW/5cAB0KoQkxUAL+dX5ekCBLtkuyaYEF1nhOEaG+tPQoyPYwDNppjhREDOpO3wf207kGgpco
+ fL3X+y5ypNWg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; d="scan'208";a="332212861"
+X-IronPort-AV: E=Sophos;i="5.76,359,1592895600"; d="scan'208";a="332212864"
 Received: from romley-ivt3.sc.intel.com ([172.25.110.60])
  by fmsmga002.fm.intel.com with ESMTP; 27 Aug 2020 08:06:59 -0700
 From: Fenghua Yu <fenghua.yu@intel.com>
@@ -63,16 +63,14 @@ To: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
  "Jacob Jun Pan" <jacob.jun.pan@intel.com>,
  "Dave Jiang" <dave.jiang@intel.com>, "Sohil Mehta" <sohil.mehta@intel.com>,
  "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH v7 5/9] x86/fpu/xstate: Add supervisor PASID state for ENQCMD
- feature
-Date: Thu, 27 Aug 2020 08:06:30 -0700
-Message-Id: <1598540794-132666-6-git-send-email-fenghua.yu@intel.com>
+Subject: [PATCH v7 6/9] x86/msr-index: Define IA32_PASID MSR
+Date: Thu, 27 Aug 2020 08:06:31 -0700
+Message-Id: <1598540794-132666-7-git-send-email-fenghua.yu@intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <1598540794-132666-1-git-send-email-fenghua.yu@intel.com>
 References: <1598540794-132666-1-git-send-email-fenghua.yu@intel.com>
 Cc: Fenghua Yu <fenghua.yu@intel.com>, iommu@lists.linux-foundation.org,
- x86 <x86@kernel.org>, Yu-cheng Yu <yu-cheng.yu@intel.com>,
- linux-kernel <linux-kernel@vger.kernel.org>
+ x86 <x86@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,119 +89,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Yu-cheng Yu <yu-cheng.yu@intel.com>
+The IA32_PASID MSR (0xd93) contains the Process Address Space Identifier
+(PASID), a 20-bit value. Bit 31 must be set to indicate the value
+programmed in the MSR is valid. Hardware uses PASID to identify process
+address space and direct responses to the right address space.
 
-ENQCMD instruction reads PASID from IA32_PASID MSR. The MSR is stored
-in the task's supervisor FPU PASID state and is context switched by
-XSAVES/XRSTORS.
-
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Co-developed-by: Fenghua Yu <fenghua.yu@intel.com>
 Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
 ---
 v2:
-- Modify the commit message (Thomas)
+- Change "identify process" to "identify process address space" in the
+  commit message (Thomas)
 
- arch/x86/include/asm/fpu/types.h  | 11 ++++++++++-
- arch/x86/include/asm/fpu/xstate.h |  2 +-
- arch/x86/kernel/fpu/xstate.c      |  6 +++++-
- 3 files changed, 16 insertions(+), 3 deletions(-)
+ arch/x86/include/asm/msr-index.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/x86/include/asm/fpu/types.h b/arch/x86/include/asm/fpu/types.h
-index c87364ea6446..f5a38a5f3ae1 100644
---- a/arch/x86/include/asm/fpu/types.h
-+++ b/arch/x86/include/asm/fpu/types.h
-@@ -114,7 +114,7 @@ enum xfeature {
- 	XFEATURE_Hi16_ZMM,
- 	XFEATURE_PT_UNIMPLEMENTED_SO_FAR,
- 	XFEATURE_PKRU,
--	XFEATURE_RSRVD_COMP_10,
-+	XFEATURE_PASID,
- 	XFEATURE_RSRVD_COMP_11,
- 	XFEATURE_RSRVD_COMP_12,
- 	XFEATURE_RSRVD_COMP_13,
-@@ -134,6 +134,7 @@ enum xfeature {
- #define XFEATURE_MASK_Hi16_ZMM		(1 << XFEATURE_Hi16_ZMM)
- #define XFEATURE_MASK_PT		(1 << XFEATURE_PT_UNIMPLEMENTED_SO_FAR)
- #define XFEATURE_MASK_PKRU		(1 << XFEATURE_PKRU)
-+#define XFEATURE_MASK_PASID		(1 << XFEATURE_PASID)
- #define XFEATURE_MASK_LBR		(1 << XFEATURE_LBR)
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+index 2859ee4f39a8..aaddc6a9e237 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -257,6 +257,9 @@
+ #define MSR_IA32_LASTINTFROMIP		0x000001dd
+ #define MSR_IA32_LASTINTTOIP		0x000001de
  
- #define XFEATURE_MASK_FPSSE		(XFEATURE_MASK_FP | XFEATURE_MASK_SSE)
-@@ -256,6 +257,14 @@ struct arch_lbr_state {
- 	struct lbr_entry		entries[];
- } __packed;
- 
-+/*
-+ * State component 10 is supervisor state used for context-switching the
-+ * PASID state.
-+ */
-+struct ia32_pasid_state {
-+	u64 pasid;
-+} __packed;
++#define MSR_IA32_PASID			0x00000d93
++#define MSR_IA32_PASID_VALID		BIT_ULL(31)
 +
- struct xstate_header {
- 	u64				xfeatures;
- 	u64				xcomp_bv;
-diff --git a/arch/x86/include/asm/fpu/xstate.h b/arch/x86/include/asm/fpu/xstate.h
-index 14ab815132d4..47a92232d595 100644
---- a/arch/x86/include/asm/fpu/xstate.h
-+++ b/arch/x86/include/asm/fpu/xstate.h
-@@ -35,7 +35,7 @@
- 				      XFEATURE_MASK_BNDCSR)
- 
- /* All currently supported supervisor features */
--#define XFEATURE_MASK_SUPERVISOR_SUPPORTED (0)
-+#define XFEATURE_MASK_SUPERVISOR_SUPPORTED (XFEATURE_MASK_PASID)
- 
- /*
-  * A supervisor state component may not always contain valuable information,
-diff --git a/arch/x86/kernel/fpu/xstate.c b/arch/x86/kernel/fpu/xstate.c
-index 038e19c0019e..67f1a03b9b23 100644
---- a/arch/x86/kernel/fpu/xstate.c
-+++ b/arch/x86/kernel/fpu/xstate.c
-@@ -37,6 +37,7 @@ static const char *xfeature_names[] =
- 	"AVX-512 ZMM_Hi256"		,
- 	"Processor Trace (unused)"	,
- 	"Protection Keys User registers",
-+	"PASID state",
- 	"unknown xstate feature"	,
- };
- 
-@@ -51,6 +52,7 @@ static short xsave_cpuid_features[] __initdata = {
- 	X86_FEATURE_AVX512F,
- 	X86_FEATURE_INTEL_PT,
- 	X86_FEATURE_PKU,
-+	X86_FEATURE_ENQCMD,
- };
- 
- /*
-@@ -318,6 +320,7 @@ static void __init print_xstate_features(void)
- 	print_xstate_feature(XFEATURE_MASK_ZMM_Hi256);
- 	print_xstate_feature(XFEATURE_MASK_Hi16_ZMM);
- 	print_xstate_feature(XFEATURE_MASK_PKRU);
-+	print_xstate_feature(XFEATURE_MASK_PASID);
- }
- 
- /*
-@@ -592,6 +595,7 @@ static void check_xstate_against_struct(int nr)
- 	XCHECK_SZ(sz, nr, XFEATURE_ZMM_Hi256, struct avx_512_zmm_uppers_state);
- 	XCHECK_SZ(sz, nr, XFEATURE_Hi16_ZMM,  struct avx_512_hi16_state);
- 	XCHECK_SZ(sz, nr, XFEATURE_PKRU,      struct pkru_state);
-+	XCHECK_SZ(sz, nr, XFEATURE_PASID,     struct ia32_pasid_state);
- 
- 	/*
- 	 * Make *SURE* to add any feature numbers in below if
-@@ -601,7 +605,7 @@ static void check_xstate_against_struct(int nr)
- 	if ((nr < XFEATURE_YMM) ||
- 	    (nr >= XFEATURE_MAX) ||
- 	    (nr == XFEATURE_PT_UNIMPLEMENTED_SO_FAR) ||
--	    ((nr >= XFEATURE_RSRVD_COMP_10) && (nr <= XFEATURE_LBR))) {
-+	    ((nr >= XFEATURE_RSRVD_COMP_11) && (nr <= XFEATURE_LBR))) {
- 		WARN_ONCE(1, "no structure for xstate: %d\n", nr);
- 		XSTATE_WARN_ON(1);
- 	}
+ /* DEBUGCTLMSR bits (others vary by model): */
+ #define DEBUGCTLMSR_LBR			(1UL <<  0) /* last branch recording */
+ #define DEBUGCTLMSR_BTF_SHIFT		1
 -- 
 2.19.1
 
