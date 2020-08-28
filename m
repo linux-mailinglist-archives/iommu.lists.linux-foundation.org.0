@@ -1,73 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88DFA255908
-	for <lists.iommu@lfdr.de>; Fri, 28 Aug 2020 13:02:20 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE9625592E
+	for <lists.iommu@lfdr.de>; Fri, 28 Aug 2020 13:13:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A21EF86E07;
-	Fri, 28 Aug 2020 11:02:18 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 53D6187FFE;
+	Fri, 28 Aug 2020 11:13:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fSW7wfaHRa3m; Fri, 28 Aug 2020 11:02:15 +0000 (UTC)
+	with ESMTP id agqt0LOVWIUu; Fri, 28 Aug 2020 11:13:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E343E86E10;
-	Fri, 28 Aug 2020 11:02:15 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 783EA87EA8;
+	Fri, 28 Aug 2020 11:13:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CFAF5C0051;
-	Fri, 28 Aug 2020 11:02:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5CE3CC0051;
+	Fri, 28 Aug 2020 11:13:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0F3ACC0051
- for <iommu@lists.linux-foundation.org>; Fri, 28 Aug 2020 11:02:14 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AC81DC0051
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Aug 2020 11:13:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id E83AA228D5
- for <iommu@lists.linux-foundation.org>; Fri, 28 Aug 2020 11:02:13 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 94A1986DC6
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Aug 2020 11:13:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uiZIk3T9nlhh for <iommu@lists.linux-foundation.org>;
- Fri, 28 Aug 2020 11:02:11 +0000 (UTC)
+ with ESMTP id be7rD2peXxbL for <iommu@lists.linux-foundation.org>;
+ Fri, 28 Aug 2020 11:13:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by silver.osuosl.org (Postfix) with ESMTPS id 25FAD228BA
- for <iommu@lists.linux-foundation.org>; Fri, 28 Aug 2020 11:02:10 +0000 (UTC)
-Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.55])
- by Forcepoint Email with ESMTP id CDBDD3FC27EB8AD609B2;
- Fri, 28 Aug 2020 19:02:04 +0800 (CST)
-Received: from dggemi762-chm.china.huawei.com (10.1.198.148) by
- DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Fri, 28 Aug 2020 19:02:04 +0800
-Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
- dggemi762-chm.china.huawei.com (10.1.198.148) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Fri, 28 Aug 2020 19:02:04 +0800
-Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
- dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.1913.007;
- Fri, 28 Aug 2020 19:02:04 +0800
-From: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-To: Will Deacon <will@kernel.org>
-Subject: RE: [PATCH] iommu/arm-smmu-v3: add tracepoints for cmdq_issue_cmdlist
-Thread-Topic: [PATCH] iommu/arm-smmu-v3: add tracepoints for cmdq_issue_cmdlist
-Thread-Index: AQHWfFWUhbwMm9rWP0CSbrIWukW28qlMzW6AgACF0hA=
-Date: Fri, 28 Aug 2020 11:02:04 +0000
-Message-ID: <b7e9394523d548af8a3afa40746cd568@hisilicon.com>
-References: <20200827093351.15244-1-song.bao.hua@hisilicon.com>
- <20200828102927.GA30391@willie-the-truck>
-In-Reply-To: <20200828102927.GA30391@willie-the-truck>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.126.200.243]
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 55A3486D5B
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Aug 2020 11:13:15 +0000 (UTC)
+IronPort-SDR: 71bp9XE76PfEPrXtZBvglUKV4mJdxw/3nTziePq140dPnJS5MoffRBO8mZnZE3XOqogdkIQhMk
+ h4G7pGyhqljA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9726"; a="136711191"
+X-IronPort-AV: E=Sophos;i="5.76,363,1592895600"; d="scan'208";a="136711191"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Aug 2020 04:13:14 -0700
+IronPort-SDR: eZzUmeMtN4aVFi8u6VajLQELVFynrJzK4ab5Ecfxm/ukKE+94MUdQQmo8T8tMJ0LYoTfCQC3XD
+ LjOmk8K/vKJw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,363,1592895600"; d="scan'208";a="313571214"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orsmga002.jf.intel.com with ESMTP; 28 Aug 2020 04:13:13 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+ id 91B311B4; Fri, 28 Aug 2020 14:13:12 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Joerg Roedel <joro@8bytes.org>,
+	iommu@lists.linux-foundation.org
+Subject: [PATCH v1] iommu/dma: Use DMA ops setter instead of direct assignment
+Date: Fri, 28 Aug 2020 14:13:10 +0300
+Message-Id: <20200828111310.8032-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Linuxarm <linuxarm@huawei.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,85 +77,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+Use DMA ops setter instead of direct assignment. Even we know that
+this module doesn't perform access to the dma_ops member of struct device,
+it's better to use setter to avoid potential problems in the future.
 
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/iommu/dma-iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> -----Original Message-----
-> From: Will Deacon [mailto:will@kernel.org]
-> Sent: Friday, August 28, 2020 10:29 PM
-> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>
-> Cc: iommu@lists.linux-foundation.org; linux-arm-kernel@lists.infradead.org;
-> robin.murphy@arm.com; joro@8bytes.org; Linuxarm <linuxarm@huawei.com>
-> Subject: Re: [PATCH] iommu/arm-smmu-v3: add tracepoints for
-> cmdq_issue_cmdlist
-> 
-> On Thu, Aug 27, 2020 at 09:33:51PM +1200, Barry Song wrote:
-> > cmdq_issue_cmdlist() is the hotspot that uses a lot of time. This patch
-> > adds tracepoints for it to help debug.
-> >
-> > Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
-> > ---
-> >  * can furthermore develop an eBPF program to benchmark using this trace
-> 
-> Hmm, don't these things have a history of becoming ABI? If so, I don't
-> really want them in the driver at all, sorry. Do other drivers overcome
-> this somehow?
-
-This kind of tracepoints mainly works as a low-overhead probe point for debug purpose. I don't think any
-application would depend on it. It is for debugging. And there are lots of tracepoints in other drivers
-even in iommu driver core and intel_iommu driver :-)
-
-developers use it in one of the below ways:
-
-1. get trace print from the ring buffer by reading debugfs
-root@ubuntu:/sys/kernel/debug/tracing/events/arm_smmu_v3# echo 1 > enable
-# cat /sys/kernel/debug/tracing/trace_pipe
-<idle>-0     [058] ..s1 125444.768083: issue_cmdlist_exit: arm-smmu-v3.2.auto cmd number=1 sync=1                                    
-          <idle>-0     [058] ..s1 125444.768084: issue_cmdlist_entry: arm-smmu-v3.2.auto cmd number=1 sync=1                                   
-          <idle>-0     [058] ..s1 125444.768085: issue_cmdlist_exit: arm-smmu-v3.2.auto cmd number=1 sync=1                                    
-          <idle>-0     [058] ..s1 125444.768165: issue_cmdlist_entry: arm-smmu-v3.2.auto cmd number=1 sync=1                                   
-          <idle>-0     [058] ..s1 125444.768168: issue_cmdlist_exit: arm-smmu-v3.2.auto cmd number=1 sync=1                                    
-          <idle>-0     [058] ..s1 125444.768169: issue_cmdlist_entry: arm-smmu-v3.2.auto cmd number=1 sync=1                                   
-          <idle>-0     [058] ..s1 125444.768171: issue_cmdlist_exit: arm-smmu-v3.2.auto cmd number=1 sync=1
-          <idle>-0     [058] ..s1 125444.768259: issue_cmdlist_entry: arm-smmu-v3.2.auto cmd number=1 sync=1                                   
-          ...
-
-This can replace printk with much much lower overhead.
-
-2. add a hook function in tracepoint to do some latency measure and time statistics just like the eBPF example
-I gave after the commit log.
-
-Using it, I can get the histogram of the execution time of cmdq_issue_cmdlist():
-   nsecs               : count     distribution 
-         0 -> 1          : 0        |                                        | 
-         2 -> 3          : 0        |                                        | 
-         4 -> 7          : 0        |                                        | 
-         8 -> 15         : 0        |                                        | 
-        16 -> 31         : 0        |                                        | 
-        32 -> 63         : 0        |                                        | 
-        64 -> 127        : 0        |                                        | 
-       128 -> 255        : 0        |                                        | 
-       256 -> 511        : 0        |                                        | 
-       512 -> 1023       : 58       |                                        | 
-      1024 -> 2047       : 22763    |****************************************| 
-      2048 -> 4095       : 13238    |***********************                 | 
-
-I feel it is very common to do this kind of things for analyzing the performance issue. For example, to easy the analysis
-of softirq latency, softirq.c has the below code:
-
-asmlinkage __visible void __softirq_entry __do_softirq(void)
-{
-	...
-		trace_softirq_entry(vec_nr);
-		h->action(h);
-		trace_softirq_exit(vec_nr);
-	...
-}
-
-> 
-> Will
-
-Thanks
-Barry
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 5141d49a046b..2dcbc8f1d0c0 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -1153,7 +1153,7 @@ void iommu_setup_dma_ops(struct device *dev, u64 dma_base, u64 size)
+ 	if (domain->type == IOMMU_DOMAIN_DMA) {
+ 		if (iommu_dma_init_domain(domain, dma_base, size, dev))
+ 			goto out_err;
+-		dev->dma_ops = &iommu_dma_ops;
++		set_dma_ops(dev, &iommu_dma_ops);
+ 	}
+ 
+ 	return;
+-- 
+2.28.0
 
 _______________________________________________
 iommu mailing list
