@@ -1,75 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5F625607F
-	for <lists.iommu@lfdr.de>; Fri, 28 Aug 2020 20:30:06 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 385CB2560B0
+	for <lists.iommu@lfdr.de>; Fri, 28 Aug 2020 20:42:28 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B5B4884E5A;
-	Fri, 28 Aug 2020 18:30:04 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C3A88887FE;
+	Fri, 28 Aug 2020 18:42:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5HiQCEOslxBF; Fri, 28 Aug 2020 18:30:04 +0000 (UTC)
+	with ESMTP id sjFH7EC3xnUd; Fri, 28 Aug 2020 18:42:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 47CC784E0A;
-	Fri, 28 Aug 2020 18:30:04 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 569DD887DE;
+	Fri, 28 Aug 2020 18:42:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2CB3DC0051;
-	Fri, 28 Aug 2020 18:30:04 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 38D85C0051;
+	Fri, 28 Aug 2020 18:42:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E25E6C0051
- for <iommu@lists.linux-foundation.org>; Fri, 28 Aug 2020 18:30:01 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B57A5C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Aug 2020 18:42:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C626F84E0A
- for <iommu@lists.linux-foundation.org>; Fri, 28 Aug 2020 18:30:01 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 9AFCB882F6
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Aug 2020 18:42:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GJl8kQ00YtTS for <iommu@lists.linux-foundation.org>;
- Fri, 28 Aug 2020 18:30:01 +0000 (UTC)
+ with ESMTP id Mpq5YHiWING8 for <iommu@lists.linux-foundation.org>;
+ Fri, 28 Aug 2020 18:42:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 31A9D84DD1
- for <iommu@lists.linux-foundation.org>; Fri, 28 Aug 2020 18:30:01 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id F1544882F3
+ for <iommu@lists.linux-foundation.org>; Fri, 28 Aug 2020 18:42:23 +0000 (UTC)
 From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1598639398;
+ s=2020; t=1598640142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HQQ3PgkKo2hS5HQKNaJ3P1IptF/ClXfBwAd1n3Worn0=;
- b=aCTaFZU+e8x0x58wJ1oeYUMPHmUAbdjR6qrLnzUL2j3Joo6UWr9US/cCwRlh/cn/Dvl3Ea
- AvjuuOBWjpzVXAXBQyGeg3gInDAiqfY9sH0WgQWHi3NyPKyTXpj7zFsze/QeG7xMPEXKCT
- iIrXwbhXKciDtYdzmRP42PwSOTAibh/Ci9iyIDxL9JGAZZDFCWmomrS+tkBweJNjmV2kjb
- BbgDTKvuYwHkEpQDeFwqMNmNeXfaqNVEON0+suObP1Oa+wJK8Ot+NeM4+0tLDCDC/otdSb
- sRbMsWVyem66C8lTMSZznkBMUmQrRkEU4Yxl7AH+oxxHZ72nlgzHwSoX1gI+cQ==
+ bh=i9PL1UZyrvXtvYwXm50JgVKEMKlhclTur/QaPxXNrW4=;
+ b=WpnVo7bVNT/b8XQDt+j58pe6KdQuC0AaMuaG96ld2pT19xmZmgIfhwIL2aToKAQCuHplbl
+ babtlLWVtGtJoKe554lnL+lrSbC+m2P80aoFcGewVi1cvJw89TLCA+RKvIpl3nB1tz+atR
+ Rpt1UAY/0C2Jh7S/HVLrWc1d3i6FRctcoggPvOgispeAzX31o/e0KIecYrxPcVTe02glak
+ xvt/5cf0eEZL35Cs55nb+A3Mx+nimOdxcufa2dUvIghy3OgLuWzePAHaWMcUDkE7FZclcC
+ P6D3MhploGKAumda2RRUUhTFcp/3dtDRczfHHNjGZzGxRU3c3M1LzqDqHVmpHA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1598639398;
+ s=2020e; t=1598640142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HQQ3PgkKo2hS5HQKNaJ3P1IptF/ClXfBwAd1n3Worn0=;
- b=vXG0XUsJMIi3DkkPAd4hFW5NyIUjTPD3/KRNdL6hTZ3E1uRKkBApmbjwrrLTXyfG5+s5Mw
- 6hQo8a2K/hj9JbDA==
-To: Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [patch V2 34/46] PCI/MSI: Make arch_.*_msi_irq[s] fallbacks
- selectable
-In-Reply-To: <20200827182040.GA2049623@bjorn-Precision-5520>
-References: <20200827182040.GA2049623@bjorn-Precision-5520>
-Date: Fri, 28 Aug 2020 20:29:57 +0200
-Message-ID: <873646lj2y.fsf@nanos.tec.linutronix.de>
+ bh=i9PL1UZyrvXtvYwXm50JgVKEMKlhclTur/QaPxXNrW4=;
+ b=ChwUrHsMyAvL0EU/Y4hgs1mQPBN+7Zk3PLK+0Sz5YppkJGFQXT2iBnk0EWmZfwq4Jm1Lwb
+ mDs4YAIFWBPd+5CQ==
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [patch V2 43/46] genirq/msi: Provide and use
+ msi_domain_set_default_info_flags()
+In-Reply-To: <b80607e87e43730133dd9f619c6464dc@kernel.org>
+References: <20200826111628.794979401@linutronix.de>
+ <20200826112334.889315931@linutronix.de>
+ <b80607e87e43730133dd9f619c6464dc@kernel.org>
+Date: Fri, 28 Aug 2020 20:42:21 +0200
+Message-ID: <87zh6ek3xu.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
 Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
  Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
  "K. Y. Srinivasan" <kys@microsoft.com>,
- Dan Williams <dan.j.williams@intel.com>, Rob Herring <robh@kernel.org>,
- Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
- Baolu Lu <baolu.lu@intel.com>, Marc Zyngier <maz@kernel.org>, x86@kernel.org,
- Jason Gunthorpe <jgg@mellanox.com>, Megha Dey <megha.dey@intel.com>,
- xen-devel@lists.xenproject.org, Kevin Tian <kevin.tian@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Wei Liu <wei.liu@kernel.org>,
+ Stephen Hemminger <sthemmin@microsoft.com>, Baolu Lu <baolu.lu@intel.com>,
+ x86@kernel.org, Jason Gunthorpe <jgg@mellanox.com>,
+ Megha Dey <megha.dey@intel.com>, xen-devel@lists.xenproject.org,
+ Kevin Tian <kevin.tian@intel.com>,
  Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
  Haiyang Zhang <haiyangz@microsoft.com>,
  Alex Williamson <alex.williamson@redhat.com>,
@@ -97,55 +99,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Aug 27 2020 at 13:20, Bjorn Helgaas wrote:
-> On Wed, Aug 26, 2020 at 01:17:02PM +0200, Thomas Gleixner wrote:
->> Make the architectures and drivers which rely on them select them in Kconfig
->> and if not selected replace them by stub functions which emit a warning and
->> fail the PCI/MSI interrupt allocation.
+On Thu, Aug 27 2020 at 09:17, Marc Zyngier wrote:
+> On 2020-08-26 12:17, Thomas Gleixner wrote:
+>>  #ifdef CONFIG_GENERIC_MSI_IRQ_DOMAIN
+>> +void msi_domain_set_default_info_flags(struct msi_domain_info *info)
+>> +{
+>> +	/* Required so that a device latches a valid MSI message on startup 
+>> */
+>> +	info->flags |= MSI_FLAG_ACTIVATE_EARLY;
 >
-> Sorry, I really don't understand this, so these are probably stupid
-> questions.
->
-> If CONFIG_PCI_MSI_ARCH_FALLBACKS is defined, we will supply
-> implementations of:
->
->   arch_setup_msi_irq
->   arch_teardown_msi_irq
->   arch_setup_msi_irqs
->   arch_teardown_msi_irqs
->   default_teardown_msi_irqs    # non-weak
->
-> You select CONFIG_PCI_MSI_ARCH_FALLBACKS for ia64, mips, powerpc,
-> s390, sparc, and x86.  I see that all of those arches implement at
-> least one of the functions above.  But x86 doesn't and I can't figure
-> out why it needs to select CONFIG_PCI_MSI_ARCH_FALLBACKS.
+> As far as I remember the story behind this flag (it's been a while),
+> it was working around a PCI-specific issue, hence being located in
+> the PCI code.
 
-X86 still has them at that point in the series and the next patch
-removes them. I wanted to have the warnings in place before doing so.
+Yes. Some cards misbehave when there is no valid message programmed and
+MSI is enabled.
 
-> I assume there's a way to convert these arches to hierarchical irq
-> domains so they wouldn't need this at all?  Is there a sample
-> conversion to look at?
+> Now, the "program the MSI before enabling it" concept makes sense no
+> matter what bus this is on, and I wonder why we are even keeping this
+> flag around.
 
-For a quick and dirty step it's pretty much the wrapper I used for XEN
-and then make sure that the msi_domain pointer is populated is
-pci_device::device.
+> Can't we just drop it together with the check in
+> msi_domain_alloc_irqs()?
 
-> And I can't figure out what's special about tegra, rcar, and xilinx
-> that makes them need it as well.
-
-Those are old drivers from the time where ARM did not use hierarchical
-irq domains and nobody cared to fix them up.
-
-> Is there something I could grep for
-> to identify them?
-
-git grep arch_setup_msi_irq
-git grep arch_teardown_msi_irq
-
-> Is there a way to convert them so they don't need it?
-
-Sure, it just needs some work and probably hardware to test.
+I'm fine with that.
 
 Thanks,
 
