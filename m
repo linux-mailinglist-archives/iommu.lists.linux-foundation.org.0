@@ -2,61 +2,78 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FADA259250
-	for <lists.iommu@lfdr.de>; Tue,  1 Sep 2020 17:08:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A42259336
+	for <lists.iommu@lfdr.de>; Tue,  1 Sep 2020 17:23:05 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A310886407;
-	Tue,  1 Sep 2020 15:08:22 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5439A86371;
+	Tue,  1 Sep 2020 15:23:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fxnQD2274cS8; Tue,  1 Sep 2020 15:08:21 +0000 (UTC)
+	with ESMTP id zE-OyZEZrUfx; Tue,  1 Sep 2020 15:23:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BA7B08638F;
-	Tue,  1 Sep 2020 15:08:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9075A86341;
+	Tue,  1 Sep 2020 15:23:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A39DDC0051;
-	Tue,  1 Sep 2020 15:08:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8425AC0051;
+	Tue,  1 Sep 2020 15:23:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A2609C1E44
- for <iommu@lists.linux-foundation.org>; Tue,  1 Sep 2020 15:08:18 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2560DC0051
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Sep 2020 15:23:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 48C17203D0
- for <iommu@lists.linux-foundation.org>; Tue,  1 Sep 2020 15:08:18 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 1328486FB5
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Sep 2020 15:23:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VD1Chsxr1pIj for <iommu@lists.linux-foundation.org>;
- Tue,  1 Sep 2020 15:08:05 +0000 (UTC)
+ with ESMTP id d-iPw3xSoE32 for <iommu@lists.linux-foundation.org>;
+ Tue,  1 Sep 2020 15:23:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by silver.osuosl.org (Postfix) with ESMTPS id 9545A2079A
- for <iommu@lists.linux-foundation.org>; Tue,  1 Sep 2020 15:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=TQLSoH0xPQ3SjLQOZr/hg2RXQ7cUeDg7DQ8wAuWlnPY=; b=jZd0L7aTlxDR248PzMNlW27wkh
- U5RPUon6By39MJmZf0ctObEI9pE6t9/Rga1EYLZwsrKYL9QKBtSzQY4MensUyVRxNASrX33Pl6ldS
- zbXRi9/lO7DOPWfK1zGncHVRI29r2AMThiNWFyK5BL0hKgOTicHc7ljMttBaeAT085JBU3dfIIkhB
- i2DXKzLWz59dGh9/sp69/KBXolj/SaGGtRWihBzzh4x4klX60zoq5kB/U7R9cVPhcDeNn5gerBNkJ
- glYPLWys77T11Ln0t8j7NNm/ySZOphISgDrR6WnPzsdkVah1bi4+EBuWuom6AkSHomcEJms18cORZ
- 5mRx4n8A==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red
- Hat Linux)) id 1kD7r8-0008OT-59; Tue, 01 Sep 2020 15:05:54 +0000
-Date: Tue, 1 Sep 2020 16:05:54 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com
+ [66.63.167.143])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 3E0A886FAA
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Sep 2020 15:23:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by bedivere.hansenpartnership.com (Postfix) with ESMTP id 0E0068EE187;
+ Tue,  1 Sep 2020 08:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+ s=20151216; t=1598973779;
+ bh=oM6M8l0ba8Kwr86wVvWOr0ibc9GeoVF02RI3gdpRvZg=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=UvqMRf/V4bYGUnXRFYzHR0MoWszTvt72MUDJlkPgLVL7Z5C9ghIwUJJ5HYM5kfJ3n
+ 5VYFPt986TvN+zbqjMT6pkl+t9bvzRZjP81gXVEMiUig/anUDkmm0cM9tI1gLXtLCF
+ UIwKWRUmpM4JixpLzQm9dVgj9tnlX6pm+UJWHqoc=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id U-JPs2CIcW43; Tue,  1 Sep 2020 08:22:58 -0700 (PDT)
+Received: from [153.66.254.174] (c-73-35-198-56.hsd1.wa.comcast.net
+ [73.35.198.56])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 8B8B18EE0F5;
+ Tue,  1 Sep 2020 08:22:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
+ s=20151216; t=1598973778;
+ bh=oM6M8l0ba8Kwr86wVvWOr0ibc9GeoVF02RI3gdpRvZg=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=QlglmDYfmn+LUmPHNl9G1vxZ4WANgTGEDBcv3VoTq5jkCobGzHRwV7MDXP/8CkPRF
+ DlnAvyJzmngr5D0/wC86DqyXRPVdp/OwUQc4zsVd3Mrk54apOxtDVbGKnBnOuqrFqS
+ /e8+ps58Vp9230FkQlqzYQQbltdvuVP33ee7Vxcw=
+Message-ID: <1598973776.4238.11.camel@HansenPartnership.com>
 Subject: Re: [PATCH 07/28] 53c700: improve non-coherent DMA handling
-Message-ID: <20200901150554.GN14765@casper.infradead.org>
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Matthew Wilcox <willy@infradead.org>
+Date: Tue, 01 Sep 2020 08:22:56 -0700
+In-Reply-To: <20200901150554.GN14765@casper.infradead.org>
 References: <20200819065555.1802761-1-hch@lst.de>
  <20200819065555.1802761-8-hch@lst.de>
  <1598971960.4238.5.camel@HansenPartnership.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1598971960.4238.5.camel@HansenPartnership.com>
+ <20200901150554.GN14765@casper.infradead.org>
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
 Cc: alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
  linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
  linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -87,15 +104,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Sep 01, 2020 at 07:52:40AM -0700, James Bottomley wrote:
-> I think this looks mostly OK, except for one misnamed parameter below. 
-> Unfortunately, the last non-coherent parisc was the 700 series and I no
-> longer own a box, so I can't test that part of it (I can fire up the
-> C360 to test it on a coherent arch).
+On Tue, 2020-09-01 at 16:05 +0100, Matthew Wilcox wrote:
+> On Tue, Sep 01, 2020 at 07:52:40AM -0700, James Bottomley wrote:
+> > I think this looks mostly OK, except for one misnamed parameter
+> > below. Unfortunately, the last non-coherent parisc was the 700
+> > series and I no longer own a box, so I can't test that part of it
+> > (I can fire up the C360 to test it on a coherent arch).
+> 
+> I have a 715/50 that probably hasn't been powered on in 15 years if
+> you need something that old to test on (I believe the 725/100 uses
+> the 7100LC and so is coherent).  I'll need to set up a cross-compiler 
+> ...
 
-I have a 715/50 that probably hasn't been powered on in 15 years if you
-need something that old to test on (I believe the 725/100 uses the 7100LC
-and so is coherent).  I'll need to set up a cross-compiler ...
+I'm not going to say no to actual testing, but it's going to be a world
+of pain getting something so old going.  I do have a box of older
+systems I keep for architectural testing that I need to rummage around
+in ... I just have a vague memory that my 715 actually caught fire a
+decade ago and had to be disposed of.
+
+James
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
