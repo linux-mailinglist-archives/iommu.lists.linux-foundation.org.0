@@ -2,87 +2,68 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BBF2580B5
-	for <lists.iommu@lfdr.de>; Mon, 31 Aug 2020 20:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5638258584
+	for <lists.iommu@lfdr.de>; Tue,  1 Sep 2020 04:07:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id EB2B385682;
-	Mon, 31 Aug 2020 18:18:22 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4591F86886;
+	Tue,  1 Sep 2020 02:07:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EZLlkgeEjtSM; Mon, 31 Aug 2020 18:18:22 +0000 (UTC)
+	with ESMTP id tOiI386uv0od; Tue,  1 Sep 2020 02:07:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7304686687;
-	Mon, 31 Aug 2020 18:18:22 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9835C868AF;
+	Tue,  1 Sep 2020 02:07:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 32C2EC0890;
-	Mon, 31 Aug 2020 18:18:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7C674C0051;
+	Tue,  1 Sep 2020 02:07:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4E3BDC0051
- for <iommu@lists.linux-foundation.org>; Mon, 31 Aug 2020 18:18:21 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 607AFC0051
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Sep 2020 02:07:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3B01586FDA
- for <iommu@lists.linux-foundation.org>; Mon, 31 Aug 2020 18:18:21 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 44735850E6
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Sep 2020 02:07:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id z9O+N+lRBWo5 for <iommu@lists.linux-foundation.org>;
- Mon, 31 Aug 2020 18:18:20 +0000 (UTC)
+ with ESMTP id Wlv0a9Z0y3cI for <iommu@lists.linux-foundation.org>;
+ Tue,  1 Sep 2020 02:07:54 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 73BA586F66
- for <iommu@lists.linux-foundation.org>; Mon, 31 Aug 2020 18:18:20 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id o16so238521pjr.2
- for <iommu@lists.linux-foundation.org>; Mon, 31 Aug 2020 11:18:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=X8w/zoyDm7STrfSjeUJijWigenQyydijn+iIkzb3q24=;
- b=vYnopaOdNnS7+NIItBZSxff6fADrxen+MHc7SlnKp9vwSI5AjdhlpcbctmhdOGJaPZ
- gL9Kj2Qkwsn6CdzYmj5TGtlLE7vIkaNMXP98RebxtaaVefc5UxG+ZZlyVD484KTVVGOa
- goL7dBpatc5JhJO1thu1WdwDLgLDpvGGWTA+g6/cgwzrHzM2Gn6zzU7ZG/cTgJK592As
- +54jvyXt5HpRoOp3X107lmkT1JUYHviQsPiXGXH9tHMDkqnKL2VFBC/mwQgC6ALKRP3D
- O0Oki7HXCgfx9LBWYKh4b4Clqe2NYEJVOKTI43GY9e2FgD8CaK9OGj5OTU/VTJ8TREvh
- qozw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=X8w/zoyDm7STrfSjeUJijWigenQyydijn+iIkzb3q24=;
- b=NbdW9E3SFvmWPq9HEWqWLdp3TUemdh0YyW5H4iVEB4b7TPxlnjD9hZrBPsBw65QXLV
- Ik2DLT+UVeL2PbjV+0WZippuqNemSt3kb4ioDci9E1/LR1mgmaWI7ty6IaMLYOYSqOmE
- 1NFMUTA/7SFH1zt/6NofemFqtoQaemuY/0V7ugK6wLfOvmcwEFkytXEt/ogB15GH4amN
- kZUqDc9eKw2oiA07r9kztQqnuXe9Lbm9rVyoLZCeAAvO+AOAcaPW8IJike6mHfh4F8Cf
- mAi+DItER87ku72LKanwi9sRMq1zEPh8cwDVAG+8gszFlLYbyVNbJ0pL3hKyITXNUQCP
- KwUQ==
-X-Gm-Message-State: AOAM532G0MjMx5dAlK6hZtclZ60Fx5oRWVFnsMwa/Y6Wf3qkVf8uX27/
- l7oQ3o7bEjMcZHGt4+5ImQ40VoNdg1g=
-X-Google-Smtp-Source: ABdhPJwNEWW2Ymdpqg4NAx41GhNDrKezooaq7QH3S0f2gK00emLw//18jMGD0eDQyynTp0J5FwjlHw==
-X-Received: by 2002:a17:90b:fd0:: with SMTP id
- gd16mr546460pjb.122.1598897899845; 
- Mon, 31 Aug 2020 11:18:19 -0700 (PDT)
-Received: from jacob-builder.jf.intel.com (jfdmzpr04-ext.jf.intel.com.
- [134.134.137.73])
- by smtp.gmail.com with ESMTPSA id y128sm8672547pfy.74.2020.08.31.11.18.18
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 31 Aug 2020 11:18:19 -0700 (PDT)
-From: Jacob Pan <jacob.pan.linux@gmail.com>
-X-Google-Original-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>,
- Alex Williamson <alex.williamson@redhat.com>
-Subject: [PATCH v8 7/7] iommu/vt-d: Check UAPI data processed by IOMMU core
-Date: Mon, 31 Aug 2020 11:25:00 -0700
-Message-Id: <1598898300-65475-8-git-send-email-jacob.jun.pan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1598898300-65475-1-git-send-email-jacob.jun.pan@linux.intel.com>
-References: <1598898300-65475-1-git-send-email-jacob.jun.pan@linux.intel.com>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- Christoph Hellwig <hch@infradead.org>, David Woodhouse <dwmw2@infradead.org>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 5EA82845D7
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Sep 2020 02:07:54 +0000 (UTC)
+IronPort-SDR: 3mHs5YjMQ1wNTWJlCai0Aion/79T/ZKpc8ndvwhmDyH8ZrFBvbG+kXjUqg4mQSQLST6sOvrD6p
+ OWDyViv5JouQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="144836767"
+X-IronPort-AV: E=Sophos;i="5.76,377,1592895600"; d="scan'208";a="144836767"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Aug 2020 19:07:52 -0700
+IronPort-SDR: hxS9IMOFjtGq6/GaatetSwyE2Z8r4iWVafiEH/XBLCpIOZTnTa/ZOyk+dZYqgD13+JQ9RZqyBj
+ Q1/9mwwdW7Yw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,377,1592895600"; d="scan'208";a="325155986"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.139])
+ ([10.239.159.139])
+ by fmsmga004.fm.intel.com with ESMTP; 31 Aug 2020 19:07:51 -0700
+Subject: Re: [Regression] [PATCH] iommu: Avoid crash in
+ init_no_remapping_devices if iommu is NULL
+To: Torsten Hilbrich <torsten.hilbrich@secunet.com>,
+ Joerg Roedel <jroedel@suse.de>
+References: <e27cd096-a721-db9d-e4ce-7a432ed6cd4c@secunet.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <12935d0b-61ff-d274-b1ee-3b1fba36bdc7@linux.intel.com>
+Date: Tue, 1 Sep 2020 10:02:14 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <e27cd096-a721-db9d-e4ce-7a432ed6cd4c@secunet.com>
+Content-Language: en-US
+Cc: iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,78 +76,135 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-IOMMU generic layer already does sanity checks on UAPI data for version
-match and argsz range based on generic information.
+Hi Torsten,
 
-This patch adjusts the following data checking responsibilities:
-- removes the redundant version check from VT-d driver
-- removes the check for vendor specific data size
-- adds check for the use of reserved/undefined flags
+Thank you for reporting this.
 
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
----
- drivers/iommu/intel/iommu.c |  3 +--
- drivers/iommu/intel/svm.c   | 11 +++++++++--
- include/uapi/linux/iommu.h  |  1 +
- 3 files changed, 11 insertions(+), 4 deletions(-)
+On 8/31/20 7:03 PM, Torsten Hilbrich wrote:
+> I noticed a kernel crash when trying to boot a v5.9-rc2 based kernel.
+> 
+> The crash reads as:
+> 
+> <1>[    7.410192] BUG: kernel NULL pointer dereference, address: 0000000000000038
+> <1>[    7.410196] #PF: supervisor write access in kernel mode
+> <1>[    7.410199] #PF: error_code(0x0002) - not-present page
+> <6>[    7.410202] PGD 0 P4D 0
+> <4>[    7.410207] Oops: 0002 [#1] SMP PTI
+> <4>[    7.410212] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.9.0-devel+ #1
+> <4>[    7.410215] Hardware name: LENOVO 20HGS0TW00/20HGS0TW00, BIOS N1WET46S (1.25s ) 03/30/2018
+> <4>[    7.410224] RIP: 0010:intel_iommu_init+0xed0/0x1136
+> <4>[    7.410229] Code: fe e9 61 02 00 00 bb f4 ff ff ff e9 57 02 00 00 48 63 d1 48 c1 e2 04 48 03 50 20 48 8b 12 48 85 d2 74 0b 48 8b 92 d0 02 00 00 <48> 89 7a 38 ff c1 e9 15 f5 ff ff 48 c7 c7 00 a5 ac a1 49 c7 c7 20
+> <4>[    7.410236] RSP: 0000:ffffb14e40073dd0 EFLAGS: 00010282
+> <4>[    7.410240] RAX: ffff8d0643731720 RBX: 0000000000000000 RCX: 0000000000000000
+> <4>[    7.410244] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffffffffffff
+> <4>[    7.410247] RBP: ffffb14e40073e90 R08: 0000000000000001 R09: ffff8d0643803700
+> <4>[    7.410250] R10: ffff8d0642620000 R11: 0000000000000016 R12: 000000000000000b
+> <4>[    7.410254] R13: ffff8d064361e650 R14: ffffffffa2455d80 R15: 0000000000000000
+> <4>[    7.410258] FS:  0000000000000000(0000) GS:ffff8d0647480000(0000) knlGS:0000000000000000
+> <4>[    7.410262] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> <4>[    7.410266] CR2: 0000000000000038 CR3: 000000056760a001 CR4: 00000000003706e0
+> <4>[    7.410269] Call Trace:
+> <4>[    7.410280]  ? call_rcu+0x10e/0x320
+> <4>[    7.410286]  ? trace_hardirqs_on+0x2c/0xd0
+> <4>[    7.410291]  ? rdinit_setup+0x2c/0x2c
+> <4>[    7.410297]  ? e820__memblock_setup+0x8b/0x8b
+> <4>[    7.410302]  pci_iommu_init+0x16/0x3f
+> <4>[    7.410307]  do_one_initcall+0x46/0x1e4
+> <4>[    7.410313]  kernel_init_freeable+0x169/0x1b2
+> <4>[    7.410320]  ? rest_init+0x9f/0x9f
+> <4>[    7.410325]  kernel_init+0xa/0x101
+> <4>[    7.410329]  ret_from_fork+0x22/0x30
+> <4>[    7.410333] Modules linked in:
+> <4>[    7.410338] CR2: 0000000000000038
+> <4>[    7.410344] ---[ end trace 16bcdb1e11668fcd ]---
+> 
+> Full kernel message is attached in kernel.log.
+> 
+> I tracked the problem down to the dev_iommu_priv_set call in init_no_remapping_devices. It seems that for one device the dev->iommu member is NULL.
+> 
+> An dev_err outputs the device as "pci 0000:00:02.0: DMAR" which is the intel HD 620 graphic adapter in a Lenovo T470s device.
+> 
+> The following patch (also attached as intel-iommu.patch) avoids this crash by checking the pointer.
+> 
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index f8177c59d229..2d285a42db3f 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -4053,7 +4053,8 @@ static void __init init_no_remapping_devices(void)
+>                          drhd->ignored = 1;
+>                          for_each_active_dev_scope(drhd->devices,
+>                                                    drhd->devices_cnt, i, dev)
+> -                               dev_iommu_priv_set(dev, DUMMY_DEVICE_DOMAIN_INFO);
+> +                               if (dev->iommu)
+> +                                       dev_iommu_priv_set(dev, DUMMY_DEVICE_DOMAIN_INFO);
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 43f16f0cebde..a3a0b5c8921d 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -5399,8 +5399,7 @@ intel_iommu_sva_invalidate(struct iommu_domain *domain, struct device *dev,
- 	int ret = 0;
- 	u64 size = 0;
- 
--	if (!inv_info || !dmar_domain ||
--	    inv_info->version != IOMMU_CACHE_INVALIDATE_INFO_VERSION_1)
-+	if (!inv_info || !dmar_domain)
- 		return -EINVAL;
- 
- 	if (!dev || !dev_is_pci(dev))
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 99353d6468fa..0cb9a15f1112 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -284,8 +284,15 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
- 	if (WARN_ON(!iommu) || !data)
- 		return -EINVAL;
- 
--	if (data->version != IOMMU_GPASID_BIND_VERSION_1 ||
--	    data->format != IOMMU_PASID_FORMAT_INTEL_VTD)
-+	if (data->format != IOMMU_PASID_FORMAT_INTEL_VTD)
-+		return -EINVAL;
+This looks more like a generic issue, used-before-allocated, and should
+be fixed in iommu.c instead of VT-d driver. How about
+
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 8fd93a5b8764..a599da87eb60 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -190,6 +190,28 @@ static void dev_iommu_free(struct device *dev)
+         dev->iommu = NULL;
+  }
+
++void *dev_iommu_priv_get(struct device *dev)
++{
++       struct dev_iommu *param = dev_iommu_get(dev);
 +
-+	/* IOMMU core ensures argsz is more than the start of the union */
-+	if (data->argsz < offsetofend(struct iommu_gpasid_bind_data, vendor.vtd))
-+		return -EINVAL;
++       if (WARN_ON(!param))
++               return ERR_PTR(-ENOMEM);
 +
-+	/* Make sure no undefined flags are used in vendor data */
-+	if (data->vendor.vtd.flags & ~(IOMMU_SVA_VTD_GPASID_LAST - 1))
- 		return -EINVAL;
- 
- 	if (!dev_is_pci(dev))
-diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
-index c64bca5af419..1ebc23df4fbc 100644
---- a/include/uapi/linux/iommu.h
-+++ b/include/uapi/linux/iommu.h
-@@ -288,6 +288,7 @@ struct iommu_gpasid_bind_data_vtd {
- #define IOMMU_SVA_VTD_GPASID_PWT	(1 << 3) /* page-level write through */
- #define IOMMU_SVA_VTD_GPASID_EMTE	(1 << 4) /* extended mem type enable */
- #define IOMMU_SVA_VTD_GPASID_CD		(1 << 5) /* PASID-level cache disable */
-+#define IOMMU_SVA_VTD_GPASID_LAST	(1 << 6)
- 	__u64 flags;
- 	__u32 pat;
- 	__u32 emt;
--- 
-2.7.4
++        return param->priv;
++}
++EXPORT_SYMBOL_GPL(dev_iommu_priv_get);
++
++void dev_iommu_priv_set(struct device *dev, void *priv)
++{
++       struct dev_iommu *param = dev_iommu_get(dev);
++
++       if (WARN_ON(!param))
++               return;
++
++        param->priv = priv;
++}
++EXPORT_SYMBOL_GPL(dev_iommu_priv_set);
++
 
+Best regards,
+baolu
+
+>                  }
+>          }
+>   }
+> 
+> I assume the problem might be related to the following commit introduced in v5.9-rc1:
+> 
+> commit 01b9d4e21148c89fdbab3d6b3705f9791314b631
+> Author: Joerg Roedel <jroedel@suse.de>
+> Date:   Thu Jun 25 15:08:25 2020 +0200
+> 
+>      iommu/vt-d: Use dev_iommu_priv_get/set()
+>      
+>      Remove the use of dev->archdata.iommu and use the private per-device
+>      pointer provided by IOMMU core code instead.
+> 
+> With regards,
+> 
+> 	Torsten Hilbrich
+> 
+> 
+> _______________________________________________
+> iommu mailing list
+> iommu@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
