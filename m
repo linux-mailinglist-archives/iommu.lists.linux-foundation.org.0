@@ -1,55 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9AE25A326
-	for <lists.iommu@lfdr.de>; Wed,  2 Sep 2020 04:50:53 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBDB25A327
+	for <lists.iommu@lfdr.de>; Wed,  2 Sep 2020 04:51:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id DB77E8647E;
-	Wed,  2 Sep 2020 02:50:51 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 44FF8204A8;
+	Wed,  2 Sep 2020 02:51:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9oBTT1sD5NZB; Wed,  2 Sep 2020 02:50:50 +0000 (UTC)
+	with ESMTP id S1tRw+ZaCcnA; Wed,  2 Sep 2020 02:51:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9C8AC864AB;
-	Wed,  2 Sep 2020 02:50:50 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B360F2041D;
+	Wed,  2 Sep 2020 02:51:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7CAAEC0051;
-	Wed,  2 Sep 2020 02:50:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A7408C0051;
+	Wed,  2 Sep 2020 02:51:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2C4F6C0051
- for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 02:50:49 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 77CA8C0051
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 02:51:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 14E8187196
- for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 02:50:49 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 639F2867B2
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 02:51:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XaVUxLq1Vxh3 for <iommu@lists.linux-foundation.org>;
- Wed,  2 Sep 2020 02:50:48 +0000 (UTC)
+ with ESMTP id otFkX2DVwT0i for <iommu@lists.linux-foundation.org>;
+ Wed,  2 Sep 2020 02:51:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 45A4587195
- for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 02:50:48 +0000 (UTC)
-IronPort-SDR: i0yBpI2C0Wg6VGUAPfc98NNSQ5wC+jxaxS2EyjBVIa9b5/hv5IgnHF1/NOoiJZrXsknbGWxeQX
- w6gw1uqzlsCQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9731"; a="157312589"
-X-IronPort-AV: E=Sophos;i="5.76,381,1592895600"; d="scan'208";a="157312589"
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 50AE78583C
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 02:51:03 +0000 (UTC)
+IronPort-SDR: Cn2qEgh7ORyDv/xV4RmEKJCXYbdpYYIkpNsOR3wIkVkNqedXTU6oENeI/7+1tgo2w9aV+CfkN/
+ XiUUHSSqXfcg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9731"; a="145044178"
+X-IronPort-AV: E=Sophos;i="5.76,381,1592895600"; d="scan'208";a="145044178"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Sep 2020 19:50:47 -0700
-IronPort-SDR: ca5uTq2sH4DNAlnylTMj09bsMcmfFwqRuMABh/FNsl6c22z/0WPq0y+QzR/hm19gMfxqWIo1mC
- 1FCnIOxkuqbg==
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Sep 2020 19:51:02 -0700
+IronPort-SDR: F1pTRPQhuQAqudimA10/4K905gDPDeDtrv3KjP3Ya45YnkRPTbwKkjDLTo4mN9botj4GO/DW4K
+ ABtap7SCBaKQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,381,1592895600"; d="scan'208";a="325603137"
+X-IronPort-AV: E=Sophos;i="5.76,381,1592895600"; d="scan'208";a="325603210"
 Received: from allen-box.sh.intel.com (HELO [10.239.159.139])
  ([10.239.159.139])
- by fmsmga004.fm.intel.com with ESMTP; 01 Sep 2020 19:50:46 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 01 Sep 2020 19:51:01 -0700
 Subject: Re: [Regression] [PATCH] iommu: Avoid crash in
  init_no_remapping_devices if iommu is NULL
 To: Torsten Hilbrich <torsten.hilbrich@secunet.com>,
@@ -58,8 +58,8 @@ References: <e27cd096-a721-db9d-e4ce-7a432ed6cd4c@secunet.com>
  <12935d0b-61ff-d274-b1ee-3b1fba36bdc7@linux.intel.com>
  <1eafacd8-8cdb-d6ae-130c-dca66dbe3598@secunet.com>
 From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <175fe2a7-922e-1800-298e-1481b648c6d8@linux.intel.com>
-Date: Wed, 2 Sep 2020 10:45:08 +0800
+Message-ID: <1923c791-2ef4-47e5-788d-f785f6db39f9@linux.intel.com>
+Date: Wed, 2 Sep 2020 10:45:23 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
@@ -83,7 +83,7 @@ Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-aGkgVG9yc3RlbiwKCk9uIDkvMS8yMCAxMDo0MSBQTSwgVG9yc3RlbiBIaWxicmljaCB3cm90ZToK
+SGkgVG9yc3RlbiwKCk9uIDkvMS8yMCAxMDo0MSBQTSwgVG9yc3RlbiBIaWxicmljaCB3cm90ZToK
 PiBPbiAwMS4wOS4yMCAwNDowMiwgTHUgQmFvbHUgd3JvdGU6Cj4gWy4uLl0KPj4gVGhpcyBsb29r
 cyBtb3JlIGxpa2UgYSBnZW5lcmljIGlzc3VlLCB1c2VkLWJlZm9yZS1hbGxvY2F0ZWQsIGFuZCBz
 aG91bGQKPj4gYmUgZml4ZWQgaW4gaW9tbXUuYyBpbnN0ZWFkIG9mIFZULWQgZHJpdmVyLiBIb3cg
