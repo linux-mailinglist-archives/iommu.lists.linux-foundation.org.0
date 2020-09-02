@@ -1,115 +1,99 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3217625AE4D
-	for <lists.iommu@lfdr.de>; Wed,  2 Sep 2020 17:06:17 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 554FE25B089
+	for <lists.iommu@lfdr.de>; Wed,  2 Sep 2020 18:01:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 819232E0F3;
-	Wed,  2 Sep 2020 15:06:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0EF8B8726F;
+	Wed,  2 Sep 2020 16:01:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tmayMEZB02vf; Wed,  2 Sep 2020 15:06:07 +0000 (UTC)
+	with ESMTP id eNZ21k5yUKIE; Wed,  2 Sep 2020 16:01:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2417222B25;
-	Wed,  2 Sep 2020 15:02:58 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8E7D786FA1;
+	Wed,  2 Sep 2020 16:01:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 03E00C0052;
-	Wed,  2 Sep 2020 15:02:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 71589C0052;
+	Wed,  2 Sep 2020 16:01:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CB17DC0051
- for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 15:02:56 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D857DC0051
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 15:26:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B8198871D1
- for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 15:02:56 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id CFE0A8726D
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 15:26:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Hiuh4zvZ+ukh for <iommu@lists.linux-foundation.org>;
- Wed,  2 Sep 2020 15:02:56 +0000 (UTC)
+ with ESMTP id HpMrmZjjn9QF for <iommu@lists.linux-foundation.org>;
+ Wed,  2 Sep 2020 15:26:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
- [209.85.221.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id DF0F7871C1
- for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 15:02:55 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id k15so5596694wrn.10
- for <iommu@lists.linux-foundation.org>; Wed, 02 Sep 2020 08:02:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZGIVv2/nKkKWqHnBVOyDTBWflj7dKm5Z1J/YDjsaUtE=;
- b=Z8Lj3TbqKgnf+Tg9Z0P832A14FJMQdIVQJkvmocdIbwtjttKsmDE4r9Qh2gQGw6NZU
- As25toD2CuCYv9eeG56/UbBx2y5/4HM22wP8iqo6rr8paXM5g8MG1OByan9PYMbZAEKD
- bMSSkhriycK9xJEs3VgMHxfmN359bRlL1LuGc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZGIVv2/nKkKWqHnBVOyDTBWflj7dKm5Z1J/YDjsaUtE=;
- b=Hfib+7eh1/g5CAlLXshBoEKu0mv50cmyfSqGKSqwGKW7Bbbai9Puvyq4nSEZeCWayp
- Sg8mN0vKBroBxPeRhSt+It8zSsaAx3tRRPxX8Mah7hX7K/YEHnVNLCpKM3CY20Rh/n0Y
- lCPwYphkicZTmL+JR+MR4flppvKK3ZJxh/ua6NSZGn0uAGyhIMuWgo+Q3mk/tXbATFhs
- UiP6OnlGUe0JIV6aN7YAaNWyTv5nveX1DEuP4WVePaZ4otaT+V3ftB1PIiz/+GvAdOmF
- HqQkgPJJz4Fg83DCKHwtYslaxa3LV6EROpocgjhoYurbVvkPOpvYNCOoTnPwcj7EyYb6
- 3jJA==
-X-Gm-Message-State: AOAM530b9LX9EUgefFrTMoPjQ8DG6FLw6FfU0woQMiqmn4XeIn8EX6Tm
- Cpl3D8s/t8QRTUP2W20ymElV+4433aFNhG1j1aEXMw==
-X-Google-Smtp-Source: ABdhPJwXlN3NHDVCqgynQUFgcYU8keK6MI5X2Io9fYXPD+Fsy3mNkxkFxRkwEAfYalcTpwO0KXeigTJj+lB1MzHkdrU=
-X-Received: by 2002:adf:ba10:: with SMTP id o16mr7576162wrg.100.1599058974152; 
- Wed, 02 Sep 2020 08:02:54 -0700 (PDT)
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B26D18726C
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 15:26:48 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 082FDdqp181299;
+ Wed, 2 Sep 2020 15:26:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=L+79zCjMk1iGPCCMBqtUC7B8MQuLqWdDq02UmUaPKcw=;
+ b=fm3L9CGqKQD8oekjSlqCLx6b5O8FyB71rYNI8k1aLbnDOX/xBiGThbtotU1tbbR9GObh
+ JuCPwqxDse9q8tasQFlcEpH5IQK4BrM2OG2q8fdhCkUrR6UPnSOOqxFTt8ReELzqN7Dh
+ U42haAbqaavWM6dX/gcbKwh8BkY4E+i/Zp8XckpZsMUmVw1GzbCsPKIa1rADlKVQEr+J
+ +yeLlNxImmmNp/AMnhf1b+7NGmwBCD/dLQDypnZnotrBzQVnRml2aIwDpcNRIIjeM9Mk
+ ts3XmyysJgJI7vsIrxiFnaI4k2E2steNQWrFMzDKStvQM8ohaI/sRNyplO4Tx7jnDTE/ qA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 339dmn1qv6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 02 Sep 2020 15:26:42 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 082FPJwx143766;
+ Wed, 2 Sep 2020 15:26:42 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 3380su4s2x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 02 Sep 2020 15:26:42 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 082FQe7G012961;
+ Wed, 2 Sep 2020 15:26:40 GMT
+Received: from [10.175.214.7] (/10.175.214.7)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 02 Sep 2020 08:26:40 -0700
+Subject: Re: [PATCH 1/2] iommu: amd: Restore IRTE.RemapEn bit after
+ programming IRTE
+To: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+References: <20200902045110.4679-1-suravee.suthikulpanit@amd.com>
+ <20200902045110.4679-2-suravee.suthikulpanit@amd.com>
+From: Joao Martins <joao.m.martins@oracle.com>
+Message-ID: <f38b77db-fbb2-bcab-56ef-9d23a368533b@oracle.com>
+Date: Wed, 2 Sep 2020 16:26:36 +0100
 MIME-Version: 1.0
-References: <20200824193036.6033-1-james.quinlan@broadcom.com>
- <20200824193036.6033-8-james.quinlan@broadcom.com>
- <20200901082429.GA1440@lst.de>
-In-Reply-To: <20200901082429.GA1440@lst.de>
-Date: Wed, 2 Sep 2020 11:02:42 -0400
-Message-ID: <CA+-6iNw1rSJOjQDDEYdB3Y1S5KOjOULANbmsDVBM4Mr4Uifomw@mail.gmail.com>
-Subject: Re: [PATCH v11 07/11] device-mapping: Introduce DMA range map,
- supplanting dma_pfn_offset
-To: Christoph Hellwig <hch@lst.de>
-Cc: Rich Felker <dalias@libc.org>,
- "open list:SUPERH" <linux-sh@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
- <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
- "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Will Deacon <will@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
- Frank Rowand <frowand.list@gmail.com>,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, Chen-Yu Tsai <wens@csie.org>,
- Ingo Molnar <mingo@redhat.com>,
- "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>,
- Alan Stern <stern@rowland.harvard.edu>, Len Brown <lenb@kernel.org>,
- Ohad Ben-Cohen <ohad@wizery.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
- <devicetree@vger.kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Yong Deng <yong.deng@magewell.com>, Santosh Shilimkar <ssantosh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
- Felipe Balbi <balbi@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- open list <linux-kernel@vger.kernel.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Stefano Stabellini <sstabellini@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- Sudeep Holla <sudeep.holla@arm.com>,
- "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20200902045110.4679-2-suravee.suthikulpanit@amd.com>
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9732
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=881
+ adultscore=0
+ phishscore=0 malwarescore=0 mlxscore=0 spamscore=0 bulkscore=0
+ suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009020147
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9732
+ signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0
+ mlxlogscore=878 adultscore=0 impostorscore=0 mlxscore=0 suspectscore=1
+ spamscore=0 clxscore=1011 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009020146
+X-Mailman-Approved-At: Wed, 02 Sep 2020 16:01:47 +0000
+Cc: jon.grimm@amd.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, james.puthukattukaran@oracle.com,
+ boris.ostrovsky@oracle.com, sean.m.osborne@oracle.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -122,34 +106,28 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Jim Quinlan via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Jim Quinlan <james.quinlan@broadcom.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Sep 1, 2020 at 4:24 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> I've applied this to the dma-mapping tree.
->
-> I had to resolve a conflict in drivers/of/address.c with a recent
-> mainline commit.  I also applied the minor tweaks Andy pointed out
-> plus a few more style changes.  A real change is that I changed the
-> prototype for dma_copy_dma_range_map to require less boilerplate code.
->
-> The result is here:
->
->     http://git.infradead.org/users/hch/dma-mapping.git/commitdiff/eef520b232c60e74eb8b33a5a7863ad8f2b4a5c7
->
-> please double check that everyting works as expected.
-Tested-by: Jim Quinlan <james.quinlan@broadcom.com>
+On 9/2/20 5:51 AM, Suravee Suthikulpanit wrote:
+> Currently, the RemapEn (valid) bit is accidentally cleared when
+> programming IRTE w/ guestMode=0. It should be restored to
+> the prior state.
+> 
+Probably requires:
 
-Thanks Christoph
-Jim
->
-> I can cut a stable branch with this if you need it for other trees, but
-> I'd like to wait a few days to see if there is any fallout first.
+ Fixes: b9fc6b56f478 ("iommu/amd: Implements irq_set_vcpu_affinity() hook to setup vapic
+mode for pass-through devices")
+
+?
+
+> Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+
+FWIW,
+
+ Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
