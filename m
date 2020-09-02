@@ -2,61 +2,161 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3128225AA5C
-	for <lists.iommu@lfdr.de>; Wed,  2 Sep 2020 13:31:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA7C25AE72
+	for <lists.iommu@lfdr.de>; Wed,  2 Sep 2020 17:10:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id B57D82051F;
-	Wed,  2 Sep 2020 11:31:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1F7182E1A6;
+	Wed,  2 Sep 2020 15:10:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YyVBObcnYa40; Wed,  2 Sep 2020 11:31:37 +0000 (UTC)
+	with ESMTP id dwch28XsRW1I; Wed,  2 Sep 2020 15:10:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 3CE0520414;
-	Wed,  2 Sep 2020 11:31:37 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9CB222E1EC;
+	Wed,  2 Sep 2020 15:03:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2CD54C0052;
-	Wed,  2 Sep 2020 11:31:37 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 92361C0052;
+	Wed,  2 Sep 2020 15:03:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EDB1AC0051
- for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 11:31:35 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A8B78C0052
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 15:03:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id DCB6B86F80
- for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 11:31:35 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7A8BE8724C
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 15:03:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id H16Fhgnb2DiZ for <iommu@lists.linux-foundation.org>;
- Wed,  2 Sep 2020 11:31:34 +0000 (UTC)
+ with ESMTP id aaPduCtrm81K for <iommu@lists.linux-foundation.org>;
+ Wed,  2 Sep 2020 15:03:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8D83E86F79
- for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 11:31:34 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BA1F6D6E;
- Wed,  2 Sep 2020 04:31:33 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0020D3F66F;
- Wed,  2 Sep 2020 04:31:32 -0700 (PDT)
-Subject: Re: [PATCH] iommu: Allocate dev_iommu before accessing priv data
-To: Torsten Hilbrich <torsten.hilbrich@secunet.com>,
- Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <jroedel@suse.de>
-References: <e27cd096-a721-db9d-e4ce-7a432ed6cd4c@secunet.com>
- <12935d0b-61ff-d274-b1ee-3b1fba36bdc7@linux.intel.com>
- <1eafacd8-8cdb-d6ae-130c-dca66dbe3598@secunet.com>
- <175fe2a7-922e-1800-298e-1481b648c6d8@linux.intel.com>
- <96717683-70be-7388-3d2f-61131070a96a@secunet.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <0bceb7a0-5765-bfa8-2bcd-f5d98a366a34@arm.com>
-Date: Wed, 2 Sep 2020 12:31:32 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 19E408727F
+ for <iommu@lists.linux-foundation.org>; Wed,  2 Sep 2020 15:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1599058860;
+ bh=9mONAPviboKjYh84a+hy1GCQTwP3D+gQs9CslXOAS7A=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=L8sV5DSyxZUjMdCJhBHYorScxg6Z4vf+qm5xzt+bAm4G4iOhKeQORYS34kwE/JbdB
+ rSg/pnYjdeGX/vczI3Au4GC/AISEAjmvpla+YBUSsn1+9ZZIThR1CZxpTTFl/pWKKE
+ 2JYJbWOBPJPv1+9uzRxIQ/Bk/261ZOsS/Kx0dlF8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.155.63]) by mail.gmx.com (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MZTmY-1k7SOI0Ure-00WV2u; Wed, 02
+ Sep 2020 17:01:00 +0200
+Subject: Re: [PATCH 07/28] 53c700: improve non-coherent DMA handling
+To: Matthew Wilcox <willy@infradead.org>
+References: <20200819065555.1802761-1-hch@lst.de>
+ <20200819065555.1802761-8-hch@lst.de>
+ <1598971960.4238.5.camel@HansenPartnership.com>
+ <20200901150554.GN14765@casper.infradead.org>
+ <1598973776.4238.11.camel@HansenPartnership.com>
+ <3369218e-eea4-14e9-15f1-870269e4649d@gmx.de>
+ <77c9b2b6-bedc-d090-8b23-6ac664df1d1f@gmx.de>
+ <20200901165311.GS14765@casper.infradead.org>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+ c2TFWAS8k6RLkk41ZUU8ENX8+qZx/Q==
+Message-ID: <30bfa844-00ea-1abe-9022-d73cf309e580@gmx.de>
+Date: Wed, 2 Sep 2020 17:00:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <96717683-70be-7388-3d2f-61131070a96a@secunet.com>
-Content-Language: en-GB
-Cc: iommu@lists.linux-foundation.org
+In-Reply-To: <20200901165311.GS14765@casper.infradead.org>
+Content-Language: en-US
+X-Provags-ID: V03:K1:ylKgDqFU+gFaPC2d+WzSCQXxiLQIXKySkLqivXa28qMeQ0h5Pxr
+ tXM5x2Bo4S8TIKWGUWrbkkNuyKUME2NUvg3jtsmf8vkXFe4smPhe14q2DVLmoJE/VrrUvC8
+ 63TbKzPDS66vjFhBhFr+EMjQN0laqJgo2Hk+foHitxLhjyTxAJGMdprDPYH1wX4OBUsoyKp
+ QMsIM54OSGNwhG+Lr3XfQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aS28Gzfeplo=:J9k98LfUdjGOuaDrD12GXy
+ mzSgOO4XwP9o4WwUrfevHPZft60XRYzaydJg0seTLUP9PUMe4SCR8wnt+FqJb2KmNErTSF3Yz
+ mlEuV2ypNQhyeT8Zb7TFH9gIDYr63Tn/49r4uWCsv7KGts2XskLUKRIcTRjTyZ3fFf2AfYibs
+ BzDfzF9v3j4/idusDth0av+x88Bd3jXvRuZ7oJJF2HqnBG4SkKXa0NLw7UkTYhhf//eGiBY6L
+ Tz4eqwGRg7UwwOHV8G+kLUYax69snHYMWRmONRp+4GHeEto3D1SVN2jF+XEdTo8EG6GK7mVkf
+ REE4YOujtqDjHiR6Ot35dAEtJQsFsZG4uNaEY+BHAPdoB2Df8TOc3SqjwTa1Ieccn9gGFcI0v
+ HHi8UTCZoevjnXCWVau4Y/zHGSN/AvvivjSjDJh7E2zIcG2RsvnL1QRgMV2O5i8o0o0mkywRA
+ 7f7mDxGgqyo/OXeuv19tt2n2HqKCUEns1YJ87JOE/tZhZzKHulZvXXB66rnFRt+wNw/tRV1ft
+ 9Hv0ciJkPH32Jjmj3fbLVbhytxvULtITMmRk6+0rf0MLbgyAu89Ax6nNGds65lCXxgsshpdaw
+ 73NW8eCpFbuCSovlK4TWz1l58mYvKCfFcm7x2NeJ0dOieetl4mzs3HcI5qq6WHdSH4o4WvPww
+ lGbsyrOodVY3EiL6Dvj0o+RCTbWMiZaG9cwrWeQzIsjYAFnZ0YNI7k5IOxf8FqZ3FZilscmm4
+ 1aHFf1DqijKWy8YrPe5SLLGm7jipNlbM97JdT8Rky3LFIzh6n4cS92aBdLFDSMG5m8JFPzZyV
+ nSDYrKeU19FFhsekzwqljpEW2mIFGl9Wl07u9Sip7k6aoMhwb74pJUjrtd4RazX00tgfI3Jv5
+ cbyBhn+XCUXDCMbBCHZGsG23/3V32rVakAqts6bEfUkqclD0zAytopG2cvnwsLqpYdubwTIN3
+ kUmpUTgLkIzzdNSz9uF58RQPOyRSV2yH/L/klzgKzaIZC8LHyq6i1S7e2N4ZD+jcidq45xXM7
+ dxde84/84J6CvL4H+9k93kdrMM+as6D+M+klxCE/E51ydob240bTvF6xRBq0aTd9xSQcRJTBm
+ Kb4lpYVFKQfTy9KqWPa1ZEWaqLY8gC2E/gIYnnMq+m49vVWvY/xMJdiGLExTZ7lfIdx9XsKQZ
+ bj3+thm3qGCfuP6o6d33ewaGx84nW8EaWKaRAZZqHK0i4qKqTW7aR2AL4dtU4tMIrbzNV/2DK
+ 7fOan6bBrutQ8vuLD
+Cc: alsa-devel@alsa-project.org, linux-ia64@vger.kernel.org,
+ linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ James Bottomley <James.Bottomley@hansenpartnership.com>, linux-mm@kvack.org,
+ Christoph Hellwig <hch@lst.de>, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>, linux-scsi@vger.kernel.org,
+ Kyungmin Park <kyungmin.park@samsung.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Matt Porter <mporter@kernel.crashing.org>, linux-media@vger.kernel.org,
+ Tom Lendacky <thomas.lendacky@amd.com>, Pawel Osciak <pawel@osciak.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-parisc@vger.kernel.org,
+ netdev@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-mips@vger.kernel.org, iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,155 +169,25 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-09-02 06:32, Torsten Hilbrich wrote:
-> After updating from v5.8 to v5.9-rc2 I noticed some problems when
-> booting a system with kernel cmdline "intel_iommu=on,igfx_off".
-> 
-> The following stacktrace was produced:
-> 
-> <6>[    0.000000] Command line: BOOT_IMAGE=/isolinux/bzImage console=tty1 intel_iommu=on,igfx_off
-> ...
-> <6>[    3.341682] DMAR: Host address width 39
-> <6>[    3.341684] DMAR: DRHD base: 0x000000fed90000 flags: 0x0
-> <6>[    3.341702] DMAR: dmar0: reg_base_addr fed90000 ver 1:0 cap 1c0000c40660462 ecap 19e2ff0505e
-> <6>[    3.341705] DMAR: DRHD base: 0x000000fed91000 flags: 0x1
-> <6>[    3.341711] DMAR: dmar1: reg_base_addr fed91000 ver 1:0 cap d2008c40660462 ecap f050da
-> <6>[    3.341713] DMAR: RMRR base: 0x0000009aa9f000 end: 0x0000009aabefff
-> <6>[    3.341716] DMAR: RMRR base: 0x0000009d000000 end: 0x0000009f7fffff
-> <6>[    3.341726] DMAR: No ATSR found
-> <1>[    3.341772] BUG: kernel NULL pointer dereference, address: 0000000000000038
-> <1>[    3.341774] #PF: supervisor write access in kernel mode
-> <1>[    3.341776] #PF: error_code(0x0002) - not-present page
-> <6>[    3.341777] PGD 0 P4D 0
-> <4>[    3.341780] Oops: 0002 [#1] SMP PTI
-> <4>[    3.341783] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.9.0-devel+ #2
-> <4>[    3.341785] Hardware name: LENOVO 20HGS0TW00/20HGS0TW00, BIOS N1WET46S (1.25s ) 03/30/2018
-> <4>[    3.341790] RIP: 0010:intel_iommu_init+0xed0/0x1136
-> <4>[    3.341792] Code: fe e9 61 02 00 00 bb f4 ff ff ff e9 57 02 00 00 48 63 d1 48 c1 e2 04 48 03 50 20 48 8b 12 48 85 d2 74 0b 48 8b 92 d0 02 00 00 <48> 89 7a 38 ff c1 e9 15 f5 ff ff 48 c7 c7 60 99 ac a7 49 c7 c7 a0
-> <4>[    3.341796] RSP: 0000:ffff96d180073dd0 EFLAGS: 00010282
-> <4>[    3.341798] RAX: ffff8c91037a7d20 RBX: 0000000000000000 RCX: 0000000000000000
-> <4>[    3.341800] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffffffffffff
-> <4>[    3.341802] RBP: ffff96d180073e90 R08: 0000000000000001 R09: ffff8c91039fe3c0
-> <4>[    3.341804] R10: 0000000000000226 R11: 0000000000000226 R12: 000000000000000b
-> <4>[    3.341806] R13: ffff8c910367c650 R14: ffffffffa8426d60 R15: 0000000000000000
-> <4>[    3.341808] FS:  0000000000000000(0000) GS:ffff8c9107480000(0000) knlGS:0000000000000000
-> <4>[    3.341810] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> <4>[    3.341812] CR2: 0000000000000038 CR3: 00000004b100a001 CR4: 00000000003706e0
-> <4>[    3.341814] Call Trace:
-> <4>[    3.341820]  ? _raw_spin_unlock_irqrestore+0x1f/0x30
-> <4>[    3.341824]  ? call_rcu+0x10e/0x320
-> <4>[    3.341828]  ? trace_hardirqs_on+0x2c/0xd0
-> <4>[    3.341831]  ? rdinit_setup+0x2c/0x2c
-> <4>[    3.341834]  ? e820__memblock_setup+0x8b/0x8b
-> <4>[    3.341836]  pci_iommu_init+0x16/0x3f
-> <4>[    3.341839]  do_one_initcall+0x46/0x1e4
-> <4>[    3.341842]  kernel_init_freeable+0x169/0x1b2
-> <4>[    3.341845]  ? rest_init+0x9f/0x9f
-> <4>[    3.341847]  kernel_init+0xa/0x101
-> <4>[    3.341849]  ret_from_fork+0x22/0x30
-> <4>[    3.341851] Modules linked in:
-> <4>[    3.341854] CR2: 0000000000000038
-> <4>[    3.341860] ---[ end trace 3653722a6f936f18 ]---
-> 
-> I could track the problem down to the dev_iommu_priv_set call in the function
-> init_no_remapping_devices in the path where !dmar_map_gfx. It turned out that
-> the dev->iommu entry is NULL at this time.
-> 
-> Lu Baolu <baolu.lu@linux.intel.com> suggested for dev_iommu_priv_set
-> to automatically allocate the iommu entry by using the function
-> dev_iommu_get to retrieve that pointer. This function allocates the
-> entry if needed.
-> 
-> Fixes: 01b9d4e21148 ("iommu/vt-d: Use dev_iommu_priv_get/set()")
-> Signed-off-by: Torsten Hilbrich <torsten.hilbrich@secunet.com>
-> Tested-by: Torsten Hilbrich <torsten.hilbrich@secunet.com>
-> Link: https://lists.linuxfoundation.org/pipermail/iommu/2020-August/048098.html
-> ---
->   drivers/iommu/iommu.c | 22 ++++++++++++++++++++++
->   include/linux/iommu.h | 11 ++---------
->   2 files changed, 24 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 609bd25bf154..3edca2a31296 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -2849,3 +2849,25 @@ int iommu_sva_get_pasid(struct iommu_sva *handle)
->   	return ops->sva_get_pasid(handle);
->   }
->   EXPORT_SYMBOL_GPL(iommu_sva_get_pasid);
-> +
-> +void *dev_iommu_priv_get(struct device *dev)
-> +{
-> +       struct dev_iommu *param = dev_iommu_get(dev);
-> +
-> +       if (WARN_ON(!param))
-> +               return ERR_PTR(-ENOMEM);
-> +
-> +        return param->priv;
-> +}
-> +EXPORT_SYMBOL_GPL(dev_iommu_priv_get);
+Hi Willy,
 
-Hmm, I'm not convinced by this - it looks it would only paper over real 
-driver bugs. If the driver's calling dev_iommu_priv_get(), it presumably 
-wants to actually *do* something with its private data - if it somehow 
-manages to make that call before it's processed ->probe_device(), it 
-can't possibly get *meaningful* data, so even if we stop that call from 
-crashing how can it result in correct behaviour?
+On 01.09.20 18:53, Matthew Wilcox wrote:
+> On Tue, Sep 01, 2020 at 06:41:12PM +0200, Helge Deller wrote:
+>>> I still have a zoo of machines running for such testing, including a
+>>> 715/64 and two 730.
+>>> I'm going to test this git tree on the 715/64:
+>
+> The 715/64 is a 7100LC machine though.  I think you need to boot on
+> the 730 to test the non-coherent path.
 
-And if the device isn't managed by that IOMMU driver, then it shouldn't 
-be calling dev_iommu_priv_get() blindly in the first place (and 
-allocating redundant structures would just be a waste).
+Just tested the 730, and it works as well.
 
-> +void dev_iommu_priv_set(struct device *dev, void *priv)
-> +{
-> +       struct dev_iommu *param = dev_iommu_get(dev);
-> +
-> +       if (WARN_ON(!param))
-> +               return;
-> +
-> +        param->priv = priv;
-> +}
-> +EXPORT_SYMBOL_GPL(dev_iommu_priv_set);
-
-In this direction it's at least not completely illogical, but it's still 
-indicative of a driver operating very much outside the expected API 
-flow. If a driver has special knowledge of devices it manages before 
-it's seen ->probe_device() for them then fair enough, but it should 
-probably be that driver's responsibility to manage any "out of order" 
-usage of its private data as a special case, rather than pretending that 
-this is expected common behaviour. Again, for most drivers it's more 
-likely to just mask bugs than be genuinely useful.
-
-Robin.
-
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index fee209efb756..e3e725cf64b3 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -609,15 +609,8 @@ static inline void dev_iommu_fwspec_set(struct device *dev,
->   	dev->iommu->fwspec = fwspec;
->   }
->   
-> -static inline void *dev_iommu_priv_get(struct device *dev)
-> -{
-> -	return dev->iommu->priv;
-> -}
-> -
-> -static inline void dev_iommu_priv_set(struct device *dev, void *priv)
-> -{
-> -	dev->iommu->priv = priv;
-> -}
-> +void *dev_iommu_priv_get(struct device *dev);
-> +void dev_iommu_priv_set(struct device *dev, void *priv);
->   
->   int iommu_probe_device(struct device *dev);
->   void iommu_release_device(struct device *dev);
-> 
+Helge
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
