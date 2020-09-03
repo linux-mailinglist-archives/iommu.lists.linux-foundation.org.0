@@ -1,86 +1,107 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854E425CA19
-	for <lists.iommu@lfdr.de>; Thu,  3 Sep 2020 22:20:04 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B7B25CA2F
+	for <lists.iommu@lfdr.de>; Thu,  3 Sep 2020 22:27:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 422D086D9D;
-	Thu,  3 Sep 2020 20:20:03 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3CCB687275;
+	Thu,  3 Sep 2020 20:27:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TWSuIRWDhm-u; Thu,  3 Sep 2020 20:20:02 +0000 (UTC)
+	with ESMTP id vUPK+gVtKmpy; Thu,  3 Sep 2020 20:27:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6186286D95;
-	Thu,  3 Sep 2020 20:20:02 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A4418873C8;
+	Thu,  3 Sep 2020 20:27:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4C2FDC07FF;
-	Thu,  3 Sep 2020 20:20:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 95159C0890;
+	Thu,  3 Sep 2020 20:27:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BFB7EC0051
- for <iommu@lists.linux-foundation.org>; Thu,  3 Sep 2020 20:19:58 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 78A36C0051
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Sep 2020 20:27:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id AE5E286566
- for <iommu@lists.linux-foundation.org>; Thu,  3 Sep 2020 20:19:58 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 66CFF87280
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Sep 2020 20:27:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id N3+gFAZD4zr6 for <iommu@lists.linux-foundation.org>;
- Thu,  3 Sep 2020 20:19:57 +0000 (UTC)
+ with ESMTP id hUHgxutdj5OR for <iommu@lists.linux-foundation.org>;
+ Thu,  3 Sep 2020 20:27:09 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
- [209.85.222.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 717FA86BF8
- for <iommu@lists.linux-foundation.org>; Thu,  3 Sep 2020 20:19:57 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id d20so4357775qka.5
- for <iommu@lists.linux-foundation.org>; Thu, 03 Sep 2020 13:19:57 -0700 (PDT)
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9A7EA87275
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Sep 2020 20:27:09 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id b16so4825192ioj.4
+ for <iommu@lists.linux-foundation.org>; Thu, 03 Sep 2020 13:27:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tcd-ie.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=I6sqmpjYQS1i8I2u5OlgYcgH9H7Q/fBtF5RLdQCIbUY=;
- b=f5+yqTBUf+Zh3CRFoO7j+ETaR7BoPwPjFFldKKUkS1MaF6C6Fhwpo/kFj9rjCy1WKz
- UvVrCewv98Q0u5xdiLRiQc2o21P1MUhEJpVVKYv4Oib5ziK5CvQHARu0Q+x5d183b+a6
- pF1Y9Ta/u7jrWC4e/BOGveysxuPjYG6SL8clEy2/9NFsjB7pcUzK5w/ajmD0QUJEmEJ7
- grlTnuwzZj90QQPTQfrRqu+3zrbInu79cugqbqdNdno5i9bSMHWFc6OH7UE+QbWnabjI
- j4ujlx1OtFcGDtL7MGk8lvaMK9Ru9VrxxbhDJZygAX8HxPJDXZGH/dbbp+8T2c57rjnq
- uR2g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XHoryAxbdooXqCdzEiDfBNHDRDqVJTRBeWqND7AhQWw=;
+ b=RCNqeDrberJQa8iEXoKdFFmsXmVgm0OJW7eIchkOEab4PeUqCYPXFDpEN7VrPE2Q2r
+ GUQQuiaAGbKydhEJAnnDCPiK90LXur6kCJr5L5sQ2r/ne46TMpiIdcTaCv2fHYoM6yNb
+ n/CznyFIPF9GJUXXveE7AfWdl33o/8t6SBeJ8YB3I8NVC2PqmD4/iWDqPdEI5wN78LVf
+ ncTI5ftXwXoF9V4Ax5mdMwpMg3xer78eQreGPZO8czXhtl772MKmX11X+ribr9UqcF1C
+ urDp6n8FeZvPlJlmjz8S3oOgFUFG1EujxtEbZKlxpUccJF2SFlBjkXHX8U39zQ/QDpq6
+ IUOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=I6sqmpjYQS1i8I2u5OlgYcgH9H7Q/fBtF5RLdQCIbUY=;
- b=NADR3HEYwLUZ5Ck1+36OtfCoDnF3XUR2wKdxmHU4tND7/rMwE63BcErz3QhYasANlH
- yU2Draop13HejDlRvrlt4qIsq5kYgAl0+xxBqei0g5LIhU9StWfEFFTcu0GhTwTrG6FL
- 5dHkM0xSUr+gmy4yPuWxG6UCCDh7XQXGetljN7oWbX0YutLd7WcHMYUYNyPaAwqP5zk+
- M8YElKFtUEsSQ3m5NZkHI5Ee8RYVxRaXoA0aydqO56t3BGUjwPmOFZnwePxqfePBwEEh
- OC+fF15Vs7UyNPGNNd3NDvAx8tmxvTih0/T1ryhIaaPOzkhtEwifjwmFRdRLEGD/RQan
- 6nxA==
-X-Gm-Message-State: AOAM532C6uH0WE5AmT+kA5LSA8n0a1JvW1vBoNL/pxveqBSBR3QAT8eW
- t1NJ+fcdCX39DED20uAZXgOAgWGmSa3RTw==
-X-Google-Smtp-Source: ABdhPJy41UyVnEf4Yul9EU5IS6jK0ALJvv/N9qDQ6Ke4Op2ACBvgPzzrHN3lrSAG5StjeziwV2NjPg==
-X-Received: by 2002:a37:a00d:: with SMTP id j13mr4956214qke.349.1599164396368; 
- Thu, 03 Sep 2020 13:19:56 -0700 (PDT)
-Received: from tom-ThinkPad-X1-Carbon-5th.hitronhub.home
- (CPEa84e3fce9b83-CMa84e3fce9b80.cpe.net.cable.rogers.com. [99.230.61.29])
- by smtp.googlemail.com with ESMTPSA id g37sm2863257qtk.76.2020.09.03.13.19.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Sep 2020 13:19:56 -0700 (PDT)
-From: Tom Murphy <murphyt7@tcd.ie>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH V2 5/5] DO NOT MERGE: iommu: disable list appending in
- dma-iommu
-Date: Thu,  3 Sep 2020 21:18:37 +0100
-Message-Id: <20200903201839.7327-6-murphyt7@tcd.ie>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200903201839.7327-1-murphyt7@tcd.ie>
-References: <20200903201839.7327-1-murphyt7@tcd.ie>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XHoryAxbdooXqCdzEiDfBNHDRDqVJTRBeWqND7AhQWw=;
+ b=ZrNktyE8bV6ft+j8qCMOowc0daB20AmbWaGnNbv1+XiojKzrQEmQYztmJScBLqrBD+
+ 16jjOTBdIvGQVaPa7evEfyCaoFwKA0ZaAvEb2gczUrjrDfyVfx93h4Gfsn7C3w3bM7MV
+ SCXC/k3orDUYFSF6UVBMAp+uCTzFIyt6x4IuP73fR6QEIWHBXcPCm0zkU6Ncke+Jo1sv
+ T8MT/alOXXykqhQWoOFJPAKdXW71hfSGXYgK0MjzefyNWGttwDTiJmsMfqs93RDngHt2
+ 7bbelW3aElu27q9a7ml6PN96sBBRvf6H7foXBwXb8WgBYpIwJbFbWSHUGxKkUHPo78Al
+ i/hA==
+X-Gm-Message-State: AOAM533q6GeR5BiD8TBvDNaPy04vFafrx8nH+b4DJOK3vq8aO/LoWqTt
+ ltPn811wjrzhng0NoRJxdKaies1rvlCPb++ZLEY3mQ==
+X-Google-Smtp-Source: ABdhPJwmTrpk85LWcnftpfNTJtQ24c/2yXv/TkIoKUAohLkMn+MLB1sF1W3BqKfqx9SeVWLrNTgZBBPqyFF6pQr5QKA=
+X-Received: by 2002:a02:834a:: with SMTP id w10mr5122585jag.63.1599164828964; 
+ Thu, 03 Sep 2020 13:27:08 -0700 (PDT)
 MIME-Version: 1.0
-Cc: David Woodhouse <dwmw2@infradead.org>, linux-kernel@vger.kernel.org,
- Tom Murphy <murphyt7@tcd.ie>
+References: <20191221150402.13868-1-murphyt7@tcd.ie>
+ <465815ae-9292-f37a-59b9-03949cb68460@deltatee.com>
+ <20200529124523.GA11817@infradead.org>
+ <CGME20200529190523eucas1p2c086133e707257c0cdc002f502d4f51d@eucas1p2.samsung.com>
+ <33137cfb-603c-86e8-1091-f36117ecfaf3@deltatee.com>
+ <ef2150d5-7b6a-df25-c10d-e43316fe7812@samsung.com>
+ <b9140772-0370-a858-578c-af503a06d8e9@deltatee.com>
+ <CALQxJuutRaeX89k2o4ffTKYRMizmMu0XbRnzpFuSSrkQR02jKg@mail.gmail.com>
+ <766525c3-4da9-6db7-cd90-fb4b82cd8083@deltatee.com>
+ <CALQxJuuS8KKUX_eWWSE81gsq5ePAETB-FoqRUSWFfqgr+B13gg@mail.gmail.com>
+In-Reply-To: <CALQxJuuS8KKUX_eWWSE81gsq5ePAETB-FoqRUSWFfqgr+B13gg@mail.gmail.com>
+From: Tom Murphy <murphyt7@tcd.ie>
+Date: Thu, 3 Sep 2020 21:26:57 +0100
+Message-ID: <CALQxJuuk0YR9dZWkqSmLU-kUKoOuuNj-kSikvQGq0wekijycLA@mail.gmail.com>
+Subject: Re: [PATCH 0/8] Convert the intel iommu driver to the dma-iommu api
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ Julien Grall <julien.grall@arm.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Will Deacon <will@kernel.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Christoph Hellwig <hch@infradead.org>, linux-rockchip@lists.infradead.org,
+ Andy Gross <agross@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ linux-mediatek@lists.infradead.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ virtualization@lists.linux-foundation.org,
+ Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+ David Woodhouse <dwmw2@infradead.org>, Cornelia Huck <cohuck@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ iommu@lists.linux-foundation.org, Kukjin Kim <kgene@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,83 +119,77 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Disable combining sg segments in the dma-iommu api.
-Combining the sg segments exposes a bug in the intel i915 driver which
-causes visual artifacts and the screen to freeze. This is most likely
-because of how the i915 handles the returned list. It probably doesn't
-respect the returned value specifying the number of elements in the list
-and instead depends on the previous behaviour of the intel iommu driver
-which would return the same number of elements in the output list as in
-the input list.
+On Fri, 28 Aug 2020 at 00:34, Tom Murphy <murphyt7@tcd.ie> wrote:
+>
+> On Thu, 27 Aug 2020 at 22:36, Logan Gunthorpe <logang@deltatee.com> wrote:
+> >
+> >
+> >
+> > On 2020-08-23 6:04 p.m., Tom Murphy wrote:
+> > > I have added a check for the sg_dma_len == 0 :
+> > > """
+> > >  } __sgt_iter(struct scatterlist *sgl, bool dma) {
+> > >         struct sgt_iter s = { .sgp = sgl };
+> > >
+> > > +       if (sgl && sg_dma_len(sgl) == 0)
+> > > +           s.sgp = NULL;
+> > >
+> > >         if (s.sgp) {
+> > >             .....
+> > > """
+> > > at location [1].
+> > > but it doens't fix the problem.
+> >
+> > Based on my read of the code, it looks like we also need to change usage
+> > of sgl->length... Something like the rough patch below, maybe?
+> >
+> > Also, Tom, do you have an updated version of the patchset to convert the
+> > Intel IOMMU to dma-iommu available? The last one I've found doesn't
+> > apply cleanly (I'm assuming parts of it have been merged in slightly
+> > modified forms).
+> >
+>
+> I'll try and post one in the next 24hours
 
-Signed-off-by: Tom Murphy <murphyt7@tcd.ie>
----
- drivers/iommu/dma-iommu.c | 38 ++++++--------------------------------
- 1 file changed, 6 insertions(+), 32 deletions(-)
+I have just posted this now:
+The subject of the cover letter is:
+"[PATCH V2 0/5] Convert the intel iommu driver to the dma-iommu api"
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 185cd504ca5a..6697b4ad0df6 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -843,49 +843,23 @@ static int __finalise_sg(struct device *dev, struct scatterlist *sg, int nents,
- 		dma_addr_t dma_addr)
- {
- 	struct scatterlist *s, *cur = sg;
--	unsigned long seg_mask = dma_get_seg_boundary(dev);
--	unsigned int cur_len = 0, max_len = dma_get_max_seg_size(dev);
--	int i, count = 0;
-+	int i;
- 
- 	for_each_sg(sg, s, nents, i) {
- 		/* Restore this segment's original unaligned fields first */
- 		unsigned int s_iova_off = sg_dma_address(s);
- 		unsigned int s_length = sg_dma_len(s);
- 		unsigned int s_iova_len = s->length;
-+		if (i > 0)
-+			cur = sg_next(cur);
- 
- 		s->offset += s_iova_off;
- 		s->length = s_length;
--		sg_dma_address(s) = DMA_MAPPING_ERROR;
--		sg_dma_len(s) = 0;
--
--		/*
--		 * Now fill in the real DMA data. If...
--		 * - there is a valid output segment to append to
--		 * - and this segment starts on an IOVA page boundary
--		 * - but doesn't fall at a segment boundary
--		 * - and wouldn't make the resulting output segment too long
--		 */
--		if (cur_len && !s_iova_off && (dma_addr & seg_mask) &&
--		    (max_len - cur_len >= s_length)) {
--			/* ...then concatenate it with the previous one */
--			cur_len += s_length;
--		} else {
--			/* Otherwise start the next output segment */
--			if (i > 0)
--				cur = sg_next(cur);
--			cur_len = s_length;
--			count++;
--
--			sg_dma_address(cur) = dma_addr + s_iova_off;
--		}
--
--		sg_dma_len(cur) = cur_len;
-+		sg_dma_address(cur) = dma_addr + s_iova_off;
-+		sg_dma_len(cur) = s_length;
- 		dma_addr += s_iova_len;
--
--		if (s_length + s_iova_off < s_iova_len)
--			cur_len = 0;
- 	}
--	return count;
-+	return nents;
- }
- 
- /*
--- 
-2.20.1
-
+>
+> > Thanks,
+> >
+> > Logan
+> >
+> > --
+> >
+> > diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h
+> > b/drivers/gpu/drm/i915/i915
+> > index b7b59328cb76..9367ac801f0c 100644
+> > --- a/drivers/gpu/drm/i915/i915_scatterlist.h
+> > +++ b/drivers/gpu/drm/i915/i915_scatterlist.h
+> > @@ -27,13 +27,19 @@ static __always_inline struct sgt_iter {
+> >  } __sgt_iter(struct scatterlist *sgl, bool dma) {
+> >         struct sgt_iter s = { .sgp = sgl };
+> >
+> > +       if (sgl && !sg_dma_len(s.sgp))
+> > +               s.sgp = NULL;
+> > +
+> >         if (s.sgp) {
+> >                 s.max = s.curr = s.sgp->offset;
+> > -               s.max += s.sgp->length;
+> > -               if (dma)
+> > +
+> > +               if (dma) {
+> > +                       s.max += sg_dma_len(s.sgp);
+> >                         s.dma = sg_dma_address(s.sgp);
+> > -               else
+> > +               } else {
+> > +                       s.max += s.sgp->length;
+> >                         s.pfn = page_to_pfn(sg_page(s.sgp));
+> > +               }
+> >         }
+> >
+> >         return s;
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
