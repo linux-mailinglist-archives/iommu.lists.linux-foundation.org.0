@@ -2,101 +2,116 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id D20D425BCEF
-	for <lists.iommu@lfdr.de>; Thu,  3 Sep 2020 10:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5416D25BDB0
+	for <lists.iommu@lfdr.de>; Thu,  3 Sep 2020 10:47:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6934A8510C;
-	Thu,  3 Sep 2020 08:16:40 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 096B987366;
+	Thu,  3 Sep 2020 08:47:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LTLmB9-FOvwj; Thu,  3 Sep 2020 08:16:36 +0000 (UTC)
+	with ESMTP id 2lB+9N9lz2h6; Thu,  3 Sep 2020 08:47:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 74D3C85191;
-	Thu,  3 Sep 2020 08:16:36 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5FAB887278;
+	Thu,  3 Sep 2020 08:47:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 68303C0051;
-	Thu,  3 Sep 2020 08:16:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4FE5FC0051;
+	Thu,  3 Sep 2020 08:47:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2C027C0051
- for <iommu@lists.linux-foundation.org>; Thu,  3 Sep 2020 08:16:34 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6B3C7C0051
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Sep 2020 08:47:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 10D3A86B0A
- for <iommu@lists.linux-foundation.org>; Thu,  3 Sep 2020 08:16:34 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 52E7F20498
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Sep 2020 08:47:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RWfc3bS6XqRg for <iommu@lists.linux-foundation.org>;
- Thu,  3 Sep 2020 08:16:32 +0000 (UTC)
+ with ESMTP id YzXIEXfY+Abe for <iommu@lists.linux-foundation.org>;
+ Thu,  3 Sep 2020 08:47:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 271A886B0F
- for <iommu@lists.linux-foundation.org>; Thu,  3 Sep 2020 08:16:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by a.mx.secunet.com (Postfix) with ESMTP id 208B92054D;
- Thu,  3 Sep 2020 10:16:29 +0200 (CEST)
-X-Virus-Scanned: by secunet
-Received: from a.mx.secunet.com ([127.0.0.1])
- by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NBo2575Zq-mU; Thu,  3 Sep 2020 10:16:28 +0200 (CEST)
-Received: from cas-essen-02.secunet.de (202.40.53.10.in-addr.arpa
- [10.53.40.202])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by a.mx.secunet.com (Postfix) with ESMTPS id 6015520491;
- Thu,  3 Sep 2020 10:16:28 +0200 (CEST)
-Received: from mbx-essen-01.secunet.de (10.53.40.197) by
- cas-essen-02.secunet.de (10.53.40.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Thu, 3 Sep 2020 10:16:28 +0200
-Received: from [172.18.16.185] (172.18.16.185) by mbx-essen-01.secunet.de
- (10.53.40.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 3 Sep 2020
- 10:16:27 +0200
-Subject: Re: [PATCH 1/1] iommu/vt-d: Fix NULL pointer dereference in
- dev_iommu_priv_set()
-To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>
-References: <20200903065132.16879-1-baolu.lu@linux.intel.com>
-From: Torsten Hilbrich <torsten.hilbrich@secunet.com>
-Autocrypt: addr=torsten.hilbrich@secunet.com; prefer-encrypt=mutual; keydata=
- mQENBFs5uIIBCAD4qbEieyT7sBmcro1VrCE1sSnV29a9ub8c0Xj0yw0Cz2N7LalBn4a+YeJN
- OMfL1MQvEiTxZNIzb1I0bRYcfhkhjN4+vAoPJ3q1OpSY+WUgphUbzseUk/Bq3gwvfa6/U+Hm
- o2lvEfN2dewBGptQ+DrWz+SPM1TQiwShKjowY/avaVgrABBGen3LgB0XZXEH8Q720kjP7htK
- tCGRt1T+qNIj3tZDZfPkqEVb8lTRcyn1hI3/FbDTysletRrCmkHSVbnxNzO6lw2G1H61wQhw
- YVbIVNohY61ieSJFhNLL6/UTGHtUE2IAicnsUAUKR8GiI1+3cTf233O5HaWYeOjBmTCLABEB
- AAG0L1RvcnN0ZW4gSGlsYnJpY2ggPHRvcnN0ZW4uaGlsYnJpY2hAc2VjdW5ldC5jb20+iQE3
- BBMBCAAhBQJbObiCAhsDBQsJCAcCBhUICQoLAgQWAgMBAh4BAheAAAoJEJ7rXZh78/h8+tIH
- +QFYRQH4qh3WagcmjbG/zCe2RmZZePO8bmut2fAxY04aqJZGYUBxb5lfaWaHkstqM5sFD8Jo
- k1j5E7f1cnfwB21azdUO8fzYL889kdVOzatdT/uTjR7OjR59gpJMd4lx7fwFuZUg8z6rfWJ3
- ImjxxBgaJRL6pqaZ9lOst82O0qJKEFBR+HDUVvgh4n8TTOfKNv/dGPQhaed+2or98asdYRWo
- S/zc4ltTh4SxZjLd98pDxjlUyOJoMJeWdlMmLgWV3h1qjy4DxgQzvgATEaKjOuwtkCOcwHn7
- Unf0F2V9p4O7NFOuoVyqTBRX+5xKgzSM7VP1RlTT4FA9/7wkhhG+FEK5AQ0EWzm4ggEIAL9F
- IIPQYMx5x+zMjm8lDsmh12zoqCtMfn9QWrERd2gDS3GsORbe/i6DhYvzsulH8vsviPle4ocU
- +PaTwadfnEqm0FS7xCONYookDGfAiPS4cHWX7WrTNBP7mK3Gl1KaAOJJsMbCVAA9q4d8WL+A
- e+XrfOAetZq5gxLxDMYySNI1pIMJVrGECiboLa/LPPh2yw4jieAedW96CPuZs7rUY/5uIVt0
- Dn4/aSzV+Ixr52Z2McvNmH/VxDt59Z6jBztZIJBXpX3BC/UyH7rJOJTaqEF+EVWEpOmSoZ6u
- i1DWyqOBKnQrbUa0fpNd3aaOl2KnlgTH9upm70XZGpeJik/pQGcAEQEAAYkBHwQYAQgACQUC
- Wzm4ggIbDAAKCRCe612Ye/P4fEzqB/9gcM/bODO8o9YR86BLp0S8bF73lwIJyDHg5brjqAnz
- CtCdb4I+evI4iyU9zuN1x4V+Te5ej+mUu5CbIte8gQbo4cc9sbe/AEDoOh0lGoXKZiwtHqoh
- RZ4jOFrZJsEjOSUCLE8E8VR1afPf0SkFXLXWZfZDU28K80JWeV1BCtxutZ39bz6ybMbcCvMS
- UfwCTY0IJOiDga1K4H2HzHAqlvfzCurqe616S4S1ax+erg3KTEXylxmzcFjJU8AUZURy/lQt
- VElzs4Km1p3v6GUciCAb+Uhd12sQG2mL05jmEems9uRe3Wfke/RKp8A+Yq+p6E0A0ZOP+Okm
- LXB2q+ckPvZG
-Message-ID: <2bc345ad-07ac-fec2-273d-4c8d6319af6b@secunet.com>
-Date: Thu, 3 Sep 2020 10:16:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200903065132.16879-1-baolu.lu@linux.intel.com>
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2057.outbound.protection.outlook.com [40.107.220.57])
+ by silver.osuosl.org (Postfix) with ESMTPS id CE43720470
+ for <iommu@lists.linux-foundation.org>; Thu,  3 Sep 2020 08:46:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jP41bw9LtQjToa3wqAKjeZ0tPMf7bCC2xAOF7YBjibXfzv+BxleVCu27hoShT43MOSQ3D/zK83v15TCZVaHL9iaAq3iBErPpUDH3reaL4VuXU8eF4U94ZYTxIIX6iWgRgPn7p+g55FIm9KP3LBXrgEn4bdaSXeifbk78HGWkuOmzQWj7cWATYFFJ8WKMT5eqEvaHvAoORVFsUotgSDL8cx2ctT8xAA+f3unI78jiIIBAYvNYey9YL+7ObyUfN2Hm8j58u4Scek3km6ydlzaT0KhrQiWYyfLY7j4hm9+mHV6nBz4F7yoAa/KB5FfkTm+cRmxO/JA7euPFCnqZkzPa/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=flh+JB97n8qH14lYhpIkUWQmkZlgwzD7d6fgQYe/Zoo=;
+ b=dXpGBvSEy2XXlZi5FOAAkVdtsN0XVsUEZiiuR0igy/UHg12OYLcXSeBlBA/J+KI2Spr+0vFxt41HWTTK+udbvWFoodUJzMlaxSkTGyaCRFi7VX2s6xh/er43N4wsoSpN9TC2RLMsWyBxS77A/VxBLDOLrw0urxH8dKQCxjXT2ugIEc22ODTHCHOe7ju9ntk7evRDr1Ac7H7fNL+NKzS+tGI+p2Z3qVyybZT4r6qu0t6IWfmEhCOUdKRm0OHM+89CklhkOBc7AVU/w+4xsZOJ3NK1TjCZ1G3hW3k+8eZmThYZDXHJH0b4eCPLR1ShAdfhHkuwD/32PzJHP1b8ypYr3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=flh+JB97n8qH14lYhpIkUWQmkZlgwzD7d6fgQYe/Zoo=;
+ b=VaTEw8cX1MaX9qXL1QXXItgvAR4z6b8RUri4jy5EkRdXZwaQt4rs1l7woUfPX5ZSNwhqPjG3RlohNeD298S0JPXmgJFRiju9si6PRBDNwm+SzA6unr5Fd7qrcFyF439skmNLV6aXTdV9zrQxOu6Vr/cogqDg1ewB3/mb97tgSfU=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1163.namprd12.prod.outlook.com (2603:10b6:3:7a::18) by
+ DM6PR12MB3274.namprd12.prod.outlook.com (2603:10b6:5:182::25) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3326.22; Thu, 3 Sep 2020 08:14:22 +0000
+Received: from DM5PR12MB1163.namprd12.prod.outlook.com
+ ([fe80::cc8d:7537:ec56:108e]) by DM5PR12MB1163.namprd12.prod.outlook.com
+ ([fe80::cc8d:7537:ec56:108e%11]) with mapi id 15.20.3326.025; Thu, 3 Sep 2020
+ 08:14:22 +0000
+Subject: Re: [PATCH 2/2] iommu: amd: Use cmpxchg_double() when updating
+ 128-bit IRTE
+To: Joao Martins <joao.m.martins@oracle.com>
+References: <20200902045110.4679-1-suravee.suthikulpanit@amd.com>
+ <20200902045110.4679-3-suravee.suthikulpanit@amd.com>
+ <6f65bd13-08fc-45d9-8e80-b64499f010e0@oracle.com>
+From: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Message-ID: <010b1461-654e-e055-97f4-f80f0c8fce65@amd.com>
+Date: Thu, 3 Sep 2020 15:14:10 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
+In-Reply-To: <6f65bd13-08fc-45d9-8e80-b64499f010e0@oracle.com>
 Content-Language: en-US
-X-ClientProxiedBy: cas-essen-02.secunet.de (10.53.40.202) To
- mbx-essen-01.secunet.de (10.53.40.197)
-X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
-Cc: iommu@lists.linux-foundation.org, Wendy Wang <wendy.wang@intel.com>,
- Robin Murphy <robin.murphy@arm.com>, Ashok Raj <ashok.raj@intel.com>,
- linux-kernel@vger.kernel.org
+X-ClientProxiedBy: SG2PR0601CA0011.apcprd06.prod.outlook.com (2603:1096:3::21)
+ To DM5PR12MB1163.namprd12.prod.outlook.com
+ (2603:10b6:3:7a::18)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 255.255.255.255 (255.255.255.255) by
+ SG2PR0601CA0011.apcprd06.prod.outlook.com (2603:1096:3::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3348.15 via Frontend Transport; Thu, 3 Sep 2020 08:14:18 +0000
+X-Originating-IP: [223.24.160.83]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3612101a-e1e2-4017-d4f6-08d84fe15d44
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3274:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3274B6016379CA8452BEBAABF32C0@DM6PR12MB3274.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oB08zw/b0uBzusmHvrPJ9nX4LTRIZZbwORuROB+Is66Ne2e1zqsF0yneMiiKU5tQOwfZaZUFl9WwKo/mGr6THnSf3mkbeP6yLWApu/rh2gDxMqErp8lsQyZLGHRER6DjjOHsVAjin9WpMWuh5HhO6DpjCym2bpFhqRC+JQ6sfTAiEcEbJHPBiq7f7J3sv0tdzMstFNviZgfb0UuxTNefTw/Kcb0a39cIbReq2ZccLDBF/0fjLEWIGHlIPH3qzrGmMO6vrIk5gTfhQRMfnoVZ+jWpNv3LwhxmeKxhwaYzNT62VwiqkjFGhQOOfI2Ar0N2cKXg5Z3582EXWopGInD/nblYKIjH9SbJlQOXRReNYVJtSlfXtla11o5QX2Fwplhd
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1163.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(346002)(376002)(396003)(366004)(66946007)(478600001)(31696002)(5660300002)(8676002)(26005)(4326008)(2906002)(8936002)(66476007)(31686004)(52116002)(6916009)(186003)(66556008)(53546011)(2616005)(6486002)(44832011)(86362001)(83380400001)(16576012)(36756003)(956004)(316002)(6666004)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 97RN7yJLN5mLuATyVULFKC3oNigHOhlDduwN+Wrs9ifNze/72LuQvrzETg/JhVz04fx11NWYZjugSSgqJHBEyoLXrV7cFR9MKjnYk4hoipXdheNYYxYNCMD0tBjlVQHIXRQSu5xyrEHjy0lyhASPHDaqmx1KHKfyZrCId+wwZR+Q3oXH+j2DsEPC+iHcrcQjtALs3Kks62iKYxqcJk9xBhO2LzY7aHUOzzyE09ihZ46eJJpK4nl1wpx0zpV5bChqfFT0VQc3lE46UHs/CXgnAi+k82sD3N5d7XrWODAB5PSFLx+wrLY24lP5lR+7OSgxF22QtxamBDUQI64bc4XLHaxQ14jSjqEIMTAJgbAQjNZlXywOau68a3dXjWgMElbDYjdg4t8b3y/dmYx7QBT/kwJYSlCmfdkL1m5WkhdhIXpi3OC8ht1pekSIG738J6RrSGQujAIBwOxffTCSKuKoYjHkmukvyD9ac7WjdWIsVlLyUTK1YsZngsUctR2IzduhB5WBGwqm4/Tq3v/EZyO9n1Oi1i2LZw9pVUS1aZcguwPqPy31ph0m09CxygB6RlJPfyq92YM1ojNbw4D/GQA2cz5jBr26HVF7yT0oWd2ZF45EG/YZC8JCXFuTVRcWcDhdvCXmelWhE76L59vp2+S71w==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3612101a-e1e2-4017-d4f6-08d84fe15d44
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1163.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2020 08:14:22.6891 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bC+JirMnSEzDZVLdDi2CZdvflDtZfge3LZNx5C/B3gRsj18kbjd3vrIjwo4ArI8bsG1p9Hx406K5FRxUbvTbbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3274
+Cc: jon.grimm@amd.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, james.puthukattukaran@oracle.com,
+ boris.ostrovsky@oracle.com, sean.m.osborne@oracle.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,29 +124,111 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 03.09.20 08:51, Lu Baolu wrote:
-> The dev_iommu_priv_set() must be called after probe_device(). This fixes
-> a NULL pointer deference bug when booting a system with kernel cmdline
-> "intel_iommu=on,igfx_off", where the dev_iommu_priv_set() is abused.
-[...]
+Hi,
+
+I'll send out V2 with fixes to the review comments below ...
+
+On 9/2/20 10:26 PM, Joao Martins wrote:
+> On 9/2/20 5:51 AM, Suravee Suthikulpanit wrote:
+>> When using 128-bit interrupt-remapping table entry (IRTE) (a.k.a GA mode),
+>> current driver disables interrupt remapping when it updates the IRTE
+>> so that the upper and lower 64-bit values can be updated safely.
+>>
+>> However, this creates a small window, where the interrupt could
+>> arrive and result in IO_PAGE_FAULT (for interrupt) as shown below.
+>>
+>>    IOMMU Driver            Device IRQ
+>>    ============            ===========
+>>    irte.RemapEn=0
+>>         ...
+>>     change IRTE            IRQ from device ==> IO_PAGE_FAULT !!
+>>         ...
+>>    irte.RemapEn=1
+>>
+>> This scenario has been observed when changing irq affinity on a system
+>> running I/O-intensive workload, in which the destination APIC ID
+>> in the IRTE is updated.
+>>
+>> Instead, use cmpxchg_double() to update the 128-bit IRTE at once without
+>> disabling the interrupt remapping. However, this means several features,
+>> which require GA (128-bit IRTE) support will also be affected if cmpxchg16b
+>> is not supported (which is unprecedented for AMD processors w/ IOMMU).
+>>
+> Probably requires:
+> 
+>   Fixes: 880ac60e2538 ("iommu/amd: Introduce interrupt remapping ops structure")
+> 
+
+Yes, I will include this in V2.
 
 > 
-> Fixes: 01b9d4e21148c ("iommu/vt-d: Use dev_iommu_priv_get/set()")
-> Reported-by: Torsten Hilbrich <torsten.hilbrich@secunet.com>
-> Reported-by: Wendy Wang <wendy.wang@intel.com>
-> Link: https://lore.kernel.org/linux-iommu/96717683-70be-7388-3d2f-61131070a96a@secunet.com/
-> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+>> Reported-by: Sean Osborne <sean.m.osborne@oracle.com>
+>> Tested-by: Erik Rockstrom <erik.rockstrom@oracle.com>
+>> Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+> 
+> With the comments below addressed, FWIW:
+> 
+>   Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
+> 
+>> diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+>> index c652f16eb702..ad30467f6930 100644
+>> --- a/drivers/iommu/amd/init.c
+>> +++ b/drivers/iommu/amd/init.c
+>> @@ -1511,7 +1511,14 @@ static int __init init_iommu_one(struct amd_iommu *iommu, struct ivhd_header *h)
+>>   			iommu->mmio_phys_end = MMIO_REG_END_OFFSET;
+>>   		else
+>>   			iommu->mmio_phys_end = MMIO_CNTR_CONF_OFFSET;
+>> -		if (((h->efr_attr & (0x1 << IOMMU_FEAT_GASUP_SHIFT)) == 0))
+>> +
+>> +		/*
+>> +		 * Note: GA (128-bit IRTE) mode requires cmpxchg16b supports.
+>> +		 * GAM also requires GA mode. Therefore, we need to
+>> +		 * check cmbxchg16b support before enabling it.
+>> +		 */
+> 
+> s/cmbxchg16b/cmpxchg16b
+> 
+>> +		if (!boot_cpu_has(X86_FEATURE_CX16) ||
+>> +		    ((h->efr_attr & (0x1 << IOMMU_FEAT_GASUP_SHIFT)) == 0))
+>>   			amd_iommu_guest_ir = AMD_IOMMU_GUEST_IR_LEGACY;
+>>   		break;
+>>   	case 0x11:
+>> @@ -1520,8 +1527,18 @@ static int __init init_iommu_one(struct amd_iommu *iommu, struct ivhd_header *h)
+>>   			iommu->mmio_phys_end = MMIO_REG_END_OFFSET;
+>>   		else
+>>   			iommu->mmio_phys_end = MMIO_CNTR_CONF_OFFSET;
+>> -		if (((h->efr_reg & (0x1 << IOMMU_EFR_GASUP_SHIFT)) == 0))
+>> +
+>> +		/*
+>> +		 * Note: GA (128-bit IRTE) mode requires cmpxchg16b supports.
+>> +		 * XT, GAM also requires GA mode. Therefore, we need to
+>> +		 * check cmbxchg16b support before enabling them.
+> 
+> s/cmbxchg16b/cmpxchg16b
+> 
+>> +		 */
+>> +		if (boot_cpu_has(X86_FEATURE_CX16) ||
+> 
+> You probably want !boot_cpu_has(X86_FEATURE_CX16) ?
 
-Tested-by: Torsten Hilbrich <torsten.hilbrich@secunet.com>
+.... Ah, sorry!! I forgot to change it back after testing for the negative case. Thank you for catching this.
 
-Regards,
+Suravee
 
-	Torsten
+> 
+>> +		    ((h->efr_reg & (0x1 << IOMMU_EFR_GASUP_SHIFT)) == 0)) {
+>>   			amd_iommu_guest_ir = AMD_IOMMU_GUEST_IR_LEGACY;
+>> +			break;
+>> +		}
+>> +
+>>   		/*
+>>   		 * Note: Since iommu_update_intcapxt() leverages
+>>   		 * the IOMMU MMIO access to MSI capability block registers
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
