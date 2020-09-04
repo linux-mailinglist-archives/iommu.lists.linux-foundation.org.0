@@ -1,82 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD46725DEE2
-	for <lists.iommu@lfdr.de>; Fri,  4 Sep 2020 18:01:58 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D50225DED8
+	for <lists.iommu@lfdr.de>; Fri,  4 Sep 2020 18:01:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4D3C087576;
-	Fri,  4 Sep 2020 16:01:57 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D22F186EDD;
+	Fri,  4 Sep 2020 16:01:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id z3utjEwWEfFu; Fri,  4 Sep 2020 16:01:56 +0000 (UTC)
+	with ESMTP id IUQqBFjr4D2Z; Fri,  4 Sep 2020 16:01:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C68E7873FF;
-	Fri,  4 Sep 2020 16:01:56 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 540C286EDE;
+	Fri,  4 Sep 2020 16:01:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B0E0CC0051;
-	Fri,  4 Sep 2020 16:01:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 38BADC0051;
+	Fri,  4 Sep 2020 16:01:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C4B59C0051
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 16:01:55 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 72CDCC0051
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 16:01:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A7FBC203AF
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 16:01:55 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 264D387579
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 16:01:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E1v-vi56iEpv for <iommu@lists.linux-foundation.org>;
- Fri,  4 Sep 2020 16:01:54 +0000 (UTC)
+ with ESMTP id yP3k3xbgAX-8 for <iommu@lists.linux-foundation.org>;
+ Fri,  4 Sep 2020 16:01:02 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
- [209.85.166.67])
- by silver.osuosl.org (Postfix) with ESMTPS id A230D2010B
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 16:01:54 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id g128so7578862iof.11
- for <iommu@lists.linux-foundation.org>; Fri, 04 Sep 2020 09:01:54 -0700 (PDT)
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id CBA10872D8
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 16:01:02 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id k15so4817524pfc.12
+ for <iommu@lists.linux-foundation.org>; Fri, 04 Sep 2020 09:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ls6xTeazp01VU5rx1tZcn8CZ6m3ZwOm0FhCvNs4H/UM=;
- b=tb1Sd+n9qybC0+ro/HdiC+RBRiJc3INwSffhtqG6iMH+37s6uZXFul1N9db1cLf0O+
- W0rjcAJiucucmVQfVxG2MUkMAVBzL72kxYXPDM94Y8Eog3yqNAhbIBZ0SvhdqCqHjDss
- eqJnjUevNWz0I2ajfvSEgBRETGT0byopb7rb3HjelVEJIa/NYG7qIZZfDuUsq9UT8H2o
- wmlglYCueMqRUyXl0caryl5xIGgDggZeBNuaZUM8AtvG0YPJM0pCBnwyWbzDQmzoIDUC
- 8377oUebGf4yS6DRCQMoNRh9frdfOYrnjbWjR3K67Znyzlh8ybqe7mNP7I9znqOGTQSk
- sGjA==
+ bh=I9v8itQxrG/5qOmlIkuGPstFjTonnbsCxHmLWx5pBPk=;
+ b=fH/8s/VsjUJd9NSfQnY9KSqjr01isFkiTOEHv966Pm+qJr0SntP+xw7DkVPurY+FVA
+ TGhOoJlnm9Ues2qE+3G7rkDWz7QaZWbR3ioFcET9S2eEFANNMRSLMlEwWT+67pEu3h/J
+ gtFEX/W6HDjTk/bNacLk+NKv/yYQfcg4gHrZ8cvLLQd7heB4VMYFsmq5HuYBHzojcJzM
+ jvbXrNuQYord9V5/QeTX2bg15dsqvN7uIXH2fypYBVmveFk3IlBSq5h0rr0SsYd92wbL
+ r3AXp+pONiHH4M+LMJeGIBSd2WYLFWvUSPInCsoZgV6fJqA9+OEe5uEsFaU2oP25C6v1
+ PfpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ls6xTeazp01VU5rx1tZcn8CZ6m3ZwOm0FhCvNs4H/UM=;
- b=JtZgjHb19Uq2lDIvDvpTRsTa9ufomK/SyyF/ZbCJE9iUeGGe+eb7a7eAgHYM5rbU8G
- Zx5q4KmqAtsBEKwtx1tZVP73BRPrUl08paZVkENLDMyzVdIMMJNdtGBze2nSVAFkBgSS
- 9SVWHQ79xPKVKYlvA1B2yM4JHpQYgQtTBGn02MZD5u/KW93LulLVHtsbyGkaTjtFEsgA
- ZGrvzccYlRM6sPO1/dHsZxOkwiUWLBxLb8jgk50SEMkusHruUNA7E2P8rQlwgZyQ/UmP
- PJNVT6yHbsmubh+sKT/hmUsrPVsS9R7wvRi/ucbYTJyTCQiFhA0Q5fcONZjb8sv9qDc9
- P6jw==
-X-Gm-Message-State: AOAM5317lgSbWuaOl44tHsQRoU7PNmMxZE+NXxFqI1OltGAOP2y7Une9
- S2T/M5n6eC5EgGdfrOoBFlMmlyrhDq1B/g==
-X-Google-Smtp-Source: ABdhPJyL88SwYtdr8vsyF/Q0nFNgzaGMkmnx++yP3wUNifIJQkEY1cF7fewzAafVU/vEqfUIMi+MHg==
-X-Received: by 2002:ac8:17af:: with SMTP id o44mr9239269qtj.343.1599234921881; 
- Fri, 04 Sep 2020 08:55:21 -0700 (PDT)
+ bh=I9v8itQxrG/5qOmlIkuGPstFjTonnbsCxHmLWx5pBPk=;
+ b=X9FDeHcdDSNUBE+AV83o9xGtALs3fEcl4jY4AjJA/ry54Diac2uRuoHvmzgHDcRprd
+ WSnvFw3htlmoIwIytKUC3eyTHenREzrRpV8jtwUyUACHHqfb63SVsnRtcI369dMNT9iY
+ H6VIKGfaKBqbPMIg8vCzx35fKTjAbqTL20grGtJowzQuuDPCaLgQoVkzovmTQqwC2oQV
+ UsNeeSG+wd8rH4svFgYOsgegmbx2URHMK30lxDf6Aiy/cHLdLykqFrFKNjsvgiQnVNEa
+ BNaas+XK7TVeMOmEymsKqzOoxUNh3a10goeGqEeT73HT1MpQhY1XDqA5/IHFaEsisLwe
+ 8dyA==
+X-Gm-Message-State: AOAM532WVJR1n2c7Re48iOfrugXMm5NCVTceY1xnD7coL96m+XznW6WN
+ HqJGzcN7GTNztwa8l2YczMIlVpkv3wU5Wg==
+X-Google-Smtp-Source: ABdhPJxQteuxg6Yjoj7fVR6WxdpZueTzVWR2/XBC+gGtJOSWv7p5AUuXED5I8jk4ofSy9cwnePazOA==
+X-Received: by 2002:a0c:c988:: with SMTP id b8mr7690156qvk.192.1599234922927; 
+ Fri, 04 Sep 2020 08:55:22 -0700 (PDT)
 Received: from localhost.localdomain
  (ec2-34-197-84-77.compute-1.amazonaws.com. [34.197.84.77])
- by smtp.gmail.com with ESMTPSA id v18sm4724473qtq.15.2020.09.04.08.55.20
+ by smtp.gmail.com with ESMTPSA id v18sm4724473qtq.15.2020.09.04.08.55.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 08:55:21 -0700 (PDT)
+ Fri, 04 Sep 2020 08:55:22 -0700 (PDT)
 From: Bjorn Andersson <bjorn.andersson@linaro.org>
 To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  Joerg Roedel <joro@8bytes.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
  Jordan Crouse <jcrouse@codeaurora.org>, Rob Clark <robdclark@chromium.org>
-Subject: [PATCH v3 6/8] iommu/arm-smmu: Add impl hook for inherit boot mappings
-Date: Fri,  4 Sep 2020 15:55:11 +0000
-Message-Id: <20200904155513.282067-7-bjorn.andersson@linaro.org>
+Subject: [PATCH v3 7/8] iommu/arm-smmu: Provide helper for allocating identity
+ domain
+Date: Fri,  4 Sep 2020 15:55:12 +0000
+Message-Id: <20200904155513.282067-8-bjorn.andersson@linaro.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200904155513.282067-1-bjorn.andersson@linaro.org>
 References: <20200904155513.282067-1-bjorn.andersson@linaro.org>
@@ -101,72 +102,67 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add a new operation to allow platform implementations to inherit any
-stream mappings from the boot loader.
+Some platform implementations needs to be able to allocate a domain for
+emulating identity mappings using a context bank without translation.
+Provide a helper function to allocate such a domain.
 
 Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
 
 Changes since v2:
-- New patch/interface
+- Extracted from previous arm_smmu_setup_identity() implementation
 
- drivers/iommu/arm/arm-smmu/arm-smmu.c | 11 ++++++-----
- drivers/iommu/arm/arm-smmu/arm-smmu.h |  6 ++++++
- 2 files changed, 12 insertions(+), 5 deletions(-)
+ drivers/iommu/arm/arm-smmu/arm-smmu.c | 25 +++++++++++++++++++++++++
+ drivers/iommu/arm/arm-smmu/arm-smmu.h |  2 ++
+ 2 files changed, 27 insertions(+)
 
 diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index eb5c6ca5c138..4c4d302cd747 100644
+index 4c4d302cd747..3c06146dfdb9 100644
 --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
 +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -85,11 +85,6 @@ static inline void arm_smmu_rpm_put(struct arm_smmu_device *smmu)
- 		pm_runtime_put_autosuspend(smmu->dev);
+@@ -1924,6 +1924,31 @@ static int arm_smmu_device_cfg_probe(struct arm_smmu_device *smmu)
+ 	return 0;
  }
  
--static struct arm_smmu_domain *to_smmu_domain(struct iommu_domain *dom)
--{
--	return container_of(dom, struct arm_smmu_domain, domain);
--}
--
- static struct platform_driver arm_smmu_driver;
- static struct iommu_ops arm_smmu_ops;
- 
-@@ -2188,6 +2183,12 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
- 	if (err)
- 		return err;
- 
-+	if (smmu->impl->inherit_mappings) {
-+		err = smmu->impl->inherit_mappings(smmu);
-+		if (err)
-+			return err;
++struct iommu_domain *arm_smmu_alloc_identity_domain(struct arm_smmu_device *smmu)
++{
++	struct iommu_domain *identity;
++	int ret;
++
++	/* Create a IDENTITY domain to use for all inherited streams */
++	identity = arm_smmu_domain_alloc(IOMMU_DOMAIN_IDENTITY);
++	if (!identity) {
++		dev_err(smmu->dev, "failed to create identity domain\n");
++		return ERR_PTR(-ENOMEM);
 +	}
 +
- 	if (smmu->version == ARM_SMMU_V2) {
- 		if (smmu->num_context_banks > smmu->num_context_irqs) {
- 			dev_err(dev,
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-index 235d9a3a6ab6..f58164976e74 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-@@ -378,6 +378,11 @@ struct arm_smmu_domain {
- 	struct iommu_domain		domain;
- };
- 
-+static inline struct arm_smmu_domain *to_smmu_domain(struct iommu_domain *dom)
-+{
-+	return container_of(dom, struct arm_smmu_domain, domain);
++	identity->pgsize_bitmap = smmu->pgsize_bitmap;
++	identity->type = IOMMU_DOMAIN_IDENTITY;
++	identity->ops = &arm_smmu_ops;
++
++	ret = arm_smmu_init_domain_context(identity, smmu, NULL);
++	if (ret < 0) {
++		dev_err(smmu->dev, "failed to initialize identity domain: %d\n", ret);
++		return ERR_PTR(ret);
++	}
++
++	return identity;
 +}
 +
- struct arm_smmu_master_cfg {
- 	struct arm_smmu_device		*smmu;
- 	s16				smendx[];
-@@ -442,6 +447,7 @@ struct arm_smmu_impl {
- 	int (*alloc_context_bank)(struct arm_smmu_domain *smmu_domain,
- 				  struct arm_smmu_device *smmu,
- 				  struct device *dev, int start);
-+	int (*inherit_mappings)(struct arm_smmu_device *smmu);
- };
+ struct arm_smmu_match_data {
+ 	enum arm_smmu_arch_version version;
+ 	enum arm_smmu_implementation model;
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+index f58164976e74..fbdf3d7ca70d 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+@@ -537,4 +537,6 @@ struct arm_smmu_device *qcom_adreno_smmu_impl_init(struct arm_smmu_device *smmu)
+ void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx);
+ int arm_mmu500_reset(struct arm_smmu_device *smmu);
  
- #define INVALID_SMENDX			-1
++struct iommu_domain *arm_smmu_alloc_identity_domain(struct arm_smmu_device *smmu);
++
+ #endif /* _ARM_SMMU_H */
 -- 
 2.28.0
 
