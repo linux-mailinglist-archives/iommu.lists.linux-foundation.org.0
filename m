@@ -1,79 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF45D25D91B
-	for <lists.iommu@lfdr.de>; Fri,  4 Sep 2020 15:00:17 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A02F25D91E
+	for <lists.iommu@lfdr.de>; Fri,  4 Sep 2020 15:00:25 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6073F85EF1;
-	Fri,  4 Sep 2020 13:00:16 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D337F20354;
+	Fri,  4 Sep 2020 13:00:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id m6JcO70OMjeR; Fri,  4 Sep 2020 13:00:15 +0000 (UTC)
+	with ESMTP id iV7SSh-aYsnn; Fri,  4 Sep 2020 13:00:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 33BD0864EA;
-	Fri,  4 Sep 2020 13:00:14 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 66217203EB;
+	Fri,  4 Sep 2020 13:00:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 27F19C0051;
-	Fri,  4 Sep 2020 13:00:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 53FE1C0893;
+	Fri,  4 Sep 2020 13:00:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E6E8FC0051
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:00:12 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 540B7C0051
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:00:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E3ABB860CF
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:00:12 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 4382085EF1
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:00:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fCNX2oh3XzSG for <iommu@lists.linux-foundation.org>;
- Fri,  4 Sep 2020 13:00:11 +0000 (UTC)
+ with ESMTP id 7rk8noxd5Hta for <iommu@lists.linux-foundation.org>;
+ Fri,  4 Sep 2020 13:00:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 867A386D62
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:00:07 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id n22so6018737edt.4
- for <iommu@lists.linux-foundation.org>; Fri, 04 Sep 2020 06:00:07 -0700 (PDT)
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+ [209.85.208.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 9EF1D86C2C
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:00:09 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id c10so5998927edk.6
+ for <iommu@lists.linux-foundation.org>; Fri, 04 Sep 2020 06:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eoJIkDtT5yIdSXOyl7ZSN/ybf/6ZO2PtqfzMV2ShYXs=;
- b=VRnez5fnDdx4YUTxOQcGHIgidGmKBkEm+asD3J7ZNJR0U26yYQNito/FHsTVC9QD2G
- TgWilTQTk6y65Pl3jvfV4kCh0JVkQI31zt1OAWkm8sLSOuarYbuGbHJC6D6oVSmAewgL
- g3OHoNtWlAF1SNGok1YGYsjQ+oMxxkFaGZxrfDImowRjeeE8IFhSxATxJGLaQbCZqfP2
- HhFmFH2qxDy8cE6xtXfRevpSQY0Z+jikSIIyNsZweyH1Onsyijgmp6EnUxl7VJR1Ot7/
- UPitx57LX3xiP8znCQItX5MnrMHaL6oZauMvAH5WWAXcpN49HgYFTThYPCYW+aCiaAi6
- S3OQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=G9XAHY9UguV3G7jomJ5XYwGLvO68uan6NVKz952gLlo=;
+ b=fgwp/mA58GAYNA2+ofJOwDzpeN5xpHm7FGQCxsRmTpFiRg2hX328bdkJpVtclMBDL7
+ EuVuqJKOHRB+Ct8ZHVRtM/yI4LAIzIGVV1jJuMsMWThbs/K4R3FRsREajruyYmGfo4dQ
+ 3jB//KFbIHXb3JftKf1vp+x2gONESXQlMWOnmLP2ELza9oQ1A36BZWxNZlGMKz9Ufy7p
+ qRC9+GQH+JTk3ey9ggNDVAOt8q5BGYTDP538/P+hx5skahkufxqPHDBue7DshC+r3SSO
+ gYuB9HRTDGzRBvHu9SlhIeWKruFWeNApN6trpxe6bkWZ+QKWOd8fdFgojPFWw+Jx49EB
+ ZS+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eoJIkDtT5yIdSXOyl7ZSN/ybf/6ZO2PtqfzMV2ShYXs=;
- b=Msdjh8fHpTmdmETgVkEWhAiWcYX8EW/pDXdr8GvdBBtOwmGWz6/SoOcTXnaxkI2xMY
- oW64o1pi6bJpOlR1J50erY18I7CJaCZBYbU60zOm3Rx+5SPFUNV0Fw6im4QcTKgivDsW
- sAYJ56lElOaVo1Jia090tnN3hrh+j/RtKPiypcGMYET8VXACJcEKBq8P1uz0oZlOlw79
- 0GjdNGnWJs/Cnlx03Xj2GGOAVBuMSRS+9fHL2lVmo+dXF91iP4CsGyoidc32nBPf/gOX
- gt2ftfZ12eOfoUq8QicnWhOR7ag6WZjqf7hXu3HU8olz1X5rlxmfOh2imXYZ0DiHq/YC
- I6eQ==
-X-Gm-Message-State: AOAM533GBv5VhHTcdmORVPSwzPSE8IQWY9DkiTi0zEQS+4n01kjY0Lft
- wCtoqrKVgpGkaB737fOZZ2k=
-X-Google-Smtp-Source: ABdhPJyd3GfRiKMW3Hv1SXKOXdFm20VEy4aybXXN4EDdDImnvlQLArlBx5ZgWZXwJPMnMy22iZIX8g==
-X-Received: by 2002:a50:fe98:: with SMTP id d24mr2605949edt.223.1599224405833; 
- Fri, 04 Sep 2020 06:00:05 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=G9XAHY9UguV3G7jomJ5XYwGLvO68uan6NVKz952gLlo=;
+ b=ZqSvttt95MMm7R4qP2OlfuFUdytEWAJQeIvdFq3XTf5dkwcqatF5YLW/iyRSBtIldT
+ eZ6772WmO9GJZhA7CSJIymrnzxBY0zDLl5Cph2WB49EzpMiqvSEG2/1QC0BFXmw+n9+Y
+ Bp9C1MWdsTgGfyhs74DtcScNzQTLwneD6T5SWE+BOpcKCTim/pDocWhQeemDhv/9N0tb
+ oAekDTjeocEeyk3B1HNuyfmSKPlVam1TjeVtGidG05Kjwtwr7TknEkYiGrhZR3VDIQEP
+ dNHncBz5ts8oniZP2LQ7lk1k3tLTSQ7NF6Gn28boMRoZIcjDDTdUx6HvwZlSxngbgOBf
+ AGIA==
+X-Gm-Message-State: AOAM5315EcMrfxTePd2ChF7Gd8XSz4govUqqMgKmgGZnEIQxQoC4jZ/9
+ xW0fKeJn3gWAkmWpDcMTPRc=
+X-Google-Smtp-Source: ABdhPJwW0xIV+SxAIUlqnh145u1thzUzxQUReTdrcL9vZWI+gc6ajlJuqZ60q3zXkGj4A76V7oAETQ==
+X-Received: by 2002:a50:f197:: with SMTP id x23mr8731973edl.367.1599224408121; 
+ Fri, 04 Sep 2020 06:00:08 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id w1sm5839816eds.18.2020.09.04.06.00.04
+ by smtp.gmail.com with ESMTPSA id v23sm5990766ejh.84.2020.09.04.06.00.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 06:00:04 -0700 (PDT)
+ Fri, 04 Sep 2020 06:00:07 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH v2 1/4] dt-bindings: reserved-memory: Document "active"
- property
-Date: Fri,  4 Sep 2020 14:59:57 +0200
-Message-Id: <20200904130000.691933-1-thierry.reding@gmail.com>
+Subject: [PATCH v2 2/4] iommu: Implement of_iommu_get_resv_regions()
+Date: Fri,  4 Sep 2020 14:59:58 +0200
+Message-Id: <20200904130000.691933-2-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200904130000.691933-1-thierry.reding@gmail.com>
+References: <20200904130000.691933-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Cc: devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
  Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
@@ -98,35 +99,120 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Thierry Reding <treding@nvidia.com>
 
-Reserved memory regions can be marked as "active" if hardware is
-expected to access the regions during boot and before the operating
-system can take control. One example where this is useful is for the
-operating system to infer whether the region needs to be identity-
-mapped through an IOMMU.
+This is an implementation that IOMMU drivers can use to obtain reserved
+memory regions from a device tree node. It uses the reserved-memory DT
+bindings to find the regions associated with a given device. These
+regions will be used to create 1:1 mappings in the IOMMU domain that
+the devices will be attached to.
 
+Cc: Frank Rowand <frowand.list@gmail.com>
+Cc: devicetree@vger.kernel.org
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- .../bindings/reserved-memory/reserved-memory.txt           | 7 +++++++
- 1 file changed, 7 insertions(+)
+Hi Rob,
 
-diff --git a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-index 4dd20de6977f..163d2927e4fc 100644
---- a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-+++ b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-@@ -63,6 +63,13 @@ reusable (optional) - empty property
-       able to reclaim it back. Typically that means that the operating
-       system can use that region to store volatile or cached data that
-       can be otherwise regenerated or migrated elsewhere.
-+active (optional) - empty property
-+    - If this property is set for a reserved memory region, it indicates
-+      that some piece of hardware may be actively accessing this region.
-+      Should the operating system want to enable IOMMU protection for a
-+      device, all active memory regions must have been identity-mapped
-+      in order to ensure that non-quiescent hardware during boot can
-+      continue to access the memory.
+you had previously reviewed this patch, but I haven't included that here
+because there's a new property now that you might not be okay with.
+
+Thierry
+
+Changes in v2:
+- use "active" property to determine whether direct mapping are needed
+
+ drivers/iommu/of_iommu.c | 49 ++++++++++++++++++++++++++++++++++++++++
+ include/linux/of_iommu.h |  8 +++++++
+ 2 files changed, 57 insertions(+)
+
+diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
+index e505b9130a1c..3341d27fbbba 100644
+--- a/drivers/iommu/of_iommu.c
++++ b/drivers/iommu/of_iommu.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/msi.h>
+ #include <linux/of.h>
++#include <linux/of_address.h>
+ #include <linux/of_iommu.h>
+ #include <linux/of_pci.h>
+ #include <linux/pci.h>
+@@ -245,3 +246,51 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
  
- Linux implementation note:
- - If a "linux,cma-default" property is present, then Linux will use the
+ 	return ops;
+ }
++
++/**
++ * of_iommu_get_resv_regions - reserved region driver helper for device tree
++ * @dev: device for which to get reserved regions
++ * @list: reserved region list
++ *
++ * IOMMU drivers can use this to implement their .get_resv_regions() callback
++ * for memory regions attached to a device tree node. See the reserved-memory
++ * device tree bindings on how to use these:
++ *
++ *   Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
++ */
++void of_iommu_get_resv_regions(struct device *dev, struct list_head *list)
++{
++	struct of_phandle_iterator it;
++	int err;
++
++	of_for_each_phandle(&it, err, dev->of_node, "memory-region", NULL, 0) {
++		struct iommu_resv_region *region;
++		struct resource res;
++
++		/*
++		 * Active memory regions are expected to be accessed by
++		 * hardware during boot and must therefore have an identity
++		 * mapping created prior to the driver taking control of the
++		 * hardware. This ensures that non-quiescent hardware doesn't
++		 * cause IOMMU faults during boot.
++		 */
++		if (!of_property_read_bool(it.node, "active"))
++			continue;
++
++		err = of_address_to_resource(it.node, 0, &res);
++		if (err < 0) {
++			dev_err(dev, "failed to parse memory region %pOF: %d\n",
++				it.node, err);
++			continue;
++		}
++
++		region = iommu_alloc_resv_region(res.start, resource_size(&res),
++						 IOMMU_READ | IOMMU_WRITE,
++						 IOMMU_RESV_DIRECT_RELAXABLE);
++		if (!region)
++			continue;
++
++		list_add_tail(&region->list, list);
++	}
++}
++EXPORT_SYMBOL(of_iommu_get_resv_regions);
+diff --git a/include/linux/of_iommu.h b/include/linux/of_iommu.h
+index 16f4b3e87f20..8412437acaac 100644
+--- a/include/linux/of_iommu.h
++++ b/include/linux/of_iommu.h
+@@ -16,6 +16,9 @@ extern const struct iommu_ops *of_iommu_configure(struct device *dev,
+ 					struct device_node *master_np,
+ 					const u32 *id);
+ 
++extern void of_iommu_get_resv_regions(struct device *dev,
++				      struct list_head *list);
++
+ #else
+ 
+ static inline int of_get_dma_window(struct device_node *dn, const char *prefix,
+@@ -32,6 +35,11 @@ static inline const struct iommu_ops *of_iommu_configure(struct device *dev,
+ 	return NULL;
+ }
+ 
++static inline void of_iommu_get_resv_regions(struct device *dev,
++					     struct list_head *list)
++{
++}
++
+ #endif	/* CONFIG_OF_IOMMU */
+ 
+ #endif /* __OF_IOMMU_H */
 -- 
 2.28.0
 
