@@ -1,86 +1,120 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869A125D920
-	for <lists.iommu@lfdr.de>; Fri,  4 Sep 2020 15:00:28 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0DC25D9BB
+	for <lists.iommu@lfdr.de>; Fri,  4 Sep 2020 15:35:07 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 095862E1AE;
-	Fri,  4 Sep 2020 13:00:26 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6842D86D53;
+	Fri,  4 Sep 2020 13:35:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id U9BYnFhWnU-T; Fri,  4 Sep 2020 13:00:18 +0000 (UTC)
+	with ESMTP id p2xtWtUIcgA4; Fri,  4 Sep 2020 13:35:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 972612E18F;
-	Fri,  4 Sep 2020 13:00:18 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2C30A86D50;
+	Fri,  4 Sep 2020 13:35:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 89768C0894;
-	Fri,  4 Sep 2020 13:00:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0FDF0C0051;
+	Fri,  4 Sep 2020 13:35:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EA419C0051
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:00:16 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B1C76C0051
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:35:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DA03D85DC0
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:00:16 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id A048186D48
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:35:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id n2QC5Irsrf3W for <iommu@lists.linux-foundation.org>;
- Fri,  4 Sep 2020 13:00:16 +0000 (UTC)
+ with ESMTP id XxjJtJDn2KMe for <iommu@lists.linux-foundation.org>;
+ Fri,  4 Sep 2020 13:34:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
- [209.85.208.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 262FC86365
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:00:14 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id l17so5954301edq.12
- for <iommu@lists.linux-foundation.org>; Fri, 04 Sep 2020 06:00:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=keLbDlRCCkTw+4uCImLB+l3YHIhG5at3E8Eao1jgek0=;
- b=JbEna7qF1Kra6ud6bc2esI8lnTMme7Fzo48XnHl66N0POR3hNgtQ+FMmW0ogne5tJ7
- IyTo5fWNoy+mR41dayeSx3I+YxVDbdy1iGEENanII1JFeEbptA2udOyt9jnVjxcKblcO
- JRwJPZhcR/+kVSO41ju7lIX/5PDPGRJSgBjp6BcnXxAzO6+s6Tsh1W2/1zhbcqKQazEX
- adgIoY+eT3lRSNu/rbst15T6pOaL2ffexVdMfr8LbkACFTixincy0J48f3yNMZsYV2Tu
- wtXBfEZhavFl/55YkfJVHnPZAQBOAa6DqxoVZcFzNQfNzgxUa/xzaoD0/EZm/yVrq1db
- aykA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=keLbDlRCCkTw+4uCImLB+l3YHIhG5at3E8Eao1jgek0=;
- b=O8/ktpaKoyn+pCxdxOjfuvGCDjYjwnnkIrM8V7Oi0NLwu1HzFAvW3zt8Ojtd9WjJEz
- HHRt/lGWgMrcB7HsexWJVeY1stjUQA1eaG1JTJzbXUDF/Jszx85/QNfNnamUHCCzuEWp
- qLqtWHizxwtIToo6K7HOnOk6sQJjhSBTJxTbftUn1qLCfbQYWYsC7PuNS2nrZW0IjrZv
- 5gE4Hsd6JK+53mGMwX5fqYeDWTZdtEFh7lbacdJqwxljo4WGD6t7A+HvnIV5McZ8MmnR
- 1f51G9ssQHTHJ67oN1AnNn5nT0Yw2NJT4AxNi770Mng/62fvjZ4IqwpMF0eOihmcNDra
- M9wA==
-X-Gm-Message-State: AOAM5332mkDQTfc32lAnerwA2of7pNUCf0SjzxRBtmgOK3SfkFXt8c4i
- DyXCw3fCEWGMkK4N3lQay4M=
-X-Google-Smtp-Source: ABdhPJxvLmJPvP+pnSifzUpXIegVqJ9MJ4+JjS2wKcZWhz+Zg93+BnFhnJDvy8kZf0x7j8dF0cDSrg==
-X-Received: by 2002:a05:6402:1c91:: with SMTP id
- cy17mr8693433edb.366.1599224412278; 
- Fri, 04 Sep 2020 06:00:12 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id j92sm6114867edc.82.2020.09.04.06.00.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Sep 2020 06:00:11 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: [RFC 4/4] iommu/tegra-smmu: Add support for reserved regions
-Date: Fri,  4 Sep 2020 15:00:00 +0200
-Message-Id: <20200904130000.691933-4-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200904130000.691933-1-thierry.reding@gmail.com>
-References: <20200904130000.691933-1-thierry.reding@gmail.com>
-MIME-Version: 1.0
-Cc: devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
- Will Deacon <will@kernel.org>
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 1272F86D37
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:34:57 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200904133454euoutp02702504dd4810d4aac1fd60a55dc90fc9~xmAYXFC3c2890128901euoutp02T
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 13:34:54 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200904133454euoutp02702504dd4810d4aac1fd60a55dc90fc9~xmAYXFC3c2890128901euoutp02T
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1599226494;
+ bh=KCi/GbphBLSraprwOjyfcB36mqU8mZ8VDc8Ut3h1H4g=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=TrFotY08g1iven9X00Yk6aJKLNFGgqN7xq8rwaMH+/0pbscWed6IA1SNxeohL9HGB
+ Bc3yetyOy5b9DqXM14OdRrrvNYr2n4Xlv7VBjjoIif3C/9rol3lVuxl2LeezcUjlAo
+ 4RI9GLWgDx+ocBcc1qUR9r4YqzcLZVBtYjJFlt4U=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200904133454eucas1p2bbcf9ad6cb1fb5ed267dbf9b681ae4e4~xmAXyySov1447014470eucas1p2e;
+ Fri,  4 Sep 2020 13:34:54 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 1C.29.06318.D72425F5; Fri,  4
+ Sep 2020 14:34:53 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200904133453eucas1p16a41f7340d48b2675ea6527bba165962~xmAXLZRl80115901159eucas1p1m;
+ Fri,  4 Sep 2020 13:34:53 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200904133453eusmtrp249cb8216c81bd04f89cfaea5a13a06b1~xmAXKtGmu0905709057eusmtrp2V;
+ Fri,  4 Sep 2020 13:34:53 +0000 (GMT)
+X-AuditID: cbfec7f5-38bff700000018ae-80-5f52427dc913
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 59.90.06017.D72425F5; Fri,  4
+ Sep 2020 14:34:53 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200904133452eusmtip1d1fda55d701ecddb4d628b063e08f524~xmAWotL3r1926319263eusmtip1Z;
+ Fri,  4 Sep 2020 13:34:52 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v10 00/30] DRM: fix struct sg_table nents vs. orig_nents misuse
+Date: Fri,  4 Sep 2020 15:16:41 +0200
+Message-Id: <20200904131711.12950-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprNKsWRmVeSWpSXmKPExsWy7djP87q1TkHxBos2mlv0njvJZLFxxnpW
+ i//bJjJbXPn6ns1i5eqjTBYL9ltbfLnykMli0+NrrBaXd81hs1h75C67xcEPT1gduD3WzFvD
+ 6LH32wIWj+3fHrB63O8+zuSxeUm9x+1/j5k9Jt9Yzuix+2YDm0ffllWMHp83yQVwRXHZpKTm
+ ZJalFunbJXBlLDh9hK1gUkDF0anzWBoY9zh0MXJySAiYSDSeX8TSxcjFISSwglHi3fIDrBDO
+ F0aJR9++QDmfGSV+LW1gh2npnreTDSKxnFFi3txWZriW0xO+M4NUsQkYSnS97WIDsUUEWhkl
+ TvTygNjMAjOYJI6+LgWxhQUCJdbuWgVWwyKgKrH+6zYmEJtXwFai61g/C8Q2eYnVGw6ALZAQ
+ mMwu8WDiNVaIhIvEh0P9zBC2sMSr41ugzpOR+L9zPhNEQzOjxMNza9khnB5GictNMxghqqwl
+ 7pz7BbSaA+gkTYn1u/Qhwo4SGx/+ZgQJSwjwSdx4KwhxNJ/EpG3TmSHCvBIdbUIQ1WoSs46v
+ g1t78MIlqHM8JN4sOgIWFxKIlXjcuZl1AqPcLIRdCxgZVzGKp5YW56anFhvnpZbrFSfmFpfm
+ pesl5+duYgQmmdP/jn/dwbjvT9IhRgEORiUeXgb7oHgh1sSy4srcQ4wSHMxKIrxOZ0/HCfGm
+ JFZWpRblxxeV5qQWH2KU5mBREuc1XvQyVkggPbEkNTs1tSC1CCbLxMEp1cA4ycdF+1KTxbSY
+ JuZLN+XklFkezGg/6BN3ufJDzPRFy+IXfbt77cL2n26vPT4Z2i4oiJr1vK7Ha55RTWxj1H7O
+ k+W9xr/lW8S4AwXnRU22yzm11WeB/mb2ul67lfz2kh4vE88lfP0wX611UW/lfpYIPtXsyrsv
+ nvXHrunySDQ+Nfm98QvhMlklluKMREMt5qLiRAD26KhYLgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrELMWRmVeSWpSXmKPExsVy+t/xu7q1TkHxBldf8Vv0njvJZLFxxnpW
+ i//bJjJbXPn6ns1i5eqjTBYL9ltbfLnykMli0+NrrBaXd81hs1h75C67xcEPT1gduD3WzFvD
+ 6LH32wIWj+3fHrB63O8+zuSxeUm9x+1/j5k9Jt9Yzuix+2YDm0ffllWMHp83yQVwRenZFOWX
+ lqQqZOQXl9gqRRtaGOkZWlroGZlY6hkam8daGZkq6dvZpKTmZJalFunbJehlLDh9hK1gUkDF
+ 0anzWBoY9zh0MXJySAiYSHTP28nWxcjFISSwlFHiybpWFoiEjMTJaQ2sELawxJ9rXVBFnxgl
+ NuyezAaSYBMwlOh6C5EQEehklJjW/ZEdxGEWmMcksejhIXaQKmEBf4lXc1eDdbAIqEqs/7qN
+ CcTmFbCV6DrWD7VOXmL1hgPMExh5FjAyrGIUSS0tzk3PLTbSK07MLS7NS9dLzs/dxAgM723H
+ fm7Zwdj1LvgQowAHoxIPL4N9ULwQa2JZcWXuIUYJDmYlEV6ns6fjhHhTEiurUovy44tKc1KL
+ DzGaAi2fyCwlmpwPjL28knhDU0NzC0tDc2NzYzMLJXHeDoGDMUIC6YklqdmpqQWpRTB9TByc
+ Ug2Mlse8e5smLrrt8iJWUeNswuLg65xtiYdCSxdcfch1/82EgKlN9Uyd8rLzfv10Lg0+PG8P
+ Q3Ddco9HgqYtK+c6SB9oX6L+535V5a0E+UCjZQ1PN69w8HNi7VHZK3Tx6CKDiKu/hRxWpSs/
+ 9/nfo7X+jwNLXA7jyxiW9UslK3ifOq/m2rh6kZW2EktxRqKhFnNRcSIA9w9gw4UCAAA=
+X-CMS-MailID: 20200904133453eucas1p16a41f7340d48b2675ea6527bba165962
+X-Msg-Generator: CA
+X-RootMTR: 20200904133453eucas1p16a41f7340d48b2675ea6527bba165962
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200904133453eucas1p16a41f7340d48b2675ea6527bba165962
+References: <CGME20200904133453eucas1p16a41f7340d48b2675ea6527bba165962@eucas1p1.samsung.com>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,207 +127,218 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Thierry Reding <treding@nvidia.com>
+Dear All,
 
-The Tegra DRM driver currently uses the IOMMU API explicitly. This means
-that it has fine-grained control over when exactly the translation
-through the IOMMU is enabled. This currently happens after the driver
-probes, so the driver is in a DMA quiesced state when the IOMMU
-translation is enabled.
+During the Exynos DRM GEM rework and fixing the issues in the.
+drm_prime_sg_to_page_addr_arrays() function [1] I've noticed that most
+drivers in DRM framework incorrectly use nents and orig_nents entries of
+the struct sg_table.
 
-During the transition of the Tegra DRM driver to use the DMA API instead
-of the IOMMU API explicitly, it was observed that on certain platforms
-the display controllers were still actively fetching from memory. When a
-DMA IOMMU domain is created as part of the DMA/IOMMU API setup during
-boot, the IOMMU translation for the display controllers can be enabled a
-significant amount of time before the driver has had a chance to reset
-the hardware into a sane state. This causes the SMMU to detect faults on
-the addresses that the display controller is trying to fetch.
+In case of the most DMA-mapping implementations exchanging those two
+entries or using nents for all loops on the scatterlist is harmless,
+because they both have the same value. There exists however a DMA-mapping
+implementations, for which such incorrect usage breaks things. The nents
+returned by dma_map_sg() might be lower than the nents passed as its
+parameter and this is perfectly fine. DMA framework or IOMMU is allowed
+to join consecutive chunks while mapping if such operation is supported
+by the underlying HW (bus, bridge, IOMMU, etc). Example of the case
+where dma_map_sg() might return 1 'DMA' chunk for the 4 'physical' pages
+is described here [2]
 
-To avoid this, and as a byproduct paving the way for seamless transition
-of display from the bootloader to the kernel, add support for reserved
-regions in the Tegra SMMU driver. This is implemented using the standard
-reserved memory device tree bindings, which let us describe regions of
-memory which the kernel is forbidden from using for regular allocations.
-The Tegra SMMU driver will parse the nodes associated with each device
-via the "memory-region" property and return reserved regions that the
-IOMMU core will then create direct mappings for prior to attaching the
-IOMMU domains to the devices. This ensures that a 1:1 mapping is in
-place when IOMMU translation starts and prevents the SMMU from detecting
-any faults.
+The DMA-mapping framework documentation [3] states that dma_map_sg()
+returns the numer of the created entries in the DMA address space.
+However the subsequent calls to dma_sync_sg_for_{device,cpu} and
+dma_unmap_sg must be called with the original number of entries passed to
+dma_map_sg. The common pattern in DRM drivers were to assign the
+dma_map_sg() return value to sg_table->nents and use that value for
+the subsequent calls to dma_sync_sg_* or dma_unmap_sg functions. Also
+the code iterated over nents times to access the pages stored in the
+processed scatterlist, while it should use orig_nents as the numer of
+the page entries.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-I'm sending this out as RFC because there's a few hacks in here to make
-this work properly and I'm not fully happy with this yet (see sections
-marked with XXX).
+I've tried to identify all such incorrect usage of sg_table->nents and
+this is a result of my research. It looks that the incorrect pattern has
+been copied over the many drivers mainly in the DRM subsystem. Too bad in
+most cases it even worked correctly if the system used a simple, linear
+DMA-mapping implementation, for which swapping nents and orig_nents
+doesn't make any difference. To avoid similar issues in the future, I've
+introduced a common wrappers for DMA-mapping calls, which operate directly
+on the sg_table objects. I've also added wrappers for iterating over the
+scatterlists stored in the sg_table objects and applied them where
+possible. This, together with some common DRM prime helpers, allowed me
+to almost get rid of all nents/orig_nents usage in the drivers. I hope
+that such change makes the code robust, easier to follow and copy/paste
+safe.
 
-Thierry
+The biggest TODO is DRM/i915 driver and I don't feel brave enough to fix
+it fully. The driver creatively uses sg_table->orig_nents to store the
+size of the allocate scatterlist and ignores the number of the entries
+returned by dma_map_sg function. In this patchset I only fixed the
+sg_table objects exported by dmabuf related functions. I hope that I
+didn't break anything there.
 
- drivers/iommu/tegra-smmu.c | 115 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 115 insertions(+)
+Patches are based on top of Linux next-20200903. The required changes to
+DMA-mapping framework has been already merged to v5.9-rc3.
 
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 2574e716086b..33abc1527ac4 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -9,6 +9,7 @@
- #include <linux/iommu.h>
- #include <linux/kernel.h>
- #include <linux/of.h>
-+#include <linux/of_address.h>
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
-@@ -530,6 +531,38 @@ static void tegra_smmu_set_pde(struct tegra_smmu_as *as, unsigned long iova,
- 	struct tegra_smmu *smmu = as->smmu;
- 	u32 *pd = page_address(as->pd);
- 	unsigned long offset = pd_index * sizeof(*pd);
-+	bool unmap = false;
-+
-+	/*
-+	 * XXX Move this outside of this function. Perhaps add a struct
-+	 * iommu_domain parameter to ->{get,put}_resv_regions() so that
-+	 * the mapping can be done there.
-+	 *
-+	 * The problem here is that as->smmu is only known once we attach
-+	 * the domain to a device (because then we look up the right SMMU
-+	 * instance via the dev->archdata.iommu pointer). When the direct
-+	 * mappings are created for reserved regions, the domain has not
-+	 * been attached to a device yet, so we don't know. We currently
-+	 * fix that up in ->apply_resv_regions() because that is the first
-+	 * time where we have access to a struct device that will be used
-+	 * with the IOMMU domain. However, that's asymmetric and doesn't
-+	 * take care of the page directory mapping either, so we need to
-+	 * come up with something better.
-+	 */
-+	if (as->pd_dma == 0) {
-+		as->pd_dma = dma_map_page(smmu->dev, as->pd, 0, SMMU_SIZE_PD,
-+					  DMA_TO_DEVICE);
-+		if (dma_mapping_error(smmu->dev, as->pd_dma))
-+			return;
-+
-+		if (!smmu_dma_addr_valid(smmu, as->pd_dma)) {
-+			dma_unmap_page(smmu->dev, as->pd_dma, SMMU_SIZE_PD,
-+				       DMA_TO_DEVICE);
-+			return;
-+		}
-+
-+		unmap = true;
-+	}
- 
- 	/* Set the page directory entry first */
- 	pd[pd_index] = value;
-@@ -542,6 +575,12 @@ static void tegra_smmu_set_pde(struct tegra_smmu_as *as, unsigned long iova,
- 	smmu_flush_ptc(smmu, as->pd_dma, offset);
- 	smmu_flush_tlb_section(smmu, as->id, iova);
- 	smmu_flush(smmu);
-+
-+	if (unmap) {
-+		dma_unmap_page(smmu->dev, as->pd_dma, SMMU_SIZE_PD,
-+			       DMA_TO_DEVICE);
-+		as->pd_dma = 0;
-+	}
- }
- 
- static u32 *tegra_smmu_pte_offset(struct page *pt_page, unsigned long iova)
-@@ -882,6 +921,79 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
- 	return group;
- }
- 
-+static void tegra_smmu_get_resv_regions(struct device *dev, struct list_head *list)
-+{
-+	struct of_phandle_iterator it;
-+	int err;
-+
-+	if (!dev->of_node)
-+		return;
-+
-+	of_for_each_phandle(&it, err, dev->of_node, "memory-region", NULL, 0) {
-+		struct iommu_resv_region *region;
-+		struct resource res;
-+
-+		err = of_address_to_resource(it.node, 0, &res);
-+		if (err < 0) {
-+			dev_err(dev, "failed to parse memory region %pOFn: %d\n",
-+				it.node, err);
-+			continue;
-+		}
-+
-+		region = iommu_alloc_resv_region(res.start, resource_size(&res),
-+						 IOMMU_READ | IOMMU_WRITE,
-+						 IOMMU_RESV_DIRECT);
-+		if (!region)
-+			return;
-+
-+		dev_dbg(dev, "reserved region %pR\n", &res);
-+		list_add_tail(&region->list, list);
-+	}
-+}
-+
-+static void tegra_smmu_put_resv_regions(struct device *dev,
-+					struct list_head *list)
-+{
-+	struct iommu_resv_region *entry, *next;
-+
-+	list_for_each_entry_safe(entry, next, list, list)
-+		kfree(entry);
-+}
-+
-+static void tegra_smmu_apply_resv_region(struct device *dev,
-+					 struct iommu_domain *domain,
-+					 struct iommu_resv_region *region)
-+{
-+	struct tegra_smmu *smmu = dev_iommu_priv_get(dev);
-+	struct tegra_smmu_as *as = to_smmu_as(domain);
-+
-+	/*
-+	 * ->attach_dev() may not have been called yet at this point, so the
-+	 * address space may not have been associated with an SMMU instance.
-+	 * Set up the association here to make sure subsequent code can rely
-+	 * on the SMMU instance being known.
-+	 *
-+	 * Also make sure that the SMMU instance doesn't conflict if an SMMU
-+	 * has been associated with the address space already. This can happen
-+	 * if a domain is shared between multiple devices.
-+	 *
-+	 * Note that this is purely theoretic because there are no known SoCs
-+	 * with multiple instances of this SMMU.
-+	 *
-+	 * XXX Deal with this elsewhere. One possibility would be to pass the
-+	 * struct iommu_domain that we're operating on to ->get_resv_regions()
-+	 * and ->put_resv_regions() so that the connection between it and the
-+	 * struct device (in order to find the SMMU instance) can already be
-+	 * established at that time. This would be nicely symmetric because a
-+	 * ->put_resv_regions() could undo that again so that ->attach_dev()
-+	 * could start from a clean slate.
-+	 */
-+	if (as->smmu && as->smmu != smmu)
-+		WARN(1, "conflicting SMMU instances\n");
-+
-+	as->smmu = smmu;
-+}
-+
- static int tegra_smmu_of_xlate(struct device *dev,
- 			       struct of_phandle_args *args)
- {
-@@ -902,6 +1014,9 @@ static const struct iommu_ops tegra_smmu_ops = {
- 	.map = tegra_smmu_map,
- 	.unmap = tegra_smmu_unmap,
- 	.iova_to_phys = tegra_smmu_iova_to_phys,
-+	.get_resv_regions = tegra_smmu_get_resv_regions,
-+	.put_resv_regions = tegra_smmu_put_resv_regions,
-+	.apply_resv_region = tegra_smmu_apply_resv_region,
- 	.of_xlate = tegra_smmu_of_xlate,
- 	.pgsize_bitmap = SZ_4K,
- };
+If possible I would like ask for merging most of the patches via DRM
+tree.
+
+Best regards,
+Marek Szyprowski
+
+
+References:
+
+[1] https://lkml.org/lkml/2020/3/27/555
+[2] https://lkml.org/lkml/2020/3/29/65
+[3] Documentation/DMA-API-HOWTO.txt
+[4] https://lore.kernel.org/linux-iommu/20200512121931.GD20393@lst.de/T/#ma18c958a48c3b241d5409517fa7d192eef87459b
+
+Changelog:
+
+v10:
+- addressed more issues pointed by Robin Murphy in his review:
+ * prime: restored WARN_ON() in drm_prime_sg_to_page_addr_arrays()
+ * armada: simplified cleanup path
+ * msm: fixed arm64 build
+ * omapdrm: removed WARN_ON(), which is now in drm_prime_sg_to_page_addr_arrays()
+ * omapdrm: dropped the incorrect nents/orig_nents patch
+ * media: pci: also update to use modern DMA_FROM_DEVICE definitions
+- dropped merged patches
+
+v9: https://lore.kernel.org/linux-iommu/20200826063316.23486-1-m.szyprowski@samsung.com/T/
+- rebased onto Linux next-20200825, which is based on v5.9-rc2; fixed conflicts
+- dropped merged patches
+
+v8:
+- rapidio: fixed issues pointed by kbuilt test robot (use of uninitialized
+    variable
+- vb2: rebased after recent changes in the code
+
+v7: https://lore.kernel.org/linux-iommu/20200619103636.11974-1-m.szyprowski@samsung.com/
+- changed DMA page interators to standard DMA SG iterators in drm/prime and
+  videobuf2-dma-contig as suggested by Robin Murphy
+- fixed build issues
+
+v6: https://lore.kernel.org/linux-iommu/20200618153956.29558-1-m.szyprowski@samsung.com/T/
+- rebased onto Linux next-20200618, which is based on v5.8-rc1; fixed conflicts
+
+v5: https://lore.kernel.org/linux-iommu/20200513132114.6046-1-m.szyprowski@samsung.com/T/
+- fixed some minor style issues and typos
+- fixed lack of the attrs argument in ion, dmabuf, rapidio, fastrpc and
+  vfio patches
+
+v4: https://lore.kernel.org/linux-iommu/20200512121931.GD20393@lst.de/T/
+- added for_each_sgtable_* wrappers and applied where possible
+- added drm_prime_get_contiguous_size() and applied where possible
+- applied drm_prime_sg_to_page_addr_arrays() where possible to remove page
+  extraction from sg_table objects
+- added documentation for the introduced wrappers
+- improved patches description a bit
+
+v3: https://lore.kernel.org/dri-devel/20200505083926.28503-1-m.szyprowski@samsung.com/
+- introduce dma_*_sgtable_* wrappers and use them in all patches
+
+v2: https://lore.kernel.org/linux-iommu/c01c9766-9778-fd1f-f36e-2dc7bd376ba4@arm.com/T/
+- dropped most of the changes to drm/i915
+- added fixes for rcar-du, xen, media and ion
+- fixed a few issues pointed by kbuild test robot
+- added wide cc: list for each patch
+
+v1: https://lore.kernel.org/linux-iommu/c01c9766-9778-fd1f-f36e-2dc7bd376ba4@arm.com/T/
+- initial version
+
+
+Patch summary:
+
+Marek Szyprowski (30):
+  drm: prime: add common helper to check scatterlist contiguity
+  drm: prime: use sgtable iterators in
+    drm_prime_sg_to_page_addr_arrays()
+  drm: core: fix common struct sg_table related issues
+  drm: armada: fix common struct sg_table related issues
+  drm: etnaviv: fix common struct sg_table related issues
+  drm: exynos: use common helper for a scatterlist contiguity check
+  drm: exynos: fix common struct sg_table related issues
+  drm: i915: fix common struct sg_table related issues
+  drm: lima: fix common struct sg_table related issues
+  drm: mediatek: use common helper for a scatterlist contiguity check
+  drm: mediatek: use common helper for extracting pages array
+  drm: msm: fix common struct sg_table related issues
+  drm: omapdrm: use common helper for extracting pages array
+  drm: panfrost: fix common struct sg_table related issues
+  drm: rockchip: use common helper for a scatterlist contiguity check
+  drm: rockchip: fix common struct sg_table related issues
+  drm: tegra: fix common struct sg_table related issues
+  drm: v3d: fix common struct sg_table related issues
+  drm: virtio: fix common struct sg_table related issues
+  drm: vmwgfx: fix common struct sg_table related issues
+  drm: xen: fix common struct sg_table related issues
+  xen: gntdev: fix common struct sg_table related issues
+  drm: host1x: fix common struct sg_table related issues
+  drm: rcar-du: fix common struct sg_table related issues
+  dmabuf: fix common struct sg_table related issues
+  staging: tegra-vde: fix common struct sg_table related issues
+  rapidio: fix common struct sg_table related issues
+  samples: vfio-mdev/mbochs: fix common struct sg_table related issues
+  media: pci: fix common ALSA DMA-mapping related codes
+  videobuf2: use sgtable-based scatterlist wrappers
+
+ drivers/dma-buf/heaps/heap-helpers.c          | 13 ++-
+ drivers/dma-buf/udmabuf.c                     |  7 +-
+ drivers/gpu/drm/armada/armada_gem.c           | 24 +++--
+ drivers/gpu/drm/drm_cache.c                   |  2 +-
+ drivers/gpu/drm/drm_gem_cma_helper.c          | 23 +----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 14 ++-
+ drivers/gpu/drm/drm_prime.c                   | 91 +++++++++++--------
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c         | 12 +--
+ drivers/gpu/drm/etnaviv/etnaviv_mmu.c         | 15 +--
+ drivers/gpu/drm/exynos/exynos_drm_g2d.c       | 10 +-
+ drivers/gpu/drm/exynos/exynos_drm_gem.c       | 23 +----
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    | 11 +--
+ .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |  7 +-
+ drivers/gpu/drm/lima/lima_gem.c               | 11 ++-
+ drivers/gpu/drm/lima/lima_vm.c                |  5 +-
+ drivers/gpu/drm/mediatek/mtk_drm_gem.c        | 37 ++------
+ drivers/gpu/drm/msm/msm_gem.c                 | 13 +--
+ drivers/gpu/drm/msm/msm_gpummu.c              | 15 ++-
+ drivers/gpu/drm/msm/msm_iommu.c               |  2 +-
+ drivers/gpu/drm/omapdrm/omap_gem.c            | 14 +--
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  4 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c       |  7 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  3 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c   | 42 +++------
+ drivers/gpu/drm/tegra/gem.c                   | 27 ++----
+ drivers/gpu/drm/tegra/plane.c                 | 15 +--
+ drivers/gpu/drm/v3d/v3d_mmu.c                 | 13 ++-
+ drivers/gpu/drm/virtio/virtgpu_object.c       | 36 +++++---
+ drivers/gpu/drm/virtio/virtgpu_vq.c           | 12 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    | 17 +---
+ drivers/gpu/drm/xen/xen_drm_front_gem.c       |  2 +-
+ drivers/gpu/host1x/job.c                      | 22 ++---
+ .../common/videobuf2/videobuf2-dma-contig.c   | 34 +++----
+ .../media/common/videobuf2/videobuf2-dma-sg.c | 32 +++----
+ .../common/videobuf2/videobuf2-vmalloc.c      | 12 +--
+ drivers/media/pci/cx23885/cx23885-alsa.c      |  4 +-
+ drivers/media/pci/cx25821/cx25821-alsa.c      |  4 +-
+ drivers/media/pci/cx88/cx88-alsa.c            |  6 +-
+ drivers/media/pci/saa7134/saa7134-alsa.c      |  4 +-
+ drivers/media/platform/vsp1/vsp1_drm.c        |  8 +-
+ drivers/rapidio/devices/rio_mport_cdev.c      | 11 +--
+ drivers/staging/media/tegra-vde/iommu.c       |  4 +-
+ drivers/xen/gntdev-dmabuf.c                   | 13 ++-
+ include/drm/drm_prime.h                       |  2 +
+ samples/vfio-mdev/mbochs.c                    |  3 +-
+ 45 files changed, 280 insertions(+), 406 deletions(-)
+
 -- 
-2.28.0
+2.17.1
 
 _______________________________________________
 iommu mailing list
