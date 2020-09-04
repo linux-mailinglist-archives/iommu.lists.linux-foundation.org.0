@@ -2,54 +2,56 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BADD25D5B3
-	for <lists.iommu@lfdr.de>; Fri,  4 Sep 2020 12:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17B8A25D5B7
+	for <lists.iommu@lfdr.de>; Fri,  4 Sep 2020 12:13:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4382D8751D;
-	Fri,  4 Sep 2020 10:10:07 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B9B7A8751D;
+	Fri,  4 Sep 2020 10:13:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TcJ0nidc6Ps9; Fri,  4 Sep 2020 10:10:06 +0000 (UTC)
+	with ESMTP id DvP6wLfzs1b3; Fri,  4 Sep 2020 10:13:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DE52887519;
-	Fri,  4 Sep 2020 10:10:06 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6F24A87517;
+	Fri,  4 Sep 2020 10:13:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C0992C0051;
-	Fri,  4 Sep 2020 10:10:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3F0A2C0051;
+	Fri,  4 Sep 2020 10:13:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id ACD3AC0051
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 10:10:04 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 84062C0051
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 10:13:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id A13F98735C
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 10:10:04 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7A2B48747D
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 10:13:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BA-kaxL3P5db for <iommu@lists.linux-foundation.org>;
- Fri,  4 Sep 2020 10:10:04 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D0CE3870BB
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 10:10:03 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 6542D3D5; Fri,  4 Sep 2020 12:10:02 +0200 (CEST)
-Date: Fri, 4 Sep 2020 12:10:01 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH] iommu/iova: Replace cmpxchg with xchg in queue_iova
-Message-ID: <20200904101000.GV6714@8bytes.org>
-References: <1598517834-30275-1-git-send-email-zhangshaokun@hisilicon.com>
- <20200904093732.GN6714@8bytes.org>
- <208d2f74-1a04-f01e-b885-c175b0480784@arm.com>
+ with ESMTP id gJL4PMiLnGnt for <iommu@lists.linux-foundation.org>;
+ Fri,  4 Sep 2020 10:13:05 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id A4873874CB
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 10:13:05 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 9DB09B7CB;
+ Fri,  4 Sep 2020 10:13:04 +0000 (UTC)
+Date: Fri, 4 Sep 2020 12:13:01 +0200
+From: Joerg Roedel <jroedel@suse.de>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1] iommu/vt-d: Move intel_iommu_gfx_mapped to Intel
+ IOMMU header
+Message-ID: <20200904101301.GC28643@suse.de>
+References: <20200828161212.71294-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <208d2f74-1a04-f01e-b885-c175b0480784@arm.com>
+In-Reply-To: <20200828161212.71294-1-andriy.shevchenko@linux.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Shaokun Zhang <zhangshaokun@hisilicon.com>, Yuqi Jin <jinyuqi@huawei.com>,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux-foundation.org, Daniel Vetter <daniel@ffwll.ch>,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,21 +69,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Robin,
-
-On Fri, Sep 04, 2020 at 10:58:14AM +0100, Robin Murphy wrote:
-> On 2020-09-04 10:37, Joerg Roedel wrote:
-> > Adding Robin.
+On Fri, Aug 28, 2020 at 07:12:11PM +0300, Andy Shevchenko wrote:
+> Static analyzer is not happy about intel_iommu_gfx_mapped declaration:
 > 
-> Did you miss that I've reviewed this already? :)
+> .../drivers/iommu/intel/iommu.c:364:5: warning: symbol 'intel_iommu_gfx_mapped' was not declared. Should it be static?
 > 
-> https://lore.kernel.org/linux-iommu/3afcc7b2-0bfb-b79c-513f-1beb66c5f164@arm.com/
+> Move its declaration to Intel IOMMU header file.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  include/drm/intel-gtt.h     | 5 +----
+>  include/linux/intel-iommu.h | 1 +
+>  2 files changed, 2 insertions(+), 4 deletions(-)
 
-Hmm, that mail wasn't in my inbox, but b4 found it. I'll need to look
-why it didn't make it...
+Applied, thanks.
 
-
-	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
