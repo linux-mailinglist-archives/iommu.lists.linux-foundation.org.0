@@ -1,143 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DAEC25CF53
-	for <lists.iommu@lfdr.de>; Fri,  4 Sep 2020 04:16:39 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D9625D0F5
+	for <lists.iommu@lfdr.de>; Fri,  4 Sep 2020 07:42:34 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id BDBCF87208;
-	Fri,  4 Sep 2020 02:16:37 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2C56A86BAE;
+	Fri,  4 Sep 2020 05:42:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bv86LWoUvYLS; Fri,  4 Sep 2020 02:16:37 +0000 (UTC)
+	with ESMTP id 8LT0dSGNpZSh; Fri,  4 Sep 2020 05:42:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 190BE871E3;
-	Fri,  4 Sep 2020 02:16:37 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 021C186BAD;
+	Fri,  4 Sep 2020 05:42:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EBB3EC0051;
-	Fri,  4 Sep 2020 02:16:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EC4E7C0051;
+	Fri,  4 Sep 2020 05:42:31 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AA7B1C0051
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 02:16:34 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B3D0CC0051
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 05:42:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 986A986E51
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 02:16:34 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 9C17586C48
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 05:42:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fXOETZDBR95R for <iommu@lists.linux-foundation.org>;
- Fri,  4 Sep 2020 02:16:33 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id AC79F86E40
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 02:16:33 +0000 (UTC)
-IronPort-SDR: MpcufwzQPyNQhpdqVviGa7ykglP6EwwrCo69DpFDOr1LH2hsjYoIA0sEEdiA53O27D7pgMx6ZV
- VCfDQrS8u1QQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9733"; a="175736967"
-X-IronPort-AV: E=Sophos;i="5.76,387,1592895600"; d="scan'208";a="175736967"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2020 19:16:32 -0700
-IronPort-SDR: 1zW3bsrIErlWrZksla6k1PgPZzo07YRtTNyj46jmLsQ/F1/JehblIZsyUgUNtmKMBCii41Xjx/
- kIWt+bdpZhbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,387,1592895600"; d="scan'208";a="342013997"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by orsmga007.jf.intel.com with ESMTP; 03 Sep 2020 19:16:32 -0700
-Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 3 Sep 2020 19:16:32 -0700
-Received: from orsmsx151.amr.corp.intel.com (10.22.226.38) by
- orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Thu, 3 Sep 2020 19:16:32 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- ORSMSX151.amr.corp.intel.com (10.22.226.38) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 3 Sep 2020 19:16:31 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.177)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Thu, 3 Sep 2020 19:16:24 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mnq4Rw7USsUEzy2K+35FNuBY5XWWhHd7FyFmW37RaR4c+zEj9hvMpVI3Q0ZsP0rt0w863DjL1U6DZ6pvafCHqRiy9WNFoicx2QAlDWCug5qnWOvHfkIMXnDe7qcBhGfFq4FVDC2E9ddCYXUcj3jXfdqQHININGtV127w+NEgAgAqvvxEAY1VQXiKIGXLHsQIYOGfnciZJtJs075O2+3dmb/5yULqVZAqgmFqA4UwQUCXc+SEicUsvjRvCdexruyJ/YkDc6xB4kjMX2VtN97sBX2UCxBGMUBOj5lS8hJhvigaGHW6ZdbPEPZwgmfcGTSEDYHDCyPatpwwbj3hYaAOAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4zRHELz8puCzfWtzvkPruH/345zTVhhinclbjkTcpYU=;
- b=mlFPgljYBiI6N8wS52IrKN7+WN2P8nnaQVtlUXatQekTlYpaV3X6QOfqPI2rsE1ZLNtNky3uxbukLdA7hjP3juNGjzgsxOXd7q4a+Bc0UUA7jJJJs5RFRpzkVESo09S+VSYTN0r/6J7zoHL1hKF4aoUlZZ9FFlBEK6EFMoeR0ZwX7eXGCcB4o+HrDpDt/n2ARkIbiI44cFLRiPndfNVyo0pB+pP/hmRfT7yYS+KQPAmNd62tZPdUa6QfibWKwgUtJ9ZHIY8dNP0pXMBFLzmqbguo3lhR7pq85vB4iGdjmaoCD47p6hTqyZHDyHryfOho12etm+KkCgzcO1LPyD7YXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4zRHELz8puCzfWtzvkPruH/345zTVhhinclbjkTcpYU=;
- b=to0Ux6G2+6DHkcJ0OLqppsCWYvCIZcP9q2XDj6urnuXbeD0dbeRP47yxYUmlaBLQ0By/3YL9JV8dKVZVjfJb028CSy3p9kC/6LyhAMxvGdWW5Ny43pRUrlWH3ROFI2bhj3MV7PI0oOJ3Wh905XCvoZL0hF7F88fN47LSZF/xNJ4=
-Received: from MWHPR11MB1645.namprd11.prod.outlook.com (2603:10b6:301:b::12)
- by MWHPR1101MB2205.namprd11.prod.outlook.com (2603:10b6:301:59::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.23; Fri, 4 Sep
- 2020 02:16:19 +0000
-Received: from MWHPR11MB1645.namprd11.prod.outlook.com
- ([fe80::6dfe:feb8:25f1:ac9c]) by MWHPR11MB1645.namprd11.prod.outlook.com
- ([fe80::6dfe:feb8:25f1:ac9c%7]) with mapi id 15.20.3348.016; Fri, 4 Sep 2020
- 02:16:19 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>
-Subject: RE: [PATCH v2 1/1] iommu/vt-d: Use device numa domain if RHSA is
- missing
-Thread-Topic: [PATCH v2 1/1] iommu/vt-d: Use device numa domain if RHSA is
- missing
-Thread-Index: AQHWglgENUnpmhIE202gYc2HK/EdM6lXvO3A
-Date: Fri, 4 Sep 2020 02:16:18 +0000
-Message-ID: <MWHPR11MB1645A817E0C928BA83002B4C8C2D0@MWHPR11MB1645.namprd11.prod.outlook.com>
-References: <20200904010303.2961-1-baolu.lu@linux.intel.com>
-In-Reply-To: <20200904010303.2961-1-baolu.lu@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
+ with ESMTP id wKS9vAG1t4kw for <iommu@lists.linux-foundation.org>;
+ Fri,  4 Sep 2020 05:42:28 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from ZXSHCAS2.zhaoxin.com (unknown [203.148.12.82])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id DB8F086C47
+ for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 05:42:27 +0000 (UTC)
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHCAS2.zhaoxin.com
+ (10.28.252.162) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Fri, 4 Sep 2020
+ 13:42:13 +0800
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Fri, 4 Sep 2020
+ 13:42:12 +0800
+Received: from zxbjmbx1.zhaoxin.com ([fe80::290a:f538:51e7:1416]) by
+ zxbjmbx1.zhaoxin.com ([fe80::290a:f538:51e7:1416%16]) with mapi id
+ 15.01.1979.003; Fri, 4 Sep 2020 13:42:12 +0800
+From: FelixCui-oc <FelixCui-oc@zhaoxin.com>
+To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "David
+ Woodhouse" <dwmw2@infradead.org>, Dan Carpenter <dan.carpenter@oracle.com>,
+ "kbuild@lists.01.org" <kbuild@lists.01.org>
+Subject: =?gb2312?B?tPC4tDogtPC4tDogtPC4tDogW1BBVENIIHYzIDIvMl0gaW9tbXUvdnQtZDpB?=
+ =?gb2312?Q?dd_support_for_probing_ACPI_device_in_RMRR?=
+Thread-Topic: =?gb2312?B?tPC4tDogtPC4tDogW1BBVENIIHYzIDIvMl0gaW9tbXUvdnQtZDpBZGQgc3Vw?=
+ =?gb2312?Q?port_for_probing_ACPI_device_in_RMRR?=
+Thread-Index: AQHWfFkssCqC/uq8zUSrxxRHHTL9PKlSzvUAgAC26n+AAJ31AIAAkzS7gAFQDQCAAfosxQ==
+Date: Fri, 4 Sep 2020 05:42:12 +0000
+Message-ID: <ef34767ffd25491b94ed12f706047e4d@zhaoxin.com>
+References: <20200827100217.21324-1-FelixCui-oc@zhaoxin.com>
+ <20200827100217.21324-3-FelixCui-oc@zhaoxin.com>
+ <e5b1daaf-f073-94c9-714c-832b10d284f4@linux.intel.com>
+ <cde22f0f02f94efcae8bf044e2cd9441@zhaoxin.com>
+ <7e5f2c33-c6c3-f344-9014-1f6a306c55aa@linux.intel.com>
+ <cfdd29a882d140e5aec2e8c3b77f4968@zhaoxin.com>,
+ <56fc76e5-a31c-36b6-c6f0-fd8370cd7a91@linux.intel.com>
+In-Reply-To: <56fc76e5-a31c-36b6-c6f0-fd8370cd7a91@linux.intel.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.198.147.212]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6390988c-0206-4f8c-56e4-08d8507882a9
-x-ms-traffictypediagnostic: MWHPR1101MB2205:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR1101MB220514262660F60ECA25D0FD8C2D0@MWHPR1101MB2205.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2jn6D+fYXHQlWbqSDoxEY8GK96pnCzgtFbDtzK51GBHz5yrx0RN4xXqFW8XLrVRs/URhCLqyf0J6nsLodu5kizbXodQOBLA9V2XMByNsxphG7qSJoQ6GtJoaH5DateJj3FkBkrZ0R+AtuCpsVxopmEPss4prKqvpuaA7QxawklqYnROXdZdXNqr+axian6sAxt/HgO8P8wKVYVmIlDrdEFNss7tgkT8xHUPCpALErlvoSHhmGQlmafxsdOoFOiv5GxLgiNxbODS6WFKMRe/R/xkxufJx5n0S/EWxrPb//PMraQl+VJznctbNtphoEl3q+BUOPZn+ok23U4PvOFFBJdDLa/U/7hFNpwqC28NA2iM/P+T6ftysvz9pSBam1Fx0vrBHmd2uaqm2rK279XIU5Q==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR11MB1645.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(39860400002)(396003)(136003)(366004)(316002)(86362001)(9686003)(33656002)(8676002)(2906002)(83380400001)(110136005)(26005)(66476007)(66446008)(186003)(66946007)(76116006)(966005)(54906003)(55016002)(8936002)(4326008)(66556008)(64756008)(478600001)(5660300002)(45080400002)(52536014)(6506007)(7696005)(71200400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: +BTcBxuUwxM1ja0OKYnCd15UmeN3B8YR7vTL+wXdgTZD2Ly4lRntZ/f5mY2LYvg83RkMrnWENI1FDxzFNwkzZ49pSzsL8KeBkVZiI6bt+VqOPGAF9tmD07cJ+oDckmC8hvUmEBvfrdfGVkmRm9g+gEcEGfPmjOkre8V5WHHAYwgGa2EvBlU0E9ibgmrbaNh5K+pDY0VWRMNbPpaHPoGJ9gZaVU4IY/0YE5qAIxuQq4XGCxjE1Sj4u3sghkoAouvzeBTYt3+kOvO8hUeEB8LghYGa6plpO/MhfiXPlnEJZSvnR+VKQSN8AL3ldWJN2PLlEaCIpQbWxUxyfjebQGvU9xB9CO8JDcioeK3dxLPmSBxSqwZxyFGHCGnvBbX/ZneTdmVgbSzfWEnPxyojT2luC7grWzwcYMP/oD9DYdFmsyMBqOzmXxzMp+6ej+ALP1/wiSoVtj4Bas6TvnzYqX2+kk41a5ohWNZP9QFcMejJfPNuuZpWrKkcGBfTEcVXqZ2DGb0VTnovhinLhdCmznRQeLKlpldNXnuB8RM/Bfthh3rv0jeUwncQAZKDVahtV1sWq2uV1y8z8Ak+tKIat/Y2AubvS4A/RqX7gq3RSprMa7Vy+RzVYRyGSF5COasjToDv7pkdx5IqRGpNydS9+COlvw==
+x-originating-ip: [10.29.8.19]
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1645.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6390988c-0206-4f8c-56e4-08d8507882a9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2020 02:16:19.0119 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uwVuFLRxlkIkvb3iLAHNavrb0mDHrc9acc/F8bVJMafFPlJ49DwygnB/lC5+DRDb9XtoJ//mYFpX6pM4Q1eJ1g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1101MB2205
-X-OriginatorOrg: intel.com
-Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Raj,
- Ashok" <ashok.raj@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: Tony W Wang-oc <TonyWWang-oc@zhaoxin.com>,
+ CobeChen-oc <CobeChen-oc@zhaoxin.com>, Ashok Raj <ashok.raj@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -150,121 +86,150 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============6472877978139680436=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> From: Lu Baolu
-> Sent: Friday, September 4, 2020 9:03 AM
-> 
-> If there are multiple NUMA domains but the RHSA is missing in ACPI/DMAR
-> table, we could default to the device NUMA domain as fall back. This could
-> also benefit a vIOMMU use case where only single vIOMMU is exposed,
-> hence
-> no RHSA will be present but device numa domain can be correct.
+--===============6472877978139680436==
+Content-Language: zh-CN
+Content-Type: multipart/alternative;
+	boundary="_000_ef34767ffd25491b94ed12f706047e4dzhaoxincom_"
 
-My comment on this is not fixed. It is not restricted to single-vIOMMU situation.
-and actually this may also happen on physical platform if some FW doesn't
-provide RHSA information.
+--_000_ef34767ffd25491b94ed12f706047e4dzhaoxincom_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-with that being fixed:
+aGkgYmFvbHUsDQoNCiAgICAgICAgICAgICAgIFdlIHJ1biB0aGlzIG9uIHpoYW94aW4gWDg2IHBh
+bHRmb3JtLg0KDQogICAgICAgICAgICAgICBUaGVyZSBhcmUgc29tZSBNQ1VTIG9uIG91ciBwbGF0
+Zm9ybXMgdGhhdCByZWFkIGFuZCB3cml0ZSBkYXRhIHRvIHRoZSBzeXN0ZW0gbWVtb3J5Lg0KDQpE
+dXJpbmcgdGhpcyBwcm9jZXNzLCB0aGUgTUNVIGlzIGludmlzaWJsZSB0byB0aGUgaG9zdCBrZXJu
+ZWwuIEFuZCB0aGUgTUNVIG5lZWRzIHRvIHJlcG9ydCB0aHJvdWdoIEFDUElfTkFNRVNQQUNFX0RF
+VklDRSBpbiBSTVJSLg0KDQoNCkJlc3QgcmVnYXJkcw0KDQpGZWxpeGN1aS1vYw0KDQpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXw0Kt6K8/sjLOiBMdSBCYW9sdSA8YmFvbHUubHVAbGlu
+dXguaW50ZWwuY29tPg0Kt6LLzcqxvOQ6IDIwMjDE6jnUwjPI1SAxNToyMjoxNA0KytW8/sjLOiBG
+ZWxpeEN1aS1vYzsgSm9lcmcgUm9lZGVsOyBpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9y
+ZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgRGF2aWQgV29vZGhvdXNlOyBEYW4gQ2Fy
+cGVudGVyOyBrYnVpbGRAbGlzdHMuMDEub3JnDQqzrcvNOiBiYW9sdS5sdUBsaW51eC5pbnRlbC5j
+b207IENvYmVDaGVuLW9jOyBSYXltb25kUGFuZy1vYzsgVG9ueSBXIFdhbmctb2M7IEFzaG9rIFJh
+ag0K1vfM4jogUmU6ILTwuLQ6ILTwuLQ6IFtQQVRDSCB2MyAyLzJdIGlvbW11L3Z0LWQ6QWRkIHN1
+cHBvcnQgZm9yIHByb2JpbmcgQUNQSSBkZXZpY2UgaW4gUk1SUg0KDQpIaSBGZWxpeCwNCg0KT24g
+OS8yLzIwIDExOjI0IEFNLCBGZWxpeEN1aS1vYyB3cm90ZToNCj4gaGkgYmFvbHUsDQo+DQo+PiBT
+byB5b3UgaGF2ZSBhIGhpZGRlbiBkZXZpY2UgKGludmlzaWJsZSB0byBob3N0IGtlcm5lbCkuIEJ1
+dCB5b3UgbmVlZCB0bw0KPg0KPj5zZXR1cCBzb21lIGlkZW50aXR5IG1hcHBpbmdzIGZvciB0aGlz
+IGRldmljZSwgc28gdGhhdCB0aGUgZmlybXdhcmUNCj4+Y291bGQga2VlcCB3b3JraW5nLCByaWdo
+dD8NCj4NCj4+VGhlIHBsYXRmb3JtIGRlc2lnbnMgdGhpcyBieSBwdXR0aW5nIHRoYXQgcmFuZ2Ug
+aW4gdGhlIFJNUlIgdGFibGUgYW5kDQo+PmV4cGVjdGluZyB0aGUgT1Mga2VybmVsIHRvIHNldHVw
+IGlkZW50aXR5IG1hcHBpbmdzIGR1cmluZyBib290Lg0KPg0KPj5EbyBJIHVuZGVyc3RhbmQgaXQg
+cmlnaHQ/DQo+DQo+DQo+IFllcy4gV2hhdCB5b3UgdW5kZXJzdGFuZCBpcyBjb3JyZWN0Lg0KDQpU
+aGlzIGFwcGVhcnMgdG8gYmUgYSBuZXcgdXNhZ2UgbW9kZWwgb2YgUk1SUi4gSSBuZWVkIHRvIGRp
+c2N1c3MgdGhpcw0Kd2l0aCB0aGUgVlQtZCBzcGVjIG1haW50YWluZXIuIERvIHlvdSBtaW5kIHRl
+bGxpbmcgd2hpY2ggcGxhdGZvcm0gYXJlDQp5b3UgZ29pbmcgdG8gcnVuIHRoaXMgb24/IFdoYXQg
+aXMgdGhlIG1vdGl2YXRpb24gb2YgY3JlYXRpbmcgc3VjaCBoaWRkZW4NCmRldmljZT8NCg0KQmFz
+aWNhbGx5LCBSTVJScyB3ZXJlIGFkZGVkIGFzIHdvcmsgYXJvdW5kIGZvciBjZXJ0YWluIGxlZ2Fj
+eSBkZXZpY2UgYW5kDQp3ZSBoYXZlIGJlZW4gd29ya2luZyBoYXJkIHRvIGZpeCB0aG9zZSBsZWdh
+Y3kgZGV2aWNlcyBzbyB0aGF0IFJNUlIgYXJlDQpubyBsb25nZXIgbmVlZGVkLg0KDQpCZXN0IHJl
+Z2FyZHMsDQpiYW9sdQ0K
 
-Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+--_000_ef34767ffd25491b94ed12f706047e4dzhaoxincom_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Cc: Kevin Tian <kevin.tian@intel.com>
-> Cc: Ashok Raj <ashok.raj@intel.com>
-> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
-> ---
->  drivers/iommu/intel/iommu.c | 37
-> +++++++++++++++++++++++++++++++++++--
->  1 file changed, 35 insertions(+), 2 deletions(-)
-> 
-> Change log:
-> v1->v2:
->   - Add a comment as suggested by Kevin.
->     https://lore.kernel.org/linux-
-> iommu/MWHPR11MB1645E6D6BD1EFDFA139AA37C8C520@MWHPR11MB1
-> 645.namprd11.prod.outlook.com/
-> 
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index 7f844d1c8cd9..69d5a87188f4 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -698,12 +698,47 @@ static int
-> domain_update_iommu_superpage(struct dmar_domain *domain,
->  	return fls(mask);
->  }
-> 
-> +static int domain_update_device_node(struct dmar_domain *domain)
-> +{
-> +	struct device_domain_info *info;
-> +	int nid = NUMA_NO_NODE;
-> +
-> +	assert_spin_locked(&device_domain_lock);
-> +
-> +	if (list_empty(&domain->devices))
-> +		return NUMA_NO_NODE;
-> +
-> +	list_for_each_entry(info, &domain->devices, link) {
-> +		if (!info->dev)
-> +			continue;
-> +
-> +		/*
-> +		 * There could possibly be multiple device numa nodes as
-> devices
-> +		 * within the same domain may sit behind different IOMMUs.
-> There
-> +		 * isn't perfect answer in such situation, so we select first
-> +		 * come first served policy.
-> +		 */
-> +		nid = dev_to_node(info->dev);
-> +		if (nid != NUMA_NO_NODE)
-> +			break;
-> +	}
-> +
-> +	return nid;
-> +}
-> +
->  /* Some capabilities may be different across iommus */
->  static void domain_update_iommu_cap(struct dmar_domain *domain)
->  {
->  	domain_update_iommu_coherency(domain);
->  	domain->iommu_snooping =
-> domain_update_iommu_snooping(NULL);
->  	domain->iommu_superpage =
-> domain_update_iommu_superpage(domain, NULL);
-> +
-> +	/*
-> +	 * If RHSA is missing, we should default to the device numa domain
-> +	 * as fall back.
-> +	 */
-> +	if (domain->nid == NUMA_NO_NODE)
-> +		domain->nid = domain_update_device_node(domain);
->  }
-> 
->  struct context_entry *iommu_context_addr(struct intel_iommu *iommu, u8
-> bus,
-> @@ -5096,8 +5131,6 @@ static struct iommu_domain
-> *intel_iommu_domain_alloc(unsigned type)
->  		if (type == IOMMU_DOMAIN_DMA)
->  			intel_init_iova_domain(dmar_domain);
-> 
-> -		domain_update_iommu_cap(dmar_domain);
-> -
->  		domain = &dmar_domain->domain;
->  		domain->geometry.aperture_start = 0;
->  		domain->geometry.aperture_end   =
-> --
-> 2.17.1
-> 
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+<!-- converted from text --><style><!-- .EmailQuote { margin-left: 1pt; pad=
+ding-left: 4pt; border-left: #800000 2px solid; } --></style>
+</head>
+<body>
+<meta content=3D"text/html; charset=3DUTF-8">
+<style type=3D"text/css" style=3D"">
+<!--
+p
+	{margin-top:0;
+	margin-bottom:0}
+-->
+</style>
+<div dir=3D"ltr">
+<div id=3D"x_divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size:12pt; col=
+or:#000000; font-family:Calibri,Helvetica,sans-serif">
+<p>hi baolu,</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;We run this on zh=
+aoxin X86 paltform.</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;There are some MC=
+US on our platforms that read and write data to the system memory.</p>
+<p>During this process, the MCU is invisible to the host kernel. And the MC=
+U needs to report through ACPI_NAMESPACE_DEVICE&nbsp;in RMRR.</p>
+<p><br>
+</p>
+<p>Best regards</p>
+<p>Felixcui-oc</p>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
+color=3D"#000000" style=3D"font-size:11pt"><b>=B7=A2=BC=FE=C8=CB:</b> Lu Ba=
+olu &lt;baolu.lu@linux.intel.com&gt;<br>
+<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2020=C4=EA9=D4=C23=C8=D5 15:22:14<br>
+<b>=CA=D5=BC=FE=C8=CB:</b> FelixCui-oc; Joerg Roedel; iommu@lists.linux-fou=
+ndation.org; linux-kernel@vger.kernel.org; David Woodhouse; Dan Carpenter; =
+kbuild@lists.01.org<br>
+<b>=B3=AD=CB=CD:</b> baolu.lu@linux.intel.com; CobeChen-oc; RaymondPang-oc;=
+ Tony W Wang-oc; Ashok Raj<br>
+<b>=D6=F7=CC=E2:</b> Re: =B4=F0=B8=B4: =B4=F0=B8=B4: [PATCH v3 2/2] iommu/v=
+t-d:Add support for probing ACPI device in RMRR</font>
+<div>&nbsp;</div>
+</div>
+</div>
+<font size=3D"2"><span style=3D"font-size:10pt;">
+<div class=3D"PlainText">Hi Felix,<br>
+<br>
+On 9/2/20 11:24 AM, FelixCui-oc wrote:<br>
+&gt; hi baolu,<br>
+&gt; <br>
+&gt;&gt; So you have a hidden device (invisible to host kernel). But you ne=
+ed to<br>
+&gt; <br>
+&gt;&gt;setup some identity mappings for this device, so that the firmware<=
+br>
+&gt;&gt;could keep working, right?<br>
+&gt; <br>
+&gt;&gt;The platform designs this by putting that range in the RMRR table a=
+nd<br>
+&gt;&gt;expecting the OS kernel to setup identity mappings during boot.<br>
+&gt; <br>
+&gt;&gt;Do I understand it right?<br>
+&gt; <br>
+&gt; <br>
+&gt; Yes. What you understand is correct.<br>
+<br>
+This appears to be a new usage model of RMRR. I need to discuss this<br>
+with the VT-d spec maintainer. Do you mind telling which platform are<br>
+you going to run this on? What is the motivation of creating such hidden<br=
+>
+device?<br>
+<br>
+Basically, RMRRs were added as work around for certain legacy device and<br=
+>
+we have been working hard to fix those legacy devices so that RMRR are<br>
+no longer needed.<br>
+<br>
+Best regards,<br>
+baolu<br>
+</div>
+</span></font>
+</body>
+</html>
+
+--_000_ef34767ffd25491b94ed12f706047e4dzhaoxincom_--
+
+--===============6472877978139680436==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============6472877978139680436==--
