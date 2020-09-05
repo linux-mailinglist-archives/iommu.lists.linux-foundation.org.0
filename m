@@ -2,46 +2,46 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDDF125EAF5
-	for <lists.iommu@lfdr.de>; Sat,  5 Sep 2020 23:24:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488C325EAF6
+	for <lists.iommu@lfdr.de>; Sat,  5 Sep 2020 23:24:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 91F2185F97;
-	Sat,  5 Sep 2020 21:24:01 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EDA80863AE;
+	Sat,  5 Sep 2020 21:24:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0Vp3Ip4zjxw6; Sat,  5 Sep 2020 21:24:01 +0000 (UTC)
+	with ESMTP id wceMlArIsEM0; Sat,  5 Sep 2020 21:24:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 867EA8651A;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E774586928;
 	Sat,  5 Sep 2020 21:24:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6E43AC0051;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BCD2AC0051;
 	Sat,  5 Sep 2020 21:24:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F1D55C0051
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 16:39:46 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 94035C0051
+ for <iommu@lists.linux-foundation.org>; Sat,  5 Sep 2020 09:50:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D2DDC2E0F8
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 16:39:46 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 8533086C24
+ for <iommu@lists.linux-foundation.org>; Sat,  5 Sep 2020 09:50:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MaMM3qbClzay for <iommu@lists.linux-foundation.org>;
- Fri,  4 Sep 2020 16:39:45 +0000 (UTC)
-X-Greylist: delayed 05:58:36 by SQLgrey-1.7.6
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2061.outbound.protection.outlook.com [40.107.236.61])
- by silver.osuosl.org (Postfix) with ESMTPS id 3D6DA1FEBF
- for <iommu@lists.linux-foundation.org>; Fri,  4 Sep 2020 16:39:45 +0000 (UTC)
+ with ESMTP id pcU6JIrvD4fG for <iommu@lists.linux-foundation.org>;
+ Sat,  5 Sep 2020 09:50:58 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2081.outbound.protection.outlook.com [40.107.93.81])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id EB36B86C1E
+ for <iommu@lists.linux-foundation.org>; Sat,  5 Sep 2020 09:50:57 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Vta7GGS0R99+pIauok2g0x/BqJVIb2ILXnum4R7/hoj8Ve1ytC8IeRsLzNWhR0698iCJ1HXyOH+oujObO41TmdEMC0qnJhEMQsqgLcxRlcdEI2jzvycwjkuD29tXi8EhUTY/JSAOUpcNuY+jLkQGueWVqap/IgmIIzkmLysFMVAv8X8+poYfsGNUsgdCEySNT6LqJrnh9slzJASnMy21bamNDvuBG53dZa2jTEdIA4IZlLk6G5odW2V8voljCao3iZuFuQAaBnZmgHvgiELoUkkK/r7AroOU+otrz6yH3TJbHXcm06XgtOZ2ZVc/GfzGnJC+o8J1QCVfmCTZ1xWpyg==
+ b=V+/LrW/OZL5LC3DVZwz/ec2C6VIgMcFIDyqO9fS1pIWxjMydznCp1FUlIF5TbxBlqtEDNvjpJj8UfT5cdGhLnE5/OhLSsyvfecpk3lix70m+OZ9F2kb/MCXKCWuimMn7AMRD2P6laT0p1NsVHQsN0iOB+EkiKbeSdpLQv8OoaCxWFwg8XzO8x6r22Txnt/5cPzR37B6MpUyqvazVIw4h1BEkJ6xm4i0TW8IIOlN9B6sopBLupqpAcgLGEmGMpeCociklqYpUZrAxJ8Pzrqn9kMJ0ejlJykZVbO7fB9elaEOx5e8jHU4BPn4wQrprlLTKat98wRReTwvUK8C2ISkQ6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XNMwznDTLy1qK3EycnGQSqW9gqxzUPWoUJlW8C5we6g=;
- b=PXIizwnDJBSFeJ9kOcxhuCCDTEqAk4hV3OVTOKuI2/UzzFuZpYlEPCTKIaAGlsZa8OIyqhRUsTAyrxjepjNwCpWzVM1k0GJibB194iffnO23GVfICX/A0Oosyb1HXA7gMARgVs+sEwPQH/5/bgqZJ9cTxPk13ziwTzv63WN9CblNTiFINAEBU21itYQ11CSzLmj72ZQhFyxGJp1dqEA0vTagwnLSS/rbVtB9udqFgb83TNB50Cmwpj+RH90+U5jPRmY9haOq/bLdmLMs/sphIm/XT+6jKdJX1fFvEkrYUdbQQ8Wceex7YbejbKU3eEcsJqTiRuBWWykRYh4ysCWwjQ==
+ bh=AMYI/7IBgDn1aTWi3oacH+aF+elap3W2C5YqHBlrrRk=;
+ b=K9S6IVat2/bhUgLT3o4gMiG3AM+D07PRzayCPjfa5G2BkjtcFsnU8GLi7gKA1s+CJfy1iD9uPRdleRWGF9/npvL5sKknlj0Bv4VxZ5Zs6D+3uz8xh3f4UlxIV+W0SLwZ/CAdKA7rmZvOAr/8iM1b2MUmVUX8zL2wHWIH/EGTCNr8u4moyTqW/5A0z0vxNYtggBqUNwUoPs0OLd002gShNGRVctOpFWSniu4TAYOr85zCOlRbWGXiRE8kIBbbOutZsBAStETtlu2BJujU5JBmFOXUzu/1rYyYquYsW1den5lf8hD1JrUaACEPrrrl1AWjyQyI/bCdRxmx4OW50vTstg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
  165.204.84.17) smtp.rcpttodomain=sina.com smtp.mailfrom=srdcmail.amd.com;
  dmarc=permerror action=none header.from=amd.com; dkim=none (message not
@@ -49,84 +49,78 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XNMwznDTLy1qK3EycnGQSqW9gqxzUPWoUJlW8C5we6g=;
- b=DOsKuNXi+9pgqIdRu0hMMEmePSWdqjxerWcZpCJdoEWP5hAQiiDXnksnEVG0OZ6wLJvNwLURPNvUNyyHH8p7u9p2azI2MdAj2t205o2A2rNfqA/RojempyTjHLj+N/peE2VkOGafBPl5zfIbCqgF39BKP3hpYK2ny1/Ieo75v9w=
-Received: from BN6PR03CA0066.namprd03.prod.outlook.com (2603:10b6:404:4c::28)
- by CY4PR12MB1591.namprd12.prod.outlook.com (2603:10b6:910:10::12)
+ bh=AMYI/7IBgDn1aTWi3oacH+aF+elap3W2C5YqHBlrrRk=;
+ b=tKCwmOelqr1ixsr0q0+5esCLIgmeuesaZn9f/xMYXbYFmrf7UD03jkon2GTRnmsfc4+SPF5efIkkw5ekC20AhevH0X7zmwmmn+5QY9Zi3iPKEioDcrh3HVlLnVFtfHT7BYKDEvKrL0is1Gp5FxqJm82inPS7zdTWjJm2ojjXry0=
+Received: from BN6PR10CA0042.namprd10.prod.outlook.com (2603:10b6:404:109::28)
+ by MN2PR12MB3519.namprd12.prod.outlook.com (2603:10b6:208:107::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.21; Fri, 4 Sep
- 2020 10:08:26 +0000
-Received: from BN8NAM11FT027.eop-nam11.prod.protection.outlook.com
- (2603:10b6:404:4c:cafe::12) by BN6PR03CA0066.outlook.office365.com
- (2603:10b6:404:4c::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.16 via Frontend
- Transport; Fri, 4 Sep 2020 10:08:25 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.17; Sat, 5 Sep
+ 2020 07:14:57 +0000
+Received: from BN8NAM11FT063.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:404:109:cafe::6b) by BN6PR10CA0042.outlook.office365.com
+ (2603:10b6:404:109::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15 via Frontend
+ Transport; Sat, 5 Sep 2020 07:14:57 +0000
 X-MS-Exchange-Authentication-Results: spf=none (sender IP is 165.204.84.17)
  smtp.mailfrom=srdcmail.amd.com; sina.com; dkim=none (message not signed)
  header.d=none;sina.com; dmarc=permerror action=none header.from=amd.com;
 Received-SPF: None (protection.outlook.com: srdcmail.amd.com does not
  designate permitted sender hosts)
-Received: from SATLEXMB01.amd.com (165.204.84.17) by
- BN8NAM11FT027.mail.protection.outlook.com (10.13.177.96) with Microsoft SMTP
+Received: from SATLEXMB02.amd.com (165.204.84.17) by
+ BN8NAM11FT063.mail.protection.outlook.com (10.13.177.110) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3326.19 via Frontend Transport; Fri, 4 Sep 2020 10:08:24 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB01.amd.com
- (10.181.40.142) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Fri, 4 Sep 2020
- 05:08:23 -0500
-Received: from SATLEXMB01.amd.com (10.181.40.142) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Fri, 4 Sep 2020
- 05:08:23 -0500
-Received: from atlvmail01.amd.com (10.180.10.61) by SATLEXMB01.amd.com
- (10.181.40.142) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.3326.19 via Frontend Transport; Sat, 5 Sep 2020 07:14:55 +0000
+Received: from SATLEXMB02.amd.com (10.181.40.143) by SATLEXMB02.amd.com
+ (10.181.40.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Sat, 5 Sep 2020
+ 02:14:54 -0500
+Received: from atlvmail01.amd.com (10.180.10.61) by SATLEXMB02.amd.com
+ (10.181.40.143) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3 via Frontend
- Transport; Fri, 4 Sep 2020 05:08:23 -0500
+ Transport; Sat, 5 Sep 2020 02:14:54 -0500
 Received: from srdcmail.amd.com (srdcmail.amd.com [10.237.16.23])
- by atlvmail01.amd.com (8.14.4/8.14.4) with ESMTP id 084A8Lv8031313;
- Fri, 4 Sep 2020 06:08:22 -0400
+ by atlvmail01.amd.com (8.14.4/8.14.4) with ESMTP id 0857Eqrb012120;
+ Sat, 5 Sep 2020 03:14:53 -0400
 Received: from srdcws1054.amd.com (srdcws1054.amd.com [10.66.16.34])
- by srdcmail.amd.com (8.13.8/8.13.8) with ESMTP id 084A8Kft029002;
- Fri, 4 Sep 2020 18:08:20 +0800
+ by srdcmail.amd.com (8.13.8/8.13.8) with ESMTP id 0857Emfw008832;
+ Sat, 5 Sep 2020 15:14:48 +0800
 Received: (from weisheng@localhost)
- by srdcws1054.amd.com (8.14.7/8.14.7/Submit) id 084A8KmY016606;
- Fri, 4 Sep 2020 18:08:20 +0800
+ by srdcws1054.amd.com (8.14.7/8.14.7/Submit) id 0857EkwK020256;
+ Sat, 5 Sep 2020 15:14:46 +0800
 From: Wesley Sheng <wesley.sheng@amd.com>
 To: <joro@8bytes.org>, <iommu@lists.linux-foundation.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/2] iommu/amd: Revise ga_tag member in struct of fields_remap
-Date: Fri, 4 Sep 2020 18:07:47 +0800
-Message-ID: <20200904100747.16463-2-wesley.sheng@amd.com>
+Subject: [PATCH] iommu/amd: Add prefetch iommu pages command build function
+Date: Sat, 5 Sep 2020 15:14:20 +0800
+Message-ID: <20200905071420.20190-1-wesley.sheng@amd.com>
 X-Mailer: git-send-email 2.16.2
-In-Reply-To: <20200904100747.16463-1-wesley.sheng@amd.com>
-References: <20200904100747.16463-1-wesley.sheng@amd.com>
 MIME-Version: 1.0
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e942553b-dcab-43e4-9eea-08d850ba7634
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1591:
-X-Microsoft-Antispam-PRVS: <CY4PR12MB1591980B2D41851A1472CF5EF02D0@CY4PR12MB1591.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Office365-Filtering-Correlation-Id: 1deb7a25-b5dc-49ea-0500-08d8516b642c
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3519:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB3519484C8B6F3BDEF1C311ECF02A0@MN2PR12MB3519.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: y0Uh0UZqvQAJ32QlwoUwgp4eMAh0LDRYkVgJfXFqbIWVcqwC3tzMjnRTrVZ94iOw3CfcwXim+vN9OBBfbQtDVC1b9w3GHLm2k2fZxd0YhzvwpN8iU+jGZpKQP7iZz8t/GNTc3b8INMeozi7BJjWR6UW5BaBECEYf6QF0Ssw6cGyM3ZYsU0m4fiZj0FA/irZRViKDGBJ1JgxDDApY1UBCygTS6SkIo4CT7Z+WclNfR8ZV1QEsrtNkBbH+7ktC7oKCOBhaQkwYGC+y1zzcq0oOPnj7hVB4u/YiJUBDNbd1++ziD4C4MRR+iQ0csYP2NPNU36dxYU3B5hHwqyDMxfA0v6GKg1VB30UmfqY9Iq9ZeFAqW4s1WTfKzi8HUR/dZSAh8NxIUHJ2rId3TYlEB1wpAQ==
+X-Microsoft-Antispam-Message-Info: zel1pj96iJF/B9C+xqa+aTmiCAekOiVyaD+ScFOzfEDCeTwbTs/2aTo9OlB28Dohw9/fMOyvmKj4kpgihBeDjZeq7LBO/oSvuIuTbIgGhQrlVpsxK32QDqmx9Yb2QjL/pK2tQbbk/BZch+pQbq8hLD3YztfmcU93gWQ5ODFT7qisCRHKguZeMD+DiooxgYLecCpvnEoeVbZao6uoI8YMmzu0Fd2pXZQwWZ5tvBWP2cSgDNkmo2jl69KjeQr69bhQTfAueeR7vibjs8i2uV5NyIV3E30/6HO6WCtHMKtW8fBaHznLLxpLV5PFbhnDT3t1PkFUOTc3fsWGYMSkc425Xfbv/bjV+AYfCbKuh9A/C2+zc7B+VeOLdjLTDDZtBQDp6gTIi9uY/KfDZOzSsGeQMg==
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SATLEXMB01.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(136003)(376002)(346002)(396003)(39860400002)(46966005)(110136005)(54906003)(1076003)(316002)(2906002)(81166007)(82740400003)(6666004)(4326008)(82310400003)(336012)(4744005)(8936002)(26005)(44832011)(83380400001)(42186006)(83170400001)(356005)(70586007)(36756003)(70206006)(498600001)(5660300002)(8676002)(47076004)(426003)(2616005);
+ IPV:NLI; SFV:NSPM; H:SATLEXMB02.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(346002)(39860400002)(376002)(46966005)(42186006)(4326008)(54906003)(110136005)(6666004)(5660300002)(1076003)(498600001)(26005)(316002)(44832011)(70206006)(70586007)(2616005)(336012)(426003)(8676002)(82310400003)(8936002)(356005)(82740400003)(47076004)(81166007)(2906002)(36756003)(83170400001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2020 10:08:24.9794 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e942553b-dcab-43e4-9eea-08d850ba7634
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2020 07:14:55.6442 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1deb7a25-b5dc-49ea-0500-08d8516b642c
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB01.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT027.eop-nam11.prod.protection.outlook.com
+ Helo=[SATLEXMB02.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT063.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1591
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3519
 X-Mailman-Approved-At: Sat, 05 Sep 2020 21:23:58 +0000
-Cc: wesley.sheng@amd.com, wesleyshenggit@sina.com
+Cc: Wesley Sheng <wesley.sheng@amd.com>, wesleyshenggit@sina.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -144,29 +138,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Per <<AMD I/0 Virtualization Technology (IOMMU) specification>>
-ga_tag member is only available when IRTE[GuestMode]=1, this field
-should be reserved when IRTE[GuestMode]=0. So change the ga_tag
-to rsvd_1 in struct of fields_remap.
+Add function to build prefetch iommu pages command
 
 Signed-off-by: Wesley Sheng <wesley.sheng@amd.com>
 ---
- drivers/iommu/amd/amd_iommu_types.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iommu/amd/amd_iommu_types.h |  2 ++
+ drivers/iommu/amd/iommu.c           | 19 +++++++++++++++++++
+ 2 files changed, 21 insertions(+)
 
 diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
-index e5b05a97eb46..baa31cd2411c 100644
+index baa31cd2411c..73734a0c4679 100644
 --- a/drivers/iommu/amd/amd_iommu_types.h
 +++ b/drivers/iommu/amd/amd_iommu_types.h
-@@ -832,7 +832,7 @@ union irte_ga_lo {
- 		    /* ------ */
- 		    guest_mode	: 1,
- 		    destination	: 24,
--		    ga_tag	: 32;
-+		    rsvd_1	: 32;
- 	} fields_remap;
+@@ -173,6 +173,7 @@
+ #define CMD_INV_IOMMU_PAGES	0x03
+ #define CMD_INV_IOTLB_PAGES	0x04
+ #define CMD_INV_IRT		0x05
++#define CMD_PF_IOMMU_PAGES	0x06
+ #define CMD_COMPLETE_PPR	0x07
+ #define CMD_INV_ALL		0x08
  
- 	/* For guest vAPIC */
+@@ -181,6 +182,7 @@
+ #define CMD_INV_IOMMU_PAGES_SIZE_MASK	0x01
+ #define CMD_INV_IOMMU_PAGES_PDE_MASK	0x02
+ #define CMD_INV_IOMMU_PAGES_GN_MASK	0x04
++#define CMD_PF_IOMMU_PAGES_INV_MASK	0x10
+ 
+ #define PPR_STATUS_MASK			0xf
+ #define PPR_STATUS_SHIFT		12
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index ba9f3dbc5b94..b3971595b0e9 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -976,6 +976,25 @@ static void build_inv_irt(struct iommu_cmd *cmd, u16 devid)
+ 	CMD_SET_TYPE(cmd, CMD_INV_IRT);
+ }
+ 
++static void build_pf_iommu_pages(struct iommu_cmd *cmd, u64 address,
++					u16 devid, int pfcnt, bool size,
++					bool inv)
++{
++	memset(cmd, 0, sizeof(*cmd));
++
++	address &= PAGE_MASK;
++
++	cmd->data[0]  = devid;
++	cmd->data[0] |= (pfcnt & 0xff) << 24;
++	cmd->data[2]  = lower_32_bits(address);
++	cmd->data[3]  = upper_32_bits(address;
++	if (size)
++		cmd->data[2] |= CMD_INV_IOMMU_PAGES_SIZE_MASK;
++	if (inv)
++		cmd->data[2] |= CMD_PF_IOMMU_PAGES_INV_MASK;
++	CMD_SET_TYPE(cmd, CMD_PF_IOMMU_PAGES);
++}
++
+ /*
+  * Writes the command to the IOMMUs command buffer and informs the
+  * hardware about the new command.
 -- 
 2.16.2
 
