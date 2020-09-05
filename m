@@ -2,93 +2,92 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C2025EA3A
+	by mail.lfdr.de (Postfix) with ESMTPS id A7BD625EA3B
 	for <lists.iommu@lfdr.de>; Sat,  5 Sep 2020 22:05:19 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id ACE42258A5;
-	Sat,  5 Sep 2020 20:05:17 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1DDC82079C;
+	Sat,  5 Sep 2020 20:05:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YuQx2FAXGkdC; Sat,  5 Sep 2020 20:05:13 +0000 (UTC)
+	with ESMTP id wCK6g-aSAhcY; Sat,  5 Sep 2020 20:05:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 84530207A2;
-	Sat,  5 Sep 2020 20:05:13 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D590621505;
+	Sat,  5 Sep 2020 20:05:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6C481C0051;
-	Sat,  5 Sep 2020 20:05:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A6954C0051;
+	Sat,  5 Sep 2020 20:05:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B5646C0051
- for <iommu@lists.linux-foundation.org>; Sat,  5 Sep 2020 20:05:11 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8048CC0051
+ for <iommu@lists.linux-foundation.org>; Sat,  5 Sep 2020 20:05:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id A4E41875F0
- for <iommu@lists.linux-foundation.org>; Sat,  5 Sep 2020 20:05:11 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 772428642E
+ for <iommu@lists.linux-foundation.org>; Sat,  5 Sep 2020 20:05:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Xh2PdwWtBTJR for <iommu@lists.linux-foundation.org>;
- Sat,  5 Sep 2020 20:05:11 +0000 (UTC)
+ with ESMTP id YSQiPoyqZYLw for <iommu@lists.linux-foundation.org>;
+ Sat,  5 Sep 2020 20:05:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
- [209.85.214.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 36FD087595
- for <iommu@lists.linux-foundation.org>; Sat,  5 Sep 2020 20:05:11 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id m15so1567495pls.8
- for <iommu@lists.linux-foundation.org>; Sat, 05 Sep 2020 13:05:11 -0700 (PDT)
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+ [209.85.216.68])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id BCC9F8686B
+ for <iommu@lists.linux-foundation.org>; Sat,  5 Sep 2020 20:05:13 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id g6so4581657pjl.0
+ for <iommu@lists.linux-foundation.org>; Sat, 05 Sep 2020 13:05:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RI73hAm8taFHglKyL+fRjHiZ9E+te2SePrFdWbpImkA=;
- b=vcwVx61Pt9UhOQmiYEavtCbKoTKImHwiu+5jNHRaBSnjLI1sdwRkCWJV7Ec4krDahz
- lc+nmsDR6BxsvxOcXYoa1f00LwwOFO8ueOqgYAWv9LYJ6smg5RbifVEIzOgln8l3P/l1
- kxjB3AO/QbVXPZ4QDZ/L9rWZYPKkOqi94fVEADu5b5L08A3T75RNv0g8OHkw6+OVZXQn
- FZYfZfboXk3lS0zsdJbCw4Bb/18UXsxjbCWTj5LgU6LVp65iJ8gZvtPHviCUsWPFJstF
- dLaCPjABpEIDLYyxFhuGouemYzSkTEMaicAUMUcUcFsAakPRpDHPxT1f20D+zjUnlnNP
- jLVw==
+ bh=+yNzi+IfDJ+cNS2yHIl9Dls9a4nGW3uD+2qdWnyzD8M=;
+ b=UTKpz2e0fmP8lundyyLqa43ZaE2gfiYn/WFbs0DFE91pu/FrF/6vCvGUxBZlKPbPRm
+ fAMS4auuAv1QVfBXoLkyzv9TY36+tSXGem18lPaiRHlwABNE70meHg5WAabuPrtSc6KP
+ 6kLGaNpVoDUlHmEs6IAKlNAKoi2WxpMMTchmRXqRWeKEbWtS6dTqqZBf2o9CiiEUU6JZ
+ kepRLPknTnJC+UphLKOnCh2Z3yeAXsCgDrv94722++cjfZwn5JkWhUPXuJARlsaLzX6c
+ 5XhfoZgPIqmCCOix6dYY1jpSwRJif+rgxOMVI40UKcWq0qQHm8LOl2099cdzCK7kGkja
+ 8pHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RI73hAm8taFHglKyL+fRjHiZ9E+te2SePrFdWbpImkA=;
- b=JbOb2Y/+fQlChfAHFRexJWdpxhxsPGNzn/ulaFVmA4LzzfxQJ6dV7reivhBaHjWExS
- gK5UoAwRrR8OWL+XOwlwM3KJ0bcPFt9RlGw8xs44BnvnkrVRIYklekdeB54WZOxI7Hj0
- IrOHllIO8KV7fkwZmKI0FKflvx4ZO3u5KiceASQ4twFD2I29428CKLxovcT5WAFpEs/c
- WLU4zRxpSOeEwcUV2bsdhWF4NEgt4OEA6dxV41OWTUHezRmxffFnozi6BCSIydhpd1LH
- +QN4487kfuCl53ud+Vps315TfoS3uCJ1Q3eh0mij44NL4XSBbJdibJ2rnooFB8+5f2RE
- okSg==
-X-Gm-Message-State: AOAM533j8J2jYjB7MFbBIitH7dSuoP1fuv0IUZMpRE824zNpREAbNI2W
- Bp+mQM7btEdO8vZh7GC2lGjT6Z7s2htdwoOHoRQ=
-X-Google-Smtp-Source: ABdhPJzMiqoqztwMnULjxDUjTNS0z8BEMDOuI3DDlzgg2GpvsRIBIOXD8OIwXo/hNDfPqheUam39uw==
-X-Received: by 2002:a17:902:b092:b029:d0:89f1:9e2c with SMTP id
- p18-20020a170902b092b02900d089f19e2cmr12189283plr.8.1599336310134; 
- Sat, 05 Sep 2020 13:05:10 -0700 (PDT)
+ bh=+yNzi+IfDJ+cNS2yHIl9Dls9a4nGW3uD+2qdWnyzD8M=;
+ b=CAiz4e2usTS8KZjMWDdNkx0wU1jlN3t4paetfo+82WMQxw6ujMCURH7SLehyWeBXxM
+ v2yvhhrMO3gao2lKqD/Oo76M5+jNXvu7qz+dW+KEm3BqnfwubbclC04J3qUWTdwFxDhx
+ HjJqLtvLhb2g77uw/NQ9yfdXBiz+i3x9UdVDdcV8vsYUWYwSGaRDHuct0t7AUBbBJT4k
+ fBfj02aGqs9T0z7/M5f/AdesQofpzmq+JhOQN3Hw6D0MByNQ0EMUL3oZEV9BEgIspDud
+ Qv3IMR27q7mGkxkggvj3FSs0KukyJsmJKTsudTw2HmJxT6el2b4EBajtPOq1h03LcNuj
+ X+uA==
+X-Gm-Message-State: AOAM531f+AUWCnj1B4lXtuGjkONG2bqB9RbTKIQ0AatFkmhABbtYvGW2
+ LtuxZEPPE86r1zy0atgaZ1Tdo5TAA0343ZRZAyE=
+X-Google-Smtp-Source: ABdhPJyle2EeXQmObRAlh9fqauTMVZ1Ol+lTwAdWYVdznQgUP1KJFr1LiTJu0OLz9LRPeIb7okWUtw==
+X-Received: by 2002:a17:90a:5283:: with SMTP id
+ w3mr13912915pjh.201.1599336312677; 
+ Sat, 05 Sep 2020 13:05:12 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- x3sm10486542pfo.95.2020.09.05.13.05.08
+ j20sm10591603pfi.122.2020.09.05.13.05.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Sep 2020 13:05:08 -0700 (PDT)
+ Sat, 05 Sep 2020 13:05:11 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: iommu@lists.linux-foundation.org, dri-devel@lists.freedesktop.org,
  Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH v17 18/20] dt-bindings: arm-smmu: Add compatible string for
- Adreno GPU SMMU
-Date: Sat,  5 Sep 2020 13:04:24 -0700
-Message-Id: <20200905200454.240929-19-robdclark@gmail.com>
+Subject: [PATCH v17 19/20] arm: dts: qcom: sm845: Set the compatible string
+ for the GPU SMMU
+Date: Sat,  5 Sep 2020 13:04:25 -0700
+Message-Id: <20200905200454.240929-20-robdclark@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200905200454.240929-1-robdclark@gmail.com>
 References: <20200905200454.240929-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Cc: Rob Clark <robdclark@chromium.org>, Rob Herring <robh@kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
+Cc: Rob Clark <robdclark@chromium.org>,
  "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>, linux-arm-msm@vger.kernel.org,
- Akhil P Oommen <akhilpo@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
- Rob Herring <robh+dt@kernel.org>, Sibi Sankar <sibis@codeaurora.org>,
- Vivek Gautam <vivek.gautam@codeaurora.org>, freedreno@lists.freedesktop.org,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
+ Akhil P Oommen <akhilpo@codeaurora.org>, Rob Herring <robh+dt@kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>, Andy Gross <agross@kernel.org>,
+ Sibi Sankar <sibis@codeaurora.org>, Vivek Gautam <vivek.gautam@codeaurora.org>,
+ freedreno@lists.freedesktop.org, open list <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,47 +107,50 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Jordan Crouse <jcrouse@codeaurora.org>
 
-Every Qcom Adreno GPU has an embedded SMMU for its own use. These
-devices depend on unique features such as split pagetables,
-different stall/halt requirements and other settings. Identify them
-with a compatible string so that they can be identified in the
-arm-smmu implementation specific code.
+Set the qcom,adreno-smmu compatible string for the GPU SMMU to enable
+split pagetables and per-instance pagetables for drm/msm.
 
 Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi | 9 +++++++++
+ arch/arm64/boot/dts/qcom/sdm845.dtsi       | 2 +-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-index 503160a7b9a0..3b63f2ae24db 100644
---- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-@@ -28,8 +28,6 @@ properties:
-           - enum:
-               - qcom,msm8996-smmu-v2
-               - qcom,msm8998-smmu-v2
--              - qcom,sc7180-smmu-v2
--              - qcom,sdm845-smmu-v2
-           - const: qcom,smmu-v2
+diff --git a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
+index 64fc1bfd66fa..39f23cdcbd02 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
+@@ -633,6 +633,15 @@ &mdss_mdp {
+ 	status = "okay";
+ };
  
-       - description: Qcom SoCs implementing "arm,mmu-500"
-@@ -40,6 +38,13 @@ properties:
-               - qcom,sm8150-smmu-500
-               - qcom,sm8250-smmu-500
-           - const: arm,mmu-500
-+      - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
-+        items:
-+          - enum:
-+              - qcom,sc7180-smmu-v2
-+              - qcom,sdm845-smmu-v2
-+          - const: qcom,adreno-smmu
-+          - const: qcom,smmu-v2
-       - description: Marvell SoCs implementing "arm,mmu-500"
-         items:
-           - const: marvell,ap806-smmu-500
++/*
++ * Cheza fw does not properly program the GPU aperture to allow the
++ * GPU to update the SMMU pagetables for context switches.  Work
++ * around this by dropping the "qcom,adreno-smmu" compat string.
++ */
++&adreno_smmu {
++	compatible = "qcom,sdm845-smmu-v2", "qcom,smmu-v2";
++};
++
+ &mss_pil {
+ 	iommus = <&apps_smmu 0x781 0x0>,
+ 		 <&apps_smmu 0x724 0x3>;
+diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+index 2884577dcb77..76a8a34640ae 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+@@ -4058,7 +4058,7 @@ opp-257000000 {
+ 		};
+ 
+ 		adreno_smmu: iommu@5040000 {
+-			compatible = "qcom,sdm845-smmu-v2", "qcom,smmu-v2";
++			compatible = "qcom,sdm845-smmu-v2", "qcom,adreno-smmu", "qcom,smmu-v2";
+ 			reg = <0 0x5040000 0 0x10000>;
+ 			#iommu-cells = <1>;
+ 			#global-interrupts = <2>;
 -- 
 2.26.2
 
