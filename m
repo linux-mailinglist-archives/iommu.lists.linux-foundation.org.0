@@ -1,87 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4124D25EE8D
-	for <lists.iommu@lfdr.de>; Sun,  6 Sep 2020 17:25:05 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id ECC9C86685;
-	Sun,  6 Sep 2020 15:25:03 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id A64-ysJzByf2; Sun,  6 Sep 2020 15:25:03 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4AC5586678;
-	Sun,  6 Sep 2020 15:25:03 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 37F77C0051;
-	Sun,  6 Sep 2020 15:25:03 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DA65BC0051
- for <iommu@lists.linux-foundation.org>; Sun,  6 Sep 2020 15:25:01 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id D231525EED6
+	for <lists.iommu@lfdr.de>; Sun,  6 Sep 2020 17:47:25 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C0C3285A74
- for <iommu@lists.linux-foundation.org>; Sun,  6 Sep 2020 15:25:01 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B5B6E85650;
+	Sun,  6 Sep 2020 15:47:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cqtpsZmj3Agn; Sun,  6 Sep 2020 15:47:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 084488557E;
+	Sun,  6 Sep 2020 15:47:23 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DC7BFC0051;
+	Sun,  6 Sep 2020 15:47:22 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 01117C0051
+ for <iommu@lists.linux-foundation.org>; Sun,  6 Sep 2020 15:47:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id EAE23870CF
+ for <iommu@lists.linux-foundation.org>; Sun,  6 Sep 2020 15:47:20 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TPlwVENf7Z1n for <iommu@lists.linux-foundation.org>;
- Sun,  6 Sep 2020 15:25:00 +0000 (UTC)
-X-Greylist: delayed 00:05:23 by SQLgrey-1.7.6
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 0F2548598E
- for <iommu@lists.linux-foundation.org>; Sun,  6 Sep 2020 15:25:00 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id x23so1093917wmi.3
- for <iommu@lists.linux-foundation.org>; Sun, 06 Sep 2020 08:24:59 -0700 (PDT)
+ with ESMTP id pfHkK19tiU8p for <iommu@lists.linux-foundation.org>;
+ Sun,  6 Sep 2020 15:47:19 +0000 (UTC)
+X-Greylist: delayed 00:20:58 by SQLgrey-1.7.6
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
+ [209.85.218.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 35A6D870C8
+ for <iommu@lists.linux-foundation.org>; Sun,  6 Sep 2020 15:47:19 +0000 (UTC)
+Received: by mail-ej1-f68.google.com with SMTP id a26so14721029ejc.2
+ for <iommu@lists.linux-foundation.org>; Sun, 06 Sep 2020 08:47:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0U6+N87TtQqeJvtsYL++VRaHV5Y/ETKSefP9o6FFabM=;
- b=OyUETwoInfdSh4ScoNMRqAZdPJ8qgNTcs/PCZtrGedtu8dWgAmrBhfDVsXTa4UBvGI
- 5M7Rl2ssXCVXKyL3S4lLa6uvMTPO7jGhZ1IPKbyzklrYMbOvENWb+OkSQ53y6qd2ZO4s
- P+B/MmJVjjCPhP5lFS1uKSUrKRV+lNEzkU0hAzXdDcG+L0i7Sj587sFJIqDIHfyW/gJR
- p8r0R+32AHVnG37XpelpYr+7bSLaSbsY+I8FqQ8Pl3OFewkFzCWFHeTau+MI7nGQhfH5
- 3uLvhvYONA8hQE5Tr9VqO6w/kiialSKWmUHD3PpghDZs/JbTzaYtNtj5VeGt7ZUdCW+E
- ZyoQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rzOHXc1d4k+GJMLhr6jfXTiNep26puRM1VtdB2kOKb0=;
+ b=fhe19DSITZ6BPZd78ZKWlr7CcS8NZ6AJvNW7U0n9Z0iEnKSOJyfHYqnWH4VuNphBiW
+ ofy6sQZcnvqb7uoPytvE3ALMoWTiGurVYJVMJMqL0OFafGunUn05BNQOUT5rI7YlIwTh
+ GPPe4txfILYuOrQIUrnIp50CT+J0N1fSz68g1LkwK6GLLdX3RABSyw4Y64h1SW016y0b
+ okri/H/I/IMFcwYSqOVvlJu02AskDj6TBhGIVfeAZK5tAGtcQ/vrHamWgBDzvZJH4cbg
+ 7JNT9ZnFhcbmmOMK8GptS3e5mpUBNBTvXxr7ZgJnNec713x+ch/rTnvy0TFabJFaJ+B/
+ aPAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0U6+N87TtQqeJvtsYL++VRaHV5Y/ETKSefP9o6FFabM=;
- b=ea4IEdDS8dtaqH8QC1OUFYZPuwm6KBExFe+MxYEsxRmoZcMDuwL8EebsUWvRYPMZnX
- 5VJw4thXN/Oh+Kg7Nyc0bF9O56UWN8gqbo+He2cYTdPf/fzK9XtZZh1R+qZeJBKOzP0B
- eGyDM9pH07kptQ/86Nnqk4fuiHmgBs6NZMttwiYt+PxmZ7kXeqdYQ0uDrskWV4wJPD02
- suUmhAVCfYer/HEzAaRF/704QqTZDyo5pc6clNis+FLmgpD618UD3NLti7kzoPcXt7hQ
- e6LcrbSka0IWkrpJLNEokn9UXmqEKM0IpYtGZBTk9j4qOivRdJNJ56ZfKF1ahqDpOpSJ
- U87g==
-X-Gm-Message-State: AOAM531hRNUVx6VVZgspFSyHusTnfMS5MAIrmEflEFXfPOfkJrL7k9e8
- 27SEKc4EdbbDFcuA4TX/FIob1HMNzckBhg==
-X-Google-Smtp-Source: ABdhPJyMy7k7z0Nq7lpLRDSASUYBRp7c5+96CRwDq7/6ApQXt4q76MVmMJxwJ56xh/mGeO95pXcGpA==
-X-Received: by 2002:a1c:a5c8:: with SMTP id
- o191mr17179286wme.127.1599405577152; 
- Sun, 06 Sep 2020 08:19:37 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rzOHXc1d4k+GJMLhr6jfXTiNep26puRM1VtdB2kOKb0=;
+ b=huExyewXR/QL8asd6MNHzLB1CkBYQ+mooNx/P5m5xmmMufOlV+m42QffSHfUURGbr/
+ LOEbNNBcVHPgzEKd8SmOukYq7XakPhjKLkEEdPGGo8wkJomXDCSDksjFZX8EBoJVHluI
+ AaZa9NiPkRIrancN4BLeC38boRu8JVWIMqqEirEB4ChP6TRD+rLX+j0MByN7Qbfjox6+
+ VT0KRMv9MTpCD7tkDa0ZGiQgybb+BNl5cy7zcByVurGHjTjRboD9VKMHrwhdhyEXQWxZ
+ AfIXq7zfJ8wHcAH43Bz9EfzE1ryt/Zfz+7BitKo+tyWDIjKMCeutiOeLC04gEhShe/D2
+ Y/Ow==
+X-Gm-Message-State: AOAM531IOXVRa3f/T3wzam3KaoBAglf3bts/lDCIKOShEsXMIq2tZMQ0
+ tdke91om/bubyZjQ4tpt5D1RajcKXbr9Tw==
+X-Google-Smtp-Source: ABdhPJyl8p21LBzUGs8D2VcvLawqx3pNb5sITCS0B0dwpHTp8fs8DMe+tEasMp/Uhj0QNNnH0r0zVg==
+X-Received: by 2002:adf:b784:: with SMTP id s4mr18393368wre.116.1599405573150; 
+ Sun, 06 Sep 2020 08:19:33 -0700 (PDT)
 Received: from localhost.localdomain (208.19.23.93.rev.sfr.net. [93.23.19.208])
- by smtp.gmail.com with ESMTPSA id a15sm26420646wrn.3.2020.09.06.08.19.35
+ by smtp.gmail.com with ESMTPSA id a15sm26420646wrn.3.2020.09.06.08.19.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Sep 2020 08:19:36 -0700 (PDT)
+ Sun, 06 Sep 2020 08:19:32 -0700 (PDT)
 From: Fabien Parent <fparent@baylibre.com>
 To: iommu@lists.linux-foundation.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-mediatek@lists.infradead.org
-Subject: [PATCH v3 3/3] iommu/mediatek: add support for MT8167
-Date: Sun,  6 Sep 2020 17:19:28 +0200
-Message-Id: <20200906151928.881209-3-fparent@baylibre.com>
+Subject: [PATCH v3 1/3] dt-bindings: iommu: Add binding for MediaTek MT8167
+ IOMMU
+Date: Sun,  6 Sep 2020 17:19:26 +0200
+Message-Id: <20200906151928.881209-1-fparent@baylibre.com>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200906151928.881209-1-fparent@baylibre.com>
-References: <20200906151928.881209-1-fparent@baylibre.com>
 MIME-Version: 1.0
-Cc: matthias.bgg@gmail.com, Fabien Parent <fparent@baylibre.com>,
- robh+dt@kernel.org
+Cc: Rob Herring <robh@kernel.org>, Fabien Parent <fparent@baylibre.com>,
+ robh+dt@kernel.org, matthias.bgg@gmail.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,60 +97,89 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add support for the IOMMU on MT8167
+This commit adds IOMMU binding documentation and larb port definitions
+for the MT8167 SoC.
 
 Signed-off-by: Fabien Parent <fparent@baylibre.com>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
 
-V3:
-	* use LEGACY_IVRP_PADDR flag instead of using a platform data member
-V2:
-	* removed if based on m4u_plat, and using instead the new
-	  has_legacy_ivrp_paddr member that was introduced in patch 2.
+V3: Added mt8167-larb-port.h file for iommu port definitions
+V2: no change
 
 ---
- drivers/iommu/mtk_iommu.c | 8 ++++++++
- drivers/iommu/mtk_iommu.h | 1 +
- 2 files changed, 9 insertions(+)
+ .../bindings/iommu/mediatek,iommu.txt         |  1 +
+ include/dt-bindings/memory/mt8167-larb-port.h | 49 +++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 include/dt-bindings/memory/mt8167-larb-port.h
 
-diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index b1f85a7e9346..6079f6a23c74 100644
---- a/drivers/iommu/mtk_iommu.c
-+++ b/drivers/iommu/mtk_iommu.c
-@@ -817,6 +817,13 @@ static const struct mtk_iommu_plat_data mt6779_data = {
- 	.larbid_remap  = {{0}, {1}, {2}, {3}, {5}, {7, 8}, {10}, {9}},
- };
- 
-+static const struct mtk_iommu_plat_data mt8167_data = {
-+	.m4u_plat     = M4U_MT8167,
-+	.flags        = HAS_4GB_MODE | RESET_AXI | HAS_LEGACY_IVRP_PADDR,
-+	.inv_sel_reg  = REG_MMU_INV_SEL_GEN1,
-+	.larbid_remap = {{0}, {1}, {2}}, /* Linear mapping. */
-+};
+diff --git a/Documentation/devicetree/bindings/iommu/mediatek,iommu.txt b/Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+index c1ccd8582eb2..f7a348f48e0d 100644
+--- a/Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
++++ b/Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+@@ -61,6 +61,7 @@ Required properties:
+ 	"mediatek,mt6779-m4u" for mt6779 which uses generation two m4u HW.
+ 	"mediatek,mt7623-m4u", "mediatek,mt2701-m4u" for mt7623 which uses
+ 						     generation one m4u HW.
++	"mediatek,mt8167-m4u" for mt8167 which uses generation two m4u HW.
+ 	"mediatek,mt8173-m4u" for mt8173 which uses generation two m4u HW.
+ 	"mediatek,mt8183-m4u" for mt8183 which uses generation two m4u HW.
+ - reg : m4u register base and size.
+diff --git a/include/dt-bindings/memory/mt8167-larb-port.h b/include/dt-bindings/memory/mt8167-larb-port.h
+new file mode 100644
+index 000000000000..4dd44d1037a7
+--- /dev/null
++++ b/include/dt-bindings/memory/mt8167-larb-port.h
+@@ -0,0 +1,49 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2020 BayLibre, SAS
++ * Author: Fabien Parent <fparent@baylibre.com>
++ */
++#ifndef __DTS_IOMMU_PORT_MT8167_H
++#define __DTS_IOMMU_PORT_MT8167_H
 +
- static const struct mtk_iommu_plat_data mt8173_data = {
- 	.m4u_plat     = M4U_MT8173,
- 	.flags	      = HAS_4GB_MODE | HAS_BCLK | RESET_AXI |
-@@ -835,6 +842,7 @@ static const struct mtk_iommu_plat_data mt8183_data = {
- static const struct of_device_id mtk_iommu_of_ids[] = {
- 	{ .compatible = "mediatek,mt2712-m4u", .data = &mt2712_data},
- 	{ .compatible = "mediatek,mt6779-m4u", .data = &mt6779_data},
-+	{ .compatible = "mediatek,mt8167-m4u", .data = &mt8167_data},
- 	{ .compatible = "mediatek,mt8173-m4u", .data = &mt8173_data},
- 	{ .compatible = "mediatek,mt8183-m4u", .data = &mt8183_data},
- 	{}
-diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
-index 122925dbe547..df32b3e3408b 100644
---- a/drivers/iommu/mtk_iommu.h
-+++ b/drivers/iommu/mtk_iommu.h
-@@ -39,6 +39,7 @@ enum mtk_iommu_plat {
- 	M4U_MT2701,
- 	M4U_MT2712,
- 	M4U_MT6779,
-+	M4U_MT8167,
- 	M4U_MT8173,
- 	M4U_MT8183,
- };
++#define MTK_M4U_ID(larb, port)		(((larb) << 5) | (port))
++
++#define M4U_LARB0_ID			0
++#define M4U_LARB1_ID			1
++#define M4U_LARB2_ID			2
++
++/* larb0 */
++#define M4U_PORT_DISP_OVL0		MTK_M4U_ID(M4U_LARB0_ID, 0)
++#define M4U_PORT_DISP_RDMA0		MTK_M4U_ID(M4U_LARB0_ID, 1)
++#define M4U_PORT_DISP_WDMA0		MTK_M4U_ID(M4U_LARB0_ID, 2)
++#define M4U_PORT_DISP_RDMA1		MTK_M4U_ID(M4U_LARB0_ID, 3)
++#define M4U_PORT_MDP_RDMA		MTK_M4U_ID(M4U_LARB0_ID, 4)
++#define M4U_PORT_MDP_WDMA		MTK_M4U_ID(M4U_LARB0_ID, 5)
++#define M4U_PORT_MDP_WROT		MTK_M4U_ID(M4U_LARB0_ID, 6)
++#define M4U_PORT_DISP_FAKE		MTK_M4U_ID(M4U_LARB0_ID, 7)
++
++/* IMG larb1*/
++#define M4U_PORT_CAM_IMGO		MTK_M4U_ID(M4U_LARB1_ID, 0)
++#define M4U_PORT_CAM_IMG2O		MTK_M4U_ID(M4U_LARB1_ID, 1)
++#define M4U_PORT_CAM_LSCI		MTK_M4U_ID(M4U_LARB1_ID, 2)
++#define M4U_PORT_CAM_ESFKO		MTK_M4U_ID(M4U_LARB1_ID, 3)
++#define M4U_PORT_CAM_AAO		MTK_M4U_ID(M4U_LARB1_ID, 4)
++#define M4U_PORT_VENC_REC		MTK_M4U_ID(M4U_LARB1_ID, 5)
++#define M4U_PORT_VENC_BSDMA		MTK_M4U_ID(M4U_LARB1_ID, 6)
++#define M4U_PORT_VENC_RD_COMV		MTK_M4U_ID(M4U_LARB1_ID, 7)
++#define M4U_PORT_CAM_IMGI		MTK_M4U_ID(M4U_LARB1_ID, 8)
++#define M4U_PORT_VENC_CUR_LUMA		MTK_M4U_ID(M4U_LARB1_ID, 9)
++#define M4U_PORT_VENC_CUR_CHROMA	MTK_M4U_ID(M4U_LARB1_ID, 10)
++#define M4U_PORT_VENC_REF_LUMA		MTK_M4U_ID(M4U_LARB1_ID, 11)
++#define M4U_PORT_VENC_REF_CHROMA	MTK_M4U_ID(M4U_LARB1_ID, 12)
++
++/* VDEC larb2*/
++#define M4U_PORT_HW_VDEC_MC_EXT		MTK_M4U_ID(M4U_LARB2_ID, 0)
++#define M4U_PORT_HW_VDEC_PP_EXT		MTK_M4U_ID(M4U_LARB2_ID, 1)
++#define M4U_PORT_HW_VDEC_VLD_EXT	MTK_M4U_ID(M4U_LARB2_ID, 2)
++#define M4U_PORT_HW_VDEC_AVC_MV_EXT	MTK_M4U_ID(M4U_LARB2_ID, 3)
++#define M4U_PORT_HW_VDEC_PRED_RD_EXT	MTK_M4U_ID(M4U_LARB2_ID, 4)
++#define M4U_PORT_HW_VDEC_PRED_WR_EXT	MTK_M4U_ID(M4U_LARB2_ID, 5)
++#define M4U_PORT_HW_VDEC_PPWRAP_EXT	MTK_M4U_ID(M4U_LARB2_ID, 6)
++
++#endif
 -- 
 2.28.0
 
