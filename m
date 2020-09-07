@@ -2,90 +2,82 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5EDE25F61D
-	for <lists.iommu@lfdr.de>; Mon,  7 Sep 2020 11:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8366D25F73D
+	for <lists.iommu@lfdr.de>; Mon,  7 Sep 2020 12:06:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5BA9785DCA;
-	Mon,  7 Sep 2020 09:17:04 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1F93185DF6;
+	Mon,  7 Sep 2020 10:06:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gs9GF2j9NYHh; Mon,  7 Sep 2020 09:17:02 +0000 (UTC)
+	with ESMTP id 3G7cuxl0hnnG; Mon,  7 Sep 2020 10:06:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D0CD385DE6;
-	Mon,  7 Sep 2020 09:17:02 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BEDCE85E5C;
+	Mon,  7 Sep 2020 10:06:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B52D0C0051;
-	Mon,  7 Sep 2020 09:17:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A51E9C0051;
+	Mon,  7 Sep 2020 10:06:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A82A2C0051
- for <iommu@lists.linux-foundation.org>; Mon,  7 Sep 2020 09:17:00 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 297F6C0051
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Sep 2020 10:06:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id A2B42870A2
- for <iommu@lists.linux-foundation.org>; Mon,  7 Sep 2020 09:17:00 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B8CAF85E5C
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Sep 2020 10:06:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IhtYAi5s9Dxh for <iommu@lists.linux-foundation.org>;
- Mon,  7 Sep 2020 09:16:59 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8BD6A8708C
- for <iommu@lists.linux-foundation.org>; Mon,  7 Sep 2020 09:16:59 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B82691FB;
- Mon,  7 Sep 2020 02:16:58 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com
- [10.1.196.255])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 06F793F66E;
- Mon,  7 Sep 2020 02:16:54 -0700 (PDT)
-Date: Mon, 7 Sep 2020 10:16:49 +0100
-From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To: Jim Quinlan <james.quinlan@broadcom.com>
-Subject: Re: [PATCH v11 00/11] PCI: brcmstb: enable PCIe for STB chips
-Message-ID: <20200907091649.GA6428@e121166-lin.cambridge.arm.com>
-References: <20200824193036.6033-1-james.quinlan@broadcom.com>
- <b19bc982-a0c4-c6ff-d8f5-650f2b3a83c8@gmail.com>
- <20200827063517.GA4637@lst.de>
- <CA+-6iNy3U9pO0Bykzgvb9n9fcsBi6FiatLdpA1s0HgQNWZ49mg@mail.gmail.com>
+ with ESMTP id 5ewOkUc4c72x for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Sep 2020 10:06:16 +0000 (UTC)
+X-Greylist: delayed 18:43:47 by SQLgrey-1.7.6
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+ [209.85.166.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id E68EC85DF6
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Sep 2020 10:06:14 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id h4so13439991ioe.5
+ for <iommu@lists.linux-foundation.org>; Mon, 07 Sep 2020 03:06:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=v0OvTuxE+/iMswMQTjQb/bjlIs084TlMlRT8WNmVF+Y=;
+ b=1NqE+sdR4ONCLnZ5XhFqnlHSfQVFov4iy/cT+yyxmAzy5+YCr/Ul9KigmS858zeHof
+ veerpBJ8XhqPoT84DSedPKvLdYY3GqAGqRsEkjV+NU9bChBpBNA1NZNkxENzA7KPM1cJ
+ YbNZSDGYeZOwNGjxpWRPNef161HXLK7nWTU8e4wLNPz62F/si1Y2ll6mGdGWppAmk1hR
+ XDf6BujzOkpGItyYi/ysU1ESNG0WrA8+8+xAtGfGZlmB8cW9STc/iJZZuljVuRxIfSg+
+ PhJx7H8iMDclSVWwaOTyu7KmLReNaaaD0MY9P/+s2Gt3YrLzIKH9AUN2tCQZJViElB9G
+ Vc5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v0OvTuxE+/iMswMQTjQb/bjlIs084TlMlRT8WNmVF+Y=;
+ b=PNkidZ52yt1EsSUWK2Qy9/Fm4b2EdB5HDmfgnXWhbUR6VP57AiAi9oFZn6cidIPNGj
+ Hud2f+b1Id6zh84OsgMc2t1QLCyI5NjrJtExs43ojmDe1SmVitVkuU6z+ovdPCQiJjlw
+ o0zq3tiyL1vLs7zInMobz1PYVKPaf3OMjU4qN3Hyj+gm4f/+wCaB5d6QID0LMg6FoLIz
+ +GgR7zn81kzSkdbHjSXSur+77RBj0FDkQfAOrpMNgjYo+KdtyL1vBLU24LznvZxbcrSd
+ 9lPsv5Jx9tRR+UWvkMAs4hcXRQ9zozcLMSvX111HmmU+3yjktHCMl1gU9uwXTuxlXl65
+ 1CuQ==
+X-Gm-Message-State: AOAM531EY9yoIqclTyXkHnbBC4a0dT7dtEbklQ8l0+IZBEO4BmnZRfcj
+ yPhVSFssN7LgfyLR3OPCSg3l98Asp92I2GIE+ubFGw==
+X-Google-Smtp-Source: ABdhPJw52QuX8XyBkW5w5YSCJbnGbo22v3h5joTjE50AnRXJMICHttb6i5OzXghJCZwUuJmPrBvIE2wQCbUxcbTWSzI=
+X-Received: by 2002:a5d:80d6:: with SMTP id h22mr2869058ior.154.1599473174144; 
+ Mon, 07 Sep 2020 03:06:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CA+-6iNy3U9pO0Bykzgvb9n9fcsBi6FiatLdpA1s0HgQNWZ49mg@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: "open list:SUPERH" <linux-sh@vger.kernel.org>,
- "open list:PCI NATIVE HOST BRIDGE AND ENDPOINT DRIVERS"
- <linux-pci@vger.kernel.org>,
- "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM"
- <linux-remoteproc@vger.kernel.org>,
- "open list:DRM DRIVERS FOR ALLWINNER A10" <dri-devel@lists.freedesktop.org>,
- Julien Grall <julien.grall@arm.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Christoph Hellwig <hch@lst.de>,
- "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
- Rob Herring <robh@kernel.org>, Florian Fainelli <f.fainelli@gmail.com>,
- Saravana Kannan <saravanak@google.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "open list:ACPI FOR ARM64 \(ACPI/arm64\)" <linux-acpi@vger.kernel.org>,
- "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>,
- Alan Stern <stern@rowland.harvard.edu>,
- "open list:ALLWINNER A10 CSI DRIVER" <linux-media@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
- <devicetree@vger.kernel.org>, Joerg Roedel <jroedel@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
- Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Robin Murphy <robin.murphy@arm.com>
+References: <20200906151928.881209-1-fparent@baylibre.com>
+ <20200906151928.881209-3-fparent@baylibre.com>
+ <1599450232.27773.13.camel@mhfsdcap03>
+In-Reply-To: <1599450232.27773.13.camel@mhfsdcap03>
+From: Fabien Parent <fparent@baylibre.com>
+Date: Mon, 7 Sep 2020 12:06:03 +0200
+Message-ID: <CAOwMV_wXM9Tt-NhKQ05juvj06reD70AXUNzqWTEMeAgqcmnO0g@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] iommu/mediatek: add support for MT8167
+To: Yong Wu <yong.wu@mediatek.com>
+Cc: DTML <devicetree@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, miles.chen@mediatek.com,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,38 +95,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Aug 27, 2020 at 09:29:59AM -0400, Jim Quinlan wrote:
-> On Thu, Aug 27, 2020 at 2:35 AM Christoph Hellwig <hch@lst.de> wrote:
-> >
-> > On Tue, Aug 25, 2020 at 10:40:27AM -0700, Florian Fainelli wrote:
-> > > Hi,
-> > >
-> > > On 8/24/2020 12:30 PM, Jim Quinlan wrote:
-> > >>
-> > >> Patchset Summary:
-> > >>    Enhance a PCIe host controller driver.  Because of its unusual design
-> > >>    we are foced to change dev->dma_pfn_offset into a more general role
-> > >>    allowing multiple offsets.  See the 'v1' notes below for more info.
-> > >
-> > > We are version 11 and counting, and it is not clear to me whether there is
-> > > any chance of getting these patches reviewed and hopefully merged for the
-> > > 5.10 merge window.
-> > >
-> > > There are a lot of different files being touched, so what would be the
-> > > ideal way of routing those changes towards inclusion?
-> >
-> > FYI, I offered to take the dma-mapping bits through the dma-mapping tree.
-> > I have a bit of a backlog, but plan to review and if Jim is ok with that
-> > apply the current version.
-> Sounds good to me.
+> > +static const struct mtk_iommu_plat_data mt8167_data = {
+> > +     .m4u_plat     = M4U_MT8167,
+> > +     .flags        = HAS_4GB_MODE | RESET_AXI | HAS_LEGACY_IVRP_PADDR,
+>
+> The 4GB mode flow was improved at[1] which has just been applied.
+>
+> If you add 4gb_mode flag but don't have "mt8167-infracfg", the probe may
+> be failed.
 
-Hi Jim,
+Looking back at the datasheet I don't think HAS_4GB_MODE should have
+been enabled for MT8167 anyway. I just removed it and retested the
+patch. I will fix it in v4. Thanks
 
-is the dependency now solved ? Should we review/take this series as
-is for v5.10 through the PCI tree ?
-
-Thanks,
-Lorenzo
+> [1]
+> https://lore.kernel.org/linux-iommu/20200904112117.GC16609@8bytes.org/T/#m613e9926735d07ad004fddbbcedaa50b5afacca1
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
