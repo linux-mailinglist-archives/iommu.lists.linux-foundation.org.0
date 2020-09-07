@@ -2,58 +2,58 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DEB225FF7D
-	for <lists.iommu@lfdr.de>; Mon,  7 Sep 2020 18:33:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A068725FF7F
+	for <lists.iommu@lfdr.de>; Mon,  7 Sep 2020 18:33:35 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 076ED2153D;
-	Mon,  7 Sep 2020 16:33:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 379BF2000D;
+	Mon,  7 Sep 2020 16:33:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AeLN4dBshpnH; Mon,  7 Sep 2020 16:33:30 +0000 (UTC)
+	with ESMTP id ifzzkEoVIngh; Mon,  7 Sep 2020 16:33:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2F310203E8;
-	Mon,  7 Sep 2020 16:33:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1A64321FA9;
+	Mon,  7 Sep 2020 16:33:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D04D2C0051;
-	Mon,  7 Sep 2020 16:33:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0D733C0051;
+	Mon,  7 Sep 2020 16:33:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A077BC0051
- for <iommu@lists.linux-foundation.org>; Mon,  7 Sep 2020 16:33:27 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2FA0AC0051
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Sep 2020 16:33:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 750868709E
- for <iommu@lists.linux-foundation.org>; Mon,  7 Sep 2020 16:33:27 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 192821FFC1
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Sep 2020 16:33:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id S0yGXRm8bJQ2 for <iommu@lists.linux-foundation.org>;
- Mon,  7 Sep 2020 16:33:26 +0000 (UTC)
+ with ESMTP id MF6TUDj13RP7 for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Sep 2020 16:33:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 78A7D86F76
- for <iommu@lists.linux-foundation.org>; Mon,  7 Sep 2020 16:33:26 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 0C8D81FEF0
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Sep 2020 16:33:27 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 443A621941;
- Mon,  7 Sep 2020 16:33:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4937821927;
+ Mon,  7 Sep 2020 16:33:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599496405;
- bh=cKkhVZVcMcX9KzrcnCMkq38mF8puxm9XVcCbDDzK8Mw=;
+ s=default; t=1599496406;
+ bh=MfRNgySIkpHHnYNgad/82iP6adXIbt8e2kLzPLxy684=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kii9zdSEBVgF/F/Vwt4FEb/8REJzyL5l694rFqOk+jaZJmrKkuk8rl9DrOf/m1gYy
- L75pVoM60W7jYCT89AViNrykzPNROVj6B9HObmzAJ6KQer/BbzPVaWiebLQxcdUGXm
- 5CU01kh/Q8/p16/31Kf+bqA9CgHksvHIvBpEL7iE=
+ b=aISA6hhybXRrGXN/MWFBn5JBR09pWSFPhkSAV/cVy5mE/mbpMwLbO6QrnUYy30jmq
+ jT6WJ2fuYaFmMHL+1syaff3+PaBGYmSY86JaCjOHF+e4WtTmYBkT4uQ8JPxp1IyNfO
+ 2UTYKpTuEXEUrSOcmJtsBF4SLS/mMMh0Wqyz1+hs=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 51/53] iommu/amd: Do not force direct mapping when
- SME is active
-Date: Mon,  7 Sep 2020 12:32:17 -0400
-Message-Id: <20200907163220.1280412-51-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 52/53] iommu/amd: Do not use IOMMUv2 functionality
+ when SME is active
+Date: Mon,  7 Sep 2020 12:32:18 -0400
+Message-Id: <20200907163220.1280412-52-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200907163220.1280412-1-sashal@kernel.org>
 References: <20200907163220.1280412-1-sashal@kernel.org>
@@ -81,38 +81,38 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Joerg Roedel <jroedel@suse.de>
 
-[ Upstream commit 7cad554887f1c5fd77e57e6bf4be38370c2160cb ]
+[ Upstream commit 2822e582501b65707089b097e773e6fd70774841 ]
 
-Do not force devices supporting IOMMUv2 to be direct mapped when memory
-encryption is active. This might cause them to be unusable because their
-DMA mask does not include the encryption bit.
+When memory encryption is active the device is likely not in a direct
+mapped domain. Forbid using IOMMUv2 functionality for now until finer
+grained checks for this have been implemented.
 
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Link: https://lore.kernel.org/r/20200824105415.21000-2-joro@8bytes.org
+Link: https://lore.kernel.org/r/20200824105415.21000-3-joro@8bytes.org
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/iommu/amd/iommu.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/iommu/amd/iommu_v2.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index 2f22326ee4dfe..547b41e376574 100644
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -2650,7 +2650,12 @@ static int amd_iommu_def_domain_type(struct device *dev)
- 	if (!dev_data)
- 		return 0;
+diff --git a/drivers/iommu/amd/iommu_v2.c b/drivers/iommu/amd/iommu_v2.c
+index e4b025c5637c4..5a188cac7a0f1 100644
+--- a/drivers/iommu/amd/iommu_v2.c
++++ b/drivers/iommu/amd/iommu_v2.c
+@@ -737,6 +737,13 @@ int amd_iommu_init_device(struct pci_dev *pdev, int pasids)
  
--	if (dev_data->iommu_v2)
+ 	might_sleep();
+ 
 +	/*
-+	 * Do not identity map IOMMUv2 capable devices when memory encryption is
-+	 * active, because some of those devices (AMD GPUs) don't have the
-+	 * encryption bit in their DMA-mask and require remapping.
++	 * When memory encryption is active the device is likely not in a
++	 * direct-mapped domain. Forbid using IOMMUv2 functionality for now.
 +	 */
-+	if (!mem_encrypt_active() && dev_data->iommu_v2)
- 		return IOMMU_DOMAIN_IDENTITY;
++	if (mem_encrypt_active())
++		return -ENODEV;
++
+ 	if (!amd_iommu_v2_supported())
+ 		return -ENODEV;
  
- 	return 0;
 -- 
 2.25.1
 
