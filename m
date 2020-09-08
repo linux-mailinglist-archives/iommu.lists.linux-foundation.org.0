@@ -2,84 +2,62 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BFE025EB74
-	for <lists.iommu@lfdr.de>; Sun,  6 Sep 2020 00:26:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC45925EC28
+	for <lists.iommu@lfdr.de>; Sun,  6 Sep 2020 04:41:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C5D1D8762D;
-	Sat,  5 Sep 2020 22:26:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1772387396;
+	Sun,  6 Sep 2020 02:41:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IHTZmLofr6LF; Sat,  5 Sep 2020 22:26:23 +0000 (UTC)
+	with ESMTP id ru35dGRWkNEe; Sun,  6 Sep 2020 02:41:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4E0C587630;
-	Sat,  5 Sep 2020 22:26:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2FE0E86FF8;
+	Sun,  6 Sep 2020 02:41:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3EAAFC0052;
-	Sat,  5 Sep 2020 22:26:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0C9DEC089E;
+	Sun,  6 Sep 2020 02:41:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 681AFC0051
- for <iommu@lists.linux-foundation.org>; Sat,  5 Sep 2020 22:26:21 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E6933C0051
+ for <iommu@lists.linux-foundation.org>; Sun,  6 Sep 2020 02:41:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 52B5986268
- for <iommu@lists.linux-foundation.org>; Sat,  5 Sep 2020 22:26:21 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id DB4B0870B8
+ for <iommu@lists.linux-foundation.org>; Sun,  6 Sep 2020 02:41:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hcKcmrW7uhuE for <iommu@lists.linux-foundation.org>;
- Sat,  5 Sep 2020 22:26:20 +0000 (UTC)
+ with ESMTP id U5HggjGpUuJg for <iommu@lists.linux-foundation.org>;
+ Sun,  6 Sep 2020 02:41:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7629F861F6
- for <iommu@lists.linux-foundation.org>; Sat,  5 Sep 2020 22:26:20 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id v4so9853032wmj.5
- for <iommu@lists.linux-foundation.org>; Sat, 05 Sep 2020 15:26:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kO4SU6/nW/siFVjam2OIPJSAFbObCvonF2HPGFhSHaM=;
- b=Tc7Ywq7Bfefla4wdZkAi4wzRtTHA3HZUo4yG10hl3Ve8gqdwLwePdy2g+5uZZOyLQ+
- H9nqqKVopB43C5zDytiFXIINTJwIbwOicfW9vNOZO0vgzeRzgzGqpaSrRECaj+ZMX4oy
- q4bPV5MgL5qFWx8UMO8/ayIus6y68lpXUhGi7JYEOKOHaoI1i5pU7uNirFdQ7v/3hcHJ
- HYnQKYASgQdDUpkx6yPxYFlhKC4W5vk6PfRqBe5DtZOi5Z6BzyC7LPxwevz4l3sYKHTP
- NWFnldyRzysAPx8WshWYSkfs2QPTMldmCVx+ylf/JskXeQCiqGbQryyQz2KrpaPLj+BY
- Xg/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kO4SU6/nW/siFVjam2OIPJSAFbObCvonF2HPGFhSHaM=;
- b=mVdpl7A51brgPp1UkBpObTvuXRI/PtO8CrojQyzmV8sMkvqYjxWphHzYIGzMAT44EI
- +7/6zmV8e2dKBQxtSh0QztgAeVtGPGis4bQe0OZTo1/VT7r1et5S6XW7xGhQzEN6yXCO
- grNp9MBxHAkCxgBa771PMl3uiPBtIO4Q1L5JNfm+2Q+y7jDvc7F3C2JlUWeLF3Lezj7j
- Lox6j47fF9ba5Ps83mtSMTyhuTZJKAPzfRhTYQwzFi5ZscnVJJ+DUA9zk94KjX5EHR6g
- fTMXUyaKU19yyiO8fnNfRvwPn60s5NgJUPRgxVjElUTvzhN6q1G3Ie4b10HFksYYbPNY
- L+mA==
-X-Gm-Message-State: AOAM531cJ7/Wuir/ig27FWbPG0QpplxRBl/8XODDNmKSnEaEGtBtc6gS
- 15me1MBvKj6etRlYO5Hjf9M+R8VbbPt7huXK42A=
-X-Google-Smtp-Source: ABdhPJyIvQBjARmaml3HdYHp3K3skBZfLZ/a5IEU5bZh9cOSWS4faIxFjRpnaNu/Ls10Q59QEyZ1Zdl8lMeKtjk49KU=
-X-Received: by 2002:a1c:105:: with SMTP id 5mr13507006wmb.175.1599344778745;
- Sat, 05 Sep 2020 15:26:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200904155513.282067-1-bjorn.andersson@linaro.org>
-In-Reply-To: <20200904155513.282067-1-bjorn.andersson@linaro.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Sat, 5 Sep 2020 15:27:14 -0700
-Message-ID: <CAF6AEGvxcYKOgZ2HFdJod4q=jS27TpR28727FzbdJD4gOTYOVw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] iommu/arm-smmu: Support maintaining bootloader
- mappings
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Rob Clark <robdclark@chromium.org>, Will Deacon <will@kernel.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Sibi Sankar <sibis@codeaurora.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 99ED486FE8
+ for <iommu@lists.linux-foundation.org>; Sun,  6 Sep 2020 02:41:46 +0000 (UTC)
+IronPort-SDR: j46njuMV8AiGcrfpfINYevJWvKBVCu3xszMhcRMyyN0D9blGKiT4ixuEZF4JAsufXyNqJMJKp7
+ iQBmMrvk76Aw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9735"; a="137938307"
+X-IronPort-AV: E=Sophos;i="5.76,396,1592895600"; d="scan'208";a="137938307"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Sep 2020 19:41:45 -0700
+IronPort-SDR: z1pKyDSasDhKeOLvH0WRvPJOXGEzBU7WoXVlcS+c6TV8UdvE/9ry0KGJDg4oaRSJfl0h399E83
+ uy+Zk45SmFNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,396,1592895600"; d="scan'208";a="340359278"
+Received: from purley-4s.sc.intel.com ([172.25.112.112])
+ by FMSMGA003.fm.intel.com with ESMTP; 05 Sep 2020 19:41:45 -0700
+From: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+To: iommu@lists.linux-foundation.org
+Subject: [PATCH V7 0/3] iommu: Add support to change default domain of an
+ iommu group
+Date: Mon,  7 Sep 2020 20:54:44 -0700
+Message-Id: <cover.1595619936.git.sai.praneeth.prakhya@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ashok Raj <ashok.raj@intel.com>, Will Deacon <will.deacon@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,54 +70,137 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Sep 4, 2020 at 8:55 AM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
->
-> Based on previous attempts and discussions this is the latest attempt at
-> inheriting stream mappings set up by the bootloader, for e.g. boot splash or
-> efifb.
->
-> Per Will's request this builds on the work by Jordan and Rob for the Adreno
-> SMMU support. It applies cleanly ontop of v16 of their series, which can be
-> found at
-> https://lore.kernel.org/linux-arm-msm/20200901164707.2645413-1-robdclark@gmail.com/
->
-> Bjorn Andersson (8):
->   iommu/arm-smmu: Refactor context bank allocation
->   iommu/arm-smmu: Delay modifying domain during init
->   iommu/arm-smmu: Consult context bank allocator for identify domains
->   iommu/arm-smmu-qcom: Emulate bypass by using context banks
->   iommu/arm-smmu-qcom: Consistently initialize stream mappings
->   iommu/arm-smmu: Add impl hook for inherit boot mappings
->   iommu/arm-smmu: Provide helper for allocating identity domain
->   iommu/arm-smmu-qcom: Setup identity domain for boot mappings
+Presently, the default domain of an iommu group is allocated during boot time
+and it cannot be changed later. So, the device would typically be either in
+identity (pass_through) mode or the device would be in DMA mode as long as the
+system is up and running. There is no way to change the default domain type
+dynamically i.e. after booting, a device cannot switch between identity mode and
+DMA mode.
 
-I have squashed 1/8 into v17 of the adreno-smmu series as suggested by
-Bjorn, the remainder are:
+Assume a use case wherein the privileged user would want to use the device in
+pass-through mode when the device is used for host so that it would be high
+performing. Presently, this is not supported. Hence add support to change the
+default domain of an iommu group dynamically.
 
-Reviewed-by: Rob Clark <robdclark@gmail.com>
+Support this by writing to a sysfs file, namely
+"/sys/kernel/iommu_groups/<grp_id>/type".
 
-and on the lenovo c630,
+Testing:
+--------
+Tested by dynamically changing storage device (nvme) from
+1. identity mode to DMA and making sure file transfer works
+2. DMA mode to identity mode and making sure file transfer works
+Tested only for intel_iommu/vt-d. Would appreciate if someone could test on AMD
+and ARM based machines.
 
-Tested-by: Rob Clark <robdclark@gmail.com>
+Based on iommu maintainer's 'next' branch.
 
->  drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 111 ++++++++++++++++++-
->  drivers/iommu/arm/arm-smmu/arm-smmu.c      | 122 ++++++++++++++-------
->  drivers/iommu/arm/arm-smmu/arm-smmu.h      |  14 ++-
->  3 files changed, 205 insertions(+), 42 deletions(-)
->
-> --
-> 2.28.0
->
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+Changes from V6:
+----------------
+1. None except for version bump.
+
+Changes from V5:
+----------------
+1. None except for version bump because Joerg had asked to resend the patches
+   after the merge window closes.
+
+Changes from V4:
+----------------
+1. Created device direct mappings before attaching the device to the domain
+2. Used list_first_entry() instead of list_for_each_entry() to get the first
+   element of a linked list.
+3. Used get_device() and put_device() before and after device_lock()
+4. Passed device as an argument to iommu_change_dev_def_domain() to check that
+   the device hasn't changed between calls.
+5. Changed error message from "Group assigned to user level for direct access"
+   to "Group not assigned to default domain".
+6. Changed error message from "Cannot change default domain of a group with two
+   or more devices" to "Cannot change default domain: Group has more than one
+   device".
+7. Removed printing error message "'def_domain_type' call back isn't registered"
+
+Changes from V3:
+----------------
+1. Made changes to commit message as suggested by Baolu.
+2. Don't pass "prev_dom" and "dev" as parameters to
+   iommu_change_dev_def_domain(). Instead get them from group.
+3. Sanitize the logic to validate user default domain type request. The logic
+   remains same but is implmented differently.
+4. Push lot of error checking into iommu_change_dev_def_domain() from
+   iommu_group_store_type().
+5. iommu_change_dev_def_domain() takes/releases group mutex as needed. So, it
+   shouldn't be called holding a group mutex.
+6. Use pr_err_ratelimited() instead of pr_err() to avoid DOS attack.
+
+Changes from V2:
+----------------
+1. Change the logic of updating default domain from V2 because
+   ops->probe_finalize() could be used to update dma_ops.
+2. Drop 1st and 2nd patch of V2 series because they are no longer needed on
+   iommu maintainer's 'next' branch.
+3. Limit this feature to iommu groups with only one device.
+4. Hold device_lock and group mutex until the default domain is changed.
+
+Changes from V1:
+----------------
+1. V1 patch set wasn't updating dma_ops for some vendors (Eg: AMD), hence,
+   change the logic of updating default domain as below (because adding a device
+   to iommu_group automatically updates dma_ops)
+   a. Allocate a new domain
+   b. For every device in the group
+	i. Remove the device from the group
+	ii. Add the device back to the group
+   c. Free previous domain
+2. Drop 1st patch of V1 (iommu/vt-d: Modify device_def_domain_type() to use at
+   runtime) because "iommu=pt" has no effect on this function anymore.
+3. Added a patch to take/release lock while reading iommu_group->default_domain->type
+   because it can be changed any time by user.
+4. Before changing default domain type of a group, check if the group is
+   directly assigned for user level access. If so, abort.
+5. Sanitize return path (using ternary operator) in iommu_group_store_type()
+6. Split 2nd patch of V1 (iommu: Add device_def_domain_type() call back function
+   to iommu_ops) into two patches such that iommu generic changes are now in 1st
+   patch of V2 and vt-d specific changes are in 2nd patch of V2.
+7. Rename device_def_domain_type() to dev_def_domain_type()
+8. Remove example from documentation
+9. Change the value written to file "/sys/kernel/iommu_groups/<grp_id>/type"
+   from "dma" to "DMA".
+
+Changes from RFC:
+-----------------
+1. Added support for "auto" type, so that kernel selects one among identity or
+   dma mode.
+2. Use "system_state" in device_def_domain_type() instead of an argument.
+
+Sai Praneeth Prakhya (3):
+  iommu: Add support to change default domain of an iommu group
+  iommu: Take lock before reading iommu group default domain type
+  iommu: Document usage of "/sys/kernel/iommu_groups/<grp_id>/type" file
+
+ .../ABI/testing/sysfs-kernel-iommu_groups     |  30 +++
+ drivers/iommu/iommu.c                         | 227 +++++++++++++++++-
+ 2 files changed, 256 insertions(+), 1 deletion(-)
+
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: Ashok Raj <ashok.raj@intel.com>
+Cc: Will Deacon <will.deacon@arm.com>
+Cc: Lu Baolu <baolu.lu@linux.intel.com>
+Cc: Sohil Mehta <sohil.mehta@intel.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+
+-- 
+2.19.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
