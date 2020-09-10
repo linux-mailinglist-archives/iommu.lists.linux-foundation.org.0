@@ -2,98 +2,133 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2392642BB
-	for <lists.iommu@lfdr.de>; Thu, 10 Sep 2020 11:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2F82643E6
+	for <lists.iommu@lfdr.de>; Thu, 10 Sep 2020 12:25:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EE6A087688;
-	Thu, 10 Sep 2020 09:47:45 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 444918768B;
+	Thu, 10 Sep 2020 10:25:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MSE1sHvticOE; Thu, 10 Sep 2020 09:47:44 +0000 (UTC)
+	with ESMTP id XdE4qmGnfy+f; Thu, 10 Sep 2020 10:25:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E747B87686;
-	Thu, 10 Sep 2020 09:47:44 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3536D87689;
+	Thu, 10 Sep 2020 10:25:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D5776C0051;
-	Thu, 10 Sep 2020 09:47:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B53FC0859;
+	Thu, 10 Sep 2020 10:25:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BB470C0051
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 09:47:43 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D11ACC0051
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 09:18:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9EAE886F0C
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 09:47:43 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id BFBB18764D
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 09:18:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lMnrM5V1TVaL for <iommu@lists.linux-foundation.org>;
- Thu, 10 Sep 2020 09:47:42 +0000 (UTC)
+ with ESMTP id 2bFidnX5y5LU; Thu, 10 Sep 2020 09:18:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
- [209.85.218.66])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 2F4F686C73
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 09:47:42 +0000 (UTC)
-Received: by mail-ej1-f66.google.com with SMTP id lo4so7743680ejb.8
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 02:47:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=metNjPQom55ViMWgpPGBJCdJNxCYtLQyRMirgizcUQ4=;
- b=d4LNL210XpsysHiTtXd0WD1jHzXGVBZsS0SBhg9iEWJm+0C4ToIV+h8CLvtZz+RndI
- zuF02MQNQ9tbuVaOTokIflaZKbHFDncWR9E2Fivhjbre5qIvGI0pwO+LtNuZhrFlz7c4
- uw8NxIzZu/MhFiCKgsoKT0pAPzehasvAWeh+8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=metNjPQom55ViMWgpPGBJCdJNxCYtLQyRMirgizcUQ4=;
- b=o3919NscYTZkKnndX/FtbZmPn9tx3/MBg/SHV4mnC6kr9k/saoVQGsKlTsqzgIQKg/
- ClJFQ0xuoROgJjwFsSfBNotOSCSdfKW4rLuMoBOm06i/GOg89rL4NLntIMd8MPAT1AiC
- KjwzXWEdDTept3e9Km2AaqCKxrWvFjIG18MBGdhvXzcnnWLQ42mEgLZ4jmQ1mXK7vHg8
- K8jWGL9zBq0C2ThDRh+HI9dvJsZUCeNX5oHji+QFnZkID8sA17ogTVS7FuzgmRDaTy0C
- zAPisg0xTrfGHvStR3VIauuh5hJCoP3eZWagjWtznLAF3ThAZCjtWsaO0m3DJsXzAZ9M
- 7e9A==
-X-Gm-Message-State: AOAM5301f01Vd4bvjOKk65nuKG5QSC92GL6GeP+F4JZp+5QskMkEih/q
- Nm5qVfBSE+SGELKgieyJjCTFRdUS7Cf+GQ==
-X-Google-Smtp-Source: ABdhPJxKn1g6Xle+Qpe5KHlLw62h1NDSjPLer353LDQpK9yelJkc4wb4gNwF+a5q1QjxALJXFlMZ8w==
-X-Received: by 2002:a17:906:6411:: with SMTP id
- d17mr7687819ejm.93.1599731260547; 
- Thu, 10 Sep 2020 02:47:40 -0700 (PDT)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com.
- [209.85.221.48])
- by smtp.gmail.com with ESMTPSA id 35sm6279207edg.71.2020.09.10.02.47.40
- for <iommu@lists.linux-foundation.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Sep 2020 02:47:40 -0700 (PDT)
-Received: by mail-wr1-f48.google.com with SMTP id c18so5953339wrm.9
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 02:47:40 -0700 (PDT)
-X-Received: by 2002:adf:f042:: with SMTP id t2mr7710610wro.385.1599731259384; 
- Thu, 10 Sep 2020 02:47:39 -0700 (PDT)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 7970986FFB;
+ Thu, 10 Sep 2020 09:18:51 +0000 (UTC)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08A92VZj043273; Thu, 10 Sep 2020 05:18:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : subject : to : cc
+ : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=lbijph5Taiyv+LvsJ/sM7F9hRJYgXJ1/OeIBGv1V4zI=;
+ b=m+S0uISl4zEUpQGOdqBmign+zGpGsKWZr0M8gyz4QB85tpAWWy9P9TsdEALPMOQc3bzS
+ HTmLUO+a8FzA6nkFFUM33SJxJVALimBUdqlyOa2QZAPtF+c5k3tdLE9Ja5lY/NITAiC6
+ 7HCRwKAifhDAW7efbtBkvvOJ9noreWSpBIsRvblR2Hd6QlL3Ql+0LiOJ/5ZV1/0dyGOl
+ ERG9aDbHT//+EVNVz7T31D+HrD6qNbB+7sB3Bj+uKnN/s2x03LNnlPZVOOElWWQIxfaC
+ VUv4NZ3PEML96IaUY9CGtxDOOL3o1HTtA4I8YY6eO/McXjX1bfFSSUd+pDdF2Re/VmW7 tg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33fh5s0eur-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Sep 2020 05:18:39 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08A92b39043665;
+ Thu, 10 Sep 2020 05:18:37 -0400
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33fh5s0etk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Sep 2020 05:18:37 -0400
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08A9DDHx028675;
+ Thu, 10 Sep 2020 09:18:34 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03fra.de.ibm.com with ESMTP id 33c2a8bckn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Sep 2020 09:18:34 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 08A9GxlP65470906
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Sep 2020 09:16:59 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6C217AE055;
+ Thu, 10 Sep 2020 09:18:32 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 299C6AE04D;
+ Thu, 10 Sep 2020 09:18:30 +0000 (GMT)
+Received: from oc4120165700.ibm.com (unknown [9.145.14.177])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 10 Sep 2020 09:18:30 +0000 (GMT)
+From: Steffen Maier <maier@linux.ibm.com>
+Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
+ break;
+To: Joe Perches <joe@perches.com>, LKML <linux-kernel@vger.kernel.org>,
+ Jiri Kosina <trivial@kernel.org>, Benjamin Block <bblock@linux.ibm.com>
+References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+Message-ID: <0c66fbe5-c48b-7dc1-f7fe-1498da9cc1a3@linux.ibm.com>
+Date: Thu, 10 Sep 2020 11:18:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200904131711.12950-1-m.szyprowski@samsung.com>
- <CGME20200904133512eucas1p204efa4e252ceb5fb50715239705f9965@eucas1p2.samsung.com>
- <20200904131711.12950-31-m.szyprowski@samsung.com>
- <e1070a0d-2772-b5e2-7067-9f53ade19aae@xs4all.nl>
-In-Reply-To: <e1070a0d-2772-b5e2-7067-9f53ade19aae@xs4all.nl>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Thu, 10 Sep 2020 11:47:09 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5BhwPNaYR1nZims9VBEB+564=fw5o7Za91EvHngs7YcOw@mail.gmail.com>
-Message-ID: <CAAFQd5BhwPNaYR1nZims9VBEB+564=fw5o7Za91EvHngs7YcOw@mail.gmail.com>
-Subject: Re: [PATCH v10 30/30] videobuf2: use sgtable-based scatterlist
- wrappers
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Daniel Vetter <daniel@ffwll.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <linux-arm-kernel@lists.infradead.org>
+In-Reply-To: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-10_01:2020-09-10,
+ 2020-09-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 suspectscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ mlxlogscore=940 adultscore=0 bulkscore=0 clxscore=1011 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009100080
+X-Mailman-Approved-At: Thu, 10 Sep 2020 10:25:37 +0000
+Cc: linux-wireless@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ oss-drivers@netronome.com, nouveau@lists.freedesktop.org,
+ alsa-devel <alsa-devel@alsa-project.org>, dri-devel@lists.freedesktop.org,
+ linux-ide@vger.kernel.org, dm-devel@redhat.com, linux-mtd@lists.infradead.org,
+ linux-i2c@vger.kernel.org, sparclinux@vger.kernel.org,
+ kvmarm@lists.cs.columbia.edu, linux-rtc@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, dccp@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
+ linux-afs@lists.infradead.org, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
+ Kees Cook <kees.cook@canonical.com>, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-sctp@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-nvme@lists.infradead.org, storagedev@microchip.com,
+ ceph-devel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-nfs@vger.kernel.org, linux-parisc@vger.kernel.org,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-mips@vger.kernel.org,
+ iommu@lists.linux-foundation.org, netfilter-devel@vger.kernel.org,
+ linux-crypto@vger.kernel.org, bpf@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,291 +141,65 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Sep 10, 2020 at 11:17 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 04/09/2020 15:17, Marek Szyprowski wrote:
-> > Use recently introduced common wrappers operating directly on the struct
-> > sg_table objects and scatterlist page iterators to make the code a bit
-> > more compact, robust, easier to follow and copy/paste safe.
-> >
-> > No functional change, because the code already properly did all the
-> > scatterlist related calls.
-> >
-> > Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > Reviewed-by: Robin Murphy <robin.murphy@arm.com>
->
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->
-> Note that I agree with Marek to keep returning -EIO. If we want to propagate
-> low-level errors, then that should be done in a separate patch. But I think EIO
-> is fine.
+On 9/9/20 10:06 PM, Joe Perches wrote:
+> fallthrough to a separate case/default label break; isn't very readable.
+> 
+> Convert pseudo-keyword fallthrough; statements to a simple break; when
+> the next label is case or default and the only statement in the next
+> label block is break;
+> 
+> Found using:
+> 
+> $ grep-2.5.4 -rP --include=*.[ch] -n "fallthrough;(\s*(case\s+\w+|default)\s*:\s*){1,7}break;" *
+> 
+> Miscellanea:
+> 
+> o Move or coalesce a couple label blocks above a default: block.
+> 
+> Signed-off-by: Joe Perches <joe@perches.com>
+> ---
+> 
+> Compiled allyesconfig x86-64 only.
+> A few files for other arches were not compiled.
 
-As I mentioned, there are 2 different cases here - UAPI and kAPI. I
-agree that we should keep -EIO for UAPI, but kAPI is another story.
-But if we're convinced that -EIO is also fine for the latter, I'm fine
-with that.
+>   drivers/s390/scsi/zfcp_fsf.c                              |  2 +-
 
-Best regards,
-Tomasz
+>   82 files changed, 109 insertions(+), 112 deletions(-)
 
->
-> Regards,
->
->         Hans
->
-> > ---
-> >  .../common/videobuf2/videobuf2-dma-contig.c   | 34 ++++++++-----------
-> >  .../media/common/videobuf2/videobuf2-dma-sg.c | 32 +++++++----------
-> >  .../common/videobuf2/videobuf2-vmalloc.c      | 12 +++----
-> >  3 files changed, 31 insertions(+), 47 deletions(-)
-> >
-> > diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> > index ec3446cc45b8..1b242d844dde 100644
-> > --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> > +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> > @@ -58,10 +58,10 @@ static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
-> >       unsigned int i;
-> >       unsigned long size = 0;
-> >
-> > -     for_each_sg(sgt->sgl, s, sgt->nents, i) {
-> > +     for_each_sgtable_dma_sg(sgt, s, i) {
-> >               if (sg_dma_address(s) != expected)
-> >                       break;
-> > -             expected = sg_dma_address(s) + sg_dma_len(s);
-> > +             expected += sg_dma_len(s);
-> >               size += sg_dma_len(s);
-> >       }
-> >       return size;
-> > @@ -103,8 +103,7 @@ static void vb2_dc_prepare(void *buf_priv)
-> >       if (!sgt)
-> >               return;
-> >
-> > -     dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
-> > -                            buf->dma_dir);
-> > +     dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
-> >  }
-> >
-> >  static void vb2_dc_finish(void *buf_priv)
-> > @@ -115,7 +114,7 @@ static void vb2_dc_finish(void *buf_priv)
-> >       if (!sgt)
-> >               return;
-> >
-> > -     dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
-> > +     dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
-> >  }
-> >
-> >  /*********************************************/
-> > @@ -275,8 +274,8 @@ static void vb2_dc_dmabuf_ops_detach(struct dma_buf *dbuf,
-> >                * memory locations do not require any explicit cache
-> >                * maintenance prior or after being used by the device.
-> >                */
-> > -             dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
-> > -                                attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > +             dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
-> > +                               DMA_ATTR_SKIP_CPU_SYNC);
-> >       sg_free_table(sgt);
-> >       kfree(attach);
-> >       db_attach->priv = NULL;
-> > @@ -301,8 +300,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
-> >
-> >       /* release any previous cache */
-> >       if (attach->dma_dir != DMA_NONE) {
-> > -             dma_unmap_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
-> > -                                attach->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > +             dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
-> > +                               DMA_ATTR_SKIP_CPU_SYNC);
-> >               attach->dma_dir = DMA_NONE;
-> >       }
-> >
-> > @@ -310,9 +309,8 @@ static struct sg_table *vb2_dc_dmabuf_ops_map(
-> >        * mapping to the client with new direction, no cache sync
-> >        * required see comment in vb2_dc_dmabuf_ops_detach()
-> >        */
-> > -     sgt->nents = dma_map_sg_attrs(db_attach->dev, sgt->sgl, sgt->orig_nents,
-> > -                                   dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > -     if (!sgt->nents) {
-> > +     if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
-> > +                         DMA_ATTR_SKIP_CPU_SYNC)) {
-> >               pr_err("failed to map scatterlist\n");
-> >               mutex_unlock(lock);
-> >               return ERR_PTR(-EIO);
-> > @@ -455,8 +453,8 @@ static void vb2_dc_put_userptr(void *buf_priv)
-> >                * No need to sync to CPU, it's already synced to the CPU
-> >                * since the finish() memop will have been called before this.
-> >                */
-> > -             dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
-> > -                                buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > +             dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
-> > +                               DMA_ATTR_SKIP_CPU_SYNC);
-> >               pages = frame_vector_pages(buf->vec);
-> >               /* sgt should exist only if vector contains pages... */
-> >               BUG_ON(IS_ERR(pages));
-> > @@ -553,9 +551,8 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
-> >        * No need to sync to the device, this will happen later when the
-> >        * prepare() memop is called.
-> >        */
-> > -     sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
-> > -                                   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > -     if (sgt->nents <= 0) {
-> > +     if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
-> > +                         DMA_ATTR_SKIP_CPU_SYNC)) {
-> >               pr_err("failed to map scatterlist\n");
-> >               ret = -EIO;
-> >               goto fail_sgt_init;
-> > @@ -577,8 +574,7 @@ static void *vb2_dc_get_userptr(struct device *dev, unsigned long vaddr,
-> >       return buf;
-> >
-> >  fail_map_sg:
-> > -     dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
-> > -                        buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > +     dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> >
-> >  fail_sgt_init:
-> >       sg_free_table(sgt);
-> > diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> > index 0a40e00f0d7e..0dd3b19025e0 100644
-> > --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> > +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> > @@ -148,9 +148,8 @@ static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
-> >        * No need to sync to the device, this will happen later when the
-> >        * prepare() memop is called.
-> >        */
-> > -     sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
-> > -                                   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > -     if (!sgt->nents)
-> > +     if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
-> > +                         DMA_ATTR_SKIP_CPU_SYNC))
-> >               goto fail_map;
-> >
-> >       buf->handler.refcount = &buf->refcount;
-> > @@ -186,8 +185,8 @@ static void vb2_dma_sg_put(void *buf_priv)
-> >       if (refcount_dec_and_test(&buf->refcount)) {
-> >               dprintk(1, "%s: Freeing buffer of %d pages\n", __func__,
-> >                       buf->num_pages);
-> > -             dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
-> > -                                buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > +             dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
-> > +                               DMA_ATTR_SKIP_CPU_SYNC);
-> >               if (buf->vaddr)
-> >                       vm_unmap_ram(buf->vaddr, buf->num_pages);
-> >               sg_free_table(buf->dma_sgt);
-> > @@ -204,8 +203,7 @@ static void vb2_dma_sg_prepare(void *buf_priv)
-> >       struct vb2_dma_sg_buf *buf = buf_priv;
-> >       struct sg_table *sgt = buf->dma_sgt;
-> >
-> > -     dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
-> > -                            buf->dma_dir);
-> > +     dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
-> >  }
-> >
-> >  static void vb2_dma_sg_finish(void *buf_priv)
-> > @@ -213,7 +211,7 @@ static void vb2_dma_sg_finish(void *buf_priv)
-> >       struct vb2_dma_sg_buf *buf = buf_priv;
-> >       struct sg_table *sgt = buf->dma_sgt;
-> >
-> > -     dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
-> > +     dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
-> >  }
-> >
-> >  static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
-> > @@ -256,9 +254,8 @@ static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
-> >        * No need to sync to the device, this will happen later when the
-> >        * prepare() memop is called.
-> >        */
-> > -     sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
-> > -                                   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> > -     if (!sgt->nents)
-> > +     if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
-> > +                         DMA_ATTR_SKIP_CPU_SYNC))
-> >               goto userptr_fail_map;
-> >
-> >       return buf;
-> > @@ -284,8 +281,7 @@ static void vb2_dma_sg_put_userptr(void *buf_priv)
-> >
-> >       dprintk(1, "%s: Releasing userspace buffer of %d pages\n",
-> >              __func__, buf->num_pages);
-> > -     dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir,
-> > -                        DMA_ATTR_SKIP_CPU_SYNC);
-> > +     dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
-> >       if (buf->vaddr)
-> >               vm_unmap_ram(buf->vaddr, buf->num_pages);
-> >       sg_free_table(buf->dma_sgt);
-> > @@ -408,8 +404,7 @@ static void vb2_dma_sg_dmabuf_ops_detach(struct dma_buf *dbuf,
-> >
-> >       /* release the scatterlist cache */
-> >       if (attach->dma_dir != DMA_NONE)
-> > -             dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
-> > -                     attach->dma_dir);
-> > +             dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
-> >       sg_free_table(sgt);
-> >       kfree(attach);
-> >       db_attach->priv = NULL;
-> > @@ -434,15 +429,12 @@ static struct sg_table *vb2_dma_sg_dmabuf_ops_map(
-> >
-> >       /* release any previous cache */
-> >       if (attach->dma_dir != DMA_NONE) {
-> > -             dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
-> > -                     attach->dma_dir);
-> > +             dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
-> >               attach->dma_dir = DMA_NONE;
-> >       }
-> >
-> >       /* mapping to the client with new direction */
-> > -     sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
-> > -                             dma_dir);
-> > -     if (!sgt->nents) {
-> > +     if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
-> >               pr_err("failed to map scatterlist\n");
-> >               mutex_unlock(lock);
-> >               return ERR_PTR(-EIO);
-> > diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> > index c66fda4a65e4..bf5ac63a5742 100644
-> > --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> > +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> > @@ -229,7 +229,7 @@ static int vb2_vmalloc_dmabuf_ops_attach(struct dma_buf *dbuf,
-> >               kfree(attach);
-> >               return ret;
-> >       }
-> > -     for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-> > +     for_each_sgtable_sg(sgt, sg, i) {
-> >               struct page *page = vmalloc_to_page(vaddr);
-> >
-> >               if (!page) {
-> > @@ -259,8 +259,7 @@ static void vb2_vmalloc_dmabuf_ops_detach(struct dma_buf *dbuf,
-> >
-> >       /* release the scatterlist cache */
-> >       if (attach->dma_dir != DMA_NONE)
-> > -             dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
-> > -                     attach->dma_dir);
-> > +             dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
-> >       sg_free_table(sgt);
-> >       kfree(attach);
-> >       db_attach->priv = NULL;
-> > @@ -285,15 +284,12 @@ static struct sg_table *vb2_vmalloc_dmabuf_ops_map(
-> >
-> >       /* release any previous cache */
-> >       if (attach->dma_dir != DMA_NONE) {
-> > -             dma_unmap_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
-> > -                     attach->dma_dir);
-> > +             dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
-> >               attach->dma_dir = DMA_NONE;
-> >       }
-> >
-> >       /* mapping to the client with new direction */
-> > -     sgt->nents = dma_map_sg(db_attach->dev, sgt->sgl, sgt->orig_nents,
-> > -                             dma_dir);
-> > -     if (!sgt->nents) {
-> > +     if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
-> >               pr_err("failed to map scatterlist\n");
-> >               mutex_unlock(lock);
-> >               return ERR_PTR(-EIO);
-> >
->
+> diff --git a/drivers/s390/scsi/zfcp_fsf.c b/drivers/s390/scsi/zfcp_fsf.c
+> index 140186fe1d1e..2741a07df692 100644
+> --- a/drivers/s390/scsi/zfcp_fsf.c
+> +++ b/drivers/s390/scsi/zfcp_fsf.c
+> @@ -2105,7 +2105,7 @@ static void zfcp_fsf_open_lun_handler(struct zfcp_fsf_req *req)
+>   
+>   	case FSF_PORT_HANDLE_NOT_VALID:
+>   		zfcp_erp_adapter_reopen(adapter, 0, "fsouh_1");
+> -		fallthrough;
+> +		break;
+>   	case FSF_LUN_ALREADY_OPEN:
+>   		break;
+>   	case FSF_PORT_BOXED:
+
+Acked-by: Steffen Maier <maier@linux.ibm.com> # for zfcp
+
+
+-- 
+Mit freundlichen Gruessen / Kind regards
+Steffen Maier
+
+Linux on IBM Z Development
+
+https://www.ibm.com/privacy/us/en/
+IBM Deutschland Research & Development GmbH
+Vorsitzender des Aufsichtsrats: Matthias Hartmann
+Geschaeftsfuehrung: Dirk Wittkopp
+Sitz der Gesellschaft: Boeblingen
+Registergericht: Amtsgericht Stuttgart, HRB 243294
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
