@@ -1,77 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68583263FAA
-	for <lists.iommu@lfdr.de>; Thu, 10 Sep 2020 10:26:26 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 290792640CE
+	for <lists.iommu@lfdr.de>; Thu, 10 Sep 2020 10:59:56 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 227EB86EAA;
-	Thu, 10 Sep 2020 08:26:25 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CB0BD87614;
+	Thu, 10 Sep 2020 08:59:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id o9jznxFwgIYs; Thu, 10 Sep 2020 08:26:24 +0000 (UTC)
+	with ESMTP id 3Z+otBKbkKOT; Thu, 10 Sep 2020 08:59:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9390386F0C;
-	Thu, 10 Sep 2020 08:26:24 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6265A875D9;
+	Thu, 10 Sep 2020 08:59:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 72BF7C0051;
-	Thu, 10 Sep 2020 08:26:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4613FC0893;
+	Thu, 10 Sep 2020 08:59:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 49033C0051
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 08:26:22 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 95311C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 06:53:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 30A4A86EE8
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 08:26:22 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 8728D20033
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 06:53:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5WTNEYxH1kY2 for <iommu@lists.linux-foundation.org>;
- Thu, 10 Sep 2020 08:26:21 +0000 (UTC)
+ with ESMTP id pp67DywWA1fy for <iommu@lists.linux-foundation.org>;
+ Thu, 10 Sep 2020 06:53:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1755286EAA
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 08:26:21 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id a9so4899234wmm.2
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 01:26:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jV15et7Yw8A7Imw4OszYwam1pGezadF7ay4AoPCRTlw=;
- b=YFX3C21ZwVO7s35wZGtviE1XqbE7aCLtO3wFFDiZBQLPyeEj7XL687V0Ka17r+pHow
- trvRePYr75Vgj+evG/sbfJ5EEYunaBaoAbSvIka3o38lU7/FKTwwJQ7jj74iOjPtp4iL
- YrUv5JVWK1FJoTvd7t+cUgJAdvv6LvUo9pvjg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jV15et7Yw8A7Imw4OszYwam1pGezadF7ay4AoPCRTlw=;
- b=Oje45kW/zU6CxeX4V7URqPBA0PwsWRiriu0gVDXt+KKY16doigV0T1LAR2nglMOw0s
- uvHjWU7Nu7u1HJOtWJ/iA3/IhMNhxRHU9m2Z4vswEzxU8oGFcl05WKv9ns5/bENKfHYE
- CKV+oIvjRggrCb0oFU193RtHyXqSiNs0LbZHGsV/XGg0fTQU5yXPNHryaNIfj3rEgxWb
- 4t/brsSvpH3fqhBwzi+KWvP6IsPOTRG1RNSwWX5KQa5zbar+I8/3K4+8VAE/wzSoK6rU
- 9MXiH8cHLxxJKd8C06MNC3URTv3//mF6OjGYDvu/kCyZoB3smUps3VSUXIbz58FSR+la
- KSug==
-X-Gm-Message-State: AOAM532y7wM3nN+sYwHQ+EdR/KXRIZiQxPe3+Xkc/PPJtRTxgYUrHaAQ
- /rqSTNU0w7tD+Qpn6NnFPgPJTCD4yyaBi/gN7+cUFg==
-X-Google-Smtp-Source: ABdhPJwMw0Wh177JlXOipH/ky7eUTophvRRubdU+aDyAbXNA/Xm+BsW76uAWLWKihoVqdk9x08SGwZLIRGafLV94erc=
-X-Received: by 2002:a7b:c384:: with SMTP id s4mr7073300wmj.138.1599726379101; 
- Thu, 10 Sep 2020 01:26:19 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id BEA4A20000
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 06:53:15 +0000 (UTC)
+Received: from localhost (p5486ceec.dip0.t-ipconnect.de [84.134.206.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 93A222078E;
+ Thu, 10 Sep 2020 06:53:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1599720795;
+ bh=/LOePKGDUR83plqAhx1ySvpBeTmOBTt4AYD41Ar10p8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=e3Jk9M7ZKtsnsBd892ykDqq6ldjJyX23IqJ7DyDWgKOR2vkDHWpTUx3L4W3ZSGRl8
+ gbJ25CK/q4T0DRgLEQdFDMLfOBf9AoSauHV2UkWklXje0SfXK1Ub2yM0Bl5ncgFE73
+ tRqSbJwVN+gRudxLpTtOTt3VxbQSMkA19oVYS08w=
+Date: Thu, 10 Sep 2020 08:53:12 +0200
+From: Wolfram Sang <wsa@kernel.org>
+To: Joe Perches <joe@perches.com>
+Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
+ break;
+Message-ID: <20200910065312.GH1031@ninjato>
+References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
 MIME-Version: 1.0
-References: <20200909053234.17027-1-srinath.mannam@broadcom.com>
- <1996b772-774c-3475-05cc-77ae87176c3f@arm.com>
-In-Reply-To: <1996b772-774c-3475-05cc-77ae87176c3f@arm.com>
-Date: Thu, 10 Sep 2020 13:56:07 +0530
-Message-ID: <CABe79T6fAmovPdx6ZzBeR8D9mJoX5qoAOG3=ZOt5TYpeT=LUJQ@mail.gmail.com>
-Subject: Re: [PATCH] iommu/dma: Fix IOVA reserve dma ranges
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: poza@codeaurora.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- iommu@lists.linux-foundation.org,
- BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
- Bjorn Helgaas <bhelgaas@google.com>
+In-Reply-To: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Approved-At: Thu, 10 Sep 2020 08:59:53 +0000
+Cc: linux-wireless@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ oss-drivers@netronome.com, nouveau@lists.freedesktop.org,
+ alsa-devel <alsa-devel@alsa-project.org>, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, linux-ide@vger.kernel.org, dm-devel@redhat.com,
+ linux-mtd@lists.infradead.org, linux-i2c@vger.kernel.org,
+ sparclinux@vger.kernel.org, kvmarm@lists.cs.columbia.edu,
+ linux-rtc@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, dccp@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, linux-afs@lists.infradead.org,
+ coreteam@netfilter.org, intel-wired-lan@lists.osuosl.org,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-mmc@vger.kernel.org, Kees Cook <kees.cook@canonical.com>,
+ linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-sctp@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org,
+ storagedev@microchip.com, ceph-devel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-nfs@vger.kernel.org,
+ Jiri Kosina <trivial@kernel.org>, linux-parisc@vger.kernel.org,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
+ netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ bpf@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,107 +92,72 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Srinath Mannam via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Srinath Mannam <srinath.mannam@broadcom.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============2770026593969986289=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Sep 9, 2020 at 5:35 PM Robin Murphy <robin.murphy@arm.com> wrote:
->
-Hi Robin,
-Thanks for review
-> On 2020-09-09 06:32, Srinath Mannam wrote:
-> > Fix IOVA reserve failure for memory regions listed in dma-ranges in the
-> > following cases.
-> >
-> > - start address of memory region is 0x0.
->
-> That's fair enough, and in fact generalises to the case of zero-sized
-> gaps between regions, which is indeed an oversight.
-Yes this is the main reason for the requirement of this fix.
->
-> > - end address of a memory region is equal to start address of next memory
-> >    region.
->
-> This part doesn't make much sense, however - if the regions described in
-> bridge->dma_ranges overlap, that's a bug in whoever created a malformed
-> list to begin with. Possibly it's just poor wording, and you're using
-> "memory regions" to refer to any or all of the dma_ranges, the reserved
-> IOVA ranges, and what "start" and "end" in this function represent which
-> isn't quite either of those.
-You are right, this case is very unlikely that nobody lists regions with zero
-gap, in such a case they will combine both the regions. Reason for highlighting
-this point is, the same fix will handle this case also. Here I used memory
-regions to refer entries of dma-ranges(allowed IOVA addresses range) not
-reserved IOVA ranges. start and end variables in this function refers to
-start and end addresses of reserved IOVA ranges which are derived from
-dma ranges resources start and end values.
->
-> > Fixes: aadad097cd46f ("iommu/dma: Reserve IOVA for PCIe inaccessible DMA address")
-> > Signed-off-by: Srinath Mannam <srinath.mannam@broadcom.com>
-> > ---
-> >   drivers/iommu/dma-iommu.c | 15 +++++++++++----
-> >   1 file changed, 11 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> > index 5141d49a046b..0a3f67a4f9ae 100644
-> > --- a/drivers/iommu/dma-iommu.c
-> > +++ b/drivers/iommu/dma-iommu.c
-> > @@ -213,14 +213,21 @@ static int iova_reserve_pci_windows(struct pci_dev *dev,
-> >       resource_list_for_each_entry(window, &bridge->dma_ranges) {
-> >               end = window->res->start - window->offset;
-> >   resv_iova:
-> > +             if (end < start) {
-> > +                     /* dma_ranges list should be sorted */
-> > +                     dev_err(&dev->dev, "Failed to reserve IOVA\n");
-> > +                     return -EINVAL;
-> > +             }
-> > +             /*
-> > +              * Skip the cases when start address of first memory region is
-> > +              * 0x0 and end address of one memory region and start address
-> > +              * of next memory region are equal. Reserve IOVA for rest of
-> > +              * addresses fall in between given memory ranges.
-> > +              */
-> >               if (end > start) {
-> >                       lo = iova_pfn(iovad, start);
-> >                       hi = iova_pfn(iovad, end);
-> >                       reserve_iova(iovad, lo, hi);
-> > -             } else {
->
-> Surely this only needs to be a one-liner?
-Yes I agree with you this one line is sufficient.
->
-> -               } else {
-> +               } else if (end < start) {
->
-> (or possibly "end != start"; I can't quite decide which expresses the
-> semantic intent better)
-I think "end < start" is better choice because it tells list is not sorted
-and "!=" contradicts previous condition "end > start".
->
-> The rest just looks like unnecessary churn - I don't think it needs
-> commenting that a sorted list may simply not have gaps between entries,
-> and as above I think the wording of that comment is actively misleading.
-I agree with you, these lines were added to explain the issue and fix with
-more details.
-I will send a new patch with a single line change as you said.
-" } else if (end < start) {"
 
-Thanks & Regards,
-Srinath.
->
-> Robin.
->
-> > -                     /* dma_ranges list should be sorted */
-> > -                     dev_err(&dev->dev, "Failed to reserve IOVA\n");
-> > -                     return -EINVAL;
-> >               }
-> >
-> >               start = window->res->end - window->offset + 1;
-> >
+--===============2770026593969986289==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="OpLPJvDmhXTZE4Lg"
+Content-Disposition: inline
+
+
+--OpLPJvDmhXTZE4Lg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+
+> diff --git a/drivers/i2c/busses/i2c-i801.c b/drivers/i2c/busses/i2c-i801.c
+> index e32ef3f01fe8..b13b1cbcac29 100644
+> --- a/drivers/i2c/busses/i2c-i801.c
+> +++ b/drivers/i2c/busses/i2c-i801.c
+> @@ -1785,7 +1785,7 @@ static int i801_probe(struct pci_dev *dev, const struct pci_device_id *id)
+>  		fallthrough;
+>  	case PCI_DEVICE_ID_INTEL_82801CA_3:
+>  		priv->features |= FEATURE_HOST_NOTIFY;
+> -		fallthrough;
+> +		break;
+>  	case PCI_DEVICE_ID_INTEL_82801BA_2:
+>  	case PCI_DEVICE_ID_INTEL_82801AB_3:
+>  	case PCI_DEVICE_ID_INTEL_82801AA_3:
+
+I am not the maintainer (Jean is) but I suggest to drop this hunk. The
+code is more complex with multiple 'fallthrough', so this change alone
+actually makes the code inconsistent. A rework would need a seperate
+patch.
+
+
+--OpLPJvDmhXTZE4Lg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9ZzVQACgkQFA3kzBSg
+KbYNuA//cymFe0KsFqywRHv3eBWJhoqwvWN2Xhwrx5/b6N3kkKGTo61aOo1ZI2gU
+55rQoGusy8OzGXaxlyhNS8Ea9ztPZc/tHEohOHKPYr52ErUMXlbMo3I3q7sZAZEI
+O/bRlnPKUCKqKOpZBin0ri6NE3FNYybTW30HgIk/LFUeCuaup10cUcxCmPfXHlNc
+M/2M2tBVyyBOqlVVsPxIfEZ4jGDaikxt7mBZDj4QMJnivnuMFuuz8U7gYzkXIHfO
+4ahGx+dBLCCInwFNFjEIPr+biq6Bgt/Vl9bbgN/BYbzdgbbJcikEhWHd9FxEoxQ5
+Y4M6/HxLDuCwTLIoFHjVifsFHK4Emk5ECc0xBWjHu3CJDunZSmy6yS5gbD1BrstW
+Djf0Ue1kyqnVPBDKE0EwFmwz1z1V14bhhXVC1fkiJjTpYRA6g3zMwH1oan6XIbGj
+v4OuWFDkQLEfzCCBIASGS849HtQ4rNafKxX3KQ3qxngh7XBrK7X92SLf3qRJurdt
+h5Ozd/zYDzyKQ1nOf/XWAOP5SKZH2ANjTrFKgIZE8MRkTmbzrlZkCnDnFD0pKPlB
+Z9h9uPZ7kifAejwaRPfsTu6/B9XJafMKfLa3hKTg2kgO+p67ItBEQ0W8wrXLE1/1
+c5FW5PqdkjKnx/9yUqosjEsHV2goh1guE4cziLkF1pZXcrElbtk=
+=ZP3J
+-----END PGP SIGNATURE-----
+
+--OpLPJvDmhXTZE4Lg--
+
+--===============2770026593969986289==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============2770026593969986289==--
