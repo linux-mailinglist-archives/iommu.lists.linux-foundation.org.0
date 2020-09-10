@@ -1,60 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E33826445D
-	for <lists.iommu@lfdr.de>; Thu, 10 Sep 2020 12:43:47 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EEA8264458
+	for <lists.iommu@lfdr.de>; Thu, 10 Sep 2020 12:43:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2545885C9D;
-	Thu, 10 Sep 2020 10:43:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A2ACD874F7;
+	Thu, 10 Sep 2020 10:43:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mFcLExIMoO_y; Thu, 10 Sep 2020 10:43:45 +0000 (UTC)
+	with ESMTP id dXgJFIVLrMgH; Thu, 10 Sep 2020 10:43:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 63A0E84E6B;
-	Thu, 10 Sep 2020 10:43:45 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 434FE87562;
+	Thu, 10 Sep 2020 10:43:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 58000C0891;
-	Thu, 10 Sep 2020 10:43:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2FADAC0051;
+	Thu, 10 Sep 2020 10:43:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id ECD48C0051
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 10:43:42 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B8115C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 10:43:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id E806E87430
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 10:43:42 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id A735D8742F
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 10:43:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id oxlpJBnnOyPU for <iommu@lists.linux-foundation.org>;
- Thu, 10 Sep 2020 10:43:36 +0000 (UTC)
+ with ESMTP id KnLi68IMhZjZ for <iommu@lists.linux-foundation.org>;
+ Thu, 10 Sep 2020 10:43:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 71A7687435
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id BF7FC874F7
  for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 10:43:36 +0000 (UTC)
-IronPort-SDR: W6PXxwwJI4woRRMEWTKNJuvs9pEJdK7vjsNFF+uqBvm1d5/a6AU+lkPj25f/pukHJ+HjODoz+0
- RKDS+272tqvA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9739"; a="243323838"
-X-IronPort-AV: E=Sophos;i="5.76,412,1592895600"; d="scan'208";a="243323838"
+IronPort-SDR: rnN3m6n+hC3THW8eAvzgNXj9K5CF+AxNw5XJjaGtatVxDTYUYb3czf+WM27stO1EmoQyRJv0ge
+ NOiCJrG5ZruQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9739"; a="138024924"
+X-IronPort-AV: E=Sophos;i="5.76,412,1592895600"; d="scan'208";a="138024924"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  10 Sep 2020 03:43:35 -0700
-IronPort-SDR: qqVbpwoHpXRw4uXJ/tF3bbA1eNSZ9spkgvcv01qCUk9F3wUDG1llqTkogCuM1gdz7aeNmlTVRt
- OEIkkJhIargg==
+IronPort-SDR: 8hUgp4Evj/ZrvmZva5fLAVk62BQgEfT5LCfHHGRlnrglQZ/c950uDT0bV2hipkAnW2ypGx1mvp
+ 9i68g1mug5Kg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,412,1592895600"; d="scan'208";a="334137214"
+X-IronPort-AV: E=Sophos;i="5.76,412,1592895600"; d="scan'208";a="334137217"
 Received: from jacob-builder.jf.intel.com ([10.7.199.155])
  by orsmga008.jf.intel.com with ESMTP; 10 Sep 2020 03:43:35 -0700
 From: Liu Yi L <yi.l.liu@intel.com>
 To: alex.williamson@redhat.com, eric.auger@redhat.com,
  baolu.lu@linux.intel.com, joro@8bytes.org
-Subject: [PATCH v7 12/16] vfio/type1: Add vSVA support for IOMMU-backed mdevs
-Date: Thu, 10 Sep 2020 03:45:29 -0700
-Message-Id: <1599734733-6431-13-git-send-email-yi.l.liu@intel.com>
+Subject: [PATCH v7 13/16] vfio/pci: Expose PCIe PASID capability to guest
+Date: Thu, 10 Sep 2020 03:45:30 -0700
+Message-Id: <1599734733-6431-14-git-send-email-yi.l.liu@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1599734733-6431-1-git-send-email-yi.l.liu@intel.com>
 References: <1599734733-6431-1-git-send-email-yi.l.liu@intel.com>
@@ -80,25 +80,20 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Recent years, mediated device pass-through framework (e.g. vfio-mdev)
-is used to achieve flexible device sharing across domains (e.g. VMs).
-Also there are hardware assisted mediated pass-through solutions from
-platform vendors. e.g. Intel VT-d scalable mode which supports Intel
-Scalable I/O Virtualization technology. Such mdevs are called IOMMU-
-backed mdevs as there are IOMMU enforced DMA isolation for such mdevs.
-In kernel, IOMMU-backed mdevs are exposed to IOMMU layer by aux-domain
-concept, which means mdevs are protected by an iommu domain which is
-auxiliary to the domain that the kernel driver primarily uses for DMA
-API. Details can be found in the KVM presentation as below:
+This patch exposes PCIe PASID capability to guest for assigned devices.
+Existing vfio_pci driver hides it from guest by setting the capability
+length as 0 in pci_ext_cap_length[].
 
-https://events19.linuxfoundation.org/wp-content/uploads/2017/12/Hardware-Assisted-Mediated-Pass-Through-with-VFIO-Kevin-Tian-Intel.pdf
+And this patch only exposes PASID capability for devices which has PCIe
+PASID extended struture in its configuration space. VFs will not expose
+the PASID capability as they do not implement the PASID extended structure
+in their config space. It is a TODO in future. Related discussion can be
+found in below link:
 
-This patch extends NESTING_IOMMU ops to IOMMU-backed mdev devices. The
-main requirement is to use the auxiliary domain associated with mdev.
+https://lore.kernel.org/kvm/20200407095801.648b1371@w520.home/
 
 Cc: Kevin Tian <kevin.tian@intel.com>
 CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
-CC: Jun Tian <jun.j.tian@intel.com>
 Cc: Alex Williamson <alex.williamson@redhat.com>
 Cc: Eric Auger <eric.auger@redhat.com>
 Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
@@ -111,85 +106,24 @@ v5 -> v6:
 *) add review-by from Eric Auger.
 
 v1 -> v2:
-*) check the iommu_device to ensure the handling mdev is IOMMU-backed
+*) added in v2, but it was sent in a separate patchseries before
 ---
- drivers/vfio/vfio_iommu_type1.c | 36 +++++++++++++++++++++++++++++++-----
- 1 file changed, 31 insertions(+), 5 deletions(-)
+ drivers/vfio/pci/vfio_pci_config.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index b67ce2d..5cef732 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -2438,29 +2438,49 @@ static int vfio_iommu_resv_refresh(struct vfio_iommu *iommu,
- 	return ret;
- }
+diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_pci_config.c
+index d98843f..07ff2e6 100644
+--- a/drivers/vfio/pci/vfio_pci_config.c
++++ b/drivers/vfio/pci/vfio_pci_config.c
+@@ -95,7 +95,7 @@ static const u16 pci_ext_cap_length[PCI_EXT_CAP_ID_MAX + 1] = {
+ 	[PCI_EXT_CAP_ID_LTR]	=	PCI_EXT_CAP_LTR_SIZEOF,
+ 	[PCI_EXT_CAP_ID_SECPCI]	=	0,	/* not yet */
+ 	[PCI_EXT_CAP_ID_PMUX]	=	0,	/* not yet */
+-	[PCI_EXT_CAP_ID_PASID]	=	0,	/* not yet */
++	[PCI_EXT_CAP_ID_PASID]	=	PCI_EXT_CAP_PASID_SIZEOF,
+ };
  
-+static struct device *vfio_get_iommu_device(struct vfio_group *group,
-+					    struct device *dev)
-+{
-+	if (group->mdev_group)
-+		return vfio_mdev_get_iommu_device(dev);
-+	else
-+		return dev;
-+}
-+
- static int vfio_dev_bind_gpasid_fn(struct device *dev, void *data)
- {
- 	struct domain_capsule *dc = (struct domain_capsule *)data;
- 	unsigned long arg = *(unsigned long *)dc->data;
-+	struct device *iommu_device;
-+
-+	iommu_device = vfio_get_iommu_device(dc->group, dev);
-+	if (!iommu_device)
-+		return -EINVAL;
- 
--	return iommu_uapi_sva_bind_gpasid(dc->domain, dev,
-+	return iommu_uapi_sva_bind_gpasid(dc->domain, iommu_device,
- 					  (void __user *)arg);
- }
- 
- static int vfio_dev_unbind_gpasid_fn(struct device *dev, void *data)
- {
- 	struct domain_capsule *dc = (struct domain_capsule *)data;
-+	struct device *iommu_device;
-+
-+	iommu_device = vfio_get_iommu_device(dc->group, dev);
-+	if (!iommu_device)
-+		return -EINVAL;
- 
- 	if (dc->user) {
- 		unsigned long arg = *(unsigned long *)dc->data;
- 
--		iommu_uapi_sva_unbind_gpasid(dc->domain,
--					     dev, (void __user *)arg);
-+		iommu_uapi_sva_unbind_gpasid(dc->domain, iommu_device,
-+					     (void __user *)arg);
- 	} else {
- 		struct iommu_gpasid_bind_data *unbind_data =
- 				(struct iommu_gpasid_bind_data *)dc->data;
- 
--		iommu_sva_unbind_gpasid(dc->domain, dev, unbind_data);
-+		iommu_sva_unbind_gpasid(dc->domain,
-+					iommu_device, unbind_data);
- 	}
- 	return 0;
- }
-@@ -3116,8 +3136,14 @@ static int vfio_dev_cache_invalidate_fn(struct device *dev, void *data)
- {
- 	struct domain_capsule *dc = (struct domain_capsule *)data;
- 	unsigned long arg = *(unsigned long *)dc->data;
-+	struct device *iommu_device;
-+
-+	iommu_device = vfio_get_iommu_device(dc->group, dev);
-+	if (!iommu_device)
-+		return -EINVAL;
- 
--	iommu_uapi_cache_invalidate(dc->domain, dev, (void __user *)arg);
-+	iommu_uapi_cache_invalidate(dc->domain, iommu_device,
-+				    (void __user *)arg);
- 	return 0;
- }
- 
+ /*
 -- 
 2.7.4
 
