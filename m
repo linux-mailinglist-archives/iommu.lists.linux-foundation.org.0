@@ -2,79 +2,70 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41822647E5
-	for <lists.iommu@lfdr.de>; Thu, 10 Sep 2020 16:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB0C264912
+	for <lists.iommu@lfdr.de>; Thu, 10 Sep 2020 17:53:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 78A2187160;
-	Thu, 10 Sep 2020 14:21:22 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 44911870CF;
+	Thu, 10 Sep 2020 15:53:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3OeBDm8tivsh; Thu, 10 Sep 2020 14:21:21 +0000 (UTC)
+	with ESMTP id gaDOOPn1u2Wh; Thu, 10 Sep 2020 15:53:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id E3A858715D;
-	Thu, 10 Sep 2020 14:21:21 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 83A44870B9;
+	Thu, 10 Sep 2020 15:53:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BF9F5C0051;
-	Thu, 10 Sep 2020 14:21:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 67114C0893;
+	Thu, 10 Sep 2020 15:53:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 00215C0051
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 14:21:19 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 54558C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 15:53:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id E2BF987587
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 14:21:19 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 369A487615
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 15:53:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MekHKDjcFWBz for <iommu@lists.linux-foundation.org>;
- Thu, 10 Sep 2020 14:21:18 +0000 (UTC)
+ with ESMTP id 6NeLrka6MqxX for <iommu@lists.linux-foundation.org>;
+ Thu, 10 Sep 2020 15:53:05 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by whitealder.osuosl.org (Postfix) with ESMTP id C02548742F
- for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 14:21:18 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3BEB11B3;
- Thu, 10 Sep 2020 07:21:17 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B4783F66E;
- Thu, 10 Sep 2020 07:21:08 -0700 (PDT)
-Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
- break;
-To: Joe Perches <joe@perches.com>, LKML <linux-kernel@vger.kernel.org>,
- Jiri Kosina <trivial@kernel.org>
-References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <9372456a-8dcf-2735-57a4-e126aa5df3a6@arm.com>
-Date: Thu, 10 Sep 2020 15:21:05 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 406028754B
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Sep 2020 15:53:05 +0000 (UTC)
+IronPort-SDR: roBSo3XKzlf+YoiuJN4PtBU1NiqkcYDKWagXN2hPtv3ri8p16cjoxpAlFOl4i81FYdbCsPNE/O
+ el5g9vGAYn4A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9739"; a="146286679"
+X-IronPort-AV: E=Sophos;i="5.76,413,1592895600"; d="scan'208";a="146286679"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Sep 2020 08:53:04 -0700
+IronPort-SDR: xtD70zt3jj3J40CjfgKgw4AOPLqxEy+7BCfDhnZz+vEn9TcS1JKPHO2scZ0IyjSC1rpIchesDb
+ oVAb5F+TJL8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,413,1592895600"; d="scan'208";a="407796959"
+Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.36])
+ by fmsmga001.fm.intel.com with ESMTP; 10 Sep 2020 08:53:03 -0700
+Date: Thu, 10 Sep 2020 08:53:03 -0700
+From: "Raj, Ashok" <ashok.raj@intel.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH] intel-iommu: don't disable ATS for device without page
+ aligned request
+Message-ID: <20200910155303.GC97190@otc-nc-03>
+References: <20200909083432.9464-1-jasowang@redhat.com>
+ <20200909171056.GF104641@otc-nc-03>
+ <491540137.16465450.1599704255365.JavaMail.zimbra@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
-Content-Language: en-GB
-Cc: linux-fbdev@vger.kernel.org, oss-drivers@netronome.com,
- nouveau@lists.freedesktop.org, alsa-devel <alsa-devel@alsa-project.org>,
- dri-devel@lists.freedesktop.org, linux-mips@vger.kernel.org,
- linux-ide@vger.kernel.org, dm-devel@redhat.com, linux-mtd@lists.infradead.org,
- linux-i2c@vger.kernel.org, sparclinux@vger.kernel.org,
- Will Deacon <will@kernel.org>, linux-afs@lists.infradead.org,
- linux-rtc@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, dccp@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-atm-general@lists.sourceforge.net, kvmarm@lists.cs.columbia.edu,
- coreteam@netfilter.org, intel-wired-lan@lists.osuosl.org,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- linux-mmc@vger.kernel.org, Kees Cook <kees.cook@canonical.com>,
- linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-nvme@lists.infradead.org, storagedev@microchip.com,
- ceph-devel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Nick Desaulniers <ndesaulniers@google.com>, linux-nfs@vger.kernel.org,
- linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-sctp@vger.kernel.org, iommu@lists.linux-foundation.org,
- netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
- bpf@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Content-Disposition: inline
+In-Reply-To: <491540137.16465450.1599704255365.JavaMail.zimbra@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Ashok Raj <ashok.raj@intel.com>, mst@redhat.com,
+ linux-kernel@vger.kernel.org, Keith Busch <keith.busch@intel.com>,
+ eperezma@redhat.com, iommu@lists.linux-foundation.org, stable@vger.kernel.org,
+ dwmw2@infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,58 +78,110 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-09-09 21:06, Joe Perches wrote:
-> fallthrough to a separate case/default label break; isn't very readable.
+On Wed, Sep 09, 2020 at 10:17:35PM -0400, Jason Wang wrote:
 > 
-> Convert pseudo-keyword fallthrough; statements to a simple break; when
-> the next label is case or default and the only statement in the next
-> label block is break;
 > 
-> Found using:
+> ----- Original Message -----
+> > Hi Jason
+> > 
+> > On Wed, Sep 09, 2020 at 04:34:32PM +0800, Jason Wang wrote:
+> > > Commit 61363c1474b1 ("iommu/vt-d: Enable ATS only if the device uses
+> > > page aligned address.") disables ATS for device that can do unaligned
+> > > page request.
+> > 
+> > Did you take a look at the PCI specification?
+> > Page Aligned Request is in the ATS capability Register.
+> > 
+> > ATS Capability Register (Offset 0x04h)
+> > 
+> > bit (5):
+> > Page Aligned Request - If Set, indicates the Untranslated address is always
+> > aligned to 4096 byte boundary. Setting this field is recommended. This
+> > field permits software to distinguish between implemntations compatible
+> > with this specification and those compatible with an earlier version of
+> > this specification in which a Requester was permitted to supply anything in
+> > bits [11:2].
 > 
-> $ grep-2.5.4 -rP --include=*.[ch] -n "fallthrough;(\s*(case\s+\w+|default)\s*:\s*){1,7}break;" *
-> 
-> Miscellanea:
-> 
-> o Move or coalesce a couple label blocks above a default: block.
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
-> 
-> Compiled allyesconfig x86-64 only.
-> A few files for other arches were not compiled.
-> 
+> Yes, my understanding is that this is optional not mandatory.
 
-[...]
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> index c192544e874b..743db1abec40 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> @@ -3777,7 +3777,7 @@ static int arm_smmu_device_hw_probe(struct arm_smmu_device *smmu)
->   	switch (FIELD_GET(IDR0_TTF, reg)) {
->   	case IDR0_TTF_AARCH32_64:
->   		smmu->ias = 40;
-> -		fallthrough;
-> +		break;
->   	case IDR0_TTF_AARCH64:
->   		break;
->   	default:
+Correct, but optional on the device side. An IOMMU might *require* this for
+proper normal operation. Our IOMMU's do not get the low 12 bits. Which is
+why the spec gives SW a way to detect if the device is compatible for this
+IOMMU implementation.
 
-I have to say I don't really agree with the readability argument for 
-this one - a fallthrough is semantically correct here, since the first 
-case is a superset of the second. It just happens that anything we would 
-do for the common subset is implicitly assumed (there are other 
-potential cases we simply haven't added support for at the moment), thus 
-the second case is currently empty.
+> 
+> > 
+> > > 
+> > > This looks wrong, since the commit log said it's because the page
+> > > request descriptor doesn't support reporting unaligned request.
+> > 
+> > I don't think you can change the definition from ATS to PRI. Both are
+> > orthogonal feature.
+> 
+> I may miss something, here's my understanding is that:
+> 
+> - page request descriptor will only be used when PRS is enabled
+> - ATS spec allows unaligned request
+> 
+> So any reason for disabling ATS for unaligned request even if PRS is
+> not enabled?
 
-This change actively obfuscates that distinction.
+I think you are getting confused between the 2 different PCIe features.
 
-Robin.
+ATS - Address Translation Services. Used by device to simply request the
+Host Physical Address for some DMA operation. 
+
+When ATS response indicates failed, then the device can request a
+page-request (PRS this is like a device page-fault), and then IOMMU driver
+would work with the kernel to fault a page then respond with
+(Page-response) success/failure. Then the device will send a new ATS 
+to get the new translation. 
+
+
+> 
+> > 
+> > > 
+> > > A victim is Qemu's virtio-pci which doesn't advertise the page aligned
+> > > address. Fixing by disable PRI instead of ATS if device doesn't have
+> > > page aligned request.
+> > 
+> > This is a requirement for the Intel IOMMU's.
+> > 
+> > You say virtio, so is it all emulated device or you talking about some
+> > hardware that implemented virtio-pci compliant hw? If you are sure the
+> > device actually does comply with the requirement, but just not enumerating
+> > the capability, you can maybe work a quirk to overcome that?
+> 
+> So far only emulated devices. But we are helping some vendor to
+> implement virtio hardware so  we need to understand the connection
+> between ATS alignment and page request descriptor.
+
+ATS and PRS are 2 separate orthogonal features. 
+PRS requires ATS, but not the other way around. 
+
+> 
+> > 
+> > Now PRI also has an alignment requirement, and Intel IOMMU's requires that
+> > as well. If your device supports SRIOV as well, PASID and PRI are
+> > enumerated just on the PF and not the VF. You might want to pay attension
+> > to that. We are still working on a solution for that problem.
+> 
+> Thanks for the reminding, but it looks to me according to the ATS
+> spec, all PRI message is 4096 byte aligned? E.g lower bites were used
+> for group index etc.
+
+Right, I should have been clear. The issue with PRI is we require responses
+to have PASID field set. There is another capability on the device that
+exposes that. pci_prg_resp_pasid_required(). This is required to enable PRI
+for a device.
+
+Cheers,
+Ashok
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
