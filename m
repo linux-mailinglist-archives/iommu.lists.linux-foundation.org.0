@@ -1,84 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C46265A58
-	for <lists.iommu@lfdr.de>; Fri, 11 Sep 2020 09:19:08 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 470B2265A4B
+	for <lists.iommu@lfdr.de>; Fri, 11 Sep 2020 09:18:00 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E04A0877DB;
-	Fri, 11 Sep 2020 07:19:06 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D202586E47;
+	Fri, 11 Sep 2020 07:17:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3jt6zBbHWr3b; Fri, 11 Sep 2020 07:19:06 +0000 (UTC)
+	with ESMTP id gw-6axv5DbXf; Fri, 11 Sep 2020 07:17:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5ED71877D9;
-	Fri, 11 Sep 2020 07:19:06 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7D72686DD6;
+	Fri, 11 Sep 2020 07:17:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 45A32C0052;
-	Fri, 11 Sep 2020 07:19:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 620ACC0051;
+	Fri, 11 Sep 2020 07:17:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4CFB5C0051
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 07:19:04 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 67BB6C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 07:17:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 47CB38770E
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 07:19:04 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 309DD2288F
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 07:17:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id htEgoH2uJfXj for <iommu@lists.linux-foundation.org>;
- Fri, 11 Sep 2020 07:19:03 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 7CD6987740
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 07:19:01 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id d6so6601342pfn.9
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 00:19:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=SS7jLbqMqo7oAIExIEmTdCQZIIujYEeMEKPzckwgOOc=;
- b=InevjptbbgvQ9h7Iyupif311WbVVYkJoovS5NtNBAZUpv+hJ+zfqvCsdzptDDDruor
- 6IDBuQHCA7/TgfTD5CDBKJ3O0kqDVHJb9tApHoScRDHil3iMCL/Hns2vP1HOZk3mf45A
- hcx3d7tI3fITed6XgZdYLMuMj/An3/OK2jriLAqsYq8/zdun2109NEluu0z0wB2gPC3k
- lV8g/q9/jn3dRqkNk5DA8lnEVnqzqDJBoX6psH8H3nOMYmhcSa3/spdhunDwws5NYG19
- XuDDrRtvNnnXpKSW4p/9B+x8+/Eo7M2R+f8Wqwtar5JQGNh7q3Mcs1xpDHF8A0kMDyc3
- oBDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=SS7jLbqMqo7oAIExIEmTdCQZIIujYEeMEKPzckwgOOc=;
- b=bklHyZ2D3TAmBLMbDvQQAc2V0yQfrgRYbJ+Qg7SkdyBM1xIB51CnuPV5DjipUAycKu
- dSntBPk+ua9R2eSODIXvLyqyIfMy89Tx4WdSErmqfba+2uqtuCzpFmjvNrYNwR3qxLEP
- HQMhK9JdZDMSc/A8yaxpPC68F48wWVYwKGD6D9vftjfZ3+KzFD9T9PhJfe7WOH1Pivx5
- 0Om+1Xp3c6G2Ow5vh63zSuqTyP0S3U9o3zmn7ddkc0rGUmRAJldcZ6NfcxBkgSaWEygR
- nbB0AImNH8XTIkhyBVt1keXij6ImrjYgtEK3WTYHnMpav3ceOUeWQqSWvX5d7/QNCcfW
- vbeg==
-X-Gm-Message-State: AOAM531ggAJ1izfBWJR3qYgaYcL0z55eL1uT0e4NGp8+A156oj4rDSn6
- FHSDLVCq/u1ExkDPR5oHJtk=
-X-Google-Smtp-Source: ABdhPJxDnur/DWFdvxSNIUQJ+nJ1mk1yUkPO5xqZL5sS/HV+nD5vZh/pEnxJKHg5E+09d+0dPkUbxQ==
-X-Received: by 2002:a17:902:bccb:b029:d1:9bf7:22f4 with SMTP id
- o11-20020a170902bccbb02900d19bf722f4mr1066840pls.27.1599808741034; 
- Fri, 11 Sep 2020 00:19:01 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
- [216.228.112.22])
- by smtp.gmail.com with ESMTPSA id 131sm1264692pfc.20.2020.09.11.00.19.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Sep 2020 00:19:00 -0700 (PDT)
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: joro@8bytes.org,
-	thierry.reding@gmail.com
-Subject: [PATCH 3/3] iommu/tegra-smmu: Allow to group clients in same swgroup
-Date: Fri, 11 Sep 2020 00:16:43 -0700
-Message-Id: <20200911071643.17212-4-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200911071643.17212-1-nicoleotsuka@gmail.com>
-References: <20200911071643.17212-1-nicoleotsuka@gmail.com>
-Cc: linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, jonathanh@nvidia.com
+ with ESMTP id VQV2Ms8pDzfk for <iommu@lists.linux-foundation.org>;
+ Fri, 11 Sep 2020 07:17:56 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by silver.osuosl.org (Postfix) with ESMTPS id 813F022817
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 07:17:56 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 1376068B02; Fri, 11 Sep 2020 09:17:52 +0200 (CEST)
+Date: Fri, 11 Sep 2020 09:17:51 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 12/12] dma-mapping: move the
+ dma_declare_coherent_memory documentation
+Message-ID: <20200911071751.GG22394@lst.de>
+References: <20200908164758.3177341-1-hch@lst.de>
+ <20200908164758.3177341-13-hch@lst.de>
+ <07c51b70-fb7d-cf44-b5c3-54e3148c11ae@arm.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <07c51b70-fb7d-cf44-b5c3-54e3148c11ae@arm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Fenghua Yu <fenghua.yu@intel.com>, Tony Luck <tony.luck@intel.com>,
+ linux-ia64@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,77 +66,32 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-There can be clients using the same swgroup in DT, for example i2c0
-and i2c1. The current driver will add them to separate IOMMU groups,
-though it has implemented device_group() callback which is to group
-devices using different swgroups like DC and DCB.
+On Thu, Sep 10, 2020 at 02:51:47PM +0100, Robin Murphy wrote:
+> On 2020-09-08 17:47, Christoph Hellwig wrote:
+>> dma_declare_coherent_memory should not be in a DMA API guide aimed
+>> at driver writers (that is consumers of the API).  Move it to a comment
+>> near the function instead.
+>
+> I still think there might be an occasional valid use for device-local 
+> memory outside the scope of platform code without the driver having to go 
+> full ZONE_DEVICE/HMM/TTM, e.g. with stuff like PCIe-based FPGA prototyping 
+> cards, but the kind of driver I'm imagining for that case would never be 
+> upstream anyway (if it were even written, rather than just using hard-coded 
+> hacks), so meh.
 
-All clients having the same swgroup should be also added to the same
-IOMMU group so as to share an asid. Otherwise, the asid register may
-get overwritten every time a new device is attached.
-
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
----
- drivers/iommu/tegra-smmu.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 50b962b0647e..84fdee473873 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -23,6 +23,7 @@ struct tegra_smmu_group {
- 	struct tegra_smmu *smmu;
- 	const struct tegra_smmu_group_soc *soc;
- 	struct iommu_group *group;
-+	unsigned int swgroup;
- };
- 
- struct tegra_smmu {
-@@ -909,14 +910,14 @@ static struct iommu_group *tegra_smmu_group_get(struct tegra_smmu *smmu,
- 	struct tegra_smmu_group *group;
- 	struct iommu_group *grp;
- 
-+	/* Find group_soc associating with swgroup */
- 	soc = tegra_smmu_find_group(smmu, swgroup);
--	if (!soc)
--		return NULL;
- 
- 	mutex_lock(&smmu->lock);
- 
-+	/* Find existing iommu_group associating with swgroup or group_soc */
- 	list_for_each_entry(group, &smmu->groups, list)
--		if (group->soc == soc) {
-+		if ((group->swgroup == swgroup) || (soc && group->soc == soc)) {
- 			grp = iommu_group_ref_get(group->group);
- 			mutex_unlock(&smmu->lock);
- 			return grp;
-@@ -929,6 +930,7 @@ static struct iommu_group *tegra_smmu_group_get(struct tegra_smmu *smmu,
- 	}
- 
- 	INIT_LIST_HEAD(&group->list);
-+	group->swgroup = swgroup;
- 	group->smmu = smmu;
- 	group->soc = soc;
- 
-@@ -940,7 +942,8 @@ static struct iommu_group *tegra_smmu_group_get(struct tegra_smmu *smmu,
- 	}
- 
- 	iommu_group_set_iommudata(group->group, group, tegra_smmu_group_release);
--	iommu_group_set_name(group->group, soc->name);
-+	if (soc)
-+		iommu_group_set_name(group->group, soc->name);
- 	list_add_tail(&group->list, &smmu->groups);
- 	mutex_unlock(&smmu->lock);
- 
--- 
-2.17.1
-
+And I'm not sure this would be the right interface for it.  E.g. NVMe
+has the concept of a Controller Memory buffer (and a similar persistent
+variant not supported by Linux), where the device can do this local DMA
+(in a completely broken way that relies on correlating addresses seen
+by the device and those by the host, but that's another disgression).
+But that memory obviously can also be addresses by other devices using
+PCIe P2P transactions which would also be useful for any HMM-ish devices,
+so we'd need to expose it as P2P memory anyay..
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
