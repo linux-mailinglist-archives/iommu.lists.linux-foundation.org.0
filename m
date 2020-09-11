@@ -1,63 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9792662D6
-	for <lists.iommu@lfdr.de>; Fri, 11 Sep 2020 18:03:25 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3454F2662E7
+	for <lists.iommu@lfdr.de>; Fri, 11 Sep 2020 18:07:16 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9E29086CC5;
-	Fri, 11 Sep 2020 16:03:24 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E3BC8878A6;
+	Fri, 11 Sep 2020 16:07:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cttgRYABkJBF; Fri, 11 Sep 2020 16:03:23 +0000 (UTC)
+	with ESMTP id iK8jyh2uZ9Ot; Fri, 11 Sep 2020 16:07:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D806D86BF1;
-	Fri, 11 Sep 2020 16:03:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6CF81878A9;
+	Fri, 11 Sep 2020 16:07:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CB270C0859;
-	Fri, 11 Sep 2020 16:03:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5BE72C089E;
+	Fri, 11 Sep 2020 16:07:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7515FC0051
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 16:03:22 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 388BBC0051
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 16:07:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 6437186BF1
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 16:03:22 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 201D8878A6
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 16:07:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OjedOLE-0inu for <iommu@lists.linux-foundation.org>;
- Fri, 11 Sep 2020 16:03:21 +0000 (UTC)
+ with ESMTP id Fo9o6bDcnUqS for <iommu@lists.linux-foundation.org>;
+ Fri, 11 Sep 2020 16:07:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by whitealder.osuosl.org (Postfix) with ESMTP id 535A286B52
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 16:03:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E33F106F;
- Fri, 11 Sep 2020 09:03:15 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A88D43F73C;
- Fri, 11 Sep 2020 09:03:11 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C2EE1871FE
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 16:07:12 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3AFC2206CA;
+ Fri, 11 Sep 2020 16:07:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1599840432;
+ bh=HMkToyAt+R5UW/0fJTeoIckq2g06NAPzV1gQYp89vEI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rW40pgimHDCBZ3vHXEgiusgmWmT7c33pKGm3eMIMIJHF2eAVYvAbQbBax0f1VzpZL
+ 7GRrVgdXVhGnr00ED/n/a2itqfP1aYXxYL8QXzDrhFZaI2IUqsJrt9zBMuVKFqYO6z
+ OOd1Jf5FYqf9x4SCl57HVjpIsmhSc5NfoUhTu41w=
+Date: Fri, 11 Sep 2020 17:07:07 +0100
+From: Will Deacon <will@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>
 Subject: Re: [PATCHv4 6/6] iommu: arm-smmu-impl: Remove unwanted extra blank
  lines
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Jordan Crouse <jcrouse@codeaurora.org>, Rob Clark <robdclark@gmail.com>
+Message-ID: <20200911160706.GA20802@willie-the-truck>
 References: <cover.1599832685.git.saiprakash.ranjan@codeaurora.org>
  <010101747d912d9f-c8050b8d-1e81-4be0-ac35-b221f657b490-000000@us-west-2.amazonses.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <c26b5317-f12d-8be9-be45-3307ce5efbfc@arm.com>
-Date: Fri, 11 Sep 2020 17:03:06 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ <c26b5317-f12d-8be9-be45-3307ce5efbfc@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <010101747d912d9f-c8050b8d-1e81-4be0-ac35-b221f657b490-000000@us-west-2.amazonses.com>
-Content-Language: en-GB
-Cc: linux-arm-msm@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org,
+Content-Disposition: inline
+In-Reply-To: <c26b5317-f12d-8be9-be45-3307ce5efbfc@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel@lists.freedesktop.org,
  "Kristian H . Kristensen" <hoegsberg@google.com>,
  freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -72,72 +76,17 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-09-11 15:28, Sai Prakash Ranjan wrote:
-> There are few places in arm-smmu-impl where there are
-> extra blank lines, remove them
+On Fri, Sep 11, 2020 at 05:03:06PM +0100, Robin Murphy wrote:
+> BTW am I supposed to have received 3 copies of everything? Because I did...
 
-FWIW those were deliberate - sometimes I like a bit of subtle space to 
-visually delineate distinct groups of definitions. I suppose it won't be 
-to everyone's taste :/
+Yeah, this seems to be happening for all of Sai's emails :/
 
-> and while at it fix the
-> checkpatch warning for space required before the open
-> parenthesis.
-
-That one, however, was not ;)
-
-BTW am I supposed to have received 3 copies of everything? Because I did...
-
-Robin.
-
-> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-> ---
->   drivers/iommu/arm/arm-smmu/arm-smmu-impl.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-> index ce78295cfa78..f5b5218cbe5b 100644
-> --- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-> @@ -19,7 +19,7 @@ static const struct of_device_id __maybe_unused qcom_smmu_impl_of_match[] = {
->   
->   static int arm_smmu_gr0_ns(int offset)
->   {
-> -	switch(offset) {
-> +	switch (offset) {
->   	case ARM_SMMU_GR0_sCR0:
->   	case ARM_SMMU_GR0_sACR:
->   	case ARM_SMMU_GR0_sGFSR:
-> @@ -54,7 +54,6 @@ static const struct arm_smmu_impl calxeda_impl = {
->   	.write_reg = arm_smmu_write_ns,
->   };
->   
-> -
->   struct cavium_smmu {
->   	struct arm_smmu_device smmu;
->   	u32 id_base;
-> @@ -110,7 +109,6 @@ static struct arm_smmu_device *cavium_smmu_impl_init(struct arm_smmu_device *smm
->   	return &cs->smmu;
->   }
->   
-> -
->   #define ARM_MMU500_ACTLR_CPRE		(1 << 1)
->   
->   #define ARM_MMU500_ACR_CACHE_LOCK	(1 << 26)
-> @@ -197,7 +195,6 @@ static const struct arm_smmu_impl mrvl_mmu500_impl = {
->   	.reset = arm_mmu500_reset,
->   };
->   
-> -
->   struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
->   {
->   	const struct device_node *np = smmu->dev->of_node;
-> 
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
