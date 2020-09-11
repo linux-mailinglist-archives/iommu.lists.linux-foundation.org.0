@@ -2,77 +2,84 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FED266A28
-	for <lists.iommu@lfdr.de>; Fri, 11 Sep 2020 23:38:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65FBA266A6C
+	for <lists.iommu@lfdr.de>; Fri, 11 Sep 2020 23:56:24 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CF2C987244;
-	Fri, 11 Sep 2020 21:38:24 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 117CD87AFC;
+	Fri, 11 Sep 2020 21:56:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id y+xV2eyuP8Yt; Fri, 11 Sep 2020 21:38:23 +0000 (UTC)
+	with ESMTP id TJGsHrE2Ytqb; Fri, 11 Sep 2020 21:56:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BC1C7873F9;
-	Fri, 11 Sep 2020 21:38:23 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id F0B9387B1D;
+	Fri, 11 Sep 2020 21:56:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C2A3C0051;
-	Fri, 11 Sep 2020 21:38:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D39E4C0051;
+	Fri, 11 Sep 2020 21:56:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A0734C0051
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 21:38:22 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 39779C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 21:56:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 96596874BB
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 21:38:22 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 1E5502E2CE
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 21:56:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vzCfz4yWUQqy for <iommu@lists.linux-foundation.org>;
- Fri, 11 Sep 2020 21:38:21 +0000 (UTC)
+ with ESMTP id NiIsHe9Cr9iK for <iommu@lists.linux-foundation.org>;
+ Fri, 11 Sep 2020 21:56:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
- [205.139.110.120])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 4C80F874AF
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 21:38:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1599860300;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a3Rgi5X/bHgs8RcPhxJzeqnxBSrzQidkBS6mbDd86SM=;
- b=SAdsP+yedFPM+JHiUP2ZQH9bDwtihewFzog4kQ51arPRyi5YwlLEKWh9HFae4RmIIVyDTW
- kE9hNw2VFCgDok49Zkq9oFeLkxcGTdj+zz8ovK/PY/AAKsBT8dPjUcf/2QeW0zE3YQkELh
- 6Dyu4emlHCOb0X5NwqaClGQOo95T1nY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-_5ci5bAaNHekE8ZcMAGKEQ-1; Fri, 11 Sep 2020 17:38:16 -0400
-X-MC-Unique: _5ci5bAaNHekE8ZcMAGKEQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E59F57053;
- Fri, 11 Sep 2020 21:38:14 +0000 (UTC)
-Received: from w520.home (ovpn-112-71.phx2.redhat.com [10.3.112.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0A6AE5C22B;
- Fri, 11 Sep 2020 21:38:06 +0000 (UTC)
-Date: Fri, 11 Sep 2020 15:38:06 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Liu Yi L <yi.l.liu@intel.com>
-Subject: Re: [PATCH v7 07/16] vfio/type1: Add VFIO_IOMMU_PASID_REQUEST
- (alloc/free)
-Message-ID: <20200911153806.6dda06b9@w520.home>
-In-Reply-To: <1599734733-6431-8-git-send-email-yi.l.liu@intel.com>
-References: <1599734733-6431-1-git-send-email-yi.l.liu@intel.com>
- <1599734733-6431-8-git-send-email-yi.l.liu@intel.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com, ashok.raj@intel.com,
- kvm@vger.kernel.org, jasowang@redhat.com, stefanha@gmail.com,
- iommu@lists.linux-foundation.org, yi.y.sun@intel.com, hao.wu@intel.com,
- jun.j.tian@intel.com
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+ [209.85.215.193])
+ by silver.osuosl.org (Postfix) with ESMTPS id 203BD2E2DD
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 21:56:08 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id 7so7497506pgm.11
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 14:56:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=7BjSVtSDf909ReswhXA+neV/Kc6sD4bi71wx2N5H7LU=;
+ b=A8C+o+2fd8UsmwGVQND5DGvINunw0u7Dvp69GukWmaRVU8xVfnKpMMNTRwvGxX6qIx
+ vTnQk02zBTtODhO0Cg11VU+E+zQmJK7GUowXrTHH88wY8oiyLsgMrCdiPSVhLOTm+ZFf
+ LjClNr82QTpY8pFxaD7UTNolbP6HEK/84d942CI8nVbJzPr9dgcv6rNccexNn/MUHLWr
+ QqRv9JqKMScsV/eb2B3dUAEcyX/gQX8ziyd3Qq/XgRrdWGfIx7CWBgsbcK2WW3grL1Hr
+ AF9G+nCkyUkqMQb5SRLAX7UfRPWqF5Kzm0O7hyAkFS3JNvkxaTczL9cP3ofJKSPcDtv6
+ JKaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=7BjSVtSDf909ReswhXA+neV/Kc6sD4bi71wx2N5H7LU=;
+ b=H8tk6/Inlm6XKtA1ubZVAXs75MUraZx4/PBWMurMSqBRRkNzLfzPkdsUJCoH6cTx5P
+ N3aROvoSfij4kGPbqL3UKZ8BDvX2lkuCFOC7NiujDRzmHfjmit3kMk+j+tMGlzugNxAB
+ fOEaGbLouThW9JXS8tN8W/LQURbIJiqIsZ2D7FROeQDuA9FmqA6gQDxQ487dc/yDfnBH
+ WfS9VXBvG9kS2iAx3HakSPonxnHaJW0VAa7SJLpi/X4HWE6HGXqbnFtaA+ZLums3Ledr
+ j7sK2VPLsnvSu6q7pCbCEuU54eRrPLj2A1u9HWWPioWmGxtthR/wFGfpbHl2nWdprnKL
+ dyKQ==
+X-Gm-Message-State: AOAM533e0DOQWyMCnIGn0a9YYvn4qX7vCF4AFCMFoT8RMzH0gieXMto4
+ PbzAz6nnXUEEepyi3nOnrHkDwh6SXG4=
+X-Google-Smtp-Source: ABdhPJxmwvCOhFLYI0HlF/wSBPLrK9ZM65jAoxM3LpnoRR+ftotb/M9S41OFO4PhAkpKeOz+04dVFg==
+X-Received: by 2002:a65:5689:: with SMTP id v9mr3203008pgs.271.1599861367361; 
+ Fri, 11 Sep 2020 14:56:07 -0700 (PDT)
+Received: from jacob-builder.jf.intel.com (jfdmzpr04-ext.jf.intel.com.
+ [134.134.137.73])
+ by smtp.gmail.com with ESMTPSA id e62sm3171586pfh.76.2020.09.11.14.56.06
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 11 Sep 2020 14:56:06 -0700 (PDT)
+From: Jacob Pan <jacob.pan.linux@gmail.com>
+X-Google-Original-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
+To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
+ Joerg Roedel <joro@8bytes.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "Lu Baolu" <baolu.lu@linux.intel.com>,
+ David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v9 0/7] IOMMU user API enhancement
+Date: Fri, 11 Sep 2020 14:57:49 -0700
+Message-Id: <1599861476-53416-1-git-send-email-jacob.jun.pan@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
+ Yi Sun <yi.y.sun@intel.com>, Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ Wu Hao <hao.wu@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,338 +92,109 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, 10 Sep 2020 03:45:24 -0700
-Liu Yi L <yi.l.liu@intel.com> wrote:
+IOMMU user API header was introduced to support nested DMA translation and
+related fault handling. The current UAPI data structures consist of three
+areas that cover the interactions between host kernel and guest:
+ - fault handling
+ - cache invalidation
+ - bind guest page tables, i.e. guest PASID
 
-> This patch allows userspace to request PASID allocation/free, e.g. when
-> serving the request from the guest.
-> 
-> PASIDs that are not freed by userspace are automatically freed when the
-> IOASID set is destroyed when process exits.
-> 
-> Cc: Kevin Tian <kevin.tian@intel.com>
-> CC: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Eric Auger <eric.auger@redhat.com>
-> Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> Cc: Joerg Roedel <joro@8bytes.org>
-> Cc: Lu Baolu <baolu.lu@linux.intel.com>
-> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> ---
-> v6 -> v7:
-> *) current VFIO returns allocated pasid via signed int, thus VFIO UAPI
->    can only support 31 bits pasid. If user space gives min,max which is
->    wider than 31 bits, should fail the allocation or free request.
-> 
-> v5 -> v6:
-> *) address comments from Eric against v5. remove the alloc/free helper.
-> 
-> v4 -> v5:
-> *) address comments from Eric Auger.
-> *) the comments for the PASID_FREE request is addressed in patch 5/15 of
->    this series.
-> 
-> v3 -> v4:
-> *) address comments from v3, except the below comment against the range
->    of PASID_FREE request. needs more help on it.
->     "> +if (req.range.min > req.range.max)  
-> 
->      Is it exploitable that a user can spin the kernel for a long time in
->      the case of a free by calling this with [0, MAX_UINT] regardless of
->      their actual allocations?"
->     https://lore.kernel.org/linux-iommu/20200702151832.048b44d1@x1.home/
-> 
-> v1 -> v2:
-> *) move the vfio_mm related code to be a seprate module
-> *) use a single structure for alloc/free, could support a range of PASIDs
-> *) fetch vfio_mm at group_attach time instead of at iommu driver open time
-> ---
->  drivers/vfio/Kconfig            |  1 +
->  drivers/vfio/vfio_iommu_type1.c | 76 +++++++++++++++++++++++++++++++++++++++++
->  drivers/vfio/vfio_pasid.c       | 10 ++++++
->  include/linux/vfio.h            |  6 ++++
->  include/uapi/linux/vfio.h       | 43 +++++++++++++++++++++++
->  5 files changed, 136 insertions(+)
-> 
-> diff --git a/drivers/vfio/Kconfig b/drivers/vfio/Kconfig
-> index 3d8a108..95d90c6 100644
-> --- a/drivers/vfio/Kconfig
-> +++ b/drivers/vfio/Kconfig
-> @@ -2,6 +2,7 @@
->  config VFIO_IOMMU_TYPE1
->  	tristate
->  	depends on VFIO
-> +	select VFIO_PASID if (X86)
->  	default n
->  
->  config VFIO_IOMMU_SPAPR_TCE
-> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-> index 3c0048b..bd4b668 100644
-> --- a/drivers/vfio/vfio_iommu_type1.c
-> +++ b/drivers/vfio/vfio_iommu_type1.c
-> @@ -76,6 +76,7 @@ struct vfio_iommu {
->  	bool				dirty_page_tracking;
->  	bool				pinned_page_dirty_scope;
->  	struct iommu_nesting_info	*nesting_info;
-> +	struct vfio_mm			*vmm;
->  };
->  
->  struct vfio_domain {
-> @@ -2000,6 +2001,11 @@ static void vfio_iommu_iova_insert_copy(struct vfio_iommu *iommu,
->  
->  static void vfio_iommu_release_nesting_info(struct vfio_iommu *iommu)
->  {
-> +	if (iommu->vmm) {
-> +		vfio_mm_put(iommu->vmm);
-> +		iommu->vmm = NULL;
-> +	}
-> +
->  	kfree(iommu->nesting_info);
->  	iommu->nesting_info = NULL;
->  }
-> @@ -2127,6 +2133,26 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
->  					    iommu->nesting_info);
->  		if (ret)
->  			goto out_detach;
-> +
-> +		if (iommu->nesting_info->features &
-> +					IOMMU_NESTING_FEAT_SYSWIDE_PASID) {
-> +			struct vfio_mm *vmm;
-> +			struct ioasid_set *set;
-> +
-> +			vmm = vfio_mm_get_from_task(current);
-> +			if (IS_ERR(vmm)) {
-> +				ret = PTR_ERR(vmm);
-> +				goto out_detach;
-> +			}
-> +			iommu->vmm = vmm;
-> +
-> +			set = vfio_mm_ioasid_set(vmm);
-> +			ret = iommu_domain_set_attr(domain->domain,
-> +						    DOMAIN_ATTR_IOASID_SET,
-> +						    set);
-> +			if (ret)
-> +				goto out_detach;
-> +		}
->  	}
->  
->  	/* Get aperture info */
-> @@ -2908,6 +2934,54 @@ static int vfio_iommu_type1_dirty_pages(struct vfio_iommu *iommu,
->  	return -EINVAL;
->  }
->  
-> +static int vfio_iommu_type1_pasid_request(struct vfio_iommu *iommu,
-> +					  unsigned long arg)
-> +{
-> +	struct vfio_iommu_type1_pasid_request req;
-> +	unsigned long minsz;
-> +	int ret;
-> +
-> +	minsz = offsetofend(struct vfio_iommu_type1_pasid_request, range);
-> +
-> +	if (copy_from_user(&req, (void __user *)arg, minsz))
-> +		return -EFAULT;
-> +
-> +	if (req.argsz < minsz || (req.flags & ~VFIO_PASID_REQUEST_MASK))
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * Current VFIO_IOMMU_PASID_REQUEST only supports at most
-> +	 * 31 bits PASID. The min,max value from userspace should
-> +	 * not exceed 31 bits.
+Future extensions are likely to support more architectures and vIOMMU features.
 
-Please describe the source of this restriction.  I think it's due to
-using the ioctl return value to return the PASID, thus excluding the
-negative values, but aren't we actually restricted to pasid_bits
-exposed in the nesting_info?  If this is just a sanity test for the API
-then why are we defining VFIO_IOMMU_PASID_BITS in the uapi header,
-which causes conflicting information to the user... which do they
-honor?  Should we instead verify that pasid_bits matches our API scheme
-when configuring the nested domain and then let the ioasid allocator
-reject requests outside of the range?
+In the previous discussion, using user-filled data size and feature flags is
+made a preferred approach over a unified version number.
+https://lkml.org/lkml/2020/1/29/45
 
-> +	 */
-> +	if (req.range.min > req.range.max ||
-> +	    req.range.min > (1 << VFIO_IOMMU_PASID_BITS) ||
-> +	    req.range.max > (1 << VFIO_IOMMU_PASID_BITS))
+In addition to introduce argsz field to data structures, this patchset is also
+trying to document the UAPI design, usage, and extension rules. VT-d driver
+changes to utilize the new argsz field is included, VFIO usage is to follow.
 
-Off by one, >= for the bit test.
+This set is available at:
+https://github.com/jacobpan/linux.git vsva_v5.9_uapi_v9
 
-> +		return -EINVAL;
-> +
-> +	mutex_lock(&iommu->lock);
-> +	if (!iommu->vmm) {
-> +		mutex_unlock(&iommu->lock);
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	switch (req.flags & VFIO_PASID_REQUEST_MASK) {
-> +	case VFIO_IOMMU_FLAG_ALLOC_PASID:
-> +		ret = vfio_pasid_alloc(iommu->vmm, req.range.min,
-> +				       req.range.max);
-> +		break;
-> +	case VFIO_IOMMU_FLAG_FREE_PASID:
-> +		vfio_pasid_free_range(iommu->vmm, req.range.min,
-> +				      req.range.max);
-> +		ret = 0;
+Thanks,
 
-Set the initial value when it's declared?
+Jacob
 
-> +		break;
-> +	default:
-> +		ret = -EINVAL;
-> +	}
-> +	mutex_unlock(&iommu->lock);
-> +	return ret;
-> +}
-> +
->  static long vfio_iommu_type1_ioctl(void *iommu_data,
->  				   unsigned int cmd, unsigned long arg)
->  {
-> @@ -2924,6 +2998,8 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
->  		return vfio_iommu_type1_unmap_dma(iommu, arg);
->  	case VFIO_IOMMU_DIRTY_PAGES:
->  		return vfio_iommu_type1_dirty_pages(iommu, arg);
-> +	case VFIO_IOMMU_PASID_REQUEST:
-> +		return vfio_iommu_type1_pasid_request(iommu, arg);
->  	default:
->  		return -ENOTTY;
->  	}
-> diff --git a/drivers/vfio/vfio_pasid.c b/drivers/vfio/vfio_pasid.c
-> index 44ecdd5..0ec4660 100644
-> --- a/drivers/vfio/vfio_pasid.c
-> +++ b/drivers/vfio/vfio_pasid.c
-> @@ -60,6 +60,7 @@ void vfio_mm_put(struct vfio_mm *vmm)
->  {
->  	kref_put_mutex(&vmm->kref, vfio_mm_release, &vfio_mm_lock);
->  }
-> +EXPORT_SYMBOL_GPL(vfio_mm_put);
->  
->  static void vfio_mm_get(struct vfio_mm *vmm)
->  {
-> @@ -113,6 +114,13 @@ struct vfio_mm *vfio_mm_get_from_task(struct task_struct *task)
->  	mmput(mm);
->  	return vmm;
->  }
-> +EXPORT_SYMBOL_GPL(vfio_mm_get_from_task);
-> +
-> +struct ioasid_set *vfio_mm_ioasid_set(struct vfio_mm *vmm)
-> +{
-> +	return vmm->ioasid_set;
-> +}
-> +EXPORT_SYMBOL_GPL(vfio_mm_ioasid_set);
->  
->  /*
->   * Find PASID within @min and @max
-> @@ -201,6 +209,7 @@ int vfio_pasid_alloc(struct vfio_mm *vmm, int min, int max)
->  
->  	return pasid;
->  }
-> +EXPORT_SYMBOL_GPL(vfio_pasid_alloc);
->  
->  void vfio_pasid_free_range(struct vfio_mm *vmm,
->  			   ioasid_t min, ioasid_t max)
-> @@ -217,6 +226,7 @@ void vfio_pasid_free_range(struct vfio_mm *vmm,
->  		vfio_remove_pasid(vmm, vid);
->  	mutex_unlock(&vmm->pasid_lock);
->  }
-> +EXPORT_SYMBOL_GPL(vfio_pasid_free_range);
->  
->  static int __init vfio_pasid_init(void)
->  {
-> diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-> index 31472a9..5c3d7a8 100644
-> --- a/include/linux/vfio.h
-> +++ b/include/linux/vfio.h
-> @@ -101,6 +101,7 @@ struct vfio_mm;
->  #if IS_ENABLED(CONFIG_VFIO_PASID)
->  extern struct vfio_mm *vfio_mm_get_from_task(struct task_struct *task);
->  extern void vfio_mm_put(struct vfio_mm *vmm);
-> +extern struct ioasid_set *vfio_mm_ioasid_set(struct vfio_mm *vmm);
->  extern int vfio_pasid_alloc(struct vfio_mm *vmm, int min, int max);
->  extern void vfio_pasid_free_range(struct vfio_mm *vmm,
->  				  ioasid_t min, ioasid_t max);
-> @@ -114,6 +115,11 @@ static inline void vfio_mm_put(struct vfio_mm *vmm)
->  {
->  }
->  
-> +static inline struct ioasid_set *vfio_mm_ioasid_set(struct vfio_mm *vmm)
-> +{
-> +	return -ENOTTY;
-> +}
-> +
->  static inline int vfio_pasid_alloc(struct vfio_mm *vmm, int min, int max)
->  {
->  	return -ENOTTY;
-> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-> index ff40f9e..a4bc42e 100644
-> --- a/include/uapi/linux/vfio.h
-> +++ b/include/uapi/linux/vfio.h
-> @@ -1172,6 +1172,49 @@ struct vfio_iommu_type1_dirty_bitmap_get {
->  
->  #define VFIO_IOMMU_DIRTY_PAGES             _IO(VFIO_TYPE, VFIO_BASE + 17)
->  
-> +/**
-> + * VFIO_IOMMU_PASID_REQUEST - _IOWR(VFIO_TYPE, VFIO_BASE + 18,
-> + *				struct vfio_iommu_type1_pasid_request)
-> + *
-> + * PASID (Processor Address Space ID) is a PCIe concept for tagging
-> + * address spaces in DMA requests. When system-wide PASID allocation
-> + * is required by the underlying iommu driver (e.g. Intel VT-d), this
-> + * provides an interface for userspace to request pasid alloc/free
-> + * for its assigned devices. Userspace should check the availability
-> + * of this API by checking VFIO_IOMMU_TYPE1_INFO_CAP_NESTING through
-> + * VFIO_IOMMU_GET_INFO.
-> + *
-> + * @flags=VFIO_IOMMU_FLAG_ALLOC_PASID, allocate a single PASID within @range.
-> + * @flags=VFIO_IOMMU_FLAG_FREE_PASID, free the PASIDs within @range.
-> + * @range is [min, max], which means both @min and @max are inclusive.
-> + * ALLOC_PASID and FREE_PASID are mutually exclusive.
-> + *
-> + * Current interface supports at most 31 bits PASID bits as returning
-> + * PASID allocation result via signed int. PCIe spec defines 20 bits
-> + * for PASID width, so 31 bits is enough. As a result user space should
-> + * provide min, max no more than 31 bits.
 
-Perhaps this is the description I was looking for, but this still
-conflicts with what I think the user is supposed to do, which is to
-provide a range within nesting_info.pasid_bits.  These seem like
-implementation details, not uapi.  Thanks,
+Changelog:
+v9
+	- Directly pass PASID value to iommu_sva_unbind_gpasid() without
+	  the superfluous data in struct iommu_gpasid_bind_data.
+v8
+	- Rebased to v5.9-rc2
+	- Addressed review comments from Eric Auger
+	  1. added a check for the unused vendor flags
+	  2. commit message improvements
+v7
+	- Added PASID data format enum for range checking
+	- Tidy up based on reviews from Alex W.
+	- Removed doc section for vIOMMU fault handling
+v6
+	- Renamed all UAPI functions with iommu_uapi_ prefix
+	- Replaced argsz maxsz checking with flag specific size checks
+	- Documentation improvements based on suggestions by Eric Auger
+	  Replaced example code with a pointer to the actual code
+	- Added more checks for illegal flags combinations
+	- Added doc file to MAINTAINERS
+v5
+	- Addjusted paddings in UAPI data to be 8 byte aligned
+	- Do not clobber argsz in IOMMU core before passing on to vendor driver
+	- Removed pr_warn_ for invalid UAPI data check, just return -EINVAL
+	- Clarified VFIO responsibility in UAPI data handling
+	- Use iommu_uapi prefix to differentiate APIs has in-kernel caller
+	- Added comment for unchecked flags of invalidation granularity
+	- Added example in doc to show vendor data checking
 
-Alex
+v4
+	- Added checks of UAPI data for reserved fields, version, and flags.
+	- Removed version check from vendor driver (vt-d)
+	- Relaxed argsz check to match the UAPI struct size instead of variable
+	  union size
+	- Updated documentation
 
-> + * returns: allocated PASID value on success, -errno on failure for
-> + *	    ALLOC_PASID;
-> + *	    0 for FREE_PASID operation;
-> + */
-> +struct vfio_iommu_type1_pasid_request {
-> +	__u32	argsz;
-> +#define VFIO_IOMMU_FLAG_ALLOC_PASID	(1 << 0)
-> +#define VFIO_IOMMU_FLAG_FREE_PASID	(1 << 1)
-> +	__u32	flags;
-> +	struct {
-> +		__u32	min;
-> +		__u32	max;
-> +	} range;
-> +};
-> +
-> +#define VFIO_PASID_REQUEST_MASK	(VFIO_IOMMU_FLAG_ALLOC_PASID | \
-> +					 VFIO_IOMMU_FLAG_FREE_PASID)
-> +
-> +#define VFIO_IOMMU_PASID_BITS		31
-> +
-> +#define VFIO_IOMMU_PASID_REQUEST	_IO(VFIO_TYPE, VFIO_BASE + 18)
-> +
->  /* -------- Additional API for SPAPR TCE (Server POWERPC) IOMMU -------- */
->  
->  /*
+v3:
+	- Rewrote backward compatibility rule to support existing code
+	  re-compiled with newer kernel UAPI header that runs on older
+	  kernel. Based on review comment from Alex W.
+	  https://lore.kernel.org/linux-iommu/20200611094741.6d118fa8@w520.home/
+	- Take user pointer directly in UAPI functions. Perform argsz check
+	  and copy_from_user() in IOMMU driver. Eliminate the need for
+	  VFIO or other upper layer to parse IOMMU data.
+	- Create wrapper function for in-kernel users of UAPI functions
+v2:
+	- Removed unified API version and helper
+	- Introduced argsz for each UAPI data
+	- Introduced UAPI doc
+
+
+Jacob Pan (7):
+  docs: IOMMU user API
+  iommu/uapi: Add argsz for user filled data
+  iommu/uapi: Introduce enum type for PASID data format
+  iommu/uapi: Use named union for user data
+  iommu/uapi: Rename uapi functions
+  iommu/uapi: Handle data and argsz filled by users
+  iommu/vt-d: Check UAPI data processed by IOMMU core
+
+ Documentation/userspace-api/iommu.rst | 211 ++++++++++++++++++++++++++++++++++
+ MAINTAINERS                           |   1 +
+ drivers/iommu/intel/iommu.c           |  25 ++--
+ drivers/iommu/intel/svm.c             |  13 ++-
+ drivers/iommu/iommu.c                 | 201 ++++++++++++++++++++++++++++++--
+ include/linux/iommu.h                 |  35 ++++--
+ include/uapi/linux/iommu.h            |  25 ++--
+ 7 files changed, 468 insertions(+), 43 deletions(-)
+ create mode 100644 Documentation/userspace-api/iommu.rst
+
+-- 
+2.7.4
 
 _______________________________________________
 iommu mailing list
