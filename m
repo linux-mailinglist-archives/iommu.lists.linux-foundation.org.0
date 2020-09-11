@@ -1,68 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6575E265EBE
-	for <lists.iommu@lfdr.de>; Fri, 11 Sep 2020 13:27:30 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2259266121
+	for <lists.iommu@lfdr.de>; Fri, 11 Sep 2020 16:25:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DFD908783E;
-	Fri, 11 Sep 2020 11:27:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 539C5207A4;
+	Fri, 11 Sep 2020 14:25:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MWmmTlKILhCD; Fri, 11 Sep 2020 11:27:27 +0000 (UTC)
+	with ESMTP id Mt7zsouLVquA; Fri, 11 Sep 2020 14:25:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CB7768783B;
-	Fri, 11 Sep 2020 11:27:27 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id BFAA2204E1;
+	Fri, 11 Sep 2020 14:25:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AD25CC089E;
-	Fri, 11 Sep 2020 11:27:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id ABA81C0051;
+	Fri, 11 Sep 2020 14:25:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5FB77C0051
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 11:27:26 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 931FAC0051
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 13:53:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 4E9618783A
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 11:27:26 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8D8CE877F8
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 13:53:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m45U316OdKva for <iommu@lists.linux-foundation.org>;
- Fri, 11 Sep 2020 11:27:25 +0000 (UTC)
+ with ESMTP id xw+m-SkFq0Lh for <iommu@lists.linux-foundation.org>;
+ Fri, 11 Sep 2020 13:53:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8F5AD87838
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 11:27:25 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ECC2F113E;
- Fri, 11 Sep 2020 04:27:24 -0700 (PDT)
-Received: from [10.57.40.122] (unknown [10.57.40.122])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 59C303F68F;
- Fri, 11 Sep 2020 04:27:22 -0700 (PDT)
-Subject: Re: [PATCH 2/3] ARM/keystone: move the DMA offset handling under
- ifdef CONFIG_ARM_LPAE
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>,
- Christoph Hellwig <hch@lst.de>
-References: <20200910054038.324517-1-hch@lst.de>
- <20200910054038.324517-3-hch@lst.de>
- <20200911111551.GG1551@shell.armlinux.org.uk>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <211af505-04fa-9cff-3178-1c8c24548485@arm.com>
-Date: Fri, 11 Sep 2020 12:27:21 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+ [209.85.221.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 17DF3877C1
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 13:53:35 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id s12so11549939wrw.11
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 06:53:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uSX1220TX4nBv/to4x2cUHJT6pHMGs2wo2XJAzKfPBI=;
+ b=gD9E5MJpoF0egAKojTQ7SebWqO2PTicZS6HeZZoFENGrfKJSaQqSJw3FFcqFNutSso
+ CJWzR0Teb2GUh4MQ0xzJ58fk2CU6kzzfMWK+sewcSNFKy6HJh4SRRkWFmj5XWJnZI1De
+ 3EyPfZo+oudgUtG+uy5ZtwaRnA9g2gpEfQn4pFJtEQjSlIT5auKEpxiVmV7+G+iiVnX+
+ khQ6eRVg/EC4EbTn6lI0mqMGckZ1Ms47fik9ofRI/GUy76oyhh98ipBnwR76Ibt3Xf7m
+ Eurhwo68yze9Lu/0k6A7r+crgvLSMovOI00EItyBYiX4fesJYLnp/9PPyx5fEztr5GBG
+ JsnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uSX1220TX4nBv/to4x2cUHJT6pHMGs2wo2XJAzKfPBI=;
+ b=B7yODu1tQFQBVl+CybYIVmnjvESiFLpNJQebBzCP7Nn/6j7blB3PTxcYZFPBOrZH0w
+ 0Ekh4DHS4HA4F5MsvSD9NqS2naX5SjTdxOaZ6DQlIHaxVJSD0djhcth7bK5OFGM16hzp
+ NScB2ZbkO2kBTcXLWuiUGr7x/zPOqztRBFcLgym5primXmzTYmet1nJAmH40e/AGH0fn
+ 0jvrVi6aMcYmJ44FIptM6pmwUClpfiOEzdiln9BA/4l2zEckqHyGPZXzcoqbjGHJoMyN
+ aO0w4XNw8gLi+ysa5KopRZB6TBFB75cau5DyjJAv5mxO5z5jhY19tPYoF0lufgA3CZZa
+ FwiQ==
+X-Gm-Message-State: AOAM5306mi9QFShPqHPyKgOHIPHD4M0DZygJMx2jHwXdcQNQzRm1u+I+
+ Rmta0uB7ihfguqP/GTfHHIc=
+X-Google-Smtp-Source: ABdhPJwkO+cMwRRtchemIWINqQ+AQixG0xGQoOMNX6Izs0x4b8kITi7lLzWZGJSU0T3L9fVjGmQKvg==
+X-Received: by 2002:adf:f5c1:: with SMTP id k1mr2372918wrp.271.1599832413408; 
+ Fri, 11 Sep 2020 06:53:33 -0700 (PDT)
+Received: from localhost.localdomain
+ (cpc83661-brig20-2-0-cust443.3-3.cable.virginm.net. [82.28.105.188])
+ by smtp.gmail.com with ESMTPSA id n21sm4582934wmi.21.2020.09.11.06.53.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Sep 2020 06:53:32 -0700 (PDT)
+From: Alex Dewar <alex.dewar90@gmail.com>
+To: 
+Subject: [PATCH] iommu: fsl_pamu: Replace use of kzfree with kfree_sensitive
+Date: Fri, 11 Sep 2020 14:53:25 +0100
+Message-Id: <20200911135325.66156-1-alex.dewar90@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200911111551.GG1551@shell.armlinux.org.uk>
-Content-Language: en-GB
-Cc: devicetree@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- linux-sh@vger.kernel.org, linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
- iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
- Jim Quinlan <james.quinlan@broadcom.com>,
- Santosh Shilimkar <ssantosh@kernel.org>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Frank Rowand <frowand.list@gmail.com>, linux-arm-kernel@lists.infradead.org
+X-Mailman-Approved-At: Fri, 11 Sep 2020 14:25:12 +0000
+Cc: Alex Dewar <alex.dewar90@gmail.com>, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,34 +90,36 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-09-11 12:15, Russell King - ARM Linux admin wrote:
-> On Thu, Sep 10, 2020 at 07:40:37AM +0200, Christoph Hellwig wrote:
->> The DMA offset notifier can only be used if PHYS_OFFSET is at least
->> KEYSTONE_HIGH_PHYS_START, which can't be represented by a 32-bit
->> phys_addr_t.  Currently the code compiles fine despite that, a pending
->> change to the DMA offset handling would create a compiler warning for
->> this case.  Add an ifdef to not compile the code except for LPAE
->> configs.
-> 
-> However, to have use of the high physical offset, LPAE needs to be
-> enabled, which ensures that phys_addr_t is 64-bit.
-> 
-> I believe that DMA is non-coherent on this platform unless the high
-> physical address is used. Or something like that.
+kzfree() is effectively deprecated as of commit 453431a54934 ("mm,
+treewide: rename kzfree() to kfree_sensitive()") and is now simply an
+alias for kfree_sensitive(). So just replace it with kfree_sensitive().
 
-Yeah, it's probably not a configuration that anyone would actually want 
-to use in anger on Keystone itself, but as long as folks might have 
-ARCH_KEYSTONE selected in their non-LPAE multiplatform config we should 
-avoid build regressions. I did wonder if Keystone should simply have a 
-hard dependency on LPAE, but there does appear to be some explicit 
-support for running directly from the non-coherent low 2G alias :/
+Signed-off-by: Alex Dewar <alex.dewar90@gmail.com>
+---
+ drivers/iommu/fsl_pamu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Robin.
+diff --git a/drivers/iommu/fsl_pamu.c b/drivers/iommu/fsl_pamu.c
+index 099a11a35fb9..b9a974d97831 100644
+--- a/drivers/iommu/fsl_pamu.c
++++ b/drivers/iommu/fsl_pamu.c
+@@ -1174,7 +1174,7 @@ static int fsl_pamu_probe(struct platform_device *pdev)
+ 	if (irq != NO_IRQ)
+ 		free_irq(irq, data);
+ 
+-	kzfree(data);
++	kfree_sensitive(data);
+ 
+ 	if (pamu_regs)
+ 		iounmap(pamu_regs);
+-- 
+2.28.0
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
