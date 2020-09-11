@@ -1,72 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B896B265B9E
-	for <lists.iommu@lfdr.de>; Fri, 11 Sep 2020 10:29:30 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 814A4265DAA
+	for <lists.iommu@lfdr.de>; Fri, 11 Sep 2020 12:19:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 623CE86D01;
-	Fri, 11 Sep 2020 08:29:29 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 81FC58764C;
+	Fri, 11 Sep 2020 10:19:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nCSlsDcXNeWM; Fri, 11 Sep 2020 08:29:29 +0000 (UTC)
+	with ESMTP id EcloNkfh2Mos; Fri, 11 Sep 2020 10:19:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id F366586934;
-	Fri, 11 Sep 2020 08:29:28 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8E16787744;
+	Fri, 11 Sep 2020 10:19:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EA440C0051;
-	Fri, 11 Sep 2020 08:29:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7C770C0051;
+	Fri, 11 Sep 2020 10:19:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F0806C0051
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 08:29:26 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A8AE9C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 10:19:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id EC5AF86C3A
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 08:29:26 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 908072E1F6
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 10:19:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Fz5CN3SdDUSS for <iommu@lists.linux-foundation.org>;
- Fri, 11 Sep 2020 08:29:26 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from a27-10.smtp-out.us-west-2.amazonses.com
- (a27-10.smtp-out.us-west-2.amazonses.com [54.240.27.10])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 4424686C82
- for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 08:29:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1599812965;
- h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
- bh=wF0V9zhnfPcH616CwCLeByLepfZtHk7S+uGcjuckYGg=;
- b=f+ZMmOekXi9cn+9hRPyMgh7YzYMiE9jXIj2m8ouWgXlde59JL9iuNZPHncJyyhUs
- M0Iez9opoZaEZEOhLjE6rW0YyXjJ2rU5smcUdRZzvam0Vx9ylF7+UOknrTLJDosqeJI
- rcmJTrNQ67FHwWBYwe9CjZzF3q3axeeuqGawGsbY=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1599812965;
- h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID:Feedback-ID;
- bh=wF0V9zhnfPcH616CwCLeByLepfZtHk7S+uGcjuckYGg=;
- b=Ho9pIR8uRj2sQzK63H2DQmEtr69GOhUQICT3u9TcqNH6CfNhhisvOXw2GNYre0qr
- b14mnDxYpx/7xN4IgbWmebpwmYZna9KmEG29UQrj0cxlRxSbepc33v6s34XHp84sL8/
- iMH3LvyMDHuzj1zEIYnjQnnKf/+gi5u7x7iqnitw=
-MIME-Version: 1.0
-Date: Fri, 11 Sep 2020 08:29:25 +0000
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: Re: [PATCH v3 8/8] iommu/arm-smmu-qcom: Setup identity domain for
- boot mappings
-In-Reply-To: <20200904155513.282067-9-bjorn.andersson@linaro.org>
-References: <20200904155513.282067-1-bjorn.andersson@linaro.org>
- <20200904155513.282067-9-bjorn.andersson@linaro.org>
-Message-ID: <010101747c489541-d4c20db7-fb22-4137-a724-21695a350114-000000@us-west-2.amazonses.com>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-X-SES-Outgoing: 2020.09.11-54.240.27.10
-Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
-Cc: Rob Clark <robdclark@chromium.org>, Will Deacon <will@kernel.org>,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- Sibi Sankar <sibis@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+ with ESMTP id 5ewTB2OmgOyz for <iommu@lists.linux-foundation.org>;
+ Fri, 11 Sep 2020 10:19:20 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by silver.osuosl.org (Postfix) with ESMTP id 0806F2E1ED
+ for <iommu@lists.linux-foundation.org>; Fri, 11 Sep 2020 10:19:19 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.76,414,1592838000"; d="scan'208";a="56814733"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+ by relmlie6.idc.renesas.com with ESMTP; 11 Sep 2020 19:19:17 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 65F74400B9CB;
+ Fri, 11 Sep 2020 19:19:16 +0900 (JST)
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org
+Subject: [PATCH] iommu: Kconfig: Update help description for IPMMU_VMSA config
+Date: Fri, 11 Sep 2020 11:19:12 +0100
+Message-Id: <20200911101912.20701-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
+Cc: linux-renesas-soc@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
+ linux-kernel@vger.kernel.org,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,36 +63,37 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-09-04 21:25, Bjorn Andersson wrote:
-> With many Qualcomm platforms not having functional S2CR BYPASS a
-> temporary IOMMU domain, without translation, needs to be allocated in
-> order to allow these memory transactions.
-> 
-> Unfortunately the boot loader uses the first few context banks, so
-> rather than overwriting a active bank the last context bank is used and
-> streams are diverted here during initialization.
-> 
-> This also performs the readback of SMR registers for the Qualcomm
-> platform, to trigger the mechanism.
-> 
-> This is based on prior work by Thierry Reding and Laurentiu Tudor.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
-> 
+ipmmu-vmsa driver is also used on Renesas RZ/G{1,2} Soc's, update the
+same to reflect the help description for IPMMU_VMSA config.
 
-Reviewed-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Tested-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+---
+ drivers/iommu/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+index bef5d75e306b..d8f71bf31786 100644
+--- a/drivers/iommu/Kconfig
++++ b/drivers/iommu/Kconfig
+@@ -232,7 +232,7 @@ config IPMMU_VMSA
+ 	select ARM_DMA_USE_IOMMU
+ 	help
+ 	  Support for the Renesas VMSA-compatible IPMMU found in the R-Mobile
+-	  APE6, R-Car Gen2, and R-Car Gen3 SoCs.
++	  APE6, R-Car Gen{2,3} and RZ/G{1,2} SoCs.
+ 
+ 	  If unsure, say N.
+ 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
+2.17.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
