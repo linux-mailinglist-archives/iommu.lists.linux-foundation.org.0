@@ -1,78 +1,113 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42CC268FB1
-	for <lists.iommu@lfdr.de>; Mon, 14 Sep 2020 17:24:24 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 69DD620439;
-	Mon, 14 Sep 2020 15:24:23 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id crN-3a3EuG-a; Mon, 14 Sep 2020 15:24:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A39122153D;
-	Mon, 14 Sep 2020 15:24:20 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9262EC0859;
-	Mon, 14 Sep 2020 15:24:20 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A1F07C0859
- for <iommu@lists.linux-foundation.org>; Mon, 14 Sep 2020 15:24:18 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0600B268EE3
+	for <lists.iommu@lfdr.de>; Mon, 14 Sep 2020 17:04:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9118F860EF
- for <iommu@lists.linux-foundation.org>; Mon, 14 Sep 2020 15:24:18 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B2FDD860EA;
+	Mon, 14 Sep 2020 15:04:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id wrYYS5BE86L6; Mon, 14 Sep 2020 15:04:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2067D860C2;
+	Mon, 14 Sep 2020 15:04:02 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 07C3EC0859;
+	Mon, 14 Sep 2020 15:04:02 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 14E5DC0859
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Sep 2020 15:04:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 0CB6A86930
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Sep 2020 15:04:00 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2gNkXcV82LGX for <iommu@lists.linux-foundation.org>;
- Mon, 14 Sep 2020 15:24:17 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1302281E2A
- for <iommu@lists.linux-foundation.org>; Mon, 14 Sep 2020 15:24:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description;
- bh=3uuWATlux5CLwoYUg+NN5gOtHb6T7EXPohKT/lTJKJI=; b=U0IBgU2QceYv7cYz0f441RijWy
- jX6Uz56bUrKfzqiHUqW4Am8nd+6lVMXE3/VPeI6Dyctys5vWsqG7p9TZjmsaB4shTobADfofWCt2s
- 1s3TKwLjbf+g5qtDtSLFgL8DmFzhOuChm2RFQ+dWaxRQVaecIXZU24GAOneelMTCvJ13zxrzITOvg
- ExNdpySucaD8C2anmkAXbMOJB2da5zC7FBZvWjUSKNpv1i+Go/vuMfGDKG5gApZgbramlUxDAnvlC
- 0pbLEfVZA10XQ/7JqJFE/O3mSpo7OqirHTyfcD2gC9N8uRPiSLShe9jiyo8nmIV8jkTp7pR6eEG4A
- UuqWKTxw==;
-Received: from 089144214092.atnat0023.highway.a1.net ([89.144.214.92]
- helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kHqKm-0004Mq-MA; Mon, 14 Sep 2020 15:24:01 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Ben Skeggs <bskeggs@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Tomasz Figa <tfiga@chromium.org>,
- Matt Porter <mporter@kernel.crashing.org>, iommu@lists.linux-foundation.org
-Subject: [PATCH 17/17] firewire-ohci: use dma_alloc_pages
-Date: Mon, 14 Sep 2020 16:44:33 +0200
-Message-Id: <20200914144433.1622958-18-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200914144433.1622958-1-hch@lst.de>
-References: <20200914144433.1622958-1-hch@lst.de>
+ with ESMTP id nuJSQdeWMV4w for <iommu@lists.linux-foundation.org>;
+ Mon, 14 Sep 2020 15:03:59 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2054.outbound.protection.outlook.com [40.107.93.54])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 45BC18696B
+ for <iommu@lists.linux-foundation.org>; Mon, 14 Sep 2020 15:03:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Io/U18kkPk1t4n8POIgcmQESxrpMEZyO/qwLZXCYWQB78TE8mFY8xRLdtsB0861QbBxDIjeK8yRxuu86z5VVCzQmNh11RIhsbhS8MBMV5EuaW1h6GZ2vGFQF9L6mZwf20POXZjmO+HngyGhIrVavuvf0dTDheJLwkhu8Ktg8Blb/omc+OvzBfXPQ30fLr0donpy8AFjFmEjO0CiP8DsD0CygxuEvaxEB5UCXcM4yVWtj1vsXLJGn2NvWX/Ek1IQ0vjHBkpHzUWvMWr53n79KaZEJPcgpoqUcPZbi4UQHM5M4kpa1mMmO3z2iXuNOIMFAAlJJkT8v1mRzRdqJ+ewjNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4mAgIvc/FRAq5a6T3X6+Jarex/MhTvjvJq3+6efIDqc=;
+ b=SzSekG1RLOqExNvyVqpX/8rxpmjJ01wAJlLdx2gpnHHRSD50PxgBp5EQhNhC0u9n3OZxBrKWn4roclbybXHsoj6O/7q7YjtFyS2BFKHsZXg9mHG+9so7cTTPVeruCgxBqfZo19NUTNijpwSeR5qkWtwSRi+5Hk0aQykOqPC3WPUlFWn+4v3BXn43CMUXFR27LfnmhkwNfa4IjMeqoyRk3+Ti2ZCE/nbJttjrfWIqnE+Pg4ZIwidBRF31M1RLQzws/G73QfpJVW3h+nIXbEHtv7cP3iMdcNmYQQznk32nEFy1lJa3tUn/8HL7ur03kP9gkgLd/3CLoCYP1M+QtXQpdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4mAgIvc/FRAq5a6T3X6+Jarex/MhTvjvJq3+6efIDqc=;
+ b=rcWIPxZGjrpu4KXkpyerjhrB30fYPCDqnOHm2MTKZ3OHl86cBDCixkI+2/asJr18DiEaMf1fU2roOHiRM+McArnkwjgwG+Veo1yw5c68r2zGFQK9T8AfjEj2jUyMXNR/8eSL6Zb2clfvAo+4fdaoWzO7GtX0FhHGRqcuYexqZRY=
+Authentication-Results: 8bytes.org; dkim=none (message not signed)
+ header.d=none;8bytes.org; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1163.namprd12.prod.outlook.com (2603:10b6:3:7a::18) by
+ DM6PR12MB3273.namprd12.prod.outlook.com (2603:10b6:5:188::17) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3370.19; Mon, 14 Sep 2020 14:48:56 +0000
+Received: from DM5PR12MB1163.namprd12.prod.outlook.com
+ ([fe80::48cf:d69:d457:1b1e]) by DM5PR12MB1163.namprd12.prod.outlook.com
+ ([fe80::48cf:d69:d457:1b1e%5]) with mapi id 15.20.3370.019; Mon, 14 Sep 2020
+ 14:48:56 +0000
+Subject: Re: [PATCH] iommu/amd: fix interrupt remapping for avic
+To: Maxim Levitsky <mlevitsk@redhat.com>, linux-kernel@vger.kernel.org
+References: <20200913124211.6419-1-mlevitsk@redhat.com>
+From: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Message-ID: <60856c61-062b-8d92-e565-38bd00855228@amd.com>
+Date: Mon, 14 Sep 2020 21:48:46 +0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+In-Reply-To: <20200913124211.6419-1-mlevitsk@redhat.com>
+Content-Language: en-US
+X-ClientProxiedBy: KL1PR0601CA0021.apcprd06.prod.outlook.com
+ (2603:1096:802:1::31) To DM5PR12MB1163.namprd12.prod.outlook.com
+ (2603:10b6:3:7a::18)
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Cc: alsa-devel@alsa-project.org, linux-samsung-soc@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-doc@vger.kernel.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org,
- Stefan Richter <stefanr@s5r6.in-berlin.de>, netdev@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.252.73.101] (165.204.80.7) by
+ KL1PR0601CA0021.apcprd06.prod.outlook.com (2603:1096:802:1::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16 via Frontend
+ Transport; Mon, 14 Sep 2020 14:48:54 +0000
+X-Originating-IP: [165.204.80.7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 8d5fc6c0-5372-40a3-af67-08d858bd4e5e
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3273:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB32736CB48CFA4E166711B456F3230@DM6PR12MB3273.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eFnf8NMDGW3aXy2YrSqiybCjn74yyWtwFFPonT2f4d79+26tlMy09IgSUI5Rf/s7+e7qqSnRCCwgKYb7+BDttCYLEL+SZSjfGVCUNtWekrZ4zuKWLQeZ6vx7Q/horRCj7QBaXU2osta+IK7Lgcv/5qvtIlJdoGwbdCuprH9JJ7sWHHHCJPxAzARYwnlp4ON65CAsyljRornjM4tZZBjXBSV6utEDR9TVlkxAJfHDpCqpuc0W46IV5QlpT+RoKUkOmODm5LR4oJejnc8/ElbEyluT2OaNbd1a0MV21qTdZRrj7TFnHeQHHjNxV2cHXVL5UocfkASP0lSm66tvl/e3/pYN3DIIE34mrHZS9n4+G5WwNowZUj5GyRnERLnLFZx2
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1163.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(366004)(376002)(396003)(346002)(136003)(31696002)(6486002)(16526019)(5660300002)(186003)(26005)(478600001)(956004)(16576012)(316002)(2616005)(52116002)(44832011)(53546011)(54906003)(83380400001)(2906002)(4326008)(8676002)(6666004)(31686004)(8936002)(36756003)(86362001)(66946007)(66556008)(66476007)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: wuEZ2RY/us6xRzOQGw53WsrykcfFV/bHugTc1XC0nygZXAM4P6VBVWb/mro8n7C3LdcVPVCj7sk9nQA/BS9YPHXrsHz+6gzZnDqFYmAaonz47g1r+hOZQ4uCtkhuAJ4KhO8AZatNbR740DKgBTyYkmvEkZQar9yGf5MY2aj94nwUR6sUJqmsPb7au4hnP2NC671JBAcKykBz3op3Bvxlnujp9ZAqTBJXsBBV1stnISqHfhLZIXlmSknv6au8UzwO8RR5tF688jxnoadxVIb2ripa8r8+bIba7TqfIQ8A00OIOt97cj/rKmEBeepKkweLkUmn0B4XJyKIIWuSvlDgyJgAjYw9fXFfTBEzAT6DdrrvbfrqBwuBdaPmOfIvUJvo77foJcSUji8KSZD6bFtQlacWgRl6Zy5KjXijX5y7zxqMt1ecTc5L03UuoIynqXatXHvqHrX+42NAeB8ePn+ewoJQnNvv4aaBdMb4MqlVZnfo+HszkYYgVr77XjzMOjwytjydwvHD5HUqvf0gK9dTCTor/NvehlivvJRxSZwbqanejAT0LvXYj5HOBMBaJAGR064Z3iPkwavpAWK6EnU/QaDsrCIRRiIIQe1RTXxq1y2VDagmrTtcu3AcJG1fZ+GEtQCo4BhuIYF6ruaYqfC2sg==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d5fc6c0-5372-40a3-af67-08d858bd4e5e
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1163.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2020 14:48:56.1995 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZIZ8/LY531MW61ePPP0jEGpF9lKyqnIkItAeWomiq0WnZzrjSynfZRBUBj8Z2yB0/e6GpMc3ct1ZQfd/PIZJGA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3273
+Cc: "open list:AMD IOMMU \(AMD-VI\)" <iommu@lists.linux-foundation.org>,
+ Joao Martins <joao.m.martins@oracle.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,80 +120,85 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Use dma_alloc_pages to allocate DMAable pages instead of hoping that
-the architecture either has GFP_DMA32 or not more than 4G of memory.
+Maxim,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/firewire/ohci.c | 26 +++++++++++---------------
- 1 file changed, 11 insertions(+), 15 deletions(-)
+On 9/13/2020 7:42 PM, Maxim Levitsky wrote:
+> Commit e52d58d54a32 ("iommu/amd: Use cmpxchg_double() when updating 128-bit IRTE")
+> accidentally removed an assumption that modify_irte_ga always set the valid bit
+> and amd_iommu_activate_guest_mode relied on that.
+> 
+> Side effect of this is that on my machine, VFIO based VMs with AVIC enabled
+> would eventually crash and show IOMMU errors like that:
+> 
+> AMD-Vi: Event logged [IO_PAGE_FAULT domain=0x0055 address=0xfffffffdf8000000 flags=0x0008]
+> 
+> Fixes: e52d58d54a321 ("iommu/amd: Use cmpxchg_double() when updating 128-bit IRTE")
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> ---
+>   drivers/iommu/amd/iommu.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+> index 07ae8b93887e5..aff4cc1869356 100644
+> --- a/drivers/iommu/amd/iommu.c
+> +++ b/drivers/iommu/amd/iommu.c
+> @@ -3853,6 +3853,7 @@ int amd_iommu_activate_guest_mode(void *data)
+>   	entry->hi.fields.ga_root_ptr       = ir_data->ga_root_ptr;
+>   	entry->hi.fields.vector            = ir_data->ga_vector;
+>   	entry->lo.fields_vapic.ga_tag      = ir_data->ga_tag;
+> +	entry->lo.fields_remap.valid = 1;
+>   
+>   	return modify_irte_ga(ir_data->irq_2_irte.devid,
+>   			      ir_data->irq_2_irte.index, entry, ir_data);
+> 
 
-diff --git a/drivers/firewire/ohci.c b/drivers/firewire/ohci.c
-index 020cb15a4d8fcc..9811c40956e54d 100644
---- a/drivers/firewire/ohci.c
-+++ b/drivers/firewire/ohci.c
-@@ -674,17 +674,16 @@ static void ar_context_link_page(struct ar_context *ctx, unsigned int index)
- 
- static void ar_context_release(struct ar_context *ctx)
- {
-+	struct device *dev = ctx->ohci->card.device;
- 	unsigned int i;
- 
- 	vunmap(ctx->buffer);
- 
--	for (i = 0; i < AR_BUFFERS; i++)
--		if (ctx->pages[i]) {
--			dma_unmap_page(ctx->ohci->card.device,
--				       ar_buffer_bus(ctx, i),
--				       PAGE_SIZE, DMA_FROM_DEVICE);
--			__free_page(ctx->pages[i]);
--		}
-+	for (i = 0; i < AR_BUFFERS; i++) {
-+		if (ctx->pages[i])
-+			dma_free_pages(dev, PAGE_SIZE, ctx->pages[i],
-+				       ar_buffer_bus(ctx, i), DMA_FROM_DEVICE);
-+	}
- }
- 
- static void ar_context_abort(struct ar_context *ctx, const char *error_msg)
-@@ -970,6 +969,7 @@ static void ar_context_tasklet(unsigned long data)
- static int ar_context_init(struct ar_context *ctx, struct fw_ohci *ohci,
- 			   unsigned int descriptors_offset, u32 regs)
- {
-+	struct device *dev = ohci->card.device;
- 	unsigned int i;
- 	dma_addr_t dma_addr;
- 	struct page *pages[AR_BUFFERS + AR_WRAPAROUND_PAGES];
-@@ -980,17 +980,13 @@ static int ar_context_init(struct ar_context *ctx, struct fw_ohci *ohci,
- 	tasklet_init(&ctx->tasklet, ar_context_tasklet, (unsigned long)ctx);
- 
- 	for (i = 0; i < AR_BUFFERS; i++) {
--		ctx->pages[i] = alloc_page(GFP_KERNEL | GFP_DMA32);
-+		ctx->pages[i] = dma_alloc_pages(dev, PAGE_SIZE, &dma_addr,
-+						DMA_FROM_DEVICE, GFP_KERNEL);
- 		if (!ctx->pages[i])
- 			goto out_of_memory;
--		dma_addr = dma_map_page(ohci->card.device, ctx->pages[i],
--					0, PAGE_SIZE, DMA_FROM_DEVICE);
--		if (dma_mapping_error(ohci->card.device, dma_addr)) {
--			__free_page(ctx->pages[i]);
--			ctx->pages[i] = NULL;
--			goto out_of_memory;
--		}
- 		set_page_private(ctx->pages[i], dma_addr);
-+		dma_sync_single_for_device(dev, dma_addr, PAGE_SIZE,
-+					   DMA_FROM_DEVICE);
- 	}
- 
- 	for (i = 0; i < AR_BUFFERS; i++)
--- 
-2.28.0
+Could you please try with the following patch instead?
 
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -3840,14 +3840,18 @@ int amd_iommu_activate_guest_mode(void *data)
+  {
+         struct amd_ir_data *ir_data = (struct amd_ir_data *)data;
+         struct irte_ga *entry = (struct irte_ga *) ir_data->entry;
++       u64 valid;
+
+         if (!AMD_IOMMU_GUEST_IR_VAPIC(amd_iommu_guest_ir) ||
+             !entry || entry->lo.fields_vapic.guest_mode)
+                 return 0;
+
++       valid = entry->lo.fields_vapic.valid;
++
+         entry->lo.val = 0;
+         entry->hi.val = 0;
+
++       entry->lo.fields_vapic.valid       = valid;
+         entry->lo.fields_vapic.guest_mode  = 1;
+         entry->lo.fields_vapic.ga_log_intr = 1;
+         entry->hi.fields.ga_root_ptr       = ir_data->ga_root_ptr;
+@@ -3864,12 +3868,14 @@ int amd_iommu_deactivate_guest_mode(void *data)
+         struct amd_ir_data *ir_data = (struct amd_ir_data *)data;
+         struct irte_ga *entry = (struct irte_ga *) ir_data->entry;
+         struct irq_cfg *cfg = ir_data->cfg;
+-       u64 valid = entry->lo.fields_remap.valid;
++       u64 valid;
+
+         if (!AMD_IOMMU_GUEST_IR_VAPIC(amd_iommu_guest_ir) ||
+             !entry || !entry->lo.fields_vapic.guest_mode)
+                 return 0;
+
++       valid = entry->lo.fields_remap.valid;
++
+         entry->lo.val = 0;
+         entry->hi.val = 0;
+--
+
+Thanks,
+Suravee
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
