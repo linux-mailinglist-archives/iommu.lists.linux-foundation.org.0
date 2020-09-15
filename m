@@ -2,53 +2,53 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCEF426A9C5
-	for <lists.iommu@lfdr.de>; Tue, 15 Sep 2020 18:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB9826A9C7
+	for <lists.iommu@lfdr.de>; Tue, 15 Sep 2020 18:30:28 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4F3C38706D;
-	Tue, 15 Sep 2020 16:30:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 34EA68726D;
+	Tue, 15 Sep 2020 16:30:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pnSeE0x6vezn; Tue, 15 Sep 2020 16:30:22 +0000 (UTC)
+	with ESMTP id RyFuaq2mlohl; Tue, 15 Sep 2020 16:30:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 50FA087019;
-	Tue, 15 Sep 2020 16:30:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5BB8B86FEC;
+	Tue, 15 Sep 2020 16:30:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 37555C0859;
-	Tue, 15 Sep 2020 16:30:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4FC0EC0051;
+	Tue, 15 Sep 2020 16:30:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AD27FC0051
- for <iommu@lists.linux-foundation.org>; Tue, 15 Sep 2020 16:30:20 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B897DC0051
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Sep 2020 16:30:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 9A5AD87019
- for <iommu@lists.linux-foundation.org>; Tue, 15 Sep 2020 16:30:20 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 98C998706D
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Sep 2020 16:30:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id N+GivVYRzFcw for <iommu@lists.linux-foundation.org>;
- Tue, 15 Sep 2020 16:30:19 +0000 (UTC)
+ with ESMTP id P-Ass-LVLaa3 for <iommu@lists.linux-foundation.org>;
+ Tue, 15 Sep 2020 16:30:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by hemlock.osuosl.org (Postfix) with ESMTPS id BD50B86FE1
- for <iommu@lists.linux-foundation.org>; Tue, 15 Sep 2020 16:30:19 +0000 (UTC)
-IronPort-SDR: yvUYc04FZO/0GPctwEjolpq9w/v37ow2M8ZL5ZmoXbRiZZbmOpt3AwJPmy0jmVdrk7e5Puf/p5
- tSCqHtrc1l4A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="220861342"
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="220861342"
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 1D15C86FED
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Sep 2020 16:30:21 +0000 (UTC)
+IronPort-SDR: Trn4ESBS94GTtpel+sKQCRN+fijEQYZydBtEivP1tBNNcAkZ+wywYtea05ah/GPUwWos2cA+q6
+ gEgEBORYvN8g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="220861347"
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="220861347"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2020 09:30:18 -0700
-IronPort-SDR: JRIr5y4dbpXVKb1+imYwnCi0xFG2mDi348P96gAUmTOGpdlnPY47TI9dWBxfco/cloGuo+aHkO
- GwCM8zc7qzOg==
+ 15 Sep 2020 09:30:20 -0700
+IronPort-SDR: l1W3uqA7L09H/CLH5+rbzgfnqzZGSPMjCfnP6yUPxvgMJjZcgBEd9YHBVM+7jvrp0dkZlBu5TA
+ 6mhiq/txtY7w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="345909876"
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="345909901"
 Received: from romley-ivt3.sc.intel.com ([172.25.110.60])
- by orsmga007.jf.intel.com with ESMTP; 15 Sep 2020 09:30:17 -0700
+ by orsmga007.jf.intel.com with ESMTP; 15 Sep 2020 09:30:20 -0700
 From: Fenghua Yu <fenghua.yu@intel.com>
 To: "Thomas Gleixner" <tglx@linutronix.de>, "Borislav Petkov" <bp@alien8.de>,
  "Ingo Molnar" <mingo@redhat.com>, "H Peter Anvin" <hpa@zytor.com>,
@@ -63,10 +63,10 @@ To: "Thomas Gleixner" <tglx@linutronix.de>, "Borislav Petkov" <bp@alien8.de>,
  "Jacob Jun Pan" <jacob.jun.pan@intel.com>,
  "Dave Jiang" <dave.jiang@intel.com>, "Sohil Mehta" <sohil.mehta@intel.com>,
  "Ravi V Shankar" <ravi.v.shankar@intel.com>
-Subject: [PATCH v8 2/9] iommu/vt-d: Change flags type to unsigned int in
- binding mm
-Date: Tue, 15 Sep 2020 09:30:06 -0700
-Message-Id: <1600187413-163670-3-git-send-email-fenghua.yu@intel.com>
+Subject: [PATCH v8 4/9] x86/cpufeatures: Enumerate ENQCMD and ENQCMDS
+ instructions
+Date: Tue, 15 Sep 2020 09:30:08 -0700
+Message-Id: <1600187413-163670-5-git-send-email-fenghua.yu@intel.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <1600187413-163670-1-git-send-email-fenghua.yu@intel.com>
 References: <1600187413-163670-1-git-send-email-fenghua.yu@intel.com>
@@ -90,71 +90,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-"flags" passed to intel_svm_bind_mm() is a bit mask and should be
-defined as "unsigned int" instead of "int".
+Work submission instruction comes in two flavors. ENQCMD can be called
+both in ring 3 and ring 0 and always uses the contents of PASID MSR when
+shipping the command to the device. ENQCMDS allows a kernel driver to
+submit commands on behalf of a user process. The driver supplies the
+PASID value in ENQCMDS. There isn't any usage of ENQCMD in the kernel
+as of now.
 
-Change its type to "unsigned int".
+The CPU feature flag is shown as "enqcmd" in /proc/cpuinfo.
 
-Suggested-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
 Reviewed-by: Tony Luck <tony.luck@intel.com>
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 ---
-v5:
-- Reviewed by Lu Baolu
-
 v2:
-- Add this new patch per Thomas' comment.
+- Re-write commit message (Thomas)
 
- drivers/iommu/intel/svm.c   | 7 ++++---
- include/linux/intel-iommu.h | 2 +-
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ arch/x86/include/asm/cpufeatures.h | 1 +
+ arch/x86/kernel/cpu/cpuid-deps.c   | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index e78a74a9c1cf..fc90a079e228 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -446,7 +446,8 @@ int intel_svm_unbind_gpasid(struct device *dev, u32 pasid)
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 2901d5df4366..fea10d04d05f 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -353,6 +353,7 @@
+ #define X86_FEATURE_CLDEMOTE		(16*32+25) /* CLDEMOTE instruction */
+ #define X86_FEATURE_MOVDIRI		(16*32+27) /* MOVDIRI instruction */
+ #define X86_FEATURE_MOVDIR64B		(16*32+28) /* MOVDIR64B instruction */
++#define X86_FEATURE_ENQCMD		(16*32+29) /* ENQCMD and ENQCMDS instructions */
  
- /* Caller must hold pasid_mutex, mm reference */
- static int
--intel_svm_bind_mm(struct device *dev, int flags, struct svm_dev_ops *ops,
-+intel_svm_bind_mm(struct device *dev, unsigned int flags,
-+		  struct svm_dev_ops *ops,
- 		  struct mm_struct *mm, struct intel_svm_dev **sd)
- {
- 	struct intel_iommu *iommu = device_to_iommu(dev, NULL, NULL);
-@@ -1033,7 +1034,7 @@ intel_svm_bind(struct device *dev, struct mm_struct *mm, void *drvdata)
- {
- 	struct iommu_sva *sva = ERR_PTR(-EINVAL);
- 	struct intel_svm_dev *sdev = NULL;
--	int flags = 0;
-+	unsigned int flags = 0;
- 	int ret;
+ /* AMD-defined CPU features, CPUID level 0x80000007 (EBX), word 17 */
+ #define X86_FEATURE_OVERFLOW_RECOV	(17*32+ 0) /* MCA overflow recovery support */
+diff --git a/arch/x86/kernel/cpu/cpuid-deps.c b/arch/x86/kernel/cpu/cpuid-deps.c
+index 3cbe24ca80ab..3a02707c1f4d 100644
+--- a/arch/x86/kernel/cpu/cpuid-deps.c
++++ b/arch/x86/kernel/cpu/cpuid-deps.c
+@@ -69,6 +69,7 @@ static const struct cpuid_dep cpuid_deps[] = {
+ 	{ X86_FEATURE_CQM_MBM_TOTAL,		X86_FEATURE_CQM_LLC   },
+ 	{ X86_FEATURE_CQM_MBM_LOCAL,		X86_FEATURE_CQM_LLC   },
+ 	{ X86_FEATURE_AVX512_BF16,		X86_FEATURE_AVX512VL  },
++	{ X86_FEATURE_ENQCMD,			X86_FEATURE_XSAVES    },
+ 	{}
+ };
  
- 	/*
-@@ -1042,7 +1043,7 @@ intel_svm_bind(struct device *dev, struct mm_struct *mm, void *drvdata)
- 	 * and intel_svm etc.
- 	 */
- 	if (drvdata)
--		flags = *(int *)drvdata;
-+		flags = *(unsigned int *)drvdata;
- 	mutex_lock(&pasid_mutex);
- 	ret = intel_svm_bind_mm(dev, flags, NULL, mm, &sdev);
- 	if (ret)
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index 7322073f62d0..9c3e8337442a 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -765,7 +765,7 @@ struct intel_svm {
- 	struct mm_struct *mm;
- 
- 	struct intel_iommu *iommu;
--	int flags;
-+	unsigned int flags;
- 	u32 pasid;
- 	int gpasid; /* In case that guest PASID is different from host PASID */
- 	struct list_head devs;
 -- 
 2.19.1
 
