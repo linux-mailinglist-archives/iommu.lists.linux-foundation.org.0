@@ -1,82 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCCB426B757
-	for <lists.iommu@lfdr.de>; Wed, 16 Sep 2020 02:22:36 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0A726B7A4
+	for <lists.iommu@lfdr.de>; Wed, 16 Sep 2020 02:27:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5D1A886CDB;
-	Wed, 16 Sep 2020 00:22:35 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 00C03872EC;
+	Wed, 16 Sep 2020 00:27:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LSvGfCnV86nh; Wed, 16 Sep 2020 00:22:34 +0000 (UTC)
+	with ESMTP id qEIyq+cDYEmO; Wed, 16 Sep 2020 00:27:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C747B86CD2;
-	Wed, 16 Sep 2020 00:22:34 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 78D89872E9;
+	Wed, 16 Sep 2020 00:27:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9CCF5C0051;
-	Wed, 16 Sep 2020 00:22:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5A853C0051;
+	Wed, 16 Sep 2020 00:27:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 68A71C0051
- for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 00:22:33 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9A5E5C0051
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 00:27:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 5E30786CD2
- for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 00:22:33 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 83D9A868E4
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 00:27:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MskNsgWXx+mv for <iommu@lists.linux-foundation.org>;
- Wed, 16 Sep 2020 00:22:32 +0000 (UTC)
+ with ESMTP id GbRfRnkBHU49 for <iommu@lists.linux-foundation.org>;
+ Wed, 16 Sep 2020 00:27:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 51F5786CCD
- for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 00:22:32 +0000 (UTC)
-IronPort-SDR: CpgawZsBtzTN1VD6ftwZvcVCZSwV0yLhJTNpd+9lq0RLNyC77PGp+SZjnBVh+qLMC4iMY/S8le
- +ZC7uMSHvNpw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="156790097"
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="156790097"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2020 17:22:31 -0700
-IronPort-SDR: 60HH/dImos/iY7LohpWZz4y8x3C8VG9rPdO3eL1taxgspGYLfX4fCfXjvDmuQc8V3jmK4hl+B3
- EEfmLShfeiFw==
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; d="scan'208";a="306845533"
-Received: from jpan9-mobl2.amr.corp.intel.com (HELO localhost)
- ([10.212.71.163])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2020 17:22:29 -0700
-Date: Tue, 15 Sep 2020 17:22:26 -0700
-From: "Jacob Pan (Jun)" <jacob.jun.pan@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v7 00/16] vfio: expose virtual Shared Virtual Addressing
- to VMs
-Message-ID: <20200915171319.00003f59@linux.intel.com>
-In-Reply-To: <20200915235126.GK1573713@nvidia.com>
-References: <20200914163354.GG904879@nvidia.com>
- <20200914105857.3f88a271@x1.home>
- <20200914174121.GI904879@nvidia.com>
- <20200914122328.0a262a7b@x1.home>
- <20200914190057.GM904879@nvidia.com>
- <20200914224438.GA65940@otc-nc-03>
- <20200915113341.GW904879@nvidia.com>
- <20200915181154.GA70770@otc-nc-03>
- <20200915184510.GB1573713@nvidia.com>
- <20200915150851.76436ca1@jacob-builder>
- <20200915235126.GK1573713@nvidia.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; i686-w64-mingw32)
-MIME-Version: 1.0
-Cc: yi.y.sun@intel.com, Jean-Philippe Brucker <jean-philippe@linaro.org>,
- kevin.tian@intel.com, "Raj, Ashok" <ashok.raj@intel.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, stefanha@gmail.com,
- Jason Wang <jasowang@redhat.com>, jun.j.tian@intel.com,
- Alex Williamson <alex.williamson@redhat.com>, iommu@lists.linux-foundation.org,
- jacob.jun.pan@intel.com, hao.wu@intel.com
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 53C5A868E1
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 00:27:03 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id o68so2944248pfg.2
+ for <iommu@lists.linux-foundation.org>; Tue, 15 Sep 2020 17:27:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=urfxkx3OR1ztSEhIX65Ge5+NGsQrAveOSK0sp6kZKXA=;
+ b=dgWQy05zNJUnJvdQqHziPnzCh1nOaOEkOIssdUMkSvRCWew96H4adTWK60g/pm4qZQ
+ NYiKNAzKZABBY0/LzblOnFVWhWQ2vmDzS4VCTOqJNj8szJmfa4ByQDh8KUsvGXTmb/YY
+ UMAsrscS3qmBifIWXzTBrLvGRWSqqS7jdaxn7vcJFriKvPSTt/qAbbTxm9LULoDDX7CG
+ ezHNrTiQHjWfecw0wEMmmXoFDz6OK3ZmnEBs56AgWQVmoVrJ+keEMt7BYEDeL4XXD1sN
+ HUdw1Z3Md6aehMprn8wdEctTiLn6ci3yK0NSztkSNn4LUD6EJe81JGkRTYKkwM14wual
+ jBGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=urfxkx3OR1ztSEhIX65Ge5+NGsQrAveOSK0sp6kZKXA=;
+ b=C31WXp1dypKV+tkmO3e8sw7Raw6ZxhftNKVtVWq4eiVC1gLdNfcsVT1sgdqMfrlJru
+ w6KD4H1DlF6gkimNlRGVXiavzEFevSAlKUaqVeoen6Nm+EUpG/fi3rJLTfaeUggYbJ4C
+ 9Ccv57hMn4pthNaPTJFlp6C1ZAQvyKnqOu56CNzWC9l5wkvp8RV26ztSkiwRYolfxR9b
+ 7ve93yFLy/hzEzGMK2G2+ww0sApfOo5t+FFwdl7oJ9R8XJD1gX0Qx6x/9+QtfYOj7Kq1
+ uS+LLdGC5CaDI1Ae/vZqL+HVeEDfBnF3LhzzTbc3GuCilaF++flifbHjydNiJtzJvdI8
+ ss8g==
+X-Gm-Message-State: AOAM532kkgeF73AGFwyWvHppTMIGV5KsrAU/2jRE4rbWlOkazQAj5F2o
+ nGYo/waLE/y0/H/YnJAf8hQ=
+X-Google-Smtp-Source: ABdhPJxqZUpJ2KjMHLyoOyJyyeAlMxBIRQdOJAjBKieBwezCDHtwFX49SqsG8HhjDN98jhf4PbJ5ag==
+X-Received: by 2002:a05:6a00:1507:b029:13e:d13d:a13c with SMTP id
+ q7-20020a056a001507b029013ed13da13cmr20277411pfu.36.1600216022778; 
+ Tue, 15 Sep 2020 17:27:02 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
+ [216.228.112.22])
+ by smtp.gmail.com with ESMTPSA id s66sm14876761pfc.159.2020.09.15.17.27.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Sep 2020 17:27:02 -0700 (PDT)
+From: Nicolin Chen <nicoleotsuka@gmail.com>
+To: joro@8bytes.org,
+	thierry.reding@gmail.com
+Subject: [PATCH] iommu/tegra-smmu: Fix tlb_mask
+Date: Tue, 15 Sep 2020 17:23:59 -0700
+Message-Id: <20200916002359.10823-1-nicoleotsuka@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, jonathanh@nvidia.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,84 +88,38 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jason,
-On Tue, 15 Sep 2020 20:51:26 -0300, Jason Gunthorpe <jgg@nvidia.com>
-wrote:
+The "num_tlb_lines" might not be a power-of-2 value, being 48 on
+Tegra210 for example. So the current way of calculating tlb_mask
+using the num_tlb_lines is not correct: tlb_mask=0x5f in case of
+num_tlb_lines=48, which will trim a setting of 0x30 (48) to 0x10.
 
-> On Tue, Sep 15, 2020 at 03:08:51PM -0700, Jacob Pan wrote:
-> > > A PASID vIOMMU solution sharable with VDPA and VFIO, based on a
-> > > PASID control char dev (eg /dev/sva, or maybe /dev/iommu) seems
-> > > like a reasonable starting point for discussion.  
-> > 
-> > I am not sure what can really be consolidated in /dev/sva.   
-> 
-> More or less, everything in this patch. All the manipulations of PASID
-> that are required for vIOMMU use case/etc. Basically all PASID control
-> that is not just a 1:1 mapping of the mm_struct.
-> 
-> > will have their own kerne-user interfaces anyway for their usage
-> > models. They are just providing the specific transport while
-> > sharing generic IOMMU UAPIs and IOASID management.  
-> 
-> > As I mentioned PASID management is already consolidated in the
-> > IOASID layer, so for VDPA or other users, it just matter of create
-> > its own ioasid_set, doing allocation.  
-> 
-> Creating the PASID is not the problem, managing what the PASID maps to
-> is the issue. That is all uAPI that we don't really have today.
-> 
-> > IOASID is also available to the in-kernel users which does not
-> > need /dev/sva AFAICT. For bare metal SVA, I don't see a need to
-> > create this 'floating' state of the PASID when created by /dev/sva.
-> > PASID allocation could happen behind the scene when users need to
-> > bind page tables to a device DMA stream.  
-> 
-> My point is I would like to see one set of uAPI ioctls to bind page
-> tables. I don't want to have VFIO, VDPA, etc, etc uAPIs to do the
-> exact same things only slightly differently.
-> 
-Got your point. I am not familiar with VDPA but for VFIO UAPI, it is
-very thin, mostly passthrough IOMMU UAPI struct as opaque data.
+Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
+---
+ drivers/iommu/tegra-smmu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> If user space wants to bind page tables, create the PASID with
-> /dev/sva, use ioctls there to setup the page table the way it wants,
-> then pass the now configured PASID to a driver that can use it. 
-> 
-Are we talking about bare metal SVA? If so, I don't see the need for
-userspace to know there is a PASID. All user space need is that my
-current mm is bound to a device by the driver. So it can be a one-step
-process for user instead of two.
+diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
+index 84fdee473873..0becdbfea306 100644
+--- a/drivers/iommu/tegra-smmu.c
++++ b/drivers/iommu/tegra-smmu.c
+@@ -1120,7 +1120,7 @@ struct tegra_smmu *tegra_smmu_probe(struct device *dev,
+ 		BIT_MASK(mc->soc->num_address_bits - SMMU_PTE_SHIFT) - 1;
+ 	dev_dbg(dev, "address bits: %u, PFN mask: %#lx\n",
+ 		mc->soc->num_address_bits, smmu->pfn_mask);
+-	smmu->tlb_mask = (smmu->soc->num_tlb_lines << 1) - 1;
++	smmu->tlb_mask = (1 << fls(smmu->soc->num_tlb_lines)) - 1;
+ 	dev_dbg(dev, "TLB lines: %u, mask: %#lx\n", smmu->soc->num_tlb_lines,
+ 		smmu->tlb_mask);
+ 
+-- 
+2.17.1
 
-> Driver does not do page table binding. Do not duplicate all the
-> control plane uAPI in every driver.
-> 
-> PASID managment and binding is seperated from the driver(s) that are
-> using the PASID.
-> 
-Why separate? Drivers need to be involved in PASID life cycle
-management. For example, when tearing down a PASID, the driver needs to
-stop DMA, IOMMU driver needs to unbind, etc. If driver is the control
-point, then things are just in order. I am referring to bare metal SVA.
-
-For guest SVA, I agree that binding is separate from PASID allocation.
-Could you review this doc. in terms of life cycle?
-https://lkml.org/lkml/2020/8/22/13
-
-My point is that /dev/sda has no value for bare metal SVA, we are just
-talking about if guest SVA UAPIs can be consolidated. Or am I missing
-something?
-
-> Jason
-
-
-Thanks,
-
-Jacob
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
