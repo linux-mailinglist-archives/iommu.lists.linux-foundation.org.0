@@ -2,98 +2,117 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33EE126BF59
-	for <lists.iommu@lfdr.de>; Wed, 16 Sep 2020 10:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1885426C1D3
+	for <lists.iommu@lfdr.de>; Wed, 16 Sep 2020 12:43:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DC01C87347;
-	Wed, 16 Sep 2020 08:32:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 84A6D87322;
+	Wed, 16 Sep 2020 10:43:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zuS6msvRj9bM; Wed, 16 Sep 2020 08:32:41 +0000 (UTC)
+	with ESMTP id L4AyooYFz8N0; Wed, 16 Sep 2020 10:43:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 50F7E87343;
-	Wed, 16 Sep 2020 08:32:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CBEEF87311;
+	Wed, 16 Sep 2020 10:43:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4AF19C0051;
-	Wed, 16 Sep 2020 08:32:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B69AFC0051;
+	Wed, 16 Sep 2020 10:43:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0B5A2C0051
- for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 08:32:40 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D1CF5C0051
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 10:43:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id E0DAD207A2
- for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 08:32:39 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id BE6D986DEC
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 10:43:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yuRJ5sYxdj0f for <iommu@lists.linux-foundation.org>;
- Wed, 16 Sep 2020 08:32:38 +0000 (UTC)
+ with ESMTP id RnvNfyVHphTj for <iommu@lists.linux-foundation.org>;
+ Wed, 16 Sep 2020 10:43:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by silver.osuosl.org (Postfix) with ESMTPS id E25B320784
- for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 08:32:37 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id lo4so9103240ejb.8
- for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 01:32:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=lsTHEaMa7NWcCiDhQh+LAwtpF5hf7liWYfCO2nfxQUY=;
- b=Weqz4/aGFFZyyeuPB8AeHDH5MYDjqn1CD5KyBnY3YIxMqGv8uH8zataEVx7IPzu/t5
- UE6CNn4OHhrAkbP0ygegXzbgzv3tDgzt6VkRCErSvyYCxVJnhuJsOODoh0ZIJUQSTran
- znXRkdzuyfz+MUTCqc9qrJ7+QBgjP958NJ39KjIZ4kGHc14gnP0uKR26r31mWVmldktZ
- iuRN3yskbjWuLoecBPenGexvNHb+JjxTdqzgIvj4fRxtrP1P3rhRDYP3mByi08SAlcmC
- YniViRXWYSvEygaLvfzUc7KaSzn1JvNSR8cMCFz9kM4mlu1uDbRv9A8X/7iVNmB16eXQ
- 2hQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=lsTHEaMa7NWcCiDhQh+LAwtpF5hf7liWYfCO2nfxQUY=;
- b=PaVDkJDN1aRynBFVcbSW6lHITV35nNUlarqCQeWaeZ2jFz4GndGjaVOwgza3+Msafg
- EFp8h2WKWgLUrBlKtbVNCWu3Z7rwsaUX7QBiS228NbewJR53/Khla2tjcC7nOLLDo59K
- 12EhpBCDxn5yQmFQgyQm9f5mbdP2e6nGiuOq5J96xvFjEJudNd1xm3VZzbtthv55aHw1
- jCwuRT5VjOMJoll6SrEn50g7oVRrALSGo/I3SAXzCr+N21L5yw1CabUkwUGRAUMxU/N0
- 0qhpV5v63VgTVpLYJ1t7juML6Ns3EjEPSGV3DcIhV40Ohr80zhCzAJeIiQKxTVavN9DR
- Lg7Q==
-X-Gm-Message-State: AOAM532cl8VrtqBXedPo1HwgiskCpwHy9hUE1rZFWxHjJb/edaLZxVF7
- ZxDZE1C5vZoW51Uqe0gN+T2oUQ==
-X-Google-Smtp-Source: ABdhPJxCMjyEvUmXkRyRWGahwWFRcdqvEJJ1mvM4W7oJWaX7Wi/HjXfv84eXyjZEt5oaWl9swiJlzQ==
-X-Received: by 2002:a17:906:4cd6:: with SMTP id
- q22mr23775429ejt.139.1600245156191; 
- Wed, 16 Sep 2020 01:32:36 -0700 (PDT)
-Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id k19sm12010499ejo.40.2020.09.16.01.32.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 01:32:35 -0700 (PDT)
-Date: Wed, 16 Sep 2020 10:32:17 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [PATCH v7 00/16] vfio: expose virtual Shared Virtual Addressing
- to VMs
-Message-ID: <20200916083217.GA5316@myrica>
-References: <20200914134738.GX904879@nvidia.com>
- <20200914162247.GA63399@otc-nc-03>
- <20200914163354.GG904879@nvidia.com>
- <20200914105857.3f88a271@x1.home>
- <20200914174121.GI904879@nvidia.com>
- <20200914122328.0a262a7b@x1.home>
- <20200914190057.GM904879@nvidia.com>
- <20200914163310.450c8d6e@x1.home>
- <20200915142906.GX904879@nvidia.com>
- <MWHPR11MB1645934DB27033011316059B8C210@MWHPR11MB1645.namprd11.prod.outlook.com>
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2076.outbound.protection.outlook.com [40.107.20.76])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 9DBC486E62
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Sep 2020 10:43:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VJspW/HSxCHOogVquAWZSLUPjY8lfHku0pTNPFRUfc6j8HUvAWoUFiBIKzLwn3fEtZj0sbNGKcrQgagLSUjo+n58PfIx4nWU/01JffQ/Q+W36esMSC7goGl0y13TFuaOrZCcJoxdmOQudpqYjRs3xUarYyp2pe9/vLstbNgC5nh7d+sjWLGo4PeBHO6u6J1n9+B+m9KkC3SbvgkdcLJfjG5dpcRTqbqk+W2fWLwi8e8s2ZW+h4n0Pqs7e8Tle+fZu9kAe6ESaZg5Ri26rF15EKMFzKJfP2y0YOR5L73pA6ngSkttbKG0eBvxPTtydJv5bYd9WpV5ACgX4UvofwPzzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z9w+pZjUhoYiVwRdiUFslJXMSYsTo1gApXr2IxLrupA=;
+ b=cBQcmr7dgmD4LLqN8QlkxQGVR/ldhJ9S0UQmsFXg9oZWoPN7RBx2H42nFwv5ezsEteHTk/nmBOgYzZU46hoCmiyWU0JANGezfO1Vn1/W0fteUDS4BPjegnpIl849oSu/8yIV+7U5OVSC+gCRQhFx0GbSmRKNalFJoYy75HOXr9Bwtl2jwX/8GOsurcKdWv3taCm1VjG7vaAM8Dn1GKs9IJh068CAjjJPl2q5ycy8zIjK/WRyYsTvAsGR4LCEhNSy/uv5eOI3BEa3Q6AhheLMA7g/nV48dLpCEWPrLu886uW+AgE/kbVzV0h3Y4ncYj6KM7iCRBRkkot6hyz22nrjiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z9w+pZjUhoYiVwRdiUFslJXMSYsTo1gApXr2IxLrupA=;
+ b=BSKowub0dlKecrkQ1WwuE03qcho9S3wtI993TGgEQLQHO+Vp/GR2Z1RWKJPt3rNUab91awSZ9mu6pLOlATpWyGbDSokXy8CjHKUgBWsbav4T9m1N2emlPxYqdCVj8ahZH2TnAjYhL+/PUZzD89YsvD7Tl7mFJrp7f3IYA7qVRSY=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR0402MB3405.eurprd04.prod.outlook.com (2603:10a6:803:3::26)
+ by VI1PR04MB7117.eurprd04.prod.outlook.com (2603:10a6:800:12f::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Wed, 16 Sep
+ 2020 10:09:48 +0000
+Received: from VI1PR0402MB3405.eurprd04.prod.outlook.com
+ ([fe80::f960:c16d:16a5:6e7b]) by VI1PR0402MB3405.eurprd04.prod.outlook.com
+ ([fe80::f960:c16d:16a5:6e7b%7]) with mapi id 15.20.3370.019; Wed, 16 Sep 2020
+ 10:09:48 +0000
+Subject: Re: [PATCH v3 0/8] iommu/arm-smmu: Support maintaining bootloader
+ mappings
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jordan Crouse <jcrouse@codeaurora.org>, Rob Clark <robdclark@chromium.org>
+References: <20200904155513.282067-1-bjorn.andersson@linaro.org>
+From: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Message-ID: <1eb59ae2-bec4-aaf7-f07d-bec75979e4f7@nxp.com>
+Date: Wed, 16 Sep 2020 13:09:44 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
+In-Reply-To: <20200904155513.282067-1-bjorn.andersson@linaro.org>
+Content-Language: en-US
+X-ClientProxiedBy: AM4PR0101CA0077.eurprd01.prod.exchangelabs.com
+ (2603:10a6:200:41::45) To VI1PR0402MB3405.eurprd04.prod.outlook.com
+ (2603:10a6:803:3::26)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <MWHPR11MB1645934DB27033011316059B8C210@MWHPR11MB1645.namprd11.prod.outlook.com>
-Cc: "Tian, Jun J" <jun.j.tian@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "stefanha@gmail.com" <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>,
- "Wu, Hao" <hao.wu@intel.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.102] (86.123.60.218) by
+ AM4PR0101CA0077.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::45) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11 via Frontend
+ Transport; Wed, 16 Sep 2020 10:09:46 +0000
+X-Originating-IP: [86.123.60.218]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: f6b47e0b-d3c0-4303-8ed8-08d85a28a4b9
+X-MS-TrafficTypeDiagnostic: VI1PR04MB7117:
+X-Microsoft-Antispam-PRVS: <VI1PR04MB71174BED601556D71F5A567AEC210@VI1PR04MB7117.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:549;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IlO/YqtAQaMuAYd/7XlcmJS852upwwGHij4gNKUgYOWJ42whr4e6D0CMNaQZhUyBrqILh1AEpKCt4WFQAISa/+2EXYQgR1Scn4jgYI1jp1kYK64x70MKsAhNKoCeROg9QOsYFgLf7x4QkLBnY22QgJCfdjlyUrW/nY22N9bvpejqdfcMsX1yLApBUpDjBL8USGGKJ+lGCt++DUFojAWp8tSu9iL3jLCdD64+p0xek72ufUKEkw3RSQgR1Hqx6EF+unvl5eWCu5vINZnkGpRhvuJPOi5aHpuZhWkfjU0qRSq8SyvWB6BxJ5KSLAzcpu0wv1LvS+40+rS8W9Zd9dV0SmxwyyXJqQXDad4moOBBz6ABEe5WzHJFoPSKTiDQVnib5JC0l5shi7vnSsVvVXKiqL4CHjXOVdRtRs/pXUACFlq4uHP33Lo6/UtLDBJBq/Bms7gQCpvigoNYvM9zZdFQHg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0402MB3405.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(39850400004)(346002)(376002)(366004)(7416002)(16526019)(8936002)(6486002)(53546011)(478600001)(31686004)(83380400001)(26005)(186003)(2906002)(5660300002)(956004)(36756003)(2616005)(316002)(16576012)(86362001)(44832011)(8676002)(4326008)(66556008)(110136005)(66476007)(52116002)(31696002)(966005)(66946007)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 9a4pEUDGphRqvgrQN47lxPwhYp6vcfTUVc5lK0zrSagcG4wXKpzLzpXRGkK2jy31J/p6Mbwjrz0k6FUDma83zaxxWKS/FJLn49FPquW+HTYQsIW10nEbMjWz7tH7Bb6MEVC+ngPpLALRPROAr0r9gCCQtUjW8o2i3ZYfrCMGHJ5RmTjzOerG02ySlzF+UsrJqbTqwT+hVRtjAxV+6Gghh8qsaLdT4qEYzo/fIXLz+5s/mWdfFlWHGZ56XDmRiWnqbvtYZhOArPoeN3mGp2OechcvHt12CxLbkbE2W2djqdNRuUBvCyBKiIaIhiuwQdZgVAGTdsYboe7Qhv3CIp9XcWRHrlcY4Hb9Z65gRpYWInPEKHOn5hVWeBlqYoo21N4XehJHImFUHgkznXZlGSuhirJEC4Mg06PtVm+dPc0gfAAmV0hfQrIQVDQCB2RpdPA4BRNYGc+gzI96/kyOKs1CSFkxM7MRfsjr/CPeqBRFxE//oeisEY/SSA6ONUQY8EoDyeoDiaZWw7y33W8dGeyrgINrDU7/8qmQ+P/NUzLwYUAY0jZmFaWyqX+uOL/DP0FEO2K/z99GioUakHySB5OkItVSubknUauJkr2rLNqz3ueoA3b6TIL5akro0tir+RF44iyU5zDwWoGmFpsoT4buYA==
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6b47e0b-d3c0-4303-8ed8-08d85a28a4b9
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3405.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2020 10:09:48.7527 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FeWLi+WUXpfFvurrXd6Lwp/LTd0bgnBhCW8jro/aya5SjYFugSQqytfYiBudvMe3ae/Dr4YB8In6VvdQNaC1iw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7117
+Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Sibi Sankar <sibis@codeaurora.org>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,41 +130,96 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Sep 16, 2020 at 01:19:18AM +0000, Tian, Kevin wrote:
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > Sent: Tuesday, September 15, 2020 10:29 PM
-> >
-> > > Do they need a device at all?  It's not clear to me why RID based
-> > > IOMMU management fits within vfio's scope, but PASID based does not.
-> > 
-> > In RID mode vfio-pci completely owns the PCI function, so it is more
-> > natural that VFIO, as the sole device owner, would own the DMA mapping
-> > machinery. Further, the RID IOMMU mode is rarely used outside of VFIO
-> > so there is not much reason to try and disaggregate the API.
-> 
-> It is also used by vDPA.
-> 
-> > 
-> > PASID on the other hand, is shared. vfio-mdev drivers will share the
-> > device with other kernel drivers. PASID and DMA will be concurrent
-> > with VFIO and other kernel drivers/etc.
-> > 
-> 
-> Looks you are equating PASID to host-side sharing, while ignoring 
-> another valid usage that a PASID-capable device is passed through
-> to the guest through vfio-pci and then PASID is used by the guest 
-> for guest-side sharing. In such case, it is an exclusive usage in host
-> side and then what is the problem for VFIO to manage PASID given
-> that vfio-pci completely owns the function?
 
-And this is the only PASID model for Arm SMMU (and AMD IOMMU, I believe):
-the PASID space of a PCI function cannot be shared between host and guest,
-so we assign the whole PASID table along with the RID. Since we need the
-BIND, INVALIDATE, and report APIs introduced here to support nested
-translation, a /dev/sva interface would need to support this mode as well.
+On 9/4/2020 6:55 PM, Bjorn Andersson wrote:
+> Based on previous attempts and discussions this is the latest attempt at
+> inheriting stream mappings set up by the bootloader, for e.g. boot splash or
+> efifb.
+> 
+> Per Will's request this builds on the work by Jordan and Rob for the Adreno
+> SMMU support. It applies cleanly ontop of v16 of their series, which can be
+> found at
+> https://lore.kernel.org/linux-arm-msm/20200901164707.2645413-1-robdclark@gmail.com/
+> 
+> Bjorn Andersson (8):
+>   iommu/arm-smmu: Refactor context bank allocation
+>   iommu/arm-smmu: Delay modifying domain during init
+>   iommu/arm-smmu: Consult context bank allocator for identify domains
+>   iommu/arm-smmu-qcom: Emulate bypass by using context banks
+>   iommu/arm-smmu-qcom: Consistently initialize stream mappings
+>   iommu/arm-smmu: Add impl hook for inherit boot mappings
+>   iommu/arm-smmu: Provide helper for allocating identity domain
+>   iommu/arm-smmu-qcom: Setup identity domain for boot mappings
+> 
+>  drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 111 ++++++++++++++++++-
+>  drivers/iommu/arm/arm-smmu/arm-smmu.c      | 122 ++++++++++++++-------
+>  drivers/iommu/arm/arm-smmu/arm-smmu.h      |  14 ++-
+>  3 files changed, 205 insertions(+), 42 deletions(-)
+> 
 
-Thanks,
-Jean
+Tested on a NXP LX2160A with John's tree [1] and below diff [2], so for
+the whole series:
+
+Tested-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+
+[1]
+https://git.linaro.org/people/john.stultz/android-dev.git/log/?h=dev/db845c-mainline-WIP
+[2]
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
+@@ -190,11 +190,43 @@ static const struct arm_smmu_impl mrvl_mmu500_impl = {
+        .reset = arm_mmu500_reset,
+ };
+
++static int nxp_smmu_inherit_mappings(struct arm_smmu_device *smmu)
++{
++       u32 smr;
++       int i, cnt = 0;
++
++       for (i = 0; i < smmu->num_mapping_groups; i++) {
++               smr = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_SMR(i));
++
++               if (FIELD_GET(ARM_SMMU_SMR_VALID, smr)) {
++                       smmu->smrs[i].id = FIELD_GET(ARM_SMMU_SMR_ID, smr);
++                       smmu->smrs[i].mask =
+FIELD_GET(ARM_SMMU_SMR_MASK, smr);
++                       smmu->smrs[i].valid = true;
++
++                       smmu->s2crs[i].type = S2CR_TYPE_BYPASS;
++                       smmu->s2crs[i].privcfg = S2CR_PRIVCFG_DEFAULT;
++                       smmu->s2crs[i].count++;
++
++                       cnt++;
++               }
++       }
++
++       dev_notice(smmu->dev, "\tpreserved %d boot mapping%s\n", cnt,
++                  cnt == 1 ? "" : "s");
++
++       return 0;
++}
++
++static const struct arm_smmu_impl nxp_impl = {
++       .inherit_mappings = nxp_smmu_inherit_mappings,
++};
+
+ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
+ {
+        const struct device_node *np = smmu->dev->of_node;
+
+        /*
+         * Set the impl for model-specific implementation quirks first,
+         * such that platform integration quirks can pick it up and
+@@ -229,5 +261,12 @@ struct arm_smmu_device *arm_smmu_impl_init(struct
+arm_smmu_device *smmu)
+        if (of_device_is_compatible(np, "marvell,ap806-smmu-500"))
+                smmu->impl = &mrvl_mmu500_impl;
+
++       if (of_property_read_bool(np, "nxp,keep-bypass-mappings"))
++               smmu->impl = &nxp_impl;
+
+---
+Best Regards, Laurentiu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
