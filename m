@@ -1,86 +1,78 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C1C26DE73
-	for <lists.iommu@lfdr.de>; Thu, 17 Sep 2020 16:40:51 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id E06CE26DED4
+	for <lists.iommu@lfdr.de>; Thu, 17 Sep 2020 16:56:18 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 4BB9720431;
-	Thu, 17 Sep 2020 14:40:50 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 8B0C3878CF;
+	Thu, 17 Sep 2020 14:56:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ISBM5HkRvAyT; Thu, 17 Sep 2020 14:40:49 +0000 (UTC)
+	with ESMTP id OM8bLoFY7Uaj; Thu, 17 Sep 2020 14:56:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 3478F20428;
-	Thu, 17 Sep 2020 14:40:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 43757878C7;
+	Thu, 17 Sep 2020 14:56:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 218FCC0051;
-	Thu, 17 Sep 2020 14:40:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 30752C0051;
+	Thu, 17 Sep 2020 14:56:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B0F5CC0051
- for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 14:40:47 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2A5F4C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 14:56:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9F71F87073
- for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 14:40:47 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 182F187675
+ for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 14:56:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BgigU45Q1wV3 for <iommu@lists.linux-foundation.org>;
- Thu, 17 Sep 2020 14:40:47 +0000 (UTC)
+ with ESMTP id F5o7JTNDu8vv for <iommu@lists.linux-foundation.org>;
+ Thu, 17 Sep 2020 14:56:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id F111B87035
- for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 14:40:46 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id l9so2319678wme.3
- for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 07:40:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=NfuxW03LdCfyu123mz8qqvZXszWQ36KrgKMs1l6w+jU=;
- b=Pw7lFDe/iuIFOKG8HYdH0T5Je/lHJcwoYZXd9JsVUQKV0JnlFx1gQvK6qy09NSzZVl
- bu64Hjpgpe3Vrgqerl2AoKKS6qujF4ZdrJiCs96fUkFTfwsIqgl3n1076bGMYkl7rPic
- EZTdHLGhNQt3/MCDeZs0MtaDmIpMfz4WGrsZ2RPDfxdPdoKjg+hpTDDlplZWn0rRjZTd
- tlsEJjZjJdfribTDMoqk8595+MgbWZ0YMJWjMW2rtmx/rqMFkekBUacFxOyB2whcNC1g
- av/vDgbZ7RiwidQqOrcScnyA5dLr2c85iXMLxlSkI37oRlChKVCZGB34ebAakj27c6LZ
- BXqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NfuxW03LdCfyu123mz8qqvZXszWQ36KrgKMs1l6w+jU=;
- b=pi7cy2C5UA6hWQMMFYE/0TrKXCU8XaTvPtX4nvR5J/jGj5vHLhndJ6D+97+jHSIMf8
- Yr1KiBgxrcQJzdfevSaPD+H+yQqBUnNCwjtY2oabl7h9x7ThWNSPXYQMhhno8RNdxjkW
- zK15SxP2wvlsdoIagkogmDnC0Nso1/Sm8SEzME+CKJE8LMGWDKQuBEyPtLAmc7AKa4Ti
- 7tsxgiCzzh8xz23hFrG12aSY+auZeOD/RDRFWKWrZn3QsJiY9A+i1uMUowbYR+3h/vuj
- D/BNYtPVxm2LCdC55yaV5oHOWyD8H1ZZLlgdq3lWOudnIhJJe2c3w6y5j93BonxA9pLw
- GAQQ==
-X-Gm-Message-State: AOAM533JvzCtaEZudRAUXlkly4LcXCjEtRt7hqA8WOm2Ho9VH406951b
- yWgIqCzy4s9QqJM/OYO+cCZRFg==
-X-Google-Smtp-Source: ABdhPJyfxHyZxOt4YbdBvfOSV8C72mWMQCAXz9I03AvrY1stShy53TwxJvotM04L539YIqw2stYthA==
-X-Received: by 2002:a1c:7716:: with SMTP id t22mr9922760wmi.64.1600353645445; 
- Thu, 17 Sep 2020 07:40:45 -0700 (PDT)
-Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id w21sm11840904wmk.34.2020.09.17.07.40.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 07:40:44 -0700 (PDT)
-Date: Thu, 17 Sep 2020 16:40:25 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Auger Eric <eric.auger@redhat.com>
-Subject: Re: [PATCH RESEND v9 11/13] iommu/arm-smmu-v3: Add SVA device feature
-Message-ID: <20200917144025.GF134903@myrica>
-References: <20200817171558.325917-1-jean-philippe@linaro.org>
- <20200817171558.325917-12-jean-philippe@linaro.org>
- <e77d3f31-020c-d5cf-1af2-d584e62112b2@redhat.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 13E6487646
+ for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 14:56:13 +0000 (UTC)
+IronPort-SDR: UToSdJ+2mrQXuI5vn+WK1pJbYA9y/HmTQhFF546YSO+/5DN1o2+zWVe8+hMwuPqnB0hnenybIa
+ 2V4Jjw+f4esw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="221260496"
+X-IronPort-AV: E=Sophos;i="5.77,437,1596524400"; d="scan'208";a="221260496"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2020 07:56:11 -0700
+IronPort-SDR: QyFN85vOPnvWLorCFQzvTxleVhmEHePss429B5h+XJrYHl5eD0jZQ5fwuyoYb4Rx7BJtflaqaU
+ TMdD1NUCff9Q==
+X-IronPort-AV: E=Sophos;i="5.77,437,1596524400"; d="scan'208";a="332182841"
+Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.36])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2020 07:56:11 -0700
+Date: Thu, 17 Sep 2020 07:56:09 -0700
+From: "Raj, Ashok" <ashok.raj@intel.com>
+To: Borislav Petkov <bp@alien8.de>
+Subject: Re: [PATCH v8 3/9] Documentation/x86: Add documentation for SVA
+ (Shared Virtual Addressing)
+Message-ID: <20200917145609.GB91028@otc-nc-03>
+References: <1600187413-163670-1-git-send-email-fenghua.yu@intel.com>
+ <1600187413-163670-4-git-send-email-fenghua.yu@intel.com>
+ <20200917075338.GC31960@zn.tnic>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <e77d3f31-020c-d5cf-1af2-d584e62112b2@redhat.com>
-Cc: fenghua.yu@intel.com, will@kernel.org, catalin.marinas@arm.com,
- linux-mm@kvack.org, iommu@lists.linux-foundation.org, zhangfei.gao@linaro.org,
- robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20200917075338.GC31960@zn.tnic>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Fenghua Yu <fenghua.yu@intel.com>, Tony Luck <tony.luck@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Ashok Raj <ashok.raj@intel.com>,
+ Ravi V Shankar <ravi.v.shankar@intel.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Christoph Hellwig <hch@infradead.org>, Dave Hansen <dave.hansen@intel.com>,
+ iommu@lists.linux-foundation.org, Ingo Molnar <mingo@redhat.com>,
+ Jacob Jun Pan <jacob.jun.pan@intel.com>, Andy Lutomirski <luto@kernel.org>,
+ H Peter Anvin <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>,
+ David Woodhouse <dwmw2@infradead.org>, x86 <x86@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,24 +90,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Sep 08, 2020 at 11:46:05AM +0200, Auger Eric wrote:
-> Hi Jean,
+Hi Boris,
+
+On Thu, Sep 17, 2020 at 09:53:38AM +0200, Borislav Petkov wrote:
+> On Tue, Sep 15, 2020 at 09:30:07AM -0700, Fenghua Yu wrote:
+> > +Background
+> > +==========
+> > +
+> > +Shared Virtual Addressing (SVA) allows the processor and device to use the
+> > +same virtual addresses avoiding the need for software to translate virtual
+> > +addresses to physical addresses. SVA is what PCIe calls Shared Virtual
+> > +Memory (SVM).
+> > +
+> > +In addition to the convenience of using application virtual addresses
+> > +by the device, it also doesn't require pinning pages for DMA.
+> > +PCIe Address Translation Services (ATS) along with Page Request Interface
+> > +(PRI) allow devices to function much the same way as the CPU handling
+> > +application page-faults. For more information please refer to the PCIe
+> > +specification Chapter 10: ATS Specification.
+> > +
+> > +Use of SVA requires IOMMU support in the platform. IOMMU also is required
+> > +to support PCIe features ATS and PRI. ATS allows devices to cache
+> > +translations for virtual addresses. The IOMMU driver uses the mmu_notifier()
+> > +support to keep the device TLB cache and the CPU cache in sync. PRI allows
+> > +the device to request paging the virtual address by using the CPU page tables
+> > +before accessing the address.
 > 
-> On 8/17/20 7:15 PM, Jean-Philippe Brucker wrote:
-> > Implement the IOMMU device feature callbacks to support the SVA feature.
-> > At the moment dev_has_feat() returns false since I/O Page Faults isn't
-> > yet implemented.
-> and because we don't advertise BTM, isn't it?
-
-Right, adding it to the commit log
-
-> Besides
+> That still reads funny, the "the device to request paging the virtual
+> address" part. Do you mean that per chance here:
 > 
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> "Before the device can access that address, the device uses the PRI in
+> order to request the virtual address to be paged in into the CPU page
+> tables."
+> 
+Agree, this reads a bit funny.
 
-Thanks for the reviews!
+Just tweaked it a bit: 
 
-Jean
+"When ATS lookup fails for a virtual address, device should use PRI in
+order to request the virtual address to be paged into the CPU page tables.
+The device must use ATS again in order the fetch the translation again
+before use"
+
+Cheers,
+Ashok
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
