@@ -1,84 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490A026DA58
-	for <lists.iommu@lfdr.de>; Thu, 17 Sep 2020 13:35:31 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id F3F358759D;
-	Thu, 17 Sep 2020 11:35:29 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qQOkHN-pbb4A; Thu, 17 Sep 2020 11:35:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8234887272;
-	Thu, 17 Sep 2020 11:35:29 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 73F43C0888;
-	Thu, 17 Sep 2020 11:35:29 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8699FC0859
- for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 11:35:26 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id F25F726DAFB
+	for <lists.iommu@lfdr.de>; Thu, 17 Sep 2020 14:04:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 6AF2C27428
- for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 11:35:26 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 577532052D;
+	Thu, 17 Sep 2020 12:04:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4IOWe0H4vYRZ; Thu, 17 Sep 2020 12:04:06 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 5BF6C27A5D;
+	Thu, 17 Sep 2020 12:04:06 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 47B38C0859;
+	Thu, 17 Sep 2020 12:04:06 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D7102C0859
+ for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 12:04:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id C589587520
+ for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 12:04:04 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id i-u9aV3AJyVp for <iommu@lists.linux-foundation.org>;
- Thu, 17 Sep 2020 11:35:23 +0000 (UTC)
+ with ESMTP id EyT7FB55zC+n for <iommu@lists.linux-foundation.org>;
+ Thu, 17 Sep 2020 12:04:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
- [209.85.215.193])
- by silver.osuosl.org (Postfix) with ESMTPS id 63A8E274FC
- for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 11:35:23 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id l71so1206695pge.4
- for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 04:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=44JkQ0xk/m6YNhH3hVjpFztigV1A13fyXiwxKi+U+Xc=;
- b=VYEi0ommvZ/cuDCP/38rRPYUvZFPkgwB+TFwx9CUcF0Rrc6CxikinYRSo8JLeozSM4
- nZuR/iudhktaOl9035RVAB1bWwE2aNPKQ68RqJ2moK7wErajVDa2W4KsVdgnxqATvPsH
- qesyy7x4S9n/tF5N6LU7GbCS2rAPfNYR31ArlBn5YdLYdyd3k5GY0UvtN38CEeWqksWS
- +2t76vzN9kETK9E65XfknlmpGtSxnX4uN06GS+Mm362bhgkQ8lrobYQdvP4612iOYdmD
- jaBuIkEgTga2SwFSc3gNmg9/eFJxTUGf+egOJ+Qm16Pdufzuscb9EXB7pVV8KRmOL+zM
- OSQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=44JkQ0xk/m6YNhH3hVjpFztigV1A13fyXiwxKi+U+Xc=;
- b=i20g3NQlUmhXVfknVu6zeGcaWgviPvl/MJpUOt1BlxAQ8Q8SXaNfvg3QGW54sFxB/W
- PkMAeZ805lC4jXPQDcEfa+wZ7nm/zaZvSEug0Rnhi5FFRgrCPTLiCkYZ7PdDCzJbFrUz
- A/ghDeI6vPlhJQBKzJ+ShmXUHLtJu+nWdW6ZsE3sYgb5eesdwzhjJTHrelnM8s0xTluc
- BmLhj8KZFVuyJEejTA8cpHAfw7LN/7bFI7/adPM6aMocExKHyTVDEEpKs2XSBKxVSK+O
- NkV9kSQvrPxaM44FBMotctV5fmdQX5iLKTJzMdh69gFeddjAEdlXE4/sxCWhO9bUF2Ba
- lsfw==
-X-Gm-Message-State: AOAM5309JxNL4xzJVz7l8jIuG7ho300BjOgArxgHOmjRIcLl5U8NVYXO
- /A6hEQ5oaxRh7JFwr84R+/w=
-X-Google-Smtp-Source: ABdhPJyP5LqjnXvH1LhpCFGPDM4Dnp5PmbvsiDx0qDuxmUYG+ysZXqB6qzdfLj9uIk8o7d38xlH5Ng==
-X-Received: by 2002:a05:6a00:1356:b029:13e:d13d:a084 with SMTP id
- k22-20020a056a001356b029013ed13da084mr26669802pfu.27.1600342522940; 
- Thu, 17 Sep 2020 04:35:22 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
- [216.228.112.22])
- by smtp.gmail.com with ESMTPSA id a138sm21128382pfd.19.2020.09.17.04.35.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Sep 2020 04:35:22 -0700 (PDT)
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: krzk@kernel.org,
-	joro@8bytes.org
-Subject: [RESEND][PATCH 2/2] memory: tegra: Correct num_tlb_lines for tegra210
-Date: Thu, 17 Sep 2020 04:31:55 -0700
-Message-Id: <20200917113155.13438-3-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200917113155.13438-1-nicoleotsuka@gmail.com>
-References: <20200917113155.13438-1-nicoleotsuka@gmail.com>
-Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- thierry.reding@gmail.com, linux-tegra@vger.kernel.org, jonathanh@nvidia.com
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C0F0A8751C
+ for <iommu@lists.linux-foundation.org>; Thu, 17 Sep 2020 12:04:03 +0000 (UTC)
+Received: from kevin (unknown [IPv6:2607:fea8:55f:a950::68f4])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: alyssa)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C9FB029AEF5;
+ Thu, 17 Sep 2020 13:03:47 +0100 (BST)
+Date: Thu, 17 Sep 2020 08:03:37 -0400
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH 0/3] drm: panfrost: Coherency support
+Message-ID: <20200917120337.GA1684@kevin>
+References: <cover.1600213517.git.robin.murphy@arm.com>
+ <d109e9da-feb3-c09f-2b7f-98c92ce39593@baylibre.com>
+ <20200916170409.GA2543@kevin>
+ <CAL_JsqLGO4YYPjQsjnzZCW5iT6n+keZw9G9mFALJip0nDo42Hw@mail.gmail.com>
+ <d135f546-41aa-a6e2-52fe-7707d379c793@arm.com>
+MIME-Version: 1.0
+In-Reply-To: <d135f546-41aa-a6e2-52fe-7707d379c793@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Kevin Hilman <khilman@baylibre.com>,
+ Linux IOMMU <iommu@lists.linux-foundation.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Will Deacon <will@kernel.org>,
+ "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Jerome Brunet <jbrunet@baylibre.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,39 +71,67 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============3415913113789652897=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-According to Tegra210 TRM, the default value of TLB_ACTIVE_LINES
-field of register MC_SMMU_TLB_CONFIG_0 is 0x30. So num_tlb_lines
-should be 48 (0x30) rather than 32 (0x20).
 
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-Acked-by: Thierry Reding <treding@nvidia.com>
----
- drivers/memory/tegra/tegra210.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--===============3415913113789652897==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6TrnltStXW4iwmi0"
+Content-Disposition: inline
 
-diff --git a/drivers/memory/tegra/tegra210.c b/drivers/memory/tegra/tegra210.c
-index 51b537cfa5a7..4fbf8cbc6666 100644
---- a/drivers/memory/tegra/tegra210.c
-+++ b/drivers/memory/tegra/tegra210.c
-@@ -1074,7 +1074,7 @@ static const struct tegra_smmu_soc tegra210_smmu_soc = {
- 	.num_groups = ARRAY_SIZE(tegra210_groups),
- 	.supports_round_robin_arbitration = true,
- 	.supports_request_limit = true,
--	.num_tlb_lines = 32,
-+	.num_tlb_lines = 48,
- 	.num_asids = 128,
- };
- 
--- 
-2.17.1
+
+--6TrnltStXW4iwmi0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+> The DDK blob has the ability to mark only certain areas of memory as
+> coherent for performance reasons. For simple things like kmscube I would
+> expect that it's basically write-only from the CPU and almost all memory the
+> GPU touches isn't touched by the CPU. I.e. coherency isn't helping and the
+> coherency traffic is probably expensive. Whether the complexity is worth it
+> for "real" content I don't know - it may just be silly benchmarks that
+> benefit.
+
+Right, Panfrost userspace specifically assumes GPU reads to be expensive
+and treats GPU memory as write-only *except* for a few special cases
+(compute-like workloads, glReadPixels, some blits, etc).
+
+The vast majority of the GPU memory - everything used in kmscube - will be
+write-only to the CPU and fed directly into the display zero-copy (or
+read by the GPU later as a dmabuf).
+
+--6TrnltStXW4iwmi0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl9jUJAACgkQ/v5QWgr1
+WA2dWg/+OmkKrIz3I3zxUDFk1aW47mEA/JzLjdkrFq+J1K67FPajUIaqzgLjYq1b
+wB3a51QSJoN70Aw9O9jrV/GkEbpSf8QWObN4NtZqYcD58fECprh5oXmEfgD0u5gZ
+6Gkoijp15utLoOirt2LkEJpYAxrOjfA9n5+WQLn8qQY1QPwO2AjtNxXWlWNhYqvh
+CQwDQGoO9FiWNSRPZpx1yHEYP/aDMTW8MqwQ8JsQu2G42TS6ErQUC9OMMZjJ/TYS
+GLKA4ybkdSnlNwQH0h+7g6LX0Y3WGUUn1xxbd4P7OPFZapV+87+cQS8sottqH7tS
+Rrja9cH4d7/DjKmn1xjT5ftnagxGkzoJ9eYf13DTedymUAQxMGV5TdZhCeUT0HFz
+5es9SnkTjOFAQyKZbjiM5t5Sia0eUHLIKUwX6FFKnWxMTtLF4z8XGhizHQrZ8M5I
+tQW8f7BzInUEGN5H3FV6spp+P5tL7AkdTEGJ4p87EnoyJfTq2mxWAfTxxN9R01FQ
+3yDMyx9bUXif0CNnJjAyTN0WJt17twGKuqAnGu5+oLtK6BXuC5wv9yPyQZ5Zvwgv
+HnXnb+s10WYXgdOHRNebUvFnDYsIZTp8/qFXiAdKaHT/r7aL/UKm2XQqwz48O40W
+doi8CBItWk7+SxVkj3w5nxnyl9vhu0Md9HkBvGZEH3wfnPGu4/w=
+=k8jL
+-----END PGP SIGNATURE-----
+
+--6TrnltStXW4iwmi0--
+
+--===============3415913113789652897==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============3415913113789652897==--
