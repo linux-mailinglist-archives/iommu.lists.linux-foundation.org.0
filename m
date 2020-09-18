@@ -1,79 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6C826FA6C
-	for <lists.iommu@lfdr.de>; Fri, 18 Sep 2020 12:20:05 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CA3926FA6E
+	for <lists.iommu@lfdr.de>; Fri, 18 Sep 2020 12:20:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1EC0287303;
-	Fri, 18 Sep 2020 10:20:04 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E783F877EA;
+	Fri, 18 Sep 2020 10:20:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bBjhTy6df3Pv; Fri, 18 Sep 2020 10:20:03 +0000 (UTC)
+	with ESMTP id cbMVLhYNPVIa; Fri, 18 Sep 2020 10:20:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3378E87302;
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6BC14877FF;
 	Fri, 18 Sep 2020 10:20:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 20DDEC0051;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 43D0DC0051;
 	Fri, 18 Sep 2020 10:20:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F0154C0051
- for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 10:20:01 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7F84EC0051
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 10:20:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id BCC6020421
- for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 10:20:01 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 6B64187691
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 10:20:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FdF2QIf+vI3z for <iommu@lists.linux-foundation.org>;
- Fri, 18 Sep 2020 10:20:00 +0000 (UTC)
+ with ESMTP id 18TMrWv1WQ4D for <iommu@lists.linux-foundation.org>;
+ Fri, 18 Sep 2020 10:20:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by silver.osuosl.org (Postfix) with ESMTPS id B27EE2E1F7
- for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 10:19:59 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id l17so5486507edq.12
- for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 03:19:59 -0700 (PDT)
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
+ [209.85.218.66])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 0B6CF87683
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 10:20:01 +0000 (UTC)
+Received: by mail-ej1-f66.google.com with SMTP id r7so7328656ejs.11
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 03:20:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aqv3ZDmHKVFNAXTFaRsRnoonjs/rFQLnkFE+WBCHtmI=;
- b=cuyYD9o/KzC2pIYNckBzClyiRwbWWDYRG475drB7yzqFBvhSWeBm3J8FmSaGnL0/QL
- xR5nwdy+AoCeQX991HFvNwMNz44bp6fu5ti8Y8v2hcXqFC1lOPbND6L5oFijW/vmNOgr
- jkbT+FFiHBatj7ZQGuSzXJEiIhDGrrD6NyCe4fcpTtTZN5mugHhhrol7rj87jxw19KlX
- fAA/gWwR5rwqcGX+vONvq58dF3itVamwNTl6jzJqZ2ci+XmvsNqMQ2gAuZyp5QFswi5t
- 8do3FK/EEnppYoFOMH1AZv/MOSaRGF+tKntJHn6srTIge0DrFrSiIZn2eltb1H0byEiT
- eddg==
+ bh=AEV16NDJGTM7XqSMn6JieZzSV8SZ84xCpMhaKhX/5mU=;
+ b=S90AruaZ1mwZkAKEMeNU+c5XlqJnlb8d8HmLqZhKhUnd70VBSB/ulp92s5z8d+gB3m
+ ArXG1HXSsPL7j1BourPnlBxg/swlAR+0j0Uco1brUhGhx2hFpJ6iWTkRo45CESZbFRlu
+ 9h3o/4qXO92Nj7i+9LSf2Cf6A6ssmg4Vjx+t16bmKuc/oOmTQtS5L5WgrPIFl5/YAXOi
+ x//n4q+m5cMtXCLkNPZZeq60LqUYDoLdXpxKKF8oZXAm+buf9TK8JqBplPxSUhlxvqRA
+ BBr7MjEigC0SHxtBiv54W8jQG+7Q5u8b56lW+kpG13Twz+8muayFnfJJ6B5BDUd42ROm
+ 7lFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aqv3ZDmHKVFNAXTFaRsRnoonjs/rFQLnkFE+WBCHtmI=;
- b=L+mtNGBajziQv5eCeaR+DE9PMHAp4v2sW9GWELI69pwHmM0eVIsJjQTlZsuVByRW5p
- mg3fHCKKumM3C58ZTqV1WnDc8zl39QDnkRbPq8bXv7D12PRps6lARYsD4BSLXYMEAFbO
- Dkpg9JX7KCp8p7RoLVI2QSWA/8pk6bRC2Gm4OodsucFtDV/+MbYBhFpuzC+lzeR7fx1E
- 62lrrl5O9C4YnXJ9Nkz2O2+kN/IdixEHQjbDeyVkD74TqzYKRKbA7E3uqo93zWc6+oOA
- CAxmgMP3awnCBso1HUNiDQ3A8hJVvNPrbbbTIJRGopyYVzZztnCHzCln4+P9GXNKKUlL
- 1RaA==
-X-Gm-Message-State: AOAM532fuCp6DYXOd++CZDlValiX8nD9qPsLacIOKhej0bvKO4431QCa
- SNLEInj6XRyGyZWkyLcBT46gEq/E/y0RB8nE
-X-Google-Smtp-Source: ABdhPJycXf3Ue6WIV9Rxlo1kNEAhhbHclDtt1uJfQwBDseNfUhXzRCHBEOheY+S+oHqGf/+yU03vAA==
-X-Received: by 2002:aa7:c6cf:: with SMTP id b15mr24539435eds.134.1600424397669; 
- Fri, 18 Sep 2020 03:19:57 -0700 (PDT)
+ bh=AEV16NDJGTM7XqSMn6JieZzSV8SZ84xCpMhaKhX/5mU=;
+ b=K4uNuKX9q25pMPXCWW/sVKc+E3Se7aaOGanPRBdGpBKjxE5tfgopc6mzZkijeTBa3d
+ WdxA8H/asF+wVKKDEAO62LS4+JoplmOhDBckT/3QQznoqn6rUGqmuulnMjJNVqchEFsi
+ x1HdRLKfR1PiokGrRvwNXUZVYtgGXX/hsg2cNP+DcmdGcNfXf8MaX0k8VokWzi/vocjQ
+ YW89RhMqlONb8glKG/mpNhy0wupWIqGb4pDx+/hNs5Z7DQLNgDH1rXu7OBE9blROPni6
+ d4HcOx6I9cj02JAsx3w7zAP4Da+6o87JGB7KWcTgEmdqN3VqKwAPFVhKLzPyIPTG/yMe
+ 2Auw==
+X-Gm-Message-State: AOAM5327jLvsSgEqmj/kH6DQpRLxLlVQEY30JlERcgyGby2PvxEQb/8D
+ 7WABQKnKrGw7EnYZv0RTweXqqJpnL7lpmZ9W
+X-Google-Smtp-Source: ABdhPJyXqGDWlcufEF95+0zsxMabZUA7+iwul16wn9fpoIAw4nF4GGVvByfiKstK0D6A8STkXAl6wQ==
+X-Received: by 2002:a17:906:b04a:: with SMTP id
+ bj10mr34988731ejb.303.1600424398955; 
+ Fri, 18 Sep 2020 03:19:58 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id r16sm1940674edc.57.2020.09.18.03.19.56
+ by smtp.gmail.com with ESMTPSA id r16sm1940674edc.57.2020.09.18.03.19.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Sep 2020 03:19:57 -0700 (PDT)
+ Fri, 18 Sep 2020 03:19:58 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org,
  linux-mm@kvack.org
-Subject: [PATCH v10 03/13] iommu/sva: Add PASID helpers
-Date: Fri, 18 Sep 2020 12:18:43 +0200
-Message-Id: <20200918101852.582559-4-jean-philippe@linaro.org>
+Subject: [PATCH v10 04/13] arm64: mm: Pin down ASIDs for sharing mm with
+ devices
+Date: Fri, 18 Sep 2020 12:18:44 +0200
+Message-Id: <20200918101852.582559-5-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200918101852.582559-1-jean-philippe@linaro.org>
 References: <20200918101852.582559-1-jean-philippe@linaro.org>
@@ -98,161 +100,266 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Let IOMMU drivers allocate a single PASID per mm. Store the mm in the
-IOASID set to allow refcounting and searching mm by PASID, when handling
-an I/O page fault.
+To enable address space sharing with the IOMMU, introduce
+arm64_mm_context_get() and arm64_mm_context_put(), that pin down a
+context and ensure that it will keep its ASID after a rollover. Export
+the symbols to let the modular SMMUv3 driver use them.
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Pinning is necessary because a device constantly needs a valid ASID,
+unlike tasks that only require one when running. Without pinning, we would
+need to notify the IOMMU when we're about to use a new ASID for a task,
+and it would get complicated when a new task is assigned a shared ASID.
+Consider the following scenario with no ASID pinned:
+
+1. Task t1 is running on CPUx with shared ASID (gen=1, asid=1)
+2. Task t2 is scheduled on CPUx, gets ASID (1, 2)
+3. Task tn is scheduled on CPUy, a rollover occurs, tn gets ASID (2, 1)
+   We would now have to immediately generate a new ASID for t1, notify
+   the IOMMU, and finally enable task tn. We are holding the lock during
+   all that time, since we can't afford having another CPU trigger a
+   rollover. The IOMMU issues invalidation commands that can take tens of
+   milliseconds.
+
+It gets needlessly complicated. All we wanted to do was schedule task tn,
+that has no business with the IOMMU. By letting the IOMMU pin tasks when
+needed, we avoid stalling the slow path, and let the pinning fail when
+we're out of shareable ASIDs.
+
+After a rollover, the allocator expects at least one ASID to be available
+in addition to the reserved ones (one per CPU). So (NR_ASIDS - NR_CPUS -
+1) is the maximum number of ASIDs that can be shared with the IOMMU.
+
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
-v10: small comment updates
----
- drivers/iommu/Kconfig         |  5 ++
- drivers/iommu/Makefile        |  1 +
- drivers/iommu/iommu-sva-lib.h | 15 ++++++
- drivers/iommu/iommu-sva-lib.c | 86 +++++++++++++++++++++++++++++++++++
- 4 files changed, 107 insertions(+)
- create mode 100644 drivers/iommu/iommu-sva-lib.h
- create mode 100644 drivers/iommu/iommu-sva-lib.c
+ arch/arm64/include/asm/mmu.h         |   3 +
+ arch/arm64/include/asm/mmu_context.h |  11 ++-
+ arch/arm64/mm/context.c              | 105 +++++++++++++++++++++++++--
+ 3 files changed, 112 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index bef5d75e306b..fb1787377eb6 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -103,6 +103,11 @@ config IOMMU_DMA
- 	select IRQ_MSI_IOMMU
- 	select NEED_SG_DMA_LENGTH
+diff --git a/arch/arm64/include/asm/mmu.h b/arch/arm64/include/asm/mmu.h
+index a7a5ecaa2e83..0fda85b2cc1b 100644
+--- a/arch/arm64/include/asm/mmu.h
++++ b/arch/arm64/include/asm/mmu.h
+@@ -17,11 +17,14 @@
  
-+# Shared Virtual Addressing library
-+config IOMMU_SVA_LIB
-+	bool
-+	select IOASID
+ #ifndef __ASSEMBLY__
+ 
++#include <linux/refcount.h>
 +
- config FSL_PAMU
- 	bool "Freescale IOMMU support"
- 	depends on PCI
-diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
-index 11f1771104f3..61bd30cd8369 100644
---- a/drivers/iommu/Makefile
-+++ b/drivers/iommu/Makefile
-@@ -27,3 +27,4 @@ obj-$(CONFIG_FSL_PAMU) += fsl_pamu.o fsl_pamu_domain.o
- obj-$(CONFIG_S390_IOMMU) += s390-iommu.o
- obj-$(CONFIG_HYPERV_IOMMU) += hyperv-iommu.o
- obj-$(CONFIG_VIRTIO_IOMMU) += virtio-iommu.o
-+obj-$(CONFIG_IOMMU_SVA_LIB) += iommu-sva-lib.o
-diff --git a/drivers/iommu/iommu-sva-lib.h b/drivers/iommu/iommu-sva-lib.h
-new file mode 100644
-index 000000000000..b40990aef3fd
---- /dev/null
-+++ b/drivers/iommu/iommu-sva-lib.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * SVA library for IOMMU drivers
-+ */
-+#ifndef _IOMMU_SVA_LIB_H
-+#define _IOMMU_SVA_LIB_H
-+
-+#include <linux/ioasid.h>
-+#include <linux/mm_types.h>
-+
-+int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max);
-+void iommu_sva_free_pasid(struct mm_struct *mm);
-+struct mm_struct *iommu_sva_find(ioasid_t pasid);
-+
-+#endif /* _IOMMU_SVA_LIB_H */
-diff --git a/drivers/iommu/iommu-sva-lib.c b/drivers/iommu/iommu-sva-lib.c
-new file mode 100644
-index 000000000000..bd41405d34e9
---- /dev/null
-+++ b/drivers/iommu/iommu-sva-lib.c
-@@ -0,0 +1,86 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Helpers for IOMMU drivers implementing SVA
-+ */
-+#include <linux/mutex.h>
-+#include <linux/sched/mm.h>
-+
-+#include "iommu-sva-lib.h"
-+
-+static DEFINE_MUTEX(iommu_sva_lock);
-+static DECLARE_IOASID_SET(iommu_sva_pasid);
-+
-+/**
-+ * iommu_sva_alloc_pasid - Allocate a PASID for the mm
-+ * @mm: the mm
-+ * @min: minimum PASID value (inclusive)
-+ * @max: maximum PASID value (inclusive)
-+ *
-+ * Try to allocate a PASID for this mm, or take a reference to the existing one
-+ * provided it fits within the [@min, @max] range. On success the PASID is
-+ * available in mm->pasid, and must be released with iommu_sva_free_pasid().
-+ * @min must be greater than 0, because 0 indicates an unused mm->pasid.
-+ *
-+ * Returns 0 on success and < 0 on error.
-+ */
-+int iommu_sva_alloc_pasid(struct mm_struct *mm, ioasid_t min, ioasid_t max)
+ typedef struct {
+ 	atomic64_t	id;
+ #ifdef CONFIG_COMPAT
+ 	void		*sigpage;
+ #endif
++	refcount_t	pinned;
+ 	void		*vdso;
+ 	unsigned long	flags;
+ } mm_context_t;
+diff --git a/arch/arm64/include/asm/mmu_context.h b/arch/arm64/include/asm/mmu_context.h
+index f2d7537d6f83..0672236e1aea 100644
+--- a/arch/arm64/include/asm/mmu_context.h
++++ b/arch/arm64/include/asm/mmu_context.h
+@@ -177,7 +177,13 @@ static inline void cpu_replace_ttbr1(pgd_t *pgdp)
+ #define destroy_context(mm)		do { } while(0)
+ void check_and_switch_context(struct mm_struct *mm);
+ 
+-#define init_new_context(tsk,mm)	({ atomic64_set(&(mm)->context.id, 0); 0; })
++static inline int
++init_new_context(struct task_struct *tsk, struct mm_struct *mm)
 +{
-+	int ret = 0;
-+	ioasid_t pasid;
++	atomic64_set(&mm->context.id, 0);
++	refcount_set(&mm->context.pinned, 0);
++	return 0;
++}
+ 
+ #ifdef CONFIG_ARM64_SW_TTBR0_PAN
+ static inline void update_saved_ttbr0(struct task_struct *tsk,
+@@ -248,6 +254,9 @@ switch_mm(struct mm_struct *prev, struct mm_struct *next,
+ void verify_cpu_asid_bits(void);
+ void post_ttbr_update_workaround(void);
+ 
++unsigned long arm64_mm_context_get(struct mm_struct *mm);
++void arm64_mm_context_put(struct mm_struct *mm);
 +
-+	if (min == INVALID_IOASID || max == INVALID_IOASID ||
-+	    min == 0 || max < min)
-+		return -EINVAL;
+ #endif /* !__ASSEMBLY__ */
+ 
+ #endif /* !__ASM_MMU_CONTEXT_H */
+diff --git a/arch/arm64/mm/context.c b/arch/arm64/mm/context.c
+index 9b11c096a042..001737a8f309 100644
+--- a/arch/arm64/mm/context.c
++++ b/arch/arm64/mm/context.c
+@@ -27,6 +27,10 @@ static DEFINE_PER_CPU(atomic64_t, active_asids);
+ static DEFINE_PER_CPU(u64, reserved_asids);
+ static cpumask_t tlb_flush_pending;
+ 
++static unsigned long max_pinned_asids;
++static unsigned long nr_pinned_asids;
++static unsigned long *pinned_asid_map;
 +
-+	mutex_lock(&iommu_sva_lock);
-+	if (mm->pasid) {
-+		if (mm->pasid >= min && mm->pasid <= max)
-+			ioasid_get(mm->pasid);
-+		else
-+			ret = -EOVERFLOW;
-+	} else {
-+		pasid = ioasid_alloc(&iommu_sva_pasid, min, max, mm);
-+		if (pasid == INVALID_IOASID)
-+			ret = -ENOMEM;
-+		else
-+			mm->pasid = pasid;
+ #define ASID_MASK		(~GENMASK(asid_bits - 1, 0))
+ #define ASID_FIRST_VERSION	(1UL << asid_bits)
+ 
+@@ -72,7 +76,7 @@ void verify_cpu_asid_bits(void)
+ 	}
+ }
+ 
+-static void set_kpti_asid_bits(void)
++static void set_kpti_asid_bits(unsigned long *map)
+ {
+ 	unsigned int len = BITS_TO_LONGS(NUM_USER_ASIDS) * sizeof(unsigned long);
+ 	/*
+@@ -81,13 +85,15 @@ static void set_kpti_asid_bits(void)
+ 	 * is set, then the ASID will map only userspace. Thus
+ 	 * mark even as reserved for kernel.
+ 	 */
+-	memset(asid_map, 0xaa, len);
++	memset(map, 0xaa, len);
+ }
+ 
+ static void set_reserved_asid_bits(void)
+ {
+-	if (arm64_kernel_unmapped_at_el0())
+-		set_kpti_asid_bits();
++	if (pinned_asid_map)
++		bitmap_copy(asid_map, pinned_asid_map, NUM_USER_ASIDS);
++	else if (arm64_kernel_unmapped_at_el0())
++		set_kpti_asid_bits(asid_map);
+ 	else
+ 		bitmap_clear(asid_map, 0, NUM_USER_ASIDS);
+ }
+@@ -165,6 +171,14 @@ static u64 new_context(struct mm_struct *mm)
+ 		if (check_update_reserved_asid(asid, newasid))
+ 			return newasid;
+ 
++		/*
++		 * If it is pinned, we can keep using it. Note that reserved
++		 * takes priority, because even if it is also pinned, we need to
++		 * update the generation into the reserved_asids.
++		 */
++		if (refcount_read(&mm->context.pinned))
++			return newasid;
++
+ 		/*
+ 		 * We had a valid ASID in a previous life, so try to re-use
+ 		 * it if possible.
+@@ -256,6 +270,71 @@ void check_and_switch_context(struct mm_struct *mm)
+ 		cpu_switch_mm(mm->pgd, mm);
+ }
+ 
++unsigned long arm64_mm_context_get(struct mm_struct *mm)
++{
++	unsigned long flags;
++	u64 asid;
++
++	if (!pinned_asid_map)
++		return 0;
++
++	raw_spin_lock_irqsave(&cpu_asid_lock, flags);
++
++	asid = atomic64_read(&mm->context.id);
++
++	if (refcount_inc_not_zero(&mm->context.pinned))
++		goto out_unlock;
++
++	if (nr_pinned_asids >= max_pinned_asids) {
++		asid = 0;
++		goto out_unlock;
 +	}
-+	mutex_unlock(&iommu_sva_lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(iommu_sva_alloc_pasid);
 +
-+/**
-+ * iommu_sva_free_pasid - Release the mm's PASID
-+ * @mm: the mm
-+ *
-+ * Drop one reference to a PASID allocated with iommu_sva_alloc_pasid()
-+ */
-+void iommu_sva_free_pasid(struct mm_struct *mm)
-+{
-+	mutex_lock(&iommu_sva_lock);
-+	if (ioasid_put(mm->pasid))
-+		mm->pasid = 0;
-+	mutex_unlock(&iommu_sva_lock);
-+}
-+EXPORT_SYMBOL_GPL(iommu_sva_free_pasid);
++	if (!asid_gen_match(asid)) {
++		/*
++		 * We went through one or more rollover since that ASID was
++		 * used. Ensure that it is still valid, or generate a new one.
++		 */
++		asid = new_context(mm);
++		atomic64_set(&mm->context.id, asid);
++	}
 +
-+/* ioasid_find getter() requires a void * argument */
-+static bool __mmget_not_zero(void *mm)
-+{
-+	return mmget_not_zero(mm);
-+}
++	nr_pinned_asids++;
++	__set_bit(asid2idx(asid), pinned_asid_map);
++	refcount_set(&mm->context.pinned, 1);
 +
-+/**
-+ * iommu_sva_find() - Find mm associated to the given PASID
-+ * @pasid: Process Address Space ID assigned to the mm
-+ *
-+ * On success a reference to the mm is taken, and must be released with mmput().
-+ *
-+ * Returns the mm corresponding to this PASID, or an error if not found.
-+ */
-+struct mm_struct *iommu_sva_find(ioasid_t pasid)
-+{
-+	return ioasid_find(&iommu_sva_pasid, pasid, __mmget_not_zero);
++out_unlock:
++	raw_spin_unlock_irqrestore(&cpu_asid_lock, flags);
++
++	asid &= ~ASID_MASK;
++
++	/* Set the equivalent of USER_ASID_BIT */
++	if (asid && arm64_kernel_unmapped_at_el0())
++		asid |= 1;
++
++	return asid;
 +}
-+EXPORT_SYMBOL_GPL(iommu_sva_find);
++EXPORT_SYMBOL_GPL(arm64_mm_context_get);
++
++void arm64_mm_context_put(struct mm_struct *mm)
++{
++	unsigned long flags;
++	u64 asid = atomic64_read(&mm->context.id);
++
++	if (!pinned_asid_map)
++		return;
++
++	raw_spin_lock_irqsave(&cpu_asid_lock, flags);
++
++	if (refcount_dec_and_test(&mm->context.pinned)) {
++		__clear_bit(asid2idx(asid), pinned_asid_map);
++		nr_pinned_asids--;
++	}
++
++	raw_spin_unlock_irqrestore(&cpu_asid_lock, flags);
++}
++EXPORT_SYMBOL_GPL(arm64_mm_context_put);
++
+ /* Errata workaround post TTBRx_EL1 update. */
+ asmlinkage void post_ttbr_update_workaround(void)
+ {
+@@ -296,8 +375,11 @@ static int asids_update_limit(void)
+ {
+ 	unsigned long num_available_asids = NUM_USER_ASIDS;
+ 
+-	if (arm64_kernel_unmapped_at_el0())
++	if (arm64_kernel_unmapped_at_el0()) {
+ 		num_available_asids /= 2;
++		if (pinned_asid_map)
++			set_kpti_asid_bits(pinned_asid_map);
++	}
+ 	/*
+ 	 * Expect allocation after rollover to fail if we don't have at least
+ 	 * one more ASID than CPUs. ASID #0 is reserved for init_mm.
+@@ -305,6 +387,13 @@ static int asids_update_limit(void)
+ 	WARN_ON(num_available_asids - 1 <= num_possible_cpus());
+ 	pr_info("ASID allocator initialised with %lu entries\n",
+ 		num_available_asids);
++
++	/*
++	 * There must always be an ASID available after rollover. Ensure that,
++	 * even if all CPUs have a reserved ASID and the maximum number of ASIDs
++	 * are pinned, there still is at least one empty slot in the ASID map.
++	 */
++	max_pinned_asids = num_available_asids - num_possible_cpus() - 2;
+ 	return 0;
+ }
+ arch_initcall(asids_update_limit);
+@@ -319,13 +408,17 @@ static int asids_init(void)
+ 		panic("Failed to allocate bitmap for %lu ASIDs\n",
+ 		      NUM_USER_ASIDS);
+ 
++	pinned_asid_map = kcalloc(BITS_TO_LONGS(NUM_USER_ASIDS),
++				  sizeof(*pinned_asid_map), GFP_KERNEL);
++	nr_pinned_asids = 0;
++
+ 	/*
+ 	 * We cannot call set_reserved_asid_bits() here because CPU
+ 	 * caps are not finalized yet, so it is safer to assume KPTI
+ 	 * and reserve kernel ASID's from beginning.
+ 	 */
+ 	if (IS_ENABLED(CONFIG_UNMAP_KERNEL_AT_EL0))
+-		set_kpti_asid_bits();
++		set_kpti_asid_bits(asid_map);
+ 	return 0;
+ }
+ early_initcall(asids_init);
 -- 
 2.28.0
 
