@@ -1,58 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7C826F9CC
-	for <lists.iommu@lfdr.de>; Fri, 18 Sep 2020 12:02:44 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36AC426FA6A
+	for <lists.iommu@lfdr.de>; Fri, 18 Sep 2020 12:20:01 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 46AC587683;
-	Fri, 18 Sep 2020 10:02:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B73752E1F8;
+	Fri, 18 Sep 2020 10:19:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id epWmoXR3URqJ; Fri, 18 Sep 2020 10:02:42 +0000 (UTC)
+	with ESMTP id Qdn+xmOPri7B; Fri, 18 Sep 2020 10:19:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 642E3874B6;
-	Fri, 18 Sep 2020 10:02:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 84E8C20421;
+	Fri, 18 Sep 2020 10:19:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 44F79C0051;
-	Fri, 18 Sep 2020 10:02:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 72CA0C0051;
+	Fri, 18 Sep 2020 10:19:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 84BEDC0051
- for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 10:02:40 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 01926C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 10:19:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 78DD1877E3
- for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 10:02:40 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id DD6B9877E6
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 10:19:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NllfFJvqI2Gt for <iommu@lists.linux-foundation.org>;
- Fri, 18 Sep 2020 10:02:39 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 8809F877E1
- for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 10:02:39 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 91457293; Fri, 18 Sep 2020 12:02:37 +0200 (CEST)
-Date: Fri, 18 Sep 2020 12:02:36 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Jacob Pan <jacob.pan.linux@gmail.com>
-Subject: Re: [PATCH v9 0/7] IOMMU user API enhancement
-Message-ID: <20200918100235.GQ31590@8bytes.org>
-References: <1599861476-53416-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ with ESMTP id yD-3bC4kjnRa for <iommu@lists.linux-foundation.org>;
+ Fri, 18 Sep 2020 10:19:56 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id DEA71877E4
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 10:19:55 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id ay8so5520726edb.8
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 03:19:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Lv4b9GY6+/bQQk9KCigu2YOyVf5wGbkZ83LEMpm6G8I=;
+ b=aawrGoT0HCqKrNQLDsu4ySNkEpm9PttsoV+pu7FbzHS81I9fNNjUJyKDF4TsAV1ufp
+ 9E/FoBjhs1QgEv5nLGUt1aSMg+T32u2GOYujngMtZVPBALd3S+ZY9cRBoi+BTkFOPP0V
+ JbUHqZEVcB8zGGWRHcO96t1EaUKaN0+xktEBQ6mZOtbCZiOZR0C2nt/278BH3wJWhJC9
+ 1G5i9+7H7VsoOhMRLzbQJp8c/fgFAfUIvUUx5yA4i7EKVUWcmpXN2j9I4xy0tIekT6GQ
+ +Tym/HBZZa3/UoH7uqJiCPkyDGzw7zhcEzXkPJ5vUi0ZhB3MqWKrggWJGhVSs1zh09e0
+ GJUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Lv4b9GY6+/bQQk9KCigu2YOyVf5wGbkZ83LEMpm6G8I=;
+ b=eoY+Y+ucVOzcr1OQahueQI9DMStFNhW6MaWz6oW9wb1639+deLNYkRQYFHwXXXoIRl
+ jhHjpwkSkoGDiSWSgAPIwQ3NWbUHeMa2SiCiX0bXUkz1D+8Swt4xUFnXP/iBYvyXtROU
+ 76Kzu0AvWkhoa9xbri8J8Hgh+UO28PJ33uszrPomFnuFSgJg36QBJQ1wXQmll8YT6zt+
+ LnFwYupp564BtcOQRuM7sE61QIwILWoUNxtyqWJ87U8biP8hDpT7QnSKFNTtWuNeKa94
+ 9oKDpvfRhjos83mUvBTXP6OlgBW7uNbsnwHidnIMjYL99Mo/FXSN/anPNWqPEC7WRdvi
+ Xn+g==
+X-Gm-Message-State: AOAM532jnsTFUWEbvypG00kR6ziE1JWdTCgKJ91bGaEv/D1ayF5HaQTe
+ 8dOam7UZAYjQDiEq/KucD8+3aDBlOgu7eXAe
+X-Google-Smtp-Source: ABdhPJyUUObxySn2EBQo1QBdHyPSiPfxzCfd37bHd4/MqRE0Cc6VLlNPyEeZiwMMHqJCW9gF33Crwg==
+X-Received: by 2002:a50:9d0a:: with SMTP id v10mr37167009ede.144.1600424393968; 
+ Fri, 18 Sep 2020 03:19:53 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id r16sm1940674edc.57.2020.09.18.03.19.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Sep 2020 03:19:53 -0700 (PDT)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org,
+ linux-mm@kvack.org
+Subject: [PATCH v10 00/13] iommu: Shared Virtual Addressing for SMMUv3 (PT
+ sharing part)
+Date: Fri, 18 Sep 2020 12:18:40 +0200
+Message-Id: <20200918101852.582559-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1599861476-53416-1-git-send-email-jacob.jun.pan@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- Wu Hao <hao.wu@intel.com>, David Woodhouse <dwmw2@infradead.org>,
- Yi Sun <yi.y.sun@intel.com>
+Cc: fenghua.yu@intel.com, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ catalin.marinas@arm.com, robin.murphy@arm.com, zhangfei.gao@linaro.org,
+ will@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -70,38 +97,75 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jacob,
+This is version 10 of the page table sharing support for Arm SMMUv3.
+Patch 1 still needs an Ack from mm maintainers. However patches 4-11 do
+not depend on it, and could get merged for v5.10 regardless.
 
-On Fri, Sep 11, 2020 at 02:57:49PM -0700, Jacob Pan wrote:
-> IOMMU user API header was introduced to support nested DMA translation and
-> related fault handling. The current UAPI data structures consist of three
-> areas that cover the interactions between host kernel and guest:
->  - fault handling
->  - cache invalidation
->  - bind guest page tables, i.e. guest PASID
-> 
-> Future extensions are likely to support more architectures and vIOMMU features.
-> 
-> In the previous discussion, using user-filled data size and feature flags is
-> made a preferred approach over a unified version number.
-> https://lkml.org/lkml/2020/1/29/45
-> 
-> In addition to introduce argsz field to data structures, this patchset is also
-> trying to document the UAPI design, usage, and extension rules. VT-d driver
-> changes to utilize the new argsz field is included, VFIO usage is to follow.
-> 
-> This set is available at:
-> https://github.com/jacobpan/linux.git vsva_v5.9_uapi_v9
+v10:
+* Fix patches 3, 8, 9 and 10 following Eric's review.
 
-This changes user visible structs in incompatible ways, are you sure
-those are not used yet anywhere?
+v9 resend: https://lore.kernel.org/linux-iommu/20200817171558.325917-1-jean-philippe@linaro.org/
+* Rebased onto v5.9-rc1. Moved to drivers/iommu/arm/arm-smmu-v3/ as a
+  result.
 
-Please address Randy's comments on patch 1 and my comment about the
-build-time checking and repost with linux-api@vger.kernel.org on Cc.
+v9: https://lore.kernel.org/linux-iommu/20200723145724.3014766-1-jean-philippe@linaro.org/
+* Moved most of the SVA code to arm-smmu-v3-sva.c. This required moving
+  struct definitions and macros to arm-smmu-v3.h (patch 7), hence the
+  new 700 insertions/deletions in the diffstat.
+* Updated patches 4 and 8 following review.
+* Fixed a bug when replacing a private ASID.
 
-Regards,
+v8: https://lore.kernel.org/linux-iommu/20200618155125.1548969-1-jean-philippe@linaro.org/
+* Split SVA series into three parts: page table sharing, I/O page
+  faults, and additional features (DVM, VHE and HTTU).
 
-	Joerg
+Fenghua Yu (1):
+  mm: Define pasid in mm
+
+Jean-Philippe Brucker (12):
+  iommu/ioasid: Add ioasid references
+  iommu/sva: Add PASID helpers
+  arm64: mm: Pin down ASIDs for sharing mm with devices
+  iommu/io-pgtable-arm: Move some definitions to a header
+  arm64: cpufeature: Export symbol read_sanitised_ftr_reg()
+  iommu/arm-smmu-v3: Move definitions to a header
+  iommu/arm-smmu-v3: Share process page tables
+  iommu/arm-smmu-v3: Seize private ASID
+  iommu/arm-smmu-v3: Check for SVA features
+  iommu/arm-smmu-v3: Add SVA device feature
+  iommu/arm-smmu-v3: Implement iommu_sva_bind/unbind()
+  iommu/arm-smmu-v3: Hook up ATC invalidation to mm ops
+
+ drivers/iommu/Kconfig                         |  17 +
+ drivers/iommu/Makefile                        |   1 +
+ drivers/iommu/arm/arm-smmu-v3/Makefile        |   5 +-
+ arch/arm64/include/asm/mmu.h                  |   3 +
+ arch/arm64/include/asm/mmu_context.h          |  11 +-
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   | 752 +++++++++++++++
+ drivers/iommu/io-pgtable-arm.h                |  30 +
+ drivers/iommu/iommu-sva-lib.h                 |  15 +
+ include/linux/ioasid.h                        |  10 +-
+ include/linux/mm_types.h                      |   4 +
+ arch/arm64/kernel/cpufeature.c                |   1 +
+ arch/arm64/mm/context.c                       | 105 ++-
+ .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   | 488 ++++++++++
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 860 ++++--------------
+ drivers/iommu/intel/iommu.c                   |   4 +-
+ drivers/iommu/intel/svm.c                     |   6 +-
+ drivers/iommu/io-pgtable-arm.c                |  27 +-
+ drivers/iommu/ioasid.c                        |  38 +-
+ drivers/iommu/iommu-sva-lib.c                 |  86 ++
+ MAINTAINERS                                   |   3 +-
+ 20 files changed, 1731 insertions(+), 735 deletions(-)
+ create mode 100644 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+ create mode 100644 drivers/iommu/io-pgtable-arm.h
+ create mode 100644 drivers/iommu/iommu-sva-lib.h
+ create mode 100644 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
+ create mode 100644 drivers/iommu/iommu-sva-lib.c
+
+-- 
+2.28.0
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
