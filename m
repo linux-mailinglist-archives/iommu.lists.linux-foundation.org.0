@@ -1,64 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250CA26F8FD
-	for <lists.iommu@lfdr.de>; Fri, 18 Sep 2020 11:12:30 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id C44A526F90E
+	for <lists.iommu@lfdr.de>; Fri, 18 Sep 2020 11:17:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CF998877D4;
-	Fri, 18 Sep 2020 09:12:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3861522EE6;
+	Fri, 18 Sep 2020 09:17:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ktL8TjvzyuXO; Fri, 18 Sep 2020 09:12:27 +0000 (UTC)
+	with ESMTP id S33qUhZfLZrl; Fri, 18 Sep 2020 09:17:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 47AC8877DD;
-	Fri, 18 Sep 2020 09:12:27 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EC7162045B;
+	Fri, 18 Sep 2020 09:17:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2884EC0051;
-	Fri, 18 Sep 2020 09:12:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DCF1EC0859;
+	Fri, 18 Sep 2020 09:17:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2349DC0051;
- Fri, 18 Sep 2020 09:12:26 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F2463C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 09:17:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 171D687683;
- Fri, 18 Sep 2020 09:12:26 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id E1489877CF
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 09:17:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GafeBmNHo9Be; Fri, 18 Sep 2020 09:12:25 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+ with ESMTP id 321fgBNTWbZ5 for <iommu@lists.linux-foundation.org>;
+ Fri, 18 Sep 2020 09:17:48 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 5D62787668;
- Fri, 18 Sep 2020 09:12:25 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9D398877CD
+ for <iommu@lists.linux-foundation.org>; Fri, 18 Sep 2020 09:17:48 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 53443396; Fri, 18 Sep 2020 11:12:23 +0200 (CEST)
-Date: Fri, 18 Sep 2020 11:12:21 +0200
+ id B48F8396; Fri, 18 Sep 2020 11:17:46 +0200 (CEST)
+Date: Fri, 18 Sep 2020 11:17:45 +0200
 From: Joerg Roedel <joro@8bytes.org>
-To: Wei Liu <wei.liu@kernel.org>
-Subject: Re: [PATCH RFC v1 04/18] iommu/hyperv: don't setup IRQ remapping
- when running as root
-Message-ID: <20200918091221.GM31590@8bytes.org>
-References: <20200914112802.80611-1-wei.liu@kernel.org>
- <20200914112802.80611-5-wei.liu@kernel.org>
+To: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Subject: Re: [PATCH v2] iommu/amd: Restore IRTE.RemapEn bit for
+ amd_iommu_activate_guest_mode
+Message-ID: <20200918091745.GN31590@8bytes.org>
+References: <20200916111720.43913-1-suravee.suthikulpanit@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200914112802.80611-5-wei.liu@kernel.org>
+In-Reply-To: <20200916111720.43913-1-suravee.suthikulpanit@amd.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Stephen Hemminger <sthemmin@microsoft.com>,
- Nuno Das Neves <nudasnev@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Michael Kelley <mikelley@microsoft.com>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- virtualization@lists.linux-foundation.org,
- Vineeth Pillai <viremana@linux.microsoft.com>
+Cc: Joao Martins <joao.m.martins@oracle.com>, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, mlevitsk@redhat.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,17 +66,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Sep 14, 2020 at 11:27:48AM +0000, Wei Liu wrote:
-> The IOMMU code needs more work. We're sure for now the IRQ remapping
-> hooks are not applicable when Linux is the root.
+On Wed, Sep 16, 2020 at 11:17:20AM +0000, Suravee Suthikulpanit wrote:
+> Commit e52d58d54a32 ("iommu/amd: Use cmpxchg_double() when updating
+> 128-bit IRTE") removed an assumption that modify_irte_ga always set
+> the valid bit, which requires the callers to set the appropriate value
+> for the struct irte_ga.valid bit before calling the function.
 > 
-> Signed-off-by: Wei Liu <wei.liu@kernel.org>
+> Similar to the commit 26e495f34107 ("iommu/amd: Restore IRTE.RemapEn
+> bit after programming IRTE"), which is for the function
+> amd_iommu_deactivate_guest_mode().
+> 
+> The same change is also needed for the amd_iommu_activate_guest_mode().
+> Otherwise, this could trigger IO_PAGE_FAULT for the VFIO based VMs with
+> AVIC enabled.
+> 
+> Reported-by: Maxim Levitsky <mlevitsk@redhat.com>
+> Tested-by: Maxim Levitsky <mlevitsk@redhat.com>
+> Cc: Joao Martins <joao.m.martins@oracle.com>
+> Fixes: e52d58d54a321 ("iommu/amd: Use cmpxchg_double() when updating 128-bit IRTE")
+> Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
 > ---
->  drivers/iommu/hyperv-iommu.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/iommu/amd/iommu.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-Acked-by: Joerg Roedel <jroedel@suse.de>
-
+Applied for v5.9, thanks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
