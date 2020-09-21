@@ -2,74 +2,79 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10083271E72
-	for <lists.iommu@lfdr.de>; Mon, 21 Sep 2020 10:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E542725FB
+	for <lists.iommu@lfdr.de>; Mon, 21 Sep 2020 15:45:07 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8A560867F8;
-	Mon, 21 Sep 2020 08:59:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 52636867C0;
+	Mon, 21 Sep 2020 13:45:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ywJ+5+Kg+ZBP; Mon, 21 Sep 2020 08:59:46 +0000 (UTC)
+	with ESMTP id AELkp7hzxCaY; Mon, 21 Sep 2020 13:45:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id AF6D2867F4;
-	Mon, 21 Sep 2020 08:59:46 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id E37C5867C6;
+	Mon, 21 Sep 2020 13:45:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A4C67C0051;
-	Mon, 21 Sep 2020 08:59:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CACF2C0051;
+	Mon, 21 Sep 2020 13:45:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 59997C0051
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 08:59:45 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9E219C0051
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 13:45:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 3883020492
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 08:59:45 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 8CB53867C6
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 13:45:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YPyVKNATYvYd for <iommu@lists.linux-foundation.org>;
- Mon, 21 Sep 2020 08:59:43 +0000 (UTC)
+ with ESMTP id 96+iVYpbgR5E for <iommu@lists.linux-foundation.org>;
+ Mon, 21 Sep 2020 13:45:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
- by silver.osuosl.org (Postfix) with ESMTPS id DBA0F2040D
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 08:59:42 +0000 (UTC)
-Received: from lhreml715-chm.china.huawei.com (unknown [172.18.7.108])
- by Forcepoint Email with ESMTP id 44C52F0E845806F6D929;
- Mon, 21 Sep 2020 09:59:40 +0100 (IST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml715-chm.china.huawei.com (10.201.108.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Mon, 21 Sep 2020 09:59:40 +0100
-Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
- lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
- 15.01.1913.007; Mon, 21 Sep 2020 09:59:40 +0100
-From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-mm@kvack.org"
- <linux-mm@kvack.org>
-Subject: RE: [PATCH v10 10/13] iommu/arm-smmu-v3: Check for SVA features
-Thread-Topic: [PATCH v10 10/13] iommu/arm-smmu-v3: Check for SVA features
-Thread-Index: AQHWjaVYIOfN4SdH50ySUPU7pQ9X7Klyx0+A
-Date: Mon, 21 Sep 2020 08:59:39 +0000
-Message-ID: <753bcd76c21c4ea98ef1d4e492db01f4@huawei.com>
-References: <20200918101852.582559-1-jean-philippe@linaro.org>
- <20200918101852.582559-11-jean-philippe@linaro.org>
-In-Reply-To: <20200918101852.582559-11-jean-philippe@linaro.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.47.83.108]
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 41BBB867BC
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 13:45:01 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id u25so12373927otq.6
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 06:45:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=loKQZgFga7UZqbSbnj4ovLLilrOYK2w/uOEdhWo0QRM=;
+ b=fZOBPJFGZDQ87HnVlMCfZuU42PyfoXYYhy/YH28hMXXDbyB9AFgj4nZOQan8qZsDPo
+ sOtTW2VV3XXwCWlvHa3UoV6Kqs3466q2oHMuek93tq1hZeb1Ka/dgNOzYTFx37WGTqkv
+ sheMW6c7QFDPTPeBwRAIN2AODYs+qMztO6kj/OKqsmyXINatr5YnTvIrPlKBOqkLiSbB
+ tsRPsOj6rPFphj4sanhbhcpVcG4FlfcDfOIelGxik8adyyEi2FIL7IvGeax4ywWq0/q7
+ d/OoEQmIkjDmHmJeK5o6P83jaUCEdgknRoI353Gp7L/dsj2lkGUvkHkiByIJfuSs28k2
+ omKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=loKQZgFga7UZqbSbnj4ovLLilrOYK2w/uOEdhWo0QRM=;
+ b=HuWM/EsX1uEqfIZDD+6ZkoiTYQWX1WzysreX1q0+hpBIissGibyUabkbEHGullCAS5
+ pmHBP5/oHhQo6XBmPrXR9LxAagaHe23S6m9UPrpDj3UalAg/eSBGcYX1IxhJKNsQaqro
+ xely8P3glG5h328hlgO6Cibd4HurQSiNTRHyHxoCb9No3xLvk7UDI1WHKa703s2ENO6U
+ y7bS7fw24fl+vchWRBKcMu0pNNkDRSSMZinSAG/IrlbwLkXgMu+zqLRnQhsr8illtoP7
+ pNhGz6HVCrd+EnfQSblwAQupcsB4pKmuhtR7CKv+jDgJ+pLShsr+kxb5gYy0O/9aBDtD
+ LwoA==
+X-Gm-Message-State: AOAM5315pV78WxKyVJlWrvU6MM49VqiZxQXhsiFps1I9O/Jmk54s5hfp
+ t0uYIyurQJ/eYYe+AJFwXBnODR/yPpFbAl/b3I8iRPV4d0uCI+sp
+X-Google-Smtp-Source: ABdhPJxlUx5DCg2D991fKfj9KERXXc7eyIev4G7HPK7E/F/PYaSBCgo3aCh8ZI58Ivy9YqG4WKa/MRBt88vNEv29zuw=
+X-Received: by 2002:a9f:29c5:: with SMTP id s63mr5102469uas.34.1600694451848; 
+ Mon, 21 Sep 2020 06:20:51 -0700 (PDT)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Cc: "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, "will@kernel.org" <will@kernel.org>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Mon, 21 Sep 2020 18:50:40 +0530
+Message-ID: <CA+G9fYvuq58q+GsWnzni0sKSHbubuQz-UaK3TASX26V_a7yBVw@mail.gmail.com>
+Subject: arm-smmu 5000000.iommu: Cannot accommodate DMA offset for IOMMU page
+ tables
+To: linux-mtd@lists.infradead.org, open list <linux-kernel@vger.kernel.org>, 
+ Linux-Next Mailing List <linux-next@vger.kernel.org>,
+ lkft-triage@lists.linaro.org, 
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>
+Cc: Poonam Aggrwal <poonam.aggrwal@nxp.com>, robh@kernel.org,
+ Joerg Roedel <jroedel@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Suram Suram <suram@nxp.com>, masonccyang@mxic.com.tw, Zhiqiang.Hou@nxp.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,163 +92,199 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jean,
+arm64  Freescale Layerscape 2088A RDB Board boot failed with linux-next
+5.9.0-rc5-next-20200921 kernel tag version. The kernel warning and then
+kernel panic happened.
 
-> -----Original Message-----
-> From: iommu [mailto:iommu-bounces@lists.linux-foundation.org] On Behalf Of
-> Jean-Philippe Brucker
-> Sent: 18 September 2020 11:19
-> To: iommu@lists.linux-foundation.org; linux-arm-kernel@lists.infradead.org;
-> linux-mm@kvack.org
-> Cc: fenghua.yu@intel.com; Jean-Philippe Brucker <jean-philippe@linaro.org>;
-> catalin.marinas@arm.com; Suzuki K Poulose <suzuki.poulose@arm.com>;
-> robin.murphy@arm.com; zhangfei.gao@linaro.org; will@kernel.org
-> Subject: [PATCH v10 10/13] iommu/arm-smmu-v3: Check for SVA features
-> 
-> Aggregate all sanity-checks for sharing CPU page tables with the SMMU
-> under a single ARM_SMMU_FEAT_SVA bit. For PCIe SVA, users also need to
-> check FEAT_ATS and FEAT_PRI. For platform SVA, they will have to check
-> FEAT_STALLS.
-> 
-> Introduce ARM_SMMU_FEAT_BTM (Broadcast TLB Maintenance), but don't
-> enable it at the moment. Since the entire VMID space is shared with the
-> CPU, enabling DVM (by clearing SMMU_CR2.PTM) could result in
-> over-invalidation and affect performance of stage-2 mappings.
-> 
-> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
-> v10:
-> * Check that 52-bit VA is supported on the SMMU side if vabits_actual
->   requires it.
-> * Check arm64_kernel_unmapped_at_el0() instead of
->   CONFIG_UNMAP_KERNEL_AT_EL0
-> ---
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   | 10 +++++
->  .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   | 45
-> +++++++++++++++++++
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |  3 ++
->  3 files changed, 58 insertions(+)
-> 
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> index 90c08f156b43..7b14b48a26c7 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> @@ -602,6 +602,8 @@ struct arm_smmu_device {
->  #define ARM_SMMU_FEAT_STALL_FORCE	(1 << 13)
->  #define ARM_SMMU_FEAT_VAX		(1 << 14)
->  #define ARM_SMMU_FEAT_RANGE_INV		(1 << 15)
-> +#define ARM_SMMU_FEAT_BTM		(1 << 16)
-> +#define ARM_SMMU_FEAT_SVA		(1 << 17)
->  	u32				features;
-> 
->  #define ARM_SMMU_OPT_SKIP_PREFETCH	(1 << 0)
-> @@ -683,4 +685,12 @@ int arm_smmu_write_ctx_desc(struct
-> arm_smmu_domain *smmu_domain, int ssid,
->  void arm_smmu_tlb_inv_asid(struct arm_smmu_device *smmu, u16 asid);
->  bool arm_smmu_free_asid(struct arm_smmu_ctx_desc *cd);
-> 
-> +#ifdef CONFIG_ARM_SMMU_V3_SVA
-> +bool arm_smmu_sva_supported(struct arm_smmu_device *smmu);
-> +#else /* CONFIG_ARM_SMMU_V3_SVA */
-> +static inline bool arm_smmu_sva_supported(struct arm_smmu_device
-> *smmu)
-> +{
-> +	return false;
-> +}
-> +#endif /* CONFIG_ARM_SMMU_V3_SVA */
->  #endif /* _ARM_SMMU_V3_H */
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-> b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-> index ef3fcfa72187..cb94c0924196 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-> @@ -152,3 +152,48 @@ static void arm_smmu_free_shared_cd(struct
-> arm_smmu_ctx_desc *cd)
->  		kfree(cd);
->  	}
->  }
-> +
-> +bool arm_smmu_sva_supported(struct arm_smmu_device *smmu)
-> +{
-> +	unsigned long reg, fld;
-> +	unsigned long oas;
-> +	unsigned long asid_bits;
-> +	u32 feat_mask = ARM_SMMU_FEAT_BTM |
-> ARM_SMMU_FEAT_COHERENCY;
+Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
 
-Why is BTM mandated for SVA? I couldn't find this requirement in SMMU spec
-(Sorry if I missed it or this got discussed earlier). But if performance is the only concern here,
-is it better just to allow it with a warning rather than limiting SMMUs without BTM?
+metadata:
+  git branch: master
+  git repo: https://gitlab.com/Linaro/lkft/mirrors/next/linux-next
+  git commit: b10b8ad862118bf42c28a98b0f067619aadcfb23
+  git describe: next-20200921
+  make_kernelversion: 5.9.0-rc5
+  kernel-config:
+https://builds.tuxbuild.com/GxPuM0SSznSoSYYG8deYpQ/kernel.config
 
-Thanks,
-Shameer
 
-> +
-> +	if (vabits_actual == 52)
-> +		feat_mask |= ARM_SMMU_FEAT_VAX;
-> +
-> +	if ((smmu->features & feat_mask) != feat_mask)
-> +		return false;
-> +
-> +	if (!(smmu->pgsize_bitmap & PAGE_SIZE))
-> +		return false;
-> +
-> +	/*
-> +	 * Get the smallest PA size of all CPUs (sanitized by cpufeature). We're
-> +	 * not even pretending to support AArch32 here. Abort if the MMU
-> outputs
-> +	 * addresses larger than what we support.
-> +	 */
-> +	reg = read_sanitised_ftr_reg(SYS_ID_AA64MMFR0_EL1);
-> +	fld = cpuid_feature_extract_unsigned_field(reg,
-> ID_AA64MMFR0_PARANGE_SHIFT);
-> +	oas = id_aa64mmfr0_parange_to_phys_shift(fld);
-> +	if (smmu->oas < oas)
-> +		return false;
-> +
-> +	/* We can support bigger ASIDs than the CPU, but not smaller */
-> +	fld = cpuid_feature_extract_unsigned_field(reg,
-> ID_AA64MMFR0_ASID_SHIFT);
-> +	asid_bits = fld ? 16 : 8;
-> +	if (smmu->asid_bits < asid_bits)
-> +		return false;
-> +
-> +	/*
-> +	 * See max_pinned_asids in arch/arm64/mm/context.c. The following is
-> +	 * generally the maximum number of bindable processes.
-> +	 */
-> +	if (arm64_kernel_unmapped_at_el0())
-> +		asid_bits--;
-> +	dev_dbg(smmu->dev, "%d shared contexts\n", (1 << asid_bits) -
-> +		num_possible_cpus() - 2);
-> +
-> +	return true;
-> +}
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> index e99ebdd4c841..44c57bcfe112 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> @@ -3257,6 +3257,9 @@ static int arm_smmu_device_hw_probe(struct
-> arm_smmu_device *smmu)
-> 
->  	smmu->ias = max(smmu->ias, smmu->oas);
-> 
-> +	if (arm_smmu_sva_supported(smmu))
-> +		smmu->features |= ARM_SMMU_FEAT_SVA;
-> +
->  	dev_info(smmu->dev, "ias %lu-bit, oas %lu-bit (features 0x%08x)\n",
->  		 smmu->ias, smmu->oas, smmu->features);
->  	return 0;
-> --
-> 2.28.0
-> 
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+crash log,
+
+[    1.811830] nand: device found, Manufacturer ID: 0x2c, Chip ID: 0x48
+[    1.818202] nand: Micron MT29F16G08ABACAWP
+[    1.822314] nand: 2048 MiB, SLC, erase size: 512 KiB, page size:
+4096, OOB size: 224
+[    1.830078] ------------[ cut here ]------------
+[    1.834703] Driver must set ecc.strength when using hardware ECC
+[    1.840739] WARNING: CPU: 1 PID: 1 at
+drivers/mtd/nand/raw/nand_base.c:5671 nand_scan_with_ids+0x110c/0x1498
+[    1.850568] Modules linked in:
+[    1.853621] CPU: 1 PID: 1 Comm: swapper/0 Not tainted
+5.9.0-rc5-next-20200921 #1
+[    1.861015] Hardware name: Freescale Layerscape 2088A RDB Board (DT)
+[    1.867368] pstate: 40000005 (nZcv daif -PAN -UAO -TCO BTYPE=--)
+[    1.873373] pc : nand_scan_with_ids+0x110c/0x1498
+[    1.878073] lr : nand_scan_with_ids+0x110c/0x1498
+[    1.882774] sp : ffff80001005ba50
+[    1.886083] x29: ffff80001005ba50 x28: 0000000000000000
+[    1.891395] x27: ffff0082edf98638 x26: 0000000000000048
+[    1.896706] x25: 000000000000002c x24: ffff0082edf98578
+[    1.902018] x23: 0000000000000001 x22: ffff0082ee6b0000
+[    1.907329] x21: ffff0082edf98840 x20: 0000000000000000
+[    1.912640] x19: ffff0082edf98080 x18: 0000000000000010
+[    1.917951] x17: 0000000000000010 x16: 00000000833b5ff2
+[    1.923262] x15: ffff0082ee6b0480 x14: ffffffffffffffff
+[    1.928572] x13: ffff80009005b737 x12: ffff80001005b73f
+[    1.933883] x11: ffff80001005ba50 x10: ffff80001005ba50
+[    1.939194] x9 : ffffdc379157bfbc x8 : 657274732e636365
+[    1.944504] x7 : 2074657320747375 x6 : ffffdc37937ba000
+[    1.949815] x5 : ffffdc37937baa58 x4 : ffff80001005b840
+[    1.955125] x3 : 0000000000000000 x2 : ffff0082ee6b0000
+[    1.960436] x1 : 4732f0d38a403700 x0 : 0000000000000000
+[    1.965748] Call trace:
+[    1.968189]  nand_scan_with_ids+0x110c/0x1498
+[    1.972542]  fsl_ifc_nand_probe+0x474/0x6e0
+[    1.976723]  platform_drv_probe+0x5c/0xb0
+[    1.980729]  really_probe+0xf0/0x4d8
+[    1.984300]  driver_probe_device+0xfc/0x168
+[    1.988480]  device_driver_attach+0x7c/0x88
+[    1.992659]  __driver_attach+0xac/0x178
+[    1.996490]  bus_for_each_dev+0x78/0xc8
+[    2.000321]  driver_attach+0x2c/0x38
+[    2.003893]  bus_add_driver+0x14c/0x230
+[    2.007724]  driver_register+0x6c/0x128
+[    2.011555]  __platform_driver_register+0x50/0x60
+[    2.016258]  fsl_ifc_nand_driver_init+0x24/0x30
+[    2.020786]  do_one_initcall+0x4c/0x2d0
+[    2.024560] ata1: SATA link down (SStatus 0 SControl 300)
+[    2.024618]  kernel_init_freeable+0x214/0x280
+[    2.024624]  kernel_init+0x1c/0x120
+[    2.037849]  ret_from_fork+0x10/0x30
+[    2.041420] CPU: 1 PID: 1 Comm: swapper/0 Not tainted
+5.9.0-rc5-next-20200921 #1
+[    2.048815] Hardware name: Freescale Layerscape 2088A RDB Board (DT)
+[    2.055166] Call trace:
+[    2.057606]  dump_backtrace+0x0/0x1e0
+[    2.061263]  show_stack+0x20/0x30
+[    2.064574]  dump_stack+0xf8/0x168
+[    2.067972]  __warn+0xfc/0x178
+[    2.071023]  report_bug+0xfc/0x170
+[    2.074419]  bug_handler+0x28/0x70
+[    2.077816]  call_break_hook+0x70/0x88
+[    2.080559] ata2: SATA link down (SStatus 0 SControl 300)
+[    2.081560]  brk_handler+0x24/0x68
+[    2.081566]  do_debug_exception+0xb8/0x130
+[    2.094442]  el1_sync_handler+0xd8/0x120
+[    2.098360]  el1_sync+0x80/0x100
+[    2.101583]  nand_scan_with_ids+0x110c/0x1498
+[    2.105935]  fsl_ifc_nand_probe+0x474/0x6e0
+[    2.110115]  platform_drv_probe+0x5c/0xb0
+[    2.114120]  really_probe+0xf0/0x4d8
+[    2.117691]  driver_probe_device+0xfc/0x168
+[    2.121871]  device_driver_attach+0x7c/0x88
+[    2.126050]  __driver_attach+0xac/0x178
+[    2.129882]  bus_for_each_dev+0x78/0xc8
+[    2.133714]  driver_attach+0x2c/0x38
+[    2.137284]  bus_add_driver+0x14c/0x230
+[    2.141116]  driver_register+0x6c/0x128
+[    2.144946]  __platform_driver_register+0x50/0x60
+[    2.149647]  fsl_ifc_nand_driver_init+0x24/0x30
+[    2.154173]  do_one_initcall+0x4c/0x2d0
+[    2.158004]  kernel_init_freeable+0x214/0x280
+[    2.162358]  kernel_init+0x1c/0x120
+[    2.165841]  ret_from_fork+0x10/0x30
+[    2.169415] ---[ end trace d051012f465b08eb ]---
+[    2.174073] fsl,ifc-nand: probe of 530000000.nand failed with error -22
+[    2.181882] spi-nor spi0.0: unrecognized JEDEC id bytes: 1c 38 78 e1 e3 c7
+[    2.189409] spi-nor spi1.0: unrecognized JEDEC id bytes: 00 00 00 00 00 00
+[    2.196301] spi-nor: probe of spi1.0 failed with error -2
+[    2.203202] libphy: Fixed MDIO Bus: probed
+[    2.208607] thunder_xcv, ver 1.0
+[    2.211860] thunder_bgx, ver 1.0
+[    2.215114] nicpf, ver 1.0
+[    2.218785] hclge is initializing
+[    2.222141] hns3: Hisilicon Ethernet Network Driver for Hip08
+Family - version
+[    2.229371] hns3: Copyright (c) 2017 Huawei Corporation.
+[    2.234716] e1000: Intel(R) PRO/1000 Network Driver
+[    2.239598] e1000: Copyright (c) 1999-2006 Intel Corporation.
+[    2.245370] e1000e: Intel(R) PRO/1000 Network Driver
+[    2.250338] e1000e: Copyright(c) 1999 - 2015 Intel Corporation.
+[    2.256403] e1000e 0000:01:00.0: Adding to iommu group 0
+[    2.261733] arm-smmu 5000000.iommu: Cannot accommodate DMA offset
+for IOMMU page tables
+[    2.269752] Unable to handle kernel NULL pointer dereference at
+virtual address 0000000000000000
+[    2.278544] Mem abort info:
+[    2.281334]   ESR = 0x96000004
+[    2.284389]   EC = 0x25: DABT (current EL), IL = 32 bits
+[    2.289705]   SET = 0, FnV = 0
+[    2.292759]   EA = 0, S1PTW = 0
+[    2.295900] Data abort info:
+[    2.298781]   ISV = 0, ISS = 0x00000004
+[    2.302618]   CM = 0, WnR = 0
+[    2.305581] [0000000000000000] user address but active_mm is swapper
+[    2.311941] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+[    2.317512] Modules linked in:
+[    2.320566] CPU: 1 PID: 1 Comm: swapper/0 Tainted: G        W
+  5.9.0-rc5-next-20200921 #1
+[    2.329352] Hardware name: Freescale Layerscape 2088A RDB Board (DT)
+[    2.335705] pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=--)
+[    2.341715] pc : arm_smmu_flush_iotlb_all+0x28/0x90
+[    2.346590] lr : iommu_create_device_direct_mappings.isra.0+0x1f0/0x218
+[    2.353203] sp : ffff80001005b9b0
+[    2.356511] x29: ffff80001005b9b0 x28: 0000000000000000
+[    2.361822] x27: ffffdc3792e904e0 x26: ffff80001005ba48
+[    2.367134] x25: ffff0082ee6b0000 x24: ffff0082ed88e0a8
+[    2.372445] x23: 00000000fffffff4 x22: 0000000000001000
+[    2.377755] x21: ffff80001005ba48 x20: 0000000000000000
+[    2.383066] x19: ffff0082cceeeb58 x18: 0000000000000010
+[    2.388377] x17: 0000000000000000 x16: 00000000833b5ff2
+[    2.393688] x15: ffff0082ee6b0480 x14: 203a756d6d6f692e
+[    2.398999] x13: 3030303030303520 x12: 61646f6d6d6f6363
+[    2.404311] x11: 6120746f6e6e6143 x10: 6f66207465736666
+[    2.409622] x9 : ffffdc3791d31078 x8 : ffff0082ed8ffd00
+[    2.414933] x7 : 0000000000000000 x6 : 000000000000003f
+[    2.420244] x5 : 0000000000000040 x4 : ffff80001005b970
+[    2.425554] x3 : 0000000000000000 x2 : 0000000000000000
+[    2.430865] x1 : ffffdc37927dd2f0 x0 : ffff0082cceeeb58
+[    2.436176] Call trace:
+[    2.438618]  arm_smmu_flush_iotlb_all+0x28/0x90
+[    2.443144]  iommu_create_device_direct_mappings.isra.0+0x1f0/0x218
+[    2.449409]  iommu_probe_device+0x6c/0x120
+[    2.453501]  of_iommu_configure+0x134/0x218
+[    2.457683]  of_dma_configure_id+0x110/0x2e8
+[    2.461950]  pci_dma_configure+0x4c/0xd8
+[    2.465870]  really_probe+0xac/0x4d8
+[    2.469441]  driver_probe_device+0xfc/0x168
+[    2.473620]  device_driver_attach+0x7c/0x88
+[    2.477799]  __driver_attach+0xac/0x178
+[    2.481631]  bus_for_each_dev+0x78/0xc8
+[    2.485463]  driver_attach+0x2c/0x38
+[    2.489033]  bus_add_driver+0x14c/0x230
+[    2.492865]  driver_register+0x6c/0x128
+[    2.496696]  __pci_register_driver+0x4c/0x58
+[    2.500964]  e1000_init_module+0x44/0x50
+[    2.504882]  do_one_initcall+0x4c/0x2d0
+[    2.508714]  kernel_init_freeable+0x214/0x280
+[    2.513068]  kernel_init+0x1c/0x120
+[    2.516552]  ret_from_fork+0x10/0x30
+[    2.520124] Code: 910003fd a90153f3 aa0003f3 f85a8014 (f9400280)
+[    2.526224] ---[ end trace d051012f465b08ec ]---
+[    2.530848] Kernel panic - not syncing: Attempted to kill init!
+exitcode=0x0000000b
+[    2.538506] SMP: stopping secondary CPUs
+[    2.542431] Kernel Offset: 0x5c3781480000 from 0xffff800010000000
+[    2.548521] PHYS_OFFSET: 0xffffdb6ac0000000
+[    2.552700] CPU features: 0x0240022,21806008
+[    2.556965] Memory Limit: none
+
+full test log,
+https://lavalab.nxp.com/scheduler/job/86650#L849
+
+-- 
+Linaro LKFT
+https://lkft.linaro.org
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
