@@ -1,81 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFF1272AA6
-	for <lists.iommu@lfdr.de>; Mon, 21 Sep 2020 17:48:15 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0191272B16
+	for <lists.iommu@lfdr.de>; Mon, 21 Sep 2020 18:09:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id EA53920551;
-	Mon, 21 Sep 2020 15:48:13 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 830EC8602E;
+	Mon, 21 Sep 2020 16:09:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Tqcb+A2naaO7; Mon, 21 Sep 2020 15:48:12 +0000 (UTC)
+	with ESMTP id 5LWYggGu7gvt; Mon, 21 Sep 2020 16:09:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id DB2841FD42;
-	Mon, 21 Sep 2020 15:48:12 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0BBB6864D2;
+	Mon, 21 Sep 2020 16:09:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C1CB9C0051;
-	Mon, 21 Sep 2020 15:48:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E54F3C0859;
+	Mon, 21 Sep 2020 16:09:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8C073C0051
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 15:48:11 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EC0E5C0890
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 16:09:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 7A54A86764
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 15:48:11 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id DA9C6864FB
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 16:09:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YfiE3S1k3kcx for <iommu@lists.linux-foundation.org>;
- Mon, 21 Sep 2020 15:48:10 +0000 (UTC)
+ with ESMTP id qJ9aJUy5xtBV for <iommu@lists.linux-foundation.org>;
+ Mon, 21 Sep 2020 16:09:42 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by whitealder.osuosl.org (Postfix) with ESMTPS id C923986763
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 15:48:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=YXCybLJtp8QhoH5bVAnUYgHMbmYcosVGHwR4wq6l5Ao=; b=St93hJRc+SEcyj37x2nLj0G6VG
- zDBVVnNbISQItuHlUKeyIXeAssJO4Sdbnj0qAWb+FVK62eXcLLT/NXDkzmgBcwkEtuaUYAqjOb0eI
- FMzMcJU5tlKk9twO2PdwCMoGtiIVIOGSofO7UFhzG2PfIiCq6rqQ8zimZYr3zzda2A+ikgD2HOEtE
- qcfcgbO+tRxCF82Kol5EwCfUVxBO3aOxMsP7vKwJV+P8JOFUOwF4UP8asTLLfxBagM3QUMzBMUyN/
- E4+PZXjVtNrVNBueFvekvYvE/m7N+6FujV6vs4TKhtwkt0FonYqvLYnY1NfkXNKZLEzULxP/SY0vB
- RVPt82qw==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.92)
- (envelope-from <logang@deltatee.com>)
- id 1kKO2z-0000C3-Dr; Mon, 21 Sep 2020 09:48:10 -0600
-To: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- Tom Murphy <murphyt7@tcd.ie>, David Woodhouse <dwmw2@infradead.org>,
- Christoph Hellwig <hch@infradead.org>
-References: <20200912032200.11489-1-baolu.lu@linux.intel.com>
- <776771a2-247a-d1be-d882-bee02d919ae0@deltatee.com>
- <fe94760f-3c10-4222-ec87-291c01325fef@linux.intel.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <e95a55ea-b03f-4b3c-327a-b48d364577e9@deltatee.com>
-Date: Mon, 21 Sep 2020 09:48:06 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id EFFC1864D2
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 16:09:41 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 52F5168B02; Mon, 21 Sep 2020 18:09:38 +0200 (CEST)
+Date: Mon, 21 Sep 2020 18:09:38 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH] iommu/io-pgtable-arm: Clean up faulty sanity check
+Message-ID: <20200921160938.GB23870@lst.de>
+References: <daedc9364a19dc07487e4d07b8768b1e5934abd4.1600700881.git.robin.murphy@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <fe94760f-3c10-4222-ec87-291c01325fef@linux.intel.com>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, Intel-gfx@lists.freedesktop.org,
- ashok.raj@intel.com, hch@infradead.org, dwmw2@infradead.org, murphyt7@tcd.ie,
- joro@8bytes.org, baolu.lu@linux.intel.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [Intel-gfx] [PATCH v3 0/6] Convert the intel iommu driver to the
- dma-iommu api
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: Intel-gfx@lists.freedesktop.org, Ashok Raj <ashok.raj@intel.com>,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <daedc9364a19dc07487e4d07b8768b1e5934abd4.1600700881.git.robin.murphy@arm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: iommu@lists.linux-foundation.org, james.quinlan@broadcom.com,
+ Naresh Kamboju <naresh.kamboju@linaro.org>, will@kernel.org, hch@lst.de,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,46 +66,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-
-
-On 2020-09-20 12:36 a.m., Lu Baolu wrote:
-> Hi Logan,
+On Mon, Sep 21, 2020 at 04:08:01PM +0100, Robin Murphy wrote:
+> Checking for a nonzero dma_pfn_offset was a quick shortcut to validate
+> whether the DMA == phys assumption could hold at all. Checking for a
+> non-NULL dma_range_map is not quite equivalent, since a map may be
+> present to describe a limited DMA window even without an offset, and
+> thus this check can now yield false positives.
 > 
-> On 2020/9/19 4:47, Logan Gunthorpe wrote:
->> Hi Lu,
->>
->> On 2020-09-11 9:21 p.m., Lu Baolu wrote:
->>> Tom Murphy has almost done all the work. His latest patch series was
->>> posted here.
->>>
->>> https://lore.kernel.org/linux-iommu/20200903201839.7327-1-murphyt7@tcd.ie/
->>>
->>> Thanks a lot!
->>>
->>> This series is a follow-up with below changes:
->>>
->>> 1. Add a quirk for the i915 driver issue described in Tom's cover
->>> letter.
->>> 2. Fix several bugs in patch "iommu: Allow the dma-iommu api to use
->>> bounce buffers" to make the bounce buffer work for untrusted devices.
->>> 3. Several cleanups in iommu/vt-d driver after the conversion.
->>>
->>
->> I'm trying to test this on an old Sandy Bridge, but found that I get
->> spammed with warnings on boot. I've put a sample of a few of them below.
->> They all seem to be related to ioat.
->>
->> I had the same issue with Tom's v2 but never saw this on his v1.
+> However, it only ever served to short-circuit going all the way through
+> to __arm_lpae_alloc_pages(), failing the canonical test there, and
+> having a bit more to clean up. As such, we can simply remove it without
+> loss of correctness.
 > 
-> Have you verified whether this could be reproduced with the lasted
-> upstream kernel (without this patch series)?
-
-Yes. Also, it's hitting a warning in the dma-iommu code which would not
-be hit without this patch set.
+> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 
 Thanks,
 
-Logan
+applied to the dma-mapping for-next tree.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
