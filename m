@@ -1,65 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A75273129
-	for <lists.iommu@lfdr.de>; Mon, 21 Sep 2020 19:50:59 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E6227314E
+	for <lists.iommu@lfdr.de>; Mon, 21 Sep 2020 19:57:33 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id AA3028666B;
-	Mon, 21 Sep 2020 17:50:57 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 81D73204E1;
+	Mon, 21 Sep 2020 17:57:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1eNO5Gytbg4Z; Mon, 21 Sep 2020 17:50:57 +0000 (UTC)
+	with ESMTP id AHQwqw9SEC8e; Mon, 21 Sep 2020 17:57:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 32A9986670;
-	Mon, 21 Sep 2020 17:50:57 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1727E1FC94;
+	Mon, 21 Sep 2020 17:57:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 14D38C0051;
-	Mon, 21 Sep 2020 17:50:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F1EC7C0895;
+	Mon, 21 Sep 2020 17:57:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 14528C0051
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 17:50:55 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DC400C1AD4
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 17:57:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0037E85085
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 17:50:55 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id BE91F226F3
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 17:57:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 01fBj1BPsRh8 for <iommu@lists.linux-foundation.org>;
- Mon, 21 Sep 2020 17:50:54 +0000 (UTC)
+ with ESMTP id E7No8qSe0pj4 for <iommu@lists.linux-foundation.org>;
+ Mon, 21 Sep 2020 17:57:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 73AC68502A
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 17:50:54 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 9E9721FC94
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 17:57:24 +0000 (UTC)
 Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 81A752067D;
- Mon, 21 Sep 2020 17:50:52 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 35E5B20BED;
+ Mon, 21 Sep 2020 17:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600710654;
- bh=kJ5R12A5zSEcL4lH72c1d+o9AME4QY3NjcOW4b+oD2E=;
+ s=default; t=1600711044;
+ bh=MViJLr32Rfq7YAhifD5/NIE9W+70lqX9C47Hh7THkOA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MWTGlM4duqc7FMmw2RNe3C1k/JFeeyjmw8nyaUOKd9aKG9SQhCaap62LPMmM+p29s
- jOLQ8nuY31GUkfGcJFNpa/LzejSHN7ZLJiDUk2cqUPvROMj16n2Ftx6jxVyl7066wL
- UjqUs3Sl6g/ADwO7pVQFPQ3xEisyughhszxFQKPg=
-Date: Mon, 21 Sep 2020 18:50:49 +0100
+ b=b3e4bLWq5uf1a8R/Zqrvx5GkxrmWFkVBJ7bYxNE+krlPNWfqlQf3S3tTvNN0+xB28
+ CxpT0M0IBlW+szKcCIPx5TFtZcwgWVBp8MOHvIS4TTWK1EOcQWjVDDWz/daGwhF3q9
+ l5v3MQq16B/JXdNNa/Qs+ZKHN5sUIxuisx9oOSbM=
+Date: Mon, 21 Sep 2020 18:57:19 +0100
 From: Will Deacon <will@kernel.org>
-To: Yu Kuai <yukuai3@huawei.com>
-Subject: Re: [PATCH] iommu/qcom: add missing put_device() call in
- qcom_iommu_of_xlate()
-Message-ID: <20200921175048.GD3141@willie-the-truck>
-References: <20200918011357.909335-1-yukuai3@huawei.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 1/3] iommu/io-pgtable-arm: Support coherency for Mali LPAE
+Message-ID: <20200921175717.GF3141@willie-the-truck>
+References: <cover.1600213517.git.robin.murphy@arm.com>
+ <d2a3ddb17b3270e268e2f1adf7682ea938823941.1600213517.git.robin.murphy@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200918011357.909335-1-yukuai3@huawei.com>
+In-Reply-To: <d2a3ddb17b3270e268e2f1adf7682ea938823941.1600213517.git.robin.murphy@arm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: yi.zhang@huawei.com, linux-arm-msm@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: robh@kernel.org, tomeu.vizoso@collabora.com, narmstrong@baylibre.com,
+ khilman@baylibre.com, dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ iommu@lists.linux-foundation.org, alyssa.rosenzweig@collabora.com,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ jbrunet@baylibre.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,22 +79,20 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Sep 18, 2020 at 09:13:57AM +0800, Yu Kuai wrote:
-> if of_find_device_by_node() succeed, qcom_iommu_of_xlate() doesn't have
-> a corresponding put_device(). Thus add put_device() to fix the exception
-> handling for this function implementation.
-> 
-> Fixes: e86d1aa8b60f ("iommu/arm-smmu: Move Arm SMMU drivers into their own subdirectory")
+On Wed, Sep 16, 2020 at 12:51:05AM +0100, Robin Murphy wrote:
+> Midgard GPUs have ACE-Lite master interfaces which allows systems to
+> integrate them in an I/O-coherent manner. It seems that from the GPU's
+> viewpoint, the rest of the system is its outer shareable domain, and so
+> even when snoop signals are wired up, they are only emitted for outer
+> shareable accesses. As such, setting the TTBR_SHARE_OUTER bit does
+> indeed get coherent pagetable walks working nicely for the coherent
+> T620 in the Arm Juno SoC.
 
-That's probably not accurate, in that this driver used to live under
-drivers/iommu/ and assumedly had this bug there as well.
+I can't help but think some of this commentary deserves to be in the code
+as well.
 
-> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
-> ---
->  drivers/iommu/arm/arm-smmu/qcom_iommu.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-
-I guess Rob will pick this up.
+Do you know if this sort of thing is done for other SoCs too, or is this
+just a Juno quirk?
 
 Will
 _______________________________________________
