@@ -1,85 +1,92 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560E12731FF
-	for <lists.iommu@lfdr.de>; Mon, 21 Sep 2020 20:33:44 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64CF0273247
+	for <lists.iommu@lfdr.de>; Mon, 21 Sep 2020 20:56:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id DB632226EA;
-	Mon, 21 Sep 2020 18:33:42 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 24EDB87057;
+	Mon, 21 Sep 2020 18:56:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1TJJnKrltS4s; Mon, 21 Sep 2020 18:33:40 +0000 (UTC)
+	with ESMTP id fDSxaUz+SHFW; Mon, 21 Sep 2020 18:56:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 1FFF72266C;
-	Mon, 21 Sep 2020 18:33:40 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B9B2A87058;
+	Mon, 21 Sep 2020 18:56:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F3FC5C0051;
-	Mon, 21 Sep 2020 18:33:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A6E14C0051;
+	Mon, 21 Sep 2020 18:56:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2234AC0051
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 18:33:38 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7268CC0051
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 18:56:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 1C58985F6D
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 18:33:38 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6DD1A87058
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 18:56:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id c34cD6JeVgnM for <iommu@lists.linux-foundation.org>;
- Mon, 21 Sep 2020 18:33:35 +0000 (UTC)
+ with ESMTP id kK1Miod1+cU2 for <iommu@lists.linux-foundation.org>;
+ Mon, 21 Sep 2020 18:56:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 01A7A81439
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 18:33:34 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id s13so458415wmh.4
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 11:33:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2pljieOa3zqVRg/nGCsqWTPIMVj9a7ObD+5hzvK2Z0I=;
- b=s/2lSfECPbjLHM2LdhQLNaMh78qvA/Uu+BsbwbIwRyEVeTA30UJJJ26rlr0/UdPmIj
- q6EtpiecmC2cTci+sv0gqZhFfHO0H9VgrYQ/YF7xuti1+alXMRMily9jWUq/lvLQ9b9G
- SpcGH6rlbNgPOBVhfYQK1JE5JfKgj4cLpi2MYoRmZbY/f1VzAD55/ZBfiqWlqi+W8QK2
- 2fsbgcim3qo9fRXr77t63uZtuqi4MJmRs/vywjq3keI9xP9xz9HwvGNlGjs8XKZZFF33
- /tOeYdh+UaFxmA6mb9Jb3PdX7yYd2lRr3gUz9pzyjPXpriHZQ2Hiw4klgPs/5bo/ObzN
- wspA==
+Received: from us-smtp-delivery-1.mimecast.com (us-smtp-1.mimecast.com
+ [205.139.110.61])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 8781C87057
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 18:56:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600714608;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=pWkNANwFp8KVnuJc5tgcb5hxDfStvMJRcSA/c6Kt/yw=;
+ b=QzkDcS3khaFcv54pWEHs9DpDTy4H0dyCPDdqLOsjAt6I77R8zcGtwyEPiGt5nTAtMP3Epd
+ u49a/8+isfNinRHNN4NoHnT6VjsjHYlBM8WKeufZdjtlgWp7y1E43PwNlPY2A1RLZu3ZMr
+ ATM0orOSa0dsu/728XY1ZPoKK6qsoo8=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-X8cgJAzzMZqsq8ygntiQBA-1; Mon, 21 Sep 2020 14:56:46 -0400
+X-MC-Unique: X8cgJAzzMZqsq8ygntiQBA-1
+Received: by mail-pg1-f199.google.com with SMTP id s4so8737757pgk.17
+ for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 11:56:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2pljieOa3zqVRg/nGCsqWTPIMVj9a7ObD+5hzvK2Z0I=;
- b=Pt5ygZLQ7etGDMDcui+y5OzWDltJ1V5CvuO1l2d3i7ujgn4fuTTYxfk1eiOZgyrjfO
- nUYi324h4MHqMmHdorPDXY+/XIGyj/DvyoY+yDPYozx/WgHQHnazADe560klWfHWaQja
- Xaubvpk1mAxPZNs1yjHVkgAp1xC+aBFOJe5jDZNSlpwhG82+g6CV6G1NbdMTu0h7AmDK
- XwRSrxLjQG89/8ZAqzloGdCgbhaW0H2w6n6CvBMlfqzt5hYVXdRTWNfiwI1Rp2Km7QHl
- 5RCLBXwojyaizc0xngqoLResJ6gI/MqQ91MpAySr1xwf+JsWnoCmbK1NFcV8yLP3P/lA
- 8Pag==
-X-Gm-Message-State: AOAM531yxeQKJSMhoL33FDXLWpVEh1fommrmzHETT7CYKv6eVAMmyDgQ
- r1z3Kr7rWa46T8QdebidCn+SgB9w97HAy4OfKAI=
-X-Google-Smtp-Source: ABdhPJwOdkyX2T0nNsDtEYqTQPWOnuWTEliEywfKgd/Kd/kkmsATU6V+QmG/OrZNm2joFQfWrCrOoKg8VsCqThpuZIU=
-X-Received: by 2002:a7b:c345:: with SMTP id l5mr630045wmj.123.1600713213466;
- Mon, 21 Sep 2020 11:33:33 -0700 (PDT)
+ h=x-gm-message-state:user-agent:from:to:subject:date:message-id
+ :mime-version;
+ bh=pWkNANwFp8KVnuJc5tgcb5hxDfStvMJRcSA/c6Kt/yw=;
+ b=b+57ahvuV+RAKV97A4B5B4JbkneSNOXJ4cULef01PIiQaAx9ihRRr2jOlgzlYz+c+C
+ Z36kzG24MT8AVAHVSVXXEkr06tPDX/5tKaUd2jJGqREg3vdTxThrTT7eKJmLQACP++5S
+ p93hXEFZotIpkJzElhP8J1L4sSyVQ+lnBTLX6ABnFt+qMCVE01cKa9GXvgVvuMyLSPNZ
+ uSkP8fu4alwkw52yCQZs5dgdwh4iJ/zB9qmylgnjusdQOIgwcWCbmj67dfID3XKas7F1
+ jNdX4AgrNaTn5Za/jqPxS8i/bIZvtVZ0kaTAWlgiQ6Xi/lnZQ7z59c4H1VCsJy8XrZOi
+ 14WA==
+X-Gm-Message-State: AOAM532OqsNiWABZSZnFzuKfd4h7wihSLJ25YAB+wZcqfHzKTm4ZpQ81
+ NmdXeJrpI/AFlYv+eQ583Mm/wZ84uadmiFstrq9EAuk1/2KA6rUfBK7WSGdlcFi3URZPdN0A2De
+ xx/2R/JjiaFfFklfiN/qbf9w+cqSmcQ==
+X-Received: by 2002:aa7:99c7:0:b029:13e:d13d:a056 with SMTP id
+ v7-20020aa799c70000b029013ed13da056mr1065265pfi.28.1600714604912; 
+ Mon, 21 Sep 2020 11:56:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzGtS9wJP1qEjTL2vZQLuVGFgxGjE7bi7YLAPHtKyeJGP8o7s+XsIA0TtINV5U5VfRwMCqwGw==
+X-Received: by 2002:aa7:99c7:0:b029:13e:d13d:a056 with SMTP id
+ v7-20020aa799c70000b029013ed13da056mr1065245pfi.28.1600714604684; 
+ Mon, 21 Sep 2020 11:56:44 -0700 (PDT)
+Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
+ by smtp.gmail.com with ESMTPSA id j9sm12285498pfc.175.2020.09.21.11.56.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Sep 2020 11:56:44 -0700 (PDT)
+User-agent: mu4e 1.4.10; emacs 27.1
+From: Jerry Snitselaar <jsnitsel@redhat.com>
+To: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org, Joerg
+ Roedel <joro@8bytes.org>, Adrian Huang <adrianhuang0701@gmail.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Subject: kdump boot failing with IVRS checksum failure
+Date: Mon, 21 Sep 2020 11:56:42 -0700
+Message-ID: <87o8lzvtzp.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20200918011357.909335-1-yukuai3@huawei.com>
- <20200921175048.GD3141@willie-the-truck>
- <CAF6AEGuVsuOxhFONDpJF4EsY-KWQu+Vna_CM9dPhrFS_9FQsqA@mail.gmail.com>
-In-Reply-To: <CAF6AEGuVsuOxhFONDpJF4EsY-KWQu+Vna_CM9dPhrFS_9FQsqA@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 21 Sep 2020 11:33:21 -0700
-Message-ID: <CAF6AEGu1CLqQcowTz+V8E5fj2FLFKLmUMchz1hDP1niM8QDkPQ@mail.gmail.com>
-Subject: Re: [PATCH] iommu/qcom: add missing put_device() call in
- qcom_iommu_of_xlate()
-To: Will Deacon <will@kernel.org>
-Cc: yi.zhang@huawei.com, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- Yu Kuai <yukuai3@huawei.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnitsel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,36 +104,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Sep 21, 2020 at 11:27 AM Rob Clark <robdclark@gmail.com> wrote:
->
-> On Mon, Sep 21, 2020 at 10:50 AM Will Deacon <will@kernel.org> wrote:
-> >
-> > On Fri, Sep 18, 2020 at 09:13:57AM +0800, Yu Kuai wrote:
-> > > if of_find_device_by_node() succeed, qcom_iommu_of_xlate() doesn't have
-> > > a corresponding put_device(). Thus add put_device() to fix the exception
-> > > handling for this function implementation.
-> > >
-> > > Fixes: e86d1aa8b60f ("iommu/arm-smmu: Move Arm SMMU drivers into their own subdirectory")
-> >
-> > That's probably not accurate, in that this driver used to live under
-> > drivers/iommu/ and assumedly had this bug there as well.
-> >
 
-and fwiw, that looks like it should be:
+Hello Joerg,
 
-Fixes: 0ae349a0f33fb ("iommu/qcom: Add qcom_iommu")
+We are seeing a kdump kernel boot failure in test on an HP DL325 Gen10
+and it was tracked down to 387caf0b759a ("iommu/amd: Treat per-device
+exclusion ranges as r/w unity-mapped regions"). Reproduced on 5.9-rc5
+and goes away with revert of the commit. There is a follow on commit
+that depends on this that was reverted as well 2ca6b6dc8512 ("iommu/amd:
+Remove unused variable"). I'm working on getting system access and want
+to see what the IVRS table looks like, but thought I'd give you heads
+up.
 
-> > > Signed-off-by: Yu Kuai <yukuai3@huawei.com>
-> > > ---
-> > >  drivers/iommu/arm/arm-smmu/qcom_iommu.c | 5 ++++-
-> > >  1 file changed, 4 insertions(+), 1 deletion(-)
-> >
-> > I guess Rob will pick this up.
->
-> Probably overkill for me to send a pull req for a single patch, if you
-> want to pick it up:
->
-> Acked-by: Rob Clark <robdclark@gmail.com>
+Regards,
+Jerry
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
