@@ -2,82 +2,66 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E6C274AE8
-	for <lists.iommu@lfdr.de>; Tue, 22 Sep 2020 23:13:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B439B274C2F
+	for <lists.iommu@lfdr.de>; Wed, 23 Sep 2020 00:37:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C55368705B;
-	Tue, 22 Sep 2020 21:13:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 698A187093;
+	Tue, 22 Sep 2020 22:37:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2mgyeXys8H+f; Tue, 22 Sep 2020 21:13:09 +0000 (UTC)
+	with ESMTP id bEE3Z8a-onZ9; Tue, 22 Sep 2020 22:37:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 068C887053;
-	Tue, 22 Sep 2020 21:13:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D267C8706C;
+	Tue, 22 Sep 2020 22:37:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E6887C0893;
-	Tue, 22 Sep 2020 21:13:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C490EC0051;
+	Tue, 22 Sep 2020 22:37:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 05398C0051
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 21:13:07 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9AD8BC0051
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 22:37:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id DDBDA86709
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 21:13:06 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8361C85764
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 22:37:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4DMF2J90TPjG for <iommu@lists.linux-foundation.org>;
- Tue, 22 Sep 2020 21:13:05 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from hqnvemgate25.nvidia.com (hqnvemgate25.nvidia.com
- [216.228.121.64])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 97F85866F4
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 21:13:05 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f6a68b20000>; Tue, 22 Sep 2020 14:12:18 -0700
-Received: from [10.20.170.18] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 22 Sep
- 2020 21:12:54 +0000
-Date: Tue, 22 Sep 2020 16:12:49 -0500
-From: Alex Goins <agoins@nvidia.com>
-X-X-Sender: agoins@agoins-DiGiTS
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH v5 05/38] drm: prime: use sgtable iterators in
- drm_prime_sg_to_page_addr_arrays()
-In-Reply-To: <afb59d1b-1fcf-fd6d-2b48-e078e129f1eb@samsung.com>
-Message-ID: <alpine.DEB.2.20.2009221610450.27953@agoins-DiGiTS>
-References: <20200513132114.6046-1-m.szyprowski@samsung.com>
- <20200513133245.6408-1-m.szyprowski@samsung.com>
- <CGME20200513133259eucas1p273f0e05005b7b1158d884295d35745fd@eucas1p2.samsung.com>
- <20200513133245.6408-5-m.szyprowski@samsung.com>
- <alpine.DEB.2.20.2009211803580.19454@agoins-DiGiTS>
- <afb59d1b-1fcf-fd6d-2b48-e078e129f1eb@samsung.com>
-User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
-X-NVConfidentiality: public
+ with ESMTP id QIuce9inztSw for <iommu@lists.linux-foundation.org>;
+ Tue, 22 Sep 2020 22:37:10 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2F71C8577C
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 22:37:10 +0000 (UTC)
+Received: from [192.168.1.171] (50-39-235-197.bvtn.or.frontiernet.net
+ [50.39.235.197])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 1508920B7179;
+ Tue, 22 Sep 2020 15:37:09 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1508920B7179
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1600814229;
+ bh=ClwMIaEy1QkOug3GZQC9xiEgNvcZxX8uczkxLFHFqh8=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=LZItGfNojTl6mkytfVVoC0bv8uWfNuAm4O+yL0CV3M1p16sUodwOl7UeKSdCC3Jjp
+ jDiDKmyPNrCyl41pbnvRZlnSU0S4/EDIHlVoJeBNGZp5hyVL218Z6QDyqjHYrIus+A
+ d94Y64Yk3ZocNDV8HOZqm7ZAlTv8QChWSIONOCIo=
+Subject: Re: [PATCH v2] iommu/arm: Add module parameter to set msi iova address
+To: Will Deacon <will@kernel.org>
+References: <20200914181307.117792-1-vemegava@linux.microsoft.com>
+ <20200921204545.GA3811@willie-the-truck>
+From: Vennila Megavannan <vemegava@linux.microsoft.com>
+Message-ID: <f2de12f9-b53b-abcd-4133-7bcb90341f0c@linux.microsoft.com>
+Date: Tue, 22 Sep 2020 15:37:08 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1600809138; bh=eDw/Y+WvGisaFJLGeLDL1cgx4wGsvRwxMR3w6+tFJgE=;
- h=Date:From:X-X-Sender:To:CC:Subject:In-Reply-To:Message-ID:
- References:User-Agent:X-NVConfidentiality:MIME-Version:
- Content-Type:X-Originating-IP:X-ClientProxiedBy;
- b=Eo9od3YgFzrokUrlC+GkylUgaEM6H3/JoZ8VAsxxdIl9L1k7fmfTTeaMtcSVONyNe
- ugVp5jMHoqMBBnEgkhlJLszfUZYtSl8RQ5G3uRlXt7zoCgIY/0h6XX4FNuiH8Kb0S7
- WyRCcKI/bgFvn3zgzEfYD2tAqDxNiPDV/Dq3tjbte0g6Nhf4/YhF6akfbfcy/Styf4
- bUNbi2Zb7AFaWAuZBIsbRGocbT6iAy6lQbVA6v2eMw6KTlEKdB+PzvydytW5YeufYd
- t70q9gBMMRUD1C9tRuLLmMiYDa1OQo3J792HaY7U0hejkWFXmjlraDz1/kB/W6H1mV
- 4/CT5hDoP5xiQ==
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- iommu@lists.linux-foundation.org, Thomas
- Zimmermann <tzimmermann@suse.de>, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20200921204545.GA3811@willie-the-truck>
+Content-Language: en-US
+Cc: jean-philippe@linaro.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, tyhicks@linux.microsoft.com,
+ srinath.mannam@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+ robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,70 +74,38 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Marek,
+Sure, that's a great suggestion, I'll rework on the patch and post again.
 
-On Tue, 22 Sep 2020, Marek Szyprowski wrote:
+Vennila
 
-> External email: Use caution opening links or attachments
-> 
-> 
-> Hi Alex,
-> 
-> On 22.09.2020 01:15, Alex Goins wrote:
-> > Tested-by: Alex Goins <agoins@nvidia.com>
-> >
-> > This change fixes a regression with drm_prime_sg_to_page_addr_arrays() and
-> > AMDGPU in v5.9.
-> 
-> Thanks for testing!
-> 
-> > Commit 39913934 similarly revamped AMDGPU to use sgtable helper functions. When
-> > it changed from dma_map_sg_attrs() to dma_map_sgtable(), as a side effect it
-> > started correctly updating sgt->nents to the return value of dma_map_sg_attrs().
-> > However, drm_prime_sg_to_page_addr_arrays() incorrectly uses sgt->nents to
-> > iterate over pages, rather than sgt->orig_nents, resulting in it now returning
-> > the incorrect number of pages on AMDGPU.
-> >
-> > I had written a patch that changes drm_prime_sg_to_page_addr_arrays() to use
-> > for_each_sgtable_sg() instead of for_each_sg(), iterating using sgt->orig_nents:
-> >
-> > -       for_each_sg(sgt->sgl, sg, sgt->nents, count) {
-> > +       for_each_sgtable_sg(sgt, sg, count) {
-> >
-> > This patch takes it further, but still has the effect of fixing the number of
-> > pages that drm_prime_sg_to_page_addr_arrays() returns. Something like this
-> > should be included in v5.9 to prevent a regression with AMDGPU.
-> 
-> Probably the easiest way to handle a fix for v5.9 would be to simply
-> merge the latest version of this patch also to v5.9-rcX:
-> https://lore.kernel.org/dri-devel/20200904131711.12950-3-m.szyprowski@samsung.com/
-
-Tested-by: Alex Goins <agoins@nvidia.com> that version too.
-
-> 
-> This way we would get it fixed and avoid possible conflict in the -next.
-
-> Do you have any AMDGPU fixes for v5.9 in the queue? Maybe you can add that
-> patch to the queue? 
-
-I don't have any more AMDGPU fixes, just want to ensure that this makes it in.
-
-Thanks,
-Alex
-
-> Dave: would it be okay that way?
-> 
-> Best regards
-> --
-> Marek Szyprowski, PhD
-> Samsung R&D Institute Poland
-> 
-> 
+On 9/21/2020 1:45 PM, Will Deacon wrote:
+> On Mon, Sep 14, 2020 at 11:13:07AM -0700, Vennila Megavannan wrote:
+>> From: Srinath Mannam <srinath.mannam@broadcom.com>
+>>
+>> Add provision to change default value of MSI IOVA base to platform's
+>> suitable IOVA using module parameter. The present hardcoded MSI IOVA base
+>> may not be the accessible IOVA ranges of platform.
+>>
+>> If any platform has the limitaion to access default MSI IOVA, then it can
+>> be changed using "arm-smmu.msi_iova_base=0xa0000000" command line argument.
+>>
+>> Signed-off-by: Srinath Mannam <srinath.mannam@broadcom.com>
+>> Co-developed-by: Vennila Megavannan <vemegava@linux.microsoft.com>
+>> Signed-off-by: Vennila Megavannan <vemegava@linux.microsoft.com>
+>> ---
+>>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 5 ++++-
+>>   drivers/iommu/arm/arm-smmu/arm-smmu.c       | 5 ++++-
+>>   2 files changed, 8 insertions(+), 2 deletions(-)
+> This feels pretty fragile. Wouldn't it be better to realise that there's
+> a region conflict with iommu_dma_get_resv_regions() and move the MSI window
+> accordingly at runtime?
+>
+> Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
