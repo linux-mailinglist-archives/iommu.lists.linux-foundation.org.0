@@ -1,73 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DBEF2749E6
-	for <lists.iommu@lfdr.de>; Tue, 22 Sep 2020 22:15:54 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D742749E8
+	for <lists.iommu@lfdr.de>; Tue, 22 Sep 2020 22:16:03 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0045A86773;
-	Tue, 22 Sep 2020 20:15:53 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DE506228E3;
+	Tue, 22 Sep 2020 20:16:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id typCRxZBD9GB; Tue, 22 Sep 2020 20:15:52 +0000 (UTC)
+	with ESMTP id nSy3u8YaAWgi; Tue, 22 Sep 2020 20:15:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7013886776;
-	Tue, 22 Sep 2020 20:15:52 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4B3D122B25;
+	Tue, 22 Sep 2020 20:15:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B057C0889;
-	Tue, 22 Sep 2020 20:15:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 309CFC0051;
+	Tue, 22 Sep 2020 20:15:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6061CC0051
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 20:15:51 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CC183C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 20:15:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 3CFA72291D
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 20:15:51 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 9F0A9229A3
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 20:15:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6rL0gqTg-ggd for <iommu@lists.linux-foundation.org>;
- Tue, 22 Sep 2020 20:15:40 +0000 (UTC)
+ with ESMTP id njW+XudTbuC8 for <iommu@lists.linux-foundation.org>;
+ Tue, 22 Sep 2020 20:15:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by silver.osuosl.org (Postfix) with ESMTPS id 73B542094E
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 20:15:38 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id f18so13492990pfa.10
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 13:15:38 -0700 (PDT)
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+ [209.85.215.194])
+ by silver.osuosl.org (Postfix) with ESMTPS id 6051A228B0
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 20:15:39 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id g29so12903778pgl.2
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 13:15:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=hFUA2EodpJe3a9+C7aWrHwYTMpFRcWcG5EO2y8L7QQ4=;
- b=cb6TSxO09xgASZW5w/ndzqlwT/f33uAipEpyMeGncV+CUE+1CA0ES0EQtCyRalYIGS
- z1+pmUyhFQPpuAdRAeXqFykTMJ29tnmkCvnSSPqBSHEPpsYqnpfhk5Z6CzonOkjX0G74
- e/l5XvRGEkw1VqzWl1M2yioIA9D/r6+/Pd1IRvEWrAOfYkTzqWBE/4Xca2HrkR7pWKIn
- cWZpctP0xZdBGL1gBJnucU6apck4SCi9bjrDJKklrRhb2x7krAV+XhYheMDYbVQEsw9V
- 47RD6d8ABg3hfBcU+Rd4Ux0nfO6vUtVAfdsTWDTZ5Lb1hgens19ZRZqKNYYP7ua42jD0
- 8XyA==
+ bh=FfUXWWqx4cqNXXt5EY8o6jZtoACfMPOHAkeL+nG0nLI=;
+ b=jppJmmBa70FWfRV8f9gYuwFAJDXAkKEaCluGfIfrHOxo7lgzWD0z7t9lzqv4ENmM+G
+ YDTGJDtr9YF+1NZoF0oPw7PhPZYi7si+pxCD7R39twN+tq6aHEY+VsCugnmFUYNy0Rw9
+ FEqwzIj/DUOnRqHTSdGpiXCeY9R+ZLZdwBm3ShGjlheG6DDrDB4SH4Uk8uXScHLiB+Oy
+ H54bW1+yJedEsV/rBWjxUqGMKGGHBQSJaGQUPJMKR4D7WgovI9tgK6L5T7bEg/+OB17F
+ tTfVSKcdT14QZKm+yXi9xTqsHChLn8VLJVV4Vmw7t/CrXmmYxN5+5u1tFZNdVbk55XJG
+ FZ/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=hFUA2EodpJe3a9+C7aWrHwYTMpFRcWcG5EO2y8L7QQ4=;
- b=SWTEN2l0p9mMxC7766v5OdYlBJiLXx4w/ItrGx6QbT8fwQ8w6uFECS4ccNfoublDKD
- 8BHCxLyQh1yCuJZ+Fs9dTLfxpfrRqXkOlpOiafuOGRhlafEgswIIFSFqQ5+nuWDgOUY7
- 1/Y/jO3H7JjIqYvFlFlg0XLSay70dCmC26gds8CmWt/jtVvtqaGQ3Y2CNvRe717rfoqO
- YMO7Hm13j+SZsI5JGHPCdyXIYUNB6cxDF2Yy1fFXWVcjPu108GNc1VTvBNKCcw0pr6HO
- D5GmKU1/TTufIlGIyz3NmdQvWDOTg/W+P8AkqORWXzfO/Z04uAAzAcMfIgKpkpbT3o8U
- xNyA==
-X-Gm-Message-State: AOAM532N4TLuFb5aLhoXy5N8FaFHIM6LHkU0ZKSosvuYSvzCkYZiq1cH
- 7CIIF+TS1IGvMD5MTPU+dSMIRuVYlNc=
-X-Google-Smtp-Source: ABdhPJwbJEwVptTJRflWCsGdDPOF6cfoG20m3qjacf25ZN60IqTFmZ1QZxD8y5p50uSPKweyKLw1uQ==
-X-Received: by 2002:a17:902:7445:b029:d1:dea3:a3ca with SMTP id
- e5-20020a1709027445b02900d1dea3a3camr6258358plt.19.1600805737742; 
- Tue, 22 Sep 2020 13:15:37 -0700 (PDT)
+ bh=FfUXWWqx4cqNXXt5EY8o6jZtoACfMPOHAkeL+nG0nLI=;
+ b=L23+Q/cuOuC6ZVWTnzyeLpcxDl3wC44L1rhSWUCuVG7SnC8puZoIvh58FBf3ik4tGx
+ BgfOLBoMr/yKZA6rpD+keeVPau6QA0Vpmu/eszCakGP+upB9S+mSUG4ffBNzk61MjufL
+ CsKhiC/4ihkvE7zFfa9grcUsrjc2wSSoJQpLSHLgDWw4x78nuWdLuj7ahvV9BNw6l1UP
+ WehROiku+xeOSsW39cBpNRwPvtIFGKhxqvbTN//N/HAj01pSJwgbGNiSjZDeNzdsY1h4
+ YToLBSjCIpDPfeVDFrlqAgOiXq2IPEudThos6WfAeHO1q7eOYIn5RDktErcQEBi7VT8p
+ 3TDg==
+X-Gm-Message-State: AOAM530lQ4qBfJ8pk2V8npCuIURMnaeSNPeV4nsT9znPv2UJaAYnU5RF
+ zHdZBNfjV/R+X45LDq44yvIuxMCj2pw=
+X-Google-Smtp-Source: ABdhPJzMoBu9OeQ6SW9fMRtvPed1Kz2CO6V9DKGBaflMqncnfkbwWlIOsGiPWjCxZ/YAwsNir4KeIQ==
+X-Received: by 2002:a17:902:9695:b029:d1:e598:4007 with SMTP id
+ n21-20020a1709029695b02900d1e5984007mr6309913plp.65.1600805738786; 
+ Tue, 22 Sep 2020 13:15:38 -0700 (PDT)
 Received: from jacob-builder.jf.intel.com (jfdmzpr04-ext.jf.intel.com.
  [134.134.137.73])
- by smtp.gmail.com with ESMTPSA id e10sm15793028pgb.45.2020.09.22.13.15.36
+ by smtp.gmail.com with ESMTPSA id e10sm15793028pgb.45.2020.09.22.13.15.37
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 22 Sep 2020 13:15:37 -0700 (PDT)
+ Tue, 22 Sep 2020 13:15:38 -0700 (PDT)
 From: Jacob Pan <jacob.pan.linux@gmail.com>
 X-Google-Original-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
 To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
@@ -75,9 +75,9 @@ To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
  Alex Williamson <alex.williamson@redhat.com>,
  "Lu Baolu" <baolu.lu@linux.intel.com>,
  David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v10 2/7] iommu/uapi: Add argsz for user filled data
-Date: Tue, 22 Sep 2020 13:16:57 -0700
-Message-Id: <1600805822-1177-3-git-send-email-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH v10 3/7] iommu/uapi: Introduce enum type for PASID data format
+Date: Tue, 22 Sep 2020 13:16:58 -0700
+Message-Id: <1600805822-1177-4-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1600805822-1177-1-git-send-email-jacob.jun.pan@linux.intel.com>
 References: <1600805822-1177-1-git-send-email-jacob.jun.pan@linux.intel.com>
@@ -103,98 +103,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-As IOMMU UAPI gets extended, user data size may increase. To support
-backward compatibiliy, this patch introduces a size field to each UAPI
-data structures. It is *always* the responsibility for the user to fill in
-the correct size. Padding fields are adjusted to ensure 8 byte alignment.
+There can be multiple vendor-specific PASID data formats used in UAPI
+structures. This patch adds enum type with a last entry which makes
+range checking much easier.
 
-Specific scenarios for user data handling are documented in:
-Documentation/userspace-api/iommu.rst
-
-As there is no current users of the API, struct version is not
-incremented.
-
+Suggested-by: Alex Williamson <alex.williamson@redhat.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 ---
- include/uapi/linux/iommu.h | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ include/uapi/linux/iommu.h | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
-index c2b2caf9ed41..b42acc8fe007 100644
+index b42acc8fe007..7cc6ee6c41f7 100644
 --- a/include/uapi/linux/iommu.h
 +++ b/include/uapi/linux/iommu.h
-@@ -139,6 +139,7 @@ enum iommu_page_response_code {
+@@ -298,11 +298,16 @@ struct iommu_gpasid_bind_data_vtd {
+ 					 IOMMU_SVA_VTD_GPASID_PCD |  \
+ 					 IOMMU_SVA_VTD_GPASID_PWT)
  
- /**
-  * struct iommu_page_response - Generic page response information
-+ * @argsz: User filled size of this data
-  * @version: API version of this structure
-  * @flags: encodes whether the corresponding fields are valid
-  *         (IOMMU_FAULT_PAGE_RESPONSE_* values)
-@@ -147,6 +148,7 @@ enum iommu_page_response_code {
-  * @code: response code from &enum iommu_page_response_code
-  */
- struct iommu_page_response {
-+	__u32	argsz;
- #define IOMMU_PAGE_RESP_VERSION_1	1
- 	__u32	version;
- #define IOMMU_PAGE_RESP_PASID_VALID	(1 << 0)
-@@ -222,6 +224,7 @@ struct iommu_inv_pasid_info {
- /**
-  * struct iommu_cache_invalidate_info - First level/stage invalidation
-  *     information
-+ * @argsz: User filled size of this data
-  * @version: API version of this structure
-  * @cache: bitfield that allows to select which caches to invalidate
-  * @granularity: defines the lowest granularity used for the invalidation:
-@@ -250,6 +253,7 @@ struct iommu_inv_pasid_info {
-  * must support the used granularity.
-  */
- struct iommu_cache_invalidate_info {
-+	__u32	argsz;
- #define IOMMU_CACHE_INVALIDATE_INFO_VERSION_1 1
- 	__u32	version;
- /* IOMMU paging structure cache */
-@@ -259,7 +263,7 @@ struct iommu_cache_invalidate_info {
- #define IOMMU_CACHE_INV_TYPE_NR		(3)
- 	__u8	cache;
- 	__u8	granularity;
--	__u8	padding[2];
-+	__u8	padding[6];
- 	union {
- 		struct iommu_inv_pasid_info pasid_info;
- 		struct iommu_inv_addr_info addr_info;
-@@ -296,6 +300,7 @@ struct iommu_gpasid_bind_data_vtd {
- 
++enum iommu_pasid_data_format {
++	IOMMU_PASID_FORMAT_INTEL_VTD = 1,
++	IOMMU_PASID_FORMAT_LAST,
++};
++
  /**
   * struct iommu_gpasid_bind_data - Information about device and guest PASID binding
-+ * @argsz:	User filled size of this data
+  * @argsz:	User filled size of this data
   * @version:	Version of this data structure
-  * @format:	PASID table entry format
+- * @format:	PASID table entry format
++ * @format:	PASID table entry format of enum iommu_pasid_data_format type
   * @flags:	Additional information on guest bind request
-@@ -313,17 +318,18 @@ struct iommu_gpasid_bind_data_vtd {
-  * PASID to host PASID based on this bind data.
-  */
- struct iommu_gpasid_bind_data {
-+	__u32 argsz;
+  * @gpgd:	Guest page directory base of the guest mm to bind
+  * @hpasid:	Process address space ID used for the guest mm in host IOMMU
+@@ -321,7 +326,6 @@ struct iommu_gpasid_bind_data {
+ 	__u32 argsz;
  #define IOMMU_GPASID_BIND_VERSION_1	1
  	__u32 version;
- #define IOMMU_PASID_FORMAT_INTEL_VTD	1
+-#define IOMMU_PASID_FORMAT_INTEL_VTD	1
  	__u32 format;
-+	__u32 addr_width;
+ 	__u32 addr_width;
  #define IOMMU_SVA_GPASID_VAL	(1 << 0) /* guest PASID valid */
- 	__u64 flags;
- 	__u64 gpgd;
- 	__u64 hpasid;
- 	__u64 gpasid;
--	__u32 addr_width;
--	__u8  padding[12];
-+	__u8  padding[8];
- 	/* Vendor specific data */
- 	union {
- 		struct iommu_gpasid_bind_data_vtd vtd;
 -- 
 2.7.4
 
