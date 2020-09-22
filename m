@@ -2,64 +2,74 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215C227435D
-	for <lists.iommu@lfdr.de>; Tue, 22 Sep 2020 15:39:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C1627439A
+	for <lists.iommu@lfdr.de>; Tue, 22 Sep 2020 15:56:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id AFAE3870F7;
-	Tue, 22 Sep 2020 13:39:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 31C9C8729E;
+	Tue, 22 Sep 2020 13:56:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id elrhuYvYhGAQ; Tue, 22 Sep 2020 13:39:47 +0000 (UTC)
+	with ESMTP id C1lHzdYP62WG; Tue, 22 Sep 2020 13:56:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4C997872C1;
-	Tue, 22 Sep 2020 13:39:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id A32EE8724D;
+	Tue, 22 Sep 2020 13:56:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 389CAC0859;
-	Tue, 22 Sep 2020 13:39:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A114C0051;
+	Tue, 22 Sep 2020 13:56:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AA6ACC0051
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 13:39:44 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5D632C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 13:56:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 956B386FDB
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 13:39:44 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 4AE958724D
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 13:56:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xqBWu1ig2dgH for <iommu@lists.linux-foundation.org>;
- Tue, 22 Sep 2020 13:39:42 +0000 (UTC)
+ with ESMTP id BmBv+H7+esAZ for <iommu@lists.linux-foundation.org>;
+ Tue, 22 Sep 2020 13:56:53 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 94596870E6
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 13:39:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-Type:Content-ID:Content-Description;
- bh=Dj0SE+agkMPt4RtgGrQDspMH2G8cNUOwicknqNk5yZA=; b=Qcrd+4KUpPW6lmO0FyhIU3+sBa
- wcNoL5YDdT1H4u8iBEIvwmObNtIoR1ZviLjJ8tXgpCye/WihOtGde4DhWNMNxHD13FMMAXE0sTTcZ
- auTQJKt3wq7plJ23hsuk5XTAR7DxcrqEjSVgG1xP9d7CTRWmaPQ5GiskA31NGC3ivN0ul1ceZ7OOH
- Fo+fEFx4PkPZihLWHcNDXtta+Od+ryR7qYyhKdFZEjl9QWZSvHg1fCjidzuZd6I+CPZwj8EjvfPMm
- dM7f57AEH6xyO0u1pgXUo5w9NFqN9iU5kP5TijIPzv/fT6fNXx8NMtHVWZxWwNm9MhQOm6vbF4KSN
- O1SgBZdg==;
-Received: from p4fdb0c34.dip0.t-ipconnect.de ([79.219.12.52] helo=localhost)
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kKiWC-0005MM-RC; Tue, 22 Sep 2020 13:39:41 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH 3/3] dma-mapping: better document dma_addr_t and
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 11BB1871FF
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 13:56:52 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-191-B9hMLBLvPqyihacVwf7g7g-1; Tue, 22 Sep 2020 14:56:46 +0100
+X-MC-Unique: B9hMLBLvPqyihacVwf7g7g-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Tue, 22 Sep 2020 14:56:46 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
+ Tue, 22 Sep 2020 14:56:46 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Christoph Hellwig' <hch@lst.de>, "iommu@lists.linux-foundation.org"
+ <iommu@lists.linux-foundation.org>
+Subject: RE: [PATCH 3/3] dma-mapping: better document dma_addr_t and
  DMA_MAPPING_ERROR
-Date: Tue, 22 Sep 2020 15:40:02 +0200
-Message-Id: <20200922134002.1227279-4-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200922134002.1227279-1-hch@lst.de>
+Thread-Topic: [PATCH 3/3] dma-mapping: better document dma_addr_t and
+ DMA_MAPPING_ERROR
+Thread-Index: AQHWkOXa3XgKgm/pWkOhIuRYbHODmKl0rUBw
+Date: Tue, 22 Sep 2020 13:56:46 +0000
+Message-ID: <f9c37e5ff1cb4a02bff6d2a8d0ea2dcc@AcuMS.aculab.com>
 References: <20200922134002.1227279-1-hch@lst.de>
+ <20200922134002.1227279-4-hch@lst.de>
+In-Reply-To: <20200922134002.1227279-4-hch@lst.de>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Cc: linux-kernel@vger.kernel.org,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  Dominik Brodowski <linux@dominikbrodowski.net>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -78,52 +88,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Move the comment documenting dma_addr_t away from the dma_map_ops
-definition which isn't very related to it, and toward DMA_MAPPING_ERROR,
-which is somewhat related.  Add a little blurb about DMA_MAPPING_ERROR
-as well.
+From: Christoph Hellwig
+> Sent: 22 September 2020 14:40
+...
+> @@ -131,6 +125,16 @@ struct dma_map_ops {
+>  	unsigned long (*get_merge_boundary)(struct device *dev);
+>  };
+> 
+> +/*
+> + * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
+> + * be given to a device to use as a DMA source or target.  A CPU cannot
+> + * reference a dma_addr_t directly because there may be translation between its
+> + * physical address space and the bus address space.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- include/linux/dma-mapping.h | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+It can't access it 'directly' because it isn't a virtual address....
 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 51e93d44b826c8..c4395cf7e265dd 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -67,12 +67,6 @@
-  */
- #define DMA_ATTR_PRIVILEGED		(1UL << 9)
- 
--/*
-- * A dma_addr_t can hold any valid DMA or bus address for the platform.
-- * It can be given to a device to use as a DMA source or target.  A CPU cannot
-- * reference a dma_addr_t directly because there may be translation between
-- * its physical address space and the bus address space.
-- */
- struct dma_map_ops {
- 	void* (*alloc)(struct device *dev, size_t size,
- 				dma_addr_t *dma_handle, gfp_t gfp,
-@@ -131,6 +125,16 @@ struct dma_map_ops {
- 	unsigned long (*get_merge_boundary)(struct device *dev);
- };
- 
-+/*
-+ * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
-+ * be given to a device to use as a DMA source or target.  A CPU cannot
-+ * reference a dma_addr_t directly because there may be translation between its
-+ * physical address space and the bus address space.
-+ *
-+ * DMA_MAPPING_ERROR is the magic error code if a mapping failed.  It should not
-+ * be used directly in drivers, but checked for using dma_mapping_error()
-+ * instead.
-+ */
- #define DMA_MAPPING_ERROR		(~(dma_addr_t)0)
- 
- extern const struct dma_map_ops dma_virt_ops;
--- 
-2.28.0
+> + *
+> + * DMA_MAPPING_ERROR is the magic error code if a mapping failed.  It should not
+> + * be used directly in drivers, but checked for using dma_mapping_error()
+> + * instead.
+> + */
+
+I think it might be worth adding:
+
+A dma_addr_t value may be device dependant and differ from the
+'physical address' of the memory.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
 _______________________________________________
 iommu mailing list
