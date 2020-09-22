@@ -1,61 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id F30F4273A96
-	for <lists.iommu@lfdr.de>; Tue, 22 Sep 2020 08:17:02 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DF2273A99
+	for <lists.iommu@lfdr.de>; Tue, 22 Sep 2020 08:17:09 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9DB7E86397;
-	Tue, 22 Sep 2020 06:16:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6B6332284F;
+	Tue, 22 Sep 2020 06:17:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id N83W5QEEMdQJ; Tue, 22 Sep 2020 06:16:58 +0000 (UTC)
+	with ESMTP id IJu0zoNzBdeJ; Tue, 22 Sep 2020 06:17:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8323C863DE;
-	Tue, 22 Sep 2020 06:16:58 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id ADA83226FC;
+	Tue, 22 Sep 2020 06:17:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 624E4C0051;
-	Tue, 22 Sep 2020 06:16:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 93B73C0051;
+	Tue, 22 Sep 2020 06:17:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 07D6DC0051
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 06:16:57 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A607FC0051
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 06:16:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E8E0C85AD6
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 06:16:56 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 9347B85AE9
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 06:16:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6e2YWU62sPEI for <iommu@lists.linux-foundation.org>;
- Tue, 22 Sep 2020 06:16:55 +0000 (UTC)
+ with ESMTP id NElWOlLBEN87 for <iommu@lists.linux-foundation.org>;
+ Tue, 22 Sep 2020 06:16:57 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id E858D85AA1
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 06:16:54 +0000 (UTC)
-IronPort-SDR: rW3Rygxa2Wmlx2OiRfx9rX4yrw1VNi+IoULiuFX5DT5eTGdFHHm1EMtzgsDhTMGm37X9tXAy4z
- Nix2uC56U/Ig==
-X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="148206691"
-X-IronPort-AV: E=Sophos;i="5.77,289,1596524400"; d="scan'208";a="148206691"
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 4E49285AA1
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 06:16:57 +0000 (UTC)
+IronPort-SDR: jl4XlrICbQM6pNysXSyPNRVOqNhKXpE+t2ZljtipZ5TieQ5xwdCVwTNyPSEixDUivREb9Hj7ge
+ XiUIXHxyIRGQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="148206694"
+X-IronPort-AV: E=Sophos;i="5.77,289,1596524400"; d="scan'208";a="148206694"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2020 23:16:53 -0700
-IronPort-SDR: MRN1pkDHtVIp8X7IJS5GWx5rYmWiDE08UuKtxsPLLtqWw5ql7hbfKzxbhbczzbNIAFnIiY8+kw
- y7Nbta3zIyZQ==
+ 21 Sep 2020 23:16:56 -0700
+IronPort-SDR: 2l5kDw3N+6np1U/VqUYKYU7mufRsGFSfueEIkosOHVRqAUcfOlz5o4Iakc74qiQPoUAaIrf4Hg
+ pP/lVnMQ1IYA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,289,1596524400"; d="scan'208";a="334877182"
+X-IronPort-AV: E=Sophos;i="5.77,289,1596524400"; d="scan'208";a="334877235"
 Received: from allen-box.sh.intel.com ([10.239.159.139])
- by fmsmga004.fm.intel.com with ESMTP; 21 Sep 2020 23:16:50 -0700
+ by fmsmga004.fm.intel.com with ESMTP; 21 Sep 2020 23:16:53 -0700
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>,
  Alex Williamson <alex.williamson@redhat.com>
-Subject: [PATCH v5 0/5] iommu aux-domain APIs extensions
-Date: Tue, 22 Sep 2020 14:10:37 +0800
-Message-Id: <20200922061042.31633-1-baolu.lu@linux.intel.com>
+Subject: [PATCH v5 1/5] iommu: Add optional subdev in aux_at(de)tach ops
+Date: Tue, 22 Sep 2020 14:10:38 +0800
+Message-Id: <20200922061042.31633-2-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200922061042.31633-1-baolu.lu@linux.intel.com>
+References: <20200922061042.31633-1-baolu.lu@linux.intel.com>
 Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
  Kevin Tian <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
  Ashok Raj <ashok.raj@intel.com>, kvm@vger.kernel.org,
@@ -79,41 +81,136 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jorge and Alex,
+In the vfio/mdev use case of aux-domain, the subdevices are created from
+the physical devices with IOMMU_DEV_FEAT_AUX enabled and the aux-domains
+are attached to the subdevices through the iommu_ops.aux_attach_dev()
+interface.
 
-A description of this patch series could be found here.
+Current iommu_ops.aux_at(de)tach_dev() design only takes the aux-domain
+and the physical device as the parameters, this is insufficient if we
+want the vendor iommu drivers to learn the knowledge about relationships
+between the aux-domains and the subdevices. Add a @subdev parameter to
+iommu_ops.aux_at(de)tach_dev() interfaces so that a subdevice could be
+opt-in.
 
-https://lore.kernel.org/linux-iommu/20200901033422.22249-1-baolu.lu@linux.intel.com/
+Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
+---
+ drivers/iommu/intel/iommu.c | 10 ++++++----
+ drivers/iommu/iommu.c       | 26 +++++++++++++++++---------
+ include/linux/iommu.h       |  6 ++++--
+ 3 files changed, 27 insertions(+), 15 deletions(-)
 
-This version adds some changes according to Alex's review comments.
-
-- Add comments and naming rule for subdevices.
-https://lore.kernel.org/linux-iommu/20200910160549.2b176ac5@w520.home/
-
-- Continue detaching even no subdevice parent found.
-https://lore.kernel.org/linux-iommu/20200910160547.0a8b9891@w520.home/
-
-- Make subdev_link_device() and subdev_unlink_device() symmetrical.
-
-Please help to review and merge.
-
-Best regards,
-baolu
-
-Lu Baolu (5):
-  iommu: Add optional subdev in aux_at(de)tach ops
-  iommu: Add iommu_at(de)tach_subdev_group()
-  iommu: Add iommu_aux_get_domain_for_dev()
-  vfio/type1: Use iommu_aux_at(de)tach_group() APIs
-  iommu/vt-d: Add is_aux_domain support
-
- drivers/iommu/intel/iommu.c     | 139 +++++++++++++++++-------
- drivers/iommu/iommu.c           | 184 ++++++++++++++++++++++++++++++--
- drivers/vfio/vfio_iommu_type1.c |  43 ++------
- include/linux/intel-iommu.h     |  17 +--
- include/linux/iommu.h           |  46 +++++++-
- 5 files changed, 336 insertions(+), 93 deletions(-)
-
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index 1b7d390beb68..86142ce32f21 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -5353,8 +5353,9 @@ static int intel_iommu_attach_device(struct iommu_domain *domain,
+ 	return domain_add_dev_info(to_dmar_domain(domain), dev);
+ }
+ 
+-static int intel_iommu_aux_attach_device(struct iommu_domain *domain,
+-					 struct device *dev)
++static int
++intel_iommu_aux_attach_device(struct iommu_domain *domain,
++			      struct device *dev, struct device *subdev)
+ {
+ 	int ret;
+ 
+@@ -5374,8 +5375,9 @@ static void intel_iommu_detach_device(struct iommu_domain *domain,
+ 	dmar_remove_one_dev_info(dev);
+ }
+ 
+-static void intel_iommu_aux_detach_device(struct iommu_domain *domain,
+-					  struct device *dev)
++static void
++intel_iommu_aux_detach_device(struct iommu_domain *domain, struct device *dev,
++			      struct device *subdev)
+ {
+ 	aux_domain_remove_dev(to_dmar_domain(domain), dev);
+ }
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 6c14c88cd525..4c6e94682327 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -2714,7 +2714,7 @@ bool iommu_dev_feature_enabled(struct device *dev, enum iommu_dev_features feat)
+ EXPORT_SYMBOL_GPL(iommu_dev_feature_enabled);
+ 
+ /*
+- * Aux-domain specific attach/detach.
++ * Aux-domain specific interfaces.
+  *
+  * Only works if iommu_dev_feature_enabled(dev, IOMMU_DEV_FEAT_AUX) returns
+  * true. Also, as long as domains are attached to a device through this
+@@ -2722,36 +2722,44 @@ EXPORT_SYMBOL_GPL(iommu_dev_feature_enabled);
+  * (iommu_detach_device() can't fail, so we fail when trying to re-attach).
+  * This should make us safe against a device being attached to a guest as a
+  * whole while there are still pasid users on it (aux and sva).
++ *
++ * Some physical devices can be configured to generate several subdevices.
++ * The modern IOMMUs support the identification and isolation of these
++ * subdevices. Hence they could be passed through to users space. VFIO/mdev
++ * provides a generic framework for subdevice passthrough. Below interfaces
++ * support such use case. Generally, among the parameters of the following
++ * aux-domain specific functions, @physdev represents a physical device,
++ * and @subdev represents a subdevice.
+  */
+-int iommu_aux_attach_device(struct iommu_domain *domain, struct device *dev)
++int iommu_aux_attach_device(struct iommu_domain *domain, struct device *physdev)
+ {
+ 	int ret = -ENODEV;
+ 
+ 	if (domain->ops->aux_attach_dev)
+-		ret = domain->ops->aux_attach_dev(domain, dev);
++		ret = domain->ops->aux_attach_dev(domain, physdev, NULL);
+ 
+ 	if (!ret)
+-		trace_attach_device_to_domain(dev);
++		trace_attach_device_to_domain(physdev);
+ 
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(iommu_aux_attach_device);
+ 
+-void iommu_aux_detach_device(struct iommu_domain *domain, struct device *dev)
++void iommu_aux_detach_device(struct iommu_domain *domain, struct device *physdev)
+ {
+ 	if (domain->ops->aux_detach_dev) {
+-		domain->ops->aux_detach_dev(domain, dev);
+-		trace_detach_device_from_domain(dev);
++		domain->ops->aux_detach_dev(domain, physdev, NULL);
++		trace_detach_device_from_domain(physdev);
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(iommu_aux_detach_device);
+ 
+-int iommu_aux_get_pasid(struct iommu_domain *domain, struct device *dev)
++int iommu_aux_get_pasid(struct iommu_domain *domain, struct device *physdev)
+ {
+ 	int ret = -ENODEV;
+ 
+ 	if (domain->ops->aux_get_pasid)
+-		ret = domain->ops->aux_get_pasid(domain, dev);
++		ret = domain->ops->aux_get_pasid(domain, physdev);
+ 
+ 	return ret;
+ }
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index 2ad26d8b4ab9..56297b4bbd0e 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -279,8 +279,10 @@ struct iommu_ops {
+ 	int (*dev_disable_feat)(struct device *dev, enum iommu_dev_features f);
+ 
+ 	/* Aux-domain specific attach/detach entries */
+-	int (*aux_attach_dev)(struct iommu_domain *domain, struct device *dev);
+-	void (*aux_detach_dev)(struct iommu_domain *domain, struct device *dev);
++	int (*aux_attach_dev)(struct iommu_domain *domain, struct device *physdev,
++			      struct device *subdev);
++	void (*aux_detach_dev)(struct iommu_domain *domain, struct device *physdev,
++			       struct device *subdev);
+ 	int (*aux_get_pasid)(struct iommu_domain *domain, struct device *dev);
+ 
+ 	struct iommu_sva *(*sva_bind)(struct device *dev, struct mm_struct *mm,
 -- 
 2.17.1
 
