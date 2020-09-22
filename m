@@ -1,65 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6406A273AB0
-	for <lists.iommu@lfdr.de>; Tue, 22 Sep 2020 08:19:13 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id E74AA273ACF
+	for <lists.iommu@lfdr.de>; Tue, 22 Sep 2020 08:24:34 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 1CB4B2270C;
-	Tue, 22 Sep 2020 06:19:12 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A747985BCD;
+	Tue, 22 Sep 2020 06:24:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RR3ZG+xWvLxE; Tue, 22 Sep 2020 06:19:09 +0000 (UTC)
+	with ESMTP id 7fukKqX6w8NW; Tue, 22 Sep 2020 06:24:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9D643226E9;
-	Tue, 22 Sep 2020 06:19:09 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 468C785BAE;
+	Tue, 22 Sep 2020 06:24:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 88FE5C0051;
-	Tue, 22 Sep 2020 06:19:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3150BC0051;
+	Tue, 22 Sep 2020 06:24:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3A29DC0051
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 06:19:07 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9A669C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 06:24:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 296C587268
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 06:19:07 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8554C8725F
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 06:24:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GIVyqBvDGBWA for <iommu@lists.linux-foundation.org>;
- Tue, 22 Sep 2020 06:19:06 +0000 (UTC)
+ with ESMTP id iKtei96whpyu for <iommu@lists.linux-foundation.org>;
+ Tue, 22 Sep 2020 06:24:31 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 8897787259
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 06:19:06 +0000 (UTC)
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 6C06387259
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 06:24:28 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1600755546; h=Content-Transfer-Encoding: MIME-Version:
+ s=smtp; t=1600755870; h=Content-Transfer-Encoding: MIME-Version:
  References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=bWHGV1osJMnrvcpc+ajeo2CD3fIJ+trVCX/OUDCTxRU=;
- b=APsjCqDs7Sy50yFNJK7pFGmdB+F+JNyIRUpNDIalFq+vYPUCwAfD36NveeL6xAE9BIvlSUXg
- s2ziyw55ZggtmsvDqpaj6qYf4d0tD5s62/q4rlRRQ8Y6CNfsqgyKu0nLS5PbnKf7upTRAXQS
- pXCJL7CFnScxMtIPhN+jsa7Gvec=
-X-Mailgun-Sending-Ip: 69.72.42.4
+ Sender; bh=g9ROR4jyStHwIzhd7iym5OgkIupIqrI05z3ntpotmg0=;
+ b=DrjDk7Qb9EtoBCUA+x0FERn7F2pouzqbwNePYYjv0+8wJwe+gJKy01C1uLw35d6G7vnHSGSV
+ fOo/A3gGmNHbjsE4puqiJrUSPL+3VJqKzoSmgkoSvHBbUTp4wu41LyJGsuM6ixFRQrB/CZ3y
+ NbZSxPgQWZ2/DvNBYTnDllN+36o=
+X-Mailgun-Sending-Ip: 104.130.96.5
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 5f69975a6fe64d5a7f97c193 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 22 Sep 2020 06:19:06
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 5f69975f0915d303576c56da (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 22 Sep 2020 06:19:11
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id AA220C433B1; Tue, 22 Sep 2020 06:19:04 +0000 (UTC)
+ id 69F07C433A1; Tue, 22 Sep 2020 06:19:10 +0000 (UTC)
 Received: from blr-ubuntu-253.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id C5D33C433FF;
- Tue, 22 Sep 2020 06:18:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C5D33C433FF
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 86BA9C4339C;
+ Tue, 22 Sep 2020 06:19:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 86BA9C4339C
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
@@ -68,10 +68,10 @@ From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
 To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
  Rob Clark <robdclark@gmail.com>
-Subject: [PATCHv5 5/6] iommu: arm-smmu-impl: Use table to list QCOM
- implementations
-Date: Tue, 22 Sep 2020 11:48:18 +0530
-Message-Id: <f2d079d46cee22f09f6eb7e6f874a9eaa786ec2a.1600754909.git.saiprakash.ranjan@codeaurora.org>
+Subject: [PATCHv5 6/6] iommu: arm-smmu-impl: Add a space before open
+ parenthesis
+Date: Tue, 22 Sep 2020 11:48:19 +0530
+Message-Id: <f00b12c75cc35d447161229085991322f1eafc41.1600754909.git.saiprakash.ranjan@codeaurora.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1600754909.git.saiprakash.ranjan@codeaurora.org>
 References: <cover.1600754909.git.saiprakash.ranjan@codeaurora.org>
@@ -98,45 +98,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Use table and of_match_node() to match qcom implementation
-instead of multiple of_device_compatible() calls for each
-QCOM SMMU implementation.
+Fix the checkpatch warning for space required before the open
+parenthesis.
 
 Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu-impl.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/iommu/arm/arm-smmu/arm-smmu-impl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-index d199b4bff15d..ce78295cfa78 100644
+index ce78295cfa78..eda852111706 100644
 --- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
 +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-@@ -9,6 +9,13 @@
- 
- #include "arm-smmu.h"
- 
-+static const struct of_device_id __maybe_unused qcom_smmu_impl_of_match[] = {
-+	{ .compatible = "qcom,sc7180-smmu-500" },
-+	{ .compatible = "qcom,sdm845-smmu-500" },
-+	{ .compatible = "qcom,sm8150-smmu-500" },
-+	{ .compatible = "qcom,sm8250-smmu-500" },
-+	{ }
-+};
+@@ -19,7 +19,7 @@ static const struct of_device_id __maybe_unused qcom_smmu_impl_of_match[] = {
  
  static int arm_smmu_gr0_ns(int offset)
  {
-@@ -217,10 +224,7 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
- 	if (of_device_is_compatible(np, "nvidia,tegra194-smmu"))
- 		return nvidia_smmu_impl_init(smmu);
- 
--	if (of_device_is_compatible(np, "qcom,sdm845-smmu-500") ||
--	    of_device_is_compatible(np, "qcom,sc7180-smmu-500") ||
--	    of_device_is_compatible(np, "qcom,sm8150-smmu-500") ||
--	    of_device_is_compatible(np, "qcom,sm8250-smmu-500"))
-+	if (of_match_node(qcom_smmu_impl_of_match, np))
- 		return qcom_smmu_impl_init(smmu);
- 
- 	if (of_device_is_compatible(smmu->dev->of_node, "qcom,adreno-smmu"))
+-	switch(offset) {
++	switch (offset) {
+ 	case ARM_SMMU_GR0_sCR0:
+ 	case ARM_SMMU_GR0_sACR:
+ 	case ARM_SMMU_GR0_sGFSR:
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
