@@ -1,81 +1,115 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B76C273810
-	for <lists.iommu@lfdr.de>; Tue, 22 Sep 2020 03:26:51 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD665273912
+	for <lists.iommu@lfdr.de>; Tue, 22 Sep 2020 05:04:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 07163871ED;
-	Tue, 22 Sep 2020 01:26:50 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 76E588638F;
+	Tue, 22 Sep 2020 03:04:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eju8q9sFPdK6; Tue, 22 Sep 2020 01:26:49 +0000 (UTC)
+	with ESMTP id Bg2v44ttHjxF; Tue, 22 Sep 2020 03:04:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 21AF58710E;
-	Tue, 22 Sep 2020 01:26:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 12B2F815F3;
+	Tue, 22 Sep 2020 03:04:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0CDEAC0051;
-	Tue, 22 Sep 2020 01:26:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E1FB6C0051;
+	Tue, 22 Sep 2020 03:04:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 61DC4C0051
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 01:26:47 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2F253C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 03:04:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 48D778705C
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 01:26:47 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1A1C58638F
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 03:04:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id S08q5yMWZQIL for <iommu@lists.linux-foundation.org>;
- Tue, 22 Sep 2020 01:26:46 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
- [209.85.128.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 85A0A8710E
- for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 01:26:46 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id k18so1647060wmj.5
- for <iommu@lists.linux-foundation.org>; Mon, 21 Sep 2020 18:26:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EwkCPgCitGetW6yWn1orUd/9JWGX18dm0dessM84fGA=;
- b=XJqhwKesgxxoneddVSf20VBkrrsT0ax+8jpxfLfjlaRV9BbhWHgdo7GG11Y0hdcJwU
- 3zPmfiFaA0hrmsx/VmHuBH6Ql2NzM+URt5nSUMkkiuLcL+yrdIiYdvKB2ajmf3hzQuZy
- uegahPiyv/X3TGiIIlTydmIdHOWYse8gSIBk+fEaqQVdVidjFBwbfYJA6QnYuaSuBWup
- JpvEWpcxUgC02W/tdj+oOWlcaXFczT0OX2bkigrhVKXN+QfUuVy9fxUta4xEExaYZp/Y
- gTng2uocepGvbf8hwarfezAFrMTVTQoxd03ouptRLZQZy0aiVlx9HhRymXIaPEDFYVLj
- 2nBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EwkCPgCitGetW6yWn1orUd/9JWGX18dm0dessM84fGA=;
- b=ToXJyY/hBbWF7TBfxew52qmkxCK8Himu44oiStjE69iAA4zg+fsnbMOpG6bSWXxvmH
- +QDKQmZBQ6MWe+zYUaoKWmfB2z3RGmW8o2DthiTJNZxqn5WcL3UJw0+fwF1B7W0fJRzJ
- SDF+O0Hy3UbL3BBzbedWKpgmK7fx7E7VjF7GiUAYL7OZmfTVSxqOkkC3qJBNQLQZQGMj
- E/rSnmgMn/XlBg5e3SwdrjY9A5al276VVAeyP7favtjVUmKN7VJ37q2IRq+EPAIg1kma
- OGZ/RzuSTsaC/WqE8o4UCH7c9ldxg+iiwuDP5rWzAfxGx8SrieJ1zREglhL1j2fj8Aam
- /c6g==
-X-Gm-Message-State: AOAM533ay2dnoubrqXvF5RxSScB+VjPJSNbmheH+yJGSYyBhZVGxSKS9
- Dbiur+a2mf/FtPDE+VOCHXG8oWPjQ3mi2YNlxpU=
-X-Google-Smtp-Source: ABdhPJyX5IceDiEN7uurpddreCAjgBIWneUFzY3pSLOA9oYfNTQAt3JlP4q5FDqc7qs5jSI0oVWF6J0DVzpZ1VTocjE=
-X-Received: by 2002:a7b:cf1a:: with SMTP id l26mr1800077wmg.164.1600738004991; 
- Mon, 21 Sep 2020 18:26:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200905200454.240929-1-robdclark@gmail.com>
- <20200921213054.GA4270@willie-the-truck>
-In-Reply-To: <20200921213054.GA4270@willie-the-truck>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 21 Sep 2020 18:27:45 -0700
-Message-ID: <CAF6AEGsMsarDGqYYLtkZMKHxKZKBsfZsByWit=vEsAoKXqs6UQ@mail.gmail.com>
+ with ESMTP id si-RKtod5AXt for <iommu@lists.linux-foundation.org>;
+ Tue, 22 Sep 2020 03:04:05 +0000 (UTC)
+X-Greylist: delayed 00:10:01 by SQLgrey-1.7.6
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 1F0EE815F3
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Sep 2020 03:04:05 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1600743845; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=pUPPVS4zNUydXtd2EWbezsMD7shiNeotafngrFYyveY=;
+ b=m7FtQBniQaEzhMDPCX6gFbGfsqn/qTmGimmtHkd5P3ju5YKNrGYhJ0kC9nS7wt/sfNCV4efX
+ A+lidgdD8LAe7S7a61xanXmdgWdRulLsRBIxaxOwjIxYDQYjbV1oxKwRyNmO0eOEZqNbBXcN
+ +5lIW9bmMjOXpLANsf9ejlzvrvc=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 5f69674bae7ca421d25714fe (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 22 Sep 2020 02:54:03
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id C648FC433C8; Tue, 22 Sep 2020 02:54:02 +0000 (UTC)
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 9B635C433CB;
+ Tue, 22 Sep 2020 02:53:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9B635C433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=jcrouse@codeaurora.org
+Date: Mon, 21 Sep 2020 20:53:55 -0600
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Will Deacon <will@kernel.org>
 Subject: Re: [PATCH v17 00/20] iommu/arm-smmu + drm/msm: per-process GPU
  pgtables
-To: Will Deacon <will@kernel.org>
-Cc: Wambui Karuga <wambui.karugax@gmail.com>, Hanna Hawa <hannah@marvell.com>,
+Message-ID: <20200922025355.GA23009@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Will Deacon <will@kernel.org>,
+ Rob Clark <robdclark@gmail.com>, iommu@lists.linux-foundation.org,
+ dri-devel@lists.freedesktop.org,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Sibi Sankar <sibis@codeaurora.org>,
+ Vivek Gautam <vivek.gautam@codeaurora.org>,
+ Stephen Boyd <swboyd@chromium.org>,
  Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Eric Anholt <eric@anholt.net>,
+ Rob Clark <robdclark@chromium.org>,
+ AngeloGioacchino Del Regno <kholk11@gmail.com>,
+ Ben Dooks <ben.dooks@codethink.co.uk>,
+ Brian Masney <masneyb@onstation.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, 
+ Douglas Anderson <dianders@chromium.org>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ Eric Anholt <eric@anholt.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hanna Hawa <hannah@marvell.com>, Joerg Roedel <jroedel@suse.de>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Krishna Reddy <vdumpa@nvidia.com>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Shawn Guo <shawn.guo@linaro.org>,
  Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Wambui Karuga <wambui.karugax@gmail.com>
+References: <20200905200454.240929-1-robdclark@gmail.com>
+ <20200921213054.GA4270@willie-the-truck>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200921213054.GA4270@willie-the-truck>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Wambui Karuga <wambui.karugax@gmail.com>, Hanna Hawa <hannah@marvell.com>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Eric Anholt <eric@anholt.net>, Thierry Reding <thierry.reding@gmail.com>,
  Vivek Gautam <vivek.gautam@codeaurora.org>,
  AngeloGioacchino Del Regno <kholk11@gmail.com>,
  Emil Velikov <emil.velikov@collabora.com>, Rob Clark <robdclark@chromium.org>,
@@ -84,17 +118,14 @@ Cc: Wambui Karuga <wambui.karugax@gmail.com>, Hanna Hawa <hannah@marvell.com>,
  Brian Masney <masneyb@onstation.org>,
  "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>, Joerg Roedel <jroedel@suse.de>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
- freedreno <freedreno@lists.freedesktop.org>,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ Robin Murphy <robin.murphy@arm.com>, Stephen Boyd <swboyd@chromium.org>,
  "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Douglas Anderson <dianders@chromium.org>,
- open list <linux-kernel@vger.kernel.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ open list <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
  Thomas Zimmermann <tzimmermann@suse.de>, Shawn Guo <shawn.guo@linaro.org>,
- Robin Murphy <robin.murphy@arm.com>
+ freedreno@lists.freedesktop.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,29 +143,29 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Sep 21, 2020 at 2:31 PM Will Deacon <will@kernel.org> wrote:
->
+On Mon, Sep 21, 2020 at 10:30:57PM +0100, Will Deacon wrote:
 > On Sat, Sep 05, 2020 at 01:04:06PM -0700, Rob Clark wrote:
 > > From: Rob Clark <robdclark@chromium.org>
-> >
+> > 
 > > NOTE: I have re-ordered the series, and propose that we could merge this
 > >       series in the following order:
-> >
+> > 
 > >        1) 01-11 - merge via drm / msm-next
 > >        2) 12-15 - merge via iommu, no dependency on msm-next pull req
->
+> 
 > Thanks, I've queued 12-15 in the smmu tree.
->
+> 
 > https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/log/?h=for-joerg/arm-smmu/updates
->
+> 
+> Will
 
-Thx, let me know if you are up for trying a post-rc1 pull req for
-16-18 (plus Bjorn's series if it is reposted in time).. I can
-certainly help rebase/wrangle patches if that helps.. otherwise we can
-try for those next cycle
+Will, thanks for your help and patience in getting these merged. 
 
-BR,
--R
+Jordan
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
