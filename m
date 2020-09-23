@@ -1,90 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED64275356
-	for <lists.iommu@lfdr.de>; Wed, 23 Sep 2020 10:37:18 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2BEE275511
+	for <lists.iommu@lfdr.de>; Wed, 23 Sep 2020 12:05:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 299E522CB0;
-	Wed, 23 Sep 2020 08:37:17 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 48D738612B;
+	Wed, 23 Sep 2020 10:05:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6OtgH3r4698a; Wed, 23 Sep 2020 08:37:15 +0000 (UTC)
+	with ESMTP id G87lYECWH_1o; Wed, 23 Sep 2020 10:05:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 14A2422D10;
-	Wed, 23 Sep 2020 08:37:15 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9415E8610E;
+	Wed, 23 Sep 2020 10:05:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 07CAFC0051;
-	Wed, 23 Sep 2020 08:37:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7360AC0051;
+	Wed, 23 Sep 2020 10:05:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EA5C5C0051
- for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 07:45:35 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9EB7DC0859
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 10:05:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D1458203E5
- for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 07:45:35 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8CA4E870C0
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 10:05:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ud2IBXlHc41N for <iommu@lists.linux-foundation.org>;
- Wed, 23 Sep 2020 07:45:35 +0000 (UTC)
+ with ESMTP id MuDXLx3s6tSc for <iommu@lists.linux-foundation.org>;
+ Wed, 23 Sep 2020 10:05:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com
- [209.85.219.193])
- by silver.osuosl.org (Postfix) with ESMTPS id CD863203F3
- for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 07:45:34 +0000 (UTC)
-Received: by mail-yb1-f193.google.com with SMTP id k18so6024076ybh.1
- for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 00:45:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=/GHpmKCCGcexOvtlcyC9uP2q4Nd41VuwJ5FfEQainNU=;
- b=HSsqMwkLY+zUqzjY7UyjOZKpIvQ7wlqcBiaPf6F2IIb2yOEO87qCbmqf4tXTT04Zb1
- 2tVgBD5mbMmp9WJWzAZ0ZFFOqDckzewIHs9K5CuT8fblr2U4C9o+33xhpCtPplzwCqdd
- +N7hzAecUTUdHBPwoXABtx948UViuFkLgzwybNmquwMZcmk5UGQA566K1s2kcgc3VoZW
- C/TGc0bC/+w1Amsy2S93XHYOa/l7yLFFBfOhv8XbrmmNSpLFIcdkkdzT3XXbpYR5F6hQ
- vPySNn6CYb7OyBEiSqTMMgeEbvSAwMCWibKqNpZrGTTbtWz6UKAqP2lz2hoDgPOgeAKx
- CMvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=/GHpmKCCGcexOvtlcyC9uP2q4Nd41VuwJ5FfEQainNU=;
- b=LqHTbPy8XKdsYhECqQJdlVBs3lF2MH4A6qELkgM50oeZHCbvMPLXC9BeYnBAs1EPfY
- P7dFEbFyVYJZ8Tx3fnV4j7ZoDI2nNa2Mz1Q3BrE9pWajJtwJe2mw3d75Ys6VQkZGC9dz
- iqUZt6bulBOicOSZx6YUBOR7X50Y6IAPdbbvYdAkKfjbtHJKiCAH8SPHE4+8O55dKWn7
- wfucTOk/7K58u5LBwZqnsP7Dx8jpfPR6bmfGbu+Df0LWxj5tQz5jgGtKplwipsVFCJUK
- /guOlU/oGO6Hs9RkicsjrUZTzTmaafcZSaNSbZTBxi+7T5Q2H4N0/EFrbST5Ud1Agt52
- 3hzg==
-X-Gm-Message-State: AOAM531L5a6x6/wbnxs3OiYciXn4inljdaQN6Ur1n3I8aZz9gU9kTeaA
- fie+WULrXnUtoQnfRY9LxATbt/B5DrL/IU2j+ps=
-X-Google-Smtp-Source: ABdhPJwTbE5iL/lGdCAxASuHqeib/oo/4BHL2s4NmZET3Mh4YBt2LS13hfc0AT8zSCatXXrEJzBHAnvsusQ6jAIgnfI=
-X-Received: by 2002:a25:320b:: with SMTP id y11mr10422663yby.394.1600847133912; 
- Wed, 23 Sep 2020 00:45:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a26:9820:0:0:0:0:0 with HTTP; Wed, 23 Sep 2020 00:45:33
- -0700 (PDT)
-In-Reply-To: <20200923065808.GA16366@lst.de>
-References: <CAEC9eQOX9BHX4v5aY2cfCT=T-ZHA7y0xF7aiZhW9xzG4fme36Q@mail.gmail.com>
- <CAEC9eQPaeF9=Li74x9RrSHyDgRZ6b653yBRu6EYsaU+eSj2wsQ@mail.gmail.com>
- <59cda41f-170c-a1ad-a345-bc38b9ed4d73@arm.com>
- <CGME20200424161534eucas1p29177cad5b4790d392acb69a335a3992e@eucas1p2.samsung.com>
- <CAOD6ATrWYLPT0ydz2vFhNwWhqHum_q_pyCe=oGJWOcEqjmNOqQ@mail.gmail.com>
- <11584d09-5995-6133-3bd3-8f7a0afd0e01@samsung.com>
- <20200923065808.GA16366@lst.de>
-From: Ajay kumar <ajaynumb@gmail.com>
-Date: Wed, 23 Sep 2020 13:15:33 +0530
-Message-ID: <CAEC9eQMoqYBU_9H9QoAwwayR8u2MK4aMDvTocOqrPRK3cuVeHw@mail.gmail.com>
-Subject: Re: IOVA allocation dependency between firmware buffer and remaining
- buffers
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 880008703E
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 10:05:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=R+6pH9MDXo8iBZE23VD1Qz4m/pWUZJggcrrvmXTMzlM=; b=ExALYf+eJ59NgDjFaLDDQWGEv
+ kB/1C35EtyKiUIkhcLpRwt2PDcrbvVbTxhs5IFERtgqltUk4aum3IZLfl3DHn6oOk9imExkrI/DfF
+ mhzaVNsUaMpkkbLQhXKHTfbSg+y1REpp59J3d6P0iUGuK+hCHce1nXIJLzjTZYeRCszvJQrLToSs/
+ oNJZZEEsiAO8/Qqf+ddRW6OOUdIs6920AV7bpoyEPBvg5E6hV5Dp93UemFxEtQR7f1J/JJ2Wm7pWb
+ MCUqyTvOeTNTsDJry0yRevPBt1739ZZIX6np7q6l66wqe3+7/ZHiM+bdessUmZturVDq2QUPP4Dpl
+ 6rGa0uQ7A==;
+Received: from shell.armlinux.org.uk
+ ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:37216)
+ by pandora.armlinux.org.uk with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1kL1eW-0003vf-NC; Wed, 23 Sep 2020 11:05:32 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1kL1eQ-0003HJ-Ot; Wed, 23 Sep 2020 11:05:26 +0100
+Date: Wed, 23 Sep 2020 11:05:26 +0100
+From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 To: Christoph Hellwig <hch@lst.de>
-X-Mailman-Approved-At: Wed, 23 Sep 2020 08:37:13 +0000
-Cc: jean-philippe@linaro.org, will@kernel.org, linux-mm@kvack.org,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Shaik Ameer Basha <shaik.ameer@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 1/4] ARM/omap1: switch to use dma_direct_set_offset for
+ lbus DMA offsets
+Message-ID: <20200923100526.GD1559@shell.armlinux.org.uk>
+References: <20200917173229.3311382-1-hch@lst.de>
+ <20200917173229.3311382-2-hch@lst.de>
+ <20200918054933.GK7101@atomide.com> <2184547.ElGaqSPkdT@z50>
+ <20200921064418.GM7101@atomide.com> <20200921064723.GA18559@lst.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200921064723.GA18559@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Aaro Koskinen <aaro.koskinen@iki.fi>, Tony Lindgren <tony@atomide.com>,
+ linux-usb@vger.kernel.org, Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-omap@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,40 +91,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hello all,
+On Mon, Sep 21, 2020 at 08:47:23AM +0200, Christoph Hellwig wrote:
+> On Mon, Sep 21, 2020 at 09:44:18AM +0300, Tony Lindgren wrote:
+> > * Janusz Krzysztofik <jmkrzyszt@gmail.com> [200919 22:29]:
+> > > Hi Tony,
+> > > 
+> > > On Friday, September 18, 2020 7:49:33 A.M. CEST Tony Lindgren wrote:
+> > > > * Christoph Hellwig <hch@lst.de> [200917 17:37]:
+> > > > > Switch the omap1510 platform ohci device to use dma_direct_set_offset
+> > > > > to set the DMA offset instead of using direct hooks into the DMA
+> > > > > mapping code and remove the now unused hooks.
+> > > > 
+> > > > Looks nice to me :) I still can't test this probably for few more weeks
+> > > > though but hopefully Aaro or Janusz (Added to Cc) can test it.
+> > > 
+> > > Works for me on Amstrad Delta (tested with a USB ethernet adapter).
+> > > 
+> > > Tested-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+> > 
+> > Great, good to hear! And thanks for testing it.
+> > 
+> > Christoph, feel free to queue this along with the other patches:
+> > 
+> > Acked-by: Tony Lindgren <tony@atomide.com>
+> > 
+> > Or let me know if you want me to pick it up.
+> 
+> I'd prefer to pick it up through the dma-mapping tree, but preferably
+> I'd pick the whole series up once Russell has tested footwinder.
 
-We pretty much tried to solve the same issue here with a new API in DMA-IOMMU:
-https://lore.kernel.org/linux-iommu/20200811054912.GA301@infradead.org/T/
+I don't think that's going to happen very soon... seems way too much
+effort to pull down the appropriate tree to build and test.  Sorry.
 
-Christopher- the user part would be MFC devices on exynos platforms
-
-Thanks,
-Ajay
-On 9/23/20, Christoph Hellwig <hch@lst.de> wrote:
-> On Wed, Sep 23, 2020 at 08:48:26AM +0200, Marek Szyprowski wrote:
->> Hi Shaik,
->>
->> I've run into similar problem while adapting S5P-MFC and Exynos4-IS
->> drivers for generic IOMMU-DMA framework. Here is my first solution:
->> https://lore.kernel.org/linux-samsung-soc/20200918144833.14618-1-m.szyprowski@samsung.com/T/
->>
->>
->>
->> It allows to remap given buffer at the specific IOVA address, although
->> it doesn't guarantee that those specific addresses won't be later used
->> by the IOVA allocator. Probably it would make sense to add an API for
->> generic IOMMU-DMA framework to mark the given IOVA range as
->> reserved/unused to protect them.
->
-> If you want to use IOVA addresses in a device otherwise managed by
-> dma-iommu we need to expose an API through the dma API.  Can you please
-> include the iommu list in the discussion of your series?
->
-> I don't think using the raw IOMMU API is a very idea in these drivers,
-> we probably want a way to change the allocator algorithm or hint the
-> next IOVA and keep using the normal DMA API.  Maybe Robin has a better
-> idea.
->
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
