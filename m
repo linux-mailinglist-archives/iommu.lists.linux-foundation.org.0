@@ -1,79 +1,109 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BEE275511
-	for <lists.iommu@lfdr.de>; Wed, 23 Sep 2020 12:05:50 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 753A727553D
+	for <lists.iommu@lfdr.de>; Wed, 23 Sep 2020 12:11:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 48D738612B;
-	Wed, 23 Sep 2020 10:05:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 17DB6866ED;
+	Wed, 23 Sep 2020 10:11:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id G87lYECWH_1o; Wed, 23 Sep 2020 10:05:48 +0000 (UTC)
+	with ESMTP id WAAn+Gs55TsO; Wed, 23 Sep 2020 10:11:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9415E8610E;
-	Wed, 23 Sep 2020 10:05:48 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 8A39785EF9;
+	Wed, 23 Sep 2020 10:11:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7360AC0051;
-	Wed, 23 Sep 2020 10:05:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5BA13C0051;
+	Wed, 23 Sep 2020 10:11:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9EB7DC0859
- for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 10:05:47 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ADA9FC0051
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 10:11:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8CA4E870C0
- for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 10:05:47 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id A2B7E86E2C
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 10:11:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MuDXLx3s6tSc for <iommu@lists.linux-foundation.org>;
- Wed, 23 Sep 2020 10:05:44 +0000 (UTC)
+ with ESMTP id MhemU-hPcWnW for <iommu@lists.linux-foundation.org>;
+ Wed, 23 Sep 2020 10:11:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 880008703E
- for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 10:05:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=R+6pH9MDXo8iBZE23VD1Qz4m/pWUZJggcrrvmXTMzlM=; b=ExALYf+eJ59NgDjFaLDDQWGEv
- kB/1C35EtyKiUIkhcLpRwt2PDcrbvVbTxhs5IFERtgqltUk4aum3IZLfl3DHn6oOk9imExkrI/DfF
- mhzaVNsUaMpkkbLQhXKHTfbSg+y1REpp59J3d6P0iUGuK+hCHce1nXIJLzjTZYeRCszvJQrLToSs/
- oNJZZEEsiAO8/Qqf+ddRW6OOUdIs6920AV7bpoyEPBvg5E6hV5Dp93UemFxEtQR7f1J/JJ2Wm7pWb
- MCUqyTvOeTNTsDJry0yRevPBt1739ZZIX6np7q6l66wqe3+7/ZHiM+bdessUmZturVDq2QUPP4Dpl
- 6rGa0uQ7A==;
-Received: from shell.armlinux.org.uk
- ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:37216)
- by pandora.armlinux.org.uk with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <linux@armlinux.org.uk>)
- id 1kL1eW-0003vf-NC; Wed, 23 Sep 2020 11:05:32 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1kL1eQ-0003HJ-Ot; Wed, 23 Sep 2020 11:05:26 +0100
-Date: Wed, 23 Sep 2020 11:05:26 +0100
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 1/4] ARM/omap1: switch to use dma_direct_set_offset for
- lbus DMA offsets
-Message-ID: <20200923100526.GD1559@shell.armlinux.org.uk>
-References: <20200917173229.3311382-1-hch@lst.de>
- <20200917173229.3311382-2-hch@lst.de>
- <20200918054933.GK7101@atomide.com> <2184547.ElGaqSPkdT@z50>
- <20200921064418.GM7101@atomide.com> <20200921064723.GA18559@lst.de>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2046.outbound.protection.outlook.com [40.107.237.46])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 888E2866B3
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Sep 2020 10:11:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZxsFtm5gafbPdfJBz6omnGXIBRduCFvZqdfiRl88CGsuiLauYalDrX5yPgHR83uVx5/TQVGVqy5uqM9en2sKkpg4SLEvdESe16/3HGi1hqwJRw2DKZ0OFEg4z6U1BBClcWPm8Riz+l6OwmMw+On7hqSZgJpGh0uuOvLN/ucp+4zHQyVtNG7rf5dcZ9tx1uc9FloadiSyWwwFRSi8BIJjRq+XeYK7271XOW+wwRqhbo2E4f7KyIDR0gUNG/ABtt3WbOXSBY7tj96nUnt3W+5pgEnFWpI/pAl4lSMOaWPdsFNMi5rP4KtVDKvIlIK/WJdJx0unyFKnbU3B0S9JL/EElA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FMjt4bR8ugA/pWY6sFhpNVjNoB52xbnYhgA8Yyx8vB4=;
+ b=AQGRP+mgCrev+NbWq9PRgzM5k07EI/Pl0q63qxBVi+/7IrrwOUxW5J5K4vEZy3hjTFoGSrKwvRY7AUwqC4EPra4zYeO+ZpWBSuABRaIBSXeKtl7WFiCmupqs03ebWocMX0Onh/X2RCi3G2kUiwMOBXIK9Fwt1MzLEqcNB/wyDzqmPEeArl2K53jFebcMi9Qe1dyGCY/2MW7tTzS+gJVOGoIn++/Bh8dz9uNE/nnEtaIF5Tt0I9hjVx9OHPJaoT1WiY7pywDGL5t/VkU9TLa+AdgssWos5vuHwnoS1B4V4uDXJeCqoXNEpXxO0qgUcnEJNCqE62vWLMvyYecbFVaJng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FMjt4bR8ugA/pWY6sFhpNVjNoB52xbnYhgA8Yyx8vB4=;
+ b=RKR7oI1Zgft1dYqC4By6aooBHvjXs4vJP8iLITBGqW2FIgVbKA+dQ8WbTZVP1SWsyibg0ONIjZ7k4vRgvomzaBs+7j1LG8JaPPiql+jNHa29ubN2VT+vXOuqqIKgzYTxQr2IpRWn7+ldH0482gQjVDkvs81yALBHM/p4uawb55w=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1163.namprd12.prod.outlook.com (2603:10b6:3:7a::18) by
+ DM6PR12MB3466.namprd12.prod.outlook.com (2603:10b6:5:3b::33) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3391.11; Wed, 23 Sep 2020 10:11:41 +0000
+Received: from DM5PR12MB1163.namprd12.prod.outlook.com
+ ([fe80::48cf:d69:d457:1b1e]) by DM5PR12MB1163.namprd12.prod.outlook.com
+ ([fe80::48cf:d69:d457:1b1e%5]) with mapi id 15.20.3412.022; Wed, 23 Sep 2020
+ 10:11:41 +0000
+From: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+To: linux-kernel@vger.kernel.org,
+	iommu@lists.linux-foundation.org
+Subject: [PATCH 00/13] iommu: amd: Add Generic IO Page Table Framework Support
+Date: Wed, 23 Sep 2020 10:14:29 +0000
+Message-Id: <20200923101442.73157-1-suravee.suthikulpanit@amd.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [165.204.78.2]
+X-ClientProxiedBy: SN4PR0601CA0003.namprd06.prod.outlook.com
+ (2603:10b6:803:2f::13) To DM5PR12MB1163.namprd12.prod.outlook.com
+ (2603:10b6:3:7a::18)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200921064723.GA18559@lst.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Aaro Koskinen <aaro.koskinen@iki.fi>, Tony Lindgren <tony@atomide.com>,
- linux-usb@vger.kernel.org, Janusz Krzysztofik <jmkrzyszt@gmail.com>,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-omap@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ethanolx5673host.amd.com (165.204.78.2) by
+ SN4PR0601CA0003.namprd06.prod.outlook.com (2603:10b6:803:2f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20 via Frontend
+ Transport; Wed, 23 Sep 2020 10:11:40 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 311f2f8c-63fa-41e8-1456-08d85fa910b5
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3466:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB34665D7049CCEB153FE48E8EF3380@DM6PR12MB3466.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Y970hZbylwMdxokbEtSp/mb8Yhtcp+vHRRHCTqHVQ2yHKioJg2rs05aIJZRR8ewMn/eaUMLiKWOAUeO2B7AoZYnpVA7UZpmR6cHCVgt5+gvcr78hktdFmTg0kfYxDKW+GqU37Goce7Xly3HNwIV5TMkhhMwR+PezGtN1RCXMfhZ5xx2NBtVjH+lPVPiwQ9czAD5XMcWrwp/TdluAa0HpnjQUUaKlJqO2Fdbr7IXGCT9QeywvbEoXjmq6qZOgN9aMryKUdi0wg0BrTmc90RvM3YlnL8hh18ySnaW5KnV4SeVh2dG8T4/5kcp8Eu4YzKRI+SPuuTBIexxCzA3IoIj7gdM/uZC5HtlcvfLzqDHaTsUeeDr7HYtKkKRHp6u+1DRy
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1163.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(366004)(376002)(346002)(396003)(44832011)(5660300002)(66946007)(66476007)(66556008)(83380400001)(6486002)(86362001)(36756003)(2906002)(8936002)(4326008)(26005)(316002)(1076003)(956004)(478600001)(6666004)(186003)(16526019)(52116002)(8676002)(2616005)(7696005)(41533002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 95BItsgXFaIGOnF3IIggX23Mfj7cWxUn4yMDJZ4TC4v2wDQ70R5ob3XBeioNeXVM2BoPJmhMOPcZICmLuxmrMyiEzch5tipZAvXcoK7ucPfxAp598dYeanRdLq76owtXc/jivPsJpsOdfF//f/2TqJbnTWRGmH9ckLK/jHaUCvxYf23R2PClVaCCW0wXIURTBgZ2+U1/N/tYafZ/9RicD+ioyARkXie9in8+1sP19ZkHO7VK2K/zUPrWYHKaqDr5FyYtNT5TXkX6OFiyyFiwPcqCuFHj8K7GVFbxUub8PjF9QHrql9ixz5x6RZT6+7fZ35yMRK6cAL30AsIPt3+crdhcEwxbaGOkE5b7y/LFdtLHUrDFgQMZwVvURwOtP5jYcj97PjmqpmkZMK/YI6wuOcy9jH3dTTQngk0nHiRiXC2fDNvVeFEO7AqxkUIJfNV7481yILUcyJRST5zF9fay/UktaY+XxFtU/NZF51LvZX8HnRLqFxM+6QoQa2Gcy00afojURa3RouZKe/sK6s4A7LnbZbHuWArz3FFH2B5iQYmoiTPtyZQZY0v4KqvaWa3AL9DuIC7guAUM9x3xmFobluWN7NhvzTKkNAhPGX0BkfcWo6LHbLU309IcudPS8Kn632jB6xQOMAxCih8rCqIS7g==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 311f2f8c-63fa-41e8-1456-08d85fa910b5
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1163.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2020 10:11:41.1517 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TFw2MI3VcOFraJIIKkrbqId97qA7I7vNDcbdwCXgz2WzY5r/mXQTnafTzH+M1+Im0E3aFVCBQZHBxWdECfPx6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3466
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,41 +121,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Sep 21, 2020 at 08:47:23AM +0200, Christoph Hellwig wrote:
-> On Mon, Sep 21, 2020 at 09:44:18AM +0300, Tony Lindgren wrote:
-> > * Janusz Krzysztofik <jmkrzyszt@gmail.com> [200919 22:29]:
-> > > Hi Tony,
-> > > 
-> > > On Friday, September 18, 2020 7:49:33 A.M. CEST Tony Lindgren wrote:
-> > > > * Christoph Hellwig <hch@lst.de> [200917 17:37]:
-> > > > > Switch the omap1510 platform ohci device to use dma_direct_set_offset
-> > > > > to set the DMA offset instead of using direct hooks into the DMA
-> > > > > mapping code and remove the now unused hooks.
-> > > > 
-> > > > Looks nice to me :) I still can't test this probably for few more weeks
-> > > > though but hopefully Aaro or Janusz (Added to Cc) can test it.
-> > > 
-> > > Works for me on Amstrad Delta (tested with a USB ethernet adapter).
-> > > 
-> > > Tested-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
-> > 
-> > Great, good to hear! And thanks for testing it.
-> > 
-> > Christoph, feel free to queue this along with the other patches:
-> > 
-> > Acked-by: Tony Lindgren <tony@atomide.com>
-> > 
-> > Or let me know if you want me to pick it up.
-> 
-> I'd prefer to pick it up through the dma-mapping tree, but preferably
-> I'd pick the whole series up once Russell has tested footwinder.
+The framework allows callable implementation of IO page table.
+This allows AMD IOMMU driver to switch between different types
+of AMD IOMMU page tables (e.g. v1 vs. v2).
 
-I don't think that's going to happen very soon... seems way too much
-effort to pull down the appropriate tree to build and test.  Sorry.
+This series refactors the current implementation of AMD IOMMU v1 page table
+to adopt the framework. There should be no functional change.
+Subsequent series will introduce support for the AMD IOMMU v2 page table.
+
+Thanks,
+Suravee
+
+Suravee Suthikulpanit (13):
+  iommu: amd: Re-define amd_iommu_domain_encode_pgtable as inline
+  iommu: amd: Prepare for generic IO page table framework
+  iommu: amd: Move pt_root to to struct amd_io_pgtable
+  iommu: amd: Convert to using amd_io_pgtable
+  iommu: amd: Declare functions as extern
+  iommu: amd: Move IO page table related functions
+  iommu: amd: Restructure code for freeing page table
+  iommu: amd: Remove amd_iommu_domain_get_pgtable
+  iommu: amd: Rename variables to be consistent with struct
+    io_pgtable_ops
+  iommu: amd: Refactor fetch_pte to use struct amd_io_pgtable
+  iommu: amd: Introduce iommu_v1_iova_to_phys
+  iommu: amd: Introduce iommu_v1_map_page and iommu_v1_unmap_page
+  iommu: amd: Adopt IO page table framework
+
+ drivers/iommu/amd/Kconfig           |   1 +
+ drivers/iommu/amd/Makefile          |   2 +-
+ drivers/iommu/amd/amd_iommu.h       |  25 ++
+ drivers/iommu/amd/amd_iommu_types.h |  40 +-
+ drivers/iommu/amd/io_pgtable.c      | 580 +++++++++++++++++++++++++
+ drivers/iommu/amd/iommu.c           | 630 ++--------------------------
+ drivers/iommu/io-pgtable.c          |   3 +
+ include/linux/io-pgtable.h          |   2 +
+ 8 files changed, 691 insertions(+), 592 deletions(-)
+ create mode 100644 drivers/iommu/amd/io_pgtable.c
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+2.17.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
