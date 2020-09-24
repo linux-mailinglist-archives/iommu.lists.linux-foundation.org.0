@@ -1,84 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F6A276E9C
-	for <lists.iommu@lfdr.de>; Thu, 24 Sep 2020 12:23:43 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03095276EAB
+	for <lists.iommu@lfdr.de>; Thu, 24 Sep 2020 12:25:55 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 84B77228BD;
-	Thu, 24 Sep 2020 10:23:42 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A977286B72;
+	Thu, 24 Sep 2020 10:25:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id X-QbFk92amYB; Thu, 24 Sep 2020 10:23:41 +0000 (UTC)
+	with ESMTP id 2QEIlB-bn0Kk; Thu, 24 Sep 2020 10:25:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 41F4B228B3;
-	Thu, 24 Sep 2020 10:23:41 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DB1C086BFF;
+	Thu, 24 Sep 2020 10:25:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2D54AC0051;
-	Thu, 24 Sep 2020 10:23:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C6F6DC0889;
+	Thu, 24 Sep 2020 10:25:24 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 54BD5C0051
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 10:23:39 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 14814C0889
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 10:25:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 43EC9869ED
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 10:23:39 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id EB1EF86BD0
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 10:25:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id w7UFbiBEuFlN for <iommu@lists.linux-foundation.org>;
- Thu, 24 Sep 2020 10:23:38 +0000 (UTC)
+ with ESMTP id DVUil6rwDcnT for <iommu@lists.linux-foundation.org>;
+ Thu, 24 Sep 2020 10:25:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 4A907869DE
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 10:23:38 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id d4so2945320wmd.5
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 03:23:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=gZTr6jKVJWBT4b9FYe4os7KKq9EIettyh4MTHWoR4TY=;
- b=PKDFs6f19rp55uBqg1s6mc/02OdH3LiLE4xwl102tLJqolty41BUdcS3PJo2zzp+ev
- wXIISPXFCiCYvP576m8UOEGFjEHsmkIMsiDzTC2eVFF/rw8R15A7ofeVpNxEcMaEttuA
- aruUCFs2ZDBJQBNOsEwaKfr9lLIsVHmUh4UaqghCS9OFdZwfqZ7nD6IVLS5p+PWQXSy4
- dKCygqDumJijzPP5I/7wiO17FMS+4tBz9dpKX1nBXMibDCEFSFchXqE5K3eYN+FvoNKX
- IXa3zvXNzgovrGwJ0M5aCu1CfGY8zwe5967rFlhzHAImPIHLPDhgpEr/A1oti/jGxfjq
- K7Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=gZTr6jKVJWBT4b9FYe4os7KKq9EIettyh4MTHWoR4TY=;
- b=sQcggij2W4C0vbKGBbyY/1YoCgxYSKC9Mo8UkTNOUEE2GWldU9w3EZIFD4/FT0T01+
- enRSx4IfGS7VzoqZPEk+hmQVzdFg8tRPDycjDnE34u1yquXFhYl7DAbx6khdZLdUodtd
- dysnkAggsbiEwP1na/NSco6P1mQcR6hTfDHRD6sfS+N9rAqal51tLP4Bg3jJ0a9SsomR
- C0lI/z4RSQnizMjjl9fgmyXWqsFl2VCknEFMaJ4RAxiJ9SeXBonnV+A/youbpWYuxry5
- t2e/td8ZQcN6PQiLqnhgs7A7cvKAKU7/4omxLdg4I2Nq03znNYTZotETyopV+6ZDUVsw
- w8EQ==
-X-Gm-Message-State: AOAM533rxhBIE3Jip9cFofaqJSkqeis91UpIJTI9KIGU5DavhLoCSWfa
- zO2YQDRNxYyLc/gk1U5GUjE=
-X-Google-Smtp-Source: ABdhPJwhuRMERw9p/nHHMg6pVZuFa6hzITzvP8M0CBrfe0EcJtOoL2dRd+frNm3C7Xww3RN6AFaeew==
-X-Received: by 2002:a1c:9c4b:: with SMTP id f72mr3950986wme.188.1600943016827; 
- Thu, 24 Sep 2020 03:23:36 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id u186sm2895522wmu.34.2020.09.24.03.23.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Sep 2020 03:23:35 -0700 (PDT)
-Date: Thu, 24 Sep 2020 12:23:33 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Nicolin Chen <nicoleotsuka@gmail.com>
-Subject: Re: [PATCH 2/3] iommu/tegra-smmu: Fix iova->phys translation
-Message-ID: <20200924102333.GH2483160@ulmo>
-References: <20200911071643.17212-1-nicoleotsuka@gmail.com>
- <20200911071643.17212-3-nicoleotsuka@gmail.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 4715E86C34
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 10:25:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600943099;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wqpAFzoVVNPHoD2su633/m5i0f1o9UijACFpsiH+PwE=;
+ b=gAeYoAXCpcVJw2emKtZj4LIah1QhEx1aNZTmQSmyNzXtoljTVvzrKoPPvOH7B0rtV685IY
+ gM6rStk8/FVqr8WKSQCMwI1Wt42wijsoIvYRlC9kYU0HYPp1oDjdktn9i6tf1p1L2iHMWU
+ r0IGqiKJkCc9Hbs8dcdvZrShtjOkr4I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-103-NGd59hkGNlmhZzSRNxTU6Q-1; Thu, 24 Sep 2020 06:24:55 -0400
+X-MC-Unique: NGd59hkGNlmhZzSRNxTU6Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C7B21891E87;
+ Thu, 24 Sep 2020 10:24:53 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-85.ams2.redhat.com
+ [10.36.112.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C33715C1C7;
+ Thu, 24 Sep 2020 10:24:46 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0753A16E0A; Thu, 24 Sep 2020 12:24:46 +0200 (CEST)
+Date: Thu, 24 Sep 2020 12:24:46 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: Re: [PATCH v3 0/6] Add virtio-iommu built-in topology
+Message-ID: <20200924102446.icsdv2yhof4nbnec@sirius.home.kraxel.org>
+References: <20200821131540.2801801-1-jean-philippe@linaro.org>
+ <ab2a1668-e40c-c8f0-b77b-abadeceb4b82@redhat.com>
+ <20200924045958-mutt-send-email-mst@kernel.org>
+ <20200924092129.GH27174@8bytes.org>
+ <20200924053159-mutt-send-email-mst@kernel.org>
+ <20200924100255.GM27174@8bytes.org>
 MIME-Version: 1.0
-In-Reply-To: <20200911071643.17212-3-nicoleotsuka@gmail.com>
-User-Agent: Mutt/1.14.7 (2020-08-29)
-Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- jonathanh@nvidia.com, linux-tegra@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <20200924100255.GM27174@8bytes.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Cc: virtio-dev@lists.oasis-open.org,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, linux-pci@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
+ sebastien.boeuf@intel.com, bhelgaas@google.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,78 +92,40 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1341033119207535908=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+On Thu, Sep 24, 2020 at 12:02:55PM +0200, Joerg Roedel wrote:
+> On Thu, Sep 24, 2020 at 05:38:13AM -0400, Michael S. Tsirkin wrote:
+> > On Thu, Sep 24, 2020 at 11:21:29AM +0200, Joerg Roedel wrote:
+> > > On Thu, Sep 24, 2020 at 05:00:35AM -0400, Michael S. Tsirkin wrote:
+> > > > OK so this looks good. Can you pls repost with the minor tweak
+> > > > suggested and all acks included, and I will queue this?
+> > > 
+> > > My NACK still stands, as long as a few questions are open:
+> > > 
+> > > 	1) The format used here will be the same as in the ACPI table? I
+> > > 	   think the answer to this questions must be Yes, so this leads
+> > > 	   to the real question:
+> > 
+> > I am not sure it's a must.
+> 
+> It is, having only one parser for the ACPI and MMIO descriptions was one
+> of the selling points for MMIO in past discussions and I think it makes
+> sense to keep them in sync.
 
---===============1341033119207535908==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="hAW+M2+FUO+onfmf"
-Content-Disposition: inline
+So that requirement basically kills the "we have something to play with
+while the acpi table spec is in progress" argument.  Also note that qemu
+microvm got acpi support meanwhile.
 
+Are there other cases where neither ACPI nor DT are available?
 
---hAW+M2+FUO+onfmf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Sep 11, 2020 at 12:16:42AM -0700, Nicolin Chen wrote:
-> IOVA might not be always 4KB aligned. So tegra_smmu_iova_to_phys
-> function needs to add on the lower 12-bit offset from input iova.
->=20
-> Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-> ---
->  drivers/iommu/tegra-smmu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-> index 789d21c01b77..50b962b0647e 100644
-> --- a/drivers/iommu/tegra-smmu.c
-> +++ b/drivers/iommu/tegra-smmu.c
-> @@ -795,7 +795,7 @@ static phys_addr_t tegra_smmu_iova_to_phys(struct iom=
-mu_domain *domain,
-> =20
->  	pfn =3D *pte & as->smmu->pfn_mask;
-> =20
-> -	return SMMU_PFN_PHYS(pfn);
-> +	return SMMU_PFN_PHYS(pfn) + SMMU_OFFSET_IN_PAGE(iova);
->  }
-> =20
->  static struct tegra_smmu *tegra_smmu_find(struct device_node *np)
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---hAW+M2+FUO+onfmf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9sc6UACgkQ3SOs138+
-s6H3aQ//YiyhKfdv1T0l5I+sWJLgPMt5Tv9V3Hul5HxECkRzIWLUFijryp3tLNlU
-unup51XBCpV0Y/q1B8S7X0AhIqaoUM7aRXIiAbp6LwZuZDHyAKN7iS2e1IXdZ3lh
-gl1c6r6boPVKiMRPcnOYKeukZSMsWO6RsnWlOZO5VgYjcYT2L+a94bCZ0Ogg3vpW
-g47FFf22V+RnDF3UOFI/3sROkOLptSqEU7PgNUC67cS3rffTNoiW9FoxHYASJ70J
-BapvXPZHDWKovcD4FdEIcoEc0phEO9knjPvh0ssOM07lzWUDqME7I2X1CcGtncd3
-z/jmVjw8NwXyZEh50CkN3shUJdOeZ+1jO3jBb0EOAXWjjmK4zbDQgV3qdyC2CQLU
-afRp4bq0wprYj+FCWDCA2i3ndNIWTgu3ArObLz5YiSf3Mny5dbO0S+d2pOGwGERZ
-oeQEy3C/pK0vhy/ziLsTt6k8byU6JCRA4RMdCuTZSNH2v4Sk7eCwVupdf+QvZk0g
-5Sj7nr00b5d1qSJFm8LoVxLAKxVW0AQdmN8x8TYbAiY/R1KzaSBnU+bJMNXZIrqo
-iJ2XLQlyYwNyXSzAOPwiYA2FP2k1G/QF8rBUFZgBgP5RVtIiGDcnyw6MSYJpQ88X
-qgI6SuOmQqwxYH64pYrThfrVyzZC49sVuf4pqzgDSA3NyDh2QW4=
-=W1ct
------END PGP SIGNATURE-----
-
---hAW+M2+FUO+onfmf--
-
---===============1341033119207535908==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+take care,
+  Gerd
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============1341033119207535908==--
