@@ -1,80 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D26277847
-	for <lists.iommu@lfdr.de>; Thu, 24 Sep 2020 20:09:50 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id F24288748B;
-	Thu, 24 Sep 2020 18:09:48 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ycJCsROQI+xT; Thu, 24 Sep 2020 18:09:47 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7BF2C8743E;
-	Thu, 24 Sep 2020 18:09:47 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6E57AC0051;
-	Thu, 24 Sep 2020 18:09:47 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E7C20C0051
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 18:09:45 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9D3277882
+	for <lists.iommu@lfdr.de>; Thu, 24 Sep 2020 20:29:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D069085429
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 18:09:45 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 32AA986A02;
+	Thu, 24 Sep 2020 18:29:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id E5ixEq68drea; Thu, 24 Sep 2020 18:29:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 02BE7869B8;
+	Thu, 24 Sep 2020 18:29:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E1964C0889;
+	Thu, 24 Sep 2020 18:29:49 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8BBA2C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 18:29:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 8490E20422
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 18:29:48 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Pac-7Ug4ZSPV for <iommu@lists.linux-foundation.org>;
- Thu, 24 Sep 2020 18:09:44 +0000 (UTC)
+ with ESMTP id 2KPiFpZTn3pE for <iommu@lists.linux-foundation.org>;
+ Thu, 24 Sep 2020 18:29:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id ACDC785402
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 18:09:14 +0000 (UTC)
-IronPort-SDR: QgC05f99jtdWksnY0gALyy6H/yd9xApIPE8XgFNgyB1o6bt67vM4adwQgEy/OB1jx8lUUBPFs0
- vsDbvBc5sFcQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="179386477"
-X-IronPort-AV: E=Sophos;i="5.77,298,1596524400"; d="scan'208";a="179386477"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2020 11:09:07 -0700
-IronPort-SDR: fTN88eBS4ZGG0H6UJwXoUequL6Ju3JPJg39ZHVmhom6pOBekTTlWPf9fPUWHkwAuWhbvL0v4Lo
- o1rPhHwRFtBg==
-X-IronPort-AV: E=Sophos;i="5.77,298,1596524400"; d="scan'208";a="487025646"
-Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.36])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2020 11:09:06 -0700
-Date: Thu, 24 Sep 2020 11:09:05 -0700
-From: "Raj, Ashok" <ashok.raj@intel.com>
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: Re: [bugzilla-daemon@bugzilla.kernel.org: [Bug 209149] New:
- "iommu/vt-d: Enable PCI ACS for platform opt in hint" makes NVMe config
- space not accessible after S3]
-Message-ID: <20200924180905.GB85236@otc-nc-03>
-References: <20200923160327.GA2267374@bjorn-Precision-5520>
- <6CD003F6-DDF4-4C57-AD9E-79C8AB5C01BF@canonical.com>
+Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
+ by silver.osuosl.org (Postfix) with ESMTPS id C3EBA203E2
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 18:29:46 +0000 (UTC)
+Received: from lhreml721-chm.china.huawei.com (unknown [172.18.7.106])
+ by Forcepoint Email with ESMTP id F180640490732B561407;
+ Thu, 24 Sep 2020 19:29:43 +0100 (IST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ lhreml721-chm.china.huawei.com (10.201.108.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Thu, 24 Sep 2020 19:29:43 +0100
+Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
+ lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
+ 15.01.1913.007; Thu, 24 Sep 2020 19:29:43 +0100
+From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+To: Jacob Pan <jacob.pan.linux@gmail.com>, "iommu@lists.linux-foundation.org"
+ <iommu@lists.linux-foundation.org>, LKML <linux-kernel@vger.kernel.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>, Lu Baolu
+ <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, David Woodhouse
+ <dwmw2@infradead.org>
+Subject: RE: [PATCH v2 4/9] iommu/ioasid: Add reference couting functions
+Thread-Topic: [PATCH v2 4/9] iommu/ioasid: Add reference couting functions
+Thread-Index: AQHWeFM+3LMH6JurcEu9bAF2eVkkYql4RlcA
+Date: Thu, 24 Sep 2020 18:29:43 +0000
+Message-ID: <fecfa20f4ff743f481d91dbff6983b85@huawei.com>
+References: <1598070918-21321-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1598070918-21321-5-git-send-email-jacob.jun.pan@linux.intel.com>
+In-Reply-To: <1598070918-21321-5-git-send-email-jacob.jun.pan@linux.intel.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.47.86.144]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6CD003F6-DDF4-4C57-AD9E-79C8AB5C01BF@canonical.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: Joerg Roedel <jroedel@suse.de>, "Jechlitschek,
- Christoph" <christoph.jechlitschek@intel.com>,
- Sagi Grimberg <sagi@grimberg.me>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- "open list:NVM EXPRESS DRIVER" <linux-nvme@lists.infradead.org>,
- Jens Axboe <axboe@fb.com>,
- Lalithambika Krishnakumar <lalithambika.krishnakumar@intel.com>,
- iommu@lists.linux-foundation.org, Bjorn Helgaas <helgaas@kernel.org>,
- Keith Busch <kbusch@kernel.org>, Ashok Raj <ashok.raj@intel.com>,
- Rajat Jain <rajatja@google.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Christoph Hellwig <hch@lst.de>
+X-CFilter-Loop: Reflected
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>, Wu
+ Hao <hao.wu@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,81 +84,193 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Kai
+Hi Jacob,
 
-+ Alex, since he had some of the early quirks authored.
-
-On Thu, Sep 24, 2020 at 12:31:53AM +0800, Kai-Heng Feng wrote:
-> [+Cc Christoph]
+> -----Original Message-----
+> From: iommu [mailto:iommu-bounces@lists.linux-foundation.org] On Behalf Of
+> Jacob Pan
+> Sent: 22 August 2020 05:35
+> To: iommu@lists.linux-foundation.org; LKML <linux-kernel@vger.kernel.org>;
+> Jean-Philippe Brucker <jean-philippe@linaro.com>; Lu Baolu
+> <baolu.lu@linux.intel.com>; Joerg Roedel <joro@8bytes.org>; David
+> Woodhouse <dwmw2@infradead.org>
+> Cc: Tian, Kevin <kevin.tian@intel.com>; Raj Ashok <ashok.raj@intel.com>; Wu
+> Hao <hao.wu@intel.com>
+> Subject: [PATCH v2 4/9] iommu/ioasid: Add reference couting functions
 > 
-> > On Sep 24, 2020, at 00:03, Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > 
-> > [+cc IOMMU and NVMe folks]
-> > 
-> > Sorry, I forgot to forward this to linux-pci when it was first
-> > reported.
-> > 
-> > Apparently this happens with v5.9-rc3, and may be related to
-> > 50310600ebda ("iommu/vt-d: Enable PCI ACS for platform opt in hint"),
-> > which appeared in v5.8-rc3.
-> > 
-> > There are several dmesg logs and proposed patches in the bugzilla, but
-> > no analysis yet of what the problem is.  From the first dmesg
-> > attachment (https://bugzilla.kernel.org/attachment.cgi?id=292327):
+> There can be multiple users of an IOASID, each user could have hardware
+> contexts associated with the IOASID. In order to align lifecycles,
+> reference counting is introduced in this patch. It is expected that when
+> an IOASID is being freed, each user will drop a reference only after its
+> context is cleared.
 > 
-> AFAIK Intel is working on it internally.
-> Comet Lake probably needs ACS quirk like older generation chips.
-
-I have confirmed with Internal documentation that the problem exists on
-Comet Lake. But its fixed ICL and TGL generations.
-
-Unfortunately I do not see if the public specupdate documents are for these
-generation chipsets to makes sure all root port id's can be captured.
-
-There is also another entry in bugzilla that was forwarded that referred to
-Request Redirect Capability to be always disabled as well. This same
-workaround also seems to be turning off RR for the root port. I believe it
-should fix it as well. But i saw another patch attached.
-
-Can you tell how you reproduce this? just doing a
-
-#echo mem > /sys/power/state
-
-is sufficient with an attached NVMe drive? 
-
+> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> ---
+>  drivers/iommu/ioasid.c | 113
+> +++++++++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/ioasid.h |   4 ++
+>  2 files changed, 117 insertions(+)
 > 
-> > 
-> >  [   50.434945] PM: suspend entry (deep)
-> >  [   50.802086] nvme 0000:01:00.0: saving config space at offset 0x0 (reading 0x11e0f)
-> >  [   50.842775] ACPI: Preparing to enter system sleep state S3
-> >  [   50.858922] ACPI: Waking up from system sleep state S3
-> >  [   50.883622] nvme 0000:01:00.0: can't change power state from D3hot to D0 (config space inaccessible)
-> >  [   50.947352] nvme 0000:01:00.0: restoring config space at offset 0x0 (was 0xffffffff, writing 0x11e0f)
-> >  [   50.947816] pcieport 0000:00:1b.0: DPC: containment event, status:0x1f01 source:0x0000
-> >  [   50.947817] pcieport 0000:00:1b.0: DPC: unmasked uncorrectable error detected
-> >  [   50.947829] pcieport 0000:00:1b.0: PCIe Bus Error: severity=Uncorrected (Non-Fatal), type=Transaction Layer, (Receiver ID)
-> >  [   50.947830] pcieport 0000:00:1b.0:   device [8086:06ac] error status/mask=00200000/00010000
-> >  [   50.947831] pcieport 0000:00:1b.0:    [21] ACSViol                (First)
-> >  [   50.947841] pcieport 0000:00:1b.0: AER: broadcast error_detected message
-> >  [   50.947843] nvme nvme0: frozen state error detected, reset controller
-> > 
-> > I suspect the nvme "can't change power state" and restore config space
-> > errors are a consequence of the DPC event.  If DPC disables the link,
-> > the device is inaccessible.
-> > 
-> > I don't know what caused the ACS Violation.  The AER TLP Header Log
-> > might have a clue, but unfortunately we didn't print it.
-> > 
+> diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
+> index f73b3dbfc37a..5f31d63c75b1 100644
+> --- a/drivers/iommu/ioasid.c
+> +++ b/drivers/iommu/ioasid.c
+> @@ -717,6 +717,119 @@ int ioasid_set_for_each_ioasid(struct ioasid_set
+> *set,
+>  EXPORT_SYMBOL_GPL(ioasid_set_for_each_ioasid);
+> 
+>  /**
+> + * IOASID refcounting rules
+> + * - ioasid_alloc() set initial refcount to 1
+> + *
+> + * - ioasid_free() decrement and test refcount.
+> + *     If refcount is 0, ioasid will be freed. Deleted from the system-wide
+> + *     xarray as well as per set xarray. The IOASID will be returned to the
+> + *     pool and available for new allocations.
+> + *
+> + *     If recount is non-zero, mark IOASID as
+> IOASID_STATE_FREE_PENDING.
+> + *     No new reference can be added. The IOASID is not returned to the
+> pool
+> + *     for reuse.
+> + *     After free, ioasid_get() will return error but ioasid_find() and other
+> + *     non refcount adding APIs will continue to work until the last reference
+> + *     is dropped
+> + *
+> + * - ioasid_get() get a reference on an active IOASID
+> + *
+> + * - ioasid_put() decrement and test refcount of the IOASID.
+> + *     If refcount is 0, ioasid will be freed. Deleted from the system-wide
+> + *     xarray as well as per set xarray. The IOASID will be returned to the
+> + *     pool and available for new allocations.
+> + *     Do nothing if refcount is non-zero.
+> + *
 
-Apparently it also requires to disable RR, and I'm not able to confirm if
-CML requires that as well. 
+Is it better to have a return for this based on whether ioasid is freed or not? 
 
-pci_quirk_disable_intel_spt_pch_acs_redir() also seems to consult the same
-table, so i'm not sure why we need the other patch in bugzilla is required.
+I was going through Jean's SMMUv3 SVA patches[1] and that one returns true
+if ioasid was freed. And that info is subsequently used to reset the pasid associated
+with a mm. Though, not sure that is still relevant or not.
 
+Thanks,
+Shameer
+1. https://lore.kernel.org/linux-iommu/20200918101852.582559-3-jean-philippe@linaro.org/
 
-Cheers,
-Ashok
+> + * - ioasid_find() does not take reference, caller must hold reference
+> + *
+> + * ioasid_free() can be called multiple times without error until all refs are
+> + * dropped.
+> + */
+> +
+> +int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid)
+> +{
+> +	struct ioasid_data *data;
+> +
+> +	data = xa_load(&active_allocator->xa, ioasid);
+> +	if (!data) {
+> +		pr_err("Trying to get unknown IOASID %u\n", ioasid);
+> +		return -EINVAL;
+> +	}
+> +	if (data->state == IOASID_STATE_FREE_PENDING) {
+> +		pr_err("Trying to get IOASID being freed%u\n", ioasid);
+> +		return -EBUSY;
+> +	}
+> +
+> +	if (set && data->set != set) {
+> +		pr_err("Trying to get IOASID not in set%u\n", ioasid);
+> +		/* data found but does not belong to the set */
+> +		return -EACCES;
+> +	}
+> +	refcount_inc(&data->users);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(ioasid_get_locked);
+> +
+> +/**
+> + * ioasid_get - Obtain a reference of an ioasid
+> + * @set
+> + * @ioasid
+> + *
+> + * Check set ownership if @set is non-null.
+> + */
+> +int ioasid_get(struct ioasid_set *set, ioasid_t ioasid)
+> +{
+> +	int ret = 0;
+> +
+> +	spin_lock(&ioasid_allocator_lock);
+> +	ret = ioasid_get_locked(set, ioasid);
+> +	spin_unlock(&ioasid_allocator_lock);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(ioasid_get);
+> +
+> +void ioasid_put_locked(struct ioasid_set *set, ioasid_t ioasid)
+> +{
+> +	struct ioasid_data *data;
+> +
+> +	data = xa_load(&active_allocator->xa, ioasid);
+> +	if (!data) {
+> +		pr_err("Trying to put unknown IOASID %u\n", ioasid);
+> +		return;
+> +	}
+> +
+> +	if (set && data->set != set) {
+> +		pr_err("Trying to drop IOASID not in the set %u\n", ioasid);
+> +		return;
+> +	}
+> +
+> +	if (!refcount_dec_and_test(&data->users)) {
+> +		pr_debug("%s: IOASID %d has %d remainning users\n",
+> +			__func__, ioasid, refcount_read(&data->users));
+> +		return;
+> +	}
+> +	ioasid_do_free(data);
+> +}
+> +EXPORT_SYMBOL_GPL(ioasid_put_locked);
+> +
+> +/**
+> + * ioasid_put - Drop a reference of an ioasid
+> + * @set
+> + * @ioasid
+> + *
+> + * Check set ownership if @set is non-null.
+> + */
+> +void ioasid_put(struct ioasid_set *set, ioasid_t ioasid)
+> +{
+> +	spin_lock(&ioasid_allocator_lock);
+> +	ioasid_put_locked(set, ioasid);
+> +	spin_unlock(&ioasid_allocator_lock);
+> +}
+> +EXPORT_SYMBOL_GPL(ioasid_put);
+> +
+> +/**
+>   * ioasid_find - Find IOASID data
+>   * @set: the IOASID set
+>   * @ioasid: the IOASID to find
+> diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
+> index 412d025d440e..310abe4187a3 100644
+> --- a/include/linux/ioasid.h
+> +++ b/include/linux/ioasid.h
+> @@ -76,6 +76,10 @@ int ioasid_attach_data(ioasid_t ioasid, void *data);
+>  int ioasid_register_allocator(struct ioasid_allocator_ops *allocator);
+>  void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
+>  void ioasid_is_in_set(struct ioasid_set *set, ioasid_t ioasid);
+> +int ioasid_get(struct ioasid_set *set, ioasid_t ioasid);
+> +int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid);
+> +void ioasid_put(struct ioasid_set *set, ioasid_t ioasid);
+> +void ioasid_put_locked(struct ioasid_set *set, ioasid_t ioasid);
+>  int ioasid_set_for_each_ioasid(struct ioasid_set *sdata,
+>  			       void (*fn)(ioasid_t id, void *data),
+>  			       void *data);
+> --
+> 2.7.4
+> 
+> _______________________________________________
+> iommu mailing list
+> iommu@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/iommu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
