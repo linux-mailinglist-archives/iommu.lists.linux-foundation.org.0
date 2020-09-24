@@ -1,98 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0C8A2774D6
-	for <lists.iommu@lfdr.de>; Thu, 24 Sep 2020 17:09:25 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA92277521
+	for <lists.iommu@lfdr.de>; Thu, 24 Sep 2020 17:22:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 71B1586AE3;
-	Thu, 24 Sep 2020 15:09:24 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 44C1B8750E;
+	Thu, 24 Sep 2020 15:22:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PvnVTLThdcmT; Thu, 24 Sep 2020 15:09:23 +0000 (UTC)
+	with ESMTP id im0qMM8CTbjr; Thu, 24 Sep 2020 15:22:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id DC19C86A72;
-	Thu, 24 Sep 2020 15:09:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id AA0EF87505;
+	Thu, 24 Sep 2020 15:22:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B911FC0051;
-	Thu, 24 Sep 2020 15:09:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8272CC0859;
+	Thu, 24 Sep 2020 15:22:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1A24EC0051
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 14:58:30 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9F50AC0859;
+ Thu, 24 Sep 2020 15:22:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1326520504
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 14:58:30 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8692F87505;
+ Thu, 24 Sep 2020 15:22:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RsN9a72+pEuL for <iommu@lists.linux-foundation.org>;
- Thu, 24 Sep 2020 14:58:29 +0000 (UTC)
+ with ESMTP id 6S-K2C2uh5L0; Thu, 24 Sep 2020 15:22:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by silver.osuosl.org (Postfix) with ESMTPS id 48DB3204D1
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 14:58:29 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OEsvoK071951;
- Thu, 24 Sep 2020 14:58:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=vaYMWdLIOGxcNOMQTNn3bCU6SyHr+JucLkpHQ7mukEM=;
- b=dRmZk9zTDAL/dli17qKPLMAflBh4u8NCrCW3zKgSZMbzSC4YwYvZ/6kRDGvtE78zIGC3
- Gwq3UKwuhxSqqnKh4tpvuXNclH3IvmeLhiXWv/NyfOfJqBVBHp55YTSObVKM3PRTs5mw
- T22i9NwH5rkwlZ7BZRjIylt4Icgc8AGawti7qV2sEDG7b07yE/fNFNj+PSYKLE2ExQAJ
- 4TbPcvWysd4N8OaOxyH4XqbkKKi38Fop0EgUidAWHEzAEmwaDyxVRdPUNe5/thOt/18W
- pcOts2kFW5UWGStl3/7l+qwSVz6xZirpDkCAKFdjFzrd1uVlB4zLmxJxXORvgVpaeZBJ GQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 33ndnurumg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 24 Sep 2020 14:58:20 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OEuTRK096375;
- Thu, 24 Sep 2020 14:58:20 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 33nurw9x6s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 24 Sep 2020 14:58:20 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08OEwJiT002831;
- Thu, 24 Sep 2020 14:58:19 GMT
-Received: from disposition.us.oracle.com (/10.152.32.81)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 24 Sep 2020 07:58:18 -0700
-From: Ross Philipson <ross.philipson@oracle.com>
-To: linux-kernel@vger.kernel.org, x86@kernel.org,
- iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: [PATCH 13/13] tpm: Allow locality 2 to be set when initializing the
- TPM for Secure Launch
-Date: Thu, 24 Sep 2020 10:58:41 -0400
-Message-Id: <1600959521-24158-14-git-send-email-ross.philipson@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
-References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9753
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0
- phishscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009240114
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9753
- signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 suspectscore=0 bulkscore=0
- clxscore=1015 impostorscore=0 mlxlogscore=999 mlxscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009240114
-X-Mailman-Approved-At: Thu, 24 Sep 2020 15:09:23 +0000
-Cc: dpsmith@apertussolutions.com, ross.philipson@oracle.com,
- luto@amacapital.net, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
- tglx@linutronix.de, trenchboot-devel@googlegroups.com
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 0394487502;
+ Thu, 24 Sep 2020 15:22:05 +0000 (UTC)
+Received: from localhost (52.sub-72-107-123.myvzw.com [72.107.123.52])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4966C20BED;
+ Thu, 24 Sep 2020 15:22:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1600960925;
+ bh=4TbkOT/GggLxxE2NNVd/zaYCkfjd2TGSzd9JNR24sGc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=P2BjPiPIaVzcMfkeIDn8FdAjDUgvLl1r6+ZcmQolM3BpcI2k88Z6GplWoHSXeb/5Y
+ m7Hr14bldTj6msNkYEbWEFWf//EmZ7MxJjJ+NWkMbskPXYDMVxDaM6JLoBTwEdC+nV
+ Ba4eYQmYoif8fps9erNXPt+7uOxhQdWm6qAMFF20=
+Date: Thu, 24 Sep 2020 10:22:03 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v3 5/6] iommu/virtio: Support topology description in
+ config space
+Message-ID: <20200924152203.GA2320481@bjorn-Precision-5520>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200821131540.2801801-6-jean-philippe@linaro.org>
+Cc: virtio-dev@lists.oasis-open.org, kevin.tian@intel.com, mst@redhat.com,
+ linux-pci@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ iommu@lists.linux-foundation.org, sebastien.boeuf@intel.com,
+ bhelgaas@google.com, jasowang@redhat.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,60 +71,121 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The Secure Launch MLE environment uses PCRs that are only accessible from
-the DRTM locality 2. By default the TPM drivers always initialize the
-locality to 0. When a Secure Launch is in progress, initialize the
-locality to 2.
+On Fri, Aug 21, 2020 at 03:15:39PM +0200, Jean-Philippe Brucker wrote:
+> Platforms without device-tree nor ACPI can provide a topology
+> description embedded into the virtio config space. Parse it.
+> 
+> Use PCI FIXUP to probe the config space early, because we need to
+> discover the topology before any DMA configuration takes place, and the
+> virtio driver may be loaded much later. Since we discover the topology
+> description when probing the PCI hierarchy, the virtual IOMMU cannot
+> manage other platform devices discovered earlier.
 
-Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
----
- drivers/char/tpm/tpm-chip.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+> +struct viommu_cap_config {
+> +	u8 bar;
+> +	u32 length; /* structure size */
+> +	u32 offset; /* structure offset within the bar */
 
-diff --git a/drivers/char/tpm/tpm-chip.c b/drivers/char/tpm/tpm-chip.c
-index ddaeceb..f35faab 100644
---- a/drivers/char/tpm/tpm-chip.c
-+++ b/drivers/char/tpm/tpm-chip.c
-@@ -23,6 +23,7 @@
- #include <linux/major.h>
- #include <linux/tpm_eventlog.h>
- #include <linux/hw_random.h>
-+#include <linux/slaunch.h>
- #include "tpm.h"
- 
- DEFINE_IDR(dev_nums_idr);
-@@ -34,12 +35,20 @@
- 
- static int tpm_request_locality(struct tpm_chip *chip)
- {
--	int rc;
-+	int rc, locality;
- 
- 	if (!chip->ops->request_locality)
- 		return 0;
- 
--	rc = chip->ops->request_locality(chip, 0);
-+	if (slaunch_get_flags() & (SL_FLAG_ACTIVE|SL_FLAG_ARCH_TXT)) {
-+		dev_dbg(&chip->dev, "setting TPM locality to 2 for MLE\n");
-+		locality = 2;
-+	} else {
-+		dev_dbg(&chip->dev, "setting TPM locality to 0\n");
-+		locality = 0;
-+	}
-+
-+	rc = chip->ops->request_locality(chip, locality);
- 	if (rc < 0)
- 		return rc;
- 
--- 
-1.8.3.1
+s/the bar/the BAR/ (to match comment below).
 
+> +static void viommu_pci_parse_topology(struct pci_dev *dev)
+> +{
+> +	int ret;
+> +	u32 features;
+> +	void __iomem *regs, *common_regs;
+> +	struct viommu_cap_config cap = {0};
+> +	struct virtio_pci_common_cfg __iomem *common_cfg;
+> +
+> +	/*
+> +	 * The virtio infrastructure might not be loaded at this point. We need
+> +	 * to access the BARs ourselves.
+> +	 */
+> +	ret = viommu_pci_find_capability(dev, VIRTIO_PCI_CAP_COMMON_CFG, &cap);
+> +	if (!ret) {
+> +		pci_warn(dev, "common capability not found\n");
+
+Is the lack of this capability really an error, i.e., is this
+pci_warn() or pci_info()?  The "device doesn't have topology
+description" below is only pci_dbg(), which suggests that we can live
+without this.
+
+Maybe a hint about what "common capability" means?
+
+> +		return;
+> +	}
+> +
+> +	if (pci_enable_device_mem(dev))
+> +		return;
+> +
+> +	common_regs = pci_iomap(dev, cap.bar, 0);
+> +	if (!common_regs)
+> +		return;
+> +
+> +	common_cfg = common_regs + cap.offset;
+> +
+> +	/* Perform the init sequence before we can read the config */
+> +	ret = viommu_pci_reset(common_cfg);
+
+I guess this is some special device-specific reset, not any kind of
+standard PCI reset?
+
+> +	if (ret < 0) {
+> +		pci_warn(dev, "unable to reset device\n");
+> +		goto out_unmap_common;
+> +	}
+> +
+> +	iowrite8(VIRTIO_CONFIG_S_ACKNOWLEDGE, &common_cfg->device_status);
+> +	iowrite8(VIRTIO_CONFIG_S_ACKNOWLEDGE | VIRTIO_CONFIG_S_DRIVER,
+> +		 &common_cfg->device_status);
+> +
+> +	/* Find out if the device supports topology description */
+> +	iowrite32(0, &common_cfg->device_feature_select);
+> +	features = ioread32(&common_cfg->device_feature);
+> +
+> +	if (!(features & BIT(VIRTIO_IOMMU_F_TOPOLOGY))) {
+> +		pci_dbg(dev, "device doesn't have topology description");
+> +		goto out_reset;
+> +	}
+> +
+> +	ret = viommu_pci_find_capability(dev, VIRTIO_PCI_CAP_DEVICE_CFG, &cap);
+> +	if (!ret) {
+> +		pci_warn(dev, "device config capability not found\n");
+> +		goto out_reset;
+> +	}
+> +
+> +	regs = pci_iomap(dev, cap.bar, 0);
+> +	if (!regs)
+> +		goto out_reset;
+> +
+> +	pci_info(dev, "parsing virtio-iommu topology\n");
+> +	ret = viommu_parse_topology(&dev->dev, regs + cap.offset,
+> +				    pci_resource_len(dev, 0) - cap.offset);
+> +	if (ret)
+> +		pci_warn(dev, "failed to parse topology: %d\n", ret);
+> +
+> +	pci_iounmap(dev, regs);
+> +out_reset:
+> +	ret = viommu_pci_reset(common_cfg);
+> +	if (ret)
+> +		pci_warn(dev, "unable to reset device\n");
+> +out_unmap_common:
+> +	pci_iounmap(dev, common_regs);
+> +}
+> +
+> +/*
+> + * Catch a PCI virtio-iommu implementation early to get the topology description
+> + * before we start probing other endpoints.
+> + */
+> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_REDHAT_QUMRANET, 0x1040 + VIRTIO_ID_IOMMU,
+> +			viommu_pci_parse_topology);
+> -- 
+> 2.28.0
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
