@@ -1,95 +1,96 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58D5C27740D
-	for <lists.iommu@lfdr.de>; Thu, 24 Sep 2020 16:33:17 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 141D687502;
-	Thu, 24 Sep 2020 14:33:16 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cYqTrxLUezFJ; Thu, 24 Sep 2020 14:33:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 31E84874F6;
-	Thu, 24 Sep 2020 14:33:14 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2A1B6C0051;
-	Thu, 24 Sep 2020 14:33:14 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D7E36C0051
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 14:33:12 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8352774E5
+	for <lists.iommu@lfdr.de>; Thu, 24 Sep 2020 17:09:57 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id C58182011A
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 14:33:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7496B2E10C;
+	Thu, 24 Sep 2020 15:09:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id LRawwa56CPXx; Thu, 24 Sep 2020 15:09:45 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 1CE3722882;
+	Thu, 24 Sep 2020 15:09:27 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E2DFCC0051;
+	Thu, 24 Sep 2020 15:09:26 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3AC49C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 15:02:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 299ED86B01
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 15:02:02 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1IxcsT0pM-ZD for <iommu@lists.linux-foundation.org>;
- Thu, 24 Sep 2020 14:33:09 +0000 (UTC)
+ with ESMTP id UbUuuGUPnpSp for <iommu@lists.linux-foundation.org>;
+ Thu, 24 Sep 2020 15:02:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
- [209.85.221.68])
- by silver.osuosl.org (Postfix) with ESMTPS id 64EA82D946
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 14:33:09 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id z4so4089528wrr.4
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 07:33:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=MsatcEHSQFvWMlRInUfKW6BCLff8AD73JZ7rX3OfMM8=;
- b=TwhIrp96H14uVN9tZJjHeh/CQnRq/CUna+Ngssh4dqKiMW/JzDn7qWsKs0QukCvMMc
- dI+GNseO9PoWBM39BHTD7grMnf32mYCdZP1RN4xmYVXaKr0/bc1qkJcOtUtVsEe8LDwa
- x9ZkcFgp3hp1LD4XIoJ/U2ZOZNF6TxcI8wZgZGh9yovlwufNL7rMEHPuXBqiyKOOWUXi
- 959w3EGjAfNBOkMrdckhZBrOhnLphzFca0gFXACDQBxvR7Ot7thQPcF8rTUHWsxXU179
- U8EUv+q2ZQk0y7EIXZsx/3xqLP66SCNeI9ZeiYFNdkOk7Xph2TU7AmfW2B2MCAnO0Nax
- MIug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=MsatcEHSQFvWMlRInUfKW6BCLff8AD73JZ7rX3OfMM8=;
- b=rNT1paqoQ9M4iTo/qcFL6Mybt/iaPFKArsvjs4PkemaAI8RW3k0qAzWd2y4RK3vZ3u
- EaaRVj9jvDn383xKr/3ydpEU7Hvm95UhaGf4yTJYEGatzEbwwxG292zz17W0GfYDOZfD
- Cc5nlqk/lJ02aVq1hP+nFlXIKYzi5jwPMfLHT7AvG8SHviicOcOapTkAF1fblQCPxzgs
- NlfnAfo6RBzjuZJ2pdZzM9wFfmVH2d7bk/KT5VDqRPuavBLZgQIt51//tWIBBCBirvUf
- Z2B/8rqGsGHeQDgXzPHSIUAS8mUikwU3tnlvwpkkzPXnho6aQ7dRFVfpncIKl4oOUkrJ
- btuA==
-X-Gm-Message-State: AOAM530IBsT6cwAjt2cBc6NCZYwkfR0ikEhR47ToO2OSG+PGACwFyqTN
- o3YyR9Mu2NhJt4EPKcMtZnY=
-X-Google-Smtp-Source: ABdhPJySTNV3Gh2SLKq9Es0zyjW1sXzUyxQ2vgtBS1NRxfkElGSkiJAlBOiHkgNOtsh9a3+kPF0Lpw==
-X-Received: by 2002:adf:f5c7:: with SMTP id k7mr84776wrp.246.1600957987713;
- Thu, 24 Sep 2020 07:33:07 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id i14sm3993711wro.96.2020.09.24.07.33.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Sep 2020 07:33:05 -0700 (PDT)
-Date: Thu, 24 Sep 2020 16:33:04 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: IOVA allocation dependency between firmware buffer and remaining
- buffers
-Message-ID: <20200924143304.GB2527337@ulmo>
-References: <CAEC9eQOX9BHX4v5aY2cfCT=T-ZHA7y0xF7aiZhW9xzG4fme36Q@mail.gmail.com>
- <CAEC9eQPaeF9=Li74x9RrSHyDgRZ6b653yBRu6EYsaU+eSj2wsQ@mail.gmail.com>
- <59cda41f-170c-a1ad-a345-bc38b9ed4d73@arm.com>
- <CGME20200424161534eucas1p29177cad5b4790d392acb69a335a3992e@eucas1p2.samsung.com>
- <CAOD6ATrWYLPT0ydz2vFhNwWhqHum_q_pyCe=oGJWOcEqjmNOqQ@mail.gmail.com>
- <11584d09-5995-6133-3bd3-8f7a0afd0e01@samsung.com>
- <20200924082830.GB27174@8bytes.org>
- <37e767b8-8ec4-ae80-ea0d-1caf3cdab8fa@samsung.com>
- <20200924101640.GE2483160@ulmo>
- <1451f2dc-b64f-e7df-f0fa-f4107e18ee35@samsung.com>
-MIME-Version: 1.0
-In-Reply-To: <1451f2dc-b64f-e7df-f0fa-f4107e18ee35@samsung.com>
-User-Agent: Mutt/1.14.7 (2020-08-29)
-Cc: jean-philippe@linaro.org, will@kernel.org, linux-mm@kvack.org,
- Linux IOMMU <iommu@lists.linux-foundation.org>,
- Ajay kumar <ajaynumb@gmail.com>, Shaik Ameer Basha <shaik.ameer@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, hch@lst.de
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2E06386B00
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 15:02:01 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OF062S123345;
+ Thu, 24 Sep 2020 15:00:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=cELzVuMzCPT3axjaAeiEoxE5gCcx4JGS/89qgFwwGjc=;
+ b=dJZAnOWHg7MuyRDw+xyXx9dYFAt67GAK28MGWTMHNeQaJuAAhC4nRWLIVbDvexjWcwga
+ kFyFy4k4gQBiv+DVLi+56UBgJtbn/H2TVUXcHkA0I17daxAXRcTjwkgQLCXhU+Dc3qxp
+ MQILaP4wqnAtRewoOW5OO5V2mZE0fX0FzNmmc5jTJ/LpElcZPCzlJY3pRLTVhVDTPxBB
+ tJeCzMJ1basCoNJHFwY8KQ+1ZGpfwIzsBQZf5l0PzS8ZEtUk8zC+FcvA3YMOw3agzOyI
+ BKtyddq9PRnrSTeLYDmAc4RxhlMuH2krmAcnjixiVhZejRV43sn5vs80uHNMdGXddzvg rQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2130.oracle.com with ESMTP id 33qcpu5qqj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 24 Sep 2020 15:00:12 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08OEu93S177146;
+ Thu, 24 Sep 2020 14:58:12 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 33r28x3vg9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 24 Sep 2020 14:58:12 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 08OEw7CH022535;
+ Thu, 24 Sep 2020 14:58:07 GMT
+Received: from disposition.us.oracle.com (/10.152.32.81)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 24 Sep 2020 07:58:07 -0700
+From: Ross Philipson <ross.philipson@oracle.com>
+To: linux-kernel@vger.kernel.org, x86@kernel.org,
+ iommu@lists.linux-foundation.org, linux-integrity@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: [PATCH 00/13] x86: Trenchboot secure dynamic launch Linux kernel
+ support
+Date: Thu, 24 Sep 2020 10:58:28 -0400
+Message-Id: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9753
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ mlxlogscore=999
+ suspectscore=0 adultscore=0 bulkscore=0 malwarescore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009240114
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9753
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxlogscore=999
+ adultscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ phishscore=0 spamscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009240115
+X-Mailman-Approved-At: Thu, 24 Sep 2020 15:09:23 +0000
+Cc: dpsmith@apertussolutions.com, ross.philipson@oracle.com,
+ luto@amacapital.net, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+ tglx@linutronix.de, trenchboot-devel@googlegroups.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,105 +103,180 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============5559351634925888515=="
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+The Trenchboot project focus on boot security has led to the enabling of
+the Linux kernel to be directly invocable by the x86 Dynamic Launch
+instruction(s) for establishing a Dynamic Root of Trust for Measurement
+(DRTM). The dynamic launch will be initiated by a boot loader with
+associated support added to it, for example the first targeted boot
+loader will be GRUB2. An integral part of establishing the DRTM involves
+measuring everything that is intended to be run (kernel image, initrd,
+etc) and everything that will configure that kernel to run (command
+line, boot params, etc) into specific PCRs, the DRTM PCRs (17-22), in
+the TPM. Another key aspect is the dynamic launch is rooted in hardware,
+that is to say the hardware (CPU) is what takes the first measurement
+for the chain of integrity measurements. On Intel this is done using
+the GETSEC instruction provided by Intel's TXT and the SKINIT
+instruction provided by AMD's AMD-V. Information on these technologies
+can be readily found online. This patchset introduces Intel TXT support.
 
---===============5559351634925888515==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="GID0FwUMdk1T2AWN"
-Content-Disposition: inline
+To enable the kernel to be launched by GETSEC, a stub must be built
+into the setup section of the compressed kernel to handle the specific
+state that the dynamic launch process leaves the BSP in. This is
+analogous to the EFI stub that is found in the same area. Also this stub
+must measure everything that is going to be used as early as possible.
+This stub code and subsequent code must also deal with the specific
+state that the dynamic launch leaves the APs in.
 
+A quick note on terminology. The larger open source project itself is
+called Trenchboot, which is hosted on Github (links below). The kernel
+feature enabling the use of the x86 technology is referred to as "Secure
+Launch" within the kernel code. As such the prefixes sl_/SL_ or
+slaunch/SLAUNCH will be seen in the code. The stub code discussed above
+is referred to as the SL stub.
 
---GID0FwUMdk1T2AWN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The basic flow is:
 
-On Thu, Sep 24, 2020 at 12:41:29PM +0200, Marek Szyprowski wrote:
-> Hi Thierry,
->=20
-> On 24.09.2020 12:16, Thierry Reding wrote:
-> > On Thu, Sep 24, 2020 at 10:46:46AM +0200, Marek Szyprowski wrote:
-> >> On 24.09.2020 10:28, Joerg Roedel wrote:
-> >>> On Wed, Sep 23, 2020 at 08:48:26AM +0200, Marek Szyprowski wrote:
-> >>>> It allows to remap given buffer at the specific IOVA address, althou=
-gh
-> >>>> it doesn't guarantee that those specific addresses won't be later us=
-ed
-> >>>> by the IOVA allocator. Probably it would make sense to add an API for
-> >>>> generic IOMMU-DMA framework to mark the given IOVA range as
-> >>>> reserved/unused to protect them.
-> >>> There is an API for that, the IOMMU driver can return IOVA reserved
-> >>> regions per device and the IOMMU core code will take care of mapping
-> >>> these regions and reserving them in the IOVA allocator, so that
-> >>> DMA-IOMMU code will not use it for allocations.
-> >>>
-> >>> Have a look at the iommu_ops->get_resv_regions() and
-> >>> iommu_ops->put_resv_regions().
-> >> I know about the reserved regions IOMMU API, but the main problem here,
-> >> in case of Exynos, is that those reserved regions won't be created by
-> >> the IOMMU driver but by the IOMMU client device. It is just a result h=
-ow
-> >> the media drivers manages their IOVA space. They simply have to load
-> >> firmware at the IOVA address lower than the any address of the used
-> >> buffers.
-> > I've been working on adding a way to automatically add direct mappings
-> > using reserved-memory regions parsed from device tree, see:
-> >
-> >      https://lore.kernel.org/lkml/20200904130000.691933-1-thierry.redin=
-g@gmail.com/
-> >
-> > Perhaps this can be of use? With that you should be able to add a
-> > reserved-memory region somewhere in the lower range that you need for
-> > firmware images and have that automatically added as a direct mapping
-> > so that it won't be reused later on for dynamic allocations.
->=20
-> Frankly, using that would be even bigger hack than what I've proposed in=
-=20
-> my workaround. I see no point polluting DT with such artificial regions=
-=20
-> just to ensure specific IOVA space layout.
+ - Entry from the dynamic launch jumps to the SL stub
+ - SL stub fixes up the world on the BSP
+ - For TXT, SL stub wakes the APs, fixes up their worlds
+ - For TXT, APs are left halted waiting for an NMI to wake them
+ - SL stub jumps to startup_32
+ - SL main runs to measure configuration and module information into the
+   DRTM PCRs. It also locates the TPM event log.
+ - Kernel boot proceeds normally from this point.
+ - During early setup, slaunch_setup() runs to finish some validation
+   and setup tasks.
+ - The SMP bringup code is modified to wake the waiting APs. APs vector
+   to rmpiggy and start up normally from that point.
+ - Kernel boot finishes booting normally
+ - SL securityfs module is present to allow reading and writing of the
+   TPM event log.
+ - SEXIT support to leave SMX mode is present on the kexec path and
+   the various reboot paths (poweroff, reset, halt).
 
-I think I misunderstood the requirements that you have. Sounds like
-there are no actual restrictions for where exactly the memory resides
-for the firmware, it just has to be lower than any of the buffer
-allocations. I agree, in that case using reserved memory regions does
-not make sense at all.
+Links:
 
-Thierry
+The Trenchboot project including documentation:
 
---GID0FwUMdk1T2AWN
-Content-Type: application/pgp-signature; name="signature.asc"
+https://github.com/trenchboot
 
------BEGIN PGP SIGNATURE-----
+Intel TXT is documented in its own specification and in the SDM Instruction Set volume:
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9srhwACgkQ3SOs138+
-s6Fc7g/6A2Cp3eZpcHF0cd3eW5gVBXB88kLcUUeD0VxSf5Iv2XUJESqQnWe/l8ok
-VL6RyHOFTBJYP85WadEyoGoeWfCCIqjTCRQ822jYCuDYyd9b+gbiPMgt9jpT+K9R
-0dyFGPQ+cGFpRyW0wAqEOS0aSXx3/CGkFaRYtKW2F8r0lzisjfkGB4FFAp1qMzsQ
-VCLt+fKrLGXJn6QGcAyoI5q9oQxQKdvMd3ezpMaLMig6zZRgXQXn/ozx0zUQBhmO
-WiOeQg3S8dBV1wxEH9IldweFBxo7DHCoIDp+n3UNpBIAYgfXeyFX90rZpqxC7oyB
-allMlErNm1yQNfKz6dt+cbnO9sujnL1jSEBVLp3LCpxNGxjKn7oIXXHL4k4v+HlD
-FpPgfjN4YR9Eb154uYQ6Vu68eDFce/iDLLEQU76o1kXapMRFl/r3KYij95sZPOe3
-KyqXN9h+MBOvcFCxXszm3bCl+bWZY+++duRd6fq8ipccjWTU61Dvz4/mtQaSIIS6
-u23k/dExNW719AqL/cTck0NnAHOSJZHwuiDOP2a8P1jPwzOeo26+tTQRoo/bLenC
-GpwZfonqUshLZtvxzQM4R0+OyApWBn+9CMyUKACnvc2Nj3o4drswpBtmMlvNHTv/
-rBAupHSkMW31kAEI7dsBUmEJbsrC3XEbSn0G45iu+oOpggYc6bc=
-=+L/4
------END PGP SIGNATURE-----
+https://www.intel.com/content/dam/www/public/us/en/documents/guides/intel-txt-software-development-guide.pdf
+https://software.intel.com/en-us/articles/intel-sdm
 
---GID0FwUMdk1T2AWN--
+AMD SKINIT is documented in the System Programming manual:
 
---===============5559351634925888515==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+https://www.amd.com/system/files/TechDocs/24593.pdf
+
+GRUB2 pre-launch support patchset (WIP):
+
+https://lists.gnu.org/archive/html/grub-devel/2020-05/msg00011.html
+
+Thanks
+Ross Philipson and Daniel P. Smith
+
+Daniel P. Smith (4):
+  x86: Add early TPM TIS/CRB interface support for Secure Launch
+  x86: Add early TPM1.2/TPM2.0 interface support for Secure Launch
+  x86: Add early general TPM interface support for Secure Launch
+  x86: Secure Launch adding event log securityfs
+
+Ross Philipson (9):
+  x86: Secure Launch Kconfig
+  x86: Secure Launch main header file
+  x86: Add early SHA support for Secure Launch early measurements
+  x86: Secure Launch kernel early boot stub
+  x86: Secure Launch kernel late boot stub
+  x86: Secure Launch SMP bringup support
+  kexec: Secure Launch kexec SEXIT support
+  reboot: Secure Launch SEXIT support on reboot paths
+  tpm: Allow locality 2 to be set when initializing the TPM for Secure
+    Launch
+
+ Documentation/x86/boot.rst                    |   9 +
+ arch/x86/Kconfig                              |  36 ++
+ arch/x86/boot/compressed/Makefile             |   8 +
+ arch/x86/boot/compressed/early_sha1.c         | 104 ++++
+ arch/x86/boot/compressed/early_sha1.h         |  17 +
+ arch/x86/boot/compressed/early_sha256.c       |   6 +
+ arch/x86/boot/compressed/early_sha512.c       |   6 +
+ arch/x86/boot/compressed/head_64.S            |  34 +
+ arch/x86/boot/compressed/kernel_info.S        |   7 +
+ arch/x86/boot/compressed/sl_main.c            | 390 ++++++++++++
+ arch/x86/boot/compressed/sl_stub.S            | 606 ++++++++++++++++++
+ arch/x86/boot/compressed/tpm/crb.c            | 304 +++++++++
+ arch/x86/boot/compressed/tpm/crb.h            |  20 +
+ arch/x86/boot/compressed/tpm/tis.c            | 215 +++++++
+ arch/x86/boot/compressed/tpm/tis.h            |  46 ++
+ arch/x86/boot/compressed/tpm/tpm.c            | 145 +++++
+ arch/x86/boot/compressed/tpm/tpm.h            |  48 ++
+ arch/x86/boot/compressed/tpm/tpm1.h           | 112 ++++
+ arch/x86/boot/compressed/tpm/tpm1_cmds.c      |  99 +++
+ arch/x86/boot/compressed/tpm/tpm2.h           |  89 +++
+ arch/x86/boot/compressed/tpm/tpm2_auth.c      |  44 ++
+ arch/x86/boot/compressed/tpm/tpm2_auth.h      |  21 +
+ arch/x86/boot/compressed/tpm/tpm2_cmds.c      | 145 +++++
+ arch/x86/boot/compressed/tpm/tpm2_constants.h |  66 ++
+ arch/x86/boot/compressed/tpm/tpm_buff.c       | 121 ++++
+ arch/x86/boot/compressed/tpm/tpm_common.h     | 127 ++++
+ arch/x86/boot/compressed/tpm/tpmbuff.h        |  34 +
+ arch/x86/boot/compressed/tpm/tpmio.c          |  51 ++
+ arch/x86/include/asm/realmode.h               |   3 +
+ arch/x86/kernel/Makefile                      |   1 +
+ arch/x86/kernel/asm-offsets.c                 |  16 +
+ arch/x86/kernel/reboot.c                      |  10 +
+ arch/x86/kernel/setup.c                       |   3 +
+ arch/x86/kernel/slaunch.c                     | 856 ++++++++++++++++++++++++++
+ arch/x86/kernel/smpboot.c                     |  86 +++
+ arch/x86/realmode/rm/header.S                 |   3 +
+ arch/x86/realmode/rm/trampoline_64.S          |  37 ++
+ drivers/char/tpm/tpm-chip.c                   |  13 +-
+ drivers/iommu/intel/dmar.c                    |   4 +
+ include/linux/sha512.h                        |  21 +
+ include/linux/slaunch.h                       | 544 ++++++++++++++++
+ kernel/kexec_core.c                           |   4 +
+ lib/sha1.c                                    |   4 +
+ lib/sha512.c                                  | 209 +++++++
+ 44 files changed, 4722 insertions(+), 2 deletions(-)
+ create mode 100644 arch/x86/boot/compressed/early_sha1.c
+ create mode 100644 arch/x86/boot/compressed/early_sha1.h
+ create mode 100644 arch/x86/boot/compressed/early_sha256.c
+ create mode 100644 arch/x86/boot/compressed/early_sha512.c
+ create mode 100644 arch/x86/boot/compressed/sl_main.c
+ create mode 100644 arch/x86/boot/compressed/sl_stub.S
+ create mode 100644 arch/x86/boot/compressed/tpm/crb.c
+ create mode 100644 arch/x86/boot/compressed/tpm/crb.h
+ create mode 100644 arch/x86/boot/compressed/tpm/tis.c
+ create mode 100644 arch/x86/boot/compressed/tpm/tis.h
+ create mode 100644 arch/x86/boot/compressed/tpm/tpm.c
+ create mode 100644 arch/x86/boot/compressed/tpm/tpm.h
+ create mode 100644 arch/x86/boot/compressed/tpm/tpm1.h
+ create mode 100644 arch/x86/boot/compressed/tpm/tpm1_cmds.c
+ create mode 100644 arch/x86/boot/compressed/tpm/tpm2.h
+ create mode 100644 arch/x86/boot/compressed/tpm/tpm2_auth.c
+ create mode 100644 arch/x86/boot/compressed/tpm/tpm2_auth.h
+ create mode 100644 arch/x86/boot/compressed/tpm/tpm2_cmds.c
+ create mode 100644 arch/x86/boot/compressed/tpm/tpm2_constants.h
+ create mode 100644 arch/x86/boot/compressed/tpm/tpm_buff.c
+ create mode 100644 arch/x86/boot/compressed/tpm/tpm_common.h
+ create mode 100644 arch/x86/boot/compressed/tpm/tpmbuff.h
+ create mode 100644 arch/x86/boot/compressed/tpm/tpmio.c
+ create mode 100644 arch/x86/kernel/slaunch.c
+ create mode 100644 include/linux/sha512.h
+ create mode 100644 include/linux/slaunch.h
+ create mode 100644 lib/sha512.c
+
+-- 
+1.8.3.1
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============5559351634925888515==--
