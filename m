@@ -1,70 +1,99 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 661A9276D98
-	for <lists.iommu@lfdr.de>; Thu, 24 Sep 2020 11:36:58 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D8F276D9E
+	for <lists.iommu@lfdr.de>; Thu, 24 Sep 2020 11:38:32 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C89FC2E0F2;
-	Thu, 24 Sep 2020 09:36:56 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4ABF386508;
+	Thu, 24 Sep 2020 09:38:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QY2Qy16FmILo; Thu, 24 Sep 2020 09:36:55 +0000 (UTC)
+	with ESMTP id vXIB2bLTwJJN; Thu, 24 Sep 2020 09:38:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 20C3C2E0F1;
-	Thu, 24 Sep 2020 09:36:55 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6460D80863;
+	Thu, 24 Sep 2020 09:38:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F1165C0051;
-	Thu, 24 Sep 2020 09:36:54 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4C2C3C0859;
+	Thu, 24 Sep 2020 09:38:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 35664C0051
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 09:36:53 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 80857C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 09:38:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 23AA386B9D
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 09:36:53 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 75985874BB
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 09:38:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id es4UKLfqMr5X for <iommu@lists.linux-foundation.org>;
- Thu, 24 Sep 2020 09:36:52 +0000 (UTC)
+ with ESMTP id ihrQWVFk7Pav for <iommu@lists.linux-foundation.org>;
+ Thu, 24 Sep 2020 09:38:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by whitealder.osuosl.org (Postfix) with ESMTP id 3C59086B9C
- for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 09:36:52 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9AFC911D4;
- Thu, 24 Sep 2020 02:36:51 -0700 (PDT)
-Received: from [10.57.48.76] (unknown [10.57.48.76])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0343E3F73B;
- Thu, 24 Sep 2020 02:36:48 -0700 (PDT)
-Subject: Re: arm-smmu 5000000.iommu: Cannot accommodate DMA offset for IOMMU
- page tables
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 60B2A872D6
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 09:38:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1600940303;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GQMLt7r4p28L0sSJJPMjF6juRbduNigBdA5Pg+z0Rro=;
+ b=WoTtA2E2mX+8s1wtC8/nTjHU/aDj88CpLWVhtWoLxMm+K6oeYehARwUpm0kVgWA6yi//e+
+ 2laNguNMYzYrlLKPWg6nzU7Xz7tvXji7nHGTdTpZ4YyL81w/L2qu6HEZZk0GWyilLA/D1D
+ 9Sbg2nRGUNjDfz0pLYVZZg1tOOohktk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-98-F2AIbOEHPcKjzsXmVmGUqA-1; Thu, 24 Sep 2020 05:38:19 -0400
+X-MC-Unique: F2AIbOEHPcKjzsXmVmGUqA-1
+Received: by mail-wm1-f71.google.com with SMTP id x6so1024312wmi.1
+ for <iommu@lists.linux-foundation.org>; Thu, 24 Sep 2020 02:38:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=GQMLt7r4p28L0sSJJPMjF6juRbduNigBdA5Pg+z0Rro=;
+ b=Tj3STBFZWwfG2N7a1PDkjlXP8sWyXt1IE38a96yzyqILymGkBEFTEKVMffHxGW0HEK
+ 8Zf412SR+dHgtCSBGbBxPQXLhJqjlJsmFi+PMeRdXwp4A0R8uQi4n5Adx3avFcPt71ZW
+ 86DtzuvHLkbGXA5VPt+fgy9q4NI4URbfMkoQykDBJcJish6cyXcFHkZLAE4LQBekx7Ev
+ ECRILgLj+3Wuj5AaRFNzy0LifNb5HNWmewFiGVyHrq335uuaxhppdGHkefZagf9P6+dT
+ 2ndI+DTATysQfii6kCjjERhCjH8WB45esxcJL+HHQkgSiz1WtTSFLCWIdiDGjkEz11Cg
+ xiNQ==
+X-Gm-Message-State: AOAM532kZTK0bGWkDHZeWiGIStoQWhLeI6C+h4iLCcqJmt57WyYhqFqy
+ Io2SS73npqzLp+blvn6En4aNsPGBtUKZ0uHBI+Zm2BOoGj7ABl75HuCQzV7iak+rXRg9WLkxO7x
+ x6pmoqFBYpLmT1UAu7xSL7PONTUAGHQ==
+X-Received: by 2002:a5d:568d:: with SMTP id f13mr4007444wrv.303.1600940298005; 
+ Thu, 24 Sep 2020 02:38:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxNfu1dfe6iZYDmyztM8WdEywh/avjWGmq3NjwJSF1cAVd6SUgRkwNdlaUiQJUtrdpjEEYZSA==
+X-Received: by 2002:a5d:568d:: with SMTP id f13mr4007413wrv.303.1600940297782; 
+ Thu, 24 Sep 2020 02:38:17 -0700 (PDT)
+Received: from redhat.com (bzq-79-179-71-128.red.bezeqint.net. [79.179.71.128])
+ by smtp.gmail.com with ESMTPSA id c205sm2730814wmd.33.2020.09.24.02.38.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 24 Sep 2020 02:38:16 -0700 (PDT)
+Date: Thu, 24 Sep 2020 05:38:13 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Joerg Roedel <joro@8bytes.org>
-References: <CA+G9fYvuq58q+GsWnzni0sKSHbubuQz-UaK3TASX26V_a7yBVw@mail.gmail.com>
- <20200924090349.GF27174@8bytes.org>
- <ecf71b34-a104-d42a-bfcd-9570e73520a7@arm.com>
- <20200924092546.GJ27174@8bytes.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <e2186418-d4d6-e1f4-5eb4-3bfafb5cebb2@arm.com>
-Date: Thu, 24 Sep 2020 10:36:47 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+Subject: Re: [PATCH v3 0/6] Add virtio-iommu built-in topology
+Message-ID: <20200924053159-mutt-send-email-mst@kernel.org>
+References: <20200821131540.2801801-1-jean-philippe@linaro.org>
+ <ab2a1668-e40c-c8f0-b77b-abadeceb4b82@redhat.com>
+ <20200924045958-mutt-send-email-mst@kernel.org>
+ <20200924092129.GH27174@8bytes.org>
 MIME-Version: 1.0
-In-Reply-To: <20200924092546.GJ27174@8bytes.org>
-Content-Language: en-GB
-Cc: Poonam Aggrwal <poonam.aggrwal@nxp.com>, robh@kernel.org,
- Joerg Roedel <jroedel@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- Richard Weinberger <richard@nod.at>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- open list <linux-kernel@vger.kernel.org>, lkft-triage@lists.linaro.org,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Linux-Next Mailing List <linux-next@vger.kernel.org>,
- linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- Suram Suram <suram@nxp.com>, masonccyang@mxic.com.tw,
- Will Deacon <will@kernel.org>, Zhiqiang.Hou@nxp.com
+In-Reply-To: <20200924092129.GH27174@8bytes.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+Cc: virtio-dev@lists.oasis-open.org, kevin.tian@intel.com,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, linux-pci@vger.kernel.org,
+ jasowang@redhat.com, virtualization@lists.linux-foundation.org,
+ iommu@lists.linux-foundation.org, sebastien.boeuf@intel.com,
+ bhelgaas@google.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,26 +106,49 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-09-24 10:25, Joerg Roedel wrote:
-> Hi Robin,
+On Thu, Sep 24, 2020 at 11:21:29AM +0200, Joerg Roedel wrote:
+> On Thu, Sep 24, 2020 at 05:00:35AM -0400, Michael S. Tsirkin wrote:
+> > OK so this looks good. Can you pls repost with the minor tweak
+> > suggested and all acks included, and I will queue this?
 > 
-> On Thu, Sep 24, 2020 at 10:08:46AM +0100, Robin Murphy wrote:
->> This should be fixed by https://lore.kernel.org/linux-iommu/daedc9364a19dc07487e4d07b8768b1e5934abd4.1600700881.git.robin.murphy@arm.com/T/#u
->> (already in linux-next).
+> My NACK still stands, as long as a few questions are open:
 > 
-> Thanks! The question remains why this goes through the dma-mapping tree,
-> was it caused by a patch there?
+> 	1) The format used here will be the same as in the ACPI table? I
+> 	   think the answer to this questions must be Yes, so this leads
+> 	   to the real question:
 
-Yes, the issue was introduced by one of the changes in "dma-mapping: 
-introduce DMA range map, supplanting dma_pfn_offset", so it only existed 
-in the dma-mapping/for-next branch anyway.
+I am not sure it's a must.
+We can always tweak the parser if there are slight differences
+between ACPI and virtio formats.
 
-Robin.
+But we do want the virtio format used here to be approved by the virtio
+TC, so it won't change.
+
+Eric, Jean-Philippe, does one of you intend to create a github issue
+and request a ballot for the TC? It's been posted end of August with no
+changes ...
+
+> 	2) Has the ACPI table format stabalized already? If and only if
+> 	   the answer is Yes I will Ack these patches. We don't need to
+> 	   wait until the ACPI table format is published in a
+> 	   specification update, but at least some certainty that it
+> 	   will not change in incompatible ways anymore is needed.
+> 
+
+Not that I know, but I don't see why it's a must.
+
+> So what progress has been made with the ACPI table specification, is it
+> just a matter of time to get it approved or are there concerns?
+> 
+> Regards,
+> 
+> 	Joerg
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
