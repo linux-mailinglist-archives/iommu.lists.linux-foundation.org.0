@@ -1,97 +1,120 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225752789FE
-	for <lists.iommu@lfdr.de>; Fri, 25 Sep 2020 15:52:59 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E62C278A83
+	for <lists.iommu@lfdr.de>; Fri, 25 Sep 2020 16:12:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B34B386DBD;
-	Fri, 25 Sep 2020 13:52:57 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 09493875D3;
+	Fri, 25 Sep 2020 14:12:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TFt53fwSu34b; Fri, 25 Sep 2020 13:52:57 +0000 (UTC)
+	with ESMTP id hoKfGjNBDbTv; Fri, 25 Sep 2020 14:12:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 08DAA86DBC;
-	Fri, 25 Sep 2020 13:52:57 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8DD34875ED;
+	Fri, 25 Sep 2020 14:12:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DC0A6C0051;
-	Fri, 25 Sep 2020 13:52:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8880FC0859;
+	Fri, 25 Sep 2020 14:12:39 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2D83EC0051
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 13:52:55 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D788DC0859
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 14:12:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1C7D386C3E
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 13:52:55 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id C900286DCA
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 14:12:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fYszweIV1Zbh for <iommu@lists.linux-foundation.org>;
- Fri, 25 Sep 2020 13:52:54 +0000 (UTC)
+ with ESMTP id 7JcGRXZtYNaD for <iommu@lists.linux-foundation.org>;
+ Fri, 25 Sep 2020 14:12:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
- [209.85.167.66])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id F310586C35
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 13:52:53 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id 77so2916728lfj.0
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 06:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lVuxNTWKiK7ZzebA+S325g8VsDZU2WkHa9Rw4/y6Yh4=;
- b=pTIzvOQJ8QsKu3mgWbzEEJ3JvOe2YMiNzgtvwsVqRK+mV3ahvoDKYbpJT7+dM8teuu
- 7OlanG3JLRYT4r1cr8toZ9gME34gWzYaeiq2BuJMZJa1zg2It+40BhM0QLZEYQnZH15o
- wi3oY4UJLTUOFH88dnU1eKZzuDmll8ulFuNG+F+5D7K9m/MYsLbVusZYDAy/CgyrxOY1
- cgTBxpATSlDm+7r/r3nHGgaZmdyy+QVeOWfyZZhGiY/OB5Z2a1fnjqq1RRTpVMyf0Q4z
- SWaSJO4N5YKvnIEZJRAlp5wImESRxxOWHP5M1RL/CLSluvNJ5DKubuXX7Uiz+CFpj9A4
- 2iHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lVuxNTWKiK7ZzebA+S325g8VsDZU2WkHa9Rw4/y6Yh4=;
- b=P+aytjDOl2rDhCHt5bzIvDhE5MiRPLRl9LyZu4ogObscujfviDgiVKvqLtAqS8E6K2
- Hu+GyxiVFCn3b6qetVc9T8iP4XPzbuTWY+9tAMV1rLUNPGbKUQU59wAQUmyZEqSwt6hX
- gXUPwTyGzZ06bW8ekEixocHKgb9Ojpbju2xOvUrTws1JCvMzJDD2CkZ0A8nFUswTU8/b
- fq0lolGT0Wl48Q6wTXIMSfV5T4T6gXH1k4fY8bs3swAPCq0JG8WI2wH0izHNXUk0sw1S
- I4Mt+qn0PBnIQIBIqZ2s5SOfTyJwLA/bV5Ux4cJ2javsewz0gzfljAlSexMAv8bn7tw9
- jEkQ==
-X-Gm-Message-State: AOAM532FR9psOPFkphnnCWQlYeYn8XWDv9kYlFYEyJc6tbzzTuhe5wg3
- 81q90dnk5l2Kc1KtaSsv2MA=
-X-Google-Smtp-Source: ABdhPJyDzk4d7CznX8Ks8Mm705Zqxc2zjQZQizPGHHFGmcHoZL/BsmhhRSbIGQIQRkv2RxGZsm0fZA==
-X-Received: by 2002:a05:6512:3e8:: with SMTP id
- n8mr1380475lfq.492.1601041971979; 
- Fri, 25 Sep 2020 06:52:51 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
- [109.252.170.211])
- by smtp.googlemail.com with ESMTPSA id n18sm2342159lfe.7.2020.09.25.06.52.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Sep 2020 06:52:51 -0700 (PDT)
-Subject: Re: [PATCH v2 1/4] dt-bindings: reserved-memory: Document "active"
- property
-To: Robin Murphy <robin.murphy@arm.com>,
- Thierry Reding <thierry.reding@gmail.com>
-References: <20200904130000.691933-1-thierry.reding@gmail.com>
- <d3d69cb4-b0f9-40b0-b526-52fdc1a4b876@gmail.com>
- <20200924140130.GA2527337@ulmo>
- <ba16b795-34df-8f8c-3376-3d629cc30f8b@gmail.com>
- <484b9e90-7395-6161-577c-4d3f3716997e@arm.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4f35bf17-a354-6ffb-fd4a-063027d83ccc@gmail.com>
-Date: Fri, 25 Sep 2020 16:52:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <484b9e90-7395-6161-577c-4d3f3716997e@arm.com>
-Content-Language: en-US
-Cc: devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Rob Herring <robh+dt@kernel.org>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- Will Deacon <will@kernel.org>
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id BB21586DBC
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 14:12:33 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200925141231euoutp0276e5a8413a78b88c3920a01bf4e787da~4DEOKNBqi0695406954euoutp02D
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 14:12:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200925141231euoutp0276e5a8413a78b88c3920a01bf4e787da~4DEOKNBqi0695406954euoutp02D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1601043151;
+ bh=wGeLbKboFdr/tqZI1Rt5Qegc3ri464oOUQrZYBxud1M=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=KiBRQVTJ6mQFMIF5amxeSuZpZrnOqccS+kD1p5Lpb1lqWaYcPMCQA8NQ+kxeKp7W5
+ yYPU0z9XUpqCRfMMQsHtez26upki+etsRfnVDCDBBKVsK8Blm85EmgL+a+2Gzi7xPr
+ XfzJE/k4HuaS8hB+PlVnQBncF5yfdGee/86nTyjo=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200925141231eucas1p16b578c2724139227149654a5732434db~4DENyDIBX1940019400eucas1p1Y;
+ Fri, 25 Sep 2020 14:12:31 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 65.D3.06318.FCAFD6F5; Fri, 25
+ Sep 2020 15:12:31 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200925141230eucas1p1b4bb8a7e17a887c6ca6a7b8caa7cf9c7~4DENPSaKn2129921299eucas1p1U;
+ Fri, 25 Sep 2020 14:12:30 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20200925141230eusmtrp203f60fb1015cc87490a4e60dc0a5d363~4DENOmj6i2568825688eusmtrp2E;
+ Fri, 25 Sep 2020 14:12:30 +0000 (GMT)
+X-AuditID: cbfec7f5-371ff700000018ae-73-5f6dfacfc028
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id ED.39.06314.ECAFD6F5; Fri, 25
+ Sep 2020 15:12:30 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200925141230eusmtip17224b43806866ba6215d9dde1cfddbe4~4DEMrufQ11697816978eusmtip14;
+ Fri, 25 Sep 2020 14:12:30 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: Linux IOMMU <iommu@lists.linux-foundation.org>,
+ linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: [PATCH 0/8] IOMMU-DMA - support old allocation algorithm used on ARM
+Date: Fri, 25 Sep 2020 16:12:10 +0200
+Message-Id: <20200925141218.13550-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKKsWRmVeSWpSXmKPExsWy7djPc7rnf+XGGyxayGexccZ6VouVq48y
+ WSzYb23ROXsDu8X580Di8q45bBY9G7ayWsw4v4/JYu2Ru+wWBz88YbVof/qS2eJz6z82Bx6P
+ JwfnMXmsmbeG0WN2w0UWj02rOtk8Jt9Yzuix+2YDm0ffllWMHp83yQVwRHHZpKTmZJalFunb
+ JXBldJz0LvglWrHuZSNjA+MnwS5GTg4JAROJ2fOWsHQxcnEICaxglHh49CiU84VR4u7y00wQ
+ zmdGiQsbvjPCtDybNB8qsZxRounHfka4lisT37CDVLEJGEp0ve1i62Lk4BARKJFYdoIPpIZZ
+ 4AmTxJ6/C5lAaoQF/CVeNEwAs1kEVCX6D59nBbF5BWwlLn3aALVNXmL1hgPMEHY3u8TUTnMI
+ 20Wi6xFMXFji1fEt7BC2jMT/nRDXSQg0Az10bi07hNPDKHG5aQbUVGuJO+d+gV3HLKApsX6X
+ PkTYUeLT16/MIGEJAT6JG2/BgcQMZE7aNh0qzCvR0SYEUa0mMev4Ori1By9cgjrHQ+LDlb9g
+ bwkJxEq82NHAPIFRbhbCrgWMjKsYxVNLi3PTU4uN81LL9YoTc4tL89L1kvNzNzECE8vpf8e/
+ 7mDc9yfpEKMAB6MSD++JR7nxQqyJZcWVuYcYJTiYlUR4nc6ejhPiTUmsrEotyo8vKs1JLT7E
+ KM3BoiTOa7zoZayQQHpiSWp2ampBahFMlomDU6qB0eW61deXS75Hnn57lds/Zm9WSkVS8jGB
+ N4JPL++0+hIvdCU3fs6aHKX4f/1Vq54pRqquDqz9KTxdQeLP4jzNb8m6s25I8J5MfNPnf3vR
+ ZpUlDywSWj2fLLlS1bdIuORSh2jUV5P2U2VtZfsfN33ze8X4s2Hak0MbRXI4d8jsMzq7Vsjo
+ y4m5q5VYijMSDbWYi4oTAaVB8GsoAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNLMWRmVeSWpSXmKPExsVy+t/xu7rnfuXGG2y9pGmxccZ6VouVq48y
+ WSzYb23ROXsDu8X580Di8q45bBY9G7ayWsw4v4/JYu2Ru+wWBz88YbVof/qS2eJz6z82Bx6P
+ JwfnMXmsmbeG0WN2w0UWj02rOtk8Jt9Yzuix+2YDm0ffllWMHp83yQVwROnZFOWXlqQqZOQX
+ l9gqRRtaGOkZWlroGZlY6hkam8daGZkq6dvZpKTmZJalFunbJehldJz0LvglWrHuZSNjA+Mn
+ wS5GTg4JAROJZ5PmM3UxcnEICSxllFh8+wk7REJG4uS0BlYIW1jiz7UuNhBbSOATo8SnBmYQ
+ m03AUKLrLURcRKBMouPKVmaQQcwCb5gk7r76ATZIWMBX4uT1VYwgNouAqkT/4fNgQ3kFbCUu
+ fdrACLFAXmL1hgPMExh5FjAyrGIUSS0tzk3PLTbUK07MLS7NS9dLzs/dxAgM6G3Hfm7ewXhp
+ Y/AhRgEORiUe3hOPcuOFWBPLiitzDzFKcDArifA6nT0dJ8SbklhZlVqUH19UmpNafIjRFGj5
+ RGYp0eR8YLTllcQbmhqaW1gamhubG5tZKInzdggcjBESSE8sSc1OTS1ILYLpY+LglGpgnNJw
+ dJPr22lxm64ei08rSDO7OrFA7HYlN0vPvLhIZ9HKJ1Ois//vurvhP/PRSPYgG7X++Pys3uk7
+ p7kW2yx3e3peaTPPpZsiJtri+56u/nbaY5aoz/J7T+U/nE210kurYN3HtOnxqau7ahf9ymj1
+ TApjMtokbdX0dIVDtLqUoEVkVvuHBbwvlFiKMxINtZiLihMBp9SQTX4CAAA=
+X-CMS-MailID: 20200925141230eucas1p1b4bb8a7e17a887c6ca6a7b8caa7cf9c7
+X-Msg-Generator: CA
+X-RootMTR: 20200925141230eucas1p1b4bb8a7e17a887c6ca6a7b8caa7cf9c7
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200925141230eucas1p1b4bb8a7e17a887c6ca6a7b8caa7cf9c7
+References: <CGME20200925141230eucas1p1b4bb8a7e17a887c6ca6a7b8caa7cf9c7@eucas1p1.samsung.com>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Sylwester Nawrocki <snawrocki@kernel.org>, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzk@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,57 +127,78 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-MjUuMDkuMjAyMCAxNTozOSwgUm9iaW4gTXVycGh5INC/0LjRiNC10YI6Ci4uLgo+PiBZZXMsIG15
-IHVuZGVyc3RhbmRpbmcgdGhhdCB0aGlzIGlzIHdoYXQgUm9iaW4gc3VnZ2VzdGVkIGhlcmU6Cj4+
-Cj4+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LWlvbW11L2NiMTI4MDhiLTczMTYtMTlk
-Yi03NDEzLWI3Zjg1MmE2ZjhhZUBhcm0uY29tLwo+Pgo+IAo+IEp1c3QgdG8gY2xhcmlmeSwgd2hh
-dCBJIHdhcyB0YWxraW5nIGFib3V0IHRoZXJlIGlzIGxhcmdlbHkgb3J0aG9nb25hbCB0bwo+IHRo
-ZSBpc3N1ZSBoZXJlLiBUaGF0IHdhcyBhYm91dCBzeXN0ZW1zIHdpdGggbGltaXRlZCB0cmFuc2xh
-dGlvbgo+IHJlc291cmNlcyBsZXR0aW5nIHRyYW5zbGF0aW9uIGJlIHNwZWNpZmljYWxseSBvcHQt
-aW4gYnkgSU9NTVUtYXdhcmUKPiBkcml2ZXJzLiBJdCBwcm9iYWJseSAqd291bGQqIGhhcHBlbiB0
-byBvYnZpYXRlIHRoZSBpc3N1ZSBvZiBkaXNydXB0aW5nCj4gbGl2ZSBETUEgYXQgYm9vdCB0aW1l
-IG9uIHRoZXNlIHBhcnRpY3VsYXIgVGVncmEgcGxhdGZvcm1zLCBidXQgd2Ugc3RpbGwKPiBuZWVk
-IHNvbWV0aGluZyBsaWtlIFRoaWVycnkncyBzb2x1dGlvbiBpbiBnZW5lcmFsLCBzaW5jZSBJT01N
-VSBkcml2ZXJzCj4gbWF5IGhhdmUgbm8gb3RoZXIgd2F5IHRvIGRldGVybWluZSB3aGV0aGVyIGRl
-dmljZXMgYXJlIGFjdGl2ZSBhdCBib290Cj4gYW5kIHRoZXkgaGF2ZSB0byB0YWtlIGNhcmUgdG8g
-YXZvaWQgYnJlYWtpbmcgYW55dGhpbmcgLSBlLmcuIFNNTVV2MyB3aWxsCj4gYXQgYSBiYXJlIG1p
-bmltdW0gbmVlZCB0byBzZXQgdXAgKnNvbWUqIGZvcm0gb2YgdmFsaWQgc3RyZWFtIHRhYmxlIGVu
-dHJ5Cj4gZm9yIHRoZSByZWxldmFudCBkZXZpY2UocykgcmlnaHQgYXQgdGhlIGJlZ2lubmluZyB3
-aGVyZSB3ZSBmaXJzdCBwcm9iZQo+IGFuZCByZXNldCB0aGUgU01NVSBpdHNlbGYsIHJlZ2FyZGxl
-c3Mgb2Ygd2hhdCBoYXBwZW5zIHdpdGggZG9tYWlucyBhbmQKPiBhZGRyZXNzZXMgbGF0ZXIgZG93
-biB0aGUgbGluZS4KClllcywgSSBvbmx5IG1lYW50IHRoYXQgeW91cnMgc3VnZ2VzdGlvbiBhbHNv
-IHNob3VsZCBiZSB1c2VmdWwgaGVyZS4KQW55d2F5cywgdGhhbmsgeW91IGZvciB0aGUgY2xhcmlm
-aWNhdGlvbiA6KQoKSSBhZ3JlZSB0aGF0IHRoZSBUaGllcnJ5J3MgcHJvcG9zYWwgaXMgZ29vZCEg
-QnV0IGl0IG5lZWRzIHNvbWUgbW9yZQp0aG91Z2h0IHlldCBiZWNhdXNlIGl0J3Mgbm90IHZlcnkg
-YXBwbGljYWJsZSB0byB0aGUgY3VycmVudCBkZXZpY2VzLgoKPj4+IFRoZSBwcmltYXJ5IGdvYWwg
-aGVyZSBpcyB0byBtb3ZlIHRvd2FyZHMgdXNpbmcgdGhlIERNQSBBUEkgcmF0aGVyIHRoYW4KPj4+
-IHRoZSBJT01NVSBBUEkgZGlyZWN0bHksIHNvIHdlIGRvbid0IHJlYWxseSBoYXZlIHRoZSBvcHRp
-b24gb2YgcmVwbGFjaW5nCj4+PiB3aXRoIGFuIGV4cGxpY2l0bHkgY3JlYXRlZCBkb21haW4uIFVu
-bGVzcyB3ZSBoYXZlIGNvZGUgaW4gdGhlIERNQS9JT01NVQo+Pj4gY29kZSB0aGF0IGRvZXMgdGhp
-cyBzb21laG93Lgo+Pj4KPj4+IEJ1dCBJJ20gbm90IHN1cmUgd2hhdCB3b3VsZCBiZSBhIGdvb2Qg
-d2F5IHRvIG1hcmsgY2VydGFpbiBkZXZpY2VzIGFzCj4+PiBuZWVkaW5nIGFuIGlkZW50aXR5IGRv
-bWFpbiBieSBkZWZhdWx0LiBEbyB3ZSBzdGlsbCB1c2UgdGhlIHJlc2VydmVkLQo+Pj4gbWVtb3J5
-IG5vZGUgZm9yIHRoYXQ/Cj4+Cj4+IFRoZSByZXNlcnZlZC1tZW1vcnkgaW5kZWVkIHNob3VsZG4n
-dCBiZSBuZWVkZWQgZm9yIHJlc29sdmluZyB0aGUKPj4gaW1wbGljaXQgSU9NTVUgcHJvYmxlbSBz
-aW5jZSB3ZSBjb3VsZCBtYXJrIGNlcnRhaW4gZGV2aWNlcyB3aXRoaW4gdGhlCj4+IGtlcm5lbCBJ
-T01NVSBkcml2ZXIuCj4+Cj4+IEkgaGF2ZW4ndCBnb3QgYXJvdW5kIHRvIHRyeWluZyB0byBpbXBs
-ZW1lbnQgdGhlIGltcGxpY2l0IElPTU1VIHN1cHBvcnQKPj4geWV0LCBidXQgSSBzdXBwb3NlIHdl
-IGNvdWxkIGltcGxlbWVudCB0aGUgZGVmX2RvbWFpbl90eXBlKCkgaG9vayBpbiB0aGUKPj4gU01N
-VSBkcml2ZXIgYW5kIHRoZW4gcmV0dXJuIElPTU1VX0RPTUFJTl9JREVOVElUWSBmb3IgdGhlIERp
-c3BsYXkvVkRFCj4+IGRldmljZXMuIFRoZW4gdGhlIERpc3BsYXkvVkRFIGRyaXZlcnMgd2lsbCB0
-YWtlIG92ZXIgdGhlIGlkZW50aXR5IGRvbWFpbgo+PiBhbmQgcmVwbGFjZSBpdCB3aXRoIHRoZSBl
-eHBsaWNpdCBkb21haW4uCj4gCj4gRldJVyBJJ3ZlIGFscmVhZHkgY29va2VkIHVwIGlkZW50aXR5
-IGRvbWFpbiBzdXBwb3J0IGZvciB0ZWdyYS1nYXJ0OyBJCj4gd2FzIHBsYW5uaW5nIG9uIHRhY2ts
-aW5nIGl0IGZvciB0ZWdyYS1zbW11IGFzIHdlbGwgZm9yIHRoZSBuZXh0IHZlcnNpb24KPiBvZiBt
-eSBhcm0gZGVmYXVsdCBkb21haW5zIHNlcmllcyAod2hpY2ggd2lsbCBiZSBhZnRlciB0aGUgbmV4
-dCAtcmMxIG5vdwo+IHNpbmNlIEknbSBqdXN0IGFib3V0IHRvIHRha2Ugc29tZSBsb25nLW92ZXJk
-dWUgaG9saWRheSkuCgpWZXJ5IG5pY2UhIE1heWJlIHdlIHdpbGwgaGF2ZSBzb21lIG1vcmUgZm9v
-ZCBmb3IgdGhlIGRpc2N1c3Npb24gYnkgdGhlCnRpbWUgeW91J2xsIHJldHVybi4gSGF2ZSBhIGdv
-b2QgdGltZSEKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-aW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBz
-Oi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+Hi,
+
+This patchset is a continuation of the planned rework of the ARM
+IOMMU/DMA-mapping code proposed by Robin Murphy in [1]. However, there
+are drivers (for example S5P-MFC and Exynos4-IS) which depend on the way
+the old ARM IOMMU/DMA-mapping glue code worked (it used 'first-fit' IOVA
+allocation algorithm), so before switching ARM to the generic code, such
+drivers have to be updated.
+
+This patchset provides the needed extensions to the generic IOMMU-DMA
+framework to enable support for the drivers that relied on the old ARM
+IOMMU/DMA-mapping behavior. This patchset is based on the idea proposed
+by Robin Murphy in [2] after the discussion of the workaround implemented
+directly in the mentioned drivers [3].
+
+Here is a git branch with this patchset and [1] patches applied on top of
+linux next-20200925:
+https://github.com/mszyprow/linux/tree/v5.9-next-20200925-arm-dma-iommu-low-address
+
+Best regards,
+Marek Szyprowski
+
+
+References:
+
+[1] https://lore.kernel.org/lkml/cover.1597931875.git.robin.murphy@arm.com/
+[2] https://lore.kernel.org/linux-iommu/bff57cbe-2247-05e1-9059-d9c66d64c407@arm.com/
+[3] https://lore.kernel.org/linux-samsung-soc/20200918144833.14618-1-m.szyprowski@samsung.com/T/
+
+
+Patch summary:
+
+Marek Szyprowski (8):
+  dma-mapping: add DMA_ATTR_LOW_ADDRESS attribute
+  iommu: iova: properly handle 0 as a valid IOVA address
+  iommu: iova: add support for 'first-fit' algorithm
+  iommu: dma-iommu: refactor iommu_dma_alloc_iova()
+  iommu: dma-iommu: add support for DMA_ATTR_LOW_ADDRESS
+  media: platform: exynos4-is: remove all references to physicall
+    addresses
+  media: platform: exynos4-is: use DMA_ATTR_LOW_ADDRESS
+  media: platform: s5p-mfc: use DMA_ATTR_LOW_ADDRESS
+
+ drivers/iommu/dma-iommu.c                     | 79 ++++++++++++-----
+ drivers/iommu/intel/iommu.c                   | 12 +--
+ drivers/iommu/iova.c                          | 88 ++++++++++++++++++-
+ .../media/platform/exynos4-is/fimc-capture.c  |  6 +-
+ drivers/media/platform/exynos4-is/fimc-core.c | 28 +++---
+ drivers/media/platform/exynos4-is/fimc-core.h | 18 ++--
+ drivers/media/platform/exynos4-is/fimc-is.c   | 23 ++---
+ drivers/media/platform/exynos4-is/fimc-is.h   |  6 +-
+ .../media/platform/exynos4-is/fimc-lite-reg.c |  4 +-
+ drivers/media/platform/exynos4-is/fimc-lite.c |  2 +-
+ drivers/media/platform/exynos4-is/fimc-lite.h |  4 +-
+ drivers/media/platform/exynos4-is/fimc-m2m.c  |  8 +-
+ drivers/media/platform/exynos4-is/fimc-reg.c  | 18 ++--
+ drivers/media/platform/exynos4-is/fimc-reg.h  |  4 +-
+ drivers/media/platform/s5p-mfc/s5p_mfc.c      |  8 +-
+ include/linux/dma-mapping.h                   |  6 ++
+ include/linux/iova.h                          |  4 +
+ 17 files changed, 221 insertions(+), 97 deletions(-)
+
+-- 
+2.17.1
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
