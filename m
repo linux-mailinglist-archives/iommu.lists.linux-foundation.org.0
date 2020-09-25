@@ -1,73 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22290277D87
-	for <lists.iommu@lfdr.de>; Fri, 25 Sep 2020 03:16:09 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A90E1277DC3
+	for <lists.iommu@lfdr.de>; Fri, 25 Sep 2020 03:58:42 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 7D63B203F0;
-	Fri, 25 Sep 2020 01:16:07 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 382EF845D4;
+	Fri, 25 Sep 2020 01:58:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WxwsKWdA2dPe; Fri, 25 Sep 2020 01:16:06 +0000 (UTC)
+	with ESMTP id JxWM3NPquYyn; Fri, 25 Sep 2020 01:58:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 646E5203EE;
-	Fri, 25 Sep 2020 01:16:06 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9CF3F845D1;
+	Fri, 25 Sep 2020 01:58:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 48453C0859;
-	Fri, 25 Sep 2020 01:16:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 81D23C0859;
+	Fri, 25 Sep 2020 01:58:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DD7D9C0859
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 01:16:04 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 04C77C0859
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 01:58:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D4B9A203EE
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 01:16:04 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id E183686746
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 01:58:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3EygLdfw6bq0 for <iommu@lists.linux-foundation.org>;
- Fri, 25 Sep 2020 01:16:03 +0000 (UTC)
+ with ESMTP id HukjvvojUyfq for <iommu@lists.linux-foundation.org>;
+ Fri, 25 Sep 2020 01:58:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by silver.osuosl.org (Postfix) with ESMTPS id 41FBA203B9
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 01:16:03 +0000 (UTC)
-IronPort-SDR: LNQ6JLi75Dz4jXGkLb98wts7GahplBkWOzJ3ZZ8Y5wG2gIjJRhy87BchzjspK3z+g3wSeSarZQ
- nRMEA/pjDZIA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="149055956"
-X-IronPort-AV: E=Sophos;i="5.77,300,1596524400"; d="scan'208";a="149055956"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 07693866FB
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 01:58:38 +0000 (UTC)
+IronPort-SDR: WRxbixhaNbkYXB9Xp6l+GBLoZAuKrFlQJT6jyrAOBOLxuSJLR7EAFVWlXK18/JgPvr8SN8As+x
+ FOYcq0adcJvw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="162302803"
+X-IronPort-AV: E=Sophos;i="5.77,300,1596524400"; d="scan'208";a="162302803"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2020 18:16:02 -0700
-IronPort-SDR: NZiMjqbn0XOVlDBtUX7zjoy1iC028gY+0yUIsaChkilRAW690kEwU+Ebuf7GqU8PCaib8RhSY3
- jII3vzjkPEyA==
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2020 18:58:38 -0700
+IronPort-SDR: ryCbZmWDtOB6DSv3hehGloQ3E1prN5hO4Ut/05E3X1P0GApbZCTnwH5aj2ZLE+cXFT1i8QWiXY
+ MJGtzH5yw2EQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,300,1596524400"; d="scan'208";a="413553113"
+X-IronPort-AV: E=Sophos;i="5.77,300,1596524400"; d="scan'208";a="413576666"
 Received: from allen-box.sh.intel.com (HELO [10.239.159.139])
  ([10.239.159.139])
- by fmsmga001.fm.intel.com with ESMTP; 24 Sep 2020 18:15:59 -0700
-Subject: Re: [PATCH v5 0/5] iommu aux-domain APIs extensions
-To: Joerg Roedel <joro@8bytes.org>
-References: <20200922061042.31633-1-baolu.lu@linux.intel.com>
- <20200924095532.GK27174@8bytes.org>
+ by fmsmga001.fm.intel.com with ESMTP; 24 Sep 2020 18:58:36 -0700
+Subject: Re: [PATCH] iommu/vt-d: gracefully handle DMAR units with no
+ supported address widths
+To: David Woodhouse <dwmw2@infradead.org>, Joerg Roedel <joro@8bytes.org>
+References: <549928db2de6532117f36c9c810373c14cf76f51.camel@infradead.org>
 From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <71f1fa5e-f468-0498-1ab4-1c2af9424d2d@linux.intel.com>
-Date: Fri, 25 Sep 2020 09:09:54 +0800
+Message-ID: <6872be84-2df5-e4a5-d656-64249dab88dd@linux.intel.com>
+Date: Fri, 25 Sep 2020 09:52:31 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200924095532.GK27174@8bytes.org>
+In-Reply-To: <549928db2de6532117f36c9c810373c14cf76f51.camel@infradead.org>
 Content-Language: en-US
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Kevin Tian <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Ashok Raj <ashok.raj@intel.com>, kvm@vger.kernel.org,
- Cornelia Huck <cohuck@redhat.com>, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- Robin Murphy <robin.murphy@arm.com>
+Cc: iommu <iommu@lists.linux-foundation.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,71 +80,103 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Joerg,
 
-On 9/24/20 5:55 PM, Joerg Roedel wrote:
-> On Tue, Sep 22, 2020 at 02:10:37PM +0800, Lu Baolu wrote:
->> Hi Jorge and Alex,
->>
->> A description of this patch series could be found here.
->>
->> https://lore.kernel.org/linux-iommu/20200901033422.22249-1-baolu.lu@linux.intel.com/
+On 9/24/20 10:08 PM, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Hmm, I am wondering if we can avoid all this hassle and special APIs by
-> making the mdev framework more visible outside of the vfio code. There
-> is an underlying bus implementation for mdevs, so is there a reason
-> those can't use the standard iommu-core code to setup IOMMU mappings?
+> Instead of bailing out completely, such a unit can still be used for
+> interrupt remapping.
 
-The original purpose of this series is to enable the device driver to
-retrieve the aux-domain through iommu core after iommu
-ops.aux_attach_dev().
-
-The domain was allocated in vfio/mdev, but it's also needed by the
-device driver in mediated callbacks. The idea of this patch series is to
-extend the aux-API so that the domain could be saved in group->domain
-and get by the mediated driver through the existing
-iommu_get_domain_for_dev().
-
-Back when we were developing the aux-domain, I proposed to keep the
-domain in vfio/mdev.
-
-https://lore.kernel.org/linux-iommu/20181105073408.21815-7-baolu.lu@linux.intel.com/
-
-It wasn't discussed at that time due to the lack of real consumer. Intel
-is now adding aux-domain support in idxd (DMA streaming accelerator)
-driver which becomes the first real consumer. So this problem is brought
-back to the table.
-
-> 
-> What speaks against doing:
-> 
-> 	- IOMMU drivers capable of handling mdevs register iommu-ops
-> 	  for the mdev_bus.
-> 
-> 	- iommu_domain_alloc() takes bus_type as parameter, so there can
-> 	  be special domains be allocated for mdevs.
-> 
-> 	- Group creation and domain allocation will happen
-> 	  automatically in the iommu-core when a new mdev is registered
-> 	  through device-driver core code.
-> 
-> 	- There should be no need for special iommu_aux_* APIs, as one
-> 	  can attach a domain directly to &mdev->dev with
-> 	  iommu_attach_device(domain, &mdev->dev).
-> 
-> Doing it this way will probably also keep the mdev-special code in VFIO
-> small.
-
-Fully understand now. Thanks for guide.
-
-> 
-> Regards,
-> 
-> 	Joerg
-> 
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 
 Best regards,
 baolu
+
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   drivers/iommu/intel/dmar.c | 46 +++++++++++++++++++++++++-------------
+>   1 file changed, 31 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
+> index 93e6345f3414..4420a759f095 100644
+> --- a/drivers/iommu/intel/dmar.c
+> +++ b/drivers/iommu/intel/dmar.c
+> @@ -1024,8 +1024,8 @@ static int alloc_iommu(struct dmar_drhd_unit *drhd)
+>   {
+>   	struct intel_iommu *iommu;
+>   	u32 ver, sts;
+> -	int agaw = 0;
+> -	int msagaw = 0;
+> +	int agaw = -1;
+> +	int msagaw = -1;
+>   	int err;
+>   
+>   	if (!drhd->reg_base_addr) {
+> @@ -1050,17 +1050,28 @@ static int alloc_iommu(struct dmar_drhd_unit *drhd)
+>   	}
+>   
+>   	err = -EINVAL;
+> -	agaw = iommu_calculate_agaw(iommu);
+> -	if (agaw < 0) {
+> -		pr_err("Cannot get a valid agaw for iommu (seq_id = %d)\n",
+> -			iommu->seq_id);
+> -		goto err_unmap;
+> -	}
+> -	msagaw = iommu_calculate_max_sagaw(iommu);
+> -	if (msagaw < 0) {
+> -		pr_err("Cannot get a valid max agaw for iommu (seq_id = %d)\n",
+> -			iommu->seq_id);
+> -		goto err_unmap;
+> +	if (cap_sagaw(iommu->cap) == 0) {
+> +		pr_info("%s: No supported address widths. Not attempting DMA translation.\n",
+> +			iommu->name);
+> +		drhd->ignored = 1;
+> +	}
+> +
+> +	if (!drhd->ignored) {
+> +		agaw = iommu_calculate_agaw(iommu);
+> +		if (agaw < 0) {
+> +			pr_err("Cannot get a valid agaw for iommu (seq_id = %d)\n",
+> +			       iommu->seq_id);
+> +			drhd->ignored = 1;
+> +		}
+> +	}
+> +	if (!drhd->ignored) {
+> +		msagaw = iommu_calculate_max_sagaw(iommu);
+> +		if (msagaw < 0) {
+> +			pr_err("Cannot get a valid max agaw for iommu (seq_id = %d)\n",
+> +			       iommu->seq_id);
+> +			drhd->ignored = 1;
+> +			agaw = -1;
+> +		}
+>   	}
+>   	iommu->agaw = agaw;
+>   	iommu->msagaw = msagaw;
+> @@ -1087,7 +1098,12 @@ static int alloc_iommu(struct dmar_drhd_unit *drhd)
+>   
+>   	raw_spin_lock_init(&iommu->register_lock);
+>   
+> -	if (intel_iommu_enabled) {
+> +	/*
+> +	 * This is only for hotplug; at boot time intel_iommu_enabled won't
+> +	 * be set yet. When intel_iommu_init() runs, it registers the units
+> +	 * present at boot time, then sets intel_iommu_enabled.
+> +	 */
+> +	if (intel_iommu_enabled && !drhd->ignored) {
+>   		err = iommu_device_sysfs_add(&iommu->iommu, NULL,
+>   					     intel_iommu_groups,
+>   					     "%s", iommu->name);
+> @@ -1117,7 +1133,7 @@ static int alloc_iommu(struct dmar_drhd_unit *drhd)
+>   
+>   static void free_iommu(struct intel_iommu *iommu)
+>   {
+> -	if (intel_iommu_enabled) {
+> +	if (intel_iommu_enabled && iommu->iommu.ops) {
+>   		iommu_device_unregister(&iommu->iommu);
+>   		iommu_device_sysfs_remove(&iommu->iommu);
+>   	}
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
