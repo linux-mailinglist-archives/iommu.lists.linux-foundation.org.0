@@ -1,90 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62961278E83
-	for <lists.iommu@lfdr.de>; Fri, 25 Sep 2020 18:31:09 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 222FA86E45;
-	Fri, 25 Sep 2020 16:31:08 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LkEHqoKRkzjs; Fri, 25 Sep 2020 16:31:06 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DE04D86E49;
-	Fri, 25 Sep 2020 16:31:06 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C8048C0890;
-	Fri, 25 Sep 2020 16:31:06 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 34877C0859
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 16:31:04 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC1C278EB2
+	for <lists.iommu@lfdr.de>; Fri, 25 Sep 2020 18:35:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 30ABE20474
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 16:31:04 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7C39C2037B;
+	Fri, 25 Sep 2020 16:35:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MpUU2GmLduLZ; Fri, 25 Sep 2020 16:35:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 989C120364;
+	Fri, 25 Sep 2020 16:35:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6FF66C0859;
+	Fri, 25 Sep 2020 16:35:50 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 39F03C0859
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 16:35:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2632586D19
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 16:35:48 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bVZQaduNKtzj for <iommu@lists.linux-foundation.org>;
- Fri, 25 Sep 2020 16:31:00 +0000 (UTC)
+ with ESMTP id CEaFD9APS9wt for <iommu@lists.linux-foundation.org>;
+ Fri, 25 Sep 2020 16:35:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
- [209.85.210.196])
- by silver.osuosl.org (Postfix) with ESMTPS id 841B72E180
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 16:31:00 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id l126so3690938pfd.5
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 09:31:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=LSyf3SkDlCwf2HoUFoGuJC/iHiB7H7zbzGxUquhsjX0=;
- b=HirDKlAAMkGWAf1STePQ3QJkiXE7V9lvnoCP3iKzdgGsUoBllA+XVwfogsD72X/f6h
- 7tHN/hkzs2cLjFIzKmEPanSPvZ2t3YJH/3rvDov3wOBWR2k69SXrXvxRmNrVS1IYYbhp
- PhwDqdm8DvSQMik89etcIj/It/09Eeeb7so1j5kwhHKaVrC16JU1gHrkiFn714ORh4z6
- Jw8FV0PrmuWiwEfa1rbGXbtj2blhu9zM4dt8cmPoZrupMxIil0PR/6t6tu3imK6nQyok
- WffmfeK6nNklQFrw/D6mmY+tSAuE7V21z3rdmI2PwjbZPKAM0oC1D8FPgnlvSKwp/CIW
- NljA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=LSyf3SkDlCwf2HoUFoGuJC/iHiB7H7zbzGxUquhsjX0=;
- b=PPICuTSfe5jJkbgAT6y10WMZSJGtLEdWsGGqdA/J7jKPWuRWNhMql6x3Q2P/QwUwAg
- ttcXOVkJf+88+Mq93C1/MaC7SoOMmAPx5N5cWTZIUF+JAFBAyyMT88BmHH5Zx9knJ5XD
- s/70PY03bI2bJkee//UFi5Pk62iCCFbOXgCgDn1KaJq+wfqGrXixlS1Xg2r27nMKPo2M
- HS+IZqOJQobTOxSOWyQvTGKGxvabfODTnesfcYWPbQ6qrj6IVGnEWTp6Usp+iBdDHzYb
- 13tcolt8p0+2rzQWKkIBsgIvoedXaTScACEJOtQUXxBLpdlYl/O4pasmfGEPeY2X56DV
- 4LzA==
-X-Gm-Message-State: AOAM530RP2YAB2Io88znQMUwafoQS8gmPN43mT29VEpVzE9sqPe0a1UT
- 0tDSGMHL9gB/eulqZXE/VHBMq4i7edY=
-X-Google-Smtp-Source: ABdhPJxES9mSmYCxxF5wPNlQxp4xWTu4A0olsptxBPLuXZRW3kV2wcYDnUuS+TVtd9iO4SCXfUdkzQ==
-X-Received: by 2002:a17:902:bd07:b029:d1:f42c:454f with SMTP id
- p7-20020a170902bd07b02900d1f42c454fmr229733pls.54.1601051459865; 
- Fri, 25 Sep 2020 09:30:59 -0700 (PDT)
-Received: from jacob-builder.jf.intel.com (jfdmzpr04-ext.jf.intel.com.
- [134.134.137.73])
- by smtp.gmail.com with ESMTPSA id j19sm3197039pfe.108.2020.09.25.09.30.58
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 25 Sep 2020 09:30:59 -0700 (PDT)
-From: Jacob Pan <jacob.pan.linux@gmail.com>
-X-Google-Original-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- Joerg Roedel <joro@8bytes.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- "Lu Baolu" <baolu.lu@linux.intel.com>,
- David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v12 6/6] iommu/vt-d: Check UAPI data processed by IOMMU core
-Date: Fri, 25 Sep 2020 09:32:47 -0700
-Message-Id: <1601051567-54787-7-git-send-email-jacob.jun.pan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1601051567-54787-1-git-send-email-jacob.jun.pan@linux.intel.com>
-References: <1601051567-54787-1-git-send-email-jacob.jun.pan@linux.intel.com>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Raj Ashok <ashok.raj@intel.com>,
- linux-api@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- Yi Sun <yi.y.sun@intel.com>, Jean-Philippe Brucker <jean-philippe@linaro.com>,
- Wu Hao <hao.wu@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 74EE086D08
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 16:35:47 +0000 (UTC)
+IronPort-SDR: mkBqS1R+vtn+NP/jbDdrdJ6tVNGB5nWVutGnj2vM6zU/el+Wzmn6CSxIbt9xxQLC5jHHYCTGEV
+ ZBZ8iwDDc8lA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9755"; a="141600162"
+X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; d="scan'208";a="141600162"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2020 09:35:46 -0700
+IronPort-SDR: klsL7SwkavkFEosKfSVcSFPH24mH++sINYeJh3VRnVqKZXW99ntcEPPUqpitWL4TpqFd855X6v
+ gHwHOqMHkgWw==
+X-IronPort-AV: E=Sophos;i="5.77,302,1596524400"; d="scan'208";a="487531984"
+Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.36])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Sep 2020 09:35:46 -0700
+Date: Fri, 25 Sep 2020 09:35:44 -0700
+From: "Raj, Ashok" <ashok.raj@intel.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: Re: [PATCH V7 0/3] iommu: Add support to change default domain of an
+ iommu group
+Message-ID: <20200925163544.GA92046@otc-nc-03>
+References: <cover.1595619936.git.sai.praneeth.prakhya@intel.com>
+ <20200924172148.GA85236@otc-nc-03>
+ <20200925073423.GT27174@8bytes.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200925073423.GT27174@8bytes.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Ashok Raj <ashok.raj@intel.com>, Will Deacon <will.deacon@arm.com>,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,78 +77,35 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-IOMMU generic layer already does sanity checks on UAPI data for version
-match and argsz range based on generic information.
+Hi Joerg,
 
-This patch adjusts the following data checking responsibilities:
-- removes the redundant version check from VT-d driver
-- removes the check for vendor specific data size
-- adds check for the use of reserved/undefined flags
+thanks!
 
-Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
----
- drivers/iommu/intel/iommu.c |  3 +--
- drivers/iommu/intel/svm.c   | 11 +++++++++--
- include/uapi/linux/iommu.h  |  1 +
- 3 files changed, 11 insertions(+), 4 deletions(-)
+On Fri, Sep 25, 2020 at 09:34:23AM +0200, Joerg Roedel wrote:
+> Hi Ashok,
+> 
+> On Thu, Sep 24, 2020 at 10:21:48AM -0700, Raj, Ashok wrote:
+> > Just trying to followup on this series.
+> > 
+> > Sai has moved out of Intel, hence I'm trying to followup on his behalf.
+> > 
+> > Let me know if you have queued this for the next release.
+> 
+> Not yet, but I think this is mostly ready. Can you please send a new
+> version in a new mail thread so that I can pick it up with b4?
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 461f3a6864d4..18ed3b3c70d7 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -5408,8 +5408,7 @@ intel_iommu_sva_invalidate(struct iommu_domain *domain, struct device *dev,
- 	int ret = 0;
- 	u64 size = 0;
- 
--	if (!inv_info || !dmar_domain ||
--	    inv_info->version != IOMMU_CACHE_INVALIDATE_INFO_VERSION_1)
-+	if (!inv_info || !dmar_domain)
- 		return -EINVAL;
- 
- 	if (!dev || !dev_is_pci(dev))
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 99353d6468fa..0cb9a15f1112 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -284,8 +284,15 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
- 	if (WARN_ON(!iommu) || !data)
- 		return -EINVAL;
- 
--	if (data->version != IOMMU_GPASID_BIND_VERSION_1 ||
--	    data->format != IOMMU_PASID_FORMAT_INTEL_VTD)
-+	if (data->format != IOMMU_PASID_FORMAT_INTEL_VTD)
-+		return -EINVAL;
-+
-+	/* IOMMU core ensures argsz is more than the start of the union */
-+	if (data->argsz < offsetofend(struct iommu_gpasid_bind_data, vendor.vtd))
-+		return -EINVAL;
-+
-+	/* Make sure no undefined flags are used in vendor data */
-+	if (data->vendor.vtd.flags & ~(IOMMU_SVA_VTD_GPASID_LAST - 1))
- 		return -EINVAL;
- 
- 	if (!dev_is_pci(dev))
-diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
-index 66d4ca40b40f..e1d9e75f2c94 100644
---- a/include/uapi/linux/iommu.h
-+++ b/include/uapi/linux/iommu.h
-@@ -288,6 +288,7 @@ struct iommu_gpasid_bind_data_vtd {
- #define IOMMU_SVA_VTD_GPASID_PWT	(1 << 3) /* page-level write through */
- #define IOMMU_SVA_VTD_GPASID_EMTE	(1 << 4) /* extended mem type enable */
- #define IOMMU_SVA_VTD_GPASID_CD		(1 << 5) /* PASID-level cache disable */
-+#define IOMMU_SVA_VTD_GPASID_LAST	(1 << 6)
- 	__u64 flags;
- 	__u32 pat;
- 	__u32 emt;
--- 
-2.7.4
+So just another version bump, no other changes?
 
+I thought v6-v7 was a version bump...
+> 
+> Thanks,
+> 
+> 	Joerg
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
