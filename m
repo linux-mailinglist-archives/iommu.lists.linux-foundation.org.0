@@ -1,65 +1,127 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A06278B09
-	for <lists.iommu@lfdr.de>; Fri, 25 Sep 2020 16:37:42 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B95278B94
+	for <lists.iommu@lfdr.de>; Fri, 25 Sep 2020 16:59:18 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id DCEB52E172;
-	Fri, 25 Sep 2020 14:37:40 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3988186E26;
+	Fri, 25 Sep 2020 14:59:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YxVufLm5LsbL; Fri, 25 Sep 2020 14:37:38 +0000 (UTC)
+	with ESMTP id Cxx-flVYcALe; Fri, 25 Sep 2020 14:59:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 24F6F2E16F;
-	Fri, 25 Sep 2020 14:37:38 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id EA2F786C70;
+	Fri, 25 Sep 2020 14:59:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 15B48C0859;
-	Fri, 25 Sep 2020 14:37:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DFCF4C0859;
+	Fri, 25 Sep 2020 14:59:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D62E2C0859
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 14:37:36 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C73F0C0859
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 14:59:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id C06C086917
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 14:37:36 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id AE879862D2
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 14:59:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id q6P7FwQYeg-6 for <iommu@lists.linux-foundation.org>;
- Fri, 25 Sep 2020 14:37:35 +0000 (UTC)
+ with ESMTP id jZyNPYDvmACS for <iommu@lists.linux-foundation.org>;
+ Fri, 25 Sep 2020 14:59:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from huawei.com (lhrrgout.huawei.com [185.176.76.210])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 64C9F868AB
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 14:37:35 +0000 (UTC)
-Received: from lhreml724-chm.china.huawei.com (unknown [172.18.7.106])
- by Forcepoint Email with ESMTP id 124BC412629B66515EF8;
- Fri, 25 Sep 2020 15:37:32 +0100 (IST)
-Received: from [127.0.0.1] (10.47.7.140) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Fri, 25 Sep
- 2020 15:37:31 +0100
-Subject: Re: [PATCH 1/2] iommu/iova: Flush CPU rcache for when a depot fills
-To: Robin Murphy <robin.murphy@arm.com>, <joro@8bytes.org>
-References: <1601027469-221812-1-git-send-email-john.garry@huawei.com>
- <1601027469-221812-2-git-send-email-john.garry@huawei.com>
- <bede311f-9a07-98e1-e728-9acd4ad13b51@arm.com>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <11d30dc2-0b2d-fc30-a07a-9c5f18064d2b@huawei.com>
-Date: Fri, 25 Sep 2020 15:34:37 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D205686239
+ for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 14:59:13 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08PEtON7093194;
+ Fri, 25 Sep 2020 14:58:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=KBajAr//8CgaZncjmmtHx6pmz9MNjgdQXqLWcgD3Ze0=;
+ b=H30XNnlMx/xzx8IZE1wtRV4+gckn0lpbNz1IbsI2v8nNN8f286skb2qnNlg2nyUFOCvp
+ w2TwnjINm0zZU/IFe3WD95g0/xOdtd3UNg0NpUIurdM0+nB/Cx8Oo5Gjp0z2nfv8mkpt
+ Wa6UqopzfVowKR2n3eppuxHL1XDnYX5j8Z/oS79SBE2bshcbZuKia4osjF3L7ZUIAlxN
+ MXE+83u2mamMLNUg8N9rOym5mySnKbTeDyf2KfWU2ljoL2oOWzflWvzibyXPCH3mcU/J
+ HP0Wb2mpNP07GDVC++sjGMmd49MHQm5LAVgnYvu74+JsHNcbydjdLBjwdP6mAKErEu0L /w== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 33q5rgvgcr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 25 Sep 2020 14:58:50 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08PEuYVx135834;
+ Fri, 25 Sep 2020 14:56:49 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 33nurxwgjg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 25 Sep 2020 14:56:49 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08PEukPK009487;
+ Fri, 25 Sep 2020 14:56:47 GMT
+Received: from [10.39.243.24] (/10.39.243.24)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 25 Sep 2020 07:56:46 -0700
+Subject: Re: [PATCH 07/13] x86: Secure Launch kernel early boot stub
+To: Arvind Sankar <nivedita@alum.mit.edu>
+References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
+ <1600959521-24158-8-git-send-email-ross.philipson@oracle.com>
+ <20200924173801.GA103726@rani.riverdale.lan>
+From: Ross Philipson <ross.philipson@oracle.com>
+Autocrypt: addr=ross.philipson@oracle.com; keydata=
+ mQENBFtHZ04BCADHhtvMImplKfIEOytU7ZH4haZ9eFAqZpGeIpG9D+pzTCuReM2/49bvgNoI
+ e1xuiQFO+UEJ8FjedFjDdqY7fSw3xVdX9gLwD1Rmw0Dadc1w6sGbcoOQLHcglesu+BmcKBtU
+ tWQZkzCpEShN4etgZThk8469YnAvO08vNZsrizgrpD90T7mEYiNXxIkX87sPGbnBrL1X7RvZ
+ TaRXfE8174W+XVwGEpSiO/GjRgLW8+DFZB5MgXpCR993+U1YT9Lz97/MRzr4hqcOYry6LBYi
+ s8dOly4oP7gK15oW8Xap9+ur0Jd8Vy8o99Axq+7yunF+2KE2SwP3/w8H3VDpx7EeDhWDABEB
+ AAG0KlJvc3MgUGhpbGlwc29uIDxyb3NzLnBoaWxpcHNvbkBvcmFjbGUuY29tPokBVAQTAQgA
+ PgIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBFsN7r6v0OZTCaJ1wdpHdTZHiMYcBQJb
+ R2eBBQkJZgGzAAoJENpHdTZHiMYcPYcH/Rlp3/F3P4/2i/W0F4yQDVD6rAkejCws4KlbgC5D
+ Slkdvk6j8jOW/HNeIY3n+a3mW0iyyhZlipgYAqkK1loDiDxJjc2eUaHxiYWNLQ4CwIj2EC27
+ AWCp6hgwHNWmZrdeNbM/Z6LTFQILx5xzgX+86KNqzFV7gOcAaS2qBVz1D83dgrFZaGaao918
+ nvfe+SnImo0GaEf8nVDKgsD2zfzMBkk4q/E0mrEADFXwBHSvNCnVyrCN6Ve0dHWgI7SszUDt
+ 7v01zbGPR5mRfGuyC9gykd2SDCw5/Q27RMWfaPFL/dtiZBljUzb2yW5jicZAz7zNdDcBSUGR
+ r//wxtG4k/dBrMW5AQ0EW0dnTwEIAPelEnLDnfJnHdFR+1Thrvv3Udt/1cjqQfHqH4F8zef/
+ MsIcPV1skL7qPUYD+CrbasvmqhlPxtJAtN68inPa70fA2g0PtNmLUH1NBb2e6EjOoVZg9ais
+ BWfdYUITZouOXs2zCTFsoNWjTJANnXxexbTf1ZEqfzlVtQK+xAnXl3kiL4Y47VMbgDkGedhw
+ 3ZMWQ2zMMZqYJkPYhtlTXtedhV91DL1347ULwHsvkUJDZ0gL+WU6tYhsCOOiD61x58PfUiFb
+ /WkZEPxb96dSSSWrTlLlBWSSD24RnhfbJjfsXeSu9s4XldmGTDkj7jclMVU1xV0BUfqEwhVn
+ xR8FlC+dZvkAEQEAAYkBPAQYAQgAJgIbDBYhBFsN7r6v0OZTCaJ1wdpHdTZHiMYcBQJbR2eB
+ BQkJZgGyAAoJENpHdTZHiMYcDIAIAIRJrKjIStRvLsOOCX92s9XJPUjrC/xmtVsqVviyFWIC
+ QRPQzDE+bDSvRazudBHmcPW+BOOB5B+p7zKZzOGoZV2peG8oA/Y8oCxOYBtpbBaZ5KJexm/g
+ BbnJUwb3uhmKtDShHGUCmtq8MZBJBr6Q6xHprOU8Qnzs9Jea8NVwaz9O226Rrg4XVv/sK1Lh
+ ++xZfhi7YqKWdx5vdfdnX1xWe8ma0eXLeCDh3V6Ys+Habw1jEbMuafrcVzAbp1rMt2Lju1ls
+ BNAoxeViK7QXWfwGTmGJP++jHmo99gMqEtiohf+37N0oS6uYu6kaE7PxsEcOjWKJxW/DdgwO
+ eFq+D6xuiKk=
+Message-ID: <c9ab2edf-1aaf-a1c9-92d5-2d37382a3163@oracle.com>
+Date: Fri, 25 Sep 2020 10:56:43 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <bede311f-9a07-98e1-e728-9acd4ad13b51@arm.com>
+In-Reply-To: <20200924173801.GA103726@rani.riverdale.lan>
 Content-Language: en-US
-X-Originating-IP: [10.47.7.140]
-X-ClientProxiedBy: lhreml725-chm.china.huawei.com (10.201.108.76) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-Cc: linuxarm@huawei.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, xiyou.wangcong@gmail.com
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9755
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ malwarescore=0
+ phishscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009250107
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9755
+ signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ impostorscore=0
+ clxscore=1011 suspectscore=0 phishscore=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=999 adultscore=0 bulkscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009250107
+Cc: linux-doc@vger.kernel.org, dpsmith@apertussolutions.com, x86@kernel.org,
+ linux-kernel@vger.kernel.org, luto@amacapital.net,
+ iommu@lists.linux-foundation.org, mingo@redhat.com, bp@alien8.de,
+ hpa@zytor.com, linux-integrity@vger.kernel.org,
+ trenchboot-devel@googlegroups.com, tglx@linutronix.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,109 +134,127 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gMjUvMDkvMjAyMCAxMjo1MywgUm9iaW4gTXVycGh5IHdyb3RlOgo+PiAtLS0KPj4gwqAgZHJp
-dmVycy9pb21tdS9pb3ZhLmMgfCAyNSArKysrKysrKysrKysrKysrLS0tLS0tLS0tCj4+IMKgIDEg
-ZmlsZSBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQo+Pgo+PiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9pb21tdS9pb3ZhLmMgYi9kcml2ZXJzL2lvbW11L2lvdmEuYwo+PiBp
-bmRleCA0NWEyNTFkYTU0NTMuLjA1ZTBiNDYyZTBkOSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9p
-b21tdS9pb3ZhLmMKPj4gKysrIGIvZHJpdmVycy9pb21tdS9pb3ZhLmMKPj4gQEAgLTg5Miw5ICs4
-OTIsOCBAQCBzdGF0aWMgYm9vbCBfX2lvdmFfcmNhY2hlX2luc2VydChzdHJ1Y3QgCj4+IGlvdmFf
-ZG9tYWluICppb3ZhZCwKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0
-cnVjdCBpb3ZhX3JjYWNoZSAqcmNhY2hlLAo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgdW5zaWduZWQgbG9uZyBpb3ZhX3BmbikKPj4gwqAgewo+PiAtwqDCoMKgIHN0cnVj
-dCBpb3ZhX21hZ2F6aW5lICptYWdfdG9fZnJlZSA9IE5VTEw7Cj4+IMKgwqDCoMKgwqAgc3RydWN0
-IGlvdmFfY3B1X3JjYWNoZSAqY3B1X3JjYWNoZTsKPj4gLcKgwqDCoCBib29sIGNhbl9pbnNlcnQg
-PSBmYWxzZTsKPj4gK8KgwqDCoCBib29sIGNhbl9pbnNlcnQgPSBmYWxzZSwgZmx1c2ggPSBmYWxz
-ZTsKPj4gwqDCoMKgwqDCoCB1bnNpZ25lZCBsb25nIGZsYWdzOwo+PiDCoMKgwqDCoMKgIGNwdV9y
-Y2FjaGUgPSByYXdfY3B1X3B0cihyY2FjaGUtPmNwdV9yY2FjaGVzKTsKPj4gQEAgLTkxMywxMyAr
-OTEyLDE5IEBAIHN0YXRpYyBib29sIF9faW92YV9yY2FjaGVfaW5zZXJ0KHN0cnVjdCAKPj4gaW92
-YV9kb21haW4gKmlvdmFkLAo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAocmNhY2hl
-LT5kZXBvdF9zaXplIDwgTUFYX0dMT0JBTF9NQUdTKSB7Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgcmNhY2hlLT5kZXBvdFtyY2FjaGUtPmRlcG90X3NpemUrK10gPQo+PiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjcHVfcmNh
-Y2hlLT5sb2FkZWQ7Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY2FuX2luc2Vy
-dCA9IHRydWU7Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY3B1X3JjYWNoZS0+
-bG9hZGVkID0gbmV3X21hZzsKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfSBlbHNlIHsK
-Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtYWdfdG9fZnJlZSA9IGNwdV9yY2Fj
-aGUtPmxvYWRlZDsKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvKgo+PiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBUaGUgZGVwb3QgaXMgZnVsbCwgbWVhbmlu
-ZyB0aGF0IGEgdmVyeSBsYXJnZQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-KiBjYWNoZSBvZiBJT1ZBcyBoYXMgYnVpbHQgdXAsIHdoaWNoIHNsb3dzCj4+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIGRvd24gUkIgdHJlZSBhY2Nlc3NlcyBzaWduaWZpY2Fu
-dGx5Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIC0+IGxldCdzIGZsdXNo
-IGF0IHRoaXMgcG9pbnQuCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZsdXNoID0gdHJ1ZTsKPj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpb3ZhX21hZ2F6aW5lX2ZyZWUobmV3X21hZyk7Cj4+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgc3Bpbl91bmxvY2soJnJjYWNoZS0+bG9jayk7Cj4+IC0KPj4gLcKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgY3B1X3JjYWNoZS0+bG9hZGVkID0gbmV3X21hZzsKPj4gLcKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgY2FuX2luc2VydCA9IHRydWU7Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoCB9Cj4+IMKgwqDC
-oMKgwqAgfQo+PiBAQCAtOTI4LDkgKzkzMywxMSBAQCBzdGF0aWMgYm9vbCBfX2lvdmFfcmNhY2hl
-X2luc2VydChzdHJ1Y3QgCj4+IGlvdmFfZG9tYWluICppb3ZhZCwKPj4gwqDCoMKgwqDCoCBzcGlu
-X3VubG9ja19pcnFyZXN0b3JlKCZjcHVfcmNhY2hlLT5sb2NrLCBmbGFncyk7Cj4+IC3CoMKgwqAg
-aWYgKG1hZ190b19mcmVlKSB7Cj4+IC3CoMKgwqDCoMKgwqDCoCBpb3ZhX21hZ2F6aW5lX2ZyZWVf
-cGZucyhtYWdfdG9fZnJlZSwgaW92YWQpOwo+PiAtwqDCoMKgwqDCoMKgwqAgaW92YV9tYWdhemlu
-ZV9mcmVlKG1hZ190b19mcmVlKTsKPj4gK8KgwqDCoCBpZiAoZmx1c2gpIHsKPiAKPiBEbyB5b3Ug
-cmVhbGx5IG5lZWQgdGhpcyBmbGFnLCBvciBpcyBpdCBlZmZlY3RpdmVseSBqdXN0IG1pcnJvcmlu
-ZyAKPiAiIWNhbl9pbnNlcnQiIC0gaW4gdGhlb3J5IGlmIHRoZXJlIHdhc24ndCBlbm91Z2ggbWVt
-b3J5IHRvIGFsbG9jYXRlIGEgCj4gbmV3IG1hZ2F6aW5lLCB0aGVuIGZyZWVpbmcgc29tZSBtb3Jl
-IElPVkFzIHdvdWxkbid0IG5lY2Vzc2FyaWx5IGJlIGEgYmFkIAo+IHRoaW5nIHRvIGRvIGFueXdh
-eS4KClJpZ2h0LCBJIGNhbiByZXVzZSBjYW5faW5zZXJ0LgoKPiAKPiBPdGhlciB0aGFuIHRoYXQs
-IEkgdGhpbmsgdGhpcyBsb29rcyByZWFzb25hYmxlLiBFdmVyeSB0aW1lIEkgbG9vayBhdCAKPiBf
-X2lvdmFfcmNhY2hlX2luc2VydCgpIEknbSBjb252aW5jZWQgdGhlcmUgbXVzdCBiZSBhIHdheSB0
-byByZXN0cnVjdHVyZSAKPiBpdCB0byBiZSBtb3JlIHN0cmVhbWxpbmVkIG92ZXJhbGwsIGJ1dCBJ
-IGNhbiBuZXZlciBxdWl0ZSBzZWUgZXhhY3RseSBob3cuLi4KPiAKCldlIGNvdWxkIHJlbW92ZSB0
-aGUgbmV3X21hZyBjaGVjaywgYnV0IHRoZSBjb2RlIGNhbm5vdCBzYWZlbHkgaGFuZGxlIApsb2Fk
-ZWQvcHJldiA9IE5VTEwuIEluZGVlZCwgSSB0aGluayB0aGF0IHRoZSBtYWlubGluZSBjb2RlIGhh
-cyBhIGJ1ZzoKCklmIHRoZSBpbml0aWFsIGFsbG9jYXRpb24gZm9yIHRoZSBsb2FkZWQvcHJldiBt
-YWdhemluZXMgZmFpbCAoZ2l2ZSBOVUxMKSAKaW4gaW5pdF9pb3ZhX3JjYWNoZXMoKSwgdGhlbiBp
-biBfX2lvdmFfcmNhY2hlX2luc2VydCgpOgoKaWYgKCFpb3ZhX21hZ2F6aW5lX2Z1bGwoY3B1X3Jj
-YWNoZS0+bG9hZGVkKSkgewoJY2FuX2luc2VydCA9IHRydWU7CgpJZiBjcHVfcmNhY2hlLT5sb2Fk
-ZWQgPT0gTlVMTCwgdGhlbiBjYW5faW5zZXJ0IGlzIGFzc2lnbmVkIHRydWUgLT4gYmFuZywgCmFz
-IEkgZXhwZXJpbWVudGVkLCBiZWxvdy4gVGhpcyBuZWVkcyB0byBiZSBmaXhlZC4uLgoKVGhhbmtz
-LApqb2huCgoKCmVyZWZlcmVuY2UgYXQgdmlydHVhbCBhZGRyZXNzIDAwMDAwMDAwMDAwMDAwMDAK
-WyAxMC4xOTUyOTldIE1lbSBhYm9ydCBpbmZvOgpbIDEwLjE5ODA4MF0gRVNSID0gMHg5NjAwMDAw
-NApbIDEwLjIwMTEyMV0gRUMgPSAweDI1OiBEQUJUIChjdXJyZW50IEVMKSwgSUwgPSAzMiBiaXRz
-ClsgMTAuMjA2NDE4XSBTRVQgPSAwLCBGblYgPSAwClsgMTAuMjA5NDU5XSBFQSA9IDAsIFMxUFRX
-ID0gMApbIDEwLjIxMjU4NV0gRGF0YSBhYm9ydCBpbmZvOgpbIDEwLjIxNTQ1Ml0gSVNWID0gMCwg
-SVNTID0gMHgwMDAwMDAwNApbIDEwLjIxOTI3NF0gQ00gPSAwLCBXblIgPSAwClsgMTAuMjIyMjI4
-XSBbMDAwMDAwMDAwMDAwMDAwMF0gdXNlciBhZGRyZXNzIGJ1dCBhY3RpdmVfbW0gaXMgc3dhcHBl
-cgpbIDEwLjIyODU2OV0gSW50ZXJuYWwgZXJyb3I6IE9vcHM6IDk2MDAwMDA0IFsjMV0gUFJFRU1Q
-VCBTTVAKWyAxMC4yMzQxMjddIE1vZHVsZXMgbGlua2VkIGluOgpbIDEwLjIzNzE3MF0gQ1BVOiAx
-MSBQSUQ6IDY5NiBDb21tOiBpcnEvNDAtaGlzaV9zYXMgTm90IHRhaW50ZWQgCjUuOS4wLXJjNS00
-NzczOC1nYjFlYWQ2NTdhM2ZhLWRpcnR5ICM2NTgKWyAxMC4yNDY1NDhdIEhhcmR3YXJlIG5hbWU6
-IEh1YXdlaSBEMDYgL0QwNiwgQklPUyBIaXNpbGljb24gRDA2IFVFRkkgUkMwIAotIFYxLjE2LjAx
-IDAzLzE1LzIwMTkKWyAxMC4yNTUwNThdIHBzdGF0ZTogNjBjMDAwODkgKG5aQ3YgZGFJZiArUEFO
-ICtVQU8gQlRZUEU9LS0pClsgMTAuMjYwNjIwXSBwYyA6IGZyZWVfaW92YV9mYXN0KzB4ZmMvMHgy
-ODAKWyAxMC4yNjQ3MDNdIGxyIDogZnJlZV9pb3ZhX2Zhc3QrMHg5NC8weDI4MApbIDEwLjI2ODc4
-NV0gc3AgOiBmZmZmODAwMDI0NzdiYmIwClsgMTAuMjcyMDg2XSB4Mjk6IGZmZmY4MDAwMjQ3N2Ji
-YjAgeDI4OiAwMDAwMDAwMDAwMDAwMDAwClsgMTAuMjc3Mzg1XSB4Mjc6IGZmZmYwMDJiYzhmYmI5
-NDAgeDI2OiBmZmZmMDAyYmM3MjdlMjZjClsgMTAuMjgyNjg0XSB4MjU6IDAwMDAwMDAwMDAwMDAw
-MDAgeDI0OiBmZmZmMDAyYmM5NDM5MDA4ClsgMTAuMjg3OTgyXSB4MjM6IDAwMDAwMDAwMDAwZmRm
-ZmUgeDIyOiAwMDAwMDAwMDAwMDAwMDgwClsgMTAuMjkzMjgwXSB4MjE6IGZmZmYwMDJiYzk0Mzkw
-MDggeDIwOiAwMDAwMDAwMDAwMDAwMDAwClsgMTAuMjk4NTc5XSB4MTk6IGZmZmZmNDAzZTllYmI3
-MDAgeDE4OiBmZmZmZmZmZmZmZmZmZmZmClsgMTAuMzAzODc3XSB4MTc6IDAwMDAwMDAwMDAwMDAw
-MDEgeDE2OiAwMDAwMDAwMDAwMDAwMDAwClsgMTAuMzA5MTc2XSB4MTU6IDAwMDAwMDAwMDAwMGZm
-ZmYgeDE0OiAwMDAwMDAwMDAwMDAwMDQwClsgMTAuMzE0NDc0XSB4MTM6IDAwMDAwMDAwMDAwMDdm
-ZmYgeDEyOiAwMDAwMDAwMDAwMDFmZmZmClsgMTAuMzE5NzcyXSB4MTE6IDAwMDAwMDAwMDAwMDAw
-MGYgeDEwOiAwMDAwMDAwMDAwMDA2MDAwClsgMTAuMzI1MDcwXSB4OSA6IDAwMDAwMDAwMDAwMDAw
-MDAgeDggOiBmZmZmODAwMDI0NzdiNzY4ClsgMTAuMzMwMzY4XSB4NyA6IDAwMDAwMDAwMDAwMDAw
-MDAgeDYgOiAwMDAwMDAwMDAwMDAwMDNmClsgMTAuMzM1NjY2XSB4NSA6IDAwMDAwMDAwMDAwMDAw
-NDAgeDQgOiAwMDAwMDAwMDAwMDAwMDAwClsgMTAuMzQwOTY0XSB4MyA6IGZmZmZmNDAzZTllYmI3
-MDAgeDIgOiAwMDAwMDAwMDAwMDAwMDAwClsgMTAuMzQ2MjYyXSB4MSA6IDAwMDAwMDAwMDAwMDAw
-MDAgeDAgOiAwMDAwMDAwMDAwMDAwMDAwClsgMTAuMzUxNTYxXSBDYWxsIHRyYWNlOgpbIDEwLjM1
-Mzk5NV1mcmVlX2lvdmFfZmFzdCsweGZjLzB4MjgwClsgMTAuMzU3NzMxXWlvbW11X2RtYV9mcmVl
-X2lvdmErMHg2NC8weDcwClsgMTAuMzYxODE0XV9faW9tbXVfZG1hX3VubWFwKzB4OWMvMHhmOApb
-IDEwLjM2NTcyM11pb21tdV9kbWFfdW5tYXBfc2crMHhhOC8weGM4ClsgMTAuMzY5NzIwXWRtYV91
-bm1hcF9zZ19hdHRycysweDI4LzB4NTAKWyAxMC4zNzM3MTddY3FfdGhyZWFkX3YzX2h3KzB4MmRj
-LzB4NTI4ClsgMTAuMzc3NjI2XWlycV90aHJlYWRfZm4rMHgyYy8weGEwClsgMTAuMzgxMTg4XWly
-cV90aHJlYWQrMHgxMzAvMHgxZTAKWyAxMC4zODQ2NjRda3RocmVhZCsweDE1NC8weDE1OApbIDEw
-LjM4Nzg3OV1yZXRfZnJvbV9mb3JrKzB4MTAvMHgzNApfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGlu
-dXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxt
-YW4vbGlzdGluZm8vaW9tbXU=
+On 9/24/20 1:38 PM, Arvind Sankar wrote:
+> On Thu, Sep 24, 2020 at 10:58:35AM -0400, Ross Philipson wrote:
+>> The Secure Launch (SL) stub provides the entry point for Intel TXT (and
+>> later AMD SKINIT) to vector to during the late launch. The symbol
+>> sl_stub_entry is that entry point and its offset into the kernel is
+>> conveyed to the launching code using the MLE (Measured Launch
+>> Environment) header in the structure named mle_header. The offset of the
+>> MLE header is set in the kernel_info. The routine sl_stub contains the
+>> very early late launch setup code responsible for setting up the basic
+>> environment to allow the normal kernel startup_32 code to proceed. It is
+>> also responsible for properly waking and handling the APs on Intel
+>> platforms. The routine sl_main which runs after entering 64b mode is
+>> responsible for measuring configuration and module information before
+>> it is used like the boot params, the kernel command line, the TXT heap,
+>> an external initramfs, etc.
+>>
+>> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+> 
+> Which version of the kernel is this based on?
+
+git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+
+master branch
+
+> 
+>> diff --git a/arch/x86/boot/compressed/head_64.S b/arch/x86/boot/compressed/head_64.S
+>> index 97d37f0..42043bf 100644
+>> --- a/arch/x86/boot/compressed/head_64.S
+>> +++ b/arch/x86/boot/compressed/head_64.S
+>> @@ -279,6 +279,21 @@ SYM_INNER_LABEL(efi32_pe_stub_entry, SYM_L_LOCAL)
+>>  SYM_FUNC_END(efi32_stub_entry)
+>>  #endif
+>>  
+>> +#ifdef CONFIG_SECURE_LAUNCH
+>> +SYM_FUNC_START(sl_stub_entry)
+>> +	/*
+>> +	 * On entry, %ebx has the entry abs offset to sl_stub_entry. To
+>> +	 * find the beginning of where we are loaded, sub off from the
+>> +	 * beginning.
+>> +	 */
+> 
+> This requirement should be added to the documentation. Is it necessary
+> or can this stub just figure out the address the same way as the other
+> 32-bit entry points, using the scratch space in bootparams as a little
+> stack?
+
+It is based on the state of the BSP when TXT vectors to the measured
+launch environment. It is documented in the TXT spec and the SDMs.
+
+> 
+>> +	leal	(startup_32 - sl_stub_entry)(%ebx), %ebx
+>> +
+>> +	/* More room to work in sl_stub in the text section */
+>> +	jmp	sl_stub
+>> +
+>> +SYM_FUNC_END(sl_stub_entry)
+>> +#endif
+>> +
+>>  	.code64
+>>  	.org 0x200
+>>  SYM_CODE_START(startup_64)
+>> @@ -537,6 +552,25 @@ SYM_FUNC_START_LOCAL_NOALIGN(.Lrelocated)
+>>  	shrq	$3, %rcx
+>>  	rep	stosq
+>>  
+>> +#ifdef CONFIG_SECURE_LAUNCH
+>> +	/*
+>> +	 * Have to do the final early sl stub work in 64b area.
+>> +	 *
+>> +	 * *********** NOTE ***********
+>> +	 *
+>> +	 * Several boot params get used before we get a chance to measure
+>> +	 * them in this call. This is a known issue and we currently don't
+>> +	 * have a solution. The scratch field doesn't matter and loadflags
+>> +	 * have KEEP_SEGMENTS set by the stub code. There is no obvious way
+>> +	 * to do anything about the use of kernel_alignment or init_size
+>> +	 * though these seem low risk.
+>> +	 */
+> 
+> There are various fields in bootparams that depend on where the
+> kernel/initrd and cmdline are loaded in memory. If the entire bootparams
+> page is getting measured, does that mean they all have to be at fixed
+> addresses on every boot?
+
+Yes that is a very good point. In other places when measuring we make
+sure to skip things like addresses and sizes of things outside of the
+structure being measured. This needs to be done with boot params too.
+
+> 
+> Also KEEP_SEGMENTS support is gone from the kernel since v5.7, since it
+> was unused. startup_32 now always loads a GDT and then the segment
+> registers. I think this should be ok for you as the only thing the flag
+> used to do in the 64-bit kernel was to stop startup_32 from blindly
+> loading __BOOT_DS into the segment registers before it had setup its own
+> GDT.
+
+Yea this was there to prevent that blind loading of __BOOT_DS. I see it
+is gone so I will remove the comment and the place where the flag is set.
+
+> 
+> For the 32-bit assembler code that's being added, tip/master now has
+> changes that prevent the compressed kernel from having any runtime
+> relocations.  You'll need to revise some of the code and the data
+> structures initial values to avoid creating relocations.
+
+Could you elaborate on this some more? I am not sure I see places in the
+secure launch asm that would be creating relocations like this.
+
+Thank you,
+Ross
+
+> 
+> Thanks.
+> 
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
