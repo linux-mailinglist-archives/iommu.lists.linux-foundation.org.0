@@ -1,87 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC96279493
-	for <lists.iommu@lfdr.de>; Sat, 26 Sep 2020 01:14:27 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B742797CA
+	for <lists.iommu@lfdr.de>; Sat, 26 Sep 2020 10:12:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3057C869D8;
-	Fri, 25 Sep 2020 23:14:26 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 49A44204AF;
+	Sat, 26 Sep 2020 08:12:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aq6d3IDc8yc3; Fri, 25 Sep 2020 23:14:25 +0000 (UTC)
+	with ESMTP id 3RuoHJe61elv; Sat, 26 Sep 2020 08:12:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0F72286E50;
-	Fri, 25 Sep 2020 23:14:25 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 494A820465;
+	Sat, 26 Sep 2020 08:12:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EF1FEC0895;
-	Fri, 25 Sep 2020 23:14:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 31A39C0051;
+	Sat, 26 Sep 2020 08:12:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C781BC0859
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 23:14:23 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3EE5EC0051
+ for <iommu@lists.linux-foundation.org>; Sat, 26 Sep 2020 08:12:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id AF22586DB0
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 23:14:23 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 267B486B87
+ for <iommu@lists.linux-foundation.org>; Sat, 26 Sep 2020 08:12:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m3iFG-UTNoRi for <iommu@lists.linux-foundation.org>;
- Fri, 25 Sep 2020 23:14:23 +0000 (UTC)
+ with ESMTP id ZqLv_we2gyHw for <iommu@lists.linux-foundation.org>;
+ Sat, 26 Sep 2020 08:12:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1992686222
- for <iommu@lists.linux-foundation.org>; Fri, 25 Sep 2020 23:14:23 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1601075659;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5hfCJknL7vN5FQ7E5rBJUvr3Ui/JGPGdNK+KMG+iROA=;
- b=O8WigxqARtdurkJ3wZLtFlOVp/IJYLWjDmhmQmul4Jh1+/tu2tcAC1TQqLvZ7X6XtgAJUn
- eOxJOrPLqDp0AFlhrf9ICCES57zKrQJtWeBw+enhlvFsmhVrk/PIHUraubnLUB8YFVD3EU
- aO+sAe/6qmqsJ4/w9ay6UGJ7n4LbTG7vauQWZ+EMoZO0h8etOCXCfxiQH5btgeOiQSreV3
- mVGp6pGYXUixpnIECzjY39qztquc0ZKZJGi+8R9bz6K81QFII/mn3LRxC2GMX7eONSPEt0
- XqZWoOf+IOa80v+JeOxpuuaVtH3FZsqK9XZ5peTSl+Dt7ASOi02SLO6a+QW6sw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1601075659;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5hfCJknL7vN5FQ7E5rBJUvr3Ui/JGPGdNK+KMG+iROA=;
- b=qe4V7bKcqNpxkkupSUaXGl+NgWRwWilYYeYK3x3W8R47Rqr4/aCDpm5Xt3BubAKjEHc4Tr
- Du8N8X29kfg+K2Ag==
-To: Peter Zijlstra <peterz@infradead.org>, Qian Cai <cai@redhat.com>
-Subject: Re: [patch V2 00/46] x86, PCI, XEN, genirq ...: Prepare for device MSI
-In-Reply-To: <20200925154937.GL29142@worktop.programming.kicks-ass.net>
-References: <20200826111628.794979401@linutronix.de>
- <3c12bdec2c4ecdabcccd9ece3d495d792e9fc231.camel@redhat.com>
- <20200925154937.GL29142@worktop.programming.kicks-ass.net>
-Date: Sat, 26 Sep 2020 01:14:18 +0200
-Message-ID: <87tuvltpo5.fsf@nanos.tec.linutronix.de>
-MIME-Version: 1.0
-Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
- Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org,
- "K. Y. Srinivasan" <kys@microsoft.com>, Jason Gunthorpe <jgg@mellanox.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>, Wei Liu <wei.liu@kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>, Baolu Lu <baolu.lu@intel.com>,
- Marc Zyngier <maz@kernel.org>, x86@kernel.org, linux-next@vger.kernel.org,
- Megha Dey <megha.dey@intel.com>, xen-devel@lists.xenproject.org,
- Kevin Tian <kevin.tian@intel.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Dan Williams <dan.j.williams@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Dave Jiang <dave.jiang@intel.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Jon Derrick <jonathan.derrick@intel.com>, Juergen Gross <jgross@suse.com>,
- Russ Anderson <rja@hpe.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
- Jacob Pan <jacob.jun.pan@intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+ [209.85.210.194])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 87BFA8508E
+ for <iommu@lists.linux-foundation.org>; Sat, 26 Sep 2020 08:12:29 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id w7so5290103pfi.4
+ for <iommu@lists.linux-foundation.org>; Sat, 26 Sep 2020 01:12:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=RqGonHimm7XKXd4Ikem1uzvHdZOfGO32j99S5gvNitA=;
+ b=j7IRl9KG/Se58SYA6QuKBw/YmiREdDFLHKttC0OcR475GvqIUmNwYl4EH6zKZRjWl4
+ UQwJt9nQm2pxOy/cEOr3j3PKZn+0ERaK79LiLsWCHjm304oGXxjYEEcsDN56k2eKixfa
+ hscI3xgUxuMp+t4T8gCXGGJvGmOPX2361HMj428IIAj83DHM1sXEuQCHZva8YCBaun89
+ 6KRJ9Pbqp8czbZzATMwH0ToUTTkrUfvfyJrEWMq7k7lUTuneSPuS8oFfoxmGSwABPngq
+ ViS9j5mnTvkWndOh2eSLtjE26QFp35ccwIZh6u44Lz7Mo4g0X7aKAJW0CC9p96YclRt+
+ ftCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=RqGonHimm7XKXd4Ikem1uzvHdZOfGO32j99S5gvNitA=;
+ b=S2MEAKZz/AlS8itIUPIHKUHKqTJjP/4bm0qXkWkt3orMpvLxSD9/Xh39pcxqq5NnSG
+ pTswlUPHikebI2HCcbcQRM7MhZscWBn8G5R9weU3NHeugjrlwuOXwC7ck0Ip1bwXmel6
+ 6lr5aoh5cLbfIQP3HmuUp8US3ltrfD7esd+Cgd/e5jYjBNfxv1q6yxrfMFi4VQjJ/LBO
+ LC15utfnuM9pJA8IDmY9BC2aG94QzPJ6EE4UBWDbe3vBV7T4TyFWMR1TXG4EJ9XP9kF6
+ qXFwf4uihhlbW8+mQbkXEBNiP2si+joqR0L5IA/zmBP0XLo4F0OInspKtKJmWrRxS1mO
+ hWwQ==
+X-Gm-Message-State: AOAM531jeaHEVuT90o+KyH0vBfmlQttqw2Zm9uzkCFGhSd729QVSr7hz
+ umBie2vKN6dvdZjimwkV4m8=
+X-Google-Smtp-Source: ABdhPJy9a1WcIQBjVdYr5QAtqHP0TJd+SJ/l8Mqb8n6WGtKnDdwx1qDk93Bdrq7G0FwZSdF8jpKI0g==
+X-Received: by 2002:aa7:97a8:0:b029:13e:d13d:a105 with SMTP id
+ d8-20020aa797a80000b029013ed13da105mr2189367pfq.33.1601107949029; 
+ Sat, 26 Sep 2020 01:12:29 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
+ [216.228.112.22])
+ by smtp.gmail.com with ESMTPSA id i1sm4833497pfk.21.2020.09.26.01.12.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Sep 2020 01:12:28 -0700 (PDT)
+From: Nicolin Chen <nicoleotsuka@gmail.com>
+To: thierry.reding@gmail.com,
+	joro@8bytes.org,
+	krzk@kernel.org
+Subject: [PATCH 0/5] iommu/tegra-smmu: Adding PCI support and mappings debugfs
+ node
+Date: Sat, 26 Sep 2020 01:07:14 -0700
+Message-Id: <20200926080719.6822-1-nicoleotsuka@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, jonathanh@nvidia.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,44 +90,38 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Sep 25 2020 at 17:49, Peter Zijlstra wrote:
-> Here it looks like this:
->
-> [    1.830276] BUG: kernel NULL pointer dereference, address: 0000000000000000
-> [    1.838043] #PF: supervisor instruction fetch in kernel mode
-> [    1.844357] #PF: error_code(0x0010) - not-present page
-> [    1.850090] PGD 0 P4D 0
-> [    1.852915] Oops: 0010 [#1] SMP
-> [    1.856419] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.9.0-rc6-00700-g0248dedd12d4 #419
-> [    1.865447] Hardware name: Intel Corporation S2600GZ/S2600GZ, BIOS SE5C600.86B.02.02.0002.122320131210 12/23/2013
-> [    1.876902] RIP: 0010:0x0
-> [    1.879824] Code: Bad RIP value.
-> [    1.883423] RSP: 0000:ffffffff82803da0 EFLAGS: 00010282
-> [    1.889251] RAX: 0000000000000000 RBX: ffffffff8282b980 RCX: ffffffff82803e40
-> [    1.897241] RDX: 0000000000000001 RSI: ffffffff82803e40 RDI: ffffffff8282b980
-> [    1.905201] RBP: ffff88842f331000 R08: 00000000ffffffff R09: 0000000000000001
-> [    1.913162] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000048
-> [    1.921123] R13: ffffffff82803e40 R14: ffffffff8282b9c0 R15: 0000000000000000
-> [    1.929085] FS:  0000000000000000(0000) GS:ffff88842f400000(0000) knlGS:0000000000000000
-> [    1.938113] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    1.944524] CR2: ffffffffffffffd6 CR3: 0000000002811001 CR4: 00000000000606b0
-> [    1.952484] Call Trace:
-> [    1.955214]  msi_domain_alloc+0x36/0x130
+This series of patches are some followup patches for tegra-smmu.
 
-Hrm. That looks like a not initialized mandatory callback. Confused.
+There are four parts:
+1, PATCH-1 is a clean-up patch for the recently applied SWGROUP change.
+2, PATCH-2 fixes a potential race condition
+3, PATCH-3/4 adds PCI device support
+4, PATCH-5 adds a debugfs node for phys<=>iova mappings
 
-Is this on -next and if so, does this happen on tip:x86/irq as well?
+Each of the four parts is sort of functional independent, so we may
+apply them separately or incrementally depending on the reviews.
 
-Can you provide yoru config please?
+Nicolin Chen (5):
+  iommu/tegra-smmu: Unwrap tegra_smmu_group_get
+  iommu/tegra-smmu: Expend mutex protection range
+  iommu/tegra-smmu: Use iommu_fwspec in .probe_/.attach_device()
+  iommu/tegra-smmu: Add PCI support
+  iommu/tegra-smmu: Add pagetable mappings to debugfs
 
-Thanks,
+ drivers/iommu/tegra-smmu.c | 287 ++++++++++++++++++++++++++++---------
+ drivers/memory/tegra/mc.c  |   2 +-
+ include/soc/tegra/mc.h     |   2 +
+ 3 files changed, 221 insertions(+), 70 deletions(-)
 
-        tglx
+-- 
+2.17.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
