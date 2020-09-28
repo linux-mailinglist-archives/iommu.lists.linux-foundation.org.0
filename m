@@ -2,67 +2,80 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3705C27B780
-	for <lists.iommu@lfdr.de>; Tue, 29 Sep 2020 01:08:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D9127B89B
+	for <lists.iommu@lfdr.de>; Tue, 29 Sep 2020 02:04:55 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CC55C84E97;
-	Mon, 28 Sep 2020 23:08:47 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D91DB866BA;
+	Tue, 29 Sep 2020 00:04:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id h5xJK8YsUF3v; Mon, 28 Sep 2020 23:08:45 +0000 (UTC)
+	with ESMTP id bqmpaLYFwd5Q; Tue, 29 Sep 2020 00:04:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C399184BCF;
-	Mon, 28 Sep 2020 23:08:45 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B1258866C8;
+	Tue, 29 Sep 2020 00:04:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A2CDBC016F;
-	Mon, 28 Sep 2020 23:08:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8B6C6C0891;
+	Tue, 29 Sep 2020 00:04:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A97E1C016F
- for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 23:08:43 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 686D3C016F
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 00:04:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 90378870C9
- for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 23:08:43 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 56DF086F9A
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 00:04:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QdQ+iRULIcK2 for <iommu@lists.linux-foundation.org>;
- Mon, 28 Sep 2020 23:08:42 +0000 (UTC)
+ with ESMTP id D3+BPYFJ5+Z0 for <iommu@lists.linux-foundation.org>;
+ Tue, 29 Sep 2020 00:04:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E997B870C7
- for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 23:08:42 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4447D23A58;
- Mon, 28 Sep 2020 23:08:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601334522;
- bh=yx7Kl0l4LL/Tx5VWW4V3Yshm8iNUcgJJrDqsEi+/CI0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=esDNOvaQBOKfLSsr97k+I5mnTJEnZaivBEIgHvM19pd79mkh8+Th6XPwP9Dg7Nu8F
- n1JK1azkKbq5XAjhQvWuh8gZeIXNRzYUR0SLDbng3W2pSqMX5+frAs9Kre/PSATOTQ
- 1mB7qdIrAZLVKO/Jx9zpQxnEd4tPpiq3CWHfS3ps=
-Date: Tue, 29 Sep 2020 00:08:35 +0100
-From: Will Deacon <will@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] iommu/qcom: add missing put_device() call in
- qcom_iommu_of_xlate()
-Message-ID: <20200928230835.GA12939@willie-the-truck>
-References: <20200918011357.909335-1-yukuai3@huawei.com>
- <202009220340.bJfsaeQn%lkp@intel.com>
- <20200921204556.GB3811@willie-the-truck>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200921204556.GB3811@willie-the-truck>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: kbuild-all@lists.01.org, yi.zhang@huawei.com, linux-arm-msm@vger.kernel.org,
- iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- clang-built-linux@googlegroups.com, Yu Kuai <yukuai3@huawei.com>,
- linux-arm-kernel@lists.infradead.org
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+ [209.85.216.67])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 95F4986F8F
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 00:04:46 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id b17so1660347pji.1
+ for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 17:04:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=2F2+5D5YYyNtX412eaEEkRAVLuYFhL798dSPFQt/UiI=;
+ b=KN7aVqVR2irl+UwyQ/zwfgh5MAtJqeXE2N50vSO/iqptVA7aYfjoFof5Ns9kuNbscY
+ rzp0TsTPcIGTWZIA+i+EPEwRQfgP24eHdkOBtltnAgOw/CEjGTNCZZw1h1+h+22JBRv0
+ P2uWeCDjzsbVnf5pafKMnnSGrrJ7Uw5g9LZkqAjAkc2mOpMTfUuJLLtYDnSGGXiRHStS
+ 7HV53RqU5CE7dw7qzLUpmyzHotpwRVwcT3V4hniOJHD72f2kJw4XrhOAzq4CleSxXHZU
+ LICALTYjQJzbtI42zVkbs9SaeBBWVC36agePjxCRhiz1zQduauhwV2UZVRArEaCDJgYb
+ hebg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=2F2+5D5YYyNtX412eaEEkRAVLuYFhL798dSPFQt/UiI=;
+ b=s3xhO76rEPV/m2WNDB0zBYEVM39s8kCaYdDxLyoLcn8lJOlNL/+3Hn0leN9utSX8wK
+ l4iZBQP9VQq/Qx8D3cioftu26V3mN06YEAbtsrKYfVMhPOzGRZd7youQDI6wD1svDngz
+ wdccJw02MytNN9aI28js7ytr6IX/rnEEntwBPp4v0eBnZP2qmv1m3Jp3AYgkN8HSmSTt
+ lVFNW0DWhLc+YkcWH39Xk2JQ8maQpwAACuL2nWmbNOIkKuQH4SXNssUOTApGrUEOaWOs
+ i0OIPm7X5OdzEQFNL9qbhdAdd5bS+u04a7lLTN8SSCIkSDiqO9O4cfQA2kZmmPSGQM4a
+ 4SXg==
+X-Gm-Message-State: AOAM530IL5slM9ZLWWm+myRNaZxJt8JDg1bk8pLNANqbEj9yuoNRczFt
+ +ShxR3AIF9gUinNApeWd4Dk=
+X-Google-Smtp-Source: ABdhPJwgFda4M/Fy6oERQj0m1JqZSIWvhaK/zpKP1yJw7KCeqXlbxVK7LrTLpsSN/pB8+dspfSVhBA==
+X-Received: by 2002:a17:902:9b89:b029:d2:42a6:88f with SMTP id
+ y9-20020a1709029b89b02900d242a6088fmr1789567plp.71.1601337886094; 
+ Mon, 28 Sep 2020 17:04:46 -0700 (PDT)
+Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
+ [216.228.112.22])
+ by smtp.gmail.com with ESMTPSA id fz23sm2392814pjb.36.2020.09.28.17.04.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Sep 2020 17:04:45 -0700 (PDT)
+From: Nicolin Chen <nicoleotsuka@gmail.com>
+To: thierry.reding@gmail.com,
+	joro@8bytes.org
+Subject: [PATCH v2 0/2] iommu/tegra-smmu: Two followup changes
+Date: Mon, 28 Sep 2020 16:58:59 -0700
+Message-Id: <20200928235901.28337-1-nicoleotsuka@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ jonathanh@nvidia.com, linux-tegra@vger.kernel.org, digetx@gmail.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,50 +88,31 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Sep 21, 2020 at 09:45:57PM +0100, Will Deacon wrote:
-> On Tue, Sep 22, 2020 at 03:13:53AM +0800, kernel test robot wrote:
-> > Thank you for the patch! Perhaps something to improve:
-> > 
-> > [auto build test WARNING on iommu/next]
-> > [also build test WARNING on linus/master v5.9-rc6 next-20200921]
-> > [cannot apply to robclark/msm-next]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch]
-> > 
-> > url:    https://github.com/0day-ci/linux/commits/Yu-Kuai/iommu-qcom-add-missing-put_device-call-in-qcom_iommu_of_xlate/20200918-091341
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
-> > config: arm64-randconfig-r023-20200920 (attached as .config)
-> > compiler: clang version 12.0.0 (https://github.com/llvm/llvm-project 4e8c028158b56d9c2142a62464e8e0686bde3584)
-> > reproduce (this is a W=1 build):
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # install arm64 cross compiling tool for clang build
-> >         # apt-get install binutils-aarch64-linux-gnu
-> >         # save the attached .config to linux build tree
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm64 
-> > 
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> drivers/iommu/arm/arm-smmu/qcom_iommu.c:601:4: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-> >                            return -EINVAL;
-> >                            ^
-> >    drivers/iommu/arm/arm-smmu/qcom_iommu.c:599:3: note: previous statement is here
-> >                    if (WARN_ON(qcom_iommu != dev_iommu_priv_get(dev)))
-> 
-> Oh, this looks like a nasty bug. Seems we're missing some braces.
+Two followup patches for tegra-smmu:
+PATCH-1 is a clean-up patch for the recently applied SWGROUP change.
+PATCH-2 fixes a potential race condition
 
-Yu Kuai: please could you send a v2 of this?
+Changelog
+v1->v2:
+ * Separated first two changs of V1 so they may get applied first,
+   since the other three changes need some extra time to finalize.
 
-Will
+Nicolin Chen (2):
+  iommu/tegra-smmu: Unwrap tegra_smmu_group_get
+  iommu/tegra-smmu: Expend mutex protection range
+
+ drivers/iommu/tegra-smmu.c | 53 ++++++++++++++++++--------------------
+ 1 file changed, 25 insertions(+), 28 deletions(-)
+
+-- 
+2.17.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
