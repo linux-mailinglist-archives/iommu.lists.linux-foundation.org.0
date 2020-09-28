@@ -2,71 +2,72 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D700527B72A
-	for <lists.iommu@lfdr.de>; Mon, 28 Sep 2020 23:37:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A820D27B72F
+	for <lists.iommu@lfdr.de>; Mon, 28 Sep 2020 23:37:07 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3B6FD85A92;
-	Mon, 28 Sep 2020 21:37:02 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5C619858C6;
+	Mon, 28 Sep 2020 21:37:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Es7zVSRO-c6S; Mon, 28 Sep 2020 21:37:01 +0000 (UTC)
+	with ESMTP id Xx1Q8jZJtJL4; Mon, 28 Sep 2020 21:37:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 54AA285ABE;
-	Mon, 28 Sep 2020 21:37:00 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C4F8E8578B;
+	Mon, 28 Sep 2020 21:37:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 41A06C0051;
-	Mon, 28 Sep 2020 21:37:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AA32BC0051;
+	Mon, 28 Sep 2020 21:37:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2C070C0051
- for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 21:36:58 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 85852C0051
+ for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 21:36:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 1B20C8707B
- for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 21:36:58 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 6354785817
+ for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 21:36:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ex4kkuOZhRTv for <iommu@lists.linux-foundation.org>;
- Mon, 28 Sep 2020 21:36:57 +0000 (UTC)
+ with ESMTP id IbhWHTjqjNoS for <iommu@lists.linux-foundation.org>;
+ Mon, 28 Sep 2020 21:36:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 9DB7686CE0
- for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 21:36:57 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id b124so2369995pfg.13
- for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 14:36:57 -0700 (PDT)
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+ [209.85.216.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id BE28684DE6
+ for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 21:36:58 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id s14so2781705pju.1
+ for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 14:36:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=d1FfSiT0/rNuXhBVREG/yc6QeqXaZmsaJ55ClmMPrSA=;
- b=r0TFUtTL36ac2nmkkmqUvShag9p4Nr90dTd1zKFHpK0u06RB7xzvc10y/8rI43dRe9
- aL92VrM5u5jZPGZTrUTvzcCbWgiyP4IcC96N052t63wUVxyrF/jZ7TDILYSXdKRmmr/L
- GEX41iDNcl+PjkT7LI/2yZK1HVJ83WPCUcOeUtUuwd0GNCVro3zwgXgxmi1qwlKttoCR
- xNC42K+M5nDlIwHkyZA8/Hmp646Gumsdrwn+oVp4UOzedPc3hrLGGIUYuRmBnUsuzTZq
- hNy82OUKOWV1dcv//ylXy4FULe24ZdrYw95f9PDvCipj1BN+xc/Ip+xKPrBsIAtdMh0j
- I18A==
+ bh=Gd3yej60dudO/8DXRzuDh/k17amPnxhlwfOMJTioVQM=;
+ b=tTP4J0IaMk227Z8asAN85KOSM1A9No6RY5e4LLFeNceqe/24u2KHAriyTcErBdU/B1
+ 31JrR3t6e3CMvNPvKtmHYn5xeL0W5vprCR+nt/PqLPtlde7HhW2YJ7Ifw4hkewplV1En
+ 3f1l3EKdbTyvD2l6+wVWCFO6ca8AHad7f2TtYBshmeXQPwFA+jlBxzx9StY2//cJs4fP
+ nux79mYcFISBDkY6rB1Z21u41p7ZwLBrP/+/hv826s2RTf3iBTCgiynbv311mURUl3pe
+ CcxIbqqZgFAB8feDEaYIjQw7quZqOmnwjXIxwKKC8e9R7eRCr5Zz+sn+EXAOw41VaWRb
+ NQjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=d1FfSiT0/rNuXhBVREG/yc6QeqXaZmsaJ55ClmMPrSA=;
- b=Eei8HH9PDwtT6G0ebvoxClA1m1W1BNE/2bkQZm3KqN8GN/hy6ky9sHOxe8qm7OJbqG
- HtSJt+aY0Vxh+Kz0tVxu0ejH4AJMN4B9K+So3NApXrckXAN3R0ZeaaNe5RPZ7sml2o6P
- qotsvj+cZcxgSPmHAFhpKZd4hVXIBzi2j8S6vAaV2CqRkbLis9xme+tPQNP9VeXhA9xT
- MTs5BRTYlqZ1AI5JRViDnqHizXArUchv+zB3Iztv5WixtiIBkRE3hlzSO2WhteEQM6Hl
- 5EOfl3/8XdX0ZpG6sMa7zUXd8vqmGcyyajImo69Mg0ubQ1V25JRRjsCVf8JVAAoPT3O5
- JVyg==
-X-Gm-Message-State: AOAM533fauJAYkzF21EX3/VJkFRtiIEYmD8Ib6THLvESbRWGvzGU8jYF
- hocrDfapp7783ePye6cG2okJ6PSNypA=
-X-Google-Smtp-Source: ABdhPJwj+5XtiJEtx58cHwj9dKNKedPMVVg0ZTMpDicVIRoVL1W2IJBC4s9o5U0euw0uP7XZGvRA0g==
-X-Received: by 2002:a65:410c:: with SMTP id w12mr756685pgp.411.1601329017069; 
- Mon, 28 Sep 2020 14:36:57 -0700 (PDT)
+ bh=Gd3yej60dudO/8DXRzuDh/k17amPnxhlwfOMJTioVQM=;
+ b=eMoF/w1fPqUXJ7V4+hOl1KgHJRx8AsLBnZWv/oP8rvp86ZkJnaXBvtyUqc5t5LHL6c
+ PjvGw39ktJlBDbL9I3i+CpdxJwuQHlsUPg2qCFESz+tz1AdG7SZT15xmK620CM315L65
+ NmDyV5nWQnnvUNcgCZsBhCxd5xiGN8MvxSKR4/bjQwu7BbW+r9rO5LrokPx6C0XwY6b3
+ rI4oYvgvrVr4L230MPhEoMudiCx2hQZz+ydLp+WBLsbw89prE1iGXAREwSOEjUvurxVP
+ lPFRbGd8LcHqJ3SdNNsnZkMBE+p/XjZ9JLyOWmtJRHJAT9rRV0DPJqDga8C6ccQkR3z9
+ kvdA==
+X-Gm-Message-State: AOAM531iqcYWwwoSqpWzmgPteytxNqsm1AzGn0kd/K90P4uuXGZThEch
+ 0lYf63VVoBwXP13X6Ioa/LQCwKTnU58=
+X-Google-Smtp-Source: ABdhPJx9iz0liS3WtMH3HKPteQJgZuhpU2LsqxwnYQPtfa8tQQAV9sXRarVwRsALY0g9GPPWrLoaKQ==
+X-Received: by 2002:a17:90b:889:: with SMTP id
+ bj9mr1004758pjb.73.1601329018191; 
+ Mon, 28 Sep 2020 14:36:58 -0700 (PDT)
 Received: from jacob-builder.jf.intel.com (jfdmzpr04-ext.jf.intel.com.
  [134.134.137.73])
- by smtp.gmail.com with ESMTPSA id l11sm2220864pjf.17.2020.09.28.14.36.56
+ by smtp.gmail.com with ESMTPSA id l11sm2220864pjf.17.2020.09.28.14.36.57
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 28 Sep 2020 14:36:56 -0700 (PDT)
+ Mon, 28 Sep 2020 14:36:57 -0700 (PDT)
 From: Jacob Pan <jacob.pan.linux@gmail.com>
 X-Google-Original-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
 To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
@@ -74,9 +75,9 @@ To: iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
  Alex Williamson <alex.williamson@redhat.com>,
  "Lu Baolu" <baolu.lu@linux.intel.com>,
  David Woodhouse <dwmw2@infradead.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v3 12/14] iommu/vt-d: Remove mm reference for guest SVA
-Date: Mon, 28 Sep 2020 14:38:39 -0700
-Message-Id: <1601329121-36979-13-git-send-email-jacob.jun.pan@linux.intel.com>
+Subject: [PATCH v3 13/14] iommu/vt-d: Listen to IOASID notifications
+Date: Mon, 28 Sep 2020 14:38:40 -0700
+Message-Id: <1601329121-36979-14-git-send-email-jacob.jun.pan@linux.intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1601329121-36979-1-git-send-email-jacob.jun.pan@linux.intel.com>
 References: <1601329121-36979-1-git-send-email-jacob.jun.pan@linux.intel.com>
@@ -102,41 +103,166 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Now that IOASID core keeps track of the IOASID to mm_struct ownership in
-the forms of ioasid_set with IOASID_SET_TYPE_MM token type, there is no
-need to keep the same mapping in VT-d driver specific data. Native SVM
-usage is not affected by the change.
+On Intel Scalable I/O Virtualization (SIOV) enabled platforms, IOMMU
+driver is one of the users of IOASIDs. In normal flow, callers will
+perform IOASID allocation, bind, unbind, and free in order. However, for
+guest SVA, IOASID free could come before unbind as guest is untrusted.
+This patch registers IOASID notification handler such that IOMMU driver
+can perform PASID teardown upon receiving an unexpected IOASID free
+event.
 
 Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 ---
- drivers/iommu/intel/svm.c | 7 -------
- 1 file changed, 7 deletions(-)
+ drivers/iommu/intel/svm.c   | 94 ++++++++++++++++++++++++++++++++++++++++++++-
+ include/linux/intel-iommu.h |  2 +
+ 2 files changed, 94 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 2e764e283469..39a09a93300e 100644
+index 39a09a93300e..8f886718df83 100644
 --- a/drivers/iommu/intel/svm.c
 +++ b/drivers/iommu/intel/svm.c
-@@ -338,12 +338,6 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
- 			ret = -ENOMEM;
- 			goto out;
- 		}
--		/* REVISIT: upper layer/VFIO can track host process that bind
--		 * the PASID. ioasid_set = mm might be sufficient for vfio to
--		 * check pasid VMM ownership. We can drop the following line
--		 * once VFIO and IOASID set check is in place.
--		 */
--		svm->mm = get_task_mm(current);
- 		svm->pasid = data->hpasid;
- 		if (data->flags & IOMMU_SVA_GPASID_VAL) {
- 			svm->gpasid = data->gpasid;
-@@ -351,7 +345,6 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+@@ -95,6 +95,90 @@ static inline bool intel_svm_capable(struct intel_iommu *iommu)
+ 	return iommu->flags & VTD_FLAG_SVM_CAPABLE;
+ }
+ 
++static inline void intel_svm_drop_pasid(ioasid_t pasid)
++{
++	ioasid_detach_data(pasid);
++	ioasid_put(NULL, pasid);
++}
++
++static DEFINE_MUTEX(pasid_mutex);
++#define pasid_lock_held() lock_is_held(&pasid_mutex.dep_map)
++
++static void intel_svm_free_async_fn(struct work_struct *work)
++{
++	struct intel_svm *svm = container_of(work, struct intel_svm, work);
++	struct intel_svm_dev *sdev;
++
++	/*
++	 * Unbind all devices associated with this PASID which is
++	 * being freed by other users such as VFIO.
++	 */
++	mutex_lock(&pasid_mutex);
++	list_for_each_entry_rcu(sdev, &svm->devs, list, pasid_lock_held()) {
++		/* Does not poison forward pointer */
++		list_del_rcu(&sdev->list);
++		spin_lock(&svm->iommu->lock);
++		intel_pasid_tear_down_entry(svm->iommu, sdev->dev,
++					svm->pasid, true);
++		spin_unlock(&svm->iommu->lock);
++		kfree_rcu(sdev, rcu);
++	}
++	/*
++	 * We may not be the last user to drop the reference but since
++	 * the PASID is in FREE_PENDING state, no one can get new reference.
++	 * Therefore, we can safely free the private data svm.
++	 */
++	intel_svm_drop_pasid(svm->pasid);
++	/*
++	 * Free before unbind can only happen with host PASIDs used for
++	 * guest SVM. We get here because ioasid_free is called with
++	 * outstanding references. So we need to drop the reference
++	 * such that the PASID can be reclaimed. unbind_gpasid() after this
++	 * will not result in dropping refcount since the private data is
++	 * already detached.
++	 */
++	kfree(svm);
++
++	mutex_unlock(&pasid_mutex);
++}
++
++
++static int pasid_status_change(struct notifier_block *nb,
++				unsigned long code, void *data)
++{
++	struct ioasid_nb_args *args = (struct ioasid_nb_args *)data;
++	struct intel_svm *svm = (struct intel_svm *)args->pdata;
++	int ret = NOTIFY_DONE;
++
++	if (code == IOASID_NOTIFY_FREE) {
++		/*
++		 * If PASID UNBIND happens before FREE, private data of the
++		 * IOASID should be NULL, then we don't need to do anything.
++		 */
++		if (!svm)
++			goto done;
++		if (args->id != svm->pasid) {
++			pr_warn("Notify PASID does not match data %d : %d\n",
++				args->id, svm->pasid);
++			goto done;
++		}
++		schedule_work(&svm->work);
++		return NOTIFY_OK;
++	}
++done:
++	return ret;
++}
++
++static struct notifier_block pasid_nb = {
++	.notifier_call = pasid_status_change,
++};
++
++void intel_svm_add_pasid_notifier(void)
++{
++	/* Listen to all PASIDs, not specific to a set */
++	ioasid_register_notifier(NULL, &pasid_nb);
++}
++
+ void intel_svm_check(struct intel_iommu *iommu)
+ {
+ 	if (!pasid_supported(iommu))
+@@ -221,7 +305,6 @@ static const struct mmu_notifier_ops intel_mmuops = {
+ 	.invalidate_range = intel_invalidate_range,
+ };
+ 
+-static DEFINE_MUTEX(pasid_mutex);
+ static LIST_HEAD(global_svm_list);
+ 
+ #define for_each_svm_dev(sdev, svm, d)			\
+@@ -344,6 +427,13 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+ 			svm->flags |= SVM_FLAG_GUEST_PASID;
  		}
  		ioasid_attach_data(data->hpasid, svm);
++		ioasid_get(NULL, svm->pasid);
++		svm->iommu = iommu;
++		/*
++		 * Set up cleanup async work in case IOASID core notify us PASID
++		 * is freed before unbind.
++		 */
++		INIT_WORK(&svm->work, intel_svm_free_async_fn);
  		INIT_LIST_HEAD_RCU(&svm->devs);
--		mmput(svm->mm);
  	}
  	sdev = kzalloc(sizeof(*sdev), GFP_KERNEL);
- 	if (!sdev) {
+@@ -437,7 +527,7 @@ int intel_svm_unbind_gpasid(struct device *dev, int pasid)
+ 				 * the unbind, IOMMU driver will get notified
+ 				 * and perform cleanup.
+ 				 */
+-				ioasid_detach_data(pasid);
++				intel_svm_drop_pasid(pasid);
+ 				kfree(svm);
+ 			}
+ 		}
+diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
+index b1ed2f25f7c0..d36038e6ae0b 100644
+--- a/include/linux/intel-iommu.h
++++ b/include/linux/intel-iommu.h
+@@ -744,6 +744,7 @@ void intel_svm_unbind(struct iommu_sva *handle);
+ int intel_svm_get_pasid(struct iommu_sva *handle);
+ int intel_svm_page_response(struct device *dev, struct iommu_fault_event *evt,
+ 			    struct iommu_page_response *msg);
++void intel_svm_add_pasid_notifier(void);
+ 
+ struct svm_dev_ops;
+ 
+@@ -770,6 +771,7 @@ struct intel_svm {
+ 	int gpasid; /* In case that guest PASID is different from host PASID */
+ 	struct list_head devs;
+ 	struct list_head list;
++	struct work_struct work; /* For deferred clean up */
+ };
+ #else
+ static inline void intel_svm_check(struct intel_iommu *iommu) {}
 -- 
 2.7.4
 
