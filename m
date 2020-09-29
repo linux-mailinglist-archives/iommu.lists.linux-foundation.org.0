@@ -1,82 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE28727BDE2
-	for <lists.iommu@lfdr.de>; Tue, 29 Sep 2020 09:20:51 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 372CA27C498
+	for <lists.iommu@lfdr.de>; Tue, 29 Sep 2020 13:15:48 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 87E5986FC9;
-	Tue, 29 Sep 2020 07:20:50 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 25C55867D5;
+	Tue, 29 Sep 2020 11:15:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id X3-KDJecHZpc; Tue, 29 Sep 2020 07:20:50 +0000 (UTC)
+	with ESMTP id 7P15q2N0UDBy; Tue, 29 Sep 2020 11:15:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1F14C86FC7;
-	Tue, 29 Sep 2020 07:20:50 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3735D867D9;
+	Tue, 29 Sep 2020 11:15:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0ADDFC016F;
-	Tue, 29 Sep 2020 07:20:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2383BC016F;
+	Tue, 29 Sep 2020 11:15:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 87427C016F
- for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 07:20:48 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 33A56C016F
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 11:15:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 762D086FC7
- for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 07:20:48 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2FBE7867B7
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 11:15:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mgAHTBXaTRtd for <iommu@lists.linux-foundation.org>;
- Tue, 29 Sep 2020 07:20:48 +0000 (UTC)
+ with ESMTP id uSSqL7Qt0VdW for <iommu@lists.linux-foundation.org>;
+ Tue, 29 Sep 2020 11:15:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by hemlock.osuosl.org (Postfix) with ESMTPS id CDE2486FC5
- for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 07:20:47 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601364046;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p4YPMWYaZn/NlSCV+4SJY1EF6+YsEiEQ6nhQ9wb6D5w=;
- b=FlSt1VWgLOvS6RShKYXZjoOvrTtxg1oPwbQf4UgfG0pYsN4NMFXjNK4TrsNeYbxOPHOdAj
- V0UTy/sBAJSgmmX7V7aYb0EIbOdtRcNgHH15AD6R77uDfO/k3+JtQDjY3tz796DYniB9i5
- 0oQWzjMG3X4V1CuhxNaiDtyrWZ4ACYE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-UoTOZ8xuPUSEUzduIvcDKQ-1; Tue, 29 Sep 2020 03:20:44 -0400
-X-MC-Unique: UoTOZ8xuPUSEUzduIvcDKQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A32A9801F9A;
- Tue, 29 Sep 2020 07:20:42 +0000 (UTC)
-Received: from [10.36.113.210] (ovpn-113-210.ams2.redhat.com [10.36.113.210])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ADDB378815;
- Tue, 29 Sep 2020 07:20:37 +0000 (UTC)
-Subject: Re: [RFC 2/3] iommu: Account for dma_mask and iommu aperture in IOVA
- reserved regions
-To: Christoph Hellwig <hch@infradead.org>
-References: <20200928195037.22654-1-eric.auger@redhat.com>
- <20200928195037.22654-3-eric.auger@redhat.com>
- <20200929060307.GA6564@infradead.org>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <35b5ff6b-1c6a-ced0-aeb0-6135b9fa26d5@redhat.com>
-Date: Tue, 29 Sep 2020 09:20:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id A5168855E1
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 11:15:41 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id DCFDFD0187B43990C58A;
+ Tue, 29 Sep 2020 19:15:37 +0800 (CST)
+Received: from [10.63.139.185] (10.63.139.185) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 29 Sep 2020 19:15:31 +0800
+Subject: Re: [PATCH] iommu/arm-smmu-v3: Add rmb after reading event queue
+ prod_reg
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, Joerg Roedel
+ <joro@8bytes.org>
+References: <1601281922-117296-1-git-send-email-wangzhou1@hisilicon.com>
+ <160132830305.1858738.13352352759100546799.b4-ty@kernel.org>
+From: Zhou Wang <wangzhou1@hisilicon.com>
+Message-ID: <5F731754.5040609@hisilicon.com>
+Date: Tue, 29 Sep 2020 19:15:32 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+ Thunderbird/38.5.1
 MIME-Version: 1.0
-In-Reply-To: <20200929060307.GA6564@infradead.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Cc: alex.williamson@redhat.com, jean-philippe.brucker@arm.com,
- dwmw2@infradead.org, will.deacon@arm.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, robin.murphy@arm.com,
- eric.auger.pro@gmail.com
+In-Reply-To: <160132830305.1858738.13352352759100546799.b4-ty@kernel.org>
+X-Originating-IP: [10.63.139.185]
+X-CFilter-Loop: Reflected
+Cc: catalin.marinas@arm.com, iommu@lists.linux-foundation.org,
+ kernel-team@android.com, linuxarm@huawei.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,32 +76,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Christoph,
-
-On 9/29/20 8:03 AM, Christoph Hellwig wrote:
-> On Mon, Sep 28, 2020 at 09:50:36PM +0200, Eric Auger wrote:
->> VFIO currently exposes the usable IOVA regions through the
->> VFIO_IOMMU_GET_INFO ioctl. However it fails to take into account
->> the dma_mask of the devices within the container. The top limit
->> currently is defined by the iommu aperture.
+On 2020/9/29 6:13, Will Deacon wrote:
+> On Mon, 28 Sep 2020 16:32:02 +0800, Zhou Wang wrote:
+>> In arm_smmu_evtq_thread, reading event queue is from consumer pointer,
+>> which has no address dependency on producer pointer, prog_reg(MMIO) and
+>> event queue memory(Normal memory) can disorder. So the load for event queue
+>> can be done before the load of prod_reg, then perhaps wrong event entry
+>> value will be got.
+>>
+>> Add rmb to make sure to get correct event queue entry value.
 > 
-> Can we take a step back here?  The dma_mask only has a meaning for
-> the DMA API, and not the iommu API, it should have no relevance here.
+> Applied to will (for-joerg/arm-smmu/updates), thanks!
 > 
-> More importantly if we are using vfio no dma_mask should be set to
-> start with.
-
-You will find more context in my reply to Alex.
-
-Thanks
-
-Eric
+> [1/1] iommu/arm-smmu-v3: Add rmb after reading event queue prod_reg
+>       https://git.kernel.org/will/c/a76a37777f2c 
 > 
->> +		if (geo.aperture_end < ULLONG_MAX && geo.aperture_end != geo.aperture_start) {
-> 
-> Please avoid pointlessly overlong lines.
-> 
+> (please note that I changed the patch to use readl() instead of an rmb()
+> in conjunction with the _relaxed() accessor, and then adjusted the cons
+> side to match in terms of DMB vs DSB).
 
+Thanks for taking this patch!
+
+Best,
+Zhou
+
+> 
+> Cheers,
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
