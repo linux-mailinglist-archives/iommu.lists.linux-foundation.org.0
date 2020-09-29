@@ -1,88 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4B527BCC9
-	for <lists.iommu@lfdr.de>; Tue, 29 Sep 2020 08:08:05 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 631D427BCBA
+	for <lists.iommu@lfdr.de>; Tue, 29 Sep 2020 08:03:26 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5AB2686689;
-	Tue, 29 Sep 2020 06:08:04 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 07CC985C54;
+	Tue, 29 Sep 2020 06:03:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6BJoYXOhu3+r; Tue, 29 Sep 2020 06:08:03 +0000 (UTC)
+	with ESMTP id rfc0YrwdAXRQ; Tue, 29 Sep 2020 06:03:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 21814866D4;
-	Tue, 29 Sep 2020 06:08:03 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 07B0F85C4A;
+	Tue, 29 Sep 2020 06:03:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 04F67C0051;
-	Tue, 29 Sep 2020 06:08:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E708BC0051;
+	Tue, 29 Sep 2020 06:03:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C2213C0051
- for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 06:08:01 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9C946C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 06:03:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A5942860BE
- for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 06:08:01 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7B4E686FD5
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 06:03:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Mf4IAUNBjk8W for <iommu@lists.linux-foundation.org>;
- Tue, 29 Sep 2020 06:08:01 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
- [209.85.215.196])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 274DC85AB3
- for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 06:08:01 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id 7so2973437pgm.11
- for <iommu@lists.linux-foundation.org>; Mon, 28 Sep 2020 23:08:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=/P/yp1OEyu3c80ckdO9uP2rdLAyI1tAzR48P50ZSsbs=;
- b=dUgGRg0F2EiJq8j/GyKL53Xz23EA1+tlZEGuIOLEyoyK0Oa4zv5h0k42ekp8k+mJjn
- BrqMixaMhi3j+s8nXSTUiUcP67JR6+3iwPEO2lCIGIAsypGuhC4s8KDHtMV6hD2pogXh
- NPSsqnMZNKaamvYLQLoYBCihXSV4jqvRYz8rsclO8EMqjKONGtcmyWp/zVi0Uw+Iim2x
- pYe0nTIa8nz4IxuvOGg5szLwY4JIfjVfdWIU5eL8qa+SLmcwTD8o/5Qsl/b9l0/iFqsF
- 8d1CIKUrsAouOiiLr3fgMYfn/IoPVVVtK5xfYZMGADBcy7r377Ve1IgUGPg22ft5U5oe
- Djlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=/P/yp1OEyu3c80ckdO9uP2rdLAyI1tAzR48P50ZSsbs=;
- b=L7wYLakbNS1EWuKJXWI46kuuW9To0TAnt+fRuEKNKtpLdFg4GXBQ/kXz4TrGCyF52+
- qq/3srwliyw2LoKlEKZHFphcAGa/hsM3D8o6t6IF9HJTz+8WXIG2K1LP6AvyWJdaVpAO
- HyHjHjlSMuU8sHlvVjwXJkO4D6mfF/SrSTjgwz6XtLYEDXuwQ6Th9HngQ9rs+6vIGZNH
- 0VpWpZjQcUsVVBgbKTtlg2WAYLGORJQH7B9PbETBeIMNDQ4brmMcmTXas+GR5Esm47WV
- vx0OZZFNG4veLU4FD5alqkoCwVWx6HpNUcLh6glbEUL/WJy4pk5aEDr43wsFjmSUE7jI
- EX4Q==
-X-Gm-Message-State: AOAM5331liKtXAp5ZsFu7aKtB18hqWSElgoa4Tjt/SVOH658q8FI74Pc
- X7RhKl4dDb3LRURSYgL/69c=
-X-Google-Smtp-Source: ABdhPJxKFuyXyknFTFHwvRCgLnO4Ta05aP10J7TScmLJ9+Xxb5PcC5Pm/eXa3mu9/709Qa8qyXh9bA==
-X-Received: by 2002:a17:902:d695:b029:d2:89b9:f4a0 with SMTP id
- v21-20020a170902d695b02900d289b9f4a0mr3101170ply.10.1601359680524; 
- Mon, 28 Sep 2020 23:08:00 -0700 (PDT)
-Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
- by smtp.gmail.com with ESMTPSA id i17sm3718854pfa.2.2020.09.28.23.08.00
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 28 Sep 2020 23:08:00 -0700 (PDT)
-Date: Mon, 28 Sep 2020 23:02:38 -0700
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH v3 2/2] iommu/tegra-smmu: Expend mutex protection range
-Message-ID: <20200929060238.GA26785@Asurada-Nvidia>
-References: <20200929045247.15596-1-nicoleotsuka@gmail.com>
- <20200929045247.15596-3-nicoleotsuka@gmail.com>
- <20200929060336.GB6564@infradead.org>
+ with ESMTP id mZ2MY2l6iO6K for <iommu@lists.linux-foundation.org>;
+ Tue, 29 Sep 2020 06:03:18 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id AF65486FCF
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 06:03:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=48XgreAjZs4gur0K4ZOCA5DaxMVnkVf7Jp8MpcZsDas=; b=oXuJQuGq0ROHVISt/bjm7XwpEh
+ yG1nifrbWvewLtpXqRZ9xyNslwmyidUDLomZWW23JWBNnJAvP6eIetGY6HpbtslVV9oFUmTRnH492
+ 7h7vO7W1sZ/atG+giK+SI9EcEpbQYGXCgsmL4XSnR+ZbjtLwmu5KeJ/Ix7yXEiFiDpu+mkJf8atJy
+ 4pT+9vlpeuXzcjNoezx+i0Y6cm69s2ISSTlbkTndF1TyYZ/x/z9cmYxWBtKjDs8jj+kwYacrk8ILP
+ 4Rqpb+UvBAghohjGOS1gwmSRuFahG2XBHC+chUMcdhvDJq5AdhdDc1x+gjpNddd7uzfIpZaHUHTfj
+ RAGa15Qg==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat
+ Linux)) id 1kN8jD-0001sZ-AE; Tue, 29 Sep 2020 06:03:07 +0000
+Date: Tue, 29 Sep 2020 07:03:07 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [RFC 2/3] iommu: Account for dma_mask and iommu aperture in IOVA
+ reserved regions
+Message-ID: <20200929060307.GA6564@infradead.org>
+References: <20200928195037.22654-1-eric.auger@redhat.com>
+ <20200928195037.22654-3-eric.auger@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200929060336.GB6564@infradead.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: linux-kernel@vger.kernel.org, jonathanh@nvidia.com,
- iommu@lists.linux-foundation.org, thierry.reding@gmail.com,
- linux-tegra@vger.kernel.org, digetx@gmail.com
+In-Reply-To: <20200928195037.22654-3-eric.auger@redhat.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: alex.williamson@redhat.com, jean-philippe.brucker@arm.com,
+ dwmw2@infradead.org, will.deacon@arm.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, robin.murphy@arm.com,
+ eric.auger.pro@gmail.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,19 +80,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Sep 29, 2020 at 07:03:36AM +0100, Christoph Hellwig wrote:
-> On Mon, Sep 28, 2020 at 09:52:47PM -0700, Nicolin Chen wrote:
-> > This is used to protect potential race condition at use_count.
-> > since probes of client drivers, calling attach_dev(), may run
-> > concurrently.
-> 
-> Shouldn't this read "expand" instead of "expend"?
+On Mon, Sep 28, 2020 at 09:50:36PM +0200, Eric Auger wrote:
+> VFIO currently exposes the usable IOVA regions through the
+> VFIO_IOMMU_GET_INFO ioctl. However it fails to take into account
+> the dma_mask of the devices within the container. The top limit
+> currently is defined by the iommu aperture.
 
-Oops...my poor English :)
+Can we take a step back here?  The dma_mask only has a meaning for
+the DMA API, and not the iommu API, it should have no relevance here.
 
-Fixing....
+More importantly if we are using vfio no dma_mask should be set to
+start with.
 
-Thanks!
+> +		if (geo.aperture_end < ULLONG_MAX && geo.aperture_end != geo.aperture_start) {
+
+Please avoid pointlessly overlong lines.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
