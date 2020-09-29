@@ -1,79 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A8327D5A7
-	for <lists.iommu@lfdr.de>; Tue, 29 Sep 2020 20:19:08 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36AF927D631
+	for <lists.iommu@lfdr.de>; Tue, 29 Sep 2020 20:55:49 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A0E7D204AA;
-	Tue, 29 Sep 2020 18:19:07 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DC43D87182;
+	Tue, 29 Sep 2020 18:55:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id U+eLF6oU1kDN; Tue, 29 Sep 2020 18:19:06 +0000 (UTC)
+	with ESMTP id HMqedDOhCHZm; Tue, 29 Sep 2020 18:55:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 0D8162034D;
-	Tue, 29 Sep 2020 18:19:06 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1845886FBE;
+	Tue, 29 Sep 2020 18:55:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DAC63C0051;
-	Tue, 29 Sep 2020 18:19:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E4B72C0051;
+	Tue, 29 Sep 2020 18:55:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1D32AC0051
- for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 18:19:04 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F1042C016F
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 17:26:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 08C66867F3
- for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 18:19:04 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id E11AF86508
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 17:26:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GvpZJVpHLYB2 for <iommu@lists.linux-foundation.org>;
- Tue, 29 Sep 2020 18:19:02 +0000 (UTC)
+ with ESMTP id 45+7iqHP7S4P for <iommu@lists.linux-foundation.org>;
+ Tue, 29 Sep 2020 17:26:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 81AC4867E7
- for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 18:19:02 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1601403540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pl/p4kBmbDfGXdJlqVDzX027HcmQwcdSU4NK25acr04=;
- b=MpttkpL8b0mp6Nbxw5DeKM5hjuHchbPlctX6POABv4lkQ1f5z/NlStd909tgvJMVd/WWmU
- 5nEq3orKRd0GYo1VZZ9Yi+4+ZGDES52qj4/cWPr49yz4Ce0zGYukyzu1ydvPni15BakDQr
- ikb9vA3w6NZawfhrmPDpllA/0xyFXOg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592--ONi6QWINliTivF5V-_Atg-1; Tue, 29 Sep 2020 14:18:57 -0400
-X-MC-Unique: -ONi6QWINliTivF5V-_Atg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 419F310BBEC9;
- Tue, 29 Sep 2020 18:18:55 +0000 (UTC)
-Received: from w520.home (ovpn-112-71.phx2.redhat.com [10.3.112.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E33065C1D0;
- Tue, 29 Sep 2020 18:18:50 +0000 (UTC)
-Date: Tue, 29 Sep 2020 12:18:49 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Auger Eric <eric.auger@redhat.com>
-Subject: Re: [RFC 0/3] iommu: Reserved regions for IOVAs beyond dma_mask and
- iommu aperture
-Message-ID: <20200929121849.455af184@w520.home>
-In-Reply-To: <1cbaf3e7-cf88-77f6-4cc4-46dcd60eb649@redhat.com>
-References: <20200928195037.22654-1-eric.auger@redhat.com>
- <20200928164224.12350d84@w520.home>
- <1cbaf3e7-cf88-77f6-4cc4-46dcd60eb649@redhat.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+ [209.85.208.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id CA782864DA
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 17:26:48 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id a15so4701675ljk.2
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 10:26:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vhk3MbInaaF/6croUvi+/zraDixQnx7wCrXOslWTtys=;
+ b=n4MkOq3UvJP9m0yc5Rtex4KtclxrWnItxqOpn6tZJzlS3ahY9sxrZ99wx/IIjkLyvA
+ K0GqFxQHjcFt79Rjzd/Zm9P8+hgfC0QYVVFBS3iB5TCojtSzbQJOyd0rGk4g2xAykhL1
+ Mpwh64dBzCzV9r1Za8avYcsDcrmErdyZmkPZ9kEoUIO8LDElIUZB0ATuZbnGDNr+fYQS
+ fMRGTlsGFAmcXPGzIlYRJpjM9y6G5KnSBPq844V0njnx82hXnbevNRGQZz0ZkAWsenvR
+ bKCofziWQTxGJfxBozUMNCYve9GC3OKOVWJ2cqK5v8FXJ+cKBVDwL7pzd68pvgwRMTG2
+ wnFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vhk3MbInaaF/6croUvi+/zraDixQnx7wCrXOslWTtys=;
+ b=dOp3iQxul5heDwQYJzz6hSAtjhyJ+SLOjEd7BrEwrvSxS+neONJnAJJMsPKHnEBHN3
+ 3YaMCqsYD29t+XydeVYASVHCcGfRp75HzdFnPnwIjimRHDZ+CdUfG9Gg8v0F602uBMXb
+ czbL0n+gM7cfp8gKGmIojNZXmrx1fGh13jy+Sy/HOPQB9JH34NyfMU/7I1BOIbPF93Qz
+ aC8hKhDg+L+EmAbHl7640LC872J9n2vgwAsbck3wYoTthzSgWtL3LljA+6XkRfZlV2xU
+ 9hKXEE0GlmzPDXO3wr6ylw0c/Phe0hS9EJu+8lEGgx3SqLtMM37FmKb/BwYHlbhyFBHq
+ /a6A==
+X-Gm-Message-State: AOAM531Hu841D1hUF/2baHac1W4TDAjrxX5HWk7Jjc+efTrjVKLb0be+
+ OUtzZ2Jpd3i9ZVtkskxgVhjf8YXzrfq5ZMuMDb0=
+X-Google-Smtp-Source: ABdhPJwxqnsM76aGzSU8gOeBJXlMS/Kp47YaHZhDo+51LyfyeEh9/7V3IF/bZW3wgT6Vd6jz1IR+rbVD/zCvPQOIjpY=
+X-Received: by 2002:a2e:8988:: with SMTP id c8mr1422707lji.433.1601400406761; 
+ Tue, 29 Sep 2020 10:26:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Will Deacon <will@kernel.org>, robin.murphy@arm.com,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- dwmw2@infradead.org, eric.auger.pro@gmail.com
+References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
+ <1600959521-24158-4-git-send-email-ross.philipson@oracle.com>
+In-Reply-To: <1600959521-24158-4-git-send-email-ross.philipson@oracle.com>
+From: Jason Andryuk <jandryuk@gmail.com>
+Date: Tue, 29 Sep 2020 13:26:34 -0400
+Message-ID: <CAKf6xpt=G_SJTGikXpQ36pfpSfXQZf0Upn9qTkf-F+mrY2SRDA@mail.gmail.com>
+Subject: Re: [PATCH 03/13] x86: Add early SHA support for Secure Launch early
+ measurements
+To: Ross Philipson <ross.philipson@oracle.com>
+X-Mailman-Approved-At: Tue, 29 Sep 2020 18:55:45 +0000
+Cc: linux-doc@vger.kernel.org, Daniel Smith <dpsmith@apertussolutions.com>,
+ x86@kernel.org, open list <linux-kernel@vger.kernel.org>, luto@amacapital.net,
+ iommu@lists.linux-foundation.org, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>,
+ linux-integrity@vger.kernel.org, trenchboot-devel@googlegroups.com,
+ Thomas Gleixner <tglx@linutronix.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,221 +96,97 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, 29 Sep 2020 09:18:22 +0200
-Auger Eric <eric.auger@redhat.com> wrote:
+On Thu, Sep 24, 2020 at 11:00 AM Ross Philipson
+<ross.philipson@oracle.com> wrote:
+>
+> The SHA algorithms are necessary to measure configuration information into
+> the TPM as early as possible before using the values. This implementation
+> uses the established approach of #including the SHA libraries directly in
+> the code since the compressed kernel is not uncompressed at this point.
+>
+> The SHA code here has its origins in the code from the main kernel. That
+> code could not be pulled directly into the setup portion of the compressed
+> kernel because of other dependencies it pulls in. The result is this is a
+> modified copy of that code that still leverages the core SHA algorithms.
+>
+> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
+> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+> ---
+>  arch/x86/boot/compressed/Makefile       |   4 +
+>  arch/x86/boot/compressed/early_sha1.c   | 104 ++++++++++++++++
+>  arch/x86/boot/compressed/early_sha1.h   |  17 +++
+>  arch/x86/boot/compressed/early_sha256.c |   6 +
+>  arch/x86/boot/compressed/early_sha512.c |   6 +
+>  include/linux/sha512.h                  |  21 ++++
+>  lib/sha1.c                              |   4 +
+>  lib/sha512.c                            | 209 ++++++++++++++++++++++++++++++++
+>  8 files changed, 371 insertions(+)
+>  create mode 100644 arch/x86/boot/compressed/early_sha1.c
+>  create mode 100644 arch/x86/boot/compressed/early_sha1.h
+>  create mode 100644 arch/x86/boot/compressed/early_sha256.c
+>  create mode 100644 arch/x86/boot/compressed/early_sha512.c
+>  create mode 100644 include/linux/sha512.h
+>  create mode 100644 lib/sha512.c
+>
+> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
+> index ff7894f..0fd84b9 100644
+> --- a/arch/x86/boot/compressed/Makefile
+> +++ b/arch/x86/boot/compressed/Makefile
+> @@ -96,6 +96,10 @@ vmlinux-objs-$(CONFIG_ACPI) += $(obj)/acpi.o
+>  vmlinux-objs-$(CONFIG_EFI_MIXED) += $(obj)/efi_thunk_$(BITS).o
+>  efi-obj-$(CONFIG_EFI_STUB) = $(objtree)/drivers/firmware/efi/libstub/lib.a
+>
+> +vmlinux-objs-$(CONFIG_SECURE_LAUNCH) += $(obj)/early_sha1.o
+> +vmlinux-objs-$(CONFIG_SECURE_LAUNCH_SHA256) += $(obj)/early_sha256.o
+> +vmlinux-objs-$(CONFIG_SECURE_LAUNCH_SHA512) += $(obj)/early_sha512.o
+> +
+>  # The compressed kernel is built with -fPIC/-fPIE so that a boot loader
+>  # can place it anywhere in memory and it will still run. However, since
+>  # it is executed as-is without any ELF relocation processing performed
+> diff --git a/arch/x86/boot/compressed/early_sha1.c b/arch/x86/boot/compressed/early_sha1.c
+> new file mode 100644
+> index 0000000..198c46d
+> --- /dev/null
+> +++ b/arch/x86/boot/compressed/early_sha1.c
+> @@ -0,0 +1,104 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2020, Oracle and/or its affiliates.
+> + * Copyright (c) 2020 Apertus Solutions, LLC.
+> + */
+> +
+> +#include <linux/init.h>
+> +#include <linux/linkage.h>
+> +#include <linux/string.h>
+> +#include <asm/boot.h>
+> +#include <asm/unaligned.h>
+> +
+> +#include "early_sha1.h"
+> +
+> +#define SHA1_DISABLE_EXPORT
+> +#include "../../../../lib/sha1.c"
+> +
+> +/* The SHA1 implementation in lib/sha1.c was written to get the workspace
+> + * buffer as a parameter. This wrapper function provides a container
+> + * around a temporary workspace that is cleared after the transform completes.
+> + */
+> +static void __sha_transform(u32 *digest, const char *data)
+> +{
+> +       u32 ws[SHA1_WORKSPACE_WORDS];
+> +
+> +       sha1_transform(digest, data, ws);
+> +
+> +       memset(ws, 0, sizeof(ws));
+> +       /*
+> +        * As this is cryptographic code, prevent the memset 0 from being
+> +        * optimized out potentially leaving secrets in memory.
+> +        */
+> +       wmb();
 
-> Hi all,
-> 
-> [also correcting some outdated email addresses + adding Lorenzo in cc]
-> 
-> On 9/29/20 12:42 AM, Alex Williamson wrote:
-> > On Mon, 28 Sep 2020 21:50:34 +0200
-> > Eric Auger <eric.auger@redhat.com> wrote:
-> >   
-> >> VFIO currently exposes the usable IOVA regions through the
-> >> VFIO_IOMMU_GET_INFO ioctl / VFIO_IOMMU_TYPE1_INFO_CAP_IOVA_RANGE
-> >> capability. However it fails to take into account the dma_mask
-> >> of the devices within the container. The top limit currently is
-> >> defined by the iommu aperture.  
-> > 
-> > I think that dma_mask is traditionally a DMA API interface for a device
-> > driver to indicate to the DMA layer which mappings are accessible to the
-> > device.  On the other hand, vfio makes use of the IOMMU API where the
-> > driver is in userspace.  That userspace driver has full control of the
-> > IOVA range of the device, therefore dma_mask is mostly irrelevant to
-> > vfio.  I think the issue you're trying to tackle is that the IORT code
-> > is making use of the dma_mask to try to describe a DMA address
-> > limitation imposed by the PCI root bus, living between the endpoint
-> > device and the IOMMU.  Therefore, if the IORT code is exposing a
-> > topology or system imposed device limitation, this seems much more akin
-> > to something like an MSI reserved range, where it's not necessarily the
-> > device or the IOMMU with the limitation, but something that sits
-> > between them.  
-> 
-> First I think I failed to explain the context. I worked on NVMe
-> passthrough on ARM. The QEMU NVMe backend uses VFIO to program the
-> physical device. The IOVA allocator there currently uses an IOVA range
-> within [0x10000, 1ULL << 39]. This IOVA layout rather is arbitrary if I
-> understand correctly.
+You can use memzero_explicit instead of open coding it.
 
-39 bits is the minimum available on some VT-d systems, so it was
-probably considered a reasonable minimum address width to consider.
-
-> I noticed we rapidly get some VFIO MAP DMA
-> failures because the allocated IOVA collide with the ARM MSI reserved
-> IOVA window [0x8000000, 0x8100000]. Since  9b77e5c79840 ("vfio/type1:
-> Check reserved region conflict and update iova list"), such VFIO MAP DMA
-> attempts to map IOVAs belonging to host reserved IOVA windows fail. So,
-> by using the VFIO_IOMMU_GET_INFO ioctl /
-> VFIO_IOMMU_TYPE1_INFO_CAP_IOVA_RANGE I can change the IOVA allocator to
-> avoid allocating within this range and others. While working on this, I
-> tried to automatically compute the min/max IOVAs and change the
-> arbitrary [0x10000, 1ULL << 39]. My SMMUv2 supports up to 48b so
-> naturally the max IOVA was computed as 1ULL << 48. The QEMU NVMe backend
-> allocates at the bottom and at the top of the range. I noticed the use
-> case was not working as soon as the top IOVA was more than 1ULL << 42.
-> And then we noticed the dma_mask was set to 42 by using
-> cat  /sys/bus/pci/devices/0005:01:00.0/dma_mask_bits. So my
-> interpretation is the dma_mask was somehow containing the info the
-> device couldn't handle IOVAs beyond a certain limit.
-
-I see that there are both OF and ACPI hooks in pci_dma_configure() and
-both modify dev->dma_mask, which is what pci-sysfs is exposing here,
-but I'm not convinced this even does what it's intended to do.  The
-driver core calls this via the bus->dma_configure callback before
-probing a driver, but then what happens when the driver calls
-pci_set_dma_mask()?  This is just a wrapper for dma_set_mask() and I
-don't see anywhere that would take into account the existing
-dev->dma_mask.  It seems for example that pci_dma_configure() could
-produce a 42 bit mask as we have here, then the driver could override
-that with anything that the dma_ops.dma_supported() callback finds
-acceptable, and I don't see any instances where the current
-dev->dma_mask is considered.  Am I overlooking something? 
- 
-> In my case the 42b limit is computed in iort_dma_setup() by
-> acpi_dma_get_range(dev, &dmaaddr, &offset, &size);
-> 
-> Referring to the comment, it does "Evaluate DMA regions and return
-> respectively DMA region start, offset and size in dma_addr, offset and
-> size on parsing success". This parses the ACPI table, looking for ACPI
-> companions with _DMA methods.
-> 
-> But as Alex mentioned, the IORT also allows to define limits on "the
-> number of address bits, starting from the least significant bit that can
-> be generated by a device when it accesses memory". See Named component
-> node.Device Memory Address Size limit or PCI root complex node. Memory
-> address size limit.
-> 
->         ret = acpi_dma_get_range(dev, &dmaaddr, &offset, &size);
->         if (ret == -ENODEV)
->                 ret = dev_is_pci(dev) ? rc_dma_get_range(dev, &size)
->                                       : nc_dma_get_range(dev, &size);
-> 
-> So eventually those info collected from the ACPI tables which do impact
-> the usable IOVA range seem to be stored in the dma_mask, hence that
-> proposal.
-
-As above, it's not clear to me that anyone other than the driver and
-the dma_supported() callback on dma_ops have any input on the value of
-dma_mask, so I'm a little baffled by the current operation.
-
-> >> So, for instance, if the IOMMU supports up to 48bits, it may give
-> >> the impression the max IOVA is 48b while a device may have a
-> >> dma_mask of 42b. So this API cannot really be used to compute
-> >> the max usable IOVA.
-> >>
-> >> This patch removes the IOVA region beyond the dma_mask's.  
-> > 
-> > Rather it adds a reserved region accounting for the range above the
-> > device's dma_mask.  
-> 
-> Yep. It adds new reserved regions in
-> /sys/kernel/iommu_groups/<n>/reserved_regions and remove those from the
-> usable regions exposed by VFIO GET_INFO.
-> 
->   I don't think the IOMMU API should be consuming
-> > dma_mask like this though.  For example, what happens in
-> > pci_dma_configure() when there are no OF or ACPI DMA restrictions?  
-> My guess was that the dma_mask was set to the max range but I did not
-> test it.
-
-Still, we're making use of a driver configured property for the
-purposes of using the DMA API and consuming it in the IOMMU API,
-specifically to satisfy a userspace driver where the in-kernel meta-
-driver can't make any assumptions about the device DMA mask.  It's all
-rather convoluted.
-
->   It
-> > appears to me that the dma_mask from whatever previous driver had the
-> > device carries over to the new driver.  That's generally ok for the DMA
-> > API because a driver is required to set the device's DMA mask.  It
-> > doesn't make sense however to blindly consume that dma_mask and export
-> > it via an IOMMU API.  For example I would expect to see different
-> > results depending on whether a host driver has been bound to a device.
-> > It seems the correct IOMMU API approach would be for the IORT code to
-> > specifically register reserved ranges for the device.  
-> 
-> Is it only specific to IORT table? acpi_dma_get_range() in
-> drivers/acpi/scan.c is generic.
-
-Yes, anything trying to implement similar restrictions.  It appears to
-me that platform code is stepping on a driver owned field used by
-dma_ops already here.  Maybe reserved regions should be consumed by
-dma_ops to understand restrictions between the device and the IOMMU.
-
-> >> As we start to expose this reserved region in the sysfs file
-> >> /sys/kernel/iommu_groups/<n>/reserved_regions, we also need to
-> >> handle the IOVA range beyond the IOMMU aperture to handle the case
-> >> where the dma_mask would have a higher number of bits than the iommu
-> >> max input address.  
-> > 
-> > Why?  The IOMMU geometry already describes this and vfio combines both
-> > the IOMMU geometry and the device reserved regions when generating the
-> > IOVA ranges?   
-> Yes VFIO layer does add the info about the topology but
-> /sys/kernel/iommu_groups/<n>/reserved_regions, generated by the IOMMU
-> code, does not. this latter only exposes reserved regions. Assume the
-> dma_mask is 48b and the IOMMU aperture is 42b (assuming it is possible),
-> if you only take into account the "dma_mask" limitation, the end-user
-> will interpret this as: I can use up to 48b.
-
-What end user?  The DMA API is allocating within the address space of
-the IOMMU, so it will simply never encounter the issue.  Within the
-IOMMU API we can already query the geometry of the IOMMU to know its
-width.  It seems like reserved regions is trying to take on new
-responsibilities here.
- 
->  Who is going to consume this information?  Additionally
-> > it appears that reserved regions will report different information
-> > depending on whether a device is attached to a domain.  
-> yes that's correct. Well at some point we decided to expose (some)
-> reserved regions through sysfs. Only printing a reduced set of those
-> also can be misleading, hence my attempt to be more comprehensive.
-
-Seems it further blurs the lines of what reserved regions is intended
-to report.  Is it trying to replace the IOMMU API geometry interface?
-
-> >> This is a change to the ABI as this reserved region was not yet
-> >> exposed in sysfs /sys/kernel/iommu_groups/<n>/reserved_regions or
-> >> through the VFIO ioctl. At VFIO level we increment the version of
-> >> the VFIO_IOMMU_TYPE1_INFO_CAP_IOVA_RANGE capability to advertise
-> >> that change.  
-> > 
-> > Is this really an ABI change?  The original entry for reserved regions
-> > includes:
-> > 
-> >   Not necessarily all reserved regions are listed. This is typically
-> >   used to output direct-mapped, MSI, non mappable regions.  
-> 
-> I agree. That's not really a change in the ABI but I wanted to make
-> things clear about the induced changes for the end-user. On the other
-> end there will be a change in the number of reported resv regions.
-> > 
-> > I imagine the intention here was non-mappable relative to the IOMMU,
-> > but non-mappable to the device is essentially what we're including
-> > here.
-> > 
-> > I'm also concerned about bumping the vfio interface version for the
-> > IOVA range.  We're not changing the interface, we're modifying the
-> > result, and even then only for a fraction of users.  How many users are
-> > potentially broken by that change?  Are we going to bump the version
-> > for everyone any time the result changes on any platform?  Thanks,  
-> 
-> The userspace needs to know if the GET_INFO is reliable to compute the
-> min/max IOVAs. If we do not change the version, it cannot know and must
-> assume it is not. Wasn't the version field meant for that somehow?
-
-Our IOVA RANGE is correct to the best of our knowledge, but I don't
-think we can or should rev the version every time we find something
-incorrect.  For instance, we wouldn't do the same for a firmware
-induced range that was missing or incorrect.  I think the version field
-is for creating a new data structure to replace or expand the existing
-one, not to simply say the returned data might be different.  I
-understand the userspace dilemma, but this doesn't seem like the right
-solution.  Thanks,
-
-Alex
-
+Regards,
+Jason
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
