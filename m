@@ -2,83 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3B2127E41B
-	for <lists.iommu@lfdr.de>; Wed, 30 Sep 2020 10:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C6A927E447
+	for <lists.iommu@lfdr.de>; Wed, 30 Sep 2020 10:56:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 698D52202C;
-	Wed, 30 Sep 2020 08:48:40 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5EBC621543;
+	Wed, 30 Sep 2020 08:56:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zKXIJ3sse2XJ; Wed, 30 Sep 2020 08:48:38 +0000 (UTC)
+	with ESMTP id PhhzO4JpxFLW; Wed, 30 Sep 2020 08:56:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 3DC3D21543;
-	Wed, 30 Sep 2020 08:48:38 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 98A4A20400;
+	Wed, 30 Sep 2020 08:56:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 248ADC016F;
-	Wed, 30 Sep 2020 08:48:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6FD9BC0890;
+	Wed, 30 Sep 2020 08:56:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D7595C016F
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 08:48:36 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A3BD2C016F
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 08:55:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C720B86FCF
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 08:48:36 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 5F3EC20445
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 08:55:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OQc+QOg5HpiO for <iommu@lists.linux-foundation.org>;
- Wed, 30 Sep 2020 08:48:36 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5662B87200
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 08:48:36 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id j19so529192pjl.4
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 01:48:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=vyojCx1R+z/iL8Xt/dqLsO0bSZnbMhzjt6sea10xylU=;
- b=WSmAL+uuRBrBqhY6aSg0a6n68R+6EUbVEd7KHVPEeadOgBRDlwQl7NrWFHFJJFnLCB
- /4N7ul1+3j7PUNEhIVbKQ+schdNZaCR4wKp9YHyeCUwy4bmagSX9uYh9476zMmcGmUR2
- bbuwwEm0r5lyzFKbVUm7kpiOAgsWHqvxzB78R8gGQ8q7paS75IBvX8B55a3zFn7/On92
- uA/raz0ksuGckST24WaUMBCkiKoD2FfRDkhic+J6anV5WFZaPuGu6fGAt01NdfKo/ExK
- QR/xIOqR70bSoqN9AMagi4MqE1F49nQAbMclQVBPAEJF21xJp7FshEUy53l+xBfT33At
- Mq4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=vyojCx1R+z/iL8Xt/dqLsO0bSZnbMhzjt6sea10xylU=;
- b=pNkAJZM0iheRzQV3p875y1CiZpHNLzZtSPxuVKvUOKvxRzfari2aEAkUBJgFGjfAK1
- TRCSLhxss2eXULAlOYExtwxiVAMMFN9eDPVe0/wRkhArpktNRetQ36x/egddYMvbVfza
- qu869ephTuAlKkkWeXCzkeimrM3mrXOjTk3RAT2Yq2iU3D+kyTDBlDLWgtgf/nBZL4FB
- Oe5PwTPw82uXOhxDWoY1RfnRL/yBOZroVtrxJ/fP3s8IKMzV0UQGL76lWTd4Xj5Y2RYq
- YVQuI34VoC2Lx/nZX3AExTf/Lt1kT4kCxnPPaJ6Tr3bnhKzCAb19WbIxGmxlkWGbZPmg
- t3GA==
-X-Gm-Message-State: AOAM531ksW/M04H4nF1CWcGG1FbqH81qV6P9phRqt49FqgINRqjsUJt2
- V69n+7Wfhd7C6wIgB+c3IDQ=
-X-Google-Smtp-Source: ABdhPJxhDuDBMmsmY43fl1Hx+QRRN1XlKonCCkywZkb1zviPR+Xi+9EOx4fWjXPx8R8oSyE8F/m61Q==
-X-Received: by 2002:a17:90b:f09:: with SMTP id
- br9mr1698101pjb.102.1601455715823; 
- Wed, 30 Sep 2020 01:48:35 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
- [216.228.112.22])
- by smtp.gmail.com with ESMTPSA id d17sm1505830pfq.157.2020.09.30.01.48.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Sep 2020 01:48:35 -0700 (PDT)
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: thierry.reding@gmail.com, joro@8bytes.org, krzk@kernel.org,
- digetx@gmail.com
-Subject: [PATCH v3 3/3] iommu/tegra-smmu: Add PCI support
-Date: Wed, 30 Sep 2020 01:42:58 -0700
-Message-Id: <20200930084258.25493-4-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200930084258.25493-1-nicoleotsuka@gmail.com>
-References: <20200930084258.25493-1-nicoleotsuka@gmail.com>
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, jonathanh@nvidia.com
+ with ESMTP id DjzWflpalU9C for <iommu@lists.linux-foundation.org>;
+ Wed, 30 Sep 2020 08:55:56 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by silver.osuosl.org (Postfix) with ESMTPS id E6603203D0
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 08:55:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=Hc4ZwUam31VwnraGp3u9+lkEQz3nnsxSY58s3rx8EN0=; b=GUmCkkS5M+DSSMVNpa1ARhdAOA
+ xO1GX/XB3fZ+wQwodHpr/baxLfM1+ws4Gny5Pxmnfo3SlUOIvRDrw39kG2TLkTY5ygx0ry4qqSeGJ
+ IPWIRMCwy3u3fH/caphz5js/VXACSaObZ5Bfp+MoemoiCRqD5eQCtYvXVlyzBXwIAOZ+dQV8nHd4k
+ JmW/GH/dHH8+I20mR3g4P/17KMvXn0UuDKyD8IfOTCnG0K5pB8msoYd5hKoxs0zxM5HADDe6wGyWA
+ 1h3S1M0SgisK5DoRE9WkQVgagY0SFWqcncFM8t6V8sgMAtAVbeQJ8CmDT5lLkrTJP4gWCrpZ69Cwo
+ VSXIwEqw==;
+Received: from [2001:4bb8:180:7b62:c70:4a89:bc61:4] (helo=localhost)
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kNXtv-0003s2-OW; Wed, 30 Sep 2020 08:55:52 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: iommu@lists.linux-foundation.org
+Subject: clean up the DMA mapping headers
+Date: Wed, 30 Sep 2020 10:55:39 +0200
+Message-Id: <20200930085548.920261-1-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: linux-arch@vger.kernel.org, Sekhar Nori <nsekhar@ti.com>,
+ Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,99 +71,134 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This patch simply adds support for PCI devices.
+Hi all,
 
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
----
+this series cleans up the dma-mapping headers by moving everything not
+required by normal drivers out of <linux/dma-mapping.h> into a new
+<linux/dma-map-ops.h> and then folding most other DMA mapping related
+headers either into the new dma-map-ops.h one, or by moving them to
+kernel/dma/ and thus out of the global scope.  A bunch of cleanups
+for the DMA CMA code are thrown in as well, as they help keeping the
+exposed bits in the header small.
 
-Changelog
-v2->v3
- * Replaced ternary conditional operator with if-else in .device_group()
- * Dropped change in tegra_smmu_remove()
-v1->v2
- * Added error-out labels in tegra_smmu_probe()
- * Dropped pci_request_acs() since IOMMU core would call it.
-
- drivers/iommu/tegra-smmu.c | 35 ++++++++++++++++++++++++++---------
- 1 file changed, 26 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 636dc3b89545..db98ca334eae 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -10,6 +10,7 @@
- #include <linux/kernel.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/pci.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
-@@ -882,7 +883,11 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
- 	group->smmu = smmu;
- 	group->soc = soc;
- 
--	group->group = iommu_group_alloc();
-+	if (dev_is_pci(dev))
-+		group->group = pci_device_group(dev);
-+	else
-+		group->group = generic_device_group(dev);
-+
- 	if (IS_ERR(group->group)) {
- 		devm_kfree(smmu->dev, group);
- 		mutex_unlock(&smmu->lock);
-@@ -1079,22 +1084,34 @@ struct tegra_smmu *tegra_smmu_probe(struct device *dev,
- 	iommu_device_set_fwnode(&smmu->iommu, dev->fwnode);
- 
- 	err = iommu_device_register(&smmu->iommu);
--	if (err) {
--		iommu_device_sysfs_remove(&smmu->iommu);
--		return ERR_PTR(err);
--	}
-+	if (err)
-+		goto err_sysfs;
- 
- 	err = bus_set_iommu(&platform_bus_type, &tegra_smmu_ops);
--	if (err < 0) {
--		iommu_device_unregister(&smmu->iommu);
--		iommu_device_sysfs_remove(&smmu->iommu);
--		return ERR_PTR(err);
-+	if (err < 0)
-+		goto err_unregister;
-+
-+#ifdef CONFIG_PCI
-+	if (!iommu_present(&pci_bus_type)) {
-+		err = bus_set_iommu(&pci_bus_type, &tegra_smmu_ops);
-+		if (err < 0)
-+			goto err_bus_set;
- 	}
-+#endif
- 
- 	if (IS_ENABLED(CONFIG_DEBUG_FS))
- 		tegra_smmu_debugfs_init(smmu);
- 
- 	return smmu;
-+
-+err_bus_set:
-+	bus_set_iommu(&platform_bus_type, NULL);
-+err_unregister:
-+	iommu_device_unregister(&smmu->iommu);
-+err_sysfs:
-+	iommu_device_sysfs_remove(&smmu->iommu);
-+
-+	return ERR_PTR(err);
- }
- 
- void tegra_smmu_remove(struct tegra_smmu *smmu)
--- 
-2.17.1
-
+Diffstat:
+ arch/arm/include/asm/dma-contiguous.h             |   15 
+ b/Documentation/admin-guide/kernel-parameters.txt |    2 
+ b/MAINTAINERS                                     |    2 
+ b/arch/alpha/kernel/pci_iommu.c                   |    2 
+ b/arch/arc/mm/dma.c                               |    2 
+ b/arch/arm/common/dmabounce.c                     |    1 
+ b/arch/arm/include/asm/dma-iommu.h                |    1 
+ b/arch/arm/include/asm/dma-mapping.h              |    1 
+ b/arch/arm/mach-davinci/devices-da8xx.c           |   18 -
+ b/arch/arm/mach-highbank/highbank.c               |    2 
+ b/arch/arm/mach-imx/mach-imx27_visstrim_m10.c     |    2 
+ b/arch/arm/mach-imx/mach-mx31moboard.c            |    2 
+ b/arch/arm/mach-mvebu/coherency.c                 |    2 
+ b/arch/arm/mach-shmobile/setup-rcar-gen2.c        |    2 
+ b/arch/arm/mm/dma-mapping-nommu.c                 |    1 
+ b/arch/arm/mm/dma-mapping.c                       |    5 
+ b/arch/arm/mm/init.c                              |    2 
+ b/arch/arm/xen/mm.c                               |    2 
+ b/arch/arm64/mm/dma-mapping.c                     |    2 
+ b/arch/arm64/mm/init.c                            |    3 
+ b/arch/c6x/mm/dma-coherent.c                      |    2 
+ b/arch/csky/kernel/setup.c                        |    2 
+ b/arch/csky/mm/dma-mapping.c                      |    4 
+ b/arch/hexagon/kernel/dma.c                       |    2 
+ b/arch/ia64/hp/common/sba_iommu.c                 |    2 
+ b/arch/ia64/kernel/dma-mapping.c                  |    2 
+ b/arch/ia64/mm/init.c                             |    2 
+ b/arch/m68k/kernel/dma.c                          |    2 
+ b/arch/microblaze/kernel/dma.c                    |    3 
+ b/arch/microblaze/mm/consistent.c                 |    2 
+ b/arch/microblaze/mm/init.c                       |    2 
+ b/arch/mips/jazz/jazzdma.c                        |    2 
+ b/arch/mips/kernel/setup.c                        |    2 
+ b/arch/mips/mm/dma-noncoherent.c                  |    3 
+ b/arch/nds32/kernel/dma.c                         |    2 
+ b/arch/openrisc/kernel/dma.c                      |    2 
+ b/arch/parisc/kernel/drivers.c                    |    1 
+ b/arch/parisc/kernel/pci-dma.c                    |    2 
+ b/arch/powerpc/include/asm/iommu.h                |    2 
+ b/arch/powerpc/include/asm/pci.h                  |    2 
+ b/arch/powerpc/mm/dma-noncoherent.c               |    2 
+ b/arch/powerpc/platforms/ps3/system-bus.c         |    2 
+ b/arch/powerpc/platforms/pseries/ibmebus.c        |    2 
+ b/arch/powerpc/platforms/pseries/vio.c            |    2 
+ b/arch/s390/kernel/setup.c                        |    2 
+ b/arch/s390/pci/pci_dma.c                         |    2 
+ b/arch/sh/boards/mach-ap325rxa/setup.c            |    1 
+ b/arch/sh/boards/mach-ecovec24/setup.c            |    1 
+ b/arch/sh/boards/mach-kfr2r09/setup.c             |    2 
+ b/arch/sh/boards/mach-migor/setup.c               |    2 
+ b/arch/sh/boards/mach-se/7724/setup.c             |    1 
+ b/arch/sh/drivers/pci/fixups-dreamcast.c          |    2 
+ b/arch/sh/drivers/pci/pci.c                       |    1 
+ b/arch/sh/kernel/dma-coherent.c                   |    2 
+ b/arch/sparc/kernel/iommu.c                       |    2 
+ b/arch/sparc/kernel/ioport.c                      |    2 
+ b/arch/sparc/kernel/pci_sun4v.c                   |    1 
+ b/arch/sparc/mm/io-unit.c                         |    2 
+ b/arch/sparc/mm/iommu.c                           |    2 
+ b/arch/x86/include/asm/dma-mapping.h              |    2 
+ b/arch/x86/kernel/amd_gart_64.c                   |    1 
+ b/arch/x86/kernel/pci-dma.c                       |    2 
+ b/arch/x86/kernel/setup.c                         |    2 
+ b/arch/x86/xen/pci-swiotlb-xen.c                  |    2 
+ b/arch/xtensa/kernel/pci-dma.c                    |    3 
+ b/arch/xtensa/mm/init.c                           |    2 
+ b/drivers/acpi/arm64/iort.c                       |    2 
+ b/drivers/acpi/scan.c                             |    2 
+ b/drivers/base/dd.c                               |    2 
+ b/drivers/dma-buf/heaps/cma_heap.c                |    2 
+ b/drivers/gpu/drm/exynos/exynos_drm_dma.c         |    2 
+ b/drivers/gpu/drm/msm/msm_gem.c                   |    1 
+ b/drivers/iommu/amd/iommu.c                       |    3 
+ b/drivers/iommu/dma-iommu.c                       |    3 
+ b/drivers/iommu/intel/iommu.c                     |    4 
+ b/drivers/media/platform/exynos4-is/fimc-is.c     |    1 
+ b/drivers/misc/mic/bus/mic_bus.c                  |    1 
+ b/drivers/misc/mic/bus/scif_bus.c                 |    2 
+ b/drivers/misc/mic/bus/scif_bus.h                 |    2 
+ b/drivers/misc/mic/bus/vop_bus.c                  |    2 
+ b/drivers/misc/mic/host/mic_boot.c                |    1 
+ b/drivers/of/device.c                             |    1 
+ b/drivers/parisc/ccio-dma.c                       |    1 
+ b/drivers/parisc/sba_iommu.c                      |    1 
+ b/drivers/pci/pci-driver.c                        |    1 
+ b/drivers/pci/xen-pcifront.c                      |    1 
+ b/drivers/remoteproc/remoteproc_core.c            |    1 
+ b/drivers/remoteproc/remoteproc_virtio.c          |    2 
+ b/drivers/vdpa/vdpa_sim/vdpa_sim.c                |    2 
+ b/drivers/xen/swiotlb-xen.c                       |    2 
+ b/include/asm-generic/Kbuild                      |    1 
+ b/include/linux/dma-direct.h                      |  108 -------
+ b/include/linux/dma-map-ops.h                     |  339 ++++++++++++++++++++++
+ b/include/linux/dma-mapping.h                     |  172 -----------
+ b/kernel/dma/Kconfig                              |    2 
+ b/kernel/dma/coherent.c                           |    1 
+ b/kernel/dma/contiguous.c                         |   42 ++
+ b/kernel/dma/debug.c                              |    5 
+ b/kernel/dma/debug.h                              |   44 --
+ b/kernel/dma/direct.c                             |    4 
+ b/kernel/dma/direct.h                             |  119 +++++++
+ b/kernel/dma/dummy.c                              |    2 
+ b/kernel/dma/mapping.c                            |    5 
+ b/kernel/dma/ops_helpers.c                        |    3 
+ b/kernel/dma/pool.c                               |    3 
+ b/kernel/dma/swiotlb.c                            |    2 
+ b/kernel/dma/virt.c                               |    2 
+ b/mm/memory.c                                     |    1 
+ include/asm-generic/dma-contiguous.h              |   10 
+ include/linux/dma-contiguous.h                    |  182 -----------
+ include/linux/dma-noncoherent.h                   |  109 -------
+ 111 files changed, 620 insertions(+), 737 deletions(-)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
