@@ -2,57 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0F527F68C
-	for <lists.iommu@lfdr.de>; Thu,  1 Oct 2020 02:13:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02DD27F681
+	for <lists.iommu@lfdr.de>; Thu,  1 Oct 2020 02:12:01 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 42E5384496;
-	Thu,  1 Oct 2020 00:13:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 11D3E861F1;
+	Thu,  1 Oct 2020 00:12:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zq8QV95cwwmY; Thu,  1 Oct 2020 00:13:38 +0000 (UTC)
+	with ESMTP id EvveruREeOCD; Thu,  1 Oct 2020 00:11:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 65EE88443E;
-	Thu,  1 Oct 2020 00:13:38 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EA735861E3;
+	Thu,  1 Oct 2020 00:11:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 516AAC0051;
-	Thu,  1 Oct 2020 00:13:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CFE5BC0051;
+	Thu,  1 Oct 2020 00:11:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 87F83C016F
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 10:28:32 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35223C0051
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 00:11:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 77A6484083
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 10:28:32 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2E81386B2C
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 00:11:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id srk79CCalitP for <iommu@lists.linux-foundation.org>;
- Wed, 30 Sep 2020 10:28:31 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from crapouillou.net (crapouillou.net [89.234.176.41])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B9F1283742
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 10:28:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1601461707; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:references; bh=N6zScjoElk/0srLgAKNsWnU8nZwt1zHmH6tZPRQ7bWI=;
- b=xrn918b6QUwV0Chrk0RERJfYJpld+15JXoCeobawiOBLshA//FWE0Bvic+Mbci2smNkCEY
- RsE0w0tk3D8LWoenvOQ8PX+TYXavZ+ODuW9pborHEiCHh3d67C9F90wlk9M0FTJR1viY2o
- ly+O+gQjnSuLmdrzXNGtRLmnwKz78H8=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Christoph Hellwig <hch@lst.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH] cma: decrease CMA_ALIGNMENT lower limit to 2
-Date: Wed, 30 Sep 2020 12:28:21 +0200
-Message-Id: <20200930102821.26421-1-paul@crapouillou.net>
-MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 01 Oct 2020 00:13:37 +0000
-Cc: Paul Cercueil <paul@crapouillou.net>, iommu@lists.linux-foundation.org,
- od@zcrc.me, linux-kernel@vger.kernel.org
+ with ESMTP id ovGQ4Za8bAOL for <iommu@lists.linux-foundation.org>;
+ Thu,  1 Oct 2020 00:11:54 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9CFE686450
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 00:11:54 +0000 (UTC)
+IronPort-SDR: zc9bStTSZAqpmam+lTFNvfnfj0tvbEVXJTGFI+KReslYWlJyI1p6XGzAuti960mvw/eNFSQ0UB
+ s0MA/W547Qtw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9760"; a="180732768"
+X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; d="scan'208";a="180732768"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2020 17:11:53 -0700
+IronPort-SDR: 4R3BVebGzy45SAg5UmoEuqws7o6A/pzDV/eMbxD6JOlYwo9zf93OGFUDzgrW9SirHQ1+z8GsbP
+ B2peItqXGUiA==
+X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; d="scan'208";a="500276811"
+Received: from km-skylake-client-platform.sc.intel.com ([10.3.52.153])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2020 17:11:52 -0700
+From: Kyung Min Park <kyung.min.park@intel.com>
+To: linux-kernel@vger.kernel.org,
+	iommu@lists.linux-foundation.org
+Subject: [RESEND PATCH 0/4] Audit Capability and Extended Capability among
+ IOMMUs
+Date: Wed, 30 Sep 2020 16:53:05 -0700
+Message-Id: <20200930235309.22841-1-kyung.min.park@intel.com>
+X-Mailer: git-send-email 2.17.1
+Cc: ravi.v.shankar@intel.com, kevin.tian@intel.com, ashok.raj@intel.com,
+ ricardo.neri@intel.com, kyung.min.park@intel.com, dwmw2@infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,37 +71,55 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On an embedded system with a tiny (1 MiB) CMA area for video memory, and
-a simple enough video pipeline, we can decrease the CMA_ALIGNMENT by a
-factor of 2 to avoid wasting memory, as all the allocations for video
-buffers will be of the exact same size (dictated by the size of the
-screen).
+Modern platforms have more than one IOMMU. Each IOMMU has its own
+feature set. Some of these features must be consistent among IOMMUs.
+Otherwise, these differences can lead to improper behavior in the system.
+On the other hand, for some features, each IOMMU can have different
+capacity values. So, different actions are required to deal with the
+inconsistencies depending on the IOMMU features.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- kernel/dma/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Currently, some inconsistencies are ignored by the IOMMU driver.
+This patchset checks IOMMU capabilities and extended capabilities
+centralizedly during boot and take different actions according to
+the impacts caused by the mismatches.
 
-diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-index 847a9d1fa634..f15e782e19ca 100644
---- a/kernel/dma/Kconfig
-+++ b/kernel/dma/Kconfig
-@@ -162,7 +162,7 @@ endchoice
- 
- config CMA_ALIGNMENT
- 	int "Maximum PAGE_SIZE order of alignment for contiguous buffers"
--	range 4 12
-+	range 2 12
- 	default 8
- 	help
- 	  DMA mapping framework by default aligns all buffers to the smallest
+For example:
+ 1. Disable Shared Virtual Memory.
+ 2. Use common capacity values (normally the lowest capacity value) for
+    all IOMMUs.
+ 3. Report feature mismatches.
+
+Detailed information on the IOMMU Capability / Extended Capability can
+be found in Intel VT-d Specification.
+
+Link: https://software.intel.com/sites/default/files/managed/c5/15/vt-directed-io-spec.pdf
+
+Kyung Min Park (4):
+  iommu/vt-d: Disable SVM in the platform when IOMMUs have
+    inconsistencies
+  iommu/vt-d: Report out when IOMMU features have inconsistencies
+  iommu/vt-d: Audit IOMMUs for Interrupt Remapping features
+  iommu/vt-d: Scale capability to the lowest supported between the
+    IOMMUs
+
+ drivers/iommu/intel/Makefile        |   4 +-
+ drivers/iommu/intel/audit.c         | 193 ++++++++++++++++++++++++++++
+ drivers/iommu/intel/audit.h         | 103 +++++++++++++++
+ drivers/iommu/intel/iommu.c         |  12 +-
+ drivers/iommu/intel/irq_remapping.c |   8 ++
+ include/linux/intel-iommu.h         |   3 +
+ 6 files changed, 320 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/iommu/intel/audit.c
+ create mode 100644 drivers/iommu/intel/audit.h
+
 -- 
-2.28.0
+2.17.1
 
 _______________________________________________
 iommu mailing list
