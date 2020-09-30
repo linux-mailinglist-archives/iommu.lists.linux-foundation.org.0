@@ -1,89 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DCB27E09F
-	for <lists.iommu@lfdr.de>; Wed, 30 Sep 2020 07:48:55 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 97EAB843E9;
-	Wed, 30 Sep 2020 05:48:54 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Jdi7pWRvjRri; Wed, 30 Sep 2020 05:48:54 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 44081842F8;
-	Wed, 30 Sep 2020 05:48:54 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 27CF1C0051;
-	Wed, 30 Sep 2020 05:48:54 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 59249C0051
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 05:48:53 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1D527E0B1
+	for <lists.iommu@lfdr.de>; Wed, 30 Sep 2020 07:54:36 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 555AF84042
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 05:48:53 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 857DD85700;
+	Wed, 30 Sep 2020 05:54:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id IzdHcuW2rTqH; Wed, 30 Sep 2020 05:54:35 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2744086709;
+	Wed, 30 Sep 2020 05:54:35 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1A747C0051;
+	Wed, 30 Sep 2020 05:54:35 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BA772C0051
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 05:54:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 8CCE520337
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 05:54:33 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id r1YvUWH19iKW for <iommu@lists.linux-foundation.org>;
- Wed, 30 Sep 2020 05:48:52 +0000 (UTC)
+ with ESMTP id MkLYWvWNjVux for <iommu@lists.linux-foundation.org>;
+ Wed, 30 Sep 2020 05:54:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
- [209.85.167.68])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 7BD7385168
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 05:48:52 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id u8so664137lff.1
- for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 22:48:52 -0700 (PDT)
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+ [209.85.216.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id 7D4691FE65
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 05:54:32 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id kk9so267029pjb.2
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 22:54:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sTlqCEGp37rQgxee6pjO54hL90cDz6DxVD42l2S1fWY=;
- b=WrROXhnNJZ43uGT8pW9Rnhr+LT9VvW+DFmVprWAhpR3nZMSv5vu9GOL1Ad0E+G4KL8
- G9Yjr+DlX/OqgZOOgX68ds3hbhEKVwbiI3UWVFx1/Hw2HN1yQMeS4WJ2c/F34LIcg6vc
- iLk25EcYpFZZKVTD1fQC7t2gGywRyzFj9AM29bPoXVn1jrN4dkggBousL1Goo+C626qL
- TzjuwG9rZbs2cFRPa/5hTElwVT+sDSIk2vQb5uyNnhHajwz7IKPw0SLwAC7qxaufOB4G
- hhj7UaY2v597eq8iq+wCCGRMIIeik1G1TK5sc2bmecIU/zv8QQ6nQjM/6Gesup59aA5S
- +NGA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=nOrl7UHF0nNN9i5bc0fKWH998hHBJl4SyOt3Ewm9Qus=;
+ b=EoXSmTFBLz6iFITy4oZtdW1ZnHZn57r24dAvaCKr0dCgY6ksM+DYPw/3J8cc6+ue8Y
+ oDIQ4cbPRfyaJofzjxn4HYROLa1W6CrOqvDxZQPG1KubS40Nsw+hnIMQil+49AuqSozn
+ wq9xpHCF5BCHrxyTpEWIpVzZGfDCg5TGbQbEijOakd26zI0Xl2YdFSrGheN0oaUXtyIE
+ vxddY8iPvo/FUdYEtobOQvZ8DPT1QRRg5d25v51tM6r01JK0LtYHYfnu4xRsoMWhzcWq
+ zqtAahE8VsWHAR/WpLTgEFuchOurn+3cHb7MUnishtQO/nCAlgNX6gyUkq1DkfEALXTl
+ Hq7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sTlqCEGp37rQgxee6pjO54hL90cDz6DxVD42l2S1fWY=;
- b=K8Mfr4BZvckz+0Kivlden77CUdfqb1ZDS/v+66lHlEycOQ4mQ2rn9sygHQOJpaDp2W
- Nc3qfgMIHZwzwNyvJy6znO7/laqplAmjevCglKcgo0rBWyrrJzS10qcNjB0c+9swJd19
- TYwJn8kxq6G7dGr8wJRfrgMQwtUrn0DKsNxIfMxynVmo1nml1OMiQMPI0etfw2zTIJUh
- chZevdddpBpOiHiVcJrMDjc8mhO37RouT0MCS9glQi8FYN/NjFq+xBH0VFP11ShgTx2R
- g+v1slnevZ2M3DuGYrYJ/595SwalMgKmV6IQL06vsnfiHCVDpdJQIEP1t7lU1Wh6G4wY
- w+yA==
-X-Gm-Message-State: AOAM533wdzpYtbzUqxbXIxw9dSy6Wig8bAj8h8A+Rz71yYcOSjG3VbVZ
- 7taO1/wB+jKVloASxzokfv4=
-X-Google-Smtp-Source: ABdhPJwIHrMGRrOWHIrTo+petVlBtwi5nTRuibwE2GQlD+fqVI+v+lUc38fkumcR4VVvfR5iahMuxg==
-X-Received: by 2002:ac2:593b:: with SMTP id v27mr303325lfi.338.1601444930557; 
- Tue, 29 Sep 2020 22:48:50 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru.
- [109.252.170.211])
- by smtp.googlemail.com with ESMTPSA id l188sm63762lfd.127.2020.09.29.22.48.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Sep 2020 22:48:49 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=nOrl7UHF0nNN9i5bc0fKWH998hHBJl4SyOt3Ewm9Qus=;
+ b=tHDgJg+YZ4nIcJid6pDnpu5VXSDjfKTd+sbKB4NieG+6xvheSt1w3l5MU1Q3yW3Kpu
+ Jz9weee8SjMH6PJg9FWotJkcYyaNy9mqkztah+d/L0rPELvy699NhEjHG3Yvgtitemyo
+ Su9jLzXcH3Qu+GEEwpm2/fCTn5iIDGMViTvSCY49zXHGN4oTkiL3tltrbzLIPiPpkCxj
+ +ifblIJKQHJRdpEYessdbeUKdSFMaVcx8LT7dgCO9ydW1On1AV7oWkdJtN/g8E504zut
+ 79dhWYLehFhnPyfFSelZS5I/upIwu0xfPiITSEJ8UOAOqrXWLCm+mKcOr+v19uQNbZH0
+ ueXg==
+X-Gm-Message-State: AOAM531ZkjmPOPZC7/+h+mK0ZHXRKWfMQER31JhUoJZlOLOCXN990Ji3
+ xTzULXW9g2aW07hWJ3P0qNY=
+X-Google-Smtp-Source: ABdhPJyJBWhmdnNZa0VZas7IJXlcWAnavzrHh/Bboosyugl2BeI4Bn999Gi5I2W0kqRD0HfTE/LD0w==
+X-Received: by 2002:a17:90a:c255:: with SMTP id
+ d21mr1125704pjx.212.1601445272078; 
+ Tue, 29 Sep 2020 22:54:32 -0700 (PDT)
+Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
+ by smtp.gmail.com with ESMTPSA id s20sm719415pfu.112.2020.09.29.22.54.31
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 29 Sep 2020 22:54:31 -0700 (PDT)
+Date: Tue, 29 Sep 2020 22:49:01 -0700
+From: Nicolin Chen <nicoleotsuka@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
 Subject: Re: [PATCH v2 2/3] iommu/tegra-smmu: Rework .probe_device and
  .attach_dev
-To: Nicolin Chen <nicoleotsuka@gmail.com>
+Message-ID: <20200930054900.GG31821@Asurada-Nvidia>
 References: <20200930003013.31289-1-nicoleotsuka@gmail.com>
  <20200930003013.31289-3-nicoleotsuka@gmail.com>
- <03710107-b6ad-5256-4550-09c610d0fded@gmail.com>
- <20200930053930.GD31821@Asurada-Nvidia>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e5b9f269-3ddd-d4e5-de26-413414c3ccf2@gmail.com>
-Date: Wed, 30 Sep 2020 08:48:49 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <75514da5-e63a-9e51-8376-abbd12c324d1@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200930053930.GD31821@Asurada-Nvidia>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <75514da5-e63a-9e51-8376-abbd12c324d1@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
  krzk@kernel.org, jonathanh@nvidia.com, thierry.reding@gmail.com,
  linux-tegra@vger.kernel.org
@@ -104,21 +102,13 @@ Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-MzAuMDkuMjAyMCAwODozOSwgTmljb2xpbiBDaGVuINC/0LjRiNC10YI6Cj4gT24gV2VkLCBTZXAg
-MzAsIDIwMjAgYXQgMDg6MjQ6MDJBTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+PiAz
-MC4wOS4yMDIwIDAzOjMwLCBOaWNvbGluIENoZW4g0L/QuNGI0LXRgjoKPj4+ICsJLyoKPj4+ICsJ
-ICogSU9NTVUgY29yZSBhbGxvd3MgLUVOT0RFViByZXR1cm4gdG8gY2Fycnkgb24uIFNvIGJ5cGFz
-cyBhbnkgY2FsbAo+Pj4gKwkgKiBmcm9tIGJ1c19zZXRfaW9tbXUoKSBkdXJpbmcgdGVncmFfc21t
-dV9wcm9iZSgpLCBhcyBhIGRldmljZSB3aWxsCj4+PiArCSAqIGNhbGwgaW4gYWdhaW4gdmlhIG9m
-X2lvbW11X2NvbmZpZ3VyZSB3aGVuIGZ3c3BlYyBpcyBwcmVwYXJlZC4KPj4+ICsJICovCj4+PiAr
-CWlmICghbWMtPnNtbXUgfHwgIWZ3c3BlYyB8fCBmd3NwZWMtPm9wcyAhPSAmdGVncmFfc21tdV9v
-cHMpCj4+PiAgCQlyZXR1cm4gRVJSX1BUUigtRU5PREVWKTsKPj4KPj4gVGhlICFtYy0+c21tdSBj
-YW4ndCBiZSB0cnVlLgo+IAo+IEFyZSB5b3Ugc3VyZT8gSSBoYXZlIHJlbW92ZWQgdGhlICJtYy0+
-c21tdSA9IHNtbXUiIGluIHByb2JlKCkgd2l0aAo+IHRoaXMgY2hhbmdlLiBTbyB0aGUgb25seSB0
-aW1lICJtYy0+c21tdSA9PSAhTlVMTCIgaXMgYWZ0ZXIgcHJvYmUoKQo+IG9mIFNNTVUgZHJpdmVy
-IGlzIHJldHVybmVkLiBBcyBteSBjb21tZW50cyBzYXlzLCB0ZWdyYV9zbW11X3Byb2JlKCkKPiBj
-YWxscyBpbiB0aGlzIGZ1bmN0aW9uIHZpYSBidXNfc2V0X2lvbW11KCksIHNvIG1jLT5zbW11IGNh
-biBiZSBOVUxMCj4gaW4gdGhpcyBjYXNlLgo+IAoKSSBtaXNzZWQgdGhhdC4KX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0Cmlv
-bW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0
-aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+T24gV2VkLCBTZXAgMzAsIDIwMjAgYXQgMDg6MTE6NTJBTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
+IHdyb3RlOgo+IDMwLjA5LjIwMjAgMDM6MzAsIE5pY29saW4gQ2hlbiDQv9C40YjQtdGCOgo+ID4g
+KwkvKiBBbiBpbnZhbGlkIG1jIHBvaW50ZXIgbWVhbnMgbWMgYW5kIHNtbXUgZHJpdmVycyBhcmUg
+bm90IHJlYWR5ICovCj4gPiArCWlmIChJU19FUlJfT1JfTlVMTChtYykpCj4gCj4gdGVncmFfZ2V0
+X21lbW9yeV9jb250cm9sbGVyKCkgZG9lc24ndCByZXR1cm4gTlVMTC4KCldlbGwsIEkgZG9uJ3Qg
+d2FudCB0byBhc3N1bWUgdGhhdCBpdCdkIGRvIHRoYXQgZm9yZXZlciwgYW5kIHRoZQpOVUxMIGNo
+ZWNrIG9mIElTX0VSUl9PUl9OVUxMIGlzIG1hcmtlZCAidW5saWtlbHkiIHNvIGl0IGRvZXNuJ3QK
+aHVydCB0byBoYXZlLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcK
+aHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
