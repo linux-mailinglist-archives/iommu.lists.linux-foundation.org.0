@@ -2,88 +2,75 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5A027E0A5
-	for <lists.iommu@lfdr.de>; Wed, 30 Sep 2020 07:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E89B27E098
+	for <lists.iommu@lfdr.de>; Wed, 30 Sep 2020 07:47:50 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A377920337;
-	Wed, 30 Sep 2020 05:50:30 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3345B1FF11;
+	Wed, 30 Sep 2020 05:47:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id v4vRf4A990KD; Wed, 30 Sep 2020 05:50:28 +0000 (UTC)
+	with ESMTP id VZbX0OHoPiE2; Wed, 30 Sep 2020 05:47:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 995592001F;
-	Wed, 30 Sep 2020 05:50:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 954502001F;
+	Wed, 30 Sep 2020 05:47:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 817A9C0051;
-	Wed, 30 Sep 2020 05:50:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 827ACC0051;
+	Wed, 30 Sep 2020 05:47:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 45575C0051
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 05:50:27 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 31027C0051
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 05:47:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 33E3D871AE
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 05:50:27 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 1D33E20009
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 05:47:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qzSkwDA0nlIY for <iommu@lists.linux-foundation.org>;
- Wed, 30 Sep 2020 05:50:26 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by hemlock.osuosl.org (Postfix) with ESMTPS id A7B2E8708F
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 05:50:26 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id x123so400927pfc.7
- for <iommu@lists.linux-foundation.org>; Tue, 29 Sep 2020 22:50:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=KDJI1UdfvDBL6Dg4S57KOoqth3ucuI3HS03X3SOn/zY=;
- b=VIcmcdskQ86AfRy89+em/AsOvDdok8Z+IL0i4KLjiMwhMF7QDAYv2GtcenPvQ2mMdx
- JFx7ooYChVxbFy6b7zIyHOxkRiS1EH0vDUnAcwYhmrqSJ4+IuS9WGFqGqdfYF9X+NCGH
- EAZA1PcF1Ue2GxlWOIWAhWnyvAIGda7RiOz5GbHhJjgPZz3idbyMywGnK8Qf8hC/OSoK
- 7pqn+e7IfY8D2KXS76PGtdpfZxyBPhsDAQPrYCkR75R2NWdRy33VVyZD/dIRSFwTUIc/
- ZXZPiebSHjBgOZTu8iNnAGmpOYJhVQ51em87vn3K6ADXNwtz0xhTo9HWY9PNPbL6sXjd
- 1nrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=KDJI1UdfvDBL6Dg4S57KOoqth3ucuI3HS03X3SOn/zY=;
- b=YWpTRfiPxzgN4uuuaqIM2M/D3dlPRvCg+YVAr1eCF843hcKGx/A6FqzixaxLxK8LXC
- MXs1eibAZ8nbamlCLxqAAyLhfeTEFhlfSAAG83wdyGPnzv7MS5r5uVF6NACFtta3O1NS
- NoPB6x5uEgTk8z5AMvXqiFB56qGlIzjR7PRUtL2VFt0Qy5vr4bdMtwVv7nWQJzJhRVcT
- ct31z2XwvQKJetKXyiuOpS3Y2ceyTzVJ20N2KLkud2qBXeq2MaQdVu+D37t1NQTAH4yd
- 54BuQHdpQHlLBQUotgNOUEX6l20PNOnF4Qrrl1jyG+zeleXjUoqo426oGuzfjAIvB3K1
- 7dHA==
-X-Gm-Message-State: AOAM531rkCJV/aViOI6J1gez+/OcrNylvWuZ3JVOBqHOTrOJTee1SYy6
- +zkh2DWn9OlbsBgq82znt58=
-X-Google-Smtp-Source: ABdhPJz/L1MMK7NVUm1Vf+MPoZ/cbNAxRDW8TWSdQwxfslFWRQDLLzBAv75iqpbC41ReCW3RWdLh7A==
-X-Received: by 2002:a63:161e:: with SMTP id w30mr873994pgl.255.1601445026190; 
- Tue, 29 Sep 2020 22:50:26 -0700 (PDT)
-Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
- by smtp.gmail.com with ESMTPSA id g206sm724587pfb.178.2020.09.29.22.50.25
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 29 Sep 2020 22:50:26 -0700 (PDT)
-Date: Tue, 29 Sep 2020 22:44:55 -0700
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2 1/3] memory: tegra: Add helper function
- tegra_get_memory_controller
-Message-ID: <20200930054455.GF31821@Asurada-Nvidia>
-References: <20200930003013.31289-1-nicoleotsuka@gmail.com>
- <20200930003013.31289-2-nicoleotsuka@gmail.com>
- <93803d8b-9863-e977-fa87-a03e877b095d@gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <93803d8b-9863-e977-fa87-a03e877b095d@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- krzk@kernel.org, jonathanh@nvidia.com, thierry.reding@gmail.com,
- linux-tegra@vger.kernel.org
+ with ESMTP id GN0fZWNFAJ0D for <iommu@lists.linux-foundation.org>;
+ Wed, 30 Sep 2020 05:47:43 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by silver.osuosl.org (Postfix) with ESMTPS id 692851FF11
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 05:47:43 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1601444863; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=CW3o8F/KoJnYAsnIcLIwvqS53Wx2dv10ScjVB1Kj73s=;
+ b=uXGXWdc0pxtSLgX5XP+peYo32a9ZpaOiZ23oc033YDmUuQpJ1vUw8jQk5TM7R2Rsiw3phsVv
+ AcPzISrLuGXR0l4fmwZSGm4xq4jUM6AWVlX3M4CHbH4DZPH/xmxeLoUbbbJTGiB50MNQaBhJ
+ wbPNpDgyoqg9sYzQK3JGcUrltBk=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 5f741bfabebf546dbb09ca8f (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 30 Sep 2020 05:47:38
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id E51EEC43385; Wed, 30 Sep 2020 05:47:37 +0000 (UTC)
+Received: from vjitta-linux.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: vjitta)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id C6603C433C8;
+ Wed, 30 Sep 2020 05:47:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C6603C433C8
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=vjitta@codeaurora.org
+From: vjitta@codeaurora.org
+To: joro@8bytes.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v4 1/2] iommu/iova: Retry from last rb tree node if iova
+ search fails
+Date: Wed, 30 Sep 2020 11:17:20 +0530
+Message-Id: <1601444841-12267-1-git-send-email-vjitta@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+Cc: vjitta@codeaurora.org, robin.murphy@arm.com, vinmenon@codeaurora.org,
+ kernel-team@android.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,20 +83,97 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gV2VkLCBTZXAgMzAsIDIwMjAgYXQgMDg6MTI6MTBBTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
-IHdyb3RlOgo+IDMwLjA5LjIwMjAgMDM6MzAsIE5pY29saW4gQ2hlbiDQv9C40YjQtdGCOgo+IC4u
-Lgo+ID4gIGludCB0ZWdyYV9tY193cml0ZV9lbWVtX2NvbmZpZ3VyYXRpb24oc3RydWN0IHRlZ3Jh
-X21jICptYywgdW5zaWduZWQgbG9uZyByYXRlKTsKPiA+ICB1bnNpZ25lZCBpbnQgdGVncmFfbWNf
-Z2V0X2VtZW1fZGV2aWNlX2NvdW50KHN0cnVjdCB0ZWdyYV9tYyAqbWMpOwo+ID4gK3N0cnVjdCB0
-ZWdyYV9tYyAqdGVncmFfZ2V0X21lbW9yeV9jb250cm9sbGVyKHZvaWQpOwo+ID4gIAo+ID4gICNl
-bmRpZiAvKiBfX1NPQ19URUdSQV9NQ19IX18gKi8KPiA+IAo+IAo+IFRoaXMgd2lsbCBjb25mbGlj
-dCB3aXRoIHRoZSB0ZWdyYTIwLWRldmZyZXEgZHJpdmVyLCB5b3Ugc2hvdWxkIGNoYW5nZSBpdAo+
-IGFzIHdlbGwuCgpXaWxsIHJlbW92ZSB0aGF0IGluIHYzLgoKVGhhbmtzCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21t
-dUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlv
-bi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+From: Vijayanand Jitta <vjitta@codeaurora.org>
+
+When ever a new iova alloc request comes iova is always searched
+from the cached node and the nodes which are previous to cached
+node. So, even if there is free iova space available in the nodes
+which are next to the cached node iova allocation can still fail
+because of this approach.
+
+Consider the following sequence of iova alloc and frees on
+1GB of iova space
+
+1) alloc - 500MB
+2) alloc - 12MB
+3) alloc - 499MB
+4) free -  12MB which was allocated in step 2
+5) alloc - 13MB
+
+After the above sequence we will have 12MB of free iova space and
+cached node will be pointing to the iova pfn of last alloc of 13MB
+which will be the lowest iova pfn of that iova space. Now if we get an
+alloc request of 2MB we just search from cached node and then look
+for lower iova pfn's for free iova and as they aren't any, iova alloc
+fails though there is 12MB of free iova space.
+
+To avoid such iova search failures do a retry from the last rb tree node
+when iova search fails, this will search the entire tree and get an iova
+if its available.
+
+Signed-off-by: Vijayanand Jitta <vjitta@codeaurora.org>
+Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+---
+ drivers/iommu/iova.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
+index 30d969a..c3a1a8e 100644
+--- a/drivers/iommu/iova.c
++++ b/drivers/iommu/iova.c
+@@ -184,8 +184,9 @@ static int __alloc_and_insert_iova_range(struct iova_domain *iovad,
+ 	struct rb_node *curr, *prev;
+ 	struct iova *curr_iova;
+ 	unsigned long flags;
+-	unsigned long new_pfn;
++	unsigned long new_pfn, retry_pfn;
+ 	unsigned long align_mask = ~0UL;
++	unsigned long high_pfn = limit_pfn, low_pfn = iovad->start_pfn;
+ 
+ 	if (size_aligned)
+ 		align_mask <<= fls_long(size - 1);
+@@ -198,15 +199,25 @@ static int __alloc_and_insert_iova_range(struct iova_domain *iovad,
+ 
+ 	curr = __get_cached_rbnode(iovad, limit_pfn);
+ 	curr_iova = rb_entry(curr, struct iova, node);
++	retry_pfn = curr_iova->pfn_hi + 1;
++
++retry:
+ 	do {
+-		limit_pfn = min(limit_pfn, curr_iova->pfn_lo);
+-		new_pfn = (limit_pfn - size) & align_mask;
++		high_pfn = min(high_pfn, curr_iova->pfn_lo);
++		new_pfn = (high_pfn - size) & align_mask;
+ 		prev = curr;
+ 		curr = rb_prev(curr);
+ 		curr_iova = rb_entry(curr, struct iova, node);
+-	} while (curr && new_pfn <= curr_iova->pfn_hi);
+-
+-	if (limit_pfn < size || new_pfn < iovad->start_pfn) {
++	} while (curr && new_pfn <= curr_iova->pfn_hi && new_pfn >= low_pfn);
++
++	if (high_pfn < size || new_pfn < low_pfn) {
++		if (low_pfn == iovad->start_pfn && retry_pfn < limit_pfn) {
++			high_pfn = limit_pfn;
++			low_pfn = retry_pfn;
++			curr = &iovad->anchor.node;
++			curr_iova = rb_entry(curr, struct iova, node);
++			goto retry;
++		}
+ 		iovad->max32_alloc_size = size;
+ 		goto iova32_full;
+ 	}
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, hosted by The Linux Foundation
+2.7.4
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
