@@ -2,83 +2,74 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id E929E27E168
-	for <lists.iommu@lfdr.de>; Wed, 30 Sep 2020 08:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CE827E1F3
+	for <lists.iommu@lfdr.de>; Wed, 30 Sep 2020 09:07:15 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9794986054;
-	Wed, 30 Sep 2020 06:41:54 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BF65E86103;
+	Wed, 30 Sep 2020 07:07:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nOvV9vupfkHw; Wed, 30 Sep 2020 06:41:54 +0000 (UTC)
+	with ESMTP id PMMEoDX9CyWv; Wed, 30 Sep 2020 07:07:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3E94386031;
-	Wed, 30 Sep 2020 06:41:54 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C3249860FE;
+	Wed, 30 Sep 2020 07:07:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2156BC0051;
-	Wed, 30 Sep 2020 06:41:54 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A4394C0051;
+	Wed, 30 Sep 2020 07:07:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 41D0AC0051
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 06:41:53 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 41DCFC0051
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 07:07:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 294B020422
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 06:41:53 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2647C867AE
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 07:07:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nqGCuFrliv2f for <iommu@lists.linux-foundation.org>;
- Wed, 30 Sep 2020 06:41:52 +0000 (UTC)
+ with ESMTP id Rg+PTFSjEtY6 for <iommu@lists.linux-foundation.org>;
+ Wed, 30 Sep 2020 07:07:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by silver.osuosl.org (Postfix) with ESMTPS id 088BD203EE
- for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 06:41:52 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1601448108;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EJKrDPg1zMcLHTJ9psmGJPskafubkx5uuA4rv00RWvE=;
- b=3b6vWZ3FYwgK0uGd/jHNKkzf932WR9YVcHqnMSL9hHtR4FHsBZC07JwnVnqMJT9Jed2laM
- sOmj+DtePTxNt1wmjH5DZ6o2s5opDsc8D9ifXyqbFVzXOdAfouLp4tTZLVGyMM1xzNgVNF
- SiFdV8l6tmYAgTktBPpm/Iadr8yO4O7oHnUbbnOIztDfkFXFDnrym1ArBAMUmD2E46aShM
- CD+CVsD5I4NZ1O1jmOVTRGe6+5R2FDp5MP/BP/FjqJPOUfRmKvz3lfIp+HuQ1y5Tb6Yo6V
- QtpSVxjdk4qgFUFhEUdh5DLZfdeQVjrBT9YrrBtUq7PiKVvMzZoW945MxWorVA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1601448108;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EJKrDPg1zMcLHTJ9psmGJPskafubkx5uuA4rv00RWvE=;
- b=4oScqGVN58GGowfuDE4TlRtr/G0yJIGU+gi/diGlZDZu0wervLchyWESUEEFxWNHdARjHI
- QIrbJgszY1bnCuAA==
-To: "Dey\, Megha" <megha.dey@intel.com>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [patch V2 00/46] x86, PCI, XEN, genirq ...: Prepare for device MSI
-In-Reply-To: <10b5d933-f104-7699-341a-0afb16640d54@intel.com>
-References: <20200826111628.794979401@linutronix.de>
- <10b5d933-f104-7699-341a-0afb16640d54@intel.com>
-Date: Wed, 30 Sep 2020 08:41:48 +0200
-Message-ID: <87v9fvix5f.fsf@nanos.tec.linutronix.de>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by whitealder.osuosl.org (Postfix) with ESMTP id C69F886792
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 07:07:07 +0000 (UTC)
+X-UUID: 7c63cc7630224a1093afc71d9ffaa0d1-20200930
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=5AhZKEIC00gKIcL6HX6plzcjVbB5Hhhvugp+KrpFUY8=; 
+ b=Gzf172xm5DRoi6pR40TKKua2P7MVsWMJQ8MN3GuAHNUljrmE2QXCSfIoF0inyBnKXEmXDVfPniw/Cn6gVK4mXiu+DXhIkq/S0LgYbWVBDqVjwaky6rTl9IfMAf4Z4Sch9EAU+p+EYTpus9Ve+sNziDifNHveY750PDvqaMq6a64=;
+X-UUID: 7c63cc7630224a1093afc71d9ffaa0d1-20200930
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
+ ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 679787247; Wed, 30 Sep 2020 15:07:02 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 30 Sep 2020 15:06:59 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 30 Sep 2020 15:06:57 +0800
+From: Yong Wu <yong.wu@mediatek.com>
+To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ Rob Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Will Deacon <will@kernel.org>
+Subject: [PATCH v3 00/24] MT8192 IOMMU support
+Date: Wed, 30 Sep 2020 15:06:23 +0800
+Message-ID: <20200930070647.10188-1-yong.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Cc: Dimitri Sivanich <sivanich@hpe.com>, linux-hyperv@vger.kernel.org,
- Steve Wahl <steve.wahl@hpe.com>, linux-pci@vger.kernel.org, "K. Y.
- Srinivasan" <kys@microsoft.com>, Dan Williams <dan.j.williams@intel.com>,
- Wei Liu <wei.liu@kernel.org>, Stephen Hemminger <sthemmin@microsoft.com>,
- Baolu Lu <baolu.lu@intel.com>, Marc Zyngier <maz@kernel.org>, x86@kernel.org,
- Jason Gunthorpe <jgg@mellanox.com>, xen-devel@lists.xenproject.org,
- ravi.v.shankar@intel.com, Kevin Tian <kevin.tian@intel.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, dave.jiang@intel.com,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Jon Derrick <jonathan.derrick@intel.com>, Juergen Gross <jgross@suse.com>,
- Russ Anderson <rja@hpe.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- iommu@lists.linux-foundation.org, Jacob Pan <jacob.jun.pan@intel.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>
+X-TM-SNTS-SMTP: FBF17A1314FE8431647D3158E921C25AFB5DE37D010C6932888B9B9AC638F2252000:8
+X-MTK: N
+Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
+ Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
+ chao.hao@mediatek.com, kernel-team@android.com, linux-kernel@vger.kernel.org,
+ Evan Green <evgreen@chromium.org>, Tomasz Figa <tfiga@google.com>,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
+ Greg Kroah-Hartman <gregkh@google.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,28 +87,107 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Sep 29 2020 at 16:03, Megha Dey wrote:
-> On 8/26/2020 4:16 AM, Thomas Gleixner wrote:
->> #9	is obviously just for the folks interested in IMS
->>
->
-> I see that the tip tree (as of 9/29) has most of these patches but 
-> notice that the DEV_MSI related patches
->
-> haven't made it. I have tested the tip tree(x86/irq branch) with your
-> DEV_MSI infra patches and our IMS patches with the IDXD driver and was
+This patch mainly adds support for mt8192 IOMMU and SMI.
 
-Your IMS patches? Why do you need something special again?
+mt8192 also is MTK IOMMU gen2 which uses ARM Short-Descriptor translation
+table format. The M4U-SMI HW diagram is as below:
 
-> wondering if we should push out those patches as part of our patchset?
+                          EMI
+                           |
+                          M4U
+                           |
+                      ------------
+                       SMI Common
+                      ------------
+                           |
+  +-------+------+------+----------------------+-------+
+  |       |      |      |       ......         |       |
+  |       |      |      |                      |       |
+larb0   larb1  larb2  larb4     ......      larb19   larb20
+disp0   disp1   mdp    vdec                   IPE      IPE
 
-As I don't have any hardware to test that, I was waiting for you and
-Jason to confirm that this actually works for the two different IMS
-implementations.
+All the connections are HW fixed, SW can NOT adjust it.
 
-Thanks,
+Comparing with the preview SoC, this patchset mainly adds two new functions:
+a) add iova 34 bits support.
+b) add multi domains support since several HW has the special iova
+region requirement.
 
-        tglx
+this patchset depend on v5.9-rc1.
+
+change note:
+v3:
+  a) Fix DT schema issue commented from Rob.
+  b) Fix a v7s issue. Use "_lvl" instead of "_l" in the macro(ARM_V7S_PTES_PER_LVL) since 
+  it is called in ARM_V7S_LVL_IDX which has already used "_l".
+  c) Fix a PM suspend issue: Avoid pm suspend in pm runtime case.
+
+v2: https://lore.kernel.org/linux-iommu/20200905080920.13396-1-yong.wu@mediatek.com/
+  a) Convert IOMMU/SMI dt-binding to DT schema.
+  b) Fix some comment from Pi-Hsun and Nicolas. like use
+  generic_iommu_put_resv_regions.
+  c) Reword some comment, like add how to use domain-id.
+
+v1: https://lore.kernel.org/linux-iommu/20200711064846.16007-1-yong.wu@mediatek.com/
+
+Yong Wu (24):
+  dt-bindings: iommu: mediatek: Convert IOMMU to DT schema
+  dt-bindings: memory: mediatek: Convert SMI to DT schema
+  dt-bindings: memory: mediatek: Add a common larb-port header file
+  dt-bindings: memory: mediatek: Extend LARB_NR_MAX to 32
+  dt-bindings: memory: mediatek: Add domain definition
+  dt-bindings: mediatek: Add binding for mt8192 IOMMU
+  iommu/mediatek: Use the common mtk-smi-larb-port.h
+  iommu/io-pgtable-arm-v7s: Use ias to check the valid iova in unmap
+  iommu/io-pgtable-arm-v7s: Extend PA34 for MediaTek
+  iommu/io-pgtable-arm-v7s: Add cfg as a param in some macros
+  iommu/io-pgtable-arm-v7s: Quad lvl1 pgtable for MediaTek
+  iommu/mediatek: Move hw_init into attach_device
+  iommu/mediatek: Add device link for smi-common and m4u
+  iommu/mediatek: Add pm runtime callback
+  iommu/mediatek: Add power-domain operation
+  iommu/mediatek: Add iova reserved function
+  iommu/mediatek: Add single domain
+  iommu/mediatek: Support master use iova over 32bit
+  iommu/mediatek: Support up to 34bit iova in tlb flush
+  iommu/mediatek: Support report iova 34bit translation fault in ISR
+  iommu/mediatek: Add support for multi domain
+  iommu/mediatek: Adjust the structure
+  iommu/mediatek: Add mt8192 support
+  memory: mtk-smi: Add mt8192 support
+
+ .../bindings/iommu/mediatek,iommu.txt         | 103 -------
+ .../bindings/iommu/mediatek,iommu.yaml        | 159 +++++++++++
+ .../mediatek,smi-common.txt                   |  49 ----
+ .../mediatek,smi-common.yaml                  | 101 +++++++
+ .../memory-controllers/mediatek,smi-larb.txt  |  49 ----
+ .../memory-controllers/mediatek,smi-larb.yaml |  92 +++++++
+ drivers/iommu/io-pgtable-arm-v7s.c            |  57 ++--
+ drivers/iommu/mtk_iommu.c                     | 256 +++++++++++++++---
+ drivers/iommu/mtk_iommu.h                     |  11 +-
+ drivers/memory/mtk-smi.c                      |  27 ++
+ include/dt-bindings/memory/mt2712-larb-port.h |   2 +-
+ include/dt-bindings/memory/mt6779-larb-port.h |   2 +-
+ include/dt-bindings/memory/mt8173-larb-port.h |   2 +-
+ include/dt-bindings/memory/mt8183-larb-port.h |   2 +-
+ include/dt-bindings/memory/mt8192-larb-port.h | 239 ++++++++++++++++
+ .../dt-bindings/memory/mtk-smi-larb-port.h    |  22 ++
+ include/linux/io-pgtable.h                    |   4 +-
+ include/soc/mediatek/smi.h                    |   3 +-
+ 18 files changed, 903 insertions(+), 277 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+ create mode 100644 Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+ delete mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.txt
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
+ delete mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
+ create mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
+ create mode 100644 include/dt-bindings/memory/mt8192-larb-port.h
+ create mode 100644 include/dt-bindings/memory/mtk-smi-larb-port.h
+
+-- 
+2.18.0
+
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
