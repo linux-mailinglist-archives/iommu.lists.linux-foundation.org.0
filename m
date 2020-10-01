@@ -1,59 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9E027FF81
-	for <lists.iommu@lfdr.de>; Thu,  1 Oct 2020 14:53:33 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9931F27FF8F
+	for <lists.iommu@lfdr.de>; Thu,  1 Oct 2020 14:54:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C613885B58;
-	Thu,  1 Oct 2020 12:53:31 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 49A87204B0;
+	Thu,  1 Oct 2020 12:54:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XKNhAHnizq+2; Thu,  1 Oct 2020 12:53:31 +0000 (UTC)
+	with ESMTP id by5F3SlWsiMa; Thu,  1 Oct 2020 12:54:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 42DA0856CB;
-	Thu,  1 Oct 2020 12:53:31 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AF588229D4;
+	Thu,  1 Oct 2020 12:54:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2A03EC0051;
-	Thu,  1 Oct 2020 12:53:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9BC45C0051;
+	Thu,  1 Oct 2020 12:54:50 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 14FAFC0051
- for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 12:53:29 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 69008C0051
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 12:54:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3CE0280DA2
- for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 12:53:28 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 4DE4A204B0
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 12:54:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4bay-HLNxmVg for <iommu@lists.linux-foundation.org>;
- Thu,  1 Oct 2020 12:53:27 +0000 (UTC)
+ with ESMTP id Hmel2poIRZSe for <iommu@lists.linux-foundation.org>;
+ Thu,  1 Oct 2020 12:54:47 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id B20D0861EE
- for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 12:53:27 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id A61EB204A9
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 12:54:47 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id C52CA26F; Thu,  1 Oct 2020 14:53:23 +0200 (CEST)
-Date: Thu, 1 Oct 2020 14:53:22 +0200
+ id DF6C02C3; Thu,  1 Oct 2020 14:54:45 +0200 (CEST)
+Date: Thu, 1 Oct 2020 14:54:44 +0200
 From: Joerg Roedel <joro@8bytes.org>
-To: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Subject: Re: [PATCH v12 0/6] IOMMU user API enhancement
-Message-ID: <20201001125322.GD30426@8bytes.org>
-References: <1601051567-54787-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <20200928114053.79170d23@jacob-builder>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH 1/1] iommu/vt-d: Fix lockdep splat in
+ iommu_flush_dev_iotlb()
+Message-ID: <20201001125444.GE30426@8bytes.org>
+References: <20200927062428.13713-1-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200928114053.79170d23@jacob-builder>
+In-Reply-To: <20200927062428.13713-1-baolu.lu@linux.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Jacob Pan <jacob.pan.linux@gmail.com>,
- Raj Ashok <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-api@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- iommu@lists.linux-foundation.org, LKML <linux-kernel@vger.kernel.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- Alex Williamson <alex.williamson@redhat.com>, Wu Hao <hao.wu@intel.com>,
- David Woodhouse <dwmw2@infradead.org>, Yi Sun <yi.y.sun@intel.com>
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,19 +65,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jacob,
+On Sun, Sep 27, 2020 at 02:24:28PM +0800, Lu Baolu wrote:
+>  drivers/iommu/intel/iommu.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Mon, Sep 28, 2020 at 11:40:53AM -0700, Jacob Pan wrote:
-> Just wondering if you will be able to take this for v5.10? There hasn't
-> been any material changes since we last discussed in LPC. We have VFIO and
-> other vSVA patches depending on it.
-
-Queued for v5.10 now, thanks.
-
-Regards,
-
-	Joerg
-
+Applied for v5.9, thanks.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
