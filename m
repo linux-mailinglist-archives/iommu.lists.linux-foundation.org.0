@@ -1,66 +1,93 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D6227F682
-	for <lists.iommu@lfdr.de>; Thu,  1 Oct 2020 02:12:02 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 523CD27F76E
+	for <lists.iommu@lfdr.de>; Thu,  1 Oct 2020 03:32:17 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D0C92868E6;
-	Thu,  1 Oct 2020 00:12:00 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CC2B98726A;
+	Thu,  1 Oct 2020 01:32:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AOGCaNzV-e3P; Thu,  1 Oct 2020 00:11:57 +0000 (UTC)
+	with ESMTP id pqJq-jCIZjZJ; Thu,  1 Oct 2020 01:32:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BB516868E4;
-	Thu,  1 Oct 2020 00:11:57 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2F7EA865F6;
+	Thu,  1 Oct 2020 01:32:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A9561C016F;
-	Thu,  1 Oct 2020 00:11:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 078B6C0895;
+	Thu,  1 Oct 2020 01:32:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D956AC0051
- for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 00:11:55 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 783ECC0051
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 01:32:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C8DE586408
- for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 00:11:55 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 658888726A
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 01:32:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JVpwr3EOlog6 for <iommu@lists.linux-foundation.org>;
- Thu,  1 Oct 2020 00:11:55 +0000 (UTC)
+ with ESMTP id I5ybfGTrUD72 for <iommu@lists.linux-foundation.org>;
+ Thu,  1 Oct 2020 01:32:12 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by hemlock.osuosl.org (Postfix) with ESMTPS id EC82D86981
- for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 00:11:54 +0000 (UTC)
-IronPort-SDR: 9ANsYlDsAdwkrmAJdcRJTUTynEUtvx/RIjC4ENyZAAgXyHNn8cwr7ru6t3CAoJbRTqVqiDoIRy
- //DoSzTu1L+A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9760"; a="180732769"
-X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; d="scan'208";a="180732769"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2020 17:11:53 -0700
-IronPort-SDR: siWcgfDe4B8i//3Kid0VOiIRRaudQVGpf14GOLMbcVJBdLUjv4EDSyUEllJ5prWv3FVf71+b6J
- iKIWQurRDxPg==
-X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; d="scan'208";a="500276825"
-Received: from km-skylake-client-platform.sc.intel.com ([10.3.52.153])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2020 17:11:53 -0700
-From: Kyung Min Park <kyung.min.park@intel.com>
-To: linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org
-Subject: [RESEND PATCH 4/4] iommu/vt-d: Scale capability to the lowest
- supported between the IOMMUs
-Date: Wed, 30 Sep 2020 16:53:09 -0700
-Message-Id: <20200930235309.22841-5-kyung.min.park@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200930235309.22841-1-kyung.min.park@intel.com>
-References: <20200930235309.22841-1-kyung.min.park@intel.com>
-Cc: ravi.v.shankar@intel.com, kevin.tian@intel.com, ashok.raj@intel.com,
- ricardo.neri@intel.com, kyung.min.park@intel.com, dwmw2@infradead.org
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id A1B51865F6
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 01:32:12 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id e18so2611318pgd.4
+ for <iommu@lists.linux-foundation.org>; Wed, 30 Sep 2020 18:32:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=z8LIhLPs0CLI8pgGxkD8y/EyOMrZ9o3X/QkFKdqYOkY=;
+ b=hPmVyKZSZIWUx3U9XvhNpCdAUv3EOSbI50OUAVahggy4kboKiB5dkvCcnCaaE44K9p
+ VcLL3BA+StQzYj4DsxKjJz3yLh33p/0et1CLvdfHNxmuHIs7YIoEuASZrvdHAHBOQ+bt
+ hbfahfAL9NLdfXltVXPGKIY+5Yx90b0iZx0cbX8xt4K5eYSgGFgmgJqQilKRHR9hSG4M
+ 71lrsV/5SlX2ie7jFjAKPG2d1aW1ktENRyagnbAoHZg9efzO/OiKuxiqVC4aNWqKRoic
+ LVraKaGqvIZGF0+mx69zTTopn+4cDHVg++iV4SI9zUiXI8bzlnYqvA0XZusig0FRtcXx
+ TUCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=z8LIhLPs0CLI8pgGxkD8y/EyOMrZ9o3X/QkFKdqYOkY=;
+ b=KRt6yq1DrElKBQmr/s67GWGU/NDQlPhvCpOa4gZJF/jkyoQ7vbzKaNVya+/uRiHjOL
+ Me8vVrcgCgzI3nusG3+xhS2mBJRZTidlW7yQ06b9HzrZ5BIWyO3zDY1eY7D4wE9wfxSV
+ zjqiVo7nBcoa/MAA54RKp4KH1CLHqmpn6UrjPpg43XS6sPyLVdy+W2gEf1/d86UHL+Re
+ ablTvueDbs2JZyZ5yw654NtBbZe3Ixp4yD4ojPbnEAya9DCfKINXcA8ZnO7MG+gOC2jm
+ IrVY5Jerv4aBJkha6ArS4wkZIt6UE/IcKZkWCPYuHz34wxPHkIBC3mRQQoCDq5iARJjw
+ Kbcw==
+X-Gm-Message-State: AOAM532KQzI/8Co+5YD3WbpWH/Y/2GlpC+wnQ0+A8FnWB1R/p4TW5Htx
+ iV0VuwSHhcVPJqmA2e0m+bk=
+X-Google-Smtp-Source: ABdhPJxwlnwGtdmC3yo/+A3DVIPS7iRM1g+GOpZ6teMUos8ZoA+cxlB0PTpGBm/hnlysi09P+RI/MA==
+X-Received: by 2002:a63:e802:: with SMTP id s2mr4195240pgh.350.1601515932087; 
+ Wed, 30 Sep 2020 18:32:12 -0700 (PDT)
+Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
+ by smtp.gmail.com with ESMTPSA id c3sm3871806pfn.23.2020.09.30.18.32.11
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 30 Sep 2020 18:32:11 -0700 (PDT)
+Date: Wed, 30 Sep 2020 18:26:30 -0700
+From: Nicolin Chen <nicoleotsuka@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v3 2/3] iommu/tegra-smmu: Rework .probe_device and
+ .attach_dev
+Message-ID: <20201001012630.GA28240@Asurada-Nvidia>
+References: <20200930084258.25493-1-nicoleotsuka@gmail.com>
+ <20200930084258.25493-3-nicoleotsuka@gmail.com>
+ <20200930153131.GB3833404@ulmo>
+ <20200930203618.GC2110@Asurada-Nvidia>
+ <13746922-0253-cda7-e9ac-2bd20bf1a17f@gmail.com>
+ <20200930213244.GA10573@Asurada-Nvidia>
+ <5945a63e-79d8-e3ae-ab53-cee8c220ac7d@gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <5945a63e-79d8-e3ae-ab53-cee8c220ac7d@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ krzk@kernel.org, jonathanh@nvidia.com,
+ Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,160 +100,70 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Audit IOMMU Capability/Extended Capabilities and check if the IOMMUs
-have the consistent value for features as below. Find common denominator
-for the features and set to the lowest supported value for each IOMMU.
-
-Abort hot plug when the hot plugged IOMMU does not meet the aforementioned
-common denominator.
-
-Set capability to the lowest supported when below features are mismatched:
-  - Maximum Address Mask Value (MAMV)
-  - Second Level Large Page Support (SLLPS)
-  - Maximum Guest Address Width (MGAW)
-  - Supported Adjusted Guest Address Width (SAGAW)
-  - Number of Domains supported (ND)
-  - Pasid Size Supported (PSS)
-
-Signed-off-by: Kyung Min Park <kyung.min.park@intel.com>
----
- drivers/iommu/intel/audit.c | 23 +++++++++++++++++++++++
- drivers/iommu/intel/audit.h | 27 +++++++++++++++++++++++++++
- include/linux/intel-iommu.h |  1 +
- 3 files changed, 51 insertions(+)
-
-diff --git a/drivers/iommu/intel/audit.c b/drivers/iommu/intel/audit.c
-index e005bc61770a..7e12c963c2b7 100644
---- a/drivers/iommu/intel/audit.c
-+++ b/drivers/iommu/intel/audit.c
-@@ -40,6 +40,13 @@ static inline void check_dmar_capabilities(struct intel_iommu *a,
- 	if (MINIMAL_SVM_ECAP & (a->ecap ^ b->ecap))
- 		set_cap_audit_svm_sanity(false);
- 
-+	MINIMAL_FEATURE_IOMMU(b, cap, CAP_MAMV_MASK);
-+	MINIMAL_FEATURE_IOMMU(b, cap, CAP_SLLPS_MASK);
-+	MINIMAL_FEATURE_IOMMU(b, cap, CAP_MGAW_MASK);
-+	MINIMAL_FEATURE_IOMMU(b, cap, CAP_SAGAW_MASK);
-+	MINIMAL_FEATURE_IOMMU(b, cap, CAP_NDOMS_MASK);
-+	MINIMAL_FEATURE_IOMMU(b, ecap, ECAP_PSS_MASK);
-+
- 	CHECK_FEATURE_MISMATCH(a, b, cap, 5lp_support, CAP_FL5LP_MASK);
- 	CHECK_FEATURE_MISMATCH(a, b, cap, fl1gp_support, CAP_FL1GP_MASK);
- 	CHECK_FEATURE_MISMATCH(a, b, cap, read_drain, CAP_RD_MASK);
-@@ -98,6 +105,14 @@ static int audit_iommu_capabilities_hotplug(struct intel_iommu *hot_iommu,
- 	CHECK_FEATURE_MISMATCH_HOTPLUG(hot_iommu, ecap, qis, ECAP_QI_MASK);
- 	CHECK_FEATURE_MISMATCH_HOTPLUG(hot_iommu, ecap, coherent, ECAP_C_MASK);
- 
-+	/* Abort hot plug if the hot plug iommu feature is smaller than global */
-+	MINIMAL_FEATURE_HOTPLUG(hot_iommu, cap, mamv, CAP_MAMV_MASK, mismatch);
-+	MINIMAL_FEATURE_HOTPLUG(hot_iommu, cap, super_page_val, CAP_SLLPS_MASK, mismatch);
-+	MINIMAL_FEATURE_HOTPLUG(hot_iommu, cap, mgaw, CAP_MGAW_MASK, mismatch);
-+	MINIMAL_FEATURE_HOTPLUG(hot_iommu, cap, sagaw, CAP_SAGAW_MASK, mismatch);
-+	MINIMAL_FEATURE_HOTPLUG(hot_iommu, cap, ndoms, CAP_NDOMS_MASK, mismatch);
-+	MINIMAL_FEATURE_HOTPLUG(hot_iommu, ecap, pss, ECAP_PSS_MASK, mismatch);
-+
- 	if (!IS_ENABLED(CONFIG_INTEL_IOMMU_SVM))
- 		goto out;
- 
-@@ -147,6 +162,14 @@ static int audit_iommu_capabilities(bool audit_irq)
- 		intel_iommu_ecap_sanity = (intel_iommu_ecap_sanity & ~MINIMAL_SVM_ECAP) |
- 					   (first_drhd->iommu->ecap & MINIMAL_SVM_ECAP);
- 
-+	/* scale capability to the lowest supported value */
-+	for_each_active_iommu(iommu, drhd) {
-+		iommu->cap = (intel_iommu_cap_sanity & MINIMAL_FEATURE_CAP) |
-+			     (~MINIMAL_FEATURE_CAP & iommu->cap);
-+		iommu->ecap = (intel_iommu_ecap_sanity & ECAP_PSS_MASK) |
-+			      (~ECAP_PSS_MASK & iommu->ecap);
-+	}
-+
- 	ret = 0;
- out:
- 	rcu_read_unlock();
-diff --git a/drivers/iommu/intel/audit.h b/drivers/iommu/intel/audit.h
-index 6dfebe8e8fbe..a293e71ce9ab 100644
---- a/drivers/iommu/intel/audit.h
-+++ b/drivers/iommu/intel/audit.h
-@@ -13,9 +13,14 @@
- #define CAP_FL5LP_MASK		BIT(60)
- #define CAP_PI_MASK		BIT(59)
- #define CAP_FL1GP_MASK		BIT(56)
-+#define CAP_MAMV_MASK		GENMASK_ULL(53, 48)
- #define CAP_RD_MASK		BIT(55)
- #define CAP_WD_MASK		BIT(54)
- #define CAP_PSI_MASK		BIT(39)
-+#define CAP_SLLPS_MASK		GENMASK_ULL(37, 34)
-+#define CAP_MGAW_MASK		GENMASK_ULL(21, 16)
-+#define CAP_SAGAW_MASK		GENMASK_ULL(12, 8)
-+#define CAP_NDOMS_MASK		GENMASK_ULL(2, 0)
- #define CAP_CM_MASK		BIT(7)
- #define CAP_PHMR_MASK		BIT(6)
- #define CAP_PLMR_MASK		BIT(5)
-@@ -32,6 +37,7 @@
- #define ECAP_PDS_MASK		BIT(42)
- #define ECAP_DIT_MASK		BIT(41)
- #define ECAP_PASID_MASK		BIT(40)
-+#define ECAP_PSS_MASK		GENMASK_ULL(39, 35)
- #define ECAP_EAFS_MASK		BIT(34)
- #define ECAP_SRS_MASK		BIT(31)
- #define ECAP_ERS_MASK		BIT(30)
-@@ -47,6 +53,9 @@
- #define MINIMAL_SVM_ECAP (ECAP_FLTS_MASK | ECAP_PASID_MASK | ECAP_EAFS_MASK | \
- 			  ECAP_SRS_MASK | ECAP_ERS_MASK | ECAP_PRS_MASK)
- 
-+#define MINIMAL_FEATURE_CAP (CAP_MAMV_MASK | CAP_SLLPS_MASK | CAP_MGAW_MASK | \
-+			     CAP_SAGAW_MASK | CAP_NDOMS_MASK)
-+
- #define DO_CHECK_FEATURE_MISMATCH(a, b, cap, feature, MASK) \
- do { \
- 	if (cap##_##feature(a) != cap##_##feature(b)) { \
-@@ -65,6 +74,24 @@ do { \
- 					  (b)->cap, cap, feature, MASK); \
- } while (0)
- 
-+#define MINIMAL_FEATURE_IOMMU(iommu, cap, MASK) \
-+do { \
-+	u64 min_feature = intel_iommu_##cap##_sanity & MASK; \
-+	min_feature = min_t(u64, min_feature, (iommu)->cap & (MASK)); \
-+	intel_iommu_##cap##_sanity = (intel_iommu_##cap##_sanity & ~(MASK)) | \
-+				     min_feature; \
-+} while (0)
-+
-+#define MINIMAL_FEATURE_HOTPLUG(iommu, cap, feature, MASK, mismatch) \
-+do { \
-+	if ((intel_iommu_##cap##_sanity & (MASK)) > \
-+	    (cap##_##feature((iommu)->cap))) \
-+		mismatch = true; \
-+	else \
-+		(iommu)->cap = ((iommu)->cap & ~(MASK)) | \
-+		(intel_iommu_##cap##_sanity & (MASK)); \
-+} while (0)
-+
- enum cap_audit_type {
- 	CAP_AUDIT_STATIC_DMAR,
- 	CAP_AUDIT_STATIC_IRQR,
-diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
-index 6744f00a144a..297a10091bb5 100644
---- a/include/linux/intel-iommu.h
-+++ b/include/linux/intel-iommu.h
-@@ -154,6 +154,7 @@
- #define cap_max_fault_reg_offset(c) \
- 	(cap_fault_reg_offset(c) + cap_num_fault_regs(c) * 16)
- 
-+#define cap_mamv(c)		(((c) >> 48) & 0x3f)
- #define cap_zlr(c)		(((c) >> 22) & 1)
- #define cap_isoch(c)		(((c) >> 23) & 1)
- #define cap_mgaw(c)		((((c) >> 16) & 0x3f) + 1)
--- 
-2.17.1
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gVGh1LCBPY3QgMDEsIDIwMjAgYXQgMTI6NTY6NDZBTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
+IHdyb3RlOgo+IDAxLjEwLjIwMjAgMDA6MzIsIE5pY29saW4gQ2hlbiDQv9C40YjQtdGCOgo+ID4g
+T24gVGh1LCBPY3QgMDEsIDIwMjAgYXQgMTI6MjQ6MjVBTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
+IHdyb3RlOgo+ID4+IC4uLgo+ID4+Pj4gSXQgbG9va3MgdG8gbWUgbGlrZSB0aGUgb25seSByZWFz
+b24gd2h5IHlvdSBuZWVkIHRoaXMgbmV3IGdsb2JhbCBBUEkgaXMKPiA+Pj4+IGJlY2F1c2UgUENJ
+IGRldmljZXMgbWF5IG5vdCBoYXZlIGEgZGV2aWNlIHRyZWUgbm9kZSB3aXRoIGEgcGhhbmRsZSB0
+bwo+ID4+Pj4gdGhlIElPTU1VLiBIb3dldmVyLCBTTU1VIHN1cHBvcnQgZm9yIFBDSSB3aWxsIG9u
+bHkgYmUgZW5hYmxlZCBpZiB0aGUKPiA+Pj4+IHJvb3QgY29tcGxleCBoYXMgYW4gaW9tbXVzIHBy
+b3BlcnR5LCByaWdodD8gSW4gdGhhdCBjYXNlLCBjYW4ndCB3ZQo+ID4+Pj4gc2ltcGx5IGRvIHNv
+bWV0aGluZyBsaWtlIHRoaXM6Cj4gPj4+Pgo+ID4+Pj4gCWlmIChkZXZfaXNfcGNpKGRldikpCj4g
+Pj4+PiAJCW5wID0gZmluZF9ob3N0X2JyaWRnZShkZXYpLT5vZl9ub2RlOwo+ID4+Pj4gCWVsc2UK
+PiA+Pj4+IAkJbnAgPSBkZXYtPm9mX25vZGU7Cj4gPj4+Pgo+ID4+Pj4gPyBJJ20gbm90IHN1cmUg
+ZXhhY3RseSB3aGF0IGZpbmRfaG9zdF9icmlkZ2UoKSBpcyBjYWxsZWQsIGJ1dCBJJ20gcHJldHR5
+Cj4gPj4+PiBzdXJlIHRoYXQgZXhpc3RzLgo+ID4+Pj4KPiA+Pj4+IE9uY2Ugd2UgaGF2ZSB0aGF0
+IHdlIGNhbiBzdGlsbCBpdGVyYXRlIG92ZXIgdGhlIGlvbW11cyBwcm9wZXJ0eSBhbmQgZG8KPiA+
+Pj4+IG5vdCBuZWVkIHRvIHJlbHkgb24gdGhpcyBnbG9iYWwgdmFyaWFibGUuCj4gPj4+Cj4gPj4+
+IEkgYWdyZWUgdGhhdCBpdCdkIHdvcmsuIEJ1dCBJIHdhcyBob3BpbmcgdG8gc2ltcGxpZnkgdGhl
+IGNvZGUKPiA+Pj4gaGVyZSBpZiBpdCdzIHBvc3NpYmxlLiBMb29rcyBsaWtlIHdlIGhhdmUgYW4g
+YXJndW1lbnQgb24gdGhpcwo+ID4+PiBzbyBJIHdpbGwgY2hvb3NlIHRvIGdvIHdpdGggeW91ciBz
+dWdnZXN0aW9uIGFib3ZlIGZvciBub3cuCj4gPj4KPiA+PiBUaGlzIHBhdGNoIHJlbW92ZWQgbW9y
+ZSBsaW5lcyB0aGFuIHdlcmUgYWRkZWQuIElmIHRoaXMgd2lsbCBiZSBvcHBvc2l0ZQo+ID4+IGZv
+ciB0aGUgVGhpZXJyeSdzIHN1Z2dlc3Rpb24sIHRoZW4gaXQncyBwcm9iYWJseSBub3QgYSBncmVh
+dCBzdWdnZXN0aW9uLgo+ID4gCj4gPiBTb3JyeSwgSSBkb24ndCBxdWl0ZSB1bmRlcnN0YW5kIHRo
+aXMgY29tbWVudHMuIFdvdWxkIHlvdSBwbGVhc2UKPiA+IGVsYWJvcmF0ZSB3aGF0J3MgdGhpcyAi
+aXQiIGJlaW5nICJub3QgYSBncmVhdCBzdWdnZXN0aW9uIj8KPiA+IAo+IAo+IEkgbWVhbnQgdGhh
+dCB5b3Ugc2hvdWxkIHRyeSB0byBpbXBsZW1lbnQgVGhpZXJyeSdzIHNvbHV0aW9uLCBidXQgaWYg
+dGhlCj4gZW5kIHJlc3VsdCB3aWxsIGJlIHdvcnNlIHRoYW4gdGhlIGN1cnJlbnQgcGF0Y2gsIHRo
+ZW4geW91IHNob3VsZG4ndCBtYWtlCj4gYSB2NCwgYnV0IGdldCBiYWNrIHRvIHRoaXMgZGlzY3Vz
+c2lvbiBpbiBvcmRlciB0byBjaG9vc2UgdGhlIGJlc3Qgb3B0aW9uCj4gYW5kIG1ha2UgZXZlcnlv
+bmUgYWdyZWUgb24gaXQuCgpJIHNlZS4gVGhhbmtzIGZvciB0aGUgcmVwbHkuIEFuZCBoZXJlIGlz
+IGEgc2FtcGxlIGltcGxlbWVudGF0aW9uOgoKQEAgLTgxNCwxMiArODE1LDE1IEBAIHN0YXRpYyBz
+dHJ1Y3QgdGVncmFfc21tdSAqdGVncmFfc21tdV9maW5kKHN0cnVjdCBkZXZpY2Vfbm9kZSAqbnAp
+CiB9CiAKIHN0YXRpYyBpbnQgdGVncmFfc21tdV9jb25maWd1cmUoc3RydWN0IHRlZ3JhX3NtbXUg
+KnNtbXUsIHN0cnVjdCBkZXZpY2UgKmRldiwKLQkJCQlzdHJ1Y3Qgb2ZfcGhhbmRsZV9hcmdzICph
+cmdzKQorCQkJCXN0cnVjdCBvZl9waGFuZGxlX2FyZ3MgKmFyZ3MsIHN0cnVjdCBmd25vZGVfaGFu
+ZGxlICpmd25vZGUpCiB7CiAJY29uc3Qgc3RydWN0IGlvbW11X29wcyAqb3BzID0gc21tdS0+aW9t
+bXUub3BzOwogCWludCBlcnI7CiAKLQllcnIgPSBpb21tdV9md3NwZWNfaW5pdChkZXYsICZkZXYt
+Pm9mX25vZGUtPmZ3bm9kZSwgb3BzKTsKKwlpZiAoIWZ3bm9kZSkKKwkJcmV0dXJuIC1FTk9FTlQ7
+CisKKwllcnIgPSBpb21tdV9md3NwZWNfaW5pdChkZXYsIGZ3bm9kZSwgb3BzKTsKIAlpZiAoZXJy
+IDwgMCkgewogCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0byBpbml0aWFsaXplIGZ3c3BlYzogJWRc
+biIsIGVycik7CiAJCXJldHVybiBlcnI7CkBAIC04MzUsNiArODM5LDE5IEBAIHN0YXRpYyBpbnQg
+dGVncmFfc21tdV9jb25maWd1cmUoc3RydWN0IHRlZ3JhX3NtbXUgKnNtbXUsIHN0cnVjdCBkZXZp
+Y2UgKmRldiwKIAlyZXR1cm4gMDsKIH0KIAorc3RhdGljIHN0cnVjdCBkZXZpY2Vfbm9kZSAqdGVn
+cmFfc21tdV9maW5kX3BjaV9ucChzdHJ1Y3QgcGNpX2RldiAqcGNpX2RldikKK3sKKwlzdHJ1Y3Qg
+cGNpX2J1cyAqYnVzID0gcGNpX2Rldi0+YnVzOworCXN0cnVjdCBkZXZpY2UgKmRldiA9ICZidXMt
+PmRldjsKKworCXdoaWxlICghb2ZfcHJvcGVydHlfcmVhZF9ib29sKGRldi0+b2Zfbm9kZSwgImlv
+bW11cyIpICYmIGJ1cy0+cGFyZW50KSB7CisJCWRldiA9ICZidXMtPnBhcmVudC0+ZGV2OworCQli
+dXMgPSBidXMtPnBhcmVudDsKKwl9CisKKwlyZXR1cm4gZGV2LT5vZl9ub2RlOworfQorCiBzdGF0
+aWMgc3RydWN0IGlvbW11X2RldmljZSAqdGVncmFfc21tdV9wcm9iZV9kZXZpY2Uoc3RydWN0IGRl
+dmljZSAqZGV2KQogewogCXN0cnVjdCBkZXZpY2Vfbm9kZSAqbnAgPSBkZXYtPm9mX25vZGU7CkBA
+IC04NDMsMTEgKzg2MCwxNCBAQCBzdGF0aWMgc3RydWN0IGlvbW11X2RldmljZSAqdGVncmFfc21t
+dV9wcm9iZV9kZXZpY2Uoc3RydWN0IGRldmljZSAqZGV2KQogCXVuc2lnbmVkIGludCBpbmRleCA9
+IDA7CiAJaW50IGVycjsKIAorCWlmIChkZXZfaXNfcGNpKGRldikpCisJCW5wID0gdGVncmFfc21t
+dV9maW5kX3BjaV9ucCh0b19wY2lfZGV2KGRldikpOworCiAJd2hpbGUgKG9mX3BhcnNlX3BoYW5k
+bGVfd2l0aF9hcmdzKG5wLCAiaW9tbXVzIiwgIiNpb21tdS1jZWxscyIsIGluZGV4LAogCQkJCQkg
+ICZhcmdzKSA9PSAwKSB7CiAJCXNtbXUgPSB0ZWdyYV9zbW11X2ZpbmQoYXJncy5ucCk7CiAJCWlm
+IChzbW11KSB7Ci0JCQllcnIgPSB0ZWdyYV9zbW11X2NvbmZpZ3VyZShzbW11LCBkZXYsICZhcmdz
+KTsKKwkJCWVyciA9IHRlZ3JhX3NtbXVfY29uZmlndXJlKHNtbXUsIGRldiwgJmFyZ3MsICZucC0+
+Zndub2RlKTsKIAkJCW9mX25vZGVfcHV0KGFyZ3MubnApOwogCiAJCQlpZiAoZXJyIDwgMCkKCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxp
+bmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxp
+bnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
