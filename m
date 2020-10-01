@@ -1,64 +1,52 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53D9727FEA7
-	for <lists.iommu@lfdr.de>; Thu,  1 Oct 2020 13:52:09 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E9B27FECA
+	for <lists.iommu@lfdr.de>; Thu,  1 Oct 2020 14:12:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 235CF86A58;
-	Thu,  1 Oct 2020 11:52:07 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C0662204D7;
+	Thu,  1 Oct 2020 12:12:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OVLMyCUJttOX; Thu,  1 Oct 2020 11:52:06 +0000 (UTC)
+	with ESMTP id 1vz4eUa87mFX; Thu,  1 Oct 2020 12:12:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8086186A51;
-	Thu,  1 Oct 2020 11:52:06 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C9AFB204CF;
+	Thu,  1 Oct 2020 12:12:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 62E20C0051;
-	Thu,  1 Oct 2020 11:52:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 917F1C0051;
+	Thu,  1 Oct 2020 12:12:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B38EFC0051
- for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 11:52:04 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35F4AC0051
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 12:12:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 97E4B86BA5
- for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 11:52:04 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2B77D86B7D
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 12:12:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Hn7csXtQZdTf for <iommu@lists.linux-foundation.org>;
- Thu,  1 Oct 2020 11:52:04 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 43FB886B84
- for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 11:52:04 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9B43321481;
- Thu,  1 Oct 2020 11:52:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1601553123;
- bh=jqZ3p8GBPPZmtbp66FihdHwotuZ0yu+zF8O8+xsMAMk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pmajexn4JCnBBAQWL8xuneRcIx/PSu52qsXa7Z0uNGEdAMQiokkA7jP6lPMKzMvje
- c30NbFTsZNnCw64BUg2JuD69MzdYVNopBtSpJFYjKPsVUams3H1qmM1uDBgBTOA1E8
- C7Cfk5b7lb2mnB5MqbRXAh3lWzVOPs7xktz1MmK0=
-Date: Thu, 1 Oct 2020 12:51:59 +0100
-From: Will Deacon <will@kernel.org>
-To: joro@8bytes.org
-Subject: Re: [GIT PULL] iommu/arm-smmu: Updates for 5.10
-Message-ID: <20201001115158.GA18755@willie-the-truck>
-References: <20200930080523.GA15805@willie-the-truck>
+ with ESMTP id CtuEnPWC893q for <iommu@lists.linux-foundation.org>;
+ Thu,  1 Oct 2020 12:12:15 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id B12B98235D
+ for <iommu@lists.linux-foundation.org>; Thu,  1 Oct 2020 12:12:15 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 806FD2C3; Thu,  1 Oct 2020 14:12:12 +0200 (CEST)
+Date: Thu, 1 Oct 2020 14:12:11 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Adrian Huang <adrianhuang0701@gmail.com>
+Subject: Re: [PATCH 1/1] iommu/amd: Fix the overwritten field in IVMD header
+Message-ID: <20201001121210.GA30426@8bytes.org>
+References: <20200926102602.19177-1-adrianhuang0701@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200930080523.GA15805@willie-the-truck>
+In-Reply-To: <20200926102602.19177-1-adrianhuang0701@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: jean-philippe@linaro.org, robin.murphy@arm.com,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- kernel-team@android.com, linux-arm-kernel@lists.infradead.org
+Cc: iommu@lists.linux-foundation.org, Adrian Huang <ahuang12@lenovo.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,24 +64,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Sep 30, 2020 at 09:05:23AM +0100, Will Deacon wrote:
-> Please pull these arm-smmu updates for 5.10. Summary in the tag, but the
-> big thing here is the long-awaited SVM enablement from Jean-Philippe.
-> We're not quite done yet, but this pull extends the SMMUv3 driver so that
-> we're very close to being able to share page-tables directly with the CPU.
+On Sat, Sep 26, 2020 at 06:26:02PM +0800, Adrian Huang wrote:
+> From: Adrian Huang <ahuang12@lenovo.com>
 > 
-> Other than that, there are a couple of things to note:
+> Commit 387caf0b759a ("iommu/amd: Treat per-device exclusion
+> ranges as r/w unity-mapped regions") accidentally overwrites
+> the 'flags' field in IVMD (struct ivmd_header) when the I/O
+> virtualization memory definition is associated with the
+> exclusion range entry. This leads to the corrupted IVMD table
+> (incorrect checksum). The kdump kernel reports the invalid checksum:
 > 
->   1. My PGP subkeys expired. I've updated them here:
+> ACPI BIOS Warning (bug): Incorrect checksum in table [IVRS] - 0x5C, should be 0x60 (20200717/tbprint-177)
+> AMD-Vi: [Firmware Bug]: IVRS invalid checksum
 > 
-> 	https://mirrors.edge.kernel.org/pub/linux/kernel/people/will/3E542FD9.asc
+> Fix the above-mentioned issue by modifying the 'struct unity_map_entry'
+> member instead of the IVMD header.
 > 
->      and I've also mailed an updated copy for inclusion in the pgpkeys
->      repository on kernel.org, but it hasn't landed yet:
+> Cleanup: The *exclusion_range* functions are not used anymore, so
+> get rid of them.
+> 
+> Fixes: 387caf0b759a ("iommu/amd: Treat per-device exclusion ranges as r/w unity-mapped regions")
+> Reported-and-tested-by: Baoquan He <bhe@redhat.com>
+> Signed-off-by: Adrian Huang <ahuang12@lenovo.com>
+> Cc: Jerry Snitselaar <jsnitsel@redhat.com>
+> ---
+>  drivers/iommu/amd/init.c | 56 +++++++---------------------------------
+>  1 file changed, 10 insertions(+), 46 deletions(-)
 
-Just to say that my updated key has now landed in the pgpkeys repo.
+Applied for v5.9, thanks everyone.
 
-Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
