@@ -1,84 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09B57281A1B
-	for <lists.iommu@lfdr.de>; Fri,  2 Oct 2020 19:50:50 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF3B2281A82
+	for <lists.iommu@lfdr.de>; Fri,  2 Oct 2020 20:07:22 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id B4A8D204CA;
-	Fri,  2 Oct 2020 17:50:48 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 855CF873CC;
+	Fri,  2 Oct 2020 18:07:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DCO1vwTOQiSw; Fri,  2 Oct 2020 17:50:46 +0000 (UTC)
+	with ESMTP id Ii1gB5qCatBu; Fri,  2 Oct 2020 18:07:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id EDA6120387;
-	Fri,  2 Oct 2020 17:50:45 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 20420873CA;
+	Fri,  2 Oct 2020 18:07:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DB283C0051;
-	Fri,  2 Oct 2020 17:50:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 054B6C0051;
+	Fri,  2 Oct 2020 18:07:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 898D2C0051
- for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 17:50:44 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 641D3C0051
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 18:07:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 85DF9873C9
- for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 17:50:44 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 594F0873CA
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 18:07:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id a-Q9dw5WjuPz for <iommu@lists.linux-foundation.org>;
- Fri,  2 Oct 2020 17:50:43 +0000 (UTC)
+ with ESMTP id W8XsLNGdi9FE for <iommu@lists.linux-foundation.org>;
+ Fri,  2 Oct 2020 18:07:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
- [209.85.221.66])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 927D3873C4
- for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 17:50:43 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id j2so2719407wrx.7
- for <iommu@lists.linux-foundation.org>; Fri, 02 Oct 2020 10:50:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+ [209.85.215.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id D4C0587398
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 18:07:18 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id y14so1276686pgf.12
+ for <iommu@lists.linux-foundation.org>; Fri, 02 Oct 2020 11:07:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=qAPpXyP2inoV5988zgEtk6OBNQO3398NaIIov4Pf6CQ=;
- b=RJpr45/4P2FGGNGEF9uVylMkqY1nCY362/Pe04N9/zLIkTKj6c8tlNLV0p5RD/a0TT
- Ty3+xJBDLUvDrEZAqV5tSAB08542QPBDKf/vqu2XDmGQ75qRztQF3N6COsP+/FvHxri2
- qdumrnufMfHTTgIumy0jLCxdGJjwz6xFIYUPA=
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=cHB2ONyPEQ+hUFSnX/RB0VzFUTqL11Ck81Mmlx+r/fY=;
+ b=Tq+gq5OnXvNMUAl2zf6HnNrtA1GLxIi1XebvYnfd0sMr7QvZGaiJ7Sy+shakp9ukxb
+ 249fbNJzmfkkMcKh+/0AfTYGMGcZ24dFmyAs/6f7NvvSTpmHD13DzxWLAU4XyflMUutZ
+ dAjlyvgTQhKyZj1fOfFRQ6aFtaiBRnbAU/F1Fxm2VNoyQEeAT5j3Z+R+6/kAiYtvtXmY
+ fjJpl6ivQVi6X5ZpdKVMJXwZxEJwOqrg+wXG4KVN3iIt49FfU+RDUDTebdha0KB1wv59
+ 8Fhleur1VBPauW5vQND30B02L7N2xCg4BMxgOarAl59jmL5F6PDkUFMiijKqVYW10Ir9
+ Dk/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qAPpXyP2inoV5988zgEtk6OBNQO3398NaIIov4Pf6CQ=;
- b=QFMMTeMUq5mpYRCAFvzpf9ejnoDN8bzQudfuPpZ0+4Jb3caXKqv79u4YNA/tb4FTgQ
- vd5pgPme6P7595RC8lE++tmvl5D8KgqaPM9dYlN5fYemGSZTeFybtpYBS5Sslub+oD8R
- CGGyFdTlqgFaYWzvTXWGIKgGBVTxNBGYagywbfD6LkYXHxBZuM/VsjMekcJmgp1Zbg6f
- 2/xnw/Q2ABWeOgzAtBUOc5DTcb4/JcfmAM2OP24pt0KHH6KbUcP0qeJn+A8tYUcTxdG4
- vGvvW6BrJMqwB+Svp5IJlYc/1AFStlG2N9A+0XnEbqGoajWMqR7GTgrHncs+VBN2V6nY
- gElg==
-X-Gm-Message-State: AOAM533tdbicfJnaWAfSvZtV+ylVxwegoewxy9T5DyYa1swXV1EF7ufS
- CcHIyHu6sBPDS05YwkiYIBhXUg==
-X-Google-Smtp-Source: ABdhPJxSyoTgiDrvz+UtW8zZTkuPjuaRZvm7GtOtIfqF/g+LFn4V8JKTG6/VT+K90I9I9WVVS78v7w==
-X-Received: by 2002:a5d:4a49:: with SMTP id v9mr4667478wrs.153.1601661042072; 
- Fri, 02 Oct 2020 10:50:42 -0700 (PDT)
-Received: from chromium.org (216.131.76.34.bc.googleusercontent.com.
- [34.76.131.216])
- by smtp.gmail.com with ESMTPSA id d19sm2604808wmd.0.2020.10.02.10.50.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Oct 2020 10:50:41 -0700 (PDT)
-Date: Fri, 2 Oct 2020 17:50:40 +0000
-From: Tomasz Figa <tfiga@chromium.org>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
-Message-ID: <20201002175040.GA1131147@chromium.org>
-References: <20200930160917.1234225-1-hch@lst.de>
- <20200930160917.1234225-9-hch@lst.de>
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=cHB2ONyPEQ+hUFSnX/RB0VzFUTqL11Ck81Mmlx+r/fY=;
+ b=aOLkZqvKS83nE3xWapUb1ubwanIH26kvuWLMF99YejdzRZOGNg5BdPD4nzsTWKBUql
+ DmP4QcVQWXz5/HdJ2vl0St0jiy+tySmEnaGZqmKNFvDXqZL/RDOR0dQPxMt7lH1xrhSi
+ Y9BHTGWbcmsdbzNKooD5ZWr2ASgMrs8EmhcMGIw9gP1Ise1nb+epjV3K935jCc5x5LeQ
+ AN7mcDurfgN8MQnVNXoRJXmeNJ+ToMNrrE3fvypA81xJOv4822gR9QlKGd2E7KNona7P
+ 8Nq3baVoHE1eapIuPGrjva8N4onsXNXj8sq7Y2pcQunzGP8mYsAmTiceBUEXPPkm/J4P
+ hSFw==
+X-Gm-Message-State: AOAM532IHEKyk59aqsRoESkikDup2+p6Xp1tUTsbs5eUpnOpWChAWpH0
+ Bhw74txMt67wALgcSrrpsl0=
+X-Google-Smtp-Source: ABdhPJxhwDTHQiAIBv0FymF3yt7MLVFij1pPJlTvaKlkRricxll4p3ShOfVY68QWxxDdNnThmi93Rw==
+X-Received: by 2002:a63:474b:: with SMTP id w11mr3313390pgk.376.1601662038313; 
+ Fri, 02 Oct 2020 11:07:18 -0700 (PDT)
+Received: from Asurada-Nvidia (thunderhill.nvidia.com. [216.228.112.22])
+ by smtp.gmail.com with ESMTPSA id f18sm2818497pfe.153.2020.10.02.11.07.17
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 02 Oct 2020 11:07:17 -0700 (PDT)
+Date: Fri, 2 Oct 2020 11:01:21 -0700
+From: Nicolin Chen <nicoleotsuka@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v4 2/3] iommu/tegra-smmu: Rework tegra_smmu_probe_device()
+Message-ID: <20201002180120.GB29706@Asurada-Nvidia>
+References: <20201002060807.32138-1-nicoleotsuka@gmail.com>
+ <20201002060807.32138-3-nicoleotsuka@gmail.com>
+ <070a13b2-cde2-ab9e-7ee0-8fb71fb64d5d@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200930160917.1234225-9-hch@lst.de>
-Cc: linux-media@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <070a13b2-cde2-ab9e-7ee0-8fb71fb64d5d@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ jonathanh@nvidia.com, thierry.reding@gmail.com, linux-tegra@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,54 +94,38 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Christoph,
-
-On Wed, Sep 30, 2020 at 06:09:17PM +0200, Christoph Hellwig wrote:
-> Add a new API that returns a virtually non-contigous array of pages
-> and dma address.  This API is only implemented for dma-iommu and will
-> not be implemented for non-iommu DMA API instances that have to allocate
-> contiguous memory.  It is up to the caller to check if the API is
-> available.
-
-Would you mind scheding some more light on what made the previous attempt
-not work well? I liked the previous API because it was more consistent with
-the regular dma_alloc_coherent().
-
-> 
-> The intent is that media drivers can use this API if either:
-
-FWIW, the USB subsystem also has similar needs, and so do some DRM drivers
-using DMA API rather than IOMMU API directly. Basically I believe that all
-the users removed in your previous series relied on custom downstream
-patches to make DMA_ATTR_NON_CONSISTENT work and could be finally made work
-in upstream using this API.
-
-> 
->  - no kernel mapping or only temporary kernel mappings are required.
->    That is as a better replacement for DMA_ATTR_NO_KERNEL_MAPPING
->  - a kernel mapping is required for cached and DMA mapped pages, but
->    the driver also needs the pages to e.g. map them to userspace.
->    In that sense it is a replacement for some aspects of the recently
->    removed and never fully implemented DMA_ATTR_NON_CONSISTENT
-
-What's the expected allocation and mapping flow with the latter? Would that be
-
-pages = dma_alloc_noncoherent(...)
-vaddr = vmap(pages, ...);
-
-?
-
-Would one just use the usual dma_sync_for_{cpu,device}() for cache
-invallidate/clean, while keeping the mapping in place?
-
-Best regards,
-Tomasz
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gRnJpLCBPY3QgMDIsIDIwMjAgYXQgMDU6MjM6MTRQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
+IHdyb3RlOgo+IDAyLjEwLjIwMjAgMDk6MDgsIE5pY29saW4gQ2hlbiDQv9C40YjQtdGCOgo+ID4g
+IHN0YXRpYyBzdHJ1Y3QgaW9tbXVfZGV2aWNlICp0ZWdyYV9zbW11X3Byb2JlX2RldmljZShzdHJ1
+Y3QgZGV2aWNlICpkZXYpCj4gPiAgewo+ID4gLQlzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wID0gZGV2
+LT5vZl9ub2RlOwo+ID4gLQlzdHJ1Y3QgdGVncmFfc21tdSAqc21tdSA9IE5VTEw7Cj4gPiAtCXN0
+cnVjdCBvZl9waGFuZGxlX2FyZ3MgYXJnczsKPiA+IC0JdW5zaWduZWQgaW50IGluZGV4ID0gMDsK
+PiA+IC0JaW50IGVycjsKPiA+IC0KPiA+IC0Jd2hpbGUgKG9mX3BhcnNlX3BoYW5kbGVfd2l0aF9h
+cmdzKG5wLCAiaW9tbXVzIiwgIiNpb21tdS1jZWxscyIsIGluZGV4LAo+ID4gLQkJCQkJICAmYXJn
+cykgPT0gMCkgewo+ID4gLQkJc21tdSA9IHRlZ3JhX3NtbXVfZmluZChhcmdzLm5wKTsKPiA+IC0J
+CWlmIChzbW11KSB7Cj4gPiAtCQkJZXJyID0gdGVncmFfc21tdV9jb25maWd1cmUoc21tdSwgZGV2
+LCAmYXJncyk7Cj4gPiAtCQkJb2Zfbm9kZV9wdXQoYXJncy5ucCk7Cj4gPiAtCj4gPiAtCQkJaWYg
+KGVyciA8IDApCj4gPiAtCQkJCXJldHVybiBFUlJfUFRSKGVycik7Cj4gPiAtCj4gPiAtCQkJLyoK
+PiA+IC0JCQkgKiBPbmx5IGEgc2luZ2xlIElPTU1VIG1hc3RlciBpbnRlcmZhY2UgaXMgY3VycmVu
+dGx5Cj4gPiAtCQkJICogc3VwcG9ydGVkIGJ5IHRoZSBMaW51eCBrZXJuZWwsIHNvIGFib3J0IGFm
+dGVyIHRoZQo+ID4gLQkJCSAqIGZpcnN0IG1hdGNoLgo+ID4gLQkJCSAqLwo+ID4gLQkJCWRldl9p
+b21tdV9wcml2X3NldChkZXYsIHNtbXUpOwo+ID4gLQo+ID4gLQkJCWJyZWFrOwo+ID4gLQkJfQo+
+ID4gLQo+ID4gLQkJb2Zfbm9kZV9wdXQoYXJncy5ucCk7Cj4gPiAtCQlpbmRleCsrOwo+ID4gLQl9
+Cj4gPiArCXN0cnVjdCB0ZWdyYV9zbW11ICpzbW11ID0gZGV2X2lvbW11X3ByaXZfZ2V0KGRldik7
+Cj4gPiAgCj4gPiAgCWlmICghc21tdSkKPiA+ICAJCXJldHVybiBFUlJfUFRSKC1FTk9ERVYpOwo+
+IAo+IFRoZSAhc21tdSBjYW4ndCBldmVyIGJlIHRydWUgbm93LCBpc24ndCBpdD8gVGhlbiBwbGVh
+c2UgcmVtb3ZlIGl0LgoKSG93IGNhbiB5b3UgYmUgc28gc3VyZT8gSGF2ZSB5b3UgcmVhZCBteSBj
+b21taXQgbWVzc2FnZT8gVGhlIHdob2xlCnBvaW50IG9mIHJlbW92aW5nIHRoZSBoYWNrIGluIHRl
+Z3JhX3NtbXVfcHJvYmUoKSBpcyB0byByZXR1cm4gdGhlCkVSUl9QVFIoLUVOT0RFVikgaGVyZS4g
+VGhlIGJ1c19zZXRfaW9tbXUoKSB3aWxsIGNhbGwgdGhpcyBmdW5jdGlvbgp3aGVuIG1jLT5zbW11
+IGlzIG5vdCBhc3NpZ25lZCBpdCwgYXMgaXQncyBhc3NpZ25lZCBhZnRlciB3ZSByZXR1cm4KdGVn
+cmFfc21tdV9wcm9iZSgpIHdoaWxlIGJ1c19zZXRfaW9tbXUoKSBpcyBzdGlsbCBpbiB0aGUgbWlk
+ZGxlIG9mCnRoZSB0ZWdyYV9zbW11X3Byb2JlKCkuCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51
+eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1h
+bi9saXN0aW5mby9pb21tdQ==
