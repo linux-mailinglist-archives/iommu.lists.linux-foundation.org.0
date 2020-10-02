@@ -1,91 +1,133 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0884F281CAB
-	for <lists.iommu@lfdr.de>; Fri,  2 Oct 2020 22:12:28 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE00F281F9E
+	for <lists.iommu@lfdr.de>; Sat,  3 Oct 2020 02:13:04 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9A44F86933;
-	Fri,  2 Oct 2020 20:12:26 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 4BCDF2041C;
+	Sat,  3 Oct 2020 00:13:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gSV5oXLdGJQk; Fri,  2 Oct 2020 20:12:23 +0000 (UTC)
+	with ESMTP id OqxE75ZxCTtP; Sat,  3 Oct 2020 00:13:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C6E1086920;
-	Fri,  2 Oct 2020 20:12:23 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7460820394;
+	Sat,  3 Oct 2020 00:13:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B4BF5C0051;
-	Fri,  2 Oct 2020 20:12:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5E04FC0895;
+	Sat,  3 Oct 2020 00:13:00 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D82BFC0051
- for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 20:12:22 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A3FF9C0051
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 23:56:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C0503873D4
- for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 20:12:22 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 85E2120382
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 23:56:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id z-O-s78FjN9z for <iommu@lists.linux-foundation.org>;
- Fri,  2 Oct 2020 20:12:22 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
- [209.85.167.67])
- by hemlock.osuosl.org (Postfix) with ESMTPS id DA843873D3
- for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 20:12:21 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id m5so3349274lfp.7
- for <iommu@lists.linux-foundation.org>; Fri, 02 Oct 2020 13:12:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1+1gQ3KcXmka62+xebYBiNM/MDx9pvdpWff7sNy5Fn0=;
- b=vGpoU4NRCdk72NAV24Pu6YePTXcoDhSfkcOmKh6ZdPs3y8kqTUF4X0UXexlTSmV98E
- Jn/MZBJcnbQpPUCYx/3j6lnEgBx549dMp0OlTz5mbd/aGmOdLfNTT5FTQ9Bh0wCvJoXy
- PR72pZydGLdM6onTvd9po32qPZM+FVLu+IZ+99kvaww/G+PqaRFEFjil9DxM15z/OT/n
- C5zURxnhFNlsp1dLHn8dVM7iK1Fi9kgtrcLAJ010NJONyBnuF6C8uhUZaoiqppXB83ZU
- Wocxk1Fb5savcKXKb4OO8BOsqwzTp/UIB7Cbdfc/4gck4V4HtSsmTCA9C9+vPFbE6gIG
- ZP1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1+1gQ3KcXmka62+xebYBiNM/MDx9pvdpWff7sNy5Fn0=;
- b=sF69KTATRwUVP7JHILxQfIZIlUxy9k1RyC4xeEugqrAH0ZtWKw/wNSLciLQXjdhLz8
- C4HqwPegw3+c8m+OPx6UZqjZR31/oh1qWlbzi02S6XB9YqftXrWDlgzOjA/gHu9m7YPr
- 9dw4TWY5D/TIlWifddyRlBpTfsGBnJeSLX3vA5y9KO32K5HCkT2FfVH4vb6Ve06EFcOV
- 6Ti+edmgN4ezz4Emwms4jLyBtG5g+Y7hJHRajqvH6+3po5tBUEwJnsw8+v9BbT2q/PUH
- TlM6pg+27qVef5gP/e+sbgm6u4U/yA9RsD6wmex0mZDj3kWhtlUG4bMWS8ttfrUXRpoU
- 0doA==
-X-Gm-Message-State: AOAM530Q532jmJSNkrFt9G/Z7XRJAHZPkw7xmkPnf9ZQPsUD8OiI+v/w
- MJEefUGgNr0dUa7uYd7Kr1k=
-X-Google-Smtp-Source: ABdhPJxvlx9NjYQ+2mdUGD5xV9chLS4/3Zl7Mm/Nct2O+LnxQ65vq1HGbtARMbjWc56g3TgN6ieJDQ==
-X-Received: by 2002:ac2:511c:: with SMTP id q28mr1342676lfb.411.1601669539800; 
- Fri, 02 Oct 2020 13:12:19 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-91-252.nat.spd-mgts.ru.
- [109.252.91.252])
- by smtp.googlemail.com with ESMTPSA id w17sm571611lfn.55.2020.10.02.13.12.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 02 Oct 2020 13:12:19 -0700 (PDT)
-Subject: Re: [PATCH v4 1/3] iommu/tegra-smmu: Use fwspec in
- tegra_smmu_(de)attach_dev
-To: Nicolin Chen <nicoleotsuka@gmail.com>
-References: <20201002060807.32138-1-nicoleotsuka@gmail.com>
- <20201002060807.32138-2-nicoleotsuka@gmail.com>
- <de0b717f-af5c-8813-eb3e-07d19eff5271@gmail.com>
- <20201002194508.GD29706@Asurada-Nvidia>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e594374b-d701-fb6f-93f2-4efb9c5eb608@gmail.com>
-Date: Fri, 2 Oct 2020 23:12:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ with ESMTP id G-hIcIVne9cg for <iommu@lists.linux-foundation.org>;
+ Fri,  2 Oct 2020 23:56:38 +0000 (UTC)
+X-Greylist: delayed 03:35:03 by SQLgrey-1.7.6
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2057.outbound.protection.outlook.com [40.107.93.57])
+ by silver.osuosl.org (Postfix) with ESMTPS id E1F3B2034B
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 23:56:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CZOZ9C0uzv7vemfT0tAlbIYPqmCxa5zYSQG2pY0cdAkoCx715LErsisi+UJh256chVRvtOAxpAbKpRj8E4C4HhXSdCXJHWo2kYz/qV2ZlRDC+XTqagGjJL0MgxmE8yS2oEj2cACZPZuunraj4oOlOcu8zofeDk+HD9FBRsR+QpbywcppfnwpYed8Ed6aB96m0Feo1FWp5DQwvTCi4+a8gxqd2bep736t6SFSV03B1fqRW1406kX3b1KjLw8WGal5XFceR30OcrLHLPN56/b6GgnTdKu+gGJf1UEKAMhWzpxiYQagPkwcLY+V3H3Aj4MXstziwKszYy4i9w/PsMyfBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K1sKfjfl6E0C1MGRjLxW/Z7cSOfeqva3SvzEf9ONgak=;
+ b=Hu5/wln1emNdkIv6dZeGB8NgW7baZojPzkqUXGGmiI7xrFkH+1oK0G/l4aVYRqPBDNcZ6kjkB7lh7SRe8ph1THx23dRIPQl98Iw4t40MpiQJbc8w3OfD2++BTA+1a9jIJje81MVN7nRxrLHVAzDyVeC+6/XhPH8pEiLgP8qhLmTis8ay2M9ufbNsrInX8gpFNNoGjLmQJa5aYOMUXYvf8LPlgIwu5FXVFC9JNxJMet4YsOLEQlhxLSDdtbrW0vpbStc6w6EbGwWx0QFT0ArNack4Q5T7iftx1UHsUm9+8XBmrcY3KCk13UKEVFuWMWyxfcwSUYqfBcA86xkJ7aladw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=lists.linux-foundation.org
+ smtp.mailfrom=xilinx.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K1sKfjfl6E0C1MGRjLxW/Z7cSOfeqva3SvzEf9ONgak=;
+ b=iZR3Dod7hFtywYjczyK2oph4wZxyuH2pmAGz7nMkxqbB7dCDxOvSVslpVtYiY76SeTVYnynsq/3lJgBmeOBGtvbrz90IpDvCO5o5RvqlE1DOrYn4MruFpe03V15HjGJPAJnToqPDuebhjcNVF1DJpJeDVGCoDv9Re7VmqPTDaAo=
+Received: from SN2PR01CA0047.prod.exchangelabs.com (2603:10b6:800::15) by
+ MN2PR02MB6704.namprd02.prod.outlook.com (2603:10b6:208:1d6::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3433.32; Fri, 2 Oct 2020 20:21:32 +0000
+Received: from SN1NAM02FT048.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:800:0:cafe::23) by SN2PR01CA0047.outlook.office365.com
+ (2603:10b6:800::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.32 via Frontend
+ Transport; Fri, 2 Oct 2020 20:21:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; lists.linux-foundation.org; dkim=none (message not
+ signed) header.d=none;lists.linux-foundation.org; dmarc=bestguesspass
+ action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT048.mail.protection.outlook.com (10.152.72.202) with Microsoft SMTP
+ Server id 15.20.3412.21 via Frontend Transport; Fri, 2 Oct 2020 20:21:31
+ +0000
+Received: from [149.199.38.66] (port=57914 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <stefano.stabellini@xilinx.com>)
+ id 1kORY6-00067A-3g; Fri, 02 Oct 2020 13:21:02 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by smtp.xilinx.com with smtp (Exim 4.63)
+ (envelope-from <stefano.stabellini@xilinx.com>)
+ id 1kORYZ-0008Sq-97; Fri, 02 Oct 2020 13:21:31 -0700
+Received: from xsj-pvapsmtp01 (xsj-smtp.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 092KLPNw003319; 
+ Fri, 2 Oct 2020 13:21:26 -0700
+Received: from [10.23.123.31] (helo=localhost)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <stefanos@xilinx.com>)
+ id 1kORYT-0008SG-R0; Fri, 02 Oct 2020 13:21:25 -0700
+Date: Fri, 2 Oct 2020 13:21:25 -0700 (PDT)
+From: Stefano Stabellini <stefano.stabellini@xilinx.com>
+X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: xen-swiotlb vs phys_to_dma
+In-Reply-To: <20201002123436.GA30329@lst.de>
+Message-ID: <alpine.DEB.2.21.2010021313010.10908@sstabellini-ThinkPad-T480s>
+References: <20201002123436.GA30329@lst.de>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <20201002194508.GD29706@Asurada-Nvidia>
-Content-Language: en-US
-Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- jonathanh@nvidia.com, thierry.reding@gmail.com, linux-tegra@vger.kernel.org
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d7ce0efb-933a-43af-1ebe-08d86710c043
+X-MS-TrafficTypeDiagnostic: MN2PR02MB6704:
+X-Microsoft-Antispam-PRVS: <MN2PR02MB6704143E24A1D6CCD5D1B9C2A0310@MN2PR02MB6704.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: r1zBRk3209SYXRmyDcyzGa4vWfwiztIJnO2AAvN03JioxKopFBHwp8SCr8Ac6UNygK5a2OPAbIDrvB5fteZUMQ+XCajwu4bptHTEZ57XAy4s2efXyHDLNv44B3llFLCvVrYtrc6N+jJbAXdudO7gRmCfvM1ndcKSj/PDp3JXYYhRSiOTTDo2jpNVxfDTzen8G+Lzf27Y3dx9dY1vHgg91rlH3s0IJ7O1PkSRL7PVdvhiKCHJ/C6ndIwCIihtZveH6RDQf2/uvu3LtsF/vtUoYlxe4Cb1akJSRnavhvJAFyso9FbJNBhbZSduLRoD+aAq2hb4DE8aYvg/ZOjzOnTYQCO82DYVRZowNvxlo8BLa0OOn07Zt2sApvrm6w+3eI0lsCUuH/exGMQCZqvagU07TbBDLr31aM/JIV6CUUpzZmEQTzvZGFX1ELkiNfGCi4Jc2+zEJfYEaRcuFEqGSXGf0ZyQ6xJhVef5Y/P/vvGFv5pGBG/Y61xZ3mPd1mFRcNvM
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFS:(7916004)(396003)(39860400002)(376002)(136003)(346002)(46966005)(2906002)(8676002)(9786002)(70586007)(70206006)(82310400003)(6916009)(47076004)(4326008)(316002)(8936002)(9686003)(54906003)(426003)(26005)(44832011)(83380400001)(336012)(966005)(33716001)(83080400001)(186003)(81166007)(356005)(82740400003)(5660300002)(478600001)(6606295002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2020 20:21:31.5637 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7ce0efb-933a-43af-1ebe-08d86710c043
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT048.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6704
+X-Mailman-Approved-At: Sat, 03 Oct 2020 00:12:59 +0000
+Cc: xen-devel@lists.xenproject.org, iommu@lists.linux-foundation.org,
+ Stefano Stabellini <stefano.stabellini@xilinx.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,40 +140,51 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-MDIuMTAuMjAyMCAyMjo0NSwgTmljb2xpbiBDaGVuINC/0LjRiNC10YI6Cj4gT24gRnJpLCBPY3Qg
-MDIsIDIwMjAgYXQgMDU6NDE6NTBQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+PiAw
-Mi4xMC4yMDIwIDA5OjA4LCBOaWNvbGluIENoZW4g0L/QuNGI0LXRgjoKPj4+ICBzdGF0aWMgaW50
-IHRlZ3JhX3NtbXVfYXR0YWNoX2RldihzdHJ1Y3QgaW9tbXVfZG9tYWluICpkb21haW4sCj4+PiAg
-CQkJCSBzdHJ1Y3QgZGV2aWNlICpkZXYpCj4+PiAgewo+Pj4gKwlzdHJ1Y3QgaW9tbXVfZndzcGVj
-ICpmd3NwZWMgPSBkZXZfaW9tbXVfZndzcGVjX2dldChkZXYpOwo+Pj4gIAlzdHJ1Y3QgdGVncmFf
-c21tdSAqc21tdSA9IGRldl9pb21tdV9wcml2X2dldChkZXYpOwo+Pj4gIAlzdHJ1Y3QgdGVncmFf
-c21tdV9hcyAqYXMgPSB0b19zbW11X2FzKGRvbWFpbik7Cj4+PiAtCXN0cnVjdCBkZXZpY2Vfbm9k
-ZSAqbnAgPSBkZXYtPm9mX25vZGU7Cj4+PiAtCXN0cnVjdCBvZl9waGFuZGxlX2FyZ3MgYXJnczsK
-Pj4+ICAJdW5zaWduZWQgaW50IGluZGV4ID0gMDsKPj4+ICAJaW50IGVyciA9IDA7Cj4+PiAgCj4+
-PiAtCXdoaWxlICghb2ZfcGFyc2VfcGhhbmRsZV93aXRoX2FyZ3MobnAsICJpb21tdXMiLCAiI2lv
-bW11LWNlbGxzIiwgaW5kZXgsCj4+PiAtCQkJCQkgICAmYXJncykpIHsKPj4+IC0JCXVuc2lnbmVk
-IGludCBzd2dyb3VwID0gYXJncy5hcmdzWzBdOwo+Pj4gLQo+Pj4gLQkJaWYgKGFyZ3MubnAgIT0g
-c21tdS0+ZGV2LT5vZl9ub2RlKSB7Cj4+PiAtCQkJb2Zfbm9kZV9wdXQoYXJncy5ucCk7Cj4+PiAt
-CQkJY29udGludWU7Cj4+PiAtCQl9Cj4+PiAtCj4+PiAtCQlvZl9ub2RlX3B1dChhcmdzLm5wKTsK
-Pj4+ICsJaWYgKCFmd3NwZWMpCj4+PiArCQlyZXR1cm4gLUVOT0VOVDsKPj4KPj4gQ291bGQgdGhl
-ICFmd3NwZWMgZXZlciBiZSB0cnVlIGhlcmUgYXMgd2VsbD8KPiAKPiBUaGVyZSBhcmUgbXVsdGlw
-bGUgY2FsbGVycyBvZiB0aGlzIGZ1bmN0aW9uLiBJdCdzIHJlYWxseSBub3QgdGhhdAo+IHN0cmFp
-Z2h0Zm9yd2FyZCB0byB0cmFjayBldmVyeSBvbmUgb2YgdGhlbS4gU28gSSdkIHJhdGhlciBoYXZl
-IGl0Cj4gaGVyZSBhcyBvdGhlciBpb21tdSBkcml2ZXJzIGRvLiBXZSBhcmUgaHVtYW4gYmVpbmdz
-LCBzbyB3ZSBjb3VsZAo+IGhhdmUgbWlzc2VkIHNvbWV0aGluZyBzb21ld2hlcmUsIGVzcGVjaWFs
-bHkgY2FsbGVycyBhcmUgbm90IGZyb20KPiB0ZWdyYS0qIGRyaXZlcnMuCj4gCgpJJ20gbG9va2lu
-ZyBhdCB0aGUgSU9NTVUgY29yZSBhbmQgaXQgcmVxdWlyZXMgZGV2aWNlIHRvIGJlIGluIElPTU1V
-Cmdyb3VwIGJlZm9yZSBhdHRhY2hfZGV2KCkgY291bGQgYmUgY2FsbGVkLgoKVGhlIGdyb3VwIGNh
-bid0IGJlIGFzc2lnbmVkIHRvIGRldmljZSB3aXRob3V0IHRoZSBmd3NwZWMsIHNlZQp0ZWdyYV9z
-bW11X2RldmljZV9ncm91cCgpLgoKU2VlbXMgbWFqb3JpdHkgb2YgSU9NTVUgZHJpdmVycyBhcmUg
-Y2hlY2tpbmcgZGV2X2lvbW11X3ByaXZfZ2V0KCkgZm9yCk5VTEwgaW4gYXR0YWNoX2RldigpLCBz
-b21lIG5vdCBjaGVja2luZyBhbnl0aGluZywgc29tZSBjaGVjayBib3RoIGFuZApvbmx5IGFybS1z
-bW11IGNoZWNrcyB0aGUgZndzcGVjLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRh
-dGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGlu
-Zm8vaW9tbXU=
+On Fri, 2 Oct 2020, Christoph Hellwig wrote:
+> Hi Stefano,
+> 
+> I've looked over xen-swiotlb in linux-next, that is with your recent
+> changes to take dma offsets into account.  One thing that puzzles me
+> is that xen_swiotlb_map_page passes virt_to_phys(xen_io_tlb_start) as
+> the tbl_dma_addr argument to swiotlb_tbl_map_single, despite the fact
+> that the argument is a dma_addr_t and both other callers translate
+> from a physical to the dma address.  Was this an oversight?
+
+Hi Christoph,
+
+It was not an oversight, it was done on purpose, although maybe I could
+have been wrong. There was a brief discussion on this topic here: 
+
+https://marc.info/?l=linux-kernel&m=159011972107683&w=2
+https://marc.info/?l=linux-kernel&m=159018047129198&w=2
+
+I'll repeat and summarize here for convenience. 
+
+swiotlb_init_with_tbl is called by xen_swiotlb_init, passing a virtual
+address (xen_io_tlb_start), which gets converted to phys and stored in
+io_tlb_start as a physical address at the beginning of swiotlb_init_with_tbl.
+
+Afterwards, xen_swiotlb_map_page calls swiotlb_tbl_map_single. The
+second parameter, dma_addr_t tbl_dma_addr, is used to calculate the
+right slot in the swiotlb buffer to use, comparing it against
+io_tlb_start.
+
+Thus, I think it makes sense for xen_swiotlb_map_page to call
+swiotlb_tbl_map_single passing an address meant to be compared with
+io_tlb_start, which is __pa(xen_io_tlb_start), so
+virt_to_phys(xen_io_tlb_start) seems to be what we want.
+
+However, you are right that it is strange that tbl_dma_addr is a
+dma_addr_t, and maybe it shouldn't be? Maybe the tbl_dma_addr parameter
+to swiotlb_tbl_map_single should be a phys address instead?
+Or it could be swiotlb_init_with_tbl to be wrong and it should take a
+dma address to initialize the swiotlb buffer.
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
