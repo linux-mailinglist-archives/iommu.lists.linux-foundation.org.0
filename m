@@ -2,50 +2,89 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19712812D2
-	for <lists.iommu@lfdr.de>; Fri,  2 Oct 2020 14:34:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6AD22814EE
+	for <lists.iommu@lfdr.de>; Fri,  2 Oct 2020 16:22:41 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 273AF204EB;
-	Fri,  2 Oct 2020 12:34:46 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 32EE02D63B;
+	Fri,  2 Oct 2020 14:22:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9knoxdruAzPB; Fri,  2 Oct 2020 12:34:43 +0000 (UTC)
+	with ESMTP id tFCJ4noaVDot; Fri,  2 Oct 2020 14:22:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A3C26204BE;
-	Fri,  2 Oct 2020 12:34:43 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E78132BC43;
+	Fri,  2 Oct 2020 14:22:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 925CFC0051;
-	Fri,  2 Oct 2020 12:34:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DB9E4C0051;
+	Fri,  2 Oct 2020 14:22:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C5161C0051
- for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 12:34:41 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 64473C0051
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 14:22:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B400D872EA
- for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 12:34:41 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 4ACEE8672E
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 14:22:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3q8HdQLIYwsY for <iommu@lists.linux-foundation.org>;
- Fri,  2 Oct 2020 12:34:40 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5062C872E8
- for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 12:34:40 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id A8EFB67373; Fri,  2 Oct 2020 14:34:36 +0200 (CEST)
-Date: Fri, 2 Oct 2020 14:34:36 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Stefano Stabellini <stefano.stabellini@xilinx.com>
-Subject: xen-swiotlb vs phys_to_dma
-Message-ID: <20201002123436.GA30329@lst.de>
+ with ESMTP id dtSeov5lCkyE for <iommu@lists.linux-foundation.org>;
+ Fri,  2 Oct 2020 14:22:36 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+ [209.85.167.66])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 88D728671E
+ for <iommu@lists.linux-foundation.org>; Fri,  2 Oct 2020 14:22:36 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id b12so2063059lfp.9
+ for <iommu@lists.linux-foundation.org>; Fri, 02 Oct 2020 07:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=LQSqHKxirAatiGAtCNlEf9nxHBeD+O9QIXNPNIbJQNA=;
+ b=artvsCI62m5j8bFRHfNus1KiDykPxPR8bCoOnjMnGPkKUKp4pPWOFh4zKBX+m86Lru
+ 4Q1L08LuzjryUMwHM3e/3fxqkrbF5z8Rjr7JBOZbrrhZlRbcVfAoAERR9a1pDv1p/V+M
+ zVo9ya4z/Nslhr2/C2A+hycHm+08Fy7RM8ARzxA/qNvGU6o45uzfp73+g1/QK6kiSflf
+ +3hV1Ti/B1nSFs2/QBSvnN/YFktnsT+npiVQFiJbTonZPMF4TjNJVwPzoUWnEDhWeTXH
+ +mx8sbd+2Fsl4/wzr7x1fvUiXaIgSJLsnzG37LZglXoqpY0U2tt9CV9hguIpuirVakvX
+ zsWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LQSqHKxirAatiGAtCNlEf9nxHBeD+O9QIXNPNIbJQNA=;
+ b=R4d5npLYa6L9C/MZ+sHtqQWJ82a79sZlpHPjPUhCZ0fij7XAWKWvnnm3zP/otBpb8v
+ AsUgEQBIA7u8uiqIbIkMLZhob/CRlWns55ibBlRoAXPxSz+zh7lw+lSr9dW5+NmjTUUD
+ AklT6tQK47bKLs6PBP9VbQBWMcA5TDsZUxklVKVtud4sEdbL8jZbZtOSP+Bx6iu4UAIA
+ OxKLL+tb6lElPWgOSxTrB1zXtq5smu3CLIUi8kYM85xAeVmYCLdH4+kITM0xe5qv2POu
+ WQ/3t4/K7DkGpPQDEKKpMxLDQuwMy0HneZW0feMi0kIo/hBRHB5v/81TjumocCFcXcN5
+ wdtw==
+X-Gm-Message-State: AOAM532OTU0QQR1R43/KqDf/I4nyVJI++v+xdy5m5G2K7AE0l3TlBkls
+ A65mJjBUGANzaZn7P7zPf54=
+X-Google-Smtp-Source: ABdhPJwnWQnfgKJ87DapCmwCyL3xJCIrcJZcERu8LlujipB4LagOYsDPA1C6UnSbXdJujV3rtLcwiw==
+X-Received: by 2002:a19:8706:: with SMTP id j6mr863398lfd.234.1601648554674;
+ Fri, 02 Oct 2020 07:22:34 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-91-252.nat.spd-mgts.ru.
+ [109.252.91.252])
+ by smtp.googlemail.com with ESMTPSA id 71sm316052lfb.73.2020.10.02.07.22.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 02 Oct 2020 07:22:33 -0700 (PDT)
+Subject: Re: [PATCH v4 1/3] iommu/tegra-smmu: Use fwspec in
+ tegra_smmu_(de)attach_dev
+To: Nicolin Chen <nicoleotsuka@gmail.com>, thierry.reding@gmail.com,
+ joro@8bytes.org
+References: <20201002060807.32138-1-nicoleotsuka@gmail.com>
+ <20201002060807.32138-2-nicoleotsuka@gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <75ad716f-aa2f-743a-7d9a-7083eda03672@gmail.com>
+Date: Fri, 2 Oct 2020 17:22:32 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: xen-devel@lists.xenproject.org, iommu@lists.linux-foundation.org,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+In-Reply-To: <20201002060807.32138-2-nicoleotsuka@gmail.com>
+Content-Language: en-US
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, jonathanh@nvidia.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -58,20 +97,20 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Stefano,
-
-I've looked over xen-swiotlb in linux-next, that is with your recent
-changes to take dma offsets into account.  One thing that puzzles me
-is that xen_swiotlb_map_page passes virt_to_phys(xen_io_tlb_start) as
-the tbl_dma_addr argument to swiotlb_tbl_map_single, despite the fact
-that the argument is a dma_addr_t and both other callers translate
-from a physical to the dma address.  Was this an oversight?
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+MDIuMTAuMjAyMCAwOTowOCwgTmljb2xpbiBDaGVuINC/0LjRiNC10YI6Cj4gIHN0YXRpYyBpbnQg
+dGVncmFfc21tdV9hdHRhY2hfZGV2KHN0cnVjdCBpb21tdV9kb21haW4gKmRvbWFpbiwKPiAgCQkJ
+CSBzdHJ1Y3QgZGV2aWNlICpkZXYpCj4gIHsKPiArCXN0cnVjdCBpb21tdV9md3NwZWMgKmZ3c3Bl
+YyA9IGRldl9pb21tdV9md3NwZWNfZ2V0KGRldik7Cj4gIAlzdHJ1Y3QgdGVncmFfc21tdSAqc21t
+dSA9IGRldl9pb21tdV9wcml2X2dldChkZXYpOwo+ICAJc3RydWN0IHRlZ3JhX3NtbXVfYXMgKmFz
+ID0gdG9fc21tdV9hcyhkb21haW4pOwo+IC0Jc3RydWN0IGRldmljZV9ub2RlICpucCA9IGRldi0+
+b2Zfbm9kZTsKPiAtCXN0cnVjdCBvZl9waGFuZGxlX2FyZ3MgYXJnczsKPiAgCXVuc2lnbmVkIGlu
+dCBpbmRleCA9IDA7Cj4gIAlpbnQgZXJyID0gMDsKCkxvb2tzIGxpa2UgdGhlcmUgaXMgbm8gbmVl
+ZCB0byBpbml0aWFsaXplICdpbmRleCcgYW5kICdlcnInIHZhcmlhYmxlcwphbnltb3JlLgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5n
+IGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51
+eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
