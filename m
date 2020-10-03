@@ -1,85 +1,113 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015E62821EA
-	for <lists.iommu@lfdr.de>; Sat,  3 Oct 2020 09:06:09 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96E9A282432
+	for <lists.iommu@lfdr.de>; Sat,  3 Oct 2020 15:08:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id AC187873C5;
-	Sat,  3 Oct 2020 07:06:05 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 29AB186852;
+	Sat,  3 Oct 2020 13:08:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id T71vM2NO0sqm; Sat,  3 Oct 2020 07:06:04 +0000 (UTC)
+	with ESMTP id Lg7zmksFxwFL; Sat,  3 Oct 2020 13:08:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id D9C3D87393;
-	Sat,  3 Oct 2020 07:06:04 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5131785FC0;
+	Sat,  3 Oct 2020 13:08:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D2036C0051;
-	Sat,  3 Oct 2020 07:06:04 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3D3A1C0051;
+	Sat,  3 Oct 2020 13:08:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5D963C0051
- for <iommu@lists.linux-foundation.org>; Sat,  3 Oct 2020 07:06:03 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C3A85C0051
+ for <iommu@lists.linux-foundation.org>; Sat,  3 Oct 2020 13:08:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 59FF2868A8
- for <iommu@lists.linux-foundation.org>; Sat,  3 Oct 2020 07:06:03 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id B3EE285209
+ for <iommu@lists.linux-foundation.org>; Sat,  3 Oct 2020 13:08:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wjGoP3tTTNtX for <iommu@lists.linux-foundation.org>;
- Sat,  3 Oct 2020 07:06:02 +0000 (UTC)
+ with ESMTP id gsLtSHIuck3j for <iommu@lists.linux-foundation.org>;
+ Sat,  3 Oct 2020 13:08:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
- [209.85.216.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3CE788665F
- for <iommu@lists.linux-foundation.org>; Sat,  3 Oct 2020 07:06:02 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id a17so1787883pju.1
- for <iommu@lists.linux-foundation.org>; Sat, 03 Oct 2020 00:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=3PXF6Unc+l1IUCbIelHhHwgXAVYs8b+XwVuG2K0k6GQ=;
- b=pHy0PuL7omLy4ih8GOtsTuICUP772YVVOdNFUWGcvKlHEePtO9aywHJvzn7dP0KXU/
- WEW1S7rZiETjXKak9dkWx8rOlpVgY0YI0XVUy1e1FiKX32NP6scL0KOj+LsJT35ZNe3A
- o3LIdvmcXG8a+8iVS+rEZiMgkKpXy83Ec8rtg+Mr9KUIcHlOvoM+U6iMJvml/YroLfTw
- d/0wM82xgNyWQbgqSiOocgHbhurZytagxazwWX0WKjTphDlEl8ELVyeKqxXPiVBlXiwt
- KF6mh5hIXDVpy5ILIaBflou8TY2akbtboxQjRb1UtAxesPxa1pobS/bzSWnBzuG2K5v9
- nZcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=3PXF6Unc+l1IUCbIelHhHwgXAVYs8b+XwVuG2K0k6GQ=;
- b=sYEWh8EnrfAtYajMPUe3TqGchIuEUW9lN9/54dhWYyNyLwF7GTl/8eQ2UVRPqX4Fol
- FRjHHFreSWysxoOS5AmqPo5pjkzTDbmAPWCXFIW85QzrDhilVo8qMVYnTK+qGkVIXs7/
- wxLJmk5rhtPCLe53KqdGaWjlWhbTS7ZpahvEdeQRVY0/jzgTvtNpwpmx676qKoia+Xck
- y+wXog/oSSNvhb9sRoWa+DVr4YaE9nWtS0z0+1K0DJaCG4dYtOe4otOOcDfm4QuuebMM
- E99YJar4MR2O81PmmvbKf9YKp4fH9pOXZ0mm2FCvIYklo5AX0kmVJ8yL4i93PU8TDh3x
- FNtw==
-X-Gm-Message-State: AOAM5317loeDCa6C9rU14ueScVm6L6A7sEsA917Xg31JlR17pYEoO+/M
- m+8rU37jt15e0/sIDrVPqE0=
-X-Google-Smtp-Source: ABdhPJxIox5RHrFqR5hJPSA2WIstUsXbf+7RQUNblMWemn+U44s1lGzWruUEJbzhCz5WaeLpa0bHDg==
-X-Received: by 2002:a17:90a:6705:: with SMTP id
- n5mr6422902pjj.72.1601708761858; 
- Sat, 03 Oct 2020 00:06:01 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
- [216.228.112.22])
- by smtp.gmail.com with ESMTPSA id d25sm3854498pgl.23.2020.10.03.00.06.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Oct 2020 00:06:01 -0700 (PDT)
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: thierry.reding@gmail.com,
-	joro@8bytes.org,
-	digetx@gmail.com
-Subject: [PATCH v5 3/3] iommu/tegra-smmu: Add PCI support
-Date: Fri,  2 Oct 2020 23:59:47 -0700
-Message-Id: <20201003065947.18671-4-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201003065947.18671-1-nicoleotsuka@gmail.com>
-References: <20201003065947.18671-1-nicoleotsuka@gmail.com>
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, jonathanh@nvidia.com
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2069.outbound.protection.outlook.com [40.107.237.69])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B810784DE1
+ for <iommu@lists.linux-foundation.org>; Sat,  3 Oct 2020 13:08:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LH5GxOe2D29a5Q3TFUF05Xf6+awGvfCwaFii+hjfPWutwEhne66wffiRTzq/EEXhhTXe8MYyTqI2yM2+gfbL0ii8KHVbHDUcQ9t+9shuDMV3xoCemzV5h6S4x6GsEgp+Bq6PlbEonlLZ5NKbn5go2XhmR93OIcwL2wRl5ehewu6hXZrtZtbfoFXtuyGlOnCwdTiJ4/3EAz9TsZU02GFIqq181hDG0IqeM32ixI32GRQnee73sPIflYqYqWrYQxCx9mnYqpXP/pT/oJZPqddN8fmxv/cs4TJF9Jd31R5em7F3KL1q3d0W9yKa2Dd+sjj4Wz3gb7Us33PQR49ykPBLRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kNZMzsr8vnKyLNGGI0uH/b6LWbBp4Hvg0imdwsNYVOU=;
+ b=Rg0zthqWYbvEsy9TCZIxwWmtv6GA0e9qvAzDOS9fpeBmcmBe2BTOaINljy3c1NbmFLiPXsZcWfli+L7Fptf19Sfo/1HPczNzhma8Ox+elc+3Z1HX2JQ+LmPC41IrqEtogAZDlnDMMWWAGl8bej4kilrIuSJNqDZRxuryn2YlKOE970rqx1Owv3XOvwXhYWUPHjqFT7XbD5mno/Tvoutp4lkTTjHLWXfQjcRtsbXN3spTXDFnKu1E101koTHmzcP+TyTg9ZyMX9B2UagHaezGeZm/5r/GUQEmSAjW8hUgQqkbe9qdkm8ozMDWVfK9E8Ys8EW/tfycj2X75+wmcpJGEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kNZMzsr8vnKyLNGGI0uH/b6LWbBp4Hvg0imdwsNYVOU=;
+ b=D+JF8qp3EjggAwtoAGvPdijpJHuBBGEaS69AOQ82UsvlneZURGIcKByOOCp51T8N6z5B9Z3xoNPV9mFIUmdHLsbXS0SJCIzPGnZ8ahyo6mNC2Rlq1RPImIIXX7t4/0O6KqppDqd2Jv0Y6Wf0TYDsfTcmWtXkJxdlHLwipmEM2sA=
+Authentication-Results: arm.com; dkim=none (message not signed)
+ header.d=none;arm.com; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1163.namprd12.prod.outlook.com (2603:10b6:3:7a::18) by
+ DM6PR12MB2827.namprd12.prod.outlook.com (2603:10b6:5:7f::24) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3433.38; Sat, 3 Oct 2020 13:08:40 +0000
+Received: from DM5PR12MB1163.namprd12.prod.outlook.com
+ ([fe80::48cf:d69:d457:1b1e]) by DM5PR12MB1163.namprd12.prod.outlook.com
+ ([fe80::48cf:d69:d457:1b1e%5]) with mapi id 15.20.3433.039; Sat, 3 Oct 2020
+ 13:08:40 +0000
+Subject: Re: [PATCH v2 00/13] iommu/amd: Add Generic IO Page Table Framework
+ Support
+To: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org
+References: <20201002122830.4051-1-suravee.suthikulpanit@amd.com>
+From: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+Message-ID: <835c0d46-ed96-9fbe-856a-777dcffac967@amd.com>
+Date: Sat, 3 Oct 2020 20:08:32 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
+In-Reply-To: <20201002122830.4051-1-suravee.suthikulpanit@amd.com>
+Content-Language: en-US
+X-Originating-IP: [61.90.26.46]
+X-ClientProxiedBy: SG2PR01CA0165.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:28::21) To DM5PR12MB1163.namprd12.prod.outlook.com
+ (2603:10b6:3:7a::18)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Suravees-MacBook-Pro.local (61.90.26.46) by
+ SG2PR01CA0165.apcprd01.prod.exchangelabs.com (2603:1096:4:28::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.32 via Frontend
+ Transport; Sat, 3 Oct 2020 13:08:38 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: f89d9647-f187-43d8-135b-08d8679d7264
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2827:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB2827C3C46BAEA726EA0AA8FCF30E0@DM6PR12MB2827.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DRecu6wGgjc3Hj5wIBavLEhJ8JW2hLFQcXqNafiXl55jEHtuFI7tOcH+RXlvBNFcDD53cA1pIa9swh1Q9bMfZt86aknWy/J56O0J11837pJr+EcRob8vMw2W8ybETplNnNvGHRQfQPFAMi2wO58uJ/mRdmTaaGAMr5CQbRqRxuTGsxwM/Sdv4fotAbeI8olxyLSl99sCmS97p++EmCc5ocZZM8eBjdnIGcZYXGJ0s1S+hVLEW4oUgDKtuJTHcXQVSuUDGVMtFv9yrYHIVe/7ysGCdgYWFokhCw3IWPzKGzAuB2tma5pbf0s99RqEBZi+ByWiWn0uAuPJcvaYi+P1Ivu71VWH8dxHwmp88MAJl9wEcCmh4Y1YiUm7t7tpVnzUI6VxBwJWj8MvqW1fZxgN0fTXz9KLwpUyNuwoz0vH0J5IpDk6R5W0+oGo4p4NpOymCPcus1rqyn0kD4uef5P5Yayvzg8iHZL4xmwDNIKv4Gk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1163.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(39860400002)(346002)(376002)(136003)(26005)(83080400001)(4326008)(6506007)(83380400001)(6512007)(16526019)(186003)(316002)(53546011)(2906002)(8936002)(52116002)(66556008)(66476007)(2616005)(6666004)(5660300002)(956004)(31696002)(8676002)(66946007)(44832011)(86362001)(6486002)(31686004)(36756003)(478600001)(41533002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: fUv7fn25TWszg1er8gyYw/2SboIRY+0DPYGI0p9YCvgxQD/vYk1feGanlzGf/uzKBwM9BAdjiawiLNRZsT/iovLzLtRb1yGql2nXpWc9m6cMCFpu65D3PyOabd9jcVRWIWJNV/24kMr/u99nRlxDLNLNGObrZEYcHwYbv/7rue70EAUIBh+mKwSensX6+taw2dT3lMTm6DZSG4QjCaRDI/JFahpCEEareLnp2AQJY60nRJwlmxRdpdDlDBmbcQtj1czTapw1GPpBfV/xvjonu3fXn73FDXfevs0pixswXKLRErEmu+3j8Ti6R0DOLUThmLNYajKA1SzG0225f6GgKaJYfN+oDRt3jeB354C4lgRbXXWA160XoMqaUWmC6uAB5JDJN8pRJwJL/4DtGaynm28ApofLuBV5JnRqC+/CCuZ/vIhO17NWB1T11liZXWquv1bu2sktSLU3VzrPliQdQQmcoa9SPWoFOflYYeTP4PqA9vVgHpZ19jynnezp4rrW/8MPNwYbzGxAfzqgSj5BYinubcs57BJx03lmEQiqDA4QQ/C28BBDUd9Io+S7iqjfdljtZdP0nj/A7Y3TKtgDTMiTHbq37C1E6YrSZ6dtyy9Exz+djv/lfW7L8lPRHWMgZ0uOrTfi3pBJisNOZZKG4w==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f89d9647-f187-43d8-135b-08d8679d7264
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1163.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2020 13:08:40.3561 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 78ruS7AEWpFOjxok/1+V6yV1gnKNDNLXMuZCSjmIaswOG0WStYa++6A5ru2elhqj1naZV+Fz/kh11QZUwhFNTw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2827
+Cc: robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,104 +120,62 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This patch simply adds support for PCI devices.
+I found an issue w/ this series. Please ignore. I'll send out V3.
 
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
----
+Regards,
+Suravee
 
-Changelog
-v4->v5
- * Added Dmitry's Reviewed-by
-v3->v4
- * Dropped !iommu_present() check
- * Added CONFIG_PCI check in the exit path
-v2->v3
- * Replaced ternary conditional operator with if-else in .device_group()
- * Dropped change in tegra_smmu_remove()
-v1->v2
- * Added error-out labels in tegra_smmu_probe()
- * Dropped pci_request_acs() since IOMMU core would call it.
-
- drivers/iommu/tegra-smmu.c | 35 +++++++++++++++++++++++++----------
- 1 file changed, 25 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 73b091facae0..babab6d51360 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -10,6 +10,7 @@
- #include <linux/kernel.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/pci.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
-@@ -865,7 +866,11 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
- 	group->smmu = smmu;
- 	group->soc = soc;
- 
--	group->group = iommu_group_alloc();
-+	if (dev_is_pci(dev))
-+		group->group = pci_device_group(dev);
-+	else
-+		group->group = generic_device_group(dev);
-+
- 	if (IS_ERR(group->group)) {
- 		devm_kfree(smmu->dev, group);
- 		mutex_unlock(&smmu->lock);
-@@ -1071,22 +1076,32 @@ struct tegra_smmu *tegra_smmu_probe(struct device *dev,
- 	iommu_device_set_fwnode(&smmu->iommu, dev->fwnode);
- 
- 	err = iommu_device_register(&smmu->iommu);
--	if (err) {
--		iommu_device_sysfs_remove(&smmu->iommu);
--		return ERR_PTR(err);
--	}
-+	if (err)
-+		goto err_sysfs;
- 
- 	err = bus_set_iommu(&platform_bus_type, &tegra_smmu_ops);
--	if (err < 0) {
--		iommu_device_unregister(&smmu->iommu);
--		iommu_device_sysfs_remove(&smmu->iommu);
--		return ERR_PTR(err);
--	}
-+	if (err < 0)
-+		goto err_unregister;
-+
-+#ifdef CONFIG_PCI
-+	err = bus_set_iommu(&pci_bus_type, &tegra_smmu_ops);
-+	if (err < 0)
-+		goto err_bus_set;
-+#endif
- 
- 	if (IS_ENABLED(CONFIG_DEBUG_FS))
- 		tegra_smmu_debugfs_init(smmu);
- 
- 	return smmu;
-+
-+err_bus_set: __maybe_unused;
-+	bus_set_iommu(&platform_bus_type, NULL);
-+err_unregister:
-+	iommu_device_unregister(&smmu->iommu);
-+err_sysfs:
-+	iommu_device_sysfs_remove(&smmu->iommu);
-+
-+	return ERR_PTR(err);
- }
- 
- void tegra_smmu_remove(struct tegra_smmu *smmu)
--- 
-2.17.1
-
+On 10/2/20 7:28 PM, Suravee Suthikulpanit wrote:
+> The framework allows callable implementation of IO page table.
+> This allows AMD IOMMU driver to switch between different types
+> of AMD IOMMU page tables (e.g. v1 vs. v2).
+> 
+> This series refactors the current implementation of AMD IOMMU v1 page table
+> to adopt the framework. There should be no functional change.
+> Subsequent series will introduce support for the AMD IOMMU v2 page table.
+> 
+> Thanks,
+> Suravee
+> 
+> Change from V1 (https://lkml.org/lkml/2020/9/23/251)
+>    - Do not specify struct io_pgtable_cfg.coherent_walk, since it is
+>      not currently used. (per Robin)
+>    - Remove unused struct iommu_flush_ops.  (patch 2/13)
+>    - Move amd_iommu_setup_io_pgtable_ops to iommu.c instead of io_pgtable.c
+>      patch 13/13)
+> 
+> Suravee Suthikulpanit (13):
+>    iommu/amd: Re-define amd_iommu_domain_encode_pgtable as inline
+>    iommu/amd: Prepare for generic IO page table framework
+>    iommu/amd: Move pt_root to to struct amd_io_pgtable
+>    iommu/amd: Convert to using amd_io_pgtable
+>    iommu/amd: Declare functions as extern
+>    iommu/amd: Move IO page table related functions
+>    iommu/amd: Restructure code for freeing page table
+>    iommu/amd: Remove amd_iommu_domain_get_pgtable
+>    iommu/amd: Rename variables to be consistent with struct
+>      io_pgtable_ops
+>    iommu/amd: Refactor fetch_pte to use struct amd_io_pgtable
+>    iommu/amd: Introduce iommu_v1_iova_to_phys
+>    iommu/amd: Introduce iommu_v1_map_page and iommu_v1_unmap_page
+>    iommu/amd: Adopt IO page table framework
+> 
+>   drivers/iommu/amd/Kconfig           |   1 +
+>   drivers/iommu/amd/Makefile          |   2 +-
+>   drivers/iommu/amd/amd_iommu.h       |  22 +
+>   drivers/iommu/amd/amd_iommu_types.h |  40 +-
+>   drivers/iommu/amd/io_pgtable.c      | 534 +++++++++++++++++++++++
+>   drivers/iommu/amd/iommu.c           | 644 +++-------------------------
+>   drivers/iommu/io-pgtable.c          |   3 +
+>   include/linux/io-pgtable.h          |   2 +
+>   8 files changed, 656 insertions(+), 592 deletions(-)
+>   create mode 100644 drivers/iommu/amd/io_pgtable.c
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
