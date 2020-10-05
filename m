@@ -1,66 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69F82839C8
-	for <lists.iommu@lfdr.de>; Mon,  5 Oct 2020 17:29:08 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A6B3684AB8;
-	Mon,  5 Oct 2020 15:29:07 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xmGvO+vrNGaT; Mon,  5 Oct 2020 15:29:04 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9913A866B1;
-	Mon,  5 Oct 2020 15:29:02 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 86353C07FF;
-	Mon,  5 Oct 2020 15:29:02 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 190FFC0051
- for <iommu@lists.linux-foundation.org>; Mon,  5 Oct 2020 15:29:01 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B762839C2
+	for <lists.iommu@lfdr.de>; Mon,  5 Oct 2020 17:29:03 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 055CD870CD
- for <iommu@lists.linux-foundation.org>; Mon,  5 Oct 2020 15:29:01 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1786C870D4;
+	Mon,  5 Oct 2020 15:29:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ZFMQEqVOWmGo; Mon,  5 Oct 2020 15:29:01 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6C194870CD;
+	Mon,  5 Oct 2020 15:29:01 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 66E34C0051;
+	Mon,  5 Oct 2020 15:29:01 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EE2F9C0051
+ for <iommu@lists.linux-foundation.org>; Mon,  5 Oct 2020 15:28:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id DB0EC84D89
+ for <iommu@lists.linux-foundation.org>; Mon,  5 Oct 2020 15:28:58 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OuHaK4Q-hnJo for <iommu@lists.linux-foundation.org>;
- Mon,  5 Oct 2020 15:28:59 +0000 (UTC)
+ with ESMTP id R-krDcR0PlRC for <iommu@lists.linux-foundation.org>;
+ Mon,  5 Oct 2020 15:28:58 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by hemlock.osuosl.org (Postfix) with ESMTPS id B7F53865A1
- for <iommu@lists.linux-foundation.org>; Mon,  5 Oct 2020 15:28:59 +0000 (UTC)
+Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 5512D84AB8
+ for <iommu@lists.linux-foundation.org>; Mon,  5 Oct 2020 15:28:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=Mgg6kezGCxQyZfR1XtRZQfzcS8/IMb4UEOhailZTsT0=; b=Q1YCVnUcbTrToEFiUSc8yVe3Xt
- wKg0pnossS2LjB5wwGHpFWzLo4jSYSAjkk6QDriWfuWSNeF8oeggeSJwUh8yyAJS8k3HfEgBAHalH
- ZBDCb5jQj1aiV26yX7fWS50MuGEYf3wH6PrkwqSNcOchTGKWsp++MLXOupaH/N/3cmex3WClhMy/R
- SvWjr+B/aCLDxukGqyfDI4v1HdcfnLUGTk7iJc/cr82lQTjCHeD9XYR7XsADrJ113mcvMxQMQFxY7
- +U0Mi9vEhg09HU1sbGUKq1wCpOLaujbruCaYSgvQOO7wbe5tPtXJIOsbMEBviRChW7ChT2gUzBRMU
- zQlRgeZw==;
+ bh=AHXKkF//pg8HXvfEGdRvLZPd/GZADKu/SygTIEeX7dk=; b=UK75vErFXwrfBfdBqN7fE9wxXp
+ uJWOoKpVjyKY/YJOLsNub3BYpptK0ZdTEqZHrvucmPcphtJbBElLORZ1nN/5H9tajC+dB1mZwdEIQ
+ xWq7kuK1/Cbhlx+v03xE6nvXuUBXfmHHiXvO4uY3bgDrSdNum4u043yl/Rx//bBBTWuzzrS9fNbez
+ sMr+kFBLqkXU5EDz6rTBLDA3G41fuTLrLdH6Y3E/YQKnoaKG1kin+DLUtWusQDL99x6q/ZgkrvOcF
+ 5uxHQmFRoJKt5lVSiq2TvyiXfAW+2eKLFZSHB1xiHGeMmHwfqCShcxWl+cJ2xM5G8agTHkJaLpLcV
+ YCDhDUBA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kPSQ4-0001mN-SV; Mon, 05 Oct 2020 15:28:57 +0000
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kPSQ5-0004MM-F1; Mon, 05 Oct 2020 15:28:57 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.93 #3 (Red Hat
- Linux)) id 1kPSQ4-0045Qp-Dq; Mon, 05 Oct 2020 16:28:56 +0100
+ Linux)) id 1kPSQ4-0045Qu-EZ; Mon, 05 Oct 2020 16:28:56 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: x86@kernel.org
-Subject: [PATCH 09/13] x86/irq: Add x86_non_ir_cpumask
-Date: Mon,  5 Oct 2020 16:28:52 +0100
-Message-Id: <20201005152856.974112-9-dwmw2@infradead.org>
+Subject: [PATCH 10/13] x86/irq: Limit IOAPIC and MSI domains' affinity without
+ IR
+Date: Mon,  5 Oct 2020 16:28:53 +0100
+Message-Id: <20201005152856.974112-10-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201005152856.974112-1-dwmw2@infradead.org>
 References: <77e64f977f559412f62b467fd062d051ea288f14.camel@infradead.org>
  <20201005152856.974112-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+ merlin.infradead.org. See http://www.infradead.org/rpr.html
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  iommu <iommu@lists.linux-foundation.org>, linux-hyperv@vger.kernel.org,
  kvm <kvm@vger.kernel.org>
@@ -83,77 +84,53 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-This is the mask of CPUs to which IRQs can be delivered without interrupt
-remapping.
+When interrupt remapping isn't enabled, only the first 255 CPUs can
+receive external interrupts. Set the appropriate max affinity for
+the IOAPIC and MSI IRQ domains accordingly.
+
+This also fixes the case where interrupt remapping is enabled but some
+devices are not within the scope of any active IOMMU.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- arch/x86/include/asm/mpspec.h  |  1 +
- arch/x86/kernel/apic/apic.c    | 12 ++++++++++++
- arch/x86/kernel/apic/io_apic.c |  2 ++
- 3 files changed, 15 insertions(+)
+ arch/x86/kernel/apic/io_apic.c | 2 ++
+ arch/x86/kernel/apic/msi.c     | 3 +++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/arch/x86/include/asm/mpspec.h b/arch/x86/include/asm/mpspec.h
-index 25ee8ca0a1f2..b2090be5b444 100644
---- a/arch/x86/include/asm/mpspec.h
-+++ b/arch/x86/include/asm/mpspec.h
-@@ -141,5 +141,6 @@ static inline void physid_set_mask_of_physid(int physid, physid_mask_t *map)
- #define PHYSID_MASK_NONE	{ {[0 ... PHYSID_ARRAY_SIZE-1] = 0UL} }
- 
- extern physid_mask_t phys_cpu_present_map;
-+extern cpumask_t x86_non_ir_cpumask;
- 
- #endif /* _ASM_X86_MPSPEC_H */
-diff --git a/arch/x86/kernel/apic/apic.c b/arch/x86/kernel/apic/apic.c
-index 459c78558f36..069f5e9f1d28 100644
---- a/arch/x86/kernel/apic/apic.c
-+++ b/arch/x86/kernel/apic/apic.c
-@@ -103,6 +103,9 @@ EXPORT_EARLY_PER_CPU_SYMBOL(x86_cpu_to_apicid);
- EXPORT_EARLY_PER_CPU_SYMBOL(x86_bios_cpu_apicid);
- EXPORT_EARLY_PER_CPU_SYMBOL(x86_cpu_to_acpiid);
- 
-+/* Mask of CPUs which can be targeted by non-remapped interrupts. */
-+cpumask_t x86_non_ir_cpumask = { CPU_BITS_ALL };
-+
- #ifdef CONFIG_X86_32
- 
- /*
-@@ -1838,6 +1841,7 @@ static __init void x2apic_enable(void)
- static __init void try_to_enable_x2apic(int remap_mode)
- {
- 	u32 apic_limit = 0;
-+	int i;
- 
- 	if (x2apic_state == X2APIC_DISABLED)
- 		return;
-@@ -1880,6 +1884,14 @@ static __init void try_to_enable_x2apic(int remap_mode)
- 	if (apic_limit)
- 		x2apic_set_max_apicid(apic_limit);
- 
-+	/* Build the affinity mask for interrupts that can't be remapped. */
-+	cpumask_clear(&x86_non_ir_cpumask);
-+	i = min_t(unsigned int, num_possible_cpus() - 1, apic_limit);
-+	for ( ; i >= 0; i--) {
-+		if (cpu_physical_id(i) <= apic_limit)
-+			cpumask_set_cpu(i, &x86_non_ir_cpumask);
-+	}
-+
- 	x2apic_enable();
- }
- 
 diff --git a/arch/x86/kernel/apic/io_apic.c b/arch/x86/kernel/apic/io_apic.c
-index aa9a3b54a96c..4d0ef46fedb9 100644
+index 4d0ef46fedb9..1c8ce7bc098f 100644
 --- a/arch/x86/kernel/apic/io_apic.c
 +++ b/arch/x86/kernel/apic/io_apic.c
-@@ -2098,6 +2098,8 @@ static int mp_alloc_timer_irq(int ioapic, int pin)
- 		struct irq_alloc_info info;
+@@ -2332,6 +2332,8 @@ static int mp_irqdomain_create(int ioapic)
+ 	}
  
- 		ioapic_set_alloc_attr(&info, NUMA_NO_NODE, 0, 0);
-+		if (domain->parent == x86_vector_domain)
-+			info.mask = &x86_non_ir_cpumask;
- 		info.devid = mpc_ioapic_id(ioapic);
- 		info.ioapic.pin = pin;
- 		mutex_lock(&ioapic_mutex);
+ 	ip->irqdomain->parent = parent;
++	if (parent == x86_vector_domain)
++		irq_domain_set_affinity(ip->irqdomain, &x86_non_ir_cpumask);
+ 
+ 	if (cfg->type == IOAPIC_DOMAIN_LEGACY ||
+ 	    cfg->type == IOAPIC_DOMAIN_STRICT)
+diff --git a/arch/x86/kernel/apic/msi.c b/arch/x86/kernel/apic/msi.c
+index 4d891967bea4..af5ce5c4da02 100644
+--- a/arch/x86/kernel/apic/msi.c
++++ b/arch/x86/kernel/apic/msi.c
+@@ -259,6 +259,7 @@ struct irq_domain * __init native_create_pci_msi_domain(void)
+ 		pr_warn("Failed to initialize PCI-MSI irqdomain.\n");
+ 	} else {
+ 		d->flags |= IRQ_DOMAIN_MSI_NOMASK_QUIRK;
++		irq_domain_set_affinity(d, &x86_non_ir_cpumask);
+ 	}
+ 	return d;
+ }
+@@ -479,6 +480,8 @@ struct irq_domain *hpet_create_irq_domain(int hpet_id)
+ 		irq_domain_free_fwnode(fn);
+ 		kfree(domain_info);
+ 	}
++	if (parent == x86_vector_domain)
++		irq_domain_set_affinity(d, &x86_non_ir_cpumask);
+ 	return d;
+ }
+ 
 -- 
 2.26.2
 
