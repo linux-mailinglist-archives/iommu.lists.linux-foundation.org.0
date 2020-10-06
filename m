@@ -1,99 +1,86 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3A3284DA4
-	for <lists.iommu@lfdr.de>; Tue,  6 Oct 2020 16:29:03 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3EB0F86EC0;
-	Tue,  6 Oct 2020 14:29:02 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id e52WjGdjVy16; Tue,  6 Oct 2020 14:29:00 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id ED04D86631;
-	Tue,  6 Oct 2020 14:29:00 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DC1B5C0051;
-	Tue,  6 Oct 2020 14:29:00 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 87405C0051
- for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 14:28:59 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF74284F7F
+	for <lists.iommu@lfdr.de>; Tue,  6 Oct 2020 18:08:51 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 680E78484B
- for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 14:28:59 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A1F36840D2;
+	Tue,  6 Oct 2020 16:08:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lTeEaTpWbk8e; Tue,  6 Oct 2020 16:08:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 695BB83F20;
+	Tue,  6 Oct 2020 16:08:49 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 49980C1AD6;
+	Tue,  6 Oct 2020 16:08:49 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4A09EC0051
+ for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 15:47:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 3E1EB870BD
+ for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 15:47:22 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2jHnwtgqTLjP for <iommu@lists.linux-foundation.org>;
- Tue,  6 Oct 2020 14:28:58 +0000 (UTC)
-X-Greylist: delayed 01:01:05 by SQLgrey-1.7.6
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
- [209.85.166.66])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3D4AE8362D
- for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 14:28:58 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id y13so13222135iow.4
- for <iommu@lists.linux-foundation.org>; Tue, 06 Oct 2020 07:28:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YRYuE1oST5rCsSRo3ftJBgKrW6I4XszeRlUEeyGTNfA=;
- b=BFD//pwAX/64KPt0LEII7XnZhATo+5u4Ci1QUGZnXAvcyoZpf216nBIukB8S0lNR+o
- /SBnsKFNycdO4FaqhrrvOl8q9yUCUD0kMtxCFrm+T3BuOtGJqNoq/vuatu/yUwFaui3W
- wG/q9rVWqGvQF3DH1sF8weJvvvE2/FsOJioQK368BV9SL2poAmn8GeN+if4sevucB6tf
- 8BV+2/e4V/R+9zg6ETBTYxp+Q6woapII4/lMg/2r2Ql9+NA7asVIWxgARtsMmyYoMq2K
- YKB5J7l4MgFdsyryEbJBhC2DmC2IwuvI3od1/Cu2zgJfsaaVHr58x1zSeFV0fZQiWrdf
- Hg/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YRYuE1oST5rCsSRo3ftJBgKrW6I4XszeRlUEeyGTNfA=;
- b=qvihPruxR8w+AAawPpPsLGcvqOnMBe6jyNg+G29wZr3g074ynekcdN0JYTRLjEZLvm
- wKZoAc8UesihK7UzzeuXBiOHNWxWVjqwlQycAw9VL5lDdd7gmxz6Cza1BTdNNt9cgYcG
- o/XizCWAONSi/2DZ1BTKY5NyJPRzRM/+2geOw1GHGcHSbpnzvF9a/+vtCo5tKwAWZznZ
- Ghrllse4nt2iVFys/ql6qu5bglarvdtRakg4IUe0iT+C+Z0tcwwi0AdSnuR1UArzzi68
- iYhAXPndDHAdtOeKVDrTkxFYoZNSmh781fzPVG4DbVpkHVFwCgxaYv68YfH2L8a+r+MH
- yOMA==
-X-Gm-Message-State: AOAM531ua6d+kN62uRLRpl9WGesDkM4nN2RmL4y6/LPO6+1wGwmuSp1q
- U5ExZO5tp9CSg5hnXZ9dWblg+sNb46tN7v96
-X-Google-Smtp-Source: ABdhPJw4Z7YWS8t/L1IK8utu6wKe+vRmf2v1MdzI4qau8wJptX2TFHJ6aQoGZURrxgM6eCoWFpwqPw==
-X-Received: by 2002:a05:620a:1287:: with SMTP id
- w7mr2490783qki.335.1601990468080; 
- Tue, 06 Oct 2020 06:21:08 -0700 (PDT)
-Received: from [192.168.0.189] ([147.253.86.153])
- by smtp.gmail.com with ESMTPSA id 192sm2477887qkm.110.2020.10.06.06.21.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Oct 2020 06:21:07 -0700 (PDT)
-Subject: Re: [PATCH 2/3] drm/msm: add DRM_MSM_GEM_SYNC_CACHE for non-coherent
- cache maintenance
-To: Christoph Hellwig <hch@infradead.org>
-References: <20201001002709.21361-1-jonathan@marek.ca>
- <20201001002709.21361-3-jonathan@marek.ca>
- <20201002075321.GA7547@infradead.org>
- <b22fb797-67b0-a912-1d23-2b47c9a9e674@marek.ca>
- <20201005082914.GA31702@infradead.org>
- <3e0b91be-e4a4-4ea5-7d58-6e71b8d51932@marek.ca>
- <20201006072306.GA12834@infradead.org>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <148a1660-f0fc-7163-2240-6b94725342b5@marek.ca>
-Date: Tue, 6 Oct 2020 09:19:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <20201006072306.GA12834@infradead.org>
+ with ESMTP id trOce8DrP065 for <iommu@lists.linux-foundation.org>;
+ Tue,  6 Oct 2020 15:47:20 +0000 (UTC)
+X-Greylist: delayed 00:30:16 by SQLgrey-1.7.6
+Received: from mailout07.rmx.de (mailout07.rmx.de [94.199.90.95])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9792C870BC
+ for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 15:47:20 +0000 (UTC)
+Received: from kdin04.retarus.com (kdin04.dmz1.retloc [172.19.16.59])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mailout07.rmx.de (Postfix) with ESMTPS id 4C5Lfg5X4WzBtvZ;
+ Tue,  6 Oct 2020 17:16:59 +0200 (CEST)
+Received: from SRV-EX03.muc.traviantest.lan (unknown [10.64.2.31])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by kdin04.retarus.com (Postfix) with ESMTPS id 4C5Ldf69dbzxNmc;
+ Tue,  6 Oct 2020 17:16:06 +0200 (CEST)
+Received: from SRV-EX03.muc.traviangames.lan (10.64.2.31) by
+ SRV-EX03.muc.traviangames.lan (10.64.2.31) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Tue, 6 Oct 2020 17:16:05 +0200
+Received: from SRV-EX03.muc.traviangames.lan ([fe80::24a4:13fd:f7e3:12a1]) by
+ SRV-EX03.muc.traviangames.lan ([fe80::24a4:13fd:f7e3:12a1%3]) with
+ mapi id 15.01.1913.010; Tue, 6 Oct 2020 17:16:05 +0200
+From: Denis Odintsov <d.odintsov@traviangames.com>
+To: Tomasz Nowicki <tn@semihalf.com>
+Subject: Re: [PATCH v4 0/4] Add system mmu support for Armada-806
+Thread-Topic: [PATCH v4 0/4] Add system mmu support for Armada-806
+Thread-Index: AQHWm/Oc4VLe7uS45EyxiIpxnstQ1g==
+Date: Tue, 6 Oct 2020 15:16:05 +0000
+Message-ID: <517BB937-1F18-4CCF-81BF-11777BB99779@traviangames.com>
+References: <20200715070649.18733-1-tn@semihalf.com>
+In-Reply-To: <20200715070649.18733-1-tn@semihalf.com>
+Accept-Language: en-US, de-DE
 Content-Language: en-US
-Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- iommu@lists.linux-foundation.org, Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sean Paul <sean@poorly.run>, Robin Murphy <robin.murphy@arm.com>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.10.4]
+Content-ID: <638F69BBBAA28D40BA47FCC6BB720268@muc.traviangames.lan>
+MIME-Version: 1.0
+X-RMX-ID: 20201006-171606-4C5Ldf69dbzxNmc-0@kdin04
+X-RMX-SOURCE: 10.64.2.31
+X-Mailman-Approved-At: Tue, 06 Oct 2020 16:08:48 +0000
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "gregory.clement@bootlin.com" <gregory.clement@bootlin.com>,
+ "will@kernel.org" <will@kernel.org>, "hannah@marvell.com" <hannah@marvell.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nadavh@marvell.com" <nadavh@marvell.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "mw@semihalf.com" <mw@semihalf.com>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,64 +93,119 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 10/6/20 3:23 AM, Christoph Hellwig wrote:
-> On Mon, Oct 05, 2020 at 10:35:43AM -0400, Jonathan Marek wrote:
->> The cache synchronization doesn't have anything to do with IOMMU (for
->> example: cache synchronization would be useful in cases where drm/msm
->> doesn't use IOMMU).
+Hi,
+
+> Am 15.07.2020 um 09:06 schrieb Tomasz Nowicki <tn@semihalf.com>:
 > 
-> It has to do with doing DMA.  And we have two frameworks for doing DMA:
-> either the DMA API which is for general driver use, and which as part of
-> the design includes cache maintainance hidden behind the concept of
-> ownership transfers.  And we have the much more bare bones IOMMU API.
+> The series is meant to support SMMU for AP806 and a workaround
+> for accessing ARM SMMU 64bit registers is the gist of it.
 > 
-> If people want to use the "raw" IOMMU API with not cache coherent
-> devices we'll need a cache maintainance API that goes along with it.
-> It could either be formally part of the IOMMU API or be separate.
+> For the record, AP-806 can't access SMMU registers with 64bit width.
+> This patches split the readq/writeq into two 32bit accesses instead
+> and update DT bindings.
 > 
->> What is needed is to call arch_sync_dma_for_{cpu,device} (which is what I
->> went with initially, but then decided to re-use drm/msm's
->> sync_for_{cpu,device}). But you are also saying those functions aren't for
->> driver use, and I doubt IOMMU maintainers will want to add wrappers for
->> these functions just to satisfy this "not for driver use" requirement.
+> The series was successfully tested on a vanilla v5.8-rc3 kernel and
+> Intel e1000e PCIe NIC. The same for platform devices like SATA and USB.
 > 
-> arch_sync_dma_for_{cpu,device} are low-level helpers (and not very
-> great ones at that).  The definitively should not be used by drivers.
-> They would be very useful buildblocks for a IOMMU cache maintainance
-> API.
-> 
-> Of course the best outcome would be if we could find a way for the MSM
-> drm driver to just use DMA API and not deal with the lower level
-> abstractions.  Do you remember why the driver went for use of the IOMMU
-> API?
+> For reference, previous versions are listed below:
+> V1: https://lkml.org/lkml/2018/10/15/373
+> V2: https://lkml.org/lkml/2019/7/11/426
+> V3: https://lkml.org/lkml/2020/7/2/1114
 > 
 
-One example why drm/msm can't use DMA API is multiple page table support 
-(that is landing in 5.10), which is something that definitely couldn't 
-work with DMA API.
+1) After enabling SMMU on Armada 8040, and ARM_SMMU_DISABLE_BYPASS_BY_DEFAUL=y by default in kernel since 954a03be033c7cef80ddc232e7cbdb17df735663,
+internal eMMC is prevented from being initialised (as there is no iommus property for ap_sdhci0)
+Disabling "Disable bypass by default" make it work, but the patch highly suggest doing it properly.
+I wasn't able to find correct path for ap_sdhci for iommus in any publicly available documentation,
+would be highly appreciated addressed properly, thank you!
 
-Another one is being able to choose the address for mappings, which 
-AFAIK DMA API can't do (somewhat related to this: qcom hardware often 
-has ranges of allowed addresses, which the dma_mask mechanism fails to 
-represent, what I see is drivers using dma_mask as a "maximum address", 
-and since addresses are allocated from the top it generally works)
+2) Second issue I got (btw I have ClearFog GT 8k armada-8040 based board) is mpci ath10k card.
+It is found, it is enumerated, it is visible in lspci, but it fails to be initialised. Here is the log:
 
-But let us imagine drm/msm switches to using DMA API. a2xx GPUs have 
-their own very basic MMU (implemented by msm_gpummu.c), that will need 
-to implement dma_map_ops, which will have to call 
-arch_sync_dma_for_{cpu,device}. So drm/msm still needs to call 
-arch_sync_dma_for_{cpu,device} in that scenario.
+[    1.743754] armada8k-pcie f2600000.pcie: host bridge /cp0/pcie@f2600000 ranges:
+[    1.751116] armada8k-pcie f2600000.pcie:      MEM 0x00f6000000..0x00f6efffff -> 0x00f6000000
+[    1.964690] armada8k-pcie f2600000.pcie: Link up
+[    1.969379] armada8k-pcie f2600000.pcie: PCI host bridge to bus 0000:00
+[    1.976026] pci_bus 0000:00: root bus resource [bus 00-ff]
+[    1.981537] pci_bus 0000:00: root bus resource [mem 0xf6000000-0xf6efffff]
+[    1.988462] pci 0000:00:00.0: [11ab:0110] type 01 class 0x060400
+[    1.994504] pci 0000:00:00.0: reg 0x10: [mem 0x00000000-0x000fffff]
+[    2.000843] pci 0000:00:00.0: supports D1 D2
+[    2.005132] pci 0000:00:00.0: PME# supported from D0 D1 D3hot
+[    2.011853] pci 0000:01:00.0: [168c:003c] type 00 class 0x028000
+[    2.018001] pci 0000:01:00.0: reg 0x10: [mem 0x00000000-0x001fffff 64bit]
+[    2.025002] pci 0000:01:00.0: reg 0x30: [mem 0x00000000-0x0000ffff pref]
+[    2.032111] pci 0000:01:00.0: supports D1 D2
+[    2.049409] pci 0000:00:00.0: BAR 14: assigned [mem 0xf6000000-0xf61fffff]
+[    2.056322] pci 0000:00:00.0: BAR 0: assigned [mem 0xf6200000-0xf62fffff]
+[    2.063142] pci 0000:00:00.0: BAR 15: assigned [mem 0xf6300000-0xf63fffff pref]
+[    2.070484] pci 0000:01:00.0: BAR 0: assigned [mem 0xf6000000-0xf61fffff 64bit]
+[    2.077880] pci 0000:01:00.0: BAR 6: assigned [mem 0xf6300000-0xf630ffff pref]
+[    2.085135] pci 0000:00:00.0: PCI bridge to [bus 01-ff]
+[    2.090384] pci 0000:00:00.0:   bridge window [mem 0xf6000000-0xf61fffff]
+[    2.097202] pci 0000:00:00.0:   bridge window [mem 0xf6300000-0xf63fffff pref]
+[    2.104539] pcieport 0000:00:00.0: Adding to iommu group 4
+[    2.110232] pcieport 0000:00:00.0: PME: Signaling with IRQ 38
+[    2.116141] pcieport 0000:00:00.0: AER: enabled with IRQ 38
+[    8.131135] ath10k_pci 0000:01:00.0: Adding to iommu group 4
+[    8.131874] ath10k_pci 0000:01:00.0: enabling device (0000 -> 0002)
+[    8.132203] ath10k_pci 0000:01:00.0: pci irq msi oper_irq_mode 2 irq_mode 0 reset_mode 0
 
+up to that point the log is the same as without SMMU enabled, except "Adding to iommu group N" lines, and IRQ being 37
 
+[    8.221328] ath10k_pci 0000:01:00.0: failed to poke copy engine: -16
+[    8.313362] ath10k_pci 0000:01:00.0: failed to poke copy engine: -16
+[    8.409373] ath10k_pci 0000:01:00.0: failed to poke copy engine: -16
+[    8.553433] ath10k_pci 0000:01:00.0: failed to poke copy engine: -16
+[    8.641370] ath10k_pci 0000:01:00.0: failed to poke copy engine: -16
+[    8.737979] ath10k_pci 0000:01:00.0: failed to poke copy engine: -16
+[    8.807356] ath10k_pci 0000:01:00.0: Failed to get pcie state addr: -16
+[    8.814032] ath10k_pci 0000:01:00.0: failed to setup init config: -16
+[    8.820605] ath10k_pci 0000:01:00.0: could not power on hif bus (-16)
+[    8.827111] ath10k_pci 0000:01:00.0: could not probe fw (-16)
 
+Thank you!
 
-
-
+> v3 -> v4
+> - call cfg_probe() impl hook a bit earlier which simplifies errata handling
+> - use hi_lo_readq_relaxed() and hi_lo_writeq_relaxed() for register accessors
+> - keep SMMU status disabled by default and enable where possible (DTS changes)
+> - commit logs improvements and other minor fixes
+> 
+> Hanna Hawa (1):
+>  iommu/arm-smmu: Workaround for Marvell Armada-AP806 SoC erratum
+>    #582743
+> 
+> Marcin Wojtas (1):
+>  arm64: dts: marvell: add SMMU support
+> 
+> Tomasz Nowicki (2):
+>  iommu/arm-smmu: Call configuration impl hook before consuming features
+>  dt-bindings: arm-smmu: add compatible string for Marvell Armada-AP806
+>    SMMU-500
+> 
+> Documentation/arm64/silicon-errata.rst        |  3 ++
+> .../devicetree/bindings/iommu/arm,smmu.yaml   |  4 ++
+> arch/arm64/boot/dts/marvell/armada-7040.dtsi  | 28 ++++++++++++
+> arch/arm64/boot/dts/marvell/armada-8040.dtsi  | 40 +++++++++++++++++
+> arch/arm64/boot/dts/marvell/armada-ap80x.dtsi | 18 ++++++++
+> drivers/iommu/arm-smmu-impl.c                 | 45 +++++++++++++++++++
+> drivers/iommu/arm-smmu.c                      | 11 +++--
+> 7 files changed, 145 insertions(+), 4 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
+> _______________________________________________
+> iommu mailing list
+> iommu@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+> 
 
 _______________________________________________
 iommu mailing list
