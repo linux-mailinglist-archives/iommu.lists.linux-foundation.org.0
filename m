@@ -1,86 +1,86 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF74284F7F
-	for <lists.iommu@lfdr.de>; Tue,  6 Oct 2020 18:08:51 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87CB8284EDB
+	for <lists.iommu@lfdr.de>; Tue,  6 Oct 2020 17:23:52 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A1F36840D2;
-	Tue,  6 Oct 2020 16:08:50 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 494A420551;
+	Tue,  6 Oct 2020 15:23:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lTeEaTpWbk8e; Tue,  6 Oct 2020 16:08:49 +0000 (UTC)
+	with ESMTP id mInszLcqa-ZK; Tue,  6 Oct 2020 15:23:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 695BB83F20;
-	Tue,  6 Oct 2020 16:08:49 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AE37B2052B;
+	Tue,  6 Oct 2020 15:23:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 49980C1AD6;
-	Tue,  6 Oct 2020 16:08:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 96490C0051;
+	Tue,  6 Oct 2020 15:23:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4A09EC0051
- for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 15:47:22 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A3AB7C0051
+ for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 15:23:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3E1EB870BD
- for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 15:47:22 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 9AABE844B2
+ for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 15:23:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id trOce8DrP065 for <iommu@lists.linux-foundation.org>;
- Tue,  6 Oct 2020 15:47:20 +0000 (UTC)
-X-Greylist: delayed 00:30:16 by SQLgrey-1.7.6
-Received: from mailout07.rmx.de (mailout07.rmx.de [94.199.90.95])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 9792C870BC
- for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 15:47:20 +0000 (UTC)
-Received: from kdin04.retarus.com (kdin04.dmz1.retloc [172.19.16.59])
+ with ESMTP id 3FiYE-oB9gyK for <iommu@lists.linux-foundation.org>;
+ Tue,  6 Oct 2020 15:23:47 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 5D4528402A
+ for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 15:23:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1601997826;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ySCeSs2lHG0zJMFNUJWe/o+SED3rw+cfxJDttvVzqbI=;
+ b=UXK//kzcGMZNCN74OHCstukX3zhNuDfEInm5N9lr51gOg16b9dgg6wu0NqCOCRmTYoDhLF
+ IyRn4Yvu86c8Wfyex55R6iDBVwk22ZcnMkHDcAJ1S6zvjWr9l2dKSmKITYuSMs4C7PKa3r
+ UehP/JuHn5xnVSMcYoEMG5wrO+Sv2yw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-508-jh5Gf5HfOXm18dGTE45rhg-1; Tue, 06 Oct 2020 11:23:42 -0400
+X-MC-Unique: jh5Gf5HfOXm18dGTE45rhg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mailout07.rmx.de (Postfix) with ESMTPS id 4C5Lfg5X4WzBtvZ;
- Tue,  6 Oct 2020 17:16:59 +0200 (CEST)
-Received: from SRV-EX03.muc.traviantest.lan (unknown [10.64.2.31])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by kdin04.retarus.com (Postfix) with ESMTPS id 4C5Ldf69dbzxNmc;
- Tue,  6 Oct 2020 17:16:06 +0200 (CEST)
-Received: from SRV-EX03.muc.traviangames.lan (10.64.2.31) by
- SRV-EX03.muc.traviangames.lan (10.64.2.31) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Tue, 6 Oct 2020 17:16:05 +0200
-Received: from SRV-EX03.muc.traviangames.lan ([fe80::24a4:13fd:f7e3:12a1]) by
- SRV-EX03.muc.traviangames.lan ([fe80::24a4:13fd:f7e3:12a1%3]) with
- mapi id 15.01.1913.010; Tue, 6 Oct 2020 17:16:05 +0200
-From: Denis Odintsov <d.odintsov@traviangames.com>
-To: Tomasz Nowicki <tn@semihalf.com>
-Subject: Re: [PATCH v4 0/4] Add system mmu support for Armada-806
-Thread-Topic: [PATCH v4 0/4] Add system mmu support for Armada-806
-Thread-Index: AQHWm/Oc4VLe7uS45EyxiIpxnstQ1g==
-Date: Tue, 6 Oct 2020 15:16:05 +0000
-Message-ID: <517BB937-1F18-4CCF-81BF-11777BB99779@traviangames.com>
-References: <20200715070649.18733-1-tn@semihalf.com>
-In-Reply-To: <20200715070649.18733-1-tn@semihalf.com>
-Accept-Language: en-US, de-DE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.10.4]
-Content-ID: <638F69BBBAA28D40BA47FCC6BB720268@muc.traviangames.lan>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BF8B9CC07;
+ Tue,  6 Oct 2020 15:23:40 +0000 (UTC)
+Received: from [10.36.113.210] (ovpn-113-210.ams2.redhat.com [10.36.113.210])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F13660BFA;
+ Tue,  6 Oct 2020 15:23:33 +0000 (UTC)
+Subject: Re: [PATCH v3 0/6] Add virtio-iommu built-in topology
+To: Al Stone <ahs3@redhat.com>
+References: <20200821131540.2801801-1-jean-philippe@linaro.org>
+ <ab2a1668-e40c-c8f0-b77b-abadeceb4b82@redhat.com>
+ <20200924045958-mutt-send-email-mst@kernel.org>
+ <20200924092129.GH27174@8bytes.org>
+ <20200924053159-mutt-send-email-mst@kernel.org>
+ <d54b674e-2626-fc73-d663-136573c32b8a@redhat.com>
+ <20201002182348.GO138842@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <e8a37837-30d0-d7cc-496a-df4c12fff1da@redhat.com>
+Date: Tue, 6 Oct 2020 17:23:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-RMX-ID: 20201006-171606-4C5Ldf69dbzxNmc-0@kdin04
-X-RMX-SOURCE: 10.64.2.31
-X-Mailman-Approved-At: Tue, 06 Oct 2020 16:08:48 +0000
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "gregory.clement@bootlin.com" <gregory.clement@bootlin.com>,
- "will@kernel.org" <will@kernel.org>, "hannah@marvell.com" <hannah@marvell.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nadavh@marvell.com" <nadavh@marvell.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "mw@semihalf.com" <mw@semihalf.com>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+In-Reply-To: <20201002182348.GO138842@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, kevin.tian@intel.com,
+ virtio-dev@lists.oasis-open.org, linux-pci@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ virtualization@lists.linux-foundation.org, iommu@lists.linux-foundation.org,
+ sebastien.boeuf@intel.com, bhelgaas@google.com, jasowang@redhat.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,113 +98,96 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
+Hello Al,
 
-> Am 15.07.2020 um 09:06 schrieb Tomasz Nowicki <tn@semihalf.com>:
+On 10/2/20 8:23 PM, Al Stone wrote:
+> On 24 Sep 2020 11:54, Auger Eric wrote:
+>> Hi,
+>>
+>> Adding Al in the loop
+>>
+>> On 9/24/20 11:38 AM, Michael S. Tsirkin wrote:
+>>> On Thu, Sep 24, 2020 at 11:21:29AM +0200, Joerg Roedel wrote:
+>>>> On Thu, Sep 24, 2020 at 05:00:35AM -0400, Michael S. Tsirkin wrote:
+>>>>> OK so this looks good. Can you pls repost with the minor tweak
+>>>>> suggested and all acks included, and I will queue this?
+>>>>
+>>>> My NACK still stands, as long as a few questions are open:
+>>>>
+>>>> 	1) The format used here will be the same as in the ACPI table? I
+>>>> 	   think the answer to this questions must be Yes, so this leads
+>>>> 	   to the real question:
+>>>
+>>> I am not sure it's a must.
+>>> We can always tweak the parser if there are slight differences
+>>> between ACPI and virtio formats.
+>>>
+>>> But we do want the virtio format used here to be approved by the virtio
+>>> TC, so it won't change.
+>>>
+>>> Eric, Jean-Philippe, does one of you intend to create a github issue
+>>> and request a ballot for the TC? It's been posted end of August with no
+>>> changes ...
+>> Jean-Philippe, would you?
+>>>
+>>>> 	2) Has the ACPI table format stabalized already? If and only if
+>>>> 	   the answer is Yes I will Ack these patches. We don't need to
+>>>> 	   wait until the ACPI table format is published in a
+>>>> 	   specification update, but at least some certainty that it
+>>>> 	   will not change in incompatible ways anymore is needed.
+>>>>
+>>
+>> Al, do you have any news about the the VIOT definition submission to
+>> the UEFI ASWG?
+>>
+>> Thank you in advance
+>>
+>> Best Regards
+>>
+>> Eric
 > 
-> The series is meant to support SMMU for AP806 and a workaround
-> for accessing ARM SMMU 64bit registers is the gist of it.
+> A follow-up to my earlier post ....
 > 
-> For the record, AP-806 can't access SMMU registers with 64bit width.
-> This patches split the readq/writeq into two 32bit accesses instead
-> and update DT bindings.
+> Hearing no objection, I've submitted the VIOT table description to
+> the ASWG for consideration under what they call the "code first"
+> process.  The "first reading" -- a brief discussion on what the
+> table is and why we would like to add it -- was held yesterday.
+> No concerns have been raised as yet.  Given the discussions that
+> have already occurred, I don't expect any, either.  I have been
+> wrong at least once before, however.
 > 
-> The series was successfully tested on a vanilla v5.8-rc3 kernel and
-> Intel e1000e PCIe NIC. The same for platform devices like SATA and USB.
+> At this point, ASWG will revisit the request to add VIOT each
+> week.  If there have been no comments in the prior week, and no
+> further discussion during the meeting, then a vote will be taken.
+> Otherwise, there will be discussion and we try again the next
+> week.
 > 
-> For reference, previous versions are listed below:
-> V1: https://lkml.org/lkml/2018/10/15/373
-> V2: https://lkml.org/lkml/2019/7/11/426
-> V3: https://lkml.org/lkml/2020/7/2/1114
+> The ASWG was also told that the likelihood of this definition of
+> the table changing is pretty low, and that it has been thought out
+> pretty well already.  ASWG's consideration will therefore start
+> from the assumption that it would be best _not_ to make changes.
 > 
+> So, I'll let you know what happens next week.
 
-1) After enabling SMMU on Armada 8040, and ARM_SMMU_DISABLE_BYPASS_BY_DEFAUL=y by default in kernel since 954a03be033c7cef80ddc232e7cbdb17df735663,
-internal eMMC is prevented from being initialised (as there is no iommus property for ap_sdhci0)
-Disabling "Disable bypass by default" make it work, but the patch highly suggest doing it properly.
-I wasn't able to find correct path for ap_sdhci for iommus in any publicly available documentation,
-would be highly appreciated addressed properly, thank you!
+Thank you very much for the updates and for your support backing the
+proposal in the best delays.
 
-2) Second issue I got (btw I have ClearFog GT 8k armada-8040 based board) is mpci ath10k card.
-It is found, it is enumerated, it is visible in lspci, but it fails to be initialised. Here is the log:
+Best Regards
 
-[    1.743754] armada8k-pcie f2600000.pcie: host bridge /cp0/pcie@f2600000 ranges:
-[    1.751116] armada8k-pcie f2600000.pcie:      MEM 0x00f6000000..0x00f6efffff -> 0x00f6000000
-[    1.964690] armada8k-pcie f2600000.pcie: Link up
-[    1.969379] armada8k-pcie f2600000.pcie: PCI host bridge to bus 0000:00
-[    1.976026] pci_bus 0000:00: root bus resource [bus 00-ff]
-[    1.981537] pci_bus 0000:00: root bus resource [mem 0xf6000000-0xf6efffff]
-[    1.988462] pci 0000:00:00.0: [11ab:0110] type 01 class 0x060400
-[    1.994504] pci 0000:00:00.0: reg 0x10: [mem 0x00000000-0x000fffff]
-[    2.000843] pci 0000:00:00.0: supports D1 D2
-[    2.005132] pci 0000:00:00.0: PME# supported from D0 D1 D3hot
-[    2.011853] pci 0000:01:00.0: [168c:003c] type 00 class 0x028000
-[    2.018001] pci 0000:01:00.0: reg 0x10: [mem 0x00000000-0x001fffff 64bit]
-[    2.025002] pci 0000:01:00.0: reg 0x30: [mem 0x00000000-0x0000ffff pref]
-[    2.032111] pci 0000:01:00.0: supports D1 D2
-[    2.049409] pci 0000:00:00.0: BAR 14: assigned [mem 0xf6000000-0xf61fffff]
-[    2.056322] pci 0000:00:00.0: BAR 0: assigned [mem 0xf6200000-0xf62fffff]
-[    2.063142] pci 0000:00:00.0: BAR 15: assigned [mem 0xf6300000-0xf63fffff pref]
-[    2.070484] pci 0000:01:00.0: BAR 0: assigned [mem 0xf6000000-0xf61fffff 64bit]
-[    2.077880] pci 0000:01:00.0: BAR 6: assigned [mem 0xf6300000-0xf630ffff pref]
-[    2.085135] pci 0000:00:00.0: PCI bridge to [bus 01-ff]
-[    2.090384] pci 0000:00:00.0:   bridge window [mem 0xf6000000-0xf61fffff]
-[    2.097202] pci 0000:00:00.0:   bridge window [mem 0xf6300000-0xf63fffff pref]
-[    2.104539] pcieport 0000:00:00.0: Adding to iommu group 4
-[    2.110232] pcieport 0000:00:00.0: PME: Signaling with IRQ 38
-[    2.116141] pcieport 0000:00:00.0: AER: enabled with IRQ 38
-[    8.131135] ath10k_pci 0000:01:00.0: Adding to iommu group 4
-[    8.131874] ath10k_pci 0000:01:00.0: enabling device (0000 -> 0002)
-[    8.132203] ath10k_pci 0000:01:00.0: pci irq msi oper_irq_mode 2 irq_mode 0 reset_mode 0
-
-up to that point the log is the same as without SMMU enabled, except "Adding to iommu group N" lines, and IRQ being 37
-
-[    8.221328] ath10k_pci 0000:01:00.0: failed to poke copy engine: -16
-[    8.313362] ath10k_pci 0000:01:00.0: failed to poke copy engine: -16
-[    8.409373] ath10k_pci 0000:01:00.0: failed to poke copy engine: -16
-[    8.553433] ath10k_pci 0000:01:00.0: failed to poke copy engine: -16
-[    8.641370] ath10k_pci 0000:01:00.0: failed to poke copy engine: -16
-[    8.737979] ath10k_pci 0000:01:00.0: failed to poke copy engine: -16
-[    8.807356] ath10k_pci 0000:01:00.0: Failed to get pcie state addr: -16
-[    8.814032] ath10k_pci 0000:01:00.0: failed to setup init config: -16
-[    8.820605] ath10k_pci 0000:01:00.0: could not power on hif bus (-16)
-[    8.827111] ath10k_pci 0000:01:00.0: could not probe fw (-16)
-
-Thank you!
-
-> v3 -> v4
-> - call cfg_probe() impl hook a bit earlier which simplifies errata handling
-> - use hi_lo_readq_relaxed() and hi_lo_writeq_relaxed() for register accessors
-> - keep SMMU status disabled by default and enable where possible (DTS changes)
-> - commit logs improvements and other minor fixes
+Eric
 > 
-> Hanna Hawa (1):
->  iommu/arm-smmu: Workaround for Marvell Armada-AP806 SoC erratum
->    #582743
-> 
-> Marcin Wojtas (1):
->  arm64: dts: marvell: add SMMU support
-> 
-> Tomasz Nowicki (2):
->  iommu/arm-smmu: Call configuration impl hook before consuming features
->  dt-bindings: arm-smmu: add compatible string for Marvell Armada-AP806
->    SMMU-500
-> 
-> Documentation/arm64/silicon-errata.rst        |  3 ++
-> .../devicetree/bindings/iommu/arm,smmu.yaml   |  4 ++
-> arch/arm64/boot/dts/marvell/armada-7040.dtsi  | 28 ++++++++++++
-> arch/arm64/boot/dts/marvell/armada-8040.dtsi  | 40 +++++++++++++++++
-> arch/arm64/boot/dts/marvell/armada-ap80x.dtsi | 18 ++++++++
-> drivers/iommu/arm-smmu-impl.c                 | 45 +++++++++++++++++++
-> drivers/iommu/arm-smmu.c                      | 11 +++--
-> 7 files changed, 145 insertions(+), 4 deletions(-)
-> 
-> -- 
-> 2.17.1
-> 
-> _______________________________________________
-> iommu mailing list
-> iommu@lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+>>
+>>>
+>>> Not that I know, but I don't see why it's a must.
+>>>
+>>>> So what progress has been made with the ACPI table specification, is it
+>>>> just a matter of time to get it approved or are there concerns?
+>>>>
+>>>> Regards,
+>>>>
+>>>> 	Joerg
+>>>
+>>
 > 
 
 _______________________________________________
