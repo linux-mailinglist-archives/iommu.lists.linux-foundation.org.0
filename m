@@ -2,62 +2,73 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C2D285F18
-	for <lists.iommu@lfdr.de>; Wed,  7 Oct 2020 14:24:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B4BB285F9D
+	for <lists.iommu@lfdr.de>; Wed,  7 Oct 2020 14:59:08 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0767085FFC;
-	Wed,  7 Oct 2020 12:24:28 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 32E6A85F19;
+	Wed,  7 Oct 2020 12:59:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XA-JREu0VE56; Wed,  7 Oct 2020 12:24:27 +0000 (UTC)
+	with ESMTP id 3TI_t9EDC5PE; Wed,  7 Oct 2020 12:59:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9708B85FEF;
-	Wed,  7 Oct 2020 12:24:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 56C8785F57;
+	Wed,  7 Oct 2020 12:59:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7B7AAC1AD6;
-	Wed,  7 Oct 2020 12:24:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4F1D5C0051;
+	Wed,  7 Oct 2020 12:59:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A2162C0051
- for <iommu@lists.linux-foundation.org>; Wed,  7 Oct 2020 12:24:26 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03401C0051
+ for <iommu@lists.linux-foundation.org>; Wed,  7 Oct 2020 12:59:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 869A585FFC
- for <iommu@lists.linux-foundation.org>; Wed,  7 Oct 2020 12:24:26 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id F321B87244
+ for <iommu@lists.linux-foundation.org>; Wed,  7 Oct 2020 12:59:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Vo-GlNcQLe9Z for <iommu@lists.linux-foundation.org>;
- Wed,  7 Oct 2020 12:24:24 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 73ACF85FEF
- for <iommu@lists.linux-foundation.org>; Wed,  7 Oct 2020 12:24:24 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 8D0B768B02; Wed,  7 Oct 2020 14:24:19 +0200 (CEST)
-Date: Wed, 7 Oct 2020 14:24:18 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
-Message-ID: <20201007122418.GA31318@lst.de>
-References: <20200930160917.1234225-1-hch@lst.de>
- <20200930160917.1234225-9-hch@lst.de> <20201002175040.GA1131147@chromium.org>
- <20201005082629.GA13850@lst.de>
- <CAAFQd5DcFjTUpOYkaz4nGxozgOc9oGf9QngjbpXWdcwXTT=kmw@mail.gmail.com>
- <20201007062150.GA10601@lst.de>
- <CAAFQd5AtN-ykAF_2mAqGxVugeEegYxfYdS6gD4O3zCY1jznNYA@mail.gmail.com>
+ with ESMTP id Ac3SVAqJMnXp for <iommu@lists.linux-foundation.org>;
+ Wed,  7 Oct 2020 12:59:04 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id AF71B8725F
+ for <iommu@lists.linux-foundation.org>; Wed,  7 Oct 2020 12:59:04 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1602075541;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jUlXpRcdjDMd7cwhwzUEPO97AvYbTkCdBAMwSiAXy90=;
+ b=ygQhpekbSZb+0bHmfd9+EwqUEQHh2ATtKLZJUgxN2aZRx+vibKErUl+OB+IclL9e2CLvJJ
+ BFSj/tzbVFvPm9AW1U+wVwxqIN11eTmbpA18ZEmvaGjBUIKdyJIIFRY4G+8fgc6gjmoaYv
+ JtJLCupbyM/ps8yAN3x96nYDbL6n+Ia/91H+tBfth4P9J2RQDGPPEEA2nqpoMzK+LpyEw9
+ HHaz3U+2iXrpKcNnUFsjXpMgY2sfDv0eIp8y98+fqD1NDA0ABNj/n6Hmwe79tG5UdSz3UQ
+ Z9XYgDNwJsD+NrGHCaYXoSMoSa0ZOcghpNg/5fFouxyYXvGsjh1KK02bJzxZrA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1602075541;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jUlXpRcdjDMd7cwhwzUEPO97AvYbTkCdBAMwSiAXy90=;
+ b=dz/tx+RV0UESDPh1neqXFJC7LRS0By4Wn08o1mSZYG5vCaBGEwri/Rk7HvtoDSyFYsQIb1
+ Gv4NHE4xTe+gkvCA==
+To: David Woodhouse <dwmw2@infradead.org>, x86@kernel.org
+Subject: Re: [PATCH 10/13] x86/irq: Limit IOAPIC and MSI domains' affinity
+ without IR
+In-Reply-To: <d34efce9ca5a4a9d8d8609f872143e306bf5ee98.camel@infradead.org>
+References: <77e64f977f559412f62b467fd062d051ea288f14.camel@infradead.org>
+ <20201005152856.974112-1-dwmw2@infradead.org>
+ <20201005152856.974112-10-dwmw2@infradead.org>
+ <87d01v58bw.fsf@nanos.tec.linutronix.de>
+ <d34efce9ca5a4a9d8d8609f872143e306bf5ee98.camel@infradead.org>
+Date: Wed, 07 Oct 2020 14:59:00 +0200
+Message-ID: <874kn65h0r.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5AtN-ykAF_2mAqGxVugeEegYxfYdS6gD4O3zCY1jznNYA@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ iommu <iommu@lists.linux-foundation.org>, linux-hyperv@vger.kernel.org,
+ kvm <kvm@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,20 +86,59 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Oct 07, 2020 at 02:21:43PM +0200, Tomasz Figa wrote:
-> My initial feeling is that it should work, but we'll give you a
-> definitive answer once we prototype it. :)
-> 
-> We might actually give it a try in the USB HCD subsystem as well, to
-> implement usb_alloc_noncoherent(), as an optimization for drivers
-> which have to perform multiple random accesses to the URB buffers. I
-> think you might recall discussing this by the way of the pwc and
-> uvcvideo camera drivers.
+On Wed, Oct 07 2020 at 08:48, David Woodhouse wrote:
+> On Tue, 2020-10-06 at 23:54 +0200, Thomas Gleixner wrote:
+>> On Mon, Oct 05 2020 at 16:28, David Woodhouse wrote:
+> This is the case I called out in the cover letter:
+>
+>     This patch series implements a per-domain "maximum affinity" set and
+>     uses it for the non-remapped IOAPIC and MSI domains on x86. As well as
+>     allowing more CPUs to be used without interrupt remapping, this also
+>     fixes the case where some IOAPICs or PCI devices aren't actually in
+>     scope of any active IOMMU and are operating without remapping.
+>
+> To fix *that* case, we really do need the whole series giving us per-
+> domain restricted affinity, and to use it for those MSIs/IOAPICs that
+> the IRQ remapping doesn't cover.
 
-Yes.  I guess for usb the dma_alloc_noncoherent as-is in linux-next
-might be better.   So if you have the cycles please prototype it
-either way, although for that we'd also need at least a
-mmap_noncoherent method, and probaby a get_sgtable_noncoherent one.
+Which do not exist today.
+
+>> >  	ip->irqdomain->parent = parent;
+>> > +	if (parent == x86_vector_domain)
+>> > +		irq_domain_set_affinity(ip->irqdomain, &x86_non_ir_cpumask);
+>> 
+>> OMG
+>
+> This IOAPIC function may or may not be behind remapping.
+
+>> >  		d->flags |= IRQ_DOMAIN_MSI_NOMASK_QUIRK;
+>> > +		irq_domain_set_affinity(d, &x86_non_ir_cpumask);
+>> 
+>> So here it's unconditional
+>
+> Yes, this code is only for the non-remapped case and there's a separate
+> arch_create_remap_msi_irq_domain() function a few lines further down
+> which creates the IR-PCI-MSI IRQ domain. So no need for a condition
+> here.
+>
+>> > +	if (parent == x86_vector_domain)
+>> > +		irq_domain_set_affinity(d, &x86_non_ir_cpumask);
+>> 
+>> And here we need a condition again. Completely obvious and reviewable - NOT.
+>
+> And HPET may or may not be behind remapping so again needs the
+> condition. I had figured that part was fairly obvious but can note it
+> in the commit comment.
+
+And all of this is completely wrong to begin with.
+
+The information has to property of the relevant irq domains and the
+hierarchy allows you nicely to retrieve it from there instead of
+sprinkling this all over the place.
+
+Thanks,
+
+        tglx
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
