@@ -1,72 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC3728542E
-	for <lists.iommu@lfdr.de>; Tue,  6 Oct 2020 23:54:35 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 68062871BE;
-	Tue,  6 Oct 2020 21:54:34 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LoxtHhhg9vIN; Tue,  6 Oct 2020 21:54:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E92E6871BC;
-	Tue,  6 Oct 2020 21:54:33 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D009FC0051;
-	Tue,  6 Oct 2020 21:54:33 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B3DCBC0051
- for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 21:54:32 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2E128584F
+	for <lists.iommu@lfdr.de>; Wed,  7 Oct 2020 08:00:19 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 6F92221561
- for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 21:54:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0EE5722D24;
+	Wed,  7 Oct 2020 06:00:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id shCSB3qJbRo6; Wed,  7 Oct 2020 06:00:16 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 7791222D0D;
+	Wed,  7 Oct 2020 06:00:16 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3563AC0051;
+	Wed,  7 Oct 2020 06:00:16 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2FB68C0051
+ for <iommu@lists.linux-foundation.org>; Wed,  7 Oct 2020 06:00:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 14D4F861F0
+ for <iommu@lists.linux-foundation.org>; Wed,  7 Oct 2020 06:00:14 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XnafH-mmzgPn for <iommu@lists.linux-foundation.org>;
- Tue,  6 Oct 2020 21:54:31 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by silver.osuosl.org (Postfix) with ESMTPS id 8F2112153E
- for <iommu@lists.linux-foundation.org>; Tue,  6 Oct 2020 21:54:31 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1602021268;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RSV1PANxT6SrZlsLhulgWDYB2UZuXJN9hmUsQEh/jgs=;
- b=UQTOLm0LdgcJlPz5Yzogz4fAopCcBsc7DkCa7/Jli0I32RaoPhX6OdTyO6AUDxwUDbpJXm
- ToeIwnaB/hlU3SuusiQEKujeKm81OVk0vp7o6iw5W6lzYGZsjv0zJFngqSa1w4BJ2DFB32
- 9twqKj+bA6Hyx2+bF3V6jqPY6S4MqqS2+SNOyPS3BHPWT8C82Rujr25+4qhSKPKvaqyXsO
- Y0JCRJErsQHBYdOc6fxUO7IiLTDr4B3Te/TJ+6imvMKDZFKeY7v0WelJvZg3T71IZYhFVv
- awwC9oM3CaOCnFmFdsDY9cOKPuXGRYzRTz0ZUZI3Ck0MhSbOEYDmExdSlALB/w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1602021268;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RSV1PANxT6SrZlsLhulgWDYB2UZuXJN9hmUsQEh/jgs=;
- b=NVX4OPALrRRIxfxSJrlfPj8FJqm0A1+Ls915mDPtnJu7rah0BhfqTAausT0TyQ4qculSHV
- hV/8c76CZGch6CDQ==
-To: David Woodhouse <dwmw2@infradead.org>, x86@kernel.org
-Subject: Re: [PATCH 10/13] x86/irq: Limit IOAPIC and MSI domains' affinity
- without IR
-In-Reply-To: <20201005152856.974112-10-dwmw2@infradead.org>
-References: <77e64f977f559412f62b467fd062d051ea288f14.camel@infradead.org>
- <20201005152856.974112-1-dwmw2@infradead.org>
- <20201005152856.974112-10-dwmw2@infradead.org>
-Date: Tue, 06 Oct 2020 23:54:27 +0200
-Message-ID: <87d01v58bw.fsf@nanos.tec.linutronix.de>
+ with ESMTP id WYbzq0b5_Z84 for <iommu@lists.linux-foundation.org>;
+ Wed,  7 Oct 2020 06:00:13 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id CFAC1861EE
+ for <iommu@lists.linux-foundation.org>; Wed,  7 Oct 2020 06:00:12 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 1BC7D68B02; Wed,  7 Oct 2020 08:00:09 +0200 (CEST)
+Date: Wed, 7 Oct 2020 08:00:08 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Stefano Stabellini <stefano.stabellini@xilinx.com>
+Subject: Re: xen-swiotlb vs phys_to_dma
+Message-ID: <20201007060008.GA10125@lst.de>
+References: <20201002123436.GA30329@lst.de>
+ <alpine.DEB.2.21.2010021313010.10908@sstabellini-ThinkPad-T480s>
+ <20201006082656.GB10243@lst.de>
+ <alpine.DEB.2.21.2010061325230.10908@sstabellini-ThinkPad-T480s>
 MIME-Version: 1.0
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- iommu <iommu@lists.linux-foundation.org>, linux-hyperv@vger.kernel.org,
- kvm <kvm@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.2010061325230.10908@sstabellini-ThinkPad-T480s>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: xen-devel@lists.xenproject.org, iommu@lists.linux-foundation.org,
+ Christoph Hellwig <hch@lst.de>, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,66 +68,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Oct 05 2020 at 16:28, David Woodhouse wrote:
+On Tue, Oct 06, 2020 at 01:46:12PM -0700, Stefano Stabellini wrote:
+> OK, this makes a lot of sense, and I like the patch because it makes the
+> swiotlb interface clearer.
+> 
+> Just one comment below.
+> 
 
-> From: David Woodhouse <dwmw@amazon.co.uk>
->
-> When interrupt remapping isn't enabled, only the first 255 CPUs can
+> > +phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
+> > +		size_t mapping_size, size_t alloc_size,
+> > +		enum dma_data_direction dir, unsigned long attrs)
+> >  {
+> > +	dma_addr_t tbl_dma_addr = phys_to_dma_unencrypted(dev, io_tlb_start);
+> 
+> This is supposed to be hwdev, not dev
 
-No, only CPUs with an APICid < 255 ....
+Yeah, te compiler would be rather unhappy oterwise.
 
-> receive external interrupts. Set the appropriate max affinity for
-> the IOAPIC and MSI IRQ domains accordingly.
->
-> This also fixes the case where interrupt remapping is enabled but some
-> devices are not within the scope of any active IOMMU.
-
-What? If this fixes an pre-existing problem then
-
-      1) Explain the problem proper
-      2) Have a patch at the beginning of the series which fixes it
-         independently of this pile
-
-If it's fixing a problem in your pile, then you got the ordering wrong.
-
-You didn't start kernel programming as of yesterday, so you really know
-how that works.
-
->  	ip->irqdomain->parent = parent;
-> +	if (parent == x86_vector_domain)
-> +		irq_domain_set_affinity(ip->irqdomain, &x86_non_ir_cpumask);
-
-OMG
-
->  	if (cfg->type == IOAPIC_DOMAIN_LEGACY ||
->  	    cfg->type == IOAPIC_DOMAIN_STRICT)
-> diff --git a/arch/x86/kernel/apic/msi.c b/arch/x86/kernel/apic/msi.c
-> index 4d891967bea4..af5ce5c4da02 100644
-> --- a/arch/x86/kernel/apic/msi.c
-> +++ b/arch/x86/kernel/apic/msi.c
-> @@ -259,6 +259,7 @@ struct irq_domain * __init native_create_pci_msi_domain(void)
->  		pr_warn("Failed to initialize PCI-MSI irqdomain.\n");
->  	} else {
->  		d->flags |= IRQ_DOMAIN_MSI_NOMASK_QUIRK;
-> +		irq_domain_set_affinity(d, &x86_non_ir_cpumask);
-
-So here it's unconditional
-
->  	}
->  	return d;
->  }
-> @@ -479,6 +480,8 @@ struct irq_domain *hpet_create_irq_domain(int hpet_id)
->  		irq_domain_free_fwnode(fn);
->  		kfree(domain_info);
->  	}
-> +	if (parent == x86_vector_domain)
-> +		irq_domain_set_affinity(d, &x86_non_ir_cpumask);
-
-And here we need a condition again. Completely obvious and reviewable - NOT.
-
-Thanks,
-
-        tglx
+I'll resend it after the dma-mapping and Xen trees are merged by Linus
+to avoid a merge conflict.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
