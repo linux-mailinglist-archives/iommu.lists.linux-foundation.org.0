@@ -1,63 +1,86 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E568289F3F
-	for <lists.iommu@lfdr.de>; Sat, 10 Oct 2020 10:18:22 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0086E28A00A
+	for <lists.iommu@lfdr.de>; Sat, 10 Oct 2020 12:36:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 93F3F20457;
-	Sat, 10 Oct 2020 08:18:20 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1D64B876E3;
+	Sat, 10 Oct 2020 10:36:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZYcQ1Jk70-OS; Sat, 10 Oct 2020 08:18:17 +0000 (UTC)
+	with ESMTP id NCbF95aDJFgE; Sat, 10 Oct 2020 10:36:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 61BCC2044D;
-	Sat, 10 Oct 2020 08:18:17 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1BE9587746;
+	Sat, 10 Oct 2020 10:36:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 43BC1C0051;
-	Sat, 10 Oct 2020 08:18:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EB6FDC0051;
+	Sat, 10 Oct 2020 10:36:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2E353C07FF
- for <iommu@lists.linux-foundation.org>; Sat, 10 Oct 2020 08:18:16 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 87409C0051
+ for <iommu@lists.linux-foundation.org>; Sat, 10 Oct 2020 10:36:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 15815875BB
- for <iommu@lists.linux-foundation.org>; Sat, 10 Oct 2020 08:18:16 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 82BE586FDB
+ for <iommu@lists.linux-foundation.org>; Sat, 10 Oct 2020 10:36:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uM5eTm6Ph-mQ for <iommu@lists.linux-foundation.org>;
- Sat, 10 Oct 2020 08:18:15 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from ZXSHCAS1.zhaoxin.com (ZXSHCAS1.zhaoxin.com [203.148.12.81])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 533D08771A
- for <iommu@lists.linux-foundation.org>; Sat, 10 Oct 2020 08:18:12 +0000 (UTC)
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHCAS1.zhaoxin.com
- (10.28.252.161) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Sat, 10 Oct
- 2020 16:02:58 +0800
-Received: from localhost.localdomain (114.242.250.7) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Sat, 10 Oct
- 2020 16:02:56 +0800
-From: FelixCuioc <FelixCui-oc@zhaoxin.com>
-To: Joerg Roedel <joro@8bytes.org>, <iommu@lists.linux-foundation.org>,
- <linux-kernel@vger.kernel.org>, David Woodhouse <dwmw2@infradead.org>, "Lu
- Baolu" <baolu.lu@linux.intel.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- <kbuild@lists.01.org>
-Subject: [PATCH v3 2/2] iommu/vt-d:Add support for probing ACPI device in RMRR
-Date: Sat, 10 Oct 2020 04:02:41 -0400
-Message-ID: <20201010080241.14642-3-FelixCui-oc@zhaoxin.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201010080241.14642-1-FelixCui-oc@zhaoxin.com>
-References: <20201010080241.14642-1-FelixCui-oc@zhaoxin.com>
+ with ESMTP id S3KhLDdT2AGS for <iommu@lists.linux-foundation.org>;
+ Sat, 10 Oct 2020 10:36:42 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6E4E086FC6
+ for <iommu@lists.linux-foundation.org>; Sat, 10 Oct 2020 10:36:42 +0000 (UTC)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0E8E2221E9
+ for <iommu@lists.linux-foundation.org>; Sat, 10 Oct 2020 10:36:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1602326202;
+ bh=drBUl94hJDiJbg7EAVxrflroZLL9cGY6sJkpslPiZ5s=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=rKy3ckBBBgFebn68RQgydnukpiggooqY/F0UdxKn+PD4vBKQFsw9OUH0z/Br8qzHL
+ vqXLEt7HvxX5ixXoMa6fe3GoyAotCaowYAzljQILgN2nuY+ugEd4yxrmWqTA8qruKo
+ /9s7DKu5OmwTNMIx2nhbM/00epBYdkcLbPkrKE5w=
+Received: by mail-ot1-f52.google.com with SMTP id i12so11355658ota.5
+ for <iommu@lists.linux-foundation.org>; Sat, 10 Oct 2020 03:36:42 -0700 (PDT)
+X-Gm-Message-State: AOAM530ktt6w57XWQHQiZpyzkxozDoyLVcxVzRYCA9jNkXNP0N65LzMz
+ 33eo3MU/q9xPypkrhr4q1maBUf9VtsETqfxfqQI=
+X-Google-Smtp-Source: ABdhPJyRUmME/uNQCpEvmy5TmuigC5HqxkAmy4br3cKJSuYPDqK1iFTDzWqlHrlHAracvofdjaHYJW7dOhpWJoeIxWo=
+X-Received: by 2002:a9d:6a85:: with SMTP id l5mr12561956otq.77.1602326201362; 
+ Sat, 10 Oct 2020 03:36:41 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [114.242.250.7]
-X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-Cc: TonyWWang-oc@zhaoxin.com, CobeChen-oc@zhaoxin.com
+References: <20201001172320.GQ21544@gaia>
+ <b47232e2173e9e5ddf8f5be4c7b5a2f897f34eb7.camel@suse.de>
+ <20201002115541.GC7034@gaia>
+ <12f33d487eabd626db4c07ded5a1447795eed355.camel@suse.de>
+ <20201009071013.GA12208@lst.de>
+ <CAMj1kXG+7Lq=rgUfyU_XS9LrJwpUiC8nKsRPom+R0=phuXioHQ@mail.gmail.com>
+ <513833810c15b5efeab7c3cbae1963a78c71a79f.camel@suse.de>
+ <CAMj1kXGP_OTKgqMT0-+t3=7EKDY26y9n9xjLodSF1E-mUCe9tg@mail.gmail.com>
+ <20201009152433.GA19953@e121166-lin.cambridge.arm.com>
+ <CAMj1kXFuqw3qNRAB78OzvMws+t7=B6L8pASA36D2fxXobbvpUA@mail.gmail.com>
+ <20201009171051.GL23638@gaia>
+In-Reply-To: <20201009171051.GL23638@gaia>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Sat, 10 Oct 2020 12:36:30 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXEWeqGVr=QV7zQ+dXBK=t_Lh+W9q1+kLLdBw8=Pj798Ng@mail.gmail.com>
+Message-ID: <CAMj1kXEWeqGVr=QV7zQ+dXBK=t_Lh+W9q1+kLLdBw8=Pj798Ng@mail.gmail.com>
+Subject: Re: [PATCH 1/4] of/fdt: Update zone_dma_bits when running in bcm2711
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
+ linux-rpi-kernel@lists.infradead.org, Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,115 +98,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-After acpi device in RMRR is detected,it is necessary
-to establish a mapping for these devices.
-In acpi_device_create_direct_mappings(),create a mapping
-for the acpi device in RMRR.
-Add a helper to achieve the acpi namespace device can
-access the RMRR region.
+On Fri, 9 Oct 2020 at 19:10, Catalin Marinas <catalin.marinas@arm.com> wrote:
+>
+> On Fri, Oct 09, 2020 at 06:23:06PM +0200, Ard Biesheuvel wrote:
+> > On Fri, 9 Oct 2020 at 17:24, Lorenzo Pieralisi
+> > <lorenzo.pieralisi@arm.com> wrote:
+> > > We can move this check to IORT code and call it from arm64 if it
+> > > can be made to work.
+> >
+> > Finding the smallest value in the IORT, and assigning it to
+> > zone_dma_bits if it is < 32 should be easy. But as I understand it,
+> > having these separate DMA and DMA32 zones is what breaks kdump, no? So
+> > how is this going to fix the underlying issue?
+>
+> If zone_dma_bits is 32, ZONE_DMA32 disappears into ZONE_DMA (GFP_DMA32
+> allocations fall back to ZONE_DMA).
+>
+> kdump wants DMA-able memory and, without a 30-bit ZONE_DMA, that would
+> be the bottom 32-bit. With the introduction of ZONE_DMA, this suddenly
+> became 1GB. We could change kdump to allocate ZONE_DMA32 but this one
+> may also be small as it lost 1GB to ZONE_DMA. However, the kdump kernel
+> would need to be rebuilt without ZONE_DMA since it won't have any. IIRC
+> (it's been a while since I looked), the kdump allocation couldn't span
+> multiple zones.
+>
+> In a separate thread, we try to fix kdump to use allocations above 4G as
+> a fallback but this only fixes platforms with enough RAM (and maybe it's
+> only those platforms that care about kdump).
+>
 
-Signed-off-by: FelixCuioc <FelixCui-oc@zhaoxin.com>
----
- drivers/iommu/intel/iommu.c | 29 +++++++++++++++++++++++++++++
- drivers/iommu/iommu.c       |  6 ++++++
- include/linux/iommu.h       |  2 ++
- 3 files changed, 37 insertions(+)
+One thing that strikes me as odd is that we are applying the same
+shifting logic to ZONE_DMA as we are applying to ZONE_DMA32, i.e., if
+DRAM starts outside of the zone, it is shifted upwards.
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 594b2f29c043..a0fe867aa1f5 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -4844,6 +4844,21 @@ static int __init platform_optin_force_iommu(void)
- 	return 1;
- }
- 
-+static int acpi_device_create_direct_mappings(struct device *pn_dev, struct device *acpi_device)
-+{
-+	struct iommu_group *group;
-+
-+	acpi_device->bus->iommu_ops = &intel_iommu_ops;
-+	group = iommu_group_get(pn_dev);
-+	if (!group) {
-+		pr_warn("ACPI name space devices create direct mappings wrong!\n");
-+		return -EINVAL;
-+	}
-+	__acpi_device_create_direct_mappings(group, acpi_device);
-+
-+	return 0;
-+}
-+
- static int __init probe_acpi_namespace_devices(void)
- {
- 	struct dmar_drhd_unit *drhd;
-@@ -4858,6 +4873,7 @@ static int __init probe_acpi_namespace_devices(void)
- 			struct acpi_device_physical_node *pn;
- 			struct iommu_group *group;
- 			struct acpi_device *adev;
-+			struct device *pn_dev = NULL;
- 
- 			if (dev->bus != &acpi_bus_type)
- 				continue;
-@@ -4868,6 +4884,7 @@ static int __init probe_acpi_namespace_devices(void)
- 					    &adev->physical_node_list, node) {
- 				group = iommu_group_get(pn->dev);
- 				if (group) {
-+					pn_dev = pn->dev;
- 					iommu_group_put(group);
- 					continue;
- 				}
-@@ -4876,7 +4893,19 @@ static int __init probe_acpi_namespace_devices(void)
- 				ret = iommu_probe_device(pn->dev);
- 				if (ret)
- 					break;
-+				pn_dev = pn->dev;
-+			}
-+			if (!pn_dev) {
-+				dev->bus->iommu_ops = &intel_iommu_ops;
-+				ret = iommu_probe_device(dev);
-+				if (ret) {
-+					pr_err("acpi_device probe fail! ret:%d\n", ret);
-+					goto unlock;
-+				}
-+				goto unlock;
- 			}
-+			ret = acpi_device_create_direct_mappings(pn_dev, dev);
-+unlock:
- 			mutex_unlock(&adev->physical_node_lock);
- 
- 			if (ret)
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 6d847027d35e..ffd470297ea6 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -779,6 +779,12 @@ static bool iommu_is_attach_deferred(struct iommu_domain *domain,
- 	return false;
- }
- 
-+void  __acpi_device_create_direct_mappings(struct iommu_group *group, struct device *acpi_device)
-+{
-+	iommu_create_device_direct_mappings(group, acpi_device);
-+}
-+EXPORT_SYMBOL_GPL(__acpi_device_create_direct_mappings);
-+
- /**
-  * iommu_group_add_device - add a device to an iommu group
-  * @group: the group into which to add the device (reference should be held)
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 82876f682367..bfc46e538c29 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -516,6 +516,8 @@ extern void iommu_domain_window_disable(struct iommu_domain *domain, u32 wnd_nr)
- 
- extern int report_iommu_fault(struct iommu_domain *domain, struct device *dev,
- 			      unsigned long iova, int flags);
-+extern void __acpi_device_create_direct_mappings(struct iommu_group *group,
-+						 struct device *acpi_device);
- 
- static inline void iommu_flush_iotlb_all(struct iommu_domain *domain)
- {
--- 
-2.17.1
+On a typical ARM box, this gives me
 
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000080000000-0x00000000bfffffff]
+[    0.000000]   DMA32    [mem 0x00000000c0000000-0x00000000ffffffff]
+[    0.000000]   Normal   [mem 0x0000000100000000-0x0000000fffffffff]
+
+i.e., the 30-bit addressable range has bit 31 set, which is weird.
+
+I wonder if it wouldn't be better (and less problematic in the general
+case) to drop this logic for ZONE_DMA, and simply let it remain empty
+unless there is really some memory there.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
