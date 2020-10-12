@@ -1,61 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC3028B3E7
-	for <lists.iommu@lfdr.de>; Mon, 12 Oct 2020 13:37:59 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 625B628B448
+	for <lists.iommu@lfdr.de>; Mon, 12 Oct 2020 14:02:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CAC058746A;
-	Mon, 12 Oct 2020 11:37:57 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DBAAC86A4D;
+	Mon, 12 Oct 2020 12:02:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nAWm2Cm4Ycjj; Mon, 12 Oct 2020 11:37:57 +0000 (UTC)
+	with ESMTP id 0T8QMqWeuIED; Mon, 12 Oct 2020 12:02:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2C37487215;
-	Mon, 12 Oct 2020 11:37:57 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1A11F86A27;
+	Mon, 12 Oct 2020 12:02:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 17B21C0051;
-	Mon, 12 Oct 2020 11:37:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 078EBC0895;
+	Mon, 12 Oct 2020 12:02:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 39875C0051
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 11:37:55 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9755DC0051
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 12:02:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id A45C1204D5
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 11:37:54 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 84D8686A1D
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 12:02:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fmCnFsj0bOs6 for <iommu@lists.linux-foundation.org>;
- Mon, 12 Oct 2020 11:37:53 +0000 (UTC)
+ with ESMTP id 56QotKfPU196 for <iommu@lists.linux-foundation.org>;
+ Mon, 12 Oct 2020 12:02:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id D1B7D20452
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 11:37:53 +0000 (UTC)
-Received: from gaia (unknown [95.149.105.49])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 196EE206E5;
- Mon, 12 Oct 2020 11:37:50 +0000 (UTC)
-Date: Mon, 12 Oct 2020 12:37:48 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: Re: [PATCH v2 1/5] arm64: mm: Move zone_dma_bits initialization into
- zone_sizes_init()
-Message-ID: <20201012113748.GE9844@gaia>
-References: <20201010151235.20585-1-nsaenzjulienne@suse.de>
- <20201010151235.20585-2-nsaenzjulienne@suse.de>
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 8BE4086A27
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 12:02:12 +0000 (UTC)
+X-UUID: ffba327e58714f71a6d76e7305d4bd5f-20201012
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=Bm1nD1Rni6NjuejkSKF6tuW+1OZNvmAl+g7ZgtGLPq8=; 
+ b=TKHmU4GJsUveGwDhBPx/LGSjxR3leBMs8N6y7bwJSxOlan0sk7oer/u9vRRlh3s8X7pSSOkMjjvVFrcXHQYITLDunKJ05E3CZDH3JfQSPA+Hjn/qPzO0MKzEwDmWiZq4c+B2nkb04cH3V8CaQuYNO+CUjBDthWz3zmRl1QjyOKU=;
+X-UUID: ffba327e58714f71a6d76e7305d4bd5f-20201012
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1331938782; Mon, 12 Oct 2020 20:02:01 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31DR.mediatek.inc
+ (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 12 Oct 2020 20:02:00 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 12 Oct 2020 20:01:58 +0800
+Message-ID: <1602504119.26323.54.camel@mhfsdcap03>
+Subject: Re: [PATCH v3 02/24] dt-bindings: memory: mediatek: Convert SMI to
+ DT schema
+From: Yong Wu <yong.wu@mediatek.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh+dt@kernel.org>
+Date: Mon, 12 Oct 2020 20:01:59 +0800
+In-Reply-To: <20201012071843.GA1889@pi3>
+References: <20200930070647.10188-1-yong.wu@mediatek.com>
+ <20200930070647.10188-3-yong.wu@mediatek.com> <20201002110831.GD6888@pi3>
+ <1601958428.26323.26.camel@mhfsdcap03>
+ <CAJKOXPfOOGnJeNCa58WEZqbzaAFdLHSm-7pyMyGkYgCBEt0+RA@mail.gmail.com>
+ <1602310691.26323.39.camel@mhfsdcap03> <20201012071843.GA1889@pi3>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201010151235.20585-2-nsaenzjulienne@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: devicetree@vger.kernel.org, Will Deacon <will@kernel.org>,
- linux-kernel@vger.kernel.org, jeremy.linton@arm.com, ardb@kernel.org,
- iommu@lists.linux-foundation.org, robh+dt@kernel.org,
- linux-rpi-kernel@lists.infradead.org, robin.murphy@arm.com, hch@lst.de,
- linux-arm-kernel@lists.infradead.org
+X-TM-SNTS-SMTP: 1FA9AD3A565A7DE7F33FFEDBC7D6A606B4EFC4E07A07FFF66367021A06DDA1692000:8
+X-MTK: N
+Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
+ kernel-team@android.com, Nicolas Boichat <drinkcat@chromium.org>,
+ srv_heupstream@mediatek.com, chao.hao@mediatek.com,
+ Robin Murphy <robin.murphy@arm.com>, Greg Kroah-Hartman <gregkh@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Evan Green <evgreen@chromium.org>, Tomasz Figa <tfiga@google.com>,
+ iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,44 +94,335 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Sat, Oct 10, 2020 at 05:12:31PM +0200, Nicolas Saenz Julienne wrote:
-> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-> index f6902a2b4ea6..0eca5865dcb1 100644
-> --- a/arch/arm64/mm/init.c
-> +++ b/arch/arm64/mm/init.c
-> @@ -196,14 +196,16 @@ static void __init zone_sizes_init(unsigned long min, unsigned long max)
->  	unsigned long max_zone_pfns[MAX_NR_ZONES]  = {0};
->  
->  #ifdef CONFIG_ZONE_DMA
-> +	zone_dma_bits = ARM64_ZONE_DMA_BITS;
-> +
->  	if (IS_ENABLED(CONFIG_ACPI)) {
->  		extern unsigned int acpi_iort_get_zone_dma_size(void);
->  
->  		zone_dma_bits = min(zone_dma_bits,
->  				    acpi_iort_get_zone_dma_size());
-> -		arm64_dma_phys_limit = max_zone_phys(zone_dma_bits);
->  	}
->  
-> +	arm64_dma_phys_limit = max_zone_phys(zone_dma_bits);
->  	max_zone_pfns[ZONE_DMA] = PFN_DOWN(arm64_dma_phys_limit);
->  #endif
->  #ifdef CONFIG_ZONE_DMA32
-> @@ -394,11 +396,6 @@ void __init arm64_memblock_init(void)
->  
->  	early_init_fdt_scan_reserved_mem();
->  
-> -	if (IS_ENABLED(CONFIG_ZONE_DMA)) {
-> -		zone_dma_bits = ARM64_ZONE_DMA_BITS;
-> -		arm64_dma_phys_limit = max_zone_phys(ARM64_ZONE_DMA_BITS);
-> -	}
+On Mon, 2020-10-12 at 09:18 +0200, Krzysztof Kozlowski wrote:
+> On Sat, Oct 10, 2020 at 02:18:11PM +0800, Yong Wu wrote:
+> > On Tue, 2020-10-06 at 09:15 +0200, Krzysztof Kozlowski wrote:
+> > > On Tue, 6 Oct 2020 at 06:27, Yong Wu <yong.wu@mediatek.com> wrote:
+> > > >
+> > > > On Fri, 2020-10-02 at 13:08 +0200, Krzysztof Kozlowski wrote:
+> > > > > On Wed, Sep 30, 2020 at 03:06:25PM +0800, Yong Wu wrote:
+> > > > > > Convert MediaTek SMI to DT schema.
+> > > > > >
+> > > > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > > > > > ---
+> > > > > >  .../mediatek,smi-common.txt                   |  49 ---------
+> > > > > >  .../mediatek,smi-common.yaml                  | 100 ++++++++++++++++++
+> > > > > >  .../memory-controllers/mediatek,smi-larb.txt  |  49 ---------
+> > > > > >  .../memory-controllers/mediatek,smi-larb.yaml |  91 ++++++++++++++++
+> > > > > >  4 files changed, 191 insertions(+), 98 deletions(-)
+> > > > > >  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.txt
+> > > > > >  create mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
+> > > > > >  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
+> > > > > >  create mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
+> > > > ...
+> > > > > > +properties:
+> > > > > > +  compatible:
+> > > > > > +    oneOf:
+> > > > > > +      - enum:
+> > > > > > +          - mediatek,mt2701-smi-common
+> > > > > > +          - mediatek,mt2712-smi-common
+> > > > > > +          - mediatek,mt6779-smi-common
+> > > > > > +          - mediatek,mt8173-smi-common
+> > > > > > +          - mediatek,mt8183-smi-common
+> > > > > > +
+> > > > > > +      - description: for mt7623
+> > > > > > +        items:
+> > > > > > +          - const: mediatek,mt7623-smi-common
+> > > > > > +          - const: mediatek,mt2701-smi-common
+> > > > > > +
+> > > > > > +  reg:
+> > > > > > +    maxItems: 1
+> > > > > > +
+> > > > > > +  clocks:
+> > > > > > +    description: |
+> > > > > > +      apb and smi are mandatory. the async is only for generation 1 smi HW.
+> > > > > > +      gals(global async local sync) also is optional, here is the list which
+> > > > > > +      require gals: mt6779 and mt8183.
+> > > > > > +    minItems: 2
+> > > > > > +    maxItems: 4
+> > > > > > +    items:
+> > > > > > +      - description: apb is Advanced Peripheral Bus clock, It's the clock for
+> > > > > > +          setting the register.
+> > > > > > +      - description: smi is the clock for transfer data and command.
+> > > > > > +      - description: async is asynchronous clock, it help transform the smi clock
+> > > > > > +          into the emi clock domain.
+> > > > > > +      - description: gals0 is the path0 clock of gals.
+> > > > > > +      - description: gals1 is the path1 clock of gals.
+> > > > > > +
+> > > > > > +  clock-names:
+> > > > > > +    oneOf:
+> > > > > > +      - items:
+> > > > > > +          - const: apb
+> > > > > > +          - const: smi
+> > > > > > +      - items:
+> > > > > > +          - const: apb
+> > > > > > +          - const: smi
+> > > > > > +          - const: async
+> > > > > > +      - items:
+> > > > > > +          - const: apb
+> > > > > > +          - const: smi
+> > > > > > +          - const: gals0
+> > > > > > +          - const: gals1
+> > > > >
+> > > > > Similarly to my comment to other properties, this requirement per
+> > > > > compatible should be part of the schema within 'if-then'.
+> > > >
+> > > > I'm not so familiar with this format. Do this has "if-then-'else
+> > > > if'-then-else"?
+> > > 
+> > > These are mutually exclusive conditions, so you can skip else:
+> > >  - if-then
+> > >  - if-then
+> > >  - if-then
+> > > It will be more readable then stacking 'if' under 'else'
+> > 
+> > Thanks. I will use something like this:
+> > 
+> >  anyOf:
+> 
+> Then it should be oneOf as only one condition can be valid.
 
-arm64_dma_phys_limit is used by memblock_alloc_low() (via
-ARCH_LOW_ADDRESS_LIMIT). I think it's too late to leave its
-initialisation to zone_sizes_init().
+I did do this at the beginning. But I get a warning log when
+dt_binding_check.
 
--- 
-Catalin
+
+Below is my schema and the detailed warning log:
+//=======================================
+  clocks:
+    description: |
+      xxxxx
+    minItems: 2
+    maxItems: 4
+    items:
+      - description: apb is the clock for setting the register.
+      - description: smi is the clock for transfer data and command.
+      - description: async is asynchronous clock.
+      - description: gals0 is the path0 clock of gals.
+      - description: gals1 is the path1 clock of gals.    
+
+  clock-names:
+    minItems: 2
+    maxItems: 4 
+
+required:
+  - compatible
+  - reg
+  - power-domains
+  - clocks
+  - clock-names
+
+oneOf:
+  - if: #only for gen1 HW
+      properties:
+        compatible:
+          contains:
+            enum:
+              - mediatek,mt2701-smi-common
+    then:
+       properties:
+         clock:
+           items:
+             minItems: 3
+             maxItems: 3
+         clock-names:
+           items:
+             - const: apb
+             - const: smi
+             - const: async
+
+  - if: #for gen2 HW that have gals
+      properties:
+        compatible:
+            enum:
+              - mediatek,mt6779-smi-common
+              - mediatek,mt8183-smi-common
+              - mediatek,mt8192-smi-common
+
+    then:
+      properties:
+        clock:
+          items:
+            minItems: 4
+            maxItems: 4
+        clock-names:
+          items:
+            - const: apb
+            - const: smi
+            - const: gals0
+            - const: gals1
+
+    else: #for gen2 HW that don't have gals
+      properties:
+        clock:
+          items:
+            minItems: 2
+            maxItems: 2
+        clock-names:
+          items:
+            - const: apb
+            - const: smi
+
+additionalProperties: false 
+
+
+//===========warning log=====================
+
+Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.example.dt.yaml
+.../Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.example.dt.yaml: smi@14022000: {'compatible': ['mediatek,mt8173-smi-common'], 'reg': [[335683584, 4096]], 'power-domains': [[4294967295, 3]], 'clocks': [[4294967295, 1], [4294967295, 1]], 'clock-names': ['apb', 'smi'], '$nodename': ['smi@14022000']} is valid under each of {'else': {'properties': {'clock': {'items': {'maxItems': 2, 'minItems': 2}, 'type': 'array'}, 'clock-names': {'additionalItems': False, 'items': [{'const': 'apb'}, {'const': 'smi'}], 'maxItems': 2, 'minItems': 2, 'type': 'array'}}}, 'if': {'properties': {'compatible': {'additionalItems': False, 'items': [{'enum': ['mediatek,mt6779-smi-common', 'mediatek,mt8183-smi-common', 'mediatek,mt8192-smi-common']}], 'maxItems': 1, 'minItems': 1, 'type': 'array'}}}, 'then': {'properties': {'clock': {'items': {'maxItems': 4, 'minItems': 4}, 'type': 'array'}, 'clock-names': {'additionalItems': False, 'items': [{'const': 'apb'}, {'const': 'smi'}, {'const'
+ : 'gals0'}, {'const': 'gals1'}], 'maxItems': 4, 'minItems': 4, 'type': 'array'}}}}, {'if': {'properties': {'compatible': {'contains': {'enum': ['mediatek,mt2701-smi-common']}}}}, 'then': {'properties': {'clock': {'items': {'maxItems': 3, 'minItems': 3}, 'type': 'array'}, 'clock-names': {'additionalItems': False, 'items': [{'const': 'apb'}, {'const': 'smi'}, {'const': 'async'}], 'maxItems': 3, 'minItems': 3, 'type': 'array'}}}}
+{'$filename':
+'.../Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml',
+ '$id':
+'http://devicetree.org/schemas/memory-controllers/mediatek,smi-common.yaml#',
+ '$schema': 'http://devicetree.org/meta-schemas/core.yaml#',
+ '$select_validator': <jsonschema.validators.create.<locals>.Validator
+object at 0x7fb3df378908>,
+ 'additionalProperties': False,
+ 'oneOf': [{'if': {'properties': {'compatible': {'contains': {'enum':
+['mediatek,mt2701-smi-common']}}}},
+            'then': {'properties': {'clock': {'items': {'maxItems': 3,
+                                                        'minItems': 3},
+                                              'type': 'array'},
+                                    'clock-names': {'additionalItems':
+False,
+                                                    'items': [{'const':
+'apb'},
+                                                              {'const':
+'smi'},
+                                                              {'const':
+'async'}],
+                                                    'maxItems': 3,
+                                                    'minItems': 3,
+                                                    'type': 'array'}}}},
+           {'else': {'properties': {'clock': {'items': {'maxItems': 2,
+                                                        'minItems': 2},
+                                              'type': 'array'},
+                                    'clock-names': {'additionalItems':
+False,
+                                                    'items': [{'const':
+'apb'},
+                                                              {'const':
+'smi'}],
+                                                    'maxItems': 2,
+                                                    'minItems': 2,
+                                                    'type': 'array'}}},
+            'if': {'properties': {'compatible': {'additionalItems':
+False,
+                                                 'items': [{'enum':
+['mediatek,mt6779-smi-common',
+
+'mediatek,mt8183-smi-common',
+
+'mediatek,mt8192-smi-common']}],
+                                                 'maxItems': 1,
+                                                 'minItems': 1,
+                                                 'type': 'array'}}},
+            'then': {'properties': {'clock': {'items': {'maxItems': 4,
+                                                        'minItems': 4},
+                                              'type': 'array'},
+                                    'clock-names': {'additionalItems':
+False,
+                                                    'items': [{'const':
+'apb'},
+                                                              {'const':
+'smi'},
+                                                              {'const':
+'gals0'},
+                                                              {'const':
+'gals1'}],
+                                                    'maxItems': 4,
+                                                    'minItems': 4,
+                                                    'type':
+'array'}}}}],
+ 'patternProperties': {'pinctrl-[0-9]+': True},
+ 'properties': {'$nodename': True,
+                'clock-names': {'maxItems': 4, 'minItems': 2},
+                'clocks': {'additionalItems': False,
+                           'items': [{}, {}, {}, {}, {}],
+                           'maxItems': 4,
+                           'minItems': 2,
+                           'type': 'array'},
+                'compatible': {'oneOf': [{'additionalItems': False,
+                                          'items': [{'enum':
+['mediatek,mt2701-smi-common',
+
+'mediatek,mt2712-smi-common',
+
+'mediatek,mt6779-smi-common',
+
+'mediatek,mt8173-smi-common',
+
+'mediatek,mt8183-smi-common',
+
+'mediatek,mt8192-smi-common']}],
+                                          'maxItems': 1,
+                                          'minItems': 1,
+                                          'type': 'array'},
+                                         {'additionalItems': False,
+                                          'items': [{'const':
+'mediatek,mt7623-smi-common'},
+                                                    {'const':
+'mediatek,mt2701-smi-common'}],
+                                          'maxItems': 2,
+                                          'minItems': 2,
+                                          'type': 'array'}]},
+                'phandle': True,
+                'pinctrl-names': True,
+                'power-domains': {'maxItems': 1, 'minItems': 1},
+                'reg': {'maxItems': 1, 'minItems': 1},
+                'status': True},
+ 'required': ['compatible',
+              'reg',
+              'power-domains',
+              'clocks',
+              'clock-names'],
+ 'select': {'properties': {'compatible': {'contains': {'enum':
+['mediatek,mt2701-smi-common',
+
+'mediatek,mt2712-smi-common',
+
+'mediatek,mt6779-smi-common',
+
+'mediatek,mt7623-smi-common',
+
+'mediatek,mt8173-smi-common',
+
+'mediatek,mt8183-smi-common',
+
+'mediatek,mt8192-smi-common']}}},
+            'required': ['compatible']},
+ 'title': 'SMI (Smart Multimedia Interface) Common'}
+	From
+schema: .../Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
+
+=================================
+
+Sorry, I didn't find a example of multi "if-then" in oneOf and don't
+know how to fix this.
+
+From [1], "allOf" looks also is allowed... In this case, both allOf and
+anyOf have no warning when dt_binding_check. only oneOf has the warning
+log above.
+
+Any suggestion is appreciated.
+
+[1]
+https://elixir.bootlin.com/linux/v5.9-rc1/source/Documentation/devicetree/bindings/example-schema.yaml#L195
+
+> 
+> Best regards,
+> Krzysztof
+> 
+> >    - if: #gen1 hw
+> >      then:
+> >        use apb/smi/async clocks
+> > 
+> >    - if: #gen2 hw that has gals.
+> >      then:
+> >        use apb/smi/gals0/gals1 clocks
+> >      else: # gen2 hw that doesn't have gals.
+> >        use apb/smi clocks.
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
