@@ -1,84 +1,78 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F8D28B624
-	for <lists.iommu@lfdr.de>; Mon, 12 Oct 2020 15:26:27 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB6728BAC2
+	for <lists.iommu@lfdr.de>; Mon, 12 Oct 2020 16:24:03 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A8527204DC;
-	Mon, 12 Oct 2020 13:26:25 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B6B2E85F6E;
+	Mon, 12 Oct 2020 14:24:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CpKPJNSVm+3q; Mon, 12 Oct 2020 13:26:22 +0000 (UTC)
+	with ESMTP id avsZ8m8GiRM4; Mon, 12 Oct 2020 14:24:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id B77EB207B0;
-	Mon, 12 Oct 2020 13:26:22 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5498D85F7F;
+	Mon, 12 Oct 2020 14:24:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A5BE9C0051;
-	Mon, 12 Oct 2020 13:26:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 47258C1AD7;
+	Mon, 12 Oct 2020 14:24:01 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 985F2C0051
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 13:26:21 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CB189C0051
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 14:24:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 7E8568708E
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 13:26:21 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id B9D2F86A3F
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 14:24:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HMMHMWDTdAUW for <iommu@lists.linux-foundation.org>;
- Mon, 12 Oct 2020 13:26:20 +0000 (UTC)
+ with ESMTP id 8CluY2MtrgNF for <iommu@lists.linux-foundation.org>;
+ Mon, 12 Oct 2020 14:24:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 330E687077
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 13:26:20 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 36E8086C52
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 14:24:00 +0000 (UTC)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
+ [209.85.210.50])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7D91120838
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 13:26:19 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id F32A320878
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 14:23:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1602509179;
- bh=yGzfcblPNkEu1jThQo3Kr1pZhnuRpAynpzlLmU3Eyto=;
+ s=default; t=1602512639;
+ bh=mkV3zHZdLWkkkiotMkWaHSfgaeAhT3IEqlhrwfXJLpw=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=2D2ESyQOMTChv7yvxLAiD0dAuxlG0M14eT38MlEDqC6L6xVG1ZHu4M9xJTVMu5neu
- envgnta/HiKRtEOq8DzGGEU2tSlQMCpbouoj1QusJ1hHAbZKyt9hdK0qWJrfv3/G+f
- WjCjzSGa8vfOIx5nqxsYLyVIBn2+E5lpoNLRstuk=
-Received: by mail-ed1-f49.google.com with SMTP id 33so16857280edq.13
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 06:26:19 -0700 (PDT)
-X-Gm-Message-State: AOAM5338tcipfx2pqTLsYcN3PJKn+tGW+y1oX9nwqkkMFlagpkskjTo4
- IG6s/DAeI/j6+TWOiNQpYvTgV42p8vXmVkeAiQM=
-X-Google-Smtp-Source: ABdhPJxZI9QpirJF8bPQYjiJrUckib3iXod98Zoj/Cz28ZEeJBmZJyvnNsh48f+gVrrDxErmHk+CoScI5f/RtUGp454=
-X-Received: by 2002:a50:8b62:: with SMTP id l89mr14553273edl.132.1602509177952; 
- Mon, 12 Oct 2020 06:26:17 -0700 (PDT)
+ b=0rXs3HhXixR1Sr37VrUEPvUFG1NCTuJpfMTLxVMP92+0rAz5djPDI+ROp0ZyKO0xl
+ 3S9JxTOG3bQA1KMy3Ynj60I3PBNyAG4ehU+u927VFzGinJ7Eofns7pBdP7py3rMWyl
+ A/Cfj22OgdukPF1xOzZyrZAF81y+S2lUL/io4i7w=
+Received: by mail-ot1-f50.google.com with SMTP id t15so16032387otk.0
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 07:23:58 -0700 (PDT)
+X-Gm-Message-State: AOAM533oxK+aQNl/wPq1+Of2SpHt6u316POPzytOczMG2dEccch/LETK
+ Ib43xAfQRskEVFHrHJhcTevhjyQjnrAU23N/7uU=
+X-Google-Smtp-Source: ABdhPJxdPTaQgCziNQnn1xG1IdFeKsHKlCipNToXN2Mp8aZ6g8wZ+Ii9TOczjjBJ/F+8iATwtdtq/fW0RpyMunMLK3M=
+X-Received: by 2002:a9d:6c92:: with SMTP id c18mr9080953otr.108.1602512638334; 
+ Mon, 12 Oct 2020 07:23:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200930070647.10188-1-yong.wu@mediatek.com>
- <20200930070647.10188-3-yong.wu@mediatek.com>
- <20201002110831.GD6888@pi3> <1601958428.26323.26.camel@mhfsdcap03>
- <CAJKOXPfOOGnJeNCa58WEZqbzaAFdLHSm-7pyMyGkYgCBEt0+RA@mail.gmail.com>
- <1602310691.26323.39.camel@mhfsdcap03> <20201012071843.GA1889@pi3>
- <1602504119.26323.54.camel@mhfsdcap03>
-In-Reply-To: <1602504119.26323.54.camel@mhfsdcap03>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Mon, 12 Oct 2020 15:26:05 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPcn4scqt2C9eE_EikJ76kqro2QYzThdsXXR_5xtBmyH3g@mail.gmail.com>
-Message-ID: <CAJKOXPcn4scqt2C9eE_EikJ76kqro2QYzThdsXXR_5xtBmyH3g@mail.gmail.com>
-Subject: Re: [PATCH v3 02/24] dt-bindings: memory: mediatek: Convert SMI to DT
- schema
-To: Yong Wu <yong.wu@mediatek.com>
-Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
- kernel-team@android.com, Nicolas Boichat <drinkcat@chromium.org>,
- srv_heupstream@mediatek.com, chao.hao@mediatek.com,
- Robin Murphy <robin.murphy@arm.com>, Greg Kroah-Hartman <gregkh@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Evan Green <evgreen@chromium.org>, Tomasz Figa <tfiga@google.com>,
- iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
- Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
+References: <20201010151235.20585-1-nsaenzjulienne@suse.de>
+ <20201010151235.20585-2-nsaenzjulienne@suse.de> <20201012113748.GE9844@gaia>
+In-Reply-To: <20201012113748.GE9844@gaia>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Mon, 12 Oct 2020 16:23:47 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXFUH7gv-dPVNM8xa5SBHhSndCQu4QFy5os2vAkaO_yecg@mail.gmail.com>
+Message-ID: <CAMj1kXFUH7gv-dPVNM8xa5SBHhSndCQu4QFy5os2vAkaO_yecg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] arm64: mm: Move zone_dma_bits initialization into
+ zone_sizes_init()
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Will Deacon <will@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Jeremy Linton <jeremy.linton@arm.com>, iommu@lists.linux-foundation.org,
+ Rob Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-rpi-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,106 +90,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, 12 Oct 2020 at 14:02, Yong Wu <yong.wu@mediatek.com> wrote:
+On Mon, 12 Oct 2020 at 13:37, Catalin Marinas <catalin.marinas@arm.com> wrote:
 >
-> On Mon, 2020-10-12 at 09:18 +0200, Krzysztof Kozlowski wrote:
-> > On Sat, Oct 10, 2020 at 02:18:11PM +0800, Yong Wu wrote:
-> > > On Tue, 2020-10-06 at 09:15 +0200, Krzysztof Kozlowski wrote:
-> > > > On Tue, 6 Oct 2020 at 06:27, Yong Wu <yong.wu@mediatek.com> wrote:
-> > > > >
-> > > > > On Fri, 2020-10-02 at 13:08 +0200, Krzysztof Kozlowski wrote:
-> > > > > > On Wed, Sep 30, 2020 at 03:06:25PM +0800, Yong Wu wrote:
-> > > > > > > Convert MediaTek SMI to DT schema.
-> > > > > > >
-> > > > > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > > > > > > ---
-> > > > > > >  .../mediatek,smi-common.txt                   |  49 ---------
-> > > > > > >  .../mediatek,smi-common.yaml                  | 100 ++++++++++++++++++
-> > > > > > >  .../memory-controllers/mediatek,smi-larb.txt  |  49 ---------
-> > > > > > >  .../memory-controllers/mediatek,smi-larb.yaml |  91 ++++++++++++++++
-> > > > > > >  4 files changed, 191 insertions(+), 98 deletions(-)
-> > > > > > >  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.txt
-> > > > > > >  create mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
-> > > > > > >  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-> > > > > > >  create mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
-> > > > > ...
-> > > > > > > +properties:
-> > > > > > > +  compatible:
-> > > > > > > +    oneOf:
-> > > > > > > +      - enum:
-> > > > > > > +          - mediatek,mt2701-smi-common
-> > > > > > > +          - mediatek,mt2712-smi-common
-> > > > > > > +          - mediatek,mt6779-smi-common
-> > > > > > > +          - mediatek,mt8173-smi-common
-> > > > > > > +          - mediatek,mt8183-smi-common
-> > > > > > > +
-> > > > > > > +      - description: for mt7623
-> > > > > > > +        items:
-> > > > > > > +          - const: mediatek,mt7623-smi-common
-> > > > > > > +          - const: mediatek,mt2701-smi-common
-> > > > > > > +
-> > > > > > > +  reg:
-> > > > > > > +    maxItems: 1
-> > > > > > > +
-> > > > > > > +  clocks:
-> > > > > > > +    description: |
-> > > > > > > +      apb and smi are mandatory. the async is only for generation 1 smi HW.
-> > > > > > > +      gals(global async local sync) also is optional, here is the list which
-> > > > > > > +      require gals: mt6779 and mt8183.
-> > > > > > > +    minItems: 2
-> > > > > > > +    maxItems: 4
-> > > > > > > +    items:
-> > > > > > > +      - description: apb is Advanced Peripheral Bus clock, It's the clock for
-> > > > > > > +          setting the register.
-> > > > > > > +      - description: smi is the clock for transfer data and command.
-> > > > > > > +      - description: async is asynchronous clock, it help transform the smi clock
-> > > > > > > +          into the emi clock domain.
-> > > > > > > +      - description: gals0 is the path0 clock of gals.
-> > > > > > > +      - description: gals1 is the path1 clock of gals.
-> > > > > > > +
-> > > > > > > +  clock-names:
-> > > > > > > +    oneOf:
-> > > > > > > +      - items:
-> > > > > > > +          - const: apb
-> > > > > > > +          - const: smi
-> > > > > > > +      - items:
-> > > > > > > +          - const: apb
-> > > > > > > +          - const: smi
-> > > > > > > +          - const: async
-> > > > > > > +      - items:
-> > > > > > > +          - const: apb
-> > > > > > > +          - const: smi
-> > > > > > > +          - const: gals0
-> > > > > > > +          - const: gals1
-> > > > > >
-> > > > > > Similarly to my comment to other properties, this requirement per
-> > > > > > compatible should be part of the schema within 'if-then'.
-> > > > >
-> > > > > I'm not so familiar with this format. Do this has "if-then-'else
-> > > > > if'-then-else"?
-> > > >
-> > > > These are mutually exclusive conditions, so you can skip else:
-> > > >  - if-then
-> > > >  - if-then
-> > > >  - if-then
-> > > > It will be more readable then stacking 'if' under 'else'
-> > >
-> > > Thanks. I will use something like this:
-> > >
-> > >  anyOf:
+> On Sat, Oct 10, 2020 at 05:12:31PM +0200, Nicolas Saenz Julienne wrote:
+> > diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> > index f6902a2b4ea6..0eca5865dcb1 100644
+> > --- a/arch/arm64/mm/init.c
+> > +++ b/arch/arm64/mm/init.c
+> > @@ -196,14 +196,16 @@ static void __init zone_sizes_init(unsigned long min, unsigned long max)
+> >       unsigned long max_zone_pfns[MAX_NR_ZONES]  = {0};
 > >
-> > Then it should be oneOf as only one condition can be valid.
+> >  #ifdef CONFIG_ZONE_DMA
+> > +     zone_dma_bits = ARM64_ZONE_DMA_BITS;
+> > +
+> >       if (IS_ENABLED(CONFIG_ACPI)) {
+> >               extern unsigned int acpi_iort_get_zone_dma_size(void);
+> >
+> >               zone_dma_bits = min(zone_dma_bits,
+> >                                   acpi_iort_get_zone_dma_size());
+> > -             arm64_dma_phys_limit = max_zone_phys(zone_dma_bits);
+> >       }
+> >
+> > +     arm64_dma_phys_limit = max_zone_phys(zone_dma_bits);
+> >       max_zone_pfns[ZONE_DMA] = PFN_DOWN(arm64_dma_phys_limit);
+> >  #endif
+> >  #ifdef CONFIG_ZONE_DMA32
+> > @@ -394,11 +396,6 @@ void __init arm64_memblock_init(void)
+> >
+> >       early_init_fdt_scan_reserved_mem();
+> >
+> > -     if (IS_ENABLED(CONFIG_ZONE_DMA)) {
+> > -             zone_dma_bits = ARM64_ZONE_DMA_BITS;
+> > -             arm64_dma_phys_limit = max_zone_phys(ARM64_ZONE_DMA_BITS);
+> > -     }
 >
-> I did do this at the beginning. But I get a warning log when
-> dt_binding_check.
+> arm64_dma_phys_limit is used by memblock_alloc_low() (via
+> ARCH_LOW_ADDRESS_LIMIT). I think it's too late to leave its
+> initialisation to zone_sizes_init().
+>
 
-Mhmm, right, since "if-else" matches in either of arms, then oneOf
-will complain as it expects only one of items to match.  Then just go
-with allOf. anyOf might match zero of items, so it would not catch
-actual errors, I think.
+The only generic caller of memblock_alloc_low() is swiotlb_init(),
+which is called much later. So at that point, we definitely need
+ARCH_LOW_ADDRESS_LIMIT to be set correctly, but that means doing it in
+zone_sizes_init() is early enough.
 
-Best regards,
-Krzysztof
+So the only problematic reference seems to be crashkernel_reserve() afaict.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
