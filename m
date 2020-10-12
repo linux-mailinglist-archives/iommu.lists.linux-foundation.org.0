@@ -2,69 +2,60 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id E98D528B087
-	for <lists.iommu@lfdr.de>; Mon, 12 Oct 2020 10:47:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC3028B3E7
+	for <lists.iommu@lfdr.de>; Mon, 12 Oct 2020 13:37:59 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id AAAC38729C;
-	Mon, 12 Oct 2020 08:47:55 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CAC058746A;
+	Mon, 12 Oct 2020 11:37:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EP5H-gf4Xho6; Mon, 12 Oct 2020 08:47:55 +0000 (UTC)
+	with ESMTP id nAWm2Cm4Ycjj; Mon, 12 Oct 2020 11:37:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 305E48724D;
-	Mon, 12 Oct 2020 08:47:55 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 2C37487215;
+	Mon, 12 Oct 2020 11:37:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D5F6C0051;
-	Mon, 12 Oct 2020 08:47:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 17B21C0051;
+	Mon, 12 Oct 2020 11:37:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A20ACC0051
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 08:47:53 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 39875C0051
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 11:37:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 8BE83204EC
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 08:47:53 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id A45C1204D5
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 11:37:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1NwHfLNzk9jV for <iommu@lists.linux-foundation.org>;
- Mon, 12 Oct 2020 08:47:53 +0000 (UTC)
+ with ESMTP id fmCnFsj0bOs6 for <iommu@lists.linux-foundation.org>;
+ Mon, 12 Oct 2020 11:37:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id E785420337
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 08:47:52 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id D1B7D20452
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 11:37:53 +0000 (UTC)
 Received: from gaia (unknown [95.149.105.49])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DFCCE20773;
- Mon, 12 Oct 2020 08:47:49 +0000 (UTC)
-Date: Mon, 12 Oct 2020 09:47:47 +0100
+ by mail.kernel.org (Postfix) with ESMTPSA id 196EE206E5;
+ Mon, 12 Oct 2020 11:37:50 +0000 (UTC)
+Date: Mon, 12 Oct 2020 12:37:48 +0100
 From: Catalin Marinas <catalin.marinas@arm.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 1/4] of/fdt: Update zone_dma_bits when running in bcm2711
-Message-ID: <20201012084746.GA9844@gaia>
-References: <20201002115541.GC7034@gaia>
- <12f33d487eabd626db4c07ded5a1447795eed355.camel@suse.de>
- <20201009071013.GA12208@lst.de>
- <CAMj1kXG+7Lq=rgUfyU_XS9LrJwpUiC8nKsRPom+R0=phuXioHQ@mail.gmail.com>
- <513833810c15b5efeab7c3cbae1963a78c71a79f.camel@suse.de>
- <CAMj1kXGP_OTKgqMT0-+t3=7EKDY26y9n9xjLodSF1E-mUCe9tg@mail.gmail.com>
- <20201009152433.GA19953@e121166-lin.cambridge.arm.com>
- <CAMj1kXFuqw3qNRAB78OzvMws+t7=B6L8pASA36D2fxXobbvpUA@mail.gmail.com>
- <20201009171051.GL23638@gaia> <20201012064715.GA2548@lst.de>
+To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Subject: Re: [PATCH v2 1/5] arm64: mm: Move zone_dma_bits initialization into
+ zone_sizes_init()
+Message-ID: <20201012113748.GE9844@gaia>
+References: <20201010151235.20585-1-nsaenzjulienne@suse.de>
+ <20201010151235.20585-2-nsaenzjulienne@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201012064715.GA2548@lst.de>
+In-Reply-To: <20201010151235.20585-2-nsaenzjulienne@suse.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
- linux-rpi-kernel@lists.infradead.org, Will Deacon <will@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Cc: devicetree@vger.kernel.org, Will Deacon <will@kernel.org>,
+ linux-kernel@vger.kernel.org, jeremy.linton@arm.com, ardb@kernel.org,
+ iommu@lists.linux-foundation.org, robh+dt@kernel.org,
+ linux-rpi-kernel@lists.infradead.org, robin.murphy@arm.com, hch@lst.de,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,30 +73,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Oct 12, 2020 at 08:47:15AM +0200, Christoph Hellwig wrote:
-> On Fri, Oct 09, 2020 at 06:10:52PM +0100, Catalin Marinas wrote:
-> > kdump wants DMA-able memory and,
-> 
-> DMAable by whom?  The only way to guranteed DMAable memory is to use
-> the DMA memory allocator(s) and pass a specific device to them.  Everyting
-> else is just fundamentally broken.  Note that even when device is not
-> DMAable we can still use swiotlb to access it.
+On Sat, Oct 10, 2020 at 05:12:31PM +0200, Nicolas Saenz Julienne wrote:
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index f6902a2b4ea6..0eca5865dcb1 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -196,14 +196,16 @@ static void __init zone_sizes_init(unsigned long min, unsigned long max)
+>  	unsigned long max_zone_pfns[MAX_NR_ZONES]  = {0};
+>  
+>  #ifdef CONFIG_ZONE_DMA
+> +	zone_dma_bits = ARM64_ZONE_DMA_BITS;
+> +
+>  	if (IS_ENABLED(CONFIG_ACPI)) {
+>  		extern unsigned int acpi_iort_get_zone_dma_size(void);
+>  
+>  		zone_dma_bits = min(zone_dma_bits,
+>  				    acpi_iort_get_zone_dma_size());
+> -		arm64_dma_phys_limit = max_zone_phys(zone_dma_bits);
+>  	}
+>  
+> +	arm64_dma_phys_limit = max_zone_phys(zone_dma_bits);
+>  	max_zone_pfns[ZONE_DMA] = PFN_DOWN(arm64_dma_phys_limit);
+>  #endif
+>  #ifdef CONFIG_ZONE_DMA32
+> @@ -394,11 +396,6 @@ void __init arm64_memblock_init(void)
+>  
+>  	early_init_fdt_scan_reserved_mem();
+>  
+> -	if (IS_ENABLED(CONFIG_ZONE_DMA)) {
+> -		zone_dma_bits = ARM64_ZONE_DMA_BITS;
+> -		arm64_dma_phys_limit = max_zone_phys(ARM64_ZONE_DMA_BITS);
+> -	}
 
-What I meant is that the new kexec'ed kernel needs some memory in the
-ZONE_DMA range, currently set to the bottom 30-bit even for platforms
-that can cope with the whole 32-bit range (anything other than RPi4).
-The memory range available to the kdump kernels is limited to what
-reserve_crashkernel() allocated, which may not fit in the lower 1GB.
-
-There are two ongoing threads (complementary):
-
-1. Change the arm64 reserve_crashkernel() similar to x86 which allocates
-   memory above 4G with a small block in the ZONE_DMA range.
-
-2. Allow zone_dma_bits to be 32 for arm64 platforms other than RPi4.
-
-The second point also fixes some regressions with CMA reservations that
-could no longer fit in the lower 1GB.
+arm64_dma_phys_limit is used by memblock_alloc_low() (via
+ARCH_LOW_ADDRESS_LIMIT). I think it's too late to leave its
+initialisation to zone_sizes_init().
 
 -- 
 Catalin
