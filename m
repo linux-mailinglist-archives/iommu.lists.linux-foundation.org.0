@@ -1,82 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 625B628B448
-	for <lists.iommu@lfdr.de>; Mon, 12 Oct 2020 14:02:21 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C87328BA0B
+	for <lists.iommu@lfdr.de>; Mon, 12 Oct 2020 16:07:58 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DBAAC86A4D;
-	Mon, 12 Oct 2020 12:02:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CA93D2150A;
+	Mon, 12 Oct 2020 14:07:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0T8QMqWeuIED; Mon, 12 Oct 2020 12:02:18 +0000 (UTC)
+	with ESMTP id S-0CUz9Nzp3R; Mon, 12 Oct 2020 14:07:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1A11F86A27;
-	Mon, 12 Oct 2020 12:02:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id BE44A21505;
+	Mon, 12 Oct 2020 14:07:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 078EBC0895;
-	Mon, 12 Oct 2020 12:02:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A7AFBC0051;
+	Mon, 12 Oct 2020 14:07:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9755DC0051
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 12:02:16 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 77D79C0051
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 13:28:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 84D8686A1D
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 12:02:16 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 4EA06207B0
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 13:28:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 56QotKfPU196 for <iommu@lists.linux-foundation.org>;
- Mon, 12 Oct 2020 12:02:14 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8BE4086A27
- for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 12:02:12 +0000 (UTC)
-X-UUID: ffba327e58714f71a6d76e7305d4bd5f-20201012
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=Bm1nD1Rni6NjuejkSKF6tuW+1OZNvmAl+g7ZgtGLPq8=; 
- b=TKHmU4GJsUveGwDhBPx/LGSjxR3leBMs8N6y7bwJSxOlan0sk7oer/u9vRRlh3s8X7pSSOkMjjvVFrcXHQYITLDunKJ05E3CZDH3JfQSPA+Hjn/qPzO0MKzEwDmWiZq4c+B2nkb04cH3V8CaQuYNO+CUjBDthWz3zmRl1QjyOKU=;
-X-UUID: ffba327e58714f71a6d76e7305d4bd5f-20201012
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1331938782; Mon, 12 Oct 2020 20:02:01 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31DR.mediatek.inc
- (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 12 Oct 2020 20:02:00 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 12 Oct 2020 20:01:58 +0800
-Message-ID: <1602504119.26323.54.camel@mhfsdcap03>
-Subject: Re: [PATCH v3 02/24] dt-bindings: memory: mediatek: Convert SMI to
- DT schema
-From: Yong Wu <yong.wu@mediatek.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh+dt@kernel.org>
-Date: Mon, 12 Oct 2020 20:01:59 +0800
-In-Reply-To: <20201012071843.GA1889@pi3>
-References: <20200930070647.10188-1-yong.wu@mediatek.com>
- <20200930070647.10188-3-yong.wu@mediatek.com> <20201002110831.GD6888@pi3>
- <1601958428.26323.26.camel@mhfsdcap03>
- <CAJKOXPfOOGnJeNCa58WEZqbzaAFdLHSm-7pyMyGkYgCBEt0+RA@mail.gmail.com>
- <1602310691.26323.39.camel@mhfsdcap03> <20201012071843.GA1889@pi3>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+ with ESMTP id pXnD7S6y8-Jr for <iommu@lists.linux-foundation.org>;
+ Mon, 12 Oct 2020 13:28:37 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+ [209.85.167.66])
+ by silver.osuosl.org (Postfix) with ESMTPS id 050CB204D9
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 13:28:36 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id j30so15986712lfp.4
+ for <iommu@lists.linux-foundation.org>; Mon, 12 Oct 2020 06:28:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MvIZCy8+uyG7PlFqYpqlAdUF/vTk3X+HzF3V0T1VljQ=;
+ b=CqyWnOKRUBw/Boxzc/3KtKSNAH6ni3OI/OFYvkdZluHArK5KZwePxrUUlxyYaLFSBD
+ vCjQsVLLNHxs4L5K9N+J0DE1oYycFmVIyXG+DVnE4sfzmNGwRTtLoOtWBtyInpmquJ59
+ IpyFj0YmyWVa0ZM9dP3oaCFjnqX1B8Lr1Df8k2afgovNm3+dcYmFK9xdLoF5Qhwx0Xcg
+ Y+7SKm3sm9Mmkxk+asWaYAE9srvIKntsbamoUhgF066LAchmlrLae9MiFXpEy6M7jYwS
+ qkFa2iUz8SWKFor3BtFIoWuIE9MJqo4pJ1TETNZnj+Df1hG0ZENJbBLvaSauiIb2OnrM
+ rfIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MvIZCy8+uyG7PlFqYpqlAdUF/vTk3X+HzF3V0T1VljQ=;
+ b=NVLhuRvCoL6m7N87DfgJ86qUccQcm6QNQvz1uMsmt/Fjx0M0qPH4JcQrplcgoYiFEQ
+ u2MMByZJpUX9aFsjJYJsSUCrnr9Yj3R7OfUBul4uRyc197vbo1XLi29G7KGA79EBlH9a
+ w+0Ma2xcrdr6Kud5+1nb+HsJGNfHV83f0zhkP/bDYuAjjqidMxP/KR6z9yAGqKGz2kZi
+ bjc7Ip3JDC/OUAyrY23EKR+S5Vbv/N+EHkY8S+bDyqgbmg86oUTGjF5XrKIs+XVQBT41
+ 8et0uHGAyhnOVH1NOn7fzwfHZNbWNl3ZwMLsAfEcZteUZ5dnTZ2MfdTnHqa8eB+hD8qn
+ GmOw==
+X-Gm-Message-State: AOAM5304sxQLYDfqnhZkiutzUR486ZGOYJ0C6ZG4uU0Qa6nz/Kuh9avP
+ gf+ukdFWA7QhtJmeDcSJ5rQ3AfkJQZxXfQ==
+X-Google-Smtp-Source: ABdhPJyXrQMqvFC6DcpILZj94c1CmBX8YBtmQtfWHr/g3npQmL7PmVc15eqRA2+Qfrn+J6C8S5sWqQ==
+X-Received: by 2002:adf:c3c2:: with SMTP id d2mr30672263wrg.191.1602505868361; 
+ Mon, 12 Oct 2020 05:31:08 -0700 (PDT)
+Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr.
+ [90.8.158.167])
+ by smtp.gmail.com with ESMTPSA id b25sm20408235wmj.21.2020.10.12.05.31.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Oct 2020 05:31:07 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH next] iommu: intel: make DMAR_TABLE select IOMMU_API
+Date: Mon, 12 Oct 2020 14:31:05 +0200
+Message-Id: <20201012123105.32652-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 1FA9AD3A565A7DE7F33FFEDBC7D6A606B4EFC4E07A07FFF66367021A06DDA1692000:8
-X-MTK: N
-Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
- kernel-team@android.com, Nicolas Boichat <drinkcat@chromium.org>,
- srv_heupstream@mediatek.com, chao.hao@mediatek.com,
- Robin Murphy <robin.murphy@arm.com>, Greg Kroah-Hartman <gregkh@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Evan Green <evgreen@chromium.org>, Tomasz Figa <tfiga@google.com>,
- iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
- Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
+X-Mailman-Approved-At: Mon, 12 Oct 2020 14:07:54 +0000
+Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,341 +92,36 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, 2020-10-12 at 09:18 +0200, Krzysztof Kozlowski wrote:
-> On Sat, Oct 10, 2020 at 02:18:11PM +0800, Yong Wu wrote:
-> > On Tue, 2020-10-06 at 09:15 +0200, Krzysztof Kozlowski wrote:
-> > > On Tue, 6 Oct 2020 at 06:27, Yong Wu <yong.wu@mediatek.com> wrote:
-> > > >
-> > > > On Fri, 2020-10-02 at 13:08 +0200, Krzysztof Kozlowski wrote:
-> > > > > On Wed, Sep 30, 2020 at 03:06:25PM +0800, Yong Wu wrote:
-> > > > > > Convert MediaTek SMI to DT schema.
-> > > > > >
-> > > > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > > > > > ---
-> > > > > >  .../mediatek,smi-common.txt                   |  49 ---------
-> > > > > >  .../mediatek,smi-common.yaml                  | 100 ++++++++++++++++++
-> > > > > >  .../memory-controllers/mediatek,smi-larb.txt  |  49 ---------
-> > > > > >  .../memory-controllers/mediatek,smi-larb.yaml |  91 ++++++++++++++++
-> > > > > >  4 files changed, 191 insertions(+), 98 deletions(-)
-> > > > > >  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.txt
-> > > > > >  create mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
-> > > > > >  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-> > > > > >  create mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
-> > > > ...
-> > > > > > +properties:
-> > > > > > +  compatible:
-> > > > > > +    oneOf:
-> > > > > > +      - enum:
-> > > > > > +          - mediatek,mt2701-smi-common
-> > > > > > +          - mediatek,mt2712-smi-common
-> > > > > > +          - mediatek,mt6779-smi-common
-> > > > > > +          - mediatek,mt8173-smi-common
-> > > > > > +          - mediatek,mt8183-smi-common
-> > > > > > +
-> > > > > > +      - description: for mt7623
-> > > > > > +        items:
-> > > > > > +          - const: mediatek,mt7623-smi-common
-> > > > > > +          - const: mediatek,mt2701-smi-common
-> > > > > > +
-> > > > > > +  reg:
-> > > > > > +    maxItems: 1
-> > > > > > +
-> > > > > > +  clocks:
-> > > > > > +    description: |
-> > > > > > +      apb and smi are mandatory. the async is only for generation 1 smi HW.
-> > > > > > +      gals(global async local sync) also is optional, here is the list which
-> > > > > > +      require gals: mt6779 and mt8183.
-> > > > > > +    minItems: 2
-> > > > > > +    maxItems: 4
-> > > > > > +    items:
-> > > > > > +      - description: apb is Advanced Peripheral Bus clock, It's the clock for
-> > > > > > +          setting the register.
-> > > > > > +      - description: smi is the clock for transfer data and command.
-> > > > > > +      - description: async is asynchronous clock, it help transform the smi clock
-> > > > > > +          into the emi clock domain.
-> > > > > > +      - description: gals0 is the path0 clock of gals.
-> > > > > > +      - description: gals1 is the path1 clock of gals.
-> > > > > > +
-> > > > > > +  clock-names:
-> > > > > > +    oneOf:
-> > > > > > +      - items:
-> > > > > > +          - const: apb
-> > > > > > +          - const: smi
-> > > > > > +      - items:
-> > > > > > +          - const: apb
-> > > > > > +          - const: smi
-> > > > > > +          - const: async
-> > > > > > +      - items:
-> > > > > > +          - const: apb
-> > > > > > +          - const: smi
-> > > > > > +          - const: gals0
-> > > > > > +          - const: gals1
-> > > > >
-> > > > > Similarly to my comment to other properties, this requirement per
-> > > > > compatible should be part of the schema within 'if-then'.
-> > > >
-> > > > I'm not so familiar with this format. Do this has "if-then-'else
-> > > > if'-then-else"?
-> > > 
-> > > These are mutually exclusive conditions, so you can skip else:
-> > >  - if-then
-> > >  - if-then
-> > >  - if-then
-> > > It will be more readable then stacking 'if' under 'else'
-> > 
-> > Thanks. I will use something like this:
-> > 
-> >  anyOf:
-> 
-> Then it should be oneOf as only one condition can be valid.
-
-I did do this at the beginning. But I get a warning log when
-dt_binding_check.
-
-
-Below is my schema and the detailed warning log:
-//=======================================
-  clocks:
-    description: |
-      xxxxx
-    minItems: 2
-    maxItems: 4
-    items:
-      - description: apb is the clock for setting the register.
-      - description: smi is the clock for transfer data and command.
-      - description: async is asynchronous clock.
-      - description: gals0 is the path0 clock of gals.
-      - description: gals1 is the path1 clock of gals.    
-
-  clock-names:
-    minItems: 2
-    maxItems: 4 
-
-required:
-  - compatible
-  - reg
-  - power-domains
-  - clocks
-  - clock-names
-
-oneOf:
-  - if: #only for gen1 HW
-      properties:
-        compatible:
-          contains:
-            enum:
-              - mediatek,mt2701-smi-common
-    then:
-       properties:
-         clock:
-           items:
-             minItems: 3
-             maxItems: 3
-         clock-names:
-           items:
-             - const: apb
-             - const: smi
-             - const: async
-
-  - if: #for gen2 HW that have gals
-      properties:
-        compatible:
-            enum:
-              - mediatek,mt6779-smi-common
-              - mediatek,mt8183-smi-common
-              - mediatek,mt8192-smi-common
-
-    then:
-      properties:
-        clock:
-          items:
-            minItems: 4
-            maxItems: 4
-        clock-names:
-          items:
-            - const: apb
-            - const: smi
-            - const: gals0
-            - const: gals1
-
-    else: #for gen2 HW that don't have gals
-      properties:
-        clock:
-          items:
-            minItems: 2
-            maxItems: 2
-        clock-names:
-          items:
-            - const: apb
-            - const: smi
-
-additionalProperties: false 
-
-
-//===========warning log=====================
-
-Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.example.dt.yaml
-.../Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.example.dt.yaml: smi@14022000: {'compatible': ['mediatek,mt8173-smi-common'], 'reg': [[335683584, 4096]], 'power-domains': [[4294967295, 3]], 'clocks': [[4294967295, 1], [4294967295, 1]], 'clock-names': ['apb', 'smi'], '$nodename': ['smi@14022000']} is valid under each of {'else': {'properties': {'clock': {'items': {'maxItems': 2, 'minItems': 2}, 'type': 'array'}, 'clock-names': {'additionalItems': False, 'items': [{'const': 'apb'}, {'const': 'smi'}], 'maxItems': 2, 'minItems': 2, 'type': 'array'}}}, 'if': {'properties': {'compatible': {'additionalItems': False, 'items': [{'enum': ['mediatek,mt6779-smi-common', 'mediatek,mt8183-smi-common', 'mediatek,mt8192-smi-common']}], 'maxItems': 1, 'minItems': 1, 'type': 'array'}}}, 'then': {'properties': {'clock': {'items': {'maxItems': 4, 'minItems': 4}, 'type': 'array'}, 'clock-names': {'additionalItems': False, 'items': [{'const': 'apb'}, {'const': 'smi'}, {'const'
- : 'gals0'}, {'const': 'gals1'}], 'maxItems': 4, 'minItems': 4, 'type': 'array'}}}}, {'if': {'properties': {'compatible': {'contains': {'enum': ['mediatek,mt2701-smi-common']}}}}, 'then': {'properties': {'clock': {'items': {'maxItems': 3, 'minItems': 3}, 'type': 'array'}, 'clock-names': {'additionalItems': False, 'items': [{'const': 'apb'}, {'const': 'smi'}, {'const': 'async'}], 'maxItems': 3, 'minItems': 3, 'type': 'array'}}}}
-{'$filename':
-'.../Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml',
- '$id':
-'http://devicetree.org/schemas/memory-controllers/mediatek,smi-common.yaml#',
- '$schema': 'http://devicetree.org/meta-schemas/core.yaml#',
- '$select_validator': <jsonschema.validators.create.<locals>.Validator
-object at 0x7fb3df378908>,
- 'additionalProperties': False,
- 'oneOf': [{'if': {'properties': {'compatible': {'contains': {'enum':
-['mediatek,mt2701-smi-common']}}}},
-            'then': {'properties': {'clock': {'items': {'maxItems': 3,
-                                                        'minItems': 3},
-                                              'type': 'array'},
-                                    'clock-names': {'additionalItems':
-False,
-                                                    'items': [{'const':
-'apb'},
-                                                              {'const':
-'smi'},
-                                                              {'const':
-'async'}],
-                                                    'maxItems': 3,
-                                                    'minItems': 3,
-                                                    'type': 'array'}}}},
-           {'else': {'properties': {'clock': {'items': {'maxItems': 2,
-                                                        'minItems': 2},
-                                              'type': 'array'},
-                                    'clock-names': {'additionalItems':
-False,
-                                                    'items': [{'const':
-'apb'},
-                                                              {'const':
-'smi'}],
-                                                    'maxItems': 2,
-                                                    'minItems': 2,
-                                                    'type': 'array'}}},
-            'if': {'properties': {'compatible': {'additionalItems':
-False,
-                                                 'items': [{'enum':
-['mediatek,mt6779-smi-common',
-
-'mediatek,mt8183-smi-common',
-
-'mediatek,mt8192-smi-common']}],
-                                                 'maxItems': 1,
-                                                 'minItems': 1,
-                                                 'type': 'array'}}},
-            'then': {'properties': {'clock': {'items': {'maxItems': 4,
-                                                        'minItems': 4},
-                                              'type': 'array'},
-                                    'clock-names': {'additionalItems':
-False,
-                                                    'items': [{'const':
-'apb'},
-                                                              {'const':
-'smi'},
-                                                              {'const':
-'gals0'},
-                                                              {'const':
-'gals1'}],
-                                                    'maxItems': 4,
-                                                    'minItems': 4,
-                                                    'type':
-'array'}}}}],
- 'patternProperties': {'pinctrl-[0-9]+': True},
- 'properties': {'$nodename': True,
-                'clock-names': {'maxItems': 4, 'minItems': 2},
-                'clocks': {'additionalItems': False,
-                           'items': [{}, {}, {}, {}, {}],
-                           'maxItems': 4,
-                           'minItems': 2,
-                           'type': 'array'},
-                'compatible': {'oneOf': [{'additionalItems': False,
-                                          'items': [{'enum':
-['mediatek,mt2701-smi-common',
-
-'mediatek,mt2712-smi-common',
-
-'mediatek,mt6779-smi-common',
-
-'mediatek,mt8173-smi-common',
-
-'mediatek,mt8183-smi-common',
-
-'mediatek,mt8192-smi-common']}],
-                                          'maxItems': 1,
-                                          'minItems': 1,
-                                          'type': 'array'},
-                                         {'additionalItems': False,
-                                          'items': [{'const':
-'mediatek,mt7623-smi-common'},
-                                                    {'const':
-'mediatek,mt2701-smi-common'}],
-                                          'maxItems': 2,
-                                          'minItems': 2,
-                                          'type': 'array'}]},
-                'phandle': True,
-                'pinctrl-names': True,
-                'power-domains': {'maxItems': 1, 'minItems': 1},
-                'reg': {'maxItems': 1, 'minItems': 1},
-                'status': True},
- 'required': ['compatible',
-              'reg',
-              'power-domains',
-              'clocks',
-              'clock-names'],
- 'select': {'properties': {'compatible': {'contains': {'enum':
-['mediatek,mt2701-smi-common',
-
-'mediatek,mt2712-smi-common',
-
-'mediatek,mt6779-smi-common',
-
-'mediatek,mt7623-smi-common',
-
-'mediatek,mt8173-smi-common',
-
-'mediatek,mt8183-smi-common',
-
-'mediatek,mt8192-smi-common']}}},
-            'required': ['compatible']},
- 'title': 'SMI (Smart Multimedia Interface) Common'}
-	From
-schema: .../Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
-
-=================================
-
-Sorry, I didn't find a example of multi "if-then" in oneOf and don't
-know how to fix this.
-
-From [1], "allOf" looks also is allowed... In this case, both allOf and
-anyOf have no warning when dt_binding_check. only oneOf has the warning
-log above.
-
-Any suggestion is appreciated.
-
-[1]
-https://elixir.bootlin.com/linux/v5.9-rc1/source/Documentation/devicetree/bindings/example-schema.yaml#L195
-
-> 
-> Best regards,
-> Krzysztof
-> 
-> >    - if: #gen1 hw
-> >      then:
-> >        use apb/smi/async clocks
-> > 
-> >    - if: #gen2 hw that has gals.
-> >      then:
-> >        use apb/smi/gals0/gals1 clocks
-> >      else: # gen2 hw that doesn't have gals.
-> >        use apb/smi clocks.
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+RnJvbTogQmFydG9zeiBHb2xhc3pld3NraSA8YmdvbGFzemV3c2tpQGJheWxpYnJlLmNvbT4KClNp
+bmNlIGNvbW1pdCBjNDBhYWFhYzEwMTggKCJpb21tdS92dC1kOiBHcmFjZWZ1bGx5IGhhbmRsZSBE
+TUFSIHVuaXRzCndpdGggbm8gc3VwcG9ydGVkIGFkZHJlc3Mgd2lkdGhzIikgZG1hci5jIG5lZWRz
+IHN0cnVjdCBpb21tdV9kZXZpY2UgdG8KYmUgZGVmaW5lZC4gV2UgbmVlZCB0byB1bmNvbmRpdGlv
+bmFsbHkgc2VsZWN0IElPTU1VX0FQSSB3aGVuIERNQVJfVEFCTEUKaXMgc2VsZWN0ZWQuIFRoaXMg
+Zml4ZXMgdGhlIGZvbGxvd2luZyBidWlsZCBlcnJvciB3aGVuIElPTU1VX0FQSSBpcyBub3QKc2Vs
+ZWN0ZWQ6Cgpkcml2ZXJzL2lvbW11L2ludGVsL2RtYXIuYzogSW4gZnVuY3Rpb24g4oCYZnJlZV9p
+b21tdeKAmToKZHJpdmVycy9pb21tdS9pbnRlbC9kbWFyLmM6MTEzOTo0MTogZXJyb3I6IOKAmHN0
+cnVjdCBpb21tdV9kZXZpY2XigJkgaGFzIG5vIG1lbWJlciBuYW1lZCDigJhvcHPigJkKIDExMzkg
+fCAgaWYgKGludGVsX2lvbW11X2VuYWJsZWQgJiYgaW9tbXUtPmlvbW11Lm9wcykgewogICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpGaXhlczogYzQwYWFh
+YWMxMDE4ICgiaW9tbXUvdnQtZDogR3JhY2VmdWxseSBoYW5kbGUgRE1BUiB1bml0cyB3aXRoIG5v
+IHN1cHBvcnRlZCBhZGRyZXNzIHdpZHRocyIpClNpZ25lZC1vZmYtYnk6IEJhcnRvc3ogR29sYXN6
+ZXdza2kgPGJnb2xhc3pld3NraUBiYXlsaWJyZS5jb20+Ci0tLQogZHJpdmVycy9pb21tdS9pbnRl
+bC9LY29uZmlnIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
+aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9pb21tdS9pbnRlbC9LY29uZmlnIGIvZHJpdmVy
+cy9pb21tdS9pbnRlbC9LY29uZmlnCmluZGV4IDUzMzdlZTE1ODRiMC4uZjgxNGI3NTg1YmE4IDEw
+MDY0NAotLS0gYS9kcml2ZXJzL2lvbW11L2ludGVsL0tjb25maWcKKysrIGIvZHJpdmVycy9pb21t
+dS9pbnRlbC9LY29uZmlnCkBAIC0xLDEzICsxLDEzIEBACiAjIFNQRFgtTGljZW5zZS1JZGVudGlm
+aWVyOiBHUEwtMi4wLW9ubHkKICMgSW50ZWwgSU9NTVUgc3VwcG9ydAogY29uZmlnIERNQVJfVEFC
+TEUKKwlzZWxlY3QgSU9NTVVfQVBJCiAJYm9vbAogCiBjb25maWcgSU5URUxfSU9NTVUKIAlib29s
+ICJTdXBwb3J0IGZvciBJbnRlbCBJT01NVSB1c2luZyBETUEgUmVtYXBwaW5nIERldmljZXMiCiAJ
+ZGVwZW5kcyBvbiBQQ0lfTVNJICYmIEFDUEkgJiYgKFg4NiB8fCBJQTY0KQogCXNlbGVjdCBETUFf
+T1BTCi0Jc2VsZWN0IElPTU1VX0FQSQogCXNlbGVjdCBJT01NVV9JT1ZBCiAJc2VsZWN0IE5FRURf
+RE1BX01BUF9TVEFURQogCXNlbGVjdCBETUFSX1RBQkxFCi0tIAoyLjI4LjAKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdApp
+b21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRh
+dGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
