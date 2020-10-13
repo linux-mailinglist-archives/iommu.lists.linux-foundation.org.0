@@ -1,81 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788D728C96A
-	for <lists.iommu@lfdr.de>; Tue, 13 Oct 2020 09:31:54 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id A78AE28C992
+	for <lists.iommu@lfdr.de>; Tue, 13 Oct 2020 09:53:23 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 213EA87ABB;
-	Tue, 13 Oct 2020 07:31:53 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3556887446;
+	Tue, 13 Oct 2020 07:53:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IiSQoTYumM9n; Tue, 13 Oct 2020 07:31:52 +0000 (UTC)
+	with ESMTP id qUw-bv883mmx; Tue, 13 Oct 2020 07:53:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9ADC787ABF;
-	Tue, 13 Oct 2020 07:31:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 81B6387440;
+	Tue, 13 Oct 2020 07:53:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7D86AC1AD7;
-	Tue, 13 Oct 2020 07:31:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 57A8FC07FF;
+	Tue, 13 Oct 2020 07:53:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 889E2C0051
- for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 07:31:50 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 37BD9C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 07:53:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 76A6387994
- for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 07:31:50 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 25FC487446
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 07:53:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2QggzaIvOUTG for <iommu@lists.linux-foundation.org>;
- Tue, 13 Oct 2020 07:31:49 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
- [209.85.166.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id BB0B7878BB
- for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 07:31:49 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id 67so21191947iob.8
- for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 00:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8elHjBbADG4GvNsj3EdxmL1/azNofpsxhsXHwpi5wJA=;
- b=HE5Fni69H1Ts6Mzf1OQbVCJMsO8eQBZnLWNM0ziUwR+JlnIg2a3QorWVs2mrz+c3h8
- h3W+NZjEAyEYYukEbjm8NWQ1xMk07TaiTfNxkw5EmxNel2XO1zyjomJNwCl9u8IaDLQe
- h/s5YsBQNbfwkgR64Kyw8bIw7lasOtsxLYtNKqgkkzrscYBLDqWq88++1W3XF09SY0YQ
- /FWo72n2fPbON4xhTo8eKMLs7my40Z210SuIrOGw1iHQjP6egEQ/qVccsTWn1JbLr9IQ
- /cH15YIIxG17YX+JktQTeVqoLmPZeO4G/jLc0gGSCvxN4PxEKJj52CAXuW1DFrEvPQCy
- 15Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8elHjBbADG4GvNsj3EdxmL1/azNofpsxhsXHwpi5wJA=;
- b=F1Biv4GfK4AuAiPu4ywgVF8u4uOTyg5e8FM24Sv4Q/gSJdmkVMqDf++dOMTrDbS8Lb
- b4dbBdjodSY0T4KB2UKr0NxJq/9Nu8UTT09Jzq9ekG8Npm4LQ4iUoWzLjMmVX2MTNhzs
- vIUnInEssRdgcaHDDukaREfQxe5QUjYtC8ZUaMP9HuRMJFM+WEAqtmb6occ8PnP5TMDv
- OAF7TUt9xcR+DMJaHR382lR+wkcpBD5fRsVoOHo55lQ1hyxmYCuiTjMUPvXYj4NrJT58
- 2GFC1Ki6HYvtftC0qFAc5t5aabutS7Hq3zZmkkuvQLwtThOj1bLItE4zBHlC5SEEr9lp
- +20A==
-X-Gm-Message-State: AOAM5315T1hxKw6FV09bieA/ZwEmruUgB9qkbbjdp17pWuTksKIVJy7t
- ENQxxYf2Z4uqPZW0v86tGmUQ2eRBkNndQAo1lrjHtg==
-X-Google-Smtp-Source: ABdhPJxFDGTT23DHZldxhxBqbTDCnu+xE4jDOIuZxypsqEVuC9tkxUB1XkFuAIA+s2uKw9aoiLtEszSPYQy+WIgizfk=
-X-Received: by 2002:a6b:ef0e:: with SMTP id k14mr19321354ioh.131.1602574308924; 
- Tue, 13 Oct 2020 00:31:48 -0700 (PDT)
+ with ESMTP id VmLIQrhJwmzO for <iommu@lists.linux-foundation.org>;
+ Tue, 13 Oct 2020 07:53:18 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 3980187437
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 07:53:17 +0000 (UTC)
+X-UUID: 1bc43fa47d6d4977b55a3f99a1ded0d3-20201013
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=DqRT1QzR0Az1H7G9M7+DPOyyJAXgFclekkLZ6dVnoXo=; 
+ b=SrxHuU98NW7Ucopy/DZ6FpAQgFmdT/j283ahD0i5iG89EdkjAShRpEb/8qBMwdJZ68ECNxXo/tP4vfGNk2x8chc86qjh0NUWKqE0O3C95hRj2s3sINlfdqPhFhT95ll8wjG6dtspOyOdTkvgOxmLtgJDkIiDeO9aFs+g8dno3fE=;
+X-UUID: 1bc43fa47d6d4977b55a3f99a1ded0d3-20201013
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 491742245; Tue, 13 Oct 2020 15:53:10 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS32DR.mediatek.inc
+ (172.27.6.104) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 13 Oct 2020 15:53:08 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 13 Oct 2020 15:53:07 +0800
+Message-ID: <1602575587.26323.57.camel@mhfsdcap03>
+Subject: Re: [PATCH v3 02/24] dt-bindings: memory: mediatek: Convert SMI to
+ DT schema
+From: Yong Wu <yong.wu@mediatek.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Date: Tue, 13 Oct 2020 15:53:07 +0800
+In-Reply-To: <CAJKOXPcn4scqt2C9eE_EikJ76kqro2QYzThdsXXR_5xtBmyH3g@mail.gmail.com>
+References: <20200930070647.10188-1-yong.wu@mediatek.com>
+ <20200930070647.10188-3-yong.wu@mediatek.com> <20201002110831.GD6888@pi3>
+ <1601958428.26323.26.camel@mhfsdcap03>
+ <CAJKOXPfOOGnJeNCa58WEZqbzaAFdLHSm-7pyMyGkYgCBEt0+RA@mail.gmail.com>
+ <1602310691.26323.39.camel@mhfsdcap03> <20201012071843.GA1889@pi3>
+ <1602504119.26323.54.camel@mhfsdcap03>
+ <CAJKOXPcn4scqt2C9eE_EikJ76kqro2QYzThdsXXR_5xtBmyH3g@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-References: <20201012123105.32652-1-brgl@bgdev.pl>
- <0071e295-51c7-3496-df59-c5712cef93a2@linux.intel.com>
-In-Reply-To: <0071e295-51c7-3496-df59-c5712cef93a2@linux.intel.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 13 Oct 2020 09:31:38 +0200
-Message-ID: <CAMRc=MfNQGfW-jS4SNLxhmU6D8aN5f31N7qJkPjJ6izvXxXORg@mail.gmail.com>
-Subject: Re: [PATCH next] iommu: intel: make DMAR_TABLE select IOMMU_API
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux-foundation.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+X-TM-SNTS-SMTP: A35EB6041BCAB07ACFCEAFF35E492E76178322A7338BA766BED6CFFA117BDB422000:8
+X-MTK: N
+Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
+ kernel-team@android.com, Nicolas Boichat <drinkcat@chromium.org>,
+ srv_heupstream@mediatek.com, chao.hao@mediatek.com,
+ Robin Murphy <robin.murphy@arm.com>, Greg Kroah-Hartman <gregkh@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Evan Green <evgreen@chromium.org>, Tomasz Figa <tfiga@google.com>,
+ iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,28 +91,117 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gVHVlLCBPY3QgMTMsIDIwMjAgYXQgMzozMyBBTSBMdSBCYW9sdSA8YmFvbHUubHVAbGludXgu
-aW50ZWwuY29tPiB3cm90ZToKPgo+IEhpLAo+Cj4gT24gMTAvMTIvMjAgODozMSBQTSwgQmFydG9z
-eiBHb2xhc3pld3NraSB3cm90ZToKPiA+IEZyb206IEJhcnRvc3ogR29sYXN6ZXdza2kgPGJnb2xh
-c3pld3NraUBiYXlsaWJyZS5jb20+Cj4gPgo+ID4gU2luY2UgY29tbWl0IGM0MGFhYWFjMTAxOCAo
-ImlvbW11L3Z0LWQ6IEdyYWNlZnVsbHkgaGFuZGxlIERNQVIgdW5pdHMKPiA+IHdpdGggbm8gc3Vw
-cG9ydGVkIGFkZHJlc3Mgd2lkdGhzIikgZG1hci5jIG5lZWRzIHN0cnVjdCBpb21tdV9kZXZpY2Ug
-dG8KPiA+IGJlIGRlZmluZWQuIFdlIG5lZWQgdG8gdW5jb25kaXRpb25hbGx5IHNlbGVjdCBJT01N
-VV9BUEkgd2hlbiBETUFSX1RBQkxFCj4gPiBpcyBzZWxlY3RlZC4gVGhpcyBmaXhlcyB0aGUgZm9s
-bG93aW5nIGJ1aWxkIGVycm9yIHdoZW4gSU9NTVVfQVBJIGlzIG5vdAo+ID4gc2VsZWN0ZWQ6Cj4g
-Pgo+ID4gZHJpdmVycy9pb21tdS9pbnRlbC9kbWFyLmM6IEluIGZ1bmN0aW9uIOKAmGZyZWVfaW9t
-bXXigJk6Cj4gPiBkcml2ZXJzL2lvbW11L2ludGVsL2RtYXIuYzoxMTM5OjQxOiBlcnJvcjog4oCY
-c3RydWN0IGlvbW11X2RldmljZeKAmSBoYXMgbm8gbWVtYmVyIG5hbWVkIOKAmG9wc+KAmQo+ID4g
-ICAxMTM5IHwgIGlmIChpbnRlbF9pb21tdV9lbmFibGVkICYmIGlvbW11LT5pb21tdS5vcHMpIHsK
-Pgo+IFRoYW5rcyEKPgo+IEhvdyBhYm91dCBtYWtpbmcgaXQgc3ltbWV0cmljIHdpdGggdGhlIHJl
-Z2lzdHJhdGlvbiBjb2RlPwo+Cj4gICAgICAgICBpZiAoaW50ZWxfaW9tbXVfZW5hYmxlZCAmJiAh
-aW9tbXUtPmRyaGQtPmlnbm9yZWQpCj4KPiBCZXN0IHJlZ2FyZHMsCj4gYmFvbHUKPgoKU291bmRz
-IGdvb2QsIGp1c3Qgc2VudCBvdXQgYSBwYXRjaC4KCkJhcnRvc3oKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxp
-c3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+On Mon, 2020-10-12 at 15:26 +0200, Krzysztof Kozlowski wrote:
+> On Mon, 12 Oct 2020 at 14:02, Yong Wu <yong.wu@mediatek.com> wrote:
+> >
+> > On Mon, 2020-10-12 at 09:18 +0200, Krzysztof Kozlowski wrote:
+> > > On Sat, Oct 10, 2020 at 02:18:11PM +0800, Yong Wu wrote:
+> > > > On Tue, 2020-10-06 at 09:15 +0200, Krzysztof Kozlowski wrote:
+> > > > > On Tue, 6 Oct 2020 at 06:27, Yong Wu <yong.wu@mediatek.com> wrote:
+> > > > > >
+> > > > > > On Fri, 2020-10-02 at 13:08 +0200, Krzysztof Kozlowski wrote:
+> > > > > > > On Wed, Sep 30, 2020 at 03:06:25PM +0800, Yong Wu wrote:
+> > > > > > > > Convert MediaTek SMI to DT schema.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > > > > > > > ---
+> > > > > > > >  .../mediatek,smi-common.txt                   |  49 ---------
+> > > > > > > >  .../mediatek,smi-common.yaml                  | 100 ++++++++++++++++++
+> > > > > > > >  .../memory-controllers/mediatek,smi-larb.txt  |  49 ---------
+> > > > > > > >  .../memory-controllers/mediatek,smi-larb.yaml |  91 ++++++++++++++++
+> > > > > > > >  4 files changed, 191 insertions(+), 98 deletions(-)
+> > > > > > > >  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.txt
+> > > > > > > >  create mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-common.yaml
+> > > > > > > >  delete mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
+> > > > > > > >  create mode 100644 Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
+> > > > > > ...
+> > > > > > > > +properties:
+> > > > > > > > +  compatible:
+> > > > > > > > +    oneOf:
+> > > > > > > > +      - enum:
+> > > > > > > > +          - mediatek,mt2701-smi-common
+> > > > > > > > +          - mediatek,mt2712-smi-common
+> > > > > > > > +          - mediatek,mt6779-smi-common
+> > > > > > > > +          - mediatek,mt8173-smi-common
+> > > > > > > > +          - mediatek,mt8183-smi-common
+> > > > > > > > +
+> > > > > > > > +      - description: for mt7623
+> > > > > > > > +        items:
+> > > > > > > > +          - const: mediatek,mt7623-smi-common
+> > > > > > > > +          - const: mediatek,mt2701-smi-common
+> > > > > > > > +
+> > > > > > > > +  reg:
+> > > > > > > > +    maxItems: 1
+> > > > > > > > +
+> > > > > > > > +  clocks:
+> > > > > > > > +    description: |
+> > > > > > > > +      apb and smi are mandatory. the async is only for generation 1 smi HW.
+> > > > > > > > +      gals(global async local sync) also is optional, here is the list which
+> > > > > > > > +      require gals: mt6779 and mt8183.
+> > > > > > > > +    minItems: 2
+> > > > > > > > +    maxItems: 4
+> > > > > > > > +    items:
+> > > > > > > > +      - description: apb is Advanced Peripheral Bus clock, It's the clock for
+> > > > > > > > +          setting the register.
+> > > > > > > > +      - description: smi is the clock for transfer data and command.
+> > > > > > > > +      - description: async is asynchronous clock, it help transform the smi clock
+> > > > > > > > +          into the emi clock domain.
+> > > > > > > > +      - description: gals0 is the path0 clock of gals.
+> > > > > > > > +      - description: gals1 is the path1 clock of gals.
+> > > > > > > > +
+> > > > > > > > +  clock-names:
+> > > > > > > > +    oneOf:
+> > > > > > > > +      - items:
+> > > > > > > > +          - const: apb
+> > > > > > > > +          - const: smi
+> > > > > > > > +      - items:
+> > > > > > > > +          - const: apb
+> > > > > > > > +          - const: smi
+> > > > > > > > +          - const: async
+> > > > > > > > +      - items:
+> > > > > > > > +          - const: apb
+> > > > > > > > +          - const: smi
+> > > > > > > > +          - const: gals0
+> > > > > > > > +          - const: gals1
+> > > > > > >
+> > > > > > > Similarly to my comment to other properties, this requirement per
+> > > > > > > compatible should be part of the schema within 'if-then'.
+> > > > > >
+> > > > > > I'm not so familiar with this format. Do this has "if-then-'else
+> > > > > > if'-then-else"?
+> > > > >
+> > > > > These are mutually exclusive conditions, so you can skip else:
+> > > > >  - if-then
+> > > > >  - if-then
+> > > > >  - if-then
+> > > > > It will be more readable then stacking 'if' under 'else'
+> > > >
+> > > > Thanks. I will use something like this:
+> > > >
+> > > >  anyOf:
+> > >
+> > > Then it should be oneOf as only one condition can be valid.
+> >
+> > I did do this at the beginning. But I get a warning log when
+> > dt_binding_check.
+> 
+> Mhmm, right, since "if-else" matches in either of arms, then oneOf
+> will complain as it expects only one of items to match.  Then just go
+> with allOf. anyOf might match zero of items, so it would not catch
+> actual errors, I think.
+
+Thanks for the confirm. I will use "allOf" in next version.
+
+> 
+> Best regards,
+> Krzysztof
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
