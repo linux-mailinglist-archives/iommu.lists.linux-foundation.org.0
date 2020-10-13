@@ -1,67 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE92A28C9C1
-	for <lists.iommu@lfdr.de>; Tue, 13 Oct 2020 10:11:53 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48ED328C9D0
+	for <lists.iommu@lfdr.de>; Tue, 13 Oct 2020 10:12:14 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 818318743C;
-	Tue, 13 Oct 2020 08:11:52 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0A8B887884;
+	Tue, 13 Oct 2020 08:12:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DiwY9ByX7Kbl; Tue, 13 Oct 2020 08:11:51 +0000 (UTC)
+	with ESMTP id 3uTACFvaERj1; Tue, 13 Oct 2020 08:12:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E89D08743B;
-	Tue, 13 Oct 2020 08:11:51 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9FC5987885;
+	Tue, 13 Oct 2020 08:12:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CBBB5C0051;
-	Tue, 13 Oct 2020 08:11:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 995F4C0051;
+	Tue, 13 Oct 2020 08:12:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 65DB2C0051
- for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:11:49 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7B130C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:12:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 55D3A872C2
- for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:11:49 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 775E987449
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:12:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WoWjNccVJjBX for <iommu@lists.linux-foundation.org>;
- Tue, 13 Oct 2020 08:11:48 +0000 (UTC)
+ with ESMTP id TkqyJ2zwqlFw for <iommu@lists.linux-foundation.org>;
+ Tue, 13 Oct 2020 08:12:10 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id A25A284FB2
- for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:11:48 +0000 (UTC)
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 96C6A84FB2
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:12:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=ggt2FIaNlav+mhwb7ExyXOpgsZLXvYYnSlMJRwHbRBo=; b=SEZtBoJndY84O8F8UaLlR0uQAd
- MnSfN4tW/KhbOKNwCBYX4t1k/NqGnC0+qdAiaXYjxfponTGMp6l+Revbbsgswd7vBrZQgaKatLq6L
- B8J+mMWd1H8v9TvJFAPueqIlAgBN3RJRVHR4C8sc1EOBUHu4fCZ/a+Xa9l6LIwUQsYyJzGbdIYrZL
- 7WrJqwXPkaidAB5bDWIuzg7YnGmeGLTDQ6uGoHFGhL8D141RfIMD4yROVKLPLueJ2DmndYE13uHwl
- 9Sr9LH/Bd7G9Z5RtRgpnOxieUw39UoADXaBRu8zgx686bIh78eAklj+6b+NupNTj9y9m8lwZ8yLKY
- xdqtrgEw==;
+ bh=hmh+cWjAWCvT+LUvteBTFWpQOXVAFRbvzGJv+WEOTU0=; b=hN5jmwwhHs+nfEGh5M8fiwRhX6
+ bykwjHtzZTXO1qZK1Yf2aIdhaeO5dAvwPVLz6wHZbhiDCPU+KJksaxXS9OqCEOgWknikRR6xlwkcD
+ sM8p/JawRoaLMz4Zp0mC7k5VBCdUYHsG5E//EEr7SWPCCwq6qxYmXaJ6SuQ0Yq0VcbR8UXPi8w4gw
+ y4FTcBc1fMLuvYYOgklFYRhabEfk6PjC8tMQiI2wf4NdabFJXOnfiDqwnJ9mi+Hgf37P2NV5/BBrD
+ GLuR9iOJDmdGANjkji/OX3ckr7Wgyo7OPY/nLGK/MhnkYyZSqOtZ5IrZC7eXo3ewWKDg2siq7XR6m
+ w1y1LfRg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kSFPN-0005sa-Ev; Tue, 13 Oct 2020 08:11:45 +0000
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kSFPM-0006fQ-T4; Tue, 13 Oct 2020 08:12:01 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.93 #3 (Red Hat
- Linux)) id 1kSFPM-006XXb-EN; Tue, 13 Oct 2020 09:11:44 +0100
+ Linux)) id 1kSFPM-006XXg-F4; Tue, 13 Oct 2020 09:11:44 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: x86@kernel.org
-Subject: [PATCH 4/9] iommu/vt-d: Implement select() method on remapping
+Subject: [PATCH 5/9] iommu/hyper-v: Implement select() method on remapping
  irqdomain
-Date: Tue, 13 Oct 2020 09:11:34 +0100
-Message-Id: <20201013081139.1558200-5-dwmw2@infradead.org>
+Date: Tue, 13 Oct 2020 09:11:35 +0100
+Message-Id: <20201013081139.1558200-6-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013081139.1558200-1-dwmw2@infradead.org>
 References: <0de733f6384874d68afba2606119d0d9b1e8b34e.camel@infradead.org>
  <20201013081139.1558200-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- merlin.infradead.org. See http://www.infradead.org/rpr.html
+ casper.infradead.org. See http://www.infradead.org/rpr.html
 Cc: linux-hyperv@vger.kernel.org, kvm <kvm@vger.kernel.org>,
  linux-kernel <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
  maz@misterjones.org, Paolo Bonzini <pbonzini@redhat.com>,
@@ -87,34 +87,36 @@ From: David Woodhouse <dwmw@amazon.co.uk>
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- drivers/iommu/intel/irq_remapping.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/iommu/hyperv-iommu.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
-index 511dfb4884bc..40c2fec122b8 100644
---- a/drivers/iommu/intel/irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -1435,7 +1435,20 @@ static void intel_irq_remapping_deactivate(struct irq_domain *domain,
- 	modify_irte(&data->irq_2_iommu, &entry);
- }
+diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
+index 37dd485a5640..6a8966fbc3bd 100644
+--- a/drivers/iommu/hyperv-iommu.c
++++ b/drivers/iommu/hyperv-iommu.c
+@@ -61,6 +61,14 @@ static struct irq_chip hyperv_ir_chip = {
+ 	.irq_set_affinity	= hyperv_ir_set_affinity,
+ };
  
-+static int intel_irq_remapping_select(struct irq_domain *d,
-+				      struct irq_fwspec *fwspec,
-+				      enum irq_domain_bus_token bus_token)
++static int hyperv_irq_remapping_select(struct irq_domain *d,
++				       struct irq_fwspec *fwspec,
++				       enum irq_domain_bus_token bus_token)
 +{
-+	if (x86_fwspec_is_ioapic(fwspec))
-+		return d == map_ioapic_to_ir(fwspec->param[0]);
-+	else if (x86_fwspec_is_hpet(fwspec))
-+		return d == map_hpet_to_ir(fwspec->param[0]);
-+
-+	return 0;
++	/* Claim only the first (and only) I/OAPIC */
++	return x86_fwspec_is_ioapic(fwspec) && fwspec->param[0] == 0;
 +}
 +
- static const struct irq_domain_ops intel_ir_domain_ops = {
-+	.select = intel_irq_remapping_select,
- 	.alloc = intel_irq_remapping_alloc,
- 	.free = intel_irq_remapping_free,
- 	.activate = intel_irq_remapping_activate,
+ static int hyperv_irq_remapping_alloc(struct irq_domain *domain,
+ 				     unsigned int virq, unsigned int nr_irqs,
+ 				     void *arg)
+@@ -102,6 +110,7 @@ static void hyperv_irq_remapping_free(struct irq_domain *domain,
+ }
+ 
+ static const struct irq_domain_ops hyperv_ir_domain_ops = {
++	.select = hyperv_irq_remapping_select,
+ 	.alloc = hyperv_irq_remapping_alloc,
+ 	.free = hyperv_irq_remapping_free,
+ };
 -- 
 2.26.2
 
