@@ -2,80 +2,68 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9003628C993
-	for <lists.iommu@lfdr.de>; Tue, 13 Oct 2020 09:53:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 797C828C9D4
+	for <lists.iommu@lfdr.de>; Tue, 13 Oct 2020 10:12:19 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 52D2F87A2C;
-	Tue, 13 Oct 2020 07:53:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3055987AF7;
+	Tue, 13 Oct 2020 08:12:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3AHILQEdc4MD; Tue, 13 Oct 2020 07:53:22 +0000 (UTC)
+	with ESMTP id 8Pw0oBG3xb+h; Tue, 13 Oct 2020 08:12:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id AD4A987ACD;
-	Tue, 13 Oct 2020 07:53:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B6A4687AF2;
+	Tue, 13 Oct 2020 08:12:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98C60C07FF;
-	Tue, 13 Oct 2020 07:53:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A3916C07FF;
+	Tue, 13 Oct 2020 08:12:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 514E8C0051
- for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 07:53:21 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E1A70C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:12:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 3764387437
- for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 07:53:21 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id DE22D87AF2
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:12:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kbcUcF9vjpyw for <iommu@lists.linux-foundation.org>;
- Tue, 13 Oct 2020 07:53:20 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by fraxinus.osuosl.org (Postfix) with ESMTP id BBA9A87440
- for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 07:53:18 +0000 (UTC)
-X-UUID: 08507b90f26c4ecab32543976e863125-20201013
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=hSQpx7aGiFaBvdW2xKyY2Ng20CMPICvnjIERCoViN0I=; 
- b=NfBmMAeSCOJXXulcR1a0zazmOI998zqF+5u06u0xaBN+d0w/Rm4YTFs5ffJPaGehuk+KJ2ZFoLK7U5gTz22mSa07titI7bYt1+l3FQFdyfUzEVoKToXcLSMpKT4+ngMNCN/K3/OPxVYgo7hyQSbqOpaPG60t5ZJIfUeiBtJ1CfM=;
-X-UUID: 08507b90f26c4ecab32543976e863125-20201013
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1838484348; Tue, 13 Oct 2020 15:53:12 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS32N1.mediatek.inc
- (172.27.4.71) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 13 Oct 2020 15:53:10 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 13 Oct 2020 15:53:09 +0800
-Message-ID: <1602575589.26323.58.camel@mhfsdcap03>
-Subject: Re: [PATCH v3 01/24] dt-bindings: iommu: mediatek: Convert IOMMU to
- DT schema
-From: Yong Wu <yong.wu@mediatek.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Tue, 13 Oct 2020 15:53:09 +0800
-In-Reply-To: <CAJKOXPedQdOYque5igJ0_v_-_0L4S+NW6puUw-kWc+zWM96i_Q@mail.gmail.com>
-References: <20200930070647.10188-1-yong.wu@mediatek.com>
- <20200930070647.10188-2-yong.wu@mediatek.com> <20201002110709.GC6888@pi3>
- <1601958415.26323.25.camel@mhfsdcap03>
- <CAJKOXPedQdOYque5igJ0_v_-_0L4S+NW6puUw-kWc+zWM96i_Q@mail.gmail.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+ with ESMTP id IYn5vc6+76vl for <iommu@lists.linux-foundation.org>;
+ Tue, 13 Oct 2020 08:12:11 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C9A7A8743B
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:12:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+ To:From:Reply-To:Content-ID:Content-Description;
+ bh=RgWc9nkynvcBFppQsEDwLqzLhZzcJ5woAloxK69DHIY=; b=I6ttXtQgUdffmuQ7izO5ZTJ+aR
+ 5Wk4Qq54h7x2WilXjyV4qwN72fxXZpRyMItZOj1qf3eB9+MvjcyWI5lvWlrGqymrsuZc+tGESrje1
+ WlxrbcO455lesZYUd3Lu8CyyunuIbv4CbzoN7Ve9Lcoi9TV7oyUBR0mjsnnG6UFaoudzR2j2X8Au3
+ t0jJJbMgIAgMvhzVVlVzHvsu5QjdfCB4Y/E1h4CNKXoG9Brv81RYmEwOzdzfQQ2gaEBWAEyX4urR/
+ TvEiPUnTzM6Ol2B8GSbH8epMHYQpOnx2GOYoeU91aTGe6p4/41zlvxat5LVdgCEkmbNJiMPweczgK
+ cVf0rsxA==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kSFPM-0006fN-QR; Tue, 13 Oct 2020 08:12:01 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.93 #3 (Red Hat
+ Linux)) id 1kSFPM-006XXJ-BR; Tue, 13 Oct 2020 09:11:44 +0100
+From: David Woodhouse <dwmw2@infradead.org>
+To: x86@kernel.org
+Subject: [PATCH 0/9] Remove irq_remapping_get_irq_domain()
+Date: Tue, 13 Oct 2020 09:11:30 +0100
+Message-Id: <20201013081139.1558200-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <0de733f6384874d68afba2606119d0d9b1e8b34e.camel@infradead.org>
+References: <0de733f6384874d68afba2606119d0d9b1e8b34e.camel@infradead.org>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: F0136768EC9E69320BFE32C8620BE1722F1A041A55A2EB7E73DFE4BD0D6C98E72000:8
-X-MTK: N
-Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
- kernel-team@android.com, Nicolas Boichat <drinkcat@chromium.org>,
- srv_heupstream@mediatek.com, chao.hao@mediatek.com,
- Robin Murphy <robin.murphy@arm.com>, Greg Kroah-Hartman <gregkh@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Evan Green <evgreen@chromium.org>, Tomasz Figa <tfiga@google.com>,
- iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
- Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: linux-hyperv@vger.kernel.org, kvm <kvm@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
+ maz@misterjones.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,104 +76,60 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, 2020-10-12 at 19:08 +0200, Krzysztof Kozlowski wrote:
-> On Tue, 6 Oct 2020 at 06:27, Yong Wu <yong.wu@mediatek.com> wrote:
-> >
-> > On Fri, 2020-10-02 at 13:07 +0200, Krzysztof Kozlowski wrote:
-> > > On Wed, Sep 30, 2020 at 03:06:24PM +0800, Yong Wu wrote:
-> > > > Convert MediaTek IOMMU to DT schema.
-> > > >
-> > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > > > ---
-> > > >  .../bindings/iommu/mediatek,iommu.txt         | 103 ------------
-> > > >  .../bindings/iommu/mediatek,iommu.yaml        | 154 ++++++++++++++++++
-> > > >  2 files changed, 154 insertions(+), 103 deletions(-)
-> > > >  delete mode 100644 Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-> > > >  create mode 100644 Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-> > > >
-> >
-> > [...]
-> >
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    oneOf:
-> > > > +      - enum:
-> > > > +          - mediatek,mt2701-m4u # mt2701 generation one HW
-> > > > +          - mediatek,mt2712-m4u # mt2712 generation two HW
-> > > > +          - mediatek,mt6779-m4u # mt6779 generation two HW
-> > > > +          - mediatek,mt8173-m4u # mt8173 generation two HW
-> > > > +          - mediatek,mt8183-m4u # mt8183 generation two HW
-> > > > +
-> > > > +      - description: mt7623 generation one HW
-> > > > +        items:
-> > > > +          - const: mediatek,mt7623-m4u
-> > > > +          - const: mediatek,mt2701-m4u
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  interrupts:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  clocks:
-> > > > +    description: |
-> > > > +      bclk is optional. here is the list which require this bclk:
-> > > > +      mt2701, mt2712, mt7623 and mt8173.
-> > >
-> > > Similarly to my comment in other patch, this should be part of schema
-> > > within 'if-then'.
-> >
-> > Thanks for the review.
-> >
-> > I will change like this:
-> >
-> > =============
-> >   clocks:
-> >     items:
-> >       - description: bclk is the block clock.
-> >
-> >   clock-names:
-> >     items:
-> >       - const: bclk
-> >
-> > required:
-> >   - compatible
-> >   - reg
-> >   - interrupts
-> >   - mediatek,larbs
-> >   - '#iommu-cells'
-> > if:
-> >   properties:
-> >     compatible:
-> >       contains:
-> >         enum:
-> >           - mediatek,mt2701-m4u
-> >           - mediatek,mt2712-m4u
-> >           - mediatek,mt8173-m4u
-> >
-> > then:
-> >  required:
-> >    - clocks
-> > ==============
-> >
-> > If this is not right, please tell me.
-> > (dt_binding_check is ok.)
-> 
-> Looks fine, except "if" should be part of some "allOf" block.
-
-Thanks very much for the review.
-I will add "allOf" in next version.
-
-> 
-> Best regards,
-> Krzysztof
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SSBkaWRuJ3QgbXVjaCBsaWtlIHRoZSBJL09BUElDIGFuZCBIUEVUIGRyaXZlcnMgaGF2aW5nIG1h
+Z2ljYWwga25vd2xlZGdlCnRoYXQgdGhleSBoYWQgdG8gc3Vic3RpdHV0ZSB4ODZfdmVjdG9yX2Rv
+bWFpbiBpZiB0aGVpciBjYWxsIHRvCmlycV9yZW1hcHBpbmdfZ2V0X2lycV9kb21haW4oKSByZXR1
+cm5lZCBOVUxMLgoKV2hlbiBUaG9tYXMgdHJpZWQgdG8gbWFrZSBpdCBoYW5kbGUgZXJyb3IgcmV0
+dXJucyBmcm9tIOKApmdldF9pcnFfZG9tYWluKCkgCmRpc3RpbmN0bHkgZnJvbSB0aGUgTlVMTCBj
+YXNlIHRvbywgaXQgbWFkZSBtZSBldmVuIHNhZGRlci4gU28gSSBraWxsZWQgCml0IHdpdGggZmly
+ZS4KCk5vdyB0aGV5IGp1c3QgdXNlIGlycV9maW5kX21hdGNoaW5nX2Z3c3BlYygpIHRvIGZpbmQg
+YW4gYXBwcm9wcmlhdGUKaXJxZG9tYWluLiBFYWNoIHJlbWFwcGluZyBpcnFkb21haW4ganVzdCBu
+ZWVkcyB0byBzYXkgJ3llcCwgdGhhdCdzIG1lJwpmb3IgdGhlIEhQRVRzIG9yIEkvT0FQSUNzIHdo
+aWNoIGFyZSB3aXRoaW4gdGhlaXIgc2NvcGUsIHdoaWxlIHRoZQp4ODZfdmVjdG9yX2RvbWFpbiBh
+Y2NlcHRzIHRoZW0gYWxsIGJ1dCBvbmx5IGlmIGludGVycnVwdCByZW1hcHBpbmcKaXMgKmRpc2Fi
+bGVkKi4gTm8gbW9yZSBzcGVjaWFsIGtub3dsZWRnZSBpbiB0aGUgY2FsbGVyLgoKSWYgSVIgaXMg
+ZW5hYmxlZCBhbmQgdGhlcmUncyBhIGNoaWxkIGRldmljZSB3aGljaCBlc2NhcGVzIHRoZSBzY29w
+ZSBvZgphbGwgcmVtYXBwaW5nIHVuaXRzLCBpdCBnZXRzIE5VTEwgZm9yIGl0cyBwYXJlbnQgaXJx
+ZG9tYWluIGFuZCB3aWxsCmZhaWwgdG8gaW5pdGlhbGlzZSwgd2hpY2ggaXMgdGhlIGNvcnJlY3Qg
+dGhpbmcgdG8gZG8gaW4gdGhhdCAic2hvdWxkCm5ldmVyIGhhcHBlbiIgY2FzZS4gRm9yIEhQRVQg
+dGhhdCdsbCBtZWFuIHRoYXQgaXQganVzdCBkb2Vzbid0IHN1cHBvcnQKTVNJLCB3aGlsZSBJL09B
+UElDIHdpbGwgcmVmdXNlIHRvIGluaXRpYWxpc2UgYW5kIHRyaWdnZXIgYSBCVUdfT04KYmVjYXVz
+ZSBMaW51eCBxdWl0ZSBsaWtlcyBpdCB3aGVuICphbGwqIHRoZSBJL09BUElDcyBpdCBrbm93cyBh
+Ym91dCBnZXQKaW5pdGlhbGlzZWQgc3VjY2Vzc2Z1bGx5LgoKVGhpcyBpcyBvbiB0b3Agb2YgdGhl
+IHByZXZpb3VzICdleHRfZGVzdF9pZCcgc2VyaWVzIGF0Cmh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5l
+bC5vcmcvcHJvamVjdC9rdm0vbGlzdC8/c2VyaWVzPTM2MjAzNwoKaHR0cHM6Ly9naXQuaW5mcmFk
+ZWFkLm9yZy91c2Vycy9kd213Mi9saW51eC5naXQvc2hvcnRsb2cvcmVmcy9oZWFkcy9leHRfZGVz
+dF9pZAoKRGF2aWQgV29vZGhvdXNlICg5KToKICAgICAgZ2VuaXJxL2lycWRvbWFpbjogSW1wbGVt
+ZW50IGdldF9uYW1lKCkgbWV0aG9kIG9uIGlycWNoaXAgZndub2RlcwogICAgICB4ODYvYXBpYzog
+QWRkIHNlbGVjdCgpIG1ldGhvZCBvbiB2ZWN0b3IgaXJxZG9tYWluCiAgICAgIGlvbW11L2FtZDog
+SW1wbGVtZW50IHNlbGVjdCgpIG1ldGhvZCBvbiByZW1hcHBpbmcgaXJxZG9tYWluCiAgICAgIGlv
+bW11L3Z0LWQ6IEltcGxlbWVudCBzZWxlY3QoKSBtZXRob2Qgb24gcmVtYXBwaW5nIGlycWRvbWFp
+bgogICAgICBpb21tdS9oeXBlci12OiBJbXBsZW1lbnQgc2VsZWN0KCkgbWV0aG9kIG9uIHJlbWFw
+cGluZyBpcnFkb21haW4KICAgICAgeDg2L2hwZXQ6IFVzZSBpcnFfZmluZF9tYXRjaGluZ19md3Nw
+ZWMoKSB0byBmaW5kIHJlbWFwcGluZyBpcnFkb21haW4KICAgICAgeDg2L2lvYXBpYzogVXNlIGly
+cV9maW5kX21hdGNoaW5nX2Z3c3BlYygpIHRvIGZpbmQgcmVtYXBwaW5nIGlycWRvbWFpbgogICAg
+ICB4ODY6IEtpbGwgYWxsIHRyYWNlcyBvZiBpcnFfcmVtYXBwaW5nX2dldF9pcnFfZG9tYWluKCkK
+ICAgICAgaW9tbXUvdnQtZDogU2ltcGxpZnkgaW50ZWxfaXJxX3JlbWFwcGluZ19zZWxlY3QoKQoK
+IGFyY2gveDg2L2luY2x1ZGUvYXNtL2h3X2lycS5oICAgICAgICB8ICAyIC0tCiBhcmNoL3g4Ni9p
+bmNsdWRlL2FzbS9pcnFfcmVtYXBwaW5nLmggfCAgOSAtLS0tLS0tLS0KIGFyY2gveDg2L2luY2x1
+ZGUvYXNtL2lycWRvbWFpbi5oICAgICB8ICAzICsrKwogYXJjaC94ODYva2VybmVsL2FwaWMvaW9f
+YXBpYy5jICAgICAgIHwgMjQgKysrKysrKysrKysrLS0tLS0tLS0tLS0tCiBhcmNoL3g4Ni9rZXJu
+ZWwvYXBpYy92ZWN0b3IuYyAgICAgICAgfCA0MyArKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrCiBhcmNoL3g4Ni9rZXJuZWwvaHBldC5jICAgICAgICAgICAgICAgfCAy
+MyArKysrKysrKysrKysrLS0tLS0tLS0tLQogZHJpdmVycy9pb21tdS9hbWQvaW9tbXUuYyAgICAg
+ICAgICAgIHwgNTMgKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0KIGRyaXZlcnMvaW9tbXUvaHlwZXJ2LWlvbW11LmMgICAgICAgICB8IDE4ICsrKysr
+KysrKy0tLS0tLS0tLQogZHJpdmVycy9pb21tdS9pbnRlbC9pcnFfcmVtYXBwaW5nLmMgIHwgNDMg
+KysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogZHJpdmVycy9pb21t
+dS9pcnFfcmVtYXBwaW5nLmMgICAgICAgIHwgMTQgLS0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvaW9t
+bXUvaXJxX3JlbWFwcGluZy5oICAgICAgICB8ICAzIC0tLQoga2VybmVsL2lycS9pcnFkb21haW4u
+YyAgICAgICAgICAgICAgIHwgMTEgKysrKysrKysrKy0KIDEyIGZpbGVzIGNoYW5nZWQsIDEyNiBp
+bnNlcnRpb25zKCspLCAxMjAgZGVsZXRpb25zKC0pCgoKCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5s
+aW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFp
+bG1hbi9saXN0aW5mby9pb21tdQ==
