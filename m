@@ -2,59 +2,59 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B8128C9D6
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7EB28C9D5
 	for <lists.iommu@lfdr.de>; Tue, 13 Oct 2020 10:12:20 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 4E60E2E0ED;
+	by silver.osuosl.org (Postfix) with ESMTP id 4F68D2E0FE;
 	Tue, 13 Oct 2020 08:12:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VU94vdaEdFkb; Tue, 13 Oct 2020 08:12:16 +0000 (UTC)
+	with ESMTP id aKL1W5dNL8dw; Tue, 13 Oct 2020 08:12:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 718572E0F5;
+	by silver.osuosl.org (Postfix) with ESMTP id 8F55F2E0F7;
 	Tue, 13 Oct 2020 08:12:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4DDE9C07FF;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7B68BC0051;
 	Tue, 13 Oct 2020 08:12:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 095AFC0051
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CA06FC07FF
  for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:12:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id E8A262E0ED
- for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:12:12 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id B028987AF7
+ for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:12:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OLQ0y6H6y0JV for <iommu@lists.linux-foundation.org>;
+ with ESMTP id GsatvZ3yv2SG for <iommu@lists.linux-foundation.org>;
  Tue, 13 Oct 2020 08:12:11 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by silver.osuosl.org (Postfix) with ESMTPS id 928B62E0E9
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C9B1687AF2
  for <iommu@lists.linux-foundation.org>; Tue, 13 Oct 2020 08:12:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=68BAPD1PqgE+zWChu0rPe1NytmXmMNFtrjhEwr73rSg=; b=Z2G+tq/JpEjQSc/077xTiv4w/S
- UU/5T+1pqxMI2TQq45OzDjeuj1ch5n9OlSLRKz2EwlNVxQDAJYgYolehpB44oCgU0BItuiiw8AtUb
- /e00n70kcZPYiCNV6J1hyeBkt3LAWCiqQjQ211lwBA3jLxs/HxwaoSG3GhIVDI+cZ+Mv0xjxB38+H
- KJjzS/qXyHevSCC1iFZwBr/rUgTjwUhtufKfhlMwigh4vdTJ9bY7h2qEyguLjpDp3QaImro6zBNGL
- qa+KsRnim7zetTSd+AYzOxrIKh/g1JRFfQaAJn+frZ216WZv+2Mgteb9HDU4CRU53S0cdVUsgHxtB
- h19DsAXg==;
+ bh=Ao5ZKp3oCdpN8qk6orFgwO2u0x0OBKGfU399MvCiyiA=; b=dyOWTYueL1K1JnsATOkEHVyI94
+ HV0SINa0/AFJC/PW9ldMxFymzDnCHudZuKi2Q3iiVUaEdZaeSSSFavOBeVMsocCarlzVt2D5Ff6Lc
+ dmoEGg61oILBMxG54c6oI9IFmTpsr9C5wsUgLe6bnrLJOEi/5MjX1fsSFeY4EQ+R7znumdUYbF/XE
+ Asf59OEXIxOhB+lWE277d2VZy3xZc+1LZVcgfSDEvwvdbk/6VYaVsN8dXF8pJk9ZleEew/UpCyC+w
+ LeaIgGj1TIkFiMzGQnrLInwdTVH9Ncz6/JcSGQmFTNbTSQxyv1ssE0NMdDpMzvzqAtKSvRWMRk2cf
+ AWlmiqKQ==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kSFPM-0006fR-TN; Tue, 13 Oct 2020 08:12:01 +0000
+ id 1kSFPM-0006fS-Ur; Tue, 13 Oct 2020 08:12:01 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.93 #3 (Red Hat
- Linux)) id 1kSFPM-006XXl-Fj; Tue, 13 Oct 2020 09:11:44 +0100
+ Linux)) id 1kSFPM-006XXq-GP; Tue, 13 Oct 2020 09:11:44 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: x86@kernel.org
-Subject: [PATCH 6/9] x86/hpet: Use irq_find_matching_fwspec() to find
+Subject: [PATCH 7/9] x86/ioapic: Use irq_find_matching_fwspec() to find
  remapping irqdomain
-Date: Tue, 13 Oct 2020 09:11:36 +0100
-Message-Id: <20201013081139.1558200-7-dwmw2@infradead.org>
+Date: Tue, 13 Oct 2020 09:11:37 +0100
+Message-Id: <20201013081139.1558200-8-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013081139.1558200-1-dwmw2@infradead.org>
 References: <0de733f6384874d68afba2606119d0d9b1e8b34e.camel@infradead.org>
@@ -87,58 +87,62 @@ From: David Woodhouse <dwmw@amazon.co.uk>
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- arch/x86/kernel/hpet.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ arch/x86/kernel/apic/io_apic.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/arch/x86/kernel/hpet.c b/arch/x86/kernel/hpet.c
-index 3b8b12769f3b..fb7736ca7b5b 100644
---- a/arch/x86/kernel/hpet.c
-+++ b/arch/x86/kernel/hpet.c
-@@ -543,8 +543,8 @@ static struct irq_domain *hpet_create_irq_domain(int hpet_id)
+diff --git a/arch/x86/kernel/apic/io_apic.c b/arch/x86/kernel/apic/io_apic.c
+index ca2da19d5c55..73cacc92c3bb 100644
+--- a/arch/x86/kernel/apic/io_apic.c
++++ b/arch/x86/kernel/apic/io_apic.c
+@@ -2305,36 +2305,36 @@ static inline void __init check_timer(void)
+ 
+ static int mp_irqdomain_create(int ioapic)
  {
- 	struct msi_domain_info *domain_info;
- 	struct irq_domain *parent, *d;
 -	struct irq_alloc_info info;
+ 	struct irq_domain *parent;
+ 	int hwirqs = mp_ioapic_pin_count(ioapic);
+ 	struct ioapic *ip = &ioapics[ioapic];
+ 	struct ioapic_domain_cfg *cfg = &ip->irqdomain_cfg;
+ 	struct mp_ioapic_gsi *gsi_cfg = mp_ioapic_gsi_routing(ioapic);
  	struct fwnode_handle *fn;
+-	char *name = "IO-APIC";
 +	struct irq_fwspec fwspec;
  
- 	if (x86_vector_domain == NULL)
- 		return NULL;
-@@ -556,15 +556,6 @@ static struct irq_domain *hpet_create_irq_domain(int hpet_id)
- 	*domain_info = hpet_msi_domain_info;
- 	domain_info->data = (void *)(long)hpet_id;
+ 	if (cfg->type == IOAPIC_DOMAIN_INVALID)
+ 		return 0;
  
 -	init_irq_alloc_info(&info, NULL);
--	info.type = X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT;
--	info.devid = hpet_id;
+-	info.type = X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT;
+-	info.devid = mpc_ioapic_id(ioapic);
 -	parent = irq_remapping_get_irq_domain(&info);
--	if (parent == NULL)
+-	if (!parent)
 -		parent = x86_vector_domain;
 -	else
--		hpet_msi_controller.name = "IR-HPET-MSI";
+-		name = "IO-APIC-IR";
 -
- 	fn = irq_domain_alloc_named_id_fwnode(hpet_msi_controller.name,
- 					      hpet_id);
- 	if (!fn) {
-@@ -572,6 +563,18 @@ static struct irq_domain *hpet_create_irq_domain(int hpet_id)
- 		return NULL;
+ 	/* Handle device tree enumerated APICs proper */
+ 	if (cfg->dev) {
+ 		fn = of_node_to_fwnode(cfg->dev);
+ 	} else {
+-		fn = irq_domain_alloc_named_id_fwnode(name, ioapic);
++		fn = irq_domain_alloc_named_id_fwnode("IO-APIC", ioapic);
+ 		if (!fn)
+ 			return -ENOMEM;
  	}
  
 +	fwspec.fwnode = fn;
 +	fwspec.param_count = 1;
-+	fwspec.param[0] = hpet_id;
++	fwspec.param[0] = ioapic;
 +	parent = irq_find_matching_fwspec(&fwspec, DOMAIN_BUS_ANY);
 +	if (!parent) {
-+		irq_domain_free_fwnode(fn);
-+		kfree(domain_info);
-+		return NULL;
++		if (!cfg->dev)
++			irq_domain_free_fwnode(fn);
++		return -ENODEV;
 +	}
-+	if (parent != x86_vector_domain)
-+		hpet_msi_controller.name = "IR-HPET-MSI";
 +
- 	d = msi_create_irq_domain(fn, domain_info, parent);
- 	if (!d) {
- 		irq_domain_free_fwnode(fn);
+ 	ip->irqdomain = irq_domain_create_linear(fn, hwirqs, cfg->ops,
+ 						 (void *)(long)ioapic);
+ 
 -- 
 2.26.2
 
