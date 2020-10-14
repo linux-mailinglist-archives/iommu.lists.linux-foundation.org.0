@@ -1,53 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B288028E6F1
-	for <lists.iommu@lfdr.de>; Wed, 14 Oct 2020 21:12:26 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2E428E6F0
+	for <lists.iommu@lfdr.de>; Wed, 14 Oct 2020 21:12:24 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 46B6887BA1;
-	Wed, 14 Oct 2020 19:12:25 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id BEBE888000;
+	Wed, 14 Oct 2020 19:12:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kGbLCE1JYJe7; Wed, 14 Oct 2020 19:12:24 +0000 (UTC)
+	with ESMTP id rY25Zu+kZ70Q; Wed, 14 Oct 2020 19:12:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C088387B8E;
-	Wed, 14 Oct 2020 19:12:24 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2AB0F87858;
+	Wed, 14 Oct 2020 19:12:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 99C1EC0891;
-	Wed, 14 Oct 2020 19:12:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B503C0051;
+	Wed, 14 Oct 2020 19:12:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 972F7C0051
- for <iommu@lists.linux-foundation.org>; Wed, 14 Oct 2020 19:12:21 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 68F5FC0051
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Oct 2020 19:12:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 866F987E00
- for <iommu@lists.linux-foundation.org>; Wed, 14 Oct 2020 19:12:21 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 5010E87E02
+ for <iommu@lists.linux-foundation.org>; Wed, 14 Oct 2020 19:12:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id La+sfmegQUqk for <iommu@lists.linux-foundation.org>;
+ with ESMTP id 0yMKgf7Ri-Qc for <iommu@lists.linux-foundation.org>;
  Wed, 14 Oct 2020 19:12:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0751987DF7
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 171AC87E00
  for <iommu@lists.linux-foundation.org>; Wed, 14 Oct 2020 19:12:19 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D7439B1EA;
- Wed, 14 Oct 2020 19:12:16 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id B2BD0AD43;
+ Wed, 14 Oct 2020 19:12:17 +0000 (UTC)
 From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To: robh+dt@kernel.org, catalin.marinas@arm.com, hch@lst.de, ardb@kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/8] arm64: Default to 32-bit wide ZONE_DMA
-Date: Wed, 14 Oct 2020 21:12:02 +0200
-Message-Id: <20201014191211.27029-1-nsaenzjulienne@suse.de>
+Subject: [PATCH v3 1/8] arm64: mm: Move reserve_crashkernel() into mem_init()
+Date: Wed, 14 Oct 2020 21:12:03 +0200
+Message-Id: <20201014191211.27029-2-nsaenzjulienne@suse.de>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201014191211.27029-1-nsaenzjulienne@suse.de>
+References: <20201014191211.27029-1-nsaenzjulienne@suse.de>
 MIME-Version: 1.0
-Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- jeremy.linton@arm.com, linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+Cc: devicetree@vger.kernel.org, Will Deacon <will@kernel.org>,
+ jeremy.linton@arm.com, iommu@lists.linux-foundation.org,
  linux-rpi-kernel@lists.infradead.org, robin.murphy@arm.com,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -67,47 +69,40 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Using two distinct DMA zones turned out to be problematic. Here's an
-attempt go back to a saner default.
+crashkernel might reserve memory located in ZONE_DMA. We plan to delay
+ZONE_DMA's initialization after unflattening the devicetree and ACPI's
+boot table initialization, so move it later in the boot process.
+Specifically into mem_init(), this is the last place crashkernel will be
+able to reserve the memory before the page allocator kicks in and there is
+no need to do it earlier.
 
-I tested this on both a RPi4 and QEMU.
-
+Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 ---
+ arch/arm64/mm/init.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Changes since v2:
- - Introduce Ard's patch
- - Improve OF dma-ranges parsing function
- - Add unit test for OF function
- - Address small changes
- - Move crashkernel reservation later in boot process
-
-Changes since v1:
- - Parse dma-ranges instead of using machine compatible string
-
-Ard Biesheuvel (1):
-  arm64: mm: Set ZONE_DMA size based on early IORT scan
-
-Nicolas Saenz Julienne (7):
-  arm64: mm: Move reserve_crashkernel() into mem_init()
-  arm64: mm: Move zone_dma_bits initialization into zone_sizes_init()
-  of/address: Introduce of_dma_get_max_cpu_address()
-  of: unittest: Add test for of_dma_get_max_cpu_address()
-  dma-direct: Turn zone_dma_bits default value into a define
-  arm64: mm: Set ZONE_DMA size based on devicetree's dma-ranges
-  mm: Update DMA zones description
-
- arch/arm64/include/asm/processor.h |  1 +
- arch/arm64/mm/init.c               | 20 ++++++------
- drivers/acpi/arm64/iort.c          | 51 ++++++++++++++++++++++++++++++
- drivers/of/address.c               | 42 ++++++++++++++++++++++++
- drivers/of/unittest.c              | 20 ++++++++++++
- include/linux/acpi_iort.h          |  4 +++
- include/linux/dma-direct.h         |  3 ++
- include/linux/mmzone.h             |  5 +--
- include/linux/of.h                 |  7 ++++
- kernel/dma/direct.c                |  2 +-
- 10 files changed, 143 insertions(+), 12 deletions(-)
-
+diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+index a53c1e0fb017..1d29f2ca81c7 100644
+--- a/arch/arm64/mm/init.c
++++ b/arch/arm64/mm/init.c
+@@ -396,8 +396,6 @@ void __init arm64_memblock_init(void)
+ 	else
+ 		arm64_dma32_phys_limit = PHYS_MASK + 1;
+ 
+-	reserve_crashkernel();
+-
+ 	reserve_elfcorehdr();
+ 
+ 	high_memory = __va(memblock_end_of_DRAM() - 1) + 1;
+@@ -518,6 +516,8 @@ void __init mem_init(void)
+ 	else
+ 		swiotlb_force = SWIOTLB_NO_FORCE;
+ 
++	reserve_crashkernel();
++
+ 	set_max_mapnr(max_pfn - PHYS_PFN_OFFSET);
+ 
+ #ifndef CONFIG_SPARSEMEM_VMEMMAP
 -- 
 2.28.0
 
