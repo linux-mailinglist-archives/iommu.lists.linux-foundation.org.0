@@ -2,59 +2,59 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABCED28EFD4
-	for <lists.iommu@lfdr.de>; Thu, 15 Oct 2020 12:05:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D1E828EFD9
+	for <lists.iommu@lfdr.de>; Thu, 15 Oct 2020 12:05:54 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 71441875EA;
-	Thu, 15 Oct 2020 10:05:20 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 23EDD88266;
+	Thu, 15 Oct 2020 10:05:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PzlcHS_5ZbiR; Thu, 15 Oct 2020 10:05:17 +0000 (UTC)
+	with ESMTP id uj56kaE8OGQn; Thu, 15 Oct 2020 10:05:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BA53E875DE;
-	Thu, 15 Oct 2020 10:05:17 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C67FF8826C;
+	Thu, 15 Oct 2020 10:05:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 80D28C0051;
-	Thu, 15 Oct 2020 10:05:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C063FC0051;
+	Thu, 15 Oct 2020 10:05:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 120E9C0051
- for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 10:05:16 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EA4CCC0051
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 10:05:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id EFAE32044F
- for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 10:05:15 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D80508826C
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 10:05:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rzubdEBBp7+r for <iommu@lists.linux-foundation.org>;
- Thu, 15 Oct 2020 10:05:15 +0000 (UTC)
+ with ESMTP id OELZ_0CcoMpj for <iommu@lists.linux-foundation.org>;
+ Thu, 15 Oct 2020 10:05:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by silver.osuosl.org (Postfix) with ESMTPS id 40DB7203F1
- for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 10:05:14 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6852A88266
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 10:05:50 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C81D4AD6B;
- Thu, 15 Oct 2020 10:05:12 +0000 (UTC)
-Message-ID: <eb355b9d3167d4c9575fe568d413ed4ff30078bb.camel@suse.de>
-Subject: Re: [PATCH v3 5/8] dma-direct: Turn zone_dma_bits default value
- into a define
+ by mx2.suse.de (Postfix) with ESMTP id 07720AC5F;
+ Thu, 15 Oct 2020 10:05:49 +0000 (UTC)
+Message-ID: <e14f6d6b12962da6cd32462b02b0bf051444894b.camel@suse.de>
+Subject: Re: [PATCH v3 6/8] arm64: mm: Set ZONE_DMA size based on
+ devicetree's dma-ranges
 From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To: Christoph Hellwig <hch@lst.de>
-Date: Thu, 15 Oct 2020 12:05:11 +0200
-In-Reply-To: <20201015053808.GA12218@lst.de>
+Date: Thu, 15 Oct 2020 12:05:47 +0200
+In-Reply-To: <20201015053948.GB12218@lst.de>
 References: <20201014191211.27029-1-nsaenzjulienne@suse.de>
- <20201014191211.27029-6-nsaenzjulienne@suse.de>
- <20201015053808.GA12218@lst.de>
+ <20201014191211.27029-7-nsaenzjulienne@suse.de>
+ <20201015053948.GB12218@lst.de>
 User-Agent: Evolution 3.36.5 
 MIME-Version: 1.0
-Cc: devicetree@vger.kernel.org, catalin.marinas@arm.com,
- linux-kernel@vger.kernel.org, jeremy.linton@arm.com,
+Cc: devicetree@vger.kernel.org, Will Deacon <will@kernel.org>,
+ catalin.marinas@arm.com, linux-kernel@vger.kernel.org, jeremy.linton@arm.com,
  iommu@lists.linux-foundation.org, robh+dt@kernel.org,
- linux-rpi-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>,
- ardb@kernel.org, linux-arm-kernel@lists.infradead.org
+ linux-rpi-kernel@lists.infradead.org, robin.murphy@arm.com, ardb@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,53 +67,53 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2639078911660423423=="
+Content-Type: multipart/mixed; boundary="===============4819153422766304565=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 
---===============2639078911660423423==
+--===============4819153422766304565==
 Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-ooBe/nz7Sn01MZB7Rrs+"
+	protocol="application/pgp-signature"; boundary="=-OaOQtpsUFcwLROOxxpTG"
 
 
---=-ooBe/nz7Sn01MZB7Rrs+
+--=-OaOQtpsUFcwLROOxxpTG
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2020-10-15 at 07:38 +0200, Christoph Hellwig wrote:
-> On Wed, Oct 14, 2020 at 09:12:07PM +0200, Nicolas Saenz Julienne wrote:
-> > Set zone_dma_bits default value through a define so as for architecture=
-s
-> > to be able to override it with their default value.
+On Thu, 2020-10-15 at 07:39 +0200, Christoph Hellwig wrote:
+> On Wed, Oct 14, 2020 at 09:12:08PM +0200, Nicolas Saenz Julienne wrote:
+> > +	zone_dma_bits =3D min(zone_dma_bits,
+> > +			    (unsigned int)ilog2(of_dma_get_max_cpu_address(NULL)));
 >=20
-> Architectures can do that already by assigning a value to zone_dma_bits
-> at runtime.  I really do not want to add the extra clutter.
+> Plase avoid pointlessly long lines.  Especially if it is completely trivi=
+al
+> by using either min_t or not overindenting like here.
 
-I'll remove it then.
+Noted
 
 
---=-ooBe/nz7Sn01MZB7Rrs+
+--=-OaOQtpsUFcwLROOxxpTG
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl+IHtcACgkQlfZmHno8
-x/6RQAf9GxOfgIudy6fJqG6B49H9h6IDJ4zv4+4QQwBXduPrUsL/C3Y0sFDL3fYB
-60lEZWhAHKEvOCXo2nIUPE1mBXJwbMGEvvC6COTHvszK6mGKbtm/2tQF8ZTW3Vq0
-CW/yxdpH3bYmMv+SAHFwhVJlujIqEQztQ8nsULO1vqU0G1+LI+E5u4LRIc352ZXd
-zHi4ICHDOysIlB9I1OqICUDxnhPCUGXgqngrGYb6hrL/D/uiEv1e7kKdKHJU6Frz
-R+8GUJ3FxMx6etC5hdGCmkqontX65U2Tyd3PXbj7pLBPLXo90SZnOh4lxc/rKhgm
-bYh8stzAm1gcJzuYsOxrYy2qj1lWFg==
-=B+5L
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl+IHvsACgkQlfZmHno8
+x/511ggAimtLNT1WNeWV5A+8xmnbf6JaeGSMxX4cRu7fCOEQY3+w1xLBF994fK2Z
+kHNQZKeMTUpyU5J1peNUeL52DcoXp3z8htpZnX/w3v1RR8SRfii+A/t0d0uFKMeo
+v7Fs/E4MHQDQWCfOBFCZM3htkNroqUEPAqYokg3He813rN9XLva43uK4ZovOHOC6
+9JN/hGr8SIH4ETOtshdRr5vOtXWfDNAvF1xXn/7GBiZQvK4JqYn+xQQH2+Of8X+G
+hF6lOhwA0/OZr33K5Dg0E+8wBDFGYwkX8UQ4BQpQC6vplNalO7Uo3TtQdqrEPB6W
+L9yUr3CbkmXh5Uo5Wl5oa/bf5phnpw==
+=NZRQ
 -----END PGP SIGNATURE-----
 
---=-ooBe/nz7Sn01MZB7Rrs+--
+--=-OaOQtpsUFcwLROOxxpTG--
 
 
---===============2639078911660423423==
+--===============4819153422766304565==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -123,5 +123,5 @@ _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
---===============2639078911660423423==--
+--===============4819153422766304565==--
 
