@@ -1,81 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5294428EEFC
-	for <lists.iommu@lfdr.de>; Thu, 15 Oct 2020 11:03:00 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id B355520450;
-	Thu, 15 Oct 2020 09:02:58 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cE+cUGewfOj5; Thu, 15 Oct 2020 09:02:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 5E7532044F;
-	Thu, 15 Oct 2020 09:02:57 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 42C05C0051;
-	Thu, 15 Oct 2020 09:02:57 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 73CE9C0051
- for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 09:02:55 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D9B28EEFD
+	for <lists.iommu@lfdr.de>; Thu, 15 Oct 2020 11:03:06 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 4E4AD87BEB
- for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 09:02:55 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 3F9D387BF5;
+	Thu, 15 Oct 2020 09:03:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Kfw8vCDFp+AH; Thu, 15 Oct 2020 09:03:04 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id AA18887BF1;
+	Thu, 15 Oct 2020 09:03:04 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 823B8C0051;
+	Thu, 15 Oct 2020 09:03:04 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9CFC2C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 09:03:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 89C8887A34
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 09:03:02 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iJDwL0DN8-Gs for <iommu@lists.linux-foundation.org>;
- Thu, 15 Oct 2020 09:02:54 +0000 (UTC)
+ with ESMTP id fy4Mbq9uTWzg for <iommu@lists.linux-foundation.org>;
+ Thu, 15 Oct 2020 09:03:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 4C82987B8B
- for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 09:02:54 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id p5so2528184ejj.2
- for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 02:02:54 -0700 (PDT)
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
+ [209.85.218.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 198EB878E1
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 09:03:01 +0000 (UTC)
+Received: by mail-ej1-f68.google.com with SMTP id dt13so2452717ejb.12
+ for <iommu@lists.linux-foundation.org>; Thu, 15 Oct 2020 02:03:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jwGwzOz2iwiJeRP/ODTx8CbVxZ1hxrUMfR1ipDCP90s=;
- b=qweI/BwrMtF9IhlcAGpBsKH85MRIVZxQma8KEMG7BfTWf1sz0mowzoiuCEvsJiixil
- bkRKKMFFSyK2XWQOdsx8jSzJT9/lrKRS4le4AsLPWoO6q+IMkXLp3VWsZ+AJcuWAWkH3
- QIPaDUVlIXNpUNL/iunpTS14GJOpoRjsyVmA9ZMWjqP7YhmRSebklA+Mj7flGYS49QQ8
- WuIZGIJpF/fNrgO2eEGZZHfV0lczFhw6ZiSwTk0QE2JmmGQg4UhQ6BoFzbJ8md/3mehH
- VI9891UG0SiycGRKXJB0BDJsAVwe0KcBTwmHK/xIsOiklJ2m9nv16cSWxYGIZwrhSpnH
- vJYg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=c3Jqalpf0P5zErHtqk4l6C16sl+wqSCxxuGIVGQs7DQ=;
+ b=mr1fJQxpFk6abhFRMQtgpsgRIQwMBR0j7QGlRlhj7KuzeWmJXU0YbdwETZLcnmq+9J
+ lX5tzFr26YXz+yCzdPD6gtShQO0epQctYygRlnqtbdAgPRH8xfeAzwyQlCoe1hpYpRhc
+ xwphAD4uJCzd4cGQ9hB74QqliOtQ4Dy33Ekxq5HL+w8+cXhQna7Krm+UnUXseQr3T5nZ
+ Q9GQCPSXjkNDB4KiLJteBzG5Q7d7aONk/oIVn5iY78oX+F0saxAuvq+7/MqKH8US4DNJ
+ MLB4yYSQepenvMw4TLWdd6eJh2iPKDdmg3iM9wSgX0XPJTl02z0qzfIgeJiRo1E0htjz
+ jmhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jwGwzOz2iwiJeRP/ODTx8CbVxZ1hxrUMfR1ipDCP90s=;
- b=MT83xpigGbZDpLbuU4z3S2u0g1fFmmZ4QHrzNrZDd5cm7nqoE7yOV8v9AG+xVuFQQf
- YJ2pH3ntz7XxC/QuD5QUUm1aa/N9KmTJN+cc++9IGN61LTCuemtHe/TtdghkquixxnJ3
- OLfDd65bXJOwl/MCq7g6E+URlQBj5d7WCWBIcK8UF8nIZhDr2KbnB0cQ0yKK+mPpHaVJ
- JG4k6RsuPEnM29Y+KtawjNc00Wc75s4kR8qK6AgBsOcHvESGCWFzARpjAjNtqu86DY1c
- QVveYjULpKUM5f9IQ9qQewBKKomWO65Zcx3Io2ckwnfxf86CA2ulsoIel7yq31FwQ6qP
- 1u2Q==
-X-Gm-Message-State: AOAM532sqn8O/CBDCwWKDvOlnKVTfupl8e/Wb/WH4FHsk50SOpPfMnzB
- cuZ33z8jn9sfRVDFG3Pvp6tj5A==
-X-Google-Smtp-Source: ABdhPJztgb5AXCuuQNTQ7o/iU4i1S0WhyHCR85sQNeGullTF/FIpxP8ZJsVHxqQduAeyDPWkNehDiQ==
-X-Received: by 2002:a17:906:f90a:: with SMTP id
- lc10mr3439626ejb.272.1602752572593; 
- Thu, 15 Oct 2020 02:02:52 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=c3Jqalpf0P5zErHtqk4l6C16sl+wqSCxxuGIVGQs7DQ=;
+ b=CxkShZXqF3hYuYWYkeK4BMEZck64ecP2sESdH1x8NXCPSfUE4pXfFWxvfhwXUk2K7g
+ aBJOJNwKWpk50jIXSkf7K68GbnUL+lycaS+GtSvRSpRbtk3d/afwkU1gbwbBUkKjX/vi
+ xmn5MlMPgxfWvKn2d1HpXI+uqiguNFvZ8v350IOEI0blWE0sv/QVwyA60hgx9WmjukgE
+ cy1Q0Uoi0ZQDizgyY+ObWal32MAsClagt2DcFe5IQGFFmOSaBTqbypIcKncLbwuOHxTp
+ 5tHzAU/2TpE9cO9mrVz0uo0CcIfaGKKrKaxuQ8HSSWnKeh9rtpwYejcgOdMfOTp5JWUU
+ yYKw==
+X-Gm-Message-State: AOAM531Ez55rXw+SvXuI8fxRMAQp1IEZQHSY6NRFa7bxocdnTEGsf4Ln
+ CV+cJ3rZi63I7Pt76gjs7fxlHg==
+X-Google-Smtp-Source: ABdhPJxvp3P0VbmCOj0Sd9J3gE3rGotPaup8wTuhiDlW0LHaF7KYjyTBGnMO/Laaf51govZhXOzDLw==
+X-Received: by 2002:a17:906:340b:: with SMTP id
+ c11mr3325221ejb.213.1602752579395; 
+ Thu, 15 Oct 2020 02:02:59 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id d12sm1103078ejt.105.2020.10.15.02.02.51
+ by smtp.gmail.com with ESMTPSA id d12sm1103078ejt.105.2020.10.15.02.02.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Oct 2020 02:02:51 -0700 (PDT)
+ Thu, 15 Oct 2020 02:02:58 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: dwmw2@infradead.org, baolu.lu@linux.intel.com, joro@8bytes.org,
  zhangfei.gao@linaro.org, wangzhou1@hisilicon.com
-Subject: [RFC PATCH 0/2] iommu: Avoid unnecessary PRI queue flushes
-Date: Thu, 15 Oct 2020 11:00:27 +0200
-Message-Id: <20201015090028.1278108-1-jean-philippe@linaro.org>
+Subject: [RFC PATCH 1/2] iommu: Add flags to sva_unbind()
+Date: Thu, 15 Oct 2020 11:00:28 +0200
+Message-Id: <20201015090028.1278108-2-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201015090028.1278108-1-jean-philippe@linaro.org>
+References: <20201015090028.1278108-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, kevin.tian@intel.com,
  ashok.raj@intel.com, arnd@arndb.de, gregkh@linuxfoundation.org,
@@ -98,49 +100,146 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add a parameter to iommu_sva_unbind_device() that tells the IOMMU driver
-whether the PRI queue needs flushing. When looking at the PCIe spec
-again I noticed that most of the time the SMMUv3 driver doesn't actually
-need to flush the PRI queue. Does this make sense for Intel VT-d as well
-or did I overlook something?
+Provide a way for device drivers to tell IOMMU drivers about the device
+state and the cleanup work to be done, when unbinding. No functional
+change.
 
-Before calling iommu_sva_unbind_device(), device drivers must stop the
-device from using the PASID. For PCIe devices, that consists of
-completing any pending DMA, and completing any pending page request
-unless the device uses Stop Markers. So unless the device uses Stop
-Markers, we don't need to flush the PRI queue. For SMMUv3, stopping DMA
-means completing all stall events, so we never need to flush the event
-queue.
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+---
+ include/linux/intel-iommu.h | 2 +-
+ include/linux/iommu.h       | 7 ++++---
+ drivers/iommu/intel/svm.c   | 7 ++++---
+ drivers/iommu/iommu.c       | 5 +++--
+ drivers/misc/uacce/uacce.c  | 4 ++--
+ 5 files changed, 14 insertions(+), 11 deletions(-)
 
-First patch adds flags to unbind(), and the second one lets device
-drivers tell whether the PRI queue needs to be flushed.
-
-Other remarks:
-
-* The PCIe spec (see quote on patch 2), says that the device signals
-  whether it has sent a Stop Marker or not during Stop PASID. In reality
-  it's unlikely that a given device will sometimes use one stop method
-  and sometimes the other, so it could be a device-wide flag rather than
-  passing it at each unbind(). I don't want to speculate too much about
-  future implementation so I prefer having the flag in unbind().
-
-* In patch 1, uacce passes 0 to unbind(). To pass the right flag I'm
-  thinking that uacce->ops->stop_queue(), which tells the device driver
-  to stop DMA, should return whether faults are pending. This can be
-  added later once uacce has an actual PCIe user, but we need to
-  remember to do it.
-
-Jean-Philippe Brucker (2):
-  iommu: Add flags to sva_unbind()
-  iommu: Add IOMMU_UNBIND_FAULT_PENDING flag
-
- include/linux/intel-iommu.h |  2 +-
- include/linux/iommu.h       | 38 ++++++++++++++++++++++++++++++++++---
- drivers/iommu/intel/svm.c   | 10 ++++++----
- drivers/iommu/iommu.c       | 10 +++++++---
- drivers/misc/uacce/uacce.c  |  4 ++--
- 5 files changed, 51 insertions(+), 13 deletions(-)
-
+diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
+index fbf5b3e7707e..5b66b23d591d 100644
+--- a/include/linux/intel-iommu.h
++++ b/include/linux/intel-iommu.h
+@@ -747,7 +747,7 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+ int intel_svm_unbind_gpasid(struct device *dev, u32 pasid);
+ struct iommu_sva *intel_svm_bind(struct device *dev, struct mm_struct *mm,
+ 				 void *drvdata);
+-void intel_svm_unbind(struct iommu_sva *handle);
++void intel_svm_unbind(struct iommu_sva *handle, unsigned long flags);
+ u32 intel_svm_get_pasid(struct iommu_sva *handle);
+ int intel_svm_page_response(struct device *dev, struct iommu_fault_event *evt,
+ 			    struct iommu_page_response *msg);
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index b95a6f8db6ff..26c1358a2a37 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -285,7 +285,7 @@ struct iommu_ops {
+ 
+ 	struct iommu_sva *(*sva_bind)(struct device *dev, struct mm_struct *mm,
+ 				      void *drvdata);
+-	void (*sva_unbind)(struct iommu_sva *handle);
++	void (*sva_unbind)(struct iommu_sva *handle, unsigned long flags);
+ 	u32 (*sva_get_pasid)(struct iommu_sva *handle);
+ 
+ 	int (*page_response)(struct device *dev,
+@@ -636,7 +636,7 @@ int iommu_aux_get_pasid(struct iommu_domain *domain, struct device *dev);
+ struct iommu_sva *iommu_sva_bind_device(struct device *dev,
+ 					struct mm_struct *mm,
+ 					void *drvdata);
+-void iommu_sva_unbind_device(struct iommu_sva *handle);
++void iommu_sva_unbind_device(struct iommu_sva *handle, unsigned long flags);
+ u32 iommu_sva_get_pasid(struct iommu_sva *handle);
+ 
+ #else /* CONFIG_IOMMU_API */
+@@ -1026,7 +1026,8 @@ iommu_sva_bind_device(struct device *dev, struct mm_struct *mm, void *drvdata)
+ 	return NULL;
+ }
+ 
+-static inline void iommu_sva_unbind_device(struct iommu_sva *handle)
++static inline void iommu_sva_unbind_device(struct iommu_sva *handle,
++					   unsigned long flags)
+ {
+ }
+ 
+diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
+index f1861fa3d0e4..700b05612af9 100644
+--- a/drivers/iommu/intel/svm.c
++++ b/drivers/iommu/intel/svm.c
+@@ -651,7 +651,8 @@ intel_svm_bind_mm(struct device *dev, unsigned int flags,
+ }
+ 
+ /* Caller must hold pasid_mutex */
+-static int intel_svm_unbind_mm(struct device *dev, u32 pasid)
++static int intel_svm_unbind_mm(struct device *dev, u32 pasid,
++			       unsigned long flags)
+ {
+ 	struct intel_svm_dev *sdev;
+ 	struct intel_iommu *iommu;
+@@ -1091,13 +1092,13 @@ intel_svm_bind(struct device *dev, struct mm_struct *mm, void *drvdata)
+ 	return sva;
+ }
+ 
+-void intel_svm_unbind(struct iommu_sva *sva)
++void intel_svm_unbind(struct iommu_sva *sva, unsigned long flags)
+ {
+ 	struct intel_svm_dev *sdev;
+ 
+ 	mutex_lock(&pasid_mutex);
+ 	sdev = to_intel_svm_dev(sva);
+-	intel_svm_unbind_mm(sdev->dev, sdev->pasid);
++	intel_svm_unbind_mm(sdev->dev, sdev->pasid, flags);
+ 	mutex_unlock(&pasid_mutex);
+ }
+ 
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 8c470f451a32..741c463095a8 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -2991,6 +2991,7 @@ EXPORT_SYMBOL_GPL(iommu_sva_bind_device);
+ /**
+  * iommu_sva_unbind_device() - Remove a bond created with iommu_sva_bind_device
+  * @handle: the handle returned by iommu_sva_bind_device()
++ * @flags: IOMMU_UNBIND_* flags
+  *
+  * Put reference to a bond between device and address space. The device should
+  * not be issuing any more transaction for this PASID. All outstanding page
+@@ -2998,7 +2999,7 @@ EXPORT_SYMBOL_GPL(iommu_sva_bind_device);
+  *
+  * Returns 0 on success, or an error value
+  */
+-void iommu_sva_unbind_device(struct iommu_sva *handle)
++void iommu_sva_unbind_device(struct iommu_sva *handle, unsigned long flags)
+ {
+ 	struct iommu_group *group;
+ 	struct device *dev = handle->dev;
+@@ -3012,7 +3013,7 @@ void iommu_sva_unbind_device(struct iommu_sva *handle)
+ 		return;
+ 
+ 	mutex_lock(&group->mutex);
+-	ops->sva_unbind(handle);
++	ops->sva_unbind(handle, flags);
+ 	mutex_unlock(&group->mutex);
+ 
+ 	iommu_group_put(group);
+diff --git a/drivers/misc/uacce/uacce.c b/drivers/misc/uacce/uacce.c
+index 56dd98ab5a81..0800566a6656 100644
+--- a/drivers/misc/uacce/uacce.c
++++ b/drivers/misc/uacce/uacce.c
+@@ -105,7 +105,7 @@ static int uacce_bind_queue(struct uacce_device *uacce, struct uacce_queue *q)
+ 
+ 	pasid = iommu_sva_get_pasid(handle);
+ 	if (pasid == IOMMU_PASID_INVALID) {
+-		iommu_sva_unbind_device(handle);
++		iommu_sva_unbind_device(handle, 0);
+ 		return -ENODEV;
+ 	}
+ 
+@@ -118,7 +118,7 @@ static void uacce_unbind_queue(struct uacce_queue *q)
+ {
+ 	if (!q->handle)
+ 		return;
+-	iommu_sva_unbind_device(q->handle);
++	iommu_sva_unbind_device(q->handle, 0);
+ 	q->handle = NULL;
+ }
+ 
 -- 
 2.28.0
 
