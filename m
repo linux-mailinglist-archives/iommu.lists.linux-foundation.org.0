@@ -1,88 +1,72 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D89290EED
-	for <lists.iommu@lfdr.de>; Sat, 17 Oct 2020 06:38:36 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 835D9291169
+	for <lists.iommu@lfdr.de>; Sat, 17 Oct 2020 12:27:45 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 751B6884DE;
-	Sat, 17 Oct 2020 04:38:35 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2205088685;
+	Sat, 17 Oct 2020 10:27:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0gClnTEr4zdR; Sat, 17 Oct 2020 04:38:35 +0000 (UTC)
+	with ESMTP id 8fzwDY6fDa86; Sat, 17 Oct 2020 10:27:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C9D6D884F3;
-	Sat, 17 Oct 2020 04:38:32 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8C84D88679;
+	Sat, 17 Oct 2020 10:27:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C3AE0C0051;
-	Sat, 17 Oct 2020 04:38:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 753C3C0051;
+	Sat, 17 Oct 2020 10:27:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 140EDC0051
- for <iommu@lists.linux-foundation.org>; Sat, 17 Oct 2020 04:38:32 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1CB89C0051
+ for <iommu@lists.linux-foundation.org>; Sat, 17 Oct 2020 10:27:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 1070788EC3
- for <iommu@lists.linux-foundation.org>; Sat, 17 Oct 2020 04:38:32 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id F3CBE88679
+ for <iommu@lists.linux-foundation.org>; Sat, 17 Oct 2020 10:27:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id l3o3Zs66yF6c for <iommu@lists.linux-foundation.org>;
- Sat, 17 Oct 2020 04:38:30 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B1C4888EC2
- for <iommu@lists.linux-foundation.org>; Sat, 17 Oct 2020 04:38:30 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id h62so707491oth.9
- for <iommu@lists.linux-foundation.org>; Fri, 16 Oct 2020 21:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=R/eL9BOLO7lfTYwfmIUA3Aou+j6yOxaxr5STlBPy4E8=;
- b=Tk/YA6qo/6rOkDz5xz5TMpyb/nimdkJlU2E/WNrecuaem8ut0FqfNLxQpze6aI/o81
- U4mvWAxfiHjKzj4PppSiggeSvuFmijySekSmYFElvLaMVfQHjGuxy4wvRDr7G6kqQZG1
- r6d9JpAOfpJJSbcjoj2nLJyCuxlpDa4oOLAWXjjVXmTy9ZP3TSdR3RfgFIAI3n+YDToD
- NVyno5FjnfuvMuyD7kiaTVriaksYl2c4mePBekhgwlPoHfNIo/PeDDoqIgoN70E6Acsd
- r7imQQ/QlbUNQaw8OBvCQ2JnZgI/W5vVdDOBWRWxUTe7HwcY+tzKupk0Gxo04G22vTJd
- Fd6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=R/eL9BOLO7lfTYwfmIUA3Aou+j6yOxaxr5STlBPy4E8=;
- b=pokgRsdp3+9zgx4uR0sbnvbp5o5y3CBBosJltJdhsyx/fa352GLHsBOsd+nuWKEHr2
- IFlhGX3vlUMUMI7BXSNhIhcgCrDrFvSkOXNblDQ1zSnWSNra7N6BT9Sk57H00Gl2+OZD
- g0+zcc4QHWD/Y1y9riNpjmgrpIDU+vPjE7K0ZrsnPKaDaSwQg0Fs0UkzmsMLrsLQsBWa
- wejH9E8NH9rKS5bR99g73MwhkdhahECFhKToUzeLVxiSwRyldEUnHok3ShkK7RFlLS4Y
- K0lvzk10s6qGqPmSrldvK0G6JAVA9z95dh4H7GpSqINhrYRc90zXuVkAgImBUuZsOkz7
- t4Vg==
-X-Gm-Message-State: AOAM530en2DGgmUzeOh1Pf+CFYkLupDA/+/zTwjFaHy5nF2vMUghRCce
- spv3IBWsV/lp75+dyJHmFeXc+g==
-X-Google-Smtp-Source: ABdhPJwYTHQyiuBoo03LmtYktPRELqpF0a1iE0YTfXNgfPbXq/MBB3sgEV7hoaQd0dVnrJaUTkda5Q==
-X-Received: by 2002:a9d:7c87:: with SMTP id q7mr4988506otn.140.1602909509962; 
- Fri, 16 Oct 2020 21:38:29 -0700 (PDT)
-Received: from localhost.localdomain
- (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id t65sm1640038oib.50.2020.10.16.21.38.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Oct 2020 21:38:29 -0700 (PDT)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jordan Crouse <jcrouse@codeaurora.org>,
- Thierry Reding <treding@nvidia.com>, Rob Clark <robdclark@chromium.org>
-Subject: [PATCH v4 3/3] iommu/arm-smmu-qcom: Implement S2CR quirk
-Date: Fri, 16 Oct 2020 21:39:07 -0700
-Message-Id: <20201017043907.2656013-4-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201017043907.2656013-1-bjorn.andersson@linaro.org>
-References: <20201017043907.2656013-1-bjorn.andersson@linaro.org>
-MIME-Version: 1.0
-Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+ with ESMTP id AxE64MRJfUm4 for <iommu@lists.linux-foundation.org>;
+ Sat, 17 Oct 2020 10:27:40 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id C65688866E
+ for <iommu@lists.linux-foundation.org>; Sat, 17 Oct 2020 10:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Mime-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=VSpqnJv/ZctlurtgKyw6lvBDtndrQOoOl7Somg1BdJo=; b=X5gm5zS0bdh3EwJ/kmp6DDd1Q9
+ 2uC1FW/59WfjCXZpwmNcYUtkgdDMBUD/40agu2FFsRLISj9tQvIjVOVaqZHeYvrnW4ZQDGcLpseT7
+ VKUOR3WqbJtQOvzml+VbrXdeEGn17xR1z9GMN3TGSsUXDqgSIONQD8WjfllpPcwEVVDwQERcatiY+
+ cKl13rVVV4RJ9xA7sTA42Q1LD6hWdiDQljI99W7KXmm1QKJc4BBvpI+8QSLopQyDtAb7bL4iQJEMe
+ HUqAvY7RKFyUX3mVd79g8KOiDvf0eES/1+9E0Mw6Wk0RRb7OGtOUhKz/H1EavSuX73YZOYyZU8x3F
+ VtIST5Dg==;
+Received: from 54-240-197-236.amazon.com ([54.240.197.236]
+ helo=freeip.amazon.com)
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kTjQt-0001hn-Ge; Sat, 17 Oct 2020 10:27:27 +0000
+Message-ID: <c83c6814cdc8f9d11aedb188dbb9d2d5466b6979.camel@infradead.org>
+Subject: Re: [PATCH next] iommu: intel: don't dereference iommu_device if
+ IOMMU_API is not built
+From: David Woodhouse <dwmw2@infradead.org>
+To: Joerg Roedel <joro@8bytes.org>, Lu Baolu <baolu.lu@linux.intel.com>
+Date: Sat, 17 Oct 2020 11:27:25 +0100
+In-Reply-To: <20201014125704.GB3635@8bytes.org>
+References: <20201013073055.11262-1-brgl@bgdev.pl>
+ <abd717c9-9eaa-d4bb-3fd8-ff7250d97ab7@linux.intel.com>
+ <CAMRc=MdLXaPNUwbUPGJS1AY0pq5je9zsGM7eHShLT=f6mT5Dww@mail.gmail.com>
+ <dc6f3226-c6e5-b361-601b-afa91540144e@linux.intel.com>
+ <20201014125704.GB3635@8bytes.org>
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Mime-Version: 1.0
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ merlin.infradead.org. See http://www.infradead.org/rpr.html
+Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, iommu@lists.linux-foundation.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,143 +79,140 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============2243442169314555670=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The firmware found in some Qualcomm platforms intercepts writes to S2CR
-in order to replace bypass type streams with fault; and ignore S2CR
-updates of type fault.
 
-Detect this behavior and implement a custom write_s2cr function in order
-to trick the firmware into supporting bypass streams by the means of
-configuring the stream for translation using a reserved and disabled
-context bank.
+--===============2243442169314555670==
+Content-Type: multipart/signed; micalg="sha-256";
+	protocol="application/x-pkcs7-signature";
+	boundary="=-u4U2frx2q/6FuGb5L2Dm"
 
-Also circumvent the problem of configuring faulting streams by
-configuring the stream as bypass.
 
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
+--=-u4U2frx2q/6FuGb5L2Dm
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Changes since v3:
-- Move the reservation of the "identity context bank" to the Qualcomm specific
-  implementation.
-- Implement the S2CR quirk with the newly introduced write_s2cr callback.
+On Wed, 2020-10-14 at 14:57 +0200, Joerg Roedel wrote:
+> On Wed, Oct 14, 2020 at 03:25:08PM +0800, Lu Baolu wrote:
+> > I suppose Joerg will pick this up. I guess you don't need to resend it
+> > unless Joerg asks you to do.
+>=20
+> Yes, will pick this up soon, no need to re-send.
 
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 68 ++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
+Please could it, and the commit it fixes, both go to stable@
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-index 0089048342dd..c0f42d6a6e01 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-@@ -10,8 +10,14 @@
- 
- struct qcom_smmu {
- 	struct arm_smmu_device smmu;
-+	bool bypass_cbndx;
- };
- 
-+static struct qcom_smmu *to_qcom_smmu(struct arm_smmu_device *smmu)
-+{
-+	return container_of(smmu, struct qcom_smmu, smmu);
-+}
-+
- static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
- 	{ .compatible = "qcom,adreno" },
- 	{ .compatible = "qcom,mdp4" },
-@@ -25,9 +31,32 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
- 
- static int qcom_smmu_cfg_probe(struct arm_smmu_device *smmu)
- {
-+	unsigned int last_s2cr = ARM_SMMU_GR0_S2CR(smmu->num_mapping_groups - 1);
-+	struct qcom_smmu *qsmmu = to_qcom_smmu(smmu);
-+	u32 reg;
- 	u32 smr;
- 	int i;
- 
-+	/*
-+	 * With some firmware versions writes to S2CR of type FAULT are
-+	 * ignored, and writing BYPASS will end up written as FAULT in the
-+	 * register. Perform a write to S2CR to detect if this is the case and
-+	 * if so reserve a context bank to emulate bypass streams.
-+	 */
-+	reg = FIELD_PREP(ARM_SMMU_S2CR_TYPE, S2CR_TYPE_BYPASS) |
-+	      FIELD_PREP(ARM_SMMU_S2CR_CBNDX, 0xff) |
-+	      FIELD_PREP(ARM_SMMU_S2CR_PRIVCFG, S2CR_PRIVCFG_DEFAULT);
-+	arm_smmu_gr0_write(smmu, last_s2cr, reg);
-+	reg = arm_smmu_gr0_read(smmu, last_s2cr);
-+	if (FIELD_GET(ARM_SMMU_S2CR_TYPE, reg) != S2CR_TYPE_BYPASS) {
-+		qsmmu->bypass_cbndx = smmu->num_context_banks - 1;
-+
-+		set_bit(qsmmu->bypass_cbndx, smmu->context_map);
-+
-+		reg = FIELD_PREP(ARM_SMMU_CBAR_TYPE, CBAR_TYPE_S1_TRANS_S2_BYPASS);
-+		arm_smmu_gr1_write(smmu, ARM_SMMU_GR1_CBAR(qsmmu->bypass_cbndx), reg);
-+	}
-+
- 	for (i = 0; i < smmu->num_mapping_groups; i++) {
- 		smr = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_SMR(i));
- 
-@@ -46,6 +75,44 @@ static int qcom_smmu_cfg_probe(struct arm_smmu_device *smmu)
- 	return 0;
- }
- 
-+static void qcom_smmu_write_s2cr(struct arm_smmu_device *smmu, int idx)
-+{
-+	struct arm_smmu_s2cr *s2cr = smmu->s2crs + idx;
-+	struct qcom_smmu *qsmmu = to_qcom_smmu(smmu);
-+	u32 cbndx = s2cr->cbndx;
-+	u32 type = s2cr->type;
-+	u32 reg;
-+
-+	if (qsmmu->bypass_cbndx) {
-+		if (type == S2CR_TYPE_BYPASS) {
-+			/*
-+			 * Firmware with quirky S2CR handling will substitute
-+			 * BYPASS writes with FAULT, so point the stream to the
-+			 * reserved context bank and ask for translation on the
-+			 * stream
-+			 */
-+			type = S2CR_TYPE_TRANS;
-+			cbndx = qsmmu->bypass_cbndx;
-+		} else if (type == S2CR_TYPE_FAULT) {
-+			/*
-+			 * Firmware with quirky S2CR handling will ignore FAULT
-+			 * writes, so trick it to write FAULT by asking for a
-+			 * BYPASS.
-+			 */
-+			type = S2CR_TYPE_BYPASS;
-+			cbndx = 0xff;
-+		}
-+	}
-+
-+	reg = FIELD_PREP(ARM_SMMU_S2CR_TYPE, type) |
-+	      FIELD_PREP(ARM_SMMU_S2CR_CBNDX, cbndx) |
-+	      FIELD_PREP(ARM_SMMU_S2CR_PRIVCFG, s2cr->privcfg);
-+
-+	if (smmu->features & ARM_SMMU_FEAT_EXIDS && smmu->smrs && smmu->smrs[idx].valid)
-+		reg |= ARM_SMMU_S2CR_EXIDVALID;
-+	arm_smmu_gr0_write(smmu, ARM_SMMU_GR0_S2CR(idx), reg);
-+}
-+
- static int qcom_smmu_def_domain_type(struct device *dev)
- {
- 	const struct of_device_id *match =
-@@ -87,6 +154,7 @@ static const struct arm_smmu_impl qcom_smmu_impl = {
- 	.cfg_probe = qcom_smmu_cfg_probe,
- 	.def_domain_type = qcom_smmu_def_domain_type,
- 	.reset = qcom_smmu500_reset,
-+	.write_s2cr = qcom_smmu_write_s2cr,
- };
- 
- struct arm_smmu_device *qcom_smmu_impl_init(struct arm_smmu_device *smmu)
--- 
-2.28.0
+--=-u4U2frx2q/6FuGb5L2Dm
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCECow
+ggUcMIIEBKADAgECAhEA4rtJSHkq7AnpxKUY8ZlYZjANBgkqhkiG9w0BAQsFADCBlzELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
+A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
+bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0EwHhcNMTkwMTAyMDAwMDAwWhcNMjIwMTAxMjM1
+OTU5WjAkMSIwIAYJKoZIhvcNAQkBFhNkd213MkBpbmZyYWRlYWQub3JnMIIBIjANBgkqhkiG9w0B
+AQEFAAOCAQ8AMIIBCgKCAQEAsv3wObLTCbUA7GJqKj9vHGf+Fa+tpkO+ZRVve9EpNsMsfXhvFpb8
+RgL8vD+L133wK6csYoDU7zKiAo92FMUWaY1Hy6HqvVr9oevfTV3xhB5rQO1RHJoAfkvhy+wpjo7Q
+cXuzkOpibq2YurVStHAiGqAOMGMXhcVGqPuGhcVcVzVUjsvEzAV9Po9K2rpZ52FE4rDkpDK1pBK+
+uOAyOkgIg/cD8Kugav5tyapydeWMZRJQH1vMQ6OVT24CyAn2yXm2NgTQMS1mpzStP2ioPtTnszIQ
+Ih7ASVzhV6csHb8Yrkx8mgllOyrt9Y2kWRRJFm/FPRNEurOeNV6lnYAXOymVJwIDAQABo4IB0zCC
+Ac8wHwYDVR0jBBgwFoAUgq9sjPjF/pZhfOgfPStxSF7Ei8AwHQYDVR0OBBYEFLfuNf820LvaT4AK
+xrGK3EKx1DE7MA4GA1UdDwEB/wQEAwIFoDAMBgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsGAQUF
+BwMEBggrBgEFBQcDAjBGBgNVHSAEPzA9MDsGDCsGAQQBsjEBAgEDBTArMCkGCCsGAQUFBwIBFh1o
+dHRwczovL3NlY3VyZS5jb21vZG8ubmV0L0NQUzBaBgNVHR8EUzBRME+gTaBLhklodHRwOi8vY3Js
+LmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWls
+Q0EuY3JsMIGLBggrBgEFBQcBAQR/MH0wVQYIKwYBBQUHMAKGSWh0dHA6Ly9jcnQuY29tb2RvY2Eu
+Y29tL0NPTU9ET1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcnQwJAYI
+KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTAeBgNVHREEFzAVgRNkd213MkBpbmZy
+YWRlYWQub3JnMA0GCSqGSIb3DQEBCwUAA4IBAQALbSykFusvvVkSIWttcEeifOGGKs7Wx2f5f45b
+nv2ghcxK5URjUvCnJhg+soxOMoQLG6+nbhzzb2rLTdRVGbvjZH0fOOzq0LShq0EXsqnJbbuwJhK+
+PnBtqX5O23PMHutP1l88AtVN+Rb72oSvnD+dK6708JqqUx2MAFLMevrhJRXLjKb2Mm+/8XBpEw+B
+7DisN4TMlLB/d55WnT9UPNHmQ+3KFL7QrTO8hYExkU849g58Dn3Nw3oCbMUgny81ocrLlB2Z5fFG
+Qu1AdNiBA+kg/UxzyJZpFbKfCITd5yX49bOriL692aMVDyqUvh8fP+T99PqorH4cIJP6OxSTdxKM
+MIIFHDCCBASgAwIBAgIRAOK7SUh5KuwJ6cSlGPGZWGYwDQYJKoZIhvcNAQELBQAwgZcxCzAJBgNV
+BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
+BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
+ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTE5MDEwMjAwMDAwMFoXDTIyMDEwMTIz
+NTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCASIwDQYJKoZIhvcN
+AQEBBQADggEPADCCAQoCggEBALL98Dmy0wm1AOxiaio/bxxn/hWvraZDvmUVb3vRKTbDLH14bxaW
+/EYC/Lw/i9d98CunLGKA1O8yogKPdhTFFmmNR8uh6r1a/aHr301d8YQea0DtURyaAH5L4cvsKY6O
+0HF7s5DqYm6tmLq1UrRwIhqgDjBjF4XFRqj7hoXFXFc1VI7LxMwFfT6PStq6WedhROKw5KQytaQS
+vrjgMjpICIP3A/CroGr+bcmqcnXljGUSUB9bzEOjlU9uAsgJ9sl5tjYE0DEtZqc0rT9oqD7U57My
+ECIewElc4VenLB2/GK5MfJoJZTsq7fWNpFkUSRZvxT0TRLqznjVepZ2AFzsplScCAwEAAaOCAdMw
+ggHPMB8GA1UdIwQYMBaAFIKvbIz4xf6WYXzoHz0rcUhexIvAMB0GA1UdDgQWBBS37jX/NtC72k+A
+CsaxitxCsdQxOzAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNVHSUEFjAUBggrBgEF
+BQcDBAYIKwYBBQUHAwIwRgYDVR0gBD8wPTA7BgwrBgEEAbIxAQIBAwUwKzApBggrBgEFBQcCARYd
+aHR0cHM6Ly9zZWN1cmUuY29tb2RvLm5ldC9DUFMwWgYDVR0fBFMwUTBPoE2gS4ZJaHR0cDovL2Ny
+bC5jb21vZG9jYS5jb20vQ09NT0RPUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFp
+bENBLmNybDCBiwYIKwYBBQUHAQEEfzB9MFUGCCsGAQUFBzAChklodHRwOi8vY3J0LmNvbW9kb2Nh
+LmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWlsQ0EuY3J0MCQG
+CCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAC20spBbrL71ZEiFrbXBHonzhhirO1sdn+X+O
+W579oIXMSuVEY1LwpyYYPrKMTjKECxuvp24c829qy03UVRm742R9Hzjs6tC0oatBF7KpyW27sCYS
+vj5wbal+TttzzB7rT9ZfPALVTfkW+9qEr5w/nSuu9PCaqlMdjABSzHr64SUVy4ym9jJvv/FwaRMP
+gew4rDeEzJSwf3eeVp0/VDzR5kPtyhS+0K0zvIWBMZFPOPYOfA59zcN6AmzFIJ8vNaHKy5QdmeXx
+RkLtQHTYgQPpIP1Mc8iWaRWynwiE3ecl+PWzq4i+vdmjFQ8qlL4fHz/k/fT6qKx+HCCT+jsUk3cS
+jDCCBeYwggPOoAMCAQICEGqb4Tg7/ytrnwHV2binUlYwDQYJKoZIhvcNAQEMBQAwgYUxCzAJBgNV
+BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
+BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMSswKQYDVQQDEyJDT01PRE8gUlNBIENlcnRpZmljYXRp
+b24gQXV0aG9yaXR5MB4XDTEzMDExMDAwMDAwMFoXDTI4MDEwOTIzNTk1OVowgZcxCzAJBgNVBAYT
+AkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAYBgNV
+BAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAvrOeV6wodnVAFsc4A5jTxhh2IVDzJXkLTLWg0X06WD6cpzEup/Y0dtmEatrQPTRI5Or1u6zf
++bGBSyD9aH95dDSmeny1nxdlYCeXIoymMv6pQHJGNcIDpFDIMypVpVSRsivlJTRENf+RKwrB6vcf
+WlP8dSsE3Rfywq09N0ZfxcBa39V0wsGtkGWC+eQKiz4pBZYKjrc5NOpG9qrxpZxyb4o4yNNwTqza
+aPpGRqXB7IMjtf7tTmU2jqPMLxFNe1VXj9XB1rHvbRikw8lBoNoSWY66nJN/VCJv5ym6Q0mdCbDK
+CMPybTjoNCQuelc0IAaO4nLUXk0BOSxSxt8kCvsUtQIDAQABo4IBPDCCATgwHwYDVR0jBBgwFoAU
+u69+Aj36pvE8hI6t7jiY7NkyMtQwHQYDVR0OBBYEFIKvbIz4xf6WYXzoHz0rcUhexIvAMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMBEGA1UdIAQKMAgwBgYEVR0gADBMBgNVHR8E
+RTBDMEGgP6A9hjtodHRwOi8vY3JsLmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDZXJ0aWZpY2F0aW9u
+QXV0aG9yaXR5LmNybDBxBggrBgEFBQcBAQRlMGMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9jcnQuY29t
+b2RvY2EuY29tL0NPTU9ET1JTQUFkZFRydXN0Q0EuY3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2Nz
+cC5jb21vZG9jYS5jb20wDQYJKoZIhvcNAQEMBQADggIBAHhcsoEoNE887l9Wzp+XVuyPomsX9vP2
+SQgG1NgvNc3fQP7TcePo7EIMERoh42awGGsma65u/ITse2hKZHzT0CBxhuhb6txM1n/y78e/4ZOs
+0j8CGpfb+SJA3GaBQ+394k+z3ZByWPQedXLL1OdK8aRINTsjk/H5Ns77zwbjOKkDamxlpZ4TKSDM
+KVmU/PUWNMKSTvtlenlxBhh7ETrN543j/Q6qqgCWgWuMAXijnRglp9fyadqGOncjZjaaSOGTTFB+
+E2pvOUtY+hPebuPtTbq7vODqzCM6ryEhNhzf+enm0zlpXK7q332nXttNtjv7VFNYG+I31gnMrwfH
+M5tdhYF/8v5UY5g2xANPECTQdu9vWPoqNSGDt87b3gXb1AiGGaI06vzgkejL580ul+9hz9D0S0U4
+jkhJiA7EuTecP/CFtR72uYRBcunwwH3fciPjviDDAI9SnC/2aPY8ydehzuZutLbZdRJ5PDEJM/1t
+yZR2niOYihZ+FCbtf3D9mB12D4ln9icgc7CwaxpNSCPt8i/GqK2HsOgkL3VYnwtx7cJUmpvVdZ4o
+gnzgXtgtdk3ShrtOS1iAN2ZBXFiRmjVzmehoMof06r1xub+85hFQzVxZx5/bRaTKTlL8YXLI8nAb
+R9HWdFqzcOoB/hxfEyIQpx9/s81rgzdEZOofSlZHynoSMYIDyjCCA8YCAQEwga0wgZcxCzAJBgNV
+BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
+BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
+ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA4rtJSHkq7AnpxKUY8ZlYZjANBglghkgB
+ZQMEAgEFAKCCAe0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjAx
+MDE3MTAyNzI1WjAvBgkqhkiG9w0BCQQxIgQgtwS3Eb/WtMX/mFDAJw5r5PJnNvkI5WCOyM28cy52
+0QYwgb4GCSsGAQQBgjcQBDGBsDCBrTCBlzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
+TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQx
+PTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1h
+aWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMIHABgsqhkiG9w0BCRACCzGBsKCBrTCBlzELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
+A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
+bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMA0GCSqGSIb3
+DQEBAQUABIIBAKAzHyuhgiDfVTx3zZUp7xSIZ/5PgUHljVzOg7FR1qKjAoHo5CP4RW/exR5qa1q8
+snR/dE2G6T+Cv9+uLrBAT13/b0aDYagm8Yo8SdGSAQoyE+Hv0Pijs5ARneiZhgJTlgh0VOVy6u0q
+QpyipmoWkEvj1L58rRNoqq+memjEwxMYQak/VbiIv3olaNifB27Fy7rLWUZ9cMLsPX7Y+B/1FrWn
+Scwc54IlgXPiLcN+1i/y2YKxnEzgo2dx4MQIfMFjHvaxCI9qkwi2LqBQxEStOcBKpdw+qoS6nn2z
+x7Chcf/7Ga8+iz4vkyVT7+LcMiqirDZj0bR2KyfD5pdTor4n9C0AAAAAAAA=
+
+
+--=-u4U2frx2q/6FuGb5L2Dm--
+
+
+--===============2243442169314555670==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============2243442169314555670==--
+
