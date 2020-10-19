@@ -1,74 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075F0292D94
-	for <lists.iommu@lfdr.de>; Mon, 19 Oct 2020 20:31:08 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id D646B292DC9
+	for <lists.iommu@lfdr.de>; Mon, 19 Oct 2020 20:50:43 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B7FE187401;
-	Mon, 19 Oct 2020 18:31:06 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9290E2048E;
+	Mon, 19 Oct 2020 18:50:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ifOG7S1nMuMX; Mon, 19 Oct 2020 18:31:05 +0000 (UTC)
+	with ESMTP id gJUYasfFkuB5; Mon, 19 Oct 2020 18:50:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2B53F8728E;
-	Mon, 19 Oct 2020 18:31:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D6C3C2E0EE;
+	Mon, 19 Oct 2020 18:50:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 045B6C0051;
-	Mon, 19 Oct 2020 18:31:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B6DDFC1AD7;
+	Mon, 19 Oct 2020 18:50:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E4D8BC0051
- for <iommu@lists.linux-foundation.org>; Mon, 19 Oct 2020 18:31:02 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7DF32C0051
+ for <iommu@lists.linux-foundation.org>; Mon, 19 Oct 2020 18:50:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C4BAB8767E
- for <iommu@lists.linux-foundation.org>; Mon, 19 Oct 2020 18:31:02 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 6C9EF86C1E
+ for <iommu@lists.linux-foundation.org>; Mon, 19 Oct 2020 18:50:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fAOsDKnvxc5l for <iommu@lists.linux-foundation.org>;
- Mon, 19 Oct 2020 18:31:01 +0000 (UTC)
+ with ESMTP id BLmKuyh0SCFD for <iommu@lists.linux-foundation.org>;
+ Mon, 19 Oct 2020 18:50:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 11ECF87674
- for <iommu@lists.linux-foundation.org>; Mon, 19 Oct 2020 18:31:01 +0000 (UTC)
-IronPort-SDR: a13qlrNigHfrg53xqHP5VNjOC3oTctCZDIuHZjxKD15Jy47186VV9xp8eJjXDc1v5oCm+ddEeF
- BEMROSwz1gcQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="163594630"
-X-IronPort-AV: E=Sophos;i="5.77,395,1596524400"; d="scan'208";a="163594630"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2020 11:30:57 -0700
-IronPort-SDR: 3omxCU3HGeLsa9nXlDlOwZ+t4XZ/tEctu88AwdfLWv/at6Ju8X7n+ZGuTMytBbp8ditxc03TnY
- 1nFtDlE1w56A==
-X-IronPort-AV: E=Sophos;i="5.77,395,1596524400"; d="scan'208";a="532734880"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Oct 2020 11:30:56 -0700
-Date: Mon, 19 Oct 2020 11:33:16 -0700
-From: Jacob Pan <jacob.jun.pan@linux.intel.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [RFC PATCH 0/2] iommu: Avoid unnecessary PRI queue flushes
-Message-ID: <20201019113316.2957c5f0@jacob-builder>
-In-Reply-To: <20201019140824.GA1478235@myrica>
-References: <20201015090028.1278108-1-jean-philippe@linaro.org>
- <20201015182211.GA54780@otc-nc-03>
- <20201016075923.GB1309464@myrica>
- <20201017112525.GA47206@otc-nc-03>
- <20201019140824.GA1478235@myrica>
-Organization: OTC
-X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 57CE986C72
+ for <iommu@lists.linux-foundation.org>; Mon, 19 Oct 2020 18:50:12 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1124A30E;
+ Mon, 19 Oct 2020 11:50:12 -0700 (PDT)
+Received: from [10.57.19.34] (unknown [10.57.19.34])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CF4A83F719;
+ Mon, 19 Oct 2020 11:50:09 -0700 (PDT)
+Subject: Re: [PATCH v5 2/3] iommu/arm-smmu-qcom: Read back stream mappings
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jordan Crouse <jcrouse@codeaurora.org>, Thierry Reding <treding@nvidia.com>,
+ Rob Clark <robdclark@chromium.org>
+References: <20201019182323.3162386-1-bjorn.andersson@linaro.org>
+ <20201019182323.3162386-3-bjorn.andersson@linaro.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <2bde9a4d-25bc-0ac7-d6e4-762667cc4fd2@arm.com>
+Date: Mon, 19 Oct 2020 19:50:10 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.3
 MIME-Version: 1.0
-Cc: kevin.tian@intel.com, "Raj, Ashok" <ashok.raj@intel.com>, arnd@arndb.de,
- gregkh@linuxfoundation.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, "Lu, Baolu" <baolu.lu@intel.com>,
- Jacon Jun Pan <jacob.jun.pan@intel.com>, linux-pci@vger.kernel.org,
- zhangfei.gao@linaro.org, dwmw2@infradead.org,
- linux-accelerators@lists.ozlabs.org
+In-Reply-To: <20201019182323.3162386-3-bjorn.andersson@linaro.org>
+Content-Language: en-GB
+Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,102 +70,74 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Jean-Philippe,
-
-On Mon, 19 Oct 2020 16:08:24 +0200, Jean-Philippe Brucker
-<jean-philippe@linaro.org> wrote:
-
-> On Sat, Oct 17, 2020 at 04:25:25AM -0700, Raj, Ashok wrote:
-> > > For devices that *don't* use a stop marker, the PCIe spec says
-> > > (10.4.1.2):
-> > > 
-> > >   To stop [using a PASID] without using a Stop Marker Message, the
-> > >   function shall:
-> > >   1. Stop queueing new Page Request Messages for this PASID.  
-> > 
-> > The device driver would need to tell stop sending any new PR's.
-> >   
-> > >   2. Finish transmitting any multi-page Page Request Messages for this
-> > >      PASID (i.e. send the Page Request Message with the L bit Set).
-> > >   3. Wait for PRG Response Messages associated any outstanding Page
-> > >      Request Messages for the PASID.
-> > > 
-> > > So they have to flush their PR themselves. And since the device driver
-> > > completes this sequence before calling unbind(), then there shouldn't
-> > > be any oustanding PR for the PASID, and unbind() doesn't need to
-> > > flush, right?  
-> > 
-> > I can see how the device can complete #2,3 above. But the device driver
-> > isn't the one managing page-responses right. So in order for the device
-> > to know the above sequence is complete, it would need to get some
-> > assist from IOMMU driver?  
+On 2020-10-19 19:23, Bjorn Andersson wrote:
+> The Qualcomm boot loader configures stream mapping for the peripherals
+> that it accesses and in particular it sets up the stream mapping for the
+> display controller to be allowed to scan out a splash screen or EFI
+> framebuffer.
 > 
-> No the device driver just waits for the device to indicate that it has
-> completed the sequence. That's what the magic stop-PASID mechanism
-> described by PCIe does. In 6.20.1 "Managing PASID TLP Prefix Usage" it
-> says:
-> 
-> "A Function must have a mechanism to request that it gracefully stop using
->  a specific PASID. This mechanism is device specific but must satisfy the
->  following rules:
->  [...]
->  * When the stop request mechanism indicates completion, the Function has:
->    [...]
->    * Complied with additional rules described in Address Translation
->      Services (Chapter 10 [10.4.1.2 quoted above]) if Address Translations
->      or Page Requests were issued on the behalf of this PASID."
-> 
-> So after the device driver initiates this mechanism in the device, the
-> device must be able to indicate completion of the mechanism, which
-> includes completing all in-flight Page Requests. At that point the device
-> driver can call unbind() knowing there is no pending PR for this PASID.
-> 
-In step #3, I think it is possible that device driver received page response
-as part of the auto page response, so it may not guarantee all the in-flight
-PRQs are completed inside IOMMU. Therefore, drain is _always_ needed to be
-sure?
+> Read back the stream mappings during initialization and make the
+> arm-smmu driver maintain the streams in bypass mode.
 
-> Thanks,
-> Jean
+Acked-by: Robin Murphy <robin.murphy@arm.com>
+
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
 > 
-> > 
-> > How does the driver know that everything host received has been
-> > responded back to device?
-> >   
-> > >   
-> > > > I'm not sure about other IOMMU's how they behave, When there is no
-> > > > space in the PRQ, IOMMU auto-responds to the device. This puts the
-> > > > device in a while (1) loop. The fake successful response will let
-> > > > the device do a ATS lookup, and that would fail forcing the device
-> > > > to do another PRQ.  
-> > > 
-> > > But in the sequence above, step 1 should ensure that the device will
-> > > not send another PR for any successful response coming back at step
-> > > 3.  
-> > 
-> > True, but there could be some page-request in flight on its way to the
-> > IOMMU. By draining and getting that round trip back to IOMMU we
-> > gaurantee things in flight are flushed to PRQ after that Drain
-> > completes.  
-> > > 
-> > > So I agree with the below if we suspect there could be pending PR, but
-> > > given that pending PR are a stop marker thing and we don't know any
-> > > device using stop markers, I wondered why I bothered implementing
-> > > PRIq flush at all for SMMUv3, hence this RFC.
-> > >   
-> > 
-> > Cheers,
-> > Ashok  
-
-
-Thanks,
-
-Jacob
+> Changes since v4:
+> - Don't increment s2cr[i]->count, as this is not actually needed to survive
+>    probe deferral
+> 
+>   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 23 ++++++++++++++++++++++
+>   1 file changed, 23 insertions(+)
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> index be4318044f96..48627fcf6bed 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+> @@ -23,6 +23,28 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
+>   	{ }
+>   };
+>   
+> +static int qcom_smmu_cfg_probe(struct arm_smmu_device *smmu)
+> +{
+> +	u32 smr;
+> +	int i;
+> +
+> +	for (i = 0; i < smmu->num_mapping_groups; i++) {
+> +		smr = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_SMR(i));
+> +
+> +		if (FIELD_GET(ARM_SMMU_SMR_VALID, smr)) {
+> +			smmu->smrs[i].id = FIELD_GET(ARM_SMMU_SMR_ID, smr);
+> +			smmu->smrs[i].mask = FIELD_GET(ARM_SMMU_SMR_MASK, smr);
+> +			smmu->smrs[i].valid = true;
+> +
+> +			smmu->s2crs[i].type = S2CR_TYPE_BYPASS;
+> +			smmu->s2crs[i].privcfg = S2CR_PRIVCFG_DEFAULT;
+> +			smmu->s2crs[i].cbndx = 0xff;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   static int qcom_smmu_def_domain_type(struct device *dev)
+>   {
+>   	const struct of_device_id *match =
+> @@ -61,6 +83,7 @@ static int qcom_smmu500_reset(struct arm_smmu_device *smmu)
+>   }
+>   
+>   static const struct arm_smmu_impl qcom_smmu_impl = {
+> +	.cfg_probe = qcom_smmu_cfg_probe,
+>   	.def_domain_type = qcom_smmu_def_domain_type,
+>   	.reset = qcom_smmu500_reset,
+>   };
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
