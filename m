@@ -1,63 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF134292E01
-	for <lists.iommu@lfdr.de>; Mon, 19 Oct 2020 21:02:35 +0200 (CEST)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2951029305A
+	for <lists.iommu@lfdr.de>; Mon, 19 Oct 2020 23:16:21 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3829F86D9C;
-	Mon, 19 Oct 2020 19:02:34 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E3AC587126;
+	Mon, 19 Oct 2020 21:16:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id V_Ym7xFMJ1B0; Mon, 19 Oct 2020 19:02:32 +0000 (UTC)
+	with ESMTP id V26IL+-sF4+U; Mon, 19 Oct 2020 21:16:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 977DE86DC0;
-	Mon, 19 Oct 2020 19:02:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 61F5F87152;
+	Mon, 19 Oct 2020 21:16:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 760F1C1AD7;
-	Mon, 19 Oct 2020 19:02:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4025DC1AD7;
+	Mon, 19 Oct 2020 21:16:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 93E6DC0051
- for <iommu@lists.linux-foundation.org>; Mon, 19 Oct 2020 19:02:31 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 988F7C0051
+ for <iommu@lists.linux-foundation.org>; Mon, 19 Oct 2020 21:16:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 7CB93874D4
- for <iommu@lists.linux-foundation.org>; Mon, 19 Oct 2020 19:02:31 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 93ED58714E
+ for <iommu@lists.linux-foundation.org>; Mon, 19 Oct 2020 21:16:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id N4dAMaykBvic for <iommu@lists.linux-foundation.org>;
- Mon, 19 Oct 2020 19:02:30 +0000 (UTC)
+ with ESMTP id qjRUTJKc8TZh for <iommu@lists.linux-foundation.org>;
+ Mon, 19 Oct 2020 21:16:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by whitealder.osuosl.org (Postfix) with ESMTP id D4FAB874F7
- for <iommu@lists.linux-foundation.org>; Mon, 19 Oct 2020 19:02:29 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 707F130E;
- Mon, 19 Oct 2020 12:02:29 -0700 (PDT)
-Received: from [10.57.19.34] (unknown [10.57.19.34])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1997C3F719;
- Mon, 19 Oct 2020 12:02:26 -0700 (PDT)
-Subject: Re: [PATCH v5 3/3] iommu/arm-smmu-qcom: Implement S2CR quirk
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jordan Crouse <jcrouse@codeaurora.org>, Thierry Reding <treding@nvidia.com>,
- Rob Clark <robdclark@chromium.org>
-References: <20201019182323.3162386-1-bjorn.andersson@linaro.org>
- <20201019182323.3162386-4-bjorn.andersson@linaro.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <fe27e7f2-7ba0-0b08-e727-84c78d5b7116@arm.com>
-Date: Mon, 19 Oct 2020 20:02:28 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.3.3
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 1966787126
+ for <iommu@lists.linux-foundation.org>; Mon, 19 Oct 2020 21:16:15 +0000 (UTC)
+IronPort-SDR: NN/Ej8Ep+rcinDrhrUBUUR2ppIfA536IGYZrewB98uh0XFERhDXSqLAX9v9JukU5MHlWQYE9x9
+ sViROc/Gh6VQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="166333400"
+X-IronPort-AV: E=Sophos;i="5.77,395,1596524400"; d="scan'208";a="166333400"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2020 14:16:09 -0700
+IronPort-SDR: CD359c4xk3Rf5x/5MIJhCR+FanRrzqfrS0rmjpc53eh6Mc5CuJOA3jRoJQHw7dASZ8S8ab517E
+ oIggluFAQglg==
+X-IronPort-AV: E=Sophos;i="5.77,395,1596524400"; d="scan'208";a="347587269"
+Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.36])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Oct 2020 14:16:09 -0700
+Date: Mon, 19 Oct 2020 14:16:08 -0700
+From: "Raj, Ashok" <ashok.raj@intel.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [RFC PATCH 0/2] iommu: Avoid unnecessary PRI queue flushes
+Message-ID: <20201019211608.GA79633@otc-nc-03>
+References: <20201015090028.1278108-1-jean-philippe@linaro.org>
+ <20201015182211.GA54780@otc-nc-03>
+ <20201016075923.GB1309464@myrica>
+ <20201017112525.GA47206@otc-nc-03>
+ <20201019140824.GA1478235@myrica>
 MIME-Version: 1.0
-In-Reply-To: <20201019182323.3162386-4-bjorn.andersson@linaro.org>
-Content-Language: en-GB
-Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <20201019140824.GA1478235@myrica>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: kevin.tian@intel.com, "Lu, Baolu" <baolu.lu@intel.com>, arnd@arndb.de,
+ gregkh@linuxfoundation.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, Jacon Jun Pan <jacob.jun.pan@intel.com>,
+ linux-pci@vger.kernel.org, zhangfei.gao@linaro.org,
+ Ashok Raj <ashok.raj@intel.com>, dwmw2@infradead.org,
+ linux-accelerators@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -70,152 +81,84 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-10-19 19:23, Bjorn Andersson wrote:
-> The firmware found in some Qualcomm platforms intercepts writes to S2CR
-> in order to replace bypass type streams with fault; and ignore S2CR
-> updates of type fault.
-> 
-> Detect this behavior and implement a custom write_s2cr function in order
-> to trick the firmware into supporting bypass streams by the means of
-> configuring the stream for translation using a reserved and disabled
-> context bank.
-> 
-> Also circumvent the problem of configuring faulting streams by
-> configuring the stream as bypass.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
-> 
-> Changes since v4:
-> - Made the bypass_cbndx an integer...
-> - Separated out the "quirk enabled or not" into a bool, rather than reusing
->    (the valid) context bank 0 to represent this.
-> - Dropped the unused EXIDS handling.
-> 
->   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 67 ++++++++++++++++++++++
->   1 file changed, 67 insertions(+)
-> 
-> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-> index 48627fcf6bed..66ba4870659f 100644
-> --- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-> @@ -10,8 +10,15 @@
->   
->   struct qcom_smmu {
->   	struct arm_smmu_device smmu;
-> +	bool bypass_quirk;
-> +	u8 bypass_cbndx;
->   };
->   
-> +static struct qcom_smmu *to_qcom_smmu(struct arm_smmu_device *smmu)
-> +{
-> +	return container_of(smmu, struct qcom_smmu, smmu);
-> +}
-> +
->   static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
->   	{ .compatible = "qcom,adreno" },
->   	{ .compatible = "qcom,mdp4" },
-> @@ -25,9 +32,33 @@ static const struct of_device_id qcom_smmu_client_of_match[] __maybe_unused = {
->   
->   static int qcom_smmu_cfg_probe(struct arm_smmu_device *smmu)
->   {
-> +	unsigned int last_s2cr = ARM_SMMU_GR0_S2CR(smmu->num_mapping_groups - 1);
-> +	struct qcom_smmu *qsmmu = to_qcom_smmu(smmu);
-> +	u32 reg;
->   	u32 smr;
->   	int i;
->   
-> +	/*
-> +	 * With some firmware versions writes to S2CR of type FAULT are
-> +	 * ignored, and writing BYPASS will end up written as FAULT in the
-> +	 * register. Perform a write to S2CR to detect if this is the case and
-> +	 * if so reserve a context bank to emulate bypass streams.
-> +	 */
-> +	reg = FIELD_PREP(ARM_SMMU_S2CR_TYPE, S2CR_TYPE_BYPASS) |
-> +	      FIELD_PREP(ARM_SMMU_S2CR_CBNDX, 0xff) |
-> +	      FIELD_PREP(ARM_SMMU_S2CR_PRIVCFG, S2CR_PRIVCFG_DEFAULT);
-> +	arm_smmu_gr0_write(smmu, last_s2cr, reg);
-> +	reg = arm_smmu_gr0_read(smmu, last_s2cr);
-> +	if (FIELD_GET(ARM_SMMU_S2CR_TYPE, reg) != S2CR_TYPE_BYPASS) {
-> +		qsmmu->bypass_quirk = true;
-> +		qsmmu->bypass_cbndx = smmu->num_context_banks - 1;
+Hi Jean
 
-FWIW you could arguably just calculate that at point of use. Or store 
-the index as an int and use a negative value to indicate when it's 
-irrelevant to save the separate flag. But there's also nothing *wrong* 
-with having it all spelled out, so regardless,
+On Mon, Oct 19, 2020 at 04:08:24PM +0200, Jean-Philippe Brucker wrote:
+> On Sat, Oct 17, 2020 at 04:25:25AM -0700, Raj, Ashok wrote:
+> > > For devices that *don't* use a stop marker, the PCIe spec says (10.4.1.2):
+> > > 
+> > >   To stop [using a PASID] without using a Stop Marker Message, the
+> > >   function shall:
+> > >   1. Stop queueing new Page Request Messages for this PASID.
+> > 
+> > The device driver would need to tell stop sending any new PR's.
+> > 
+> > >   2. Finish transmitting any multi-page Page Request Messages for this
+> > >      PASID (i.e. send the Page Request Message with the L bit Set).
+> > >   3. Wait for PRG Response Messages associated any outstanding Page
+> > >      Request Messages for the PASID.
+> > > 
+> > > So they have to flush their PR themselves. And since the device driver
+> > > completes this sequence before calling unbind(), then there shouldn't be
+> > > any oustanding PR for the PASID, and unbind() doesn't need to flush,
+> > > right?
+> > 
+> > I can see how the device can complete #2,3 above. But the device driver
+> > isn't the one managing page-responses right. So in order for the device to
+> > know the above sequence is complete, it would need to get some assist from
+> > IOMMU driver?
+> 
+> No the device driver just waits for the device to indicate that it has
+> completed the sequence. That's what the magic stop-PASID mechanism
+> described by PCIe does. In 6.20.1 "Managing PASID TLP Prefix Usage" it
+> says:
 
-Acked-by: Robin Murphy <robin.murphy@arm.com>
+The goal is we do this when the device is in a messup up state. So we can't
+take for granted the device is properly operating which is why we are going
+to wack the device with a flr().
+
+The only thing that's supposed to work without a brain freeze is the
+invalidation logic. Spec requires devices to respond to invalidations even when
+they are in the process of flr().
+
+So when IOMMU does an invalidation wait with a Page-Drain, IOMMU waits till
+the response for that arrives before completing the descriptor. Due to 
+the posted semantics it will ensure any PR's issued and in the fabric are flushed 
+out to memory. 
+
+I suppose you can wait for the device to vouch for all responses, but that
+is assuming the device is still functioning properly. Given that we use it
+in two places,
+
+* Reclaiming a PASID - only during a tear down sequence, skipping it
+  doesn't really buy us much.
+* During FLR this can't be skipped anyway due to the above sequence
+  requirement. 
+
+> 
+> "A Function must have a mechanism to request that it gracefully stop using
+>  a specific PASID. This mechanism is device specific but must satisfy the
+>  following rules:
+>  [...]
+>  * When the stop request mechanism indicates completion, the Function has:
+>    [...]
+>    * Complied with additional rules described in Address Translation
+>      Services (Chapter 10 [10.4.1.2 quoted above]) if Address Translations
+>      or Page Requests were issued on the behalf of this PASID."
+> 
+> So after the device driver initiates this mechanism in the device, the
+> device must be able to indicate completion of the mechanism, which
+> includes completing all in-flight Page Requests. At that point the device
+> driver can call unbind() knowing there is no pending PR for this PASID.
+> 
 
 Cheers,
-Robin.
-
-> +
-> +		set_bit(qsmmu->bypass_cbndx, smmu->context_map);
-> +
-> +		reg = FIELD_PREP(ARM_SMMU_CBAR_TYPE, CBAR_TYPE_S1_TRANS_S2_BYPASS);
-> +		arm_smmu_gr1_write(smmu, ARM_SMMU_GR1_CBAR(qsmmu->bypass_cbndx), reg);
-> +	}
-> +
->   	for (i = 0; i < smmu->num_mapping_groups; i++) {
->   		smr = arm_smmu_gr0_read(smmu, ARM_SMMU_GR0_SMR(i));
->   
-> @@ -45,6 +76,41 @@ static int qcom_smmu_cfg_probe(struct arm_smmu_device *smmu)
->   	return 0;
->   }
->   
-> +static void qcom_smmu_write_s2cr(struct arm_smmu_device *smmu, int idx)
-> +{
-> +	struct arm_smmu_s2cr *s2cr = smmu->s2crs + idx;
-> +	struct qcom_smmu *qsmmu = to_qcom_smmu(smmu);
-> +	u32 cbndx = s2cr->cbndx;
-> +	u32 type = s2cr->type;
-> +	u32 reg;
-> +
-> +	if (qsmmu->bypass_quirk) {
-> +		if (type == S2CR_TYPE_BYPASS) {
-> +			/*
-> +			 * Firmware with quirky S2CR handling will substitute
-> +			 * BYPASS writes with FAULT, so point the stream to the
-> +			 * reserved context bank and ask for translation on the
-> +			 * stream
-> +			 */
-> +			type = S2CR_TYPE_TRANS;
-> +			cbndx = qsmmu->bypass_cbndx;
-> +		} else if (type == S2CR_TYPE_FAULT) {
-> +			/*
-> +			 * Firmware with quirky S2CR handling will ignore FAULT
-> +			 * writes, so trick it to write FAULT by asking for a
-> +			 * BYPASS.
-> +			 */
-> +			type = S2CR_TYPE_BYPASS;
-> +			cbndx = 0xff;
-> +		}
-> +	}
-> +
-> +	reg = FIELD_PREP(ARM_SMMU_S2CR_TYPE, type) |
-> +	      FIELD_PREP(ARM_SMMU_S2CR_CBNDX, cbndx) |
-> +	      FIELD_PREP(ARM_SMMU_S2CR_PRIVCFG, s2cr->privcfg);
-> +	arm_smmu_gr0_write(smmu, ARM_SMMU_GR0_S2CR(idx), reg);
-> +}
-> +
->   static int qcom_smmu_def_domain_type(struct device *dev)
->   {
->   	const struct of_device_id *match =
-> @@ -86,6 +152,7 @@ static const struct arm_smmu_impl qcom_smmu_impl = {
->   	.cfg_probe = qcom_smmu_cfg_probe,
->   	.def_domain_type = qcom_smmu_def_domain_type,
->   	.reset = qcom_smmu500_reset,
-> +	.write_s2cr = qcom_smmu_write_s2cr,
->   };
->   
->   struct arm_smmu_device *qcom_smmu_impl_init(struct arm_smmu_device *smmu)
-> 
+Ashok
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
