@@ -1,82 +1,96 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBC12937D3
-	for <lists.iommu@lfdr.de>; Tue, 20 Oct 2020 11:19:01 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D85F2937E6
+	for <lists.iommu@lfdr.de>; Tue, 20 Oct 2020 11:20:47 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8BF6987301;
-	Tue, 20 Oct 2020 09:19:00 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 40B8B864E5;
+	Tue, 20 Oct 2020 09:20:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TT4ETKbJC2pX; Tue, 20 Oct 2020 09:19:00 +0000 (UTC)
+	with ESMTP id GG58c+LR7bj2; Tue, 20 Oct 2020 09:20:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0A31F872F9;
-	Tue, 20 Oct 2020 09:19:00 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 85ABC864E0;
+	Tue, 20 Oct 2020 09:20:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D4D08C088B;
-	Tue, 20 Oct 2020 09:18:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 638D7C0051;
+	Tue, 20 Oct 2020 09:20:43 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6ACD5C0051
- for <iommu@lists.linux-foundation.org>; Tue, 20 Oct 2020 09:18:58 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 515C6C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Oct 2020 09:20:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 57CFC872F3
- for <iommu@lists.linux-foundation.org>; Tue, 20 Oct 2020 09:18:58 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 3F9BD86B4F
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Oct 2020 09:20:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fo8az6dos4oh for <iommu@lists.linux-foundation.org>;
- Tue, 20 Oct 2020 09:18:57 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by hemlock.osuosl.org (Postfix) with ESMTPS id CB2338725F
- for <iommu@lists.linux-foundation.org>; Tue, 20 Oct 2020 09:18:57 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1603185537; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=2BhXAVt0m1txB89CYu9H5b4aqh3hJMtlYcEGVRUsolE=;
- b=n5SKEAMQdu7ME+0WnWYd36Q3yV+2kphfGX9gIRT4ongujGnbxY7TiFgES+n/qoQJL1QU7n54
- NHVFWEIYFXaY+oAEjN+95Cv5l5gqKhK4+gMVOd6WkWha7sOnurMInhzgF0Q0cSxY1/tnwfp4
- yLHW1j142Jpr4rdgJMu4Vx5gdXU=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 5f8eab8142f9861fb14e1aa6 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 20 Oct 2020 09:18:57
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 83FC9C433F1; Tue, 20 Oct 2020 09:18:57 +0000 (UTC)
-Received: from [192.168.0.103] (unknown [106.0.37.58])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: vjitta)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id C97CBC433CB;
- Tue, 20 Oct 2020 09:18:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C97CBC433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=vjitta@codeaurora.org
-Subject: Re: [PATCH v5 2/2] iommu/iova: Free global iova rcache on iova alloc
- failure
-To: joro@8bytes.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org
-References: <1601451864-5956-1-git-send-email-vjitta@codeaurora.org>
- <1601451864-5956-2-git-send-email-vjitta@codeaurora.org>
-From: Vijayanand Jitta <vjitta@codeaurora.org>
-Message-ID: <490cb495-3c08-6058-13f7-da381b88cf76@codeaurora.org>
-Date: Tue, 20 Oct 2020 14:48:43 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ with ESMTP id 0S8Lm8TmHlg5 for <iommu@lists.linux-foundation.org>;
+ Tue, 20 Oct 2020 09:20:40 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 688E086B4E
+ for <iommu@lists.linux-foundation.org>; Tue, 20 Oct 2020 09:20:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603185639;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HZrTt3RPheBVTMDXVvDc/OXdQNtnIu9P2NzODgtsSV0=;
+ b=OfvaBT0PZZS7/kQrFN4iChq5kmUH/pPQbdz0rKlhmKq0whLVC25jFl3fNSEVplNh+KwJ4P
+ YQu3P6NZcKExLx38gEFPwuKRk0IfYT54YnxW6NG9kQQR+dL/Ec4ttzsq/lkwwKb5wPi3Un
+ /E6ZHyi57an3e+LwX4HNUGnBSHuJkP0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-570-aRgYslQlN8CC3xuq29C9PA-1; Tue, 20 Oct 2020 05:20:35 -0400
+X-MC-Unique: aRgYslQlN8CC3xuq29C9PA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 436289CC1C;
+ Tue, 20 Oct 2020 09:20:33 +0000 (UTC)
+Received: from [10.72.13.171] (ovpn-13-171.pek2.redhat.com [10.72.13.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 05AEC6EF6E;
+ Tue, 20 Oct 2020 09:19:57 +0000 (UTC)
+Subject: Re: (proposal) RE: [PATCH v7 00/16] vfio: expose virtual Shared
+ Virtual Addressing to VMs
+To: "Liu, Yi L" <yi.l.liu@intel.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>,
+ "joro@8bytes.org" <joro@8bytes.org>
+References: <MWHPR11MB1645CFB0C594933E92A844AC8C070@MWHPR11MB1645.namprd11.prod.outlook.com>
+ <45faf89a-0a40-2a7a-0a76-d7ba76d0813b@redhat.com>
+ <MWHPR11MB1645CF252CF3493F4A9487508C050@MWHPR11MB1645.namprd11.prod.outlook.com>
+ <9c10b681-dd7e-2e66-d501-7fcc3ff1207a@redhat.com>
+ <MWHPR11MB164501E77BDB0D5AABA8487F8C020@MWHPR11MB1645.namprd11.prod.outlook.com>
+ <21a66a96-4263-7df2-3bec-320e6f38a9de@redhat.com>
+ <DM5PR11MB143531293E4D65028801FDA1C3020@DM5PR11MB1435.namprd11.prod.outlook.com>
+ <a43d47f5-320b-ef60-e2be-a797942ea9f2@redhat.com>
+ <DM5PR11MB1435D55CAE858CC8EC2AFA47C31F0@DM5PR11MB1435.namprd11.prod.outlook.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <6e478a9e-2051-c0cd-b6fd-624ff5ef0f53@redhat.com>
+Date: Tue, 20 Oct 2020 17:19:55 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1601451864-5956-2-git-send-email-vjitta@codeaurora.org>
-Content-Language: en-GB
-Cc: robin.murphy@arm.com, vinmenon@codeaurora.org, kernel-team@android.com
+In-Reply-To: <DM5PR11MB1435D55CAE858CC8EC2AFA47C31F0@DM5PR11MB1435.namprd11.prod.outlook.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Raj,
+ Ashok" <ashok.raj@intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "stefanha@gmail.com" <stefanha@gmail.com>, "Tian,
+ Jun J" <jun.j.tian@intel.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Sun,
+ Yi Y" <yi.y.sun@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, "Wu,
+ Hao" <hao.wu@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,86 +103,45 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-
-
-On 9/30/2020 1:14 PM, vjitta@codeaurora.org wrote:
-> From: Vijayanand Jitta <vjitta@codeaurora.org>
-> 
-> When ever an iova alloc request fails we free the iova
-> ranges present in the percpu iova rcaches and then retry
-> but the global iova rcache is not freed as a result we could
-> still see iova alloc failure even after retry as global
-> rcache is holding the iova's which can cause fragmentation.
-> So, free the global iova rcache as well and then go for the
-> retry.
-> 
-> Signed-off-by: Vijayanand Jitta <vjitta@codeaurora.org>
-> ---
->  drivers/iommu/iova.c | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
-> 
-> diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-> index c3a1a8e..faf9b13 100644
-> --- a/drivers/iommu/iova.c
-> +++ b/drivers/iommu/iova.c
-> @@ -25,6 +25,7 @@ static void init_iova_rcaches(struct iova_domain *iovad);
->  static void free_iova_rcaches(struct iova_domain *iovad);
->  static void fq_destroy_all_entries(struct iova_domain *iovad);
->  static void fq_flush_timeout(struct timer_list *t);
-> +static void free_global_cached_iovas(struct iova_domain *iovad);
->  
->  void
->  init_iova_domain(struct iova_domain *iovad, unsigned long granule,
-> @@ -442,6 +443,7 @@ alloc_iova_fast(struct iova_domain *iovad, unsigned long size,
->  		flush_rcache = false;
->  		for_each_online_cpu(cpu)
->  			free_cpu_cached_iovas(cpu, iovad);
-> +		free_global_cached_iovas(iovad);
->  		goto retry;
->  	}
->  
-> @@ -1057,5 +1059,26 @@ void free_cpu_cached_iovas(unsigned int cpu, struct iova_domain *iovad)
->  	}
->  }
->  
-> +/*
-> + * free all the IOVA ranges of global cache
-> + */
-> +static void free_global_cached_iovas(struct iova_domain *iovad)
-> +{
-> +	struct iova_rcache *rcache;
-> +	unsigned long flags;
-> +	int i, j;
-> +
-> +	for (i = 0; i < IOVA_RANGE_CACHE_MAX_SIZE; ++i) {
-> +		rcache = &iovad->rcaches[i];
-> +		spin_lock_irqsave(&rcache->lock, flags);
-> +		for (j = 0; j < rcache->depot_size; ++j) {
-> +			iova_magazine_free_pfns(rcache->depot[j], iovad);
-> +			iova_magazine_free(rcache->depot[j]);
-> +			rcache->depot[j] = NULL;
-> +		}
-> +		rcache->depot_size = 0;
-> +		spin_unlock_irqrestore(&rcache->lock, flags);
-> +	}
-> +}
->  MODULE_AUTHOR("Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>");
->  MODULE_LICENSE("GPL");
-> 
-
-Gentle ping.
-
-Thanks,
-Vijay
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
-member of Code Aurora Forum, hosted by The Linux Foundation
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SGkgWWk6CgpPbiAyMDIwLzEwLzIwIOS4i+WNiDQ6MTksIExpdSwgWWkgTCB3cm90ZToKPj4gWWVz
+LCBidXQgc2luY2UgUEFTSUQgaXMgYSBnbG9iYWwgaWRlbnRpZmllciBub3csIEkgdGhpbmsga2Vy
+bmVsIHNob3VsZAo+PiB0cmFjayB0aGUgYSBkZXZpY2UgbGlzdCBwZXIgUEFTSUQ/Cj4gV2UgaGF2
+ZSBzdWNoIHRyYWNrLiBJdCdzIGRvbmUgaW4gaW9tbXUgZHJpdmVyLiBZb3UgY2FuIHJlZmVyIHRv
+IHRoZQo+IHN0cnVjdCBpbnRlbF9zdm0uIFBBU0lEIGlzIGEgZ2xvYmFsIGlkZW50aWZpZXIsIGJ1
+dCBpdCBkb2VzbuKAmXQgYWZmZWN0IHRoYXQKPiB0aGUgUEFTSUQgdGFibGUgaXMgcGVyLWRldmlj
+ZS4KPgo+PiBTbyBmb3Igc3VjaCBiaW5kaW5nLCBQQVNJRCBzaG91bGQgYmUKPj4gc3VmZmljaWVu
+dCBmb3IgdUFQSS4KPiBub3QgcXVpdGUgZ2V0IGl0LiBQQVNJRCBtYXkgYmUgYm91bmQgdG8gbXVs
+dGlwbGUgZGV2aWNlcywgaG93IGRvCj4geW91IGZpZ3VyZSBvdXQgdGhlIHRhcmdldCBkZXZpY2Ug
+aWYgeW91IGRvbuKAmXQgcHJvdmlkZSBzdWNoIGluZm8uCgoKSSBtYXkgbWlzcyBzb2VtdGhpbmcg
+YnV0IGlzIHRoZXJlIGFueSByZWFzb24gdGhhdCB1c2Vyc3BhY2UgbmVlZCB0byAKZmlndXJlIG91
+dCB0aGUgdGFyZ2V0IGRldmljZT8gUEFTSUQgaXMgYWJvdXQgYWRkcmVzcyBzcGFjZSBub3QgYSAK
+c3BlY2lmaWMgZGV2aWNlIEkgdGhpbmsuCgoKPgo+Pj4+PiBUaGUgYmluZGluZyByZXF1ZXN0IGlz
+IGluaXRpYXRlZCBieSB0aGUgdmlydHVhbCBJT01NVSwgd2hlbiBjYXB0dXJpbmcKPj4+Pj4gZ3Vl
+c3QgYXR0ZW1wdCBvZiBiaW5kaW5nIHBhZ2UgdGFibGUgdG8gYSB2aXJ0dWFsIFBBU0lEIGVudHJ5
+IGZvciBhCj4+Pj4+IGdpdmVuIGRldmljZS4KPj4+PiBBbmQgZm9yIEwyIHBhZ2UgdGFibGUgcHJv
+Z3JhbW1pbmcsIGlmIFBBU0lEIGlzIHVzZSBieSBib3RoIGUuZyBWRklPIGFuZAo+Pj4+IHZEUEEs
+IHVzZXIgbmVlZCB0byBjaG9vc2Ugb25lIG9mIHVBUEkgdG8gYnVpbGQgbDIgbWFwcGluZ3M/Cj4+
+PiBmb3IgTDIgcGFnZSB0YWJsZSBtYXBwaW5ncywgaXQncyBkb25lIGJ5IFZGSU8gTUFQL1VOTUFQ
+LiBmb3IgdmRwYSwgSSBndWVzcwo+Pj4gaXQgaXMgdGxiIGZsdXNoLiBzbyB5b3UgYXJlIHJpZ2h0
+LiBLZWVwaW5nIEwxL0wyIHBhZ2UgdGFibGUgbWFuYWdlbWVudCBpbgo+Pj4gYSBzaW5nbGUgdUFQ
+SSBzZXQgaXMgYWxzbyBhIHJlYXNvbiBmb3IgbXkgY3VycmVudCBzZXJpZXMgd2hpY2ggZXh0ZW5k
+cyBWRklPCj4+PiBmb3IgTDEgbWFuYWdlbWVudC4KPj4gSSdtIGFmcmFpZCB0aGF0IHdvdWxkIGlu
+dHJvZHVjZSBjb25mdXNpbmcgdG8gdXNlcnNwYWNlLiBFLmc6Cj4+Cj4+IDEpIHdoZW4gaGF2aW5n
+IG9ubHkgdkRQQSBkZXZpY2UsIGl0IHVzZXMgdkRQQSB1QVBJIHRvIGRvIGwyIG1hbmFnZW1lbnQK
+Pj4gMikgd2hlbiB2RFBBIHNoYXJlcyBQQVNJRCB3aXRoIFZGSU8sIGl0IHdpbGwgdXNlIFZGSU8g
+dUFQSSB0byBkbyB0aGUgbDIKPj4gbWFuYWdlbWVudD8KPiBJIHRoaW5rIHZEUEEgd2lsbCBzdGls
+bCB1c2UgaXRzIG93biBsMiBmb3IgdGhlIGwyIG1hcHBpbmdzLiBub3Qgc3VyZSB3aHkgeW91Cj4g
+bmVlZCB2RFBBIHVzZSBWRklPJ3MgbDIgbWFuYWdlbWVudC4gSSBkb24ndCB0aGluayBpdCBpcyB0
+aGUgY2FzZS4KCgpTZWUgcHJldmlvdXMgZGlzY3Vzc2lvbiB3aXRoIEtldmluLiBJZiBJIHVuZGVy
+c3RhbmQgY29ycmVjdGx5LCB5b3UgCmV4cGVjdCBhIHNoYXJlZCBMMiB0YWJsZSBpZiB2RFBBIGFu
+ZCBWRklPIGRldmljZSBhcmUgdXNpbmcgdGhlIHNhbWUgUEFTSUQuCgpJbiB0aGlzIGNhc2UsIGlm
+IGwyIGlzIHN0aWxsIG1hbmFnZWQgc2VwYXJhdGVseSwgdGhlcmUgd2lsbCBiZSAKZHVwbGljYXRl
+ZCByZXF1ZXN0IG9mIG1hcCBhbmQgdW5tYXAuCgpUaGFua3MKCgo+Cj4gUmVnYXJkcywKPiBZaSBM
+aXUKPgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9t
+bXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8v
+bGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
