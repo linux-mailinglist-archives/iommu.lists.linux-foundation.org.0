@@ -1,109 +1,91 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1F0294FFD
-	for <lists.iommu@lfdr.de>; Wed, 21 Oct 2020 17:29:20 +0200 (CEST)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1442951BC
+	for <lists.iommu@lfdr.de>; Wed, 21 Oct 2020 19:46:33 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5225585CFE;
-	Wed, 21 Oct 2020 15:29:19 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id C62DC2EB12;
+	Wed, 21 Oct 2020 17:46:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 73psbHK6a2Tz; Wed, 21 Oct 2020 15:29:18 +0000 (UTC)
+	with ESMTP id qfzV+8z9f39R; Wed, 21 Oct 2020 17:46:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B7A5A85CD8;
-	Wed, 21 Oct 2020 15:29:18 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DF29B316A1;
+	Wed, 21 Oct 2020 14:55:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 95457C0051;
-	Wed, 21 Oct 2020 15:29:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D458AC0051;
+	Wed, 21 Oct 2020 14:55:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DBC13C0051
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 15:29:16 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ED0D1C0051
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 14:55:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C9B6B87019
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 15:29:16 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id DC460863D9
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 14:55:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0iI9af+wBv1U for <iommu@lists.linux-foundation.org>;
- Wed, 21 Oct 2020 15:29:16 +0000 (UTC)
+ with ESMTP id eeizBfo55PcK for <iommu@lists.linux-foundation.org>;
+ Wed, 21 Oct 2020 14:55:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D1C9E86FC3
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 15:29:15 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09LF8qWh058622;
- Wed, 21 Oct 2020 15:28:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=B7vBvfn8227zOvfWtf1187wJychX5h3pcBxw5mG5iYY=;
- b=X6zMf9Xi2Nhtuztf53wsLdasGvRSaNrdSwtdk0H5jxCIp7uGXo5xlPJWX1r7M4AuZuLD
- Iqyx98UMniAE5riHIMSf59eu/Im4D4CEVKzGyvFzCO3nbqaIc5/z0kxzbB3JUbOe+eoP
- 52fCf1sMcPZojl3fU4aVvno8NFXr+lbkxH0wsSGtSqeiuCQfsrzqEPljqHKjA5HR5dDR
- 1fztRgqDS/MrP4K1UMRheNCz8ggVQiMt5SC+hbIrgj3+xn7GnRmb7IDtYVylS7MEF5Fq
- 9G1xpuUENS4IlNSoXuRgw3gJ+7YAHFiLNgLSR/r+gB4K75agxGEVmLGVmWSK7/Rg5BFn sw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 349jrps9ev-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 21 Oct 2020 15:28:54 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09LF9u6s011436;
- Wed, 21 Oct 2020 15:28:53 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 34ak18syk3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 21 Oct 2020 15:28:53 +0000
-Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09LFSdnw002429;
- Wed, 21 Oct 2020 15:28:39 GMT
-Received: from tomti.i.net-space.pl (/10.175.162.2)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 21 Oct 2020 08:28:38 -0700
-Date: Wed, 21 Oct 2020 17:28:33 +0200
-From: Daniel Kiper <daniel.kiper@oracle.com>
-To: Arvind Sankar <nivedita@alum.mit.edu>
-Subject: Re: [PATCH 07/13] x86: Secure Launch kernel early boot stub
-Message-ID: <20201021152833.b3oys643ckcl5evq@tomti.i.net-space.pl>
-References: <1600959521-24158-1-git-send-email-ross.philipson@oracle.com>
- <1600959521-24158-8-git-send-email-ross.philipson@oracle.com>
- <20200924173801.GA103726@rani.riverdale.lan>
- <c9ab2edf-1aaf-a1c9-92d5-2d37382a3163@oracle.com>
- <20200925191842.GA643740@rani.riverdale.lan>
- <d34c189c-4528-0458-0b84-cfd36dc068b3@oracle.com>
- <20201015182654.lgtht5fd2aaunczu@tomti.i.net-space.pl>
- <20201016205151.GA1618249@rani.riverdale.lan>
- <20201019145153.7b6cg3rzj7g4njz6@tomti.i.net-space.pl>
- <20201019171822.GD2701355@rani.riverdale.lan>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id C34CE863C5
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 14:55:17 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id dg9so2843402edb.12
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 07:55:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=TT/hPDcCjkJCenk8sLHU1Sek4T/MxX3FitCsX0otRRc=;
+ b=tnlFBdD60NP1j8CKi3rq0v7z4WCacFdpguP+kTr9uz2MOzLrWy6v9UfR2aViCYoEs4
+ KNgexySZD6t48QEV0KYpCSCJQr1dAfmO5L3JY6/orVfiif1vNz6RTPCvO2z9suGyggQw
+ ZP7CkNfToa3mHdlDo9xnCOF8GRwUleHlkUAmIJY9zZHgUqvebiMZjqJ95PTq4lJptC93
+ 7btioFs3fVFwa26j3dBRkvE3qpbk/irVE/8cZeZbxswjcfy1LhRk2cTmiwobkzVVMqki
+ nhvW//0XltzV4dYBqGiG2MrKzCNIfn0BDtzQ4Z1etG4sws1lKittG2ZNKnfwqBjJhYBx
+ izcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=TT/hPDcCjkJCenk8sLHU1Sek4T/MxX3FitCsX0otRRc=;
+ b=MYDFc+Ke1dxEcCSDZv0aEZb9ITVyCbSWsvROrUvo0Hf4cc5a5KWSQheVi5MWyCXem3
+ JWblym/u8HDiCxTwuhVX7ue3N1Rl8R5SzTc3dSKOOwydCTY3pTGIkJf2wLHcY5Ee2cYg
+ 5CnPsd/6gPK3et5XaQORU+UhQ9UwSM1r3/daa+lXKPhozrHpSctODBSnvZCGAk/scsxL
+ VpUjTXZSC/pV3dmyanKrgiSEstIvo1UdbeWtv2y82RvXTVF2vfeR1O7xoiiw81ZhyjU4
+ Pyi3X8F1ALo69e6bRtv5CJNZ+OAkumethSmUHwDh905Sa8vy8wgddodnq96wztiWktFE
+ 0pZg==
+X-Gm-Message-State: AOAM532NBXIbmHfl3x84OMJ7OoJZY4216q4caRKeNd53zjFAQIsIsJQT
+ zXPRpXAPMUIUqDkUStbi8ARNYg==
+X-Google-Smtp-Source: ABdhPJxO/uNuN/kb6YExIPr9kYKJ7e7ROpNtyXJhX1g05ieAZquuDAeeEqFw/4xdqCfGl12l+fr2xw==
+X-Received: by 2002:a50:8acf:: with SMTP id k15mr3413516edk.351.1603292116012; 
+ Wed, 21 Oct 2020 07:55:16 -0700 (PDT)
+Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id lb11sm2406579ejb.27.2020.10.21.07.55.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Oct 2020 07:55:15 -0700 (PDT)
+Date: Wed, 21 Oct 2020 16:54:56 +0200
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Jacob Pan <jacob.pan.linux@gmail.com>
+Subject: Re: [PATCH v3 04/14] iommu/ioasid: Support setting system-wide
+ capacity
+Message-ID: <20201021145456.GB1653231@myrica>
+References: <1601329121-36979-1-git-send-email-jacob.jun.pan@linux.intel.com>
+ <1601329121-36979-5-git-send-email-jacob.jun.pan@linux.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201019171822.GD2701355@rani.riverdale.lan>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9780
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- mlxscore=0 phishscore=0
- spamscore=0 adultscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010210114
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9780
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- lowpriorityscore=0
- priorityscore=1501 impostorscore=0 adultscore=0 bulkscore=0 malwarescore=0
- mlxlogscore=999 mlxscore=0 spamscore=0 suspectscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010210114
-Cc: linux-doc@vger.kernel.org, dpsmith@apertussolutions.com,
- Ross Philipson <ross.philipson@oracle.com>, x86@kernel.org,
- linux-kernel@vger.kernel.org, luto@amacapital.net,
- iommu@lists.linux-foundation.org, mingo@redhat.com, bp@alien8.de,
- hpa@zytor.com, linux-integrity@vger.kernel.org,
- trenchboot-devel@googlegroups.com, tglx@linutronix.de
+In-Reply-To: <1601329121-36979-5-git-send-email-jacob.jun.pan@linux.intel.com>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Raj Ashok <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-api@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.com>,
+ iommu@lists.linux-foundation.org, Wu Hao <hao.wu@intel.com>,
+ David Woodhouse <dwmw2@infradead.org>, Yi Sun <yi.y.sun@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,65 +103,119 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Oct 19, 2020 at 01:18:22PM -0400, Arvind Sankar wrote:
-> On Mon, Oct 19, 2020 at 04:51:53PM +0200, Daniel Kiper wrote:
-> > On Fri, Oct 16, 2020 at 04:51:51PM -0400, Arvind Sankar wrote:
-> > > On Thu, Oct 15, 2020 at 08:26:54PM +0200, Daniel Kiper wrote:
-> > > >
-> > > > I am discussing with Ross the other option. We can create
-> > > > .rodata.mle_header section and put it at fixed offset as
-> > > > kernel_info is. So, we would have, e.g.:
-> > > >
-> > > > arch/x86/boot/compressed/vmlinux.lds.S:
-> > > >         .rodata.kernel_info KERNEL_INFO_OFFSET : {
-> > > >                 *(.rodata.kernel_info)
-> > > >         }
-> > > >         ASSERT(ABSOLUTE(kernel_info) == KERNEL_INFO_OFFSET, "kernel_info at bad address!")
-> > > >
-> > > >         .rodata.mle_header MLE_HEADER_OFFSET : {
-> > > >                 *(.rodata.mle_header)
-> > > >         }
-> > > >         ASSERT(ABSOLUTE(mle_header) == MLE_HEADER_OFFSET, "mle_header at bad address!")
-> > > >
-> > > > arch/x86/boot/compressed/sl_stub.S:
-> > > > #define mleh_rva(X) (((X) - mle_header) + MLE_HEADER_OFFSET)
-> > > >
-> > > >         .section ".rodata.mle_header", "a"
-> > > >
-> > > > SYM_DATA_START(mle_header)
-> > > >         .long   0x9082ac5a    /* UUID0 */
-> > > >         .long   0x74a7476f    /* UUID1 */
-> > > >         .long   0xa2555c0f    /* UUID2 */
-> > > >         .long   0x42b651cb    /* UUID3 */
-> > > >         .long   0x00000034    /* MLE header size */
-> > > >         .long   0x00020002    /* MLE version 2.2 */
-> > > >         .long   mleh_rva(sl_stub_entry)    /* Linear entry point of MLE (virt. address) */
-> > > >         .long   0x00000000    /* First valid page of MLE */
-> > > >         .long   0x00000000    /* Offset within binary of first byte of MLE */
-> > > >         .long   0x00000000    /* Offset within binary of last byte + 1 of MLE */
-> > > >         .long   0x00000223    /* Bit vector of MLE-supported capabilities */
-> > > >         .long   0x00000000    /* Starting linear address of command line (unused) */
-> > > >         .long   0x00000000    /* Ending linear address of command line (unused) */
-> > > > SYM_DATA_END(mle_header)
-> > > >
-> > > > Of course MLE_HEADER_OFFSET has to be defined as a constant somewhere.
-> > > > Anyway, is it acceptable?
-> >
-> > What do you think about my MLE_HEADER_OFFSET and related stuff proposal?
-> >
->
-> I'm wondering if it would be easier to just allow relocations in these
-> special "header" sections. I need to check how easy/hard it is to do
-> that without triggering linker warnings.
+On Mon, Sep 28, 2020 at 02:38:31PM -0700, Jacob Pan wrote:
+> IOASID is a system-wide resource that could vary on different systems.
+> The default capacity is 20 bits as defined in the PCI-E specifications.
+> This patch adds a function to allow adjusting system IOASID capacity.
+> For VT-d this is set during boot as part of the Intel IOMMU
+> initialization.
+> 
+> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 
-Ross and I still bouncing some ideas. We came to the conclusion that
-putting mle_header into kernel .rodata.kernel_info section or even
-arch/x86/boot/compressed/kernel_info.S file would be the easiest thing
-to do at this point. Of course I would suggest some renaming too. E.g.
-.rodata.kernel_info to .rodata.kernel_headers, etc. Does it make sense
-for you?
+Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-Daniel
+> ---
+>  drivers/iommu/intel/iommu.c |  5 +++++
+>  drivers/iommu/ioasid.c      | 20 ++++++++++++++++++++
+>  include/linux/ioasid.h      | 11 +++++++++++
+>  3 files changed, 36 insertions(+)
+> 
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index 18ed3b3c70d7..e7bcb299e51e 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -42,6 +42,7 @@
+>  #include <linux/crash_dump.h>
+>  #include <linux/numa.h>
+>  #include <linux/swiotlb.h>
+> +#include <linux/ioasid.h>
+
+(not in alphabetical order)
+
+>  #include <asm/irq_remapping.h>
+>  #include <asm/cacheflush.h>
+>  #include <asm/iommu.h>
+> @@ -3331,6 +3332,10 @@ static int __init init_dmars(void)
+>  	if (ret)
+>  		goto free_iommu;
+>  
+> +	/* PASID is needed for scalable mode irrespective to SVM */
+> +	if (intel_iommu_sm)
+> +		ioasid_install_capacity(intel_pasid_max_id);
+> +
+>  	/*
+>  	 * for each drhd
+>  	 *   enable fault log
+> diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
+> index 6cfbdfb492e0..4277cb17e15b 100644
+> --- a/drivers/iommu/ioasid.c
+> +++ b/drivers/iommu/ioasid.c
+> @@ -10,6 +10,10 @@
+>  #include <linux/spinlock.h>
+>  #include <linux/xarray.h>
+>  
+> +/* Default to PCIe standard 20 bit PASID */
+> +#define PCI_PASID_MAX 0x100000
+> +static ioasid_t ioasid_capacity = PCI_PASID_MAX;
+> +static ioasid_t ioasid_capacity_avail = PCI_PASID_MAX;
+>  struct ioasid_data {
+>  	ioasid_t id;
+>  	struct ioasid_set *set;
+> @@ -17,6 +21,22 @@ struct ioasid_data {
+>  	struct rcu_head rcu;
+>  };
+>  
+> +void ioasid_install_capacity(ioasid_t total)
+> +{
+> +	if (ioasid_capacity && ioasid_capacity != PCI_PASID_MAX) {
+> +		pr_warn("IOASID capacity is already set.\n");
+> +		return;
+> +	}
+> +	ioasid_capacity = ioasid_capacity_avail = total;
+> +}
+> +EXPORT_SYMBOL_GPL(ioasid_install_capacity);
+> +
+> +ioasid_t ioasid_get_capacity(void)
+> +{
+> +	return ioasid_capacity;
+> +}
+> +EXPORT_SYMBOL_GPL(ioasid_get_capacity);
+> +
+>  /*
+>   * struct ioasid_allocator_data - Internal data structure to hold information
+>   * about an allocator. There are two types of allocators:
+> diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
+> index c7f649fa970a..7fc320656be2 100644
+> --- a/include/linux/ioasid.h
+> +++ b/include/linux/ioasid.h
+> @@ -32,6 +32,8 @@ struct ioasid_allocator_ops {
+>  #define DECLARE_IOASID_SET(name) struct ioasid_set name = { 0 }
+>  
+>  #if IS_ENABLED(CONFIG_IOASID)
+> +void ioasid_install_capacity(ioasid_t total);
+> +ioasid_t ioasid_get_capacity(void);
+>  ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min, ioasid_t max,
+>  		      void *private);
+>  void ioasid_free(ioasid_t ioasid);
+> @@ -42,6 +44,15 @@ void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
+>  int ioasid_attach_data(ioasid_t ioasid, void *data);
+>  void ioasid_detach_data(ioasid_t ioasid);
+>  #else /* !CONFIG_IOASID */
+> +static inline void ioasid_install_capacity(ioasid_t total)
+> +{
+> +}
+> +
+> +static inline ioasid_t ioasid_get_capacity(void)
+> +{
+> +	return 0;
+> +}
+> +
+>  static inline ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min,
+>  				    ioasid_t max, void *private)
+>  {
+> -- 
+> 2.7.4
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
