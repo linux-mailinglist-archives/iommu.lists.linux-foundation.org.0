@@ -2,114 +2,69 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9255029522C
-	for <lists.iommu@lfdr.de>; Wed, 21 Oct 2020 20:24:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB2629530A
+	for <lists.iommu@lfdr.de>; Wed, 21 Oct 2020 21:41:37 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2A2E787502;
-	Wed, 21 Oct 2020 18:24:51 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 71AA387436;
+	Wed, 21 Oct 2020 19:41:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XYIjDDbqxusX; Wed, 21 Oct 2020 18:24:50 +0000 (UTC)
+	with ESMTP id dHQCyYt0tJ-r; Wed, 21 Oct 2020 19:41:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 92A7C8750E;
-	Wed, 21 Oct 2020 18:24:50 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B6F0C871C0;
+	Wed, 21 Oct 2020 19:41:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 64E87C1AD5;
-	Wed, 21 Oct 2020 18:24:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A4D17C0051;
+	Wed, 21 Oct 2020 19:41:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 87670C0052
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 18:24:48 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9F588C0051
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 19:03:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 7E036870C8
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 18:24:48 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 8E17186B28
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 19:03:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QT0Y95IWcjHY for <iommu@lists.linux-foundation.org>;
- Wed, 21 Oct 2020 18:24:47 +0000 (UTC)
+ with ESMTP id aGtCEjWiTp+A for <iommu@lists.linux-foundation.org>;
+ Wed, 21 Oct 2020 19:03:20 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
- [216.228.121.65])
- by whitealder.osuosl.org (Postfix) with ESMTPS id E67BC870BB
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 18:24:47 +0000 (UTC)
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f907ce30000>; Wed, 21 Oct 2020 11:24:35 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 21 Oct
- 2020 18:24:46 +0000
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.46) by
- HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server
- (TLS) id
- 15.0.1473.3 via Frontend Transport; Wed, 21 Oct 2020 18:24:45 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rm+V9mype58dG1Zn3Q4vYCV8+Cxb1ZJ2Akx9ftuPjv1hRx1RFYGJqBe2sZ8H7SYfg/8OJRTUIsDSsfBxshzLpw4eEqBVCij5lxHJwYfy/zHkzg263oJsG+qwakMumaovffBoOdGN/YjELH/SSZ8ep1hLR9M9TTFjkpviZkGypA3ASKKcw4Rz/BC97HwPO3iCkxCigUJuw6n7Lf+c/Nlg5dKnBjPOkUwqrIAZSwIE8s+CHfVgPMFmVTAT31CIAw4r8LQiO56FJP5sdtVUn2wN4D4yZ3P79l56LUIvTH6ZNJZhfn9LkFZMiK0FWO3k3Ni1fhDgNmfJ5xVdFEDI4zz8lw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0NgPxzLNUZzeKlTpQJekvGEV1+nt/QXlzaHcwUJQt5Y=;
- b=GjfJZ6SJUmFVhiODdyVSwA4hdPb23uJ1Yiei1mJG83BkkUvj0UORM5oXKeW9lLaStg0sLX6NTgG+pfFfDMTBcFlFCTN5bq1+9NcDWl6aA5LEDXzeTBk/On08kAEwJzdj/3SqskRUFMq5IM2qbqLkIgl0yoLLriXK+MQo72wWEAbPp67cvyBIe2sxXB9/dk8akzYd3GSqoeKDUz7mYJBHaBr0yQw+mvXmRPCBRHkbEn2FIWDPNczrHW/NVc4NDf0qFc8/qP3kTc64MVyTaxtMHVCmiMRIeFLg+r3H1EL46wr25SJIFggBXd+GwVTQawKXhxnDdGsqfPAMGKM4Z05YUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB2488.namprd12.prod.outlook.com (2603:10b6:4:b5::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.27; Wed, 21 Oct
- 2020 18:24:43 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
- 18:24:43 +0000
-Date: Wed, 21 Oct 2020 15:24:42 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Raj, Ashok" <ashok.raj@intel.com>
-Subject: Re: (proposal) RE: [PATCH v7 00/16] vfio: expose virtual Shared
- Virtual Addressing to VMs
-Message-ID: <20201021182442.GU6219@nvidia.com>
-References: <20201020140217.GI6219@nvidia.com>
- <20201020162430.GA85321@otc-nc-03> <20201020170336.GK6219@nvidia.com>
- <20201020195146.GA86371@otc-nc-03> <20201020195557.GO6219@nvidia.com>
- <20201020200844.GC86371@otc-nc-03> <20201020201403.GP6219@nvidia.com>
- <20201020202713.GF86371@otc-nc-03> <20201021114829.GR6219@nvidia.com>
- <20201021175146.GA92867@otc-nc-03>
-Content-Disposition: inline
-In-Reply-To: <20201021175146.GA92867@otc-nc-03>
-X-ClientProxiedBy: MN2PR13CA0026.namprd13.prod.outlook.com
- (2603:10b6:208:160::39) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id C3C7186B0E
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 19:03:20 +0000 (UTC)
+Received: by mail-io1-f71.google.com with SMTP id y19so2288859iow.23
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 12:03:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=UZ+enrykDZn0RBAehZWXA0bKtfaNR6wmh3gkDAdQ0qU=;
+ b=UKXQ858ploQr6R55k2v7dcBrIaWc/mvpVlNum5rBM+U+gXPIlT3ngSHgLR/qLsOZc7
+ IiDLEHtN44KwoVeQs6a7i3eKglWKAMI3+7KjjsTm5AO98c7TaC4UxvBpjIzoNlSjjhql
+ Wb9f0RNIjNo3SzQL4MPDoHbit/x+rgYwCm6b3AeJNnd9FJpWT+89kZXqskk7nGsbJ76/
+ nrfO8r5+o69TtdWqcpEmjPAjsuodGHRiKJI4Jt5S2ImYs2Zbb5gNskQSaCIoY4T/8HMr
+ 5mBdCOmZCf1hEHK34LbkOHLxgs+b00FGzjvJ3fNuCXYWqvYElo7/Cl1+QlA3TY9Rjf3c
+ LtUQ==
+X-Gm-Message-State: AOAM530faJS+2BC6EVVyNDvZFon3cIZpN22VkrW75vwdPlCoKKYHQMi1
+ pHg3sO/dyivj7bt1lVRtPYWBf4akyYM9E8ZtpxHAJtlW4elt
+X-Google-Smtp-Source: ABdhPJz2DS8buf571WovUNMKHuSLSF76DGgezNV/agArJmCbhllMoFPN7q2PFS7kA5XVwafLNLZkSOV+4eJYXHkyl2WL1jnLWRkI
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by
- MN2PR13CA0026.namprd13.prod.outlook.com (2603:10b6:208:160::39) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.8 via Frontend
- Transport; Wed, 21 Oct 2020 18:24:43 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1kVImw-003eNU-FQ; Wed, 21 Oct 2020 15:24:42 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603304675; bh=0NgPxzLNUZzeKlTpQJekvGEV1+nt/QXlzaHcwUJQt5Y=;
- h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
- From:To:CC:Subject:Message-ID:References:Content-Type:
- Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
- X-MS-Exchange-MessageSentRepresentingType;
- b=bdy3zt3UXZqrIG7p7ZaOsWwJgj7Rz3bgeb7w1uBKL6anURiWOqhzAXWNf44TP3U+j
- 8vmsREk9wfrTVW0pqV9NRMUnUyn7WL21bO9pgsHpgg0ifGZCm46RR+ogXkQGXbNxeQ
- oJmYDbDLxJJhi41LhZLu70elIlyLtC8CU0wNfcI+eHnUldWFxTwFo51l8CTTLRl0oW
- PUZQAySfiBkCCcJqba2LEEanr2O6F0FlLoOHMiVgFk4+B8XsS2SUL8r5qo0nhF92p8
- ZUGy3C6CqL7EPkHlx2YygPmr1tgCg6u18RkaUI4L8zeBh2K2O7Z7DqgUAfZjYF1HsE
- 5/ECpbV+gfrLQ==
-Cc: "Tian, Jun J" <jun.j.tian@intel.com>, "Tian, Kevin" <kevin.tian@intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
- "stefanha@gmail.com" <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Zhu,
- Lingshan" <lingshan.zhu@intel.com>, "Wu, Hao" <hao.wu@intel.com>
+X-Received: by 2002:a02:8661:: with SMTP id e88mr4055127jai.43.1603306999991; 
+ Wed, 21 Oct 2020 12:03:19 -0700 (PDT)
+Date: Wed, 21 Oct 2020 12:03:19 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000335adc05b23300f6@google.com>
+Subject: WARNING in dma_map_page_attrs
+From: syzbot <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>
+To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org, hch@lst.de, 
+ iommu@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ m.szyprowski@samsung.com, robin.murphy@arm.com, sumit.semwal@linaro.org, 
+ syzkaller-bugs@googlegroups.com
+X-Mailman-Approved-At: Wed, 21 Oct 2020 19:41:35 +0000
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -127,35 +82,89 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Oct 21, 2020 at 10:51:46AM -0700, Raj, Ashok wrote:
+Hello,
 
-> > If they didn't plan to use it, bit of a strawman argument, right?
-> 
-> This doesn't need to continue like the debates :-) Pun intended :-)
-> 
-> I don't think it makes any sense to have an abstract strawman argument
-> design discussion. Yi is looking into for pasid management alone. Rest 
-> of the IOMMU related topics should wait until we have another 
-> *real* use requiring consolidation. 
+syzbot found the following issue on:
 
-Actually I'm really annoyed right now that the other Intel team wasted
-quiet a lot of the rest of our time on arguing about vDPA and vfio
-with no actual interest in this technology.
+HEAD commit:    c4d6fe73 Merge tag 'xarray-5.9' of git://git.infradead.org..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14862ff0500000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7d790573d3e379c4
+dashboard link: https://syzkaller.appspot.com/bug?extid=34dc2fea3478e659af01
+compiler:       gcc (GCC) 10.1.0-syz 20200507
 
-So you'll excuse me if I'm not particularly enamored with this
-discussion right now.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-> Contrary to your argument, vDPA went with a half blown device only 
-> iommu user without considering existing abstractions like containers
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com
 
-VDPA IOMMU was done *for Intel*, as the kind of half-architected thing
-you are advocating should be allowed for IDXD here. Not sure why you
-think bashing that work is going to help your case here.
+infiniband syz1: set active
+infiniband syz1: added vcan0
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 9851 at kernel/dma/mapping.c:149 dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
+Modules linked in:
+CPU: 1 PID: 9851 Comm: syz-executor.1 Not tainted 5.9.0-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
+RIP: 0010:dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
+Code: 80 3c 10 00 0f 85 ed 01 00 00 48 8b 1d 36 c3 fa 0c e9 2d fc ff ff 48 89 c3 e9 d1 fd ff ff e8 04 12 12 00 0f 0b e8 fd 11 12 00 <0f> 0b 49 c7 c4 ff ff ff ff e9 d5 fd ff ff e8 ea 11 12 00 48 8d 7b
+RSP: 0018:ffffc90001546c68 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: ffffffff894d0040 RCX: ffffc9000dbe4000
+RDX: 0000000000040000 RSI: ffffffff815d3b03 RDI: ffff88806a988b00
+RBP: ffff8880236cc400 R08: 0000000000000002 R09: 0000000000000000
+R10: 0000000000000002 R11: 0000000000000000 R12: ffffea00008db300
+R13: ffff88806a9886e8 R14: 00000000000004b8 R15: 0000000000000002
+FS:  00007f678fae2700(0000) GS:ffff88802ce00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f299a39b190 CR3: 0000000069f31000 CR4: 0000000000350ee0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ dma_map_single_attrs include/linux/dma-mapping.h:279 [inline]
+ ib_dma_map_single include/rdma/ib_verbs.h:3967 [inline]
+ ib_mad_post_receive_mads+0x23f/0xd60 drivers/infiniband/core/mad.c:2715
+ ib_mad_port_start drivers/infiniband/core/mad.c:2862 [inline]
+ ib_mad_port_open drivers/infiniband/core/mad.c:3016 [inline]
+ ib_mad_init_device+0x72b/0x1400 drivers/infiniband/core/mad.c:3092
+ add_client_context+0x405/0x5e0 drivers/infiniband/core/device.c:680
+ enable_device_and_get+0x1d5/0x3c0 drivers/infiniband/core/device.c:1301
+ ib_register_device drivers/infiniband/core/device.c:1376 [inline]
+ ib_register_device+0x7a7/0xa40 drivers/infiniband/core/device.c:1335
+ rxe_register_device+0x46d/0x570 drivers/infiniband/sw/rxe/rxe_verbs.c:1182
+ rxe_add+0x12fe/0x16d0 drivers/infiniband/sw/rxe/rxe.c:247
+ rxe_net_add+0x8c/0xe0 drivers/infiniband/sw/rxe/rxe_net.c:507
+ rxe_newlink drivers/infiniband/sw/rxe/rxe.c:269 [inline]
+ rxe_newlink+0xb7/0xe0 drivers/infiniband/sw/rxe/rxe.c:250
+ nldev_newlink+0x30e/0x540 drivers/infiniband/core/nldev.c:1555
+ rdma_nl_rcv_msg+0x367/0x690 drivers/infiniband/core/netlink.c:195
+ rdma_nl_rcv_skb drivers/infiniband/core/netlink.c:239 [inline]
+ rdma_nl_rcv+0x2f2/0x440 drivers/infiniband/core/netlink.c:259
+ netlink_unicast_kernel net/netlink/af_netlink.c:1304 [inline]
+ netlink_unicast+0x533/0x7d0 net/netlink/af_netlink.c:1330
+ netlink_sendmsg+0x856/0xd90 net/netlink/af_netlink.c:1919
+ sock_sendmsg_nosec net/socket.c:651 [inline]
+ sock_sendmsg+0xcf/0x120 net/socket.c:671
+ ____sys_sendmsg+0x6e8/0x810 net/socket.c:2353
+ ___sys_sendmsg+0xf3/0x170 net/socket.c:2407
+ __sys_sendmsg+0xe5/0x1b0 net/socket.c:2440
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x45d9f9
+Code: bd b1 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 8b b1 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007f678fae1c88 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
+RAX: ffffffffffffffda RBX: 000000000071f480 RCX: 000000000045d9f9
+RDX: 0000000000000000 RSI: 0000000020000200 RDI: 0000000000000003
+RBP: 00000000004aab13 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 000000000075bf00
+R13: 00007ffc6f9b8bbf R14: 00007f678fac2000 R15: 0000000000000003
 
-I'm saying Intel needs to get its architecture together and stop
-ceating this mess across the kernel to support Intel devices.
 
-Jason
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
