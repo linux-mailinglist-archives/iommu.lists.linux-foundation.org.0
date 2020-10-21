@@ -1,91 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2011D2954AE
-	for <lists.iommu@lfdr.de>; Thu, 22 Oct 2020 00:13:37 +0200 (CEST)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F3C2954B1
+	for <lists.iommu@lfdr.de>; Thu, 22 Oct 2020 00:15:27 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id BFA3A204C8;
-	Wed, 21 Oct 2020 22:13:35 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0413F876B6;
+	Wed, 21 Oct 2020 22:15:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FN4N+deacLTf; Wed, 21 Oct 2020 22:13:31 +0000 (UTC)
+	with ESMTP id e2QcLupMyWw7; Wed, 21 Oct 2020 22:15:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 3ECCB20526;
-	Wed, 21 Oct 2020 19:17:30 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5E31E86AEF;
+	Wed, 21 Oct 2020 22:15:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 35AB7C0051;
-	Wed, 21 Oct 2020 19:17:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 44EACC0052;
+	Wed, 21 Oct 2020 22:15:25 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3E243C0051
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 19:17:28 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C2871C0052
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 22:15:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 3358320526
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 19:17:28 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id ABB5520463
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 22:15:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ndKbU7EuyeSc for <iommu@lists.linux-foundation.org>;
- Wed, 21 Oct 2020 19:17:22 +0000 (UTC)
+ with ESMTP id 4lKPCgdxp377 for <iommu@lists.linux-foundation.org>;
+ Wed, 21 Oct 2020 22:15:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by silver.osuosl.org (Postfix) with ESMTPS id A93702E654
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 14:58:21 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id p13so2888825edi.7
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 07:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=974kBlJ63qD5EYogdaxTOFg/LSMsXr6xzzQDrgDmhVo=;
- b=TdPu+ofWfrp0hwZWxhUq2KJS2zjbi8MrOCRcvRVvru7pOPrruypz9/Jga2crVESF3W
- Sgd6gNwn7b7g9HAdaUgq69DALhZenDShkEzj4sDr70Ktq2eS4TH9j3nCiZ+Ibr20uv48
- 2HdetkUPnrVr5uz+ySBJQPe84nLfS3V5hAPiynmVgfOx/+drK4mGICmVHXYFm89vTnmV
- bRqtXTZEi2o4y8N/WmwOj1JlaunStuLcIkFSdWKD+ZTiThH7GDgkq+hlLcz6bgp+gVb5
- JbOCGDSRnGNAFRWdG7pgjKtDmuvnG3YvittRYtVL7MSYHQsNN/WjH7tiKbJ23OMmJSV2
- 0qbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=974kBlJ63qD5EYogdaxTOFg/LSMsXr6xzzQDrgDmhVo=;
- b=qXay2NfmUa7p02+xxV6NofEOyrPU4fif8nVp23LqHLHrO9FGhhN4EYf6ytws9Ikc0D
- VFhS9PKVsqXtlI+o0QjLrer4Zp+1K2677wj5qwUQNXkwy9ooE7tc28gqRDu/87MuOfjy
- MncF2fSkSQ40upc6qh2P0/+vvULp2yS2IGml2slWyUHYqWKlLaq0EPDI1dhzvr3iom+M
- WoLX8EUTJBwpeDGeC4WiHOtrR+Yi2HZUfWUjRJycyxt3sXeGE0K1rW3c/K9tJD552T/0
- iR/nTOnvcrgUEWJoRozmYmBCa4xcyAkMN0c1hXW6hz/vfYveZDWy6skqPx5puORN1cpJ
- lSiw==
-X-Gm-Message-State: AOAM530bl+mFNEPibUp1oyigizurzSez+Vpl5o97opx6bTy/nCcoIHQM
- w/NzQCSWWvWAXR2TXTQow3f/mQ==
-X-Google-Smtp-Source: ABdhPJyd8qNnKzXbBi18/h0hVzpH2outHPyVpO68TJvh4T7AJopg7XFZjjhKPN7GZcGnnukbpphClw==
-X-Received: by 2002:a05:6402:3191:: with SMTP id
- di17mr3387453edb.376.1603292299867; 
- Wed, 21 Oct 2020 07:58:19 -0700 (PDT)
-Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id n25sm2377864ejd.114.2020.10.21.07.58.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 07:58:19 -0700 (PDT)
-Date: Wed, 21 Oct 2020 16:58:00 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Jacob Pan <jacob.pan.linux@gmail.com>
-Subject: Re: [PATCH v3 08/14] iommu/ioasid: Add reference couting functions
-Message-ID: <20201021145800.GF1653231@myrica>
-References: <1601329121-36979-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1601329121-36979-9-git-send-email-jacob.jun.pan@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by silver.osuosl.org (Postfix) with ESMTPS id A88302E2EC
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 20:03:17 +0000 (UTC)
+IronPort-SDR: f2M1BN95XvDh3+AND4F94elaVZqJf5zTdJOv9hBtPFo/jLN+wSqEq+B5girNk3a6uGLoA24Iae
+ BbY3ZVfu1Kpw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9781"; a="166649240"
+X-IronPort-AV: E=Sophos;i="5.77,402,1596524400"; d="scan'208";a="166649240"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2020 13:03:17 -0700
+IronPort-SDR: xEyG+1n/eDzjVR0+DtrXQn5yv9QrenhZiu6V46hIeKkpLXZlWavLw7Y1PgxgjOpAwXqjOjTx+Y
+ jH17pp8imlug==
+X-IronPort-AV: E=Sophos;i="5.77,402,1596524400"; d="scan'208";a="392836909"
+Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.36])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2020 13:03:16 -0700
+Date: Wed, 21 Oct 2020 13:03:15 -0700
+From: "Raj, Ashok" <ashok.raj@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: (proposal) RE: [PATCH v7 00/16] vfio: expose virtual Shared
+ Virtual Addressing to VMs
+Message-ID: <20201021200315.GA93724@otc-nc-03>
+References: <20201020162430.GA85321@otc-nc-03>
+ <20201020170336.GK6219@nvidia.com>
+ <20201020195146.GA86371@otc-nc-03>
+ <20201020195557.GO6219@nvidia.com>
+ <20201020200844.GC86371@otc-nc-03>
+ <20201020201403.GP6219@nvidia.com>
+ <20201020202713.GF86371@otc-nc-03>
+ <20201021114829.GR6219@nvidia.com>
+ <20201021175146.GA92867@otc-nc-03>
+ <20201021182442.GU6219@nvidia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1601329121-36979-9-git-send-email-jacob.jun.pan@linux.intel.com>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Raj Ashok <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-api@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- iommu@lists.linux-foundation.org, Wu Hao <hao.wu@intel.com>,
- David Woodhouse <dwmw2@infradead.org>, Yi Sun <yi.y.sun@intel.com>
+In-Reply-To: <20201021182442.GU6219@nvidia.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: "Tian, Jun J" <jun.j.tian@intel.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ Ashok Raj <ashok.raj@intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+ "stefanha@gmail.com" <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Zhu,
+ Lingshan" <lingshan.zhu@intel.com>, "Wu, Hao" <hao.wu@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,231 +94,32 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Sep 28, 2020 at 02:38:35PM -0700, Jacob Pan wrote:
-> There can be multiple users of an IOASID, each user could have hardware
-> contexts associated with the IOASID. In order to align lifecycles,
-> reference counting is introduced in this patch. It is expected that when
-> an IOASID is being freed, each user will drop a reference only after its
-> context is cleared.
+On Wed, Oct 21, 2020 at 03:24:42PM -0300, Jason Gunthorpe wrote:
 > 
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> ---
->  drivers/iommu/ioasid.c | 117 +++++++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/ioasid.h |  24 ++++++++++
->  2 files changed, 141 insertions(+)
+> > Contrary to your argument, vDPA went with a half blown device only 
+> > iommu user without considering existing abstractions like containers
 > 
-> diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
-> index 9628e78b2ab4..828cc44b1b1c 100644
-> --- a/drivers/iommu/ioasid.c
-> +++ b/drivers/iommu/ioasid.c
-> @@ -16,8 +16,26 @@ static ioasid_t ioasid_capacity = PCI_PASID_MAX;
->  static ioasid_t ioasid_capacity_avail = PCI_PASID_MAX;
->  static DEFINE_XARRAY_ALLOC(ioasid_sets);
->  
-> +enum ioasid_state {
-> +	IOASID_STATE_INACTIVE,
-> +	IOASID_STATE_ACTIVE,
-> +	IOASID_STATE_FREE_PENDING,
-> +};
-> +
-> +/**
-> + * struct ioasid_data - Meta data about ioasid
-> + *
-> + * @id:		Unique ID
-> + * @users:	Number of active users
-> + * @state:	Track state of the IOASID
-> + * @set:	ioasid_set of the IOASID belongs to
-> + * @private:	Private data associated with the IOASID
-> + * @rcu:	For free after RCU grace period
-> + */
->  struct ioasid_data {
->  	ioasid_t id;
-> +	refcount_t users;
-> +	enum ioasid_state state;
->  	struct ioasid_set *set;
->  	void *private;
->  	struct rcu_head rcu;
-> @@ -511,6 +529,8 @@ ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min, ioasid_t max,
->  		goto exit_free;
->  	}
->  	data->id = id;
-> +	data->state = IOASID_STATE_ACTIVE;
-> +	refcount_set(&data->users, 1);
->  
->  	/* Store IOASID in the per set data */
->  	if (xa_err(xa_store(&set->xa, id, data, GFP_ATOMIC))) {
-> @@ -560,6 +580,14 @@ static void ioasid_free_locked(struct ioasid_set *set, ioasid_t ioasid)
->  	if (WARN_ON(!xa_load(&ioasid_sets, data->set->id)))
->  		return;
->  
-> +	/* Free is already in progress */
-> +	if (data->state == IOASID_STATE_FREE_PENDING)
-> +		return;
+> VDPA IOMMU was done *for Intel*, as the kind of half-architected thing
+> you are advocating should be allowed for IDXD here. Not sure why you
+> think bashing that work is going to help your case here.
 
-But the previous call to ioasid_free_locked() dropped a reference, then
-returned because more refs where held. Shouldn't this call also
-dec_and_test() the reference and call ioasid_do_free_locked() if
-necessary?
+I'm not bashing that work, sorry if it comes out that way, 
+but just feels like double standards.
 
-> +
-> +	data->state = IOASID_STATE_FREE_PENDING;
-> +	if (!refcount_dec_and_test(&data->users))
-> +		return;
-> +
->  	ioasid_do_free_locked(data);
->  }
->  
-> @@ -717,6 +745,95 @@ void ioasid_set_for_each_ioasid(struct ioasid_set *set,
->  }
->  EXPORT_SYMBOL_GPL(ioasid_set_for_each_ioasid);
->  
-> +int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	struct ioasid_data *data;
-> +
-> +	data = xa_load(&active_allocator->xa, ioasid);
-> +	if (!data) {
-> +		pr_err("Trying to get unknown IOASID %u\n", ioasid);
-> +		return -EINVAL;
-> +	}
-> +	if (data->state == IOASID_STATE_FREE_PENDING) {
-> +		pr_err("Trying to get IOASID being freed%u\n", ioasid);
+I'm not sure why you tie in IDXD and VDPA here. How IDXD uses native
+SVM is orthogonal to how we achieve mdev passthrough to guest and vSVM. 
+We visited that exact thing multiple times. Doing SVM is quite simple and 
+doesn't carry the weight of other (Kevin explained this in detail 
+not too long ago) long list of things we need to accomplish for mdev pass through. 
 
-Strange placement of the %u
+For SVM, just access to hw, mmio and bind_mm to get a PASID bound with
+IOMMU. 
 
-> +		return -EBUSY;
-> +	}
-> +
-> +	/* Check set ownership if the set is non-null */
-> +	if (set && data->set != set) {
-> +		pr_err("Trying to get IOASID %u outside the set\n", ioasid);
-> +		/* data found but does not belong to the set */
-> +		return -EACCES;
-> +	}
-> +	refcount_inc(&data->users);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(ioasid_get_locked);
+For IDXD that creates passthough devices for guest access and vSVM is
+through the VFIO path. 
 
-If this is a public facing let's add a lockdep_assert_held() to make sure
-they do hold the right lock. Same for ioasid_put_locked().
-
-Thanks,
-Jean
-
-> +
-> +/**
-> + * ioasid_get - Obtain a reference to an ioasid
-> + * @set:	the ioasid_set to check permission against if not NULL
-> + * @ioasid:	the ID to remove
-> + *
-> + *
-> + * Return: 0 on success, error if failed.
-> + */
-> +int ioasid_get(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	int ret;
-> +
-> +	spin_lock(&ioasid_allocator_lock);
-> +	ret = ioasid_get_locked(set, ioasid);
-> +	spin_unlock(&ioasid_allocator_lock);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(ioasid_get);
-> +
-> +bool ioasid_put_locked(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	struct ioasid_data *data;
-> +
-> +	data = xa_load(&active_allocator->xa, ioasid);
-> +	if (!data) {
-> +		pr_err("Trying to put unknown IOASID %u\n", ioasid);
-> +		return false;
-> +	}
-> +	if (set && data->set != set) {
-> +		pr_err("Trying to drop IOASID %u outside the set\n", ioasid);
-> +		return false;
-> +	}
-> +	if (!refcount_dec_and_test(&data->users))
-> +		return false;
-> +
-> +	ioasid_do_free_locked(data);
-> +
-> +	return true;
-> +}
-> +EXPORT_SYMBOL_GPL(ioasid_put_locked);
-> +
-> +/**
-> + * ioasid_put - Release a reference to an ioasid
-> + * @set:	the ioasid_set to check permission against if not NULL
-> + * @ioasid:	the ID to remove
-> + *
-> + * Put a reference to the IOASID, free it when the number of references drops to
-> + * zero.
-> + *
-> + * Return: %true if the IOASID was freed, %false otherwise.
-> + */
-> +bool ioasid_put(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	bool ret;
-> +
-> +	spin_lock(&ioasid_allocator_lock);
-> +	ret = ioasid_put_locked(set, ioasid);
-> +	spin_unlock(&ioasid_allocator_lock);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(ioasid_put);
-> +
->  /**
->   * ioasid_find - Find IOASID data
->   * @set: the IOASID set
-> diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
-> index aab58bc26714..16d421357173 100644
-> --- a/include/linux/ioasid.h
-> +++ b/include/linux/ioasid.h
-> @@ -73,6 +73,10 @@ void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
->  		  bool (*getter)(void *));
->  int ioasid_register_allocator(struct ioasid_allocator_ops *allocator);
->  void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
-> +int ioasid_get(struct ioasid_set *set, ioasid_t ioasid);
-> +int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid);
-> +bool ioasid_put(struct ioasid_set *set, ioasid_t ioasid);
-> +bool ioasid_put_locked(struct ioasid_set *set, ioasid_t ioasid);
->  int ioasid_attach_data(ioasid_t ioasid, void *data);
->  void ioasid_detach_data(ioasid_t ioasid);
->  void ioasid_set_for_each_ioasid(struct ioasid_set *sdata,
-> @@ -112,6 +116,26 @@ static inline void ioasid_set_put(struct ioasid_set *set)
->  {
->  }
->  
-> +static inline int ioasid_get(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	return -ENOTSUPP;
-> +}
-> +
-> +static inline int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	return -ENOTSUPP;
-> +}
-> +
-> +static inline bool ioasid_put(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	return false;
-> +}
-> +
-> +static inline bool ioasid_put_locked(struct ioasid_set *set, ioasid_t ioasid)
-> +{
-> +	return false;
-> +}
-> +
->  static inline void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid, bool (*getter)(void *))
->  {
->  	return NULL;
-> -- 
-> 2.7.4
-> 
+For guest SVM, we expose mdev's to guest OS, idxd in the guest provides vSVM
+services. vSVM is *not* build around native SVM interfaces. 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
