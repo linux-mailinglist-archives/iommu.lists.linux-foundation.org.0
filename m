@@ -1,91 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A1442951BC
-	for <lists.iommu@lfdr.de>; Wed, 21 Oct 2020 19:46:33 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C62DC2EB12;
-	Wed, 21 Oct 2020 17:46:31 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qfzV+8z9f39R; Wed, 21 Oct 2020 17:46:27 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id DF29B316A1;
-	Wed, 21 Oct 2020 14:55:19 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D458AC0051;
-	Wed, 21 Oct 2020 14:55:19 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id ED0D1C0051
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 14:55:18 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC362951CC
+	for <lists.iommu@lfdr.de>; Wed, 21 Oct 2020 19:51:53 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DC460863D9
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 14:55:18 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9E3F6868DC;
+	Wed, 21 Oct 2020 17:51:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XsRL-wQ201ac; Wed, 21 Oct 2020 17:51:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E808C868CE;
+	Wed, 21 Oct 2020 17:51:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C86B2C0051;
+	Wed, 21 Oct 2020 17:51:50 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3071AC0051
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 17:51:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1D76187480
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 17:51:49 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eeizBfo55PcK for <iommu@lists.linux-foundation.org>;
- Wed, 21 Oct 2020 14:55:18 +0000 (UTC)
+ with ESMTP id Q2Jizt9OZc8Q for <iommu@lists.linux-foundation.org>;
+ Wed, 21 Oct 2020 17:51:48 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
- [209.85.208.68])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C34CE863C5
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 14:55:17 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id dg9so2843402edb.12
- for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 07:55:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=TT/hPDcCjkJCenk8sLHU1Sek4T/MxX3FitCsX0otRRc=;
- b=tnlFBdD60NP1j8CKi3rq0v7z4WCacFdpguP+kTr9uz2MOzLrWy6v9UfR2aViCYoEs4
- KNgexySZD6t48QEV0KYpCSCJQr1dAfmO5L3JY6/orVfiif1vNz6RTPCvO2z9suGyggQw
- ZP7CkNfToa3mHdlDo9xnCOF8GRwUleHlkUAmIJY9zZHgUqvebiMZjqJ95PTq4lJptC93
- 7btioFs3fVFwa26j3dBRkvE3qpbk/irVE/8cZeZbxswjcfy1LhRk2cTmiwobkzVVMqki
- nhvW//0XltzV4dYBqGiG2MrKzCNIfn0BDtzQ4Z1etG4sws1lKittG2ZNKnfwqBjJhYBx
- izcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=TT/hPDcCjkJCenk8sLHU1Sek4T/MxX3FitCsX0otRRc=;
- b=MYDFc+Ke1dxEcCSDZv0aEZb9ITVyCbSWsvROrUvo0Hf4cc5a5KWSQheVi5MWyCXem3
- JWblym/u8HDiCxTwuhVX7ue3N1Rl8R5SzTc3dSKOOwydCTY3pTGIkJf2wLHcY5Ee2cYg
- 5CnPsd/6gPK3et5XaQORU+UhQ9UwSM1r3/daa+lXKPhozrHpSctODBSnvZCGAk/scsxL
- VpUjTXZSC/pV3dmyanKrgiSEstIvo1UdbeWtv2y82RvXTVF2vfeR1O7xoiiw81ZhyjU4
- Pyi3X8F1ALo69e6bRtv5CJNZ+OAkumethSmUHwDh905Sa8vy8wgddodnq96wztiWktFE
- 0pZg==
-X-Gm-Message-State: AOAM532NBXIbmHfl3x84OMJ7OoJZY4216q4caRKeNd53zjFAQIsIsJQT
- zXPRpXAPMUIUqDkUStbi8ARNYg==
-X-Google-Smtp-Source: ABdhPJxO/uNuN/kb6YExIPr9kYKJ7e7ROpNtyXJhX1g05ieAZquuDAeeEqFw/4xdqCfGl12l+fr2xw==
-X-Received: by 2002:a50:8acf:: with SMTP id k15mr3413516edk.351.1603292116012; 
- Wed, 21 Oct 2020 07:55:16 -0700 (PDT)
-Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id lb11sm2406579ejb.27.2020.10.21.07.55.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Oct 2020 07:55:15 -0700 (PDT)
-Date: Wed, 21 Oct 2020 16:54:56 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Jacob Pan <jacob.pan.linux@gmail.com>
-Subject: Re: [PATCH v3 04/14] iommu/ioasid: Support setting system-wide
- capacity
-Message-ID: <20201021145456.GB1653231@myrica>
-References: <1601329121-36979-1-git-send-email-jacob.jun.pan@linux.intel.com>
- <1601329121-36979-5-git-send-email-jacob.jun.pan@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 4781487469
+ for <iommu@lists.linux-foundation.org>; Wed, 21 Oct 2020 17:51:48 +0000 (UTC)
+IronPort-SDR: Oxq4FbQzUzo+YnBikxNUzl+pPuaws+IVIvlYiJ64QKrpPmxtHz3egp0FssL1c5SZ0EuzaOJRQc
+ MQgtpO+44SXg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9780"; a="252108040"
+X-IronPort-AV: E=Sophos;i="5.77,401,1596524400"; d="scan'208";a="252108040"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2020 10:51:47 -0700
+IronPort-SDR: nFaU7IqUVQFKNumGJ/O1yc0Mzip0lJxesUnBPBkk77D+dGCEh3jTfpKDy3QXKu79tSmu7h0pjr
+ Y6Np+1E56OMA==
+X-IronPort-AV: E=Sophos;i="5.77,401,1596524400"; d="scan'208";a="359584998"
+Received: from otc-nc-03.jf.intel.com (HELO otc-nc-03) ([10.54.39.36])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Oct 2020 10:51:47 -0700
+Date: Wed, 21 Oct 2020 10:51:46 -0700
+From: "Raj, Ashok" <ashok.raj@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: (proposal) RE: [PATCH v7 00/16] vfio: expose virtual Shared
+ Virtual Addressing to VMs
+Message-ID: <20201021175146.GA92867@otc-nc-03>
+References: <DM5PR11MB14354A8A126E686A5F20FEC2C31F0@DM5PR11MB1435.namprd11.prod.outlook.com>
+ <20201020140217.GI6219@nvidia.com>
+ <20201020162430.GA85321@otc-nc-03>
+ <20201020170336.GK6219@nvidia.com>
+ <20201020195146.GA86371@otc-nc-03>
+ <20201020195557.GO6219@nvidia.com>
+ <20201020200844.GC86371@otc-nc-03>
+ <20201020201403.GP6219@nvidia.com>
+ <20201020202713.GF86371@otc-nc-03>
+ <20201021114829.GR6219@nvidia.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1601329121-36979-5-git-send-email-jacob.jun.pan@linux.intel.com>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Raj Ashok <ashok.raj@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-api@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.com>,
- iommu@lists.linux-foundation.org, Wu Hao <hao.wu@intel.com>,
- David Woodhouse <dwmw2@infradead.org>, Yi Sun <yi.y.sun@intel.com>
+In-Reply-To: <20201021114829.GR6219@nvidia.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: "Tian, Jun J" <jun.j.tian@intel.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ Ashok Raj <ashok.raj@intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+ "stefanha@gmail.com" <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Zhu,
+ Lingshan" <lingshan.zhu@intel.com>, "Wu, Hao" <hao.wu@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,119 +94,67 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Sep 28, 2020 at 02:38:31PM -0700, Jacob Pan wrote:
-> IOASID is a system-wide resource that could vary on different systems.
-> The default capacity is 20 bits as defined in the PCI-E specifications.
-> This patch adds a function to allow adjusting system IOASID capacity.
-> For VT-d this is set during boot as part of the Intel IOMMU
-> initialization.
+On Wed, Oct 21, 2020 at 08:48:29AM -0300, Jason Gunthorpe wrote:
+> On Tue, Oct 20, 2020 at 01:27:13PM -0700, Raj, Ashok wrote:
+> > On Tue, Oct 20, 2020 at 05:14:03PM -0300, Jason Gunthorpe wrote:
+> > > On Tue, Oct 20, 2020 at 01:08:44PM -0700, Raj, Ashok wrote:
+> > > > On Tue, Oct 20, 2020 at 04:55:57PM -0300, Jason Gunthorpe wrote:
+> > > > > On Tue, Oct 20, 2020 at 12:51:46PM -0700, Raj, Ashok wrote:
+> > > > > > I think we agreed (or agree to disagree and commit) for device types that 
+> > > > > > we have for SIOV, VFIO based approach works well without having to re-invent 
+> > > > > > another way to do the same things. Not looking for a shortcut by any means, 
+> > > > > > but we need to plan around existing hardware though. Looks like vDPA took 
+> > > > > > some shortcuts then to not abstract iommu uAPI instead :-)? When all
+> > > > > > necessary hardware was available.. This would be a solved puzzle. 
+> > > > > 
+> > > > > I think it is the opposite, vIOMMU and related has outgrown VFIO as
+> > > > > the "home" and needs to stand alone.
+> > > > > 
+> > > > > Apparently the HW that will need PASID for vDPA is Intel HW, so if
+> > > > 
+> > > > So just to make this clear, I did check internally if there are any plans
+> > > > for vDPA + SVM. There are none at the moment. 
+> > > 
+> > > Not SVM, SIOV.
+> > 
+> > ... And that included.. I should have said vDPA + PASID, No current plans. 
+> > I have no idea who set expectations with you. Can you please put me in touch 
+> > with that person, privately is fine.
 > 
-> Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> It was the team that aruged VDPA had to be done through VFIO - SIOV
+> and PASID was one of their reasons it had to be VFIO, check the list
+> archives
 
-Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Humm... I could search the arhives, but the point is I'm confirming that
+there is no forward looking plan!
 
-> ---
->  drivers/iommu/intel/iommu.c |  5 +++++
->  drivers/iommu/ioasid.c      | 20 ++++++++++++++++++++
->  include/linux/ioasid.h      | 11 +++++++++++
->  3 files changed, 36 insertions(+)
+And who ever did was it was based on probably strawman hypothetical argument that wasn't
+grounded in reality. 
+
 > 
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index 18ed3b3c70d7..e7bcb299e51e 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -42,6 +42,7 @@
->  #include <linux/crash_dump.h>
->  #include <linux/numa.h>
->  #include <linux/swiotlb.h>
-> +#include <linux/ioasid.h>
+> If they didn't plan to use it, bit of a strawman argument, right?
 
-(not in alphabetical order)
+This doesn't need to continue like the debates :-) Pun intended :-)
 
->  #include <asm/irq_remapping.h>
->  #include <asm/cacheflush.h>
->  #include <asm/iommu.h>
-> @@ -3331,6 +3332,10 @@ static int __init init_dmars(void)
->  	if (ret)
->  		goto free_iommu;
->  
-> +	/* PASID is needed for scalable mode irrespective to SVM */
-> +	if (intel_iommu_sm)
-> +		ioasid_install_capacity(intel_pasid_max_id);
-> +
->  	/*
->  	 * for each drhd
->  	 *   enable fault log
-> diff --git a/drivers/iommu/ioasid.c b/drivers/iommu/ioasid.c
-> index 6cfbdfb492e0..4277cb17e15b 100644
-> --- a/drivers/iommu/ioasid.c
-> +++ b/drivers/iommu/ioasid.c
-> @@ -10,6 +10,10 @@
->  #include <linux/spinlock.h>
->  #include <linux/xarray.h>
->  
-> +/* Default to PCIe standard 20 bit PASID */
-> +#define PCI_PASID_MAX 0x100000
-> +static ioasid_t ioasid_capacity = PCI_PASID_MAX;
-> +static ioasid_t ioasid_capacity_avail = PCI_PASID_MAX;
->  struct ioasid_data {
->  	ioasid_t id;
->  	struct ioasid_set *set;
-> @@ -17,6 +21,22 @@ struct ioasid_data {
->  	struct rcu_head rcu;
->  };
->  
-> +void ioasid_install_capacity(ioasid_t total)
-> +{
-> +	if (ioasid_capacity && ioasid_capacity != PCI_PASID_MAX) {
-> +		pr_warn("IOASID capacity is already set.\n");
-> +		return;
-> +	}
-> +	ioasid_capacity = ioasid_capacity_avail = total;
-> +}
-> +EXPORT_SYMBOL_GPL(ioasid_install_capacity);
-> +
-> +ioasid_t ioasid_get_capacity(void)
-> +{
-> +	return ioasid_capacity;
-> +}
-> +EXPORT_SYMBOL_GPL(ioasid_get_capacity);
-> +
->  /*
->   * struct ioasid_allocator_data - Internal data structure to hold information
->   * about an allocator. There are two types of allocators:
-> diff --git a/include/linux/ioasid.h b/include/linux/ioasid.h
-> index c7f649fa970a..7fc320656be2 100644
-> --- a/include/linux/ioasid.h
-> +++ b/include/linux/ioasid.h
-> @@ -32,6 +32,8 @@ struct ioasid_allocator_ops {
->  #define DECLARE_IOASID_SET(name) struct ioasid_set name = { 0 }
->  
->  #if IS_ENABLED(CONFIG_IOASID)
-> +void ioasid_install_capacity(ioasid_t total);
-> +ioasid_t ioasid_get_capacity(void);
->  ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min, ioasid_t max,
->  		      void *private);
->  void ioasid_free(ioasid_t ioasid);
-> @@ -42,6 +44,15 @@ void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
->  int ioasid_attach_data(ioasid_t ioasid, void *data);
->  void ioasid_detach_data(ioasid_t ioasid);
->  #else /* !CONFIG_IOASID */
-> +static inline void ioasid_install_capacity(ioasid_t total)
-> +{
-> +}
-> +
-> +static inline ioasid_t ioasid_get_capacity(void)
-> +{
-> +	return 0;
-> +}
-> +
->  static inline ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min,
->  				    ioasid_t max, void *private)
->  {
-> -- 
-> 2.7.4
-> 
+I don't think it makes any sense to have an abstract strawman argument
+design discussion. Yi is looking into for pasid management alone. Rest 
+of the IOMMU related topics should wait until we have another 
+*real* use requiring consolidation. 
+
+Contrary to your argument, vDPA went with a half blown device only 
+iommu user without considering existing abstractions like containers 
+and such in VFIO is part of the reason the gap is big at the moment.
+And you might not agree, but that's beside the point. 
+
+Rather than pivot ourselves around hypothetical, strawman,
+non-intersecting, suggesting architecture without having done a proof of
+concept to validate the proposal should stop. We have to ground ourselves
+in reality.
+
+The use cases we have so far for SIOV, VFIO and mdev seem to be the right
+candidates and addresses them well. Now you might disagree, but as noted we
+all agreed to move past this.
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
