@@ -1,92 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5BAB2970A4
-	for <lists.iommu@lfdr.de>; Fri, 23 Oct 2020 15:34:51 +0200 (CEST)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EEA529711B
+	for <lists.iommu@lfdr.de>; Fri, 23 Oct 2020 16:10:35 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7919986DDC;
-	Fri, 23 Oct 2020 13:34:50 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1491D873A1;
+	Fri, 23 Oct 2020 14:10:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XkwkCWbwds8p; Fri, 23 Oct 2020 13:34:49 +0000 (UTC)
+	with ESMTP id UFsXa6C7mvC2; Fri, 23 Oct 2020 14:10:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BE52A86DCF;
-	Fri, 23 Oct 2020 13:34:49 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2501187336;
+	Fri, 23 Oct 2020 14:10:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 96EC9C1AD7;
-	Fri, 23 Oct 2020 13:34:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 079E8C0051;
+	Fri, 23 Oct 2020 14:10:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7E837C0052
- for <iommu@lists.linux-foundation.org>; Fri, 23 Oct 2020 13:34:48 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EC715C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Oct 2020 14:10:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 449582076B
- for <iommu@lists.linux-foundation.org>; Fri, 23 Oct 2020 13:34:48 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id DB730207A2
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Oct 2020 14:10:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uyahs5Cdvk2t for <iommu@lists.linux-foundation.org>;
- Fri, 23 Oct 2020 13:34:46 +0000 (UTC)
+ with ESMTP id RNQrmxH39zs5 for <iommu@lists.linux-foundation.org>;
+ Fri, 23 Oct 2020 14:10:28 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
- [209.85.218.67])
- by silver.osuosl.org (Postfix) with ESMTPS id 22FCD20362
- for <iommu@lists.linux-foundation.org>; Fri, 23 Oct 2020 13:34:46 +0000 (UTC)
-Received: by mail-ej1-f67.google.com with SMTP id k3so2395508ejj.10
- for <iommu@lists.linux-foundation.org>; Fri, 23 Oct 2020 06:34:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ybxYfhP0qOoEv/Z3igcvaiaTXfddpdf7DoEgMqfdT7A=;
- b=bNaAR+OjYmeeEzFzzZBJyzDKMbF4do7AhpOBiv9gsSMgNMqyq5/l4Ywkmo2cc+ESzz
- lH05Ok9PCaR+wHbV3UtzXlRRA8JfrhwHMLbb0Zj4NWXmQ4eNylNbUcFPFq5iZJZ3HE4A
- 4A9t44PEBK+fF9Uz9ustwTwn9OxP5fS7OhuPeCnuRonbtMuE6/l3mFYgIYjLd95R3VaS
- dpWDsX5QYk6s/5ms0m/fST6rb3d8AWD5vnd1IhI1k1i/p+mau+CZ/smjsHXHtkBLdSSy
- daqTJeHfA9fXyZGQ5P3D3zhZtf8qMmTy+xx4KaAg3dJBOtHchBp51fOrGZD//kZ/nWsq
- 0QAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ybxYfhP0qOoEv/Z3igcvaiaTXfddpdf7DoEgMqfdT7A=;
- b=GvYi9okRgM5jny8AyMef0fAhVFudXA320JbpuyZr1eJvUcHiw3T8S/6OYTQe+XQT10
- wlfD2Y5T89qo215StADjID7ZtoMSQ8Q6v7FFYdaCeFTmJsGLrwey/fJoqiS3shRU2iP3
- Y0z0JTxvEm0U3HjZsq0w6I3Z167GLBCyShEKVITT2QF7cAV3KiMo6slWg+vfe1rVUD3M
- xUX44qWLkb0JBqsH+4NRpJRYeMcyc5Dwy7MkMJVGXukUjcyl4I2jbw3uX8v77X3u7NUu
- 9HfqUSSzwSLCE+huPNwedHWsm+cLBma12WbRwMwH4bEeEPcET8dtQe8DSOdV5Ftl6+vM
- czHQ==
-X-Gm-Message-State: AOAM5321wjxHyQoNrq/1RiFKNZuLLbH7t1ANwDfkEbJrKCvR+5S8jplJ
- b+J5BdjAbO1JUdTHjneu6nDDLQ==
-X-Google-Smtp-Source: ABdhPJyJrpSO/TA1CFzr7cbXy98qv9z9QsL9dllO7dHUBx35a7onv2rOqG2fNwzz8c08kIOaSfCzMQ==
-X-Received: by 2002:a17:906:1418:: with SMTP id
- p24mr1964123ejc.46.1603460084421; 
- Fri, 23 Oct 2020 06:34:44 -0700 (PDT)
-Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id q3sm788808edv.17.2020.10.23.06.34.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 06:34:43 -0700 (PDT)
-Date: Fri, 23 Oct 2020 15:34:23 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: "Raj, Ashok" <ashok.raj@intel.com>
-Subject: Re: [RFC PATCH 0/2] iommu: Avoid unnecessary PRI queue flushes
-Message-ID: <20201023133423.GF2265982@myrica>
-References: <20201015090028.1278108-1-jean-philippe@linaro.org>
- <20201015182211.GA54780@otc-nc-03>
- <20201016075923.GB1309464@myrica>
- <20201017112525.GA47206@otc-nc-03>
- <20201019140824.GA1478235@myrica>
- <20201019211608.GA79633@otc-nc-03>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by silver.osuosl.org (Postfix) with ESMTP id 32ABB2079C
+ for <iommu@lists.linux-foundation.org>; Fri, 23 Oct 2020 14:10:28 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 46258113E;
+ Fri, 23 Oct 2020 07:10:27 -0700 (PDT)
+Received: from [10.57.50.191] (unknown [10.57.50.191])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EDCFE3F66B;
+ Fri, 23 Oct 2020 07:10:23 -0700 (PDT)
+Subject: Re: [PATCH v3 11/24] iommu/io-pgtable-arm-v7s: Quad lvl1 pgtable for
+ MediaTek
+To: Yong Wu <yong.wu@mediatek.com>, Joerg Roedel <joro@8bytes.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Will Deacon <will@kernel.org>
+References: <20200930070647.10188-1-yong.wu@mediatek.com>
+ <20200930070647.10188-12-yong.wu@mediatek.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <a5713949-1d95-40f1-d35d-d99735b48294@arm.com>
+Date: Fri, 23 Oct 2020 15:10:22 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.3
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201019211608.GA79633@otc-nc-03>
-Cc: kevin.tian@intel.com, "Lu, Baolu" <baolu.lu@intel.com>, arnd@arndb.de,
- gregkh@linuxfoundation.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, Jacon Jun Pan <jacob.jun.pan@intel.com>,
- linux-pci@vger.kernel.org, zhangfei.gao@linaro.org, dwmw2@infradead.org,
- linux-accelerators@lists.ozlabs.org
+In-Reply-To: <20200930070647.10188-12-yong.wu@mediatek.com>
+Content-Language: en-GB
+Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
+ Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
+ chao.hao@mediatek.com, kernel-team@android.com, linux-kernel@vger.kernel.org,
+ Evan Green <evgreen@chromium.org>, Tomasz Figa <tfiga@google.com>,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ ming-fan.chen@mediatek.com, anan.sun@mediatek.com,
+ Greg Kroah-Hartman <gregkh@google.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,97 +74,90 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Oct 19, 2020 at 02:16:08PM -0700, Raj, Ashok wrote:
-> Hi Jean
+On 2020-09-30 08:06, Yong Wu wrote:
+> The standard input iova bits is 32. MediaTek quad the lvl1 pagetable
+> (4 * lvl1). No change for lvl2 pagetable. Then the iova bits can reach
+> 34bit.
 > 
-> On Mon, Oct 19, 2020 at 04:08:24PM +0200, Jean-Philippe Brucker wrote:
-> > On Sat, Oct 17, 2020 at 04:25:25AM -0700, Raj, Ashok wrote:
-> > > > For devices that *don't* use a stop marker, the PCIe spec says (10.4.1.2):
-> > > > 
-> > > >   To stop [using a PASID] without using a Stop Marker Message, the
-> > > >   function shall:
-> > > >   1. Stop queueing new Page Request Messages for this PASID.
-> > > 
-> > > The device driver would need to tell stop sending any new PR's.
-> > > 
-> > > >   2. Finish transmitting any multi-page Page Request Messages for this
-> > > >      PASID (i.e. send the Page Request Message with the L bit Set).
-> > > >   3. Wait for PRG Response Messages associated any outstanding Page
-> > > >      Request Messages for the PASID.
-> > > > 
-> > > > So they have to flush their PR themselves. And since the device driver
-> > > > completes this sequence before calling unbind(), then there shouldn't be
-> > > > any oustanding PR for the PASID, and unbind() doesn't need to flush,
-> > > > right?
-> > > 
-> > > I can see how the device can complete #2,3 above. But the device driver
-> > > isn't the one managing page-responses right. So in order for the device to
-> > > know the above sequence is complete, it would need to get some assist from
-> > > IOMMU driver?
-> > 
-> > No the device driver just waits for the device to indicate that it has
-> > completed the sequence. That's what the magic stop-PASID mechanism
-> > described by PCIe does. In 6.20.1 "Managing PASID TLP Prefix Usage" it
-> > says:
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> ---
+>   drivers/iommu/io-pgtable-arm-v7s.c | 13 ++++++++++---
+>   drivers/iommu/mtk_iommu.c          |  2 +-
+>   2 files changed, 11 insertions(+), 4 deletions(-)
 > 
-> The goal is we do this when the device is in a messup up state. So we can't
-> take for granted the device is properly operating which is why we are going
-> to wack the device with a flr().
-> 
-> The only thing that's supposed to work without a brain freeze is the
-> invalidation logic. Spec requires devices to respond to invalidations even when
-> they are in the process of flr().
-> 
-> So when IOMMU does an invalidation wait with a Page-Drain, IOMMU waits till
-> the response for that arrives before completing the descriptor. Due to 
-> the posted semantics it will ensure any PR's issued and in the fabric are flushed 
-> out to memory. 
-> 
-> I suppose you can wait for the device to vouch for all responses, but that
-> is assuming the device is still functioning properly. Given that we use it
-> in two places,
-> 
-> * Reclaiming a PASID - only during a tear down sequence, skipping it
->   doesn't really buy us much.
+> diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
+> index 8362fdf76657..306bae2755ed 100644
+> --- a/drivers/iommu/io-pgtable-arm-v7s.c
+> +++ b/drivers/iommu/io-pgtable-arm-v7s.c
+> @@ -50,10 +50,17 @@
+>    */
+>   #define ARM_V7S_ADDR_BITS		32
+>   #define _ARM_V7S_LVL_BITS(lvl)		(16 - (lvl) * 4)
+> +/* MediaTek: totally 34bits, 14bits at lvl1 and 8bits at lvl2. */
+> +#define _ARM_V7S_LVL_BITS_MTK(lvl)	(20 - (lvl) * 6)
 
-Yes I was only wondering about normal PASID reclaim operations, in
-unbind(). Agreed that for FLR we need to properly clean the queue, though
-I do need to do more thinking about this.
+This should defined in terms of both lvl and cfg->ias. The formula here 
+is nothing more than a disgusting trick I made up since a linear 
+interpolation happened to fit the required numbers. That said, all of 
+these bits pretending that short-descriptor is a well-defined recursive 
+format only served to allow the rest of the code to look more like the 
+LPAE code - IIRC they've already diverged a fair bit since then, so 
+frankly a lot of this could stand to be unpicked and made considerably 
+clearer by simply accepting that level 1 and level 2 are different from 
+each other.
 
-Anyway, having a full priq drain in unbind() isn't harmful, just
-unnecessary delay in my opinion. I'll drop these patches for now but
-thanks for the discussion.
+Robin.
 
-Thanks,
-Jean
-
-> * During FLR this can't be skipped anyway due to the above sequence
->   requirement. 
+>   #define ARM_V7S_LVL_SHIFT(lvl)		(ARM_V7S_ADDR_BITS - (4 + 8 * (lvl)))
+>   #define ARM_V7S_TABLE_SHIFT		10
+>   
+> -#define ARM_V7S_PTES_PER_LVL(lvl, cfg)	(1 << _ARM_V7S_LVL_BITS(lvl))
+> +#define ARM_V7S_PTES_PER_LVL(lvl, cfg)	({				\
+> +	int _lvl = lvl;							\
+> +	!arm_v7s_is_mtk_enabled(cfg) ?					\
+> +	 (1 << _ARM_V7S_LVL_BITS(_lvl)) : (1 << _ARM_V7S_LVL_BITS_MTK(_lvl));\
+> +})
+> +
+>   #define ARM_V7S_TABLE_SIZE(lvl, cfg)					\
+>   	(ARM_V7S_PTES_PER_LVL(lvl, cfg) * sizeof(arm_v7s_iopte))
+>   
+> @@ -63,7 +70,7 @@
+>   #define _ARM_V7S_IDX_MASK(lvl, cfg)	(ARM_V7S_PTES_PER_LVL(lvl, cfg) - 1)
+>   #define ARM_V7S_LVL_IDX(addr, lvl, cfg)	({			\
+>   	int _l = lvl;							\
+> -	((u32)(addr) >> ARM_V7S_LVL_SHIFT(_l)) & _ARM_V7S_IDX_MASK(_l, cfg); \
+> +	((addr) >> ARM_V7S_LVL_SHIFT(_l)) & _ARM_V7S_IDX_MASK(_l, cfg); \
+>   })
+>   
+>   /*
+> @@ -755,7 +762,7 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
+>   {
+>   	struct arm_v7s_io_pgtable *data;
+>   
+> -	if (cfg->ias > ARM_V7S_ADDR_BITS)
+> +	if (cfg->ias > (arm_v7s_is_mtk_enabled(cfg) ? 34 : ARM_V7S_ADDR_BITS))
+>   		return NULL;
+>   
+>   	if (cfg->oas > (arm_v7s_is_mtk_enabled(cfg) ? 35 : ARM_V7S_ADDR_BITS))
+> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> index f6a2e3eb59d2..6e85c9976a33 100644
+> --- a/drivers/iommu/mtk_iommu.c
+> +++ b/drivers/iommu/mtk_iommu.c
+> @@ -316,7 +316,7 @@ static int mtk_iommu_domain_finalise(struct mtk_iommu_domain *dom)
+>   			IO_PGTABLE_QUIRK_TLBI_ON_MAP |
+>   			IO_PGTABLE_QUIRK_ARM_MTK_EXT,
+>   		.pgsize_bitmap = mtk_iommu_ops.pgsize_bitmap,
+> -		.ias = 32,
+> +		.ias = 34,
+>   		.oas = 35,
+>   		.tlb = &mtk_iommu_flush_ops,
+>   		.iommu_dev = data->dev,
 > 
-> > 
-> > "A Function must have a mechanism to request that it gracefully stop using
-> >  a specific PASID. This mechanism is device specific but must satisfy the
-> >  following rules:
-> >  [...]
-> >  * When the stop request mechanism indicates completion, the Function has:
-> >    [...]
-> >    * Complied with additional rules described in Address Translation
-> >      Services (Chapter 10 [10.4.1.2 quoted above]) if Address Translations
-> >      or Page Requests were issued on the behalf of this PASID."
-> > 
-> > So after the device driver initiates this mechanism in the device, the
-> > device must be able to indicate completion of the mechanism, which
-> > includes completing all in-flight Page Requests. At that point the device
-> > driver can call unbind() knowing there is no pending PR for this PASID.
-> > 
-> 
-> Cheers,
-> Ashok
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
