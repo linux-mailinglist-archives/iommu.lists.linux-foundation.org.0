@@ -2,69 +2,73 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F8429A63D
-	for <lists.iommu@lfdr.de>; Tue, 27 Oct 2020 09:11:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB6829A66F
+	for <lists.iommu@lfdr.de>; Tue, 27 Oct 2020 09:23:02 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1E49F866DA;
-	Tue, 27 Oct 2020 08:11:13 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 949E1866D1;
+	Tue, 27 Oct 2020 08:23:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id o5at0odpFJBb; Tue, 27 Oct 2020 08:11:12 +0000 (UTC)
+	with ESMTP id nI0-B9Vtcu0V; Tue, 27 Oct 2020 08:23:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8B1F5866D3;
-	Tue, 27 Oct 2020 08:11:12 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 03B778613C;
+	Tue, 27 Oct 2020 08:23:00 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7123DC0051;
-	Tue, 27 Oct 2020 08:11:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E5BA5C0051;
+	Tue, 27 Oct 2020 08:22:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 942FCC0051
- for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 08:11:09 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2B331C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 08:22:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 79A76866D1
- for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 08:11:09 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 203DF85629
+ for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 08:22:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JCWRWkpvZsnt for <iommu@lists.linux-foundation.org>;
- Tue, 27 Oct 2020 08:11:08 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 24CC8866BA
- for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 08:11:08 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id C9A7967373; Tue, 27 Oct 2020 09:11:03 +0100 (CET)
-Date: Tue, 27 Oct 2020 09:11:03 +0100
-From: "hch@lst.de" <hch@lst.de>
-To: Parav Pandit <parav@nvidia.com>
-Subject: Re: WARNING in dma_map_page_attrs
-Message-ID: <20201027081103.GA22877@lst.de>
-References: <000000000000335adc05b23300f6@google.com>
- <000000000000a0f8a305b261fe4a@google.com>
- <20201024111516.59abc9ec@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
- <BY5PR12MB4322CC03CE0D34B83269676ADC190@BY5PR12MB4322.namprd12.prod.outlook.com>
+ with ESMTP id VmBPQdobDCk4 for <iommu@lists.linux-foundation.org>;
+ Tue, 27 Oct 2020 08:22:55 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 9C2DC8559B
+ for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 08:22:55 +0000 (UTC)
+Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4CL4TC5rK3zXgBg;
+ Tue, 27 Oct 2020 16:22:55 +0800 (CST)
+Received: from dggemi711-chm.china.huawei.com (10.3.20.110) by
+ DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Tue, 27 Oct 2020 16:22:50 +0800
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ dggemi711-chm.china.huawei.com (10.3.20.110) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Tue, 27 Oct 2020 16:22:50 +0800
+Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
+ dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.1913.007;
+ Tue, 27 Oct 2020 16:22:50 +0800
+From: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+To: "hch@lst.de" <hch@lst.de>, "will@kernel.org" <will@kernel.org>
+Subject: RE: [PATCH] dma: Per-NUMA-node CMA should depend on NUMA
+Thread-Topic: [PATCH] dma: Per-NUMA-node CMA should depend on NUMA
+Thread-Index: AQHWq5MUDdH3/+jmF0KiWtaQJmX8fKmqTnfwgABBLQCAAIoLgA==
+Date: Tue, 27 Oct 2020 08:22:50 +0000
+Message-ID: <767d181165f74ce78c86b20bbe09cd9b@hisilicon.com>
+References: <74b66725883f065eb7d156f866678abb5be934bd.1603714996.git.robin.murphy@arm.com>
+ <75cad228694b4f1587265a887069b241@hisilicon.com>
+ <20201027075452.GA22487@lst.de>
+In-Reply-To: <20201027075452.GA22487@lst.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.126.202.177]
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <BY5PR12MB4322CC03CE0D34B83269676ADC190@BY5PR12MB4322.namprd12.prod.outlook.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "linaro-mm-sig-owner@lists.linaro.org"
- <linaro-mm-sig-owner@lists.linaro.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>,
+X-CFilter-Loop: Reflected
+Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "hch@lst.de" <hch@lst.de>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- syzbot <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>,
- Jakub Kicinski <kuba@kernel.org>,
- "robin.murphy@arm.com" <robin.murphy@arm.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+ Linuxarm <linuxarm@huawei.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,31 +86,70 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Oct 26, 2020 at 05:23:48AM +0000, Parav Pandit wrote:
-> Hi Christoph,
+
+
+> -----Original Message-----
+> From: hch@lst.de [mailto:hch@lst.de]
+> Sent: Tuesday, October 27, 2020 8:55 PM
+> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>; hch@lst.de;
+> iommu@lists.linux-foundation.org; linux-kernel@vger.kernel.org
+> Subject: Re: [PATCH] dma: Per-NUMA-node CMA should depend on NUMA
 > 
-> > From: Jakub Kicinski <kuba@kernel.org>
-> > Sent: Saturday, October 24, 2020 11:45 PM
-> > 
-> > CC: rdma, looks like rdma from the stack trace
-> > 
-> > On Fri, 23 Oct 2020 20:07:17 -0700 syzbot wrote:
-> > > syzbot has found a reproducer for the following issue on:
+> On Mon, Oct 26, 2020 at 08:07:43PM +0000, Song Bao Hua (Barry Song)
+> wrote:
+> > > diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
+> > > index c99de4a21458..964b74c9b7e3 100644
+> > > --- a/kernel/dma/Kconfig
+> > > +++ b/kernel/dma/Kconfig
+> > > @@ -125,7 +125,8 @@ if  DMA_CMA
 > > >
-> > > HEAD commit:    3cb12d27 Merge tag 'net-5.10-rc1' of git://git.kernel.org/..
+> > >  config DMA_PERNUMA_CMA
+> > >  	bool "Enable separate DMA Contiguous Memory Area for each NUMA
+> > > Node"
+> > > -	default NUMA && ARM64
+> > > +	depends on NUMA
+> > > +	default ARM64
+> >
+> > On the other hand, at this moment, only ARM64 is calling the init code
+> > to get per_numa cma. Do we need to
+> > depends on NUMA && ARM64 ?
+> > so that this is not enabled by non-arm64?
 > 
-> In [1] you mentioned that dma_mask should not be set for dma_virt_ops.
-> So patch [2] removed it.
->
-> But check to validate the dma mask for all dma_ops was added in [3].
-> 
-> What is the right way? Did I misunderstood your comment about dma_mask in [1]?
+> I actually hate having arch symbols in common code.  A new
+> ARCH_HAS_DMA_PERNUMA_CMA, only selected by arm64 for now would be
+> more
+> clean I think.
 
-No, I did not say we don't need the mask.  I said copying over the
-various dma-related fields from the parent is bogus.
+Sounds good to me.
 
-I think rxe (and ther other drivers/infiniband/sw drivers) need a simple
-dma_coerce_mask_and_coherent and nothing else.
+BTW,  +Will.
+
+Last time we talked about default pernuma cma size, you suggested a bootargs
+in arch/arm64/Kconfig but Will seems to have different idea. Am I right, Will?
+
+Would we let aarch64 call dma_pernuma_cma_reserve(16MB) rather than
+dma_pernuma_cma_reserve()?
+
+In this way, users will at least get a default pernuma CMA which is required
+at least by IOMMU. If users set a "cma_pernuma" bootargs, it will overwrite
+the default size from aarch64 code?
+
+I mean
+
+- void __init dma_pernuma_cma_reserve(size_t size)
++ void __init dma_pernuma_cma_reserve(size_t size)
+{
+	if (!pernuma_size_bytes)
++		pernuma_size_bytes = size;
+	....
+}
+
+Right now, it is easy that users will forget to set cma_pernuma in bootargs.
+Probably this feature is not enabled by users.
+
+Thanks
+Barry
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
