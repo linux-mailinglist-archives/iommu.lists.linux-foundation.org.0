@@ -2,54 +2,52 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7039A29A5DD
-	for <lists.iommu@lfdr.de>; Tue, 27 Oct 2020 08:55:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80FD029A5F6
+	for <lists.iommu@lfdr.de>; Tue, 27 Oct 2020 08:58:59 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3631B852CF;
-	Tue, 27 Oct 2020 07:55:01 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 35B7F85754;
+	Tue, 27 Oct 2020 07:58:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1D_OEO5auE89; Tue, 27 Oct 2020 07:55:00 +0000 (UTC)
+	with ESMTP id 7pYcMuZ5dVyw; Tue, 27 Oct 2020 07:58:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2A796851A4;
-	Tue, 27 Oct 2020 07:55:00 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E450E85593;
+	Tue, 27 Oct 2020 07:58:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0C469C0051;
-	Tue, 27 Oct 2020 07:55:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CC75AC1AD5;
+	Tue, 27 Oct 2020 07:58:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4CA68C0051
- for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 07:54:59 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B65F8C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 07:58:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 4190A851A4
- for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 07:54:59 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id A44BB85754
+ for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 07:58:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JaMECxioopns for <iommu@lists.linux-foundation.org>;
- Tue, 27 Oct 2020 07:54:58 +0000 (UTC)
+ with ESMTP id j3221EKIsl_U for <iommu@lists.linux-foundation.org>;
+ Tue, 27 Oct 2020 07:58:54 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id E53028506A
- for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 07:54:57 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 25D9585593
+ for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 07:58:54 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 2FBB867373; Tue, 27 Oct 2020 08:54:53 +0100 (CET)
-Date: Tue, 27 Oct 2020 08:54:52 +0100
-From: "hch@lst.de" <hch@lst.de>
-To: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-Subject: Re: [PATCH] dma: Per-NUMA-node CMA should depend on NUMA
-Message-ID: <20201027075452.GA22487@lst.de>
-References: <74b66725883f065eb7d156f866678abb5be934bd.1603714996.git.robin.murphy@arm.com>
- <75cad228694b4f1587265a887069b241@hisilicon.com>
+ id 463BD67373; Tue, 27 Oct 2020 08:58:51 +0100 (CET)
+Date: Tue, 27 Oct 2020 08:58:51 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Stefano Stabellini <sstabellini@kernel.org>
+Subject: Re: [PATCH] fix swiotlb panic on Xen
+Message-ID: <20201027075851.GD22487@lst.de>
+References: <alpine.DEB.2.21.2010261653320.12247@sstabellini-ThinkPad-T480s>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <75cad228694b4f1587265a887069b241@hisilicon.com>
+In-Reply-To: <alpine.DEB.2.21.2010261653320.12247@sstabellini-ThinkPad-T480s>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Robin Murphy <robin.murphy@arm.com>, "hch@lst.de" <hch@lst.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: xen-devel@lists.xenproject.org, iommu@lists.linux-foundation.org,
+ hch@lst.de, linux-kernel@vger.kernel.org, konrad.wilk@oracle.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,28 +65,12 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Oct 26, 2020 at 08:07:43PM +0000, Song Bao Hua (Barry Song) wrote:
-> > diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-> > index c99de4a21458..964b74c9b7e3 100644
-> > --- a/kernel/dma/Kconfig
-> > +++ b/kernel/dma/Kconfig
-> > @@ -125,7 +125,8 @@ if  DMA_CMA
-> > 
-> >  config DMA_PERNUMA_CMA
-> >  	bool "Enable separate DMA Contiguous Memory Area for each NUMA
-> > Node"
-> > -	default NUMA && ARM64
-> > +	depends on NUMA
-> > +	default ARM64
-> 
-> On the other hand, at this moment, only ARM64 is calling the init code
-> to get per_numa cma. Do we need to
-> depends on NUMA && ARM64 ?
-> so that this is not enabled by non-arm64?
+Looks good for now:
 
-I actually hate having arch symbols in common code.  A new
-ARCH_HAS_DMA_PERNUMA_CMA, only selected by arm64 for now would be more
-clean I think.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+
+But we really need to clean up the mess with all these magic variables
+eventually.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
