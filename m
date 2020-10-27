@@ -2,73 +2,50 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB6829A66F
-	for <lists.iommu@lfdr.de>; Tue, 27 Oct 2020 09:23:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 498A429A98D
+	for <lists.iommu@lfdr.de>; Tue, 27 Oct 2020 11:26:09 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 949E1866D1;
-	Tue, 27 Oct 2020 08:23:01 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DB0A186726;
+	Tue, 27 Oct 2020 10:26:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nI0-B9Vtcu0V; Tue, 27 Oct 2020 08:23:00 +0000 (UTC)
+	with ESMTP id WQrCkbyg7Kza; Tue, 27 Oct 2020 10:26:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 03B778613C;
-	Tue, 27 Oct 2020 08:23:00 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 582E186700;
+	Tue, 27 Oct 2020 10:26:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E5BA5C0051;
-	Tue, 27 Oct 2020 08:22:59 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 38883C0051;
+	Tue, 27 Oct 2020 10:26:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2B331C0051
- for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 08:22:57 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 14E60C0051
+ for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 10:26:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 203DF85629
- for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 08:22:57 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 03E4087253
+ for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 10:26:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VmBPQdobDCk4 for <iommu@lists.linux-foundation.org>;
- Tue, 27 Oct 2020 08:22:55 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9C2DC8559B
- for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 08:22:55 +0000 (UTC)
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4CL4TC5rK3zXgBg;
- Tue, 27 Oct 2020 16:22:55 +0800 (CST)
-Received: from dggemi711-chm.china.huawei.com (10.3.20.110) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Tue, 27 Oct 2020 16:22:50 +0800
-Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
- dggemi711-chm.china.huawei.com (10.3.20.110) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Tue, 27 Oct 2020 16:22:50 +0800
-Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
- dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.1913.007;
- Tue, 27 Oct 2020 16:22:50 +0800
-From: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-To: "hch@lst.de" <hch@lst.de>, "will@kernel.org" <will@kernel.org>
-Subject: RE: [PATCH] dma: Per-NUMA-node CMA should depend on NUMA
-Thread-Topic: [PATCH] dma: Per-NUMA-node CMA should depend on NUMA
-Thread-Index: AQHWq5MUDdH3/+jmF0KiWtaQJmX8fKmqTnfwgABBLQCAAIoLgA==
-Date: Tue, 27 Oct 2020 08:22:50 +0000
-Message-ID: <767d181165f74ce78c86b20bbe09cd9b@hisilicon.com>
-References: <74b66725883f065eb7d156f866678abb5be934bd.1603714996.git.robin.murphy@arm.com>
- <75cad228694b4f1587265a887069b241@hisilicon.com>
- <20201027075452.GA22487@lst.de>
-In-Reply-To: <20201027075452.GA22487@lst.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.126.202.177]
-MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Cc: "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Robin Murphy <robin.murphy@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Linuxarm <linuxarm@huawei.com>
+ with ESMTP id 3aohH0P3lUXh for <iommu@lists.linux-foundation.org>;
+ Tue, 27 Oct 2020 10:26:00 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from ozlabs.ru (ozlabs.ru [107.174.27.60])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 0A3EC8718E
+ for <iommu@lists.linux-foundation.org>; Tue, 27 Oct 2020 10:25:59 +0000 (UTC)
+Received: from fstn1-p1.ozlabs.ibm.com (localhost [IPv6:::1])
+ by ozlabs.ru (Postfix) with ESMTP id DE5A7AE80276;
+ Tue, 27 Oct 2020 06:18:07 -0400 (EDT)
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+To: linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH kernel v2 0/2] DMA,
+ powerpc/dma: Fallback to dma_ops when persistent memory present
+Date: Tue, 27 Oct 2020 21:18:39 +1100
+Message-Id: <20201027101841.96056-1-aik@ozlabs.ru>
+X-Mailer: git-send-email 2.17.1
+Cc: Michael Ellerman <mpe@ellerman.id.au>, iommu@lists.linux-foundation.org,
+ Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,75 +58,40 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+This allows mixing direct DMA (to/from RAM) and
+IOMMU (to/from apersistent memory) on the PPC64/pseries
+platform.
+
+This replaces this: https://lkml.org/lkml/2020/10/20/1085
+A lesser evil this is :)
+
+This is based on sha1
+4525c8781ec0 Linus Torvalds "scsi: qla2xxx: remove incorrect sparse #ifdef".
+
+Please comment. Thanks.
 
 
-> -----Original Message-----
-> From: hch@lst.de [mailto:hch@lst.de]
-> Sent: Tuesday, October 27, 2020 8:55 PM
-> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>; hch@lst.de;
-> iommu@lists.linux-foundation.org; linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH] dma: Per-NUMA-node CMA should depend on NUMA
-> 
-> On Mon, Oct 26, 2020 at 08:07:43PM +0000, Song Bao Hua (Barry Song)
-> wrote:
-> > > diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-> > > index c99de4a21458..964b74c9b7e3 100644
-> > > --- a/kernel/dma/Kconfig
-> > > +++ b/kernel/dma/Kconfig
-> > > @@ -125,7 +125,8 @@ if  DMA_CMA
-> > >
-> > >  config DMA_PERNUMA_CMA
-> > >  	bool "Enable separate DMA Contiguous Memory Area for each NUMA
-> > > Node"
-> > > -	default NUMA && ARM64
-> > > +	depends on NUMA
-> > > +	default ARM64
-> >
-> > On the other hand, at this moment, only ARM64 is calling the init code
-> > to get per_numa cma. Do we need to
-> > depends on NUMA && ARM64 ?
-> > so that this is not enabled by non-arm64?
-> 
-> I actually hate having arch symbols in common code.  A new
-> ARCH_HAS_DMA_PERNUMA_CMA, only selected by arm64 for now would be
-> more
-> clean I think.
 
-Sounds good to me.
+Alexey Kardashevskiy (2):
+  dma: Allow mixing bypass and normal IOMMU operation
+  powerpc/dma: Fallback to dma_ops when persistent memory present
 
-BTW,  +Will.
+ arch/powerpc/kernel/dma-iommu.c        | 12 ++++-
+ arch/powerpc/platforms/pseries/iommu.c | 44 ++++++++++++++-----
+ kernel/dma/mapping.c                   | 61 +++++++++++++++++++++++++-
+ arch/powerpc/Kconfig                   |  1 +
+ kernel/dma/Kconfig                     |  4 ++
+ 5 files changed, 108 insertions(+), 14 deletions(-)
 
-Last time we talked about default pernuma cma size, you suggested a bootargs
-in arch/arm64/Kconfig but Will seems to have different idea. Am I right, Will?
+-- 
+2.17.1
 
-Would we let aarch64 call dma_pernuma_cma_reserve(16MB) rather than
-dma_pernuma_cma_reserve()?
-
-In this way, users will at least get a default pernuma CMA which is required
-at least by IOMMU. If users set a "cma_pernuma" bootargs, it will overwrite
-the default size from aarch64 code?
-
-I mean
-
-- void __init dma_pernuma_cma_reserve(size_t size)
-+ void __init dma_pernuma_cma_reserve(size_t size)
-{
-	if (!pernuma_size_bytes)
-+		pernuma_size_bytes = size;
-	....
-}
-
-Right now, it is easy that users will forget to set cma_pernuma in bootargs.
-Probably this feature is not enabled by users.
-
-Thanks
-Barry
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
