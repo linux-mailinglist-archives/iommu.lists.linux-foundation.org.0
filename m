@@ -1,89 +1,88 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4554529DA51
-	for <lists.iommu@lfdr.de>; Thu, 29 Oct 2020 00:19:41 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 436ED204D6;
-	Wed, 28 Oct 2020 23:19:39 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mRbx5I80BFED; Wed, 28 Oct 2020 23:19:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id C7CD1204E3;
-	Wed, 28 Oct 2020 23:19:37 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B3243C0051;
-	Wed, 28 Oct 2020 23:19:37 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A4D58C0051
- for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 23:19:36 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DAC29DA29
+	for <lists.iommu@lfdr.de>; Thu, 29 Oct 2020 00:15:26 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 933B184D7A
- for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 23:19:36 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DA67586388;
+	Wed, 28 Oct 2020 23:15:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Zs6-EcCZsdS5; Wed, 28 Oct 2020 23:15:22 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EFD6286407;
+	Wed, 28 Oct 2020 23:15:22 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DF1ABC0051;
+	Wed, 28 Oct 2020 23:15:22 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5C94FC0051
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 23:15:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3F39D869A5
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 23:15:21 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XNZctHnaQRMH for <iommu@lists.linux-foundation.org>;
- Wed, 28 Oct 2020 23:19:35 +0000 (UTC)
+ with ESMTP id OQuSIL-OQgBd for <iommu@lists.linux-foundation.org>;
+ Wed, 28 Oct 2020 23:15:19 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
- [209.85.210.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id BE34884974
- for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 23:19:35 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id 133so722490pfx.11
- for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 16:19:35 -0700 (PDT)
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+ [209.85.210.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id DF8568687D
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 23:15:19 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id b3so750065pfo.2
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 16:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9KLgU2ii04BMgmi9GJzMZxGva6u6t/mvJPjkoxUhr74=;
- b=SpwfTtMc6fpZxAapRbEYqZhJ275joqIjQxSqHFrK4Yekqe+Gh2zz6qdapj9A1/J6xI
- foQfDDB0AVcez/2sNAO+Vh7ZW8qJCyoy9o3KnSyOfL1YPG6414L3YyOl4Njh8oZ8j6cN
- k/wpFmINd26rcv9udGDVOqncEZKOYKWgN538CHGj59P1jCeuXhh4uJhVDNt/VOl8thrA
- 6gQgeAs5qDBHuJGVR26BnE+b3PWJaR95jKJGVTFY9pcLxUn1YiPeNXt/l0VYXsG6V6rf
- jRAzk4WcwmAviBfA8VMWZx8MtjV20TQ/6IZFDqchgrG1GICr9zCbtwiBXkLs+Jmdbxyv
- Ab1w==
+ bh=CR2wnnNlKWCuS4v8a17nk31my7ihb+hmRpvNks7K5nk=;
+ b=GORSieNJXfwskxaxCjowLoxfeZJAJBnAwv32Jxo7LchBcWcFZsNgs2td3VwO2FpDap
+ 8VS39JtTsIkN16uJZ91UjVSKg4D3cjZTUmYyXQ4EdU4q/synSnECkjtEEBSLoN2otDf7
+ WidryILLCwpaAcfIjcoMYYJeqknpRUgQLpKW8ZiXIT4GTH22ibwSOYE/7ay6ySN41mWG
+ oBy2gdO7DYhHQrcSrV0NKdA93mlC3+0KwYn9PnadvEmLMuu4Vks70zDrrpf8Or7HUlKg
+ V/RzNKoAwyVmp2MqwFjfjGLo55FVa9S6YmZfMC0064eqqicggyfyaL5fjTTN9yJRVcUS
+ l80w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9KLgU2ii04BMgmi9GJzMZxGva6u6t/mvJPjkoxUhr74=;
- b=lqPFRvXfg8XsmACXHllMKjrpo9CeWKWyNFdD30Y8WH84utdy3E6E/7ikczFjdoR7Pm
- k5J5DKh6X8iIvfmHSWDJ9Z7Aj8fb3YRXipHimkxDe/6Ni/Y0A7dNKkxlZDukt0TIW7nr
- MowmMCfZ32hnBPip5qpATGvAfhdtRKUfTxd45PRNbPaxlD5D1C/aXi56+Rbkh09RbGH6
- n1vgrCRiN38o3BFs+7kl1Zq4Arnn1s5EJiDxh3YR+YW0Ulmww7tyKVFOeyEF43lrwawe
- QRACS6S3auGTuaAogFzwYEjxr5aboVLx/edvrQJUDxeHNSk5T9o8iK4rxDUL2+JNLTTh
- RHxA==
-X-Gm-Message-State: AOAM531bBvM1uBQcDwU7xcntDriBAle2fCFwRoDYKsKDu77LO2rOPzqR
- fiEwRLXch58AiH2tOhPcGpHvHz4w1P21bQ==
-X-Google-Smtp-Source: ABdhPJy00goGFzfZHxvXhNS7gg6ez4rHGE2d6wvUjsKkNkmVUyn+UFMehJccnUwS8rJlbF8q7y3A5Q==
-X-Received: by 2002:a63:1649:: with SMTP id 9mr1419124pgw.91.1603926711033;
- Wed, 28 Oct 2020 16:11:51 -0700 (PDT)
+ bh=CR2wnnNlKWCuS4v8a17nk31my7ihb+hmRpvNks7K5nk=;
+ b=bu45ExX+szx4NWVJOnHAVYytmB/2d7JplBXNdBY8Ba6GrHHWyyd2f/ZN7lRQBbF6wV
+ 2uKgqnq596I+G99251IHjRDtcDMlsQ6TJ5B3DY+ZIwlawGXrMM4H/eordpAovibzugHo
+ oc0+k1aRx7DSwjjwlWgktQZxuf5by87aDXAyTew8zLmHaCr+o0MuLpkHWOBSriuabraY
+ vOq+LTPT/7WbHiENnOrkGo6NOdsfnHaZwEGhtX9IrDVD2HoQ0hfXv4wo8JalAtg00vdQ
+ uX7/af/U9W7kAor6rjiMj+SKYBs8oBPAJ9FMUX5WJBT8UdPXrRm71lm9A9MTiVIjiYhr
+ ufSw==
+X-Gm-Message-State: AOAM530G9OL9t3VtCMihBRhJ4+Pi34BN42HQfNOPN/X7oEV/94uqFG+v
+ YzSFIX6Y+dWwz9mhoLMWlim6Wg==
+X-Google-Smtp-Source: ABdhPJxWh5VuvnxVzHg1hXVvHKS4O8oUFbCH3BrcZ/J9wYqZvKrr/xcdDBUJybZIB3+Txzd8Jp2CCg==
+X-Received: by 2002:a62:f846:0:b029:15f:f897:7647 with SMTP id
+ c6-20020a62f8460000b029015ff8977647mr1225887pfm.75.1603926919318; 
+ Wed, 28 Oct 2020 16:15:19 -0700 (PDT)
 Received: from [192.168.10.88] (124-171-72-187.dyn.iinet.net.au.
  [124.171.72.187])
- by smtp.gmail.com with UTF8SMTPSA id q5sm449440pjj.26.2020.10.28.16.11.47
+ by smtp.gmail.com with UTF8SMTPSA id e6sm634704pfn.190.2020.10.28.16.15.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Oct 2020 16:11:50 -0700 (PDT)
-Subject: Re: [PATCH kernel v2 1/2] dma: Allow mixing bypass and normal IOMMU
+ Wed, 28 Oct 2020 16:15:18 -0700 (PDT)
+Subject: Re: [PATCH kernel v3 1/2] dma: Allow mixing bypass and mapped DMA
  operation
 To: Christoph Hellwig <hch@lst.de>
-References: <20201027101841.96056-1-aik@ozlabs.ru>
- <20201027101841.96056-2-aik@ozlabs.ru> <20201027164858.GA30651@lst.de>
- <28147035-500d-f3cd-f283-257066343697@ozlabs.ru>
- <20201028172106.GA10015@lst.de>
+References: <20201028070030.60643-1-aik@ozlabs.ru>
+ <20201028070030.60643-2-aik@ozlabs.ru> <20201028172201.GB10015@lst.de>
 From: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-ID: <f4420b19-05cd-5817-9ba4-8f6f166a7e5c@ozlabs.ru>
-Date: Thu, 29 Oct 2020 10:11:45 +1100
+Message-ID: <2d9957af-23b6-943f-faac-fc7607b6e250@ozlabs.ru>
+Date: Thu, 29 Oct 2020 10:15:13 +1100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:83.0) Gecko/20100101
  Thunderbird/83.0
 MIME-Version: 1.0
-In-Reply-To: <20201028172106.GA10015@lst.de>
+In-Reply-To: <20201028172201.GB10015@lst.de>
 Content-Language: en-US
 Cc: Michael Ellerman <mpe@ellerman.id.au>, iommu@lists.linux-foundation.org,
  linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
@@ -106,28 +105,55 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 
 
-On 29/10/2020 04:21, Christoph Hellwig wrote:
-> On Wed, Oct 28, 2020 at 05:55:23PM +1100, Alexey Kardashevskiy wrote:
+On 29/10/2020 04:22, Christoph Hellwig wrote:
+> On Wed, Oct 28, 2020 at 06:00:29PM +1100, Alexey Kardashevskiy wrote:
+>> At the moment we allow bypassing DMA ops only when we can do this for
+>> the entire RAM. However there are configs with mixed type memory
+>> where we could still allow bypassing IOMMU in most cases;
+>> POWERPC with persistent memory is one example.
 >>
->> It is passing an address of the end of the mapped area so passing a page
->> struct means passing page and offset which is an extra parameter and we do
->> not want to do anything with the page in those hooks anyway so I'd keep it
->> as is.
+>> This adds an arch hook to determine where bypass can still work and
+>> we invoke direct DMA API. The following patch checks the bus limit
+>> on POWERPC to allow or disallow direct mapping.
 >>
+>> This adds a CONFIG_ARCH_HAS_DMA_SET_MASK config option to make arch_xxxx
+>> hooks no-op by default.
 >>
->>> and
->>>      maybe even hide the dma_map_direct inside it.
+>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+>> ---
+>>   kernel/dma/mapping.c | 24 ++++++++++++++++++++----
+>>   kernel/dma/Kconfig   |  4 ++++
+>>   2 files changed, 24 insertions(+), 4 deletions(-)
 >>
->> Call dma_map_direct() from arch_dma_map_page_direct() if
->> arch_dma_map_page_direct() is defined? Seems suboptimal as it is going to
->> be bypass=true in most cases and we save one call by avoiding calling
->> arch_dma_map_page_direct(). Unless I missed something?
+>> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+>> index 51bb8fa8eb89..a0bc9eb876ed 100644
+>> --- a/kernel/dma/mapping.c
+>> +++ b/kernel/dma/mapping.c
+>> @@ -137,6 +137,18 @@ static inline bool dma_map_direct(struct device *dev,
+>>   	return dma_go_direct(dev, *dev->dma_mask, ops);
+>>   }
+>>   
+>> +#ifdef CONFIG_ARCH_HAS_DMA_MAP_DIRECT
+>> +bool arch_dma_map_page_direct(struct device *dev, phys_addr_t addr);
+>> +bool arch_dma_unmap_page_direct(struct device *dev, dma_addr_t dma_handle);
+>> +bool arch_dma_map_sg_direct(struct device *dev, struct scatterlist *sg, int nents);
+>> +bool arch_dma_unmap_sg_direct(struct device *dev, struct scatterlist *sg, int nents);
+>> +#else
+>> +#define arch_dma_map_page_direct(d, a) (0)
+>> +#define arch_dma_unmap_page_direct(d, a) (0)
+>> +#define arch_dma_map_sg_direct(d, s, n) (0)
+>> +#define arch_dma_unmap_sg_direct(d, s, n) (0)
+>> +#endif
 > 
-> C does not even evaluate the right hand side of a || expression if the
-> left hand evaluates to true.
+> A bunch of overly long lines here.  Except for that this looks ok to me.
+> If you want me to queue up the series I can just fix it up.
 
-Right, this is what I meant. dma_map_direct() is inline and fast so I 
-did not want it inside the arch hook which is not inline.
+I thought 100 is the new limit since 
+https://lkml.org/lkml/2020/5/29/1038 (yeah that mentioned some Christoph 
+:) ) and having these multiline does not make a huge difference but feel 
+free fixing them up.
+
+Are you going to take both patches? Do you need mpe's ack? Thanks,
 
 
 -- 
