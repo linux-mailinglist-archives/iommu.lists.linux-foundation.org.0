@@ -1,53 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F22B29CE71
-	for <lists.iommu@lfdr.de>; Wed, 28 Oct 2020 08:00:46 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1AA29CE7A
+	for <lists.iommu@lfdr.de>; Wed, 28 Oct 2020 08:14:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E3E6C86B74;
-	Wed, 28 Oct 2020 07:00:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DB1AA20452;
+	Wed, 28 Oct 2020 07:14:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EYsZxIuE+TsL; Wed, 28 Oct 2020 07:00:42 +0000 (UTC)
+	with ESMTP id XI0BoMRhJBZc; Wed, 28 Oct 2020 07:14:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 98BD486B77;
-	Wed, 28 Oct 2020 07:00:42 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8C46B203DE;
+	Wed, 28 Oct 2020 07:14:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8E58AC0051;
-	Wed, 28 Oct 2020 07:00:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 660E9C0051;
+	Wed, 28 Oct 2020 07:14:24 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2B7D8C0051
- for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 07:00:41 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B7AB2C0051
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 07:14:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 194C387403
- for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 07:00:41 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 9F8F486554
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 07:14:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id w8TYNlkx7Ycu for <iommu@lists.linux-foundation.org>;
- Wed, 28 Oct 2020 07:00:40 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from ozlabs.ru (ozlabs.ru [107.174.27.60])
- by hemlock.osuosl.org (Postfix) with ESMTP id 30A7787406
- for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 07:00:40 +0000 (UTC)
-Received: from fstn1-p1.ozlabs.ibm.com (localhost [IPv6:::1])
- by ozlabs.ru (Postfix) with ESMTP id 8E9DEAE80276;
- Wed, 28 Oct 2020 02:59:56 -0400 (EDT)
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-To: linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH kernel v3 2/2] powerpc/dma: Fallback to dma_ops when
- persistent memory present
-Date: Wed, 28 Oct 2020 18:00:30 +1100
-Message-Id: <20201028070030.60643-3-aik@ozlabs.ru>
+ with ESMTP id 5daO5VWYI38E for <iommu@lists.linux-foundation.org>;
+ Wed, 28 Oct 2020 07:14:21 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6CDEE864D8
+ for <iommu@lists.linux-foundation.org>; Wed, 28 Oct 2020 07:14:21 +0000 (UTC)
+IronPort-SDR: WJfoPqPUFtJJov3xpwmqn/54l7ICnj+5Ed4hfTuBUwD8sSSfnvZuvQ6Sj1kM9ZhhepGbMRUw1f
+ KbMlrePPNm0w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="164717651"
+X-IronPort-AV: E=Sophos;i="5.77,425,1596524400"; d="scan'208";a="164717651"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2020 00:14:20 -0700
+IronPort-SDR: rcxhHA4pBVxnIVq90gvhLsON7VuGysxmc9kh43UQUk5eHspKTWMxESrQHrbuGORph0f+OWKmsM
+ HfwgkcqCN3AA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,425,1596524400"; d="scan'208";a="424645925"
+Received: from allen-box.sh.intel.com ([10.239.159.139])
+ by fmsmga001.fm.intel.com with ESMTP; 28 Oct 2020 00:14:14 -0700
+From: Lu Baolu <baolu.lu@linux.intel.com>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH 1/1] iommu/vt-d: Fix kernel NULL pointer dereference in
+ find_domain()
+Date: Wed, 28 Oct 2020 15:07:25 +0800
+Message-Id: <20201028070725.24979-1-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201028070030.60643-1-aik@ozlabs.ru>
-References: <20201028070030.60643-1-aik@ozlabs.ru>
-Cc: Michael Ellerman <mpe@ellerman.id.au>, iommu@lists.linux-foundation.org,
- Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org
+Cc: Xu Pengfei <pengfei.xu@intel.com>, iommu@lists.linux-foundation.org,
+ stable@vger.kernel.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,240 +76,75 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-So far we have been using huge DMA windows to map all the RAM available.
-The RAM is normally mapped to the VM address space contiguously, and
-there is always a reasonable upper limit for possible future hot plugged
-RAM which makes it easy to map all RAM via IOMMU.
+If calling find_domain() for a device which hasn't been probed by the
+iommu core, below kernel NULL pointer dereference issue happens.
 
-Now there is persistent memory ("ibm,pmemory" in the FDT) which (unlike
-normal RAM) can map anywhere in the VM space beyond the maximum RAM size
-and since it can be used for DMA, it requires extending the huge window
-up to MAX_PHYSMEM_BITS which requires hypervisor support for:
-1. huge TCE tables;
-2. multilevel TCE tables;
-3. huge IOMMU pages.
+[  362.736947] BUG: kernel NULL pointer dereference, address: 0000000000000038
+[  362.743953] #PF: supervisor read access in kernel mode
+[  362.749115] #PF: error_code(0x0000) - not-present page
+[  362.754278] PGD 0 P4D 0
+[  362.756843] Oops: 0000 [#1] SMP NOPTI
+[  362.760528] CPU: 0 PID: 844 Comm: cat Not tainted 5.9.0-rc4-intel-next+ #1
+[  362.767428] Hardware name: Intel Corporation Ice Lake Client Platform/IceLake
+               U DDR4 SODIMM PD RVP TLC, BIOS ICLSFWR1.R00.3384.A02.1909200816
+               09/20/2019
+[  362.781109] RIP: 0010:find_domain+0xd/0x40
+[  362.785234] Code: 48 81 fb 60 28 d9 b2 75 de 5b 41 5c 41 5d 5d c3 0f 1f 00 66
+                     2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 8b 87 e0 02 00
+                     00 55 <48> 8b 40 38 48 89 e5 48 83 f8 fe 0f 94 c1 48 85 ff
+                     0f 94 c2 08 d1
+[  362.804041] RSP: 0018:ffffb09cc1f0bd38 EFLAGS: 00010046
+[  362.809292] RAX: 0000000000000000 RBX: ffff905b98e4fac8 RCX: 0000000000000000
+[  362.816452] RDX: 0000000000000001 RSI: ffff905b98e4fac8 RDI: ffff905b9ccd40d0
+[  362.823617] RBP: ffffb09cc1f0bda0 R08: ffffb09cc1f0bd48 R09: 000000000000000f
+[  362.830778] R10: ffffffffb266c080 R11: ffff905b9042602d R12: ffff905b98e4fac8
+[  362.837944] R13: ffffb09cc1f0bd48 R14: ffff905b9ccd40d0 R15: ffff905b98e4fac8
+[  362.845108] FS:  00007f8485460740(0000) GS:ffff905b9fc00000(0000)
+               knlGS:0000000000000000
+[  362.853227] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  362.858996] CR2: 0000000000000038 CR3: 00000004627a6003 CR4: 0000000000770ef0
+[  362.866161] PKRU: fffffffc
+[  362.868890] Call Trace:
+[  362.871363]  ? show_device_domain_translation+0x32/0x100
+[  362.876700]  ? bind_store+0x110/0x110
+[  362.880387]  ? klist_next+0x91/0x120
+[  362.883987]  ? domain_translation_struct_show+0x50/0x50
+[  362.889237]  bus_for_each_dev+0x79/0xc0
+[  362.893121]  domain_translation_struct_show+0x36/0x50
+[  362.898204]  seq_read+0x135/0x410
+[  362.901545]  ? handle_mm_fault+0xeb8/0x1750
+[  362.905755]  full_proxy_read+0x5c/0x90
+[  362.909526]  vfs_read+0xa6/0x190
+[  362.912782]  ksys_read+0x61/0xe0
+[  362.916037]  __x64_sys_read+0x1a/0x20
+[  362.919725]  do_syscall_64+0x37/0x80
+[  362.923329]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[  362.928405] RIP: 0033:0x7f84855c5e95
 
-Certain hypervisors cannot do either so the only option left is
-restricting the huge DMA window to include only RAM and fallback to
-the default DMA window for persistent memory.
+Filter out those devices to avoid such error.
 
-This defines arch_dma_map_direct/etc to allow generic DMA code perform
-additional checks on whether direct DMA is still possible.
-
-This checks if the system has persistent memory. If it does not,
-the DMA bypass mode is selected, i.e.
-* dev->bus_dma_limit = 0
-* dev->dma_ops_bypass = true <- this avoid calling dma_ops for mapping.
-
-If there is such memory, this creates identity mapping only for RAM and
-sets the dev->bus_dma_limit to let the generic code decide whether to
-call into the direct DMA or the indirect DMA ops.
-
-This should not change the existing behaviour when no persistent memory
-as dev->dma_ops_bypass is expected to be set.
-
-Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Fixes: e2726daea583d ("iommu/vt-d: debugfs: Add support to show page table internals")
+Cc: stable@vger.kernel.org#v5.6+
+Reported-and-tested-by: Xu Pengfei <pengfei.xu@intel.com>
+Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- arch/powerpc/kernel/dma-iommu.c        | 70 +++++++++++++++++++++++++-
- arch/powerpc/platforms/pseries/iommu.c | 44 ++++++++++++----
- arch/powerpc/Kconfig                   |  1 +
- 3 files changed, 103 insertions(+), 12 deletions(-)
+ drivers/iommu/intel/iommu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/powerpc/kernel/dma-iommu.c b/arch/powerpc/kernel/dma-iommu.c
-index a1c744194018..21e2d9f059a9 100644
---- a/arch/powerpc/kernel/dma-iommu.c
-+++ b/arch/powerpc/kernel/dma-iommu.c
-@@ -10,6 +10,63 @@
- #include <linux/pci.h>
- #include <asm/iommu.h>
- 
-+#define can_map_direct(dev, addr) \
-+	((dev)->bus_dma_limit >= phys_to_dma((dev), (addr)))
-+
-+bool arch_dma_map_page_direct(struct device *dev, phys_addr_t addr)
-+{
-+	if (likely(!dev->bus_dma_limit))
-+		return false;
-+
-+	return can_map_direct(dev, addr);
-+}
-+EXPORT_SYMBOL_GPL(arch_dma_map_page_direct);
-+
-+#define is_direct_handle(dev, h) ((h) >= (dev)->archdata.dma_offset)
-+
-+bool arch_dma_unmap_page_direct(struct device *dev, dma_addr_t dma_handle)
-+{
-+	if (likely(!dev->bus_dma_limit))
-+		return false;
-+
-+	return is_direct_handle(dev, dma_handle);
-+}
-+EXPORT_SYMBOL_GPL(arch_dma_unmap_page_direct);
-+
-+bool arch_dma_map_sg_direct(struct device *dev, struct scatterlist *sg, int nents)
-+{
-+	struct scatterlist *s;
-+	int i;
-+
-+	if (likely(!dev->bus_dma_limit))
-+		return false;
-+
-+	for_each_sg(sg, s, nents, i) {
-+		if (!can_map_direct(dev, sg_phys(s) + s->offset + s->length))
-+			return false;
-+	}
-+
-+	return true;
-+}
-+EXPORT_SYMBOL(arch_dma_map_sg_direct);
-+
-+bool arch_dma_unmap_sg_direct(struct device *dev, struct scatterlist *sg, int nents)
-+{
-+	struct scatterlist *s;
-+	int i;
-+
-+	if (likely(!dev->bus_dma_limit))
-+		return false;
-+
-+	for_each_sg(sg, s, nents, i) {
-+		if (!is_direct_handle(dev, s->dma_address + s->length))
-+			return false;
-+	}
-+
-+	return true;
-+}
-+EXPORT_SYMBOL(arch_dma_unmap_sg_direct);
-+
- /*
-  * Generic iommu implementation
-  */
-@@ -90,8 +147,17 @@ int dma_iommu_dma_supported(struct device *dev, u64 mask)
- 	struct iommu_table *tbl = get_iommu_table_base(dev);
- 
- 	if (dev_is_pci(dev) && dma_iommu_bypass_supported(dev, mask)) {
--		dev->dma_ops_bypass = true;
--		dev_dbg(dev, "iommu: 64-bit OK, using fixed ops\n");
-+		/*
-+		 * dma_iommu_bypass_supported() sets dma_max when there is
-+		 * 1:1 mapping but it is somehow limited.
-+		 * ibm,pmemory is one example.
-+		 */
-+		dev->dma_ops_bypass = dev->bus_dma_limit == 0;
-+		if (!dev->dma_ops_bypass)
-+			dev_warn(dev, "iommu: 64-bit OK but direct DMA is limited by %llx\n",
-+				 dev->bus_dma_limit);
-+		else
-+			dev_dbg(dev, "iommu: 64-bit OK, using fixed ops\n");
- 		return 1;
- 	}
- 
-diff --git a/arch/powerpc/platforms/pseries/iommu.c b/arch/powerpc/platforms/pseries/iommu.c
-index e4198700ed1a..91112e748491 100644
---- a/arch/powerpc/platforms/pseries/iommu.c
-+++ b/arch/powerpc/platforms/pseries/iommu.c
-@@ -839,7 +839,7 @@ static void remove_ddw(struct device_node *np, bool remove_prop)
- 			np, ret);
- }
- 
--static u64 find_existing_ddw(struct device_node *pdn)
-+static u64 find_existing_ddw(struct device_node *pdn, int *window_shift)
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index 8651f6d4dfa0..1b1ca63e6bbe 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -2525,6 +2525,9 @@ struct dmar_domain *find_domain(struct device *dev)
  {
- 	struct direct_window *window;
- 	const struct dynamic_dma_window_prop *direct64;
-@@ -851,6 +851,7 @@ static u64 find_existing_ddw(struct device_node *pdn)
- 		if (window->device == pdn) {
- 			direct64 = window->prop;
- 			dma_addr = be64_to_cpu(direct64->dma_base);
-+			*window_shift = be32_to_cpu(direct64->window_shift);
- 			break;
- 		}
- 	}
-@@ -1111,11 +1112,13 @@ static void reset_dma_window(struct pci_dev *dev, struct device_node *par_dn)
-  */
- static u64 enable_ddw(struct pci_dev *dev, struct device_node *pdn)
- {
--	int len, ret;
-+	int len = 0, ret;
-+	bool pmem_present = of_find_node_by_type(NULL, "ibm,pmemory") != NULL;
-+	int max_ram_len = order_base_2(ddw_memory_hotplug_max());
- 	struct ddw_query_response query;
- 	struct ddw_create_response create;
- 	int page_shift;
--	u64 dma_addr, max_addr;
-+	u64 dma_addr;
- 	struct device_node *dn;
- 	u32 ddw_avail[DDW_APPLICABLE_SIZE];
- 	struct direct_window *window;
-@@ -1126,7 +1129,7 @@ static u64 enable_ddw(struct pci_dev *dev, struct device_node *pdn)
+ 	struct device_domain_info *info;
  
- 	mutex_lock(&direct_window_init_mutex);
- 
--	dma_addr = find_existing_ddw(pdn);
-+	dma_addr = find_existing_ddw(pdn, &len);
- 	if (dma_addr != 0)
- 		goto out_unlock;
- 
-@@ -1212,14 +1215,26 @@ static u64 enable_ddw(struct pci_dev *dev, struct device_node *pdn)
- 	}
- 	/* verify the window * number of ptes will map the partition */
- 	/* check largest block * page size > max memory hotplug addr */
--	max_addr = ddw_memory_hotplug_max();
--	if (query.largest_available_block < (max_addr >> page_shift)) {
--		dev_dbg(&dev->dev, "can't map partition max 0x%llx with %llu "
--			  "%llu-sized pages\n", max_addr,  query.largest_available_block,
--			  1ULL << page_shift);
-+	/*
-+	 * The "ibm,pmemory" can appear anywhere in the address space.
-+	 * Assuming it is still backed by page structs, try MAX_PHYSMEM_BITS
-+	 * for the upper limit and fallback to max RAM otherwise but this
-+	 * disables device::dma_ops_bypass.
-+	 */
-+	len = max_ram_len;
-+	if (pmem_present) {
-+		if (query.largest_available_block >=
-+		    (1ULL << (MAX_PHYSMEM_BITS - page_shift)))
-+			len = MAX_PHYSMEM_BITS - page_shift;
-+		else
-+			dev_info(&dev->dev, "Skipping ibm,pmemory");
-+	}
++	if (unlikely(!dev || !dev->iommu))
++		return NULL;
 +
-+	if (query.largest_available_block < (1ULL << (len - page_shift))) {
-+		dev_dbg(&dev->dev, "can't map partition max 0x%llx with %llu %llu-sized pages\n",
-+			1ULL << len, query.largest_available_block, 1ULL << page_shift);
- 		goto out_failed;
- 	}
--	len = order_base_2(max_addr);
- 	win64 = kzalloc(sizeof(struct property), GFP_KERNEL);
- 	if (!win64) {
- 		dev_info(&dev->dev,
-@@ -1299,6 +1314,15 @@ static u64 enable_ddw(struct pci_dev *dev, struct device_node *pdn)
+ 	if (unlikely(attach_deferred(dev)))
+ 		return NULL;
  
- out_unlock:
- 	mutex_unlock(&direct_window_init_mutex);
-+
-+	/*
-+	 * If we have persistent memory and the window size is only as big
-+	 * as RAM, then we failed to create a window to cover persistent
-+	 * memory and need to set the DMA limit.
-+	 */
-+	if (pmem_present && dma_addr && (len == max_ram_len))
-+		dev->dev.bus_dma_limit = dma_addr + (1ULL << len);
-+
- 	return dma_addr;
- }
- 
-diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-index e9f13fe08492..b2d4580acf79 100644
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -159,6 +159,7 @@ config PPC
- 	select DCACHE_WORD_ACCESS		if PPC64 && CPU_LITTLE_ENDIAN
- 	select DMA_OPS				if PPC64
- 	select DMA_OPS_BYPASS			if PPC64
-+	select ARCH_HAS_DMA_MAP_DIRECT 		if PPC64 && PPC_PSERIES
- 	select DYNAMIC_FTRACE			if FUNCTION_TRACER
- 	select EDAC_ATOMIC_SCRUB
- 	select EDAC_SUPPORT
 -- 
 2.17.1
 
