@@ -1,113 +1,102 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4110529F273
-	for <lists.iommu@lfdr.de>; Thu, 29 Oct 2020 18:00:11 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id B85E929F2EB
+	for <lists.iommu@lfdr.de>; Thu, 29 Oct 2020 18:20:56 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id EA2A686C4C;
-	Thu, 29 Oct 2020 17:00:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 359B9874FE;
+	Thu, 29 Oct 2020 17:20:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WQHGWf3l97tH; Thu, 29 Oct 2020 17:00:08 +0000 (UTC)
+	with ESMTP id h6oaWsLGVWde; Thu, 29 Oct 2020 17:20:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CA39E86C11;
-	Thu, 29 Oct 2020 17:00:08 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C000287532;
+	Thu, 29 Oct 2020 17:20:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 29286C0051;
-	Thu, 29 Oct 2020 17:00:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A510CC0051;
+	Thu, 29 Oct 2020 17:20:54 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 05FB1C0051
- for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 17:00:07 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 29688C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 17:20:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id E3C922010C
- for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 17:00:06 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 226A387532
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 17:20:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MncemhcIF9K6 for <iommu@lists.linux-foundation.org>;
- Thu, 29 Oct 2020 17:00:04 +0000 (UTC)
+ with ESMTP id EG205g6kjKMn for <iommu@lists.linux-foundation.org>;
+ Thu, 29 Oct 2020 17:20:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by silver.osuosl.org (Postfix) with ESMTPS id 1E56B226FC
- for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 17:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603990802;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LFIk1KDbaI+imFseS7EgKO+PMROEHyYFYHvDyMX5vJs=;
- b=TbNufhPwwUw6KB8AuXUPErIcToPzH2Hj2PVnzxJVSPuNAP5JOM1879sasaA0fv0QTWN1r2
- cieMUlT+w5thzdP9Kx35rM3vx/T0UujtO83Ze66Ufn6r+vMhHDF4Pm+DvB8KJdEXXcvwg/
- BCsm4qdzgYcmp+SWo6FsNfgQ/AlPC/M=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-kabwBdR0ObaLm-rlMctNNw-1; Thu, 29 Oct 2020 12:59:58 -0400
-X-MC-Unique: kabwBdR0ObaLm-rlMctNNw-1
-Received: by mail-wr1-f69.google.com with SMTP id 11so415082wrc.3
- for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 09:59:58 -0700 (PDT)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
+ [209.85.222.176])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id EF27A874FE
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 17:20:51 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id x20so2615100qkn.1
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 10:20:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=bgET2vKXyCysvHtuVXHC8x2bsoHr9I9pVPGZuJ2I2ok=;
+ b=kCwHtNb0aDqVERdhKoxZMhicLRZ2QR3PolGpflI38e1AZzBFPmngVCvkULn12HaIpd
+ xNZsE0KTf8SFsTeciNeDfLB2b8eo7aWwi+oWAp/jGZANfyHEmSTDAiXW3x245FjthbK+
+ cNyymvnYwa4RgDaOm832TsIoNGN5VteNRutW9xIM3LOXzwfrz3rFIbB2qhaahGSK3KWZ
+ rcjSGv+Lrv3xXtp7IhxItj2ThU4R1TxkB1brB4zm0qayhFjR52RmdpupiWUa8/437Az6
+ Z5hmy1fEbRMjrq5fMw2J1qv+hvc2qIZX/q2dYGHrv1hoTM8Kgy/UG1ajYtjFlzWenf9F
+ /BdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LFIk1KDbaI+imFseS7EgKO+PMROEHyYFYHvDyMX5vJs=;
- b=TM2fecQEpfS1qgiBqSMztUFPqtq9DSWoBtKK+7UvoDZQ3JuamWWHpkquoQikGHkqRy
- Y3yDdZvRy+3nfK4oUTSSvv4MoIdEkyqgrq2Fiwrxlq9ezTHSU/PuIkpcnlqo1bnfbl2l
- ybZJTNsD7Jjz2HEUfNzE3pLeDvBXXNrXfIFxSVjs1YlS0sjQ9bVj+PqlgVrfa+IiPBoQ
- dnrQRSxRKZcjBY7FWa1w/cojOB/dRbykiTlmkfTd+k0XFVoYrGS38dxsSFXS/fJ58xAw
- IQH0bBpVN27BpvZLZARIxArkzol2+wtkAaXJYNEVPvKve7lEanlpii1O7E23M7E6BLt9
- CGtQ==
-X-Gm-Message-State: AOAM5326qZX/ql61b++hQkbhlyWZClFoikiUFsEaq+ieNJ7snoUeFcuy
- 5XptiKKjVgoA4fIPQ+ve7KwmejuVuSnmqyKMKIcrA8H/gVt7KSlc6j5/+Kkig7zDKNDQKnDonAK
- UjbKz160Kg0oW8d027qVdEZHEFjE+KA==
-X-Received: by 2002:a5d:4e8d:: with SMTP id e13mr6897934wru.368.1603990797492; 
- Thu, 29 Oct 2020 09:59:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIJpY7s5tS16KM1jeRqPRytnQIFiA4jNhSDraUoIgQqWjC9ew8fh0YJ62Gxk2fkrYU/ZAcRw==
-X-Received: by 2002:a5d:4e8d:: with SMTP id e13mr6897898wru.368.1603990797308; 
- Thu, 29 Oct 2020 09:59:57 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f17sm6577560wrm.27.2020.10.29.09.59.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Oct 2020 09:59:56 -0700 (PDT)
+ h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=bgET2vKXyCysvHtuVXHC8x2bsoHr9I9pVPGZuJ2I2ok=;
+ b=Hug8SbGhvVDI3CWLrFba7G3VdopbHtQ4SIq16Cgcy4OBQZtZqYelEKhs+AOTIQfcy2
+ DEPQAns4X2Ikfi9AKc7ZmvM7srfzenIri0QyTIZZosmkMeZLPc1AGG+psVIefaOBNMGC
+ sPtApDc1c6hSMPXainv+JtQQwSDah5kh4rn4DnnEgbKRJKTkbgm+4yU015DqIKVcJ06Q
+ fgaLxksryW4ijnRIOMJyDcuL61/2WzcpeK7b2fFp/ISHvJM4TIp2oAMbSWX9fzl5S/IG
+ RCEYW4EcrDIYbutNpB2tHGWvLoCTkVBxezSNTjgmODjDRjnIaDvFxvHWApE+DF0/JtAZ
+ HnMw==
+X-Gm-Message-State: AOAM532OvvozVxuvOxyayMsmQqcjlQjESxlEN5jv+ON1t9YJN3Yqe/22
+ ICUZ+uTV9+NFJz7+HC8377s=
+X-Google-Smtp-Source: ABdhPJxpj2lHqddfkMCdJsg7kjoxJdmwW/wIVKjCyqCU3W25AK0ciYoXUlV7HQMe/OgzwbBLEfxGlQ==
+X-Received: by 2002:a05:620a:130a:: with SMTP id
+ o10mr4612780qkj.63.1603992050890; 
+ Thu, 29 Oct 2020 10:20:50 -0700 (PDT)
+Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
+ by smtp.gmail.com with ESMTPSA id m33sm1432097qtb.65.2020.10.29.10.20.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Oct 2020 10:20:50 -0700 (PDT)
+From: Arvind Sankar <nivedita@alum.mit.edu>
+X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
+Date: Thu, 29 Oct 2020 13:20:48 -0400
+To: Paolo Bonzini <pbonzini@redhat.com>
 Subject: Re: [PATCH] [v2] x86: apic: avoid -Wshadow warning in header
-To: Arvind Sankar <nivedita@alum.mit.edu>,
- David Laight <David.Laight@ACULAB.COM>
+Message-ID: <20201029172048.GA2571425@rani.riverdale.lan>
 References: <20201028212417.3715575-1-arnd@kernel.org>
  <38b11ed3fec64ebd82d6a92834a4bebe@AcuMS.aculab.com>
  <20201029165611.GA2557691@rani.riverdale.lan>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <93180c2d-268c-3c33-7c54-4221dfe0d7ad@redhat.com>
-Date: Thu, 29 Oct 2020 17:59:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ <93180c2d-268c-3c33-7c54-4221dfe0d7ad@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201029165611.GA2557691@rani.riverdale.lan>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Cc: 'Arnd Bergmann' <arnd@kernel.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- Stephen Hemminger <sthemmin@microsoft.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Haiyang Zhang <haiyangz@microsoft.com>, "x86@kernel.org" <x86@kernel.org>,
+Content-Disposition: inline
+In-Reply-To: <93180c2d-268c-3c33-7c54-4221dfe0d7ad@redhat.com>
+Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ Arvind Sankar <nivedita@alum.mit.edu>, "H. Peter Anvin" <hpa@zytor.com>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Stephen Hemminger <sthemmin@microsoft.com>, "x86@kernel.org" <x86@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Arnd Bergmann <arnd@arndb.de>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
+ Jim Mattson <jmattson@google.com>, 'Arnd Bergmann' <arnd@kernel.org>,
  "Rafael J. Wysocki" <rjw@rjwysocki.net>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- "H. Peter Anvin" <hpa@zytor.com>, Wanpeng Li <wanpengli@tencent.com>,
- Thomas Gleixner <tglx@linutronix.de>, "K. Y. Srinivasan" <kys@microsoft.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>
+ David Laight <David.Laight@ACULAB.COM>, Vitaly Kuznetsov <vkuznets@redhat.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -125,23 +114,29 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 29/10/20 17:56, Arvind Sankar wrote:
->> For those two just add:
->> 	struct apic *apic = x86_system_apic;
->> before all the assignments.
->> Less churn and much better code.
->>
-> Why would it be better code?
+On Thu, Oct 29, 2020 at 05:59:54PM +0100, Paolo Bonzini wrote:
+> On 29/10/20 17:56, Arvind Sankar wrote:
+> >> For those two just add:
+> >> 	struct apic *apic = x86_system_apic;
+> >> before all the assignments.
+> >> Less churn and much better code.
+> >>
+> > Why would it be better code?
+> > 
+> 
+> I think he means the compiler produces better code, because it won't
+> read the global variable repeatedly.  Not sure if that's true,(*) but I
+> think I do prefer that version if Arnd wants to do that tweak.
+> 
+> Paolo
+> 
+> (*) if it is, it might also be due to Linux using -fno-strict-aliasing
 > 
 
-I think he means the compiler produces better code, because it won't
-read the global variable repeatedly.  Not sure if that's true,(*) but I
-think I do prefer that version if Arnd wants to do that tweak.
-
-Paolo
-
-(*) if it is, it might also be due to Linux using -fno-strict-aliasing
-
+Nope, it doesn't read it multiple times. I guess it still assumes that
+apic isn't in the middle of what it points to: it would reload the
+address if the first element of *apic was modified, but doesn't for
+other elements. Interesting.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
