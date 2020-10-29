@@ -1,58 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE7829F317
-	for <lists.iommu@lfdr.de>; Thu, 29 Oct 2020 18:26:11 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF60229F319
+	for <lists.iommu@lfdr.de>; Thu, 29 Oct 2020 18:26:15 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3FFFD86C66;
-	Thu, 29 Oct 2020 17:26:10 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 94E3381F55;
+	Thu, 29 Oct 2020 17:26:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SSOneUmCy124; Thu, 29 Oct 2020 17:26:08 +0000 (UTC)
+	with ESMTP id npnKxZSyWgUS; Thu, 29 Oct 2020 17:26:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A4F7D86C78;
-	Thu, 29 Oct 2020 17:26:07 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0EBD886FEC;
+	Thu, 29 Oct 2020 17:26:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8FCD7C088B;
-	Thu, 29 Oct 2020 17:26:07 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EF459C0051;
+	Thu, 29 Oct 2020 17:26:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2C325C0051
- for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 17:26:06 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 328C9C0051
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 17:26:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 25C9786A6B
- for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 17:26:06 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 13D5C228E3
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 17:26:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IAK7yvvZMQA6 for <iommu@lists.linux-foundation.org>;
- Thu, 29 Oct 2020 17:26:05 +0000 (UTC)
+ with ESMTP id 4cnL9ERJUFMI for <iommu@lists.linux-foundation.org>;
+ Thu, 29 Oct 2020 17:26:07 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 61F8086A00
- for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 17:26:05 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id D6749204A9
+ for <iommu@lists.linux-foundation.org>; Thu, 29 Oct 2020 17:26:06 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 07032ADAD;
- Thu, 29 Oct 2020 17:26:04 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 5D90DAD76;
+ Thu, 29 Oct 2020 17:26:05 +0000 (UTC)
 From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To: robh+dt@kernel.org, catalin.marinas@arm.com, hch@lst.de, ardb@kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v5 5/7] arm64: mm: Set ZONE_DMA size based on devicetree's
- dma-ranges
-Date: Thu, 29 Oct 2020 18:25:48 +0100
-Message-Id: <20201029172550.3523-6-nsaenzjulienne@suse.de>
+ linux-kernel@vger.kernel.org,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Hanjun Guo <guohanjun@huawei.com>, Sudeep Holla <sudeep.holla@arm.com>
+Subject: [PATCH v5 6/7] arm64: mm: Set ZONE_DMA size based on early IORT scan
+Date: Thu, 29 Oct 2020 18:25:49 +0100
+Message-Id: <20201029172550.3523-7-nsaenzjulienne@suse.de>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201029172550.3523-1-nsaenzjulienne@suse.de>
 References: <20201029172550.3523-1-nsaenzjulienne@suse.de>
 MIME-Version: 1.0
-Cc: devicetree@vger.kernel.org, will@kernel.org, jeremy.linton@arm.com,
+Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+ Anshuman Khandual <anshuman.khandual@arm.com>, will@kernel.org,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>, jeremy.linton@arm.com,
  iommu@lists.linux-foundation.org, linux-rpi-kernel@lists.infradead.org,
- guohanjun@huawei.com, robin.murphy@arm.com,
- linux-arm-kernel@lists.infradead.org
+ robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org,
+ Len Brown <lenb@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -70,72 +73,168 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+From: Ard Biesheuvel <ardb@kernel.org>
+
 We recently introduced a 1 GB sized ZONE_DMA to cater for platforms
 incorporating masters that can address less than 32 bits of DMA, in
 particular the Raspberry Pi 4, which has 4 or 8 GB of DRAM, but has
 peripherals that can only address up to 1 GB (and its PCIe host
 bridge can only access the bottom 3 GB)
 
-The DMA layer also needs to be able to allocate memory that is
-guaranteed to meet those DMA constraints, for bounce buffering as well
-as allocating the backing for consistent mappings. This is why the 1 GB
-ZONE_DMA was introduced recently. Unfortunately, it turns out the having
-a 1 GB ZONE_DMA as well as a ZONE_DMA32 causes problems with kdump, and
-potentially in other places where allocations cannot cross zone
-boundaries. Therefore, we should avoid having two separate DMA zones
-when possible.
+Instructing the DMA layer about these limitations is straight-forward,
+even though we had to fix some issues regarding memory limits set in
+the IORT for named components, and regarding the handling of ACPI _DMA
+methods. However, the DMA layer also needs to be able to allocate
+memory that is guaranteed to meet those DMA constraints, for bounce
+buffering as well as allocating the backing for consistent mappings.
 
-So, with the help of of_dma_get_max_cpu_address() get the topmost
-physical address accessible to all DMA masters in system and use that
-information to fine-tune ZONE_DMA's size. In the absence of addressing
-limited masters ZONE_DMA will span the whole 32-bit address space,
-otherwise, in the case of the Raspberry Pi 4 it'll only span the 30-bit
-address space, and have ZONE_DMA32 cover the rest of the 32-bit address
-space.
+This is why the 1 GB ZONE_DMA was introduced recently. Unfortunately,
+it turns out the having a 1 GB ZONE_DMA as well as a ZONE_DMA32 causes
+problems with kdump, and potentially in other places where allocations
+cannot cross zone boundaries. Therefore, we should avoid having two
+separate DMA zones when possible.
 
+So let's do an early scan of the IORT, and only create the ZONE_DMA
+if we encounter any devices that need it. This puts the burden on
+the firmware to describe such limitations in the IORT, which may be
+redundant (and less precise) if _DMA methods are also being provided.
+However, it should be noted that this situation is highly unusual for
+arm64 ACPI machines. Also, the DMA subsystem still gives precedence to
+the _DMA method if implemented, and so we will not lose the ability to
+perform streaming DMA outside the ZONE_DMA if the _DMA method permits
+it.
+
+Cc: Jeremy Linton <jeremy.linton@arm.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Hanjun Guo <guohanjun@huawei.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+[nsaenz: Rebased, removed documentation change and add declaration in acpi_iort.h]
 Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Tested-by: Jeremy Linton <jeremy.linton@arm.com>
+Acked-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Acked-by: Hanjun Guo <guohanjun@huawei.com>
 
 ---
 
-Changes since v4:
- - Use fls64 as we're now using the max address (as opposed to the
-   limit)
-
 Changes since v3:
- - Simplify code for readability.
-
-Changes since v2:
- - Updated commit log by shamelessly copying Ard's ACPI commit log
-
- arch/arm64/mm/init.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ - Use min_not_zero()
+ - Check revision
+ - Remove unnecessary #ifdef in zone_sizes_init()
+ 
+ arch/arm64/mm/init.c      |  3 ++-
+ drivers/acpi/arm64/iort.c | 52 +++++++++++++++++++++++++++++++++++++++
+ include/linux/acpi_iort.h |  4 +++
+ 3 files changed, 58 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 410721fc4fc0..a2ce8a9a71a6 100644
+index a2ce8a9a71a6..b9dc3831dd6b 100644
 --- a/arch/arm64/mm/init.c
 +++ b/arch/arm64/mm/init.c
-@@ -42,8 +42,6 @@
- #include <asm/tlb.h>
- #include <asm/alternative.h>
+@@ -29,6 +29,7 @@
+ #include <linux/kexec.h>
+ #include <linux/crash_dump.h>
+ #include <linux/hugetlb.h>
++#include <linux/acpi_iort.h>
  
--#define ARM64_ZONE_DMA_BITS	30
--
- /*
-  * We need to be able to catch inadvertent references to memstart_addr
-  * that occur (potentially in generic code) before arm64_memblock_init()
-@@ -188,9 +186,11 @@ static phys_addr_t __init max_zone_phys(unsigned int zone_bits)
- static void __init zone_sizes_init(unsigned long min, unsigned long max)
- {
- 	unsigned long max_zone_pfns[MAX_NR_ZONES]  = {0};
-+	unsigned int __maybe_unused dt_zone_dma_bits;
+ #include <asm/boot.h>
+ #include <asm/fixmap.h>
+@@ -190,7 +191,7 @@ static void __init zone_sizes_init(unsigned long min, unsigned long max)
  
  #ifdef CONFIG_ZONE_DMA
--	zone_dma_bits = ARM64_ZONE_DMA_BITS;
-+	dt_zone_dma_bits = fls64(of_dma_get_max_cpu_address(NULL));
-+	zone_dma_bits = min(32U, dt_zone_dma_bits);
+ 	dt_zone_dma_bits = fls64(of_dma_get_max_cpu_address(NULL));
+-	zone_dma_bits = min(32U, dt_zone_dma_bits);
++	zone_dma_bits = min3(32U, dt_zone_dma_bits, acpi_iort_get_zone_dma_size());
  	arm64_dma_phys_limit = max_zone_phys(zone_dma_bits);
  	max_zone_pfns[ZONE_DMA] = PFN_DOWN(arm64_dma_phys_limit);
  #endif
+diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
+index 9929ff50c0c0..05fe4a076bab 100644
+--- a/drivers/acpi/arm64/iort.c
++++ b/drivers/acpi/arm64/iort.c
+@@ -1718,3 +1718,55 @@ void __init acpi_iort_init(void)
+ 
+ 	iort_init_platform_devices();
+ }
++
++#ifdef CONFIG_ZONE_DMA
++/*
++ * Check the IORT whether any devices exist whose DMA mask is < 32 bits.
++ * If so, return the smallest value encountered, or 32 otherwise.
++ */
++unsigned int __init acpi_iort_get_zone_dma_size(void)
++{
++	struct acpi_table_iort *iort;
++	struct acpi_iort_node *node, *end;
++	acpi_status status;
++	u8 limit = 32;
++	int i;
++
++	if (acpi_disabled)
++		return limit;
++
++	status = acpi_get_table(ACPI_SIG_IORT, 0,
++				(struct acpi_table_header **)&iort);
++	if (ACPI_FAILURE(status))
++		return limit;
++
++	node = ACPI_ADD_PTR(struct acpi_iort_node, iort, iort->node_offset);
++	end = ACPI_ADD_PTR(struct acpi_iort_node, iort, iort->header.length);
++
++	for (i = 0; i < iort->node_count; i++) {
++		if (node >= end)
++			break;
++
++		switch (node->type) {
++			struct acpi_iort_named_component *ncomp;
++			struct acpi_iort_root_complex *rc;
++
++		case ACPI_IORT_NODE_NAMED_COMPONENT:
++			ncomp = (struct acpi_iort_named_component *)node->node_data;
++			limit = min_not_zero(limit, ncomp->memory_address_limit);
++			break;
++
++		case ACPI_IORT_NODE_PCI_ROOT_COMPLEX:
++			if (node->revision < 1)
++				break;
++
++			rc = (struct acpi_iort_root_complex *)node->node_data;
++			limit = min_not_zero(limit, rc->memory_address_limit);
++			break;
++		}
++		node = ACPI_ADD_PTR(struct acpi_iort_node, node, node->length);
++	}
++	acpi_put_table(&iort->header);
++	return limit;
++}
++#endif
+diff --git a/include/linux/acpi_iort.h b/include/linux/acpi_iort.h
+index 20a32120bb88..7d2e184f0d4d 100644
+--- a/include/linux/acpi_iort.h
++++ b/include/linux/acpi_iort.h
+@@ -38,6 +38,7 @@ void iort_dma_setup(struct device *dev, u64 *dma_addr, u64 *size);
+ const struct iommu_ops *iort_iommu_configure_id(struct device *dev,
+ 						const u32 *id_in);
+ int iort_iommu_msi_get_resv_regions(struct device *dev, struct list_head *head);
++unsigned int acpi_iort_get_zone_dma_size(void);
+ #else
+ static inline void acpi_iort_init(void) { }
+ static inline u32 iort_msi_map_id(struct device *dev, u32 id)
+@@ -55,6 +56,9 @@ static inline const struct iommu_ops *iort_iommu_configure_id(
+ static inline
+ int iort_iommu_msi_get_resv_regions(struct device *dev, struct list_head *head)
+ { return 0; }
++
++static inline unsigned int acpi_iort_get_zone_dma_size(void)
++{ return 32; }
+ #endif
+ 
+ #endif /* __ACPI_IORT_H__ */
 -- 
 2.29.0
 
