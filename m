@@ -1,65 +1,63 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22AA29FA8E
-	for <lists.iommu@lfdr.de>; Fri, 30 Oct 2020 02:27:45 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EFD29FBD2
+	for <lists.iommu@lfdr.de>; Fri, 30 Oct 2020 03:58:19 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 644DE84B8F;
-	Fri, 30 Oct 2020 01:27:44 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EFA7586ACF;
+	Fri, 30 Oct 2020 02:58:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2hl8JkCVGA4a; Fri, 30 Oct 2020 01:27:43 +0000 (UTC)
+	with ESMTP id W6dT-wqZJ9Mi; Fri, 30 Oct 2020 02:58:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4436E84C3C;
-	Fri, 30 Oct 2020 01:27:43 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8D07586AC9;
+	Fri, 30 Oct 2020 02:58:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 20CB1C088B;
-	Fri, 30 Oct 2020 01:27:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D8D5C0051;
+	Fri, 30 Oct 2020 02:58:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DA6EEC0051
- for <iommu@lists.linux-foundation.org>; Fri, 30 Oct 2020 01:27:40 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 273C0C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Oct 2020 02:58:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id B4E6A2045C
- for <iommu@lists.linux-foundation.org>; Fri, 30 Oct 2020 01:27:40 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 1691187436
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Oct 2020 02:58:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3Q5EeSN6LPCJ for <iommu@lists.linux-foundation.org>;
- Fri, 30 Oct 2020 01:27:39 +0000 (UTC)
+ with ESMTP id bsmUerBHnoXN for <iommu@lists.linux-foundation.org>;
+ Fri, 30 Oct 2020 02:58:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by silver.osuosl.org (Postfix) with ESMTPS id 990EB2045B
- for <iommu@lists.linux-foundation.org>; Fri, 30 Oct 2020 01:27:38 +0000 (UTC)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CMl6b5hklz70G5;
- Fri, 30 Oct 2020 09:27:35 +0800 (CST)
-Received: from [10.174.179.62] (10.174.179.62) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 30 Oct 2020 09:27:23 +0800
-Subject: Re: [PATCH] iommu/rockchip: check return value of
- of_find_device_by_node() in rk_iommu_of_xlate()
-To: Robin Murphy <robin.murphy@arm.com>, <joro@8bytes.org>, <heiko@sntech.de>, 
- <jeffy.chen@rock-chips.com>
-References: <20201029092202.900218-1-yukuai3@huawei.com>
- <98dec09e-08a1-6550-fa4e-85a8104b90e1@arm.com>
- <35ff5111-1270-fc88-788c-4fb9e38faa85@huawei.com>
- <d5442e6b-2a6b-a8f9-2056-2c0c81e88a01@arm.com>
-From: "yukuai (C)" <yukuai3@huawei.com>
-Message-ID: <e3805bee-347a-1e66-b2ca-48f06df6f702@huawei.com>
-Date: Fri, 30 Oct 2020 09:27:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <d5442e6b-2a6b-a8f9-2056-2c0c81e88a01@arm.com>
-X-Originating-IP: [10.174.179.62]
-X-CFilter-Loop: Reflected
-Cc: linux-rockchip@lists.infradead.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- yi.zhang@huawei.com
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 90E918742C
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Oct 2020 02:58:14 +0000 (UTC)
+IronPort-SDR: KHrsv+wyEhZ+FMx0faweaVvT4sfk9ZlMpYTCwajv+UFT/DVSIP4XgUplLsEhPew3Dl1s6zKpaz
+ VQ/eXjbW3y6Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9789"; a="165054110"
+X-IronPort-AV: E=Sophos;i="5.77,432,1596524400"; d="scan'208";a="165054110"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2020 19:58:14 -0700
+IronPort-SDR: FD/AEwI0yVS5kY8jkVsWhYxD2oP8AKjMoLYNqDloNC5pFCqe/e5bkDF8HinCaODScUxx1yVJ9a
+ zbAebystXiHg==
+X-IronPort-AV: E=Sophos;i="5.77,431,1596524400"; d="scan'208";a="469374387"
+Received: from yisun1-ubuntu2.bj.intel.com ([10.238.144.104])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 29 Oct 2020 19:58:11 -0700
+From: Yi Sun <yi.y.sun@linux.intel.com>
+To: joro@8bytes.org, dwmw2@infradead.org, baolu.lu@linux.intel.com,
+ jean-philippe@linaro.org
+Subject: [PATCH v2 0/2] iommu: Fix a few issues related to PRQ
+Date: Fri, 30 Oct 2020 10:37:22 +0800
+Message-Id: <1604025444-6954-1-git-send-email-yi.y.sun@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: iommu@lists.linux-foundation.org, Yi Sun <yi.y.sun@linux.intel.com>,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,48 +70,35 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+We found a few issues about PRQ. So, two patches are cooked to
+fix them. Please have a review. Thanks!
 
-On 2020/10/29 21:51, Robin Murphy wrote:
-> On 2020-10-29 13:19, yukuai (C) wrote:
->>
->> On 2020/10/29 18:08, Robin Murphy wrote:
->>> On 2020-10-29 09:22, Yu Kuai wrote:
->>>> If of_find_device_by_node() failed in rk_iommu_of_xlate(), null pointer
->>>> dereference will be triggered. Thus return error code if
->>>> of_find_device_by_node() failed.
->>>
->>> How can that happen? (Given that ".suppress_bind_attrs = true")
->>>
->>> Robin.
->>
->> I'm not sure if that could happen...
->>
->> My thought is that it's better to do such checking to aviod any possible
->> problem.
-> 
-> ->of_xlate() is only invoked on the specific set of ops returned by 
-> iommu_ops_from_fwnode(). In turn, iommu_ops_from_fwnode() will only 
-> return those ops if the driver has successfully probed and called 
-> iommu_register_device() with the relevant DT node. For the driver to 
-> have been able to probe at all, a platform device associated with that 
-> DT node must have been created, and therefore of_find_device_by_node() 
-> cannot fail.
-> 
-> If there ever were some problem serious enough to break that fundamental 
-> assumption, then I *want* these drivers to crash right here, with a nice 
-> clear stack trace to start debugging from. So no, I firmly disagree that 
-> adding redundant code, which will never do anything except attempt to 
-> paper over catastrophic memory corruption, is "better". Sorry :)
-> 
+Changes from v1:
+================
+- Modify subject of patch 1 to make it more accurate.
+- Move get_domain_info() up to the sanity check part in patch 1.
+- Remove v1 patch 2 which is not suitable.
+- Add description for current patch 2.
+- Add 'Fixes:' tags for all patches.
 
-Sounds reasonable, thanks for your explanation
+Liu Yi L (1):
+  iommu/vt-d: Fix sid not set issue in in intel_svm_bind_gpasid()
 
-Yu Kuai
+Liu, Yi L (1):
+  iommu/vt-d: Fix a bug for PDP check in prq_event_thread
+
+ drivers/iommu/intel/svm.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+-- 
+2.7.4
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
