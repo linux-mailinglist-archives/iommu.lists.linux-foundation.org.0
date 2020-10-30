@@ -2,74 +2,82 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45F22A00EB
-	for <lists.iommu@lfdr.de>; Fri, 30 Oct 2020 10:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8362A013B
+	for <lists.iommu@lfdr.de>; Fri, 30 Oct 2020 10:23:51 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9B41C87353;
-	Fri, 30 Oct 2020 09:13:54 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9E9B98732E;
+	Fri, 30 Oct 2020 09:23:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id z5oMM2m5Nd9O; Fri, 30 Oct 2020 09:13:54 +0000 (UTC)
+	with ESMTP id 1ZHhwBOjQ0Th; Fri, 30 Oct 2020 09:23:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2C04687343;
-	Fri, 30 Oct 2020 09:13:54 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1246B8730E;
+	Fri, 30 Oct 2020 09:23:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1049BC0051;
-	Fri, 30 Oct 2020 09:13:54 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E6359C1AD5;
+	Fri, 30 Oct 2020 09:23:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9D858C0051
- for <iommu@lists.linux-foundation.org>; Fri, 30 Oct 2020 09:13:52 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2F3A3C0051
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Oct 2020 09:23:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 891598609F
- for <iommu@lists.linux-foundation.org>; Fri, 30 Oct 2020 09:13:52 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 1A80D2052B
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Oct 2020 09:23:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OqPnrtf5BXrv for <iommu@lists.linux-foundation.org>;
- Fri, 30 Oct 2020 09:13:52 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by whitealder.osuosl.org (Postfix) with ESMTP id BCF9584DB8
- for <iommu@lists.linux-foundation.org>; Fri, 30 Oct 2020 09:13:51 +0000 (UTC)
-X-UUID: 99d6ef79b9f542179138382e5e196829-20201030
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=wS05c32CeOcsELtrfSXV0XioPOrUrgRETIwe251DuTo=; 
- b=TtWVmSOFFMQM+WmiJDPkjBMQXVp5IezBZBkWMi36OYKE/qYHRHsfGaHiPzFSaVGAsc+Kz6MH4ehHJx3/7SIwNdQRAdzfl8lyqm1qwKRcCZyv78PxszVBW+QOqqfotmD5IRE2X4vGlR1Sw/DEiu8GSTzRX60BHroNRWt/RtIla9c=;
-X-UUID: 99d6ef79b9f542179138382e5e196829-20201030
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
- (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
- ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1261586912; Fri, 30 Oct 2020 17:13:48 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 30 Oct 2020 17:13:46 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 30 Oct 2020 17:13:45 +0800
-From: Yong Wu <yong.wu@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>, Krzysztof Kozlowski
- <krzk@kernel.org>, Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v4 3/3] memory: mtk-smi: Add mt8192 support
-Date: Fri, 30 Oct 2020 17:12:54 +0800
-Message-ID: <20201030091254.26382-4-yong.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20201030091254.26382-1-yong.wu@mediatek.com>
-References: <20201030091254.26382-1-yong.wu@mediatek.com>
+ with ESMTP id 50run-hVA1I9 for <iommu@lists.linux-foundation.org>;
+ Fri, 30 Oct 2020 09:23:46 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by silver.osuosl.org (Postfix) with ESMTPS id F06F020514
+ for <iommu@lists.linux-foundation.org>; Fri, 30 Oct 2020 09:23:42 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1604049826; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=sp3VGRZxfTRi7zyMLplfiFQMyG0a61g9nkqFH0o13ZY=;
+ b=dook2CzjwCn3764LL22qy8maS0qALoML8buJ/lSzQd0W6hnC8XXHH9NHJRooYEp82OCcRV3f
+ 8aC/hMKbsziFp2sEOHLQhX4YDXIch8Xgl21finHaLVFgnW/2lzRyZFbj6EidO/gLBldJN8Ek
+ jnPYwVjMBMdQ7XctKtnkZbiDCF0=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 5f9bdb906b237554e655faa9 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 30 Oct 2020 09:23:28
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 1F2C1C43382; Fri, 30 Oct 2020 09:23:27 +0000 (UTC)
+Received: from blr-ubuntu-253.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id EBBADC43382;
+ Fri, 30 Oct 2020 09:23:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org EBBADC43382
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
+ smtp.mailfrom=saiprakash.ranjan@codeaurora.org
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
+ Rob Clark <robdclark@gmail.com>
+Subject: [PATCHv7 0/7] System Cache support for GPU and required SMMU support
+Date: Fri, 30 Oct 2020 14:53:07 +0530
+Message-Id: <cover.1604048969.git.saiprakash.ranjan@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-MTK: N
-Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
- Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- Tomasz Figa <tfiga@google.com>, iommu@lists.linux-foundation.org,
- linux-mediatek@lists.infradead.org, ming-fan.chen@mediatek.com,
- anan.sun@mediatek.com, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ iommu@lists.linux-foundation.org,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,66 +95,86 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add mt8192 smi support.
+Some hardware variants contain a system cache or the last level
+cache(llc). This cache is typically a large block which is shared
+by multiple clients on the SOC. GPU uses the system cache to cache
+both the GPU data buffers(like textures) as well the SMMU pagetables.
+This helps with improved render performance as well as lower power
+consumption by reducing the bus traffic to the system memory.
 
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
----
- drivers/memory/mtk-smi.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+The system cache architecture allows the cache to be split into slices
+which then be used by multiple SOC clients. This patch series is an
+effort to enable and use two of those slices preallocated for the GPU,
+one for the GPU data buffers and another for the GPU SMMU hardware
+pagetables.
 
-diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
-index 691e4c344cf8..ac350f8d1e20 100644
---- a/drivers/memory/mtk-smi.c
-+++ b/drivers/memory/mtk-smi.c
-@@ -268,6 +268,10 @@ static const struct mtk_smi_larb_gen mtk_smi_larb_mt8183 = {
- 				      /* IPU0 | IPU1 | CCU */
- };
- 
-+static const struct mtk_smi_larb_gen mtk_smi_larb_mt8192 = {
-+	.config_port                = mtk_smi_larb_config_port_gen2_general,
-+};
-+
- static const struct of_device_id mtk_smi_larb_of_ids[] = {
- 	{
- 		.compatible = "mediatek,mt8167-smi-larb",
-@@ -293,6 +297,10 @@ static const struct of_device_id mtk_smi_larb_of_ids[] = {
- 		.compatible = "mediatek,mt8183-smi-larb",
- 		.data = &mtk_smi_larb_mt8183
- 	},
-+	{
-+		.compatible = "mediatek,mt8192-smi-larb",
-+		.data = &mtk_smi_larb_mt8192
-+	},
- 	{}
- };
- 
-@@ -432,6 +440,13 @@ static const struct mtk_smi_common_plat mtk_smi_common_mt8183 = {
- 		    F_MMU1_LARB(7),
- };
- 
-+static const struct mtk_smi_common_plat mtk_smi_common_mt8192 = {
-+	.gen      = MTK_SMI_GEN2,
-+	.has_gals = true,
-+	.bus_sel  = F_MMU1_LARB(1) | F_MMU1_LARB(2) | F_MMU1_LARB(5) |
-+		    F_MMU1_LARB(6),
-+};
-+
- static const struct of_device_id mtk_smi_common_of_ids[] = {
- 	{
- 		.compatible = "mediatek,mt8173-smi-common",
-@@ -457,6 +472,10 @@ static const struct of_device_id mtk_smi_common_of_ids[] = {
- 		.compatible = "mediatek,mt8183-smi-common",
- 		.data = &mtk_smi_common_mt8183,
- 	},
-+	{
-+		.compatible = "mediatek,mt8192-smi-common",
-+		.data = &mtk_smi_common_mt8192,
-+	},
- 	{}
- };
- 
+Patch 1 - Patch 5 adds system cache support in SMMU and GPU driver.
+Patch 6 and 7 are minor cleanups for arm-smmu impl.
+
+Changes in v7:
+ * Squash Jordan's patch to support MMU500 targets
+ * Rebase on top of for-joerg/arm-smmu/updates and Jordan's short series for adreno-smmu impl
+
+Changes in v6:
+ * Move table to arm-smmu-qcom (Robin)
+
+Changes in v5:
+ * Drop cleanup of blank lines since it was intentional (Robin)
+ * Rebase again on top of msm-next-pgtables as it moves pretty fast
+
+Changes in v4:
+ * Drop IOMMU_SYS_CACHE prot flag
+ * Rebase on top of https://gitlab.freedesktop.org/drm/msm/-/tree/msm-next-pgtables
+
+Changes in v3:
+ * Fix domain attribute setting to before iommu_attach_device()
+ * Fix few code style and checkpatch warnings
+ * Rebase on top of Jordan's latest split pagetables and per-instance
+   pagetables support
+
+Changes in v2:
+ * Addressed review comments and rebased on top of Jordan's split
+   pagetables series
+
+Jordan Crouse (1):
+  drm/msm/a6xx: Add support for using system cache on MMU500 based
+    targets
+
+Sai Prakash Ranjan (4):
+  iommu/io-pgtable-arm: Add support to use system cache
+  iommu/arm-smmu: Add domain attribute for system cache
+  iommu: arm-smmu-impl: Use table to list QCOM implementations
+  iommu: arm-smmu-impl: Add a space before open parenthesis
+
+Sharat Masetty (2):
+  drm/msm: rearrange the gpu_rmw() function
+  drm/msm/a6xx: Add support for using system cache(LLC)
+
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 109 +++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h      |   5 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  17 ++++
+ drivers/gpu/drm/msm/msm_drv.c              |   8 ++
+ drivers/gpu/drm/msm/msm_drv.h              |   1 +
+ drivers/gpu/drm/msm/msm_gpu.h              |   5 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-impl.c |  11 +--
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c |  21 +++-
+ drivers/iommu/arm/arm-smmu/arm-smmu.c      |  17 ++++
+ drivers/iommu/arm/arm-smmu/arm-smmu.h      |   2 +-
+ drivers/iommu/io-pgtable-arm.c             |   7 +-
+ include/linux/io-pgtable.h                 |   4 +
+ include/linux/iommu.h                      |   1 +
+ 13 files changed, 188 insertions(+), 20 deletions(-)
+
+
+base-commit: f9081b8ff5934b8d69c748d0200e844cadd2c667
+prerequisite-patch-id: db09851f375ca5efde35f2e5c21b3959eed7d8a8
+prerequisite-patch-id: 55c6af17808c2047b67cdbd04af5541156ef496e
+prerequisite-patch-id: e82c1e678da701e112ac255ea966c6797d975692
+prerequisite-patch-id: f7978f5f2fb06528b7a1f75fa4255e386a30b91a
 -- 
-2.18.0
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
