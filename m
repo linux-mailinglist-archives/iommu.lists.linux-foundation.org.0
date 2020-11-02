@@ -1,82 +1,106 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D622A311B
-	for <lists.iommu@lfdr.de>; Mon,  2 Nov 2020 18:14:57 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 064E32A312C
+	for <lists.iommu@lfdr.de>; Mon,  2 Nov 2020 18:16:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id C3631204D0;
-	Mon,  2 Nov 2020 17:14:55 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BDAE886C48;
+	Mon,  2 Nov 2020 17:16:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mh6yU3dcriyQ; Mon,  2 Nov 2020 17:14:53 +0000 (UTC)
+	with ESMTP id 5CtZhDyNc0-a; Mon,  2 Nov 2020 17:16:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 65245204A8;
-	Mon,  2 Nov 2020 17:14:53 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5529286C3B;
+	Mon,  2 Nov 2020 17:16:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5DEECC0051;
-	Mon,  2 Nov 2020 17:14:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 41CB0C0051;
+	Mon,  2 Nov 2020 17:16:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CEB60C0051
- for <iommu@lists.linux-foundation.org>; Mon,  2 Nov 2020 17:14:51 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 327EEC0051
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Nov 2020 17:16:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BD29D86B0A
- for <iommu@lists.linux-foundation.org>; Mon,  2 Nov 2020 17:14:51 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 2089686B9D
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Nov 2020 17:16:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qj22GfdKAwRh for <iommu@lists.linux-foundation.org>;
- Mon,  2 Nov 2020 17:14:51 +0000 (UTC)
+ with ESMTP id uzRpTBoBKzMA for <iommu@lists.linux-foundation.org>;
+ Mon,  2 Nov 2020 17:16:32 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 2BD4B867BD
- for <iommu@lists.linux-foundation.org>; Mon,  2 Nov 2020 17:14:48 +0000 (UTC)
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id A9FB086B6D
+ for <iommu@lists.linux-foundation.org>; Mon,  2 Nov 2020 17:16:32 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1604337291; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=oCS6rrjus9PAM663x7+ECmgucjExZnYZnUqtOqwzQxQ=;
- b=ZOdOi95N9kgjGpnwLSswaCosaHWr150qTD2IiOwyekpxgFGAprg13NeuxSrAnU7KmeVdMMLg
- QIQhaGIPJDU+4C2Nvcof9jQnC2TgQ8mXE0vzEG1HGK2FdRsGuBZNsNn7oIu69gEISGGVP1B1
- 5WnKvebA5BkJ877PomzlCiV18zs=
-X-Mailgun-Sending-Ip: 69.72.42.4
+ s=smtp; t=1604337392; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: To: From: Date: Sender;
+ bh=vj+zpfmdt/UrOyrf9DlMG0DgkyLSy+JL1jA0FBPdMew=;
+ b=eR2JxIIYvT75G2P8AmLcSlWhh5JoyPx2vWc4Y7f6dvRvb5/AHF6tblVJprwYE7/kbGzuSNje
+ gUaQagXO1INrujkvQppruC0HW92EiS77Ymvft4BegJR5GtzboReyl8dBV77L2BJTUL5uXYt6
+ LCtwA6Ke5RVybHoj4iazUOgOXv8=
+X-Mailgun-Sending-Ip: 104.130.96.5
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 5fa03e8050440018cb02d6a0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 02 Nov 2020 17:14:40
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 5fa03ef0d981633da3595eb6 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 02 Nov 2020 17:16:32
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 18200C433CB; Mon,  2 Nov 2020 17:14:40 +0000 (UTC)
-Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
+ id 5FD48C43387; Mon,  2 Nov 2020 17:16:32 +0000 (UTC)
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A9103C433FF;
- Mon,  2 Nov 2020 17:14:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A9103C433FF
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id C958BC433FE;
+ Mon,  2 Nov 2020 17:16:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C958BC433FE
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=fail smtp.mailfrom=jcrouse@codeaurora.org
+Date: Mon, 2 Nov 2020 10:16:26 -0700
 From: Jordan Crouse <jcrouse@codeaurora.org>
-To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v18 4/4] arm: dts: qcom: sm845: Set the compatible string for
- the GPU SMMU
-Date: Mon,  2 Nov 2020 10:14:16 -0700
-Message-Id: <20201102171416.654337-5-jcrouse@codeaurora.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201102171416.654337-1-jcrouse@codeaurora.org>
-References: <20201102171416.654337-1-jcrouse@codeaurora.org>
+To: Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Joerg Roedel <joro@8bytes.org>, Krishna Reddy <vdumpa@nvidia.com>,
+ Rob Clark <robdclark@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Sibi Sankar <sibis@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
+ Vivek Gautam <vivek.gautam@codeaurora.org>,
+ devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v18 0/4] iommu/arm-smmu: Add adreno-smmu implementation
+ and bindings
+Message-ID: <20201102171626.GA5338@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Will Deacon <will@kernel.org>,
+ linux-arm-msm@vger.kernel.org, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Joerg Roedel <joro@8bytes.org>, Krishna Reddy <vdumpa@nvidia.com>,
+ Rob Clark <robdclark@chromium.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Sibi Sankar <sibis@codeaurora.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Vivek Gautam <vivek.gautam@codeaurora.org>,
+ devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20201027223408.469893-1-jcrouse@codeaurora.org>
+ <20201029172607.GA30745@willie-the-truck>
+ <20201102170823.GA1032@jcrouse1-lnx.qualcomm.com>
 MIME-Version: 1.0
-Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
- Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, iommu@lists.linux-foundation.org,
- Andy Gross <agross@kernel.org>, Robin Murphy <robin.murphy@arm.com>
+Content-Disposition: inline
+In-Reply-To: <20201102170823.GA1032@jcrouse1-lnx.qualcomm.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,54 +118,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Set the qcom,adreno-smmu compatible string for the GPU SMMU to enable
-split pagetables and per-instance pagetables for drm/msm.
+On Mon, Nov 02, 2020 at 10:08:23AM -0700, Jordan Crouse wrote:
+> On Thu, Oct 29, 2020 at 05:26:08PM +0000, Will Deacon wrote:
+> > On Tue, Oct 27, 2020 at 04:34:04PM -0600, Jordan Crouse wrote:
+> > > This short series adds support for the adreno-smmu implementation of the
+> > > arm-smmu driver and the device-tree bindings to turn on the implementation
+> > > for the sm845 and sc7180 GPUs. These changes are the last ones needed to enable
+> > > per-instance pagetables in the drm/msm driver.
+> > > 
+> > > No deltas in this patchset since the last go-around for 5.10 [1].
+> > > 
+> > > [1] https://patchwork.freedesktop.org/series/81393/
+> > > 
+> > > Jordan Crouse (3):
+> > >   iommu/arm-smmu-qcom: Add implementation for the adreno GPU SMMU
+> > >   dt-bindings: arm-smmu: Add compatible string for Adreno GPU SMMU
+> > >   arm: dts: qcom: sm845: Set the compatible string for the GPU SMMU
+> > > 
+> > > Rob Clark (1):
+> > >   iommu/arm-smmu: Add a way for implementations to influence SCTLR
+> > 
+> > FYI: this patch (patch 4/4) doesn't seem to have made it anywhere (I don't
+> > have it, and neither does the archive).
+> > 
+> > Will
+> 
+> Patch 4/4 was the bindings for sdm845 and I didn't explicitly add IOMMU to the
+> CC list and so patman did what patman does.
+> 
+> I'll resend.
 
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
+Stack re-sent with you and Robin and the list on the CC for the bindings. I
+expect that Bjorn can pick up the bindings patches once the adreno-smmu patch is
+accepted but it is good for everybody to get the full picture.
 
- arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi | 9 +++++++++
- arch/arm64/boot/dts/qcom/sdm845.dtsi       | 2 +-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+Jordan
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
-index 64fc1bfd66fa..39f23cdcbd02 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi
-@@ -633,6 +633,15 @@ &mdss_mdp {
- 	status = "okay";
- };
- 
-+/*
-+ * Cheza fw does not properly program the GPU aperture to allow the
-+ * GPU to update the SMMU pagetables for context switches.  Work
-+ * around this by dropping the "qcom,adreno-smmu" compat string.
-+ */
-+&adreno_smmu {
-+	compatible = "qcom,sdm845-smmu-v2", "qcom,smmu-v2";
-+};
-+
- &mss_pil {
- 	iommus = <&apps_smmu 0x781 0x0>,
- 		 <&apps_smmu 0x724 0x3>;
-diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index 40e8c11f23ab..0508e86140bd 100644
---- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-@@ -4103,7 +4103,7 @@ opp-257000000 {
- 		};
- 
- 		adreno_smmu: iommu@5040000 {
--			compatible = "qcom,sdm845-smmu-v2", "qcom,smmu-v2";
-+			compatible = "qcom,sdm845-smmu-v2", "qcom,adreno-smmu", "qcom,smmu-v2";
- 			reg = <0 0x5040000 0 0x10000>;
- 			#iommu-cells = <1>;
- 			#global-interrupts = <2>;
 -- 
-2.25.1
-
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
