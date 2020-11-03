@@ -2,87 +2,112 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACA12A4D4F
-	for <lists.iommu@lfdr.de>; Tue,  3 Nov 2020 18:42:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 740F22A4D79
+	for <lists.iommu@lfdr.de>; Tue,  3 Nov 2020 18:49:05 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6F9D287126;
-	Tue,  3 Nov 2020 17:42:30 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 38CB887450;
+	Tue,  3 Nov 2020 17:49:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xd0Wt3gAVDXn; Tue,  3 Nov 2020 17:42:28 +0000 (UTC)
+	with ESMTP id AV8iKlCXGPR0; Tue,  3 Nov 2020 17:49:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6AF648744B;
-	Tue,  3 Nov 2020 17:42:28 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B8D8687455;
+	Tue,  3 Nov 2020 17:49:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A666C0051;
-	Tue,  3 Nov 2020 17:42:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A2BE2C0051;
+	Tue,  3 Nov 2020 17:49:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E8D12C0051
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:42:26 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D9BE6C0051
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:49:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D3533863E2
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:42:26 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id C829486322
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:49:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WYuRJqQZp9T0 for <iommu@lists.linux-foundation.org>;
- Tue,  3 Nov 2020 17:42:25 +0000 (UTC)
+ with ESMTP id CJ4H8xVJJHN1 for <iommu@lists.linux-foundation.org>;
+ Tue,  3 Nov 2020 17:49:01 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id AF0FE863DC
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:42:25 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id b19so8911225pld.0
- for <iommu@lists.linux-foundation.org>; Tue, 03 Nov 2020 09:42:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Rsl6lmX6v9O2Z0QU9skbwTzUfbl2hHwSPUBkrUuyNCg=;
- b=cKgU/Gqe/ADQRGSSLoA+Hi1WdKWJVAS0bw9sAo3A7juygkGRAEwAO6/lVdIVcMr/lp
- tzUQ3K9GNGEXmW7YOQ7u/uVkhJjSc7ld47ie2rGKgMtmao07L9Zo4DP1Z37gK/FmMNvA
- 2WuDZ+KOrtv3GTVmeAw2jxKZVU6LcGnPgWloevfWKKqRjd+ZI0jPKDcoNSVkeFb0yUwm
- E6manMKPEnUhkWZmrc78aTn2d0kGrbpZ5JfuY3eYcLqUrdzoKmZJ72a9UKvEl7BsS0NH
- CA0V2PoAfVmt7s6fkWOEoBLHwjEI4U0Tru/WfS8OUk5ADzmV8FeGCqvjCeOJrVi6lLJC
- 8hZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Rsl6lmX6v9O2Z0QU9skbwTzUfbl2hHwSPUBkrUuyNCg=;
- b=W4NT5stzIfWSZKNL2oz7sqfbk8RnvKxGh/b2R5aWKIc57IKnFItWIuTL2DQTc5a9PK
- eJN29JXVgW1gthE2WA9FfMoH2YEGpNyEo7RyPNHrIRqeH8JP5xFqAV4C5KHrPeejulkJ
- /hujTnD3NBK0oIK4xMgf8j1I7eKCb1UXYjlSTg9aDgjiCZoFe58O9HORVdJi3y0CCEOF
- 0zWu4PtZxwoEEdaYR72iapQg251sD0YLrvVxCOED2Y4Vi2r0ddtpsn7F6wmps+WesEKl
- 2Nobn0gJJUDIdmLmyUnWMpw7y8ZLRZB9uY3GxJj21C084EozMe4Jv9Jevsee/suxGDkf
- tMmg==
-X-Gm-Message-State: AOAM532ddGHAC5Fjc50xP0pBrZ1phdw7Fz4vd9gAkwTKp+pzRQD0OtfZ
- DACVldiFJH84xi7CMtEkfgI=
-X-Google-Smtp-Source: ABdhPJx21kD40fBue0zqwQCVJRyuZ5D4dRTQMSl7iEnZz7fibbcE4gACjoasQRUSstfq8J3CU+josw==
-X-Received: by 2002:a17:902:9697:b029:d6:c3f6:8dcf with SMTP id
- n23-20020a1709029697b02900d6c3f68dcfmr12777394plp.8.1604425345253; 
- Tue, 03 Nov 2020 09:42:25 -0800 (PST)
-Received: from [10.230.28.234] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id a18sm18711595pfg.54.2020.11.03.09.42.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 09:42:24 -0800 (PST)
-Subject: Re: can we switch bmips to the generic dma ranges code
-To: Christoph Hellwig <hch@lst.de>, cernekee@gmail.com, f.fainelli@gmail.com, 
- james.quinlan@broadcom.com
-References: <20201103101545.GA20851@lst.de>
-From: Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <b7a673ca-db14-5b67-c1f4-068ed2b49bed@gmail.com>
-Date: Tue, 3 Nov 2020 09:42:23 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.4.0
+Received: from nat-hk.nvidia.com (nat-hk.nvidia.com [203.18.50.4])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 0276F86CEC
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:49:00 +0000 (UTC)
+Received: from HKMAIL102.nvidia.com (Not Verified[10.18.92.77]) by
+ nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fa1980a0000>; Wed, 04 Nov 2020 01:48:58 +0800
+Received: from HKMAIL101.nvidia.com (10.18.16.10) by HKMAIL102.nvidia.com
+ (10.18.16.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 3 Nov
+ 2020 17:48:55 +0000
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.171)
+ by HKMAIL101.nvidia.com (10.18.16.10) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Tue, 3 Nov 2020 17:48:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EDxYyRy1xQoari4+JpC7Es1rNHQepteCOXVGYt7jOFQh/bIp3QZOh9wJcQF5cHkarBbRAtZ9J2jS4BTq1QR79bAeZE61Jbs0xV5WPNyhKsLaIFS7CkY3edIaWMMJjNZsWhnr+/vri3a5fMgNut5HsD6ee63CgDaKwfSRh7p5NJTt/ZWNVs6PJq31EemsEQ6U822d8wWSMgnazwmPHyeEr11GtrBOep8OgefLtIfHJsEdDVQCudgMyO7M8UqnnO0bclrp9oWdf6sslcKW4rHRQ1l8siTUeWhVuk+Ombq9NZOxWnLr1odYFv+0hqqSam1QGZZfyCZ37l8EgllivnKDrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sC2uAbdTvs/K1qkr9fwuV7dMmG1zUKG3QNxmdiVhw4E=;
+ b=Q2SvuRIbC/sk7aMPV1CX4Jpno3+tJ6IxUeawORBnrSXzNyz2C8gPMbrEIGK4Fhtij6uV88WYnWuJlKTK3XwLJDHoPIG9N5jBsvPtAlblu3kr2UB1/YIpOj2EwVK8GbnTCjFhn7dgPhBNU7zAunhI/IIaKi2E+aQKTfPzQ/rccj9ZwERLdh/8UQWmbH0fCaV+W+aRpWWuyNqqeatVvN6CzyH+QMpbUsnBcwcYU16zGt26ozTHEcvNNm3ixPQy+xE2HPchZud2ePpvIrRaG1YJ+bkZjQSefPlX6hixun8c3VpLoU/yAG6TgqjpXW99uHZM7lBK4i2QfUxenTMwZ5Y0yg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from BY5PR12MB3827.namprd12.prod.outlook.com (2603:10b6:a03:1ab::16)
+ by BY5PR12MB4098.namprd12.prod.outlook.com (2603:10b6:a03:205::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19; Tue, 3 Nov
+ 2020 17:48:53 +0000
+Received: from BY5PR12MB3827.namprd12.prod.outlook.com
+ ([fe80::2459:e095:ac09:34e5]) by BY5PR12MB3827.namprd12.prod.outlook.com
+ ([fe80::2459:e095:ac09:34e5%6]) with mapi id 15.20.3499.031; Tue, 3 Nov 2020
+ 17:48:53 +0000
+Date: Tue, 3 Nov 2020 13:48:51 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "joro@8bytes.org" <joro@8bytes.org>
+Subject: Re: (proposal) RE: [PATCH v7 00/16] vfio: expose virtual Shared
+ Virtual Addressing to VMs
+Message-ID: <20201103174851.GS2620339@nvidia.com>
+References: <MWHPR11MB1645CFB0C594933E92A844AC8C070@MWHPR11MB1645.namprd11.prod.outlook.com>
+ <20201103095208.GA22888@8bytes.org> <20201103125643.GN2620339@nvidia.com>
+ <20201103131852.GE22888@8bytes.org> <20201103132335.GO2620339@nvidia.com>
+ <20201103140318.GL22888@8bytes.org> <20201103140642.GQ2620339@nvidia.com>
+ <20201103143532.GM22888@8bytes.org> <20201103152223.GR2620339@nvidia.com>
+ <20201103165539.GN22888@8bytes.org>
+Content-Disposition: inline
+In-Reply-To: <20201103165539.GN22888@8bytes.org>
+X-ClientProxiedBy: MN2PR16CA0006.namprd16.prod.outlook.com
+ (2603:10b6:208:134::19) To BY5PR12MB3827.namprd12.prod.outlook.com
+ (2603:10b6:a03:1ab::16)
 MIME-Version: 1.0
-In-Reply-To: <20201103101545.GA20851@lst.de>
-Content-Language: en-US
-Cc: iommu@lists.linux-foundation.org, bcm-kernel-feedback-list@broadcom.com,
- linux-mips@vger.kernel.org
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by
+ MN2PR16CA0006.namprd16.prod.outlook.com (2603:10b6:208:134::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
+ Transport; Tue, 3 Nov 2020 17:48:53 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1ka0QN-00G6Wc-73; Tue, 03 Nov 2020 13:48:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1604425738; bh=sC2uAbdTvs/K1qkr9fwuV7dMmG1zUKG3QNxmdiVhw4E=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+ From:To:CC:Subject:Message-ID:References:Content-Type:
+ Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType;
+ b=LthxrhC1u4BG882dpQRLR0ro9hpDbqjHGU+44m6O4ZXSar//CnwosFFp7Eoxfohhg
+ uJgpXlRPdHl7CLVCm00D3eFfoihx7ipEq6ZjCX9Kx8Cg5NTzD+2N+sHXGZzDqJKOy9
+ mtYpjGF87trFgIozURvvaePlX7e3c3S4dcJ0bULaIl0E3y5GMTNMIhX6zfE7Oqz0wd
+ oeorO9diTV/eTDPGxdrKrnXehmKQtqWvvGfnRAfAEGJ7dQTDfypCJVyZNuDX9P3z+y
+ gTFUacpwdglv9TdMlMbNFEeXa2n5s8eyiJZNprbQ+Dm8FXAOfmYLaK0UVwaBHagDx4
+ +KzNsv2u3x8eA==
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "stefanha@gmail.com" <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Wu,
+ Hao" <hao.wu@intel.com>, "Tian, Jun J" <jun.j.tian@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,19 +125,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-
-
-On 11/3/2020 2:15 AM, Christoph Hellwig wrote:
-> Hi Florian and others,
+On Tue, Nov 03, 2020 at 05:55:40PM +0100, joro@8bytes.org wrote:
+> On Tue, Nov 03, 2020 at 11:22:23AM -0400, Jason Gunthorpe wrote:
+> > This whole thread was brought up by IDXD which has a SVA driver and
+> > now wants to add a vfio-mdev driver too. SVA devices that want to be
+> > plugged into VMs are going to be common - this architecture that a SVA
+> > driver cannot cover the kvm case seems problematic.
 > 
-> now that the generic DMA ranges code landed, can we switch bmips over
-> to it instead of duplicating the logic?
+> Isn't that the same pattern as having separate drivers for VFs and the
+> parent device in SR-IOV?
 
-This should be fine, I cannot easily test the 338x chips, however as far
-as PCIe goes, I believe Jim may have some older patches he can dig up
-for testing.
--- 
-Florian
+I think the same PCI driver with a small flag to support the PF or
+VF is not the same as two completely different drivers in different
+subsystems
+
+Jason
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
