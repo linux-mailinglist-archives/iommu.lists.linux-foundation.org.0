@@ -1,58 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCAD02A4CEC
-	for <lists.iommu@lfdr.de>; Tue,  3 Nov 2020 18:32:14 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 485772A4CEE
+	for <lists.iommu@lfdr.de>; Tue,  3 Nov 2020 18:32:16 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 7BB5220C45;
-	Tue,  3 Nov 2020 17:32:13 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0C8FC86E2F;
+	Tue,  3 Nov 2020 17:32:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KUIPDDB8gRXN; Tue,  3 Nov 2020 17:32:12 +0000 (UTC)
+	with ESMTP id B0EekKiwEkJt; Tue,  3 Nov 2020 17:32:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 633B321080;
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2EDAC86FA7;
 	Tue,  3 Nov 2020 17:32:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4EE3EC0051;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 16433C0051;
 	Tue,  3 Nov 2020 17:32:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 59BD7C0051
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:11 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A22DFC0051
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 497A286E95
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:11 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 71CCC8639F
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 19zpJ-0QXEHu for <iommu@lists.linux-foundation.org>;
- Tue,  3 Nov 2020 17:32:07 +0000 (UTC)
+ with ESMTP id gVjTXryYFz9b for <iommu@lists.linux-foundation.org>;
+ Tue,  3 Nov 2020 17:32:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by whitealder.osuosl.org (Postfix) with ESMTP id 89D5386EB2
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:06 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1A474863C5
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:08 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A8BD8AD85;
- Tue,  3 Nov 2020 17:32:05 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 4B9A7AC1F;
+ Tue,  3 Nov 2020 17:32:07 +0000 (UTC)
 From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To: robh+dt@kernel.org, catalin.marinas@arm.com, hch@lst.de, ardb@kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v6 2/7] arm64: mm: Move zone_dma_bits initialization into
- zone_sizes_init()
-Date: Tue,  3 Nov 2020 18:31:53 +0100
-Message-Id: <20201103173159.27570-3-nsaenzjulienne@suse.de>
+ linux-kernel@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
+Subject: [PATCH v6 3/7] of/address: Introduce of_dma_get_max_cpu_address()
+Date: Tue,  3 Nov 2020 18:31:54 +0100
+Message-Id: <20201103173159.27570-4-nsaenzjulienne@suse.de>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201103173159.27570-1-nsaenzjulienne@suse.de>
 References: <20201103173159.27570-1-nsaenzjulienne@suse.de>
 MIME-Version: 1.0
-Cc: devicetree@vger.kernel.org, will@kernel.org, jeremy.linton@arm.com,
- iommu@lists.linux-foundation.org, linux-rpi-kernel@lists.infradead.org,
- guohanjun@huawei.com, robin.murphy@arm.com,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>, will@kernel.org,
+ jeremy.linton@arm.com, iommu@lists.linux-foundation.org,
+ linux-rpi-kernel@lists.infradead.org, guohanjun@huawei.com,
+ robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -70,41 +69,111 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-zone_dma_bits's initialization happens earlier that it's actually
-needed, in arm64_memblock_init(). So move it into the more suitable
-zone_sizes_init().
+Introduce of_dma_get_max_cpu_address(), which provides the highest CPU
+physical address addressable by all DMA masters in the system. It's
+specially useful for setting memory zones sizes at early boot time.
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Tested-by: Jeremy Linton <jeremy.linton@arm.com>
----
- arch/arm64/mm/init.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index fc4ab0d6d5d2..410721fc4fc0 100644
---- a/arch/arm64/mm/init.c
-+++ b/arch/arm64/mm/init.c
-@@ -190,6 +190,8 @@ static void __init zone_sizes_init(unsigned long min, unsigned long max)
- 	unsigned long max_zone_pfns[MAX_NR_ZONES]  = {0};
+---
+
+Changes since v4:
+ - Return max address, not address limit (one off difference)
+
+Changes since v3:
+ - use u64 with cpu_end
+
+Changes since v2:
+ - Use PHYS_ADDR_MAX
+ - return phys_dma_t
+ - Rename function
+ - Correct subject
+ - Add support to start parsing from an arbitrary device node in order
+   for the function to work with unit tests
+
+ drivers/of/address.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/of.h   |  7 +++++++
+ 2 files changed, 49 insertions(+)
+
+diff --git a/drivers/of/address.c b/drivers/of/address.c
+index eb9ab4f1e80b..09c0af7fd1c4 100644
+--- a/drivers/of/address.c
++++ b/drivers/of/address.c
+@@ -1024,6 +1024,48 @@ int of_dma_get_range(struct device_node *np, const struct bus_dma_region **map)
+ }
+ #endif /* CONFIG_HAS_DMA */
  
- #ifdef CONFIG_ZONE_DMA
-+	zone_dma_bits = ARM64_ZONE_DMA_BITS;
-+	arm64_dma_phys_limit = max_zone_phys(zone_dma_bits);
- 	max_zone_pfns[ZONE_DMA] = PFN_DOWN(arm64_dma_phys_limit);
- #endif
- #ifdef CONFIG_ZONE_DMA32
-@@ -376,11 +378,6 @@ void __init arm64_memblock_init(void)
++/**
++ * of_dma_get_max_cpu_address - Gets highest CPU address suitable for DMA
++ * @np: The node to start searching from or NULL to start from the root
++ *
++ * Gets the highest CPU physical address that is addressable by all DMA masters
++ * in the sub-tree pointed by np, or the whole tree if NULL is passed. If no
++ * DMA constrained device is found, it returns PHYS_ADDR_MAX.
++ */
++phys_addr_t __init of_dma_get_max_cpu_address(struct device_node *np)
++{
++	phys_addr_t max_cpu_addr = PHYS_ADDR_MAX;
++	struct of_range_parser parser;
++	phys_addr_t subtree_max_addr;
++	struct device_node *child;
++	struct of_range range;
++	const __be32 *ranges;
++	u64 cpu_end = 0;
++	int len;
++
++	if (!np)
++		np = of_root;
++
++	ranges = of_get_property(np, "dma-ranges", &len);
++	if (ranges && len) {
++		of_dma_range_parser_init(&parser, np);
++		for_each_of_range(&parser, &range)
++			if (range.cpu_addr + range.size > cpu_end)
++				cpu_end = range.cpu_addr + range.size - 1;
++
++		if (max_cpu_addr > cpu_end)
++			max_cpu_addr = cpu_end;
++	}
++
++	for_each_available_child_of_node(np, child) {
++		subtree_max_addr = of_dma_get_max_cpu_address(child);
++		if (max_cpu_addr > subtree_max_addr)
++			max_cpu_addr = subtree_max_addr;
++	}
++
++	return max_cpu_addr;
++}
++
+ /**
+  * of_dma_is_coherent - Check if device is coherent
+  * @np:	device node
+diff --git a/include/linux/of.h b/include/linux/of.h
+index 5d51891cbf1a..9ed5b8532c30 100644
+--- a/include/linux/of.h
++++ b/include/linux/of.h
+@@ -558,6 +558,8 @@ int of_map_id(struct device_node *np, u32 id,
+ 	       const char *map_name, const char *map_mask_name,
+ 	       struct device_node **target, u32 *id_out);
  
- 	early_init_fdt_scan_reserved_mem();
++phys_addr_t of_dma_get_max_cpu_address(struct device_node *np);
++
+ #else /* CONFIG_OF */
  
--	if (IS_ENABLED(CONFIG_ZONE_DMA)) {
--		zone_dma_bits = ARM64_ZONE_DMA_BITS;
--		arm64_dma_phys_limit = max_zone_phys(ARM64_ZONE_DMA_BITS);
--	}
--
- 	if (IS_ENABLED(CONFIG_ZONE_DMA32))
- 		arm64_dma32_phys_limit = max_zone_phys(32);
- 	else
+ static inline void of_core_init(void)
+@@ -995,6 +997,11 @@ static inline int of_map_id(struct device_node *np, u32 id,
+ 	return -EINVAL;
+ }
+ 
++static inline phys_addr_t of_dma_get_max_cpu_address(struct device_node *np)
++{
++	return PHYS_ADDR_MAX;
++}
++
+ #define of_match_ptr(_ptr)	NULL
+ #define of_match_node(_matches, _node)	NULL
+ #endif /* CONFIG_OF */
 -- 
 2.29.1
 
