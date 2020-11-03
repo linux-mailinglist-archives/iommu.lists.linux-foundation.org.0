@@ -1,49 +1,50 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544E32A4CE7
-	for <lists.iommu@lfdr.de>; Tue,  3 Nov 2020 18:32:11 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCAD02A4CEC
+	for <lists.iommu@lfdr.de>; Tue,  3 Nov 2020 18:32:14 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 10C5E863DD;
-	Tue,  3 Nov 2020 17:32:10 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7BB5220C45;
+	Tue,  3 Nov 2020 17:32:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FTX-LXV2nANr; Tue,  3 Nov 2020 17:32:08 +0000 (UTC)
+	with ESMTP id KUIPDDB8gRXN; Tue,  3 Nov 2020 17:32:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9AF3B863D9;
-	Tue,  3 Nov 2020 17:32:08 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 633B321080;
+	Tue,  3 Nov 2020 17:32:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7E5DBC0051;
-	Tue,  3 Nov 2020 17:32:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4EE3EC0051;
+	Tue,  3 Nov 2020 17:32:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 33DDCC0051
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:06 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 59BD7C0051
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 1B59687460
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:06 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 497A286E95
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VJ6L1+wm9Dk6 for <iommu@lists.linux-foundation.org>;
- Tue,  3 Nov 2020 17:32:05 +0000 (UTC)
+ with ESMTP id 19zpJ-0QXEHu for <iommu@lists.linux-foundation.org>;
+ Tue,  3 Nov 2020 17:32:07 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by hemlock.osuosl.org (Postfix) with ESMTP id 72EC78745E
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:05 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 89D5386EB2
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:06 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AF46CAC97;
- Tue,  3 Nov 2020 17:32:04 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id A8BD8AD85;
+ Tue,  3 Nov 2020 17:32:05 +0000 (UTC)
 From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To: robh+dt@kernel.org, catalin.marinas@arm.com, hch@lst.de, ardb@kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v6 1/7] arm64: mm: Move reserve_crashkernel() into mem_init()
-Date: Tue,  3 Nov 2020 18:31:52 +0100
-Message-Id: <20201103173159.27570-2-nsaenzjulienne@suse.de>
+Subject: [PATCH v6 2/7] arm64: mm: Move zone_dma_bits initialization into
+ zone_sizes_init()
+Date: Tue,  3 Nov 2020 18:31:53 +0100
+Message-Id: <20201103173159.27570-3-nsaenzjulienne@suse.de>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201103173159.27570-1-nsaenzjulienne@suse.de>
 References: <20201103173159.27570-1-nsaenzjulienne@suse.de>
@@ -69,41 +70,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-crashkernel might reserve memory located in ZONE_DMA. We plan to delay
-ZONE_DMA's initialization after unflattening the devicetree and ACPI's
-boot table initialization, so move it later in the boot process.
-Specifically into mem_init(), this is the last place crashkernel will be
-able to reserve the memory before the page allocator kicks in. There
-isn't any apparent reason for doing this earlier.
+zone_dma_bits's initialization happens earlier that it's actually
+needed, in arm64_memblock_init(). So move it into the more suitable
+zone_sizes_init().
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Tested-by: Jeremy Linton <jeremy.linton@arm.com>
 ---
- arch/arm64/mm/init.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/mm/init.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 095540667f0f..fc4ab0d6d5d2 100644
+index fc4ab0d6d5d2..410721fc4fc0 100644
 --- a/arch/arm64/mm/init.c
 +++ b/arch/arm64/mm/init.c
-@@ -386,8 +386,6 @@ void __init arm64_memblock_init(void)
- 	else
- 		arm64_dma32_phys_limit = PHYS_MASK + 1;
+@@ -190,6 +190,8 @@ static void __init zone_sizes_init(unsigned long min, unsigned long max)
+ 	unsigned long max_zone_pfns[MAX_NR_ZONES]  = {0};
  
--	reserve_crashkernel();
+ #ifdef CONFIG_ZONE_DMA
++	zone_dma_bits = ARM64_ZONE_DMA_BITS;
++	arm64_dma_phys_limit = max_zone_phys(zone_dma_bits);
+ 	max_zone_pfns[ZONE_DMA] = PFN_DOWN(arm64_dma_phys_limit);
+ #endif
+ #ifdef CONFIG_ZONE_DMA32
+@@ -376,11 +378,6 @@ void __init arm64_memblock_init(void)
+ 
+ 	early_init_fdt_scan_reserved_mem();
+ 
+-	if (IS_ENABLED(CONFIG_ZONE_DMA)) {
+-		zone_dma_bits = ARM64_ZONE_DMA_BITS;
+-		arm64_dma_phys_limit = max_zone_phys(ARM64_ZONE_DMA_BITS);
+-	}
 -
- 	reserve_elfcorehdr();
- 
- 	high_memory = __va(memblock_end_of_DRAM() - 1) + 1;
-@@ -508,6 +506,8 @@ void __init mem_init(void)
+ 	if (IS_ENABLED(CONFIG_ZONE_DMA32))
+ 		arm64_dma32_phys_limit = max_zone_phys(32);
  	else
- 		swiotlb_force = SWIOTLB_NO_FORCE;
- 
-+	reserve_crashkernel();
-+
- 	set_max_mapnr(max_pfn - PHYS_PFN_OFFSET);
- 
- #ifndef CONFIG_SPARSEMEM_VMEMMAP
 -- 
 2.29.1
 
