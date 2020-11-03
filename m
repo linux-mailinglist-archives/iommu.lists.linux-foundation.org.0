@@ -1,49 +1,49 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485772A4CEE
-	for <lists.iommu@lfdr.de>; Tue,  3 Nov 2020 18:32:16 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0C8FC86E2F;
-	Tue,  3 Nov 2020 17:32:15 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id B0EekKiwEkJt; Tue,  3 Nov 2020 17:32:13 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2EDAC86FA7;
-	Tue,  3 Nov 2020 17:32:12 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 16433C0051;
-	Tue,  3 Nov 2020 17:32:12 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A22DFC0051
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:10 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7FF02A4CEA
+	for <lists.iommu@lfdr.de>; Tue,  3 Nov 2020 18:32:13 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 71CCC8639F
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:10 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6EC7886422;
+	Tue,  3 Nov 2020 17:32:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JfHIrhkC24y3; Tue,  3 Nov 2020 17:32:11 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EACC2863AC;
+	Tue,  3 Nov 2020 17:32:11 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CEDD5C0051;
+	Tue,  3 Nov 2020 17:32:11 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2B917C0051
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2817387467
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:10 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gVjTXryYFz9b for <iommu@lists.linux-foundation.org>;
- Tue,  3 Nov 2020 17:32:08 +0000 (UTC)
+ with ESMTP id TlqOl0iBG1rW for <iommu@lists.linux-foundation.org>;
+ Tue,  3 Nov 2020 17:32:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1A474863C5
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:08 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 58B3187462
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 17:32:09 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4B9A7AC1F;
- Tue,  3 Nov 2020 17:32:07 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 99761ADBE;
+ Tue,  3 Nov 2020 17:32:08 +0000 (UTC)
 From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To: robh+dt@kernel.org, catalin.marinas@arm.com, hch@lst.de, ardb@kernel.org,
  linux-kernel@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH v6 3/7] of/address: Introduce of_dma_get_max_cpu_address()
-Date: Tue,  3 Nov 2020 18:31:54 +0100
-Message-Id: <20201103173159.27570-4-nsaenzjulienne@suse.de>
+Subject: [PATCH v6 4/7] of: unittest: Add test for of_dma_get_max_cpu_address()
+Date: Tue,  3 Nov 2020 18:31:55 +0100
+Message-Id: <20201103173159.27570-5-nsaenzjulienne@suse.de>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201103173159.27570-1-nsaenzjulienne@suse.de>
 References: <20201103173159.27570-1-nsaenzjulienne@suse.de>
@@ -69,111 +69,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Introduce of_dma_get_max_cpu_address(), which provides the highest CPU
-physical address addressable by all DMA masters in the system. It's
-specially useful for setting memory zones sizes at early boot time.
+Introduce a test for of_dma_get_max_cup_address(), it uses the same DT
+data as the rest of dma-ranges unit tests.
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Reviewed-by: Rob Herring <robh@kernel.org>
 
 ---
-
-Changes since v4:
- - Return max address, not address limit (one off difference)
+Changes since v5:
+- Update address expected by test
 
 Changes since v3:
- - use u64 with cpu_end
+ - Remove HAS_DMA guards
 
-Changes since v2:
- - Use PHYS_ADDR_MAX
- - return phys_dma_t
- - Rename function
- - Correct subject
- - Add support to start parsing from an arbitrary device node in order
-   for the function to work with unit tests
+ drivers/of/unittest.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
- drivers/of/address.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/of.h   |  7 +++++++
- 2 files changed, 49 insertions(+)
-
-diff --git a/drivers/of/address.c b/drivers/of/address.c
-index eb9ab4f1e80b..09c0af7fd1c4 100644
---- a/drivers/of/address.c
-+++ b/drivers/of/address.c
-@@ -1024,6 +1024,48 @@ int of_dma_get_range(struct device_node *np, const struct bus_dma_region **map)
- }
- #endif /* CONFIG_HAS_DMA */
- 
-+/**
-+ * of_dma_get_max_cpu_address - Gets highest CPU address suitable for DMA
-+ * @np: The node to start searching from or NULL to start from the root
-+ *
-+ * Gets the highest CPU physical address that is addressable by all DMA masters
-+ * in the sub-tree pointed by np, or the whole tree if NULL is passed. If no
-+ * DMA constrained device is found, it returns PHYS_ADDR_MAX.
-+ */
-+phys_addr_t __init of_dma_get_max_cpu_address(struct device_node *np)
-+{
-+	phys_addr_t max_cpu_addr = PHYS_ADDR_MAX;
-+	struct of_range_parser parser;
-+	phys_addr_t subtree_max_addr;
-+	struct device_node *child;
-+	struct of_range range;
-+	const __be32 *ranges;
-+	u64 cpu_end = 0;
-+	int len;
-+
-+	if (!np)
-+		np = of_root;
-+
-+	ranges = of_get_property(np, "dma-ranges", &len);
-+	if (ranges && len) {
-+		of_dma_range_parser_init(&parser, np);
-+		for_each_of_range(&parser, &range)
-+			if (range.cpu_addr + range.size > cpu_end)
-+				cpu_end = range.cpu_addr + range.size - 1;
-+
-+		if (max_cpu_addr > cpu_end)
-+			max_cpu_addr = cpu_end;
-+	}
-+
-+	for_each_available_child_of_node(np, child) {
-+		subtree_max_addr = of_dma_get_max_cpu_address(child);
-+		if (max_cpu_addr > subtree_max_addr)
-+			max_cpu_addr = subtree_max_addr;
-+	}
-+
-+	return max_cpu_addr;
-+}
-+
- /**
-  * of_dma_is_coherent - Check if device is coherent
-  * @np:	device node
-diff --git a/include/linux/of.h b/include/linux/of.h
-index 5d51891cbf1a..9ed5b8532c30 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -558,6 +558,8 @@ int of_map_id(struct device_node *np, u32 id,
- 	       const char *map_name, const char *map_mask_name,
- 	       struct device_node **target, u32 *id_out);
- 
-+phys_addr_t of_dma_get_max_cpu_address(struct device_node *np);
-+
- #else /* CONFIG_OF */
- 
- static inline void of_core_init(void)
-@@ -995,6 +997,11 @@ static inline int of_map_id(struct device_node *np, u32 id,
- 	return -EINVAL;
+diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
+index 06cc988faf78..98cc0163301b 100644
+--- a/drivers/of/unittest.c
++++ b/drivers/of/unittest.c
+@@ -869,6 +869,23 @@ static void __init of_unittest_changeset(void)
+ #endif
  }
  
-+static inline phys_addr_t of_dma_get_max_cpu_address(struct device_node *np)
++static void __init of_unittest_dma_get_max_cpu_address(void)
 +{
-+	return PHYS_ADDR_MAX;
++	struct device_node *np;
++	phys_addr_t cpu_addr;
++
++	np = of_find_node_by_path("/testcase-data/address-tests");
++	if (!np) {
++		pr_err("missing testcase data\n");
++		return;
++	}
++
++	cpu_addr = of_dma_get_max_cpu_address(np);
++	unittest(cpu_addr == 0x4fffffff,
++		 "of_dma_get_max_cpu_address: wrong CPU addr %pad (expecting %x)\n",
++		 &cpu_addr, 0x4fffffff);
 +}
 +
- #define of_match_ptr(_ptr)	NULL
- #define of_match_node(_matches, _node)	NULL
- #endif /* CONFIG_OF */
+ static void __init of_unittest_dma_ranges_one(const char *path,
+ 		u64 expect_dma_addr, u64 expect_paddr)
+ {
+@@ -3266,6 +3283,7 @@ static int __init of_unittest(void)
+ 	of_unittest_changeset();
+ 	of_unittest_parse_interrupts();
+ 	of_unittest_parse_interrupts_extended();
++	of_unittest_dma_get_max_cpu_address();
+ 	of_unittest_parse_dma_ranges();
+ 	of_unittest_pci_dma_ranges();
+ 	of_unittest_match_node();
 -- 
 2.29.1
 
