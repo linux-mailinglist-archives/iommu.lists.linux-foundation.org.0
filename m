@@ -1,54 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49AE2A40CA
-	for <lists.iommu@lfdr.de>; Tue,  3 Nov 2020 10:55:52 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6532A40E5
+	for <lists.iommu@lfdr.de>; Tue,  3 Nov 2020 10:58:37 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9A1FA86C98;
-	Tue,  3 Nov 2020 09:55:51 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7ECC28727B;
+	Tue,  3 Nov 2020 09:58:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KpxQ59Po-2Wr; Tue,  3 Nov 2020 09:55:51 +0000 (UTC)
+	with ESMTP id LtTsVam2jGhp; Tue,  3 Nov 2020 09:58:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3984B86C8B;
-	Tue,  3 Nov 2020 09:55:51 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E2AED81B64;
+	Tue,  3 Nov 2020 09:58:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1FCD4C0889;
-	Tue,  3 Nov 2020 09:55:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D4FAFC08A1;
+	Tue,  3 Nov 2020 09:58:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 58BD9C0889
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 09:55:50 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 61357C0889
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 09:58:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 46A8A86C8B
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 09:55:50 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 483EA20507
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 09:58:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6tav13xWM7Yu for <iommu@lists.linux-foundation.org>;
- Tue,  3 Nov 2020 09:55:50 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 090B486C80
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 09:55:50 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 4A0C467373; Tue,  3 Nov 2020 10:55:39 +0100 (CET)
-Date: Tue, 3 Nov 2020 10:55:38 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Yong Deng <yong.deng@magewell.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: use of dma_direct_set_offset in (allwinner) drivers
-Message-ID: <20201103095538.GA19136@lst.de>
+ with ESMTP id TwFxPdX6sQur for <iommu@lists.linux-foundation.org>;
+ Tue,  3 Nov 2020 09:58:33 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by silver.osuosl.org (Postfix) with ESMTPS id E094820505
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 09:58:32 +0000 (UTC)
+IronPort-SDR: ZGlDuEKQA2tS5QVLekDC21tldAzmE2/YYhlLDE7IhNw91rB8HHcsUZjCJNG/lXnTSvitL9BOX3
+ UumTvrK3guBg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9793"; a="233196642"
+X-IronPort-AV: E=Sophos;i="5.77,447,1596524400"; d="scan'208";a="233196642"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2020 01:58:32 -0800
+IronPort-SDR: qXZ3CdVSYmts5JPldn4hVxPQrAnAqM0Gp50/FrVIsGpM55HmGd9I+qH+0dA28fc+ZNECT9313p
+ hjOw5WMKj6fQ==
+X-IronPort-AV: E=Sophos;i="5.77,447,1596524400"; d="scan'208";a="528363463"
+Received: from stevenro-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.23.13])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2020 01:58:28 -0800
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+In-Reply-To: <99a0d1eb-7fde-dff4-225f-92b68fbf7620@linux.intel.com>
+References: <20200927063437.13988-1-baolu.lu@linux.intel.com>
+ <e999e371-6d36-ffea-542f-a5f4b230b0ed@linux.intel.com>
+ <c2af9a9d-1cae-b8f7-a0b3-880574060a23@linux.intel.com>
+ <8bac9e91-36a0-c1d6-a887-4d60567ac75a@linux.intel.com>
+ <3f5694f3-62f9-cc2b-1c2b-f9e99a4788c1@linux.intel.com>
+ <1ce5b94a-38b3-548e-3b1a-a68390b93953@linux.intel.com>
+ <82dab98e-0761-8946-c31c-92f19a0615b4@linux.intel.com>
+ <99a0d1eb-7fde-dff4-225f-92b68fbf7620@linux.intel.com>
+To: Christoph Hellwig <hch@infradead.org>,
+ David Woodhouse <dwmw2@infradead.org>, Joerg Roedel <joro@8bytes.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Tom Murphy <murphyt7@tcd.ie>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH v4 0/7] Convert the intel iommu driver to the dma-iommu api
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <160439750572.8460.14782978404889004150@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Tue, 03 Nov 2020 11:58:26 +0200
+Cc: Intel-gfx@lists.freedesktop.org, Ashok Raj <ashok.raj@intel.com>,
+ iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,36 +89,60 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi all,
+Quoting Tvrtko Ursulin (2020-11-03 11:14:32)
+> 
+> 
+> On 03/11/2020 02:53, Lu Baolu wrote:
+> > On 11/2/20 7:52 PM, Tvrtko Ursulin wrote:
+> >>
+> >> On 02/11/2020 02:00, Lu Baolu wrote:
+> >>> Hi Tvrtko,
+> >>> On 10/12/20 4:44 PM, Tvrtko Ursulin wrote:
+> >>>>
+> >>>> On 29/09/2020 01:11, Lu Baolu wrote:
 
-Linux 5.10-rc1 switched from having a single dma offset in struct device
-to a set of DMA ranges, and introduced a new helper to set them,
-dma_direct_set_offset.
+<SNIP>
 
-This in fact surfaced that a bunch of drivers that violate our layering
-and set the offset from drivers, which meant we had to reluctantly
-export the symbol to set up the DMA range.
+> >>>> FYI we have merged the required i915 patches to out tree last week 
+> >>>> or so. I *think* this means they will go into 5.11. So the i915 
+> >>>> specific workaround patch will not be needed in Intel IOMMU.
+> >>>
+> >>> Do you mind telling me what's the status of this fix patch? I tried this
+> >>> series on v5.10-rc1 with the graphic quirk patch dropped. I am still
+> >>> seeing dma faults from graphic device.
+> >>
+> >> Hmm back then I thought i915 fixes for this would land in 5.11 so I 
+> >> will stick with that. :) (See my quoted text a paragraph above yours.)
+> > 
+> > What size are those fixes? I am considering pushing this series for
+> > v5.11. Is it possible to get some acks for those patches and let them
+> > go to Linus through iommu tree?
+> 
+> For 5.10 you mean? They feel a bit too large for comfort to go via a 
+> non-i915/drm tree. These are the two patches required:
+> 
+> https://cgit.freedesktop.org/drm-intel/commit/?h=drm-intel-gt-next&id=8a473dbadccfc6206150de3db3223c40785da348
+> https://cgit.freedesktop.org/drm-intel/commit/?h=drm-intel-gt-next&id=934941ed5a3070a7833c688c9b1d71484fc01a68
+> 
+> I'll copy Joonas as our maintainer - how does the idea of taking the 
+> above two patches through the iommu tree sound to you?
 
-The drivers are:
+Hi Lu,
 
-drivers/gpu/drm/sun4i/sun4i_backend.c
+The patches have already been merged into our tree and are heading
+towards 5.11, so I don't think we should merge them elsewhere. DRM
+subsystem had the feature freeze for 5.10 at the time of 5.9-rc5
+and only drm-intel-fixes pull requests are sent after that.
 
-  This just use dma_direct_set_offset as a fallback.  Is there any good
-  reason to not just kill off the fallback?
+The patches seem to target to eliminate need for a previously used
+workaround. To me it seems more appropriate for the patches to follow
+the regular process as new feature for 5.11 to make sure the changes
+get validated as part of linux-next.
 
-drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+Would that work for you? We intend to send the feature pull requests
+to DRM for 5.11 in the upcoming weeks.
 
-  Same as above.
-
-drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-
-  This driver unconditionally sets the offset.  Why can't we do this
-  in the device tree?
-
-drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-
-  Same as above.
-
+Regards, Joonas
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
