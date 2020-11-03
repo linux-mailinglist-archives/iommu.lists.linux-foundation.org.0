@@ -1,60 +1,109 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8337B2A454F
-	for <lists.iommu@lfdr.de>; Tue,  3 Nov 2020 13:35:34 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D81642A45AD
+	for <lists.iommu@lfdr.de>; Tue,  3 Nov 2020 13:57:06 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3A42086AF3;
-	Tue,  3 Nov 2020 12:35:33 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 80F8285F87;
+	Tue,  3 Nov 2020 12:57:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uMNAVhn7QxwX; Tue,  3 Nov 2020 12:35:29 +0000 (UTC)
+	with ESMTP id gD3kbMrK6Jq0; Tue,  3 Nov 2020 12:57:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 45E9886BDB;
-	Tue,  3 Nov 2020 12:35:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8951785EAE;
+	Tue,  3 Nov 2020 12:57:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 22897C0889;
-	Tue,  3 Nov 2020 12:35:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 77FF1C0051;
+	Tue,  3 Nov 2020 12:57:04 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6B658C0051
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 12:35:27 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 88B6AC0051
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 12:57:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 138A520533
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 12:35:27 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 6D27D86968
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 12:57:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wIPfXHN8a0xx for <iommu@lists.linux-foundation.org>;
- Tue,  3 Nov 2020 12:35:23 +0000 (UTC)
+ with ESMTP id sJbN9PPNEoKf for <iommu@lists.linux-foundation.org>;
+ Tue,  3 Nov 2020 12:56:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by silver.osuosl.org (Postfix) with ESMTP id 0A1902051D
- for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 12:35:22 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 50202106F;
- Tue,  3 Nov 2020 04:35:22 -0800 (PST)
-Received: from [10.57.54.223] (unknown [10.57.54.223])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 20EFF3F718;
- Tue,  3 Nov 2020 04:35:21 -0800 (PST)
-Subject: Re: [PATCH v5 2/2] iommu/iova: Free global iova rcache on iova alloc
- failure
-To: vjitta@codeaurora.org, joro@8bytes.org, iommu@lists.linux-foundation.org, 
- linux-kernel@vger.kernel.org
-References: <1601451864-5956-1-git-send-email-vjitta@codeaurora.org>
- <1601451864-5956-2-git-send-email-vjitta@codeaurora.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <ff318311-77e8-b235-37dd-7b1b5f5d8ed9@arm.com>
-Date: Tue, 3 Nov 2020 12:35:19 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from nat-hk.nvidia.com (nat-hk.nvidia.com [203.18.50.4])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 328A786961
+ for <iommu@lists.linux-foundation.org>; Tue,  3 Nov 2020 12:56:58 +0000 (UTC)
+Received: from HKMAIL104.nvidia.com (Not Verified[10.18.92.77]) by
+ nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fa153970000>; Tue, 03 Nov 2020 20:56:55 +0800
+Received: from HKMAIL102.nvidia.com (10.18.16.11) by HKMAIL104.nvidia.com
+ (10.18.16.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 3 Nov
+ 2020 12:56:50 +0000
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.43) by
+ HKMAIL102.nvidia.com (10.18.16.11) with Microsoft SMTP Server (TLS)
+ id 15.0.1473.3 via Frontend Transport; Tue, 3 Nov 2020 12:56:50 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mcr7xIv3hF33PyIxiEup+1dBKrCsJ6OxX/bXrsHQ7/VPfBkO0kk+/zqcOmtSS5LmfTalHcmYI8gN+qxXfgW7rvy1igAV2uRL3AnXsDnCn5H557yJa5nKzQcDkMyRzpS8ML9C5QE1P2n4HkBGja/P/CSZtf8JgDBL9wc+DZP0Uyl7ysCFa5ZFn7V01LfWxwCqPSCJSMRE4nqYoa7fjGMs+jH/PDpMdUBLPfXg/lM4oskLvkbQVFvRmTP51Bju0MS4N0K68IXYI1byRr64qw6yqhnbXoiyLNkC7H26JR9Y/nBleYiJexMOLw/NmjIyO5rWV5BC9tqdG3Jb6qfMNxEhiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b+pbF42oMUQw1m5KD73EvM2ZL1kG2Sbe9aC/BOgbG2Q=;
+ b=FVHbteUTzx+xxbTgFQRkbb/ZM1HADj/gH5XV9e7aC++CvPXixwhHs42FQDIq4nncPEwNRptewgRpiUfjpslNbMgis1E4R0ZVqS8J+3udk/Tfxk+ZX0UxlEvcWcp/gwkNH5jx9svyeEDU9CuO9uLC86fsQQh0pnK7ajdLhLB6K61fBA8IJhRvhPGSgcUT04R3OaZDRHwocPHDssz7a2x1R/moG4bEqXrGIdD6rjZvB3cYndtAbxKKzPpgvP0loe1qdKfUhsqyqMNhr9CODx0sH38OR1/fBBLV7ILNpsBlhR3BnoPkmHaQjHObMqlzSGWG9kTj94nA23qUf5R2YBAVoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from BY5PR12MB3827.namprd12.prod.outlook.com (2603:10b6:a03:1ab::16)
+ by BYAPR12MB2854.namprd12.prod.outlook.com (2603:10b6:a03:135::30)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 3 Nov
+ 2020 12:56:45 +0000
+Received: from BY5PR12MB3827.namprd12.prod.outlook.com
+ ([fe80::2459:e095:ac09:34e5]) by BY5PR12MB3827.namprd12.prod.outlook.com
+ ([fe80::2459:e095:ac09:34e5%6]) with mapi id 15.20.3499.031; Tue, 3 Nov 2020
+ 12:56:45 +0000
+Date: Tue, 3 Nov 2020 08:56:43 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "joro@8bytes.org" <joro@8bytes.org>
+Subject: Re: (proposal) RE: [PATCH v7 00/16] vfio: expose virtual Shared
+ Virtual Addressing to VMs
+Message-ID: <20201103125643.GN2620339@nvidia.com>
+References: <MWHPR11MB1645CFB0C594933E92A844AC8C070@MWHPR11MB1645.namprd11.prod.outlook.com>
+ <20201103095208.GA22888@8bytes.org>
+Content-Disposition: inline
+In-Reply-To: <20201103095208.GA22888@8bytes.org>
+X-ClientProxiedBy: MN2PR22CA0008.namprd22.prod.outlook.com
+ (2603:10b6:208:238::13) To BY5PR12MB3827.namprd12.prod.outlook.com
+ (2603:10b6:a03:1ab::16)
 MIME-Version: 1.0
-In-Reply-To: <1601451864-5956-2-git-send-email-vjitta@codeaurora.org>
-Content-Language: en-GB
-Cc: vinmenon@codeaurora.org, kernel-team@android.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by
+ MN2PR22CA0008.namprd22.prod.outlook.com (2603:10b6:208:238::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
+ Transport; Tue, 3 Nov 2020 12:56:45 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1kZvrf-00Ftcf-Kk; Tue, 03 Nov 2020 08:56:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1604408215; bh=b+pbF42oMUQw1m5KD73EvM2ZL1kG2Sbe9aC/BOgbG2Q=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+ From:To:CC:Subject:Message-ID:References:Content-Type:
+ Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType;
+ b=HtAUZXDIMC2uQcH6EIhKC/VZ2wKJLx2ikXSpb8QZjPYP/TPICOqnKnRiBO7f8p4+w
+ 0QTcQUjPUBYvNodFVX3FVlphGGT+lpSdYhIeYk8ypmAYtyHy8gJbkjI2wIarKOCzCe
+ UbsIGu2UqJXwKQfpAF+8zDmtLJsKRhYs6TvIlXI1gdZVKbedsydZ+O4OW9zTCilkOB
+ LlsiIZZxHGKUEanwyIznBqYGhm7DVobSv2R9TSmwCx58LhvHeA4FSCT4y0hRTz1mBm
+ GrjEAOeV5nOgdrOScp5luZWaiJnEDNN3AbczSpefoYkXUnJIzjb8+bKvQ4E5/z7+ic
+ 32w72sFDguzrQ==
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "stefanha@gmail.com" <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Wu,
+ Hao" <hao.wu@intel.com>, "Tian, Jun J" <jun.j.tian@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,82 +116,22 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020-09-30 08:44, vjitta@codeaurora.org wrote:
-> From: Vijayanand Jitta <vjitta@codeaurora.org>
-> 
-> When ever an iova alloc request fails we free the iova
-> ranges present in the percpu iova rcaches and then retry
-> but the global iova rcache is not freed as a result we could
-> still see iova alloc failure even after retry as global
-> rcache is holding the iova's which can cause fragmentation.
-> So, free the global iova rcache as well and then go for the
-> retry.
+On Tue, Nov 03, 2020 at 10:52:09AM +0100, joro@8bytes.org wrote:
+> So having said this, what is the benefit of exposing those SVA internals
+> to user-space?
 
-This looks reasonable to me - it's mildly annoying that we end up with 
-so many similar-looking functions, but the necessary differences are 
-right down in the middle of the loops so nothing can reasonably be 
-factored out :(
+Only the device use of the PASID is device specific, the actual PASID
+and everything on the IOMMU side is generic.
 
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+There is enough API there it doesn't make sense to duplicate it into
+every single SVA driver.
 
-> Signed-off-by: Vijayanand Jitta <vjitta@codeaurora.org>
-> ---
->   drivers/iommu/iova.c | 23 +++++++++++++++++++++++
->   1 file changed, 23 insertions(+)
-> 
-> diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-> index c3a1a8e..faf9b13 100644
-> --- a/drivers/iommu/iova.c
-> +++ b/drivers/iommu/iova.c
-> @@ -25,6 +25,7 @@ static void init_iova_rcaches(struct iova_domain *iovad);
->   static void free_iova_rcaches(struct iova_domain *iovad);
->   static void fq_destroy_all_entries(struct iova_domain *iovad);
->   static void fq_flush_timeout(struct timer_list *t);
-> +static void free_global_cached_iovas(struct iova_domain *iovad);
->   
->   void
->   init_iova_domain(struct iova_domain *iovad, unsigned long granule,
-> @@ -442,6 +443,7 @@ alloc_iova_fast(struct iova_domain *iovad, unsigned long size,
->   		flush_rcache = false;
->   		for_each_online_cpu(cpu)
->   			free_cpu_cached_iovas(cpu, iovad);
-> +		free_global_cached_iovas(iovad);
->   		goto retry;
->   	}
->   
-> @@ -1057,5 +1059,26 @@ void free_cpu_cached_iovas(unsigned int cpu, struct iova_domain *iovad)
->   	}
->   }
->   
-> +/*
-> + * free all the IOVA ranges of global cache
-> + */
-> +static void free_global_cached_iovas(struct iova_domain *iovad)
-> +{
-> +	struct iova_rcache *rcache;
-> +	unsigned long flags;
-> +	int i, j;
-> +
-> +	for (i = 0; i < IOVA_RANGE_CACHE_MAX_SIZE; ++i) {
-> +		rcache = &iovad->rcaches[i];
-> +		spin_lock_irqsave(&rcache->lock, flags);
-> +		for (j = 0; j < rcache->depot_size; ++j) {
-> +			iova_magazine_free_pfns(rcache->depot[j], iovad);
-> +			iova_magazine_free(rcache->depot[j]);
-> +			rcache->depot[j] = NULL;
-> +		}
-> +		rcache->depot_size = 0;
-> +		spin_unlock_irqrestore(&rcache->lock, flags);
-> +	}
-> +}
->   MODULE_AUTHOR("Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>");
->   MODULE_LICENSE("GPL");
-> 
+Jason
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
