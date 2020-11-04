@@ -2,91 +2,111 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF7362A6C91
-	for <lists.iommu@lfdr.de>; Wed,  4 Nov 2020 19:17:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D396D2A6DD4
+	for <lists.iommu@lfdr.de>; Wed,  4 Nov 2020 20:29:30 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7567A86760;
-	Wed,  4 Nov 2020 18:17:41 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 728B185B5D;
+	Wed,  4 Nov 2020 19:29:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id klRsid5DkotF; Wed,  4 Nov 2020 18:17:41 +0000 (UTC)
+	with ESMTP id PLU5w-nZO3MO; Wed,  4 Nov 2020 19:29:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0329886738;
-	Wed,  4 Nov 2020 18:17:40 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DC2FF8584F;
+	Wed,  4 Nov 2020 19:29:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D6528C0051;
-	Wed,  4 Nov 2020 18:17:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B90B4C0051;
+	Wed,  4 Nov 2020 19:29:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 73ECEC0051
- for <iommu@lists.linux-foundation.org>; Wed,  4 Nov 2020 18:17:39 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 629B7C0051
+ for <iommu@lists.linux-foundation.org>; Wed,  4 Nov 2020 19:29:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 5915386738
- for <iommu@lists.linux-foundation.org>; Wed,  4 Nov 2020 18:17:39 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 511B58584F
+ for <iommu@lists.linux-foundation.org>; Wed,  4 Nov 2020 19:29:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rwxCL7KRswXV for <iommu@lists.linux-foundation.org>;
- Wed,  4 Nov 2020 18:17:38 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
- [209.85.222.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 9CA4986760
- for <iommu@lists.linux-foundation.org>; Wed,  4 Nov 2020 18:17:38 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id z6so20230875qkz.4
- for <iommu@lists.linux-foundation.org>; Wed, 04 Nov 2020 10:17:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=k0O2tryRBN/txl6awTV8eKioqjAa/NAL5VwW/RaREWI=;
- b=CrqhrkR7HAzUAGqSb60bOMK7qe5EIflczymnySw9Y5+bNjne9otfjktFQ6v+q7J5Bn
- QkYEsfvJoF/V7dNVQyc6aFNIdKrN1rYxwz6brltfl3vKl7GrhGkHBfbp/rhIGXnZsDyO
- q/iG27QnRKzRiEukn1JBcRUnjZMZ/Ak9n8ACm1EiTKdWPIltBuEFSSjrXyLFHI9ot/JV
- 8uBpfDuI13wJ7vALHBveYCdpbk+A19p4Bv4z46ArjZXEgsqRrdu1kwYS320gfNeLMlWW
- W2r30op0NjtAJ7YPSSK/BVYOYThngPwmUNlHggeP4WiKmejHxYofVLU4IlsEUP8nocyW
- gCZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=k0O2tryRBN/txl6awTV8eKioqjAa/NAL5VwW/RaREWI=;
- b=mHoWTik2F7XkFrhmg9NMpQOfx9hZXAs7dBnNoqNW5Xqj5hxXB3yNbXlwsjRdFW48Ju
- SdwiHbAupJP+tkmrrOLCTGZXRDJADCAvCpIRNWmxOABDoxtV4tKyy+BNfZVlWVEUxoUm
- 3fYfWdoAR3aJ1LKMltFRJ2j+HJpkYU0qO6TsW61Q0MTjwCiNmKuUIDQe3k2EESB4Adsf
- t+hpmg3gNL4w2YHqEsAcH9QW4uIlv/tyVnRXAjuuqWwd5yMJAJ5/q8AQLuf8qOdPoCOn
- GI26kdJdd/Z6pbGamzJNL87bkWUD2flBXeovq6VgSZ+Jm0UTPFUxfAjatzz3q/3He4H8
- nd4Q==
-X-Gm-Message-State: AOAM533bl49UezepZa8kIrX918mPFOMr0Wjy0Ihvf9p2mggHqptMsk9E
- nZ5/CAdY240MQMVJwUdt766EGVHiuoPW+M5l
-X-Google-Smtp-Source: ABdhPJwkADJ1e/NwsQb+VIyXw9DQ2vEHkyjUPuy8BExU4QQfjYg+akP04U4TisV1zRg4p7BfBzttTQ==
-X-Received: by 2002:aed:2d82:: with SMTP id i2mr10942501qtd.10.1604513459358; 
- Wed, 04 Nov 2020 10:10:59 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id h65sm969050qkd.95.2020.11.04.10.10.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 10:10:58 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kaNFJ-00GaMz-NI; Wed, 04 Nov 2020 14:10:57 -0400
-Date: Wed, 4 Nov 2020 14:10:57 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Bernard Metzler <BMT@zurich.ibm.com>
-Subject: Re: Re: [PATCH 2/5] RDMA/core: remove use of dma_virt_ops
-Message-ID: <20201104181057.GT36674@ziepe.ca>
-References: <20201104140108.GA5674@lst.de>
- <20201104095052.1222754-1-hch@lst.de>
- <20201104095052.1222754-3-hch@lst.de>
- <20201104134241.GP36674@ziepe.ca>
- <OFFDBE80DE.245A259C-ON00258616.00528DDA-00258616.00533A9D@notes.na.collabserv.com>
-MIME-Version: 1.0
+ with ESMTP id cwfn-YYVl7wR for <iommu@lists.linux-foundation.org>;
+ Wed,  4 Nov 2020 19:29:24 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from nat-hk.nvidia.com (nat-hk.nvidia.com [203.18.50.4])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 3E03F85ADB
+ for <iommu@lists.linux-foundation.org>; Wed,  4 Nov 2020 19:29:24 +0000 (UTC)
+Received: from HKMAIL104.nvidia.com (Not Verified[10.18.92.9]) by
+ nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fa301120000>; Thu, 05 Nov 2020 03:29:22 +0800
+Received: from HKMAIL104.nvidia.com (10.18.16.13) by HKMAIL104.nvidia.com
+ (10.18.16.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 4 Nov
+ 2020 19:29:20 +0000
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.175)
+ by HKMAIL104.nvidia.com (10.18.16.13) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Wed, 4 Nov 2020 19:29:20 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TLGEYBtm0Y2yv/0z7+BtLa5Yf+aVTF/vAGrn9KrN+ijEFScF0w30YLbVwRNBZ0pYRWjp1QtDWKul0uZUuN7FcvOBZsZAa77g0rDE6YYuzlTj8auuWRQm9Suu02wnJz/3dYxWqlrMBKSiB+x7qaJyBgJIByItzGeIAUpmZkG9DOVFiLtveT4k/aBAoM1aOgC8vx8PZ209J5MP7cLWoG+f/zPfchoPZ6MY/ko2rNN90yUe1zbsvSc5I8JLq1De11uvDTZUCsu6BnC1ynZG+HVacM0DSHg+FAh8xE0PkaVS91qctvk07mBMhsLjO3cMAAY8SZWJ+c43SmiRxGJha1KRtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JdxZRNQhQlxGudrAcPA0I9RD12/9fB2ddJQAbN4pwhA=;
+ b=U4AT4MqnYh5ewQ3vRSgc/bxqtjTWfGYvpod+7QkAubAhs31j4HtQy5PNLSNziK6JqCIZyok8emYx/oi+6F+XdTmarlGVeqthfXKCBgv6+WOAySvn0PCxZ1+AhVtD0g7wVbzUQ/kvm1UEDqFf5QlthMRa6ts+a/UJ0GcGn1cIeTuaVLJ9SEi6fVo6UpIpQRgyhzMoMNaUjqEduMx2ilJy0rMfNQiqIkplVtE4ZrILk42e4F6sMCby/AHY7BYjM4yo8PPYZAe4LuJcGpaK7PVYMEpCZqVjykmDC08m46xzgC3wNond8dP7yO67HvN+vJq2PrZ7W8WDJNrhZdrgcGhH5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3212.namprd12.prod.outlook.com (2603:10b6:5:186::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.24; Wed, 4 Nov
+ 2020 19:29:18 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3499.032; Wed, 4 Nov 2020
+ 19:29:18 +0000
+Date: Wed, 4 Nov 2020 15:29:16 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "joro@8bytes.org" <joro@8bytes.org>
+Subject: Re: (proposal) RE: [PATCH v7 00/16] vfio: expose virtual Shared
+ Virtual Addressing to VMs
+Message-ID: <20201104192916.GA2620339@nvidia.com>
+References: <20201103125643.GN2620339@nvidia.com>
+ <20201103131852.GE22888@8bytes.org> <20201103132335.GO2620339@nvidia.com>
+ <20201103140318.GL22888@8bytes.org> <20201103140642.GQ2620339@nvidia.com>
+ <20201103143532.GM22888@8bytes.org> <20201103152223.GR2620339@nvidia.com>
+ <20201103165539.GN22888@8bytes.org> <20201103174851.GS2620339@nvidia.com>
+ <20201103191429.GO22888@8bytes.org>
 Content-Disposition: inline
-In-Reply-To: <OFFDBE80DE.245A259C-ON00258616.00528DDA-00258616.00533A9D@notes.na.collabserv.com>
-Cc: linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org,
- iommu@lists.linux-foundation.org, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
+In-Reply-To: <20201103191429.GO22888@8bytes.org>
+X-ClientProxiedBy: BL0PR02CA0065.namprd02.prod.outlook.com
+ (2603:10b6:207:3d::42) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by
+ BL0PR02CA0065.namprd02.prod.outlook.com (2603:10b6:207:3d::42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18 via Frontend Transport; Wed, 4 Nov 2020 19:29:17 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1kaOT6-00Gc7u-N1; Wed, 04 Nov 2020 15:29:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1604518162; bh=JdxZRNQhQlxGudrAcPA0I9RD12/9fB2ddJQAbN4pwhA=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+ From:To:CC:Subject:Message-ID:References:Content-Type:
+ Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType;
+ b=HdmRXl6JdBphMAbaFSoGIrKDLSjKvXeUzi6bCwTNDjrDtRdwNu6nFl3IcmiD81NFo
+ +aBiKdc9j+fzoj1ooeiaUIdNkw3UgqoQ1PwOriDo5XxcQiVsAC7XYBEUe6HhPOh4ZQ
+ F8UbKY5Vs2n5vJja/S0r6vOsxSfGbxdPr6qutr0Rg+fo/7P6/qf9L709VIMn5H5qWQ
+ VWkNGOTIe0/Qc/dtE6AvUuHHvdKi4wqxAoAZ4b4OP7zMKLWuZ5FVB/mUnssUgmAfvc
+ tqnQ5c8vRcMFRyFqyvscj07R53H2MkJnwSJUc+sSqs0QPvU3FlZaFFX8U+rX8Wb1yP
+ 3qL2eSC3Z3lvA==
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Raj, Ashok" <ashok.raj@intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "stefanha@gmail.com" <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Wu,
+ Hao" <hao.wu@intel.com>, "Tian, Jun J" <jun.j.tian@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,23 +124,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Nov 04, 2020 at 03:09:04PM +0000, Bernard Metzler wrote:
-
-> lkey of zero to pass a physical buffer, only allowed for
-> kernel applications? Very nice idea I think.
-
-It already exists, it is called the local_dma_lkey, just set
-IB_DEVICE_LOCAL_DMA_LKEY and provide the value you want to use
-in device->local_dma_lkey
-
-> btw.
-> It would even get the vain blessing of the old IETF RDMA
-> verbs draft ;)
+On Tue, Nov 03, 2020 at 08:14:29PM +0100, joro@8bytes.org wrote:
+> On Tue, Nov 03, 2020 at 01:48:51PM -0400, Jason Gunthorpe wrote:
+> > I think the same PCI driver with a small flag to support the PF or
+> > VF is not the same as two completely different drivers in different
+> > subsystems
 > 
-> https://tools.ietf.org/html/draft-hilland-rddp-verbs-00#page-90
+> There are counter-examples: ixgbe vs. ixgbevf.
+>
+> Note that also a single driver can support both, an SVA device and an
+> mdev device, sharing code for accessing parts of the device like queues
+> and handling interrupts.
 
-IBTA standadized this, they just didn't require HW to use 0 as the
-lkey.
+Needing a mdev device at all is the larger issue, mdev means the
+kernel must carry a lot of emulation code depending on how the SVA
+device is designed. Eg creating queues may require an emulated BAR.
+
+Shifting that code to userspace and having a single clean 'SVA'
+interface from the kernel for the device makes a lot more sense,
+esepcially from a security perspective.
+
+Forcing all vIOMMU stuff to only use VFIO permanently closes this as
+an option.
 
 Jason
 _______________________________________________
