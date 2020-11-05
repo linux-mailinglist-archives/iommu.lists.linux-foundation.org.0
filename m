@@ -1,84 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3316B2A8426
-	for <lists.iommu@lfdr.de>; Thu,  5 Nov 2020 17:58:28 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E5E6787257;
-	Thu,  5 Nov 2020 16:58:26 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qCrjC-G4TJ0c; Thu,  5 Nov 2020 16:58:26 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EACBE8724D;
-	Thu,  5 Nov 2020 16:58:25 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CC53CC0889;
-	Thu,  5 Nov 2020 16:58:25 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E7F72C0889;
- Thu,  5 Nov 2020 16:58:23 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC8B2A8457
+	for <lists.iommu@lfdr.de>; Thu,  5 Nov 2020 18:00:21 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id C7B9323115;
- Thu,  5 Nov 2020 16:58:23 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DD9AA23115;
+	Thu,  5 Nov 2020 17:00:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Hl7IXCJ1K9WF; Thu,  5 Nov 2020 17:00:18 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 9D46723042;
+	Thu,  5 Nov 2020 17:00:18 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 80D4EC0889;
+	Thu,  5 Nov 2020 17:00:18 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0CADFC0889
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Nov 2020 17:00:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id EF37185193
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Nov 2020 17:00:15 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id H1bkgW2NxSZV; Thu,  5 Nov 2020 16:58:23 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
- [209.85.221.68])
- by silver.osuosl.org (Postfix) with ESMTPS id D20E123042;
- Thu,  5 Nov 2020 16:58:22 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id 33so2588774wrl.7;
- Thu, 05 Nov 2020 08:58:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Bh2EFPnmcn/x+bLcSdCEHI4hoqXZxmYUy4JjOwlCick=;
- b=FgfNwhPqyqFXbYiDYPW1synt0I98MWYHt7xKvAKzOtZ+oAVpNe0RVrGq4cbnNrqSqC
- bwK5F28Azbsfux3yyhV5MWGUFd7en7lRRgL14MTum+UqCkzMKi3dFqNemtcrWrqvg8KH
- Gt6PIXZqTgsdwIMD4bPCaX960tIGSEP6cPq3U90PNRSzWwpjvFw0g7qVSQaYjCUCKTHl
- uZclJBRtVOfZWAGi7HNaZPExdFf0X53WZWTthy2MEjtOT7Z7MZSFtA7bSt9QA8aVRnbQ
- Bw5/7q9GX2P7+asfB5Wz88EcQ+5U6a3UXuEZ2maieuMRTBRpEAUBE7uvvudrtf5aUVA1
- 4H3Q==
-X-Gm-Message-State: AOAM531+BmBCvNYtP1QYgtbOADdH7SmK+485+owd/ARKfOGV+wfqn7Ua
- KrucE1G2PpOgzl3/Ch99jlw=
-X-Google-Smtp-Source: ABdhPJwhViVved3GTCeWnOtr+DREAkL3iuMzaCD27vVobs1AMx4FxSw+xOpyOddCpw8z2HuMwtVW4Q==
-X-Received: by 2002:adf:e447:: with SMTP id t7mr4024862wrm.384.1604595501442; 
- Thu, 05 Nov 2020 08:58:21 -0800 (PST)
-Received: from
- liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net
- ([51.145.34.42])
- by smtp.gmail.com with ESMTPSA id z5sm3350729wrw.87.2020.11.05.08.58.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 08:58:20 -0800 (PST)
-From: Wei Liu <wei.liu@kernel.org>
-To: Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
-Subject: [PATCH v2 04/17] iommu/hyperv: don't setup IRQ remapping when running
- as root
-Date: Thu,  5 Nov 2020 16:58:01 +0000
-Message-Id: <20201105165814.29233-5-wei.liu@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201105165814.29233-1-wei.liu@kernel.org>
-References: <20201105165814.29233-1-wei.liu@kernel.org>
+ with ESMTP id Eu3rSWLmAKiB for <iommu@lists.linux-foundation.org>;
+ Thu,  5 Nov 2020 17:00:11 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 32882851CB
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Nov 2020 17:00:11 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 0E0A568B02; Thu,  5 Nov 2020 18:00:05 +0100 (CET)
+Date: Thu, 5 Nov 2020 18:00:04 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 1/6] RMDA/sw: don't allow drivers using dma_virt_ops on
+ highmem configs
+Message-ID: <20201105170004.GA7502@lst.de>
+References: <20201105074205.1690638-1-hch@lst.de>
+ <20201105074205.1690638-2-hch@lst.de>
+ <40d0a990-0fca-6f12-16ff-3612a9847ab3@arm.com>
 MIME-Version: 1.0
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Joerg Roedel <jroedel@suse.de>, Stephen Hemminger <sthemmin@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Michael Kelley <mikelley@microsoft.com>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Nuno Das Neves <nunodasneves@linux.microsoft.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- virtualization@lists.linux-foundation.org,
- Vineeth Pillai <viremana@linux.microsoft.com>
+Content-Disposition: inline
+In-Reply-To: <40d0a990-0fca-6f12-16ff-3612a9847ab3@arm.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Zhu Yanjun <yanjunz@nvidia.com>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org,
+ Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, iommu@lists.linux-foundation.org,
+ Bjorn Helgaas <bhelgaas@google.com>, Bernard Metzler <bmt@zurich.ibm.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,39 +73,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The IOMMU code needs more work. We're sure for now the IRQ remapping
-hooks are not applicable when Linux is the root.
+On Thu, Nov 05, 2020 at 12:15:46PM +0000, Robin Murphy wrote:
+> On 2020-11-05 07:42, Christoph Hellwig wrote:
+>> dma_virt_ops requires that all pages have a kernel virtual address.
+>> Introduce a INFINIBAND_VIRT_DMA Kconfig symbol that depends on !HIGHMEM
+>> and a large enough dma_addr_t, and make all three driver depend on the
+>> new symbol.
+>>
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> ---
+>>   drivers/infiniband/Kconfig           | 6 ++++++
+>>   drivers/infiniband/sw/rdmavt/Kconfig | 3 ++-
+>>   drivers/infiniband/sw/rxe/Kconfig    | 2 +-
+>>   drivers/infiniband/sw/siw/Kconfig    | 1 +
+>>   4 files changed, 10 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/infiniband/Kconfig b/drivers/infiniband/Kconfig
+>> index 32a51432ec4f73..81acaf5fb5be67 100644
+>> --- a/drivers/infiniband/Kconfig
+>> +++ b/drivers/infiniband/Kconfig
+>> @@ -73,6 +73,12 @@ config INFINIBAND_ADDR_TRANS_CONFIGFS
+>>   	  This allows the user to config the default GID type that the CM
+>>   	  uses for each device, when initiaing new connections.
+>>   +config INFINIBAND_VIRT_DMA
+>> +	bool
+>> +	default y
+>> +	depends on !HIGHMEM
+>> +	depends on !64BIT || ARCH_DMA_ADDR_T_64BIT
+>
+> Isn't that effectively always true now since 4965a68780c5? I had a quick 
+> try of manually overriding CONFIG_ARCH_DMA_ADDR_T_64BIT in my .config, and 
+> the build just forces it back to "=y".
 
-Signed-off-by: Wei Liu <wei.liu@kernel.org>
-Acked-by: Joerg Roedel <jroedel@suse.de>
----
- drivers/iommu/hyperv-iommu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
-index e09e2d734c57..8d3ce3add57d 100644
---- a/drivers/iommu/hyperv-iommu.c
-+++ b/drivers/iommu/hyperv-iommu.c
-@@ -20,6 +20,7 @@
- #include <asm/io_apic.h>
- #include <asm/irq_remapping.h>
- #include <asm/hypervisor.h>
-+#include <asm/mshyperv.h>
- 
- #include "irq_remapping.h"
- 
-@@ -143,7 +144,7 @@ static int __init hyperv_prepare_irq_remapping(void)
- 	int i;
- 
- 	if (!hypervisor_is_type(X86_HYPER_MS_HYPERV) ||
--	    !x2apic_supported())
-+	    !x2apic_supported() || hv_root_partition)
- 		return -ENODEV;
- 
- 	fn = irq_domain_alloc_named_id_fwnode("HYPERV-IR", 0);
--- 
-2.20.1
-
+True.  The guy who did the commit should have really told me about it :)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
