@@ -2,103 +2,61 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778C42A8526
-	for <lists.iommu@lfdr.de>; Thu,  5 Nov 2020 18:42:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC4F2A8547
+	for <lists.iommu@lfdr.de>; Thu,  5 Nov 2020 18:47:32 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 069FA271D6;
-	Thu,  5 Nov 2020 17:42:11 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2B40523730;
+	Thu,  5 Nov 2020 17:47:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id C60hlM1uexb4; Thu,  5 Nov 2020 17:42:09 +0000 (UTC)
+	with ESMTP id FUakxa8WiScu; Thu,  5 Nov 2020 17:47:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 74D0A23730;
-	Thu,  5 Nov 2020 17:42:09 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 511ED271D5;
+	Thu,  5 Nov 2020 17:47:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 52681C0889;
-	Thu,  5 Nov 2020 17:42:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 32536C0889;
+	Thu,  5 Nov 2020 17:47:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 963AFC0889
- for <iommu@lists.linux-foundation.org>; Thu,  5 Nov 2020 17:42:07 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C9093C0889
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Nov 2020 17:47:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 8459E85AB5
- for <iommu@lists.linux-foundation.org>; Thu,  5 Nov 2020 17:42:07 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id C395587117
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Nov 2020 17:47:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BMSaVbQM_1Xx for <iommu@lists.linux-foundation.org>;
- Thu,  5 Nov 2020 17:42:06 +0000 (UTC)
+ with ESMTP id 4a63kUaw279z for <iommu@lists.linux-foundation.org>;
+ Thu,  5 Nov 2020 17:47:24 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9073385A84
- for <iommu@lists.linux-foundation.org>; Thu,  5 Nov 2020 17:42:06 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A5HQ7RE171926;
- Thu, 5 Nov 2020 17:41:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=Ygi5p2ytGYAOiTFCHa1IHIsoZmRXyEeKJ2onczmmk74=;
- b=jOi3adrSO9KNBupAJ7S4VihrMXGCDX9J5BpMBrLFGkwuyCDsq3WVf1drkDIKmERTAg1B
- s55DojrdLb0f7uZgn2zhd9G35SmBpqlzXyvPONt5ijA2I4aaf9nYIIm16EJzlhL38CrP
- nmm1T0gHph6CYMGotzry7GsB8VuQF6L1C1/78IOeZ6UeZtTq2yrdDmogqxbcHjkcZd49
- JHJmBKfd6EJ0+y2Ev1iFzZQoeFID3I8/X+sx0XbvHdmbCchN++sUIq5P6B99lO3PYlcX
- iLYsaRyFZW4FKF3FLtiI09zwnsMaE9TcgzLYKNaePuRCDQ4fXcm7I9ihdG0eO4pHQgmU AQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 34hhvcn7qj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 05 Nov 2020 17:41:44 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A5HPDok109474;
- Thu, 5 Nov 2020 17:41:44 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 34jf4chq16-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 05 Nov 2020 17:41:44 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0A5HfTSv016553;
- Thu, 5 Nov 2020 17:41:34 GMT
-Received: from char.us.oracle.com (/10.152.32.25)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 05 Nov 2020 09:41:29 -0800
-Received: by char.us.oracle.com (Postfix, from userid 1000)
- id C23D96A00F1; Thu,  5 Nov 2020 12:43:17 -0500 (EST)
-Date: Thu, 5 Nov 2020 12:43:17 -0500
-From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-To: Ashish Kalra <ashish.kalra@amd.com>
-Subject: Re: [PATCH v3] swiotlb: Adjust SWIOTBL bounce buffer size for SEV
- guests.
-Message-ID: <20201105174317.GA4294@char.us.oracle.com>
-References: <20201104220804.21026-1-Ashish.Kalra@amd.com>
- <20201104221452.GA26079@char.us.oracle.com>
- <20201104223913.GA25311@ashkalra_ubuntu_server>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 498E187115
+ for <iommu@lists.linux-foundation.org>; Thu,  5 Nov 2020 17:47:24 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9E501142F;
+ Thu,  5 Nov 2020 09:47:23 -0800 (PST)
+Received: from [10.57.54.223] (unknown [10.57.54.223])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5CB3F3F719;
+ Thu,  5 Nov 2020 09:47:22 -0800 (PST)
+Subject: Re: [PATCH v2 1/4] dt-bindings: reserved-memory: Document "active"
+ property
+To: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh@kernel.org>
+References: <20200904130000.691933-1-thierry.reding@gmail.com>
+ <20200914220829.GA330122@bogus> <20200915123648.GA3496938@ulmo>
+ <20200924112725.GA2486709@ulmo> <20201105164312.GD485884@ulmo>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <483cd043-980e-81fb-cccb-385206a699df@arm.com>
+Date: Thu, 5 Nov 2020 17:47:21 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201104223913.GA25311@ashkalra_ubuntu_server>
-User-Agent: Mutt/1.9.1 (2017-09-22)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9796
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- suspectscore=0 mlxscore=0
- bulkscore=0 malwarescore=0 mlxlogscore=999 phishscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011050114
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9796
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- suspectscore=0
- impostorscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
- bulkscore=0 phishscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011050114
-Cc: Thomas.Lendacky@amd.com, brijesh.singh@amd.com, ssg.sos.patches@amd.com,
- dave.hansen@linux-intel.com, peterz@infradead.org, x86@kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- mingo@redhat.com, bp@alien8.de, luto@kernel.org, hpa@zytor.com,
- tglx@linutronix.de, hch@lst.de
+In-Reply-To: <20201105164312.GD485884@ulmo>
+Content-Language: en-GB
+Cc: devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Frank Rowand <frowand.list@gmail.com>, linux-kernel@vger.kernel.org,
+ Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,227 +69,135 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Nov 04, 2020 at 10:39:13PM +0000, Ashish Kalra wrote:
-> Hello Konrad,
+On 2020-11-05 16:43, Thierry Reding wrote:
+> On Thu, Sep 24, 2020 at 01:27:25PM +0200, Thierry Reding wrote:
+>> On Tue, Sep 15, 2020 at 02:36:48PM +0200, Thierry Reding wrote:
+>>> On Mon, Sep 14, 2020 at 04:08:29PM -0600, Rob Herring wrote:
+>>>> On Fri, Sep 04, 2020 at 02:59:57PM +0200, Thierry Reding wrote:
+>>>>> From: Thierry Reding <treding@nvidia.com>
+>>>>>
+>>>>> Reserved memory regions can be marked as "active" if hardware is
+>>>>> expected to access the regions during boot and before the operating
+>>>>> system can take control. One example where this is useful is for the
+>>>>> operating system to infer whether the region needs to be identity-
+>>>>> mapped through an IOMMU.
+>>>>
+>>>> I like simple solutions, but this hardly seems adequate to solve the
+>>>> problem of passing IOMMU setup from bootloader/firmware to the OS. Like
+>>>> what is the IOVA that's supposed to be used if identity mapping is not
+>>>> used?
+>>>
+>>> The assumption here is that if the region is not active there is no need
+>>> for the IOVA to be specified because the kernel will allocate memory and
+>>> assign any IOVA of its choosing.
+>>>
+>>> Also, note that this is not meant as a way of passing IOMMU setup from
+>>> the bootloader or firmware to the OS. The purpose of this is to specify
+>>> that some region of memory is actively being accessed during boot. The
+>>> particular case that I'm looking at is where the bootloader set up a
+>>> splash screen and keeps it on during boot. The bootloader has not set up
+>>> an IOMMU mapping and the identity mapping serves as a way of keeping the
+>>> accesses by the display hardware working during the transitional period
+>>> after the IOMMU translations have been enabled by the kernel but before
+>>> the kernel display driver has had a chance to set up its own IOMMU
+>>> mappings.
+>>>
+>>>> If you know enough about the regions to assume identity mapping, then
+>>>> can't you know if active or not?
+>>>
+>>> We could alternatively add some property that describes the region as
+>>> requiring an identity mapping. But note that we can't make any
+>>> assumptions here about the usage of these regions because the IOMMU
+>>> driver simply has no way of knowing what they are being used for.
+>>>
+>>> Some additional information is required in device tree for the IOMMU
+>>> driver to be able to make that decision.
+>>
+>> Rob, can you provide any hints on exactly how you want to move this
+>> forward? I don't know in what direction you'd like to proceed.
 > 
-> On Wed, Nov 04, 2020 at 05:14:52PM -0500, Konrad Rzeszutek Wilk wrote:
-> > On Wed, Nov 04, 2020 at 10:08:04PM +0000, Ashish Kalra wrote:
-> > > From: Ashish Kalra <ashish.kalra@amd.com>
-> > > 
-> > > For SEV, all DMA to and from guest has to use shared
-> > > (un-encrypted) pages. SEV uses SWIOTLB to make this
-> > > happen without requiring changes to device drivers.
-> > > However, depending on workload being run, the default
-> > > 64MB of SWIOTLB might not be enough and SWIOTLB
-> > > may run out of buffers to use for DMA, resulting
-> > > in I/O errors and/or performance degradation for
-> > > high I/O workloads.
-> > > 
-> > > Increase the default size of SWIOTLB for SEV guests
-> > > using a minimum value of 128MB and a maximum value
-> > 
-> > <blinks>
-> > 
-> > 64MB for a 1GB VM is not enough?
-> > 
-> > > of 512MB, determining on amount of provisioned guest
-> > 
-> > I like the implementation on how this is done.. but
-> > the choices of memory and how much seems very much
-> > random. Could there be some math behind this?
-> >
+> Hi Rob,
 > 
-> Earlier the patch was based on using a % of guest memory, as below:
+> do you have any suggestions on how to proceed with this? I'd like to get
+> this moving again because it's something that's been nagging me for some
+> months now. It also requires changes across two levels in the bootloader
+> stack as well as Linux and it takes quite a bit of work to make all the
+> changes, so before I go and rewrite everything I'd like to get the DT
+> bindings sorted out first.
 > 
-> +#define SEV_ADJUST_SWIOTLB_SIZE_PERCENT        5
-> +#define SEV_ADJUST_SWIOTLB_SIZE_MAX    (1UL << 30)
-> ...
-> ...
-> +       if (sev_active() && !io_tlb_nslabs) {
-> +               unsigned long total_mem = get_num_physpages() << PAGE_SHIFT;
-> +
-> +               default_size = total_mem *
-> +                       SEV_ADJUST_SWIOTLB_SIZE_PERCENT / 100;
-> +
-> +               default_size = ALIGN(default_size, 1 << IO_TLB_SHIFT);
-> +
-> +               default_size = clamp_val(default_size, IO_TLB_DEFAULT_SIZE,
-> +                       SEV_ADJUST_SWIOTLB_SIZE_MAX);
-> +       }
+> So just to summarize why I think this simple solution is good enough: it
+> tries to solve a very narrow and simple problem. This is not an attempt
+> at describing the firmware's full IOMMU setup to the kernel. In fact, it
+> is primarily targetted at cases where the firmware hasn't setup an IOMMU
+> at all, and we just want to make sure that when the kernel takes over
+> and does want to enable the IOMMU, that all the regions that are
+> actively being accessed by non-quiesced hardware (the most typical
+> example would be a framebuffer scanning out a splat screen or animation,
+> but it could equally well be some sort of welcoming tone or music being
+> played back) are described in device tree.
 > 
-> But, then it is difficult to predict what % of guest memory to use ?
-> 
-> Then there are other factors to consider, such as vcpu_count or if there
-> is going to be high I/O workload, etc.
-> 
-> But that all makes it very complicated, what we basically want is a
-> range from 128M to 512M and that's why the current patch which picks up
-> this range from the amount of allocated guest memory keeps it simple. 
+> In other words, and this is perhaps better answering your second
+> question: in addition to describing reserved memory regions, we want to
+> add a bit of information here about the usage of these memory regions.
+> Some memory regions may contain information that the kernel may want to
+> use (such an external memory frequency scaling tables) and those I would
+> describe as "inactive" memory because it isn't being accessed by
+> hardware. The framebuffer in this case is the opposite and it is being
+> actively accessed (hence it is marked "active") by hardware while the
+> kernel is busy setting everything up so that it can reconfigure that
+> hardware and take over with its own framebuffer (for the console, for
+> example). It's also not so much that we know enough about the region to
+> assume it needs identity mapping. We don't really care about that from
+> the DT point of view. In fact, depending on the rest of the system
+> configuration, we may not need identity mapping (i.e. if none of the
+> users of the reserved memory region are behind an IOMMU). But the point
+> here is that the IOMMU drivers can use this "active" property to
+> determine that if a device is using an "active" region and it is behind
+> an IOMMU, then it must identity map that region in order for the
+> hardware, which is not under the kernel's control yet, to be able to
+> continue to access that memory through an IOMMU mapping.
 
-Right, so I am wondering if we can do this better.
+Hmm, "active" is not a property of the memory itself, though, it's 
+really a property of the device accessing it. If several distinct 
+devices share a carveout region, and for simplicity the bootloader marks 
+it as active because one of those devices happens to be using some part 
+of it at boot, we don't really want to have to do all the reserved 
+region setup for all the other devices unnecessarily, when all that 
+matters is not disrupting one of them when resetting the IOMMU.
 
-That is you are never going to get any 32-bit devices with SEV right? That
-is there is nothing that bounds you to always use the memory below 4GB?
+That leads to another possible hiccup - some bindings already have a 
+defined meaning for a "memory-region" property. If we use that to point 
+to some small region for a temporary low-resolution bootsplash screen 
+for visibility to an IOMMU driver, the device's own driver might also 
+interpret it as a private carveout from which it is expected to allocate 
+everything, and thus could end up failing to work well or at all.
 
-What I wonder is if we can combine the boot-allocation of the SWIOTLB
-with the post-boot-allocation of SWIOLTB to stitch together
-continous physical ranges.
+I agree that we should only need a relatively simple binding, and that 
+piggybacking off reserved-memory nodes seems like an ideal way of 
+getting address range descriptions without too much extra complexity; 
+the tricky part is how best to associate those with the other 
+information needed, which is really the "iommus" property of the 
+relevant device, and how to make it as generically discoverable as 
+possible. Perhaps it might be workable to follow almost the same 
+approach but with a dedicated property (e.g. "active-memory-region") 
+that the IOMMU code can simply scan the DT for to determine relevant 
+device nodes. Otherwise properties on the IOMMU node itself would seem 
+the next most practical option.
 
-That way you have the flexibility at the start of using 64MB but if there
-is pressure, we grow to a bigger size?
+We've also finally got things going on the IORT RMR side[1], which helps 
+add a bit more shape to things too; beyond the actual firmware parsing, 
+DT and ACPI systems should definitely be converging on the same internal 
+implementation in the IOMMU layer.
 
-> 
-> Thanks,
-> Ashish
-> 
-> > > memory.
-> > > 
-> > > Using late_initcall() interface to invoke
-> > > swiotlb_adjust() does not work as the size
-> > > adjustment needs to be done before mem_encrypt_init()
-> > > and reserve_crashkernel() which use the allocated
-> > > SWIOTLB buffer size, hence calling it explicitly
-> > > from setup_arch().
-> > > 
-> > > The SWIOTLB default size adjustment is added as an
-> > > architecture specific interface/callback to allow
-> > > architectures such as those supporting memory
-> > > encryption to adjust/expand SWIOTLB size for their
-> > > use.
-> > > 
-> > > Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
-> > > ---
-> > >  arch/x86/kernel/setup.c   |  2 ++
-> > >  arch/x86/mm/mem_encrypt.c | 42 +++++++++++++++++++++++++++++++++++++++
-> > >  include/linux/swiotlb.h   |  1 +
-> > >  kernel/dma/swiotlb.c      | 27 +++++++++++++++++++++++++
-> > >  4 files changed, 72 insertions(+)
-> > > 
-> > > diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> > > index 3511736fbc74..b073d58dd4a3 100644
-> > > --- a/arch/x86/kernel/setup.c
-> > > +++ b/arch/x86/kernel/setup.c
-> > > @@ -1166,6 +1166,8 @@ void __init setup_arch(char **cmdline_p)
-> > >  	if (boot_cpu_has(X86_FEATURE_GBPAGES))
-> > >  		hugetlb_cma_reserve(PUD_SHIFT - PAGE_SHIFT);
-> > >  
-> > > +	swiotlb_adjust();
-> > > +
-> > >  	/*
-> > >  	 * Reserve memory for crash kernel after SRAT is parsed so that it
-> > >  	 * won't consume hotpluggable memory.
-> > > diff --git a/arch/x86/mm/mem_encrypt.c b/arch/x86/mm/mem_encrypt.c
-> > > index 3f248f0d0e07..e0deb157cddd 100644
-> > > --- a/arch/x86/mm/mem_encrypt.c
-> > > +++ b/arch/x86/mm/mem_encrypt.c
-> > > @@ -489,7 +489,49 @@ static void print_mem_encrypt_feature_info(void)
-> > >  	pr_cont("\n");
-> > >  }
-> > >  
-> > > +#define TOTAL_MEM_1G	0x40000000UL
-> > > +#define TOTAL_MEM_4G	0x100000000UL
-> > > +
-> > > +#define SIZE_128M (128UL<<20)
-> > > +#define SIZE_256M (256UL<<20)
-> > > +#define SIZE_512M (512UL<<20)
-> > > +
-> > >  /* Architecture __weak replacement functions */
-> > > +unsigned long __init arch_swiotlb_adjust(unsigned long iotlb_default_size)
-> > > +{
-> > > +	unsigned long size = 0;
-> > > +
-> > > +	/*
-> > > +	 * For SEV, all DMA has to occur via shared/unencrypted pages.
-> > > +	 * SEV uses SWOTLB to make this happen without changing device
-> > > +	 * drivers. However, depending on the workload being run, the
-> > > +	 * default 64MB of SWIOTLB may not be enough & SWIOTLB may
-> > > +	 * run out of buffers for DMA, resulting in I/O errors and/or
-> > > +	 * performance degradation especially with high I/O workloads.
-> > > +	 * Increase the default size of SWIOTLB for SEV guests using
-> > > +	 * a minimum value of 128MB and a maximum value of 512MB,
-> > > +	 * depending on amount of provisioned guest memory.
-> > > +	 */
-> > > +	if (sev_active()) {
-> > > +		phys_addr_t total_mem = memblock_phys_mem_size();
-> > > +
-> > > +		if (total_mem <= TOTAL_MEM_1G)
-> > > +			size = clamp(iotlb_default_size * 2, SIZE_128M,
-> > > +				     SIZE_128M);
-> > > +		else if (total_mem <= TOTAL_MEM_4G)
-> > > +			size = clamp(iotlb_default_size * 4, SIZE_256M,
-> > > +				     SIZE_256M);
-> > > +		else
-> > > +			size = clamp(iotlb_default_size * 8, SIZE_512M,
-> > > +				     SIZE_512M);
-> > > +
-> > > +		pr_info("SEV adjusted max SWIOTLB size = %luMB",
-> > > +			size >> 20);
-> > > +	}
-> > > +
-> > > +	return size;
-> > > +}
-> > > +
-> > >  void __init mem_encrypt_init(void)
-> > >  {
-> > >  	if (!sme_me_mask)
-> > > diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-> > > index 046bb94bd4d6..01ae6d891327 100644
-> > > --- a/include/linux/swiotlb.h
-> > > +++ b/include/linux/swiotlb.h
-> > > @@ -33,6 +33,7 @@ extern void swiotlb_init(int verbose);
-> > >  int swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose);
-> > >  extern unsigned long swiotlb_nr_tbl(void);
-> > >  unsigned long swiotlb_size_or_default(void);
-> > > +extern void __init swiotlb_adjust(void);
-> > >  extern int swiotlb_late_init_with_tbl(char *tlb, unsigned long nslabs);
-> > >  extern void __init swiotlb_update_mem_attributes(void);
-> > >  
-> > > diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> > > index c19379fabd20..66a9e627bb51 100644
-> > > --- a/kernel/dma/swiotlb.c
-> > > +++ b/kernel/dma/swiotlb.c
-> > > @@ -163,6 +163,33 @@ unsigned long swiotlb_size_or_default(void)
-> > >  	return size ? size : (IO_TLB_DEFAULT_SIZE);
-> > >  }
-> > >  
-> > > +unsigned long __init __weak arch_swiotlb_adjust(unsigned long size)
-> > > +{
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +void __init swiotlb_adjust(void)
-> > > +{
-> > > +	unsigned long size;
-> > > +
-> > > +	/*
-> > > +	 * If swiotlb parameter has not been specified, give a chance to
-> > > +	 * architectures such as those supporting memory encryption to
-> > > +	 * adjust/expand SWIOTLB size for their use.
-> > > +	 */
-> > > +	if (!io_tlb_nslabs) {
-> > > +		size = arch_swiotlb_adjust(IO_TLB_DEFAULT_SIZE);
-> > > +		if (size) {
-> > > +			size = ALIGN(size, 1 << IO_TLB_SHIFT);
-> > > +			io_tlb_nslabs = size >> IO_TLB_SHIFT;
-> > > +			io_tlb_nslabs = ALIGN(io_tlb_nslabs, IO_TLB_SEGSIZE);
-> > > +
-> > > +			pr_info("architecture adjusted SWIOTLB slabs = %lu\n",
-> > > +				io_tlb_nslabs);
-> > > +		}
-> > > +	}
-> > > +}
-> > > +
-> > >  void swiotlb_print_info(void)
-> > >  {
-> > >  	unsigned long bytes = io_tlb_nslabs << IO_TLB_SHIFT;
-> > > -- 
-> > > 2.17.1
-> > > 
+Robin.
+
+[1] 
+https://lore.kernel.org/linux-iommu/20201027112646.44680-1-shameerali.kolothum.thodi@huawei.com/
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
