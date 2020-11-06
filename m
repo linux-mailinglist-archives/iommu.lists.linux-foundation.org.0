@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4842A9ADD
-	for <lists.iommu@lfdr.de>; Fri,  6 Nov 2020 18:33:04 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A4E2A9ADF
+	for <lists.iommu@lfdr.de>; Fri,  6 Nov 2020 18:33:09 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id E45942E0E7;
-	Fri,  6 Nov 2020 17:33:02 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DDD8586A56;
+	Fri,  6 Nov 2020 17:33:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id N39AZdgPUouM; Fri,  6 Nov 2020 17:33:00 +0000 (UTC)
+	with ESMTP id WAcACj9JudD6; Fri,  6 Nov 2020 17:33:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id D95422E148;
-	Fri,  6 Nov 2020 17:32:58 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 27EE186AA4;
+	Fri,  6 Nov 2020 17:33:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BEC89C088B;
-	Fri,  6 Nov 2020 17:32:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 139B2C088B;
+	Fri,  6 Nov 2020 17:33:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B9534C0889
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:32:56 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F110AC088B
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:33:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id B3FAC2E0E7
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:32:56 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id CD3732E148
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:33:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mKj4SCmv-9-7 for <iommu@lists.linux-foundation.org>;
- Fri,  6 Nov 2020 17:32:55 +0000 (UTC)
+ with ESMTP id 4Cd7NSuycM4j for <iommu@lists.linux-foundation.org>;
+ Fri,  6 Nov 2020 17:33:00 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by silver.osuosl.org (Postfix) with ESMTPS id A53C02E141
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:32:55 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 4BCE92E14E
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:33:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=zgGEpEC881xygcChLUzP5MM+TPIgCL+RooeJy/MEFvk=; b=soNcve2wKJLNlkdIcwhFKrP00x
- UXFJJhudsSkX2SoBn5CzMojAj0uyR2/WZqlCmQ/roDA/tjn6xVSzQu+640oHm0jxA9uJO+KPDZB2G
- Oq2rKjg3PcmQ6QJuv02gmSnlDR6+W0FJ6I7CDF1vKR8DUcOpumtVWqKYU3Q/xYP3DNgg/KR7V8uUp
- Sjtqu2gdb19JzmLSGzPhptvO846Ick13R0oTl58IwEn9Oipv/GhF9Np9hw63jsKDkQlT4dpJYLiPQ
- 3KZ01uvW3ys592KHNx+H/xFfQw/zHmxKjSRmJL0sZrzTcbmwZJDE7aGagChRGvl6uO9r0hehlSsVR
- mhF6EdYw==;
+ bh=SXfy4s8hoEPUTYM9kHHNonZmUe909URW6TTsyKH/U90=; b=BHzl7brWOE/xtPuLFhRTe7TuHr
+ CCuWDnC47LTjBL2g1BoQKbHUoik8thlIDKyGFVrzXe/dGQN/+q/AWwhzkDSG6NdRqMWTmAk7orOgm
+ KZqZo4YCrM1c5gq6KJoBazV729nnyG74Kar8Gv8V0vLg66n2prPHvabelgflf6qaiTIOa9nfeH69h
+ ftQrsd9dF9OF9hUH3f7nuXp5nYN33gwIU7KdPW/+hieD4Z1ZUvgHpBdGlk2kU5ZtnPCHRdTHe98Ai
+ 4V4Av/tH/K18dDGBupBS5yz0N4oKJW3RHAb9dz2rzhTisd+rpgJpzqbgkHksBZ2JSO2NF4fo9vQ3a
+ 9Yf47kmw==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1kb56Z-0002Pa-5l; Fri, 06 Nov 2020 10:00:52 -0700
+ id 1kb56k-0002Pa-Ak; Fri, 06 Nov 2020 10:01:05 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1kb56U-0004sz-Hw; Fri, 06 Nov 2020 10:00:46 -0700
+ id 1kb56U-0004t2-LB; Fri, 06 Nov 2020 10:00:46 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Fri,  6 Nov 2020 10:00:25 -0700
-Message-Id: <20201106170036.18713-5-logang@deltatee.com>
+Date: Fri,  6 Nov 2020 10:00:26 -0700
+Message-Id: <20201106170036.18713-6-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201106170036.18713-1-logang@deltatee.com>
 References: <20201106170036.18713-1-logang@deltatee.com>
@@ -71,8 +71,8 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  iweiny@intel.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org,
  daniel.vetter@ffwll.ch, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [RFC PATCH 04/15] lib/scatterlist: Add flag for indicating P2PDMA
- segments in an SGL
+Subject: [RFC PATCH 05/15] dma-direct: Support PCI P2PDMA pages in dma-direct
+ map_sg
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: John Hubbard <jhubbard@nvidia.com>, Ira Weiny <iweiny@intel.com>,
@@ -98,33 +98,107 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-We make use of the top bit of the dma_length to indicate a P2PDMA
-segment. Code that uses this will need to use sg_dma_p2pdma_len() to
-get the length and ensure no lengths exceed 2GB.
+Add PCI P2PDMA support for dma_direct_map_sg() so that it can map
+PCI P2PDMA pages directly without a hack in the callers. This allows
+for heterogeneous SGLs that contain both P2PDMA and regular pages.
 
-An sg_dma_is_p2pdma() helper is included to check if a particular
-segment is p2pdma().
+The DMA_ATTR_P2PDMA flag is added to allow callers to indicate support
+for P2PDMA pages. In order for a caller to support P2PDMA pages they
+must ensure no segment is greater than 2GB such that the high bit
+of the dma length can be used as a flag to indicate a P2PDMA segment.
+Such code must then ensure to use sg_dma_p2pdma_len() instead of
+sg_dma_len() to filter out the flag.
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- include/linux/scatterlist.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/linux/dma-mapping.h | 11 +++++++++++
+ kernel/dma/direct.c         | 33 +++++++++++++++++++++++++++++++--
+ 2 files changed, 42 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-index 36c47e7e66a2..e738159d56f9 100644
---- a/include/linux/scatterlist.h
-+++ b/include/linux/scatterlist.h
-@@ -39,6 +39,10 @@ struct scatterlist {
- #define sg_dma_len(sg)		((sg)->length)
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 956151052d45..8d028e15b531 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -61,6 +61,17 @@
+  */
+ #define DMA_ATTR_PRIVILEGED		(1UL << 9)
+ 
++/*
++ * DMA_ATTR_P2PDMA: specifies that dma_map_sg() may return p2pdma
++ * bus addresses. Code that specifies this must ensure to
++ * use sg_dma_p2pdma_len() instead of sg_dma_len() as the high
++ * bit of the length will indicate a P2PDMA bus address.
++ *
++ * If this attribute is not set and P2PDMA pages are encountered,
++ * dma_map_sg() will return an error.
++ */
++#define DMA_ATTR_P2PDMA			(1UL << 10)
++
+ /*
+  * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
+  * be given to a device to use as a DMA source or target.  It is specific to a
+diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+index 06c111544f61..2fcb31789436 100644
+--- a/kernel/dma/direct.c
++++ b/kernel/dma/direct.c
+@@ -13,6 +13,7 @@
+ #include <linux/vmalloc.h>
+ #include <linux/set_memory.h>
+ #include <linux/slab.h>
++#include <linux/pci-p2pdma.h>
+ #include "direct.h"
+ 
+ /*
+@@ -387,19 +388,47 @@ void dma_direct_unmap_sg(struct device *dev, struct scatterlist *sgl,
+ 	struct scatterlist *sg;
+ 	int i;
+ 
+-	for_each_sg(sgl, sg, nents, i)
++	for_each_sg(sgl, sg, nents, i) {
++		if (attrs & DMA_ATTR_P2PDMA && sg_dma_is_p2pdma(sg)) {
++			sg_dma_len(sg) &= ~SG_P2PDMA_FLAG;
++			continue;
++		}
++
+ 		dma_direct_unmap_page(dev, sg->dma_address, sg_dma_len(sg), dir,
+ 			     attrs);
++	}
+ }
  #endif
  
-+#define SG_P2PDMA_FLAG	(1U << 31)
-+#define sg_dma_p2pdma_len(sg)	(sg_dma_len(sg) & ~SG_P2PDMA_FLAG)
-+#define sg_dma_is_p2pdma(sg)	(sg_dma_len(sg) & SG_P2PDMA_FLAG)
+ int dma_direct_map_sg(struct device *dev, struct scatterlist *sgl, int nents,
+ 		enum dma_data_direction dir, unsigned long attrs)
+ {
+-	int i;
++	struct dev_pagemap *pgmap = NULL;
++	int i, map = -1;
+ 	struct scatterlist *sg;
++	u64 bus_off;
+ 
+ 	for_each_sg(sgl, sg, nents, i) {
++		if (is_pci_p2pdma_page(sg_page(sg))) {
++			if (sg_page(sg)->pgmap != pgmap) {
++				pgmap = sg_page(sg)->pgmap;
++				map = pci_p2pdma_should_map_bus(dev, pgmap);
++				bus_off = pci_p2pdma_bus_offset(sg_page(sg));
++			}
 +
- struct sg_table {
- 	struct scatterlist *sgl;	/* the list */
- 	unsigned int nents;		/* number of mapped entries */
++			if (map < 0 || !(attrs & DMA_ATTR_P2PDMA)) {
++				sg->dma_address = DMA_MAPPING_ERROR;
++				goto out_unmap;
++			}
++
++			if (map) {
++				sg->dma_address = sg_phys(sg) + sg->offset -
++					bus_off;
++				sg_dma_len(sg) = sg->length | SG_P2PDMA_FLAG;
++				continue;
++			}
++		}
++
+ 		sg->dma_address = dma_direct_map_page(dev, sg_page(sg),
+ 				sg->offset, sg->length, dir, attrs);
+ 		if (sg->dma_address == DMA_MAPPING_ERROR)
 -- 
 2.20.1
 
