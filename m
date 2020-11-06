@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE0212A9AE3
-	for <lists.iommu@lfdr.de>; Fri,  6 Nov 2020 18:33:27 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4842A9ADD
+	for <lists.iommu@lfdr.de>; Fri,  6 Nov 2020 18:33:04 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 895F986A11;
-	Fri,  6 Nov 2020 17:33:26 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E45942E0E7;
+	Fri,  6 Nov 2020 17:33:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qvtIbgHGQ0q8; Fri,  6 Nov 2020 17:33:25 +0000 (UTC)
+	with ESMTP id N39AZdgPUouM; Fri,  6 Nov 2020 17:33:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id CC20A86A51;
-	Fri,  6 Nov 2020 17:33:25 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D95422E148;
+	Fri,  6 Nov 2020 17:32:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B8077C0889;
-	Fri,  6 Nov 2020 17:33:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BEC89C088B;
+	Fri,  6 Nov 2020 17:32:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 57FCAC088B
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:33:24 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B9534C0889
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:32:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 397E32045A
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:33:24 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id B3FAC2E0E7
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:32:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6C3dmGc4Zbbc for <iommu@lists.linux-foundation.org>;
- Fri,  6 Nov 2020 17:33:10 +0000 (UTC)
+ with ESMTP id mKj4SCmv-9-7 for <iommu@lists.linux-foundation.org>;
+ Fri,  6 Nov 2020 17:32:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by silver.osuosl.org (Postfix) with ESMTPS id D9ECE2E16D
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:33:08 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id A53C02E141
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:32:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=q5mN94C0GkWo+VfB8UZJYJyJ0FbV13s+5fRAPuv9Vi0=; b=q9ieAOfgH5dn9nd+5h7la82GAr
- H6p3fUY3rpgzh4OPt3P1l1PuI9h7ecYxc7I5RndJ9a1n+B3tAZOi3clUR6aY36i+UdMJ4QIggspKI
- 6yb0s5rFl52pn/iuYtn20KNAe0dPDeUcJ8r2/dH+kZBokpsnruyp6xIniH+mT6z1cfVu4jfHwFsJC
- Hya2i2aUU1+GBaL5H5SwAp5e2z/heNFpcz8WmQlpjcq2aUmtRexe2J/4Xs9krhy3OVkBJDAKfiql6
- 45GoV6VNGLaXjtSsULb9F/djCFEJ6Wk3aUs+czOqwLS3/XaChCuurdh1t143XkBIpFwDoxq/zLNqq
- QaXyaDng==;
+ bh=zgGEpEC881xygcChLUzP5MM+TPIgCL+RooeJy/MEFvk=; b=soNcve2wKJLNlkdIcwhFKrP00x
+ UXFJJhudsSkX2SoBn5CzMojAj0uyR2/WZqlCmQ/roDA/tjn6xVSzQu+640oHm0jxA9uJO+KPDZB2G
+ Oq2rKjg3PcmQ6QJuv02gmSnlDR6+W0FJ6I7CDF1vKR8DUcOpumtVWqKYU3Q/xYP3DNgg/KR7V8uUp
+ Sjtqu2gdb19JzmLSGzPhptvO846Ick13R0oTl58IwEn9Oipv/GhF9Np9hw63jsKDkQlT4dpJYLiPQ
+ 3KZ01uvW3ys592KHNx+H/xFfQw/zHmxKjSRmJL0sZrzTcbmwZJDE7aGagChRGvl6uO9r0hehlSsVR
+ mhF6EdYw==;
 Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
  by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
- id 1kb56Z-0002PY-5k; Fri, 06 Nov 2020 10:00:53 -0700
+ id 1kb56Z-0002Pa-5l; Fri, 06 Nov 2020 10:00:52 -0700
 Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
  (envelope-from <gunthorp@deltatee.com>)
- id 1kb56U-0004sw-Eh; Fri, 06 Nov 2020 10:00:46 -0700
+ id 1kb56U-0004sz-Hw; Fri, 06 Nov 2020 10:00:46 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
 To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
  linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
  iommu@lists.linux-foundation.org
-Date: Fri,  6 Nov 2020 10:00:24 -0700
-Message-Id: <20201106170036.18713-4-logang@deltatee.com>
+Date: Fri,  6 Nov 2020 10:00:25 -0700
+Message-Id: <20201106170036.18713-5-logang@deltatee.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201106170036.18713-1-logang@deltatee.com>
 References: <20201106170036.18713-1-logang@deltatee.com>
@@ -71,8 +71,8 @@ X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
  iweiny@intel.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org,
  daniel.vetter@ffwll.ch, logang@deltatee.com
 X-SA-Exim-Mail-From: gunthorp@deltatee.com
-Subject: [RFC PATCH 03/15] PCI/P2PDMA: Introduce pci_p2pdma_should_map_bus()
- and pci_p2pdma_bus_offset()
+Subject: [RFC PATCH 04/15] lib/scatterlist: Add flag for indicating P2PDMA
+ segments in an SGL
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 Cc: John Hubbard <jhubbard@nvidia.com>, Ira Weiny <iweiny@intel.com>,
@@ -98,104 +98,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Introduce pci_p2pdma_should_map_bus() which is meant to be called by
-dma map functions to determine how to map a given p2pdma page.
+We make use of the top bit of the dma_length to indicate a P2PDMA
+segment. Code that uses this will need to use sg_dma_p2pdma_len() to
+get the length and ensure no lengths exceed 2GB.
 
-pci_p2pdma_bus_offset() is also added to allow callers to get the bus
-offset if they need to map the bus address.
+An sg_dma_is_p2pdma() helper is included to check if a particular
+segment is p2pdma().
 
 Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
 ---
- drivers/pci/p2pdma.c       | 46 ++++++++++++++++++++++++++++++++++++++
- include/linux/pci-p2pdma.h | 11 +++++++++
- 2 files changed, 57 insertions(+)
+ include/linux/scatterlist.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index ea8472278b11..9961e779f430 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -930,6 +930,52 @@ void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
- }
- EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg_attrs);
+diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
+index 36c47e7e66a2..e738159d56f9 100644
+--- a/include/linux/scatterlist.h
++++ b/include/linux/scatterlist.h
+@@ -39,6 +39,10 @@ struct scatterlist {
+ #define sg_dma_len(sg)		((sg)->length)
+ #endif
  
-+/**
-+ * pci_p2pdma_bus_offset - returns the bus offset for a given page
-+ * @page: page to get the offset for
-+ *
-+ * Must be passed a pci p2pdma page.
-+ */
-+u64 pci_p2pdma_bus_offset(struct page *page)
-+{
-+	struct pci_p2pdma_pagemap *p2p_pgmap = to_p2p_pgmap(page->pgmap);
++#define SG_P2PDMA_FLAG	(1U << 31)
++#define sg_dma_p2pdma_len(sg)	(sg_dma_len(sg) & ~SG_P2PDMA_FLAG)
++#define sg_dma_is_p2pdma(sg)	(sg_dma_len(sg) & SG_P2PDMA_FLAG)
 +
-+	WARN_ON(!is_pci_p2pdma_page(page));
-+
-+	return p2p_pgmap->bus_offset;
-+}
-+EXPORT_SYMBOL_GPL(pci_p2pdma_bus_offset);
-+
-+/**
-+ * pci_p2pdma_should_map_bus - determine if a dma mapping should use the
-+ *	bus address
-+ * @dev: device doing the DMA request
-+ * @pgmap: dev_pagemap structure for the mapping
-+ *
-+ * Returns 1 if the page should be mapped with a bus address, 0 otherwise
-+ * and -1 the device should not be mapping P2PDMA pages.
-+ */
-+int pci_p2pdma_should_map_bus(struct device *dev, struct dev_pagemap *pgmap)
-+{
-+	struct pci_p2pdma_pagemap *p2p_pgmap = to_p2p_pgmap(pgmap);
-+	struct pci_dev *client;
-+
-+	if (!dev_is_pci(dev))
-+		return -1;
-+
-+	client = to_pci_dev(dev);
-+
-+	switch (pci_p2pdma_map_type(p2p_pgmap->provider, client)) {
-+	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-+		return 0;
-+	case PCI_P2PDMA_MAP_BUS_ADDR:
-+		return 1;
-+	default:
-+		return -1;
-+	}
-+}
-+EXPORT_SYMBOL_GPL(pci_p2pdma_should_map_bus);
-+
- /**
-  * pci_p2pdma_enable_store - parse a configfs/sysfs attribute store
-  *		to enable p2pdma
-diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index 8318a97c9c61..fc5de47eeac4 100644
---- a/include/linux/pci-p2pdma.h
-+++ b/include/linux/pci-p2pdma.h
-@@ -34,6 +34,8 @@ int pci_p2pdma_map_sg_attrs(struct device *dev, struct scatterlist *sg,
- 		int nents, enum dma_data_direction dir, unsigned long attrs);
- void pci_p2pdma_unmap_sg_attrs(struct device *dev, struct scatterlist *sg,
- 		int nents, enum dma_data_direction dir, unsigned long attrs);
-+u64 pci_p2pdma_bus_offset(struct page *page);
-+int pci_p2pdma_should_map_bus(struct device *dev, struct dev_pagemap *pgmap);
- int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
- 			    bool *use_p2pdma);
- ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
-@@ -83,6 +85,15 @@ static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
- static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- {
- }
-+static inline u64 pci_p2pdma_bus_offset(struct page *page)
-+{
-+	return -1;
-+}
-+static inline int pci_p2pdma_should_map_bus(struct device *dev,
-+					    struct dev_pagemap *pgmap)
-+{
-+	return -1;
-+}
- static inline int pci_p2pdma_map_sg_attrs(struct device *dev,
- 		struct scatterlist *sg, int nents, enum dma_data_direction dir,
- 		unsigned long attrs)
+ struct sg_table {
+ 	struct scatterlist *sgl;	/* the list */
+ 	unsigned int nents;		/* number of mapped entries */
 -- 
 2.20.1
 
