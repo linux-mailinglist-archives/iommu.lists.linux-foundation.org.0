@@ -1,87 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990762A9AC3
-	for <lists.iommu@lfdr.de>; Fri,  6 Nov 2020 18:28:18 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 198B02A9AE1
+	for <lists.iommu@lfdr.de>; Fri,  6 Nov 2020 18:33:13 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4385E86A11;
-	Fri,  6 Nov 2020 17:28:17 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id CD1DC86C55;
+	Fri,  6 Nov 2020 17:33:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eYK5c5twuBnW; Fri,  6 Nov 2020 17:28:16 +0000 (UTC)
+	with ESMTP id US+L5fYGoIoh; Fri,  6 Nov 2020 17:33:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 44852860FC;
-	Fri,  6 Nov 2020 17:28:16 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6392086C78;
+	Fri,  6 Nov 2020 17:33:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3062AC0889;
-	Fri,  6 Nov 2020 17:28:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A8BEC0889;
+	Fri,  6 Nov 2020 17:33:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7C4EAC0889
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:28:14 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 079F4C088B
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:33:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 6C72486A0F
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:28:14 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id E4FD886A78
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:33:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WXpcVCu5HGe1 for <iommu@lists.linux-foundation.org>;
- Fri,  6 Nov 2020 17:28:13 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+ with ESMTP id oa_zeEOr0Eb4 for <iommu@lists.linux-foundation.org>;
+ Fri,  6 Nov 2020 17:33:07 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C9198860FC
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:28:13 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id EBBCF86A54
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 17:33:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=QpuHLB0GpYTnQrdJoCEWfsKDl3xh5PNClZ27s55U+do=; b=ZP0R0HzdgH1uFfEUZzzikuYDfI
- zqaPSQGeQvgM5YjaFvhCmlSs4rN5X1m1sqlZV9ed6j0uJF7a1RS+fTwtp1gP1X9N8KodSiYvt+uPN
- uZQKAE5qAr8FdL5Owfwzb8VEesIyBead7s8R6Zm9WHJN4vMTNGcM+ddbVw9gYc4myoSfcTyFWsqC7
- 47NWcc50emSaTQajUsHV0+gGGJfZIMPB5+TQg9V0LSTnPdPKecJnCqfC70vqTLUhWCaTf31rwFOlt
- UmzKn/5wlKuw9Wdl7UBmStDMNhpka7cU6SP3l8+zi591j4n58kY7NS/qm8hOrSau9vRmLye1yHat0
- 4ObFWpcQ==;
-Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1kb5Wu-00036E-5n; Fri, 06 Nov 2020 10:28:05 -0700
-To: Jason Gunthorpe <jgg@ziepe.ca>
-References: <20201106170036.18713-1-logang@deltatee.com>
- <20201106170036.18713-15-logang@deltatee.com>
- <20201106172206.GS36674@ziepe.ca>
+ bh=QghfGn0XJlLalBYUlEV3tKSl1nQDSW7GcuVBagc2hq4=; b=oAjEwr76TG6NvxLQ6kuNQsWpFf
+ Z+k+ic3yRFpJ1nQs2zquoS7aZCtAV4GbSDqKqm9B6cdICtbKyaGqJ4H6IjZPjNpdtl2v7gcLFTmPr
+ i4quG8H0mgGrAlVVtdoH2v5j5VFNbOWzgFJDI49oE4OcSJtyoVg3ZQW3auqLoSfbrmkVbRCMix8RS
+ OEbjP1xCjDKn3C2oFyTXmTqOtAJnJq19YJSGZEDGL6W66eBoKK1Zhfc7VJFbptWOcqM1wb0pSWeK1
+ Z7srBW+/DJ9DSjWucbzDVqsWWxKifdPiAVpFF2bHQFYF98f4ljdv6zHJmh93Rbm3sJoMWrWmR8M9C
+ IoAT3nFg==;
+Received: from cgy1-donard.priv.deltatee.com ([172.16.1.31])
+ by ale.deltatee.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <gunthorp@deltatee.com>)
+ id 1kb56Z-0002PV-5l; Fri, 06 Nov 2020 10:00:54 -0700
+Received: from gunthorp by cgy1-donard.priv.deltatee.com with local (Exim 4.92)
+ (envelope-from <gunthorp@deltatee.com>)
+ id 1kb56U-0004so-1K; Fri, 06 Nov 2020 10:00:46 -0700
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <b1e8dfce-d583-bed8-d04d-b7265a54c99f@deltatee.com>
-Date: Fri, 6 Nov 2020 10:28:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+To: linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org
+Date: Fri,  6 Nov 2020 10:00:21 -0700
+Message-Id: <20201106170036.18713-1-logang@deltatee.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201106172206.GS36674@ziepe.ca>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 24.64.145.4
-X-SA-Exim-Rcpt-To: daniel.vetter@ffwll.ch, willy@infradead.org,
- ddutile@redhat.com, jhubbard@nvidia.com, iweiny@intel.com,
- christian.koenig@amd.com, dan.j.williams@intel.com, hch@lst.de,
- sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, jgg@ziepe.ca
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [RFC PATCH 14/15] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
+X-SA-Exim-Connect-IP: 172.16.1.31
+X-SA-Exim-Rcpt-To: linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org, sbates@raithlin.com, hch@lst.de,
+ jgg@ziepe.ca, christian.koenig@amd.com, dan.j.williams@intel.com,
+ iweiny@intel.com, jhubbard@nvidia.com, ddutile@redhat.com, willy@infradead.org,
+ daniel.vetter@ffwll.ch, logang@deltatee.com
+X-SA-Exim-Mail-From: gunthorp@deltatee.com
+Subject: [RFC PATCH 00/15] Userspace P2PDMA with O_DIRECT NVMe devices
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-pci@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Ira Weiny <iweiny@intel.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
- linux-block@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Matthew Wilcox <willy@infradead.org>,
- John Hubbard <jhubbard@nvidia.com>, Dan Williams <dan.j.williams@intel.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: John Hubbard <jhubbard@nvidia.com>, Ira Weiny <iweiny@intel.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dan Williams <dan.j.williams@intel.com>, Stephen Bates <sbates@raithlin.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,57 +95,103 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+This RFC enables P2PDMA transfers in userspace between NVMe drives using
+existing O_DIRECT operations or the NVMe passthrough IOCTL.
 
+This is accomplished by allowing userspace to allocate chunks of any CMB
+by mmaping the NVMe ctrl device (Patches 14 and 15). The resulting memory
+will be backed by P2P pages and can be passed only to O_DIRECT
+operations. A flag is added to GUP() in Patch 10 and Patches 11 through 13
+wire this flag up based on whether the block queue indicates P2PDMA
+support.
 
-On 2020-11-06 10:22 a.m., Jason Gunthorpe wrote:
-> On Fri, Nov 06, 2020 at 10:00:35AM -0700, Logan Gunthorpe wrote:
->> Introduce pci_mmap_p2pmem() which is a helper to allocate and mmap
->> a hunk of p2pmem into userspace.
->>
->> Signed-off-by: Logan Gunthorpe <logang@deltatee.com>
->>  drivers/pci/p2pdma.c       | 104 +++++++++++++++++++++++++++++++++++++
->>  include/linux/pci-p2pdma.h |   6 +++
->>  2 files changed, 110 insertions(+)
->>
->> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
->> index 9961e779f430..8eab53ac59ae 100644
->> +++ b/drivers/pci/p2pdma.c
->> @@ -16,6 +16,7 @@
->>  #include <linux/genalloc.h>
->>  #include <linux/memremap.h>
->>  #include <linux/percpu-refcount.h>
->> +#include <linux/pfn_t.h>
->>  #include <linux/random.h>
->>  #include <linux/seq_buf.h>
->>  #include <linux/xarray.h>
->> @@ -1055,3 +1056,106 @@ ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
->>  	return sprintf(page, "%s\n", pci_name(p2p_dev));
->>  }
->>  EXPORT_SYMBOL_GPL(pci_p2pdma_enable_show);
->> +
->> +struct pci_p2pdma_map {
->> +	struct kref ref;
->> +	struct pci_dev *pdev;
->> +	void *kaddr;
->> +	size_t len;
->> +};
-> 
-> Why have this at all? Nothing uses it and no vm_operations ops are
-> implemented?
+The above is pretty straight forward and (I hope) largely uncontroversial.
+However, the one significant problem in all this is that, presently,
+pci_p2pdma_map_sg() requires a homogeneous SGL with all P2PDMA pages or
+none. Enhancing GUP to support enforcing this rule would require a huge
+hack that I don't expect would be all that pallatable. So this RFC takes
+the approach of removing the requirement of having a homogeneous SGL.
 
-It's necessary to free the allocated p2pmem when the mapping is torn down.
+With the new common dma-iommu infrastructure, this patchset adds
+support for P2PDMA pages into dma_map_sg() which will support AMD,
+Intel (soon) and dma-direct implementations. (Other IOMMU
+implementations would then be unsupported, notably ARM and PowerPC).
 
-> This is very inflexable, it would be better if this is designed like
-> io_remap_pfn where it just preps and fills the VMA, doesn't take
-> ownership of the entire VMA
+The other major blocker is that in order to implement support for
+P2PDMA pages in dma_map_sg(), a flag is necessary to determine if a
+given dma_addr_t points to P2PDMA memory or to an IOVA so that it can
+be unmapped appropriately in dma_unmap_sg(). The (ugly) approach this
+RFC takes is to use the top bit in the dma_length field and ensure
+callers are prepared for it using a new DMA_ATTR_P2PDMA flag.
 
-If someone wants to manage their own P2P memory and create their own
-userspace mapping with vmf_insert_mixed they are free to do so. But this
-helper is specifically for users of pci_p2pdma_map_alloc(). I know you
-don't intend to use that but it doesn't make it any less valid.
+I suspect, the ultimate solution to this blocker will be to implement
+some kind of new dma_op that doesn't use the SGL. Ideas have been
+thrown around in the past for one that maps some kind of novel dma_vec
+directly from a bio_vec. This will become a lot easier to implement if
+more dma_ops providers get converted to the new dma-iommu
+implementation, but this will take time.
+
+Alternative ideas or other feedback welcome.
+
+This series is based on v5.10-rc2 with Lu Baolu's (and Tom Murphy's)
+v4 patchset for converting the Intel IOMMU to dma-iommu[1]. A git
+branch is available here:
+
+  https://github.com/sbates130272/linux-p2pmem/  p2pdma_user_cmb_rfc
+
+Thanks,
 
 Logan
 
+[1] https://lkml.kernel.org/lkml/20200927063437.13988-1-baolu.lu@linux.intel.com/T/#u.
+
+
+Logan Gunthorpe (15):
+  PCI/P2PDMA: Don't sleep in upstream_bridge_distance_warn()
+  PCI/P2PDMA: Attempt to set map_type if it has not been set
+  PCI/P2PDMA: Introduce pci_p2pdma_should_map_bus() and
+    pci_p2pdma_bus_offset()
+  lib/scatterlist: Add flag for indicating P2PDMA segments in an SGL
+  dma-direct: Support PCI P2PDMA pages in dma-direct map_sg
+  dma-mapping: Add flags to dma_map_ops to indicate PCI P2PDMA support
+  iommu/dma: Support PCI P2PDMA pages in dma-iommu map_sg
+  nvme-pci: Check DMA ops when indicating support for PCI P2PDMA
+  nvme-pci: Convert to using dma_map_sg for p2pdma pages
+  mm: Introduce FOLL_PCI_P2PDMA to gate getting PCI P2PDMA pages
+  iov_iter: Introduce iov_iter_get_pages_[alloc_]flags()
+  block: Set FOLL_PCI_P2PDMA in __bio_iov_iter_get_pages()
+  block: Set FOLL_PCI_P2PDMA in bio_map_user_iov()
+  PCI/P2PDMA: Introduce pci_mmap_p2pmem()
+  nvme-pci: Allow mmaping the CMB in userspace
+
+ block/bio.c                 |   7 +-
+ block/blk-map.c             |   7 +-
+ drivers/dax/super.c         |   7 +-
+ drivers/iommu/dma-iommu.c   |  63 +++++++++++--
+ drivers/nvme/host/core.c    |  14 ++-
+ drivers/nvme/host/nvme.h    |   3 +-
+ drivers/nvme/host/pci.c     |  50 ++++++----
+ drivers/pci/p2pdma.c        | 178 +++++++++++++++++++++++++++++++++---
+ include/linux/dma-map-ops.h |   3 +
+ include/linux/dma-mapping.h |  16 ++++
+ include/linux/memremap.h    |   4 +-
+ include/linux/mm.h          |   1 +
+ include/linux/pci-p2pdma.h  |  17 ++++
+ include/linux/scatterlist.h |   4 +
+ include/linux/uio.h         |  21 ++++-
+ kernel/dma/direct.c         |  33 ++++++-
+ kernel/dma/mapping.c        |   8 ++
+ lib/iov_iter.c              |  25 ++---
+ mm/gup.c                    |  28 +++---
+ mm/huge_memory.c            |   8 +-
+ mm/memory-failure.c         |   4 +-
+ mm/memremap.c               |  14 ++-
+ 22 files changed, 427 insertions(+), 88 deletions(-)
+
+
+base-commit: 5ba8a2512e8c5f5cf9b7309dc895612f0a77a399
+--
+2.20.1
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
