@@ -1,91 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2502A9BE7
-	for <lists.iommu@lfdr.de>; Fri,  6 Nov 2020 19:20:24 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id B49F72A9BFB
+	for <lists.iommu@lfdr.de>; Fri,  6 Nov 2020 19:24:34 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 8FD0D87526;
-	Fri,  6 Nov 2020 18:20:23 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5997F86A9E;
+	Fri,  6 Nov 2020 18:24:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mw++C2235z-v; Fri,  6 Nov 2020 18:20:23 +0000 (UTC)
+	with ESMTP id QYJvmvim2JVA; Fri,  6 Nov 2020 18:24:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 070E68755B;
-	Fri,  6 Nov 2020 18:20:23 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E74FA85C5E;
+	Fri,  6 Nov 2020 18:24:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E6BDCC0889;
-	Fri,  6 Nov 2020 18:20:22 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CC640C0889;
+	Fri,  6 Nov 2020 18:24:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CE097C1AD6
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 18:20:18 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2010DC0889
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 18:24:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id AEFAE86C55
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 18:20:18 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 1807B2E11D
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 18:24:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WBjpyU3iDGP3 for <iommu@lists.linux-foundation.org>;
- Fri,  6 Nov 2020 18:20:18 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 24C3186BF1
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 18:20:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=4c2lQ6ZJoiJD4wddIsh1sqnOjISbk8NdEHLgyMHjsI4=; b=WEavvMGUHHtVS6NthMSIjYgE8G
- m2Shk+887YnWyl84qAu5c5aSnwfmdgsQkwuV6Qk/VTpfpITmSKpZTStz2VoJeuvrgKYFgbkpcC2x9
- +Eygs4xkSnIjwB3jk8TQYbV+xWQY2KzZLECeTap/XHrhF7RfsNefRy2cKKo9kcYj3Hkd43uD6lH8r
- UeDxe01Yy7KFTC7wo/J2Zw1d3VJYZkJMQ5JZSmcYq3a5l1dL0v2dLl8ounQVMEe9onzzakY4UYleu
- immFBl00AOuIB6Gr3JQNUHz9T+DktFRE1Gznw7frT3XHfeD8UYFSjQcgB6Z9ymXrL/hXHs6bQE5SP
- AZUhpu/A==;
-Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1kb6LI-0003vN-G2; Fri, 06 Nov 2020 11:20:09 -0700
-To: Jason Gunthorpe <jgg@ziepe.ca>
-References: <20201106170036.18713-1-logang@deltatee.com>
- <20201106170036.18713-15-logang@deltatee.com>
- <20201106172206.GS36674@ziepe.ca>
- <b1e8dfce-d583-bed8-d04d-b7265a54c99f@deltatee.com>
- <20201106174223.GU36674@ziepe.ca>
- <2c2d2815-165e-2ef9-60d6-3ace7ff3aaa5@deltatee.com>
- <20201106180922.GV36674@ziepe.ca>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <09885400-36f8-bc1d-27f0-a8adcf6104d4@deltatee.com>
-Date: Fri, 6 Nov 2020 11:20:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ with ESMTP id sVO5DwbRktz4 for <iommu@lists.linux-foundation.org>;
+ Fri,  6 Nov 2020 18:24:29 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8B71920334
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 18:24:29 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 9DA7368B02; Fri,  6 Nov 2020 19:24:24 +0100 (CET)
+Date: Fri, 6 Nov 2020 19:24:24 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Subject: Re: [PATCH v3] swiotlb: Adjust SWIOTBL bounce buffer size for SEV
+ guests.
+Message-ID: <20201106182424.GA9330@lst.de>
+References: <20201104220804.21026-1-Ashish.Kalra@amd.com>
+ <20201104221452.GA26079@char.us.oracle.com>
+ <20201104223913.GA25311@ashkalra_ubuntu_server>
+ <20201105174317.GA4294@char.us.oracle.com>
+ <20201105184115.GA25261@ashkalra_ubuntu_server>
+ <20201105190649.GB5366@char.us.oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20201106180922.GV36674@ziepe.ca>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 24.64.145.4
-X-SA-Exim-Rcpt-To: daniel.vetter@ffwll.ch, willy@infradead.org,
- ddutile@redhat.com, jhubbard@nvidia.com, iweiny@intel.com,
- christian.koenig@amd.com, dan.j.williams@intel.com, hch@lst.de,
- sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, jgg@ziepe.ca
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [RFC PATCH 14/15] PCI/P2PDMA: Introduce pci_mmap_p2pmem()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- linux-pci@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Ira Weiny <iweiny@intel.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
- linux-block@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org, Matthew Wilcox <willy@infradead.org>,
- John Hubbard <jhubbard@nvidia.com>, Dan Williams <dan.j.williams@intel.com>,
- Christoph Hellwig <hch@lst.de>
+Content-Disposition: inline
+In-Reply-To: <20201105190649.GB5366@char.us.oracle.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Thomas.Lendacky@amd.com, Ashish Kalra <ashish.kalra@amd.com>,
+ brijesh.singh@amd.com, ssg.sos.patches@amd.com, dave.hansen@linux-intel.com,
+ peterz@infradead.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, mingo@redhat.com, bp@alien8.de,
+ luto@kernel.org, hpa@zytor.com, tglx@linutronix.de, hch@lst.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,41 +74,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-
-
-On 2020-11-06 11:09 a.m., Jason Gunthorpe wrote:
->> Ah, hmm, yes. I guess the pages have to be hooked and returned to the
->> genalloc through free_devmap_managed_page(). 
+On Thu, Nov 05, 2020 at 02:06:49PM -0500, Konrad Rzeszutek Wilk wrote:
+> .
+> > > Right, so I am wondering if we can do this better.
+> > > 
+> > > That is you are never going to get any 32-bit devices with SEV right? That
+> > > is there is nothing that bounds you to always use the memory below 4GB?
+> > > 
+> > 
+> > We do support 32-bit PCIe passthrough devices with SEV.
 > 
-> That sounds about right, but in this case it doesn't need the VMA
-> operations.
-> 
->> Seems like it might be doable... but it will complicate things for
->> users that don't want to use the genpool (though no such users exist
->> upstream).
-> 
-> I would like to use this stuff in RDMA pretty much immediately and the
-> genpool is harmful for those cases, so please don't make decisions
-> that are tying thing to genpool
+> Ewww..  Which devices would this be?
 
-I certainly can't make decisions for code that isn't currently upstream.
-So you will almost certainly have to make changes for the code you want
-to add, as is the standard procedure. I can't and should not export APIs
-that you might need that have no upstream users, but you are certainly
-free to send patches that create them when you add the use case.
-
-Ultimately, if you aren't using the genpool you will have to implement
-your own mmap operation that somehow allocates the pages and your own
-page_free hook. The latter can be accommodated for by a patch that
-splits off pci_p2pdma_add_resource() into a function that doesn't use
-the genpool (I've already seen two independent developers create a
-similar patch for this but with no upstream user, they couldn't be taken
-upstream).
-
-I also don't expect this to be going upstream in the near term so don't
-get too excited about using it.
-
-Logan
+There is still some new broken shit like that that keeps appearing.
+GPU is pretty famouts for supporting less than 64-bit addressing,
+even if it isn't all the way down to 32-bit.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
