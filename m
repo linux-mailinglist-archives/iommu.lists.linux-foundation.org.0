@@ -1,57 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31AF22A9BDF
-	for <lists.iommu@lfdr.de>; Fri,  6 Nov 2020 19:20:22 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9EAA2A9BE6
+	for <lists.iommu@lfdr.de>; Fri,  6 Nov 2020 19:20:24 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 571FE87546;
-	Fri,  6 Nov 2020 18:20:20 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 90E7B86A9E;
+	Fri,  6 Nov 2020 18:20:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vvz5exWnWtcg; Fri,  6 Nov 2020 18:20:19 +0000 (UTC)
+	with ESMTP id 1UkbbAgUDgQY; Fri,  6 Nov 2020 18:20:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id BB4538754B;
-	Fri,  6 Nov 2020 18:20:19 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3F43786AC1;
+	Fri,  6 Nov 2020 18:20:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B3167C0889;
-	Fri,  6 Nov 2020 18:20:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2C735C0889;
+	Fri,  6 Nov 2020 18:20:22 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 54986C1AD6
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 18:20:17 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 112F7C0889
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 18:20:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1E90F20386
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 18:20:17 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 0B87A86BF1
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 18:20:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8Huoo9NLCiiS for <iommu@lists.linux-foundation.org>;
- Fri,  6 Nov 2020 18:20:16 +0000 (UTC)
+ with ESMTP id YmCBd3pl6wNK for <iommu@lists.linux-foundation.org>;
+ Fri,  6 Nov 2020 18:20:17 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by silver.osuosl.org (Postfix) with ESMTPS id 4E6D8203FE
- for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 18:20:16 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 3C99086B14
+ for <iommu@lists.linux-foundation.org>; Fri,  6 Nov 2020 18:20:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
  References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description;
- bh=8HNfwBlNSAg+LZJvcmYMWBom95EiBVW9juhSXpZeH6I=; b=vUzrjATA0760PXkfY/rEEuFcPj
- R1Dhmwia29RBnH9AimhaYVEMgXT968d8IQr3gNYrlnaaZqd6fj7BduqWhsLMygJdTGu5iUxecX1mz
- UYKNlcL3DDw0tvT/6CCZLdDGYHn5sl9rzJVYUPJjfespkNKUZDYB3xRW1m3Tk+BPMHhJ8QHtPEcn6
- VSz+1s/ViGV8v9pQgVvg8a0cCQyNy9aPQIwoC22mAPdKrv9FGjZgo4msnvNXBYOmYB28RUqh//UXb
- 7BHL56mFAMDQKGxkFs7zg8iLVulrKcAtEI8JrW3w1lmfEtK1iLUi6r+veMTjEDP4UbOQRTnHp6IGz
- aL1z+PbA==;
+ bh=IlFC5uLN53//nOw1snJqxiUukwasxjVCret8k23G090=; b=IAEdO1lB16SqRSTED4QBzz1owR
+ AT3SIaxam9iY1i5Yrg3FtIfN0wR8diPLP6ewpqDHi9BMpuk6o7yzVZyXlyMw788yGOV/BFNo670Xi
+ Xd3lVTAL6XX9Mv3nW5B5216lmekIRSMJXre+mMZsFeo8rZTxWTGJfdaR0zu0UQTbqv+DM0+f+u7JA
+ A5dx8XjhXO3HT+rHVdryx7K3d7/fq8qhUHtx5d5MAdeDkTURN71v6XEVXGoo2K7gcDvmaXcl4SUvL
+ Dvymnt2o9amdUaiz5MTxv8GmIEY5tZnGe2omjQs/HC4EjJOZLB/SrwmWgY90MC8Rd2BMaStZ7id1c
+ r1+cr76g==;
 Received: from [2001:4bb8:184:9a8d:9e34:f7f4:e59e:ad6f] (helo=localhost)
  by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kb6LB-0005f7-PV; Fri, 06 Nov 2020 18:20:02 +0000
+ id 1kb6LD-0005fQ-Mg; Fri, 06 Nov 2020 18:20:04 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH 08/10] PCI/P2PDMA: Remove the DMA_VIRT_OPS hacks
-Date: Fri,  6 Nov 2020 19:19:39 +0100
-Message-Id: <20201106181941.1878556-9-hch@lst.de>
+Subject: [PATCH 09/10] PCI/P2PDMA: Cleanup __pci_p2pdma_map_sg a bit
+Date: Fri,  6 Nov 2020 19:19:40 +0100
+Message-Id: <20201106181941.1878556-10-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201106181941.1878556-1-hch@lst.de>
 References: <20201106181941.1878556-1-hch@lst.de>
@@ -82,53 +82,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Now that all users of dma_virt_ops are gone we can remove the workaround
-for it in the PCI peer to peer code.
+Remove the pointless paddr variable that was only used once.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
 Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/pci/p2pdma.c | 20 --------------------
- 1 file changed, 20 deletions(-)
+ drivers/pci/p2pdma.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index de1c331dbed43f..b07018af53876c 100644
+index b07018af53876c..afd792cc272832 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -556,15 +556,6 @@ int pci_p2pdma_distance_many(struct pci_dev *provider, struct device **clients,
- 		return -1;
- 
- 	for (i = 0; i < num_clients; i++) {
--#ifdef CONFIG_DMA_VIRT_OPS
--		if (clients[i]->dma_ops == &dma_virt_ops) {
--			if (verbose)
--				dev_warn(clients[i],
--					 "cannot be used for peer-to-peer DMA because the driver makes use of dma_virt_ops\n");
--			return -1;
--		}
--#endif
--
- 		pci_client = find_parent_pci_dev(clients[i]);
- 		if (!pci_client) {
- 			if (verbose)
-@@ -837,17 +828,6 @@ static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
- 	phys_addr_t paddr;
+@@ -825,13 +825,10 @@ static int __pci_p2pdma_map_sg(struct pci_p2pdma_pagemap *p2p_pgmap,
+ 		struct device *dev, struct scatterlist *sg, int nents)
+ {
+ 	struct scatterlist *s;
+-	phys_addr_t paddr;
  	int i;
  
--	/*
--	 * p2pdma mappings are not compatible with devices that use
--	 * dma_virt_ops. If the upper layers do the right thing
--	 * this should never happen because it will be prevented
--	 * by the check in pci_p2pdma_distance_many()
--	 */
--#ifdef CONFIG_DMA_VIRT_OPS
--	if (WARN_ON_ONCE(dev->dma_ops == &dma_virt_ops))
--		return 0;
--#endif
--
  	for_each_sg(sg, s, nents, i) {
- 		paddr = sg_phys(s);
+-		paddr = sg_phys(s);
+-
+-		s->dma_address = paddr - p2p_pgmap->bus_offset;
++		s->dma_address = sg_phys(s) - p2p_pgmap->bus_offset;
+ 		sg_dma_len(s) = s->length;
+ 	}
  
 -- 
 2.28.0
