@@ -1,88 +1,84 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9262AC15E
-	for <lists.iommu@lfdr.de>; Mon,  9 Nov 2020 17:50:26 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 236AC87359;
-	Mon,  9 Nov 2020 16:50:25 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sJcBFq1DtV7O; Mon,  9 Nov 2020 16:50:24 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 56F9286DD6;
-	Mon,  9 Nov 2020 16:50:16 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3DCBDC088B;
-	Mon,  9 Nov 2020 16:50:16 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 93274C016F
- for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 16:50:15 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5BD62AC410
+	for <lists.iommu@lfdr.de>; Mon,  9 Nov 2020 19:47:59 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 881DF20535
- for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 16:50:15 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A0F4B20427;
+	Mon,  9 Nov 2020 18:47:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7yMzNXoxN83K; Mon,  9 Nov 2020 18:47:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 30E4C2041F;
+	Mon,  9 Nov 2020 18:47:58 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1DE2DC016F;
+	Mon,  9 Nov 2020 18:47:58 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 103FBC016F
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 18:47:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id F0C1E8723F
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 18:47:55 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YLXH+txWBKPo for <iommu@lists.linux-foundation.org>;
- Mon,  9 Nov 2020 16:50:14 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by silver.osuosl.org (Postfix) with ESMTPS id 26EB12038A
- for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 16:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=JvTSJOBJXMYeKQM3WvNBTHeii6rtMfOVYOuXeE1KNJE=; b=ThtDTaP+0JSTSqxTpv0Wbo5rpZ
- iRui8AXvdDo2GGy2jD+Ihq9bjJnDiDzsI2eDLeMfjQgtCqgG1tvLOdsfhRmNEUO5jfT5M0MI5pI2v
- q2scQ0uSLY0gF95SrT5uiioU6950uU8eKRlO3IC5Z9K0t/8xAxKw/BHncD9WkCSO21vni9bfdfdjX
- Ln7KngxHrH+R5I2NkjQEaqpyQ8667dJ8gO+usI96NSRpENPnyhncaujMAMnPoIfhN4BFg8hdAnZFw
- mUlKnwOWo6dpdcffw7/1fMcc6qlFJ5qgEkOsQqBOUl2OSNvLl4XkpF9pd5ChHmt9ndYzbgPOuwY5t
- OGbul4GA==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.92)
- (envelope-from <logang@deltatee.com>)
- id 1kcAMk-00013k-Ea; Mon, 09 Nov 2020 09:50:03 -0700
-To: Keith Busch <kbusch@kernel.org>
-References: <20201106170036.18713-1-logang@deltatee.com>
- <20201106170036.18713-16-logang@deltatee.com>
- <20201109150326.GA2221592@dhcp-10-100-145-180.wdc.com>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <e718b81f-9cb8-dfe8-b1a6-ebb79f302732@deltatee.com>
-Date: Mon, 9 Nov 2020 09:50:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ with ESMTP id JHG5OBIAcHMC for <iommu@lists.linux-foundation.org>;
+ Mon,  9 Nov 2020 18:47:55 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id DA10C87286
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 18:47:53 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1604947675; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=6UrsemL2jWeeyuPw8ChAxb9oFLES8IbOgLxwjsSBSbU=;
+ b=EEeT1Ef0mTl+z1ocugR/Hh09SjGOQGGPPoU+4xBQJ4nEvCdMEXCp68LhguhJOcnvK3inmCai
+ zEnHKTlKWJL4Xgd/l5C5fGJZBhIZE8cf7yK8tY5SsAUHveWasvipLIXiHHSow8BGw7s3JkWO
+ 9DnUvFNQJMl3rDcfRQT96qASWdM=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 5fa98ec818b2aa4b1fa5861d (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 09 Nov 2020 18:47:36
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 3DE34C43395; Mon,  9 Nov 2020 18:47:36 +0000 (UTC)
+Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 2BAE1C433C8;
+ Mon,  9 Nov 2020 18:47:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2BAE1C433C8
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=jcrouse@codeaurora.org
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: linux-arm-msm@vger.kernel.org
+Subject: [PATCH v19 0/4] iommu/arm-smmu: Add adreno-smmu implementation and
+ bindings
+Date: Mon,  9 Nov 2020 11:47:24 -0700
+Message-Id: <20201109184728.2463097-1-jcrouse@codeaurora.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20201109150326.GA2221592@dhcp-10-100-145-180.wdc.com>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: daniel.vetter@ffwll.ch, willy@infradead.org,
- ddutile@redhat.com, jhubbard@nvidia.com, iweiny@intel.com,
- christian.koenig@amd.com, jgg@ziepe.ca, dan.j.williams@intel.com, hch@lst.de,
- sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
- kbusch@kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [RFC PATCH 15/15] nvme-pci: Allow mmaping the CMB in userspace
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- linux-pci@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Ira Weiny <iweiny@intel.com>, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
- linux-block@vger.kernel.org, linux-mm@kvack.org,
- iommu@lists.linux-foundation.org,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- John Hubbard <jhubbard@nvidia.com>, Dan Williams <dan.j.williams@intel.com>,
- Christoph Hellwig <hch@lst.de>
+Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Hanna Hawa <hannah@marvell.com>, Rob Herring <robh+dt@kernel.org>,
+ iommu@lists.linux-foundation.org, Andy Gross <agross@kernel.org>,
+ Sibi Sankar <sibis@codeaurora.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thierry Reding <treding@nvidia.com>, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,30 +96,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+This short series adds support for the adreno-smmu implementation of the
+arm-smmu driver and the device-tree bindings to turn on the implementation
+for the sm845 and sc7180 GPUs. These changes are the last ones needed to enable
+per-instance pagetables in the drm/msm driver.
 
+v19: Rebase to kernel/git/will/linux.git for-joerg/arm-smmu/updates to pick up
+     system cache patches and devm_realloc() updates. Use a function hook to
+     modify / write sctlr
+v18: No deltas in this patchset since the last go-around for 5.10 [1].
 
-On 2020-11-09 8:03 a.m., Keith Busch wrote:
-> On Fri, Nov 06, 2020 at 10:00:36AM -0700, Logan Gunthorpe wrote:
->> Allow userspace to obtain CMB memory by mmaping the controller's
->> char device. The mmap call allocates and returns a hunk of CMB memory,
->> (the offset is ignored) so userspace does not have control over the
->> address within the CMB.
->>
->> A VMA allocated in this way will only be usable by drivers that set
->> FOLL_PCI_P2PDMA when calling GUP. And inter-device support will be
->> checked the first time the pages are mapped for DMA.
->>
->> Currently this is only supported by O_DIRECT to an PCI NVMe device
->> or through the NVMe passthrough IOCTL.
-> 
-> Rather than make this be specific to nvme, could pci p2pdma create an
-> mmap'able file for any resource registered with it?
+[1] https://patchwork.freedesktop.org/series/81393/
 
-It's certainly possible. However, other people have been arguing that
-more of this should be specific to NVMe as some use cases do not want to
-use the genalloc inside p2pdma.
+Jordan Crouse (3):
+  iommu/arm-smmu-qcom: Add implementation for the adreno GPU SMMU
+  dt-bindings: arm-smmu: Add compatible string for Adreno GPU SMMU
+  arm: dts: qcom: sm845: Set the compatible string for the GPU SMMU
 
-Logan
+Rob Clark (1):
+  iommu/arm-smmu: Add a way for implementations to influence SCTLR
+
+ .../devicetree/bindings/iommu/arm,smmu.yaml   |   9 +-
+ arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi    |   9 +
+ arch/arm64/boot/dts/qcom/sdm845.dtsi          |   2 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-impl.c    |   3 +
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c    | 164 +++++++++++++++++-
+ drivers/iommu/arm/arm-smmu/arm-smmu.c         |   5 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu.h         |   3 +
+ 7 files changed, 189 insertions(+), 6 deletions(-)
+
+-- 
+2.25.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
