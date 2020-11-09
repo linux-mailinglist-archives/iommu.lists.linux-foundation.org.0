@@ -1,86 +1,88 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2CF2AC137
-	for <lists.iommu@lfdr.de>; Mon,  9 Nov 2020 17:47:29 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9262AC15E
+	for <lists.iommu@lfdr.de>; Mon,  9 Nov 2020 17:50:26 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id B10F02094C;
-	Mon,  9 Nov 2020 16:47:27 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 236AC87359;
+	Mon,  9 Nov 2020 16:50:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7cbwExDml6PX; Mon,  9 Nov 2020 16:47:25 +0000 (UTC)
+	with ESMTP id sJcBFq1DtV7O; Mon,  9 Nov 2020 16:50:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id AB097207EF;
-	Mon,  9 Nov 2020 16:47:25 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 56F9286DD6;
+	Mon,  9 Nov 2020 16:50:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 438E1C088B;
-	Mon,  9 Nov 2020 16:47:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3DCBDC088B;
+	Mon,  9 Nov 2020 16:50:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D1570C088B
- for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 16:47:23 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 93274C016F
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 16:50:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BCCDA86A93
- for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 16:47:23 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 881DF20535
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 16:50:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id L9GVODDfbxCG for <iommu@lists.linux-foundation.org>;
- Mon,  9 Nov 2020 16:47:23 +0000 (UTC)
+ with ESMTP id YLXH+txWBKPo for <iommu@lists.linux-foundation.org>;
+ Mon,  9 Nov 2020 16:50:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 326E886A91
- for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 16:47:23 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 26EB12038A
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 16:50:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=deltatee.com; s=20200525; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=M+FlpbSeF5MJfdXFDHCsfOBW2uUFOxuE0dG6gfttals=; b=J7+Mv2hmxQ4d09bkdoSjlqM2hY
- vOukZfUTBRpLH8UGn1KHGgk0N/mPDRhd8A08oEOiCCh7q0cCAQVeglBNPPwfDNvy1V8uyt6Yu6ZUv
- B226XvqReVoUsnygDkmcgOzKoZH3chhJ0pctPMiVhnGnBjWg9+3MBnhgwV0R2hIc8OBD0D4YeHHv3
- 0EhQ5E/lzpaFxooyniSTwwoOSq1y/+/a4VGSBpzogy8zYQeSpf0UXlcEzEqG/fRetW7/w+rJj2q0x
- 1m0DXzXIw3LJaLolwWEGKvxt4TbNZ8TqfPtxCyHuIFLEYgVlgR1OZb3qgvysUDswJ3GahxJvXZhyY
- skh+Vrug==;
+ bh=JvTSJOBJXMYeKQM3WvNBTHeii6rtMfOVYOuXeE1KNJE=; b=ThtDTaP+0JSTSqxTpv0Wbo5rpZ
+ iRui8AXvdDo2GGy2jD+Ihq9bjJnDiDzsI2eDLeMfjQgtCqgG1tvLOdsfhRmNEUO5jfT5M0MI5pI2v
+ q2scQ0uSLY0gF95SrT5uiioU6950uU8eKRlO3IC5Z9K0t/8xAxKw/BHncD9WkCSO21vni9bfdfdjX
+ Ln7KngxHrH+R5I2NkjQEaqpyQ8667dJ8gO+usI96NSRpENPnyhncaujMAMnPoIfhN4BFg8hdAnZFw
+ mUlKnwOWo6dpdcffw7/1fMcc6qlFJ5qgEkOsQqBOUl2OSNvLl4XkpF9pd5ChHmt9ndYzbgPOuwY5t
+ OGbul4GA==;
 Received: from guinness.priv.deltatee.com ([172.16.1.162])
  by ale.deltatee.com with esmtp (Exim 4.92)
  (envelope-from <logang@deltatee.com>)
- id 1kcAK2-00011d-Rd; Mon, 09 Nov 2020 09:47:15 -0700
-To: Christoph Hellwig <hch@lst.de>
+ id 1kcAMk-00013k-Ea; Mon, 09 Nov 2020 09:50:03 -0700
+To: Keith Busch <kbusch@kernel.org>
 References: <20201106170036.18713-1-logang@deltatee.com>
- <20201106170036.18713-5-logang@deltatee.com> <20201109091258.GB28918@lst.de>
+ <20201106170036.18713-16-logang@deltatee.com>
+ <20201109150326.GA2221592@dhcp-10-100-145-180.wdc.com>
 From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <4e336c7e-207b-31fa-806e-c4e8028524a5@deltatee.com>
-Date: Mon, 9 Nov 2020 09:47:11 -0700
+Message-ID: <e718b81f-9cb8-dfe8-b1a6-ebb79f302732@deltatee.com>
+Date: Mon, 9 Nov 2020 09:50:00 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201109091258.GB28918@lst.de>
+In-Reply-To: <20201109150326.GA2221592@dhcp-10-100-145-180.wdc.com>
 Content-Language: en-CA
 X-SA-Exim-Connect-IP: 172.16.1.162
 X-SA-Exim-Rcpt-To: daniel.vetter@ffwll.ch, willy@infradead.org,
  ddutile@redhat.com, jhubbard@nvidia.com, iweiny@intel.com,
- christian.koenig@amd.com, jgg@ziepe.ca, dan.j.williams@intel.com,
+ christian.koenig@amd.com, jgg@ziepe.ca, dan.j.williams@intel.com, hch@lst.de,
  sbates@raithlin.com, iommu@lists.linux-foundation.org, linux-mm@kvack.org,
  linux-pci@vger.kernel.org, linux-block@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org, hch@lst.de
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kbusch@kernel.org
 X-SA-Exim-Mail-From: logang@deltatee.com
-Subject: Re: [RFC PATCH 04/15] lib/scatterlist: Add flag for indicating P2PDMA
- segments in an SGL
+Subject: Re: [RFC PATCH 15/15] nvme-pci: Allow mmaping the CMB in userspace
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, linux-pci@vger.kernel.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Ira Weiny <iweiny@intel.com>,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- Stephen Bates <sbates@raithlin.com>, linux-block@vger.kernel.org,
- linux-mm@kvack.org, iommu@lists.linux-foundation.org,
- Matthew Wilcox <willy@infradead.org>, John Hubbard <jhubbard@nvidia.com>,
- Dan Williams <dan.j.williams@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Matthew Wilcox <willy@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ linux-pci@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Ira Weiny <iweiny@intel.com>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, Stephen Bates <sbates@raithlin.com>,
+ linux-block@vger.kernel.org, linux-mm@kvack.org,
+ iommu@lists.linux-foundation.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ John Hubbard <jhubbard@nvidia.com>, Dan Williams <dan.j.williams@intel.com>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,15 +102,26 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 
 
-On 2020-11-09 2:12 a.m., Christoph Hellwig wrote:
-> On Fri, Nov 06, 2020 at 10:00:25AM -0700, Logan Gunthorpe wrote:
->> We make use of the top bit of the dma_length to indicate a P2PDMA
->> segment.
+On 2020-11-09 8:03 a.m., Keith Busch wrote:
+> On Fri, Nov 06, 2020 at 10:00:36AM -0700, Logan Gunthorpe wrote:
+>> Allow userspace to obtain CMB memory by mmaping the controller's
+>> char device. The mmap call allocates and returns a hunk of CMB memory,
+>> (the offset is ignored) so userspace does not have control over the
+>> address within the CMB.
+>>
+>> A VMA allocated in this way will only be usable by drivers that set
+>> FOLL_PCI_P2PDMA when calling GUP. And inter-device support will be
+>> checked the first time the pages are mapped for DMA.
+>>
+>> Currently this is only supported by O_DIRECT to an PCI NVMe device
+>> or through the NVMe passthrough IOCTL.
 > 
-> I don't think "we" can.  There is nothing limiting the size of a SGL
-> segment.
+> Rather than make this be specific to nvme, could pci p2pdma create an
+> mmap'able file for any resource registered with it?
 
-Yes, I expected this would be the unacceptable part. Any alternative ideas?
+It's certainly possible. However, other people have been arguing that
+more of this should be specific to NVMe as some use cases do not want to
+use the genalloc inside p2pdma.
 
 Logan
 _______________________________________________
