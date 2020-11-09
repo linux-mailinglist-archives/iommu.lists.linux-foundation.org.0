@@ -1,83 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF4B2AC40D
-	for <lists.iommu@lfdr.de>; Mon,  9 Nov 2020 19:47:55 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id C05C92AC41B
+	for <lists.iommu@lfdr.de>; Mon,  9 Nov 2020 19:48:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 543DB2040D;
-	Mon,  9 Nov 2020 18:47:54 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4F1B3861C8;
+	Mon,  9 Nov 2020 18:48:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7S6qaDUqYtFV; Mon,  9 Nov 2020 18:47:53 +0000 (UTC)
+	with ESMTP id hptv9I-IVSYe; Mon,  9 Nov 2020 18:48:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 15EC0203F5;
-	Mon,  9 Nov 2020 18:47:53 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D711E861A3;
+	Mon,  9 Nov 2020 18:48:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E0BBDC016F;
-	Mon,  9 Nov 2020 18:47:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BC36EC016F;
+	Mon,  9 Nov 2020 18:48:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 908B3C016F
- for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 18:47:51 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 81040C016F
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 18:48:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 79EA787242
- for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 18:47:51 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6F6FE87242
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 18:48:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6gidxGPUy0Mk for <iommu@lists.linux-foundation.org>;
- Mon,  9 Nov 2020 18:47:50 +0000 (UTC)
+ with ESMTP id FqBvXgDq36PN for <iommu@lists.linux-foundation.org>;
+ Mon,  9 Nov 2020 18:48:27 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D076C8723F
- for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 18:47:47 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 1B0F68723F
+ for <iommu@lists.linux-foundation.org>; Mon,  9 Nov 2020 18:48:26 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1604947670; h=Content-Transfer-Encoding: MIME-Version:
+ s=smtp; t=1604947707; h=Content-Transfer-Encoding: MIME-Version:
  References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=V29NTo7kJIBCYZztU1K8EyLNxF9TfvQF5kp/cG/Cvjo=;
- b=qK2vJFfc81f5oU0AQC1/lBnEM48h+2QevsMn3kDJwVl25vUoqu9gjQsIg+YYgQWl2ZcAGMME
- pb7m7mbrQbdIDvEIkLhtUFmmoF3h3LUZUXSK4Yitx6JQN+8hY7mCP58KXKgQxll62TJ1wZnN
- PrIUbLS+lvIAF/+nnCZRzcR8yjg=
+ Sender; bh=hb6djRwuA4jBWtS7WMTEeEQmesAOMYwuWNvwYqxJWBY=;
+ b=NbuP3zx3Q/irY8vZL8QZ18YEJNslG1gNLFZo2BXPmM7rcn2q2xFBhwiVcyOnAz//7fpQxi6E
+ wBw5mcYksZGOGRNN5RPzdZMjLvlqhtxFhBQDVeh/s2h6ju7pPZimS+nDAs3tKThxqKuj5WZO
+ 0hhvLCJBHIoufeceuBA9CTWdn/s=
 X-Mailgun-Sending-Ip: 104.130.96.5
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 5fa98ecd1d3980f7d6f6b289 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 09 Nov 2020 18:47:41
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 5fa98ecf23a1a2b32d4a9c65 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 09 Nov 2020 18:47:43
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 71A8BC43382; Mon,  9 Nov 2020 18:47:41 +0000 (UTC)
+ id 79F4EC433CB; Mon,  9 Nov 2020 18:47:43 +0000 (UTC)
 Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 23091C433C6;
- Mon,  9 Nov 2020 18:47:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 23091C433C6
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id CECDAC433F0;
+ Mon,  9 Nov 2020 18:47:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org CECDAC433F0
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=fail smtp.mailfrom=jcrouse@codeaurora.org
 From: Jordan Crouse <jcrouse@codeaurora.org>
 To: linux-arm-msm@vger.kernel.org
-Subject: [PATCH v19 2/4] iommu/arm-smmu: Add a way for implementations to
- influence SCTLR
-Date: Mon,  9 Nov 2020 11:47:26 -0700
-Message-Id: <20201109184728.2463097-3-jcrouse@codeaurora.org>
+Subject: [PATCH v19 3/4] dt-bindings: arm-smmu: Add compatible string for
+ Adreno GPU SMMU
+Date: Mon,  9 Nov 2020 11:47:27 -0700
+Message-Id: <20201109184728.2463097-4-jcrouse@codeaurora.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201109184728.2463097-1-jcrouse@codeaurora.org>
 References: <20201109184728.2463097-1-jcrouse@codeaurora.org>
 MIME-Version: 1.0
-Cc: Rob Clark <robdclark@chromium.org>, linux-kernel@vger.kernel.org,
- Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org,
- Sibi Sankar <sibis@codeaurora.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thierry Reding <treding@nvidia.com>, Robin Murphy <robin.murphy@arm.com>,
+Cc: Rob Clark <robdclark@chromium.org>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, Will Deacon <will@kernel.org>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Rob Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -96,91 +95,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Every Qcom Adreno GPU has an embedded SMMU for its own use. These
+devices depend on unique features such as split pagetables,
+different stall/halt requirements and other settings. Identify them
+with a compatible string so that they can be identified in the
+arm-smmu implementation specific code.
 
-For the Adreno GPU's SMMU, we want SCTLR.HUPCF set to ensure that
-pending translations are not terminated on iova fault.  Otherwise
-a terminated CP read could hang the GPU by returning invalid
-command-stream data. Add a hook to for the implementation to modify
-the sctlr value if it wishes.
-
-Co-developed-by: Jordan Crouse <jcrouse@codeaurora.org>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
 
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 13 +++++++++++++
- drivers/iommu/arm/arm-smmu/arm-smmu.c      |  5 ++++-
- drivers/iommu/arm/arm-smmu/arm-smmu.h      |  2 ++
- 3 files changed, 19 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-index b5384c4d92c8..d0636c803a36 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-@@ -20,6 +20,18 @@ static struct qcom_smmu *to_qcom_smmu(struct arm_smmu_device *smmu)
- 	return container_of(smmu, struct qcom_smmu, smmu);
- }
+diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+index 503160a7b9a0..3b63f2ae24db 100644
+--- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
++++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+@@ -28,8 +28,6 @@ properties:
+           - enum:
+               - qcom,msm8996-smmu-v2
+               - qcom,msm8998-smmu-v2
+-              - qcom,sc7180-smmu-v2
+-              - qcom,sdm845-smmu-v2
+           - const: qcom,smmu-v2
  
-+static void qcom_adreno_smmu_write_sctlr(struct arm_smmu_device *smmu, int idx,
-+		u32 reg)
-+{
-+	/*
-+	 * On the GPU device we want to process subsequent transactions after a
-+	 * fault to keep the GPU from hanging
-+	 */
-+	reg |= ARM_SMMU_SCTLR_HUPCF;
-+
-+	arm_smmu_cb_write(smmu, idx, ARM_SMMU_CB_SCTLR, reg);
-+}
-+
- #define QCOM_ADRENO_SMMU_GPU_SID 0
- 
- static bool qcom_adreno_smmu_is_gpu_device(struct device *dev)
-@@ -289,6 +301,7 @@ static const struct arm_smmu_impl qcom_adreno_smmu_impl = {
- 	.def_domain_type = qcom_smmu_def_domain_type,
- 	.reset = qcom_smmu500_reset,
- 	.alloc_context_bank = qcom_adreno_smmu_alloc_context_bank,
-+	.write_sctlr = qcom_adreno_smmu_write_sctlr,
- };
- 
- static struct arm_smmu_device *qcom_smmu_create(struct arm_smmu_device *smmu,
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index bcbacf22331d..0f28a8614da3 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -617,7 +617,10 @@ void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx)
- 	if (IS_ENABLED(CONFIG_CPU_BIG_ENDIAN))
- 		reg |= ARM_SMMU_SCTLR_E;
- 
--	arm_smmu_cb_write(smmu, idx, ARM_SMMU_CB_SCTLR, reg);
-+	if (smmu->impl && smmu->impl->write_sctlr)
-+		smmu->impl->write_sctlr(smmu, idx, reg);
-+	else
-+		arm_smmu_cb_write(smmu, idx, ARM_SMMU_CB_SCTLR, reg);
- }
- 
- static int arm_smmu_alloc_context_bank(struct arm_smmu_domain *smmu_domain,
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-index 9a5eb6782918..04288b6fc619 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
-@@ -144,6 +144,7 @@ enum arm_smmu_cbar_type {
- #define ARM_SMMU_CB_SCTLR		0x0
- #define ARM_SMMU_SCTLR_S1_ASIDPNE	BIT(12)
- #define ARM_SMMU_SCTLR_CFCFG		BIT(7)
-+#define ARM_SMMU_SCTLR_HUPCF		BIT(8)
- #define ARM_SMMU_SCTLR_CFIE		BIT(6)
- #define ARM_SMMU_SCTLR_CFRE		BIT(5)
- #define ARM_SMMU_SCTLR_E		BIT(4)
-@@ -437,6 +438,7 @@ struct arm_smmu_impl {
- 				  struct arm_smmu_device *smmu,
- 				  struct device *dev, int start);
- 	void (*write_s2cr)(struct arm_smmu_device *smmu, int idx);
-+	void (*write_sctlr)(struct arm_smmu_device *smmu, int idx, u32 reg);
- };
- 
- #define INVALID_SMENDX			-1
+       - description: Qcom SoCs implementing "arm,mmu-500"
+@@ -40,6 +38,13 @@ properties:
+               - qcom,sm8150-smmu-500
+               - qcom,sm8250-smmu-500
+           - const: arm,mmu-500
++      - description: Qcom Adreno GPUs implementing "arm,smmu-v2"
++        items:
++          - enum:
++              - qcom,sc7180-smmu-v2
++              - qcom,sdm845-smmu-v2
++          - const: qcom,adreno-smmu
++          - const: qcom,smmu-v2
+       - description: Marvell SoCs implementing "arm,mmu-500"
+         items:
+           - const: marvell,ap806-smmu-500
 -- 
 2.25.1
 
