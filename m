@@ -1,62 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5062ACC44
-	for <lists.iommu@lfdr.de>; Tue, 10 Nov 2020 04:54:17 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7679984AB2;
-	Tue, 10 Nov 2020 03:54:15 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RDNMFv9cV7xG; Tue, 10 Nov 2020 03:54:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 329958113C;
-	Tue, 10 Nov 2020 03:54:14 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1EFAFC1AD8;
-	Tue, 10 Nov 2020 03:54:14 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6B764C016F
- for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 03:54:12 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E132ACC71
+	for <lists.iommu@lfdr.de>; Tue, 10 Nov 2020 04:55:25 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 58AC386FBB
- for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 03:54:12 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 101C086FCF;
+	Tue, 10 Nov 2020 03:55:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id OGftST4XVcOr; Tue, 10 Nov 2020 03:55:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7BD7286FAA;
+	Tue, 10 Nov 2020 03:55:23 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 617B2C016F;
+	Tue, 10 Nov 2020 03:55:23 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 79475C016F
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 03:55:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 74F2A86718
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 03:55:22 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VdxBa9Q-tXfx for <iommu@lists.linux-foundation.org>;
- Tue, 10 Nov 2020 03:54:11 +0000 (UTC)
+ with ESMTP id 8Bw1oOgDpAvX for <iommu@lists.linux-foundation.org>;
+ Tue, 10 Nov 2020 03:55:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D7F7E86FAA
- for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 03:54:11 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E150A85A46
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 03:55:21 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id ADBF22080A;
- Tue, 10 Nov 2020 03:54:10 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id BC9A5221F1;
+ Tue, 10 Nov 2020 03:55:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604980451;
- bh=mtHbPxmO8/SXbwr3c28X6K9sCjhcZI9tCY8owme2DYY=;
+ s=default; t=1604980521;
+ bh=NUTZyNioEXke4Hr4cRd0ILcwsd3Nj7fg0IyQ+JFoBVg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vK5UugvCRx4a5e+4qwiDnSJqt1ObUCIXle9pHoDGhN6MYftjDEQrTXwY6hVXuSVU7
- NUvr2eLQOZMaMh+pO7cfuPfZVPWbttomWHGNl9EdtHgAHxUcBnm0V1xXZ3g8A3QHrx
- CDpaKnJVLckYpe29IdU+7uAeq7i3xxbbIabNH3XI=
+ b=BoDsqMfOdQD8PYgIx/hLXLXXHvCA+votRyjgDUOKmii1xbow0kCXSSHlwe7O+2TI5
+ P9dSs3Nr6tDKy14RFax69n9cwDL1aMmoqLvmBERSTUyCELt03UiGnGbp3iUQIHpw5w
+ 08LTHNZQ8fqj9kX0Z1/ZbfyCCuXmbTDCgM7Jn6AU=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 37/55] iommu/amd: Increase interrupt remapping
+Subject: [PATCH AUTOSEL 5.4 29/42] iommu/amd: Increase interrupt remapping
  table limit to 512 entries
-Date: Mon,  9 Nov 2020 22:53:00 -0500
-Message-Id: <20201110035318.423757-37-sashal@kernel.org>
+Date: Mon,  9 Nov 2020 22:54:27 -0500
+Message-Id: <20201110035440.424258-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201110035318.423757-1-sashal@kernel.org>
-References: <20201110035318.423757-1-sashal@kernel.org>
+In-Reply-To: <20201110035440.424258-1-sashal@kernel.org>
+References: <20201110035440.424258-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -104,13 +104,13 @@ Link: https://lore.kernel.org/r/20201015025002.87997-1-suravee.suthikulpanit@amd
 Signed-off-by: Joerg Roedel <jroedel@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/iommu/amd/amd_iommu_types.h | 6 +++++-
+ drivers/iommu/amd_iommu_types.h | 6 +++++-
  1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
-index 30a5d412255a4..427484c455891 100644
---- a/drivers/iommu/amd/amd_iommu_types.h
-+++ b/drivers/iommu/amd/amd_iommu_types.h
+diff --git a/drivers/iommu/amd_iommu_types.h b/drivers/iommu/amd_iommu_types.h
+index 0679896b9e2e1..3ec090adcdae7 100644
+--- a/drivers/iommu/amd_iommu_types.h
++++ b/drivers/iommu/amd_iommu_types.h
 @@ -406,7 +406,11 @@ extern bool amd_iommu_np_cache;
  /* Only true if all IOMMUs support device IOTLBs */
  extern bool amd_iommu_iotlb_sup;
