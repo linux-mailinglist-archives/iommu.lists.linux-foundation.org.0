@@ -1,71 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8BC2AD7FA
-	for <lists.iommu@lfdr.de>; Tue, 10 Nov 2020 14:46:53 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D972AD820
+	for <lists.iommu@lfdr.de>; Tue, 10 Nov 2020 14:57:07 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 60FD48723F;
-	Tue, 10 Nov 2020 13:46:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9553E858B8;
+	Tue, 10 Nov 2020 13:57:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SOE73pr3fxf0; Tue, 10 Nov 2020 13:46:51 +0000 (UTC)
+	with ESMTP id U-ny3dL3IK9o; Tue, 10 Nov 2020 13:57:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CA0FF87246;
-	Tue, 10 Nov 2020 13:46:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 26ACD86B6C;
+	Tue, 10 Nov 2020 13:57:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B5CA3C016F;
-	Tue, 10 Nov 2020 13:46:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0961AC016F;
+	Tue, 10 Nov 2020 13:57:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 53FC9C016F
- for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 13:46:50 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ED69CC016F
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 13:57:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 42F2086416
- for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 13:46:50 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id E895F873A0
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 13:57:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YoUqt+qP99pN for <iommu@lists.linux-foundation.org>;
- Tue, 10 Nov 2020 13:46:49 +0000 (UTC)
+ with ESMTP id QBpQYPZJyZa0 for <iommu@lists.linux-foundation.org>;
+ Tue, 10 Nov 2020 13:57:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B0576863D5
- for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 13:46:49 +0000 (UTC)
-Received: from localhost.localdomain (236.31.169.217.in-addr.arpa
- [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id AD4C22076E;
- Tue, 10 Nov 2020 13:46:45 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 6BFF08739B
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 13:57:03 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6E89920797;
+ Tue, 10 Nov 2020 13:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605016009;
- bh=P7FNUoUlbSY2GKi42YVDRwQnkOib6vtn54EtBPOLiDQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hYDBbp0DdpYpcHeeOBptc7EzMimHnzDqfHH9zPh4g/fqp3K97yvx/BjCLQYQqw/Bo
- hm5eVhisSud5otCjw5SndxHvIiSqDHPiXzMJ6baSTsO+5Okx52I/sEFrisL1N/SI1j
- l25I0lRJXC0UMHi7FqyVZDoJuf3v9Z41LMEfMTH0=
+ s=default; t=1605016622;
+ bh=pUCSLw0dp38jb6CdCj20KMAJ24P3TkHkgt3ZT3RYx0k=;
+ h=Date:From:To:Cc:Subject:From;
+ b=0KCiYdkyFaR5w/qPRTfH+xDMnjI09MxOjiucXHAY9YlPQfNr1y4j4FeXENtrJeyOP
+ 9GFYL2y2nBVLmWT8dVYee4pFrETH/0D1gql3kOhB8tcu7yO0GXEayqV1UFzrxcPtXT
+ cEfTcFL+JT9MvvwFugQ7nr1lhhz4GLBXoMDJOgGQ=
+Date: Tue, 10 Nov 2020 13:56:58 +0000
 From: Will Deacon <will@kernel.org>
-To: Jordan Crouse <jcrouse@codeaurora.org>,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v19 0/4] iommu/arm-smmu: Add adreno-smmu implementation
- and bindings
-Date: Tue, 10 Nov 2020 13:46:40 +0000
-Message-Id: <160501115071.4000419.14530620296550155623.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201109184728.2463097-1-jcrouse@codeaurora.org>
-References: <20201109184728.2463097-1-jcrouse@codeaurora.org>
+To: joro@8bytes.org
+Subject: [GIT PULL] iommu/arm-smmu: First batch of updates for 5.11
+Message-ID: <20201110135657.GA17034@willie-the-truck>
 MIME-Version: 1.0
-Cc: Rob Clark <robdclark@chromium.org>, devicetree@vger.kernel.org,
- Will Deacon <will@kernel.org>, catalin.marinas@arm.com,
- Hanna Hawa <hannah@marvell.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, iommu@lists.linux-foundation.org,
- Andy Gross <agross@kernel.org>, Sibi Sankar <sibis@codeaurora.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thierry Reding <treding@nvidia.com>, kernel-team@android.com,
- linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ john.stultz@linaro.org, robin.murphy@arm.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,37 +74,73 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, 9 Nov 2020 11:47:24 -0700, Jordan Crouse wrote:
-> This short series adds support for the adreno-smmu implementation of the
-> arm-smmu driver and the device-tree bindings to turn on the implementation
-> for the sm845 and sc7180 GPUs. These changes are the last ones needed to enable
-> per-instance pagetables in the drm/msm driver.
-> 
-> v19: Rebase to kernel/git/will/linux.git for-joerg/arm-smmu/updates to pick up
->      system cache patches and devm_realloc() updates. Use a function hook to
->      modify / write sctlr
-> v18: No deltas in this patchset since the last go-around for 5.10 [1].
-> 
-> [...]
+Hi Joerg,
 
-Applied patches 1-3 to will (for-joerg/arm-smmu/updates), thanks!
+Please can you pull these Arm SMMU updates for 5.11 so that they can get
+into -next? I think Bjorn is keen to get a bunch of DT updates moving, so
+the sooner we can get this lot out there, the better. Summary in the tag.
 
-[1/4] iommu/arm-smmu-qcom: Add implementation for the adreno GPU SMMU
-      https://git.kernel.org/will/c/5c7469c66f95
-[2/4] iommu/arm-smmu: Add a way for implementations to influence SCTLR
-      https://git.kernel.org/will/c/bffb2eaf0ba2
-[3/4] dt-bindings: arm-smmu: Add compatible string for Adreno GPU SMMU
-      https://git.kernel.org/will/c/a29bbb0861f4
-
-I assume the .dts change will be routed separately so as to avoid conflicts.
+There are a few other patches kicking around on the list, so I may send
+a second pull on top in a couple of weeks or so.
 
 Cheers,
--- 
+
 Will
 
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
+--->8
+
+The following changes since commit 3650b228f83adda7e5ee532e2b90429c03f7b9ec:
+
+  Linux 5.10-rc1 (2020-10-25 15:14:11 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git tags/arm-smmu-updates
+
+for you to fetch changes up to a29bbb0861f487a5e144dc997a9f71a36c7a2404:
+
+  dt-bindings: arm-smmu: Add compatible string for Adreno GPU SMMU (2020-11-10 12:25:49 +0000)
+
+----------------------------------------------------------------
+First batch of Arm SMMU updates for 5.11
+
+- Allow implementations to hook writes to S2CR and SCTLR registers
+
+- Handle broken Qualcomm bootloader/firmware
+
+- Support Adreno tightly-coupled SMMU implementation
+
+- Use devm_krealloc()
+
+- Use 'true' instead of '1' when assigning 'bool disable_bypass'
+
+----------------------------------------------------------------
+Bjorn Andersson (3):
+      iommu/arm-smmu: Allow implementation specific write_s2cr
+      iommu/arm-smmu-qcom: Read back stream mappings
+      iommu/arm-smmu-qcom: Implement S2CR quirk
+
+Jordan Crouse (2):
+      iommu/arm-smmu-qcom: Add implementation for the adreno GPU SMMU
+      dt-bindings: arm-smmu: Add compatible string for Adreno GPU SMMU
+
+Kaixu Xia (1):
+      iommu/arm-smmu-v3: Assign boolean values to a bool variable
+
+Rob Clark (1):
+      iommu/arm-smmu: Add a way for implementations to influence SCTLR
+
+Robin Murphy (1):
+      iommu/arm-smmu: Use new devm_krealloc()
+
+ .../devicetree/bindings/iommu/arm,smmu.yaml        |   9 +-
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c        |   2 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-impl.c         |   8 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-nvidia.c       |  17 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c         | 259 ++++++++++++++++++++-
+ drivers/iommu/arm/arm-smmu/arm-smmu.c              |  18 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu.h              |   4 +
+ 7 files changed, 284 insertions(+), 33 deletions(-)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
