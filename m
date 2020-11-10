@@ -1,55 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CB72AD229
-	for <lists.iommu@lfdr.de>; Tue, 10 Nov 2020 10:14:31 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93AFC2AD263
+	for <lists.iommu@lfdr.de>; Tue, 10 Nov 2020 10:25:17 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 54F93204BC;
-	Tue, 10 Nov 2020 09:14:30 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 91FF5863F4;
+	Tue, 10 Nov 2020 09:25:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iQNz3hndMtv8; Tue, 10 Nov 2020 09:14:29 +0000 (UTC)
+	with ESMTP id KkhLrJwhbTd8; Tue, 10 Nov 2020 09:25:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 83C47204BB;
-	Tue, 10 Nov 2020 09:14:29 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 81C7B863CC;
+	Tue, 10 Nov 2020 09:25:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 57E56C016F;
-	Tue, 10 Nov 2020 09:14:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DFD6C016F;
+	Tue, 10 Nov 2020 09:25:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BC155C016F
- for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 09:14:27 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4C58EC016F
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 09:25:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B7943871C3
- for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 09:14:27 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 4801386365
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 09:25:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8-TOzy+YIPPN for <iommu@lists.linux-foundation.org>;
- Tue, 10 Nov 2020 09:14:26 +0000 (UTC)
+ with ESMTP id rNlgtWwCNeAk for <iommu@lists.linux-foundation.org>;
+ Tue, 10 Nov 2020 09:25:12 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5AF1786FD4
- for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 09:14:26 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id F1027862F4
+ for <iommu@lists.linux-foundation.org>; Tue, 10 Nov 2020 09:25:11 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 352EF6736F; Tue, 10 Nov 2020 10:14:22 +0100 (CET)
-Date: Tue, 10 Nov 2020 10:14:21 +0100
+ id 4D1126736F; Tue, 10 Nov 2020 10:25:07 +0100 (CET)
+Date: Tue, 10 Nov 2020 10:25:06 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-Subject: Re: [PATCH for-5.10] swiotlb: remove the tbl_dma_addr argument to
- swiotlb_tbl_map_single
-Message-ID: <20201110091421.GA23707@lst.de>
-References: <20201023063309.3472987-1-hch@lst.de>
- <20201103094643.GA18936@lst.de> <20201104140438.GA16892@char.us.oracle.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
+Message-ID: <20201110092506.GA24469@lst.de>
+References: <20200930160917.1234225-1-hch@lst.de>
+ <20200930160917.1234225-9-hch@lst.de>
+ <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
+ <CANiDSCtefXKw-xC3bskyggW-BzCmVPj6GGLvO=cCPZHbS1oTDA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201104140438.GA16892@char.us.oracle.com>
+In-Reply-To: <CANiDSCtefXKw-xC3bskyggW-BzCmVPj6GGLvO=cCPZHbS1oTDA@mail.gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: xen-devel@lists.xenproject.org, iommu@lists.linux-foundation.org,
- Stefano Stabellini <sstabellini@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,15 +73,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Nov 04, 2020 at 09:04:38AM -0500, Konrad Rzeszutek Wilk wrote:
-> On Tue, Nov 03, 2020 at 10:46:43AM +0100, Christoph Hellwig wrote:
-> > ping?
+On Mon, Nov 09, 2020 at 03:53:55PM +0100, Ricardo Ribalda wrote:
+> Hi Christoph
 > 
-> Hopefully this goes through. I am in the process of testing it but ran
-> into testing issues that I believe are unrelated.
+> I have started now to give a try to your patchset. Sorry for the delay.
+> 
+> For uvc I have prepared this patch:
+> https://github.com/ribalda/linux/commit/9094fe223fe38f8c8ff21366d893b43cbbdf0113
+> 
+> I have tested successfully in a x86_64 noteboot..., yes I know there
+> is no change for that platform :).
+> I am trying to get hold of an arm device that can run the latest
+> kernel from upstream.
+> 
+> On the meanwhile if you could take a look to the patch to verify that
+> this the way that you expect the drivers to use your api I would
+> appreciate it
 
-Did you manage to make any progress?  This fixes an issue with the
-new support for systems with DMA offsets in 5.10..
+This looks pretty reaosnable.
+
+Note that ifdef  CONFIG_DMA_NONCOHERENT in the old code doesn't actually
+work, as that option is an internal thing just for mips and sh..
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
