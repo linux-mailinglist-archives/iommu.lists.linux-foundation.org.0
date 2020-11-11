@@ -1,80 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1A12AFB65
-	for <lists.iommu@lfdr.de>; Wed, 11 Nov 2020 23:34:50 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F32E2AFB66
+	for <lists.iommu@lfdr.de>; Wed, 11 Nov 2020 23:34:55 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A74A986D42;
-	Wed, 11 Nov 2020 22:34:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id F00E086C98;
+	Wed, 11 Nov 2020 22:34:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id a93Pafoymy5G; Wed, 11 Nov 2020 22:34:49 +0000 (UTC)
+	with ESMTP id pwZdxiV7Gmov; Wed, 11 Nov 2020 22:34:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3C32986D31;
-	Wed, 11 Nov 2020 22:34:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 995DE86C9F;
+	Wed, 11 Nov 2020 22:34:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 287D3C016F;
-	Wed, 11 Nov 2020 22:34:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 839C0C0889;
+	Wed, 11 Nov 2020 22:34:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1AE2DC016F
- for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 22:34:47 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 26FC1C016F
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 22:34:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id EF39A86D22
- for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 22:34:46 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 105BD86C99
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 22:34:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dMLpWEjHNYxw for <iommu@lists.linux-foundation.org>;
- Wed, 11 Nov 2020 22:34:46 +0000 (UTC)
+ with ESMTP id x0eJgoIojhdh for <iommu@lists.linux-foundation.org>;
+ Wed, 11 Nov 2020 22:34:47 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
- [209.85.215.194])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 5CC8A86CF5
- for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 22:34:46 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id i26so2436287pgl.5
- for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 14:34:46 -0800 (PST)
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+ [209.85.215.196])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 9C51286C98
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 22:34:47 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id w4so2398989pgg.13
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 14:34:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=8bTVyElsSpuTUt20RFLCESMaCBBDWhl3lYIjpcXmpjs=;
- b=qF8QRgInLUJ6nxv1YqYd2h7acY6CwOqS82SzhLzwvbJMqAYcIo4RG/AdKezSneNW+k
- 7MUyfBUl50QLRJ+ocEFbsukAg+yvHg3BGX5JEjuNPLU41jIgphptsmsK51OzErjbtyKh
- Gb2ealSjfgrh7I9Bt8m5s5xslM9iMlui9xLxna+oyNL2+idzNoxTp5vfUCOzPmQ8WnqF
- gU2BxdN14zdYptDqaXPnIRYA1fOjeABeOYCTCT6D9qRR8QInBP+FVAwNBkWVt6RM9M0+
- EnmV9UaOgZyT2fBQZr/cbmitXICSS+xLfLQe+OXQa+jaSMnnqFhFKj5eMK81sJuqWBOl
- Q0uA==
+ bh=YZG/reugvFbqj0Sn5t/P+mNzl6HJdhg/Es96Lqb5XFQ=;
+ b=PFxHsUIjlvJ5kSSY8jak9mEeoz9gPFivDxCrdGKhXGyNQHFNaT2Nc7yECoi0w0v5Is
+ aEgKwOc348VA/CUsYNUJwfsgar/dFIyOBz8i9tlrYeZbC7pmny4BRYY5/Pi8/G1qlAk1
+ 0QS+nw3cg+697M3L8Bnx36iJi8qXDVJeVMxpceWoylq03yyTWXt54/DQQ1HTWBDyFIu7
+ WFdsAUfudcVEeHAwwrc1Oy2VhBaEGaG1KhRfzkvb0FO9RHGy718ngTiNe6MMnp57SNnH
+ jxGJC6q9xNiRPuRF/sT0fA8JMEn742Itsocq+Z0QpPkgc5SNefUcoKuvnKqeW+m0jTsW
+ VZGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=8bTVyElsSpuTUt20RFLCESMaCBBDWhl3lYIjpcXmpjs=;
- b=pu2HOCmJ7XB6jRzHcydQhS00ej+VOEVYU4KDa3Stg2zNJM73zkz+uX3wOgEbFyNDcc
- J6gHOsAfRr0QW6CF0Enk+PxbREdRLSUppA0DNLQ0N2Yqr10lCadFmLpX/j4+zlR6rIcp
- kJF9lxvYuxHloe4tFyglEHKUrouINHA7eas8RlARxHtrsA424bQX3+mhb5Cev2EeUMhm
- 1wzQ5aVL5FXPMX9weoxM8CBWkDOkell4vz0rUA0USOu2AwH/jH7VcmMunOzc+/21/tPX
- cg+jepfEwkIi04xLXrSr24W0/qbtsVli9SfrGRx6xQ9YjrSQbM5DbHVp5Hv+lR80zULR
- DG+w==
-X-Gm-Message-State: AOAM532GHrX8T43IIMoJ3YOCISclcQsB0FFPTrzLWMYHk/Zgrn9U29Th
- 3RvwzDnMwYgdo1XoO6pRvAo=
-X-Google-Smtp-Source: ABdhPJyaqszgXv76DnT1Jw2EmV61u27RVj+XayDix4agS49Yxzg8HwtQ2wn26GK0uudvJeI+oaGtfQ==
-X-Received: by 2002:a17:90a:609:: with SMTP id
- j9mr5927740pjj.121.1605134086023; 
- Wed, 11 Nov 2020 14:34:46 -0800 (PST)
+ bh=YZG/reugvFbqj0Sn5t/P+mNzl6HJdhg/Es96Lqb5XFQ=;
+ b=O/bt+60W+r83DhkPIxMgdVkD353bGyzu9pYyTZ7gO1VYjZ7azUFEzDTvATx4k8liqE
+ MVFL5i1SHoDmiTkbMZwFqu3uT86ehE0NfjXsQLnaMto6ypmO4aMDWYlT+za0KposBnzc
+ NH5bK616abXu8gN1IDIXz4dkgwMeuUYWqNDu2PKGAanw9fDvkLdVGBlmQ4KejZRo0k0i
+ hxdLJHW5q4pMfEnYmtdWEfxLu3NuQ0ui1xyUNR7erVhTyn6UYBiNAwO7WqeAyGMBEilh
+ lcO2MCa7sEovZUwydRcvsb0+tNhoftpVV/KnYLo1bEcQVWpeZ7Y5LcqDbKNWTb6WOrrV
+ LS2g==
+X-Gm-Message-State: AOAM531ppOrCLSCxXy5tMReAHawoVAEKmic3lqTbJiaBB4yAI+L4G9FR
+ YdoR+oIUQtbaP2vOzLXTvZc=
+X-Google-Smtp-Source: ABdhPJxTtO3oq9Y+KOCUztZaq5q0THhWHhixzqvXM0Bh2pg1eUD77Eqn81s3qDyfnzhIpEp0FljO3g==
+X-Received: by 2002:a63:6981:: with SMTP id
+ e123mr24858878pgc.364.1605134087193; 
+ Wed, 11 Nov 2020 14:34:47 -0800 (PST)
 Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
  [216.228.112.22])
- by smtp.gmail.com with ESMTPSA id a20sm3605096pff.118.2020.11.11.14.34.44
+ by smtp.gmail.com with ESMTPSA id a20sm3605096pff.118.2020.11.11.14.34.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Nov 2020 14:34:45 -0800 (PST)
+ Wed, 11 Nov 2020 14:34:46 -0800 (PST)
 From: Nicolin Chen <nicoleotsuka@gmail.com>
 To: thierry.reding@gmail.com,
 	joro@8bytes.org
-Subject: [PATCH RESEND 3/5] iommu/tegra-smmu: Use fwspec in
- tegra_smmu_(de)attach_dev
-Date: Wed, 11 Nov 2020 14:21:27 -0800
-Message-Id: <20201111222129.15736-4-nicoleotsuka@gmail.com>
+Subject: [PATCH RESEND 4/5] iommu/tegra-smmu: Rework tegra_smmu_probe_device()
+Date: Wed, 11 Nov 2020 14:21:28 -0800
+Message-Id: <20201111222129.15736-5-nicoleotsuka@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201111222129.15736-1-nicoleotsuka@gmail.com>
 References: <20201111222129.15736-1-nicoleotsuka@gmail.com>
@@ -98,110 +97,213 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-In tegra_smmu_(de)attach_dev() functions, we poll DTB for each
-client's iommus property to get swgroup ID in order to prepare
-"as" and enable smmu. Actually tegra_smmu_configure() prepared
-an fwspec for each client, and added to the fwspec all swgroup
-IDs of client DT node in DTB.
+The bus_set_iommu() in tegra_smmu_probe() enumerates all clients
+to call in tegra_smmu_probe_device() where each client searches
+its DT node for smmu pointer and swgroup ID, so as to configure
+an fwspec. But this requires a valid smmu pointer even before mc
+and smmu drivers are probed. So in tegra_smmu_probe() we added a
+line of code to fill mc->smmu, marking "a bit of a hack".
 
-So this patch uses fwspec in tegra_smmu_(de)attach_dev() so as
-to replace the redundant DT polling code.
+This works for most of clients in the DTB, however, doesn't work
+for a client that doesn't exist in DTB, a PCI device for example.
+
+Actually, if we return ERR_PTR(-ENODEV) in ->probe_device() when
+it's called from bus_set_iommu(), iommu core will let everything
+carry on. Then when a client gets probed, of_iommu_configure() in
+iommu core will search DTB for swgroup ID and call ->of_xlate()
+to prepare an fwspec, similar to tegra_smmu_probe_device() and
+tegra_smmu_configure(). Then it'll call tegra_smmu_probe_device()
+again, and this time we shall return smmu->iommu pointer properly.
+
+So we can get rid of tegra_smmu_find() and tegra_smmu_configure()
+along with DT polling code by letting the iommu core handle every
+thing, except a problem that we search iommus property in DTB not
+only for swgroup ID but also for mc node to get mc->smmu pointer
+to call dev_iommu_priv_set() and return the smmu->iommu pointer.
+So we'll need to find another way to get smmu pointer.
+
+Referencing the implementation of sun50i-iommu driver, of_xlate()
+has client's dev pointer, mc node and swgroup ID. This means that
+we can call dev_iommu_priv_set() in of_xlate() instead, so we can
+simply get smmu pointer in ->probe_device().
+
+This patch reworks tegra_smmu_probe_device() by:
+1) Removing mc->smmu hack in tegra_smmu_probe() so as to return
+   ERR_PTR(-ENODEV) in tegra_smmu_probe_device() during stage of
+   tegra_smmu_probe/tegra_mc_probe().
+2) Moving dev_iommu_priv_set() to of_xlate() so we can get smmu
+   pointer in tegra_smmu_probe_device() to replace DTB polling.
+3) Removing tegra_smmu_configure() accordingly since iommu core
+   takes care of it.
+
+This also fixes a problem that previously we could add clients to
+iommu groups before iommu core initializes its default domain:
+    ubuntu@jetson:~$ dmesg | grep iommu
+    platform 50000000.host1x: Adding to iommu group 1
+    platform 57000000.gpu: Adding to iommu group 2
+    iommu: Default domain type: Translated
+    platform 54200000.dc: Adding to iommu group 3
+    platform 54240000.dc: Adding to iommu group 3
+    platform 54340000.vic: Adding to iommu group 4
+
+Though it works fine with IOMMU_DOMAIN_UNMANAGED, but will have
+warnings if switching to IOMMU_DOMAIN_DMA:
+    iommu: Failed to allocate default IOMMU domain of type 0 for
+           group (null) - Falling back to IOMMU_DOMAIN_DMA
+    iommu: Failed to allocate default IOMMU domain of type 0 for
+           group (null) - Falling back to IOMMU_DOMAIN_DMA
+
+Now, bypassing the first probe_device() call from bus_set_iommu()
+fixes the sequence:
+    ubuntu@jetson:~$ dmesg | grep iommu
+    iommu: Default domain type: Translated
+    tegra-host1x 50000000.host1x: Adding to iommu group 0
+    tegra-dc 54200000.dc: Adding to iommu group 1
+    tegra-dc 54240000.dc: Adding to iommu group 1
+    tegra-vic 54340000.vic: Adding to iommu group 2
+    nouveau 57000000.gpu: Adding to iommu group 3
+
+Note that dmesg log above is testing with IOMMU_DOMAIN_UNMANAGED.
 
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 Tested-by: Dmitry Osipenko <digetx@gmail.com>
 Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
 ---
- drivers/iommu/tegra-smmu.c | 56 ++++++++++++++++----------------------
- 1 file changed, 23 insertions(+), 33 deletions(-)
+ drivers/iommu/tegra-smmu.c | 96 ++++++--------------------------------
+ 1 file changed, 15 insertions(+), 81 deletions(-)
 
 diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 6a3ecc334481..297d49f3f80e 100644
+index 297d49f3f80e..f45ed43cf8db 100644
 --- a/drivers/iommu/tegra-smmu.c
 +++ b/drivers/iommu/tegra-smmu.c
-@@ -484,60 +484,50 @@ static void tegra_smmu_as_unprepare(struct tegra_smmu *smmu,
- static int tegra_smmu_attach_dev(struct iommu_domain *domain,
- 				 struct device *dev)
- {
-+	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
- 	struct tegra_smmu *smmu = dev_iommu_priv_get(dev);
- 	struct tegra_smmu_as *as = to_smmu_as(domain);
--	struct device_node *np = dev->of_node;
--	struct of_phandle_args args;
--	unsigned int index = 0;
--	int err = 0;
--
--	while (!of_parse_phandle_with_args(np, "iommus", "#iommu-cells", index,
--					   &args)) {
--		unsigned int swgroup = args.args[0];
--
--		if (args.np != smmu->dev->of_node) {
--			of_node_put(args.np);
--			continue;
--		}
-+	unsigned int index;
-+	int err;
- 
--		of_node_put(args.np);
-+	if (!fwspec)
-+		return -ENOENT;
- 
-+	for (index = 0; index < fwspec->num_ids; index++) {
- 		err = tegra_smmu_as_prepare(smmu, as);
--		if (err < 0)
--			return err;
-+		if (err)
-+			goto disable;
- 
--		tegra_smmu_enable(smmu, swgroup, as->id);
--		index++;
-+		tegra_smmu_enable(smmu, fwspec->ids[index], as->id);
- 	}
- 
- 	if (index == 0)
- 		return -ENODEV;
- 
- 	return 0;
-+
-+disable:
-+	while (index--) {
-+		tegra_smmu_disable(smmu, fwspec->ids[index], as->id);
-+		tegra_smmu_as_unprepare(smmu, as);
-+	}
-+
-+	return err;
+@@ -797,75 +797,9 @@ static phys_addr_t tegra_smmu_iova_to_phys(struct iommu_domain *domain,
+ 	return SMMU_PFN_PHYS(pfn) + SMMU_OFFSET_IN_PAGE(iova);
  }
  
- static void tegra_smmu_detach_dev(struct iommu_domain *domain, struct device *dev)
+-static struct tegra_smmu *tegra_smmu_find(struct device_node *np)
+-{
+-	struct platform_device *pdev;
+-	struct tegra_mc *mc;
+-
+-	pdev = of_find_device_by_node(np);
+-	if (!pdev)
+-		return NULL;
+-
+-	mc = platform_get_drvdata(pdev);
+-	if (!mc)
+-		return NULL;
+-
+-	return mc->smmu;
+-}
+-
+-static int tegra_smmu_configure(struct tegra_smmu *smmu, struct device *dev,
+-				struct of_phandle_args *args)
+-{
+-	const struct iommu_ops *ops = smmu->iommu.ops;
+-	int err;
+-
+-	err = iommu_fwspec_init(dev, &dev->of_node->fwnode, ops);
+-	if (err < 0) {
+-		dev_err(dev, "failed to initialize fwspec: %d\n", err);
+-		return err;
+-	}
+-
+-	err = ops->of_xlate(dev, args);
+-	if (err < 0) {
+-		dev_err(dev, "failed to parse SW group ID: %d\n", err);
+-		iommu_fwspec_free(dev);
+-		return err;
+-	}
+-
+-	return 0;
+-}
+-
+ static struct iommu_device *tegra_smmu_probe_device(struct device *dev)
  {
-+	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
- 	struct tegra_smmu_as *as = to_smmu_as(domain);
 -	struct device_node *np = dev->of_node;
- 	struct tegra_smmu *smmu = as->smmu;
+-	struct tegra_smmu *smmu = NULL;
 -	struct of_phandle_args args;
 -	unsigned int index = 0;
+-	int err;
 -
--	while (!of_parse_phandle_with_args(np, "iommus", "#iommu-cells", index,
--					   &args)) {
--		unsigned int swgroup = args.args[0];
-+	unsigned int index;
- 
--		if (args.np != smmu->dev->of_node) {
+-	while (of_parse_phandle_with_args(np, "iommus", "#iommu-cells", index,
+-					  &args) == 0) {
+-		smmu = tegra_smmu_find(args.np);
+-		if (smmu) {
+-			err = tegra_smmu_configure(smmu, dev, &args);
 -			of_node_put(args.np);
--			continue;
+-
+-			if (err < 0)
+-				return ERR_PTR(err);
+-
+-			/*
+-			 * Only a single IOMMU master interface is currently
+-			 * supported by the Linux kernel, so abort after the
+-			 * first match.
+-			 */
+-			dev_iommu_priv_set(dev, smmu);
+-
+-			break;
 -		}
 -
 -		of_node_put(args.np);
-+	if (!fwspec)
-+		return;
- 
--		tegra_smmu_disable(smmu, swgroup, as->id);
-+	for (index = 0; index < fwspec->num_ids; index++) {
-+		tegra_smmu_disable(smmu, fwspec->ids[index], as->id);
- 		tegra_smmu_as_unprepare(smmu, as);
 -		index++;
- 	}
+-	}
++	struct tegra_smmu *smmu = dev_iommu_priv_get(dev);
+ 
+ 	if (!smmu)
+ 		return ERR_PTR(-ENODEV);
+@@ -873,10 +807,7 @@ static struct iommu_device *tegra_smmu_probe_device(struct device *dev)
+ 	return &smmu->iommu;
  }
  
+-static void tegra_smmu_release_device(struct device *dev)
+-{
+-	dev_iommu_priv_set(dev, NULL);
+-}
++static void tegra_smmu_release_device(struct device *dev) {}
+ 
+ static const struct tegra_smmu_group_soc *
+ tegra_smmu_find_group(struct tegra_smmu *smmu, unsigned int swgroup)
+@@ -953,8 +884,21 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
+ static int tegra_smmu_of_xlate(struct device *dev,
+ 			       struct of_phandle_args *args)
+ {
++	struct platform_device *iommu_pdev = of_find_device_by_node(args->np);
++	struct tegra_mc *mc = platform_get_drvdata(iommu_pdev);
+ 	u32 id = args->args[0];
+ 
++	/*
++	 * Note: we are here releasing the reference of &iommu_pdev->dev, which
++	 * is mc->dev. Although some functions in tegra_smmu_ops may keep using
++	 * its private data beyond this point, it's still safe to do so because
++	 * the SMMU parent device is the same as the MC, so the reference count
++	 * isn't strictly necessary.
++	 */
++	put_device(&iommu_pdev->dev);
++
++	dev_iommu_priv_set(dev, mc->smmu);
++
+ 	return iommu_fwspec_add_ids(dev, &id, 1);
+ }
+ 
+@@ -1079,16 +1023,6 @@ struct tegra_smmu *tegra_smmu_probe(struct device *dev,
+ 	if (!smmu)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	/*
+-	 * This is a bit of a hack. Ideally we'd want to simply return this
+-	 * value. However the IOMMU registration process will attempt to add
+-	 * all devices to the IOMMU when bus_set_iommu() is called. In order
+-	 * not to rely on global variables to track the IOMMU instance, we
+-	 * set it here so that it can be looked up from the .probe_device()
+-	 * callback via the IOMMU device's .drvdata field.
+-	 */
+-	mc->smmu = smmu;
+-
+ 	size = BITS_TO_LONGS(soc->num_asids) * sizeof(long);
+ 
+ 	smmu->asids = devm_kzalloc(dev, size, GFP_KERNEL);
 -- 
 2.17.1
 
