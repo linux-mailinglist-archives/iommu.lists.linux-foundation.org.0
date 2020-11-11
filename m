@@ -2,83 +2,74 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA9D2AFB67
-	for <lists.iommu@lfdr.de>; Wed, 11 Nov 2020 23:34:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E0F82AFB9C
+	for <lists.iommu@lfdr.de>; Thu, 12 Nov 2020 00:11:51 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3E55786C9A;
-	Wed, 11 Nov 2020 22:34:54 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2F2A785C7D;
+	Wed, 11 Nov 2020 23:11:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dB8s6xT1wPZH; Wed, 11 Nov 2020 22:34:52 +0000 (UTC)
+	with ESMTP id W-LkPoNOYMtn; Wed, 11 Nov 2020 23:11:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C782586C8F;
-	Wed, 11 Nov 2020 22:34:52 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 39B3B861D5;
+	Wed, 11 Nov 2020 23:11:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BC38EC016F;
-	Wed, 11 Nov 2020 22:34:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 208B4C1AD6;
+	Wed, 11 Nov 2020 23:11:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BE2D2C016F
- for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 22:34:50 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DF65CC016F
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 23:11:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A5C7686C83
- for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 22:34:50 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id AAB3620395
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 23:11:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1YHFZgOYyEkT for <iommu@lists.linux-foundation.org>;
- Wed, 11 Nov 2020 22:34:48 +0000 (UTC)
+ with ESMTP id CeuN0U2q-8yw for <iommu@lists.linux-foundation.org>;
+ Wed, 11 Nov 2020 23:11:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by whitealder.osuosl.org (Postfix) with ESMTPS id BEE5B86C8E
- for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 22:34:48 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id w6so2658833pfu.1
- for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 14:34:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=/zDY1txU9YKSfZBMxX5zBFPuLz5WqGhiHVEhwalxC/s=;
- b=UlwsqDqzWFZ79M8Fw7RxcklsuwDjf5UXKrNC47sCENdlujbBC5k1ybowNyIA9Y92Uo
- C5icN7prkQNh9nmAUXG5Si8jtnFMMEW/4NO3oKYESc+Bzu9yJcNqLlY+x6wt7nEEZbHt
- HnphqJEFV7i1TerWRZD0IdyY8l0Jzl2qnJIaELzwIph9k9oJ/Iu/MsDm+qoHZKMEzV7c
- ATxMqHuNf1+JiRGfNmf5gLio6+YsfwndcOc0n/Jwfm1U3HjURlEpB8YPJxSYYxh6BC1D
- QXW/+KckNB/eGCnK68Pel26Hk1y1Pvq1bIzKeJ5KqKwiqkmFA8nXFrcSHzvrYkj+vA9l
- QDnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=/zDY1txU9YKSfZBMxX5zBFPuLz5WqGhiHVEhwalxC/s=;
- b=TDJ/gJbZCtKKDYwnnHkABdRqlcu0a+ODY4Ppedvlrl1Ko/rwREh0XYxs4+zbQaCV4O
- NjouVvUWIsGP4Nb2YlX/I94XZhDqsNNJxxtR8eVlrY4y5CjLyecnD7TND6OWXNKwv46N
- PqmNzpgWsbscoIOBkoPHPJmthGgPJF8K/fCaHfFRYiLLr9Md7Y+tCe7jtnAUrTGfsgWk
- zTe7SeL2vIh8/m9OUkfmU9WhB++97RamAA0goaLdyZIjvjVL80WvJvK58rGmRu5It/Yh
- 7ViGVxO+nEdhiqOngQegBaCUwe52JEKVu3rPtaUFZbUCh6Nlv4ll0ITdF+9GYW6FwYhN
- L44Q==
-X-Gm-Message-State: AOAM533/ROTK2O2ZqnbUKGyYD3UGNQCKDdsqTjOZpvtPRWAkoCzhi0yZ
- 32Qpck0dQ/kXBB4UYTBjpd8=
-X-Google-Smtp-Source: ABdhPJxd9Q9AnaCOoG+ZhCtsAd/jU8tGhe/KqjdM2axh75mPJwCkLVtJyOJYzZwYVRBhIToy4m9pDA==
-X-Received: by 2002:a17:90a:f00a:: with SMTP id
- bt10mr5693143pjb.91.1605134088440; 
- Wed, 11 Nov 2020 14:34:48 -0800 (PST)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
- [216.228.112.22])
- by smtp.gmail.com with ESMTPSA id a20sm3605096pff.118.2020.11.11.14.34.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Nov 2020 14:34:47 -0800 (PST)
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: thierry.reding@gmail.com,
-	joro@8bytes.org
-Subject: [PATCH RESEND 5/5] iommu/tegra-smmu: Add PCI support
-Date: Wed, 11 Nov 2020 14:21:29 -0800
-Message-Id: <20201111222129.15736-6-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201111222129.15736-1-nicoleotsuka@gmail.com>
-References: <20201111222129.15736-1-nicoleotsuka@gmail.com>
-Cc: linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, jonathanh@nvidia.com
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by silver.osuosl.org (Postfix) with ESMTPS id 2A87F2010D
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 23:11:45 +0000 (UTC)
+IronPort-SDR: BV9oS2iQStbolQE1dja7KXAPfIKKKhzJU0uWw5MZPZmaT9xYtl8K71g3DOnRUu8k9FsVbrh9Eg
+ NBvcEOskfvQQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9802"; a="166724199"
+X-IronPort-AV: E=Sophos;i="5.77,470,1596524400"; d="scan'208";a="166724199"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2020 15:11:44 -0800
+IronPort-SDR: 2SigUd3RC6BHd0NrZjhiVcNkd4/T5ldcTrknfGqqjnYMA+dH0hh6VxbwKoY75rW1jfqAHhP1bp
+ TkxPMdnvvBtw==
+X-IronPort-AV: E=Sophos;i="5.77,470,1596524400"; d="scan'208";a="541993746"
+Received: from lmwang8-mobl.ccr.corp.intel.com (HELO [10.254.209.85])
+ ([10.254.209.85])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Nov 2020 15:11:39 -0800
+Subject: Re: [PATCH v7 04/24] iommu: Add a page fault handler
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+References: <20200519175502.2504091-1-jean-philippe@linaro.org>
+ <20200519175502.2504091-5-jean-philippe@linaro.org>
+ <c840d771-188d-9ee5-d117-e4b91d29b329@linux.intel.com>
+ <20201111135740.GA2622074@myrica>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <8e630294-8199-68e3-d55a-68e6484d953a@linux.intel.com>
+Date: Thu, 12 Nov 2020 07:11:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
+MIME-Version: 1.0
+In-Reply-To: <20201111135740.GA2622074@myrica>
+Content-Language: en-US
+Cc: devicetree@vger.kernel.org, kevin.tian@intel.com, jgg@ziepe.ca,
+ linux-pci@vger.kernel.org, robin.murphy@arm.com, fenghua.yu@intel.com,
+ hch@infradead.org, linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ zhangfei.gao@linaro.org, catalin.marinas@arm.com, felix.kuehling@amd.com,
+ will@kernel.org, christian.koenig@amd.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,91 +82,109 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This patch simply adds support for PCI devices.
+Hi Jean,
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-Tested-by: Dmitry Osipenko <digetx@gmail.com>
-Signed-off-by: Nicolin Chen <nicoleotsuka@gmail.com>
----
- drivers/iommu/tegra-smmu.c | 35 +++++++++++++++++++++++++----------
- 1 file changed, 25 insertions(+), 10 deletions(-)
+On 2020/11/11 21:57, Jean-Philippe Brucker wrote:
+> Hi Baolu,
+> 
+> Thanks for the review. I'm only now reworking this and realized I've never
+> sent a reply, sorry about that.
+> 
+> On Wed, May 20, 2020 at 02:42:21PM +0800, Lu Baolu wrote:
+>> Hi Jean,
+>>
+>> On 2020/5/20 1:54, Jean-Philippe Brucker wrote:
+>>> Some systems allow devices to handle I/O Page Faults in the core mm. For
+>>> example systems implementing the PCIe PRI extension or Arm SMMU stall
+>>> model. Infrastructure for reporting these recoverable page faults was
+>>> added to the IOMMU core by commit 0c830e6b3282 ("iommu: Introduce device
+>>> fault report API"). Add a page fault handler for host SVA.
+>>>
+>>> IOMMU driver can now instantiate several fault workqueues and link them
+>>> to IOPF-capable devices. Drivers can choose between a single global
+>>> workqueue, one per IOMMU device, one per low-level fault queue, one per
+>>> domain, etc.
+>>>
+>>> When it receives a fault event, supposedly in an IRQ handler, the IOMMU
+>>> driver reports the fault using iommu_report_device_fault(), which calls
+>>> the registered handler. The page fault handler then calls the mm fault
+>>> handler, and reports either success or failure with iommu_page_response().
+>>> When the handler succeeded, the IOMMU retries the access.
+>>>
+>>> The iopf_param pointer could be embedded into iommu_fault_param. But
+>>> putting iopf_param into the iommu_param structure allows us not to care
+>>> about ordering between calls to iopf_queue_add_device() and
+>>> iommu_register_device_fault_handler().
+>>>
+>>> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> [...]
+>>> +static enum iommu_page_response_code
+>>> +iopf_handle_single(struct iopf_fault *iopf)
+>>> +{
+>>> +	vm_fault_t ret;
+>>> +	struct mm_struct *mm;
+>>> +	struct vm_area_struct *vma;
+>>> +	unsigned int access_flags = 0;
+>>> +	unsigned int fault_flags = FAULT_FLAG_REMOTE;
+>>> +	struct iommu_fault_page_request *prm = &iopf->fault.prm;
+>>> +	enum iommu_page_response_code status = IOMMU_PAGE_RESP_INVALID;
+>>> +
+>>> +	if (!(prm->flags & IOMMU_FAULT_PAGE_REQUEST_PASID_VALID))
+>>> +		return status;
+>>> +
+>>> +	mm = iommu_sva_find(prm->pasid);
+>>> +	if (IS_ERR_OR_NULL(mm))
+>>> +		return status;
+>>> +
+>>> +	down_read(&mm->mmap_sem);
+>>> +
+>>> +	vma = find_extend_vma(mm, prm->addr);
+>>> +	if (!vma)
+>>> +		/* Unmapped area */
+>>> +		goto out_put_mm;
+>>> +
+>>> +	if (prm->perm & IOMMU_FAULT_PERM_READ)
+>>> +		access_flags |= VM_READ;
+>>> +
+>>> +	if (prm->perm & IOMMU_FAULT_PERM_WRITE) {
+>>> +		access_flags |= VM_WRITE;
+>>> +		fault_flags |= FAULT_FLAG_WRITE;
+>>> +	}
+>>> +
+>>> +	if (prm->perm & IOMMU_FAULT_PERM_EXEC) {
+>>> +		access_flags |= VM_EXEC;
+>>> +		fault_flags |= FAULT_FLAG_INSTRUCTION;
+>>> +	}
+>>> +
+>>> +	if (!(prm->perm & IOMMU_FAULT_PERM_PRIV))
+>>> +		fault_flags |= FAULT_FLAG_USER;
+>>> +
+>>> +	if (access_flags & ~vma->vm_flags)
+>>> +		/* Access fault */
+>>> +		goto out_put_mm;
+>>> +
+>>> +	ret = handle_mm_fault(vma, prm->addr, fault_flags);
+>>> +	status = ret & VM_FAULT_ERROR ? IOMMU_PAGE_RESP_INVALID :
+>>
+>> Do you mind telling why it's IOMMU_PAGE_RESP_INVALID but not
+>> IOMMU_PAGE_RESP_FAILURE?
+> 
+> PAGE_RESP_FAILURE maps to PRI Response code "Response Failure" which
+> indicates a catastrophic error and causes the function to disable PRI.
+> Instead PAGE_RESP_INVALID maps to PRI Response code "Invalid request",
+> which tells the function that the address is invalid and there is no point
+> retrying this particular access.
 
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index f45ed43cf8db..4a3f095a1c26 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -10,6 +10,7 @@
- #include <linux/kernel.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
-+#include <linux/pci.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
-@@ -865,7 +866,11 @@ static struct iommu_group *tegra_smmu_device_group(struct device *dev)
- 	group->smmu = smmu;
- 	group->soc = soc;
- 
--	group->group = iommu_group_alloc();
-+	if (dev_is_pci(dev))
-+		group->group = pci_device_group(dev);
-+	else
-+		group->group = generic_device_group(dev);
-+
- 	if (IS_ERR(group->group)) {
- 		devm_kfree(smmu->dev, group);
- 		mutex_unlock(&smmu->lock);
-@@ -1075,22 +1080,32 @@ struct tegra_smmu *tegra_smmu_probe(struct device *dev,
- 	iommu_device_set_fwnode(&smmu->iommu, dev->fwnode);
- 
- 	err = iommu_device_register(&smmu->iommu);
--	if (err) {
--		iommu_device_sysfs_remove(&smmu->iommu);
--		return ERR_PTR(err);
--	}
-+	if (err)
-+		goto remove_sysfs;
- 
- 	err = bus_set_iommu(&platform_bus_type, &tegra_smmu_ops);
--	if (err < 0) {
--		iommu_device_unregister(&smmu->iommu);
--		iommu_device_sysfs_remove(&smmu->iommu);
--		return ERR_PTR(err);
--	}
-+	if (err < 0)
-+		goto unregister;
-+
-+#ifdef CONFIG_PCI
-+	err = bus_set_iommu(&pci_bus_type, &tegra_smmu_ops);
-+	if (err < 0)
-+		goto unset_platform_bus;
-+#endif
- 
- 	if (IS_ENABLED(CONFIG_DEBUG_FS))
- 		tegra_smmu_debugfs_init(smmu);
- 
- 	return smmu;
-+
-+unset_platform_bus: __maybe_unused;
-+	bus_set_iommu(&platform_bus_type, NULL);
-+unregister:
-+	iommu_device_unregister(&smmu->iommu);
-+remove_sysfs:
-+	iommu_device_sysfs_remove(&smmu->iommu);
-+
-+	return ERR_PTR(err);
- }
- 
- void tegra_smmu_remove(struct tegra_smmu *smmu)
--- 
-2.17.1
+Thanks for the explanation. I am also working on converting Intel VT-d
+to use this framework (and the sva helpers). So far so good.
 
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
