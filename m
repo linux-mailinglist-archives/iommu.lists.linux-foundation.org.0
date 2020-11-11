@@ -1,60 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D1B2AF0C6
-	for <lists.iommu@lfdr.de>; Wed, 11 Nov 2020 13:39:12 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C992AF0C9
+	for <lists.iommu@lfdr.de>; Wed, 11 Nov 2020 13:39:20 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 3A1352E00F;
-	Wed, 11 Nov 2020 12:39:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 923FE87552;
+	Wed, 11 Nov 2020 12:39:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id a0wq6bqKrjSa; Wed, 11 Nov 2020 12:39:10 +0000 (UTC)
+	with ESMTP id 0gVQWZarwH-s; Wed, 11 Nov 2020 12:39:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id E832A2BC43;
-	Wed, 11 Nov 2020 12:39:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 260318754B;
+	Wed, 11 Nov 2020 12:39:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CEA94C016F;
-	Wed, 11 Nov 2020 12:39:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0F741C016F;
+	Wed, 11 Nov 2020 12:39:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5D23FC016F
- for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 12:39:08 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 30C5FC016F
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 12:39:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 4BFD987559
- for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 12:39:08 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 256E38754B
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 12:39:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bvjjDVs3wd3r for <iommu@lists.linux-foundation.org>;
- Wed, 11 Nov 2020 12:39:07 +0000 (UTC)
+ with ESMTP id C7Ltc+6JwW68 for <iommu@lists.linux-foundation.org>;
+ Wed, 11 Nov 2020 12:39:17 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by hemlock.osuosl.org (Postfix) with ESMTP id 6D3CF87552
- for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 12:39:07 +0000 (UTC)
-X-UUID: 25826fb48a314b3ab30193fa8d8f9342-20201111
-X-UUID: 25826fb48a314b3ab30193fa8d8f9342-20201111
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6DD7387528
+ for <iommu@lists.linux-foundation.org>; Wed, 11 Nov 2020 12:39:17 +0000 (UTC)
+X-UUID: f1c7121ff4494829acbaf4cd1e9f27bf-20201111
+X-UUID: f1c7121ff4494829acbaf4cd1e9f27bf-20201111
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 613552493; Wed, 11 Nov 2020 20:39:05 +0800
+ with ESMTP id 1660985978; Wed, 11 Nov 2020 20:39:15 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 11 Nov 2020 20:39:03 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 11 Nov 2020 20:39:13 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 11 Nov 2020 20:39:02 +0800
+ Transport; Wed, 11 Nov 2020 20:39:12 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
  Rob Herring <robh+dt@kernel.org>, Will Deacon <will@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH v4 02/24] dt-bindings: memory: mediatek: Add a common
- larb-port header file
-Date: Wed, 11 Nov 2020 20:38:16 +0800
-Message-ID: <20201111123838.15682-3-yong.wu@mediatek.com>
+Subject: [PATCH v4 03/24] dt-bindings: memory: mediatek: Extend LARB_NR_MAX to
+ 32
+Date: Wed, 11 Nov 2020 20:38:17 +0800
+Message-ID: <20201111123838.15682-4-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20201111123838.15682-1-yong.wu@mediatek.com>
 References: <20201111123838.15682-1-yong.wu@mediatek.com>
@@ -84,107 +84,45 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Put all the macros about smi larb/port togethers, this is a preparing
-patch for extending LARB_NR and adding new dom-id support.
+Extend the max larb number definition as mt8192 has larb_nr over 16.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 Acked-by: Rob Herring <robh@kernel.org>
 ---
- include/dt-bindings/memory/mt2712-larb-port.h  |  2 +-
- include/dt-bindings/memory/mt6779-larb-port.h  |  2 +-
- include/dt-bindings/memory/mt8167-larb-port.h  |  2 +-
- include/dt-bindings/memory/mt8173-larb-port.h  |  2 +-
- include/dt-bindings/memory/mt8183-larb-port.h  |  2 +-
- include/dt-bindings/memory/mtk-smi-larb-port.h | 15 +++++++++++++++
- 6 files changed, 20 insertions(+), 5 deletions(-)
- create mode 100644 include/dt-bindings/memory/mtk-smi-larb-port.h
+ Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml | 2 +-
+ include/dt-bindings/memory/mtk-smi-larb-port.h              | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/dt-bindings/memory/mt2712-larb-port.h b/include/dt-bindings/memory/mt2712-larb-port.h
-index 6f9aa7349cef..b6b2c6bf4459 100644
---- a/include/dt-bindings/memory/mt2712-larb-port.h
-+++ b/include/dt-bindings/memory/mt2712-larb-port.h
-@@ -6,7 +6,7 @@
- #ifndef __DTS_IOMMU_PORT_MT2712_H
- #define __DTS_IOMMU_PORT_MT2712_H
- 
--#define MTK_M4U_ID(larb, port)		(((larb) << 5) | (port))
-+#include <dt-bindings/memory/mtk-smi-larb-port.h>
- 
- #define M4U_LARB0_ID			0
- #define M4U_LARB1_ID			1
-diff --git a/include/dt-bindings/memory/mt6779-larb-port.h b/include/dt-bindings/memory/mt6779-larb-port.h
-index 2ad0899fbf2f..60f57f54393e 100644
---- a/include/dt-bindings/memory/mt6779-larb-port.h
-+++ b/include/dt-bindings/memory/mt6779-larb-port.h
-@@ -7,7 +7,7 @@
- #ifndef _DTS_IOMMU_PORT_MT6779_H_
- #define _DTS_IOMMU_PORT_MT6779_H_
- 
--#define MTK_M4U_ID(larb, port)		 (((larb) << 5) | (port))
-+#include <dt-bindings/memory/mtk-smi-larb-port.h>
- 
- #define M4U_LARB0_ID			 0
- #define M4U_LARB1_ID			 1
-diff --git a/include/dt-bindings/memory/mt8167-larb-port.h b/include/dt-bindings/memory/mt8167-larb-port.h
-index 000fb299a408..fcb9a49ec60e 100644
---- a/include/dt-bindings/memory/mt8167-larb-port.h
-+++ b/include/dt-bindings/memory/mt8167-larb-port.h
-@@ -8,7 +8,7 @@
- #ifndef __DTS_IOMMU_PORT_MT8167_H
- #define __DTS_IOMMU_PORT_MT8167_H
- 
--#define MTK_M4U_ID(larb, port)		(((larb) << 5) | (port))
-+#include <dt-bindings/memory/mtk-smi-larb-port.h>
- 
- #define M4U_LARB0_ID			0
- #define M4U_LARB1_ID			1
-diff --git a/include/dt-bindings/memory/mt8173-larb-port.h b/include/dt-bindings/memory/mt8173-larb-port.h
-index 9f31ccfeca21..d8c99c946053 100644
---- a/include/dt-bindings/memory/mt8173-larb-port.h
-+++ b/include/dt-bindings/memory/mt8173-larb-port.h
-@@ -6,7 +6,7 @@
- #ifndef __DTS_IOMMU_PORT_MT8173_H
- #define __DTS_IOMMU_PORT_MT8173_H
- 
--#define MTK_M4U_ID(larb, port)		(((larb) << 5) | (port))
-+#include <dt-bindings/memory/mtk-smi-larb-port.h>
- 
- #define M4U_LARB0_ID			0
- #define M4U_LARB1_ID			1
-diff --git a/include/dt-bindings/memory/mt8183-larb-port.h b/include/dt-bindings/memory/mt8183-larb-port.h
-index 2c579f305162..275c095a6fd6 100644
---- a/include/dt-bindings/memory/mt8183-larb-port.h
-+++ b/include/dt-bindings/memory/mt8183-larb-port.h
-@@ -6,7 +6,7 @@
- #ifndef __DTS_IOMMU_PORT_MT8183_H
- #define __DTS_IOMMU_PORT_MT8183_H
- 
--#define MTK_M4U_ID(larb, port)		(((larb) << 5) | (port))
-+#include <dt-bindings/memory/mtk-smi-larb-port.h>
- 
- #define M4U_LARB0_ID			0
- #define M4U_LARB1_ID			1
+diff --git a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+index b9946809fc2b..ba6626347381 100644
+--- a/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
++++ b/Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+@@ -99,7 +99,7 @@ properties:
+   mediatek,larbs:
+     $ref: /schemas/types.yaml#/definitions/phandle-array
+     minItems: 1
+-    maxItems: 16
++    maxItems: 32
+     description: |
+       List of phandle to the local arbiters in the current Socs.
+       Refer to bindings/memory-controllers/mediatek,smi-larb.yaml. It must sort
 diff --git a/include/dt-bindings/memory/mtk-smi-larb-port.h b/include/dt-bindings/memory/mtk-smi-larb-port.h
-new file mode 100644
-index 000000000000..2ec7fe5ce4e9
---- /dev/null
+index 2ec7fe5ce4e9..f4d8e3aed0bc 100644
+--- a/include/dt-bindings/memory/mtk-smi-larb-port.h
 +++ b/include/dt-bindings/memory/mtk-smi-larb-port.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2020 MediaTek Inc.
-+ * Author: Yong Wu <yong.wu@mediatek.com>
-+ */
-+#ifndef __DTS_MTK_IOMMU_PORT_H_
-+#define __DTS_MTK_IOMMU_PORT_H_
-+
-+#define MTK_LARB_NR_MAX			16
-+
-+#define MTK_M4U_ID(larb, port)		(((larb) << 5) | (port))
-+#define MTK_M4U_TO_LARB(id)		(((id) >> 5) & 0xf)
-+#define MTK_M4U_TO_PORT(id)		((id) & 0x1f)
-+
-+#endif
+@@ -6,10 +6,10 @@
+ #ifndef __DTS_MTK_IOMMU_PORT_H_
+ #define __DTS_MTK_IOMMU_PORT_H_
+ 
+-#define MTK_LARB_NR_MAX			16
++#define MTK_LARB_NR_MAX			32
+ 
+ #define MTK_M4U_ID(larb, port)		(((larb) << 5) | (port))
+-#define MTK_M4U_TO_LARB(id)		(((id) >> 5) & 0xf)
++#define MTK_M4U_TO_LARB(id)		(((id) >> 5) & 0x1f)
+ #define MTK_M4U_TO_PORT(id)		((id) & 0x1f)
+ 
+ #endif
 -- 
 2.18.0
 
