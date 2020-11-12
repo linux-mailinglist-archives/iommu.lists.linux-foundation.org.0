@@ -2,78 +2,78 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DE9F2B05CF
-	for <lists.iommu@lfdr.de>; Thu, 12 Nov 2020 14:03:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635A62B05D4
+	for <lists.iommu@lfdr.de>; Thu, 12 Nov 2020 14:03:30 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id F2F6287099;
-	Thu, 12 Nov 2020 13:03:26 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1A2FE87098;
+	Thu, 12 Nov 2020 13:03:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 04YHwV-8YHXG; Thu, 12 Nov 2020 13:03:25 +0000 (UTC)
+	with ESMTP id NAPJrbZj4em8; Thu, 12 Nov 2020 13:03:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 93BF0870A8;
-	Thu, 12 Nov 2020 13:03:25 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id CBF29870A4;
+	Thu, 12 Nov 2020 13:03:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 828E2C016F;
-	Thu, 12 Nov 2020 13:03:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C5C2CC016F;
+	Thu, 12 Nov 2020 13:03:27 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BE7E1C016F
- for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 13:03:22 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1CCB1C016F
+ for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 13:03:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id A99FA8708C
- for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 13:03:22 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 0C21386F0C
+ for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 13:03:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3B0k33j-Slgv for <iommu@lists.linux-foundation.org>;
- Thu, 12 Nov 2020 13:03:22 +0000 (UTC)
+ with ESMTP id NuSbggxY4Q8P for <iommu@lists.linux-foundation.org>;
+ Thu, 12 Nov 2020 13:03:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
- [209.85.221.68])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A469E8703D
- for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 13:03:21 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id s8so5888671wrw.10
- for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 05:03:21 -0800 (PST)
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+ [209.85.221.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2F9CF86DF8
+ for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 13:03:23 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id k2so5934646wrx.2
+ for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 05:03:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3ygm1AXTLu+53w4Gri7BYEJbuhvyMFezCUVbiVOA1cI=;
- b=uA63WGlRDXWDF9rIZV4RZkVq6oJU37wcFuSQmD8BzO159BANMh6M+qpRZeX3/9SDUX
- NgjC/6kMJoth33QcDclO+ynaJlZA5DobFNRQNYs96uO5BecxpNBWMkORbZcRWO5P6qD/
- BJkF/jlsL/X45r34/KxlPQbUjbKshwp4elCUfaZGnESVEwpxokGBOQy9Uvj/8ap3OCIH
- X4XkbC3JjCUSG2bj/0UjM+bplVf6wDID7rR7qluxsv54s4WElIx8dWnQLCnODfH4+4TN
- 1fQtFlyLdLdG2hhM+mcaKhRK/XdUJ1cFPfj1ecKiWJDeJr3prD0gWxlUnB4H0tf5eUhK
- 2bmA==
+ bh=4JGD+U5wzrPrHuAbcShPgq/7SS7eVhaJGMY13GukQwc=;
+ b=L+UnK8b6jHlxkKjKLGZ2KBHb9UiCE2bYESXAd9FIJCk+MSUtGNGNYYhyKKC6RRifPQ
+ PgL5pNXsAPyMWO+HtY1Gz8tYhOV7PCazvQjyezuUbsHfk2M9AaPxMotgauVMZKLo3hiQ
+ M9zO8+yMql5b+8b9cbMFbwaUXk+eUu0753EmMvk7l1HFsWM70OEcQW79vBJFUlgt+5VM
+ KTrz/bb1p5Gfk+J3GZ0/zY9ErMbza+/lZXbPnTQ6Y0oHv+Z0tDMeL6+cldPYswOsQVrL
+ O6uN/kZ4gFKC9yygejnVCUVwrluiILl9XVtVOe0uMkP8IGro9CIcUykOaW84nVGNiLuD
+ 7kaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3ygm1AXTLu+53w4Gri7BYEJbuhvyMFezCUVbiVOA1cI=;
- b=ONNaN2qTBvoya5Ll0r+ql8WTAEXpV9n5BkmcBE4Ze8CQgM8wm3Y5Olepkb0qF0IjTN
- lCqw/LYgiJyQwgvgkJJ4jqt5xy0zLT/79CEs1zeKz/WFME9mBOXA0Bt+vAzNvgGsbIm1
- f/DYL4cpD/BJ8ZyKgUGIqCXjt+lFnWySPkdxoipXz7lPWpONMAijNXlD4H+qPWX6dpj0
- TPeFfKRXvAaSvuc2a2oyxZrFp9EooAejGfQFxGZR1tkABEnCt2hIaQRM7W9J4cMsyqxV
- d3PS2dw/LnofClAqfHED9rosNK/zVRNa+mn8KF5QL8mygLmf9XUY96zfcqB6JnZr5wOw
- IS0w==
-X-Gm-Message-State: AOAM532j6c0iRzVJiRhkEFjFArHcIOZ9yld0mYYAb4689ox1xvGTTiDy
- GDJHZsrNiS44oHtNN2N3oS+ANw==
-X-Google-Smtp-Source: ABdhPJz9bTvkN2/dsnznhn0qkGq1x4rrRxxckt9ZNtviWKF6XljTnBbloojb2RmpNHrLbr6LrtRoPQ==
-X-Received: by 2002:a5d:660f:: with SMTP id n15mr30481293wru.345.1605186200191; 
- Thu, 12 Nov 2020 05:03:20 -0800 (PST)
+ bh=4JGD+U5wzrPrHuAbcShPgq/7SS7eVhaJGMY13GukQwc=;
+ b=ON6+MlPc75J3+qpO8fmoNCoRIwNS0vrOWlLYFBELipWA2enmloed4/jqABn68FfhAL
+ KY8CUqBAyOrwHp+yokKOrp0YbupFtGUGUJlQi2zRC63tRaV4tYuJcK1f1KtZreTE6uM7
+ dMu1W6N92l5geTaP/Gk3A877Bt6qeU7Rk0MI4SkzphQ6kqIukL61P3gpx/RP5LAqWymp
+ a2114w8AGgKFuZih11wDj9elb2yNv0WADHzh3e8ZSiHes7N7A/yjhIq1KzPiZdieU8fP
+ vY2+RxZcEHGe0zgIuBqEHuW011ulkVB+JM+IVo5tMUq+ILNP1JHr+paHNDiuSdnqvmVj
+ w8Ag==
+X-Gm-Message-State: AOAM533yYN0WGrOFkPX8AnW0p9ZAuoSxRjPMDt6l8oAMAhRmsk6ElviI
+ zPuanQIs3xkRTLjXvCXMgXSYdQ==
+X-Google-Smtp-Source: ABdhPJxo3CkbVLQBJt0LU+udw0kuJH0eA8lhV+b7zpBZqVmuSk9IILiYnXCbLaDmkxe9gZqnDT5qGA==
+X-Received: by 2002:adf:9d84:: with SMTP id p4mr24594639wre.370.1605186201700; 
+ Thu, 12 Nov 2020 05:03:21 -0800 (PST)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id m22sm6877508wrb.97.2020.11.12.05.03.18
+ by smtp.gmail.com with ESMTPSA id m22sm6877508wrb.97.2020.11.12.05.03.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 05:03:19 -0800 (PST)
+ Thu, 12 Nov 2020 05:03:20 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: joro@8bytes.org, will@kernel.org, lorenzo.pieralisi@arm.com,
  robh+dt@kernel.org
-Subject: [PATCH v8 4/9] of/iommu: Support dma-can-stall property
-Date: Thu, 12 Nov 2020 13:55:16 +0100
-Message-Id: <20201112125519.3987595-5-jean-philippe@linaro.org>
+Subject: [PATCH v8 5/9] ACPI/IORT: Enable stall support for platform devices
+Date: Thu, 12 Nov 2020 13:55:17 +0100
+Message-Id: <20201112125519.3987595-6-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201112125519.3987595-1-jean-philippe@linaro.org>
 References: <20201112125519.3987595-1-jean-philippe@linaro.org>
@@ -101,52 +101,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Copy the dma-can-stall property into the fwspec structure.
+Copy the "Stall supported" bit, that tells whether a platform device
+supports stall, into the fwspec struct.
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- include/linux/iommu.h    | 2 ++
- drivers/iommu/of_iommu.c | 5 ++++-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+ drivers/acpi/arm64/iort.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index a1c78c4cdeb1..9076fb592c8f 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -572,6 +572,7 @@ struct iommu_group *fsl_mc_device_group(struct device *dev);
-  * @iommu_fwnode: firmware handle for this device's IOMMU
-  * @iommu_priv: IOMMU driver private data for this device
-  * @num_pasid_bits: number of PASID bits supported by this device
-+ * @can_stall: the device is allowed to stall
-  * @num_ids: number of associated device IDs
-  * @ids: IDs which this device may present to the IOMMU
-  */
-@@ -579,6 +580,7 @@ struct iommu_fwspec {
- 	const struct iommu_ops	*ops;
- 	struct fwnode_handle	*iommu_fwnode;
- 	u32			num_pasid_bits;
-+	bool			can_stall;
- 	unsigned int		num_ids;
- 	u32			ids[];
- };
-diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
-index e505b9130a1c..d6255ca823d8 100644
---- a/drivers/iommu/of_iommu.c
-+++ b/drivers/iommu/of_iommu.c
-@@ -212,9 +212,12 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
- 		err = of_iommu_configure_device(master_np, dev, id);
+diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
+index 70df1ecba7fe..3e39b2212388 100644
+--- a/drivers/acpi/arm64/iort.c
++++ b/drivers/acpi/arm64/iort.c
+@@ -968,6 +968,7 @@ static void iort_named_component_init(struct device *dev,
+ 	nc = (struct acpi_iort_named_component *)node->node_data;
+ 	fwspec->num_pasid_bits = FIELD_GET(ACPI_IORT_NC_PASID_BITS,
+ 					   nc->node_flags);
++	fwspec->can_stall = (nc->node_flags & ACPI_IORT_NC_STALL_SUPPORTED);
+ }
  
- 		fwspec = dev_iommu_fwspec_get(dev);
--		if (!err && fwspec)
-+		if (!err && fwspec) {
- 			of_property_read_u32(master_np, "pasid-num-bits",
- 					     &fwspec->num_pasid_bits);
-+			fwspec->can_stall = of_property_read_bool(master_np,
-+								  "dma-can-stall");
-+		}
- 	}
- 
- 	/*
+ static int iort_nc_iommu_map(struct device *dev, struct acpi_iort_node *node)
 -- 
 2.29.1
 
