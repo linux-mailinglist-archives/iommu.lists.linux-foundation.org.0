@@ -1,94 +1,73 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6BBD2B0B6D
-	for <lists.iommu@lfdr.de>; Thu, 12 Nov 2020 18:39:12 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id A63A82B0D9E
+	for <lists.iommu@lfdr.de>; Thu, 12 Nov 2020 20:15:10 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 321702E1CF;
-	Thu, 12 Nov 2020 17:39:11 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 63A7985A41;
+	Thu, 12 Nov 2020 19:15:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Jm1PHDu-Gh31; Thu, 12 Nov 2020 17:39:10 +0000 (UTC)
+	with ESMTP id SpxnvwSupLFM; Thu, 12 Nov 2020 19:15:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id B5D8C2E1B2;
-	Thu, 12 Nov 2020 17:39:10 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CCAAD84F76;
+	Thu, 12 Nov 2020 19:15:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 99F98C016F;
-	Thu, 12 Nov 2020 17:39:10 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AD6BAC016F;
+	Thu, 12 Nov 2020 19:15:08 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CC83EC016F
- for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 17:39:09 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9D2B3C016F
+ for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 19:15:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id C32F12E1B2
- for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 17:39:09 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8B6CA856B8
+ for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 19:15:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iiBffgTlBPFQ for <iommu@lists.linux-foundation.org>;
- Thu, 12 Nov 2020 17:39:09 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com
- [209.85.219.41])
- by silver.osuosl.org (Postfix) with ESMTPS id E707B20463
- for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 17:39:08 +0000 (UTC)
-Received: by mail-qv1-f41.google.com with SMTP id z13so1209267qvs.4
- for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 09:39:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=9/BWB2JMcyfr9SsyIuCQhSr0cozjVOSg0qZsEvg/Gec=;
- b=ScUqn50Av3jkuanAHL9FGgKs2H2CEtXkHfhtLCKnJl/JiHzXM6ZbzMHOwZ2hp+OVWx
- Fi+0vs1eN6mEx8OmQp7fn4u8wWGm8kj8NVs7rBtEM7yvcDuwy5qDdx1T0eYjrmriTWdQ
- TA3moLECIUN1PPVAu7IX9pZj8s7lUFYHIf/pVvChzvfn/0oXRiGe/H0vUzt7bo0jX06e
- tmnOhDEESzGoBN/C/rIcyYQA3vEILCTSVyippGbU4XhjiCwQUYijQdef9FmKKpYJTadq
- RJuyOMJeRyyohYZIhVoK3M2B9uoBrkvVFWuxnJaphy18XoYCDwDAKW9xlbTD7A35Jvfi
- k+Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=9/BWB2JMcyfr9SsyIuCQhSr0cozjVOSg0qZsEvg/Gec=;
- b=IY21vQimVAuNmpoWZctdL9AnNbIpMsF3/DWsFUsw9Wu2etfIHA+AWxBRNoQNE/3ooe
- oyxhPDnr00DT80gYHZ7vETUK/tdhnF0piFlYNrYM29TP8+IZRL5FQpq43Ou980HqIMql
- jStp8LGYOQzzoPESrgAHjHXoMaIvR/DSPRmyQNc3/fM8wNWptkUvIGpqX4u92cqE5oZc
- KH53iHqe9K3LjA1TF/0+4foJD75GbGC29pMYYDdkeOKB1jcV6Px8Q93skkdZ9s7FborU
- N0NyTf9jpCH3DGTR6mTx9ydzMhCH8N98M65yRf5sLzseCs7wEIDgNUndU9TvYjaHCPjT
- Wx+g==
-X-Gm-Message-State: AOAM533Uc5SFIJZH2ARPUVad9xIbIr4THjSfvhLS+92AovxXNT4SRR4F
- 9oijg5RKdXtWzZT1jQ8yhKEjew==
-X-Google-Smtp-Source: ABdhPJxGjs7RKm1+d6vm7YlPcQDBoWbQJjGD0bECyIRJfi4QeWUNLlgH4DteMkEt2qfo5HNkxSMv+g==
-X-Received: by 2002:a0c:f607:: with SMTP id r7mr714119qvm.47.1605202747806;
- Thu, 12 Nov 2020 09:39:07 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id d12sm4989837qtp.77.2020.11.12.09.39.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 09:39:07 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kdGYs-003z7n-Ku; Thu, 12 Nov 2020 13:39:06 -0400
-Date: Thu, 12 Nov 2020 13:39:06 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: remove dma_virt_ops v2
-Message-ID: <20201112173906.GT244516@ziepe.ca>
-References: <20201106181941.1878556-1-hch@lst.de>
- <20201112165935.GA932629@nvidia.com>
- <20201112170956.GA18813@lst.de>
+ with ESMTP id YkFYi383YNNj for <iommu@lists.linux-foundation.org>;
+ Thu, 12 Nov 2020 19:15:07 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C94C984F76
+ for <iommu@lists.linux-foundation.org>; Thu, 12 Nov 2020 19:15:06 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1605208502;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VT0wgNNnYfg403e5d0pAs+2XCLbbkpVLyNxvOBCDBuE=;
+ b=ht3hNrDRCVGymMncVEg5pjAcDv08tWywC6nLFZ8yD77PdLFXCLO0Ue46Y1S68o/VtPYazI
+ Xmw6baNY48Jphh6gQVv9vgE9TnmXAKVbv1WXuWF15pzAwMHmYiy5o99xh6OH6bHDXqJrRW
+ Si3X+wwQUbexkqsUdkQPQruWfFCf7QsZcISN5ORskkgtGXEeh9lS2Tn5ub+GvZM0s7FhAB
+ 5WQwYNqTWgh1xWwB6amImhyDfWZe2+NerCuq1n7RpJtn1AFHz0MVnXLWbfEzqvlbQ73/Ko
+ PEa8f6IIiyv00ZloSWluRID8KzI5Ao1lH2HdcNX/Nv8XcwK5ayWi8Bh83JwNfw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1605208502;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VT0wgNNnYfg403e5d0pAs+2XCLbbkpVLyNxvOBCDBuE=;
+ b=Az6qw/Q+kOFcEDQj8L6u+EJlRh4aQzhE/iNGjllYzvg/z9F90alZL2d95mOZbTNLrzOOjh
+ Ka4aBVfxaajGxqAg==
+To: Jason Gunthorpe <jgg@nvidia.com>, Ziyad Atiyyeh <ziyadat@nvidia.com>,
+ Itay Aveksis <itayav@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>
+Subject: iommu/vt-d: Cure VF irqdomain hickup
+In-Reply-To: <87k0uqmwn4.fsf@nanos.tec.linutronix.de>
+References: <20200826111628.794979401@linutronix.de>
+ <20201112125531.GA873287@nvidia.com> <87mtzmmzk6.fsf@nanos.tec.linutronix.de>
+ <87k0uqmwn4.fsf@nanos.tec.linutronix.de>
+Date: Thu, 12 Nov 2020 20:15:02 +0100
+Message-ID: <87d00imlop.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201112170956.GA18813@lst.de>
-Cc: rds-devel@oss.oracle.com, Zhu Yanjun <yanjunz@nvidia.com>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- linux-rdma@vger.kernel.org, linux-pci@vger.kernel.org,
- Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
- iommu@lists.linux-foundation.org, Bjorn Helgaas <bhelgaas@google.com>,
- Bernard Metzler <bmt@zurich.ibm.com>, Logan Gunthorpe <logang@deltatee.com>,
- Santosh Shilimkar <santosh.shilimkar@oracle.com>
+Cc: linux-pci@vger.kernel.org, x86@kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux-foundation.org,
+ Marc Zyngier <maz@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,17 +85,61 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Nov 12, 2020 at 06:09:56PM +0100, Christoph Hellwig wrote:
-> On Thu, Nov 12, 2020 at 12:59:35PM -0400, Jason Gunthorpe wrote:
-> >  RMDA/sw: Don't allow drivers using dma_virt_ops on highmem configs
-> 
-> I think this one actually is something needed in 5.10 and -stable.
+The recent changes to store the MSI irqdomain pointer in struct device
+missed that Intel DMAR does not register virtual function devices.  Due to
+that a VF device gets the plain PCI-MSI domain assigned and then issues
+compat MSI messages which get caught by the interrupt remapping unit.
 
-Done, I added a
+Cure that by inheriting the irq domain from the physical function
+device.
 
-Fixes: 551199aca1c3 ("lib/dma-virt: Add dma_virt_ops")
+That's a temporary workaround. The correct fix is to inherit the irq domain
+from the bus, but that's a larger effort which needs quite some other
+changes to the way how x86 manages PCI and MSI domains.
 
-Jason
+Fixes: 85a8dfc57a0b ("iommm/vt-d: Store irq domain in struct device")
+Reported-by: Jason Gunthorpe <jgg@nvidia.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+---
+ drivers/iommu/intel/dmar.c |   19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
+
+--- a/drivers/iommu/intel/dmar.c
++++ b/drivers/iommu/intel/dmar.c
+@@ -333,6 +333,11 @@ static void  dmar_pci_bus_del_dev(struct
+ 	dmar_iommu_notify_scope_dev(info);
+ }
+ 
++static inline void vf_inherit_msi_domain(struct pci_dev *pdev)
++{
++	dev_set_msi_domain(&pdev->dev, dev_get_msi_domain(&pdev->physfn->dev));
++}
++
+ static int dmar_pci_bus_notifier(struct notifier_block *nb,
+ 				 unsigned long action, void *data)
+ {
+@@ -342,8 +347,20 @@ static int dmar_pci_bus_notifier(struct
+ 	/* Only care about add/remove events for physical functions.
+ 	 * For VFs we actually do the lookup based on the corresponding
+ 	 * PF in device_to_iommu() anyway. */
+-	if (pdev->is_virtfn)
++	if (pdev->is_virtfn) {
++		/*
++		 * Note: This is a horrible hack and needs to be cleaned
++		 * up by assigning the domain to the bus, but that's too
++		 * big of a change for post rc3.
++		 *
++		 * Ensure that the VF device inherits the irq domain of the
++		 * PF device:
++		 */
++		if (action == BUS_NOTIFY_ADD_DEVICE)
++			vf_inherit_msi_domain(pdev);
+ 		return NOTIFY_DONE;
++	}
++
+ 	if (action != BUS_NOTIFY_ADD_DEVICE &&
+ 	    action != BUS_NOTIFY_REMOVED_DEVICE)
+ 		return NOTIFY_DONE;
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
