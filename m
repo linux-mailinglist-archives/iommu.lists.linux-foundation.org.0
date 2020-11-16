@@ -1,74 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id C93C92B3AA0
-	for <lists.iommu@lfdr.de>; Mon, 16 Nov 2020 00:48:32 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id C78DF2B3CD1
+	for <lists.iommu@lfdr.de>; Mon, 16 Nov 2020 07:13:12 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 08EF386A27;
-	Sun, 15 Nov 2020 23:48:31 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 762638708E;
+	Mon, 16 Nov 2020 06:13:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FNkvApwCvfZU; Sun, 15 Nov 2020 23:48:29 +0000 (UTC)
+	with ESMTP id 5e7qUqcu0-sv; Mon, 16 Nov 2020 06:13:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5FCD886A1E;
-	Sun, 15 Nov 2020 23:48:29 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 880E087183;
+	Mon, 16 Nov 2020 06:13:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 47BCBC07FF;
-	Sun, 15 Nov 2020 23:48:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5A329C07FF;
+	Mon, 16 Nov 2020 06:13:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6A853C07FF
- for <iommu@lists.linux-foundation.org>; Sun, 15 Nov 2020 23:48:27 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1323BC07FF
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Nov 2020 06:13:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 3A2B720390
- for <iommu@lists.linux-foundation.org>; Sun, 15 Nov 2020 23:48:27 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id F1DB38708E
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Nov 2020 06:13:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jZ4PoSQwtKBH for <iommu@lists.linux-foundation.org>;
- Sun, 15 Nov 2020 23:48:26 +0000 (UTC)
+ with ESMTP id y8mNtU10DRGU for <iommu@lists.linux-foundation.org>;
+ Mon, 16 Nov 2020 06:13:07 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by silver.osuosl.org (Postfix) with ESMTPS id C02242034A
- for <iommu@lists.linux-foundation.org>; Sun, 15 Nov 2020 23:48:25 +0000 (UTC)
-IronPort-SDR: XkYVjPhH7wVtbpvLbh19tTNraXhEFogbcxqN1MVJiRoUy26Sz9p0HumBsnf46TwlaClWVy/xh8
- OXfXi9jrYP7A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9806"; a="234840214"
-X-IronPort-AV: E=Sophos;i="5.77,481,1596524400"; d="scan'208";a="234840214"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2020 15:48:24 -0800
-IronPort-SDR: QFsXTK8yVJAJVshqFuARa27KZZ7lQvmrMDwIx7oqw5NiZ71abynlHnruwa681+tBsBtddcg0E6
- mVNxTG+UtNqQ==
-X-IronPort-AV: E=Sophos;i="5.77,481,1596524400"; d="scan'208";a="358279683"
-Received: from chenyudo-mobl.ccr.corp.intel.com (HELO [10.254.215.59])
- ([10.254.215.59])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Nov 2020 15:48:21 -0800
-Subject: Re: [PATCH] iommu/vt-d: include conditionally on
- CONFIG_INTEL_IOMMU_SVM
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Liu Yi L <yi.l.liu@intel.com>,
- Jacob Pan <jacob.jun.pan@linux.intel.com>,
- David Woodhouse <dwmw2@infradead.org>, Joerg Roedel <joro@8bytes.org>,
- iommu@lists.linux-foundation.org
-References: <20201115205951.20698-1-lukas.bulwahn@gmail.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <188313a2-ec53-28ef-2349-66594e116a2e@linux.intel.com>
-Date: Mon, 16 Nov 2020 07:47:55 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.3
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 21D7987080
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Nov 2020 06:13:06 +0000 (UTC)
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CZJdt6GWfz6xXR;
+ Mon, 16 Nov 2020 14:12:50 +0800 (CST)
+Received: from SWX921481.china.huawei.com (10.126.201.147) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 16 Nov 2020 14:12:52 +0800
+From: Barry Song <song.bao.hua@hisilicon.com>
+To: <iommu@lists.linux-foundation.org>, <hch@lst.de>, <robin.murphy@arm.com>, 
+ <m.szyprowski@samsung.com>
+Subject: [PATCH v4 0/2] dma-mapping: provide a benchmark for streaming DMA
+ mapping
+Date: Mon, 16 Nov 2020 19:08:46 +1300
+Message-ID: <20201116060848.1848-1-song.bao.hua@hisilicon.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20201115205951.20698-1-lukas.bulwahn@gmail.com>
-Content-Language: en-US
-Cc: kernel-janitors@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Tom Rix <trix@redhat.com>, Nick Desaulniers <ndesaulniers@google.com>,
- linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
- Nathan Chancellor <natechancellor@gmail.com>
+X-Originating-IP: [10.126.201.147]
+X-CFilter-Loop: Reflected
+Cc: linuxarm@huawei.com, linux-kselftest@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,61 +64,83 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020/11/16 4:59, Lukas Bulwahn wrote:
-> Commit 6ee1b77ba3ac ("iommu/vt-d: Add svm/sva invalidate function")
-> introduced intel_iommu_sva_invalidate() when CONFIG_INTEL_IOMMU_SVM.
-> This function uses the dedicated static variable inv_type_granu_table
-> and functions to_vtd_granularity() and to_vtd_size().
-> 
-> These parts are unused when !CONFIG_INTEL_IOMMU_SVM, and hence,
-> make CC=clang W=1 warns with an -Wunused-function warning.
-> 
-> Include these parts conditionally on CONFIG_INTEL_IOMMU_SVM.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Nowadays, there are increasing requirements to benchmark the performance
+of dma_map and dma_unmap particually while the device is attached to an
+IOMMU.
 
-Fixes: 6ee1b77ba3ac0 ("iommu/vt-d: Add svm/sva invalidate function")
-Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+This patchset provides the benchmark infrastruture for streaming DMA
+mapping. The architecture of the code is pretty much similar with GUP
+benchmark:
+* mm/gup_benchmark.c provides kernel interface;
+* tools/testing/selftests/vm/gup_benchmark.c provides user program to
+call the interface provided by mm/gup_benchmark.c.
 
-Best regards,
-baolu
+In our case, kernel/dma/map_benchmark.c is like mm/gup_benchmark.c;
+tools/testing/selftests/dma/dma_map_benchmark.c is like tools/testing/
+selftests/vm/gup_benchmark.c
 
-> ---
-> applies cleanly on current master and next-20201113
-> 
-> Liu Yi L, Jakob Pan, Lu Baolu, please ack.
-> 
-> Joerg, please pick this minor non-urgent clean-up patch.
-> 
->   drivers/iommu/intel/iommu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index c6622011d493..7b32703c0b47 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -5386,6 +5386,7 @@ static void intel_iommu_aux_detach_device(struct iommu_domain *domain,
->   	aux_domain_remove_dev(to_dmar_domain(domain), dev);
->   }
->   
-> +#ifdef CONFIG_INTEL_IOMMU_SVM
->   /*
->    * 2D array for converting and sanitizing IOMMU generic TLB granularity to
->    * VT-d granularity. Invalidation is typically included in the unmap operation
-> @@ -5432,7 +5433,6 @@ static inline u64 to_vtd_size(u64 granu_size, u64 nr_granules)
->   	return order_base_2(nr_pages);
->   }
->   
-> -#ifdef CONFIG_INTEL_IOMMU_SVM
->   static int
->   intel_iommu_sva_invalidate(struct iommu_domain *domain, struct device *dev,
->   			   struct iommu_cache_invalidate_info *inv_info)
-> 
+A major difference with GUP benchmark is DMA_MAP benchmark needs to run
+on a device. Considering one board with below devices and IOMMUs
+device A  ------- IOMMU 1
+device B  ------- IOMMU 2
+device C  ------- non-IOMMU
+
+Different devices might attach to different IOMMU or non-IOMMU. To make
+benchmark run, we can either
+* create a virtual device and hack the kernel code to attach the virtual
+device to IOMMU1, IOMMU2 or non-IOMMU.
+* use the existing driver_override mechinism, unbind device A,B, OR c from
+their original driver and bind A to dma_map_benchmark platform driver or
+pci driver for benchmarking.
+
+In this patchset, I prefer to use the driver_override and avoid the ugly
+hack in kernel. We can dynamically switch device behind different IOMMUs
+to get the performance of IOMMU or non-IOMMU.
+
+-v4:
+  * add dma direction support according to Christoph Hellwig's comment;
+  * add dma mask bit set according to Christoph Hellwig's comment;
+  * make the benchmark depend on DEBUG_FS according to John Garry's comment;
+  * strictly check parameters in ioctl
+-v3:
+  * fix build issues reported by 0day kernel test robot
+-v2:
+  * add PCI support; v1 supported platform devices only
+  * replace ssleep by msleep_interruptible() to permit users to exit
+    benchmark before it is completed
+  * many changes according to Robin's suggestions, thanks! Robin
+    - add standard deviation output to reflect the worst case
+    - check users' parameters strictly like the number of threads
+    - make cache dirty before dma_map
+    - fix unpaired dma_map_page and dma_unmap_single;
+    - remove redundant "long long" before ktime_to_ns();
+    - use devm_add_action()
+
+Barry Song (2):
+  dma-mapping: add benchmark support for streaming DMA APIs
+  selftests/dma: add test application for DMA_MAP_BENCHMARK
+
+ MAINTAINERS                                   |   6 +
+ kernel/dma/Kconfig                            |   9 +
+ kernel/dma/Makefile                           |   1 +
+ kernel/dma/map_benchmark.c                    | 361 ++++++++++++++++++
+ tools/testing/selftests/dma/Makefile          |   6 +
+ tools/testing/selftests/dma/config            |   1 +
+ .../testing/selftests/dma/dma_map_benchmark.c | 123 ++++++
+ 7 files changed, 507 insertions(+)
+ create mode 100644 kernel/dma/map_benchmark.c
+ create mode 100644 tools/testing/selftests/dma/Makefile
+ create mode 100644 tools/testing/selftests/dma/config
+ create mode 100644 tools/testing/selftests/dma/dma_map_benchmark.c
+
+-- 
+2.25.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
