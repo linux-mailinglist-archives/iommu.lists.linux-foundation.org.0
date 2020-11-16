@@ -1,90 +1,92 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD292B5158
-	for <lists.iommu@lfdr.de>; Mon, 16 Nov 2020 20:41:12 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D762B51B0
+	for <lists.iommu@lfdr.de>; Mon, 16 Nov 2020 20:57:13 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id DF1D285FE4;
-	Mon, 16 Nov 2020 19:41:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D0B6487052;
+	Mon, 16 Nov 2020 19:57:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id anNcoCI_RDqF; Mon, 16 Nov 2020 19:41:09 +0000 (UTC)
+	with ESMTP id sF5TtU2b9+pW; Mon, 16 Nov 2020 19:57:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5A45885FB9;
-	Mon, 16 Nov 2020 19:41:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 64A338704E;
+	Mon, 16 Nov 2020 19:57:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 47D98C07FF;
-	Mon, 16 Nov 2020 19:41:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5DE8EC07FF;
+	Mon, 16 Nov 2020 19:57:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 708ECC07FF
- for <iommu@lists.linux-foundation.org>; Mon, 16 Nov 2020 19:41:08 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 19711C07FF
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Nov 2020 19:57:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 6A08085FD5
- for <iommu@lists.linux-foundation.org>; Mon, 16 Nov 2020 19:41:08 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id F139520762
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Nov 2020 19:57:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uXqOGqiD7aXC for <iommu@lists.linux-foundation.org>;
- Mon, 16 Nov 2020 19:41:07 +0000 (UTC)
+ with ESMTP id P+uhckQLrN3o for <iommu@lists.linux-foundation.org>;
+ Mon, 16 Nov 2020 19:57:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9C04A85FB9
- for <iommu@lists.linux-foundation.org>; Mon, 16 Nov 2020 19:41:07 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id f11so6331010oij.6
- for <iommu@lists.linux-foundation.org>; Mon, 16 Nov 2020 11:41:07 -0800 (PST)
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by silver.osuosl.org (Postfix) with ESMTPS id 91D8820335
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Nov 2020 19:57:04 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id i18so17237314ots.0
+ for <iommu@lists.linux-foundation.org>; Mon, 16 Nov 2020 11:57:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6keoknQ1MsKwnGp8atRoEQd/F72ZsuKmob9p0v6BNfM=;
- b=tasZqXsCQKKnY90DDBOFueK9bf/kmpGBOAMyvne0z9yM75iExvuVlnIk0btPNoCiCW
- yBmB+CMAN2cCImV2JGL6cpu714isOmHVLvsDEAO62hR3/dtTAQjN1lWQes+JEayo9rmB
- 500b83lVZ/U5gjKhj7DHSvEwv0Dq75nbcJd3BKzd82GcHv2oH0iq+catANFxSt/ijASr
- sV5A7ECRSgg5x8ZJrv9XEQ94yyPRPGBZVW8MxWLb/Z4w5TaBkabO1CCmTtqPoREqgHS9
- lE0Iqa6FxfaQU7AcM3ngJPdJSY0Hw/6W+vD+vLQepB7oE+fQA7uoAEuYolzsyADOj3AO
- O8aQ==
+ :cc; bh=i/jF2vypozoIAWRoRUvExzTm1upLK9kXuTA4kYYBoQM=;
+ b=uCYbRXt0REy+9MdFUsPc354Sh1shvPq/44EoBKW8dlVEhWu2PsBHUOlTLgW0pbkcA/
+ XY6DrDjfxSubwTt3hnLvxkzczKeKX/tDDl1RvU41VhfRU5uk9JA8Xvie/HPDVmYcwthh
+ zADqTYV7qIU2NfqcbnWwMTa/irq1n53tVZD+GFYxd4czNRDmofzXQSLSAVksjfayLJxC
+ F2NB+5yuV1S5xfjiBD5YHoM/2YcjZO4mSAdp1mwPbqjBYmSb2Zo8kPiutdp8anKgzGFP
+ cZJCQ/ubY2T8mN/fKJj/RJ5pC9O42JAhZOUWzZgiD4ewlW5WLm3zlpaFeqkk9vNy3TIa
+ NLsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6keoknQ1MsKwnGp8atRoEQd/F72ZsuKmob9p0v6BNfM=;
- b=m0AztsWGdTvWOz1nSrdj0q2FDQF2NDDxikAEQpz76jglF3XYHWwx9q7DwP6uQwyM7Q
- J7rFgzhlHxebIJwHVy3wUHVfaaujucquC2RJx14huw+4ounvBgUtUeDe5SYundYuwieQ
- 7xdmY9UWL5WiXCcvE9bFKOoQe4bawG/9wmrPSL2hwitbjA60RmZRkSLPIGzj+WP1Or26
- XW/+firuJojimJAFs/BzAs9xtUrvvfjtFGa/ZJWkGlbeg/2R8eKocUEwYiK+udJLPQ1v
- FFo1orPJya/bacd3ycpM9v8pbEY4S2yLO0QaTsF81ErMVjYbkJeZZ8zXfAlYtdpk7s99
- w1Yg==
-X-Gm-Message-State: AOAM531CIsv4mLmiimeh86pmYqiIjNxWysmuLP4q039gFr/Fnexn8W/g
- qWycSCrZdjwwbfD+KBW1n7otwf3dGLfdHrhqGXMmxw==
-X-Google-Smtp-Source: ABdhPJwJgF7lB1wdlG4FfTWlBxtm5nm8SQZOWNMyXCDlUcOypoXNgjIFwoE/Hheuqlcxou/pA7ro3Cacgg/Nbmah4fU=
-X-Received: by 2002:aca:c3d6:: with SMTP id t205mr218361oif.10.1605555666955; 
- Mon, 16 Nov 2020 11:41:06 -0800 (PST)
+ bh=i/jF2vypozoIAWRoRUvExzTm1upLK9kXuTA4kYYBoQM=;
+ b=DWIqqBdXXJ2brIKvLIHno/CW555tdYhV0V39lMf8XITi0aoJZu6v2iLhAdph53IHZS
+ g86vvYe4s5WAIhHzN8SSn3US7blkwZINDnTVy1u5rX5GArjLRojOjM0aRISeRIOdy12+
+ ob/ok6RYVINhSHPkop8F8LtVcmXJ4xVLHaPnbXu/Gc0uHOU0rPdNIqrF2LgUBahOtBpj
+ SVJGgeT7k0WKkctxDumSzszQrHmoeMFbVaK94TUzDEFAmZSH7OzJ5VFZFcRGEEDiNzaH
+ mnUFsZ9qolqmbNiiRm2DzRkSrqMWYLmyPsZpu0qi1QAnTw1W0PSylcTNhYgRCSsGMVFy
+ GTSg==
+X-Gm-Message-State: AOAM532kailPLB6MWZr/Q8RUQEUW05JOV01+1IuC80Y+D1bS2W8OFm4u
+ weA06gETnZgjoz2TchPTot/IEtwRD7pbXQYQgRNqjystPZ8=
+X-Google-Smtp-Source: ABdhPJxq2rLWqbms4p0dfqF261lSEUqJezo2VNYvxSZDGEUqeNo2rc3yzBUfI/Hco8mHWx6SRZ/m0Uc+hY7wn2qh3jc=
+X-Received: by 2002:a4a:6802:: with SMTP id p2mr716194ooc.9.1605556131545;
+ Mon, 16 Nov 2020 11:48:51 -0800 (PST)
 MIME-Version: 1.0
 References: <20201106042710.55979-1-john.stultz@linaro.org>
  <20201106042710.55979-3-john.stultz@linaro.org>
  <20201116155936.GE2224373@ulmo>
-In-Reply-To: <20201116155936.GE2224373@ulmo>
+ <20201116163603.GA30507@willie-the-truck>
+In-Reply-To: <20201116163603.GA30507@willie-the-truck>
 From: John Stultz <john.stultz@linaro.org>
-Date: Mon, 16 Nov 2020 11:40:55 -0800
-Message-ID: <CALAqxLXhpE-vw_jL-0_fc1eg-aU5_sLwoNAUiPdUUHx2ubxrkw@mail.gmail.com>
+Date: Mon, 16 Nov 2020 11:48:39 -0800
+Message-ID: <CALAqxLVDm923WRSB+DVxFacmEtmEPS7Qeq+rW_jbCDMNMWw9PQ@mail.gmail.com>
 Subject: Re: [PATCH v6 3/3] firmware: QCOM_SCM: Allow qcom_scm driver to be
  loadable as a permenent module
-To: Thierry Reding <thierry.reding@gmail.com>
+To: Will Deacon <will@kernel.org>
 Cc: Maulik Shah <mkshah@codeaurora.org>, Jason Cooper <jason@lakedaemon.net>,
  Saravana Kannan <saravanak@google.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, lkml <linux-kernel@vger.kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Linus Walleij <linus.walleij@linaro.org>, lkml <linux-kernel@vger.kernel.org>,
  Lina Iyer <ilina@codeaurora.org>,
  "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
  Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
  Vinod Koul <vkoul@kernel.org>, Andy Gross <agross@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
  "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
  Marc Zyngier <maz@kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
  Thomas Gleixner <tglx@linutronix.de>, Jon Hunter <jonathanh@nvidia.com>,
- Will Deacon <will@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
  Kalle Valo <kvalo@codeaurora.org>, Todd Kjos <tkjos@google.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -103,40 +105,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Nov 16, 2020 at 7:59 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+On Mon, Nov 16, 2020 at 8:36 AM Will Deacon <will@kernel.org> wrote:
+> On Mon, Nov 16, 2020 at 04:59:36PM +0100, Thierry Reding wrote:
+> > On Fri, Nov 06, 2020 at 04:27:10AM +0000, John Stultz wrote:
+> > Unfortunately, the ARM SMMU module will eventually end up being loaded
+> > once the root filesystem has been mounted (for example via SDHCI or
+> > Ethernet, both with using just plain, non-IOMMU-backed DMA API) and then
+> > initialize, configuring as "fault by default", which then results from a
+> > slew of SMMU faults from all the devices that have previously configured
+> > themselves without IOMMU support.
 >
-> On Fri, Nov 06, 2020 at 04:27:10AM +0000, John Stultz wrote:
-> > diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-> > index 04878caf6da49..c64d7a2b65134 100644
-> > --- a/drivers/iommu/Kconfig
-> > +++ b/drivers/iommu/Kconfig
-> > @@ -248,6 +248,7 @@ config SPAPR_TCE_IOMMU
-> >  config ARM_SMMU
-> >       tristate "ARM Ltd. System MMU (SMMU) Support"
-> >       depends on ARM64 || ARM || (COMPILE_TEST && !GENERIC_ATOMIC64)
-> > +     depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
-> >       select IOMMU_API
-> >       select IOMMU_IO_PGTABLE_LPAE
-> >       select ARM_DMA_USE_IOMMU if ARM
+> I wonder if fw_devlink=on would help here?
 >
-> This, in conjunction with deferred probe timeout, causes mayhem on
-> Tegra186. The problem, as far as I can tell, is that there are various
-> devices that are hooked up to the ARM SMMU, but if ARM SMMU ends up
-> being built as a loadable module, then those devices will initialize
-> without IOMMU support (because deferred probe will timeout before the
-> ARM SMMU module can be loaded from the root filesystem).
+> But either way, I'd be more inclined to revert this change if it's causing
+> problems for !QCOM devices.
 >
-> Unfortunately, the ARM SMMU module will eventually end up being loaded
-> once the root filesystem has been mounted (for example via SDHCI or
-> Ethernet, both with using just plain, non-IOMMU-backed DMA API) and then
-> initialize, configuring as "fault by default", which then results from a
-> slew of SMMU faults from all the devices that have previously configured
-> themselves without IOMMU support.
+> Linus -- please can you drop this one (patch 3/3) for now, given that it's
+> causing problems?
 
-Oof. My apologies for the trouble. Thanks so much for the report.
+Agreed. Apologies again for the trouble.
 
-Out of curiosity, does booting with deferred_probe_timeout=30 avoid
-the issue for you?
+I do feel like the probe timeout to handle optional links is causing a
+lot of the trouble here. I expect fw_devlink would solve this, but it
+may be awhile before it can be always enabled.  I may see about
+pushing the default probe timeout value to be a little further out
+than init (I backed away from my last attempt as I didn't want to
+cause long (30 second) delays for cases like NFS root, but maybe 2-5
+seconds would be enough to make things work better for everyone).
 
 thanks
 -john
