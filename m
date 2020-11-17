@@ -2,63 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DD22B71DE
-	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 23:57:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 001F52B7220
+	for <lists.iommu@lfdr.de>; Wed, 18 Nov 2020 00:24:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id F08BC8539A;
-	Tue, 17 Nov 2020 22:57:24 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B305D832C6;
+	Tue, 17 Nov 2020 23:24:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mdtylh2CZ2r2; Tue, 17 Nov 2020 22:57:24 +0000 (UTC)
+	with ESMTP id n_E4YrSMJxQu; Tue, 17 Nov 2020 23:24:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9159F854FC;
-	Tue, 17 Nov 2020 22:57:24 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5A90783F0D;
+	Tue, 17 Nov 2020 23:24:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7456AC1834;
-	Tue, 17 Nov 2020 22:57:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 39248C07FF;
+	Tue, 17 Nov 2020 23:24:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CFAD4C07FF
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 22:57:22 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9EEA8C07FF
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 23:24:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C6279870FC
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 22:57:22 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 9A31687028
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 23:24:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id F4RntA61AYEo for <iommu@lists.linux-foundation.org>;
- Tue, 17 Nov 2020 22:57:22 +0000 (UTC)
+ with ESMTP id Zxt5lzXAOc+n for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Nov 2020 23:24:35 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 510D1856B8
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 22:57:22 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BC03522202;
- Tue, 17 Nov 2020 22:57:20 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 3B6C987027
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 23:24:35 +0000 (UTC)
+Received: from localhost.localdomain (236.31.169.217.in-addr.arpa
+ [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 33CF7208B8;
+ Tue, 17 Nov 2020 23:24:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605653841;
- bh=KgP6kIuW2/56O4LdccOpIcXq+RuiisQme+VZtaE2LFk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=D73w5s+6pbC0lfIN6P0E9PzWBfZfNHkLIspBx7xGiSb9StntWhr6b+6rRYzmOTmmC
- SlPll7ltr48r+vg3hewCLk0famlOjGYTs1XdwidEEC0KWezG0bnkr/X10ifPYFzy2n
- +sa/U5hVGNMnYarhrP3GfLUORm9edCExp+AOfs30=
-Date: Tue, 17 Nov 2020 22:57:17 +0000
+ s=default; t=1605655474;
+ bh=DBKJOtjbMI3Jf+vIBiv48gZMtpfWzjVButwb4YODpxU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=LilzwPqewa1mZV61sPMMhaW6NNBS7lkwEtlxi+2C5T0U/xrMcdYWObdOeTOUgERii
+ d5E8a6trunuE5+91q4kEHh8yI7EWncM1XQXEhr+/wAT5fmfPB/9vuAgBDm+RJjNsay
+ np8iKj7ecgMhTR7Cq4FEpvikyGo6OrHrWWpctD0c=
 From: Will Deacon <will@kernel.org>
-To: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH] iommu/amd: Enforce 4k mapping for certain IOMMU data
- structures
-Message-ID: <20201117225717.GF524@willie-the-truck>
-References: <20201028231824.56504-1-suravee.suthikulpanit@amd.com>
+To: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Chen Jun <chenjun102@huawei.com>
+Subject: Re: [PATCH] iommu: Modify the description of iommu_sva_unbind_device
+Date: Tue, 17 Nov 2020 23:24:27 +0000
+Message-Id: <160565435695.2778655.8468906444241988045.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201023064827.74794-1-chenjun102@huawei.com>
+References: <20201023064827.74794-1-chenjun102@huawei.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201028231824.56504-1-suravee.suthikulpanit@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: iommu@lists.linux-foundation.org, Jon.Grimm@amd.com, brijesh.singh@amd.com,
- linux-kernel@vger.kernel.org
+Cc: catalin.marinas@arm.com, guohanjun@huawei.com, kernel-team@android.com,
+ Will Deacon <will@kernel.org>, rui.xiang@huawei.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,33 +76,23 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Oct 28, 2020 at 11:18:24PM +0000, Suravee Suthikulpanit wrote:
-> AMD IOMMU requires 4k-aligned pages for the event log, the PPR log,
-> and the completion wait write-back regions. However, when allocating
-> the pages, they could be part of large mapping (e.g. 2M) page.
-> This causes #PF due to the SNP RMP hardware enforces the check based
-> on the page level for these data structures.
+On Fri, 23 Oct 2020 06:48:27 +0000, Chen Jun wrote:
+> iommu_sva_unbind_device has no return value.
+> 
+> Remove the description of the return value of the function.
 
-Please could you include an example backtrace here?
+Applied to arm64 (for-next/iommu/misc), thanks!
 
-> So, fix by calling set_memory_4k() on the allocated pages.
-
-I think I'm missing something here. set_memory_4k() will break the kernel
-linear mapping up into page granular mappings, but the IOMMU isn't using
-that mapping, right? It's just using the physical address returned by
-iommu_virt_to_phys(), so why does it matter?
-
-Just be nice to capture some of this rationale in the log, especially as
-I'm not familiar with this device.
-
-> Fixes: commit c69d89aff393 ("iommu/amd: Use 4K page for completion wait write-back semaphore")
-
-I couldn't figure out how that commit could cause this problem. Please can
-you explain that to me?
+[1/1] iommu: Modify the description of iommu_sva_unbind_device
+      https://git.kernel.org/arm64/c/6243f572a18d
 
 Cheers,
-
+-- 
 Will
+
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
