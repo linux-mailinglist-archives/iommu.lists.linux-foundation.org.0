@@ -1,52 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BB392B5CA5
-	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 11:10:03 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id E25E32B5CDA
+	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 11:30:12 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3396585D8F;
-	Tue, 17 Nov 2020 10:10:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 97B5C204B9;
+	Tue, 17 Nov 2020 10:30:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LLxpK96lvwvz; Tue, 17 Nov 2020 10:10:01 +0000 (UTC)
+	with ESMTP id RFstcdJlZS33; Tue, 17 Nov 2020 10:30:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BD85385C9D;
-	Tue, 17 Nov 2020 10:10:01 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A198B214E6;
+	Tue, 17 Nov 2020 10:30:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9B27CC07FF;
-	Tue, 17 Nov 2020 10:10:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7C2BCC07FF;
+	Tue, 17 Nov 2020 10:30:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 71D59C07FF
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:10:00 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2F43BC07FF
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:30:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 63FA7870FD
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:10:00 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1C1E48669E
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:30:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id h7SmQtVQkSXj for <iommu@lists.linux-foundation.org>;
- Tue, 17 Nov 2020 10:09:58 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by hemlock.osuosl.org (Postfix) with ESMTPS id BCCE087113
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:09:58 +0000 (UTC)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 51D0B39B; Tue, 17 Nov 2020 11:09:55 +0100 (CET)
-Date: Tue, 17 Nov 2020 11:09:53 +0100
-From: Joerg Roedel <joro@8bytes.org>
-To: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
-Subject: IOMMU Maintainership
-Message-ID: <20201117100953.GR22888@8bytes.org>
+ with ESMTP id ndrV5GdxTS1K for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Nov 2020 10:30:03 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 47EB68669F
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:30:03 +0000 (UTC)
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cb2Hm0JxfzLmCh;
+ Tue, 17 Nov 2020 18:29:40 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.58) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 17 Nov 2020 18:29:51 +0800
+From: John Garry <john.garry@huawei.com>
+To: <robin.murphy@arm.com>, <joro@8bytes.org>, <will@kernel.org>
+Subject: [RESEND PATCH v3 0/4] iommu/iova: Solve longterm IOVA issue
+Date: Tue, 17 Nov 2020 18:25:30 +0800
+Message-ID: <1605608734-84416-1-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Will Deacon <will@kernel.org>, Alex Williamson <alex.williamson@redhat.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Robin Murphy <robin.murphy@arm.com>
+X-Originating-IP: [10.69.192.58]
+X-CFilter-Loop: Reflected
+Cc: linuxarm@huawei.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, xiyou.wangcong@gmail.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -64,27 +68,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi,
+This series contains a patch to solve the longterm IOVA issue which
+leizhen originally tried to address at [0].
 
-last week I spent in the hospital and had an unplanned surgery from
-which I am recovering now. The recovery will take a few weeks, which
-unfortunatly does not allow me to fulfill my IOMMU maintainer duties or
-do any other serious work in front of a computer.
+A sieved kernel log is at the following, showing periodic dumps of IOVA
+sizes, per CPU and per depot bin, per IOVA size granule:
+https://raw.githubusercontent.com/hisilicon/kernel-dev/topic-iommu-5.10-iova-debug-v3/aging_test
 
-Luckily Will Deacon volunteered to handle incoming IOMMU patches and
-send them upstream. So please Cc him on any patches that you want to
-have merged upstream for the next release and on important fixes for
-v5.10. The patches will go through another tree for the time being, Will
-can share the details on that.
+Notice, for example, the following logs:
+[13175.355584] print_iova1 cpu_total=40135 depot_total=3866 total=44001
+[83483.457858] print_iova1 cpu_total=62532 depot_total=24476 total=87008
 
-I hope to return to my duties when the next merge window is over.
+Where total IOVA rcache size has grown from 44K->87K over a long time.
 
-Thanks a lot for your help, Will! Also thank you to the others on Cc
-which will help Will handling the patch flow.
+Along with this patch, I included the following:
+- A smaller helper to clear all IOVAs for a domain
+- Change polarity of the IOVA magazine helpers
+- Small optimisation from Cong Wang included, which was never applied [1].
+  There was some debate of the other patches in that series, but this one
+  is quite straightforward.
 
-Regards,
+Differnces to v2:
+- Update commit message for patch 3/4
 
-	Joerg
+Differences to v1:
+- Add IOVA clearing helper
+- Add patch to change polarity of mag helpers
+- Avoid logically-redundant extra variable in __iova_rcache_insert()
+
+[0] https://lore.kernel.org/linux-iommu/20190815121104.29140-3-thunder.leizhen@huawei.com/
+[1] https://lore.kernel.org/linux-iommu/4b74d40a-22d1-af53-fcb6-5d70183705a8@huawei.com/
+
+Cong Wang (1):
+  iommu: avoid taking iova_rbtree_lock twice
+
+John Garry (3):
+  iommu/iova: Add free_all_cpu_cached_iovas()
+  iommu/iova: Avoid double-negatives in magazine helpers
+  iommu/iova: Flush CPU rcache for when a depot fills
+
+ drivers/iommu/iova.c | 66 +++++++++++++++++++++++++-------------------
+ 1 file changed, 38 insertions(+), 28 deletions(-)
+
+-- 
+2.26.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
