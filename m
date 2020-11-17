@@ -2,49 +2,50 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB75F2B5CD6
-	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 11:30:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C702B5CD7
+	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 11:30:10 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id F2FB82047D;
-	Tue, 17 Nov 2020 10:30:07 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A7FE520798;
+	Tue, 17 Nov 2020 10:30:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xf9y44zUlv-T; Tue, 17 Nov 2020 10:30:06 +0000 (UTC)
+	with ESMTP id jaQSJ4PVuxN5; Tue, 17 Nov 2020 10:30:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 001B5204B7;
-	Tue, 17 Nov 2020 10:30:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2D516204B8;
+	Tue, 17 Nov 2020 10:30:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DAE01C0891;
-	Tue, 17 Nov 2020 10:30:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2596BC07FF;
+	Tue, 17 Nov 2020 10:30:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 369B9C07FF
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7BE34C07FF
  for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:30:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 333298704B
+ by whitealder.osuosl.org (Postfix) with ESMTP id 77EBF8669A
  for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:30:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3u-x6jUPXiJV for <iommu@lists.linux-foundation.org>;
+ with ESMTP id K+BnSlP3gXbT for <iommu@lists.linux-foundation.org>;
  Tue, 17 Nov 2020 10:30:02 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by hemlock.osuosl.org (Postfix) with ESMTPS id BF2F587109
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:30:02 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id B616086690
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:30:01 +0000 (UTC)
 Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Cb2Hw3ycdzhbgk;
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Cb2Hw3kyFzhbgZ;
  Tue, 17 Nov 2020 18:29:48 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
  14.3.487.0; Tue, 17 Nov 2020 18:29:51 +0800
 From: John Garry <john.garry@huawei.com>
 To: <robin.murphy@arm.com>, <joro@8bytes.org>, <will@kernel.org>
-Subject: [RESEND PATCH v3 1/4] iommu/iova: Add free_all_cpu_cached_iovas()
-Date: Tue, 17 Nov 2020 18:25:31 +0800
-Message-ID: <1605608734-84416-2-git-send-email-john.garry@huawei.com>
+Subject: [RESEND PATCH v3 2/4] iommu/iova: Avoid double-negatives in magazine
+ helpers
+Date: Tue, 17 Nov 2020 18:25:32 +0800
+Message-ID: <1605608734-84416-3-git-send-email-john.garry@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1605608734-84416-1-git-send-email-john.garry@huawei.com>
 References: <1605608734-84416-1-git-send-email-john.garry@huawei.com>
@@ -70,53 +71,144 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add a helper function to free the CPU rcache for all online CPUs.
+A similar crash to the following could be observed if initial CPU rcache
+magazine allocations fail in init_iova_rcaches():
 
-There also exists a function of the same name in
-drivers/iommu/intel/iommu.c, but the parameters are different, and there
-should be no conflict.
+Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+Mem abort info:
+   ESR = 0x96000004
+   EC = 0x25: DABT (current EL), IL = 32 bits
+   SET = 0, FnV = 0
+   EA = 0, S1PTW = 0
+Data abort info:
+   ISV = 0, ISS = 0x00000004
+   CM = 0, WnR = 0
+[0000000000000000] user address but active_mm is swapper
+Internal error: Oops: 96000004 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 11 PID: 696 Comm: irq/40-hisi_sas Not tainted 5.9.0-rc7-dirty #109
+Hardware name: Huawei D06 /D06, BIOS Hisilicon D06 UEFI RC0 - V1.16.01 03/15/2019
+Call trace:
+  free_iova_fast+0xfc/0x280
+  iommu_dma_free_iova+0x64/0x70
+  __iommu_dma_unmap+0x9c/0xf8
+  iommu_dma_unmap_sg+0xa8/0xc8
+  dma_unmap_sg_attrs+0x28/0x50
+  cq_thread_v3_hw+0x2dc/0x528
+  irq_thread_fn+0x2c/0xa0
+  irq_thread+0x130/0x1e0
+  kthread+0x154/0x158
+  ret_from_fork+0x10/0x34
+
+Code: f9400060 f102001f 54000981 d4210000 (f9400043)
+
+ ---[ end trace 4afcbdfc61b60467 ]---
+
+The issue is that expression !iova_magazine_full(NULL) evaluates true; this
+falls over in in __iova_rcache_insert() when we attempt to cache a mag
+and cpu_rcache->loaded == NULL:
+
+if (!iova_magazine_full(cpu_rcache->loaded)) {
+	can_insert = true;
+...
+
+if (can_insert)
+	iova_magazine_push(cpu_rcache->loaded, iova_pfn);
+
+As above, can_insert is evaluated true, which it shouldn't be, and we try
+to insert pfns in a NULL mag, which is not safe.
+
+To avoid this, stop using double-negatives, like !iova_magazine_full() and
+!iova_magazine_empty(), and use positive tests, like
+iova_magazine_has_space() and iova_magazine_has_pfns(), respectively; these
+can safely deal with cpu_rcache->{loaded, prev} = NULL.
 
 Signed-off-by: John Garry <john.garry@huawei.com>
 ---
- drivers/iommu/iova.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/iommu/iova.c | 29 +++++++++++++++++------------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-index 30d969a4c5fd..81b7399dd5e8 100644
+index 81b7399dd5e8..1f3f0f8b12e0 100644
 --- a/drivers/iommu/iova.c
 +++ b/drivers/iommu/iova.c
-@@ -227,6 +227,14 @@ static int __alloc_and_insert_iova_range(struct iova_domain *iovad,
- 	return -ENOMEM;
+@@ -827,14 +827,18 @@ iova_magazine_free_pfns(struct iova_magazine *mag, struct iova_domain *iovad)
+ 	mag->size = 0;
  }
  
-+static void free_all_cpu_cached_iovas(struct iova_domain *iovad)
-+{
-+	unsigned int cpu;
-+
-+	for_each_online_cpu(cpu)
-+		free_cpu_cached_iovas(cpu, iovad);
-+}
-+
- static struct kmem_cache *iova_cache;
- static unsigned int iova_cache_users;
- static DEFINE_MUTEX(iova_cache_mutex);
-@@ -422,15 +430,12 @@ alloc_iova_fast(struct iova_domain *iovad, unsigned long size,
- retry:
- 	new_iova = alloc_iova(iovad, size, limit_pfn, true);
- 	if (!new_iova) {
--		unsigned int cpu;
--
- 		if (!flush_rcache)
- 			return 0;
+-static bool iova_magazine_full(struct iova_magazine *mag)
++static bool iova_magazine_has_space(struct iova_magazine *mag)
+ {
+-	return (mag && mag->size == IOVA_MAG_SIZE);
++	if (!mag)
++		return false;
++	return mag->size < IOVA_MAG_SIZE;
+ }
  
- 		/* Try replenishing IOVAs by flushing rcache. */
- 		flush_rcache = false;
--		for_each_online_cpu(cpu)
--			free_cpu_cached_iovas(cpu, iovad);
-+		free_all_cpu_cached_iovas(iovad);
- 		goto retry;
- 	}
+-static bool iova_magazine_empty(struct iova_magazine *mag)
++static bool iova_magazine_has_pfns(struct iova_magazine *mag)
+ {
+-	return (!mag || mag->size == 0);
++	if (!mag)
++		return false;
++	return mag->size;
+ }
  
+ static unsigned long iova_magazine_pop(struct iova_magazine *mag,
+@@ -843,7 +847,7 @@ static unsigned long iova_magazine_pop(struct iova_magazine *mag,
+ 	int i;
+ 	unsigned long pfn;
+ 
+-	BUG_ON(iova_magazine_empty(mag));
++	BUG_ON(!iova_magazine_has_pfns(mag));
+ 
+ 	/* Only fall back to the rbtree if we have no suitable pfns at all */
+ 	for (i = mag->size - 1; mag->pfns[i] > limit_pfn; i--)
+@@ -859,7 +863,7 @@ static unsigned long iova_magazine_pop(struct iova_magazine *mag,
+ 
+ static void iova_magazine_push(struct iova_magazine *mag, unsigned long pfn)
+ {
+-	BUG_ON(iova_magazine_full(mag));
++	BUG_ON(!iova_magazine_has_space(mag));
+ 
+ 	mag->pfns[mag->size++] = pfn;
+ }
+@@ -905,9 +909,9 @@ static bool __iova_rcache_insert(struct iova_domain *iovad,
+ 	cpu_rcache = raw_cpu_ptr(rcache->cpu_rcaches);
+ 	spin_lock_irqsave(&cpu_rcache->lock, flags);
+ 
+-	if (!iova_magazine_full(cpu_rcache->loaded)) {
++	if (iova_magazine_has_space(cpu_rcache->loaded)) {
+ 		can_insert = true;
+-	} else if (!iova_magazine_full(cpu_rcache->prev)) {
++	} else if (iova_magazine_has_space(cpu_rcache->prev)) {
+ 		swap(cpu_rcache->prev, cpu_rcache->loaded);
+ 		can_insert = true;
+ 	} else {
+@@ -916,8 +920,9 @@ static bool __iova_rcache_insert(struct iova_domain *iovad,
+ 		if (new_mag) {
+ 			spin_lock(&rcache->lock);
+ 			if (rcache->depot_size < MAX_GLOBAL_MAGS) {
+-				rcache->depot[rcache->depot_size++] =
+-						cpu_rcache->loaded;
++				if (cpu_rcache->loaded)
++					rcache->depot[rcache->depot_size++] =
++							cpu_rcache->loaded;
+ 			} else {
+ 				mag_to_free = cpu_rcache->loaded;
+ 			}
+@@ -968,9 +973,9 @@ static unsigned long __iova_rcache_get(struct iova_rcache *rcache,
+ 	cpu_rcache = raw_cpu_ptr(rcache->cpu_rcaches);
+ 	spin_lock_irqsave(&cpu_rcache->lock, flags);
+ 
+-	if (!iova_magazine_empty(cpu_rcache->loaded)) {
++	if (iova_magazine_has_pfns(cpu_rcache->loaded)) {
+ 		has_pfn = true;
+-	} else if (!iova_magazine_empty(cpu_rcache->prev)) {
++	} else if (iova_magazine_has_pfns(cpu_rcache->prev)) {
+ 		swap(cpu_rcache->prev, cpu_rcache->loaded);
+ 		has_pfn = true;
+ 	} else {
 -- 
 2.26.2
 
