@@ -2,85 +2,72 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB002B676E
-	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 15:32:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 193DB2B67A5
+	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 15:40:14 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 626D38704A;
-	Tue, 17 Nov 2020 14:32:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C135F87042;
+	Tue, 17 Nov 2020 14:40:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wzdBwLvNeUKr; Tue, 17 Nov 2020 14:32:32 +0000 (UTC)
+	with ESMTP id 3PWpVmCwantT; Tue, 17 Nov 2020 14:40:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 056528704C;
-	Tue, 17 Nov 2020 14:32:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BD94D8706C;
+	Tue, 17 Nov 2020 14:40:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0016AC07FF;
-	Tue, 17 Nov 2020 14:32:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A00C1C07FF;
+	Tue, 17 Nov 2020 14:40:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7219AC07FF
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 14:32:30 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3BDD2C07FF
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 14:40:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 6D7718579E
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 14:32:30 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2964D8639E
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 14:40:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id R2H9geQJDpcp for <iommu@lists.linux-foundation.org>;
- Tue, 17 Nov 2020 14:32:30 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 73E9E85604
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 14:32:25 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1605623550; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=xBQcg+Wcwhh18eydvFxaDQClwZpGMJnYWJxgECPLHjo=;
- b=oCW4wvtPbGMtSh30F2CTLYjZ1o6+ZKtGTuXVNA4MdjZ2StzU68tf9ISBZijQxbbACjJfhp3T
- R6l9w05HuTfqX+mFKS8b/nke8Zv/59ePygj6aWR2RKdMYIQL0HbIDJ4kv/fDbUAFhprw2OWs
- H/M6kVYL0CyngRjlqMdZVfjiWLc=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 5fb3dedef2d9c8cbcaf704e7 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 17 Nov 2020 14:31:58
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id D9261C43462; Tue, 17 Nov 2020 14:31:57 +0000 (UTC)
-Received: from blr-ubuntu-253.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 688D4C433ED;
- Tue, 17 Nov 2020 14:31:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 688D4C433ED
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
- smtp.mailfrom=saiprakash.ranjan@codeaurora.org
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
- Rob Clark <robdclark@gmail.com>
-Subject: [PATCHv8 8/8] iommu: arm-smmu-impl: Add a space before open
- parenthesis
-Date: Tue, 17 Nov 2020 20:00:47 +0530
-Message-Id: <ef0f8ba1c8fc728e6766b64661326e6c5bc6081d.1605621785.git.saiprakash.ranjan@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
-References: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
+ with ESMTP id ZXzVPH7vU3Q9 for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Nov 2020 14:40:08 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 41F8F86382
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 14:40:08 +0000 (UTC)
+IronPort-SDR: +zbNT8AYRHHmZguVuDBC0a9eN9Nm2p9WnoXe98sWyt+/p13oqiYlX7KmY+Qvgk92EOqMfavdcg
+ Nsy+PXKNRM6g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="171104042"
+X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; d="scan'208";a="171104042"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2020 06:40:01 -0800
+IronPort-SDR: DFsIXHLgQqIVojG6gawwZvtSoSb8ApdFQe8B9nj2WzAOlvdK4OTMF/92Jcikey/4ur9YlPerar
+ TBhKilJZCdmQ==
+X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; d="scan'208";a="367884411"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.210.201])
+ ([10.254.210.201])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2020 06:39:57 -0800
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20201112022407.2063896-1-baolu.lu@linux.intel.com>
+ <20201116125631.2d043fcd@w520.home>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH 1/1] vfio/type1: Add subdev_ioasid callback to
+ vfio_iommu_driver_ops
+Message-ID: <c4526653-2e0d-2f9a-66ad-b3dba284a4d3@linux.intel.com>
+Date: Tue, 17 Nov 2020 22:39:55 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
 MIME-Version: 1.0
-Cc: linux-arm-msm@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20201116125631.2d043fcd@w520.home>
+Content-Language: en-US
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Kevin Tian <kevin.tian@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Ashok Raj <ashok.raj@intel.com>, kvm@vger.kernel.org,
+ Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,36 +80,93 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Fix the checkpatch warning for space required before the open
-parenthesis.
+Hi Alex,
 
-Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Acked-by: Will Deacon <will@kernel.org>
----
- drivers/iommu/arm/arm-smmu/arm-smmu-impl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 2020/11/17 3:56, Alex Williamson wrote:
+> On Thu, 12 Nov 2020 10:24:07 +0800
+> Lu Baolu<baolu.lu@linux.intel.com>  wrote:
+> 
+>> Add API for getting the ioasid of a subdevice (vfio/mdev). This calls
+>> into the backend IOMMU module to get the actual value or error number
+>> if ioasid for subdevice is not supported. The physical device driver
+>> implementations which rely on the vfio/mdev framework for mediated
+>> device user level access could typically consume this interface like
+>> below:
+>>
+>> 	struct device *dev = mdev_dev(mdev);
+>> 	unsigned int pasid;
+>> 	int ret;
+>>
+>> 	ret = vfio_subdev_ioasid(dev, &pasid);
+>> 	if (ret < 0)
+>> 		return ret;
+>>
+>>           /* Program device context with pasid value. */
+>>           ....
+> 
+> Seems like an overly specific callback.  We already export means for
+> you to get a vfio_group, test that a device is an mdev, and get the
+> iommu device from an mdev.  So you can already test whether a given
+> device is an mdev with an iommu backing device that supports aux
+> domains.  The only missing piece seems to be that you can't get the
+> domain for a group in order to retrieve the pasid.  So why aren't we
+> exporting a callback that given a vfio_group provides the iommu domain?
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-index 26e2734eb4d7..136872e77195 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-@@ -12,7 +12,7 @@
- 
- static int arm_smmu_gr0_ns(int offset)
- {
--	switch(offset) {
-+	switch (offset) {
- 	case ARM_SMMU_GR0_sCR0:
- 	case ARM_SMMU_GR0_sACR:
- 	case ARM_SMMU_GR0_sGFSR:
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+Make sense! Thanks for your guidance. :-)
+
+So what we want to export in vfio.c is
+
+struct iommu_domain *vfio_group_get_domain(struct vfio_group *group)
+
+What the callers need to do are:
+
+	unsigned int pasid;
+	struct vfio_group *vfio_group;
+	struct iommu_domain *iommu_domain;
+	struct device *dev = mdev_dev(mdev);
+	struct device *iommu_device = mdev_get_iommu_device(dev);
+
+	if (!iommu_device ||
+	    !iommu_dev_feature_enabled(iommu_device, IOMMU_DEV_FEAT_AUX))
+		return -EINVAL;
+
+	vfio_group = vfio_group_get_external_user_from_dev(dev);
+	if (IS_ERR_OR_NULL(vfio_group))
+		return -EFAULT;
+
+	iommu_domain = vfio_group_get_domain(vfio_group);
+	if (IS_ERR_OR_NULL(iommu_domain)) {
+		vfio_group_put_external_user(vfio_group);
+		return -EFAULT;
+	}
+
+	pasid = iommu_aux_get_pasid(iommu_domain, iommu_device);
+	if (pasid < 0) {
+		vfio_group_put_external_user(vfio_group);
+		return -EFAULT;
+	}
+
+	/* Program device context with pasid value. */
+	...
+
+	/* After use of this pasid */
+
+	/* Clear the pasid value in device context */
+	...
+
+	vfio_group_put_external_user(vfio_group);
+
+Do I understand your points correctly?
+
+Best regards,
+baolu
+
+
 
 _______________________________________________
 iommu mailing list
