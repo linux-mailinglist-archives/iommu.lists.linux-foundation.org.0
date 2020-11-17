@@ -1,65 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA272B6777
-	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 15:34:02 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id E17012B6776
+	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 15:34:00 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 37B798488D;
-	Tue, 17 Nov 2020 14:34:01 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9284587065;
+	Tue, 17 Nov 2020 14:33:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Iz2TxUlcKJrK; Tue, 17 Nov 2020 14:34:00 +0000 (UTC)
+	with ESMTP id lR1XtBi3rem1; Tue, 17 Nov 2020 14:33:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2BC278588A;
-	Tue, 17 Nov 2020 14:34:00 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 069178707F;
+	Tue, 17 Nov 2020 14:33:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 23523C07FF;
-	Tue, 17 Nov 2020 14:34:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE686C07FF;
+	Tue, 17 Nov 2020 14:33:58 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 846E0C07FF
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 14:33:58 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C323DC0891
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 14:33:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 735252202C
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 14:33:58 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id A1FEE2202C
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 14:33:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id t9L7NLukhkQi for <iommu@lists.linux-foundation.org>;
- Tue, 17 Nov 2020 14:33:47 +0000 (UTC)
+ with ESMTP id DR3U7aAJiV80 for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Nov 2020 14:33:45 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by silver.osuosl.org (Postfix) with ESMTPS id C45582277A
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 14:31:45 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 3FF1D2263C
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 14:31:36 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1605623506; h=Content-Transfer-Encoding: MIME-Version:
+ s=smtp; t=1605623501; h=Content-Transfer-Encoding: MIME-Version:
  References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=LrRpVHj99FoSmpaRiCpK2ER9nsObSvimyjTvEXFzFMs=;
- b=gqTPzwTUwx6BV1uc6sxQVSNw60Osyg18iIwIenWqxyXeocZG10VM5yyFnhdU7j1rvZ72Gfl8
- hoT+lGMUqBN4WmlZDvjiZ6bCYX3BV87P/Q1atnm1wQ+WtoQCzEQNnTcKZaOF/sj5AKXURh54
- DZR7zuwO9oEugAHxUQKaClhY5oE=
+ Sender; bh=O8sOHR7bnnslxYtYeYl5TvLCKy6uRKAqEwBX6Q4HjnM=;
+ b=UxMlmk7K7cwFebmLpCVd1GmIAdSysfQIZ/CRFYiyWOtUmJkqu6OlTEJbapOAjj+JJlMpl7Qy
+ ilRhphajVJiFUF0YBnycOj5u5KB6RsbodJuZhAsi1V8Umiah+hdEKUt7LqGVcitkbtJz1LAx
+ lKcU3A9dUHizrw84cTFJWRhI2rU=
 X-Mailgun-Sending-Ip: 69.72.42.4
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 5fb3deb5f34fcfd5e5779dad (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 17 Nov 2020 14:31:17
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 5fb3deb9d3e05bb6db2cd9d9 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 17 Nov 2020 14:31:21
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id D23D7C43460; Tue, 17 Nov 2020 14:31:16 +0000 (UTC)
+ id 350BDC433C6; Tue, 17 Nov 2020 14:31:21 +0000 (UTC)
 Received: from blr-ubuntu-253.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 24048C433C6;
- Tue, 17 Nov 2020 14:31:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 24048C433C6
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 9F3D3C433ED;
+ Tue, 17 Nov 2020 14:31:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9F3D3C433ED
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
@@ -68,9 +68,10 @@ From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
 To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
  Rob Clark <robdclark@gmail.com>
-Subject: [PATCHv8 1/8] iommu/io-pgtable-arm: Add support to use system cache
-Date: Tue, 17 Nov 2020 20:00:40 +0530
-Message-Id: <699f30cd6b3d69cebbefd0e73850694b9852c5da.1605621785.git.saiprakash.ranjan@codeaurora.org>
+Subject: [PATCHv8 2/8] iommu/arm-smmu: Add domain attribute for pagetable
+ configuration
+Date: Tue, 17 Nov 2020 20:00:41 +0530
+Message-Id: <3dfbc9d6d4489ca90361fac4e64586434331792f.1605621785.git.saiprakash.ranjan@codeaurora.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
 References: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
@@ -97,69 +98,110 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add a quirk IO_PGTABLE_QUIRK_ARM_OUTER_WBWA to override
-the attributes set in TCR for the page table walker when
-using system cache.
+Add iommu domain attribute for pagetable configuration which
+initially will be used to set quirks like for system cache aka
+last level cache to be used by client drivers like GPU to set
+right attributes for caching the hardware pagetables into the
+system cache and later can be extended to include other page
+table configuration data.
 
 Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
 ---
- drivers/iommu/io-pgtable-arm.c | 10 ++++++++--
- include/linux/io-pgtable.h     |  4 ++++
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ drivers/iommu/arm/arm-smmu/arm-smmu.c | 25 +++++++++++++++++++++++++
+ drivers/iommu/arm/arm-smmu/arm-smmu.h |  1 +
+ include/linux/io-pgtable.h            |  4 ++++
+ include/linux/iommu.h                 |  1 +
+ 4 files changed, 31 insertions(+)
 
-diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-index a7a9bc08dcd1..7c9ea9d7874a 100644
---- a/drivers/iommu/io-pgtable-arm.c
-+++ b/drivers/iommu/io-pgtable-arm.c
-@@ -761,7 +761,8 @@ arm_64_lpae_alloc_pgtable_s1(struct io_pgtable_cfg *cfg, void *cookie)
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+index 0f28a8614da3..7b05782738e2 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+@@ -789,6 +789,9 @@ static int arm_smmu_init_domain_context(struct iommu_domain *domain,
+ 	if (smmu_domain->non_strict)
+ 		pgtbl_cfg.quirks |= IO_PGTABLE_QUIRK_NON_STRICT;
  
- 	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_NS |
- 			    IO_PGTABLE_QUIRK_NON_STRICT |
--			    IO_PGTABLE_QUIRK_ARM_TTBR1))
-+			    IO_PGTABLE_QUIRK_ARM_TTBR1 |
-+			    IO_PGTABLE_QUIRK_ARM_OUTER_WBWA))
- 		return NULL;
- 
- 	data = arm_lpae_alloc_pgtable(cfg);
-@@ -773,10 +774,15 @@ arm_64_lpae_alloc_pgtable_s1(struct io_pgtable_cfg *cfg, void *cookie)
- 		tcr->sh = ARM_LPAE_TCR_SH_IS;
- 		tcr->irgn = ARM_LPAE_TCR_RGN_WBWA;
- 		tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
-+		if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA)
-+			goto out_free_data;
- 	} else {
- 		tcr->sh = ARM_LPAE_TCR_SH_OS;
- 		tcr->irgn = ARM_LPAE_TCR_RGN_NC;
--		tcr->orgn = ARM_LPAE_TCR_RGN_NC;
-+		if (!(cfg->quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA))
-+			tcr->orgn = ARM_LPAE_TCR_RGN_NC;
-+		else
-+			tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
- 	}
- 
- 	tg1 = cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1;
++	if (smmu_domain->pgtbl_cfg.quirks)
++		pgtbl_cfg.quirks |= smmu_domain->pgtbl_cfg.quirks;
++
+ 	pgtbl_ops = alloc_io_pgtable_ops(fmt, &pgtbl_cfg, smmu_domain);
+ 	if (!pgtbl_ops) {
+ 		ret = -ENOMEM;
+@@ -1511,6 +1514,12 @@ static int arm_smmu_domain_get_attr(struct iommu_domain *domain,
+ 		case DOMAIN_ATTR_NESTING:
+ 			*(int *)data = (smmu_domain->stage == ARM_SMMU_DOMAIN_NESTED);
+ 			return 0;
++		case DOMAIN_ATTR_IO_PGTABLE_CFG: {
++			struct domain_attr_io_pgtbl_cfg *pgtbl_cfg = data;
++			*pgtbl_cfg = smmu_domain->pgtbl_cfg;
++
++			return 0;
++		}
+ 		default:
+ 			return -ENODEV;
+ 		}
+@@ -1551,6 +1560,22 @@ static int arm_smmu_domain_set_attr(struct iommu_domain *domain,
+ 			else
+ 				smmu_domain->stage = ARM_SMMU_DOMAIN_S1;
+ 			break;
++		case DOMAIN_ATTR_IO_PGTABLE_CFG: {
++			struct domain_attr_io_pgtbl_cfg *pgtbl_cfg = data;
++
++			if (smmu_domain->smmu) {
++				ret = -EPERM;
++				goto out_unlock;
++			}
++
++			if (!pgtbl_cfg) {
++				ret = -ENODEV;
++				goto out_unlock;
++			}
++
++			smmu_domain->pgtbl_cfg = *pgtbl_cfg;
++			break;
++		}
+ 		default:
+ 			ret = -ENODEV;
+ 		}
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+index 04288b6fc619..18fbed376afb 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+@@ -364,6 +364,7 @@ enum arm_smmu_domain_stage {
+ struct arm_smmu_domain {
+ 	struct arm_smmu_device		*smmu;
+ 	struct io_pgtable_ops		*pgtbl_ops;
++	struct domain_attr_io_pgtbl_cfg	pgtbl_cfg;
+ 	const struct iommu_flush_ops	*flush_ops;
+ 	struct arm_smmu_cfg		cfg;
+ 	enum arm_smmu_domain_stage	stage;
 diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
-index 4cde111e425b..a9a2c59fab37 100644
+index a9a2c59fab37..686b37d48743 100644
 --- a/include/linux/io-pgtable.h
 +++ b/include/linux/io-pgtable.h
-@@ -86,6 +86,9 @@ struct io_pgtable_cfg {
- 	 *
- 	 * IO_PGTABLE_QUIRK_ARM_TTBR1: (ARM LPAE format) Configure the table
- 	 *	for use in the upper half of a split address space.
-+	 *
-+	 * IO_PGTABLE_QUIRK_ARM_OUTER_WBWA: Override the attributes set in TCR for
-+	 *	the page table walker when using system cache.
- 	 */
- 	#define IO_PGTABLE_QUIRK_ARM_NS		BIT(0)
- 	#define IO_PGTABLE_QUIRK_NO_PERMS	BIT(1)
-@@ -93,6 +96,7 @@ struct io_pgtable_cfg {
- 	#define IO_PGTABLE_QUIRK_ARM_MTK_EXT	BIT(3)
- 	#define IO_PGTABLE_QUIRK_NON_STRICT	BIT(4)
- 	#define IO_PGTABLE_QUIRK_ARM_TTBR1	BIT(5)
-+	#define IO_PGTABLE_QUIRK_ARM_OUTER_WBWA	BIT(6)
- 	unsigned long			quirks;
- 	unsigned long			pgsize_bitmap;
- 	unsigned int			ias;
+@@ -212,6 +212,10 @@ struct io_pgtable {
+ 
+ #define io_pgtable_ops_to_pgtable(x) container_of((x), struct io_pgtable, ops)
+ 
++struct domain_attr_io_pgtbl_cfg {
++	unsigned long quirks;
++};
++
+ static inline void io_pgtable_tlb_flush_all(struct io_pgtable *iop)
+ {
+ 	iop->cfg.tlb->tlb_flush_all(iop->cookie);
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index b95a6f8db6ff..ffaa389ea128 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -118,6 +118,7 @@ enum iommu_attr {
+ 	DOMAIN_ATTR_FSL_PAMUV1,
+ 	DOMAIN_ATTR_NESTING,	/* two stages of translation */
+ 	DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE,
++	DOMAIN_ATTR_IO_PGTABLE_CFG,
+ 	DOMAIN_ATTR_MAX,
+ };
+ 
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
