@@ -2,57 +2,59 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0824E2B5CD8
-	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 11:30:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131F02B5E0D
+	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 12:12:19 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B19BC82DDE;
-	Tue, 17 Nov 2020 10:30:09 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BE87C84D7A;
+	Tue, 17 Nov 2020 11:12:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WeDFwZOcmzfz; Tue, 17 Nov 2020 10:30:08 +0000 (UTC)
+	with ESMTP id HZOli9JlOHBY; Tue, 17 Nov 2020 11:12:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 63CF085DFD;
-	Tue, 17 Nov 2020 10:30:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4ACA98488E;
+	Tue, 17 Nov 2020 11:12:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4FB06C07FF;
-	Tue, 17 Nov 2020 10:30:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 370AFC07FF;
+	Tue, 17 Nov 2020 11:12:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 72116C07FF
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:30:05 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 16369C07FF
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 11:12:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 442D3204B7
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:30:05 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 050D384D7A
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 11:12:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0sgHkoDo19cg for <iommu@lists.linux-foundation.org>;
- Tue, 17 Nov 2020 10:30:01 +0000 (UTC)
+ with ESMTP id XVFASb5-Z8sx for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Nov 2020 11:12:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by silver.osuosl.org (Postfix) with ESMTPS id 7728A2046F
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 10:30:01 +0000 (UTC)
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Cb2Hw3W0gzhbZw;
- Tue, 17 Nov 2020 18:29:48 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.58) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 17 Nov 2020 18:29:52 +0800
-From: John Garry <john.garry@huawei.com>
-To: <robin.murphy@arm.com>, <joro@8bytes.org>, <will@kernel.org>
-Subject: [RESEND PATCH v3 4/4] iommu: avoid taking iova_rbtree_lock twice
-Date: Tue, 17 Nov 2020 18:25:34 +0800
-Message-ID: <1605608734-84416-5-git-send-email-john.garry@huawei.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1605608734-84416-1-git-send-email-john.garry@huawei.com>
-References: <1605608734-84416-1-git-send-email-john.garry@huawei.com>
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 78CE58488E
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 11:12:13 +0000 (UTC)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cb3DT4FWBz15LjT;
+ Tue, 17 Nov 2020 19:11:53 +0800 (CST)
+Received: from [10.174.178.174] (10.174.178.174) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 17 Nov 2020 19:11:29 +0800
+Subject: Re: [PATCH] iommu: fix return error code in iommu_probe_device()
+To: Lu Baolu <baolu.lu@linux.intel.com>, <iommu@lists.linux-foundation.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20201117025238.3425422-1-yangyingliang@huawei.com>
+ <835ab066-b6b8-a211-4941-c01781031de8@linux.intel.com>
+From: Yang Yingliang <yangyingliang@huawei.com>
+Message-ID: <454f5e3e-c380-e8a5-9283-3f7578eb601e@huawei.com>
+Date: Tue, 17 Nov 2020 19:11:28 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.58]
+In-Reply-To: <835ab066-b6b8-a211-4941-c01781031de8@linux.intel.com>
+Content-Language: en-US
+X-Originating-IP: [10.174.178.174]
 X-CFilter-Loop: Reflected
-Cc: linuxarm@huawei.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, xiyou.wangcong@gmail.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -65,52 +67,36 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Cong Wang <xiyou.wangcong@gmail.com>
-
-Both find_iova() and __free_iova() take iova_rbtree_lock,
-there is no reason to take and release it twice inside
-free_iova().
-
-Fold them into one critical section by calling the unlock
-versions instead.
-
-Signed-off-by: Cong Wang <xiyou.wangcong@gmail.com>
-Reviewed-by: Robin Murphy <robin.murphy@arm.com>
-Signed-off-by: John Garry <john.garry@huawei.com>
----
- drivers/iommu/iova.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-index 386005055aca..3b32e6746c70 100644
---- a/drivers/iommu/iova.c
-+++ b/drivers/iommu/iova.c
-@@ -398,10 +398,14 @@ EXPORT_SYMBOL_GPL(__free_iova);
- void
- free_iova(struct iova_domain *iovad, unsigned long pfn)
- {
--	struct iova *iova = find_iova(iovad, pfn);
-+	unsigned long flags;
-+	struct iova *iova;
- 
-+	spin_lock_irqsave(&iovad->iova_rbtree_lock, flags);
-+	iova = private_find_iova(iovad, pfn);
- 	if (iova)
--		__free_iova(iovad, iova);
-+		private_free_iova(iovad, iova);
-+	spin_unlock_irqrestore(&iovad->iova_rbtree_lock, flags);
- 
- }
- EXPORT_SYMBOL_GPL(free_iova);
--- 
-2.26.2
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+Ck9uIDIwMjAvMTEvMTcgMTc6NDAsIEx1IEJhb2x1IHdyb3RlOgo+IEhpIFlpbmdsaWFuZywKPgo+
+IE9uIDIwMjAvMTEvMTcgMTA6NTIsIFlhbmcgWWluZ2xpYW5nIHdyb3RlOgo+PiBJZiBpb21tdV9n
+cm91cF9nZXQoKSBmYWlsZWQsIGl0IG5lZWQgcmV0dXJuIGVycm9yIGNvZGUKPj4gaW4gaW9tbXVf
+cHJvYmVfZGV2aWNlKCkuCj4+Cj4+IEZpeGVzOiBjZjE5Mzg4OGJmYmQgKCJpb21tdTogTW92ZSBu
+ZXcgcHJvYmVfZGV2aWNlIHBhdGguLi4iKQo+PiBSZXBvcnRlZC1ieTogSHVsayBSb2JvdCA8aHVs
+a2NpQGh1YXdlaS5jb20+Cj4+IFNpZ25lZC1vZmYtYnk6IFlhbmcgWWluZ2xpYW5nIDx5YW5neWlu
+Z2xpYW5nQGh1YXdlaS5jb20+Cj4+IC0tLQo+PiDCoCBkcml2ZXJzL2lvbW11L2lvbW11LmMgfCA0
+ICsrKy0KPj4gwqAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
+KQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pb21tdS9pb21tdS5jIGIvZHJpdmVycy9pb21t
+dS9pb21tdS5jCj4+IGluZGV4IGI1MzQ0NmJiOGM2Yi4uNmY0YTMyZGY5MGY2IDEwMDY0NAo+PiAt
+LS0gYS9kcml2ZXJzL2lvbW11L2lvbW11LmMKPj4gKysrIGIvZHJpdmVycy9pb21tdS9pb21tdS5j
+Cj4+IEBAIC0yNTMsOCArMjUzLDEwIEBAIGludCBpb21tdV9wcm9iZV9kZXZpY2Uoc3RydWN0IGRl
+dmljZSAqZGV2KQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBlcnJfb3V0Owo+PiDCoCDCoMKg
+wqDCoMKgIGdyb3VwID0gaW9tbXVfZ3JvdXBfZ2V0KGRldik7Cj4+IC3CoMKgwqAgaWYgKCFncm91
+cCkKPj4gK8KgwqDCoCBpZiAoIWdyb3VwKSB7Cj4+ICvCoMKgwqDCoMKgwqDCoCByZXQgPSAtRU5P
+REVWOwo+Cj4gQ2FuIHlvdSBwbGVhc2UgZXhwbGFpbiB3aHkgeW91IHVzZSAtRU5PREVWIGhlcmU/
+CgpCZWZvcmUgNzk2NTkxOTBlZTk3ICgiaW9tbXU6IERvbid0IHRha2UgZ3JvdXAgcmVmZXJlbmNl
+IGluIAppb21tdV9hbGxvY19kZWZhdWx0X2RvbWFpbigpIiksIGluCgppb21tdV9hbGxvY19kZWZh
+dWx0X2RvbWFpbigpLCBpZiBncm91cCBpcyBOVUxMLCBpdCB3aWxsIHJldHVybiAtRU5PREVWLgoK
+aHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdG9ydmFsZHMv
+bGludXguZ2l0L3RyZWUvZHJpdmVycy9pb21tdS9pb21tdS5jP2g9djUuMTAtcmM0JmlkPTcwYjgx
+NzBlNTVkM2NhOTUwM2E1MzIxMTk2N2ZhZWU2YjVmMThiMTkKCj4KPiBCZXN0IHJlZ2FyZHMsCj4g
+YmFvbHUKPgo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBlcnJfcmVsZWFzZTsKPj4gK8KgwqDC
+oCB9Cj4+IMKgIMKgwqDCoMKgwqAgLyoKPj4gwqDCoMKgwqDCoMKgICogVHJ5IHRvIGFsbG9jYXRl
+IGEgZGVmYXVsdCBkb21haW4gLSBuZWVkcyBzdXBwb3J0IGZyb20gdGhlCj4+Cj4gLgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxp
+c3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZv
+dW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
