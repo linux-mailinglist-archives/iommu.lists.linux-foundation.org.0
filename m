@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01432B7172
-	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 23:22:37 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3ADD2B7180
+	for <lists.iommu@lfdr.de>; Tue, 17 Nov 2020 23:24:43 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 75E43870B9;
-	Tue, 17 Nov 2020 22:22:36 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7CC15200ED;
+	Tue, 17 Nov 2020 22:24:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gYAb1BgsRxCQ; Tue, 17 Nov 2020 22:22:36 +0000 (UTC)
+	with ESMTP id jJZjdbIE9RIY; Tue, 17 Nov 2020 22:24:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EE5E0870B2;
-	Tue, 17 Nov 2020 22:22:35 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 72FBF22708;
+	Tue, 17 Nov 2020 22:24:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CEC1BC07FF;
-	Tue, 17 Nov 2020 22:22:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 55279C07FF;
+	Tue, 17 Nov 2020 22:24:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 038DCC07FF
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 22:22:34 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B4740C07FF
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 22:24:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id E651A85660
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 22:22:33 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 59B1D8495A
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 22:24:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FzLgK_BYT9le for <iommu@lists.linux-foundation.org>;
- Tue, 17 Nov 2020 22:22:33 +0000 (UTC)
+ with ESMTP id 1P_YOQfBrOcs for <iommu@lists.linux-foundation.org>;
+ Tue, 17 Nov 2020 22:24:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1B19B85657
- for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 22:22:33 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id E43B084728
+ for <iommu@lists.linux-foundation.org>; Tue, 17 Nov 2020 22:24:37 +0000 (UTC)
 Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 256C920678;
- Tue, 17 Nov 2020 22:22:30 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A46E620B80;
+ Tue, 17 Nov 2020 22:24:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605651752;
- bh=BkGt+44VK/Hsa4hyKjPNouLZQNX3V18+l8zXTgVURcI=;
+ s=default; t=1605651877;
+ bh=suTzvgzomH8/b8tydiTPTmWm+Melr0oekXi+74bvqd0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=L/BSdz3NJvUY/xkgcPvM62jPhjYYtOZKFF8W8fE+KE2hEnzTUlgF3ytopaqpW3NGc
- QhMc0b/GrlAC4gYuw0XvYFQ88Mfq3C0tCOQEcqPr0YwPVL5JGUm5nwStNmUX8O8f3O
- fmeW0/Gu3AjnTppszbXmEvSm1CSLSVJu36EkvlDQ=
-Date: Tue, 17 Nov 2020 22:22:27 +0000
+ b=WCdcyR/SR4KIUFc87Q15lZQPG0eLCZTDm5gugZz5CIjeBSP2fFDAQDJaaE/Nn3uKV
+ XTdtj5/KBydRFrrvervCjb2+uT+nfg6eOfyLYSaRYi+FKBne3QHRHis4FUhdyfrpSh
+ Em6GlvID7zmt1rRNV7JRr+sysGX7MPQAC5gVFGy4=
+Date: Tue, 17 Nov 2020 22:24:32 +0000
 From: Will Deacon <will@kernel.org>
-To: Joerg Roedel <joro@8bytes.org>
-Subject: Re: IOMMU Maintainership
-Message-ID: <20201117222227.GB524@willie-the-truck>
-References: <20201117100953.GR22888@8bytes.org>
+To: joro@8bytes.org
+Subject: Re: [GIT PULL] iommu/arm-smmu: First batch of updates for 5.11
+Message-ID: <20201117222432.GC524@willie-the-truck>
+References: <20201110135657.GA17034@willie-the-truck>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201117100953.GR22888@8bytes.org>
+In-Reply-To: <20201110135657.GA17034@willie-the-truck>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ john.stultz@linaro.org, robin.murphy@arm.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,23 +76,21 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Nov 17, 2020 at 11:09:53AM +0100, Joerg Roedel wrote:
-> Luckily Will Deacon volunteered to handle incoming IOMMU patches and
-> send them upstream. So please Cc him on any patches that you want to
-> have merged upstream for the next release and on important fixes for
-> v5.10. The patches will go through another tree for the time being, Will
-> can share the details on that.
+On Tue, Nov 10, 2020 at 01:56:57PM +0000, Will Deacon wrote:
+> Please can you pull these Arm SMMU updates for 5.11 so that they can get
+> into -next? I think Bjorn is keen to get a bunch of DT updates moving, so
+> the sooner we can get this lot out there, the better. Summary in the tag.
+> 
+> There are a few other patches kicking around on the list, so I may send
+> a second pull on top in a couple of weeks or so.
 
-Thanks Joerg, and please try to get some rest.
+This is now queued on a stable branch for -next targetting 5.11:
 
-As for the temporary new workflow; I'll be queueing IOMMU patches on
-branches in the arm64 tree and merging them into a non-stable branch
-(for-next/iommu/core) which will go into -next. I'll send a separate pull
-for the IOMMU bits when the time comes.
+https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/log/?h=for-next/iommu/arm-smmu
 
-If you have IOMMU patches targetting 5.10 or 5.11, then please CC me to
-make sure I don't miss them. Alex, Robin and Lu have also offered to help
-with review and I can pull from them too.
+Bjorn, is this what you needed?
+
+Cheers,
 
 Will
 _______________________________________________
