@@ -2,50 +2,51 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B428D2B922F
-	for <lists.iommu@lfdr.de>; Thu, 19 Nov 2020 13:13:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC002B9231
+	for <lists.iommu@lfdr.de>; Thu, 19 Nov 2020 13:13:15 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7790286AE6;
-	Thu, 19 Nov 2020 12:13:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id B15A786AE0;
+	Thu, 19 Nov 2020 12:13:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bsgbSb_9crjX; Thu, 19 Nov 2020 12:13:08 +0000 (UTC)
+	with ESMTP id p38xzXfIDfPz; Thu, 19 Nov 2020 12:13:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 06CE585F85;
-	Thu, 19 Nov 2020 12:13:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4B75886B0E;
+	Thu, 19 Nov 2020 12:13:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 009CBC0891;
-	Thu, 19 Nov 2020 12:13:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 371FFC0891;
+	Thu, 19 Nov 2020 12:13:14 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9F7AFC1825
- for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 12:13:06 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 608D5C0891
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 12:13:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8AB39873C8
- for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 12:13:06 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 53FD4873FD
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 12:13:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZYgvSAlji9QI for <iommu@lists.linux-foundation.org>;
- Thu, 19 Nov 2020 12:13:05 +0000 (UTC)
+ with ESMTP id PkYhbAdYEfyN for <iommu@lists.linux-foundation.org>;
+ Thu, 19 Nov 2020 12:13:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 9268F873FC
- for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 12:13:05 +0000 (UTC)
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 6A512873CE
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 12:13:09 +0000 (UTC)
 Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CcJTj099Vz709F;
- Thu, 19 Nov 2020 20:12:41 +0800 (CST)
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CcJTz013FzhdPH;
+ Thu, 19 Nov 2020 20:12:55 +0800 (CST)
 Received: from S00345302A-PC.china.huawei.com (10.210.168.73) by
  DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 19 Nov 2020 20:12:49 +0800
+ 14.3.487.0; Thu, 19 Nov 2020 20:12:56 +0800
 From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 To: <linux-arm-kernel@lists.infradead.org>, <linux-acpi@vger.kernel.org>,
  <iommu@lists.linux-foundation.org>, <devel@acpica.org>
-Subject: [RFC PATCH v2 5/8] iommu/arm-smmu-v3: Introduce strtab init helper
-Date: Thu, 19 Nov 2020 12:11:47 +0000
-Message-ID: <20201119121150.3316-6-shameerali.kolothum.thodi@huawei.com>
+Subject: [RFC PATCH v2 6/8] =?UTF-8?q?iommu/arm-smmu-v3:=20Add=20bypass=20?=
+ =?UTF-8?q?flag=20to=C2=A0arm=5Fsmmu=5Fwrite=5Fstrtab=5Fent()?=
+Date: Thu, 19 Nov 2020 12:11:48 +0000
+Message-ID: <20201119121150.3316-7-shameerali.kolothum.thodi@huawei.com>
 X-Mailer: git-send-email 2.12.0.windows.1
 In-Reply-To: <20201119121150.3316-1-shameerali.kolothum.thodi@huawei.com>
 References: <20201119121150.3316-1-shameerali.kolothum.thodi@huawei.com>
@@ -66,72 +67,46 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Introduce a helper to check the sid range and to init the l2 strtab
-entries(bypass). This will be useful when we have to initialize the
-l2 strtab for RMR SIDs.
-
-Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
----
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 26 ++++++++++++---------
- 1 file changed, 15 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index e634bbe60573..1953b317d814 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -2308,6 +2308,19 @@ static bool arm_smmu_sid_in_range(struct arm_smmu_device *smmu, u32 sid)
- 
- static struct iommu_ops arm_smmu_ops;
- 
-+static int arm_smmu_init_sid_strtab(struct arm_smmu_device *smmu, u32 sid)
-+{
-+	/* Check the SIDs are in range of the SMMU and our stream table */
-+	if (!arm_smmu_sid_in_range(smmu, sid))
-+		return -ERANGE;
-+
-+	/* Ensure l2 strtab is initialised */
-+	if (smmu->features & ARM_SMMU_FEAT_2_LVL_STRTAB)
-+		return arm_smmu_init_l2_strtab(smmu, sid);
-+
-+	return 0;
-+}
-+
- static struct iommu_device *arm_smmu_probe_device(struct device *dev)
- {
- 	int i, ret;
-@@ -2336,21 +2349,12 @@ static struct iommu_device *arm_smmu_probe_device(struct device *dev)
- 	INIT_LIST_HEAD(&master->bonds);
- 	dev_iommu_priv_set(dev, master);
- 
--	/* Check the SIDs are in range of the SMMU and our stream table */
- 	for (i = 0; i < master->num_sids; i++) {
- 		u32 sid = master->sids[i];
- 
--		if (!arm_smmu_sid_in_range(smmu, sid)) {
--			ret = -ERANGE;
-+		ret = arm_smmu_init_sid_strtab(smmu, sid);
-+		if (ret)
- 			goto err_free_master;
--		}
--
--		/* Ensure l2 strtab is initialised */
--		if (smmu->features & ARM_SMMU_FEAT_2_LVL_STRTAB) {
--			ret = arm_smmu_init_l2_strtab(smmu, sid);
--			if (ret)
--				goto err_free_master;
--		}
- 	}
- 
- 	master->ssid_bits = min(smmu->ssid_bits, fwspec->num_pasid_bits);
--- 
-2.17.1
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+QnkgZGVmYXVsdCzCoGRpc2FibGVfYnlwYXNzIGlzIHNldCBhbmQgYW55IGRldiB3aXRob3V0IGFu
+IGlvbW11IGRvbWFpbgppbnN0YWxscyBTVEUgd2l0aCBDRkdfQUJPUlQgZHVyaW5nwqBhcm1fc21t
+dV9pbml0X2J5cGFzc19zdGVzKCkuIEludHJvZHVjZQphICJieXBhc3MiIGZsYWcgdG/CoGFybV9z
+bW11X3dyaXRlX3N0cnRhYl9lbnQoKSBzbyB0aGF0IHdlIGNhbiBmb3JjZSBpdCB0bwppbnN0YWxs
+wqBDRkdfQllQQVNTIFNURSBmb3Igc3BlY2lmaWMgU0lEcy4gVGhpcyB3aWxsIGJlwqB1c2VmdWzC
+oGZvciBSTVIKcmVsYXRlZCBTSURzLgoKU2lnbmVkLW9mZi1ieTogU2hhbWVlciBLb2xvdGh1bSA8
+c2hhbWVlcmFsaS5rb2xvdGh1bS50aG9kaUBodWF3ZWkuY29tPgotLS0KIGRyaXZlcnMvaW9tbXUv
+YXJtL2FybS1zbW11LXYzL2FybS1zbW11LXYzLmMgfCA4ICsrKystLS0tCiAxIGZpbGUgY2hhbmdl
+ZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+aW9tbXUvYXJtL2FybS1zbW11LXYzL2FybS1zbW11LXYzLmMgYi9kcml2ZXJzL2lvbW11L2FybS9h
+cm0tc21tdS12My9hcm0tc21tdS12My5jCmluZGV4IDE5NTNiMzE3ZDgxNC4uNWYzNjZkNWE5ZWJm
+IDEwMDY0NAotLS0gYS9kcml2ZXJzL2lvbW11L2FybS9hcm0tc21tdS12My9hcm0tc21tdS12My5j
+CisrKyBiL2RyaXZlcnMvaW9tbXUvYXJtL2FybS1zbW11LXYzL2FybS1zbW11LXYzLmMKQEAgLTEx
+NzQsNyArMTE3NCw3IEBAIHN0YXRpYyB2b2lkIGFybV9zbW11X3N5bmNfc3RlX2Zvcl9zaWQoc3Ry
+dWN0IGFybV9zbW11X2RldmljZSAqc21tdSwgdTMyIHNpZCkKIH0KIAogc3RhdGljIHZvaWQgYXJt
+X3NtbXVfd3JpdGVfc3RydGFiX2VudChzdHJ1Y3QgYXJtX3NtbXVfbWFzdGVyICptYXN0ZXIsIHUz
+MiBzaWQsCi0JCQkJICAgICAgX19sZTY0ICpkc3QpCisJCQkJICAgICAgX19sZTY0ICpkc3QsIGJv
+b2wgYnlwYXNzKQogewogCS8qCiAJICogVGhpcyBpcyBoaWRlb3VzbHkgY29tcGxpY2F0ZWQsIGJ1
+dCB3ZSBvbmx5IHJlYWxseSBjYXJlIGFib3V0CkBAIC0xMjQ1LDcgKzEyNDUsNyBAQCBzdGF0aWMg
+dm9pZCBhcm1fc21tdV93cml0ZV9zdHJ0YWJfZW50KHN0cnVjdCBhcm1fc21tdV9tYXN0ZXIgKm1h
+c3RlciwgdTMyIHNpZCwKIAogCS8qIEJ5cGFzcy9mYXVsdCAqLwogCWlmICghc21tdV9kb21haW4g
+fHwgIShzMV9jZmcgfHwgczJfY2ZnKSkgewotCQlpZiAoIXNtbXVfZG9tYWluICYmIGRpc2FibGVf
+YnlwYXNzKQorCQlpZiAoIXNtbXVfZG9tYWluICYmIGRpc2FibGVfYnlwYXNzICYmICFieXBhc3Mp
+CiAJCQl2YWwgfD0gRklFTERfUFJFUChTVFJUQUJfU1RFXzBfQ0ZHLCBTVFJUQUJfU1RFXzBfQ0ZH
+X0FCT1JUKTsKIAkJZWxzZQogCQkJdmFsIHw9IEZJRUxEX1BSRVAoU1RSVEFCX1NURV8wX0NGRywg
+U1RSVEFCX1NURV8wX0NGR19CWVBBU1MpOwpAQCAtMTMxNyw3ICsxMzE3LDcgQEAgc3RhdGljIHZv
+aWQgYXJtX3NtbXVfaW5pdF9ieXBhc3Nfc3RlcyhfX2xlNjQgKnN0cnRhYiwgdW5zaWduZWQgaW50
+IG5lbnQpCiAJdW5zaWduZWQgaW50IGk7CiAKIAlmb3IgKGkgPSAwOyBpIDwgbmVudDsgKytpKSB7
+Ci0JCWFybV9zbW11X3dyaXRlX3N0cnRhYl9lbnQoTlVMTCwgLTEsIHN0cnRhYik7CisJCWFybV9z
+bW11X3dyaXRlX3N0cnRhYl9lbnQoTlVMTCwgLTEsIHN0cnRhYiwgZmFsc2UpOwogCQlzdHJ0YWIg
+Kz0gU1RSVEFCX1NURV9EV09SRFM7CiAJfQogfQpAQCAtMjAzOCw3ICsyMDM4LDcgQEAgc3RhdGlj
+IHZvaWQgYXJtX3NtbXVfaW5zdGFsbF9zdGVfZm9yX2RldihzdHJ1Y3QgYXJtX3NtbXVfbWFzdGVy
+ICptYXN0ZXIpCiAJCWlmIChqIDwgaSkKIAkJCWNvbnRpbnVlOwogCi0JCWFybV9zbW11X3dyaXRl
+X3N0cnRhYl9lbnQobWFzdGVyLCBzaWQsIHN0ZXApOworCQlhcm1fc21tdV93cml0ZV9zdHJ0YWJf
+ZW50KG1hc3Rlciwgc2lkLCBzdGVwLCBmYWxzZSk7CiAJfQogfQogCi0tIAoyLjE3LjEKCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcg
+bGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4
+Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
