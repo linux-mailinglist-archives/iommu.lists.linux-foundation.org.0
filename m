@@ -1,69 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD182B99E1
-	for <lists.iommu@lfdr.de>; Thu, 19 Nov 2020 18:45:42 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B072B9A07
+	for <lists.iommu@lfdr.de>; Thu, 19 Nov 2020 18:54:14 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A93EC86E6A;
-	Thu, 19 Nov 2020 17:45:40 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 1D5542046A;
+	Thu, 19 Nov 2020 17:54:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YWRgcvxhSs8s; Thu, 19 Nov 2020 17:45:39 +0000 (UTC)
+	with ESMTP id wM0goFlkQZIy; Thu, 19 Nov 2020 17:54:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D549286E59;
-	Thu, 19 Nov 2020 17:45:39 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 03E8C20479;
+	Thu, 19 Nov 2020 17:54:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C0131C0891;
-	Thu, 19 Nov 2020 17:45:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D8EB5C0891;
+	Thu, 19 Nov 2020 17:54:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 87E80C0891
- for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 17:45:38 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 52971C0891
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 17:54:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 768A186A57
- for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 17:45:38 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 3922387476
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 17:54:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3SwfXE0G2iaM for <iommu@lists.linux-foundation.org>;
- Thu, 19 Nov 2020 17:45:37 +0000 (UTC)
+ with ESMTP id FG1IpNjAJ1HC for <iommu@lists.linux-foundation.org>;
+ Thu, 19 Nov 2020 17:54:07 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7511086962
- for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 17:45:37 +0000 (UTC)
-Received: from gaia (unknown [2.26.170.190])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 23DC921D7A;
- Thu, 19 Nov 2020 17:45:33 +0000 (UTC)
-Date: Thu, 19 Nov 2020 17:45:31 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: Re: [PATCH v6 1/7] arm64: mm: Move reserve_crashkernel() into
- mem_init()
-Message-ID: <20201119174530.GH4376@gaia>
-References: <20201103173159.27570-1-nsaenzjulienne@suse.de>
- <20201103173159.27570-2-nsaenzjulienne@suse.de>
- <e60d643e-4879-3fc3-737d-2c145332a6d7@arm.com>
- <88c69ac0c9d7e144c80cebc7e9f82b000828e7f5.camel@suse.de>
- <X6rZRvWyigCJxAVW@trantor>
- <b5336064145a30aadcfdb8920226a8c63f692695.camel@suse.de>
- <20201113112901.GA3212@gaia>
- <ba343af12fc60bce36837cc090a39c9e42457788.camel@suse.de>
- <20201119171048.GD4376@gaia>
- <d232c68aa73e5c71524e3c9ef52386047af84386.camel@suse.de>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B08F0871DC
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 17:54:07 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 408CFAC22;
+ Thu, 19 Nov 2020 17:54:06 +0000 (UTC)
+From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To: robh+dt@kernel.org, catalin.marinas@arm.com, hch@lst.de, ardb@kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v7 0/7] arm64: Default to 32-bit wide ZONE_DMA
+Date: Thu, 19 Nov 2020 18:53:52 +0100
+Message-Id: <20201119175400.9995-1-nsaenzjulienne@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d232c68aa73e5c71524e3c9ef52386047af84386.camel@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: devicetree@vger.kernel.org, Chen Zhou <chenzhou10@huawei.com>,
- robin.murphy@arm.com, linux-kernel@vger.kernel.org, jeremy.linton@arm.com,
- ardb@kernel.org, iommu@lists.linux-foundation.org, robh+dt@kernel.org,
- James Morse <james.morse@arm.com>, linux-rpi-kernel@lists.infradead.org,
- guohanjun@huawei.com, will@kernel.org, hch@lst.de,
+Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org, will@kernel.org,
+ jeremy.linton@arm.com, linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ linux-rpi-kernel@lists.infradead.org, guohanjun@huawei.com,
+ linux-riscv@lists.infradead.org, robin.murphy@arm.com,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -82,123 +68,63 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Nov 19, 2020 at 06:25:29PM +0100, Nicolas Saenz Julienne wrote:
-> On Thu, 2020-11-19 at 17:10 +0000, Catalin Marinas wrote:
-> > On Thu, Nov 19, 2020 at 03:09:58PM +0100, Nicolas Saenz Julienne wrote:
-> > > On Fri, 2020-11-13 at 11:29 +0000, Catalin Marinas wrote:
-> > > [...]
-> > > > > > > Let me stress that knowing the DMA constraints in the system before reserving
-> > > > > > > crashkernel's regions is necessary if we ever want it to work seamlessly on all
-> > > > > > > platforms. Be it small stuff like the Raspberry Pi or huge servers with TB of
-> > > > > > > memory.
-> > > > > > 
-> > > > > > Indeed. So we have 3 options (so far):
-> > > > > > 
-> > > > > > 1. Allow the crashkernel reservation to go into the linear map but set
-> > > > > >    it to invalid once allocated.
-> > > > > > 
-> > > > > > 2. Parse the flattened DT (not sure what we do with ACPI) before
-> > > > > >    creating the linear map. We may have to rely on some SoC ID here
-> > > > > >    instead of actual DMA ranges.
-> > > > > > 
-> > > > > > 3. Assume the smallest ZONE_DMA possible on arm64 (1GB) for crashkernel
-> > > > > >    reservations and not rely on arm64_dma_phys_limit in
-> > > > > >    reserve_crashkernel().
-> > > > > > 
-> > > > > > I think (2) we tried hard to avoid. Option (3) brings us back to the
-> > > > > > issues we had on large crashkernel reservations regressing on some
-> > > > > > platforms (though it's been a while since, they mostly went quiet ;)).
-> > > > > > However, with Chen's crashkernel patches we end up with two
-> > > > > > reservations, one in the low DMA zone and one higher, potentially above
-> > > > > > 4GB. Having a fixed 1GB limit wouldn't be any worse for crashkernel
-> > > > > > reservations than what we have now.
-> > > > > > 
-> > > > > > If (1) works, I'd go for it (James knows this part better than me),
-> > > > > > otherwise we can go for (3).
-> > > > > 
-> > > > > Overall, I'd prefer (1) as well, and I'd be happy to have a got at it. If not
-> > > > > I'll append (3) in this series.
-> > > > 
-> > > > I think for 1 we could also remove the additional KEXEC_CORE checks,
-> > > > something like below, untested:
-> > > > 
-> > > > diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-> > > > index 3e5a6913acc8..27ab609c1c0c 100644
-> > > > --- a/arch/arm64/mm/mmu.c
-> > > > +++ b/arch/arm64/mm/mmu.c
-> > > > @@ -477,7 +477,8 @@ static void __init map_mem(pgd_t *pgdp)
-> > > >  	int flags = 0;
-> > > >  	u64 i;
-> > > >  
-> > > > -	if (rodata_full || debug_pagealloc_enabled())
-> > > > +	if (rodata_full || debug_pagealloc_enabled() ||
-> > > > +	    IS_ENABLED(CONFIG_KEXEC_CORE))
-> > > >  		flags = NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
-> > > >  
-> > > >  	/*
-> > > > @@ -487,11 +488,6 @@ static void __init map_mem(pgd_t *pgdp)
-> > > >  	 * the following for-loop
-> > > >  	 */
-> > > >  	memblock_mark_nomap(kernel_start, kernel_end - kernel_start);
-> > > > -#ifdef CONFIG_KEXEC_CORE
-> > > > -	if (crashk_res.end)
-> > > > -		memblock_mark_nomap(crashk_res.start,
-> > > > -				    resource_size(&crashk_res));
-> > > > -#endif
-> > > >  
-> > > >  	/* map all the memory banks */
-> > > >  	for_each_mem_range(i, &start, &end) {
-> > > > @@ -518,21 +514,6 @@ static void __init map_mem(pgd_t *pgdp)
-> > > >  	__map_memblock(pgdp, kernel_start, kernel_end,
-> > > >  		       PAGE_KERNEL, NO_CONT_MAPPINGS);
-> > > >  	memblock_clear_nomap(kernel_start, kernel_end - kernel_start);
-> > > > -
-> > > > -#ifdef CONFIG_KEXEC_CORE
-> > > > -	/*
-> > > > -	 * Use page-level mappings here so that we can shrink the region
-> > > > -	 * in page granularity and put back unused memory to buddy system
-> > > > -	 * through /sys/kernel/kexec_crash_size interface.
-> > > > -	 */
-> > > > -	if (crashk_res.end) {
-> > > > -		__map_memblock(pgdp, crashk_res.start, crashk_res.end + 1,
-> > > > -			       PAGE_KERNEL,
-> > > > -			       NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS);
-> > > > -		memblock_clear_nomap(crashk_res.start,
-> > > > -				     resource_size(&crashk_res));
-> > > > -	}
-> > > > -#endif
-> > > >  }
-> > > >  
-> > > >  void mark_rodata_ro(void)
-> > > 
-> > > So as far as I'm concerned this is good enough for me. I took the time to
-> > > properly test crashkernel on RPi4 using the series, this patch, and another
-> > > small fix to properly update /proc/iomem.
-> > > 
-> > > I'll send v7 soon, but before, James (or anyone for that matter) any obvious
-> > > push-back to Catalin's solution?
-> > 
-> > I talked to James earlier and he was suggesting that we check the
-> > command line for any crashkernel reservations and only disable block
-> > mappings in that case, see the diff below on top of the one I already
-> > sent (still testing it).
-> 
-> That's even better :)
-> 
-> > If you don't have any other changes for v7, I'm happy to pick v6 up on
-> > top of the no-block-mapping fix.
-> 
-> Yes I've got a small change in patch #1, the crashkernel reservation has to be
-> performed before request_standart_resouces() is called, which is OK, since
-> we're all setup by then, I moved the crashkernel reservation at the end of
-> bootmem_init(). I attached the patch. If it's easier for you I'll send v7.
+Using two distinct DMA zones turned out to be problematic. Here's an
+attempt go back to a saner default.
 
-Please send a v7, otherwise b4 gets confused.
+I tested this on both a RPi4 and QEMU.
 
-Thanks.
+---
+
+Changes since v6:
+ - Update patch #1 so we reserve crashkernel before request_standard_resources()
+ - Tested on top of Catalin's mem_init() patches.
+
+Changes since v5:
+ - Unify ACPI/DT functions
+
+Changes since v4:
+ - Fix of_dma_get_max_cpu_address() so it returns the last addressable
+   addres, not the limit
+
+Changes since v3:
+ - Drop patch adding define in dma-mapping
+ - Address small review changes
+ - Update Ard's patch
+ - Add new patch removing examples from mmzone.h
+
+Changes since v2:
+ - Introduce Ard's patch
+ - Improve OF dma-ranges parsing function
+ - Add unit test for OF function
+ - Address small changes
+ - Move crashkernel reservation later in boot process
+
+Changes since v1:
+ - Parse dma-ranges instead of using machine compatible string
+
+Ard Biesheuvel (1):
+  arm64: mm: Set ZONE_DMA size based on early IORT scan
+
+Nicolas Saenz Julienne (6):
+  arm64: mm: Move reserve_crashkernel() into mem_init()
+  arm64: mm: Move zone_dma_bits initialization into zone_sizes_init()
+  of/address: Introduce of_dma_get_max_cpu_address()
+  of: unittest: Add test for of_dma_get_max_cpu_address()
+  arm64: mm: Set ZONE_DMA size based on devicetree's dma-ranges
+  mm: Remove examples from enum zone_type comment
+
+ arch/arm64/mm/init.c      | 22 +++++++++-------
+ drivers/acpi/arm64/iort.c | 55 +++++++++++++++++++++++++++++++++++++++
+ drivers/of/address.c      | 42 ++++++++++++++++++++++++++++++
+ drivers/of/unittest.c     | 18 +++++++++++++
+ include/linux/acpi_iort.h |  4 +++
+ include/linux/mmzone.h    | 20 --------------
+ include/linux/of.h        |  7 +++++
+ 7 files changed, 139 insertions(+), 29 deletions(-)
 
 -- 
-Catalin
+2.29.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
