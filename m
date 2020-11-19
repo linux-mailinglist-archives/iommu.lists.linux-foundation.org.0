@@ -2,48 +2,49 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386FA2B9A06
+	by mail.lfdr.de (Postfix) with ESMTPS id 1224E2B9A05
 	for <lists.iommu@lfdr.de>; Thu, 19 Nov 2020 18:54:13 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E139B87473;
+	by hemlock.osuosl.org (Postfix) with ESMTP id A209687477;
 	Thu, 19 Nov 2020 17:54:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1A+EPP390+4l; Thu, 19 Nov 2020 17:54:11 +0000 (UTC)
+	with ESMTP id LtWDTaRtgkxg; Thu, 19 Nov 2020 17:54:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7841187476;
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3211A87473;
 	Thu, 19 Nov 2020 17:54:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 63002C0891;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 187F3C0891;
 	Thu, 19 Nov 2020 17:54:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EC0A7C163C
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E5A00C0891
  for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 17:54:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id E874C871DC
+ by hemlock.osuosl.org (Postfix) with ESMTP id D41A2871DC
  for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 17:54:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BLC4iJKb63U8 for <iommu@lists.linux-foundation.org>;
- Thu, 19 Nov 2020 17:54:08 +0000 (UTC)
+ with ESMTP id SUfgG5q8CF-T for <iommu@lists.linux-foundation.org>;
+ Thu, 19 Nov 2020 17:54:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5499387473
- for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 17:54:08 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 3B83087477
+ for <iommu@lists.linux-foundation.org>; Thu, 19 Nov 2020 17:54:09 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id EA567AC2D;
- Thu, 19 Nov 2020 17:54:06 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id D67BFACEB;
+ Thu, 19 Nov 2020 17:54:07 +0000 (UTC)
 From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 To: robh+dt@kernel.org, catalin.marinas@arm.com, hch@lst.de, ardb@kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v7 1/7] arm64: mm: Move reserve_crashkernel() into mem_init()
-Date: Thu, 19 Nov 2020 18:53:53 +0100
-Message-Id: <20201119175400.9995-2-nsaenzjulienne@suse.de>
+Subject: [PATCH v7 2/7] arm64: mm: Move zone_dma_bits initialization into
+ zone_sizes_init()
+Date: Thu, 19 Nov 2020 18:53:54 +0100
+Message-Id: <20201119175400.9995-3-nsaenzjulienne@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201119175400.9995-1-nsaenzjulienne@suse.de>
 References: <20201119175400.9995-1-nsaenzjulienne@suse.de>
@@ -69,49 +70,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-crashkernel might reserve memory located in ZONE_DMA. We plan to delay
-ZONE_DMA's initialization after unflattening the devicetree and ACPI's
-boot table initialization, so move it later in the boot process.
-Specifically into bootmem_init() since request_standard_resources()
-depends on it.
+zone_dma_bits's initialization happens earlier that it's actually
+needed, in arm64_memblock_init(). So move it into the more suitable
+zone_sizes_init().
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 Tested-by: Jeremy Linton <jeremy.linton@arm.com>
-
 ---
-
-Changes since v6:
- - Move crashkernel reserve placement earlier, in bootmem_init()
-
- arch/arm64/mm/init.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ arch/arm64/mm/init.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
-index 71d463544400..fafdf992fd32 100644
+index fafdf992fd32..0954ea736987 100644
 --- a/arch/arm64/mm/init.c
 +++ b/arch/arm64/mm/init.c
-@@ -389,8 +389,6 @@ void __init arm64_memblock_init(void)
- 	else
- 		arm64_dma32_phys_limit = PHYS_MASK + 1;
+@@ -190,6 +190,8 @@ static void __init zone_sizes_init(unsigned long min, unsigned long max)
+ 	unsigned long max_zone_pfns[MAX_NR_ZONES]  = {0};
  
--	reserve_crashkernel();
+ #ifdef CONFIG_ZONE_DMA
++	zone_dma_bits = ARM64_ZONE_DMA_BITS;
++	arm64_dma_phys_limit = max_zone_phys(zone_dma_bits);
+ 	max_zone_pfns[ZONE_DMA] = PFN_DOWN(arm64_dma_phys_limit);
+ #endif
+ #ifdef CONFIG_ZONE_DMA32
+@@ -379,11 +381,6 @@ void __init arm64_memblock_init(void)
+ 
+ 	early_init_fdt_scan_reserved_mem();
+ 
+-	if (IS_ENABLED(CONFIG_ZONE_DMA)) {
+-		zone_dma_bits = ARM64_ZONE_DMA_BITS;
+-		arm64_dma_phys_limit = max_zone_phys(ARM64_ZONE_DMA_BITS);
+-	}
 -
- 	reserve_elfcorehdr();
- 
- 	high_memory = __va(memblock_end_of_DRAM() - 1) + 1;
-@@ -430,6 +428,12 @@ void __init bootmem_init(void)
- 	sparse_init();
- 	zone_sizes_init(min, max);
- 
-+	/*
-+	 * request_standard_resources() depends on crashkernel's memory being
-+	 * reserved, so do it here.
-+	 */
-+	reserve_crashkernel();
-+
- 	memblock_dump_all();
- }
- 
+ 	if (IS_ENABLED(CONFIG_ZONE_DMA32))
+ 		arm64_dma32_phys_limit = max_zone_phys(32);
+ 	else
 -- 
 2.29.2
 
