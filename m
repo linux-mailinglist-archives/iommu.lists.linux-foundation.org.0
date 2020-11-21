@@ -1,65 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 383E52BB3EA
-	for <lists.iommu@lfdr.de>; Fri, 20 Nov 2020 19:40:11 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id CDA8F2E127;
-	Fri, 20 Nov 2020 18:40:09 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0b2m2oRJfDoV; Fri, 20 Nov 2020 18:40:08 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id BB8F02E124;
-	Fri, 20 Nov 2020 18:40:08 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A24DAC0891;
-	Fri, 20 Nov 2020 18:40:08 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 519BBC0891
- for <iommu@lists.linux-foundation.org>; Fri, 20 Nov 2020 18:40:07 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2592BBF63
+	for <lists.iommu@lfdr.de>; Sat, 21 Nov 2020 15:04:02 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 4D3FB86E3B
- for <iommu@lists.linux-foundation.org>; Fri, 20 Nov 2020 18:40:07 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C814386A9E;
+	Sat, 21 Nov 2020 14:04:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4cgiLw8ki8KQ; Sat, 21 Nov 2020 14:03:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D07A686A97;
+	Sat, 21 Nov 2020 14:03:58 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B4709C1DA2;
+	Sat, 21 Nov 2020 14:03:58 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 75C79C0891
+ for <iommu@lists.linux-foundation.org>; Sat, 21 Nov 2020 14:03:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 5AFEC87428
+ for <iommu@lists.linux-foundation.org>; Sat, 21 Nov 2020 14:03:57 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gx8UXfioSD81 for <iommu@lists.linux-foundation.org>;
- Fri, 20 Nov 2020 18:40:07 +0000 (UTC)
+ with ESMTP id Z4Q+YcjrO+ZD for <iommu@lists.linux-foundation.org>;
+ Sat, 21 Nov 2020 14:03:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 00FA986F2B
- for <iommu@lists.linux-foundation.org>; Fri, 20 Nov 2020 18:40:06 +0000 (UTC)
-Subject: Re: [GIT PULL] IOMMU fixes for -rc5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605897606;
- bh=xRx6RqsdmIAKpMlYuagEJPIDByc9uZZlrGJ8/Qp5Ph4=;
- h=From:In-Reply-To:References:Date:To:Cc:From;
- b=aLZtlF3H/kTqSRDcGRfrm4KI16QYjBycpMtFNE2fEpmtw9KsRF2KxmER84m+u04JT
- a5tMrV6EXWpBPmC93ZqSdNET6yjrBqtgWQ1HbIUzE6sUS2qn2aKUZ9EgGjks06JVLW
- IyMSaS+NKXUA9xBi4eWwN+uZkI8D+Cj4KD8l8W9s=
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20201120115034.GA6386@willie-the-truck>
-References: <20201120115034.GA6386@willie-the-truck>
-X-PR-Tracked-List-Id: Development issues for Linux IOMMU support
- <iommu.lists.linux-foundation.org>
-X-PR-Tracked-Message-Id: <20201120115034.GA6386@willie-the-truck>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
- tags/iommu-fixes
-X-PR-Tracked-Commit-Id: 91c2c28d8de34815ea9bb4d16e9db7308ad33d3e
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: fc8299f9f3b9f3b0e1c8c9f719b5deb2a74ab314
-Message-Id: <160589760669.4306.2459935976027998516.pr-tracker-bot@kernel.org>
-Date: Fri, 20 Nov 2020 18:40:06 +0000
-To: Will Deacon <will@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, Alex Williamson <alex.williamson@redhat.com>,
- tglx@linutronix.de, torvalds@linux-foundation.org
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 4C98387422
+ for <iommu@lists.linux-foundation.org>; Sat, 21 Nov 2020 14:03:56 +0000 (UTC)
+IronPort-SDR: vQ1LWf4wo8+B1VcvnBj6mACg/9KjNzMbaWeNyeiJwMW+7GraSuL0xg8/EHFUj4GnAOT+1BBZrO
+ aKoXygX5oAeg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9811"; a="168083742"
+X-IronPort-AV: E=Sophos;i="5.78,359,1599548400"; d="scan'208";a="168083742"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2020 06:03:55 -0800
+IronPort-SDR: Z2RFuzugzo4ns16V5sHEud+UIphPrk3mALkPsmg1cl7H36gFouYodR0LRGd5IFF9Rel9+rt4az
+ yAGIBG/HBVcg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,359,1599548400"; d="scan'208";a="431852752"
+Received: from allen-box.sh.intel.com ([10.239.159.28])
+ by fmsmga001.fm.intel.com with ESMTP; 21 Nov 2020 06:03:53 -0800
+From: Lu Baolu <baolu.lu@linux.intel.com>
+To: Will Deacon <will@kernel.org>,
+	Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH v9 0/4] iommu: Add support to change default domain of
+Date: Sat, 21 Nov 2020 21:56:16 +0800
+Message-Id: <20201121135620.3496419-1-baolu.lu@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Cc: Ashok Raj <ashok.raj@intel.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,24 +72,53 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The pull request you sent on Fri, 20 Nov 2020 11:50:35 +0000:
+Hi,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git tags/iommu-fixes
+The description and last post of this series could be found here.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/fc8299f9f3b9f3b0e1c8c9f719b5deb2a74ab314
+https://lore.kernel.org/linux-iommu/20200925190620.18732-1-ashok.raj@intel.com/
 
-Thank you!
+Change log in this series:
+ 1. Changes according to comments at
+    https://lore.kernel.org/linux-iommu/243ce89c33fe4b9da4c56ba35acebf81@huawei.com/
+    - Move the untrusted device check to iommu core
+    - Remove the requirement of def_domain_type callback
+ 
+2. Changes according to comments at
+    https://lore.kernel.org/linux-iommu/20201118135153.GB2177@willie-the-truck/
+    - Replace pr_err_ratelimited() with dev_err_ratelimited() for more
+      context.
+    - Refine the getting default domain type code.
+    - Add comments about the lock mechanism (vs. device release path)
+      for future reference.
+
+    https://lore.kernel.org/linux-iommu/20201118135137.GA2177@willie-the-truck/
+    - Refine the ABI document.
+
+Best regards,
+baolu
+
+Lu Baolu (1):
+  iommu: Move def_domain type check for untrusted device into core
+
+Sai Praneeth Prakhya (3):
+  iommu: Add support to change default domain of an iommu group
+  iommu: Take lock before reading iommu group default domain type
+  iommu: Document usage of "/sys/kernel/iommu_groups/<grp_id>/type" file
+
+ .../ABI/testing/sysfs-kernel-iommu_groups     |  29 ++
+ drivers/iommu/intel/iommu.c                   |   7 -
+ drivers/iommu/iommu.c                         | 255 +++++++++++++++++-
+ 3 files changed, 276 insertions(+), 15 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.25.1
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
