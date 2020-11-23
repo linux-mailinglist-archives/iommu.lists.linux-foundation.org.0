@@ -1,83 +1,65 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C7C2C0ED3
-	for <lists.iommu@lfdr.de>; Mon, 23 Nov 2020 16:31:46 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2C42C0F25
+	for <lists.iommu@lfdr.de>; Mon, 23 Nov 2020 16:47:13 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id E98AC2039C;
-	Mon, 23 Nov 2020 15:31:44 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CA3C8870F8;
+	Mon, 23 Nov 2020 15:47:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Oip5GN5GNTW7; Mon, 23 Nov 2020 15:31:42 +0000 (UTC)
+	with ESMTP id 6iP7l+rFXX2N; Mon, 23 Nov 2020 15:47:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 4A9DC2033E;
-	Mon, 23 Nov 2020 15:31:42 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4C95487028;
+	Mon, 23 Nov 2020 15:47:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2FF15C0052;
-	Mon, 23 Nov 2020 15:31:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3226DC0052;
+	Mon, 23 Nov 2020 15:47:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4E53DC0052
- for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 15:31:40 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 099CEC0052
+ for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 15:47:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 45A4086695
- for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 15:31:40 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id D5CD52039C
+ for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 15:47:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Fp2OANAN2oSe for <iommu@lists.linux-foundation.org>;
- Mon, 23 Nov 2020 15:31:39 +0000 (UTC)
+ with ESMTP id bGMLiYgv1Irs for <iommu@lists.linux-foundation.org>;
+ Mon, 23 Nov 2020 15:47:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 5FD438669C
- for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 15:31:39 +0000 (UTC)
-Received: from mail-ed1-f69.google.com ([209.85.208.69])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <guilherme.piccoli@canonical.com>) id 1khDoX-0007LX-9M
- for iommu@lists.linux-foundation.org; Mon, 23 Nov 2020 15:31:37 +0000
-Received: by mail-ed1-f69.google.com with SMTP id y11so6719943edv.6
- for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 07:31:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DIYmatONslBJtx0vls11e+ppVgIv/t+HfpL12twmIjk=;
- b=ZopWPLDeFbhLyOFaPGAIgNw8jYSjhAx0jL9G6Ni6PA9FIzUM4rRMKZeJlydaFdVclN
- WSi4zAdrp/fz37TWNqdy0t1JgVPD7FW8PGGtV1/ivxE405WadDrPeBPfc8myJTBDhC8i
- Olpx3muWNe0Sq3sc0uZwzmp2UYTzXKgi7H2itELHLCLH24Gt+cmtgI9v2CGrgE53pyL3
- UQZFfgvPiZTQ1LeVtarIcEQW3pFJvYlv9wvQ3+G+qgRwJu9NRubO+zLtB+UajFhDI2qW
- QFIoHGIHWKqhyDAL4zx/odDoPXI969FFfQer0Gw8JCkD2yDlpoyMn4jgC+aPrDoF9KlK
- JVxA==
-X-Gm-Message-State: AOAM532G3JSA87rf1wDVHTmorbshkixkWFbxxGq6vtlh+8naVIwas+M/
- 359dLtoB5awgJMLrXKUMK57k80afN3Psn9gAbg16dCh2dfHC3I1zIeryxWu3krPfZcwlx1TPpca
- F1dPka719d5i4yYc8+c7vNndD1Um8BUzu35FfrYTe7DwGG00bTvkxtrQeKI5QG5g=
-X-Received: by 2002:aa7:d298:: with SMTP id w24mr5994009edq.82.1606145497008; 
- Mon, 23 Nov 2020 07:31:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyrWu7xVwFBmOecqSZY4ld78I3wZkqLcisWUTr1xKJt3H6E/cA0mPHuJlf+nhK7/Ew1KW1Eno+hgp66Z/wsDtc=
-X-Received: by 2002:aa7:d298:: with SMTP id w24mr5993991edq.82.1606145496804; 
- Mon, 23 Nov 2020 07:31:36 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8B3592033E
+ for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 15:47:08 +0000 (UTC)
+Received: from localhost.localdomain (236.31.169.217.in-addr.arpa
+ [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id CE8592080A;
+ Mon, 23 Nov 2020 15:47:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1606146428;
+ bh=TQ307+slGSfbezrSc14iNVZMOcunNKCJLg4x+ZYj56g=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=V/hwEQUNBve8QmWE07YNiyDXKXv/BDWsZmfiBvGnHEARjxZbrw27pVuCeBq2/10+7
+ hrgUA91Fd1NQ2tV8VqruZVd0fx0TLCNgYzEI2rMRdG2mk7ndDDE56UXR2U79kvyQQ8
+ ViOt21YEOu23NZLUgOV0nRCE1JfcJFYx6P+57CV8=
+From: Will Deacon <will@kernel.org>
+To: linux-arm-kernel@lists.infradead.org, iommu@lists.linux-foundation.org,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH RESEND v10 0/4] iommu: Shared Virtual Addressing for
+ SMMUv3 (PT sharing part)
+Date: Mon, 23 Nov 2020 15:46:58 +0000
+Message-Id: <160614101572.2838306.10746273931698766152.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201106155048.997886-1-jean-philippe@linaro.org>
+References: <20201106155048.997886-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
-References: <20201104220804.21026-1-Ashish.Kalra@amd.com>
-In-Reply-To: <20201104220804.21026-1-Ashish.Kalra@amd.com>
-From: Guilherme Piccoli <gpiccoli@canonical.com>
-Date: Mon, 23 Nov 2020 12:31:00 -0300
-Message-ID: <CAHD1Q_ycPbd9uuEN2nuT4norwuRt04E5ZdqAVC9si1c-T=SRmA@mail.gmail.com>
-Subject: Re: [PATCH v3] swiotlb: Adjust SWIOTBL bounce buffer size for SEV
- guests.
-To: Ashish Kalra <Ashish.Kalra@amd.com>
-Cc: Thomas.Lendacky@amd.com, brijesh.singh@amd.com, luto@kernel.org,
- dave.hansen@linux-intel.com, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Peter Zijlstra <peterz@infradead.org>,
- the arch/x86 maintainers <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- iommu@lists.linux-foundation.org, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, ssg.sos.patches@amd.com,
- "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>,
- Christoph Hellwig <hch@lst.de>
+Cc: Will Deacon <will@kernel.org>, catalin.marinas@arm.com,
+ robin.murphy@arm.com, zhangfei.gao@linaro.org, kernel-team@android.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,12 +77,36 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Ashish, non-technical comment: in the subject, you might want to
-s/SWIOTBL/SWIOTLB .
-cheers,
+On Fri, 6 Nov 2020 16:50:46 +0100, Jean-Philippe Brucker wrote:
+> These are the remaining bits implementing iommu_sva_bind_device() for
+> SMMUv3. They didn't make it into v5.10 because an Ack was missing for
+> adding the PASID field to mm_struct. That is now upstream, in commit
+> 52ad9bc64c74 ("mm: Add a pasid member to struct mm_struct"). No change
+> since last posting [1], only rebased onto v5.10-rc2.
+> 
+> Note that full SVA support for SMMUv3 still needs IOPF and DVM support,
+> coming soon.
+> 
+> [...]
 
+Applied to arm64 (for-next/iommu/svm), thanks!
 
-Guilherme
+[1/4] iommu/ioasid: Add ioasid references
+      https://git.kernel.org/arm64/c/cb4789b0d19f
+[2/4] iommu/sva: Add PASID helpers
+      https://git.kernel.org/arm64/c/cfc78dfd9b36
+[3/4] iommu/arm-smmu-v3: Implement iommu_sva_bind/unbind()
+      https://git.kernel.org/arm64/c/32784a9562fb
+[4/4] iommu/arm-smmu-v3: Hook up ATC invalidation to mm ops
+      https://git.kernel.org/arm64/c/2f7e8c553e98
+
+Cheers,
+-- 
+Will
+
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
