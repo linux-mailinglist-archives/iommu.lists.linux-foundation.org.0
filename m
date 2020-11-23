@@ -1,70 +1,74 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84DA52C02F7
-	for <lists.iommu@lfdr.de>; Mon, 23 Nov 2020 11:08:38 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5282C04C1
+	for <lists.iommu@lfdr.de>; Mon, 23 Nov 2020 12:41:08 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 0CB4120483;
-	Mon, 23 Nov 2020 10:08:37 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 43A94860CD;
+	Mon, 23 Nov 2020 11:41:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EN7Qru96Ybuu; Mon, 23 Nov 2020 10:08:35 +0000 (UTC)
+	with ESMTP id cdZ2g8lj3N2o; Mon, 23 Nov 2020 11:41:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 711A82047E;
-	Mon, 23 Nov 2020 10:08:35 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C3ECB85FB4;
+	Mon, 23 Nov 2020 11:41:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 53D0BC0052;
-	Mon, 23 Nov 2020 10:08:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A1E74C0052;
+	Mon, 23 Nov 2020 11:41:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7415CC0052
- for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 10:08:33 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EE8F9C0052
+ for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 11:41:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5AC05870C8
- for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 10:08:33 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id E1E11860C8
+ for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 11:41:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HyT7FQFuwRqB for <iommu@lists.linux-foundation.org>;
- Mon, 23 Nov 2020 10:08:32 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 5029D870C4
- for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 10:08:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=GMC0zoD4ESumTpUR0l7CFso7jCjRLzfG8oaHAbiw8Nw=; b=cUJ1n0nj5UYC6H8uzqFXNKi1sj
- VJVEgsND3cpDxCRsPqQ5bBuGflv1l5bMovoQ2AU/2kJHb6TKWvpEMLuEyC72YYc6TtxcIyT8suqEf
- 4hLFc9qxeFlZVYf+TGJ2rJ9KKmUQSFyzC2oLgvfvqy4pdlLpIShVXCfo/bZhxzBvX+J6Vv7WNg2my
- F6gpVj9v06mb46gfYvD82o+K6mq48jXWrAL8bPpTT2ZiWpmJXMPBN3BvCwfLogoc/HIq/OcwMqifE
- slkh8yn9PgWFg8wu/TPKBu70jzqfjf/qE/Uu+l2tnemGHNvM0Xl1AMIi9vZ6ICa1J2Z73y6VowtlK
- Z/IeNhqg==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat
- Linux)) id 1kh8lc-0006wE-Sr; Mon, 23 Nov 2020 10:08:16 +0000
-Date: Mon, 23 Nov 2020 10:08:16 +0000
-From: Christoph Hellwig <hch@infradead.org>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH v5 3/7] iommu: Allow the dma-iommu api to use bounce
- buffers
-Message-ID: <20201123100816.GA26619@infradead.org>
+ with ESMTP id aX-Xm07yG2b8 for <iommu@lists.linux-foundation.org>;
+ Mon, 23 Nov 2020 11:41:03 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 8310385FB4
+ for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 11:41:03 +0000 (UTC)
+IronPort-SDR: pZonZPEUhxzzs6ht2AIPBTC9moPHluoBBEMqfbDu0DlzfL+DyFCqc9hXxQufMWcbv3yE629fvQ
+ GGG2FHYXe4cw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9813"; a="171842985"
+X-IronPort-AV: E=Sophos;i="5.78,363,1599548400"; d="scan'208";a="171842985"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2020 03:41:02 -0800
+IronPort-SDR: VM/Y/pys1hbw4jESWb6trfxWGDg15evZIVcv6B6nIWzChUGTnNsgfRJ5QhDy4cm3U5MicLBemf
+ 4ILc9qY8NHZQ==
+X-IronPort-AV: E=Sophos;i="5.78,363,1599548400"; d="scan'208";a="546380585"
+Received: from kdinx-mobl.ccr.corp.intel.com (HELO [10.254.210.240])
+ ([10.254.210.240])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2020 03:40:59 -0800
+To: Christoph Hellwig <hch@infradead.org>
 References: <20201120101719.3172693-1-baolu.lu@linux.intel.com>
  <20201120101719.3172693-4-baolu.lu@linux.intel.com>
+ <20201123100816.GA26619@infradead.org>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v5 3/7] iommu: Allow the dma-iommu api to use bounce
+ buffers
+Message-ID: <73ac6a6b-ede9-b306-6d8f-c73f22e1e8e3@linux.intel.com>
+Date: Mon, 23 Nov 2020 19:40:57 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201120101719.3172693-4-baolu.lu@linux.intel.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20201123100816.GA26619@infradead.org>
+Content-Language: en-US
 Cc: Logan Gunthorpe <logang@deltatee.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Ashok Raj <ashok.raj@intel.com>, Will Deacon <will@kernel.org>,
  linux-kernel@vger.kernel.org, Tom Murphy <murphyt7@tcd.ie>,
- Christoph Hellwig <hch@infradead.org>, iommu@lists.linux-foundation.org,
- David Woodhouse <dwmw2@infradead.org>
+ iommu@lists.linux-foundation.org, David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,23 +81,34 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-> +	/*
-> +	 * If both the physical buffer start address and size are
-> +	 * page aligned, we don't need to use a bounce page.
-> +	 */
-> +	if (IS_ENABLED(CONFIG_SWIOTLB) && dev_is_untrusted(dev) &&
-> +	    iova_offset(iovad, phys | org_size)) {
-> +		aligned_size = iova_align(iovad, org_size);
-> +		phys = swiotlb_tbl_map_single(dev,
-> +				phys_to_dma(dev, io_tlb_start),
-> +				phys, org_size, aligned_size, dir, attrs);
+Hi Christoph,
 
-swiotlb_tbl_map_single takes one less argument in 5.10-rc now.
+On 2020/11/23 18:08, Christoph Hellwig wrote:
+>> +	/*
+>> +	 * If both the physical buffer start address and size are
+>> +	 * page aligned, we don't need to use a bounce page.
+>> +	 */
+>> +	if (IS_ENABLED(CONFIG_SWIOTLB) && dev_is_untrusted(dev) &&
+>> +	    iova_offset(iovad, phys | org_size)) {
+>> +		aligned_size = iova_align(iovad, org_size);
+>> +		phys = swiotlb_tbl_map_single(dev,
+>> +				phys_to_dma(dev, io_tlb_start),
+>> +				phys, org_size, aligned_size, dir, attrs);
+> 
+> swiotlb_tbl_map_single takes one less argument in 5.10-rc now.
+> 
+
+Yes. But Will's iommu/next branch is based on 5.10-rc3. I synced with
+him, we agreed to keep it 5.10-rc3 and resolve this conflict when
+merging it.
+
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
