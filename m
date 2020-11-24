@@ -2,93 +2,88 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8E02C33AC
-	for <lists.iommu@lfdr.de>; Tue, 24 Nov 2020 23:06:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C662C3450
+	for <lists.iommu@lfdr.de>; Wed, 25 Nov 2020 00:05:21 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id F1E1C82BFC;
-	Tue, 24 Nov 2020 22:06:38 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 46FB787314;
+	Tue, 24 Nov 2020 23:05:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ezL8-o0r2E2I; Tue, 24 Nov 2020 22:06:38 +0000 (UTC)
+	with ESMTP id 7AeEH9NjAjYQ; Tue, 24 Nov 2020 23:05:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 303B686C94;
-	Tue, 24 Nov 2020 22:06:38 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D431D87291;
+	Tue, 24 Nov 2020 23:05:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D7D6C0052;
-	Tue, 24 Nov 2020 22:06:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B44D8C0052;
+	Tue, 24 Nov 2020 23:05:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0B352C0052
- for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 22:06:37 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 11910C0052
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 23:05:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8BA0E82BFC
- for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 22:06:36 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id EE83586FFE
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 23:05:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id r2Sx7iRRwTy8 for <iommu@lists.linux-foundation.org>;
- Tue, 24 Nov 2020 22:06:36 +0000 (UTC)
+ with ESMTP id 5V4sbH3hj6Qj for <iommu@lists.linux-foundation.org>;
+ Tue, 24 Nov 2020 23:05:17 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
- [209.85.128.48])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 993DE86F98
- for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 22:06:32 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id h21so387417wmb.2
- for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 14:06:32 -0800 (PST)
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+ [209.85.208.195])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 2AA1286A9B
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 23:05:17 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id y7so243556lji.8
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 15:05:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3Figoe8Zer72GbW0+hvjATZnj5NO6h5Raa/lqkNpArQ=;
- b=jc/+571ztrybLm+BOwSaoY7pl4esZi+3r3UODwY6Ge1iKKDOPYMx6lwyjDb88+QxAm
- YenolkYfmfPpLhA+w6f5e/1qbkphU0EepCGWU8xLQofles6qPv/nl1DVGk3z/O344be2
- xZ4VTY9dIj8j0z06kpnm6uvyCYG0fueUt3pqqxnOQZOhr0yQC2AGyWdPqSnRt2aIQ7AK
- Yl6yzAnF27oIa9mypy+3ntdIaN0uZyoNxQ4gsk6uBoeWwZDiwqmQTkTpVjAUR4RIRjew
- /P7O7b2lv+JiKkgOoyw+doXLWoWCzR0WMJ/OvmJBZhf0GMXiUMhm2cryo2QoYDH5qYKW
- q3sQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/KXHKT0QjGfRLZidy5/lA4rIw7B1CrKKa5AQMFx5E+o=;
+ b=q2hhMGNsiRjmWE7ShOd1r2snZc9B66vAR/fONn6y58IpmTyCv8+hAiUnLmSKpnSTPd
+ L8MAXgH6aNO/aLpS8wUiBCcuwG8jcZLxnsGMva4aUqNDjauM84UrjES/+o2f9MFJCO96
+ 61TTbyYBeD7KSNW8+0tu9c5FttT4YCwCbGFb94pCA3g4DO21TM14wpXV+v5zYKDhaNY6
+ JUhdiElC+at3f7FowROvZZkgBSv5i0ps5FlHl+kTP0wrgPlDwF19qLX6QoCnqQj/ZCJt
+ aAd3i9VLuoEADwTg79dLch3n2v26MltCBktsMz0/UapVncQPDTK/b2htk4hQx8DIwZ55
+ 1IkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3Figoe8Zer72GbW0+hvjATZnj5NO6h5Raa/lqkNpArQ=;
- b=eptBJXKWkxGxPiuKgeB/wqLoA4iHIs25djevSSoo9OMg3VDf82AgGgCujUzh/UqIBb
- /CGF+juxyknKuXJM+mxAX5ZeNTt3kTT3T9WXAowuRh3xR+gNVjk6E6tDpXZpFt9wkQSq
- NbuAJHSW+REa0KluLRkIbYk3E4dm6cIlNCCjRQspWGfPAm/45hde7FdugEynOApcLtSL
- 2mhm9WTyOv79m2keA0kXjKM9YlTSRJFMuO6KBpldfofln6eEzgu7oQxeofZ9Ykf7fogb
- vnjiuVhXsmj76OzfmwIIl7OJJUjKrfWUmZGwynqtkpgHqX6003kRMYVZjHT45bI9y8oD
- nI7Q==
-X-Gm-Message-State: AOAM531kD45HC34HzTQY4c0v1an9mg42f57CdCdeyTNb0VVtf4G1cn9a
- 9KxM43DBviUW3yPsvAClCNy697YjnXa6uIEYKZ4=
-X-Google-Smtp-Source: ABdhPJwxbj4hO3UhcOcUoC6jldq1SY0wj0dG1MEboORgvbHGRin3UXGunv67sZajYqm+JEM/JctmCGooiJvj2pLsGak=
-X-Received: by 2002:a7b:c00b:: with SMTP id c11mr470472wmb.175.1606255591078; 
- Tue, 24 Nov 2020 14:06:31 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/KXHKT0QjGfRLZidy5/lA4rIw7B1CrKKa5AQMFx5E+o=;
+ b=jc/jg8majIkzwgG2KxBFSAsLaHlgo4oaTq54YlVbmK9yxM3+TKkwgXnWY8GwHhPhPP
+ wuaxXHzpQfcM/H2qzCb07k56QNGEEyE3oujzUkPta3CkRIg04rOgXaI8MWwE5hjDYfvd
+ naiYpDMZJYLzu/Sd1cnMCw3/ry+UA2/kuxLzB7hwq2x+oOtkdWvePBQN4h0OkLw/Itjm
+ L2a/urrvohhr/iVPB3UpSg0pSjXtu9dWdXPL4fXqfAWHrbxclaIs1EPiA+NfgPCBqOPI
+ /OuY+MqD0SbZGFKIRlfxKrn1C7zfeyI1kAsaHVy3nZR7WUBMwe8amuqTSUkGePBWW4T+
+ p3aA==
+X-Gm-Message-State: AOAM533XraKNG79SXSyb+DpZwGb1+He6G/+MX1nac84WzkJ7IuCna5aD
+ wpGt08jb/M1ALocKbWqhM9E=
+X-Google-Smtp-Source: ABdhPJxpAqvUllZt+d+tRTNX9DTlqmrNB7dPwsBxupne7kCCr9F7wicJekI5L3d60wRQnhoZ4CbtHw==
+X-Received: by 2002:a2e:878c:: with SMTP id n12mr211314lji.319.1606259115126; 
+ Tue, 24 Nov 2020 15:05:15 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
+ [109.252.193.159])
+ by smtp.googlemail.com with ESMTPSA id 141sm40313lfi.102.2020.11.24.15.05.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Nov 2020 15:05:14 -0800 (PST)
+Subject: Re: [PATCH RESEND 0/5] iommu/tegra-smmu: Some pending reviewed changes
+To: Nicolin Chen <nicoleotsuka@gmail.com>, joro@8bytes.org
+References: <20201111222129.15736-1-nicoleotsuka@gmail.com>
+ <20201124212100.GA32108@Asurada-Nvidia>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <68237d7c-12f7-3053-2e79-75b7e95f0af3@gmail.com>
+Date: Wed, 25 Nov 2020 02:05:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-References: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
- <20201123152146.GE11033@willie-the-truck>
- <50b68f2bdf9413b896fbe816ba4ddbc9@codeaurora.org>
- <CAF6AEGse=WBAC1WbTi6aD5_m1_NBg91f=veYm-7V=Uds7NA0Lw@mail.gmail.com>
- <1c665e33d1d27263fb5056c16d30b827@codeaurora.org>
- <20201124111027.GA13151@willie-the-truck>
- <CAF6AEGuZ2YbY=ATFBX1KJw=LwhcpH8n+zzxckTHPwwopi6mOqw@mail.gmail.com>
- <20201124214332.GC14252@willie-the-truck>
-In-Reply-To: <20201124214332.GC14252@willie-the-truck>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 24 Nov 2020 14:08:17 -0800
-Message-ID: <CAF6AEGvu2Hdnw=ia8Ffmr1LPvkQNKpVVBM9xMNUKCn9uDcWWAg@mail.gmail.com>
-Subject: Re: [PATCHv8 0/8] System Cache support for GPU and required SMMU
- support
-To: Will Deacon <will@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "list@263.net:IOMMU DRIVERS , Joerg Roedel <joro@8bytes.org>,
- " <iommu@lists.linux-foundation.org>,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, Dave Airlie <airlied@gmail.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+In-Reply-To: <20201124212100.GA32108@Asurada-Nvidia>
+Content-Language: en-US
+Cc: linux-kernel@vger.kernel.org, jonathanh@nvidia.com,
+ iommu@lists.linux-foundation.org, thierry.reding@gmail.com,
+ linux-tegra@vger.kernel.org, Will Deacon <will@kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,57 +96,16 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Nov 24, 2020 at 1:43 PM Will Deacon <will@kernel.org> wrote:
->
-> On Tue, Nov 24, 2020 at 11:05:39AM -0800, Rob Clark wrote:
-> > On Tue, Nov 24, 2020 at 3:10 AM Will Deacon <will@kernel.org> wrote:
-> > > On Tue, Nov 24, 2020 at 09:32:54AM +0530, Sai Prakash Ranjan wrote:
-> > > > On 2020-11-24 00:52, Rob Clark wrote:
-> > > > > On Mon, Nov 23, 2020 at 9:01 AM Sai Prakash Ranjan
-> > > > > <saiprakash.ranjan@codeaurora.org> wrote:
-> > > > > > On 2020-11-23 20:51, Will Deacon wrote:
-> > > > > > > Modulo some minor comments I've made, this looks good to me. What is
-> > > > > > > the
-> > > > > > > plan for merging it? I can take the IOMMU parts, but patches 4-6 touch
-> > > > > > > the
-> > > > > > > MSM GPU driver and I'd like to avoid conflicts with that.
-> > > > > > >
-> > > > > >
-> > > > > > SMMU bits are pretty much independent and GPU relies on the domain
-> > > > > > attribute
-> > > > > > and the quirk exposed, so as long as SMMU changes go in first it
-> > > > > > should
-> > > > > > be good.
-> > > > > > Rob?
-> > > > >
-> > > > > I suppose one option would be to split out the patch that adds the
-> > > > > attribute into it's own patch, and merge that both thru drm and iommu?
-> > > > >
-> > > >
-> > > > Ok I can split out domain attr and quirk into its own patch if Will is
-> > > > fine with that approach.
-> > >
-> > > Why don't I just queue the first two patches on their own branch and we
-> > > both pull that?
-> >
-> > Ok, that works for me.  I normally base msm-next on -rc1 but I guess
-> > as long as we base the branch on the older or our two -next branches,
-> > that should work out nicely
->
-> Turns out we're getting a v10 of Sai's stuff, so I've asked him to split
-> patch two up anyway. Then I'll make a branch based on -rc1 that we can
-> both pull.
-
-Sounds good, thx
-
-BR,
--R
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+MjUuMTEuMjAyMCAwMDoyMSwgTmljb2xpbiBDaGVuINC/0LjRiNC10YI6Cj4gSGkgSm9lcmcsCj4g
+Cj4gVGhlc2UgZml2ZSBwYXRjaGVzIHdlcmUgYWNrZWQgYnkgVGhpZXJyeSBhbmQgYWNrZWQtbi10
+ZXN0ZWQgYnkKPiBEbWl0cnkgYSB3aGlsZSBhZ28uIFdvdWxkIGl0IGJlIHBvc3NpYmxlIGZvciB5
+b3UgdG8gYXBwbHkgdGhlbT8KPiAKPiBUaGFua3MhCgpIaSwKCllvdSBwcm9iYWJseSBzaG91bGQg
+dHJ5IHRvIHBpbmcgV2lsbCBEZWFjb24uCgpodHRwczovL2xrbWwub3JnL2xrbWwvMjAyMC8xMS8x
+Ny8yNDMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9t
+bXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8v
+bGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
