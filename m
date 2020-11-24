@@ -1,70 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F612C26E1
-	for <lists.iommu@lfdr.de>; Tue, 24 Nov 2020 14:13:46 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB0A2C27F0
+	for <lists.iommu@lfdr.de>; Tue, 24 Nov 2020 14:33:27 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1AB9D85E27;
-	Tue, 24 Nov 2020 13:13:45 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E16B0204E9;
+	Tue, 24 Nov 2020 13:33:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rqWNX-dN2vpD; Tue, 24 Nov 2020 13:13:44 +0000 (UTC)
+	with ESMTP id jWBWHbKhvEft; Tue, 24 Nov 2020 13:33:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 887DF85EC1;
-	Tue, 24 Nov 2020 13:13:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0B4D0203F4;
+	Tue, 24 Nov 2020 13:33:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 831BEC163C;
-	Tue, 24 Nov 2020 13:13:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E58A9C1836;
+	Tue, 24 Nov 2020 13:33:24 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D307DC0052
- for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 13:13:42 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 89968C0052
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 13:33:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C282F85F18
- for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 13:13:42 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 7571D86151
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 13:33:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bwFR_toMcaz4 for <iommu@lists.linux-foundation.org>;
- Tue, 24 Nov 2020 13:13:42 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 2D0F885DFF
- for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 13:13:42 +0000 (UTC)
-IronPort-SDR: Jinz47nRdf8Dbk4abYeS3+zQTeT22jKCQgA3U3mnk6kRbZQycjGNMwDZtEmLcup9zDsMhz5pfP
- zwYE4Xo1ef4w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9814"; a="172037967"
-X-IronPort-AV: E=Sophos;i="5.78,366,1599548400"; d="scan'208";a="172037967"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Nov 2020 05:13:41 -0800
-IronPort-SDR: p352IUKdUSa4CW99elVa4dDgS5dHCMYct8EWcV321HWlofmsqJw0BU6R32hdp7a8zcqZWwGdtL
- 8ZPgAfmBn0Kw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,366,1599548400"; d="scan'208";a="432602256"
-Received: from allen-box.sh.intel.com ([10.239.159.28])
- by fmsmga001.fm.intel.com with ESMTP; 24 Nov 2020 05:13:39 -0800
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Will Deacon <will@kernel.org>,
-	Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH v10 4/4] iommu: Document usage of
- "/sys/kernel/iommu_groups/<grp_id>/type" file
-Date: Tue, 24 Nov 2020 21:06:04 +0800
-Message-Id: <20201124130604.2912899-5-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201124130604.2912899-1-baolu.lu@linux.intel.com>
-References: <20201124130604.2912899-1-baolu.lu@linux.intel.com>
+ with ESMTP id z3Fi+ub+eeXF for <iommu@lists.linux-foundation.org>;
+ Tue, 24 Nov 2020 13:33:19 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8776B85C45
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 13:33:19 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 4C5866736F; Tue, 24 Nov 2020 14:33:15 +0100 (CET)
+Date: Tue, 24 Nov 2020 14:33:15 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCH] WIP! media: uvcvideo: Use dma_alloc_noncontiguos API
+Message-ID: <20201124133315.GA30214@lst.de>
+References: <20200930160917.1234225-9-hch@lst.de>
+ <20201118142546.170621-1-ribalda@chromium.org>
+ <20201124113512.GA21974@lst.de>
+ <CANiDSCtLrqWBOmC9X91V8P-aahQr2=L-GQNjHM6YauT69_QcEg@mail.gmail.com>
 MIME-Version: 1.0
-Cc: Ashok Raj <ashok.raj@intel.com>, Will Deacon <will.deacon@arm.com>,
- linux-kernel@vger.kernel.org,
- Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>,
- iommu@lists.linux-foundation.org, Robin Murphy <robin.murphy@arm.com>,
- Christoph Hellwig <hch@lst.de>
+Content-Disposition: inline
+In-Reply-To: <CANiDSCtLrqWBOmC9X91V8P-aahQr2=L-GQNjHM6YauT69_QcEg@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Sergey Senozhatsky <senozhatsky@google.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,65 +73,24 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
+On Tue, Nov 24, 2020 at 01:01:33PM +0100, Ricardo Ribalda wrote:
+> I was hoping that you could answer that question :).
+> 
+> Do you have other use-cases than linux-media in mind?
+> 
+> I think Sergey wants to experiment also with vb2, to figure out how
+> much it affects it.
+> His change will be much more complicated than mine thought, there are
+> more cornercases there.
 
-The default domain type of an iommu group can be changed by writing to
-"/sys/kernel/iommu_groups/<grp_id>/type" file. Hence, document it's usage
-and more importantly spell out its limitations.
+I don't have anything urgend lined up, although I think there are plenty
+other potential use cases.
 
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Ashok Raj <ashok.raj@intel.com>
-Cc: Will Deacon <will.deacon@arm.com>
-Cc: Sohil Mehta <sohil.mehta@intel.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Signed-off-by: Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
----
- .../ABI/testing/sysfs-kernel-iommu_groups     | 29 +++++++++++++++++++
- 1 file changed, 29 insertions(+)
+> > Can you respost a combined series to get started?
+> 
+> Sure. Shall I also include the profiling patch?
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-iommu_groups b/Documentation/ABI/testing/sysfs-kernel-iommu_groups
-index 017f5bc3920c..407b1628d7fd 100644
---- a/Documentation/ABI/testing/sysfs-kernel-iommu_groups
-+++ b/Documentation/ABI/testing/sysfs-kernel-iommu_groups
-@@ -33,3 +33,32 @@ Description:    In case an RMRR is used only by graphics or USB devices
- 		it is now exposed as "direct-relaxable" instead of "direct".
- 		In device assignment use case, for instance, those RMRR
- 		are considered to be relaxable and safe.
-+
-+What:		/sys/kernel/iommu_groups/<grp_id>/type
-+Date:		November 2020
-+KernelVersion:	v5.11
-+Contact:	Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
-+Description:	/sys/kernel/iommu_groups/<grp_id>/type shows the type of default
-+		domain in use by iommu for this group. See include/linux/iommu.h
-+		for possible values. A privileged user could request kernel to
-+		change the group type by writing to this file. Presently, only
-+		three types of request are supported:
-+		1. DMA: All the DMA transactions from the device in this group
-+			are translated by the iommu.
-+		2. identity: All the DMA transactions from the device in this
-+			     group are *not* translated by the iommu.
-+		3. auto: Change to the type the device was booted with.
-+		Note:
-+		-----
-+		The default domain type of a group may be modified only when
-+		1. The group has *only* one device
-+		2. The device in the group is not bound to any device driver.
-+		   So, the users must unbind the appropriate driver before
-+		   changing the default domain type.
-+		Caution:
-+		--------
-+		Unbinding a device driver will take away the driver's control
-+		over the device and if done on devices that host root file
-+		system could lead to catastrophic effects (the users might
-+		need to reboot the machine to get it to normal state). So, it's
-+		expected that the users understand what they're doing.
--- 
-2.25.1
-
+That is in the media code, right?  I don't really care too much.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
