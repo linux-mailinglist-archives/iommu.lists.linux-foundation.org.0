@@ -1,67 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D96D2C2B76
-	for <lists.iommu@lfdr.de>; Tue, 24 Nov 2020 16:38:56 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F79D2C2B77
+	for <lists.iommu@lfdr.de>; Tue, 24 Nov 2020 16:38:57 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B800586354;
-	Tue, 24 Nov 2020 15:38:54 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 09A3B872E4;
+	Tue, 24 Nov 2020 15:38:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wP5SMCIkqFIx; Tue, 24 Nov 2020 15:38:53 +0000 (UTC)
+	with ESMTP id j3ABNHUx8BTH; Tue, 24 Nov 2020 15:38:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C099F86018;
-	Tue, 24 Nov 2020 15:38:53 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 20EEE872E8;
+	Tue, 24 Nov 2020 15:38:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B5615C0052;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E7308C0052;
 	Tue, 24 Nov 2020 15:38:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 08C4CC0052
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E94B9C0052
  for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 15:38:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id E46F7872E3
- for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 15:38:51 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id D5276204E1
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 15:38:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0hmWToGswRP5 for <iommu@lists.linux-foundation.org>;
- Tue, 24 Nov 2020 15:38:50 +0000 (UTC)
+ with ESMTP id GdwvxujJ6Nsk for <iommu@lists.linux-foundation.org>;
+ Tue, 24 Nov 2020 15:38:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
- [209.85.221.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 0F90C872DF
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+ [209.85.221.66])
+ by silver.osuosl.org (Postfix) with ESMTPS id D0BC32039C
  for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 15:38:50 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id 64so9353258wra.11
- for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 07:38:49 -0800 (PST)
+Received: by mail-wr1-f66.google.com with SMTP id m6so22751011wrg.7
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 07:38:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=nhjzpN/I0YbMNWZ/cuMZ/ssTNlecoXIrDpTSY4gcP5k=;
- b=R4iABjEvQuBHvnc+z9r2hhUutog05+6ThoWbUMykt7He8q7/Lm2MAV0kmbeONcOsxN
- U2G4j4uIxzcbx66W51sw80c9eTxt/OKrFsuZ2UvdrOfTO25Ud9jfdkZp/nNgFi5xd4uI
- Q/97qiFwUbs+YE8Pkx8HCm4VLRpdrdwGyTIe8=
+ bh=mn1wB4UIIJYCPFpu55sy3LOHzNh5rEWUlXSp9HWhrTs=;
+ b=n2RkEUROrYeufAtCSKDWr3fmq/B5Dj/1/iujvWXNBpKVXM46G14POxuNtrvFGvG4xS
+ 65IlJ8mFMtlZ+DEw0CCukK4ngUegaZeo8SVlB1Gy+ncs+XC07IzM0JfpHRFMuhx4DL+q
+ Rc6TA7y3GVyTSBWrC+0pOexy8rwtT88yGy6aM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nhjzpN/I0YbMNWZ/cuMZ/ssTNlecoXIrDpTSY4gcP5k=;
- b=WKDw+43/o6Q0lRUq8rHJu2Rh4nHjh3E8yKDMSXm+tVHDU8ysiD3h10gX1r6xuZOHhG
- AcjjnBcAk4GvNA0HxvArvVZz1EYjSRnO3pMPuc7oJFEfGVn+Kh3Z77cIxNkJsfNLVRxm
- U4yfPG4QVqZrjpZZ94mkZN0LnKuQ1Zoa8TIS/EiZ/Clgb+xxNg3+ZN1uSOCUbYX6asFF
- VvKdY1ZG4OEA8+D21VsRXtHkY4jqfhSuu7vtxBpapVd/wkpzEIUDBGxXGZdnPMYz2ikN
- Al7yoVNL3ASEMhGGmGpfwVXaLjScwjugX3bRH2gWOrKkR7c6Eoo/OwfP/cD95RXyD+14
- BkKw==
-X-Gm-Message-State: AOAM533sLJkr5nHPVdxqruGcVMclTfu5ZO1HesJ6B118KN5BxxUAVqAS
- 92mhL7l8xZbiZBth2Q5TIB0Xsw==
-X-Google-Smtp-Source: ABdhPJyV94IkqLC3tQEI4e07+BimW/uaxT27Q28R/rp8nTUS06m6LEQw8+T51Xjpu9YZ6o8rFd6DgQ==
-X-Received: by 2002:adf:f944:: with SMTP id q4mr5883724wrr.120.1606232328515; 
- Tue, 24 Nov 2020 07:38:48 -0800 (PST)
+ bh=mn1wB4UIIJYCPFpu55sy3LOHzNh5rEWUlXSp9HWhrTs=;
+ b=VYDjyI5K+kgI5AAw6KB694qc2EUelJmgcWo6HbD66WQ8MkPcPD5OJ9IX5wWYHRUdul
+ nC0uDOZuU2rGKSFlXgrS3jWpBlmhyMURI8Ja9AXDUj/cWYH6/ax5dMLWwlGDmHKW99K5
+ OwgByyPhq7xmtqh3WUYLoP/o1SaGGDGGazaBLHmmrDkE0Gnk9o0bo36BvVdoSC1ZzRxm
+ 3a9SRvcNEgmCY2+9KH3QRVHIeixnl7ZZ0s7WNYjEf7J36ilgGGI4YpWYXH8JLa2C/2b9
+ KD1WKl9c9jQMiwtWgCI9MUZgXOWHS+XKioP2SsMlJj6Q/UYvTo9RYYUQi3JUHC0MZwqh
+ b3+Q==
+X-Gm-Message-State: AOAM5304bUyv8QS0U3QJbzCJjO3vGLq8SLJXC/9sqi0yZQ3ZVskTO+nB
+ 5/0J4sgW5E3UJqU3fZ7R43YUYw==
+X-Google-Smtp-Source: ABdhPJzJQS12dAtHSIto+AkUackkC3dZ1AW4aqhTl1qwf4siZheZKe0WXY06YOIImYJlDwLUTKFQtw==
+X-Received: by 2002:adf:e80b:: with SMTP id o11mr5939427wrm.409.1606232329253; 
+ Tue, 24 Nov 2020 07:38:49 -0800 (PST)
 Received: from alco.lan ([80.71.134.83])
- by smtp.gmail.com with ESMTPSA id 25sm5814752wmk.19.2020.11.24.07.38.47
+ by smtp.gmail.com with ESMTPSA id 25sm5814752wmk.19.2020.11.24.07.38.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 24 Nov 2020 07:38:48 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
@@ -74,9 +74,9 @@ To: Christoph Hellwig <hch@lst.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Linux Media Mailing List <linux-media@vger.kernel.org>,
  Tomasz Figa <tfiga@chromium.org>,
  Sergey Senozhatsky <senozhatsky@google.com>
-Subject: [PATCH 2/6] dma-direct: use __GFP_ZERO in dma_direct_alloc_pages
-Date: Tue, 24 Nov 2020 16:38:41 +0100
-Message-Id: <20201124153845.132207-2-ribalda@chromium.org>
+Subject: [PATCH 3/6] dma-iommu: remove __iommu_dma_mmap
+Date: Tue, 24 Nov 2020 16:38:42 +0100
+Message-Id: <20201124153845.132207-3-ribalda@chromium.org>
 X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
 In-Reply-To: <20201124153845.132207-1-ribalda@chromium.org>
 References: <20201124153845.132207-1-ribalda@chromium.org>
@@ -100,48 +100,49 @@ Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
 From: Christoph Hellwig <hch@lst.de>
 
-Prepare for supporting the DMA_ATTR_NO_KERNEL_MAPPING flag in
-dma_alloc_pages.
+The function has a single caller, so open code it there and take
+advantage of the precalculated page count variable.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- kernel/dma/direct.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/iommu/dma-iommu.c | 17 +----------------
+ 1 file changed, 1 insertion(+), 16 deletions(-)
 
-diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
-index 06c111544f61..76c741e610fc 100644
---- a/kernel/dma/direct.c
-+++ b/kernel/dma/direct.c
-@@ -280,13 +280,12 @@ struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
- 		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 73249732afd3..a2fb92de7e3d 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -655,21 +655,6 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+ 	return NULL;
+ }
+ 
+-/**
+- * __iommu_dma_mmap - Map a buffer into provided user VMA
+- * @pages: Array representing buffer from __iommu_dma_alloc()
+- * @size: Size of buffer in bytes
+- * @vma: VMA describing requested userspace mapping
+- *
+- * Maps the pages of the buffer in @pages into @vma. The caller is responsible
+- * for verifying the correct size and protection of @vma beforehand.
+- */
+-static int __iommu_dma_mmap(struct page **pages, size_t size,
+-		struct vm_area_struct *vma)
+-{
+-	return vm_map_pages(vma, pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
+-}
+-
+ static void iommu_dma_sync_single_for_cpu(struct device *dev,
+ 		dma_addr_t dma_handle, size_t size, enum dma_data_direction dir)
  {
- 	struct page *page;
--	void *ret;
+@@ -1074,7 +1059,7 @@ static int iommu_dma_mmap(struct device *dev, struct vm_area_struct *vma,
+ 		struct page **pages = dma_common_find_pages(cpu_addr);
  
- 	if (IS_ENABLED(CONFIG_DMA_COHERENT_POOL) &&
- 	    force_dma_unencrypted(dev) && !gfpflags_allow_blocking(gfp))
- 		return dma_direct_alloc_from_pool(dev, size, dma_handle, gfp);
- 
--	page = __dma_direct_alloc_pages(dev, size, gfp);
-+	page = __dma_direct_alloc_pages(dev, size, gfp | __GFP_ZERO);
- 	if (!page)
- 		return NULL;
- 	if (PageHighMem(page)) {
-@@ -300,13 +299,11 @@ struct page *dma_direct_alloc_pages(struct device *dev, size_t size,
- 		goto out_free_pages;
- 	}
- 
--	ret = page_address(page);
- 	if (force_dma_unencrypted(dev)) {
--		if (set_memory_decrypted((unsigned long)ret,
-+		if (set_memory_decrypted((unsigned long) page_address(page),
- 				1 << get_order(size)))
- 			goto out_free_pages;
- 	}
--	memset(ret, 0, size);
- 	*dma_handle = phys_to_dma_direct(dev, page_to_phys(page));
- 	return page;
- out_free_pages:
+ 		if (pages)
+-			return __iommu_dma_mmap(pages, size, vma);
++			return vm_map_pages(vma, pages, nr_pages);
+ 		pfn = vmalloc_to_pfn(cpu_addr);
+ 	} else {
+ 		pfn = page_to_pfn(virt_to_page(cpu_addr));
 -- 
 2.29.2.454.gaff20da3a2-goog
 
