@@ -1,121 +1,88 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76FBE2C1919
-	for <lists.iommu@lfdr.de>; Tue, 24 Nov 2020 00:06:46 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CC306871C0;
-	Mon, 23 Nov 2020 23:06:44 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OujcKjDgevbg; Mon, 23 Nov 2020 23:06:42 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id EDD0E871BB;
-	Mon, 23 Nov 2020 23:06:42 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D1BF3C163C;
-	Mon, 23 Nov 2020 23:06:42 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 33A5BC0052
- for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 23:06:41 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2917A2C1C74
+	for <lists.iommu@lfdr.de>; Tue, 24 Nov 2020 05:03:09 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id DE93920555
- for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 23:06:39 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A2E022094C;
+	Tue, 24 Nov 2020 04:03:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5P1LuCUVFANd; Tue, 24 Nov 2020 04:03:06 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 347732052D;
+	Tue, 24 Nov 2020 04:03:06 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1508FC0052;
+	Tue, 24 Nov 2020 04:03:06 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AEE8AC0052
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 04:03:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 8AA188710B
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 04:03:04 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KOqifoQNK2cd for <iommu@lists.linux-foundation.org>;
- Mon, 23 Nov 2020 23:06:37 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2061.outbound.protection.outlook.com [40.107.223.61])
- by silver.osuosl.org (Postfix) with ESMTPS id 900E320553
- for <iommu@lists.linux-foundation.org>; Mon, 23 Nov 2020 23:06:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fslUJj10EcnEqJJmk9cuqZbVdvaakovN2GoH+qTaOfWa0U6GQ+PyRw+GCVZf28vgIzVZTgWdkVOzPr370fOLjU4FyG4WC+3BviSDsDYOiy7LpoERGHCAhzOAMpMMjdWWuCuODjbXcYmB4Il4EW+TqZRpSFr9RH7pe1zh2E3dG1B2m8Cg0cbb6kSXBSpeSAqMjCCwx4dixg5K//kcRNx4EWFSpU3sf31E83pM5kkL4Droo01s+t9JwL49Hj3zevW5OEgu0mXdheAErxCmIl3VbUVnONUvzmmouwp/EB9vIb7jOIlP4cdtstIO0EGuiYgJEBuZv/xSj+YHap8hWy1hIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AJ5oX/gM57euXN94QblKpTjwqNAfLreegM7OqiUpZpo=;
- b=WdcepFp9ovvf4+N90xe5s2sbsTp142SOQy7+f7/cO6KtmGS00J7eYPSOwq6AgsucQvwKPSJZom3+LQxZFYlamcHbHF48lZXMorY+DGgOs+jBA3lgIlKIdklc9IynfMOHIRDQy401qa5nKa2DTwlo1BZ14RtVa+X4JWgbJmLpnZBy5DIkxsx7HyvEiM5feeFz/Kc9/y7zOFJvtoqls2Q5/jbbMP12Nzfb6dcEoIFBg4GY+80kZLOOTm7agbXr59mnyFwq4om0aQBXIfkeAfvnGvjYTO+5azrdGY9NN8jcZRdt01lspHPVvZKT0eIsuK82vzlrr16PiJL555vKVzH7Mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AJ5oX/gM57euXN94QblKpTjwqNAfLreegM7OqiUpZpo=;
- b=TeYWzVWPAegEVVvcc49PhKKvFFBGqxwjbJMCH47yHwZoKUKnl32wlLdFl3w0ZQOTthAgt3iKCXm8Gca8hJmhL3trbKb0gHTdo6fSOEy9wmDQ+sR0reJrS7bw+1ucCN3R+Ml25HO3tJQdclJrqqLiEe3bAb3tkJR/Au6SXiO0rmk=
-Authentication-Results: suse.de; dkim=none (message not signed)
- header.d=none;suse.de; dmarc=none action=none header.from=amd.com;
-Received: from BL0PR12MB4948.namprd12.prod.outlook.com (2603:10b6:208:1cc::20)
- by MN2PR12MB4111.namprd12.prod.outlook.com (2603:10b6:208:1de::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Mon, 23 Nov
- 2020 22:51:13 +0000
-Received: from BL0PR12MB4948.namprd12.prod.outlook.com
- ([fe80::b07d:ede5:2f45:5de8]) by BL0PR12MB4948.namprd12.prod.outlook.com
- ([fe80::b07d:ede5:2f45:5de8%8]) with mapi id 15.20.3589.030; Mon, 23 Nov 2020
- 22:51:13 +0000
-Subject: Re: [PATCH] PCI: Mark AMD Raven iGPU ATS as broken
-To: Will Deacon <will@kernel.org>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "Huang, Ray" <Ray.Huang@amd.com>
-References: <20201123134410.10648-1-will@kernel.org>
- <MN2PR12MB4488308D26DB50C18EA3BE0FF7FC0@MN2PR12MB4488.namprd12.prod.outlook.com>
- <20201123223356.GC12069@willie-the-truck>
-From: Felix Kuehling <felix.kuehling@amd.com>
-Organization: AMD Inc.
-Message-ID: <218017ab-defd-c77d-9055-286bf49bee86@amd.com>
-Date: Mon, 23 Nov 2020 17:51:11 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20201123223356.GC12069@willie-the-truck>
-Content-Language: en-US
-X-Originating-IP: [165.204.55.251]
-X-ClientProxiedBy: CH2PR15CA0015.namprd15.prod.outlook.com
- (2603:10b6:610:51::25) To BL0PR12MB4948.namprd12.prod.outlook.com
- (2603:10b6:208:1cc::20)
+ with ESMTP id kDXoGC4J8WnR for <iommu@lists.linux-foundation.org>;
+ Tue, 24 Nov 2020 04:03:03 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C9064870EE
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 04:03:00 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1606190583; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=FoFdssz2mmWQah99fW3jkhC1o+yA5snIRe1I3agQdNA=;
+ b=oMt4QV/6GdjWv/zSB19e7nYz+RvI8afFtQjYG4TkYh+ypiwMdBA1+DLo9kGvb4/qh3gENZob
+ k/vXCQVmN6yM1wN9v1YtJ3qYLDblPsM1FDrRaw0U/r7B/Qmzo5kEl427bzb2V13Xv0xYKtKi
+ R/n00PSBHNJaUMHo35Att/jLeA0=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n10.prod.us-east-1.postgun.com with SMTP id
+ 5fbc85f0e9b70886228ae0df (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 24 Nov 2020 04:02:56
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 2EC81C43466; Tue, 24 Nov 2020 04:02:55 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 19B4BC433ED;
+ Tue, 24 Nov 2020 04:02:54 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [172.27.226.80] (165.204.55.251) by
- CH2PR15CA0015.namprd15.prod.outlook.com (2603:10b6:610:51::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.20 via Frontend Transport; Mon, 23 Nov 2020 22:51:12 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 18853704-df28-4727-678f-08d890024743
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4111:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4111DED35B8A9959913C4B9F92FC0@MN2PR12MB4111.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 011lQo37cTgq4n+fptQGhB4QroJLQXSTXLGED55hSnjm0PyqvgwTyhIAHeTIzSGyuo/Wv6ee4wcMDrK1RHkdH8V+twx7bL2rXZTbXlDNK8tggFyjbJS2l4agJ5HAZcZ3OFFqkwMlzaHIh+BIvPc30Y0MELyqJd6yN7yv88rULxofhG0p8XhB5VasgvVivhbD2BVh5RFtd72I/odNJJZZ0Yt11rENc7f3RJ2Tcg2ijyQGFMDorQkXH106Es5RtArJzc7ZeN5w3fFsokuiRxylH+lWQ16u/kKND6hiiizIhjCt0RO0vnmp+mT9XPEcES/T4NXnXRf0jCHgU/NbmSaDHmpODTNXd7YJSO7TFhrvGPpnD28G+syziYO9mA5H4HhQgsiHo7+wsNgEWtxWDQrVyczWc7NQ+bw+fBuiq57OVA3atmsLZoi15dbcxl+NyONXJchbmpxkLev51drjaCd8AA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB4948.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(39860400002)(346002)(136003)(376002)(2906002)(86362001)(6636002)(66476007)(4001150100001)(316002)(66556008)(54906003)(44832011)(110136005)(83380400001)(45080400002)(5660300002)(53546011)(16576012)(16526019)(52116002)(36916002)(8676002)(186003)(4326008)(6486002)(36756003)(966005)(8936002)(31696002)(31686004)(2616005)(26005)(66946007)(956004)(478600001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 4CAaQY+B8HWYs9FCPsm9JmoSzsimFE/oPC7/xC52NBwTxTE5OqX4iTpIB2hA63ZXn0zMrd4+qv2UtVa10venzr2DtFXChsdI4CK+AkWe+5fFVhRc86VgXGwkZOWLQea1rC9TQaYUfMHTj/iGrAudX29uzBrRtv22zeegBMw5QACxh73EVYZeEImx/3fawSjoxSVWb8CHiE4vfxHXeRDE4Vp5O1Rhp5QNS+X+bDD8uzEm2lrTpe93fg7Gu6jIN1ekgcMbVh42KGUaHy9qf3SVqpg1yXEWk9MJctrAOCwJJONpF9WSd3FHhDuSR/rHGoStCkjtraB/7PVGVU1eFgUGc2BUMCexHSqJLuSTK63l1zXx3HpCsAKwjI3nwgBUa8h2AE/uYiPmpO4+azlJ1tvw5mBvauACyecRx/cxKF0OrGDgyJuDTub8qG3mvIWnabponGK4dxGnG85rwQQTRYzK2iliFuM+BO5D7dVEBDZ6lE/zjwLai/Chjx+C7gPweKXTtOdAC89NgH8P1Fr/P9UcaFp0QjHhh/qAEO4RsCdXCjynu7Q5g71Zm0viCgZR6YG9kk6OnPqlZcMzWqNZC1+OTorqWW1sAsliWiW2sHAqDiIW7snxECJlq/TuVLirA0oaxoy75QYwMZk/z8NgcYB2s0VFbGPabDO4gSy25eor2dmbv7hCAd+1w/oSmy2DNiO13g/EB+Z87SCXGt55OTu7SJfW2wqhwF+jW54aUW3pU+Awz4Gul9C9m9BASznsB6k/Ig6chzaXMC0mb8GxVJfRytM05fiteCZx9z5CgFqBhnZz2mknzA+v45ygSkljSIiIOOvKFxVPFKrdXPuIEo4SB/mCGxiV0wX9gfImj/E4cjk2owRcQz60knkkyUWPQmd03uJpQCzvHOylHIX/Uz7ENQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18853704-df28-4727-678f-08d890024743
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4948.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2020 22:51:13.4621 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7yFvMrrF5PN9Oa3HxhpUHuhomZf15d1JF/8dvN63Q+WNAsjflvn+E1kpGBiOQXReSkUhF3AkVGrG8K9ZO8rwtQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4111
-Cc: Edgar Merger <Edgar.Merger@emerson.com>, Joerg Roedel <jroedel@suse.de>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Bjorn Helgaas <bhelgaas@google.com>
+Date: Tue, 24 Nov 2020 09:32:54 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Rob Clark <robdclark@gmail.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCHv8 0/8] System Cache support for GPU and required SMMU
+ support
+In-Reply-To: <CAF6AEGse=WBAC1WbTi6aD5_m1_NBg91f=veYm-7V=Uds7NA0Lw@mail.gmail.com>
+References: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
+ <20201123152146.GE11033@willie-the-truck>
+ <50b68f2bdf9413b896fbe816ba4ddbc9@codeaurora.org>
+ <CAF6AEGse=WBAC1WbTi6aD5_m1_NBg91f=veYm-7V=Uds7NA0Lw@mail.gmail.com>
+Message-ID: <1c665e33d1d27263fb5056c16d30b827@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
+Cc: Robin Murphy <robin.murphy@arm.com>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS , Joerg
+ Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>, "moderated
+ list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -128,108 +95,82 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gMjAyMC0xMS0yMyA1OjMzIHAubS4sIFdpbGwgRGVhY29uIHdyb3RlOgo+IE9uIE1vbiwgTm92
-IDIzLCAyMDIwIGF0IDA5OjA0OjE0UE0gKzAwMDAsIERldWNoZXIsIEFsZXhhbmRlciB3cm90ZToK
-Pj4gW0FNRCBQdWJsaWMgVXNlXQo+Pgo+Pj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0KPj4+
-IEZyb206IFdpbGwgRGVhY29uIDx3aWxsQGtlcm5lbC5vcmc+Cj4+PiBTZW50OiBNb25kYXksIE5v
-dmVtYmVyIDIzLCAyMDIwIDg6NDQgQU0KPj4+IFRvOiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwu
-b3JnCj4+PiBDYzogbGludXgtcGNpQHZnZXIua2VybmVsLm9yZzsgaW9tbXVAbGlzdHMubGludXgt
-Zm91bmRhdGlvbi5vcmc7IFdpbGwKPj4+IERlYWNvbiA8d2lsbEBrZXJuZWwub3JnPjsgQmpvcm4g
-SGVsZ2FhcyA8YmhlbGdhYXNAZ29vZ2xlLmNvbT47Cj4+PiBEZXVjaGVyLCBBbGV4YW5kZXIgPEFs
-ZXhhbmRlci5EZXVjaGVyQGFtZC5jb20+OyBFZGdhciBNZXJnZXIKPj4+IDxFZGdhci5NZXJnZXJA
-ZW1lcnNvbi5jb20+OyBKb2VyZyBSb2VkZWwgPGpyb2VkZWxAc3VzZS5kZT4KPj4+IFN1YmplY3Q6
-IFtQQVRDSF0gUENJOiBNYXJrIEFNRCBSYXZlbiBpR1BVIEFUUyBhcyBicm9rZW4KPj4+Cj4+PiBF
-ZGdhciBNZXJnZXIgcmVwb3J0cyB0aGF0IHRoZSBBTUQgUmF2ZW4gR1BVIGRvZXMgbm90IHdvcmsg
-cmVsaWFibHkgb24gaGlzCj4+PiBzeXN0ZW0gd2hlbiB0aGUgSU9NTVUgaXMgZW5hYmxlZDoKPj4+
-Cj4+PiAgICB8IFtkcm06YW1kZ3B1X2pvYl90aW1lZG91dCBbYW1kZ3B1XV0gKkVSUk9SKiByaW5n
-IGdmeCB0aW1lb3V0LAo+Pj4gc2lnbmFsZWQgc2VxPTEsIGVtaXR0ZWQgc2VxPTMKPj4+ICAgIHwg
-Wy4uLl0KPj4+ICAgIHwgYW1kZ3B1IDAwMDA6MGI6MDAuMDogR1BVIHJlc2V0IGJlZ2luIQo+Pj4g
-ICAgfCBBTUQtVmk6IENvbXBsZXRpb24tV2FpdCBsb29wIHRpbWVkIG91dAo+Pj4gICAgfCBpb21t
-dSBpdmhkMDogQU1ELVZpOiBFdmVudCBsb2dnZWQgW0lPVExCX0lOVl9USU1FT1VUCj4+PiBkZXZp
-Y2U9MGI6MDAuMCBhZGRyZXNzPTB4MzhlZGMwOTcwXQo+Pj4KPj4+IFRoaXMgaXMgaW5kaWNhdGl2
-ZSBvZiBhIGhhcmR3YXJlL3BsYXRmb3JtIGNvbmZpZ3VyYXRpb24gaXNzdWUgc28sIHNpbmNlCj4+
-PiBkaXNhYmxpbmcgQVRTIGhhcyBiZWVuIHNob3duIHRvIHJlc29sdmUgdGhlIHByb2JsZW0sIGFk
-ZCBhIHF1aXJrIHRvIG1hdGNoCj4+PiB0aGlzIHBhcnRpY3VsYXIgZGV2aWNlIHdoaWxlIEVkZ2Fy
-IGZvbGxvd3MtdXAgd2l0aCBBTUQgZm9yIG1vcmUgaW5mb3JtYXRpb24uCj4+Pgo+Pj4gQ2M6IEJq
-b3JuIEhlbGdhYXMgPGJoZWxnYWFzQGdvb2dsZS5jb20+Cj4+PiBDYzogQWxleCBEZXVjaGVyIDxh
-bGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgo+Pj4gUmVwb3J0ZWQtYnk6IEVkZ2FyIE1lcmdlciA8
-RWRnYXIuTWVyZ2VyQGVtZXJzb24uY29tPgo+Pj4gU3VnZ2VzdGVkLWJ5OiBKb2VyZyBSb2VkZWwg
-PGpyb2VkZWxAc3VzZS5kZT4KPj4+IExpbms6Cj4+PiBodHRwczovL2xvcmUuCj4+PiBrZXJuZWwu
-b3JnL2xpbnV4LQo+Pj4gaW9tbXUvTVdIUFIxME1CMTMxMEYwNDJBMzA2NjFENDE1ODUyMEI1ODlG
-QzBATVdIUFIxME0KPj4+IEIxMzEwLm5hbXByZDEwLnByb2Qub3V0bG9vay5jb20KPj4+IGhlciU0
-MGFtZC5jb20lN0MxYTg4M2ZlMTRkMGM0MDhlN2Q5NTA4ZDg4ZmI1ZGY0ZSU3QzNkZDg5NjFmZTQ4
-OAo+Pj4gNGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzQxNzM1ODU5MzYyOTY5OSU3
-Q1Vua25vd24lNwo+Pj4gQ1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENKUUlqb2lW
-Mmx1TXpJaUxDSkJUaUk2SWsxaGFXd2kKPj4+IExDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbXA7c2Rh
-dGE9VE1nS2xkV3pzWDhYWjBsN3EzJTJCc3pEV1hRSkoKPj4+IExPVWZYNW9HYW9MTjhuJTJCOCUz
-RCZhbXA7cmVzZXJ2ZWQ9MAo+Pj4gU2lnbmVkLW9mZi1ieTogV2lsbCBEZWFjb24gPHdpbGxAa2Vy
-bmVsLm9yZz4KPj4+IC0tLQo+Pj4KPj4+IEhpIGFsbCwKPj4+Cj4+PiBTaW5jZSBKb2VyZyBpcyBh
-d2F5IGF0IHRoZSBtb21lbnQsIEknbSBwb3N0aW5nIHRoaXMgdG8gdHJ5IHRvIG1ha2Ugc29tZQo+
-Pj4gcHJvZ3Jlc3Mgd2l0aCB0aGUgdGhyZWFkIGluIHRoZSBMaW5rOiB0YWcuCj4+ICsgRmVsaXgK
-Pj4KPj4gV2hhdCBzeXN0ZW0gaXMgdGhpcz8gIENhbiB5b3UgcHJvdmlkZSBtb3JlIGRldGFpbHM/
-ICBEb2VzIGEgc2Jpb3MgdXBkYXRlCj4+IGZpeCB0aGlzPyAgRGlzYWJsaW5nIEFUUyBmb3IgYWxs
-IFJhdmVucyB3aWxsIGJyZWFrIEdQVSBjb21wdXRlIGZvciBhIGxvdAo+PiBvZiBwZW9wbGUuICBJ
-J2QgcHJlZmVyIHRvIGp1c3QgYmxhY2sgbGlzdCB0aGlzIHBhcnRpY3VsYXIgc3lzdGVtIChlLmcu
-LAo+PiBqdXN0IFNTSURzIG9yIHJldmlzaW9uKSBpZiBwb3NzaWJsZS4KCitSYXkKClRoZXJlIGFy
-ZSBhbHJlYWR5IG1hbnkgc3lzdGVtcyB3aGVyZSB0aGUgSU9NTVUgaXMgZGlzYWJsZWQgaW4gdGhl
-IEJJT1MsIApvciB0aGUgQ1JBVCB0YWJsZSByZXBvcnRpbmcgdGhlIEFQVSBjb21wdXRlIGNhcGFi
-aWxpdGllcyBpcyBicm9rZW4uIFJheSAKaGFzIGJlZW4gd29ya2luZyBvbiBhIGZhbGxiYWNrIHRv
-IG1ha2UgQVBVcyBiZWhhdmUgbGlrZSBkR1BVcyBvbiBzdWNoIApzeXN0ZW1zLiBUaGF0IHNob3Vs
-ZCBhbHNvIGNvdmVyIHRoaXMgY2FzZSB3aGVyZSBBVFMgaXMgYmxhY2tsaXN0ZWQuIFRoYXQgCnNh
-aWQsIGl0IGFmZmVjdHMgdGhlIHByb2dyYW1taW5nIG1vZGVsLCBiZWNhdXNlIHdlIGRvbid0IHN1
-cHBvcnQgdGhlIAp1bmlmaWVkIGFuZCBjb2hlcmVudCBtZW1vcnkgbW9kZWwgb24gZEdQVXMgbGlr
-ZSB3ZSBkbyBvbiBBUFVzIHdpdGggCklPTU1VdjIuIFNvIGl0IHdvdWxkIGJlIGdvb2QgdG8gbWFr
-ZSB0aGUgY29uZGl0aW9ucyBmb3IgdGhpcyB3b3JrYXJvdW5kIAphcyBuYXJyb3cgYXMgcG9zc2li
-bGUuCgpUaGVzZSBhcmUgdGhlIHJlbGV2YW50IGNoYW5nZXMgaW4gS0ZEIGFuZCBUaHVuayBmb3Ig
-cmVmZXJlbmNlOgoKIyMjIEtGRCAjIyMKCmNvbW1pdCA5MTQ5MTNhYjA0ZGZiY2QwMjI2ZWNiNmJj
-OTlkMjc2ODMyZWEyOTA4CkF1dGhvcjogSHVhbmcgUnVpIDxyYXkuaHVhbmdAYW1kLmNvbT4KRGF0
-ZTrCoMKgIFR1ZSBBdWcgMTggMTQ6NTQ6MjMgMjAyMCArMDgwMAoKIMKgwqDCoCBkcm0vYW1ka2Zk
-OiBpbXBsZW1lbnQgdGhlIGRHUFUgZmFsbGJhY2sgcGF0aCBmb3IgYXB1ICh2NikKCiDCoMKgwqAg
-V2Ugc3RpbGwgaGF2ZSBhIGZldyBpb21tdSBpc3N1ZXMgd2hpY2ggbmVlZCB0byBhZGRyZXNzLCBz
-byBmb3JjZSByYXZlbgogwqDCoMKgIGFzICJkZ3B1IiBwYXRoIGZvciB0aGUgbW9tZW50LgoKIMKg
-wqDCoCBUaGlzIGlzIHRvIGFkZCB0aGUgZmFsbGJhY2sgcGF0aCB0byBieXBhc3MgSU9NTVUgaWYg
-SU9NTVUgdjIgaXMgCmRpc2FibGVkCiDCoMKgwqAgb3IgQUNQSSBDUkFUIHRhYmxlIG5vdCBjb3Jy
-ZWN0LgoKIMKgwqDCoCB2MjogVXNlIGlnbm9yZV9jcmF0IHBhcmFtZXRlciB0byBkZWNpZGUgd2hl
-dGhlciBpdCB3aWxsIGdvIHdpdGggCklPTU1VdjIuCiDCoMKgwqAgdjM6IEFsaWduIHdpdGggZXhp
-c3RlZCB0aHVuaywgZG9uJ3QgY2hhbmdlIHRoZSB3YXkgb2YgcmF2ZW4sIG9ubHkgCnJlbm9pcgog
-wqDCoMKgwqDCoMKgwqAgd2lsbCB1c2UgImRncHUiIHBhdGggYnkgZGVmYXVsdC4KIMKgwqDCoCB2
-NDogZG9uJ3QgdXBkYXRlIGdsb2JhbCBpZ25vcmVfY3JhdCBpbiB0aGUgZHJpdmVyLCBhbmQgcmV2
-aXNlIGZhbGxiYWNrCiDCoMKgwqDCoMKgwqDCoCBmdW5jdGlvbiBpZiBDUkFUIGlzIGJyb2tlbi4K
-IMKgwqDCoCB2NTogcmVmaW5lIGFjcGkgY3JhdCBnb29kIGJ1dCBubyBpb21tdSBzdXBwb3J0IGNh
-c2UsIGFuZCByZW5hbWUgdGhlCiDCoMKgwqDCoMKgwqDCoCB0aXRsZS4KIMKgwqDCoCB2NjogZml4
-IHRoZSBpc3N1ZSBvZiBkR1BVIGluaXRpYWxpemVkIGZpcnN0bHksIGp1c3QgbW9kaWZ5IHRoZSBy
-ZXBvcnQKIMKgwqDCoMKgwqDCoMKgIHZhbHVlIGluIHRoZSBub2RlX3Nob3coKS4KCiDCoMKgwqAg
-U2lnbmVkLW9mZi1ieTogSHVhbmcgUnVpIDxyYXkuaHVhbmdAYW1kLmNvbT4KIMKgwqDCoCBSZXZp
-ZXdlZC1ieTogRmVsaXggS3VlaGxpbmcgPEZlbGl4Lkt1ZWhsaW5nQGFtZC5jb20+CiDCoMKgwqAg
-U2lnbmVkLW9mZi1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgoK
-IyMjIFRodW5rICMjIwoKY29tbWl0IGUzMjQ4MmZhNGI5Y2EzOThjOGJkYzMwMzkyMGFiZmQ2NzI1
-OTI3NjQKQXV0aG9yOiBIdWFuZyBSdWkgPHJheS5odWFuZ0BhbWQuY29tPgpEYXRlOsKgwqAgVHVl
-IEF1ZyAxOCAxODo1NDowNSAyMDIwICswODAwCgogwqDCoMKgIGxpYmhzYWttdDogcmVtb3ZlIGlz
-X2RncHUgZmxhZyBpbiB0aGUgaHNhX2dmeGlwX3RhYmxlCgogwqDCoMKgIFdoZXRoZXIgdXNlIGRn
-cHUgcGF0aCB3aWxsIGNoZWNrIHRoZSBwcm9wcyB3aGljaCBleHBvc2VkIGZyb20ga2VybmVsLgog
-wqDCoMKgIFdlIHdvbid0IG5lZWQgaGFyZCBjb2RlIGluIHRoZSBBU0lDIHRhYmxlLgoKIMKgwqDC
-oCBTaWduZWQtb2ZmLWJ5OiBIdWFuZyBSdWkgPHJheS5odWFuZ0BhbWQuY29tPgogwqDCoMKgIENo
-YW5nZS1JZDogSTBjMDE4YTI2YjIxOTkxNGE0MTE5N2ZmMzZkYmVjN2E3NTk0NWQ0NTIKCmNvbW1p
-dCA3YzYwZjZkOTEyMDM0YWE2N2VkMjdiNDdhMjkyMjE0MjI0MjNmNWNjCkF1dGhvcjogSHVhbmcg
-UnVpIDxyYXkuaHVhbmdAYW1kLmNvbT4KRGF0ZTrCoMKgIFRodSBKdWwgMzAgMTA6MjI6MjMgMjAy
-MCArMDgwMAoKIMKgwqDCoCBsaWJoc2FrbXQ6IGltcGxlbWVudCB0aGUgbWV0aG9kIHRoYXQgdXNp
-bmcgZmxhZyB3aGljaCBleHBvc2VkIGJ5IAprZmQgdG8gY29uZmlndXJlIGlzX2RncHUKCiDCoMKg
-wqAgS0ZEIGFscmVhZHkgaW1wbGVtZW50ZWQgdGhlIGZhbGxiYWNrIHBhdGggZm9yIEFQVS4gVGh1
-bmsgd2lsbCB1c2UgZmxhZwogwqDCoMKgIHdoaWNoIGV4cG9zZWQgYnkga2ZkIHRvIGNvbmZpZ3Vy
-ZSBpc19kZ3B1IGluc3RlYWQgb2YgaGFyZGNvZGUgYmVmb3JlLgoKIMKgwqDCoCBTaWduZWQtb2Zm
-LWJ5OiBIdWFuZyBSdWkgPHJheS5odWFuZ0BhbWQuY29tPgogwqDCoMKgIENoYW5nZS1JZDogSTQ0
-NWY2Y2Y2NjhmOTQ4NGRkMDZjZDlhZTFiYjNjZmU3NDI4ZWM3ZWIKClJlZ2FyZHMsCiDCoCBGZWxp
-eAoKCj4gQ2hlZXJzLCBBbGV4LiBJJ2xsIGhhdmUgdG8gZGVmZXIgdG8gRWRnYXIgZm9yIHRoZSBk
-ZXRhaWxzLCBhcyBteQo+IHVuZGVyc3RhbmRpbmcgZnJvbSB0aGUgb3JpZ2luYWwgdGhyZWFkIG92
-ZXIgYXQ6Cj4KPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1pb21tdS9NV0hQUjEwTUIx
-MzEwQ0RCNjgyOUREQ0Y1RUE4NEExNDY4OTE1MEBNV0hQUjEwTUIxMzEwLm5hbXByZDEwLnByb2Qu
-b3V0bG9vay5jb20vCj4KPiBpcyB0aGF0IHRoaXMgaXMgYSBib2FyZCBkZXZlbG9wZWQgYnkgaGlz
-IGNvbXBhbnkuCj4KPiBFZGdhciAtLSBwbGVhc2UgY2FuIHlvdSBhbnN3ZXIgQWxleCdzIHF1ZXN0
-aW9ucz8KPgo+IFdpbGwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3Jn
-Cmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+On 2020-11-24 00:52, Rob Clark wrote:
+> On Mon, Nov 23, 2020 at 9:01 AM Sai Prakash Ranjan
+> <saiprakash.ranjan@codeaurora.org> wrote:
+>> 
+>> On 2020-11-23 20:51, Will Deacon wrote:
+>> > On Tue, Nov 17, 2020 at 08:00:39PM +0530, Sai Prakash Ranjan wrote:
+>> >> Some hardware variants contain a system cache or the last level
+>> >> cache(llc). This cache is typically a large block which is shared
+>> >> by multiple clients on the SOC. GPU uses the system cache to cache
+>> >> both the GPU data buffers(like textures) as well the SMMU pagetables.
+>> >> This helps with improved render performance as well as lower power
+>> >> consumption by reducing the bus traffic to the system memory.
+>> >>
+>> >> The system cache architecture allows the cache to be split into slices
+>> >> which then be used by multiple SOC clients. This patch series is an
+>> >> effort to enable and use two of those slices preallocated for the GPU,
+>> >> one for the GPU data buffers and another for the GPU SMMU hardware
+>> >> pagetables.
+>> >>
+>> >> Patch 1 - Patch 6 adds system cache support in SMMU and GPU driver.
+>> >> Patch 7 and 8 are minor cleanups for arm-smmu impl.
+>> >>
+>> >> Changes in v8:
+>> >>  * Introduce a generic domain attribute for pagetable config (Will)
+>> >>  * Rename quirk to more generic IO_PGTABLE_QUIRK_ARM_OUTER_WBWA (Will)
+>> >>  * Move non-strict mode to use new struct domain_attr_io_pgtbl_config
+>> >> (Will)
+>> >
+>> > Modulo some minor comments I've made, this looks good to me. What is
+>> > the
+>> > plan for merging it? I can take the IOMMU parts, but patches 4-6 touch
+>> > the
+>> > MSM GPU driver and I'd like to avoid conflicts with that.
+>> >
+>> 
+>> SMMU bits are pretty much independent and GPU relies on the domain
+>> attribute
+>> and the quirk exposed, so as long as SMMU changes go in first it 
+>> should
+>> be good.
+>> Rob?
+> 
+> I suppose one option would be to split out the patch that adds the
+> attribute into it's own patch, and merge that both thru drm and iommu?
+> 
+
+Ok I can split out domain attr and quirk into its own patch if Will is
+fine with that approach.
+
+> If Will/Robin dislike that approach, I'll pick up the parts of the drm
+> patches which don't depend on the new attribute for v5.11 and the rest
+> for v5.12.. or possibly a second late v5.11 pull req if airlied
+> doesn't hate me too much for it.
+> 
+> Going forward, I think we will have one or two more co-dependent
+> series, like the smmu iova fault handler improvements that Jordan
+> posted.  So I would like to hear how Will and Robin prefer to handle
+> those.
+> 
+> BR,
+> -R
+> 
+
+Thanks,
+Sai
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
