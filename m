@@ -1,75 +1,122 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222BE2C2112
-	for <lists.iommu@lfdr.de>; Tue, 24 Nov 2020 10:25:01 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A0A4E204D6;
-	Tue, 24 Nov 2020 09:24:59 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qhRj803E2jQz; Tue, 24 Nov 2020 09:24:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7D874204D4;
-	Tue, 24 Nov 2020 09:24:57 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 50ECEC0052;
-	Tue, 24 Nov 2020 09:24:57 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 45DFBC0052
- for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 09:24:55 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4492C223F
+	for <lists.iommu@lfdr.de>; Tue, 24 Nov 2020 10:59:52 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 4008A8639B
- for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 09:24:55 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 95E8E826AC;
+	Tue, 24 Nov 2020 09:59:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XoUgnh45kPFT; Tue, 24 Nov 2020 09:59:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 12ECA827A7;
+	Tue, 24 Nov 2020 09:59:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0BDA6C0052;
+	Tue, 24 Nov 2020 09:59:50 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7E032C0052
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 09:59:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 79DCF84475
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 09:59:48 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id obVDNZvVh6Ef for <iommu@lists.linux-foundation.org>;
- Tue, 24 Nov 2020 09:24:54 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by whitealder.osuosl.org (Postfix) with ESMTP id 7F1808601E
- for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 09:24:53 +0000 (UTC)
-X-UUID: 1173a46cb11f40ad99644152fce63674-20201124
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=wruLeV1VxmJT3h8u8aTdJS9aBT3lPk6fj9q+96T1tpA=; 
- b=m2MMLnmti+zD9v0lImNo8ElL5aR2YjwrH071EJaqDUgT7ZPCb9jIYWxOaEMU3HpRQDtoYc1rFHCBGeoEoiR1IHGVPXI4SzkmEIxuOXmv21BV1LLiQrDx/6AVdlNnU/eVSsK4TLIfWOu3BNRFFkonQJv5OQeceN6vpL8HCzPIPTI=;
-X-UUID: 1173a46cb11f40ad99644152fce63674-20201124
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1399213662; Tue, 24 Nov 2020 17:24:46 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS32N2.mediatek.inc
- (172.27.4.72) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 24 Nov 2020 17:24:45 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 24 Nov 2020 17:24:43 +0800
-Message-ID: <1606209884.26323.132.camel@mhfsdcap03>
-Subject: Re: [PATCH] iommu: Improve the performance for direct_mapping
-From: Yong Wu <yong.wu@mediatek.com>
-To: Will Deacon <will@kernel.org>
-Date: Tue, 24 Nov 2020 17:24:44 +0800
-In-Reply-To: <20201123123258.GC10233@willie-the-truck>
-References: <20201120090628.6566-1-yong.wu@mediatek.com>
- <20201123123258.GC10233@willie-the-truck>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+ with ESMTP id Fox8XLMWEXKZ for <iommu@lists.linux-foundation.org>;
+ Tue, 24 Nov 2020 09:59:48 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2067.outbound.protection.outlook.com [40.107.236.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id D133F842F8
+ for <iommu@lists.linux-foundation.org>; Tue, 24 Nov 2020 09:59:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nRvyW0Bj3qqQactMbo5wZLIXWd+f3RFJNOIQO0B/rmQUyQ7EnMg91H3AQJ+iqx4vNv13y3XGBZU+SLcWm2njtS687zgbYdkjIh0PwKCobWEQKkIuhP1lPeTeTW+GOTpbbt3PP5rJGyC63RfymDIIbeR/ucy5sG6COXx276b7pMo6eoWdidrgJr3OPf74bJseg+lY81DZlbPq3Vnmq8bia9nCJ1LQqhKDO7vb3WKPYLOufXZg6cXpU299trnxeNkNHdvd/2dBYOj3rq22EQeFeZXBcxBJ6BXfH+hURNXcCpEn69xIOwMaYltx1ZrQkwMogW4v0NCtz+zhB10n4fjoMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fECDOE9WVaWnaSkgKEr0epnRuxdnMmt7Uaoip8210pA=;
+ b=Su5NMCDfBnbcC3n2Ju1wqX4Sq/vfbxSDBktna0CsW8UkYq0OGt5OMuS3F+XCc8w1PTgpjeaRPDOEWFt1YwDLja0PB8sWdEoVdSHcea/D2+UV/22L+L9sq6HCCiGPGXSVv6mO2huhImS51kmi+mEwevM94EcWu6LaqBk+PycJV7TLEyr6HFJ7lNm23OcJ0p2Ow4/AUxyvLiUyPCIQNAeTb23k/YgoC+uHaD9k0/L15hM11BRvAXaI+vTi4yiux9zEo9y7uvi+sRaW5XCoCldytI1tHl1Nta19riF8A336bSzhfL4KXMp3/BEKypuo1Bo9H/eoVofCS/ImLkmGUjkyNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fECDOE9WVaWnaSkgKEr0epnRuxdnMmt7Uaoip8210pA=;
+ b=3qQF9eQ+R8Ct8NKEGdox9Z/TQfX9hwTRUtsgoe2nf2C2Fr9IQV4yJxdUh18BbX88gxCSttgFmiWvBz8ISNL6Wg4dl3qKs+BX7AfHXiyWxDQMwmt03t1IcY2WiVgkJ+DhHYtASrPVguj2ZFFGv1j5iGDGULq97GVb0cElULF4vkI=
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
+ by SN1PR12MB2542.namprd12.prod.outlook.com (2603:10b6:802:26::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.30; Tue, 24 Nov
+ 2020 09:25:06 +0000
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::d8f2:fde4:5e1d:afec]) by SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::d8f2:fde4:5e1d:afec%3]) with mapi id 15.20.3541.025; Tue, 24 Nov 2020
+ 09:25:06 +0000
+From: "Kalra, Ashish" <Ashish.Kalra@amd.com>
+To: Borislav Petkov <bp@alien8.de>
+Subject: Re: [PATCH v6] swiotlb: Adjust SWIOTBL bounce buffer size for SEV
+ guests.
+Thread-Topic: [PATCH v6] swiotlb: Adjust SWIOTBL bounce buffer size for SEV
+ guests.
+Thread-Index: AQHWvrzaxkxw3OuD2kOZmqVqDk7+x6nV+JOAgAAN5wCAAFPQgIAAqeCAgAAFwPM=
+Date: Tue, 24 Nov 2020 09:25:06 +0000
+Message-ID: <EF13C80C-42DC-4B51-8AF8-2C1D3859B490@amd.com>
+References: <20201119214205.11062-1-Ashish.Kalra@amd.com>
+ <20201123170647.GE15044@zn.tnic> <20201123175632.GA21539@char.us.oracle.com>
+ <20201123225631.GA16055@ashkalra_ubuntu_server>,
+ <20201124090431.GC4009@zn.tnic>
+In-Reply-To: <20201124090431.GC4009@zn.tnic>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: oracle.com; dkim=none (message not signed)
+ header.d=none;oracle.com; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [136.49.12.8]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 54db38f4-5272-49af-992a-08d8905ad4a4
+x-ms-traffictypediagnostic: SN1PR12MB2542:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN1PR12MB2542921DF8EC51E11FADD7B38EFB0@SN1PR12MB2542.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: y8UvaaVMoWaaJCd5E97k7OGHRovKCZJOv9CP03DoI7P3sCE4pXL3le5sGil2KZI1/MPrmnkXxYVT5+JAbvyHQEGAfEU1/knEWA0sWHiUAFrbG2uAPVKAsnJgy+OUHRqta6yXsGhpgQd9/IiRAsytAXEhP+S7WZ/G8VbZ4TF90zg25HzNLqCJfRtZXXtWz7nKNDrvMKasDG7Mh7AvmqEzTBKlG2VqkXU6YFl3N1c00Cr2zsHXgb3466uwVKpw8VeaSrEpOS7sdHa0oMRU5mzk1I9fPhEV7dwyAClA5uR8Qsk0V5lp26elvp6nponNqp1do5K4ZIAvtACHN3y39SSPLZkfy8AA99CQRIoA1Y4gLdWziEigYwnWG3LZ7YPIEogbrhpnhCcZPyjsc3nT+sJe7g==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39860400002)(376002)(396003)(366004)(346002)(478600001)(64756008)(5660300002)(7416002)(6916009)(91956017)(45080400002)(76116006)(66556008)(966005)(66946007)(4326008)(66446008)(66476007)(316002)(54906003)(2906002)(8676002)(86362001)(53546011)(26005)(6512007)(36756003)(6486002)(6506007)(71200400001)(2616005)(186003)(33656002)(8936002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: 8i2D/iHfen/0KAey27UuY3/DDRJ4TW1R2lboUQM6cPbA2r+Ou3zaS0q/VAstV9hjv33peOlXk/1lM6AhHxIAAemHMvo5mAKNjFy5096/n6KFFZCfQS/fGnbQuHQy8cErIobEdLoa8ujIScpwgCN8EJmxP5/7/YQu/8BE3bj0EUhASZoOrv20FjxJTycGjs4dML32oVIiRnFlCag1LqiAd+4FGtfF2n8K2gdVBh8KXDm3X9T1/Z2l1TxKsYjH6FuAysEb9NeQHNPG2+m5BO1bf1bQHAXOPvsellKbB7HWnmSlOwk0v3v3OL+Knthi+WuzRo3X21+xYcoOLySqfQgQtLOWgHnIQEyOJ7gWg9KFxNMrExf6L/Zh9MdkNGUMcMkYB/NY4fI1IHVntQKgVB4NFPalh8JujVc3Ju+bn77ecZulkQCEy+HDIHxloJ/AJRFWLPVZp49wdk0b+E7v5JES2f6oS6YBiYcble++dL3D0HfL0V3J3jL4iWiq5wqLF/KRUx1RqfsPSoQ/1rgxCb0cwoTmLAIHarBNh2wakh8J/855vNdB1vVVgLYjIU/iFVfz+fV1cq5JA7PwisthQ17PSxIM+Cs9Ox5M7Uh33Y0m71epEtxZ+Au/8egODqewW01VZpb0H2RFClh/j0BSxv8IGEZarqIdoz2nTwCruucKSVFViblFvW4BRTQBqL5XsXlfXkaDzFLW/LtE/tBoCeifri34SitVoJ4WlJ3G6XS4ZXb9Yq2EqudUyAF6eLpECIC/S56/q5aEubVji9Cs5kwBgQe203JgSPRbrtba2AOntRKcOSQvZG+s1poeZhWvNlBCD6jGLCmgqmhowJjAf6n1jnylCTFsJPIuN2schReQLAVRwZgY/vanNfL7RydHtHng
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: EBCB8F6C7AAB7CEFD384B30FE7D298E2FA4811C473B599035C7F59E811168DC42000:8
-X-MTK: N
-Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com,
- Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
- chao.hao@mediatek.com, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>, Tomasz Figa <tfiga@google.com>,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54db38f4-5272-49af-992a-08d8905ad4a4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2020 09:25:06.0819 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: t7VzYFQ+DKvY+qQwk7XsDfH9o0rY1yBiAvfvObb5dxGaT8gaZJKYv8Z/q6j9VfCZ6IjlyO0kjXfEeBlzjItjvQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2542
+Cc: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, "Grimm,
+ Jon" <Jon.Grimm@amd.com>, "Singh, Brijesh" <brijesh.singh@amd.com>,
+ "dave.hansen@linux-intel.com" <dave.hansen@linux-intel.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ "peterz@infradead.org" <peterz@infradead.org>,
+ "x86@kernel.org" <x86@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "mingo@redhat.com" <mingo@redhat.com>, "luto@kernel.org" <luto@kernel.org>,
+ "hpa@zytor.com" <hpa@zytor.com>, "rientjes@google.com" <rientjes@google.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>, "hch@lst.de" <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -82,132 +129,31 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, 2020-11-23 at 12:32 +0000, Will Deacon wrote:
-> On Fri, Nov 20, 2020 at 05:06:28PM +0800, Yong Wu wrote:
-> > Currently direct_mapping always use the smallest pgsize which is SZ_4K
-> > normally to mapping. This is unnecessary. we could gather the size, and
-> > call iommu_map then, iommu_map could decide how to map better with the
-> > just right pgsize.
-> > 
-> > From the original comment, we should take care overlap, otherwise,
-> > iommu_map may return -EEXIST. In this overlap case, we should map the
-> > previous region before overlap firstly. then map the left part.
-> > 
-> > Each a iommu device will call this direct_mapping when its iommu
-> > initialize, This patch is effective to improve the boot/initialization
-> > time especially while it only needs level 1 mapping.
-> > 
-> > Signed-off-by: Anan Sun <anan.sun@mediatek.com>
-> > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > ---
-> >  drivers/iommu/iommu.c | 20 ++++++++++++++++++--
-> >  1 file changed, 18 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> > index df87c8e825f7..854a8fcb928d 100644
-> > --- a/drivers/iommu/iommu.c
-> > +++ b/drivers/iommu/iommu.c
-> > @@ -737,6 +737,7 @@ static int iommu_create_device_direct_mappings(struct iommu_group *group,
-> >  	/* We need to consider overlapping regions for different devices */
-> >  	list_for_each_entry(entry, &mappings, list) {
-> >  		dma_addr_t start, end, addr;
-> > +		size_t unmapped_sz = 0;
-> 
-> I think "unmapped" is the wrong word here, as this variable actually
-> represents the amount we want to map! I suggest "map_size" instead.
-> 
-> >  		if (domain->ops->apply_resv_region)
-> >  			domain->ops->apply_resv_region(dev, domain, entry);
-> > @@ -752,10 +753,25 @@ static int iommu_create_device_direct_mappings(struct iommu_group *group,
-> >  			phys_addr_t phys_addr;
-> >  
-> >  			phys_addr = iommu_iova_to_phys(domain, addr);
-> > -			if (phys_addr)
-> > +			if (phys_addr == 0) {
-> > +				unmapped_sz += pg_size; /* Gather the size. */
-> >  				continue;
-> > +			}
-> >  
-> > -			ret = iommu_map(domain, addr, addr, pg_size, entry->prot);
-> > +			if (unmapped_sz) {
-> > +				/* Map the region before the overlap. */
-> > +				ret = iommu_map(domain, start, start,
-> > +						unmapped_sz, entry->prot);
-> > +				if (ret)
-> > +					goto out;
-> > +				start += unmapped_sz;
-> 
-> I think it's a bit confusing to update start like this. Can we call
-> iommu_map(domain, addr - map_size, addr - map_size, map_size, entry->prot)
-> instead?
-> 
-> > +				unmapped_sz = 0;
-> > +			}
-> > +			start += pg_size;
-> > +		}
-> > +		if (unmapped_sz) {
-> > +			ret = iommu_map(domain, start, start, unmapped_sz,
-> > +					entry->prot);
-> 
-> Can you avoid this hunk by changing your loop check to something like:
-> 
-> 	if (!phys_addr) {
-> 		map_size += pg_size;
-> 		if (addr + pg_size < end)
-> 			continue;
-> 	}
-
-Thanks for your quick review. I have fixed and tested it. the patch is
-simple. I copy it here. Is this readable for you now?
-
-
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -737,6 +737,7 @@ static int
-iommu_create_device_direct_mappings(struct iommu_group *group,
- 	/* We need to consider overlapping regions for different devices */
- 	list_for_each_entry(entry, &mappings, list) {
- 		dma_addr_t start, end, addr;
-+		size_t map_size = 0;
- 
- 		if (domain->ops->apply_resv_region)
- 			domain->ops->apply_resv_region(dev, domain, entry);
-@@ -752,12 +753,21 @@ static int
-iommu_create_device_direct_mappings(struct iommu_group *group,
- 			phys_addr_t phys_addr;
- 
- 			phys_addr = iommu_iova_to_phys(domain, addr);
--			if (phys_addr)
--				continue;
-+			if (!phys_addr) {
-+				map_size += pg_size;
-+				if (addr + pg_size < end)
-+					continue;
-+				else
-+					addr += pg_size; /*Point to End */
-+			}
- 
--			ret = iommu_map(domain, addr, addr, pg_size, entry->prot);
--			if (ret)
--				goto out;
-+			if (map_size) {
-+				ret = iommu_map(domain, addr - map_size, addr - map_size,
-+						map_size, entry->prot);
-+				if (ret)
-+					goto out;
-+				map_size = 0;
-+			}
- 		}
-
-> 
-> Will
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+DQoNCj4gT24gTm92IDI0LCAyMDIwLCBhdCAzOjA0IEFNLCBCb3Jpc2xhdiBQZXRrb3YgPGJwQGFs
+aWVuOC5kZT4gd3JvdGU6DQo+IA0KPiDvu79PbiBNb24sIE5vdiAyMywgMjAyMCBhdCAxMDo1Njoz
+MVBNICswMDAwLCBBc2hpc2ggS2FscmEgd3JvdGU6DQo+PiBBcyBpIG1lbnRpb25lZCBlYXJsaWVy
+LCB0aGUgcGF0Y2ggd2FzIGluaXRpYWxseSBiYXNlZCBvbiB1c2luZyBhICUgb2YNCj4+IGd1ZXN0
+IG1lbW9yeSwNCj4gDQo+IENhbiB5b3UgZmlndXJlIG91dCBob3cgbXVjaCB0aGUgZ3Vlc3QgbWVt
+b3J5IGlzIGFuZCB0aGVuIGFsbG9jYXRlIGENCj4gcGVyY2VudGFnZT8NCg0KQnV0IHdoYXQgd2ls
+bCBiZSB0aGUgY3JpdGVyaWEgdG8gZmlndXJlIG91dCB0aGlzIHBlcmNlbnRhZ2U/DQoNCkFzIEkg
+bWVudGlvbmVkIGVhcmxpZXIsIHRoaXMgY2FuIGJlIG1hZGUgYXMgY29tcGxpY2F0ZWQgYXMgcG9z
+c2libGUgYnkgYWRkaW5nIGFsbCBraW5kIG9mIGhldXJpc3RpY3MgYnV0IHdpdGhvdXQgYW55IHBy
+ZWRpY3RhYmxlIHBlcmZvcm1hbmNlIGdhaW4uDQoNCk9yIGl0IGNhbiBiZSBrZXB0IHNpbXBsZSBi
+eSB1c2luZyBhIHN0YXRpYyBwZXJjZW50YWdlIHZhbHVlLg0KDQpUaGFua3MsDQpBc2hpc2gNCg0K
+PiAtLSANCj4gUmVnYXJkcy9HcnVzcywNCj4gICAgQm9yaXMuDQo+IA0KPiBodHRwczovL25hbTEx
+LnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZwZW9w
+bGUua2VybmVsLm9yZyUyRnRnbHglMkZub3Rlcy1hYm91dC1uZXRpcXVldHRlJmFtcDtkYXRhPTA0
+JTdDMDElN0Nhc2hpc2gua2FscmElNDBhbWQuY29tJTdDMDc2NjQyMmJjZWU2NGQyZWI1NzIwOGQ4
+OTA1N2Y2MjAlN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3
+NDE4MDU0Nzk3OTUwNjk0JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdN
+REFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzEwMDAm
+YW1wO3NkYXRhPSUyRkVGdVJHT01PdTRCWlVrUE9kOXJ4YW0lMkJCQTNuWGo0dGRSRkZqM25RNDdV
+JTNEJmFtcDtyZXNlcnZlZD0wDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlzdHMubGludXgtZm91bmRhdGlv
+bi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8v
+aW9tbXU=
