@@ -1,77 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4447C2C3EB4
-	for <lists.iommu@lfdr.de>; Wed, 25 Nov 2020 12:04:31 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A4E2C3EB0
+	for <lists.iommu@lfdr.de>; Wed, 25 Nov 2020 12:04:05 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E61AE86956;
-	Wed, 25 Nov 2020 11:04:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EB36486C5D;
+	Wed, 25 Nov 2020 11:04:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hUTyQwODQqGk; Wed, 25 Nov 2020 11:04:27 +0000 (UTC)
+	with ESMTP id 90wqpFYVgrC2; Wed, 25 Nov 2020 11:04:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9B3DD86ACB;
-	Wed, 25 Nov 2020 11:04:14 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5E73E86C43;
+	Wed, 25 Nov 2020 11:04:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 82466C1D9F;
-	Wed, 25 Nov 2020 11:04:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 54856C0052;
+	Wed, 25 Nov 2020 11:04:03 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CCDC1C0052
- for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 11:04:12 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CA807C0052
+ for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 11:04:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BBD5186E5A
- for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 11:04:12 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id A5A2887534
+ for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 11:04:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RuD96B+2nMI5 for <iommu@lists.linux-foundation.org>;
- Wed, 25 Nov 2020 11:04:08 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by whitealder.osuosl.org (Postfix) with ESMTP id 77FBD86A00
- for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 11:03:45 +0000 (UTC)
-X-UUID: 0772767d57e343e6891beb8ab16b4e8e-20201125
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=xI/ceqZKKONm10j9fLWN04WfsGQ+Y6PfpXlP79ucbtc=; 
- b=Vy5FClWJFnjQyR2mZzAmi3S6inaTOenZU3qhbvrxlXtKflmvFTy6blSm+77b7dpHtGZ3iPP21cHe4J/o2+EYEqhFX0NXMoKAj5iRO99L8uhKXaq/X7K1aZ1sCha+O5L0PmBAPQyTnynkabuPPr2SCqhXMSHQDL3iZHpLJkfkkY4=;
-X-UUID: 0772767d57e343e6891beb8ab16b4e8e-20201125
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <yong.wu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 617537765; Wed, 25 Nov 2020 19:03:36 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
- (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 25 Nov 2020 19:03:34 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 25 Nov 2020 19:03:33 +0800
-Message-ID: <1606302214.26323.141.camel@mhfsdcap03>
-Subject: Re: [PATCH] iommu: Improve the performance for direct_mapping
-From: Yong Wu <yong.wu@mediatek.com>
-To: Will Deacon <will@kernel.org>
-Date: Wed, 25 Nov 2020 19:03:34 +0800
-In-Reply-To: <20201124110520.GA12980@willie-the-truck>
-References: <20201120090628.6566-1-yong.wu@mediatek.com>
- <20201123123258.GC10233@willie-the-truck>
- <1606209884.26323.132.camel@mhfsdcap03>
- <20201124110520.GA12980@willie-the-truck>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+ with ESMTP id 1CnKhCuiEGqD for <iommu@lists.linux-foundation.org>;
+ Wed, 25 Nov 2020 11:03:56 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 60F4787476
+ for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 11:03:56 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9975320665;
+ Wed, 25 Nov 2020 11:03:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1606302235;
+ bh=CzEeT5Xh6gcRrt1T4vSx7QTc/WixV1DBolwFwAp6bHw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nlCdrz+d2NL2ohysbnzrEpzCD/t0Ptpr3tblxV1jjz6Xr+acDgEE2w0CVhQKttNCF
+ YStajaMO1kwITjvtHTf5DbOlhiPnWkezXACcJWKiRf4yUhr8qr1ih0FX6XxIMKbAd2
+ Y1ntdcbddrRnEXNqjVw5J5QQHtrlsnefd6RwfoRY=
+Date: Wed, 25 Nov 2020 11:03:50 +0000
+From: Will Deacon <will@kernel.org>
+To: Nicolin Chen <nicoleotsuka@gmail.com>
+Subject: Re: [PATCH RESEND v2 0/5] iommu/tegra-smmu: Some pending reviewed
+ changes
+Message-ID: <20201125110349.GA15239@willie-the-truck>
+References: <20201125101013.14953-1-nicoleotsuka@gmail.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 3E37F2948B73A16F8990BEF5FB644CD56B780219D1EF19A777FBD0308C48F13A2000:8
-X-MTK: N
-Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com,
- Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
- Tomasz Figa <tfiga@google.com>, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>, chao.hao@mediatek.com,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
- linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <20201125101013.14953-1-nicoleotsuka@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ thierry.reding@gmail.com, linux-tegra@vger.kernel.org, jonathanh@nvidia.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,124 +76,18 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, 2020-11-24 at 11:05 +0000, Will Deacon wrote:
-> On Tue, Nov 24, 2020 at 05:24:44PM +0800, Yong Wu wrote:
-> > On Mon, 2020-11-23 at 12:32 +0000, Will Deacon wrote:
-> > > On Fri, Nov 20, 2020 at 05:06:28PM +0800, Yong Wu wrote:
-> > > > +				unmapped_sz = 0;
-> > > > +			}
-> > > > +			start += pg_size;
-> > > > +		}
-> > > > +		if (unmapped_sz) {
-> > > > +			ret = iommu_map(domain, start, start, unmapped_sz,
-> > > > +					entry->prot);
-> > > 
-> > > Can you avoid this hunk by changing your loop check to something like:
-> > > 
-> > > 	if (!phys_addr) {
-> > > 		map_size += pg_size;
-> > > 		if (addr + pg_size < end)
-> > > 			continue;
-> > > 	}
-> > 
-> > Thanks for your quick review. I have fixed and tested it. the patch is
-> > simple. I copy it here. Is this readable for you now?
-> > 
-> > 
-> > --- a/drivers/iommu/iommu.c
-> > +++ b/drivers/iommu/iommu.c
-> > @@ -737,6 +737,7 @@ static int
-> > iommu_create_device_direct_mappings(struct iommu_group *group,
-> >  	/* We need to consider overlapping regions for different devices */
-> >  	list_for_each_entry(entry, &mappings, list) {
-> >  		dma_addr_t start, end, addr;
-> > +		size_t map_size = 0;
-> >  
-> >  		if (domain->ops->apply_resv_region)
-> >  			domain->ops->apply_resv_region(dev, domain, entry);
-> > @@ -752,12 +753,21 @@ static int
-> > iommu_create_device_direct_mappings(struct iommu_group *group,
-> >  			phys_addr_t phys_addr;
-> >  
-> >  			phys_addr = iommu_iova_to_phys(domain, addr);
-> > -			if (phys_addr)
-> > -				continue;
-> > +			if (!phys_addr) {
-> > +				map_size += pg_size;
-> > +				if (addr + pg_size < end)
-> > +					continue;
-> > +				else
+On Wed, Nov 25, 2020 at 02:10:08AM -0800, Nicolin Chen wrote:
+> Changelog
+> v1->v2:
+>  * Added Thierry's acks to PATCH-3~5
 > 
-> You don't need the 'else' here  ^^^
-> 
-> > +					addr += pg_size; /*Point to End */
-> 
-> addr = end ?
-> 
-> That said, maybe we could simplify this further by changing the loop bounds
-> to be:
-> 
-> 	for (addr = start; addr <= end; addr += pg_size)
-> 
-> and checking:
-> 
-> 	if (!phys_addr && addr != end) {
-> 		map_size += pg_size;
-> 		continue;
-> 	}
-> 
-> does that work?
+> This is a merged set of resend for previously two series of patches
+> that were reviewed/acked a month ago yet have not got applied.
 
-It works but I think we can not check iommu_iova_to_phys(domain, end).
-We should add a "if", like:
+Thanks, and sorry I missed these (I'm doing my best). I'll queue the
+lot for 5.11.
 
-for (addr = start; addr <= end; addr += pg_size) {
-...
-	if (addr < end) {
-		phys_addr = iommu_iova_to_phys(domain, addr);
-		if (!phys_addr) {
-			map_size += pg_size;
-			continue;
-		}
-	}
-...
-
-
-If you don't like this "if (addr < end)", then we have to add a "goto".
-like this:
-
-
-for (addr = start; addr <= end; addr += pg_size) {
- 	phys_addr_t phys_addr;
- 
-	if (addr == end)
-		goto map_last;
-
-	phys_addr = iommu_iova_to_phys(domain, addr);
-	if (!phys_addr) {
-		map_size += pg_size;
-		continue;
-	}
-
-map_last:
-	if (!map_size)
-		continue;
-	ret = iommu_map(domain, addr - map_size,
-			addr - map_size, map_size, entry->prot);
-	if (ret)
-		goto out;
-}
-
-Which one is better?
-
-> 
-> Will
-> 
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-mediatek
-
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
