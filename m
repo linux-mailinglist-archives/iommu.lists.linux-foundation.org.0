@@ -1,87 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EAE42C3C28
-	for <lists.iommu@lfdr.de>; Wed, 25 Nov 2020 10:28:16 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC732C3D0D
+	for <lists.iommu@lfdr.de>; Wed, 25 Nov 2020 10:55:18 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CF72587428;
-	Wed, 25 Nov 2020 09:28:14 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7702586A02;
+	Wed, 25 Nov 2020 09:55:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id A8BmjMkPGwfp; Wed, 25 Nov 2020 09:28:14 +0000 (UTC)
+	with ESMTP id LGLwHb9DFTLm; Wed, 25 Nov 2020 09:55:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 36DF687427;
-	Wed, 25 Nov 2020 09:28:14 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1ED1285552;
+	Wed, 25 Nov 2020 09:55:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 14A21C0052;
-	Wed, 25 Nov 2020 09:28:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0F7D0C0052;
+	Wed, 25 Nov 2020 09:55:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 455F3C0052
- for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 09:28:12 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4F68FC0052
+ for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 09:55:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2D68686D64
- for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 09:28:12 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 39C8B86DA5
+ for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 09:55:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dNiBBuvskw0H for <iommu@lists.linux-foundation.org>;
- Wed, 25 Nov 2020 09:28:10 +0000 (UTC)
+ with ESMTP id VmlNinTl6dzT for <iommu@lists.linux-foundation.org>;
+ Wed, 25 Nov 2020 09:55:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B08EB86D63
- for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 09:28:10 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id d17so1037244edq.2
- for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 01:28:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=V6jfPwZkNeh5oW/xhyxIAPCS+jYbX5BnmAGa7tqS/UM=;
- b=J2TU+ZzTtpXOeRpQEU95Ot5rlO5r6/XqvYl5hbbxifRwxuudgrBEX+kHKxWKrh0yR+
- d57ZC0VghJ3JrkXqCZ5vuegixijbxUTkoHcoDeEg11SJPHlRp+2GvFW63hpArzENjq4U
- OlF4db7JcfP3J6yAqr1EhhDw3oaiUx2sAcSA0NzoqPQAALKchRAM7bJGV1FEyU/u8Zew
- 714LCXKYumJNKQVlpjCTYX+Z7UJsT797AMbwG/YZfFX4eQ60bh81Lj92i3gDvaNhbTY/
- 5f3jFSNHbCDkr9eiCZyarUEoxZFkkIlKVBkr3onMOxe0WoWtw4M6SyzvBKX/R+450e6r
- RKQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=V6jfPwZkNeh5oW/xhyxIAPCS+jYbX5BnmAGa7tqS/UM=;
- b=lqGkuVvEJPGaZGDlYkcwWMd2WwGPljJy+e930GWTfd1ivtdg/CNf06nT3aCkx3jUGo
- iNGL6nrLAA+7eg9oKOcM5OPoYHXjvdb7+3A3ziAegruO+IJ9kKSFf9PfPIRdTEDMIrqD
- Ck4UZkQwFMciWT4J3sPc6TkctOuZqYaYjkgZqqzb0TbPvQQLajCOwy6rsBpDCqIuCtUU
- uRXP5KsUl7jdQH0zGqnmDBWtz2yLt9IxXlxBLluKWhPfwskpcA/XVjcD5S/qYcP8q5SA
- JIdxuIjy0ZR9tymAM4gkuw1PZD+2dshnaL41gZWnJANZFvfaMs3QPrH7CnuzafadgCG1
- x3+A==
-X-Gm-Message-State: AOAM533iVBGGiqRwpC2hQkhn1NjmacoqbVns0KIu1xqCjaID37K4++Si
- LQD3QvFbt5TqMwZ4bYB399ewxA==
-X-Google-Smtp-Source: ABdhPJzvewHbh7Ug/phOO580pv1zq0+bZCsdfkc81eifmIcHg0fFb/d7vHs0RNWy2PR74Xir911t3A==
-X-Received: by 2002:aa7:c716:: with SMTP id i22mr2632276edq.94.1606296489038; 
- Wed, 25 Nov 2020 01:28:09 -0800 (PST)
-Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id p14sm867798edq.6.2020.11.25.01.28.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Nov 2020 01:28:08 -0800 (PST)
-Date: Wed, 25 Nov 2020 10:27:49 +0100
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v10 12/13] iommu/arm-smmu-v3: Implement
- iommu_sva_bind/unbind()
-Message-ID: <20201125092749.GA2445658@myrica>
-References: <20200918101852.582559-1-jean-philippe@linaro.org>
- <20200918101852.582559-13-jean-philippe@linaro.org>
- <20201124235800.GA242277@nvidia.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 99B3786A5C
+ for <iommu@lists.linux-foundation.org>; Wed, 25 Nov 2020 09:55:15 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9A026206B7;
+ Wed, 25 Nov 2020 09:55:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1606298115;
+ bh=re7AA/JYRI8haIErRYirxD5qBBNucRha2mgCCLcEBdw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uau/cOV8xuxLqlAHyOwuhgXQj5gfAd69Ye96ug6M5hYeQd+3qxXFa51WdbVyB9rXi
+ WfIth7NR1+dXktcByKqTBwpvQzIg5ovQr4UjreFibvMs5l41P+SANO1kJnPqLen/+R
+ 6LXv7rCZZ3lE/HBDUr+L4LC6Z/qeenih8S8MxBP8=
+Date: Wed, 25 Nov 2020 09:55:10 +0000
+From: Will Deacon <will@kernel.org>
+To: Nicolin Chen <nicoleotsuka@gmail.com>
+Subject: Re: [PATCH RESEND 0/5] iommu/tegra-smmu: Some pending reviewed changes
+Message-ID: <20201125095509.GB15052@willie-the-truck>
+References: <20201111222129.15736-1-nicoleotsuka@gmail.com>
+ <20201124212100.GA32108@Asurada-Nvidia>
+ <68237d7c-12f7-3053-2e79-75b7e95f0af3@gmail.com>
+ <20201124231215.GA32405@Asurada-Nvidia>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201124235800.GA242277@nvidia.com>
-Cc: fenghua.yu@intel.com, catalin.marinas@arm.com, robin.murphy@arm.com,
- linux-mm@kvack.org, iommu@lists.linux-foundation.org, zhangfei.gao@linaro.org,
- will@kernel.org, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20201124231215.GA32405@Asurada-Nvidia>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: linux-kernel@vger.kernel.org, jonathanh@nvidia.com,
+ iommu@lists.linux-foundation.org, thierry.reding@gmail.com,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,78 +74,27 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Nov 24, 2020 at 07:58:00PM -0400, Jason Gunthorpe wrote:
-> On Fri, Sep 18, 2020 at 12:18:52PM +0200, Jean-Philippe Brucker wrote:
-> 
-> > +/* Allocate or get existing MMU notifier for this {domain, mm} pair */
-> > +static struct arm_smmu_mmu_notifier *
-> > +arm_smmu_mmu_notifier_get(struct arm_smmu_domain *smmu_domain,
-> > +			  struct mm_struct *mm)
-> > +{
-> > +	int ret;
-> > +	struct arm_smmu_ctx_desc *cd;
-> > +	struct arm_smmu_mmu_notifier *smmu_mn;
-> > +
-> > +	list_for_each_entry(smmu_mn, &smmu_domain->mmu_notifiers, list) {
-> > +		if (smmu_mn->mn.mm == mm) {
-> > +			refcount_inc(&smmu_mn->refs);
-> > +			return smmu_mn;
-> > +		}
-> > +	}
-> > +
-> > +	cd = arm_smmu_alloc_shared_cd(mm);
-> > +	if (IS_ERR(cd))
-> > +		return ERR_CAST(cd);
-> > +
-> > +	smmu_mn = kzalloc(sizeof(*smmu_mn), GFP_KERNEL);
-> > +	if (!smmu_mn) {
-> > +		ret = -ENOMEM;
-> > +		goto err_free_cd;
-> > +	}
-> > +
-> > +	refcount_set(&smmu_mn->refs, 1);
-> > +	smmu_mn->cd = cd;
-> > +	smmu_mn->domain = smmu_domain;
-> > +	smmu_mn->mn.ops = &arm_smmu_mmu_notifier_ops;
-> > +
-> > +	ret = mmu_notifier_register(&smmu_mn->mn, mm);
-> > +	if (ret) {
-> > +		kfree(smmu_mn);
-> > +		goto err_free_cd;
-> > +	}
-> 
-> I suppose this hasn't been applied yet, but someone asked me to look
-> at this series..
-
-It's queued for v5.11, but I could submit improvements for 5.12
-
-> Why did you drop the change to mmu_notifier_get here?
-
-Dropped at v6 when I got rid of the io_mm cruft:
-https://lore.kernel.org/linux-iommu/20200430143424.2787566-1-jean-philippe@linaro.org/
-
-> I'm strongly
-> trying to discourage static lists matching mm's like smmu_mn is
-> doing. This is handled by the core code, don't open code it..
-
-We discussed this at v6, which wonkily stored the mn ops in the domain to
-obtain a unique notifier per {mm, domain}. A clean solution requires
-changing mm_notifier_get() to use an opaque token. Rather than testing
-{mm, ops} uniqueness it would compare {mm, ops, token}. I figured it
-wasn't worth the effort for a single driver, especially since the SMMU
-driver would still have one list matching because it needs to deal with
-both {mm, domain} and {mm, device} uniqueness.
-https://lore.kernel.org/linux-iommu/20200501121552.GA6012@infradead.org/
-
-Thanks,
-Jean
-
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+T24gVHVlLCBOb3YgMjQsIDIwMjAgYXQgMDM6MTI6MTZQTSAtMDgwMCwgTmljb2xpbiBDaGVuIHdy
+b3RlOgo+IE9uIFdlZCwgTm92IDI1LCAyMDIwIGF0IDAyOjA1OjE0QU0gKzAzMDAsIERtaXRyeSBP
+c2lwZW5rbyB3cm90ZToKPiA+IDI1LjExLjIwMjAgMDA6MjEsIE5pY29saW4gQ2hlbiDQv9C40YjQ
+tdGCOgo+ID4gPiBUaGVzZSBmaXZlIHBhdGNoZXMgd2VyZSBhY2tlZCBieSBUaGllcnJ5IGFuZCBh
+Y2tlZC1uLXRlc3RlZCBieQo+ID4gPiBEbWl0cnkgYSB3aGlsZSBhZ28uIFdvdWxkIGl0IGJlIHBv
+c3NpYmxlIGZvciB5b3UgdG8gYXBwbHkgdGhlbT8KPiA+ID4gCj4gPiA+IFRoYW5rcyEKPiA+IAo+
+ID4gWW91IHByb2JhYmx5IHNob3VsZCB0cnkgdG8gcGluZyBXaWxsIERlYWNvbi4KPiA+IAo+ID4g
+aHR0cHM6Ly9sa21sLm9yZy9sa21sLzIwMjAvMTEvMTcvMjQzCj4gCj4gVGhhbmsgeW91LCBEbWl0
+cnkuCj4gLS0KPiAKPiBXaWxsLCB3b3VsZCBpdCBiZSBwb3NzaWJsZSBmb3IgeW91IHRvIHRha2Ug
+dGhlc2UgY2hhbmdlcz8KPiAKPiBJIHNlbnQgdGhlbSBvbiBOb3YgMTEgdG8gdGhlIGZvbGxvd2lu
+ZyBsaXN0czoKPiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnCj4gaW9tbXVAbGlzdHMubGlu
+dXgtZm91bmRhdGlvbi5vcmcKPiAKPiBJZiB5b3UgbmVlZCBtZSB0byByZXNlbmQgaXQgYWdhaW4g
+YnkgYWRkaW5nIHlvdSBpbiBUbyBsaW5lLAo+IHBsZWFzZSBraW5kbHkgbGV0IG1lIGtub3cuCgpX
+ZWlyZCwgdGhpcyBlbmRlZCB1cCBpbiBteSBzcGFtLiBJZiB5b3Ugd291bGRuJ3QgbWluZCByZXNl
+bmRpbmcgd2l0aCBtZQpvbiBUbzogdGhlbiBwbGVhc2UgZG8gdGhhdC4gVGhlbiBJIGtub3cgSSdt
+IGxvb2tpbmcgYXQgdGhlIGNvcnJlY3QgdmVyc2lvbi4KClRoYW5rcywKCldpbGwKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0
+CmlvbW11QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3Vu
+ZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
