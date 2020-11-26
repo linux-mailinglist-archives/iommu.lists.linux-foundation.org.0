@@ -1,64 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9722C51C8
-	for <lists.iommu@lfdr.de>; Thu, 26 Nov 2020 11:11:27 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF27F2C5268
+	for <lists.iommu@lfdr.de>; Thu, 26 Nov 2020 11:52:56 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id E20462E1F8;
-	Thu, 26 Nov 2020 10:11:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 918E48782E;
+	Thu, 26 Nov 2020 10:52:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id i-u93Z2sr2ed; Thu, 26 Nov 2020 10:11:20 +0000 (UTC)
+	with ESMTP id 2pDziLRKWqAs; Thu, 26 Nov 2020 10:52:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 03E362E1F9;
-	Thu, 26 Nov 2020 10:11:20 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 31D1687829;
+	Thu, 26 Nov 2020 10:52:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E0051C0052;
-	Thu, 26 Nov 2020 10:11:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 23195C0052;
+	Thu, 26 Nov 2020 10:52:55 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B012AC0052
- for <iommu@lists.linux-foundation.org>; Thu, 26 Nov 2020 10:11:18 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CCB01C0052
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Nov 2020 10:52:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9F60287290
- for <iommu@lists.linux-foundation.org>; Thu, 26 Nov 2020 10:11:18 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id C81F987829
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Nov 2020 10:52:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Q72i8zIEIOKi for <iommu@lists.linux-foundation.org>;
- Thu, 26 Nov 2020 10:11:17 +0000 (UTC)
+ with ESMTP id 05W-0uARUg-H for <iommu@lists.linux-foundation.org>;
+ Thu, 26 Nov 2020 10:52:53 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id D8BAC87287
- for <iommu@lists.linux-foundation.org>; Thu, 26 Nov 2020 10:11:17 +0000 (UTC)
-IronPort-SDR: XE+aXeKdjkgnaInwf3V9hRHmlWjVY/HRxLsTGcoG8HBh+SiMF8G/pD/XIpo39w6qA+5ieBF0op
- yPLyx6yw/xNQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9816"; a="160030533"
-X-IronPort-AV: E=Sophos;i="5.78,371,1599548400"; d="scan'208";a="160030533"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2020 01:13:25 -0800
-IronPort-SDR: 1W98j++zDlKY+Uyu1ROvcdDJOJF1MCSg4O2+mApuDwET4gmPwUg6O9xBS/6ofTHijiyvhxdySz
- a6EHzU3NcBqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,371,1599548400"; d="scan'208";a="433221130"
-Received: from allen-box.sh.intel.com ([10.239.159.28])
- by fmsmga001.fm.intel.com with ESMTP; 26 Nov 2020 01:13:23 -0800
-From: Lu Baolu <baolu.lu@linux.intel.com>
-To: Will Deacon <will@kernel.org>,
-	Joerg Roedel <joro@8bytes.org>
-Subject: [PATCH 1/1] iommu: Fix htmldocs warnings in sysfs-kernel-iommu_groups
-Date: Thu, 26 Nov 2020 17:06:03 +0800
-Message-Id: <20201126090603.1511589-1-baolu.lu@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 31FC487826
+ for <iommu@lists.linux-foundation.org>; Thu, 26 Nov 2020 10:52:53 +0000 (UTC)
+Received: from localhost.localdomain (236.31.169.217.in-addr.arpa
+ [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 20E2420DD4;
+ Thu, 26 Nov 2020 10:52:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1606387972;
+ bh=CdLlb1z7XnjJYWndkvYNE80/TxKCto2us3OCs2U4aPw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=YJXkgxaV5CbnWrqz9QTFxLRPsgOxBrwKZRlu3fdo7aUfupQb8tEba6CNakQALmJHC
+ vJggjhdo3I5I9yc5xGxKKwoG/A4pOJXYQDWqkW8cKqfrS1WpoY1k6RZ5V6j9hng2ED
+ RBDjI7xRLc8/uFNqZkf/BXzCz074OMjY7ZVn1fz8=
+From: Will Deacon <will@kernel.org>
+To: Joerg Roedel <joro@8bytes.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH 1/1] iommu: Fix htmldocs warnings in
+ sysfs-kernel-iommu_groups
+Date: Thu, 26 Nov 2020 10:52:46 +0000
+Message-Id: <160638413065.1109527.15725909042368207035.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201126090603.1511589-1-baolu.lu@linux.intel.com>
+References: <20201126090603.1511589-1-baolu.lu@linux.intel.com>
 MIME-Version: 1.0
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Will Deacon <will@kernel.org>,
+ catalin.marinas@arm.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kernel-team@android.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,70 +78,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Below warnings are fixed:
+On Thu, 26 Nov 2020 17:06:03 +0800, Lu Baolu wrote:
+> Below warnings are fixed:
+> 
+> Documentation/ABI/testing/sysfs-kernel-iommu_groups:38: WARNING: Unexpected indentation.
+> Documentation/ABI/testing/sysfs-kernel-iommu_groups:38: WARNING: Block quote ends without a blank line; unexpected unindent.
+> Documentation/ABI/testing/sysfs-kernel-iommu_groups:38: WARNING: Enumerated list ends without a blank line; unexpected unindent.
+> Documentation/ABI/testing/sysfs-kernel-iommu_groups:38: WARNING: Unexpected indentation.
+> Documentation/ABI/testing/sysfs-kernel-iommu_groups:38: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-Documentation/ABI/testing/sysfs-kernel-iommu_groups:38: WARNING: Unexpected indentation.
-Documentation/ABI/testing/sysfs-kernel-iommu_groups:38: WARNING: Block quote ends without a blank line; unexpected unindent.
-Documentation/ABI/testing/sysfs-kernel-iommu_groups:38: WARNING: Enumerated list ends without a blank line; unexpected unindent.
-Documentation/ABI/testing/sysfs-kernel-iommu_groups:38: WARNING: Unexpected indentation.
-Documentation/ABI/testing/sysfs-kernel-iommu_groups:38: WARNING: Block quote ends without a blank line; unexpected unindent.
+Applied to arm64 (for-next/iommu/default-domains), thanks!
 
-Fixes: 63a816749d86 ("iommu: Document usage of "/sys/kernel/iommu_groups/<grp_id>/type" file")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Link: https://lore.kernel.org/linux-next/20201126174851.200e0e58@canb.auug.org.au/
-Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
----
- .../ABI/testing/sysfs-kernel-iommu_groups     | 33 ++++++++++---------
- 1 file changed, 17 insertions(+), 16 deletions(-)
+[1/1] iommu: Fix htmldocs warnings in sysfs-kernel-iommu_groups
+      https://git.kernel.org/arm64/c/62c9917d9c10
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-iommu_groups b/Documentation/ABI/testing/sysfs-kernel-iommu_groups
-index 407b1628d7fd..0fedbb0f94e4 100644
---- a/Documentation/ABI/testing/sysfs-kernel-iommu_groups
-+++ b/Documentation/ABI/testing/sysfs-kernel-iommu_groups
-@@ -40,23 +40,24 @@ KernelVersion:	v5.11
- Contact:	Sai Praneeth Prakhya <sai.praneeth.prakhya@intel.com>
- Description:	/sys/kernel/iommu_groups/<grp_id>/type shows the type of default
- 		domain in use by iommu for this group. See include/linux/iommu.h
--		for possible values. A privileged user could request kernel to
--		change the group type by writing to this file. Presently, only
--		three types of request are supported:
--		1. DMA: All the DMA transactions from the device in this group
--			are translated by the iommu.
--		2. identity: All the DMA transactions from the device in this
--			     group are *not* translated by the iommu.
--		3. auto: Change to the type the device was booted with.
--		Note:
--		-----
-+		for possible read values. A privileged user could request kernel to
-+		change the group type by writing to this file. Valid write values:
-+
-+		========  ======================================================
-+		DMA       All the DMA transactions from the device in this group
-+		          are translated by the iommu.
-+		identity  All the DMA transactions from the device in this group
-+		          are not translated by the iommu.
-+		auto      Change to the type the device was booted with.
-+		========  ======================================================
-+
- 		The default domain type of a group may be modified only when
--		1. The group has *only* one device
--		2. The device in the group is not bound to any device driver.
--		   So, the users must unbind the appropriate driver before
--		   changing the default domain type.
--		Caution:
--		--------
-+
-+		- The group has only one device.
-+		- The device in the group is not bound to any device driver.
-+		  So, the users must unbind the appropriate driver before
-+		  changing the default domain type.
-+
- 		Unbinding a device driver will take away the driver's control
- 		over the device and if done on devices that host root file
- 		system could lead to catastrophic effects (the users might
+Cheers,
 -- 
-2.25.1
+Will
 
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
