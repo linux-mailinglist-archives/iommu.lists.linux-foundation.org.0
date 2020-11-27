@@ -2,64 +2,61 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1090D2C6260
-	for <lists.iommu@lfdr.de>; Fri, 27 Nov 2020 10:58:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AFDC2C640A
+	for <lists.iommu@lfdr.de>; Fri, 27 Nov 2020 12:45:39 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9239B87A3C;
-	Fri, 27 Nov 2020 09:58:12 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id EB961879AB;
+	Fri, 27 Nov 2020 11:45:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id q1HR1lvdspTr; Fri, 27 Nov 2020 09:58:12 +0000 (UTC)
+	with ESMTP id gG0Jrd+uRq0m; Fri, 27 Nov 2020 11:45:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 27CEC87A3B;
-	Fri, 27 Nov 2020 09:58:12 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 60DE9879A3;
+	Fri, 27 Nov 2020 11:45:37 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B680C0052;
-	Fri, 27 Nov 2020 09:58:12 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 35B84C0052;
+	Fri, 27 Nov 2020 11:45:37 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 358E4C0052
- for <iommu@lists.linux-foundation.org>; Fri, 27 Nov 2020 09:58:10 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C18E1C0052
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Nov 2020 11:45:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 240EF87B8B
- for <iommu@lists.linux-foundation.org>; Fri, 27 Nov 2020 09:58:10 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id A12F02E301
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Nov 2020 11:45:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 98fhXB8vfPax for <iommu@lists.linux-foundation.org>;
- Fri, 27 Nov 2020 09:58:07 +0000 (UTC)
+ with ESMTP id l725ja1rmuZu for <iommu@lists.linux-foundation.org>;
+ Fri, 27 Nov 2020 11:45:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 6642C87996
- for <iommu@lists.linux-foundation.org>; Fri, 27 Nov 2020 09:58:07 +0000 (UTC)
-Received: from localhost.localdomain (236.31.169.217.in-addr.arpa
- [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3B22021D91;
- Fri, 27 Nov 2020 09:58:05 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id E37082E2F9
+ for <iommu@lists.linux-foundation.org>; Fri, 27 Nov 2020 11:45:34 +0000 (UTC)
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id D1427206D8;
+ Fri, 27 Nov 2020 11:45:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606471086;
- bh=GZ4Id4NPj/0z4l0L3vDEF+7KrF0Y8aco3ppn/S+WkzI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nrujzITmO0NEf5k1oxkMxuoStmoJFWbAG/YdAhpWalkHT/uOeLZPwhdfc3ag97xUq
- hw2bnfBO6IDMvsPPUiwkJvScGI2ke83QDGU/NcSk9lFcPNEIWAP62nK2Xokjjyo+Ef
- KXX1DLXv9Kx74SLWRBe+dA6EPUfky8BkY2UgTZyw=
+ s=default; t=1606477534;
+ bh=pCuERobJCCzVNGQt0FGsvx61B+OhUF8qKzhnI5TXBWQ=;
+ h=Date:From:To:Cc:Subject:From;
+ b=VeSQBB20rTF2W/n/gWl929dklnJle/FUbDJ1O2K0KHwpQtRGlRTJVzfC9gvfmGKc4
+ D67wwdCGhZV0ekFOWD4qRcZyGX+f/8PaUOq7m+UK1Gw+iPOI3fiWAKYFAJhDsDCO6F
+ TVpQbmagZ2Agd3GCtBiTfTcpdAIJtIIcAdDcEUi0=
+Date: Fri, 27 Nov 2020 11:45:29 +0000
 From: Will Deacon <will@kernel.org>
-To: Joerg Roedel <joro@8bytes.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 1/1] iommu/vt-d: Remove set but not used variable
-Date: Fri, 27 Nov 2020 09:58:01 +0000
-Message-Id: <160647075022.1960777.14243304052525988022.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201127013308.1833610-1-baolu.lu@linux.intel.com>
-References: <20201127013308.1833610-1-baolu.lu@linux.intel.com>
+To: torvalds@linux-foundation.org
+Subject: [GIT PULL] IOMMU fixes for -rc6
+Message-ID: <20201127114529.GB20418@willie-the-truck>
 MIME-Version: 1.0
-Cc: kernel test robot <lkp@intel.com>, Will Deacon <will@kernel.org>,
- catalin.marinas@arm.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, kernel-team@android.com
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ Alex Williamson <alex.williamson@redhat.com>, tglx@linutronix.de,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,27 +74,67 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, 27 Nov 2020 09:33:08 +0800, Lu Baolu wrote:
-> Fixes gcc '-Wunused-but-set-variable' warning:
-> 
-> drivers/iommu/intel/iommu.c:5643:27: warning: variable 'last_pfn' set but not used [-Wunused-but-set-variable]
-> 5643 |  unsigned long start_pfn, last_pfn;
->      |                           ^~~~~~~~
-> 
-> This variable is never used, so remove it.
+Hi again, Linus,
 
-Applied to arm64 (for-next/iommu/vt-d), thanks!
+Here's another round of IOMMU fixes for -rc6 consisting mainly of a
+bunch of independent driver fixes. Thomas agreed for me to take the
+x86 'tboot' fix here, as it fixes a regression introduced by a vt-d
+change.
 
-[1/1] iommu/vt-d: Remove set but not used variable
-      https://git.kernel.org/arm64/c/405a43cc0047
+Please pull,
 
-Cheers,
--- 
 Will
 
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
+--->8
+
+The following changes since commit 91c2c28d8de34815ea9bb4d16e9db7308ad33d3e:
+
+  MAINTAINERS: Temporarily add myself to the IOMMU entry (2020-11-19 11:12:17 +0000)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git tags/iommu-fixes
+
+for you to fetch changes up to d76b42e92780c3587c1a998a3a943b501c137553:
+
+  iommu/vt-d: Don't read VCCAP register unless it exists (2020-11-26 14:50:24 +0000)
+
+----------------------------------------------------------------
+iommu fixes for -rc6
+
+- Fix intel iommu driver when running on devices without VCCAP_REG
+
+- Fix swiotlb and "iommu=pt" interaction under TXT (tboot)
+
+- Fix missing return value check during device probe()
+
+- Fix probe ordering for Qualcomm SMMU implementation
+
+- Ensure page-sized mappings are used for AMD IOMMU buffers with SNP RMP
+
+----------------------------------------------------------------
+David Woodhouse (1):
+      iommu/vt-d: Don't read VCCAP register unless it exists
+
+John Stultz (1):
+      arm-smmu-qcom: Ensure the qcom_scm driver has finished probing
+
+Lu Baolu (1):
+      x86/tboot: Don't disable swiotlb when iommu is forced on
+
+Shameer Kolothum (1):
+      iommu: Check return of __iommu_attach_device()
+
+Suravee Suthikulpanit (1):
+      iommu/amd: Enforce 4k mapping for certain IOMMU data structures
+
+ arch/x86/kernel/tboot.c                    |  5 +----
+ drivers/iommu/amd/init.c                   | 27 ++++++++++++++++++++++-----
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c |  4 ++++
+ drivers/iommu/intel/dmar.c                 |  3 ++-
+ drivers/iommu/intel/iommu.c                |  4 ++--
+ drivers/iommu/iommu.c                      | 10 ++++++----
+ 6 files changed, 37 insertions(+), 16 deletions(-)
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
