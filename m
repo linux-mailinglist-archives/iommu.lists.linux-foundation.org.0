@@ -2,57 +2,55 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11192C7FF4
-	for <lists.iommu@lfdr.de>; Mon, 30 Nov 2020 09:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C779F2C8000
+	for <lists.iommu@lfdr.de>; Mon, 30 Nov 2020 09:34:19 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9CAE58711E;
-	Mon, 30 Nov 2020 08:31:57 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 749A187366;
+	Mon, 30 Nov 2020 08:34:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 73G-pprzvjTo; Mon, 30 Nov 2020 08:31:57 +0000 (UTC)
+	with ESMTP id Z6tLSzkuplqY; Mon, 30 Nov 2020 08:34:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2E69E87119;
-	Mon, 30 Nov 2020 08:31:57 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DD7158736A;
+	Mon, 30 Nov 2020 08:34:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D4B7C0052;
-	Mon, 30 Nov 2020 08:31:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C7B5FC0052;
+	Mon, 30 Nov 2020 08:34:16 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 943F8C0052
- for <iommu@lists.linux-foundation.org>; Mon, 30 Nov 2020 08:31:55 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3914CC0052
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Nov 2020 08:34:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 7EE8E8711E
- for <iommu@lists.linux-foundation.org>; Mon, 30 Nov 2020 08:31:55 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 32E82868E2
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Nov 2020 08:34:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5p7rwzVWo2ve for <iommu@lists.linux-foundation.org>;
- Mon, 30 Nov 2020 08:31:54 +0000 (UTC)
+ with ESMTP id LJMXycjMXPeq for <iommu@lists.linux-foundation.org>;
+ Mon, 30 Nov 2020 08:34:14 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4870887119
- for <iommu@lists.linux-foundation.org>; Mon, 30 Nov 2020 08:31:54 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8C614868A5
+ for <iommu@lists.linux-foundation.org>; Mon, 30 Nov 2020 08:34:14 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
- id 1D34C68AFE; Mon, 30 Nov 2020 09:31:51 +0100 (CET)
-Date: Mon, 30 Nov 2020 09:31:50 +0100
+ id 8685868AFE; Mon, 30 Nov 2020 09:34:10 +0100 (CET)
+Date: Mon, 30 Nov 2020 09:34:10 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
 Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
-Message-ID: <20201130083150.GC32234@lst.de>
+Message-ID: <20201130083410.GD32234@lst.de>
 References: <20201125221917.150463-1-ribalda@chromium.org>
- <20201126114450.GB3723071@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201126114450.GB3723071@google.com>
+In-Reply-To: <20201125221917.150463-1-ribalda@chromium.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: Sergey Senozhatsky <senozhatsky@google.com>,
  Linux Media Mailing List <linux-media@vger.kernel.org>,
  Linux Doc Mailing List <linux-doc@vger.kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Ricardo Ribalda <ribalda@chromium.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
@@ -72,20 +70,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Nov 26, 2020 at 08:44:50PM +0900, Sergey Senozhatsky wrote:
-> > +	uvc_urb->buffer = vmap(uvc_urb->pages,
-> > +			       PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
-> > +			       VM_DMA_COHERENT, PAGE_KERNEL);
-> 
-> This is not related to Ricardo's patch, just a side note:
-> 
->   I think VM_DMA_COHERENT needs to be renamed. I found it a bit confusing
->   to see DMA_COHERENT mapping being dma_sync-ed. It turned out that the
->   flag has different meaning.
+> +#ifndef CONFIG_DMA_NONCOHERENT
 
-s/renamed/removed/.  This is a normal VM_MAP mapping as far as the
-core vmalloc/vmap code is concerned.  VM_DMA_COHERENT is only for
-internal use in the core DMA code.
+I think you need to drop this ifdef.  This code should work just fine
+on noncoherent mips and sh platforms.
+
+> +	uvc_urb->pages = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
+> +						 &uvc_urb->dma,
+> +						 gfp_flags | __GFP_NOWARN, 0);
+> +	if (!uvc_urb->pages)
+> +		return false;
+> +
+> +	uvc_urb->buffer = vmap(uvc_urb->pages,
+> +			       PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
+> +			       VM_DMA_COHERENT, PAGE_KERNEL);
+> +	if (!uvc_urb->buffer) {
+> +		dma_free_noncontiguous(dma_dev, stream->urb_size,
+> +				       uvc_urb->pages, uvc_urb->dma);
+> +		return false;
+> +	}
+> +
+> +	if (sg_alloc_table_from_pages(&uvc_urb->sgt, uvc_urb->pages,
+> +				PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT, 0,
+> +				stream->urb_size, GFP_KERNEL)) {
+> +		vunmap(uvc_urb->buffer);
+> +		dma_free_noncontiguous(dma_dev, stream->urb_size,
+> +				       uvc_urb->pages, uvc_urb->dma);
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+
+I wonder if we should lift this into a helper.  On the one hand I had
+proliferating struct scatterlist usage, on the other hand it is all over
+the media and drm code anyway, and duplicating this doesn't help anyone.
+
+Possibly including the fallback to the coherent allocating.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
