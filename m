@@ -1,65 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A222CADF6
-	for <lists.iommu@lfdr.de>; Tue,  1 Dec 2020 22:02:29 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDA12CAF0A
+	for <lists.iommu@lfdr.de>; Tue,  1 Dec 2020 22:45:17 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2DD3E881C6;
-	Tue,  1 Dec 2020 21:02:27 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4A8898770D;
+	Tue,  1 Dec 2020 21:45:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XRturG9S1bBc; Tue,  1 Dec 2020 21:02:26 +0000 (UTC)
+	with ESMTP id JaP7b7ik6eCM; Tue,  1 Dec 2020 21:45:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id AD608881C4;
-	Tue,  1 Dec 2020 21:02:26 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C678087730;
+	Tue,  1 Dec 2020 21:45:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 97B1CC0052;
-	Tue,  1 Dec 2020 21:02:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A39E2C0052;
+	Tue,  1 Dec 2020 21:45:15 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 29B6BC0052
- for <iommu@lists.linux-foundation.org>; Tue,  1 Dec 2020 21:02:25 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7938BC0052
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Dec 2020 21:45:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 488C12E1BA
- for <iommu@lists.linux-foundation.org>; Tue,  1 Dec 2020 21:02:24 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 551432E1D5
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Dec 2020 21:45:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UKLtwlvtRN0N for <iommu@lists.linux-foundation.org>;
- Tue,  1 Dec 2020 21:02:21 +0000 (UTC)
+ with ESMTP id 8MuMxrDJa2ZI for <iommu@lists.linux-foundation.org>;
+ Tue,  1 Dec 2020 21:45:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 12BA42E1B4
- for <iommu@lists.linux-foundation.org>; Tue,  1 Dec 2020 21:02:20 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D013F204FD;
- Tue,  1 Dec 2020 21:02:18 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 4028D2E1CC
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Dec 2020 21:45:13 +0000 (UTC)
+Received: from localhost.localdomain (236.31.169.217.in-addr.arpa
+ [217.169.31.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id C277B2086A;
+ Tue,  1 Dec 2020 21:45:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606856540;
- bh=tv0qvp7to0qfEmCOChYQQOvDzhMCYnFg7qz3e7fOdT0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XhNyyCxvF53jfvtVVkEPIb7sTB4ys0hgtVFYv4gVM0CBA1gr4VjEkpcULK2p9lc34
- cRFa/tyjdaKG9ghzutUzoWmu0p6jwvlLOc9PPfg4kCaScEQ59f1vExhWBceGqivoe1
- IxM4ZA2Eiz8DO0IfMlkQCo9gQlHjnYJmmkDN1Fu8=
-Date: Tue, 1 Dec 2020 21:02:15 +0000
+ s=default; t=1606859112;
+ bh=igMPQDgWyk4OwUBpic5849I/GvbC4s/vhJKvmdqlYrk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=JDmejFDMD/rtDxapX57p0nYlMv6KRDODRxhn/cQLkReBNsTnxtuL89r9ztwdXILT0
+ WwI28A4U/Gw4oJJbRR0ZGWmN2D4jY50psn8XxB84lhuFskgJyfEbMiB/E7okPp7UKa
+ 7qFvnNYMsVTkWeRY8QMQpvrnstKBbXCtQPyYYhjo=
 From: Will Deacon <will@kernel.org>
-To: John Garry <john.garry@huawei.com>
+To: John Garry <john.garry@huawei.com>, joro@8bytes.org, robin.murphy@arm.com
 Subject: Re: [RESEND PATCH v3 0/4] iommu/iova: Solve longterm IOVA issue
-Message-ID: <20201201210215.GB28178@willie-the-truck>
+Date: Tue,  1 Dec 2020 21:45:05 +0000
+Message-Id: <160685669713.992935.17438167536143205811.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <1605608734-84416-1-git-send-email-john.garry@huawei.com>
 References: <1605608734-84416-1-git-send-email-john.garry@huawei.com>
- <d87ceec4-b7a1-c600-3b78-6852f0320ce2@huawei.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d87ceec4-b7a1-c600-3b78-6852f0320ce2@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: linuxarm@huawei.com, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, xiyou.wangcong@gmail.com,
- robin.murphy@arm.com
+Cc: Will Deacon <will@kernel.org>, catalin.marinas@arm.com, linuxarm@huawei.com,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ xiyou.wangcong@gmail.com, kernel-team@android.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,20 +76,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Dec 01, 2020 at 03:35:02PM +0000, John Garry wrote:
-> On 17/11/2020 10:25, John Garry wrote:
-> Is there any chance that we can get these picked up for 5.11? We've seen
-> this issue solved here for a long time.
+On Tue, 17 Nov 2020 18:25:30 +0800, John Garry wrote:
+> This series contains a patch to solve the longterm IOVA issue which
+> leizhen originally tried to address at [0].
 > 
-> Or, @Robin, let me know if not happy with this since v1.
+> A sieved kernel log is at the following, showing periodic dumps of IOVA
+> sizes, per CPU and per depot bin, per IOVA size granule:
+> https://raw.githubusercontent.com/hisilicon/kernel-dev/topic-iommu-5.10-iova-debug-v3/aging_test
 > 
-> BTW, patch #4 has been on the go for ~1 year now, and is a nice small
-> optimisation from Cong, which I picked up and already had a RB tag.
+> [...]
 
-I can pick the last patch up, but I'd really like some reviewed/tested-bys
-on the others.
+Applied the final patch to arm64 (for-next/iommu/iova), thanks!
 
+[4/4] iommu: avoid taking iova_rbtree_lock twice
+      https://git.kernel.org/arm64/c/3a651b3a27a1
+
+Cheers,
+-- 
 Will
+
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
