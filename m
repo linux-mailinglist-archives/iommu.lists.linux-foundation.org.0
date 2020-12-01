@@ -2,81 +2,59 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDEF52CA490
-	for <lists.iommu@lfdr.de>; Tue,  1 Dec 2020 14:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57A72CA635
+	for <lists.iommu@lfdr.de>; Tue,  1 Dec 2020 15:49:25 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 94BA384C26;
-	Tue,  1 Dec 2020 13:59:15 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 54FE2859E3;
+	Tue,  1 Dec 2020 14:49:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AukeBezHHyYB; Tue,  1 Dec 2020 13:59:15 +0000 (UTC)
+	with ESMTP id b9xt6nwdWYh0; Tue,  1 Dec 2020 14:49:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 34BCF8064F;
-	Tue,  1 Dec 2020 13:59:15 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C8348841B3;
+	Tue,  1 Dec 2020 14:49:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 15895C0052;
-	Tue,  1 Dec 2020 13:59:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B855EC0052;
+	Tue,  1 Dec 2020 14:49:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 84683C0052
- for <iommu@lists.linux-foundation.org>; Tue,  1 Dec 2020 13:59:13 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B94FBC0052
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Dec 2020 14:49:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 72F3384948
- for <iommu@lists.linux-foundation.org>; Tue,  1 Dec 2020 13:59:13 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id A630287591
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Dec 2020 14:49:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lV2p5Dqq8ckN for <iommu@lists.linux-foundation.org>;
- Tue,  1 Dec 2020 13:59:12 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 8D5DA8064F
- for <iommu@lists.linux-foundation.org>; Tue,  1 Dec 2020 13:59:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606831151;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PwJG1illbebhBKC5v2IxyfNes6/XlUwSexlIWlX8yvI=;
- b=UA5IEOJw4cY962S+0T6gLhVS7jMVZDZ5nKzNhjNINE+fC3Htac+S7hltH9OJeksXded48R
- olauCNAPikG2HK/C+1bUn6IYE8iCJuxw0mIU9EqbtcFJU2u5zfNEUstMDoakDR5GILTgB+
- +Hosylr0KiD+/KZOcuVDui1Pv2PIqY8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-wovMo1sZOu2TKbhHgVoPFw-1; Tue, 01 Dec 2020 08:59:03 -0500
-X-MC-Unique: wovMo1sZOu2TKbhHgVoPFw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FF338558E9;
- Tue,  1 Dec 2020 13:59:00 +0000 (UTC)
-Received: from [10.36.112.89] (ovpn-112-89.ams2.redhat.com [10.36.112.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A8A1A5C1BB;
- Tue,  1 Dec 2020 13:58:53 +0000 (UTC)
-Subject: Re: [PATCH v13 07/15] iommu/smmuv3: Allow stage 1 invalidation with
- unmanaged ASIDs
-To: Xingang Wang <wangxingang5@huawei.com>
-References: <20201118112151.25412-8-eric.auger@redhat.com>
- <1606829590-25924-1-git-send-email-wangxingang5@huawei.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <2e69adf5-8207-64f7-fa8e-9f2bd3a3c4e3@redhat.com>
-Date: Tue, 1 Dec 2020 14:58:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ with ESMTP id G5dyvN2eNkXc for <iommu@lists.linux-foundation.org>;
+ Tue,  1 Dec 2020 14:49:21 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 6732587582
+ for <iommu@lists.linux-foundation.org>; Tue,  1 Dec 2020 14:49:21 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 8C8EB67373; Tue,  1 Dec 2020 15:49:16 +0100 (CET)
+Date: Tue, 1 Dec 2020 15:49:16 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+Message-ID: <20201201144916.GA14682@lst.de>
+References: <20201125221917.150463-1-ribalda@chromium.org>
+ <20201130083410.GD32234@lst.de> <20201201033658.GE3723071@google.com>
 MIME-Version: 1.0
-In-Reply-To: <1606829590-25924-1-git-send-email-wangxingang5@huawei.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Cc: xieyingtai@huawei.com, jean-philippe@linaro.org, kvm@vger.kernel.org,
- maz@kernel.org, will@kernel.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, vivek.gautam@arm.com, alex.williamson@redhat.com,
- zhangfei.gao@linaro.org, robin.murphy@arm.com, kvmarm@lists.cs.columbia.edu,
- eric.auger.pro@gmail.com
+Content-Disposition: inline
+In-Reply-To: <20201201033658.GE3723071@google.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Sergey Senozhatsky <senozhatsky@google.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,36 +72,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Xingang,
+On Tue, Dec 01, 2020 at 12:36:58PM +0900, Sergey Senozhatsky wrote:
+> Not that I have any sound experience in this area, but the helper
+> probably won't hurt. Do you also plan to add vmap() to that helper
+> or dma_alloc_noncontiguous()/sg_alloc_table_from_pages() only?
 
-On 12/1/20 2:33 PM, Xingang Wang wrote:
-> Hi Eric
-> 
-> On  Wed, 18 Nov 2020 12:21:43, Eric Auger wrote:
->> @@ -1710,7 +1710,11 @@ static void arm_smmu_tlb_inv_context(void *cookie)
->> 	 * insertion to guarantee those are observed before the TLBI. Do be
->> 	 * careful, 007.
->> 	 */
->> -	if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1) {
->> +	if (ext_asid >= 0) { /* guest stage 1 invalidation */
->> +		cmd.opcode	= CMDQ_OP_TLBI_NH_ASID;
->> +		cmd.tlbi.asid	= ext_asid;
->> +		cmd.tlbi.vmid	= smmu_domain->s2_cfg.vmid;
->> +	} else if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1) {
-> 
-> Found a problem here, the cmd for guest stage 1 invalidation is built,
-> but it is not delivered to smmu.
-> 
-
-Thank you for the report. I will fix that soon. With that fixed, have
-you been able to run vSVA on top of the series. Do you need other stuff
-to be fixed at SMMU level? As I am going to respin soon, please let me
-know what is the best branch to rebase to alleviate your integration.
-
-Best Regards
-
-Eric
-
+Yes, I think adding the vmap is useful, and it probably makes sense
+to do that unconditionally.  I'd also include the fallback to
+dma_alloc_pages when the noncontig version isn't supported in the
+helper.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
