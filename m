@@ -1,58 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DB42D0E9C
-	for <lists.iommu@lfdr.de>; Mon,  7 Dec 2020 12:05:40 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BEF02D0F03
+	for <lists.iommu@lfdr.de>; Mon,  7 Dec 2020 12:29:54 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0C5C287159;
-	Mon,  7 Dec 2020 11:05:38 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2BF122E1CD;
+	Mon,  7 Dec 2020 11:29:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LodAuRSPXO8J; Mon,  7 Dec 2020 11:05:36 +0000 (UTC)
+	with ESMTP id RMRJw4NuH-6M; Mon,  7 Dec 2020 11:29:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9E93A8713D;
-	Mon,  7 Dec 2020 11:05:36 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 79F6F2E1B8;
+	Mon,  7 Dec 2020 11:29:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98D2AC013B;
-	Mon,  7 Dec 2020 11:05:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 69650C013B;
+	Mon,  7 Dec 2020 11:29:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EE28FC013B
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:05:34 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B51ECC013B
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:29:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id D7E47861A2
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:05:34 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 947692E1B8
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:29:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id niuKqkmXapbD for <iommu@lists.linux-foundation.org>;
- Mon,  7 Dec 2020 11:05:33 +0000 (UTC)
+ with ESMTP id 9+hBDd9rIVWx for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Dec 2020 11:29:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id B4AFB861B3
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:05:33 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 2419A2151F
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:29:49 +0000 (UTC)
+Date: Mon, 7 Dec 2020 11:29:43 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607340588;
+ bh=PevOltpfSoa2VOQzzFcjWvvt+OU00vpXvLK5/D5qUXs=;
+ h=From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AUlQ9xfaq8dqQacDDAfA5Uncdfa9Y/1YFXLxQOPDFvSbZFX9TYSD2L2X9hVQRznoc
+ WrRiS/8fM+PI2qboUZ0dwY88Lhl55Skm+GRDg0J9D0ydxQQisAApZPp0Y0l96gXQ3R
+ ayrNFU+nY8ztzdSjEz1ApPGkb+e1F3jyRnfk0b9dD6NWb4+k1jRewsO/gtXQou2MqL
+ Sp4EMQH/mXCnnNjFg25z7RV7DfLfCIyefjNGXzYp+dbZv8T1B8uS84D3rWFaijwbp/
+ Q4LohxUXYQj7pEEyOxZVtIswB8p3pU41/HlQ19FzTIFAhAZo285PXqh5A0bjpiVrw6
+ IYvTNP0Rhmfbw==
 From: Will Deacon <will@kernel.org>
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: Yong Wu <yong.wu@mediatek.com>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>
-Subject: Re: [PATCH v2] iommu: Improve the performance for direct_mapping
-Date: Mon,  7 Dec 2020 11:05:24 +0000
-Message-Id: <160733817514.2997477.1549939879163904100.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201207093553.8635-1-yong.wu@mediatek.com>
-References: <20201207093553.8635-1-yong.wu@mediatek.com>
+To: Tian Tao <tiantao6@hisilicon.com>
+Subject: Re: [PATCH] iommu/arm-smmu-v3: Fix not checking return value about
+ devm_add_action
+Message-ID: <20201207112943.GC4379@willie-the-truck>
+References: <1607340209-51539-1-git-send-email-tiantao6@hisilicon.com>
 MIME-Version: 1.0
-Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com,
- Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
- Tomasz Figa <tfiga@google.com>, catalin.marinas@arm.com,
- iommu@lists.linux-foundation.org, Krzysztof Kozlowski <krzk@kernel.org>,
- linux-kernel@vger.kernel.org, chao.hao@mediatek.com,
- Will Deacon <will@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, kernel-team@android.com,
+Content-Disposition: inline
+In-Reply-To: <1607340209-51539-1-git-send-email-tiantao6@hisilicon.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: jean-philippe@linaro.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, robin.murphy@arm.com,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -71,30 +75,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, 7 Dec 2020 17:35:53 +0800, Yong Wu wrote:
-> Currently direct_mapping always use the smallest pgsize which is SZ_4K
-> normally to mapping. This is unnecessary. we could gather the size, and
-> call iommu_map then, iommu_map could decide how to map better with the
-> just right pgsize.
+On Mon, Dec 07, 2020 at 07:23:29PM +0800, Tian Tao wrote:
+> Use devm_add_action_or_reset to avoid the situation where the release
+> function is not called when devm_add_action returns an error.
 > 
-> >From the original comment, we should take care overlap, otherwise,
-> iommu_map may return -EEXIST. In this overlap case, we should map the
-> previous region before overlap firstly. then map the left part.
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 > 
-> [...]
+> v2:
+> check the return value about evm_add_action_or_reset()
+> ---
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> index 2ddf5ec..76c28e7 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> @@ -2680,7 +2680,8 @@ static int arm_smmu_cmdq_init(struct arm_smmu_device *smmu)
+>  		ret = -ENOMEM;
+>  	} else {
+>  		cmdq->valid_map = bitmap;
+> -		devm_add_action(smmu->dev, arm_smmu_cmdq_free_bitmap, bitmap);
+> +		ret = devm_add_action_or_reset(smmu->dev,
+> +					       arm_smmu_cmdq_free_bitmap, bitmap);
+>  	}
+>  
+>  	return ret;
+> @@ -2938,7 +2939,7 @@ static void arm_smmu_setup_msis(struct arm_smmu_device *smmu)
+>  	}
+>  
+>  	/* Add callback to free MSIs on teardown */
+> -	devm_add_action(dev, arm_smmu_free_msis, dev);
+> +	devm_add_action_or_reset(dev, arm_smmu_free_msis, dev);
 
-Applied to arm64 (for-next/iommu/misc), thanks!
+Hmm, but you don't propagate the error here so couldn't this lead to a
+use-after-free?
 
-[1/1] iommu: Improve the performance for direct_mapping
-      https://git.kernel.org/arm64/c/093b32a849b3
-
-Cheers,
--- 
 Will
-
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
