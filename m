@@ -1,54 +1,59 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE682D0E9B
-	for <lists.iommu@lfdr.de>; Mon,  7 Dec 2020 12:05:35 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04DB42D0E9C
+	for <lists.iommu@lfdr.de>; Mon,  7 Dec 2020 12:05:40 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0710A86C71;
-	Mon,  7 Dec 2020 11:05:34 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 0C5C287159;
+	Mon,  7 Dec 2020 11:05:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NxhyvhEn-xKI; Mon,  7 Dec 2020 11:05:33 +0000 (UTC)
+	with ESMTP id LodAuRSPXO8J; Mon,  7 Dec 2020 11:05:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7D5BE86C67;
-	Mon,  7 Dec 2020 11:05:33 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9E93A8713D;
+	Mon,  7 Dec 2020 11:05:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6265EC013B;
-	Mon,  7 Dec 2020 11:05:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 98D2AC013B;
+	Mon,  7 Dec 2020 11:05:36 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8C21DC013B
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:05:31 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EE28FC013B
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:05:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 858212002B
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:05:31 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id D7E47861A2
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:05:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HT5c2rtexbUW for <iommu@lists.linux-foundation.org>;
- Mon,  7 Dec 2020 11:05:30 +0000 (UTC)
+ with ESMTP id niuKqkmXapbD for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Dec 2020 11:05:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id A49701FC7D
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:05:30 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B4AFB861B3
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:05:33 +0000 (UTC)
 From: Will Deacon <will@kernel.org>
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
-To: iommu@lists.linux-foundation.org,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iommu/amd: Set DTE[IntTabLen] to represent 512 IRTEs
-Date: Mon,  7 Dec 2020 11:05:23 +0000
-Message-Id: <160733882472.3526398.13030595786733592233.b4-ty@kernel.org>
+To: Yong Wu <yong.wu@mediatek.com>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>
+Subject: Re: [PATCH v2] iommu: Improve the performance for direct_mapping
+Date: Mon,  7 Dec 2020 11:05:24 +0000
+Message-Id: <160733817514.2997477.1549939879163904100.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201207091920.3052-1-suravee.suthikulpanit@amd.com>
-References: <20201207091920.3052-1-suravee.suthikulpanit@amd.com>
+In-Reply-To: <20201207093553.8635-1-yong.wu@mediatek.com>
+References: <20201207093553.8635-1-yong.wu@mediatek.com>
 MIME-Version: 1.0
-Cc: catalin.marinas@arm.com, Jon.Grimm@amd.com, kernel-team@android.com,
- brijesh.singh@amd.com, Will Deacon <will@kernel.org>
+Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com,
+ Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
+ Tomasz Figa <tfiga@google.com>, catalin.marinas@arm.com,
+ iommu@lists.linux-foundation.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ linux-kernel@vger.kernel.org, chao.hao@mediatek.com,
+ Will Deacon <will@kernel.org>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, kernel-team@android.com,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -66,16 +71,22 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, 7 Dec 2020 03:19:20 -0600, Suravee Suthikulpanit wrote:
-> According to the AMD IOMMU spec, the commit 73db2fc595f3
-> ("iommu/amd: Increase interrupt remapping table limit to 512 entries")
-> also requires the interrupt table length (IntTabLen) to be set to 9
-> (power of 2) in the device table mapping entry (DTE).
+On Mon, 7 Dec 2020 17:35:53 +0800, Yong Wu wrote:
+> Currently direct_mapping always use the smallest pgsize which is SZ_4K
+> normally to mapping. This is unnecessary. we could gather the size, and
+> call iommu_map then, iommu_map could decide how to map better with the
+> just right pgsize.
+> 
+> >From the original comment, we should take care overlap, otherwise,
+> iommu_map may return -EEXIST. In this overlap case, we should map the
+> previous region before overlap firstly. then map the left part.
+> 
+> [...]
 
-Applied to arm64 (for-next/iommu/fixes), thanks!
+Applied to arm64 (for-next/iommu/misc), thanks!
 
-[1/1] iommu/amd: Set DTE[IntTabLen] to represent 512 IRTEs
-      https://git.kernel.org/arm64/c/4165bf015ba9
+[1/1] iommu: Improve the performance for direct_mapping
+      https://git.kernel.org/arm64/c/093b32a849b3
 
 Cheers,
 -- 
