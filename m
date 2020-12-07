@@ -1,60 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B02002D0FF1
-	for <lists.iommu@lfdr.de>; Mon,  7 Dec 2020 13:02:39 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E8E2D1004
+	for <lists.iommu@lfdr.de>; Mon,  7 Dec 2020 13:05:37 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6496A86CE4;
-	Mon,  7 Dec 2020 12:02:38 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 8B2638710D;
+	Mon,  7 Dec 2020 12:05:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dSWSDKMa3ikU; Mon,  7 Dec 2020 12:02:36 +0000 (UTC)
+	with ESMTP id m7EhcP4yDSEl; Mon,  7 Dec 2020 12:05:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 1381A86CE7;
-	Mon,  7 Dec 2020 12:02:36 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D8B5D8731C;
+	Mon,  7 Dec 2020 12:05:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F3B54C013B;
-	Mon,  7 Dec 2020 12:02:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BDB1DC013B;
+	Mon,  7 Dec 2020 12:05:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9641AC013B
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 12:02:33 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8E795C013B
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 12:05:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 8495587110
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 12:02:33 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 74CB087254
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 12:05:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IPS0QS+EG6SQ for <iommu@lists.linux-foundation.org>;
- Mon,  7 Dec 2020 12:02:29 +0000 (UTC)
+ with ESMTP id FQig5DfJQZaE for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Dec 2020 12:05:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 07F00871DA
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 12:02:29 +0000 (UTC)
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CqMNv6JCwzhntJ;
- Mon,  7 Dec 2020 20:01:51 +0800 (CST)
-Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.137) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 7 Dec 2020 20:02:15 +0800
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- "Joerg Roedel" <joro@8bytes.org>, "moderated list:ARM SMMU DRIVERS"
- <linux-arm-kernel@lists.infradead.org>, "open list:IOMMU DRIVERS"
- <iommu@lists.linux-foundation.org>, open list <linux-kernel@vger.kernel.org>
-Subject: [PATCH RESEND] iommu/io-pgtalbe-arm: Remove "iopte_type(pte,
- l)" extra parameter "l"
-Date: Mon, 7 Dec 2020 20:01:50 +0800
-Message-ID: <20201207120150.1891-1-jiangkunkun@huawei.com>
-X-Mailer: git-send-email 2.26.2.windows.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id ECE1D8710D
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 12:05:33 +0000 (UTC)
+Date: Mon, 7 Dec 2020 12:05:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607342733;
+ bh=xYecpIocncYbomw151SJIMvBkPsNpdC8hHd472+icVw=;
+ h=From:To:Cc:Subject:References:In-Reply-To:From;
+ b=m6pwNfChCGfEwJgZDaxOPHG38w9DWpq6iTj5WODngrXSZTnR/zZIR1ybJwAKOK96O
+ eNVCDCdxh/MFbRkVEtl9g9AuV33pDZpktiuIyX5Us/43J7fpbreJ1InBv01aRopTjJ
+ 3c2mkN/qfPCqvrReEg4ZOB5vuhhP3EqknFaAkDQ21GTgGAzyQ93a5Fn+TD3uXsjSuu
+ wpqNSqiDXWJb3l6nFlgGE1wpC9SlObbPJnBPfu5uNyKrMZw6hYKX1RN6DZ3nyr6fcZ
+ uCZo08hhXvMqfzBV4JbKxQpO7GX0/2TBjDGrdG9X/GfDn5jV11ugt4hUQie1cQurUt
+ AfkL/90K4KKkg==
+From: Will Deacon <will@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH] iommu: Up front sanity check in the arm_lpae_map
+Message-ID: <20201207120527.GA4474@willie-the-truck>
+References: <20201205082957.12544-1-zhukeqian1@huawei.com>
+ <b85e98c8-0117-49c5-97ad-896ff88f7b88@arm.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.174.185.137]
-X-CFilter-Loop: Reflected
-Cc: wanghaibin.wang@huawei.com, Kunkun Jiang <jiangkunkun@huawei.com>,
- Keqian Zhu <zhukeqian1@huawei.com>
+Content-Disposition: inline
+In-Reply-To: <b85e98c8-0117-49c5-97ad-896ff88f7b88@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Marc Zyngier <maz@kernel.org>,
+ jiangkunkun@huawei.com, linux-kernel@vger.kernel.org,
+ Sean Christopherson <sean.j.christopherson@intel.com>,
+ Alexios Zavras <alexios.zavras@intel.com>, iommu@lists.linux-foundation.org,
+ Mark Brown <broonie@kernel.org>, James Morse <james.morse@arm.com>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, wanghaibin.wang@huawei.com,
+ Thomas Gleixner <tglx@linutronix.de>, Keqian Zhu <zhukeqian1@huawei.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,61 +82,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Knowing from the code, the macro "iopte_type(pte, l)" doesn't use the
-parameter "l" (level). So we'd better to remove it.
+On Mon, Dec 07, 2020 at 12:01:09PM +0000, Robin Murphy wrote:
+> On 2020-12-05 08:29, Keqian Zhu wrote:
+> > ... then we have more chance to detect wrong code logic.
+> 
+> I don't follow that justification - it's still the same check with the same
+> outcome, so how does moving it have any effect on the chance to detect
+> errors?
+> 
+> AFAICS the only difference it would make is to make some errors *less*
+> obvious - if a sufficiently broken caller passes an empty prot value
+> alongside an invalid size or already-mapped address, this will now quietly
+> hide the warnings from the more serious condition(s).
+> 
+> Yes, it will bail out a bit faster in the specific case where the prot value
+> is the only thing wrong, but since when do we optimise for fundamentally
+> incorrect API usage?
 
-Fixes: e1d3c0fd701df(iommu: add ARM LPAE page table allocator)
-Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
----
- drivers/iommu/io-pgtable-arm.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+I thought it was the other way round -- doesn't this patch move the "empty
+prot" check later, so we have a chance to check the size and addresses
+first?
 
-diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-index a7a9bc08dcd1..e58ba5759b80 100644
---- a/drivers/iommu/io-pgtable-arm.c
-+++ b/drivers/iommu/io-pgtable-arm.c
-@@ -130,7 +130,7 @@
- /* IOPTE accessors */
- #define iopte_deref(pte,d) __va(iopte_to_paddr(pte, d))
- 
--#define iopte_type(pte,l)					\
-+#define iopte_type(pte)					\
- 	(((pte) >> ARM_LPAE_PTE_TYPE_SHIFT) & ARM_LPAE_PTE_TYPE_MASK)
- 
- #define iopte_prot(pte)	((pte) & ARM_LPAE_PTE_ATTR_MASK)
-@@ -151,9 +151,9 @@ static inline bool iopte_leaf(arm_lpae_iopte pte, int lvl,
- 			      enum io_pgtable_fmt fmt)
- {
- 	if (lvl == (ARM_LPAE_MAX_LEVELS - 1) && fmt != ARM_MALI_LPAE)
--		return iopte_type(pte, lvl) == ARM_LPAE_PTE_TYPE_PAGE;
-+		return iopte_type(pte) == ARM_LPAE_PTE_TYPE_PAGE;
- 
--	return iopte_type(pte, lvl) == ARM_LPAE_PTE_TYPE_BLOCK;
-+	return iopte_type(pte) == ARM_LPAE_PTE_TYPE_BLOCK;
- }
- 
- static arm_lpae_iopte paddr_to_iopte(phys_addr_t paddr,
-@@ -280,7 +280,7 @@ static int arm_lpae_init_pte(struct arm_lpae_io_pgtable *data,
- 		/* We require an unmap first */
- 		WARN_ON(!selftest_running);
- 		return -EEXIST;
--	} else if (iopte_type(pte, lvl) == ARM_LPAE_PTE_TYPE_TABLE) {
-+	} else if (iopte_type(pte) == ARM_LPAE_PTE_TYPE_TABLE) {
- 		/*
- 		 * We need to unmap and free the old table before
- 		 * overwriting it with a block entry.
-@@ -548,7 +548,7 @@ static size_t arm_lpae_split_blk_unmap(struct arm_lpae_io_pgtable *data,
- 		 * block, but anything else is invalid. We can't misinterpret
- 		 * a page entry here since we're never at the last level.
- 		 */
--		if (iopte_type(pte, lvl - 1) != ARM_LPAE_PTE_TYPE_TABLE)
-+		if (iopte_type(pte) != ARM_LPAE_PTE_TYPE_TABLE)
- 			return 0;
- 
- 		tablep = iopte_deref(pte, data);
--- 
-2.19.1
+Will
 
+> > Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+> > ---
+> >   drivers/iommu/io-pgtable-arm.c | 8 ++++----
+> >   1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+> > index a7a9bc08dcd1..8ade72adab31 100644
+> > --- a/drivers/iommu/io-pgtable-arm.c
+> > +++ b/drivers/iommu/io-pgtable-arm.c
+> > @@ -444,10 +444,6 @@ static int arm_lpae_map(struct io_pgtable_ops *ops, unsigned long iova,
+> >   	arm_lpae_iopte prot;
+> >   	long iaext = (s64)iova >> cfg->ias;
+> > -	/* If no access, then nothing to do */
+> > -	if (!(iommu_prot & (IOMMU_READ | IOMMU_WRITE)))
+> > -		return 0;
+> > -
+> >   	if (WARN_ON(!size || (size & cfg->pgsize_bitmap) != size))
+> >   		return -EINVAL;
+> > @@ -456,6 +452,10 @@ static int arm_lpae_map(struct io_pgtable_ops *ops, unsigned long iova,
+> >   	if (WARN_ON(iaext || paddr >> cfg->oas))
+> >   		return -ERANGE;
+> > +	/* If no access, then nothing to do */
+> > +	if (!(iommu_prot & (IOMMU_READ | IOMMU_WRITE)))
+> > +		return 0;
+> > +
+> >   	prot = arm_lpae_prot_to_pte(data, iommu_prot);
+> >   	ret = __arm_lpae_map(data, iova, paddr, size, prot, lvl, ptep, gfp);
+> >   	/*
+> > 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
