@@ -1,71 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD892D123A
-	for <lists.iommu@lfdr.de>; Mon,  7 Dec 2020 14:36:56 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 00BF52E1FC;
-	Mon,  7 Dec 2020 13:36:55 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dfbUBFHzHWON; Mon,  7 Dec 2020 13:36:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 45D0C2E1E1;
-	Mon,  7 Dec 2020 13:36:52 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 21DEEC013B;
-	Mon,  7 Dec 2020 13:36:52 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6DB73C013B
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 13:36:50 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id A989C2D12CB
+	for <lists.iommu@lfdr.de>; Mon,  7 Dec 2020 15:01:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 60F1886D22
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 13:36:50 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 355278629C;
+	Mon,  7 Dec 2020 14:01:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id DdiXzsoPe4sx; Mon,  7 Dec 2020 14:01:33 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5051586381;
+	Mon,  7 Dec 2020 14:01:33 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 369CBC013B;
+	Mon,  7 Dec 2020 14:01:33 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1B0A1C013B
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:23:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 16123876D2
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:23:33 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9IoAJxnDNW2k for <iommu@lists.linux-foundation.org>;
- Mon,  7 Dec 2020 13:36:49 +0000 (UTC)
+ with ESMTP id qhGd8H9V9Iir for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Dec 2020 11:23:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 6845986D1D
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 13:36:48 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CqPTp1812z79wc;
- Mon,  7 Dec 2020 21:36:14 +0800 (CST)
-Received: from [10.174.187.37] (10.174.187.37) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 7 Dec 2020 21:36:35 +0800
-Subject: Re: [PATCH] iommu: Up front sanity check in the arm_lpae_map
-To: Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
-References: <20201205082957.12544-1-zhukeqian1@huawei.com>
- <b85e98c8-0117-49c5-97ad-896ff88f7b88@arm.com>
- <20201207120527.GA4474@willie-the-truck>
- <2b0ec25b-0fa4-65ca-7c1b-109ce766197f@huawei.com>
- <9a6f31d7-3471-c045-368b-42ece5a2d34d@arm.com>
-From: zhukeqian <zhukeqian1@huawei.com>
-Message-ID: <2191c045-449e-e7cb-a267-5bd356dab58e@huawei.com>
-Date: Mon, 7 Dec 2020 21:36:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 04A668767E
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:23:30 +0000 (UTC)
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CqLWm1h5RzM1Tb;
+ Mon,  7 Dec 2020 19:22:44 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 7 Dec 2020 19:23:15 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <will@kernel.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+ <jean-philippe@linaro.org>, <Jonathan.Cameron@huawei.com>,
+ <song.bao.hua@hisilicon.com>
+Subject: [PATCH] iommu/arm-smmu-v3: Fix not checking return value about
+ devm_add_action
+Date: Mon, 7 Dec 2020 19:23:29 +0800
+Message-ID: <1607340209-51539-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <9a6f31d7-3471-c045-368b-42ece5a2d34d@arm.com>
-X-Originating-IP: [10.174.187.37]
+X-Originating-IP: [10.69.192.56]
 X-CFilter-Loop: Reflected
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Marc Zyngier <maz@kernel.org>,
- jiangkunkun@huawei.com, linux-kernel@vger.kernel.org,
- Sean Christopherson <sean.j.christopherson@intel.com>,
- Alexios Zavras <alexios.zavras@intel.com>, iommu@lists.linux-foundation.org,
- Mark Brown <broonie@kernel.org>, James
- Morse <james.morse@arm.com>, linux-arm-kernel@lists.infradead.org,
- Catalin Marinas <catalin.marinas@arm.com>, wanghaibin.wang@huawei.com,
- Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+X-Mailman-Approved-At: Mon, 07 Dec 2020 14:01:32 +0000
+Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,60 +72,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Robin,
+Use devm_add_action_or_reset to avoid the situation where the release
+function is not called when devm_add_action returns an error.
 
-On 2020/12/7 20:46, Robin Murphy wrote:
-> On 2020-12-07 12:15, zhukeqian wrote:
->> Hi,
->>
->> On 2020/12/7 20:05, Will Deacon wrote:
->>> On Mon, Dec 07, 2020 at 12:01:09PM +0000, Robin Murphy wrote:
->>>> On 2020-12-05 08:29, Keqian Zhu wrote:
->>>>> ... then we have more chance to detect wrong code logic.
->>>>
->>>> I don't follow that justification - it's still the same check with the same
->>>> outcome, so how does moving it have any effect on the chance to detect
->>>> errors?
->>
->>>>
->>>> AFAICS the only difference it would make is to make some errors *less*
->>>> obvious - if a sufficiently broken caller passes an empty prot value
->>>> alongside an invalid size or already-mapped address, this will now quietly
->>>> hide the warnings from the more serious condition(s).
->>>>
->>>> Yes, it will bail out a bit faster in the specific case where the prot value
->>>> is the only thing wrong, but since when do we optimise for fundamentally
->>>> incorrect API usage?
->>>
->>> I thought it was the other way round -- doesn't this patch move the "empty
->>> prot" check later, so we have a chance to check the size and addresses
->>> first?
->>
->> Yes, this is my original idea.
->> For that we treat iommu_prot with no permission as success at early start, defer
->> this early return can expose hidden errors.
-> 
-> ...oh dear, my apologies. I've just had a week off and apparently in that time I lost the ability to read :(
-> 
-> I was somehow convinced that the existing check happened at the point where we go to install the PTE, and this patch was moving it earlier. Looking at the whole code in context now I see I got it completely backwards. Sorry for being an idiot.
-> 
-I see :-) I should make a more descriptive commit message.
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 
-> I guess that only goes to show that a more descriptive commit message would definitely be a good thing :)
-> 
-I have adapted Will's suggestion and sent v2, please check whether it is OK to you?
+v2:
+check the return value about evm_add_action_or_reset()
+---
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Cheers,
-Keqian
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+index 2ddf5ec..76c28e7 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+@@ -2680,7 +2680,8 @@ static int arm_smmu_cmdq_init(struct arm_smmu_device *smmu)
+ 		ret = -ENOMEM;
+ 	} else {
+ 		cmdq->valid_map = bitmap;
+-		devm_add_action(smmu->dev, arm_smmu_cmdq_free_bitmap, bitmap);
++		ret = devm_add_action_or_reset(smmu->dev,
++					       arm_smmu_cmdq_free_bitmap, bitmap);
+ 	}
+ 
+ 	return ret;
+@@ -2938,7 +2939,7 @@ static void arm_smmu_setup_msis(struct arm_smmu_device *smmu)
+ 	}
+ 
+ 	/* Add callback to free MSIs on teardown */
+-	devm_add_action(dev, arm_smmu_free_msis, dev);
++	devm_add_action_or_reset(dev, arm_smmu_free_msis, dev);
+ }
+ 
+ static void arm_smmu_setup_unique_irqs(struct arm_smmu_device *smmu)
+-- 
+2.7.4
 
-[...]
->> _______________________________________________
->> iommu mailing list
->> iommu@lists.linux-foundation.org
->> https://lists.linuxfoundation.org/mailman/listinfo/iommu
->>
-> .
-> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
