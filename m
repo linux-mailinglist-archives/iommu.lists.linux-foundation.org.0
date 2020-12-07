@@ -1,71 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827AD2D101C
-	for <lists.iommu@lfdr.de>; Mon,  7 Dec 2020 13:10:23 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 649442D1027
+	for <lists.iommu@lfdr.de>; Mon,  7 Dec 2020 13:12:30 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 306F086018;
-	Mon,  7 Dec 2020 12:10:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id AF46987820;
+	Mon,  7 Dec 2020 12:12:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dkAOW--yrjcy; Mon,  7 Dec 2020 12:10:19 +0000 (UTC)
+	with ESMTP id 5YQK1QZ+JT1h; Mon,  7 Dec 2020 12:12:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C671087388;
-	Mon,  7 Dec 2020 12:10:19 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 248798781E;
+	Mon,  7 Dec 2020 12:12:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AA17AC013B;
-	Mon,  7 Dec 2020 12:10:19 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 17B24C013B;
+	Mon,  7 Dec 2020 12:12:28 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E8E70C013B
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 12:10:17 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B8D0DC013B
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 12:12:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id D694587820
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 12:10:17 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id B43258781F
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 12:12:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id l7-LhWrkU0Rw for <iommu@lists.linux-foundation.org>;
- Mon,  7 Dec 2020 12:10:13 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 686338781E
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 12:10:13 +0000 (UTC)
-Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.55])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4CqMYR1xCjz13RDD;
- Mon,  7 Dec 2020 20:09:15 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEMM402-HUB.china.huawei.com (10.3.20.210) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Mon, 7 Dec 2020 20:10:06 +0800
-Received: from [10.174.185.137] (10.174.185.137) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Mon, 7 Dec 2020 20:10:05 +0800
-Subject: Re: [PATCH] iommu/io-pgtalbe-arm: Remove "iopte_type(pte, l)" extra
- parameter "l"
-To: Will Deacon <will@kernel.org>
-References: <20201207081404.1699-1-jiangkunkun@huawei.com>
- <20201207102458.GB3825@willie-the-truck>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <83f3f9f5-43d8-e02b-39e2-70edd42799a8@huawei.com>
-Date: Mon, 7 Dec 2020 20:09:54 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ with ESMTP id CADsR9wB+Q3m for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Dec 2020 12:12:25 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 38733875FB
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 12:12:25 +0000 (UTC)
+Received: from zn.tnic (p4fed31e1.dip0.t-ipconnect.de [79.237.49.225])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D1DB31EC03D5;
+ Mon,  7 Dec 2020 13:12:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1607343142;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=TdtSOyTOpTjTSBOSgG4WDCQi7gPbDzXTXixxH5iz0PY=;
+ b=eX7eg8p0nul6zE+SUdm2p04WXKmuUIInXYNksw2VWei44SQTwFAk42XavAhC//9uYU+wNm
+ GebsHHz8Oe9bQ/Lm38I/L1EHhlw4LskTSgUhcpmdrausspGRD4auhVlnGB/GbIIsGlzeuA
+ 7cMICkJACDC6Df/fOQBHai9ejX6ggyo=
+Date: Mon, 7 Dec 2020 13:10:07 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Ashish Kalra <Ashish.Kalra@amd.com>
+Subject: Re: [PATCH v7] swiotlb: Adjust SWIOTBL bounce buffer size for SEV
+ guests.
+Message-ID: <20201207121007.GD20489@zn.tnic>
+References: <20201203032559.3388-1-Ashish.Kalra@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20201207102458.GB3825@willie-the-truck>
-Content-Language: en-US
-X-Originating-IP: [10.174.185.137]
-X-ClientProxiedBy: dggeme705-chm.china.huawei.com (10.1.199.101) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Cc: Keqian Zhu <zhukeqian1@huawei.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- wanghaibin.wang@huawei.com, Robin Murphy <robin.murphy@arm.com>,
- "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>
+Content-Disposition: inline
+In-Reply-To: <20201203032559.3388-1-Ashish.Kalra@amd.com>
+Cc: Thomas.Lendacky@amd.com, Jon.Grimm@amd.com, brijesh.singh@amd.com,
+ dave.hansen@linux-intel.com, konrad.wilk@oracle.com, peterz@infradead.org,
+ x86@kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ mingo@redhat.com, luto@kernel.org, hpa@zytor.com, rientjes@google.com,
+ tglx@linutronix.de, hch@lst.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,30 +75,72 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-SGkgV2lsbCwKCk9uIDIwMjAvMTIvNyAxODoyNCwgV2lsbCBEZWFjb24gd3JvdGU6Cj4gT24gTW9u
-LCBEZWMgMDcsIDIwMjAgYXQgMDQ6MTQ6MDRQTSArMDgwMCwgS3Vua3VuIEppYW5nIHdyb3RlOgo+
-PiBLbm93aW5nIGZyb20gdGhlIGNvZGUsIHRoZSBtYWNybyAiaW9wdGVfdHlwZShwdGUsIGwpIiBk
-b2Vzbid0IHVzZSB0aGUKPj4gcGFyYW1ldGVyICJsIiAobGV2ZWwpLiBTbyB3ZSdkIGJldHRlciB0
-byByZW1vdmUgaXQuCj4+Cj4+IEZpeGVzOiBlMWQzYzBmZDcwMWRmKGlvbW11OiBhZGQgQVJNIExQ
-QUUgcGFnZSB0YWJsZSBhbGxvY2F0b3IpCj4+IFNpZ25lZC1vZmYtYnk6IEt1bmt1biBKaWFuZyA8
-amlhbmdrdW5rdW5AaHVhd2VpLmNvbT4KPj4gLS0tCj4+ICAgZHJpdmVycy9pb21tdS9pby1wZ3Rh
-YmxlLWFybS5jIHwgMiArLQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
-ZWxldGlvbigtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pb21tdS9pby1wZ3RhYmxlLWFy
-bS5jIGIvZHJpdmVycy9pb21tdS9pby1wZ3RhYmxlLWFybS5jCj4+IGluZGV4IGE3YTliYzA4ZGNk
-MS4uOTI1YWUyYjcxM2Q2IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2lvbW11L2lvLXBndGFibGUt
-YXJtLmMKPj4gKysrIGIvZHJpdmVycy9pb21tdS9pby1wZ3RhYmxlLWFybS5jCj4+IEBAIC0xMzAs
-NyArMTMwLDcgQEAKPj4gICAvKiBJT1BURSBhY2Nlc3NvcnMgKi8KPj4gICAjZGVmaW5lIGlvcHRl
-X2RlcmVmKHB0ZSxkKSBfX3ZhKGlvcHRlX3RvX3BhZGRyKHB0ZSwgZCkpCj4+ICAgCj4+IC0jZGVm
-aW5lIGlvcHRlX3R5cGUocHRlLGwpCQkJCQlcCj4+ICsjZGVmaW5lIGlvcHRlX3R5cGUocHRlKQkJ
-CQkJXAo+PiAgIAkoKChwdGUpID4+IEFSTV9MUEFFX1BURV9UWVBFX1NISUZUKSAmIEFSTV9MUEFF
-X1BURV9UWVBFX01BU0spCj4gU2hvdWxkbid0IHdlIHVwZGF0ZSBhbGwgdGhlIHVzZXJzIG9mIHRo
-ZSBtYWNybyB0b28/Cj4KPiBXaWxsCj4gLgoKU29ycnkgZm9yIG15IGNhcmVsZXNzbmVzcy7CoCA6
-KAoKSSBoYXZlIHJlc2VudCBpdC4KCgpUaGFua3MsCgpLdW5rdW4gSmlhbmcKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmlvbW11IG1haWxpbmcgbGlzdApp
-b21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRh
-dGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+On Thu, Dec 03, 2020 at 03:25:59AM +0000, Ashish Kalra wrote:
+> diff --git a/arch/x86/mm/mem_encrypt.c b/arch/x86/mm/mem_encrypt.c
+> index 1bcfbcd2bfd7..46549bd3d840 100644
+> --- a/arch/x86/mm/mem_encrypt.c
+> +++ b/arch/x86/mm/mem_encrypt.c
+> @@ -485,7 +485,38 @@ static void print_mem_encrypt_feature_info(void)
+>  	pr_cont("\n");
+>  }
+
+Any text about why 6% was chosen? A rule of thumb or so? Measurements?
+
+> +#define SEV_ADJUST_SWIOTLB_SIZE_PERCENT	6
+> +
+>  /* Architecture __weak replacement functions */
+> +unsigned long __init arch_swiotlb_adjust(unsigned long iotlb_default_size)
+> +{
+> +	unsigned long size = iotlb_default_size;
+> +
+> +	/*
+> +	 * For SEV, all DMA has to occur via shared/unencrypted pages.
+> +	 * SEV uses SWOTLB to make this happen without changing device
+> +	 * drivers. However, depending on the workload being run, the
+> +	 * default 64MB of SWIOTLB may not be enough and`SWIOTLB may
+> +	 * run out of buffers for DMA, resulting in I/O errors and/or
+> +	 * performance degradation especially with high I/O workloads.
+> +	 * Adjust the default size of SWIOTLB for SEV guests using
+> +	 * a percentage of guest memory for SWIOTLB buffers.
+> +	 * Also as the SWIOTLB bounce buffer memory is allocated
+> +	 * from low memory, ensure that the adjusted size is within
+> +	 * the limits of low available memory.
+> +	 *
+> +	 */
+> +	if (sev_active()) {
+> +		phys_addr_t total_mem = memblock_phys_mem_size();
+
+Please integrate scripts/checkpatch.pl into your patch creation
+workflow. Some of the warnings/errors *actually* make sense:
+
+WARNING: Missing a blank line after declarations
+#95: FILE: arch/x86/mm/mem_encrypt.c:511:
++               phys_addr_t total_mem = memblock_phys_mem_size();
++               size = total_mem * SEV_ADJUST_SWIOTLB_SIZE_PERCENT / 100;
+
+But no need to resend now - just a hint for the future.
+
+Konrad, ack?
+
+On a 2G guest here, it says:
+
+[    0.018373] SWIOTLB bounce buffer size adjusted to 122MB for SEV
+
+so it makes sense to me.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
