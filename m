@@ -1,62 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BEF02D0F03
-	for <lists.iommu@lfdr.de>; Mon,  7 Dec 2020 12:29:54 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1C12D0F44
+	for <lists.iommu@lfdr.de>; Mon,  7 Dec 2020 12:37:21 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 2BF122E1CD;
-	Mon,  7 Dec 2020 11:29:53 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0CC7686CB0;
+	Mon,  7 Dec 2020 11:37:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RMRJw4NuH-6M; Mon,  7 Dec 2020 11:29:52 +0000 (UTC)
+	with ESMTP id J_7ZdEa5Ij9i; Mon,  7 Dec 2020 11:37:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 79F6F2E1B8;
-	Mon,  7 Dec 2020 11:29:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 8BD9E86C78;
+	Mon,  7 Dec 2020 11:37:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 69650C013B;
-	Mon,  7 Dec 2020 11:29:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 68299C013B;
+	Mon,  7 Dec 2020 11:37:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B51ECC013B
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:29:50 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 54DB1C013B
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:37:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 947692E1B8
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:29:50 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 3C49686C78
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:37:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9+hBDd9rIVWx for <iommu@lists.linux-foundation.org>;
- Mon,  7 Dec 2020 11:29:49 +0000 (UTC)
+ with ESMTP id feZVP43ALxGY for <iommu@lists.linux-foundation.org>;
+ Mon,  7 Dec 2020 11:37:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 2419A2151F
- for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:29:49 +0000 (UTC)
-Date: Mon, 7 Dec 2020 11:29:43 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607340588;
- bh=PevOltpfSoa2VOQzzFcjWvvt+OU00vpXvLK5/D5qUXs=;
- h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=AUlQ9xfaq8dqQacDDAfA5Uncdfa9Y/1YFXLxQOPDFvSbZFX9TYSD2L2X9hVQRznoc
- WrRiS/8fM+PI2qboUZ0dwY88Lhl55Skm+GRDg0J9D0ydxQQisAApZPp0Y0l96gXQ3R
- ayrNFU+nY8ztzdSjEz1ApPGkb+e1F3jyRnfk0b9dD6NWb4+k1jRewsO/gtXQou2MqL
- Sp4EMQH/mXCnnNjFg25z7RV7DfLfCIyefjNGXzYp+dbZv8T1B8uS84D3rWFaijwbp/
- Q4LohxUXYQj7pEEyOxZVtIswB8p3pU41/HlQ19FzTIFAhAZo285PXqh5A0bjpiVrw6
- IYvTNP0Rhmfbw==
-From: Will Deacon <will@kernel.org>
-To: Tian Tao <tiantao6@hisilicon.com>
-Subject: Re: [PATCH] iommu/arm-smmu-v3: Fix not checking return value about
- devm_add_action
-Message-ID: <20201207112943.GC4379@willie-the-truck>
-References: <1607340209-51539-1-git-send-email-tiantao6@hisilicon.com>
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id BA3F88614A
+ for <iommu@lists.linux-foundation.org>; Mon,  7 Dec 2020 11:37:15 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CqLqs5J27zhmfP;
+ Mon,  7 Dec 2020 19:36:41 +0800 (CST)
+Received: from [10.174.187.37] (10.174.187.37) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 7 Dec 2020 19:37:05 +0800
+Subject: Re: [PATCH] iommu: Up front sanity check in the arm_lpae_map
+To: Will Deacon <will@kernel.org>
+References: <20201205082957.12544-1-zhukeqian1@huawei.com>
+ <20201207105900.GB4198@willie-the-truck>
+From: zhukeqian <zhukeqian1@huawei.com>
+Message-ID: <94799248-f9d1-3a2e-6b82-23d613d4e74b@huawei.com>
+Date: Mon, 7 Dec 2020 19:37:04 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1607340209-51539-1-git-send-email-tiantao6@hisilicon.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: jean-philippe@linaro.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, robin.murphy@arm.com,
+In-Reply-To: <20201207105900.GB4198@willie-the-truck>
+X-Originating-IP: [10.174.187.37]
+X-CFilter-Loop: Reflected
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Marc Zyngier <maz@kernel.org>,
+ jiangkunkun@huawei.com, linux-kernel@vger.kernel.org,
+ Sean Christopherson <sean.j.christopherson@intel.com>,
+ Alexios Zavras <alexios.zavras@intel.com>, iommu@lists.linux-foundation.org,
+ Mark Brown <broonie@kernel.org>, James Morse <james.morse@arm.com>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>, Catalin
+ Marinas <catalin.marinas@arm.com>, wanghaibin.wang@huawei.com, Thomas
+ Gleixner <tglx@linutronix.de>, Robin
+ Murphy <robin.murphy@arm.com>, Andrew Morton <akpm@linux-foundation.org>,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
@@ -75,43 +80,62 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Dec 07, 2020 at 07:23:29PM +0800, Tian Tao wrote:
-> Use devm_add_action_or_reset to avoid the situation where the release
-> function is not called when devm_add_action returns an error.
-> 
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-> 
-> v2:
-> check the return value about evm_add_action_or_reset()
-> ---
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> index 2ddf5ec..76c28e7 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> @@ -2680,7 +2680,8 @@ static int arm_smmu_cmdq_init(struct arm_smmu_device *smmu)
->  		ret = -ENOMEM;
->  	} else {
->  		cmdq->valid_map = bitmap;
-> -		devm_add_action(smmu->dev, arm_smmu_cmdq_free_bitmap, bitmap);
-> +		ret = devm_add_action_or_reset(smmu->dev,
-> +					       arm_smmu_cmdq_free_bitmap, bitmap);
->  	}
->  
->  	return ret;
-> @@ -2938,7 +2939,7 @@ static void arm_smmu_setup_msis(struct arm_smmu_device *smmu)
->  	}
->  
->  	/* Add callback to free MSIs on teardown */
-> -	devm_add_action(dev, arm_smmu_free_msis, dev);
-> +	devm_add_action_or_reset(dev, arm_smmu_free_msis, dev);
+Hi Will,
 
-Hmm, but you don't propagate the error here so couldn't this lead to a
-use-after-free?
+On 2020/12/7 18:59, Will Deacon wrote:
+> On Sat, Dec 05, 2020 at 04:29:57PM +0800, Keqian Zhu wrote:
+>> ... then we have more chance to detect wrong code logic.
+> 
+> This could do with being a bit more explicit. Something like:
+> 
+> 	Although handling a mapping request with no permissions is a
+> 	trivial no-op, defer the early return until after the size/range
+> 	checks so that we are consistent with other mapping requests.
+This looks well, thanks.
 
-Will
+> 
+>> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+>> ---
+>>  drivers/iommu/io-pgtable-arm.c | 8 ++++----
+>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+>> index a7a9bc08dcd1..8ade72adab31 100644
+>> --- a/drivers/iommu/io-pgtable-arm.c
+>> +++ b/drivers/iommu/io-pgtable-arm.c
+>> @@ -444,10 +444,6 @@ static int arm_lpae_map(struct io_pgtable_ops *ops, unsigned long iova,
+>>  	arm_lpae_iopte prot;
+>>  	long iaext = (s64)iova >> cfg->ias;
+>>  
+>> -	/* If no access, then nothing to do */
+>> -	if (!(iommu_prot & (IOMMU_READ | IOMMU_WRITE)))
+>> -		return 0;
+>> -
+>>  	if (WARN_ON(!size || (size & cfg->pgsize_bitmap) != size))
+>>  		return -EINVAL;
+>>  
+>> @@ -456,6 +452,10 @@ static int arm_lpae_map(struct io_pgtable_ops *ops, unsigned long iova,
+>>  	if (WARN_ON(iaext || paddr >> cfg->oas))
+>>  		return -ERANGE;
+>>  
+>> +	/* If no access, then nothing to do */
+>> +	if (!(iommu_prot & (IOMMU_READ | IOMMU_WRITE)))
+>> +		return 0;
+> 
+> This looks sensible to me, but please can you make the same change for
+> io-pgtable-arm-v7s.c so that the behaviour is consistent across the two
+> formats?
+> 
+OK. I can do it right now.
+
+
+Thanks,
+Keqian
+> Thanks,
+> 
+> Will
+> .
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
