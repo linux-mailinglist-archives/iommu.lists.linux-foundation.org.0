@@ -1,84 +1,86 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39DD02D4440
-	for <lists.iommu@lfdr.de>; Wed,  9 Dec 2020 15:27:13 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DDD52D4539
+	for <lists.iommu@lfdr.de>; Wed,  9 Dec 2020 16:21:54 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E212F8784E;
-	Wed,  9 Dec 2020 14:27:11 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4B85087572;
+	Wed,  9 Dec 2020 15:21:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eq03gQlga-yu; Wed,  9 Dec 2020 14:27:11 +0000 (UTC)
+	with ESMTP id iSHwT4rSRh7t; Wed,  9 Dec 2020 15:21:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1A857877DF;
-	Wed,  9 Dec 2020 14:27:11 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 21DAD87533;
+	Wed,  9 Dec 2020 15:21:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0616FC013B;
-	Wed,  9 Dec 2020 14:27:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0748CC013B;
+	Wed,  9 Dec 2020 15:21:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F2113C013B
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 14:27:09 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 397F6C013B
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Dec 2020 06:45:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id DF7CF87711
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 14:27:09 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 3493787ACE
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Dec 2020 06:45:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aeI5ngO1jDwP for <iommu@lists.linux-foundation.org>;
- Wed,  9 Dec 2020 14:27:08 +0000 (UTC)
+ with ESMTP id dBlxcyeURbRT for <iommu@lists.linux-foundation.org>;
+ Tue,  8 Dec 2020 06:45:42 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 47AD887218
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 14:27:07 +0000 (UTC)
-Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4CrfVx558zzQp1g;
- Wed,  9 Dec 2020 22:26:33 +0800 (CST)
-Received: from dggema766-chm.china.huawei.com (10.1.198.208) by
- DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Wed, 9 Dec 2020 22:27:01 +0800
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- dggema766-chm.china.huawei.com (10.1.198.208) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Wed, 9 Dec 2020 22:27:01 +0800
-Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
- lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
- 15.01.2106.002; Wed, 9 Dec 2020 14:26:59 +0000
-From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-To: Eric Auger <eric.auger@redhat.com>, "eric.auger.pro@gmail.com"
- <eric.auger.pro@gmail.com>, "iommu@lists.linux-foundation.org"
- <iommu@lists.linux-foundation.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
- "will@kernel.org" <will@kernel.org>, "joro@8bytes.org" <joro@8bytes.org>,
- "maz@kernel.org" <maz@kernel.org>, "robin.murphy@arm.com"
- <robin.murphy@arm.com>, "alex.williamson@redhat.com"
- <alex.williamson@redhat.com>
-Subject: RE: [PATCH v13 05/15] iommu/smmuv3: Get prepared for nested stage
- support
-Thread-Topic: [PATCH v13 05/15] iommu/smmuv3: Get prepared for nested stage
- support
-Thread-Index: AQHWvZ3YzXx0Iv4/TkmqLZQuADrJXqnu73jQ
-Date: Wed, 9 Dec 2020 14:26:59 +0000
-Message-ID: <d31ca662eb124fd3ba0c88936dcc098f@huawei.com>
-References: <20201118112151.25412-1-eric.auger@redhat.com>
- <20201118112151.25412-6-eric.auger@redhat.com>
-In-Reply-To: <20201118112151.25412-6-eric.auger@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.47.1.56]
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+ [209.85.166.66])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 7502887AC2
+ for <iommu@lists.linux-foundation.org>; Tue,  8 Dec 2020 06:45:42 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id p187so15920998iod.4
+ for <iommu@lists.linux-foundation.org>; Mon, 07 Dec 2020 22:45:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rL+wsfeGY2xDh+eJecj0/Gh1nF+19yExPVK7v/8qFIE=;
+ b=gHQYkqd3gUpNiE3eFTHhEY1QZosGBKPzz1G2wSesgr7IGUX137cklLEbo0JhMWEXj/
+ Hy8fUorKiyGsl3oUbQjfHgecDty1jczRUDnbj0D0giPCKkZyH1u7Eny23TYnNGSp7SD+
+ OZ/N2fhFQ6ERSQIqcnt6aKZncMgTM8oaofsRAO+MXdbjtud+Pdv3xcHMxJiCdoGlbVJE
+ GgYdlA3DgrT1c3weQZcrZ4IdK12xoGcKdXg6R+uK8z3rhFFffHT+PYzDZ5vEgpI/WYCo
+ eIUS1Dh3j2bEHulhuB7D6d402Aeyr+WuahtL7zNnxTN88GRuLoe5g8qgvrWPxXWltwwz
+ 0g0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rL+wsfeGY2xDh+eJecj0/Gh1nF+19yExPVK7v/8qFIE=;
+ b=U4G9J6JG/EjQiQfbE6MYp9xEgVrLNN6q3Cj0pWpq6bByORSOYk34ky48QhEt/ot3EC
+ pkzuIV54BSqlvNygn8+CCN16iCng3doow3shuOuon77Puua8OZmgyr6KFSnXB1AirXTC
+ nUO7UGsWc26VpWIgI0ZWaHr9+DmETGSoGxgP9MCoJI+EjWj8g/dQSGb1MyzRBlhDmR7m
+ QgdRbWQ4r+bbeSaLJlV2DLMU+AveK0T17OaHGSjDjNcC/kH8dKcwdGe+vVX2GwD6beXr
+ z6KQ9nSbouz20AES59zhZCINBtJYMhwn5Aeu35mta/QYGN2W/B3xPpG7ABUe3vZ7I177
+ r+yg==
+X-Gm-Message-State: AOAM530iAzxxMpSCGRITOzz69kQT7UPDNoxgmFAoeXv3l+2I9S77s7Uz
+ HhLFRrOiv5horkV2DRQS3zT13Z1qoQQbCMigqsZ0Hw==
+X-Google-Smtp-Source: ABdhPJy9yv69fikO0FgVWJSIfA3iHtF7Z+gC1ugnKkndIs2+bA2lGUHDGuzIu0DqIxf1yXjNxUl4lpajogqbIsxQC5c=
+X-Received: by 2002:a02:b709:: with SMTP id g9mr25410086jam.90.1607409941575; 
+ Mon, 07 Dec 2020 22:45:41 -0800 (PST)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
- "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
- "vivek.gautam@arm.com" <vivek.gautam@arm.com>,
- "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>,
- qubingbing <qubingbing@hisilicon.com>
+References: <20201125221917.150463-1-ribalda@chromium.org>
+ <20201130083410.GD32234@lst.de>
+ <20201201033658.GE3723071@google.com> <20201201144916.GA14682@lst.de>
+ <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
+In-Reply-To: <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
+Date: Tue, 8 Dec 2020 15:45:25 +0900
+Message-ID: <CAME7YmOEi6FUzpAeaM5VitiLzL6oRnbfD04NPwd0Fa-U48t7=g@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+To: Tomasz Figa <tfiga@chromium.org>
+X-Mailman-Approved-At: Wed, 09 Dec 2020 15:21:50 +0000
+Cc: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,250 +93,116 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+From: Sergey Senozhatsky via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Sergey Senozhatsky <senozhatsky@google.com>
+Content-Type: multipart/mixed; boundary="===============1666694484821333903=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Eric,
+--===============1666694484821333903==
+Content-Type: multipart/alternative; boundary="00000000000093eb2605b5ee4ab3"
 
-> -----Original Message-----
-> From: Eric Auger [mailto:eric.auger@redhat.com]
-> Sent: 18 November 2020 11:22
-> To: eric.auger.pro@gmail.com; eric.auger@redhat.com;
-> iommu@lists.linux-foundation.org; linux-kernel@vger.kernel.org;
-> kvm@vger.kernel.org; kvmarm@lists.cs.columbia.edu; will@kernel.org;
-> joro@8bytes.org; maz@kernel.org; robin.murphy@arm.com;
-> alex.williamson@redhat.com
-> Cc: jean-philippe@linaro.org; zhangfei.gao@linaro.org;
-> zhangfei.gao@gmail.com; vivek.gautam@arm.com; Shameerali Kolothum
-> Thodi <shameerali.kolothum.thodi@huawei.com>;
-> jacob.jun.pan@linux.intel.com; yi.l.liu@intel.com; tn@semihalf.com;
-> nicoleotsuka@gmail.com; yuzenghui <yuzenghui@huawei.com>
-> Subject: [PATCH v13 05/15] iommu/smmuv3: Get prepared for nested stage
-> support
-> 
-> When nested stage translation is setup, both s1_cfg and
-> s2_cfg are set.
-> 
-> We introduce a new smmu domain abort field that will be set
-> upon guest stage1 configuration passing.
-> 
-> arm_smmu_write_strtab_ent() is modified to write both stage
-> fields in the STE and deal with the abort field.
-> 
-> In nested mode, only stage 2 is "finalized" as the host does
-> not own/configure the stage 1 context descriptor; guest does.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> 
-> ---
-> v10 -> v11:
-> - Fix an issue reported by Shameer when switching from with vSMMU
->   to without vSMMU. Despite the spec does not seem to mention it
->   seems to be needed to reset the 2 high 64b when switching from
->   S1+S2 cfg to S1 only. Especially dst[3] needs to be reset (S2TTB).
->   On some implementations, if the S2TTB is not reset, this causes
->   a C_BAD_STE error
-> ---
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 64
-> +++++++++++++++++----
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  2 +
->  2 files changed, 56 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> index 18ac5af1b284..412ea1bafa50 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> @@ -1181,8 +1181,10 @@ static void arm_smmu_write_strtab_ent(struct
-> arm_smmu_master *master, u32 sid,
->  	 * three cases at the moment:
->  	 *
->  	 * 1. Invalid (all zero) -> bypass/fault (init)
-> -	 * 2. Bypass/fault -> translation/bypass (attach)
-> -	 * 3. Translation/bypass -> bypass/fault (detach)
-> +	 * 2. Bypass/fault -> single stage translation/bypass (attach)
-> +	 * 3. Single or nested stage Translation/bypass -> bypass/fault (detach)
-> +	 * 4. S2 -> S1 + S2 (attach_pasid_table)
-> +	 * 5. S1 + S2 -> S2 (detach_pasid_table)
->  	 *
->  	 * Given that we can't update the STE atomically and the SMMU
->  	 * doesn't read the thing in a defined order, that leaves us
-> @@ -1193,7 +1195,8 @@ static void arm_smmu_write_strtab_ent(struct
-> arm_smmu_master *master, u32 sid,
->  	 * 3. Update Config, sync
->  	 */
->  	u64 val = le64_to_cpu(dst[0]);
-> -	bool ste_live = false;
-> +	bool s1_live = false, s2_live = false, ste_live;
-> +	bool abort, nested = false, translate = false;
->  	struct arm_smmu_device *smmu = NULL;
->  	struct arm_smmu_s1_cfg *s1_cfg;
->  	struct arm_smmu_s2_cfg *s2_cfg;
-> @@ -1233,6 +1236,8 @@ static void arm_smmu_write_strtab_ent(struct
-> arm_smmu_master *master, u32 sid,
->  		default:
->  			break;
->  		}
-> +		nested = s1_cfg->set && s2_cfg->set;
+--00000000000093eb2605b5ee4ab3
+Content-Type: text/plain; charset="UTF-8"
 
-This is a problem when the Guest is booted with iommu.passthrough = 1 as we
-set s1_cfg.set = false for IOMMU_PASID_CONFIG_BYPASS. 
+On Tue, Dec 8, 2020 at 1:54 PM Tomasz Figa <tfiga@chromium.org> wrote:
 
-Results in BUG_ON(ste_live && !nested).
+>
+> In any case, Sergey is going to share a preliminary patch on how the
+> current API would be used in the V4L2 videobuf2 framework. That should
+> give us more input on how such a helper could look.
+>
 
-Can we instead have nested = true set a bit above in the code, where we set
-s2_cfg->set = true for the ARM_SMMU_DOMAIN_NESTED case?
 
-Please take a look.
+My current WIP (deep WIP) series can be found at [0]. The patch that adds
+new
+DMA API support is at the head of the series [1]. New DMA API requires us to
+have several internal videobuf2 API changes before we can proceed [2]: v4l2
+and
+videobuf2 core do not pass enough information to the vb2 allocators now.
+Previously,
+if user space requests non-coherent allocation v4l2 would set queue
+dma_attr bit,
+videobuf2 core would pass queue->dma_attrs to vb2 allocator, which would
+those dma_attrs for dma_alloc(). So everything was transparent (sort of).
+Since we
+don't have that dma_attr flag anymore, there is no way for v4l2 to pass the
+request
+information (coherent or non-coherent) to the vb2 allocator. Hence we need
+to rework
+the vb2 allocator API. I currently pass vb2 pointer, but we decided to
+rework it again
+and to pass dedicated VB2_ALLOC_FLAGS from the videobuf2 core to the
+allocator. This is still in my private tree and not completely ready, will
+push those
+patches to github later.
 
-Thanks,
-Shameer
+Another thing to notice is that the new API requires us to have two
+execution branches
+in allocators - one for the current API; and one for the new API (if it's
+supported and
+if user-space requested non-coherent allocation).
 
-> +		translate = s1_cfg->set || s2_cfg->set;
->  	}
-> 
->  	if (val & STRTAB_STE_0_V) {
-> @@ -1240,23 +1245,36 @@ static void arm_smmu_write_strtab_ent(struct
-> arm_smmu_master *master, u32 sid,
->  		case STRTAB_STE_0_CFG_BYPASS:
->  			break;
->  		case STRTAB_STE_0_CFG_S1_TRANS:
-> +			s1_live = true;
-> +			break;
->  		case STRTAB_STE_0_CFG_S2_TRANS:
-> -			ste_live = true;
-> +			s2_live = true;
-> +			break;
-> +		case STRTAB_STE_0_CFG_NESTED:
-> +			s1_live = true;
-> +			s2_live = true;
->  			break;
->  		case STRTAB_STE_0_CFG_ABORT:
-> -			BUG_ON(!disable_bypass);
->  			break;
->  		default:
->  			BUG(); /* STE corruption */
->  		}
->  	}
-> 
-> +	ste_live = s1_live || s2_live;
-> +
->  	/* Nuke the existing STE_0 value, as we're going to rewrite it */
->  	val = STRTAB_STE_0_V;
-> 
->  	/* Bypass/fault */
-> -	if (!smmu_domain || !(s1_cfg->set || s2_cfg->set)) {
-> -		if (!smmu_domain && disable_bypass)
-> +
-> +	if (!smmu_domain)
-> +		abort = disable_bypass;
-> +	else
-> +		abort = smmu_domain->abort;
-> +
-> +	if (abort || !translate) {
-> +		if (abort)
->  			val |= FIELD_PREP(STRTAB_STE_0_CFG,
-> STRTAB_STE_0_CFG_ABORT);
->  		else
->  			val |= FIELD_PREP(STRTAB_STE_0_CFG,
-> STRTAB_STE_0_CFG_BYPASS);
-> @@ -1274,8 +1292,16 @@ static void arm_smmu_write_strtab_ent(struct
-> arm_smmu_master *master, u32 sid,
->  		return;
->  	}
-> 
-> +	BUG_ON(ste_live && !nested);
-> +
-> +	if (ste_live) {
-> +		/* First invalidate the live STE */
-> +		dst[0] = cpu_to_le64(STRTAB_STE_0_CFG_ABORT);
-> +		arm_smmu_sync_ste_for_sid(smmu, sid);
-> +	}
-> +
->  	if (s1_cfg->set) {
-> -		BUG_ON(ste_live);
-> +		BUG_ON(s1_live);
->  		dst[1] = cpu_to_le64(
->  			 FIELD_PREP(STRTAB_STE_1_S1DSS,
-> STRTAB_STE_1_S1DSS_SSID0) |
->  			 FIELD_PREP(STRTAB_STE_1_S1CIR,
-> STRTAB_STE_1_S1C_CACHE_WBRA) |
-> @@ -1294,7 +1320,14 @@ static void arm_smmu_write_strtab_ent(struct
-> arm_smmu_master *master, u32 sid,
->  	}
-> 
->  	if (s2_cfg->set) {
-> -		BUG_ON(ste_live);
-> +		u64 vttbr = s2_cfg->vttbr & STRTAB_STE_3_S2TTB_MASK;
-> +
-> +		if (s2_live) {
-> +			u64 s2ttb = le64_to_cpu(dst[3] & STRTAB_STE_3_S2TTB_MASK);
-> +
-> +			BUG_ON(s2ttb != vttbr);
-> +		}
-> +
->  		dst[2] = cpu_to_le64(
->  			 FIELD_PREP(STRTAB_STE_2_S2VMID, s2_cfg->vmid) |
->  			 FIELD_PREP(STRTAB_STE_2_VTCR, s2_cfg->vtcr) |
-> @@ -1304,9 +1337,12 @@ static void arm_smmu_write_strtab_ent(struct
-> arm_smmu_master *master, u32 sid,
->  			 STRTAB_STE_2_S2PTW | STRTAB_STE_2_S2AA64 |
->  			 STRTAB_STE_2_S2R);
-> 
-> -		dst[3] = cpu_to_le64(s2_cfg->vttbr & STRTAB_STE_3_S2TTB_MASK);
-> +		dst[3] = cpu_to_le64(vttbr);
-> 
->  		val |= FIELD_PREP(STRTAB_STE_0_CFG,
-> STRTAB_STE_0_CFG_S2_TRANS);
-> +	} else {
-> +		dst[2] = 0;
-> +		dst[3] = 0;
->  	}
-> 
->  	if (master->ats_enabled)
-> @@ -1982,6 +2018,14 @@ static int arm_smmu_domain_finalise(struct
-> iommu_domain *domain,
->  		return 0;
->  	}
-> 
-> +	if (smmu_domain->stage == ARM_SMMU_DOMAIN_NESTED &&
-> +	    (!(smmu->features & ARM_SMMU_FEAT_TRANS_S1) ||
-> +	     !(smmu->features & ARM_SMMU_FEAT_TRANS_S2))) {
-> +		dev_info(smmu_domain->smmu->dev,
-> +			 "does not implement two stages\n");
-> +		return -EINVAL;
-> +	}
-> +
->  	/* Restrict the stage to what we can actually support */
->  	if (!(smmu->features & ARM_SMMU_FEAT_TRANS_S1))
->  		smmu_domain->stage = ARM_SMMU_DOMAIN_S2;
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> index 07f59252dd21..269779dee8d1 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-> @@ -206,6 +206,7 @@
->  #define STRTAB_STE_0_CFG_BYPASS		4
->  #define STRTAB_STE_0_CFG_S1_TRANS	5
->  #define STRTAB_STE_0_CFG_S2_TRANS	6
-> +#define STRTAB_STE_0_CFG_NESTED		7
-> 
->  #define STRTAB_STE_0_S1FMT		GENMASK_ULL(5, 4)
->  #define STRTAB_STE_0_S1FMT_LINEAR	0
-> @@ -682,6 +683,7 @@ struct arm_smmu_domain {
->  	enum arm_smmu_domain_stage	stage;
->  	struct arm_smmu_s1_cfg	s1_cfg;
->  	struct arm_smmu_s2_cfg	s2_cfg;
-> +	bool				abort;
-> 
->  	struct iommu_domain		domain;
-> 
-> --
-> 2.21.3
+[0] https://github.com/sergey-senozhatsky/linux-next-ss/commits/master
+[1]
+https://github.com/sergey-senozhatsky/linux-next-ss/commit/a45f48b483daee59594c62e4aaf01790aab960c8
+[2]
+https://github.com/sergey-senozhatsky/linux-next-ss/commit/b784145101c398da7fe9e2608b6001e58e05a9b5
+
+-ss
+
+--00000000000093eb2605b5ee4ab3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Dec 8, 2020 at 1:54 PM Tomasz Fig=
+a &lt;<a href=3D"mailto:tfiga@chromium.org">tfiga@chromium.org</a>&gt; wrot=
+e:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex"><br>In any case, Sergey is going to share a preliminary patch=
+ on how the<br>
+current API would be used in the V4L2 videobuf2 framework. That should<br>
+give us more input on how such a helper could look.<br></blockquote><div>=
+=C2=A0</div><div><br></div><div>My current WIP (deep WIP) series can be fou=
+nd at [0]. The patch that adds new</div><div>DMA API support is at the head=
+ of the series [1]. New DMA API requires us to</div><div>have several inter=
+nal videobuf2 API changes before we can proceed [2]: v4l2 and</div><div>vid=
+eobuf2 core do not pass enough information to the vb2 allocators now. Previ=
+ously,</div><div>if user space requests non-coherent allocation v4l2 would =
+set queue dma_attr bit,</div><div>videobuf2 core would pass queue-&gt;dma_a=
+ttrs to vb2 allocator, which would=C2=A0</div><div>those dma_attrs for dma_=
+alloc(). So everything was transparent=C2=A0(sort of). Since we</div><div>d=
+on&#39;t have that dma_attr flag anymore, there is no way for v4l2 to pass =
+the request</div><div>information (coherent or non-coherent) to the vb2 all=
+ocator. Hence we need to rework</div><div>the vb2 allocator API. I currentl=
+y pass vb2 pointer, but we decided to rework it again</div><div>and to pass=
+ dedicated VB2_ALLOC_FLAGS from the videobuf2 core to the=C2=A0</div><div>a=
+llocator. This is still in my private tree and not completely ready, will p=
+ush those</div><div>patches to github later.</div><div><br></div><div>Anoth=
+er thing to notice is that the new API requires us to have two execution br=
+anches</div><div>in allocators - one for the current API; and one for the n=
+ew API (if it&#39;s supported and</div><div>if user-space requested non-coh=
+erent allocation).</div><div><br></div><div>[0]=C2=A0<a href=3D"https://git=
+hub.com/sergey-senozhatsky/linux-next-ss/commits/master">https://github.com=
+/sergey-senozhatsky/linux-next-ss/commits/master</a></div><div>[1]=C2=A0<a =
+href=3D"https://github.com/sergey-senozhatsky/linux-next-ss/commit/a45f48b4=
+83daee59594c62e4aaf01790aab960c8">https://github.com/sergey-senozhatsky/lin=
+ux-next-ss/commit/a45f48b483daee59594c62e4aaf01790aab960c8</a></div><div>[2=
+]=C2=A0<a href=3D"https://github.com/sergey-senozhatsky/linux-next-ss/commi=
+t/b784145101c398da7fe9e2608b6001e58e05a9b5">https://github.com/sergey-senoz=
+hatsky/linux-next-ss/commit/b784145101c398da7fe9e2608b6001e58e05a9b5</a></d=
+iv><div><br></div><div>-ss</div></div></div>
+
+--00000000000093eb2605b5ee4ab3--
+
+--===============1666694484821333903==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============1666694484821333903==--
