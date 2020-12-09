@@ -1,71 +1,71 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4972E2D4246
-	for <lists.iommu@lfdr.de>; Wed,  9 Dec 2020 13:41:55 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDA22D4279
+	for <lists.iommu@lfdr.de>; Wed,  9 Dec 2020 13:54:53 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 08822874EE;
-	Wed,  9 Dec 2020 12:41:54 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4D60487031;
+	Wed,  9 Dec 2020 12:54:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9J8qP92nph6R; Wed,  9 Dec 2020 12:41:53 +0000 (UTC)
+	with ESMTP id fqspu0iwN+0b; Wed,  9 Dec 2020 12:54:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 1F411874F4;
-	Wed,  9 Dec 2020 12:41:53 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D2FDB87038;
+	Wed,  9 Dec 2020 12:54:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 02FD8C013B;
-	Wed,  9 Dec 2020 12:41:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B8F5AC013B;
+	Wed,  9 Dec 2020 12:54:51 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B9884C013B
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 12:41:51 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1413BC013B
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 12:54:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 9FFCF87504
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 12:41:51 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 01C3A87822
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 12:54:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lIw5wRml6wui for <iommu@lists.linux-foundation.org>;
- Wed,  9 Dec 2020 12:41:50 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 468DB874EF
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 12:41:50 +0000 (UTC)
-Received: from fraeml706-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Crc7d1LLcz67JqH;
- Wed,  9 Dec 2020 20:39:41 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml706-chm.china.huawei.com (10.206.15.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Wed, 9 Dec 2020 13:41:46 +0100
-Received: from [10.210.171.175] (10.210.171.175) by
- lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 9 Dec 2020 12:41:46 +0000
-Subject: Re: [RESEND PATCH v3 1/4] iommu/iova: Add free_all_cpu_cached_iovas()
-To: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>,
- <robin.murphy@arm.com>, <joro@8bytes.org>, <will@kernel.org>
-References: <1605608734-84416-1-git-send-email-john.garry@huawei.com>
- <1605608734-84416-2-git-send-email-john.garry@huawei.com>
- <0ae7688c-10b7-aa6b-c398-ac0917f7ae71@huawei.com>
-From: John Garry <john.garry@huawei.com>
-Message-ID: <5c6b4411-f711-773b-3378-e7c20b7c11f1@huawei.com>
-Date: Wed, 9 Dec 2020 12:41:11 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+ with ESMTP id Gg8d8bgnP2CG for <iommu@lists.linux-foundation.org>;
+ Wed,  9 Dec 2020 12:54:49 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 659F287815
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 12:54:49 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f0f48006cdc67c2e76428ce.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f0f:4800:6cdc:67c2:e764:28ce])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A98A11EC04C1;
+ Wed,  9 Dec 2020 13:54:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1607518486;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=s58KPrB1ihI+LMGijJBh7kVxdsHPRujydS8Yr1KZJyY=;
+ b=Htb9TGJEGhuSw/R+TpMSxdmZPvhSikcKi8AIQj8RbWm9l88XAx2w/W8ZJ2i5sAjtj8KEYG
+ wXw9R1XLmsnpXZzsInt10YECgG1qVJdI5e5fsSXQhFcuthXHC3BhwPY3tU4jZfZx8raG4t
+ hcvWBa4iGyjqon+QKyP6FeMSAcyqAIo=
+Date: Wed, 9 Dec 2020 13:54:42 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Ashish Kalra <ashish.kalra@amd.com>
+Subject: Re: [PATCH v8] swiotlb: Adjust SWIOTBL bounce buffer size for SEV
+ guests.
+Message-ID: <20201209125442.GC18203@zn.tnic>
+References: <20201207231057.26403-1-Ashish.Kalra@amd.com>
+ <20201209110115.GA18203@zn.tnic>
+ <20201209122907.GA6258@ashkalra_ubuntu_server>
 MIME-Version: 1.0
-In-Reply-To: <0ae7688c-10b7-aa6b-c398-ac0917f7ae71@huawei.com>
-Content-Language: en-US
-X-Originating-IP: [10.210.171.175]
-X-ClientProxiedBy: lhreml738-chm.china.huawei.com (10.201.108.188) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
-Cc: xiyou.wangcong@gmail.com, iommu@lists.linux-foundation.org,
- linuxarm@huawei.com, linux-kernel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <20201209122907.GA6258@ashkalra_ubuntu_server>
+Cc: Thomas.Lendacky@amd.com, Jon.Grimm@amd.com, brijesh.singh@amd.com,
+ dave.hansen@linux-intel.com, konrad.wilk@oracle.com, peterz@infradead.org,
+ x86@kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ mingo@redhat.com, luto@kernel.org, hpa@zytor.com, rientjes@google.com,
+ tglx@linutronix.de, hch@lst.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,20 +78,51 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 09/12/2020 08:58, Leizhen (ThunderTown) wrote:
->>   		goto retry;
->>   	}
->>   
-> Reviewed-by: Zhen Lei<thunder.leizhen@huawei.com>
-> 
+On Wed, Dec 09, 2020 at 12:29:07PM +0000, Ashish Kalra wrote:
+> As i mentioned in the main comments above, this cannot be called in
+> mem_encrypt_init() as that breaks reserve_crashkernel() which depends
+> on SWIOTLB buffer size
 
+Please elaborate how does it break.
 
-Thanks, incidentally this needs to be rebased, which I'll do now.
+> and is called before mem_encrypt_init(), therefore, it needs to be
+> called from setup_atch() before reserve_crashkernel().
+
+I know you have your requirements what needs to be called when like all
+the other vendors who want to run stuff early in a particular order but
+our boot init order is a single fragile mess. So this better be done
+right!
+
+Also,
+
+[    0.016630] software IO TLB: swiotlb_adjust:
+[    0.017005] reserve_crashkernel:
+[    0.050523] software IO TLB: swiotlb_init:
+
+this looks strange - we're doing a swiotlb size adjust before init.
+
+It probably makes sense as in: adjust the size before the SWIOTLB is
+initialized so that it uses the correct size but this better be spelled
+out.
+
+> I believe that other memory encryption architectures such as s390 are
+> also looking for something similar to be available.
+
+Until you have something more palpable than belief, "let the others
+extend it when they really need it." as I already mentioned.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
