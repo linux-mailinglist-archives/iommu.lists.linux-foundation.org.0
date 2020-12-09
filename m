@@ -1,82 +1,134 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512A22D41D3
-	for <lists.iommu@lfdr.de>; Wed,  9 Dec 2020 13:13:20 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E9F2D424D
+	for <lists.iommu@lfdr.de>; Wed,  9 Dec 2020 13:44:54 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 14E1486CF6;
-	Wed,  9 Dec 2020 12:13:19 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 55F97874D1;
+	Wed,  9 Dec 2020 12:44:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gI28K7-UZdls; Wed,  9 Dec 2020 12:13:18 +0000 (UTC)
+	with ESMTP id l80LngG7llq4; Wed,  9 Dec 2020 12:44:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 7BDCB86CDB;
-	Wed,  9 Dec 2020 12:13:18 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C12A7874C8;
+	Wed,  9 Dec 2020 12:44:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 60F06C0FA7;
-	Wed,  9 Dec 2020 12:13:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A435DC013B;
+	Wed,  9 Dec 2020 12:44:52 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 71C9EC013B
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 12:13:17 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D459CC013B
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 12:44:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 6D441877F5
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 12:13:17 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id CF56E87815
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 12:44:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HvVuHg9+-xQU for <iommu@lists.linux-foundation.org>;
- Wed,  9 Dec 2020 12:13:15 +0000 (UTC)
+ with ESMTP id rOo1vDLcQ-GW for <iommu@lists.linux-foundation.org>;
+ Wed,  9 Dec 2020 12:44:49 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
- [209.85.128.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 29CE3877F2
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 12:13:15 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id k10so1274160wmi.3
- for <iommu@lists.linux-foundation.org>; Wed, 09 Dec 2020 04:13:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=vQr4kM4RX4rAp5j/qKDW+npGLeRnQffxCAXDPYe3mkw=;
- b=ViRDm9ggmtPjEs85NvfNlOHBrWnHj4vR/MgmVv+4FHJqc7MW675Ip6OKwKQmFuKTIs
- mYI9O0IwLPiGicEOn03tTYOBLFnbxXueYJ4Xbj77KpS/0DT12ko1jSytBLJcvoftkxPp
- sfr+B4NJTaVYfWKQpbRD1hi7V3K0O3fPmkAJdXv6o0HkLl1RWyb4yd0P5WKkG6jxLyzC
- ylY4GMm4NU+GhEqWOnRocfadvSvmmMjSP4KJYVyKUsolJdGivpxSaLC+6O+ehLB+q/uA
- /JgzTviaT/RSn+b+H94RGe80XBlUnGmsfKM8kdRPBGgADgdOikVhfVtyw86rccnh7uvs
- YyNw==
-X-Gm-Message-State: AOAM533dvWcDqdkychMJHiY5XEbGJteuWj/btG3SiW7fWLPgG+HKOfHT
- EXYGqSh9vKbehtv0GC/0wfE=
-X-Google-Smtp-Source: ABdhPJwaoDIcgfrg+ecoat6sonzdYokouAkiZQwpTX4sGEOgNsKCNcGr/SDr1PomqilqtE1wNLu82w==
-X-Received: by 2002:a05:600c:22d9:: with SMTP id
- 25mr2437791wmg.158.1607515993634; 
- Wed, 09 Dec 2020 04:13:13 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id v20sm3378527wra.19.2020.12.09.04.13.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 04:13:12 -0800 (PST)
-Date: Wed, 9 Dec 2020 13:13:11 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Yong Wu <yong.wu@mediatek.com>
-Subject: Re: [PATCH v5 06/27] dt-bindings: mediatek: Add binding for mt8192
- IOMMU
-Message-ID: <20201209121311.GB25951@kozik-lap>
-References: <20201209080102.26626-1-yong.wu@mediatek.com>
- <20201209080102.26626-7-yong.wu@mediatek.com>
-MIME-Version: 1.0
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2054.outbound.protection.outlook.com [40.107.237.54])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 95EDE874EE
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 12:44:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WeOYtoeB4VFGnxZeCnKMDAo9YsqzSghIWZ59W+UEpODj5RwHHQfwhBh2zXvhGsHnol++Kzp2PWEhIWoQu/eVZ4JC8QKfAc9BTft6D5NWv49ttSOAO8lj1P6VYm1aH1/LEVvcDAPb42+vb6OnDR2vAteNUleXBnQloTPCWpoY3rxcWJJmhCjjOF2T7EdSWPpgfVbpVU17gLQ3FI6rrpVyZ3TGWT7q/atS4CkaBMz35s7gYLQf8K+qsVXiuC5j5+qK2e0zO+Wr2wswQD3c0l7jGoJmfcrivbIm/4vQ4HVILOzYOc4fZJ82GXFx6dsO6z6sqXvo8uSpR/y47nRVLLIPmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SEH/d06wQJ6q0dMoAP35ugPiuOLw6NSWBxTtycxiJIA=;
+ b=T7c4xE3890Bg/q975/biFpIl9xilBLg4HMpsN+vWitp9RmwFVtT5aCABUt6Pt6DF8h5VB1a3TTf2IoWeJBtQGGz44xGMYBCzvrtHvMZM8HHicWzl9JGMYolLNz6JXl4TqkHq9DgZSU42zUCYhATLV7VDO00UPew7z4Qqs6Nv0mMp0IpTPpljuNcHX600y0G6vOmxqn2OL7MDhHqqFr7d1Vfat6U3qAtL0AFIzwSIiz9vE8H3DoiJFc6nkhMXaN6YUAALSFuz2w//XZsLl/I60BHA9ZIm6huSB/J5QlLBoKmMAILu7DQoD2UqNkexbEC6f5TwkUV/VOe4gVWausU+kw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SEH/d06wQJ6q0dMoAP35ugPiuOLw6NSWBxTtycxiJIA=;
+ b=C4Z4hxtnWkD1Hr30yq8n+klWRr//af6WAkvFlcDPGJQHk0Lx9gRrQTGCiOwdZ6my2ac7Cvo+3PJMckNnLEi/kAak+E+/TSbxPZMdJKGWRU/NWc2EcZyslj4Yly1s7khKI7lbcW+zjyZAurSoFYEYXcvkMbX3+TeJpyIIVbuHYaA=
+Authentication-Results: alien8.de; dkim=none (message not signed)
+ header.d=none;alien8.de; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
+ by SA0PR12MB4512.namprd12.prod.outlook.com (2603:10b6:806:71::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Wed, 9 Dec
+ 2020 12:29:16 +0000
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::d8f2:fde4:5e1d:afec]) by SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::d8f2:fde4:5e1d:afec%3]) with mapi id 15.20.3632.021; Wed, 9 Dec 2020
+ 12:29:16 +0000
+Date: Wed, 9 Dec 2020 12:29:07 +0000
+From: Ashish Kalra <ashish.kalra@amd.com>
+To: Borislav Petkov <bp@alien8.de>
+Subject: Re: [PATCH v8] swiotlb: Adjust SWIOTBL bounce buffer size for SEV
+ guests.
+Message-ID: <20201209122907.GA6258@ashkalra_ubuntu_server>
+References: <20201207231057.26403-1-Ashish.Kalra@amd.com>
+ <20201209110115.GA18203@zn.tnic>
 Content-Disposition: inline
-In-Reply-To: <20201209080102.26626-7-yong.wu@mediatek.com>
-Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
- Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
- chao.hao@mediatek.com, Will Deacon <will@kernel.org>,
- linux-kernel@vger.kernel.org, Evan Green <evgreen@chromium.org>,
- Tomasz Figa <tfiga@google.com>, iommu@lists.linux-foundation.org,
- Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, anan.sun@mediatek.com,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20201209110115.GA18203@zn.tnic>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [165.204.77.1]
+X-ClientProxiedBy: CH2PR19CA0008.namprd19.prod.outlook.com
+ (2603:10b6:610:4d::18) To SN6PR12MB2767.namprd12.prod.outlook.com
+ (2603:10b6:805:75::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ashkalra_ubuntu_server (165.204.77.1) by
+ CH2PR19CA0008.namprd19.prod.outlook.com (2603:10b6:610:4d::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3654.12 via Frontend Transport; Wed, 9 Dec 2020 12:29:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 86272137-7eb8-4d74-8da1-08d89c3e0b80
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4512:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4512FB660E8F9066774E5F6C8ECC0@SA0PR12MB4512.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: H8+i3m+101pJ/m7NX+q6JZ7WEfM76pYtT4UM938JpYkXEMBI0/gBvQ+R8lD1Dm3l8dk0Fm+Fxi4iZAFFSEF3M1/GG1pWA/pwxasDpHSX7FbCAGcX9u+oRJz7Gq/L94J3NMwwTjKTuNs6Yf1Y0KCsUo/s1zGcvD+HDVw4BDJOCGkw3+Pg+h5ky4d+SxOMwx8C7rdgTZ0WbK1vEOcX+oJXtrQz8Kb3uFFN2n8F5XdW+FEY56gEzYbB3YkaUkqp9W9TPKBIPlW/NX3Ar9UwTBiZtkga32zsz8jopcKehYFFOU+rJZWOeCaxSRvd5bHMNEWMqxjp7WAUyKib7pKQBWLj39lHw7JeTbYE2F6UOHM3EE2y3j7BdSK/Yl/py+AsNuoL
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(346002)(376002)(83380400001)(6666004)(8936002)(66946007)(33656002)(1076003)(6496006)(34490700003)(16526019)(6916009)(86362001)(956004)(7416002)(26005)(66476007)(66556008)(52116002)(4326008)(33716001)(44832011)(5660300002)(8676002)(2906002)(508600001)(186003)(55016002)(9686003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?0aq6wGUZWDAiU9ljVMYhyafd6vb1A/0EZ4EVwXcAOSsODRf85Oiz/k9OdUOl?=
+ =?us-ascii?Q?xhhESTVdk+QnoEgiuCylqLcWQ1Jb4daVtbqSOtHptKnKuRjNCOnHNc+UFNVH?=
+ =?us-ascii?Q?ht7G5ijbPqpWCb2Z+g84ZPskaCL3yI4z1wU5D+jIaxuUzqUrrdwUnh4723Rr?=
+ =?us-ascii?Q?amD0uzjmiE8LmO1Trd2yPWs6/UzLsao/T2w3bt0v82/NzuERt4gyrwXUO4R1?=
+ =?us-ascii?Q?YJJ62jMBMg8zuPQB5CAv7BnXxtYGGrA9aIdcUZEzibjbeLaFj9rqYvsC8O1v?=
+ =?us-ascii?Q?rTqkb2JkC6tMNfJcjnFSEK3k16iboeSL/LZUsrEmxTzsd67hJc2C+Lf+OPMp?=
+ =?us-ascii?Q?Q6uyJjmAhlDlH8L+eDRcON+2RciS2SZ3heVas48PGAOlrxJv0Ce6a+x7IDVq?=
+ =?us-ascii?Q?W+wbbCFBAaF55mmJ6vmse/SD554wzOL6JfKgi6iD2T/8NkDZ1h3K96KquapQ?=
+ =?us-ascii?Q?1YcCiHsmDvz5haW1cV0y68QEOfE+yigfXg/59vepdYuln0yGN5fzaCRGu4Q+?=
+ =?us-ascii?Q?aUjuexUxTrrM4WYMEkGjXf9ctEpg0Q8cmzBdycYQAof5OubwHsdiJ8xa7V29?=
+ =?us-ascii?Q?UElvB+pRKyNLo70eSON+zHGIM/C0I+qFBdQ/ZWn0ps7brpMNOZdXJB4rqdii?=
+ =?us-ascii?Q?QAILBxcq5yM3pZqvq35aS0ijRZvjxnynA01cK5zMa9kZaXn/7O8kx77KCtt/?=
+ =?us-ascii?Q?PeJSr40gSfJ/pwIu5uJvi1bPpAIKhoaDAcKaJau/vCyC/QG0NTyh5vntzEYu?=
+ =?us-ascii?Q?2wzDsoGEiV1qgs7kmibEkyaasZTWrfA4dJydUvqSMbWnsKgS+u8/CJy8sxDk?=
+ =?us-ascii?Q?+Wqc+Fs5VIMItCnL/ts3p+f9UuUTjlwqqG+1ScvWOI9k7Bz2D4Q3E56dC+Ng?=
+ =?us-ascii?Q?O1zDx8kfYkdN3vbs9ZoEDv1yoQdi+DYkN6GaTKuOwk+vTZqw/XPku59HpU4g?=
+ =?us-ascii?Q?uhEHGRSN9b1uOxYWYh3HMut/BBb7wKl/t2ATPkdV0JdogWdllS9WpFaFOHI7?=
+ =?us-ascii?Q?xQka?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2020 12:29:16.7485 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86272137-7eb8-4d74-8da1-08d89c3e0b80
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BJW7ZVP13j/e6MTdgYKJl8/cZoLsRBO31+ZaQaTw6sYPW9v7IAKeEcrOi/mHeFtzjP+F8ESLp3vpKHKTShdegQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4512
+Cc: Thomas.Lendacky@amd.com, Jon.Grimm@amd.com, brijesh.singh@amd.com,
+ dave.hansen@linux-intel.com, konrad.wilk@oracle.com, peterz@infradead.org,
+ x86@kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ mingo@redhat.com, luto@kernel.org, hpa@zytor.com, rientjes@google.com,
+ tglx@linutronix.de, hch@lst.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,53 +146,69 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Dec 09, 2020 at 04:00:41PM +0800, Yong Wu wrote:
-> This patch adds decriptions for mt8192 IOMMU and SMI.
+On Wed, Dec 09, 2020 at 12:01:15PM +0100, Borislav Petkov wrote:
+> > Subject: Re: [PATCH v8] swiotlb: Adjust SWIOTBL bounce buffer size for SEV guests.
 > 
-> mt8192 also is MTK IOMMU gen2 which uses ARM Short-Descriptor translation
-> table format. The M4U-SMI HW diagram is as below:
+> Fix subject prefix to "x86, swiotlb: ... SWIOTLB ... for SEV guests
 > 
->                           EMI
->                            |
->                           M4U
->                            |
->                       ------------
->                        SMI Common
->                       ------------
->                            |
->   +-------+------+------+----------------------+-------+
->   |       |      |      |       ......         |       |
->   |       |      |      |                      |       |
-> larb0   larb1  larb2  larb4     ......      larb19   larb20
-> disp0   disp1   mdp    vdec                   IPE      IPE
+> Fix typo and no fullstop at the end.
 > 
-> All the connections are HW fixed, SW can NOT adjust it.
+> On Mon, Dec 07, 2020 at 11:10:57PM +0000, Ashish Kalra wrote:
+> > From: Ashish Kalra <ashish.kalra@amd.com>
+> > 
+> > For SEV, all DMA to and from guest has to use shared (un-encrypted) pages.
+> > SEV uses SWIOTLB to make this happen without requiring changes to device
+> > drivers.  However, depending on workload being run, the default 64MB of
+> 				 ^
+> 				 the
 > 
-> mt8192 M4U support 0~16GB iova range. we preassign different engines
-> into different iova ranges:
+> > SWIOTLB might not be enough and SWIOTLB may run out of buffers to use
 > 
-> domain-id  module     iova-range                  larbs
->    0       disp        0 ~ 4G                      larb0/1
->    1       vcodec      4G ~ 8G                     larb4/5/7
->    2       cam/mdp     8G ~ 12G             larb2/9/11/13/14/16/17/18/19/20
->    3       CCU0    0x4000_0000 ~ 0x43ff_ffff     larb13: port 9/10
->    4       CCU1    0x4400_0000 ~ 0x47ff_ffff     larb14: port 4/5
+> 				s/SWIOTLB/it/
 > 
-> The iova range for CCU0/1(camera control unit) is HW requirement.
+> > for DMA, resulting in I/O errors and/or performance degradation for
+> > high I/O workloads.
+> > 
+> > Adjust the default size of SWIOTLB for SEV guests using a
+> > percentage of the total memory available to guest for SWIOTLB buffers.
+> 					     ^
+> 					     the
 > 
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/iommu/mediatek,iommu.yaml        |  18 +-
->  include/dt-bindings/memory/mt8192-larb-port.h | 240 ++++++++++++++++++
->  2 files changed, 257 insertions(+), 1 deletion(-)
->  create mode 100644 include/dt-bindings/memory/mt8192-larb-port.h
+> > 
+> > Using late_initcall() interface to invoke swiotlb_adjust() does not
+> > work as the size adjustment needs to be done before mem_encrypt_init()
+> > and reserve_crashkernel() which use the allocated SWIOTLB buffer size,
+> > hence call it explicitly from setup_arch().
+> 
+> So setup_arch() is x86-specific and already a dumping ground for all
+> kinds of init stuff.
+> 
+> Why don't you call swiotlb_adjust() in mem_encrypt_init() where it
+> already does swiotlb stuff - swiotlb_update_mem_attributes() - and avoid
+> all the arch-agnostic function glue?
 > 
 
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+As i mentioned in the main comments above, this cannot be called in
+mem_encrypt_init() as that breaks reserve_crashkernel() which depends on
+SWIOTLB buffer size and is called before mem_encrypt_init(), therefore,
+it needs to be called from setup_atch() before reserve_crashkernel(). 
 
-Best regards,
-Krzysztof
+> That is, unless Konrad wants to do other swiotlb adjusting on !x86 too...
+> 
+> > The SWIOTLB default size adjustment needs to be added as an architecture
+> > specific interface/callback to allow architectures such as those supporting
+> > memory encryption to adjust/expand SWIOTLB size for their use.
+> 
+> So are other arches wanting this or is this just an assumption? If
+> latter, you can do x86 only now and let the others extend it when they
+> really need it.
+
+I believe that other memory encryption architectures such as s390 are
+also looking for something similar to be available. 
+
+Thanks,
+Ashish
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
