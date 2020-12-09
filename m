@@ -1,50 +1,50 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90FF22D45E6
-	for <lists.iommu@lfdr.de>; Wed,  9 Dec 2020 16:54:23 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF87D2D45E8
+	for <lists.iommu@lfdr.de>; Wed,  9 Dec 2020 16:54:25 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 41B408356D;
-	Wed,  9 Dec 2020 15:54:22 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 70FCF86D4C;
+	Wed,  9 Dec 2020 15:54:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5FFPDJJCtvHr; Wed,  9 Dec 2020 15:54:21 +0000 (UTC)
+	with ESMTP id Mxqiy5ptAjQh; Wed,  9 Dec 2020 15:54:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8D9EA85DF4;
-	Wed,  9 Dec 2020 15:54:21 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B9FCE86CE6;
+	Wed,  9 Dec 2020 15:54:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7AF31C013B;
-	Wed,  9 Dec 2020 15:54:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A6A82C013B;
+	Wed,  9 Dec 2020 15:54:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2B902C013B
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 15:54:20 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F1739C0893
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 15:54:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 176BD876D5
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 15:54:20 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1A24F8356D
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 15:54:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id S7Fh5R8ApsdU for <iommu@lists.linux-foundation.org>;
+ with ESMTP id iI8QGsq3N58K for <iommu@lists.linux-foundation.org>;
  Wed,  9 Dec 2020 15:54:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D644F873C5
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 15:54:18 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 7143884587
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 15:54:19 +0000 (UTC)
 Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CrhRV3m7fz7BpC;
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CrhRV46tTz7Bq4;
  Wed,  9 Dec 2020 23:53:42 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
  14.3.487.0; Wed, 9 Dec 2020 23:54:06 +0800
 From: John Garry <john.garry@huawei.com>
 To: <joro@8bytes.org>, <will@kernel.org>
-Subject: [PATCH 2/3] iova: Delete copy_reserved_iova()
-Date: Wed, 9 Dec 2020 23:50:18 +0800
-Message-ID: <1607529019-229549-3-git-send-email-john.garry@huawei.com>
+Subject: [PATCH 3/3] iova: Stop exporting some more functions
+Date: Wed, 9 Dec 2020 23:50:19 +0800
+Message-ID: <1607529019-229549-4-git-send-email-john.garry@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1607529019-229549-1-git-send-email-john.garry@huawei.com>
 References: <1607529019-229549-1-git-send-email-john.garry@huawei.com>
@@ -70,81 +70,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Since commit c588072bba6b ("iommu/vt-d: Convert intel iommu driver to the
-iommu ops"), function copy_reserved_iova() is not referenced, so delete
-it.
+The following functions are not referenced outside dma-iommu.c (apart
+from iova.c), which can only be built-in:
+- init_iova_flush_queue()
+- free_iova_fast()
+- queue_iova()
+- alloc_iova_fast()
+
+So stop exporting them.
 
 Signed-off-by: John Garry <john.garry@huawei.com>
 ---
- drivers/iommu/iova.c | 30 ------------------------------
- include/linux/iova.h |  6 ------
- 2 files changed, 36 deletions(-)
+ drivers/iommu/iova.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-index 0a758ec2a1c4..04f0a3ae1c63 100644
+index 04f0a3ae1c63..f9c35852018d 100644
 --- a/drivers/iommu/iova.c
 +++ b/drivers/iommu/iova.c
-@@ -710,36 +710,6 @@ reserve_iova(struct iova_domain *iovad,
- }
- EXPORT_SYMBOL_GPL(reserve_iova);
+@@ -112,7 +112,6 @@ int init_iova_flush_queue(struct iova_domain *iovad,
  
--/**
-- * copy_reserved_iova - copies the reserved between domains
-- * @from: - source doamin from where to copy
-- * @to: - destination domin where to copy
-- * This function copies reserved iova's from one doamin to
-- * other.
-- */
--void
--copy_reserved_iova(struct iova_domain *from, struct iova_domain *to)
--{
--	unsigned long flags;
--	struct rb_node *node;
--
--	spin_lock_irqsave(&from->iova_rbtree_lock, flags);
--	for (node = rb_first(&from->rbroot); node; node = rb_next(node)) {
--		struct iova *iova = rb_entry(node, struct iova, node);
--		struct iova *new_iova;
--
--		if (iova->pfn_lo == IOVA_ANCHOR)
--			continue;
--
--		new_iova = reserve_iova(to, iova->pfn_lo, iova->pfn_hi);
--		if (!new_iova)
--			pr_err("Reserve iova range %lx@%lx failed\n",
--			       iova->pfn_lo, iova->pfn_lo);
--	}
--	spin_unlock_irqrestore(&from->iova_rbtree_lock, flags);
--}
--EXPORT_SYMBOL_GPL(copy_reserved_iova);
--
- /*
-  * Magazine caches for IOVA ranges.  For an introduction to magazines,
-  * see the USENIX 2001 paper "Magazines and Vmem: Extending the Slab
-diff --git a/include/linux/iova.h b/include/linux/iova.h
-index 2b76e0be1c5b..c834c01c0a5b 100644
---- a/include/linux/iova.h
-+++ b/include/linux/iova.h
-@@ -150,7 +150,6 @@ unsigned long alloc_iova_fast(struct iova_domain *iovad, unsigned long size,
- 			      unsigned long limit_pfn, bool flush_rcache);
- struct iova *reserve_iova(struct iova_domain *iovad, unsigned long pfn_lo,
- 	unsigned long pfn_hi);
--void copy_reserved_iova(struct iova_domain *from, struct iova_domain *to);
- void init_iova_domain(struct iova_domain *iovad, unsigned long granule,
- 	unsigned long start_pfn);
- int init_iova_flush_queue(struct iova_domain *iovad,
-@@ -211,11 +210,6 @@ static inline struct iova *reserve_iova(struct iova_domain *iovad,
- 	return NULL;
+ 	return 0;
  }
+-EXPORT_SYMBOL_GPL(init_iova_flush_queue);
  
--static inline void copy_reserved_iova(struct iova_domain *from,
--				      struct iova_domain *to)
--{
--}
--
- static inline void init_iova_domain(struct iova_domain *iovad,
- 				    unsigned long granule,
- 				    unsigned long start_pfn)
+ static struct rb_node *
+ __get_cached_rbnode(struct iova_domain *iovad, unsigned long limit_pfn)
+@@ -451,7 +450,6 @@ alloc_iova_fast(struct iova_domain *iovad, unsigned long size,
+ 
+ 	return new_iova->pfn_lo;
+ }
+-EXPORT_SYMBOL_GPL(alloc_iova_fast);
+ 
+ /**
+  * free_iova_fast - free iova pfn range into rcache
+@@ -469,7 +467,6 @@ free_iova_fast(struct iova_domain *iovad, unsigned long pfn, unsigned long size)
+ 
+ 	free_iova(iovad, pfn);
+ }
+-EXPORT_SYMBOL_GPL(free_iova_fast);
+ 
+ #define fq_ring_for_each(i, fq) \
+ 	for ((i) = (fq)->head; (i) != (fq)->tail; (i) = ((i) + 1) % IOVA_FQ_SIZE)
+@@ -598,7 +595,6 @@ void queue_iova(struct iova_domain *iovad,
+ 		mod_timer(&iovad->fq_timer,
+ 			  jiffies + msecs_to_jiffies(IOVA_FQ_TIMEOUT));
+ }
+-EXPORT_SYMBOL_GPL(queue_iova);
+ 
+ /**
+  * put_iova_domain - destroys the iova doamin
 -- 
 2.26.2
 
