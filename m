@@ -1,87 +1,89 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9E52D49F5
-	for <lists.iommu@lfdr.de>; Wed,  9 Dec 2020 20:18:21 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE6D2D49FF
+	for <lists.iommu@lfdr.de>; Wed,  9 Dec 2020 20:23:42 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id A6DDE204D1;
-	Wed,  9 Dec 2020 19:18:19 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 28F3386AF0;
+	Wed,  9 Dec 2020 19:23:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id q9RMC17d1bUZ; Wed,  9 Dec 2020 19:18:18 +0000 (UTC)
+	with ESMTP id VsqWaZLmhtPs; Wed,  9 Dec 2020 19:23:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9E3E0204CC;
-	Wed,  9 Dec 2020 19:18:18 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 62A4786AD7;
+	Wed,  9 Dec 2020 19:23:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8700FC013B;
-	Wed,  9 Dec 2020 19:18:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3F047C013B;
+	Wed,  9 Dec 2020 19:23:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DD9B6C013B
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 19:18:16 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2DEBAC013B
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 19:23:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C4EB487693
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 19:18:16 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 1216D87ABB
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 19:23:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id f02h2osrzyTN for <iommu@lists.linux-foundation.org>;
- Wed,  9 Dec 2020 19:18:16 +0000 (UTC)
+ with ESMTP id r8sIuoEumGxI for <iommu@lists.linux-foundation.org>;
+ Wed,  9 Dec 2020 19:23:38 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
- [209.85.208.195])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 01BD987684
- for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 19:18:15 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id f11so3744715ljm.8
- for <iommu@lists.linux-foundation.org>; Wed, 09 Dec 2020 11:18:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TOdxg1NYtVXt5G5UnjVeP8cr61+u8IQ69hUIDhx99vI=;
- b=Z9p/tmKsmOC83zvCFtHtvphx12PkgBTkQDx5VUQMHPKdW/yXt4ZVKmDtW3EHXknybH
- 3ttqK6IydOkQMKlbM7Ps646F0xkUlhv/kD2h2saS2KzzTX0xNXxEMDzkP09sKpOOhv6G
- hQacjVksK2YnSqwF/GbSYU1xxowa8yAnv12pU=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id C705187AB2
+ for <iommu@lists.linux-foundation.org>; Wed,  9 Dec 2020 19:23:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607541816;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1JiCuAJtsnJo9IaenHy9QA62PZ6HCKOgtQt5HnnymsY=;
+ b=Yyq4HwOJPLrjVO2o1Rmn3sTvS8F0B2b7fbntMrXbBUN6u+eMU+yak0KcJbCPmw7zvezWJO
+ Rk51QoygsiOrKz6gZfIAkBkO3ASQHinT2xQEtUic0dwfqmlv7WGQ9NcniuwRm/6Wf194fH
+ p7ymoXeBQKiydOisj10749JoJXUXeU0=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590-WMRrOsw8O46gPidgHgBiMw-1; Wed, 09 Dec 2020 14:23:35 -0500
+X-MC-Unique: WMRrOsw8O46gPidgHgBiMw-1
+Received: by mail-lj1-f200.google.com with SMTP id c8so1830341ljj.3
+ for <iommu@lists.linux-foundation.org>; Wed, 09 Dec 2020 11:23:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=TOdxg1NYtVXt5G5UnjVeP8cr61+u8IQ69hUIDhx99vI=;
- b=inhWQaaFb4pA6ketLdgDfZv8nwnf3rsATE7idVPT/xL0iPPrhqbOe/Eh2nRC4AYBj8
- Wjn7q4FZb/iiuJQJf66kWHD6/iQPSFq5xBw8zhHZ63tYfdY8VNFC0fGVuXTRe80EcK06
- vFUt1E7m25Ss4biK7bdK36d6Yt94f3Ga1OgkDLZj4jFVeWK0RM926U1au+YV6oT3P7v6
- 4XZnc/NUpTagrdHCsziHqvq9R7vTBx6FC2MzY2AheyxcT34lVjy0ARWObHrOEjQvkT8N
- 5B53PwYvUkHhLpCFb87gJEuuwuxxNoqhxS0HRjtyBeXjEDutNz77LpPbFH1A6tpveNkU
- ofjA==
-X-Gm-Message-State: AOAM530cNKRzzV0wHjUPliFtpXqzW2Hw8hgnyjj6bim+BVGVuco+pV49
- vBOpyUkdLboUNL3HYvXIA5/K9uyhaq+OKv+7
-X-Google-Smtp-Source: ABdhPJwXUIawCrOazlxOYd7W+VziZvYNEXNk1FG3XUbSZGZvrTdp5O76V2YIGxgg7zcioUa7Y5uLlg==
-X-Received: by 2002:a05:651c:1b2:: with SMTP id
- c18mr1633465ljn.385.1607541493655; 
- Wed, 09 Dec 2020 11:18:13 -0800 (PST)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com.
- [209.85.167.53])
- by smtp.gmail.com with ESMTPSA id v28sm335586ljv.29.2020.12.09.11.18.12
- for <iommu@lists.linux-foundation.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Dec 2020 11:18:12 -0800 (PST)
-Received: by mail-lf1-f53.google.com with SMTP id y19so4600514lfa.13
- for <iommu@lists.linux-foundation.org>; Wed, 09 Dec 2020 11:18:12 -0800 (PST)
-X-Received: by 2002:ac2:41d9:: with SMTP id d25mr1412125lfi.377.1607541492434; 
- Wed, 09 Dec 2020 11:18:12 -0800 (PST)
+ bh=1JiCuAJtsnJo9IaenHy9QA62PZ6HCKOgtQt5HnnymsY=;
+ b=HGdbdp6cJzNzWExgaQPDBa08DKWfemSKFQeFld9zT/SfRFUI0qqhMjZW65DPz6fYek
+ vTuEX3tb0A8/WFE2tyb36AqzLGApYUMUji+lnbWWB92uSYCH0MUfzlhFwfsIMwYIhT7l
+ ONALy1rNtOQO3HnF5czU3FSfR1+pcwVRKCTdefHVhnbwVT7WDStmecV8U62Yi1MsvIot
+ PJiqdctgXSLshCCkN0yEOITEgJsTXDCwk11FLUuVvSbm97bXCL6pByHjqQpIN2fl0QoS
+ tnYVOoMivQodXZypbibVTxNMXt9y105jP8120mNVfsBx33msxk/5kgYhM7rGER9aUXeZ
+ lFjA==
+X-Gm-Message-State: AOAM532+BhKeXQt8yspHzdnk/aH4OtaCsbSVcdHQszVZkEYb8irenoCZ
+ LX5WVb24gJQw3acsDk8fe1XxouorSjSMMrl+zoptOLKnSWOUDmAr9bT4Agp/JjKl2HAELpgeYeY
+ LQM+A+2GFqenZOaz1NY4t6E60Wrrl6rTrTiGk6yyYZad3mQ==
+X-Received: by 2002:a19:3c5:: with SMTP id 188mr1461086lfd.202.1607541812611; 
+ Wed, 09 Dec 2020 11:23:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxGoODFbEOcKQz/ScpB8oV7Mi7tniiV7k9AAEt8DGQLQC64ieiPFOacte5n9SNYVXZHhEFWrD/sl1+aaOWjS04=
+X-Received: by 2002:a19:3c5:: with SMTP id 188mr1461076lfd.202.1607541812435; 
+ Wed, 09 Dec 2020 11:23:32 -0800 (PST)
 MIME-Version: 1.0
 References: <20201209141237.GA8092@willie-the-truck>
  <CAHk-=wht4inbTVVMt2TNDxR_cVjSNaBU3JYyKtRMVovWePb65g@mail.gmail.com>
  <20201209185020.GC8778@willie-the-truck> <87tusulrog.fsf@redhat.com>
-In-Reply-To: <87tusulrog.fsf@redhat.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 9 Dec 2020 11:17:56 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wg370+69ZoXFdUABwwqNaej3hrjcqAsb56J++h2oXKJpg@mail.gmail.com>
-Message-ID: <CAHk-=wg370+69ZoXFdUABwwqNaej3hrjcqAsb56J++h2oXKJpg@mail.gmail.com>
+ <CAHk-=wg370+69ZoXFdUABwwqNaej3hrjcqAsb56J++h2oXKJpg@mail.gmail.com>
+In-Reply-To: <CAHk-=wg370+69ZoXFdUABwwqNaej3hrjcqAsb56J++h2oXKJpg@mail.gmail.com>
+From: Jerry Snitselaar <jsnitsel@redhat.com>
+Date: Wed, 9 Dec 2020 12:23:06 -0700
+Message-ID: <CALzcddv8DfL67uZCEWK-d=uMFJD34=kaWEHVcHoXMvrStaoe2w@mail.gmail.com>
 Subject: Re: [GIT PULL] IOMMU fix for 5.10 (-final)
-To: Jerry Snitselaar <jsnitsel@redhat.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnitsel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Cc: Robin Murphy <robin.murphy@arm.com>,
  Alex Williamson <alex.williamson@redhat.com>, Will Deacon <will@kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -103,28 +105,40 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Dec 9, 2020 at 11:12 AM Jerry Snitselaar <jsnitsel@redhat.com> wrote:
+On Wed, Dec 9, 2020 at 12:18 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> Since the field in the device table entry format expects it to be n
-> where there are 2^n entries in the table I guess it should be:
+> On Wed, Dec 9, 2020 at 11:12 AM Jerry Snitselaar <jsnitsel@redhat.com> wrote:
+> >
+> > Since the field in the device table entry format expects it to be n
+> > where there are 2^n entries in the table I guess it should be:
+> >
+> > #define DTE_IRQ_TABLE_LEN 9
+> > #define MAX_IRQS_PER_TABLE (1 << DTE_IRQ_TABLE_LEN)
 >
-> #define DTE_IRQ_TABLE_LEN 9
-> #define MAX_IRQS_PER_TABLE (1 << DTE_IRQ_TABLE_LEN)
+> No, that "DTE_IRQ_TABLE_LEN" is not the size shift - it's the size
+> shift value in that DTE field, which is shifted up by 1.
+>
+> That's why the current code does that
+>
+>    #define DTE_IRQ_TABLE_LEN       (9ULL << 1)
+>
+> there..
+>
+> Which was why I suggested that new #define that is the *actual* shift
+> value, and then the DTE thing and the MAX_IRQS_PER_TABLE values would
+> depend on that.
+>
+>            Linus
+>
 
-No, that "DTE_IRQ_TABLE_LEN" is not the size shift - it's the size
-shift value in that DTE field, which is shifted up by 1.
+Yes, when I read it my head was translating it as setting them both to
+512 and then
+I forgot that it gets shifted over 1. Which considering I was the once
+who noticed the
+original problem  of it still being 8 was a nice brain fart. This
+should be fixed like you suggest.
 
-That's why the current code does that
-
-   #define DTE_IRQ_TABLE_LEN       (9ULL << 1)
-
-there..
-
-Which was why I suggested that new #define that is the *actual* shift
-value, and then the DTE thing and the MAX_IRQS_PER_TABLE values would
-depend on that.
-
-           Linus
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
