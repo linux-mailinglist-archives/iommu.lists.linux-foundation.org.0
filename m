@@ -1,54 +1,55 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C41402D54AB
-	for <lists.iommu@lfdr.de>; Thu, 10 Dec 2020 08:35:47 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8862E8758A;
-	Thu, 10 Dec 2020 07:35:46 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PIvl-iEQx_3R; Thu, 10 Dec 2020 07:35:45 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id DBB8E87624;
-	Thu, 10 Dec 2020 07:35:43 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C037FC0893;
-	Thu, 10 Dec 2020 07:35:43 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 76E8CC0893
- for <iommu@lists.linux-foundation.org>; Thu, 10 Dec 2020 07:35:41 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7522D54AD
+	for <lists.iommu@lfdr.de>; Thu, 10 Dec 2020 08:35:49 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 5A584877CB
- for <iommu@lists.linux-foundation.org>; Thu, 10 Dec 2020 07:35:41 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D99F48787D;
+	Thu, 10 Dec 2020 07:35:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id e1+TGxh+Nf2N; Thu, 10 Dec 2020 07:35:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1EFA787871;
+	Thu, 10 Dec 2020 07:35:47 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F163FC013B;
+	Thu, 10 Dec 2020 07:35:46 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D3D4CC013B
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Dec 2020 07:35:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D0585875C0
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Dec 2020 07:35:42 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Yw1GdjhmH8nW for <iommu@lists.linux-foundation.org>;
+ with ESMTP id DYachwLOxLjH for <iommu@lists.linux-foundation.org>;
  Thu, 10 Dec 2020 07:35:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 9C6C6877BB
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 09637872BB
  for <iommu@lists.linux-foundation.org>; Thu, 10 Dec 2020 07:35:38 +0000 (UTC)
 Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cs5KV1B12zM362;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cs5KV1ZwPzM365;
  Thu, 10 Dec 2020 15:34:54 +0800 (CST)
 Received: from DESKTOP-5IS4806.china.huawei.com (10.174.187.37) by
  DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 10 Dec 2020 15:35:27 +0800
+ 14.3.487.0; Thu, 10 Dec 2020 15:35:28 +0800
 From: Keqian Zhu <zhukeqian1@huawei.com>
 To: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <iommu@lists.linux-foundation.org>, <kvm@vger.kernel.org>,
  <kvmarm@lists.cs.columbia.edu>, Alex Williamson <alex.williamson@redhat.com>, 
  Cornelia Huck <cohuck@redhat.com>, Marc Zyngier <maz@kernel.org>, Will Deacon
  <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 3/7] vfio: iommu_type1: Make an explicit "promote" semantic
-Date: Thu, 10 Dec 2020 15:34:21 +0800
-Message-ID: <20201210073425.25960-4-zhukeqian1@huawei.com>
+Subject: [PATCH 4/7] vfio: iommu_type1: Fix missing dirty page when promote
+ pinned_scope
+Date: Thu, 10 Dec 2020 15:34:22 +0800
+Message-ID: <20201210073425.25960-5-zhukeqian1@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20201210073425.25960-1-zhukeqian1@huawei.com>
 References: <20201210073425.25960-1-zhukeqian1@huawei.com>
@@ -80,113 +81,57 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-When we want to promote pinned_page_scope of vfio_iommu, we
-should call the "update" function to visit all vfio_group,
-but when we want to downgrade it, we can set the flag directly.
+When we pin or detach a group which is not dirty tracking capable,
+we will try to promote pinned_scope of vfio_iommu.
 
-Giving above, we can give an explicit "promote" semantic to
-that function. BTW, if vfio_iommu has been promoted, then it
-can return early.
+If we succeed to do so, vfio only report pinned_scope as dirty to
+userspace next time, but these memory written before pin or detach
+is missed.
+
+The solution is that we must populate all dma range as dirty before
+promoting pinned_scope of vfio_iommu.
 
 Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
 ---
- drivers/vfio/vfio_iommu_type1.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ drivers/vfio/vfio_iommu_type1.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index c52bcefba96b..bd9a94590ebc 100644
+index bd9a94590ebc..00684597b098 100644
 --- a/drivers/vfio/vfio_iommu_type1.c
 +++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -148,7 +148,7 @@ static int put_pfn(unsigned long pfn, int prot);
- static struct vfio_group *vfio_iommu_find_iommu_group(struct vfio_iommu *iommu,
- 					       struct iommu_group *iommu_group);
- 
--static void update_pinned_page_dirty_scope(struct vfio_iommu *iommu);
-+static void promote_pinned_page_dirty_scope(struct vfio_iommu *iommu);
- /*
-  * This code handles mapping and unmapping of user data buffers
-  * into DMA'ble space using the IOMMU
-@@ -719,7 +719,7 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
- 	group = vfio_iommu_find_iommu_group(iommu, iommu_group);
- 	if (!group->pinned_page_dirty_scope) {
- 		group->pinned_page_dirty_scope = true;
--		update_pinned_page_dirty_scope(iommu);
-+		promote_pinned_page_dirty_scope(iommu);
- 	}
- 
- 	goto pin_done;
-@@ -1633,27 +1633,26 @@ static struct vfio_group *vfio_iommu_find_iommu_group(struct vfio_iommu *iommu,
+@@ -1633,6 +1633,20 @@ static struct vfio_group *vfio_iommu_find_iommu_group(struct vfio_iommu *iommu,
  	return group;
  }
  
--static void update_pinned_page_dirty_scope(struct vfio_iommu *iommu)
-+static void promote_pinned_page_dirty_scope(struct vfio_iommu *iommu)
++static void vfio_populate_bitmap_all(struct vfio_iommu *iommu)
++{
++	struct rb_node *n;
++	unsigned long pgshift = __ffs(iommu->pgsize_bitmap);
++
++	for (n = rb_first(&iommu->dma_list); n; n = rb_next(n)) {
++		struct vfio_dma *dma = rb_entry(n, struct vfio_dma, node);
++		unsigned long nbits = dma->size >> pgshift;
++
++		if (dma->iommu_mapped)
++			bitmap_set(dma->bitmap, 0, nbits);
++	}
++}
++
+ static void promote_pinned_page_dirty_scope(struct vfio_iommu *iommu)
  {
  	struct vfio_domain *domain;
- 	struct vfio_group *group;
+@@ -1657,6 +1671,10 @@ static void promote_pinned_page_dirty_scope(struct vfio_iommu *iommu)
+ 	}
  
-+	if (iommu->pinned_page_dirty_scope)
-+		return;
+ 	iommu->pinned_page_dirty_scope = true;
 +
- 	list_for_each_entry(domain, &iommu->domain_list, next) {
- 		list_for_each_entry(group, &domain->group_list, next) {
--			if (!group->pinned_page_dirty_scope) {
--				iommu->pinned_page_dirty_scope = false;
-+			if (!group->pinned_page_dirty_scope)
- 				return;
--			}
- 		}
- 	}
- 
- 	if (iommu->external_domain) {
- 		domain = iommu->external_domain;
- 		list_for_each_entry(group, &domain->group_list, next) {
--			if (!group->pinned_page_dirty_scope) {
--				iommu->pinned_page_dirty_scope = false;
-+			if (!group->pinned_page_dirty_scope)
- 				return;
--			}
- 		}
- 	}
- 
-@@ -2348,7 +2347,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 	struct vfio_iommu *iommu = iommu_data;
- 	struct vfio_domain *domain;
- 	struct vfio_group *group;
--	bool update_dirty_scope = false;
-+	bool promote_dirty_scope = false;
- 	LIST_HEAD(iova_copy);
- 
- 	mutex_lock(&iommu->lock);
-@@ -2356,7 +2355,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 	if (iommu->external_domain) {
- 		group = find_iommu_group(iommu->external_domain, iommu_group);
- 		if (group) {
--			update_dirty_scope = !group->pinned_page_dirty_scope;
-+			promote_dirty_scope = !group->pinned_page_dirty_scope;
- 			list_del(&group->next);
- 			kfree(group);
- 
-@@ -2386,7 +2385,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 			continue;
- 
- 		vfio_iommu_detach_group(domain, group);
--		update_dirty_scope = !group->pinned_page_dirty_scope;
-+		promote_dirty_scope = !group->pinned_page_dirty_scope;
- 		list_del(&group->next);
- 		kfree(group);
- 		/*
-@@ -2422,8 +2421,8 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 	 * Removal of a group without dirty tracking may allow the iommu scope
- 	 * to be promoted.
- 	 */
--	if (update_dirty_scope)
--		update_pinned_page_dirty_scope(iommu);
-+	if (promote_dirty_scope)
-+		promote_pinned_page_dirty_scope(iommu);
- 	mutex_unlock(&iommu->lock);
++	/* Set all bitmap to avoid missing dirty page */
++	if (iommu->dirty_page_tracking)
++		vfio_populate_bitmap_all(iommu);
  }
  
+ static bool vfio_iommu_has_sw_msi(struct list_head *group_resv_regions,
 -- 
 2.23.0
 
