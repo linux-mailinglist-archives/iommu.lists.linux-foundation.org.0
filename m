@@ -1,69 +1,60 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8232D54B3
-	for <lists.iommu@lfdr.de>; Thu, 10 Dec 2020 08:35:53 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6B64D8789C;
-	Thu, 10 Dec 2020 07:35:52 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hOAPHhmrZrxw; Thu, 10 Dec 2020 07:35:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B3F3E87898;
-	Thu, 10 Dec 2020 07:35:49 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 91410C013B;
-	Thu, 10 Dec 2020 07:35:49 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3F268C013B
- for <iommu@lists.linux-foundation.org>; Thu, 10 Dec 2020 07:35:46 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949A12D5639
+	for <lists.iommu@lfdr.de>; Thu, 10 Dec 2020 10:13:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 2E6298758A
- for <iommu@lists.linux-foundation.org>; Thu, 10 Dec 2020 07:35:46 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 392A687652;
+	Thu, 10 Dec 2020 09:13:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gASPiOXAAwvf; Thu, 10 Dec 2020 09:13:34 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EF2A98762E;
+	Thu, 10 Dec 2020 09:13:33 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E654DC013B;
+	Thu, 10 Dec 2020 09:13:33 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E5591C013B
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Dec 2020 09:13:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id DBCA7865C1
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Dec 2020 09:13:32 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ph04K1ALbxBt for <iommu@lists.linux-foundation.org>;
- Thu, 10 Dec 2020 07:35:45 +0000 (UTC)
+ with ESMTP id rsjRPjZcYLrj for <iommu@lists.linux-foundation.org>;
+ Thu, 10 Dec 2020 09:13:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id EBFB787626
- for <iommu@lists.linux-foundation.org>; Thu, 10 Dec 2020 07:35:43 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cs5Km4WnFz15b9R;
- Thu, 10 Dec 2020 15:35:08 +0800 (CST)
-Received: from DESKTOP-5IS4806.china.huawei.com (10.174.187.37) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 10 Dec 2020 15:35:31 +0800
-From: Keqian Zhu <zhukeqian1@huawei.com>
-To: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <iommu@lists.linux-foundation.org>, <kvm@vger.kernel.org>,
- <kvmarm@lists.cs.columbia.edu>, Alex Williamson <alex.williamson@redhat.com>, 
- Cornelia Huck <cohuck@redhat.com>, Marc Zyngier <maz@kernel.org>, Will Deacon
- <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH 7/7] vfio: iommu_type1: Drop parameter "pgsize" of
- update_user_bitmap
-Date: Thu, 10 Dec 2020 15:34:25 +0800
-Message-ID: <20201210073425.25960-8-zhukeqian1@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20201210073425.25960-1-zhukeqian1@huawei.com>
-References: <20201210073425.25960-1-zhukeqian1@huawei.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 5148E865A1
+ for <iommu@lists.linux-foundation.org>; Thu, 10 Dec 2020 09:13:32 +0000 (UTC)
+Date: Thu, 10 Dec 2020 09:13:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607591611;
+ bh=hn1ShHc9pfnbGf3dnVN26kwiAUdtImkRCBzOXab56Kg=;
+ h=From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZxTzhQ2Q6mMBQTxuEkjbGSBVNruSOtsI8r+X9vhc8f2/EpiRypPYxkTT9V9FwPCe4
+ hH6w/Sx7Cxmzr5UZl2xunTmbJ8Ji0tS/b+Hp+9N1Fqgop8HvS5mKFYXpUUqGtNjnKN
+ WyiRajIEgOovjsrKBujQk6h36JGkQN1A5FPnSyIMJ5gPxGV7POkYyBDN9YwoUVTuA5
+ 1crgA0DpUxOVs1gRir0wew8nsxWhME1E5S4I+HU2dJhs38NK6qLFyMueLl+zsoFGmR
+ DT8bXAtUgsI4pYfbBCLiwPpGh/vt3mJ9WnhCajtpRjn02sdwa5KuvU2p/EYF7NaW6W
+ J83WjjcziSxDQ==
+From: Will Deacon <will@kernel.org>
+To: tangzhenhao <tzh18@mails.tsinghua.edu.cn>
+Subject: Re: [PATCH] drivers/iommu: fix a null-ptr-deref bug in msm_iommu.c
+Message-ID: <20201210091326.GA9633@willie-the-truck>
+References: <20201206094351.47860-1-tzh18@mails.tsinghua.edu.cn>
 MIME-Version: 1.0
-X-Originating-IP: [10.174.187.37]
-X-CFilter-Loop: Reflected
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, jiangkunkun@huawei.com,
- Sean Christopherson <sean.j.christopherson@intel.com>,
- Alexios Zavras <alexios.zavras@intel.com>, Mark Brown <broonie@kernel.org>,
- James Morse <james.morse@arm.com>, wanghaibin.wang@huawei.com, Thomas
- Gleixner <tglx@linutronix.de>, Keqian Zhu <zhukeqian1@huawei.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20201206094351.47860-1-tzh18@mails.tsinghua.edu.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: iommu@lists.linux-foundation.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,52 +72,40 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-We always use the smallest supported page size of vfio_iommu as
-pgsize. Drop parameter "pgsize" of update_user_bitmap.
+On Sun, Dec 06, 2020 at 01:43:51AM -0800, tangzhenhao wrote:
+> At line 600 in drivers/iommu/msm_iommu.c, the ret-val of kzalloc should be checked to avoid null-ptr-deref bug.
 
-Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
----
- drivers/vfio/vfio_iommu_type1.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+There's no need to mention the line number of the file name in the commit
+message -- that information is already available in the diff. Instead,
+please try to describe the problem that you're solving.
 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index 2d7a5cd9b916..edb0a6468e8d 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -989,10 +989,9 @@ static void vfio_update_pgsize_bitmap(struct vfio_iommu *iommu)
- }
- 
- static int update_user_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
--			      struct vfio_dma *dma, dma_addr_t base_iova,
--			      size_t pgsize)
-+			      struct vfio_dma *dma, dma_addr_t base_iova)
- {
--	unsigned long pgshift = __ffs(pgsize);
-+	unsigned long pgshift = __ffs(iommu->pgsize_bitmap);
- 	unsigned long nbits = dma->size >> pgshift;
- 	unsigned long bit_offset = (dma->iova - base_iova) >> pgshift;
- 	unsigned long copy_offset = bit_offset / BITS_PER_LONG;
-@@ -1057,7 +1056,7 @@ static int vfio_iova_dirty_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
- 		if (dma->iova > iova + size - 1)
- 			break;
- 
--		ret = update_user_bitmap(bitmap, iommu, dma, iova, pgsize);
-+		ret = update_user_bitmap(bitmap, iommu, dma, iova);
- 		if (ret)
- 			return ret;
- 
-@@ -1203,7 +1202,7 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
- 
- 		if (unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) {
- 			ret = update_user_bitmap(bitmap->data, iommu, dma,
--						 unmap->iova, pgsize);
-+						 unmap->iova);
- 			if (ret)
- 				break;
- 		}
--- 
-2.23.0
+Have a look at Documentation/process/submitting-patches.rst.
 
+> Signed-off-by: tangzhenhao <tzh18@mails.tsinghua.edu.cn>
+> ---
+>  drivers/iommu/msm_iommu.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/iommu/msm_iommu.c b/drivers/iommu/msm_iommu.c
+> index 3615cd6241c4..e3c576e5babb 100644
+> --- a/drivers/iommu/msm_iommu.c
+> +++ b/drivers/iommu/msm_iommu.c
+> @@ -598,6 +598,10 @@ static void insert_iommu_master(struct device *dev,
+>  
+>  	if (list_empty(&(*iommu)->ctx_list)) {
+>  		master = kzalloc(sizeof(*master), GFP_ATOMIC);
+> +		if (!master) {
+> +			dev_err(dev, "Failed to allocate IOMMU context bank instance\n");
+
+No need to print an error here -- kzalloc should be plenty noisy enough
+if an atomic allocation fails.
+
+> +			return;
+
+Hmm, and then what? We haven't propagated the error, so how much further do
+we get?
+
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
