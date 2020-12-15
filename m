@@ -1,129 +1,135 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E8F2DA8C3
-	for <lists.iommu@lfdr.de>; Tue, 15 Dec 2020 08:50:42 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 961902DA9EC
+	for <lists.iommu@lfdr.de>; Tue, 15 Dec 2020 10:19:19 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 003AB204AF;
-	Tue, 15 Dec 2020 07:50:41 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 52EC184539;
+	Tue, 15 Dec 2020 09:19:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9fOBei+ORp-P; Tue, 15 Dec 2020 07:50:39 +0000 (UTC)
+	with ESMTP id juzld2Lgwj8B; Tue, 15 Dec 2020 09:19:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id ACD6C204A9;
-	Tue, 15 Dec 2020 07:50:39 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6CD498452F;
+	Tue, 15 Dec 2020 09:19:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 94DF3C013B;
-	Tue, 15 Dec 2020 07:50:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 54591C013B;
+	Tue, 15 Dec 2020 09:19:17 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F0F21C013B
- for <iommu@lists.linux-foundation.org>; Tue, 15 Dec 2020 07:50:37 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1E337C013B;
+ Tue, 15 Dec 2020 09:19:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id D5866204A9
- for <iommu@lists.linux-foundation.org>; Tue, 15 Dec 2020 07:50:37 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id EFBEE87129;
+ Tue, 15 Dec 2020 09:19:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fQvcY5-0PrUt for <iommu@lists.linux-foundation.org>;
- Tue, 15 Dec 2020 07:50:36 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2081.outbound.protection.outlook.com [40.107.223.81])
- by silver.osuosl.org (Postfix) with ESMTPS id AFDFB20004
- for <iommu@lists.linux-foundation.org>; Tue, 15 Dec 2020 07:50:36 +0000 (UTC)
+ with ESMTP id QOn-yjOrMLzH; Tue, 15 Dec 2020 09:19:14 +0000 (UTC)
+X-Greylist: delayed 00:17:31 by SQLgrey-1.7.6
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+ (mail-eopbgr760085.outbound.protection.outlook.com [40.107.76.85])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 615C187127;
+ Tue, 15 Dec 2020 09:19:14 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T14zy6flJow8AjX8tzdsW6BnsG1W5txj4vBXPn6YXpz0G5DbWe89vvVJv/IbL0NdKc2OOjcwQLA7OSE9O7PKivx4TpLexk/4J6HGFmVq5klJEOrEjMnHwKBp2dws6NW+cLVzRXmV4xhAmMN/THj9Xxc4AQbh4BhewPSMd1FO5XqIiy1LgCzHWM6xtsU32fM+VY6RJFUsQleBQzjEfJBMdFBzUARcTKCGzYDyN0tdIPgrkfs21WiKpM+kOUtI8ERZd8qkb/wll4xbJwkJOmwrUxnZe+dMJpZbmhz/TpDMWaz5o6ydnbwbGkUou7062dqszhNLR6ZuAcKboiPI3ObePg==
+ b=JbR8GxfHnYCrYClwgkYJRckEhl51P7f7vZke0C/MDPBYOcbUh0veP+EshNmZ7sOMMBbs42+V6cvazKc4W6h2RePfe9jdPy/hKz5BWR1YjsElD1Sr7Qv7L9yM5CktCue5HtTlq6Hk5GipgYeBcqHAnN0LamCbaANKxaSsOVczp3fkPpJESV5JlRvz/dE9x/Z8/oxAwQtDOdRuymMcNN8kZq+KpP8S5/gqUtjov53JrbVqWGWRQfpdjyTw/H/7uxLETMvS8sVelMQJxENrSKav07pXxqDJKFxAwAjCbgk74QvyURoRJwoG4I2/TmvyKfoGW9UZonk2hMTReKSzpyN6lw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j20cs2xxBCH7+YRis9xpxmLsxCDFLkBh9K6UV9/TsSI=;
- b=HmUZLTHSrNIK6DYNPAMm2X2rp5qOn9RGa3Fa5VqktHe+sBi25lUrhLmsOPpSYBcTzTRwpirTAYYQZFUUUEbMcqrK4uyDVx5EkFAXpUnhvlbvtkGyL2uzH2sr4RsnZo6fbvOjtX456QmYPDeT9nl3//YRAwrJxAGs5Fd0cXHerDK+BLen4qjP88GN8O4LRJMW7TFZH+vz85gm0qdgYwEJ9G5L+gOjiI38wT9Ap2e+bsVogPJXc61ZQNEDMYzx1v1K6byuwzJRi5PQFBA78CuXOe1LuYRNj1OwxeG0mtl1zv1uWe9qg4mGxTdsfKO2P3QY21Mlvwjl5s8/wovtDe9v5A==
+ bh=TumceRmf7UqzclKXhJhY4vlyX+wfvD2m9twK1sGG4e4=;
+ b=b9l/OXqg4WzNEC0PTy/T62xe0+2vNaO9aAPvuxIWiKf78hbqj6kbS9vr1y4eElFKRFVSjIoTSbDokzb3BOzKo33WiT1ILzvDhBH40glR3GqbXkT2lsaiKmYGn9Veo8YqxFZZArI/nUPptWf+Ti+7vRmooZ3akMxBUvII/SELF6sZni8jwYeFfl7EL2hoonzgmj3eYocFV9R4zd9P2S5dshZd9D0RTlwaL2aTkHoTJrYMIEu2UiEkZtMB8z/OWoWGV3Ya6d2bn/XpLJr4RhVo+ULUmC8tAsV1pEe8IfnKTcuQEPHdgnNU5eEXQ/m636kYA6ayOr+TllFd8zcLc4aQLg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j20cs2xxBCH7+YRis9xpxmLsxCDFLkBh9K6UV9/TsSI=;
- b=IN4ZdZqnZD6TTPpuacnMfdsDZUrlD+z+b4gXZBUDJeiuXdj0r/kP6EoQviNShpH7n0h8ED2dy3wXgucTaZDVvMEC7Tg8ZqJL5bRuHfAWW8192j4RXO4Nmk/Srpawms4eZDFacMTCKPom5MBZnYE3AJAaUgdr0xl3VMmWMCOzqSY=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB4597.namprd12.prod.outlook.com (2603:10b6:a03:10b::14)
- by BYAPR12MB3127.namprd12.prod.outlook.com (2603:10b6:a03:d8::33)
+ bh=TumceRmf7UqzclKXhJhY4vlyX+wfvD2m9twK1sGG4e4=;
+ b=TNk3P1KfYJ7oLijSUhaSZiNru/hJTp5CxH55MZygB/j65oun2sFPe4TtsuXCmw3cPMpCzRxywjlxjP2tCLGI0RNUFpNCdgGb6LdAk2LFJRC07YKE3ScUXoIJ1mIENXCYTaidpgRLPcBQl8zgYLoh15oQ0HsPRSzaLy04tITzSpE=
+Authentication-Results: oracle.com; dkim=none (message not signed)
+ header.d=none;oracle.com; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
+ by SA0PR12MB4382.namprd12.prod.outlook.com (2603:10b6:806:9a::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.15; Tue, 15 Dec
- 2020 07:34:55 +0000
-Received: from BYAPR12MB4597.namprd12.prod.outlook.com
- ([fe80::dd10:efd2:e325:53c7]) by BYAPR12MB4597.namprd12.prod.outlook.com
- ([fe80::dd10:efd2:e325:53c7%3]) with mapi id 15.20.3654.021; Tue, 15 Dec 2020
- 07:34:55 +0000
-From: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-To: linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org
-Subject: [PATCH v4 13/13] iommu/amd: Adopt IO page table framework for AMD
- IOMMU v1 page table
-Date: Tue, 15 Dec 2020 01:37:05 -0600
-Message-Id: <20201215073705.123786-14-suravee.suthikulpanit@amd.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201215073705.123786-1-suravee.suthikulpanit@amd.com>
-References: <20201215073705.123786-1-suravee.suthikulpanit@amd.com>
-X-Originating-IP: [165.204.78.2]
-X-ClientProxiedBy: SN2PR01CA0060.prod.exchangelabs.com (2603:10b6:800::28) To
- BYAPR12MB4597.namprd12.prod.outlook.com
- (2603:10b6:a03:10b::14)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.18; Tue, 15 Dec
+ 2020 08:47:26 +0000
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::d8f2:fde4:5e1d:afec]) by SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::d8f2:fde4:5e1d:afec%3]) with mapi id 15.20.3654.024; Tue, 15 Dec 2020
+ 08:47:26 +0000
+Date: Tue, 15 Dec 2020 08:47:20 +0000
+From: Ashish Kalra <ashish.kalra@amd.com>
+To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Subject: Re: swiotlb/virtio: unchecked device dma address and length
+Message-ID: <20201215084720.GA9981@ashkalra_ubuntu_server>
+References: <d2ae0b1d-332b-42a1-87bf-7da2b749cac2@sect.tu-berlin.de>
+ <20201214214950.GC18103@char.us.oracle.com>
+Content-Disposition: inline
+In-Reply-To: <20201214214950.GC18103@char.us.oracle.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [165.204.77.1]
+X-ClientProxiedBy: SA9PR03CA0008.namprd03.prod.outlook.com
+ (2603:10b6:806:20::13) To SN6PR12MB2767.namprd12.prod.outlook.com
+ (2603:10b6:805:75::23)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ethanolx5673host.amd.com (165.204.78.2) by
- SN2PR01CA0060.prod.exchangelabs.com (2603:10b6:800::28) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12 via Frontend Transport; Tue, 15 Dec 2020 07:34:53 +0000
+Received: from ashkalra_ubuntu_server (165.204.77.1) by
+ SA9PR03CA0008.namprd03.prod.outlook.com (2603:10b6:806:20::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3632.17 via Frontend Transport; Tue, 15 Dec 2020 08:47:25 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 4a3323fc-9102-4a54-d100-08d8a0cbead1
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3127:
+X-MS-Office365-Filtering-Correlation-Id: f62a682f-684b-428e-2423-08d8a0d60ca3
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4382:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR12MB312758B9BEDF816532EA25A9F3C60@BYAPR12MB3127.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2331;
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4382B639B9EE02C423FEE3D58EC60@SA0PR12MB4382.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EoON74h/dC8A5FaHwyu4A7e7FHnJiwveyd9eOOdw9PN9UX6dHVA7EunWLrrpWddyjkILh6Hn1psMQRjxfnKqEcQWkN4O6y3eBEoOv4pGPiy8wkCnJvwLj5JCrtYewmcofO+eA8Ws68yNPPQmIVOC3BAuAu3q4mHttNCTGGEksPkWMMV+2omyfvvu7sDRbMJkCbYeRHDLOKJUWaYVq69uyPZRDqvCbplDdrv2pkwk3qxdDK7KEfPZgni9O2mkA5KcnfjVCCgzTPCh5kIm6UV8AGBbEWdYsRxszutP5VAfRrHCLXm91pTzLw1d1E0NC85Cdc7KoNmToR65IvVwHAGUx9nKg3w+vS4wyoUXZ/kUWYUYwhlUT8jzEbq/mYFf/m92
+X-Microsoft-Antispam-Message-Info: EMKWJt/aSoon7mLujW+cd6WX+6s2Gzb9mcZjMLeCUp98k2qjy98AfJlvTRB+Mor0tOh485R1MnUGNENrggnRmo1NbKozRMklMEi72xWFvVleJQsSH+vp+31JTlpWZS/b44ALkvspLIwEaab/O6sF7/pSST1ZNbDWJDfMgEs57HdlRauklwo2s6mdu8Gmmxn+ApjtcmCh0OhuA4NXU/Mz+GY6PH1ZD/lLE15+j8OCDicJsVQ2Nsf0QSIkQplK7pcBH8Xsv/C2KYoMWgvvL2oGH1buMubab3ibJP5QqpbpZ824kKpWEoHgQxdoZ2pQJJb6RgMoAh32FQ9nP3CQSqmNKaVCgVAcWwb4hLOHWAJHlkxruQidqk9W4QbsBmXbfe6ojo5JgO3LFkIxFuyT9qgEquvJh9lEBECBCwRdg1IbFPKaQtCnXj85PVOIPchgP6OKA6BYU6wGgapE/9mrYinklQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB4597.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(346002)(376002)(66556008)(66476007)(66946007)(6486002)(34490700003)(2906002)(186003)(4326008)(508600001)(8676002)(956004)(6666004)(86362001)(2616005)(52116002)(7696005)(44832011)(36756003)(1076003)(5660300002)(16526019)(26005)(8936002)(83380400001);
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(376002)(346002)(66946007)(16526019)(33716001)(1076003)(966005)(9686003)(52116002)(2906002)(956004)(6916009)(34490700003)(4326008)(8936002)(8676002)(26005)(186003)(44832011)(55016002)(54906003)(7416002)(508600001)(45080400002)(6496006)(86362001)(33656002)(6666004)(5660300002)(66476007)(66556008)(83380400001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?IeCcKWsc/2+qvcxVQYthZAK0mBrinRG4lIh8Gmoqhlu2wEJBUYn48izj7gwV?=
- =?us-ascii?Q?DbwzdaN0rB+7lHupez37UR67KkRPjByR8R20Jssbf+xR1tl1Op+DH4jxVBvv?=
- =?us-ascii?Q?9XYhaN9C6rMb3DlOt50m13VNhUmCGP3hSvlbk+WKThf+xDbewlcpGxJjrjjA?=
- =?us-ascii?Q?Xe/7+L7wJ+I0s8gWRAxOQ2z2osEikzFdbLcZeMmL3pxktlGI4hm05YxhtlYx?=
- =?us-ascii?Q?oLXjPE+DJspcxWGHOnwqK5eoyoKKh5WL3GuM5LkiqMcaiZXD6H6W4YUrX5xk?=
- =?us-ascii?Q?P2jDJywgjOq/RlbfLCtVAp09fbtpEUX2+XYzW3wrGfeIfRowfiBlvrmB6n9n?=
- =?us-ascii?Q?+DRF1BfDnOZwHzlAypqXAYQXgWFEqYdlUIMXb19BR30P/RH/rjZNowLtJlu/?=
- =?us-ascii?Q?BA0YJi2eOB+ger+hn24NC/CJT+rJ46/0uVW4OBXsBVUbDpOFMQZ1dbex08I3?=
- =?us-ascii?Q?7FXIdiLh9M/fk2hO7QW92o/EbCVzhRzAo7xzrTHQMuQzfzybv1FJQf/srdk2?=
- =?us-ascii?Q?ihALWBUv96gnmAThxBwPsik9FuFFLN7sTPQJBmv6KEck/3tswNE/RBo8HOUB?=
- =?us-ascii?Q?sPCEIg1fzUoNJSC5I9r8V5B+/BCkkwvSaCQN150TkfC3sq0/JWDgd2ytoPoC?=
- =?us-ascii?Q?NNGkQ7iJ6SWaQZkMbj3xEUKubApIYuPYVu1VgLtMkYM/js902WaSe6V0s3+V?=
- =?us-ascii?Q?oz5zl6Ck2LAlsIeZT+BWQFfy/eaLn2OkEJr4h0G5lK+AHn1RXLUJ7FAPMtV1?=
- =?us-ascii?Q?y2Ymu1lahlSikg6QllowmJnKBkxMowK0tPRljR1tj9rtOMJvKuDUPTTqHuLM?=
- =?us-ascii?Q?FBYyb/bXDx0/xzbgi2VdT1isabywuVxWiJP2dEia6bvpwPKrQ7lRk6eQpLSj?=
- =?us-ascii?Q?ug6NQvU98fyzf934FH9d3+IvJVMPMXI49xl13IouH/VNBjqqi+4Iqpu/tPzR?=
- =?us-ascii?Q?U9N46CoBYq5xXr7tmwAZdzGeeGzvwZX0GzWK859unqs/iavlszG5v8OhY1No?=
- =?us-ascii?Q?pS8P?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?lbXVujagoDNHm9S68II+sv/GZwvDsUstmdR1NM/Q3yLuAnPvKhHQRLxapRq5?=
+ =?us-ascii?Q?SBLu/ZDWTg2mQ1Om6wAsX2jA2fwj9iCI/vnU3XQVT6gTeTFKupGwU3ZpDCEg?=
+ =?us-ascii?Q?7wueBlXqVGfBHvkYXGmqzqD3gF+BscNDG2zSuLxS87wzUZnNa3JfV8VCmUfS?=
+ =?us-ascii?Q?bDIAg/qkrBNDebCdKGNc2xltvpVl3wsX5ipNClovud9b16r3yt64IF19PKc7?=
+ =?us-ascii?Q?ghBCWsmVtIaAN5vxjkIeZcZU2eP0NLLe8B8gw9HXHFSno5+ONqa3N3VsWEJ2?=
+ =?us-ascii?Q?tHvSO0IQeovtrZ44ujeLmh1CzifdT4OZ2/FGieEm3Y/OL1CKKulfBEBiw4Rw?=
+ =?us-ascii?Q?8qyDUBbaZVvvolFWKqL/uTMKNNMRFcIaDOpmZ6yJWvDSCzn7glo12HuXRhp2?=
+ =?us-ascii?Q?P/eeYSNNKKlFTkO14cgsyiZh3KkLNiNvCSmed+f6cqUaCG2ci+F+eEM8zXCI?=
+ =?us-ascii?Q?ttAS40z4s7zT5KlTH0HXEKj+vW+0amZNg3oi3yz8XHuODffP680lYi+DbOdG?=
+ =?us-ascii?Q?fouAKPosMcq2oVLfyBRaqAtzlcP+8Hhx3A7UTvpFUMM1QQCTGzcme9bMIXvq?=
+ =?us-ascii?Q?8Q8KD+sRfxWfU64D4ldDaxsa1zSanbPVsdPIMCeeWOMYfRWe8bgWeeiFgdNA?=
+ =?us-ascii?Q?0gabOC8jtvbQRHhU8wfiWmZ9+Yu0n0/cbKzLybclpGQCKfkEUss5U9dKfkGH?=
+ =?us-ascii?Q?DaYJ3b99Z+jMOZgIkfriGTc/sdgI+WtRpwZDk/ZwvTgUg6fs2c6PVc6QHIHn?=
+ =?us-ascii?Q?lsGL4S3k2o04ZUre+EK4GNUZTPaoVj8RCGuP4UXIhJHfPEJArvR9fNS4vP7h?=
+ =?us-ascii?Q?2YjK/LizovBds1vfJFMZCrqa4+g63Nihr3rrZH1RkIqQUafkgaaC1QoFZzct?=
+ =?us-ascii?Q?Ws4Uu6vk2a/VopuEzY9MsBeLDLmAKJmEFCW2VK/N2HBfbveXGrGEI4+GbNHT?=
+ =?us-ascii?Q?2PktiDOF4i1p3vCWDkxszWhYL2KYhLrO+LmBcZVmqFOmThGriIEXOOzQYMRJ?=
+ =?us-ascii?Q?6IPe?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4597.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2020 07:34:54.9310 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2020 08:47:26.5710 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a3323fc-9102-4a54-d100-08d8a0cbead1
+X-MS-Exchange-CrossTenant-Network-Message-Id: f62a682f-684b-428e-2423-08d8a0d60ca3
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5HJiSmdmPqPPPUZ6fw6uVHb4hvv+vumA4FQx62KDuGaXXYneEWU0Q5ndm28cyXldru+xUNzttBni71TFCo3BkQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3127
-Cc: will@kernel.org
+X-MS-Exchange-CrossTenant-UserPrincipalName: HOThCrvgDkQa0V+/gQtRVHePfyq23q8Z5JwXer/ubkDaqqC36zbVTu9ruNgArHIhOEBHih+PNfSG9HIfzZKjZQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4382
+Cc: Thomas.Lendacky@amd.com, Felicitas Hetzelt <file@sect.tu-berlin.de>, "Radev,
+ Martin" <martin.radev@aisec.fraunhofer.de>, david.kaplan@amd.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Jon.Grimm@amd.com, virtualization@lists.linux-foundation.org,
+ Robert Buhren <robert@sect.tu-berlin.de>, iommu@lists.linux-foundation.org,
+ brijesh.singh@amd.com, "Morbitzer,
+ Mathias" <mathias.morbitzer@aisec.fraunhofer.de>, hch@lst.de
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -141,149 +147,88 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Switch to using IO page table framework for AMD IOMMU v1 page table.
+On Mon, Dec 14, 2020 at 04:49:50PM -0500, Konrad Rzeszutek Wilk wrote:
+> On Fri, Dec 11, 2020 at 06:31:21PM +0100, Felicitas Hetzelt wrote:
+> > Hello,
+> 
+> Hi! Please see below my responses.
+> 
+> > we have been analyzing the Hypervisor-OS interface of Linux
+> > and discovered bugs in the swiotlb/virtio implementation that can be
+> > triggered from a malicious Hypervisor / virtual device.
+> > With SEV, the SWIOTLB implementation is forcefully enabled and would
+> > always be used. Thus, all virtio devices and others would use it under
+> > the hood.
+> > 
+> > The reason for analyzing this interface is that, technologies such as
+> > Intel's Trusted Domain Extensions [1] and AMD's Secure Nested Paging [2]
+> > change the threat model assumed by various Linux kernel subsystems.
+> > These technologies take the presence of a fully malicious hypervisor
+> > into account and aim to provide protection for virtual machines in such
+> > an environment. Therefore, all input received from the hypervisor or an
+> > external device should be carefully validated. Note that these issues
+> > are of little (or no) relevance in a "normal" virtualization setup,
+> > nevertheless we believe that it is required to fix them if TDX or SNP is
+> > used.
+> > 
+> > We are happy to provide more information if needed!
+> > 
+> > [1]
+> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fsoftware.intel.com%2Fcontent%2Fwww%2Fus%2Fen%2Fdevelop%2Farticles%2Fintel-trust-domain-extensions.html&amp;data=04%7C01%7Cashish.kalra%40amd.com%7C1d1cbca182a84c0e504708d8a079eec0%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637435792867090126%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=THAJlYGLSOx3bKQYH62TLKH50By7Wnsu0z92snfNY84%3D&amp;reserved=0
+> > 
+> > [2] https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.amd.com%2Fen%2Fprocessors%2Famd-secure-encrypted-virtualization&amp;data=04%7C01%7Cashish.kalra%40amd.com%7C1d1cbca182a84c0e504708d8a079eec0%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637435792867090126%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=M3jmYCWaEvmAzIy%2F4z5XstsPf812SbEkuNX5PVVr0HY%3D&amp;reserved=0
+> > 
+> > Bug:
+> > OOB memory write.
+> > dma_unmap_single -> swiotlb_tbl_unmap_single is invoked with dma_addr
+> > and length parameters that are under control of the device.
+> > This happens e.g. in virtio_ring:
+> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv5.10-rc7%2Fsource%2Fdrivers%2Fvirtio%2Fvirtio_ring.c%23L378&amp;data=04%7C01%7Cashish.kalra%40amd.com%7C1d1cbca182a84c0e504708d8a079eec0%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637435792867090126%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=j0CIi%2F8hBkVx45XGBtT4Ri52uWIOdOts%2BSbJ0kCB5B0%3D&amp;reserved=0
+> 
+> Heya!
+> 
+> Thank you for pointing this out! I've a couple of questions and hope you can
+> help me out with them.
+> 
+> Also CC-ing AMD / TDX folks.
+> > 
 
-Signed-off-by: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
----
- drivers/iommu/amd/amd_iommu.h |  1 +
- drivers/iommu/amd/init.c      |  2 ++
- drivers/iommu/amd/iommu.c     | 48 ++++++++++++++++++++++++++---------
- 3 files changed, 39 insertions(+), 12 deletions(-)
+Adding more relevant folks in AMD.
 
-diff --git a/drivers/iommu/amd/amd_iommu.h b/drivers/iommu/amd/amd_iommu.h
-index 3770b1a4d51c..91452e0ff072 100644
---- a/drivers/iommu/amd/amd_iommu.h
-+++ b/drivers/iommu/amd/amd_iommu.h
-@@ -36,6 +36,7 @@ extern void amd_iommu_disable(void);
- extern int amd_iommu_reenable(int);
- extern int amd_iommu_enable_faulting(void);
- extern int amd_iommu_guest_ir;
-+extern enum io_pgtable_fmt amd_iommu_pgtable;
- 
- /* IOMMUv2 specific functions */
- struct iommu_domain;
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index 23a790f8f550..5fb4bea14cc4 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
-@@ -147,6 +147,8 @@ struct ivmd_header {
- bool amd_iommu_dump;
- bool amd_iommu_irq_remap __read_mostly;
- 
-+enum io_pgtable_fmt amd_iommu_pgtable = AMD_IOMMU_V1;
-+
- int amd_iommu_guest_ir = AMD_IOMMU_GUEST_IR_VAPIC;
- static int amd_iommu_xt_mode = IRQ_REMAP_XAPIC_MODE;
- 
-diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index 1f04b251f0c6..571e8806e4a1 100644
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -31,6 +31,7 @@
- #include <linux/irqdomain.h>
- #include <linux/percpu.h>
- #include <linux/iova.h>
-+#include <linux/io-pgtable.h>
- #include <asm/irq_remapping.h>
- #include <asm/io_apic.h>
- #include <asm/apic.h>
-@@ -1901,7 +1902,7 @@ static void protection_domain_free(struct protection_domain *domain)
- 	kfree(domain);
- }
- 
--static int protection_domain_init(struct protection_domain *domain, int mode)
-+static int protection_domain_init_v1(struct protection_domain *domain, int mode)
- {
- 	u64 *pt_root = NULL;
- 
-@@ -1924,34 +1925,55 @@ static int protection_domain_init(struct protection_domain *domain, int mode)
- 	return 0;
- }
- 
--static struct protection_domain *protection_domain_alloc(int mode)
-+static struct protection_domain *protection_domain_alloc(unsigned int type)
- {
-+	struct io_pgtable_ops *pgtbl_ops;
- 	struct protection_domain *domain;
-+	int pgtable = amd_iommu_pgtable;
-+	int mode = DEFAULT_PGTABLE_LEVEL;
-+	int ret;
- 
- 	domain = kzalloc(sizeof(*domain), GFP_KERNEL);
- 	if (!domain)
- 		return NULL;
- 
--	if (protection_domain_init(domain, mode))
-+	/*
-+	 * Force IOMMU v1 page table when iommu=pt and
-+	 * when allocating domain for pass-through devices.
-+	 */
-+	if (type == IOMMU_DOMAIN_IDENTITY) {
-+		pgtable = AMD_IOMMU_V1;
-+		mode = PAGE_MODE_NONE;
-+	} else if (type == IOMMU_DOMAIN_UNMANAGED) {
-+		pgtable = AMD_IOMMU_V1;
-+	}
-+
-+	switch (pgtable) {
-+	case AMD_IOMMU_V1:
-+		ret = protection_domain_init_v1(domain, mode);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+	}
-+
-+	if (ret)
- 		goto out_err;
- 
--	return domain;
-+	pgtbl_ops = alloc_io_pgtable_ops(pgtable, &domain->iop.pgtbl_cfg, domain);
-+	if (!pgtbl_ops)
-+		goto out_err;
- 
-+	return domain;
- out_err:
- 	kfree(domain);
--
- 	return NULL;
- }
- 
- static struct iommu_domain *amd_iommu_domain_alloc(unsigned type)
- {
- 	struct protection_domain *domain;
--	int mode = DEFAULT_PGTABLE_LEVEL;
--
--	if (type == IOMMU_DOMAIN_IDENTITY)
--		mode = PAGE_MODE_NONE;
- 
--	domain = protection_domain_alloc(mode);
-+	domain = protection_domain_alloc(type);
- 	if (!domain)
- 		return NULL;
- 
-@@ -2070,7 +2092,8 @@ static int amd_iommu_map(struct iommu_domain *dom, unsigned long iova,
- 	int prot = 0;
- 	int ret = -EINVAL;
- 
--	if (domain->iop.mode == PAGE_MODE_NONE)
-+	if ((amd_iommu_pgtable == AMD_IOMMU_V1) &&
-+	    (domain->iop.mode == PAGE_MODE_NONE))
- 		return -EINVAL;
- 
- 	if (iommu_prot & IOMMU_READ)
-@@ -2093,7 +2116,8 @@ static size_t amd_iommu_unmap(struct iommu_domain *dom, unsigned long iova,
- 	struct protection_domain *domain = to_pdomain(dom);
- 	struct io_pgtable_ops *ops = &domain->iop.iop.ops;
- 
--	if (domain->iop.mode == PAGE_MODE_NONE)
-+	if ((amd_iommu_pgtable == AMD_IOMMU_V1) &&
-+	    (domain->iop.mode == PAGE_MODE_NONE))
- 		return 0;
- 
- 	return (ops->unmap) ? ops->unmap(ops, iova, page_size, gather) : 0;
--- 
-2.17.1
+Needless to say, the swiotlb code needs to validate this external untrusted input dma_addr and length parameters.
 
+Thanks,
+Ashish
+
+> > This raises two issues:
+> > 1) swiotlb_tlb_unmap_single fails to check whether the index generated
+> > from the dma_addr is in range of the io_tlb_orig_addr array.
+> 
+> That is fairly simple to implement I would think. That is it can check
+> that the dma_addr is from the PA in the io_tlb pool when SWIOTLB=force
+> is used.
+> 
+> > 2) when swiotlb_bounce is called the device controls the length of the
+> > memory copied to the cpu address.
+> 
+> So.. this sounds very similar to the Intel Thunder.. something issue
+> where this exact issue was fixed by handing the DMA off to the SWIOTLB
+> bounce code.
+> 
+> But if that is broken, then that CVE is still not fixed?
+> 
+> So the issue here is that swiotlb_tbl_unmap_single(..,mapping_size,) is
+> under the attacker control. Ugh.
+> 
+> One way could be to have a io_tlb_orig_addr-ish array with the length
+> of mappings to double check?
+> 
+> Couple more questions:
+>  - Did you have already some PoC fixes for this? 
+>  - Is there a CVE associated with this?
+>  - Is there a paper on this you all are working on?
+> 
+> Thank you!
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
