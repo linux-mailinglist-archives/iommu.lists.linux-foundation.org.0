@@ -2,57 +2,58 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A58D2DBEB8
-	for <lists.iommu@lfdr.de>; Wed, 16 Dec 2020 11:37:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80062DBEBB
+	for <lists.iommu@lfdr.de>; Wed, 16 Dec 2020 11:37:21 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 15EB5220B2;
-	Wed, 16 Dec 2020 10:37:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2C9A921505;
+	Wed, 16 Dec 2020 10:37:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id s8X7iYBnoxs1; Wed, 16 Dec 2020 10:37:03 +0000 (UTC)
+	with ESMTP id 8yBArCFneOxm; Wed, 16 Dec 2020 10:37:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7478920461;
-	Wed, 16 Dec 2020 10:37:03 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A873B2153E;
+	Wed, 16 Dec 2020 10:37:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5EE4EC088E;
-	Wed, 16 Dec 2020 10:37:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A3DEC088E;
+	Wed, 16 Dec 2020 10:37:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0D170C013B
- for <iommu@lists.linux-foundation.org>; Wed, 16 Dec 2020 10:37:02 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1D9C8C013B
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Dec 2020 10:37:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id EE735868FA
- for <iommu@lists.linux-foundation.org>; Wed, 16 Dec 2020 10:37:01 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 0C0BC868F2
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Dec 2020 10:37:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KhSzYuPdr7e5 for <iommu@lists.linux-foundation.org>;
- Wed, 16 Dec 2020 10:37:01 +0000 (UTC)
+ with ESMTP id 5drlUeKcqTKs for <iommu@lists.linux-foundation.org>;
+ Wed, 16 Dec 2020 10:37:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by whitealder.osuosl.org (Postfix) with ESMTP id 5F020868F9
- for <iommu@lists.linux-foundation.org>; Wed, 16 Dec 2020 10:37:01 +0000 (UTC)
-X-UUID: e563cf50d7cd457495a0b75e9b3a84ac-20201216
-X-UUID: e563cf50d7cd457495a0b75e9b3a84ac-20201216
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw02.mediatek.com (envelope-from <yong.wu@mediatek.com>)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 64F5F868F4
+ for <iommu@lists.linux-foundation.org>; Wed, 16 Dec 2020 10:37:10 +0000 (UTC)
+X-UUID: b1cd02c06e1143d194d9f5ea977f26d9-20201216
+X-UUID: b1cd02c06e1143d194d9f5ea977f26d9-20201216
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1449599214; Wed, 16 Dec 2020 18:36:57 +0800
+ with ESMTP id 508358520; Wed, 16 Dec 2020 18:37:06 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
  mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 16 Dec 2020 18:36:55 +0800
+ 15.0.1497.2; Wed, 16 Dec 2020 18:37:03 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 16 Dec 2020 18:36:54 +0800
+ Transport; Wed, 16 Dec 2020 18:37:02 +0800
 From: Yong Wu <yong.wu@mediatek.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin
  Murphy <robin.murphy@arm.com>
-Subject: [PATCH v3 5/7] iommu: Allow io_pgtable_tlb ops optional
-Date: Wed, 16 Dec 2020 18:36:05 +0800
-Message-ID: <20201216103607.23050-6-yong.wu@mediatek.com>
+Subject: [PATCH v3 6/7] iommu/mediatek: Gather iova in iommu_unmap to achieve
+ tlb sync once
+Date: Wed, 16 Dec 2020 18:36:06 +0800
+Message-ID: <20201216103607.23050-7-yong.wu@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20201216103607.23050-1-yong.wu@mediatek.com>
 References: <20201216103607.23050-1-yong.wu@mediatek.com>
@@ -83,46 +84,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This patch allows io_pgtable_tlb ops could be null since the IOMMU drivers
-may use the tlb ops from iommu framework.
+In current iommu_unmap, this code is:
+
+	iommu_iotlb_gather_init(&iotlb_gather);
+	ret = __iommu_unmap(domain, iova, size, &iotlb_gather);
+	iommu_iotlb_sync(domain, &iotlb_gather);
+
+We could gather the whole iova range in __iommu_unmap, and then do tlb
+synchronization in the iommu_iotlb_sync.
+
+This patch implement this, Gather the range in mtk_iommu_unmap.
+then iommu_iotlb_sync call tlb synchronization for the gathered iova range.
+we don't call iommu_iotlb_gather_add_page since our tlb synchronization
+could be regardless of granule size.
+
+In this way, gather->start is impossible ULONG_MAX, remove the checking.
+
+This patch aims to do tlb synchronization *once* in the iommu_unmap.
 
 Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 ---
- include/linux/io-pgtable.h | 8 +++++---
+ drivers/iommu/mtk_iommu.c | 8 +++++---
  1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
-index adde9e49be08..c81796814afa 100644
---- a/include/linux/io-pgtable.h
-+++ b/include/linux/io-pgtable.h
-@@ -206,14 +206,16 @@ struct io_pgtable {
- 
- static inline void io_pgtable_tlb_flush_all(struct io_pgtable *iop)
+diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+index db7d43adb06b..89cec51405cd 100644
+--- a/drivers/iommu/mtk_iommu.c
++++ b/drivers/iommu/mtk_iommu.c
+@@ -506,7 +506,12 @@ static size_t mtk_iommu_unmap(struct iommu_domain *domain,
+ 			      struct iommu_iotlb_gather *gather)
  {
--	iop->cfg.tlb->tlb_flush_all(iop->cookie);
-+	if (iop->cfg.tlb && iop->cfg.tlb->tlb_flush_all)
-+		iop->cfg.tlb->tlb_flush_all(iop->cookie);
+ 	struct mtk_iommu_domain *dom = to_mtk_domain(domain);
++	unsigned long long end = iova + size;
+ 
++	if (gather->start > iova)
++		gather->start = iova;
++	if (gather->end < end)
++		gather->end = end;
+ 	return dom->iop->unmap(dom->iop, iova, size, gather);
  }
  
- static inline void
- io_pgtable_tlb_flush_walk(struct io_pgtable *iop, unsigned long iova,
- 			  size_t size, size_t granule)
- {
--	iop->cfg.tlb->tlb_flush_walk(iova, size, granule, iop->cookie);
-+	if (iop->cfg.tlb && iop->cfg.tlb->tlb_flush_walk)
-+		iop->cfg.tlb->tlb_flush_walk(iova, size, granule, iop->cookie);
- }
+@@ -523,9 +528,6 @@ static void mtk_iommu_iotlb_sync(struct iommu_domain *domain,
+ 	struct mtk_iommu_domain *dom = to_mtk_domain(domain);
+ 	size_t length = gather->end - gather->start;
  
- static inline void
-@@ -221,7 +223,7 @@ io_pgtable_tlb_add_page(struct io_pgtable *iop,
- 			struct iommu_iotlb_gather * gather, unsigned long iova,
- 			size_t granule)
- {
--	if (iop->cfg.tlb->tlb_add_page)
-+	if (iop->cfg.tlb && iop->cfg.tlb->tlb_add_page)
- 		iop->cfg.tlb->tlb_add_page(gather, iova, granule, iop->cookie);
+-	if (gather->start == ULONG_MAX)
+-		return;
+-
+ 	mtk_iommu_tlb_flush_range_sync(gather->start, length, gather->pgsize,
+ 				       dom->data);
  }
- 
 -- 
 2.18.0
 
