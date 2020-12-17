@@ -1,91 +1,77 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D145C2DC8E3
-	for <lists.iommu@lfdr.de>; Wed, 16 Dec 2020 23:22:18 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B362DCAFE
+	for <lists.iommu@lfdr.de>; Thu, 17 Dec 2020 03:26:39 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8AD16871E0;
-	Wed, 16 Dec 2020 22:22:17 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B29E6870DE;
+	Thu, 17 Dec 2020 02:26:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UcZBE4YLO2dz; Wed, 16 Dec 2020 22:22:17 +0000 (UTC)
+	with ESMTP id TuxL89ES5e1c; Thu, 17 Dec 2020 02:26:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 182EE87204;
-	Wed, 16 Dec 2020 22:22:17 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C64F7878D9;
+	Thu, 17 Dec 2020 02:26:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0AE35C013B;
-	Wed, 16 Dec 2020 22:22:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AA647C1D9F;
+	Thu, 17 Dec 2020 02:26:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6E699C013B
- for <iommu@lists.linux-foundation.org>; Wed, 16 Dec 2020 22:22:15 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 749A7C013B
+ for <iommu@lists.linux-foundation.org>; Thu, 17 Dec 2020 02:26:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 5550C87204
- for <iommu@lists.linux-foundation.org>; Wed, 16 Dec 2020 22:22:15 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 64BD687740
+ for <iommu@lists.linux-foundation.org>; Thu, 17 Dec 2020 02:26:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qMENYfMdysZ8 for <iommu@lists.linux-foundation.org>;
- Wed, 16 Dec 2020 22:22:14 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D1B34871E0
- for <iommu@lists.linux-foundation.org>; Wed, 16 Dec 2020 22:22:13 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id m25so52348833lfc.11
- for <iommu@lists.linux-foundation.org>; Wed, 16 Dec 2020 14:22:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/v0hHuTQJANmvCHJQOT6cv+aYzklwaQBsw7a+SjqaAo=;
- b=Py++p8U61BKV5jezbYzGa5rfeT+dQm2cIzUuGb4r0JMdVqX1ojA8O+pRU+mKYywEyV
- a+CE1mT/C+ZVnAxn7nwMjoPp58+uu7IK+jXDueismZ2GvuLdTUn7IrhpsKsyOZWRLCKl
- o/rr8hG2wI46saGDp9+rsapwJDsoz8nogfugo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/v0hHuTQJANmvCHJQOT6cv+aYzklwaQBsw7a+SjqaAo=;
- b=KHQLz5Q/zv6VLI5XgUakXy60P86ZjfOdZj7a66sXdAVJi6rmX2j89ikvYaDlmv6brI
- BhjRx0mkipEUqtV+TS6YziZpY4rwSmpKFwGm7zniVJibTb3neradorxEIGN5aZZO/j+q
- sOoAMGyInu363V7Z5aNFZOemlYKQzzNIZ3/sFenlY5Gc1c8ddqeDwk91l1kEE/TRggAH
- VspL0HzBgA1RchXrvSp5FklwE84G1gmCfJ9tFp34yJemTYIwxQHsEx3M281yGSALlJ6q
- DjgVm9a+t7FhZdrbNwkhtVd2WeOJenoKvNrprT55O26G+SNb1HxnIdpsak7r+ot4BYcY
- Y0Jw==
-X-Gm-Message-State: AOAM5311gljqe4uUC1ef7vXJq0BXZflSp/AxHgHUsiZaWX6YzzXut7TM
- iGQaEDjJDMTNq9BrkG4lQwfvOTNTgsq5RnU2
-X-Google-Smtp-Source: ABdhPJwGab5D18OI4YpTuVePgRxvM9IqLQc0XnbRxCE4lENvG4Ox1GNE3pGPWCQuz0xGfnJoXh847w==
-X-Received: by 2002:ac2:4437:: with SMTP id w23mr14429772lfl.618.1608157331531; 
- Wed, 16 Dec 2020 14:22:11 -0800 (PST)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com.
- [209.85.167.46])
- by smtp.gmail.com with ESMTPSA id o26sm429648ljg.55.2020.12.16.14.22.10
- for <iommu@lists.linux-foundation.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Dec 2020 14:22:10 -0800 (PST)
-Received: by mail-lf1-f46.google.com with SMTP id l11so52433175lfg.0
- for <iommu@lists.linux-foundation.org>; Wed, 16 Dec 2020 14:22:10 -0800 (PST)
-X-Received: by 2002:a19:8557:: with SMTP id h84mr12893163lfd.201.1608157330146; 
- Wed, 16 Dec 2020 14:22:10 -0800 (PST)
+ with ESMTP id YMDBjrm+kQKb for <iommu@lists.linux-foundation.org>;
+ Thu, 17 Dec 2020 02:26:33 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by whitealder.osuosl.org (Postfix) with ESMTP id BA84287736
+ for <iommu@lists.linux-foundation.org>; Thu, 17 Dec 2020 02:26:32 +0000 (UTC)
+X-UUID: a26dd9353d1e42208dd961d29e96f238-20201217
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=cZkhfVbBy8ld8Co+Td0lutxPr2qax5e+8H5edX0I4Es=; 
+ b=S5a/E9Sk262fUlpl4jWNxK94BAjz664cJCG0HUUB1v2v25iDGDSFH/8uu1Gi9Tyj2Xu5RqvzesFBWYBH1a6ArvjIjljorRyDmS9RFcuiLJ64m0VOZTC5zLTuj9c5iOgv4DiJfaV0E0y5uvDKIneqOugHQgLudjmA04GUtiIKaNo=;
+X-UUID: a26dd9353d1e42208dd961d29e96f238-20201217
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 972562059; Thu, 17 Dec 2020 10:26:03 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31DR.mediatek.inc
+ (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 17 Dec 2020 10:26:01 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 17 Dec 2020 10:26:01 +0800
+Message-ID: <1608171961.26323.210.camel@mhfsdcap03>
+Subject: Re: [PATCH v3 4/7] iommu: Switch gather->end to unsigned long long
+From: Yong Wu <yong.wu@mediatek.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Date: Thu, 17 Dec 2020 10:26:01 +0800
+In-Reply-To: <16a9565e-5b01-e1c2-0f4a-d06db7f3b093@arm.com>
+References: <20201216103607.23050-1-yong.wu@mediatek.com>
+ <20201216103607.23050-5-yong.wu@mediatek.com>
+ <16a9565e-5b01-e1c2-0f4a-d06db7f3b093@arm.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-References: <20201214234518.GA14575@willie-the-truck>
- <20201216185352.GA16598@willie-the-truck>
- <CAHk-=wijH15u2KfpON3VCECQODAVNJ6DtgQajDaKo+PB_c-L3g@mail.gmail.com>
- <20201216221035.GA16915@willie-the-truck>
-In-Reply-To: <20201216221035.GA16915@willie-the-truck>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 16 Dec 2020 14:21:54 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wg33UY7U_bDpMDjQh7HrHEZrjiiug0R==iH_Gh6ZAySTg@mail.gmail.com>
-Message-ID: <CAHk-=wg33UY7U_bDpMDjQh7HrHEZrjiiug0R==iH_Gh6ZAySTg@mail.gmail.com>
-Subject: Re: [GIT PULL] IOMMU updates for 5.11
-To: Will Deacon <will@kernel.org>
-Cc: Android Kernel Team <kernel-team@android.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- iommu <iommu@lists.linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>
+X-TM-SNTS-SMTP: AB5FD0512F263D6A017B73D1545892F0A3880C0205E3ADED95904F3CF6FAB3A82000:8
+X-MTK: N
+Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com,
+ Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
+ Tomasz Figa <tfiga@google.com>, kernel-team@android.com,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ chao.hao@mediatek.com, iommu@lists.linux-foundation.org,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Greg Kroah-Hartman <gregkh@google.com>, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,41 +89,57 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Dec 16, 2020 at 2:10 PM Will Deacon <will@kernel.org> wrote:
->
-> Brill, cheers. I didn't realise you were going by subsystem, so that's
-> why I was getting worried.
+On Wed, 2020-12-16 at 12:10 +0000, Robin Murphy wrote:
+> On 2020-12-16 10:36, Yong Wu wrote:
+> > Currently gather->end is "unsigned long" which may be overflow in
+> > arch32 in the corner case: 0xfff00000 + 0x100000(iova + size).
+> > Although it doesn't affect the size(end - start), it affects the checking
+> > "gather->end < end"
+> 
+> This won't help the same situation at the top of a 64-bit address space, 
+> though, and now that we have TTBR1 support for AArch64 format that is 
+> definitely a thing. Better to just encode the end address as the actual 
+> end address, i.e. iova + size - 1. We don't lose anything other than the 
+> ability to encode zero-sized invalidations that don't make sense anyway.
 
-My "by subsystem" is a bit fuzzy, and it only really happens when I
-have a _lot_ of pending pull requests. Which this merge window has had
-more than most, since usually they come in a bit more spread out.
+Thanks for the suggestion. "iova + size - 1" is better. Also I will
+change the "size" to "gather->end - gather->start + 1" in the iotlb_sync
+of arm-smmu-v3.c and mtk_iommu.c.
 
-But when I have tens of pull requests in my mailbox, I tend to do them
-by a very rough "similarity" metric, ie I'll generally bunch up
-filesystem pulls together, but also pulls from the same person
-together.
+> 
+> Robin.
+> 
+> > Fixes: a7d20dc19d9e ("iommu: Introduce struct iommu_iotlb_gather for batching TLB flushes")
+> > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > ---
+> >   include/linux/iommu.h | 5 +++--
+> >   1 file changed, 3 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> > index 794d4085edd3..6e907a95d981 100644
+> > --- a/include/linux/iommu.h
+> > +++ b/include/linux/iommu.h
+> > @@ -178,7 +178,7 @@ enum iommu_dev_features {
+> >    */
+> >   struct iommu_iotlb_gather {
+> >   	unsigned long		start;
+> > -	unsigned long		end;
+> > +	unsigned long long	end;
+> >   	size_t			pgsize;
+> >   };
+> >   
+> > @@ -537,7 +537,8 @@ static inline void iommu_iotlb_gather_add_page(struct iommu_domain *domain,
+> >   					       struct iommu_iotlb_gather *gather,
+> >   					       unsigned long iova, size_t size)
+> >   {
+> > -	unsigned long start = iova, end = start + size;
+> > +	unsigned long start = iova;
+> > +	unsigned long long end = start + size;
+> >   
+> >   	/*
+> >   	 * If the new page is disjoint from the current range or is mapped at
+> > 
 
-So it's not necessarily by any really strict subsystem thing, but you
-can kind of see some patterns.
-
-For example, today I started out with a group of audit and security
-layer ones (and printk, which doesn't really group with much anything
-else), then moved through virtualization platforms to some arch
-updates, and then on to io_uring and block. Which got me to scsi and
-rdma, and then iommu.
-
-Not really much of a logical ordering really, more just me trying to
-not be _entirely_ random.
-
-But the grouping is definitely also about when things come in - I had
-a different group of security layer and architecture updates on
-Monday. The ones today hadn't come in yet at that point.
-
-By tomorrow, my pending pile has hopefully shrunk so much that I do
-things mainly by when they come in, rather than have a big pile and
-trying to do them by some rough grouping.
-
-           Linus
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
