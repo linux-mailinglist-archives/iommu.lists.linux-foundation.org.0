@@ -2,63 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id F21512E037E
-	for <lists.iommu@lfdr.de>; Tue, 22 Dec 2020 01:45:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF192E0381
+	for <lists.iommu@lfdr.de>; Tue, 22 Dec 2020 01:45:10 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 8F91821080;
-	Tue, 22 Dec 2020 00:45:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E7673231A0;
+	Tue, 22 Dec 2020 00:45:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id s7wsIQZQ9Y4g; Tue, 22 Dec 2020 00:45:01 +0000 (UTC)
+	with ESMTP id RblsluO9lA9K; Tue, 22 Dec 2020 00:45:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 6F7DE230F3;
-	Tue, 22 Dec 2020 00:45:01 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 02EF6230F3;
+	Tue, 22 Dec 2020 00:45:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 699E5C0893;
-	Tue, 22 Dec 2020 00:45:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EDBE2C1833;
+	Tue, 22 Dec 2020 00:45:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C96CEC1787
- for <iommu@lists.linux-foundation.org>; Tue, 22 Dec 2020 00:44:58 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2E6FDC0893
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Dec 2020 00:45:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id AD3878693F
- for <iommu@lists.linux-foundation.org>; Tue, 22 Dec 2020 00:44:58 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1B21386991
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Dec 2020 00:45:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eWjsejUa+R9z for <iommu@lists.linux-foundation.org>;
- Tue, 22 Dec 2020 00:44:58 +0000 (UTC)
+ with ESMTP id 2IuVEJJ+G++k for <iommu@lists.linux-foundation.org>;
+ Tue, 22 Dec 2020 00:45:05 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A8E5F86930
- for <iommu@lists.linux-foundation.org>; Tue, 22 Dec 2020 00:44:56 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 4861986977
+ for <iommu@lists.linux-foundation.org>; Tue, 22 Dec 2020 00:45:03 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1608597898; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1608597905; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=bYabydo/dXbRQkL5qXIuDQBWRKY+jGONTXRs3liUi6M=;
- b=GJNoOWdrcLisrNzXKK5/qVDeRltTLBnkFOveCG8NXegn4VtRCtgJcdZLmBtXdnvTp9+JMEpc
- VlegqoMKbWcYInIwkMDF/nNo9P5n4m2Q0zoQHIebYrqJG/FLSUupkthBkeLaVkRRVSlGiOUQ
- yPgO7JnVcu4oQB9SmUaAovHS8G8=
+ bh=jOAiW5O74HMIsivsb9aAjZ6ruz5TXLo2hBOc34WIMvo=;
+ b=P4noJ5uyEFDtgd86YGlQqFcvZyN45tBLyDyOp0Jf24UfvDOv0XNXlQnJ7b/U0neamX8M/46F
+ gqL22elGhOuawVLM+95uwLvplO+xWJoezaXVgQnbaa/hWk/XURmZt0n1mDUOVQVzScMOV2b9
+ Y65TH91MUIYV06ZOBeWaerOq730=
 X-Mailgun-Sending-Ip: 198.61.254.31
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 5fe14183120d248bb58338c4 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 22 Dec 2020 00:44:51
+ smtp-out-n10.prod.us-east-1.postgun.com with SMTP id
+ 5fe141843ac69bd6b8b4966b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 22 Dec 2020 00:44:52
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id AABB0C433ED; Tue, 22 Dec 2020 00:44:50 +0000 (UTC)
+ id 3EE3EC43462; Tue, 22 Dec 2020 00:44:52 +0000 (UTC)
 Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 3F294C43464;
- Tue, 22 Dec 2020 00:44:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3F294C43464
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 10A9AC43461;
+ Tue, 22 Dec 2020 00:44:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 10A9AC43461
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -67,10 +67,10 @@ From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
 To: iommu@lists.linux-foundation.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2 2/7] iommu/io-pgtable: Add refcounting for io-pgtable
- format modules
-Date: Mon, 21 Dec 2020 16:44:31 -0800
-Message-Id: <1608597876-32367-3-git-send-email-isaacm@codeaurora.org>
+Subject: [PATCH v2 3/7] iommu/arm-smmu: Add dependency on io-pgtable format
+ modules
+Date: Mon, 21 Dec 2020 16:44:32 -0800
+Message-Id: <1608597876-32367-4-git-send-email-isaacm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1608597876-32367-1-git-send-email-isaacm@codeaurora.org>
 References: <1608597876-32367-1-git-send-email-isaacm@codeaurora.org>
@@ -95,124 +95,26 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-In preparation for modularizing io-pgtable formats, add support
-for reference counting the io-pgtable format modules to ensure
-that the modules are not unloaded while they are in use.
+The SMMU driver depends on the availability of the ARM LPAE and
+ARM V7S io-pgtable format code to work properly. In preparation
+for having the io-pgtable formats as modules, add a "pre"
+dependency with MODULE_SOFTDEP() to ensure that the io-pgtable
+format modules are loaded before loading the ARM SMMU driver module.
 
 Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
 ---
- drivers/iommu/io-pgtable-arm-v7s.c |  1 +
- drivers/iommu/io-pgtable-arm.c     |  5 +++++
- drivers/iommu/io-pgtable.c         | 12 ++++++++++--
- include/linux/io-pgtable.h         |  2 ++
- 4 files changed, 18 insertions(+), 2 deletions(-)
+ drivers/iommu/arm/arm-smmu/arm-smmu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
-index 89aad2f..a5cb755a 100644
---- a/drivers/iommu/io-pgtable-arm-v7s.c
-+++ b/drivers/iommu/io-pgtable-arm-v7s.c
-@@ -840,6 +840,7 @@ static struct io_pgtable_init_fns io_pgtable_arm_v7s_init_fns = {
- 	.fmt	= ARM_V7S,
- 	.alloc	= arm_v7s_alloc_pgtable,
- 	.free	= arm_v7s_free_pgtable,
-+	.owner	= THIS_MODULE,
- };
- 
- #ifdef CONFIG_IOMMU_IO_PGTABLE_ARMV7S_SELFTEST
-diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-index ff0ea2f..e8b1e34 100644
---- a/drivers/iommu/io-pgtable-arm.c
-+++ b/drivers/iommu/io-pgtable-arm.c
-@@ -1049,26 +1049,31 @@ static struct io_pgtable_init_fns io_pgtable_arm_lpae_init_fns[] = {
- 		.fmt	= ARM_32_LPAE_S1,
- 		.alloc	= arm_32_lpae_alloc_pgtable_s1,
- 		.free	= arm_lpae_free_pgtable,
-+		.owner	= THIS_MODULE,
- 	},
- 	{
- 		.fmt	= ARM_32_LPAE_S2,
- 		.alloc	= arm_32_lpae_alloc_pgtable_s2,
- 		.free	= arm_lpae_free_pgtable,
-+		.owner	= THIS_MODULE,
- 	},
- 	{
- 		.fmt	= ARM_64_LPAE_S1,
- 		.alloc	= arm_64_lpae_alloc_pgtable_s1,
- 		.free	= arm_lpae_free_pgtable,
-+		.owner	= THIS_MODULE,
- 	},
- 	{
- 		.fmt	= ARM_64_LPAE_S2,
- 		.alloc	= arm_64_lpae_alloc_pgtable_s2,
- 		.free	= arm_lpae_free_pgtable,
-+		.owner	= THIS_MODULE,
- 	},
- 	{
- 		.fmt	= ARM_MALI_LPAE,
- 		.alloc	= arm_mali_lpae_alloc_pgtable,
- 		.free	= arm_lpae_free_pgtable,
-+		.owner	= THIS_MODULE,
- 	},
- };
- 
-diff --git a/drivers/iommu/io-pgtable.c b/drivers/iommu/io-pgtable.c
-index 2c6eb2e..cc83542 100644
---- a/drivers/iommu/io-pgtable.c
-+++ b/drivers/iommu/io-pgtable.c
-@@ -10,6 +10,7 @@
- #include <linux/bug.h>
- #include <linux/io-pgtable.h>
- #include <linux/kernel.h>
-+#include <linux/module.h>
- #include <linux/rwlock.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-@@ -52,9 +53,14 @@ struct io_pgtable_ops *alloc_io_pgtable_ops(enum io_pgtable_fmt fmt,
- 	if (!fns)
- 		return NULL;
- 
-+	if (!try_module_get(fns->owner))
-+		return NULL;
-+
- 	iop = fns->alloc(cfg, cookie);
--	if (!iop)
-+	if (!iop) {
-+		module_put(fns->owner);
- 		return NULL;
-+	}
- 
- 	iop->fmt	= fmt;
- 	iop->cookie	= cookie;
-@@ -79,8 +85,10 @@ void free_io_pgtable_ops(struct io_pgtable_ops *ops)
- 	iop = io_pgtable_ops_to_pgtable(ops);
- 	io_pgtable_tlb_flush_all(iop);
- 	fns = io_pgtable_get_init_fns(iop->fmt);
--	if (fns)
-+	if (fns) {
- 		fns->free(iop);
-+		module_put(fns->owner);
-+	}
- }
- EXPORT_SYMBOL_GPL(free_io_pgtable_ops);
- 
-diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
-index 45b367ce..a03b262 100644
---- a/include/linux/io-pgtable.h
-+++ b/include/linux/io-pgtable.h
-@@ -169,11 +169,13 @@ struct io_pgtable_ops {
-  * @fmt:   The page table format.
-  * @alloc: Allocate a set of page tables described by cfg.
-  * @free:  Free the page tables associated with iop.
-+ * @owner: Driver module providing these ops.
-  */
- struct io_pgtable_init_fns {
- 	enum io_pgtable_fmt fmt;
- 	struct io_pgtable *(*alloc)(struct io_pgtable_cfg *cfg, void *cookie);
- 	void (*free)(struct io_pgtable *iop);
-+	struct module *owner;
- };
- 
- /**
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+index d8c6bfd..a72649f 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+@@ -2351,3 +2351,4 @@ MODULE_DESCRIPTION("IOMMU API for ARM architected SMMU implementations");
+ MODULE_AUTHOR("Will Deacon <will@kernel.org>");
+ MODULE_ALIAS("platform:arm-smmu");
+ MODULE_LICENSE("GPL v2");
++MODULE_SOFTDEP("pre: io-pgtable-arm io-pgtable-arm-v7s");
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
