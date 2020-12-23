@@ -1,61 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631E02E1264
-	for <lists.iommu@lfdr.de>; Wed, 23 Dec 2020 03:23:49 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 079E72E1271
+	for <lists.iommu@lfdr.de>; Wed, 23 Dec 2020 03:25:00 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2CCFF85F72;
-	Wed, 23 Dec 2020 02:23:48 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id BE4B527A49;
+	Wed, 23 Dec 2020 02:24:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NmyVKCp0YH7V; Wed, 23 Dec 2020 02:23:47 +0000 (UTC)
+	with ESMTP id JfJoGpsQAiZh; Wed, 23 Dec 2020 02:24:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 81FED85F66;
-	Wed, 23 Dec 2020 02:23:47 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0A0312C35C;
+	Wed, 23 Dec 2020 02:24:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 75E0EC0893;
-	Wed, 23 Dec 2020 02:23:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E5D8DC1825;
+	Wed, 23 Dec 2020 02:24:57 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D6EA9C0893
- for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 02:23:45 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 055DDC0893
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 02:24:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C582485F72
- for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 02:23:45 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id E831A872D3
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 02:24:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 34CfmRmTmiPF for <iommu@lists.linux-foundation.org>;
- Wed, 23 Dec 2020 02:23:45 +0000 (UTC)
+ with ESMTP id 14xA-SnJ9UGo for <iommu@lists.linux-foundation.org>;
+ Wed, 23 Dec 2020 02:24:55 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 411B285F66
- for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 02:23:45 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1D0512313F;
- Wed, 23 Dec 2020 02:23:44 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 6496486F6D
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 02:24:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3E8AE22285;
+ Wed, 23 Dec 2020 02:24:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608690225;
- bh=yU2Q8s/JIOzM5oFF2LA7kz+WsHoXm2IKUFG2CyuZP3Y=;
+ s=k20201202; t=1608690295;
+ bh=LFPNS1AsxzYl6KvbGpsDsMJTi8DK61Ijpwo7Hclcj/0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZDqVbmR4yobf7nd67c2oVlEX3Hx26/7lLkfol6dIcPeCe27RspabvGwV7MKK0RIdw
- Eygr+ZLe0bga9zZm1ZzxlcA5Zh7qJUL1i/o5mxdU0rrtFRQQEL99t/Hlmd3JEWk0Ap
- tElxIeuPM+Y2kW6hJr3GiKPgDc9HEJ6x4xxZvaaFJRRJuCJ/yw7XxPPd66FSMcT2+r
- zrujZ8z3ES016Ri0e1/ZoWKM31CA5X1A5O6YqXkaaDDLINRLZSRXJRd/625heAVSpb
- a+dY5N0DdrCf1LMtQYLl2UxRMxX/1xZDfIoS1odOpaBJUP5Es7eay+KPJ6zh8ISgcD
- cME8F+04Lvokw==
+ b=p6S6GvHEJh5RYKe0HmiDE2e/yt9CdMquU2m7b6bnQInW+sUeB/+Y0ykTq1m5S7kTX
+ puFSg2pzm0TaG+wxM8u1D44f36gl5W75q+BeP0/S4H7ih4ixe5vLaBP37guYOEujRI
+ MDmaVfIBxC/2rme3LrqRc7nxxf95+wOGlollF1GzkxrZAY85mL//hQ2jD06PJ2TnxY
+ 6/0och6HSTkVg69KRxd/sJCO17QNzchZpibGh51/uwPyRFNJXXe4w/Aby06/K67csv
+ qV40csNd5D0xUtGYPTguKJcev/Zn+PYV/hAzVZmfJWuOxKf0NawgNceVaU+xXcUB/0
+ khsPMiWnQep7g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 41/66] iommu/tegra-smmu: Expand mutex protection
+Subject: [PATCH AUTOSEL 4.9 31/48] iommu/tegra-smmu: Expand mutex protection
  range
-Date: Tue, 22 Dec 2020 21:22:27 -0500
-Message-Id: <20201223022253.2793452-41-sashal@kernel.org>
+Date: Tue, 22 Dec 2020 21:23:59 -0500
+Message-Id: <20201223022417.2794032-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223022253.2793452-1-sashal@kernel.org>
-References: <20201223022253.2793452-1-sashal@kernel.org>
+In-Reply-To: <20201223022417.2794032-1-sashal@kernel.org>
+References: <20201223022417.2794032-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -99,10 +99,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 21 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 848dac3e4580f..30f0c72d685fe 100644
+index 04cec050e42bf..ae796342717a6 100644
 --- a/drivers/iommu/tegra-smmu.c
 +++ b/drivers/iommu/tegra-smmu.c
-@@ -244,26 +244,19 @@ static int tegra_smmu_alloc_asid(struct tegra_smmu *smmu, unsigned int *idp)
+@@ -241,26 +241,19 @@ static int tegra_smmu_alloc_asid(struct tegra_smmu *smmu, unsigned int *idp)
  {
  	unsigned long id;
  
@@ -130,7 +130,7 @@ index 848dac3e4580f..30f0c72d685fe 100644
  }
  
  static bool tegra_smmu_capable(enum iommu_cap cap)
-@@ -398,17 +391,21 @@ static int tegra_smmu_as_prepare(struct tegra_smmu *smmu,
+@@ -395,17 +388,21 @@ static int tegra_smmu_as_prepare(struct tegra_smmu *smmu,
  				 struct tegra_smmu_as *as)
  {
  	u32 value;
@@ -156,7 +156,7 @@ index 848dac3e4580f..30f0c72d685fe 100644
  
  	/* We can't handle 64-bit DMA addresses */
  	if (!smmu_dma_addr_valid(smmu, as->pd_dma)) {
-@@ -431,24 +428,35 @@ static int tegra_smmu_as_prepare(struct tegra_smmu *smmu,
+@@ -428,24 +425,35 @@ static int tegra_smmu_as_prepare(struct tegra_smmu *smmu,
  	as->smmu = smmu;
  	as->use_count++;
  
