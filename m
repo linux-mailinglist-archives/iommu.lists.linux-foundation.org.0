@@ -1,81 +1,81 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719ED2E19E7
-	for <lists.iommu@lfdr.de>; Wed, 23 Dec 2020 09:25:38 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 715812E19F1
+	for <lists.iommu@lfdr.de>; Wed, 23 Dec 2020 09:29:14 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 370678723A;
-	Wed, 23 Dec 2020 08:25:37 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 36BCE868D9;
+	Wed, 23 Dec 2020 08:29:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zfXUnH1dYnit; Wed, 23 Dec 2020 08:25:36 +0000 (UTC)
+	with ESMTP id 1LlD-7WT+VYT; Wed, 23 Dec 2020 08:29:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id BDA6F87238;
-	Wed, 23 Dec 2020 08:25:36 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9D28E868CC;
+	Wed, 23 Dec 2020 08:29:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A634CC0893;
-	Wed, 23 Dec 2020 08:25:36 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 70203C1D9F;
+	Wed, 23 Dec 2020 08:29:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 38632C0893
- for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 08:25:35 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EC152C0893
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 08:29:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 1E8C120422
- for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 08:25:35 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D9F0085540
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 08:29:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YRW1pMeiVF14 for <iommu@lists.linux-foundation.org>;
- Wed, 23 Dec 2020 08:25:33 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by silver.osuosl.org (Postfix) with ESMTPS id DABCC20334
- for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 08:25:33 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id p18so10152884pgm.11
- for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 00:25:33 -0800 (PST)
+ with ESMTP id rs54vFWdRUlQ for <iommu@lists.linux-foundation.org>;
+ Wed, 23 Dec 2020 08:29:11 +0000 (UTC)
+X-Greylist: delayed 00:10:26 by SQLgrey-1.7.6
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 28AB0854DB
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 08:29:11 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id j13so2811192pjz.3
+ for <iommu@lists.linux-foundation.org>; Wed, 23 Dec 2020 00:29:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=WThy4tT62F3b3zf0PgQRiQWDvTgvmZESA9P7XUtvIQc=;
- b=lm/gAASMc8UZvLfJCPhTrygCJnvjXm/AgIJtR846gqbmtV/Z9xMScDs4z2klDYCZXa
- xitLyUpJQ7GhOJ4B/3K9Bn/OGgr46nwQda0iPJyr/MPDZ/E4Jlfcgu5f3ieDmOgniDjp
- VYvE8Ofugj7cXljMRJQzCHIZhclSCNeJ4ktpY=
+ bh=MtRevYqK8sqR14rLsfzjE387SZOyOC0INohDVQpnu/o=;
+ b=eniRj4JCG7HSOxKs+Xv2XOqjiq/o9XyHjwzWVHjAT3jWwP+ldVc0+eWag0AsvRdgC0
+ gKt/Phk8yoX6YxQFXZMQfH1IOhgrBGo6PcH7enCXeYyfCdjyr6uDtBLoNshhAEf5stpk
+ DtCpy9+9pzrpuXJidDrgorvS03FVLv3M7FSto=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=WThy4tT62F3b3zf0PgQRiQWDvTgvmZESA9P7XUtvIQc=;
- b=j9WhdZB+WfLA/0Ov9ulwCGXvbWPWDKW0TJg/Vw7bGyZgp48cKP7EiztG3av3svfnRz
- HNt+QF5OSzG8Du68YwRzhE3Im/a0jXNd0MVbYS52KqCr1H3sF204JzvEuXz9lNny4MMp
- Wp0POByBxLKt7M8uotxvM9amCCMT37UfGk2KBKVG01QLBX4qeLb9EZyYiKtppMTApS+K
- o37aKhniR0hudHQLt8PqxHsT6JB8Zmm6Mv7MDv4D/WK/VE/r+W3Vgxi9w+5EQViJWlo4
- tV5nQLAxT7QZ1Wle1YMq+anComAeC82p0JeblNwM7pns+qGSuB1z2hIbMtFk8aySWizZ
- /r4w==
-X-Gm-Message-State: AOAM532hEOA/1k/U+UVkAQjz0gl4wbD4/tUZvpamt18mS2ywXcBh7TDL
- glc6eyaeHaACIBb7GUUc5za5vQ==
-X-Google-Smtp-Source: ABdhPJypg4hGOlyNgx6/zOot9YXwUix2EbRuZvx1p0wnv9B3ytcx7t9ecSD2W9nXEkM/rMgQwZKs4w==
-X-Received: by 2002:a05:6a00:1392:b029:1a3:c284:521f with SMTP id
- t18-20020a056a001392b02901a3c284521fmr23329507pfg.81.1608711933463; 
- Wed, 23 Dec 2020 00:25:33 -0800 (PST)
+ bh=MtRevYqK8sqR14rLsfzjE387SZOyOC0INohDVQpnu/o=;
+ b=ZZ5OKNvxujO8g/MKuq/bBTUyLHULYkrnHXwtEjAHNpu9/ZTGJu2zFZK4MMyYiBbz1H
+ sJMm7bv78Arz3lYCvl/1qRp22lI65A6DKpvjYjOWKOImaQvHclEP4pSgrI58fztNYnJ+
+ nxQNB+cSaxYyQtkOMmywWIvkpZVyKLa6c6pFdHVCXS4e2VYRUKroEYJOUVCM0Wu3ZZBd
+ /E6dY/NxjkrpvHWgS9V/m88z3p2dfJub9NpfLEffEPzJoPIt25zR/xozCX2+QW2hINo+
+ 2RZW2xShjGHZWiCJe976wJwM7nAVY3y3kOlLpOxYaiLcaLkTSP+xK0zESClP0to31zq9
+ GQxQ==
+X-Gm-Message-State: AOAM533hAL3aDTVxpcGzKBxVYZFPVmH348jPNsyxvc3RM7/ejfScbkHl
+ Up0KI7i5dyOJPW/JTL/hwWlgEA==
+X-Google-Smtp-Source: ABdhPJxwhDWa65ztRldJLKunkdsaTgTcsOr8hUNnOAXF3Z/ppin9ltztXhGaIKLe03R/ZD2nPu+1vw==
+X-Received: by 2002:a17:90b:90f:: with SMTP id
+ bo15mr25095694pjb.148.1608712150675; 
+ Wed, 23 Dec 2020 00:29:10 -0800 (PST)
 Received: from chromium.org ([2401:fa00:8f:2:a28c:fdff:fef0:43bf])
- by smtp.gmail.com with ESMTPSA id p9sm22298444pjb.3.2020.12.23.00.25.28
+ by smtp.gmail.com with ESMTPSA id p17sm11910519pfn.52.2020.12.23.00.29.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Dec 2020 00:25:32 -0800 (PST)
-Date: Wed, 23 Dec 2020 17:25:27 +0900
+ Wed, 23 Dec 2020 00:29:09 -0800 (PST)
+Date: Wed, 23 Dec 2020 17:29:04 +0900
 From: Tomasz Figa <tfiga@chromium.org>
 To: Yong Wu <yong.wu@mediatek.com>
-Subject: Re: [PATCH v5 15/27] iommu/mediatek: Add fail handle for sysfs_add
- and device_register
-Message-ID: <X+L+97OBxC6I5pUv@chromium.org>
+Subject: Re: [PATCH v5 16/27] iommu/mediatek: Add device link for smi-common
+ and m4u
+Message-ID: <X+L/0E6p9t+a/l5w@chromium.org>
 References: <20201209080102.26626-1-yong.wu@mediatek.com>
- <20201209080102.26626-16-yong.wu@mediatek.com>
+ <20201209080102.26626-17-yong.wu@mediatek.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201209080102.26626-16-yong.wu@mediatek.com>
+In-Reply-To: <20201209080102.26626-17-yong.wu@mediatek.com>
 Cc: youlin.pei@mediatek.com, devicetree@vger.kernel.org,
  Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
  Tomasz Figa <tfiga@google.com>, Will Deacon <will@kernel.org>,
@@ -102,50 +102,116 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Dec 09, 2020 at 04:00:50PM +0800, Yong Wu wrote:
-> Add fail handle for iommu_device_sysfs_add and iommu_device_register.
+On Wed, Dec 09, 2020 at 04:00:51PM +0800, Yong Wu wrote:
+> In the lastest SoC, M4U has its special power domain. thus, If the engine
+> begin to work, it should help enable the power for M4U firstly.
+> Currently if the engine work, it always enable the power/clocks for
+> smi-larbs/smi-common. This patch adds device_link for smi-common and M4U.
+> then, if smi-common power is enabled, the M4U power also is powered on
+> automatically.
 > 
-> Fixes: b16c0170b53c ("iommu/mediatek: Make use of iommu_device_register interface")
+> Normally M4U connect with several smi-larbs and their smi-common always
+> are the same, In this patch it get smi-common dev from the first smi-larb
+> device(i==0), then add the device_link only while m4u has power-domain.
+> 
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 > ---
->  drivers/iommu/mtk_iommu.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
+>  drivers/iommu/mtk_iommu.c | 30 ++++++++++++++++++++++++++++--
+>  drivers/iommu/mtk_iommu.h |  1 +
+>  2 files changed, 29 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-> index 39478cfbe0f1..09c8c58feb78 100644
+> index 09c8c58feb78..5614015e5b96 100644
 > --- a/drivers/iommu/mtk_iommu.c
 > +++ b/drivers/iommu/mtk_iommu.c
-> @@ -746,7 +746,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+> @@ -20,6 +20,7 @@
+>  #include <linux/of_irq.h>
+>  #include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+>  #include <linux/slab.h>
+>  #include <linux/spinlock.h>
+> @@ -706,7 +707,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+>  		return larb_nr;
 >  
->  	ret = iommu_device_register(&data->iommu);
+>  	for (i = 0; i < larb_nr; i++) {
+> -		struct device_node *larbnode;
+> +		struct device_node *larbnode, *smicomm_node;
+>  		struct platform_device *plarbdev;
+>  		u32 id;
+>  
+> @@ -732,6 +733,26 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+>  
+>  		component_match_add_release(dev, &match, release_of,
+>  					    compare_of, larbnode);
+> +		if (i != 0)
+> +			continue;
+
+How about using the last larb instead and moving the code below outside
+of the loop?
+
+> +		smicomm_node = of_parse_phandle(larbnode, "mediatek,smi", 0);
+> +		if (!smicomm_node)
+> +			return -EINVAL;
+> +
+> +		plarbdev = of_find_device_by_node(smicomm_node);
+> +		of_node_put(smicomm_node);
+> +		data->smicomm_dev = &plarbdev->dev;
+> +	}
+> +
+> +	if (dev->pm_domain) {
+> +		struct device_link *link;
+> +
+> +		link = device_link_add(data->smicomm_dev, dev,
+> +				       DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME);
+> +		if (!link) {
+> +			dev_err(dev, "Unable link %s.\n", dev_name(data->smicomm_dev));
+> +			return -EINVAL;
+> +		}
+>  	}
+>  
+>  	platform_set_drvdata(pdev, data);
+> @@ -739,7 +760,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+>  	ret = iommu_device_sysfs_add(&data->iommu, dev, NULL,
+>  				     "mtk-iommu.%pa", &ioaddr);
 >  	if (ret)
 > -		return ret;
-> +		goto out_sysfs_remove;
+> +		goto out_link_remove;
 >  
->  	spin_lock_init(&data->tlb_lock);
->  	list_add_tail(&data->list, &m4ulist);
-> @@ -754,7 +754,16 @@ static int mtk_iommu_probe(struct platform_device *pdev)
->  	if (!iommu_present(&platform_bus_type))
->  		bus_set_iommu(&platform_bus_type, &mtk_iommu_ops);
->  
-> -	return component_master_add_with_match(dev, &mtk_iommu_com_ops, match);
-> +	ret = component_master_add_with_match(dev, &mtk_iommu_com_ops, match);
-> +	if (ret)
-> +		goto out_dev_unreg;
-> +	return ret;
-> +
-> +out_dev_unreg:
-
-Shouldn't other operations be undone as well? I can see that above
-bus_set_iommu() is set and an entry is added to m4ulist.
-
-> +	iommu_device_unregister(&data->iommu);
-> +out_sysfs_remove:
-> +	iommu_device_sysfs_remove(&data->iommu);
-> +	return ret;
+>  	iommu_device_set_ops(&data->iommu, &mtk_iommu_ops);
+>  	iommu_device_set_fwnode(&data->iommu, &pdev->dev.of_node->fwnode);
+> @@ -763,6 +784,9 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+>  	iommu_device_unregister(&data->iommu);
+>  out_sysfs_remove:
+>  	iommu_device_sysfs_remove(&data->iommu);
+> +out_link_remove:
+> +	if (dev->pm_domain)
+> +		device_link_remove(data->smicomm_dev, dev);
+>  	return ret;
 >  }
 >  
->  static int mtk_iommu_remove(struct platform_device *pdev)
+> @@ -777,6 +801,8 @@ static int mtk_iommu_remove(struct platform_device *pdev)
+>  		bus_set_iommu(&platform_bus_type, NULL);
+>  
+>  	clk_disable_unprepare(data->bclk);
+> +	if (pdev->dev.pm_domain)
+> +		device_link_remove(data->smicomm_dev, &pdev->dev);
+>  	devm_free_irq(&pdev->dev, data->irq, data);
+>  	component_master_del(&pdev->dev, &mtk_iommu_com_ops);
+>  	return 0;
+> diff --git a/drivers/iommu/mtk_iommu.h b/drivers/iommu/mtk_iommu.h
+> index d0c93652bdbe..5e03a029c4dc 100644
+> --- a/drivers/iommu/mtk_iommu.h
+> +++ b/drivers/iommu/mtk_iommu.h
+> @@ -68,6 +68,7 @@ struct mtk_iommu_data {
+>  
+>  	struct iommu_device		iommu;
+>  	const struct mtk_iommu_plat_data *plat_data;
+> +	struct device			*smicomm_dev;
+>  
+>  	struct dma_iommu_mapping	*mapping; /* For mtk_iommu_v1.c */
+>  
 > -- 
 > 2.18.0
 > 
