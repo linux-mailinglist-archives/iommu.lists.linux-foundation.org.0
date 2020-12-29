@@ -1,68 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22CA22E6D99
-	for <lists.iommu@lfdr.de>; Tue, 29 Dec 2020 04:28:58 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 597232E6EF4
+	for <lists.iommu@lfdr.de>; Tue, 29 Dec 2020 09:34:23 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C90E3871EA;
-	Tue, 29 Dec 2020 03:28:56 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 941A081E57;
+	Tue, 29 Dec 2020 08:34:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id t905FGsGF33x; Tue, 29 Dec 2020 03:28:56 +0000 (UTC)
+	with ESMTP id Q9wj0Sf1Kvn1; Tue, 29 Dec 2020 08:34:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4A2D187181;
-	Tue, 29 Dec 2020 03:28:56 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9D81B81E5D;
+	Tue, 29 Dec 2020 08:34:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 38EB1C0174;
-	Tue, 29 Dec 2020 03:28:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7F37CC1833;
+	Tue, 29 Dec 2020 08:34:19 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 15930C0174
- for <iommu@lists.linux-foundation.org>; Tue, 29 Dec 2020 03:28:55 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6458FC0174
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Dec 2020 08:34:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id EF3B087183
- for <iommu@lists.linux-foundation.org>; Tue, 29 Dec 2020 03:28:54 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 4A29686CA1
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Dec 2020 08:34:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id URu05IH3N9cd for <iommu@lists.linux-foundation.org>;
- Tue, 29 Dec 2020 03:28:54 +0000 (UTC)
+ with ESMTP id S+L61kqJZjDL for <iommu@lists.linux-foundation.org>;
+ Tue, 29 Dec 2020 08:34:17 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 363CF87181
- for <iommu@lists.linux-foundation.org>; Tue, 29 Dec 2020 03:28:54 +0000 (UTC)
-IronPort-SDR: yhk9T7cJ+Rm0/fAPvgylLwwqxoJej5S6hAf9k9/AcJtpq/0neJ6DQCenGYgqcjVBwCYiuQmtIy
- bLn2hcbhYClg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9848"; a="261204200"
-X-IronPort-AV: E=Sophos;i="5.78,456,1599548400"; d="scan'208";a="261204200"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Dec 2020 19:28:53 -0800
-IronPort-SDR: jQXpMnPQGILCAqZBzOiiiZFI0RmXSH7f7diuIqua+f2Qt8vxKttjqx9F9eD127rmlSI9dYSC7C
- MxH8uvR6yNqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,456,1599548400"; d="scan'208";a="392962898"
-Received: from yiliu-dev.bj.intel.com (HELO iov-dev.bj.intel.com)
- ([10.238.156.135])
- by fmsmga004.fm.intel.com with ESMTP; 28 Dec 2020 19:28:51 -0800
-From: Liu Yi L <yi.l.liu@intel.com>
-To: baolu.lu@linux.intel.com,
-	joro@8bytes.org,
-	will@kernel.org
-Subject: [PATCH v3 3/3] iommu/vt-d: Fix ineffective devTLB invalidation for
- subdevices
-Date: Tue, 29 Dec 2020 11:25:13 +0800
-Message-Id: <20201229032513.486395-4-yi.l.liu@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201229032513.486395-1-yi.l.liu@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 78D5E867FF
+ for <iommu@lists.linux-foundation.org>; Tue, 29 Dec 2020 08:34:17 +0000 (UTC)
+IronPort-SDR: +B3pYmDu6ayouF2+ORjf2vrgBzzsbkujNmfMmCdpgDcXYgm2V4nl/NEHLv11R0VNcPS69AJ7T2
+ TuGgIcv8ZnKQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9848"; a="173893564"
+X-IronPort-AV: E=Sophos;i="5.78,457,1599548400"; d="scan'208";a="173893564"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Dec 2020 00:34:16 -0800
+IronPort-SDR: mNqGDTo8bZC9r7pqFGGOIL3Uj28r1wTmeoVadAPW1Yar8IYzyBYq0De1Ie37+CCYrMkC36x9Mn
+ +L+6M1cpnVPg==
+X-IronPort-AV: E=Sophos;i="5.78,457,1599548400"; d="scan'208";a="375976030"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.254.213.128])
+ ([10.254.213.128])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Dec 2020 00:34:13 -0800
+Subject: Re: [PATCH v3 1/3] iommu/vt-d: Move intel_iommu info from struct
+ intel_svm to struct intel_svm_dev
+To: Liu Yi L <yi.l.liu@intel.com>, joro@8bytes.org, will@kernel.org
 References: <20201229032513.486395-1-yi.l.liu@intel.com>
+ <20201229032513.486395-2-yi.l.liu@intel.com>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <274709e9-cd09-3c54-ccfb-ef871f0adcdc@linux.intel.com>
+Date: Tue, 29 Dec 2020 16:34:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20201229032513.486395-2-yi.l.liu@intel.com>
+Content-Language: en-US
 Cc: kevin.tian@intel.com, ashok.raj@intel.com, jun.j.tian@intel.com,
  iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
- yi.y.sun@intel.com
+ yi.y.sun@intel.com, Guo Kaijie <Kaijie.Guo@intel.com>,
+ David Woodhouse <dwmw2@infradead.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,125 +77,124 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-iommu_flush_dev_iotlb() is called to invalidate caches on device. It only
-loops the devices which are full-attached to the domain. For sub-devices,
-this is ineffective. This results in invalid caching entries left on the
-device. Fix it by adding loop for subdevices as well. Also, the domain->
-has_iotlb_device needs to be updated when attaching to subdevices.
+Hi Yi,
 
-Fixes: 67b8e02b5e761 ("iommu/vt-d: Aux-domain specific domain attach/detach")
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
----
- drivers/iommu/intel/iommu.c | 53 ++++++++++++++++++++++++++-----------
- 1 file changed, 37 insertions(+), 16 deletions(-)
+On 2020/12/29 11:25, Liu Yi L wrote:
+> Current struct intel_svm has a field to record the struct intel_iommu
+> pointer for a PASID bind. And struct intel_svm will be shared by all
+> the devices bind to the same process. The devices may be behind different
+> DMAR units. As the iommu driver code uses the intel_iommu pointer stored
+> in intel_svm struct to do cache invalidations, it may only flush the cache
+> on a single DMAR unit, for others, the cache invalidation is missed.
+> 
+> As intel_svm struct already has a device list, this patch just moves the
+> intel_iommu pointer to be a field of intel_svm_dev struct.
+> 
+> Fixes: 1c4f88b7f1f92 ("iommu/vt-d: Shared virtual address in scalable mode")
+> Cc: Lu Baolu <baolu.lu@linux.intel.com>
+> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Cc: Raj Ashok <ashok.raj@intel.com>
+> Cc: David Woodhouse <dwmw2@infradead.org>
+> Reported-by: Guo Kaijie <Kaijie.Guo@intel.com>
+> Reported-by: Xin Zeng <xin.zeng@intel.com>
+> Signed-off-by: Guo Kaijie <Kaijie.Guo@intel.com>
+> Signed-off-by: Xin Zeng <xin.zeng@intel.com>
+> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index d7720a836268..d48a60b61ba6 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -719,6 +719,8 @@ static int domain_update_device_node(struct dmar_domain *domain)
- 	return nid;
- }
- 
-+static void domain_update_iotlb(struct dmar_domain *domain);
-+
- /* Some capabilities may be different across iommus */
- static void domain_update_iommu_cap(struct dmar_domain *domain)
- {
-@@ -744,6 +746,8 @@ static void domain_update_iommu_cap(struct dmar_domain *domain)
- 		domain->domain.geometry.aperture_end = __DOMAIN_MAX_ADDR(domain->gaw - 1);
- 	else
- 		domain->domain.geometry.aperture_end = __DOMAIN_MAX_ADDR(domain->gaw);
-+
-+	domain_update_iotlb(domain);
- }
- 
- struct context_entry *iommu_context_addr(struct intel_iommu *iommu, u8 bus,
-@@ -1464,17 +1468,22 @@ static void domain_update_iotlb(struct dmar_domain *domain)
- 
- 	assert_spin_locked(&device_domain_lock);
- 
--	list_for_each_entry(info, &domain->devices, link) {
--		struct pci_dev *pdev;
--
--		if (!info->dev || !dev_is_pci(info->dev))
--			continue;
--
--		pdev = to_pci_dev(info->dev);
--		if (pdev->ats_enabled) {
-+	list_for_each_entry(info, &domain->devices, link)
-+		if (info && info->ats_enabled) {
- 			has_iotlb_device = true;
- 			break;
- 		}
-+
-+	if (!has_iotlb_device) {
-+		struct subdev_domain_info *sinfo;
-+
-+		list_for_each_entry(sinfo, &domain->subdevices, link_domain) {
-+			info = get_domain_info(sinfo->pdev);
-+			if (info && info->ats_enabled) {
-+				has_iotlb_device = true;
-+				break;
-+			}
-+		}
- 	}
- 
- 	domain->has_iotlb_device = has_iotlb_device;
-@@ -1555,25 +1564,37 @@ static void iommu_disable_dev_iotlb(struct device_domain_info *info)
- #endif
- }
- 
-+static void __iommu_flush_dev_iotlb(struct device_domain_info *info,
-+				    u64 addr, unsigned int mask)
-+{
-+	u16 sid, qdep;
-+
-+	if (!info || !info->ats_enabled)
-+		return;
-+
-+	sid = info->bus << 8 | info->devfn;
-+	qdep = info->ats_qdep;
-+	qi_flush_dev_iotlb(info->iommu, sid, info->pfsid,
-+			   qdep, addr, mask);
-+}
-+
- static void iommu_flush_dev_iotlb(struct dmar_domain *domain,
- 				  u64 addr, unsigned mask)
- {
--	u16 sid, qdep;
- 	unsigned long flags;
- 	struct device_domain_info *info;
-+	struct subdev_domain_info *sinfo;
- 
- 	if (!domain->has_iotlb_device)
- 		return;
- 
- 	spin_lock_irqsave(&device_domain_lock, flags);
--	list_for_each_entry(info, &domain->devices, link) {
--		if (!info->ats_enabled)
--			continue;
-+	list_for_each_entry(info, &domain->devices, link)
-+		__iommu_flush_dev_iotlb(info, addr, mask);
- 
--		sid = info->bus << 8 | info->devfn;
--		qdep = info->ats_qdep;
--		qi_flush_dev_iotlb(info->iommu, sid, info->pfsid,
--				qdep, addr, mask);
-+	list_for_each_entry(sinfo, &domain->subdevices, link_domain) {
-+		__iommu_flush_dev_iotlb(get_domain_info(sinfo->pdev),
-+					addr, mask);
- 	}
- 	spin_unlock_irqrestore(&device_domain_lock, flags);
- }
--- 
-2.25.1
+This fix looks good to me. Thanks!
 
+Cc: stable@vger.kernel.org # v5.0+
+Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+
+Best regards,
+baolu
+
+> ---
+>   drivers/iommu/intel/svm.c   | 9 +++++----
+>   include/linux/intel-iommu.h | 2 +-
+>   2 files changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
+> index 4fa248b98031..69566695d032 100644
+> --- a/drivers/iommu/intel/svm.c
+> +++ b/drivers/iommu/intel/svm.c
+> @@ -142,7 +142,7 @@ static void intel_flush_svm_range_dev (struct intel_svm *svm, struct intel_svm_d
+>   	}
+>   	desc.qw2 = 0;
+>   	desc.qw3 = 0;
+> -	qi_submit_sync(svm->iommu, &desc, 1, 0);
+> +	qi_submit_sync(sdev->iommu, &desc, 1, 0);
+>   
+>   	if (sdev->dev_iotlb) {
+>   		desc.qw0 = QI_DEV_EIOTLB_PASID(svm->pasid) |
+> @@ -166,7 +166,7 @@ static void intel_flush_svm_range_dev (struct intel_svm *svm, struct intel_svm_d
+>   		}
+>   		desc.qw2 = 0;
+>   		desc.qw3 = 0;
+> -		qi_submit_sync(svm->iommu, &desc, 1, 0);
+> +		qi_submit_sync(sdev->iommu, &desc, 1, 0);
+>   	}
+>   }
+>   
+> @@ -211,7 +211,7 @@ static void intel_mm_release(struct mmu_notifier *mn, struct mm_struct *mm)
+>   	 */
+>   	rcu_read_lock();
+>   	list_for_each_entry_rcu(sdev, &svm->devs, list)
+> -		intel_pasid_tear_down_entry(svm->iommu, sdev->dev,
+> +		intel_pasid_tear_down_entry(sdev->iommu, sdev->dev,
+>   					    svm->pasid, true);
+>   	rcu_read_unlock();
+>   
+> @@ -363,6 +363,7 @@ int intel_svm_bind_gpasid(struct iommu_domain *domain, struct device *dev,
+>   	}
+>   	sdev->dev = dev;
+>   	sdev->sid = PCI_DEVID(info->bus, info->devfn);
+> +	sdev->iommu = iommu;
+>   
+>   	/* Only count users if device has aux domains */
+>   	if (iommu_dev_feature_enabled(dev, IOMMU_DEV_FEAT_AUX))
+> @@ -546,6 +547,7 @@ intel_svm_bind_mm(struct device *dev, unsigned int flags,
+>   		goto out;
+>   	}
+>   	sdev->dev = dev;
+> +	sdev->iommu = iommu;
+>   
+>   	ret = intel_iommu_enable_pasid(iommu, dev);
+>   	if (ret) {
+> @@ -575,7 +577,6 @@ intel_svm_bind_mm(struct device *dev, unsigned int flags,
+>   			kfree(sdev);
+>   			goto out;
+>   		}
+> -		svm->iommu = iommu;
+>   
+>   		if (pasid_max > intel_pasid_max_id)
+>   			pasid_max = intel_pasid_max_id;
+> diff --git a/include/linux/intel-iommu.h b/include/linux/intel-iommu.h
+> index d956987ed032..94522685a0d9 100644
+> --- a/include/linux/intel-iommu.h
+> +++ b/include/linux/intel-iommu.h
+> @@ -758,6 +758,7 @@ struct intel_svm_dev {
+>   	struct list_head list;
+>   	struct rcu_head rcu;
+>   	struct device *dev;
+> +	struct intel_iommu *iommu;
+>   	struct svm_dev_ops *ops;
+>   	struct iommu_sva sva;
+>   	u32 pasid;
+> @@ -771,7 +772,6 @@ struct intel_svm {
+>   	struct mmu_notifier notifier;
+>   	struct mm_struct *mm;
+>   
+> -	struct intel_iommu *iommu;
+>   	unsigned int flags;
+>   	u32 pasid;
+>   	int gpasid; /* In case that guest PASID is different from host PASID */
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
