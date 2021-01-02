@@ -2,65 +2,70 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707942E7DE3
-	for <lists.iommu@lfdr.de>; Thu, 31 Dec 2020 04:44:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C8D2E8808
+	for <lists.iommu@lfdr.de>; Sat,  2 Jan 2021 17:12:45 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 0ABB085FBA;
-	Thu, 31 Dec 2020 03:44:50 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D666A85C43;
+	Sat,  2 Jan 2021 16:12:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4XAdDw5AX4wh; Thu, 31 Dec 2020 03:44:48 +0000 (UTC)
+	with ESMTP id faArDDWFX1TH; Sat,  2 Jan 2021 16:12:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 6E221868AF;
-	Thu, 31 Dec 2020 03:44:48 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6E57985C11;
+	Sat,  2 Jan 2021 16:12:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 54E4AC013A;
-	Thu, 31 Dec 2020 03:44:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4CA59C013A;
+	Sat,  2 Jan 2021 16:12:42 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B5B30C013A
- for <iommu@lists.linux-foundation.org>; Thu, 31 Dec 2020 03:44:46 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 80E76C013A
+ for <iommu@lists.linux-foundation.org>; Sat,  2 Jan 2021 09:51:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 9A2D586500
- for <iommu@lists.linux-foundation.org>; Thu, 31 Dec 2020 03:44:46 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 678A385F74
+ for <iommu@lists.linux-foundation.org>; Sat,  2 Jan 2021 09:51:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9UmJ66ciFnWN for <iommu@lists.linux-foundation.org>;
- Thu, 31 Dec 2020 03:44:46 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 0BF7985FBA
- for <iommu@lists.linux-foundation.org>; Thu, 31 Dec 2020 03:44:46 +0000 (UTC)
-IronPort-SDR: odUJmdwjCO8XWOEtCzzZ8eaGFNEnj/3hMkpQJ8SL3VKGK7M4GnoLp1VXb+xQD+/5NfS8rL0I5r
- GtvQvcYhIJHA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9850"; a="261418608"
-X-IronPort-AV: E=Sophos;i="5.78,463,1599548400"; d="scan'208";a="261418608"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2020 19:44:45 -0800
-IronPort-SDR: SW6Pv9QPV87u+U1sC73Dl2I1oxP0JVZ8KFw1S1e6/Wpw1G1rNziIEWb78s8gqH8nm0g2+vmh35
- +cxpUJrs0XDA==
-X-IronPort-AV: E=Sophos;i="5.78,463,1599548400"; d="scan'208";a="348084930"
-Received: from ywu11-mobl2.ccr.corp.intel.com (HELO [10.254.213.62])
- ([10.254.213.62])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2020 19:44:43 -0800
-Subject: Re: [PATCH] iommu/vt-d: Fix duplicate included linux/dma-map-ops.h
-To: Tian Tao <tiantao6@hisilicon.com>, dwmw2@infradead.org, joro@8bytes.org,
- will@kernel.org
-References: <1609118774-10083-1-git-send-email-tiantao6@hisilicon.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <11412577-98da-82f2-c349-023c4c7fb60a@linux.intel.com>
-Date: Thu, 31 Dec 2020 11:44:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <1609118774-10083-1-git-send-email-tiantao6@hisilicon.com>
-Content-Language: en-US
-Cc: iommu@lists.linux-foundation.org
+ with ESMTP id rY5Q7pPCgKJu for <iommu@lists.linux-foundation.org>;
+ Sat,  2 Jan 2021 09:51:02 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 053CC85F4E
+ for <iommu@lists.linux-foundation.org>; Sat,  2 Jan 2021 09:51:01 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.192.85.18])
+ by mail-app4 (Coremail) with SMTP id cS_KCgBnIzjmQfBfeKpHAA--.34728S4;
+ Sat, 02 Jan 2021 17:50:34 +0800 (CST)
+From: Dinghao Liu <dinghao.liu@zju.edu.cn>
+To: dinghao.liu@zju.edu.cn,
+	kjlu@umn.edu
+Subject: [PATCH] iommu/intel: Fix memleak in intel_irq_remapping_alloc
+Date: Sat,  2 Jan 2021 17:50:29 +0800
+Message-Id: <20210102095029.29053-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cS_KCgBnIzjmQfBfeKpHAA--.34728S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw45Jw15Wr13GrWxtr15twb_yoWfWFgEkw
+ 13try3WFy5uFn5Zr12vFsxZ34qkw4Ygrn7JrZ5ta4fAw18Zr1kur93ZFWkAFsxG3yUGFW7
+ CrW3GrWfA348ZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbVxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+ 87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+ Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+ xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IY
+ c2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r
+ 4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+ 67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+ x0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY
+ 6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa
+ 73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0IBlZdtRuRfAAZsQ
+X-Mailman-Approved-At: Sat, 02 Jan 2021 16:12:41 +0000
+Cc: David Woodhouse <dwmw2@infradead.org>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, Jiang Liu <jiang.liu@linux.intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,39 +78,38 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2020/12/28 9:26, Tian Tao wrote:
-> linux/dma-map-ops.h is included more than once, Remove the one that
-> isn't necessary.
-> 
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+When irq_domain_get_irq_data() or irqd_cfg() fails
+meanwhile i == 0, data allocated by kzalloc() has not
+been freed before returning, which leads to memleak.
 
-Acked-by: Lu Baolu <baolu.lu@linux.intel.com>
+Fixes: b106ee63abccb ("irq_remapping/vt-d: Enhance Intel IR driver to support hierarchical irqdomains")
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
+ drivers/iommu/intel/irq_remapping.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Best regards,
-baolu
+diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
+index aeffda92b10b..cdaeed36750f 100644
+--- a/drivers/iommu/intel/irq_remapping.c
++++ b/drivers/iommu/intel/irq_remapping.c
+@@ -1354,6 +1354,8 @@ static int intel_irq_remapping_alloc(struct irq_domain *domain,
+ 		irq_cfg = irqd_cfg(irq_data);
+ 		if (!irq_data || !irq_cfg) {
+ 			ret = -EINVAL;
++			kfree(data);
++			data = NULL;
+ 			goto out_free_data;
+ 		}
+ 
+-- 
+2.17.1
 
-> ---
->   drivers/iommu/intel/iommu.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index 788119c..e6c8cc7 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -38,7 +38,6 @@
->   #include <linux/dmi.h>
->   #include <linux/pci-ats.h>
->   #include <linux/memblock.h>
-> -#include <linux/dma-map-ops.h>
->   #include <linux/dma-direct.h>
->   #include <linux/crash_dump.h>
->   #include <linux/numa.h>
-> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
