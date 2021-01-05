@@ -2,63 +2,63 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 247C92EA60C
-	for <lists.iommu@lfdr.de>; Tue,  5 Jan 2021 08:37:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DFC2EA610
+	for <lists.iommu@lfdr.de>; Tue,  5 Jan 2021 08:37:15 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DBECC867A4;
-	Tue,  5 Jan 2021 07:37:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 8A6B7867E0;
+	Tue,  5 Jan 2021 07:37:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tfkMHBjJ-dWS; Tue,  5 Jan 2021 07:37:09 +0000 (UTC)
+	with ESMTP id eoLwygamCTRf; Tue,  5 Jan 2021 07:37:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C4CB28676E;
-	Tue,  5 Jan 2021 07:37:09 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id EDF0E8673E;
+	Tue,  5 Jan 2021 07:37:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BEABBC013A;
-	Tue,  5 Jan 2021 07:37:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E84A2C013A;
+	Tue,  5 Jan 2021 07:37:13 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5F1B5C013A
- for <iommu@lists.linux-foundation.org>; Tue,  5 Jan 2021 07:37:08 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B498CC013A
+ for <iommu@lists.linux-foundation.org>; Tue,  5 Jan 2021 07:37:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 4A3C885D50
- for <iommu@lists.linux-foundation.org>; Tue,  5 Jan 2021 07:37:08 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B09AF85784
+ for <iommu@lists.linux-foundation.org>; Tue,  5 Jan 2021 07:37:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KOxfApRq-nyh for <iommu@lists.linux-foundation.org>;
- Tue,  5 Jan 2021 07:37:07 +0000 (UTC)
+ with ESMTP id I7GYeyUT_N82 for <iommu@lists.linux-foundation.org>;
+ Tue,  5 Jan 2021 07:37:12 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 6BB0485C9D
- for <iommu@lists.linux-foundation.org>; Tue,  5 Jan 2021 07:37:07 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 7765B85C9D
+ for <iommu@lists.linux-foundation.org>; Tue,  5 Jan 2021 07:37:10 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1609832227; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1609832232; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=Z0ZowGR4zaHQgcx0nXoZzCUPPTdU48hf87YrqUTmLnY=;
- b=dc5DIFkBqqDGA5KwWrPdlI1byFkEe/xY5dELGdxep1t+H4Q6lDK0dA4FU8HkjkyUX0npTT7x
- 25cCwmbHtVF29SOtt8qwk/W03ZvvcFS22zxrU7y0Rf6frzavhbJNUI27juHFe5lcCgPrY142
- a4hUX6HxHTmn5aXE6Gq/kAKYk9w=
+ bh=uRl55kgW9XKzL1b1lRBQjM6Pzb0e5uOth9CmcyHiqfY=;
+ b=rPb3zj8OCHaV2d0jnlkGIdT+/HtKuHAWIAPsHAZYZ7XlBvZglQjKFRVh63pmhCY5Z7++Ga/U
+ GlRmVQcjcuIzLgZpmad9OEJu/4yDyB1lEj4aKBYl9AjMEMV+zlHocjJ+7fBjYPyrsAEG8tIF
+ G6A0BplMENO5vA0qYrzN0QxWmpU=
 X-Mailgun-Sending-Ip: 198.61.254.31
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 5ff41721584481b01b7b90df (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 05 Jan 2021 07:37:05
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 5ff41723584481b01b7b95a9 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 05 Jan 2021 07:37:07
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id B8CD6C43462; Tue,  5 Jan 2021 07:37:04 +0000 (UTC)
+ id 02836C433CA; Tue,  5 Jan 2021 07:37:06 +0000 (UTC)
 Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A09BDC433C6;
- Tue,  5 Jan 2021 07:37:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A09BDC433C6
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 5DCB9C4346D;
+ Tue,  5 Jan 2021 07:37:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5DCB9C4346D
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -68,10 +68,10 @@ To: will@kernel.org, robin.murphy@arm.com, joro@8bytes.org,
  robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
  steven.price@arm.com, alyssa.rosenzweig@collabora.com, robh@kernel.org,
  tomeu.vizoso@collabora.com
-Subject: [PATCH RESEND 5/7] drm/msm: Add dependency on io-pgtable-arm format
- module
-Date: Mon,  4 Jan 2021 23:36:43 -0800
-Message-Id: <1609832205-10055-6-git-send-email-isaacm@codeaurora.org>
+Subject: [PATCH RESEND 6/7] drm/panfrost: Add dependency on io-pgtable-arm
+ format module
+Date: Mon,  4 Jan 2021 23:36:44 -0800
+Message-Id: <1609832205-10055-7-git-send-email-isaacm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1609832205-10055-1-git-send-email-isaacm@codeaurora.org>
 References: <1609832205-10055-1-git-send-email-isaacm@codeaurora.org>
@@ -97,25 +97,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The MSM DRM driver depends on the availability of the ARM LPAE io-pgtable
-format code to work properly. In preparation for having the io-pgtable
-formats as modules, add a "pre" dependency with MODULE_SOFTDEP() to
-ensure that the io-pgtable-arm format module is loaded before loading
-the MSM DRM driver module.
+The Panfrost DRM driver depends on the availability of the ARM LPAE
+io-pgtable format code to work properly. In preparation for having the
+io-pgtable formats as modules, add a "pre" dependency with
+MODULE_SOFTDEP() to ensure that the io-pgtable-arm format module is loaded
+before loading the Panfrost DRM driver module.
 
 Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
 ---
- drivers/gpu/drm/msm/msm_drv.c | 1 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 535a026..8be3506 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -1369,3 +1369,4 @@ module_exit(msm_drm_unregister);
- MODULE_AUTHOR("Rob Clark <robdclark@gmail.com");
- MODULE_DESCRIPTION("MSM DRM Driver");
- MODULE_LICENSE("GPL");
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 83a461b..7294622 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -704,3 +704,4 @@ module_platform_driver(panfrost_driver);
+ MODULE_AUTHOR("Panfrost Project Developers");
+ MODULE_DESCRIPTION("Panfrost DRM Driver");
+ MODULE_LICENSE("GPL v2");
 +MODULE_SOFTDEP("pre: io-pgtable-arm");
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
