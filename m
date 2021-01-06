@@ -1,68 +1,56 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971882EBDC6
-	for <lists.iommu@lfdr.de>; Wed,  6 Jan 2021 13:34:41 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46BCB2EBECF
+	for <lists.iommu@lfdr.de>; Wed,  6 Jan 2021 14:39:32 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 076F822F05;
-	Wed,  6 Jan 2021 12:34:40 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 082D284974;
+	Wed,  6 Jan 2021 13:39:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OaV+LKHVP68W; Wed,  6 Jan 2021 12:34:39 +0000 (UTC)
+	with ESMTP id nUcfqJRP6Iks; Wed,  6 Jan 2021 13:39:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id E85DC22D22;
-	Wed,  6 Jan 2021 12:34:38 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 84F7984516;
+	Wed,  6 Jan 2021 13:39:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BF242C1E6F;
-	Wed,  6 Jan 2021 12:34:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6FFDCC013A;
+	Wed,  6 Jan 2021 13:39:27 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E4292C013A
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 12:34:37 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 94116C013A
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 13:39:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id CDF8986FB1
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 12:34:37 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 8230122FB9
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 13:39:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Aln7rIXOpYJW for <iommu@lists.linux-foundation.org>;
- Wed,  6 Jan 2021 12:34:37 +0000 (UTC)
+ with ESMTP id XPGy+86id5TT for <iommu@lists.linux-foundation.org>;
+ Wed,  6 Jan 2021 13:39:19 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4C80086FBE
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 12:34:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E89C22B45;
- Wed,  6 Jan 2021 12:34:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1609936476;
- bh=WgvS4tF0ZWeikogI4MPn+X49EO/EQE73OKs1GUuXPQE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lPOUFq+XVi71GLdZCBjNfOCg1jfxK8gz0CU5GEub44Xa0fymuPVqY+UyLAUMNkVV5
- tqurSMZBFf+ZQQOeYLM3tG3OlRH+AWQkDEuwuPtl2YfFwO6kKQxs8KCziudccpJE/2
- l7EFTWJozxaQ7TEKT6ApaQyqYV8QZqwCIUYwneBiZgEbQ+Q44YtEfDf2qfSKI6bgSv
- K3vTBX86Ty9irVqM8ZRMW3RLKRmrhcBGmkRpIUbAqsgiZg4gjXh7n/CBk/mhvvQyOn
- RRDdZppLVeAqtS5DxGTGWcUDjBI+cifQNPDdlYjApjy28uyWFHEl2x/3X5aa3vRXU6
- AJVD3+2E0ewsQ==
-Date: Wed, 6 Jan 2021 12:34:28 +0000
-From: Will Deacon <will@kernel.org>
-To: "Isaac J. Manjarres" <isaacm@codeaurora.org>
-Subject: Re: [PATCH RESEND 0/7] iommu: Permit modular builds of io-pgtable
- drivers
-Message-ID: <20210106123428.GA1798@willie-the-truck>
-References: <1609832205-10055-1-git-send-email-isaacm@codeaurora.org>
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by silver.osuosl.org (Postfix) with ESMTPS id 07B4E204DB
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 13:39:19 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4D9r6F6dVDz7Qnm;
+ Wed,  6 Jan 2021 21:38:13 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.58) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 6 Jan 2021 21:39:02 +0800
+From: John Garry <john.garry@huawei.com>
+To: <joro@8bytes.org>, <will@kernel.org>
+Subject: [PATCH v2 0/6] IOMMU: Some more IOVA and core code tidy-up
+Date: Wed, 6 Jan 2021 21:35:05 +0800
+Message-ID: <1609940111-28563-1-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1609832205-10055-1-git-send-email-isaacm@codeaurora.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: robh@kernel.org, kernel-team@android.com, tomeu.vizoso@collabora.com,
- pdaly@codeaurora.org, airlied@linux.ie, robin.murphy@arm.com,
- iommu@lists.linux-foundation.org, dri-devel@lists.freedesktop.org,
- steven.price@arm.com, alyssa.rosenzweig@collabora.com, daniel@ffwll.ch,
- freedreno@lists.freedesktop.org, sean@poorly.run,
- linux-arm-kernel@lists.infradead.org, pratikp@codeaurora.org
+X-Originating-IP: [10.69.192.58]
+X-CFilter-Loop: Reflected
+Cc: iommu@lists.linux-foundation.org, robin.murphy@arm.com,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,31 +68,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Jan 04, 2021 at 11:36:38PM -0800, Isaac J. Manjarres wrote:
-> The goal of the Generic Kernel Image (GKI) effort is to have a common
-> kernel image that works across multiple Android devices. This involves
-> generating a kernel image that has core features integrated into it,
-> while SoC specific functionality can be added to the kernel for the
-> device as a module.
-> 
-> Along with modularizing IOMMU drivers, this also means building the
-> io-pgtable code as modules, which allows for SoC vendors to only include
-> the io-pgtable implementations that they use. For example, GKI for arm64
-> must include support for both the IOMMU ARM LPAE/V7S formats at the
-> moment. Having the code for both formats as modules allows SoC vendors
-> to only provide the page table format that they use, along with their
-> IOMMU driver.
+Just some tidy-up to IOVA and core code.
 
-Why is this desirable for upstream? This code isn't especially large, and
-the formats we support are largely architectural, meaning that they are
-shared between different IOMMU drivers. I think that making this modular
-just means that out-of-tree modifications are likely to generate page-tables
-which are specific to a particular IOMMU, and lead to horrible problems
-(crashes and data corruption) if another IOMMU driver tries to use them.
+Based on v5.11-rc2
 
-Please can you upstream whatever changes you want to make instead?
+Differences to v1:
+- Add core IOMMU patches
 
-Will
+John Garry (6):
+  iova: Make has_iova_flush_queue() private
+  iova: Delete copy_reserved_iova()
+  iova: Stop exporting some more functions
+  iommu: Stop exporting iommu_map_sg_atomic()
+  iommu: Delete iommu_domain_window_disable()
+  iommu: Delete iommu_dev_has_feature()
+
+ drivers/iommu/iommu.c | 21 ---------------------
+ drivers/iommu/iova.c  | 36 +-----------------------------------
+ include/linux/iommu.h | 13 -------------
+ include/linux/iova.h  | 12 ------------
+ 4 files changed, 1 insertion(+), 81 deletions(-)
+
+-- 
+2.26.2
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
