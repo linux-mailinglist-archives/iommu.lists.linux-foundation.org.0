@@ -1,65 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9782EBD57
-	for <lists.iommu@lfdr.de>; Wed,  6 Jan 2021 12:56:28 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 971882EBDC6
+	for <lists.iommu@lfdr.de>; Wed,  6 Jan 2021 13:34:41 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D36A2844E7;
-	Wed,  6 Jan 2021 11:56:26 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 076F822F05;
+	Wed,  6 Jan 2021 12:34:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pK4LvzWpsXkE; Wed,  6 Jan 2021 11:56:26 +0000 (UTC)
+	with ESMTP id OaV+LKHVP68W; Wed,  6 Jan 2021 12:34:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5BB38844BD;
-	Wed,  6 Jan 2021 11:56:26 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E85DC22D22;
+	Wed,  6 Jan 2021 12:34:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B7A0C013A;
-	Wed,  6 Jan 2021 11:56:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BF242C1E6F;
+	Wed,  6 Jan 2021 12:34:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 47A05C013A
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 11:56:25 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E4292C013A
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 12:34:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 3158886A14
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 11:56:25 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id CDF8986FB1
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 12:34:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rJ-0IpwxbieI for <iommu@lists.linux-foundation.org>;
- Wed,  6 Jan 2021 11:56:24 +0000 (UTC)
+ with ESMTP id Aln7rIXOpYJW for <iommu@lists.linux-foundation.org>;
+ Wed,  6 Jan 2021 12:34:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id AE7208666D
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 11:56:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E2EA323110;
- Wed,  6 Jan 2021 11:56:21 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 4C80086FBE
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 12:34:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E89C22B45;
+ Wed,  6 Jan 2021 12:34:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1609934184;
- bh=HZYnJAIuD9MMbAMSmu3ejZVLAS6WiLfiiShHiiBv4YU=;
+ s=k20201202; t=1609936476;
+ bh=WgvS4tF0ZWeikogI4MPn+X49EO/EQE73OKs1GUuXPQE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZRA5wz6FMI5xfUbwYHZUwrrupsOg72i/wc8QiogubLx3JKzJGP+x4AsDTPYMRWZm9
- woKVVXY4n/oWYpj8n7NKPHpTUxnlXvkLQLUuRoRi52QQ1FLkYRj3IoRieZqvEDtAGy
- OPYJeQIPGPrcb4y+QFkbiBkvBPr4xyckxiic5aBMz3Dd3f1Uv6JSRX2iMbVDS9KXS3
- kqoWF/ZGIdVVu1X3nl+gk6qqKYSHvYcOYJixCW1leh3g4Sch3qFhbSuIgcQ7nKjd1r
- m48UxmDVDgIXhwMksWwKlLA+eudExTiJYZs7wTkcBUSfCE09RRZQ2g79ipJ1gGsLWi
- JdBBXRm8J1S4g==
-Date: Wed, 6 Jan 2021 11:56:16 +0000
+ b=lPOUFq+XVi71GLdZCBjNfOCg1jfxK8gz0CU5GEub44Xa0fymuPVqY+UyLAUMNkVV5
+ tqurSMZBFf+ZQQOeYLM3tG3OlRH+AWQkDEuwuPtl2YfFwO6kKQxs8KCziudccpJE/2
+ l7EFTWJozxaQ7TEKT6ApaQyqYV8QZqwCIUYwneBiZgEbQ+Q44YtEfDf2qfSKI6bgSv
+ K3vTBX86Ty9irVqM8ZRMW3RLKRmrhcBGmkRpIUbAqsgiZg4gjXh7n/CBk/mhvvQyOn
+ RRDdZppLVeAqtS5DxGTGWcUDjBI+cifQNPDdlYjApjy28uyWFHEl2x/3X5aa3vRXU6
+ AJVD3+2E0ewsQ==
+Date: Wed, 6 Jan 2021 12:34:28 +0000
 From: Will Deacon <will@kernel.org>
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Subject: Re: [PATCH] iommu/io-pgtable-arm: Allow non-coherent masters to use
- system cache
-Message-ID: <20210106115615.GA1763@willie-the-truck>
-References: <20201224064007.2339-1-saiprakash.ranjan@codeaurora.org>
+To: "Isaac J. Manjarres" <isaacm@codeaurora.org>
+Subject: Re: [PATCH RESEND 0/7] iommu: Permit modular builds of io-pgtable
+ drivers
+Message-ID: <20210106123428.GA1798@willie-the-truck>
+References: <1609832205-10055-1-git-send-email-isaacm@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201224064007.2339-1-saiprakash.ranjan@codeaurora.org>
+In-Reply-To: <1609832205-10055-1-git-send-email-isaacm@codeaurora.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akhil P Oommen <akhilpo@codeaurora.org>, iommu@lists.linux-foundation.org,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+Cc: robh@kernel.org, kernel-team@android.com, tomeu.vizoso@collabora.com,
+ pdaly@codeaurora.org, airlied@linux.ie, robin.murphy@arm.com,
+ iommu@lists.linux-foundation.org, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com, alyssa.rosenzweig@collabora.com, daniel@ffwll.ch,
+ freedreno@lists.freedesktop.org, sean@poorly.run,
+ linux-arm-kernel@lists.infradead.org, pratikp@codeaurora.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,55 +80,29 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Dec 24, 2020 at 12:10:07PM +0530, Sai Prakash Ranjan wrote:
-> commit ecd7274fb4cd ("iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag")
-> removed unused IOMMU_SYS_CACHE_ONLY prot flag and along with it went
-> the memory type setting required for the non-coherent masters to use
-> system cache. Now that system cache support for GPU is added, we will
-> need to mark the memory as normal sys-cached for GPU to use system cache.
-> Without this, the system cache lines are not allocated for GPU. We use
-> the IO_PGTABLE_QUIRK_ARM_OUTER_WBWA quirk instead of a page protection
-> flag as the flag cannot be exposed via DMA api because of no in-tree
-> users.
+On Mon, Jan 04, 2021 at 11:36:38PM -0800, Isaac J. Manjarres wrote:
+> The goal of the Generic Kernel Image (GKI) effort is to have a common
+> kernel image that works across multiple Android devices. This involves
+> generating a kernel image that has core features integrated into it,
+> while SoC specific functionality can be added to the kernel for the
+> device as a module.
 > 
-> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-> ---
->  drivers/iommu/io-pgtable-arm.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-> index 7c9ea9d7874a..3fb7de8304a2 100644
-> --- a/drivers/iommu/io-pgtable-arm.c
-> +++ b/drivers/iommu/io-pgtable-arm.c
-> @@ -415,6 +415,9 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct arm_lpae_io_pgtable *data,
->  		else if (prot & IOMMU_CACHE)
->  			pte |= (ARM_LPAE_MAIR_ATTR_IDX_CACHE
->  				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
-> +		else if (data->iop.cfg.quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA)
-> +			pte |= (ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE
-> +				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
->  	}
+> Along with modularizing IOMMU drivers, this also means building the
+> io-pgtable code as modules, which allows for SoC vendors to only include
+> the io-pgtable implementations that they use. For example, GKI for arm64
+> must include support for both the IOMMU ARM LPAE/V7S formats at the
+> moment. Having the code for both formats as modules allows SoC vendors
+> to only provide the page table format that they use, along with their
+> IOMMU driver.
 
-drivers/iommu/io-pgtable.c currently documents this quirk as applying only
-to the page-table walker. Given that we only have one user at the moment,
-I think it's ok to change that, but please update the comment.
+Why is this desirable for upstream? This code isn't especially large, and
+the formats we support are largely architectural, meaning that they are
+shared between different IOMMU drivers. I think that making this modular
+just means that out-of-tree modifications are likely to generate page-tables
+which are specific to a particular IOMMU, and lead to horrible problems
+(crashes and data corruption) if another IOMMU driver tries to use them.
 
-We also need to decide on whether we want to allow the quirk to be passed
-if the coherency of the page-table walker differs from the DMA device, since
-we have these combinations:
-
-	Coherent walker?	IOMMU_CACHE	IO_PGTABLE_QUIRK_ARM_OUTER_WBWA
-0:	N			0		0
-1:	N			0		1
-2:	N			1		0
-3:	N			1		1
-4:	Y			0		0
-5:	Y			0		1
-6:	Y			1		0
-7:	Y			1		1
-
-Some of them are obviously bogus, such as (7), but I don't know what to
-do about cases such as (3) and (5).
+Please can you upstream whatever changes you want to make instead?
 
 Will
 _______________________________________________
