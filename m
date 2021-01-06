@@ -1,65 +1,89 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFE32EB7C6
-	for <lists.iommu@lfdr.de>; Wed,  6 Jan 2021 02:51:57 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 697932EB878
+	for <lists.iommu@lfdr.de>; Wed,  6 Jan 2021 04:41:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id B5E7584DBD;
-	Wed,  6 Jan 2021 01:51:55 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D3A9922C44;
+	Wed,  6 Jan 2021 03:41:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qIjPWiVttOk5; Wed,  6 Jan 2021 01:51:54 +0000 (UTC)
+	with ESMTP id lerm2Z56Nt3x; Wed,  6 Jan 2021 03:41:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DD2A984E68;
-	Wed,  6 Jan 2021 01:51:54 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0AD622049F;
+	Wed,  6 Jan 2021 03:41:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C71C0C013A;
-	Wed,  6 Jan 2021 01:51:54 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E2F9DC013A;
+	Wed,  6 Jan 2021 03:41:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D0807C013A
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 01:51:53 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 86C1DC013A
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 03:41:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id BD35D84E8F
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 01:51:53 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 656A586AF8
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 03:41:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pSu2ypHXKgES for <iommu@lists.linux-foundation.org>;
- Wed,  6 Jan 2021 01:51:52 +0000 (UTC)
+ with ESMTP id tv7bzMPO7iXD for <iommu@lists.linux-foundation.org>;
+ Wed,  6 Jan 2021 03:41:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by whitealder.osuosl.org (Postfix) with ESMTPS id EC32B84D8E
- for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 01:51:51 +0000 (UTC)
-IronPort-SDR: pIjGAC6kA8Qu0BrBGQEnxozZZLW+etHC4XMxjZ5wRMm/9Hz5iTg1racXa+X6w9qU6/ywZXeqf2
- Xt0I87hhFSpw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9855"; a="164912316"
-X-IronPort-AV: E=Sophos;i="5.78,478,1599548400"; d="scan'208";a="164912316"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2021 17:51:50 -0800
-IronPort-SDR: 2lawWk8DpPmKtAWGguAXMAC3Doh3n2EuNPhkgE/S7w1j6ABgFeqoHj8QqCgP7fIQ7/idfo5QPs
- PO+vC4bsoyFA==
-X-IronPort-AV: E=Sophos;i="5.78,478,1599548400"; d="scan'208";a="361387914"
-Received: from km-skylake-client-platform.sc.intel.com ([10.3.52.146])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2021 17:51:50 -0800
-From: Kyung Min Park <kyung.min.park@intel.com>
-To: linux-kernel@vger.kernel.org,
-	iommu@lists.linux-foundation.org
-Subject: [PATCH v4 3/3] iommu/vt-d: Disable SVM in the platform when IOMMUs
- have inconsistencies
-Date: Tue,  5 Jan 2021 17:30:35 -0800
-Message-Id: <20210106013035.6476-4-kyung.min.park@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210106013035.6476-1-kyung.min.park@intel.com>
-References: <20210106013035.6476-1-kyung.min.park@intel.com>
-Cc: ravi.v.shankar@intel.com, kevin.tian@intel.com, ashok.raj@intel.com,
- dwmw2@infradead.org, ricardo.neri@intel.com, kyung.min.park@intel.com,
- will@kernel.org
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id DCEC1869F2
+ for <iommu@lists.linux-foundation.org>; Wed,  6 Jan 2021 03:41:32 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id p12so239982pju.5
+ for <iommu@lists.linux-foundation.org>; Tue, 05 Jan 2021 19:41:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U3TpLfW+vImhvH0nGRTRbZCkU/q6uvDGxQ/ffdS/DVM=;
+ b=akatZ9qvuVqvk7jTIGmhjfDVt/R+fkDe7KGtuV2FiL0W9X0lfcwuxwQ5SDHkDWvo/Y
+ OU4FPQJAhXwq03c8Ys0HNgl+IupiV5k8xFok85r5ImLAz1DYG9c87lF8ePniw4ZUVnDj
+ udHjYJ0V3gqIMjH0S4jHAYa5kPGyqU1QS8adQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U3TpLfW+vImhvH0nGRTRbZCkU/q6uvDGxQ/ffdS/DVM=;
+ b=Yga/Odh8GFqoEAx4cSjVIFLCHuTzuZB5wxC8JZJbIQ6RoZcSwGUjZtfxJFeqD8ugxN
+ 8rAaNqRSAQ3qTOCuJgbGW+vjP1/xMwIpEdoJ0ycQ75cfClTOtJWXRGyk8Jt/lp9sHkQH
+ K1BOpKcdM8e6VA0NMTzfmoXG9Q3VprzETNa2dj73ZOgiv1fm7nAK1jTCNteJvGjexke4
+ 35ciOumVddJuXwYn9b/wL72KCOxoucyPVydkwg1GjODgisZGPLlpodIFJhvCD4OWViLA
+ gAjB6hxz0WsHMyZxdsGikzitQGBWkKQE57Wm8hNWciZktG1vuzzbgxNzqydutQZXeRwU
+ KEsw==
+X-Gm-Message-State: AOAM533LPKLCFTh+mihr9OisU723bcQjkO2/qWA02TAQBQi07SrLCmnW
+ UzUmOEbzayGfpxeLSLql9zIBwg==
+X-Google-Smtp-Source: ABdhPJzMVJXWuHdnqMMSkgz9jt5n+Akn+pP0QJigxunJGEBd/ODEkJmP1Ra/LRA2SYqMSUv/fxQHkA==
+X-Received: by 2002:a17:90a:4582:: with SMTP id
+ v2mr1714522pjg.58.1609904492458; 
+ Tue, 05 Jan 2021 19:41:32 -0800 (PST)
+Received: from localhost ([2401:fa00:1:10:3e52:82ff:fe5e:cc9d])
+ by smtp.gmail.com with ESMTPSA id v10sm544816pjr.47.2021.01.05.19.41.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jan 2021 19:41:31 -0800 (PST)
+From: Claire Chang <tientzu@chromium.org>
+To: robh+dt@kernel.org, mpe@ellerman.id.au, benh@kernel.crashing.org,
+ paulus@samba.org, joro@8bytes.org, will@kernel.org, frowand.list@gmail.com,
+ konrad.wilk@oracle.com, boris.ostrovsky@oracle.com, jgross@suse.com,
+ sstabellini@kernel.org, hch@lst.de, m.szyprowski@samsung.com,
+ robin.murphy@arm.com
+Subject: [RFC PATCH v3 0/6] Restricted DMA
+Date: Wed,  6 Jan 2021 11:41:18 +0800
+Message-Id: <20210106034124.30560-1-tientzu@chromium.org>
+X-Mailer: git-send-email 2.29.2.729.g45daf8777d-goog
+MIME-Version: 1.0
+Cc: heikki.krogerus@linux.intel.com, peterz@infradead.org, grant.likely@arm.com,
+ mingo@kernel.org, drinkcat@chromium.org, saravanak@google.com,
+ xypron.glpk@gmx.de, rafael.j.wysocki@intel.com, bgolaszewski@baylibre.com,
+ xen-devel@lists.xenproject.org, treding@nvidia.com, devicetree@vger.kernel.org,
+ Claire Chang <tientzu@chromium.org>, dan.j.williams@intel.com,
+ andriy.shevchenko@linux.intel.com, gregkh@linuxfoundation.org,
+ rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linuxppc-dev@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -72,107 +96,73 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Some IOMMU Capabilities must be consistent for Shared Virtual Memory (SVM).
-Audit IOMMU Capability/Extended Capabilities and check if IOMMUs have
-the consistent value for features as below. When the features are not
-matched among IOMMUs, disable SVMs in the platform during DMAR
-initialization. Audit IOMMUs again when a device is hot plugged.
+This series implements mitigations for lack of DMA access control on
+systems without an IOMMU, which could result in the DMA accessing the
+system memory at unexpected times and/or unexpected addresses, possibly
+leading to data leakage or corruption.
 
-Disable Shared Virtual Memory when below features are mistmatched:
-  - First Level Translation Support (FLTS)
-  - Process Address Space ID Support (PASID)
-  - Extended Accessed Flag Support (EAFS)
-  - Supervisor Support (SRS)
-  - Execute Request Support (ERS)
-  - Page Request Support (PRS)
+For example, we plan to use the PCI-e bus for Wi-Fi and that PCI-e bus is
+not behind an IOMMU. As PCI-e, by design, gives the device full access to
+system memory, a vulnerability in the Wi-Fi firmware could easily escalate
+to a full system exploit (remote wifi exploits: [1a], [1b] that shows a
+full chain of exploits; [2], [3]).
 
-Signed-off-by: Kyung Min Park <kyung.min.park@intel.com>
----
- drivers/iommu/intel/cap_audit.c | 11 +++++++++++
- drivers/iommu/intel/cap_audit.h |  6 ++++++
- drivers/iommu/intel/svm.c       |  3 ++-
- 3 files changed, 19 insertions(+), 1 deletion(-)
+To mitigate the security concerns, we introduce restricted DMA. Restricted
+DMA utilizes the existing swiotlb to bounce streaming DMA in and out of a
+specially allocated region and does memory allocation from the same region.
+The feature on its own provides a basic level of protection against the DMA
+overwriting buffer contents at unexpected times. However, to protect
+against general data leakage and system memory corruption, the system needs
+to provide a way to restrict the DMA to a predefined memory region (this is
+usually done at firmware level, e.g. in ATF on some ARM platforms).
 
-diff --git a/drivers/iommu/intel/cap_audit.c b/drivers/iommu/intel/cap_audit.c
-index cf5326eb1d72..e6f8616edc3d 100644
---- a/drivers/iommu/intel/cap_audit.c
-+++ b/drivers/iommu/intel/cap_audit.c
-@@ -130,6 +130,12 @@ static int cap_audit_hotplug(struct intel_iommu *iommu, enum cap_audit_type type
- 	MINIMAL_FEATURE_HOTPLUG(iommu, ecap, max_handle_mask, ECAP_MHMV_MASK, mismatch);
- 	MINIMAL_FEATURE_HOTPLUG(iommu, ecap, iotlb_offset, ECAP_IRO_MASK, mismatch);
- 
-+	if (IS_ENABLED(CONFIG_INTEL_IOMMU_SVM) &&
-+	    intel_cap_svm_santiy() && !ecap_svm_sanity(iommu->ecap)) {
-+		pr_warn("Abort Hot Plug IOMMU: SVM inconsistent\n");
-+		mismatch = true;
-+	}
-+
- out:
- 	if (mismatch) {
- 		intel_iommu_cap_sanity = old_cap;
-@@ -206,3 +212,8 @@ bool intel_cap_flts_sanity(void)
- {
- 	return ecap_flts(intel_iommu_ecap_sanity);
- }
-+
-+bool intel_cap_svm_santiy(void)
-+{
-+	return ecap_svm_sanity(intel_iommu_ecap_sanity);
-+}
-diff --git a/drivers/iommu/intel/cap_audit.h b/drivers/iommu/intel/cap_audit.h
-index 1ce1dc314950..beb2589e97e0 100644
---- a/drivers/iommu/intel/cap_audit.h
-+++ b/drivers/iommu/intel/cap_audit.h
-@@ -60,6 +60,11 @@
- #define ECAP_QI_MASK		BIT_ULL(1)
- #define ECAP_C_MASK		BIT_ULL(0)
- 
-+#define MINIMAL_SVM_ECAP (ECAP_FLTS_MASK | ECAP_PASID_MASK | ECAP_EAFS_MASK | \
-+			  ECAP_SRS_MASK | ECAP_ERS_MASK | ECAP_PRS_MASK)
-+
-+#define ecap_svm_sanity(e)	(!(((e) & MINIMAL_SVM_ECAP) ^ MINIMAL_SVM_ECAP))
-+
- #define DO_CHECK_FEATURE_MISMATCH(a, b, cap, feature, MASK) \
- do { \
- 	if (cap##_##feature(a) != cap##_##feature(b)) { \
-@@ -107,6 +112,7 @@ bool intel_cap_smts_sanity(void);
- bool intel_cap_pasid_sanity(void);
- bool intel_cap_nest_sanity(void);
- bool intel_cap_flts_sanity(void);
-+bool intel_cap_svm_santiy(void);
- 
- static inline bool scalable_mode_support(void)
- {
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 3242ebd0bca3..7761e40a2d5a 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -22,6 +22,7 @@
- #include <asm/fpu/api.h>
- 
- #include "pasid.h"
-+#include "cap_audit.h"
- 
- static irqreturn_t prq_event_thread(int irq, void *d);
- static void intel_svm_drain_prq(struct device *dev, u32 pasid);
-@@ -98,7 +99,7 @@ static inline bool intel_svm_capable(struct intel_iommu *iommu)
- 
- void intel_svm_check(struct intel_iommu *iommu)
- {
--	if (!pasid_supported(iommu))
-+	if (!intel_cap_svm_santiy())
- 		return;
- 
- 	if (cpu_feature_enabled(X86_FEATURE_GBPAGES) &&
+[1a] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html
+[1b] https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_11.html
+[2] https://blade.tencent.com/en/advisories/qualpwn/
+[3] https://www.bleepingcomputer.com/news/security/vulnerabilities-found-in-highly-popular-firmware-for-wifi-chips/
+
+Claire Chang (6):
+  swiotlb: Add io_tlb_mem struct
+  swiotlb: Add restricted DMA pool
+  swiotlb: Use restricted DMA pool if available
+  swiotlb: Add restricted DMA alloc/free support.
+  dt-bindings: of: Add restricted DMA pool
+  of: Add plumbing for restricted DMA pool
+
+ .../reserved-memory/reserved-memory.txt       |  24 +
+ arch/powerpc/platforms/pseries/svm.c          |   4 +-
+ drivers/iommu/dma-iommu.c                     |  12 +-
+ drivers/of/address.c                          |  21 +
+ drivers/of/device.c                           |   4 +
+ drivers/of/of_private.h                       |   5 +
+ drivers/xen/swiotlb-xen.c                     |   4 +-
+ include/linux/device.h                        |   4 +
+ include/linux/swiotlb.h                       |  61 +-
+ kernel/dma/Kconfig                            |   1 +
+ kernel/dma/direct.c                           |  20 +-
+ kernel/dma/direct.h                           |  10 +-
+ kernel/dma/swiotlb.c                          | 576 +++++++++++-------
+ 13 files changed, 514 insertions(+), 232 deletions(-)
+
 -- 
-2.17.1
+2.29.2.729.g45daf8777d-goog
 
+v3: 
+  Using only one reserved memory region for both streaming DMA and memory
+  allocation.
+
+v2:
+  Building on top of swiotlb.
+  https://lore.kernel.org/patchwork/cover/1280705/
+
+v1:
+  Using dma_map_ops.
+  https://lore.kernel.org/patchwork/cover/1271660/
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
