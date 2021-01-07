@@ -2,76 +2,101 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8DC62ED4DC
-	for <lists.iommu@lfdr.de>; Thu,  7 Jan 2021 17:58:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B3F2ED5EB
+	for <lists.iommu@lfdr.de>; Thu,  7 Jan 2021 18:46:33 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 947DE86A0F;
-	Thu,  7 Jan 2021 16:58:19 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3888A86AD8;
+	Thu,  7 Jan 2021 17:46:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qyjjw5EWpCGf; Thu,  7 Jan 2021 16:58:19 +0000 (UTC)
+	with ESMTP id 72wgTS5LNq2V; Thu,  7 Jan 2021 17:46:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 046BD86A0E;
-	Thu,  7 Jan 2021 16:58:19 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 1DDC186AD3;
+	Thu,  7 Jan 2021 17:46:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D9298C013A;
-	Thu,  7 Jan 2021 16:58:18 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 06BFEC1DA7;
+	Thu,  7 Jan 2021 17:46:31 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EDA0FC013A
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 16:58:16 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 86D64C013A
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 17:46:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id DBE9486D17
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 16:58:16 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 724A48671B
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 17:46:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WjvXDDxC4Zjy for <iommu@lists.linux-foundation.org>;
- Thu,  7 Jan 2021 16:58:15 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 3149986D0B
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 16:58:14 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1610038695; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=uej1VdCPJRgja4WXQnCBIOkcPpb71NvmOUhrumuE/zk=;
- b=IfX/zLDVzqa2OsArC2oBWm0huvFVcEdtqwO5IU77UJetGXIJx39oaVZRWUopWr6EipX3mlp8
- BZmvanoQCS3q2VnKfeKoRyrZAw4xk/dfer3BVlEUGinUIGHJHFKJH4pJdBhWElNWJFlb1MEa
- p6pCvJZ9T+BmM244H9in0GImT0o=
-X-Mailgun-Sending-Ip: 198.61.254.31
-X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5ff73d8ffc3778927e7ed538 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 07 Jan 2021 16:57:51
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id D3260C43461; Thu,  7 Jan 2021 16:57:51 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A99AAC433CA;
- Thu,  7 Jan 2021 16:57:50 +0000 (UTC)
+ with ESMTP id FuPM1sc0SfKJ for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Jan 2021 17:46:28 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+ [209.85.210.174])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D5857866EA
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 17:46:28 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id m6so4308845pfm.6
+ for <iommu@lists.linux-foundation.org>; Thu, 07 Jan 2021 09:46:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BpWY74vWVa1L8Raewx13V4/TopbXG6j16e2kYWK8TMo=;
+ b=RjsCv0SB3G2nr2VhqjbT5oDz8W7DNBKHdnzTnNqkj1iJof0+bV7fP3DrwRkndy/u4k
+ Ygt4ObgL6c6fDwINAZBbrt6q9Nyu03KM8Jtf+6CaIHJDQhHurg1bvBaIn5xYb5DYi3P3
+ O7pPyZUh0Fpetb+g793rmuwtHVk+BC0HuhiVQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BpWY74vWVa1L8Raewx13V4/TopbXG6j16e2kYWK8TMo=;
+ b=XDtijaHBEf2pnKsCF9dHKxtFJJlG/mGl8rEnpxoHTBuqVy3J4M7d4wdVl8Xyn7+t8M
+ C8UnkbiRTxqSbQBTbaD1S9U+unIAPV7ilzqOLMn750tTyDF54NRtOE+mrf4SpSMcRt4M
+ 8Y8M2eYt3kKKDHHbEcYXXNXkkJjc+xRrHBt7cYhQi+ATX2cv+8EWXkN4CreaHbc/sxs1
+ 9TYMaxTozAnnvsFg6ZI0r2baNAHrng7Zwf6U0NKL6ZQIMFMbtr3iKGILlChqwUIXJWTY
+ +18027CNl3LfdlzsW/1fFXDyUkgmwfqSHTU1tqp+MFimsOTJw8OtZ8SrAD3BYZvBTyZ/
+ 9WBA==
+X-Gm-Message-State: AOAM532pPCvhL1+b+SZoxPkOFJc10K6hrU3mElOcErsGxgb1tOJT7XLe
+ 7XoLFeu3cB83XwoUy4NKHC1bh9qAca6bZ0ws
+X-Google-Smtp-Source: ABdhPJyZXcfinJl2fvGcG0Lg8inT1I9T48Ja/fkoKA1Uv5Aek2Ra4ZsRVUNmZL5lKMIdSTsUOqBjHg==
+X-Received: by 2002:aa7:9e43:0:b029:19c:d0ab:2684 with SMTP id
+ z3-20020aa79e430000b029019cd0ab2684mr9764594pfq.42.1610041588183; 
+ Thu, 07 Jan 2021 09:46:28 -0800 (PST)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com.
+ [209.85.215.170])
+ by smtp.gmail.com with ESMTPSA id x21sm7392897pgi.75.2021.01.07.09.46.27
+ for <iommu@lists.linux-foundation.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Jan 2021 09:46:27 -0800 (PST)
+Received: by mail-pg1-f170.google.com with SMTP id i5so5463554pgo.1
+ for <iommu@lists.linux-foundation.org>; Thu, 07 Jan 2021 09:46:27 -0800 (PST)
+X-Received: by 2002:a92:c206:: with SMTP id j6mr9799328ilo.189.1610041168940; 
+ Thu, 07 Jan 2021 09:39:28 -0800 (PST)
 MIME-Version: 1.0
-Date: Thu, 07 Jan 2021 08:57:50 -0800
-From: isaacm@codeaurora.org
-To: Will Deacon <will@kernel.org>
-Subject: Re: [PATCH] iommu/io-pgtable-arm: Allow non-coherent masters to use
- system cache
-In-Reply-To: <20210106115615.GA1763@willie-the-truck>
-References: <20201224064007.2339-1-saiprakash.ranjan@codeaurora.org>
- <20210106115615.GA1763@willie-the-truck>
-Message-ID: <cfced52002337025088a64aa159760b2@codeaurora.org>
-X-Sender: isaacm@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+References: <20210106034124.30560-1-tientzu@chromium.org>
+ <20210106034124.30560-3-tientzu@chromium.org>
+ <20210106185241.GA109735@localhost.localdomain>
+In-Reply-To: <20210106185241.GA109735@localhost.localdomain>
+From: Claire Chang <tientzu@chromium.org>
+Date: Fri, 8 Jan 2021 01:39:18 +0800
+X-Gmail-Original-Message-ID: <CALiNf2-HDf6tFcvVgCttr-ta=88ZMH=OvB5XoryTPc6MNvwV+Q@mail.gmail.com>
+Message-ID: <CALiNf2-HDf6tFcvVgCttr-ta=88ZMH=OvB5XoryTPc6MNvwV+Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 2/6] swiotlb: Add restricted DMA pool
+To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Cc: heikki.krogerus@linux.intel.com, peterz@infradead.org,
+ benh@kernel.crashing.org, grant.likely@arm.com, paulus@samba.org,
+ Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
+ sstabellini@kernel.org, Saravana Kannan <saravanak@google.com>,
+ mpe@ellerman.id.au, rafael.j.wysocki@intel.com, Christoph Hellwig <hch@lst.de>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ xen-devel@lists.xenproject.org, Thierry Reding <treding@nvidia.com>,
+ linux-devicetree <devicetree@vger.kernel.org>, will@kernel.org,
+ dan.j.williams@intel.com, linuxppc-dev@lists.ozlabs.org,
+ Rob Herring <robh+dt@kernel.org>, boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
+ rdunlap@infradead.org, lkml <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ xypron.glpk@gmx.de, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,94 +109,18 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021-01-06 03:56, Will Deacon wrote:
-> On Thu, Dec 24, 2020 at 12:10:07PM +0530, Sai Prakash Ranjan wrote:
->> commit ecd7274fb4cd ("iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag")
->> removed unused IOMMU_SYS_CACHE_ONLY prot flag and along with it went
->> the memory type setting required for the non-coherent masters to use
->> system cache. Now that system cache support for GPU is added, we will
->> need to mark the memory as normal sys-cached for GPU to use system 
->> cache.
->> Without this, the system cache lines are not allocated for GPU. We use
->> the IO_PGTABLE_QUIRK_ARM_OUTER_WBWA quirk instead of a page protection
->> flag as the flag cannot be exposed via DMA api because of no in-tree
->> users.
->> 
->> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
->> ---
->>  drivers/iommu/io-pgtable-arm.c | 3 +++
->>  1 file changed, 3 insertions(+)
->> 
->> diff --git a/drivers/iommu/io-pgtable-arm.c 
->> b/drivers/iommu/io-pgtable-arm.c
->> index 7c9ea9d7874a..3fb7de8304a2 100644
->> --- a/drivers/iommu/io-pgtable-arm.c
->> +++ b/drivers/iommu/io-pgtable-arm.c
->> @@ -415,6 +415,9 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct 
->> arm_lpae_io_pgtable *data,
->>  		else if (prot & IOMMU_CACHE)
->>  			pte |= (ARM_LPAE_MAIR_ATTR_IDX_CACHE
->>  				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
->> +		else if (data->iop.cfg.quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA)
->> +			pte |= (ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE
->> +				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
->>  	}
-> 
-While this approach of enabling system cache globally for both page 
-tables and other buffers
-works for the GPU usecase, this isn't ideal for other clients that use 
-system cache. For example,
-video clients only want to cache a subset of their buffers in the system 
-cache, due to the sizing constraint
-imposed by how much of the system cache they can use. So, it would be 
-ideal to have
-a way of expressing the desire to use the system cache on a per-buffer 
-basis. Additionally,
-our video clients use the DMA layer, and since the requirement is for 
-caching in the system cache
-to be a per buffer attribute, it seems like we would have to have a DMA 
-attribute to express
-this on a per-buffer basis.
+Hi Greg and Konrad,
 
-Thanks,
-Isaac
+This change is intended to be non-arch specific. Any arch that lacks DMA access
+control and has devices not behind an IOMMU can make use of it. Could you share
+why you think this should be arch specific?
 
-> drivers/iommu/io-pgtable.c currently documents this quirk as applying 
-> only
-> to the page-table walker. Given that we only have one user at the 
-> moment,
-> I think it's ok to change that, but please update the comment.
-> 
-> We also need to decide on whether we want to allow the quirk to be 
-> passed
-> if the coherency of the page-table walker differs from the DMA device, 
-> since
-> we have these combinations:
-> 
-> 	Coherent walker?	IOMMU_CACHE	IO_PGTABLE_QUIRK_ARM_OUTER_WBWA
-> 0:	N			0		0
-> 1:	N			0		1
-> 2:	N			1		0
-> 3:	N			1		1
-> 4:	Y			0		0
-> 5:	Y			0		1
-> 6:	Y			1		0
-> 7:	Y			1		1
-> 
-> Some of them are obviously bogus, such as (7), but I don't know what to
-> do about cases such as (3) and (5).
-> 
-> Will
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+Thanks!
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
