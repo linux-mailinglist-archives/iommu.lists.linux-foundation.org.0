@@ -1,88 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E71D2ED310
-	for <lists.iommu@lfdr.de>; Thu,  7 Jan 2021 15:54:08 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 109162ED2DF
+	for <lists.iommu@lfdr.de>; Thu,  7 Jan 2021 15:39:13 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 07234873FB;
-	Thu,  7 Jan 2021 14:54:07 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A013E868CA;
+	Thu,  7 Jan 2021 14:39:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iYi5UHa7S+iB; Thu,  7 Jan 2021 14:54:06 +0000 (UTC)
+	with ESMTP id rpMHlKr00jpP; Thu,  7 Jan 2021 14:39:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B6E5787416;
-	Thu,  7 Jan 2021 14:54:05 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 27FDB8689D;
+	Thu,  7 Jan 2021 14:39:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 96160C013A;
-	Thu,  7 Jan 2021 14:54:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1794AC013A;
+	Thu,  7 Jan 2021 14:39:11 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B2069C013A
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:31:46 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 93D7BC013A
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:39:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 819DE273E1
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:31:46 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 796AF873BF
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:39:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KrwxfpckddYr for <iommu@lists.linux-foundation.org>;
- Thu,  7 Jan 2021 14:31:43 +0000 (UTC)
+ with ESMTP id hwPhfM6JAvex for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Jan 2021 14:39:08 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
- [209.85.215.177])
- by silver.osuosl.org (Postfix) with ESMTPS id 8E3852042D
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:31:41 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id i7so5050214pgc.8
- for <iommu@lists.linux-foundation.org>; Thu, 07 Jan 2021 06:31:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RsDTMrWv7jSxdT5ji0Wdtt9x9xjaZ1j3PSJSmTMWzAg=;
- b=LFmqRtkapVLHAIwS9SwEiH0wOugFQUWyHlXt409uUhmVadFEvWL+UTSux0ywaxjTIL
- qPGwDIR8l3xvvhPvKZqcH81QyML6nYN2gQ9PlLPbicKSgn3g6y4FyFG21l83GjqbxFe/
- Y1SvEhPYdyHVTiS8T8D9nyKiD9/MCS7bvruMES2BHC5yfq3VUobOa8bSsSPj9OBNHphi
- 0pT0vA85FIZSzzv6NdOBukjatPxyL1xaGfO6w3hP56XSg5w6L2x4efpfRXfiX+eFPCz3
- S+g1ZPdGLmmGNpUQZsA7ZWNeagdfXw8PVAHujJ6k33M6Huy4auqTVqMquaILFD8WTImK
- sRKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RsDTMrWv7jSxdT5ji0Wdtt9x9xjaZ1j3PSJSmTMWzAg=;
- b=l0gprdgvVecePdFv3U3LPk1tBmj0J1gNt5+bUZcEhXl4nWPNrfPWfqgm/F3OrjFaSL
- P9TXjzk1arBaOfANyNTidaexPa1x3yQQndOtM6ij9CQSe8qG5xyyWhgELxxqsj3W4Szu
- PINdR4OmKS2Fk+X1lU2sNlVyeOMp98uzDRjyaEtdA1Dflx+VgCdyLH22qysSVmlrzPe0
- BnLSOwzKqL6z9+oWlUoNdm1Z4+teeJCw3Wq18sd26FvBSJlxJek8lwZlC0DFrgFBmgK/
- HGQ7HJnJ9tK6T0LaQ3w7GkZTv2PExXuHSUfm2/39qYigJqV+Znp+wcpg5LPx8yCXf4KR
- 8HNw==
-X-Gm-Message-State: AOAM531pVnoBsIcy3N95aa2X2CJ7gYWP/T6ozTWJXb0ZthnclP4tExiM
- PF4339URYhFuMPvZ9/qBI2tX
-X-Google-Smtp-Source: ABdhPJzSG7+An9o4M0cfAK/FdgBFCAQmBgulcSq3UwEZdeNDf3A/qo5+aNub8hfE5ryNYIOPDwVeNg==
-X-Received: by 2002:a62:7fc1:0:b029:19f:1dab:5029 with SMTP id
- a184-20020a627fc10000b029019f1dab5029mr8813824pfd.13.1610029901346; 
- Thu, 07 Jan 2021 06:31:41 -0800 (PST)
-Received: from localhost.localdomain ([103.77.37.128])
- by smtp.gmail.com with ESMTPSA id 19sm6096465pfu.85.2021.01.07.06.31.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 06:31:40 -0800 (PST)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: robh+dt@kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH 2/2] dt-bindings: arm-smmu: Add binding for Qcom SDX55 SMMU
-Date: Thu,  7 Jan 2021 20:01:18 +0530
-Message-Id: <20210107143118.2386-2-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210107143118.2386-1-manivannan.sadhasivam@linaro.org>
-References: <20210107143118.2386-1-manivannan.sadhasivam@linaro.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id A5B22873B2
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:39:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 92646217A0;
+ Thu,  7 Jan 2021 14:39:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1610030348;
+ bh=YWEcxhex87qRhDcmUQgovNSsPvhG+kKequUOj5ZrPco=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FIC+a1NcKdmkefH0TZ04wEJSA0N0X+XPEmffWdWFyJ65aslvzDaOubPJtqvdTEgTA
+ mL66YFSKt6oTvwq1HMMco+2c7mpiBV5XyQ+iKVcjd+GHlb2+97YSAW44RP+P9J76gP
+ ilI3tcRIrJodIWbSSRxBuf2TgixmFufEbqMshUbeGi/OOtv9krfjQX26q3+vEMe+dp
+ kIGxU6/4n4KJhNIhViwcd58ScrT7JRpZGt4/gbON+oEOx1gbk3FJzFv9tv7ML9d+WZ
+ KPska6pUUN8AnT8bNn0it3DUNiHag8bLAITlg4bKsnhQRHEgamgzixOM+ek6pKctOC
+ WI6vvUUgst9CQ==
+Date: Thu, 7 Jan 2021 14:39:03 +0000
+From: Will Deacon <will@kernel.org>
+To: Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH v4 2/3] iommu/vt-d: Track device aux-attach with
+ subdevice_domain_info
+Message-ID: <20210107143903.GA3413@willie-the-truck>
+References: <1609949037-25291-1-git-send-email-yi.l.liu@intel.com>
+ <1609949037-25291-3-git-send-email-yi.l.liu@intel.com>
+ <20210107134906.GA3043@willie-the-truck>
+ <591fa06b-8db1-57a5-8c61-d6ba28bc8c04@linux.intel.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 07 Jan 2021 14:54:04 +0000
-Cc: Vinod Koul <vkoul@kernel.org>, Will Deacon <will@kernel.org>,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <591fa06b-8db1-57a5-8c61-d6ba28bc8c04@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: yi.y.sun@intel.com, kevin.tian@intel.com, ashok.raj@intel.com,
+ jun.j.tian@intel.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, dan.carpenter@oracle.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,33 +80,35 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add devicetree binding for Qualcomm SDX55 SMMU.
+On Thu, Jan 07, 2021 at 10:16:57PM +0800, Lu Baolu wrote:
+> On 2021/1/7 21:49, Will Deacon wrote:
+> > On Thu, Jan 07, 2021 at 12:03:56AM +0800, Liu Yi L wrote:
+> > > In the existing code, loop all devices attached to a domain does not
+> > > include sub-devices attached via iommu_aux_attach_device().
+> > > 
+> > > This was found by when I'm working on the below patch, There is no
+> > > device in the domain->devices list, thus unable to get the cap and
+> > > ecap of iommu unit. But this domain actually has subdevice which is
+> > > attached via aux-manner. But it is tracked by domain. This patch is
+> > > going to fix it.
+> > > 
+> > > https://lore.kernel.org/kvm/1599734733-6431-17-git-send-email-yi.l.liu@intel.com/
+> > > 
+> > > And this fix goes beyond the patch above, such sub-device tracking is
+> > > necessary for other cases. For example, flushing device_iotlb for a
+> > > domain which has sub-devices attached by auxiliary manner.
+> > 
+> > Sorry, but I'm having a really hard time understanding what this patch is
+> > doing based on this commit message. Baolu -- do you think you could reword
+> > it for me please? No need to resend the patch.
+> 
+> iommu/vt-d: Fix general protection fault in aux_detach_device()
 
-Cc: Will Deacon <will@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: iommu@lists.linux-foundation.org
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Reviewed-by: Vinod Koul <vkoul@kernel.org>
----
- Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
- 1 file changed, 1 insertion(+)
+[...]
 
-diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-index 3b63f2ae24db..3a1cefce8bc4 100644
---- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-+++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
-@@ -35,6 +35,7 @@ properties:
-           - enum:
-               - qcom,sc7180-smmu-500
-               - qcom,sdm845-smmu-500
-+              - qcom,sdx55-smmu-500
-               - qcom,sm8150-smmu-500
-               - qcom,sm8250-smmu-500
-           - const: arm,mmu-500
--- 
-2.25.1
+Thanks! I'll push this out shortly.
 
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
