@@ -2,65 +2,76 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09EF2ED2E2
-	for <lists.iommu@lfdr.de>; Thu,  7 Jan 2021 15:41:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DC62ED4DC
+	for <lists.iommu@lfdr.de>; Thu,  7 Jan 2021 17:58:20 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 509DD86962;
-	Thu,  7 Jan 2021 14:40:59 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 947DE86A0F;
+	Thu,  7 Jan 2021 16:58:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HqxYOsnfz58q; Thu,  7 Jan 2021 14:40:57 +0000 (UTC)
+	with ESMTP id qyjjw5EWpCGf; Thu,  7 Jan 2021 16:58:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7FEA08692E;
-	Thu,  7 Jan 2021 14:40:57 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 046BD86A0E;
+	Thu,  7 Jan 2021 16:58:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 709C7C1DA7;
-	Thu,  7 Jan 2021 14:40:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D9298C013A;
+	Thu,  7 Jan 2021 16:58:18 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1FDD7C013A
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:40:56 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EDA0FC013A
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 16:58:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0A1F68692E
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:40:56 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id DBE9486D17
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 16:58:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 18mqxFVghEmO for <iommu@lists.linux-foundation.org>;
- Thu,  7 Jan 2021 14:40:55 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 7F22D86868
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:40:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CBB6C22EBF;
- Thu,  7 Jan 2021 14:40:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610030455;
- bh=7xoap/F3JQH2zdQsxbhjQZFUy8PtJsSlYU5ujJ5re/g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V4wQO1s3j6VY3fYuP2lfIcRxjVy/Hq9nglrO4dstJOWHliufituRvbOMyEKC3VKOO
- FALFeX2v3Uq8zhORbR+tXXwLi2UAruT572SCKW9i7MwstPDqCKLe2WEAz3JbWMl9f0
- 81xVdHhntoR2cpbtLNMlstavXdbCkzf7vZCFAOI+d+TBKsf32RQkja0DVJyTbXPWqJ
- EJh8kwMpsXZNDdoOunw+kZoKKY3KL7+ZoAyvKqiBoHdmmX78/WEQq+16f2jXaahOJZ
- NwPEKY5T5BZSkk04Z3mCVlUUWSZHJMgYtYv0T6OkwC38sUHIEm5ESf2clVEtR/JRHJ
- jtdX2Eo6X9fXA==
-Date: Thu, 7 Jan 2021 14:40:50 +0000
-From: Will Deacon <will@kernel.org>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 3/5] iommu/vt-d: Remove unused dma map/unmap trace events
-Message-ID: <20210107144049.GB3413@willie-the-truck>
-References: <20201231005323.2178523-1-baolu.lu@linux.intel.com>
- <20201231005323.2178523-3-baolu.lu@linux.intel.com>
- <20210105190443.GB12182@willie-the-truck>
- <8bf33c93-3154-e832-1197-891c684d6ded@linux.intel.com>
+ with ESMTP id WjvXDDxC4Zjy for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Jan 2021 16:58:15 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 3149986D0B
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 16:58:14 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1610038695; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=uej1VdCPJRgja4WXQnCBIOkcPpb71NvmOUhrumuE/zk=;
+ b=IfX/zLDVzqa2OsArC2oBWm0huvFVcEdtqwO5IU77UJetGXIJx39oaVZRWUopWr6EipX3mlp8
+ BZmvanoQCS3q2VnKfeKoRyrZAw4xk/dfer3BVlEUGinUIGHJHFKJH4pJdBhWElNWJFlb1MEa
+ p6pCvJZ9T+BmM244H9in0GImT0o=
+X-Mailgun-Sending-Ip: 198.61.254.31
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 5ff73d8ffc3778927e7ed538 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 07 Jan 2021 16:57:51
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id D3260C43461; Thu,  7 Jan 2021 16:57:51 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: isaacm)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A99AAC433CA;
+ Thu,  7 Jan 2021 16:57:50 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8bf33c93-3154-e832-1197-891c684d6ded@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Ashok Raj <ashok.raj@intel.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Guo Kaijie <Kaijie.Guo@intel.com>
+Date: Thu, 07 Jan 2021 08:57:50 -0800
+From: isaacm@codeaurora.org
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCH] iommu/io-pgtable-arm: Allow non-coherent masters to use
+ system cache
+In-Reply-To: <20210106115615.GA1763@willie-the-truck>
+References: <20201224064007.2339-1-saiprakash.ranjan@codeaurora.org>
+ <20210106115615.GA1763@willie-the-truck>
+Message-ID: <cfced52002337025088a64aa159760b2@codeaurora.org>
+X-Sender: isaacm@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
+Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -73,55 +84,95 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gV2VkLCBKYW4gMDYsIDIwMjEgYXQgMDk6MTQ6MjJBTSArMDgwMCwgTHUgQmFvbHUgd3JvdGU6
-Cj4gT24gMjAyMS8xLzYgMzowNCwgV2lsbCBEZWFjb24gd3JvdGU6Cj4gPiBPbiBUaHUsIERlYyAz
-MSwgMjAyMCBhdCAwODo1MzoyMUFNICswODAwLCBMdSBCYW9sdSB3cm90ZToKPiA+ID4gV2l0aCBj
-b21taXQgYzU4ODA3MmJiYTZiNSAoImlvbW11L3Z0LWQ6IENvbnZlcnQgaW50ZWwgaW9tbXUgZHJp
-dmVyIHRvCj4gPiA+IHRoZSBpb21tdSBvcHMiKSwgdGhlIHRyYWNlIGV2ZW50cyBmb3IgZG1hIG1h
-cC91bm1hcCBoYXZlIG5vIHVzZXJzIGFueQo+ID4gPiBtb3JlLiBSZW1vdmUgdGhlbSBzbyB0aGF0
-IHRoZXkgZG9uJ3Qgc2hvdyB1cCB1bmRlcgo+ID4gPiAvc3lzL2tlcm5lbC9kZWJ1Zy90cmFjaW5n
-L2V2ZW50cy9pbnRlbF9pb21tdS4gVGhlIHVzZXJzIHNob3VsZCB1c2UgdGhlCj4gPiA+IG1hcC91
-bm1hcCB0cmFjZXMgZGVmaW5lZCBpbiB0aGUgaW9tbXUgY29yZSBmcm9tIG5vdyBvbi4KPiA+ID4g
-Cj4gPiA+IEZpeGVzOiBjNTg4MDcyYmJhNmI1ICgiaW9tbXUvdnQtZDogQ29udmVydCBpbnRlbCBp
-b21tdSBkcml2ZXIgdG8gdGhlIGlvbW11IG9wcyIpCj4gPiA+IFNpZ25lZC1vZmYtYnk6IEx1IEJh
-b2x1IDxiYW9sdS5sdUBsaW51eC5pbnRlbC5jb20+Cj4gPiA+IC0tLQo+ID4gPiAgIGluY2x1ZGUv
-dHJhY2UvZXZlbnRzL2ludGVsX2lvbW11LmggfCAxMTkgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0KPiA+ID4gICAxIGZpbGUgY2hhbmdlZCwgMTE5IGRlbGV0aW9ucygtKQo+ID4gCj4gPiBJ
-cyB0aGlzIG5lZWRlZCBpbiA1LjExLCBvciBjYW4gaXQgd2FpdCB1bnRpbCA1LjEyPwo+IAo+IEl0
-J3MgbmVjZXNzYXJ5IGZvciA1LjExIGFzIGZhciBhcyBJIGNhbiBzZWUuIFdpdGhvdXQgdGhpcywg
-dXNlcnMgc3RpbGwKPiBzZWUgdGhlIGV2ZW50cyB1bmRlciAvc3lzL2tlcm5lbC9kZWJ1Zy90cmFj
-aW5nL2V2ZW50cy9pbnRlbF9pb21tdSwgYnV0Cj4gdGhleSB3aWxsIGdldCBub3RoaW5nIHRyYWNl
-ZCBldmVuIHRoZXkgZW5hYmxlIHRoZSBldmVudHMuCgpJJ20ganVzdCBhIGJpdCB3YXJ5IGFib3V0
-IGJyZWFraW5nIHVzZXJzcGFjZSBieSByZW1vdmluZyB0aGVtIGFsdG9nZXRoZXIsCmFsdGhvdWdo
-IEkgc2VlIHRoYXQgdGhlcmUncyBwbGVudHkgb2YgcHJlY2VkZW50IGZvciByZW1vdmluZyBldmVu
-dHMgZnJvbQp0aGUgaW5jbHVkZS90cmFjZS9ldmVudHMgZGlyZWN0b3J5LCBzbyBpdCdzIHByb2Jh
-Ymx5IGZpbmUuCgpIb3dldmVyLCB0aGUgcGF0Y2ggYXMtaXMgcmVzdWx0cyBpbiB0aGlzIHdhcm5p
-bmcgZm9yIG1lOgoKIHwgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGluY2x1ZGUvdHJhY2UvZGVmaW5l
-X3RyYWNlLmg6MTAyLAogfCAgICAgICAgICAgICAgICAgIGZyb20gaW5jbHVkZS90cmFjZS9ldmVu
-dHMvaW50ZWxfaW9tbXUuaDoyMiwKIHwgICAgICAgICAgICAgICAgICBmcm9tIGRyaXZlcnMvaW9t
-bXUvaW50ZWwvdHJhY2UuYzoxNDoKIHwgaW5jbHVkZS90cmFjZS90cmFjZV9ldmVudHMuaDoyNzoy
-Mzogd2FybmluZzog4oCYc3RyX19pbnRlbF9pb21tdV9fdHJhY2Vfc3lzdGVtX25hbWXigJkgZGVm
-aW5lZCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWNvbnN0LXZhcmlhYmxlPV0KIHwgICAgMjcgfCAj
-ZGVmaW5lIF9fYXBwX18oeCwgeSkgc3RyX18jI3gjI3kKIHwgICAgICAgfCAgICAgICAgICAgICAg
-ICAgICAgICAgXn5+fn4KIHwgaW5jbHVkZS90cmFjZS90cmFjZV9ldmVudHMuaDoyODoyMTogbm90
-ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvIOKAmF9fYXBwX1/igJkKIHwgICAgMjggfCAjZGVmaW5l
-IF9fYXBwKHgsIHkpIF9fYXBwX18oeCwgeSkKIHwgICAgICAgfCAgICAgICAgICAgICAgICAgICAg
-IF5+fn5+fn4KIHwgaW5jbHVkZS90cmFjZS90cmFjZV9ldmVudHMuaDozMDoyOTogbm90ZTogaW4g
-ZXhwYW5zaW9uIG9mIG1hY3JvIOKAmF9fYXBw4oCZCiB8ICAgIDMwIHwgI2RlZmluZSBUUkFDRV9T
-WVNURU1fU1RSSU5HIF9fYXBwKFRSQUNFX1NZU1RFTV9WQVIsX190cmFjZV9zeXN0ZW1fbmFtZSkK
-IHwgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn5+fn4KIHwgaW5jbHVkZS90
-cmFjZS90cmFjZV9ldmVudHMuaDozMzoyMDogbm90ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvIOKA
-mFRSQUNFX1NZU1RFTV9TVFJJTkfigJkKIHwgICAgMzMgfCAgc3RhdGljIGNvbnN0IGNoYXIgVFJB
-Q0VfU1lTVEVNX1NUUklOR1tdID0gXAogfCAgICAgICB8ICAgICAgICAgICAgICAgICAgICBefn5+
-fn5+fn5+fn5+fn5+fn5+CiB8IGluY2x1ZGUvdHJhY2UvdHJhY2VfZXZlbnRzLmg6MzY6MTogbm90
-ZTogaW4gZXhwYW5zaW9uIG9mIG1hY3JvIOKAmFRSQUNFX01BS0VfU1lTVEVNX1NUUuKAmQogfCAg
-ICAzNiB8IFRSQUNFX01BS0VfU1lTVEVNX1NUUigpOwogfCAgICAgICB8IF5+fn5+fn5+fn5+fn5+
-fn5+fn5+fgoKc28gSSdsbCBkcm9wIHRoaXMgZm9yIG5vdy4KCldpbGwKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KaW9tbXUgbWFpbGluZyBsaXN0CmlvbW11
-QGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9u
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2lvbW11
+On 2021-01-06 03:56, Will Deacon wrote:
+> On Thu, Dec 24, 2020 at 12:10:07PM +0530, Sai Prakash Ranjan wrote:
+>> commit ecd7274fb4cd ("iommu: Remove unused IOMMU_SYS_CACHE_ONLY flag")
+>> removed unused IOMMU_SYS_CACHE_ONLY prot flag and along with it went
+>> the memory type setting required for the non-coherent masters to use
+>> system cache. Now that system cache support for GPU is added, we will
+>> need to mark the memory as normal sys-cached for GPU to use system 
+>> cache.
+>> Without this, the system cache lines are not allocated for GPU. We use
+>> the IO_PGTABLE_QUIRK_ARM_OUTER_WBWA quirk instead of a page protection
+>> flag as the flag cannot be exposed via DMA api because of no in-tree
+>> users.
+>> 
+>> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+>> ---
+>>  drivers/iommu/io-pgtable-arm.c | 3 +++
+>>  1 file changed, 3 insertions(+)
+>> 
+>> diff --git a/drivers/iommu/io-pgtable-arm.c 
+>> b/drivers/iommu/io-pgtable-arm.c
+>> index 7c9ea9d7874a..3fb7de8304a2 100644
+>> --- a/drivers/iommu/io-pgtable-arm.c
+>> +++ b/drivers/iommu/io-pgtable-arm.c
+>> @@ -415,6 +415,9 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct 
+>> arm_lpae_io_pgtable *data,
+>>  		else if (prot & IOMMU_CACHE)
+>>  			pte |= (ARM_LPAE_MAIR_ATTR_IDX_CACHE
+>>  				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
+>> +		else if (data->iop.cfg.quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA)
+>> +			pte |= (ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE
+>> +				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
+>>  	}
+> 
+While this approach of enabling system cache globally for both page 
+tables and other buffers
+works for the GPU usecase, this isn't ideal for other clients that use 
+system cache. For example,
+video clients only want to cache a subset of their buffers in the system 
+cache, due to the sizing constraint
+imposed by how much of the system cache they can use. So, it would be 
+ideal to have
+a way of expressing the desire to use the system cache on a per-buffer 
+basis. Additionally,
+our video clients use the DMA layer, and since the requirement is for 
+caching in the system cache
+to be a per buffer attribute, it seems like we would have to have a DMA 
+attribute to express
+this on a per-buffer basis.
+
+Thanks,
+Isaac
+
+> drivers/iommu/io-pgtable.c currently documents this quirk as applying 
+> only
+> to the page-table walker. Given that we only have one user at the 
+> moment,
+> I think it's ok to change that, but please update the comment.
+> 
+> We also need to decide on whether we want to allow the quirk to be 
+> passed
+> if the coherency of the page-table walker differs from the DMA device, 
+> since
+> we have these combinations:
+> 
+> 	Coherent walker?	IOMMU_CACHE	IO_PGTABLE_QUIRK_ARM_OUTER_WBWA
+> 0:	N			0		0
+> 1:	N			0		1
+> 2:	N			1		0
+> 3:	N			1		1
+> 4:	Y			0		0
+> 5:	Y			0		1
+> 6:	Y			1		0
+> 7:	Y			1		1
+> 
+> Some of them are obviously bogus, such as (7), but I don't know what to
+> do about cases such as (3) and (5).
+> 
+> Will
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
