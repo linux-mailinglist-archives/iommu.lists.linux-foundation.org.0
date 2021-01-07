@@ -2,141 +2,83 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88742ED632
-	for <lists.iommu@lfdr.de>; Thu,  7 Jan 2021 18:59:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 266272ED668
+	for <lists.iommu@lfdr.de>; Thu,  7 Jan 2021 19:09:51 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 757AD87477;
-	Thu,  7 Jan 2021 17:59:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D163587121;
+	Thu,  7 Jan 2021 18:09:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FoPEBd4kf21A; Thu,  7 Jan 2021 17:59:46 +0000 (UTC)
+	with ESMTP id 4BoPA7Qy+kMw; Thu,  7 Jan 2021 18:09:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id CC11C87479;
-	Thu,  7 Jan 2021 17:59:46 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 71B1481E5B;
+	Thu,  7 Jan 2021 18:09:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B8FB3C013A;
-	Thu,  7 Jan 2021 17:59:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 64059C013A;
+	Thu,  7 Jan 2021 18:09:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 39FACC013A
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 17:59:46 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4C7B7C013A
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 18:09:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 2E3E886429
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 17:59:46 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 322DE86554
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 18:09:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O4PPvokwjDlB for <iommu@lists.linux-foundation.org>;
- Thu,  7 Jan 2021 17:59:45 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 3491686D21
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 17:59:45 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id l23so4251063pjg.1
- for <iommu@lists.linux-foundation.org>; Thu, 07 Jan 2021 09:59:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZNkxRy2pmI58OmdJfgX8IVhKQwYwrY8AJ4eYZY7HXPM=;
- b=baExqNgXRwKMrEJSk1Fl4LiEMuRlPZOYi4kQQN0Fs3TH2/nPRByTsS7f6SmGD+Pesi
- pqDF7vLefPt2PSuRl7+VPxo2zb+So/8H7xo2+MAMlRXtFkOWcbSuKopjAvO3OxzbtMhT
- Akjh0jesnrNbbwyNR+QGCDliuG/iz9RpOfnECRQ2kD/NKKfrYXAXY7hkn9BN3MlpseNa
- dU0L8ZH5/zTijUwKbkEcZcrqgGfeur4KL5Vo4C62xOTpvcQ4QDQKCkQw7Vdu4E7J54YJ
- RIB4J1H8EulvBXPbDx16o186ov6yvfkiGgD9RTChtHVFuOnU8ztpPqN0DA5mltzYywKB
- H4RA==
+ with ESMTP id dsJZmebqMDIJ for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Jan 2021 18:09:45 +0000 (UTC)
+X-Greylist: delayed 00:24:05 by SQLgrey-1.7.6
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 7A23A85F6D
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 18:09:45 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id f26so6286936qka.0
+ for <iommu@lists.linux-foundation.org>; Thu, 07 Jan 2021 10:09:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lmRpyU02tzYzNNegjIihcCxZyXW1d2vZ/GdMFK5mnJk=;
+ b=SoKXOKPjPIj0bNZqjL8jd3g1x++IpRUGavBgQZB48yjMr3FErg0/LB8QoBzIcQt/ka
+ 3uw3LzC05V0NXsnGkX2E/jViOUmBeqfz+Dm7BPkaUOwck9GE68NEStaDUzo2Ps4jBT44
+ o0xJvs9naSndqu5VCEiuqFkwP8CanbrdeGCSc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=ZNkxRy2pmI58OmdJfgX8IVhKQwYwrY8AJ4eYZY7HXPM=;
- b=oUzrD/D/9e3Bty2IC3mdrga2m8k5T7L8rYfB2z0B/XzvceOSqBNMbx8ZlLY57fQ9ZO
- KwrKopgl3634cnpo231oarYVJcwxJumkjsaxQtG07wQJZkN67AbbrM8w5hNbg4XWsKpC
- uE+qmeeCSmZabuRoVFZTvptuKuicORok8FuHp3szqE5Btat+bD1y8u8uoBnbXazYpl86
- nmg6U9SPEUOz/ke/Q926X8ZjweKh2ZaVN0n+r+vipAvsJISitSoM6fMuI/X694KUsXAF
- QP0VRK5UVtTPWpySayJugDdhE0qSfOfBX7kK9tq6mlKwufglU8ku1EMr22Fh7m8hXVT3
- VrXQ==
-X-Gm-Message-State: AOAM530I5yaSnIF0mM2DgH2jaYQN6plyCRi7ky1IAl7ePIaEzQeOiv3w
- aIN5B2CpnVOFxi441bS946g=
-X-Google-Smtp-Source: ABdhPJwQY1nAHaYZptMRuaymqcvxxzu7Hcir/rZ6Pdp299XqzAsy/b02SPGy4St4L1ekZBNyMOx5iA==
-X-Received: by 2002:a17:90a:d48f:: with SMTP id
- s15mr10290316pju.137.1610042384624; 
- Thu, 07 Jan 2021 09:59:44 -0800 (PST)
-Received: from [10.67.48.230] ([192.19.223.252])
- by smtp.googlemail.com with ESMTPSA id
- y189sm6307939pfb.155.2021.01.07.09.59.40
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lmRpyU02tzYzNNegjIihcCxZyXW1d2vZ/GdMFK5mnJk=;
+ b=GW9N/zJq0zAjAA7AjHDEbceYS4QFxVukdiNjaWkBzKR+6HV0kd5BFq/f+eBSl3+2m7
+ gJdw/OeP/TTiy06XFGZDiw8xdentVIT8pnBJ1TIaR0kHvJQnegb3O1im3faEJg2H/o/8
+ Z0y4hN9d6UEydzfteiR0lhJH7/zP2pLFthFaspL5xD9LR7HdGuOnObLi2U5NRNbbzYkz
+ SKtR7YNafPnDLueAPv4axzArpMdjQRyBXqRP9jWbhOPLmVa60gumYenWNxrKYc9S1cs3
+ YPk5P1VqiAeB9rKdB+HQaIDrd7ArEcPRsRBhMvjsLvdTHi0f4f1IB/fBrJUu3TkgkRXC
+ kIRw==
+X-Gm-Message-State: AOAM530C8Yp2E/x43Rxcp0JHjb35gCMPH1+gioX5XDCCVsncxQLGlsLz
+ +XhqiUElR0miRTaN/Vcdz0gVMYLMPvrXePEs
+X-Google-Smtp-Source: ABdhPJxvMPdde78I73suU2+139MPFl8pLIfszqOj6lIFWTRY5U4mltmXyhWyI/GbObZnsARfhvNiWA==
+X-Received: by 2002:ae9:e308:: with SMTP id v8mr10129883qkf.339.1610041539405; 
+ Thu, 07 Jan 2021 09:45:39 -0800 (PST)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com.
+ [209.85.160.174])
+ by smtp.gmail.com with ESMTPSA id o29sm3147697qtl.7.2021.01.07.09.45.38
+ for <iommu@lists.linux-foundation.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Jan 2021 09:59:43 -0800 (PST)
-Subject: Re: [RFC PATCH v3 0/6] Restricted DMA
-To: Claire Chang <tientzu@chromium.org>
+ Thu, 07 Jan 2021 09:45:38 -0800 (PST)
+Received: by mail-qt1-f174.google.com with SMTP id y15so4789412qtv.5
+ for <iommu@lists.linux-foundation.org>; Thu, 07 Jan 2021 09:45:38 -0800 (PST)
+X-Received: by 2002:a02:b709:: with SMTP id g9mr9101800jam.90.1610041143173;
+ Thu, 07 Jan 2021 09:39:03 -0800 (PST)
+MIME-Version: 1.0
 References: <20210106034124.30560-1-tientzu@chromium.org>
  <d7043239-12cf-3636-4726-2e3b90917dc6@gmail.com>
- <CALiNf28sU1VtGB7LeTXExkMwQiCeg8N5arqyEjw0CPZP72R4dg@mail.gmail.com>
-From: Florian Fainelli <f.fainelli@gmail.com>
-Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- M5kY0ACeNhCZJvZ5g4C2Lc9fcTHu8jxmEkI=
-Message-ID: <78871151-947d-b085-db03-0d0bd0b55632@gmail.com>
-Date: Thu, 7 Jan 2021 09:59:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CALiNf28sU1VtGB7LeTXExkMwQiCeg8N5arqyEjw0CPZP72R4dg@mail.gmail.com>
-Content-Language: en-US
+In-Reply-To: <d7043239-12cf-3636-4726-2e3b90917dc6@gmail.com>
+From: Claire Chang <tientzu@chromium.org>
+Date: Fri, 8 Jan 2021 01:38:51 +0800
+X-Gmail-Original-Message-ID: <CALiNf2_stqoY_wKXNgXFOcoSMkjpFhs5ZsM+jr27Z9pgDSJH_A@mail.gmail.com>
+Message-ID: <CALiNf2_stqoY_wKXNgXFOcoSMkjpFhs5ZsM+jr27Z9pgDSJH_A@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 0/6] Restricted DMA
+To: Florian Fainelli <f.fainelli@gmail.com>
 Cc: heikki.krogerus@linux.intel.com, peterz@infradead.org,
  benh@kernel.crashing.org, grant.likely@arm.com, paulus@samba.org,
  Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
@@ -145,14 +87,16 @@ Cc: heikki.krogerus@linux.intel.com, peterz@infradead.org,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
  xen-devel@lists.xenproject.org, Thierry Reding <treding@nvidia.com>,
  linux-devicetree <devicetree@vger.kernel.org>, will@kernel.org,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, dan.j.williams@intel.com,
+ konrad.wilk@oracle.com, dan.j.williams@intel.com,
  linuxppc-dev@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
  boris.ostrovsky@oracle.com,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
  Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
  rdunlap@infradead.org, lkml <linux-kernel@vger.kernel.org>,
- iommu@lists.linux-foundation.org, Jim Quinlan <james.quinlan@broadcom.com>,
- xypron.glpk@gmx.de, Robin Murphy <robin.murphy@arm.com>
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Jim Quinlan <james.quinlan@broadcom.com>, xypron.glpk@gmx.de,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -165,98 +109,359 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1701428361363979113=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 1/7/21 9:42 AM, Claire Chang wrote:
+--===============1701428361363979113==
+Content-Type: multipart/alternative; boundary="0000000000006a175905b852ea63"
 
->> Can you explain how ATF gets involved and to what extent it does help,
->> besides enforcing a secure region from the ARM CPU's perpsective? Does
->> the PCIe root complex not have an IOMMU but can somehow be denied access
->> to a region that is marked NS=0 in the ARM CPU's MMU? If so, that is
->> still some sort of basic protection that the HW enforces, right?
-> 
-> We need the ATF support for memory MPU (memory protection unit).
-> Restricted DMA (with reserved-memory in dts) makes sure the predefined memory
-> region is for PCIe DMA only, but we still need MPU to locks down PCIe access to
-> that specific regions.
+--0000000000006a175905b852ea63
+Content-Type: text/plain; charset="UTF-8"
 
-OK so you do have a protection unit of some sort to enforce which region
-in DRAM the PCIE bridge is allowed to access, that makes sense,
-otherwise the restricted DMA region would only be a hint but nothing you
-can really enforce. This is almost entirely analogous to our systems then.
+On Thu, Jan 7, 2021 at 2:48 AM Florian Fainelli <f.fainelli@gmail.com>
+wrote:
+>
+> Hi,
+>
+> First of all let me say that I am glad that someone is working on a
+> upstream solution for this issue, would appreciate if you could CC and
+> Jim Quinlan on subsequent submissions.
 
-There may be some value in standardizing on an ARM SMCCC call then since
-you already support two different SoC vendors.
+Sure!
 
-> 
->>
->> On Broadcom STB SoCs we have had something similar for a while however
->> and while we don't have an IOMMU for the PCIe bridge, we do have a a
->> basic protection mechanism whereby we can configure a region in DRAM to
->> be PCIe read/write and CPU read/write which then gets used as the PCIe
->> inbound region for the PCIe EP. By default the PCIe bridge is not
->> allowed access to DRAM so we must call into a security agent to allow
->> the PCIe bridge to access the designated DRAM region.
->>
->> We have done this using a private CMA area region assigned via Device
->> Tree, assigned with a and requiring the PCIe EP driver to use
->> dma_alloc_from_contiguous() in order to allocate from this device
->> private CMA area. The only drawback with that approach is that it
->> requires knowing how much memory you need up front for buffers and DMA
->> descriptors that the PCIe EP will need to process. The problem is that
->> it requires driver modifications and that does not scale over the number
->> of PCIe EP drivers, some we absolutely do not control, but there is no
->> need to bounce buffer. Your approach scales better across PCIe EP
->> drivers however it does require bounce buffering which could be a
->> performance hit.
-> 
-> Only the streaming DMA (map/unmap) needs bounce buffering.
+>
+>
+> On 1/5/21 7:41 PM, Claire Chang wrote:
+> > This series implements mitigations for lack of DMA access control on
+> > systems without an IOMMU, which could result in the DMA accessing the
+> > system memory at unexpected times and/or unexpected addresses, possibly
+> > leading to data leakage or corruption.
+> >
+> > For example, we plan to use the PCI-e bus for Wi-Fi and that PCI-e bus
+is
+> > not behind an IOMMU. As PCI-e, by design, gives the device full access
+to
+> > system memory, a vulnerability in the Wi-Fi firmware could easily
+escalate
+> > to a full system exploit (remote wifi exploits: [1a], [1b] that shows a
+> > full chain of exploits; [2], [3]).
+> >
+> > To mitigate the security concerns, we introduce restricted DMA.
+Restricted
+> > DMA utilizes the existing swiotlb to bounce streaming DMA in and out of
+a
+> > specially allocated region and does memory allocation from the same
+region.
+> > The feature on its own provides a basic level of protection against the
+DMA
+> > overwriting buffer contents at unexpected times. However, to protect
+> > against general data leakage and system memory corruption, the system
+needs
+> > to provide a way to restrict the DMA to a predefined memory region
+(this is
+> > usually done at firmware level, e.g. in ATF on some ARM platforms).
+>
+> Can you explain how ATF gets involved and to what extent it does help,
+> besides enforcing a secure region from the ARM CPU's perpsective? Does
+> the PCIe root complex not have an IOMMU but can somehow be denied access
+> to a region that is marked NS=0 in the ARM CPU's MMU? If so, that is
+> still some sort of basic protection that the HW enforces, right?
 
-True, and typically only on transmit since you don't really control
-where the sk_buff are allocated from, right? On RX since you need to
-hand buffer addresses to the WLAN chip prior to DMA, you can allocate
-them from a pool that already falls within the restricted DMA region, right?
+We need the ATF support for memory MPU (memory protection unit).
+Restricted DMA (with reserved-memory in dts) makes sure the predefined
+memory
+region is for PCIe DMA only, but we still need MPU to locks down PCIe
+access to
+that specific regions.
 
-> I also added alloc/free support in this series
-> (https://lore.kernel.org/patchwork/patch/1360995/), so dma_direct_alloc() will
-> try to allocate memory from the predefined memory region.
-> 
-> As for the performance hit, it should be similar to the default swiotlb.
-> Here are my experiment results. Both SoCs lack IOMMU for PCIe.
-> 
-> PCIe wifi vht80 throughput -
-> 
->   MTK SoC                  tcp_tx     tcp_rx    udp_tx   udp_rx
->   w/o Restricted DMA  244.1     134.66   312.56   350.79
->   w/ Restricted DMA    246.95   136.59   363.21   351.99
-> 
->   Rockchip SoC           tcp_tx     tcp_rx    udp_tx   udp_rx
->   w/o Restricted DMA  237.87   133.86   288.28   361.88
->   w/ Restricted DMA    256.01   130.95   292.28   353.19
+>
+> On Broadcom STB SoCs we have had something similar for a while however
+> and while we don't have an IOMMU for the PCIe bridge, we do have a a
+> basic protection mechanism whereby we can configure a region in DRAM to
+> be PCIe read/write and CPU read/write which then gets used as the PCIe
+> inbound region for the PCIe EP. By default the PCIe bridge is not
+> allowed access to DRAM so we must call into a security agent to allow
+> the PCIe bridge to access the designated DRAM region.
+>
+> We have done this using a private CMA area region assigned via Device
+> Tree, assigned with a and requiring the PCIe EP driver to use
+> dma_alloc_from_contiguous() in order to allocate from this device
+> private CMA area. The only drawback with that approach is that it
+> requires knowing how much memory you need up front for buffers and DMA
+> descriptors that the PCIe EP will need to process. The problem is that
+> it requires driver modifications and that does not scale over the number
+> of PCIe EP drivers, some we absolutely do not control, but there is no
+> need to bounce buffer. Your approach scales better across PCIe EP
+> drivers however it does require bounce buffering which could be a
+> performance hit.
 
-How come you get better throughput with restricted DMA? Is it because
-doing DMA to/from a contiguous region allows for better grouping of
-transactions from the DRAM controller's perspective somehow?
+Only the streaming DMA (map/unmap) needs bounce buffering.
+I also added alloc/free support in this series
+(https://lore.kernel.org/patchwork/patch/1360995/), so dma_direct_alloc()
+will
+try to allocate memory from the predefined memory region.
 
-> 
-> The CPU usage doesn't increase too much either.
-> Although I didn't measure the CPU usage very precisely, it's ~3% with a single
-> big core (Cortex-A72) and ~5% with a single small core (Cortex-A53).
-> 
+As for the performance hit, it should be similar to the default swiotlb.
+Here are my experiment results. Both SoCs lack IOMMU for PCIe.
+
+PCIe wifi vht80 throughput -
+
+  MTK SoC                  tcp_tx     tcp_rx    udp_tx   udp_rx
+  w/o Restricted DMA  244.1     134.66   312.56   350.79
+  w/ Restricted DMA    246.95   136.59   363.21   351.99
+
+  Rockchip SoC           tcp_tx     tcp_rx    udp_tx   udp_rx
+  w/o Restricted DMA  237.87   133.86   288.28   361.88
+  w/ Restricted DMA    256.01   130.95   292.28   353.19
+
+The CPU usage doesn't increase too much either.
+Although I didn't measure the CPU usage very precisely, it's ~3% with a
+single
+big core (Cortex-A72) and ~5% with a single small core (Cortex-A53).
+
+Thanks!
+>
 > Thanks!
-> 
->>
->> Thanks!
->> --
->> Florian
 
 
--- 
-Florian
+On Thu, Jan 7, 2021 at 2:48 AM Florian Fainelli <f.fainelli@gmail.com>
+wrote:
+
+> Hi,
+>
+> First of all let me say that I am glad that someone is working on a
+> upstream solution for this issue, would appreciate if you could CC and
+> Jim Quinlan on subsequent submissions.
+>
+> On 1/5/21 7:41 PM, Claire Chang wrote:
+> > This series implements mitigations for lack of DMA access control on
+> > systems without an IOMMU, which could result in the DMA accessing the
+> > system memory at unexpected times and/or unexpected addresses, possibly
+> > leading to data leakage or corruption.
+> >
+> > For example, we plan to use the PCI-e bus for Wi-Fi and that PCI-e bus is
+> > not behind an IOMMU. As PCI-e, by design, gives the device full access to
+> > system memory, a vulnerability in the Wi-Fi firmware could easily
+> escalate
+> > to a full system exploit (remote wifi exploits: [1a], [1b] that shows a
+> > full chain of exploits; [2], [3]).
+> >
+> > To mitigate the security concerns, we introduce restricted DMA.
+> Restricted
+> > DMA utilizes the existing swiotlb to bounce streaming DMA in and out of a
+> > specially allocated region and does memory allocation from the same
+> region.
+> > The feature on its own provides a basic level of protection against the
+> DMA
+> > overwriting buffer contents at unexpected times. However, to protect
+> > against general data leakage and system memory corruption, the system
+> needs
+> > to provide a way to restrict the DMA to a predefined memory region (this
+> is
+> > usually done at firmware level, e.g. in ATF on some ARM platforms).
+>
+> Can you explain how ATF gets involved and to what extent it does help,
+> besides enforcing a secure region from the ARM CPU's perpsective? Does
+> the PCIe root complex not have an IOMMU but can somehow be denied access
+> to a region that is marked NS=0 in the ARM CPU's MMU? If so, that is
+> still some sort of basic protection that the HW enforces, right?
+>
+> On Broadcom STB SoCs we have had something similar for a while however
+> and while we don't have an IOMMU for the PCIe bridge, we do have a a
+> basic protection mechanism whereby we can configure a region in DRAM to
+> be PCIe read/write and CPU read/write which then gets used as the PCIe
+> inbound region for the PCIe EP. By default the PCIe bridge is not
+> allowed access to DRAM so we must call into a security agent to allow
+> the PCIe bridge to access the designated DRAM region.
+>
+> We have done this using a private CMA area region assigned via Device
+> Tree, assigned with a and requiring the PCIe EP driver to use
+> dma_alloc_from_contiguous() in order to allocate from this device
+> private CMA area. The only drawback with that approach is that it
+> requires knowing how much memory you need up front for buffers and DMA
+> descriptors that the PCIe EP will need to process. The problem is that
+> it requires driver modifications and that does not scale over the number
+> of PCIe EP drivers, some we absolutely do not control, but there is no
+> need to bounce buffer. Your approach scales better across PCIe EP
+> drivers however it does require bounce buffering which could be a
+> performance hit.
+>
+> Thanks!
+> --
+> Florian
+>
+
+--0000000000006a175905b852ea63
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On Thu, Jan 7, 2021 at 2:48 AM Florian Fainelli &lt;<a hre=
+f=3D"mailto:f.fainelli@gmail.com">f.fainelli@gmail.com</a>&gt; wrote:<br>&g=
+t;<br>&gt; Hi,<br>&gt;<br>&gt; First of all let me say that I am glad that =
+someone is working on a<br>&gt; upstream solution for this issue, would app=
+reciate if you could CC and<br>&gt; Jim Quinlan on subsequent submissions.<=
+br><br>Sure!<br><br>&gt;<br>&gt;<br>&gt; On 1/5/21 7:41 PM, Claire Chang wr=
+ote:<br>&gt; &gt; This series implements mitigations for lack of DMA access=
+ control on<br>&gt; &gt; systems without an IOMMU, which could result in th=
+e DMA accessing the<br>&gt; &gt; system memory at unexpected times and/or u=
+nexpected addresses, possibly<br>&gt; &gt; leading to data leakage or corru=
+ption.<br>&gt; &gt;<br>&gt; &gt; For example, we plan to use the PCI-e bus =
+for Wi-Fi and that PCI-e bus is<br>&gt; &gt; not behind an IOMMU. As PCI-e,=
+ by design, gives the device full access to<br>&gt; &gt; system memory, a v=
+ulnerability in the Wi-Fi firmware could easily escalate<br>&gt; &gt; to a =
+full system exploit (remote wifi exploits: [1a], [1b] that shows a<br>&gt; =
+&gt; full chain of exploits; [2], [3]).<br>&gt; &gt;<br>&gt; &gt; To mitiga=
+te the security concerns, we introduce restricted DMA. Restricted<br>&gt; &=
+gt; DMA utilizes the existing swiotlb to bounce streaming DMA in and out of=
+ a<br>&gt; &gt; specially allocated region and does memory allocation from =
+the same region.<br>&gt; &gt; The feature on its own provides a basic level=
+ of protection against the DMA<br>&gt; &gt; overwriting buffer contents at =
+unexpected times. However, to protect<br>&gt; &gt; against general data lea=
+kage and system memory corruption, the system needs<br>&gt; &gt; to provide=
+ a way to restrict the DMA to a predefined memory region (this is<br>&gt; &=
+gt; usually done at firmware level, e.g. in ATF on some ARM platforms).<br>=
+&gt;<br>&gt; Can you explain how ATF gets involved and to what extent it do=
+es help,<br>&gt; besides enforcing a secure region from the ARM CPU&#39;s p=
+erpsective? Does<br>&gt; the PCIe root complex not have an IOMMU but can so=
+mehow be denied access<br>&gt; to a region that is marked NS=3D0 in the ARM=
+ CPU&#39;s MMU? If so, that is<br>&gt; still some sort of basic protection =
+that the HW enforces, right?<br><font face=3D"arial, sans-serif"><br>We nee=
+d the ATF support for memory MPU (memory protection unit).<br>Restricted DM=
+A (with reserved-memory in dts) makes sure the predefined memory</font><div=
+><font face=3D"arial, sans-serif">region is for PCIe DMA only, but we still=
+ need MPU to locks down PCIe access to</font></div><div><font face=3D"arial=
+, sans-serif">that specific regions.<br><br>&gt;<br>&gt; On Broadcom STB So=
+Cs we have had something similar for a while however<br>&gt; and while we d=
+on&#39;t have an IOMMU for the PCIe bridge, we do have a a<br>&gt; basic pr=
+otection mechanism whereby we can configure a region in DRAM to<br>&gt; be =
+PCIe read/write and CPU read/write which then gets used as the PCIe<br>&gt;=
+ inbound region for the PCIe EP. By default the PCIe bridge is not<br>&gt; =
+allowed access to DRAM so we must call into a security agent to allow<br>&g=
+t; the PCIe bridge to access the designated DRAM region.<br>&gt;<br>&gt; We=
+ have done this using a private CMA area region assigned via Device<br>&gt;=
+ Tree, assigned with a and requiring the PCIe EP driver to use<br>&gt; dma_=
+alloc_from_contiguous() in order to allocate from this device<br>&gt; priva=
+te CMA area. The only drawback with that approach is that it<br>&gt; requir=
+es knowing how much memory you need up front for buffers and DMA<br>&gt; de=
+scriptors that the PCIe EP will need to process. The problem is that<br>&gt=
+; it requires driver modifications and that does not scale over the number<=
+br>&gt; of PCIe EP drivers, some we absolutely do not control, but there is=
+ no<br>&gt; need to bounce buffer. Your approach scales better across PCIe =
+EP<br>&gt; drivers however it does require bounce buffering which could be =
+a<br>&gt; performance hit.<br><br>Only the streaming DMA (map/unmap) needs =
+bounce buffering.<br>I also added alloc/free support in this series<br>(<a =
+href=3D"https://lore.kernel.org/patchwork/patch/1360995/">https://lore.kern=
+el.org/patchwork/patch/1360995/</a>), so dma_direct_alloc() will</font></di=
+v><div><font face=3D"arial, sans-serif">try to allocate memory from the pre=
+defined memory region.<br><br>As for the performance hit, it should be simi=
+lar to the default swiotlb.<br>Here are my experiment results. Both SoCs la=
+ck IOMMU for PCIe.<br><br>PCIe wifi vht80 throughput -<br><br>=C2=A0 MTK So=
+C =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcp_tx =C2=
+=A0 =C2=A0 tcp_rx =C2=A0 =C2=A0udp_tx =C2=A0 udp_rx<br>=C2=A0 w/o Restricte=
+d DMA =C2=A0244.1 =C2=A0 =C2=A0 134.66 =C2=A0 312.56 =C2=A0 350.79<br>=C2=
+=A0 w/ Restricted DMA =C2=A0 =C2=A0246.95 =C2=A0 136.59 =C2=A0 363.21 =C2=
+=A0 351.99<br><br>=C2=A0 Rockchip SoC =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tc=
+p_tx =C2=A0 =C2=A0 tcp_rx =C2=A0 =C2=A0udp_tx =C2=A0 udp_rx<br>=C2=A0 w/o R=
+estricted DMA =C2=A0237.87 =C2=A0 133.86 =C2=A0 288.28 =C2=A0 361.88<br>=C2=
+=A0 w/ Restricted DMA =C2=A0 =C2=A0256.01 =C2=A0 130.95 =C2=A0 292.28 =C2=
+=A0 353.19<br><br>The CPU usage doesn&#39;t increase too much either.<br>Al=
+though I didn&#39;t measure the CPU usage very precisely, it&#39;s ~3% with=
+ a single</font></div><div><font face=3D"arial, sans-serif">big core (Corte=
+x-A72) and ~5% with a single small core (Cortex-A53).<br><br>Thanks!<br>&gt=
+;<br>&gt; Thanks!</font></div></div><br><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 7, 2021 at 2:48 AM Florian Fa=
+inelli &lt;<a href=3D"mailto:f.fainelli@gmail.com">f.fainelli@gmail.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<=
+br>
+<br>
+First of all let me say that I am glad that someone is working on a<br>
+upstream solution for this issue, would appreciate if you could CC and<br>
+Jim Quinlan on subsequent submissions.<br>
+<br>
+On 1/5/21 7:41 PM, Claire Chang wrote:<br>
+&gt; This series implements mitigations for lack of DMA access control on<b=
+r>
+&gt; systems without an IOMMU, which could result in the DMA accessing the<=
+br>
+&gt; system memory at unexpected times and/or unexpected addresses, possibl=
+y<br>
+&gt; leading to data leakage or corruption.<br>
+&gt; <br>
+&gt; For example, we plan to use the PCI-e bus for Wi-Fi and that PCI-e bus=
+ is<br>
+&gt; not behind an IOMMU. As PCI-e, by design, gives the device full access=
+ to<br>
+&gt; system memory, a vulnerability in the Wi-Fi firmware could easily esca=
+late<br>
+&gt; to a full system exploit (remote wifi exploits: [1a], [1b] that shows =
+a<br>
+&gt; full chain of exploits; [2], [3]).<br>
+&gt; <br>
+&gt; To mitigate the security concerns, we introduce restricted DMA. Restri=
+cted<br>
+&gt; DMA utilizes the existing swiotlb to bounce streaming DMA in and out o=
+f a<br>
+&gt; specially allocated region and does memory allocation from the same re=
+gion.<br>
+&gt; The feature on its own provides a basic level of protection against th=
+e DMA<br>
+&gt; overwriting buffer contents at unexpected times. However, to protect<b=
+r>
+&gt; against general data leakage and system memory corruption, the system =
+needs<br>
+&gt; to provide a way to restrict the DMA to a predefined memory region (th=
+is is<br>
+&gt; usually done at firmware level, e.g. in ATF on some ARM platforms).<br=
+>
+<br>
+Can you explain how ATF gets involved and to what extent it does help,<br>
+besides enforcing a secure region from the ARM CPU&#39;s perpsective? Does<=
+br>
+the PCIe root complex not have an IOMMU but can somehow be denied access<br=
+>
+to a region that is marked NS=3D0 in the ARM CPU&#39;s MMU? If so, that is<=
+br>
+still some sort of basic protection that the HW enforces, right?<br>
+<br>
+On Broadcom STB SoCs we have had something similar for a while however<br>
+and while we don&#39;t have an IOMMU for the PCIe bridge, we do have a a<br=
+>
+basic protection mechanism whereby we can configure a region in DRAM to<br>
+be PCIe read/write and CPU read/write which then gets used as the PCIe<br>
+inbound region for the PCIe EP. By default the PCIe bridge is not<br>
+allowed access to DRAM so we must call into a security agent to allow<br>
+the PCIe bridge to access the designated DRAM region.<br>
+<br>
+We have done this using a private CMA area region assigned via Device<br>
+Tree, assigned with a and requiring the PCIe EP driver to use<br>
+dma_alloc_from_contiguous() in order to allocate from this device<br>
+private CMA area. The only drawback with that approach is that it<br>
+requires knowing how much memory you need up front for buffers and DMA<br>
+descriptors that the PCIe EP will need to process. The problem is that<br>
+it requires driver modifications and that does not scale over the number<br=
+>
+of PCIe EP drivers, some we absolutely do not control, but there is no<br>
+need to bounce buffer. Your approach scales better across PCIe EP<br>
+drivers however it does require bounce buffering which could be a<br>
+performance hit.<br>
+<br>
+Thanks!<br>
+-- <br>
+Florian<br>
+</blockquote></div>
+
+--0000000000006a175905b852ea63--
+
+--===============1701428361363979113==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============1701428361363979113==--
