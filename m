@@ -2,66 +2,87 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92FA2ED205
-	for <lists.iommu@lfdr.de>; Thu,  7 Jan 2021 15:23:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E71D2ED310
+	for <lists.iommu@lfdr.de>; Thu,  7 Jan 2021 15:54:08 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 9539E873A3;
-	Thu,  7 Jan 2021 14:22:59 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 07234873FB;
+	Thu,  7 Jan 2021 14:54:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aOe+OEZrLElB; Thu,  7 Jan 2021 14:22:58 +0000 (UTC)
+	with ESMTP id iYi5UHa7S+iB; Thu,  7 Jan 2021 14:54:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0AE3187375;
-	Thu,  7 Jan 2021 14:22:58 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B6E5787416;
+	Thu,  7 Jan 2021 14:54:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EBE9DC013A;
-	Thu,  7 Jan 2021 14:22:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 96160C013A;
+	Thu,  7 Jan 2021 14:54:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6C42AC088B
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:22:56 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B2069C013A
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:31:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 4999C2042D
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:22:56 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 819DE273E1
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:31:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lS2+RQBB6iJM for <iommu@lists.linux-foundation.org>;
- Thu,  7 Jan 2021 14:22:55 +0000 (UTC)
+ with ESMTP id KrwxfpckddYr for <iommu@lists.linux-foundation.org>;
+ Thu,  7 Jan 2021 14:31:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 2F6DB272E3
- for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:22:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 028F223355;
- Thu,  7 Jan 2021 14:22:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610029374;
- bh=oNLPJObW2d3YofpkNjkaRbAPG15OxVo1dNrFQ+tYOAk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vRO705TTCihW/nt+W1NTwTO30dWw+FCwmHKdGwCkUKgJIePLYAgeMuT7Z5ZzQ+IWn
- HAecnqHoHDkHHAr+gdxLjoRDxDrI9UJwRSs4s+MkMC5lT/KvTbJ2I2B0KXxFutYKYT
- bDPXEuPIvgn6uQy6hFIKM8cdCtaEgyJ2/UZC7/BPqCzHus/RwOSFAMDVuQ4JRBqpcq
- +zSrbG69307ZWYgkOvqm42COAzZIP2Jw19THIvwdobP2YJfXjDAuT0GQtHuyW8vPHT
- B2thw+fGL1JLK+qn+FJx+afc6yWSTv8I42k0BsZdte5J3ov0uO18kAZD/KmIJ4L+IY
- Ks0qTuF9ZtQYA==
-From: Will Deacon <will@kernel.org>
-To: Joerg Roedel <joro@8bytes.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH] iommu/arm-smmu-qcom: Initialize SCTLR of the bypass
- context
-Date: Thu,  7 Jan 2021 14:22:47 +0000
-Message-Id: <161002864635.3143366.6483038182849083276.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210106005038.4152731-1-bjorn.andersson@linaro.org>
-References: <20210106005038.4152731-1-bjorn.andersson@linaro.org>
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by silver.osuosl.org (Postfix) with ESMTPS id 8E3852042D
+ for <iommu@lists.linux-foundation.org>; Thu,  7 Jan 2021 14:31:41 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id i7so5050214pgc.8
+ for <iommu@lists.linux-foundation.org>; Thu, 07 Jan 2021 06:31:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=RsDTMrWv7jSxdT5ji0Wdtt9x9xjaZ1j3PSJSmTMWzAg=;
+ b=LFmqRtkapVLHAIwS9SwEiH0wOugFQUWyHlXt409uUhmVadFEvWL+UTSux0ywaxjTIL
+ qPGwDIR8l3xvvhPvKZqcH81QyML6nYN2gQ9PlLPbicKSgn3g6y4FyFG21l83GjqbxFe/
+ Y1SvEhPYdyHVTiS8T8D9nyKiD9/MCS7bvruMES2BHC5yfq3VUobOa8bSsSPj9OBNHphi
+ 0pT0vA85FIZSzzv6NdOBukjatPxyL1xaGfO6w3hP56XSg5w6L2x4efpfRXfiX+eFPCz3
+ S+g1ZPdGLmmGNpUQZsA7ZWNeagdfXw8PVAHujJ6k33M6Huy4auqTVqMquaILFD8WTImK
+ sRKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=RsDTMrWv7jSxdT5ji0Wdtt9x9xjaZ1j3PSJSmTMWzAg=;
+ b=l0gprdgvVecePdFv3U3LPk1tBmj0J1gNt5+bUZcEhXl4nWPNrfPWfqgm/F3OrjFaSL
+ P9TXjzk1arBaOfANyNTidaexPa1x3yQQndOtM6ij9CQSe8qG5xyyWhgELxxqsj3W4Szu
+ PINdR4OmKS2Fk+X1lU2sNlVyeOMp98uzDRjyaEtdA1Dflx+VgCdyLH22qysSVmlrzPe0
+ BnLSOwzKqL6z9+oWlUoNdm1Z4+teeJCw3Wq18sd26FvBSJlxJek8lwZlC0DFrgFBmgK/
+ HGQ7HJnJ9tK6T0LaQ3w7GkZTv2PExXuHSUfm2/39qYigJqV+Znp+wcpg5LPx8yCXf4KR
+ 8HNw==
+X-Gm-Message-State: AOAM531pVnoBsIcy3N95aa2X2CJ7gYWP/T6ozTWJXb0ZthnclP4tExiM
+ PF4339URYhFuMPvZ9/qBI2tX
+X-Google-Smtp-Source: ABdhPJzSG7+An9o4M0cfAK/FdgBFCAQmBgulcSq3UwEZdeNDf3A/qo5+aNub8hfE5ryNYIOPDwVeNg==
+X-Received: by 2002:a62:7fc1:0:b029:19f:1dab:5029 with SMTP id
+ a184-20020a627fc10000b029019f1dab5029mr8813824pfd.13.1610029901346; 
+ Thu, 07 Jan 2021 06:31:41 -0800 (PST)
+Received: from localhost.localdomain ([103.77.37.128])
+ by smtp.gmail.com with ESMTPSA id 19sm6096465pfu.85.2021.01.07.06.31.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jan 2021 06:31:40 -0800 (PST)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: robh+dt@kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH 2/2] dt-bindings: arm-smmu: Add binding for Qcom SDX55 SMMU
+Date: Thu,  7 Jan 2021 20:01:18 +0530
+Message-Id: <20210107143118.2386-2-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210107143118.2386-1-manivannan.sadhasivam@linaro.org>
+References: <20210107143118.2386-1-manivannan.sadhasivam@linaro.org>
 MIME-Version: 1.0
-Cc: Will Deacon <will@kernel.org>, catalin.marinas@arm.com,
+X-Mailman-Approved-At: Thu, 07 Jan 2021 14:54:04 +0000
+Cc: Vinod Koul <vkoul@kernel.org>, Will Deacon <will@kernel.org>,
  linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-arm-msm@vger.kernel.org, kernel-team@android.com,
- linux-arm-kernel@lists.infradead.org
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -79,29 +100,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, 5 Jan 2021 16:50:38 -0800, Bjorn Andersson wrote:
-> On SM8150 it's occasionally observed that the boot hangs in between the
-> writing of SMEs and context banks in arm_smmu_device_reset().
-> 
-> The problem seems to coincide with a display refresh happening after
-> updating the stream mapping, but before clearing - and there by
-> disabling translation - the context bank picked to emulate translation
-> bypass.
-> 
-> [...]
+Add devicetree binding for Qualcomm SDX55 SMMU.
 
-Applied to arm64 (for-next/iommu/fixes), thanks!
+Cc: Will Deacon <will@kernel.org>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: iommu@lists.linux-foundation.org
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Reviewed-by: Vinod Koul <vkoul@kernel.org>
+---
+ Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-[1/1] iommu/arm-smmu-qcom: Initialize SCTLR of the bypass context
-      https://git.kernel.org/arm64/c/aded8c7c2b72
-
-Cheers,
+diff --git a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+index 3b63f2ae24db..3a1cefce8bc4 100644
+--- a/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
++++ b/Documentation/devicetree/bindings/iommu/arm,smmu.yaml
+@@ -35,6 +35,7 @@ properties:
+           - enum:
+               - qcom,sc7180-smmu-500
+               - qcom,sdm845-smmu-500
++              - qcom,sdx55-smmu-500
+               - qcom,sm8150-smmu-500
+               - qcom,sm8250-smmu-500
+           - const: arm,mmu-500
 -- 
-Will
+2.25.1
 
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
