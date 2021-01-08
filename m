@@ -1,90 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3862EF460
-	for <lists.iommu@lfdr.de>; Fri,  8 Jan 2021 16:02:53 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA662EF4B1
+	for <lists.iommu@lfdr.de>; Fri,  8 Jan 2021 16:19:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2906787212;
-	Fri,  8 Jan 2021 15:02:52 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 72D81204FE;
+	Fri,  8 Jan 2021 15:19:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Q7u8oFbn2Jln; Fri,  8 Jan 2021 15:02:50 +0000 (UTC)
+	with ESMTP id hVQoFKL4pOMc; Fri,  8 Jan 2021 15:19:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 749B2875CC;
-	Fri,  8 Jan 2021 15:02:50 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id CFA78204FD;
+	Fri,  8 Jan 2021 15:19:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FC83C013A;
-	Fri,  8 Jan 2021 15:02:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A9C4BC013A;
+	Fri,  8 Jan 2021 15:19:26 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B2730C013A
- for <iommu@lists.linux-foundation.org>; Fri,  8 Jan 2021 15:02:48 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9C711C013A
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jan 2021 15:19:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9B8EE87317
- for <iommu@lists.linux-foundation.org>; Fri,  8 Jan 2021 15:02:48 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 88A38866FB
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jan 2021 15:19:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VbuMcuKNup77 for <iommu@lists.linux-foundation.org>;
- Fri,  8 Jan 2021 15:02:47 +0000 (UTC)
+ with ESMTP id f0NKCVraxjcP for <iommu@lists.linux-foundation.org>;
+ Fri,  8 Jan 2021 15:19:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by whitealder.osuosl.org (Postfix) with ESMTPS id C51EC87349
- for <iommu@lists.linux-foundation.org>; Fri,  8 Jan 2021 15:02:46 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id y17so9291628wrr.10
- for <iommu@lists.linux-foundation.org>; Fri, 08 Jan 2021 07:02:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JySunzUm9euuWzEyCAtxWcbP4opCXLzdZ9Kkph5mV5Y=;
- b=yR/uO9+Gtw5OJTUtK/3Lex8H3Eu3qPx5k/KTuBl3FurwiqfhiVVQWW8ZkdcjzN6OAq
- 06E3Ru3GldaXdVTZNbSrhauJXPL0OUkYZdgR55LZxbDGyjzAF52qV3HqDqDiwzUlj9KE
- CItVWXs++2WVj59ie3tpVjdtg/2271ZwNV6aEuFnG6LoMt4o7tr4ArK1D/xvjORMic/w
- aC8ZkpwRwjAPH+ZpYgWc2WCABPTNHNSz4vVER8W4V0rGp0+47LLFhqNwCaL5e695bgcY
- 727qcCcD/wjOJDNchmuiGG0M+ZoA722GbwFKZGTwJBaD9wPQ1AdnA76rCKNP3bjzvQV2
- Es7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JySunzUm9euuWzEyCAtxWcbP4opCXLzdZ9Kkph5mV5Y=;
- b=PlOMqSghYrYOV1wthKKEJlag2gR8zDafEfqe/kp+bgLq31U2/Save8s4uvXES+6aFA
- GigBfvKhrELYiUVPNL6SEv5fCDfdci4fQbmu7lEg+R3H24DOytqhSUOwlL9PP9eh9T9v
- rRt7TuqxmzcZmZPalZfqOuLh+3IEiEyPUoc2IfelKaF6oivgALcjmqWjtBD3hwSFk6af
- Au8v+8+7Iqef/fhdatRW3tMzLnhml18+vyjpl3VoRFtJWwLqMoW6YoRGDKdWBj2haUZ/
- dROy+Zt8pbJWMZ9HXjsZO8/9Pp0XySUDTTqc6URRuUMLeXCW5ruXzNVcQnSzGXorM6Ui
- sQIg==
-X-Gm-Message-State: AOAM531dslFUfuvV3nDaRIKvAGwttX8miYDcK983hA5phf5IdV3A5vrP
- t/yCJ2H75hJ/zJqIt25PRJU77A==
-X-Google-Smtp-Source: ABdhPJwkFTiVZzs20BY0iNb/uWPZKfXW1+7yJ3If8vm7ZCRfBMyjSzk19Oyt3mdhgSVV6jkkSD7HgQ==
-X-Received: by 2002:adf:ffc8:: with SMTP id x8mr4059997wrs.158.1610118162008; 
- Fri, 08 Jan 2021 07:02:42 -0800 (PST)
-Received: from localhost.localdomain
- ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id s13sm14258464wra.53.2021.01.08.07.02.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 07:02:41 -0800 (PST)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: joro@8bytes.org,
-	will@kernel.org
-Subject: [PATCH v9 10/10] iommu/arm-smmu-v3: Add stall support for platform
- devices
-Date: Fri,  8 Jan 2021 15:52:18 +0100
-Message-Id: <20210108145217.2254447-11-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210108145217.2254447-1-jean-philippe@linaro.org>
-References: <20210108145217.2254447-1-jean-philippe@linaro.org>
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id BCCE0866F5
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jan 2021 15:19:22 +0000 (UTC)
+Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.57])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4DC6DY2yL2z5D5C;
+ Fri,  8 Jan 2021 23:18:05 +0800 (CST)
+Received: from dggema713-chm.china.huawei.com (10.3.20.77) by
+ DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Fri, 8 Jan 2021 23:19:17 +0800
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ dggema713-chm.china.huawei.com (10.3.20.77) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Fri, 8 Jan 2021 23:19:16 +0800
+Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
+ lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
+ 15.01.2106.002; Fri, 8 Jan 2021 15:19:14 +0000
+From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+To: Eric Auger <eric.auger@redhat.com>, "eric.auger.pro@gmail.com"
+ <eric.auger.pro@gmail.com>, "iommu@lists.linux-foundation.org"
+ <iommu@lists.linux-foundation.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "kvmarm@lists.cs.columbia.edu" <kvmarm@lists.cs.columbia.edu>,
+ "will@kernel.org" <will@kernel.org>, "joro@8bytes.org" <joro@8bytes.org>,
+ "maz@kernel.org" <maz@kernel.org>, "robin.murphy@arm.com"
+ <robin.murphy@arm.com>, "alex.williamson@redhat.com"
+ <alex.williamson@redhat.com>
+Subject: RE: [PATCH v11 12/13] vfio/pci: Register a DMA fault response region
+Thread-Topic: [PATCH v11 12/13] vfio/pci: Register a DMA fault response region
+Thread-Index: AQHWvAgGhwjLBSYC0UyC6ARc2a6ugaoeJVMQ
+Date: Fri, 8 Jan 2021 15:19:14 +0000
+Message-ID: <510be72d8b934f78960157a76966a093@huawei.com>
+References: <20201116110030.32335-1-eric.auger@redhat.com>
+ <20201116110030.32335-13-eric.auger@redhat.com>
+In-Reply-To: <20201116110030.32335-13-eric.auger@redhat.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.47.94.9]
 MIME-Version: 1.0
-Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, guohanjun@huawei.com,
- rjw@rjwysocki.net, iommu@lists.linux-foundation.org, robh+dt@kernel.org,
- linux-accelerators@lists.ozlabs.org, sudeep.holla@arm.com,
- vivek.gautam@arm.com, zhangfei.gao@linaro.org, robin.murphy@arm.com,
- linux-arm-kernel@lists.infradead.org, lenb@kernel.org
+X-CFilter-Loop: Reflected
+Cc: "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+ "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
+ "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
+ "vivek.gautam@arm.com" <vivek.gautam@arm.com>,
+ "zhangfei.gao@linaro.org" <zhangfei.gao@linaro.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,616 +94,409 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The SMMU provides a Stall model for handling page faults in platform
-devices. It is similar to PCIe PRI, but doesn't require devices to have
-their own translation cache. Instead, faulting transactions are parked
-and the OS is given a chance to fix the page tables and retry the
-transaction.
+Hi Eric,
 
-Enable stall for devices that support it (opt-in by firmware). When an
-event corresponds to a translation error, call the IOMMU fault handler.
-If the fault is recoverable, it will call us back to terminate or
-continue the stall.
+> -----Original Message-----
+> From: Eric Auger [mailto:eric.auger@redhat.com]
+> Sent: 16 November 2020 11:00
+> To: eric.auger.pro@gmail.com; eric.auger@redhat.com;
+> iommu@lists.linux-foundation.org; linux-kernel@vger.kernel.org;
+> kvm@vger.kernel.org; kvmarm@lists.cs.columbia.edu; will@kernel.org;
+> joro@8bytes.org; maz@kernel.org; robin.murphy@arm.com;
+> alex.williamson@redhat.com
+> Cc: jean-philippe@linaro.org; zhangfei.gao@linaro.org;
+> zhangfei.gao@gmail.com; vivek.gautam@arm.com; Shameerali Kolothum
+> Thodi <shameerali.kolothum.thodi@huawei.com>;
+> jacob.jun.pan@linux.intel.com; yi.l.liu@intel.com; tn@semihalf.com;
+> nicoleotsuka@gmail.com; yuzenghui <yuzenghui@huawei.com>
+> Subject: [PATCH v11 12/13] vfio/pci: Register a DMA fault response region
+> 
+> In preparation for vSVA, let's register a DMA fault response region,
+> where the userspace will push the page responses and increment the
+> head of the buffer. The kernel will pop those responses and inject them
+> on iommu side.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>  drivers/vfio/pci/vfio_pci.c         | 114 +++++++++++++++++++++++++---
+>  drivers/vfio/pci/vfio_pci_private.h |   5 ++
+>  drivers/vfio/pci/vfio_pci_rdwr.c    |  39 ++++++++++
+>  include/uapi/linux/vfio.h           |  32 ++++++++
+>  4 files changed, 181 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
+> index 65a83fd0e8c0..e9a904ce3f0d 100644
+> --- a/drivers/vfio/pci/vfio_pci.c
+> +++ b/drivers/vfio/pci/vfio_pci.c
+> @@ -318,9 +318,20 @@ static void vfio_pci_dma_fault_release(struct
+> vfio_pci_device *vdev,
+>  	kfree(vdev->fault_pages);
+>  }
+> 
+> -static int vfio_pci_dma_fault_mmap(struct vfio_pci_device *vdev,
+> -				   struct vfio_pci_region *region,
+> -				   struct vm_area_struct *vma)
+> +static void
+> +vfio_pci_dma_fault_response_release(struct vfio_pci_device *vdev,
+> +				    struct vfio_pci_region *region)
+> +{
+> +	if (vdev->dma_fault_response_wq)
+> +		destroy_workqueue(vdev->dma_fault_response_wq);
+> +	kfree(vdev->fault_response_pages);
+> +	vdev->fault_response_pages = NULL;
+> +}
+> +
+> +static int __vfio_pci_dma_fault_mmap(struct vfio_pci_device *vdev,
+> +				     struct vfio_pci_region *region,
+> +				     struct vm_area_struct *vma,
+> +				     u8 *pages)
+>  {
+>  	u64 phys_len, req_len, pgoff, req_start;
+>  	unsigned long long addr;
+> @@ -333,14 +344,14 @@ static int vfio_pci_dma_fault_mmap(struct
+> vfio_pci_device *vdev,
+>  		((1U << (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT)) - 1);
+>  	req_start = pgoff << PAGE_SHIFT;
+> 
+> -	/* only the second page of the producer fault region is mmappable */
+> +	/* only the second page of the fault region is mmappable */
+>  	if (req_start < PAGE_SIZE)
+>  		return -EINVAL;
+> 
+>  	if (req_start + req_len > phys_len)
+>  		return -EINVAL;
+> 
+> -	addr = virt_to_phys(vdev->fault_pages);
+> +	addr = virt_to_phys(pages);
+>  	vma->vm_private_data = vdev;
+>  	vma->vm_pgoff = (addr >> PAGE_SHIFT) + pgoff;
+> 
+> @@ -349,13 +360,29 @@ static int vfio_pci_dma_fault_mmap(struct
+> vfio_pci_device *vdev,
+>  	return ret;
+>  }
+> 
+> -static int vfio_pci_dma_fault_add_capability(struct vfio_pci_device *vdev,
+> -					     struct vfio_pci_region *region,
+> -					     struct vfio_info_cap *caps)
+> +static int vfio_pci_dma_fault_mmap(struct vfio_pci_device *vdev,
+> +				   struct vfio_pci_region *region,
+> +				   struct vm_area_struct *vma)
+> +{
+> +	return __vfio_pci_dma_fault_mmap(vdev, region, vma,
+> vdev->fault_pages);
+> +}
+> +
+> +static int
+> +vfio_pci_dma_fault_response_mmap(struct vfio_pci_device *vdev,
+> +				struct vfio_pci_region *region,
+> +				struct vm_area_struct *vma)
+> +{
+> +	return __vfio_pci_dma_fault_mmap(vdev, region, vma,
+> vdev->fault_response_pages);
+> +}
+> +
+> +static int __vfio_pci_dma_fault_add_capability(struct vfio_pci_device *vdev,
+> +					       struct vfio_pci_region *region,
+> +					       struct vfio_info_cap *caps,
+> +					       u32 cap_id)
+>  {
+>  	struct vfio_region_info_cap_sparse_mmap *sparse = NULL;
+>  	struct vfio_region_info_cap_fault cap = {
+> -		.header.id = VFIO_REGION_INFO_CAP_DMA_FAULT,
+> +		.header.id = cap_id,
+>  		.header.version = 1,
+>  		.version = 1,
+>  	};
+> @@ -383,6 +410,14 @@ static int vfio_pci_dma_fault_add_capability(struct
+> vfio_pci_device *vdev,
+>  	return ret;
+>  }
+> 
+> +static int vfio_pci_dma_fault_add_capability(struct vfio_pci_device *vdev,
+> +					     struct vfio_pci_region *region,
+> +					     struct vfio_info_cap *caps)
+> +{
+> +	return __vfio_pci_dma_fault_add_capability(vdev, region, caps,
+> +						   VFIO_REGION_INFO_CAP_DMA_FAULT);
+> +}
+> +
+>  static const struct vfio_pci_regops vfio_pci_dma_fault_regops = {
+>  	.rw		= vfio_pci_dma_fault_rw,
+>  	.release	= vfio_pci_dma_fault_release,
+> @@ -390,6 +425,13 @@ static const struct vfio_pci_regops
+> vfio_pci_dma_fault_regops = {
+>  	.add_capability = vfio_pci_dma_fault_add_capability,
+>  };
+> 
+> +static const struct vfio_pci_regops vfio_pci_dma_fault_response_regops = {
+> +	.rw		= vfio_pci_dma_fault_response_rw,
+> +	.release	= vfio_pci_dma_fault_response_release,
+> +	.mmap		= vfio_pci_dma_fault_response_mmap,
+> +	.add_capability = vfio_pci_dma_fault_add_capability,
+> +};
+> +
+>  int vfio_pci_iommu_dev_fault_handler(struct iommu_fault *fault, void *data)
+>  {
+>  	struct vfio_pci_device *vdev = (struct vfio_pci_device *)data;
+> @@ -500,6 +542,55 @@ static int vfio_pci_dma_fault_init(struct
+> vfio_pci_device *vdev)
+>  	return ret;
+>  }
+> 
+> +#define DMA_FAULT_RESPONSE_RING_LENGTH 512
+> +
+> +static int vfio_pci_dma_fault_response_init(struct vfio_pci_device *vdev)
+> +{
+> +	struct vfio_region_dma_fault_response *header;
+> +	struct iommu_domain *domain;
+> +	size_t size;
+> +	bool nested;
+> +	int ret;
+> +
+> +	domain = iommu_get_domain_for_dev(&vdev->pdev->dev);
+> +	ret = iommu_domain_get_attr(domain, DOMAIN_ATTR_NESTING,
+> &nested);
 
-To use stall device drivers need to enable IOMMU_DEV_FEAT_IOPF, which
-initializes the fault queue for the device.
+The above will fail((Thanks to Zengtao for reporting this) if the Guest is
+booted in "enable_unsafe_noiommu_mode" (CONFIG_VFIO_NOIOMMU)
+and dpdk testpmd is attempted.
 
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+This is because even though there is an iommu group created for this
+mode, no iommu domain gets attached to it. And results in below
+crash,
+
+root@ubuntu:/mnt/dpdk/build/app# ./testpmd -w 0000:00:02.0 --file-prefix socket0 -l 0-1 -n 2 -- -i
+EAL: Detected 8 lcore(s)
+EAL: Detected 1 NUMA nodes
+EAL: Multi-process socket /var/run/dpdk/socket0/mp_socket
+EAL: Selected IOVA mode 'PA'
+EAL: No available hugepages reported in hugepages-32768kB
+EAL: No available hugepages reported in hugepages-64kB
+EAL: No available hugepages reported in hugepages-1048576kB
+EAL: Probing VFIO support...
+EAL: VFIO support initialized
+EAL:   Invalid NUMA socket, default to 0
+EAL:   using IOMMU type 8 (No-IOMMU)
+[   84.942213] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
+[   84.943047] Mem abort info:
 ---
-v9: Add IOMMU_DEV_FEAT_IOPF
----
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  61 ++++++
- .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |  70 ++++++-
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 192 ++++++++++++++++--
- 3 files changed, 306 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-index 8ef6a1c48635..cb129870ef55 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-@@ -354,6 +354,13 @@
- #define CMDQ_PRI_1_GRPID		GENMASK_ULL(8, 0)
- #define CMDQ_PRI_1_RESP			GENMASK_ULL(13, 12)
- 
-+#define CMDQ_RESUME_0_SID		GENMASK_ULL(63, 32)
-+#define CMDQ_RESUME_0_RESP_TERM		0UL
-+#define CMDQ_RESUME_0_RESP_RETRY	1UL
-+#define CMDQ_RESUME_0_RESP_ABORT	2UL
-+#define CMDQ_RESUME_0_RESP		GENMASK_ULL(13, 12)
-+#define CMDQ_RESUME_1_STAG		GENMASK_ULL(15, 0)
-+
- #define CMDQ_SYNC_0_CS			GENMASK_ULL(13, 12)
- #define CMDQ_SYNC_0_CS_NONE		0
- #define CMDQ_SYNC_0_CS_IRQ		1
-@@ -370,6 +377,25 @@
- 
- #define EVTQ_0_ID			GENMASK_ULL(7, 0)
- 
-+#define EVT_ID_TRANSLATION_FAULT	0x10
-+#define EVT_ID_ADDR_SIZE_FAULT		0x11
-+#define EVT_ID_ACCESS_FAULT		0x12
-+#define EVT_ID_PERMISSION_FAULT		0x13
-+
-+#define EVTQ_0_SSV			(1UL << 11)
-+#define EVTQ_0_SSID			GENMASK_ULL(31, 12)
-+#define EVTQ_0_SID			GENMASK_ULL(63, 32)
-+#define EVTQ_1_STAG			GENMASK_ULL(15, 0)
-+#define EVTQ_1_STALL			(1UL << 31)
-+#define EVTQ_1_PRIV			(1UL << 33)
-+#define EVTQ_1_EXEC			(1UL << 34)
-+#define EVTQ_1_READ			(1UL << 35)
-+#define EVTQ_1_S2			(1UL << 39)
-+#define EVTQ_1_CLASS			GENMASK_ULL(41, 40)
-+#define EVTQ_1_TT_READ			(1UL << 44)
-+#define EVTQ_2_ADDR			GENMASK_ULL(63, 0)
-+#define EVTQ_3_IPA			GENMASK_ULL(51, 12)
-+
- /* PRI queue */
- #define PRIQ_ENT_SZ_SHIFT		4
- #define PRIQ_ENT_DWORDS			((1 << PRIQ_ENT_SZ_SHIFT) >> 3)
-@@ -462,6 +488,13 @@ struct arm_smmu_cmdq_ent {
- 			enum pri_resp		resp;
- 		} pri;
- 
-+		#define CMDQ_OP_RESUME		0x44
-+		struct {
-+			u32			sid;
-+			u16			stag;
-+			u8			resp;
-+		} resume;
-+
- 		#define CMDQ_OP_CMD_SYNC	0x46
- 		struct {
- 			u64			msiaddr;
-@@ -520,6 +553,7 @@ struct arm_smmu_cmdq_batch {
- 
- struct arm_smmu_evtq {
- 	struct arm_smmu_queue		q;
-+	struct iopf_queue		*iopf;
- 	u32				max_stalls;
- };
- 
-@@ -656,7 +690,9 @@ struct arm_smmu_master {
- 	struct arm_smmu_stream		*streams;
- 	unsigned int			num_streams;
- 	bool				ats_enabled;
-+	bool				stall_enabled;
- 	bool				sva_enabled;
-+	bool				iopf_enabled;
- 	struct list_head		bonds;
- 	unsigned int			ssid_bits;
- };
-@@ -675,6 +711,7 @@ struct arm_smmu_domain {
- 
- 	struct io_pgtable_ops		*pgtbl_ops;
- 	bool				non_strict;
-+	bool				stall_enabled;
- 	atomic_t			nr_ats_masters;
- 
- 	enum arm_smmu_domain_stage	stage;
-@@ -713,6 +750,10 @@ bool arm_smmu_master_sva_supported(struct arm_smmu_master *master);
- bool arm_smmu_master_sva_enabled(struct arm_smmu_master *master);
- int arm_smmu_master_enable_sva(struct arm_smmu_master *master);
- int arm_smmu_master_disable_sva(struct arm_smmu_master *master);
-+bool arm_smmu_master_iopf_supported(struct arm_smmu_master *master);
-+bool arm_smmu_master_iopf_enabled(struct arm_smmu_master *master);
-+int arm_smmu_master_enable_iopf(struct arm_smmu_master *master);
-+int arm_smmu_master_disable_iopf(struct arm_smmu_master *master);
- struct iommu_sva *arm_smmu_sva_bind(struct device *dev, struct mm_struct *mm,
- 				    void *drvdata);
- void arm_smmu_sva_unbind(struct iommu_sva *handle);
-@@ -744,6 +785,26 @@ static inline int arm_smmu_master_disable_sva(struct arm_smmu_master *master)
- 	return -ENODEV;
- }
- 
-+static inline bool arm_smmu_master_iopf_supported(struct arm_smmu_master *master)
-+{
-+	return false;
-+}
-+
-+static inline bool arm_smmu_master_iopf_enabled(struct arm_smmu_master *master)
-+{
-+	return false;
-+}
-+
-+static inline int arm_smmu_master_enable_iopf(struct arm_smmu_master *master)
-+{
-+	return -ENODEV;
-+}
-+
-+static inline int arm_smmu_master_disable_iopf(struct arm_smmu_master *master)
-+{
-+	return -ENODEV;
-+}
-+
- static inline struct iommu_sva *
- arm_smmu_sva_bind(struct device *dev, struct mm_struct *mm, void *drvdata)
- {
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-index e13b092e6004..17acfee4f484 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
-@@ -431,9 +431,9 @@ bool arm_smmu_sva_supported(struct arm_smmu_device *smmu)
- 	return true;
- }
- 
--static bool arm_smmu_iopf_supported(struct arm_smmu_master *master)
-+bool arm_smmu_master_iopf_supported(struct arm_smmu_master *master)
- {
--	return false;
-+	return master->stall_enabled;
- }
- 
- bool arm_smmu_master_sva_supported(struct arm_smmu_master *master)
-@@ -441,8 +441,18 @@ bool arm_smmu_master_sva_supported(struct arm_smmu_master *master)
- 	if (!(master->smmu->features & ARM_SMMU_FEAT_SVA))
- 		return false;
- 
--	/* SSID and IOPF support are mandatory for the moment */
--	return master->ssid_bits && arm_smmu_iopf_supported(master);
-+	/* SSID support is mandatory for the moment */
-+	return master->ssid_bits;
-+}
-+
-+bool arm_smmu_master_iopf_enabled(struct arm_smmu_master *master)
-+{
-+	bool enabled;
-+
-+	mutex_lock(&sva_lock);
-+	enabled = master->iopf_enabled;
-+	mutex_unlock(&sva_lock);
-+	return enabled;
- }
- 
- bool arm_smmu_master_sva_enabled(struct arm_smmu_master *master)
-@@ -455,15 +465,67 @@ bool arm_smmu_master_sva_enabled(struct arm_smmu_master *master)
- 	return enabled;
- }
- 
-+int arm_smmu_master_enable_iopf(struct arm_smmu_master *master)
-+{
-+	int ret;
-+	struct device *dev = master->dev;
-+
-+	mutex_lock(&sva_lock);
-+	if (master->stall_enabled) {
-+		ret = iopf_queue_add_device(master->smmu->evtq.iopf, dev);
-+		if (ret)
-+			goto err_unlock;
-+	}
-+
-+	ret = iommu_register_device_fault_handler(dev, iommu_queue_iopf, dev);
-+	if (ret)
-+		goto err_remove_device;
-+	master->iopf_enabled = true;
-+	mutex_unlock(&sva_lock);
-+	return 0;
-+
-+err_remove_device:
-+	iopf_queue_remove_device(master->smmu->evtq.iopf, dev);
-+err_unlock:
-+	mutex_unlock(&sva_lock);
-+	return ret;
-+}
-+
- int arm_smmu_master_enable_sva(struct arm_smmu_master *master)
- {
- 	mutex_lock(&sva_lock);
-+	/*
-+	 * Drivers for devices supporting PRI or stall should enable IOPF first.
-+	 * Others have device-specific fault handlers and don't need IOPF, so
-+	 * this sanity check is a bit basic.
-+	 */
-+	if (arm_smmu_master_iopf_supported(master) && !master->iopf_enabled) {
-+		mutex_unlock(&sva_lock);
-+		return -EINVAL;
-+	}
- 	master->sva_enabled = true;
- 	mutex_unlock(&sva_lock);
- 
- 	return 0;
- }
- 
-+int arm_smmu_master_disable_iopf(struct arm_smmu_master *master)
-+{
-+	struct device *dev = master->dev;
-+
-+	mutex_lock(&sva_lock);
-+	if (master->sva_enabled) {
-+		mutex_unlock(&sva_lock);
-+		return -EBUSY;
-+	}
-+
-+	iommu_unregister_device_fault_handler(dev);
-+	iopf_queue_remove_device(master->smmu->evtq.iopf, dev);
-+	master->iopf_enabled = false;
-+	mutex_unlock(&sva_lock);
-+	return 0;
-+}
-+
- int arm_smmu_master_disable_sva(struct arm_smmu_master *master)
- {
- 	mutex_lock(&sva_lock);
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 2dbae2e6965d..1fea11d65cd3 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -32,6 +32,7 @@
- #include <linux/amba/bus.h>
- 
- #include "arm-smmu-v3.h"
-+#include "../../iommu-sva-lib.h"
- 
- static bool disable_bypass = true;
- module_param(disable_bypass, bool, 0444);
-@@ -319,6 +320,11 @@ static int arm_smmu_cmdq_build_cmd(u64 *cmd, struct arm_smmu_cmdq_ent *ent)
- 		}
- 		cmd[1] |= FIELD_PREP(CMDQ_PRI_1_RESP, ent->pri.resp);
- 		break;
-+	case CMDQ_OP_RESUME:
-+		cmd[0] |= FIELD_PREP(CMDQ_RESUME_0_SID, ent->resume.sid);
-+		cmd[0] |= FIELD_PREP(CMDQ_RESUME_0_RESP, ent->resume.resp);
-+		cmd[1] |= FIELD_PREP(CMDQ_RESUME_1_STAG, ent->resume.stag);
-+		break;
- 	case CMDQ_OP_CMD_SYNC:
- 		if (ent->sync.msiaddr) {
- 			cmd[0] |= FIELD_PREP(CMDQ_SYNC_0_CS, CMDQ_SYNC_0_CS_IRQ);
-@@ -882,6 +888,44 @@ static int arm_smmu_cmdq_batch_submit(struct arm_smmu_device *smmu,
- 	return arm_smmu_cmdq_issue_cmdlist(smmu, cmds->cmds, cmds->num, true);
- }
- 
-+static int arm_smmu_page_response(struct device *dev,
-+				  struct iommu_fault_event *unused,
-+				  struct iommu_page_response *resp)
-+{
-+	struct arm_smmu_cmdq_ent cmd = {0};
-+	struct arm_smmu_master *master = dev_iommu_priv_get(dev);
-+	int sid = master->streams[0].id;
-+
-+	if (master->stall_enabled) {
-+		cmd.opcode		= CMDQ_OP_RESUME;
-+		cmd.resume.sid		= sid;
-+		cmd.resume.stag		= resp->grpid;
-+		switch (resp->code) {
-+		case IOMMU_PAGE_RESP_INVALID:
-+		case IOMMU_PAGE_RESP_FAILURE:
-+			cmd.resume.resp = CMDQ_RESUME_0_RESP_ABORT;
-+			break;
-+		case IOMMU_PAGE_RESP_SUCCESS:
-+			cmd.resume.resp = CMDQ_RESUME_0_RESP_RETRY;
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+	} else {
-+		return -ENODEV;
-+	}
-+
-+	arm_smmu_cmdq_issue_cmd(master->smmu, &cmd);
-+	/*
-+	 * Don't send a SYNC, it doesn't do anything for RESUME or PRI_RESP.
-+	 * RESUME consumption guarantees that the stalled transaction will be
-+	 * terminated... at some point in the future. PRI_RESP is fire and
-+	 * forget.
-+	 */
-+
-+	return 0;
-+}
-+
- /* Context descriptor manipulation functions */
- void arm_smmu_tlb_inv_asid(struct arm_smmu_device *smmu, u16 asid)
- {
-@@ -991,7 +1035,6 @@ int arm_smmu_write_ctx_desc(struct arm_smmu_domain *smmu_domain, int ssid,
- 	u64 val;
- 	bool cd_live;
- 	__le64 *cdptr;
--	struct arm_smmu_device *smmu = smmu_domain->smmu;
- 
- 	if (WARN_ON(ssid >= (1 << smmu_domain->s1_cfg.s1cdmax)))
- 		return -E2BIG;
-@@ -1036,8 +1079,7 @@ int arm_smmu_write_ctx_desc(struct arm_smmu_domain *smmu_domain, int ssid,
- 			FIELD_PREP(CTXDESC_CD_0_ASID, cd->asid) |
- 			CTXDESC_CD_0_V;
- 
--		/* STALL_MODEL==0b10 && CD.S==0 is ILLEGAL */
--		if (smmu->features & ARM_SMMU_FEAT_STALL_FORCE)
-+		if (smmu_domain->stall_enabled)
- 			val |= CTXDESC_CD_0_S;
- 	}
- 
-@@ -1278,7 +1320,7 @@ static void arm_smmu_write_strtab_ent(struct arm_smmu_master *master, u32 sid,
- 			 FIELD_PREP(STRTAB_STE_1_STRW, STRTAB_STE_1_STRW_NSEL1));
- 
- 		if (smmu->features & ARM_SMMU_FEAT_STALLS &&
--		   !(smmu->features & ARM_SMMU_FEAT_STALL_FORCE))
-+		    !master->stall_enabled)
- 			dst[1] |= cpu_to_le64(STRTAB_STE_1_S1STALLD);
- 
- 		val |= (s1_cfg->cdcfg.cdtab_dma & STRTAB_STE_0_S1CTXPTR_MASK) |
-@@ -1355,7 +1397,6 @@ static int arm_smmu_init_l2_strtab(struct arm_smmu_device *smmu, u32 sid)
- 	return 0;
- }
- 
--__maybe_unused
- static struct arm_smmu_master *
- arm_smmu_find_master(struct arm_smmu_device *smmu, u32 sid)
- {
-@@ -1382,9 +1423,96 @@ arm_smmu_find_master(struct arm_smmu_device *smmu, u32 sid)
- }
- 
- /* IRQ and event handlers */
-+static int arm_smmu_handle_evt(struct arm_smmu_device *smmu, u64 *evt)
-+{
-+	int ret;
-+	u32 perm = 0;
-+	struct arm_smmu_master *master;
-+	bool ssid_valid = evt[0] & EVTQ_0_SSV;
-+	u8 type = FIELD_GET(EVTQ_0_ID, evt[0]);
-+	u32 sid = FIELD_GET(EVTQ_0_SID, evt[0]);
-+	struct iommu_fault_event fault_evt = { };
-+	struct iommu_fault *flt = &fault_evt.fault;
-+
-+	/* Stage-2 is always pinned at the moment */
-+	if (evt[1] & EVTQ_1_S2)
-+		return -EFAULT;
-+
-+	master = arm_smmu_find_master(smmu, sid);
-+	if (!master)
-+		return -EINVAL;
-+
-+	if (evt[1] & EVTQ_1_READ)
-+		perm |= IOMMU_FAULT_PERM_READ;
-+	else
-+		perm |= IOMMU_FAULT_PERM_WRITE;
-+
-+	if (evt[1] & EVTQ_1_EXEC)
-+		perm |= IOMMU_FAULT_PERM_EXEC;
-+
-+	if (evt[1] & EVTQ_1_PRIV)
-+		perm |= IOMMU_FAULT_PERM_PRIV;
-+
-+	if (evt[1] & EVTQ_1_STALL) {
-+		flt->type = IOMMU_FAULT_PAGE_REQ;
-+		flt->prm = (struct iommu_fault_page_request) {
-+			.flags = IOMMU_FAULT_PAGE_REQUEST_LAST_PAGE,
-+			.grpid = FIELD_GET(EVTQ_1_STAG, evt[1]),
-+			.perm = perm,
-+			.addr = FIELD_GET(EVTQ_2_ADDR, evt[2]),
-+		};
-+
-+		if (ssid_valid) {
-+			flt->prm.flags |= IOMMU_FAULT_PAGE_REQUEST_PASID_VALID;
-+			flt->prm.pasid = FIELD_GET(EVTQ_0_SSID, evt[0]);
-+		}
-+	} else {
-+		flt->type = IOMMU_FAULT_DMA_UNRECOV;
-+		flt->event = (struct iommu_fault_unrecoverable) {
-+			.flags = IOMMU_FAULT_UNRECOV_ADDR_VALID |
-+				 IOMMU_FAULT_UNRECOV_FETCH_ADDR_VALID,
-+			.perm = perm,
-+			.addr = FIELD_GET(EVTQ_2_ADDR, evt[2]),
-+			.fetch_addr = FIELD_GET(EVTQ_3_IPA, evt[3]),
-+		};
-+
-+		if (ssid_valid) {
-+			flt->event.flags |= IOMMU_FAULT_UNRECOV_PASID_VALID;
-+			flt->event.pasid = FIELD_GET(EVTQ_0_SSID, evt[0]);
-+		}
-+
-+		switch (type) {
-+		case EVT_ID_TRANSLATION_FAULT:
-+		case EVT_ID_ADDR_SIZE_FAULT:
-+		case EVT_ID_ACCESS_FAULT:
-+			flt->event.reason = IOMMU_FAULT_REASON_PTE_FETCH;
-+			break;
-+		case EVT_ID_PERMISSION_FAULT:
-+			flt->event.reason = IOMMU_FAULT_REASON_PERMISSION;
-+			break;
-+		default:
-+			/* TODO: report other unrecoverable faults. */
-+			return -EFAULT;
-+		}
-+	}
-+
-+	ret = iommu_report_device_fault(master->dev, &fault_evt);
-+	if (ret && flt->type == IOMMU_FAULT_PAGE_REQ) {
-+		/* Nobody cared, abort the access */
-+		struct iommu_page_response resp = {
-+			.pasid		= flt->prm.pasid,
-+			.grpid		= flt->prm.grpid,
-+			.code		= IOMMU_PAGE_RESP_FAILURE,
-+		};
-+		arm_smmu_page_response(master->dev, NULL, &resp);
-+	}
-+
-+	return ret;
-+}
-+
- static irqreturn_t arm_smmu_evtq_thread(int irq, void *dev)
- {
--	int i;
-+	int i, ret;
- 	struct arm_smmu_device *smmu = dev;
- 	struct arm_smmu_queue *q = &smmu->evtq.q;
- 	struct arm_smmu_ll_queue *llq = &q->llq;
-@@ -1394,11 +1522,14 @@ static irqreturn_t arm_smmu_evtq_thread(int irq, void *dev)
- 		while (!queue_remove_raw(q, evt)) {
- 			u8 id = FIELD_GET(EVTQ_0_ID, evt[0]);
- 
--			dev_info(smmu->dev, "event 0x%02x received:\n", id);
--			for (i = 0; i < ARRAY_SIZE(evt); ++i)
--				dev_info(smmu->dev, "\t0x%016llx\n",
--					 (unsigned long long)evt[i]);
--
-+			ret = arm_smmu_handle_evt(smmu, evt);
-+			if (ret) {
-+				dev_info(smmu->dev, "event 0x%02x received:\n",
-+					 id);
-+				for (i = 0; i < ARRAY_SIZE(evt); ++i)
-+					dev_info(smmu->dev, "\t0x%016llx\n",
-+						 (unsigned long long)evt[i]);
-+			}
- 		}
- 
- 		/*
-@@ -1903,6 +2034,8 @@ static int arm_smmu_domain_finalise_s1(struct arm_smmu_domain *smmu_domain,
- 
- 	cfg->s1cdmax = master->ssid_bits;
- 
-+	smmu_domain->stall_enabled = master->stall_enabled;
-+
- 	ret = arm_smmu_alloc_cd_tables(smmu_domain);
- 	if (ret)
- 		goto out_free_asid;
-@@ -2250,6 +2383,12 @@ static int arm_smmu_attach_dev(struct iommu_domain *domain, struct device *dev)
- 			smmu_domain->s1_cfg.s1cdmax, master->ssid_bits);
- 		ret = -EINVAL;
- 		goto out_unlock;
-+	} else if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1 &&
-+		   smmu_domain->stall_enabled != master->stall_enabled) {
-+		dev_err(dev, "cannot attach to stall-%s domain\n",
-+			smmu_domain->stall_enabled ? "enabled" : "disabled");
-+		ret = -EINVAL;
-+		goto out_unlock;
- 	}
- 
- 	master->domain = smmu_domain;
-@@ -2484,6 +2623,11 @@ static struct iommu_device *arm_smmu_probe_device(struct device *dev)
- 		master->ssid_bits = min_t(u8, master->ssid_bits,
- 					  CTXDESC_LINEAR_CDMAX);
- 
-+	if ((smmu->features & ARM_SMMU_FEAT_STALLS &&
-+	     device_property_read_bool(dev, "dma-can-stall")) ||
-+	    smmu->features & ARM_SMMU_FEAT_STALL_FORCE)
-+		master->stall_enabled = true;
-+
- 	return &smmu->iommu;
- 
- err_free_master:
-@@ -2502,6 +2646,7 @@ static void arm_smmu_release_device(struct device *dev)
- 
- 	master = dev_iommu_priv_get(dev);
- 	WARN_ON(arm_smmu_master_sva_enabled(master));
-+	iopf_queue_remove_device(master->smmu->evtq.iopf, dev);
- 	arm_smmu_detach_dev(master);
- 	arm_smmu_disable_pasid(master);
- 	arm_smmu_remove_master(master);
-@@ -2629,6 +2774,8 @@ static bool arm_smmu_dev_has_feature(struct device *dev,
- 		return false;
- 
- 	switch (feat) {
-+	case IOMMU_DEV_FEAT_IOPF:
-+		return arm_smmu_master_iopf_supported(master);
- 	case IOMMU_DEV_FEAT_SVA:
- 		return arm_smmu_master_sva_supported(master);
- 	default:
-@@ -2645,6 +2792,8 @@ static bool arm_smmu_dev_feature_enabled(struct device *dev,
- 		return false;
- 
- 	switch (feat) {
-+	case IOMMU_DEV_FEAT_IOPF:
-+		return arm_smmu_master_iopf_enabled(master);
- 	case IOMMU_DEV_FEAT_SVA:
- 		return arm_smmu_master_sva_enabled(master);
- 	default:
-@@ -2655,6 +2804,8 @@ static bool arm_smmu_dev_feature_enabled(struct device *dev,
- static int arm_smmu_dev_enable_feature(struct device *dev,
- 				       enum iommu_dev_features feat)
- {
-+	struct arm_smmu_master *master = dev_iommu_priv_get(dev);
-+
- 	if (!arm_smmu_dev_has_feature(dev, feat))
- 		return -ENODEV;
- 
-@@ -2662,8 +2813,10 @@ static int arm_smmu_dev_enable_feature(struct device *dev,
- 		return -EBUSY;
- 
- 	switch (feat) {
-+	case IOMMU_DEV_FEAT_IOPF:
-+		return arm_smmu_master_enable_iopf(master);
- 	case IOMMU_DEV_FEAT_SVA:
--		return arm_smmu_master_enable_sva(dev_iommu_priv_get(dev));
-+		return arm_smmu_master_enable_sva(master);
- 	default:
- 		return -EINVAL;
- 	}
-@@ -2672,12 +2825,16 @@ static int arm_smmu_dev_enable_feature(struct device *dev,
- static int arm_smmu_dev_disable_feature(struct device *dev,
- 					enum iommu_dev_features feat)
- {
-+	struct arm_smmu_master *master = dev_iommu_priv_get(dev);
-+
- 	if (!arm_smmu_dev_feature_enabled(dev, feat))
- 		return -EINVAL;
- 
- 	switch (feat) {
-+	case IOMMU_DEV_FEAT_IOPF:
-+		return arm_smmu_master_disable_iopf(master);
- 	case IOMMU_DEV_FEAT_SVA:
--		return arm_smmu_master_disable_sva(dev_iommu_priv_get(dev));
-+		return arm_smmu_master_disable_sva(master);
- 	default:
- 		return -EINVAL;
- 	}
-@@ -2708,6 +2865,7 @@ static struct iommu_ops arm_smmu_ops = {
- 	.sva_bind		= arm_smmu_sva_bind,
- 	.sva_unbind		= arm_smmu_sva_unbind,
- 	.sva_get_pasid		= arm_smmu_sva_get_pasid,
-+	.page_response		= arm_smmu_page_response,
- 	.pgsize_bitmap		= -1UL, /* Restricted during device attach */
- };
- 
-@@ -2785,6 +2943,7 @@ static int arm_smmu_cmdq_init(struct arm_smmu_device *smmu)
- static int arm_smmu_init_queues(struct arm_smmu_device *smmu)
- {
- 	int ret;
-+	bool sva = arm_smmu_sva_supported(smmu);
- 
- 	/* cmdq */
- 	ret = arm_smmu_init_one_queue(smmu, &smmu->cmdq.q, ARM_SMMU_CMDQ_PROD,
-@@ -2804,6 +2963,12 @@ static int arm_smmu_init_queues(struct arm_smmu_device *smmu)
- 	if (ret)
- 		return ret;
- 
-+	if (sva && smmu->features & ARM_SMMU_FEAT_STALLS) {
-+		smmu->evtq.iopf = iopf_queue_alloc(dev_name(smmu->dev));
-+		if (!smmu->evtq.iopf)
-+			return -ENOMEM;
-+	}
-+
- 	/* priq */
- 	if (!(smmu->features & ARM_SMMU_FEAT_PRI))
- 		return 0;
-@@ -3718,6 +3883,7 @@ static int arm_smmu_device_remove(struct platform_device *pdev)
- 	iommu_device_unregister(&smmu->iommu);
- 	iommu_device_sysfs_remove(&smmu->iommu);
- 	arm_smmu_device_disable(smmu);
-+	iopf_queue_free(smmu->evtq.iopf);
- 
- 	return 0;
- }
--- 
-2.29.2
+I have pushed a temp fix for this in my test branch here,
+https://github.com/hisilicon/kernel-dev/commit/7784d96fbac9c48e8093ec9dbf43a172b1cbe3c3
+
+Please take a look.
+
+(I am seeing another issue with testpmd + vsmmu. I will explain that in another thread).
+
+Thanks,
+Shameer
+
+
+
+  
+> +	if (ret || !nested)
+> +		return ret;
+> +
+> +	mutex_init(&vdev->fault_response_queue_lock);
+> +
+> +	/*
+> +	 * We provision 1 page for the header and space for
+> +	 * DMA_FAULT_RING_LENGTH fault records in the ring buffer.
+> +	 */
+> +	size = ALIGN(sizeof(struct iommu_page_response) *
+> +		     DMA_FAULT_RESPONSE_RING_LENGTH, PAGE_SIZE) +
+> PAGE_SIZE;
+> +
+> +	vdev->fault_response_pages = kzalloc(size, GFP_KERNEL);
+> +	if (!vdev->fault_response_pages)
+> +		return -ENOMEM;
+> +
+> +	ret = vfio_pci_register_dev_region(vdev,
+> +		VFIO_REGION_TYPE_NESTED,
+> +		VFIO_REGION_SUBTYPE_NESTED_DMA_FAULT_RESPONSE,
+> +		&vfio_pci_dma_fault_response_regops, size,
+> +		VFIO_REGION_INFO_FLAG_READ |
+> VFIO_REGION_INFO_FLAG_WRITE |
+> +		VFIO_REGION_INFO_FLAG_MMAP,
+> +		vdev->fault_response_pages);
+> +	if (ret)
+> +		goto out;
+> +
+> +	header = (struct vfio_region_dma_fault_response
+> *)vdev->fault_response_pages;
+> +	header->entry_size = sizeof(struct iommu_page_response);
+> +	header->nb_entries = DMA_FAULT_RESPONSE_RING_LENGTH;
+> +	header->offset = PAGE_SIZE;
+> +
+> +	return 0;
+> +out:
+> +	vdev->fault_response_pages = NULL;
+> +	return ret;
+> +}
+> +
+>  static int vfio_pci_enable(struct vfio_pci_device *vdev)
+>  {
+>  	struct pci_dev *pdev = vdev->pdev;
+> @@ -602,6 +693,10 @@ static int vfio_pci_enable(struct vfio_pci_device
+> *vdev)
+>  	if (ret)
+>  		goto disable_exit;
+> 
+> +	ret = vfio_pci_dma_fault_response_init(vdev);
+> +	if (ret)
+> +		goto disable_exit;
+> +
+>  	vfio_pci_probe_mmaps(vdev);
+> 
+>  	return 0;
+> @@ -2227,6 +2322,7 @@ static int vfio_pci_probe(struct pci_dev *pdev, const
+> struct pci_device_id *id)
+>  	INIT_LIST_HEAD(&vdev->ioeventfds_list);
+>  	mutex_init(&vdev->vma_lock);
+>  	INIT_LIST_HEAD(&vdev->vma_list);
+> +	INIT_LIST_HEAD(&vdev->dummy_resources_list);
+>  	init_rwsem(&vdev->memory_lock);
+> 
+>  	ret = vfio_add_group_dev(&pdev->dev, &vfio_pci_ops, vdev);
+> diff --git a/drivers/vfio/pci/vfio_pci_private.h
+> b/drivers/vfio/pci/vfio_pci_private.h
+> index e180b5435c8f..035634521cd0 100644
+> --- a/drivers/vfio/pci/vfio_pci_private.h
+> +++ b/drivers/vfio/pci/vfio_pci_private.h
+> @@ -144,7 +144,9 @@ struct vfio_pci_device {
+>  	struct eventfd_ctx	*err_trigger;
+>  	struct eventfd_ctx	*req_trigger;
+>  	u8			*fault_pages;
+> +	u8			*fault_response_pages;
+>  	struct mutex		fault_queue_lock;
+> +	struct mutex		fault_response_queue_lock;
+>  	struct list_head	dummy_resources_list;
+>  	struct mutex		ioeventfds_lock;
+>  	struct list_head	ioeventfds_list;
+> @@ -189,6 +191,9 @@ extern long vfio_pci_ioeventfd(struct vfio_pci_device
+> *vdev, loff_t offset,
+>  extern size_t vfio_pci_dma_fault_rw(struct vfio_pci_device *vdev,
+>  				    char __user *buf, size_t count,
+>  				    loff_t *ppos, bool iswrite);
+> +extern size_t vfio_pci_dma_fault_response_rw(struct vfio_pci_device *vdev,
+> +					     char __user *buf, size_t count,
+> +					     loff_t *ppos, bool iswrite);
+> 
+>  extern int vfio_pci_init_perm_bits(void);
+>  extern void vfio_pci_uninit_perm_bits(void);
+> diff --git a/drivers/vfio/pci/vfio_pci_rdwr.c b/drivers/vfio/pci/vfio_pci_rdwr.c
+> index 164120607469..efde0793360b 100644
+> --- a/drivers/vfio/pci/vfio_pci_rdwr.c
+> +++ b/drivers/vfio/pci/vfio_pci_rdwr.c
+> @@ -400,6 +400,45 @@ size_t vfio_pci_dma_fault_rw(struct vfio_pci_device
+> *vdev, char __user *buf,
+>  	return ret;
+>  }
+> 
+> +size_t vfio_pci_dma_fault_response_rw(struct vfio_pci_device *vdev, char
+> __user *buf,
+> +				      size_t count, loff_t *ppos, bool iswrite)
+> +{
+> +	unsigned int i = VFIO_PCI_OFFSET_TO_INDEX(*ppos) -
+> VFIO_PCI_NUM_REGIONS;
+> +	loff_t pos = *ppos & VFIO_PCI_OFFSET_MASK;
+> +	void *base = vdev->region[i].data;
+> +	int ret = -EFAULT;
+> +
+> +	if (pos >= vdev->region[i].size)
+> +		return -EINVAL;
+> +
+> +	count = min(count, (size_t)(vdev->region[i].size - pos));
+> +
+> +	if (iswrite) {
+> +		struct vfio_region_dma_fault_response *header =
+> +			(struct vfio_region_dma_fault_response *)base;
+> +		uint32_t  new_head;
+> +
+> +		if (pos != 0 || count != 4)
+> +			return -EINVAL;
+> +
+> +		if (copy_from_user((void *)&new_head, buf, count))
+> +			return -EFAULT;
+> +
+> +		if (new_head >= header->nb_entries)
+> +			return -EINVAL;
+> +
+> +		mutex_lock(&vdev->fault_response_queue_lock);
+> +		header->head = new_head;
+> +		mutex_unlock(&vdev->fault_response_queue_lock);
+> +	} else {
+> +		if (copy_to_user(buf, base + pos, count))
+> +			return -EFAULT;
+> +	}
+> +	*ppos += count;
+> +	ret = count;
+> +	return ret;
+> +}
+> +
+>  static void vfio_pci_ioeventfd_do_write(struct vfio_pci_ioeventfd *ioeventfd,
+>  					bool test_mem)
+>  {
+> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+> index 1e5c82f9d14d..5d106db7a4c5 100644
+> --- a/include/uapi/linux/vfio.h
+> +++ b/include/uapi/linux/vfio.h
+> @@ -345,6 +345,7 @@ struct vfio_region_info_cap_type {
+> 
+>  #define VFIO_REGION_TYPE_NESTED			(2)
+>  #define VFIO_REGION_SUBTYPE_NESTED_DMA_FAULT	(1)
+> +#define VFIO_REGION_SUBTYPE_NESTED_DMA_FAULT_RESPONSE	(2)
+> 
+>  /**
+>   * struct vfio_region_gfx_edid - EDID region layout.
+> @@ -1022,6 +1023,17 @@ struct vfio_region_info_cap_fault {
+>  	__u32 version;
+>  };
+> 
+> +/*
+> + * Capability exposed by the DMA fault response region
+> + * @version: ABI version
+> + */
+> +#define VFIO_REGION_INFO_CAP_DMA_FAULT_RESPONSE	7
+> +
+> +struct vfio_region_info_cap_fault_response {
+> +	struct vfio_info_cap_header header;
+> +	__u32 version;
+> +};
+> +
+>  /*
+>   * DMA Fault Region Layout
+>   * @tail: index relative to the start of the ring buffer at which the
+> @@ -1042,6 +1054,26 @@ struct vfio_region_dma_fault {
+>  	__u32   head;
+>  };
+> 
+> +/*
+> + * DMA Fault Response Region Layout
+> + * @head: index relative to the start of the ring buffer at which the
+> + *        producer (userspace) insert responses into the buffer
+> + * @entry_size: fault ring buffer entry size in bytes
+> + * @nb_entries: max capacity of the fault ring buffer
+> + * @offset: ring buffer offset relative to the start of the region
+> + * @tail: index relative to the start of the ring buffer at which the
+> + *        consumer (kernel) finds the next item in the buffer
+> + */
+> +struct vfio_region_dma_fault_response {
+> +	/* Write-Only */
+> +	__u32   head;
+> +	/* Read-Only */
+> +	__u32   entry_size;
+> +	__u32	nb_entries;
+> +	__u32	offset;
+> +	__u32   tail;
+> +};
+> +
+>  /* -------- API for Type1 VFIO IOMMU -------- */
+> 
+>  /**
+> --
+> 2.21.3
 
 _______________________________________________
 iommu mailing list
