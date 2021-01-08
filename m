@@ -1,78 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D4E2EEB3E
-	for <lists.iommu@lfdr.de>; Fri,  8 Jan 2021 03:25:52 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15AB92EED38
+	for <lists.iommu@lfdr.de>; Fri,  8 Jan 2021 06:47:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4E09C86BA9;
-	Fri,  8 Jan 2021 02:25:51 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 33513872E3;
+	Fri,  8 Jan 2021 05:47:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yYmmNlBbAvTJ; Fri,  8 Jan 2021 02:25:50 +0000 (UTC)
+	with ESMTP id NCOP3uZykJ5X; Fri,  8 Jan 2021 05:47:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BFC1286BA6;
-	Fri,  8 Jan 2021 02:25:50 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4ED67872E0;
+	Fri,  8 Jan 2021 05:47:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ADF37C013A;
-	Fri,  8 Jan 2021 02:25:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 32DD7C013A;
+	Fri,  8 Jan 2021 05:47:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1859BC013A
- for <iommu@lists.linux-foundation.org>; Fri,  8 Jan 2021 02:25:49 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E24B0C013A
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jan 2021 05:47:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id F323486BA6
- for <iommu@lists.linux-foundation.org>; Fri,  8 Jan 2021 02:25:48 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D04A286CF8
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jan 2021 05:47:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lAFabqaL_Hs3 for <iommu@lists.linux-foundation.org>;
- Fri,  8 Jan 2021 02:25:48 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com
- [209.85.166.182])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 5315486B90
- for <iommu@lists.linux-foundation.org>; Fri,  8 Jan 2021 02:25:48 +0000 (UTC)
-Received: by mail-il1-f182.google.com with SMTP id w17so8814166ilj.8
- for <iommu@lists.linux-foundation.org>; Thu, 07 Jan 2021 18:25:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hre6xfB6NrLqQ3dXVlKDAfHEjfp9rD+sjidZkUWhifo=;
- b=g2yY5mZVR1gStW3eBF8ApkCnQ7F/m1MMQJZwLocwZooni+njR+y46pq7dkcs42kEKJ
- WRD9cEnKG6FHfyd9azi63+MGr5Y5LaK7fABZ5qYIuSAZxcvhYsdrPMNfwZsuM0szhGb3
- nOwEtf0+ULe8pDv75iY4TO9QbvWU41C5ODW+DJSVCLN8ctFsiwNmEJnHAEAGFqOsy4GR
- a2N7DPhDPBsXZBCyHsRQOGQEttM/fDd38PlCI7BjKbTMfXSENEZE1jzXYBx0a69kne7s
- YNQC5BCHnjpKWdt4YoNy22PfxosMbfxnWyi0BcE3Sqt+boUJgK6i5oHAcr1dMNBc4j5F
- 6xsw==
-X-Gm-Message-State: AOAM532Ur9xdmd3yRSruDXbTFADdsFA3g75VLze5pX6bQfMugvH1Hw29
- BRAm8zqi/uvxboyLMflzTA==
-X-Google-Smtp-Source: ABdhPJy6+5gcSiBXjrC4K+yGR0iKJSoDzy7Ki/YVuyrvV6OQ5PDNXOa+TAV4NklLz8zbiPyYZrPUSw==
-X-Received: by 2002:a05:6e02:1786:: with SMTP id
- y6mr1718502ilu.74.1610072747732; 
- Thu, 07 Jan 2021 18:25:47 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id h17sm4536936ioz.12.2021.01.07.18.25.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 18:25:46 -0800 (PST)
-Received: (nullmailer pid 1747334 invoked by uid 1000);
- Fri, 08 Jan 2021 02:25:45 -0000
-Date: Thu, 7 Jan 2021 19:25:45 -0700
-From: Rob Herring <robh@kernel.org>
-To: Chunyan Zhang <zhang.lyra@gmail.com>
-Subject: Re: [RFC PATCH 1/2] dt-bindings: iommu: add bindings for sprd iommu
-Message-ID: <20210108022545.GA1744725@robh.at.kernel.org>
-References: <20201223111633.1711477-1-zhang.lyra@gmail.com>
+ with ESMTP id v09wncb7tooi for <iommu@lists.linux-foundation.org>;
+ Fri,  8 Jan 2021 05:47:29 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 8143886CF6
+ for <iommu@lists.linux-foundation.org>; Fri,  8 Jan 2021 05:47:28 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1610084849; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=b3qHEdqVQIrYl8B+o2/ETyJYY6e+1aZCCdqjvRVd45k=;
+ b=qePamaO6YHFtejnNHBbdYWkNEtW8+msQmMSmzxsMJqFyC6SAOxl9lYwCQWhhWp0BN1t3lVuL
+ /M1c5p4KovKvo2FCTMUSOGklgzSH91IsGR/Y1cJIQFye1cxqRrbFQJEr3ThI9lYqmbxPTEGX
+ X6SZu5bdb9dpojDy+rEdK+GnxtM=
+X-Mailgun-Sending-Ip: 198.61.254.31
+X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n09.prod.us-west-2.postgun.com with SMTP id
+ 5ff7f1eeb95fc59326f164f4 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 08 Jan 2021 05:47:26
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 70C63C43462; Fri,  8 Jan 2021 05:47:26 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 6AA3FC433C6;
+ Fri,  8 Jan 2021 05:47:25 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201223111633.1711477-1-zhang.lyra@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Sheng Xu <sheng.xu@unisoc.com>, iommu@lists.linux-foundation.org,
- Kevin Tang <kevin.tang@unisoc.com>, Baolin Wang <baolin.wang7@gmail.com>,
- Orson Zhai <orsonzhai@gmail.com>
+Date: Fri, 08 Jan 2021 11:17:25 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: isaacm@codeaurora.org
+Subject: Re: [PATCH] iommu/io-pgtable-arm: Allow non-coherent masters to use
+ system cache
+In-Reply-To: <cfced52002337025088a64aa159760b2@codeaurora.org>
+References: <20201224064007.2339-1-saiprakash.ranjan@codeaurora.org>
+ <20210106115615.GA1763@willie-the-truck>
+ <cfced52002337025088a64aa159760b2@codeaurora.org>
+Message-ID: <8cfefbff135a5287d177b6ab2ccc3304@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
+Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,82 +87,83 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Dec 23, 2020 at 07:16:32PM +0800, Chunyan Zhang wrote:
-> From: Chunyan Zhang <chunyan.zhang@unisoc.com>
+On 2021-01-07 22:27, isaacm@codeaurora.org wrote:
+> On 2021-01-06 03:56, Will Deacon wrote:
+>> On Thu, Dec 24, 2020 at 12:10:07PM +0530, Sai Prakash Ranjan wrote:
+>>> commit ecd7274fb4cd ("iommu: Remove unused IOMMU_SYS_CACHE_ONLY 
+>>> flag")
+>>> removed unused IOMMU_SYS_CACHE_ONLY prot flag and along with it went
+>>> the memory type setting required for the non-coherent masters to use
+>>> system cache. Now that system cache support for GPU is added, we will
+>>> need to mark the memory as normal sys-cached for GPU to use system 
+>>> cache.
+>>> Without this, the system cache lines are not allocated for GPU. We 
+>>> use
+>>> the IO_PGTABLE_QUIRK_ARM_OUTER_WBWA quirk instead of a page 
+>>> protection
+>>> flag as the flag cannot be exposed via DMA api because of no in-tree
+>>> users.
+>>> 
+>>> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+>>> ---
+>>>  drivers/iommu/io-pgtable-arm.c | 3 +++
+>>>  1 file changed, 3 insertions(+)
+>>> 
+>>> diff --git a/drivers/iommu/io-pgtable-arm.c 
+>>> b/drivers/iommu/io-pgtable-arm.c
+>>> index 7c9ea9d7874a..3fb7de8304a2 100644
+>>> --- a/drivers/iommu/io-pgtable-arm.c
+>>> +++ b/drivers/iommu/io-pgtable-arm.c
+>>> @@ -415,6 +415,9 @@ static arm_lpae_iopte arm_lpae_prot_to_pte(struct 
+>>> arm_lpae_io_pgtable *data,
+>>>  		else if (prot & IOMMU_CACHE)
+>>>  			pte |= (ARM_LPAE_MAIR_ATTR_IDX_CACHE
+>>>  				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
+>>> +		else if (data->iop.cfg.quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA)
+>>> +			pte |= (ARM_LPAE_MAIR_ATTR_IDX_INC_OCACHE
+>>> +				<< ARM_LPAE_PTE_ATTRINDX_SHIFT);
+>>>  	}
+>> 
+> While this approach of enabling system cache globally for both page
+> tables and other buffers
+> works for the GPU usecase, this isn't ideal for other clients that use
+> system cache. For example,
+> video clients only want to cache a subset of their buffers in the
+> system cache, due to the sizing constraint
+> imposed by how much of the system cache they can use. So, it would be
+> ideal to have
+> a way of expressing the desire to use the system cache on a per-buffer
+> basis. Additionally,
+> our video clients use the DMA layer, and since the requirement is for
+> caching in the system cache
+> to be a per buffer attribute, it seems like we would have to have a
+> DMA attribute to express
+> this on a per-buffer basis.
 > 
-> This patch only adds bindings to support display iommu, support for others
-> would be added once finished tests with those devices, such as Image
-> codec(jpeg) processor, a few signal processors, including VSP(video),
-> GSP(graphic), ISP(image), and camera CPP, etc.
-> 
-> Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> ---
->  .../devicetree/bindings/iommu/sprd,iommu.yaml | 44 +++++++++++++++++++
->  1 file changed, 44 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iommu/sprd,iommu.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/iommu/sprd,iommu.yaml b/Documentation/devicetree/bindings/iommu/sprd,iommu.yaml
-> new file mode 100644
-> index 000000000000..4d9a578a7cc9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iommu/sprd,iommu.yaml
-> @@ -0,0 +1,44 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright 2020 Unisoc Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iommu/sprd,iommu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Unisoc IOMMU and Multi-media MMU
-> +
-> +maintainers:
-> +  - Chunyan Zhang <zhang.lyra@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - sprd,iommu-disp
 
-Needs to be Soc specific. Is this block specific to display subsys or 
-that just happens to be where the instance is?
+I did bring this up initially [1], also where is this video client
+in upstream? AFAIK, only system cache user in upstream is GPU.
+We cannot add any DMA attribute unless there is any user upstream
+as per [2], so when the support for such a client is added, wouldn't
+((data->iop.cfg.quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA) || PROT_FLAG)
+work?
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#iommu-cells":
-> +    const: 0
-> +    description:
-> +      Unisoc IOMMUs are all single-master IOMMU devices, therefore no
-> +      additional information needs to associate with its master device.
-> +      Please refer to the generic bindings document for more details,
-> +      Documentation/devicetree/bindings/iommu/iommu.txt
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#iommu-cells"
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    iommu_disp: iommu@63000000 {
-> +      compatible = "sprd,iommu-disp";
-> +      reg = <0x63000000 0x880>;
-> +      #iommu-cells = <0>;
-> +    };
-> +
-> +...
-> -- 
-> 2.25.1
-> 
+[1] 
+https://lore.kernel.org/dri-devel/ecfda7ca80f6d7b4ff3d89b8758f4dc9@codeaurora.org/
+[2] https://lore.kernel.org/linux-iommu/20191026053026.GA14545@lst.de/T/
+
+Thanks,
+Sai
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
