@@ -1,64 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BAD2F18C5
-	for <lists.iommu@lfdr.de>; Mon, 11 Jan 2021 15:54:46 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 398242F18C9
+	for <lists.iommu@lfdr.de>; Mon, 11 Jan 2021 15:54:52 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 391B985C67;
-	Mon, 11 Jan 2021 14:54:45 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0DC6A21505;
+	Mon, 11 Jan 2021 14:54:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kK3GNzw8MK2t; Mon, 11 Jan 2021 14:54:44 +0000 (UTC)
+	with ESMTP id QaaDWH-SNxWG; Mon, 11 Jan 2021 14:54:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2D10D85D6F;
-	Mon, 11 Jan 2021 14:54:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 731BA21514;
+	Mon, 11 Jan 2021 14:54:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 102C2C013A;
-	Mon, 11 Jan 2021 14:54:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6B10FC013A;
+	Mon, 11 Jan 2021 14:54:48 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7F979C088B
- for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 14:54:42 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8F1B4C013A
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 14:54:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 6DF75867B0
- for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 14:54:42 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 7EE43867CD
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 14:54:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VqfcwFxZtl2b for <iommu@lists.linux-foundation.org>;
- Mon, 11 Jan 2021 14:54:41 +0000 (UTC)
+ with ESMTP id ZvB7V4sUGNno for <iommu@lists.linux-foundation.org>;
+ Mon, 11 Jan 2021 14:54:43 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
- by whitealder.osuosl.org (Postfix) with ESMTPS id F16568639E
- for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 14:54:39 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E1E48863D0
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 14:54:40 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1610376881; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1610376883; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=uUan/3Y+TTfqjIpnFPtAg7RTHJJUPTCSTIPd9F4F9f4=;
- b=oEZyGGpQt1JbJvx8LdHhtVSaJgpKrlRZ+hNXT9wfcmHFE/ESyn92ReXW9SDa+u/sSljqNBr/
- 0ItrxXlnvzl65fSM9EeaobL+iI5ZDPlOVppLKVsF47aPgfIHM1gfVvOlnz4H06/Y3uci8csC
- QhWhCZotyFuIDSTS9vnfF6NgpP0=
+ bh=EgoXBzkvRFRBe7rpnVTVbV7udtTIgKjckgseHfiFLac=;
+ b=I57fnrMqQyWD8xD7h6zVubyxJEhfJKXP6y2+1SNZ0B6HD1/jXvS+8ynJ/EXhoa1WfhB+KGkq
+ W4RlSFPTx23b+E30okrrL594lQsuUinUT0m2Dheqy+cPjCbxetf9lhL0DAYzCD4bdRd6cgrF
+ ZceWS3uj3AyZwg+tNYEi/J3Wgv0=
 X-Mailgun-Sending-Ip: 198.61.254.31
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
  smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5ffc66acc88af061072785c9 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 11 Jan 2021 14:54:36
+ 5ffc66adc88af061072789c4 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 11 Jan 2021 14:54:37
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 9458FC43463; Mon, 11 Jan 2021 14:54:35 +0000 (UTC)
+ id 98785C433C6; Mon, 11 Jan 2021 14:54:36 +0000 (UTC)
 Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 5EF9AC43465;
- Mon, 11 Jan 2021 14:54:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5EF9AC43465
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id D88EEC43462;
+ Mon, 11 Jan 2021 14:54:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org D88EEC43462
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -67,10 +67,9 @@ From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
 To: will@kernel.org,
 	robin.murphy@arm.com,
 	joro@8bytes.org
-Subject: [PATCH v2 4/5] iommu: Introduce map_sg() as an IOMMU op for IOMMU
- drivers
-Date: Mon, 11 Jan 2021 06:54:21 -0800
-Message-Id: <1610376862-927-5-git-send-email-isaacm@codeaurora.org>
+Subject: [PATCH v2 5/5] iommu/arm-smmu: Hook up map_sg()
+Date: Mon, 11 Jan 2021 06:54:22 -0800
+Message-Id: <1610376862-927-6-git-send-email-isaacm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1610376862-927-1-git-send-email-isaacm@codeaurora.org>
 References: <1610376862-927-1-git-send-email-isaacm@codeaurora.org>
@@ -95,75 +94,55 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add support for IOMMU drivers to have their own map_sg() callbacks.
-This completes the path for having iommu_map_sg() invoke an IOMMU
-driver's map_sg() callback, which can then invoke the io-pgtable
-map_sg() callback with the entire scatter-gather list, so that it
-can be processed entirely in the io-pgtable layer.
-
-For IOMMU drivers that do not provide a callback, the default
-implementation of iterating through the scatter-gather list, while
-calling iommu_map() will be used.
+Now that everything is in place for iommu_map_sg() to defer
+mapping a scatter-gather list to the io-pgtable layer, implement
+the map_sg() callback in the SMMU driver, so that iommu_map_sg()
+can invoke it with the entire scatter-gather list that will be
+mapped.
 
 Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
 Tested-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
 ---
- drivers/iommu/iommu.c | 13 +++++++++++++
- include/linux/iommu.h |  5 +++++
- 2 files changed, 18 insertions(+)
+ drivers/iommu/arm/arm-smmu/arm-smmu.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 0da0687..46acd5c 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2535,11 +2535,24 @@ static size_t __iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
- 			     struct scatterlist *sg, unsigned int nents, int prot,
- 			     gfp_t gfp)
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+index d8c6bfd..52acc68 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+@@ -1208,6 +1208,24 @@ static int arm_smmu_map(struct iommu_domain *domain, unsigned long iova,
+ 	return ret;
+ }
+ 
++static int arm_smmu_map_sg(struct iommu_domain *domain, unsigned long iova,
++			   struct scatterlist *sg, unsigned int nents, int prot,
++			   gfp_t gfp, size_t *mapped)
++{
++	struct io_pgtable_ops *ops = to_smmu_domain(domain)->pgtbl_ops;
++	struct arm_smmu_device *smmu = to_smmu_domain(domain)->smmu;
++	int ret;
++
++	if (!ops)
++		return -ENODEV;
++
++	arm_smmu_rpm_get(smmu);
++	ret = ops->map_sg(ops, iova, sg, nents, prot, gfp, mapped);
++	arm_smmu_rpm_put(smmu);
++
++	return ret;
++}
++
+ static size_t arm_smmu_unmap(struct iommu_domain *domain, unsigned long iova,
+ 			     size_t size, struct iommu_iotlb_gather *gather)
  {
-+	const struct iommu_ops *ops = domain->ops;
- 	size_t len = 0, mapped = 0;
- 	phys_addr_t start;
- 	unsigned int i = 0;
- 	int ret;
- 
-+	if (ops->map_sg) {
-+		ret = ops->map_sg(domain, iova, sg, nents, prot, gfp, &mapped);
-+
-+		if (ops->iotlb_sync_map)
-+			ops->iotlb_sync_map(domain);
-+
-+		if (ret)
-+			goto out_err;
-+
-+		return mapped;
-+	}
-+
- 	while (i <= nents) {
- 		phys_addr_t s_phys = sg_phys(sg);
- 
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 0e40a38..bac7681 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -192,6 +192,8 @@ struct iommu_iotlb_gather {
-  * @attach_dev: attach device to an iommu domain
-  * @detach_dev: detach device from an iommu domain
-  * @map: map a physically contiguous memory region to an iommu domain
-+ * @map_sg: map a scatter-gather list of physically contiguous chunks to
-+ *          an iommu domain.
-  * @unmap: unmap a physically contiguous memory region from an iommu domain
-  * @flush_iotlb_all: Synchronously flush all hardware TLBs for this domain
-  * @iotlb_sync_map: Sync mappings created recently using @map to the hardware
-@@ -243,6 +245,9 @@ struct iommu_ops {
- 	void (*detach_dev)(struct iommu_domain *domain, struct device *dev);
- 	int (*map)(struct iommu_domain *domain, unsigned long iova,
- 		   phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
-+	int (*map_sg)(struct iommu_domain *domain, unsigned long iova,
-+		      struct scatterlist *sg, unsigned int nents, int prot,
-+		      gfp_t gfp, size_t *mapped);
- 	size_t (*unmap)(struct iommu_domain *domain, unsigned long iova,
- 		     size_t size, struct iommu_iotlb_gather *iotlb_gather);
- 	void (*flush_iotlb_all)(struct iommu_domain *domain);
+@@ -1624,6 +1642,7 @@ static struct iommu_ops arm_smmu_ops = {
+ 	.domain_free		= arm_smmu_domain_free,
+ 	.attach_dev		= arm_smmu_attach_dev,
+ 	.map			= arm_smmu_map,
++	.map_sg			= arm_smmu_map_sg,
+ 	.unmap			= arm_smmu_unmap,
+ 	.flush_iotlb_all	= arm_smmu_flush_iotlb_all,
+ 	.iotlb_sync		= arm_smmu_iotlb_sync,
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
