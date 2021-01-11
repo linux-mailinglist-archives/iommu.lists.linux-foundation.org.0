@@ -1,63 +1,64 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0182F18C3
-	for <lists.iommu@lfdr.de>; Mon, 11 Jan 2021 15:54:43 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3962F18C6
+	for <lists.iommu@lfdr.de>; Mon, 11 Jan 2021 15:54:47 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 08B5785BB8;
-	Mon, 11 Jan 2021 14:54:42 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id D2083863D0;
+	Mon, 11 Jan 2021 14:54:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fWu4dmXH89LU; Mon, 11 Jan 2021 14:54:41 +0000 (UTC)
+	with ESMTP id 6LvnyiHmNLxd; Mon, 11 Jan 2021 14:54:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7D93D85B12;
-	Mon, 11 Jan 2021 14:54:41 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 4CB5A867CC;
+	Mon, 11 Jan 2021 14:54:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 69564C013A;
-	Mon, 11 Jan 2021 14:54:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3A0A3C013A;
+	Mon, 11 Jan 2021 14:54:45 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F0037C013A
- for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 14:54:39 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 24A28C1DA7
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 14:54:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id DEB2A85C32
- for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 14:54:39 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 1F5C786654
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 14:54:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Zxt_Ljet9xPo for <iommu@lists.linux-foundation.org>;
- Mon, 11 Jan 2021 14:54:37 +0000 (UTC)
+ with ESMTP id rpHwuvo912Dq for <iommu@lists.linux-foundation.org>;
+ Mon, 11 Jan 2021 14:54:43 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id F059A85A5A
- for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 14:54:34 +0000 (UTC)
+Received: from so254-31.mailgun.net (so254-31.mailgun.net [198.61.254.31])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 0D3408639B
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 14:54:38 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1610376876; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=JnBbZxRF3zkY63N32iw+S1nZmnw8Y5p/1yS9PAvI0Fg=;
- b=Udf+8anNj2TQbPT3cMBF2eg4fDsoM2MkJPx21/iv0uu2dMbRo6X8bokmxhXJBb7sm8r8Yr+g
- ir2x8QqCIcYQ8xUEtBdXbPxkPhgIbzPq1Yp+yDi5GsHZkSliIvvLlbUfxTq/jT1aKaWbxCWn
- NZQwTbXYSubhcypMxpIUT3ZxQQg=
-X-Mailgun-Sending-Ip: 69.72.43.15
+ s=smtp; t=1610376883; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=lcdCbZ/HefWFY1EY5oisa6OgB6flXojUYnzfIUpb3XU=;
+ b=g6OJodly43RAT6FfCt0bcsgMcL6tMlG2FVRgzMGogFzcc/HqAdb/7B3WClK/M9HokkTD+zL3
+ qSpRFUUvTEsMklzcgLXwVs3ZlXlWcaSloxQiMaiY2Ndp0SzbSfNDrbnWpFsCwrRwJBFJmAzL
+ so6itL9Bf5+Trwm0Y5NB9iVFYV0=
+X-Mailgun-Sending-Ip: 198.61.254.31
 X-Mailgun-Sid: WyI3NDkwMCIsICJpb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 5ffc66a5c88af06107276cf0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 11 Jan 2021 14:54:29
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 5ffc66a74104d9478df83cc4 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 11 Jan 2021 14:54:31
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 03500C43462; Mon, 11 Jan 2021 14:54:29 +0000 (UTC)
+ id ACF30C43461; Mon, 11 Jan 2021 14:54:31 +0000 (UTC)
 Received: from isaacm-linux.qualcomm.com (i-global254.qualcomm.com
  [199.106.103.254])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: isaacm)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id CC79DC433C6;
- Mon, 11 Jan 2021 14:54:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org CC79DC433C6
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 891F3C433CA;
+ Mon, 11 Jan 2021 14:54:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 891F3C433CA
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -66,10 +67,12 @@ From: "Isaac J. Manjarres" <isaacm@codeaurora.org>
 To: will@kernel.org,
 	robin.murphy@arm.com,
 	joro@8bytes.org
-Subject: [PATCH v2 0/5] Optimize iommu_map_sg() performance
-Date: Mon, 11 Jan 2021 06:54:17 -0800
-Message-Id: <1610376862-927-1-git-send-email-isaacm@codeaurora.org>
+Subject: [PATCH v2 1/5] iommu/io-pgtable: Introduce map_sg() as a page table op
+Date: Mon, 11 Jan 2021 06:54:18 -0800
+Message-Id: <1610376862-927-2-git-send-email-isaacm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1610376862-927-1-git-send-email-isaacm@codeaurora.org>
+References: <1610376862-927-1-git-send-email-isaacm@codeaurora.org>
 Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>, pdaly@codeaurora.org,
  linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
  pratikp@codeaurora.org, linux-arm-kernel@lists.infradead.org
@@ -91,80 +94,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The iommu_map_sg() code currently iterates through the given
-scatter-gather list, and in the worst case, invokes iommu_map()
-for each element in the scatter-gather list, which calls into
-the IOMMU driver through an indirect call. For an IOMMU driver
-that uses a format supported by the io-pgtable code, the IOMMU
-driver will then call into the io-pgtable code to map the chunk.
+While mapping a scatter-gather list, iommu_map_sg() calls
+into the IOMMU driver through an indirect call, which can
+call into the io-pgtable code through another indirect call.
 
-Jumping between the IOMMU core code, the IOMMU driver, and the
-io-pgtable code and back for each element in a scatter-gather list
-is not efficient.
+This sequence of going through the IOMMU core code, the IOMMU
+driver, and finally the io-pgtable code, occurs for every
+element in the scatter-gather list, in the worse case, which
+is not optimal.
 
-Instead, add a map_sg() hook in both the IOMMU driver ops and the
-io-pgtable ops. iommu_map_sg() can then call into the IOMMU driver's
-map_sg() hook with the entire scatter-gather list, which can call
-into the io-pgtable map_sg() hook, which can process the entire
-scatter-gather list, signficantly reducing the number of indirect
-calls, and jumps between these layers, boosting performance.
+Introduce a map_sg callback in the io-pgtable ops so that
+IOMMU drivers can invoke it with the complete scatter-gather
+list, so that it can be processed within the io-pgtable
+code entirely, reducing the number of indirect calls, and
+boosting overall iommu_map_sg() performance.
 
-On a system that uses the ARM SMMU driver, and the ARM LPAE format,
-the current implementation of iommu_map_sg() yields the following
-latencies for mapping scatter-gather lists of various sizes. These
-latencies are calculated by repeating the mapping operation 10 times:
+Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
+Tested-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+---
+ include/linux/io-pgtable.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-    size        iommu_map_sg latency
-      4K            0.624 us
-     64K            9.468 us
-      1M          122.557 us
-      2M          239.807 us
-     12M         1435.979 us
-     24M         2884.968 us
-     32M         3832.979 us
-
-On the same system, the proposed modifications yield the following
-results:
-
-    size        iommu_map_sg latency
-      4K            3.645 us
-     64K            4.198 us
-      1M           11.010 us
-      2M           17.125 us
-     12M           82.416 us
-     24M          158.677 us
-     32M          210.468 us
-
-The procedure for collecting the iommu_map_sg latencies is
-the same in both experiments. Clearly, reducing the jumps
-between the different layers in the IOMMU code offers a
-signficant performance boost in iommu_map_sg() latency.
-
-Changes since v1:
-
--Fixed an off by one error in arm_[lpae/v7s]_map_by_pgsize
-when checking if the IOVA and physical address ranges being
-mapped are within the appropriate limits.
--Added Sai Prakash Ranjan's "Tested-by" tag.
-
-Thanks,
-Isaac
-
-Isaac J. Manjarres (5):
-  iommu/io-pgtable: Introduce map_sg() as a page table op
-  iommu/io-pgtable-arm: Hook up map_sg()
-  iommu/io-pgtable-arm-v7s: Hook up map_sg()
-  iommu: Introduce map_sg() as an IOMMU op for IOMMU drivers
-  iommu/arm-smmu: Hook up map_sg()
-
- drivers/iommu/arm/arm-smmu/arm-smmu.c | 19 ++++++++
- drivers/iommu/io-pgtable-arm-v7s.c    | 90 +++++++++++++++++++++++++++++++++++
- drivers/iommu/io-pgtable-arm.c        | 86 +++++++++++++++++++++++++++++++++
- drivers/iommu/iommu.c                 | 25 ++++++++--
- include/linux/io-pgtable.h            |  6 +++
- include/linux/iommu.h                 | 13 +++++
- 6 files changed, 234 insertions(+), 5 deletions(-)
-
+diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+index ea727eb..6d0e731 100644
+--- a/include/linux/io-pgtable.h
++++ b/include/linux/io-pgtable.h
+@@ -147,6 +147,9 @@ struct io_pgtable_cfg {
+  * struct io_pgtable_ops - Page table manipulation API for IOMMU drivers.
+  *
+  * @map:          Map a physically contiguous memory region.
++ * @map_sg:       Map a scatter-gather list of physically contiguous memory
++ *                chunks. The mapped pointer argument is used to store how
++ *                many bytes are mapped.
+  * @unmap:        Unmap a physically contiguous memory region.
+  * @iova_to_phys: Translate iova to physical address.
+  *
+@@ -156,6 +159,9 @@ struct io_pgtable_cfg {
+ struct io_pgtable_ops {
+ 	int (*map)(struct io_pgtable_ops *ops, unsigned long iova,
+ 		   phys_addr_t paddr, size_t size, int prot, gfp_t gfp);
++	int (*map_sg)(struct io_pgtable_ops *ops, unsigned long iova,
++		      struct scatterlist *sg, unsigned int nents, int prot,
++		      gfp_t gfp, size_t *mapped);
+ 	size_t (*unmap)(struct io_pgtable_ops *ops, unsigned long iova,
+ 			size_t size, struct iommu_iotlb_gather *gather);
+ 	phys_addr_t (*iova_to_phys)(struct io_pgtable_ops *ops,
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
