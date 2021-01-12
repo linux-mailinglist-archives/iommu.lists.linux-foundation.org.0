@@ -1,90 +1,106 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5FE22F28B8
-	for <lists.iommu@lfdr.de>; Tue, 12 Jan 2021 08:14:00 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3E12F2947
+	for <lists.iommu@lfdr.de>; Tue, 12 Jan 2021 08:55:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 6AD2C204BB;
-	Tue, 12 Jan 2021 07:13:59 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C1D0986860;
+	Tue, 12 Jan 2021 07:55:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rWdjclW-4JKv; Tue, 12 Jan 2021 07:13:57 +0000 (UTC)
+	with ESMTP id TGzGZe7x-aaa; Tue, 12 Jan 2021 07:55:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 0A6D8204B6;
-	Tue, 12 Jan 2021 07:13:57 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id EBEC98686A;
+	Tue, 12 Jan 2021 07:55:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DE801C013A;
-	Tue, 12 Jan 2021 07:13:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D762FC013A;
+	Tue, 12 Jan 2021 07:55:32 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2B2FEC013A
- for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 07:13:55 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ADD42C013A
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 07:55:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1817085B12
- for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 07:13:55 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 81F4D237C8
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 07:55:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2ZFJriCZtaDE for <iommu@lists.linux-foundation.org>;
- Tue, 12 Jan 2021 07:13:48 +0000 (UTC)
-X-Greylist: delayed 00:06:47 by SQLgrey-1.7.6
-Received: from qq.com (out203-205-251-80.mail.qq.com [203.205.251.80])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 25A188561D
- for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 07:13:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1610435622;
- bh=IVspVoyZIJAARCo6tSZ/fSyF7jV4s/QkY6ysZf9k7qc=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To;
- b=V+KZmFVrfneilI0SS+o7gGecLuxMcXw6K5nz/FIdKR5v2ZvBxQyJWUEyxu8bf4WFe
- OcEQ3WvpY0LmreGnfPvcxPm3cbLtJ/OqqwtJGGta4QUIJCMLuJ9aTU9rlFx6mteesf
- T6dpwK/LBl2dUojorvPyNq1cBe7L1kfrtT+5RHE8=
-Received: from [IPv6:240e:362:4bf:e00:19ba:7333:19c1:ecbe]
- ([240e:362:4bf:e00:19ba:7333:19c1:ecbe])
- by newxmesmtplogicsvrszc5.qq.com (NewEsmtp) with SMTP
- id 16A17479; Tue, 12 Jan 2021 15:05:42 +0800
-X-QQ-mid: xmsmtpt1610435142tf8fz7hle
-Message-ID: <tencent_19C176B65A601349DA564348C7CAE0470406@qq.com>
-X-QQ-XMAILINFO: MgmB7lY4LTHyzvoOtMgoRSvz6WYHN5VyH0Ee8sisFgzZ2+xeSt1+IpuCzWVe/2
- Ajl1hftPbsj4hc41kHF80/6kUzIMRdGtzdRuFhw/eMmv9TWO7wil8NNU2j7PVIzuDBlky8b6b6wH
- pY+py1dyboxL4z/zuevg2nZfkVkf5FajqRX2o3PnQLIAK4ZlReYDXgaLaGJf/9EEtYOP6XrdP4u8
- NXz+wg22MT/2Yim+nTJ5yren6qFAwP610UqkgWGPtUZ3aVi2yxvhbRiNq8s69QEs6Pna/KCBBN0b
- H/rbnr/ztAjHo94WLTlsShb7ROOpdEBYhNHoTbLyTFI2K4C85+aIlgLeAnEm1bVCpgfDq+ABL9UU
- yGl7C/q/8zd/PiNck/3SlwLm8fZRt8V8PRg6wG/jTNc0VkGsMgDIY6vNgqaarfiRLx5sdnFEqwTX
- Xh2DKeF+UpLQEOTjkCJOjPxicRatmVlV2IVNWYl6SPKuCOYzmIvE3XvLFxmkQQJnRjqgRtuQOyCI
- VDfFg18CjSBkwFFl4vzC7sf/roZ3jPWfGnYAHhz1wPIf+ktvqs2ZWAY2l4LgmSi2ihgZ1lpHszYm
- ZK5IiUV5l4gShuj+8WJWsdvarHZDMZspDpiYEzq0mSVU72gJDDE1ukfh+7rRA5lswVXzJkHSghtQ
- +6yALAxZe6zC4SMCAsLkq9InBINI+hna7S2kIhi48Soxg7MfeWjt/brjyMVmDW1tbMOTtIxN80Ur
- 8kT1TCh/Nf1DGtzNtekCcmD/Xx4Iakud/GxQZbjDREq/OZeF/mUmS8uSz7l0G0guXXVi1Kiy/kNG
- 8K0YVS5BmtpmRqgqN6nb+DS4rbxKNrOfip9B8sK7aQ6w==
-Subject: Re: [PATCH 0/2] Introduce PCI_FIXUP_IOMMU
-To: Bjorn Helgaas <helgaas@kernel.org>, Zhou Wang <wangzhou1@hisilicon.com>
-References: <20201217203806.GA20785@bjorn-Precision-5520>
-From: "zhangfei.gao@foxmail.com" <zhangfei.gao@foxmail.com>
-X-OQ-MSGID: <83afc1a6-9ee3-5fd1-9700-9c835c7b5319@foxmail.com>
-Date: Tue, 12 Jan 2021 15:05:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ with ESMTP id J24A38Jd2Zl2 for <iommu@lists.linux-foundation.org>;
+ Tue, 12 Jan 2021 07:55:30 +0000 (UTC)
+X-Greylist: delayed 00:07:39 by SQLgrey-1.7.6
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
+ [209.85.166.54])
+ by silver.osuosl.org (Postfix) with ESMTPS id 646D8204A1
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 07:55:30 +0000 (UTC)
+Received: by mail-io1-f54.google.com with SMTP id p187so2166114iod.4
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 23:55:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=j7gLFMlxBCQENVWtNxS2npLHFlF1Oh0HPmJ2b4uXz4E=;
+ b=Muj3J6AUcKeWXk2QVKpBxfCJmD1ZNU3ECoTrLMhnZ3l10BcmT1KWV3KJZVJiyjnmgp
+ tXnYNLGybukalejR/JL4Ccq0hthA+yksiWl3Xj9n38DlJXhcHL4x7k7Hi60j74u9oC5X
+ xVXg0JvakYs/Mgnk3DB5tWgDJ2Wm5qz5NT8oI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=j7gLFMlxBCQENVWtNxS2npLHFlF1Oh0HPmJ2b4uXz4E=;
+ b=GhDQgBB3FE2q997Y1eYlvlqwjaoHAa0o310WVPTVCBdiR9jx7JRLxJbZOziD0v0v5h
+ Ms1inMMc3OpN9sNS17Zf7mNpwvhW/uLZj68tnViHIxlTBVT9QDJVnXitzGpUf2NSnk4S
+ 85RqUJz/y6VrDeRMzyF7fXipZESY6LLMmfLOlsdpEjfnT2DHIYxh17EAYQWTNPSGt9nX
+ ZaDRsbAAC93oN0Li9EKPFKQTCYBg3rTBxsHhO3s4cE3eUoL/F6MJFeIPA1aSS5b6Wrmz
+ qllZ7dQ16s1D2L9bxok6bXcv5PkOA6jkl9VqKVriwSIKujtYMNE1vPpCqbJrgVAL/Bmx
+ dURg==
+X-Gm-Message-State: AOAM531qLetBs7O6mFzV/Fhb+B1Vn3/PTzof0TtzvgkqyFJpteyR21d+
+ XvnGn46l3pgJrl5pc7zdOnV+tCDKzI5lT2GK
+X-Google-Smtp-Source: ABdhPJzbkurAyfx6CgXwGEi5tU8/O9gu4lmaUE0EACi4out/CB+lvCeCN6oO/IFQGeWnExSvCFtwCA==
+X-Received: by 2002:a05:6e02:104b:: with SMTP id
+ p11mr2817718ilj.241.1610437671258; 
+ Mon, 11 Jan 2021 23:47:51 -0800 (PST)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com.
+ [209.85.166.49])
+ by smtp.gmail.com with ESMTPSA id s12sm1937043ilp.66.2021.01.11.23.47.50
+ for <iommu@lists.linux-foundation.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Jan 2021 23:47:51 -0800 (PST)
+Received: by mail-io1-f49.google.com with SMTP id 81so2076976ioc.13
+ for <iommu@lists.linux-foundation.org>; Mon, 11 Jan 2021 23:47:50 -0800 (PST)
+X-Received: by 2002:a05:6638:c52:: with SMTP id
+ g18mr3073726jal.84.1610437670186; 
+ Mon, 11 Jan 2021 23:47:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201217203806.GA20785@bjorn-Precision-5520>
-Content-Language: en-US
-Cc: linux-pci <linux-pci@vger.kernel.org>, Hanjun Guo <guohanjun@huawei.com>,
- jean-philippe <jean-philippe@linaro.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Zhangfei Gao <zhangfei.gao@linaro.org>, Len Brown <lenb@kernel.org>,
- Thanu Rangarajan <Thanu.Rangarajan@arm.com>,
- Souvik Chakravarty <Souvik.Chakravarty@arm.com>, Arnd Bergmann <arnd@arndb.de>,
- Bjorn Helgaas <bhelgaas@google.com>, wanghuiqiang <wanghuiqiang@huawei.com>,
- kenneth-lee-2012@foxmail.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- "open list:HARDWARE RANDOM NUMBER GENERATOR CORE"
- <linux-crypto@vger.kernel.org>, Sudeep Holla <sudeep.holla@arm.com>
+References: <20210106034124.30560-1-tientzu@chromium.org>
+ <20210106034124.30560-6-tientzu@chromium.org>
+ <20210106185757.GB109735@localhost.localdomain>
+ <CALiNf2_dV13jbHqLt-r1eK+dtOcAKBGcWQCVMQn+eL6MuOrETQ@mail.gmail.com>
+ <20210107180032.GB16519@char.us.oracle.com>
+ <4cce7692-7184-9b25-70f2-b821065f3b25@gmail.com>
+In-Reply-To: <4cce7692-7184-9b25-70f2-b821065f3b25@gmail.com>
+From: Claire Chang <tientzu@chromium.org>
+Date: Tue, 12 Jan 2021 15:47:39 +0800
+X-Gmail-Original-Message-ID: <CALiNf29Kqr1WP3BEjX-y5Xtife7AinqiXAcRD2g4eB9isTaXfQ@mail.gmail.com>
+Message-ID: <CALiNf29Kqr1WP3BEjX-y5Xtife7AinqiXAcRD2g4eB9isTaXfQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 5/6] dt-bindings: of: Add restricted DMA pool
+To: Florian Fainelli <f.fainelli@gmail.com>
+Cc: heikki.krogerus@linux.intel.com, peterz@infradead.org,
+ benh@kernel.crashing.org, grant.likely@arm.com, paulus@samba.org,
+ Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
+ sstabellini@kernel.org, Saravana Kannan <saravanak@google.com>,
+ mpe@ellerman.id.au, rafael.j.wysocki@intel.com, Christoph Hellwig <hch@lst.de>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ xen-devel@lists.xenproject.org, Thierry Reding <treding@nvidia.com>,
+ linux-devicetree <devicetree@vger.kernel.org>, will@kernel.org,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, dan.j.williams@intel.com,
+ linuxppc-dev@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
+ boris.ostrovsky@oracle.com,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
+ Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
+ rdunlap@infradead.org, lkml <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ xypron.glpk@gmx.de, Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,33 +113,34 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-SGksIEJqb3JuCgpPbiAyMDIwLzEyLzE4IOS4iuWNiDQ6MzgsIEJqb3JuIEhlbGdhYXMgd3JvdGU6
-Cj4KPj4+IFRoZSBwcmluY2lwbGVzIGFyZToKPj4+Cj4+PiAgICAtIEkgZG9uJ3Qgd2FudCB0byBo
-YXZlIHRvIHVwZGF0ZSBhIHF1aXJrIGZvciBldmVyeSBuZXcgRGV2aWNlIElECj4+PiAgICAgIHRo
-YXQgbmVlZHMgdGhpcy4KPj4gSGkgQmpvcm4gYW5kIFpoYW5nZmVpLAo+Pgo+PiBXZSBwbGFuIHRv
-IHVzZSBBVFMvUFJJIHRvIHN1cHBvcnQgU1ZBIGluIGZ1dHVyZSBQQ0kgZGV2aWNlcy4gSG93ZXZl
-ciwgZm9yCj4+IGN1cnJlbnQgZGV2aWNlcywgd2UgbmVlZCB0byBhZGQgbGltaXRlZCBudW1iZXIg
-b2YgcXVpcmsgdG8gbGV0IHRoZW0KPj4gd29yay4gVGhlIGRldmljZSBJRHMgb2YgY3VycmVudCBx
-dWlyayBuZWVkZWQgZGV2aWNlcyBhcmUgWklQIGVuZ2luZSgweGEyNTAsIDB4YTI1MSksCj4+IFNF
-QyBlbmdpbmUoMHhhMjU1LCAweGEyNTYpLCBIUFJFIGVuZ2luZSgweGEyNTgsIDB4YTI1OSksIHJl
-dmlzaW9uIGlkIGFyZQo+PiAweDIxIGFuZCAweDMwLgo+Pgo+PiBMZXQncyBjb250aW51ZSB0byB1
-cHN0cmVhbSB0aGVzZSBxdWlya3MhCj4gUGxlYXNlIHBvc3QgdGhlIHBhdGNoZXMgeW91IHByb3Bv
-c2UuICBJIGRvbid0IHRoaW5rIHRoZSBwcmV2aW91cyBvbmVzCj4gYXJlIGluIG15IHF1ZXVlLiAg
-UGxlYXNlIGluY2x1ZGUgdGhlIGxvcmUgVVJMIGZvciB0aGUgcHJldmlvdXMKPiBwb3N0aW5nKHMp
-IGluIHRoZSBjb3ZlciBsZXR0ZXIgc28gd2UgY2FuIGNvbm5lY3QgdGhlIGRpc2N1c3Npb24uCj4K
-SGF2ZSBzZW50IHRoZSB1cGRhdGVkIHBhdGNoCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4
-LXBjaS8xNjEwNDM0MTkyLTI3OTk1LTEtZ2l0LXNlbmQtZW1haWwtemhhbmdmZWkuZ2FvQGxpbmFy
-by5vcmcvVC8jdQoKV2UgZG8gbm90IG5lZWQgY2hhbmdlIGlvcnQgbm93IGJ1dCBqdXN0IHVzZSBh
-IHF1aXJrIGZvciBIaVNpbGljb24gCkt1blBlbmc5MjAgYW5kIEt1blBlbmc5MzAsCnNpbmNlIEpl
-YW4gbWFkZSBhIGNoYW5nZSBub3QgdXNpbmcgZndzcGVjLCB3aGljaCBtYWtlIHVzIGVhc2llci4K
-CiogVXNlIGRldmljZSBwcm9wZXJ0aWVzIGZvciBkbWEtY2FuLXN0YWxsLCBpbnN0ZWFkIG9mIGEg
-c3BlY2lhbCBmd3NwZWMKIMKgIG1lbWJlci4KCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4
-LWlvbW11LzIwMjEwMTA4MTQ1MjE3LjIyNTQ0NDctMS1qZWFuLXBoaWxpcHBlQGxpbmFyby5vcmcv
-CgpUaGFua3MKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRw
-czovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+On Fri, Jan 8, 2021 at 2:15 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
+>
+> On 1/7/21 10:00 AM, Konrad Rzeszutek Wilk wrote:
+> >>>
+> >>>
+> >>>  - Nothing stops the physical device from bypassing the SWIOTLB buffer.
+> >>>    That is if an errant device screwed up the length or DMA address, the
+> >>>    SWIOTLB would gladly do what the device told it do?
+> >>
+> >> So the system needs to provide a way to lock down the memory access, e.g. MPU.
+> >
+> > OK! Would it be prudent to have this in the description above perhaps?
+>
+> Yes this is something that must be documented as a requirement for the
+> restricted DMA pool users, otherwise attempting to do restricted DMA
+> pool is no different than say, using a device private CMA region.
+> Without the enforcement, this is just a best effort.
+
+Will add in the next version.
+
+> --
+> Florian
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
