@@ -1,46 +1,46 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27D62F28AB
-	for <lists.iommu@lfdr.de>; Tue, 12 Jan 2021 08:08:15 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5FE22F28B8
+	for <lists.iommu@lfdr.de>; Tue, 12 Jan 2021 08:14:00 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 48CBB85F9D;
-	Tue, 12 Jan 2021 07:08:14 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6AD2C204BB;
+	Tue, 12 Jan 2021 07:13:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Y2A_6waLMLBw; Tue, 12 Jan 2021 07:08:12 +0000 (UTC)
+	with ESMTP id rWdjclW-4JKv; Tue, 12 Jan 2021 07:13:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 05C0F85F8D;
-	Tue, 12 Jan 2021 07:08:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 0A6D8204B6;
+	Tue, 12 Jan 2021 07:13:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DEA90C013A;
-	Tue, 12 Jan 2021 07:08:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DE801C013A;
+	Tue, 12 Jan 2021 07:13:56 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 453A9C013A
- for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 07:08:09 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2B2FEC013A
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 07:13:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 28F8C87094
- for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 07:08:09 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1817085B12
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 07:13:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Pd7VjQcyBre8 for <iommu@lists.linux-foundation.org>;
- Tue, 12 Jan 2021 07:08:06 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from qq.com (out203-205-221-173.mail.qq.com [203.205.221.173])
- by hemlock.osuosl.org (Postfix) with ESMTPS id DEA5287008
- for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 07:08:04 +0000 (UTC)
+ with ESMTP id 2ZFJriCZtaDE for <iommu@lists.linux-foundation.org>;
+ Tue, 12 Jan 2021 07:13:48 +0000 (UTC)
+X-Greylist: delayed 00:06:47 by SQLgrey-1.7.6
+Received: from qq.com (out203-205-251-80.mail.qq.com [203.205.251.80])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 25A188561D
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 07:13:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1610435227;
+ s=s201512; t=1610435622;
  bh=IVspVoyZIJAARCo6tSZ/fSyF7jV4s/QkY6ysZf9k7qc=;
  h=Subject:To:Cc:References:From:Date:In-Reply-To;
- b=hiOMLpFNzbJbjGnc32VUWQJ1w82sbMAUYkyaRFyhPYf4QKSasqM3U0qNlfOJoMsCv
- 7uyn9X54m6kn+psibRAunFp2yrp3br3654+AQuIYgLeqsBWzq0Ycnc2wLn/GKVJYu3
- SuPiV9clkvGp5yIv+CNXiCGDJ7eoxxQmuyT2spMM=
+ b=V+KZmFVrfneilI0SS+o7gGecLuxMcXw6K5nz/FIdKR5v2ZvBxQyJWUEyxu8bf4WFe
+ OcEQ3WvpY0LmreGnfPvcxPm3cbLtJ/OqqwtJGGta4QUIJCMLuJ9aTU9rlFx6mteesf
+ T6dpwK/LBl2dUojorvPyNq1cBe7L1kfrtT+5RHE8=
 Received: from [IPv6:240e:362:4bf:e00:19ba:7333:19c1:ecbe]
  ([240e:362:4bf:e00:19ba:7333:19c1:ecbe])
  by newxmesmtplogicsvrszc5.qq.com (NewEsmtp) with SMTP
