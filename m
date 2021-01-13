@@ -1,62 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616872F4215
-	for <lists.iommu@lfdr.de>; Wed, 13 Jan 2021 03:54:21 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7AC42F4255
+	for <lists.iommu@lfdr.de>; Wed, 13 Jan 2021 04:22:29 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id ECD75204B0;
-	Wed, 13 Jan 2021 02:54:19 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 861AF861CE;
+	Wed, 13 Jan 2021 03:22:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QSjjwGcCRdlQ; Wed, 13 Jan 2021 02:54:17 +0000 (UTC)
+	with ESMTP id 2qignTdyHGXz; Wed, 13 Jan 2021 03:22:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 674B3204AC;
-	Wed, 13 Jan 2021 02:54:17 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D2322861AA;
+	Wed, 13 Jan 2021 03:22:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4534DC013A;
-	Wed, 13 Jan 2021 02:54:17 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A7DE6C1DA6;
+	Wed, 13 Jan 2021 03:22:27 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F1426C013A
- for <iommu@lists.linux-foundation.org>; Wed, 13 Jan 2021 02:54:15 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 59507C013A
+ for <iommu@lists.linux-foundation.org>; Wed, 13 Jan 2021 03:22:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id D91B5866B3
- for <iommu@lists.linux-foundation.org>; Wed, 13 Jan 2021 02:54:15 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 5493886CAC
+ for <iommu@lists.linux-foundation.org>; Wed, 13 Jan 2021 03:22:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mUILQ8vwFc5o for <iommu@lists.linux-foundation.org>;
- Wed, 13 Jan 2021 02:54:14 +0000 (UTC)
+ with ESMTP id bjc-MLu9QUU1 for <iommu@lists.linux-foundation.org>;
+ Wed, 13 Jan 2021 03:22:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id BC08386631
- for <iommu@lists.linux-foundation.org>; Wed, 13 Jan 2021 02:54:14 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0D8231042;
- Tue, 12 Jan 2021 18:54:14 -0800 (PST)
-Received: from [10.57.56.43] (unknown [10.57.56.43])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D06E3F719;
- Tue, 12 Jan 2021 18:54:12 -0800 (PST)
-Subject: Re: [PATCH v2 0/5] Optimize iommu_map_sg() performance
-To: Christoph Hellwig <hch@infradead.org>
-References: <1610376862-927-1-git-send-email-isaacm@codeaurora.org>
- <8ad6db90-1d86-db2a-ccb5-dc3f01213289@arm.com>
- <20210112163307.GA1199965@infradead.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <ef9390bc-57de-07fa-30fd-863672685788@arm.com>
-Date: Wed, 13 Jan 2021 02:54:11 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
+ [209.85.210.42])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id D900886C6D
+ for <iommu@lists.linux-foundation.org>; Wed, 13 Jan 2021 03:22:25 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id i6so647227otr.2
+ for <iommu@lists.linux-foundation.org>; Tue, 12 Jan 2021 19:22:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=iFD+4R4DB+Y+hIT2uTSS82J75l4RpMhVU01lAZvb2CI=;
+ b=XiLtmvceccIcu1tXrCnzRfn5IwV7P7POUADqYzmSHIMEj1sqBUj+msvxo5hpSA1cWX
+ faQjtZdcO+IFBPKfu9DN1k3WR9rFc/IUUolw4enLY25TfsSMfzOwobnnXgLlOLJ6Dbq2
+ yIx2DwKVxZiYqgPCy8A75483gtDY1VTiISDmnIDLn6KjpbSgzN9DbXEjOlhtTdfaxEF7
+ hqgIeysbb3uQTM3MfVH+zvINrWqvybR1+DrcYMzTzEnJN30cR2dl6d8iKaLqJBj4yE1j
+ G5xKFVy1nMduYdV87ugZ6OFuhmAv58zwqXaIl/KN3tKJE2sEHDGebb0PHCDw46BBQNZF
+ Ym7Q==
+X-Gm-Message-State: AOAM530IHA6UJD12lp229Nu4QEGlGwXfyHq4qIZBG/YExWg+sDkgn+0M
+ R2wTpz05xYKzy+4gHyA/gQ==
+X-Google-Smtp-Source: ABdhPJwVVOTMrJbThfuk487IYRWLYVeUWVU+77/cosixS6TZmaY/4vlEVD2pjzV0pdWCiXhOuUsCAg==
+X-Received: by 2002:a9d:1c6:: with SMTP id e64mr16380ote.50.1610508145162;
+ Tue, 12 Jan 2021 19:22:25 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id m7sm157940ool.29.2021.01.12.19.22.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jan 2021 19:22:24 -0800 (PST)
+Received: (nullmailer pid 1467559 invoked by uid 1000);
+ Wed, 13 Jan 2021 03:22:23 -0000
+Date: Tue, 12 Jan 2021 21:22:23 -0600
+From: Rob Herring <robh@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH 2/2] dt-bindings: arm-smmu: Add binding for Qcom SDX55 SMMU
+Message-ID: <20210113032223.GA1467511@robh.at.kernel.org>
+References: <20210107143118.2386-1-manivannan.sadhasivam@linaro.org>
+ <20210107143118.2386-2-manivannan.sadhasivam@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210112163307.GA1199965@infradead.org>
-Content-Language: en-GB
-Cc: "Isaac J. Manjarres" <isaacm@codeaurora.org>, pdaly@codeaurora.org,
- will@kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, pratikp@codeaurora.org,
- linux-arm-kernel@lists.infradead.org
+Content-Disposition: inline
+In-Reply-To: <20210107143118.2386-2-manivannan.sadhasivam@linaro.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux-foundation.org,
+ Vinod Koul <vkoul@kernel.org>, robh+dt@kernel.org,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,50 +86,26 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021-01-12 16:33, Christoph Hellwig wrote:
-> On Tue, Jan 12, 2021 at 04:00:59PM +0000, Robin Murphy wrote:
->> Out of curiosity, how much of the difference is attributable to actual
->> indirect call overhead vs. the additional massive reduction in visits to
->> arm_smmu_rpm_{get,put} that you fail to mention? There are ways to optimise
->> indirect calling that would benefit *all* cases, rather than just one
->> operation for one particular driver.
+On Thu, 07 Jan 2021 20:01:18 +0530, Manivannan Sadhasivam wrote:
+> Add devicetree binding for Qualcomm SDX55 SMMU.
 > 
-> Do we have systems that use different iommu_ops at the same time?
-> If not this would be a prime candidate for static call optimizations.
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: iommu@lists.linux-foundation.org
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> Reviewed-by: Vinod Koul <vkoul@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-They're not at all common, but such systems do technically exist. It's 
-hard to make them work in the current "one set of ops per bus" model, 
-but I still have a long-term dream of sorting that out so such setups 
-*can* be supported properly. I certainly wouldn't want to make any 
-changes that completely close the door on that idea, but any static call 
-optimisation that can be done in a config-gated manner should be viable 
-for x86 at least. Even better if we could do it with a dynamic 
-branch-patching solution that keeps the indirect case as a fallback; 
-AFAICS that should be feasible to eagerly apply somewhere around 
-iommu_device_register(), then just undo again if another driver ever 
-does show up registering a new set of ops that don't match. I'm pretty 
-confident that the systems where performance matters most are going to 
-be sensible homogeneous ones - on the Arm side the SBSA should see to 
-that. The weird mix-and-match cases are typically going to be FPGA 
-prototyping systems and esoteric embedded stuff that are worlds away 
-from worrying about keeping up with line rate on a 40GbE NIC...
-
-> Also I've been pondering adding direct calls to the iommu dma ops like
-> we do for DMA direct.  This would allow to stop using dma_ops entirely
-> for arm64.
-
-Yes, now that we're starting to get things sufficiently consolidated 
-behind iommu-dma that might be a reasonable thing to try, although given 
-the amount of inherent work further down in the IOVA and IOMMU layers 
-that dwarfs that of the direct case, I doubt that reducing the initial 
-dispatch overhead would make any noticeable difference in practice.
-
-Robin.
+Acked-by: Rob Herring <robh@kernel.org>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
