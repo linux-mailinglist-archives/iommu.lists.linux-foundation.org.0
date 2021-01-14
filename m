@@ -1,58 +1,58 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4FE2F5CB7
-	for <lists.iommu@lfdr.de>; Thu, 14 Jan 2021 09:58:49 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACB22F5CF6
+	for <lists.iommu@lfdr.de>; Thu, 14 Jan 2021 10:12:31 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D6F1B86930;
-	Thu, 14 Jan 2021 08:58:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CA63187165;
+	Thu, 14 Jan 2021 09:12:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0ow9SjzcbdOC; Thu, 14 Jan 2021 08:58:47 +0000 (UTC)
+	with ESMTP id LYAskowZ1X-T; Thu, 14 Jan 2021 09:12:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 489CC8692F;
-	Thu, 14 Jan 2021 08:58:47 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 5AF2A87234;
+	Thu, 14 Jan 2021 09:12:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2B35FC013A;
-	Thu, 14 Jan 2021 08:58:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 45136C013A;
+	Thu, 14 Jan 2021 09:12:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 62E8BC013A
- for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 08:58:46 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4A5EDC013A
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 09:12:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 39E168692F
- for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 08:58:46 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 380C886AC7
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 09:12:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id engdJ1DnFBb3 for <iommu@lists.linux-foundation.org>;
- Thu, 14 Jan 2021 08:58:42 +0000 (UTC)
+ with ESMTP id UmSbjVH2CY02 for <iommu@lists.linux-foundation.org>;
+ Thu, 14 Jan 2021 09:12:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 82D0B868D5
- for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 08:58:42 +0000 (UTC)
-IronPort-SDR: kvLwA9Pla8IQ8yR5y3h+IUQ/2j+0Ofo3t+HdxRkphjndWKm9EpdBmZvX3Nadc144syE2OAh/uJ
- fpcExPcxaOxg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9863"; a="166005759"
-X-IronPort-AV: E=Sophos;i="5.79,346,1602572400"; d="scan'208";a="166005759"
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8029186A89
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 09:12:26 +0000 (UTC)
+IronPort-SDR: uSuLD/TMNORs6jjN0Tq11BgE5HWaOCQvla+AIB1CpWs21++9keXawb6F5G5MAcm8NFT1qd23gv
+ 0KMazaHq3JYQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9863"; a="158109205"
+X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; d="scan'208";a="158109205"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2021 00:58:37 -0800
-IronPort-SDR: VDfZHKwFzx84YTFDConwZBa/HwsLp8PJtgdveSAV4AesjLfkptxoPYNUZFO3GswIxqBMPAr2br
- qlmpn5FxE5ng==
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2021 01:12:25 -0800
+IronPort-SDR: gEEbcp93x6S9GWz3wMSCRHA4+GfNELOpQvByPK2fHON94GrmT7df6kM5BzKhRvaeS7l5pszYkX
+ NSYIVxwiljdw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,346,1602572400"; d="scan'208";a="465189266"
+X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; d="scan'208";a="465192041"
 Received: from allen-box.sh.intel.com ([10.239.159.28])
- by fmsmga001.fm.intel.com with ESMTP; 14 Jan 2021 00:58:34 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 14 Jan 2021 01:12:23 -0800
 From: Lu Baolu <baolu.lu@linux.intel.com>
 To: Joerg Roedel <joro@8bytes.org>,
 	Will Deacon <will@kernel.org>
-Subject: [PATCH 1/1] iommu/vt-d: Consolidate duplicate cache invaliation code
-Date: Thu, 14 Jan 2021 16:50:21 +0800
-Message-Id: <20210114085021.717041-1-baolu.lu@linux.intel.com>
+Subject: [PATCH 1/1] iommu/vt-d: Add qi_submit trace event
+Date: Thu, 14 Jan 2021 17:04:00 +0800
+Message-Id: <20210114090400.736104-1-baolu.lu@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Cc: iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org
@@ -73,125 +73,94 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The pasid based IOTLB and devTLB invalidation code is duplicate in
-several places. Consolidate them by using the common helpers.
+This adds a new trace event to track the submissions of requests to the
+invalidation queue. This event will provide the information like:
+- IOMMU name
+- Invalidation type
+- Descriptor raw data
+
+A sample output like:
+| qi_submit: iotlb_inv dmar1: 0x100e2 0x0 0x0 0x0
+| qi_submit: dev_tlb_inv dmar1: 0x1000000003 0x7ffffffffffff001 0x0 0x0
+| qi_submit: iotlb_inv dmar2: 0x800f2 0xf9a00005 0x0 0x0
+
+This will be helpful for queued invalidation related debugging.
 
 Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- drivers/iommu/intel/pasid.c | 18 ++----------
- drivers/iommu/intel/svm.c   | 55 ++++++-------------------------------
- 2 files changed, 11 insertions(+), 62 deletions(-)
+ drivers/iommu/intel/dmar.c         |  3 +++
+ include/trace/events/intel_iommu.h | 37 ++++++++++++++++++++++++++++++
+ 2 files changed, 40 insertions(+)
 
-diff --git a/drivers/iommu/intel/pasid.c b/drivers/iommu/intel/pasid.c
-index b92af83b79bd..f26cb6195b2c 100644
---- a/drivers/iommu/intel/pasid.c
-+++ b/drivers/iommu/intel/pasid.c
-@@ -456,20 +456,6 @@ pasid_cache_invalidation_with_pasid(struct intel_iommu *iommu,
- 	qi_submit_sync(iommu, &desc, 1, 0);
- }
+diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
+index 004feaed3c72..bd51f33642e0 100644
+--- a/drivers/iommu/intel/dmar.c
++++ b/drivers/iommu/intel/dmar.c
+@@ -31,6 +31,7 @@
+ #include <linux/limits.h>
+ #include <asm/irq_remapping.h>
+ #include <asm/iommu_table.h>
++#include <trace/events/intel_iommu.h>
  
--static void
--iotlb_invalidation_with_pasid(struct intel_iommu *iommu, u16 did, u32 pasid)
--{
--	struct qi_desc desc;
--
--	desc.qw0 = QI_EIOTLB_PASID(pasid) | QI_EIOTLB_DID(did) |
--			QI_EIOTLB_GRAN(QI_GRAN_NONG_PASID) | QI_EIOTLB_TYPE;
--	desc.qw1 = 0;
--	desc.qw2 = 0;
--	desc.qw3 = 0;
--
--	qi_submit_sync(iommu, &desc, 1, 0);
--}
--
- static void
- devtlb_invalidation_with_pasid(struct intel_iommu *iommu,
- 			       struct device *dev, u32 pasid)
-@@ -514,7 +500,7 @@ void intel_pasid_tear_down_entry(struct intel_iommu *iommu, struct device *dev,
- 		clflush_cache_range(pte, sizeof(*pte));
+ #include "../irq_remapping.h"
  
- 	pasid_cache_invalidation_with_pasid(iommu, did, pasid);
--	iotlb_invalidation_with_pasid(iommu, did, pasid);
-+	qi_flush_piotlb(iommu, did, pasid, 0, -1, 0);
- 
- 	/* Device IOTLB doesn't need to be flushed in caching mode. */
- 	if (!cap_caching_mode(iommu->cap))
-@@ -530,7 +516,7 @@ static void pasid_flush_caches(struct intel_iommu *iommu,
- 
- 	if (cap_caching_mode(iommu->cap)) {
- 		pasid_cache_invalidation_with_pasid(iommu, did, pasid);
--		iotlb_invalidation_with_pasid(iommu, did, pasid);
-+		qi_flush_piotlb(iommu, did, pasid, 0, -1, 0);
- 	} else {
- 		iommu_flush_write_buffer(iommu);
+@@ -1307,6 +1308,8 @@ int qi_submit_sync(struct intel_iommu *iommu, struct qi_desc *desc,
+ 		offset = ((index + i) % QI_LENGTH) << shift;
+ 		memcpy(qi->desc + offset, &desc[i], 1 << shift);
+ 		qi->desc_status[(index + i) % QI_LENGTH] = QI_IN_USE;
++		trace_qi_submit(iommu, desc[i].qw0, desc[i].qw1,
++				desc[i].qw2, desc[i].qw3);
  	}
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 18a9f05df407..033b25886e57 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -123,53 +123,16 @@ static void __flush_svm_range_dev(struct intel_svm *svm,
- 				  unsigned long address,
- 				  unsigned long pages, int ih)
- {
--	struct qi_desc desc;
-+	struct device_domain_info *info = get_domain_info(sdev->dev);
+ 	qi->desc_status[wait_index] = QI_IN_USE;
  
--	if (pages == -1) {
--		desc.qw0 = QI_EIOTLB_PASID(svm->pasid) |
--			QI_EIOTLB_DID(sdev->did) |
--			QI_EIOTLB_GRAN(QI_GRAN_NONG_PASID) |
--			QI_EIOTLB_TYPE;
--		desc.qw1 = 0;
--	} else {
--		int mask = ilog2(__roundup_pow_of_two(pages));
--
--		desc.qw0 = QI_EIOTLB_PASID(svm->pasid) |
--				QI_EIOTLB_DID(sdev->did) |
--				QI_EIOTLB_GRAN(QI_GRAN_PSI_PASID) |
--				QI_EIOTLB_TYPE;
--		desc.qw1 = QI_EIOTLB_ADDR(address) |
--				QI_EIOTLB_IH(ih) |
--				QI_EIOTLB_AM(mask);
--	}
--	desc.qw2 = 0;
--	desc.qw3 = 0;
--	qi_submit_sync(sdev->iommu, &desc, 1, 0);
--
--	if (sdev->dev_iotlb) {
--		desc.qw0 = QI_DEV_EIOTLB_PASID(svm->pasid) |
--				QI_DEV_EIOTLB_SID(sdev->sid) |
--				QI_DEV_EIOTLB_QDEP(sdev->qdep) |
--				QI_DEIOTLB_TYPE;
--		if (pages == -1) {
--			desc.qw1 = QI_DEV_EIOTLB_ADDR(-1ULL >> 1) |
--					QI_DEV_EIOTLB_SIZE;
--		} else if (pages > 1) {
--			/* The least significant zero bit indicates the size. So,
--			 * for example, an "address" value of 0x12345f000 will
--			 * flush from 0x123440000 to 0x12347ffff (256KiB). */
--			unsigned long last = address + ((unsigned long)(pages - 1) << VTD_PAGE_SHIFT);
--			unsigned long mask = __rounddown_pow_of_two(address ^ last);
--
--			desc.qw1 = QI_DEV_EIOTLB_ADDR((address & ~mask) |
--					(mask - 1)) | QI_DEV_EIOTLB_SIZE;
--		} else {
--			desc.qw1 = QI_DEV_EIOTLB_ADDR(address);
--		}
--		desc.qw2 = 0;
--		desc.qw3 = 0;
--		qi_submit_sync(sdev->iommu, &desc, 1, 0);
--	}
-+	if (WARN_ON(!pages))
-+		return;
+diff --git a/include/trace/events/intel_iommu.h b/include/trace/events/intel_iommu.h
+index 112bd06487bf..aad2ff0c1e2e 100644
+--- a/include/trace/events/intel_iommu.h
++++ b/include/trace/events/intel_iommu.h
+@@ -135,6 +135,43 @@ DEFINE_EVENT(dma_map_sg, bounce_map_sg,
+ 		 struct scatterlist *sg),
+ 	TP_ARGS(dev, index, total, sg)
+ );
 +
-+	qi_flush_piotlb(sdev->iommu, sdev->did, svm->pasid, address, pages, ih);
-+	if (info->ats_enabled)
-+		qi_flush_dev_iotlb_pasid(sdev->iommu, sdev->sid, info->pfsid,
-+					 svm->pasid, sdev->qdep, address,
-+					 order_base_2(pages));
- }
++TRACE_EVENT(qi_submit,
++	TP_PROTO(struct intel_iommu *iommu, u64 qw0, u64 qw1, u64 qw2, u64 qw3),
++
++	TP_ARGS(iommu, qw0, qw1, qw2, qw3),
++
++	TP_STRUCT__entry(
++		__field(u64, qw0)
++		__field(u64, qw1)
++		__field(u64, qw2)
++		__field(u64, qw3)
++		__string(iommu, iommu->name)
++	),
++
++	TP_fast_assign(
++		__assign_str(iommu, iommu->name);
++		__entry->qw0 = qw0;
++		__entry->qw1 = qw1;
++		__entry->qw2 = qw2;
++		__entry->qw3 = qw3;
++	),
++
++	TP_printk("%s %s: 0x%llx 0x%llx 0x%llx 0x%llx",
++		  __print_symbolic(__entry->qw0 & 0xf,
++				   { QI_CC_TYPE,	"cc_inv" },
++				   { QI_IOTLB_TYPE,	"iotlb_inv" },
++				   { QI_DIOTLB_TYPE,	"dev_tlb_inv" },
++				   { QI_IEC_TYPE,	"iec_inv" },
++				   { QI_IWD_TYPE,	"inv_wait" },
++				   { QI_EIOTLB_TYPE,	"p_iotlb_inv" },
++				   { QI_PC_TYPE,	"pc_inv" },
++				   { QI_DEIOTLB_TYPE,	"p_dev_tlb_inv" },
++				   { QI_PGRP_RESP_TYPE,	"page_grp_resp" }),
++		__get_str(iommu),
++		__entry->qw0, __entry->qw1, __entry->qw2, __entry->qw3
++	)
++);
+ #endif /* _TRACE_INTEL_IOMMU_H */
  
- static void intel_flush_svm_range_dev(struct intel_svm *svm,
+ /* This part must be outside protection */
 -- 
 2.25.1
 
