@@ -2,102 +2,75 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815152F5CE1
-	for <lists.iommu@lfdr.de>; Thu, 14 Jan 2021 10:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B00352F60C9
+	for <lists.iommu@lfdr.de>; Thu, 14 Jan 2021 13:11:32 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 3212C806E0;
-	Thu, 14 Jan 2021 09:08:44 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6BEA886AE6;
+	Thu, 14 Jan 2021 12:11:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9NMCm-LgAZYN; Thu, 14 Jan 2021 09:08:43 +0000 (UTC)
+	with ESMTP id iwvQcsz6PTDu; Thu, 14 Jan 2021 12:11:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 94A0786BA2;
-	Thu, 14 Jan 2021 09:08:43 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9EBE3841E3;
+	Thu, 14 Jan 2021 12:11:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6A7C5C1DA7;
-	Thu, 14 Jan 2021 09:08:43 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 86D2CC013A;
+	Thu, 14 Jan 2021 12:11:29 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A24F2C013A
- for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 09:08:41 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A4FF4C013A
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 12:11:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 1A7DC85CB4
- for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 09:08:41 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 87D042041B
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 12:11:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CFvOgrOAa8Bg for <iommu@lists.linux-foundation.org>;
- Thu, 14 Jan 2021 09:08:38 +0000 (UTC)
+ with ESMTP id o2BwheewQXtg for <iommu@lists.linux-foundation.org>;
+ Thu, 14 Jan 2021 12:11:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
- [209.85.166.48])
- by whitealder.osuosl.org (Postfix) with ESMTPS id B955786A91
- for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 09:08:38 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id d13so6550291ioy.4
- for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 01:08:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XoX/j54i0jG8qEsxZKby76Lqj61QzippjPHzsTsj+5Y=;
- b=nY1GnsLlZi0Sxxm+zSGIGaqKpSxx6JueftrzPps7oTAcG91/bM9YfHLXW3YxSFcLzK
- y6cH1olpZ/FXA0Mp0cE9+mqoheJMPU0KT0091/GVtf67wUxU6MGGIWncH2X6oPgNN5KO
- QvrKMhyV8u8UB5lLj67P7d++Su0Uyq/z5gAtg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XoX/j54i0jG8qEsxZKby76Lqj61QzippjPHzsTsj+5Y=;
- b=cPScGFliE4vWE2F3okpoGruQuagHGA/jvBIDINJjgn7nv3D8Z0Y89lXCpWlvCjuJ3Y
- VAR+tNp/RxAEDE4eILSzaOHxVTkF8YSabR0nlRCC92JHZdtIoL9NSR+Q1yO8MCssIr6G
- 4Ysls8mNx4E2QeHkjBazIeg5mjGM/gYWIgKhzu5A5gNe0MjKD/ZwvF1RiubZmwfpYQvW
- 50jl9eg/UuDrB/JjEVwEXszljBWEj6Tg9dNcC8s0Y1SQ4TTJ2sbJInD0wM+XV+wV5LqS
- /LvuyDKsOrUObldRyMpSG4KcoqpSOw7qx+/P4GnLbOiHgTnxVkydT71BzVxtl8B3qrST
- k6kA==
-X-Gm-Message-State: AOAM5303OwDKY7YTh+ogI1MGXqMPeupCzuG1xRSI5eyBAcLjW34eYA80
- Aw+sydOs6awpIzr+5XSjuHUJQVThjh0b6w==
-X-Google-Smtp-Source: ABdhPJz+9e+gcLfyPTEzwLSSLj+QY9XXi/hBZ8cqwSwRwIMTjC7Szv8vhE38eDOwRZksK2LwZnef9g==
-X-Received: by 2002:a05:6638:164c:: with SMTP id
- a12mr5629631jat.128.1610615317701; 
- Thu, 14 Jan 2021 01:08:37 -0800 (PST)
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com.
- [209.85.166.46])
- by smtp.gmail.com with ESMTPSA id q5sm3230714ilg.62.2021.01.14.01.08.36
- for <iommu@lists.linux-foundation.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 01:08:36 -0800 (PST)
-Received: by mail-io1-f46.google.com with SMTP id b19so7242441ioa.9
- for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 01:08:36 -0800 (PST)
-X-Received: by 2002:a92:c206:: with SMTP id j6mr5789564ilo.189.1610615314989; 
- Thu, 14 Jan 2021 01:08:34 -0800 (PST)
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by silver.osuosl.org (Postfix) with ESMTPS id CC51420110
+ for <iommu@lists.linux-foundation.org>; Thu, 14 Jan 2021 12:11:24 +0000 (UTC)
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DGjmm3wbLzMKPF;
+ Thu, 14 Jan 2021 20:10:00 +0800 (CST)
+Received: from [10.174.184.42] (10.174.184.42) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 14 Jan 2021 20:11:09 +0800
+Subject: Re: [PATCH 4/5] vfio/iommu_type1: Carefully use unmap_unpin_all
+ during dirty tracking
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20210107092901.19712-1-zhukeqian1@huawei.com>
+ <20210107092901.19712-5-zhukeqian1@huawei.com>
+ <20210111144913.3092b1b1@omen.home.shazbot.org>
+ <198f0afd-343a-9fbc-9556-95670ca76a2c@huawei.com>
+ <20210112125331.789f47a5@omen.home.shazbot.org>
+From: Keqian Zhu <zhukeqian1@huawei.com>
+Message-ID: <14ee2346-ea9e-ab24-40d7-45a3bd16510d@huawei.com>
+Date: Thu, 14 Jan 2021 20:11:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-References: <20210106034124.30560-1-tientzu@chromium.org>
- <20210106034124.30560-7-tientzu@chromium.org>
- <95e6dd76-5e18-e445-c351-19fba18f36de@gmail.com>
-In-Reply-To: <95e6dd76-5e18-e445-c351-19fba18f36de@gmail.com>
-From: Claire Chang <tientzu@chromium.org>
-Date: Thu, 14 Jan 2021 17:08:24 +0800
-X-Gmail-Original-Message-ID: <CALiNf29+8Yi93RacsZHr=qYBhQRwqujW6KZVVD=9xPMhpLH5pA@mail.gmail.com>
-Message-ID: <CALiNf29+8Yi93RacsZHr=qYBhQRwqujW6KZVVD=9xPMhpLH5pA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 6/6] of: Add plumbing for restricted DMA pool
-To: Florian Fainelli <f.fainelli@gmail.com>
-Cc: heikki.krogerus@linux.intel.com, peterz@infradead.org,
- benh@kernel.crashing.org, grant.likely@arm.com, paulus@samba.org,
- Frank Rowand <frowand.list@gmail.com>, mingo@kernel.org,
- sstabellini@kernel.org, Saravana Kannan <saravanak@google.com>,
- mpe@ellerman.id.au, rafael.j.wysocki@intel.com, Christoph Hellwig <hch@lst.de>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- xen-devel@lists.xenproject.org, Thierry Reding <treding@nvidia.com>,
- linux-devicetree <devicetree@vger.kernel.org>, will@kernel.org,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, dan.j.williams@intel.com,
- linuxppc-dev@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
- boris.ostrovsky@oracle.com,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, jgross@suse.com,
- Nicolas Boichat <drinkcat@chromium.org>, Greg KH <gregkh@linuxfoundation.org>,
- rdunlap@infradead.org, lkml <linux-kernel@vger.kernel.org>,
- "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
- Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
- xypron.glpk@gmx.de, Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20210112125331.789f47a5@omen.home.shazbot.org>
+X-Originating-IP: [10.174.184.42]
+X-CFilter-Loop: Reflected
+Cc: Mark
+ Rutland <mark.rutland@arm.com>, jiangkunkun@huawei.com, kvm@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Will Deacon <will@kernel.org>,
+ kvmarm@lists.cs.columbia.edu, Marc
+ Zyngier <maz@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
+ wanghaibin.wang@huawei.com, Julien Thierry <julien.thierry.kdev@gmail.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Alexios Zavras <alexios.zavras@intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, James Morse <james.morse@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Robin
+ Murphy <robin.murphy@arm.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,109 +88,128 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jan 13, 2021 at 7:48 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
->
-> On 1/5/21 7:41 PM, Claire Chang wrote:
-> > If a device is not behind an IOMMU, we look up the device node and set
-> > up the restricted DMA when the restricted-dma-pool is presented.
-> >
-> > Signed-off-by: Claire Chang <tientzu@chromium.org>
-> > ---
->
-> [snip]
->
-> > +int of_dma_set_restricted_buffer(struct device *dev)
-> > +{
-> > +     struct device_node *node;
-> > +     int count, i;
-> > +
-> > +     if (!dev->of_node)
-> > +             return 0;
-> > +
-> > +     count = of_property_count_elems_of_size(dev->of_node, "memory-region",
-> > +                                             sizeof(phandle));
->
-> You could have an early check for count < 0, along with an error
-> message, if that is deemed useful.
->
-> > +     for (i = 0; i < count; i++) {
-> > +             node = of_parse_phandle(dev->of_node, "memory-region", i);
-> > +             if (of_device_is_compatible(node, "restricted-dma-pool"))
->
-> And you may want to add here an of_device_is_available(node). A platform
-> that provides the Device Tree firmware and try to support multiple
-> different SoCs may try to determine if an IOMMU is present, and if it
-> is, it could be marking the restriced-dma-pool region with a 'status =
-> "disabled"' property, or any variant of that scheme.
-
-This function is called only when there is no IOMMU present (check in
-drivers/of/device.c). I can still add of_device_is_available(node)
-here if you think it's helpful.
-
->
-> > +                     return of_reserved_mem_device_init_by_idx(
-> > +                             dev, dev->of_node, i);
->
-> This does not seem to be supporting more than one memory region, did not
-> you want something like instead:
->
->                 ret = of_reserved_mem_device_init_by_idx(...);
->                 if (ret)
->                         return ret;
->
-
-Yes. This implement only supports one restriced-dma-pool memory region
-with the assumption that there is only one memory region with the
-compatible string, restricted-dma-pool, in the dts. IIUC, it's similar
-to shared-dma-pool.
 
 
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > diff --git a/drivers/of/device.c b/drivers/of/device.c
-> > index aedfaaafd3e7..e2c7409956ab 100644
-> > --- a/drivers/of/device.c
-> > +++ b/drivers/of/device.c
-> > @@ -182,6 +182,10 @@ int of_dma_configure_id(struct device *dev, struct device_node *np,
-> >       arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
-> >
-> >       dev->dma_range_map = map;
-> > +
-> > +     if (!iommu)
-> > +             return of_dma_set_restricted_buffer(dev);
-> > +
-> >       return 0;
-> >  }
-> >  EXPORT_SYMBOL_GPL(of_dma_configure_id);
-> > diff --git a/drivers/of/of_private.h b/drivers/of/of_private.h
-> > index d9e6a324de0a..28a2dfa197ba 100644
-> > --- a/drivers/of/of_private.h
-> > +++ b/drivers/of/of_private.h
-> > @@ -161,12 +161,17 @@ struct bus_dma_region;
-> >  #if defined(CONFIG_OF_ADDRESS) && defined(CONFIG_HAS_DMA)
-> >  int of_dma_get_range(struct device_node *np,
-> >               const struct bus_dma_region **map);
-> > +int of_dma_set_restricted_buffer(struct device *dev);
-> >  #else
-> >  static inline int of_dma_get_range(struct device_node *np,
-> >               const struct bus_dma_region **map)
-> >  {
-> >       return -ENODEV;
-> >  }
-> > +static inline int of_dma_get_restricted_buffer(struct device *dev)
-> > +{
-> > +     return -ENODEV;
-> > +}
-> >  #endif
-> >
-> >  #endif /* _LINUX_OF_PRIVATE_H */
-> >
->
->
-> --
-> Florian
+On 2021/1/13 3:53, Alex Williamson wrote:
+> On Tue, 12 Jan 2021 20:04:38 +0800
+> Keqian Zhu <zhukeqian1@huawei.com> wrote:
+> 
+>> On 2021/1/12 5:49, Alex Williamson wrote:
+>>> On Thu, 7 Jan 2021 17:29:00 +0800
+>>> Keqian Zhu <zhukeqian1@huawei.com> wrote:
+>>>   
+>>>> If we detach group during dirty page tracking, we shouldn't remove
+>>>> vfio_dma, because dirty log will lose.
+>>>>
+>>>> But we don't prevent unmap_unpin_all in vfio_iommu_release, because
+>>>> under normal procedure, dirty tracking has been stopped.  
+>>>
+>>> This looks like it's creating a larger problem than it's fixing, it's
+>>> not our job to maintain the dirty bitmap regardless of what the user
+>>> does.  If the user detaches the last group in a container causing the
+>>> mappings within that container to be deconstructed before the user has
+>>> collected dirty pages, that sounds like a user error.  A container with
+>>> no groups is de-privileged and therefore loses all state.  Thanks,
+>>>
+>>> Alex  
+>>
+>> Hi Alex,
+>>
+>> This looks good to me ;-). That's a reasonable constraint for user behavior.
+>>
+>> What about replacing this patch with an addition to the uapi document of
+>> VFIO_GROUP_UNSET_CONTAINER? User should pay attention to this when call this
+>> ioctl during dirty tracking.
+> 
+> Here's the current uapi comment:
+> 
+> /**
+>  * VFIO_GROUP_UNSET_CONTAINER - _IO(VFIO_TYPE, VFIO_BASE + 5)
+>  *
+>  * Remove the group from the attached container.  This is the
+>  * opposite of the SET_CONTAINER call and returns the group to
+>  * an initial state.  All device file descriptors must be released
+>  * prior to calling this interface.  When removing the last group
+>  * from a container, the IOMMU will be disabled and all state lost,
+>  * effectively also returning the VFIO file descriptor to an initial
+>  * state.
+>  * Return: 0 on success, -errno on failure.
+>  * Availability: When attached to container
+>  */
+> 
+> So we already indicate that "all state" of the container is lost when
+> removing the last group, I don't see that it's necessarily to
+> explicitly include dirty bitmap state beyond that statement.  Without
+> mappings there can be no dirty bitmap to track.
+OK :-) .
+
+> 
+>  > And any comments on other patches? thanks.
+> 
+> I had a difficult time mapping the commit log to the actual code
+> change, I'll likely have some wording suggestions.  Is patch 5/5 still
+> necessary if this patch is dropped?  Thanks,
+> 
+I think the 5th patch is still necessary. vfio_sanity_check_pfn_list() is used to check
+whether pfn_list of vfio_dma is empty. but we apply this check just for external domain.
+If the iommu backed domain also pin some pages, then this check fails. So I think we should
+use this check only when all domains are about to be removed.
+
+Besides, this patch should extract the "WARN_ON(iommu->notifier.head);" just for external domain.
+
+Thanks,
+Keqian
+
+> Alex
+> 
+>>>> Fixes: d6a4c185660c ("vfio iommu: Implementation of ioctl for dirty pages tracking")
+>>>> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+>>>> ---
+>>>>  drivers/vfio/vfio_iommu_type1.c | 14 ++++++++++++--
+>>>>  1 file changed, 12 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+>>>> index 26b7eb2a5cfc..9776a059904d 100644
+>>>> --- a/drivers/vfio/vfio_iommu_type1.c
+>>>> +++ b/drivers/vfio/vfio_iommu_type1.c
+>>>> @@ -2373,7 +2373,12 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
+>>>>  			if (list_empty(&iommu->external_domain->group_list)) {
+>>>>  				vfio_sanity_check_pfn_list(iommu);
+>>>>  
+>>>> -				if (!IS_IOMMU_CAP_DOMAIN_IN_CONTAINER(iommu))
+>>>> +				/*
+>>>> +				 * During dirty page tracking, we can't remove
+>>>> +				 * vfio_dma because dirty log will lose.
+>>>> +				 */
+>>>> +				if (!IS_IOMMU_CAP_DOMAIN_IN_CONTAINER(iommu) &&
+>>>> +				    !iommu->dirty_page_tracking)
+>>>>  					vfio_iommu_unmap_unpin_all(iommu);
+>>>>  
+>>>>  				kfree(iommu->external_domain);
+>>>> @@ -2406,10 +2411,15 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
+>>>>  		 * iommu and external domain doesn't exist, then all the
+>>>>  		 * mappings go away too. If it's the last domain with iommu and
+>>>>  		 * external domain exist, update accounting
+>>>> +		 *
+>>>> +		 * Note: During dirty page tracking, we can't remove vfio_dma
+>>>> +		 * because dirty log will lose. Just update accounting is a good
+>>>> +		 * choice.
+>>>>  		 */
+>>>>  		if (list_empty(&domain->group_list)) {
+>>>>  			if (list_is_singular(&iommu->domain_list)) {
+>>>> -				if (!iommu->external_domain)
+>>>> +				if (!iommu->external_domain &&
+>>>> +				    !iommu->dirty_page_tracking)
+>>>>  					vfio_iommu_unmap_unpin_all(iommu);
+>>>>  				else
+>>>>  					vfio_iommu_unmap_unpin_reaccount(iommu);  
+>>>
+>>> .
+>>>   
+>>
+> 
+> .
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
