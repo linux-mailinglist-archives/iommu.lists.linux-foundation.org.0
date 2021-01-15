@@ -1,52 +1,51 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1526E2F786A
-	for <lists.iommu@lfdr.de>; Fri, 15 Jan 2021 13:14:38 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D59312F786C
+	for <lists.iommu@lfdr.de>; Fri, 15 Jan 2021 13:14:43 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id AA19720444;
-	Fri, 15 Jan 2021 12:14:36 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 9421086958;
+	Fri, 15 Jan 2021 12:14:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id c7ffxSVloFO3; Fri, 15 Jan 2021 12:14:35 +0000 (UTC)
+	with ESMTP id aeI4ntPDJBsd; Fri, 15 Jan 2021 12:14:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9030E203C3;
-	Fri, 15 Jan 2021 12:14:35 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id CE7CA86AA5;
+	Fri, 15 Jan 2021 12:14:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 73022C013A;
-	Fri, 15 Jan 2021 12:14:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BB4DDC013A;
+	Fri, 15 Jan 2021 12:14:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CE3EBC013A;
- Fri, 15 Jan 2021 12:14:33 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2B64CC013A;
+ Fri, 15 Jan 2021 12:14:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id BA2418738D;
- Fri, 15 Jan 2021 12:14:33 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 1AC2A86958;
+ Fri, 15 Jan 2021 12:14:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id T432r8zLwO0y; Fri, 15 Jan 2021 12:14:33 +0000 (UTC)
+ with ESMTP id iyjFMD9Mz0o8; Fri, 15 Jan 2021 12:14:37 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id ECAEC8738C;
- Fri, 15 Jan 2021 12:14:32 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id DDD2D86AE1;
+ Fri, 15 Jan 2021 12:14:37 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7BC48143B;
- Fri, 15 Jan 2021 04:14:32 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 79D251474;
+ Fri, 15 Jan 2021 04:14:37 -0800 (PST)
 Received: from usa.arm.com (a074945.blr.arm.com [10.162.16.71])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F065D3F70D;
- Fri, 15 Jan 2021 04:14:27 -0800 (PST)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id EDEF23F70D;
+ Fri, 15 Jan 2021 04:14:32 -0800 (PST)
 From: Vivek Gautam <vivek.gautam@arm.com>
 To: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  iommu@lists.linux-foundation.org, virtualization@lists.linux-foundation.org
-Subject: [PATCH RFC v1 08/15] iommu: Add asid_bits to arm smmu-v3 stage1 table
- info
-Date: Fri, 15 Jan 2021 17:43:35 +0530
-Message-Id: <20210115121342.15093-9-vivek.gautam@arm.com>
+Subject: [PATCH RFC v1 09/15] iommu/virtio: Update table format probing header
+Date: Fri, 15 Jan 2021 17:43:36 +0530
+Message-Id: <20210115121342.15093-10-vivek.gautam@arm.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210115121342.15093-1-vivek.gautam@arm.com>
 References: <20210115121342.15093-1-vivek.gautam@arm.com>
@@ -71,11 +70,13 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-aisd_bits data is required to prepare stage-1 tables for arm-smmu-v3.
+Add info about asid_bits and additional flags to table format
+probing header.
 
 Signed-off-by: Vivek Gautam <vivek.gautam@arm.com>
 Cc: Joerg Roedel <joro@8bytes.org>
 Cc: Will Deacon <will.deacon@arm.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
 Cc: Robin Murphy <robin.murphy@arm.com>
 Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
 Cc: Eric Auger <eric.auger@redhat.com>
@@ -86,22 +87,25 @@ Cc: Liu Yi L <yi.l.liu@intel.com>
 Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 Cc: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
 ---
- include/uapi/linux/iommu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/uapi/linux/virtio_iommu.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/include/uapi/linux/iommu.h b/include/uapi/linux/iommu.h
-index 082d758dd016..96abbfc7c643 100644
---- a/include/uapi/linux/iommu.h
-+++ b/include/uapi/linux/iommu.h
-@@ -357,7 +357,7 @@ struct iommu_pasid_smmuv3 {
- 	__u32	version;
- 	__u8	s1fmt;
- 	__u8	s1dss;
--	__u8	padding[2];
-+	__u16	asid_bits;
+diff --git a/include/uapi/linux/virtio_iommu.h b/include/uapi/linux/virtio_iommu.h
+index 43821e33e7af..8a0624bab4b2 100644
+--- a/include/uapi/linux/virtio_iommu.h
++++ b/include/uapi/linux/virtio_iommu.h
+@@ -169,7 +169,10 @@ struct virtio_iommu_probe_pasid_size {
+ struct virtio_iommu_probe_table_format {
+ 	struct virtio_iommu_probe_property	head;
+ 	__le16					format;
+-	__u8					reserved[2];
++	__le16					asid_bits;
++
++	__le32					flags;
++	__u8					reserved[4];
  };
  
- /**
+ struct virtio_iommu_req_probe {
 -- 
 2.17.1
 
