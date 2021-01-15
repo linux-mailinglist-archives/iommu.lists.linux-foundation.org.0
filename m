@@ -1,62 +1,70 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7841F2F779C
-	for <lists.iommu@lfdr.de>; Fri, 15 Jan 2021 12:26:30 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19EE22F77B7
+	for <lists.iommu@lfdr.de>; Fri, 15 Jan 2021 12:34:15 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 2531D20419;
-	Fri, 15 Jan 2021 11:26:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BF42E868BE;
+	Fri, 15 Jan 2021 11:34:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nhm-xc3i98Nh; Fri, 15 Jan 2021 11:26:27 +0000 (UTC)
+	with ESMTP id roSQ63jMPejy; Fri, 15 Jan 2021 11:34:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 7695720131;
-	Fri, 15 Jan 2021 11:26:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 998F8868B4;
+	Fri, 15 Jan 2021 11:34:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 620D0C088B;
-	Fri, 15 Jan 2021 11:26:27 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 85E74C088B;
+	Fri, 15 Jan 2021 11:34:12 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A417BC088B
- for <iommu@lists.linux-foundation.org>; Fri, 15 Jan 2021 11:26:25 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 20FE4C088B
+ for <iommu@lists.linux-foundation.org>; Fri, 15 Jan 2021 11:34:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9349786C59
- for <iommu@lists.linux-foundation.org>; Fri, 15 Jan 2021 11:26:25 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 116638744B
+ for <iommu@lists.linux-foundation.org>; Fri, 15 Jan 2021 11:34:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cxaYFqp3G2Sc for <iommu@lists.linux-foundation.org>;
- Fri, 15 Jan 2021 11:26:25 +0000 (UTC)
+ with ESMTP id RLwW5Do5ijOT for <iommu@lists.linux-foundation.org>;
+ Fri, 15 Jan 2021 11:34:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 2031486AC8
- for <iommu@lists.linux-foundation.org>; Fri, 15 Jan 2021 11:26:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 74B52221F7;
- Fri, 15 Jan 2021 11:26:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610709984;
- bh=Ud2aU3k2amrcKUSS+xZ+7kbwFYaKD8iDQJBdhP/vXCU=;
- h=Date:From:To:Cc:Subject:From;
- b=kjFFbT+cftc/qgBpV2O5kcSyfAGq9i70VipVaLTA4N5FvBFUAi3CnAJsdcuvwnsMK
- EG/W0QdAYqsWMNkN5EDMbz+k05nzFRKnLC8FsA2G1+wxquxKT42lKFgPbHL4swHi0I
- Yds6sKl5nmGCrUO5HWkfqg+OpHHDkedAs/I4E+UetBp/qIRtmMkyN25e34KNLmm50j
- efnjTDxK1OQXZVKa/JXGIWT7I6udj+57OoHVNzff/z9Q5FHCw1dgJTU0iZF2RphOsN
- Vx7Y/nSDM5LKEHm13LX3daUWT5zjF//9j8MJ74/HJ7LqLoNERJ5QlAHs2mjsSHcHit
- rdWFDtaL+H/mQ==
-Date: Fri, 15 Jan 2021 11:26:20 +0000
-From: Will Deacon <will@kernel.org>
-To: torvalds@linux-foundation.org
-Subject: [GIT PULL] IOMMU fixes for -rc4
-Message-ID: <20210115112619.GA14253@willie-the-truck>
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 3236787442
+ for <iommu@lists.linux-foundation.org>; Fri, 15 Jan 2021 11:34:09 +0000 (UTC)
+Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DHJpn61gPz67c1b;
+ Fri, 15 Jan 2021 19:28:49 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Fri, 15 Jan 2021 12:34:04 +0100
+Received: from [10.47.4.21] (10.47.4.21) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2106.2; Fri, 15 Jan
+ 2021 11:34:02 +0000
+Subject: Re: [RESEND PATCH v3 0/4] iommu/iova: Solve longterm IOVA issue
+To: <robin.murphy@arm.com>, <joro@8bytes.org>, <will@kernel.org>
+References: <1605608734-84416-1-git-send-email-john.garry@huawei.com>
+From: John Garry <john.garry@huawei.com>
+Message-ID: <8830b44d-3893-6096-0cf1-37a1e8bc6c6b@huawei.com>
+Date: Fri, 15 Jan 2021 11:32:52 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- iommu <iommu@lists.linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <1605608734-84416-1-git-send-email-john.garry@huawei.com>
+Content-Language: en-US
+X-Originating-IP: [10.47.4.21]
+X-ClientProxiedBy: lhreml708-chm.china.huawei.com (10.201.108.57) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
+Cc: "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ xiyou.wangcong@gmail.com, Kashyap Desai <kashyap.desai@broadcom.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,60 +77,63 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Linus,
++ linux-scsi (see 
+https://lore.kernel.org/linux-iommu/1607538189-237944-4-git-send-email-john.garry@huawei.com/)
 
-Please pull these three IOMMU fixes for -rc4. The main one is a change
-to the Intel IOMMU driver to fix the handling of unaligned addresses
-when invalidating the TLB. The fix itself is a bit ugly (the caller does
-a bunch of shifting which is then effectively undone later in the
-callchain), but Lu has patches to clean all of this up in 5.12.
+On 17/11/2020 10:25, John Garry wrote:
+> This series contains a patch to solve the longterm IOVA issue which
+> leizhen originally tried to address at [0].
+> 
+> A sieved kernel log is at the following, showing periodic dumps of IOVA
+> sizes, per CPU and per depot bin, per IOVA size granule:
+> https://raw.githubusercontent.com/hisilicon/kernel-dev/topic-iommu-5.10-iova-debug-v3/aging_test
+> 
+> Notice, for example, the following logs:
+> [13175.355584] print_iova1 cpu_total=40135 depot_total=3866 total=44001
+> [83483.457858] print_iova1 cpu_total=62532 depot_total=24476 total=87008
+> 
+> Where total IOVA rcache size has grown from 44K->87K over a long time.
+> 
+
+JFYI, I am able to reproduce this aging issue on another storage card, 
+an LSI SAS 3008, so now it's harder to say it's an issue specific to a 
+(buggy) single driver.
+
+A log of the IOVA size dumps is here:
+https://raw.githubusercontent.com/hisilicon/kernel-dev/064c4dc8869b3f2ad07edffceafde0b129f276b0/lsi3008_dmesg
+
+Notice again how the total IOVA size goes up over time, like:
+[ 68.176914] print_iova1 cpu_total=23663 depot_total=256 total=23919
+[ 2337.008194] print_iova1 cpu_total=67361 depot_total=9088 total=76449
+[17141.860078] print_iova1 cpu_total=73397 depot_total=10368 total=83765
+[27087.850830] print_iova1 cpu_total=73386 depot_total=10624 total=84010
+[10434.042877] print_iova1 cpu_total=90652 depot_total=12928 total=103580
+
+I had to change some settings for that storage card to reproduce, though 
+[0]. Could explain why no other reports.
+
+So please consider this issue again...
 
 Thanks,
+john
 
-Will
+[0] 
+https://lore.kernel.org/linux-scsi/dd8e6fdc-397d-b6ad-3371-0b65d1932ad1@huawei.com/T/#m953d21446a5756981412c92d0924ca65c8d2f3a5
 
---->8
-
-The following changes since commit 7c29ada5e70083805bc3a68daa23441df421fbee:
-
-  iommu/vt-d: Fix ineffective devTLB invalidation for subdevices (2021-01-07 14:38:15 +0000)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git tags/iommu-fixes
-
-for you to fetch changes up to 694a1c0adebee9152a9ba0320468f7921aca647d:
-
-  iommu/vt-d: Fix duplicate included linux/dma-map-ops.h (2021-01-12 16:56:20 +0000)
-
-----------------------------------------------------------------
-iommu fixes for -rc4
-
-- Fix address alignment handling for VT-D TLB invalidation
-
-- Enable workarounds for buggy Qualcomm firmware on two more SoCs
-
-- Drop duplicate #include
-
-----------------------------------------------------------------
-Konrad Dybcio (1):
-      iommu: arm-smmu-qcom: Add sdm630/msm8998 compatibles for qcom quirks
-
-Lu Baolu (1):
-      iommu/vt-d: Fix unaligned addresses for intel_flush_svm_range_dev()
-
-Tian Tao (1):
-      iommu/vt-d: Fix duplicate included linux/dma-map-ops.h
-
- drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c |  2 ++
- drivers/iommu/intel/iommu.c                |  1 -
- drivers/iommu/intel/svm.c                  | 22 ++++++++++++++++++++--
- 3 files changed, 22 insertions(+), 3 deletions(-)
+> Along with this patch, I included the following:
+> - A smaller helper to clear all IOVAs for a domain
+> - Change polarity of the IOVA magazine helpers
+> - Small optimisation from Cong Wang included, which was never applied [1].
+>    There was some debate of the other patches in that series, but this one
+>    is quite straightforward.
+> 
+> Differnces to v2:
+> - Update commit message for patch 3/4
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
