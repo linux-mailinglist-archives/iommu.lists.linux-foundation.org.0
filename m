@@ -1,87 +1,78 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25F52F8991
-	for <lists.iommu@lfdr.de>; Sat, 16 Jan 2021 00:44:23 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9C92F8A4B
+	for <lists.iommu@lfdr.de>; Sat, 16 Jan 2021 02:20:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5166F853E5;
-	Fri, 15 Jan 2021 23:44:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 145DD87478;
+	Sat, 16 Jan 2021 01:20:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4BamD-_asyih; Fri, 15 Jan 2021 23:44:21 +0000 (UTC)
+	with ESMTP id aSbjJv7R6K8N; Sat, 16 Jan 2021 01:20:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C74D984FDD;
-	Fri, 15 Jan 2021 23:44:21 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B6B7A8744F;
+	Sat, 16 Jan 2021 01:20:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B6DC8C0FA8;
-	Fri, 15 Jan 2021 23:44:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C519C013A;
+	Sat, 16 Jan 2021 01:20:33 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C7A8FC013A
- for <iommu@lists.linux-foundation.org>; Fri, 15 Jan 2021 23:44:20 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D966EC013A
+ for <iommu@lists.linux-foundation.org>; Sat, 16 Jan 2021 01:20:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id AF16986D3A
- for <iommu@lists.linux-foundation.org>; Fri, 15 Jan 2021 23:44:20 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id CFB1486341
+ for <iommu@lists.linux-foundation.org>; Sat, 16 Jan 2021 01:20:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id v89OXSA7gVZY for <iommu@lists.linux-foundation.org>;
- Fri, 15 Jan 2021 23:44:20 +0000 (UTC)
+ with ESMTP id UnsKCaIkeMqQ for <iommu@lists.linux-foundation.org>;
+ Sat, 16 Jan 2021 01:20:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D0BCC86D39
- for <iommu@lists.linux-foundation.org>; Fri, 15 Jan 2021 23:44:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610754258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FFW1VUjwMynufyzYqhPYoWPpgrZOI0t/FMMBS/7NFuk=;
- b=gohl73o9eT/G361syxSRRGpOiTkWSZ3dQCaoVqpIlZqJ98WjAqH4SF3KWOTRJFvpkQ184d
- 8l2mbo6XNFQ/HY72uID2wH0fXdPSC0Zy1t0yJYMDzs2OdZYXa8a/tLt6VSFrRxOfYMy6iA
- iIa0ArTL5Uhn5nPsfGi/c+buqSxUqTs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-hWKr_bYZNwaEcqZInJIslA-1; Fri, 15 Jan 2021 18:44:14 -0500
-X-MC-Unique: hWKr_bYZNwaEcqZInJIslA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D817F107ACF8;
- Fri, 15 Jan 2021 23:44:11 +0000 (UTC)
-Received: from omen.home.shazbot.org (ovpn-112-255.phx2.redhat.com
- [10.3.112.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 52BDA5D751;
- Fri, 15 Jan 2021 23:44:10 +0000 (UTC)
-Date: Fri, 15 Jan 2021 16:44:09 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH 6/6] vfio/iommu_type1: Drop parameter "pgsize" of
- update_user_bitmap
-Message-ID: <20210115164409.3e7ddb28@omen.home.shazbot.org>
-In-Reply-To: <20210107044401.19828-7-zhukeqian1@huawei.com>
-References: <20210107044401.19828-1-zhukeqian1@huawei.com>
- <20210107044401.19828-7-zhukeqian1@huawei.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 3511386227
+ for <iommu@lists.linux-foundation.org>; Sat, 16 Jan 2021 01:20:32 +0000 (UTC)
+IronPort-SDR: OM+FCdov7f4wqJ6DpycTPkHgWDSY8sMoUqKHMaZHG2J3p5PpvomRed3jwgrE7hV/B2v8Z8dkDw
+ 0KWT3c1ut75g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9865"; a="165718216"
+X-IronPort-AV: E=Sophos;i="5.79,351,1602572400"; d="scan'208";a="165718216"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2021 17:20:28 -0800
+IronPort-SDR: DznnGYuwJ/UxxQrmQGJd5b9g6Om3RrfpkvoMPBs122KxptEO3Brz/fbs5840Umw7sUzZLqkujt
+ GGgy0p/jLtsg==
+X-IronPort-AV: E=Sophos;i="5.79,351,1602572400"; d="scan'208";a="382861945"
+Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.249.175.94])
+ ([10.249.175.94])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2021 17:20:18 -0800
+Subject: Re: [RFC PATCH v3 1/2] iommu: Add capability IOMMU_CAP_VIOMMU
+To: Leon Romanovsky <leon@kernel.org>
+References: <20210114013003.297050-1-baolu.lu@linux.intel.com>
+ <20210114013003.297050-2-baolu.lu@linux.intel.com>
+ <20210114132627.GA944463@unreal>
+ <b0c8b260-8e23-a5bd-d2da-ca1d67cdfa8a@linux.intel.com>
+ <20210115063108.GI944463@unreal>
+From: Lu Baolu <baolu.lu@linux.intel.com>
+Message-ID: <c58adc13-306a-8df8-19e1-27f834b3a7c9@linux.intel.com>
+Date: Sat, 16 Jan 2021 09:20:16 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Andrew Morton <akpm@linux-foundation.org>, kvm@vger.kernel.org,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Marc Zyngier <maz@kernel.org>,
- Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
- Alexios Zavras <alexios.zavras@intel.com>, iommu@lists.linux-foundation.org,
- James Morse <james.morse@arm.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>,
- Catalin Marinas <catalin.marinas@arm.com>, wanghaibin.wang@huawei.com,
- Thomas Gleixner <tglx@linutronix.de>, jiangkunkun@huawei.com,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org, Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20210115063108.GI944463@unreal>
+Content-Language: en-US
+Cc: kvm@vger.kernel.org, rafael@kernel.org, linux-pci@vger.kernel.org,
+ sanjay.k.kumar@intel.com, mona.hossain@intel.com, samuel.ortiz@intel.com,
+ kwankhede@nvidia.com, will@kernel.org, dan.j.williams@intel.com,
+ dave.jiang@intel.com, ashok.raj@intel.com, netanelg@mellanox.com,
+ maz@kernel.org, vkoul@kernel.org, jgg@mellanox.com, yan.y.zhao@linux.intel.com,
+ shahafs@mellanox.com, kevin.tian@intel.com, parav@mellanox.com,
+ alex.williamson@redhat.com, bhelgaas@google.com, tglx@linutronix.de,
+ megha.dey@intel.com, tony.luck@intel.com, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, jacob.jun.pan@intel.com,
+ dmaengine@vger.kernel.org, pbonzini@redhat.com, dwmw2@infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,63 +85,56 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, 7 Jan 2021 12:44:01 +0800
-Keqian Zhu <zhukeqian1@huawei.com> wrote:
+Hi,
 
-> We always use the smallest supported page size of vfio_iommu as
-> pgsize. Drop parameter "pgsize" of update_user_bitmap.
+On 2021/1/15 14:31, Leon Romanovsky wrote:
+> On Fri, Jan 15, 2021 at 07:49:47AM +0800, Lu Baolu wrote:
+>> Hi Leon,
+>>
+>> On 1/14/21 9:26 PM, Leon Romanovsky wrote:
+>>> On Thu, Jan 14, 2021 at 09:30:02AM +0800, Lu Baolu wrote:
+>>>> Some vendor IOMMU drivers are able to declare that it is running in a VM
+>>>> context. This is very valuable for the features that only want to be
+>>>> supported on bare metal. Add a capability bit so that it could be used.
+>>>
+>>> And how is it used? Who and how will set it?
+>>
+>> Use the existing iommu_capable(). I should add more descriptions about
+>> who and how to use it.
 > 
-> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
-> ---
->  drivers/vfio/vfio_iommu_type1.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-> index 82649a040148..bceda5e8baaa 100644
-> --- a/drivers/vfio/vfio_iommu_type1.c
-> +++ b/drivers/vfio/vfio_iommu_type1.c
-> @@ -978,10 +978,9 @@ static void vfio_update_pgsize_bitmap(struct vfio_iommu *iommu)
->  }
->  
->  static int update_user_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
-> -			      struct vfio_dma *dma, dma_addr_t base_iova,
-> -			      size_t pgsize)
-> +			      struct vfio_dma *dma, dma_addr_t base_iova)
->  {
-> -	unsigned long pgshift = __ffs(pgsize);
-> +	unsigned long pgshift = __ffs(iommu->pgsize_bitmap);
->  	unsigned long nbits = dma->size >> pgshift;
->  	unsigned long bit_offset = (dma->iova - base_iova) >> pgshift;
->  	unsigned long copy_offset = bit_offset / BITS_PER_LONG;
-> @@ -1046,7 +1045,7 @@ static int vfio_iova_dirty_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
->  		if (dma->iova > iova + size - 1)
->  			break;
->  
-> -		ret = update_user_bitmap(bitmap, iommu, dma, iova, pgsize);
-> +		ret = update_user_bitmap(bitmap, iommu, dma, iova);
->  		if (ret)
->  			return ret;
->  
-> @@ -1192,7 +1191,7 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
->  
->  		if (unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) {
->  			ret = update_user_bitmap(bitmap->data, iommu, dma,
-> -						 unmap->iova, pgsize);
-> +						 unmap->iova);
->  			if (ret)
->  				break;
->  		}
+> I want to see the code that sets this capability.
 
-Same as the previous, both call sites already have both pgsize and
-pgshift, pass both rather than recalculate.  Thanks,
+Currently we have Intel VT-d and the virt-iommu setting this capability.
 
-Alex
+  static bool intel_iommu_capable(enum iommu_cap cap)
+  {
+  	if (cap == IOMMU_CAP_CACHE_COHERENCY)
+  		return domain_update_iommu_snooping(NULL) == 1;
+  	if (cap == IOMMU_CAP_INTR_REMAP)
+  		return irq_remapping_enabled == 1;
++	if (cap == IOMMU_CAP_VIOMMU)
++		return caching_mode_enabled();
 
+  	return false;
+  }
+
+And,
+
++static bool viommu_capable(enum iommu_cap cap)
++{
++	if (cap == IOMMU_CAP_VIOMMU)
++		return true;
++
++	return false;
++}
+
+Best regards,
+baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
