@@ -1,79 +1,67 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A712FB4BC
-	for <lists.iommu@lfdr.de>; Tue, 19 Jan 2021 10:03:55 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BC62FB4D8
+	for <lists.iommu@lfdr.de>; Tue, 19 Jan 2021 10:13:26 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 74C0585198;
-	Tue, 19 Jan 2021 09:03:53 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6E348203B4;
+	Tue, 19 Jan 2021 09:13:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aw-outDA8S-P; Tue, 19 Jan 2021 09:03:49 +0000 (UTC)
+	with ESMTP id C0sViLNcfiF6; Tue, 19 Jan 2021 09:13:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8C003850DC;
-	Tue, 19 Jan 2021 09:03:49 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5FF6D2040E;
+	Tue, 19 Jan 2021 09:13:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B799C013A;
-	Tue, 19 Jan 2021 09:03:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4417CC013A;
+	Tue, 19 Jan 2021 09:13:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F10FAC013A
- for <iommu@lists.linux-foundation.org>; Tue, 19 Jan 2021 09:03:44 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 62E67C013A
+ for <iommu@lists.linux-foundation.org>; Tue, 19 Jan 2021 09:13:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id DD27684C58
- for <iommu@lists.linux-foundation.org>; Tue, 19 Jan 2021 09:03:44 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3EEFF8670E
+ for <iommu@lists.linux-foundation.org>; Tue, 19 Jan 2021 09:13:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iiScKV4IRSUS for <iommu@lists.linux-foundation.org>;
- Tue, 19 Jan 2021 09:03:42 +0000 (UTC)
+ with ESMTP id NSirspdxlKtX for <iommu@lists.linux-foundation.org>;
+ Tue, 19 Jan 2021 09:13:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by whitealder.osuosl.org (Postfix) with ESMTPS id C87B48491C
- for <iommu@lists.linux-foundation.org>; Tue, 19 Jan 2021 09:03:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611047020;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4JtlqU9lds82sAqd8DAPPefBYOoZlrxQtVNKgw6XdhY=;
- b=OVJWLB+D24/QrU1yL4WoxPkqxVaMhJ6nRSo7ttaTBpR9MHqfT+WauPqr9L8eFJWzRhGx+s
- 47K7ZN0OKXhI4NTqPi/ycupyaFpo4IbM8Dr3yknXYRWtBW3a5cOzHXO8pChHpAZJLaeiW8
- Gx+/dbUV+/Bh/qDrkKNcSQ6a3Ov1770=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-QR70-h6vPom3FGRmfyvqIg-1; Tue, 19 Jan 2021 04:03:36 -0500
-X-MC-Unique: QR70-h6vPom3FGRmfyvqIg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EB831800D41;
- Tue, 19 Jan 2021 09:03:34 +0000 (UTC)
-Received: from [10.36.112.67] (ovpn-112-67.ams2.redhat.com [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C0C072C303;
- Tue, 19 Jan 2021 09:03:24 +0000 (UTC)
-Subject: Re: [PATCH RFC v1 00/15] iommu/virtio: Nested stage support with Arm
-To: Vivek Gautam <vivek.gautam@arm.com>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux-foundation.org,
- virtualization@lists.linux-foundation.org
-References: <20210115121342.15093-1-vivek.gautam@arm.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <a8fd0176-3888-44cf-d659-2e2213a59969@redhat.com>
-Date: Tue, 19 Jan 2021 10:03:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id BB6618560F
+ for <iommu@lists.linux-foundation.org>; Tue, 19 Jan 2021 09:13:17 +0000 (UTC)
+X-Originating-IP: 93.29.109.196
+Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
+ (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 702B24001D;
+ Tue, 19 Jan 2021 09:13:11 +0000 (UTC)
+Date: Tue, 19 Jan 2021 10:13:10 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH v6 06/33] of/device: Move dma_range_map before
+ of_iommu_configure
+Message-ID: <YAaipp7Srf6uUdFZ@aptenodytes>
+References: <20210111111914.22211-1-yong.wu@mediatek.com>
+ <20210111111914.22211-7-yong.wu@mediatek.com>
+ <20210114192732.GA3401278@robh.at.kernel.org>
+ <1610688626.4578.1.camel@mhfsdcap03>
+ <1853732d-0efd-171e-9e1f-7ee7ed72a98f@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <20210115121342.15093-1-vivek.gautam@arm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Cc: jean-philippe@linaro.org, kevin.tian@intel.com, mst@redhat.com,
- will.deacon@arm.com, alex.williamson@redhat.com, robin.murphy@arm.com
+In-Reply-To: <1853732d-0efd-171e-9e1f-7ee7ed72a98f@arm.com>
+Cc: youlin.pei@mediatek.com, Rob Herring <robh@kernel.org>,
+ Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
+ linux-kernel@vger.kernel.org, Evan Green <evgreen@chromium.org>,
+ chao.hao@mediatek.com, Tomasz Figa <tfiga@google.com>,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, anan.sun@mediatek.com,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,113 +74,146 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============7645857448736174541=="
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Vivek,
 
-On 1/15/21 1:13 PM, Vivek Gautam wrote:
-> This patch-series aims at enabling Nested stage translation in guests
-> using virtio-iommu as the paravirtualized iommu. The backend is supported
-> with Arm SMMU-v3 that provides nested stage-1 and stage-2 translation.
-> 
-> This series derives its purpose from various efforts happening to add
-> support for Shared Virtual Addressing (SVA) in host and guest. On Arm,
-> most of the support for SVA has already landed. The support for nested
-> stage translation and fault reporting to guest has been proposed [1].
-> The related changes required in VFIO [2] framework have also been put
-> forward.
-> 
-> This series proposes changes in virtio-iommu to program PASID tables
-> and related stage-1 page tables. A simple iommu-pasid-table library
-> is added for this purpose that interacts with vendor drivers to
-> allocate and populate PASID tables.
-> In Arm SMMUv3 we propose to pull the Context Descriptor (CD) management
-> code out of the arm-smmu-v3 driver and add that as a glue vendor layer
-> to support allocating CD tables, and populating them with right values.
-> These CD tables are essentially the PASID tables and contain stage-1
-> page table configurations too.
-> A request to setup these CD tables come from virtio-iommu driver using
-> the iommu-pasid-table library when running on Arm. The virtio-iommu
-> then pass these PASID tables to the host using the right virtio backend
-> and support in VMM.
-> 
-> For testing we have added necessary support in kvmtool. The changes in
-> kvmtool are based on virtio-iommu development branch by Jean-Philippe
-> Brucker [3].
-> 
-> The tested kernel branch contains following in the order bottom to top
-> on the git hash -
-> a) v5.11-rc3
-> b) arm-smmu-v3 [1] and vfio [2] changes from Eric to add nested page
->    table support for Arm.
-> c) Smmu test engine patches from Jean-Philippe's branch [4]
-> d) This series
-> e) Domain nesting info patches [5][6][7].
-> f) Changes to add arm-smmu-v3 specific nesting info (to be sent to
->    the list).
-> 
-> This kernel is tested on Neoverse reference software stack with
-> Fixed virtual platform. Public version of the software stack and
-> FVP is available here[8][9].
-> 
-> A big thanks to Jean-Philippe for his contributions towards this work
-> and for his valuable guidance.
-> 
-> [1] https://lore.kernel.org/linux-iommu/20201118112151.25412-1-eric.auger@redhat.com/T/
-> [2] https://lore.kernel.org/kvmarm/20201116110030.32335-12-eric.auger@redhat.com/T/
-> [3] https://jpbrucker.net/git/kvmtool/log/?h=virtio-iommu/devel
-> [4] https://jpbrucker.net/git/linux/log/?h=sva/smmute
-> [5] https://lore.kernel.org/kvm/1599734733-6431-2-git-send-email-yi.l.liu@intel.com/
-> [6] https://lore.kernel.org/kvm/1599734733-6431-3-git-send-email-yi.l.liu@intel.com/
-> [7] https://lore.kernel.org/kvm/1599734733-6431-4-git-send-email-yi.l.liu@intel.com/
-> [8] https://developer.arm.com/tools-and-software/open-source-software/arm-platforms-software/arm-ecosystem-fvps
-> [9] https://git.linaro.org/landing-teams/working/arm/arm-reference-platforms.git/about/docs/rdn1edge/user-guide.rst
+--===============7645857448736174541==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="9JUkddB3RODiIlTw"
+Content-Disposition: inline
 
-Could you share a public branch where we could find all the kernel pieces.
 
-Thank you in advance
+--9JUkddB3RODiIlTw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best Regards
+Hi,
 
-Eric
-> 
-> Jean-Philippe Brucker (6):
->   iommu/virtio: Add headers for table format probing
->   iommu/virtio: Add table format probing
->   iommu/virtio: Add headers for binding pasid table in iommu
->   iommu/virtio: Add support for INVALIDATE request
->   iommu/virtio: Attach Arm PASID tables when available
->   iommu/virtio: Add support for Arm LPAE page table format
-> 
-> Vivek Gautam (9):
->   iommu/arm-smmu-v3: Create a Context Descriptor library
->   iommu: Add a simple PASID table library
->   iommu/arm-smmu-v3: Update drivers to work with iommu-pasid-table
->   iommu/arm-smmu-v3: Update CD base address info for user-space
->   iommu/arm-smmu-v3: Set sync op from consumer driver of cd-lib
->   iommu: Add asid_bits to arm smmu-v3 stage1 table info
->   iommu/virtio: Update table format probing header
->   iommu/virtio: Prepare to add attach pasid table infrastructure
->   iommu/virtio: Update fault type and reason info for viommu fault
-> 
->  drivers/iommu/arm/arm-smmu-v3/Makefile        |   2 +-
->  .../arm/arm-smmu-v3/arm-smmu-v3-cd-lib.c      | 283 +++++++
->  .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |  16 +-
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 268 +------
->  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |   4 +-
->  drivers/iommu/iommu-pasid-table.h             | 140 ++++
->  drivers/iommu/virtio-iommu.c                  | 692 +++++++++++++++++-
->  include/uapi/linux/iommu.h                    |   2 +-
->  include/uapi/linux/virtio_iommu.h             | 158 +++-
->  9 files changed, 1303 insertions(+), 262 deletions(-)
->  create mode 100644 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-cd-lib.c
->  create mode 100644 drivers/iommu/iommu-pasid-table.h
-> 
+On Mon 18 Jan 21, 15:49, Robin Murphy wrote:
+> On 2021-01-15 05:30, Yong Wu wrote:
+> > On Thu, 2021-01-14 at 13:27 -0600, Rob Herring wrote:
+> > > On Mon, Jan 11, 2021 at 07:18:47PM +0800, Yong Wu wrote:
+> > > > "dev->dma_range_map" contains the devices' dma_ranges information,
+> > > > This patch moves dma_range_map before of_iommu_configure. The iommu
+> > > > driver may need to know the dma_address requirements of its iommu
+> > > > consumer devices.
+> > > >=20
+> > > > CC: Rob Herring <robh+dt@kernel.org>
+> > > > CC: Frank Rowand <frowand.list@gmail.com>
+> > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > > > ---
+> > > >   drivers/of/device.c | 3 ++-
+> > > >   1 file changed, 2 insertions(+), 1 deletion(-)
+> > > >=20
+> > > > diff --git a/drivers/of/device.c b/drivers/of/device.c
+> > > > index aedfaaafd3e7..1d84636149df 100644
+> > > > --- a/drivers/of/device.c
+> > > > +++ b/drivers/of/device.c
+> > > > @@ -170,9 +170,11 @@ int of_dma_configure_id(struct device *dev, st=
+ruct device_node *np,
+> > > >   	dev_dbg(dev, "device is%sdma coherent\n",
+> > > >   		coherent ? " " : " not ");
+> > > > +	dev->dma_range_map =3D map;
+> > > >   	iommu =3D of_iommu_configure(dev, np, id);
+> > > >   	if (PTR_ERR(iommu) =3D=3D -EPROBE_DEFER) {
+> > > >   		kfree(map);
+> > > > +		dev->dma_range_map =3D NULL;
+> > >=20
+> > > Not really going to matter, but you should probably clear dma_range_m=
+ap
+> > > before what it points to is freed.
+> > >=20
+> > > With that,
+> > >=20
+> > > Reviewed-by: Rob Herring <robh@kernel.org>
+> >=20
+> > Thanks for the review. I will move it before "kfree(map)" in next
+> > version.
+>=20
+> Paul noticed that we already have a bug in assigning to this
+> unconditionally[1] - I'd totally forgotten about this series when I
+> theorised about IOMMU drivers wanting the information earlier, but sweepi=
+ng
+> my inbox now only goes to show I was right to think of it :)
+>=20
+> We should really get something in as a fix independent of this series,
+> taking both angles into account.
+
+Okay, I can also fix this while fixing my case. So we'd go for setting
+dev->dma_range_map =3D map; under the if (!ret).
+
+Then I think the error case for of_iommu_configure should be to set
+dev->dma_range_map =3D NULL; only if map !=3D NULL (otherwise we'd be overw=
+riting
+and leaking the previously-set map).
+
+I think a comment to remind that dev->dma_range_map can be set prior to this
+function would be useful too.
+
+What do you think?
+
+Cheers,
+
+Paul
+
+> Robin.
+>=20
+> [1] https://lore.kernel.org/linux-arm-kernel/5c7946f3-b56e-da00-a750-be09=
+7c7ceb32@arm.com/
+>=20
+> > >=20
+> > > >   		return -EPROBE_DEFER;
+> > > >   	}
+> > > > @@ -181,7 +183,6 @@ int of_dma_configure_id(struct device *dev, str=
+uct device_node *np,
+> > > >   	arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
+> > > > -	dev->dma_range_map =3D map;
+> > > >   	return 0;
+> > > >   }
+> > > >   EXPORT_SYMBOL_GPL(of_dma_configure_id);
+> > > > --=20
+> > > > 2.18.0
+> > > >=20
+> >=20
+> > _______________________________________________
+> > iommu mailing list
+> > iommu@lists.linux-foundation.org
+> > https://lists.linuxfoundation.org/mailman/listinfo/iommu
+> >=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--9JUkddB3RODiIlTw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmAGoqYACgkQ3cLmz3+f
+v9GonQf/efUk6Macghd2ipStYZpoRfxYwHOuemUNFudMoUEZ3WfF8oq65Qp+I6jx
+5f0iHYTgcPXsTDkMgyPINgSmcuagEYEDUH+IkPoJBvZZ8T2/oI5E0y4xGbbpLtfK
+hGfAg1spG4E0akpjq/2wNSYkiUiVIdXsFHPXrMNez3j0Z8VJKTBoETeb88QoAOaJ
+KtcJHmcIW3Gi2fYp/EMBbe+oMbairUCcnnqXZLZjYRSfHl+4EpH9T/FmaI2rtgoE
+xXedTQFz7axYSXPqHR0WWkg0P876yNO+jkd387VvBvC9AxZYMyFngHVDYM4e4Edx
+eE2MYAMyuHp/V4AlneqACADHWyS/oQ==
+=2EGZ
+-----END PGP SIGNATURE-----
+
+--9JUkddB3RODiIlTw--
+
+--===============7645857448736174541==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/iommu
+--===============7645857448736174541==--
