@@ -1,70 +1,61 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8332FAE56
-	for <lists.iommu@lfdr.de>; Tue, 19 Jan 2021 02:30:31 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF8F2FAE90
+	for <lists.iommu@lfdr.de>; Tue, 19 Jan 2021 03:00:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6BF4886489;
-	Tue, 19 Jan 2021 01:30:30 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C29FA85C95;
+	Tue, 19 Jan 2021 02:00:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NXWX9wO3+EQG; Tue, 19 Jan 2021 01:30:29 +0000 (UTC)
+	with ESMTP id x563IcUpUQ0r; Tue, 19 Jan 2021 02:00:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 2E79E8647A;
-	Tue, 19 Jan 2021 01:30:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 2A036858FB;
+	Tue, 19 Jan 2021 02:00:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 10C35C1786;
-	Tue, 19 Jan 2021 01:30:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1CDA6C013A;
+	Tue, 19 Jan 2021 02:00:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BA602C013A
- for <iommu@lists.linux-foundation.org>; Tue, 19 Jan 2021 01:30:27 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B3E2CC013A
+ for <iommu@lists.linux-foundation.org>; Tue, 19 Jan 2021 02:00:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id A9A5E84520
- for <iommu@lists.linux-foundation.org>; Tue, 19 Jan 2021 01:30:27 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B040E858FB
+ for <iommu@lists.linux-foundation.org>; Tue, 19 Jan 2021 02:00:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wu34LHR4EKTd for <iommu@lists.linux-foundation.org>;
- Tue, 19 Jan 2021 01:30:26 +0000 (UTC)
+ with ESMTP id xGvBG3SFmuIx for <iommu@lists.linux-foundation.org>;
+ Tue, 19 Jan 2021 02:00:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 6A4E9810BB
- for <iommu@lists.linux-foundation.org>; Tue, 19 Jan 2021 01:30:26 +0000 (UTC)
-IronPort-SDR: ZjB5GqzjPKBJKLYRmDT8ohN9wvHFo1BTZWSEpmo9NZJXmBLt8od7yo1ewsCVhaUpE8Yyq0wdU+
- EY5Wa4fWsj7A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="165955611"
-X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; d="scan'208";a="165955611"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2021 17:30:23 -0800
-IronPort-SDR: xieIIy1MAjiyB5ACzBHt+gKBxzO+1t0Gd1OijsBdvNjQlWna/U5cEAjLn9dguxRHm0rus/jywJ
- BcQs2UNry+8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; d="scan'208";a="466508451"
-Received: from allen-box.sh.intel.com (HELO [10.239.159.28]) ([10.239.159.28])
- by fmsmga001.fm.intel.com with ESMTP; 18 Jan 2021 17:30:13 -0800
-Subject: Re: performance regression noted in v5.11-rc after c062db039f40
-To: Chuck Lever <chuck.lever@oracle.com>, Robin Murphy <robin.murphy@arm.com>
-References: <D81314ED-5673-44A6-B597-090E3CB83EB0@oracle.com>
- <20210112143819.GA9689@willie-the-truck>
- <607648D8-BF0C-40D6-9B43-2359F45EE74C@oracle.com>
- <e83eed0d-82cd-c9be-cef1-5fe771de975f@arm.com>
- <D6B45F88-08B7-41B5-AAD2-BFB374A42874@oracle.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <0f7c344a-00b6-72bc-5c39-c6cdc571211b@linux.intel.com>
-Date: Tue, 19 Jan 2021 09:22:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id C3DCC85815
+ for <iommu@lists.linux-foundation.org>; Tue, 19 Jan 2021 02:00:29 +0000 (UTC)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DKWzV1FftzMM69;
+ Tue, 19 Jan 2021 09:59:02 +0800 (CST)
+Received: from thunder-town.china.huawei.com (10.174.176.220) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 19 Jan 2021 10:00:15 +0800
+From: Zhen Lei <thunder.leizhen@huawei.com>
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Mark
+ Rutland" <mark.rutland@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, iommu
+ <iommu@lists.linux-foundation.org>, linux-kernel
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/2] Use another method to avoid resource conflicts between
+ the SMMU and PMCG drivers
+Date: Tue, 19 Jan 2021 09:59:49 +0800
+Message-ID: <20210119015951.1042-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <D6B45F88-08B7-41B5-AAD2-BFB374A42874@oracle.com>
-Content-Language: en-US
-Cc: linux-rdma <linux-rdma@vger.kernel.org>, Will Deacon <will@kernel.org>,
- murphyt7@tcd.ie, iommu@lists.linux-foundation.org, logang@deltatee.com,
- Christoph Hellwig <hch@lst.de>
+X-Originating-IP: [10.174.176.220]
+X-CFilter-Loop: Reflected
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Neil Leeder <nleeder@codeaurora.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -77,228 +68,48 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Chuck,
+Since the PMCG may implement its resigters space(4KB Page0 and 4KB Page1)
+within the SMMUv3 64KB Page0. In this case, when the SMMUv3 driver reserves the
+64KB Page0 resource in advance, the PMCG driver try to reserve its Page0 and
+Page1 resources, a resource conflict occurs.
 
-On 1/19/21 4:09 AM, Chuck Lever wrote:
-> 
-> 
->> On Jan 18, 2021, at 1:00 PM, Robin Murphy <robin.murphy@arm.com> wrote:
->>
->> On 2021-01-18 16:18, Chuck Lever wrote:
->>>> On Jan 12, 2021, at 9:38 AM, Will Deacon <will@kernel.org> wrote:
->>>>
->>>> [Expanding cc list to include DMA-IOMMU and intel IOMMU folks]
->>>>
->>>> On Fri, Jan 08, 2021 at 04:18:36PM -0500, Chuck Lever wrote:
->>>>> Hi-
->>>>>
->>>>> [ Please cc: me on replies, I'm not currently subscribed to
->>>>> iommu@lists ].
->>>>>
->>>>> I'm running NFS performance tests on InfiniBand using CX-3 Pro cards
->>>>> at 56Gb/s. The test is iozone on an NFSv3/RDMA mount:
->>>>>
->>>>> /home/cel/bin/iozone -M -+u -i0 -i1 -s1g -r256k -t12 -I
->>>>>
->>>>> For those not familiar with the way storage protocols use RDMA, The
->>>>> initiator/client sets up memory regions and the target/server uses
->>>>> RDMA Read and Write to move data out of and into those regions. The
->>>>> initiator/client uses only RDMA memory registration and invalidation
->>>>> operations, and the target/server uses RDMA Read and Write.
->>>>>
->>>>> My NFS client is a two-socket 12-core x86_64 system with its I/O MMU
->>>>> enabled using the kernel command line options "intel_iommu=on
->>>>> iommu=strict".
->>>>>
->>>>> Recently I've noticed a significant (25-30%) loss in NFS throughput.
->>>>> I was able to bisect on my client to the following commits.
->>>>>
->>>>> Here's 65f746e8285f ("iommu: Add quirk for Intel graphic devices in
->>>>> map_sg"). This is about normal for this test.
->>>>>
->>>>> 	Children see throughput for 12 initial writers 	= 4732581.09 kB/sec
->>>>> 	Parent sees throughput for 12 initial writers 	= 4646810.21 kB/sec
->>>>> 	Min throughput per process 			=  387764.34 kB/sec
->>>>> 	Max throughput per process 			=  399655.47 kB/sec
->>>>> 	Avg throughput per process 			=  394381.76 kB/sec
->>>>> 	Min xfer 					= 1017344.00 kB
->>>>> 	CPU Utilization: Wall time    2.671    CPU time    1.974    CPU utilization  73.89 %
->>>>> 	Children see throughput for 12 rewriters 	= 4837741.94 kB/sec
->>>>> 	Parent sees throughput for 12 rewriters 	= 4833509.35 kB/sec
->>>>> 	Min throughput per process 			=  398983.72 kB/sec
->>>>> 	Max throughput per process 			=  406199.66 kB/sec
->>>>> 	Avg throughput per process 			=  403145.16 kB/sec
->>>>> 	Min xfer 					= 1030656.00 kB
->>>>> 	CPU utilization: Wall time    2.584    CPU time    1.959    CPU utilization  75.82 %
->>>>> 	Children see throughput for 12 readers 		= 5921370.94 kB/sec
->>>>> 	Parent sees throughput for 12 readers 		= 5914106.69 kB/sec
->>>>> 	Min throughput per process 			=  491812.38 kB/sec
->>>>> 	Max throughput per process 			=  494777.28 kB/sec
->>>>> 	Avg throughput per process 			=  493447.58 kB/sec
->>>>> 	Min xfer 					= 1042688.00 kB
->>>>> 	CPU utilization: Wall time    2.122    CPU time    1.968    CPU utilization  92.75 %
->>>>> 	Children see throughput for 12 re-readers 	= 5947985.69 kB/sec
->>>>> 	Parent sees throughput for 12 re-readers 	= 5941348.51 kB/sec
->>>>> 	Min throughput per process 			=  492805.81 kB/sec
->>>>> 	Max throughput per process 			=  497280.19 kB/sec
->>>>> 	Avg throughput per process 			=  495665.47 kB/sec
->>>>> 	Min xfer 					= 1039360.00 kB
->>>>> 	CPU utilization: Wall time    2.111    CPU time    1.968    CPU utilization  93.22 %
->>>>>
->>>>> Here's c062db039f40 ("iommu/vt-d: Update domain geometry in
->>>>> iommu_ops.at(de)tach_dev"). It's losing some steam here.
->>>>>
->>>>> 	Children see throughput for 12 initial writers 	= 4342419.12 kB/sec
->>>>> 	Parent sees throughput for 12 initial writers 	= 4310612.79 kB/sec
->>>>> 	Min throughput per process 			=  359299.06 kB/sec
->>>>> 	Max throughput per process 			=  363866.16 kB/sec
->>>>> 	Avg throughput per process 			=  361868.26 kB/sec
->>>>> 	Min xfer 					= 1035520.00 kB
->>>>> 	CPU Utilization: Wall time    2.902    CPU time    1.951    CPU utilization  67.22 %
->>>>> 	Children see throughput for 12 rewriters 	= 4408576.66 kB/sec
->>>>> 	Parent sees throughput for 12 rewriters 	= 4404280.87 kB/sec
->>>>> 	Min throughput per process 			=  364553.88 kB/sec
->>>>> 	Max throughput per process 			=  370029.28 kB/sec
->>>>> 	Avg throughput per process 			=  367381.39 kB/sec
->>>>> 	Min xfer 					= 1033216.00 kB
->>>>> 	CPU utilization: Wall time    2.836    CPU time    1.956    CPU utilization  68.97 %
->>>>> 	Children see throughput for 12 readers 		= 5406879.47 kB/sec
->>>>> 	Parent sees throughput for 12 readers 		= 5401862.78 kB/sec
->>>>> 	Min throughput per process 			=  449583.03 kB/sec
->>>>> 	Max throughput per process 			=  451761.69 kB/sec
->>>>> 	Avg throughput per process 			=  450573.29 kB/sec
->>>>> 	Min xfer 					= 1044224.00 kB
->>>>> 	CPU utilization: Wall time    2.323    CPU time    1.977    CPU utilization  85.12 %
->>>>> 	Children see throughput for 12 re-readers 	= 5410601.12 kB/sec
->>>>> 	Parent sees throughput for 12 re-readers 	= 5403504.40 kB/sec
->>>>> 	Min throughput per process 			=  449918.12 kB/sec
->>>>> 	Max throughput per process 			=  452489.28 kB/sec
->>>>> 	Avg throughput per process 			=  450883.43 kB/sec
->>>>> 	Min xfer 					= 1043456.00 kB
->>>>> 	CPU utilization: Wall time    2.321    CPU time    1.978    CPU utilization  85.21 %
->>>>>
->>>>> And here's c588072bba6b ("iommu/vt-d: Convert intel iommu driver to
->>>>> the iommu ops"). Significant throughput loss.
->>>>>
->>>>> 	Children see throughput for 12 initial writers 	= 3812036.91 kB/sec
->>>>> 	Parent sees throughput for 12 initial writers 	= 3753683.40 kB/sec
->>>>> 	Min throughput per process 			=  313672.25 kB/sec
->>>>> 	Max throughput per process 			=  321719.44 kB/sec
->>>>> 	Avg throughput per process 			=  317669.74 kB/sec
->>>>> 	Min xfer 					= 1022464.00 kB
->>>>> 	CPU Utilization: Wall time    3.309    CPU time    1.986    CPU utilization  60.02 %
->>>>> 	Children see throughput for 12 rewriters 	= 3786831.94 kB/sec
->>>>> 	Parent sees throughput for 12 rewriters 	= 3783205.58 kB/sec
->>>>> 	Min throughput per process 			=  313654.44 kB/sec
->>>>> 	Max throughput per process 			=  317844.50 kB/sec
->>>>> 	Avg throughput per process 			=  315569.33 kB/sec
->>>>> 	Min xfer 					= 1035520.00 kB
->>>>> 	CPU utilization: Wall time    3.302    CPU time    1.945    CPU utilization  58.90 %
->>>>> 	Children see throughput for 12 readers 		= 4265828.28 kB/sec
->>>>> 	Parent sees throughput for 12 readers 		= 4261844.88 kB/sec
->>>>> 	Min throughput per process 			=  352305.00 kB/sec
->>>>> 	Max throughput per process 			=  357726.22 kB/sec
->>>>> 	Avg throughput per process 			=  355485.69 kB/sec
->>>>> 	Min xfer 					= 1032960.00 kB
->>>>> 	CPU utilization: Wall time    2.934    CPU time    1.942    CPU utilization  66.20 %
->>>>> 	Children see throughput for 12 re-readers 	= 4220651.19 kB/sec
->>>>> 	Parent sees throughput for 12 re-readers 	= 4216096.04 kB/sec
->>>>> 	Min throughput per process 			=  348677.16 kB/sec
->>>>> 	Max throughput per process 			=  353467.44 kB/sec
->>>>> 	Avg throughput per process 			=  351720.93 kB/sec
->>>>> 	Min xfer 					= 1035264.00 kB
->>>>> 	CPU utilization: Wall time    2.969    CPU time    1.952    CPU utilization  65.74 %
->>>>>
->>>>> The regression appears to be 100% reproducible.
->>> Any thoughts?
->>> How about some tools to try or debugging advice? I don't know where to start.
->>
->> I'm not familiar enough with VT-D internals or Infiniband to have a clue why the middle commit makes any difference (the calculation itself is not on a fast path, so AFAICS the worst it could do is change your maximum DMA address size from 48/57 bits to 47/56, and that seems relatively benign).
-> 
-> Thanks for your response. Understood that you are not responding
-> about the middle commit (c062db039f40).
-> 
-> However, that's a pretty small and straightforward change, so I've
-> experimented a bit with that. Commenting out the new code there, I
-> get some relief:
-> 
-> 	Children see throughput for 12 initial writers 	= 4266621.62 kB/sec
-> 	Parent sees throughput for 12 initial writers 	= 4254756.31 kB/sec
-> 	Min throughput per process 			=  354847.75 kB/sec
-> 	Max throughput per process 			=  356167.59 kB/sec
-> 	Avg throughput per process 			=  355551.80 kB/sec
-> 	Min xfer 					= 1044736.00 kB
-> 	CPU Utilization: Wall time    2.951    CPU time    1.981    CPU utilization  67.11 %
-> 
-> 
-> 	Children see throughput for 12 rewriters 	= 4314827.34 kB/sec
-> 	Parent sees throughput for 12 rewriters 	= 4310347.32 kB/sec
-> 	Min throughput per process 			=  358599.72 kB/sec
-> 	Max throughput per process 			=  360319.06 kB/sec
-> 	Avg throughput per process 			=  359568.95 kB/sec
-> 	Min xfer 					= 1043968.00 kB
-> 	CPU utilization: Wall time    2.912    CPU time    2.057    CPU utilization  70.62 %
-> 
-> 
-> 	Children see throughput for 12 readers 		= 4614004.47 kB/sec
-> 	Parent sees throughput for 12 readers 		= 4609014.68 kB/sec
-> 	Min throughput per process 			=  382414.81 kB/sec
-> 	Max throughput per process 			=  388519.50 kB/sec
-> 	Avg throughput per process 			=  384500.37 kB/sec
-> 	Min xfer 					= 1032192.00 kB
-> 	CPU utilization: Wall time    2.701    CPU time    1.900    CPU utilization  70.35 %
-> 
-> 
-> 	Children see throughput for 12 re-readers 	= 4653743.81 kB/sec
-> 	Parent sees throughput for 12 re-readers 	= 4647155.31 kB/sec
-> 	Min throughput per process 			=  384995.69 kB/sec
-> 	Max throughput per process 			=  390874.09 kB/sec
-> 	Avg throughput per process 			=  387811.98 kB/sec
-> 	Min xfer 					= 1032960.00 kB
-> 	CPU utilization: Wall time    2.684    CPU time    1.907    CPU utilization  71.06 %
-> 
-> I instrumented the code to show the "before" and "after" values.
-> 
-> The value of domain->domain.geometry.aperture_end on my system
-> before this commit (and before the c062db039f40 code) is:
-> 
-> 144,115,188,075,855,871 = 2^57
+commit 52f3fab0067d6fa ("iommu/arm-smmu-v3: Don't reserve implementation
+defined register space") reduce the resource reservation range of the SMMUv3
+driver, it only reserves the first 0xe00 bytes in the 64KB Page0, to avoid
+the above-mentioned resource conflicts.
 
-domain->domain.geometry.aperture_end makes no sense before c062db039f40.
+But the SMMUv3.3 add support for ECMDQ, its registers space is also implemented
+in the SMMUv3 64KB Page0. This means we need to build two separate mappings.
+New features may be added in the future, and more independent mappings may be
+required. The simple problem is complicated because the user expects to map the
+entire SMMUv3 64KB Page0.
 
-> 
-> The c062db039f40 code sets domain->domain.geometry.aperture_end to:
-> 
-> 281,474,976,710,655 = 2^48
+Therefore, the proper solution is: If the PMCG register resources are located in
+the 64KB Page0 of the SMMU, the PMCG driver does not reserve the conflict resources
+when the SMMUv3 driver has reserved the conflict resources before. Instead, the PMCG
+driver only performs devm_ioremap() to ensure that it can work properly.
 
-Do you mind posting the cap and ecap of the iommu used by your device?
 
-You can get it via sysfs, for example:
+Zhen Lei (2):
+  perf/smmuv3: Don't reserve the register space that overlaps with the
+    SMMUv3
+  Revert "iommu/arm-smmu-v3: Don't reserve implementation defined
+    register space"
 
-/sys/bus/pci/devices/0000:00:14.0/iommu/intel-iommu# ls
-address  cap  domains_supported  domains_used  ecap  version
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 32 +++-------------------
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  3 ---
+ drivers/perf/arm_smmuv3_pmu.c               | 42 +++++++++++++++++++++++++++--
+ 3 files changed, 44 insertions(+), 33 deletions(-)
 
-> 
-> Fwiw, this system uses the Intel C612 chipset with Intel(R) Xeon(R)
-> E5-2603 v3 @ 1.60GHz CPUs.
-> 
+-- 
+1.8.3
 
-Can you please also hack a line of code to check the return value of
-iommu_dma_map_sg()?
 
-> 
-> My sense is that "CPU time" remains about the same because the problem
-> isn't manifesting as an increase in instruction path length. Wall time
-> goes up, CPU time stays the same, the ratio of those (ie, utilization)
-> drops.
-
-Best regards,
-baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
