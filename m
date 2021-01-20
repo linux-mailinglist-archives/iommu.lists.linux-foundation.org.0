@@ -2,82 +2,89 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8554C2FE45F
-	for <lists.iommu@lfdr.de>; Thu, 21 Jan 2021 08:52:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067492FE4D0
+	for <lists.iommu@lfdr.de>; Thu, 21 Jan 2021 09:22:09 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 125AC8560E;
-	Thu, 21 Jan 2021 07:52:10 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 897218562A;
+	Thu, 21 Jan 2021 08:22:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id utlKB0uXwpw6; Thu, 21 Jan 2021 07:52:09 +0000 (UTC)
+	with ESMTP id yD1GVlUZvUv8; Thu, 21 Jan 2021 08:22:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 8CE20858D4;
-	Thu, 21 Jan 2021 07:52:09 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6DE9E85570;
+	Thu, 21 Jan 2021 08:22:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6A174C1E6F;
-	Thu, 21 Jan 2021 07:52:09 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4DFDEC013A;
+	Thu, 21 Jan 2021 08:22:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3DE4CC013A
- for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 07:52:07 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3117AC013A
+ for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 16:09:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 31B0D8560E
- for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 07:52:07 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id B28272010B
+ for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 16:09:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NHie-fv28qxI for <iommu@lists.linux-foundation.org>;
- Thu, 21 Jan 2021 07:52:05 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 9C71E85516
- for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 07:52:05 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id m1so71035wrq.12
- for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 23:52:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ with ESMTP id gU5+2MJkMv0S for <iommu@lists.linux-foundation.org>;
+ Wed, 20 Jan 2021 16:09:12 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by silver.osuosl.org (Postfix) with ESMTPS id A40ED20000
+ for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 16:09:11 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id n6so11307424edt.10
+ for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 08:09:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=soleen.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8oRMVgXTTtZZl0t+edBJix5UUYLc6dLj900da8EQmuk=;
- b=G55vCALv8HZuSXjR6w5mk5061SvQLWids/qXihhGmJ3EiU+cWG204AmSAari+vlK9G
- hwQrAc3zhnu4MdfWqvQoe0pZm9zW5RqEJtQiIU43lVH83Lp5fkOVBwdSqg0rUitA3jWX
- nxkj0Z/OKkUGaWDChzM7byFm9Lv7FBiEgIFNF2kmEI3fcwuHpVCxdFMtZA6ZIf8wUh9j
- /gQehFw+Vxgoel92e6O5vmFJMXm3m91SPcNw7l6By+Hu4fGAHQUepdIBYoAuDXkDP4Wu
- R+L+0zxviiyaIluotT8zMRptqqZCg5cDzA1bLqPQZAwuVghY0qBgYE1ckvPOwsW9hUhL
- yBhg==
+ :cc; bh=uFPoWmdT1E7447c/foHDjqNJuO8UPeUXJAj8ZTCeNuI=;
+ b=bNp4m8GXBuiU/FXyjO9D9cA/C4gIGIPznUcpKtSxPEKyebwvVQ+aRwdeBURGW60Aqn
+ LWDM8IY14JaXyGVpmy9pspE7lfObh3UXUk1T9JUoE9m742jY/UWqwZOuCBJ1bPyIODGl
+ UnlPbfbmqFegwGszXH5A2WM1t7WLON4F/hTTf41tPfVOHi9uvgUn8pBT7w/CdD4OSxCR
+ Pj4XoIeByZmeoQNQ4FhMnueL2wZ9/ttGENz2s0DHc9xIW18UNCzE7rgOV30lEB4IWM6K
+ z43ISZVwDPuNuqM8j3RZAlGmRUAK0i/ai2ThrTF7kmw/zPRYVf/biTfeZ/ArEDWa+95U
+ iDfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8oRMVgXTTtZZl0t+edBJix5UUYLc6dLj900da8EQmuk=;
- b=rRyYpvMun9VqO+43pjGhu8Kf6kg2Q/1KE22URlDM9XrD4FiNbWdmx32L20fO+zkI56
- 3IsWsCyfPJEW6AXXD+kSnegFmSNAeBns1FUzqEUsXxoB6IXYdcVZjLkvggcdkWaE5R87
- uZ3neyLPLXdEeDEOGnEpKVsXO1q3Q+PFitWIhVHPR8rMIQRP1DLrWngIQczx6WE6MJV/
- ONynKBWUatIwMK7b95MYUfdPjOSnw+pde6B24/S68SXN+77pXi+oJCTLnDCFc8ZmHLKM
- Btc90P6tqIgYAK8XzmmI9IMNTKnlI0xHgKHvuLfh+bALADaFd0kC5COjcxtmacnmvXo8
- HZ5w==
-X-Gm-Message-State: AOAM530PR4vIhvuO3NntDl2TI6sJ8b8QZxpPoGMPiAbgvhyolrggOMYM
- 9zqgyUMD0gKLKrLJ/fpjzN4SLc2F/fZn8pO+FEE=
-X-Google-Smtp-Source: ABdhPJwD87R3jYKAxjc1cN8PtBV0u9ziqbJf5lJT4+qMB0LSpMtCa5lHXnxg5FFoaDXZq0JeoPao7VnAoAQN4bkmn/w=
-X-Received: by 2002:adf:9427:: with SMTP id 36mr12865530wrq.271.1611215524060; 
- Wed, 20 Jan 2021 23:52:04 -0800 (PST)
+ bh=uFPoWmdT1E7447c/foHDjqNJuO8UPeUXJAj8ZTCeNuI=;
+ b=pY0Q2nFRJMNwsu50ytcFMnPoSqfLmAb2lbQablE0m7QQgtnFNyiTDFFb96i8g59oGj
+ CUVyts80uOwrB1vt0aOJFAv99slbtT01E3hCDmYTNkaYn/4yRpopQG8vDx9IiqUfQBMn
+ ihsF6LE1qz321Qk/yuMlE2HzAtl3TiB0xFRaCCPz9pTSC0vGpCeb89xmK0s+tX9gP6A5
+ Sysv23oAbZ1ST83O7YaU/9fmQ2wtl9/5XnsUEcw9f4ERg75DdKdRezVdoFnJOb/e8Ve0
+ 3b/0X23WlbBSUYOgEDnpI3Pnk0d+vcBZ6KjWrSrPGcDgorksOST7kmaOjiDzcaMQ7IU7
+ SBgg==
+X-Gm-Message-State: AOAM533ToZYNUzhabr4W5zXZCAPb53nSOLch/RNz7aiwxzsI0/OnplHT
+ dHA8IuwOkPie+2n8VEluoxxsfelR+kesQBGkgViyVg==
+X-Google-Smtp-Source: ABdhPJzzrx43U/MRM+U+2IS6fjT5/s61ISkHSJJW/uV0YTHN3o25ui9xpDMoE2/qruoEGyRFVzUk7yyVBnemuDxnOFQ=
+X-Received: by 2002:aa7:d803:: with SMTP id v3mr7685979edq.153.1611158950213; 
+ Wed, 20 Jan 2021 08:09:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20201223111633.1711477-1-zhang.lyra@gmail.com>
- <20210108022545.GA1744725@robh.at.kernel.org>
- <CAAfSe-svn4ACvhk3McO7APLLSKdC=9ei7bvmD9ZhnSosnLQ1AA@mail.gmail.com>
- <CAL_JsqKqi_tngaR0nHpjbQz2Q8QnwJ+Ea=DghT6xqR9U8o-5CQ@mail.gmail.com>
-In-Reply-To: <CAL_JsqKqi_tngaR0nHpjbQz2Q8QnwJ+Ea=DghT6xqR9U8o-5CQ@mail.gmail.com>
-From: Chunyan Zhang <zhang.lyra@gmail.com>
-Date: Thu, 21 Jan 2021 15:51:27 +0800
-Message-ID: <CAAfSe-vxkbmubYMbP+mvj9wUrrfjcoOCXyzo2VSVn4eanK1niA@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/2] dt-bindings: iommu: add bindings for sprd iommu
-To: Rob Herring <robh@kernel.org>
-Cc: DTML <devicetree@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Sheng Xu <sheng.xu@unisoc.com>, Linux IOMMU <iommu@lists.linux-foundation.org>,
- Kevin Tang <kevin.tang@unisoc.com>, Baolin Wang <baolin.wang7@gmail.com>,
- Orson Zhai <orsonzhai@gmail.com>
+References: <20210120120058.29138-1-wei.liu@kernel.org>
+ <20210120120058.29138-5-wei.liu@kernel.org>
+In-Reply-To: <20210120120058.29138-5-wei.liu@kernel.org>
+From: Pavel Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 20 Jan 2021 11:08:34 -0500
+Message-ID: <CA+CK2bByGvCr_H3_wv_3-vAOONhRenonFNeHff5UdeFLDxSoUw@mail.gmail.com>
+Subject: Re: [PATCH v5 04/16] iommu/hyperv: don't setup IRQ remapping when
+ running as root
+To: Wei Liu <wei.liu@kernel.org>
+X-Mailman-Approved-At: Thu, 21 Jan 2021 08:22:03 +0000
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
+ Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
+ Joerg Roedel <jroedel@suse.de>, Stephen Hemminger <sthemmin@microsoft.com>,
+ Will Deacon <will@kernel.org>, Haiyang Zhang <haiyangz@microsoft.com>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Michael Kelley <mikelley@microsoft.com>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ virtualization@lists.linux-foundation.org,
+ Vineeth Pillai <viremana@linux.microsoft.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,83 +102,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, 13 Jan 2021 at 21:47, Rob Herring <robh@kernel.org> wrote:
+On Wed, Jan 20, 2021 at 7:01 AM Wei Liu <wei.liu@kernel.org> wrote:
 >
-> On Fri, Jan 8, 2021 at 5:34 AM Chunyan Zhang <zhang.lyra@gmail.com> wrote:
-> >
-> > On Fri, 8 Jan 2021 at 10:25, Rob Herring <robh@kernel.org> wrote:
-> > >
-> > > On Wed, Dec 23, 2020 at 07:16:32PM +0800, Chunyan Zhang wrote:
-> > > > From: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> > > >
-> > > > This patch only adds bindings to support display iommu, support for others
-> > > > would be added once finished tests with those devices, such as Image
-> > > > codec(jpeg) processor, a few signal processors, including VSP(video),
-> > > > GSP(graphic), ISP(image), and camera CPP, etc.
-> > > >
-> > > > Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> > > > ---
-> > > >  .../devicetree/bindings/iommu/sprd,iommu.yaml | 44 +++++++++++++++++++
-> > > >  1 file changed, 44 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/iommu/sprd,iommu.yaml
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/iommu/sprd,iommu.yaml b/Documentation/devicetree/bindings/iommu/sprd,iommu.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..4d9a578a7cc9
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/iommu/sprd,iommu.yaml
-> > > > @@ -0,0 +1,44 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +# Copyright 2020 Unisoc Inc.
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/iommu/sprd,iommu.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Unisoc IOMMU and Multi-media MMU
-> > > > +
-> > > > +maintainers:
-> > > > +  - Chunyan Zhang <zhang.lyra@gmail.com>
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    enum:
-> > > > +      - sprd,iommu-disp
-> > >
-> > > Needs to be Soc specific.
-> >
-> > All SoCs so far use the same iommu IP, there's a little different
-> > among different iommu users.
+> The IOMMU code needs more work. We're sure for now the IRQ remapping
+> hooks are not applicable when Linux is the root partition.
 >
-> That's what everyone says. Be warned that you cannot add properties
-> for any differences that come up whether features or errata.
-
-Ok, I will use a version specific compatible string.
-
+> Signed-off-by: Wei Liu <wei.liu@kernel.org>
+> Acked-by: Joerg Roedel <jroedel@suse.de>
+> Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> ---
+>  drivers/iommu/hyperv-iommu.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> > > Is this block specific to display subsys or
-> > > that just happens to be where the instance is?
-> >
-> > This iommu driver can serve many subsystem devices, such as Video,
-> > Camera, Image, etc., but they have their own iommu module which looks
-> > like a subdevice embedded in the master devices.
-> > I will add more compatible strings for those devices when needed.
-> > For now, only this one was listed here because I just tested this
-> > iommu driver with DPU only.
+> diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
+> index 1d21a0b5f724..b7db6024e65c 100644
+> --- a/drivers/iommu/hyperv-iommu.c
+> +++ b/drivers/iommu/hyperv-iommu.c
+> @@ -20,6 +20,7 @@
+>  #include <asm/io_apic.h>
+>  #include <asm/irq_remapping.h>
+>  #include <asm/hypervisor.h>
+> +#include <asm/mshyperv.h>
 >
-> The iommu binding takes care of what each one is connected to. Is each
-> instance different in terms of features or programming model? If not,
-
-The one difference so far is the register offset which is not the same
-for different instances.
-
-Thanks for the review.
-Chunyan
-
-> then you shouldn't have different compatible strings for each
-> instance.
+>  #include "irq_remapping.h"
 >
-> Rob
+> @@ -122,7 +123,7 @@ static int __init hyperv_prepare_irq_remapping(void)
+>
+>         if (!hypervisor_is_type(X86_HYPER_MS_HYPERV) ||
+>             x86_init.hyper.msi_ext_dest_id() ||
+> -           !x2apic_supported())
+> +           !x2apic_supported() || hv_root_partition)
+>                 return -ENODEV;
+
+Reviewed-by: Pavel Tatashin <pasha.tatashin@soleen.com>
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
