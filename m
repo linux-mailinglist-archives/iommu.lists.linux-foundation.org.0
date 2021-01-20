@@ -1,69 +1,89 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB48D2FD6E2
-	for <lists.iommu@lfdr.de>; Wed, 20 Jan 2021 18:30:27 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E632FD732
+	for <lists.iommu@lfdr.de>; Wed, 20 Jan 2021 18:42:23 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id AACCB86456;
-	Wed, 20 Jan 2021 17:30:26 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 17066203B0;
+	Wed, 20 Jan 2021 17:42:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6pT8zY8Vzj2z; Wed, 20 Jan 2021 17:30:23 +0000 (UTC)
+	with ESMTP id uzbOMJp3n7mi; Wed, 20 Jan 2021 17:42:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BCE1786061;
-	Wed, 20 Jan 2021 17:30:23 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 2FF90203A9;
+	Wed, 20 Jan 2021 17:42:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8BCD8C1DA7;
-	Wed, 20 Jan 2021 17:30:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 09996C0FA8;
+	Wed, 20 Jan 2021 17:42:21 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A6E45C013A
- for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 17:30:22 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BD1C4C013A
+ for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 17:42:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 917C787136
- for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 17:30:22 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id B044C20398
+ for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 17:42:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uR+AfOQnmPA3 for <iommu@lists.linux-foundation.org>;
- Wed, 20 Jan 2021 17:30:18 +0000 (UTC)
+ with ESMTP id us9XG+LkAAmI for <iommu@lists.linux-foundation.org>;
+ Wed, 20 Jan 2021 17:42:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by hemlock.osuosl.org (Postfix) with ESMTP id E119A8712B
- for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 17:30:17 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0CA6C31B;
- Wed, 20 Jan 2021 09:30:15 -0800 (PST)
-Received: from [10.57.39.58] (unknown [10.57.39.58])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EF5433F68F;
- Wed, 20 Jan 2021 09:30:08 -0800 (PST)
-Subject: Re: [RFC PATCH v3 5/6] dt-bindings: of: Add restricted DMA pool
-To: Rob Herring <robh@kernel.org>, Claire Chang <tientzu@chromium.org>
-References: <20210106034124.30560-1-tientzu@chromium.org>
- <20210106034124.30560-6-tientzu@chromium.org>
- <20210120165348.GA220770@robh.at.kernel.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <313f8052-a591-75de-c4c2-ee9ea8f02e7f@arm.com>
-Date: Wed, 20 Jan 2021 17:30:07 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by silver.osuosl.org (Postfix) with ESMTPS id 4B0B12038B
+ for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 17:42:18 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id m187so3564436wme.2
+ for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 09:42:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=pZAvuSzWG8A+x8RzKRjMwPsRhtgX7L+uhw4FZKkKEI8=;
+ b=zRxQYipj+tDx+56ns7Ze3GNaWKe6r/tz7bvAXtpDr91GVvL23yfQ/xtlLzjs05uev+
+ 8i2EojAZz56kMZbRSsG/r1NPPpNL4NAj++u8i0kgBaNiyH69hhbSuoegPhOYLhxUauZv
+ etfzouMcaNK5lq5RxEmqhb2PX5YGBmfeMI8RlHVmAjZZKZXXTJNZ2thv3JRabF/bMAEw
+ J9qYUuqu3b6tTyaYVoJ5slZEJIOPOY+gxpF5WoWwq8y8+y5XcjK+GHVG/GusLGXVC5YZ
+ iHAxGPlk2txdevnG/Gf8lL5SwtM7ZYUr/Sa4RQL2z4B1dcjM+Y+GJGW0B5+oA5F+akOT
+ BOMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pZAvuSzWG8A+x8RzKRjMwPsRhtgX7L+uhw4FZKkKEI8=;
+ b=qx/IpMbd2CLGW4wYlOU5KrATP3d47vPP5ZSrF5Kf5TU5hRSXmsNH/EUHR8sPhsRV33
+ Qnf1r4L/9ibUeGJUi/tMYxCSq5U3VrApWMo8MY5DtbqU/4FHgPl0cQfikKMojBJz01/7
+ EFH5nH73taKzKVQI9Fa4VG9so0EQ8l4UEBW+udtlYbZgZw7OkyWdZl36hYxt1LXdwjNZ
+ 0ngj5vu4ea/qXecLOWIeCoYX+JiGjjnRgaGbG777f9YoOPuG18hBeqyj9phY6MR2FLYF
+ AlGNMClr6BWNbY3omkNM2P0qRSwzxBznzknSdOxBfI5cwgabWK4tQoCZQwzaBiB0tTUW
+ A4mA==
+X-Gm-Message-State: AOAM5315f0DeR9BJz5WDW3xyrYtbapokwa+P+I9Xxc8EEb+KWOi901Wy
+ JhzQ063b+wYH/PwZyeQttMPNFA==
+X-Google-Smtp-Source: ABdhPJxYAzTiX4xwllUpQ3tEmFyP+aMrMd1eNh0vdVqNy275RfGfMG77U9ZkyVaxQJ39df7vXopr2A==
+X-Received: by 2002:a1c:2783:: with SMTP id n125mr5360381wmn.74.1611164536579; 
+ Wed, 20 Jan 2021 09:42:16 -0800 (PST)
+Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id q9sm5974304wme.18.2021.01.20.09.42.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jan 2021 09:42:15 -0800 (PST)
+Date: Wed, 20 Jan 2021 18:41:56 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v9 01/10] iommu: Remove obsolete comment
+Message-ID: <YAhrZFCog5FiIupd@myrica>
+References: <20210108145217.2254447-1-jean-philippe@linaro.org>
+ <20210108145217.2254447-2-jean-philippe@linaro.org>
+ <20210119111144.00002130@Huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210120165348.GA220770@robh.at.kernel.org>
-Content-Language: en-GB
-Cc: heikki.krogerus@linux.intel.com, peterz@infradead.org,
- benh@kernel.crashing.org, linux-kernel@vger.kernel.org, grant.likely@arm.com,
- paulus@samba.org, will@kernel.org, mingo@kernel.org, sstabellini@kernel.org,
- saravanak@google.com, mpe@ellerman.id.au, rafael.j.wysocki@intel.com,
- hch@lst.de, bgolaszewski@baylibre.com, xen-devel@lists.xenproject.org,
- treding@nvidia.com, devicetree@vger.kernel.org, konrad.wilk@oracle.com,
- dan.j.williams@intel.com, drinkcat@chromium.org, boris.ostrovsky@oracle.com,
- andriy.shevchenko@linux.intel.com, jgross@suse.com, gregkh@linuxfoundation.org,
- rdunlap@infradead.org, frowand.list@gmail.com,
- iommu@lists.linux-foundation.org, xypron.glpk@gmx.de,
- linuxppc-dev@lists.ozlabs.org
+Content-Disposition: inline
+In-Reply-To: <20210119111144.00002130@Huawei.com>
+Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+ robin.murphy@arm.com, guohanjun@huawei.com, rjw@rjwysocki.net,
+ iommu@lists.linux-foundation.org, robh+dt@kernel.org,
+ linux-accelerators@lists.ozlabs.org, sudeep.holla@arm.com,
+ vivek.gautam@arm.com, zhangfei.gao@linaro.org, will@kernel.org,
+ linux-arm-kernel@lists.infradead.org, lenb@kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -76,90 +96,46 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021-01-20 16:53, Rob Herring wrote:
-> On Wed, Jan 06, 2021 at 11:41:23AM +0800, Claire Chang wrote:
->> Introduce the new compatible string, restricted-dma-pool, for restricted
->> DMA. One can specify the address and length of the restricted DMA memory
->> region by restricted-dma-pool in the device tree.
+On Tue, Jan 19, 2021 at 11:11:44AM +0000, Jonathan Cameron wrote:
+> On Fri, 8 Jan 2021 15:52:09 +0100
+> Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
 > 
-> If this goes into DT, I think we should be able to use dma-ranges for
-> this purpose instead. Normally, 'dma-ranges' is for physical bus
-> restrictions, but there's no reason it can't be used for policy or to
-> express restrictions the firmware has enabled.
-
-There would still need to be some way to tell SWIOTLB to pick up the 
-corresponding chunk of memory and to prevent the kernel from using it 
-for anything else, though.
-
->> Signed-off-by: Claire Chang <tientzu@chromium.org>
->> ---
->>   .../reserved-memory/reserved-memory.txt       | 24 +++++++++++++++++++
->>   1 file changed, 24 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
->> index e8d3096d922c..44975e2a1fd2 100644
->> --- a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
->> +++ b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
->> @@ -51,6 +51,20 @@ compatible (optional) - standard definition
->>             used as a shared pool of DMA buffers for a set of devices. It can
->>             be used by an operating system to instantiate the necessary pool
->>             management subsystem if necessary.
->> +        - restricted-dma-pool: This indicates a region of memory meant to be
->> +          used as a pool of restricted DMA buffers for a set of devices. The
->> +          memory region would be the only region accessible to those devices.
->> +          When using this, the no-map and reusable properties must not be set,
->> +          so the operating system can create a virtual mapping that will be used
->> +          for synchronization. The main purpose for restricted DMA is to
->> +          mitigate the lack of DMA access control on systems without an IOMMU,
->> +          which could result in the DMA accessing the system memory at
->> +          unexpected times and/or unexpected addresses, possibly leading to data
->> +          leakage or corruption. The feature on its own provides a basic level
->> +          of protection against the DMA overwriting buffer contents at
->> +          unexpected times. However, to protect against general data leakage and
->> +          system memory corruption, the system needs to provide way to restrict
->> +          the DMA to a predefined memory region.
->>           - vendor specific string in the form <vendor>,[<device>-]<usage>
->>   no-map (optional) - empty property
->>       - Indicates the operating system must not create a virtual mapping
->> @@ -120,6 +134,11 @@ one for multimedia processing (named multimedia-memory@77000000, 64MiB).
->>   			compatible = "acme,multimedia-memory";
->>   			reg = <0x77000000 0x4000000>;
->>   		};
->> +
->> +		restricted_dma_mem_reserved: restricted_dma_mem_reserved {
->> +			compatible = "restricted-dma-pool";
->> +			reg = <0x50000000 0x400000>;
->> +		};
->>   	};
->>   
->>   	/* ... */
->> @@ -138,4 +157,9 @@ one for multimedia processing (named multimedia-memory@77000000, 64MiB).
->>   		memory-region = <&multimedia_reserved>;
->>   		/* ... */
->>   	};
->> +
->> +	pcie_device: pcie_device@0,0 {
->> +		memory-region = <&restricted_dma_mem_reserved>;
+> > Commit 986d5ecc5699 ("iommu: Move fwspec->iommu_priv to struct
+> > dev_iommu") removed iommu_priv from fwspec. Update the struct doc.
+> > 
+> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org
 > 
-> PCI hosts often have inbound window configurations that limit the
-> address range and translate PCI to bus addresses. Those windows happen
-> to be configured by dma-ranges. In any case, wouldn't you want to put
-> the configuration in the PCI host node? Is there a usecase of
-> restricting one PCIe device and not another?
+> Hi Jean-Philippe,
+> 
+> Flags parameter doesn't have any docs in this structure and should
+> do given kernel-doc should be complete.  It probably spits out a warning
+> for this if you build with W=1
 
-The general design seems to accommodate devices having their own pools 
-such that they can't even snoop on each others' transient DMA data. If 
-the interconnect had a way of wiring up, say, PCI RIDs to AMBA NSAIDs, 
-then in principle you could certainly apply that to PCI endpoints too 
-(presumably you'd also disallow them from peer-to-peer transactions at 
-the PCI level too).
+Ah right, I had a patch removing the flags field locally, but I'm not
+planning to upstream that one anymore. I don't mind fixing up the comment
+in next version.
 
-Robin.
+Thanks,
+Jean
+
+> 
+> Not sure if it makes sense to fix that in this same patch, or as a different
+> one as the responsible patch is a different one.
+> Looks like that came in:
+> Commit 5702ee24182f ("ACPI/IORT: Check ATS capability in root complex nodes")
+> 
+> Also, good to get this patch merged asap so we cut down on the noise in the
+> interesting part of this series!
+> 
+> FWIW
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+> Jonathan
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
