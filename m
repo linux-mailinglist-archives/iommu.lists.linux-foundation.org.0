@@ -1,64 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FED2FD65D
-	for <lists.iommu@lfdr.de>; Wed, 20 Jan 2021 18:04:25 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 1ACC72036D;
-	Wed, 20 Jan 2021 17:04:24 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7jYVR3vRFuMk; Wed, 20 Jan 2021 17:04:22 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 3B27C20397;
-	Wed, 20 Jan 2021 17:04:22 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 07B79C1DA7;
-	Wed, 20 Jan 2021 17:04:22 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DB054C013A
- for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 17:04:20 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 247842FD6AA
+	for <lists.iommu@lfdr.de>; Wed, 20 Jan 2021 18:18:00 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C00E684A0B
- for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 17:04:20 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D5C9A85E60;
+	Wed, 20 Jan 2021 17:17:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xFEWGzANSy9e; Wed, 20 Jan 2021 17:17:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 374B085E5C;
+	Wed, 20 Jan 2021 17:17:58 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2121EC013A;
+	Wed, 20 Jan 2021 17:17:58 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0F390C013A
+ for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 17:17:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 0AD9E870E5
+ for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 17:17:56 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZKmqJvSPTm7W for <iommu@lists.linux-foundation.org>;
- Wed, 20 Jan 2021 17:04:20 +0000 (UTC)
+ with ESMTP id MGWQNGLfZtSC for <iommu@lists.linux-foundation.org>;
+ Wed, 20 Jan 2021 17:17:54 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 538928495A
- for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 17:04:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7DBA72137B;
- Wed, 20 Jan 2021 17:04:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1611162260;
- bh=caeQFJb0TACo4Z1f02CFkwI8apxVCibwEWvBI0FGyGo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qQ34fOy1MEe1UULlEne1AghHIc2h2k1rm2puWnqYJDVOG/HJgEj7wdvNPP6HtKP16
- 0W1Meby87U9oxd45rsd4o8tf/VQroGzb2HNVzxRWpj0iHTY1J+7oLlWVMPUZTHK7UU
- Q8493TR+gsuswXMl8dXq/9/bPnNiMDPPuatFR7bY=
-Date: Wed, 20 Jan 2021 18:04:17 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: David Woodhouse <dwmw2@infradead.org>
-Subject: Re: [PATCH] iommu/vt-d: gracefully handle DMAR units with no
- supported address widths
-Message-ID: <YAhikV3sOsyRVDyh@kroah.com>
-References: <549928db2de6532117f36c9c810373c14cf76f51.camel@infradead.org>
- <5414a3e3cdbd24ba707153584d13f06ed5dbba76.camel@infradead.org>
- <YAgc2MX2c2N/rGDM@kroah.com>
- <61f3f0a09f015707eb727109cf3a4d97d41e3675.camel@infradead.org>
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id CA5278700D
+ for <iommu@lists.linux-foundation.org>; Wed, 20 Jan 2021 17:17:53 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 2631968B05; Wed, 20 Jan 2021 18:17:49 +0100 (CET)
+Date: Wed, 20 Jan 2021 18:17:48 +0100
+From: ". Christoph Hellwig" <hch@lst.de>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+Message-ID: <20210120171748.GA24290@lst.de>
+References: <20201125221917.150463-1-ribalda@chromium.org>
+ <20201130083410.GD32234@lst.de> <20201201033658.GE3723071@google.com>
+ <20201201144916.GA14682@lst.de>
+ <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
+ <20201208071320.GA1667627@google.com> <20201209111639.GB22806@lst.de>
+ <CANiDSCtsOdJUK3r_t8UNKhh7Px0ANNFJkuwM1fBgZ7wnVh0JFA@mail.gmail.com>
+ <20210111083614.GA27589@lst.de>
+ <CANiDSCvuvj47=nhoWhvzc5raMxM60w+JYRWjd0YepcbcbkrUjA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <61f3f0a09f015707eb727109cf3a4d97d41e3675.camel@infradead.org>
-Cc: "Mendoza-jonas, Samuel" <samjonas@amazon.com>, "Sironi,
- Filippo" <sironi@amazon.de>, stable@vger.kernel.org,
- iommu <iommu@lists.linux-foundation.org>, Will Deacon <will@kernel.org>
+In-Reply-To: <CANiDSCvuvj47=nhoWhvzc5raMxM60w+JYRWjd0YepcbcbkrUjA@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: Sergey Senozhatsky <senozhatsky@google.com>,
+ Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, ". Christoph Hellwig" <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -71,44 +73,23 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-T24gV2VkLCBKYW4gMjAsIDIwMjEgYXQgMDM6NTU6MDVQTSArMDAwMCwgRGF2aWQgV29vZGhvdXNl
-IHdyb3RlOgo+IE9uIFdlZCwgMjAyMS0wMS0yMCBhdCAxMzowNiArMDEwMCwgR3JlZyBLSCB3cm90
-ZToKPiA+IE9uIFdlZCwgSmFuIDIwLCAyMDIxIGF0IDA5OjQyOjQzQU0gKzAwMDAsIERhdmlkIFdv
-b2Rob3VzZSB3cm90ZToKPiA+ID4gT24gVGh1LCAyMDIwLTA5LTI0IGF0IDE1OjA4ICswMTAwLCBE
-YXZpZCBXb29kaG91c2Ugd3JvdGU6Cj4gPiA+ID4gRnJvbTogRGF2aWQgV29vZGhvdXNlIDxkd213
-QGFtYXpvbi5jby51az4KPiA+ID4gPiAKPiA+ID4gPiBJbnN0ZWFkIG9mIGJhaWxpbmcgb3V0IGNv
-bXBsZXRlbHksIHN1Y2ggYSB1bml0IGNhbiBzdGlsbCBiZSB1c2VkIGZvcgo+ID4gPiA+IGludGVy
-cnVwdCByZW1hcHBpbmcuCj4gPiA+ID4gCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogRGF2aWQgV29v
-ZGhvdXNlIDxkd213QGFtYXpvbi5jby51az4KPiA+ID4gCj4gPiA+IENvdWxkIHdlIGhhdmUgdGhp
-cyBmb3Igc3RhYmxlIHRvbyBwbGVhc2UsIGFsb25nIHdpdGggdGhlIHRyaXZpYWwKPiA+ID4gc3Vi
-c2VxdWVudCBmaXh1cC4gVGhleSBhcmU6Cj4gPiA+IAo+ID4gPiBjNDBhYWFhYzEwMTggKCJpb21t
-dS92dC1kOiBHcmFjZWZ1bGx5IGhhbmRsZSBETUFSIHVuaXRzIHdpdGggbm8gc3VwcG9ydGVkIGFk
-ZHJlc3Mgd2lkdGhzIikKPiA+ID4gOWRlZjNiMWEwN2M0ICgiaW9tbXUvdnQtZDogRG9uJ3QgZGVy
-ZWZlcmVuY2UgaW9tbXVfZGV2aWNlIGlmIElPTU1VX0FQSSBpcyBub3QgYnVpbHQiKQo+ID4gPiAK
-PiA+ID4gVGhleSBhcHBseSBmYWlybHkgc3RyYWlnaHRmb3J3YXJkbHkgd2hlbiBiYWNrcG9ydGVk
-OyBsZXQgbWUga25vdyBpZiB5b3UKPiA+ID4gd2FudCB1cyB0byBzZW5kIHBhdGNoZXMuCj4gPiAK
-PiA+IFdoYXQgc3RhYmxlIGtlcm5lbChzKSBkbyB5b3Ugd2FudCB0aGlzIGluPyAgVGhlIGFib3Zl
-IHBhdGNoZXMgYXJlCj4gPiBhbHJlYWR5IGluIDUuMTAuCj4gCj4gSXQncyBhIGZhaXJseSBzaW1w
-bGUgYnVnIGZpeCwgdG8gc3RpbGwgdXNlIGEgZ2l2ZW4gSU9NTVUgZm9yIGludGVycnVwdAo+IHJl
-bWFwcGluZyBldmVuIGlmIGl0IGNhbid0IGJlIHVzZWQgZm9yIERNQSBtYXBwaW5nLgo+IAo+IFRo
-b3NlIGZlYXR1cmVzIGFyZSBzb21ld2hhdCBvcnRob2dvbmFsLCBhbmQgaXQgd2FzIHdyb25nIGZv
-ciB0aGUga2VybmVsCj4gdG8gYmFpbCBvdXQgb24gdGhlIElPTU1VIGhhcmR3YXJlIGNvbXBsZXRl
-bHkuCj4gCj4gVGhlIGludGVycnVwdCByZW1hcHBpbmcgc3VwcG9ydCBpcyB3aGF0J3MgcmVxdWly
-ZWQgZm9yIEludGVsIGJveGVzIChvcgo+IFZNcykgdG8gcnVuIHdpdGggbW9yZSB0aGFuIDI1NSBD
-UFVzLiBJdCBzaG91bGQgYmUgZmFpcmx5IHNpbXBsZSB0byBmaXgKPiB0aGUgc2FtZSBidWcgYXQg
-bGVhc3QgYXMgZmFyIGJhY2sgYXMgNC4xNC4KCkkgdHJpZWQgYXBwbHlpbmcgdGhlc2UgdG8gNS40
-LCA0LjE5LCBhbmQgNC4xNCwgYW5kIHRoZXkgYWxsIGZhaWwgdG8KYnVpbGQ6Cgpkcml2ZXJzL2lv
-bW11L2RtYXIuYzogSW4gZnVuY3Rpb24g4oCYZnJlZV9pb21tdeKAmToKZHJpdmVycy9pb21tdS9k
-bWFyLmM6MTE0MDozNTogZXJyb3I6IOKAmHN0cnVjdCBpbnRlbF9pb21tdeKAmSBoYXMgbm8gbWVt
-YmVyIG5hbWVkIOKAmGRyaGTigJkKIDExNDAgfCAgaWYgKGludGVsX2lvbW11X2VuYWJsZWQgJiYg
-IWlvbW11LT5kcmhkLT5pZ25vcmVkKSB7CiAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIF5+CgpTbyBpZiB5b3UgY291bGQgcHJvdmlkZSBhIHdvcmtpbmcgc2V0IG9mIHBh
-dGNoZXMgYmFja3BvcnRlZCwgSSB3aWxsIGJlCmdsYWQgdG8gcXVldWUgdGhlbSB1cC4KCnRoYW5r
-cywKCmdyZWcgay1oCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmlvbW11IG1haWxpbmcgbGlzdAppb21tdUBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpo
-dHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9pb21tdQ==
+On Fri, Jan 15, 2021 at 02:08:14PM +0100, Ricardo Ribalda wrote:
+> > > Did you have time to look into this?
+> > >
+> > > No hurry, I just want to make sure that I didn't miss anything ;)
+> >
+> > Haven't managed to get to it, sorry.
+> 
+> No worries!, is there something we can do to help you with this?
+
+Not yet.  I hope to get to it in the next days, and then soon I'll
+need all the help you can give me for feedback and testing.
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
