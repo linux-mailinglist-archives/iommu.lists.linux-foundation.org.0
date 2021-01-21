@@ -1,80 +1,82 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B322FEA3C
-	for <lists.iommu@lfdr.de>; Thu, 21 Jan 2021 13:39:39 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CB2CD85F6D;
-	Thu, 21 Jan 2021 12:39:37 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QXst2xU6RGdM; Thu, 21 Jan 2021 12:39:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 31EA186CB7;
-	Thu, 21 Jan 2021 12:39:37 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1BC66C013A;
-	Thu, 21 Jan 2021 12:39:37 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2E029C013A
- for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 12:39:35 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC862FEA3B
+	for <lists.iommu@lfdr.de>; Thu, 21 Jan 2021 13:39:38 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 1C4BF844B2
- for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 12:39:35 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 6290486248;
+	Thu, 21 Jan 2021 12:39:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yViAojwKxFU3; Thu, 21 Jan 2021 12:39:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E648285F43;
+	Thu, 21 Jan 2021 12:39:36 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C2D04C013A;
+	Thu, 21 Jan 2021 12:39:36 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CFEAEC013A
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 12:39:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id B52E186030
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 12:39:34 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hqijPXKU1FGp for <iommu@lists.linux-foundation.org>;
- Thu, 21 Jan 2021 12:39:33 +0000 (UTC)
+ with ESMTP id rg51jsEcpeQP for <iommu@lists.linux-foundation.org>;
+ Thu, 21 Jan 2021 12:39:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
  [209.85.221.52])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id D5F6A844AB
- for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 12:39:32 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id l12so1602785wry.2
- for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 04:39:32 -0800 (PST)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id D5E2885F6D
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 12:39:33 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id l12so1602833wry.2
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 04:39:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=b3l0OetoC6tw2Q4vXg0OJU58lOnJngSuhcgcpV0j+8A=;
- b=eWz40E4PQwAOppqBXOwKvt7Q0dVqHUMh5fqoJvuQDA3+kHfzRAM63s2hCG8pfXf/KX
- t1YLSGF55pBNR2O9qMkU8XNhlJEEPEFxSPI+KSsuahcO6/fMwqXvmQIo6j1dfavCmDdj
- 2B4/qfVkLa0wBIQM3C7X6KgbYGm6oqE9MOBt17J/hCH9OvzxW2nN3/Fafr9nNHhw1pKd
- KvmOhkIHRvFkOP99nRyu5JXBGxSs8J9RFK95nw/VPMXO4yliQAc11MxeVpIy76ZiUVm2
- hY98zO+6QyqZygvqDXOilArvpDWBw4lbh2dFhPuehwvVGwJAKaiui4K6V79Pg/DqOpRc
- a7+A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0PBUJkI6WkOQ4c7ebH11XhAeKbkF/R51HzjghE20E74=;
+ b=S6KAw6BFvy1u9gJvmutqIln16f2tlRmzrrTj88Jt8KD7XWgeUEfM6naKbWUTAAPUwB
+ rZS7buyT/hDN9LnURR0KzikousqtLELsRIgdbWXldN/HbgqPED5ggw9DQI5xYMZBl4jO
+ qOmCKvazJNe47iOE/IQhrlbYSbOJK6aqGhTDnurw+RTVmKI8OpKIy66mv0OjGTNemNq8
+ D6H49liQT+jbQQWyu6qOoYUGwUjydvCbtSND5j/FWlQs4KpluWbrLop3s7y5psHv/qXI
+ 6JBpXe8GgGkHTb79wjro/Uc6XEb3UDtIFpKB4GgIjVT807gmpNW8hVcqSy/J775Tgktb
+ Ek0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=b3l0OetoC6tw2Q4vXg0OJU58lOnJngSuhcgcpV0j+8A=;
- b=ZxpVVAjx/iIXzQvY6lhxymBlnNkhBxwCYA4TLqG6KzduLeij/6r5PhWah4BiCFV1kN
- OrnTDu8WJqW9tTa+GvymSL33JkNiaSLL3z4fayqdPpzTiFor9vdFGYO3bqPo5FzteDRV
- s2nyLvSDY2THQPeEuAKjY9skAviAZfklW7Giwus69SA2F+I7AUnTXw1TBRuKn9HyMcQJ
- PvDmQVzjFNO+kdwArwq3cJO9XegArOvJt9CU4RNVIMSxaNllcE710lXpFN30/Y0UXgPk
- ewxJQadKolNXBGCMQjVsghXqUtKFNQtaD9O6kIaDoSUwWcuYb81P2u+HyVLTmCCxbiDy
- 4HoA==
-X-Gm-Message-State: AOAM530LCrHYnYatSO5/CRKfxf5ixyv3e64m+UUvVh2En8R8sF8qflQT
- T2WqGJguDnidu2+97kuQX2IvHA==
-X-Google-Smtp-Source: ABdhPJxQ+YnQY5ijaIW9U3we9pi/dCo07br3O0qdhedw1UO5Y/HhGzv9KZbJGYIhp9HYeRyQJgQvQQ==
-X-Received: by 2002:adf:d20b:: with SMTP id j11mr13720018wrh.318.1611232771208; 
- Thu, 21 Jan 2021 04:39:31 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0PBUJkI6WkOQ4c7ebH11XhAeKbkF/R51HzjghE20E74=;
+ b=N6NJE7FpLc1SCdsreuj9P6Ub881MmT3r9BV+MzKtuY688ZmJuGnyhfD3r5BohuILvF
+ 6ODdBSLIjaXqle+puMyFa8euGM0TUHkhQVBJtg+/nnhrVWD05QDH2zSUaJyAZZuCWmt+
+ seIwhCa9bmNSUYTyGYgoq3/THhoI3qTPmIvIXVCsizL89tkU8IPKs/1mG7mZE2PfMATL
+ fTFEz8O9f4t+/MTEg7pCxPij2el20opASmhyxU+7b7r91RyxGMA6kE7t784fnq3egueo
+ 1gpqWxiOAj1gTAgs92sZaaN1sOUEDS7FZCRLZ1td+3+lZ8+jX0Bv9IuT2mneD5tCV177
+ rpOw==
+X-Gm-Message-State: AOAM531rfgIgtKAh8/2Bvotkig1AVWsHrGI1hzzg7gwuFBQNLs36FKqo
+ bH7JAHk3n/ci4wEUnLIwLVfWcA==
+X-Google-Smtp-Source: ABdhPJyfGOcKra/ylSEchuLporqovRSRrQIgsiDTRwFORMSbkkpu92YM/S/k4DpD7qDCmqHN7DeYZw==
+X-Received: by 2002:adf:ee4d:: with SMTP id w13mr14080338wro.216.1611232772398; 
+ Thu, 21 Jan 2021 04:39:32 -0800 (PST)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id p18sm7979248wmc.31.2021.01.21.04.39.30
+ by smtp.gmail.com with ESMTPSA id p18sm7979248wmc.31.2021.01.21.04.39.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jan 2021 04:39:30 -0800 (PST)
+ Thu, 21 Jan 2021 04:39:31 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: joro@8bytes.org,
 	will@kernel.org
-Subject: [PATCH v10 00/10] iommu: I/O page faults for SMMUv3
-Date: Thu, 21 Jan 2021 13:36:14 +0100
-Message-Id: <20210121123623.2060416-1-jean-philippe@linaro.org>
+Subject: [PATCH v10 01/10] iommu: Fix comment for struct iommu_fwspec
+Date: Thu, 21 Jan 2021 13:36:15 +0100
+Message-Id: <20210121123623.2060416-2-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210121123623.2060416-1-jean-philippe@linaro.org>
+References: <20210121123623.2060416-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Cc: vivek.gautam@arm.com, guohanjun@huawei.com,
  Jean-Philippe Brucker <jean-philippe@linaro.org>, linux-acpi@vger.kernel.org,
@@ -99,47 +101,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add stall support to the SMMUv3, along with a common I/O Page Fault
-handler.
+Commit 986d5ecc5699 ("iommu: Move fwspec->iommu_priv to struct
+dev_iommu") removed iommu_priv from fwspec and commit 5702ee24182f
+("ACPI/IORT: Check ATS capability in root complex nodes") added @flags.
+Update the struct doc.
 
-Changes since v9 [1]:
-* Style changes suggested by Jonathan
-* Fixes to patch 10 pointed out by Robin
-* In patch 10, don't register the mm fault handler when enabling
-  IOMMU_DEV_FEAT_IOPF, because that feature only indicates that a device
-  driver wants to use PRI or stall. After enabling it, drivers may
-  register their own IOPF handler (see discussion on v9 patch 03).
-  Instead register the mm handler when enabling IOMMU_DEV_FEAT_SVA.
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+---
+ include/linux/iommu.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1] https://lore.kernel.org/linux-iommu/20210108145217.2254447-1-jean-philippe@linaro.org/
-
-Jean-Philippe Brucker (10):
-  iommu: Fix comment for struct iommu_fwspec
-  iommu/arm-smmu-v3: Use device properties for pasid-num-bits
-  iommu: Separate IOMMU_DEV_FEAT_IOPF from IOMMU_DEV_FEAT_SVA
-  iommu/vt-d: Support IOMMU_DEV_FEAT_IOPF
-  uacce: Enable IOMMU_DEV_FEAT_IOPF
-  iommu: Add a page fault handler
-  iommu/arm-smmu-v3: Maintain a SID->device structure
-  dt-bindings: document stall property for IOMMU masters
-  ACPI/IORT: Enable stall support for platform devices
-  iommu/arm-smmu-v3: Add stall support for platform devices
-
- drivers/iommu/Makefile                        |   1 +
- .../devicetree/bindings/iommu/iommu.txt       |  18 +
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  56 ++-
- drivers/iommu/iommu-sva-lib.h                 |  53 ++
- include/linux/iommu.h                         |  26 +-
- drivers/acpi/arm64/iort.c                     |  15 +-
- .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |  59 ++-
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 347 +++++++++++--
- drivers/iommu/intel/iommu.c                   |  11 +-
- drivers/iommu/io-pgfault.c                    | 461 ++++++++++++++++++
- drivers/iommu/of_iommu.c                      |   5 -
- drivers/misc/uacce/uacce.c                    |  39 +-
- 12 files changed, 1018 insertions(+), 73 deletions(-)
- create mode 100644 drivers/iommu/io-pgfault.c
-
+diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+index b3f0e2018c62..bdf3f34a4457 100644
+--- a/include/linux/iommu.h
++++ b/include/linux/iommu.h
+@@ -570,7 +570,7 @@ struct iommu_group *fsl_mc_device_group(struct device *dev);
+  * struct iommu_fwspec - per-device IOMMU instance data
+  * @ops: ops for this device's IOMMU
+  * @iommu_fwnode: firmware handle for this device's IOMMU
+- * @iommu_priv: IOMMU driver private data for this device
++ * @flags: IOMMU_FWSPEC_* flags
+  * @num_pasid_bits: number of PASID bits supported by this device
+  * @num_ids: number of associated device IDs
+  * @ids: IDs which this device may present to the IOMMU
 -- 
 2.30.0
 
