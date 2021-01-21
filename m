@@ -1,73 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70BB22FEF60
-	for <lists.iommu@lfdr.de>; Thu, 21 Jan 2021 16:48:23 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4B82FF1E2
+	for <lists.iommu@lfdr.de>; Thu, 21 Jan 2021 18:29:27 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1A2EB86C1A;
-	Thu, 21 Jan 2021 15:48:22 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id DFF88871FA;
+	Thu, 21 Jan 2021 17:29:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UBtERqM0HyYO; Thu, 21 Jan 2021 15:48:20 +0000 (UTC)
+	with ESMTP id fnZg4Z5IQUBm; Thu, 21 Jan 2021 17:29:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C50B386C03;
-	Thu, 21 Jan 2021 15:48:20 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id CAE85871F9;
+	Thu, 21 Jan 2021 17:29:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B3948C013A;
-	Thu, 21 Jan 2021 15:48:20 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AF5ECC013A;
+	Thu, 21 Jan 2021 17:29:23 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CE021C013A
- for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 15:48:19 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D86A6C013A
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 17:29:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id AD83E20394
- for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 15:48:19 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D380B8466C
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 17:29:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9BdcwemUGeDt for <iommu@lists.linux-foundation.org>;
- Thu, 21 Jan 2021 15:48:18 +0000 (UTC)
+ with ESMTP id EK1XeWERTWJi for <iommu@lists.linux-foundation.org>;
+ Thu, 21 Jan 2021 17:29:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by silver.osuosl.org (Postfix) with ESMTPS id 7FAE42036B
- for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 15:48:18 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9B86523A04
- for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 15:48:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611244098;
- bh=ESCY3rt1UpVAToMmeAThDINvSacKiOsK2nc/NRoNF9g=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=LCFe42rTpo0PlaukO40aoasQL5/Qys43MShy5ZOg+JcG27AZaNRJ4cHu3ZE/cf8rR
- HIq5i0dftrTxshUnv+icHC5DHyTHfgXx2miR6yKQvenRHR5EcVuOpasmEc7yPQPVKD
- cwEyOANH8KznmYsj7P/LmxN8ew+znCkYwD6N0a4Tn3GZxCRNczrWFg3Bw2fLc+J8b0
- mk+EobIZoCcxbqX8JNLKcWwjnfwQR3O98R8GTEtgLU8u20ZLIEKiWn8pxnDTKeDO9I
- oRgIbCp6Cch6hzf1mS9uVrtxlnUuCLlYvc71A4V2HcSXBy2GIVc5mXErflL3r+khjI
- CV+PqF7WZ5l5A==
-Received: by mail-lf1-f42.google.com with SMTP id b26so3136350lff.9
- for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 07:48:17 -0800 (PST)
-X-Gm-Message-State: AOAM530+MK2gErUvy9dylo4MMUgkWxS0Rigz60zewBA9JML28kSTWqVi
- x3zHEMcaAQ6jkaDb9Omn35S+qKF6BU9vjwSt3Q==
-X-Google-Smtp-Source: ABdhPJxClIBHDNh0ezMtBn3tEIUpA6A69KltrTNKbOdslOUCg3ST6RYu/puKZCvzOeFiwKhVG1uu2/TgGhoFpNLSPDU=
-X-Received: by 2002:a17:906:958f:: with SMTP id
- r15mr70711ejx.360.1611244095545; 
- Thu, 21 Jan 2021 07:48:15 -0800 (PST)
-MIME-Version: 1.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by fraxinus.osuosl.org (Postfix) with ESMTP id B85AF84549
+ for <iommu@lists.linux-foundation.org>; Thu, 21 Jan 2021 17:29:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B74E611B3;
+ Thu, 21 Jan 2021 09:29:20 -0800 (PST)
+Received: from [10.57.39.58] (unknown [10.57.39.58])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 13E233F66E;
+ Thu, 21 Jan 2021 09:29:14 -0800 (PST)
+Subject: Re: [RFC PATCH v3 5/6] dt-bindings: of: Add restricted DMA pool
+To: Rob Herring <robh@kernel.org>
 References: <20210106034124.30560-1-tientzu@chromium.org>
  <20210106034124.30560-6-tientzu@chromium.org>
  <20210120165348.GA220770@robh.at.kernel.org>
  <313f8052-a591-75de-c4c2-ee9ea8f02e7f@arm.com>
  <CAL_JsqKjTqcCbCLksRbCh7=f-A3Y09A3jNqtUApaA+p=RKd_Eg@mail.gmail.com>
  <c0d631de-8840-4f6e-aebf-41bb8449f78c@arm.com>
-In-Reply-To: <c0d631de-8840-4f6e-aebf-41bb8449f78c@arm.com>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 21 Jan 2021 09:48:03 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLv-FaiY_k+wS=iXG5AtccsXSBtvTfEGHvsN-VNqXdwpA@mail.gmail.com>
-Message-ID: <CAL_JsqLv-FaiY_k+wS=iXG5AtccsXSBtvTfEGHvsN-VNqXdwpA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 5/6] dt-bindings: of: Add restricted DMA pool
-To: Robin Murphy <robin.murphy@arm.com>
+ <CAL_JsqLv-FaiY_k+wS=iXG5AtccsXSBtvTfEGHvsN-VNqXdwpA@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <1a570c5c-e0da-7d86-4384-4a4c50193c94@arm.com>
+Date: Thu, 21 Jan 2021 17:29:13 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+MIME-Version: 1.0
+In-Reply-To: <CAL_JsqLv-FaiY_k+wS=iXG5AtccsXSBtvTfEGHvsN-VNqXdwpA@mail.gmail.com>
+Content-Language: en-GB
 Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Peter Zijlstra <peterz@infradead.org>,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
@@ -104,80 +93,127 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Wed, Jan 20, 2021 at 7:10 PM Robin Murphy <robin.murphy@arm.com> wrote:
->
-> On 2021-01-20 21:31, Rob Herring wrote:
-> > On Wed, Jan 20, 2021 at 11:30 AM Robin Murphy <robin.murphy@arm.com> wrote:
-> >>
-> >> On 2021-01-20 16:53, Rob Herring wrote:
-> >>> On Wed, Jan 06, 2021 at 11:41:23AM +0800, Claire Chang wrote:
-> >>>> Introduce the new compatible string, restricted-dma-pool, for restricted
-> >>>> DMA. One can specify the address and length of the restricted DMA memory
-> >>>> region by restricted-dma-pool in the device tree.
-> >>>
-> >>> If this goes into DT, I think we should be able to use dma-ranges for
-> >>> this purpose instead. Normally, 'dma-ranges' is for physical bus
-> >>> restrictions, but there's no reason it can't be used for policy or to
-> >>> express restrictions the firmware has enabled.
-> >>
-> >> There would still need to be some way to tell SWIOTLB to pick up the
-> >> corresponding chunk of memory and to prevent the kernel from using it
-> >> for anything else, though.
-> >
-> > Don't we already have that problem if dma-ranges had a very small
-> > range? We just get lucky because the restriction is generally much
-> > more RAM than needed.
->
-> Not really - if a device has a naturally tiny addressing capability that
-> doesn't even cover ZONE_DMA32 where the regular SWIOTLB buffer will be
-> allocated then it's unlikely to work well, but that's just crap system
-> design. Yes, memory pressure in ZONE_DMA{32} is particularly problematic
-> for such limited devices, but it's irrelevant to the issue at hand here.
+On 2021-01-21 15:48, Rob Herring wrote:
+> On Wed, Jan 20, 2021 at 7:10 PM Robin Murphy <robin.murphy@arm.com>
+> wrote:
+>> 
+>> On 2021-01-20 21:31, Rob Herring wrote:
+>>> On Wed, Jan 20, 2021 at 11:30 AM Robin Murphy
+>>> <robin.murphy@arm.com> wrote:
+>>>> 
+>>>> On 2021-01-20 16:53, Rob Herring wrote:
+>>>>> On Wed, Jan 06, 2021 at 11:41:23AM +0800, Claire Chang
+>>>>> wrote:
+>>>>>> Introduce the new compatible string, restricted-dma-pool,
+>>>>>> for restricted DMA. One can specify the address and length
+>>>>>> of the restricted DMA memory region by restricted-dma-pool
+>>>>>> in the device tree.
+>>>>> 
+>>>>> If this goes into DT, I think we should be able to use
+>>>>> dma-ranges for this purpose instead. Normally, 'dma-ranges'
+>>>>> is for physical bus restrictions, but there's no reason it
+>>>>> can't be used for policy or to express restrictions the
+>>>>> firmware has enabled.
+>>>> 
+>>>> There would still need to be some way to tell SWIOTLB to pick
+>>>> up the corresponding chunk of memory and to prevent the kernel
+>>>> from using it for anything else, though.
+>>> 
+>>> Don't we already have that problem if dma-ranges had a very
+>>> small range? We just get lucky because the restriction is
+>>> generally much more RAM than needed.
+>> 
+>> Not really - if a device has a naturally tiny addressing capability
+>> that doesn't even cover ZONE_DMA32 where the regular SWIOTLB buffer
+>> will be allocated then it's unlikely to work well, but that's just
+>> crap system design. Yes, memory pressure in ZONE_DMA{32} is
+>> particularly problematic for such limited devices, but it's
+>> irrelevant to the issue at hand here.
+> 
+> Yesterday's crap system design is today's security feature. Couldn't 
+> this feature make crap system design work better?
 
-Yesterday's crap system design is today's security feature. Couldn't
-this feature make crap system design work better?
+Indeed! Say you bring out your shiny new "Strawberry Flan 4" machine
+with all the latest connectivity, but tragically its PCIe can only
+address 25% of the RAM. So you decide to support deploying it in two
+configurations: one where it runs normally for best performance, and
+another "secure" one where it dedicates that quarter of RAM as a 
+restricted DMA pool for any PCIe devices - that way, even if that hotel 
+projector you plug in turns out to be a rogue Thunderbolt endpoint, it 
+can never snarf your private keys off your eMMC out of the page cache.
 
-> What we have here is a device that's not allowed to see *kernel* memory
-> at all. It's been artificially constrained to a particular region by a
-> TZASC or similar, and the only data which should ever be placed in that
+(Yes, is is the thinnest of strawmen, but it sets the scene for the 
+point you raised...)
 
-May have been constrained, but that's entirely optional.
+...which is that in both cases the dma-ranges will still be identical. 
+So how is the kernel going to know whether to steal that whole area from 
+memblock before anything else can allocate from it, or not?
 
-In the optional case where the setup is entirely up to the OS, I don't
-think this belongs in the DT at all. Perhaps that should be solved
-first.
+I don't disagree that even in Claire's original intended case it would 
+be semantically correct to describe the hardware-firewalled region with 
+dma-ranges. It just turns out not to be necessary, and you're already 
+arguing for not adding anything in DT that doesn't need to be.
 
-> region is data intended for that device to see. That way if it tries to
-> go rogue it physically can't start slurping data intended for other
-> devices or not mapped for DMA at all. The bouncing is an important part
-> of this - I forget the title off-hand but there was an interesting paper
-> a few years ago which demonstrated that even with an IOMMU, streaming
-> DMA of in-place buffers could reveal enough adjacent data from the same
-> page to mount an attack on the system. Memory pressure should be
-> immaterial since the size of each bounce pool carveout will presumably
-> be tuned for the needs of the given device.
->
-> > In any case, wouldn't finding all the dma-ranges do this? We're
-> > already walking the tree to find the max DMA address now.
->
-> If all you can see are two "dma-ranges" properties, how do you propose
-> to tell that one means "this is the extent of what I can address, please
-> set my masks and dma-range-map accordingly and try to allocate things
-> where I can reach them" while the other means "take this output range
-> away from the page allocator and hook it up as my dedicated bounce pool,
-> because it is Serious Security Time"? Especially since getting that
-> choice wrong either way would be a Bad Thing.
+>> What we have here is a device that's not allowed to see *kernel*
+>> memory at all. It's been artificially constrained to a particular
+>> region by a TZASC or similar, and the only data which should ever
+>> be placed in that
+> 
+> May have been constrained, but that's entirely optional.
+> 
+> In the optional case where the setup is entirely up to the OS, I
+> don't think this belongs in the DT at all. Perhaps that should be
+> solved first.
 
-Either we have some heuristic based on the size or we add some hint.
-The point is let's build on what we already have for defining DMA
-accessible memory in DT rather than some parallel mechanism.
+Yes! Let's definitely consider that case! Say you don't have any 
+security or physical limitations but want to use a bounce pool for some 
+device anyway because reasons (perhaps copying streaming DMA data to a 
+better guaranteed alignment gives an overall performance win). Now the 
+*only* relevant thing to communicate to the kernel is to, ahem, reserve 
+a large chunk of memory, and use it for this special purpose. Isn't that 
+literally what reserved-memory bindings are for?
 
-Rob
+>> region is data intended for that device to see. That way if it
+>> tries to go rogue it physically can't start slurping data intended
+>> for other devices or not mapped for DMA at all. The bouncing is an
+>> important part of this - I forget the title off-hand but there was
+>> an interesting paper a few years ago which demonstrated that even
+>> with an IOMMU, streaming DMA of in-place buffers could reveal
+>> enough adjacent data from the same page to mount an attack on the
+>> system. Memory pressure should be immaterial since the size of each
+>> bounce pool carveout will presumably be tuned for the needs of the
+>> given device.
+>> 
+>>> In any case, wouldn't finding all the dma-ranges do this? We're 
+>>> already walking the tree to find the max DMA address now.
+>> 
+>> If all you can see are two "dma-ranges" properties, how do you
+>> propose to tell that one means "this is the extent of what I can
+>> address, please set my masks and dma-range-map accordingly and try
+>> to allocate things where I can reach them" while the other means
+>> "take this output range away from the page allocator and hook it up
+>> as my dedicated bounce pool, because it is Serious Security Time"?
+>> Especially since getting that choice wrong either way would be a
+>> Bad Thing.
+> 
+> Either we have some heuristic based on the size or we add some hint. 
+> The point is let's build on what we already have for defining DMA 
+> accessible memory in DT rather than some parallel mechanism.
+
+The point I'm trying to bang home is that it's really not about the DMA 
+accessibility, it's about the purpose of the memory itself. Even when 
+DMA accessibility *is* relevant it's already implied by that purpose, 
+from the point of view of the implementation. The only difference it 
+might make is to the end user if they want to ascertain whether the 
+presence of such a pool represents protection against an untrusted 
+device or just some DMA optimisation tweak.
+
+Robin.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
