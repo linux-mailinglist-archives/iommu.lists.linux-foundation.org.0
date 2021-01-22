@@ -1,63 +1,68 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AF7300484
-	for <lists.iommu@lfdr.de>; Fri, 22 Jan 2021 14:49:49 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0AE6300483
+	for <lists.iommu@lfdr.de>; Fri, 22 Jan 2021 14:49:48 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1C8B7870D7;
-	Fri, 22 Jan 2021 13:49:48 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 92CAE87390;
+	Fri, 22 Jan 2021 13:49:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id G0bRpeMjHWh3; Fri, 22 Jan 2021 13:49:47 +0000 (UTC)
+	with ESMTP id 7OB9vpTSxUQA; Fri, 22 Jan 2021 13:49:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 28DC5870D9;
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3BF268738E;
 	Fri, 22 Jan 2021 13:49:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 00DFFC013A;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 36740C013A;
 	Fri, 22 Jan 2021 13:49:47 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A2055C013A
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B1AF6C08A1
  for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 13:49:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 8DDD48738F
+ by silver.osuosl.org (Postfix) with ESMTP id 935CD2E107
  for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 13:49:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MWRDqKaOhtVk for <iommu@lists.linux-foundation.org>;
- Fri, 22 Jan 2021 13:49:42 +0000 (UTC)
+ with ESMTP id f0H1HrJj7-2Z for <iommu@lists.linux-foundation.org>;
+ Fri, 22 Jan 2021 13:49:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id D2FCA8738E
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 13:49:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0D87C23A5B;
- Fri, 22 Jan 2021 13:49:40 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTPS id 004AD226F3
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 13:49:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1339023A03;
+ Fri, 22 Jan 2021 13:49:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611323382;
- bh=AY9loDHgMeh2ZrnMx2lrCACh+G+05K6Me4W/feLoMc8=;
+ s=k20201202; t=1611323384;
+ bh=ATGg834zTjJdh8VUvM7w7CzgPmIsq9O4h4GoJ1kWZVw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QxTh39XsfhIr+7UCem5TAVRicZQiAoBGoWhLf8XwcaLIw7KvoxgA2OUVpA6i2jy7G
- unR/N35/jqJVpsUTrLoZMbJK4/VYRnVTqNaWjxsnub+FxH6lJ72LqRD8+k7lImApsm
- lyIGAOuLKC12xN1WBq7Jrepa4aCfC/TrryoYj2Q5NX8qBARwEg12S8ioVJA2GhgRnf
- AH1YKFUqhfxVPMB/fbuq7TWfyXxIqrBcWFVsfxZKGraCamlUSKse/PhhLs6MeN/6ME
- wWrxyGmdAkbo2/Tk+fN+QFoE7sHzdFvJNBLdX4PqY48RluEDF8R5XRdm91+2uYVyMz
- 5XTU3RbVaMQrA==
+ b=c5LtdfjyO0ZJ2wQDdYwmQ4PqiVRch4YhpzCOMXbf0r0S7nuVSVA1jIjWE9dC+tHL4
+ KWOdvanqNypQJ07oVpa2sscyyVLOiKwFzXZPJUCCuf8bCfCrnGSABRiknluMJmk7Rj
+ a/0Uy0RBlsq8Xh124Ljo4RMqB4854HffS2HTDcqaWWQBUu4+kRCt0GRIN07+wLXBhe
+ /lkGqupa4PqqJkWlg2hZC0XcQuLrveaBIKYj/k/xDpnFHI/JLxfHD5dH/5ZZHZHn/q
+ DWOTARY7saHkKmti1FJ9U7Yioy+QjHefkFSLS7gbEYaeds1zvwLIl4s1fwm/VlJcLP
+ axaoW6gFiCMvg==
 From: Will Deacon <will@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH] iommu/arm-smmu-v3: Remove the page 1 fixup
-Date: Fri, 22 Jan 2021 13:49:32 +0000
-Message-Id: <161132157305.230952.1264812810810433047.b4-ty@kernel.org>
+To: linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ iommu <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Zhen Lei <thunder.leizhen@huawei.com>
+Subject: Re: [PATCH 1/1] iommu/arm-smmu-v3: Use DEFINE_RES_MEM() to simplify
+ code
+Date: Fri, 22 Jan 2021 13:49:33 +0000
+Message-Id: <161132233107.235458.16848048173103026904.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <08d9bda570bb5681f11a2f250a31be9ef763b8c5.1611238182.git.robin.murphy@arm.com>
-References: <08d9bda570bb5681f11a2f250a31be9ef763b8c5.1611238182.git.robin.murphy@arm.com>
+In-Reply-To: <20210122131448.1167-1-thunder.leizhen@huawei.com>
+References: <20210122131448.1167-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-Cc: jean-philippe@linaro.org, Will Deacon <will@kernel.org>,
- catalin.marinas@arm.com, iommu@lists.linux-foundation.org,
- kernel-team@android.com, linux-arm-kernel@lists.infradead.org
+Cc: catalin.marinas@arm.com, kernel-team@android.com,
+ Will Deacon <will@kernel.org>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,18 +80,13 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, 21 Jan 2021 14:09:42 +0000, Robin Murphy wrote:
-> Since we now keep track of page 1 via a separate pointer that already
-> encapsulates aliasing to page 0 as necessary, we can remove the clunky
-> fixup routine and simply use the relevant bases directly. The current
-> architecture spec (IHI0070D.a) defines SMMU_{EVENTQ,PRIQ}_{PROD,CONS} as
-> offsets relative to page 1, so the cleanup represents a little bit of
-> convergence as well as just lines of code saved.
+On Fri, 22 Jan 2021 21:14:48 +0800, Zhen Lei wrote:
+> No functional change.
 
 Applied to will (for-joerg/arm-smmu/updates), thanks!
 
-[1/1] iommu/arm-smmu-v3: Remove the page 1 fixup
-      https://git.kernel.org/will/c/86d2d9214880
+[1/1] iommu/arm-smmu-v3: Use DEFINE_RES_MEM() to simplify code
+      https://git.kernel.org/will/c/932bc8c7d742
 
 Cheers,
 -- 
