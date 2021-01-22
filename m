@@ -1,68 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4349D300205
-	for <lists.iommu@lfdr.de>; Fri, 22 Jan 2021 12:54:06 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB16F30035B
+	for <lists.iommu@lfdr.de>; Fri, 22 Jan 2021 13:41:37 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B2A8987338;
-	Fri, 22 Jan 2021 11:54:04 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 71E7286A95;
+	Fri, 22 Jan 2021 12:41:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id b1QLnXi-O-jY; Fri, 22 Jan 2021 11:54:03 +0000 (UTC)
+	with ESMTP id hRfPrieqyT29; Fri, 22 Jan 2021 12:41:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 602508731D;
-	Fri, 22 Jan 2021 11:54:03 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 08F2586A8C;
+	Fri, 22 Jan 2021 12:41:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A764C1DA7;
-	Fri, 22 Jan 2021 11:54:03 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DD18CC013A;
+	Fri, 22 Jan 2021 12:41:35 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4EA07C013A
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 11:54:01 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 76BEFC013A
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 12:41:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 3699E86919
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 11:54:01 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 5E0B587041
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 12:41:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aCXGno7WQdHD for <iommu@lists.linux-foundation.org>;
- Fri, 22 Jan 2021 11:53:58 +0000 (UTC)
+ with ESMTP id S8CEBuqcL0VN for <iommu@lists.linux-foundation.org>;
+ Fri, 22 Jan 2021 12:41:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 389D4868F9
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 11:53:58 +0000 (UTC)
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DMd0l2PvczM8bR;
- Fri, 22 Jan 2021 19:52:23 +0800 (CST)
-Received: from [127.0.0.1] (10.40.188.87) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.498.0; Fri, 22 Jan 2021
- 19:53:41 +0800
-Subject: Re: [PATCH v9 05/10] uacce: Enable IOMMU_DEV_FEAT_IOPF
-To: Dave Jiang <dave.jiang@intel.com>, Jean-Philippe Brucker
- <jean-philippe@linaro.org>, <joro@8bytes.org>, <will@kernel.org>
-References: <20210108145217.2254447-1-jean-philippe@linaro.org>
- <20210108145217.2254447-6-jean-philippe@linaro.org>
- <e14f47bd-1b0c-1905-3bb7-62e1c5b096c7@intel.com>
-From: Zhou Wang <wangzhou1@hisilicon.com>
-Message-ID: <d25faa15-eaaf-a3b8-adaf-f7c81653f688@hisilicon.com>
-Date: Fri, 22 Jan 2021 19:53:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 83D1F868FB
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 12:41:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 75CE122DBF;
+ Fri, 22 Jan 2021 12:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1611319291;
+ bh=7rbUbkdEvJJvR3jEHrdTAYGXW1UTMHgBbr6d4EQwOhY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=A9lp3fd+MM+zlTZ7LhS0bL5D77eTmFbjEsclVnm181waq+jpKLXMvdkm8wi0NKpzg
+ AOXvTWfwYFnfWXunCnyyabRSrzc3OTmYU3H9NEl2z9Nv1i07yb4SeuZ5ZO3Km3cZlM
+ yKUhHfxTYK3cJ7tozZjEb/pd51F3ET4WejY3GwXRWcgmZX7dcOO5zbysL77wv7SmFn
+ xUlQ1a6mUHpRI0mHor2RndETI8jRVNQrfg/JeRud9H6aKciNEu8Sd586RaCCLRhhqY
+ lk1IVQrgIuyktBHf0dRqMnSeO2oHV38FJREzx1/pYPxZzITVyVeVZxEf9mf6r18S82
+ qJog8QJ8i66/A==
+Date: Fri, 22 Jan 2021 12:41:26 +0000
+From: Will Deacon <will@kernel.org>
+To: Jordan Crouse <jcrouse@codeaurora.org>
+Subject: Re: [PATCH v2 1/3] iommu/arm-smmu: Add support for driver IOMMU
+ fault handlers
+Message-ID: <20210122124125.GA24102@willie-the-truck>
+References: <20201124191600.2051751-1-jcrouse@codeaurora.org>
+ <20201124191600.2051751-2-jcrouse@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <e14f47bd-1b0c-1905-3bb7-62e1c5b096c7@intel.com>
-X-Originating-IP: [10.40.188.87]
-X-CFilter-Loop: Reflected
-Cc: devicetree@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-acpi@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- sudeep.holla@arm.com, rjw@rjwysocki.net, iommu@lists.linux-foundation.org,
- "Pan, Jacob jun" <jacob.jun.pan@intel.com>, vivek.gautam@arm.com,
- robh+dt@kernel.org, linux-accelerators@lists.ozlabs.org, guohanjun@huawei.com,
- zhangfei.gao@linaro.org, Dan
- Williams <dan.j.williams@intel.com>, robin.murphy@arm.com,
- linux-arm-kernel@lists.infradead.org, lenb@kernel.org
+Content-Disposition: inline
+In-Reply-To: <20201124191600.2051751-2-jcrouse@codeaurora.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: linux-arm-msm@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,130 +78,56 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021/1/21 4:47, Dave Jiang wrote:
+On Tue, Nov 24, 2020 at 12:15:58PM -0700, Jordan Crouse wrote:
+> Call report_iommu_fault() to allow upper-level drivers to register their
+> own fault handlers.
 > 
-> On 1/8/2021 7:52 AM, Jean-Philippe Brucker wrote:
->> The IOPF (I/O Page Fault) feature is now enabled independently from the
->> SVA feature, because some IOPF implementations are device-specific and
->> do not require IOMMU support for PCIe PRI or Arm SMMU stall.
->>
->> Enable IOPF unconditionally when enabling SVA for now. In the future, if
->> a device driver implementing a uacce interface doesn't need IOPF
->> support, it will need to tell the uacce module, for example with a new
->> flag.
->>
->> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
->> ---
->> Cc: Arnd Bergmann <arnd@arndb.de>
->> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Cc: Zhangfei Gao <zhangfei.gao@linaro.org>
->> Cc: Zhou Wang <wangzhou1@hisilicon.com>
->> ---
->>   drivers/misc/uacce/uacce.c | 32 +++++++++++++++++++++++++-------
->>   1 file changed, 25 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/misc/uacce/uacce.c b/drivers/misc/uacce/uacce.c
->> index d07af4edfcac..41ef1eb62a14 100644
->> --- a/drivers/misc/uacce/uacce.c
->> +++ b/drivers/misc/uacce/uacce.c
->> @@ -385,6 +385,24 @@ static void uacce_release(struct device *dev)
->>       kfree(uacce);
->>   }
->>   +static unsigned int uacce_enable_sva(struct device *parent, unsigned int flags)
->> +{
->> +    if (!(flags & UACCE_DEV_SVA))
->> +        return flags;
->> +
->> +    flags &= ~UACCE_DEV_SVA;
->> +
->> +    if (iommu_dev_enable_feature(parent, IOMMU_DEV_FEAT_IOPF))
->> +        return flags;
->> +
->> +    if (iommu_dev_enable_feature(parent, IOMMU_DEV_FEAT_SVA)) {
->> +        iommu_dev_disable_feature(parent, IOMMU_DEV_FEAT_IOPF);
->> +        return flags;
->> +    }
+> Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
+> ---
 > 
-> Sorry to jump in a bit late on this and not specifically towards the
-> intent of this patch. But I'd like to start a discussion on if we want
-> to push the iommu dev feature enabling to the device driver itself rather
-> than having UACCE control this? Maybe allow the device driver to manage
-> the feature bits and UACCE only verify that they are enabled?
+>  drivers/iommu/arm/arm-smmu/arm-smmu.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
 > 
-> 1. The device driver knows what platform it's on and what specific
->    feature bits its devices supports. Maybe in the future if there are
->    feature bits that's needed on one platform and not on another?
+> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> index 0f28a8614da3..7fd18bbda8f5 100644
+> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+> @@ -427,6 +427,7 @@ static irqreturn_t arm_smmu_context_fault(int irq, void *dev)
+>  	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
+>  	struct arm_smmu_device *smmu = smmu_domain->smmu;
+>  	int idx = smmu_domain->cfg.cbndx;
+> +	int ret;
+>  
+>  	fsr = arm_smmu_cb_read(smmu, idx, ARM_SMMU_CB_FSR);
+>  	if (!(fsr & ARM_SMMU_FSR_FAULT))
+> @@ -436,11 +437,20 @@ static irqreturn_t arm_smmu_context_fault(int irq, void *dev)
+>  	iova = arm_smmu_cb_readq(smmu, idx, ARM_SMMU_CB_FAR);
+>  	cbfrsynra = arm_smmu_gr1_read(smmu, ARM_SMMU_GR1_CBFRSYNRA(idx));
+>  
+> -	dev_err_ratelimited(smmu->dev,
+> -	"Unhandled context fault: fsr=0x%x, iova=0x%08lx, fsynr=0x%x, cbfrsynra=0x%x, cb=%d\n",
+> +	ret = report_iommu_fault(domain, dev, iova,
+> +		fsynr & ARM_SMMU_FSYNR0_WNR ? IOMMU_FAULT_WRITE : IOMMU_FAULT_READ);
+> +
+> +	if (ret == -ENOSYS)
+> +		dev_err_ratelimited(smmu->dev,
+> +		"Unhandled context fault: fsr=0x%x, iova=0x%08lx, fsynr=0x%x, cbfrsynra=0x%x, cb=%d\n",
+>  			    fsr, iova, fsynr, cbfrsynra, idx);
+>  
+> -	arm_smmu_cb_write(smmu, idx, ARM_SMMU_CB_FSR, fsr);
+> +	/*
+> +	 * If the iommu fault returns an error (except -ENOSYS) then assume that
+> +	 * they will handle resuming on their own
+> +	 */
+> +	if (!ret || ret == -ENOSYS)
+> +		arm_smmu_cb_write(smmu, idx, ARM_SMMU_CB_FSR, fsr);
 
-Hi Dave,
+Hmm, I don't grok this part. If the fault handler returned an error and
+we don't clear the FSR, won't we just re-take the irq immediately? I think
+it would be better to do this unconditionally, and print the "Unhandled
+context fault" message for any non-zero value of ret.
 
-From the discussion in this series, the meaning of IOMMU_DEV_FEAT_IOPF here
-is the IOPF capability of iommu device itself. So I think check it in UACCE
-will be fine.
-
-> 2. This allows the possibility of multiple uacce device registered to 1
->    pci dev, which for a device with asymmetric queues (Intel DSA/idxd
->    driver) that is desirable feature. The current setup forces a single
->    uacce device per pdev. If additional uacce devs are registered, the
->    first removal of uacce device will disable the feature bit for the
->    rest of the registered devices. With uacce managing the feature bit,
->    it would need to add device context to the parent pdev and ref
->    counting. It may be cleaner to just allow device driver to manage
->    the feature bits and the driver should have all the information on
->    when the feature needs to be turned on and off.
-
-Yes, we have this problem, however, this problem exists for IOMMU_DEV_FEAT_SVA
-too. How about to fix it in another patch?
-
-Best,
-Zhou
-
-> 
-> - DaveJ
-> 
-> 
->> +
->> +    return flags | UACCE_DEV_SVA;
->> +}
->> +
->>   /**
->>    * uacce_alloc() - alloc an accelerator
->>    * @parent: pointer of uacce parent device
->> @@ -404,11 +422,7 @@ struct uacce_device *uacce_alloc(struct device *parent,
->>       if (!uacce)
->>           return ERR_PTR(-ENOMEM);
->>   -    if (flags & UACCE_DEV_SVA) {
->> -        ret = iommu_dev_enable_feature(parent, IOMMU_DEV_FEAT_SVA);
->> -        if (ret)
->> -            flags &= ~UACCE_DEV_SVA;
->> -    }
->> +    flags = uacce_enable_sva(parent, flags);
->>         uacce->parent = parent;
->>       uacce->flags = flags;
->> @@ -432,8 +446,10 @@ struct uacce_device *uacce_alloc(struct device *parent,
->>       return uacce;
->>     err_with_uacce:
->> -    if (flags & UACCE_DEV_SVA)
->> +    if (flags & UACCE_DEV_SVA) {
->>           iommu_dev_disable_feature(uacce->parent, IOMMU_DEV_FEAT_SVA);
->> +        iommu_dev_disable_feature(uacce->parent, IOMMU_DEV_FEAT_IOPF);
->> +    }
->>       kfree(uacce);
->>       return ERR_PTR(ret);
->>   }
->> @@ -487,8 +503,10 @@ void uacce_remove(struct uacce_device *uacce)
->>       mutex_unlock(&uacce->queues_lock);
->>         /* disable sva now since no opened queues */
->> -    if (uacce->flags & UACCE_DEV_SVA)
->> +    if (uacce->flags & UACCE_DEV_SVA) {
->>           iommu_dev_disable_feature(uacce->parent, IOMMU_DEV_FEAT_SVA);
->> +        iommu_dev_disable_feature(uacce->parent, IOMMU_DEV_FEAT_IOPF);
->> +    }
->>         if (uacce->cdev)
->>           cdev_device_del(uacce->cdev, &uacce->dev);
-> 
-> .
-> 
-
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
