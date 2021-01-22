@@ -1,74 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A813000F4
-	for <lists.iommu@lfdr.de>; Fri, 22 Jan 2021 11:59:27 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18475300216
+	for <lists.iommu@lfdr.de>; Fri, 22 Jan 2021 12:56:33 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 444822E0DA;
-	Fri, 22 Jan 2021 10:59:26 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8521C87220;
+	Fri, 22 Jan 2021 11:56:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AdCSucQ0naCp; Fri, 22 Jan 2021 10:59:23 +0000 (UTC)
+	with ESMTP id Oqwwqrla6252; Fri, 22 Jan 2021 11:56:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id DFD782E0DB;
-	Fri, 22 Jan 2021 10:59:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 04D4787149;
+	Fri, 22 Jan 2021 11:56:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C7378C013A;
-	Fri, 22 Jan 2021 10:59:23 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DAE6CC013A;
+	Fri, 22 Jan 2021 11:56:30 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6FB5DC013A
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 10:59:21 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2746DC013A
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 11:56:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 6171F845D7
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 10:59:21 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 0E1BF87149
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 11:56:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Nk7mzZE2X3Fc for <iommu@lists.linux-foundation.org>;
- Fri, 22 Jan 2021 10:59:20 +0000 (UTC)
+ with ESMTP id u60jVnYm9ToT for <iommu@lists.linux-foundation.org>;
+ Fri, 22 Jan 2021 11:56:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id AA9A084415
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 10:59:19 +0000 (UTC)
-Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DMbkY5sG2z67dSX;
- Fri, 22 Jan 2021 18:55:01 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Fri, 22 Jan 2021 11:59:15 +0100
-Received: from localhost (10.47.73.222) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 22 Jan
- 2021 10:59:13 +0000
-Date: Fri, 22 Jan 2021 10:58:32 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v10 10/10] iommu/arm-smmu-v3: Add stall support for
- platform devices
-Message-ID: <20210122105832.00002dcb@Huawei.com>
-In-Reply-To: <YAqSCKeN2o+GsISZ@myrica>
-References: <20210121123623.2060416-1-jean-philippe@linaro.org>
- <20210121123623.2060416-11-jean-philippe@linaro.org>
- <20210121191236.00000103@Huawei.com> <YAqSCKeN2o+GsISZ@myrica>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 24FD2870DC
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 11:56:29 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id v15so4816298wrx.4
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 03:56:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pdKDptCHYJAfbzlC3FLHPAJA0x8fbBbYQpyeKd2Vy7k=;
+ b=Hl32bO5nl2Cn3RFHu+v+gO/NSZT7WO+5u61rmicU9FUzbEunYciGLmARVj9JRNbERV
+ vVYqiVyP5MTcVsS8UK8gFkv0ABSDHboBlDO05z5AjLmYTdKoVD5aZzSChh9R1LVjaVR+
+ nTvcwIIcxm9JNldlEpcuOfuZptpEK6qeHS021FtNZpVVlfXwvKOvqV8plBYOECHGWdQt
+ gZHuiuFjFMedFF8/LYK8Jq9xWKCdNLS46fn2kKqDulSP1CDxSNO782nwqMVZso7khpJ2
+ plYofAVbDtsUpge1Od4B1jtyko3WpP+f6RzuMMYGTCa4eMNRlKeN/VZIddX1LG9Tlxzd
+ C3/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pdKDptCHYJAfbzlC3FLHPAJA0x8fbBbYQpyeKd2Vy7k=;
+ b=ajOrPPe/A/3ZePSsGnYF442FDvYDMX1kXLvk1gGGgVJxNVUk7Y3YExc47c6T6ax3yj
+ n1cwC692FGeMVZONBEy1viXDOJGkN+POj4IXiojb08elTOyIlG5jh3HMXmH9msPhh2yR
+ kLKp5iGSnmoFHrc8aELIOhwgAPNPMdBWUwQmwMbBSBQSh9hAQyxNUAhM2yNV5DScJcpA
+ 8e6eX1rAzKWaBX7c3UUz9qCbe1N5liScQnzm1sLNversy6+LhObygpnJOYWtje/r+X3Y
+ B9+lJZh29/aS5bfmHaQex/6O2J6RXi8x+/kfKTlom+qst3evqRfdzhDt+DsgfHDEPDPi
+ cTlg==
+X-Gm-Message-State: AOAM531KSggPx8S1n2XnNLQ+vr9IGqtARqIdxtvn8XtTZS8ZZq3oKqgy
+ UbBPaf/Qq61z0AYnCRHSOzpmYw==
+X-Google-Smtp-Source: ABdhPJy1bMKqKX25Mz4Uyo7MUE5fAVdKwZqLqA9qO3qq6yPYaKhxlWSa+vbm8Yw67Dyrqqeql1KFzA==
+X-Received: by 2002:a5d:4391:: with SMTP id i17mr682554wrq.57.1611316587570;
+ Fri, 22 Jan 2021 03:56:27 -0800 (PST)
+Received: from localhost.localdomain
+ ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id s25sm13293901wrs.49.2021.01.22.03.56.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Jan 2021 03:56:26 -0800 (PST)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: will@kernel.org,
+	robin.murphy@arm.com,
+	joro@8bytes.org
+Subject: [PATCH 0/3] iommu/arm-smmu-v3: TLB invalidation for SVA
+Date: Fri, 22 Jan 2021 12:52:55 +0100
+Message-Id: <20210122115257.2502526-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-X-Originating-IP: [10.47.73.222]
-X-ClientProxiedBy: lhreml750-chm.china.huawei.com (10.201.108.200) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Cc: vivek.gautam@arm.com, guohanjun@huawei.com, will@kernel.org,
- linux-acpi@vger.kernel.org, zhangfei.gao@linaro.org, lenb@kernel.org,
- devicetree@vger.kernel.org, kevin.tian@intel.com, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, rjw@rjwysocki.net,
- iommu@lists.linux-foundation.org, sudeep.holla@arm.com, robin.murphy@arm.com,
- linux-accelerators@lists.ozlabs.org
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, vivek.gautam@arm.com,
+ iommu@lists.linux-foundation.org, zhangfei.gao@linaro.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,81 +97,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, 22 Jan 2021 09:51:20 +0100
-Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+To support sharing page tables with the CPU, the SMMU can participate in
+Broadcast TLB Maintenance (BTM), where TLB invalidate instructions from
+the CPU are received by the SMMU. For platforms that do no implement BTM
+[1], it is still possible to use SVA, by sending all TLB invalidations
+through the command queue. Patch 2 implements this.
 
-> On Thu, Jan 21, 2021 at 07:12:36PM +0000, Jonathan Cameron wrote:
-> > > @@ -2502,6 +2647,7 @@ static void arm_smmu_release_device(struct device *dev)
-> > >  
-> > >  	master = dev_iommu_priv_get(dev);
-> > >  	WARN_ON(arm_smmu_master_sva_enabled(master));
-> > > +	iopf_queue_remove_device(master->smmu->evtq.iopf, dev);
-> > >  	arm_smmu_detach_dev(master);
-> > >  	arm_smmu_disable_pasid(master);
-> > >  	arm_smmu_remove_master(master);  
-> > 
-> > The lack of symmetry here bothers me a bit, but it's already true, so I guess
-> > this case is fine as well.  
-> 
-> Normally the device driver calls iommu_dev_feat_disable(SVA) which does
-> iopf_queue_remove_device(). This is just a safety net in case the device
-> gets removed without the driver properly cleaning up (which will WARN as
-> well) 
+This series also enables SVA for platforms that do support BTM, as an
+intermediate step because properly supporting BTM requires cooperating
+with KVM to allocate VMIDs [2]. With BTM enabled, the SMMU applies
+broadcast invalidations by VMID to any matching TLB entry, because there
+is no distinction between private and shared VMIDs like there is for
+ASIDs. Therefore a stage-2 domain will need a VMID that doesn't conflict
+with one allocated by KVM (or use the one from the corresponding VM,
+pinned).
 
-Ah makes sense.  Maybe it's worth a comment in the code for future generations
-of tired code readers?
+These patches, along with the IOPF series [3] and the quirks [4], enable
+SVA for the hisi accelerator that's already supported upstream. My quick
+performance comparison between BTM and !BTM on that platform were
+inconclusive. Doing invalidations via cmdq seemed to slightly reduce
+performance of some heavy compression jobs, but there was too much noise
+and not enough invalidations in my tests.
 
-> 
-> > 
-> > ...  
-> > >  
-> > > @@ -2785,6 +2946,7 @@ static int arm_smmu_cmdq_init(struct arm_smmu_device *smmu)
-> > >  static int arm_smmu_init_queues(struct arm_smmu_device *smmu)
-> > >  {
-> > >  	int ret;
-> > > +	bool sva = smmu->features & ARM_SMMU_FEAT_STALLS;  
-> > 
-> > FEAT_SVA?  
-> 
-> Ugh yes, thanks. I left this as a bool instead of moving into the test
-> below because the PRI patch reuses it, but I think I'll just move it down
-> when resending.
+This series does not depend on the IOPF one [3].
 
-Makes sense.
+[1] https://lore.kernel.org/linux-iommu/BY5PR12MB37641E84D516054387FEE330B3CC0@BY5PR12MB3764.namprd12.prod.outlook.com/
+[2] https://lore.kernel.org/linux-iommu/20200522101755.GA3453945@myrica/
+[3] https://lore.kernel.org/linux-iommu/20210121123623.2060416-1-jean-philippe@linaro.org/
+[4] https://lore.kernel.org/linux-pci/1610960316-28935-1-git-send-email-zhangfei.gao@linaro.org/
 
-> 
-> Thanks,
-> Jean
-> 
-> >   
-> > >  
-> > >  	/* cmdq */
-> > >  	ret = arm_smmu_init_one_queue(smmu, &smmu->cmdq.q, ARM_SMMU_CMDQ_PROD,
-> > > @@ -2804,6 +2966,12 @@ static int arm_smmu_init_queues(struct arm_smmu_device *smmu)
-> > >  	if (ret)
-> > >  		return ret;
-> > >  
-> > > +	if (sva && smmu->features & ARM_SMMU_FEAT_STALLS) {  
-> > 
-> > Isn't this checking same thing twice?
-> >   
-> > > +		smmu->evtq.iopf = iopf_queue_alloc(dev_name(smmu->dev));
-> > > +		if (!smmu->evtq.iopf)
-> > > +			return -ENOMEM;
-> > > +	}
-> > > +
-> > >  	/* priq */
-> > >  	if (!(smmu->features & ARM_SMMU_FEAT_PRI))
-> > >  		return 0;
-> > > @@ -3718,6 +3886,7 @@ static int arm_smmu_device_remove(struct platform_device *pdev)
-> > >  	iommu_device_unregister(&smmu->iommu);
-> > >  	iommu_device_sysfs_remove(&smmu->iommu);
-> > >  	arm_smmu_device_disable(smmu);
-> > > +	iopf_queue_free(smmu->evtq.iopf);
-> > >  
-> > >  	return 0;
-> > >  }  
-> >   
+Jean-Philippe Brucker (3):
+  iommu/arm-smmu-v3: Split arm_smmu_tlb_inv_range()
+  iommu/arm-smmu-v3: Make BTM optional for SVA
+  iommu/arm-smmu-v3: Add support for VHE
+
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |   6 +
+ .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |  14 ++-
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 104 ++++++++++++------
+ 3 files changed, 89 insertions(+), 35 deletions(-)
+
+-- 
+2.30.0
 
 _______________________________________________
 iommu mailing list
