@@ -1,80 +1,80 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70360300217
-	for <lists.iommu@lfdr.de>; Fri, 22 Jan 2021 12:56:35 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD67C300218
+	for <lists.iommu@lfdr.de>; Fri, 22 Jan 2021 12:56:36 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id DF09787271;
-	Fri, 22 Jan 2021 11:56:33 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 1386D87052;
+	Fri, 22 Jan 2021 11:56:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id m0EjlATcN5DR; Fri, 22 Jan 2021 11:56:33 +0000 (UTC)
+	with ESMTP id OGQvClvD1kCV; Fri, 22 Jan 2021 11:56:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3E87287149;
-	Fri, 22 Jan 2021 11:56:33 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6891787048;
+	Fri, 22 Jan 2021 11:56:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1F271C08A1;
-	Fri, 22 Jan 2021 11:56:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D2B7C08A1;
+	Fri, 22 Jan 2021 11:56:34 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CCDDCC013A
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 11:56:31 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 18CF9C013A
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 11:56:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id AC8E4870DC
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 11:56:31 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id E77F021514
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 11:56:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QHzINd1v4s0L for <iommu@lists.linux-foundation.org>;
- Fri, 22 Jan 2021 11:56:30 +0000 (UTC)
+ with ESMTP id KnI3E2q8uiwZ for <iommu@lists.linux-foundation.org>;
+ Fri, 22 Jan 2021 11:56:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
  [209.85.221.48])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1683C871EF
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 11:56:30 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id a12so4821599wrv.8
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 03:56:29 -0800 (PST)
+ by silver.osuosl.org (Postfix) with ESMTPS id 0377C2DE22
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 11:56:31 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id b5so4806114wrr.10
+ for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 03:56:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0SgQac0tiwSnubcxGDua82/tHq+RVHRl87pjSP5itgM=;
- b=c/+lm4UV7z4yrpevZBw5MXVbSHJfG5GvTYXmR523SsGeYoSjX+jOx59hx0TYoUsns6
- Ict0mSd2fZU4yt/FVPoKw/R/mbLQ8F5Wem25jFZQVmCmSll0JDtLuUbhwlD0DVmoitZ1
- aj8CSe9+sfkxxiDLIynYlR5PUqgH3yj7sppaM7GwCdms7piu1hXvNh00PX9kvSScWCBQ
- RwKf/LiIAqjTHqz/PGpJu5oJltalvLPVZfYD0YAGhuGxe9j1+/39N7ejCX5yp47AiScG
- 6HZ0DppJ5pDNc/r04nIS65fIXwrP1ALy7IRZjxbVA0gVJ/XXXs5wHnrG9SmT/5S9DUxW
- z/vw==
+ bh=owZkjSFOA0fuCp5k3fuGX+G2Hp6YSx1juCTT9XbA4kE=;
+ b=Yfotiij4PbT44jIwb874ov94q9TaJDIr5uPZmkTQVPdRZWtdCst/v6l+xeo4jnWBMu
+ MlaCnH3+Gxgv079JfZb4MTr/GSo8Yb9GWJYxYabZzRq52FufOyZVmHwxraQ/KzVJ92lb
+ BtuQ/4V+F0ZHuIlCOhmXQGEvbOZyseb/36c95qb0YJ6y1KeUIKROkvjCPixnXwpQqx4k
+ XTx2C6Z8u+pi8+F6APbGGv8P6Q2D+kfR50/YNse42JxmWoVZqPDnR5zq5I8Ei6fFB6Tt
+ ZA5MiHUhwp1eHSEglPQgJIcmJ13JceHsZtcZ1y6nJnnvnG+hHOHBwirNFms2VxXD/BHt
+ IwWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0SgQac0tiwSnubcxGDua82/tHq+RVHRl87pjSP5itgM=;
- b=BvCJU5BcIc5lX+B2rIVcZRKgkj9RtcyWgrxnMQ5vLnaEvSPNgHTKog0UqPr7vtudgt
- bdRDZQOZxrp26fgebtEh+i9+CNh6OHB55+iAwJ/Ay+UOcr5wbecicCzix/Z87keFPr3I
- 35aq2yOblJUGcS+4c6sBujsQ45NyZQTM/kWA8fJSfiMEgSd7UVj80VzJlxXzJ2XXhkvr
- LWS/eQAt76F7fChN5l5J7jEEewyhFabD6FG0N4GIIiWvNw7eIptmOmiMbE02zLXGNwp+
- YpNUxXS7ub5AzepcFnvahbF5t87pyWhV/23RN1RgqgY4pOr8iS0JKcIWyVW3RxtOmP7/
- vP6g==
-X-Gm-Message-State: AOAM5312tEWHoOrpLXmbljwqhOTg+Ar1rSeupLGeuv4W9wB6W8sC7dsb
- Xo44kImD3NUAFhLLdZY0Ffoh9w==
-X-Google-Smtp-Source: ABdhPJwQhy/pUuxgwb7y2QDYJj2WfJIWjTPpeXGb67NOjvpLAu1UsjCylvROLm7OF+CedXFEccK+Pg==
-X-Received: by 2002:adf:9b92:: with SMTP id d18mr4293974wrc.170.1611316588567; 
- Fri, 22 Jan 2021 03:56:28 -0800 (PST)
+ bh=owZkjSFOA0fuCp5k3fuGX+G2Hp6YSx1juCTT9XbA4kE=;
+ b=DgMeQgKFwYRwERkjjl8UBgYlmp8g5W912/iyxCDIlnrGuU1NpEbmfVMezN2tKZOwGJ
+ NulTONZSd1QcZgTmzgecE1OQdeaSyGxYPoYmvOWR5B/3isiGcbxecQAmh0dbY3EAPLdU
+ sdv+QA1NddMJpMDZ3hN0VctDEA3y1dV/kXIYEAoOR2gctEOYPbF5FgyRfYMBmeJ7B3x9
+ aaBT1F0m6xOXN9aLM/JHFaxWEDdvFIOqDVM6uGvuWR1rYD6tEESXSkiU8vebOVhHMQDd
+ FMkdJXIW0iY+v9y7y/BvuCab9ANlWQr6tt6BxC+y6VwqCpOmoK1GruAWK++N6BVt6QmO
+ 1Hqw==
+X-Gm-Message-State: AOAM533CxRC1ixuJMhAt/w6n/D28zw/JDJvBlVm5xVnt9rbZz8mYBa/w
+ ox7Yv/uN4DN/zh66OQkHxvCaVg==
+X-Google-Smtp-Source: ABdhPJxmWG1lTuXpvqqZl1ip4r8FU//sAdGE7mIr6uOeJ1+qwBEyt54qF3kDGQgJMOB/K5vmESCGbg==
+X-Received: by 2002:adf:fd10:: with SMTP id e16mr3952999wrr.376.1611316589591; 
+ Fri, 22 Jan 2021 03:56:29 -0800 (PST)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id s25sm13293901wrs.49.2021.01.22.03.56.27
+ by smtp.gmail.com with ESMTPSA id s25sm13293901wrs.49.2021.01.22.03.56.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jan 2021 03:56:28 -0800 (PST)
+ Fri, 22 Jan 2021 03:56:29 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: will@kernel.org,
 	robin.murphy@arm.com,
 	joro@8bytes.org
-Subject: [PATCH 1/3] iommu/arm-smmu-v3: Split arm_smmu_tlb_inv_range()
-Date: Fri, 22 Jan 2021 12:52:56 +0100
-Message-Id: <20210122115257.2502526-2-jean-philippe@linaro.org>
+Subject: [PATCH 2/3] iommu/arm-smmu-v3: Make BTM optional for SVA
+Date: Fri, 22 Jan 2021 12:52:57 +0100
+Message-Id: <20210122115257.2502526-3-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210122115257.2502526-1-jean-philippe@linaro.org>
 References: <20210122115257.2502526-1-jean-philippe@linaro.org>
@@ -99,142 +99,102 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Extract some of the cmd initialization and the ATC invalidation from
-arm_smmu_tlb_inv_range(), to allow an MMU notifier to invalidate a VA
-range by ASID.
+When BTM isn't supported by the SMMU, send invalidations on the
+command queue.
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 62 ++++++++++++---------
- 1 file changed, 35 insertions(+), 27 deletions(-)
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h     |  3 +++
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c | 14 +++++++++++---
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c     | 14 ++++++++++++++
+ 3 files changed, 28 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index 740a3d487591..a27b074d5c0c 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -1934,40 +1934,27 @@ static void arm_smmu_tlb_inv_context(void *cookie)
- 	arm_smmu_atc_inv_domain(smmu_domain, 0, 0, 0);
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+index a6536c2b32d0..652d03ad8ae6 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+@@ -743,6 +743,9 @@ extern struct arm_smmu_ctx_desc quiet_cd;
+ int arm_smmu_write_ctx_desc(struct arm_smmu_domain *smmu_domain, int ssid,
+ 			    struct arm_smmu_ctx_desc *cd);
+ void arm_smmu_tlb_inv_asid(struct arm_smmu_device *smmu, u16 asid);
++void arm_smmu_tlb_inv_range_asid(unsigned long iova, size_t size, int asid,
++				 size_t granule, bool leaf,
++				 struct arm_smmu_domain *smmu_domain);
+ bool arm_smmu_free_asid(struct arm_smmu_ctx_desc *cd);
+ int arm_smmu_atc_inv_domain(struct arm_smmu_domain *smmu_domain, int ssid,
+ 			    unsigned long iova, size_t size);
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
+index 642ce2c225b5..ad8cf62a8f83 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c
+@@ -16,6 +16,7 @@ struct arm_smmu_mmu_notifier {
+ 	struct mmu_notifier		mn;
+ 	struct arm_smmu_ctx_desc	*cd;
+ 	bool				cleared;
++	bool				tlb_inv_command;
+ 	refcount_t			refs;
+ 	struct list_head		list;
+ 	struct arm_smmu_domain		*domain;
+@@ -182,9 +183,13 @@ static void arm_smmu_mm_invalidate_range(struct mmu_notifier *mn,
+ 					 unsigned long start, unsigned long end)
+ {
+ 	struct arm_smmu_mmu_notifier *smmu_mn = mn_to_smmu(mn);
++	struct arm_smmu_domain *smmu_domain = smmu_mn->domain;
++	size_t size = end - start + 1;
+ 
+-	arm_smmu_atc_inv_domain(smmu_mn->domain, mm->pasid, start,
+-				end - start + 1);
++	if (smmu_mn->tlb_inv_command)
++		arm_smmu_tlb_inv_range_asid(start, size, smmu_mn->cd->asid,
++					    PAGE_SIZE, false, smmu_domain);
++	arm_smmu_atc_inv_domain(smmu_domain, mm->pasid, start, size);
  }
  
--static void arm_smmu_tlb_inv_range(unsigned long iova, size_t size,
--				   size_t granule, bool leaf,
-+static void arm_smmu_tlb_inv_range(struct arm_smmu_cmdq_ent *cmd,
-+				   unsigned long iova, size_t size,
-+				   size_t granule,
- 				   struct arm_smmu_domain *smmu_domain)
- {
- 	struct arm_smmu_device *smmu = smmu_domain->smmu;
--	unsigned long start = iova, end = iova + size, num_pages = 0, tg = 0;
-+	unsigned long end = iova + size, num_pages = 0, tg = 0;
- 	size_t inv_range = granule;
- 	struct arm_smmu_cmdq_batch cmds = {};
--	struct arm_smmu_cmdq_ent cmd = {
--		.tlbi = {
--			.leaf	= leaf,
--		},
--	};
--
- 	if (!size)
- 		return;
+ static void arm_smmu_mm_release(struct mmu_notifier *mn, struct mm_struct *mm)
+@@ -253,6 +258,9 @@ arm_smmu_mmu_notifier_get(struct arm_smmu_domain *smmu_domain,
+ 	smmu_mn->domain = smmu_domain;
+ 	smmu_mn->mn.ops = &arm_smmu_mmu_notifier_ops;
  
--	if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1) {
--		cmd.opcode	= CMDQ_OP_TLBI_NH_VA;
--		cmd.tlbi.asid	= smmu_domain->s1_cfg.cd.asid;
--	} else {
--		cmd.opcode	= CMDQ_OP_TLBI_S2_IPA;
--		cmd.tlbi.vmid	= smmu_domain->s2_cfg.vmid;
--	}
--
- 	if (smmu->features & ARM_SMMU_FEAT_RANGE_INV) {
- 		/* Get the leaf page size */
- 		tg = __ffs(smmu_domain->domain.pgsize_bitmap);
- 
- 		/* Convert page size of 12,14,16 (log2) to 1,2,3 */
--		cmd.tlbi.tg = (tg - 10) / 2;
-+		cmd->tlbi.tg = (tg - 10) / 2;
- 
- 		/* Determine what level the granule is at */
--		cmd.tlbi.ttl = 4 - ((ilog2(granule) - 3) / (tg - 3));
-+		cmd->tlbi.ttl = 4 - ((ilog2(granule) - 3) / (tg - 3));
- 
- 		num_pages = size >> tg;
- 	}
-@@ -1985,11 +1972,11 @@ static void arm_smmu_tlb_inv_range(unsigned long iova, size_t size,
- 
- 			/* Determine the power of 2 multiple number of pages */
- 			scale = __ffs(num_pages);
--			cmd.tlbi.scale = scale;
-+			cmd->tlbi.scale = scale;
- 
- 			/* Determine how many chunks of 2^scale size we have */
- 			num = (num_pages >> scale) & CMDQ_TLBI_RANGE_NUM_MAX;
--			cmd.tlbi.num = num - 1;
-+			cmd->tlbi.num = num - 1;
- 
- 			/* range is num * 2^scale * pgsize */
- 			inv_range = num << (scale + tg);
-@@ -1998,17 +1985,37 @@ static void arm_smmu_tlb_inv_range(unsigned long iova, size_t size,
- 			num_pages -= num << scale;
- 		}
- 
--		cmd.tlbi.addr = iova;
--		arm_smmu_cmdq_batch_add(smmu, &cmds, &cmd);
-+		cmd->tlbi.addr = iova;
-+		arm_smmu_cmdq_batch_add(smmu, &cmds, cmd);
- 		iova += inv_range;
- 	}
- 	arm_smmu_cmdq_batch_submit(smmu, &cmds);
-+}
++	if (!(smmu_domain->smmu->features & ARM_SMMU_FEAT_BTM))
++		smmu_mn->tlb_inv_command = true;
 +
-+static void arm_smmu_tlb_inv_range_domain(unsigned long iova, size_t size,
-+					  size_t granule, bool leaf,
-+					  struct arm_smmu_domain *smmu_domain)
+ 	ret = mmu_notifier_register(&smmu_mn->mn, mm);
+ 	if (ret) {
+ 		kfree(smmu_mn);
+@@ -404,7 +412,7 @@ bool arm_smmu_sva_supported(struct arm_smmu_device *smmu)
+ 	unsigned long reg, fld;
+ 	unsigned long oas;
+ 	unsigned long asid_bits;
+-	u32 feat_mask = ARM_SMMU_FEAT_BTM | ARM_SMMU_FEAT_COHERENCY;
++	u32 feat_mask = ARM_SMMU_FEAT_COHERENCY;
+ 
+ 	if (vabits_actual == 52)
+ 		feat_mask |= ARM_SMMU_FEAT_VAX;
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+index a27b074d5c0c..db545834493b 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+@@ -2018,6 +2018,20 @@ static void arm_smmu_tlb_inv_range_domain(unsigned long iova, size_t size,
+ 	arm_smmu_atc_inv_domain(smmu_domain, 0, iova, size);
+ }
+ 
++void arm_smmu_tlb_inv_range_asid(unsigned long iova, size_t size, int asid,
++				 size_t granule, bool leaf,
++				 struct arm_smmu_domain *smmu_domain)
 +{
 +	struct arm_smmu_cmdq_ent cmd = {
++		.opcode	= CMDQ_OP_TLBI_NH_VA,
 +		.tlbi = {
++			.asid	= asid,
 +			.leaf	= leaf,
 +		},
 +	};
-+
-+	if (smmu_domain->stage == ARM_SMMU_DOMAIN_S1) {
-+		cmd.opcode	= CMDQ_OP_TLBI_NH_VA;
-+		cmd.tlbi.asid	= smmu_domain->s1_cfg.cd.asid;
-+	} else {
-+		cmd.opcode	= CMDQ_OP_TLBI_S2_IPA;
-+		cmd.tlbi.vmid	= smmu_domain->s2_cfg.vmid;
-+	}
 +	arm_smmu_tlb_inv_range(&cmd, iova, size, granule, smmu_domain);
- 
- 	/*
- 	 * Unfortunately, this can't be leaf-only since we may have
- 	 * zapped an entire table.
- 	 */
--	arm_smmu_atc_inv_domain(smmu_domain, 0, start, size);
-+	arm_smmu_atc_inv_domain(smmu_domain, 0, iova, size);
- }
- 
++}
++
  static void arm_smmu_tlb_inv_page_nosync(struct iommu_iotlb_gather *gather,
-@@ -2024,7 +2031,7 @@ static void arm_smmu_tlb_inv_page_nosync(struct iommu_iotlb_gather *gather,
- static void arm_smmu_tlb_inv_walk(unsigned long iova, size_t size,
- 				  size_t granule, void *cookie)
- {
--	arm_smmu_tlb_inv_range(iova, size, granule, false, cookie);
-+	arm_smmu_tlb_inv_range_domain(iova, size, granule, false, cookie);
- }
- 
- static const struct iommu_flush_ops arm_smmu_flush_ops = {
-@@ -2622,8 +2629,9 @@ static void arm_smmu_iotlb_sync(struct iommu_domain *domain,
- {
- 	struct arm_smmu_domain *smmu_domain = to_smmu_domain(domain);
- 
--	arm_smmu_tlb_inv_range(gather->start, gather->end - gather->start,
--			       gather->pgsize, true, smmu_domain);
-+	arm_smmu_tlb_inv_range_domain(gather->start,
-+				      gather->end - gather->start,
-+				      gather->pgsize, true, smmu_domain);
- }
- 
- static phys_addr_t
+ 					 unsigned long iova, size_t granule,
+ 					 void *cookie)
 -- 
 2.30.0
 
