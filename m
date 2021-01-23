@@ -1,80 +1,177 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42791300EFE
-	for <lists.iommu@lfdr.de>; Fri, 22 Jan 2021 22:36:08 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7A8301410
+	for <lists.iommu@lfdr.de>; Sat, 23 Jan 2021 09:59:34 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 02F8F86B04;
-	Fri, 22 Jan 2021 21:36:07 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id E9E9387401;
+	Sat, 23 Jan 2021 08:59:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rsJUQUx5wjrR; Fri, 22 Jan 2021 21:36:05 +0000 (UTC)
+	with ESMTP id qYAaBv9fS-3u; Sat, 23 Jan 2021 08:59:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 364CD86B09;
-	Fri, 22 Jan 2021 21:36:05 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 52601873CF;
+	Sat, 23 Jan 2021 08:59:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 16037C013A;
-	Fri, 22 Jan 2021 21:36:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2F495C013A;
+	Sat, 23 Jan 2021 08:59:31 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BDB91C013A
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 21:36:03 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A59A6C013A
+ for <iommu@lists.linux-foundation.org>; Sat, 23 Jan 2021 08:59:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 89E7B2E123
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 21:36:03 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 93182868D0
+ for <iommu@lists.linux-foundation.org>; Sat, 23 Jan 2021 08:59:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 58MmNljWHamA for <iommu@lists.linux-foundation.org>;
- Fri, 22 Jan 2021 21:36:02 +0000 (UTC)
+ with ESMTP id DEUQYWtYIYH6 for <iommu@lists.linux-foundation.org>;
+ Sat, 23 Jan 2021 08:59:28 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by silver.osuosl.org (Postfix) with ESMTPS id 451072037E
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 21:36:02 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id f1so8144318edr.12
- for <iommu@lists.linux-foundation.org>; Fri, 22 Jan 2021 13:36:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=SkMtSllHFpUQ8QORRPXzW7+ePTF0623ZPgLmVHJs6Fo=;
- b=Fbd+02GPK+MqArOWEX0xTey11+aefGJ9hbs7Zbbvqo+l+n9FUAvlrdUiNYkhDyXc5j
- SsHMJfmeLiZXB+BF5SybuTEIY+B8YCMqL7szJtB8ErG+zhruW2PeishNxN4mOW4zan0S
- VW+fJkh8mG78mpnYgI3OhHWMM0BBA2DnqGKgmEhzpO4klhsDDkAXLZLq0D5QeLSFI7jd
- ZgeL3TsrrwhS18BQeh3Hn0v8CeKhw/dei81XM0/1kNHBeZvXwY4dLKkPwEYcvDRpp7ma
- eXLYpA4flfRc4+yUVdvTEC68RSCZXiQkmhY/rAazY2MlXxpYZLxFU44bpmyj3qP4yIPW
- VWvg==
-X-Gm-Message-State: AOAM532+E/Tidiv1ts611MoKfB+Z1LY8DVGDCeWsz+9CPO+cdB8uh813
- 7G+4eUq/mZALaQR5OYOVsao=
-X-Google-Smtp-Source: ABdhPJzyOg235kQhejoZjjhHYiWr6Bp7npq1HcrfeqLsMBqDf51BuMXEE+Y4urYHbsd/eXktSLe02A==
-X-Received: by 2002:a05:6402:1ad0:: with SMTP id
- ba16mr7963edb.287.1611351360723; 
- Fri, 22 Jan 2021 13:36:00 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id z1sm6442231edm.89.2021.01.22.13.35.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jan 2021 13:35:59 -0800 (PST)
-Date: Fri, 22 Jan 2021 22:35:58 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Yong Wu <yong.wu@mediatek.com>
-Subject: Re: [PATCH 3/3] memory: mtk-smi: Switch MTK_SMI to tristate
-Message-ID: <20210122213558.qnboqc4obdmipxs4@kozik-lap>
-References: <20210121062429.26504-1-yong.wu@mediatek.com>
- <20210121062429.26504-4-yong.wu@mediatek.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id CEAC9868CE
+ for <iommu@lists.linux-foundation.org>; Sat, 23 Jan 2021 08:59:28 +0000 (UTC)
+IronPort-SDR: sqS4e8tTCz/cSsD9d7nzoBDauJ2yZUsiySfFwVrgUP+sla8YE2hTXmoNWUttxJiFP2H/QYNXT6
+ 2kWYjRxfKehg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9872"; a="179635414"
+X-IronPort-AV: E=Sophos;i="5.79,368,1602572400"; d="scan'208";a="179635414"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2021 00:59:28 -0800
+IronPort-SDR: IKVjQ340c1kNy2iP4/h6yJtjsE/hs02FjNA9zwOh+UtVxTHnH3EMgEOwCMFzjYSgZ0B0mcyXPA
+ Zl7Veeg3CQXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,368,1602572400"; d="scan'208";a="386208990"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by orsmga008.jf.intel.com with ESMTP; 23 Jan 2021 00:59:27 -0800
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Sat, 23 Jan 2021 00:59:24 -0800
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Sat, 23 Jan 2021 00:59:24 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Sat, 23 Jan 2021 00:59:24 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.103)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Sat, 23 Jan 2021 00:59:24 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lhzMRpxBJr5OMjzkdXdtF4btc4bDp2DfBUiPpqOBzfmGi+a0HdAv9/Cxa37syqVXEqoIMNHvAH1hOCX7z781XtmENTU/fHcMlZ5jsztOOzUXQw4exMVetzvWOc5HSNC00DUbKnpIBAHdZJ7Hf13pyqAszRclqNZV32rymL/DWf6jHYUVBkoRfqsIdt7lrmP8l4ZI+j2SNlb/vPGfq7HW+xdYrs8+6ZcSngtiw1PWl4IQtW3X2E7OYnN5PgNpWQsrUEM52DK2EBSEYhAlNpOu65aSmpJqct2lsiAlYXrDDPvs5rxcR+kHxZJVNGmafx3FqTkf+4udhkyalCz3vnKpcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=azp6IqYlsJk74dmJy9/su6Sop0r3J/PumGk3Q+ab+vw=;
+ b=mn+2h0yHhu1eSuEnpSX7KrIxe1itHtu+yKEg3qnFY0gJRk18nVP9qM3qYULoNgCXSbfBy1NL4xjU+edxllm2dlP0QVni1+r0lR8g9P5RJp5EH1OoWb28xhH7Vq2577N1U20A2XdX4rfX9x69JiExFePAKvEoFE51C6TRhUEt8fNY98BrUwAY9ib7xyi0axwk1i33w8LkVEhkt7Z4dTElfbhc8oj0ZozLgVuLbgOI59bH2f4HbFXTziDhZnDgLNLhU9QVcgMdpNGZ1yELk5cIztnP1H74+la/hiOXgg3flLygRpCwnt36pJ6h2UrVKjxh26j57v+mzse6/1/cEzpSJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=azp6IqYlsJk74dmJy9/su6Sop0r3J/PumGk3Q+ab+vw=;
+ b=U92/yzaLfrnmoLwX3SlY7iiF2NqsTkNLX+HA5REaBBRoNW5Vvm+jQuibc3JekuIqIEBH5ipGNf0qBVjzg9pazF17z6TD5L6lfzHF+y5Q4i8PTnGHEgFBv5LLiz8O15m/XEcR4Ludcl/xOaye4t+ByQBNFOcFWfqDdyM3pJG8dnI=
+Received: from DM5PR11MB1435.namprd11.prod.outlook.com (2603:10b6:4:7::18) by
+ DM6PR11MB3146.namprd11.prod.outlook.com (2603:10b6:5:67::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3763.14; Sat, 23 Jan 2021 08:59:22 +0000
+Received: from DM5PR11MB1435.namprd11.prod.outlook.com
+ ([fe80::649c:8aff:2053:e93]) by DM5PR11MB1435.namprd11.prod.outlook.com
+ ([fe80::649c:8aff:2053:e93%3]) with mapi id 15.20.3784.015; Sat, 23 Jan 2021
+ 08:59:21 +0000
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Auger Eric <eric.auger@redhat.com>, Vivek Gautam <vivek.gautam@arm.com>
+Subject: RE: [PATCH v7 02/16] iommu/smmu: Report empty domain nesting info
+Thread-Topic: [PATCH v7 02/16] iommu/smmu: Report empty domain nesting info
+Thread-Index: AQHWh19ACfcP7ssg8UC1cgpZfCvfJKokT6+AgAAjF2CAACQ7gIABOtBwgAm0EICABjauYA==
+Date: Sat, 23 Jan 2021 08:59:21 +0000
+Message-ID: <DM5PR11MB143531EA8BD997A18F0A7671C3BF9@DM5PR11MB1435.namprd11.prod.outlook.com>
+References: <1599734733-6431-1-git-send-email-yi.l.liu@intel.com>
+ <1599734733-6431-3-git-send-email-yi.l.liu@intel.com>
+ <CAFp+6iFob_fy1cTgcEv0FOXBo70AEf3Z1UvXgPep62XXnLG9Gw@mail.gmail.com>
+ <DM5PR11MB14356D5688CA7DC346AA32DBC3AA0@DM5PR11MB1435.namprd11.prod.outlook.com>
+ <CAFp+6iEnh6Tce26F0RHYCrQfiHrkf-W3_tXpx+ysGiQz6AWpEw@mail.gmail.com>
+ <DM5PR11MB1435D9ED79B2BE9C8F235428C3A90@DM5PR11MB1435.namprd11.prod.outlook.com>
+ <6bcd5229-9cd3-a78c-ccb2-be92f2add373@redhat.com>
+In-Reply-To: <6bcd5229-9cd3-a78c-ccb2-be92f2add373@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [192.198.147.211]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cd83a3ab-e251-49a3-5db5-08d8bf7d2cf1
+x-ms-traffictypediagnostic: DM6PR11MB3146:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR11MB314643BB53F5E0544E505048C3BF0@DM6PR11MB3146.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8GvGTfsc61RwnvTnQIdxmyRHllmuqe20r71EEbOYdRfPPkNexk5Ne8gvQ9CguucOhPjm/Z9k9E3SUFSngm3X9acWyYnZMOYdv6gJ4vGCwWI2jNRGtGFpLDXuUnW8kdCmqg1Dage4A+kimw8531LgOlZYnOoPKN/bbQr3+BxKRI93pdCIm4Zfpbwvs54grwgmmMOwBuLwPvnQ4cNKdEcDTQLttMdmXkHNKSumTMbgLWu0iEcklPXPgcxUbEuYAtHWJxwMUQKpL07TmthIbbM31XZWVudlxEA+SlBPtG9MGzo+iIK/+/oGzM+tK9Kkjq+TqMwhcRevfAkfesKCYhTFykTu7ChfMSnqh6EUozuSOk1gtkZAQ6C0oACosCltjgoTgS5Vi6EQyJWv5Eu2KJQJ/w==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR11MB1435.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(376002)(346002)(136003)(366004)(86362001)(83380400001)(26005)(7696005)(55016002)(5660300002)(186003)(107886003)(54906003)(6506007)(7416002)(9686003)(33656002)(66556008)(8676002)(316002)(4326008)(66476007)(52536014)(4744005)(76116006)(64756008)(66446008)(66946007)(2906002)(478600001)(8936002)(110136005)(71200400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?QUlCUERmZE5LMG9xMHc4WU40MFo4ci9xekVCcWZTNmxTeU5nQ1lPTHVxK3hM?=
+ =?utf-8?B?TEhIRURPRlVTRTFEMWJRNXQzVUZEWFl0NlloTU9FVTVhaUZrUVFHcGJRMEZ6?=
+ =?utf-8?B?dnFGWEUzY3dyV3NoU28yU05GdkRzaERSSlFzV3VVSWdPTThDVDZWZXd2WG8y?=
+ =?utf-8?B?emZzVWFKU1NSTEdGZEVpc28zeG5UUUw2dDE5SGNTaGhXTXpSUU4xL0xCNGI1?=
+ =?utf-8?B?dHdpaTQ5bDdqOWVFSEdxL3pXOFZnQzZxVGd2STFpQWhCZkM1UW1zK21qZkMr?=
+ =?utf-8?B?ZSt6TUxUQm5sWFFocFVQV1h5TkFFem1oKzJLNGszSzZxa1BSVWdQZjh1OEdo?=
+ =?utf-8?B?ZEk4eUZwM25ZWk5sQjN6U3dGQjVZclEyQXBBNFV4ZlRNUEVsbUVIcjl6YnFL?=
+ =?utf-8?B?Q3VMUSt6M2dJL1hhZlZLVXlLaXRPbElmWUFCTE1wMWU4VG00K1dSeUlqYytm?=
+ =?utf-8?B?YmE2SEtQcU5JSnpNVm02eHVUTUQ3V2VOYlNOcEhTNzk2L0hHRi9udkRCTUgr?=
+ =?utf-8?B?ZFRaNjFVZkhKUGZRUFhpZFNXZk9GVkl5Wk53M2NzVm1QOVFjRWFGUlcvTUJj?=
+ =?utf-8?B?S01SZ2tqbVFoK1ZjTkEra1BMMmwwWUVoSGZ0aWRJaWpGUXpTVHB0WGNld1RC?=
+ =?utf-8?B?NkFweUc0c0lHRC9vamFQSnJkbzdkMlFnRlZuTlNHR2pNR2RDUkhoVDNXbERq?=
+ =?utf-8?B?NDUwM1ZEWVFsMEE1bFBTMkJNLzZzTnp4WkFuOHRLRU5ONTFkYVA3QXExcE1F?=
+ =?utf-8?B?YUNJY09HZ2xEVFhYTDd1NXZMUklKUGFuQklmc3dyTTV5SzhtamE1UTBqWm13?=
+ =?utf-8?B?V0tENW1PWU1PVDg0Y3VOZ1Zya3oveXlBMCtNMUlRaEJrQU96K0lpa0ZVTUVX?=
+ =?utf-8?B?cWdJTkVuRUpJTTRlQlAvVDR0Z2ZPR3hZRGZPbTFseVJmd1ZqL1F5VWN4V2J6?=
+ =?utf-8?B?N3VuejY1V3pmVjMwRDE4YzdyRWhpKysvUlEzY2MzOUtRbm1PSUVRMUdidUxD?=
+ =?utf-8?B?NHFOUTRiN2tvWVFpTm42R05LOWxtU2Y2aHdaTXI1KzNJSktqYnV0ZVR2K2VL?=
+ =?utf-8?B?VVcxcEdtZE4vcXJ2a3Y2REJQVHRmWEJZR0lYSDdMK1lSMUVMQnZPZ1MwTXJN?=
+ =?utf-8?B?WC9XYWZGYU9mZjBRNmpjQ3JnbnVobStDaEgvNERBRG9RdHAyMjdTb0ZyTWF5?=
+ =?utf-8?B?TGFkbkJ2M2crUERBQUR0d1ZjOXFhWmUrenNtR3BVTTNzc3JSN0dkRnVtMnI3?=
+ =?utf-8?B?QzRLZ3lCanU0N0xpelU3MjJTQmRUZ3pOMnpqN0lRbmVlN1F0aGxEQ0lZMWFm?=
+ =?utf-8?B?K0NVVysxOFdpaG1wUHdwV1N4U1lQTUp2c2xyNmxoRXpEeitpSlFncjJJOHR1?=
+ =?utf-8?B?b01xdHViQTRFMVFpRXpJYzJvbWxyQUFHcW0wb0RwcmJ2bEdzTmxKdE1sQXRw?=
+ =?utf-8?Q?wobqzhma?=
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210121062429.26504-4-yong.wu@mediatek.com>
-Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com,
- Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- yi.kuo@mediatek.com, Tomasz Figa <tfiga@google.com>,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1435.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd83a3ab-e251-49a3-5db5-08d8bf7d2cf1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jan 2021 08:59:21.7438 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pL+drByBVAL8E3J+2ZwKpZErWKikRBVY8Tv07mJC+7mBME6R2E7L5OP94tlQuc+u9PI7Hifuld3rhMfFH9SZAQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3146
+X-OriginatorOrg: intel.com
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, "Tian,
+ Kevin" <kevin.tian@intel.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Raj, 
+ Ashok" <ashok.raj@intel.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "stefanha@gmail.com" <stefanha@gmail.com>,
+ "jasowang@redhat.com" <jasowang@redhat.com>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>, "Tian,
+ Jun J" <jun.j.tian@intel.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
+ Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>, "Wu,
+ Hao" <hao.wu@intel.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,60 +184,29 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Thu, Jan 21, 2021 at 02:24:29PM +0800, Yong Wu wrote:
-> This patch switches MTK_SMI to tristate. Support it could be 'm'.
-> 
-> Meanwhile, Fix a build issue while MTK_SMI is built as module.
-
-s/Fix/fix.
-
-What error is being fixed here? How can I reproduce it? Aren't you just
-adjusting it to being buildable by module?
-
-Best regards,
-Krzysztof
-
-
-> 
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> ---
-> This patch has a little conflict with the mt8192 iommu patch which
-> delete the MTK_LARB_NR_MAX in smi.h(It's still reviewing).
-> This patch rebase on the clean v5.11-rc1.
-> ---
->  drivers/memory/Kconfig     | 2 +-
->  include/soc/mediatek/smi.h | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/memory/Kconfig b/drivers/memory/Kconfig
-> index 3ea6913df176..d5f0f4680880 100644
-> --- a/drivers/memory/Kconfig
-> +++ b/drivers/memory/Kconfig
-> @@ -173,7 +173,7 @@ config JZ4780_NEMC
->  	  memory devices such as NAND and SRAM.
->  
->  config MTK_SMI
-> -	bool "Mediatek SoC Memory Controller driver" if COMPILE_TEST
-> +	tristate "Mediatek SoC Memory Controller driver" if COMPILE_TEST
->  	depends on ARCH_MEDIATEK || COMPILE_TEST
->  	help
->  	  This driver is for the Memory Controller module in MediaTek SoCs,
-> diff --git a/include/soc/mediatek/smi.h b/include/soc/mediatek/smi.h
-> index 5a34b87d89e3..29e2fb8f33d6 100644
-> --- a/include/soc/mediatek/smi.h
-> +++ b/include/soc/mediatek/smi.h
-> @@ -9,7 +9,7 @@
->  #include <linux/bitops.h>
->  #include <linux/device.h>
->  
-> -#ifdef CONFIG_MTK_SMI
-> +#if IS_ENABLED(CONFIG_MTK_SMI)
-_______________________________________________
-iommu mailing list
-iommu@lists.linux-foundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/iommu
+SGkgRXJpYywNCg0KPiBGcm9tOiBBdWdlciBFcmljIDxlcmljLmF1Z2VyQHJlZGhhdC5jb20+DQo+
+IFNlbnQ6IFR1ZXNkYXksIEphbnVhcnkgMTksIDIwMjEgNjowMyBQTQ0KPiANCj4gSGkgWWksIFZp
+dmVrLA0KPiANClsuLi5dDQo+ID4gSSBzZWUuIEkgdGhpbmsgdGhlcmUgbmVlZHMgYSBjaGFuZ2Ug
+aW4gdGhlIGNvZGUgdGhlcmUuIFNob3VsZCBhbHNvIGV4cGVjdA0KPiA+IGEgbmVzdGluZ19pbmZv
+IHJldHVybmVkIGluc3RlYWQgb2YgYW4gaW50IGFueW1vcmUuIEBFcmljLCBob3cgYWJvdXQgeW91
+cg0KPiA+IG9waW5pb24/DQo+ID4NCj4gPiAJZG9tYWluID0gaW9tbXVfZ2V0X2RvbWFpbl9mb3Jf
+ZGV2KCZ2ZGV2LT5wZGV2LT5kZXYpOw0KPiA+IAlyZXQgPSBpb21tdV9kb21haW5fZ2V0X2F0dHIo
+ZG9tYWluLCBET01BSU5fQVRUUl9ORVNUSU5HLA0KPiAmaW5mbyk7DQo+ID4gCWlmIChyZXQgfHwg
+IShpbmZvLmZlYXR1cmVzICYgSU9NTVVfTkVTVElOR19GRUFUX1BBR0VfUkVTUCkpIHsNCj4gPiAJ
+CS8qDQo+ID4gCQkgKiBObyBuZWVkIGdvIGZ1dGhlciBhcyBubyBwYWdlIHJlcXVlc3Qgc2Vydmlj
+ZSBzdXBwb3J0Lg0KPiA+IAkJICovDQo+ID4gCQlyZXR1cm4gMDsNCj4gPiAJfQ0KPiBTdXJlIEkg
+dGhpbmsgaXQgaXMgImp1c3QiIGEgbWF0dGVyIG9mIHN5bmNocm8gYmV0d2VlbiB0aGUgMiBzZXJp
+ZXMuIFlpLA0KDQpleGFjdGx5Lg0KDQo+IGRvIHlvdSBoYXZlIHBsYW5zIHRvIHJlc3BpbiBwYXJ0
+IG9mDQo+IFtQQVRDSCB2NyAwMC8xNl0gdmZpbzogZXhwb3NlIHZpcnR1YWwgU2hhcmVkIFZpcnR1
+YWwgQWRkcmVzc2luZyB0byBWTXMNCj4gb3Igd291bGQgeW91IGFsbG93IG1lIHRvIGVtYmVkIHRo
+aXMgcGF0Y2ggaW4gbXkgc2VyaWVzLg0KDQpNeSB2NyBoYXNu4oCZdCB0b3VjaCB0aGUgcHJxIGNo
+YW5nZSB5ZXQuIFNvIEkgdGhpbmsgaXQncyBiZXR0ZXIgZm9yIHlvdSB0bw0KZW1iZWQgaXQgdG8g
+IHlvdXIgc2VyaWVzLiBeX14NCg0KUmVnYXJkcywNCllpIExpdQ0KDQpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVA
+bGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24u
+b3JnL21haWxtYW4vbGlzdGluZm8vaW9tbXU=
