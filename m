@@ -1,71 +1,76 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27417302220
-	for <lists.iommu@lfdr.de>; Mon, 25 Jan 2021 07:29:07 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CEB2986735;
-	Mon, 25 Jan 2021 06:29:05 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id p-eSGnsiu4L3; Mon, 25 Jan 2021 06:29:04 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8086A8671C;
-	Mon, 25 Jan 2021 06:29:04 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5BD96C013A;
-	Mon, 25 Jan 2021 06:29:04 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 09E6FC013A
- for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 06:29:02 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3E830223D
+	for <lists.iommu@lfdr.de>; Mon, 25 Jan 2021 07:50:27 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id EC570234BB
- for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 06:29:01 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 91A8223730;
+	Mon, 25 Jan 2021 06:50:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cGpHCIYIUrkM; Mon, 25 Jan 2021 06:50:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id C13DD272DF;
+	Mon, 25 Jan 2021 06:50:21 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 50442C1E72;
+	Mon, 25 Jan 2021 06:50:21 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9AE0EC0FA7
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 06:50:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 02D0487377
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 06:50:16 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TQCSOy7DmTqN for <iommu@lists.linux-foundation.org>;
- Mon, 25 Jan 2021 06:29:00 +0000 (UTC)
+ with ESMTP id W1qo4PJrnPY4 for <iommu@lists.linux-foundation.org>;
+ Mon, 25 Jan 2021 06:50:13 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by silver.osuosl.org (Postfix) with ESMTPS id B12F82107A
- for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 06:29:00 +0000 (UTC)
-IronPort-SDR: BdCVQ/4vE/58G/WDJHbNHMndAFSuhusIXMbZ8A+giSVcUiHWpvH+HAeOUXmgsSsG+sbyvVr9aD
- lzta0cMwyabA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9874"; a="167348549"
-X-IronPort-AV: E=Sophos;i="5.79,372,1602572400"; d="scan'208";a="167348549"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2021 22:28:59 -0800
-IronPort-SDR: oE6OFidgDPXQk1X02gWX8/Qcq6TrRHYYw3iQmTP9/6VpP6lJpH5X71iUCfH2UzjpE76vvUN4MY
- 7v3JdkXcCXDQ==
-X-IronPort-AV: E=Sophos;i="5.79,372,1602572400"; d="scan'208";a="387189858"
-Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.255.29.249])
- ([10.255.29.249])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Jan 2021 22:28:57 -0800
-To: "Tian, Kevin" <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>
-References: <20210121014505.1659166-1-baolu.lu@linux.intel.com>
- <20210121014505.1659166-2-baolu.lu@linux.intel.com>
- <MWHPR11MB18862D2EA5BD432BF22D99A48CA09@MWHPR11MB1886.namprd11.prod.outlook.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 1/3] iommu/vt-d: Add rate limited information when PRQ
- overflows
-Message-ID: <da341e11-0923-9127-3385-c2eab9e0db2b@linux.intel.com>
-Date: Mon, 25 Jan 2021 14:28:54 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 294988709B
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 06:50:10 +0000 (UTC)
+X-UUID: fd0e93103f1d4f8aa52a818e05d5f6e2-20210125
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=chRfsW5UPIrsCGcAQg3ddEyEhCQ/dYzTCA0hmQUJvJM=; 
+ b=rMrwSTwP2W56HGFPRjZmlZq/VLfheKcS+MDIESU2q1A6ZEZDmiosT7W0VznAkk7StXa+S2Sz2sQQadLpXZFrDKro8DYdRe4wrEsjuHDtULew9ab+3u60u0PWrHybXPGGHIY5uY63Bfxnuf2FwV8WI+8pQXcpiKAqka6QBE2XqV8=;
+X-UUID: fd0e93103f1d4f8aa52a818e05d5f6e2-20210125
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 3668096; Mon, 25 Jan 2021 14:49:46 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N2.mediatek.inc
+ (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 25 Jan 2021 14:49:42 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 25 Jan 2021 14:49:41 +0800
+Message-ID: <1611557381.3184.21.camel@mhfsdcap03>
+Subject: Re: [PATCH 2/3] memory: mtk-smi: Add module_exit and module_license
+From: Yong Wu <yong.wu@mediatek.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Date: Mon, 25 Jan 2021 14:49:41 +0800
+In-Reply-To: <20210122213427.mwjyjn2wsgnko7mk@kozik-lap>
+References: <20210121062429.26504-1-yong.wu@mediatek.com>
+ <20210121062429.26504-3-yong.wu@mediatek.com>
+ <20210122213427.mwjyjn2wsgnko7mk@kozik-lap>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <MWHPR11MB18862D2EA5BD432BF22D99A48CA09@MWHPR11MB1886.namprd11.prod.outlook.com>
-Content-Language: en-US
-Cc: "Raj, Ashok" <ashok.raj@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
+X-TM-SNTS-SMTP: 1FA87B06CC3B3754A9FB2810156820CA7B9663E05E7BC37A175827580DDF19EC2000:8
+X-MTK: N
+Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com,
+ Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ yi.kuo@mediatek.com, Tomasz Figa <tfiga@google.com>,
+ iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,108 +83,62 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Hi Kevin,
-
-On 2021/1/22 14:38, Tian, Kevin wrote:
->> From: Lu Baolu <baolu.lu@linux.intel.com>
->> Sent: Thursday, January 21, 2021 9:45 AM
->>
->> So that the uses could get chances to know what happened.
->>
->> Suggested-by: Ashok Raj <ashok.raj@intel.com>
->> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
->> ---
->>   drivers/iommu/intel/svm.c | 10 ++++++++--
->>   1 file changed, 8 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
->> index 033b25886e57..f49fe715477b 100644
->> --- a/drivers/iommu/intel/svm.c
->> +++ b/drivers/iommu/intel/svm.c
->> @@ -895,6 +895,7 @@ static irqreturn_t prq_event_thread(int irq, void *d)
->>   	struct intel_iommu *iommu = d;
->>   	struct intel_svm *svm = NULL;
->>   	int head, tail, handled = 0;
->> +	struct page_req_dsc *req;
->>
->>   	/* Clear PPR bit before reading head/tail registers, to
->>   	 * ensure that we get a new interrupt if needed. */
->> @@ -904,7 +905,6 @@ static irqreturn_t prq_event_thread(int irq, void *d)
->>   	head = dmar_readq(iommu->reg + DMAR_PQH_REG) &
->> PRQ_RING_MASK;
->>   	while (head != tail) {
->>   		struct vm_area_struct *vma;
->> -		struct page_req_dsc *req;
->>   		struct qi_desc resp;
->>   		int result;
->>   		vm_fault_t ret;
->> @@ -1042,8 +1042,14 @@ static irqreturn_t prq_event_thread(int irq, void
->> *d)
->>   	 * Clear the page request overflow bit and wake up all threads that
->>   	 * are waiting for the completion of this handling.
->>   	 */
->> -	if (readl(iommu->reg + DMAR_PRS_REG) & DMA_PRS_PRO)
->> +	if (readl(iommu->reg + DMAR_PRS_REG) & DMA_PRS_PRO) {
->> +		head = dmar_readq(iommu->reg + DMAR_PQH_REG) &
->> PRQ_RING_MASK;
->> +		req = &iommu->prq[head / sizeof(*req)];
->> +		pr_warn_ratelimited("IOMMU: %s: Page request overflow:
->> HEAD: %08llx %08llx",
->> +				    iommu->name, ((unsigned long long
->> *)req)[0],
->> +				    ((unsigned long long *)req)[1]);
->>   		writel(DMA_PRS_PRO, iommu->reg + DMAR_PRS_REG);
->> +	}
->>
+On Fri, 2021-01-22 at 22:34 +0100, Krzysztof Kozlowski wrote:
+> On Thu, Jan 21, 2021 at 02:24:28PM +0800, Yong Wu wrote:
+> > The config MTK_SMI always depends on MTK_IOMMU which is built-in
+> > currently. Thus we don't have module_exit before. This patch adds
+> > module_exit and module_license. It is a preparing patch for supporting
+> > MTK_SMI could been built as a module.
+> > 
+> > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > ---
+> >  drivers/memory/mtk-smi.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
+> > index e2aebd2bfa8e..aa2a25abf04f 100644
+> > --- a/drivers/memory/mtk-smi.c
+> > +++ b/drivers/memory/mtk-smi.c
+> > @@ -597,3 +597,13 @@ static int __init mtk_smi_init(void)
+> >  	return platform_register_drivers(smidrivers, ARRAY_SIZE(smidrivers));
+> >  }
+> >  module_init(mtk_smi_init);
+> > +
+> > +static void __exit mtk_smi_exit(void)
+> > +{
+> > +	platform_unregister_drivers(smidrivers, ARRAY_SIZE(smidrivers));
+> > +}
+> > +module_exit(mtk_smi_exit);
+> > +
+> > +MODULE_DESCRIPTION("MediaTek SMI driver");
+> > +MODULE_ALIAS("platform:MediaTek-SMI");
 > 
-> Not about rate limiting but I think we may have a problem in above
-> logic. It is incorrect to always clear PRO when it's set w/o first checking
-> whether the overflow condition has been cleared. This code assumes
-> that if an overflow condition occurs it must have been cleared by earlier
-> loop when hitting this check. However since this code runs in a threaded
-> context, the overflow condition could occur even after you reset the head
-> to the tail (under some extreme condition). To be sane I think we'd better
-> read both head/tail again after seeing a pending PRO here and only clear
-> PRO when it becomes a false indicator based on latest head/tail.
+> Drivers do not use capital letters, so I have doubts whether this alias
+> is correct.
+
+I didn't care the upper/lower-case. I will change to lower case in next
+time.
+
+MODULE_ALIAS("platform:MediaTek-smi")
+
 > 
+> Adding all these should be squashed with changing Kconfig into tristate.
+> It does not have sense on its own.
 
-Yes, agreed. We can check the head and tail and clear the overflow bit
-until the queue is empty. The finial code looks like:
+Thanks  very much for review.
 
-         /*
-          * Clear the page request overflow bit and wake up all threads that
-          * are waiting for the completion of this handling.
-          */
-         if (readl(iommu->reg + DMAR_PRS_REG) & DMA_PRS_PRO) {
-                 head = dmar_readq(iommu->reg + DMAR_PQH_REG) & 
-PRQ_RING_MASK;
-                 tail = dmar_readq(iommu->reg + DMAR_PQT_REG) & 
-PRQ_RING_MASK;
-                 if (head == tail) {
-                         req = &iommu->prq[head / sizeof(*req)];
-                         pr_warn_ratelimited("IOMMU: %s: Page request 
-overflow cleared: HEAD: %08llx %08llx",
-                                             iommu->name, ((unsigned 
-long long *)req)[0],
-                                             ((unsigned long long 
-*)req)[1]);
-                         writel(DMA_PRS_PRO, iommu->reg + DMAR_PRS_REG);
-                 }
-         }
+Only confirm: Squash whole this patch or only squash the MODULE_x into
+the next patch?
 
-Thought?
-
-> Thanks
-> Kevin
 > 
+> Best regards,
+> Krzysztof
 
-Best regards,
-baolu
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
