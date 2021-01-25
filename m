@@ -1,83 +1,87 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7063023C1
-	for <lists.iommu@lfdr.de>; Mon, 25 Jan 2021 11:40:44 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 649BA85FD7;
-	Mon, 25 Jan 2021 10:40:43 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iygM9VGtGGZZ; Mon, 25 Jan 2021 10:40:40 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id D57B785FD4;
-	Mon, 25 Jan 2021 10:40:40 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BB6A4C1E6F;
-	Mon, 25 Jan 2021 10:40:40 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 878A0C013A
- for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 10:40:39 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548EE30240F
+	for <lists.iommu@lfdr.de>; Mon, 25 Jan 2021 12:08:50 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 766D287414
- for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 10:40:39 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D9ACB87456;
+	Mon, 25 Jan 2021 11:08:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 14Hww1-wX5qB; Mon, 25 Jan 2021 11:08:46 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4B3948744B;
+	Mon, 25 Jan 2021 11:08:46 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2E2BEC013A;
+	Mon, 25 Jan 2021 11:08:46 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 52685C013A
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 11:08:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 490FC86762
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 11:08:45 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zCQtRUr0lQiX for <iommu@lists.linux-foundation.org>;
- Mon, 25 Jan 2021 10:40:38 +0000 (UTC)
+ with ESMTP id LPRqo3SDtcEi for <iommu@lists.linux-foundation.org>;
+ Mon, 25 Jan 2021 11:08:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 522E687303
- for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 10:40:38 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id a9so11736214wrt.5
- for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 02:40:38 -0800 (PST)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6CF93866F7
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 11:08:43 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id m187so10307835wme.2
+ for <iommu@lists.linux-foundation.org>; Mon, 25 Jan 2021 03:08:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L6FzDVWaEEDJLy1ZljH6o/Vmgdxo9JDDb7VAWw5br1s=;
+ b=z15BQeUBB8VJb9yD2URB91vmkJHi2zOy3Q34XsHOPk0xk5wiDYl7tdaS4gsd+3N2T+
+ fMYFFOFRh3dxoSEmiWempbG7aD9RfYjINgLwMfkhkTxhO/Itm+Mh5sFd3VGII8HUAWR4
+ br9XJRJWbB8OcvgDNLmdwgl0H52zwg9lChy3GAEXZMtuAx8MRrjcuhnddLNlKvjRzEp2
+ zQR3KB6jWakZURZ2hVfPGVPxo5sTSy8UD+WchIijFKZS/nzuW6Wvya7RtHfwZkMQci1W
+ Q9JiRc/cmrkiwa3XOJcH5PtKJFX9S8yPk+nh5JwoGjzc4+VyqxHi1m/HLHN14yjSDWs3
+ stog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DsJE2zPkprb7gh+GS+eIFG0M1vuNomWHZqhGRuLhtzQ=;
- b=aVLVTLyngs1iICAyHX+MaGczt6z1NHDgCMnBnRqVirSUvRUtAxOmPnudvq1uLxZV2h
- xiK1SneV5f9QV0pW6AlUW+1IprSzuSWjn3yBTxK4avYbEa06gYehBaczr8+mz7WbFd4b
- r920DPXeJNXrzEShtqItKclpgJ8OLK1mFuwlhLT/jpb3LBqTDln9R+8yikjShHTF/D4X
- Tu2/+F1wDHHNhFYya0jgoHmNcwmDvy6NWDxA0jn7gRrBJ6X53dxyVXgJTxqpfZ7dxd3b
- wmolCPGUUeaRWewVXcYSyTltknFQNH2RublnydHjVXsknu10DbDDYq6fwA2UvqQPzcEo
- B+nA==
-X-Gm-Message-State: AOAM5307tAvifojysfhKPkhUtKv5RSyxj/P1YR+ClcMs2vXh9fBLEdp/
- t3UNS/oW9IkiHIHwDVL2aR8=
-X-Google-Smtp-Source: ABdhPJxFRyn+qu6XbZN8Kw3vcIaOk89MqJcinq7fckxNIcL/17AL7YibO7Tz3bhcgYseghNGX5zLzA==
-X-Received: by 2002:a5d:4d86:: with SMTP id b6mr200432wru.152.1611571236869;
- Mon, 25 Jan 2021 02:40:36 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id g1sm21982339wrq.30.2021.01.25.02.40.34
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L6FzDVWaEEDJLy1ZljH6o/Vmgdxo9JDDb7VAWw5br1s=;
+ b=CkW+SwnNFqfZPxFYSmRUURRNc8gIxBSvhsEVGKT1x9A59hFPoAsEpiaJsKAxOvid0k
+ jpbTsZ7cKoC4/8jiev1dJIYRwTZ0cfqBAOET0FUsR1kj7Z+B9SmXJIN6ffPbaE4P8Cdg
+ wma9hEDofXIj25TaoZHb9sZi/4VxIzBT667HfoFPZzTH/T8qYxYA2YDSFvI3EUvcEvae
+ ZHNLzB8JHHQKtCIze0EsIMbgzy5eCcSnJWfIPVO1bqN7oG8+eiJyq9QxnwFxp40/jJPE
+ JzYcuhQJfn4pMXpMLyJ+C/+Ogo7mD2LXEE0bpuzr6a4cSnOVEM3NsyVeV6lno/3vN17L
+ XF2A==
+X-Gm-Message-State: AOAM532hWwZpcRIEV2YtQT7vguf9yOQTq0gSsTUfoZJuilxxnrXum9sv
+ a9PDeW5LojOJxEEeCcYTEnLEow==
+X-Google-Smtp-Source: ABdhPJx4ipeZUtiOJeZtJOpzaet9OUvA/7DVVO4eH4Qnc3/pg38U0sy5ZrThSKDxr751NTEqfXQ9qQ==
+X-Received: by 2002:a1c:7413:: with SMTP id p19mr6006695wmc.39.1611572921919; 
+ Mon, 25 Jan 2021 03:08:41 -0800 (PST)
+Received: from localhost.localdomain
+ ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id u6sm16636014wro.75.2021.01.25.03.08.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jan 2021 02:40:35 -0800 (PST)
-Date: Mon, 25 Jan 2021 11:40:33 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Yong Wu <yong.wu@mediatek.com>
-Subject: Re: [PATCH 2/3] memory: mtk-smi: Add module_exit and module_license
-Message-ID: <20210125104033.2ewzumhmagmouvo5@kozik-lap>
-References: <20210121062429.26504-1-yong.wu@mediatek.com>
- <20210121062429.26504-3-yong.wu@mediatek.com>
- <20210122213427.mwjyjn2wsgnko7mk@kozik-lap>
- <1611557381.3184.21.camel@mhfsdcap03>
- <20210125084051.ipgeu2ksucdag2u4@kozik-lap>
- <1611566885.5302.4.camel@mhfsdcap03>
+ Mon, 25 Jan 2021 03:08:41 -0800 (PST)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: joro@8bytes.org,
+	will@kernel.org
+Subject: [PATCH v11 00/10] iommu: I/O page faults for SMMUv3
+Date: Mon, 25 Jan 2021 12:06:41 +0100
+Message-Id: <20210125110650.3232195-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1611566885.5302.4.camel@mhfsdcap03>
-Cc: youlin.pei@mediatek.com, anan.sun@mediatek.com,
- Nicolas Boichat <drinkcat@chromium.org>, srv_heupstream@mediatek.com,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- yi.kuo@mediatek.com, Tomasz Figa <tfiga@google.com>,
- iommu@lists.linux-foundation.org, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: vivek.gautam@arm.com, guohanjun@huawei.com,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, linux-acpi@vger.kernel.org,
+ zhangfei.gao@linaro.org, lenb@kernel.org, devicetree@vger.kernel.org,
+ kevin.tian@intel.com, robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ rjw@rjwysocki.net, iommu@lists.linux-foundation.org, sudeep.holla@arm.com,
+ robin.murphy@arm.com, linux-accelerators@lists.ozlabs.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,63 +99,76 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Jan 25, 2021 at 05:28:05PM +0800, Yong Wu wrote:
-> On Mon, 2021-01-25 at 09:40 +0100, Krzysztof Kozlowski wrote:
-> > On Mon, Jan 25, 2021 at 02:49:41PM +0800, Yong Wu wrote:
-> > > On Fri, 2021-01-22 at 22:34 +0100, Krzysztof Kozlowski wrote:
-> > > > On Thu, Jan 21, 2021 at 02:24:28PM +0800, Yong Wu wrote:
-> > > > > The config MTK_SMI always depends on MTK_IOMMU which is built-in
-> > > > > currently. Thus we don't have module_exit before. This patch adds
-> > > > > module_exit and module_license. It is a preparing patch for supporting
-> > > > > MTK_SMI could been built as a module.
-> > > > > 
-> > > > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> > > > > ---
-> > > > >  drivers/memory/mtk-smi.c | 10 ++++++++++
-> > > > >  1 file changed, 10 insertions(+)
-> > > > > 
-> > > > > diff --git a/drivers/memory/mtk-smi.c b/drivers/memory/mtk-smi.c
-> > > > > index e2aebd2bfa8e..aa2a25abf04f 100644
-> > > > > --- a/drivers/memory/mtk-smi.c
-> > > > > +++ b/drivers/memory/mtk-smi.c
-> > > > > @@ -597,3 +597,13 @@ static int __init mtk_smi_init(void)
-> > > > >  	return platform_register_drivers(smidrivers, ARRAY_SIZE(smidrivers));
-> > > > >  }
-> > > > >  module_init(mtk_smi_init);
-> > > > > +
-> > > > > +static void __exit mtk_smi_exit(void)
-> > > > > +{
-> > > > > +	platform_unregister_drivers(smidrivers, ARRAY_SIZE(smidrivers));
-> > > > > +}
-> > > > > +module_exit(mtk_smi_exit);
-> > > > > +
-> > > > > +MODULE_DESCRIPTION("MediaTek SMI driver");
-> > > > > +MODULE_ALIAS("platform:MediaTek-SMI");
-> > > > 
-> > > > Drivers do not use capital letters, so I have doubts whether this alias
-> > > > is correct.
-> > > 
-> > > I didn't care the upper/lower-case. I will change to lower case in next
-> > > time.
-> > 
-> > Then why do you need the alias? The name does not match driver name, so
-> > what's the purpose of this alias/
-> 
-> I think it is not so necessary for us. I will delete this line in next
-> version.
-> 
-> Only curious what's alias is fit in our case? normally it should be the
-> file name: mtk-smi?
+Add stall support to the SMMUv3, along with a common I/O Page Fault
+handler.
 
-If autoloading of your module works, then remove it. The alias is
-necessary for some cases when a device table is missing (e.g. platform
-driver is matched via devicetree but not having the platform_device_id
-table) or matching is done via different method (e.g. driver is matched
-from MFD via devicetree compatible even though there is a
-platform_device_id table).
+This version fixes a typo introduced in v10 [1] and adds review tags
+(thanks!) You can find the range diff for v10->v11 below.
 
-Best regards,
-Krzysztof
+[1] https://lore.kernel.org/linux-iommu/20210121123623.2060416-1-jean-philippe@linaro.org/
+
+Jean-Philippe Brucker (10):
+  iommu: Fix comment for struct iommu_fwspec
+  iommu/arm-smmu-v3: Use device properties for pasid-num-bits
+  iommu: Separate IOMMU_DEV_FEAT_IOPF from IOMMU_DEV_FEAT_SVA
+  iommu/vt-d: Support IOMMU_DEV_FEAT_IOPF
+  uacce: Enable IOMMU_DEV_FEAT_IOPF
+  iommu: Add a page fault handler
+  iommu/arm-smmu-v3: Maintain a SID->device structure
+  dt-bindings: document stall property for IOMMU masters
+  ACPI/IORT: Enable stall support for platform devices
+  iommu/arm-smmu-v3: Add stall support for platform devices
+
+ drivers/iommu/Makefile                        |   1 +
+ .../devicetree/bindings/iommu/iommu.txt       |  18 +
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |  56 ++-
+ drivers/iommu/iommu-sva-lib.h                 |  53 ++
+ include/linux/iommu.h                         |  26 +-
+ drivers/acpi/arm64/iort.c                     |  15 +-
+ .../iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c   |  59 ++-
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   | 349 +++++++++++--
+ drivers/iommu/intel/iommu.c                   |  11 +-
+ drivers/iommu/io-pgfault.c                    | 461 ++++++++++++++++++
+ drivers/iommu/of_iommu.c                      |   5 -
+ drivers/misc/uacce/uacce.c                    |  39 +-
+ 12 files changed, 1019 insertions(+), 74 deletions(-)
+ create mode 100644 drivers/iommu/io-pgfault.c
+
+
+-- 
+ @@ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: static void arm_smmu_release_device(struct device *dev)
+    master = dev_iommu_priv_get(dev);
+-   WARN_ON(arm_smmu_master_sva_enabled(master));
+-+  iopf_queue_remove_device(master->smmu->evtq.iopf, dev);
++-  WARN_ON(arm_smmu_master_sva_enabled(master));
+++  if (WARN_ON(arm_smmu_master_sva_enabled(master)))
+++          iopf_queue_remove_device(master->smmu->evtq.iopf, dev);
+    arm_smmu_detach_dev(master);
+    arm_smmu_disable_pasid(master);
+    arm_smmu_remove_master(master);
+@@ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: static struct iommu_ops arm_smmu_op
+    .pgsize_bitmap          = -1UL, /* Restricted during device attach */
+  };
+  
+-@@ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: static int arm_smmu_cmdq_init(struct arm_smmu_device *smmu)
+- static int arm_smmu_init_queues(struct arm_smmu_device *smmu)
+- {
+-   int ret;
+-+  bool sva = smmu->features & ARM_SMMU_FEAT_STALLS;
+- 
+-   /* cmdq */
+-   ret = arm_smmu_init_one_queue(smmu, &smmu->cmdq.q, ARM_SMMU_CMDQ_PROD,
+ @@ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: static int arm_smmu_init_queues(struct arm_smmu_device *smmu)
+    if (ret)
+            return ret;
+  
+-+  if (sva && smmu->features & ARM_SMMU_FEAT_STALLS) {
+++  if ((smmu->features & ARM_SMMU_FEAT_SVA) &&
+++      (smmu->features & ARM_SMMU_FEAT_STALLS)) {
+ +          smmu->evtq.iopf = iopf_queue_alloc(dev_name(smmu->dev));
+ +          if (!smmu->evtq.iopf)
+ +                  return -ENOMEM;
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
