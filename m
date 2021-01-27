@@ -1,62 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8723059DC
-	for <lists.iommu@lfdr.de>; Wed, 27 Jan 2021 12:33:36 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 934873059F7
+	for <lists.iommu@lfdr.de>; Wed, 27 Jan 2021 12:38:03 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 42032870CE;
-	Wed, 27 Jan 2021 11:33:35 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EF5C62152E;
+	Wed, 27 Jan 2021 11:38:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YaOOQaUTUex8; Wed, 27 Jan 2021 11:33:33 +0000 (UTC)
+	with ESMTP id NaFzQVXkpoxQ; Wed, 27 Jan 2021 11:37:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 60F23870BC;
-	Wed, 27 Jan 2021 11:33:33 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D971F221DC;
+	Wed, 27 Jan 2021 11:37:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 46965C013A;
-	Wed, 27 Jan 2021 11:33:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BD539C013A;
+	Wed, 27 Jan 2021 11:37:59 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6C369C08A1
- for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 11:33:31 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8FB7AC013A
+ for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 11:37:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 577FC870A7
- for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 11:33:31 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8BB0A8476B
+ for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 11:37:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id taZvQ-TXew-H for <iommu@lists.linux-foundation.org>;
- Wed, 27 Jan 2021 11:33:29 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by hemlock.osuosl.org (Postfix) with ESMTPS id DD82F87097
- for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 11:33:28 +0000 (UTC)
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DQhK73GBCz7bpB;
- Wed, 27 Jan 2021 19:32:11 +0800 (CST)
-Received: from thunder-town.china.huawei.com (10.174.176.220) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 27 Jan 2021 19:33:15 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Mark
- Rutland" <mark.rutland@arm.com>, Joerg Roedel <joro@8bytes.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, iommu
- <iommu@lists.linux-foundation.org>, linux-kernel
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 3/3] iommu/arm-smmu-v3: Reserving the entire SMMU register
- space
-Date: Wed, 27 Jan 2021 19:32:58 +0800
-Message-ID: <20210127113258.1421-4-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20210127113258.1421-1-thunder.leizhen@huawei.com>
-References: <20210127113258.1421-1-thunder.leizhen@huawei.com>
+ with ESMTP id QM3Xqay8pA2G for <iommu@lists.linux-foundation.org>;
+ Wed, 27 Jan 2021 11:37:58 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 221B9844D4
+ for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 11:37:58 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id E2F91303; Wed, 27 Jan 2021 12:37:55 +0100 (CET)
+Date: Wed, 27 Jan 2021 12:37:54 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: Zheng Yongjun <zhengyongjun3@huawei.com>
+Subject: Re: [PATCH -next] iommu/amd/init: convert comma to semicolon
+Message-ID: <20210127113754.GC32671@8bytes.org>
+References: <20201214134438.4776-1-zhengyongjun3@huawei.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.174.176.220]
-X-CFilter-Loop: Reflected
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Content-Disposition: inline
+In-Reply-To: <20201214134438.4776-1-zhengyongjun3@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: iommu@lists.linux-foundation.org, will@kernel.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -74,86 +65,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-commit 52f3fab0067d ("iommu/arm-smmu-v3: Don't reserve implementation
-defined register space") only reserves the basic SMMU register space. So
-the ECMDQ register space is not covered, it should be mapped again. Due
-to the size of this ECMDQ resource is not fixed, depending on
-SMMU_IDR6.CMDQ_CONTROL_PAGE_LOG2NUMQ. Processing its resource reservation
-to avoid resource conflict with PMCG is a bit more complicated.
+On Mon, Dec 14, 2020 at 09:44:38PM +0800, Zheng Yongjun wrote:
+> Replace a comma between expression statements by a semicolon.
+> 
+> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+> ---
+>  drivers/iommu/amd/init.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Therefore, the resources of the PMCG are not reserved, and the entire SMMU
-resources are reserved.
-
-Suggested-by: Robin Murphy <robin.murphy@arm.com>
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 24 ++++--------------------
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  2 --
- 2 files changed, 4 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index f04c55a7503c790..fde24403b06a9e3 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -3476,14 +3476,6 @@ static int arm_smmu_set_bus_ops(struct iommu_ops *ops)
- 	return err;
- }
- 
--static void __iomem *arm_smmu_ioremap(struct device *dev, resource_size_t start,
--				      resource_size_t size)
--{
--	struct resource res = DEFINE_RES_MEM(start, size);
--
--	return devm_ioremap_resource(dev, &res);
--}
--
- static int arm_smmu_device_probe(struct platform_device *pdev)
- {
- 	int irq, ret;
-@@ -3519,22 +3511,14 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
- 	}
- 	ioaddr = res->start;
- 
--	/*
--	 * Don't map the IMPLEMENTATION DEFINED regions, since they may contain
--	 * the PMCG registers which are reserved by the PMU driver.
--	 */
--	smmu->base = arm_smmu_ioremap(dev, ioaddr, ARM_SMMU_REG_SZ);
-+	smmu->base = devm_ioremap_resource(dev, res);
- 	if (IS_ERR(smmu->base))
- 		return PTR_ERR(smmu->base);
- 
--	if (arm_smmu_resource_size(smmu) > SZ_64K) {
--		smmu->page1 = arm_smmu_ioremap(dev, ioaddr + SZ_64K,
--					       ARM_SMMU_REG_SZ);
--		if (IS_ERR(smmu->page1))
--			return PTR_ERR(smmu->page1);
--	} else {
-+	if (arm_smmu_resource_size(smmu) > SZ_64K)
-+		smmu->page1 = smmu->base + SZ_64K;
-+	else
- 		smmu->page1 = smmu->base;
--	}
- 
- 	/* Interrupt lines */
- 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-index da525f46dab4fc1..63f2b476987d6ae 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
-@@ -152,8 +152,6 @@
- #define ARM_SMMU_PRIQ_IRQ_CFG1		0xd8
- #define ARM_SMMU_PRIQ_IRQ_CFG2		0xdc
- 
--#define ARM_SMMU_REG_SZ			0xe00
--
- /* Common MSI config fields */
- #define MSI_CFG0_ADDR_MASK		GENMASK_ULL(51, 2)
- #define MSI_CFG2_SH			GENMASK(5, 4)
--- 
-1.8.3
-
-
+What tree is this against? This code does not exist in v5.11-rc5.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
