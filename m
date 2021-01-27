@@ -1,84 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6904B305325
-	for <lists.iommu@lfdr.de>; Wed, 27 Jan 2021 07:22:08 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E8B305411
+	for <lists.iommu@lfdr.de>; Wed, 27 Jan 2021 08:11:08 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 07F62204A8;
-	Wed, 27 Jan 2021 06:22:07 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7921B86631;
+	Wed, 27 Jan 2021 07:11:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id P0xTGfWsyZ-q; Wed, 27 Jan 2021 06:22:05 +0000 (UTC)
+	with ESMTP id fm9ZISMs3Zja; Wed, 27 Jan 2021 07:11:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id CEAA92049C;
-	Wed, 27 Jan 2021 06:22:05 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0ABAD866B3;
+	Wed, 27 Jan 2021 07:11:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ABED8C013A;
-	Wed, 27 Jan 2021 06:22:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D7EB3C013A;
+	Wed, 27 Jan 2021 07:11:06 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0AAC2C013A
- for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 06:22:04 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 953C1C013A
+ for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 07:11:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id ECCDD86830
- for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 06:22:03 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7A4F086DD6
+ for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 07:11:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fhhvg-TwIw+U for <iommu@lists.linux-foundation.org>;
- Wed, 27 Jan 2021 06:22:03 +0000 (UTC)
+ with ESMTP id 4nO20nL+XV0l for <iommu@lists.linux-foundation.org>;
+ Wed, 27 Jan 2021 07:11:04 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 45DD08682F
- for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 06:22:03 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id m6so544009pfk.1
- for <iommu@lists.linux-foundation.org>; Tue, 26 Jan 2021 22:22:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p0UOjkRmTMwD1AsLsBqqGq4W3t7p5uLwynxQNKotm9U=;
- b=hfsu/AxsByhoVi9/dovQmsf7FplmeW4giTtzyaYOrpxLYHjqxO49D/fwguVd14YLri
- wAN7yFKObjzOtITpDrKBlGcikkyUHEiYcPfiu5w/o7eKPsWGFaWTlLPIcVwGH33qBpP+
- nM0Yc7yYDYhTCw3pBZeyuuiWpFZtOUi69e9cTxTPUW3gxt9pOHPq+lSEbIDzHgMpto6X
- dZZ0sJOyAtGfv6huYuRmMl07J/7Dp3odNwQWjl6/4pW+YgGUIpCsT4fh4tqn3ECRlVlU
- VrOrBRF2uHvljWRzzhMsR9gYf0TAnoiasz49iYc4CXrN5rRZC16+A/cdQAb/ZRkBZ3WV
- mFcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p0UOjkRmTMwD1AsLsBqqGq4W3t7p5uLwynxQNKotm9U=;
- b=cFZNCYM6lTnhoHy0Li0h0yRJbgV5cpR1kMoM5dMTI4UnZrCOfziF/S+6GnguhxfDvV
- 4Ci04FMaLsuSh9kA60uSWT7Y3lXcGNZCQtBr1YMxKs8UXmYUnObpOF7xPclMpydGdLGA
- s6fxR21HPYaszPJMLG93ZB/I+C4XobPhvoa1TM7iuQ8dfNyltMjUfJ9Oe2zXizWfXDtC
- UUIEUSxkxJ7L3aNGbvBLQcqgmM7kFHB9jqAOQVm1IN77E8NJTvr8h3F8PjMaftIiH9ba
- E882+NRXCK9LwMTE5DNDuq19Nh4bacVBYSv+m2V6BYX0gSjS5lgSEuWBjlwrUSGhReZs
- ccvg==
-X-Gm-Message-State: AOAM532XbdUu2kdA5U6oHnJotp2djFy42HnaTjczRgQ3DAiq9jKjGOF0
- Jnc0/vXxhQEQwZTUHg8G33lf4wZCs2NAxQ==
-X-Google-Smtp-Source: ABdhPJylntng4vIQz7EpDEhCRAK/XSZ+RAVN85oPYe0Cue23Sjqwoc7AjuY8T9U75OBd7KEGb71TeA==
-X-Received: by 2002:a62:2e86:0:b029:1a6:5f94:2cb with SMTP id
- u128-20020a622e860000b02901a65f9402cbmr9127753pfu.19.1611728522419; 
- Tue, 26 Jan 2021 22:22:02 -0800 (PST)
-Received: from sc2-haas01-esx0118.eng.vmware.com ([66.170.99.1])
- by smtp.gmail.com with ESMTPSA id d14sm992192pfo.156.2021.01.26.22.22.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jan 2021 22:22:01 -0800 (PST)
-From: Nadav Amit <nadav.amit@gmail.com>
-X-Google-Original-From: Nadav Amit
-To: iommu@lists.linux-foundation.org
-Subject: [PATCH v2] iommu/vt-d: do not use flush-queue when caching-mode is on
-Date: Tue, 26 Jan 2021 22:17:29 -0800
-Message-Id: <20210127061729.1596640-1-namit@vmware.com>
-X-Mailer: git-send-email 2.25.1
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 2C1A386631
+ for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 07:11:03 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+ id 8FBA767373; Wed, 27 Jan 2021 08:10:59 +0100 (CET)
+Date: Wed, 27 Jan 2021 08:10:59 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Subject: Re: [PATCH 2/5] kernel/dma: remove unnecessary unmap_kernel_range
+Message-ID: <20210127071059.GA21133@lst.de>
+References: <20210126045404.2492588-1-npiggin@gmail.com>
+ <20210126045404.2492588-3-npiggin@gmail.com>
+ <YBCS7toITTwP04aK@Konrads-MacBook-Pro.local>
 MIME-Version: 1.0
-Cc: Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Nadav Amit <namit@vmware.com>,
- David Woodhouse <dwmw2@infradead.org>
+Content-Disposition: inline
+In-Reply-To: <YBCS7toITTwP04aK@Konrads-MacBook-Pro.local>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: linux-kernel@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
+ linux-mm@kvack.org, iommu@lists.linux-foundation.org,
+ Andrew Morton <akpm@linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>,
+ Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,112 +69,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: Nadav Amit <namit@vmware.com>
+On Tue, Jan 26, 2021 at 05:08:46PM -0500, Konrad Rzeszutek Wilk wrote:
+> On Tue, Jan 26, 2021 at 02:54:01PM +1000, Nicholas Piggin wrote:
+> > vunmap will remove ptes.
+> 
+> Should there be some ASSERT after the vunmap to make sure that is the
+> case? 
 
-When an Intel IOMMU is virtualized, and a physical device is
-passed-through to the VM, changes of the virtual IOMMU need to be
-propagated to the physical IOMMU. The hypervisor therefore needs to
-monitor PTE mappings in the IOMMU page-tables. Intel specifications
-provide "caching-mode" capability that a virtual IOMMU uses to report
-that the IOMMU is virtualized and a TLB flush is needed after mapping to
-allow the hypervisor to propagate virtual IOMMU mappings to the physical
-IOMMU. To the best of my knowledge no real physical IOMMU reports
-"caching-mode" as turned on.
-
-Synchronizing the virtual and the physical IOMMU tables is expensive if
-the hypervisor is unaware which PTEs have changed, as the hypervisor is
-required to walk all the virtualized tables and look for changes.
-Consequently, domain flushes are much more expensive than page-specific
-flushes on virtualized IOMMUs with passthrough devices. The kernel
-therefore exploited the "caching-mode" indication to avoid domain
-flushing and use page-specific flushing in virtualized environments. See
-commit 78d5f0f500e6 ("intel-iommu: Avoid global flushes with caching
-mode.")
-
-This behavior changed after commit 13cf01744608 ("iommu/vt-d: Make use
-of iova deferred flushing"). Now, when batched TLB flushing is used (the
-default), full TLB domain flushes are performed frequently, requiring
-the hypervisor to perform expensive synchronization between the virtual
-TLB and the physical one.
-
-Getting batched TLB flushes to use in such circumstances page-specific
-invalidations again is not easy, since the TLB invalidation scheme
-assumes that "full" domain TLB flushes are performed for scalability.
-
-Disable batched TLB flushes when caching-mode is on, as the performance
-benefit from using batched TLB invalidations is likely to be much
-smaller than the overhead of the virtual-to-physical IOMMU page-tables
-synchronization.
-
-Fixes: 78d5f0f500e6 ("intel-iommu: Avoid global flushes with caching mode.")
-Signed-off-by: Nadav Amit <namit@vmware.com>
-Cc: David Woodhouse <dwmw2@infradead.org>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Will Deacon <will@kernel.org>
-Cc: stable@vger.kernel.org
-
----
-v1->v2:
-
-* disable flush queue for all domains if caching-mode is on for any
-  IOMMU (Lu).
----
- drivers/iommu/intel/iommu.c | 32 +++++++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 788119c5b021..de3dd617cf60 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -5373,6 +5373,36 @@ intel_iommu_domain_set_attr(struct iommu_domain *domain,
- 	return ret;
- }
- 
-+static bool domain_use_flush_queue(void)
-+{
-+	struct dmar_drhd_unit *drhd;
-+	struct intel_iommu *iommu;
-+	bool r = true;
-+
-+	if (intel_iommu_strict)
-+		return false;
-+
-+	/*
-+	 * The flush queue implementation does not perform page-selective
-+	 * invalidations that are required for efficient TLB flushes in virtual
-+	 * environments. The benefit of batching is likely to be much lower than
-+	 * the overhead of synchronizing the virtual and physical IOMMU
-+	 * page-tables.
-+	 */
-+	rcu_read_lock();
-+	for_each_active_iommu(iommu, drhd) {
-+		if (!cap_caching_mode(iommu->cap))
-+			continue;
-+
-+		pr_warn_once("IOMMU batching is disabled due to virtualization");
-+		r = false;
-+		break;
-+	}
-+	rcu_read_unlock();
-+
-+	return r;
-+}
-+
- static int
- intel_iommu_domain_get_attr(struct iommu_domain *domain,
- 			    enum iommu_attr attr, void *data)
-@@ -5383,7 +5413,7 @@ intel_iommu_domain_get_attr(struct iommu_domain *domain,
- 	case IOMMU_DOMAIN_DMA:
- 		switch (attr) {
- 		case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
--			*(int *)data = !intel_iommu_strict;
-+			*(int *)data = domain_use_flush_queue();
- 			return 0;
- 		default:
- 			return -ENODEV;
--- 
-2.25.1
+Not really.  removing the PTEs is the whole point of vunmap.  Everything
+else is just house keeping.
 
 _______________________________________________
 iommu mailing list
