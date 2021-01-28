@@ -1,74 +1,79 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CEAF307980
-	for <lists.iommu@lfdr.de>; Thu, 28 Jan 2021 16:21:46 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C983079F2
+	for <lists.iommu@lfdr.de>; Thu, 28 Jan 2021 16:41:42 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 0CF6987329;
-	Thu, 28 Jan 2021 15:21:45 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id F23BF20422;
+	Thu, 28 Jan 2021 15:41:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xfs7GjSCfPUJ; Thu, 28 Jan 2021 15:21:44 +0000 (UTC)
+	with ESMTP id xQ2GfACU+59Q; Thu, 28 Jan 2021 15:41:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 7F1CA873E8;
-	Thu, 28 Jan 2021 15:21:44 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id DD4B82E0DF;
+	Thu, 28 Jan 2021 15:41:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FEF7C013A;
-	Thu, 28 Jan 2021 15:21:44 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C5B74C013A;
+	Thu, 28 Jan 2021 15:41:38 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C92C7C013A
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:21:42 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0BBEFC013A
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:41:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id AFF5787339
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:21:42 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 022AD21503
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:41:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 976XIeOZskAl for <iommu@lists.linux-foundation.org>;
- Thu, 28 Jan 2021 15:21:41 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 9077987329
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:21:37 +0000 (UTC)
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DRPKs1ZVgzjFdr;
- Thu, 28 Jan 2021 23:20:17 +0800 (CST)
-Received: from [10.174.184.42] (10.174.184.42) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 28 Jan 2021 23:21:20 +0800
-Subject: Re: [PATCH v3 2/2] vfio/iommu_type1: Fix some sanity checks in detach
- group
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <20210122092635.19900-1-zhukeqian1@huawei.com>
- <20210122092635.19900-3-zhukeqian1@huawei.com>
- <20210127164641.36e17bf5@omen.home.shazbot.org>
-From: Keqian Zhu <zhukeqian1@huawei.com>
-Message-ID: <5093dace-4b8a-d455-ba16-d0c2da755573@huawei.com>
-Date: Thu, 28 Jan 2021 23:21:20 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ with ESMTP id iPsL6pwiuZzi for <iommu@lists.linux-foundation.org>;
+ Thu, 28 Jan 2021 15:41:37 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+ by silver.osuosl.org (Postfix) with ESMTPS id B40E720422
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:41:36 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-12-etlw7F1KPkS310PW0vAHjQ-1; Thu, 28 Jan 2021 15:41:31 +0000
+X-MC-Unique: etlw7F1KPkS310PW0vAHjQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Thu, 28 Jan 2021 15:41:31 +0000
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
+ Thu, 28 Jan 2021 15:41:31 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Christoph Hellwig' <hch@lst.de>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, "Tomasz
+ Figa" <tfiga@chromium.org>, Ricardo Ribalda <ribalda@chromium.org>, "Sergey
+ Senozhatsky" <senozhatsky@google.com>, "iommu@lists.linux-foundation.org"
+ <iommu@lists.linux-foundation.org>
+Subject: RE: [PATCH 2/6] dma-mapping: add a dma_mmap_pages helper
+Thread-Topic: [PATCH 2/6] dma-mapping: add a dma_mmap_pages helper
+Thread-Index: AQHW9YdDx2Jomxp/n0KiElYHhtkl1qo9KjnA
+Date: Thu, 28 Jan 2021 15:41:31 +0000
+Message-ID: <792682fa4a97411a8248abeec29b78ee@AcuMS.aculab.com>
+References: <20210128145837.2250561-1-hch@lst.de>
+ <20210128145837.2250561-3-hch@lst.de>
+In-Reply-To: <20210128145837.2250561-3-hch@lst.de>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-In-Reply-To: <20210127164641.36e17bf5@omen.home.shazbot.org>
-X-Originating-IP: [10.174.184.42]
-X-CFilter-Loop: Reflected
-Cc: Mark
- Rutland <mark.rutland@arm.com>, jiangkunkun@huawei.com, kvm@vger.kernel.org,
- Catalin Marinas <catalin.marinas@arm.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Will Deacon <will@kernel.org>,
- kvmarm@lists.cs.columbia.edu, Marc
- Zyngier <maz@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>,
- wanghaibin.wang@huawei.com, Julien Thierry <julien.thierry.kdev@gmail.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Alexios Zavras <alexios.zavras@intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
- Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, James Morse <james.morse@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>, Robin
- Murphy <robin.murphy@arm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,123 +91,49 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
+From: Christoph Hellwig
+> Sent: 28 January 2021 14:59
+> 
+> Add a helper to map memory allocated using dma_alloc_pages into
+> a user address space, similar to the dma_alloc_attrs function for
+> coherent allocations.
+> 
+...
+> +::
+> +
+> +	int
+> +	dma_mmap_pages(struct device *dev, struct vm_area_struct *vma,
+> +		       size_t size, struct page *page)
+> +
+> +Map an allocation returned from dma_alloc_pages() into a user address space.
+> +dev and size must be the same as those passed into dma_alloc_pages().
+> +page must be the pointer returned by dma_alloc_pages().
 
+To be useful this needs to specify the offset into the user address area.
+(ie the offset in the mmap() buffer.)
 
-On 2021/1/28 7:46, Alex Williamson wrote:
-> On Fri, 22 Jan 2021 17:26:35 +0800
-> Keqian Zhu <zhukeqian1@huawei.com> wrote:
-> 
->> vfio_sanity_check_pfn_list() is used to check whether pfn_list and
->> notifier are empty when remove the external domain, so it makes a
->> wrong assumption that only external domain will use the pinning
->> interface.
->>
->> Now we apply the pfn_list check when a vfio_dma is removed and apply
->> the notifier check when all domains are removed.
->>
->> Fixes: a54eb55045ae ("vfio iommu type1: Add support for mediated devices")
->> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
->> ---
->>  drivers/vfio/vfio_iommu_type1.c | 33 ++++++++++-----------------------
->>  1 file changed, 10 insertions(+), 23 deletions(-)
->>
->> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
->> index 161725395f2f..d8c10f508321 100644
->> --- a/drivers/vfio/vfio_iommu_type1.c
->> +++ b/drivers/vfio/vfio_iommu_type1.c
->> @@ -957,6 +957,7 @@ static long vfio_unmap_unpin(struct vfio_iommu *iommu, struct vfio_dma *dma,
->>  
->>  static void vfio_remove_dma(struct vfio_iommu *iommu, struct vfio_dma *dma)
->>  {
->> +	WARN_ON(!RB_EMPTY_ROOT(&dma->pfn_list));
->>  	vfio_unmap_unpin(iommu, dma, true);
->>  	vfio_unlink_dma(iommu, dma);
->>  	put_task_struct(dma->task);
->> @@ -2250,23 +2251,6 @@ static void vfio_iommu_unmap_unpin_reaccount(struct vfio_iommu *iommu)
->>  	}
->>  }
->>  
->> -static void vfio_sanity_check_pfn_list(struct vfio_iommu *iommu)
->> -{
->> -	struct rb_node *n;
->> -
->> -	n = rb_first(&iommu->dma_list);
->> -	for (; n; n = rb_next(n)) {
->> -		struct vfio_dma *dma;
->> -
->> -		dma = rb_entry(n, struct vfio_dma, node);
->> -
->> -		if (WARN_ON(!RB_EMPTY_ROOT(&dma->pfn_list)))
->> -			break;
->> -	}
->> -	/* mdev vendor driver must unregister notifier */
->> -	WARN_ON(iommu->notifier.head);
->> -}
->> -
->>  /*
->>   * Called when a domain is removed in detach. It is possible that
->>   * the removed domain decided the iova aperture window. Modify the
->> @@ -2366,10 +2350,10 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
->>  			kfree(group);
->>  
->>  			if (list_empty(&iommu->external_domain->group_list)) {
->> -				vfio_sanity_check_pfn_list(iommu);
->> -
->> -				if (!IS_IOMMU_CAP_DOMAIN_IN_CONTAINER(iommu))
->> +				if (!IS_IOMMU_CAP_DOMAIN_IN_CONTAINER(iommu)) {
->> +					WARN_ON(iommu->notifier.head);
->>  					vfio_iommu_unmap_unpin_all(iommu);
->> +				}
->>  
->>  				kfree(iommu->external_domain);
->>  				iommu->external_domain = NULL;
->> @@ -2403,10 +2387,12 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
->>  		 */
->>  		if (list_empty(&domain->group_list)) {
->>  			if (list_is_singular(&iommu->domain_list)) {
->> -				if (!iommu->external_domain)
->> +				if (!iommu->external_domain) {
->> +					WARN_ON(iommu->notifier.head);
->>  					vfio_iommu_unmap_unpin_all(iommu);
->> -				else
->> +				} else {
->>  					vfio_iommu_unmap_unpin_reaccount(iommu);
->> +				}
->>  			}
->>  			iommu_domain_free(domain->domain);
->>  			list_del(&domain->next);
->> @@ -2488,9 +2474,10 @@ static void vfio_iommu_type1_release(void *iommu_data)
->>  	struct vfio_iommu *iommu = iommu_data;
->>  	struct vfio_domain *domain, *domain_tmp;
->>  
->> +	WARN_ON(iommu->notifier.head);
-> 
-> I don't see that this does any harm, but isn't it actually redundant?
-> It seems vfio-core only calls the iommu backend release function after
-> removing all the groups, so the tests in _detach_group should catch all
-> cases.  We're expecting the vfio bus/mdev driver to remove the notifier
-> when a device is closed, which necessarily occurs before detaching the
-> group.  Thanks,
-> 
-> Alex
-Hi Alex,
+For example we have an fpga based PCIe card that converts internal
+addresses that refer to one of 512 16k 'pages' to 64bit PCIe bus
+master addresses.
+So it (sort of) contains its own iommu.
 
-Sorry that today I was busy at sending the smmu HTTU based dma dirty log tracking.
-I will reply you tomorrow. Thanks!
+So we can allocate (aligned) 16k kernel memory buffers with
+dma_alloc_coherent() and make them appear contiguous to the
+on-board PCIe bus master users.
+We then mmap() them into contiguous user addresses.
+So both 'ends' see contiguous addresses without requiring
+contiguous physical memory or requiring all the memory be 
+allocated at the same time.
 
-Keqian.
+Clearly in-kernel users have to allow for the 16k boundaries.
+But the large structures are accesses from user space.
 
-> 
->> +
->>  	if (iommu->external_domain) {
->>  		vfio_release_domain(iommu->external_domain, true);
->> -		vfio_sanity_check_pfn_list(iommu);
->>  		kfree(iommu->external_domain);
->>  	}
->>  
-> 
-> .
-> 
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
