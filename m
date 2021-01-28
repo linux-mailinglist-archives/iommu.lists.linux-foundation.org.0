@@ -1,55 +1,54 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F9E3075BD
-	for <lists.iommu@lfdr.de>; Thu, 28 Jan 2021 13:17:58 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0F83075F9
+	for <lists.iommu@lfdr.de>; Thu, 28 Jan 2021 13:28:12 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 4305087271;
-	Thu, 28 Jan 2021 12:17:57 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 20E3D86B71;
+	Thu, 28 Jan 2021 12:28:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FW4xRaSydqnj; Thu, 28 Jan 2021 12:17:55 +0000 (UTC)
+	with ESMTP id oJsb4jhZrYpq; Thu, 28 Jan 2021 12:28:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 2559887290;
-	Thu, 28 Jan 2021 12:17:55 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A96C486B6C;
+	Thu, 28 Jan 2021 12:28:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 06569C013A;
-	Thu, 28 Jan 2021 12:17:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 86C53C1E6F;
+	Thu, 28 Jan 2021 12:28:10 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 054B3C013A
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 12:17:54 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B7FD1C013A
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 12:28:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id DFD0B86B12
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 12:17:53 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id A0A2486B71
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 12:28:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6uLIS369sVau for <iommu@lists.linux-foundation.org>;
- Thu, 28 Jan 2021 12:17:52 +0000 (UTC)
+ with ESMTP id bMTvE+5K-d0i for <iommu@lists.linux-foundation.org>;
+ Thu, 28 Jan 2021 12:28:08 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
 Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 9D50F86AEB
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 12:17:52 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 62B9E86B6C
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 12:28:08 +0000 (UTC)
 Received: by theia.8bytes.org (Postfix, from userid 1000)
- id 9A61D51D; Thu, 28 Jan 2021 13:17:49 +0100 (CET)
-Date: Thu, 28 Jan 2021 13:17:48 +0100
+ id 1103E51D; Thu, 28 Jan 2021 13:28:06 +0100 (CET)
+Date: Thu, 28 Jan 2021 13:28:04 +0100
 From: Joerg Roedel <joro@8bytes.org>
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [PATCH 1/1] iommu/vt-d: Correctly check addr alignment in
- qi_flush_dev_iotlb_pasid()
-Message-ID: <20210128121747.GK32671@8bytes.org>
-References: <20210119043500.1539596-1-baolu.lu@linux.intel.com>
+To: Lianbo Jiang <lijiang@redhat.com>
+Subject: Re: [PATCH v3 0/2] iommu: fix the failure of deferred attach for
+ iommu attach device
+Message-ID: <20210128122804.GM32671@8bytes.org>
+References: <20210126115337.20068-1-lijiang@redhat.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210119043500.1539596-1-baolu.lu@linux.intel.com>
+In-Reply-To: <20210126115337.20068-1-lijiang@redhat.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Ashok Raj <ashok.raj@intel.com>, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org, Guo Kaijie <Kaijie.Guo@intel.com>,
- Will Deacon <will@kernel.org>
+Cc: thomas.lendacky@amd.com, will@kernel.org, linux-kernel@vger.kernel.org,
+ hch@infradead.org, iommu@lists.linux-foundation.org, robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -67,29 +66,18 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Tue, Jan 19, 2021 at 12:35:00PM +0800, Lu Baolu wrote:
-> An incorrect address mask is being used in the qi_flush_dev_iotlb_pasid()
-> to check the address alignment. This leads to a lot of spurious kernel
-> warnings:
+On Tue, Jan 26, 2021 at 07:53:35PM +0800, Lianbo Jiang wrote:
+> Lianbo Jiang (2):
+>   dma-iommu: use static-key to minimize the impact in the fast-path
+>   iommu: use the __iommu_attach_device() directly for deferred attach
 > 
-> [  485.837093] DMAR: Invalidate non-aligned address 7f76f47f9000, order 0
-> [  485.837098] DMAR: Invalidate non-aligned address 7f76f47f9000, order 0
-> [  492.494145] qi_flush_dev_iotlb_pasid: 5734 callbacks suppressed
-> [  492.494147] DMAR: Invalidate non-aligned address 7f7728800000, order 11
-> [  492.508965] DMAR: Invalidate non-aligned address 7f7728800000, order 11
-> 
-> Fix it by checking the alignment in right way.
-> 
-> Fixes: 288d08e780088 ("iommu/vt-d: Handle non-page aligned address")
-> Reported-and-tested-by: Guo Kaijie <Kaijie.Guo@intel.com>
-> Signed-off-by: Lu Baolu <baolu.lu@linux.intel.com>
-> Cc: Liu Yi L <yi.l.liu@intel.com>
-> ---
->  drivers/iommu/intel/dmar.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/iommu/dma-iommu.c | 29 +++++++++++------------------
+>  drivers/iommu/iommu.c     | 10 ++++++++++
+>  include/linux/iommu.h     |  1 +
+>  3 files changed, 22 insertions(+), 18 deletions(-)
 
-Applied for 5.11, thanks.
-
+Sorry, missed that there was a newer version. Applied this instead of
+v2.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
