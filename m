@@ -1,85 +1,83 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5895130692F
-	for <lists.iommu@lfdr.de>; Thu, 28 Jan 2021 02:02:07 +0100 (CET)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC07E306A5B
+	for <lists.iommu@lfdr.de>; Thu, 28 Jan 2021 02:29:12 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E488A87366;
-	Thu, 28 Jan 2021 01:02:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6EF6027384;
+	Thu, 28 Jan 2021 01:29:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id x+zvYSVjfURl; Thu, 28 Jan 2021 01:02:05 +0000 (UTC)
+	with ESMTP id mOkznfMx0rFj; Thu, 28 Jan 2021 01:29:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 562FE8735B;
-	Thu, 28 Jan 2021 01:02:05 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B7B6D228E7;
+	Thu, 28 Jan 2021 01:29:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 42EFAC08A1;
-	Thu, 28 Jan 2021 01:02:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A87E7C1E6F;
+	Thu, 28 Jan 2021 01:29:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 20AC8C013A
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 01:02:04 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4AC22C013A
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 01:29:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0DEAF86448
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 01:02:04 +0000 (UTC)
+ by whitealder.osuosl.org (Postfix) with ESMTP id 2BA9A8669F
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 01:29:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uNNaGxQejOmQ for <iommu@lists.linux-foundation.org>;
- Thu, 28 Jan 2021 01:02:03 +0000 (UTC)
-X-Greylist: delayed 00:16:29 by SQLgrey-1.7.6
-Received: from mail-oi1-f201.google.com (mail-oi1-f201.google.com
- [209.85.167.201])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 66DB48626B
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 01:02:03 +0000 (UTC)
-Received: by mail-oi1-f201.google.com with SMTP id z140so1671393oia.12
- for <iommu@lists.linux-foundation.org>; Wed, 27 Jan 2021 17:02:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:in-reply-to:message-id:mime-version:references:subject
- :from:to; bh=qnjnlmt/aDtctSbauuE/youvqobwVlPzhUiWyRCjmfE=;
- b=qJxdZcF/2iL7L7BpzsbCYhi4F1nBavg4WlPlFpgXDOY5JnypjMuB5Jl8F1glrX+A4C
- n5cFVsxGI6pfe/w0G7OBYdhPN9oZnZgnLpywUZwj5ri8PaSP2OWVp0agQOBxmWy3mIvz
- KSFd69aDCb0KQBfTmnJ62PQ3um4VDyswVGzu5SPQyhwapIATIv82EijymGjd/0268xT2
- wv/zpLEU0J95cFOqUQnbGni/pwRmqfy6nQ96Wx3eJcvOVyYCLU49ayvU8D/1YZcpSmEQ
- cQVhVPIIf6skPQ09HLkASCP/JwRrVQzdGPjF5JYdynrGeqJ4Xp2kxKWvkcG5Zs6dpAi0
- huSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
- :references:subject:from:to;
- bh=qnjnlmt/aDtctSbauuE/youvqobwVlPzhUiWyRCjmfE=;
- b=NuHivkP745hW/lQArDZA+tGvJNQKrP5sok1Aso9d/frLGp4IqRiEYSko017GgKZdvg
- v+l0oTY7C9NnGzpPYQhit4GagwdRUTjbzQcwHD8T2h/mHEXFs8O+dbODqbVb1pKGo2EO
- MH0SyEyNdhRT111GHkDvQuXwoLmv3pw/myxVIJpc4BNi2nAGng/oFlcChTjZeYyNepDV
- T8kHnzblfwORKSunLaPXq2iIcBWjvRLdHwbHPYRjW97Ruv0C9kWQTSfUxkVDGQ6/YtQi
- Pb4eE7obiM4SRDd9ZlQNbfLJUzABMYOd9kSvEoo7ccnsX3liS2vWvLaNDkTiQtaUJgIT
- 4Jkw==
-X-Gm-Message-State: AOAM5315bZJSKfW/qw1GlxMZ+LhsMF4Twf31k1E9qTtkpUisQ29ymbT+
- i7D6aPAZTpcPnTsGC/EJnPxksKNQpQ==
-X-Google-Smtp-Source: ABdhPJxItXQ1+mD1tytZkMFhh6fWETP78nnpd+zRsRgJzoZEVagoHzp8VktIvxmKZTm1x9AHDy922qsZ4Q==
-X-Received: from jxgao.kir.corp.google.com
- ([2620:0:1008:11:4d90:620d:7a68:ffc5])
- (user=jxgao job=sendgmr) by 2002:a17:90a:d181:: with SMTP id
- fu1mr8266312pjb.188.1611794325104; Wed, 27 Jan 2021 16:38:45 -0800 (PST)
-Date: Wed, 27 Jan 2021 16:38:28 -0800
-In-Reply-To: <20210128003829.1892018-1-jxgao@google.com>
-Message-Id: <20210128003829.1892018-3-jxgao@google.com>
-Mime-Version: 1.0
-References: <20210128003829.1892018-1-jxgao@google.com>
-X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
-Subject: [PATCH 2/3] Add swiotlb offset preserving mapping when
- dma_dma_parameters->page_offset_mask is non zero.
-To: jxgao@google.com, erdemaktas@google.com, marcorr@google.com, hch@lst.de, 
- m.szyprowski@samsung.com, robin.murphy@arm.com, gregkh@linuxfoundation.org,
- saravanak@google.com, heikki.krogerus@linux.intel.com, 
- rafael.j.wysocki@intel.com, andriy.shevchenko@linux.intel.com, 
- dan.j.williams@intel.com, bgolaszewski@baylibre.com, jroedel@suse.de, 
- iommu@lists.linux-foundation.org, konrad.wilk@oracle.com, kbusch@kernel.org, 
- axboe@fb.com, sagi@grimberg.me, linux-nvme@lists.infradead.org, 
- linux-kernel@vger.kernel.org
+ with ESMTP id 4ad55lLzVp2a for <iommu@lists.linux-foundation.org>;
+ Thu, 28 Jan 2021 01:29:06 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 9E13B86690
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 01:29:05 +0000 (UTC)
+Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.57])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4DR2rv3Fv3z5LbD;
+ Thu, 28 Jan 2021 09:27:27 +0800 (CST)
+Received: from dggpemm100010.china.huawei.com (7.185.36.24) by
+ DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Thu, 28 Jan 2021 09:28:27 +0800
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ dggpemm100010.china.huawei.com (7.185.36.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2106.2; Thu, 28 Jan 2021 09:28:27 +0800
+Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
+ dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.2106.006;
+ Thu, 28 Jan 2021 09:28:27 +0800
+From: "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: RE: [RFC PATCH v2] uacce: Add uacce_ctrl misc device
+Thread-Topic: [RFC PATCH v2] uacce: Add uacce_ctrl misc device
+Thread-Index: AQHW8vWniUnMS+RFOU2UJJCa8sDlvKo39q+AgADtcaD//5AFgIAAh9tQ//+YwwCAAIUv4IAAmdoAgAKKrfA=
+Date: Thu, 28 Jan 2021 01:28:26 +0000
+Message-ID: <c4dc2cdf4a904e099641de21282f59d3@hisilicon.com>
+References: <1611563696-235269-1-git-send-email-wangzhou1@hisilicon.com>
+ <20210125154717.GW4605@ziepe.ca>
+ <96b655ade2534a65974a378bb68383ee@hisilicon.com>
+ <20210125231619.GY4605@ziepe.ca>
+ <5f64a68042c64f37b5cba74028bd2189@hisilicon.com>
+ <20210126011304.GZ4605@ziepe.ca>
+ <d7fce136c3644755a7aea5794bddf453@hisilicon.com>
+ <20210126182024.GA4605@ziepe.ca>
+In-Reply-To: <20210126182024.GA4605@ziepe.ca>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.126.200.149]
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Cc: "chensihang \(A\)" <chensihang1@hisilicon.com>,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ Zhangfei Gao <zhangfei.gao@linaro.org>,
+ "Liguozhu \(Kenneth\)" <liguozhu@hisilicon.com>,
+ "linux-accelerators@lists.ozlabs.org" <linux-accelerators@lists.ozlabs.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,94 +90,99 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-From: Jianxiong Gao via iommu <iommu@lists.linux-foundation.org>
-Reply-To: Jianxiong Gao <jxgao@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-For devices that need to preserve address offset on mapping through
-swiotlb, this patch adds offset preserving based on page_offset_mask
-and keeps the offset if the mask is non zero. This is needed for
-device drivers like NVMe.
 
-Signed-off-by: Jianxiong Gao <jxgao@google.com>
----
- kernel/dma/swiotlb.c | 25 ++++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index 7c42df6e6100..4cab35f2c9bc 100644
---- a/kernel/dma/swiotlb.c
-+++ b/kernel/dma/swiotlb.c
-@@ -468,7 +468,7 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
- 	dma_addr_t tbl_dma_addr = phys_to_dma_unencrypted(hwdev, io_tlb_start);
- 	unsigned long flags;
- 	phys_addr_t tlb_addr;
--	unsigned int nslots, stride, index, wrap;
-+	unsigned int nslots, stride, index, wrap, page_offset_mask, page_offset;
- 	int i;
- 	unsigned long mask;
- 	unsigned long offset_slots;
-@@ -500,12 +500,16 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
- 		    ? ALIGN(mask + 1, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT
- 		    : 1UL << (BITS_PER_LONG - IO_TLB_SHIFT);
- 
-+	page_offset_mask = dma_get_page_offset_mask(hwdev);
-+	page_offset = orig_addr & page_offset_mask;
-+	alloc_size += page_offset;
-+
- 	/*
- 	 * For mappings greater than or equal to a page, we limit the stride
- 	 * (and hence alignment) to a page size.
- 	 */
- 	nslots = ALIGN(alloc_size, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
--	if (alloc_size >= PAGE_SIZE)
-+	if ((alloc_size >= PAGE_SIZE) || (page_offset_mask > (1 << IO_TLB_SHIFT)))
- 		stride = (1 << (PAGE_SHIFT - IO_TLB_SHIFT));
- 	else
- 		stride = 1;
-@@ -583,6 +587,11 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t orig_addr,
- 	 */
- 	for (i = 0; i < nslots; i++)
- 		io_tlb_orig_addr[index+i] = orig_addr + (i << IO_TLB_SHIFT);
-+	/*
-+	 * When keeping the offset of the original data, we need to advance
-+	 * the tlb_addr by the offset of orig_addr.
-+	 */
-+	tlb_addr += page_offset;
- 	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
- 	    (dir == DMA_TO_DEVICE || dir == DMA_BIDIRECTIONAL))
- 		swiotlb_bounce(orig_addr, tlb_addr, mapping_size, DMA_TO_DEVICE);
-@@ -598,7 +607,9 @@ void swiotlb_tbl_unmap_single(struct device *hwdev, phys_addr_t tlb_addr,
- 			      enum dma_data_direction dir, unsigned long attrs)
- {
- 	unsigned long flags;
--	int i, count, nslots = ALIGN(alloc_size, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
-+	unsigned int num_page_offset_slabs, page_offset_mask = dma_get_page_offset_mask(hwdev);
-+	int i, count;
-+	int nslots = ALIGN(alloc_size + tlb_addr & page_offset_mask, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
- 	int index = (tlb_addr - io_tlb_start) >> IO_TLB_SHIFT;
- 	phys_addr_t orig_addr = io_tlb_orig_addr[index];
- 
-@@ -610,6 +621,14 @@ void swiotlb_tbl_unmap_single(struct device *hwdev, phys_addr_t tlb_addr,
- 	    ((dir == DMA_FROM_DEVICE) || (dir == DMA_BIDIRECTIONAL)))
- 		swiotlb_bounce(orig_addr, tlb_addr, mapping_size, DMA_FROM_DEVICE);
- 
-+	/*
-+	 * When dma_get_page_offset_mask is used, we may have padded more slabs
-+	 * when padding exceeds one slab. We need to move index back to the
-+	 * beginning of the padding.
-+	 */
-+	num_page_offset_slabs =  (tlb_addr & page_offset_mask) / (1 << IO_TLB_SHIFT);
-+	index -= num_page_offset_slabs;
-+
- 	/*
- 	 * Return the buffer to the free list by setting the corresponding
- 	 * entries to indicate the number of contiguous entries available.
--- 
-2.27.0
+> -----Original Message-----
+> From: Jason Gunthorpe [mailto:jgg@ziepe.ca]
+> Sent: Wednesday, January 27, 2021 7:20 AM
+> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>
+> Cc: Wangzhou (B) <wangzhou1@hisilicon.com>; Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org>; Arnd Bergmann <arnd@arndb.de>; Zhangfei Gao
+> <zhangfei.gao@linaro.org>; linux-accelerators@lists.ozlabs.org;
+> linux-kernel@vger.kernel.org; iommu@lists.linux-foundation.org;
+> linux-mm@kvack.org; Liguozhu (Kenneth) <liguozhu@hisilicon.com>; chensihang
+> (A) <chensihang1@hisilicon.com>
+> Subject: Re: [RFC PATCH v2] uacce: Add uacce_ctrl misc device
+> 
+> On Tue, Jan 26, 2021 at 01:26:45AM +0000, Song Bao Hua (Barry Song) wrote:
+> > > On Mon, Jan 25, 2021 at 11:35:22PM +0000, Song Bao Hua (Barry Song) wrote:
+> > >
+> > > > > On Mon, Jan 25, 2021 at 10:21:14PM +0000, Song Bao Hua (Barry Song)
+> wrote:
+> > > > > > mlock, while certainly be able to prevent swapping out, it won't
+> > > > > > be able to stop page moving due to:
+> > > > > > * memory compaction in alloc_pages()
+> > > > > > * making huge pages
+> > > > > > * numa balance
+> > > > > > * memory compaction in CMA
+> > > > >
+> > > > > Enabling those things is a major reason to have SVA device in the
+> > > > > first place, providing a SW API to turn it all off seems like the
+> > > > > wrong direction.
+> > > >
+> > > > I wouldn't say this is a major reason to have SVA. If we read the
+> > > > history of SVA and papers, people would think easy programming due
+> > > > to data struct sharing between cpu and device, and process space
+> > > > isolation in device would be the major reasons for SVA. SVA also
+> > > > declares it supports zero-copy while zero-copy doesn't necessarily
+> > > > depend on SVA.
+> > >
+> > > Once you have to explicitly make system calls to declare memory under
+> > > IO, you loose all of that.
+> > >
+> > > Since you've asked the app to be explicit about the DMAs it intends to
+> > > do, there is not really much reason to use SVA for those DMAs anymore.
+> >
+> > Let's see a non-SVA case. We are not using SVA, we can have
+> > a memory pool by hugetlb or pin, and app can allocate memory
+> > from this pool, and get stable I/O performance on the memory
+> > from the pool. But device has its separate page table which
+> > is not bound with this process, thus lacking the protection
+> > of process space isolation. Plus, CPU and device are using
+> > different address.
+> 
+> So you are relying on the platform to do the SVA for the device?
+> 
+
+Sorry for late response.
+
+uacce and its userspace framework UADK depend on SVA, leveraging
+the enhanced security by isolated process address space.
+
+This patch is mainly an extension for performance optimization to
+get stable high-performance I/O on pinned memory even though the
+hardware supports IO page fault to get pages back after swapping
+out or page migration.
+But IO page fault will cause serious latency jitter for high-speed
+I/O.
+For slow speed device, they don't need to use this extension.
+
+> This feels like it goes back to another topic where I felt the SVA
+> setup uAPI should be shared and not buried into every driver's unique
+> ioctls.
+> 
+> Having something like this in a shared SVA system is somewhat less
+> strange.
+
+Sounds reasonable. On the other hand, uacce seems to be an common
+uAPI for SVA, and probably the only one for this moment.
+
+uacce is a framework not a specific driver as any accelerators
+can hook into this framework as long as a device provides
+uacce_ops and register itself by uacce_register(). Uacce, for
+itself, doesn't bind with any specific hardware. So uacce interfaces
+are kind of common uAPI :-)
+
+> 
+> Jason
+
+Thanks
+Barry
 
 _______________________________________________
 iommu mailing list
