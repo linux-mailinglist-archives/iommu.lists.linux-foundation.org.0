@@ -1,66 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3582430796B
-	for <lists.iommu@lfdr.de>; Thu, 28 Jan 2021 16:18:30 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id EB85986E3A;
-	Thu, 28 Jan 2021 15:18:28 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id O+p0FaVUqDp5; Thu, 28 Jan 2021 15:18:26 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4B23386B9A;
-	Thu, 28 Jan 2021 15:18:26 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4435DC013A;
-	Thu, 28 Jan 2021 15:18:26 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 33CA1C013A
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:18:25 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B92307970
+	for <lists.iommu@lfdr.de>; Thu, 28 Jan 2021 16:19:26 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 21E3687434
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:18:25 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 57A0387417;
+	Thu, 28 Jan 2021 15:19:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8GBI7UDmpCiQ; Thu, 28 Jan 2021 15:19:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id EFF168741B;
+	Thu, 28 Jan 2021 15:19:23 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DE02FC013A;
+	Thu, 28 Jan 2021 15:19:23 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9C39CC013A
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:19:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 8A18385F53
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:19:22 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ul6KCRkcRvr2 for <iommu@lists.linux-foundation.org>;
- Thu, 28 Jan 2021 15:18:24 +0000 (UTC)
+ with ESMTP id 3GeZBGkYUpWk for <iommu@lists.linux-foundation.org>;
+ Thu, 28 Jan 2021 15:19:22 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by hemlock.osuosl.org (Postfix) with ESMTPS id A623887431
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:18:23 +0000 (UTC)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DRPG05PCNz7c0H;
- Thu, 28 Jan 2021 23:16:56 +0800 (CST)
-Received: from DESKTOP-5IS4806.china.huawei.com (10.174.184.42) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 28 Jan 2021 23:18:03 +0800
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 77FCA86658
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:19:06 +0000 (UTC)
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DRPH86F54zjDTK;
+ Thu, 28 Jan 2021 23:17:56 +0800 (CST)
+Received: from [10.174.184.42] (10.174.184.42) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 28 Jan 2021 23:18:46 +0800
+Subject: Re: [PATCH 1/1] iommu/arm-smmu-v3: add support for BBML
+To: Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
+References: <20201126034230.777-1-thunder.leizhen@huawei.com>
+ <20210122125132.GB24102@willie-the-truck>
+ <aac11411-f6cd-f990-fe53-db0d8c07f3a0@huawei.com>
+ <1bfd1ca0-953e-e943-f87e-144d5537bd0c@arm.com>
+ <20210126101230.GA29204@willie-the-truck>
+ <8a9685ec-67aa-824f-5429-f408bf79c5ab@huawei.com>
+ <32f4752f-6954-183a-a0c1-b5d719c85b67@huawei.com>
+ <319e3532-4555-7431-9d6f-3c3b7c11a5d9@arm.com>
 From: Keqian Zhu <zhukeqian1@huawei.com>
-To: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <kvm@vger.kernel.org>, <kvmarm@lists.cs.columbia.edu>,
- <iommu@lists.linux-foundation.org>, Will Deacon <will@kernel.org>, "Alex
- Williamson" <alex.williamson@redhat.com>, Marc Zyngier <maz@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>
-Subject: [RFC PATCH 11/11] vfio/iommu_type1: Add support for manual dirty log
- clear
-Date: Thu, 28 Jan 2021 23:17:42 +0800
-Message-ID: <20210128151742.18840-12-zhukeqian1@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20210128151742.18840-1-zhukeqian1@huawei.com>
-References: <20210128151742.18840-1-zhukeqian1@huawei.com>
+Message-ID: <d3aaa7e7-edb0-f867-0519-9a4e0bee35d2@huawei.com>
+Date: Thu, 28 Jan 2021 23:18:46 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
+In-Reply-To: <319e3532-4555-7431-9d6f-3c3b7c11a5d9@arm.com>
 X-Originating-IP: [10.174.184.42]
 X-CFilter-Loop: Reflected
-Cc: Mark Rutland <mark.rutland@arm.com>, jiangkunkun@huawei.com,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Cornelia Huck <cohuck@redhat.com>,
- lushenming@huawei.com, Kirti Wankhede <kwankhede@nvidia.com>,
- James Morse <james.morse@arm.com>, wanghaibin.wang@huawei.com,
- Robin Murphy <robin.murphy@arm.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ iommu <iommu@lists.linux-foundation.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Yang Yingliang <yangyingliang@huawei.com>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -78,251 +81,65 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-From: jiangkunkun <jiangkunkun@huawei.com>
 
-In the past, we clear dirty log immediately after sync dirty
-log to userspace. This may cause redundant dirty handling if
-userspace handles dirty log iteratively:
 
-After vfio clears dirty log, new dirty log starts to generate.
-These new dirty log will be reported to userspace even if they
-are generated before userspace handles the same dirty page.
+On 2021/1/27 17:39, Robin Murphy wrote:
+> On 2021-01-27 07:36, Keqian Zhu wrote:
+>>
+>>
+>> On 2021/1/27 10:01, Leizhen (ThunderTown) wrote:
+>>>
+>>>
+>>> On 2021/1/26 18:12, Will Deacon wrote:
+>>>> On Mon, Jan 25, 2021 at 08:23:40PM +0000, Robin Murphy wrote:
+>>>>> Now we probably will need some degreee of BBML feature awareness for the
+>>>>> sake of SVA if and when we start using it for CPU pagetables, but I still
+>>>>> cannot see any need to consider it in io-pgtable.
+>>>>
+>>>> Agreed; I don't think this is something that io-pgtable should have to care
+>>>> about.
+>> Hi,
+>>
+>> I have a question here :-).
+>> If the old table is not live, then the break procedure seems unnecessary. Do I miss something?
+> 
+> The MMU is allowed to prefetch translations at any time, so not following the proper update procedure could still potentially lead to a TLB conflict, even if there's no device traffic to worry about disrupting.
+> 
+> Robin.
 
-That's to say, we should minimize the time gap of dirty log
-clearing and dirty log handling. We can give userspace the
-interface to clear dirty log.
+Thanks. Does the MMU you mention here includes MMU and SMMU? I know that at SMMU side, ATS can prefetch translation.
 
-Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
-Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
----
- drivers/vfio/vfio_iommu_type1.c | 103 ++++++++++++++++++++++++++++++--
- include/uapi/linux/vfio.h       |  28 ++++++++-
- 2 files changed, 126 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index 1cd10f3e7ed4..a32dc684b86e 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -73,6 +73,7 @@ struct vfio_iommu {
- 	bool			v2;
- 	bool			nesting;
- 	bool			dirty_page_tracking;
-+	bool			dirty_log_manual_clear;
- 	bool			pinned_page_dirty_scope;
- 	uint64_t		num_non_hwdbm_groups;
- };
-@@ -1018,6 +1019,78 @@ static int vfio_iommu_dirty_log_clear(struct vfio_iommu *iommu,
- 	return 0;
- }
- 
-+static int vfio_iova_dirty_log_clear(u64 __user *bitmap,
-+				     struct vfio_iommu *iommu,
-+				     dma_addr_t iova, size_t size,
-+				     size_t pgsize)
-+{
-+	struct vfio_dma *dma;
-+	struct rb_node *n;
-+	dma_addr_t start_iova, end_iova, riova;
-+	unsigned long pgshift = __ffs(pgsize);
-+	unsigned long bitmap_size;
-+	unsigned long *bitmap_buffer = NULL;
-+	bool clear_valid;
-+	int rs, re, start, end, dma_offset;
-+	int ret = 0;
-+
-+	bitmap_size = DIRTY_BITMAP_BYTES(size >> pgshift);
-+	bitmap_buffer = kvmalloc(bitmap_size, GFP_KERNEL);
-+	if (!bitmap_buffer) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	if (copy_from_user(bitmap_buffer, bitmap, bitmap_size)) {
-+		ret = -EFAULT;
-+		goto out;
-+	}
-+
-+	for (n = rb_first(&iommu->dma_list); n; n = rb_next(n)) {
-+		dma = rb_entry(n, struct vfio_dma, node);
-+		if (!dma->iommu_mapped)
-+			continue;
-+		if ((dma->iova + dma->size - 1) < iova)
-+			continue;
-+		if (dma->iova > iova + size - 1)
-+			break;
-+
-+		start_iova = max(iova, dma->iova);
-+		end_iova = min(iova + size, dma->iova + dma->size);
-+
-+		/* Similar logic as the tail of vfio_iova_dirty_bitmap */
-+
-+		clear_valid = false;
-+		start = (start_iova - iova) >> pgshift;
-+		end = (end_iova - iova) >> pgshift;
-+		bitmap_for_each_set_region(bitmap_buffer, rs, re, start, end) {
-+			clear_valid = true;
-+			riova = iova + (rs << pgshift);
-+			dma_offset = (riova - dma->iova) >> pgshift;
-+			bitmap_clear(dma->bitmap, dma_offset, re - rs);
-+		}
-+
-+		if (clear_valid)
-+			vfio_dma_populate_bitmap(dma, pgsize);
-+
-+		if (clear_valid && !iommu->pinned_page_dirty_scope &&
-+		    dma->iommu_mapped && !iommu->num_non_hwdbm_groups) {
-+			ret = vfio_iommu_dirty_log_clear(iommu, start_iova,
-+					end_iova - start_iova,	bitmap_buffer,
-+					iova, pgsize);
-+			if (ret) {
-+				pr_warn("dma dirty log clear failed!\n");
-+				goto out;
-+			}
-+		}
-+
-+	}
-+
-+out:
-+	kfree(bitmap_buffer);
-+	return ret;
-+}
-+
- static int update_user_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
- 			      struct vfio_dma *dma, dma_addr_t base_iova,
- 			      size_t pgsize)
-@@ -1067,6 +1140,10 @@ static int update_user_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
- 			 DIRTY_BITMAP_BYTES(nbits + shift)))
- 		return -EFAULT;
- 
-+	if (shift && iommu->dirty_log_manual_clear)
-+		bitmap_shift_right(dma->bitmap, dma->bitmap, shift,
-+				   nbits + shift);
-+
- 	return 0;
- }
- 
-@@ -1105,6 +1182,9 @@ static int vfio_iova_dirty_bitmap(u64 __user *bitmap, struct vfio_iommu *iommu,
- 		if (ret)
- 			return ret;
- 
-+		if (iommu->dirty_log_manual_clear)
-+			continue;
-+
- 		/*
- 		 * Re-populate bitmap to include all pinned pages which are
- 		 * considered as dirty but exclude pages which are unpinned and
-@@ -2601,6 +2681,11 @@ static int vfio_iommu_type1_check_extension(struct vfio_iommu *iommu,
- 		if (!iommu)
- 			return 0;
- 		return vfio_domains_have_iommu_cache(iommu);
-+	case VFIO_DIRTY_LOG_MANUAL_CLEAR:
-+		if (!iommu)
-+			return 0;
-+		iommu->dirty_log_manual_clear = true;
-+		return 1;
- 	default:
- 		return 0;
- 	}
-@@ -2874,7 +2959,8 @@ static int vfio_iommu_type1_dirty_pages(struct vfio_iommu *iommu,
- 	struct vfio_iommu_type1_dirty_bitmap dirty;
- 	uint32_t mask = VFIO_IOMMU_DIRTY_PAGES_FLAG_START |
- 			VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP |
--			VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP;
-+			VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP |
-+			VFIO_IOMMU_DIRTY_PAGES_FLAG_CLEAR_BITMAP;
- 	unsigned long minsz;
- 	int ret = 0;
- 
-@@ -2916,7 +3002,8 @@ static int vfio_iommu_type1_dirty_pages(struct vfio_iommu *iommu,
- 		}
- 		mutex_unlock(&iommu->lock);
- 		return 0;
--	} else if (dirty.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP) {
-+	} else if (dirty.flags & (VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP |
-+				VFIO_IOMMU_DIRTY_PAGES_FLAG_CLEAR_BITMAP)) {
- 		struct vfio_iommu_type1_dirty_bitmap_get range;
- 		unsigned long pgshift;
- 		size_t data_size = dirty.argsz - minsz;
-@@ -2959,13 +3046,21 @@ static int vfio_iommu_type1_dirty_pages(struct vfio_iommu *iommu,
- 			goto out_unlock;
- 		}
- 
--		if (iommu->dirty_page_tracking)
-+		if (!iommu->dirty_page_tracking) {
-+			ret = -EINVAL;
-+			goto out_unlock;
-+		}
-+
-+		if (dirty.flags & VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP)
- 			ret = vfio_iova_dirty_bitmap(range.bitmap.data,
- 						     iommu, range.iova,
- 						     range.size,
- 						     range.bitmap.pgsize);
- 		else
--			ret = -EINVAL;
-+			ret = vfio_iova_dirty_log_clear(range.bitmap.data,
-+							iommu, range.iova,
-+							range.size,
-+							range.bitmap.pgsize);
- out_unlock:
- 		mutex_unlock(&iommu->lock);
- 
-diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-index d1812777139f..77a64ff38f64 100644
---- a/include/uapi/linux/vfio.h
-+++ b/include/uapi/linux/vfio.h
-@@ -46,6 +46,14 @@
-  */
- #define VFIO_NOIOMMU_IOMMU		8
- 
-+/*
-+ * The vfio_iommu driver may support user clears dirty log manually, which means
-+ * dirty log is not cleared automatically after dirty log is copied to userspace,
-+ * it's user's duty to clear dirty log. Note: when user queries this extension
-+ * and vfio_iommu driver supports it, then it is enabled.
-+ */
-+#define VFIO_DIRTY_LOG_MANUAL_CLEAR	9
-+
- /*
-  * The IOCTL interface is designed for extensibility by embedding the
-  * structure length (argsz) and flags into structures passed between
-@@ -1161,7 +1169,24 @@ struct vfio_iommu_type1_dma_unmap {
-  * actual bitmap. If dirty pages logging is not enabled, an error will be
-  * returned.
-  *
-- * Only one of the flags _START, _STOP and _GET may be specified at a time.
-+ * Calling the IOCTL with VFIO_IOMMU_DIRTY_PAGES_FLAG_CLEAR_BITMAP flag set,
-+ * instructs the IOMMU driver to clear the dirty status of pages in a bitmap
-+ * for IOMMU container for a given IOVA range. The user must specify the IOVA
-+ * range, the bitmap and the pgsize through the structure
-+ * vfio_iommu_type1_dirty_bitmap_get in the data[] portion. This interface
-+ * supports clearing a bitmap of the smallest supported pgsize only and can be
-+ * modified in future to clear a bitmap of any specified supported pgsize. The
-+ * user must provide a memory area for the bitmap memory and specify its size
-+ * in bitmap.size. One bit is used to represent one page consecutively starting
-+ * from iova offset. The user should provide page size in bitmap.pgsize field.
-+ * A bit set in the bitmap indicates that the page at that offset from iova is
-+ * cleared the dirty status, and dirty tracking is re-enabled for that page. The
-+ * caller must set argsz to a value including the size of structure
-+ * vfio_iommu_dirty_bitmap_get, but excluing the size of the actual bitmap. If
-+ * dirty pages logging is not enabled, an error will be returned.
-+ *
-+ * Only one of the flags _START, _STOP, _GET and _CLEAR may be specified at a
-+ * time.
-  *
-  */
- struct vfio_iommu_type1_dirty_bitmap {
-@@ -1170,6 +1195,7 @@ struct vfio_iommu_type1_dirty_bitmap {
- #define VFIO_IOMMU_DIRTY_PAGES_FLAG_START	(1 << 0)
- #define VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP	(1 << 1)
- #define VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP	(1 << 2)
-+#define VFIO_IOMMU_DIRTY_PAGES_FLAG_CLEAR_BITMAP (1 << 3)
- 	__u8         data[];
- };
- 
--- 
-2.19.1
-
+Keqian
+> 
+>> Thanks,
+>> Keqian
+>>
+>>>
+>>> Yes, the SVA works in stall mode, and the failed device access requests are not
+>>> discarded.
+>>>
+>>> Let me look for examples. The BBML usage scenario was told by a former colleague.
+>>>
+>>>>
+>>>> Will
+>>>>
+>>>> .
+>>>>
+>>>
+>>>
+>>> _______________________________________________
+>>> linux-arm-kernel mailing list
+>>> linux-arm-kernel@lists.infradead.org
+>>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+>>> .
+>>>
+>> _______________________________________________
+>> iommu mailing list
+>> iommu@lists.linux-foundation.org
+>> https://lists.linuxfoundation.org/mailman/listinfo/iommu
+>>
+> .
+> 
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
