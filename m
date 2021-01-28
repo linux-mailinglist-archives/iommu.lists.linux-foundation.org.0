@@ -1,55 +1,66 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62193076A7
-	for <lists.iommu@lfdr.de>; Thu, 28 Jan 2021 14:03:27 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 04C9F2E0DE;
-	Thu, 28 Jan 2021 13:03:26 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8B+0a44p7yto; Thu, 28 Jan 2021 13:03:23 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 511BE2E0D9;
-	Thu, 28 Jan 2021 13:03:23 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2AE0CC08A1;
-	Thu, 28 Jan 2021 13:03:23 +0000 (UTC)
-X-Original-To: iommu@lists.linux-foundation.org
-Delivered-To: iommu@lists.linuxfoundation.org
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2561AC1825
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 13:03:21 +0000 (UTC)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0833076EC
+	for <lists.iommu@lfdr.de>; Thu, 28 Jan 2021 14:19:43 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 11B1286BF2
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 13:03:21 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 2A2F286BBE;
+	Thu, 28 Jan 2021 13:19:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Rp629DxiuzdF; Thu, 28 Jan 2021 13:19:38 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 7DE9C86C0E;
+	Thu, 28 Jan 2021 13:19:38 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5EFF7C1DA7;
+	Thu, 28 Jan 2021 13:19:38 +0000 (UTC)
+X-Original-To: iommu@lists.linux-foundation.org
+Delivered-To: iommu@lists.linuxfoundation.org
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B3DEBC013A
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 13:19:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 979E72E0DC
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 13:19:36 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ULOW6-xhMUF6 for <iommu@lists.linux-foundation.org>;
- Thu, 28 Jan 2021 13:03:20 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by whitealder.osuosl.org (Postfix) with ESMTP id 3B42086BEC
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 13:03:20 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.79,382,1602514800"; d="scan'208";a="70357048"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie6.idc.renesas.com with ESMTP; 28 Jan 2021 22:03:17 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id B748B4017D71;
- Thu, 28 Jan 2021 22:03:17 +0900 (JST)
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: joro@8bytes.org
-Subject: [PATCH 2/2] iommu/ipmmu-vmsa: Allow SDHI devices
-Date: Thu, 28 Jan 2021 22:03:00 +0900
-Message-Id: <1611838980-4940-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1611838980-4940-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1611838980-4940-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org, iommu@lists.linux-foundation.org
+ with ESMTP id 82kz3MEp0mAo for <iommu@lists.linux-foundation.org>;
+ Thu, 28 Jan 2021 13:19:35 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by silver.osuosl.org (Postfix) with ESMTPS id 2B4BA2E0DB
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 13:19:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B81C64DDE;
+ Thu, 28 Jan 2021 13:19:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1611839974;
+ bh=oy6DwNZBrTw1qOrMEcuZBUeWInTQEfxSXSimhe4fB/A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JfC8bgCCTgKqX3NqllETad2FdWUXFUpBUzZL8rPeZBQVpjh4Ysb/1RYBoSS5k65xF
+ Hzjl029SjTn7sAs6CYqnKXA5z4D1/5OrY+EESVFqQW/g/eNTt79JuXdQXQbkEvUqaY
+ XIDBIRaLfXNv78YSM3ZV/hXgr/+3XnK0XZfg9y+3HoTLQUJ9muixlBI/1SY6zNbKZ3
+ ujdsEcpqmfZonN78J87TJt9I8OQTIprEN2O3ERC3qlybOAj2V9OYAblMolnZnNlB4L
+ 8qIptLMzoCsr7Me29eB/BbgPhVg2LdyQ5taETEXJUA03llsRcTclx2b4V9IuWl3jAe
+ c1SJCdJCSLE7g==
+Date: Thu, 28 Jan 2021 13:19:29 +0000
+From: Will Deacon <will@kernel.org>
+To: Joerg Roedel <joro@8bytes.org>
+Subject: Re: [PATCH RFC 2/9] iommu: Add iova and size as parameters in
+ iotlb_sync_map
+Message-ID: <20210128131929.GA2296@willie-the-truck>
+References: <161177711359.1311.417185373365934204.stgit@manet.1015granger.net>
+ <161177763296.1311.15197214300351076283.stgit@manet.1015granger.net>
+ <20210128125112.GN32671@8bytes.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210128125112.GN32671@8bytes.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: isaacm@codeaurora.org, iommu@lists.linux-foundation.org,
+ Chuck Lever <chuck.lever@oracle.com>, robin.murphy@arm.com
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -62,37 +73,56 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Add SDHI devices into devices_allowlist.
+Hi Joerg,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/iommu/ipmmu-vmsa.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On Thu, Jan 28, 2021 at 01:51:12PM +0100, Joerg Roedel wrote:
+> On Wed, Jan 27, 2021 at 03:00:32PM -0500, Chuck Lever wrote:
+> > From: Yong Wu <yong.wu@mediatek.com>
+> > 
+> > iotlb_sync_map allow IOMMU drivers tlb sync after completing the whole
+> > mapping. This patch adds iova and size as the parameters in it. then the
+> > IOMMU driver could flush tlb with the whole range once after iova mapping
+> > to improve performance.
+> > 
+> > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+> > Signed-off-by: Chuck Lever <chuck.lever@oracle.com>
+> > ---
+> >  drivers/iommu/iommu.c      |    4 ++--
+> >  drivers/iommu/tegra-gart.c |    7 +++++--
+> >  include/linux/iommu.h      |    3 ++-
+> >  3 files changed, 9 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> > index c304a6a30d42..3d099a31ddca 100644
+> > --- a/drivers/iommu/iommu.c
+> > +++ b/drivers/iommu/iommu.c
+> > @@ -2443,7 +2443,7 @@ static int _iommu_map(struct iommu_domain *domain, unsigned long iova,
+> >  
+> >  	ret = __iommu_map(domain, iova, paddr, size, prot, GFP_KERNEL);
+> >  	if (ret == 0 && ops->iotlb_sync_map)
+> > -		ops->iotlb_sync_map(domain);
+> > +		ops->iotlb_sync_map(domain, iova, size);
+> 
+> How about using 'struct iommu_iotlb_gather' instead of directly passing
+> the iova/size parameters here? The iotlb_sync() call-back uses it
+> already.
 
-diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-index 0bdf354..5715fbe 100644
---- a/drivers/iommu/ipmmu-vmsa.c
-+++ b/drivers/iommu/ipmmu-vmsa.c
-@@ -750,6 +750,10 @@ static const struct soc_device_attribute soc_denylist[] = {
- };
- 
- static const char * const devices_allowlist[] = {
-+	"ee100000.mmc",
-+	"ee120000.mmc",
-+	"ee140000.mmc",
-+	"ee160000.mmc"
- };
- 
- static bool ipmmu_device_is_allowed(struct device *dev)
--- 
-2.7.4
+Heads-up, but I already queued this patch as part of its original series:
 
+https://lore.kernel.org/r/20210107122909.16317-1-yong.wu@mediatek.com
+
+since it's part of the Mediatek series for 5.12.
+
+Would you like me to drop that, or can we stick with passing iova and size
+for now, with a view to refactoring it later on?
+
+Will
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
