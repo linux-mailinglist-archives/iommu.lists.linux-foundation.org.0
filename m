@@ -1,56 +1,57 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AD730794F
-	for <lists.iommu@lfdr.de>; Thu, 28 Jan 2021 16:18:15 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id B67D230796E
+	for <lists.iommu@lfdr.de>; Thu, 28 Jan 2021 16:18:42 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 605E8868A9;
-	Thu, 28 Jan 2021 15:18:14 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 6AFBF86092;
+	Thu, 28 Jan 2021 15:18:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IquwN3F13CkK; Thu, 28 Jan 2021 15:18:13 +0000 (UTC)
+	with ESMTP id ZMhAgWBNZTxQ; Thu, 28 Jan 2021 15:18:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C288E868AF;
-	Thu, 28 Jan 2021 15:18:13 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B450585CEC;
+	Thu, 28 Jan 2021 15:18:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ACF1BC013A;
-	Thu, 28 Jan 2021 15:18:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A1BDBC013A;
+	Thu, 28 Jan 2021 15:18:40 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0A0A5C013A
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:18:12 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B074BC013A
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:18:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id F1F822E0DD
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:18:11 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 9F5FC868A6
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:18:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 34AizszSfP-H for <iommu@lists.linux-foundation.org>;
- Thu, 28 Jan 2021 15:18:09 +0000 (UTC)
+ with ESMTP id 0nFWgOsxM62n for <iommu@lists.linux-foundation.org>;
+ Thu, 28 Jan 2021 15:18:39 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by silver.osuosl.org (Postfix) with ESMTPS id D7D4721503
- for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:18:05 +0000 (UTC)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DRPFQ4vV3zlC5j;
- Thu, 28 Jan 2021 23:16:26 +0800 (CST)
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id A401F868C0
+ for <iommu@lists.linux-foundation.org>; Thu, 28 Jan 2021 15:18:16 +0000 (UTC)
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DRPG938VYzjDJD;
+ Thu, 28 Jan 2021 23:17:05 +0800 (CST)
 Received: from DESKTOP-5IS4806.china.huawei.com (10.174.184.42) by
  DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 28 Jan 2021 23:17:53 +0800
+ 14.3.498.0; Thu, 28 Jan 2021 23:17:54 +0800
 From: Keqian Zhu <zhukeqian1@huawei.com>
 To: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <kvm@vger.kernel.org>, <kvmarm@lists.cs.columbia.edu>,
  <iommu@lists.linux-foundation.org>, Will Deacon <will@kernel.org>, "Alex
  Williamson" <alex.williamson@redhat.com>, Marc Zyngier <maz@kernel.org>,
  Catalin Marinas <catalin.marinas@arm.com>
-Subject: [RFC PATCH 00/11] vfio/iommu_type1: Implement dirty log tracking
- based on smmuv3 HTTU
-Date: Thu, 28 Jan 2021 23:17:31 +0800
-Message-ID: <20210128151742.18840-1-zhukeqian1@huawei.com>
+Subject: [RFC PATCH 01/11] iommu/arm-smmu-v3: Add feature detection for HTTU
+Date: Thu, 28 Jan 2021 23:17:32 +0800
+Message-ID: <20210128151742.18840-2-zhukeqian1@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
+In-Reply-To: <20210128151742.18840-1-zhukeqian1@huawei.com>
+References: <20210128151742.18840-1-zhukeqian1@huawei.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.174.184.42]
 X-CFilter-Loop: Reflected
@@ -71,87 +72,110 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-SGkgYWxsLAoKVGhpcyBwYXRjaCBzZXJpZXMgaW1wbGVtZW50IGEgbmV3IGRpcnR5IGxvZyB0cmFj
-a2luZyBtZXRob2QgZm9yIHZmaW8gZG1hLgoKSW50ZW50aW9u77yaCgpBcyB3ZSBrbm93LCB2Zmlv
-IGxpdmUgbWlncmF0aW9uIGlzIGFuIGltcG9ydGFudCBhbmQgdmFsdWFibGUgZmVhdHVyZSwgYnV0
-IHRoZXJlCmFyZSBzdGlsbCBtYW55IGh1cmRsZXMgdG8gc29sdmUsIGluY2x1ZGluZyBtaWdyYXRp
-b24gb2YgaW50ZXJydXB0LCBkZXZpY2Ugc3RhdGUsCkRNQSBkaXJ0eSBsb2cgdHJhY2tpbmcsIGFu
-ZCBldGMuCgpGb3Igbm93LCB0aGUgb25seSBkaXJ0eSBsb2cgdHJhY2tpbmcgaW50ZXJmYWNlIGlz
-IHBpbm5pbmcuIEl0IGhhcyBzb21lIGRyYXdiYWNrczoKMS4gT25seSBzbWFydCB2ZW5kb3IgZHJp
-dmVycyBhcmUgYXdhcmUgb2YgdGhpcy4KMi4gSXQncyBjb2Fyc2UtZ3JhaW5lZCwgdGhlIHBpbm5l
-ZC1zY29wZSBpcyBnZW5lcmFsbHkgYmlnZ2VyIHRoYW4gd2hhdCB0aGUgZGV2aWNlIGFjdHVhbGx5
-IGFjY2Vzcy4KMy4gSXQgY2FuJ3QgdHJhY2sgZGlydHkgY29udGludW91c2x5IGFuZCBwcmVjaXNl
-bHksIHZmaW8gcG9wdWxhdGVzIGFsbCBwaW5uZWQtc2NvcGUgYXMgZGlydHkuCiAgIFNvIGl0IGRv
-ZXNuJ3Qgd29yayB3ZWxsIHdpdGggaXRlcmF0aXZlbHkgZGlydHkgbG9nIGhhbmRsaW5nLgoKQWJv
-dXQgU01NVSBIVFRVOgoKSFRUVSAoSGFyZHdhcmUgVHJhbnNsYXRpb24gVGFibGUgVXBkYXRlKSBp
-cyBhIGZlYXR1cmUgb2YgQVJNIFNNTVV2MywgaXQgY2FuIHVwZGF0ZQphY2Nlc3MgZmxhZyBvci9h
-bmQgZGlydHkgc3RhdGUgb2YgdGhlIFRURCAoVHJhbnNsYXRpb24gVGFibGUgRGVzY3JpcHRvcikg
-YnkgaGFyZHdhcmUuCldpdGggSFRUVSwgc3RhZ2UxIFRURCBpcyBjbGFzc2lmaWVkIGludG8gMyB0
-eXBlczoKICAgICAgICAgICAgICAgICAgICAgICAgREJNIGJpdCAgICAgICAgICAgICBBUFsyXShy
-ZWFkb25seSBiaXQpCjEuIHdyaXRhYmxlX2NsZWFuICAgICAgICAgMSAgICAgICAgICAgICAgICAg
-ICAgICAgMQoyLiB3cml0YWJsZV9kaXJ0eSAgICAgICAgIDEgICAgICAgICAgICAgICAgICAgICAg
-IDAKMy4gcmVhZG9ubHkgICAgICAgICAgICAgICAwICAgICAgICAgICAgICAgICAgICAgICAxCgpJ
-ZiBIVFRVX0hEIChtYW5hZ2UgZGlydHkgc3RhdGUpIGlzIGVuYWJsZWQsIHNtbXUgY2FuIGNoYW5n
-ZSBUVEQgZnJvbSB3cml0YWJsZV9jbGVhbiB0bwp3cml0YWJsZV9kaXJ0eS4gVGhlbiBzb2Z0d2Fy
-ZSBjYW4gc2NhbiBUVEQgdG8gc3luYyBkaXJ0eSBzdGF0ZSBpbnRvIGRpcnR5IGJpdG1hcC4gV2l0
-aAp0aGlzIGZlYXR1cmUsIHdlIGNhbiB0cmFjayB0aGUgZGlydHkgbG9nIG9mIERNQSBjb250aW51
-b3VzbHkgYW5kIHByZWNpc2VseS4KCkFib3V0IHRoaXMgc2VyaWVzOgoKUGF0Y2ggMS0zOiBBZGQg
-ZmVhdHVyZSBkZXRlY3Rpb24gZm9yIHNtbXUgSFRUVSBhbmQgZW5hYmxlIEhUVFUgZm9yIHNtbXUg
-c3RhZ2UxIG1hcHBpbmcuCiAgICAgICAgICAgQW5kIGFkZCBmZWF0dXJlIGRldGVjdGlvbiBmb3Ig
-c21tdSBCQk1MLiBXZSBuZWVkIHRvIHNwbGl0IGJsb2NrIG1hcHBpbmcgd2hlbgogICAgICAgICAg
-IHN0YXJ0IGRpcnR5IGxvZyB0cmFja2luZyBhbmQgbWVyZ2UgcGFnZSBtYXBwaW5nIHdoZW4gc3Rv
-cCBkaXJ0eSBsb2cgdHJhY2tpbmcsCgkJICAgd2hpY2ggcmVxdWlyZXMgYnJlYWstYmVmb3JlLW1h
-a2UgcHJvY2VkdXJlLiBCdXQgaXQgbWlnaHQgY2F1c2UgcHJvYmxlbXMgd2hlbiB0aGUKCQkgICBU
-VEQgaXMgYWxpdmUuIFRoZSBJL08gc3RyZWFtcyBtaWdodCBub3QgdG9sZXJhdGUgdHJhbnNsYXRp
-b24gZmF1bHRzLiBTbyBCQk1MCgkJICAgc2hvdWxkIGJlIHVzZWQuCgpQYXRjaCA0LTc6IEFkZCBm
-b3VyIGludGVyZmFjZXMgKHNwbGl0X2Jsb2NrLCBtZXJnZV9wYWdlLCBzeW5jX2RpcnR5X2xvZyBh
-bmQgY2xlYXJfZGlydHlfbG9nKQogICAgICAgICAgIGluIElPTU1VIGxheWVyLCB0aGV5IGFyZSBl
-c3NlbnRpYWwgdG8gaW1wbGVtZW50IGRtYSBkaXJ0eSBsb2cgdHJhY2tpbmcgZm9yIHZmaW8uCgkJ
-ICAgV2UgaW1wbGVtZW50IHRoZXNlIGludGVyZmFjZXMgZm9yIGFybSBzbW11djMuCgpQYXRjaCAg
-IDg6IEFkZCBIV0RCTSAoSGFyZHdhcmUgRGlydHkgQml0IE1hbmFnZW1lbnQpIGRldmljZSBmZWF0
-dXJlIHJlcG9ydGluZyBpbiBJT01NVSBsYXllci4KClBhdGNoOS0xMTogSW1wbGVtZW50IGEgbmV3
-IGRpcnR5IGxvZyB0cmFja2luZyBtZXRob2QgZm9yIHZmaW8gYmFzZWQgb24gaW9tbXUgaHdkYm0u
-IEEgbmV3CiAgICAgICAgICAgaW9jdGwgb3BlcmF0aW9uIG5hbWVkIFZGSU9fRElSVFlfTE9HX01B
-TlVBTF9DTEVBUiBpcyBhZGRlZCwgd2hpY2ggY2FuIGVsaW1pbmF0ZQoJCSAgIHNvbWUgcmVkdW5k
-YW50IGRpcnR5IGhhbmRsaW5nIG9mIHVzZXJzcGFjZS4KCk9wdGltaXphdGlvbnMgVE8gRG86Cgox
-LiBXZSByZWNvZ25pemVkIHRoYXQgZWFjaCBzbW11X2RvbWFpbiAoYSB2ZmlvX2NvbnRhaW5lciBt
-YXkgaGFzIHNldmVyYWwgc21tdV9kb21haW4pIGhhcyBpdHMKICAgb3duIHN0YWdlMSBtYXBwaW5n
-LCBhbmQgd2UgbXVzdCBzY2FuIGFsbCB0aGVzZSBtYXBwaW5nIHRvIHN5bmMgZGlydHkgc3RhdGUu
-IFdlIHBsYW4gdG8gcmVmYWN0b3IKICAgc21tdV9kb21haW4gdG8gc3VwcG9ydCBtb3JlIHRoYW4g
-b25lIHNtbXUgaW4gb25lIHNtbXVfZG9tYWluLCB0aGVuIHRoZXNlIHNtbXVzIGNhbiBzaGFyZSBh
-IHNhbWUKICAgc3RhZ2UxIG1hcHBpbmcuCjIuIFdlIGFsc28gcmVjb2duaXplZCB0aGF0IHNjYW4g
-VFREIGlzIGEgaG90c3BvdCBvZiBwZXJmb3JtYW5jZS4gUmVjZW50bHksIEkgaGF2ZSBpbXBsZW1l
-bnQgYQogICBTVy9IVyBjb25iaW5lZCBkaXJ0eSBsb2cgdHJhY2tpbmcgYXQgTU1VIHNpZGUgWzFd
-LCB3aGljaCBjYW4gZWZmZWN0aXZlbHkgc29sdmUgdGhpcyBwcm9ibGVtLgogICBUaGlzIGlkZWEg
-Y2FuIGJlIGFwcGxpZWQgdG8gc21tdSBzaWRlIHRvby4KClRoYW5rcywKS2VxaWFuCgoKWzFdIGh0
-dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LWFybS1rZXJuZWwvMjAyMTAxMjYxMjQ0NDQuMjcx
-MzYtMS16aHVrZXFpYW4xQGh1YXdlaS5jb20vCgpqaWFuZ2t1bmt1biAoMTEpOgogIGlvbW11L2Fy
-bS1zbW11LXYzOiBBZGQgZmVhdHVyZSBkZXRlY3Rpb24gZm9yIEhUVFUKICBpb21tdS9hcm0tc21t
-dS12MzogRW5hYmxlIEhUVFUgZm9yIFNNTVUgc3RhZ2UxIG1hcHBpbmcKICBpb21tdS9hcm0tc21t
-dS12MzogQWRkIGZlYXR1cmUgZGV0ZWN0aW9uIGZvciBCQk1MCiAgaW9tbXUvYXJtLXNtbXUtdjM6
-IFNwbGl0IGJsb2NrIGRlc2NyaXB0b3IgdG8gYSBzcGFuIG9mIHBhZ2UKICBpb21tdS9hcm0tc21t
-dS12MzogTWVyZ2UgYSBzcGFuIG9mIHBhZ2UgdG8gYmxvY2sgZGVzY3JpcHRvcgogIGlvbW11L2Fy
-bS1zbW11LXYzOiBTY2FuIGxlYWYgVFREIHRvIHN5bmMgaGFyZHdhcmUgZGlydHkgbG9nCiAgaW9t
-bXUvYXJtLXNtbXUtdjM6IENsZWFyIGRpcnR5IGxvZyBhY2NvcmRpbmcgdG8gYml0bWFwCiAgaW9t
-bXUvYXJtLXNtbXUtdjM6IEFkZCBIV0RCTSBkZXZpY2UgZmVhdHVyZSByZXBvcnRpbmcKICB2Zmlv
-L2lvbW11X3R5cGUxOiBBZGQgSFdEQk0gc3RhdHVzIG1haW50YW5hbmNlCiAgdmZpby9pb21tdV90
-eXBlMTogT3B0aW1pemUgZGlydHkgYml0bWFwIHBvcHVsYXRpb24gYmFzZWQgb24gaW9tbXUKICAg
-IEhXREJNCiAgdmZpby9pb21tdV90eXBlMTogQWRkIHN1cHBvcnQgZm9yIG1hbnVhbCBkaXJ0eSBs
-b2cgY2xlYXIKCiBkcml2ZXJzL2lvbW11L2FybS9hcm0tc21tdS12My9hcm0tc21tdS12My5jIHwg
-MTM4ICsrKysrKy0KIGRyaXZlcnMvaW9tbXUvYXJtL2FybS1zbW11LXYzL2FybS1zbW11LXYzLmgg
-fCAgMTQgKwogZHJpdmVycy9pb21tdS9pby1wZ3RhYmxlLWFybS5jICAgICAgICAgICAgICB8IDM5
-MiArKysrKysrKysrKysrKysrKysrLQogZHJpdmVycy9pb21tdS9pb21tdS5jICAgICAgICAgICAg
-ICAgICAgICAgICB8IDIyNyArKysrKysrKysrKysKIGRyaXZlcnMvdmZpby92ZmlvX2lvbW11X3R5
-cGUxLmMgICAgICAgICAgICAgfCAyMzUgKysrKysrKysrKystCiBpbmNsdWRlL2xpbnV4L2lvLXBn
-dGFibGUuaCAgICAgICAgICAgICAgICAgIHwgIDE0ICsKIGluY2x1ZGUvbGludXgvaW9tbXUuaCAg
-ICAgICAgICAgICAgICAgICAgICAgfCAgNTUgKysrCiBpbmNsdWRlL3VhcGkvbGludXgvdmZpby5o
-ICAgICAgICAgICAgICAgICAgIHwgIDI4ICstCiA4IGZpbGVzIGNoYW5nZWQsIDEwOTMgaW5zZXJ0
-aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCgotLSAKMi4xOS4xCgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwppb21tdSBtYWlsaW5nIGxpc3QKaW9tbXVAbGlz
-dHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3Jn
-L21haWxtYW4vbGlzdGluZm8vaW9tbXU=
+From: jiangkunkun <jiangkunkun@huawei.com>
+
+The SMMU which supports HTTU (Hardware Translation Table Update) can
+update the access flag and the dirty state of TTD by hardware. It is
+essential to track dirty pages of DMA.
+
+This adds feature detection, none functional change.
+
+Co-developed-by: Keqian Zhu <zhukeqian1@huawei.com>
+Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+---
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 16 ++++++++++++++++
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  8 ++++++++
+ include/linux/io-pgtable.h                  |  1 +
+ 3 files changed, 25 insertions(+)
+
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+index 8ca7415d785d..0f0fe71cc10d 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+@@ -1987,6 +1987,7 @@ static int arm_smmu_domain_finalise(struct iommu_domain *domain,
+ 		.pgsize_bitmap	= smmu->pgsize_bitmap,
+ 		.ias		= ias,
+ 		.oas		= oas,
++		.httu_hd	= smmu->features & ARM_SMMU_FEAT_HTTU_HD,
+ 		.coherent_walk	= smmu->features & ARM_SMMU_FEAT_COHERENCY,
+ 		.tlb		= &arm_smmu_flush_ops,
+ 		.iommu_dev	= smmu->dev,
+@@ -3224,6 +3225,21 @@ static int arm_smmu_device_hw_probe(struct arm_smmu_device *smmu)
+ 	if (reg & IDR0_HYP)
+ 		smmu->features |= ARM_SMMU_FEAT_HYP;
+ 
++	switch (FIELD_GET(IDR0_HTTU, reg)) {
++	case IDR0_HTTU_NONE:
++		break;
++	case IDR0_HTTU_HA:
++		smmu->features |= ARM_SMMU_FEAT_HTTU_HA;
++		break;
++	case IDR0_HTTU_HAD:
++		smmu->features |= ARM_SMMU_FEAT_HTTU_HA;
++		smmu->features |= ARM_SMMU_FEAT_HTTU_HD;
++		break;
++	default:
++		dev_err(smmu->dev, "unknown/unsupported HTTU!\n");
++		return -ENXIO;
++	}
++
+ 	/*
+ 	 * The coherency feature as set by FW is used in preference to the ID
+ 	 * register, but warn on mismatch.
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+index 96c2e9565e00..e91bea44519e 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+@@ -33,6 +33,10 @@
+ #define IDR0_ASID16			(1 << 12)
+ #define IDR0_ATS			(1 << 10)
+ #define IDR0_HYP			(1 << 9)
++#define IDR0_HTTU			GENMASK(7, 6)
++#define IDR0_HTTU_NONE			0
++#define IDR0_HTTU_HA			1
++#define IDR0_HTTU_HAD			2
+ #define IDR0_COHACC			(1 << 4)
+ #define IDR0_TTF			GENMASK(3, 2)
+ #define IDR0_TTF_AARCH64		2
+@@ -286,6 +290,8 @@
+ #define CTXDESC_CD_0_TCR_TBI0		(1ULL << 38)
+ 
+ #define CTXDESC_CD_0_AA64		(1UL << 41)
++#define CTXDESC_CD_0_HD			(1UL << 42)
++#define CTXDESC_CD_0_HA			(1UL << 43)
+ #define CTXDESC_CD_0_S			(1UL << 44)
+ #define CTXDESC_CD_0_R			(1UL << 45)
+ #define CTXDESC_CD_0_A			(1UL << 46)
+@@ -604,6 +610,8 @@ struct arm_smmu_device {
+ #define ARM_SMMU_FEAT_RANGE_INV		(1 << 15)
+ #define ARM_SMMU_FEAT_BTM		(1 << 16)
+ #define ARM_SMMU_FEAT_SVA		(1 << 17)
++#define ARM_SMMU_FEAT_HTTU_HA		(1 << 18)
++#define ARM_SMMU_FEAT_HTTU_HD		(1 << 19)
+ 	u32				features;
+ 
+ #define ARM_SMMU_OPT_SKIP_PREFETCH	(1 << 0)
+diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+index ea727eb1a1a9..1a00ea8562c7 100644
+--- a/include/linux/io-pgtable.h
++++ b/include/linux/io-pgtable.h
+@@ -97,6 +97,7 @@ struct io_pgtable_cfg {
+ 	unsigned long			pgsize_bitmap;
+ 	unsigned int			ias;
+ 	unsigned int			oas;
++	bool				httu_hd;
+ 	bool				coherent_walk;
+ 	const struct iommu_flush_ops	*tlb;
+ 	struct device			*iommu_dev;
+-- 
+2.19.1
+
+_______________________________________________
+iommu mailing list
+iommu@lists.linux-foundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/iommu
