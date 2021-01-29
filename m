@@ -1,69 +1,62 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515E93088A2
-	for <lists.iommu@lfdr.de>; Fri, 29 Jan 2021 12:55:03 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F693088C9
+	for <lists.iommu@lfdr.de>; Fri, 29 Jan 2021 13:03:50 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id BA2A186A11;
-	Fri, 29 Jan 2021 11:55:01 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id F2B6486B85;
+	Fri, 29 Jan 2021 12:03:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1gqJ_sj3MBRb; Fri, 29 Jan 2021 11:55:00 +0000 (UTC)
+	with ESMTP id AX+r30I+Z5GM; Fri, 29 Jan 2021 12:03:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2330F86A51;
-	Fri, 29 Jan 2021 11:55:00 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A4B5D86C0C;
+	Fri, 29 Jan 2021 12:03:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0DE60C08A1;
-	Fri, 29 Jan 2021 11:55:00 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A540C08A1;
+	Fri, 29 Jan 2021 12:03:46 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 220FFC08A1
- for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 11:54:58 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 33A04C08A1
+ for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 12:03:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 1DD4387487
- for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 11:54:58 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 202A1233B0
+ for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 12:03:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3IOw0gt8Xxgu for <iommu@lists.linux-foundation.org>;
- Fri, 29 Jan 2021 11:54:57 +0000 (UTC)
+ with ESMTP id k-eXJkp2aziV for <iommu@lists.linux-foundation.org>;
+ Fri, 29 Jan 2021 12:03:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 2C95D87479
- for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 11:54:57 +0000 (UTC)
-IronPort-SDR: 5YLBtqRZqdeHgYsOV2pPEFzWTGQiGJaIXsjuv3yTAFS7Yxh3g0rEwFV4+uBRRY2rwAKlcT3Q78
- unbeDWFWmvyg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9878"; a="179632812"
-X-IronPort-AV: E=Sophos;i="5.79,385,1602572400"; d="scan'208";a="179632812"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2021 03:54:56 -0800
-IronPort-SDR: MHEClnE0vmlJigdcn/duzdrXyYSuLyZrnUN57VwOREBhoir90q66Tr3Zx+NdTaAP61ryHsTAEr
- OKDPoCJmfP5A==
-X-IronPort-AV: E=Sophos;i="5.79,385,1602572400"; d="scan'208";a="389271550"
-Received: from blu2-mobl3.ccr.corp.intel.com (HELO [10.255.29.47])
- ([10.255.29.47])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2021 03:54:54 -0800
-Subject: Re: [PATCH RFC 0/9] Possible set of VT-d optimizations
-To: Chuck Lever <chuck.lever@oracle.com>, Robin Murphy <robin.murphy@arm.com>
-References: <161177711359.1311.417185373365934204.stgit@manet.1015granger.net>
- <1c89a1c1-4a2b-841e-c88f-cd08598a6546@arm.com>
- <C8B06FC7-F426-4008-8A71-E61895368771@oracle.com>
-From: Lu Baolu <baolu.lu@linux.intel.com>
-Message-ID: <bc2e60cf-b08c-bced-aef0-5ecc470328c7@linux.intel.com>
-Date: Fri, 29 Jan 2021 19:54:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by silver.osuosl.org (Postfix) with ESMTP id E3EBC232D2
+ for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 12:03:42 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 204EA1424;
+ Fri, 29 Jan 2021 04:03:42 -0800 (PST)
+Received: from [10.57.35.163] (unknown [10.57.35.163])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EA4EF3F7C3;
+ Fri, 29 Jan 2021 04:03:40 -0800 (PST)
+Subject: Re: [PATCH 1/1] Revert "iommu/iova: Retry from last rb tree node if
+ iova search fails"
+To: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>,
+ Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ iommu <iommu@lists.linux-foundation.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+References: <20210129092120.1482-1-thunder.leizhen@huawei.com>
+ <5505b1e5-2450-d5c4-6d77-5bb21fd0b6a1@huawei.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <e8ff095f-7b7c-da38-3675-cd3c1ee84b1a@arm.com>
+Date: Fri, 29 Jan 2021 12:03:37 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <C8B06FC7-F426-4008-8A71-E61895368771@oracle.com>
-Content-Language: en-US
-Cc: "isaacm@codeaurora.org" <isaacm@codeaurora.org>,
- "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- "will@kernel.org" <will@kernel.org>
+In-Reply-To: <5505b1e5-2450-d5c4-6d77-5bb21fd0b6a1@huawei.com>
+Content-Language: en-GB
+Cc: Vijayanand Jitta <vjitta@codeaurora.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -81,112 +74,87 @@ Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On 2021/1/28 22:52, Chuck Lever wrote:
+On 2021-01-29 09:48, Leizhen (ThunderTown) wrote:
 > 
-> 
->> On Jan 28, 2021, at 8:59 AM, Robin Murphy <robin.murphy@arm.com> wrote:
->>
->> On 2021-01-27 20:00, Chuck Lever wrote:
->>> Hi-
->>> This collection of patches seems to get the best throughtput results
->>> so far. The NFS WRITE result is fully restored, and the NFS READ
->>> result is very close to fully restored.
->>> 	Children see throughput for 12 initial writers  = 5008474.03 kB/sec
->>> 	Parent sees throughput for 12 initial writers   = 4996927.80 kB/sec
->>> 	Min throughput per process                      = 416956.88 kB/sec
->>> 	Max throughput per process                      = 417910.22 kB/sec
->>> 	Avg throughput per process                      = 417372.84 kB/sec
->>> 	Min xfer                                        = 1046272.00 kB
->>> 	CPU Utilization: Wall time    2.515    CPU time    1.996    CPU utilization  79.37 %
->>> 	Children see throughput for 12 rewriters        = 5020584.59 kB/sec
->>> 	Parent sees throughput for 12 rewriters         = 5012539.29 kB/sec
->>> 	Min throughput per process                      = 417799.00 kB/sec
->>> 	Max throughput per process                      = 419082.22 kB/sec
->>> 	Avg throughput per process                      = 418382.05 kB/sec
->>> 	Min xfer                                        = 1046528.00 kB
->>> 	CPU utilization: Wall time    2.507    CPU time    2.024    CPU utilization  80.73 %
->>> 	Children see throughput for 12 readers          = 5805484.25 kB/sec
->>> 	Parent sees throughput for 12 readers           = 5799535.68 kB/sec
->>> 	Min throughput per process                      = 482888.16 kB/sec
->>> 	Max throughput per process                      = 484444.16 kB/sec
->>> 	Avg throughput per process                      = 483790.35 kB/sec
->>> 	Min xfer                                        = 1045760.00 kB
->>> 	CPU utilization: Wall time    2.167    CPU time    1.964    CPU utilization  90.63 %
->>> 	Children see throughput for 12 re-readers       = 5812227.16 kB/sec
->>> 	Parent sees throughput for 12 re-readers        = 5803793.06 kB/sec
->>> 	Min throughput per process                      = 483242.97 kB/sec
->>> 	Max throughput per process                      = 485724.41 kB/sec
->>> 	Avg throughput per process                      = 484352.26 kB/sec
->>> 	Min xfer                                        = 1043456.00 kB
->>> 	CPU utilization: Wall time    2.161    CPU time    1.976    CPU utilization  91.45 %
->>> I've included a simple-minded implementation of a map_sg op for
->>> the Intel IOMMU. This is nothing more than a copy of the loop in
->>> __iommu_map_sg() with the call to __iommu_map() replaced with a
->>> call to intel_iommu_map().
->>
->> ...which is the main reason I continue to strongly dislike patches #4-#9 (#3 definitely seems to makes sense either way, now that #1 and #2 are going to land). If a common operation is worth optimising anywhere, then it deserves optimising everywhere, so we end up with a dozen diverging copies of essentially the same code - particularly when the driver-specific functionality *is* already in the drivers, so what gets duplicated is solely the "generic" parts.
-> 
-> I don't disagree with that assessment, but I don't immediately see an
-> alternative API arrangement that would be more successful in the short
-> term. If 4/9 - 9/9 are not acceptable, then the responsible thing to
-> do would be to revert:
-> 
->   - 58a8bb39490d ("iommu/vt-d: Cleanup after converting to dma-iommu ops")
->   - c588072bba6b ("iommu/vt-d: Convert intel iommu driver to the iommu ops")
-> 
-> for v5.11, work out the proper API design, and then try the VT-d conversion
-> again.
+> Currently, we are thinking about the solution to the problem. However, because the end time of v5.11 is approaching, this patch is sent first.
 
-Probably we could introduce an iommu_ops->map/unmap_range() callback and
-let the iommu driver to select "one call per page" map() or simply map a
-range in a loop.
+However, that commit was made for a reason - how do we justify that one 
+thing being slow is more important than another thing being completely 
+broken? It's not practical to just keep doing the patch hokey-cokey 
+based on whoever shouts loudest :(
 
-Best regards,
-baolu
+> On 2021/1/29 17:21, Zhen Lei wrote:
+>> This reverts commit 4e89dce725213d3d0b0475211b500eda4ef4bf2f.
+>>
+>> We find that this patch has a great impact on performance. According to
+>> our test: the iops decreases from 1655.6K to 893.5K, about half.
+>>
+>> Hardware: 1 SAS expander with 12 SAS SSD
+>> Command:  Only the main parameters are listed.
+>>            fio bs=4k rw=read iodepth=128 cpus_allowed=0-127
 
-> 
-> IMHO.
-> 
-> 
->> And if there's justification for pushing iommu_map_sg() entirely into drivers, then it's verging on self-contradictory not to do the same for iommu_map() and iommu_unmap(). Some IOMMU drivers - mainly intel-iommu, as it happens - are already implementing hacks around the "one call per page" interface being inherently inefficient, so the logical thing to do here is take a step back and reconsider the fundamental design of the whole map/unmap interface. Implementing hacks on top of hacks to make particular things faster on particular systems that particular people care about is not going to do us any favours in the long run.
+FWIW, I'm 99% sure that what you really want is [1], but then you get to 
+battle against an unknown quantity of dodgy firmware instead.
+
+Robin.
+
+[1] 
+https://lore.kernel.org/linux-iommu/d412c292d222eb36469effd338e985f9d9e24cd6.1594207679.git.robin.murphy@arm.com/
+
+>> Fixes: 4e89dce72521 ("iommu/iova: Retry from last rb tree node if iova search fails")
+>> Tested-by: Xiang Chen <chenxiang66@hisilicon.com>
+>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+>> ---
+>>   drivers/iommu/iova.c | 23 ++++++-----------------
+>>   1 file changed, 6 insertions(+), 17 deletions(-)
 >>
->> As it stands, I can easily see a weird anti-pattern emerging where people start adding code to fake up scatterlists in random drivers because they see dma_map_sg() performing paradoxically better than dma_map_page().
+>> diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
+>> index d20b8b333d30d17..f840c7207efbced 100644
+>> --- a/drivers/iommu/iova.c
+>> +++ b/drivers/iommu/iova.c
+>> @@ -185,9 +185,8 @@ static int __alloc_and_insert_iova_range(struct iova_domain *iovad,
+>>   	struct rb_node *curr, *prev;
+>>   	struct iova *curr_iova;
+>>   	unsigned long flags;
+>> -	unsigned long new_pfn, retry_pfn;
+>> +	unsigned long new_pfn;
+>>   	unsigned long align_mask = ~0UL;
+>> -	unsigned long high_pfn = limit_pfn, low_pfn = iovad->start_pfn;
+>>   
+>>   	if (size_aligned)
+>>   		align_mask <<= fls_long(size - 1);
+>> @@ -200,25 +199,15 @@ static int __alloc_and_insert_iova_range(struct iova_domain *iovad,
+>>   
+>>   	curr = __get_cached_rbnode(iovad, limit_pfn);
+>>   	curr_iova = rb_entry(curr, struct iova, node);
+>> -	retry_pfn = curr_iova->pfn_hi + 1;
+>> -
+>> -retry:
+>>   	do {
+>> -		high_pfn = min(high_pfn, curr_iova->pfn_lo);
+>> -		new_pfn = (high_pfn - size) & align_mask;
+>> +		limit_pfn = min(limit_pfn, curr_iova->pfn_lo);
+>> +		new_pfn = (limit_pfn - size) & align_mask;
+>>   		prev = curr;
+>>   		curr = rb_prev(curr);
+>>   		curr_iova = rb_entry(curr, struct iova, node);
+>> -	} while (curr && new_pfn <= curr_iova->pfn_hi && new_pfn >= low_pfn);
+>> -
+>> -	if (high_pfn < size || new_pfn < low_pfn) {
+>> -		if (low_pfn == iovad->start_pfn && retry_pfn < limit_pfn) {
+>> -			high_pfn = limit_pfn;
+>> -			low_pfn = retry_pfn;
+>> -			curr = &iovad->anchor.node;
+>> -			curr_iova = rb_entry(curr, struct iova, node);
+>> -			goto retry;
+>> -		}
+>> +	} while (curr && new_pfn <= curr_iova->pfn_hi);
+>> +
+>> +	if (limit_pfn < size || new_pfn < iovad->start_pfn) {
+>>   		iovad->max32_alloc_size = size;
+>>   		goto iova32_full;
+>>   	}
 >>
->> Robin.
->>
->>> ---
->>> Chuck Lever (1):
->>>        iommu/vt-d: Introduce map_sg() for Intel IOMMUs
->>> Isaac J. Manjarres (5):
->>>        iommu/io-pgtable: Introduce map_sg() as a page table op
->>>        iommu/io-pgtable-arm: Hook up map_sg()
->>>        iommu/io-pgtable-arm-v7s: Hook up map_sg()
->>>        iommu: Introduce map_sg() as an IOMMU op for IOMMU drivers
->>>        iommu/arm-smmu: Hook up map_sg()
->>> Lu Baolu (1):
->>>        iommu/vt-d: Add iotlb_sync_map callback
->>> Yong Wu (2):
->>>        iommu: Move iotlb_sync_map out from __iommu_map
->>>        iommu: Add iova and size as parameters in iotlb_sync_map
->>>   drivers/iommu/arm/arm-smmu/arm-smmu.c |  19 ++++
->>>   drivers/iommu/intel/iommu.c           | 131 ++++++++++++++++++++------
->>>   drivers/iommu/io-pgtable-arm-v7s.c    |  90 ++++++++++++++++++
->>>   drivers/iommu/io-pgtable-arm.c        |  86 +++++++++++++++++
->>>   drivers/iommu/iommu.c                 |  47 +++++++--
->>>   drivers/iommu/tegra-gart.c            |   7 +-
->>>   include/linux/iommu.h                 |  16 +++-
->>>   7 files changed, 353 insertions(+), 43 deletions(-)
->>> --
->>> Chuck Lever
->>> _______________________________________________
->>> iommu mailing list
->>> iommu@lists.linux-foundation.org
->>> https://lists.linuxfoundation.org/mailman/listinfo/iommu
-> 
-> --
-> Chuck Lever
-> 
-> 
 > 
 _______________________________________________
 iommu mailing list
