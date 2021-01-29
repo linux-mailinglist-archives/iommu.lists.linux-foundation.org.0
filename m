@@ -1,51 +1,53 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 352F630873F
-	for <lists.iommu@lfdr.de>; Fri, 29 Jan 2021 10:10:52 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5031308741
+	for <lists.iommu@lfdr.de>; Fri, 29 Jan 2021 10:10:55 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id BDBA820115;
-	Fri, 29 Jan 2021 09:10:50 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 88F4E863D9;
+	Fri, 29 Jan 2021 09:10:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rOKqrhHwh8HI; Fri, 29 Jan 2021 09:10:49 +0000 (UTC)
+	with ESMTP id UZypgrQMp84C; Fri, 29 Jan 2021 09:10:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A2ACB20345;
-	Fri, 29 Jan 2021 09:10:49 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 061EE86985;
+	Fri, 29 Jan 2021 09:10:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 82827C013A;
-	Fri, 29 Jan 2021 09:10:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E6115C0FA7;
+	Fri, 29 Jan 2021 09:10:53 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 370EEC013A
- for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 09:10:48 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B37C8C013A
+ for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 09:10:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 15A052036B
- for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 09:10:48 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 6BB4A20115
+ for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 09:10:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JaEYxAPgL6SP for <iommu@lists.linux-foundation.org>;
+ with ESMTP id KvNSBjinuTsW for <iommu@lists.linux-foundation.org>;
  Fri, 29 Jan 2021 09:10:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by silver.osuosl.org (Postfix) with ESMTPS id 4E6EB20358
+ by silver.osuosl.org (Postfix) with ESMTPS id 4C88C20004
  for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 09:10:46 +0000 (UTC)
 Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DRs3Y3sLjzjG2K;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DRs3Y3P5szjG2C;
  Fri, 29 Jan 2021 17:09:29 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
  14.3.498.0; Fri, 29 Jan 2021 17:10:35 +0800
 From: Zhou Wang <wangzhou1@hisilicon.com>
 To: Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>
-Subject: [RFC PATCH 0/3] iommu/arm-smmu-v3: Add debug interfaces for SMMUv3
-Date: Fri, 29 Jan 2021 17:06:21 +0800
-Message-ID: <1611911184-116261-1-git-send-email-wangzhou1@hisilicon.com>
+Subject: [RFC PATCH 1/3] iommu/arm-smmu-v3: Export cd/ste get functions
+Date: Fri, 29 Jan 2021 17:06:22 +0800
+Message-ID: <1611911184-116261-2-git-send-email-wangzhou1@hisilicon.com>
 X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1611911184-116261-1-git-send-email-wangzhou1@hisilicon.com>
+References: <1611911184-116261-1-git-send-email-wangzhou1@hisilicon.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.69.192.58]
 X-CFilter-Loop: Reflected
@@ -67,53 +69,67 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-This RFC series is the followed patch of this discussion:
-https://www.spinics.net/lists/arm-kernel/msg866187.html. 
+Export arm_smmu_get_cd_ptr and arm_smmu_get_step_for_sid to let debug
+interface to get related cd and ste.
 
-Currently there is no debug interface about SMMUv3 driver, which makes it
-not convenient when we want to dump some information, like the value of
-CD/STE, S1/S2 page table, SMMU registers or cmd/event/pri queues.
+Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
+---
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 7 ++++---
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h | 2 ++
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-This series tries to add support of dumping CD/STE and page table. The
-interface design is that user sets device/pasid firstly by sysfs files
-and then read related sysfs file to get information:
-
- (currently only support PCI device)
- echo <domain>:<bus>:<dev>.<fun> > /sys/kernel/debug/iommu/smmuv3/pci_dev
- echo <pasid> > /sys/kernel/debug/iommu/smmuv3/pasid
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+index 8ca7415..b65f63e2 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+@@ -947,8 +947,7 @@ static void arm_smmu_write_cd_l1_desc(__le64 *dst,
+ 	WRITE_ONCE(*dst, cpu_to_le64(val));
+ }
  
- Then value in CD and STE can be got by:
- cat /sys/kernel/debug/iommu/smmuv3/ste
- cat /sys/kernel/debug/iommu/smmuv3/cd
+-static __le64 *arm_smmu_get_cd_ptr(struct arm_smmu_domain *smmu_domain,
+-				   u32 ssid)
++__le64 *arm_smmu_get_cd_ptr(struct arm_smmu_domain *smmu_domain, u32 ssid)
+ {
+ 	__le64 *l1ptr;
+ 	unsigned int idx;
+@@ -973,6 +972,7 @@ static __le64 *arm_smmu_get_cd_ptr(struct arm_smmu_domain *smmu_domain,
+ 	idx = ssid & (CTXDESC_L2_ENTRIES - 1);
+ 	return l1_desc->l2ptr + idx * CTXDESC_CD_DWORDS;
+ }
++EXPORT_SYMBOL_GPL(arm_smmu_get_cd_ptr);
  
- S1 and S2 page tables can be got by:
- cat /sys/kernel/debug/iommu/smmuv3/pt_dump_s1
- cat /sys/kernel/debug/iommu/smmuv3/pt_dump_s2
-
-For STE, CD and page table, related device and pasid are set in pci_dev
-and pasid files as above.
-
-First and second patch export some help functions or macros in arm-smmu-v3
-and io-pgtable-arm codes, so we can reuse them in debugfs.c. As a RFC, this
-series does not go further to dump SMMU registers and cmd/event/pri queues.
-I am not sure this series is in the right way, so let's post it out and have a
-discussion. Looking forward to any feedback.
-
-Zhou Wang (3):
-  iommu/arm-smmu-v3: Export cd/ste get functions
-  iommu/io-pgtable: Export page table walk needed functions and macros
-  iommu/arm-smmu-v3: Add debug interfaces for SMMUv3
-
- drivers/iommu/Kconfig                       |  11 +
- drivers/iommu/arm/arm-smmu-v3/Makefile      |   1 +
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |  10 +-
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  10 +
- drivers/iommu/arm/arm-smmu-v3/debugfs.c     | 398 ++++++++++++++++++++++++++++
- drivers/iommu/io-pgtable-arm.c              |  47 +---
- drivers/iommu/io-pgtable-arm.h              |  43 +++
- 7 files changed, 475 insertions(+), 45 deletions(-)
- create mode 100644 drivers/iommu/arm/arm-smmu-v3/debugfs.c
-
+ int arm_smmu_write_ctx_desc(struct arm_smmu_domain *smmu_domain, int ssid,
+ 			    struct arm_smmu_ctx_desc *cd)
+@@ -2013,7 +2013,7 @@ static int arm_smmu_domain_finalise(struct iommu_domain *domain,
+ 	return 0;
+ }
+ 
+-static __le64 *arm_smmu_get_step_for_sid(struct arm_smmu_device *smmu, u32 sid)
++__le64 *arm_smmu_get_step_for_sid(struct arm_smmu_device *smmu, u32 sid)
+ {
+ 	__le64 *step;
+ 	struct arm_smmu_strtab_cfg *cfg = &smmu->strtab_cfg;
+@@ -2034,6 +2034,7 @@ static __le64 *arm_smmu_get_step_for_sid(struct arm_smmu_device *smmu, u32 sid)
+ 
+ 	return step;
+ }
++EXPORT_SYMBOL_GPL(arm_smmu_get_step_for_sid);
+ 
+ static void arm_smmu_install_ste_for_dev(struct arm_smmu_master *master)
+ {
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+index 96c2e95..3e7af39 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+@@ -697,6 +697,8 @@ void arm_smmu_tlb_inv_asid(struct arm_smmu_device *smmu, u16 asid);
+ bool arm_smmu_free_asid(struct arm_smmu_ctx_desc *cd);
+ int arm_smmu_atc_inv_domain(struct arm_smmu_domain *smmu_domain, int ssid,
+ 			    unsigned long iova, size_t size);
++__le64 *arm_smmu_get_cd_ptr(struct arm_smmu_domain *smmu_domain, u32 ssid);
++__le64 *arm_smmu_get_step_for_sid(struct arm_smmu_device *smmu, u32 sid);
+ 
+ #ifdef CONFIG_ARM_SMMU_V3_SVA
+ bool arm_smmu_sva_supported(struct arm_smmu_device *smmu);
 -- 
 2.8.1
 
