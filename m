@@ -1,51 +1,50 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D45308742
-	for <lists.iommu@lfdr.de>; Fri, 29 Jan 2021 10:10:58 +0100 (CET)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8489C308740
+	for <lists.iommu@lfdr.de>; Fri, 29 Jan 2021 10:10:52 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id ED68F87039;
-	Fri, 29 Jan 2021 09:10:56 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0D59586113;
+	Fri, 29 Jan 2021 09:10:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TZmYgwWlNoNu; Fri, 29 Jan 2021 09:10:56 +0000 (UTC)
+	with ESMTP id cJQlX85Et8IZ; Fri, 29 Jan 2021 09:10:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 4354A87088;
-	Fri, 29 Jan 2021 09:10:56 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BD2AD87498;
+	Fri, 29 Jan 2021 09:10:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 38B61C013A;
-	Fri, 29 Jan 2021 09:10:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B79B0C013A;
+	Fri, 29 Jan 2021 09:10:49 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 86AB4C013A
- for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 09:10:54 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E2FF4C013A
+ for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 09:10:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 7FC938706D
- for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 09:10:54 +0000 (UTC)
+ by hemlock.osuosl.org (Postfix) with ESMTP id CF89687490
+ for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 09:10:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CSf1WnGZhTq0 for <iommu@lists.linux-foundation.org>;
- Fri, 29 Jan 2021 09:10:52 +0000 (UTC)
+ with ESMTP id 10dZK+haUgZj for <iommu@lists.linux-foundation.org>;
+ Fri, 29 Jan 2021 09:10:46 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D26E387039
- for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 09:10:50 +0000 (UTC)
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DRs3Y44s9zjG2L;
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 65AA686113
+ for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 09:10:46 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DRs3Y4714z160br;
  Fri, 29 Jan 2021 17:09:29 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.58) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 29 Jan 2021 17:10:35 +0800
+ 14.3.498.0; Fri, 29 Jan 2021 17:10:36 +0800
 From: Zhou Wang <wangzhou1@hisilicon.com>
 To: Will Deacon <will@kernel.org>, Rob Herring <robh@kernel.org>
-Subject: [RFC PATCH 2/3] iommu/io-pgtable: Export page table walk needed
- functions and macros
-Date: Fri, 29 Jan 2021 17:06:23 +0800
-Message-ID: <1611911184-116261-3-git-send-email-wangzhou1@hisilicon.com>
+Subject: [RFC PATCH 3/3] iommu/arm-smmu-v3: Add debug interfaces for SMMUv3
+Date: Fri, 29 Jan 2021 17:06:24 +0800
+Message-ID: <1611911184-116261-4-git-send-email-wangzhou1@hisilicon.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1611911184-116261-1-git-send-email-wangzhou1@hisilicon.com>
 References: <1611911184-116261-1-git-send-email-wangzhou1@hisilicon.com>
@@ -70,170 +69,508 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-Export page table walk needed functions and macros, then page table dump
-in later debug interface could be used directly.
+This patch adds debug interfaces for SMMUv3 driver in sysfs. It adds debug
+related files under /sys/kernel/debug/iommu/smmuv3.
+
+User should firstly set device and pasid to pci_dev and pasid by:
+(currently only support PCI device)
+echo <domain>:<bus>:<dev>.<fun> > /sys/kernel/debug/iommu/smmuv3/pci_dev
+echo <pasid> > /sys/kernel/debug/iommu/smmuv3/pasid
+
+Then value in cd and ste can be got by:
+cat /sys/kernel/debug/iommu/smmuv3/ste
+cat /sys/kernel/debug/iommu/smmuv3/cd
+
+S1 and S2 page tables can be got by:
+cat /sys/kernel/debug/iommu/smmuv3/pt_dump_s1
+cat /sys/kernel/debug/iommu/smmuv3/pt_dump_s2
+
+For ste, cd and page table, related device and pasid are set in pci_dev and
+pasid files as above.
 
 Signed-off-by: Zhou Wang <wangzhou1@hisilicon.com>
 ---
- drivers/iommu/io-pgtable-arm.c | 47 +++++-------------------------------------
- drivers/iommu/io-pgtable-arm.h | 43 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 48 insertions(+), 42 deletions(-)
+ drivers/iommu/Kconfig                       |  11 +
+ drivers/iommu/arm/arm-smmu-v3/Makefile      |   1 +
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |   3 +
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |   8 +
+ drivers/iommu/arm/arm-smmu-v3/debugfs.c     | 398 ++++++++++++++++++++++++++++
+ 5 files changed, 421 insertions(+)
+ create mode 100644 drivers/iommu/arm/arm-smmu-v3/debugfs.c
 
-diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-index 87def58..920a92b 100644
---- a/drivers/iommu/io-pgtable-arm.c
-+++ b/drivers/iommu/io-pgtable-arm.c
-@@ -24,35 +24,12 @@
+diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+index 192ef8f..4822c88 100644
+--- a/drivers/iommu/Kconfig
++++ b/drivers/iommu/Kconfig
+@@ -325,6 +325,17 @@ config ARM_SMMU_V3_SVA
+ 	  Say Y here if your system supports SVA extensions such as PCIe PASID
+ 	  and PRI.
  
- #define ARM_LPAE_MAX_ADDR_BITS		52
- #define ARM_LPAE_S2_MAX_CONCAT_PAGES	16
--#define ARM_LPAE_MAX_LEVELS		4
--
--/* Struct accessors */
--#define io_pgtable_to_data(x)						\
--	container_of((x), struct arm_lpae_io_pgtable, iop)
--
--#define io_pgtable_ops_to_data(x)					\
--	io_pgtable_to_data(io_pgtable_ops_to_pgtable(x))
--
--/*
-- * Calculate the right shift amount to get to the portion describing level l
-- * in a virtual address mapped by the pagetable in d.
-- */
--#define ARM_LPAE_LVL_SHIFT(l,d)						\
--	(((ARM_LPAE_MAX_LEVELS - (l)) * (d)->bits_per_level) +		\
--	ilog2(sizeof(arm_lpae_iopte)))
++config ARM_SMMU_V3_DEBUGFS
++	bool "Export ARM SMMUv3 internals in Debugfs"
++	depends on ARM_SMMU_V3 && IOMMU_DEBUGFS
++	help
++	  DO NOT ENABLE THIS OPTION UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!
++
++	  Expose ARM SMMUv3 internals in Debugfs.
++
++	  This option is -NOT- intended for production environments, and should
++	  only be enabled for debugging ARM SMMUv3.
++
+ config S390_IOMMU
+ 	def_bool y if S390 && PCI
+ 	depends on S390 && PCI
+diff --git a/drivers/iommu/arm/arm-smmu-v3/Makefile b/drivers/iommu/arm/arm-smmu-v3/Makefile
+index 54feb1ec..55b411a 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/Makefile
++++ b/drivers/iommu/arm/arm-smmu-v3/Makefile
+@@ -3,3 +3,4 @@ obj-$(CONFIG_ARM_SMMU_V3) += arm_smmu_v3.o
+ arm_smmu_v3-objs-y += arm-smmu-v3.o
+ arm_smmu_v3-objs-$(CONFIG_ARM_SMMU_V3_SVA) += arm-smmu-v3-sva.o
+ arm_smmu_v3-objs := $(arm_smmu_v3-objs-y)
++obj-$(CONFIG_ARM_SMMU_V3_DEBUGFS) += debugfs.o
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+index b65f63e2..aac7fdb 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+@@ -3602,6 +3602,8 @@ static int arm_smmu_device_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
  
- #define ARM_LPAE_GRANULE(d)						\
- 	(sizeof(arm_lpae_iopte) << (d)->bits_per_level)
- #define ARM_LPAE_PGD_SIZE(d)						\
- 	(sizeof(arm_lpae_iopte) << (d)->pgd_bits)
- 
--/*
-- * Calculate the index at level l used to map virtual address a using the
-- * pagetable in d.
-- */
--#define ARM_LPAE_PGD_IDX(l,d)						\
--	((l) == (d)->start_level ? (d)->pgd_bits - (d)->bits_per_level : 0)
--
- #define ARM_LPAE_LVL_IDX(a,l,d)						\
- 	(((u64)(a) >> ARM_LPAE_LVL_SHIFT(l,d)) &			\
- 	 ((1 << ((d)->bits_per_level + ARM_LPAE_PGD_IDX(l,d))) - 1))
-@@ -127,34 +104,19 @@
- #define ARM_MALI_LPAE_MEMATTR_IMP_DEF	0x88ULL
- #define ARM_MALI_LPAE_MEMATTR_WRITE_ALLOC 0x8DULL
- 
--/* IOPTE accessors */
--#define iopte_deref(pte,d) __va(iopte_to_paddr(pte, d))
--
- #define iopte_type(pte)					\
- 	(((pte) >> ARM_LPAE_PTE_TYPE_SHIFT) & ARM_LPAE_PTE_TYPE_MASK)
- 
- #define iopte_prot(pte)	((pte) & ARM_LPAE_PTE_ATTR_MASK)
- 
--struct arm_lpae_io_pgtable {
--	struct io_pgtable	iop;
--
--	int			pgd_bits;
--	int			start_level;
--	int			bits_per_level;
--
--	void			*pgd;
--};
--
--typedef u64 arm_lpae_iopte;
--
--static inline bool iopte_leaf(arm_lpae_iopte pte, int lvl,
--			      enum io_pgtable_fmt fmt)
-+bool iopte_leaf(arm_lpae_iopte pte, int lvl, enum io_pgtable_fmt fmt)
- {
- 	if (lvl == (ARM_LPAE_MAX_LEVELS - 1) && fmt != ARM_MALI_LPAE)
- 		return iopte_type(pte) == ARM_LPAE_PTE_TYPE_PAGE;
- 
- 	return iopte_type(pte) == ARM_LPAE_PTE_TYPE_BLOCK;
- }
-+EXPORT_SYMBOL_GPL(iopte_leaf);
- 
- static arm_lpae_iopte paddr_to_iopte(phys_addr_t paddr,
- 				     struct arm_lpae_io_pgtable *data)
-@@ -165,8 +127,8 @@ static arm_lpae_iopte paddr_to_iopte(phys_addr_t paddr,
- 	return (pte | (pte >> (48 - 12))) & ARM_LPAE_PTE_ADDR_MASK;
++	arm_smmu_debugfs_init();
++
+ 	return arm_smmu_set_bus_ops(&arm_smmu_ops);
  }
  
--static phys_addr_t iopte_to_paddr(arm_lpae_iopte pte,
--				  struct arm_lpae_io_pgtable *data)
-+phys_addr_t iopte_to_paddr(arm_lpae_iopte pte,
-+			   struct arm_lpae_io_pgtable *data)
- {
- 	u64 paddr = pte & ARM_LPAE_PTE_ADDR_MASK;
+@@ -3610,6 +3612,7 @@ static int arm_smmu_device_remove(struct platform_device *pdev)
+ 	struct arm_smmu_device *smmu = platform_get_drvdata(pdev);
  
-@@ -176,6 +138,7 @@ static phys_addr_t iopte_to_paddr(arm_lpae_iopte pte,
- 	/* Rotate the packed high-order bits back to the top */
- 	return (paddr | (paddr << (48 - 12))) & (ARM_LPAE_PTE_ADDR_MASK << 4);
- }
-+EXPORT_SYMBOL_GPL(iopte_to_paddr);
+ 	arm_smmu_set_bus_ops(NULL);
++	arm_smmu_debugfs_uninit();
+ 	iommu_device_unregister(&smmu->iommu);
+ 	iommu_device_sysfs_remove(&smmu->iommu);
+ 	arm_smmu_device_disable(smmu);
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+index 3e7af39..31c4580 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h
+@@ -752,4 +752,12 @@ static inline u32 arm_smmu_sva_get_pasid(struct iommu_sva *handle)
  
- static bool selftest_running = false;
- 
-diff --git a/drivers/iommu/io-pgtable-arm.h b/drivers/iommu/io-pgtable-arm.h
-index ba7cfdf..45e6d38 100644
---- a/drivers/iommu/io-pgtable-arm.h
-+++ b/drivers/iommu/io-pgtable-arm.h
-@@ -2,6 +2,8 @@
- #ifndef IO_PGTABLE_ARM_H_
- #define IO_PGTABLE_ARM_H_
- 
+ static inline void arm_smmu_sva_notifier_synchronize(void) {}
+ #endif /* CONFIG_ARM_SMMU_V3_SVA */
++
++#ifdef CONFIG_ARM_SMMU_V3_DEBUGFS
++void arm_smmu_debugfs_init(void);
++void arm_smmu_debugfs_uninit(void);
++#else
++static inline void arm_smmu_debugfs_init(void) {}
++static inline void arm_smmu_debugfs_uninit(void) {}
++#endif /* CONFIG_ARM_SMMU_V3_DEBUGFS */
+ #endif /* _ARM_SMMU_V3_H */
+diff --git a/drivers/iommu/arm/arm-smmu-v3/debugfs.c b/drivers/iommu/arm/arm-smmu-v3/debugfs.c
+new file mode 100644
+index 0000000..1af219a
+--- /dev/null
++++ b/drivers/iommu/arm/arm-smmu-v3/debugfs.c
+@@ -0,0 +1,398 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/debugfs.h>
++#include <linux/iommu.h>
 +#include <linux/io-pgtable.h>
++#include <linux/pci.h>
++#include "arm-smmu-v3.h"
++#include "../../io-pgtable-arm.h"
 +
- #define ARM_LPAE_TCR_TG0_4K		0
- #define ARM_LPAE_TCR_TG0_64K		1
- #define ARM_LPAE_TCR_TG0_16K		2
-@@ -27,4 +29,45 @@
- #define ARM_LPAE_TCR_PS_48_BIT		0x5ULL
- #define ARM_LPAE_TCR_PS_52_BIT		0x6ULL
- 
-+#define ARM_LPAE_MAX_LEVELS		4
++#undef pr_fmt
++#define pr_fmt(fmt)	"SMMUv3 debug: " fmt
 +
-+struct arm_lpae_io_pgtable {
-+	struct io_pgtable	iop;
++#define NAME_BUF_LEN 32
 +
-+	int			pgd_bits;
-+	int			start_level;
-+	int			bits_per_level;
++static struct dentry *arm_smmu_debug;
++static char dump_pci_dev[NAME_BUF_LEN];
++static u32 pasid;
++static struct mutex lock;
 +
-+	void			*pgd;
++static ssize_t master_pdev_read(struct file *filp, char __user *buf,
++				size_t count, loff_t *pos)
++{
++	char pdev_name[NAME_BUF_LEN];
++	char name[NAME_BUF_LEN];
++	int ret;
++
++	mutex_lock(&lock);
++	strncpy(pdev_name, dump_pci_dev, NAME_BUF_LEN);
++	mutex_unlock(&lock);
++
++	if (!strlen(pdev_name)) {
++		pr_err("Please set pci_dev firstly\n");
++		return 0;
++	}
++
++	ret = scnprintf(name, NAME_BUF_LEN, "%s\n", pdev_name);
++	return simple_read_from_buffer(buf, count, pos, name, ret);
++}
++
++static ssize_t master_pdev_write(struct file *filp, const char __user *buf,
++				 size_t count, loff_t *pos)
++{
++	char name[NAME_BUF_LEN];
++	struct device *dev;
++	int len;
++
++	if (*pos != 0)
++		return 0;
++
++	if (count >= NAME_BUF_LEN)
++		return -ENOSPC;
++
++	len = simple_write_to_buffer(name, NAME_BUF_LEN - 1, pos, buf, count);
++	if (len < 0)
++		return len;
++	name[len] = '\0';
++
++	dev = bus_find_device_by_name(&pci_bus_type, NULL, name);
++	if (!dev) {
++		pr_err("Failed to find device\n");
++		return -EINVAL;
++	}
++
++	mutex_lock(&lock);
++	strncpy(dump_pci_dev, dev_name(dev), NAME_BUF_LEN);
++	mutex_unlock(&lock);
++
++	put_device(dev);
++
++	return count;
++}
++
++static const struct file_operations master_pdev_fops = {
++	.owner = THIS_MODULE,
++	.open = simple_open,
++	.read = master_pdev_read,
++	.write = master_pdev_write,
 +};
 +
-+/* Struct accessors */
-+#define io_pgtable_to_data(x)						\
-+	container_of((x), struct arm_lpae_io_pgtable, iop)
++static struct arm_smmu_master *arm_smmu_get_master(struct device *dev)
++{
++	struct arm_smmu_master *master;
 +
-+#define io_pgtable_ops_to_data(x)					\
-+	io_pgtable_to_data(io_pgtable_ops_to_pgtable(x))
++	if (!dev->iommu) {
++		pr_err("master device driver may not be loaded!\n");
++		return NULL;
++	}
 +
-+/* IOPTE accessors */
-+#define iopte_deref(pte, d) __va(iopte_to_paddr(pte, d))
++	master = dev_iommu_priv_get(dev);
++	if (!master) {
++		pr_err("Failed to find master dev\n");
++		return NULL;
++	}
 +
-+/*
-+ * Calculate the index at level l used to map virtual address a using the
-+ * pagetable in d.
-+ */
-+#define ARM_LPAE_PGD_IDX(l, d)						\
-+	((l) == (d)->start_level ? (d)->pgd_bits - (d)->bits_per_level : 0)
-+/*
-+ * Calculate the right shift amount to get to the portion describing level l
-+ * in a virtual address mapped by the pagetable in d.
-+ */
-+#define ARM_LPAE_LVL_SHIFT(l, d)						\
-+	(((ARM_LPAE_MAX_LEVELS - (l)) * (d)->bits_per_level) +		\
-+	ilog2(sizeof(arm_lpae_iopte)))
++	return master;
++}
 +
-+typedef u64 arm_lpae_iopte;
++static void ste_dump(struct seq_file *m, struct device *dev, __le64 *ste)
++{
++	int i;
 +
-+bool iopte_leaf(arm_lpae_iopte pte, int lvl, enum io_pgtable_fmt fmt);
-+phys_addr_t iopte_to_paddr(arm_lpae_iopte pte,
-+			   struct arm_lpae_io_pgtable *data);
- #endif /* IO_PGTABLE_ARM_H_ */
++	seq_printf(m, "SMMUv3 STE values for device: %s\n", dev_name(dev));
++	for (i = 0; i < STRTAB_STE_DWORDS; i++) {
++		seq_printf(m, "0x%016llx\n", *ste);
++		ste++;
++	}
++}
++
++static int ste_show(struct seq_file *m, void *unused)
++{
++	struct arm_smmu_master *master;
++	struct arm_smmu_device *smmu;
++	struct device *dev;
++	__le64 *ste;
++
++	mutex_lock(&lock);
++
++	dev = bus_find_device_by_name(&pci_bus_type, NULL, dump_pci_dev);
++	if (!dev) {
++		mutex_unlock(&lock);
++		pr_err("Failed to find device\n");
++		return -EINVAL;
++	}
++
++	master = arm_smmu_get_master(dev);
++	if (!master) {
++		put_device(dev);
++		mutex_unlock(&lock);
++		return -ENODEV;
++	}
++	smmu = master->smmu;
++
++	/* currently only support one master one sid */
++	ste = arm_smmu_get_step_for_sid(smmu, master->sids[0]);
++	ste_dump(m, dev, ste);
++
++	put_device(dev);
++	mutex_unlock(&lock);
++
++	return 0;
++}
++DEFINE_SHOW_ATTRIBUTE(ste);
++
++static void cd_dump(struct seq_file *m, struct device *dev, __le64 *cd)
++{
++	int i;
++
++	seq_printf(m, "SMMUv3 CD values for device: %s, ssid: 0x%x\n",
++		   dev_name(dev), pasid);
++	for (i = 0; i < CTXDESC_CD_DWORDS; i++) {
++		seq_printf(m, "0x%016llx\n", *cd);
++		cd++;
++	}
++}
++
++static int cd_show(struct seq_file *m, void *unused)
++{
++	struct arm_smmu_master *master;
++	struct arm_smmu_domain *domain;
++	struct device *dev;
++	__le64 *cd;
++	int ret;
++
++	mutex_lock(&lock);
++
++	dev = bus_find_device_by_name(&pci_bus_type, NULL, dump_pci_dev);
++	if (!dev) {
++		mutex_unlock(&lock);
++		pr_err("Failed to find device\n");
++		return -EINVAL;
++	}
++
++	master = arm_smmu_get_master(dev);
++	if (!master) {
++		ret = -ENODEV;
++		goto err_out;
++	}
++	domain = master->domain;
++
++	cd = arm_smmu_get_cd_ptr(domain, pasid);
++	if (!cd) {
++		ret = -EINVAL;
++		pr_err("Failed to find cd(ssid: %u)\n", pasid);
++		goto err_out;
++	}
++	cd_dump(m, dev, cd);
++
++	put_device(dev);
++	mutex_unlock(&lock);
++
++	return 0;
++
++err_out:
++	put_device(dev);
++	mutex_unlock(&lock);
++	return ret;
++}
++DEFINE_SHOW_ATTRIBUTE(cd);
++
++static void __ptdump(arm_lpae_iopte *ptep, int lvl, u64 va,
++		     struct arm_lpae_io_pgtable *data, struct seq_file *m)
++{
++	arm_lpae_iopte pte, *ptep_next;
++	u64 i, tmp_va = 0;
++	int entry_num;
++
++	entry_num = 1 << (data->bits_per_level + ARM_LPAE_PGD_IDX(lvl, data));
++
++	for (i = 0; i < entry_num; i++) {
++		pte = READ_ONCE(*(ptep + i));
++		if (!pte)
++			continue;
++
++		tmp_va = va | (i << ARM_LPAE_LVL_SHIFT(lvl, data));
++
++		if (iopte_leaf(pte, lvl, data->iop.fmt)) {
++			/* To do: print prot */
++			seq_printf(m, "va: %llx -> pa: %llx\n", tmp_va,
++				   iopte_to_paddr(pte, data));
++			continue;
++		}
++
++		ptep_next = iopte_deref(pte, data);
++		__ptdump(ptep_next, lvl + 1, tmp_va, data, m);
++	}
++}
++
++static void ptdump(struct seq_file *m, struct arm_smmu_domain *domain,
++		   void *pgd, int stage)
++{
++	struct arm_lpae_io_pgtable *data, data_sva;
++	int levels, va_bits, bits_per_level;
++	struct io_pgtable_ops *ops;
++	arm_lpae_iopte *ptep = pgd;
++
++	if (stage == 1 && !pasid) {
++		ops = domain->pgtbl_ops;
++		data = io_pgtable_ops_to_data(ops);
++	} else {
++		va_bits = VA_BITS - PAGE_SHIFT;
++		bits_per_level = PAGE_SHIFT - ilog2(sizeof(arm_lpae_iopte));
++		levels = DIV_ROUND_UP(va_bits, bits_per_level);
++
++		data_sva.start_level = ARM_LPAE_MAX_LEVELS - levels;
++		data_sva.pgd_bits = va_bits - (bits_per_level * (levels - 1));
++		data_sva.bits_per_level = bits_per_level;
++		data_sva.pgd = pgd;
++
++		data = &data_sva;
++	}
++
++	__ptdump(ptep, data->start_level, 0, data, m);
++}
++
++static int pt_dump_s1_show(struct seq_file *m, void *unused)
++{
++	struct arm_smmu_master *master;
++	struct arm_smmu_domain *domain;
++	struct device *dev;
++	__le64 *cd;
++	void *pgd;
++	u64 ttbr;
++	int ret;
++
++	mutex_lock(&lock);
++
++	dev = bus_find_device_by_name(&pci_bus_type, NULL, dump_pci_dev);
++	if (!dev) {
++		mutex_unlock(&lock);
++		pr_err("Failed to find device\n");
++		return -EINVAL;
++	}
++
++	master = arm_smmu_get_master(dev);
++	if (!master) {
++		ret = -ENODEV;
++		goto err_out;
++	}
++	domain = master->domain;
++
++	cd = arm_smmu_get_cd_ptr(domain, pasid);
++	if (!cd || !(le64_to_cpu(cd[0]) & CTXDESC_CD_0_V)) {
++		ret = -EINVAL;
++		pr_err("Failed to find valid cd(ssid: %u)\n", pasid);
++		goto err_out;
++	}
++
++	/* CD0 and other CDx are all using ttbr0 */
++	ttbr = le64_to_cpu(cd[1]) & CTXDESC_CD_1_TTB0_MASK;
++	pgd = phys_to_virt(ttbr);
++
++	if (ttbr) {
++		seq_printf(m, "SMMUv3 dump page table for device %s, stage 1, ssid 0x%x:\n",
++			   dev_name(dev), pasid);
++		ptdump(m, domain, pgd, 1);
++	}
++
++	put_device(dev);
++	mutex_unlock(&lock);
++
++	return 0;
++
++err_out:
++	put_device(dev);
++	mutex_unlock(&lock);
++	return ret;
++}
++DEFINE_SHOW_ATTRIBUTE(pt_dump_s1);
++
++static int pt_dump_s2_show(struct seq_file *m, void *unused)
++{
++	struct arm_smmu_master *master;
++	struct arm_smmu_device *smmu;
++	struct device *dev;
++	__le64 *ste;
++	u64 vttbr;
++	void *pgd;
++	int ret;
++
++	mutex_lock(&lock);
++
++	dev = bus_find_device_by_name(&pci_bus_type, NULL, dump_pci_dev);
++	if (!dev) {
++		mutex_unlock(&lock);
++		pr_err("Failed to find device\n");
++		return -EINVAL;
++	}
++
++	master = arm_smmu_get_master(dev);
++	if (!master) {
++		ret = -ENODEV;
++		goto err_out;
++	}
++	smmu = master->smmu;
++
++	/* currently only support one master one sid */
++	ste = arm_smmu_get_step_for_sid(smmu, master->sids[0]);
++	if (!(le64_to_cpu(ste[0]) & (1UL << 2))) {
++		ret = -EINVAL;
++		pr_err("Stage 2 translation is not valid\n");
++		goto err_out;
++	}
++
++	vttbr = le64_to_cpu(ste[3]) & STRTAB_STE_3_S2TTB_MASK;
++	pgd = phys_to_virt(vttbr);
++
++	if (vttbr) {
++		seq_printf(m, "SMMUv3 dump page table for device %s, stage 2:\n",
++			   dev_name(dev));
++		ptdump(m, 0, pgd, 2);
++	}
++
++	put_device(dev);
++	mutex_unlock(&lock);
++
++	return 0;
++
++err_out:
++	put_device(dev);
++	mutex_unlock(&lock);
++	return ret;
++}
++DEFINE_SHOW_ATTRIBUTE(pt_dump_s2);
++
++void arm_smmu_debugfs_init(void)
++{
++	mutex_init(&lock);
++
++	arm_smmu_debug = debugfs_create_dir("smmuv3", iommu_debugfs_dir);
++
++	debugfs_create_file("pci_dev", 0644, arm_smmu_debug, NULL,
++			    &master_pdev_fops);
++	/*
++	 * Problem here is we need to know dump which cd, currently my idea
++	 * is we can get related pasid by smmu_bond_get trace point or by
++	 * debug interface of master device specific driver, then here we
++	 * use pasid to dump related cd.
++	 *
++	 * Or there is no need to dump page table about s1(pasid != 0) and s2
++	 * as they can be got by /proc/<pid>/pagemap.
++	 */
++	debugfs_create_u32("pasid", 0644, arm_smmu_debug, &pasid);
++
++	debugfs_create_file("ste", 0444, arm_smmu_debug, NULL, &ste_fops);
++
++	debugfs_create_file("cd", 0444, arm_smmu_debug, NULL, &cd_fops);
++
++	debugfs_create_file("pt_dump_s1", 0444, arm_smmu_debug, NULL,
++			    &pt_dump_s1_fops);
++
++	debugfs_create_file("pt_dump_s2", 0444, arm_smmu_debug, NULL,
++			    &pt_dump_s2_fops);
++}
++
++void arm_smmu_debugfs_uninit(void)
++{
++	debugfs_remove_recursive(arm_smmu_debug);
++	mutex_destroy(&lock);
++}
 -- 
 2.8.1
 
