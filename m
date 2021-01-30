@@ -1,73 +1,69 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328AF308FD2
-	for <lists.iommu@lfdr.de>; Fri, 29 Jan 2021 23:12:28 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 365BB309149
+	for <lists.iommu@lfdr.de>; Sat, 30 Jan 2021 02:35:13 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id E4BC52E149;
-	Fri, 29 Jan 2021 22:12:26 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id C53F386B66;
+	Sat, 30 Jan 2021 01:35:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TvWn3SF7Y-tj; Fri, 29 Jan 2021 22:12:25 +0000 (UTC)
+	with ESMTP id SI6nuGhSMJuu; Sat, 30 Jan 2021 01:35:09 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 2784C2E135;
-	Fri, 29 Jan 2021 22:12:25 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E089D86B3B;
+	Sat, 30 Jan 2021 01:35:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0DCF8C013A;
-	Fri, 29 Jan 2021 22:12:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D2544C013A;
+	Sat, 30 Jan 2021 01:35:09 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B7EBBC013A
- for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 22:12:23 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1D208C013A
+ for <iommu@lists.linux-foundation.org>; Sat, 30 Jan 2021 01:35:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id B1BBB87038
- for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 22:12:23 +0000 (UTC)
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 0C48186B23
+ for <iommu@lists.linux-foundation.org>; Sat, 30 Jan 2021 01:35:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id W1qCdnCw0SBP for <iommu@lists.linux-foundation.org>;
- Fri, 29 Jan 2021 22:12:23 +0000 (UTC)
+ with ESMTP id RFlR-NeHbrgD for <iommu@lists.linux-foundation.org>;
+ Sat, 30 Jan 2021 01:35:07 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 3085E86C13
- for <iommu@lists.linux-foundation.org>; Fri, 29 Jan 2021 22:12:23 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 7F1C564E05;
- Fri, 29 Jan 2021 22:12:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611958342;
- bh=I0DQYedg79MDplR4wz0VMCk0Kg1nGuOgVHy0BPastaQ=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=ot/m49BwWvv1BTHkQNwCtXonxcAAY2vi1nfcl4+solCYa+YCX4C81nOKTKSFGP0c5
- fYr3vpHKR2xXHSxwNPZUnZzI4ntPiFY4KvMNPFcP5LgRuSQ7Nf3fG8H49r10/QYfeJ
- zkjBOOPfWltSo7fqqgJCHFJ2KfvrpMu6N7ju02zSp87OBsRHG/zInBUFqd3+Nkkyvl
- yf0xQloCZkI1j+g4A9uxnMkr31BB8lez0gS+TVBb0Jyvpu1ofCVnQX25LZq3nI2E3h
- ip6WdyBVDBDeB/86GcKFewpuQ0xrp5jnJaESUkAitCMBV2izBTL0hjTwURHOAo3juQ
- Ab9qG0uouHRgw==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
- [127.0.0.1])
- by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 8BF8860953;
- Fri, 29 Jan 2021 22:12:22 +0000 (UTC)
-Subject: Re: [git pull] IOMMU Fixes for Linux v5.11-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20210129164123.GA25513@8bytes.org>
-References: <20210129164123.GA25513@8bytes.org>
-X-PR-Tracked-List-Id: Development issues for Linux IOMMU support
- <iommu.lists.linux-foundation.org>
-X-PR-Tracked-Message-Id: <20210129164123.GA25513@8bytes.org>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git
- tags/iommu-fixes-v5.11-rc5
-X-PR-Tracked-Commit-Id: 29b32839725f8c89a41cb6ee054c85f3116ea8b5
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 8ef24c2011b77bd6344d16630d3cd95d63de63f8
-Message-Id: <161195834256.1476.12524452460486856757.pr-tracker-bot@kernel.org>
-Date: Fri, 29 Jan 2021 22:12:22 +0000
-To: Joerg Roedel <joro@8bytes.org>
-Cc: Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org,
- Linus Torvalds <torvalds@linux-foundation.org>, linux-kernel@vger.kernel.org
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 9B53386B45
+ for <iommu@lists.linux-foundation.org>; Sat, 30 Jan 2021 01:35:07 +0000 (UTC)
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DSGvK0yY4z7d2C;
+ Sat, 30 Jan 2021 09:33:49 +0800 (CST)
+Received: from [127.0.0.1] (10.174.176.220) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0;
+ Sat, 30 Jan 2021 09:34:56 +0800
+Subject: Re: [PATCH v3 2/3] perf/smmuv3: Add a MODULE_SOFTDEP() to indicate
+ dependency on SMMU
+To: Robin Murphy <robin.murphy@arm.com>, John Garry <john.garry@huawei.com>,
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, "Joerg
+ Roedel" <joro@8bytes.org>, linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>, iommu
+ <iommu@lists.linux-foundation.org>, linux-kernel
+ <linux-kernel@vger.kernel.org>
+References: <20210127113258.1421-1-thunder.leizhen@huawei.com>
+ <20210127113258.1421-3-thunder.leizhen@huawei.com>
+ <67e0859b-2633-3516-527f-57557e210fa1@arm.com>
+ <4b116f38-84da-9ef9-350c-8900944b0433@huawei.com>
+ <a5595eae-0de9-e454-8a3d-5718512422ee@arm.com>
+From: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <bc012c2b-4e94-8cd5-68c6-d4d9224aca0f@huawei.com>
+Date: Sat, 30 Jan 2021 09:34:55 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <a5595eae-0de9-e454-8a3d-5718512422ee@arm.com>
+Content-Language: en-US
+X-Originating-IP: [10.174.176.220]
+X-CFilter-Loop: Reflected
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,24 +76,38 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-The pull request you sent on Fri, 29 Jan 2021 17:41:29 +0100:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git tags/iommu-fixes-v5.11-rc5
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/8ef24c2011b77bd6344d16630d3cd95d63de63f8
+On 2021/1/30 1:03, Robin Murphy wrote:
+> On 2021-01-29 15:34, John Garry wrote:
+>> On 29/01/2021 15:12, Robin Murphy wrote:
+>>> On 2021-01-27 11:32, Zhen Lei wrote:
+>>>> The MODULE_SOFTDEP() gives user space a hint of the loading sequence. And
+>>>> when command "modprobe arm_smmuv3_pmu" is executed, the arm_smmu_v3.ko is
+>>>> automatically loaded in advance.
+>>>
+>>> Why do we need this? If probe order doesn't matter when both drivers are built-in, why should module load order?
+>>>
+>>> TBH I'm not sure why we even have a Kconfig dependency on ARM_SMMU_V3, given that the drivers operate completely independently :/
+>>
+>> Can that Kconfig dependency just be removed? I think that it was added under the idea that there is no point in having the SMMUv3 PMU driver without the SMMUv3 driver.
+> 
+> A PMCG *might* be usable for simply counting transactions to measure device activity regardless of its associated SMMU being enabled.
 
-Thank you!
+If that's the case, the SOFTDEP really shouldn't be added. I wasn't trying to make sure they were loaded in order, just to make sure that the SMMU was not forgotten to load.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+> Either way, it's not really Kconfig's job to decide what makes sense (beyond the top-level "can this driver *ever* be used on this platform" visibility choices). Imagine if we gave every PCI/USB/etc. device driver an explicit ?dependency on at least one host controller driver being enabled...
+> 
+> Robin.
+> 
+> .
+> 
+
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
