@@ -2,40 +2,40 @@ Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6002930927C
+	by mail.lfdr.de (Postfix) with ESMTPS id 6237030927D
 	for <lists.iommu@lfdr.de>; Sat, 30 Jan 2021 08:16:05 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id EE877869D9;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EC338869BC;
 	Sat, 30 Jan 2021 07:16:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vveaXmEXnpg0; Sat, 30 Jan 2021 07:16:03 +0000 (UTC)
+	with ESMTP id GyC8KENE2JMq; Sat, 30 Jan 2021 07:16:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B0B4A86980;
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D65F486A70;
 	Sat, 30 Jan 2021 07:16:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7FE63C013A;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C014FC013A;
 	Sat, 30 Jan 2021 07:16:02 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2F2C2C013A
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D3C05C013A
  for <iommu@lists.linux-foundation.org>; Sat, 30 Jan 2021 07:16:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 1D7E286DDC
+ by fraxinus.osuosl.org (Postfix) with ESMTP id C233886932
  for <iommu@lists.linux-foundation.org>; Sat, 30 Jan 2021 07:16:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4f5OeCfbgRlS for <iommu@lists.linux-foundation.org>;
- Sat, 30 Jan 2021 07:15:58 +0000 (UTC)
+ with ESMTP id NOyU4rK1APa2 for <iommu@lists.linux-foundation.org>;
+ Sat, 30 Jan 2021 07:15:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 7965A86DDB
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 0C36E86909
  for <iommu@lists.linux-foundation.org>; Sat, 30 Jan 2021 07:15:58 +0000 (UTC)
 Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DSQSc3QqSz161cQ;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DSQSc3558z161cG;
  Sat, 30 Jan 2021 15:14:40 +0800 (CST)
 Received: from thunder-town.china.huawei.com (10.174.176.220) by
  DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
@@ -46,10 +46,12 @@ To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Mark
  linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, iommu
  <iommu@lists.linux-foundation.org>, linux-kernel
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 0/2] perf/smmuv3: Don't reserve the PMCG register spaces
-Date: Sat, 30 Jan 2021 15:14:12 +0800
-Message-ID: <20210130071414.1575-1-thunder.leizhen@huawei.com>
+Subject: [PATCH v4 1/2] perf/smmuv3: Don't reserve the PMCG register spaces
+Date: Sat, 30 Jan 2021 15:14:13 +0800
+Message-ID: <20210130071414.1575-2-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
+In-Reply-To: <20210130071414.1575-1-thunder.leizhen@huawei.com>
+References: <20210130071414.1575-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.174.176.220]
 X-CFilter-Loop: Reflected
@@ -71,48 +73,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-v3 --> v4:
-1. Delete the unnecessary encapsulation function smmu_pmu_get_and_ioremap_resource().
-2. Discard adding MODULE_SOFTDEP.
+According to the SMMUv3 specification:
+Each PMCG counter group is represented by one 4KB page (Page 0) with one
+optional additional 4KB page (Page 1), both of which are at IMPLEMENTATION
+DEFINED base addresses.
 
-v2 --> v3:
-Patch 3 is updated because https://lkml.org/lkml/2021/1/22/532 has been queued in advance.
+This means that the PMCG register spaces may be within the 64KB pages of
+the SMMUv3 register space. When both the SMMU and PMCG drivers reserve
+their own resources, a resource conflict occurs.
 
-v1 --> v2:
-According to Robin Murphy's suggestion: https://lkml.org/lkml/2021/1/20/470
-Don't reserve the PMCG register spaces, and reserve the entire SMMU register space.
+To avoid this conflict, don't reserve the PMCG regions.
 
-v1:
-Since the PMCG may implement its resigters space(4KB Page0 and 4KB Page1)
-within the SMMUv3 64KB Page0. In this case, when the SMMUv3 driver reserves the
-64KB Page0 resource in advance, the PMCG driver try to reserve its Page0 and
-Page1 resources, a resource conflict occurs.
+Suggested-by: Robin Murphy <robin.murphy@arm.com>
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ drivers/perf/arm_smmuv3_pmu.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
-commit 52f3fab0067d6fa ("iommu/arm-smmu-v3: Don't reserve implementation
-defined register space") reduce the resource reservation range of the SMMUv3
-driver, it only reserves the first 0xe00 bytes in the 64KB Page0, to avoid
-the above-mentioned resource conflicts.
-
-But the SMMUv3.3 add support for ECMDQ, its registers space is also implemented
-in the SMMUv3 64KB Page0. This means we need to build two separate mappings.
-New features may be added in the future, and more independent mappings may be
-required. The simple problem is complicated because the user expects to map the
-entire SMMUv3 64KB Page0.
-
-Therefore, the proper solution is: If the PMCG register resources are located in
-the 64KB Page0 of the SMMU, the PMCG driver does not reserve the conflict resources
-when the SMMUv3 driver has reserved the conflict resources before. Instead, the PMCG
-driver only performs devm_ioremap() to ensure that it can work properly.
-
-Zhen Lei (2):
-  perf/smmuv3: Don't reserve the PMCG register spaces
-  iommu/arm-smmu-v3: Reserving the entire SMMU register space
-
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 24 ++++--------------------
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h |  2 --
- drivers/perf/arm_smmuv3_pmu.c               | 25 +++++++++++++++++++------
- 3 files changed, 23 insertions(+), 28 deletions(-)
-
+diff --git a/drivers/perf/arm_smmuv3_pmu.c b/drivers/perf/arm_smmuv3_pmu.c
+index 74474bb322c3f26..5e894f957c7b935 100644
+--- a/drivers/perf/arm_smmuv3_pmu.c
++++ b/drivers/perf/arm_smmuv3_pmu.c
+@@ -793,17 +793,30 @@ static int smmu_pmu_probe(struct platform_device *pdev)
+ 		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE,
+ 	};
+ 
+-	smmu_pmu->reg_base = devm_platform_get_and_ioremap_resource(pdev, 0, &res_0);
+-	if (IS_ERR(smmu_pmu->reg_base))
+-		return PTR_ERR(smmu_pmu->reg_base);
++	/*
++	 * The register spaces of the PMCG may be in the register space of
++	 * other devices. For example, SMMU. Therefore, the PMCG resources are
++	 * not reserved to avoid resource conflicts with other drivers.
++	 */
++	res_0 = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res_0)
++		return ERR_PTR(-EINVAL);
++	smmu_pmu->reg_base = devm_ioremap(dev, res_0->start, resource_size(res_0));
++	if (!smmu_pmu->reg_base)
++		return ERR_PTR(-ENOMEM);
+ 
+ 	cfgr = readl_relaxed(smmu_pmu->reg_base + SMMU_PMCG_CFGR);
+ 
+ 	/* Determine if page 1 is present */
+ 	if (cfgr & SMMU_PMCG_CFGR_RELOC_CTRS) {
+-		smmu_pmu->reloc_base = devm_platform_ioremap_resource(pdev, 1);
+-		if (IS_ERR(smmu_pmu->reloc_base))
+-			return PTR_ERR(smmu_pmu->reloc_base);
++		struct resource *res_1;
++
++		res_1 = platform_get_resource(pdev, IORESOURCE_MEM, 1);
++		if (!res_1)
++			return ERR_PTR(-EINVAL);
++		smmu_pmu->reloc_base = devm_ioremap(dev, res_1->start, resource_size(res_1));
++		if (!smmu_pmu->reloc_base)
++			return ERR_PTR(-ENOMEM);
+ 	} else {
+ 		smmu_pmu->reloc_base = smmu_pmu->reg_base;
+ 	}
 -- 
 1.8.3
 
