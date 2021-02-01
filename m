@@ -1,100 +1,165 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2798A30B3AA
-	for <lists.iommu@lfdr.de>; Tue,  2 Feb 2021 00:44:33 +0100 (CET)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF1830B44A
+	for <lists.iommu@lfdr.de>; Tue,  2 Feb 2021 01:49:09 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 9927E21526;
-	Mon,  1 Feb 2021 23:44:31 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 709018489F;
+	Tue,  2 Feb 2021 00:49:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2CMqNpWwgK+V; Mon,  1 Feb 2021 23:44:29 +0000 (UTC)
+	with ESMTP id s068LPrwt18l; Tue,  2 Feb 2021 00:49:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id D85AB21509;
-	Mon,  1 Feb 2021 23:44:28 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 36B8484718;
+	Tue,  2 Feb 2021 00:49:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C9C2BC013A;
-	Mon,  1 Feb 2021 23:44:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 17341C013A;
+	Tue,  2 Feb 2021 00:49:05 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 83C46C013A
- for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 23:44:27 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 676CBC013A
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 00:09:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 698DB8357C
- for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 23:44:27 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 333D021509
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 00:09:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WGkOdtPM-MCO for <iommu@lists.linux-foundation.org>;
- Mon,  1 Feb 2021 23:44:27 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
- [209.85.160.176])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id CF5B5834FE
- for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 23:44:26 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id c1so13740795qtc.1
- for <iommu@lists.linux-foundation.org>; Mon, 01 Feb 2021 15:44:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=hd15FyljMQNb+uHNxQHOyHL+pJdt7H/rF6CqnCRNxkk=;
- b=k2UK7o8wQKpImEwvMcIofjhqZsF1yjn8WEus+jyV+wEKwNI6Pdakb/8qDqgA9xjczP
- 2vPN1SEc50w2MpyQ7LD+ynXBrNS0ZUMPypuqH73q3LZlHiLudFcbUX2YEdbVreK9GYci
- hvcm6XoNqV/208cemLwAqA8+PAHjy3gR92TFTOvBBJo7+cm3ioe3aJ52NRp9dC77mPPw
- oDjDm0ZwCbl0N5JT1o7/W7KfF4QzaCcJx0mZ8QBXv8kRecO95ouX8OEHg3EnsSZjoY8b
- iZ3BuClJKbypxdM6+deF5MQjc1yclCNHXNUNBUtjO3Rt+RPjmfdltzBcWVgFq5Wf8gYo
- bQ/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hd15FyljMQNb+uHNxQHOyHL+pJdt7H/rF6CqnCRNxkk=;
- b=oOHWEDXlOqngmXzKee78rNkI7XJAgHfCmjnBnA2qBXtpn5CwZD3IPoSUmaMxWcI3+A
- rdU0TbkldbXUI2dFFINXDy37OIHpXPUsPhVf0DszI3v5Ri6JfyeDztZ4tzlcrsozjMj0
- o86Or6bu2p7aKjsdtTevvR5vetKDnUo4y3D6SqgXdpn01FM+tb5+uFSWHSFgxR7d5MDf
- /zjOw3erjPhsYemiVOHbfevTQySBD1V5vy0LayEzGo3LLegtzmY95JipWAuXUUi5yGaC
- NNbIUcaKKnsVSynoWUb0Yelsx0GWO8ZelT2MxEXZAFnFSQqBLcfWJwUdPFbdLBbR7L9P
- TICQ==
-X-Gm-Message-State: AOAM533SBGf/470D3ugITaHA6KO8R8ePsG0rXAWgJXUsRKlInq+QKWVU
- YaWHHHq3eVHXbvx2jNFs4CtbMA==
-X-Google-Smtp-Source: ABdhPJxOk/Gr3FI8hipqpO78EuQbpqBCvzEwZtZKwnaYmY8JYjMc8WYuBvCPpUv8lB3nlvifrKdI9g==
-X-Received: by 2002:ac8:6c48:: with SMTP id z8mr17373676qtu.252.1612223065836; 
- Mon, 01 Feb 2021 15:44:25 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.115.133])
- by smtp.gmail.com with ESMTPSA id p22sm15466415qkk.128.2021.02.01.15.44.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 15:44:25 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1l6iro-002MnI-P8; Mon, 01 Feb 2021 19:44:24 -0400
-Date: Mon, 1 Feb 2021 19:44:24 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Subject: Re: [RFC PATCH v2] uacce: Add uacce_ctrl misc device
-Message-ID: <20210201234424.GI4718@ziepe.ca>
-References: <1611563696-235269-1-git-send-email-wangzhou1@hisilicon.com>
- <20210125154717.GW4605@ziepe.ca>
- <96b655ade2534a65974a378bb68383ee@hisilicon.com>
- <20210125231619.GY4605@ziepe.ca>
- <5f64a68042c64f37b5cba74028bd2189@hisilicon.com>
- <20210126011304.GZ4605@ziepe.ca>
- <d7fce136c3644755a7aea5794bddf453@hisilicon.com>
- <MWHPR11MB1886DC78C5FBA3636B94F2578CB99@MWHPR11MB1886.namprd11.prod.outlook.com>
+ with ESMTP id 6mL9B-T8e2Tb for <iommu@lists.linux-foundation.org>;
+ Tue,  2 Feb 2021 00:09:57 +0000 (UTC)
+X-Greylist: delayed 00:09:59 by SQLgrey-1.7.6
+Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
+ by silver.osuosl.org (Postfix) with ESMTPS id D6B3320C41
+ for <iommu@lists.linux-foundation.org>; Tue,  2 Feb 2021 00:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1612225539; x=1643761539;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=chEsZ+DozUGloMfzp68hLD/iA1dIlaW5VcjlDw4fIo8=;
+ b=Hb3Cir9he9Wl233jPz9+S/PASI9qGxa9irKPKYdGTlM4XT+w69BYsgJl
+ o2p4j7qTepugI8nJo4X8hrP95RubR2FYte76CAziaVT6OO9o/qXuFwlsY
+ AtrnhsLTjzSKbt3giuvk4dUN7KRbh9BEsafct8sQNt09cFlDD0cwWWbux
+ zVY3ywQr6Cx0ZIdB0uJ02KNnjesuGjFuk0J/p+IyDzkSF4UgBuGQmnwYV
+ O81PnjZkbcJZnzWnqhGZ/t9TXWOLhPoqjGMNeIbd2G6aP+Orcpm4casDl
+ BUjkhEejy3WcMI3/Q6q2YkO19Jggq6KKvXPWucAVDawemtUi1GvHq+zM8 A==;
+IronPort-SDR: JJiu9DzH5rZpRkAdgvdrSDkLr0KfwEOuQSldQEcnmo7VRniBkxqsiRrzfE7nOeH4uckQjik4Rl
+ n93s3zqBH4xzP72YYO8P5ddBM4zilpq0JKetdPeEHeL4DWsDPPaZXaoxuZo/iGjywHu8VQuFub
+ gv9eIm/xkWtRHUxEiGhLR3NEJxrriisDicwH/xW14MHzqniQEdOhwV2LJRI0Ro8/pEFk9gOsaw
+ KKvtvqu62C4mWtOCXhHyOLdeEUz/Ls+eE5L9v+x7TO2XYVckIjL+Yov4+WqSf9mr7SyXxnZyGX
+ 664=
+X-IronPort-AV: E=Sophos;i="5.79,393,1602518400"; d="scan'208";a="262934664"
+Received: from mail-bn7nam10lp2103.outbound.protection.outlook.com (HELO
+ NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.103])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Feb 2021 08:10:27 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bWi8V9iOP7w6/U+IGZGcWMKiw1u8YMFFCe72yP3XzEybXHOjOEH34GKA2631mURVnWh9fom93T7p9EGj+36VQSy9Bn1fdKoBEagBIXk5lhL//ks2nh8s7+d61h8m5pCS+tJnyEV5S47Rn8RpIVocNq1XjtqSPJeqwG+b5C+/G3dNWoUt21T38qzWYtHYfpnVu1AZ17FvFHcUCRINUuq5jZ9SOgewm0RIiJF6qOHcSp1PEaLSRUCfkh4RvFGGLTL4F1Ejom8yiCCZZSjuZSs2eXScwF+JTBusOs819kCKUOhL8b2qMUDVzyJhNRdtrOmejRzsCyesJ23LxRx/x+yyMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r2kA+OEqDlJx+MRWnayE84h38FwM0AmYw4SNEZA0Fes=;
+ b=bFywsFDLV+5Ca8gN5FkwfpdUzsGtrfCnA4f7fTDuYg+ggLk5tUQHkGcCPCaTd22EDl90myuDwfS8b10X/EKYf2C7XZQpvK7JZXfsFPsepw0AG9Y4sAc/pwjR1w4MAjfTvbImpA8poWQDLolUztDIbKnFFiUbMVjprE1E7znoDriO4uxuksRO+L8+fwe9GZqac82pe6aHDG6R3yyx1b87H3DccsbQfEVDUeCs4DaLlXe/QmF3/P4m6HdhpwYxtr9Wy7Nl/eIsqtCvQOR1ensU1J09Dh4nJdg4i6gZJ6OGAKkeveNd1nwtsfA13FrZxre/AwzO8xHLoKjXsUfgazx45Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r2kA+OEqDlJx+MRWnayE84h38FwM0AmYw4SNEZA0Fes=;
+ b=Dn6auezsNVquj7sonYQ24atQFBegmudT6nkyRP7Eby9+H7h5UvNpYM1Grdndp1pkoxjI+WXDapVVlkqFCRpePDb0f3G6/98lh0KSRtsMiDwrCSsjnY2PYDR43kZFkrzAtD1Tjclb5gg36XQtj93UtXsKVhSf3oeM9TQS/FVU9Fk=
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com (2603:10b6:a03:4d::25)
+ by SJ0PR04MB7437.namprd04.prod.outlook.com (2603:10b6:a03:299::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.21; Mon, 1 Feb
+ 2021 23:59:52 +0000
+Received: from BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::1d83:38d9:143:4c9c]) by BYAPR04MB4965.namprd04.prod.outlook.com
+ ([fe80::1d83:38d9:143:4c9c%5]) with mapi id 15.20.3805.024; Mon, 1 Feb 2021
+ 23:59:52 +0000
+From: Chaitanya Kulkarni <Chaitanya.Kulkarni@wdc.com>
+To: Jianxiong Gao <jxgao@google.com>, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH V2 3/3] Adding device_dma_parameters->offset_preserve_mask
+ to NVMe driver.
+Thread-Topic: [PATCH V2 3/3] Adding
+ device_dma_parameters->offset_preserve_mask to NVMe driver.
+Thread-Index: AQHW+MlMS+CdGrPDf0+u8sqUqxCqGQ==
+Date: Mon, 1 Feb 2021 23:59:52 +0000
+Message-ID: <BYAPR04MB4965AAC6C59013D475093D9486B69@BYAPR04MB4965.namprd04.prod.outlook.com>
+References: <20210201183017.3339130-1-jxgao@google.com>
+ <20210201183017.3339130-4-jxgao@google.com>
+ <20210201205759.GA2128135@dhcp-10-100-145-180.wdc.com>
+ <CAMGD6P2Gz9nWELMdsAhwQvXx3PXv2aXet=Tn9Rca61obZawfgw@mail.gmail.com>
+ <CAMGD6P1_cs1W8jMt7Sz6broDdnFNPrxbiZW-JZ+GAtg5aoTdOQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: google.com; dkim=none (message not signed)
+ header.d=none;google.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [199.255.45.62]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: debd626c-7b9f-428c-56d5-08d8c70d7758
+x-ms-traffictypediagnostic: SJ0PR04MB7437:
+x-microsoft-antispam-prvs: <SJ0PR04MB743706916B77071E77B5464786B69@SJ0PR04MB7437.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: mhARgJgCpZMpp/UQ+xk9H8W9JIOaKqlPx1ictHtcm0ecnWZz0Sal3lNH/opFnExhiiY9DPc4IXhnWOhiJDIWUpddVrGIYCxdHoecTjVMm/WP9SoSGc8tmpYBPG0fAieFjCmsSeO480POkWMlxfUOKXrkxCx8HEy9znPqEBT9s3T4W6r+J9KIGc1GEblI0y7YfIPzV0vetvDwlLE7KKW86tWo+SjLXv2ZNzNKZusHFofG6so0PlXzMF9RDquK7fDKzgwSO9hkmf+QYIkE7c70D0LVAULX4VxS0DPrS/iLe7H0M/dHucQSJey4ShStgmovUmbFTa/Uq08J90kuMjzTR49wfLhtFOztaRKonli1F4iMjbZ3P0Z14bhzmq26p1QLmPeUNvRl/nHJ9hKO/rN0HaT5dzwX6LMmNaVjnlagALNUaRbZtg2CS64piSpdDwr4Uh0jpNIvbo+y8aqgh6rOvw8m1SCjPePAMmo3KfisPtXzVUndvBTu/BEr6jbSrAF5l2ihB3W/AHdzZzLibG4XFw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR04MB4965.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(366004)(396003)(346002)(136003)(376002)(33656002)(55016002)(5660300002)(8936002)(9686003)(86362001)(4744005)(66476007)(316002)(64756008)(66946007)(66446008)(186003)(76116006)(7416002)(7696005)(66556008)(4326008)(53546011)(478600001)(2906002)(8676002)(52536014)(26005)(54906003)(110136005)(6506007)(71200400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?b8EdK5PM1hLtuy9eI3NTxUPtEX5Z/d8hUcnxC3Qmr04c2C5s9mB0tGdGHq/f?=
+ =?us-ascii?Q?LUNopHehhpXUrNZT5+4kV9dE3uqJ3vfk6UmSZNoB+L1Al472A104/0cRUiOo?=
+ =?us-ascii?Q?+U60J5iOLsfF4/zO4RLeNQZ3mR/sQTa/utJcydUjunAhjCwet0KADt7+mB5s?=
+ =?us-ascii?Q?wdCgkS/HyfZeXYGe+4ISVULwrL4WG4PMkH0s/SXHEpxsnaoNoYBvM8OCVAaH?=
+ =?us-ascii?Q?CGnnCAJ243SgA8XsGJUpSfFrpKkdvLzsIHYgvfwDTgRIFXq4diw/FyuATjyN?=
+ =?us-ascii?Q?E7P21ok/hnOl47syIh2MIV702rRaoQJD3XTq24sMwgtrDuZjzfx2K3ht+Na4?=
+ =?us-ascii?Q?eQIXdqeEP01wh9Y8+pMchhvZ6EC5g/DPK6pJWp+g/4EJsvyYW7I5edcwCg9+?=
+ =?us-ascii?Q?9detoMdVttP1TAcznjtorABlzRAUY5QxVRjKnevFwqVPA477uidWypY736dQ?=
+ =?us-ascii?Q?/mfT2S1Ddn4nZu0ESn42ecwFRgy6SCdNxwwuvHN+zJ/IrMiaUOwR8Bu/I9sW?=
+ =?us-ascii?Q?b09xPj7ivCkgO9oEyQ/XgDz+5ysbluYFFMmu5yvjEXlxIrdlGCX/TXwdBKA0?=
+ =?us-ascii?Q?eIlC4xb+Ry+BfztN4Btb8UDa930BwvQ9hFq1Llw4gPFIM/L9bin4LJlXmjFH?=
+ =?us-ascii?Q?WdEtv5UEo7qraBHmN3Uj4ZlN/lskAOXho1bG5Z1YoyR1u8j5nWQkfYRhFJxs?=
+ =?us-ascii?Q?1HE4LkpcNe9lHe6ssXjHzSZkcMi/eIFR+qrEDl/gO+GZUEaJikcLhwT1Vjk1?=
+ =?us-ascii?Q?Mxr3La/oHu2ogk//iJoKDXGmDk1TTIA8gLkX9EdDJPwhusE2CrKXCvjzxVRE?=
+ =?us-ascii?Q?GWRnsAr/XSr7Bcp4rlcb9So7K84gv/2ppgnO58dgfPF/XIrezWSquQBXo8DT?=
+ =?us-ascii?Q?P0NOwf0bjK97M1bk28KLd1vw/lJv/9YbvDwvIbRCFwQVmS0rgDMVc1/u5bVy?=
+ =?us-ascii?Q?ND54j9UYHuvUuMTA74yImXEi80cUkeAv1z9sl3OO/n7YdzWtumA1LIZ7W/Yt?=
+ =?us-ascii?Q?275frz1Judhsgo5aoAXwrrqOxw2my8Hv3zR+1xiCpBpmK/hu06HMSuWfIbHP?=
+ =?us-ascii?Q?B2r35m3MFpgK+egoIZaRDisNCAedUA=3D=3D?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <MWHPR11MB1886DC78C5FBA3636B94F2578CB99@MWHPR11MB1886.namprd11.prod.outlook.com>
-Cc: "chensihang \(A\)" <chensihang1@hisilicon.com>,
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR04MB4965.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: debd626c-7b9f-428c-56d5-08d8c70d7758
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Feb 2021 23:59:52.2146 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WEHmV1gOVYFF6JDyQvp1qwLBEIQJFR4JjA9XR2lJ/nPbpuoHpryM5Lz8N3Y3qEFDWI6/wFSCatVo3j0ohB9w1iXax4nEqNQnaR2+DUnIivc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7437
+X-Mailman-Approved-At: Tue, 02 Feb 2021 00:49:04 +0000
+Cc: "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>,
+ "sagi@grimberg.me" <sagi@grimberg.me>, Saravana Kannan <saravanak@google.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, Marc Orr <marcorr@google.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "rafael.j.wysocki@intel.com" <rafael.j.wysocki@intel.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "axboe@fb.com" <axboe@fb.com>,
+ "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
- Zhangfei Gao <zhangfei.gao@linaro.org>,
- "Liguozhu \(Kenneth\)" <liguozhu@hisilicon.com>,
- "linux-accelerators@lists.ozlabs.org" <linux-accelerators@lists.ozlabs.org>
+ "jroedel@suse.de" <jroedel@suse.de>,
+ "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,20 +177,22 @@ Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Fri, Jan 29, 2021 at 10:09:03AM +0000, Tian, Kevin wrote:
-> > SVA is not doom to work with IO page fault only. If we have SVA+pin,
-> > we would get both sharing address and stable I/O latency.
-> 
-> Isn't it like a traditional MAP_DMA API (imply pinning) plus specifying 
-> cpu_va of the memory pool as the iova? 
+On 2/1/21 13:27, Jianxiong Gao wrote:
+>> Why is this setting being done and undone on each IO? Wouldn't it be
+>> more efficient to set it once during device initialization?
+>>
+>> And more importantly, this isn't thread safe: one CPU may be setting the
+>> device's dma alignment mask to 0 while another CPU is expecting it to be
+>> NVME_CTRL_PAGE_SIZE - 1.
+>  I was having trouble getting the OS booted when setting it once during
+>  initialization. However when I rebased to the latest rc6 this morning it
+>  seems to be working with setting the mask on probe. I am still testing out
+>  and will appreciate any idea what may cause the nvme driver to fail
+>  with a single mask.
+Based on the Keith's comment it needs to be completely avoided in hot path.
 
-I think their issue is the HW can't do the cpu_va trick without also
-involving the system IOMMU in a SVA mode
-
-It really is something that belongs under some general /dev/sva as we
-talked on the vfio thread
-
-Jason
+Did you get a chance to bisect the problem in the rc6 ? We need to know the
+root cause otherwise it might happen again after we add this patch.
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
