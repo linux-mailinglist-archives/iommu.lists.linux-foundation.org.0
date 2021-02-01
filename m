@@ -1,73 +1,85 @@
 Return-Path: <iommu-bounces@lists.linux-foundation.org>
 X-Original-To: lists.iommu@lfdr.de
 Delivered-To: lists.iommu@lfdr.de
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624DC30AFD5
-	for <lists.iommu@lfdr.de>; Mon,  1 Feb 2021 19:55:56 +0100 (CET)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC5230B06D
+	for <lists.iommu@lfdr.de>; Mon,  1 Feb 2021 20:36:09 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 132E6204D0;
-	Mon,  1 Feb 2021 18:55:55 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 5D1018560B;
+	Mon,  1 Feb 2021 19:36:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qYyvKTiIUZQ6; Mon,  1 Feb 2021 18:55:53 +0000 (UTC)
+	with ESMTP id soHaREEYf4gD; Mon,  1 Feb 2021 19:36:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 0435420526;
-	Mon,  1 Feb 2021 18:55:53 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id DC43885550;
+	Mon,  1 Feb 2021 19:36:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F015CC013A;
-	Mon,  1 Feb 2021 18:55:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C0153C013A;
+	Mon,  1 Feb 2021 19:36:07 +0000 (UTC)
 X-Original-To: iommu@lists.linux-foundation.org
 Delivered-To: iommu@lists.linuxfoundation.org
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7C554C013A
- for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 18:55:51 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A401CC013A
+ for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 19:36:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 6914220526
- for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 18:55:51 +0000 (UTC)
+ by silver.osuosl.org (Postfix) with ESMTP id 7A9DB2052E
+ for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 19:36:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id F7xg080aMDmU for <iommu@lists.linux-foundation.org>;
- Mon,  1 Feb 2021 18:55:50 +0000 (UTC)
+ with ESMTP id lQUJnZFSnb4X for <iommu@lists.linux-foundation.org>;
+ Mon,  1 Feb 2021 19:36:05 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by silver.osuosl.org (Postfix) with ESMTPS id 38E282052A
- for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 18:55:50 +0000 (UTC)
-IronPort-SDR: PfXCtC121tmjxYMGdkviYY4xwG0aahRp/ZLpPe5ekzfpjUuIhibNmWVg4/qd6x2SlyHyC0dNwb
- CUaqdtrYfaRQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="244818198"
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="244818198"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 10:55:49 -0800
-IronPort-SDR: bO/77yFnFXEOvVyCwMRy9yRPe9Z8Uz08vIlmz+yDqMAbErP+xmmIjp8vozdpxGVV29C+RLOqEn
- iFkP5v0/f/hQ==
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; d="scan'208";a="405865932"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Feb 2021 10:55:44 -0800
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1l6eMO-001Czv-JO; Mon, 01 Feb 2021 20:55:40 +0200
-Date: Mon, 1 Feb 2021 20:55:40 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jianxiong Gao <jxgao@google.com>
-Subject: Re: [PATCH V2 3/3] Adding
- device_dma_parameters->offset_preserve_mask to NVMe driver.
-Message-ID: <YBhOrK+kea7PNmXn@smile.fi.intel.com>
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
+ [209.85.210.50])
+ by silver.osuosl.org (Postfix) with ESMTPS id 932A91FEDF
+ for <iommu@lists.linux-foundation.org>; Mon,  1 Feb 2021 19:36:05 +0000 (UTC)
+Received: by mail-ot1-f50.google.com with SMTP id n42so17468088ota.12
+ for <iommu@lists.linux-foundation.org>; Mon, 01 Feb 2021 11:36:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JWBkNAaNFyDailoNLvfd01F/RWQlC5hp7A6f+h/cyqY=;
+ b=TZxvbVNiXKihvb482TRxj/6WLckWUH8R84HUFz+GyZcJj4bDdqokogc8XZdjFuz66J
+ B5QIJRO4vCDoGUNuyOgOqgmW4qpUurcYdQlvQjwMAo1AQsqhPVzf3x57z1YVHxjLLjMw
+ BBPPaSfpe8ATUSfRZboIsbLfkbp2hi++WS0OCvjShV6qCf3THh8G2i3/vW4NTkCUBy83
+ qtF4MRc/5EkX8POcuGFwClV2jvLeIQ/dCU/onWhEa3tZJ/1pr/lwn/AauK+RlpCaSDdu
+ vD0tFxi8yEzu4n2K4AQ2p2GH3p6j7qrx3lQADHKCizJNfZatHNzTyRm4avKI55+xUqZn
+ kkzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JWBkNAaNFyDailoNLvfd01F/RWQlC5hp7A6f+h/cyqY=;
+ b=kpWwMagCWVSrYhiAw1LPwwETSDYsPIaHKkRR0DmtKX6CNZcfl8bHE5hau4AarVl32N
+ Y9Dii3hS7qQl7ne98X4wL3ac00naiVGciVDWtIOO2o77ycKI4GtQ7fwJxOk6PEodT9jj
+ bFY3ELtI5YO3fikDaPvIMxvVGCeJs/4DrRI3xLSlEhk/khuHoMJYr7yD7E/XknTXdoF9
+ EnAhBzdJ/IDAFQdrRiqtF5HdQ1jFxrVJTQCRRR2aiO6RYMzTWltXfrY9FwlWITLkxP+I
+ dlX1eYHLWO1KP/V45OkWI5XtXQJVFZeHjMLcFq1NAk3IOUk9qWoiQCl1uPGLGsfPnUro
+ vCPQ==
+X-Gm-Message-State: AOAM530ag45XrkeLahtP12h1dC+Cit8/T/uXgZO0uluxT2xEYOOJyiIg
+ SMfSbsDyEEA1J7RCuaccJ1k/KIbW4IVoMyTA7IRnIA==
+X-Google-Smtp-Source: ABdhPJzyuAUli/LaOAe8RusYWEo21XH5hUPI02qphfk+PAI/Wvf6MAfQb2fhO5ryBBYE9EV4k+dZ9B02fM5dWCkJKOo=
+X-Received: by 2002:a9d:7d12:: with SMTP id v18mr12655165otn.205.1612208164558; 
+ Mon, 01 Feb 2021 11:36:04 -0800 (PST)
+MIME-Version: 1.0
 References: <20210201183017.3339130-1-jxgao@google.com>
  <20210201183017.3339130-4-jxgao@google.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210201183017.3339130-4-jxgao@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+ <YBhOrK+kea7PNmXn@smile.fi.intel.com>
+In-Reply-To: <YBhOrK+kea7PNmXn@smile.fi.intel.com>
+Date: Mon, 1 Feb 2021 11:35:52 -0800
+Message-ID: <CAMGD6P0qc0FZagmimTCuYsbJXo-WBHjtgoWSRzs63EULybTzNg@mail.gmail.com>
+Subject: Re: [PATCH V2 3/3] Adding device_dma_parameters->offset_preserve_mask
+ to NVMe driver.
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: axboe@fb.com, heikki.krogerus@linux.intel.com, sagi@grimberg.me,
- saravanak@google.com, konrad.wilk@oracle.com, marcorr@google.com,
+ Saravana Kannan <saravanak@google.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, Marc Orr <marcorr@google.com>,
  gregkh@linuxfoundation.org, rafael.j.wysocki@intel.com,
  linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- kbusch@kernel.org, bgolaszewski@baylibre.com, iommu@lists.linux-foundation.org,
- jroedel@suse.de, dan.j.williams@intel.com, robin.murphy@arm.com, hch@lst.de
+ Keith Busch <kbusch@kernel.org>, bgolaszewski@baylibre.com,
+ iommu@lists.linux-foundation.org, jroedel@suse.de, dan.j.williams@intel.com,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
 X-BeenThere: iommu@lists.linux-foundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -80,46 +92,71 @@ List-Post: <mailto:iommu@lists.linux-foundation.org>
 List-Help: <mailto:iommu-request@lists.linux-foundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/iommu>,
  <mailto:iommu-request@lists.linux-foundation.org?subject=subscribe>
+From: Jianxiong Gao via iommu <iommu@lists.linux-foundation.org>
+Reply-To: Jianxiong Gao <jxgao@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: iommu-bounces@lists.linux-foundation.org
 Sender: "iommu" <iommu-bounces@lists.linux-foundation.org>
 
-On Mon, Feb 01, 2021 at 10:30:17AM -0800, Jianxiong Gao wrote:
-> NVMe driver relies on the address offset to function properly.
-> This patch adds the offset preserve mask to NVMe driver when mapping
-> via dma_map_sg_attrs and unmapping via nvme_unmap_sg. The mask
-> depends on the page size defined by CC.MPS register of NVMe
-> controller.
+On Mon, Feb 1, 2021 at 10:56 AM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Mon, Feb 01, 2021 at 10:30:17AM -0800, Jianxiong Gao wrote:
+> > NVMe driver relies on the address offset to function properly.
+> > This patch adds the offset preserve mask to NVMe driver when mapping
+> > via dma_map_sg_attrs and unmapping via nvme_unmap_sg. The mask
+> > depends on the page size defined by CC.MPS register of NVMe
+> > controller.
+>
+> ...
+>
+> >       if (is_pci_p2pdma_page(sg_page(iod->sg)))
+> >               nr_mapped = pci_p2pdma_map_sg_attrs(dev->dev, iod->sg,
+> >                               iod->nents, rq_dma_dir(req), DMA_ATTR_NO_WARN);
+> >       else
+> >               nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
+> >                                            rq_dma_dir(req), DMA_ATTR_NO_WARN);
+> > +
+> > +     offset_ret = dma_set_min_align_mask(dev->dev, 0);
+> > +     if (offset_ret) {
+> > +             dev_warn(dev->dev, "dma_set_min_align_mask failed to reset offset\n");
+> > +             goto out_free_sg;
+> > +     }
+>
+> Seems like rebasing effect which makes empty line goes in the middle of some
+> other group of code lines.
+>
+> >       if (!nr_mapped)
+> >               goto out_free_sg;
+>
+> Perhaps it should be here?
+Yes you are correct, it should be
 
-...
+     else
+              nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
+                                           rq_dma_dir(req), DMA_ATTR_NO_WARN);
+      if (!nr_mapped)
+              goto out_free_sg;
++
++     offset_ret = dma_set_min_align_mask(dev->dev, 0);
++     if (offset_ret) {
++             dev_warn(dev->dev, "dma_set_min_align_mask failed to
+reset offset\n");
++             goto out_free_sg;
++     }
 
->  	if (is_pci_p2pdma_page(sg_page(iod->sg)))
->  		nr_mapped = pci_p2pdma_map_sg_attrs(dev->dev, iod->sg,
->  				iod->nents, rq_dma_dir(req), DMA_ATTR_NO_WARN);
->  	else
->  		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
->  					     rq_dma_dir(req), DMA_ATTR_NO_WARN);
-> +
-> +	offset_ret = dma_set_min_align_mask(dev->dev, 0);
-> +	if (offset_ret) {
-> +		dev_warn(dev->dev, "dma_set_min_align_mask failed to reset offset\n");
-> +		goto out_free_sg;
-> +	}
+Thanks for pointing it out.
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
 
-Seems like rebasing effect which makes empty line goes in the middle of some
-other group of code lines.
-
->  	if (!nr_mapped)
->  		goto out_free_sg;
-
-Perhaps it should be here?
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jianxiong Gao
 _______________________________________________
 iommu mailing list
 iommu@lists.linux-foundation.org
